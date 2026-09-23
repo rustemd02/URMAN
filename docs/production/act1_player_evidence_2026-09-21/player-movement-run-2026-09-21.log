@@ -1,0 +1,111 @@
+run-smoke-guarded: res://tests/act1_player_movement_smoke_test.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=49980 physicsVertices=49980 sameOwner=true
+act1-school-bank-cut: mesh=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-zirat-fence-source: owner=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=7 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-source: owner=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=7 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-post-source: owner=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost0 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost1 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost2 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost3 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost4 meshType=BoxMesh surfaces=1
+act1-zirat-shed-fence-junction: wall=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0 attachmentZ=-46.915245 retainedFirstSpans=2 hiddenPost=3 retainedFarPost=4 frontCut=(-0.99987423, 0.015860919, -2.3291499E-07), -14.446598 rearCut=(0.99986124, 0.016654668, 0), 17.218063
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=100 shapes=1597 carved_door_slabs=116 flat_slab_skipped=2460 exact_architecture_surfaces=911 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=83 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=137; maximum ground drop=1.136m; level entrances preserved
+act1-zirat-foundation-contact: owner=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/AuthoredKitCollisionProxy/OutbuildingShed_Foundation_LOD0_SurfaceContact source=/root/Act1PlayerMovementSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Foundation_LOD0 policy=exact-existing-mesh-triangles
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=116886869157
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-window-surrounds: painted=1020
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=116886869157
+SaveGameV3 new game session started; existing slots untouched.
+act1-player-movement: ordinary New Game
+act1-intro: confirmed with E
+act1-player-movement: ordinary controller has the six source-derived lower-body meshes
+act1-player-movement: jump has keyboard, gamepad and remapping
+act1-player-movement: sprint has keyboard, gamepad and remapping
+act1-player-movement: loading older settings retains the new project-default actions
+act1-player-movement: the explicit local road fixture fits the real standing capsule
+act1-player-movement: local start has actual ground contact
+act1-player-movement: mouse resolution proof uses ordinary captured gameplay in a native window
+act1-player-movement: actual captured mouse window is (1280, 720)
+act1-player-movement: screen-relative motion gives the actual expected yaw and pitch at (1280, 720): (-10.23999, -5.12)
+act1-player-movement: actual captured mouse window is (1920, 1080)
+act1-player-movement: screen-relative motion gives the actual expected yaw and pitch at (1920, 1080): (-10.23999, -5.12)
+act1-player-movement: the two actual viewports transform Relative differently, exercising the original resolution regression
+act1-player-movement: the same screen motion gives equal yaw and pitch at 720p and 1080p
+act1-player-movement: the explicit local road fixture fits the real standing capsule
+act1-player-movement: local start has actual ground contact
+act1-player-movement: measured movement uses input with no relocation or fall recovery
+act1-player-movement: the explicit local road fixture fits the real standing capsule
+act1-player-movement: local start has actual ground contact
+act1-player-movement: measured movement uses input with no relocation or fall recovery
+act1-player-movement: the explicit local road fixture fits the real standing capsule
+act1-player-movement: local start has actual ground contact
+act1-player-movement: measured movement uses input with no relocation or fall recovery
+act1-player-movement: the explicit local road fixture fits the real standing capsule
+act1-player-movement: local start has actual ground contact
+act1-player-movement: measured movement uses input with no relocation or fall recovery
+act1-player-movement: real run is faster than unchanged walking: walk=1,700m run=2,550m per 30 physics ticks
+act1-player-movement: analogue approach stays gradual and diagonals stay bounded: analogue=0,319, diagonal=1,700
+act1-player-movement: the explicit local road fixture fits the real standing capsule
+act1-player-movement: local start has actual ground contact
+act1-player-movement: standing actual trouser halves remain joined at the posed pelvis seam
+act1-player-movement: standing actual Left trouser has visible projected surface outside the coat
+act1-player-movement: standing actual Left shaped boot is visible from the game camera
+act1-player-movement: standing actual Right trouser has visible projected surface outside the coat
+act1-player-movement: standing actual Right shaped boot is visible from the game camera
+act1-player-movement: standing imported boot sole has a nearby real support
+act1-player-movement: standing imported boot sole has a nearby real support
+act1-player-movement: walking actual trouser halves remain joined at the posed pelvis seam
+act1-player-movement: walking actual Left trouser has visible projected surface outside the coat
+act1-player-movement: walking actual Right trouser has visible projected surface outside the coat
+act1-player-movement: the explicit local road fixture fits the real standing capsule
+act1-player-movement: local start has actual ground contact
+act1-player-movement: a grounded mapped press starts one real jump
+act1-player-movement: airborne repress and held landing cannot double-jump or repeat; peak=0,456m
+act1-player-movement: crouch changes the actual capsule to human low-passage height
+act1-player-movement: crouched actual trouser halves remain joined at the posed pelvis seam
+act1-player-movement: crouched actual Left trouser has visible projected surface outside the coat
+act1-player-movement: crouched actual Right trouser has visible projected surface outside the coat
+act1-player-movement: crouched imported boot sole has a nearby real support
+act1-player-movement: crouched imported boot sole has a nearby real support
+act1-player-movement: the real low roof rejects the standing capsule
+act1-player-movement: standing and jumping cannot force the player's body through a low roof
+act1-player-movement: leaving the obstruction restores the original standing collider
+act1-player-movement: the explicit local road fixture fits the real standing capsule
+act1-player-movement: local start has actual ground contact
+act1-player-movement: sprinting stops the actual capsule at a physical wall
+act1-player-movement: the explicit local road fixture fits the real standing capsule
+act1-player-movement: local start has actual ground contact
+act1-player-movement: modal input cannot run or jump
+act1-player-movement: holding accept-era jump across close cannot start a world jump
+act1-player-movement: the explicit local road fixture fits the real standing capsule
+act1-player-movement: local start has actual ground contact
+act1-player-movement: session projection holds the exact supplied pose, camera and stance despite held inputs
+act1-player-movement: session projection gates interaction without taking modal, mouse or transport ownership
+act1-player-movement: ending session projection preserves the real modal and its mouse mode
+act1-player-movement: normal control resumes after load and modal release
+act1-player-movement: free grounded hands permit transport possession: 
+act1-player-movement: vehicle handover disables pedestrian collision and lower-body presentation
+act1-player-movement: the seated pedestrian neither walks, jumps nor clamps the vehicle-owned position
+act1-player-movement: safe exit restores the same capsule, camera and ordinary support
+userdata guard: original files and permissions restored and verified

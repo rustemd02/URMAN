@@ -268,6 +268,11 @@ public partial class FirstPersonController
         _bodyGait = _bodyStride = 0;
     }
 
+    /// <summary>Metres of travel per full two-foot stride cycle. Half of it is
+    /// the plant interval, so the visible feet and the footstep audio land on
+    /// the same footsteps instead of sliding against each other.</summary>
+    internal const float GaitCycleMeters = 1.1f;
+
     private void SetBodyGlobalPose(int bone, Transform3D pose)
     {
         var parent = _bodySkeleton.GetBoneParent(bone);
@@ -278,12 +283,31 @@ public partial class FirstPersonController
     private void UpdateVisibleBody(double delta, bool moving)
     {
         if (_visibleBody is null || VehicleControlled) return;
-        var distance = new Vector2(GlobalPosition.X - _bodyPreviousFeet.X, GlobalPosition.Z - _bodyPreviousFeet.Z).Length();
+        var movement = new Vector2(GlobalPosition.X - _bodyPreviousFeet.X, GlobalPosition.Z - _bodyPreviousFeet.Z);
         _bodyPreviousFeet = GlobalPosition;
-        if (distance > .6f) distance = 0;
-        if (IsOnFloor() && !IsClimbingLadder) _bodyGait = (_bodyGait + distance / .86f) % 1f;
-        var walking = moving && distance > .0005f && IsOnFloor() && !IsClimbingLadder;
-        _bodyStride = Mathf.MoveToward(_bodyStride, walking ? (IsSprinting ? .24f : .17f) : 0, (float)delta * 1.2f);
+        var distance = movement.Length();
+        if (distance > .6f) { movement = Vector2.Zero; distance = 0; }
+        // One foot plants every half cycle. Only travel along the facing may
+        // advance the cycle: strafing then shuffles instead of moonwalking
+        // forward, and backpedalling walks the cycle backwards.
+        var forward = new Vector2(-GlobalTransform.Basis.Z.X, -GlobalTransform.Basis.Z.Z);
+        var forwardLength = forward.Length();
+        var forwardShare = distance > .000001f && forwardLength > .000001f
+            ? Mathf.Clamp(movement.Dot(forward) / (forwardLength * distance), -1f, 1f) : 0f;
+        var cycleShare = forwardShare >= 0f
+            ? Mathf.Lerp(.35f, 1f, forwardShare)
+            : Mathf.Lerp(.35f, -1f, -forwardShare);
+        var planarSpeed = (float)delta > 0f ? distance / (float)delta : 0f;
+        var grounded = IsOnFloor() && !IsClimbingLadder;
+        if (grounded) _bodyGait = ((_bodyGait + distance * cycleShare / GaitCycleMeters) % 1f + 1f) % 1f;
+        var walking = moving && distance > .0005f && grounded;
+        var modeSpeed = IsCrouching ? WalkSpeed * .58f : IsSprinting ? WalkSpeed * SprintMultiplier : WalkSpeed;
+        var strideTarget = walking
+            ? (IsSprinting ? .24f : .17f)
+                * Mathf.Clamp(planarSpeed / modeSpeed, .4f, 1f)
+                * Mathf.Clamp(.4f + .6f * Mathf.Abs(forwardShare), .4f, 1f)
+            : 0f;
+        _bodyStride = Mathf.MoveToward(_bodyStride, strideTarget, (float)delta * 1.2f);
         _bodyCrouch = Mathf.MoveToward(_bodyCrouch, IsCrouching ? 1 : 0, (float)delta * 9f);
         var hipShift = new Vector3(0, -.27f * _bodyCrouch, -.10f * _bodyCrouch);
         _bodySkeleton.SetBonePosePosition(_bodySpine, _bodySpineRest + hipShift);

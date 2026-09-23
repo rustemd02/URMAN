@@ -55,7 +55,7 @@ public static class StyleBenchmarkInteriorFactory
     {
         room.SetMeta("heroHouseContract", ContractVersion);
         room.SetMeta("heroHouseClearDimensions", new Vector3(ClearWidth, CeilingHeight, ClearDepth));
-        Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "57483b", "wood");
+        Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "777068", "wood_floor_painted");
         Block(room, "Ceiling", new(8.4f, .16f, 7.4f), new(0, 2.68f, 0), "695746", "wood");
 
         Wall(room, "FrontWall", 4.2f, 3.6f, false,
@@ -120,8 +120,12 @@ public static class StyleBenchmarkInteriorFactory
                 : new Vector3(b - a, top - bottom, WallThickness);
             var center = sideWall ? new Vector3(at, (bottom + top) * .5f, (a + b) * .5f)
                 : new Vector3((a + b) * .5f, (bottom + top) * .5f, at);
+            // The full-height wall beside the stove is lime plaster. Preserve
+            // the other wallpaper panels and the metal stove's own materials.
+            var stoveWall = name == "LeftWall" && suffix == "Pier0";
             var segment = Block(room, name + suffix, size, center,
-                sideWall ? "786b5a" : "827461", "wallpaper");
+                stoveWall ? "b3ad9c" : sideWall ? "786b5a" : "827461",
+                stoveWall ? "plaster_domestic" : "wallpaper");
             var lining = segment.GetNode<MeshInstance3D>("Visible");
             // The exterior shell already has faces at both structural datums.
             // Seat the plaster finish 2mm into the room and away from the outer
@@ -242,7 +246,7 @@ public static class StyleBenchmarkInteriorFactory
             Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
             AlbedoColor = new Color(.81f, .79f, .71f, .10f), Roughness = .95f,
             MetallicSpecular = 0f, CullMode = BaseMaterial3D.CullModeEnum.Disabled
-        } : PainterlyMaterialLibrary.ForColor("aca590", "fabric_pattern", sheltered: true);
+        } : PainterlyMaterialLibrary.ForColor("94aaa4", "cloth_curtain", sheltered: true);
         var fabric = new MeshInstance3D { Name = name, Mesh = surface.Commit(), MaterialOverride = material,
             CastShadow = sheer ? GeometryInstance3D.ShadowCastingSetting.Off : GeometryInstance3D.ShadowCastingSetting.On };
         fabric.SetMeta("householdRole", sheer ? "light transmitting sheer on rod" : "short privacy curtain gathered on rod");
@@ -252,7 +256,8 @@ public static class StyleBenchmarkInteriorFactory
         {
             foreach (var vertex in new[] { a,b,c, a,c,d })
             {
-                surface.SetUV(new((vertex.X - centerX) / width + .5f, (top - vertex.Y) / (top - bottom)));
+                // Metres, not one stretched square per tall narrow curtain.
+                surface.SetUV(new(vertex.X - centerX, top - vertex.Y));
                 surface.AddVertex(vertex);
             }
         }
@@ -333,6 +338,64 @@ public static class StyleBenchmarkInteriorFactory
         Block(room, "HearthCeilingFirestop", new(.48f, .035f, .48f), StoveAnchor + new Vector3(0, 2.58f, 0), "777067", "metal", false);
         room.SetMeta("houseInteriorFloorCollisionProxies", count);
         room.SetMeta("houseInteriorPresentation", "8x7 opening-matched room; project-original GLB furniture with unchanged dimensions");
+        BuildTablecloth(room, kit.FindChildren("*", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTop_LOD0"));
+    }
+
+    private static void BuildTablecloth(Node3D room, MeshInstance3D table)
+    {
+        // Fit the actual rigidly placed tabletop, not its old source anchor.
+        // The short cloth leaves a wooden side/rear border and hangs only at
+        // the player's edge. No new collision or interaction target is needed.
+        var points = table.Mesh.GetFaces().Select(vertex => room.ToLocal(table.ToGlobal(vertex))).ToArray();
+        var left = points.Min(point => point.X) + .05f;
+        var right = points.Max(point => point.X) - .05f;
+        var back = points.Min(point => point.Z) + .035f;
+        var front = points.Max(point => point.Z);
+        var top = points.Max(point => point.Y) + .003f;
+        var profile = new Vector2[]
+        {
+            new(back, top), new(front - .06f, top), new(front - .018f, top),
+            new(front + .018f, top - .015f), new(front + .04f, top - .04f),
+            new(front + .05f, top - .08f), new(front + .06f, top - .16f),
+            new(front + .06f, top - .25f)
+        };
+        var lengths = new float[profile.Length];
+        for (var row = 1; row < profile.Length; row++)
+            lengths[row] = lengths[row - 1] + profile[row].DistanceTo(profile[row - 1]);
+        const int columns = 24;
+        using var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        for (var row = 0; row < profile.Length - 1; row++)
+        for (var column = 0; column < columns; column++)
+        {
+            surface.SetSmoothGroup(0);
+            Add(row, column); Add(row + 1, column); Add(row + 1, column + 1);
+            Add(row, column); Add(row + 1, column + 1); Add(row, column + 1);
+            // Reverse faces keep the hanging underside visible with the same
+            // cached material; no per-object shader or alpha transparency.
+            surface.SetSmoothGroup(1);
+            Add(row, column); Add(row + 1, column + 1); Add(row + 1, column);
+            Add(row, column); Add(row, column + 1); Add(row + 1, column + 1);
+        }
+        surface.GenerateNormals();
+        var cloth = new MeshInstance3D { Name = "TeaTablecloth", Mesh = surface.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("bab5a5", "cloth_table", sheltered: true) };
+        cloth.SetMeta("furnitureSupportMesh", table.GetPath().ToString());
+        cloth.SetMeta("householdRole", "washed cotton; flat on table with folded front overhang");
+        room.AddChild(cloth);
+
+        void Add(int row, int column)
+        {
+            var u = column / (float)columns;
+            var drop = Mathf.Clamp((top - profile[row].Y) / .25f, 0, 1);
+            var wave = Mathf.Sin(u * Mathf.Tau * 5f);
+            // UVs measure unrolled metres, so the weave does not stretch or
+            // turn sideways where the cloth bends over the edge.
+            surface.SetUV(new((right - left) * u, lengths[row]));
+            surface.AddVertex(new(Mathf.Lerp(left, right, u),
+                profile[row].Y + .006f * wave * drop, profile[row].X + .012f * wave * drop));
+        }
     }
 
     private static bool NeedsContact(string name) =>

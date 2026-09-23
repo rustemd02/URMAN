@@ -1,5 +1,88 @@
 # Weak Points
 
+## Единичная авария native-запуска W05, 22 сентября — причина открыта
+
+`texture-w05-20260922-high-01.log`: exit134 при построении сцены до проверки материала, `Invalid Program: attempted to call a UnmanagedCallersOnly method from managed code`. Системный `Godot-2026-09-22-193656.ips` указывает поток .NET BGC и JIT_ReversePInvokeEnterRare. Точный повтор той же DLL/аргументов и следующий Low прошли exit0; сохранения восстановлены guard во всех трёх попытках. Это не воспроизводимый отказ каждого запуска и не доказательство дефекта W05; источник аварии и риск повторения не закрыты. Следующая диагностика при повторении должна сохранить crash-stack и runtime identity, а не ослаблять проверки/отключать GC наугад. Связанный остаток текущей технической приёмки, без новой очереди; [журнал W05](../tasktracker/05_texture_production_2026-09-22.md).
+
+## Подходы к трём сараям: отказ фонового запуска разобран, 22 сентября
+
+Разрешено на `integrated-build-20260922-fence-settle-02`: причина начального
+отказа — модальная блокировка при потере фокуса тестовым окном. На одной DLL
+(`2bd467e3af4c99c003de2e55076351c5e09f19e5ddf057336be72156bf2d1ba2`)
+без фонового флага у всех трёх адресов `ModalOpen=true`, `onFloor=false`,
+`canStand=true`, присед/транспорт/intro/menu выключены; с уже существующим
+`--urman-smoke-background-input` — `ModalOpen=false`, `onFloor=true` и PASS432,
+failures=[] в `fence-settle-background-20260922-02/address-world-receipt.json`.
+Пройдены все опубликованные точки подходов обычным контроллером; стык зирата
+`allValid=true`. Этот флаг действует только вместе с `res://tests/*.tscn`;
+обычная focus-loss автопауза, коллизии и прежний standing-критерий не менялись.
+Guard восстановил userdata. Это техническое прохождение, не человеческая
+навигационная или художественная приёмка.
+
+История обнаружения:
+
+На `integrated-build-20260922-fence-uv-02` существующий `AddressWorldSmokeTest`
+со scope `standalone-access` записал 50 проверок и завершился exit1: у
+`PerimeterWestStreetShed`, `ZiratVillageEdgeEastShed` и
+`ArrivalReverseEastDomesticShed` не прошла начальная проверка
+`local road fixture settles with the ordinary standing capsule`
+(`AddressWorldSmokeTest.StandaloneAccess.cs:104`). В receipt шесть записей
+ошибок: по check и exception на каждый адрес. Это не доказанный дефект коллизии
+и не объявленная прежняя ошибка: сравнение с исходным состоянием не выполнено.
+Маршруты далее не проверены. Отдельный `zirat-shed-fence-junction.json` из того
+же запуска: `allValid=true`, две рейки, четыре опёртых торца, точная физика;
+его результат не закрывает подходы. Данные восстановлены guard.
+
+Копии файла стыка трёх запусков побайтно совпали; оставлена одна в
+`fence-settle-background-20260922-02/zirat-shed-fence-junction.json`,
+SHA `36fd75df3cfb89be537698f16196ba130069a34192da188e1569b6d62561e05a`.
+
+Связанный остаток действующих TECH/DEPTH-задач, без новой параллельной очереди:
+проверить постановку/стойку обычного контроллера и доступность этих точек, не
+ослаблять standing-критерий и не менять коллизии без подтверждения.
+Свидетельства: `../production/act1_takeover_evidence_2026-09-16/texture-fence-uv-standalone-20260922-02.log`
+и одноимённый каталог без `.log`.
+
+## Boundary-архитектура: 5 новых падений на B90 (2026-09-21, открыто)
+
+`act1_boundary_architecture_smoke_test` на `integrated-build-90`, exit 1,
+1018 записанных проверок, лог
+`../production/act1_takeover_evidence_2026-09-16/act1_boundary_smoke_2026-09-21.log`:
+
+- `BabaiFirewoodShelterPost`: обычный контроллер не касается стены столба
+  (`wall contact=False, separation=1.017m`);
+- `MosqueEntranceDoor`: видимая створка без физической опоры на 0.90 м
+  (расхождение 0.027 м) и на 1.55 м (0.028 м);
+- `fap_window_right`: **проверочная точка исправлена 2026-09-22**. Старый луч
+  действительно пересекал видимую рейку перегородки (контакты совпадают с
+  треугольниками меша), это не лишняя production-коллизия. Перенесена только
+  standing fixture x=3.35 → 4.75, сохранены CanStandAt/settle/clear-ray.
+  На `integrated-build-20260922-texture-lang-02` узкий native clinic scope
+  прошёл 113 проверок; `fits/standing/clear=true`, failures=[] в
+  `../production/act1_takeover_evidence_2026-09-16/texture-clinic-20260922-02/architecture-receipt.json`.
+  Подход к этой fixture не выдан за человеческий маршрут; остальные B90-падения
+  не перепроверены этим clinic scope;
+- Пересаженное дерево в `(-33, 8.2)`: потерян LOD или физический ствол остался.
+Связанные задачи: TECH/DEPTH/CHAR-блоки. Не блокирует EX01–EX06 (carry-смоук
+зелёный), чинить отдельным проходом с кадрами до/после.
+
+## Лампа просвечивала сквозь стену у метки — исправлено 2026-09-21 (EX06)
+
+`PortableLight.ReachesWithSight` считал заслонённой стеной луч «дошедшим», если
+точка попадания была в пределах `GrazeMargin .22` от метки. Когда лампу держат
+вплотную к метке (в смоуке ~0.3 м), стена-фиxture в середине отрезка давала
+попадание в ~0.11–0.16 м от метки — внутри grace — и чтение открывалось сквозь
+стену (`act1_carry_interaction_smoke_test`, `a wall between the lamp and the mark
+blocks the reading`). Исправление: grace оставлен только для собственной ближней
+грани метки, любое другое тело на луче лампа→метка — тень
+(`PortableLight.cs`, гейт передаёт `target` как `markBody`). Проверено дважды
+подряд 320/320 на `integrated-build-90`, лог
+`../production/act1_takeover_evidence_2026-09-16/act1_carry_smoke_2026-09-21.log`.
+Попутно: на этом хосте 1/4 прогонов ронял финальный settle возврата с топором
+(`SettleWoodpileFeet`), теперь при падении печатаются stableFrames/canStand/feet.
+Подъём второго отрезка из раздела ниже на этой сборке в 3/3 прогонах проходил —
+окно регрессии B42→`1c1a90c` остаётся открытым наблюдением, не приговором.
+
 ## Маршрут по боковой площадке бани не проходится шагом (2026-09-19)
 
 2026-09-19, carry-smoke на слитой сборке (`integrated-build-85`, лог

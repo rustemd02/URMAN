@@ -1931,6 +1931,11 @@ public partial class Act1ConnectedWorld : Node3D
             ["URMAN_Plaster_Shadow"] = PainterlyMaterialLibrary.ForColor("66685f", "plaster"),
             ["URMAN_Wood_Dark"] = PainterlyMaterialLibrary.ForColor("605044", "wood"),
             ["URMAN_Wood_Weathered"] = PainterlyMaterialLibrary.ForColor("6f6353", "wood_facade"),
+            ["URMAN_Hero_Log"] = PainterlyMaterialLibrary.ForColor("594d40", "wood_log_uv"),
+            ["URMAN_Hero_LogEnd"] = PainterlyMaterialLibrary.ForColor("88745a", "wood_cut"),
+            ["URMAN_Hero_Trim_Teal"] = PainterlyMaterialLibrary.ForColor("547e76", "wood_painted_trim"),
+            ["URMAN_Hero_Trim_Ivory"] = PainterlyMaterialLibrary.ForColor("c8c5b1", "wood_painted_trim"),
+            ["URMAN_Hero_RoofSnow"] = PainterlyMaterialLibrary.ForColor("e8edf0", "snow_roof"),
             ["URMAN_Wood_WetShadow"] = PainterlyMaterialLibrary.ForColor("554e40", "wood_facade"),
             ["URMAN_Roof_WetSlate"] = PainterlyMaterialLibrary.ForColor("626b66", "roof"),
             ["URMAN_Roof_MossTone"] = PainterlyMaterialLibrary.ForColor("656d5e", "roof"),
@@ -1943,7 +1948,7 @@ public partial class Act1ConnectedWorld : Node3D
             ["FapOldRoof"] = PainterlyMaterialLibrary.ForColor("5e6862", "roof_metal"),
             ["FapRoofEdge"] = PainterlyMaterialLibrary.ForColor("687169", "roof_metal"),
             ["FapShedWall"] = PainterlyMaterialLibrary.ForColor("778073", "plaster"),
-            ["FapFoundationStone"] = PainterlyMaterialLibrary.ForColor("777970", "stone"),
+            ["FapFoundationStone"] = PainterlyMaterialLibrary.ForColor("777970", "stone_foundation"),
             ["FapWetStone"] = PainterlyMaterialLibrary.ForColor("60685f", "stone"),
             ["FapDarkTimber"] = PainterlyMaterialLibrary.ForColor("514737", "wood"),
             ["FapDoorWood"] = PainterlyMaterialLibrary.ForColor("74604a", "wood"),
@@ -2103,8 +2108,18 @@ public partial class Act1ConnectedWorld : Node3D
                     if (path.Contains(marker, System.StringComparison.Ordinal)
                         && string.Equals(sourceName, tintedSource, System.StringComparison.Ordinal))
                     {
-                        material = PainterlyMaterialLibrary.ForColor(tint,
-                            sourceName.Contains("Wood", System.StringComparison.Ordinal) ? "wood" : "plaster");
+                        var surfaceKind = (marker, tintedSource) switch
+                        {
+                            ("ArrivalForwardWestFacade" or "ArrivalForwardEastFacade", "URMAN_Wood_Weathered") => "wood_painted_blue",
+                            ("MainStreetEastNeighborFacade" or "VariantB", "URMAN_Wood_Dark") => "wood_painted_green",
+                            _ => sourceName.Contains("Wood", System.StringComparison.Ordinal) ? "wood" : "plaster"
+                        };
+                        // Restrained base hues avoid the former dark tint,
+                        // while keeping both paints distinct when Low omits maps.
+                        material = PainterlyMaterialLibrary.ForColor(
+                            surfaceKind == "wood_painted_blue" ? "9eabb9"
+                                : surfaceKind == "wood_painted_green" ? "9da98f" : tint,
+                            surfaceKind);
                         break;
                     }
                 }
@@ -5918,26 +5933,8 @@ public partial class Act1ConnectedWorld : Node3D
 
     private static void ApplyHeroWarmWindow(Node3D facade)
     {
-        if (string.Equals(facade.Name.ToString(), "BabaiApproachDwellingFacade", StringComparison.Ordinal))
-        {
-            foreach (var mesh in FindDescendants<MeshInstance3D>(facade))
-            {
-                var name = mesh.Name.ToString();
-                if (name.Contains("_Window", StringComparison.Ordinal)
-                    && (name.Contains("Jamb", StringComparison.Ordinal)
-                        || name.Contains("Rail", StringComparison.Ordinal)
-                        || name.Contains("Mullion", StringComparison.Ordinal)
-                        || name.Contains("Sill", StringComparison.Ordinal)))
-                {
-                    mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("718078", "wood_carved");
-                }
-                else if (name is "HeroHouse_Front_VergeLeft_LOD0" or "HeroHouse_Front_VergeRight_LOD0")
-                {
-                    mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("8a765b", "ornament_trim");
-                }
-            }
-        }
-
+        // Joinery color belongs to the hero's authored material slots. This
+        // pass owns only the inhabited warm window, not another trim repaint.
         var warmWindow = FindDescendants<MeshInstance3D>(facade)
             .FirstOrDefault(mesh => mesh.Name == "HeroHouse_Street_Window2_Glass_LOD0");
         if (warmWindow is null)
@@ -9135,6 +9132,7 @@ public partial class Act1ConnectedWorld : Node3D
             var rawPoints = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
             var normalValue = arrays[(int)Mesh.ArrayType.Normal];
             var rawNormals = normalValue.VariantType == Variant.Type.Nil ? Array.Empty<Vector3>() : normalValue.AsVector3Array();
+            var rawUv = arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array();
             var tangentValue = arrays[(int)Mesh.ArrayType.Tangent];
             var rawTangents = tangentValue.VariantType == Variant.Type.Nil ? Array.Empty<float>() : tangentValue.AsFloat32Array();
             var indexValue = arrays[(int)Mesh.ArrayType.Index];
@@ -9146,29 +9144,32 @@ public partial class Act1ConnectedWorld : Node3D
             var failures = new List<string>();
             if (expandedCount != 144) failures.Add("expanded-triangle-stream-count");
             if (rawNormals.Length != rawPoints.Length) failures.Add("normal-count");
+            if (rawUv.Length != rawPoints.Length || rawUv.Any(uv => !uv.IsFinite())) failures.Add("uv-count-or-finite");
             if (rawTangents.Length != rawPoints.Length * 4) failures.Add("tangent-count");
             if (indexed != (indices.Length > 0) || indices.Any(i => i < 0 || i >= rawPoints.Length)) failures.Add("index-buffer");
             if (imported.GetSurfaceLodCount(0) != 0) failures.Add("unexpected-LOD");
             if (source.ShadowMesh is not null) failures.Add("unexpected-shadow-mesh");
             if (source.SurfaceGetPrimitiveType(0) != Mesh.PrimitiveType.Triangles) failures.Add("primitive");
-            // RenderingServer requires tangents when normals are supplied and
-            // synthesizes this real published channel even without authored UVs.
+            // The producer now publishes metre UVs; require and preserve them
+            // through the existing clipping path, alongside normals/tangents.
             var channels = (1UL << (int)Mesh.ArrayType.Vertex) | (1UL << (int)Mesh.ArrayType.Normal) | (1UL << (int)Mesh.ArrayType.Tangent)
+                | (1UL << (int)Mesh.ArrayType.TexUV)
                 | (indexed ? 1UL << (int)Mesh.ArrayType.Index : 0UL);
             if ((format & ((1UL << (int)Mesh.ArrayType.Max) - 1)) != channels) failures.Add("unexpected-attribute-channel");
             GD.Print($"act1-zirat-fence-source: owner={mesh.GetPath()} rawVertices={rawPoints.Length} normals={rawNormals.Length} tangents={rawTangents.Length} indices={indices.Length} expandedVertices={expandedCount} format={format} indexed={indexed} primitive={source.SurfaceGetPrimitiveType(0)} lods={imported.GetSurfaceLodCount(0)} shadow={source.ShadowMesh is not null} failedTerms={string.Join(',', failures)}");
             if (failures.Count != 0) throw new InvalidOperationException("Unsupported measured Zirat rail source: " + string.Join(',', failures));
             var points = indexed ? indices.Select(i => rawPoints[i]).ToArray() : rawPoints;
             var normals = indexed ? indices.Select(i => rawNormals[i]).ToArray() : rawNormals;
+            var uvs = indexed ? indices.Select(i => rawUv[i]).ToArray() : rawUv;
             var tangents = Enumerable.Range(0, rawPoints.Length).Select(i => new Plane(
                 new Vector3(rawTangents[i * 4], rawTangents[i * 4 + 1], rawTangents[i * 4 + 2]), rawTangents[i * 4 + 3])).ToArray();
             var expandedTangents = indexed ? indices.Select(i => tangents[i]).ToArray() : tangents;
-            FenceCutVertex Vertex(Vector3 point, Vector3 normal)
+            FenceCutVertex Vertex(Vector3 point, Vector3 normal, Vector2 uv)
             {
                 var tangent = (Math.Abs(normal.Y) < .9f ? Vector3.Up : Vector3.Right).Cross(normal).Normalized();
-                return new(point, normal, Vector2.Zero, new Plane(tangent, 1), Colors.White, Vector2.Zero);
+                return new(point, normal, uv, new Plane(tangent, 1), Colors.White, Vector2.Zero);
             }
-            var original = points.Select((p, i) => new FenceCutVertex(p, normals[i], Vector2.Zero,
+            var original = points.Select((p, i) => new FenceCutVertex(p, normals[i], uvs[i],
                 expandedTangents[i], Colors.White, Vector2.Zero)).ToArray();
             // Decode any actual index buffer, then validate the triangle stream
             // against the posts before preserving its first two spans.
@@ -9199,7 +9200,14 @@ public partial class Act1ConnectedWorld : Node3D
             {
                 var p = corners[order[i]]; var q = corners[order[i + 1]]; var r = corners[order[i + 2]];
                 var normal = -(q - p).Cross(r - p).Normalized();
-                link.Add(Vertex(p, normal)); link.Add(Vertex(q, normal)); link.Add(Vertex(r, normal));
+                for (var corner = 0; corner < 3; corner++)
+                {
+                    var index = i + corner;
+                    var uv = original[prefix + index].Uv;
+                    if (index >= 12)
+                        uv.Y = original[prefix + 12].Uv.Y + (order[index] < 4 ? 0f : (toLocal * end).DistanceTo(toLocal * a));
+                    link.Add(Vertex(corners[order[index]], normal, uv));
+                }
             }
             var (near, frontCaps) = ClipCouncilFenceRail(link.ToArray(), Enumerable.Range(0, link.Count).ToArray(),
                 StandaloneFenceCutCoordinates(front) * toWorld, 0);
@@ -9209,6 +9217,7 @@ public partial class Act1ConnectedWorld : Node3D
             var published = new global::Godot.Collections.Array(); published.Resize((int)Mesh.ArrayType.Max);
             published[(int)Mesh.ArrayType.Vertex] = output.Select(v => v.Point).ToArray();
             published[(int)Mesh.ArrayType.Normal] = output.Select(v => v.Normal).ToArray();
+            published[(int)Mesh.ArrayType.TexUV] = output.Select(v => v.Uv).ToArray();
             published[(int)Mesh.ArrayType.Tangent] = output.SelectMany(v =>
                 new[] { v.Tangent.Normal.X, v.Tangent.Normal.Y, v.Tangent.Normal.Z, v.Tangent.D }).ToArray();
             if (indexed) published[(int)Mesh.ArrayType.Index] = Enumerable.Range(0, output.Length).ToArray();
@@ -9361,12 +9370,13 @@ public partial class Act1ConnectedWorld : Node3D
         var posts = Math.Clamp((int)(length / 2.8f), 2, 8);
         var across = new Vector3(direction.Z, 0f, -direction.X).Normalized() * 0.06f;
         foreach (var (suffix, railHeight, color) in new[]
-                 { ("Rail", 0.72f, "594a39"), ("LowerRail", 0.30f, "514737") })
+                 { ("Rail", 0.72f, "979a92"), ("LowerRail", 0.30f, "888c84") })
         {
             // One mesh keeps existing presentation-suppression names intact;
             // its spans follow the same sampled ground as the posts.
             var surface = new SurfaceTool();
             surface.Begin(Mesh.PrimitiveType.Triangles);
+            var along = 0f;
             for (var span = 0; span < posts; span++)
             {
                 var a = Grounded(start.Lerp(end, span / (float)posts)) + Vector3.Up * railHeight;
@@ -9374,16 +9384,27 @@ public partial class Act1ConnectedWorld : Node3D
                 var up = Vector3.Up * 0.05f;
                 var corners = new[] { a - across - up, a + across - up, a + across + up, a - across + up,
                     b - across - up, b + across - up, b + across + up, b - across + up };
-                // Godot front faces use clockwise winding.
-                foreach (var vertex in new[] { 0, 1, 2, 0, 2, 3, 4, 6, 5, 4, 7, 6,
-                    0, 5, 1, 0, 4, 5, 3, 6, 7, 3, 2, 6, 1, 6, 2, 1, 5, 6, 0, 7, 4, 0, 3, 7 })
+                var spanLength = a.DistanceTo(b);
+                // Keep the exact faces/winding. Side UV V follows each sloped
+                // span in metres; U crosses its thickness, not the world axes.
+                var indices = new[] { 0, 1, 2, 0, 2, 3, 4, 6, 5, 4, 7, 6,
+                    0, 5, 1, 0, 4, 5, 3, 6, 7, 3, 2, 6, 1, 6, 2, 1, 5, 6, 0, 7, 4, 0, 3, 7 };
+                for (var index = 0; index < indices.Length; index++)
                 {
+                    var vertex = indices[index];
+                    var offset = corners[vertex] - (vertex < 4 ? a : b);
+                    var cross = offset.Dot(across.Normalized()) + .06f;
+                    var height = offset.Y + .05f;
+                    surface.SetUV(index < 12
+                        ? new Vector2(cross, height)
+                        : new Vector2(index < 24 ? cross : height, along + (vertex < 4 ? 0f : spanLength)));
                     surface.AddVertex(corners[vertex]);
                 }
+                along += spanLength;
             }
             surface.GenerateNormals();
             var rail = new MeshInstance3D { Name = $"{name}{suffix}", Mesh = surface.Commit(),
-                MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "wood_fence") };
+                MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "wood_fence_uv") };
             rail.SetMeta("visualOnly", true);
             // Replacement passes hide the named Rail subtree. Keep the
             // lower member inside that owner instead of leaving an orphan
@@ -9408,7 +9429,7 @@ public partial class Act1ConnectedWorld : Node3D
             AddVisualBox(parent.GetNode<MeshInstance3D>($"{name}Rail"), $"{name}Slat{index}",
                 new Vector3(0.075f, slatHeight, 0.16f),
                 new Vector3(point.X, point.Y + 0.06f + slatHeight * 0.5f, point.Z),
-                weathering < 0.35f ? "615b49" : "514b3e", "wood_fence", yaw,
+                weathering < 0.35f ? "9b9d95" : "898d86", "wood_fence_vertical", yaw,
                 rollDegrees: Mathf.Lerp(-2.5f, 2.5f, weathering));
         }
         for (var index = 0; index <= posts; index++)
@@ -9419,8 +9440,8 @@ public partial class Act1ConnectedWorld : Node3D
                 $"{name}Post{index}",
                 new Vector3(0.13f, 1.15f, 0.13f),
                 new Vector3(point.X, point.Y + 0.575f, point.Z),
-                "594a39",
-                "wood");
+                "93968f",
+                "wood_fence_vertical");
         }
     }
 
@@ -10271,13 +10292,16 @@ public partial class Act1ConnectedWorld : Node3D
 
     private static void DressPaintedWindowSurrounds(Node3D presentation)
     {
-        const string paint = "ded3c2";
-        var material = PainterlyMaterialLibrary.ForColor(paint, "wood_facade");
+        const string paint = "b8b9b4";
+        var material = PainterlyMaterialLibrary.ForColor(paint, "wood_painted_trim");
         var painted = 0;
         foreach (var mesh in FindDescendants<MeshInstance3D>(presentation))
         {
             var name = mesh.Name.ToString();
-            if (!name.Contains("Window", StringComparison.Ordinal))
+            // The hero's teal/ivory slots also stay out of the ivory-only
+            // batching pilot, whose membership uses windowSurroundPaint.
+            if (name.StartsWith("HeroHouse_", StringComparison.Ordinal)
+                || !name.Contains("Window", StringComparison.Ordinal))
             {
                 continue;
             }

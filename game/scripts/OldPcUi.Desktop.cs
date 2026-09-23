@@ -95,7 +95,7 @@ public partial class OldPcUi
         _startMenu.AddChild(menu);
         menu.AddChild(new Label { Text = "Мансур · Кара-Урман" });
         foreach (var (id, label) in new[] {
-            ("archive", "Архивный поиск"), ("files", "Мои документы"), ("browser", "Интернет"),
+            ("archive", "Архивный поиск"), ("vocabulary", "Татарский словарь"), ("files", "Мои документы"), ("browser", "Интернет"),
             ("notepad", "Блокнот"), ("writer", "Текстовый редактор"), ("pictures", "Просмотр изображений"),
             ("chat", "Ялкын · Сообщения"), ("tetris", "Тетрис"), ("trash", "Корзина · Чүплек") })
         {
@@ -196,6 +196,7 @@ public partial class OldPcUi
         if (id is "files" or "trash") RefreshFileList(id == "trash");
         if (id == "pictures") RefreshPictures();
         if (id == "chat") RefreshChat();
+        if (id == "vocabulary") RefreshVocabulary();
         if (id == "tetris") _tetris.Resume();
         if (id is "notepad" or "writer") RestoreEditor(id == "writer");
         if (id == "browser" && (!wasOpen || _browserHistoryAddress is null))
@@ -243,6 +244,7 @@ public partial class OldPcUi
         RefreshPictures();
         RestoreEditor(false);
         RestoreEditor(true);
+        RefreshVocabulary();
         if (_windows["browser"].Open) ShowBrowserAddress(CurrentBrowserAddress(), false, restoreOnly: true);
         _startMenu.Hide();
         FrontShell();
@@ -290,6 +292,7 @@ public partial class OldPcUi
             "browser" => _browserAddress,
             "pictures" => _pictureList,
             "chat" => _chatThreadList,
+            "vocabulary" => _vocabularyList,
             "tetris" => _tetris,
             "writer" when _writerPreview.Visible => _writerPreview,
             "notepad" or "writer" when _editors[window.Id].Editable => _editors[window.Id],

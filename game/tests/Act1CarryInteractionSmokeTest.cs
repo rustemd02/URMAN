@@ -1103,7 +1103,9 @@ public partial class Act1CarryInteractionSmokeTest : Node
             await Frames(1);
             stable = _player.IsOnFloor() && Math.Abs(_player.Velocity.Y) < .05f ? stable + 1 : 0;
         }
-        Check(stable == 3 && _player.CanStandAt(_player.GlobalPosition), "woodpile route settles on a real support with an unobstructed standing capsule");
+        var canStand = _player.CanStandAt(_player.GlobalPosition);
+        Check(stable == 3 && canStand, "woodpile route settles on a real support with an unobstructed standing capsule"
+            + $" (stableFrames={stable} canStand={canStand} feet={_player.GlobalPosition} velocity={_player.Velocity} onFloor={_player.IsOnFloor()})");
     }
 
     private void CheckWoodpileLandingSupport(Node3D bath)

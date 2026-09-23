@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_act1_visual_review_capture",
+  "captured_at_utc": "2026-09-22T15:20:58.0174440\u002B00:00",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / real 3D rendering device",
+  "production_scene": "res://scenes/main.tscn",
+  "root_viewport": true,
+  "subviewport_used": false,
+  "capture_process_count": 2,
+  "frame_count": 2,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "frames": [
+    {
+      "frame_id": "fence_babai_rail_grain_high",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "graphics_preset": "high",
+      "scaling_3d_scale": 1,
+      "crouching": true,
+      "camera": {
+        "forward": {
+          "x": -0.9585947394371033,
+          "y": -0.1762581318616867,
+          "z": -0.22367209196090698
+        },
+        "up": {
+          "x": -0.17164741456508636,
+          "y": 0.9843440055847168,
+          "z": -0.040051061660051346
+        },
+        "global_position": {
+          "x": -23.87529182434082,
+          "y": 1.4096245765686035,
+          "z": -4.5909013748168945
+        },
+        "target": {
+          "x": -25.200000762939453,
+          "y": 1.166048526763916,
+          "z": -4.900000095367432
+        }
+      },
+      "output": "fence_babai_rail_grain_high.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "421c301fa67cd9f29f93edca17fc72a17de8529af2a75d4ef0821f8031f2f69e"
+    },
+    {
+      "frame_id": "fence_service_grain_high",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "graphics_preset": "high",
+      "scaling_3d_scale": 1,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0.708425760269165,
+          "y": -0.6861541271209717,
+          "z": -0.16530413925647736
+        },
+        "up": {
+          "x": -0.6682041883468628,
+          "y": 0.7274562120437622,
+          "z": -0.15591883659362793
+        },
+        "global_position": {
+          "x": -1.1753333806991577,
+          "y": 1.2266778945922852,
+          "z": 14.209097862243652
+        },
+        "target": {
+          "x": -2.5,
+          "y": -0.056343674659729004,
+          "z": 13.899999618530273
+        }
+      },
+      "output": "fence_service_grain_high.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "0ece5ed22236dee467de0669ba64f65f842b15216207625403b9747aa0c06f76"
+    }
+  ]
+}

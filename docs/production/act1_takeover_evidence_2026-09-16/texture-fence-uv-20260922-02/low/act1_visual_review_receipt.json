@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_act1_visual_review_capture",
+  "captured_at_utc": "2026-09-22T15:39:02.0909040\u002B00:00",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / real 3D rendering device",
+  "production_scene": "res://scenes/main.tscn",
+  "root_viewport": true,
+  "subviewport_used": false,
+  "capture_process_count": 1,
+  "frame_count": 1,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "frames": [
+    {
+      "frame_id": "fence_service_rail_east_low",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "graphics_preset": "low",
+      "scaling_3d_scale": 0.75,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0.7651949524879456,
+          "y": -0.6185452342033386,
+          "z": -0.17854565382003784
+        },
+        "up": {
+          "x": -0.6023647785186768,
+          "y": 0.7857492566108704,
+          "z": -0.14055190980434418
+        },
+        "global_position": {
+          "x": -1.1752914190292358,
+          "y": 1.2266778945922852,
+          "z": 14.209098815917969
+        },
+        "target": {
+          "x": -2.5,
+          "y": 0.15585005283355713,
+          "z": 13.899999618530273
+        }
+      },
+      "output": "fence_service_rail_east_low.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "99d4f5bc5ae62fd34598a0379364b5dc982d61d610760cc10f9a4a9a83f2c13b"
+    }
+  ]
+}

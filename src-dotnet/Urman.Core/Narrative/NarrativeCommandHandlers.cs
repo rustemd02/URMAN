@@ -58,6 +58,12 @@ public static class NarrativeCommandHandlers
         }
 
         var vocabulary = ObjectState(context.State, "vocabulary");
+        // Observe commands can queue behind a confirmation. Resolve the ladder
+        // against the committed kernel state, not the caller's earlier snapshot.
+        if (vocabulary[wordId] is JsonObject current
+            && current["status"] is JsonValue existing
+            && existing.TryGetValue<string>(out var previous)
+            && previous == "confirmed") status = "confirmed";
         vocabulary[wordId] = new JsonObject
         {
             ["status"] = status,

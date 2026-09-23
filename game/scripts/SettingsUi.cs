@@ -19,6 +19,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
     private HSlider _textScale = null!;
     private Label _textScaleValue = null!;
     private OptionButton _graphics = null!;
+    private OptionButton _tatarLanguageLevel = null!;
     private VBoxContainer _bindings = null!;
     private Label _status = null!;
     private Button _save = null!;
@@ -77,6 +78,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         _graphics.AddItem("Низкое", 0);
         _graphics.AddItem("Среднее", 1);
         _graphics.AddItem("Высокое", 2);
+        BuildTatarLanguageRow();
         _fov.ValueChanged += value => _fovValue.Text = $"{value:0}°";
         _sensitivity.ValueChanged += value => _sensitivityValue.Text = $"{value:0.00}";
         _textScale.ValueChanged += value => _textScaleValue.Text = $"{value:0.00}×";
@@ -220,6 +222,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
             "high" => 2,
             _ => 1
         };
+        _tatarLanguageLevel.Select(TatarLanguageSelection(settings.TatarLanguageLevel));
         _status.Text = "Изменения применяются кнопкой «Применить».";
         RefreshBindingLabels();
         _screen.Visible = true;
@@ -320,7 +323,8 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
                 HighContrast: _highContrast.ButtonPressed,
                 TextScale: _textScale.Value,
                 Subtitles: _subtitles.ButtonPressed,
-                AudioDescriptions: _audioDescriptions.ButtonPressed)
+                AudioDescriptions: _audioDescriptions.ButtonPressed),
+            TatarLanguageLevel = TatarLanguageLevelForSelection(_tatarLanguageLevel.Selected)
         });
         _bindingsBeforeOpen = InputBindingService.Capture();
         _status.Text = "Настройки применены. Они войдут в следующее сохранение.";
@@ -400,6 +404,49 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
 
         RefreshBindingLabels();
     }
+
+    private void BuildTatarLanguageRow()
+    {
+        var body = GetNode<VBoxContainer>("Screen/Panel/Layout/BodyScroll/Body");
+        var row = new HBoxContainer
+        {
+            Name = "TatarLanguageLevelRow",
+            CustomMinimumSize = new Vector2(0, 44)
+        };
+        row.AddChild(new Label
+        {
+            Name = "Label",
+            Text = "Начальный татарский",
+            CustomMinimumSize = new Vector2(220, 0)
+        });
+        _tatarLanguageLevel = new OptionButton
+        {
+            Name = "TatarLanguageLevel",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            FocusMode = Control.FocusModeEnum.All,
+            TooltipText = "Действует при следующей новой игре; текущий словарь не меняется."
+        };
+        _tatarLanguageLevel.AddItem("Не знаю", 0);
+        _tatarLanguageLevel.AddItem("Немного знаю", 1);
+        _tatarLanguageLevel.AddItem("Свободно", 2);
+        row.AddChild(_tatarLanguageLevel);
+        body.AddChild(row);
+        body.MoveChild(row, body.GetNode<Label>("BindingsTitle").GetIndex());
+    }
+
+    private static int TatarLanguageSelection(string? level) => level?.Trim().ToLowerInvariant() switch
+    {
+        "some" => 1,
+        "fluent" => 2,
+        _ => 0
+    };
+
+    private static string TatarLanguageLevelForSelection(int selected) => selected switch
+    {
+        1 => "some",
+        2 => "fluent",
+        _ => "none"
+    };
 
     /// <summary>UIUX-008: the binding button handler; public so tests and
     /// future UI hosts drive the same production remap entry.</summary>

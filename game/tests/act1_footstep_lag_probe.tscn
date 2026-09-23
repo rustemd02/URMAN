@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://tests/Act1FootstepLagProbe.cs" type="Script" id="1_probe"]
+
+[node name="Act1FootstepLagProbe" type="Node"]
+script = ExtResource("1_probe")

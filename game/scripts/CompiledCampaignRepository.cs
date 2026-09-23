@@ -47,14 +47,24 @@ public sealed record VocabularyEntryContent(
     string Id,
     string Term,
     string Language,
-    string Meaning);
+    string Meaning,
+    string StartingKnowledge = "none");
 
 public sealed record ResolvedVocabularyEntry(
     string Id,
     string Term,
     string Language,
     string Meaning,
-    string Status);
+    string Status)
+{
+    // These fields are a read-only projection of the first runtime source; the
+    // vocabulary status and source remain owned by the narrative state.
+    public string SourceId { get; init; } = string.Empty;
+    public string SourceTitle { get; init; } = string.Empty;
+    public IReadOnlyList<string> Examples { get; init; } = [];
+}
+
+public sealed record VocabularySourceContent(string Id, string Title, string Text);
 
 public sealed record CompiledDocumentContent(
     string Id,
@@ -299,6 +309,27 @@ public sealed class CompiledCampaignRepository
 
     public string ResolveText(string textId) => _texts.Resolve(textId, "ru").Text;
 
+    /// <summary>
+    /// Resolves only a source that is present in the compiled campaign. This is
+    /// intentionally a read-only lookup: an unknown/starting-knowledge source
+    /// must not manufacture an example or reveal a locked document.
+    /// </summary>
+    public VocabularySourceContent? ResolveVocabularySource(string sourceId)
+    {
+        if (string.IsNullOrWhiteSpace(sourceId)) return null;
+        if (_documentsById.TryGetValue(sourceId, out var document))
+            return new(sourceId, document.Title, document.BodyMarkdown);
+
+        var separator = sourceId.LastIndexOf(':');
+        if (separator <= 0 || separator == sourceId.Length - 1) return null;
+        var dialogueId = sourceId[..separator];
+        var nodeId = sourceId[(separator + 1)..];
+        if (!_dialoguesById.TryGetValue(dialogueId, out var dialogue)
+            || !dialogue.Nodes.TryGetValue(nodeId, out var node)) return null;
+
+        return new(sourceId, $"Диалог · {node.SpeakerRole}", _texts.Resolve(node.TextId, "ru").Text);
+    }
+
     public ResolvedAudio ResolveAudio(string assetId, string outcomeKey) =>
         _audio.Resolve(assetId, new AudioResolveOptions(Locale: "ru", OutcomeKey: outcomeKey));
 
@@ -461,7 +492,10 @@ public sealed class CompiledCampaignRepository
         vocabulary.GetProperty("id").GetString()!,
         vocabulary.GetProperty("term").GetString()!,
         vocabulary.GetProperty("language").GetString()!,
-        Localized(vocabulary.GetProperty("meaning")));
+        Localized(vocabulary.GetProperty("meaning")),
+        vocabulary.TryGetProperty("startingKnowledge", out var startingKnowledge)
+            ? startingKnowledge.GetString() ?? "none"
+            : "none");
 
     private static OldPcDocumentContent ReadOldPcDocument(JsonElement document, AssetResolver assets, TextResolver texts)
     {

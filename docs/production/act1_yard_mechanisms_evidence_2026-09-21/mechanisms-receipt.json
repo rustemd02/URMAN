@@ -1,0 +1,1729 @@
+{
+  "passed": true,
+  "checks": 214,
+  "fixture": "ordinary NewGame plus recorded supported local camera fixtures",
+  "humanPlaytime": "external/not-run",
+  "events": [
+    {
+      "kind": "check",
+      "label": "ordinary New Game",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "eleven actual local mechanisms, ordinary standing controls",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "pristine reachable save",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "six terrain-resting carry items use the shared authored support owner",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "carry-log authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.90124553, -0.16354421, -0.40126038), Y: (0.12671697, 0.9850308, -0.11686417), Z: (0.41436628, 0.05447681, 0.9084784), O: (-32.17394, 0.67658806, 4.706752)]",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "carry-log has actual ground support across 9 footprint samples, gaps 0,0030\u20130,0030m",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "carry-crate authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.9776721, 0.031176694, 0.20781063), Y: (-0.011615854, 0.9954389, -0.09469197), Z: (-0.20981497, 0.0901638, 0.973575), O: (-27.5, 0.3315878, 2.8)]",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "carry-crate has actual ground support across 12 footprint samples, gaps 0,0030\u20130,0059m",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "carry-bucket authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.98839056, 0.061550256, -0.13890925), Y: (-0.05954554, 0.9980533, 0.018545846), Z: (0.13978034, -0.010059113, 0.9901315), O: (-26.6, 0.26607022, 0.2)]",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "carry-bucket has actual ground support across 9 footprint samples, gaps 0,0030\u20130,0069m",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "carry-axe authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.46482128, -0.14040194, -0.8742016), Y: (0.06272975, 0.99008816, -0.12566002), Z: (0.88317955, 0.0035709962, 0.46902144), O: (-31.6, 0.5715371, 4.3)]",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "carry-axe has actual ground support across 9 footprint samples, gaps 0,0030\u20130,0033m",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "carry-tool-shovel authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (-0.104479425, -0.030640919, -0.9940549), Y: (-0.04023672, 0.9988371, -0.026559275), Z: (0.9937128, 0.037222613, -0.10559083), O: (-27.6, 0.22954099, 0.9)]",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "carry-tool-shovel has actual ground support across 9 footprint samples, gaps 0,0030\u20130,0030m",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "carry-tool-pole authored full body is clear of terrain, woodpile and neighbouring solids: ; pose=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)]",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "carry-tool-pole has actual ground support across 30 footprint samples, gaps 0,0030\u20130,0050m",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_window-thaw",
+      "feet": "(-30.9, 0.3224519, 2.398)",
+      "aim": "camera=(-30.9, 2.0224519, 2.218) ray=(-0, -0.24659365, -0.96911895) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_window-thaw shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_window-thaw/SurfaceRayShape at=(-30.9, 1.7277972, 1.06) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=74/75 interactPresses=0 feedback= pickupProbe=",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "empty hand does not thaw the window",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-cloth",
+      "feet": "(-31.408182, 0.36416784, 2.5100734)",
+      "aim": "camera=(-31.47706, 2.064168, 2.3437731) ray=(-0.2592619, -0.73549265, -0.62596637) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-cloth shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-cloth/BodyCollision at=(-31.797634, 1.1547437, 1.5697763) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState=World targetVisible=True targetConcealed=False modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=89/90 interactPresses=1 feedback=\u041D\u0443\u0436\u043D\u0430 \u0442\u0451\u043F\u043B\u0430\u044F \u0432\u043B\u0430\u0436\u043D\u0430\u044F \u0442\u043A\u0430\u043D\u044C. \u0421\u0432\u0435\u0442 \u0444\u043E\u043D\u0430\u0440\u044F \u043D\u0435 \u0440\u0430\u0441\u0442\u043E\u043F\u0438\u0442 \u043B\u0451\u0434 pickupProbe=",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "actual aimed take carry-cloth",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_window-thaw",
+      "feet": "(-30.9, 0.3224519, 2.398)",
+      "aim": "camera=(-30.9, 2.0224519, 2.218) ray=(-0, -0.24659361, -0.969119) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_window-thaw shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_window-thaw/SurfaceRayShape at=(-30.9, 1.7277973, 1.06) held=carry-cloth busy=False registering=False registered=True heldPosition=(-30.9, 1.5824518, 1.438) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=144/145 interactPresses=2 feedback=\u041D\u0443\u0436\u043D\u0430 \u0442\u0451\u043F\u043B\u0430\u044F \u0432\u043B\u0430\u0436\u043D\u0430\u044F \u0442\u043A\u0430\u043D\u044C. \u0421\u0432\u0435\u0442 \u0444\u043E\u043D\u0430\u0440\u044F \u043D\u0435 \u0440\u0430\u0441\u0442\u043E\u043F\u0438\u0442 \u043B\u0451\u0434 pickupProbe=item=carry-cloth source=[X: (0.99026805, 0, -0.1391731), Y: (0, 1, 0), Z: (0.1391731, 0, 0.99026805), O: (-31.81, 1.0847436, 1.54)] size=(0.28, 0.07, 0.2); to=(-31.775532, 1.6241679, 1.6231382) direct=[sweep safe=0,27344 unsafe=0,27734 remaining=0,39734m rest=point=(-31.64, 1.4747436, 1.65) normal=(-0.9902672, -0, 0.13917904) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-lift=[sweep safe=0,29688 unsafe=0,30078 remaining=0,35116m rest=point=(-31.63038, 1.4747436, 1.65) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; to=(-31.706654, 1.6241679, 1.7894386) direct=[sweep safe=0,27344 unsafe=0,27734 remaining=0,43828m rest=point=(-31.60438, 1.4747436, 1.65) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-draw=[sweep safe=0,08008 unsafe=0,08594 remaining=0,24838m rest=point=(-31.59273, 1.1947435, 1.65) normal=(0, 0, 1) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; to=(-31.641602, 1.6241679, 1.9465001) direct=[sweep safe=0,43750 unsafe=0,44141 remaining=0,39157m rest=point=(-31.592422, 1.4521881, 1.65) normal=(0, 0, 1) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-draw=[sweep safe=0,43750 unsafe=0,44141 remaining=0,24750m rest=point=(-31.593128, 1.1947435, 1.65) normal=(0, 0, 1) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; to=(-31.572275, 1.6241679, 1.5389539) direct=[sweep safe=0,27344 unsafe=0,27734 remaining=0,42830m rest=point=(-31.487667, 1.4747436, 1.6187954) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-lift=[sweep safe=0,29688 unsafe=0,30078 remaining=0,35116m rest=point=(-31.419998, 1.4747436, 1.616515) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; path=direct; accepted=(-31.978788, 1.6241679, 1.7073225);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "cold cloth explains refusal without an effect",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary house entry gate",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "carried cloth crosses actual presentation boundary",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "held cloth follows the player through the actual doorway",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "Mansur answers the actual household request",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "read notice, actual family question and home pause make outdoor return attainable",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_warm-water",
+      "feet": "(-30.53137, 0.5948553, -2.8299975)",
+      "aim": "camera=(-30.658642, 2.2948554, -2.9572835) ray=(-0.6427854, -0.41661432, -0.6428526) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_warm-water shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_warm-water/SurfaceRayShape at=(-31.195105, 1.9471521, -3.4938037) held=carry-cloth busy=False registering=False registered=True heldPosition=(-30.53137, 1.8548553, -3.7899973) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=233/234 interactPresses=3 feedback=\u041D\u0443\u0436\u043D\u0430 \u0442\u0451\u043F\u043B\u0430\u044F \u0432\u043B\u0430\u0436\u043D\u0430\u044F \u0442\u043A\u0430\u043D\u044C. \u0421\u0432\u0435\u0442 \u0444\u043E\u043D\u0430\u0440\u044F \u043D\u0435 \u0440\u0430\u0441\u0442\u043E\u043F\u0438\u0442 \u043B\u0451\u0434 pickupProbe=item=carry-cloth source=[X: (0.99026805, 0, -0.1391731), Y: (0, 1, 0), Z: (0.1391731, 0, 0.99026805), O: (-31.81, 1.0847436, 1.54)] size=(0.28, 0.07, 0.2); to=(-31.775532, 1.6241679, 1.6231382) direct=[sweep safe=0,27344 unsafe=0,27734 remaining=0,39734m rest=point=(-31.64, 1.4747436, 1.65) normal=(-0.9902672, -0, 0.13917904) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-lift=[sweep safe=0,29688 unsafe=0,30078 remaining=0,35116m rest=point=(-31.63038, 1.4747436, 1.65) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; to=(-31.706654, 1.6241679, 1.7894386) direct=[sweep safe=0,27344 unsafe=0,27734 remaining=0,43828m rest=point=(-31.60438, 1.4747436, 1.65) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-draw=[sweep safe=0,08008 unsafe=0,08594 remaining=0,24838m rest=point=(-31.59273, 1.1947435, 1.65) normal=(0, 0, 1) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; to=(-31.641602, 1.6241679, 1.9465001) direct=[sweep safe=0,43750 unsafe=0,44141 remaining=0,39157m rest=point=(-31.592422, 1.4521881, 1.65) normal=(0, 0, 1) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-draw=[sweep safe=0,43750 unsafe=0,44141 remaining=0,24750m rest=point=(-31.593128, 1.1947435, 1.65) normal=(0, 0, 1) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; to=(-31.572275, 1.6241679, 1.5389539) direct=[sweep safe=0,27344 unsafe=0,27734 remaining=0,42830m rest=point=(-31.487667, 1.4747436, 1.6187954) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-lift=[sweep safe=0,29688 unsafe=0,30078 remaining=0,35116m rest=point=(-31.419998, 1.4747436, 1.616515) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; path=direct; accepted=(-31.978788, 1.6241679, 1.7073225);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "warm water affects the cloth only after the action",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "warm held cloth saved",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary first house exit is earned before the outdoor heat attempt",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_window-thaw",
+      "feet": "(-30.9, 0.3224519, 2.398)",
+      "aim": "camera=(-30.9, 2.0224519, 2.2180002) ray=(-0, -0.24659356, -0.969119) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_window-thaw shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_window-thaw/SurfaceRayShape at=(-30.9, 1.7277973, 1.06) held=carry-cloth busy=False registering=False registered=True heldPosition=(-30.9, 1.5824518, 1.4380002) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=296/297 interactPresses=4 feedback=\u0422\u043A\u0430\u043D\u044C \u0442\u0451\u043F\u043B\u0430\u044F \u0438 \u0432\u043B\u0430\u0436\u043D\u0430\u044F. \u041C\u043E\u0436\u043D\u043E \u0440\u0430\u0437\u043C\u044F\u0433\u0447\u0438\u0442\u044C \u0438\u043D\u0435\u0439 \u0438\u043B\u0438 \u043E\u0441\u0432\u043E\u0431\u043E\u0434\u0438\u0442\u044C \u043D\u0435\u0431\u043E\u043B\u044C\u0448\u0443\u044E \u0437\u0430\u0449\u0451\u043B\u043A\u0443. pickupProbe=item=carry-cloth source=[X: (0.99026805, 0, -0.1391731), Y: (0, 1, 0), Z: (0.1391731, 0, 0.99026805), O: (-31.81, 1.0847436, 1.54)] size=(0.28, 0.07, 0.2); to=(-31.775532, 1.6241679, 1.6231382) direct=[sweep safe=0,27344 unsafe=0,27734 remaining=0,39734m rest=point=(-31.64, 1.4747436, 1.65) normal=(-0.9902672, -0, 0.13917904) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-lift=[sweep safe=0,29688 unsafe=0,30078 remaining=0,35116m rest=point=(-31.63038, 1.4747436, 1.65) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; to=(-31.706654, 1.6241679, 1.7894386) direct=[sweep safe=0,27344 unsafe=0,27734 remaining=0,43828m rest=point=(-31.60438, 1.4747436, 1.65) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-draw=[sweep safe=0,08008 unsafe=0,08594 remaining=0,24838m rest=point=(-31.59273, 1.1947435, 1.65) normal=(0, 0, 1) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; to=(-31.641602, 1.6241679, 1.9465001) direct=[sweep safe=0,43750 unsafe=0,44141 remaining=0,39157m rest=point=(-31.592422, 1.4521881, 1.65) normal=(0, 0, 1) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-draw=[sweep safe=0,43750 unsafe=0,44141 remaining=0,24750m rest=point=(-31.593128, 1.1947435, 1.65) normal=(0, 0, 1) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; to=(-31.572275, 1.6241679, 1.5389539) direct=[sweep safe=0,27344 unsafe=0,27734 remaining=0,42830m rest=point=(-31.487667, 1.4747436, 1.6187954) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-lift=[sweep safe=0,29688 unsafe=0,30078 remaining=0,35116m rest=point=(-31.419998, 1.4747436, 1.616515) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; path=direct; accepted=(-31.978788, 1.6241679, 1.7073225);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "thaw consumes local warmth and clears the hidden frost ray skin",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "supported put carry-cloth",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern",
+      "feet": "(-31.529999, 0.38012466, 2.59)",
+      "aim": "camera=(-31.529999, 2.0801246, 2.41) ray=(-0, -0.67704755, -0.73593926) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision at=(-31.529999, 1.3809416, 1.65) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState=World targetVisible=True targetConcealed=False modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=408/409 interactPresses=5 feedback= pickupProbe=item=carry-cloth source=[X: (0.99026805, 0, -0.1391731), Y: (0, 1, 0), Z: (0.1391731, 0, 0.99026805), O: (-31.81, 1.0847436, 1.54)] size=(0.28, 0.07, 0.2); to=(-31.775532, 1.6241679, 1.6231382) direct=[sweep safe=0,27344 unsafe=0,27734 remaining=0,39734m rest=point=(-31.64, 1.4747436, 1.65) normal=(-0.9902672, -0, 0.13917904) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-lift=[sweep safe=0,29688 unsafe=0,30078 remaining=0,35116m rest=point=(-31.63038, 1.4747436, 1.65) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; to=(-31.706654, 1.6241679, 1.7894386) direct=[sweep safe=0,27344 unsafe=0,27734 remaining=0,43828m rest=point=(-31.60438, 1.4747436, 1.65) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-draw=[sweep safe=0,08008 unsafe=0,08594 remaining=0,24838m rest=point=(-31.59273, 1.1947435, 1.65) normal=(0, 0, 1) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; to=(-31.641602, 1.6241679, 1.9465001) direct=[sweep safe=0,43750 unsafe=0,44141 remaining=0,39157m rest=point=(-31.592422, 1.4521881, 1.65) normal=(0, 0, 1) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-draw=[sweep safe=0,43750 unsafe=0,44141 remaining=0,24750m rest=point=(-31.593128, 1.1947435, 1.65) normal=(0, 0, 1) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; to=(-31.572275, 1.6241679, 1.5389539) direct=[sweep safe=0,27344 unsafe=0,27734 remaining=0,42830m rest=point=(-31.487667, 1.4747436, 1.6187954) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]] low-lift=[sweep safe=0,29688 unsafe=0,30078 remaining=0,35116m rest=point=(-31.419998, 1.4747436, 1.616515) normal=(0, 1, 0) overlaps=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision]]; path=direct; accepted=(-31.978788, 1.6241679, 1.7073225);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "actual aimed take carry-lantern",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_window-light",
+      "feet": "(-29.929926, 0.1591061, 0.6331823)",
+      "aim": "camera=(-30.096228, 1.8591062, 0.702056) ray=(-0.913076, -0.15262982, 0.37814862) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_window-light shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_window-light/SurfaceRayShape at=(-30.861519, 1.7311801, 1.0189999) held=carry-lantern busy=False registering=False registered=True heldPosition=(-30.493504, 1.4191062, 0.86658764) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=423/424 interactPresses=6 feedback= pickupProbe=item=carry-lantern source=[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-31.529999, 1.0847436, 1.54)] size=(0.22, 0.39, 0.22); path=direct; accepted=(-31.529999, 1.6401246, 1.6300001);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "unlit lamp grants no observation",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "modal blocks lamp input",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the modal-close physics frame cannot also toggle the held lamp",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "mapped lamp switch works while aiming at the glass",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "actual lit unobstructed lamp reveals the repair detail",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_cabinet-thaw",
+      "feet": "(-29.900002, 0.32800755, 3.02)",
+      "aim": "camera=(-29.900002, 2.0280075, 2.8400002) ray=(-0, -0.73862857, -0.6741127) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_cabinet-thaw shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_cabinet-thaw/SurfaceRayShape at=(-29.900002, 1.1109023, 2.0029998) held=carry-lantern busy=False registering=False registered=True heldPosition=(-29.900002, 1.5880075, 2.0600002) heldPoseValid=True light=True targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=466/467 interactPresses=8 feedback=\u0421\u0432\u0435\u0442 \u043E\u0442\u0440\u0430\u0436\u0430\u0435\u0442\u0441\u044F \u043E\u0442 \u0436\u0435\u0441\u0442\u0438. \u0423\u0437\u043A\u0430\u044F \u0441\u0432\u0435\u0442\u043B\u0430\u044F \u0447\u0435\u0440\u0442\u0430 \u2014 \u0441\u043B\u0435\u0434 \u0440\u0435\u043C\u043E\u043D\u0442\u0430; \u0437\u0430 \u043D\u0435\u0439 \u043E\u0431\u044B\u0447\u043D\u0430\u044F \u043E\u043A\u043E\u043D\u043D\u0430\u044F \u0440\u0430\u043C\u0430. pickupProbe=item=carry-lantern source=[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-31.529999, 1.0847436, 1.54)] size=(0.22, 0.39, 0.22); path=direct; accepted=(-31.529999, 1.6401246, 1.6300001);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "light does not melt the frozen latch",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "supported put carry-lantern",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "window and placed light save together",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-warm-cloth",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "older warm save resets future observations",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "alternate branch also uses the earned house exit",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_cabinet-thaw",
+      "feet": "(-29.900002, 0.32764816, 3.02)",
+      "aim": "camera=(-29.900002, 2.0276482, 2.8400002) ray=(-0, -0.7385019, -0.6742514) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_cabinet-thaw shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_cabinet-thaw/SurfaceRayShape at=(-29.900002, 1.1108888, 2.0029998) held=carry-cloth busy=False registering=False registered=True heldPosition=(-29.900002, 1.5876482, 2.0600002) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=549/550 interactPresses=9 feedback= pickupProbe=item=carry-lantern source=[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-31.529999, 1.0847436, 1.54)] size=(0.22, 0.39, 0.22); path=direct; accepted=(-31.529999, 1.6401246, 1.6300001);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "same heat tool opens a second physical latch",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "supported put carry-cloth",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern",
+      "feet": "(-31.529999, 0.38012466, 2.59)",
+      "aim": "camera=(-31.529999, 2.0801246, 2.41) ray=(-0, -0.67704755, -0.73593926) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision at=(-31.529999, 1.3809416, 1.65) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState=World targetVisible=True targetConcealed=False modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=661/662 interactPresses=10 feedback= pickupProbe=item=carry-lantern source=[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-31.529999, 1.0847436, 1.54)] size=(0.22, 0.39, 0.22); path=direct; accepted=(-31.529999, 1.6401246, 1.6300001);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "actual aimed take carry-lantern",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_cabinet-light",
+      "feet": "(-30.08, 0.34730774, 3.1139998)",
+      "aim": "camera=(-30.08, 2.0473077, 2.934) ray=(-0, -0.53976995, -0.84181255) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_cabinet-light shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_cabinet-light/SurfaceRayShape at=(-30.08, 1.1130798, 1.477) held=carry-lantern busy=False registering=False registered=True heldPosition=(-30.08, 1.6073077, 2.154) heldPoseValid=True light=True targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=779/780 interactPresses=11 feedback= pickupProbe=item=carry-lantern source=[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-31.529999, 1.0847436, 1.54)] size=(0.22, 0.39, 0.22); path=direct; accepted=(-31.529999, 1.6401246, 1.6300001);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "relocated held lamp stays lit and physically beside the player",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "shelf blocks light from above even when the eye can see the card",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the clear approach permits the actual crouch input",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "lamp follows the lowered eye: before (-30.08, 1.6073077, 2.154), after (-30.08, 0.88730794, 2.154), eye (-30.08, 1.3273079, 2.934)",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "opened cabinet can be inspected with the same lamp",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-thawed-window",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "branch load restores light pose and correct independent mechanisms",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-mechanisms-pristine",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_high-shelf-box",
+      "feet": "(-32.87, 0.45905417, 1.518)",
+      "aim": "camera=(-32.69, 2.1590543, 1.517998) ray=(0.9902964, 0.13897116, -1.1171704E-05) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_high-shelf-box shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_high-shelf-box/SurfaceRayShape at=(-31.709, 2.2967205, 1.5179869) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=971/972 interactPresses=13 feedback=\u0422\u0440\u0438 \u0434\u043B\u0438\u043D\u044B \u0434\u043B\u044F \u0440\u0435\u043C\u043E\u043D\u0442\u0430: \u043F\u043E\u043B\u043A\u0430, \u043E\u043A\u043E\u043D\u043D\u044B\u0439 \u0437\u0430\u043F\u043E\u0440, \u043F\u0435\u0440\u0435\u043A\u043B\u0430\u0434\u0438\u043D\u0430. \u041D\u0430 \u0448\u0435\u0441\u0442\u0435 \u0441\u043E\u0445\u0440\u0430\u043D\u0438\u043B\u0438\u0441\u044C \u0442\u0430\u043A\u0438\u0435 \u0436\u0435 \u0437\u0430\u0440\u0443\u0431\u043A\u0438. pickupProbe=item=carry-lantern source=[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-31.529999, 1.0847436, 1.54)] size=(0.22, 0.39, 0.22); path=direct; accepted=(-31.529999, 1.6401246, 1.6300001);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "bare hand cannot move the far shelf box; refusal keeps its real pose",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/YardTool_pole/Carryable_carry-tool-pole",
+      "feet": "(-27.129927, 0.4928023, 4.6018176)",
+      "aim": "camera=(-27.29622, 2.1928024, 4.532924) ray=(-0.42154232, -0.8898332, -0.17463961) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/YardTool_pole/Carryable_carry-tool-pole shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/YardTool_pole/Carryable_carry-tool-pole/BodyCollision at=(-28.081644, 0.5348575, 4.207535) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState=World targetVisible=True targetConcealed=False modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=986/987 interactPresses=14 feedback=\u0414\u043E \u0434\u0430\u043B\u044C\u043D\u0435\u0439 \u0441\u0442\u043E\u0440\u043E\u043D\u044B \u043A\u043E\u0440\u043E\u0431\u043A\u0438 \u0434\u043E\u0442\u044F\u043D\u0435\u0442\u0441\u044F \u0434\u043B\u0438\u043D\u043D\u044B\u0439 \u0448\u0435\u0441\u0442 pickupProbe=item=carry-lantern source=[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-31.529999, 1.0847436, 1.54)] size=(0.22, 0.39, 0.22); path=direct; accepted=(-31.529999, 1.6401246, 1.6300001);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "actual aimed take carry-tool-pole",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_side-panel",
+      "feet": "(-28.729925, 0.21661294, 1.7081822)",
+      "aim": "camera=(-28.896227, 1.916613, 1.7770559) ray=(-0.8665016, -0.34697908, 0.35885996) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_side-panel shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_side-panel/SurfaceRayShape at=(-29.656769, 1.6120639, 2.0920334) held=carry-tool-pole busy=False registering=False registered=True heldPosition=(-28.729925, 1.476613, 0.42818236) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=1009/1010 interactPresses=15 feedback=\u0414\u043E \u0434\u0430\u043B\u044C\u043D\u0435\u0439 \u0441\u0442\u043E\u0440\u043E\u043D\u044B \u043A\u043E\u0440\u043E\u0431\u043A\u0438 \u0434\u043E\u0442\u044F\u043D\u0435\u0442\u0441\u044F \u0434\u043B\u0438\u043D\u043D\u044B\u0439 \u0448\u0435\u0441\u0442 pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "panel-before-pole: actual visible wind source and ray are available",
+      "passed": true
+    },
+    {
+      "kind": "sound-cause",
+      "phase": "panel-before-pole",
+      "mechanism": "yard/side-panel",
+      "sample": "wood_tap",
+      "before": 8,
+      "after": 9,
+      "elapsedMsec": 1222,
+      "solved": false,
+      "caption": true,
+      "pulse": true,
+      "nativePlayback": true,
+      "playbackEvidence": "id=6580963672919; player=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_side-panel/WorldFoley_wood_tap; stream=res://assets/audio/act1/foley/wood_tap.wav; playing=True; native=True; from=0; to=0,37333333; source=(-29.699999, 1.5947437, 2.11)",
+      "observedNewNativePlayers": 1,
+      "reducedMotion": false,
+      "listening": "external/not-run"
+    },
+    {
+      "kind": "check",
+      "label": "panel-before-pole: native cue/visible equivalent respect the actual unsolved or repaired cause, without knowledge",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "plain pole secures the loose panel",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "panel-after-pole: actual visible wind source and ray are available",
+      "passed": true
+    },
+    {
+      "kind": "sound-cause",
+      "phase": "panel-after-pole",
+      "mechanism": "yard/side-panel",
+      "sample": "wood_tap",
+      "before": 9,
+      "after": 9,
+      "elapsedMsec": 7604,
+      "solved": true,
+      "caption": true,
+      "pulse": false,
+      "nativePlayback": false,
+      "playbackEvidence": "",
+      "observedNewNativePlayers": 0,
+      "reducedMotion": false,
+      "listening": "external/not-run"
+    },
+    {
+      "kind": "check",
+      "label": "panel-after-pole: native cue/visible equivalent respect the actual unsolved or repaired cause, without knowledge",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_high-shelf-box",
+      "feet": "(-32.87, 0.45905417, 1.518)",
+      "aim": "camera=(-32.69, 2.1590543, 1.517998) ray=(0.9902965, 0.1389711, -1.11717045E-05) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_high-shelf-box shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_high-shelf-box/SurfaceRayShape at=(-31.709, 2.2967205, 1.5179869) held=carry-tool-pole busy=False registering=False registered=True heldPosition=(-32.87, 1.7190542, 0.23800015) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=1689/1690 interactPresses=16 feedback=\u0414\u043E\u0441\u043A\u0430 \u0432\u0441\u0442\u0430\u043B\u0430 \u043F\u043E\u0434 \u043F\u0435\u0440\u0435\u043A\u043B\u0430\u0434\u0438\u043D\u0443. \u0421\u0442\u0443\u043A \u043F\u0440\u0435\u043A\u0440\u0430\u0442\u0438\u043B\u0441\u044F; \u043D\u0430 \u043A\u0440\u043E\u043C\u043A\u0435 \u0432\u0438\u0434\u043D\u043E, \u0447\u0442\u043E \u0435\u0451 \u043F\u043E\u043F\u0440\u0430\u0432\u043B\u044F\u043B\u0438 \u0438 \u0440\u0430\u043D\u044C\u0448\u0435. pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "same plain pole moves the light box along the upper shelf to its edge",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "both plain-pole uses saved together",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-mechanisms-pristine",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "earlier save restores both independent physical pole results",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-plain-pole-results",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "both pole uses and the reusable held tool restore together",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_side-panel",
+      "feet": "(-28.729925, 0.21661294, 1.7081822)",
+      "aim": "camera=(-28.896227, 1.916613, 1.7770559) ray=(-0.8665017, -0.346979, 0.35885993) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_side-panel shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_side-panel/SurfaceRayShape at=(-29.658499, 1.6113713, 2.0927494) held=carry-tool-pole busy=False registering=False registered=True heldPosition=(-28.729925, 1.476613, 0.42818236) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=1737/1738 interactPresses=17 feedback=\u041A\u043E\u0440\u043E\u0431\u043A\u0430 \u0442\u0435\u043F\u0435\u0440\u044C \u0443 \u043A\u0440\u0430\u044F \u043F\u043E\u043B\u043A\u0438. \u041D\u0430\u0434 \u0431\u043E\u0440\u0442\u043E\u043C \u0432\u0438\u0434\u043D\u044B \u0442\u043E\u043D\u043A\u0438\u0435 \u0434\u0435\u0440\u0435\u0432\u044F\u043D\u043D\u044B\u0435 \u043F\u0440\u043E\u043A\u043B\u0430\u0434\u043A\u0438 \u2014 \u0442\u0430\u043A\u0438\u043C\u0438 \u0432\u044B\u0440\u0430\u0432\u043D\u0438\u0432\u0430\u044E\u0442 \u043F\u043E\u043B\u043A\u0438 \u0438 \u043D\u0430\u0441\u0442\u0438\u043B. pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "panel-after-load: actual visible wind source and ray are available",
+      "passed": true
+    },
+    {
+      "kind": "sound-cause",
+      "phase": "panel-after-load",
+      "mechanism": "yard/side-panel",
+      "sample": "wood_tap",
+      "before": 9,
+      "after": 9,
+      "elapsedMsec": 7605,
+      "solved": true,
+      "caption": true,
+      "pulse": false,
+      "nativePlayback": false,
+      "playbackEvidence": "",
+      "observedNewNativePlayers": 0,
+      "reducedMotion": false,
+      "listening": "external/not-run"
+    },
+    {
+      "kind": "check",
+      "label": "panel-after-load: native cue/visible equivalent respect the actual unsolved or repaired cause, without knowledge",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_upper-latch",
+      "feet": "(-29.377537, 0.21455634, 1.8604622)",
+      "aim": "camera=(-29.504808, 1.1945565, 1.7331765) ray=(-0.3932153, 0.8311023, -0.39325655) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_upper-latch shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_upper-latch/SurfaceRayShape at=(-30.096777, 2.4457436, 1.1411464) held=carry-tool-pole busy=False registering=False registered=True heldPosition=(-29.377537, 0.7545565, 0.58046234) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=2201/2202 interactPresses=17 feedback=\u041A\u043E\u0440\u043E\u0431\u043A\u0430 \u0442\u0435\u043F\u0435\u0440\u044C \u0443 \u043A\u0440\u0430\u044F \u043F\u043E\u043B\u043A\u0438. \u041D\u0430\u0434 \u0431\u043E\u0440\u0442\u043E\u043C \u0432\u0438\u0434\u043D\u044B \u0442\u043E\u043D\u043A\u0438\u0435 \u0434\u0435\u0440\u0435\u0432\u044F\u043D\u043D\u044B\u0435 \u043F\u0440\u043E\u043A\u043B\u0430\u0434\u043A\u0438 \u2014 \u0442\u0430\u043A\u0438\u043C\u0438 \u0432\u044B\u0440\u0430\u0432\u043D\u0438\u0432\u0430\u044E\u0442 \u043F\u043E\u043B\u043A\u0438 \u0438 \u043D\u0430\u0441\u0442\u0438\u043B. pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "latch-before-hook: actual visible wind source and ray are available",
+      "passed": true
+    },
+    {
+      "kind": "sound-cause",
+      "phase": "latch-before-hook",
+      "mechanism": "yard/upper-latch",
+      "sample": "metal_rattle",
+      "before": 12,
+      "after": 13,
+      "elapsedMsec": 62,
+      "solved": false,
+      "caption": true,
+      "pulse": true,
+      "nativePlayback": true,
+      "playbackEvidence": "id=11424780813139; player=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_upper-latch/WorldFoley_metal_rattle; stream=res://assets/audio/act1/foley/metal_rattle.wav; playing=True; native=True; from=0; to=0,0026666666; source=(-30.119999, 2.4947436, 1.118)",
+      "observedNewNativePlayers": 1,
+      "reducedMotion": false,
+      "listening": "external/not-run"
+    },
+    {
+      "kind": "check",
+      "label": "latch-before-hook: native cue/visible equivalent respect the actual unsolved or repaired cause, without knowledge",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "plain pole cannot pull the hook latch",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-hook",
+      "feet": "(-30.588572, 0.37243176, 3.0644011)",
+      "aim": "camera=(-30.657454, 2.0724318, 2.898103) ray=(-0.32063982, -0.5458643, -0.7740946) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-hook shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-hook/BodyCollision at=(-31.202377, 1.1447436, 1.5825408) held=carry-tool-pole busy=False registering=False registered=True heldPosition=(-31.009523, 1.6324317, 2.0481336) heldPoseValid=True light=False targetState=World targetVisible=True targetConcealed=False modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=2348/2349 interactPresses=18 feedback=\u041D\u0443\u0436\u0435\u043D \u0448\u0435\u0441\u0442 \u0441 \u043A\u0440\u044E\u0447\u043A\u043E\u043C; \u0441 \u0432\u0435\u0440\u0445\u043D\u0435\u0439 \u043F\u043B\u043E\u0449\u0430\u0434\u043A\u0438 \u043C\u043E\u0436\u043D\u043E \u043E\u0442\u043A\u0440\u044B\u0442\u044C \u0440\u0443\u043A\u043E\u0439 pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "visible local clearance fixture clears the player and plain pole but intersects the full hooked tool",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the clearance fixture leaves the actual hook interaction ray open",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "a physically blocked enlarged assembly preserves both parts and custody; poleHasHook=False hookConcealed=False hookState=World poleCustody=player hookCustody=world",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the unchanged clear shelf approach still aims at the real loose hook",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "two real parts become one carried assembly atomically; poleHasHook=True hookConcealed=True hookState=World poleCustody=player hookCustody=attachment/carry-tool-pole",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "hook is not duplicated in world or held custody",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "combined tool saved",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_upper-latch",
+      "feet": "(-29.377537, 0.21455634, 1.8604622)",
+      "aim": "camera=(-29.504808, 1.1945565, 1.7331765) ray=(-0.39321533, 0.8311023, -0.39325657) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_upper-latch shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_upper-latch/SurfaceRayShape at=(-30.096777, 2.4457436, 1.1411464) held=carry-tool-pole busy=False registering=False registered=True heldPosition=(-29.377537, 0.7545565, 0.76046234) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=2379/2380 interactPresses=20 feedback=\u0414\u043B\u044F \u0448\u0435\u0441\u0442\u0430 \u0441 \u043A\u0440\u044E\u0447\u043A\u043E\u043C \u0437\u0434\u0435\u0441\u044C \u0442\u0435\u0441\u043D\u043E. \u041E\u0442\u043E\u0439\u0434\u0438\u0442\u0435 \u043A \u043E\u0442\u043A\u0440\u044B\u0442\u043E\u043C\u0443 \u043C\u0435\u0441\u0442\u0443. pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "hooked pole secures the high shutter",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "latch-after-hook: actual visible wind source and ray are available",
+      "passed": true
+    },
+    {
+      "kind": "sound-cause",
+      "phase": "latch-after-hook",
+      "mechanism": "yard/upper-latch",
+      "sample": "metal_rattle",
+      "before": 13,
+      "after": 13,
+      "elapsedMsec": 7600,
+      "solved": true,
+      "caption": true,
+      "pulse": false,
+      "nativePlayback": false,
+      "playbackEvidence": "",
+      "observedNewNativePlayers": 0,
+      "reducedMotion": false,
+      "listening": "external/not-run"
+    },
+    {
+      "kind": "check",
+      "label": "latch-after-hook: native cue/visible equivalent respect the actual unsolved or repaired cause, without knowledge",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "repaired sound source saved",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-quiet-hook-latch",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "latch-after-load: actual visible wind source and ray are available",
+      "passed": true
+    },
+    {
+      "kind": "sound-cause",
+      "phase": "latch-after-load",
+      "mechanism": "yard/upper-latch",
+      "sample": "metal_rattle",
+      "before": 13,
+      "after": 13,
+      "elapsedMsec": 7604,
+      "solved": true,
+      "caption": true,
+      "pulse": false,
+      "nativePlayback": false,
+      "playbackEvidence": "",
+      "observedNewNativePlayers": 0,
+      "reducedMotion": false,
+      "listening": "external/not-run"
+    },
+    {
+      "kind": "check",
+      "label": "latch-after-load: native cue/visible equivalent respect the actual unsolved or repaired cause, without knowledge",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_side-panel",
+      "feet": "(-28.729925, 0.21661294, 1.7081822)",
+      "aim": "camera=(-28.896227, 1.916613, 1.7770559) ray=(-0.8665017, -0.346979, 0.35885993) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_side-panel shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_side-panel/SurfaceRayShape at=(-29.658499, 1.6113713, 2.0927494) held=carry-tool-pole busy=False registering=False registered=True heldPosition=(-28.729925, 1.476613, 0.42818236) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=3329/3330 interactPresses=21 feedback=\u0421\u0442\u0432\u043E\u0440\u043A\u0430 \u043F\u0440\u0438\u0436\u0430\u0442\u0430. \u041C\u0435\u0442\u0430\u043B\u043B\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0434\u0440\u0435\u0431\u0435\u0437\u0433 \u0441\u0442\u0438\u0445; \u0449\u0435\u043B\u044C \u0441\u0442\u0430\u043B\u0430 \u0447\u0430\u0441\u0442\u044C\u044E \u043E\u043A\u043D\u0430, \u0430 \u043D\u0435 \u043E\u0442\u0434\u0435\u043B\u044C\u043D\u044B\u043C \u0437\u0432\u0443\u043A\u043E\u043C. pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "pole retains its second practical use",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_hook-rest",
+      "feet": "(-30.588572, 0.37243176, 3.0644011)",
+      "aim": "camera=(-30.657454, 2.0724318, 2.898103) ray=(-0.31696728, -0.560319, -0.76522833) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_hook-rest shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_hook-rest/SurfaceRayShape at=(-31.214483, 1.0877435, 1.5533131) held=carry-tool-pole busy=False registering=False registered=True heldPosition=(-31.009523, 1.6324317, 2.0481336) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=3472/3473 interactPresses=22 feedback=\u0414\u043E\u0441\u043A\u0430 \u0432\u0441\u0442\u0430\u043B\u0430 \u043F\u043E\u0434 \u043F\u0435\u0440\u0435\u043A\u043B\u0430\u0434\u0438\u043D\u0443. \u0421\u0442\u0443\u043A \u043F\u0440\u0435\u043A\u0440\u0430\u0442\u0438\u043B\u0441\u044F; \u043D\u0430 \u043A\u0440\u043E\u043C\u043A\u0435 \u0432\u0438\u0434\u043D\u043E, \u0447\u0442\u043E \u0435\u0451 \u043F\u043E\u043F\u0440\u0430\u0432\u043B\u044F\u043B\u0438 \u0438 \u0440\u0430\u043D\u044C\u0448\u0435. pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "hook detaches back to a supported shelf without consuming it; item=carry-hook feet=(-31.22, 1.0852437, 1.54) accepted=True reason=; full-body margin2mm=[]; carried-margin8mm=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/YardRepairCorner/RepairShelf/SolidContact / @CollisionShape3D@1323]",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the dedicated hook rest remains accessible beside the unchanged physical parked lamp",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-hooked-pole",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "combined save restores exact assembly, not later shutter state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-mechanisms-pristine",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "standing clearance at the local walk start (-28.199999, 0.2453978, 0.19999993)",
+      "passed": true
+    },
+    {
+      "kind": "local-walk-start-fixture",
+      "feet": "(-28.199999, 0.18566734, 0.19999993)",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "walk around the work stand without crossing it by ordinary input, without placement or recovery; at (-28.200197, 0.22585136, 1.7289338), expected (-28.199999, 0.29474366, 1.8)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "walk around the work stand without crossing it",
+      "from": "(-28.199999, 0.18566734, 0.19999993)",
+      "to": "(-28.200197, 0.22585136, 1.7289338)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "walk around the workshop to the side-panel hand access by ordinary input, without placement or recovery; at (-28.933807, 0.21811697, 1.7966589), expected (-28.97, 0.29474366, 1.8)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "walk around the workshop to the side-panel hand access",
+      "from": "(-28.200197, 0.22585136, 1.7289338)",
+      "to": "(-28.933807, 0.21811697, 1.7966589)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "walking around gives the genuine bare-hand alternative",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "leave the hand access between the crossbars by ordinary input, without placement or recovery; at (-28.253967, 0.22759846, 1.799623), expected (-28.199999, 0.29474366, 1.8)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "leave the hand access between the crossbars",
+      "from": "(-28.933807, 0.21811697, 1.7966589)",
+      "to": "(-28.253967, 0.22759846, 1.799623)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "return from the hand access by ordinary input, without placement or recovery; at (-28.202364, 0.18763758, 0.27005243), expected (-28.199999, 0.29474366, 0.19999993)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "return from the hand access",
+      "from": "(-28.253967, 0.22759846, 1.799623)",
+      "to": "(-28.202364, 0.18763758, 0.27005243)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "the alternate hand route returns without moving or using the pole",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "standing clearance at the local walk start (-20.04801, 0.26404008, -1.6898689)",
+      "passed": true
+    },
+    {
+      "kind": "local-walk-start-fixture",
+      "feet": "(-20.04801, 0.21935259, -1.6898689)",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "standing outside cannot inspect the concealed underdeck source",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary crouch prepares the small passage with free hands",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "crouch through the supported front underdeck entrance by ordinary input, without placement or recovery; at (-21.290915, 0.4814368, -2.860306), expected (-21.34392, 0.51586366, -2.910122)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "crouch through the supported front underdeck entrance",
+      "from": "(-20.04801, 0.21935259, -1.6898689)",
+      "to": "(-21.290915, 0.4814368, -2.860306)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "approach the rattling board within the real small space by ordinary input, without placement or recovery; at (-22.080591, 0.4814368, -3.6037908), expected (-22.144764, 0.51586366, -3.6642108)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "approach the rattling board within the real small space",
+      "from": "(-21.290915, 0.4814368, -2.860306)",
+      "to": "(-22.080591, 0.4814368, -3.6037908)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "before-repair: the actual board has its expected cause and crouching approach",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "before-repair: step across the real hollow board by ordinary input, without placement or recovery; at (-23.290148, 0.48051125, -4.742622), expected (-23.34603, 0.59086365, -4.7953463)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "before-repair: step across the real hollow board",
+      "from": "(-22.080591, 0.4814368, -3.6037908)",
+      "to": "(-23.290148, 0.48051125, -4.742622)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "before-repair: return across the same board to the inspection view by ordinary input, without placement or recovery; at (-22.20598, 0.48170367, -3.7217722), expected (-22.144764, 0.51586366, -3.6642108)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "before-repair: return across the same board to the inspection view",
+      "from": "(-23.290148, 0.48051125, -4.742622)",
+      "to": "(-22.20598, 0.48170367, -3.7217722)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "foot-contact-sound",
+      "phase": "before-repair",
+      "before": 0,
+      "after": 2,
+      "contact": true,
+      "pulse": true,
+      "nativePlayback": true,
+      "playbackEvidence": "id=17748381930130; player=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_loose-footboard/@AudioStreamPlayer3D@1721; stream=res://assets/audio/act1/foley/hollow_board.wav; playing=True; native=True; from=0; to=0,55733335; source=(-22.909204, 0.59086365, -4.384023)",
+      "observedNewNativePlayers": 2,
+      "shouldEmit": true,
+      "physicalOwner": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiYardAuthoredShed/UnderdeckRepairRoot/LooseFootBoard",
+      "listening": "external/not-run"
+    },
+    {
+      "kind": "check",
+      "label": "before-repair: moving feet contacted the board; cue and visible pulse follow its repaired state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the reached crouching view aims at the actual underdeck observation target",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "finding the sound opens its actual journal source without repairing the board",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "a held accept/interact across source close cannot repair the board; camera=(-22.337019, 1.4617032, -3.8451762) ray=(-0.54335946, -0.66552496, -0.5117001) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_loose-footboard shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_loose-footboard/SurfaceRayShape at=(-23.022224, 0.62244105, -4.490454) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=3832/3841 interactPresses=25 feedback=\u0414\u043E\u0441\u043A\u0430 \u0432\u0441\u0442\u0430\u043B\u0430 \u043F\u043E\u0434 \u043F\u0435\u0440\u0435\u043A\u043B\u0430\u0434\u0438\u043D\u0443. \u0421\u0442\u0443\u043A \u043F\u0440\u0435\u043A\u0440\u0430\u0442\u0438\u043B\u0441\u044F; \u043D\u0430 \u043A\u0440\u043E\u043C\u043A\u0435 \u0432\u0438\u0434\u043D\u043E, \u0447\u0442\u043E \u0435\u0451 \u043F\u043E\u043F\u0440\u0430\u0432\u043B\u044F\u043B\u0438 \u0438 \u0440\u0430\u043D\u044C\u0448\u0435. pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "released source controls leave the unrepaired board and quiet observation unchanged; camera=(-22.337019, 1.4617034, -3.8451762) ray=(-0.54335946, -0.66552496, -0.5117001) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_loose-footboard shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_loose-footboard/SurfaceRayShape at=(-23.022224, 0.62244105, -4.4904547) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=3842/3843 interactPresses=25 feedback=\u0414\u043E\u0441\u043A\u0430 \u0432\u0441\u0442\u0430\u043B\u0430 \u043F\u043E\u0434 \u043F\u0435\u0440\u0435\u043A\u043B\u0430\u0434\u0438\u043D\u0443. \u0421\u0442\u0443\u043A \u043F\u0440\u0435\u043A\u0440\u0430\u0442\u0438\u043B\u0441\u044F; \u043D\u0430 \u043A\u0440\u043E\u043C\u043A\u0435 \u0432\u0438\u0434\u043D\u043E, \u0447\u0442\u043E \u0435\u0451 \u043F\u043E\u043F\u0440\u0430\u0432\u043B\u044F\u043B\u0438 \u0438 \u0440\u0430\u043D\u044C\u0448\u0435. pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "an observed but unrepaired source can be saved",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "leave the unrepaired underdeck source by ordinary input, without placement or recovery; at (-21.392374, 0.48170367, -2.9557462), expected (-21.34392, 0.51586366, -2.910122)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "leave the unrepaired underdeck source",
+      "from": "(-22.20598, 0.48170367, -3.7217722)",
+      "to": "(-21.392374, 0.48170367, -2.9557462)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "return to open ground from the inspected source by ordinary input, without placement or recovery; at (-20.104477, 0.23785597, -1.7430378), expected (-20.04801, 0.44086367, -1.6898689)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "return to open ground from the inspected source",
+      "from": "(-21.392374, 0.48170367, -2.9557462)",
+      "to": "(-20.104477, 0.23785597, -1.7430378)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-underdeck-observed",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "returning to the reached saved pose preserves the unfinished physical repair",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "unfinished-load: the actual board has its expected cause and crouching approach",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "unfinished-load: step across the real hollow board by ordinary input, without placement or recovery; at (-23.299847, 0.48167947, -4.7517805), expected (-23.34603, 0.59086365, -4.7953463)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "unfinished-load: step across the real hollow board",
+      "from": "(-22.20598, 0.48170367, -3.7217722)",
+      "to": "(-23.299847, 0.48167947, -4.7517805)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "unfinished-load: return across the same board to the inspection view by ordinary input, without placement or recovery; at (-22.204487, 0.48168132, -3.7203782), expected (-22.144764, 0.51586366, -3.6642108)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "unfinished-load: return across the same board to the inspection view",
+      "from": "(-23.299847, 0.48167947, -4.7517805)",
+      "to": "(-22.204487, 0.48168132, -3.7203782)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "foot-contact-sound",
+      "phase": "unfinished-load",
+      "before": 2,
+      "after": 4,
+      "contact": true,
+      "pulse": true,
+      "nativePlayback": true,
+      "playbackEvidence": "id=18514429612732; player=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_loose-footboard/@AudioStreamPlayer3D@1722; stream=res://assets/audio/act1/foley/hollow_board.wav; playing=True; native=True; from=0; to=0,55733335; source=(-22.909204, 0.59086365, -4.384023)",
+      "observedNewNativePlayers": 2,
+      "shouldEmit": true,
+      "physicalOwner": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiYardAuthoredShed/UnderdeckRepairRoot/LooseFootBoard",
+      "listening": "external/not-run"
+    },
+    {
+      "kind": "check",
+      "label": "unfinished-load: moving feet contacted the board; cue and visible pulse follow its repaired state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the one-shot source exposes the actual loose board beneath it",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the aimed hollow-board caption remains usable without hearing its sound",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the physical repair and local recheck record the quiet consequence exactly once",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "after-repair: the actual board has its expected cause and crouching approach",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "after-repair: step across the real hollow board by ordinary input, without placement or recovery; at (-23.297916, 0.48115504, -4.7500377), expected (-23.34603, 0.59086365, -4.7953463)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "after-repair: step across the real hollow board",
+      "from": "(-22.204487, 0.48168132, -3.7203782)",
+      "to": "(-23.297916, 0.48115504, -4.7500377)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "after-repair: return across the same board to the inspection view by ordinary input, without placement or recovery; at (-22.19685, 0.48166248, -3.7132542), expected (-22.144764, 0.51586366, -3.6642108)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "after-repair: return across the same board to the inspection view",
+      "from": "(-23.297916, 0.48115504, -4.7500377)",
+      "to": "(-22.19685, 0.48166248, -3.7132542)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "foot-contact-sound",
+      "phase": "after-repair",
+      "before": 4,
+      "after": 4,
+      "contact": true,
+      "pulse": false,
+      "nativePlayback": false,
+      "playbackEvidence": "",
+      "observedNewNativePlayers": 0,
+      "shouldEmit": false,
+      "physicalOwner": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiYardAuthoredShed/UnderdeckRepairRoot/LooseFootBoard",
+      "listening": "external/not-run"
+    },
+    {
+      "kind": "check",
+      "label": "after-repair: moving feet contacted the board; cue and visible pulse follow its repaired state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "leave the repaired board without crossing its geometry by ordinary input, without placement or recovery; at (-21.40723, 0.48166248, -2.9697332), expected (-21.34392, 0.51586366, -2.910122)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "leave the repaired board without crossing its geometry",
+      "from": "(-22.19685, 0.48166248, -3.7132542)",
+      "to": "(-21.40723, 0.48166248, -2.9697332)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "return from the repaired underdeck to the yard by ordinary input, without placement or recovery; at (-20.095818, 0.2355589, -1.7348839), expected (-20.04801, 0.44086367, -1.6898689)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "return from the repaired underdeck to the yard",
+      "from": "(-21.40723, 0.48166248, -2.9697332)",
+      "to": "(-20.095818, 0.2355589, -1.7348839)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "the open approach allows the player to stand again",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "quiet corner saved",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-mechanisms-pristine",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "earlier save restores sound causes",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-quiet-corner",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "return restores the inspected and repaired board without another sound source\u0027s repair",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "quiet-source save restores the actually reached outdoor return position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "re-enter the small space after loading the repaired source by ordinary input, without placement or recovery; at (-21.293896, 0.48169518, -2.8631008), expected (-21.34392, 0.51586366, -2.910122)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "re-enter the small space after loading the repaired source",
+      "from": "(-20.095818, 0.2355589, -1.7348839)",
+      "to": "(-21.293896, 0.48169518, -2.8631008)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "return to the same repaired board after loading by ordinary input, without placement or recovery; at (-22.083572, 0.48169518, -3.6065948), expected (-22.144764, 0.51586366, -3.6642108)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "return to the same repaired board after loading",
+      "from": "(-21.293896, 0.48169518, -2.8631008)",
+      "to": "(-22.083572, 0.48169518, -3.6065948)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "repaired-load: the actual board has its expected cause and crouching approach",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "repaired-load: step across the real hollow board by ordinary input, without placement or recovery; at (-23.295464, 0.48097512, -4.747735), expected (-23.34603, 0.59086365, -4.7953463)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "repaired-load: step across the real hollow board",
+      "from": "(-22.083572, 0.48169518, -3.6065948)",
+      "to": "(-23.295464, 0.48097512, -4.747735)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "repaired-load: return across the same board to the inspection view by ordinary input, without placement or recovery; at (-22.191816, 0.48167706, -3.7085152), expected (-22.144764, 0.51586366, -3.6642108)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "repaired-load: return across the same board to the inspection view",
+      "from": "(-23.295464, 0.48097512, -4.747735)",
+      "to": "(-22.191816, 0.48167706, -3.7085152)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "foot-contact-sound",
+      "phase": "repaired-load",
+      "before": 4,
+      "after": 4,
+      "contact": true,
+      "pulse": false,
+      "nativePlayback": false,
+      "playbackEvidence": "",
+      "observedNewNativePlayers": 0,
+      "shouldEmit": false,
+      "physicalOwner": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiYardAuthoredShed/UnderdeckRepairRoot/LooseFootBoard",
+      "listening": "external/not-run"
+    },
+    {
+      "kind": "check",
+      "label": "repaired-load: moving feet contacted the board; cue and visible pulse follow its repaired state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "loaded quiet board remains an actual aimed object",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "rechecking the quiet board after load cannot duplicate its result",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "leave the loaded repaired board by ordinary input, without placement or recovery; at (-21.402197, 0.48167706, -2.9649937), expected (-21.34392, 0.51586366, -2.910122)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "leave the loaded repaired board",
+      "from": "(-22.191816, 0.48167706, -3.7085152)",
+      "to": "(-21.402197, 0.48167706, -2.9649937)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "return to the yard after the quiet-source recheck by ordinary input, without placement or recovery; at (-20.091911, 0.23416452, -1.7312047), expected (-20.04801, 0.44086367, -1.6898689)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "return to the yard after the quiet-source recheck",
+      "from": "(-21.402197, 0.48167706, -2.9649937)",
+      "to": "(-20.091911, 0.23416452, -1.7312047)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "the completed ordinary arrival permits reporting the repaired board inside the house",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/MansurNpc",
+      "feet": "(-28.392796, 0.5948553, -5.696122)",
+      "aim": "camera=(-28.392796, 2.2948554, -5.8761215) ray=(-0, -0.67719436, -0.73580414) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/MansurNpc shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/MansurNpc/InteractionProxyCollisionShape at=(-28.392796, 1.8096725, -6.4032955) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=4657/4658 interactPresses=27 feedback=\u041F\u043E\u0434 \u0434\u043E\u0449\u0435\u0447\u043A\u043E\u0439 \u043F\u0443\u0441\u0442\u043E\u0442\u0430 \u043C\u0435\u0436\u0434\u0443 \u043E\u043F\u043E\u0440\u0430\u043C\u0438. \u042D\u0442\u043E \u0434\u0435\u0440\u0435\u0432\u043E \u043E\u0442\u0434\u0430\u0432\u0430\u043B\u043E\u0441\u044C \u0433\u043B\u0443\u0445\u0438\u043C \u0441\u0442\u0443\u043A\u043E\u043C. pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "the local source-holder fixture uses the actual aimed NPC interaction",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/MansurNpc",
+      "feet": "(-28.392796, 0.5948553, -5.696122)",
+      "aim": "camera=(-28.392796, 2.2948554, -5.8761215) ray=(-0, -0.67719436, -0.73580414) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/MansurNpc shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/MansurNpc/InteractionProxyCollisionShape at=(-28.392796, 1.8096725, -6.4032955) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=4682/4683 interactPresses=28 feedback=\u041F\u043E\u0434 \u0434\u043E\u0449\u0435\u0447\u043A\u043E\u0439 \u043F\u0443\u0441\u0442\u043E\u0442\u0430 \u043C\u0435\u0436\u0434\u0443 \u043E\u043F\u043E\u0440\u0430\u043C\u0438. \u042D\u0442\u043E \u0434\u0435\u0440\u0435\u0432\u043E \u043E\u0442\u0434\u0430\u0432\u0430\u043B\u043E\u0441\u044C \u0433\u043B\u0443\u0445\u0438\u043C \u0441\u0442\u0443\u043A\u043E\u043C. pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "the local source-holder fixture uses the actual aimed NPC interaction",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-mechanisms-pristine",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-board",
+      "feet": "(-13.428177, -0.09561164, 10.818737)",
+      "aim": "camera=(-13.428177, 1.6043884, 10.638738) ray=(-0, -0.84598285, -0.53321004) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-board shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-board/BodyCollision at=(-13.428178, 0.26155505, 9.792372) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState=World targetVisible=True targetConcealed=False modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=4723/4724 interactPresses=29 feedback=\u041F\u043E\u0434 \u0434\u043E\u0449\u0435\u0447\u043A\u043E\u0439 \u043F\u0443\u0441\u0442\u043E\u0442\u0430 \u043C\u0435\u0436\u0434\u0443 \u043E\u043F\u043E\u0440\u0430\u043C\u0438. \u042D\u0442\u043E \u0434\u0435\u0440\u0435\u0432\u043E \u043E\u0442\u0434\u0430\u0432\u0430\u043B\u043E\u0441\u044C \u0433\u043B\u0443\u0445\u0438\u043C \u0441\u0442\u0443\u043A\u043E\u043C. pickupProbe=item=carry-tool-pole source=[X: (0.97797006, -0.019051604, -0.20787396), Y: (-0.002224457, 0.99481875, -0.10164018), Z: (0.20873332, 0.09986346, 0.9728606), O: (-28.1, 0.45865598, 4.2)] size=(0.055, 0.075, 1.85); path=direct; accepted=(-28.312462, 1.7528024, 4.1119084);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "actual aimed take carry-board",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_board-rest",
+      "feet": "(-28.949999, 0.21748556, 1.8)",
+      "aim": "camera=(-28.949999, 1.9174856, 1.9799995) ray=(-4.206542E-08, -0.8766261, 0.48117235) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_board-rest shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_board-rest/SurfaceRayShape at=(-28.949999, 0.94374365, 2.514478) held=carry-board busy=False registering=False registered=True heldPosition=(-28.949999, 1.4774857, 0.70000035) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=4738/4739 interactPresses=30 feedback=\u041F\u043E\u0434 \u0434\u043E\u0449\u0435\u0447\u043A\u043E\u0439 \u043F\u0443\u0441\u0442\u043E\u0442\u0430 \u043C\u0435\u0436\u0434\u0443 \u043E\u043F\u043E\u0440\u0430\u043C\u0438. \u042D\u0442\u043E \u0434\u0435\u0440\u0435\u0432\u043E \u043E\u0442\u0434\u0430\u0432\u0430\u043B\u043E\u0441\u044C \u0433\u043B\u0443\u0445\u0438\u043C \u0441\u0442\u0443\u043A\u043E\u043C. pickupProbe=item=carry-board source=[X: (0.70710677, 0, 0.70710677), Y: (0, 1, 0), Z: (-0.70710677, 0, 0.70710677), O: (-13.428177, 0.18655515, 9.768737)] size=(0.32, 0.075, 1.8); path=direct; accepted=(-13.428177, 1.1643884, 9.538737);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "board-rest-physical-probe",
+      "attempt": "occupied-before-attempt",
+      "playerFeet": "(-28.949999, 0.21748556, 1.8)",
+      "desiredRest": "(-28.949999, 0.9467437, 1.8)",
+      "probe": "item=carry-board feet=(-28.949999, 0.94274366, 1.8) accepted=False reason=\u041C\u0435\u0441\u0442\u043E \u0437\u0430\u043D\u044F\u0442\u043E. \u041E\u0442\u043E\u0439\u0434\u0438\u0442\u0435 \u0432 \u0441\u0442\u043E\u0440\u043E\u043D\u0443 \u0438 \u043E\u0441\u0432\u043E\u0431\u043E\u0434\u0438\u0442\u0435 \u043E\u043F\u043E\u0440\u0443.; full-body margin2mm=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/Player / CollisionShape3D]; carried-margin8mm=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/YardRepairCorner/TrestleCrossbar-1/SolidContact / @CollisionShape3D@1355 | /root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/YardRepairCorner/TrestleCrossbar1/SolidContact / @CollisionShape3D@1358 | /root/Act1YardMechanismsSmokeTest/Act1Demo/Main/Player / CollisionShape3D]"
+    },
+    {
+      "kind": "check",
+      "label": "board assembly cannot be placed through the player\u0027s body between the trestles",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_board-rest",
+      "feet": "(-27.979925, 0.25951725, 2.1381822)",
+      "aim": "camera=(-28.146227, 1.9595172, 2.2070558) ray=(-0.5853996, -0.77364653, 0.24244228) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_board-rest shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Mechanism_board-rest/SurfaceRayShape at=(-28.914839, 0.9437436, 2.525375) held=carry-board busy=False registering=False registered=True heldPosition=(-29.162518, 1.5195172, 2.627951) heldPoseValid=True light=False targetState= targetVisible= targetConcealed= modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=4753/4754 interactPresses=31 feedback=\u041C\u0435\u0441\u0442\u043E \u0437\u0430\u043D\u044F\u0442\u043E. \u041E\u0442\u043E\u0439\u0434\u0438\u0442\u0435 \u0432 \u0441\u0442\u043E\u0440\u043E\u043D\u0443 \u0438 \u043E\u0441\u0432\u043E\u0431\u043E\u0434\u0438\u0442\u0435 \u043E\u043F\u043E\u0440\u0443. pickupProbe=item=carry-board source=[X: (0.70710677, 0, 0.70710677), Y: (0, 1, 0), Z: (-0.70710677, 0, 0.70710677), O: (-13.428177, 0.18655515, 9.768737)] size=(0.32, 0.075, 1.8); path=direct; accepted=(-13.428177, 1.1643884, 9.538737);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "board-rest-physical-probe",
+      "attempt": "free-before-attempt",
+      "playerFeet": "(-27.979925, 0.25951725, 2.1381822)",
+      "desiredRest": "(-28.949999, 0.9467437, 1.8)",
+      "probe": "item=carry-board feet=(-28.949999, 0.94274366, 1.8) accepted=True reason=; full-body margin2mm=[]; carried-margin8mm=[/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/YardRepairCorner/TrestleCrossbar-1/SolidContact / @CollisionShape3D@1355 | /root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/YardRepairCorner/TrestleCrossbar1/SolidContact / @CollisionShape3D@1358]"
+    },
+    {
+      "kind": "check",
+      "label": "same board rests physically on both trestles",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern",
+      "feet": "(-31.529999, 0.38012466, 2.59)",
+      "aim": "camera=(-31.529999, 2.0801246, 2.4100003) ray=(-0, -0.6770468, -0.7359399) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision at=(-31.529999, 1.3809428, 1.65) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState=World targetVisible=True targetConcealed=False modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=4768/4769 interactPresses=32 feedback=\u0414\u043E\u0441\u043A\u0430 \u043B\u0435\u0436\u0438\u0442 \u043E\u0431\u043E\u0438\u043C\u0438 \u043A\u043E\u043D\u0446\u0430\u043C\u0438 \u043D\u0430 \u043E\u043F\u043E\u0440\u0430\u0445. \u041C\u043E\u0436\u043D\u043E \u043F\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0444\u043E\u043D\u0430\u0440\u044C \u0438 \u043E\u0441\u0432\u043E\u0431\u043E\u0434\u0438\u0442\u044C \u0440\u0443\u043A\u0438. \u0414\u043E\u0441\u043A\u0443 \u043C\u043E\u0436\u043D\u043E \u0437\u0430\u0431\u0440\u0430\u0442\u044C, \u043A\u043E\u0433\u0434\u0430 \u0441\u0432\u0435\u0440\u0445\u0443 \u043D\u0438\u043A\u043E\u0433\u043E \u0438 \u043D\u0438\u0447\u0435\u0433\u043E \u043D\u0435\u0442. pickupProbe=item=carry-board source=[X: (0.70710677, 0, 0.70710677), Y: (0, 1, 0), Z: (-0.70710677, 0, 0.70710677), O: (-13.428177, 0.18655515, 9.768737)] size=(0.32, 0.075, 1.8); path=direct; accepted=(-13.428177, 1.1643884, 9.538737);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "actual aimed take carry-lantern",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the lamp is lit before placing it on the work board",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-board",
+      "feet": "(-28.207537, 0.294583, 2.542462)",
+      "aim": "camera=(-28.334808, 1.994583, 2.4151764) ray=(-0.46032813, -0.7590465, -0.4603765) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-board shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-board/BodyCollision at=(-28.927217, 1.0177437, 1.8227043) held=carry-lantern busy=False registering=False registered=True heldPosition=(-28.886322, 1.5545831, 1.8636042) heldPoseValid=True light=True targetState=Combined targetVisible=True targetConcealed=False modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=4790/4791 interactPresses=33 feedback=\u0414\u043E\u0441\u043A\u0430 \u043B\u0435\u0436\u0438\u0442 \u043E\u0431\u043E\u0438\u043C\u0438 \u043A\u043E\u043D\u0446\u0430\u043C\u0438 \u043D\u0430 \u043E\u043F\u043E\u0440\u0430\u0445. \u041C\u043E\u0436\u043D\u043E \u043F\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0444\u043E\u043D\u0430\u0440\u044C \u0438 \u043E\u0441\u0432\u043E\u0431\u043E\u0434\u0438\u0442\u044C \u0440\u0443\u043A\u0438. \u0414\u043E\u0441\u043A\u0443 \u043C\u043E\u0436\u043D\u043E \u0437\u0430\u0431\u0440\u0430\u0442\u044C, \u043A\u043E\u0433\u0434\u0430 \u0441\u0432\u0435\u0440\u0445\u0443 \u043D\u0438\u043A\u043E\u0433\u043E \u0438 \u043D\u0438\u0447\u0435\u0433\u043E \u043D\u0435\u0442. pickupProbe=item=carry-lantern source=[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-31.529999, 1.0847436, 1.54)] size=(0.22, 0.39, 0.22); path=direct; accepted=(-31.529999, 1.6401246, 1.6300004);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "board supports actual lamp placement: ",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "assembled board holds the lit lamp and frees the player\u0027s hands",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-board",
+      "feet": "(-28.207537, 0.294583, 2.542462)",
+      "aim": "camera=(-28.334808, 1.994583, 2.4151766) ray=(-0.4603292, -0.759046, -0.46037614) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-board shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-board/BodyCollision at=(-28.92722, 1.0177437, 1.8227046) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState=Combined targetVisible=True targetConcealed=False modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=4808/4809 interactPresses=33 feedback= pickupProbe=item=carry-lantern source=[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-31.529999, 1.0847436, 1.54)] size=(0.22, 0.39, 0.22); path=direct; accepted=(-31.529999, 1.6401246, 1.6300004);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "the board cannot be removed from under its lamp",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "board, light and assembly saved together",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-board-with-lamp",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "loaded board retains its lit supported object",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern",
+      "feet": "(-28.20754, 0.25108632, 2.0924613)",
+      "aim": "camera=(-28.334812, 1.9510864, 1.965176) ray=(-0.5409357, -0.64398557, -0.5409908) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-lantern/BodyCollision at=(-28.840002, 1.3496552, 1.4599338) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState=Placed targetVisible=True targetConcealed=False modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=4836/4837 interactPresses=34 feedback=\u0421\u043D\u0430\u0447\u0430\u043B\u0430 \u0441\u043E\u0439\u0434\u0438\u0442\u0435 \u0441 \u043E\u043F\u043E\u0440\u044B \u0438 \u0441\u043D\u0438\u043C\u0438\u0442\u0435 \u0441 \u043D\u0435\u0451 \u0432\u0435\u0449\u0438. pickupProbe=item=carry-lantern source=[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-31.529999, 1.0847436, 1.54)] size=(0.22, 0.39, 0.22); path=direct; accepted=(-31.529999, 1.6401246, 1.6300004);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "actual aimed take carry-lantern",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "supported put carry-lantern",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "standing clearance at the local walk start (-28.949999, 0.54928994, 4.55)",
+      "passed": true
+    },
+    {
+      "kind": "local-walk-start-fixture",
+      "feet": "(-28.949999, 0.49171183, 4.55)",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "walk up the visible gangway onto the assembled board by ordinary input, without placement or recovery; at (-28.949865, 1.0183268, 2.367513), expected (-28.949999, 1.0177437, 2.3)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "walk up the visible gangway onto the assembled board",
+      "from": "(-28.949999, 0.49171183, 4.55)",
+      "to": "(-28.949865, 1.0183268, 2.367513)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "walk along the board to the upper latch by ordinary input, without placement or recovery; at (-28.949987, 1.0183268, 1.4608498), expected (-28.949999, 1.0177437, 1.38)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "walk along the board to the upper latch",
+      "from": "(-28.949865, 1.0183268, 2.367513)",
+      "to": "(-28.949987, 1.0183268, 1.4608498)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "ordinary ascent ends standing on the real board collider",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the player cannot pull the board out from under their own feet",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the plain-hand branch starts with the same unsolved latch",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "the reached stable work stand gives the real bare-hand alternative to the hooked pole",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "supported player and repaired latch saved",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "return along the board by ordinary input, without placement or recovery; at (-28.949999, 1.0183268, 2.2541802), expected (-28.949999, 1.0177437, 2.3)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "return along the board",
+      "from": "(-28.949987, 1.0183268, 1.4608498)",
+      "to": "(-28.949999, 1.0183268, 2.2541802)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "walk down the visible gangway to the yard by ordinary input, without placement or recovery; at (-28.948322, 0.48331392, 4.465011), expected (-28.949999, 0.9467437, 4.55)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "walk down the visible gangway to the yard",
+      "from": "(-28.949999, 1.0183268, 2.2541802)",
+      "to": "(-28.948322, 0.48331392, 4.465011)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "return from the work stand reaches ordinary ground",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-board-with-lamp",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "earlier board save removes the later hand repair",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-board-player-above",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "save above the yard restores the same real support and consequence",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "loaded player returns along the board by ordinary input, without placement or recovery; at (-28.949999, 1.0183268, 2.2541802), expected (-28.949999, 1.0177437, 2.3)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "loaded player returns along the board",
+      "from": "(-28.949987, 1.0183268, 1.4608498)",
+      "to": "(-28.949999, 1.0183268, 2.2541802)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "loaded player walks down to the yard by ordinary input, without placement or recovery; at (-28.948322, 0.4833103, 4.4650116), expected (-28.949999, 0.9467437, 4.55)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "loaded player walks down to the yard",
+      "from": "(-28.949999, 1.0183268, 2.2541802)",
+      "to": "(-28.948322, 0.4833103, 4.4650116)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-board",
+      "feet": "(-28.207537, 0.294583, 2.542462)",
+      "aim": "camera=(-28.334808, 1.994583, 2.4151769) ray=(-0.46032947, -0.75904566, -0.46037638) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-board shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-board/BodyCollision at=(-28.927221, 1.0177437, 1.8227043) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState=Combined targetVisible=True targetConcealed=False modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=5111/5112 interactPresses=37 feedback=\u0421\u0442\u0432\u043E\u0440\u043A\u0430 \u043F\u0440\u0438\u0436\u0430\u0442\u0430. \u041C\u0435\u0442\u0430\u043B\u043B\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0434\u0440\u0435\u0431\u0435\u0437\u0433 \u0441\u0442\u0438\u0445; \u0449\u0435\u043B\u044C \u0441\u0442\u0430\u043B\u0430 \u0447\u0430\u0441\u0442\u044C\u044E \u043E\u043A\u043D\u0430, \u0430 \u043D\u0435 \u043E\u0442\u0434\u0435\u043B\u044C\u043D\u044B\u043C \u0437\u0432\u0443\u043A\u043E\u043C. pickupProbe=item=carry-lantern source=[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-28.950003, 1.0237437, 1.3499992)] size=(0.22, 0.39, 0.22); path=direct; accepted=(-28.886328, 1.5110865, 1.4136046);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "actual aimed take carry-board",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "unoccupied board removes the assembly atomically",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-mechanisms-pristine",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "all local consequences reset on pristine restore",
+      "passed": true
+    },
+    {
+      "kind": "local-approach",
+      "target": "/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-log",
+      "feet": "(-33.234966, 0.81684196, 4.7301135)",
+      "aim": "camera=(-33.05501, 2.516842, 4.7261405) ray=(0.4445444, -0.8957031, -0.009814335) hit=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-log shape=/root/Act1YardMechanismsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/CarryCoordinator/Carryable_carry-log/BodyCollision at=(-32.209496, 0.8132232, 4.7074733) held= busy=False registering=False registered=True heldPosition= heldPoseValid=False light= targetState=World targetVisible=True targetConcealed=False modal=False pause=False focused=False physicsEnabled=True treePaused=False inputFrame=5138/5139 interactPresses=38 feedback=\u0421\u0442\u0432\u043E\u0440\u043A\u0430 \u043F\u0440\u0438\u0436\u0430\u0442\u0430. \u041C\u0435\u0442\u0430\u043B\u043B\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0434\u0440\u0435\u0431\u0435\u0437\u0433 \u0441\u0442\u0438\u0445; \u0449\u0435\u043B\u044C \u0441\u0442\u0430\u043B\u0430 \u0447\u0430\u0441\u0442\u044C\u044E \u043E\u043A\u043D\u0430, \u0430 \u043D\u0435 \u043E\u0442\u0434\u0435\u043B\u044C\u043D\u044B\u043C \u0437\u0432\u0443\u043A\u043E\u043C. pickupProbe=item=carry-board source=[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-28.949999, 0.94274366, 1.8)] size=(0.32, 0.075, 1.8); path=direct; accepted=(-29.112587, 1.5545831, 1.6373198);",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "actual aimed take carry-log",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "supported local approach to lower ladder landing",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ladder refuses occupied hands without dropping or duplicating the carried thing",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-mechanisms-pristine",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "supported local approach to lower ladder landing",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "occupied upper landing refuses entry without moving the player",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary interact takes the actual fixed ladder",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "forward input physically advances the capsule up the ladder",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "modal suspends ladder motion",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "mid-ladder save is explicitly refused",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ladder movement finishes without a blocked or orphaned capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "cancel physically returns to the nearby supported landing",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "supported local approach to lower ladder landing",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "returned ladder can be entered again",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ladder movement finishes without a blocked or orphaned capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "complete ascent exits onto the real upper floor with head clearance",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "earned ascent alone does not inspect the roof repair",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "walk from the earned loft landing to the bolted roof repair by ordinary input, without placement or recovery; at (-20.516817, 1.9013324, -3.7108903), expected (-20.555555, 1.9408636, -3.7473671)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "walk from the earned loft landing to the bolted roof repair",
+      "from": "(-20.516817, 1.9013324, -3.7108903)",
+      "to": "(-20.516817, 1.9013324, -3.7108903)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "earned standing loft view reaches the actual roof repair ray",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "manual roof inspection gives its visible source once without advancing the investigation",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "return from the roof repair to the earned upper ladder landing by ordinary input, without placement or recovery; at (-20.516817, 1.9013324, -3.7108903), expected (-20.519154, 1.9408636, -3.7130904)",
+      "passed": true
+    },
+    {
+      "kind": "physical-local-walk",
+      "label": "return from the roof repair to the earned upper ladder landing",
+      "from": "(-20.516817, 1.9013324, -3.7108903)",
+      "to": "(-20.516817, 1.9013324, -3.7108903)",
+      "playerTeleports": 0,
+      "isHumanPlaytime": false
+    },
+    {
+      "kind": "check",
+      "label": "supported upper landing can be saved",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-mechanisms-pristine",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "restore yard-ladder-upper",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "upper save restores a supported ordinary player, not an orphaned traversal",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "loaded earned upper landing offers the real ladder without a position fixture",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "upper landing offers the return descent",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ladder movement finishes without a blocked or orphaned capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "backward input descends the same physical route to the lower landing",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "new kernel resets yard mechanics",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "New Game re-registers clean ownership",
+      "passed": true
+    }
+  ]
+}

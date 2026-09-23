@@ -14,6 +14,10 @@ public partial class SnowTrampleField : Node3D
     private const float FootLateralOffset = .09f;
     private const int HighResolution = 1024;
     private const int LowResolution = 512;
+    // A stamp refresh must never cost a dropped frame: huge terrain triangles
+    // stop subdividing at this cell count; centimetre detail lives in the mask.
+    private const int MaximumDivisions = 20;
+    private const int RefineEveryStamps = 2;
     private Image _mask = null!;
     private ImageTexture _texture = null!;
     private readonly List<(Vector2 Position, float Rotation, float Pack, float Height, float Depth)> _stamps = new();
@@ -25,6 +29,8 @@ public partial class SnowTrampleField : Node3D
     private int _footSide = 1;
     private int _transformRevision = -1;
     private int _totalStamps;
+    private int _pendingRefineStamps;
+    private int _refinedStampTotal;
     private bool _enabled = true;
     private bool _surfacesBound;
     private CpuParticles3D? _puffs;
@@ -117,7 +123,12 @@ public partial class SnowTrampleField : Node3D
         var started = System.Diagnostics.Stopwatch.GetTimestamp();
         Redraw(rebuild);
         var redrawn = System.Diagnostics.Stopwatch.GetTimestamp();
-        RefineGround(rebuild);
+        _pendingRefineStamps++;
+        if (rebuild || _pendingRefineStamps >= RefineEveryStamps)
+        {
+            RefineGround(rebuild);
+            _pendingRefineStamps = 0;
+        }
         SetMeta("snowTrampleRedrawMs", System.Diagnostics.Stopwatch.GetElapsedTime(started, redrawn).TotalMilliseconds);
         SetMeta("snowTrampleMeshMs", System.Diagnostics.Stopwatch.GetElapsedTime(redrawn).TotalMilliseconds);
         SetMeta("snowTrampleUpdateMs", System.Diagnostics.Stopwatch.GetElapsedTime(started).TotalMilliseconds);
@@ -292,7 +303,10 @@ public partial class SnowTrampleField : Node3D
                     var half = WindowExtent * .5f;
                     if (min.X > _windowCentre.X + half || max.X < _windowCentre.X - half
                         || min.Z > _windowCentre.Y + half || max.Z < _windowCentre.Y - half) continue;
-                    for (var stampIndex = reselect ? 0 : _stamps.Count - 1; stampIndex < _stamps.Count; stampIndex++)
+                    // Throttled refreshes leave several new stamps unscanned;
+                    // they were appended in order, so scan exactly that tail.
+                    var pending = Math.Min(_stamps.Count, _totalStamps - _refinedStampTotal);
+                    for (var stampIndex = reselect ? 0 : _stamps.Count - pending; stampIndex < _stamps.Count; stampIndex++)
                     {
                         var stamp = _stamps[stampIndex];
                         if (stamp.Position.X < min.X - .27f || stamp.Position.X > max.X + .27f
@@ -325,7 +339,7 @@ public partial class SnowTrampleField : Node3D
                     }
                     var a = data.Vertices[i0]; var b = data.Vertices[i1]; var c = data.Vertices[i2];
                     var edge = Mathf.Max((transform.Basis * (a - b)).Length(), Mathf.Max((transform.Basis * (b - c)).Length(), (transform.Basis * (c - a)).Length()));
-                    var divisions = Mathf.CeilToInt(edge / .06f);
+                    var divisions = Math.Min(MaximumDivisions, Mathf.CeilToInt(edge / .06f));
                     var first = vertices.Count;
                     int Index(int u, int v) => first + u * (divisions + 1) - u * (u - 1) / 2 + v;
                     for (var u = 0; u <= divisions; u++)
@@ -365,6 +379,7 @@ public partial class SnowTrampleField : Node3D
         }
         SetMeta("snowTrampleRebuiltTriangles", triangleCount);
         SetMeta("snowTrampleGeometry", string.Join(",", counts));
+        _refinedStampTotal = _totalStamps;
     }
 
     private static CpuParticles3D BuildPuffs()

@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_act1_visual_review_capture",
+  "captured_at_utc": "2026-09-22T14:07:05.5970430\u002B00:00",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / real 3D rendering device",
+  "production_scene": "res://scenes/main.tscn",
+  "root_viewport": true,
+  "subviewport_used": false,
+  "capture_process_count": 4,
+  "frame_count": 4,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "frames": [
+    {
+      "frame_id": "house_plaster_materials_high",
+      "zone": "house_interior",
+      "active_zone_id": "house_old_pc",
+      "spawn_point_id": "entry",
+      "graphics_preset": "high",
+      "scaling_3d_scale": 1,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0.5763603448867798,
+          "y": -0.31366822123527527,
+          "z": 0.7545999884605408
+        },
+        "up": {
+          "x": -0.19039462506771088,
+          "y": 0.949532687664032,
+          "z": 0.24927422404289246
+        },
+        "global_position": {
+          "x": -31.6342716217041,
+          "y": 2.3441522121429443,
+          "z": -4.653915882110596
+        },
+        "target": {
+          "x": -32.828636169433594,
+          "y": 1.6941522359848022,
+          "z": -3.090193748474121
+        }
+      },
+      "output": "house_plaster_materials_high.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "2ff60c68019ab113ab34b94cabd9f35f2df9d7d86e6b7c23ac9e6f3144909e4a"
+    },
+    {
+      "frame_id": "house_plaster_materials_low",
+      "zone": "house_interior",
+      "active_zone_id": "house_old_pc",
+      "spawn_point_id": "entry",
+      "graphics_preset": "low",
+      "scaling_3d_scale": 0.75,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0.5763603448867798,
+          "y": -0.31366822123527527,
+          "z": 0.7545999884605408
+        },
+        "up": {
+          "x": -0.19039462506771088,
+          "y": 0.949532687664032,
+          "z": 0.24927422404289246
+        },
+        "global_position": {
+          "x": -31.6342716217041,
+          "y": 2.3441522121429443,
+          "z": -4.653915882110596
+        },
+        "target": {
+          "x": -32.828636169433594,
+          "y": 1.6941522359848022,
+          "z": -3.090193748474121
+        }
+      },
+      "output": "house_plaster_materials_low.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "38e5cb1d01c487d4b36ef9b37aee05edc53dbe318630c5befa2198ee44d00bcd"
+    },
+    {
+      "frame_id": "house_table_materials_high",
+      "zone": "house_interior",
+      "active_zone_id": "house_old_pc",
+      "spawn_point_id": "entry",
+      "graphics_preset": "high",
+      "scaling_3d_scale": 1,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0.6017088890075684,
+          "y": -0.771572470664978,
+          "z": -0.2064516842365265
+        },
+        "up": {
+          "x": -0.7298094630241394,
+          "y": 0.6361414194107056,
+          "z": -0.25040411949157715
+        },
+        "global_position": {
+          "x": -31.067319869995117,
+          "y": 2.3441522121429443,
+          "z": -6.770628929138184
+        },
+        "target": {
+          "x": -31.753585815429688,
+          "y": 1.464152216911316,
+          "z": -7.0060930252075195
+        }
+      },
+      "output": "house_table_materials_high.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "e017d5ce474cac6844e1109beffcf4f4b3f2cda0eb7c373c01fd3d23d26f3166"
+    },
+    {
+      "frame_id": "house_table_materials_low",
+      "zone": "house_interior",
+      "active_zone_id": "house_old_pc",
+      "spawn_point_id": "entry",
+      "graphics_preset": "low",
+      "scaling_3d_scale": 0.75,
+      "crouching": false,
+      "camera": {
+        "forward": {
+          "x": -0.6017088890075684,
+          "y": -0.771572470664978,
+          "z": -0.2064516842365265
+        },
+        "up": {
+          "x": -0.7298094630241394,
+          "y": 0.6361414194107056,
+          "z": -0.25040411949157715
+        },
+        "global_position": {
+          "x": -31.067319869995117,
+          "y": 2.3441522121429443,
+          "z": -6.770628929138184
+        },
+        "target": {
+          "x": -31.753585815429688,
+          "y": 1.464152216911316,
+          "z": -7.0060930252075195
+        }
+      },
+      "output": "house_table_materials_low.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "889183c5b08c5f06739c952469a9b754d161c1a45ca845e50251eaf0f8fd13ce"
+    }
+  ]
+}

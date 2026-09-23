@@ -1,0 +1,7 @@
+xUnit.net v3 In-Process Runner v3.2.2+728c1dce01 (64-bit .NET 10.0.10)
+  Discovering: Urman.Core.Tests
+  Discovered:  Urman.Core.Tests
+  Starting:    Urman.Core.Tests
+  Finished:    Urman.Core.Tests (ID = '1f38de1bc529b50270406f09790a876793c7d632bffb99f33294b99ee7f24876')
+=== TEST EXECUTION SUMMARY ===
+   Urman.Core.Tests  Total: 1, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 0,098s

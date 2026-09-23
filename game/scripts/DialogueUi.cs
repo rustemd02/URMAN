@@ -120,6 +120,8 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         _node = node;
         _speaker.Text = SpeakerName(node.SpeakerRole);
         _line.Text = _bridge.ResolveText(node.TextId);
+        // ACT1-LANG.2: a heard line auto-collects unknown Tatar words.
+        _ = _bridge.ObserveVocabularyTextAsync(_line.Text, $"{_dialogue.Id}:{nodeId}");
         ClearChoices();
         foreach (var choice in node.Choices.Where(choice => _bridge.EvaluateConditions(choice.Conditions)))
         {

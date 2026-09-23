@@ -87,6 +87,7 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public override void _ExitTree()
     {
+        if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
         // AUDIO-010 hygiene: release the foley stream before teardown so a
         // still-playing sample cannot leak renderer resources at exit.
         if (_foley is not null)
@@ -115,7 +116,9 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         _readerVersion++;
         _excerpts.Clear();
+        if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
         _bridge = bridge;
+        _bridge.RuntimeStateChanged += OnRuntimeStateChanged;
         _screen.Visible = true;
         RestoreDesktop(bridge);
         _activeDocumentId = null;
@@ -144,6 +147,12 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
             RefreshResults();
         }
         FocusActiveDesktopWindow();
+    }
+
+    private void OnRuntimeStateChanged()
+    {
+        if (!IsInsideTree() || !_screen.Visible || _bridge?.SessionIdentity is null) return;
+        RefreshVocabulary();
     }
 
     private async void Search()
@@ -216,6 +225,8 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
             _status.Text = $"Мои документы · {SectionLabel(document.Section)}";
             _save.Disabled = false;
             RefreshResults();
+            // ACT1-LANG.2: an opened PC document auto-collects unknown words.
+            _ = bridge.ObserveVocabularyTextAsync(document.Title + "\n" + document.BodyMarkdown, documentId);
         }
         catch (Exception exception)
         {
@@ -310,6 +321,7 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         _screen.Visible = false;
         _excerpts.Clear();
         _images.SetImages(null);
+        if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
         _bridge = null;
         _activeDocumentId = null;
         SetPlayerModal(false);

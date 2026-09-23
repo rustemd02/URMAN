@@ -86,3 +86,22 @@ graphify-out/.rebuild.lock
 
 # Packed hay retains its authored-UV mipmaps and bounded import resolution.
 !game/assets/textures/painterly/hay_fibers_v1_albedo.png.import
+
+# Selected catalogue TILE candidates keep their mipmaps and 1024 import cap.
+!game/assets/textures/painterly/urman_w01_v01_basecolor.png.import
+!game/assets/textures/painterly/urman_w03_v01_basecolor.png.import
+!game/assets/textures/painterly/urman_w04_v02_basecolor.png.import
+!game/assets/textures/painterly/urman_w09_v01_basecolor.png.import
+!game/assets/textures/painterly/urman_s01_v01_basecolor.png.import
+!game/assets/textures/painterly/urman_s02_v02_basecolor.png.import
+!game/assets/textures/painterly/urman_f01_v03_basecolor.png.import
+!game/assets/textures/painterly/urman_f02_v02_basecolor.png.import
+!game/assets/textures/painterly/urman_b01_v01_basecolor.png.import
+!game/assets/textures/painterly/urman_t01_v02_basecolor.png.import
+!game/assets/textures/painterly/urman_t04_v01_basecolor.png.import
+!game/assets/textures/painterly/urman_b03_v01_basecolor.png.import
+!game/assets/textures/painterly/urman_b04_v01_basecolor.png.import
+!game/assets/textures/painterly/urman_m05_v01_basecolor.png.import
+!game/assets/textures/painterly/urman_t10_v02_basecolor.png.import
+!game/assets/textures/painterly/urman_t08_v01_basecolor.png.import
+!game/assets/textures/painterly/urman_w08_v01_basecolor.png.import

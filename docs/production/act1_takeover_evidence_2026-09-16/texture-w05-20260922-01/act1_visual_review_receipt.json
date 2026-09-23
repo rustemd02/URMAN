@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_act1_visual_review_capture",
+  "captured_at_utc": "2026-09-22T16:41:37.0984910\u002B00:00",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / real 3D rendering device",
+  "production_scene": "res://scenes/main.tscn",
+  "root_viewport": true,
+  "subviewport_used": false,
+  "capture_process_count": 3,
+  "frame_count": 3,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "frames": [
+    {
+      "frame_id": "house_exterior_trim_high",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "graphics_preset": "high",
+      "scaling_3d_scale": 1,
+      "crouching": true,
+      "camera": {
+        "forward": {
+          "x": -0.8448982834815979,
+          "y": 0.35631752014160156,
+          "z": -0.3989796042442322
+        },
+        "up": {
+          "x": 0.32219967246055603,
+          "y": 0.934364914894104,
+          "z": 0.15214979648590088
+        },
+        "global_position": {
+          "x": -24.17234230041504,
+          "y": 1.416369915008545,
+          "z": -5.156779766082764
+        },
+        "target": {
+          "x": -25.637224197387695,
+          "y": 2.0341522693634033,
+          "z": -5.848529815673828
+        }
+      },
+      "output": "house_exterior_trim_high.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "600494008e536f37bdc8afc7b4e97ec77d612c2e1c588e66ea73211a6c726dde"
+    },
+    {
+      "frame_id": "house_exterior_trim_low",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "graphics_preset": "low",
+      "scaling_3d_scale": 0.75,
+      "crouching": true,
+      "camera": {
+        "forward": {
+          "x": -0.8448982834815979,
+          "y": 0.35631752014160156,
+          "z": -0.3989796042442322
+        },
+        "up": {
+          "x": 0.32219967246055603,
+          "y": 0.934364914894104,
+          "z": 0.15214979648590088
+        },
+        "global_position": {
+          "x": -24.17234230041504,
+          "y": 1.416369915008545,
+          "z": -5.156779766082764
+        },
+        "target": {
+          "x": -25.637224197387695,
+          "y": 2.0341522693634033,
+          "z": -5.848529815673828
+        }
+      },
+      "output": "house_exterior_trim_low.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "400764661a2f8b7c3609ef4c70e1d45c9d6b4ee8dffff6a9b1833e20f7cfc5f7"
+    },
+    {
+      "frame_id": "house_exterior_trim_street_high",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "graphics_preset": "high",
+      "scaling_3d_scale": 1,
+      "crouching": true,
+      "camera": {
+        "forward": {
+          "x": -0.8851398825645447,
+          "y": 0.20449483394622803,
+          "z": -0.41798242926597595
+        },
+        "up": {
+          "x": 0.18491420149803162,
+          "y": 0.9788676500320435,
+          "z": 0.08732053637504578
+        },
+        "global_position": {
+          "x": -22.90639305114746,
+          "y": 1.403245210647583,
+          "z": -4.558970928192139
+        },
+        "target": {
+          "x": -25.637224197387695,
+          "y": 2.0341522693634033,
+          "z": -5.848529815673828
+        }
+      },
+      "output": "house_exterior_trim_street_high.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "af864ad54f8faa3dd137602236c2d9e55886dfae25a1ebcb91ecafcb75a8c91b"
+    }
+  ]
+}

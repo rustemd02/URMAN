@@ -46,6 +46,14 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private bool _headBob;
     private string _graphicsPreset = "medium";
     private string _inputDevice = "keyboard-mouse";
+    /// <summary>ACT1-LANG.5: chosen starting Tatar knowledge level (none/some/fluent).</summary>
+    public string TatarLanguageLevel
+    {
+        get => _tatarLanguageLevel;
+        set => _tatarLanguageLevel = NormalizeTatarLanguageLevel(value);
+    }
+
+    private string _tatarLanguageLevel = "none";
     private string _keyboardInteractionHint = "[E]";
     private string _gamepadInteractionHint = "[A]";
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
@@ -240,17 +248,23 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         InputDevice: _inputDevice,
         InputBindings: InputBindingService.Capture())
     {
-        Accessibility = _accessibility
+        Accessibility = _accessibility,
+        TatarLanguageLevel = TatarLanguageLevel
     };
 
     public void ApplySettings(GameSettingsSnapshot settings)
     {
+        var tatarLanguageLevel = NormalizeTatarLanguageLevel(settings.TatarLanguageLevel);
         _camera.Fov = (float)Mathf.Clamp(settings.FieldOfView, 65, 90);
         MouseSensitivity = (float)settings.MouseSensitivity;
         _motionBlur = settings.MotionBlur;
         _headBob = settings.HeadBob;
         _graphicsPreset = settings.GraphicsPreset;
         _inputDevice = settings.InputDevice;
+        // ACT1-LANG.5: this is a profile choice only. RuntimeBridge reads it
+        // while creating the next New Game; applying settings never reseeds
+        // the vocabulary in the active session.
+        TatarLanguageLevel = tatarLanguageLevel;
         _accessibility = settings.Accessibility ?? AccessibilitySettingsSnapshot.Default;
         InputBindingService.Apply(settings.InputBindings);
         RefreshInteractionHints();
@@ -258,8 +272,15 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         AccessibilityPresentation.ApplyToTree(GetTree(), _accessibility);
         // UIUX-007: the latest applied preferences persist for the next cold
         // launch, independent of any story save slot.
-        UserSettingsStore.Save(settings);
+        UserSettingsStore.Save(settings with { TatarLanguageLevel = tatarLanguageLevel });
     }
+
+    private static string NormalizeTatarLanguageLevel(string? value) => value?.Trim().ToLowerInvariant() switch
+    {
+        "some" => "some",
+        "fluent" => "fluent",
+        _ => "none"
+    };
 
     public override void _UnhandledInput(InputEvent inputEvent)
     {

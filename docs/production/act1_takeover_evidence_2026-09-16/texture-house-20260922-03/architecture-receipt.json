@@ -1,0 +1,1526 @@
+{
+  "scope": "house",
+  "checks": [
+    {
+      "kind": "occupied-terrain-publication-before-movement",
+      "sameCount": true,
+      "maximumError": 0,
+      "visualVertices": 49980,
+      "physicalVertices": 49980
+    },
+    {
+      "kind": "occupied-terrain-raw-buffer-to-physics",
+      "rawVertices": 49980,
+      "physicalVertices": 49980,
+      "rawSameCount": true,
+      "rawPhysicsError": 8.3188614E-05,
+      "engineSnapError": 0,
+      "managedSnapError": 0.00014026472,
+      "snapDifferences": [
+        {
+          "faceVertexIndex": 10513,
+          "raw": {
+            "x": 61.91485,
+            "y": 3.266333,
+            "z": -98.08725
+          },
+          "published": {
+            "x": 61.9148,
+            "y": 3.2663,
+            "z": -98.087296
+          },
+          "nativeExpected": {
+            "x": 61.9148,
+            "y": 3.2663,
+            "z": -98.087296
+          },
+          "managedFloatExpected": {
+            "x": 61.914898,
+            "y": 3.2663,
+            "z": -98.0872
+          },
+          "nativeError": 0,
+          "managedFloatError": 0.00014026472
+        },
+        {
+          "faceVertexIndex": 10517,
+          "raw": {
+            "x": 61.91485,
+            "y": 3.266333,
+            "z": -98.08725
+          },
+          "published": {
+            "x": 61.9148,
+            "y": 3.2663,
+            "z": -98.087296
+          },
+          "nativeExpected": {
+            "x": 61.9148,
+            "y": 3.2663,
+            "z": -98.087296
+          },
+          "managedFloatExpected": {
+            "x": 61.914898,
+            "y": 3.2663,
+            "z": -98.0872
+          },
+          "nativeError": 0,
+          "managedFloatError": 0.00014026472
+        },
+        {
+          "faceVertexIndex": 10520,
+          "raw": {
+            "x": 61.91485,
+            "y": 3.266333,
+            "z": -98.08725
+          },
+          "published": {
+            "x": 61.9148,
+            "y": 3.2663,
+            "z": -98.087296
+          },
+          "nativeExpected": {
+            "x": 61.9148,
+            "y": 3.2663,
+            "z": -98.087296
+          },
+          "managedFloatExpected": {
+            "x": 61.914898,
+            "y": 3.2663,
+            "z": -98.0872
+          },
+          "nativeError": 0,
+          "managedFloatError": 0.00014026472
+        },
+        {
+          "faceVertexIndex": 10906,
+          "raw": {
+            "x": 61.91485,
+            "y": 3.266333,
+            "z": -98.08725
+          },
+          "published": {
+            "x": 61.9148,
+            "y": 3.2663,
+            "z": -98.087296
+          },
+          "nativeExpected": {
+            "x": 61.9148,
+            "y": 3.2663,
+            "z": -98.087296
+          },
+          "managedFloatExpected": {
+            "x": 61.914898,
+            "y": 3.2663,
+            "z": -98.0872
+          },
+          "nativeError": 0,
+          "managedFloatError": 0.00014026472
+        },
+        {
+          "faceVertexIndex": 10908,
+          "raw": {
+            "x": 61.91485,
+            "y": 3.266333,
+            "z": -98.08725
+          },
+          "published": {
+            "x": 61.9148,
+            "y": 3.2663,
+            "z": -98.087296
+          },
+          "nativeExpected": {
+            "x": 61.9148,
+            "y": 3.2663,
+            "z": -98.087296
+          },
+          "managedFloatExpected": {
+            "x": 61.914898,
+            "y": 3.2663,
+            "z": -98.0872
+          },
+          "nativeError": 0,
+          "managedFloatError": 0.00014026472
+        },
+        {
+          "faceVertexIndex": 10911,
+          "raw": {
+            "x": 61.91485,
+            "y": 3.266333,
+            "z": -98.08725
+          },
+          "published": {
+            "x": 61.9148,
+            "y": 3.2663,
+            "z": -98.087296
+          },
+          "nativeExpected": {
+            "x": 61.9148,
+            "y": 3.2663,
+            "z": -98.087296
+          },
+          "managedFloatExpected": {
+            "x": 61.914898,
+            "y": 3.2663,
+            "z": -98.0872
+          },
+          "nativeError": 0,
+          "managedFloatError": 0.00014026472
+        },
+        {
+          "faceVertexIndex": 76,
+          "raw": {
+            "x": -38.024734,
+            "y": 7.069134,
+            "z": -151.82695
+          },
+          "published": {
+            "x": -38.0247,
+            "y": 7.0691,
+            "z": -151.827
+          },
+          "nativeExpected": {
+            "x": -38.0247,
+            "y": 7.0691,
+            "z": -151.827
+          },
+          "managedFloatExpected": {
+            "x": -38.0247,
+            "y": 7.0691,
+            "z": -151.82689
+          },
+          "nativeError": 0,
+          "managedFloatError": 0.00010681152
+        },
+        {
+          "faceVertexIndex": 78,
+          "raw": {
+            "x": -38.024734,
+            "y": 7.069134,
+            "z": -151.82695
+          },
+          "published": {
+            "x": -38.0247,
+            "y": 7.0691,
+            "z": -151.827
+          },
+          "nativeExpected": {
+            "x": -38.0247,
+            "y": 7.0691,
+            "z": -151.827
+          },
+          "managedFloatExpected": {
+            "x": -38.0247,
+            "y": 7.0691,
+            "z": -151.82689
+          },
+          "nativeError": 0,
+          "managedFloatError": 0.00010681152
+        },
+        {
+          "faceVertexIndex": 81,
+          "raw": {
+            "x": -38.024734,
+            "y": 7.069134,
+            "z": -151.82695
+          },
+          "published": {
+            "x": -38.0247,
+            "y": 7.0691,
+            "z": -151.827
+          },
+          "nativeExpected": {
+            "x": -38.0247,
+            "y": 7.0691,
+            "z": -151.827
+          },
+          "managedFloatExpected": {
+            "x": -38.0247,
+            "y": 7.0691,
+            "z": -151.82689
+          },
+          "nativeError": 0,
+          "managedFloatError": 0.00010681152
+        },
+        {
+          "faceVertexIndex": 121,
+          "raw": {
+            "x": -21.997097,
+            "y": 6.5142703,
+            "z": -150.13855
+          },
+          "published": {
+            "x": -21.997099,
+            "y": 6.5143,
+            "z": -150.1386
+          },
+          "nativeExpected": {
+            "x": -21.997099,
+            "y": 6.5143,
+            "z": -150.1386
+          },
+          "managedFloatExpected": {
+            "x": -21.997099,
+            "y": 6.5143,
+            "z": -150.13849
+          },
+          "nativeError": 0,
+          "managedFloatError": 0.00010681152
+        },
+        {
+          "faceVertexIndex": 125,
+          "raw": {
+            "x": -21.997097,
+            "y": 6.5142703,
+            "z": -150.13855
+          },
+          "published": {
+            "x": -21.997099,
+            "y": 6.5143,
+            "z": -150.1386
+          },
+          "nativeExpected": {
+            "x": -21.997099,
+            "y": 6.5143,
+            "z": -150.1386
+          },
+          "managedFloatExpected": {
+            "x": -21.997099,
+            "y": 6.5143,
+            "z": -150.13849
+          },
+          "nativeError": 0,
+          "managedFloatError": 0.00010681152
+        },
+        {
+          "faceVertexIndex": 128,
+          "raw": {
+            "x": -21.997097,
+            "y": 6.5142703,
+            "z": -150.13855
+          },
+          "published": {
+            "x": -21.997099,
+            "y": 6.5143,
+            "z": -150.1386
+          },
+          "nativeExpected": {
+            "x": -21.997099,
+            "y": 6.5143,
+            "z": -150.1386
+          },
+          "managedFloatExpected": {
+            "x": -21.997099,
+            "y": 6.5143,
+            "z": -150.13849
+          },
+          "nativeError": 0,
+          "managedFloatError": 0.00010681152
+        }
+      ],
+      "engineCommit": "a13da4feb8d8aefc283c3763d33a2f170a18d541",
+      "triangleMeshSnapMeters": 0.0001,
+      "nativeFormula": "float(floor(double(component) / double(float(0.0001)) \u002B 0.5) * double(float(0.0001)))"
+    },
+    {
+      "kind": "occupied-terrain-physics-after-refinement",
+      "physicsCountUnchanged": true,
+      "physicsChange": 0
+    },
+    {
+      "kind": "occupied-terrain-refined-surface-coverage",
+      "physicalTriangles": 16660,
+      "visibleTriangles": 16660,
+      "unmatched": 0,
+      "reversed": 0,
+      "collapsed": 0,
+      "undercovered": 0,
+      "overcovered": 0,
+      "maximumHeightError": 0,
+      "maximumAreaError": 0,
+      "unmatchedDetails": [],
+      "areaDetails": [],
+      "measuredFrom": "original and refined SurfaceGetArrays vertex/index buffers, without TriangleMesh snapping",
+      "scope": "CPU per-face containment, plane, winding and area plus source-reviewed deterministic subdivision; original physics is separately checked unchanged; bounded snow shader displacement is presentation-only"
+    },
+    {
+      "kind": "occupied-apron-exterior-preserved",
+      "samples": 433,
+      "missing": 0,
+      "maximumError": 7.593632E-05,
+      "surfaceCountUnchanged": true,
+      "materialUnchanged": true,
+      "uvPresenceUnchanged": true,
+      "comparison": "actual pre-cut imported resource against the published mesh at exterior ray-grid locations"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.8,
+        -3.3
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.8,
+        0
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.8,
+        3.3
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        0,
+        -3.3
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        0,
+        0
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        0,
+        3.3
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        3.8,
+        -3.3
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        3.8,
+        0
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        3.8,
+        3.3
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.8,
+        -3.15
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.8,
+        -2.75
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.8,
+        -2.35
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.8,
+        -1.95
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.5,
+        -3.15
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.5,
+        -2.75
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.5,
+        -2.35
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.5,
+        -1.95
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.2,
+        -3.15
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.2,
+        -2.75
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.2,
+        -2.35
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-floor-exterior-clearance",
+      "local": [
+        -3.2,
+        -1.95
+      ],
+      "floorFound": true,
+      "terrainInside": false,
+      "apronInside": false,
+      "capInside": false,
+      "coveringLayers": [],
+      "firstGroundSurface": "/root/Act1BoundaryArchitectureSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor/Visible",
+      "scope": "all visible terrain-road kit layers plus foundation; furniture is checked separately"
+    },
+    {
+      "kind": "occupied-footprint-exterior-preserved",
+      "point": {
+        "x": -34.42489,
+        "y": 0.5941522,
+        "z": -3.4569166
+      },
+      "expected": 0.77895945,
+      "actual": {
+        "x": -34.42489,
+        "y": 0.7789739,
+        "z": -3.4569166
+      },
+      "found": true,
+      "error": 1.4424324E-05
+    },
+    {
+      "kind": "occupied-footprint-exterior-preserved",
+      "point": {
+        "x": -31.531292,
+        "y": 0.5941522,
+        "z": -2.0904968
+      },
+      "expected": 0.30865544,
+      "actual": {
+        "x": -31.531292,
+        "y": 0.30867845,
+        "z": -2.0904968
+      },
+      "found": true,
+      "error": 2.3007393E-05
+    },
+    {
+      "kind": "occupied-footprint-exterior-preserved",
+      "point": {
+        "x": -28.637695,
+        "y": 0.5941522,
+        "z": -0.72407675
+      },
+      "expected": 0.19605955,
+      "actual": {
+        "x": -28.637695,
+        "y": 0.19602299,
+        "z": -0.72407675
+      },
+      "found": true,
+      "error": 3.656745E-05
+    },
+    {
+      "kind": "occupied-footprint-exterior-preserved",
+      "point": {
+        "x": -30.709934,
+        "y": 0.5941522,
+        "z": -11.323881
+      },
+      "expected": 0.7131029,
+      "actual": {
+        "x": -30.709934,
+        "y": 0.7131029,
+        "z": -11.323881
+      },
+      "found": true,
+      "error": 0
+    },
+    {
+      "kind": "occupied-footprint-exterior-preserved",
+      "point": {
+        "x": -27.816338,
+        "y": 0.5941522,
+        "z": -9.95746
+      },
+      "expected": 0.57034606,
+      "actual": {
+        "x": -27.816338,
+        "y": 0.5703701,
+        "z": -9.95746
+      },
+      "found": true,
+      "error": 2.4020672E-05
+    },
+    {
+      "kind": "occupied-footprint-exterior-preserved",
+      "point": {
+        "x": -24.92274,
+        "y": 0.5941522,
+        "z": -8.591041
+      },
+      "expected": 0.40700424,
+      "actual": {
+        "x": -24.92274,
+        "y": 0.407022,
+        "z": -8.591041
+      },
+      "found": true,
+      "error": 1.7762184E-05
+    },
+    {
+      "kind": "occupied-footprint-exterior-preserved",
+      "point": {
+        "x": -33.155174,
+        "y": 0.5941522,
+        "z": -7.6679525
+      },
+      "expected": 0.8443565,
+      "actual": {
+        "x": -33.155174,
+        "y": 0.8443683,
+        "z": -7.6679525
+      },
+      "found": true,
+      "error": 1.180172E-05
+    },
+    {
+      "kind": "occupied-footprint-exterior-preserved",
+      "point": {
+        "x": -26.192457,
+        "y": 0.5941522,
+        "z": -4.380005
+      },
+      "expected": 0.40120366,
+      "actual": {
+        "x": -26.192457,
+        "y": 0.40121365,
+        "z": -4.380005
+      },
+      "found": true,
+      "error": 9.983778E-06
+    },
+    {
+      "kind": "occupied-terrain-shared-geometry",
+      "sameCount": true,
+      "maximumError": 0,
+      "comparisonUnavailable": null,
+      "visualVertices": 49980,
+      "physicalVertices": 49980,
+      "triangles": 16660,
+      "clippedVertices": 49980,
+      "publishedVertices": 49980,
+      "shapeVerticesAfterSet": 49980
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "FrontWallPier0",
+      "innerClearance": 0.0020015794,
+      "outerClearance": 0.0019998038,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "FrontWallHead0",
+      "innerClearance": 0.0019994983,
+      "outerClearance": 0.0019994476,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "FrontWallPier1",
+      "innerClearance": 0.002001325,
+      "outerClearance": 0.0019996003,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "FrontWallSill1",
+      "innerClearance": 0.002001325,
+      "outerClearance": 0.0019996003,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "FrontWallHead1",
+      "innerClearance": 0.002001325,
+      "outerClearance": 0.0019996003,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "FrontWallPier2",
+      "innerClearance": 0.0020014266,
+      "outerClearance": 0.0019994983,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "FrontWallSill2",
+      "innerClearance": 0.0019994983,
+      "outerClearance": 0.0019994983,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "FrontWallHead2",
+      "innerClearance": 0.0019994983,
+      "outerClearance": 0.0019994983,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "FrontWallPier3",
+      "innerClearance": 0.0020014266,
+      "outerClearance": 0.0019994983,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "FrontWallSill3",
+      "innerClearance": 0.0019994983,
+      "outerClearance": 0.0019994983,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "FrontWallHead3",
+      "innerClearance": 0.0019994983,
+      "outerClearance": 0.0019994983,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "FrontWallPier4",
+      "innerClearance": 0.0020016304,
+      "outerClearance": 0.0019999058,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "BackWallPier0",
+      "innerClearance": 0.0019962527,
+      "outerClearance": 0.0019994983,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "BackWallSill0",
+      "innerClearance": 0.0020001093,
+      "outerClearance": 0.0020001093,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "BackWallHead0",
+      "innerClearance": 0.0020001093,
+      "outerClearance": 0.0020001093,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "BackWallPier1",
+      "innerClearance": 0.0019960492,
+      "outerClearance": 0.0019994983,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "BackWallSill1",
+      "innerClearance": 0.0019994983,
+      "outerClearance": 0.001998181,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "BackWallHead1",
+      "innerClearance": 0.0019994983,
+      "outerClearance": 0.001998181,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "BackWallPier2",
+      "innerClearance": 0.001998181,
+      "outerClearance": 0.001998181,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "LeftWallPier0",
+      "innerClearance": 0.0019980613,
+      "outerClearance": 0.0019994746,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "LeftWallSill0",
+      "innerClearance": 0.0020001214,
+      "outerClearance": 0.0019990914,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "LeftWallHead0",
+      "innerClearance": 0.0020001214,
+      "outerClearance": 0.0019990914,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "LeftWallPier1",
+      "innerClearance": 0.0019994746,
+      "outerClearance": 0.0020000734,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "RightWallPier0",
+      "innerClearance": 0.0020016304,
+      "outerClearance": 0.0020024928,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "RightWallSill0",
+      "innerClearance": 0.0020024448,
+      "outerClearance": 0.0020007682,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "RightWallHead0",
+      "innerClearance": 0.0020024448,
+      "outerClearance": 0.0020007682,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-wall-finish-clearance",
+      "wall": "RightWallPier1",
+      "innerClearance": 0.0020007682,
+      "outerClearance": 0.0020015826,
+      "measured": "actual rendered triangles from both sides; every room wall segment"
+    },
+    {
+      "kind": "hero-window-alignment",
+      "window": "Front0",
+      "interior": {
+        "x": -26.844772,
+        "y": 2.0341523,
+        "z": -3.7480354
+      },
+      "exterior": {
+        "x": -26.844772,
+        "y": 2.0341523,
+        "z": -3.7480342
+      },
+      "error": 1.1920929E-06
+    },
+    {
+      "kind": "hero-window-alignment",
+      "window": "Front1",
+      "interior": {
+        "x": -26.05481,
+        "y": 2.0341523,
+        "z": -5.4208956
+      },
+      "exterior": {
+        "x": -26.05481,
+        "y": 2.0341523,
+        "z": -5.4208965
+      },
+      "error": 9.536743E-07
+    },
+    {
+      "kind": "hero-window-alignment",
+      "window": "Front2",
+      "interior": {
+        "x": -25.264849,
+        "y": 2.0341523,
+        "z": -7.0937557
+      },
+      "exterior": {
+        "x": -25.264849,
+        "y": 2.0341523,
+        "z": -7.0937552
+      },
+      "error": 4.7683716E-07
+    },
+    {
+      "kind": "hero-window-alignment",
+      "window": "Rear0",
+      "interior": {
+        "x": -33.954678,
+        "y": 2.0341523,
+        "z": -5.2254763
+      },
+      "exterior": {
+        "x": -33.954678,
+        "y": 2.0341523,
+        "z": -5.225478
+      },
+      "error": 1.9073486E-06
+    },
+    {
+      "kind": "hero-window-alignment",
+      "window": "Rear1",
+      "interior": {
+        "x": -31.776947,
+        "y": 2.0341523,
+        "z": -9.837145
+      },
+      "exterior": {
+        "x": -31.776947,
+        "y": 2.0341523,
+        "z": -9.837145
+      },
+      "error": 0
+    },
+    {
+      "kind": "hero-window-alignment",
+      "window": "Left0",
+      "interior": {
+        "x": -30.8521,
+        "y": 2.0341523,
+        "z": -2.123653
+      },
+      "exterior": {
+        "x": -30.8521,
+        "y": 2.0341523,
+        "z": -2.123653
+      },
+      "error": 0
+    },
+    {
+      "kind": "hero-window-alignment",
+      "window": "Right0",
+      "interior": {
+        "x": -27.139156,
+        "y": 2.0341523,
+        "z": -9.283795
+      },
+      "exterior": {
+        "x": -27.139156,
+        "y": 2.0341523,
+        "z": -9.283794
+      },
+      "error": 9.536743E-07
+    },
+    {
+      "kind": "hero-house-contract",
+      "clearWidth": 8,
+      "clearDepth": 7,
+      "roomOrigin": {
+        "x": -29.673815,
+        "y": 0.5941522,
+        "z": -6.0239787
+      },
+      "rotation": {
+        "x": -0,
+        "y": 64.72228,
+        "z": 0
+      },
+      "unchangedFurnitureMembers": 92,
+      "chimneyHorizontalError": 2.3841858E-07
+    },
+    {
+      "kind": "daybed-orientation",
+      "back": {
+        "x": 3.749999,
+        "y": 0.80999994,
+        "z": 0.44999886
+      },
+      "seat": {
+        "x": 3.0500011,
+        "y": 0.5899999,
+        "z": 0.45000076
+      },
+      "facesRoom": true,
+      "artReview": "requires-current-game-frame"
+    },
+    {
+      "kind": "hero-window-presentation",
+      "window": "Front0",
+      "transparentSheet": true,
+      "closedContact": true,
+      "exteriorBackingsSuppressed": true,
+      "artReview": "not-proven-by-this-check"
+    },
+    {
+      "kind": "hero-window-presentation",
+      "window": "Front1",
+      "transparentSheet": true,
+      "closedContact": true,
+      "exteriorBackingsSuppressed": true,
+      "artReview": "not-proven-by-this-check"
+    },
+    {
+      "kind": "hero-window-presentation",
+      "window": "Front2",
+      "transparentSheet": true,
+      "closedContact": true,
+      "exteriorBackingsSuppressed": true,
+      "artReview": "not-proven-by-this-check"
+    },
+    {
+      "kind": "hero-window-presentation",
+      "window": "Rear0",
+      "transparentSheet": true,
+      "closedContact": true,
+      "exteriorBackingsSuppressed": true,
+      "artReview": "not-proven-by-this-check"
+    },
+    {
+      "kind": "hero-window-presentation",
+      "window": "Rear1",
+      "transparentSheet": true,
+      "closedContact": true,
+      "exteriorBackingsSuppressed": true,
+      "artReview": "not-proven-by-this-check"
+    },
+    {
+      "kind": "hero-window-presentation",
+      "window": "Left0",
+      "transparentSheet": true,
+      "closedContact": true,
+      "exteriorBackingsSuppressed": true,
+      "artReview": "not-proven-by-this-check"
+    },
+    {
+      "kind": "hero-window-presentation",
+      "window": "Right0",
+      "transparentSheet": true,
+      "closedContact": true,
+      "exteriorBackingsSuppressed": true,
+      "artReview": "not-proven-by-this-check"
+    },
+    {
+      "kind": "camera",
+      "label": "hero_house_entry",
+      "position": {
+        "x": -28.862183,
+        "y": 2.2943087,
+        "z": -2.6583433
+      },
+      "rotation": {
+        "x": -0,
+        "y": 20.47297,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "entrance-lane",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": -2.0619183,
+        "y": 0.00015628338,
+        "z": 1.3847065
+      }
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "mansur-approach",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": 0.68691874,
+        "y": 0.00015628338,
+        "z": 1.776741
+      }
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "room-middle",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": 0.13812733,
+        "y": 0.00015628338,
+        "z": -0.53910637
+      }
+    },
+    {
+      "kind": "camera",
+      "label": "hero_house_wall_front",
+      "position": {
+        "x": -29.94136,
+        "y": 2.2943087,
+        "z": -6.298511
+      },
+      "rotation": {
+        "x": -5.4227233,
+        "y": -116.59112,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "camera",
+      "label": "hero_house_wall_back",
+      "position": {
+        "x": -30.268213,
+        "y": 2.2943087,
+        "z": -6.448936
+      },
+      "rotation": {
+        "x": -7.2540646,
+        "y": 67.165276,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "camera",
+      "label": "hero_house_wall_left",
+      "position": {
+        "x": -30.150131,
+        "y": 2.2943087,
+        "z": -6.205549
+      },
+      "rotation": {
+        "x": -5.452043,
+        "y": 164.59619,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "camera",
+      "label": "hero_house_wall_right",
+      "position": {
+        "x": -30.00574,
+        "y": 2.2943087,
+        "z": -6.530978
+      },
+      "rotation": {
+        "x": -5.6137366,
+        "y": -32.449364,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "pc-approach",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": 0.107319355,
+        "y": 0.00015628338,
+        "z": -1.2751293
+      }
+    },
+    {
+      "kind": "camera",
+      "label": "hero_house_reverse",
+      "position": {
+        "x": -30.703848,
+        "y": 2.2943087,
+        "z": -6.5028954
+      },
+      "rotation": {
+        "x": -0,
+        "y": -154.61137,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "rinat-approach",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": 1.3442674,
+        "y": 0.00015628338,
+        "z": -1.4304466
+      }
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "pc-return",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": 0.22029972,
+        "y": 0.00015628338,
+        "z": -0.77062225
+      }
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "gulsina-approach",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": -1.6182871,
+        "y": 0.00015628338,
+        "z": 0.55503464
+      }
+    },
+    {
+      "kind": "camera",
+      "label": "hero_house_photo_corner",
+      "position": {
+        "x": -30.041042,
+        "y": 2.2943087,
+        "z": -4.297549
+      },
+      "rotation": {
+        "x": -16.469885,
+        "y": 98.335075,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "stove-front",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": -1.8691597,
+        "y": 0.00081783533,
+        "z": -1.0177059
+      }
+    },
+    {
+      "kind": "camera",
+      "label": "hero_house_stove_support",
+      "position": {
+        "x": -31.396532,
+        "y": 2.29497,
+        "z": -4.588413
+      },
+      "rotation": {
+        "x": -0,
+        "y": 178.62662,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "photo-approach-turn",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": -2.428996,
+        "y": 0.00081783533,
+        "z": -1.4965096
+      }
+    },
+    {
+      "kind": "camera",
+      "label": "hero_house_photo_corner_floor",
+      "position": {
+        "x": -32.236458,
+        "y": 2.29497,
+        "z": -4.4142723
+      },
+      "rotation": {
+        "x": -45.672413,
+        "y": 106.89442,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "photo-approach",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": -2.7052298,
+        "y": 0.00081783533,
+        "z": -2.3600445
+      }
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "return-from-photo",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": -2.5804977,
+        "y": 0.00081783533,
+        "z": -1.749321
+      }
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "return-to-room",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": -2.0276709,
+        "y": 0.00081783533,
+        "z": -1.2624397
+      }
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "room-return",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": -0.04769659,
+        "y": 0.00094109774,
+        "z": 0.22238922
+      }
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "entry-return",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": -1.7926912,
+        "y": 0.00094109774,
+        "z": 1.1650238
+      }
+    },
+    {
+      "kind": "hero-room-controller-approach",
+      "label": "exit-approach",
+      "reached": true,
+      "actualLocalPosition": {
+        "x": -2.7065077,
+        "y": 0.00094109774,
+        "z": 2.1722603
+      }
+    },
+    {
+      "kind": "hero-room-wall-push",
+      "label": "closed-exit",
+      "actual": {
+        "x": -2.8223982,
+        "y": 0.00015628338,
+        "z": 3.1898441
+      },
+      "stopped": true
+    },
+    {
+      "kind": "hero-room-wall-push",
+      "label": "right-wall",
+      "actual": {
+        "x": 3.639999,
+        "y": 0.00046879053,
+        "z": 2.6499996
+      },
+      "stopped": true
+    },
+    {
+      "kind": "camera",
+      "label": "hero_house_window_close",
+      "position": {
+        "x": -26.335241,
+        "y": 1.5739238,
+        "z": -7.471948
+      },
+      "rotation": {
+        "x": 15.504443,
+        "y": -110.52338,
+        "z": 0
+      },
+      "fieldOfView": 75,
+      "preset": "medium",
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "failures": [],
+  "physicallyWalkedMeters": 22.464788,
+  "humanPlaytest": false
+}

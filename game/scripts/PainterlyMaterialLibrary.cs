@@ -33,6 +33,9 @@ public static class PainterlyMaterialLibrary
         // preserves local Y as the vertical fiber axis on both side faces.
         // Lighting, weather and snow continue to use the world-space varyings.
         uniform bool local_wood_texture = false;
+        uniform bool local_floor_texture = false;
+        // W02 rails are authored along local Z; map that length to texture V.
+        uniform bool local_fence_rail = false;
         uniform vec3 local_wood_offset = vec3(0.0);
         // Packed hay already has a continuous circumferential/vertical UV
         // layout; preserve it instead of projecting fibers through the stack.
@@ -118,8 +121,10 @@ public static class PainterlyMaterialLibrary
         }
 
         void vertex() {
-            local_wood_position = (VERTEX + local_wood_offset).zyx;
-            local_wood_normal = NORMAL.zyx;
+            local_wood_position = local_fence_rail ? VERTEX.xzy
+                : (local_floor_texture ? VERTEX : (VERTEX + local_wood_offset).zyx);
+            local_wood_normal = local_fence_rail ? NORMAL.xzy
+                : (local_floor_texture ? NORMAL : NORMAL.zyx);
             world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
             world_normal = normalize(MODEL_NORMAL_MATRIX * NORMAL);
             // Ground microrelief is normal detail: its sub-centimetre height
@@ -174,8 +179,8 @@ public static class PainterlyMaterialLibrary
                 0.55,
                 1.0);
             float upward = clamp(dot(normalize(world_normal), vec3(0.0, 1.0, 0.0)) * 0.08 + 0.92, 0.84, 1.0);
-            vec3 albedo_position = local_wood_texture ? local_wood_position : world_position;
-            vec3 albedo_normal = local_wood_texture ? local_wood_normal : world_normal;
+            vec3 albedo_position = (local_wood_texture || local_floor_texture) ? local_wood_position : world_position;
+            vec3 albedo_normal = (local_wood_texture || local_floor_texture) ? local_wood_normal : world_normal;
             vec3 texture_color = has_albedo_texture
                 ? (authored_uv_texture
                     ? texture(albedo_texture, UV * texture_scale).rgb
@@ -327,16 +332,30 @@ public static class PainterlyMaterialLibrary
         // cleaner planks (v3); road keeps painterly ruts (v3), open terrain
         // the softer mottle (v5).
         ["wood"] = ("res://assets/textures/painterly/weathered_wood_boards_v4_albedo.png", new Vector2(0.65f, 0.65f)),
-        // Imported Blender modules have different real-world repetition
-        // scales. Keep one shared albedo source, but give the facade, fence,
-        // furniture and bark semantic owners so a board tile is not repeated
-        // at the same density on every surface. This is a material-library
-        // calibration; all mappings reuse the same source texture.
-        ["wood_facade"] = ("res://assets/textures/painterly/weathered_wood_boards_v4_albedo.png", new Vector2(0.65f, 0.65f)),
+        // Catalogue maps are scoped by actual finish. Legacy wood/fence/prop
+        // owners remain independent; new paint does not recolor every house.
+        ["wood_facade"] = ("res://assets/textures/painterly/urman_w01_v01_basecolor.png", Vector2.One),
+        ["wood_log_uv"] = ("res://assets/textures/painterly/urman_w01_v01_basecolor.png", Vector2.One),
+        ["wood_painted_blue"] = ("res://assets/textures/painterly/urman_w03_v01_basecolor.png", Vector2.One),
+        ["wood_painted_green"] = ("res://assets/textures/painterly/urman_w04_v02_basecolor.png", Vector2.One),
+        ["wood_painted_trim"] = ("res://assets/textures/painterly/urman_w05_v02_basecolor.png", new Vector2(2f, 2f)),
+        ["wood_floor_painted"] = ("res://assets/textures/painterly/urman_w09_v01_basecolor.png", Vector2.One),
         ["wood_fence"] = ("res://assets/textures/painterly/weathered_wood_boards_v2_albedo.png", new Vector2(0.8f, 0.8f)),
+        // Opt-in pieces with known local grain axes. Mixed imported fence
+        // meshes keep the legacy material until their individual axes are mapped.
+        ["wood_fence_vertical"] = ("res://assets/textures/painterly/urman_w02_v02_basecolor.png", Vector2.One),
+        ["wood_fence_rail"] = ("res://assets/textures/painterly/urman_w02_v02_basecolor.png", Vector2.One),
+        ["wood_fence_uv"] = ("res://assets/textures/painterly/urman_w02_v02_basecolor.png", Vector2.One),
         ["wood_furniture"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.95f, 0.95f)),
+        // W08: opt-in finished furniture; the legacy owner also serves floors
+        // and exterior benches, which must not be varnished by a global swap.
+        ["wood_furniture_interior"] = ("res://assets/textures/painterly/urman_w08_v01_basecolor.png", new Vector2(1f / 0.75f, 1f / 0.75f)),
         ["wood_prop"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.9f, 0.9f)),
         ["wood_bark"] = ("res://assets/textures/painterly/bark_pine_v1_albedo.png", new Vector2(1.05f, 1.05f)),
+        ["bark_pine"] = ("res://assets/textures/painterly/urman_f02_v02_basecolor.png", Vector2.One),
+        ["plaster_domestic"] = ("res://assets/textures/painterly/urman_b01_v01_basecolor.png", Vector2.One),
+        ["cloth_table"] = ("res://assets/textures/painterly/urman_t01_v02_basecolor.png", new Vector2(2f, 2f)),
+        ["cloth_curtain"] = ("res://assets/textures/painterly/urman_t04_v01_basecolor.png", new Vector2(2f, 2f)),
         // The profile provides three repeats around the stack and .75 V per
         // local metre. Unit scale retains that existing physical UV mapping.
         ["hay_fibers"] = ("res://assets/textures/painterly/hay_fibers_v1_albedo.png", Vector2.One),
@@ -355,19 +374,23 @@ public static class PainterlyMaterialLibrary
         // authored stone/fabric presentation anchors in the benchmark scenes;
         // existing wood/plaster/earth/foliage mappings remain v1.
         ["stone"] = ("res://assets/textures/painterly/mossy_stone_v3_albedo.png", new Vector2(1.5f, 1.5f)),
+        ["stone_foundation"] = ("res://assets/textures/painterly/urman_b07_v02_basecolor.png", Vector2.One),
         ["fabric"] = ("res://assets/textures/painterly/old_fabric_v3_albedo.png", new Vector2(2.0f, 2.0f)),
+        ["fabric_upholstery"] = ("res://assets/textures/painterly/urman_t08_v01_basecolor.png", new Vector2(2.0f, 2.0f)),
+        // T10 has its own semantic owner; clothes and upholstery keep theirs.
+        ["cloth_clinic"] = ("res://assets/textures/painterly/urman_t10_v02_basecolor.png", new Vector2(2.0f, 2.0f)),
+        ["plastic_abs"] = ("res://assets/textures/painterly/urman_m05_v01_basecolor.png", new Vector2(2.0f, 2.0f)),
         // Folded privacy curtains share the woven source with upholstery,
         // but use a finer physical repeat. The sheer layer owns transparency.
         ["fabric_pattern"] = ("res://assets/textures/painterly/old_fabric_v3_albedo.png", new Vector2(2.6f, 2.6f)),
         ["carpet"] = ("res://assets/textures/painterly/carpet_palas_v1_albedo.png", new Vector2(0.25f, 0.40f)),
-        ["wallpaper"] = ("res://assets/textures/painterly/wallpaper_old_v1_albedo.png", new Vector2(1.1f, 1.1f)),
+        // Image V runs downward; wall height runs upward. Keep stems below flowers.
+        ["wallpaper"] = ("res://assets/textures/painterly/wallpaper_old_v1_albedo.png", new Vector2(1.1f, -1.1f)),
         ["log_wall"] = ("res://assets/textures/painterly/log_wall_v1_albedo.png", new Vector2(0.9f, 0.9f)),
-        ["wall_institution"] = ("res://assets/textures/painterly/wall_institution_v1_albedo.png", new Vector2(1.3f, 1.0f)),
-        // A walked-on institutional floor. The FAP room previously bound the floor to a
-        // texture-less flat colour, so a third of the frame read as an empty plane. Reuse
-        // the aged-plaster family at a much larger tiling rather than authoring a new
-        // albedo: at floor angle it reads as worn lino with soft mottling.
-        ["floor_institution"] = ("res://assets/textures/painterly/aged_plaster_v3_albedo.png", new Vector2(2.6f, 2.6f)),
+        ["wall_institution"] = ("res://assets/textures/painterly/urman_b03_v01_basecolor.png", Vector2.One),
+        // B04: a dedicated one-metre linoleum field, not the wall plaster.
+        // Keep actual floor panels and contact wear in their existing owners.
+        ["floor_institution"] = ("res://assets/textures/painterly/urman_b04_v01_basecolor.png", Vector2.One),
         // GeneratedCharacterKitDressing keeps the semantic name `cloth` in
         // node metadata. Make that owner explicit instead of silently
         // falling back to a texture-less shader material.
@@ -380,13 +403,13 @@ public static class PainterlyMaterialLibrary
     // painterly base; the moment the file exists it is picked up.
     private static readonly Dictionary<string, (string Path, Vector2 Scale)> WinterTextures = new(StringComparer.Ordinal)
     {
-        ["snow_ground"] = ("res://assets/textures/painterly/snow_fresh_v1_albedo.png", new Vector2(1.2f, 1.2f)),
+        ["snow_ground"] = ("res://assets/textures/painterly/urman_s01_v01_basecolor.png", new Vector2(.5f, .5f)),
         ["snow_grass"] = ("res://assets/textures/painterly/snow_grass_peek_v1_albedo.png", new Vector2(1.0f, 1.0f)),
-        ["snow_road"] = ("res://assets/textures/painterly/snow_road_v1_albedo.png", new Vector2(1.1f, 2.2f)),
+        ["snow_road"] = ("res://assets/textures/painterly/urman_s02_v02_basecolor.png", new Vector2(.5f, .5f)),
         ["snow_trampled"] = ("res://assets/textures/painterly/snow_trampled_v1_albedo.png", new Vector2(1.6f, 1.6f)),
         ["snow_roof"] = ("res://assets/textures/painterly/snow_roof_v1_albedo.png", new Vector2(1.0f, 1.0f)),
         ["ice"] = ("res://assets/textures/painterly/ice_patch_v1_albedo.png", new Vector2(1.4f, 1.4f)),
-        ["bark_birch_winter"] = ("res://assets/textures/painterly/bark_birch_v2_albedo.png", new Vector2(0.55f, 1.1f)),
+        ["bark_birch_winter"] = ("res://assets/textures/painterly/urman_f01_v03_basecolor.png", new Vector2(1f / .75f, 1f / 1.5f)),
         ["rowan_berries"] = ("res://assets/textures/painterly/rowan_berries_v1_albedo.png", new Vector2(1.0f, 1.0f)),
         ["wattle"] = ("res://assets/textures/painterly/wattle_weave_v1_albedo.png", new Vector2(0.9f, 0.9f)),
         ["frost_window"] = ("res://assets/textures/painterly/frost_window_v1_albedo.png", new Vector2(1.0f, 1.0f))
@@ -530,13 +553,29 @@ public static class PainterlyMaterialLibrary
         }
 
         var color = Color.FromHtml(htmlColor);
+        // New maps keep the established wood responses; texture/projection and
+        // cache identity remain specific to each actual surface.
+        var finishSurface = surface switch
+        {
+            "wood_painted_blue" or "wood_painted_green" or "wood_painted_trim" or "wood_log_uv" => "wood_facade",
+            "wood_floor_painted" => "wood_furniture_interior",
+            "wood_fence_vertical" or "wood_fence_rail" or "wood_fence_uv" => "wood_fence",
+            "plaster_domestic" => "wall_institution",
+            "stone_foundation" => "stone",
+            "cloth_table" or "cloth_curtain" => "cloth",
+            _ => surface
+        };
         var shadow = new Color(color.R * 0.54f, color.G * 0.56f, color.B * 0.58f, color.A);
         var material = new ShaderMaterial { Shader = PainterlyShader };
         material.SetShaderParameter("base_color", color);
         material.SetShaderParameter("cut_wood_end", surface == "wood_cut");
-        material.SetShaderParameter("upright_texture", surface is "log_wall" or "fabric_pattern" or "hay_bundle");
+        material.SetShaderParameter("upright_texture", surface is "log_wall" or "fabric_pattern" or "hay_bundle"
+            or "wood_facade" or "wood_painted_blue" or "wood_painted_green" or "wood_painted_trim" or "wood_floor_painted"
+            or "bark_birch_winter" or "bark_pine" or "wallpaper" or "wood_fence_vertical" or "wood_fence_rail");
         material.SetShaderParameter("local_wood_texture", surface == "hay_bundle");
-        material.SetShaderParameter("authored_uv_texture", surface == "hay_fibers");
+        material.SetShaderParameter("local_floor_texture", surface is "wood_floor_painted" or "wood_fence_vertical" or "wood_fence_rail");
+        material.SetShaderParameter("local_fence_rail", surface == "wood_fence_rail");
+        material.SetShaderParameter("authored_uv_texture", surface is "hay_fibers" or "cloth_table" or "cloth_curtain" or "wood_fence_uv" or "wood_log_uv");
         material.SetShaderParameter("metallic_value", surface == "iron" ? 0.65f : 0f);
         material.SetShaderParameter("finish_grain", surface switch
         {
@@ -550,12 +589,12 @@ public static class PainterlyMaterialLibrary
         // Keep the brush rhythm stable for a semantic surface. The old cache
         // count made the same material change appearance with call order and
         // amplified broad world-space banding on long walls and roads.
-        material.SetShaderParameter("brush_scale", surface switch
+        material.SetShaderParameter("brush_scale", finishSurface switch
         {
             "earth" => 0.34f,
             "wet_ground" => 0.30f,
             "wood" or "wood_facade" or "wood_fence" => 0.32f,
-            "wood_furniture" or "wood_prop" => 0.28f,
+            "wood_furniture" or "wood_furniture_interior" or "wood_prop" => 0.28f,
             "wood_bark" => 0.25f,
             "plaster" => 0.26f,
             "floor_institution" => 0.30f,
@@ -567,17 +606,17 @@ public static class PainterlyMaterialLibrary
             "log_wall" or "wallpaper" or "wall_institution" => 0.22f,
             "ornament_trim" or "carpet" or "fabric_pattern" or "wood_carved" => 0.18f,
             "stone" => 0.27f,
-            "fabric" or "cloth" => 0.24f,
-            "iron" or "enamel" => 0.18f,
+            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" => 0.24f,
+            "iron" or "enamel" or "plastic_abs" => 0.18f,
             "water" => 0.18f,
             _ => 0.30f
         });
-        material.SetShaderParameter("variation", surface switch
+        material.SetShaderParameter("variation", finishSurface switch
         {
             "earth" => 0.14f,
             "wet_ground" => 0.11f,
             "wood" or "wood_facade" or "wood_fence" => 0.14f,
-            "wood_furniture" or "wood_prop" => 0.11f,
+            "wood_furniture" or "wood_furniture_interior" or "wood_prop" => 0.11f,
             "wood_bark" => 0.13f,
             "plaster" => 0.10f,
             "foliage" => 0.15f,
@@ -586,13 +625,13 @@ public static class PainterlyMaterialLibrary
             "log_wall" or "wallpaper" or "wall_institution" => 0.08f,
             "ornament_trim" or "carpet" or "fabric_pattern" or "wood_carved" => 0.06f,
             "stone" => 0.12f,
-            "fabric" or "cloth" => 0.08f,
+            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" => 0.08f,
             "hay_fibers" or "hay_bundle" => 0.06f,
-            "iron" or "enamel" => 0.04f,
+            "iron" or "enamel" or "plastic_abs" => 0.04f,
             "water" => 0.06f,
             _ => 0.10f
         });
-        material.SetShaderParameter("texture_strength", surface switch
+        material.SetShaderParameter("texture_strength", finishSurface switch
         {
             "hay_fibers" or "hay_bundle" => 1.0f,
             "foliage" => 0.95f,
@@ -608,31 +647,31 @@ public static class PainterlyMaterialLibrary
             "wood" => 0.95f,
             "wood_facade" => 0.95f,
             "wood_fence" => 0.95f,
-            "wood_furniture" => 0.92f,
+            "wood_furniture" or "wood_furniture_interior" => 0.92f,
             "wood_prop" => 0.92f,
             "wood_bark" => 0.95f,
             "plaster" => 0.95f,
             "stone" => 0.95f,
-            "fabric" => 0.88f,
-            "cloth" => 0.88f,
+            "fabric" or "fabric_upholstery" => 0.88f,
+            "cloth" or "cloth_clinic" => 0.88f,
             "water" => 0.0f,
             _ => 0.90f
         });
         // Phase 2: grounding darken near the dirt line + world-cell tint
         // jitter that de-clones repeated houses/fences/trees.
-        material.SetShaderParameter("ground_darken", surface switch
+        material.SetShaderParameter("ground_darken", finishSurface switch
         {
             "bark_birch" or "bark_pine" => 0.25f,
             "roof" or "roof_metal" => 0.0f,
             "wood" or "wood_facade" or "wood_fence" => 0.16f,
             "plaster" => 0.16f,
             "wood_prop" => 0.10f,
-            "wood_furniture" => 0.0f,
+            "wood_furniture" or "wood_furniture_interior" => 0.0f,
             "wood_bark" => 0.22f,
             "stone" => 0.14f,
             _ => 0.0f
         });
-        var snowSparkle = surface switch
+        var snowSparkle = finishSurface switch
         {
             "snow_ground" => 0.55f,
             "snow_roof" => 0.65f,
@@ -648,7 +687,7 @@ public static class PainterlyMaterialLibrary
             _ => 0.0f
         };
         material.SetShaderParameter("snow_sparkle", sheltered ? 0f : snowSparkle);
-        var snowCoverage = surface switch
+        var snowCoverage = finishSurface switch
         {
             // Full-snow families own their own albedo, no blanket needed.
             "snow_ground" or "snow_road" or "snow_trampled" or "snow_grass" or "snow_roof" or "ice" => 0.0f,
@@ -661,11 +700,11 @@ public static class PainterlyMaterialLibrary
             "bark_birch" or "bark_birch_winter" or "bark_pine" => 0.30f,
             "foliage" or "leaf_birch" or "rowan_berries" => 0.34f,
             "grass" or "grass_tuft" => 0.72f,
-            "fabric" or "cloth" or "fabric_pattern" => 0.30f,
+            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" or "fabric_pattern" => 0.30f,
             _ => 0.0f
         };
         material.SetShaderParameter("snow_coverage", sheltered ? 0f : snowCoverage);
-        material.SetShaderParameter("cell_jitter", surface switch
+        material.SetShaderParameter("cell_jitter", finishSurface switch
         {
             "grass" => 0.20f,
             "grass_tuft" => 0.0f,
@@ -686,7 +725,7 @@ public static class PainterlyMaterialLibrary
         // Keep the wet-weather response semantic and bounded: authored relief
         // owns puddle/rut silhouettes, while these values only separate surface
         // response without adding textures or a second material owner.
-        var surfaceGrade = surface switch
+        var surfaceGrade = finishSurface switch
         {
             "snow_ground" => (Roughness: 0.90f, Specular: 0.28f, WetGrade: 0.0f),
             "snow_road" => (Roughness: 0.68f, Specular: 0.28f, WetGrade: 0.0f),
@@ -706,6 +745,7 @@ public static class PainterlyMaterialLibrary
             // Worn lino keeps a faint sheen the walls do not have, but stays far from
             // the wet-weather response: this is indoor surface wear, not water.
             "floor_institution" => (Roughness: 0.87f, Specular: 0.15f, WetGrade: 0.05f),
+            "plastic_abs" => (Roughness: 0.72f, Specular: 0.22f, WetGrade: 0.0f),
             "carpet" => (Roughness: 0.98f, Specular: 0.04f, WetGrade: 0.0f),
             "fabric_pattern" => (Roughness: 0.96f, Specular: 0.05f, WetGrade: 0.02f),
             "ornament_trim" or "wood_carved" => (Roughness: 0.88f, Specular: 0.10f, WetGrade: 0.15f),
@@ -717,13 +757,13 @@ public static class PainterlyMaterialLibrary
             "wood" => (Roughness: 0.84f, Specular: 0.15f, WetGrade: 0.36f),
             "wood_facade" => (Roughness: 0.82f, Specular: 0.17f, WetGrade: 0.42f),
             "wood_fence" => (Roughness: 0.84f, Specular: 0.14f, WetGrade: 0.44f),
-            "wood_furniture" => (Roughness: 0.89f, Specular: 0.10f, WetGrade: 0.16f),
+            "wood_furniture" or "wood_furniture_interior" => (Roughness: 0.89f, Specular: 0.10f, WetGrade: 0.16f),
             "wood_prop" => (Roughness: 0.86f, Specular: 0.12f, WetGrade: 0.28f),
             "wood_bark" => (Roughness: 0.90f, Specular: 0.08f, WetGrade: 0.24f),
             "stone" => (Roughness: 0.91f, Specular: 0.12f, WetGrade: 0.22f),
             "foliage" => (Roughness: 0.95f, Specular: 0.07f, WetGrade: 0.12f),
             "plaster" => (Roughness: 0.96f, Specular: 0.06f, WetGrade: 0.04f),
-            "fabric" or "cloth" => (Roughness: 0.98f, Specular: 0.04f, WetGrade: 0.01f),
+            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" => (Roughness: 0.98f, Specular: 0.04f, WetGrade: 0.01f),
             "iron" => (Roughness: 0.74f, Specular: 0.28f, WetGrade: 0.0f),
             "enamel" => (Roughness: 0.34f, Specular: 0.36f, WetGrade: 0.0f),
             "water" => (Roughness: 0.38f, Specular: 0.45f, WetGrade: 0.98f),
@@ -744,7 +784,7 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("wind_enabled", _windMotion);
         material.SetShaderParameter("low_quality", _lowQualityMaterials);
         if (!SuppressTextureLoadsForHeadlessTests
-            && SurfaceTextures.TryGetValue(surface == "bark_pine" ? "wood_bark" : surface, out var textureDescriptor))
+            && SurfaceTextures.TryGetValue(surface, out var textureDescriptor))
         {
             var texture = ResourceLoader.Load<Texture2D>(textureDescriptor.Path)
                 ?? throw new InvalidOperationException($"Painterly texture is missing: {textureDescriptor.Path}.");

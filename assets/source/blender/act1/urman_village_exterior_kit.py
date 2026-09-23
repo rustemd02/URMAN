@@ -33,6 +33,27 @@ CAT_ROOT = "AmbientCat"
 CROW_ROOT = "AmbientCrow"
 GLB_NAME = "urman_village_exterior_kit.glb"
 
+HERO_LOG_MATERIAL = "URMAN_Hero_Log"
+HERO_LOG_END_MATERIAL = "URMAN_Hero_LogEnd"
+HERO_TRIM_TEAL_MATERIAL = "URMAN_Hero_Trim_Teal"
+HERO_TRIM_IVORY_MATERIAL = "URMAN_Hero_Trim_Ivory"
+HERO_ROOF_SNOW_MATERIAL = "URMAN_Hero_RoofSnow"
+HERO_LOG_COURSE_GAP = 0.008
+HERO_LOG_BULGE = 0.060
+HERO_LOG_EMBED = 0.020
+HERO_LOG_HEIGHT = 0.222
+HERO_LOG_END_LENGTH = 0.170
+
+# These are source-side preview colors only. Runtime maps the slots to the
+# authored W01/W05/WoodCut/SnowRoof material families.
+HERO_SOURCE_MATERIALS = {
+    HERO_LOG_MATERIAL: (0.19, 0.14, 0.11, 1.0),
+    HERO_LOG_END_MATERIAL: (0.34, 0.25, 0.17, 1.0),
+    HERO_TRIM_TEAL_MATERIAL: (0.33, 0.50, 0.47, 1.0),
+    HERO_TRIM_IVORY_MATERIAL: (0.76, 0.75, 0.67, 1.0),
+    HERO_ROOF_SNOW_MATERIAL: (0.84, 0.89, 0.91, 1.0),
+}
+
 # Component-local metres after Blender -> Godot conversion. The previous
 # facade was scaled by .82 in game; keep its street-left corner, threshold and
 # exact doorway XZ while adding space to the rear/right for the real room.
@@ -109,8 +130,8 @@ WOODPILE_SUPPORT_NAMES = ("Woodpile_SupportLeft_LOD0", "Woodpile_SupportRight_LO
 def arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", required=True)
-    parser.add_argument("--component-only", choices=("hero-yard-shed",),
-                        help="Update only the new hero shed; preserve every existing kit component")
+    parser.add_argument("--component-only", choices=("hero-yard-shed", "hero-house"),
+                        help="Update only one hero component; preserve every existing kit component")
     tokens: list[str] = []
     if "--" in sys.argv:
         tokens = sys.argv[sys.argv.index("--") + 1 :]
@@ -122,6 +143,20 @@ def material(name: str) -> bpy.types.Material:
     if result is None:
         raise RuntimeError(f"Missing baseline material: {name}")
     return result
+
+
+def ensure_hero_materials() -> None:
+    for name, color in HERO_SOURCE_MATERIALS.items():
+        target = bpy.data.materials.get(name) or bpy.data.materials.new(name)
+        target.diffuse_color = color
+        target["source_slot"] = name
+        target["runtime_material_owner"] = {
+            HERO_LOG_MATERIAL: "wood_log_uv / W01",
+            HERO_LOG_END_MATERIAL: "wood_cut",
+            HERO_TRIM_TEAL_MATERIAL: "wood_painted_trim / W05",
+            HERO_TRIM_IVORY_MATERIAL: "wood_painted_trim / W05",
+            HERO_ROOF_SNOW_MATERIAL: "snow_roof",
+        }[name]
 
 
 def mesh_object(
@@ -1986,12 +2021,18 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
     wall_base = HERO_HOUSE_CONTRACT["floor_above_component_ground"] if hero_layout else .30
     root_name = parent.name
     trim = "URMAN_Wood_Weathered"
+    # The hero reads as a dark inhabited srub: hewn log courses, muted teal
+    # casings, a lighter outer sill. Parcels keep the previous weathered joinery.
+    hero_joinery = HERO_TRIM_TEAL_MATERIAL if hero_layout else trim
+    hero_sill = HERO_TRIM_IVORY_MATERIAL if hero_layout else trim
+    wall_finish = HERO_LOG_MATERIAL if hero_layout else wall_material
 
-    def box(suffix, center, size, mat=trim):
+    def box(suffix, center, size, mat=trim, chamfer=0.008):
         return variant_box(f"{prefix}_{suffix}_LOD0", parent, center, size,
-                           (mat,), root_name, "rural dwelling joinery", chamfer=0.008)
+                           (mat,), root_name, "rural dwelling joinery", chamfer=chamfer)
 
-    def wall(suffix, origin, tangent, length, holes, top=eave, finish=wall_material):
+    def wall(suffix, origin, tangent, length, holes, top=eave, finish=None):
+        finish = wall_finish if finish is None else finish
         # Front orientation is tangent +X, outward -Y; rotating the basis also
         # rotates wall thickness, frame, glass and sill as one architectural unit.
         tx, ty = tangent
@@ -2032,16 +2073,16 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                           w-.10, .035, h-.10, "URMAN_Window_DimGlass" if kind == "Window" else "URMAN_Wood_WetShadow")
             for side in (-1, 1):
                 local_box(tag+f"_Jamb{side}", x+side*(w/2+.035), -.025, z,
-                          .095, .07, h+.14, trim)
+                          .095, .07, h+.14, hero_joinery)
                 local_box(tag+f"_Rail{side}", x, -.025, z+side*(h/2+.035),
-                          w+.16, .07, .095, trim)
+                          w+.16, .07, .095, hero_joinery)
             if kind == "Window":
                 # Mid-distance read: jambs + rails + mullion + sill frame the
                 # opening; the former transom bar and tapered headboard crown
                 # read as a timber lattice at street distance, so both are
                 # retired. Concept target: solid wall, quiet dark opening.
-                local_box(tag+"_Mullion", x, .12, z, .045, .06, h-.07, trim)
-                local_box(tag+"_Sill", x, -.09, z0-.08, w+.25, .30, .075, trim)
+                local_box(tag+"_Mullion", x, .12, z, .045, .06, h-.07, hero_joinery)
+                local_box(tag+"_Sill", x, -.09, z0-.08, w+.25, .30, .075, hero_sill)
             elif kind == "Door":
                 local_box(tag+"_Handle", x+w*.30, .08, z, .045, .07, .16, "URMAN_Metal_Dulled")
 
@@ -2079,12 +2120,83 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                     ("URMAN_Wood_WetShadow","URMAN_Wood_Weathered","URMAN_Metal_Dulled"),indices,
                     component_root=root_name,role="removable closed street door; hidden only at Babai gameplay portal")
     if hero_layout:
-        wall("Rear", (0,back), (-1,0), width,
-             [(-x-.53,-x+.53,sill,top,"Window") for x in HERO_HOUSE_CONTRACT["rear_window_room_x"]])
-        wall("Left", (-half,(front+back)/2), (0,-1), depth,
-             [(z-.53,z+.53,sill,top,"Window") for z in HERO_HOUSE_CONTRACT["left_window_room_z"]])
-        wall("Right", (half,(front+back)/2), (0,1), depth,
-             [(-z-.53,-z+.53,sill,top,"Window") for z in HERO_HOUSE_CONTRACT["right_window_room_z"]])
+        rear_holes = [(-x-.53,-x+.53,sill,top,"Window")
+                      for x in HERO_HOUSE_CONTRACT["rear_window_room_x"]]
+        left_holes = [(z-.53,z+.53,sill,top,"Window")
+                      for z in HERO_HOUSE_CONTRACT["left_window_room_z"]]
+        right_holes = [(-z-.53,-z+.53,sill,top,"Window")
+                       for z in HERO_HOUSE_CONTRACT["right_window_room_z"]]
+        wall("Rear", (0,back), (-1,0), width, rear_holes)
+        wall("Left", (-half,(front+back)/2), (0,-1), depth, left_holes)
+        wall("Right", (half,(front+back)/2), (0,1), depth, right_holes)
+        # Stacked hewn courses over the pierced shell. The shell keeps the wall
+        # thickness, the deep reveals and every opening; the courses restore the
+        # horizontal timber bond that a flat box loses. Courses are cut where an
+        # opening crosses them, and the casing covers each cut.
+        log_thickness = HERO_LOG_BULGE + HERO_LOG_EMBED
+        log_setback = (HERO_LOG_BULGE - HERO_LOG_EMBED) / 2.0
+        log_step = HERO_LOG_HEIGHT + HERO_LOG_COURSE_GAP
+
+        def log_wall(suffix, origin, tangent, length, holes):
+            tx, ty = tangent
+            nx, ny = ty, -tx
+            yaw = math.atan2(ty, tx)
+            course = 0
+            z = wall_base
+            while z < eave - .06:
+                z1 = min(z + HERO_LOG_HEIGHT, eave)
+                spans = [(-length/2, length/2)]
+                for x0, x1, hole_z0, hole_z1, _kind in holes:
+                    if hole_z1 <= z or hole_z0 >= z1:
+                        continue
+                    cut = []
+                    for a, b in spans:
+                        if x0 - a > .06:
+                            cut.append((a, min(b, x0)))
+                        if b - max(a, x1) > .06:
+                            cut.append((max(a, x1), b))
+                    spans = cut
+                for index, (a, b) in enumerate(spans):
+                    u, v = (a + b) / 2.0, (z + z1) / 2.0
+                    member = box(f"{suffix}_Log{course:02d}_{index}",
+                                 (origin[0] + tx*u - nx*(-log_setback),
+                                  origin[1] + ty*u - ny*(-log_setback), v),
+                                 (b - a, log_thickness, z1 - z), HERO_LOG_MATERIAL,
+                                 chamfer=.024)
+                    member.rotation_euler.z = yaw
+                course += 1
+                z += log_step
+            return course
+
+        log_courses = log_wall("Street", (0,front), (1,0), width, street_windows)
+        log_wall("Rear", (0,back), (-1,0), width, rear_holes)
+        log_wall("Left", (-half,(front+back)/2), (0,-1), depth, left_holes)
+        log_wall("Right", (half,(front+back)/2), (0,1), depth, right_holes)
+        # Alternating corner bond: on even courses the street/rear logs run
+        # through and show end grain past the corner, on odd courses the side
+        # logs do. This replaces the old plywood-box corner posts inside the
+        # hero branch only; parcels keep theirs.
+        for course in range(log_courses):
+            z0 = wall_base + course * log_step
+            z1 = min(z0 + HERO_LOG_HEIGHT, eave)
+            if z1 - z0 < .08:
+                continue
+            middle = (z0 + z1) / 2.0
+            through_street = course % 2 == 0
+            for sx in (-1, 1):
+                for sy in (-1, 1):
+                    corner_x, corner_y = sx * half, front if sy < 0 else back
+                    out_y = -1.0 if sy < 0 else 1.0
+                    if through_street:
+                        center = (corner_x + sx * HERO_LOG_END_LENGTH / 2.0,
+                                  corner_y + out_y * log_setback, middle)
+                        size = (HERO_LOG_END_LENGTH, log_thickness, z1 - z0)
+                    else:
+                        center = (corner_x + sx * log_setback,
+                                  corner_y + sy * HERO_LOG_END_LENGTH / 2.0, middle)
+                        size = (log_thickness, HERO_LOG_END_LENGTH, z1 - z0)
+                    box(f"CornerEnd{sx}_{sy}_Log{course:02d}", center, size,
+                        HERO_LOG_END_MATERIAL, chamfer=.024)
     else:
         wall("Rear", (0,back), (-1,0), width, [(-1.45,-.49,.95,2.38,"Window"),(.49,1.45,.95,2.38,"Window")])
         wall("Left", (-half,(front+back)/2), (0,-1), depth,
@@ -2128,8 +2240,17 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         box("StreetStep", (door_x, front-.34, .10), (1.34, .68, .20), "URMAN_Stone_Mossy")
     for x in (-half,half):
         for y in (front,back):
+            if hero_layout:
+                # The alternating log bond above owns the hero's corners; the
+                # parcels keep the previous corner posts.
+                continue
             box(f"Corner_{x}_{y}",(x,y,(wall_base+eave)/2 if hero_layout else 1.60),
                 (.105,.105,eave-wall_base if hero_layout else 2.60))
+    # ACT1-DEPTH.12 roof mass: the hero carries the deep overhang and thicker
+    # slab of the menu reference; parcels keep the established eave until the
+    # architecture is accepted and propagated (ACT1-DEPTH.10).
+    roof_overhang = .62 if hero_layout else .36
+    roof_thickness = .16 if hero_layout else .09
     # Authored clipped gable boards form the triangle itself (no solid triangle
     # plus beam lattice); tiny gaps give actual self-shadow at grazing angles.
     for label,y in (("Front",front),("Back",back)):
@@ -2144,49 +2265,106 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
             vertices.extend([(x0,y,eave-.04),(x1,y,eave-.04),(x1,y,z1),(x0,y,z0)])
             indices = tuple(range(start,start+4))
             faces.append(tuple(reversed(indices)) if label == "Back" else indices)
-        mesh_object(f"{prefix}_{label}_BoardedGable_LOD0",parent,vertices,faces,(trim,),
+        mesh_object(f"{prefix}_{label}_BoardedGable_LOD0",parent,vertices,faces,
+                    (HERO_LOG_MATERIAL if hero_layout else trim,),
                     component_root=root_name,role="clipped vertical gable boarding")
-        edge_y = front-.365 if label == "Front" else back+.365
-        variant_beam(f"{prefix}_{label}_VergeLeft_LOD0",parent,(-half-.36,edge_y,eave-.02),
-                     (0,edge_y,ridge+.10),.095,.09,(trim,),root_name,"narrow roof verge")
+        if hero_layout:
+            # The hero's gable keeps the boarding as a dark backing and gains
+            # the stepped ("samsovaya") log courses over it, so the roof does
+            # not sit on a flat triangle above a log wall.
+            outward = -1.0 if label == "Front" else 1.0
+            gable_z = eave
+            gable_course = 0
+            while gable_z < ridge - .05:
+                z1 = min(gable_z + HERO_LOG_HEIGHT, ridge)
+                span = half * max(0.0, (ridge - z1) / (ridge - eave))
+                if span > .16:
+                    plane_y = y + outward * log_setback
+                    box(f"{label}GableLog{gable_course:02d}",
+                        (0.0, plane_y, (gable_z + z1) / 2.0),
+                        (2.0 * span, log_thickness, z1 - gable_z), HERO_LOG_MATERIAL,
+                        chamfer=.024)
+                    for side in (-1, 1):
+                        box(f"{label}GableEnd{gable_course:02d}_{side}",
+                            (side * (span + HERO_LOG_END_LENGTH / 2.0), plane_y,
+                             (gable_z + z1) / 2.0),
+                            (HERO_LOG_END_LENGTH, log_thickness, z1 - gable_z),
+                            HERO_LOG_END_MATERIAL, chamfer=.024)
+                gable_course += 1
+                gable_z += log_step
+        edge_y = front-(roof_overhang+.005) if label == "Front" else back+(roof_overhang+.005)
+        verge_width = .105 if hero_layout else .095
+        verge_depth = .12 if hero_layout else .09
+        variant_beam(f"{prefix}_{label}_VergeLeft_LOD0",parent,(-half-roof_overhang,edge_y,eave-.02),
+                     (0,edge_y,ridge+.10),verge_width,verge_depth,(trim,),root_name,"narrow roof verge")
         variant_beam(f"{prefix}_{label}_VergeRight_LOD0",parent,(0,edge_y,ridge+.10),
-                     (half+.36,edge_y,eave-.02),.095,.09,(trim,),root_name,"narrow roof verge")
-    roof_vertices = [(x,y,z) for y in (front-.36,back+.36)
-                     for x,z in ((-half-.36,eave),(0,ridge+.12),(half+.36,eave))]
-    roof_vertices += [(x,y,z-.09) for x,y,z in roof_vertices]
+                     (half+roof_overhang,edge_y,eave-.02),verge_width,verge_depth,(trim,),root_name,"narrow roof verge")
+    roof_vertices = [(x,y,z) for y in (front-roof_overhang,back+roof_overhang)
+                     for x,z in ((-half-roof_overhang,eave),(0,ridge+.12),(half+roof_overhang,eave))]
+    roof_vertices += [(x,y,z-roof_thickness) for x,y,z in roof_vertices]
     mesh_object(f"{prefix}_Roof_LOD0",parent,roof_vertices,
                 [(0,1,4,3),(1,2,5,4),(6,9,10,7),(7,10,11,8),(0,1,7,6),
                  (1,2,8,7),(2,5,11,8),(5,4,10,11),(4,3,9,10),(3,0,6,9)],
                 ("URMAN_Roof_WetSlate","URMAN_Wood_WetShadow"),[0,0,1,1,1,1,1,1,1,1],
-                component_root=root_name,role="continuous thick pitched roof with 36cm overhang")
-    for x in (-half-.35,half+.35):
-        box(f"Eave_{x}",(x,(front+back)/2,eave-.065),(.085,depth+.72,.13))
+                component_root=root_name,
+                role=f"continuous thick pitched roof with {round(roof_overhang*100)}cm overhang")
+    if hero_layout:
+        # ACT1-DEPTH.12 winter mass: the settled cap is a closed solid that
+        # rides the slope 10cm above the slate, buries its underside inside the
+        # thicker slab and rolls 13cm past the eave, so the street view reads a
+        # loaded cornice with a dark gap above the fascia instead of a paper
+        # sheet glued to the slope.
+        snow_run = roof_overhang + .13
+        snow_slope = (ridge + .12 - eave) / (half + roof_overhang)
+        snow_eave_z = eave + .10 - snow_slope * .13
+        snow = [(x, y, z) for y in (front-roof_overhang, back+roof_overhang)
+                for x, z in ((-half-snow_run, snow_eave_z), (0, ridge+.22),
+                             (half+snow_run, snow_eave_z))]
+        snow += [(x, y, z-.13) for x, y, z in snow]
+        mesh_object(f"{prefix}_RoofSnow_LOD0", parent, snow,
+                    [(0,1,4,3),(1,2,5,4),(6,9,10,7),(7,10,11,8),(0,1,7,6),
+                     (1,2,8,7),(2,5,11,8),(5,4,10,11),(4,3,9,10),(3,0,6,9)],
+                    (HERO_ROOF_SNOW_MATERIAL,), component_root=root_name,
+                    role="solid settled snow slab wrapping the hero eave")
+    if hero_layout:
+        for x in (-half-roof_overhang+.035,half+roof_overhang-.035):
+            box(f"Eave_{x:.2f}",(x,(front+back)/2,eave-.085),(.09,depth+2*roof_overhang+.12,.19))
+    else:
+        for x in (-half-.35,half+.35):
+            box(f"Eave_{x}",(x,(front+back)/2,eave-.065),(.085,depth+.72,.13))
     # Water and the rafter line. §12.5 wants every projection to earn its place:
     # rafter tails explain why the roof overhangs, the trough catches what they
     # shed, and one downpipe on the street corner carries it past the new stone
     # plinth onto a splash stone instead of down the wall face.
     slope = (ridge-eave)/half
-    tail_span = .41
-    tail_count = int((depth+.60)//.56) + 1
+    tail_span = roof_overhang if hero_layout else .41
+    tail_count = int((depth+2*roof_overhang-.12)//.56) + 1
+    tail_start = front-(roof_overhang-.06)
     for side in (-1,1):
         wall_x = side*(half-.02)
-        eave_x = side*(half+.36)
+        eave_x = side*(half+roof_overhang)
         for i in range(tail_count):
-            y = front-.30 + i*.56
-            if y > back+.30: break
+            y = tail_start + i*.56
+            if y > back+(roof_overhang-.06): break
             variant_beam(f"{prefix}_RafterTail_{side:+.0f}_{i:02d}_LOD0",parent,
                          (wall_x,y,eave+.23),(eave_x,y,eave-.02),.07,.10,
                          (trim,),root_name,"rafter tail carrying the eave overhang")
         variant_box(f"{prefix}_Gutter_{side:+.0f}_LOD0",parent,
-                    (side*(half+.44),(front+back)/2,eave-.19),
-                    (.11,depth+.72,.13),("URMAN_Wood_WetShadow",),root_name,
+                    (side*(half+roof_overhang+.08),(front+back)/2,
+                     eave-(.24 if hero_layout else .19)),
+                    (.11,depth+2*roof_overhang,.13),("URMAN_Wood_WetShadow",),root_name,
                     "eaves trough", [0,1]+[0]*8, chamfer=.03)
     box("Downpipe",(half+.06,front-.02,eave/2+.05),(.09,.09,eave-.50),"URMAN_Metal_Dulled")
     box("DownpipeSplash",(half+.15,front-.06,.08),(.34,.34,.16),"URMAN_Stone_Mossy")
     # Prod-ready phase 6 silhouette: a dark ridge beam caps the roofline and
     # a masonry chimney (on most dwellings, not all) breaks the roof plane
     # and catches the low sun. Presentation-only geometry, same materials.
-    box("RidgeBeam",(0,(front+back)/2,ridge+.17),(.13,depth+.72,.11))
+    if hero_layout:
+        # The settled snow slab owns the ridge line now: the beam sits fully
+        # between the slab and the slate so no sliver or end cap shows in snow.
+        box("RidgeBeam",(0,(front+back)/2,ridge+.10),(.13,depth+.72,.11))
+    else:
+        box("RidgeBeam",(0,(front+back)/2,ridge+.17),(.13,depth+.72,.11))
     if "VariantA" not in parent.name:
         chimney_z0 = eave + .55
         chimney_z1 = ridge + .85
@@ -2243,6 +2421,7 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
 
 def author_hero_house(root: bpy.types.Object) -> bpy.types.Object:
     """A metric hero variation in this kit, not a scale change to the village."""
+    ensure_hero_materials()
     hero = variant_empty(HERO_DWELLING_ROOT, root, (34.0, 0.8, 0.0),
                          "hero house shell paired with an 8 by 7 metre clear room", "hero house")
     author_rural_dwelling(hero, width=8.4, depth=7.4, eave=3.05, ridge=4.8, hero_layout=True)
@@ -2855,6 +3034,15 @@ def main() -> None:
         author_hero_yard_shed(root)
         bpy.context.view_layer.update()
         validate_hero_yard_shed(root)
+        save_kit(blend_path, glb_path)
+        return
+
+    if args.component_only == "hero-house":
+        # Same bounded integration entry point for the hero dwelling: only
+        # Babai's house is reauthored, so no other kit component can move.
+        author_hero_house(root)
+        bpy.context.view_layer.update()
+        validate_hero_house(root)
         save_kit(blend_path, glb_path)
         return
 

@@ -1,0 +1,13 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=31 blockers=29 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1VisualReviewCapture/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1VisualReviewCapture/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1VisualReviewCapture/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=49980 publishedVertices=49980 physicsVertices=49980 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1VisualReviewCapture/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1VisualReviewCapture/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+Fatal error.
+Invalid Program: attempted to call a UnmanagedCallersOnly method from managed code.
+userdata guard: original files and permissions restored and verified

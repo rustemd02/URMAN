@@ -327,7 +327,7 @@ public partial class Act1ConnectedWorld
         var center = GroundedYardPoint((start + end) * .5f);
         var yaw = Mathf.RadToDeg(Mathf.Atan2(direction.X, direction.Z));
         foreach (var (suffix, height, color) in new[]
-                 { ("RailHigh", .76f, "594a39"), ("RailLow", .34f, "514737") })
+                 { ("RailHigh", .76f, "979a92"), ("RailLow", .34f, "888c84") })
         {
             var rail = AddVisualBox(
                 parent,
@@ -335,7 +335,7 @@ public partial class Act1ConnectedWorld
                 new(.12f, .10f, length),
                 center + Vector3.Up * height,
                 color,
-                "wood_fence",
+                "wood_fence_rail",
                 yawDegrees: yaw);
             rail.SetMeta("routeRole", "visible replacement for FenceBabaiW_S lower rail");
         }

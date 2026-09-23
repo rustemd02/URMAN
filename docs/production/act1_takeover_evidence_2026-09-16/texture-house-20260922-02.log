@@ -1,0 +1,18 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+ERROR: Act I full-route core-world capture failed: System.InvalidOperationException: Missing required command-line argument '--urman-act1-core-output=<value>'.
+   at Urman.Godot.Tests.Act1FullRouteCoreWorldCapture.RequireArgument(String prefix) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FullRouteCoreWorldCapture.cs:line 1011
+   at Urman.Godot.Tests.Act1FullRouteCoreWorldCapture.CaptureAsync() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FullRouteCoreWorldCapture.cs:line 202
+   at Urman.Godot.Tests.Act1FullRouteCoreWorldCapture._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FullRouteCoreWorldCapture.cs:line 188
+   at: void Urman.Godot.Tests.Act1FullRouteCoreWorldCapture.Fail(string) (res://tests/Act1FullRouteCoreWorldCapture.cs:1163)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Urman.Godot.Tests.Act1FullRouteCoreWorldCapture.Fail(string) (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FullRouteCoreWorldCapture.cs:1163)
+       [2] void Urman.Godot.Tests.Act1FullRouteCoreWorldCapture+<_Ready>d__11.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1FullRouteCoreWorldCapture.cs:188)
+       [3] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [4] void Urman.Godot.Tests.Act1FullRouteCoreWorldCapture._Ready()
+       [5] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [6] bool Urman.Godot.Tests.Act1FullRouteCoreWorldCapture.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.Tests.Act1FullRouteCoreWorldCapture_ScriptMethods.generated.cs:80)
+       [7] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+userdata guard: original files and permissions restored and verified

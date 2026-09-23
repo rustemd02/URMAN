@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "kind": "urman.godot_act1_visual_review_capture",
+  "captured_at_utc": "2026-09-22T13:39:53.0546930\u002B00:00",
+  "renderer_expectation": "Godot 4.7.1 .NET Forward\u002B / real 3D rendering device",
+  "production_scene": "res://scenes/main.tscn",
+  "root_viewport": true,
+  "subviewport_used": false,
+  "capture_process_count": 2,
+  "frame_count": 2,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "frames": [
+    {
+      "frame_id": "birch_rear_house",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "from_house",
+      "camera": {
+        "global_position": {
+          "x": -31.600000381469727,
+          "y": 1.786193609237671,
+          "z": -10.680000305175781
+        },
+        "target": {
+          "x": -33.821441650390625,
+          "y": 2.1921029090881348,
+          "z": -12.231749534606934
+        }
+      },
+      "output": "birch_rear_house.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "6a68c73cc266703486e9d9917a12429e860c2a0a044d6e4fafeb335684f154da"
+    },
+    {
+      "frame_id": "snow_arrival_ground",
+      "zone": "village_day",
+      "active_zone_id": "village_day",
+      "spawn_point_id": "arrival",
+      "camera": {
+        "global_position": {
+          "x": 0,
+          "y": 0.7122888565063477,
+          "z": 3.819999933242798
+        },
+        "target": {
+          "x": 1.5,
+          "y": -0.3111235201358795,
+          "z": 1
+        }
+      },
+      "output": "snow_arrival_ground.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "ee44c02bdab2252371bd1ad91a91115c41c477ce937035d6fc12a2f137ca30ac"
+    }
+  ]
+}

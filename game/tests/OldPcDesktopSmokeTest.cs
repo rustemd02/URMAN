@@ -13,6 +13,7 @@ public partial class OldPcDesktopSmokeTest : Node
 {
     private const string LockedSource = "urman.oldpc:document/rec_marat_case_register_conflict";
     private const string VillageArticle = "urman.oldpc:document/tw_kara_urman_village";
+    private const string VocabularySource = "urman.oldpc:document/doc_household_radio_log";
     private const string LinkedJournalSource = "urman.oldpc:document/tw_local_names";
     private const string Slot = "oldpc-desktop-proof";
     private readonly List<string> _checks = [];
@@ -83,6 +84,39 @@ public partial class OldPcDesktopSmokeTest : Node
             var page = ui.GetNode<RichTextLabel>("Screen/App_browser/Layout/Content/Page");
             Check(page.GetThemeFontSize("normal_font_size") == 24,
                 "Article text uses a readable 24 design-pixel baseline at 720p.");
+            // The archive reader is the existing ACT1-LANG.2 collection path;
+            // merely showing a browser index must not grant a word.
+            ui.OpenArchiveSource(VocabularySource);
+            await Frames(8);
+            ui.LaunchApplication("vocabulary");
+            await Frames(4);
+            var vocabularyList = ui.GetNode<ItemList>("Screen/App_vocabulary/Layout/Content/Layout/Entries");
+            var vocabularyReader = ui.GetNode<RichTextLabel>("Screen/App_vocabulary/Layout/Content/Layout/Reader/Text");
+            var urmanRow = Enumerable.Range(0, vocabularyList.ItemCount)
+                .FirstOrDefault(index => vocabularyList.GetItemMetadata(index).AsString().EndsWith("tt_urman", StringComparison.Ordinal), -1);
+            Check(urmanRow >= 0, "The old-PC dictionary shows the word collected from the opened article.");
+            vocabularyList.Select(urmanRow);
+            vocabularyList.EmitSignal(ItemList.SignalName.ItemSelected, (long)urmanRow);
+            var vocabularyText = vocabularyReader.GetParsedText();
+            var vocabularyProjection = string.Join(" | ", bridge.LearnedVocabulary()
+                .Select(entry => $"{entry.Id} status={entry.Status} source={entry.SourceId} title={entry.SourceTitle} examples=[{string.Join("; ", entry.Examples)}]"));
+            Check(vocabularyText.Contains("Статус: Гипотеза", StringComparison.Ordinal)
+                && vocabularyReader.GetParsedText().Contains("Первый источник: Заметки о приёме радиоприёмника", StringComparison.Ordinal)
+                && vocabularyReader.GetParsedText().Contains("Примеры из первого источника:", StringComparison.Ordinal)
+                && vocabularyReader.GetParsedText().Contains("В сторону урмана приём всегда глохнет", StringComparison.Ordinal),
+                "The dictionary keeps the collected word's status, first source and real source example."
+                + $" reader=[{vocabularyText}] projection=[{vocabularyProjection}]");
+            Check(vocabularyList.GetThemeFontSize("font_size") == 24
+                && vocabularyReader.GetThemeFontSize("normal_font_size") == 24,
+                "The dictionary uses the existing readable desktop baseline.");
+            CheckInsideScreen(ui, ui.GetNode<Control>("Screen/App_vocabulary"),
+                "The dictionary window remains inside the desktop shell.");
+            // Restore the pre-dictionary window stack through the existing UI
+            // close path before the later Alt+Tab focus contract.
+            ui.CloseApplication("vocabulary");
+            ui.CloseApplication("archive");
+            ui.LaunchApplication("browser");
+            await Frames(3);
             page.EmitSignal(RichTextLabel.SignalName.MetaClicked, Variant.From("doc:urman.oldpc:document/tw_local_names"));
             await Frames(8);
             Check(ui.BrowserDocumentId == "urman.oldpc:document/tw_local_names", "A real page link reaches another compiled source.");
@@ -254,6 +288,12 @@ public partial class OldPcDesktopSmokeTest : Node
             await Frames(4);
             Check(ui.PersonalFiles.Count == 2 && ui.PersonalFiles.Any(note => note.Id == noteId && !note.Deleted),
                 "Load restores both personal files and the recycle-bin consequence.");
+            var restoredVocabulary = bridge.LearnedVocabulary()
+                .Single(entry => entry.Id.EndsWith("tt_urman", StringComparison.Ordinal));
+            Check(restoredVocabulary.SourceId == VocabularySource
+                && restoredVocabulary.SourceTitle == "Заметки о приёме радиоприёмника"
+                && restoredVocabulary.Examples.Any(example => example.Contains("В сторону урмана приём всегда глохнет", StringComparison.Ordinal)),
+                "Load preserves the dictionary word's first source and real usage example.");
             var restored = bridge.OldPcState().GetProperty("desktop").Deserialize<OldPcDesktopSnapshot>(OldPcDesktopSnapshot.JsonOptions)!;
             Check(restored.BrowserHistory.Contains("doc:" + VillageArticle), "Browser history survives the shared save.");
             Check(!ui.BrowserAddress.Contains("urman.oldpc:", StringComparison.Ordinal),

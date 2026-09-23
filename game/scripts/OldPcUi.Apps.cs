@@ -33,10 +33,17 @@ public partial class OldPcUi
     private DocumentImageReader _pictureReader = null!;
     private long _pictureVersion;
     private bool _settingEditor;
+    private ItemList _vocabularyList = null!;
+    private RichTextLabel _vocabularyReader = null!;
+    private Label _vocabularyStatus = null!;
+    private IReadOnlyList<ResolvedVocabularyEntry> _vocabularyEntries = [];
+    private string? _activeVocabularyId;
 
     public string? BrowserDocumentId => _browserDocumentId;
     public string BrowserAddress => _browserAddress?.Text ?? string.Empty;
     public IReadOnlyList<OldPcNoteSnapshot> PersonalFiles => _desktop.Files;
+    public string? ActiveVocabularyId => _activeVocabularyId;
+    public string VocabularyReaderText => _vocabularyReader?.GetParsedText() ?? string.Empty;
 
     private void BuildDesktopApplications()
     {
@@ -47,7 +54,99 @@ public partial class OldPcUi
         BuildPictures();
         BuildChat();
         BuildGlobalSearch();
+        BuildVocabulary();
         BuildTetris();
+    }
+
+    private void BuildVocabulary()
+    {
+        var body = CreateDesktopWindow("vocabulary", "Татарский словарь", out _);
+        var split = new HSplitContainer { Name = "Layout", SizeFlagsVertical = Control.SizeFlags.ExpandFill };
+        body.AddChild(split);
+        _vocabularyList = new ItemList { Name = "Entries", SizeFlagsVertical = Control.SizeFlags.ExpandFill,
+            CustomMinimumSize = new Vector2(220, 0), FocusMode = Control.FocusModeEnum.All };
+        split.AddChild(_vocabularyList);
+        var reader = new VBoxContainer { Name = "Reader", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        split.AddChild(reader);
+        _vocabularyReader = new RichTextLabel { Name = "Text", BbcodeEnabled = false,
+            SizeFlagsVertical = Control.SizeFlags.ExpandFill, ScrollActive = true,
+            SelectionEnabled = true, FocusMode = Control.FocusModeEnum.All,
+            Text = "Прочитанные и услышанные татарские слова появятся здесь." };
+        reader.AddChild(_vocabularyReader);
+        _vocabularyStatus = new Label { Name = "Status", AutowrapMode = TextServer.AutowrapMode.WordSmart };
+        reader.AddChild(_vocabularyStatus);
+        _vocabularyList.ItemSelected += SelectVocabulary;
+        RefreshVocabulary();
+    }
+
+    private void RefreshVocabulary()
+    {
+        if (_vocabularyList is null) return;
+        var previous = _activeVocabularyId;
+        _vocabularyEntries = _bridge?.LearnedVocabulary() ?? [];
+        _vocabularyList.Clear();
+        foreach (var entry in _vocabularyEntries)
+        {
+            var status = entry.Status == "confirmed" ? "✓" : "?";
+            var row = _vocabularyList.AddItem($"{status} {entry.Term}");
+            _vocabularyList.SetItemMetadata(row, entry.Id);
+            _vocabularyList.SetItemTooltip(row,
+                entry.Status == "confirmed" ? "Значение подтверждено" : "Пока только гипотеза");
+        }
+
+        _vocabularyStatus.Text = _vocabularyEntries.Count == 0
+            ? "В словаре пока нет найденных слов."
+            : $"Слов в словаре: {_vocabularyEntries.Count} · показываются только найденные слова";
+        if (_vocabularyEntries.Count == 0)
+        {
+            _activeVocabularyId = null;
+            _vocabularyReader.Text = "Прочитанные и услышанные татарские слова появятся здесь.";
+            return;
+        }
+
+        var index = 0;
+        if (previous is not null)
+        {
+            for (var candidate = 0; candidate < _vocabularyEntries.Count; candidate++)
+            {
+                if (_vocabularyEntries[candidate].Id != previous) continue;
+                index = candidate;
+                break;
+            }
+        }
+        index = Math.Clamp(index, 0, _vocabularyEntries.Count - 1);
+        _vocabularyList.Select(index);
+        RenderVocabulary(_vocabularyEntries[index]);
+        _vocabularyList.EnsureCurrentIsVisible();
+    }
+
+    private void SelectVocabulary(long index)
+    {
+        if (index < 0 || index >= _vocabularyEntries.Count) return;
+        RenderVocabulary(_vocabularyEntries[(int)index]);
+    }
+
+    private void RenderVocabulary(ResolvedVocabularyEntry entry)
+    {
+        _activeVocabularyId = entry.Id;
+        var status = entry.Status == "confirmed" ? "Подтверждено" : "Гипотеза";
+        var lines = new List<string>
+        {
+            entry.Term,
+            $"Статус: {status}",
+            $"Значение: {entry.Meaning}",
+            $"Первый источник: {entry.SourceTitle}"
+        };
+        if (entry.Examples.Count > 0)
+        {
+            lines.Add("Примеры из первого источника:");
+            lines.AddRange(entry.Examples.Select(example => "• " + example));
+        }
+        else
+        {
+            lines.Add("Примеры: пока нет доступного прочитанного или услышанного контекста.");
+        }
+        _vocabularyReader.Text = string.Join("\n", lines);
     }
 
     private void BuildFiles()

@@ -4,3 +4,8 @@
 - Prefers agent to delete temporary runs and temp files (videos, photos, logs) once unneeded to free disk space. Confidence: 0.9
 - Prefers keeping local junk and generated noise out of version control via .gitignore. Confidence: 0.85
 - Prefers many small meaningful commits over one large squashed commit. Confidence: 0.9
+- Prefers agent to ask clarifying questions about mechanics before drafting specs to nail exact requirements. Confidence: 0.8
+- Prefers new features captured as detailed spec doc in docs/tasktracker with mirrored tasks in TASKS.md and execution_backlog.json. Confidence: 0.8
+- Expects agent to directly read past session transcript files (e.g. ~/.commandcode/projects/.../*.jsonl) to reconstruct prior conversation context instead of being told about it. Confidence: 0.7
+- Wants AI agents to run in an endless autonomous loop over the task tracker, moving to the next unblocked task without pausing for per-step confirmation. Confidence: 0.75
+- Prefers reusable "launch prompts" written out so work can be handed off to another AI agent/model. Confidence: 0.65

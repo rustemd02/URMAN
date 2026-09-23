@@ -40,6 +40,14 @@ public sealed class NarrativeStateTests
                 questId = "urman.chapter1:quest/quest_language_reread",
                 stageId = "reread-source",
                 status = "active"
+            }),
+            // A delayed observation must attach its context without erasing
+            // a confirmation that committed while the observer was waiting.
+            Command("n:6", NarrativeCommandHandlers.VocabularyLearn, new
+            {
+                wordId = "urman.chapter1:vocabulary/yaramyy",
+                sourceId = "urman.oldpc:document/doc_household_radio_log",
+                status = "guessed"
             })
         };
 
@@ -55,7 +63,7 @@ public sealed class NarrativeStateTests
         Assert.Single(state.GetProperty("journal").EnumerateArray());
         Assert.Single(state.GetProperty("dialogueChoices").EnumerateArray());
         Assert.Equal("active", state.GetProperty("quests").GetProperty("urman.chapter1:quest/quest_language_reread").GetProperty("status").GetString());
-        Assert.Equal(5, kernel.CaptureSnapshot().EventSequence);
+        Assert.Equal(6, kernel.CaptureSnapshot().EventSequence);
     }
 
     private static GameCommand Command(string occurrenceId, string type, object payload) =>

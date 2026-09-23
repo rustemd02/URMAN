@@ -21149,7 +21149,8 @@
           "status": "pending",
           "reviewer": null,
           "notes": "Single everyday word from the accepted optional list; longer phrases require a Tatar-language review."
-        }
+        },
+        "startingKnowledge": "family"
       },
       {
         "schemaVersion": 1,
@@ -21173,7 +21174,8 @@
           "status": "pending",
           "reviewer": null,
           "notes": "Single everyday word from the accepted optional list; longer phrases require a Tatar-language review."
-        }
+        },
+        "startingKnowledge": "family"
       },
       {
         "schemaVersion": 1,
@@ -21198,7 +21200,8 @@
           "status": "pending",
           "reviewer": null,
           "notes": "Single everyday word from the accepted optional list; longer phrases require a Tatar-language review."
-        }
+        },
+        "startingKnowledge": "everyday"
       },
       {
         "schemaVersion": 1,
@@ -21225,7 +21228,8 @@
           "status": "pending",
           "reviewer": null,
           "notes": "Before the finale this supports only an evidence-based danger hypothesis."
-        }
+        },
+        "startingKnowledge": "literary"
       },
       {
         "schemaVersion": 1,
@@ -21249,7 +21253,8 @@
           "status": "pending",
           "reviewer": null,
           "notes": "This is never an enemy label, combat class, or ordinary Chapter 1 character."
-        }
+        },
+        "startingKnowledge": "literary"
       },
       {
         "schemaVersion": 1,
@@ -21274,7 +21279,8 @@
           "status": "pending",
           "reviewer": null,
           "notes": "The term changes the meaning of a source; it does not disclose a complete rule before the finale."
-        }
+        },
+        "startingKnowledge": "literary"
       },
       {
         "schemaVersion": 1,
@@ -21300,7 +21306,8 @@
           "status": "pending",
           "reviewer": null,
           "notes": "Individual term retained from the accepted vocabulary chain; longer phrases require a Tatar-language review."
-        }
+        },
+        "startingKnowledge": "literary"
       },
       {
         "schemaVersion": 1,
@@ -21324,7 +21331,8 @@
           "status": "pending",
           "reviewer": null,
           "notes": "Single everyday word from the accepted optional list; longer phrases require a Tatar-language review."
-        }
+        },
+        "startingKnowledge": "everyday"
       },
       {
         "schemaVersion": 1,
@@ -21348,7 +21356,8 @@
           "status": "pending",
           "reviewer": null,
           "notes": "Single everyday word from the accepted optional list; longer phrases require a Tatar-language review."
-        }
+        },
+        "startingKnowledge": "literary"
       },
       {
         "schemaVersion": 1,
@@ -21372,7 +21381,8 @@
           "status": "pending",
           "reviewer": null,
           "notes": "A domestic prohibition becomes meaningful through investigation, not a cipher."
-        }
+        },
+        "startingKnowledge": "literary"
       },
       {
         "schemaVersion": 1,
@@ -21397,7 +21407,8 @@
           "status": "pending",
           "reviewer": null,
           "notes": "Single everyday word from the accepted optional list; longer phrases require a Tatar-language review."
-        }
+        },
+        "startingKnowledge": "everyday"
       },
       {
         "schemaVersion": 1,
@@ -21422,7 +21433,8 @@
           "status": "pending",
           "reviewer": null,
           "notes": "The route passes by the zirat road; it does not turn the cemetery into a horror attraction."
-        }
+        },
+        "startingKnowledge": "everyday"
       }
     ]
   },
@@ -21443,7 +21455,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "3750388404979e123fdbb111b9af0dee9503c517a1146a7d0ac9a218f101505f"
+      "sha256": "a5c49f4d76a5069cff060002f78b698eeea5a5639a12c31ef23ffe115993f0e0"
     },
     {
       "moduleId": "urman.core",
@@ -21456,5 +21468,5 @@
       "sha256": "39543574d2925265c10f7726bae4d7e3fe0fff5fca4df801d14adec60bd37190"
     }
   ],
-  "campaignFingerprint": "4bf7d0a8648b6c20d4efd12a800642f890ab9c81a1d37050d1a04753a3802e12"
+  "campaignFingerprint": "f530787b29f73de3279196ad208401d7dba4597009d0b612f0050a3057c698ac"
 }
