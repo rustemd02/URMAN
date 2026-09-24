@@ -24,7 +24,7 @@ public sealed class ContentCompilerParityTests
         var goldenPath = Path.Combine(root, "tests-dotnet", "fixtures", "content", "urman.chapter1.compiled.v1.json");
         var golden = JsonNode.Parse(await File.ReadAllTextAsync(goldenPath, TestContext.Current.CancellationToken));
         Assert.True(JsonNode.DeepEquals(golden, result.Pack));
-        Assert.Equal("2912550270f831ad7bb5077d88465ee033eb843e0f35e7aae5d552523af050eb", result.Pack["campaignFingerprint"]!.GetValue<string>());
+        Assert.Equal("dea4bec7beef21050e247082a132a0c12d88b596b3a6ef29ba8b2e9eaf1edf5b", result.Pack["campaignFingerprint"]!.GetValue<string>());
         var house = result.Pack["registries"]!["scenes"]!.AsArray()
             .Single(scene => scene!["id"]!.GetValue<string>() == "urman.chapter1:scene/house");
         Assert.Contains(
@@ -139,17 +139,24 @@ public sealed class ContentCompilerParityTests
         var tierA = documents
             .Where(document => document!["oldPc"]?["tier"]?.GetValue<string>() == "A")
             .ToArray();
-        // The first authored batch of §6.2. The remaining tier-A records join the
-        // same rule as they land, and this list grows with them.
-        foreach (var id in new[]
-                 {
-                     "urman.oldpc:document/doc_marat_official_death_notice",
-                     "urman.oldpc:document/rec_marat_case_register_conflict",
-                     "urman.oldpc:document/rec_internal_accounting_line_1987",
-                     "urman.oldpc:document/rec_internal_accounting_damaged",
-                     "urman.oldpc:document/doc_kara_urman_edge_sketch"
-                 })
-            Assert.Contains(tierA, document => document!["id"]!.GetValue<string>() == id);
+        // The twelve investigation records of §6.2 tier A.
+        var expected = new[]
+        {
+            "urman.oldpc:document/doc_marat_official_death_notice",
+            "urman.oldpc:document/rec_marat_case_register_conflict",
+            "urman.oldpc:document/rec_internal_accounting_line_1987",
+            "urman.oldpc:document/rec_internal_accounting_damaged",
+            "urman.oldpc:document/doc_kara_urman_edge_sketch",
+            "urman.oldpc:document/doc_letter_from_kazan",
+            "urman.oldpc:document/doc_school_notebook_marat_page",
+            "urman.oldpc:document/rec_violations_compensation_summary",
+            "urman.oldpc:document/rec_internal_accounting_blank_1970s",
+            "urman.oldpc:document/tw_zirat_customs",
+            "urman.oldpc:document/doc_marat_medical_card",
+            "urman.oldpc:document/rec_fanis_explanatory_niva"
+        };
+        Assert.Equal(expected.Order(StringComparer.Ordinal),
+            tierA.Select(document => document!["id"]!.GetValue<string>()).Order(StringComparer.Ordinal));
 
         foreach (var document in tierA)
         {
@@ -166,6 +173,50 @@ public sealed class ContentCompilerParityTests
             var bodyText = document["bodyMarkdown"]!.GetValue<string>();
             var links = bodyText.Split("doc:urman.oldpc:document/", StringSplitOptions.None).Length - 1;
             Assert.True(links >= 2, id + " links at least two related records");
+        }
+    }
+
+    [Fact]
+    public async Task ChapterOne_HouseholdAndNetworkTiersStayContrastNotKeys()
+    {
+        // §6.2/§6.5: ten household records of at least 150 words and ten or more
+        // short linked network pages. Neither tier may open behind an
+        // investigation gate or hand out investigation knowledge when read.
+        var root = FindWorkspaceRoot();
+        var compilation = await new ContentCompiler().CompileAsync(
+            root,
+            "urman.chapter1",
+            ["urman.chapter1", "urman.core", "urman.oldpc"],
+            TestContext.Current.CancellationToken);
+
+        Assert.Empty(compilation.Diagnostics);
+        var documents = compilation.Pack!["registries"]!["documents"]!.AsArray();
+        JsonNode?[] Tier(string tier) => documents
+            .Where(document => document!["oldPc"]?["tier"]?.GetValue<string>() == tier)
+            .ToArray();
+        var tierB = Tier("B");
+        Assert.Equal(10, tierB.Length);
+        foreach (var document in tierB)
+        {
+            var id = document!["id"]!.GetValue<string>();
+            var body = document["bodyMarkdown"]!.GetValue<string>();
+            Assert.True(body.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length >= 150,
+                id + " keeps the household depth of at least 150 words");
+            Assert.Empty(document["accessConditions"]!.AsArray());
+            Assert.DoesNotContain(document["openEffects"]!.AsArray(),
+                effect => effect!["op"]!.GetValue<string>() == "knowledge.set-status");
+        }
+
+        var tierC = Tier("C");
+        Assert.True(tierC.Length >= 10, "at least ten network pages");
+        foreach (var document in tierC)
+        {
+            var id = document!["id"]!.GetValue<string>();
+            Assert.True(document["bodyMarkdown"]!.GetValue<string>().Contains("](doc:urman.oldpc:document/", StringComparison.Ordinal),
+                id + " links at least one related record");
+            Assert.DoesNotContain(document["openEffects"]!.AsArray(),
+                effect => effect!["op"]!.GetValue<string>() == "knowledge.set-status"
+                    && effect["knowledgeId"]!.GetValue<string>() != "urman.chapter1:knowledge/clue_mansur_unsent_note_read");
         }
     }
 

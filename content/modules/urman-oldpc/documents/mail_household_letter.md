@@ -8,7 +8,7 @@ assetRefs: []
 knowledgeRefs: []
 accessConditions: []
 openEffects: []
-oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["письмо","почта","рецепт","Гөлсинә","site:mail"],"suggestedTerms":["письмо","почта"]}
+oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["письмо","почта","рецепт","Гөлсинә","site:mail"],"suggestedTerms":["письмо","почта"],"tier":"B"}
 ---
 
 # Письмо Гөлсинә
@@ -23,5 +23,13 @@ oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"soft_canon"
 
 Салам всем дома.
 
-[Сохранённые сообщения](yalkyn) · [Подписи на коробках с фото](doc:urman.oldpc:document/doc_household_photo_box_labels)
+P.S. Спроси у Мансура, работает ли ещё его «Нива». Мой говорит, что таких больше не делают, а я говорю, что делают, только уже не такие.
 
+P.P.S. Внук твой вырос, я видела фотографию у дочери твоей в телефоне. Высокий. На Мансура похож, только молчит меньше.
+
+## Черновик ответа, не отправлен
+
+
+«Спасибо за рецепт. Муку я всё-таки сыпала всю сразу, получилось, как всегда. Фотографии жду. Внук приехал, живёт у нас, ест хорошо. Мансур говорит мало, как ты и написала. Приезжай летом, если сможешь, погреб полный».
+
+[Сохранённые сообщения](yalkyn) · [Подписи на коробках с фото](doc:urman.oldpc:document/doc_household_photo_box_labels)

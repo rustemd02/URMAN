@@ -8,7 +8,7 @@ assetRefs: []
 knowledgeRefs: []
 accessConditions: []
 openEffects: []
-oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["Алсу","Казань","фотографии","site:yalkyn","view:profile"],"suggestedTerms":["Алсу","Казань"]}
+oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["Алсу","Казань","фотографии","site:yalkyn","view:profile"],"suggestedTerms":["Алсу","Казань"],"tier":"C"}
 ---
 
 # Алсу Равил кызы

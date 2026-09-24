@@ -8,7 +8,7 @@ assetRefs: ["urman.oldpc:asset/ui-document-viewer-template"]
 knowledgeRefs: ["urman.chapter1:knowledge/clue_household_electric_receipts"]
 accessConditions: []
 openEffects: [{"op":"journal.record","entryId":"urman.oldpc:document/doc_household_electric_receipts","sourceId":"urman.oldpc:document/doc_household_electric_receipts"}]
-oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"canon","reliability":"village_record","searchTerms":["квитанции","свет","электричество","напряжение","счётчик"],"suggestedTerms":["счётчик","долг"]}
+oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"canon","reliability":"village_record","searchTerms":["квитанции","свет","электричество","напряжение","счётчик"],"suggestedTerms":["счётчик","долг"],"tier":"B"}
 ---
 
 # Папка: квитанции за свет
@@ -20,3 +20,11 @@ oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"canon",
 На июньской того же года вторая приписка, короче: «Опять. Вечером не гладить и не печь. Пусть».
 
 Больше приписок нет. Дальше квитанции просто оплачены и подшиты.
+
+## Конверт с чеками за 2004–2010
+
+Квитанции сменили форму: теперь их печатают в районе, с шапкой энергосбыта. Суммы растут ровно, как у всех. Под квитанцией за январь 2008-го подколот чек на лампочки — десять штук, «по сорок ватт, ярче не надо, пробки выбивает».
+
+Отдельно, в файлике, — акт замены счётчика. Электрик расписался, Мансур расписался, в графе «замечания» пусто. На обороте рукой Гөлсинә: «Новый крутится быстрее старого. Или мы стали больше жечь. Спросить у Гараевых, у них такой же».
+
+Ниже, другой ручкой: «Спросила. У них тоже быстрее. Значит, счётчик». Проблема решена и больше не всплывает.

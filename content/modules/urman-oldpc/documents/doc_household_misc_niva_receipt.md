@@ -8,7 +8,7 @@ assetRefs: ["urman.oldpc:asset/ui-document-viewer-template"]
 knowledgeRefs: ["urman.chapter1:knowledge/clue_household_niva_list"]
 accessConditions: []
 openEffects: [{"op":"journal.record","entryId":"urman.oldpc:document/doc_household_misc_niva_receipt","sourceId":"urman.oldpc:document/doc_household_misc_niva_receipt"}]
-oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"canon","reliability":"personal_memory","searchTerms":["Нива","хозяйство","гараж","Фанис","квитанция","бензин"],"suggestedTerms":["гараж","Фанис"]}
+oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"canon","reliability":"personal_memory","searchTerms":["Нива","хозяйство","гараж","Фанис","квитанция","бензин"],"suggestedTerms":["гараж","Фанис"],"tier":"B"}
 ---
 
 # Квитанция
@@ -28,3 +28,9 @@ oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"canon",
 Расходники на сезон: масло — 4 л, тормозные колодки — комплект, свечи — 4 шт. Ремень генератора взять с запасом, у нас в деревне этот ремень «живёт три года и один месяц».
 
 Приписка карандашом: «Фанису передать, что жгут проводов пока не трогаем, ездим так. На короткие — хватит. В Казань на ней больше не ездием, и не надо».
+
+## Скрепка с чеками
+
+К квитанции приколоты чеки из районного магазина запчастей: ремень, свечи, лампа поворотника «на правую, опять». На одном чеке ручкой: «Дорого. Фанис сказал, в городе дешевле. Фанис в городе был два раза в жизни».
+
+Отдельный листок — запись пробега перед зимой: «Спидометр врёт на десять процентов, считать по столбам». Ниже — расход на сто километров, три раза пересчитанный, и вывод: «Жрёт как трактор. Зато заводится». Ещё ниже, другой ручкой: «Заводится не всегда. В мороз — через раз, с толкача».

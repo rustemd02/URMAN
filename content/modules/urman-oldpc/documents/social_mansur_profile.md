@@ -8,7 +8,7 @@ assetRefs: []
 knowledgeRefs: []
 accessConditions: []
 openEffects: []
-oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["Мансур","бабай","хозяйство","site:yalkyn","site:home","view:profile"],"suggestedTerms":["Мансур","бабай"]}
+oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["Мансур","бабай","хозяйство","site:yalkyn","site:home","view:profile"],"suggestedTerms":["Мансур","бабай"],"tier":"C"}
 ---
 
 # Мансур

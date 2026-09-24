@@ -8,7 +8,7 @@ assetRefs: ["urman.chapter1:asset/photo-marat-childhood"]
 knowledgeRefs: []
 accessConditions: [{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/memory_marat_childhood_photo","status":"confirmed"}]
 openEffects: []
-oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["Марат","Айдар","фото","альбом","site:yalkyn","view:post"],"suggestedTerms":["Марат","Айдар"]}
+oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["Марат","Айдар","фото","альбом","site:yalkyn","view:post"],"suggestedTerms":["Марат","Айдар"],"tier":"C"}
 ---
 
 # Сохранённая семейная фотография

@@ -8,7 +8,7 @@ assetRefs: []
 knowledgeRefs: []
 accessConditions: []
 openEffects: []
-oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["сайт","Кара-Урман","новости","site:village","site:home"],"suggestedTerms":["сайт","Кара-Урман"]}
+oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["сайт","Кара-Урман","новости","site:village","site:home"],"suggestedTerms":["сайт","Кара-Урман"],"tier":"C"}
 ---
 
 # КАРА-УРМАН

@@ -8,7 +8,7 @@ assetRefs: []
 knowledgeRefs: []
 accessConditions: []
 openEffects: []
-oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["сообщество","поздравления","объявления","комментарии","site:yalkyn","view:community"],"suggestedTerms":["сообщество","поздравления"]}
+oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["сообщество","поздравления","объявления","комментарии","site:yalkyn","view:community"],"suggestedTerms":["сообщество","поздравления"],"tier":"C"}
 ---
 
 # Наш авыл

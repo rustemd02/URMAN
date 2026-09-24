@@ -8,7 +8,7 @@ assetRefs: []
 knowledgeRefs: []
 accessConditions: []
 openEffects: []
-oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["2010","2011","2012","Сабантуй","гостевая книга","site:village"],"suggestedTerms":["2010","2011"]}
+oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["2010","2011","2012","Сабантуй","гостевая книга","site:village"],"suggestedTerms":["2010","2011"],"tier":"C"}
 ---
 
 # Старые страницы: 2010–2012

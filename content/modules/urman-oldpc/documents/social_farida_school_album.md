@@ -8,7 +8,7 @@ assetRefs: []
 knowledgeRefs: []
 accessConditions: [{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/school-staff-note-read","status":"confirmed"}]
 openEffects: []
-oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["Фәридә","Сабировы","школа","фотографии","site:yalkyn","view:post"],"suggestedTerms":["Сабировы","школьный альбом"]}
+oldPc: {"type":"message","pcSection":"saved_messages","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["Фәридә","Сабировы","школа","фотографии","site:yalkyn","view:post"],"suggestedTerms":["Сабировы","школьный альбом"],"tier":"C"}
 ---
 
 # Фәридә Габдулловна

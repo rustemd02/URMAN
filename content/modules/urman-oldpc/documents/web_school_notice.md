@@ -8,7 +8,7 @@ assetRefs: []
 knowledgeRefs: []
 accessConditions: []
 openEffects: []
-oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["школа","дети","автобус","site:village"],"suggestedTerms":["школа","дети"]}
+oldPc: {"type":"folder_note","pcSection":"household_misc","canonStatus":"soft_canon","reliability":"personal_memory","searchTerms":["школа","дети","автобус","site:village"],"suggestedTerms":["школа","дети"],"tier":"C"}
 ---
 
 # Информация для родителей
