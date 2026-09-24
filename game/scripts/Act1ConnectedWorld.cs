@@ -427,6 +427,7 @@ public partial class Act1ConnectedWorld : Node3D
         BuildPublicBuildings();
         RepairStandaloneZiratFenceJunction();
         BuildShopUses();
+        HideOverlappingStructures();
         BuildAddressRegistry();
         AddressRead += RememberReadAddress;
         BuildAct1Vehicles();
@@ -5925,9 +5926,12 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualTree(parent, "BabaiWestFieldNeighborBirch", new(-45.0f, 0f, 9.0f), 7.6f, VegetationStyle.Birch, "596047");
         AddVisualTree(parent, "BabaiWestFieldNeighborConifer", new(-37.0f, 0f, 12.0f), 8.2f, VegetationStyle.Conifer, "30483f");
         AddVisualTree(parent, "BabaiEbiHouseNearBirch", new(-38.0f, 0f, 0.7f), 6.4f, VegetationStyle.Birch, "596047");
-        AddDistantHouse(parent, new(-7.0f, 0f, 18.0f), 180f, "BabaiReverseFieldNeighborHouse");
-        AddVisualFenceRun(parent, "BabaiReverseFieldNeighborFence", new(-12.0f, 0f, 16.0f), new(-3.0f, 0f, 16.0f));
-        AddVisualTree(parent, "BabaiReverseFieldNeighborBirch", new(-3.5f, 0f, 20.5f), 7.5f, VegetationStyle.Birch, "596047");
+        // Tukay 13 stood 87% inside Tukay 7 (ArrivalWestNearAuthoredTimberGableParcel),
+        // two addressed houses in one spot. It moves to the free lot east of the
+        // arrival road, its front toward the road, with its own fence and birch.
+        AddDistantHouse(parent, new(12.0f, 0f, 41.0f), 270f, "BabaiReverseFieldNeighborHouse");
+        AddVisualFenceRun(parent, "BabaiReverseFieldNeighborFence", new(7.6f, 0f, 36.5f), new(7.6f, 0f, 45.5f));
+        AddVisualTree(parent, "BabaiReverseFieldNeighborBirch", new(16.5f, 0f, 45.0f), 7.5f, VegetationStyle.Birch, "596047");
         AddCoreFacetedMass(parent, "BabaiEbiHouseStreetMemoryMass", new(-30.0f, 2.1f, 8.2f), new(7.0f, 2.0f, 2.0f), "55615a");
     }
 

@@ -4,11 +4,15 @@ namespace Urman.Godot;
 
 /// <summary>Mounts the entire physical plate on an exterior facade. Exact polygon
 /// subtraction checks openings; a foreground prism includes posts and annexes.
-/// The plate keeps its real 1.18m size on every house: it is street furniture
-/// for the reader, never a miniature of the building behind it.</summary>
+/// The plate is a village house plate, 0.60 x 0.23 m (2026-09-24: the author
+/// found the former 1.18 m street-sign size too big), the same on every house,
+/// and hangs at one eye height beside the door so a row of plates reads level.</summary>
 internal static class AddressFacadeMount
 {
-    internal const float HalfWidth=.59f, HalfHeight=.215f;
+    internal const float HalfWidth=.30f, HalfHeight=.115f;
+    internal const float RivetX=HalfWidth-.03f, RivetY=HalfHeight-.03f;
+    // Plate centre above the facade's own ground, and the tolerance around it.
+    internal const float MountHeight=1.9f, MountLow=1.6f, MountHigh=2.4f;
     internal sealed record Triangle(Vector2 A,Vector2 B,Vector2 C);
     internal sealed record Coverage(bool Supported,double MissingArea,string Owner,string Reason);
     private sealed record Face(Vector3 A,Vector3 B,Vector3 C,string Owner);
@@ -35,7 +39,7 @@ internal static class AddressFacadeMount
         // Rural fallback: when the facade has no opening-free stretch beside
         // the door (vent gable, fully pierced walls, small silhouette), the
         // plate hangs on the street fence or gate post of the same parcel —
-        // exactly where Tatarstan villages put them. The 1.18m plate keeps
+        // exactly where Tatarstan villages put them. The plate keeps
         // its real size; only the mount surface changes.
         var fenceFailure=failure;
         if(TryFindOnParcelFence(building,door,outward,world,out point,out owner,out var fenceRefusal))return true;
@@ -74,7 +78,7 @@ internal static class AddressFacadeMount
         // door or gate, at eye height — on the wall segment the door pierces,
         // offset along the facade, never centered above the entrance.
         var doorAlong=door.Dot(right);
-        var desired=new Vector2(doorAlong+.95f,door.Y+.48f);
+        var desired=new Vector2(doorAlong+.62f,Act1ConnectedWorld.AddressGround(door).Y+MountHeight);
         var candidates=new List<(float Score,Vector2 Center,Plane Plane)>();
         foreach(var plane in planes)
         {
@@ -101,15 +105,15 @@ internal static class AddressFacadeMount
             }
             if(ranges.Count==0)continue;
             foreach(var (rangeLo,rangeHi) in ranges)
-            foreach(var x in Samples(rangeLo,rangeHi,desired.X,.16f))
+            foreach(var x in Samples(rangeLo,rangeHi,desired.X,.08f))
             {
                 // A recessed annex entrance may lie several metres down the
                 // slope. Judge plate height against the facade's own ground.
                 var facadeGround=Act1ConnectedWorld.AddressGround(right*x+outward*plane.Depth).Y;
-                var minY=Math.Max(vertices.Min(p=>p.Y)+HalfHeight+.025f,facadeGround+1.35f);
-                var maxY=Math.Min(vertices.Max(p=>p.Y)-HalfHeight-.025f,facadeGround+3.0f);
+                var minY=Math.Max(vertices.Min(p=>p.Y)+HalfHeight+.025f,facadeGround+MountLow);
+                var maxY=Math.Min(vertices.Max(p=>p.Y)-HalfHeight-.025f,facadeGround+MountHigh);
                 if(minY>maxY)continue;
-                foreach(var y in Samples(minY,maxY,desired.Y,.12f))
+                foreach(var y in Samples(minY,maxY,desired.Y,.06f))
                 {
                     var center=new Vector2(x,y);
                     var fastCheck=BoardJoints(plane.Owner)?FastenerPoints(center):RequiredMountPoints(center);
@@ -133,7 +137,7 @@ internal static class AddressFacadeMount
             if(!coverage.Supported){Refused(coverage.Reason+" at "+candidate.Plane.Owner);continue;}
             var p=right*candidate.Center.X+Vector3.Up*candidate.Center.Y+outward*(candidate.Plane.Depth+.021f);
             if(Occluder(faces,p,outward,right) is { } occluder){Refused("Exterior view blocked by "+occluder);continue;}
-            point=p;owner=candidate.Plane.Owner;return true;
+            point=ProudOfOwnCladding(building,p,outward,right);owner=candidate.Plane.Owner;return true;
         }
         failure=string.Join("; ",refusals.OrderByDescending(r=>r.Value).Take(3).Select(r=>r.Key+" ("+r.Value+" candidates)"));
         return false;
@@ -191,7 +195,7 @@ internal static class AddressFacadeMount
     }
     private static IEnumerable<Vector2> FastenerPoints(Vector2 center)
     {
-        foreach(var x in new[]{-.535f,.535f})foreach(var y in new[]{-.153f,.153f})yield return center+new Vector2(x,y);
+        foreach(var x in new[]{-RivetX,RivetX})foreach(var y in new[]{-RivetY,RivetY})yield return center+new Vector2(x,y);
     }
     internal static IEnumerable<Vector2> RequiredMountPoints(Vector2 center)
     {
@@ -199,7 +203,7 @@ internal static class AddressFacadeMount
         // below is what detects holes between these points.
         for(var i=0;i<=12;i++){var x=-HalfWidth+2*HalfWidth*i/12;yield return center+new Vector2(x,-HalfHeight);yield return center+new Vector2(x,HalfHeight);}
         for(var i=1;i<6;i++){var y=-HalfHeight+2*HalfHeight*i/6;yield return center+new Vector2(-HalfWidth,y);yield return center+new Vector2(HalfWidth,y);}
-        foreach(var x in new[]{-.535f,.535f})foreach(var y in new[]{-.153f,.153f})yield return center+new Vector2(x,y);
+        foreach(var x in new[]{-RivetX,RivetX})foreach(var y in new[]{-RivetY,RivetY})yield return center+new Vector2(x,y);
     }
     private static List<Plane> Planes(Node3D building,Vector3 outward,Vector3 right,string? explicitExteriorWall=null)
     {
@@ -301,6 +305,31 @@ internal static class AddressFacadeMount
         failure="fence candidates occluded: "+string.Join("; ",refusals.OrderByDescending(r=>r.Value).Take(2).Select(r=>r.Key+" ("+r.Value+")"));
         return false;
     }
+    /// <summary>The house's own cladding in front of the wall plane (hewn log
+    /// courses, casings) is presentation geometry the occluder ignores; a plate
+    /// on the plane behind it would be buried. Move the plate onto the
+    /// frontmost cladding face within 0.3 m that overlaps its rectangle.</summary>
+    private static Vector3 ProudOfOwnCladding(Node3D building,Vector3 point,Vector3 outward,Vector3 right)
+    {
+        var depth=point.Dot(outward)-.021f;var front=depth;var cx=point.Dot(right);
+        foreach(var mesh in Descendants(building).OfType<MeshInstance3D>().Where(m=>m.Mesh is not null&&m.IsVisibleInTree()))
+        {
+            if(mesh.GetParent() is AddressSignVisualComponent)continue;
+            var raw=mesh.Mesh!.GetFaces();
+            for(var i=0;i+2<raw.Length;i+=3)
+            {
+                var a=mesh.GlobalTransform*raw[i];var b=mesh.GlobalTransform*raw[i+1];var c=mesh.GlobalTransform*raw[i+2];
+                var hi=Math.Max(a.Dot(outward),Math.Max(b.Dot(outward),c.Dot(outward)));
+                if(hi<=front+.002f||hi>depth+.30f)continue;
+                if(Math.Max(a.Y,Math.Max(b.Y,c.Y))<point.Y-HalfHeight||Math.Min(a.Y,Math.Min(b.Y,c.Y))>point.Y+HalfHeight)continue;
+                var ar=a.Dot(right);var br=b.Dot(right);var cr=c.Dot(right);
+                if(Math.Max(ar,Math.Max(br,cr))<cx-HalfWidth||Math.Min(ar,Math.Min(br,cr))>cx+HalfWidth)continue;
+                front=hi;
+            }
+        }
+        return front>depth?point+outward*(front-depth):point;
+    }
+
     private static Face[] VisibleFaces(Node3D root,Aabb bounds)
     {
         var result=new List<Face>();

@@ -236,7 +236,7 @@ public partial class AddressWorldSmokeTest : Node
             var point=sign.GlobalTransform*offset;
             var visibleSupport=VisibleSupport(surfaces,point+normal*.45f,-normal,1.25f);
             var visualGap=visibleSupport is null?(float?)null:visibleSupport.Value.Distance-.45f;
-            var fastener=Mathf.IsEqualApprox(Mathf.Abs(offset.X),.535f)&&Mathf.IsEqualApprox(Mathf.Abs(offset.Y),.153f);
+            var fastener=Mathf.IsEqualApprox(Mathf.Abs(offset.X),AddressFacadeMount.RivetX)&&Mathf.IsEqualApprox(Mathf.Abs(offset.Y),AddressFacadeMount.RivetY);
             var boardJoint=visualGap is null&&!fastener&&assessment.Supported&&assessment.MissingArea>0
                 &&assessment.Owner.Contains("BoardedGable",StringComparison.Ordinal);
             var mounted=visualGap is >=-.02f and <=.09f||boardJoint;
@@ -442,7 +442,7 @@ public partial class AddressWorldSmokeTest : Node
                     var stem=proposal.SurfaceName.Replace("DwellingFacade_","").Replace("_Wall_LOD0","");
                     var name="10_"+proposal.AddressId+"_"+stem+"_"+view.Name;
                     await Capture(name);
-                    var projected=preview is null?Array.Empty<object>():new[]{new Vector3(-.59f,-.215f,0),new(-.59f,.215f,0),new(.59f,.215f,0),new(.59f,-.215f,0)}
+                    var projected=preview is null?Array.Empty<object>():new[]{new Vector3(-AddressFacadeMount.HalfWidth,-AddressFacadeMount.HalfHeight,0),new(-AddressFacadeMount.HalfWidth,AddressFacadeMount.HalfHeight,0),new(AddressFacadeMount.HalfWidth,AddressFacadeMount.HalfHeight,0),new(AddressFacadeMount.HalfWidth,-AddressFacadeMount.HalfHeight,0)}
                         .Select(p=>{var pixel=camera.UnprojectPosition(preview.GlobalTransform*p);return (object)new{x=pixel.X,y=pixel.Y};}).ToArray();
                     _captures.Add(new{file=name+".png",proposal.AddressId,proposal.SurfaceName,view=view.Name,
                         diagnostic=true,previewOnly=true,actualProductionPlate=false,sourceGeometryChanged=false,

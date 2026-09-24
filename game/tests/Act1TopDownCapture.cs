@@ -19,6 +19,29 @@ public partial class Act1TopDownCapture : Node
             if (!await this.StartThroughMainMenuAsync(demo)) throw new InvalidOperationException("demo did not start");
             foreach (var layer in GetTree().Root.FindChildren("*", nameof(CanvasLayer), true, false).OfType<CanvasLayer>())
                 layer.Visible = false;
+            if (OS.GetEnvironment("URMAN_PLATE_SHOTS") is { Length: > 0 } plateCount)
+            {
+                // Eye-level look at the first N address plates, 2.6 m in front.
+                var eye = new Camera3D { Fov = 55f, Near = .05f, Far = 200f };
+                AddChild(eye);
+                eye.MakeCurrent();
+                var plates = GetTree().Root.FindChildren("AddressPlate_*", "", true, false).OfType<Node3D>()
+                    .Where(plate => plate.IsVisibleInTree()).OrderBy(plate => plate.Name.ToString()).ToArray();
+                var step = Math.Max(1, plates.Length / int.Parse(plateCount));
+                for (var index = 0; index < plates.Length; index += step)
+                {
+                    var plate = plates[index];
+                    var facing = plate.GlobalBasis.Z.Normalized();
+                    eye.GlobalPosition = plate.GlobalPosition + facing * 2.6f + Vector3.Down * .25f;
+                    eye.LookAt(plate.GlobalPosition + Vector3.Down * .2f);
+                    for (var i = 0; i < 12; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                    await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+                    using var frame = GetViewport().GetTexture().GetImage();
+                    frame.SavePng(System.IO.Path.Combine(OS.GetEnvironment("URMAN_TOPDOWN_OUTPUT"), plate.Name + ".png"));
+                }
+                GetTree().Quit(0);
+                return;
+            }
             var shots = OS.GetEnvironment("URMAN_SHOTS");
             if (shots.Length > 0)
             {
@@ -33,7 +56,8 @@ public partial class Act1TopDownCapture : Node
                     var z = float.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture);
                     var ground = Urman.Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(x, z);
                     var target = new Vector3(x, ground + 1.5f, z);
-                    oblique.GlobalPosition = target + new Vector3(11f, 7f, 11f);
+                    var reach = parts.Length > 3 ? float.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture) : 1f;
+                    oblique.GlobalPosition = target + new Vector3(11f, 7f, 11f) * reach;
                     oblique.LookAt(target);
                     for (var i = 0; i < 20; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
                     await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);

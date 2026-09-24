@@ -184,18 +184,18 @@ public partial class AddressRegistrySmokeTest : Node
         var hole=Rect(-.8f,-.4f,.11f,.4f).Concat(Rect(.15f,-.4f,.8f,.4f))
             .Concat(Rect(.11f,-.4f,.15f,.05f)).Concat(Rect(.11f,.09f,.15f,.4f)).ToArray();
         Check(!AddressFacadeMount.Cover(hole,Vector2.Zero).Supported,"exact footprint rejects a hole between probe samples");
-        Check(!AddressFacadeMount.Cover(Rect(-.55f,-.4f,.8f,.4f),Vector2.Zero).Supported,"full outer rim rejects an eleven-centimetre unchecked overhang");
+        Check(!AddressFacadeMount.Cover(Rect(-AddressFacadeMount.HalfWidth+.11f,-.4f,.8f,.4f),Vector2.Zero).Supported,"full outer rim rejects an eleven-centimetre unchecked overhang");
         var boards=Rect(-.8f,-.4f,.12f,.4f).Concat(Rect(.125f,-.4f,.8f,.4f)).ToArray();
         Check(!AddressFacadeMount.Cover(boards,Vector2.Zero).Supported&&AddressFacadeMount.Cover(boards,Vector2.Zero,true).Supported,"only explicitly boarded facade accepts a five-millimetre vertical joint");
         var centreJoint=Rect(-.8f,-.4f,-.004f,.4f).Concat(Rect(.004f,-.4f,.8f,.4f)).ToArray();
         Check(AddressFacadeMount.Cover(centreJoint,Vector2.Zero,true).Supported,"eight-millimetre board joint may cross the metal rim between supported fasteners");
-        Check(!AddressFacadeMount.Cover(Rect(-.585f,-.4f,.8f,.4f),Vector2.Zero,true).Supported,"a five-millimetre exterior overhang cannot masquerade as a board joint");
-        var fastenerJoint=Rect(-.8f,-.4f,.532f,.4f).Concat(Rect(.539f,-.4f,.8f,.4f)).ToArray();
+        Check(!AddressFacadeMount.Cover(Rect(-AddressFacadeMount.HalfWidth+.005f,-.4f,.8f,.4f),Vector2.Zero,true).Supported,"a five-millimetre exterior overhang cannot masquerade as a board joint");
+        var fastenerJoint=Rect(-.8f,-.4f,AddressFacadeMount.RivetX-.003f,.4f).Concat(Rect(AddressFacadeMount.RivetX+.004f,-.4f,.8f,.4f)).ToArray();
         Check(!AddressFacadeMount.Cover(fastenerJoint,Vector2.Zero,true).Supported,"a fastener cannot be fixed into a narrow construction joint");
         Check(!AddressFacadeMount.Eligible("VariantA_Dwelling_SeniRear_Wall_LOD0")&&!AddressFacadeMount.Eligible("Window_Glass")
             &&AddressFacadeMount.Eligible("VariantA_Dwelling_Front_Wall_LOD0"),"compound rear wall and glass cannot own an exterior plate");
-        Check(AddressFacadeMount.TriangleObstructs(new(.45f,-1,2),new(.58f,-1,2),new(.58f,1,2),Vector3.Zero,Vector3.Back),"foreground post two metres away blocks the outer rim");
-        Check(!AddressFacadeMount.TriangleObstructs(new(.7f,-1,2),new(.9f,-1,2),new(.9f,1,2),Vector3.Zero,Vector3.Back),"post outside the full plate footprint does not block it");
+        Check(AddressFacadeMount.TriangleObstructs(new(AddressFacadeMount.HalfWidth-.14f,-1,2),new(AddressFacadeMount.HalfWidth-.01f,-1,2),new(AddressFacadeMount.HalfWidth-.01f,1,2),Vector3.Zero,Vector3.Back),"foreground post two metres away blocks the outer rim");
+        Check(!AddressFacadeMount.TriangleObstructs(new(AddressFacadeMount.HalfWidth+.1f,-1,2),new(AddressFacadeMount.HalfWidth+.3f,-1,2),new(AddressFacadeMount.HalfWidth+.3f,1,2),Vector3.Zero,Vector3.Back),"post outside the full plate footprint does not block it");
         var nativeProjection=new SettlementRoadGraph();
         nativeProjection.AddRoad(new("native-spur","tukay",[new(-21.868152618408203,0,-63.62556838989258),new(-23.367734909057617,0,-64.13541412353516)],1.1,"snow_trampled",SettlementTravelMode.Foot));
         nativeProjection.Rebuild(a.Streets);
