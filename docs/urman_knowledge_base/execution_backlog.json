@@ -4874,7 +4874,8 @@
       "evidence": [
         "docs/production/act1_takeover_evidence_2026-09-16/integrated-build-19.json",
         "docs/production/act1_takeover_evidence_2026-09-16/b19-csharp-probe03.json"
-      ]
+      ],
+      "progress_2026_09_24": "2026-09-24: second station 'Кырлай архивы · 103,2' on the dial, remappable retune (T / pad 14), dashboard frequency, per-station phase memory, save of the tuned station; headless vehicle_radio_dial_smoke_test PASS. Windowed vehicle proof external/not-run (window focus)."
     },
     {
       "id": "ACT1-ARRIVAL",
@@ -9980,7 +9981,8 @@
       "done_when": [
         "Регресс old_pc smoke зелёный; окна не теряют доступность и z-order."
       ],
-      "evidence": []
+      "evidence": [],
+      "progress_2026_09_24": "2026-09-24: author asked for a Windows XP look with a Tatar feel: Luna taskbar/captions/windows, green 'пуск' with a tulip logo, two-column start menu with tulip ornament and 'Рәхим итегез', village wallpaper. Old PC smokes and UI readability PASS; native frames reviewed. Tatar labels pending native review."
     },
     {
       "id": "ACT1-UI.6",
@@ -10489,7 +10491,8 @@
       "done_when": [
         "Повторный аудит обязательного пути: 0 застреваний/провалов/проходов сквозь геометрию."
       ],
-      "evidence": []
+      "evidence": [],
+      "progress_2026_09_24": "2026-09-24: river ravine soft-lock fixed with plank steps on the village bank (five exits fitted to the bank profile); low forest bank at x~-41 closed with a visible windfall; act1_river_exit_smoke_test in verify-godot."
     },
     {
       "id": "ACT1-TECH.3",
@@ -11421,7 +11424,8 @@
         "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
         "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
       ],
-      "evidence": []
+      "evidence": [],
+      "progress_2026_09_24": "2026-09-24: the named cast (Mansur, Gulsina, Naila, Timur, Alsu, Rinat) is on the human kit v2: anchor measured from standing soles, sash closing the coat/skirt gap, looping clips, Alsu/Rinat walks on two-bone IK with pelvis drop, Rinat's lamp and stop gesture as held poses. act1_npc_presentation PASS and in verify-godot. Open: first-person body and the woodpile resident still first kit; art acceptance external."
     },
     {
       "id": "ACT1-CHAR.1",
