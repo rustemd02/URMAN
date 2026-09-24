@@ -95,6 +95,12 @@ public partial class InteractionTarget : StaticBody3D
         && (_available == true
             || (_available == false && PresentationRepeatAvailable?.Invoke() == true));
 
+    /// <summary>Reachable only as a local repeat (reread/re-inspect), not as its live action.</summary>
+    internal bool IsRepeatOnly => _presentationEnabled && _available == false && PresentationRepeatAvailable?.Invoke() == true;
+
+    /// <summary>Its authored action is live now (not merely repeatable).</summary>
+    internal bool IsLiveAvailable => _presentationEnabled && _available == true && IsAvailable();
+
     public bool IsAvailable() => IsSemanticallyAvailable()
         && (PresentationGate?.Invoke() ?? true)
         && (_bridge?.CanPhysicallyUseInteraction(InteractionId) ?? true);

@@ -687,14 +687,14 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         AssertState(main, bridge, "kara_urman_night", "forest", "res://scenes/zones/style_benchmark_kara_urman_night.tscn");
         AssertRouteFacing(main, 0f, "forest-entry-to-cliffhanger");
         for (var attempt = 0; attempt < 600
-                && bridge.SelectRuntimeState().GetProperty("beats").GetProperty($"{ChapterPrefix}beat/cliffhanger-hard-cut").GetString() != "completed";
+                && BeatStatus(bridge.SelectRuntimeState(), "cliffhanger-hard-cut") != "completed";
                 attempt++)
         {
             if (!Act1RinatRoadsideProof.LookAtIntervention(this)) return;
             await ToSignal(GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
         }
         var state = bridge.SelectRuntimeState();
-        if (state.GetProperty("beats").GetProperty($"{ChapterPrefix}beat/cliffhanger-hard-cut").GetString() != "completed"
+        if (BeatStatus(state, "cliffhanger-hard-cut") != "completed"
             || state.GetProperty("knowledge").GetProperty($"{ChapterPrefix}knowledge/clue_do_not_answer_rule").GetProperty("status").GetString() != "confirmed")
         {
             Fail("First-person corridor reached Kara-Urman without committing the Act 1 cliffhanger.");
@@ -752,8 +752,19 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
                 if (candidate.DistanceTo(first) > .05f && player.CanStandAt(candidate)) standings.Add(candidate);
             }
         var tried = new List<string>();
-        foreach (var playerPosition in standings)
+        // Stand on the actual floor under each point: raised rooms (the mosque
+        // hall) are not at the height the player arrived from.
+        Vector3 OnFloor(Vector3 point)
         {
+            using var down = PhysicsRayQueryParameters3D.Create(new(point.X, targetPosition.Y + 1f, point.Z),
+                new(point.X, targetPosition.Y - 3f, point.Z), ~4u, new global::Godot.Collections.Array<Rid> { player.GetRid() });
+            var floor = player.GetWorld3D().DirectSpaceState.IntersectRay(down);
+            return floor.Count > 0 && floor["normal"].AsVector3().Y > .7f
+                ? floor["position"].AsVector3() + Vector3.Up * .05f : point;
+        }
+        foreach (var standing in standings)
+        {
+            var playerPosition = OnFloor(standing);
             var cameraPosition = playerPosition + Vector3.Up * 1.7f;
             var delta = targetPosition - cameraPosition;
             var horizontal = new Vector2(delta.X, delta.Z).Length();
@@ -764,10 +775,15 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
                 new(pitch, yaw, 0)));
             await PhysicsFrames(3);
             ray.ForceRaycastUpdate();
-            if (ray.GetCollider() is InteractionTarget reached && reached.InteractionId == interactionId) break;
-            tried.Add($"{playerPosition}->{(ray.GetCollider() as Node)?.Name.ToString() ?? "none"}");
+            // The player's own choice, which lets a live action win over a
+            // repeat-only target stacked in front of it.
+            if (player.PeekRayTarget() is { } reached && reached.InteractionId == interactionId) break;
+            tried.Add($"{playerPosition}(from {standing})->{(ray.GetCollider() as Node)?.Name.ToString() ?? "none"}"
+                + (ray.GetCollider() is InteractionTarget hitTarget
+                    ? $"[{hitTarget.InteractionId} available={hitTarget.IsAvailable()} repeatOnly={hitTarget.IsRepeatOnly} live={hitTarget.IsLiveAvailable} layer={hitTarget.CollisionLayer} routing={hitTarget.GetMeta("interactionRouting", "")}]"
+                    : ""));
         }
-        if (!ray.IsColliding() || ray.GetCollider() is not InteractionTarget target
+        if (player.PeekRayTarget() is not InteractionTarget target
             || target.InteractionId != interactionId || !target.IsAvailable())
         {
             var actual = ray.GetCollider() switch { InteractionTarget hit => hit.InteractionId, Node other => "blocker " + other.GetPath(), _ => "<none>" };
@@ -853,6 +869,11 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         }
         AssertRouteFacing(main, spawn.YawDegrees, transition);
     }
+
+    // A beat enters the state only when something sets it; absent means not yet.
+    private static string BeatStatus(System.Text.Json.JsonElement state, string localId) =>
+        state.TryGetProperty("beats", out var beats) && beats.TryGetProperty($"{ChapterPrefix}beat/{localId}", out var beat)
+            ? beat.GetString() ?? string.Empty : string.Empty;
 
     private void AssertRouteFacing(Main main, float expectedYaw, string transition)
     {

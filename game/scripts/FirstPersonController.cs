@@ -86,6 +86,38 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
     public AccessibilitySettingsSnapshot Accessibility => _accessibility;
 
+    /// <summary>
+    /// The target the interaction ray chooses. A target that is only open for
+    /// a repeat (reread a finished source) must not shadow a live action
+    /// behind it: the old PC's finished document boxes sit in front of its
+    /// power button, and a later "switch the PC on" step was unreachable.
+    /// </summary>
+    internal InteractionTarget? PeekRayTarget()
+    {
+        _interactionRay.ForceRaycastUpdate();
+        var first = _interactionRay.IsColliding() ? _interactionRay.GetCollider() as InteractionTarget : null;
+        if (first is null || !first.IsRepeatOnly) return first;
+        var skipped = new List<CollisionObject3D>();
+        try
+        {
+            var current = first;
+            for (var depth = 0; depth < 3 && current is { IsRepeatOnly: true }; depth++)
+            {
+                _interactionRay.AddException(current);
+                skipped.Add(current);
+                _interactionRay.ForceRaycastUpdate();
+                current = _interactionRay.IsColliding() ? _interactionRay.GetCollider() as InteractionTarget : null;
+                if (current is { IsLiveAvailable: true }) return current;
+            }
+            return first;
+        }
+        finally
+        {
+            foreach (var body in skipped) _interactionRay.RemoveException(body);
+            _interactionRay.ForceRaycastUpdate();
+        }
+    }
+
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
     {
         _accessibility = settings;
@@ -514,9 +546,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
                 // deliberate press only begins the two-frame focus change and
                 // its JustPressed edge is lost. Keep passive focus current;
                 // the notice still displays and no action is performed here.
-                _interactionRay.ForceRaycastUpdate();
-                ResolveFocusedTarget(_interactionRay.IsColliding()
-                    ? _interactionRay.GetCollider() as InteractionTarget : null);
+                ResolveFocusedTarget(PeekRayTarget());
                 SetInteractionPrompt(_traversalNotice);
                 return;
             }
@@ -529,10 +559,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
             SetInteractionPrompt(carryPrompt);
             return;
         }
-        _interactionRay.ForceRaycastUpdate();
-        var candidate = _interactionRay.IsColliding()
-            ? _interactionRay.GetCollider() as InteractionTarget
-            : null;
+        var candidate = PeekRayTarget();
         var target = ResolveFocusedTarget(candidate);
         if (target is null)
         {

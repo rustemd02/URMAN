@@ -547,6 +547,7 @@ public partial class StyleBenchmarkZone : Node3D
             "Идти к дороге у зирата",
             "zirat_road",
             "village_side");
+        FitOldPcTargetsToModel(oldPc);
 
         var lamp = new OmniLight3D
         {
@@ -1996,6 +1997,48 @@ public partial class StyleBenchmarkZone : Node3D
         npc.SetMeta("collisionLayer", 0);
         npc.SetMeta("assetStatus", "project-original low-poly GLB with face/clothing detail and Godot Idle/Tension playback; expression/audio polish open");
         host.SetMeta("npcCount", host.GetChildren().OfType<Node3D>().Count());
+    }
+
+    /// <summary>
+    /// The PC's document steps used to be one 1.15 m box in front of the whole
+    /// desk, covering the power target: while any step was open, the player
+    /// could not switch the PC on. Fit the targets to the authored model: the
+    /// power switch is the system unit, the document steps are the CRT screen.
+    /// </summary>
+    private void FitOldPcTargetsToModel(Node3D oldPc)
+    {
+        Aabb? Bounds(string name)
+        {
+            if (oldPc.FindChild(name, true, false) is not MeshInstance3D { Mesh: not null } mesh) return null;
+            var toZone = Transform3D.Identity;
+            for (Node? node = mesh; node is Node3D spatial && node != this; node = node.GetParent())
+                toZone = spatial.Transform * toZone;
+            var local = mesh.Mesh.GetAabb();
+            var bounds = new Aabb(toZone * local.Position, Vector3.Zero);
+            for (var corner = 0; corner < 8; corner++) bounds = bounds.Expand(toZone * local.GetEndpoint(corner));
+            return bounds;
+        }
+
+        void Fit(string name, Vector3 centre, Vector3 size)
+        {
+            if (GetNodeOrNull<InteractionTarget>(name) is not { } target) return;
+            target.Position = centre;
+            if (target.GetNodeOrNull<CollisionShape3D>("InteractionProxyCollisionShape") is { } shape)
+                shape.Shape = new BoxShape3D { Size = size };
+            if (target.GetNodeOrNull<MeshInstance3D>("HiddenInteractionProxyVisual/HiddenInteractionProxyMesh") is { } proxy)
+                proxy.Mesh = new BoxMesh { Size = size };
+            target.SetMeta("fittedToModel", true);
+        }
+
+        if (Bounds("OldPc_Tower_LOD0") is not { } tower || Bounds("OldPc_Crt_LOD0") is not { } crt) return;
+        var margin = new Vector3(.04f, .04f, .04f);
+        Fit("OldPc", tower.GetCenter(), tower.Size + margin);
+        var screen = new Vector3(crt.GetCenter().X, crt.GetCenter().Y, crt.End.Z + .05f);
+        var screenSize = new Vector3(crt.Size.X + .04f, crt.Size.Y + .04f, .12f);
+        foreach (var name in new[] { "InternalRegisterToSavedMessage", "SavedMessageToBoundarySource",
+                     "BoundarySourceToReread", "RereadToEdgeSketch" })
+            Fit(name, screen, screenSize);
+        SetMeta("oldPcTargets", $"power=tower {tower.GetCenter()} documents=screen {screen}");
     }
 
     internal InteractionTarget MakeInteractionBox(
