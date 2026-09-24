@@ -19,6 +19,30 @@ public partial class Act1TopDownCapture : Node
             if (!await this.StartThroughMainMenuAsync(demo)) throw new InvalidOperationException("demo did not start");
             foreach (var layer in GetTree().Root.FindChildren("*", nameof(CanvasLayer), true, false).OfType<CanvasLayer>())
                 layer.Visible = false;
+            if (OS.GetEnvironment("URMAN_MINIMAP_SHOTS") is { Length: > 0 } minimapShots)
+            {
+                // name:x:z;... — the player's own view with the dev minimap open.
+                var layer = new CanvasLayer { Layer = 90 };
+                AddChild(layer);
+                var minimap = new DebugVillageMinimap { Visible = true };
+                layer.AddChild(minimap);
+                var player = GetTree().GetFirstNodeInGroup("player_controller") as Node3D
+                    ?? throw new InvalidOperationException("no player");
+                foreach (var shot in minimapShots.Split(';', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var parts = shot.Split(':');
+                    var x = float.Parse(parts[1], System.Globalization.CultureInfo.InvariantCulture);
+                    var z = float.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture);
+                    player.GlobalPosition = new Vector3(x, Urman.Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(x, z) + .1f, z);
+                    for (var i = 0; i < 30; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                    await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+                    using var frame = GetViewport().GetTexture().GetImage();
+                    frame.SavePng(System.IO.Path.Combine(OS.GetEnvironment("URMAN_TOPDOWN_OUTPUT"), parts[0] + ".png"));
+                }
+                GD.Print("act1-topdown: minimap shots done");
+                GetTree().Quit(0);
+                return;
+            }
             if (OS.GetEnvironment("URMAN_PLATE_SHOTS") is { Length: > 0 } plateCount)
             {
                 // Eye-level look at the first N address plates, 2.6 m in front.

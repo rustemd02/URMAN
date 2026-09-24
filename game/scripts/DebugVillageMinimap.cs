@@ -11,7 +11,7 @@ namespace Urman.Godot;
 /// </summary>
 public partial class DebugVillageMinimap : Control
 {
-    private const float MetersPerPixelDefault = .32f;
+    private const float MetersPerPixelDefault = .42f;
     private float _metersPerPixel = MetersPerPixelDefault;
     private Node3D? _player;
     private Act1ConnectedWorld? _world;
@@ -28,7 +28,7 @@ public partial class DebugVillageMinimap : Control
     {
         MouseFilter = MouseFilterEnum.Ignore;
         AnchorLeft = AnchorRight = 1f;
-        OffsetLeft = -380; OffsetRight = -12; OffsetTop = 12; OffsetBottom = 380;
+        OffsetLeft = -472; OffsetRight = -12; OffsetTop = 12; OffsetBottom = 472;
     }
 
     public override void _UnhandledInput(InputEvent inputEvent)
@@ -64,11 +64,12 @@ public partial class DebugVillageMinimap : Control
 
         foreach (var road in registry.Graph.Roads.Values)
         {
-            var width = Mathf.Clamp((float)road.Width / _metersPerPixel, 1.5f, 10f);
+            var width = Mathf.Clamp((float)road.Width / _metersPerPixel, 2.5f, 12f);
             var colour = road.WinterBlocked ? new Color("6b5b50") : new Color("9aa6b0");
             for (var i = 1; i < road.Points.Count; i++)
                 DrawLine(Map(road.Points[i - 1].X, road.Points[i - 1].Z), Map(road.Points[i].X, road.Points[i].Z), colour, width);
         }
+        var drawn = new HashSet<string>();
         foreach (var building in registry.Buildings.Values)
         {
             if (building.Footprint.Count >= 3)
@@ -82,9 +83,13 @@ public partial class DebugVillageMinimap : Control
                 var at = Map(building.Position.X, building.Position.Z);
                 var street = registry.Streets.TryGetValue(record.StreetId, out var s) ? s.Russian : record.StreetId;
                 var label = _metersPerPixel < .2f ? $"{street} {record.HouseNumber}" : record.HouseNumber;
-                DrawString(font, at + new Vector2(-8, 4), label, fontSize: 12, modulate: Colors.White);
+                if (!drawn.Add(addressId)) continue;
+                DrawString(font, at + new Vector2(-7, 5), label, fontSize: 13, modulate: new Color(0, 0, 0, .85f));
+                DrawString(font, at + new Vector2(-8, 4), label, fontSize: 13, modulate: Colors.White);
             }
         }
+        DrawString(font, new Vector2(size.X - 28, 22), "−Z", fontSize: 12, modulate: new Color(.85f, .9f, .95f));
+        DrawLine(new Vector2(size.X - 17, 28), new Vector2(size.X - 17, 44), new Color(.85f, .9f, .95f), 2f);
         var forward = -_player.GlobalBasis.Z;
         var heading = new Vector2(forward.X, forward.Z).Normalized();
         var tip = size / 2 + heading * 11f;
