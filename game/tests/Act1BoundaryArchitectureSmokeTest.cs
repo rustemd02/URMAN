@@ -525,10 +525,15 @@ public partial class Act1BoundaryArchitectureSmokeTest : Node
                 // wall; do not mistake its contact for the wall's own support.
                 if (hit.Count > 0 && from.DistanceTo(hit["position"].AsVector3()) + .06f < from.DistanceTo(visible)) continue;
                 var error = hit.Count == 0 ? -1 : hit["position"].AsVector3().DistanceTo(visible);
+                // The entrance is now a real hinged leaf (MosqueInterior); its
+                // own body is the physical support of the closed door face.
                 var matched = hit.Count > 0 && error < .055f
                     && hit["collider"].AsGodotObject() is Node body
-                    && body.HasMeta("collisionOwner") && body.GetMeta("collisionOwner").AsString() == "mosque-blocker";
-                Check(matched, $"{name}: rendered face has no matching physical support at {height:F2}m, error={error:F3}m.");
+                    && (body.HasMeta("collisionOwner") && body.GetMeta("collisionOwner").AsString() == "mosque-blocker"
+                        || name == "MosqueEntranceDoor" && body.Name == "MosqueEntranceLeafBody");
+                var hitOwner = hit.Count > 0 && hit["collider"].AsGodotObject() is Node hitBody
+                    ? $"{hitBody.GetPath()} owner={(hitBody.HasMeta("collisionOwner") ? hitBody.GetMeta("collisionOwner").AsString() : "none")}" : "none";
+                Check(matched, $"{name}: rendered face has no matching physical support at {height:F2}m, error={error:F3}m, hit={hitOwner}.");
                 _receipt.Add(new { kind = "mosque-rendered-contact", name, height, visible = Point(visible), error, matched });
             }
         }
@@ -587,8 +592,17 @@ public partial class Act1BoundaryArchitectureSmokeTest : Node
                         Shape = _capsule, Transform = new(Basis.Identity, start + Vector3.Up * .9f), CollisionMask = 3,
                         Exclude = new global::Godot.Collections.Array<Rid> { player.GetRid() }, Margin = .002f
                     };
-                    if (player.GetWorld3D().DirectSpaceState.IntersectShape(capsule, 1).Count == 0)
-                        physicalPost = (mesh, visible, new Vector3(normal.X, 0, normal.Z).Normalized());
+                    // The walk to the post must also be clear: a fence cap
+                    // between a free fixture and the post stopped the person
+                    // a metre short and was reported as a missing post contact.
+                    var flat = new Vector3(normal.X, 0, normal.Z).Normalized();
+                    var approach = visible + flat * .45f - start;
+                    approach.Y = 0;
+                    capsule.Motion = approach;
+                    var clearPath = player.GetWorld3D().DirectSpaceState.IntersectShape(capsule, 1).Count == 0
+                        && player.GetWorld3D().DirectSpaceState.CastMotion(capsule)[0] >= .999f;
+                    if (clearPath)
+                        physicalPost = (mesh, visible, flat);
                 }
             }
             // An enclosed lower log may be hidden behind other actual logs;
@@ -1837,7 +1851,22 @@ public partial class Act1BoundaryArchitectureSmokeTest : Node
             var stem = stems.SingleOrDefault(node => node.GetMeta("geometryOwner").AsString() == tree.GetPath().ToString());
             var lods = tree.GetChildren().OfType<MeshInstance3D>().ToArray();
             var paired = stem is not null && !stem.Disabled && stem.GlobalPosition.DistanceTo(tree.GlobalPosition) < .0001f;
-            Check(paired && lods.Length == 3, $"The relocated tree at {at} lost a LOD or left its physical stem behind.");
+            // A building placed later over the new root (the bathhouse on the
+            // old barn plot) removes the tree under its roof: the tree and its
+            // stem go together, so nothing floats and nothing blocks unseen.
+            if (tree.HasMeta("roofSuppressedBy") && stem is not null && stem.HasMeta("roofSuppressedBy"))
+            {
+                var consistent = !tree.Visible && stem.Disabled && lods.Length == 3
+                    && tree.GetMeta("roofSuppressedBy").AsString() == stem.GetMeta("roofSuppressedBy").AsString();
+                Check(consistent, $"The relocated tree at {at} is under a roof but its presentation and stem disagree.");
+                _receipt.Add(new { kind = "relocated-yard-tree-roof-suppressed", at = new { x = at.X, z = at.Y },
+                    roof = tree.GetMeta("roofSuppressedBy").AsString(), consistent });
+                continue;
+            }
+            Check(paired && lods.Length == 3, $"The relocated tree at {at} lost a LOD or left its physical stem behind: "
+                + $"stem={(stem is null ? "none" : $"{stem.GetPath()} disabled={stem.Disabled} offset={stem.GlobalPosition.DistanceTo(tree.GlobalPosition):F4}")} lods={lods.Length} ({string.Join(",", lods.Select(lod => lod.Name.ToString()))}) visible={tree.Visible} "
+                + $"stemMeta={(stem is null ? "" : string.Join(";", stem.GetMetaList().Select(key => key + "=" + stem.GetMeta(key))))} "
+                + $"treeMeta={string.Join(";", tree.GetMetaList().Select(key => key + "=" + tree.GetMeta(key)))}.");
             if (!paired || stem is null) continue;
             var visual = lods.Single(mesh => mesh.Name.ToString().EndsWith("_LOD0", StringComparison.Ordinal));
             var centre = tree.GlobalPosition + Vector3.Up * .7f;
