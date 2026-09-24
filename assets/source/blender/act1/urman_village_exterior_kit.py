@@ -38,11 +38,11 @@ HERO_LOG_END_MATERIAL = "URMAN_Hero_LogEnd"
 HERO_TRIM_TEAL_MATERIAL = "URMAN_Hero_Trim_Teal"
 HERO_TRIM_IVORY_MATERIAL = "URMAN_Hero_Trim_Ivory"
 HERO_ROOF_SNOW_MATERIAL = "URMAN_Hero_RoofSnow"
-HERO_LOG_COURSE_GAP = 0.008
-HERO_LOG_BULGE = 0.060
+HERO_LOG_COURSE_GAP = 0.020
+HERO_LOG_BULGE = 0.120
 HERO_LOG_EMBED = 0.020
-HERO_LOG_HEIGHT = 0.222
-HERO_LOG_END_LENGTH = 0.170
+HERO_LOG_HEIGHT = 0.260
+HERO_LOG_END_LENGTH = 0.240
 
 # Window and door casings are nailed over the hewn log faces. A casing whose
 # outer face lands on the log face makes the two surfaces coplanar, so the
@@ -853,6 +853,57 @@ def variant_empty(
     obj["asset_role"] = role
     obj["variant_family"] = family
     obj["geometry_pass"] = VARIANT_GEOMETRY_PASS
+    return obj
+
+
+def hewn_log_mesh(length: float, thickness: float, height: float, axis: str = "X",
+                  segments: int = 16, exponent: float = 3.2):
+    """Vertices/faces of a log: a superellipse section swept along its axis."""
+    half_l, half_t, half_h = length / 2.0, thickness / 2.0, height / 2.0
+    ring = []
+    for index in range(segments):
+        angle = math.tau * index / segments
+        c, s = math.cos(angle), math.sin(angle)
+        t = half_t * math.copysign(abs(c) ** (2.0 / exponent), c)
+        h = half_h * math.copysign(abs(s) ** (2.0 / exponent), s)
+        ring.append((t, h))
+    def place(along, t, h):
+        return (along, t, h) if axis == "X" else (t, along, h)
+    vertices = [place(-half_l, t, h) for t, h in ring] + [place(half_l, t, h) for t, h in ring]
+    n = segments
+    first_cap = tuple(reversed(range(n))) if axis == "X" else tuple(range(n))
+    second_cap = tuple(range(n, 2 * n)) if axis == "X" else tuple(reversed(range(n, 2 * n)))
+    faces = [first_cap, second_cap]
+    for index in range(n):
+        j = (index + 1) % n
+        side = (index, j, j + n, index + n)
+        faces.append(side if axis == "X" else tuple(reversed(side)))
+    return vertices, faces
+
+
+def variant_log(
+    name: str,
+    parent: bpy.types.Object,
+    center: tuple[float, float, float],
+    length: float,
+    thickness: float,
+    height: float,
+    materials: tuple[str, ...],
+    component_root: str,
+    role: str,
+    axis: str = "X",
+    geometry_pass: str = VARIANT_GEOMETRY_PASS,
+) -> bpy.types.Object:
+    vertices, faces = hewn_log_mesh(length, thickness, height, axis)
+    obj = mesh_object(
+        name, parent, vertices, faces, materials, None,
+        location=center, role=role, asset_id=f"urman.act1.village.{component_root.lower()}",
+        component_root=component_root, geometry_pass=geometry_pass,
+    )
+    # Smooth the rounded sides; the end grain stays a flat cut.
+    for polygon in obj.data.polygons[2:]:
+        polygon.use_smooth = True
+    obj["log_section"] = "superellipse hewn log v1"
     return obj
 
 
@@ -2047,6 +2098,14 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         return variant_box(f"{prefix}_{suffix}_LOD0", parent, center, size,
                            (mat,), root_name, "rural dwelling joinery", chamfer=chamfer)
 
+    def hewn_log(suffix, center, length, thickness, height, mat, axis="X"):
+        # A hewn log reads by its section: a rounded-square profile whose top
+        # and bottom fall away from the face, so every course line is a deep
+        # shadow seam. A chamfered box only bevels the ends in plan and reads
+        # as horizontal boarding up close.
+        return variant_log(f"{prefix}_{suffix}_LOD0", parent, center, length, thickness, height,
+                           (mat,), root_name, "rural dwelling hewn log course", axis=axis)
+
     def wall(suffix, origin, tangent, length, holes, top=eave, finish=None):
         finish = wall_finish if finish is None else finish
         # Front orientation is tangent +X, outward -Y; rotating the basis also
@@ -2176,11 +2235,10 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                     spans = cut
                 for index, (a, b) in enumerate(spans):
                     u, v = (a + b) / 2.0, (z + z1) / 2.0
-                    member = box(f"{suffix}_Log{course:02d}_{index}",
-                                 (origin[0] + tx*u - nx*(-log_setback),
-                                  origin[1] + ty*u - ny*(-log_setback), v),
-                                 (b - a, log_thickness, z1 - z), HERO_LOG_MATERIAL,
-                                 chamfer=.024)
+                    member = hewn_log(f"{suffix}_Log{course:02d}_{index}",
+                                      (origin[0] + tx*u - nx*(-log_setback),
+                                       origin[1] + ty*u - ny*(-log_setback), v),
+                                      b - a, log_thickness, z1 - z, HERO_LOG_MATERIAL)
                     member.rotation_euler.z = yaw
                 course += 1
                 z += log_step
@@ -2208,13 +2266,13 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                     if through_street:
                         center = (corner_x + sx * HERO_LOG_END_LENGTH / 2.0,
                                   corner_y + out_y * log_setback, middle)
-                        size = (HERO_LOG_END_LENGTH, log_thickness, z1 - z0)
+                        axis = "X"
                     else:
                         center = (corner_x + sx * log_setback,
                                   corner_y + sy * HERO_LOG_END_LENGTH / 2.0, middle)
-                        size = (log_thickness, HERO_LOG_END_LENGTH, z1 - z0)
-                    box(f"CornerEnd{sx}_{sy}_Log{course:02d}", center, size,
-                        HERO_LOG_END_MATERIAL, chamfer=.024)
+                        axis = "Y"
+                    hewn_log(f"CornerEnd{sx}_{sy}_Log{course:02d}", center, HERO_LOG_END_LENGTH,
+                             log_thickness, z1 - z0, HERO_LOG_END_MATERIAL, axis=axis)
     else:
         wall("Rear", (0,back), (-1,0), width, [(-1.45,-.49,.95,2.38,"Window"),(.49,1.45,.95,2.38,"Window")])
         wall("Left", (-half,(front+back)/2), (0,-1), depth,
