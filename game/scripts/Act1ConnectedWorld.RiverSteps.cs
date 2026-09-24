@@ -12,7 +12,8 @@ namespace Urman.Godot;
 /// </summary>
 public partial class Act1ConnectedWorld
 {
-    internal static readonly float[] RiverStepXs = [-44f, -28f, -10f, 28f, 44f];
+    // No exit at x 44: that is the mouth of the ravine (2026-09-25).
+    internal static readonly float[] RiverStepXs = [-44f, -28f, -10f, 28f, 34f];
 
     /// <summary>Bottom and top of the walkable step surface at one exit.</summary>
     internal static (Vector3 Bottom, Vector3 Top) RiverStepLine(float x)

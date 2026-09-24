@@ -1075,6 +1075,9 @@ public partial class Act1ConnectedWorld : Node3D
         // the forest, with an old broken bridge as the landmark. The road crosses at
         // the authored culvert, which stays the only passable line.
         AddVillageRiverAndBrokenBridge(core);
+        // The ravine east of the FAP splits the village in two; its bridge has
+        // lost the middle span (author, 2026-09-25).
+        AddVillageRavine(core);
 
         // Unreachable background layers (T3): mid woodland bands and far snow
         // ridges, all beyond the walkable envelope. The near village rows that
@@ -1656,6 +1659,7 @@ public partial class Act1ConnectedWorld : Node3D
         environment.AdjustmentBrightness = 1f;
         environment.AdjustmentSaturation = 1f;
         environment.AdjustmentContrast = 1f;
+        GraphicsQuality.ConfigureEnvironment(environment);
 
         if (environment.Sky?.SkyMaterial is ProceduralSkyMaterial sky)
         {
@@ -1694,6 +1698,7 @@ public partial class Act1ConnectedWorld : Node3D
             sun.RotationDegrees = karaNight
                 ? new Vector3(-52f, -28f, 0f)
                 : new Vector3(-31f, 42f, 0f);
+            GraphicsQuality.ConfigureSun(sun);
         }
         core.SetMeta("unifiedAtmosphereProfile", karaNight
             ? "kara-winter-night-edge"
@@ -2886,14 +2891,8 @@ public partial class Act1ConnectedWorld : Node3D
             "FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredBirchShrubMass",
             "existing FapClinicNearBirch owns this grove; duplicate preview mass uses isolated polyhedron crowns");
 
-        // Full-depth dwellings need real plots, not the former miniature
-        // backdrop spacing. Keep this rear house beyond the service neighbor.
-        AddAuthoredHouse(
-            presentation,
-            "FapEastHorizonAuthoredHouse",
-            origin + side * 21.0f - front * 22.0f,
-            0.98f,
-            yaw - 92f);
+        // FapEastHorizonAuthoredHouse now stands across the ravine, on the far
+        // bank (Act1ConnectedWorld.Ravine.cs).
 
         // Replace only exact overlapping core presentation primitives. The
         // connector/route path, zone root, collision, navigation, interaction,
@@ -4348,9 +4347,7 @@ public partial class Act1ConnectedWorld : Node3D
         // FapRightFieldHouse owns this full-size plot; the old miniature
         // horizon house expanded into its footprint after the kit upgrade.
         AddVisualFenceRun(perimeterParcels, "EastStreetFarFence", new(35.0f, 0f, -22.0f), new(41.0f, 0f, -22.0f));
-        // This is a distant house, beyond the walkable service yard. The
-        // full-size replacement must not occupy its eastern return passage.
-        AddAuthoredHouse(perimeterParcels, "FapEastViewHouse", new(51.0f, 1.1f, -30.0f), 0.28f, 176f);
+        // FapEastViewHouse moved across the ravine (Act1ConnectedWorld.Ravine.cs).
         AddAuthoredHouse(perimeterParcels, "ZiratEastBoundaryHouse", new(22.0f, 1.0f, -73.0f), 0.25f, -90f);
         AddVisualFenceRun(perimeterParcels, "ZiratEastBoundaryFence", new(19.0f, 0f, -76.0f), new(25.0f, 0f, -76.0f));
 
@@ -4380,7 +4377,6 @@ public partial class Act1ConnectedWorld : Node3D
                 8f,
                 new(1.30f, 0.52f, 1f),
                 "village_day@east-street-horizon-fence"));
-        AddVisualTree(perimeterParcels, "EastStreetHorizonBirch", new(48.0f, 0f, 31.5f), 8.2f, VegetationStyle.Birch, "596047");
         AddVisualTree(perimeterParcels, "EastStreetHorizonConifer", new(55.0f, 0f, 28.0f), 9.4f, VegetationStyle.Conifer, "30483f");
 
         // The former 0.44/0.48-scale VariantB parcel read as a miniature
@@ -5665,7 +5661,6 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualShrub(parent, "MainStreetEastHorizonShrub", new(46.5f, 0f, -8f), 1.05f, "53634e");
         AddDistantHouse(parent, new(36f, 0f, -4f), -92f, "MainStreetEastLateralHouse");
         AddVisualFenceRun(parent, "MainStreetEastLateralFence", new(32f, 0f, -7f), new(40f, 0f, -7f));
-        AddDistantHouse(parent, new(44f, 0f, -12f), -90f, "MainStreetEastFarParcelHouse");
         AddVisualFenceRun(parent, "MainStreetEastFarParcelFence", new(40f, 0f, -15f), new(48f, 0f, -15f));
         // The far east side read as orphan fence fragments in a bare field.
         // One full-depth VariantC holding joins them into a worked plot:
@@ -6075,26 +6070,21 @@ public partial class Act1ConnectedWorld : Node3D
             "a18b6d",
             true,
             false);
-        AddVisualTree(parent, "FapEastHorizonBirch", placement.Origin + side * 22.0f - front * 4.0f, 8.6f, VegetationStyle.Birch, "596047");
-        AddVisualTree(parent, "FapEastHorizonConifer", placement.Origin + side * 20.0f - front * 14.0f, 9.1f, VegetationStyle.Conifer, "30483f");
-        AddVisualFenceRun(parent, "FapEastHorizonParcelFence", placement.Origin + side * 18.0f - front * 9.0f, placement.Origin + side * 31.0f - front * 9.0f);
+        // The ravine (x ~ 45-56) now runs where the east horizon trees and the
+        // parcel fence stood; the far bank is dressed in Act1ConnectedWorld.Ravine.cs.
         // Separate the full-depth neighbor from the clinic's service shed.
         // The old small-backdrop anchor overlapped both buildings at .9 scale.
+        // Kept clear of the ravine's west rim fence.
         AddDistantHouse(
             parent,
-            placement.Origin + side * 16.0f - front * 10.0f,
+            placement.Origin + side * 14.0f - front * 10.0f,
             yaw + 90f,
             "FapWestFieldNeighborHouse");
-        AddDistantHouse(
-            parent,
-            placement.Origin + new Vector3(15.0f, 0f, 12.0f),
-            yaw,
-            "FapRightFieldHouse");
         AddVisualFenceRun(
             parent,
             "FapWestFieldNeighborFence",
-            placement.Origin + side * 12.0f - front * 6.0f,
-            placement.Origin + side * 23.0f - front * 6.0f);
+            placement.Origin + side * 10.0f - front * 6.0f,
+            placement.Origin + side * 13.0f - front * 6.0f);
         AddVisualTree(parent, "FapWestFieldNeighborBirch", placement.Origin + side * 13.0f - front * 4.0f, 7.8f, VegetationStyle.Birch, "596047");
         // Mirror one restrained parcel into the opposite lateral review
         // sector; the branch side is not visible from every fixed-camera
@@ -6116,13 +6106,8 @@ public partial class Act1ConnectedWorld : Node3D
         // rather than along the branch vector. Anchor two far silhouettes in
         // that actual view window so the clinic remains part of a village
         // parcel instead of ending on a flat horizon.
-        AddDistantHouse(parent, placement.Origin + new Vector3(23.0f, 0f, 23.0f), yaw + 18f, "FapEastFieldViewHouse");
-        AddVisualFenceRun(parent, "FapEastFieldViewBoundary", placement.Origin + new Vector3(11.0f, 0f, 17.0f), placement.Origin + new Vector3(29.0f, 0f, 17.0f));
-        AddVisualTree(parent, "FapEastFieldViewBirch", placement.Origin + new Vector3(18.0f, 0f, 10.0f), 8.6f, VegetationStyle.Birch, "596047");
-        AddVisualTree(parent, "FapEastFieldViewConifer", placement.Origin + new Vector3(25.0f, 0f, 2.0f), 9.1f, VegetationStyle.Conifer, "30483f");
-        AddVisualTree(parent, "FapEastHorizonFarBirch", placement.Origin + side * 30.0f - front * 3.0f, 8.0f, VegetationStyle.Birch, "596047");
-        AddVisualTree(parent, "FapEastHorizonFarBroadleaf", placement.Origin + side * 27.0f - front * 20.0f, 8.8f, VegetationStyle.Broadleaf, "48553f");
-        AddVisualTree(parent, "FapEastHorizonFarConifer", placement.Origin + side * 32.0f - front * 16.0f, 9.6f, VegetationStyle.Conifer, "30483f");
+        // That east field view is now the ravine and the second half of the
+        // village beyond it (Act1ConnectedWorld.Ravine.cs).
         AddVisualFenceRun(parent, "FapClinicWestBoundary", placement.Origin + side * -9.2f - front * 4.0f, placement.Origin + side * -9.2f + front * 5.8f);
         AddVisualFenceRun(parent, "FapClinicEastBoundary", placement.Origin + side * 10.5f - front * 3.6f, placement.Origin + side * 10.5f + front * 5.4f);
         AddVisualFenceRun(parent, "FapClinicServiceBoundary", placement.Origin + side * 6.5f + front * 5.0f, placement.Origin + side * 12.5f + front * 5.0f);
@@ -7932,7 +7917,8 @@ public partial class Act1ConnectedWorld : Node3D
         var bank = PainterlyMaterialLibrary.ForColor("eef2f6", "snow_ground");
         var blockedShapes = 0;
         var openAtRoad = 0;
-        for (var x = -60f; x <= 60f; x += 4f)
+        // The river runs on under the far bank of the ravine to the east ring.
+        for (var x = -60f; x <= 86f; x += 4f)
         {
             // A gentle meander keeps the line from reading as a ruler.
             var z = -88f + 3.2f * Mathf.Sin(x / 12f) + 1.4f * Mathf.Sin(x / 4.3f);

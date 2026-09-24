@@ -1758,7 +1758,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var rimZones = new (float X0, float X1, float Z0, float Z1)[]
         {
             (-62f, -40f, -120f, 14f),   // west rim
-            (44f, 64f, -120f, 14f),     // east rim
+            (83f, 88f, -120f, 14f),     // east rim, behind the far-bank houses
             (-30f, 30f, -150f, -124f)   // forest rim behind kara
         };
         foreach (var (x0, x1, z0, z1) in rimZones)
@@ -2046,7 +2046,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     /// <summary>Inner settlement envelope of the Act I forest ring, world X/Z.</summary>
     internal static readonly Vector2 ForestRingInnerMin = new(-62f, -128f);
 
-    internal static readonly Vector2 ForestRingInnerMax = new(62f, 68f);
+    // East edge sits past the ravine's far bank: the second half of the
+    // village stands between the ravine and the ring (author, 2026-09-25).
+    internal static readonly Vector2 ForestRingInnerMax = new(88f, 68f);
 
     /// <summary>Ring depth in metres: how far the forest runs past the envelope.</summary>
     internal const float ForestRingDepth = 30.4f;
@@ -2098,7 +2100,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // the ring the forest closes straight across it, because otherwise the
         // ice corridor would be the one outward view — and the one walk — left
         // open along the terrain edge.
-        if (System.Math.Abs(position.X) < 58f
+        if (position.X > -58f && position.X < 86f
             && System.Math.Abs(position.Y - (float)AgentBAct1HeightField.RiverMeander(position.X)) < 9f)
         {
             return;

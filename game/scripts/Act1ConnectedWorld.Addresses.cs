@@ -317,6 +317,10 @@ public partial class Act1ConnectedWorld
             Road("connector/"+connector.ConnectorId,connector.ConnectorId.Contains("fap",StringComparison.Ordinal)?"urman":connector.ConnectorId.Contains("kara",StringComparison.Ordinal)?"":"tukay",
                 [new(connector.Start.X,connector.Start.Z),new(connector.End.X,connector.End.Z)],connector.Width,
                 connector.ConnectorId.Contains("kara",StringComparison.Ordinal)?SettlementTravelMode.Foot|SettlementTravelMode.HorseCart:SettlementTravelMode.All);
+        Road("authored/ravine-bridge-approach","urman",RavineBridgeApproach,1.8,SettlementTravelMode.Foot);
+        // The far bank's lane is its own piece of graph: the bridge span is gone.
+        Road("authored/yar-lane","yar",RavineFarLane,3.2,SettlementTravelMode.All);
+        Road("authored/yar-lane-south","yar",RavineFarLaneSouth,2.8,SettlementTravelMode.All);
         registry.Graph.Rebuild(registry.Streets);
         foreach(var (name,street) in new[]{("ZiratWestHoldingAccess","usal"),("EastStreetPlotAccessPath","urman"),("ConnectiveWestHouseDrive","tukay"),("ReturnEastFarmDrive","tukay"),("FapClinicEntryPath","urman")})
         {
@@ -353,6 +357,15 @@ public partial class Act1ConnectedWorld
         if(river is not null)
             foreach(var mesh in FindDescendants<MeshInstance3D>(river).Where(n=>n.Name.ToString().StartsWith("RiverIce_",StringComparison.Ordinal)))
                 registry.AddConstraint(new("water/"+mesh.Name,"water",AddressFootprint(mesh),SettlementTravelMode.All));
+        var ravineWest=new List<SettlementPoint>();var ravineEast=new List<SettlementPoint>();
+        for(var z=-92f;z<=104f;z+=4f)
+        {
+            var centre=AgentBAct1HeightField.RavineCentre(z);
+            ravineWest.Add(new(centre-AgentBAct1HeightField.RavineHalfWidth,0,z));
+            ravineEast.Add(new(centre+AgentBAct1HeightField.RavineHalfWidth,0,z));
+        }
+        ravineEast.Reverse();
+        registry.AddConstraint(new("water/ravine","water",[..ravineWest,..ravineEast],SettlementTravelMode.All));
         var min=AgentBAct1ExteriorLayer.ForestRingInnerMin;var max=AgentBAct1ExteriorLayer.ForestRingInnerMax;
         registry.AddConstraint(new("forest-ring","forest-edge",[new(min.X,0,min.Y),new(max.X,0,min.Y),new(max.X,0,max.Y),new(min.X,0,max.Y)],SettlementTravelMode.Car|SettlementTravelMode.Motorcycle));
     }

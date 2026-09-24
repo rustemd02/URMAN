@@ -11,7 +11,10 @@ public static class AgentBAct1HeightField
 {
     public const int Step = 2;
     public const float MinX = -64f;
-    public const float MaxX = 66f;
+    // East of the FAP the village continues past the ravine (author, 2026-09-25):
+    // the far bank carries the second half of the settlement, so the terrain
+    // runs on to the forest ring there instead of stopping at the old rim.
+    public const float MaxX = 94f;
     public const float MinZ = -152f;
     // Extend the arrival-side terrain with a low reverse-field grade beyond
     // the z≈52 framing band; the old 56 m cap ended immediately behind it.
@@ -179,7 +182,11 @@ public static class AgentBAct1HeightField
         // Same watershed grades as the authored Blender terrain; all starts
         // lie outside the yards and the final playable route endpoint.
         var westRim = System.Math.Clamp((-x - 40.0) / 24.0, 0.0, 1.0);
-        var eastRim = System.Math.Clamp((x - 44.0) / 22.0, 0.0, 1.0);
+        var eastRim = System.Math.Clamp((x - 79.0) / 16.0, 0.0, 1.0);
+        // The far bank stands a little higher than the village side, so the
+        // second half is seen across the ravine rather than hidden by its lip.
+        var farBank = System.Math.Clamp((x - RavineCentre(z) - 4.6) / 2.5, 0.0, 1.0);
+        h += farBank * farBank * (3.0 - 2.0 * farBank) * 1.1;
         var forestRim = System.Math.Clamp((-z - 128.0) / 24.0, 0.0, 1.0);
         h += RimGrade(westRim, x, z, 0.7);
         h += RimGrade(eastRim, x, z, 2.1);
@@ -230,6 +237,26 @@ public static class AgentBAct1HeightField
         return -3.4 * profile * roadGap;
     }
 
+    /// <summary>
+    /// The ravine with a stream that splits the village (author, 2026-09-25).
+    /// It runs north from the river east of the FAP; the accessible half of
+    /// Act I lies west of it, the second half on the far bank. Same profile as
+    /// the river channel: 3.4 m deep over 9.2 m, so its sides are past the
+    /// controller's floor limit. Only the collapsed bridge spans it.
+    /// </summary>
+    public static double RavineCentre(double z)
+        => 50.5 + 1.6 * System.Math.Sin(z / 11.0) + 0.7 * System.Math.Sin(z / 4.1);
+
+    public const double RavineHalfWidth = 4.6;
+
+    public static double RavineChannel(float x, float z)
+    {
+        if (z < -92f) return 0.0;
+        var distance = System.Math.Abs(x - RavineCentre(z));
+        if (distance >= RavineHalfWidth) return 0.0;
+        return -3.4 * System.Math.Cos(System.Math.PI * 0.5 * distance / RavineHalfWidth);
+    }
+
     public static double RiverMeander(float x)
         => -88.0 + 3.2 * System.Math.Sin(x / 12.0) + 1.4 * System.Math.Sin(x / 4.3);
 
@@ -237,7 +264,7 @@ public static class AgentBAct1HeightField
     {
         var baseHeight = Terrain(x, z);
         var (distance, halfWidth) = RoadInfo(x, z);
-        var channel = RiverChannel(x, z);
+        var channel = System.Math.Min(RiverChannel(x, z), RavineChannel(x, z));
         if (channel != 0.0)
         {
             return baseHeight + channel;

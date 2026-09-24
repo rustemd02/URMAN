@@ -47,7 +47,9 @@ public partial class PlayerSettingsSmokeTest : Node
             || player.InteractionHint != "[A]"
             || player.HeadBobEnabled
             || player.GraphicsPreset != "low"
-            || Math.Abs(GetViewport().Scaling3DScale - 0.75) > 0.0001
+            // Low preset: FSR from 70% render scale, no MSAA, FXAA (GraphicsQuality).
+            || Math.Abs(GetViewport().Scaling3DScale - 0.7) > 0.0001
+            || GetViewport().Scaling3DMode != Viewport.Scaling3DModeEnum.Fsr
             || GetViewport().Msaa3D != Viewport.Msaa.Disabled)
         {
             Fail("Player settings were not preserved by the Godot adapter.");

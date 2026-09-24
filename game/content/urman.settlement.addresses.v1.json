@@ -43,6 +43,18 @@
       ],
       "oddSide": "left",
       "protected": true
+    },
+    {
+      "id": "yar",
+      "tatar": "Яр ур.",
+      "russian": "ул. Овражная",
+      "origin": [
+        69.2,
+        0,
+        -58
+      ],
+      "oddSide": "left",
+      "protected": false
     }
   ],
   "buildings": [
@@ -470,8 +482,8 @@
       "buildingId": "BLD-H033",
       "parcelId": "PAR-H033",
       "addressId": "ADR-H033",
-      "streetId": "urman",
-      "number": "8",
+      "streetId": "yar",
+      "number": "4",
       "cadastral": "URM-Q02-P0132",
       "role": "residential"
     },
@@ -481,8 +493,8 @@
       "buildingId": "BLD-H034",
       "parcelId": "PAR-H034",
       "addressId": "ADR-H034",
-      "streetId": "urman",
-      "number": "10",
+      "streetId": "yar",
+      "number": "2",
       "cadastral": "URM-Q02-P0133",
       "role": "residential"
     },
@@ -536,8 +548,8 @@
       "buildingId": "BLD-H039",
       "parcelId": "PAR-H039",
       "addressId": "ADR-H039",
-      "streetId": "urman",
-      "number": "5А",
+      "streetId": "yar",
+      "number": "8",
       "cadastral": "URM-Q02-P0138",
       "role": "residential"
     },
@@ -639,8 +651,8 @@
       "buildingId": "BLD-H048",
       "parcelId": "PAR-H048",
       "addressId": "ADR-H048",
-      "streetId": "urman",
-      "number": "12",
+      "streetId": "yar",
+      "number": "6",
       "cadastral": "URM-Q02-P0147",
       "role": "residential"
     },
@@ -665,8 +677,8 @@
       "buildingId": "BLD-H050",
       "parcelId": "PAR-H050",
       "addressId": "ADR-H050",
-      "streetId": "urman",
-      "number": "1Б",
+      "streetId": "yar",
+      "number": "3",
       "cadastral": "URM-Q02-P0149",
       "role": "residential"
     },
@@ -866,6 +878,50 @@
       "streetId": "tukay",
       "number": "17Г",
       "cadastral": "URM-Q01-P0167",
+      "role": "residential"
+    },
+    {
+      "sourceName": "FarBankNorthHouse",
+      "sourceKey": "act1/holding/FarBankNorthHouse",
+      "buildingId": "BLD-H069",
+      "parcelId": "PAR-H069",
+      "addressId": "ADR-H069",
+      "streetId": "yar",
+      "number": "10",
+      "cadastral": "URM-Q03-P0201",
+      "role": "residential"
+    },
+    {
+      "sourceName": "FarBankSouthHouse",
+      "sourceKey": "act1/holding/FarBankSouthHouse",
+      "buildingId": "BLD-H070",
+      "parcelId": "PAR-H070",
+      "addressId": "ADR-H070",
+      "streetId": "yar",
+      "number": "1",
+      "cadastral": "URM-Q03-P0202",
+      "role": "residential"
+    },
+    {
+      "sourceName": "FarBankMidHouse",
+      "sourceKey": "act1/holding/FarBankMidHouse",
+      "buildingId": "BLD-H071",
+      "parcelId": "PAR-H071",
+      "addressId": "ADR-H071",
+      "streetId": "yar",
+      "number": "5",
+      "cadastral": "URM-Q03-P0203",
+      "role": "residential"
+    },
+    {
+      "sourceName": "FarBankEndHouse",
+      "sourceKey": "act1/holding/FarBankEndHouse",
+      "buildingId": "BLD-H072",
+      "parcelId": "PAR-H072",
+      "addressId": "ADR-H072",
+      "streetId": "yar",
+      "number": "7",
+      "cadastral": "URM-Q03-P0204",
       "role": "residential"
     }
   ]

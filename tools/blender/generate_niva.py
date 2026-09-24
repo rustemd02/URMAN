@@ -54,7 +54,9 @@ def material(color: str, surface: str) -> bpy.types.Material:
         rgb = tuple(int(color[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
         bsdf = mat.node_tree.nodes.get("Principled BSDF")
         bsdf.inputs["Base Color"].default_value = (*rgb, 1.0)
-        bsdf.inputs["Roughness"].default_value = 0.35 if surface in ("chrome", "glass") else 0.7
+        bsdf.inputs["Roughness"].default_value = 0.35 if surface in ("chrome", "glass") else 0.3 if surface == "paint" else 0.7
+        if surface == "paint":
+            bsdf.inputs["Metallic"].default_value = 0.55
         if surface == "glass":
             bsdf.inputs["Alpha"].default_value = 0.3
         _materials[name] = mat
@@ -244,7 +246,7 @@ def arch_flare(name, axle_z, side, parent):
     obj = bpy.data.objects.new(name, curve)
     bpy.context.scene.collection.objects.link(obj)
     obj.parent = parent
-    curve.materials.append(material(PAINT, "metal"))
+    curve.materials.append(material(PAINT, "paint"))
     bpy.context.view_layer.objects.active = obj
     for other in bpy.context.selected_objects:
         other.select_set(False)
@@ -267,7 +269,7 @@ def build_body(root):
     # sees real inner door panels rather than a solid block.
     profile = [(-1.93, .47), (-1.975, .66), (-1.982, .96), (-1.935, 1.030), (-1.20, 1.065), (-.80, 1.090),
                (-.70, 1.100), (1.805, 1.100), (1.842, 1.072), (1.858, .64), (1.826, .47)]
-    shell = extrude_profile("NivaBody_Shell", profile, -.812, .812, PAINT, "metal", root,
+    shell = extrude_profile("NivaBody_Shell", profile, -.812, .812, PAINT, "paint", root,
                             drop_top_between=(-.70, 1.805))
     solid = shell.modifiers.new("Solidify", "SOLIDIFY")
     solid.thickness = .032
@@ -275,12 +277,12 @@ def build_body(root):
     bevel(shell, .03, 3, angle=35.0)
     apply_modifiers(shell)
     for axle in (-1.18, 1.10):
-        cutter = cylinder_x("ArchCutter", .392, 2.2, (0, .345, axle), PAINT, "metal", None, segments=36)
+        cutter = cylinder_x("ArchCutter", .392, 2.2, (0, .345, axle), PAINT, "paint", None, segments=36)
         boolean_cut(shell, cutter)
 
     # The Niva's shoulder crease and lower body line catch the light along the side.
     for side in (-1, 1):
-        box(f"NivaBody_Crease{side}", (.012, .022, 3.62), (side * .815, 1.005, -.07), PAINT, "metal", root, .005)
+        box(f"NivaBody_Crease{side}", (.012, .022, 3.62), (side * .815, 1.005, -.07), PAINT, "paint", root, .005)
         box(f"NivaBody_Sill{side}", (.03, .07, 1.28), (side * .807, .49, -.10), "303830", "metal", root, .01)
         arch = arch_flare(f"NivaBody_ArchFlareFront{side}", -1.18, side, root)
         arch = arch_flare(f"NivaBody_ArchFlareRear{side}", 1.10, side, root)
@@ -294,21 +296,21 @@ def build_body(root):
     box("NivaBody_CargoFloor", (1.40, .05, .52), (0, .72, 1.55), "2a2f2a", "rubber", root)
 
     # Greenhouse: roof, pillars, drip rails and a hatch frame around real openings.
-    box("NivaBody_Roof", (1.50, .05, 1.84), (0, 1.668, .615), PAINT, "metal", root, .025, 3)
+    box("NivaBody_Roof", (1.50, .05, 1.84), (0, 1.668, .615), PAINT, "paint", root, .025, 3)
     for side in (-1, 1):
-        beam(f"NivaBody_APillar{side}", (side * .783, 1.10, -.70), (side * .735, 1.645, -.30), .055, PAINT, "metal", root, .05)
-        beam(f"NivaBody_BPillar{side}", (side * .790, 1.10, .505), (side * .742, 1.645, .505), .085, PAINT, "metal", root, .045)
+        beam(f"NivaBody_APillar{side}", (side * .783, 1.10, -.70), (side * .735, 1.645, -.30), .055, PAINT, "paint", root, .05)
+        beam(f"NivaBody_BPillar{side}", (side * .790, 1.10, .505), (side * .742, 1.645, .505), .085, PAINT, "paint", root, .045)
         cp = extrude_profile(f"NivaBody_CPillar{side}", [(1.36, 1.10), (1.815, 1.10), (1.545, 1.645), (1.30, 1.645)],
-                             side * .745, side * .790, PAINT, "metal", root)
+                             side * .745, side * .790, PAINT, "paint", root)
         bevel(cp, .012, 2)
         apply_modifiers(cp)
         beam(f"NivaBody_DripRail{side}", (side * .752, 1.652, -.30), (side * .752, 1.652, 1.53), .016, "485648", "metal", root)
         beam(f"NivaBody_BeltSeal{side}", (side * .795, 1.108, -.66), (side * .795, 1.108, 1.36), .016, RUBBER, "rubber", root, .02)
         beam(f"NivaBody_QuarterVent{side}", (side * .788, 1.12, -.52), (side * .752, 1.52, -.40), .012, RUBBER, "rubber", root)
-    beam("NivaBody_Header", (-.73, 1.645, -.302), (.73, 1.645, -.302), .045, PAINT, "metal", root, .05)
-    beam("NivaBody_Cowl", (-.78, 1.105, -.705), (.78, 1.105, -.705), .05, PAINT, "metal", root, .06)
-    beam("NivaBody_HatchSill", (-.77, 1.10, 1.818), (.77, 1.10, 1.818), .045, PAINT, "metal", root, .05)
-    beam("NivaBody_HatchTop", (-.70, 1.64, 1.545), (.70, 1.64, 1.545), .04, PAINT, "metal", root, .04)
+    beam("NivaBody_Header", (-.73, 1.645, -.302), (.73, 1.645, -.302), .045, PAINT, "paint", root, .05)
+    beam("NivaBody_Cowl", (-.78, 1.105, -.705), (.78, 1.105, -.705), .05, PAINT, "paint", root, .06)
+    beam("NivaBody_HatchSill", (-.77, 1.10, 1.818), (.77, 1.10, 1.818), .045, PAINT, "paint", root, .05)
+    beam("NivaBody_HatchTop", (-.70, 1.64, 1.545), (.70, 1.64, 1.545), .04, PAINT, "paint", root, .04)
 
     # Glass: windshield, doors, rear quarters and hatch, with black seals.
     quad("NivaGlass_Windshield", (-.745, 1.12, -.69), (.745, 1.12, -.69), (.715, 1.63, -.31), (-.715, 1.63, -.31), "83988c", "glass", root)
@@ -332,7 +334,7 @@ def build_body(root):
         beam(f"NivaMirror_Arm{side}", (side * .80, 1.16, -.57), (side * .873, 1.215, -.53), .02, PLASTIC, "rubber", root)
         box(f"NivaMirror_Housing{side}", (.035, .10, .14), (side * .898, 1.235, -.52), PLASTIC, "rubber", root, .015)
         box(f"NivaMirror_Glass{side}", (.004, .08, .115), (side * .899, 1.235, -.453), "9aa8a2", "glass", root)
-    cylinder_x("NivaBody_FuelCap", .045, .012, (.818, .96, 1.47), PAINT_DARK, "metal", root, 20)
+    cylinder_x("NivaBody_FuelCap", .045, .012, (.818, .96, 1.47), PAINT_DARK, "paint", root, 20)
 
     # Front: grille between round headlamps, chrome bumper, plate, indicators.
     box("NivaFront_GrillePanel", (.82, .19, .04), (0, .925, -1.975), "1d211e", "rubber", root, .01)

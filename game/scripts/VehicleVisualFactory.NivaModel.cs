@@ -102,6 +102,13 @@ public static partial class VehicleVisualFactory
                 AlbedoColor = Color.FromHtml(color), Roughness = .3f, EmissionEnabled = true,
                 Emission = new Color(.18f, .26f, .12f), EmissionEnergyMultiplier = .6f
             },
+            // Factory metallic enamel under a lacquer coat: the flake gives the
+            // panels a soft sheen, the clear coat the sharp sky highlight.
+            "paint" => new StandardMaterial3D
+            {
+                AlbedoColor = Color.FromHtml(color), Metallic = .62f, Roughness = .34f, MetallicSpecular = .6f,
+                ClearcoatEnabled = true, Clearcoat = .9f, ClearcoatRoughness = .12f
+            },
             "vinyl" or "leather" => TrimMaterial(color, surface),
             _ => PainterlyMaterialLibrary.ForColor(color, surface, sheltered: true)
         };

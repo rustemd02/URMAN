@@ -66,6 +66,27 @@ public partial class Act1TopDownCapture : Node
                 GetTree().Quit(0);
                 return;
             }
+            if (OS.GetEnvironment("URMAN_VIEWS") is { Length: > 0 } views)
+            {
+                // name:fromX:fromZ:toX:toZ;... — eye height (1.7 m) looking at a point.
+                var eye = new Camera3D { Fov = 70f, Near = .05f, Far = 400f };
+                AddChild(eye);
+                eye.MakeCurrent();
+                foreach (var view in views.Split(';', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var parts = view.Split(':');
+                    var v = parts.Skip(1).Select(p => float.Parse(p, System.Globalization.CultureInfo.InvariantCulture)).ToArray();
+                    eye.GlobalPosition = new Vector3(v[0], Urman.Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(v[0], v[1]) + 1.7f, v[1]);
+                    eye.LookAt(new Vector3(v[2], Urman.Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(v[2], v[3]) + 1.2f, v[3]));
+                    for (var i = 0; i < 20; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                    await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+                    using var frame = GetViewport().GetTexture().GetImage();
+                    frame.SavePng(System.IO.Path.Combine(OS.GetEnvironment("URMAN_TOPDOWN_OUTPUT"), parts[0] + ".png"));
+                }
+                GD.Print("act1-topdown: views done");
+                GetTree().Quit(0);
+                return;
+            }
             var shots = OS.GetEnvironment("URMAN_SHOTS");
             if (shots.Length > 0)
             {
@@ -92,18 +113,22 @@ public partial class Act1TopDownCapture : Node
                 GetTree().Quit(0);
                 return;
             }
+            // URMAN_TOPDOWN_RECT="cx:cz:size" frames another part of the village.
+            var rect = OS.GetEnvironment("URMAN_TOPDOWN_RECT").Split(':', StringSplitOptions.RemoveEmptyEntries)
+                .Select(v => float.Parse(v, System.Globalization.CultureInfo.InvariantCulture)).ToArray();
+            var (centreX, centreZ, span) = rect.Length == 3 ? (rect[0], rect[1], rect[2]) : (0f, -15f, 170f);
             var camera = new Camera3D
             {
-                Projection = Camera3D.ProjectionType.Orthogonal, Size = 170f, Near = 1f, Far = 400f,
-                Position = new Vector3(0f, 150f, -15f), RotationDegrees = new Vector3(-90f, 0f, 0f)
+                Projection = Camera3D.ProjectionType.Orthogonal, Size = span, Near = 1f, Far = 400f,
+                Position = new Vector3(centreX, 150f, centreZ), RotationDegrees = new Vector3(-90f, 0f, 0f)
             };
             AddChild(camera);
             camera.MakeCurrent();
             for (var i = 0; i < 40; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
             using var image = GetViewport().GetTexture().GetImage();
-            image.SavePng(OS.GetEnvironment("URMAN_TOPDOWN_OUTPUT"));
-            GD.Print($"act1-topdown: {image.GetWidth()}x{image.GetHeight()} size={camera.Size} centre=(0,-15)");
+            image.SavePng(System.IO.Path.Combine(OS.GetEnvironment("URMAN_TOPDOWN_OUTPUT"), "topdown.png"));
+            GD.Print($"act1-topdown: {image.GetWidth()}x{image.GetHeight()} size={camera.Size} centre=({centreX},{centreZ})");
             GetTree().Quit(0);
         }
         catch (Exception error)

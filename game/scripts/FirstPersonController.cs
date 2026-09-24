@@ -44,7 +44,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private bool _worldInteractionNeedsRelease;
     private bool _motionBlur;
     private bool _headBob;
-    private string _graphicsPreset = "medium";
+    private string _graphicsPreset = GraphicsQuality.DefaultPreset();
     private string _inputDevice = "keyboard-mouse";
     /// <summary>ACT1-LANG.5: chosen starting Tatar knowledge level (none/some/fluent).</summary>
     public string TatarLanguageLevel
@@ -501,14 +501,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private void ApplyGraphicsPreset()
     {
         PainterlyMaterialLibrary.SetGraphicsPreset(_graphicsPreset);
-        var viewport = GetViewport();
-        viewport.Scaling3DMode = Viewport.Scaling3DModeEnum.Bilinear;
-        (viewport.Scaling3DScale, viewport.Msaa3D) = _graphicsPreset switch
-        {
-            "low" => (0.75f, Viewport.Msaa.Disabled),
-            "high" => (1.0f, Viewport.Msaa.Msaa4X),
-            _ => (0.9f, Viewport.Msaa.Msaa2X)
-        };
+        GraphicsQuality.Apply(GetViewport(), _graphicsPreset);
     }
 
     private void UpdateInteraction()
