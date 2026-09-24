@@ -169,7 +169,14 @@ public partial class Act1SettingsNavigationSmokeTest : Node
             return;
         }
 
-        GD.Print("act1-settings-navigation: PASS menu-safe open + entry focus + rollback without apply + explicit apply persists + accessibility rows map to their fields");
+        // A remappable action without a menu label broke the whole binding list.
+        var unlabeled = InputBindingService.RemappableActions.Where(action => !SettingsUi.HasActionLabel(action)).ToArray();
+        if (unlabeled.Length > 0)
+        {
+            Fail("remappable actions without a settings label: " + string.Join(", ", unlabeled));
+            return;
+        }
+        GD.Print("act1-settings-navigation: PASS menu-safe open + entry focus + rollback without apply + explicit apply persists + accessibility rows map to their fields + every remappable action labelled");
         RestoreStore(storeBackup);
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);

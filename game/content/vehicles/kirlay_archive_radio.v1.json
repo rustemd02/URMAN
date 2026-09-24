@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "stationId": "kirlay-archive",
+  "displayName": "Кырлай архивы · 103,2",
+  "frequencyMhz": 103.2,
+  "fictionalStation": true,
+  "audioAcceptance": "1 approved archive recording carried by 3 explicitly declared repeats, 0 synthetic previews, 0 pending; this channel has no spoken programming of its own yet, so no independent recordings are claimed and listening, native-language and final production acceptance are not implied",
+  "languageReview": "not applicable: the channel currently carries an instrumental archive recording only and its own spoken station ident is not recorded",
+  "segments": [
+    {
+      "id": "archive-violin",
+      "kind": "music",
+      "language": "zxx",
+      "title": "Архивная скрипка · Айса Хакимджан",
+      "transcript": "Архивная скрипичная запись Айсы Хакимджана. Название мелодии в источнике не указано.",
+      "durationSeconds": 202.06933333333333,
+      "streamPath": "res://assets/audio/act1/radio/music-one.wav",
+      "rightsStatus": "approved",
+      "provenance": "assets/source/audio/act1/radio/488afc2836463293404a9bacc88a1076cfd17793dabd8ea6273b343238f21bd5/provenance.json#music-one",
+      "sha256": "5b147604c8ed33bc022c2a17a882fb0652241069b69a1cd2a643d1caf0c59544"
+    },
+    {
+      "id": "archive-repeat-1",
+      "kind": "music",
+      "language": "zxx",
+      "title": "Из архива · повтор 1",
+      "transcript": "Повтор той же архивной скрипичной записи Айсы Хакимджана. Не отдельная композиция или новая запись.",
+      "durationSeconds": 202.06933333333333,
+      "streamPath": "res://assets/audio/act1/radio/music-one.wav",
+      "rightsStatus": "licensed-recording-repeat",
+      "provenance": "assets/source/audio/act1/radio/488afc2836463293404a9bacc88a1076cfd17793dabd8ea6273b343238f21bd5/provenance.json#music-one",
+      "sha256": "5b147604c8ed33bc022c2a17a882fb0652241069b69a1cd2a643d1caf0c59544",
+      "origin": "recorded-music-repeat",
+      "acceptance": "reuses-existing-approved-recording",
+      "repeatsSegmentId": "archive-violin"
+    },
+    {
+      "id": "archive-repeat-2",
+      "kind": "music",
+      "language": "zxx",
+      "title": "Из архива · повтор 2",
+      "transcript": "Повтор той же архивной скрипичной записи Айсы Хакимджана. Не отдельная композиция или новая запись.",
+      "durationSeconds": 202.06933333333333,
+      "streamPath": "res://assets/audio/act1/radio/music-one.wav",
+      "rightsStatus": "licensed-recording-repeat",
+      "provenance": "assets/source/audio/act1/radio/488afc2836463293404a9bacc88a1076cfd17793dabd8ea6273b343238f21bd5/provenance.json#music-one",
+      "sha256": "5b147604c8ed33bc022c2a17a882fb0652241069b69a1cd2a643d1caf0c59544",
+      "origin": "recorded-music-repeat",
+      "acceptance": "reuses-existing-approved-recording",
+      "repeatsSegmentId": "archive-violin"
+    },
+    {
+      "id": "archive-repeat-3",
+      "kind": "music",
+      "language": "zxx",
+      "title": "Из архива · повтор 3",
+      "transcript": "Повтор той же архивной скрипичной записи Айсы Хакимджана. Не отдельная композиция или новая запись.",
+      "durationSeconds": 202.06933333333333,
+      "streamPath": "res://assets/audio/act1/radio/music-one.wav",
+      "rightsStatus": "licensed-recording-repeat",
+      "provenance": "assets/source/audio/act1/radio/488afc2836463293404a9bacc88a1076cfd17793dabd8ea6273b343238f21bd5/provenance.json#music-one",
+      "sha256": "5b147604c8ed33bc022c2a17a882fb0652241069b69a1cd2a643d1caf0c59544",
+      "origin": "recorded-music-repeat",
+      "acceptance": "reuses-existing-approved-recording",
+      "repeatsSegmentId": "archive-violin"
+    }
+  ]
+}

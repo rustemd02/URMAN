@@ -831,6 +831,8 @@ public partial class RuntimeBridge : Node
 
     public string ResolveText(string textId) => ResolveWorldText(_content.ResolveText(textId));
 
+    public IReadOnlyList<string> TextIdsWithPrefix(string prefix) => _content.TextIdsWithPrefix(prefix);
+
     // The world registry owns displayed addresses. Save and quest references
     // stay as authored IDs; readers resolve again after a street-name change.
     public string ResolveWorldText(string text) =>

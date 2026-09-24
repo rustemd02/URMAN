@@ -1,0 +1,119 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-mansur-1",
+    "value": {
+      "default": "«Уз, улым, туңгансыңдыр.» — Проходи, сынок, замёрз, наверное.",
+      "translations": { "ru": "«Уз, улым, туңгансыңдыр.» — Проходи, сынок, замёрз, наверное." }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-mansur-2",
+    "value": {
+      "default": "«Хәлләр ничек, улым?» — Как дела, сынок?",
+      "translations": { "ru": "«Хәлләр ничек, улым?» — Как дела, сынок?" }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-mansur-3",
+    "value": {
+      "default": "«Бүген салкын, бияләйләреңне ки.» — Сегодня холодно, надень варежки.",
+      "translations": { "ru": "«Бүген салкын, бияләйләреңне ки.» — Сегодня холодно, надень варежки." }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-mansur-4",
+    "value": {
+      "default": "«Ашыкма, улым. Барысы да вакытында.» — Не торопись, сынок. Всему своё время.",
+      "translations": { "ru": "«Ашыкма, улым. Барысы да вакытында.» — Не торопись, сынок. Всему своё время." }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-timur_hazrat-1",
+    "value": {
+      "default": "«Әссәламәгаләйкем, энем. Хәлләр ничек?» — Мир тебе, братишка. Как дела?",
+      "translations": { "ru": "«Әссәламәгаләйкем, энем. Хәлләр ничек?» — Мир тебе, братишка. Как дела?" }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-timur_hazrat-2",
+    "value": {
+      "default": "«Бабаеңа сәлам әйт.» — Передавай привет бабаю.",
+      "translations": { "ru": "«Бабаеңа сәлам әйт.» — Передавай привет бабаю." }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-timur_hazrat-3",
+    "value": {
+      "default": "«Хәерле көн. Җомгага кил, энем.» — Добрый день. Приходи в пятницу на намаз, братишка.",
+      "translations": { "ru": "«Хәерле көн. Җомгага кил, энем.» — Добрый день. Приходи в пятницу на намаз, братишка." }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-naila-1",
+    "value": {
+      "default": "«Исәнмесез. Нәрсә борчый?» — Здравствуйте. Что беспокоит?",
+      "translations": { "ru": "«Исәнмесез. Нәрсә борчый?» — Здравствуйте. Что беспокоит?" }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-naila-2",
+    "value": {
+      "default": "«Утырып торыгыз, хәзер карыйм.» — Посидите, сейчас посмотрю.",
+      "translations": { "ru": "«Утырып торыгыз, хәзер карыйм.» — Посидите, сейчас посмотрю." }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-naila-3",
+    "value": {
+      "default": "«Салкын тидермәгез, яме?» — Не простудитесь, ладно?",
+      "translations": { "ru": "«Салкын тидермәгез, яме?» — Не простудитесь, ладно?" }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-alsu-1",
+    "value": {
+      "default": "«Сәлам! Кайчан кайттың?» — Привет! Когда вернулся?",
+      "translations": { "ru": "«Сәлам! Кайчан кайттың?» — Привет! Когда вернулся?" }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-alsu-2",
+    "value": {
+      "default": "«Ничек анда, Казанда?» — Как там, в Казани?",
+      "translations": { "ru": "«Ничек анда, Казанда?» — Как там, в Казани?" }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-alsu-3",
+    "value": {
+      "default": "«Әйдә, озакламыйк.» — Пойдём, не будем задерживаться.",
+      "translations": { "ru": "«Әйдә, озакламыйк.» — Пойдём, не будем задерживаться." }
+    },
+    "purpose": "caption"
+  }
+]

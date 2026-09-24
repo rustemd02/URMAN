@@ -233,6 +233,7 @@ public partial class Act1ConnectedWorld
                 _conversationFacing[npc] = entry;
                 npc.SetMeta("conversationFacing", "towards-player");
                 RecordConversationTurn(npc, "entered-range");
+                GreetOnApproach(npc, now);
             }
             else if (entry.Facing && distance >= 3.9f)
             {

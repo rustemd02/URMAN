@@ -31,6 +31,8 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
     private Key? _pendingConflictKey;
     private bool _saveLoadInProgress;
 
+    internal static bool HasActionLabel(string action) => ActionLabels.ContainsKey(action);
+
     private static readonly IReadOnlyDictionary<string, string> ActionLabels = new Dictionary<string, string>(StringComparer.Ordinal)
     {
         ["move_forward"] = "Вперёд",
@@ -47,7 +49,8 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         ["quick_load"] = "Быстрая загрузка",
         ["carry_rotate"] = "Повернуть предмет",
         ["carry_place"] = "Поставить предмет",
-        ["carry_use"] = "Переключить фонарь"
+        ["carry_use"] = "Переключить фонарь",
+        ["radio_station"] = "Радио: следующий канал"
     };
 
     public bool IsOpen => _screen.Visible;

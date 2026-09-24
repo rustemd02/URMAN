@@ -108,6 +108,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         _interactionPrompt.SetMeta("accessibilityHighContrast", settings.HighContrast);
         _interactionPrompt.SetMeta("accessibilityReducedMotion", settings.ReducedMotion);
         PainterlyMaterialLibrary.SetWindMotion(!settings.ReducedMotion);
+        ApplyRemarkAccessibility(settings);
         if (settings.ReducedMotion)
         {
             _interactionPromptTween?.Kill();

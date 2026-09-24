@@ -309,6 +309,10 @@ public sealed class CompiledCampaignRepository
 
     public string ResolveText(string textId) => _texts.Resolve(textId, "ru").Text;
 
+    /// <summary>Authored text ids that start with a prefix, in id order.</summary>
+    public IReadOnlyList<string> TextIdsWithPrefix(string prefix) =>
+        _texts.Ids().Where(id => id.StartsWith(prefix, StringComparison.Ordinal)).Order(StringComparer.Ordinal).ToArray();
+
     /// <summary>
     /// Resolves only a source that is present in the compiled campaign. This is
     /// intentionally a read-only lookup: an unknown/starting-knowledge source
