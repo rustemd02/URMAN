@@ -233,6 +233,13 @@ public partial class VehicleController : CharacterBody3D
         { Headlights = !Headlights; _fleet.MarkDirty(); }
         if (Input.IsActionJustPressed("carry_place") && Radio is not null)
         { Radio.SetEnabled(!Radio.Enabled); _fleet.MarkDirty(); }
+        if (Input.IsActionJustPressed("radio_station") && Radio is not null && Radio.NextStation())
+        {
+            // Retuning is its own mechanical click. The new frequency is readable
+            // on the dashboard, so the switch does not interrupt the control hint.
+            UiFoley.PlayWorld(this, GlobalPosition + Vector3.Up, "ui_click");
+            _fleet.MarkDirty();
+        }
         if (Input.IsActionJustPressed("crouch"))
         { ParkingBrake = !ParkingBrake; _fleet.MarkDirty(); }
         _engineWarmup = Math.Max(0, _engineWarmup - dt);
@@ -468,7 +475,7 @@ public partial class VehicleController : CharacterBody3D
         if(_visual.EngineNeedle is {} engineNeedle)
             engineNeedle.RotationDegrees=new(0,0,130-(EngineRunning ? .9f+Math.Abs(Speed)*.28f : 0)/8*260);
         if(_visual.RadioDisplay is {} tuning)
-            tuning.Text=Radio?.Enabled==true?"101.4":"— —";
+            tuning.Text=Radio?.Tuning??"— —";
         // Roll around the rider's support, with the handlebar/mirrors staying
         // inside the real one-metre hull even at the maximum permitted bank.
         _visual.Root.Transform = MotorcycleLeanTransform();
@@ -507,7 +514,8 @@ public partial class VehicleController : CharacterBody3D
             +"\n"+H("carry_use")+" "+engine+" · "+H("jump")+(horse?" придержать · ":" тормоз · ")
                 +H("crouch")+" "+parking+" · "+H("interact")+" выйти"
             +(Definition.Kind!=VehicleKind.HorseCart?" · "+H("carry_rotate")+" фары":"")
-            +(Radio is null?"":"\n"+H("carry_place")+" радио · "+(Radio.Enabled?Radio.Display:"выключено"));
+            +(Radio is null?"":"\n"+H("carry_place")+" радио · "+(Radio.Enabled?Radio.Display:"выключено")
+                +(Radio.StationCount>1?" · "+H("radio_station")+" канал":""));
     }
 
     public JsonObject Capture()

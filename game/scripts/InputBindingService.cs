@@ -18,6 +18,7 @@ public static class InputBindingService
         "carry_rotate",
         "carry_place",
         "carry_use",
+        "radio_station",
         "journal",
         "pause",
         "quick_save",

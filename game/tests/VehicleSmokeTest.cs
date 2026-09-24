@@ -122,6 +122,7 @@ public partial class VehicleSmokeTest : Node
                     await Press("carry_place");var offset=radio.SegmentOffset;await Frames(10);
                     Require(radio.Enabled&&radio.SegmentOffset>offset,"radio programme has an advancing saved playhead");
                     await DeliveredRadioChecks(radio);
+                    StationDialChecks(radio);
                     await NativeRadioChecks(vehicle);
                 }
                 if(vehicle.Definition.Kind==VehicleKind.Niva)await MovingWheelCollisionChecks(vehicle);

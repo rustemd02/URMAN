@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "stationId": "avyl-fm",
   "displayName": "Авыл FM · 101,4",
+  "frequencyMhz": 101.4,
   "fictionalStation": true,
   "audioAcceptance": "1 recorded segment(s), 1 explicitly declared archive repeat, 10 synthetic previews, 0 pending; listening, native-language and final production acceptance not implied",
   "languageReview": "native Tatar review pending",

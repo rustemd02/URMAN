@@ -44,6 +44,22 @@ HERO_LOG_EMBED = 0.020
 HERO_LOG_HEIGHT = 0.222
 HERO_LOG_END_LENGTH = 0.170
 
+# Window and door casings are nailed over the hewn log faces. A casing whose
+# outer face lands on the log face makes the two surfaces coplanar, so the
+# rasteriser alternates between them per course and the surround reads as a
+# stepped sawtooth instead of a nailed-on trim. The casing therefore clears the
+# log face by HERO_CASING_PROUD while staying embedded into the log behind it.
+HERO_CASING_PROUD = 0.009
+HERO_CASING_BACK = -HERO_LOG_EMBED / 2.0
+HERO_CASING_OUTER = HERO_LOG_BULGE + HERO_CASING_PROUD
+HERO_CASING_DEPTH = HERO_CASING_OUTER - HERO_CASING_BACK
+HERO_CASING_INSET = -(HERO_CASING_OUTER + HERO_CASING_BACK) / 2.0
+
+# Parcel dwellings have a flat pierced shell and no hewn courses, so they keep
+# the original casing section and their reviewed appearance.
+PARCEL_CASING_INSET = -0.025
+PARCEL_CASING_DEPTH = 0.070
+
 # These are source-side preview colors only. Runtime maps the slots to the
 # authored W01/W05/WoodCut/SnowRoof material families.
 HERO_SOURCE_MATERIALS = {
@@ -2064,6 +2080,8 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         def local_box(name, u, inset, z, sx, sy, sz, mat):
             obj = box(name, point(u, inset, z), (sx, sy, sz), mat)
             obj.rotation_euler.z = math.atan2(ty, tx)
+        casing_inset = HERO_CASING_INSET if hero_layout else PARCEL_CASING_INSET
+        casing_depth = HERO_CASING_DEPTH if hero_layout else PARCEL_CASING_DEPTH
         for i, (x0, x1, z0, z1, kind) in enumerate(holes):
             tag = f"{suffix}_{kind}{i}"
             x, z, w, h = (x0+x1)/2, (z0+z1)/2, x1-x0, z1-z0
@@ -2072,10 +2090,10 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                 local_box(tag+"_Glass" if kind == "Window" else tag+"_Leaf", x, .17, z,
                           w-.10, .035, h-.10, "URMAN_Window_DimGlass" if kind == "Window" else "URMAN_Wood_WetShadow")
             for side in (-1, 1):
-                local_box(tag+f"_Jamb{side}", x+side*(w/2+.035), -.025, z,
-                          .095, .07, h+.14, hero_joinery)
-                local_box(tag+f"_Rail{side}", x, -.025, z+side*(h/2+.035),
-                          w+.16, .07, .095, hero_joinery)
+                local_box(tag+f"_Jamb{side}", x+side*(w/2+.035), casing_inset, z,
+                          .095, casing_depth, h+.14, hero_joinery)
+                local_box(tag+f"_Rail{side}", x, casing_inset, z+side*(h/2+.035),
+                          w+.16, casing_depth, .095, hero_joinery)
             if kind == "Window":
                 # Mid-distance read: jambs + rails + mullion + sill frame the
                 # opening; the former transom bar and tapered headboard crown

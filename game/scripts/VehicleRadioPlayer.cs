@@ -64,72 +64,157 @@ public sealed class VehicleRadioTimeline
 }
 
 /// <summary>
-/// Car-radio playback uses a data programme, two local sources and one saved
-/// segment/offset. A transcript is never substituted for a missing voice file.
-/// Present recordings and explicitly licensed synthetic previews share playback;
-/// their delivery and acceptance counts remain distinct.
+/// Car-radio playback uses a data programme per station, two local sources and
+/// one saved station/segment/offset. A transcript is never substituted for a
+/// missing voice file. Present recordings and explicitly licensed synthetic
+/// previews share playback; their delivery and acceptance counts remain
+/// distinct and are reported for the station that is actually tuned in.
 /// </summary>
 public partial class VehicleRadioPlayer : Node3D
 {
     public const string StationPath="res://content/vehicles/avyl_radio.v1.json";
+    /// <summary>The dial. The first entry is the station a new session tunes to.</summary>
+    public static readonly string[] StationPaths=[
+        StationPath,
+        "res://content/vehicles/kirlay_archive_radio.v1.json"
+    ];
+
+    /// <summary>One tuned frequency: its own programme, sources and phase.</summary>
+    private sealed class Station
+    {
+        public required string Id{get;init;}
+        public required string DisplayName{get;init;}
+        public required string Frequency{get;init;}
+        public required VehicleRadioTimeline Timeline{get;set;}
+        public required Dictionary<string,AudioStream?> Streams{get;init;}
+        public int ProgrammedSegmentCount{get;init;}
+        public int PlayableSegmentCount{get;init;}
+        public int RecordedSegmentCount{get;init;}
+        public int SyntheticPreviewCount{get;init;}
+        public int RepeatedSegmentCount{get;init;}
+        // Phase kept per station so switching away and back resumes the same
+        // point of the same programme instead of restarting it.
+        public string? SavedSegmentId{get;set;}
+        public double SavedOffset{get;set;}
+    }
+
     private readonly AudioStreamPlayer3D[] _players=new AudioStreamPlayer3D[2];
-    private readonly Dictionary<string,AudioStream?> _streams=new(StringComparer.Ordinal);
-    private VehicleRadioTimeline _timeline=null!;
+    private readonly List<Station> _stations=[];
+    private Station _station=null!;
     private int _active=-1;
     private bool _paused;
     private bool _native;
     private float _fade;
     private float _volume=.65f;
-    private string _stationName=string.Empty;
     public bool Enabled { get; private set; }
-    public string Display => _stationName;
-    public string CurrentSegmentId => _timeline.Current.Id;
-    public double SegmentOffset => _timeline.Offset;
-    public int PlayableSegmentCount { get; private set; }
-    public int RecordedSegmentCount { get; private set; }
-    public int SyntheticPreviewCount { get; private set; }
-    public int RepeatedSegmentCount { get; private set; }
-    public int ProgrammedSegmentCount { get; private set; }
+    public string Display => _station.DisplayName;
+    /// <summary>Dial readout for the dashboard: the tuned frequency, or dashes when off.</summary>
+    public string Tuning => Enabled ? _station.Frequency : "— —";
+    public string CurrentStationId => _station.Id;
+    public int StationIndex { get; private set; }
+    public int StationCount => _stations.Count;
+    public string CurrentSegmentId => _station.Timeline.Current.Id;
+    public double SegmentOffset => _station.Timeline.Offset;
+    /// <summary>The programme order actually being played on the tuned station.</summary>
+    public IReadOnlyList<VehicleRadioSegment> ActiveProgramme => _station.Timeline.Segments;
+    public int PlayableSegmentCount => _station.PlayableSegmentCount;
+    public int RecordedSegmentCount => _station.RecordedSegmentCount;
+    public int SyntheticPreviewCount => _station.SyntheticPreviewCount;
+    public int RepeatedSegmentCount => _station.RepeatedSegmentCount;
+    public int ProgrammedSegmentCount => _station.ProgrammedSegmentCount;
     public int MissingRecordingCount => ProgrammedSegmentCount-PlayableSegmentCount;
 
     public override void _Ready()
     {
         AudioSettingsService.EnsureBuses();_native=DisplayServer.GetName()!="headless";
-        using var file=global::Godot.FileAccess.Open(StationPath,global::Godot.FileAccess.ModeFlags.Read)
-            ??throw new InvalidDataException("Radio programme is missing.");
-        using var document=JsonDocument.Parse(file.GetAsText());var root=document.RootElement;
-        _stationName=root.GetProperty("displayName").GetString()!;
-        var segments=root.GetProperty("segments").EnumerateArray().Select(VehicleRadioSegment.FromJson).ToArray();
-        // Validate the complete authored programme even while some deliveries
-        // are pending. Its missing rows never become periods of silent playback.
-        _=new VehicleRadioTimeline(segments);ProgrammedSegmentCount=segments.Length;
-        foreach(var segment in segments)
-        {
-            if(!segment.HasValidRepeatSource(segments))
-                throw new InvalidDataException("A repeated radio segment differs from its approved source: "+segment.Id);
-            var stream=segment.CanPlay && !string.IsNullOrEmpty(segment.StreamPath)&&ResourceLoader.Exists(segment.StreamPath)
-                ?ResourceLoader.Load<AudioStream>(segment.StreamPath):null;
-            _streams[segment.Id]=stream;
-            if(stream is not null)
-            {
-                PlayableSegmentCount++;
-                if(segment.IsSyntheticPreview)SyntheticPreviewCount++;
-                else if(segment.IsRecordingRepeat)RepeatedSegmentCount++;else RecordedSegmentCount++;
-            }
-        }
-        var playable=segments.Where(segment=>_streams[segment.Id] is not null).ToArray();
-        _timeline=new(playable.Length>0?playable:segments);
+        foreach(var path in StationPaths)_stations.Add(LoadStation(path));
+        if(_stations.Count==0)throw new InvalidDataException("The dial has no stations.");
+        _station=_stations[0];
         for(var i=0;i<2;i++)
         {
             _players[i]=new AudioStreamPlayer3D{Name="RadioSpeaker"+i,Bus=AudioSettingsService.AmbienceBus,
                 UnitSize=2,MaxDistance=12,VolumeDb=-60,Autoplay=false};
             AddChild(_players[i]);
         }
-        SetMeta("stationPath",StationPath);SetMeta("playableRecordings",PlayableSegmentCount);
+        PublishStationMeta();
+    }
+
+    private static Station LoadStation(string path)
+    {
+        using var file=global::Godot.FileAccess.Open(path,global::Godot.FileAccess.ModeFlags.Read)
+            ??throw new InvalidDataException("Radio programme is missing: "+path);
+        using var document=JsonDocument.Parse(file.GetAsText());var root=document.RootElement;
+        var segments=root.GetProperty("segments").EnumerateArray().Select(VehicleRadioSegment.FromJson).ToArray();
+        // Validate the complete authored programme even while some deliveries
+        // are pending. Its missing rows never become periods of silent playback.
+        _=new VehicleRadioTimeline(segments);
+        var streams=new Dictionary<string,AudioStream?>(StringComparer.Ordinal);
+        var playable=0;var recorded=0;var previews=0;var repeats=0;
+        foreach(var segment in segments)
+        {
+            if(!segment.HasValidRepeatSource(segments))
+                throw new InvalidDataException("A repeated radio segment differs from its approved source: "
+                    +path+":"+segment.Id);
+            var stream=segment.CanPlay && !string.IsNullOrEmpty(segment.StreamPath)&&ResourceLoader.Exists(segment.StreamPath)
+                ?ResourceLoader.Load<AudioStream>(segment.StreamPath):null;
+            streams[segment.Id]=stream;
+            if(stream is not null)
+            {
+                playable++;
+                if(segment.IsSyntheticPreview)previews++;
+                else if(segment.IsRecordingRepeat)repeats++;else recorded++;
+            }
+        }
+        var audible=segments.Where(segment=>streams[segment.Id] is not null).ToArray();
+        return new Station{
+            Id=root.GetProperty("stationId").GetString()!,
+            DisplayName=root.GetProperty("displayName").GetString()!,
+            Frequency=root.TryGetProperty("frequencyMhz",out var mhz)&&mhz.TryGetDouble(out var value)
+                ?value.ToString("0.0",System.Globalization.CultureInfo.InvariantCulture)
+                :root.GetProperty("displayName").GetString()!,
+            Timeline=new(audible.Length>0?audible:segments),
+            Streams=streams,
+            ProgrammedSegmentCount=segments.Length,
+            PlayableSegmentCount=playable,
+            RecordedSegmentCount=recorded,
+            SyntheticPreviewCount=previews,
+            RepeatedSegmentCount=repeats,
+        };
+    }
+
+    /// <summary>
+    /// Moves to the next frequency on the dial, keeping the current station's
+    /// position so a later switch back resumes it. Playback restarts only when
+    /// the radio is on, so tuning while off does not start audio.
+    /// </summary>
+    public bool NextStation()
+    {
+        if(_stations.Count<2)return false;
+        RememberStationPhase();
+        StopPlayers();
+        StationIndex=(StationIndex+1)%_stations.Count;
+        _station=_stations[StationIndex];
+        _station.Timeline.Restore(_station.SavedSegmentId,_station.SavedOffset);
+        PublishStationMeta();
+        if(Enabled)StartCurrent();
+        return true;
+    }
+
+    private void RememberStationPhase()
+    {
+        _station.SavedSegmentId=_station.Timeline.Current.Id;
+        _station.SavedOffset=_station.Timeline.Offset;
+    }
+
+    private void PublishStationMeta()
+    {
+        SetMeta("stationId",_station.Id);SetMeta("stationDisplay",_station.DisplayName);
+        SetMeta("stationIndex",StationIndex);SetMeta("stationCount",_stations.Count);
+        SetMeta("playableRecordings",PlayableSegmentCount);
         SetMeta("recordedSegments",RecordedSegmentCount);SetMeta("syntheticPreviews",SyntheticPreviewCount);
         SetMeta("repeatedSegments",RepeatedSegmentCount);
         SetMeta("missingRecordings",MissingRecordingCount);
-        SetMeta("recordingStatus",$"recorded={RecordedSegmentCount}; repeats={RepeatedSegmentCount}; synthetic-preview={SyntheticPreviewCount}; pending={MissingRecordingCount}; listening and language acceptance remain separate");
+        SetMeta("recordingStatus",$"station={_station.Id}; recorded={RecordedSegmentCount}; repeats={RepeatedSegmentCount}; synthetic-preview={SyntheticPreviewCount}; pending={MissingRecordingCount}; listening and language acceptance remain separate");
     }
 
     public void SetEnabled(bool enabled)
@@ -148,8 +233,8 @@ public partial class VehicleRadioPlayer : Node3D
 
     public override void _Process(double delta)
     {
-        if(_timeline is null||!Enabled||_paused)return;
-        if(_timeline.Advance(delta))StartCurrent();
+        if(!Enabled||_paused)return;
+        if(_station.Timeline.Advance(delta))StartCurrent();
         if(_active<0)return;
         _fade=Math.Min(1,_fade+(float)delta/.3f);
         // AmbientAudioDirector owns the transient voice attenuation on this bus.
@@ -161,38 +246,49 @@ public partial class VehicleRadioPlayer : Node3D
 
     private void StartCurrent()
     {
-        if(_timeline is null)return;
-        var next=(_active+1)%2;_players[next].Stop();_players[next].Stream=_streams[_timeline.Current.Id];
+        var next=(_active+1)%2;_players[next].Stop();_players[next].Stream=_station.Streams[_station.Timeline.Current.Id];
         _active=next;_fade=0;
         if(_native&&_players[next].Stream is { } stream)
         {
-            var seek=Math.Min(_timeline.Offset,Math.Max(0,stream.GetLength()-.01));
+            var seek=Math.Min(_station.Timeline.Offset,Math.Max(0,stream.GetLength()-.01));
             _players[next].Play((float)seek);_players[next].StreamPaused=_paused;
         }
-        SetMeta("currentSegment",_timeline.Current.Id);
+        SetMeta("currentSegment",_station.Timeline.Current.Id);
         SetMeta("currentRecordingPresent",_players[next].Stream is not null);
     }
 
     private void StopPlayers()
     {foreach(var player in _players)if(player is not null)player.Stop();_active=-1;_fade=0;}
 
-    public JsonObject Capture()=>new(){["enabled"]=Enabled,["segmentId"]=_timeline.Current.Id,
-        ["offsetSeconds"]=_timeline.Offset,["volume"]=_volume};
+    public JsonObject Capture()=>new(){["enabled"]=Enabled,["stationId"]=_station.Id,
+        ["segmentId"]=_station.Timeline.Current.Id,
+        ["offsetSeconds"]=_station.Timeline.Offset,["volume"]=_volume};
 
     public void Restore(JsonElement? record)
     {
-        if(_timeline is null)return;
-        StopPlayers();Enabled=false;_timeline.Restore(null,0);_volume=.65f;
+        if(_stations.Count==0)return;
+        StopPlayers();Enabled=false;
+        // A record without a station id is an older save: it belongs to the
+        // first station, which is the one those sessions could tune to.
+        var stationId=record is {} probe&&probe.ValueKind==JsonValueKind.Object
+            &&probe.TryGetProperty("stationId",out var stored)&&stored.ValueKind==JsonValueKind.String
+            ?stored.GetString():null;
+        StationIndex=Math.Max(0,_stations.FindIndex(entry=>entry.Id==stationId));
+        _station=_stations[StationIndex];
+        foreach(var entry in _stations){entry.SavedSegmentId=null;entry.SavedOffset=0;entry.Timeline.Restore(null,0);}
+        _volume=.65f;
         if(record is {} value&&value.ValueKind==JsonValueKind.Object)
         {
             var id=value.TryGetProperty("segmentId",out var segment)&&segment.ValueKind==JsonValueKind.String?segment.GetString():null;
             var offset=value.TryGetProperty("offsetSeconds",out var seconds)&&seconds.TryGetDouble(out var parsed)?parsed:0;
-            _timeline.Restore(id,offset);
+            _station.Timeline.Restore(id,offset);
             if(value.TryGetProperty("volume",out var volume)&&volume.TryGetSingle(out var level))SetVolume(level);
             Enabled=value.TryGetProperty("enabled",out var enabled)&&enabled.ValueKind==JsonValueKind.True;
         }
+        RememberStationPhase();
+        PublishStationMeta();
         if(Enabled)StartCurrent();
     }
 
-    public override void _ExitTree(){StopPlayers();foreach(var player in _players)if(player is not null)player.Stream=null;_streams.Clear();}
+    public override void _ExitTree(){StopPlayers();foreach(var player in _players)if(player is not null)player.Stream=null;_stations.Clear();}
 }

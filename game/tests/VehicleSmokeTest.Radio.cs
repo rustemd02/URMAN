@@ -12,10 +12,7 @@ public partial class VehicleSmokeTest
     {
         // Read the actual playable order; never compare unrelated per-file
         // offsets when normal playback has crossed an EOF during save/load.
-        var field=typeof(VehicleRadioPlayer).GetField("_timeline",BindingFlags.Instance|BindingFlags.NonPublic)
-            ??throw new MissingFieldException(nameof(VehicleRadioPlayer),"_timeline");
-        var timeline=field.GetValue(radio) as VehicleRadioTimeline
-            ??throw new InvalidOperationException("The restored radio has no active programme.");
+        var programme=radio.ActiveProgramme;
         var after=radio.Capture();
         var savedId=saved.GetProperty("segmentId").GetString();
         var currentId=after["segmentId"]!.GetValue<string>();
@@ -24,7 +21,7 @@ public partial class VehicleSmokeTest
         double Phase(string? id,double offset)
         {
             double elapsed=0;
-            foreach(var segment in timeline.Segments)
+            foreach(var segment in programme)
             {
                 if(segment.Id==id)
                 {
@@ -37,7 +34,7 @@ public partial class VehicleSmokeTest
             throw new InvalidOperationException("Saved/current radio segment is absent from the actual playable programme: "+id);
         }
         var savedPhase=Phase(savedId,savedOffset);var currentPhase=Phase(currentId,currentOffset);
-        var duration=timeline.Segments.Sum(segment=>segment.DurationSeconds);
+        var duration=programme.Sum(segment=>segment.DurationSeconds);
         var phaseDelta=Math.IEEERemainder(currentPhase-savedPhase,duration);
         _records.Add(new{kind="occupied-radio-save-load",beforeSave,saved=saved.Clone(),after,
             savedPhase,currentPhase,phaseDelta,programmeDuration=duration,
@@ -46,6 +43,80 @@ public partial class VehicleSmokeTest
         Require(radio.Enabled&&saved.GetProperty("enabled").GetBoolean()
             &&Math.Abs(after["volume"]!.GetValue<float>()-saved.GetProperty("volume").GetSingle())<.000001f
             &&Math.Abs(phaseDelta)<1.0,"radio resumes at the saved segment position");
+    }
+
+    /// <summary>
+    /// The dial check: every advertised station must be selectable, must deliver
+    /// its own authored rows with matching bytes, and must resume its own
+    /// position after the listener tunes away and back. Nothing here is a
+    /// listening or language judgement.
+    /// </summary>
+    private void StationDialChecks(VehicleRadioPlayer radio)
+    {
+        Require(radio.StationCount>=2,"the dial carries at least two switchable stations");
+        var firstId=radio.CurrentStationId;
+        var firstProgramme=radio.ActiveProgramme.Select(segment=>segment.Id).ToArray();
+        var firstTuning=radio.Tuning;
+        var firstSegment=radio.CurrentSegmentId;
+        var firstOffset=radio.SegmentOffset;
+        Require(radio.NextStation(),"the tuner moves to the next station on the dial");
+        Require(radio.CurrentStationId!=firstId,"tuning changes the station identity");
+        Require(radio.Tuning!=firstTuning,"the dashboard frequency follows the tuned station");
+        Require(!radio.ActiveProgramme.Select(segment=>segment.Id).SequenceEqual(firstProgramme),
+            "each station plays its own authored programme");
+        ValidateActiveStationDelivery(radio,"switched station");
+        Require(radio.NextStation()&&radio.CurrentStationId==firstId,
+            "cycling the dial returns to the first station");
+        Require(radio.CurrentSegmentId==firstSegment
+            &&Math.Abs(radio.SegmentOffset-firstOffset)<.001,
+            "tuning away and back resumes the same segment position");
+        var saved=JsonSerializer.SerializeToElement(radio.Capture());
+        radio.Restore(saved);
+        Require(radio.CurrentStationId==firstId&&radio.CurrentSegmentId==firstSegment
+            &&radio.Enabled==saved.GetProperty("enabled").GetBoolean(),
+            "the saved radio record restores the tuned station, its segment and its power");
+        _records.Add(new{kind="radio-dial",stations=radio.StationCount,station=radio.CurrentStationId,
+            tuning=radio.Tuning,segment=radio.CurrentSegmentId,
+            firstProgrammeIds=firstProgramme,
+            limit="station identity, authored delivery and phase memory only; no listening or language acceptance"});
+    }
+
+    /// <summary>
+    /// Validates whichever station is tuned right now against its own authored
+    /// file: eligibility, declared repeats, delivered bytes and decode length.
+    /// A second frequency therefore cannot ship unverified or substituted audio.
+    /// </summary>
+    private void ValidateActiveStationDelivery(VehicleRadioPlayer radio,string label)
+    {
+        var path=VehicleRadioPlayer.StationPaths[radio.StationIndex];
+        using var file=global::Godot.FileAccess.Open(path,global::Godot.FileAccess.ModeFlags.Read)
+            ??throw new InvalidDataException("The station programme is absent: "+path);
+        using var document=JsonDocument.Parse(file.GetAsText());
+        var rows=document.RootElement.GetProperty("segments").EnumerateArray().ToArray();
+        var programme=rows.Select(VehicleRadioSegment.FromJson).ToArray();
+        var approved=programme.Where(segment=>segment.CanPlay).ToArray();
+        Require(approved.Any(segment=>segment.Id==radio.CurrentSegmentId),
+            "turning on the radio selects a playable row of the tuned station");
+        Require(radio.ProgrammedSegmentCount==rows.Length
+            &&radio.PlayableSegmentCount==approved.Length
+            &&radio.MissingRecordingCount==rows.Length-approved.Length,
+            label+" reports its own programmed, playable and pending counts");
+        foreach(var repeated in programme.Where(segment=>segment.IsRecordingRepeat))
+        {
+            Require(repeated.HasValidRepeatSource(programme),
+                label+" declares each archive repeat against its own approved source");
+        }
+        foreach(var segment in approved)
+        {
+            var resource=segment.StreamPath;
+            using var input=File.OpenRead(ProjectSettings.GlobalizePath(resource));
+            Require(Convert.ToHexString(SHA256.HashData(input))
+                    .Equals(segment.Sha256,StringComparison.OrdinalIgnoreCase),
+                label+" delivers bytes matching provenance for "+segment.Id);
+            var stream=ResourceLoader.Load<AudioStream>(resource);
+            Require(stream is not null&&Math.Abs(stream.GetLength()-segment.DurationSeconds)<.025,
+                label+" recording decodes with its authored length: "+segment.Id);
+        }
     }
 
     private async Task DeliveredRadioChecks(VehicleRadioPlayer radio)
@@ -162,12 +233,16 @@ public partial class VehicleSmokeTest
                 new VehicleRadioSegment(secondId,"test-fixture","none","CC0 wind fixture B","",secondPath,
                     second.GetLength(),"approved",provenance)});
             var fields=BindingFlags.Instance|BindingFlags.NonPublic;
-            var timelineField=typeof(VehicleRadioPlayer).GetField("_timeline",fields)
-                ??throw new MissingFieldException(nameof(VehicleRadioPlayer),"_timeline");
-            var streamsField=typeof(VehicleRadioPlayer).GetField("_streams",fields)
-                ??throw new MissingFieldException(nameof(VehicleRadioPlayer),"_streams");
-            timelineField.SetValue(fixture,timeline);
-            var streams=streamsField.GetValue(fixture) as Dictionary<string,AudioStream?>
+            // The fixture replaces the tuned station's programme in place: the
+            // station keeps its identity and counts, and nothing in ordinary
+            // runtime or save data gains a mutable programme path.
+            var station=typeof(VehicleRadioPlayer).GetField("_station",fields)?.GetValue(fixture)
+                ??throw new MissingFieldException(nameof(VehicleRadioPlayer),"_station");
+            var stationType=station.GetType();
+            var timelineProperty=stationType.GetProperty("Timeline")
+                ??throw new MissingFieldException("Station","Timeline");
+            timelineProperty.SetValue(station,timeline);
+            var streams=stationType.GetProperty("Streams")?.GetValue(station) as Dictionary<string,AudioStream?>
                 ??throw new InvalidOperationException("Radio stream fixture hook changed.");
             streams[firstId]=first;streams[secondId]=second;
             var speakers=new[]{fixture.GetNode<AudioStreamPlayer3D>("RadioSpeaker0"),

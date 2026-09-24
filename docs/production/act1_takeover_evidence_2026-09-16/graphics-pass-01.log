@@ -1,0 +1,58 @@
+
+compile-content
+  Urman.Core -> /Users/kadyrahunov/Projects/URMAN/src-dotnet/Urman.Core/bin/Debug/net10.0/Urman.Core.dll
+  Urman.Content -> /Users/kadyrahunov/Projects/URMAN/src-dotnet/Urman.Content/bin/Debug/net10.0/Urman.Content.dll
+  Urman.ContentCli -> /Users/kadyrahunov/Projects/URMAN/tools-dotnet/Urman.ContentCli/bin/Debug/net10.0/Urman.ContentCli.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.90
+document-image: game/assets/images/arrival_marat_childhood_existing_v1.png sha256=c4647904f1aad0ea492858547e3f3493c9356c6ef87270d34d244f4fb882ac20
+document-image: game/assets/images/council-sabantuy-2005.png sha256=5847783c6f7e9127bac529c803fc606b4ab53ed29fad64fa83ecd97db2390617
+document-image: game/assets/images/first_snow_existing_v1.png sha256=8c31f2105170e876e36c02a790c2476cf3aa7d1769c20c98c5ab2ce5c72a0d7b
+document-image: game/assets/images/kara_urman_edge_sketch_candidate_v1.png sha256=04b129ef18b34cc6ef49ee839bdc82e2a4c61f5e9567c1b742d69557079ee92a
+document-image: game/assets/images/school-class-2005.png sha256=e1bb3bc6b854c5fdeddabdf7fa6777d7b5b6255221aa677eda24a2628bcfef3c
+document-images: 5 declared raster files packaged
+
+
+csharp
+  Urman.Core -> /Users/kadyrahunov/Projects/URMAN/src-dotnet/Urman.Core/bin/Debug/net10.0/Urman.Core.dll
+  Urman.Content -> /Users/kadyrahunov/Projects/URMAN/src-dotnet/Urman.Content/bin/Debug/net10.0/Urman.Content.dll
+  Urman.Game -> /Users/kadyrahunov/Projects/URMAN/game/.godot/mono/temp/bin/Debug/Urman.Game.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.77
+
+
+godot-import
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+userdata guard: original files and permissions restored and verified
+ERROR: sh: dotnet: command not found
+
+   at: try_get_dotnet_root_from_command_line (modules/mono/mono_gd/gd_mono.cpp:122)
+ERROR: .NET: One of the dependent libraries is missing. Typically when the `hostfxr`, `hostpolicy` or `coreclr` dynamic libraries are not present in the expected locations.
+   at: find_hostfxr (modules/mono/mono_gd/gd_mono.cpp:184)
+ERROR: .NET: Failed to load hostfxr
+   at: initialize (modules/mono/mono_gd/gd_mono.cpp:676)
+
+================================================================
+handle_crash: Program crashed with signal 11
+Engine version: Godot Engine v4.7.1.stable.mono.official (a13da4feb8d8aefc283c3763d33a2f170a18d541)
+Dumping the backtrace. Please include this when reporting the bug on: https://github.com/godotengine/godot/issues
+Load address: 102de0000
+
+[1] 18626b744 (libsystem_platform.dylib+3744) - _sigtramp + 56
+[2] 1040f91f8 (main+13191f8) - main + 12388948
+[3] 104d7baa4 (main+1f9baa4) - SDL_GetPerformanceFrequency + 1635684
+[4] 10354ac50 (main+76ac50) - main + 140460
+[5] 1034c6798 (main+6e6798) - mvk::SPIRVToMSLConverter::convert(mvk::SPIRVToMSLConversionConfiguration&, mvk::SPIRVToMSLConversionResult&, bool, bool, bool)
+[6] 103528b54 (main+748b54) - main (in Godot) + 944
+[7] 185e99d54 (dyld+8d54) - start + 7184
+-- END OF C++ BACKTRACE --
+================================================================
