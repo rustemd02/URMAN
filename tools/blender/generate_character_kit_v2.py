@@ -42,17 +42,27 @@ PEOPLE = {
         body="Female", height=1.60, shoulder=.95, arm=.92, neck=.90, belly=1.10, hips=1.12, leg=.95,
         hair="Hair_Buns", beard=False, headwear="scarf", skin="e0baa0",
         coat=("6b5960", "knit"), collar=None, trousers="3c3538", boots="4a4038",
-        coat_length="hip", skirt="4a3f44", apron="b6a389", scarf="a2463c"),
+        coat_length="hip", skirt="4a3f44", apron="b6a389", scarf="a2463c", sash="4a3f44"),
     "TimurHazrat": dict(
         body="Male", height=1.78, shoulder=.92, arm=.86, neck=.86, belly=1.04, hips=1.0, leg=.92,
         hair="Hair_Buzzed", beard=True, headwear="karakul", skin="d6b096",
-        coat=("3f4a44", "wool"), collar=("2c2a28", "fur"), trousers="2a2b29", boots="1f1f1e",
-        coat_length="knee"),
+        coat=("3f4a44", "wool"), collar=None, trousers="2a2b29", boots="1f1f1e",
+        coat_length="knee", boot_cut="ankle"),
+    "Alsu": dict(
+        body="Female", height=1.64, shoulder=.92, arm=.88, neck=.88, belly=.98, hips=1.02, leg=.96,
+        hair="Hair_Long", beard=False, headwear="knit", skin="e2bca2",
+        coat=("6f5448", "cloth"), collar=None, trousers="34404f", boots="3d342e",
+        coat_length="thigh", sash="4a3a32"),
+    "Rinat": dict(
+        body="Male", height=1.76, shoulder=.96, arm=.90, neck=.90, belly=1.06, hips=1.0, leg=.93,
+        hair="Hair_SimpleParted", beard=False, headwear="ushanka", hat="3b4250", skin="d8b199",
+        coat=("3a4452", "cloth"), collar=None, trousers="2a2e36", boots="1f1f1e",
+        coat_length="thigh", sash="23262b"),
     "Naila": dict(
         body="Female", height=1.66, shoulder=.92, arm=.88, neck=.88, belly=1.0, hips=1.04, leg=.94,
         hair="Hair_Buns", beard=False, headwear=None, skin="e3bfa6",
         coat=("dfe3dc", "cloth"), collar=None, trousers="3b4448", boots="2d2f30",
-        coat_length="knee", sweater="728887"),
+        coat_length="knee", sweater="728887", sash="c9cec6"),
 }
 
 
@@ -324,6 +334,44 @@ def coat_skirt(body: bpy.types.Object, arm: bpy.types.Object, name: str, waist_z
     return obj
 
 
+def coat_hem_level(coat: bpy.types.Object, hip: float, buckets: int = 16) -> float:
+    """Lowest height at which the coat still closes all the way round the body."""
+    pts = [coat.matrix_world @ v.co for v in coat.data.vertices]
+    ring = [p for p in pts if hip - .15 < p.z < hip + .45]
+    cx = sum(p.x for p in ring) / len(ring)
+    cy = sum(p.y for p in ring) / len(ring)
+    lowest = [math.inf] * buckets
+    for p in ring:
+        # Hanging hands and sleeves are not the coat body.
+        if math.hypot(p.x - cx, p.y - cy) > .30:
+            continue
+        b = int((math.atan2(p.y - cy, p.x - cx) + math.pi) / math.tau * buckets) % buckets
+        lowest[b] = min(lowest[b], p.z)
+    return max(z for z in lowest if z < math.inf)
+
+
+def sash(body: bpy.types.Object, arm: bpy.types.Object, name: str, z: float, material) -> bpy.types.Object:
+    """A cloth sash tied over the coat at the waist, riding the pelvis."""
+    pts = [body.matrix_world @ v.co for v in body.data.vertices]
+    band = [p for p in pts if abs(p.z - z) < .03]
+    cx = sum(p.x for p in band) / len(band)
+    cy = sum(p.y for p in band) / len(band)
+    rx = max(abs(p.x - cx) for p in band) + .052
+    ry = max(abs(p.y - cy) for p in band) + .067
+    bm = bmesh.new()
+    segments = 28
+    rings = []
+    for dz in (-.028, .028):
+        rings.append([bm.verts.new((cx + math.cos(a) * rx, cy + math.sin(a) * ry, z + dz))
+                      for a in (math.tau * i / segments for i in range(segments))])
+    for i in range(segments):
+        j = (i + 1) % segments
+        bm.faces.new((rings[0][i], rings[0][j], rings[1][j], rings[1][i]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    bmesh.ops.solidify(bm, geom=bm.faces[:], thickness=.01)
+    return rigid_part(arm, name, bm, material, "pelvis")
+
+
 def head_frame(body: bpy.types.Object) -> tuple[Vector, float, float]:
     """Centre, radius and brow height of the head from its own vertices."""
     world = body.matrix_world
@@ -379,13 +427,44 @@ def ushanka(body: bpy.types.Object, arm: bpy.types.Object, name: str, color: str
     return rigid_part(arm, name, bm, flat_material(color, "fur"), "Head")
 
 
+def knit_hat(body: bpy.types.Object, arm: bpy.types.Object, name: str, color: str) -> bpy.types.Object:
+    """A knitted hat pulled over the crown with a folded cuff; hair shows below.
+    It follows the skull's own width and depth, not a circle round its longest
+    axis, which read as a helmet."""
+    centre, radius, brow = head_frame(body)
+    world = body.matrix_world
+    groups = {g.index: g.name for g in body.vertex_groups}
+    head = [world @ v.co for v in body.data.vertices
+            if v.groups and groups.get(max(v.groups, key=lambda g: g.weight).group) == "Head"]
+    top = max(p.z for p in head)
+    upper = [p for p in head if p.z > brow]
+    rx = max(abs(p.x - centre.x) for p in upper) + .022
+    ry = max(abs(p.y - centre.y) for p in upper) + .022
+    bm = bmesh.new()
+    crown = bmesh.ops.create_uvsphere(bm, u_segments=24, v_segments=12, radius=1.0)
+    for v in crown["verts"]:
+        v.co = Vector((centre.x + v.co.x * rx, centre.y + .004 + v.co.y * ry,
+                       brow + .012 + max(v.co.z, -.2) * (top + .035 - brow - .012)))
+    bmesh.ops.delete(bm, geom=[v for v in bm.verts if v.co.z < brow + .01], context="VERTS")
+    ring = []
+    for dz in (.0, .042):
+        ring.append([bm.verts.new((centre.x + math.cos(t) * (rx + .006), centre.y + .004 + math.sin(t) * (ry + .006),
+                                   brow + .008 + dz)) for t in (math.tau * i / 24 for i in range(24))])
+    for i in range(24):
+        j = (i + 1) % 24
+        bm.faces.new((ring[0][i], ring[0][j], ring[1][j], ring[1][i]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    bmesh.ops.solidify(bm, geom=[f for f in bm.faces], thickness=.008)
+    return rigid_part(arm, name, bm, flat_material(color, "knit"), "Head")
+
+
 def karakul(body: bpy.types.Object, arm: bpy.types.Object, name: str, color: str) -> bpy.types.Object:
     """A low karakul hat: a short cylinder with a softly domed top."""
     centre, radius, brow = head_frame(body)
     bm = bmesh.new()
     wall = bmesh.ops.create_cone(bm, cap_ends=True, segments=24, radius1=radius + .03, radius2=radius + .035, depth=.11)
     for v in wall["verts"]:
-        v.co += Vector((centre.x, centre.y + .005, brow + .065))
+        v.co += Vector((centre.x, centre.y + .005, brow + .008))
     return rigid_part(arm, name, bm, flat_material(color, "fur"), "Head")
 
 
@@ -423,9 +502,15 @@ def dress(prefix: str, spec: dict, arm: bpy.types.Object, body: bpy.types.Object
     coat_mat = flat_material(*spec["coat"])
     coat_bottom = {"hip": hip - .02, "thigh": hip - .20, "knee": knee + .04}[spec["coat_length"]]
     waist = hip + .07
+    # The coat runs well under the skirt's waistband: with only a few
+    # centimetres of overlap a walking pelvis opened a gap at the waist.
     coat = garment(body, arm, f"{prefix}_Coat_LOD0", TORSO | ARMS, .028, coat_mat,
-                   keep=lambda co: co.z > waist - .06)
+                   keep=lambda co: co.z > waist - .13)
     parts.append(coat)
+    # The coat is cut where torso bones own the body, so round the hips it
+    # ends higher than the waist line. The skirt starts where the coat is
+    # still whole all round and a sash covers the seam.
+    waist = max(waist, coat_hem_level(coat, hip) + .03)
     if "skirt" in spec:
         # A long village skirt to mid-calf under a hip-length cardigan.
         parts.append(coat_skirt(body, arm, f"{prefix}_Skirt_LOD0", waist, knee - .20,
@@ -435,16 +520,26 @@ def dress(prefix: str, spec: dict, arm: bpy.types.Object, body: bpy.types.Object
         # A coat below the waist hangs almost straight; only a skirt flares.
         parts.append(coat_skirt(body, arm, f"{prefix}_CoatSkirt_LOD0", waist, coat_bottom,
                                 flat_material(*spec["coat"]), flare=1.07))
+    parts.append(sash(body, arm, f"{prefix}_Sash_LOD0", waist,
+                      flat_material(spec.get("sash", "2e2924"), "cloth")))
     # Trousers only show below the coat; their hidden upper part bulged
     # through the hem when a relaxed knee came forward.
     trousers = garment(body, arm, f"{prefix}_Trousers_LOD0", LEGS_UPPER | LEGS_LOWER, .014,
                        flat_material(spec["trousers"], "cloth"), keep=lambda co: co.z < coat_bottom + .06)
     parts.append(trousers)
+    # Felt boots to below the knee; Timur wears low leather boots he leaves at
+    # the mosque door, and the indoor sock is derived from their ankle profile.
+    boot_top = .095 if spec.get("boot_cut") == "ankle" else knee - .06
+    boot_surface = "leather" if spec.get("boot_cut") == "ankle" else "felt"
     boots = garment(body, arm, f"{prefix}_BootLeft_LOD0", {"calf_l", "foot_l", "ball_l", "ball_leaf_l"}, .022,
-                    flat_material(spec["boots"], "felt"), keep=lambda co: co.z < knee - .06)
+                    flat_material(spec["boots"], boot_surface), keep=lambda co: co.z < boot_top)
     boots_r = garment(body, arm, f"{prefix}_BootRight_LOD0", {"calf_r", "foot_r", "ball_r", "ball_leaf_r"}, .022,
-                      flat_material(spec["boots"], "felt"), keep=lambda co: co.z < knee - .06)
+                      flat_material(spec["boots"], boot_surface), keep=lambda co: co.z < boot_top)
     parts += [boots, boots_r]
+    for boot in (boots, boots_r):
+        world = [boot.matrix_world @ v.co for v in boot.data.vertices]
+        size = [max(p[i] for p in world) - min(p[i] for p in world) for i in range(3)]
+        print(f"character-kit-v2: {boot.name} size x={size[0]:.3f} y={size[1]:.3f} z={size[2]:.3f}")
     if spec.get("collar"):
         neck_base = (arm.matrix_world @ arm.data.bones["neck_01"].head_local).z
         parts.append(fur_collar(body, arm, f"{prefix}_Collar_LOD0", spec["collar"][0], neck_base))
@@ -452,7 +547,9 @@ def dress(prefix: str, spec: dict, arm: bpy.types.Object, body: bpy.types.Object
     head_top = top
     brow = top - .085
     if headwear == "ushanka":
-        parts.append(ushanka(body, arm, f"{prefix}_Hat_LOD0", "6a5846"))
+        parts.append(ushanka(body, arm, f"{prefix}_Hat_LOD0", spec.get("hat", "6a5846")))
+    elif headwear == "knit":
+        parts.append(knit_hat(body, arm, f"{prefix}_Hat_LOD0", spec.get("hat", "7d6a3e")))
     elif headwear == "karakul":
         parts.append(karakul(body, arm, f"{prefix}_Hat_LOD0", "4a4640"))
     elif headwear == "scarf":
@@ -524,6 +621,35 @@ def assign_clips(prefix: str, arm: bpy.types.Object, actions: dict[str, bpy.type
     arm.animation_data.action = bpy.data.actions[f"{prefix}_Idle"]
 
 
+def idle_sole_height(arm: bpy.types.Object, boots: list[bpy.types.Object]) -> float:
+    """Lowest boot point in the first Idle frame, with the other clips muted."""
+    tracks = list(arm.animation_data.nla_tracks)
+    muted = [t.mute for t in tracks]
+    for t in tracks:
+        t.mute = True
+    scene = bpy.context.scene
+    frame = scene.frame_current
+    idle = arm.animation_data.action
+    start, end = (int(f) for f in idle.frame_range)
+    samples = []
+    for f in range(start, end + 1, max(1, (end - start) // 12)):
+        scene.frame_set(f)
+        depsgraph = bpy.context.evaluated_depsgraph_get()
+        low = math.inf
+        for boot in boots:
+            evaluated = boot.evaluated_get(depsgraph)
+            mesh = evaluated.to_mesh()
+            low = min(low, min((evaluated.matrix_world @ v.co).z for v in mesh.vertices))
+            evaluated.to_mesh_clear()
+        samples.append(low)
+    print(f"character-kit-v2: {idle.name} sole over loop {min(samples):.3f}..{max(samples):.3f}")
+    lowest = sum(samples) / len(samples)
+    for t, m in zip(tracks, muted):
+        t.mute = m
+    scene.frame_set(frame)
+    return lowest
+
+
 def finish_character(prefix: str, arm: bpy.types.Object, parts: list[bpy.types.Object]) -> int:
     """LOD1 copies, the ground anchor and export-time cleanup for one character."""
     lod1 = 0
@@ -544,10 +670,26 @@ def finish_character(prefix: str, arm: bpy.types.Object, parts: list[bpy.types.O
             bpy.ops.object.modifier_apply(modifier=dec.name)
         lod1 += 1
     # The runtime removes a 10 mm sole clearance (GroundSolesOnAnchor), so the
-    # anchor sits 10 mm below the soles, as in the first kit.
+    # anchor sits 10 mm below the soles as they stand in the Idle clip, as in
+    # the first kit. A fixed -10 mm left the offset boots about 5 cm under the
+    # ground people stand on, which a mosque floor shows plainly.
+    boots = [p for p in parts if "_Boot" in p.name and p.name.endswith("_LOD0")]
+    soles = {}
+    for clip in ("Idle", "Tension"):
+        action = bpy.data.actions[f"{prefix}_{clip}"]
+        arm.animation_data.action = action
+        # Blender 4.4+ plays an action only through one of its slots.
+        if getattr(action, "slots", None) and len(action.slots):
+            arm.animation_data.action_slot = action.slots[0]
+        soles[clip] = idle_sole_height(arm, boots)
+    arm.animation_data.action = bpy.data.actions[f"{prefix}_Idle"]
+    # Standing clips share one anchor: split the difference so neither the
+    # idle nor the talking stance leaves the soles more than a centimetre off.
+    sole = (soles["Idle"] + soles["Tension"]) * .5
+    print(f"character-kit-v2: {prefix} sole idle={soles['Idle']:.3f} tension={soles['Tension']:.3f}")
     anchor = bpy.data.objects.new(f"{prefix}_Anchor", None)
     bpy.context.scene.collection.objects.link(anchor)
-    anchor.location = (arm.location.x, 0, -.010)
+    anchor.location = (arm.location.x, 0, sole - .010)
     arm["urman_asset_id"] = "character.act1.human.v2"
     arm["license"] = "CC0 1.0 bodies/hair/motion (Quaternius); project-original clothing, proportions and clip selection"
     arm["collision"] = "none"
@@ -564,6 +706,7 @@ def main() -> None:
     parser.add_argument("--preview", default="")
     parser.add_argument("--debug-colors", action="store_true")
     parser.add_argument("--export", action="store_true")
+    parser.add_argument("--rest", action="store_true", help="preview in the bind pose, without clips")
     args = parser.parse_args(argv)
     ubc = Path(args.ubc)
     bodies = ubc / "Base Characters" / "Godot - UE"
@@ -633,6 +776,10 @@ def main() -> None:
                                   export_force_sampling=True, export_extras=True)
         print(f"character-kit-v2: wrote {blend} and {glb}")
     if args.preview:
+        if args.rest:
+            for obj in bpy.data.objects:
+                if obj.type == "ARMATURE":
+                    obj.data.pose_position = "REST"
         bpy.context.scene.frame_set(12)
         render_preview(Path(args.preview), names, debug_colors=args.debug_colors)
 

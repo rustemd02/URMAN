@@ -92,6 +92,11 @@ public partial class Act1UiReadabilitySmokeTest : Node
             var journalBook = journal.GetNode<Control>("Screen/Book");
             if (!journalBook.IsVisibleInTree() || !FitsViewport(journalBook))
             {
+                foreach (var tall in journalBook.FindChildren("*", nameof(Control), true, false).OfType<Control>()
+                             .Where(control => control.IsVisibleInTree()).OrderByDescending(control => control.Size.Y).Skip(0).Take(8))
+                    GD.Print($"ui-overflow-child: {journalBook.GetPathTo(tall)} size={tall.Size} min={tall.GetCombinedMinimumSize()} "
+                        + $"font={tall.GetThemeFontSize("font_size")} len={(tall is Label sized ? sized.Text.Length : -1)} "
+                        + $"text={(tall is Label label ? label.Text[..Math.Min(80, label.Text.Length)] : "")}");
                 Fail($"Journal panel does not fit the {width}x{height} viewport.");
                 return;
             }

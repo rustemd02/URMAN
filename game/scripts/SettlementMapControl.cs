@@ -152,7 +152,11 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         // CanvasItem.GetScreenTransform uses popup_base_transform, which is
         // identity when the root embeds subwindows. Include the actual root
         // viewport stretch explicitly, as the normal pointer input path does.
-        var transform = GetViewport().GetScreenTransform() * GetGlobalTransformWithCanvas();
+        // A headless display has no screen: its placeholder window is tiny, and
+        // measuring against it asked for 420 px text in automated checks.
+        var transform = DisplayServer.GetName() == "headless"
+            ? GetGlobalTransformWithCanvas()
+            : GetViewport().GetScreenTransform() * GetGlobalTransformWithCanvas();
         var scale = Math.Max(.01f, Math.Min(transform.X.Length(), transform.Y.Length()));
         if (!force && Math.Abs(scale - _screenScale) < .0001f) return;
         _screenScale = scale;

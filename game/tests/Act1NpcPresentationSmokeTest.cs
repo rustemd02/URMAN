@@ -317,7 +317,7 @@ public partial class Act1NpcPresentationSmokeTest : Node
                 if (TryStandingControlView(actor, targets, probe, candidate, out var feet))
                 { smallMove = feet; break; }
             }
-            if (smallMove is null) throw new InvalidOperationException(id + "/deadzone has no clear small standing displacement.");
+            if (smallMove is null) throw new InvalidOperationException(id + "/deadzone has no clear small standing displacement: " + _standingViewRejection);
             var stillYaw = actor.Rotation.Y;
             var stillTurns = ConversationTurns(actor);
             await PutPlayer(smallMove.Value, actor.GlobalPosition + Vector3.Up * .95f);
@@ -379,6 +379,16 @@ public partial class Act1NpcPresentationSmokeTest : Node
         GD.Print($"act1-npc-tracking: {label} 0.90s still; turn count={count}, yaw unchanged");
     }
 
+    // The first kit shades each part with one override; the human kit keeps
+    // skin, eyes and cloth as separate surfaces, each with its own override.
+    private static bool HasPresentedMaterial(MeshInstance3D mesh) =>
+        mesh.MaterialOverride is not null || mesh.Mesh is { } source && source.GetSurfaceCount() > 0
+            && Enumerable.Range(0, source.GetSurfaceCount()).All(surface => mesh.GetSurfaceOverrideMaterial(surface) is not null);
+
+    // The human kit's head is part of the body mesh; its eyes mark where it is.
+    private static string HeadPart(string prefix) =>
+        GeneratedCharacterKitDressing.UsesHumanKit(prefix) ? "_FaceEyes_" : "_Head_";
+
     private static long ConversationTurns(Node3D actor) => actor.GetMeta("conversationTurnCount", 0L).AsInt64();
 
     private Camera3D CreateControlCamera(string name)
@@ -390,26 +400,37 @@ public partial class Act1NpcPresentationSmokeTest : Node
         return camera;
     }
 
+    private string _standingViewRejection = string.Empty;
+
     private bool TryStandingControlView(Node3D actor, InteractionTarget[] targets, Camera3D camera,
         Vector3 candidate, out Vector3 feet)
     {
         feet = candidate;
         var excluded = new global::Godot.Collections.Array<Rid>(targets.Select(target => target.GetRid())) { _player.GetRid() };
+        // A person's own contact body is not something standing between the
+        // observer and that person.
+        foreach (var own in actor.FindChildren("*", nameof(CollisionObject3D), true, false).OfType<CollisionObject3D>())
+            excluded.Add(own.GetRid());
+        // The same layers a player stands on: mosque and yard floors are layer 2.
         using var groundRay = PhysicsRayQueryParameters3D.Create(candidate + Vector3.Up,
-            candidate - Vector3.Up, 1u, excluded);
+            candidate - Vector3.Up, _player.CollisionMask, excluded);
         var ground = actor.GetWorld3D().DirectSpaceState.IntersectRay(groundRay);
-        if (ground.Count == 0 || ground["normal"].AsVector3().Y < .85f) return false;
+        if (ground.Count == 0 || ground["normal"].AsVector3().Y < .85f) { _standingViewRejection = $"no level ground at {candidate}"; return false; }
         feet = ground["position"].AsVector3() + Vector3.Up * .02f;
-        if (Mathf.Abs(feet.Y - actor.GlobalPosition.Y) > .35f || !_player.CanStandAt(feet)) return false;
+        if (Mathf.Abs(feet.Y - actor.GlobalPosition.Y) > .35f || !_player.CanStandAt(feet)) { _standingViewRejection = $"cannot stand at {feet}"; return false; }
         var eyeHeight = _player.GetNode<Camera3D>("Head/Camera3D").GlobalPosition.Y - _player.GlobalPosition.Y;
         camera.GlobalPosition = feet + Vector3.Up * eyeHeight;
         camera.LookAt(actor.GlobalPosition + Vector3.Up * .95f);
         foreach (var sample in CharacterViewPoints(actor))
         {
-            if (!camera.IsPositionInFrustum(sample.Point)) return false;
+            if (!camera.IsPositionInFrustum(sample.Point)) { _standingViewRejection = $"{sample.Point} outside the view from {feet}"; return false; }
             using var ray = PhysicsRayQueryParameters3D.Create(camera.GlobalPosition, sample.Point, 3u, excluded);
             var hit = actor.GetWorld3D().DirectSpaceState.IntersectRay(ray);
-            if (hit.Count > 0 && hit["position"].AsVector3().DistanceTo(sample.Point) >= .08f) return false;
+            if (hit.Count > 0 && hit["position"].AsVector3().DistanceTo(sample.Point) >= .08f)
+            {
+                _standingViewRejection = $"{sample.Point} hidden by {(hit["collider"].AsGodotObject() as Node)?.GetPath()} from {feet}";
+                return false;
+            }
         }
         return true;
     }
@@ -563,7 +584,7 @@ public partial class Act1NpcPresentationSmokeTest : Node
                     var lod1 = selected.Where(mesh => mesh.Name.ToString().Contains("_LOD1", StringComparison.Ordinal)).ToArray();
                     if (lod0.Length == 0 || lod0.Length != lod1.Length || selected.Length != lod0.Length + lod1.Length
                         || selected.Any(mesh => !mesh.Name.ToString().StartsWith(prefix + "_", StringComparison.Ordinal)
-                            || mesh.Mesh is null || mesh.MaterialOverride is null
+                            || mesh.Mesh is null || !HasPresentedMaterial(mesh)
                             || mesh.VisibilityRangeFadeMode != GeometryInstance3D.VisibilityRangeFadeModeEnum.Self)
                         || lod0.Any(mesh => !Mathf.IsEqualApprox(mesh.VisibilityRangeBegin, 0f)
                             || !Mathf.IsEqualApprox(mesh.VisibilityRangeEnd, 18f)
@@ -607,7 +628,7 @@ public partial class Act1NpcPresentationSmokeTest : Node
                         using var frame = viewport.GetTexture().GetImage();
                         if (frame.GetFormat() != Image.Format.Rgba8) frame.Convert(Image.Format.Rgba8);
                         sheet!.BlitRect(frame, new Rect2I(0, 0, 480, 480), new Vector2I(column * 480, 0));
-                        var points = lod0.Where(mesh => mesh.Name.ToString().StartsWith(prefix + "_Head_", StringComparison.Ordinal)
+                        var points = lod0.Where(mesh => mesh.Name.ToString().StartsWith(prefix + HeadPart(prefix), StringComparison.Ordinal)
                             || mesh.Name.ToString().Contains("_Boot", StringComparison.Ordinal))
                             .SelectMany(SkinnedWorldVertices).Select(camera.UnprojectPosition).ToArray();
                         var top = points.Min(point => point.Y);
@@ -678,14 +699,22 @@ public partial class Act1NpcPresentationSmokeTest : Node
         // at the ground origin. NPC07 showed exactly that: a parent inverse
         // canceled the source head placement before the rigid skin was added.
         // Read every feature from the actual final skin, including both LODs.
-        var parts = new[] { "FaceEyeWhiteL", "FaceEyeWhiteR", "FaceEyeIrisL", "FaceEyeIrisR",
-            "FaceNoseBridge", "FaceNoseTip", "FaceMouthLine", "EarL", "EarR" };
+        // The first kit builds a face from separate rigid features on a
+        // separate head; the human kit has one skinned head with eyes, brows,
+        // hair, beard and headwear as their own meshes. Either way every
+        // feature must sit on that same small head.
+        var human = GeneratedCharacterKitDressing.UsesHumanKit(prefix);
+        var parts = human
+            ? new[] { "FaceBrows", "Hair", "Beard", "Hat", "Scarf" }
+                .Where(part => selected.Any(mesh => mesh.Name.ToString() == $"{prefix}_{part}_LOD0")).ToArray()
+            : new[] { "FaceEyeWhiteL", "FaceEyeWhiteR", "FaceEyeIrisL", "FaceEyeIrisR",
+                "FaceNoseBridge", "FaceNoseTip", "FaceMouthLine", "EarL", "EarR" };
         var records = new List<object>();
         var worst = 0f;
         var allPassed = true;
         foreach (var lod in new[] { "LOD0", "LOD1" })
         {
-            var head = selected.Single(mesh => mesh.Name.ToString() == $"{prefix}_Head_{lod}");
+            var head = selected.Single(mesh => mesh.Name.ToString() == $"{prefix}{HeadPart(prefix)}{lod}");
             var headVertices = PresentedVertices(head);
             var bounds = new Aabb(headVertices[0], Vector3.Zero);
             foreach (var point in headVertices) bounds = bounds.Expand(point);
@@ -769,8 +798,8 @@ public partial class Act1NpcPresentationSmokeTest : Node
     {
         var meshes = actor.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>()
             .Where(mesh => mesh.IsVisibleInTree() && mesh.Name.ToString().Contains("_LOD0", StringComparison.Ordinal)).ToArray();
-        var head = meshes.Single(mesh => mesh.Name.ToString().StartsWith(
-            actor.GetMeta("characterPrefix").AsString() + "_Head_", StringComparison.Ordinal));
+        var prefix = actor.GetMeta("characterPrefix").AsString();
+        var head = meshes.Single(mesh => mesh.Name.ToString().StartsWith(prefix + HeadPart(prefix), StringComparison.Ordinal));
         var headVertices = SkinnedWorldVertices(head);
         var points = new List<(string Label, Vector3 Point)>
         {

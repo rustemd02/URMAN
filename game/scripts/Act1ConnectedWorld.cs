@@ -7990,6 +7990,11 @@ public partial class Act1ConnectedWorld : Node3D
                 river.AddChild(bankMesh);
             }
 
+            if ((float)(road.Distance - road.HalfWidth) > 2.6f)
+            {
+                blockedShapes += AddForestBankWindfall(river, proxy, x, z);
+            }
+
             if (inRoadGap)
             {
                 continue;
@@ -8037,10 +8042,13 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualBox(bridge, "BridgePostLeaning", new(0.16f, 1.35f, 0.16f), new(0.9f, 1.3f, 1.9f), "6d5845", "wood", rollDegrees: 24f);
         AddVisualBox(bridge, "BridgeRope", new(0.05f, 0.05f, 2.1f), new(0.55f, 1.95f, 0.2f), "b7a07c", "wood", rollDegrees: -8f);
 
+        var stepShapes = AddRiverBankSteps(river, proxy);
+        blockedShapes += stepShapes;
+        river.SetMeta("riverBankStepCount", stepShapes);
         river.SetMeta("riverBlockerShapeCount", blockedShapes);
         river.SetMeta("riverRoadGapSamples", openAtRoad);
         proxy.SetMeta("riverBlockerShapeCount", blockedShapes + 2);
-        GD.Print($"act1-river: ice_slabs={blockedShapes + openAtRoad} blockers={blockedShapes} road_gap_samples={openAtRoad} bridge=broken@({bridgeX:0},{bridgeZ:0})");
+        GD.Print($"act1-river: ice_slabs={blockedShapes - stepShapes + openAtRoad} blockers={blockedShapes} bank_steps={stepShapes} road_gap_samples={openAtRoad} bridge=broken@({bridgeX:0},{bridgeZ:0})");
     }
 
 /// <summary>

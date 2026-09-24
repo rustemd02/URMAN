@@ -367,7 +367,11 @@ public partial class SourceExcerptSelection : VBoxContainer
         // The root viewport stretch is missing from CanvasItem's popup-base
         // transform when embedded subwindows are enabled. Use the actual
         // viewport-to-window transform, also used by ordinary pointer input.
-        var transform = GetViewport().GetScreenTransform() * GetGlobalTransformWithCanvas();
+        // A headless display has no screen: its placeholder window is tiny, and
+        // measuring against it asked for 420 px text in automated checks.
+        var transform = DisplayServer.GetName() == "headless"
+            ? GetGlobalTransformWithCanvas()
+            : GetViewport().GetScreenTransform() * GetGlobalTransformWithCanvas();
         var scale = Math.Max(.01f, Math.Min(transform.X.Length(), transform.Y.Length()));
         if (!force && Math.Abs(scale - _screenScale) < .0001f) return;
         _screenScale = scale;

@@ -18,7 +18,7 @@ public static class GeneratedCharacterKitDressing
     /// until their foot rigs are ported.
     /// </summary>
     public const string HumanScenePath = "res://assets/generated/urman_character_kit_v2.glb";
-    private static readonly HashSet<string> HumanPrefixes = new(StringComparer.Ordinal) { "Mansur", "Gulsina", "Naila" };
+    private static readonly HashSet<string> HumanPrefixes = new(StringComparer.Ordinal) { "Mansur", "Gulsina", "Naila", "TimurHazrat" };
     private static PackedScene? _humanKit;
 
     public static bool UsesHumanKit(string prefix) => HumanPrefixes.Contains(prefix);
@@ -142,6 +142,10 @@ public static class GeneratedCharacterKitDressing
         instance.SetMeta("animationClip", idleClip);
         instance.SetMeta("animationStatus", "godot-animationplayer-idle-playing");
         AlignAnchor(instance, anchorNode, anchor);
+        // The human kit's anchor is measured from its standing soles, so every
+        // person built from it stands on the ground, not only those whose
+        // staging grounds them explicitly.
+        if (human) GroundSolesOnAnchor(instance);
         instance.SetMeta("visibleMeshCount", selected.Length);
         instance.SetMeta("lod0Count", lod0);
         instance.SetMeta("lod1Count", lod1);

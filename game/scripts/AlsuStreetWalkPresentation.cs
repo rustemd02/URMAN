@@ -625,7 +625,9 @@ public partial class AlsuStreetWalkPresentation : Node3D
         // stable binding, while its live ray follows the actual visible body.
         var position = _actor.GlobalPosition + Vector3.Up * .84f;
         if (!_target.GlobalPosition.IsEqualApprox(position)) _target.GlobalPosition = position;
-        if (!_target.GlobalRotation.IsEqualApprox(_actor.GlobalRotation)) _target.GlobalRotation = _actor.GlobalRotation;
+        // The ray shell is a square column round her: it follows where she
+        // stands, not which way she faces, so turning to greet someone leaves
+        // every interaction target where it was.
         _target.SetPresentationEnabled(PhysicalAccessReady && _presentationZone == "village_day");
         _target.CollisionMask = 0;
     }
