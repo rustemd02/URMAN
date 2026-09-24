@@ -60,6 +60,9 @@ public partial class OldPcDesktopIcon : Control
                 DrawPolyline([new(12, 34), new(14, 43), new(24, 34)], outline, 1.5f);
                 for (var y = 15; y <= 27; y += 6) DrawLine(new(11, y), new(37, y), new Color("91a2a0"), 1.6f);
                 break;
+            case "tulip":
+                OldPcXp.Tulip(this, new(24, 24), 44, OldPcXp.TulipRed, OldPcXp.TulipGreen, OldPcXp.TulipGold);
+                break;
             case "person":
                 DrawCircle(new(24, 17), 10, new Color("92adb6"));
                 DrawColoredPolygon([new(6, 44), new(9, 32), new(17, 27), new(31, 27), new(40, 32), new(43, 44)], new Color("648494"));

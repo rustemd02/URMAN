@@ -65,45 +65,84 @@ public partial class OldPcUi
             glyph.OffsetLeft = -26; glyph.OffsetRight = 26; glyph.OffsetTop = 6; glyph.OffsetBottom = 58;
         }
 
-        _taskbar = new PanelContainer { Name = "Taskbar" };
-        _taskbar.AddThemeStyleboxOverride("panel", DesktopStyle("245a97", "8faac5", 2, 6));
+        _taskbar = new OldPcXpBar { Name = "Taskbar", Kind = OldPcXpBar.BarKind.Taskbar };
         _screen.AddChild(_taskbar);
         _taskbar.AnchorTop = _taskbar.AnchorBottom = 1;
         _taskbar.AnchorRight = 1;
         _taskbar.OffsetTop = -50;
         var row = new HBoxContainer { Name = "Layout" };
+        row.AddThemeConstantOverride("separation", 6);
         _taskbar.AddChild(row);
-        DesktopButton(row, "Start", "Пуск", () =>
+        var start = DesktopButton(row, "Start", "пуск", () =>
         {
             _startMenu.Visible = !_startMenu.Visible;
             FrontShell();
             LayoutDesktop();
             if (_startMenu.Visible) (_startMenu.FindChild("Launch_archive", true, false) as Button)?.GrabFocus();
-        })
-            .CustomMinimumSize = new Vector2(95, 38);
+        });
+        start.CustomMinimumSize = new Vector2(128, 38);
+        start.TooltipText = "Пуск · Башлау";
+        var startLogo = new OldPcDesktopIcon { Name = "Glyph", Kind = "tulip", CustomMinimumSize = new(28, 28) };
+        start.AddChild(startLogo);
+        startLogo.AnchorTop = startLogo.AnchorBottom = .5f;
+        startLogo.OffsetLeft = 8; startLogo.OffsetRight = 36; startLogo.OffsetTop = -14; startLogo.OffsetBottom = 14;
         _tasks = new HBoxContainer { Name = "Tasks", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        _tasks.AddThemeConstantOverride("separation", 4);
         row.AddChild(_tasks);
-        _clock = new Label { Name = "Clock", CustomMinimumSize = new Vector2(86, 34),
-            HorizontalAlignment = HorizontalAlignment.Center, TooltipText = "Часы компьютера Мансура" };
+        _clock = new Label { Name = "Clock", CustomMinimumSize = new Vector2(96, 34),
+            HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center,
+            TooltipText = "Часы компьютера Мансура" };
         row.AddChild(_clock);
+
+        // XP's two-column start menu: the user on a blue header edged with an
+        // embroidered tulip band, programs on white, places on pale blue.
         _startMenu = new PanelContainer { Name = "StartMenu", Visible = false };
-        _startMenu.AddThemeStyleboxOverride("panel", DesktopStyle("eeeadd", "366da2", 3, 12));
         _screen.AddChild(_startMenu);
         _startMenu.Resized += LayoutDesktop;
-        var menu = new VBoxContainer();
+        var frame = new VBoxContainer { Name = "Frame" };
+        frame.AddThemeConstantOverride("separation", 0);
+        _startMenu.AddChild(frame);
+        var header = new OldPcXpBar { Name = "Header", Kind = OldPcXpBar.BarKind.MenuHeader };
+        frame.AddChild(header);
+        var who = new HBoxContainer { Name = "User" };
+        who.AddThemeConstantOverride("separation", 12);
+        header.AddChild(who);
+        who.AddChild(new OldPcDesktopIcon { Name = "Avatar", Kind = "tulip", CustomMinimumSize = new(48, 48) });
+        var names = new VBoxContainer();
+        who.AddChild(names);
+        names.AddChild(new Label { Name = "UserName", Text = "Мансур" });
+        names.AddChild(new Label { Name = "Greeting", Text = "Рәхим итегез · Кара-Урман" });
+        var columns = new HBoxContainer { Name = "Columns" };
+        columns.AddThemeConstantOverride("separation", 0);
+        frame.AddChild(columns);
+        var programs = new PanelContainer { Name = "Programs", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        columns.AddChild(programs);
+        var places = new PanelContainer { Name = "Places", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        columns.AddChild(places);
+        var menu = new VBoxContainer { Name = "ProgramList" };
         _startMenuBody = menu;
-        _startMenu.AddChild(menu);
-        menu.AddChild(new Label { Text = "Мансур · Кара-Урман" });
+        programs.AddChild(menu);
         foreach (var (id, label) in new[] {
-            ("archive", "Архивный поиск"), ("vocabulary", "Татарский словарь"), ("files", "Мои документы"), ("browser", "Интернет"),
-            ("notepad", "Блокнот"), ("writer", "Текстовый редактор"), ("pictures", "Просмотр изображений"),
-            ("chat", "Ялкын · Сообщения"), ("tetris", "Тетрис"), ("trash", "Корзина · Чүплек") })
+            ("archive", "Архивный поиск"), ("browser", "Интернет"), ("chat", "Ялкын · Сообщения"),
+            ("notepad", "Блокнот"), ("writer", "Текстовый редактор"), ("tetris", "Тетрис") })
         {
             var app = id;
             DesktopButton(menu, "Launch_" + id, label, () => { _startMenu.Hide(); LaunchApplication(app); });
         }
-        menu.AddChild(new HSeparator());
-        DesktopButton(menu, "Leave", "Отойти от компьютера [Esc]", Close);
+        var placeList = new VBoxContainer { Name = "PlaceList" };
+        places.AddChild(placeList);
+        foreach (var (id, label) in new[] {
+            ("files", "Мои документы"), ("pictures", "Мои рисунки"), ("vocabulary", "Татарский словарь · Сүзлек"),
+            ("trash", "Корзина · Чүплек") })
+        {
+            var app = id;
+            DesktopButton(placeList, "Launch_" + id, label, () => { _startMenu.Hide(); LaunchApplication(app); });
+        }
+        var footer = new OldPcXpBar { Name = "Footer", Kind = OldPcXpBar.BarKind.MenuFooter };
+        frame.AddChild(footer);
+        var footerRow = new HBoxContainer { Name = "Actions", Alignment = BoxContainer.AlignmentMode.End };
+        footer.AddChild(footerRow);
+        DesktopButton(footerRow, "Leave", "Отойти от компьютера [Esc]", Close);
         RegisterDesktopWindow("archive", _computer, _title,
             GetNode<Control>("Screen/Computer/Layout/Header"), false);
         BuildDesktopApplications();
@@ -474,7 +513,12 @@ public partial class OldPcUi
         foreach (var window in _windows.Values)
         {
             if (window.Panel is PanelContainer pane)
-                pane.AddThemeStyleboxOverride("panel", DesktopStyle(panel, "376899", 3, 10));
+            {
+                // XP window: beige body in a deep blue frame, rounded on top.
+                var frame = DesktopStyle(settings.HighContrast ? panel : "ece9d8", settings.HighContrast ? "ffffff" : "0831d9", 3, 10);
+                frame.CornerRadiusTopLeft = frame.CornerRadiusTopRight = 8;
+                pane.AddThemeStyleboxOverride("panel", frame);
+            }
             window.Title.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("174773"));
         }
         foreach (var node in _screen.FindChildren("*", "Control", true, false))
@@ -521,9 +565,9 @@ public partial class OldPcUi
             if (node is Button button)
             {
                 button.AddThemeFontSizeOverride("font_size", (int)(22 * settings.TextScale));
-                button.AddThemeStyleboxOverride("normal", DesktopStyle(panel, "9ba6af", 1, 6));
-                button.AddThemeStyleboxOverride("hover", DesktopStyle(settings.HighContrast ? "254461" : "dae5ed", "5685ad", 1, 6));
-                button.AddThemeStyleboxOverride("pressed", DesktopStyle(settings.HighContrast ? "254461" : "bed3e6", "366995", 1, 6));
+                button.AddThemeStyleboxOverride("normal", DesktopStyle(settings.HighContrast ? panel : "f7f6f0", settings.HighContrast ? "9ba6af" : "003c74", 1, 6));
+                button.AddThemeStyleboxOverride("hover", DesktopStyle(settings.HighContrast ? "254461" : "fdf3dc", settings.HighContrast ? "5685ad" : "e8a33c", settings.HighContrast ? 1 : 2, 6));
+                button.AddThemeStyleboxOverride("pressed", DesktopStyle(settings.HighContrast ? "254461" : "e2dfd2", settings.HighContrast ? "366995" : "003c74", 1, 6));
                 button.AddThemeStyleboxOverride("focus", DesktopFocus(settings.HighContrast));
                 button.AddThemeColorOverride("font_color", ink);
                 button.AddThemeColorOverride("font_hover_color", ink);
@@ -561,6 +605,7 @@ public partial class OldPcUi
             shortcut.AddThemeConstantOverride("shadow_offset_y", 1);
         }
         _shortcuts.ResetSize();
+        ApplyXpChrome(settings);
         ApplySocialPresentation();
         _clock.AddThemeColorOverride("font_color", Colors.White);
         _excerpts?.ApplyPresentation();
