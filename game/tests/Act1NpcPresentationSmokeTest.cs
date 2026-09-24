@@ -544,7 +544,7 @@ public partial class Act1NpcPresentationSmokeTest : Node
         // prefixes used by the existing Act 1 and FullGameNpcDressing callers;
         // the fixture creates no people, progress or colliders in the game world.
         var prefixes = new[] { "Mansur", "Gulsina", "Alsu", "TimurHazrat", "CouncilElder",
-            "CouncilWitness", "Naila", "ArchiveClerk", "PactKeeper" };
+            "CouncilWitness", "Naila", "ArchiveClerk", "PactKeeper", "Rinat" };
         var native = DisplayServer.GetName() != "headless";
         var viewport = new SubViewport
         {
@@ -756,6 +756,17 @@ public partial class Act1NpcPresentationSmokeTest : Node
             ?? throw new InvalidOperationException($"{mesh.Name} has no live skeleton for its support measurement.");
         var skin = mesh.GetSkinReference()?.GetSkin() ?? mesh.Skin
             ?? throw new InvalidOperationException($"{mesh.Name} has no renderer skin for its support measurement.");
+        // Skeleton modifiers (planted feet) move bones only for skinning, then
+        // Godot restores the animation pose; measure what is actually drawn.
+        var modifier = skeleton.GetChildren().OfType<RinatFootPlacementModifier>().FirstOrDefault(item => item.Active);
+        Transform3D Presented(int bone)
+        {
+            if (modifier is null) return skeleton.GetBoneGlobalPose(bone);
+            if (modifier.AppliedSkeletonPoses.TryGetValue(bone, out var applied)) return applied;
+            var parent = skeleton.GetBoneParent(bone);
+            return parent < 0 ? skeleton.GetBoneGlobalPose(bone)
+                : Presented(parent) * (skeleton.GetBoneGlobalPose(parent).AffineInverse() * skeleton.GetBoneGlobalPose(bone));
+        }
         var transforms = new Transform3D[skin.GetBindCount()];
         for (var bind = 0; bind < transforms.Length; bind++)
         {
@@ -763,7 +774,7 @@ public partial class Act1NpcPresentationSmokeTest : Node
             var bone = name.Length > 0 ? skeleton.FindBone(name) : skin.GetBindBone(bind);
             if (bone < 0 || bone >= skeleton.GetBoneCount())
                 throw new InvalidOperationException($"{mesh.Name} skin bind {bind} does not resolve to a live bone.");
-            transforms[bind] = skeleton.GlobalTransform * skeleton.GetBoneGlobalPose(bone) * skin.GetBindPose(bind);
+            transforms[bind] = skeleton.GlobalTransform * Presented(bone) * skin.GetBindPose(bind);
         }
         var world = new List<Vector3>();
         for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)

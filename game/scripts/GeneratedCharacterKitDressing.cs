@@ -18,7 +18,7 @@ public static class GeneratedCharacterKitDressing
     /// until their foot rigs are ported.
     /// </summary>
     public const string HumanScenePath = "res://assets/generated/urman_character_kit_v2.glb";
-    private static readonly HashSet<string> HumanPrefixes = new(StringComparer.Ordinal) { "Mansur", "Gulsina", "Naila", "TimurHazrat" };
+    private static readonly HashSet<string> HumanPrefixes = new(StringComparer.Ordinal) { "Mansur", "Gulsina", "Naila", "TimurHazrat", "Alsu", "Rinat" };
     private static PackedScene? _humanKit;
 
     public static bool UsesHumanKit(string prefix) => HumanPrefixes.Contains(prefix);
@@ -129,6 +129,14 @@ public static class GeneratedCharacterKitDressing
         }
 
         var idleClip = $"{prefix}_Idle";
+        if (human)
+        {
+            // The human kit's clips are loops from the animation library; the
+            // glTF carries no loop flag, so an idle otherwise froze after one pass.
+            foreach (var suffix in new[] { "Idle", "Tension", "Talk", "Walk" })
+                if (animationPlayer.HasAnimation($"{prefix}_{suffix}"))
+                    animationPlayer.GetAnimation($"{prefix}_{suffix}").LoopMode = Animation.LoopModeEnum.Linear;
+        }
         animationPlayer.Play(idleClip);
         // Visible idle life is carried by the authored clip itself, which needs
         // the exported skin to reach the bones (see the skinning note in

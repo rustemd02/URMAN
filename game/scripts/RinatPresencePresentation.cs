@@ -61,7 +61,7 @@ public partial class RinatPresencePresentation : Node3D
         var actor = zone.FindChild("Npc_rinat", true, false) as Node3D;
         if (actor is null)
         {
-            actor = GeneratedCharacterKitDressing.Attach(zone, "rinat", "CouncilWitness", Vector3.Zero);
+            actor = GeneratedCharacterKitDressing.Attach(zone, "rinat", "Rinat", Vector3.Zero);
             actor.Name = "Npc_rinat";
         }
         actor.GlobalPosition = zone.ToGlobal(zoneId == "zirat_road"
@@ -93,7 +93,32 @@ public partial class RinatPresencePresentation : Node3D
         return result;
     }
 
+    private bool _humanRig;
+
     private void BuildLampAndContact()
+    {
+        var visibleBoot = _actor.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>()
+            .First(mesh => mesh.Visible && mesh.Name.ToString().EndsWith("_BootLeft_LOD0", StringComparison.Ordinal));
+        if (visibleBoot.GetNode<Skeleton3D>(visibleBoot.Skeleton) is { } rig && rig.FindBone("thigh_l") >= 0)
+        {
+            // Human kit: the kit instance carries every person's rig; his is
+            // the one his boots are skinned to. The lamp hangs from the left
+            // hand's grip, the stop gesture is the right hand's palm.
+            _humanRig = true;
+            _skeleton = rig;
+            _handBone = _skeleton.FindBone("hand_l");
+            _handLocal = new Vector3(0f, .085f, 0f);
+            var body = _actor.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>()
+                .First(mesh => mesh.Visible && mesh.Name.ToString().EndsWith("_Body_LOD0", StringComparison.Ordinal));
+            var palm = _skeleton.FindBone("hand_r");
+            _stopHandLandmarks.Add((body, palm, [Vector3.Zero, new(0f, .09f, 0f)]));
+            _stopHandLandmarks.Add((body, palm, [new(.035f, .06f, 0f), new(-.035f, .06f, 0f)]));
+        }
+        else BuildFirstKitHand();
+        BuildLampProp();
+    }
+
+    private void BuildFirstKitHand()
     {
         var hand = _actor.FindChildren("*", nameof(MeshInstance3D), true, false)
             .OfType<MeshInstance3D>().Single(mesh => mesh.Visible
@@ -105,6 +130,10 @@ public partial class RinatPresencePresentation : Node3D
         var bind = FindBind(skin, _skeleton, _handBone);
         _handLocal = skin.GetBindPose(bind) * hand.Mesh.GetAabb().GetCenter();
         CacheStopHandLandmarks();
+    }
+
+    private void BuildLampProp()
+    {
 
         // Reuse the actual lantern geometry/materials. Only its visual children
         // move to this prop: no CarryableProp, custody ID or second item enters
@@ -528,9 +557,9 @@ public partial class RinatPresencePresentation : Node3D
             elapsed = Math.Min(duration, elapsed + (float)GetPhysicsProcessDeltaTime());
             var t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
             var at = start + direction * (distance * t);
-            if (!GroundAt(at, out var bodyGround, out _)) return false;
+            if (!GroundAt(at, out var bodyGround, out _)) return StepRefused("body-ground", at);
             at.Y = bodyGround.Y;
-            if (!BodyMotionClear(at - _actor.GlobalPosition)) return false;
+            if (!BodyMotionClear(at - _actor.GlobalPosition)) return StepRefused("body-motion", at);
             _actor.GlobalPosition = at;
             _actor.GlobalRotation = new(0f, Mathf.Lerp(startYaw, targetYaw, t), 0f);
             for (var index = 0; index < _feet.Count; index++)
@@ -542,14 +571,16 @@ public partial class RinatPresencePresentation : Node3D
                     : index == swing ? t : 0f;
                 var sole = replant ? soles[index].Lerp(sideLandings[index], footT)
                     : soles[index] + (index == swing ? direction * (distance * 2f * t) : Vector3.Zero);
-                if (!GroundAt(sole, out var support, out var normal)) return false;
+                if (!GroundAt(sole, out var support, out var normal)) return StepRefused("sole-ground-" + index, sole);
                 sole.Y = support.Y + Mathf.Sin(Mathf.Pi * footT) * .055f;
                 var flatBasis = replant
                     ? initial[index].Basis.Orthonormalized().Slerp((turn * initial[index].Basis).Orthonormalized(), footT)
                     : index == swing
                     ? initial[index].Basis.Orthonormalized().Slerp(_skeleton.GlobalBasis.Orthonormalized(), t)
                     : initial[index].Basis;
-                pose.Basis = new Basis(new Quaternion(flatBasis.Y.Normalized(), normal)) * flatBasis;
+                // The first kit's ankle bone points up; a human foot bone points
+                // along the foot, so tilt it by the slope from world up instead.
+                pose.Basis = new Basis(new Quaternion(_humanRig ? Vector3.Up : flatBasis.Y.Normalized(), normal)) * flatBasis;
                 pose.Origin = sole - pose.Basis * foot.SoleLocal;
                 var hip = _skeleton.GlobalTransform * foot.LegRest;
                 var oldLeg = (_skeleton.GlobalTransform * _skeleton.GetBoneGlobalRest(foot.Ankle)).Origin - hip.Origin;
@@ -576,12 +607,19 @@ public partial class RinatPresencePresentation : Node3D
                 if (!GroundAt(sole, out var contact, out _) || Math.Abs(sole.Y - contact.Y) > .020f)
                 {
                     _actor.SetMeta("rinatInterventionPhase", "awaiting-valid-foot-support");
-                    return false;
+                    return StepRefused($"landing-support gap={sole.Y - contact.Y:0.000}", sole);
                 }
             }
         }
         RequestLandingStep();
         return true;
+    }
+
+    private bool StepRefused(string stage, Vector3 at)
+    {
+        _actor.SetMeta("rinatStepRefusal", stage);
+        GD.Print($"rinat-step-refused: {stage} at={at} actor={_actor.GlobalPosition}");
+        return false;
     }
 
     private bool ValidIntervention(object session, long request) => request == _interventionRequest
@@ -593,6 +631,11 @@ public partial class RinatPresencePresentation : Node3D
     private void PrepareFeet()
     {
         if (_feet.Count != 0) return;
+        if (_humanRig)
+        {
+            PrepareHumanFeet();
+            return;
+        }
         foreach (var side in new[] { "Left", "Right" })
         {
             var boots = _actor.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>()
@@ -632,6 +675,34 @@ public partial class RinatPresencePresentation : Node3D
         _actor.SetMeta("rinatStepRig", "instance-local ankle binds; original meshes and authored Tension retained");
         _footModifier = new RinatFootPlacementModifier { Name = "RinatFootPlacement", Active = false, Influence = 1f };
         _skeleton.AddChild(_footModifier);
+    }
+
+    // Human kit: thigh, calf and foot. The foot bone is placed at each landing
+    // and the knee bends to reach it; the boots keep their authored skin.
+    private void PrepareHumanFeet()
+    {
+        _footModifier = new RinatFootPlacementModifier { Name = "RinatFootPlacement", Active = false, Influence = 1f };
+        _skeleton.AddChild(_footModifier);
+        foreach (var (side, suffix) in new[] { ("Left", "l"), ("Right", "r") })
+        {
+            var thigh = _skeleton.FindBone("thigh_" + suffix);
+            var calf = _skeleton.FindBone("calf_" + suffix);
+            var foot = _skeleton.FindBone("foot_" + suffix);
+            var boot = _actor.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>()
+                .Single(mesh => mesh.Visible && mesh.Name.ToString().EndsWith("_Boot" + side + "_LOD0", StringComparison.Ordinal));
+            var skin = boot.GetSkinReference()?.GetSkin() ?? boot.Skin;
+            var bindToFoot = skin.GetBindPose(FindBind(skin, _skeleton, foot));
+            var vertices = Enumerable.Range(0, boot.Mesh.GetSurfaceCount()).SelectMany(surface =>
+                boot.Mesh.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
+                .Select(vertex => bindToFoot * vertex).ToArray();
+            var footRest = _skeleton.GetBoneGlobalRest(foot);
+            var bottom = vertices.Min(vertex => (footRest * vertex).Y);
+            var corners = vertices.Where(vertex => (footRest * vertex).Y <= bottom + .004f).Distinct().ToArray();
+            var sole = corners.Aggregate(Vector3.Zero, (sum, point) => sum + point) / corners.Length;
+            _footModifier.RegisterLegChain(thigh, calf, foot);
+            _feet.Add(new Foot(thigh, foot, _skeleton.GetBoneGlobalRest(thigh), sole, corners));
+        }
+        _actor.SetMeta("rinatStepRig", "human kit: thigh/calf/foot two-bone reach; authored boots and Tension");
     }
 
     private static int FindBind(Skin skin, Skeleton3D skeleton, int bone)

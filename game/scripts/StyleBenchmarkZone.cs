@@ -1560,7 +1560,7 @@ public partial class StyleBenchmarkZone : Node3D
         // state owner and is intentionally out of this benchmark slice.
         AttachAct1Npc(
             "rinat",
-            "CouncilWitness",
+            "Rinat",
             "village police officer",
             new(4.8f, 0, -13.8f),
             yawDegrees: 180f);

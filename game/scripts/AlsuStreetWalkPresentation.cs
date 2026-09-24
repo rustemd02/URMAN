@@ -58,6 +58,8 @@ public partial class AlsuStreetWalkPresentation : Node3D
     private Vector3[] _initialSoles = [];
     private Vector3[] _landingSoles = [];
     private bool _turningStep;
+    private bool _humanRig;
+    private bool _walkingClip;
     private sealed record Foot(int Leg, int Ankle, Transform3D LegRest, Vector3 SoleLocal);
 
     public Node3D Actor => _actor;
@@ -127,6 +129,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
         _player ??= GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
         if (!ReferenceEquals(_session, _bridge.SessionIdentity)) ReadRuntimeState();
         SynchronizeTarget();
+        GroundStandingFeet();
         if (_session is null || _player is null) return;
         if (_exteriorEnabled && _physicalValidationPending && _bridge.SessionIdentity is not null
             && ProjectionBarrierReady())
@@ -148,14 +151,15 @@ public partial class AlsuStreetWalkPresentation : Node3D
             if (CanCommitCheckpoint(_pendingCheckpoint)) CommitCheckpoint(_pendingCheckpoint);
             return;
         }
-        if (!_requested || _arrived) return;
+        if (!_requested || _arrived) { PlayGait(false); return; }
         // Finish a started footfall when the companion stops following, then
         // wait in place. A player can leave, come back, or explicitly defer.
         if (!_stepping)
         {
-            if (_actor.GlobalPosition.DistanceTo(_player.GlobalPosition) > 4.0f) return;
-            if (!BeginStep()) return;
+            if (_actor.GlobalPosition.DistanceTo(_player.GlobalPosition) > 4.0f) { PlayGait(false); return; }
+            if (!BeginStep()) { PlayGait(false); return; }
         }
+        PlayGait(true);
         AdvanceStep((float)delta);
         SynchronizeTarget();
     }
@@ -601,7 +605,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
             var sole = solePositions[i];
             var normal = soleNormals[i];
             var facing = new Basis(Vector3.Up, (_endYaw - _startYaw) * footT) * _initialFeet[i].Basis.Orthonormalized();
-            pose.Basis = new Basis(new Quaternion(facing.Y.Normalized(), normal)) * facing;
+            pose.Basis = new Basis(new Quaternion(_humanRig ? Vector3.Up : facing.Y.Normalized(), normal)) * facing;
             pose.Origin = sole - pose.Basis * foot.SoleLocal;
             var hip = _skeleton.GlobalTransform * foot.LegRest;
             var restLeg = (_skeleton.GlobalTransform * _skeleton.GetBoneGlobalRest(foot.Ankle)).Origin - hip.Origin;
@@ -701,6 +705,15 @@ public partial class AlsuStreetWalkPresentation : Node3D
 
     private void PrepareFeet()
     {
+        // The kit instance carries every person's rig; hers is the one her
+        // visible boots are skinned to.
+        var visibleBoot = _actor.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>()
+            .First(mesh => mesh.Visible && mesh.Name.ToString().EndsWith("_BootLeft_LOD0", StringComparison.Ordinal));
+        if (visibleBoot.GetNode<Skeleton3D>(visibleBoot.Skeleton) is { } rig && rig.FindBone("thigh_l") >= 0)
+        {
+            PrepareHumanFeet(rig);
+            return;
+        }
         foreach (var side in new[] { "Left", "Right" })
         {
             var boots = _actor.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>()
@@ -740,6 +753,66 @@ public partial class AlsuStreetWalkPresentation : Node3D
         _feetModifier = new RinatFootPlacementModifier { Name = "AlsuSupportedFeet", Active = false, Influence = 1 };
         _skeleton.AddChild(_feetModifier);
         SetMeta("walkRig", "instance-local boot binds; original meshes; supported alternating feet");
+    }
+
+    // The human kit has a real leg: thigh, calf and foot. The foot bone itself
+    // is placed at each footfall and the knee bends to reach it; boots keep
+    // their authored skin. Walking plays the Walk clip for arms and body.
+    private void PrepareHumanFeet(Skeleton3D skeleton)
+    {
+        _skeleton = skeleton;
+        _humanRig = true;
+        _feetModifier = new RinatFootPlacementModifier { Name = "AlsuSupportedFeet", Active = false, Influence = 1 };
+        _skeleton.AddChild(_feetModifier);
+        foreach (var (side, suffix) in new[] { ("Left", "l"), ("Right", "r") })
+        {
+            var thigh = _skeleton.FindBone("thigh_" + suffix);
+            var calf = _skeleton.FindBone("calf_" + suffix);
+            var foot = _skeleton.FindBone("foot_" + suffix);
+            if (thigh < 0 || calf < 0 || foot < 0) throw new InvalidOperationException("Alsu's human rig lacks a leg chain.");
+            var boot = _actor.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>()
+                .Single(mesh => mesh.Visible && mesh.Name.ToString().EndsWith("_Boot" + side + "_LOD0", StringComparison.Ordinal));
+            // Exactly as the renderer skins it: skeleton pose * bind * vertex,
+            // expressed in the foot bone's frame.
+            var skin = boot.GetSkinReference()?.GetSkin() ?? boot.Skin;
+            var bindToFoot = skin.GetBindPose(FindBind(skin, foot));
+            var vertices = Enumerable.Range(0, boot.Mesh.GetSurfaceCount()).SelectMany(surface =>
+                boot.Mesh.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
+                .Select(vertex => bindToFoot * vertex).ToArray();
+            var footRest = _skeleton.GetBoneGlobalRest(foot);
+            var bottom = vertices.Min(vertex => (footRest * vertex).Y);
+            var corners = vertices.Where(vertex => (footRest * vertex).Y <= bottom + .004f).ToArray();
+            var soleInFoot = corners.Aggregate(Vector3.Zero, (sum, point) => sum + point) / corners.Length;
+            _feetModifier.RegisterLegChain(thigh, calf, foot);
+            _feet.Add(new Foot(thigh, foot, _skeleton.GetBoneGlobalRest(thigh), soleInFoot));
+        }
+        SetMeta("walkRig", "human kit: thigh/calf/foot two-bone reach; authored boots; supported alternating feet");
+    }
+
+    // Standing on a sloped street, the clip's level stance leaves one boot in
+    // the air. While she is not stepping, each foot keeps the clip's pose but
+    // drops or rises onto the snow under it, and the knee takes the difference.
+    private void GroundStandingFeet()
+    {
+        if (!_humanRig || _stepping || !_actor.IsVisibleInTree()) return;
+        for (var i = 0; i < _feet.Count; i++)
+        {
+            var foot = _feet[i];
+            var pose = _skeleton.GlobalTransform * _skeleton.GetBoneGlobalPose(foot.Ankle);
+            var sole = pose * foot.SoleLocal;
+            if (!GroundAt(sole, out var ground, out _)) continue;
+            var lift = ground.Y - sole.Y;
+            if (Math.Abs(lift) > .12f) continue;
+            pose.Origin += Vector3.Up * lift;
+            _feetModifier.SetWorldPose(foot.Ankle, pose);
+        }
+    }
+
+    private void PlayGait(bool walking)
+    {
+        if (!_humanRig || _walkingClip == walking) return;
+        _walkingClip = walking;
+        GeneratedCharacterKitDressing.PlayClip(_actor, walking ? "Walk" : "Idle");
     }
 
     private int FindBind(Skin skin, int bone)

@@ -525,7 +525,8 @@ public partial class Act1FinalStateSmokeTest : Node
         foreach (var side in new[] { "Left", "Right" })
         {
             var boot = actor.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>()
-                .Single(mesh => mesh.IsVisibleInTree() && mesh.Name.ToString() == $"CouncilWitness_Boot{side}_LOD0");
+                .Single(mesh => mesh.IsVisibleInTree()
+                    && mesh.Name.ToString() == $"{actor.GetMeta("characterPrefix").AsString()}_Boot{side}_LOD0");
             using var baked = boot.BakeMeshFromCurrentSkeletonPose();
             var vertices = Enumerable.Range(0, baked.GetSurfaceCount()).SelectMany(surface =>
                 baked.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())

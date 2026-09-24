@@ -600,6 +600,70 @@ def relax_action(action: bpy.types.Action) -> None:
                 fc.keyframe_points[k].handle_right[1] = q[i]
 
 
+# Held arm poses layered over library clips: bone -> armature-space direction
+# of the bone and a hint for its Z axis (the character faces -Y, its right is -X).
+LAMP_ARM = {"upperarm_l": ((.14, -.22, -1.0), (0, -1, 0)), "lowerarm_l": ((.06, -.95, -.35), (0, 0, 1)),
+            "hand_l": ((.04, -.9, -.45), (0, 0, 1))}
+STOP_ARM = {"upperarm_r": ((-.12, -.84, -.52), (0, 0, 1)), "lowerarm_r": ((-.14, -.86, .48), (0, 1, 0)),
+            "hand_r": ((-.04, -.3, .95), (0, 1, 0))}
+HELD_POSES = {"Rinat": {"Idle": LAMP_ARM, "Tension": {**LAMP_ARM, **STOP_ARM}, "Talk": LAMP_ARM}}
+
+
+def action_curves(action: bpy.types.Action):
+    """The F-curve collection that actually drives the action (Blender 4.4+
+    keeps it in the first slot's channel bag; older versions on the action)."""
+    if getattr(action, "layers", None) and len(action.layers) and len(action.slots):
+        strip = action.layers[0].strips[0]
+        bag = strip.channelbag(action.slots[0], ensure=True)
+        return bag.fcurves
+    return action.fcurves
+
+
+def hold_pose(arm: bpy.types.Object, action: bpy.types.Action, aims: dict) -> None:
+    """Replace the listed bones' rotation channels with one held pose."""
+    from mathutils import Matrix
+    data = arm.animation_data
+    previous = (data.action, [t.mute for t in data.nla_tracks])
+    for t in data.nla_tracks:
+        t.mute = True
+    data.action = action
+    if getattr(action, "slots", None) and len(action.slots):
+        data.action_slot = action.slots[0]
+    start, end = (int(f) for f in action.frame_range)
+    bpy.context.scene.frame_set(start)
+    # Solve the pose with no action attached: an update would otherwise
+    # re-apply the clip over every bone just set.
+    data.action = None
+    held = {}
+    # Directions are authored in world axes; the imported armature is rotated.
+    to_arm = arm.matrix_world.to_3x3().normalized().inverted()
+    for bone, (direction, up) in aims.items():
+        pb = arm.pose.bones[bone]
+        y = (to_arm @ Vector(direction)).normalized()
+        z = to_arm @ Vector(up)
+        z = (z - y * z.dot(y)).normalized()
+        x = y.cross(z)
+        m = Matrix((x, y, z)).transposed().to_4x4()
+        m.translation = pb.matrix.translation
+        pb.matrix = m
+        bpy.context.view_layer.update()
+        held[bone] = pb.rotation_quaternion.copy()
+    curves = action_curves(action)
+    for bone, q in held.items():
+        path = f'pose.bones["{bone}"].rotation_quaternion'
+        for fc in [fc for fc in curves if fc.data_path == path]:
+            curves.remove(fc)
+        for i in range(4):
+            fc = curves.new(path, index=i)
+            fc.keyframe_points.insert(start, q[i])
+            fc.keyframe_points.insert(end, q[i])
+    data.action = previous[0]
+    if previous[0] is not None and len(previous[0].slots):
+        data.action_slot = previous[0].slots[0]
+    for t, m in zip(data.nla_tracks, previous[1]):
+        t.mute = m
+
+
 CLIPS = {"Idle": "Idle_Loop", "Tension": "Idle_Talking_Loop", "Talk": "Idle_Talking_Loop", "Walk": "Walk_Loop"}
 
 
@@ -610,6 +674,8 @@ def assign_clips(prefix: str, arm: bpy.types.Object, actions: dict[str, bpy.type
         action.name = f"{prefix}_{suffix}"
         if suffix in ("Idle", "Tension", "Talk"):
             relax_action(action)
+        if suffix in HELD_POSES.get(prefix, {}):
+            hold_pose(arm, action, HELD_POSES[prefix][suffix])
         action.use_fake_user = True
         # Every clip rides its own NLA track: with several armatures in one
         # scene the glTF exporter only discovers clips through tracks.
@@ -707,6 +773,7 @@ def main() -> None:
     parser.add_argument("--debug-colors", action="store_true")
     parser.add_argument("--export", action="store_true")
     parser.add_argument("--rest", action="store_true", help="preview in the bind pose, without clips")
+    parser.add_argument("--clip", default="", help="preview one clip (Idle, Tension, Talk, Walk) alone")
     args = parser.parse_args(argv)
     ubc = Path(args.ubc)
     bodies = ubc / "Base Characters" / "Godot - UE"
@@ -780,6 +847,16 @@ def main() -> None:
             for obj in bpy.data.objects:
                 if obj.type == "ARMATURE":
                     obj.data.pose_position = "REST"
+        if args.clip:
+            for obj in bpy.data.objects:
+                if obj.type == "ARMATURE" and obj.animation_data:
+                    for t in obj.animation_data.nla_tracks:
+                        t.mute = True
+                    action = bpy.data.actions.get(obj.name.replace("_Rig", "") + "_" + args.clip)
+                    if action:
+                        obj.animation_data.action = action
+                        if len(action.slots):
+                            obj.animation_data.action_slot = action.slots[0]
         bpy.context.scene.frame_set(12)
         render_preview(Path(args.preview), names, debug_colors=args.debug_colors)
 
