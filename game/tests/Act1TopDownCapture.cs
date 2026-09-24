@@ -1,0 +1,67 @@
+using Godot;
+
+namespace Urman.Godot.Tests;
+
+/// <summary>
+/// Diagnostic: an orthographic view straight down on the connected village,
+/// for reviewing what stands where. Needs a native window. Writes the PNG to
+/// URMAN_TOPDOWN_OUTPUT; the frame spans x -70..70 and z -100..70.
+/// </summary>
+public partial class Act1TopDownCapture : Node
+{
+    public override async void _Ready()
+    {
+        try
+        {
+            var demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn").Instantiate<Act1DemoRoot>();
+            AddChild(demo);
+            for (var i = 0; i < 8; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (!await this.StartThroughMainMenuAsync(demo)) throw new InvalidOperationException("demo did not start");
+            foreach (var layer in GetTree().Root.FindChildren("*", nameof(CanvasLayer), true, false).OfType<CanvasLayer>())
+                layer.Visible = false;
+            var shots = OS.GetEnvironment("URMAN_SHOTS");
+            if (shots.Length > 0)
+            {
+                // name:x:z;... — an oblique look at each spot from the south-east.
+                var oblique = new Camera3D { Fov = 60f, Near = .1f, Far = 400f };
+                AddChild(oblique);
+                oblique.MakeCurrent();
+                foreach (var shot in shots.Split(';', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var parts = shot.Split(':');
+                    var x = float.Parse(parts[1], System.Globalization.CultureInfo.InvariantCulture);
+                    var z = float.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture);
+                    var ground = Urman.Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(x, z);
+                    var target = new Vector3(x, ground + 1.5f, z);
+                    oblique.GlobalPosition = target + new Vector3(11f, 7f, 11f);
+                    oblique.LookAt(target);
+                    for (var i = 0; i < 20; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                    await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+                    using var frame = GetViewport().GetTexture().GetImage();
+                    frame.SavePng(System.IO.Path.Combine(OS.GetEnvironment("URMAN_TOPDOWN_OUTPUT"), parts[0] + ".png"));
+                }
+                GD.Print("act1-topdown: shots done");
+                GetTree().Quit(0);
+                return;
+            }
+            var camera = new Camera3D
+            {
+                Projection = Camera3D.ProjectionType.Orthogonal, Size = 170f, Near = 1f, Far = 400f,
+                Position = new Vector3(0f, 150f, -15f), RotationDegrees = new Vector3(-90f, 0f, 0f)
+            };
+            AddChild(camera);
+            camera.MakeCurrent();
+            for (var i = 0; i < 40; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+            using var image = GetViewport().GetTexture().GetImage();
+            image.SavePng(OS.GetEnvironment("URMAN_TOPDOWN_OUTPUT"));
+            GD.Print($"act1-topdown: {image.GetWidth()}x{image.GetHeight()} size={camera.Size} centre=(0,-15)");
+            GetTree().Quit(0);
+        }
+        catch (Exception error)
+        {
+            GD.PushError("act1-topdown: " + error.Message);
+            GetTree().Quit(1);
+        }
+    }
+}
