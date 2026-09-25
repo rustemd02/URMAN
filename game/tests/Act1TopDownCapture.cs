@@ -122,7 +122,7 @@ public partial class Act1TopDownCapture : Node
                     eye.GlobalPosition = from;
                     eye.LookAt(anchor.ToGlobal(new Vector3(v[3], v[4], v[5])));
                     for (var i = 0; i < 25; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-                    await ToSignal(GetTree().CreateTimer(2.0), SceneTreeTimer.SignalName.Timeout);
+                    for (var i = 0; i < 120; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
                     await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
                     using var frame = GetViewport().GetTexture().GetImage();
                     frame.SavePng(System.IO.Path.Combine(OS.GetEnvironment("URMAN_TOPDOWN_OUTPUT"), parts[0] + ".png"));

@@ -58,6 +58,13 @@ PEOPLE = {
         hair="Hair_SimpleParted", beard=False, headwear="ushanka", hat="3b4250", skin="d8b199",
         coat=("3a4452", "cloth"), collar=None, trousers="2a2e36", boots="1f1f1e",
         coat_length="thigh", sash="23262b"),
+    # The neighbour at the woodpile: an older villager in a quilted fufaika,
+    # ushanka and grey felt valenki. Anonymous background life, no dialogue.
+    "Resident": dict(
+        body="Male", height=1.70, shoulder=.94, arm=.88, neck=.90, belly=1.14, hips=1.02, leg=.90,
+        hair="Hair_Buzzed", beard=False, headwear="ushanka", hat="4a4038", skin="d4ab90",
+        coat=("414840", "cloth"), collar=None, trousers="2f302c", boots="6a655c",
+        coat_length="thigh", sash="2a2b27"),
     "Naila": dict(
         body="Female", height=1.66, shoulder=.92, arm=.88, neck=.88, belly=1.0, hips=1.04, leg=.94,
         hair="Hair_Buns", beard=False, headwear=None, skin="e3bfa6",

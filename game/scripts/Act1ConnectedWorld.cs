@@ -1334,21 +1334,14 @@ public partial class Act1ConnectedWorld : Node3D
         }
         source.Free();
 
-        // One anonymous background resident uses the existing neutral winter
-        // character kit. No NPC, interaction, route or persistent identity.
+        // One anonymous background resident: the neighbour at the woodpile, on
+        // the human kit like the named cast. No NPC, interaction, route or
+        // persistent identity; he breathes in his looping idle.
         var residentHost = new Node3D { Name = "ResidentAtFirewood" };
         _villageLife.AddChild(residentHost);
         residentHost.GlobalPosition = LifeGround(-13.3f, -1.5f);
         residentHost.RotationDegrees = new Vector3(0f, -90f, 0f);
-        var resident = GeneratedCharacterKitDressing.Attach(residentHost, "background_resident",
-            "CouncilWitness", Vector3.Zero);
-        foreach (var player in FindDescendants<AnimationPlayer>(resident)) player.Stop();
-        _residentSkeleton = FindDescendants<Skeleton3D>(resident)
-            .Single(skeleton => skeleton.GetParent().Name.ToString().StartsWith("CouncilWitness", StringComparison.Ordinal));
-        _residentSkeleton.ResetBonePoses();
-        _residentRest = new[] { "Spine", "Head", "Arm.L", "Arm.R" }
-            .Select(name => { var bone = _residentSkeleton.FindBone(name);
-                return (bone, _residentSkeleton.GetBonePoseRotation(bone)); }).ToArray();
+        GeneratedCharacterKitDressing.Attach(residentHost, "background_resident", "Resident", Vector3.Zero);
 
         var radial = new GradientTexture2D
         {

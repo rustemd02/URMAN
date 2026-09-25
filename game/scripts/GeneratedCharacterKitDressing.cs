@@ -18,7 +18,7 @@ public static class GeneratedCharacterKitDressing
     /// until their foot rigs are ported.
     /// </summary>
     public const string HumanScenePath = "res://assets/generated/urman_character_kit_v2.glb";
-    private static readonly HashSet<string> HumanPrefixes = new(StringComparer.Ordinal) { "Mansur", "Gulsina", "Naila", "TimurHazrat", "Alsu", "Rinat" };
+    private static readonly HashSet<string> HumanPrefixes = new(StringComparer.Ordinal) { "Mansur", "Gulsina", "Naila", "TimurHazrat", "Alsu", "Rinat", "Resident" };
     private static PackedScene? _humanKit;
 
     public static bool UsesHumanKit(string prefix) => HumanPrefixes.Contains(prefix);
