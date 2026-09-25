@@ -2362,6 +2362,8 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         # yards are too tight for the protrusion and their street doors are
         # not entries. Presentation-only, clear of the portal opening.
         box("StreetStep", (door_x, front-.34, .10), (1.34, .68, .20), "URMAN_Stone_Mossy")
+        if hero_layout:
+            author_hero_porch(parent, prefix, root_name, door_x, front)
     for x in (-half,half):
         for y in (front,back):
             if hero_layout:
@@ -2559,6 +2561,83 @@ def _hero_prism(name, parent, root_name, outline, plane, thickness, material_nam
     bm.to_mesh(obj.data)
     bm.free()
     return obj
+
+
+def author_hero_porch(parent, prefix, root_name, door_x, front):
+    """ACT1-DEPTH.12 package 4: the street porch of the menu reference, a
+    boarded step under a small gable canopy on two carved posts, with its own
+    prichelina, towel, settled snow and icicles. Presentation only: posts are
+    thinner than the blocker threshold and the canopy and deck are flat, so the
+    portal approach keeps its physical owner."""
+    teal, ivory = HERO_TRIM_TEAL_MATERIAL, HERO_TRIM_IVORY_MATERIAL
+    wood = HERO_LOG_END_MATERIAL
+    half_w, y_wall, y_out = 1.0, front - .02, front - .98
+    eave_z, ridge_z = 2.58, 2.86
+
+    def box(name, center, size, mat):
+        return variant_box(f"{prefix}_{name}_LOD0", parent, center, size, (mat,), root_name, "hero porch", chamfer=.012)
+
+    box("PorchDeck", (door_x, front - .34, .215), (1.36, .70, .03), wood)
+    for i in range(5):
+        box(f"PorchDeckSeam{i}", (door_x - .54 + i * .27, front - .34, .231), (.012, .70, .004), HERO_LOG_MATERIAL)
+    for side in (-1, 1):
+        x = door_x + side * (half_w - .12)
+        box(f"PorchPost{side}", (x, y_out + .1, 1.29), (.12, .12, 2.58), teal)
+        for ring_z in (.35, 1.0, 1.9):
+            box(f"PorchPostRing{side}_{ring_z:.2f}", (x, y_out + .1, ring_z), (.15, .15, .05), ivory)
+        box(f"PorchPostBase{side}", (x, y_out + .1, .08), (.18, .18, .16), "URMAN_Stone_Mossy")
+    box("PorchBeam", (door_x, y_out + .1, eave_z - .07), (2 * half_w + .1, .14, .12), teal)
+    for side in (-1, 1):
+        box(f"PorchSideBeam{side}", (door_x + side * (half_w - .12), (y_wall + y_out) / 2, eave_z - .07),
+            (.1, y_wall - y_out, .1), teal)
+    # Canopy: two thick planes meeting at a ridge perpendicular to the wall.
+    for side in (-1, 1):
+        x_eave = door_x + side * (half_w + .12)
+        verts = []
+        for dz in (0.0, -.06):
+            verts += [(door_x, y_wall, ridge_z + dz), (door_x, y_out - .12, ridge_z + dz),
+                      (x_eave, y_out - .12, eave_z - .05 + dz), (x_eave, y_wall, eave_z - .05 + dz)]
+        faces = [(0, 1, 2, 3), (7, 6, 5, 4), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)]
+        obj = mesh_object(f"{prefix}_PorchRoof{side}_LOD0", parent, verts, faces, ("URMAN_Roof_WetSlate",),
+                          component_root=root_name, role="hero porch canopy")
+        snow = [(x, y, z + .075) for x, y, z in verts[:4]] + [(x, y, z + .005) for x, y, z in verts[:4]]
+        mesh_object(f"{prefix}_PorchRoofSnow{side}_LOD0", parent, snow, faces, (HERO_ROOF_SNOW_MATERIAL,),
+                    component_root=root_name, role="snow on the porch canopy")
+        for mesh_obj in (obj,):
+            bm = bmesh.new(); bm.from_mesh(mesh_obj.data)
+            bmesh.ops.recalc_face_normals(bm, faces=bm.faces); bm.to_mesh(mesh_obj.data); bm.free()
+        # Icicles along the canopy eave.
+        y = y_wall - .12
+        index = 0
+        while y > y_out - .05:
+            length_i = .06 + .16 * abs(math.sin(y * 9.1 + side)) ** 2
+            top_z = eave_z - .1
+            x = x_eave - side * .03
+            ring = [(x + math.cos(k * math.tau / 6) * .014, y + math.sin(k * math.tau / 6) * .014, top_z) for k in range(6)]
+            mesh_object(f"{prefix}_PorchIcicle{side}_{index:02d}_LOD0", parent, ring + [(x, y, top_z - length_i)],
+                        [tuple(range(5, -1, -1))] + [(k, (k + 1) % 6, 6) for k in range(6)], (HERO_ROOF_SNOW_MATERIAL,),
+                        component_root=root_name, role="porch icicle")
+            index += 1
+            y -= .13 + .06 * abs(math.sin(y * 13.0))
+    # Prichelina and towel on the canopy gable.
+    chevron = [(-half_w - .14, eave_z - .1), (0, ridge_z + .04), (half_w + .14, eave_z - .1),
+               (half_w - .08, eave_z - .1), (0, ridge_z - .16), (-half_w + .08, eave_z - .1)]
+    _hero_prism(f"{prefix}_PorchPrichelina_LOD0", parent, root_name, chevron,
+                lambda a, b, d: (door_x + a, y_out - .13 + d, b), .035, teal, "porch prichelina")
+    for k in range(6):
+        t = (k + .5) / 6
+        for side in (-1, 1):
+            cx = side * (half_w + .02) * (1 - t)
+            cz = eave_z - .1 + (ridge_z + .04 - (eave_z - .1)) * t - .1
+            lobe = [(math.cos(j * math.pi / 6) * .06, -math.sin(j * math.pi / 6) * .05) for j in range(7)]
+            _hero_prism(f"{prefix}_PorchScallop{side}_{k}_LOD0", parent, root_name, lobe,
+                        lambda a, b, d, cx=cx, cz=cz: (door_x + cx + a, y_out - .15 + d, cz + b), .02, ivory, "porch scallop")
+    towel = [(-.09, 0), (.09, 0), (.09, -.3), (0, -.38), (-.09, -.3)]
+    _hero_prism(f"{prefix}_PorchTowel_LOD0", parent, root_name, towel,
+                lambda a, b, d: (door_x + a, y_out - .14 + d, ridge_z - .12 + b), .03, teal, "porch towel")
+    diamond = [(0, .045), (.045, 0), (0, -.045), (-.045, 0)]
+    _hero_prism(f"{prefix}_PorchTowelDiamond_LOD0", parent, root_name, diamond,
+                lambda a, b, d: (door_x + a, y_out - .165 + d, ridge_z - .3 + b), .012, ivory, "porch towel rhomb")
 
 
 def author_hero_carving(parent, prefix, root_name, half, front, back, eave, ridge, overhang, roof_thickness):
