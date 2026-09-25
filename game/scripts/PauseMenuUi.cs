@@ -15,6 +15,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private Label? _status;
     private Label? _title;
+    private ColorRect? _screen;
     private PanelContainer? _panel;
     private Button? _resumeButton;
     private Button? _saveButton;
@@ -26,6 +27,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private Button? _armedButton;
     private bool _open;
     private bool _backgroundInputReplay;
+    private bool _reducedMotion;
 
     /// <summary>The demo root decides when the pause shell may open.</summary>
     public Func<bool>? CanOpenPause { get; set; }
@@ -82,27 +84,13 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
     {
-        var scale = Mathf.Clamp((float)settings.TextScale, 0.8f, 1.6f);
-        var textColor = settings.HighContrast ? Colors.White : new Color(0.89f, 0.84f, 0.73f);
-
-        if (_title is not null)
+        // ACT1-UI.2: colour, type and plates come from the shared theme; the
+        // accessibility pass swaps it for high contrast and scales the text.
+        _reducedMotion = settings.ReducedMotion;
+        if (_screen is not null)
         {
-            _title.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(42 * scale));
-            _title.AddThemeColorOverride("font_color", settings.HighContrast
-                ? Colors.White
-                : new Color(0.88f, 0.78f, 0.59f));
-            _title.AddThemeColorOverride("font_shadow_color", Colors.Black);
-            _title.AddThemeConstantOverride("shadow_offset_x", settings.HighContrast ? 3 : 2);
-            _title.AddThemeConstantOverride("shadow_offset_y", settings.HighContrast ? 3 : 2);
-        }
-
-        if (_status is not null)
-        {
-            _status.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(17 * scale));
-            _status.AddThemeColorOverride("font_color", textColor);
-            _status.AddThemeColorOverride("font_shadow_color", Colors.Black);
-            _status.AddThemeConstantOverride("shadow_offset_x", settings.HighContrast ? 3 : 2);
-            _status.AddThemeConstantOverride("shadow_offset_y", settings.HighContrast ? 3 : 2);
+            AccessibilityPresentation.ApplyToControl(_screen, settings);
+            _screen.Color = UrmanUiTheme.Colours(settings).Shade with { A = settings.HighContrast ? .92f : .78f };
         }
 
         if (_panel is not null)
@@ -110,29 +98,6 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
             _panel.SetMeta("accessibilityTextScale", settings.TextScale);
             _panel.SetMeta("accessibilityHighContrast", settings.HighContrast);
             _panel.SetMeta("accessibilityReducedMotion", settings.ReducedMotion);
-            _panel.AddThemeStyleboxOverride("panel", PanelStyle(settings.HighContrast));
-        }
-
-        foreach (var button in new[]
-                 {
-                     _resumeButton, _saveButton, _loadButton, _settingsButton,
-                     _restartButton, _mainMenuButton, _quitButton
-                 })
-        {
-            if (button is null)
-            {
-                continue;
-            }
-
-            button.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(24 * scale));
-            button.AddThemeColorOverride("font_color", textColor);
-            button.AddThemeColorOverride("font_hover_color", Colors.White);
-            button.AddThemeColorOverride("font_pressed_color", Colors.White);
-            button.AddThemeColorOverride("font_focus_color", Colors.White);
-            button.AddThemeColorOverride("font_disabled_color", new Color(1, 1, 1, 0.62f));
-            button.AddThemeColorOverride("font_outline_color", Colors.Black);
-            button.AddThemeConstantOverride("outline_size", settings.HighContrast ? 3 : 2);
-            ApplyButtonStyles(button, settings.HighContrast);
         }
     }
 
@@ -195,6 +160,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         FindPlayer()?.SetModalOpen(true);
         Input.MouseMode = Input.MouseModeEnum.Visible;
         SetStatus(string.Empty);
+        if (_panel is not null) UrmanUiTheme.PlayOpen(_panel, _reducedMotion);
         _resumeButton?.GrabFocus();
     }
 
@@ -217,11 +183,12 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         var screen = new ColorRect
         {
             Name = "PauseScreen",
-            Color = new Color(0.008f, 0.012f, 0.011f, 0.86f),
+            Color = UrmanUiTheme.Normal.Shade with { A = .78f },
             AnchorRight = 1f,
             AnchorBottom = 1f
         };
         AddChild(screen);
+        _screen = screen;
 
         var center = new CenterContainer
         {
@@ -236,16 +203,12 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _panel = new PanelContainer
         {
             Name = "PausePanel",
+            ThemeTypeVariation = UrmanUiTheme.Plate,
             CustomMinimumSize = new Vector2(560, 0)
         };
-        _panel.AddThemeStyleboxOverride("panel", PanelStyle(false));
         center.AddChild(_panel);
 
         var margin = new MarginContainer { Name = "Margin" };
-        margin.AddThemeConstantOverride("margin_left", 54);
-        margin.AddThemeConstantOverride("margin_top", 38);
-        margin.AddThemeConstantOverride("margin_right", 54);
-        margin.AddThemeConstantOverride("margin_bottom", 38);
         _panel.AddChild(margin);
 
         var layout = new VBoxContainer
@@ -253,14 +216,15 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
             Name = "Layout",
             Alignment = BoxContainer.AlignmentMode.Center
         };
-        layout.AddThemeConstantOverride("separation", 10);
+        layout.AddThemeConstantOverride("separation", UrmanUiTheme.Space.S + UrmanUiTheme.Space.Xs);
         margin.AddChild(layout);
 
         _title = new Label
         {
             Name = "Title",
-            Text = "Пауза",
-            HorizontalAlignment = HorizontalAlignment.Center
+            Text = "ПАУЗА",
+            ThemeTypeVariation = UrmanUiTheme.Heading,
+            HorizontalAlignment = HorizontalAlignment.Left
         };
         layout.AddChild(_title);
 
@@ -297,8 +261,8 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _status = new Label
         {
             Name = "Status",
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Modulate = new Color(0.75f, 0.72f, 0.65f),
+            ThemeTypeVariation = UrmanUiTheme.Hint,
+            HorizontalAlignment = HorizontalAlignment.Left,
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             CustomMinimumSize = new Vector2(360, 28),
             MouseFilter = Control.MouseFilterEnum.Ignore
@@ -308,69 +272,15 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _resumeButton.GrabFocus();
     }
 
-    private Button ShellButton(string name, string text)
+    private static Button ShellButton(string name, string text) => new()
     {
-        var button = new Button
-        {
-            Name = name,
-            Text = text,
-            CustomMinimumSize = new Vector2(360, 56),
-            FocusMode = Control.FocusModeEnum.All,
-            MouseDefaultCursorShape = Control.CursorShape.PointingHand
-        };
-        ApplyButtonStyles(button, highContrast: false);
-        return button;
-    }
-
-    private static StyleBoxFlat PanelStyle(bool highContrast) => new()
-    {
-        BgColor = highContrast
-            ? new Color(0.01f, 0.015f, 0.015f, 0.98f)
-            : new Color(0.025f, 0.043f, 0.038f, 0.97f),
-        BorderColor = highContrast
-            ? Colors.White
-            : new Color(0.42f, 0.38f, 0.28f, 0.92f),
-        BorderWidthLeft = highContrast ? 2 : 1,
-        BorderWidthTop = highContrast ? 2 : 1,
-        BorderWidthRight = highContrast ? 2 : 1,
-        BorderWidthBottom = highContrast ? 2 : 1,
-        CornerRadiusTopLeft = 6,
-        CornerRadiusTopRight = 6,
-        CornerRadiusBottomRight = 6,
-        CornerRadiusBottomLeft = 6
-    };
-
-    private static void ApplyButtonStyles(Button button, bool highContrast)
-    {
-        var border = highContrast ? Colors.White : new Color(0.46f, 0.41f, 0.30f, 0.95f);
-        button.AddThemeStyleboxOverride("normal", ButtonStyle(
-            new Color(0.045f, 0.075f, 0.066f, 0.98f), border, 1));
-        button.AddThemeStyleboxOverride("hover", ButtonStyle(
-            new Color(0.10f, 0.16f, 0.13f, 1f), highContrast ? Colors.White : new Color(0.88f, 0.78f, 0.59f), 2));
-        button.AddThemeStyleboxOverride("pressed", ButtonStyle(
-            new Color(0.14f, 0.19f, 0.15f, 1f), Colors.White, 2));
-        button.AddThemeStyleboxOverride("focus", ButtonStyle(
-            new Color(0.10f, 0.16f, 0.13f, 1f), highContrast ? Colors.White : new Color(0.88f, 0.78f, 0.59f), 3));
-        button.AddThemeStyleboxOverride("disabled", ButtonStyle(
-            new Color(0.04f, 0.05f, 0.05f, 0.88f), new Color(0.23f, 0.27f, 0.24f, 0.9f), 1));
-    }
-
-    private static StyleBoxFlat ButtonStyle(Color background, Color border, int width) => new()
-    {
-        BgColor = background,
-        BorderColor = border,
-        BorderWidthLeft = width,
-        BorderWidthTop = width,
-        BorderWidthRight = width,
-        BorderWidthBottom = width,
-        CornerRadiusTopLeft = 4,
-        CornerRadiusTopRight = 4,
-        CornerRadiusBottomRight = 4,
-        CornerRadiusBottomLeft = 4,
-        ContentMarginLeft = 22,
-        ContentMarginTop = 10,
-        ContentMarginRight = 22,
-        ContentMarginBottom = 10
+        Name = name,
+        Text = text,
+        ThemeTypeVariation = UrmanUiTheme.MenuButton,
+        Alignment = HorizontalAlignment.Left,
+        CustomMinimumSize = new Vector2(360, 56),
+        FocusMode = Control.FocusModeEnum.All,
+        MouseDefaultCursorShape = Control.CursorShape.PointingHand
     };
 
     private async Task SaveAsync()

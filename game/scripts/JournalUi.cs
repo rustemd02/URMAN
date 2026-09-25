@@ -41,7 +41,8 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     public override void _Ready()
     {
         AddToGroup("journal_ui");
-        _foley = UiFoley.Attach(this);        AddToGroup(AccessibilityPresentation.TargetGroup);
+        _foley = UiFoley.Attach(this);
+        AddToGroup(AccessibilityPresentation.TargetGroup);
         _screen = GetNode<Control>("Screen");
         _book = GetNode<Control>("Screen/Book");
         _entries = GetNode<ItemList>("Screen/Book/Layout/WorkArea/Entries");
@@ -72,17 +73,8 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _accessibility = settings;
         RefitToViewport();
         AccessibilityPresentation.ApplyToControl(_book, settings);
-        var tabFontSize = Mathf.RoundToInt(18 * Mathf.Clamp((float)settings.TextScale, .8f, 1.6f));
-        _tabs.AddThemeFontSizeOverride("font_size", tabFontSize);
-        _tabs.AddThemeColorOverride("font_selected_color", settings.HighContrast ? Colors.White : new Color("f0c46b"));
-        _tabs.AddThemeColorOverride("font_unselected_color", settings.HighContrast ? Colors.White : new Color("e5dbc7"));
-        foreach (var picker in _sourcePickers) picker.GetPopup().AddThemeFontSizeOverride("font_size", tabFontSize);
-        _notebookSection.GetPopup().AddThemeFontSizeOverride("font_size", tabFontSize);
-        _notesText.AddThemeFontSizeOverride("font_size", tabFontSize);
-        _notesText.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("e5dbc7"));
-        _title.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("f0c46b"));
-        _body.AddThemeColorOverride("default_color", settings.HighContrast ? Colors.White : new Color("e0d6c2"));
-        _source.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("aaa18f"));
+        // ACT1-UI.4: colours and tab plates come from the shared theme; the
+        // accessibility pass above already scaled tabs, pickers and the editor.
         _excerpts?.ApplyPresentation();
         _map?.ApplyAccessibilitySettings(settings);
     }
@@ -125,6 +117,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         if (_projection.Count == 0 && _tabs.CurrentTab == 0) _tabs.CurrentTab = 2;
         UiFoley.Play(_foley, "paper_open");
         _screen.Visible = true;
+        UrmanUiTheme.PlayOpen(_book, _accessibility.ReducedMotion);
         SetPlayerModal(true);
         FocusCurrentPage();
     }
@@ -188,12 +181,6 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             var entry = _projection[index];
             _entries.AddItem($"{index + 1:D2} · {EntryListTitle(entry)}");
         }
-
-        // Archive list styling: warm ink slots with ochre selection.
-        _entries.AddThemeColorOverride("font_color", new Color(0.74f, 0.70f, 0.60f));
-        _entries.AddThemeColorOverride("font_selected_color", new Color(0.95f, 0.82f, 0.55f));
-        _entries.AddThemeConstantOverride("line_separation", 8);
-        _entries.AddThemeConstantOverride("v_separation", 4);
 
         RefreshComparisonSources();
 
