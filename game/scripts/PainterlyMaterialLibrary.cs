@@ -376,6 +376,7 @@ public static class PainterlyMaterialLibrary
         ["stone"] = ("res://assets/textures/painterly/mossy_stone_v3_albedo.png", new Vector2(1.5f, 1.5f)),
         ["stone_foundation"] = ("res://assets/textures/painterly/urman_b07_v02_basecolor.png", Vector2.One),
         ["fabric"] = ("res://assets/textures/painterly/old_fabric_v3_albedo.png", new Vector2(2.0f, 2.0f)),
+        ["cloth_towel"] = ("res://assets/textures/painterly/urman_t07_v01_basecolor.png", new Vector2(2.0f, 2.0f)),
         ["fabric_upholstery"] = ("res://assets/textures/painterly/urman_t08_v01_basecolor.png", new Vector2(2.0f, 2.0f)),
         // T10 has its own semantic owner; clothes and upholstery keep theirs.
         ["cloth_clinic"] = ("res://assets/textures/painterly/urman_t10_v02_basecolor.png", new Vector2(2.0f, 2.0f)),
@@ -577,7 +578,7 @@ public static class PainterlyMaterialLibrary
             "wood_fence_vertical" or "wood_fence_rail" or "wood_fence_uv" => "wood_fence",
             "plaster_domestic" => "wall_institution",
             "stone_foundation" => "stone",
-            "cloth_table" or "cloth_curtain" => "cloth",
+            "cloth_table" or "cloth_curtain" or "cloth_towel" => "cloth",
             _ => surface
         };
         var shadow = new Color(color.R * 0.54f, color.G * 0.56f, color.B * 0.58f, color.A);
@@ -621,7 +622,7 @@ public static class PainterlyMaterialLibrary
             "log_wall" or "wallpaper" or "wall_institution" => 0.22f,
             "ornament_trim" or "carpet" or "fabric_pattern" or "wood_carved" => 0.18f,
             "stone" => 0.27f,
-            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" => 0.24f,
+            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" or "cloth_towel" => 0.24f,
             "iron" or "enamel" or "plastic_abs" => 0.18f,
             "water" => 0.18f,
             _ => 0.30f
@@ -640,7 +641,7 @@ public static class PainterlyMaterialLibrary
             "log_wall" or "wallpaper" or "wall_institution" => 0.08f,
             "ornament_trim" or "carpet" or "fabric_pattern" or "wood_carved" => 0.06f,
             "stone" => 0.12f,
-            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" => 0.08f,
+            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" or "cloth_towel" => 0.08f,
             "hay_fibers" or "hay_bundle" => 0.06f,
             "iron" or "enamel" or "plastic_abs" => 0.04f,
             "water" => 0.06f,
@@ -715,7 +716,7 @@ public static class PainterlyMaterialLibrary
             "bark_birch" or "bark_birch_winter" or "bark_pine" => 0.30f,
             "foliage" or "leaf_birch" or "rowan_berries" => 0.34f,
             "grass" or "grass_tuft" => 0.72f,
-            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" or "fabric_pattern" => 0.30f,
+            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" or "fabric_pattern" or "cloth_towel" => 0.30f,
             _ => 0.0f
         };
         material.SetShaderParameter("snow_coverage", sheltered ? 0f : snowCoverage);
@@ -778,7 +779,7 @@ public static class PainterlyMaterialLibrary
             "stone" => (Roughness: 0.91f, Specular: 0.12f, WetGrade: 0.22f),
             "foliage" => (Roughness: 0.95f, Specular: 0.07f, WetGrade: 0.12f),
             "plaster" => (Roughness: 0.96f, Specular: 0.06f, WetGrade: 0.04f),
-            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" => (Roughness: 0.98f, Specular: 0.04f, WetGrade: 0.01f),
+            "fabric" or "fabric_upholstery" or "cloth" or "cloth_clinic" or "cloth_towel" => (Roughness: 0.98f, Specular: 0.04f, WetGrade: 0.01f),
             "iron" => (Roughness: 0.74f, Specular: 0.28f, WetGrade: 0.0f),
             "enamel" => (Roughness: 0.34f, Specular: 0.36f, WetGrade: 0.0f),
             "water" => (Roughness: 0.38f, Specular: 0.45f, WetGrade: 0.98f),

@@ -102,7 +102,7 @@ public partial class Act1ConnectedWorld
         FacilityRod(_mosqueRoom, "MosqueWaterRiser", new(4.18f, .16f, -3.78f), new(4.18f, 1.11f, -3.78f), .018f, "a3aaa8");
         FacilityRod(_mosqueRoom, "MosqueTapSpout", new(4.18f, 1.10f, -3.78f), new(3.91f, 1.10f, -3.54f), .016f, "a3aaa8");
         FacilityRod(_mosqueRoom, "MosqueBasinDrain", new(3.71f, .77f, -3.54f), new(3.71f, .11f, -3.78f), .027f, "a3aaa8");
-        AddVisualBox(_mosqueRoom, "MosqueWashTowel", new(.33f, .49f, .02f), new(4.76f, 1.22f, -3.91f), "ded8c2", "fabric");
+        AddVisualBox(_mosqueRoom, "MosqueWashTowel", new(.33f, .49f, .02f), new(4.76f, 1.22f, -3.91f), "ded8c2", "cloth_towel");
         FacilityRod(_mosqueRoom, "MosqueTowelRail", new(4.52f, 1.48f, -3.85f), new(5.0f, 1.48f, -3.85f), .014f, "898e88");
 
         // Mosque06 measured soles on the timber 16.5 mm below the visible rug.
