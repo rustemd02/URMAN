@@ -62,14 +62,7 @@ public partial class FirstPersonController
     private void ApplyRemarkAccessibility(AccessibilitySettingsSnapshot settings)
     {
         if (_remarkLabel is null || !IsInstanceValid(_remarkLabel)) return;
-        var textScale = Mathf.Clamp((float)settings.TextScale, 0.8f, 1.6f);
-        _remarkLabel.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(22f * textScale));
-        _remarkLabel.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color(0.97f, 0.94f, 0.86f));
-        _remarkLabel.AddThemeColorOverride("font_shadow_color", Colors.Black);
-        _remarkLabel.AddThemeColorOverride("font_outline_color", Colors.Black);
-        _remarkLabel.AddThemeConstantOverride("outline_size", settings.HighContrast ? 5 : 4);
-        _remarkLabel.AddThemeConstantOverride("shadow_offset_x", 2);
-        _remarkLabel.AddThemeConstantOverride("shadow_offset_y", 2);
+        UrmanUiTheme.ApplyWorldText(_remarkLabel, settings, UrmanUiTheme.Size.Subtitle);
         _remarkLabel.SetMeta("accessibilityTextScale", settings.TextScale);
     }
 }

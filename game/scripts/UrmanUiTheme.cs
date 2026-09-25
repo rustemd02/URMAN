@@ -31,6 +31,8 @@ public static class UrmanUiTheme
     public const string Plate = "UrmanPlate";
     public const string Sheet = "UrmanSheet";
     public const string Tag = "UrmanTag";
+    public const string Subtitle = "UrmanSubtitle";
+    public const string SubtitlePanel = "UrmanSubtitlePanel";
 
     /// <summary>Colour tokens. Every colour a screen shows comes from here.</summary>
     public readonly record struct Palette(
@@ -84,6 +86,8 @@ public static class UrmanUiTheme
         public const int Heading = 30;
         public const int Title = 64;
         public const int Speaker = 22;
+        public const int Subtitle = 22;
+        public const int WorldPrompt = 24;
     }
 
     /// <summary>Spacing grid: every margin and gap is a multiple of 4.</summary>
@@ -218,6 +222,18 @@ public static class UrmanUiTheme
         theme.SetColor("font_color", StatusConfirmed, c.Ink);
         theme.SetStylebox("normal", StatusConfirmed, PlateBox(c.Confirmed, skew: PlateSkew, marginX: Space.S, marginY: 1));
 
+        // Subtitles: calm ink band over the world, no skew and no accent, so a
+        // caption never reads as a menu or a choice.
+        Variation(theme, Subtitle, "Label");
+        theme.SetFontSize("font_size", Subtitle, Size.Subtitle);
+        theme.SetColor("font_color", Subtitle, c.Text);
+        theme.SetColor("font_shadow_color", Subtitle, Colors.Black);
+        theme.SetConstant("shadow_offset_x", Subtitle, 2);
+        theme.SetConstant("shadow_offset_y", Subtitle, 2);
+        Variation(theme, SubtitlePanel, "PanelContainer");
+        theme.SetStylebox("panel", SubtitlePanel, PlateBox(c.Shade, highContrast ? c.Line : default,
+            highContrast ? 2 : 0, marginX: Space.L, marginY: Space.M));
+
         // Panels: a sheet is a full reading surface; a plate is a smaller card.
         theme.SetStylebox("panel", "PanelContainer", PlateBox(c.Ink, c.Line, 1, marginX: Space.L, marginY: Space.L));
         theme.SetStylebox("panel", "Panel", PlateBox(c.Ink, c.Line, 1));
@@ -300,6 +316,29 @@ public static class UrmanUiTheme
         theme.SetStylebox("panel", "TooltipPanel", PlateBox(c.Ink, c.Line, 1, marginX: Space.S, marginY: Space.Xs));
         return theme;
     }
+
+    /// <summary>
+    /// HUD text drawn straight over the 3D world (interaction prompt, Aidar's
+    /// remarks). It has no plate, so it keeps a black outline in both palettes;
+    /// colour and type still come from the theme tokens.
+    /// </summary>
+    public static void ApplyWorldText(Label label, AccessibilitySettingsSnapshot settings, int baseSize)
+    {
+        var c = Colours(settings);
+        label.AddThemeFontOverride("font", BodyBoldFont);
+        label.AddThemeFontSizeOverride("font_size",
+            Mathf.RoundToInt(baseSize * Mathf.Clamp((float)settings.TextScale, 0.8f, 1.6f)));
+        label.AddThemeColorOverride("font_color", c.Text);
+        label.AddThemeColorOverride("font_shadow_color", Colors.Black);
+        label.AddThemeColorOverride("font_outline_color", Colors.Black);
+        label.AddThemeConstantOverride("outline_size", settings.HighContrast ? 5 : 4);
+        label.AddThemeConstantOverride("shadow_offset_x", settings.HighContrast ? 3 : 2);
+        label.AddThemeConstantOverride("shadow_offset_y", settings.HighContrast ? 3 : 2);
+    }
+
+    /// <summary>The reticle is a HUD mark, drawn in the reading colour.</summary>
+    public static Color ReticleColour(AccessibilitySettingsSnapshot settings) =>
+        settings.HighContrast ? HighContrast.Text : Normal.Text with { A = .96f };
 
     private static StyleBoxFlat SheetBox(Palette c, bool highContrast)
     {

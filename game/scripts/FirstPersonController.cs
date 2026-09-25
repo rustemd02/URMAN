@@ -126,16 +126,8 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
             return;
         }
 
-        var textScale = Mathf.Clamp((float)settings.TextScale, 0.8f, 1.6f);
-        _interactionPrompt.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(24f * textScale));
-        _interactionPrompt.AddThemeColorOverride(
-            "font_color",
-            settings.HighContrast ? Colors.White : new Color(0.94f, 0.89f, 0.76f));
-        _interactionPrompt.AddThemeColorOverride("font_shadow_color", Colors.Black);
-        _interactionPrompt.AddThemeColorOverride("font_outline_color", Colors.Black);
-        _interactionPrompt.AddThemeConstantOverride("shadow_offset_x", settings.HighContrast ? 3 : 2);
-        _interactionPrompt.AddThemeConstantOverride("shadow_offset_y", settings.HighContrast ? 3 : 2);
-        _interactionPrompt.AddThemeConstantOverride("outline_size", settings.HighContrast ? 5 : 4);
+        // ACT1-UI.3: prompt type and colour come from the shared theme tokens.
+        UrmanUiTheme.ApplyWorldText(_interactionPrompt, settings, UrmanUiTheme.Size.WorldPrompt);
         _interactionPrompt.SetMeta("accessibilityTextScale", settings.TextScale);
         _interactionPrompt.SetMeta("accessibilityHighContrast", settings.HighContrast);
         _interactionPrompt.SetMeta("accessibilityReducedMotion", settings.ReducedMotion);
@@ -153,9 +145,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
         if (_reticle is not null)
         {
-            _reticle.Color = settings.HighContrast
-                ? Colors.White
-                : new Color(0.94f, 0.89f, 0.76f, 0.96f);
+            _reticle.Color = UrmanUiTheme.ReticleColour(settings);
             _reticle.SetMeta("accessibilityHighContrast", settings.HighContrast);
         }
     }
