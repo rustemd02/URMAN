@@ -195,7 +195,8 @@ public partial class Act1ConnectedWorld
         var built = 0;
         foreach (var building in registry.Buildings.Values.OrderBy(b => b.BuildingId, StringComparer.Ordinal))
         {
-            if (building.Role is not ("residential" or "shop" or "council" or "school") || building.Footprint.Count < 3) continue;
+            // The shop's front stays open to the street: people walk up to it.
+            if (building.Role is not ("residential" or "council" or "school") || building.Footprint.Count < 3) continue;
             if (building.SourceKey.EndsWith("/babai", StringComparison.Ordinal)) continue;
             var centre = new Vector2((float)building.Position.X, (float)building.Position.Z);
             // The street this house belongs to: the nearest street road it

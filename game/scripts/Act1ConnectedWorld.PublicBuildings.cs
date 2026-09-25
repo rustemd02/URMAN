@@ -41,6 +41,7 @@ public partial class Act1ConnectedWorld
         var shop = PreparePublicBuilding("shop", "WestReturnMidFacade", "H020", "tukay", "23", "URM-Q01-P0119", "village-shop-sign");
         BuildVillageShop(shop);
         BuildShopSign(FindDescendants<Node3D>(this).Single(node => node.Name == "WestReturnMidFacade"));
+        BuildShopStorefront(shop);
         var school = PreparePublicBuilding("school", "EastReturnMidFacade", "H031", "urman", "6", "URM-Q02-P0130", "school-building-sign");
         BuildClosedSchool(school);
         ExcludeSchoolFloorBank(school);
