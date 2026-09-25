@@ -74,6 +74,10 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
     {
         _accessibility = settings;
+        // ACT1-UI.5: the XP shell is part of the 2000s world, not the game's
+        // interface. Its own (empty) theme keeps the shared Urman theme off it,
+        // so the accessibility pass recolours it node by node as before.
+        _computer.Theme ??= new Theme();
         AccessibilityPresentation.ApplyToControl(_computer, settings);
         _title.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("a5c7ad"));
         _documentTitle.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("b7c9b0"));
