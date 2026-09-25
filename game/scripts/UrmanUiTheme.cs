@@ -107,6 +107,7 @@ public static class UrmanUiTheme
 
     private static Theme? _normal;
     private static Theme? _highContrast;
+    private static Theme? _notebook;
     private static FontFile? _body;
     private static FontFile? _bodyBold;
     private static FontFile? _italic;
@@ -127,6 +128,61 @@ public static class UrmanUiTheme
     public static Theme For(bool highContrast) => highContrast
         ? _highContrast ??= Build(HighContrast, highContrast: true)
         : _normal ??= Build(Normal, highContrast: false);
+
+    /// <summary>
+    /// World documents are an old Soviet squared exercise book in a brown
+    /// cover, not the game's ink interface: dark brown ink on paper, buttons
+    /// as cover-board tabs. Deliberately not <see cref="IsShared"/>, so the
+    /// accessibility pass recolours the document node by node.
+    /// </summary>
+    public static readonly Color NotebookInk = new("34291c");
+    public static readonly Color NotebookCover = new("4a3121");
+    public static readonly Color NotebookPaper = new("e7dcc1");
+
+    public static Theme Notebook => _notebook ??= BuildNotebook();
+
+    private static Theme BuildNotebook()
+    {
+        var theme = new Theme { DefaultFont = BodyFont, DefaultFontSize = Size.Body };
+        theme.SetColor("font_color", "Label", NotebookInk);
+        theme.SetColor("font_shadow_color", "Label", Colors.Transparent);
+        theme.SetColor("default_color", "RichTextLabel", NotebookInk);
+        theme.SetFont("normal_font", "RichTextLabel", BodyFont);
+        theme.SetFont("bold_font", "RichTextLabel", BodyBoldFont);
+        theme.SetFont("italics_font", "RichTextLabel", ItalicFont);
+
+        theme.SetFont("font", "Button", BodyBoldFont);
+        theme.SetFontSize("font_size", "Button", Size.Body);
+        theme.SetColor("font_color", "Button", NotebookPaper);
+        foreach (var state in new[] { "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color" })
+            theme.SetColor(state, "Button", Colors.White);
+        theme.SetColor("font_disabled_color", "Button", NotebookInk with { A = .55f });
+        theme.SetStylebox("normal", "Button", PlateBox(NotebookCover, marginX: Space.M, marginY: Space.S));
+        theme.SetStylebox("hover", "Button", PlateBox(NotebookCover.Darkened(.25f), NotebookInk, 2, marginX: Space.M, marginY: Space.S));
+        theme.SetStylebox("pressed", "Button", PlateBox(NotebookCover.Darkened(.45f), NotebookInk, 2, marginX: Space.M, marginY: Space.S));
+        theme.SetStylebox("hover_pressed", "Button", PlateBox(NotebookCover.Darkened(.45f), NotebookInk, 2, marginX: Space.M, marginY: Space.S));
+        var focus = Outline(NotebookInk, 3);
+        focus.ExpandMarginLeft = focus.ExpandMarginRight = focus.ExpandMarginTop = focus.ExpandMarginBottom = 3;
+        theme.SetStylebox("focus", "Button", focus);
+        theme.SetStylebox("disabled", "Button", PlateBox(NotebookCover with { A = .28f }, marginX: Space.M, marginY: Space.S));
+
+        foreach (var type in new[] { "VScrollBar", "HScrollBar" })
+        {
+            theme.SetStylebox("scroll", type, PlateBox(NotebookInk with { A = .12f }, marginX: 2, marginY: 2));
+            theme.SetStylebox("grabber", type, PlateBox(NotebookCover with { A = .7f }, marginX: 2, marginY: 2));
+            theme.SetStylebox("grabber_highlight", type, PlateBox(NotebookCover, marginX: 2, marginY: 2));
+            theme.SetStylebox("grabber_pressed", type, PlateBox(NotebookInk, marginX: 2, marginY: 2));
+        }
+        foreach (var type in new[] { "LineEdit", "TextEdit" })
+        {
+            theme.SetStylebox("normal", type, new StyleBoxEmpty());
+            theme.SetStylebox("read_only", type, new StyleBoxEmpty());
+            theme.SetColor("font_color", type, NotebookInk);
+            theme.SetColor("font_readonly_color", type, NotebookInk);
+            theme.SetColor("selection_color", type, new Color(.72f, .55f, .25f, .45f));
+        }
+        return theme;
+    }
 
     private static FontFile LoadFont(string file) =>
         ResourceLoader.Load<FontFile>($"{FontDirectory}/{file}")

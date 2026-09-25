@@ -2949,6 +2949,26 @@
       "qa": "Tatar glyph coverage verified with fontTools cmap 2026-09-25",
       "status": "integrated-candidate",
       "releaseDisposition": "runtime-referenced by the shared UI theme"
+    },
+    {
+      "id": "ui.document.notebook_sheet.v01",
+      "source": "eng/generate-notebook-paper.py (procedural, seed 19861001, no input images), 2026-09-25",
+      "derived": "game/assets/ui/document_notebook_sheet.png",
+      "derivedSha256": "064b73b35e62f81d49ae2d9e6d9e45762e529662ef6195ee2a9b2daee0633c3f",
+      "generator": "eng/generate-notebook-paper.py; numpy periodic noise + drawn grid; deterministic",
+      "license": "Project-original procedural texture",
+      "scale": 1,
+      "triangleBudget": 0,
+      "textureBudget": 1024,
+      "materials": [
+        "DocumentPanel (StyleBoxTexture, 9-patch left 94 / others 25, centre tiles)"
+      ],
+      "materialOwner": "game/scenes/ui/document_ui.tscn; UrmanUiTheme.Notebook (ACT1-UI.4)",
+      "collision": "n/a",
+      "lod": "n/a",
+      "qa": "centre tiles seamlessly (wrap diff equals neighbour diff); frames from act1_ui_readability_smoke_test 2026-09-25; art acceptance pending",
+      "status": "integrated-candidate; art-lock-pending",
+      "releaseDisposition": "runtime-referenced by the document reader"
     }
   ]
 }

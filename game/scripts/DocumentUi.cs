@@ -12,6 +12,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
 {
     private Control _screen = null!;
     private Control _documentView = null!;
+    private StyleBox? _notebookSheet;
     private Label _title = null!;
     private RichTextLabel _body = null!;
     private DocumentImageReader _images = null!;
@@ -37,6 +38,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _foley = UiFoley.Attach(this);        AddToGroup(AccessibilityPresentation.TargetGroup);
         _screen = GetNode<Control>("Screen");
         _documentView = GetNode<Control>("Screen/Document");
+        _notebookSheet = _documentView.GetThemeStylebox("panel");
         _title = GetNode<Label>("Screen/Document/Layout/Header/Title");
         _body = GetNode<RichTextLabel>("Screen/Document/Layout/Reader/Body");
         _images = DocumentImageReader.Attach(_body);
@@ -59,8 +61,24 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         _accessibility = settings;
         RefitToViewport();
+        _documentView.Theme = UrmanUiTheme.Notebook;
         AccessibilityPresentation.ApplyToControl(_documentView, settings);
-        var ink = settings.HighContrast ? Colors.Black : new Color("34291c");
+        // ACT1-UI.4: documents are a world object — an old Soviet squared
+        // exercise book in a brown cover (scene StyleBoxTexture). High contrast
+        // trades the aged grid for a plain white page so nothing competes
+        // with the black ink.
+        if (settings.HighContrast)
+        {
+            var plain = new StyleBoxFlat { BgColor = Colors.White, BorderColor = Colors.Black };
+            plain.SetBorderWidthAll(6);
+            plain.SetContentMarginAll(36);
+            _documentView.AddThemeStyleboxOverride("panel", plain);
+        }
+        else if (_notebookSheet is not null)
+        {
+            _documentView.AddThemeStyleboxOverride("panel", _notebookSheet);
+        }
+        var ink = settings.HighContrast ? Colors.Black : UrmanUiTheme.NotebookInk;
         _title.AddThemeColorOverride("font_color", ink);
         _title.AddThemeColorOverride("font_shadow_color", Colors.Transparent);
         _title.AddThemeConstantOverride("shadow_offset_x", 0);
@@ -70,14 +88,14 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _status.AddThemeColorOverride("font_shadow_color", Colors.Transparent);
         _status.AddThemeConstantOverride("shadow_offset_x", 0);
         _status.AddThemeConstantOverride("shadow_offset_y", 0);
+        // Buttons are cover-board tabs from the notebook theme; the per-node
+        // accessibility pass above gives their light text. A disabled tab
+        // fades onto the paper, so its text turns to faded ink instead.
         foreach (var button in new[] { _close, _save })
         {
-            button.AddThemeColorOverride("font_color", ink);
-            button.AddThemeColorOverride("font_hover_color", Colors.Black);
-            button.AddThemeColorOverride("font_pressed_color", Colors.Black);
-            button.AddThemeColorOverride("font_focus_color", Colors.Black);
-            button.AddThemeColorOverride("font_outline_color", Colors.Transparent);
-            button.AddThemeConstantOverride("outline_size", 0);
+            button.AddThemeColorOverride("font_disabled_color",
+                settings.HighContrast ? Colors.Black : UrmanUiTheme.NotebookInk with { A = .55f });
+            if (!settings.HighContrast) button.AddThemeConstantOverride("outline_size", 0);
         }
         _excerpts?.ApplyPresentation();
     }

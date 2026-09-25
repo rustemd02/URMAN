@@ -1,54 +1,20 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource path="res://scripts/DocumentUi.cs" type="Script" id="1_ui"]
+[ext_resource path="res://assets/ui/document_notebook_sheet.png" type="Texture2D" id="2_sheet"]
 
-[sub_resource type="StyleBoxFlat" id="DocumentPanel"]
-bg_color = Color(0.84, 0.77, 0.63, 1)
-border_width_left = 7
-border_width_top = 7
-border_width_right = 7
-border_width_bottom = 7
-border_color = Color(0.105, 0.09, 0.07, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-content_margin_left = 36.0
-content_margin_top = 30.0
-content_margin_right = 36.0
-content_margin_bottom = 28.0
-
-[sub_resource type="StyleBoxFlat" id="DocumentButton"]
-bg_color = Color(0.74, 0.64, 0.46, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.27, 0.22, 0.16, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-content_margin_left = 16.0
-content_margin_top = 8.0
-content_margin_right = 16.0
-content_margin_bottom = 8.0
-
-[sub_resource type="StyleBoxFlat" id="DocumentFocus"]
-bg_color = Color(0.82, 0.69, 0.43, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.12, 0.09, 0.06, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-content_margin_left = 15.0
-content_margin_top = 7.0
-content_margin_right = 15.0
-content_margin_bottom = 7.0
+[sub_resource type="StyleBoxTexture" id="DocumentPanel"]
+texture = ExtResource("2_sheet")
+texture_margin_left = 94.0
+texture_margin_top = 25.0
+texture_margin_right = 25.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+content_margin_left = 112.0
+content_margin_top = 40.0
+content_margin_right = 48.0
+content_margin_bottom = 36.0
 
 [node name="DocumentUi" type="CanvasLayer"]
 layer = 21
@@ -103,9 +69,6 @@ autowrap_mode = 2
 layout_mode = 2
 focus_mode = 2
 custom_minimum_size = Vector2(0, 44)
-theme_override_styles/normal = SubResource("DocumentButton")
-theme_override_styles/hover = SubResource("DocumentFocus")
-theme_override_styles/focus = SubResource("DocumentFocus")
 text = "Закрыть [Esc]"
 
 [node name="Reader" type="VBoxContainer" parent="Screen/Document/Layout"]
@@ -139,7 +102,4 @@ autowrap_mode = 2
 layout_mode = 2
 focus_mode = 2
 custom_minimum_size = Vector2(0, 44)
-theme_override_styles/normal = SubResource("DocumentButton")
-theme_override_styles/hover = SubResource("DocumentFocus")
-theme_override_styles/focus = SubResource("DocumentFocus")
 text = "В журнал"
