@@ -10,7 +10,8 @@ namespace Urman.Godot;
 /// large warm-white stencil letters over ПРОДУКТЫ, two almost faded buds at the
 /// ends, four rough steel angles on visible bolts, rust rings and runs from the
 /// top bolts, chips down to zinc and rust, snow only on the top edge. The right
-/// end hangs 10 mm low. A separate newer plate gives the opening hours in
+/// end hangs 10 mm low. The painted face is a flat ImageGen unwrap of exactly
+/// that brief on one quad; frame, angles, bolts and snow stay geometry. A separate newer plate gives the opening hours in
 /// Tatar and Russian. Presentation only; the shop's doors, address and
 /// interactions are untouched.
 /// </summary>
@@ -44,53 +45,26 @@ public partial class Act1ConnectedWorld
         const float faceZ = .049f;
         // Frame and the painted sheet folded over it.
         Part("Frame", new(1.8f, .52f, .024f), new(0, 0, .035f), "55483a", "wood");
-        Part("Sheet", new(1.76f, .48f, .004f), new(0, 0, faceZ), "315449", "metal");
-        // Cream border strip, 15 mm wide and 25 mm in from the edge.
-        foreach (var y in new[] { -.2075f, .2075f })
-            Part($"Border{y:0.00}", new(1.695f, .015f, .002f), new(0, y, faceZ + .003f), "c8b98f", "metal");
-        foreach (var x in new[] { -.8475f, .8475f })
-            Part($"Border{x:0.00}", new(.015f, .43f, .002f), new(x, 0, faceZ + .003f), "c8b98f", "metal");
-        // Old stencil lettering: Tatar large, Russian below.
-        Label3D Letters(string name, string text, float capHeight, float y)
+        Part("Sheet", new(1.76f, .46f, .004f), new(0, 0, faceZ), "315449", "metal");
+        // The painted face is one textured sheet, "origami" from a flat
+        // ImageGen unwrap (game/assets/textures/act1/README.md): border,
+        // stencil letters, buds, bolt holes, rust runs and chips are all in
+        // the paint. The UV window crops the image's white margins.
+        var face = new MeshInstance3D
         {
-            const int fontSize = 64;
-            var label = new Label3D
+            Name = "PaintedFace", Mesh = new QuadMesh { Size = new(1.76f, .46f) }, Position = new(0, 0, faceZ + .0021f),
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+            MaterialOverride = new StandardMaterial3D
             {
-                Name = name, Text = text, FontSize = fontSize, PixelSize = capHeight / (.72f * fontSize),
-                Position = new(0, y, faceZ + .004f), Modulate = new Color("e3ddc7"), OutlineSize = 0,
-                Shaded = true, DoubleSided = false, AlphaCut = Label3D.AlphaCutMode.Discard
-            };
-            sign.AddChild(label);
-            return label;
-        }
-        Letters("Ashamlyklar", "АШАМЛЫКЛАР", .138f, .07f);
-        Letters("Produkty", "ПРОДУКТЫ", .105f, -.12f);
-        // Almost faded buds at both ends.
-        foreach (var side in new[] { -1f, 1f })
+                AlbedoTexture = GD.Load<Texture2D>("res://assets/textures/act1/shop_sign_ashamlyklar_v1.png"),
+                Uv1Scale = new(.991f, .742f, 1f), Uv1Offset = new(.004f, .131f, 0f),
+                Roughness = .82f, Metallic = .15f, TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmapsAnisotropic
+            }
+        };
+        sign.AddChild(face);
+        // Washers and bolts in the four painted bolt holes.
+        foreach (var (x, y) in new[] { (-.847f, .175f), (.813f, .175f), (-.847f, -.186f), (.815f, -.186f) })
         {
-            var x = side * .79f;
-            Part($"BudPetal{side}", new(.05f, .06f, .001f), new(x, .03f, faceZ + .0025f), "a95645", "metal", 45f);
-            Part($"BudLeafL{side}", new(.018f, .05f, .001f), new(x - .025f, -.03f, faceZ + .0025f), "77835e", "metal", 35f);
-            Part($"BudLeafR{side}", new(.018f, .05f, .001f), new(x + .025f, -.03f, faceZ + .0025f), "77835e", "metal", -35f);
-            Part($"BudStem{side}", new(.006f, .06f, .001f), new(x, -.04f, faceZ + .0025f), "77835e", "metal");
-        }
-        // Four steel angles to the wall, bolts with washers, rust at every bolt.
-        foreach (var x in new[] { -.7f, .7f })
-        foreach (var y in new[] { -.27f, .27f })
-        {
-            Part($"AngleWall{x}_{y}", new(.04f, .003f, .06f), new(x, y, .025f), "494a46", "metal");
-            Part($"AngleFace{x}_{y}", new(.04f, .04f, .003f), new(x, y - Math.Sign(y) * .018f, .002f), "494a46", "metal");
-        }
-        foreach (var x in new[] { -.82f, .82f })
-        foreach (var y in new[] { -.21f, .21f })
-        {
-            var rust = new MeshInstance3D
-            {
-                Name = $"RustRing{x}_{y}", Mesh = new CylinderMesh { TopRadius = .02f, BottomRadius = .02f, Height = .001f, RadialSegments = 12 },
-                Position = new(x, y, faceZ + .0022f), RotationDegrees = new(90, 0, 0),
-                MaterialOverride = PainterlyMaterialLibrary.ForColor("713d29", "metal", sheltered: true)
-            };
-            sign.AddChild(rust);
             var washer = new MeshInstance3D
             {
                 Name = $"Washer{x}_{y}", Mesh = new CylinderMesh { TopRadius = .009f, BottomRadius = .009f, Height = .0015f, RadialSegments = 10 },
@@ -105,22 +79,14 @@ public partial class Act1ConnectedWorld
                 MaterialOverride = PainterlyMaterialLibrary.ForColor("555650", "metal", sheltered: true)
             };
             sign.AddChild(bolt);
-            if (y > 0)
-            {
-                // Rust runs down from the two top bolts.
-                var length = x < 0 ? .16f : .09f;
-                Part($"RustRun{x}", new(.008f, length, .0008f), new(x + .004f, y - .02f - length * .5f, faceZ + .0021f), "8a5135", "metal");
-                Part($"RustRunThin{x}", new(.003f, length * .6f, .0008f), new(x - .008f, y - .02f - length * .3f, faceZ + .0021f), "8a5135", "metal");
-            }
         }
-        // Chips to zinc and a few old peeled patches, heavier along the edges.
-        foreach (var (x, y, w, h, colour) in new[]
-                 {
-                     (-.62f, .225f, .05f, .012f, "85877f"), (.31f, .228f, .03f, .01f, "85877f"), (.55f, -.226f, .06f, .014f, "85877f"),
-                     (-.2f, -.228f, .04f, .01f, "85877f"), (-.86f, -.1f, .012f, .04f, "85877f"), (.4f, -.19f, .08f, .035f, "59372a"),
-                     (-.45f, .19f, .05f, .03f, "59372a"), (.86f, .12f, .012f, .05f, "59372a")
-                 })
-            Part($"Chip{x}_{y}", new(w, h, .0008f), new(x, y, faceZ + .0021f), colour, "metal");
+        // Four steel angles to the wall.
+        foreach (var x in new[] { -.7f, .7f })
+        foreach (var y in new[] { -.27f, .27f })
+        {
+            Part($"AngleWall{x}_{y}", new(.04f, .003f, .06f), new(x, y, .025f), "494a46", "metal");
+            Part($"AngleFace{x}_{y}", new(.04f, .04f, .003f), new(x, y - Math.Sign(y) * .018f, .002f), "494a46", "metal");
+        }
         // Snow only on the top edge, uneven, hanging a little over the front.
         for (var i = 0; i < 9; i++)
         {

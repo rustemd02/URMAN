@@ -2787,6 +2787,24 @@
       "lod": "LOD0 + Decimate LOD1 (35%); Godot 0-18m / 14-48m",
       "status": "art candidate 2026-09-24: Mansur, Gulsina, Naila on a 65-bone humanoid rig with Idle/Tension/Talk/Walk library clips; walkers and the player's body stay on character.fullgame kit",
       "releaseDisposition": "include-in-act1-release; runtime-loaded by GeneratedCharacterKitDressing for human prefixes"
+    },
+    {
+      "id": "texture.act1.shop-sign-ashamlyklar",
+      "source": "ChatGPT image generation in the author's URMAN project, 2026-09-25; exact prompt in game/assets/textures/act1/README.md",
+      "derived": "game/assets/textures/act1/shop_sign_ashamlyklar_v1.png",
+      "derivedSha256": "146f5487ff8a2d00d25f477c0504ec481e4c75684c9c7ca1be8325195f8f2578",
+      "generator": "ChatGPT image generation; generate from text, no input images; canvas re-encode to PNG, no pixel edits",
+      "license": "Project-generated through the author's ChatGPT account; no third-party reference image",
+      "scale": 1.0,
+      "triangleBudget": 2,
+      "textureBudget": 2161,
+      "materials": [
+        "ShopSignPaintedFace"
+      ],
+      "collision": "not applicable",
+      "lod": "texture mipmaps",
+      "status": "in-engine-candidate; art-lock-pending; Tatar spelling in language review",
+      "releaseDisposition": "include-in-act1-release; village shop sign face"
     }
   ]
 }
