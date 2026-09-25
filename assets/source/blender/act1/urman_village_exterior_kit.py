@@ -13,6 +13,7 @@ Run with Blender 4.5+:
 from __future__ import annotations
 
 import argparse
+import bmesh
 import hashlib
 import json
 import math
@@ -2139,6 +2140,24 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         def local_box(name, u, inset, z, sx, sy, sz, mat):
             obj = box(name, point(u, inset, z), (sx, sy, sz), mat)
             obj.rotation_euler.z = math.atan2(ty, tx)
+        def local_profile(name, u, inset, z, outline, thickness, mat):
+            # A flat carved board: the outline (du, dz) around (u, z) in the
+            # wall plane, extruded outward. Nailed over the casing like the
+            # kokoshnik and towel boards of a Tatar window.
+            front_pts = [point(u + du, inset - thickness / 2, z + dz) for du, dz in outline]
+            back_pts = [point(u + du, inset + thickness / 2, z + dz) for du, dz in outline]
+            n = len(outline)
+            faces = [tuple(range(n)), tuple(range(2 * n - 1, n - 1, -1))]
+            faces += [(i, (i + 1) % n, n + (i + 1) % n, n + i) for i in range(n)]
+            obj = mesh_object(f"{prefix}_{name}_LOD0", parent, front_pts + back_pts, faces, (mat,),
+                              component_root=root_name, role="carved nalichnik / frieze board")
+            bm = bmesh.new()
+            bm.from_mesh(obj.data)
+            bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+            bm.to_mesh(obj.data)
+            bm.free()
+            return obj
+
         casing_inset = HERO_CASING_INSET if hero_layout else PARCEL_CASING_INSET
         casing_depth = HERO_CASING_DEPTH if hero_layout else PARCEL_CASING_DEPTH
         for i, (x0, x1, z0, z1, kind) in enumerate(holes):
@@ -2160,6 +2179,35 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                 # retired. Concept target: solid wall, quiet dark opening.
                 local_box(tag+"_Mullion", x, .12, z, .045, .06, h-.07, hero_joinery)
                 local_box(tag+"_Sill", x, -.09, z0-.08, w+.25, .30, .075, hero_sill)
+                if hero_layout:
+                    # ACT1-DEPTH.12 package 3: the carved nalichnik of the menu
+                    # reference, in bold shapes that still read at street
+                    # distance: a kokoshnik crest over the window with a
+                    # rosette, and a towel board with three lobes under the sill.
+                    face_inset = -HERO_CASING_OUTER + .004
+                    hw = w / 2 + .20
+                    crest = [(-hw, 0), (hw, 0), (hw, .09), (hw * .62, .15), (hw * .34, .27), (hw * .14, .37),
+                             (0, .41), (-hw * .14, .37), (-hw * .34, .27), (-hw * .62, .15), (-hw, .09)]
+                    local_profile(tag + "_Kokoshnik", x, face_inset, z1 + .085, crest, .045, hero_joinery)
+                    rosette = [(math.cos(k * math.tau / 10) * (.075 if k % 2 == 0 else .045),
+                                math.sin(k * math.tau / 10) * (.075 if k % 2 == 0 else .045)) for k in range(10)]
+                    local_profile(tag + "_KokoshnikRosette", x, face_inset - .03, z1 + .085 + .2, rosette, .016, hero_sill)
+                    for side in (-1, 1):
+                        drop = [(0, .05), (.03, 0), (0, -.06), (-.03, 0)]
+                        local_profile(tag + f"_KokoshnikDrop{side}", x + side * hw * .6, face_inset - .03, z1 + .085 + .08,
+                                      drop, .016, hero_sill)
+                        ear = [(-.05, -.05), (.05, -.05), (.05, .05), (-.05, .05)]
+                        local_profile(tag + f"_Ear{side}", x + side * (w / 2 + .035), face_inset - .02, z1 + .035, ear, .02, hero_sill)
+                    tw = w / 2 + .14
+                    towel = [(tw, 0)]
+                    for k in range(1, 25):
+                        t = k / 24
+                        lobe = abs(math.sin(math.pi * 3 * t))
+                        towel.append((tw - 2 * tw * t, -.13 - .07 * lobe))
+                    towel.append((-tw, 0))
+                    local_profile(tag + "_Towel", x, face_inset, z0 - .125, towel, .04, hero_joinery)
+                    diamond = [(0, .045), (.05, 0), (0, -.045), (-.05, 0)]
+                    local_profile(tag + "_TowelDiamond", x, face_inset - .028, z0 - .125 - .1, diamond, .016, hero_sill)
             elif kind == "Door":
                 local_box(tag+"_Handle", x+w*.30, .08, z, .045, .07, .16, "URMAN_Metal_Dulled")
 
@@ -2403,6 +2451,8 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                     (HERO_ROOF_SNOW_MATERIAL,), component_root=root_name,
                     role="solid settled snow slab wrapping the hero eave")
     if hero_layout:
+        author_hero_carving(parent, prefix, root_name, half, front, back, eave, ridge, roof_overhang, roof_thickness)
+    if hero_layout:
         for x in (-half-roof_overhang+.035,half+roof_overhang-.035):
             box(f"Eave_{x:.2f}",(x,(front+back)/2,eave-.085),(.09,depth+2*roof_overhang+.12,.19))
     else:
@@ -2493,6 +2543,107 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
     parent["geometry_pass"] = "v6 pierced wall architecture; street gable and side seni"
     parent["eave_height_m"] = eave
     parent["door_clear_height_m"] = 2.02
+
+
+def _hero_prism(name, parent, root_name, outline, plane, thickness, material_name, role):
+    """A flat board of the given outline. plane(a, b, offset) maps outline
+    coordinates and a depth offset to a component-local point."""
+    n = len(outline)
+    verts = [plane(a, b, -thickness / 2) for a, b in outline] + [plane(a, b, thickness / 2) for a, b in outline]
+    faces = [tuple(range(n)), tuple(range(2 * n - 1, n - 1, -1))]
+    faces += [(i, (i + 1) % n, n + (i + 1) % n, n + i) for i in range(n)]
+    obj = mesh_object(name, parent, verts, faces, (material_name,), component_root=root_name, role=role)
+    bm = bmesh.new()
+    bm.from_mesh(obj.data)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    bm.to_mesh(obj.data)
+    bm.free()
+    return obj
+
+
+def author_hero_carving(parent, prefix, root_name, half, front, back, eave, ridge, overhang, roof_thickness):
+    """ACT1-DEPTH.12 packages 3 and 5 on the hero: the carved podzor frieze
+    under the eaves and across the gable base, wide pricheliny along the gable
+    verges with scalloped lower edges and a towel at the apex, and icicles
+    hanging from the loaded eaves, as on the menu reference."""
+    teal, ivory = HERO_TRIM_TEAL_MATERIAL, HERO_TRIM_IVORY_MATERIAL
+    face = HERO_LOG_BULGE + HERO_LOG_EMBED + .02
+    band_low, band_high = eave - .17, eave - .005
+    band_mid = (band_low + band_high) / 2
+
+    def teeth(tag, count, place):
+        for i in range(count):
+            _hero_prism(f"{prefix}_{tag}Tooth{i:02d}_LOD0", parent, root_name,
+                        [(-.045, 0), (0, -.06), (.045, 0), (0, .06)], lambda a, b, d, i=i: place(i, a, b, d),
+                        .014, ivory, "podzor frieze tooth")
+
+    # Side walls: a teal board under the eave with a row of ivory teeth.
+    for side in (-1, 1):
+        x = side * (half + face)
+        y0, y1 = front - .08, back + .08
+        _hero_prism(f"{prefix}_Podzor{side}_LOD0", parent, root_name,
+                    [(y0, band_low), (y1, band_low), (y1, band_high), (y0, band_high)],
+                    lambda a, b, d, x=x, side=side: (x + side * d, a, b), .035, teal, "podzor frieze board")
+        count = int((y1 - y0) / .24)
+        teeth(f"Podzor{side}", count, lambda i, a, b, d, x=x, side=side, y0=y0:
+              (x + side * (.025 + d), y0 + .12 + i * .24 + a, band_mid + b * .9))
+    # Gable base: the same band across the street and rear walls.
+    for label, y, out in (("Street", front, -1.0), ("Rear", back, 1.0)):
+        yy = y + out * face
+        _hero_prism(f"{prefix}_Podzor{label}_LOD0", parent, root_name,
+                    [(-half - .12, band_low), (half + .12, band_low), (half + .12, band_high), (-half - .12, band_high)],
+                    lambda a, b, d, yy=yy, out=out: (a, yy + out * d, b), .035, teal, "podzor frieze board")
+        count = int((2 * half + .1) / .24)
+        teeth(f"Podzor{label}", count, lambda i, a, b, d, yy=yy, out=out:
+              (-half + .07 + i * .24 + a, yy + out * (.025 + d), band_mid + b * .9))
+    # Pricheliny: wide carved boards under each verge of the street gable,
+    # scalloped along the lower edge, and a towel hanging from the apex.
+    edge_y = front - (overhang + .005) + .06
+    run = half + overhang
+    rise = ridge + .10 - (eave - .02)
+    length = math.hypot(run, rise)
+    for side in (-1, 1):
+        def along(t, drop, d, side=side):
+            # t: 0 at the eave end, 1 at the apex; the board hangs plumb
+            # `drop` metres below the verge line.
+            return (side * run * (1 - t), edge_y + d, eave - .02 + rise * t - drop)
+        outline = [(0, 0), (1, 0), (1, .30), (0, .30)]
+        _hero_prism(f"{prefix}_Prichelina{side}_LOD0", parent, root_name, outline,
+                    lambda a, b, d: along(a, b, d), .04, teal, "carved prichelina")
+        scallops = max(4, int(length / .32))
+        for k in range(scallops):
+            t0, t1 = (k + .1) / scallops, (k + .9) / scallops
+            lobe = [(t0, .30)] + [(t0 + (t1 - t0) * j / 6, .30 + .09 * math.sin(math.pi * j / 6)) for j in range(1, 6)] + [(t1, .30)]
+            _hero_prism(f"{prefix}_Prichelina{side}Scallop{k:02d}_LOD0", parent, root_name, lobe,
+                        lambda a, b, d: along(a, b, d), .03, ivory, "prichelina scallop")
+    towel = [(-.16, 0), (.16, 0)]
+    for j in range(1, 12):
+        t = j / 12
+        towel.append((.16 - .32 * t, -.72 - .10 * abs(math.sin(math.pi * 2 * t))))
+    towel.append((-.16, -.72))
+    top = ridge + .02
+    _hero_prism(f"{prefix}_GableTowel_LOD0", parent, root_name, list(reversed(towel)),
+                lambda a, b, d: (a, edge_y + .01 + d, top + b), .045, teal, "prichelina towel")
+    rosette = [(math.cos(k * math.tau / 12) * (.1 if k % 2 == 0 else .06),
+                math.sin(k * math.tau / 12) * (.1 if k % 2 == 0 else .06)) for k in range(12)]
+    _hero_prism(f"{prefix}_GableTowelRosette_LOD0", parent, root_name, rosette,
+                lambda a, b, d: (a, edge_y - .025 + d, top - .38 + b), .018, ivory, "prichelina rosette")
+    # Icicles along both loaded eaves.
+    for side in (-1, 1):
+        x = side * (half + overhang + .06)
+        y = front - overhang
+        index = 0
+        while y < back + overhang:
+            length_i = .07 + .28 * abs(math.sin(y * 7.3 + side)) ** 2
+            radius = .016 + .012 * abs(math.sin(y * 3.1))
+            top_z = eave - roof_thickness + .02
+            ring = [(x + math.cos(k * math.tau / 6) * radius, y + math.sin(k * math.tau / 6) * radius, top_z) for k in range(6)]
+            verts = ring + [(x, y, top_z - length_i)]
+            faces = [tuple(range(5, -1, -1))] + [(k, (k + 1) % 6, 6) for k in range(6)]
+            mesh_object(f"{prefix}_Icicle{side}_{index:02d}_LOD0", parent, verts, faces, (HERO_ROOF_SNOW_MATERIAL,),
+                        component_root=root_name, role="eave icicle")
+            index += 1
+            y += .16 + .1 * abs(math.sin(y * 11.0))
 
 
 def author_hero_house(root: bpy.types.Object) -> bpy.types.Object:
