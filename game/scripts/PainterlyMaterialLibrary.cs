@@ -544,6 +544,21 @@ public static class PainterlyMaterialLibrary
         return material;
     }
 
+    /// <summary>
+    /// The same painterly finish without weather: no settled snow on top faces.
+    /// Returns the material itself when it is not a cached painterly one.
+    /// </summary>
+    public static Material Sheltered(Material material)
+    {
+        foreach (var (key, value) in Materials)
+        {
+            if (!ReferenceEquals(value, material) || !key.EndsWith(":exposed", StringComparison.Ordinal)) continue;
+            var parts = key.Split(':');
+            return ForColor(parts[1], parts[0], sheltered: true);
+        }
+        return material;
+    }
+
     public static Material ForColor(string htmlColor, string surface = "", bool sheltered = false)
     {
         var cacheKey = $"{surface}:{htmlColor}:{(sheltered ? "sheltered" : "exposed")}";

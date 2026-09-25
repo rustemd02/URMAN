@@ -428,6 +428,7 @@ public partial class Act1ConnectedWorld : Node3D
         RepairStandaloneZiratFenceJunction();
         BuildShopUses();
         HideOverlappingStructures();
+        RelocateOverlappingHouses();
         BuildAddressRegistry();
         // Street faces of the yards: palisadnik, painted gates, board fences.
         BuildStreetFrontages();

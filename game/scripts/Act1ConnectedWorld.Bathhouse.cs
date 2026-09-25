@@ -57,31 +57,31 @@ public partial class Act1ConnectedWorld
 
         var footingDepth = high - low + .24f;
         FacilitySolid(_bathhouse, "BathStoneFoundation", new(4.18f, footingDepth, 5.18f), new(0, -footingDepth * .5f - .015f, 0), "67665b", "stone");
-        FacilitySolid(_bathhouse, "BathFloor", new(4, .06f, 5), new(0, -.03f, 0), "927456", "wood_furniture");
-        FacilitySolid(_bathhouse, "BathCeiling", new(4, .10f, 5), new(0, 2.60f, 0), "7b6048", "wood");
-        FacilitySolid(_bathhouse, "BathWestWall", new(.20f, 2.60f, 5), new(-2, 1.30f, 0), "74604b", "wood");
-        FacilitySolid(_bathhouse, "BathFrontWall", new(4, 2.60f, .20f), new(0, 1.30f, 2.5f), "74604b", "wood");
+        FacilitySolid(_bathhouse, "BathFloor", new(4, .06f, 5), new(0, -.03f, 0), "5a4634", "wood_furniture");
+        FacilitySolid(_bathhouse, "BathCeiling", new(4, .10f, 5), new(0, 2.60f, 0), "2c231b", "wood");
+        FacilitySolid(_bathhouse, "BathWestWall", new(.20f, 2.60f, 5), new(-2, 1.30f, 0), "3a2e24", "wood");
+        FacilitySolid(_bathhouse, "BathFrontWall", new(4, 2.60f, .20f), new(0, 1.30f, 2.5f), "3a2e24", "wood");
         // Facilities03: the former outward arc hit the existing firewood
         // shelter's Post. Shift only this opening 18 cm along the same wall
         // and hang the full-width leaf on its opposite jamb. Preserve the
         // shelter, useful logs, footprint, landing and 98-degree outward arc.
-        FacilitySolid(_bathhouse, "BathEastWallBack", new(.20f, 2.60f, 3.48f), new(2, 1.30f, -.76f), "74604b", "wood");
-        FacilitySolid(_bathhouse, "BathEastWallFront", new(.20f, 2.60f, .27f), new(2, 1.30f, 2.365f), "74604b", "wood");
-        FacilitySolid(_bathhouse, "BathEastDoorLintel", new(.20f, .48f, 1.25f), new(2, 2.36f, 1.605f), "74604b", "wood");
-        FacilitySolid(_bathhouse, "BathRearBelowWindow", new(4, 1.225f, .20f), new(0, .6125f, -2.5f), "74604b", "wood");
-        FacilitySolid(_bathhouse, "BathRearAboveWindowLow", new(4, .05f, .20f), new(0, 1.90f, -2.5f), "74604b", "wood");
-        FacilitySolid(_bathhouse, "BathRearAboveWindowHigh", new(4, .435f, .20f), new(0, 2.3825f, -2.5f), "74604b", "wood");
-        FacilitySolid(_bathhouse, "BathVentWallLeft", new(.54f, .24f, .20f), new(-1.73f, 2.045f, -2.5f), "74604b", "wood");
-        FacilitySolid(_bathhouse, "BathVentWallRight", new(3.14f, .24f, .20f), new(.43f, 2.045f, -2.5f), "74604b", "wood");
-        FacilitySolid(_bathhouse, "BathRearWindowLeft", new(2.275f, .65f, .20f), new(-.8625f, 1.55f, -2.5f), "74604b", "wood");
-        FacilitySolid(_bathhouse, "BathRearWindowRight", new(.975f, .65f, .20f), new(1.5125f, 1.55f, -2.5f), "74604b", "wood");
+        FacilitySolid(_bathhouse, "BathEastWallBack", new(.20f, 2.60f, 3.48f), new(2, 1.30f, -.76f), "3a2e24", "wood");
+        FacilitySolid(_bathhouse, "BathEastWallFront", new(.20f, 2.60f, .27f), new(2, 1.30f, 2.365f), "3a2e24", "wood");
+        FacilitySolid(_bathhouse, "BathEastDoorLintel", new(.20f, .48f, 1.25f), new(2, 2.36f, 1.605f), "3a2e24", "wood");
+        FacilitySolid(_bathhouse, "BathRearBelowWindow", new(4, 1.225f, .20f), new(0, .6125f, -2.5f), "3a2e24", "wood");
+        FacilitySolid(_bathhouse, "BathRearAboveWindowLow", new(4, .05f, .20f), new(0, 1.90f, -2.5f), "3a2e24", "wood");
+        FacilitySolid(_bathhouse, "BathRearAboveWindowHigh", new(4, .435f, .20f), new(0, 2.3825f, -2.5f), "3a2e24", "wood");
+        FacilitySolid(_bathhouse, "BathVentWallLeft", new(.54f, .24f, .20f), new(-1.73f, 2.045f, -2.5f), "3a2e24", "wood");
+        FacilitySolid(_bathhouse, "BathVentWallRight", new(3.14f, .24f, .20f), new(.43f, 2.045f, -2.5f), "3a2e24", "wood");
+        FacilitySolid(_bathhouse, "BathRearWindowLeft", new(2.275f, .65f, .20f), new(-.8625f, 1.55f, -2.5f), "3a2e24", "wood");
+        FacilitySolid(_bathhouse, "BathRearWindowRight", new(.975f, .65f, .20f), new(1.5125f, 1.55f, -2.5f), "3a2e24", "wood");
         FacilityWindow(_bathhouse, "BathWindow", new(.65f, 1.55f, -2.49f), new(.75f, .65f));
         // The narrow board courses follow the real walls and stop at openings.
         for (var course = 1; course < 13; course++)
         {
             var y = course * .20f;
-            AddVisualBox(_bathhouse, "BathWestBoardSeam" + course, new(.012f, .008f, 4.95f), new(-2.106f, y, 0), "4f4235", "wood");
-            AddVisualBox(_bathhouse, "BathFrontBoardSeam" + course, new(3.95f, .008f, .012f), new(0, y, 2.606f), "4f4235", "wood");
+            AddVisualBox(_bathhouse, "BathWestBoardSeam" + course, new(.012f, .008f, 4.95f), new(-2.106f, y, 0), "211a14", "wood");
+            AddVisualBox(_bathhouse, "BathFrontBoardSeam" + course, new(3.95f, .008f, .012f), new(0, y, 2.606f), "211a14", "wood");
         }
         var roof = AddVisualPitchedRoof(_bathhouse, "BathMetalRoof", 4.12f, 5.12f, 2.52f, .58f, .20f, "636a66");
         roof.MaterialOverride = PainterlyMaterialLibrary.ForColor("636a66", "metal");
@@ -89,14 +89,14 @@ public partial class Act1ConnectedWorld
         snow.MaterialOverride = PainterlyMaterialLibrary.ForColor("dce4e5", "snow_ground");
         core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").ReconcileBuildingFoliage(_bathhouse);
         foreach (var x in new[] { -2.09f, 2.09f })
-            AddVisualBox(_bathhouse, "BathEave" + x, new(.11f, .17f, 5.43f), new(x, 2.61f, 0), "574b3c", "wood");
+            AddVisualBox(_bathhouse, "BathEave" + x, new(.11f, .17f, 5.43f), new(x, 2.61f, 0), "2e251d", "wood");
         foreach (var z in new[] { -2.48f, 2.48f })
         foreach (var x in new[] { -1.90f, 1.90f })
-            AddVisualBox(_bathhouse, $"BathCornerPost{x}_{z}", new(.16f, 2.55f, .17f), new(x, 1.275f, z), "665340", "wood");
+            AddVisualBox(_bathhouse, $"BathCornerPost{x}_{z}", new(.16f, 2.55f, .17f), new(x, 1.275f, z), "33281f", "wood");
 
-        FacilitySolid(_bathhouse, "BathPartitionLeft", new(2, 2.55f, .14f), new(-1, 1.275f, .35f), "a78962", "wood_furniture");
-        FacilitySolid(_bathhouse, "BathPartitionRight", new(.90f, 2.55f, .14f), new(1.55f, 1.275f, .35f), "a78962", "wood_furniture");
-        FacilitySolid(_bathhouse, "BathPartitionLintel", new(1.10f, .50f, .14f), new(.55f, 2.30f, .35f), "a78962", "wood_furniture");
+        FacilitySolid(_bathhouse, "BathPartitionLeft", new(2, 2.55f, .14f), new(-1, 1.275f, .35f), "4b3b2c", "wood_furniture");
+        FacilitySolid(_bathhouse, "BathPartitionRight", new(.90f, 2.55f, .14f), new(1.55f, 1.275f, .35f), "4b3b2c", "wood_furniture");
+        FacilitySolid(_bathhouse, "BathPartitionLintel", new(1.10f, .50f, .14f), new(.55f, 2.30f, .35f), "4b3b2c", "wood_furniture");
         var entrance = FacilityManualDoor(_bathhouse, "BathEntrance", "bathhouse/entrance", new(2.015f, 0, 2.13f), 1.10f, 2.10f, 180, -98);
         entrance.GeometryVersion = 2;
         entrance.LegacyAngleProjection = angle => Mathf.Pi - angle;
@@ -110,14 +110,14 @@ public partial class Act1ConnectedWorld
         entrance.Hinge.SetMeta("addressAccessPoint", true);
         BathEntrySteps();
         FacilityBench(_bathhouse, "BathChangingBench", new(-1.39f, 0, 1.22f), 1.28f, 90);
-        AddVisualBox(_bathhouse, "BathCoatRail", new(1.42f, .10f, .055f), new(-.98f, 1.85f, 2.375f), "887050", "wood");
+        AddVisualBox(_bathhouse, "BathCoatRail", new(1.42f, .10f, .055f), new(-.98f, 1.85f, 2.375f), "4a3a2b", "wood");
         for (var i = 0; i < 4; i++) FacilityRod(_bathhouse, "BathClothesHook" + i,
             new(-1.50f + .35f * i, 1.86f, 2.33f), new(-1.50f + .35f * i, 1.76f, 2.25f), .013f, "686b61");
         AddVisualBox(_bathhouse, "BathDryTowel", new(.36f, .69f, .018f), new(-1.1f, 1.48f, 2.28f), "c8baa0", "fabric");
         FacilityLamp(_bathhouse, "BathChangingLamp", new(.06f, 2.24f, 2.21f), "f8d399", .38f, 3.3f);
         FacilityLamp(_bathhouse, "BathShieldedWetLamp", new(1.73f, 2.12f, -.56f), "ebbd79", .28f, 3.6f);
         for (var slat = 0; slat < 4; slat++)
-            AddVisualBox(_bathhouse, "BathLampGuardSlat" + slat, new(.025f, .35f, .045f), new(1.48f + slat * .11f, 2.09f, -.40f), "8c7558", "wood");
+            AddVisualBox(_bathhouse, "BathLampGuardSlat" + slat, new(.025f, .35f, .045f), new(1.48f + slat * .11f, 2.09f, -.40f), "4a3b2c", "wood");
         FacilityBench(_bathhouse, "BathWashBench", new(1.37f, 0, -1.44f), 1.65f, 90);
         FacilityVessel(_bathhouse, "BathWashBasin", new(1.37f, .56f, -1.88f), .22f, .17f, "b1b8b0", false);
         var bucket = FacilityVessel(_bathhouse, "BathWaterBucket", new(-.82f, .30f, 1.91f), .23f, .42f, "969e98", true);
@@ -125,11 +125,12 @@ public partial class Act1ConnectedWorld
         FacilityRod(bucket, "BucketHandleLeft", new(-.23f, .11f, 0), new(-.15f, .35f, 0), .009f, "696f65");
         FacilityRod(bucket, "BucketHandleTop", new(-.15f, .35f, 0), new(.15f, .35f, 0), .009f, "696f65");
         FacilityRod(bucket, "BucketHandleRight", new(.15f, .35f, 0), new(.23f, .11f, 0), .009f, "696f65");
-        FacilitySolid(_bathhouse, "BathWaterBucketRest", new(.57f, .085f, .52f), new(-.82f, .045f, 1.91f), "776049", "wood");
+        FacilitySolid(_bathhouse, "BathWaterBucketRest", new(.57f, .085f, .52f), new(-.82f, .045f, 1.91f), "45372a", "wood");
         FacilityVessel(_bathhouse, "BathLadleBowl", new(-.49f, .17f, 2.06f), .10f, .055f, "b0b5a7", false);
         FacilityRod(_bathhouse, "BathLadleHandle", new(-.49f, .17f, 2.05f), new(-.31f, .48f, 2.30f), .022f, "997b50");
         BuildBathStove();
         BuildBathCondensation();
+        BuildBathAtmosphere();
 
         _bathStoveTarget = BathLocalTarget("BathStoveUse", "stove", "Растопить печь сухим поленом", new(-1.37f, .57f, -.51f), new(.58f, .38f, .12f), FireBathStove);
         _bathWaterTarget = BathLocalTarget("BathSteamUse", "water", "Поддать воды на камни", new(-1.34f, 1.06f, -1.03f), new(.74f, .18f, .68f), PourBathWater);
@@ -202,7 +203,7 @@ public partial class Act1ConnectedWorld
     {
         var bath = _bathhouse!;
         FacilitySolid(bath, "BathStoveHearth", new(1.22f, .025f, 1.32f), new(-1.33f, .013f, -1.09f), "827866", "stone");
-        FacilitySolid(bath, "BathStoveRearHeatShield", new(.032f, 1.55f, 1.22f), new(-1.875f, .81f, -1.09f), "9c988b", "metal");
+        FacilitySolid(bath, "BathStoveRearHeatShield", new(.032f, 1.55f, 1.22f), new(-1.875f, .81f, -1.09f), "34312c", "metal");
         foreach (var x in new[] { -1.61f, -1.05f }) foreach (var z in new[] { -1.31f, -.85f })
             FacilitySolid(bath, $"BathStoveLeg{x}_{z}", new(.065f, .19f, .065f), new(x, .12f, z), "403f36", "metal");
         FacilitySolid(bath, "BathStoveFirebox", new(.71f, .63f, .66f), new(-1.33f, .525f, -1.09f), "494c44", "metal");
@@ -212,7 +213,7 @@ public partial class Act1ConnectedWorld
             var mesh = new MeshInstance3D { Name = "BathHeaterStone" + stone,
                 Mesh = new SphereMesh { Radius = .115f, Height = .16f, RadialSegments = 8, Rings = 4 },
                 Position = new(-1.57f + (stone % 3) * .235f, 1.00f + (stone % 2) * .025f, -1.31f + (stone / 3) * .22f),
-                MaterialOverride = PainterlyMaterialLibrary.ForColor(stone % 2 == 0 ? "6c6b60" : "858274", "stone") };
+                MaterialOverride = PainterlyMaterialLibrary.ForColor(stone % 2 == 0 ? "3f3d37" : "55524a", "stone", sheltered: true) };
             bath.AddChild(mesh);
         }
         AddVisualBox(bath, "BathFireboxDoorFrame", new(.50f, .34f, .035f), new(-1.33f, .57f, -.74f), "333a32", "metal");
@@ -222,16 +223,16 @@ public partial class Act1ConnectedWorld
         for (var bar = 0; bar < 6; bar++) AddVisualBox(bath, "BathFireboxGrille" + bar, new(.018f, .25f, .015f), new(-1.495f + bar * .067f, .57f, -.702f), "383c33", "metal");
         FacilityRod(bath, "BathFireboxHandle", new(-1.05f, .47f, -.69f), new(-1.05f, .65f, -.69f), .024f, "4b4d41");
         AddVisualBox(bath, "BathAshPan", new(.42f, .11f, .075f), new(-1.33f, .29f, -.72f), "55594d", "metal");
-        FacilityRod(bath, "BathChimney", new(-1.58f, .99f, -1.31f), new(-1.58f, 3.88f, -1.31f), .095f, "686b60");
+        FacilityRod(bath, "BathChimney", new(-1.58f, .99f, -1.31f), new(-1.58f, 3.88f, -1.31f), .095f, "2e2c28");
         DiscoveryCylinder(bath, "BathChimneyWeatherCap", .16f, .12f, .05f, new(-1.58f, 3.93f, -1.31f), "666c65");
-        FacilitySolid(bath, "BathStoveWoodGuard", new(.065f, .73f, 1.16f), new(-.71f, .39f, -1.09f), "9f8057", "wood_furniture");
+        FacilitySolid(bath, "BathStoveWoodGuard", new(.065f, .73f, 1.16f), new(-.71f, .39f, -1.09f), "4d3c2b", "wood_furniture");
         for (var i = 0; i < 5; i++)
         {
             var a = new Vector3(-1.79f + (i % 3) * .17f, .12f + (i / 3) * .17f, .74f);
             FacilityRod(bath, "BathDryFirewood" + i, a, a + new Vector3(0, 0, .55f), .075f, "987344");
         }
-        FacilitySolid(bath, "BathWoodRackBottom", new(.64f, .065f, .67f), new(-1.54f, .037f, 1.03f), "6d593f", "wood");
-        FacilitySolid(bath, "BathMatchShelf", new(.42f, .025f, .18f), new(-1.86f, 1.37f, .89f), "8f7754", "wood");
+        FacilitySolid(bath, "BathWoodRackBottom", new(.64f, .065f, .67f), new(-1.54f, .037f, 1.03f), "3d3024", "wood");
+        FacilitySolid(bath, "BathMatchShelf", new(.42f, .025f, .18f), new(-1.86f, 1.37f, .89f), "45372a", "wood");
         AddVisualBox(bath, "BathFamilyMatchbox", new(.075f, .016f, .052f), new(-1.80f, 1.3905f, .91f), "ccbd94", "paper");
         AddVisualBox(bath, "BathMatchboxStriker", new(.076f, .010f, .004f), new(-1.80f, 1.3905f, .938f), "66513a", "paper");
         FacilityLabel(bath, "BathMatchboxPrint", "СПИЧКИ", new(-1.80f, 1.393f, .941f), 0, .00026f);
@@ -457,6 +458,7 @@ public partial class Act1ConnectedWorld
         if (_bathFireLight is not null) { _bathFireLight.Visible = burn && FacilityExteriorActive; _bathFireLight.LightEnergy = .17f; }
         if (_bathSteam is not null) { _bathSteam.Emitting = steam && FacilityExteriorActive && !paused; _bathSteam.Visible = FacilityExteriorActive; _bathSteam.SpeedScale = paused ? 0 : 1; }
         if (_bathSmoke is not null) { _bathSmoke.Emitting = burn && FacilityExteriorActive && !paused; _bathSmoke.Visible = FacilityExteriorActive; _bathSmoke.SpeedScale = paused ? 0 : 1; }
+        TickBathAtmosphere(burn && !paused, GetProcessDeltaTime());
         if (_bathStoveTarget is not null) _bathStoveTarget.Prompt = burn ? "Проверить топку" : "Растопить печь сухим поленом";
         if (_bathWaterTarget is not null) _bathWaterTarget.Prompt = hot ? "Поддать воды на камни" : "Камни холодные — проверить печь";
         if (_bathVentTarget is not null) _bathVentTarget.Prompt = YardMechanism.Flag(_facilityProps, "bathhouse/vent", "open") ? "Закрыть отдушину" : "Открыть небольшую отдушину";

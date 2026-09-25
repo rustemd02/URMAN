@@ -98,6 +98,39 @@ public partial class Act1TopDownCapture : Node
                 GetTree().Quit(0);
                 return;
             }
+            if (OS.GetEnvironment("URMAN_NODE_VIEWS") is { Length: > 0 } nodeViews)
+            {
+                // node|name:lx:ly:lz:tx:ty:tz;... — camera and target in a node's local space;
+                // the player stands at the camera so interiors light up as in play.
+                var parts0 = nodeViews.Split('|', 2);
+                var anchor = GetTree().Root.FindChild(parts0[0], true, false) as Node3D
+                    ?? throw new InvalidOperationException("no node " + parts0[0]);
+                var player = GetTree().GetFirstNodeInGroup("player_controller") as Node3D;
+                // The camera stands where the player's eyes are; hide the body it would see.
+                foreach (var visual in player?.FindChildren("*", nameof(VisualInstance3D), true, false).OfType<VisualInstance3D>() ?? [])
+                    visual.Visible = false;
+                var eye = new Camera3D { Fov = 75f, Near = .03f, Far = 300f };
+                AddChild(eye);
+                eye.MakeCurrent();
+                foreach (var view in parts0[1].Split(';', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var parts = view.Split(':');
+                    var v = parts.Skip(1).Select(p => float.Parse(p, System.Globalization.CultureInfo.InvariantCulture)).ToArray();
+                    var from = anchor.ToGlobal(new Vector3(v[0], v[1], v[2]));
+                    if (player is not null) player.GlobalPosition = anchor.ToGlobal(new Vector3(v[0], 0.05f, v[2]));
+                    for (var i = 0; i < 20; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                    eye.GlobalPosition = from;
+                    eye.LookAt(anchor.ToGlobal(new Vector3(v[3], v[4], v[5])));
+                    for (var i = 0; i < 25; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                    await ToSignal(GetTree().CreateTimer(2.0), SceneTreeTimer.SignalName.Timeout);
+                    await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+                    using var frame = GetViewport().GetTexture().GetImage();
+                    frame.SavePng(System.IO.Path.Combine(OS.GetEnvironment("URMAN_TOPDOWN_OUTPUT"), parts[0] + ".png"));
+                }
+                GD.Print("act1-topdown: node views done");
+                GetTree().Quit(0);
+                return;
+            }
             if (OS.GetEnvironment("URMAN_VIEWS") is { Length: > 0 } views)
             {
                 // name:fromX:fromZ:toX:toZ;... — eye height (1.7 m) looking at a point.
