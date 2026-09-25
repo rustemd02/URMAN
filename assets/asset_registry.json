@@ -2805,6 +2805,42 @@
       "lod": "texture mipmaps",
       "status": "in-engine-candidate; art-lock-pending; Tatar spelling in language review",
       "releaseDisposition": "include-in-act1-release; village shop sign face"
+    },
+    {
+      "id": "texture.act1.fap-plate-kara-urman",
+      "source": "ChatGPT image generation in the author's session, 2026-09-25; plate wording decided by the author the same day (docs/urman_knowledge_base/decision_log.md); prompt not preserved, see game/assets/textures/act1/README.md",
+      "derived": "game/assets/textures/act1/fap_plate_kara_urman_v1.png",
+      "derivedSha256": "35aa6d6769754cd5a5074f1acc804ead5ab7d8661de533a8bf7adcf3fae42220",
+      "generator": "ChatGPT image generation; generated from text, no input images; saved from the chat without pixel edits",
+      "license": "Project-generated through the author's ChatGPT account; no third-party reference image",
+      "scale": 1.0,
+      "triangleBudget": 2,
+      "textureBudget": 1536,
+      "materials": [
+        "FapStatePlateFace"
+      ],
+      "collision": "not applicable",
+      "lod": "texture mipmaps",
+      "status": "in-engine-candidate; art-lock-pending; Tatar line and hours in language review",
+      "releaseDisposition": "include-in-act1-release; FAP state plate face by the entrance"
+    },
+    {
+      "id": "texture.act1.school-plate-maktap",
+      "source": "ChatGPT image generation, 2026-09-25, in the author's chat that researched the wording; exact prompt in game/assets/textures/act1/README.md",
+      "derived": "game/assets/textures/act1/school_plate_maktap_v1.png",
+      "derivedSha256": "9bb5522a19bd16c4f3e0b7a9e681569f99ce1366eaac71e10d9895c0a61e2e80",
+      "generator": "ChatGPT image generation; generated from text, no input images; saved from the chat without pixel edits; the runtime UV window crops the generator's margins",
+      "license": "Project-generated through the author's ChatGPT account; no third-party reference image",
+      "scale": 1.0,
+      "triangleBudget": 2,
+      "textureBudget": 2172,
+      "materials": [
+        "SchoolPlatePaintedFace"
+      ],
+      "collision": "not applicable",
+      "lod": "texture mipmaps",
+      "status": "in-engine-candidate; art-lock-pending; Tatar line «МӘКТӘП» in language review",
+      "releaseDisposition": "include-in-act1-release; old school gable plate face"
     }
   ]
 }

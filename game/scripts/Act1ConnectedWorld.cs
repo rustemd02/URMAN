@@ -425,6 +425,8 @@ public partial class Act1ConnectedWorld : Node3D
         BuildMosqueInterior();
         BuildBathhouse();
         BuildPublicBuildings();
+        BuildFapPlate();
+        BuildPlateFaces();
         RepairStandaloneZiratFenceJunction();
         BuildShopUses();
         HideOverlappingStructures();

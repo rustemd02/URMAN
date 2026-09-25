@@ -35,6 +35,10 @@ public partial class Act1VisualReviewCapture : Node
                 "fap_foundation_material", "village_day", "arrival",
                 new Vector3(32f, AgentBAct1HeightField.CollisionGround(32f, -24.2f) + .05f, -24.2f),
                 Vector3.Zero), // existing FapServiceLoopPoints approach, target resolved below
+            ["fap_state_plate"] = new(
+                "fap_state_plate", "village_day", "arrival", Vector3.Zero, Vector3.Zero), // plate subject resolved below
+            ["school_plate"] = new(
+                "school_plate", "village_day", "arrival", Vector3.Zero, Vector3.Zero), // plate subject resolved below
             ["house_exterior_trim"] = new(
                 "house_exterior_trim", "village_day", "from_house", Vector3.Zero, Vector3.Zero),
             ["house_exterior_trim_street"] = new(
@@ -277,6 +281,80 @@ public partial class Act1VisualReviewCapture : Node
         var space = spec.LocalSpace is null ? null : connectedWorld.GetNode<Node3D>(spec.LocalSpace);
         var position = space is null ? spec.PlayerPosition : space.ToGlobal(spec.PlayerPosition);
         var target = space is null ? spec.Target : space.ToGlobal(spec.Target);
+
+        if (frameId == "school_plate")
+        {
+            var fascia = connectedWorld.FindChild("schoolBuildingSign", true, false) as Node3D
+                ?? throw new InvalidOperationException("School plate capture lacks the school's gable sign.");
+            if (!fascia.IsVisibleInTree())
+                throw new InvalidOperationException("School plate capture found the gable sign hidden.");
+            var face = fascia.FindChild("PaintedPlateFace", true, false) as MeshInstance3D
+                ?? throw new InvalidOperationException("School plate capture lacks the painted plate face.");
+            var outward = fascia.GlobalBasis.Z.Normalized();
+            var along = fascia.GlobalBasis.X.Normalized();
+            target = face.GlobalPosition;
+            var standing = Vector3.Zero;
+            var standable = false;
+            foreach (var distance in new[] { 3.4f, 4.2f, 5.0f, 2.8f })
+            {
+                foreach (var side in new[] { 1.2f, 0f, -1.2f, 2.2f, -2.2f })
+                {
+                    var candidate = target + outward * distance + along * side;
+                    candidate.Y = AgentBAct1HeightField.CollisionGround(candidate.X, candidate.Z) + .05f;
+                    if (!player.CanStandAt(candidate)) continue;
+                    standing = candidate;
+                    standable = true;
+                    break;
+                }
+                if (standable) break;
+            }
+            if (!standable)
+                throw new InvalidOperationException("School plate capture found no clear standing position opposite the gable.");
+            position = standing;
+            GD.Print($"act1-school-plate-subject: {face.GetPath()} at={target} outward={outward} standing={position}");
+        }
+
+        if (frameId == "fap_state_plate")
+        {
+            var plate = connectedWorld.GetNode<Node3D>(
+                "Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapStatePlate");
+            if (!plate.IsVisibleInTree())
+                throw new InvalidOperationException("FAP plate capture lacks its visible state plate.");
+            // The plate's own basis is (right, up, outward). The entrance steps
+            // and the porch railing own the first metre of snow, so walk the
+            // offset outwards until the production capsule reports a clear
+            // standing spot instead of guessing one distance.
+            var outward = plate.GlobalBasis.Z.Normalized();
+            var along = plate.GlobalBasis.X.Normalized();
+            target = plate.GlobalPosition;
+            var standing = Vector3.Zero;
+            var standable = false;
+            foreach (var distance in new[] { 2.2f, 2.6f, 3.0f, 3.5f, 4.0f })
+            {
+                foreach (var side in new[] { .6f, 1.0f, 0f, -.6f, -1.1f })
+                {
+                    var candidate = target + outward * distance + along * side;
+                    candidate.Y = AgentBAct1HeightField.CollisionGround(candidate.X, candidate.Z) + .05f;
+                    if (!player.CanStandAt(candidate)) continue;
+                    standing = candidate;
+                    standable = true;
+                    break;
+                }
+                if (standable) break;
+            }
+            if (!standable)
+                throw new InvalidOperationException("FAP plate capture found no clear standing position in front of the entrance.");
+            position = standing;
+            GD.Print($"act1-fap-plate-subject: {plate.GetPath()} at={target} outward={outward} standing={position}");
+            foreach (var mesh in connectedWorld.GetNode<Node3D>(
+                    "Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade")
+                .FindChildren("*", "MeshInstance3D", true, false).OfType<MeshInstance3D>()
+                .OrderBy(mesh => mesh.Name.ToString(), StringComparer.Ordinal))
+            {
+                var box = mesh.GlobalTransform * mesh.GetAabb();
+                GD.Print($"act1-fap-plate-mesh: {mesh.Name} alongOutward={box.Position.Dot(outward):F4}..{box.End.Dot(outward):F4} up={box.Position.Y:F4}..{box.End.Y:F4} side={box.Position.Dot(along):F4}..{box.End.Dot(along):F4}");
+            }
+        }
 
         if (frameId == "fap_foundation_material")
         {
