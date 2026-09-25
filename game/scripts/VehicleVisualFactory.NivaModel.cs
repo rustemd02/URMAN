@@ -104,12 +104,31 @@ public static partial class VehicleVisualFactory
             },
             // Factory metallic enamel under a lacquer coat: the flake gives the
             // panels a soft sheen, the clear coat the sharp sky highlight.
+            // The vertex colour is the road grime baked by the generator.
             "paint" => new StandardMaterial3D
             {
                 AlbedoColor = Color.FromHtml(color), Metallic = .62f, Roughness = .34f, MetallicSpecular = .6f,
-                ClearcoatEnabled = true, Clearcoat = .9f, ClearcoatRoughness = .12f
+                ClearcoatEnabled = true, Clearcoat = .9f, ClearcoatRoughness = .12f, VertexColorUseAsAlbedo = true
             },
-            "vinyl" or "leather" => TrimMaterial(color, surface),
+            "plastic" => Grain(color, 420f, .05f, .25f, .74f, .35f, vertexColor: true),
+            "snow" => new StandardMaterial3D { AlbedoColor = Color.FromHtml(color), Roughness = .88f, MetallicSpecular = .25f },
+            "sheepskin" => Grain(color, 55f, .22f, 1.4f, 1f, .15f, fuzz: 1f),
+            "wool" => Grain(color, 160f, .12f, .8f, .98f, .15f, fuzz: .6f),
+            "gold" => new StandardMaterial3D { AlbedoColor = Color.FromHtml(color), Metallic = 1f, Roughness = .3f },
+            "enamel" => new StandardMaterial3D
+            {
+                AlbedoColor = Color.FromHtml(color), Roughness = .2f, ClearcoatEnabled = true, Clearcoat = 1f, ClearcoatRoughness = .05f
+            },
+            "wood_polished" => new StandardMaterial3D
+            {
+                AlbedoColor = Color.FromHtml(color), Roughness = .35f, ClearcoatEnabled = true, Clearcoat = .6f
+            },
+            "leather" => Grain(color, 380f, .08f, .45f, .6f, .4f),
+            "carpet" => Grain(color, 650f, .14f, .9f, .97f, .15f, fuzz: .3f),
+            "headliner" => Grain(color, 900f, .04f, .5f, .95f, .2f),
+            "cloth" => Grain(color, 700f, .1f, .6f, .96f, .15f),
+            "vinyl" => Grain(color, 260f, .06f, .45f, .78f, .3f),
+            "rubber" => Grain(color, 500f, .06f, .3f, .9f, .25f),
             _ => PainterlyMaterialLibrary.ForColor(color, surface, sheltered: true)
         };
         ModelMaterials[authoredName] = material;

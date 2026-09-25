@@ -84,7 +84,14 @@ public partial class NivaArtCapture : Node
                 ("rear-three-quarter", new(3.8f, 1.6f, 4.6f), new(0, .85f, .3f), 45),
                 ("front-arch-close", new(-2.3f, .75f, -2.3f), new(-.8f, .55f, -1.18f), 40),
                 ("driver-dashboard", new(-.40f, 1.38f, .22f), new(-.05f, 1.02f, -.45f), 70),
-                ("radio-close", new(.02f, 1.22f, -.02f), new(.10f, 1.0f, -.38f), 38)
+                ("radio-close", new(.02f, 1.22f, -.02f), new(.10f, 1.0f, -.38f), 38),
+                ("driver-eye", new(-.40f, 1.40f, .12f), new(-.30f, 1.18f, -1.2f), 75),
+                ("charm-close", new(-.12f, 1.36f, -.08f), new(0, 1.28f, -.35f), 40),
+                ("cabin-seats", new(.50f, 1.45f, -.18f), new(-.30f, .80f, .45f), 75),
+                ("floor-mats", new(0, 1.45f, .15f), new(-.30f, .52f, -.40f), 70),
+                ("rear-cabin", new(.35f, 1.40f, -.30f), new(0, .85f, 1.30f), 70),
+                ("low-side", new(-4.2f, .45f, .4f), new(0, .5f, .2f), 45),
+                ("roof-high", new(-3.4f, 3.3f, -3.0f), new(0, 1.2f, .1f), 45)
             };
             foreach (var view in views)
             {
@@ -102,7 +109,7 @@ public partial class NivaArtCapture : Node
             // freed world is reported as a leaked reference at exit.
             environment.Environment = null;
             await GodotSmokeCleanup.ReleaseAsync(viewport);
-            GD.Print("niva-art-capture: PASS 7 presentation frames");
+            GD.Print($"niva-art-capture: PASS {views.Length} presentation frames");
             GetTree().Quit(0);
         }
         catch (Exception exception)

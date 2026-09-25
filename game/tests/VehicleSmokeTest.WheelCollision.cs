@@ -27,8 +27,9 @@ public partial class VehicleSmokeTest
             Require(vehicle.Driver==_player&&vehicle.ParkingBrake&&!vehicle.EngineRunning,
                 "wheel proof starts in the ordinarily entered parked Niva");
             await Frames(8);
+            // 1.80 m tall: the roof rack is part of the car.
             var hull=vehicle.GetNode<CollisionShape3D>("ChassisCollision");
-            Require(hull.Shape is BoxShape3D box&&box.Size.IsEqualApprox(new(1.82f,1.72f,4.2f)),
+            Require(hull.Shape is BoxShape3D box&&box.Size.IsEqualApprox(new(1.82f,1.80f,4.2f)),
                 "wheel repair retains the authored Niva chassis dimensions");
             Require(vehicle.GetChildren().OfType<CollisionShape3D>().Count()==3,
                 "two front tyre shapes share the existing chassis body");

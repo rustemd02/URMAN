@@ -20,12 +20,12 @@
       "steeringDegrees": 31,
       "hullSize": [
         1.82,
-        1.72,
+        1.8,
         4.2
       ],
       "hullCenter": [
         0,
-        0.86,
+        0.888,
         0.025
       ],
       "seat": [

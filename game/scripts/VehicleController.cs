@@ -469,7 +469,9 @@ public partial class VehicleController : CharacterBody3D
         ApplySteeringCollision();
         foreach (var wheel in _visual.Wheels)            wheel.Rotation = new(_wheelPhase,_visual.FrontWheels.Contains(wheel)?RoadWheelYaw(_steering):0,0);
         foreach (var lamp in _visual.Lamps) lamp.Visible = Headlights;
-        if(_visual.SteeringWheel is {} steering)steering.RotationDegrees = new(70,0,-Mathf.RadToDeg(_steering)*2f);
+        if(_visual.SteeringWheel is {} steering)
+            steering.RotationDegrees = new(VehicleVisualFactory.NivaSteeringTiltDegrees,0,-Mathf.RadToDeg(_steering)*2f);
+        if(_visual.Charm is {} charm)SwingCharm(charm,delta);
         if(_visual.SpeedNeedle is {} speedNeedle)
             speedNeedle.RotationDegrees=new(0,0,130-Mathf.Clamp(Math.Abs(Speed)*3.6f/(Definition.Kind==VehicleKind.Niva?160:120),0,1)*260);
         if(_visual.EngineNeedle is {} engineNeedle)
@@ -485,6 +487,31 @@ public partial class VehicleController : CharacterBody3D
         // TryExit clears Driver without a following physics tick, so the figure
         // is synced eagerly there too; this call keeps every other path exact.
         SyncCartDriverFigure();
+    }
+
+    private Vector2 _charmAngle, _charmRate;
+    private float _charmLastSpeed, _charmPhase;
+
+    /// <summary>
+    /// The mirror charm is a damped pendulum in the car's frame: it leans back
+    /// when the car pulls away, forward under braking and outward in a turn,
+    /// and trembles a little with the idling engine. Presentation only.
+    /// </summary>
+    private void SwingCharm(Node3D charm,float delta)
+    {
+        if(delta<=0)return;
+        const float gravity=9.8f, omegaSquared=38f, damping=1.6f;
+        var forwardAccel=Mathf.Clamp((Speed-_charmLastSpeed)/delta,-12f,12f);
+        _charmLastSpeed=Speed;
+        var yawRate=-Speed/Definition.WheelBase*Mathf.Tan(_steering);
+        var lateralAccel=-yawRate*Speed;
+        _charmPhase+=delta*31f;
+        var tremble=EngineRunning ? .35f*Mathf.Sin(_charmPhase)+.2f*Mathf.Sin(_charmPhase*1.7f) : 0f;
+        var target=new Vector2(-forwardAccel/gravity,-lateralAccel/gravity);
+        var accel=(target-_charmAngle)*omegaSquared-_charmRate*damping+new Vector2(tremble,tremble*.6f);
+        _charmRate+=accel*delta;
+        _charmAngle=(_charmAngle+_charmRate*delta).Clamp(new Vector2(-.35f,-.35f),new Vector2(.35f,.35f));
+        charm.Rotation=new(_charmAngle.X,0,_charmAngle.Y);
     }
 
     private void SyncCartDriverFigure()

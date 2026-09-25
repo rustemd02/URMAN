@@ -11,7 +11,8 @@ public static partial class VehicleVisualFactory
 {
     public sealed record Visual(Node3D Root, IReadOnlyList<Node3D> Wheels, IReadOnlyList<Node3D> FrontWheels,
         IReadOnlyList<Node3D> HorseLegs, Node3D? HorseHead, Node3D? SteeringWheel, IReadOnlyList<SpotLight3D> Lamps,
-        Node3D? SpeedNeedle=null, Node3D? EngineNeedle=null, Label3D? RadioDisplay=null, VehicleHorsePose? HorsePose=null);
+        Node3D? SpeedNeedle=null, Node3D? EngineNeedle=null, Label3D? RadioDisplay=null, VehicleHorsePose? HorsePose=null,
+        Node3D? Charm=null);
 
     public static Visual Build(VehicleDefinition definition)
     {
@@ -26,61 +27,45 @@ public static partial class VehicleVisualFactory
         };
     }
 
+    /// <summary>Rest tilt of the Niva steering wheel onto its column (face up toward the driver).</summary>
+    public const float NivaSteeringTiltDegrees = -28f;
+
     private static Visual Niva(Node3D root)
     {
-        var mesh = new Batch(root, "Chassis");
-        // Body, glass, trim and the car radio are the Blender-authored model
-        // (tools/blender/generate_niva.py); the cabin furniture stays procedural.
+        // Body, cabin, wheel, charm and the car radio are the Blender-authored
+        // model (tools/blender/generate_niva.py); gauges, the radio display,
+        // plates and the moving pivots stay live runtime nodes.
         NivaModelPart(root,"NivaBody","NivaBody");
+        NivaModelPart(root,"NivaInterior","NivaInterior");
         NivaModelPart(root,"NivaRadio","NivaRadio");
-        root.SetMeta("roadVehicleGeometryRevision",3);
-        root.SetMeta("assetOrigin","project-original Blender model urman_niva.glb + procedural cabin");
-        // Practical cabin: two seats, rear bench, floor mat, dash, controls.
-        foreach(var x in new[]{-.40f,.40f})
-        {
-            mesh.Sphere(new(.29f,.075f,.28f),new(x,.69f,.12f),"343630","vinyl");
-            mesh.Sphere(new(.29f,.265f,.065f),new(x,.97f,.42f),"343630","vinyl",new(-8,0,0));
-            mesh.Sphere(new(.16f,.085f,.055f),new(x,1.27f,.44f),"343630","vinyl");
-            foreach(var seam in new[]{-.16f,-.08f,0f,.08f,.16f})
-                mesh.Beam(new(x+seam,.748f,-.08f),new(x+seam,.748f,.30f),.0016f,"646356","vinyl");
-            mesh.Box(new(.55f,.018f,.72f),new(x,.523f,-.47f),"252824","rubber");
-        }
-        mesh.Box(new(1.26f,.13f,.42f),new(0,.69f,1.13f),"343630","vinyl");
-        mesh.Box(new(1.26f,.43f,.10f),new(0,.91f,1.41f),"343630","vinyl");
-        mesh.Box(new(1.38f,.17f,.31f),new(0,1.0f,-.56f),"30342e","rubber");
-        mesh.Box(new(.39f,.16f,.095f),new(-.43f,1.10f,-.455f),"242723","vinyl");
-        mesh.Box(new(.40f,.018f,.11f),new(-.43f,1.188f,-.448f),"272b25","vinyl");
-        foreach(var vent in new[]{-.08f,.52f})
-        {
-            mesh.Box(new(.14f,.052f,.018f),new(vent,1.04f,-.392f),"151b18","rubber");
-            for(var i=0;i<4;i++)mesh.Box(new(.115f,.004f,.008f),new(vent,1.02f+i*.012f,-.379f),"565b51","metal");
-        }
-        mesh.Box(new(.34f,.003f,.012f),new(.46f,.943f,-.395f),"84877b","metal");
-        mesh.Box(new(.055f,.018f,.023f),new(.46f,.923f,-.385f),"63695d","metal");
-        mesh.Beam(new(-.40f,.88f,-.53f),new(-.40f,1.04f,-.25f),.047f,"383d34","metal");
-        mesh.Beam(new(.015f,.53f,-.20f),new(.015f,.84f,-.13f),.028f,"77796d","metal");
-        mesh.Sphere(new(.055f,.055f,.055f),new(.015f,.85f,-.13f),"242922","rubber");
-        mesh.Beam(new(-.50f,1.158f,-.705f),new(-.05f,1.228f,-.646f),.006f,"262b26","metal");
-        mesh.Beam(new(.18f,1.158f,-.705f),new(.63f,1.228f,-.646f),.006f,"262b26","metal");
-        mesh.Beam(new(0,1.171f,1.815f),new(.43f,1.269f,1.758f),.006f,"262b26","metal");
-        mesh.Finish();
+        root.SetMeta("roadVehicleGeometryRevision",4);
+        root.SetMeta("assetOrigin","project-original Blender model urman_niva.glb");
         var speed=Gauge(root,"Speedometer",new(-.52f,1.102f,-.397f),.061f,"км/ч",160);
         var revs=Gauge(root,"Tachometer",new(-.36f,1.102f,-.397f),.061f,"×1000",8);
         var radioDisplay=CabinLabel(root,"RadioTuningDisplay","101.4",new(.10f,1.008f,-.362f),.00025f,new(.76f,.83f,.43f));
-        var steering = new Node3D { Name="SteeringWheel", Position=new(-.40f,1.04f,-.25f), RotationDegrees=new(70,0,0) };
+        var steering = new Node3D { Name="SteeringWheel", Position=new(-.40f,1.06f,-.28f), RotationDegrees=new(NivaSteeringTiltDegrees,0,0) };
         root.AddChild(steering);
-        var sw = new Batch(steering,"SteeringRim");
-        sw.Ring(.165f,.021f,Vector3.Zero,"242a25","rubber");
-        for(var i=0;i<3;i++)
-        {
-            var a=i*Mathf.Tau/3; sw.Beam(Vector3.Zero,new(Mathf.Cos(a)*.155f,Mathf.Sin(a)*.155f,0),.025f,"828779","metal");
-        }
-        sw.Finish();
+        NivaModelPart(steering,"NivaSteering","SteeringRim");
+        // Shamail and tasbih hang under the rear-view mirror and swing freely.
+        var charm = new Node3D { Name="MirrorCharm", Position=new(0,1.52f,-.35f) };
+        root.AddChild(charm);
+        NivaModelPart(charm,"NivaCharm","MirrorCharmMesh");
+        NivaPlate(root,"FrontPlate",new(0,.63f,-2.0800f),180f);
+        NivaPlate(root,"RearPlate",new(0,.80f,1.877f),0f);
         var wheels = new List<Node3D>(); var front=new List<Node3D>();
         foreach(var x in new[]{-.78f,.78f}) foreach(var z in new[]{-1.18f,1.10f})
         {var wheel=NivaWheel(root,new(x,.345f,z)); wheels.Add(wheel);if(z<0)front.Add(wheel);}
         var lamps=Headlights(root,new[]{new Vector3(-.60f,1.01f,-2.04f),new Vector3(.60f,1.01f,-2.04f)});
-        return new(root,wheels,front,Array.Empty<Node3D>(),null,steering,lamps,speed,revs,radioDisplay);
+        return new(root,wheels,front,Array.Empty<Node3D>(),null,steering,lamps,speed,revs,radioDisplay,Charm:charm);
+    }
+
+    /// <summary>Russian plate of a Tatarstan car: series, number and region 116.</summary>
+    private static void NivaPlate(Node3D root,string name,Vector3 position,float yaw)
+    {
+        var plate=new Node3D{Name=name,Position=position,RotationDegrees=new(0,yaw,0)};root.AddChild(plate);
+        CabinLabel(plate,"Number","Е 214 КМ",new(-.045f,-.004f,.006f),.0021f,new(.08f,.08f,.08f));
+        CabinLabel(plate,"Region","116",new(.205f,.012f,.006f),.0012f,new(.08f,.08f,.08f));
+        CabinLabel(plate,"Country","RUS",new(.205f,-.03f,.006f),.00055f,new(.08f,.08f,.08f));
     }
 
     // Same pivot contract as RoadWheel (metadata, axle on X); the mesh is the
