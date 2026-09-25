@@ -2841,6 +2841,24 @@
       "lod": "texture mipmaps",
       "status": "in-engine-candidate; art-lock-pending; Tatar line «МӘКТӘП» in language review",
       "releaseDisposition": "include-in-act1-release; old school gable plate face"
+    },
+    {
+      "id": "texture.act1.council-plate-avyl-sovety",
+      "source": "ChatGPT image generation, 2026-09-25, second pass after the author asked for a newer plate; exact prompts in game/assets/textures/act1/README.md",
+      "derived": "game/assets/textures/act1/council_plate_avyl_sovety_v1.png",
+      "derivedSha256": "b7240ce26346730d09ee32d04fcf2f3be2a8ccb572cf33c6344df6eda9e87a9c",
+      "generator": "ChatGPT image generation; generated from text, no input images; saved from the chat without pixel edits; the runtime UV window crops the generator's margins",
+      "license": "Project-generated through the author's ChatGPT account; no third-party reference image",
+      "scale": 1.0,
+      "triangleBudget": 2,
+      "textureBudget": 2079,
+      "materials": [
+        "CouncilPlatePaintedFace"
+      ],
+      "collision": "not applicable",
+      "lod": "texture mipmaps",
+      "status": "in-engine-candidate; art-lock-pending; 2000s plate style per the author's 2026-09-25 direction; Tatar line in language review",
+      "releaseDisposition": "include-in-act1-release; council-club gable plate face"
     }
   ]
 }

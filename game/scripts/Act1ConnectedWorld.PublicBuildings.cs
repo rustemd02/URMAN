@@ -191,7 +191,10 @@ public partial class Act1ConnectedWorld
             "PAR-" + suffix, "ADR-" + suffix, street, number, cadastral, access, sign, outward, id));
         var fascia = new Node3D { Name = id + "BuildingSign", Position = new(0, (streetBounds.End.Y - .18f) * scale, front * scale + .026f) };
         metric.AddChild(fascia);
-        PublicBox(fascia, "PaintedBoard", new(id == "council" ? 2.55f : 1.7f, .225f, .032f), Vector3.Zero, "35514d", "wood_furniture");
+        // The council-club board is 1.48 m so the painted 2000s plate that
+        // replaces its label keeps the generator's 6.5:1 letterforms instead of
+        // being stretched along a longer board.
+        PublicBox(fascia, "PaintedBoard", new(id == "council" ? 1.48f : 1.7f, .225f, .032f), Vector3.Zero, "35514d", "wood_furniture");
         PublicText(fascia, "Institution", "urman.chapter1:text/" + titleId, new(0, 0, .022f), .0022f, false);
         building.SetMeta("visualOnly", false);
         building.SetMeta("publicBuilding", id);

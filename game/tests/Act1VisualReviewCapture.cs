@@ -39,6 +39,8 @@ public partial class Act1VisualReviewCapture : Node
                 "fap_state_plate", "village_day", "arrival", Vector3.Zero, Vector3.Zero), // plate subject resolved below
             ["school_plate"] = new(
                 "school_plate", "village_day", "arrival", Vector3.Zero, Vector3.Zero), // plate subject resolved below
+            ["council_plate"] = new(
+                "council_plate", "village_day", "arrival", Vector3.Zero, Vector3.Zero), // plate subject resolved below
             ["house_exterior_trim"] = new(
                 "house_exterior_trim", "village_day", "from_house", Vector3.Zero, Vector3.Zero),
             ["house_exterior_trim_street"] = new(
@@ -282,14 +284,15 @@ public partial class Act1VisualReviewCapture : Node
         var position = space is null ? spec.PlayerPosition : space.ToGlobal(spec.PlayerPosition);
         var target = space is null ? spec.Target : space.ToGlobal(spec.Target);
 
-        if (frameId == "school_plate")
+        if (frameId is "school_plate" or "council_plate")
         {
-            var fascia = connectedWorld.FindChild("schoolBuildingSign", true, false) as Node3D
-                ?? throw new InvalidOperationException("School plate capture lacks the school's gable sign.");
+            var building = frameId == "school_plate" ? "school" : "council";
+            var fascia = connectedWorld.FindChild(building + "BuildingSign", true, false) as Node3D
+                ?? throw new InvalidOperationException(frameId + " capture lacks the gable sign.");
             if (!fascia.IsVisibleInTree())
-                throw new InvalidOperationException("School plate capture found the gable sign hidden.");
+                throw new InvalidOperationException(frameId + " capture found the gable sign hidden.");
             var face = fascia.FindChild("PaintedPlateFace", true, false) as MeshInstance3D
-                ?? throw new InvalidOperationException("School plate capture lacks the painted plate face.");
+                ?? throw new InvalidOperationException(frameId + " capture lacks the painted plate face.");
             var outward = fascia.GlobalBasis.Z.Normalized();
             var along = fascia.GlobalBasis.X.Normalized();
             target = face.GlobalPosition;
@@ -309,9 +312,9 @@ public partial class Act1VisualReviewCapture : Node
                 if (standable) break;
             }
             if (!standable)
-                throw new InvalidOperationException("School plate capture found no clear standing position opposite the gable.");
+                throw new InvalidOperationException(frameId + " capture found no clear standing position opposite the gable.");
             position = standing;
-            GD.Print($"act1-school-plate-subject: {face.GetPath()} at={target} outward={outward} standing={position}");
+            GD.Print($"act1-{building}-plate-subject: {face.GetPath()} at={target} outward={outward} standing={position}");
         }
 
         if (frameId == "fap_state_plate")

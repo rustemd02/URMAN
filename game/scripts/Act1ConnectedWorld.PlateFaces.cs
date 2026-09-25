@@ -21,7 +21,8 @@ public partial class Act1ConnectedWorld
         // face, board size, UV window that crops the generator's margins.
         var plates = new (string Id, string Face, float Width, float Height, Vector2 UvScale, Vector2 UvOffset)[]
         {
-            ("school", "school_plate_maktap_v1.png", 1.70f, .225f, new(.9816f, .4503f), new(.0092f, .2680f))
+            ("school", "school_plate_maktap_v1.png", 1.70f, .225f, new(.9816f, .4503f), new(.0092f, .2680f)),
+            ("council", "council_plate_avyl_sovety_v1.png", 1.48f, .225f, new(.9894f, .4140f), new(.0053f, .3254f))
         };
         foreach (var (id, face, width, height, uvScale, uvOffset) in plates)
         {
