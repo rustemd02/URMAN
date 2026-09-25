@@ -429,6 +429,7 @@ public partial class Act1ConnectedWorld : Node3D
         BuildShopUses();
         HideOverlappingStructures();
         RelocateOverlappingHouses();
+        ComposeBabaiYard();
         BuildAddressRegistry();
         // Street faces of the yards: palisadnik, painted gates, board fences.
         BuildStreetFrontages();
