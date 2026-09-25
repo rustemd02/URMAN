@@ -51,6 +51,9 @@ public static partial class VehicleVisualFactory
         }
         """ };
 
+    /// <summary>Weathered and painted fence wood; the colour comes from the vertices.</summary>
+    public static Material FrontageWoodMaterial() => Grain("ffffff", 70f, .1f, .5f, .86f, .22f, vertexColor: true);
+
     private static Material Grain(string color, float scale, float variation, float bump, float roughness,
         float specular = .3f, float fuzz = 0f, bool vertexColor = false)
     {

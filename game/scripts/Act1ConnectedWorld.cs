@@ -429,6 +429,8 @@ public partial class Act1ConnectedWorld : Node3D
         BuildShopUses();
         HideOverlappingStructures();
         BuildAddressRegistry();
+        // Street faces of the yards: palisadnik, painted gates, board fences.
+        BuildStreetFrontages();
         AddressRead += RememberReadAddress;
         BuildAct1Vehicles();
         foreach (var placement in Act1WorldLayout.Placements)

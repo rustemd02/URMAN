@@ -19,6 +19,38 @@ public partial class Act1TopDownCapture : Node
             if (!await this.StartThroughMainMenuAsync(demo)) throw new InvalidOperationException("demo did not start");
             foreach (var layer in GetTree().Root.FindChildren("*", nameof(CanvasLayer), true, false).OfType<CanvasLayer>())
                 layer.Visible = false;
+            if (OS.GetEnvironment("URMAN_BUILDING_SURVEY") == "1")
+            {
+                // One line per registered building: where it stands relative to the roads.
+                var world = GetTree().Root.FindChild("Act1ConnectedWorld", true, false) as Act1ConnectedWorld
+                    ?? throw new InvalidOperationException("no world");
+                var registry = world.AddressRegistry ?? throw new InvalidOperationException("no registry");
+                foreach (var building in registry.Buildings.Values.OrderBy(b => b.Position.Z))
+                {
+                    var (distance, halfWidth) = Urman.Experiments.AgentBAct1.AgentBAct1HeightField.RoadInfo((float)building.Position.X, (float)building.Position.Z);
+                    var xs = building.Footprint.Select(p => p.X).DefaultIfEmpty(building.Position.X).ToArray();
+                    var zs = building.Footprint.Select(p => p.Z).DefaultIfEmpty(building.Position.Z).ToArray();
+                    var address = building.AddressId is { } id && registry.Addresses.TryGetValue(id, out var record)
+                        ? record.StreetId + " " + record.HouseNumber : "-";
+                    var access = registry.AccessPoints.Values.FirstOrDefault(a => a.BuildingId == building.BuildingId);
+                    GD.Print(System.FormattableString.Invariant(
+                        $"survey|{building.SourceKey}|{building.Role}|{address}|{building.Position.X:0.0}|{building.Position.Z:0.0}|{xs.Min():0.0}|{xs.Max():0.0}|{zs.Min():0.0}|{zs.Max():0.0}|{distance:0.0}|{halfWidth:0.0}|{(access is null ? "" : $"{access.Position.X:0.0},{access.Position.Z:0.0}")}"));
+                }
+                var fenceWords = new[] { "Fence", "Picket", "Palisade", "Gate", "Rail", "Post", "Paling", "Boundary" };
+                foreach (var mesh in world.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
+                {
+                    var name = mesh.Name.ToString();
+                    if (!mesh.IsVisibleInTree() || mesh.Mesh is null || !fenceWords.Any(w => name.Contains(w, StringComparison.Ordinal))) continue;
+                    var box = mesh.GlobalTransform * mesh.GetAabb();
+                    var centre = box.GetCenter();
+                    var owner = mesh.GetParent() is Node3D parent ? parent.Name.ToString() : "";
+                    var collided = mesh.GetParent()?.GetChildren().Any(c => c is CollisionObject3D) == true;
+                    GD.Print(System.FormattableString.Invariant(
+                        $"fence|{name}|{owner}|{centre.X:0.0}|{centre.Z:0.0}|{box.Size.X:0.0}|{box.Size.Z:0.0}|{box.Size.Y:0.0}|{collided}"));
+                }
+                GetTree().Quit(0);
+                return;
+            }
             if (OS.GetEnvironment("URMAN_MINIMAP_SHOTS") is { Length: > 0 } minimapShots)
             {
                 // name:x:z;... — the player's own view with the dev minimap open.
