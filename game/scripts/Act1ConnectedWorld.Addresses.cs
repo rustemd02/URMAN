@@ -318,6 +318,8 @@ public partial class Act1ConnectedWorld
                 [new(connector.Start.X,connector.Start.Z),new(connector.End.X,connector.End.Z)],connector.Width,
                 connector.ConnectorId.Contains("kara",StringComparison.Ordinal)?SettlementTravelMode.Foot|SettlementTravelMode.HorseCart:SettlementTravelMode.All);
         Road("authored/ravine-bridge-approach","urman",RavineBridgeApproach,1.8,SettlementTravelMode.Foot);
+        // Tamara Gennadievna's driveway: the car may turn into the breach.
+        Road("authored/tamara-fence-approach","tukay",TamaraFenceQuest.ApproachAxis,3.2,SettlementTravelMode.All);
         // The far bank's lane is its own piece of graph: the bridge span is gone.
         Road("authored/yar-lane","yar",RavineFarLane,3.2,SettlementTravelMode.All);
         Road("authored/yar-lane-south","yar",RavineFarLaneSouth,2.8,SettlementTravelMode.All);

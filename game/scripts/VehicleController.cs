@@ -56,6 +56,13 @@ public partial class VehicleController : CharacterBody3D
     internal JsonObject? DescribeFirstCollisionStop() => _firstCollisionStop?.DeepClone() as JsonObject;
     public bool PlacementAvailable { get; private set; }
     public string PlacementFailure { get; private set; } = string.Empty;
+
+    /// <summary>
+    /// Fired once per real collision stop with the pre-stop speed and the first
+    /// contacted collider. Listeners decide what counts as an impact; this
+    /// remains a pure observation of the existing MoveAndSlide result.
+    /// </summary>
+    public event Action<VehicleController, float, Node?>? HardStop;
     internal Vector2 DriverLookAngles=>new(_lookYaw,_pitch);
     internal JsonObject DescribeDriverLookInput()=>new(){
         ["storedYaw"]=_lookYaw,["storedPitch"]=_pitch,["projectedRotation"]=_look.RotationDegrees.ToString(),
@@ -310,6 +317,16 @@ public partial class VehicleController : CharacterBody3D
                 CaptureCollisionStop(diagnosticBeforePose, diagnosticBeforeSpeed, diagnosticBeforeVelocity,
                     diagnosticBeforeFloor, diagnosticRequestedVelocity, dt, throttle, steeringInput,
                     footBrake, braking, desired, actual, decision, finalDecision);
+            if (Math.Abs(Speed) >= 2.0f && GetSlideCollisionCount() > 0)
+            {
+                var contact = GetSlideCollision(0);
+                Node? collider = null;
+                for (var index = 0; index < contact.GetCollisionCount(); index++)
+                {
+                    if (contact.GetCollider(index) is Node node) { collider = node; break; }
+                }
+                HardStop?.Invoke(this, Math.Abs(Speed), collider);
+            }
             Speed = 0; CollisionStops++;
         }
         if (hoofFraction < 1) Speed = 0;

@@ -1,0 +1,1067 @@
+[
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:character/tamara",
+  "displayName": {
+   "default": "Тамара Геннадьевна",
+   "translations": {
+    "ru": "Тамара Геннадьевна"
+   }
+  },
+  "roleTags": [
+   "villager",
+   "return-street"
+  ],
+  "assetIds": [],
+  "accessibilityDescription": {
+   "default": "Пожилая хозяйка дома на обратной улице. Говорит мало и по делу.",
+   "translations": {
+    "ru": "Пожилая хозяйка дома на обратной улице. Говорит мало и по делу."
+   }
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:character/phone_guy",
+  "displayName": {
+   "default": "Парень с телефоном",
+   "translations": {
+    "ru": "Парень с телефоном"
+   }
+  },
+  "roleTags": [
+   "villager"
+  ],
+  "assetIds": [],
+  "accessibilityDescription": {
+   "default": "Молодой деревенский парень. Всё интересное сразу снимает на телефон.",
+   "translations": {
+    "ru": "Молодой деревенский парень. Всё интересное сразу снимает на телефон."
+   }
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/quest-tamara-fence-title",
+  "value": {
+   "default": "Забор Тамары Геннадьевны",
+   "translations": {
+    "ru": "Забор Тамары Геннадьевны"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/objective-tamara-fence-boards",
+  "value": {
+   "default": "Найти целые доски и принести их Тамаре Геннадьевне",
+   "translations": {
+    "ru": "Найти целые доски и принести их Тамаре Геннадьевне"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/quest-tamara-fence-banner-start",
+  "value": {
+   "default": "Принести Тамаре Геннадьевне 6 целых досок",
+   "translations": {
+    "ru": "Принести Тамаре Геннадьевне 6 целых досок"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/quest-tamara-fence-banner-done",
+  "value": {
+   "default": "Забор Тамары Геннадьевны отремонтирован",
+   "translations": {
+    "ru": "Забор Тамары Геннадьевны отремонтирован"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-fence-take-board",
+  "value": {
+   "default": "Взять целую доску",
+   "translations": {
+    "ru": "Взять целую доску"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-fence-hand-in",
+  "value": {
+   "default": "Отдать доски Тамаре Геннадьевне",
+   "translations": {
+    "ru": "Отдать доски Тамаре Геннадьевне"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/tamara_fence_settled",
+  "kind": "clue",
+  "title": {
+   "default": "Забор Тамары Геннадьевны",
+   "translations": {
+    "ru": "Забор Тамары Геннадьевны"
+   }
+  },
+  "summary": {
+   "default": "Айдар въехал Нивой в забор Тамары Геннадьевны на обратной улице. Доски нашлись по соседним дворам, забор встал на место.",
+   "translations": {
+    "ru": "Айдар въехал Нивой в забор Тамары Геннадьевны на обратной улице. Доски нашлись по соседним дворам, забор встал на место."
+   }
+  },
+  "initialStatus": "hidden",
+  "sourceIds": [
+   "urman.chapter1:scene/tamara-fence-side"
+  ],
+  "reveals": [],
+  "contradicts": [],
+  "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:quest/quest_tamara_fence",
+  "titleTextId": "urman.chapter1:text/quest-tamara-fence-title",
+  "stages": [
+   {
+    "id": "boards",
+    "objectives": [
+     {
+      "id": "deliver-boards",
+      "titleTextId": "urman.chapter1:text/objective-tamara-fence-boards",
+      "optional": false,
+      "startConditions": [
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/tamara",
+        "stateKey": "fence_crashed",
+        "value": true
+       }
+      ],
+      "completionConditions": [
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/tamara",
+        "stateKey": "boards_delivered",
+        "value": 6
+       }
+      ],
+      "completionEffects": [
+       {
+        "op": "npc.set-state",
+        "characterId": "urman.chapter1:character/tamara",
+        "stateKey": "fence_repaired",
+        "value": true
+       },
+       {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.chapter1:knowledge/tamara_fence_settled",
+        "status": "confirmed"
+       },
+       {
+        "op": "journal.record",
+        "entryId": "urman.chapter1:knowledge/tamara_fence_settled",
+        "sourceId": "urman.chapter1:knowledge/tamara_fence_settled"
+       }
+      ],
+      "failureEffects": []
+     }
+    ],
+    "composition": {
+     "mode": "all",
+     "objectiveIds": [
+      "deliver-boards"
+     ]
+    }
+   }
+  ],
+  "outcomes": {
+   "success": [],
+   "optional": [],
+   "failure": []
+  },
+  "retryPolicy": {
+   "mode": "none",
+   "maximumAttempts": 1
+  },
+  "checkpointPolicy": {
+   "mode": "objective"
+  },
+  "cancelPolicy": {
+   "allowed": false,
+   "effects": []
+  }
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:dialogue/tamara_fence_hand_in",
+  "participantRoles": [
+   "aidar",
+   "tamara"
+  ],
+  "startNodeId": "no-boards",
+  "entryRoutes": [
+   {
+    "nodeId": "hand-1",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "boards_delivered",
+      "value": 1
+     }
+    ]
+   },
+   {
+    "nodeId": "hand-2",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "boards_delivered",
+      "value": 2
+     }
+    ]
+   },
+   {
+    "nodeId": "hand-3",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "boards_delivered",
+      "value": 3
+     }
+    ]
+   },
+   {
+    "nodeId": "hand-4",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "boards_delivered",
+      "value": 4
+     }
+    ]
+   },
+   {
+    "nodeId": "hand-5",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "boards_delivered",
+      "value": 5
+     }
+    ]
+   },
+   {
+    "nodeId": "finished",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "boards_delivered",
+      "value": 6
+     }
+    ]
+   }
+  ],
+  "nodes": [
+   {
+    "id": "no-boards",
+    "speakerRole": "tamara",
+    "textId": "urman.chapter1:text/tamara-hand-no-boards",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "hand-1",
+    "speakerRole": "tamara",
+    "textId": "urman.chapter1:text/tamara-hand-remaining-5",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "hand-2",
+    "speakerRole": "tamara",
+    "textId": "urman.chapter1:text/tamara-hand-remaining-4",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "hand-3",
+    "speakerRole": "tamara",
+    "textId": "urman.chapter1:text/tamara-hand-remaining-3",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "hand-4",
+    "speakerRole": "tamara",
+    "textId": "urman.chapter1:text/tamara-hand-remaining-2",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "hand-5",
+    "speakerRole": "tamara",
+    "textId": "urman.chapter1:text/tamara-hand-remaining-1",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   },
+   {
+    "id": "finished",
+    "speakerRole": "tamara",
+    "textId": "urman.chapter1:text/tamara-hand-fit",
+    "conditions": [],
+    "effects": [],
+    "choices": [
+     {
+      "id": "next",
+      "textId": "urman.chapter1:text/tamara-hand-continue",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": "finished-stack"
+     }
+    ]
+   },
+   {
+    "id": "finished-stack",
+    "speakerRole": "tamara",
+    "textId": "urman.chapter1:text/tamara-hand-stack",
+    "conditions": [],
+    "effects": [],
+    "choices": [
+     {
+      "id": "next",
+      "textId": "urman.chapter1:text/tamara-hand-continue",
+      "conditions": [],
+      "effects": [],
+      "nextNodeId": "finished-herself"
+     }
+    ]
+   },
+   {
+    "id": "finished-herself",
+    "speakerRole": "tamara",
+    "textId": "urman.chapter1:text/tamara-hand-herself",
+    "conditions": [],
+    "effects": [],
+    "choices": []
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-hand-no-boards",
+  "value": {
+   "default": "Доски где?",
+   "translations": {
+    "ru": "Доски где?"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-hand-remaining-5",
+  "value": {
+   "default": "Оставь здесь. Ещё пять.",
+   "translations": {
+    "ru": "Оставь здесь. Ещё пять."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-hand-remaining-4",
+  "value": {
+   "default": "Оставь здесь. Ещё четыре.",
+   "translations": {
+    "ru": "Оставь здесь. Ещё четыре."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-hand-remaining-3",
+  "value": {
+   "default": "Оставь здесь. Ещё три.",
+   "translations": {
+    "ru": "Оставь здесь. Ещё три."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-hand-remaining-2",
+  "value": {
+   "default": "Оставь здесь. Ещё две.",
+   "translations": {
+    "ru": "Оставь здесь. Ещё две."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-hand-remaining-1",
+  "value": {
+   "default": "Оставь здесь. Ещё одну.",
+   "translations": {
+    "ru": "Оставь здесь. Ещё одну."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-hand-fit",
+  "value": {
+   "default": "Эти подойдут.",
+   "translations": {
+    "ru": "Эти подойдут."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-hand-continue",
+  "value": {
+   "default": "Дальше",
+   "translations": {
+    "ru": "Дальше"
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-hand-stack",
+  "value": {
+   "default": "Сложи у забора. Дальше я сама.",
+   "translations": {
+    "ru": "Сложи у забора. Дальше я сама."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-hand-herself",
+  "value": {
+   "default": "И машину отсюда убери.",
+   "translations": {
+    "ru": "И машину отсюда убери."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-aidar-ouch",
+  "value": {
+   "default": "Блин…",
+   "translations": {
+    "ru": "Блин…"
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-guy-wait",
+  "value": {
+   "default": "Подожди…",
+   "translations": {
+    "ru": "Подожди…"
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-aidar-hello",
+  "value": {
+   "default": "Здравствуйте…",
+   "translations": {
+    "ru": "Здравствуйте…"
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-aidar-erm",
+  "value": {
+   "default": "Я… это…",
+   "translations": {
+    "ru": "Я… это…"
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-aidar-name",
+  "value": {
+   "default": "Меня Айдар зовут. Айдар Ришатович.",
+   "translations": {
+    "ru": "Меня Айдар зовут. Айдар Ришатович."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-aidar-skid",
+  "value": {
+   "default": "Меня на повороте немного занесло…",
+   "translations": {
+    "ru": "Меня на повороте немного занесло…"
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-guy-check",
+  "value": {
+   "default": "Айдар Ришатович?..",
+   "translations": {
+    "ru": "Айдар Ришатович?.."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-aidar-yes",
+  "value": {
+   "default": "Да.",
+   "translations": {
+    "ru": "Да."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-guy-line-1",
+  "value": {
+   "default": "Айдар Ришатович…",
+   "translations": {
+    "ru": "Айдар Ришатович…"
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-guy-line-2",
+  "value": {
+   "default": "…расхуярил забор Тамаре Геннадьевне.",
+   "translations": {
+    "ru": "…расхуярил забор Тамаре Геннадьевне."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-tamara-filming",
+  "value": {
+   "default": "Ты снимаешь?",
+   "translations": {
+    "ru": "Ты снимаешь?"
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-guy-yes",
+  "value": {
+   "default": "Ага…",
+   "translations": {
+    "ru": "Ага…"
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-tamara-plate",
+  "value": {
+   "default": "Номер тогда сними.",
+   "translations": {
+    "ru": "Номер тогда сними."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-aidar-stay",
+  "value": {
+   "default": "Я никуда не уеду.",
+   "translations": {
+    "ru": "Я никуда не уеду."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-tamara-good",
+  "value": {
+   "default": "Вот и хорошо.",
+   "translations": {
+    "ru": "Вот и хорошо."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-tamara-boards",
+  "value": {
+   "default": "Шесть досок принесёшь.",
+   "translations": {
+    "ru": "Шесть досок принесёшь."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-tamara-normal",
+  "value": {
+   "default": "Нормальных.",
+   "translations": {
+    "ru": "Нормальных."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-aidar-ok",
+  "value": {
+   "default": "Хорошо.",
+   "translations": {
+    "ru": "Хорошо."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-tamara-not-these",
+  "value": {
+   "default": "Эти уже не нормальные.",
+   "translations": {
+    "ru": "Эти уже не нормальные."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-remark-guy-boards",
+  "value": {
+   "default": "Доски нужны?",
+   "translations": {
+    "ru": "Доски нужны?"
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-remark-aidar-yes",
+  "value": {
+   "default": "Ага.",
+   "translations": {
+    "ru": "Ага."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-remark-guy-dry",
+  "value": {
+   "default": "Бери вон те. Они сухие.",
+   "translations": {
+    "ru": "Бери вон те. Они сухие."
+   }
+  },
+  "purpose": "caption"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-cutscene-skip-hint",
+  "value": {
+   "default": "Пробел — пропустить",
+   "translations": {
+    "ru": "Пробел — пропустить"
+   }
+  },
+  "purpose": "ui"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/tamara-fence-side",
+  "sceneType": "presentation",
+  "title": {
+   "default": "Забор Тамары Геннадьевны",
+   "translations": {
+    "ru": "Забор Тамары Геннадьевны"
+   }
+  },
+  "assetRefs": [],
+  "textRefs": [],
+  "entryConditions": [],
+  "onEnter": [],
+  "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/tamara-fence-take-board-1",
+    "labelTextId": "urman.chapter1:text/tamara-fence-take-board",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "fence_crashed",
+      "value": true
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "board_1",
+       "value": true
+      }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "fence_repaired",
+       "value": true
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "board_1",
+      "value": true
+     }
+    ],
+    "worldLocations": [
+     "village_day"
+    ]
+   },
+   {
+    "id": "urman.chapter1:interaction/tamara-fence-take-board-2",
+    "labelTextId": "urman.chapter1:text/tamara-fence-take-board",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "fence_crashed",
+      "value": true
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "board_2",
+       "value": true
+      }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "fence_repaired",
+       "value": true
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "board_2",
+      "value": true
+     }
+    ],
+    "worldLocations": [
+     "village_day"
+    ]
+   },
+   {
+    "id": "urman.chapter1:interaction/tamara-fence-take-board-3",
+    "labelTextId": "urman.chapter1:text/tamara-fence-take-board",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "fence_crashed",
+      "value": true
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "board_3",
+       "value": true
+      }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "fence_repaired",
+       "value": true
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "board_3",
+      "value": true
+     }
+    ],
+    "worldLocations": [
+     "village_day"
+    ]
+   },
+   {
+    "id": "urman.chapter1:interaction/tamara-fence-take-board-4",
+    "labelTextId": "urman.chapter1:text/tamara-fence-take-board",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "fence_crashed",
+      "value": true
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "board_4",
+       "value": true
+      }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "fence_repaired",
+       "value": true
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "board_4",
+      "value": true
+     }
+    ],
+    "worldLocations": [
+     "village_day"
+    ]
+   },
+   {
+    "id": "urman.chapter1:interaction/tamara-fence-take-board-5",
+    "labelTextId": "urman.chapter1:text/tamara-fence-take-board",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "fence_crashed",
+      "value": true
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "board_5",
+       "value": true
+      }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "fence_repaired",
+       "value": true
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "board_5",
+      "value": true
+     }
+    ],
+    "worldLocations": [
+     "village_day"
+    ]
+   },
+   {
+    "id": "urman.chapter1:interaction/tamara-fence-take-board-6",
+    "labelTextId": "urman.chapter1:text/tamara-fence-take-board",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "fence_crashed",
+      "value": true
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "board_6",
+       "value": true
+      }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "fence_repaired",
+       "value": true
+      }
+     }
+    ],
+    "effects": [
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "board_6",
+      "value": true
+     }
+    ],
+    "worldLocations": [
+     "village_day"
+    ]
+   },
+   {
+    "id": "urman.chapter1:interaction/tamara-fence-hand-in",
+    "labelTextId": "urman.chapter1:text/tamara-fence-hand-in",
+    "conditions": [
+     {
+      "op": "npc.state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "fence_crashed",
+      "value": true
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "fence_repaired",
+       "value": true
+      }
+     },
+     {
+      "op": "any",
+      "conditions": [
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/tamara",
+        "stateKey": "board_1",
+        "value": true
+       },
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/tamara",
+        "stateKey": "board_2",
+        "value": true
+       },
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/tamara",
+        "stateKey": "board_3",
+        "value": true
+       },
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/tamara",
+        "stateKey": "board_4",
+        "value": true
+       },
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/tamara",
+        "stateKey": "board_5",
+        "value": true
+       },
+       {
+        "op": "npc.state",
+        "characterId": "urman.chapter1:character/tamara",
+        "stateKey": "board_6",
+        "value": true
+       }
+      ]
+     }
+    ],
+    "effects": [],
+    "worldLocations": [
+     "village_day"
+    ]
+   }
+  ]
+ }
+]

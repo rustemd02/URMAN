@@ -13,6 +13,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     private DocumentImageReader _images = null!;
     private Label _source = null!;
     private Label _objective = null!;
+    private VBoxContainer _tasks = null!;
     private Label _vocabulary = null!;
     private Button _close = null!;
     private SourceExcerptSelection _excerpts = null!;
@@ -32,7 +33,15 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public string? ActiveEntryId { get; private set; }
 
-    public string CurrentObjectiveText => _objective?.Text ?? string.Empty;
+    /// <summary>The work list as plain text. The overview page draws rows now,
+    /// so the projection joins them for callers that only read text.</summary>
+    public string CurrentObjectiveText => _taskRows.Count == 0
+        ? string.Empty
+        : string.Join("\n", _taskRows.Select(RowText));
+
+    private static string RowText(Control row) => row is HBoxContainer box
+        ? string.Join(" ", box.GetChildren().OfType<Label>().Select(label => label.Text))
+        : string.Empty;
 
     public string LearnedVocabularyText => _vocabulary?.Text ?? string.Empty;
 
@@ -51,6 +60,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _source = GetNode<Label>("Screen/Book/Layout/WorkArea/Reader/Source");
         _source.AutowrapMode = TextServer.AutowrapMode.WordSmart;
         _objective = GetNode<Label>("Screen/Book/Layout/Overview/Contents/Objective");
+        _tasks = GetNode<VBoxContainer>("Screen/Book/Layout/Overview/Contents/TaskList");
         _vocabulary = GetNode<Label>("Screen/Book/Layout/Overview/Contents/Vocabulary");
         _close = GetNode<Button>("Screen/Book/Layout/Header/Close");
         _excerpts = SourceExcerptSelection.Attach(_body, _close);
@@ -158,16 +168,28 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             objective.QuestId == "urman.chapter1:quest/quest_marat_first_contradiction"
                 && objective.ObjectiveId == "find-contradiction" && !canCompareRecords
                 ? "Выяснить, что случилось с Маратом."
-                : objective.Title);
+                : objective.Title).ToList();
+        // The fence quest carries its own counter; the authored objective title
+        // stays generic while these lines describe the actual hand-over state.
+        if (_bridge?.TamaraFenceSnapshotNow() is { Crashed: true, Repaired: false } fence)
+        {
+            objectiveTitles.RemoveAll(title => title == _bridge.ResolveText(
+                "urman.chapter1:text/objective-tamara-fence-boards"));
+            objectiveTitles.Add($"Передано Тамаре Геннадьевне: {fence.Delivered} / 6");
+            objectiveTitles.Add(fence.Carried > 0
+                ? "Вернуться к Тамаре Геннадьевне с досками"
+                : "Найти целые доски в деревне");
+        }
         // The arrival is still a personal scene. Present its authored next action
         // before the investigation objective, without creating another quest state.
-        if (FamilyHomeObjectiveText() is { } familyObjective) objectiveTitles = objectiveTitles.Prepend(familyObjective);
+        if (FamilyHomeObjectiveText() is { } familyObjective) objectiveTitles.Insert(0, familyObjective);
+        // The arrival is still a personal scene: the investigation objective it
+        // would otherwise drag in is not offered before the house is found. The
+        // fence quest keeps its own rows below, because that accident has
+        // already happened.
         if (ArrivalObjectiveText() is { } arrivalObjective) objectiveTitles = [arrivalObjective];
         var vocabulary = _bridge?.LearnedVocabulary() ?? [];
-        var displayedObjectives = objectiveTitles.ToArray();
-        _objective.Text = displayedObjectives.Length == 0
-            ? "ТЕКУЩАЯ ЦЕЛЬ\n—"
-            : $"ТЕКУЩАЯ ЦЕЛЬ\n{string.Join("\n", displayedObjectives.Select(title => $"• {title}"))}";
+        RefreshTaskList(objectiveTitles, _bridge?.TamaraFenceSnapshotNow());
         // A word the player only heard is written into the kernel as "guessed",
         // and the kernel refuses to step a word back down that ladder. The
         // journal must not read a heard word as a known one, so unconfirmed
@@ -215,6 +237,84 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     }
 
     public void RefreshProjection() => Refresh();
+
+    /// <summary>
+    /// The notebook's work list: one line per live objective, the first one
+    /// marked as the thing Aidar is doing right now, plus the fence quest's own
+    /// counter and a struck-through line once it is done. Rows are Labels, so
+    /// the long ones wrap like every other page of the book.
+    /// </summary>
+    private void RefreshTaskList(IReadOnlyList<string> titles, RuntimeBridge.TamaraFenceSnapshot? fence)
+    {
+        foreach (var row in _taskRows)
+        {
+            if (GodotObject.IsInstanceValid(row)) row.QueueFree();
+        }
+        _taskRows.Clear();
+        if (titles.Count == 0)
+        {
+            AddTaskRow("—", "Пока никаких дел.", new Color(.62f, .58f, .48f), 18);
+        }
+
+        for (var index = 0; index < titles.Count; index++)
+        {
+            var current = index == 0;
+            AddTaskRow(current ? "●" : "•", titles[index],
+                current ? new Color(.95f, .83f, .56f) : new Color(.86f, .82f, .72f),
+                current ? 20 : 18, indent: current ? 0 : 12);
+        }
+
+        if (fence is { Repaired: true })
+        {
+            AddTaskRow("✓", "Забор Тамары Геннадьевны починен.",
+                new Color(.62f, .72f, .62f), 17, indent: 12);
+        }
+        else if (fence is { Crashed: true })
+        {
+            AddTaskRow("•", $"Забор Тамары Геннадьевны — досок у Тамары: {fence.Delivered} / 6",
+                new Color(.86f, .82f, .72f), 18, indent: 12);
+            AddTaskRow("·", fence.Carried > 0
+                    ? $"Целых досок при себе: {fence.Carried} — отнести Тамаре Геннадьевне."
+                    : "Целые доски лежат у сараев и под навесом во дворе бабая.",
+                new Color(.66f, .62f, .52f), 16, indent: 26);
+        }
+    }
+
+    private readonly List<Control> _taskRows = [];
+
+    private void AddTaskRow(string marker, string text, Color colour, int fontSize, int indent = 0)
+    {
+        var row = new HBoxContainer { Name = "TaskRow" };
+        _tasks.AddChild(row);
+        row.AddThemeConstantOverride("separation", 10);
+        if (indent > 0)
+        {
+            var spacer = new Control { CustomMinimumSize = new Vector2(indent, 0) };
+            row.AddChild(spacer);
+        }
+
+        var markerLabel = new Label
+        {
+            Text = marker,
+            CustomMinimumSize = new Vector2(16, 0),
+            VerticalAlignment = VerticalAlignment.Top,
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+        markerLabel.AddThemeFontSizeOverride("font_size", fontSize);
+        markerLabel.AddThemeColorOverride("font_color", colour);
+        row.AddChild(markerLabel);
+        var textLabel = new Label
+        {
+            Text = text,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+        textLabel.AddThemeFontSizeOverride("font_size", fontSize);
+        textLabel.AddThemeColorOverride("font_color", colour);
+        row.AddChild(textLabel);
+        _taskRows.Add(row);
+    }
 
     private string? ArrivalObjectiveText()
     {
