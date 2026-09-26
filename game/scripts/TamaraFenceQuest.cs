@@ -541,8 +541,24 @@ public partial class TamaraFenceQuest : Node3D
         {
             new JsonObject { ["propId"] = $"tamara/board/{index + 1}", ["taken"] = true }
         });
-        if (taken) visual.Visible = false;
+        if (taken)
+        {
+            visual.Visible = false;
+            PresentBoardProgress();
+        }
+
         return taken;
+    }
+
+    /// <summary>The board count is the only progress this quest has, so the
+    /// toast repeats with the new number instead of leaving the player to
+    /// remember how many planks they are carrying.</summary>
+    private void PresentBoardProgress()
+    {
+        if (TamaraFenceSnapshotNow() is not { Repaired: false } snapshot) return;
+        PresentBanner("Забор Тамары Геннадьевны",
+            snapshot.Carried >= 6 ? "Вернуться к Тамаре Геннадьевне" : "Целые доски во дворах деревни",
+            $"{snapshot.Carried} / 6");
     }
 
     private async Task<bool> HandInTransactionAsync()
@@ -856,8 +872,10 @@ public partial class TamaraFenceQuest : Node3D
     private void ScatterLooseBoards(Vector3 centre, float distance, Vector3 impactPoint, bool animate)
     {
         var rng = new RandomNumberGenerator { Seed = (ulong)(centre.Z * 1013f) };
-        var wood = new StandardMaterial3D { AlbedoColor = new Color("b98072"), Roughness = .9f };
-        var woodDark = new StandardMaterial3D { AlbedoColor = new Color("77644f"), Roughness = .92f };
+        // Loose boards keep the shield's own palette: a brighter red plank in a
+        // heap of pale pink ones read as a different fence.
+        var wood = new StandardMaterial3D { AlbedoColor = new Color("c9826f"), Roughness = .9f };
+        var woodDark = new StandardMaterial3D { AlbedoColor = new Color("9c6a58"), Roughness = .92f };
         var count = distance < BreakRadius * .55f ? 5 : 3;
         for (var board = 0; board < count; board++)
         {
