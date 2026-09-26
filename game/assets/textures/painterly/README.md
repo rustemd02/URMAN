@@ -946,3 +946,18 @@ Edit the supplied W02 wood material, changing only the rendering/detail frequenc
 ```
 
 Source-gate PASS1/1: mean seams .0523/.0374, maximum .1961/.1882, no clipping. Intended import cap 1024 with mipmaps. One metre per repeat. Partial integration: `wood_fence_vertical` on AddVisualFenceRun slats/posts (local Y); `wood_fence_rail` on six replacement side-gate rails (local Z mapped to V by XZY permutation); `wood_fence_uv` on AddVisualFenceRun terrain-following rails (metre UV V along each sloped span). The Zirat shed junction preserves/interpolates source UVs and maps its joining span; closed wall ends use the existing cross-section projection. All reuse `wood_fence` numeric response; Low keeps the new neutral-grey palette and unchanged forms without the bitmap. Mixed imported fences, wattle and other `wood_fence` consumers remain unchanged until their grain axes are mapped. Local top/end faces are not claimed as separately modeled end grain. Build/capture limits remain in the production journal; no art approval implied.
+
+
+## T07 — полотенце, 2026-09-25
+
+`urman_t07_v01_basecolor.png`, 1254 × 1254 RGB, скачано из чата без правок пикселей; входного изображения нет; SHA-256 `fccb9fd4da890707bbb2bc7762f836474d17fc49fa36e95aad7f60ba96d5e899`; владелец `cloth_towel`, масштаб 2 × 2. Получатели: `HouseWashTowel`, `BathDryTowel`, `MosqueWashTowel` и полотенца умывального узла ФАПа. Два оттенка карточки получаются из одного эталона цветом получателя, а не второй генерацией. Ответ ткани идёт по группе `cloth` (roughness/specular/wet). Кадр-подтверждение: `fap_wash_towel`.
+
+Точный промпт (карточка T07, как отправлено в чат):
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.
+
+Material request: Washed cotton towel surface, pale oatmeal and warm ivory, soft grouped loop texture and slight thread irregularity. Clean practical cloth with no folds, border, embroidery, logos, dirt patches or shadow ridges.
+```

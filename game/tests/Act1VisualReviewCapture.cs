@@ -41,6 +41,8 @@ public partial class Act1VisualReviewCapture : Node
                 "school_plate", "village_day", "arrival", Vector3.Zero, Vector3.Zero), // plate subject resolved below
             ["council_plate"] = new(
                 "council_plate", "village_day", "arrival", Vector3.Zero, Vector3.Zero), // plate subject resolved below
+            ["fap_wash_towel"] = new(
+                "fap_wash_towel", "fap_clinic", "waiting_room", Vector3.Zero, Vector3.Zero), // towel subject resolved below
             ["house_exterior_trim"] = new(
                 "house_exterior_trim", "village_day", "from_house", Vector3.Zero, Vector3.Zero),
             ["house_exterior_trim_street"] = new(
@@ -283,6 +285,23 @@ public partial class Act1VisualReviewCapture : Node
         var space = spec.LocalSpace is null ? null : connectedWorld.GetNode<Node3D>(spec.LocalSpace);
         var position = space is null ? spec.PlayerPosition : space.ToGlobal(spec.PlayerPosition);
         var target = space is null ? spec.Target : space.ToGlobal(spec.Target);
+
+        if (frameId == "fap_wash_towel")
+        {
+            var towel = connectedWorld.FindChild("FapInteriorWashUnit_Towel_LOD0", true, false) as MeshInstance3D
+                ?? throw new InvalidOperationException("FAP towel capture lacks the wash-unit towel.");
+            if (!towel.IsVisibleInTree() || towel.MaterialOverride is not ShaderMaterial)
+                throw new InvalidOperationException("FAP towel capture found no visible mapped towel.");
+            // Stand at the clinic shell's own origin, on its floor, and aim at
+            // the wash unit: a terrain-height search would put the capsule
+            // outside the building, and the shell is not the heightfield.
+            var shell = connectedWorld.GetNode<Node3D>("fap-clinic-yard/FapInteriorSet");
+            target = towel.ToGlobal(towel.Mesh.GetAabb().GetCenter());
+            position = shell.ToGlobal(new Vector3(0f, .05f, 0f));
+            if (!player.CanStandAt(position))
+                throw new InvalidOperationException("FAP towel capture cannot stand at the clinic shell origin.");
+            GD.Print($"act1-fap-towel-subject: {towel.GetPath()} at={target} standing={position} distance={position.DistanceTo(target):F2}");
+        }
 
         if (frameId is "school_plate" or "council_plate")
         {

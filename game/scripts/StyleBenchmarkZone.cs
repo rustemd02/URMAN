@@ -379,7 +379,7 @@ public partial class StyleBenchmarkZone : Node3D
         MakeRotatedBox("HouseThresholdMutedCoat", new(.45f, 1.10f, .05f), new(-1.78f, 1.50f, 3.38f), new(0, 0, -3), "58656a", "fabric");
         MakeBox("HearthFirewoodLogBottom", new(.55f, .13f, .30f), new(-3.15f, .065f, .45f), "8a6b50", collision: false, surface: "wood");
         MakeBox("HearthFirewoodLogTop", new(.48f, .12f, .27f), new(-3.17f, .19f, .47f), "9a7a55", collision: false, surface: "wood");
-        MakeRotatedBox("HouseWashTowel", new(.04f, .52f, .28f), new(-3.97f, 1.52f, 1.40f), new(0, 0, 2), "b3ac9d", "fabric");
+        MakeRotatedBox("HouseWashTowel", new(.04f, .52f, .28f), new(-3.97f, 1.52f, 1.40f), new(0, 0, 2), "b3ac9d", "cloth_towel");
         MakeDisc("HouseWashBucket", new(.26f, .26f, .26f), new(-3.60f, .13f, 1.35f), "6f6d61", "metal");
         MakeBox("HouseWashBucketHandle", new(.26f, .03f, .03f), new(-3.60f, .29f, 1.35f), "4c4c48", collision: false, surface: "metal");
         MakeBox("PcSocketPlate", new(.12f, .16f, .03f), new(.62f, .42f, -3.48f), "c9c2ad", collision: false, surface: "plaster");

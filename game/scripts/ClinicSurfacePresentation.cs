@@ -88,7 +88,7 @@ public static class ClinicSurfacePresentation
 
         // Both distances of the folded towel share FapNoticeBlank with paper
         // in the source kit; only these consumers need the woven cloth finish.
-        var towelMaterial = PainterlyMaterialLibrary.ForColor("c9c6b7", "fabric_pattern", sheltered: true);
+        var towelMaterial = PainterlyMaterialLibrary.ForColor("c9c6b7", "cloth_towel", sheltered: true);
         foreach (var name in new[] { "FapInteriorWashUnit_Towel_LOD0", "FapInteriorWashUnit_Towel_LOD1" })
         {
             var towel = meshes.Single(mesh => mesh.Name == name);

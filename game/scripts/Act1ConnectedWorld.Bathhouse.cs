@@ -113,7 +113,7 @@ public partial class Act1ConnectedWorld
         AddVisualBox(_bathhouse, "BathCoatRail", new(1.42f, .10f, .055f), new(-.98f, 1.85f, 2.375f), "4a3a2b", "wood");
         for (var i = 0; i < 4; i++) FacilityRod(_bathhouse, "BathClothesHook" + i,
             new(-1.50f + .35f * i, 1.86f, 2.33f), new(-1.50f + .35f * i, 1.76f, 2.25f), .013f, "686b61");
-        AddVisualBox(_bathhouse, "BathDryTowel", new(.36f, .69f, .018f), new(-1.1f, 1.48f, 2.28f), "c8baa0", "fabric");
+        AddVisualBox(_bathhouse, "BathDryTowel", new(.36f, .69f, .018f), new(-1.1f, 1.48f, 2.28f), "c8baa0", "cloth_towel");
         FacilityLamp(_bathhouse, "BathChangingLamp", new(.06f, 2.24f, 2.21f), "f8d399", .38f, 3.3f);
         FacilityLamp(_bathhouse, "BathShieldedWetLamp", new(1.73f, 2.12f, -.56f), "ebbd79", .28f, 3.6f);
         for (var slat = 0; slat < 4; slat++)
