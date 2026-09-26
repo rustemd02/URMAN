@@ -2671,7 +2671,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-09-22",
+  "updated": "2026-09-26",
   "goal_key": "urman-act1-finished-product",
   "goal_statement": "Довести Акт I до законченного игрового результата. Действующее поручение автора 2026-09-15: минимум 60 минут обычного первого основного опыта; все EX00 и EX01–EX14; исправленные физика, геометрия, ассеты, взаимодействия, NPC, звук, сохранения и производительность; связное расследование, культурный код, зима 2026 и высокий непроницаемый лес. Продолжать основной checkout и эту очередь; debug и необходимые локальные проверки разрешены. Технический walkthrough, объём текста и количество PASS не принимают художественное качество, интерес или длительность. Неизмеренный человеческий опыт и недоступное прослушивание — external/not-run; независимые локальные работы продолжаются.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -11290,7 +11290,7 @@
       },
       "title": "Расчесать композицию участка: убрать визуальный шум",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "world/art",
       "depends_on": [],
@@ -11311,7 +11311,10 @@
         "Снято компактное до/после обычной камерой с улицы и вблизи, подход проверен капсулой; результат показан автору. Массовая расчистка остальных дворов ждёт согласования схемы ACT1-VILLAGE-LAYOUT."
       ],
       "evidence": [
-        "2026-09-22 инвентаризация двора бабая (read-only рой): три слоя-автора дублируют массы/заборы/калитки; зоны A/B/C с конкретными дубликатами и НЕ-трогать списком — docs/production/act1_takeover_evidence_2026-09-16/act1_swarm_next_packets_2026-09-22.md §2. Реализация расчистки не начата."
+        "2026-09-22 инвентаризация двора бабая (read-only рой): три слоя-автора дублируют массы/заборы/калитки; зоны A/B/C с конкретными дубликатами и НЕ-трогать списком — docs/production/act1_takeover_evidence_2026-09-16/act1_swarm_next_packets_2026-09-22.md §2.",
+        "2026-09-25 пакет 1: скрыты пять дублей забора/калитки уличной стороны (16 узлов, act1-yard-composition: hidden=16).",
+        "2026-09-26 пакет 2: инвентаризация по построенному миру (babai_yard_composition_capture) и список объектов с судьбой — docs/production/act1_babai_yard_composition_2026-09-26.md. Скрыты китовые калитка/прогон Agent B внутри двора и два голых саженца в рабочей части (hidden=41). Зоны A/B из карты шума оказались ложным следом: слой Act1AuthoredOutdoorBackbone в действующем мире не строится.",
+        "Проверки пакета 2: act1_boundary_architecture_smoke_test PASS (1011 проверок, обычное движение 473,21 м); first_person_interaction_smoke_test PASS; babai_yard_composition_capture — 5 кадров до/после."
       ]
     },
     {
@@ -12476,6 +12479,51 @@
         "Кадровое ревью ходьба/бег/присед/повороты — правдоподобно; регресс ACT1-PLAYER зелёный."
       ],
       "evidence": []
+    },
+    {
+      "id": "ACT1-TAMARA-FENCE",
+      "execution": {
+        "kind": "work",
+        "unit": "Необязательный мини-квест «Забор Тамары Геннадьевны»: ДТП у забора на обратной улице, катсцена с парнем с телефоном, поиск шести досок, починенный забор.",
+        "steps": [
+          {
+            "id": "ACT1-TAMARA-FENCE/S1",
+            "action": "Нива на скорости ≥2.2 м/с въезжает в авторский забор у обочины; слабый касательный удар ничего не запускает."
+          },
+          {
+            "id": "ACT1-TAMARA-FENCE/S2",
+            "action": "Авария коммитит краш-флаг, гейт квеста и чекпоинт одной транзакцией; катсцена ~34 с со скипом."
+          },
+          {
+            "id": "ACT1-TAMARA-FENCE/S3",
+            "action": "Шесть целых досок в существующих местах деревни; частичная и полная сдача Тамаре Геннадьевне."
+          },
+          {
+            "id": "ACT1-TAMARA-FENCE/S4",
+            "action": "Забор перекрашивается в свежие доски, когда двор без игрока; тихий callback с телефоном при повторном проезде."
+          }
+        ],
+        "acceptance": "Автотест tamara_fence_smoke_test (49 проверок) + визуальный проход tamara_fence_capture; живой плейтест остаётся external.",
+        "verification": "SMOKE",
+        "stop_if": "Правки канона или новых сюжетных NPC требуют решения автора.",
+        "read_first": [
+          "game/scripts/TamaraFenceQuest.cs",
+          "game/scripts/TamaraFenceCutscene.cs",
+          "content/modules/urman-chapter1/tamara-fence.json"
+        ]
+      },
+      "title": "Забор Тамары Геннадьевны (необязательный квест)",
+      "status": "done",
+      "notes": "Мем-квест по видео «Николай Николаевич/Тамара Геннадьевна»: механика юмора — имя-отчество + будничная хроника, не цитата. Айдар Ришатович фигурирует в обращении впервые; в канон персонаж не внесён, противоречий нет. 2026-09-26 по списку автора перестроены забор (бетонные столбы и щиты из широких досок, падение опрокидыванием щита вокруг нижнего края), субтитры и баннер (полноэкранный корень UI — до этого рисовались за краем), планы камеры, поза съёмки и список дел в журнале. Проверки: tamara_fence_smoke_test exit0 49 проверок, tamara_fence_drive_proof PASS обычным вводом, act1_main_menu_smoke_test PASS, journal_flow_smoke_test PASS, tamara_fence_capture 19 кадров. Человеческий проход и читаемость субтитров человеком — external/not-run.",
+      "opened": "2026-09-25",
+      "closed": "2026-09-26",
+      "evidence": [
+        "tamara_fence_smoke_test: 49 checks passed",
+        "tamara_fence_drive_proof: PASS crash through ordinary input",
+        "act1_main_menu_smoke_test: PASS",
+        "journal_flow_smoke_test: PASS",
+        "tamara_fence_capture: 19 frames (standing fence, collapse, every shot, repaired fence, work list)"
+      ]
     }
   ]
 }

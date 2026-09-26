@@ -26,7 +26,9 @@
     "naila": "urman.chapter1:character/naila",
     "rinat": "urman.chapter1:character/rinat",
     "razilya": "urman.chapter1:character/razilya",
-    "timur-hazrat": "urman.chapter1:character/timur_hazrat"
+    "timur-hazrat": "urman.chapter1:character/timur_hazrat",
+    "tamara": "urman.chapter1:character/tamara",
+    "phone_guy": "urman.chapter1:character/phone_guy"
   },
   "capabilityRequirements": [
     {

@@ -10,6 +10,11 @@ namespace Urman.Godot;
 /// stub, two pale rail "street boundaries" and a kit gate planted on the entry
 /// path. Only those duplicates go; the real boundary, its gate and collision,
 /// the well, sled, haystack, woodpile and every interaction stay.
+///
+/// 2026-09-26 note: the inventory's zone A/B duplicates all belonged to the
+/// legacy "Act1AuthoredOutdoorBackbone" yard. That builder is not called on the
+/// connected-world path any more (its root never materializes), so those
+/// duplicates do not exist in the built world and nothing is hidden for them.
 /// </summary>
 public partial class Act1ConnectedWorld
 {
@@ -43,6 +48,27 @@ public partial class Act1ConnectedWorld
             if (members.Length == 0) throw new InvalidOperationException("Yard composition target is missing: " + name);
             foreach (var member in members) Hide(member, reason);
         }
+        // The Agent B village kit laid its own west gate and fence run inside
+        // the yard mouth, 2.5 m behind the authored gate the player actually
+        // walks through, plus two bare saplings in the middle of the working
+        // area. Those go; the real gate, the yard fence line and both yard
+        // trees stay.
+        foreach (var duplicate in new[]
+                 {
+                     ("GateBabai_PostW", "Agent B kit gate post inside the authored yard gate"),
+                     ("GateBabai_PostCapW", "Agent B kit gate cap inside the authored yard gate"),
+                     ("FenceBabaiW_N", "Agent B kit fence run duplicating the yard's west boundary"),
+                     ("WinterBirch_1_Plant23", "bare sapling standing in the yard's working area"),
+                     ("WinterWillow_1_Plant43", "bare willow standing in the yard's working area")
+                 })
+        {
+            var targets = FindDescendants<Node3D>(core)
+                .Where(n => n.Name.ToString().StartsWith(duplicate.Item1, StringComparison.Ordinal)).ToArray();
+            if (targets.Length == 0) throw new InvalidOperationException(
+                "Yard composition target is missing: " + duplicate.Item1);
+            foreach (var target in targets) Hide(target, duplicate.Item2);
+        }
+
         // The kit gate planted on the entry path, two metres inside the real gate.
         var entryGate = new Vector2(-22.5f, 2.6f);
         foreach (var placement in FindDescendants<Node3D>(core).Where(n => n.IsVisibleInTree() && n.GetChildren()

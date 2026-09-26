@@ -26,8 +26,10 @@
       "mansur": "urman.chapter1:character/mansur",
       "marat": "urman.chapter1:character/marat",
       "naila": "urman.chapter1:character/naila",
+      "phone_guy": "urman.chapter1:character/phone_guy",
       "razilya": "urman.chapter1:character/razilya",
       "rinat": "urman.chapter1:character/rinat",
+      "tamara": "urman.chapter1:character/tamara",
       "timur-hazrat": "urman.chapter1:character/timur_hazrat"
     },
     "capabilityRequirements": [
@@ -655,6 +657,26 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:character/phone_guy",
+        "displayName": {
+          "default": "\u041F\u0430\u0440\u0435\u043D\u044C \u0441 \u0442\u0435\u043B\u0435\u0444\u043E\u043D\u043E\u043C",
+          "translations": {
+            "ru": "\u041F\u0430\u0440\u0435\u043D\u044C \u0441 \u0442\u0435\u043B\u0435\u0444\u043E\u043D\u043E\u043C"
+          }
+        },
+        "roleTags": [
+          "villager"
+        ],
+        "assetIds": [],
+        "accessibilityDescription": {
+          "default": "\u041C\u043E\u043B\u043E\u0434\u043E\u0439 \u0434\u0435\u0440\u0435\u0432\u0435\u043D\u0441\u043A\u0438\u0439 \u043F\u0430\u0440\u0435\u043D\u044C. \u0412\u0441\u0451 \u0438\u043D\u0442\u0435\u0440\u0435\u0441\u043D\u043E\u0435 \u0441\u0440\u0430\u0437\u0443 \u0441\u043D\u0438\u043C\u0430\u0435\u0442 \u043D\u0430 \u0442\u0435\u043B\u0435\u0444\u043E\u043D.",
+          "translations": {
+            "ru": "\u041C\u043E\u043B\u043E\u0434\u043E\u0439 \u0434\u0435\u0440\u0435\u0432\u0435\u043D\u0441\u043A\u0438\u0439 \u043F\u0430\u0440\u0435\u043D\u044C. \u0412\u0441\u0451 \u0438\u043D\u0442\u0435\u0440\u0435\u0441\u043D\u043E\u0435 \u0441\u0440\u0430\u0437\u0443 \u0441\u043D\u0438\u043C\u0430\u0435\u0442 \u043D\u0430 \u0442\u0435\u043B\u0435\u0444\u043E\u043D."
+          }
+        }
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:character/razilya",
         "displayName": {
           "default": "\u0420\u0430\u0437\u0438\u043B\u044F",
@@ -695,6 +717,27 @@
           "default": "Rinat suppresses information, then acts to prevent a repeated danger rather than to punish Aidar.",
           "translations": {
             "ru": "\u0420\u0438\u043D\u0430\u0442 \u0441\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u0441\u0432\u0435\u0434\u0435\u043D\u0438\u044F, \u0430 \u0437\u0430\u0442\u0435\u043C \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u0435\u0442, \u0447\u0442\u043E\u0431\u044B \u043D\u0435 \u0434\u043E\u043F\u0443\u0441\u0442\u0438\u0442\u044C \u043F\u043E\u0432\u0442\u043E\u0440\u0435\u043D\u0438\u044F \u043E\u043F\u0430\u0441\u043D\u043E\u0441\u0442\u0438, \u0430 \u043D\u0435 \u043D\u0430\u043A\u0430\u0437\u0430\u0442\u044C \u0410\u0439\u0434\u0430\u0440\u0430."
+          }
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:character/tamara",
+        "displayName": {
+          "default": "\u0422\u0430\u043C\u0430\u0440\u0430 \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u0430",
+          "translations": {
+            "ru": "\u0422\u0430\u043C\u0430\u0440\u0430 \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u0430"
+          }
+        },
+        "roleTags": [
+          "villager",
+          "return-street"
+        ],
+        "assetIds": [],
+        "accessibilityDescription": {
+          "default": "\u041F\u043E\u0436\u0438\u043B\u0430\u044F \u0445\u043E\u0437\u044F\u0439\u043A\u0430 \u0434\u043E\u043C\u0430 \u043D\u0430 \u043E\u0431\u0440\u0430\u0442\u043D\u043E\u0439 \u0443\u043B\u0438\u0446\u0435. \u0413\u043E\u0432\u043E\u0440\u0438\u0442 \u043C\u0430\u043B\u043E \u0438 \u043F\u043E \u0434\u0435\u043B\u0443.",
+          "translations": {
+            "ru": "\u041F\u043E\u0436\u0438\u043B\u0430\u044F \u0445\u043E\u0437\u044F\u0439\u043A\u0430 \u0434\u043E\u043C\u0430 \u043D\u0430 \u043E\u0431\u0440\u0430\u0442\u043D\u043E\u0439 \u0443\u043B\u0438\u0446\u0435. \u0413\u043E\u0432\u043E\u0440\u0438\u0442 \u043C\u0430\u043B\u043E \u0438 \u043F\u043E \u0434\u0435\u043B\u0443."
           }
         }
       },
@@ -5361,6 +5404,173 @@
                 "value": true
               }
             ],
+            "choices": []
+          }
+        ]
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:dialogue/tamara_fence_hand_in",
+        "participantRoles": [
+          "aidar",
+          "tamara"
+        ],
+        "startNodeId": "no-boards",
+        "entryRoutes": [
+          {
+            "nodeId": "hand-1",
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "boards_delivered",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "nodeId": "hand-2",
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "boards_delivered",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "nodeId": "hand-3",
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "boards_delivered",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "nodeId": "hand-4",
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "boards_delivered",
+                "value": 4
+              }
+            ]
+          },
+          {
+            "nodeId": "hand-5",
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "boards_delivered",
+                "value": 5
+              }
+            ]
+          },
+          {
+            "nodeId": "finished",
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "boards_delivered",
+                "value": 6
+              }
+            ]
+          }
+        ],
+        "nodes": [
+          {
+            "id": "no-boards",
+            "speakerRole": "tamara",
+            "textId": "urman.chapter1:text/tamara-hand-no-boards",
+            "conditions": [],
+            "effects": [],
+            "choices": []
+          },
+          {
+            "id": "hand-1",
+            "speakerRole": "tamara",
+            "textId": "urman.chapter1:text/tamara-hand-remaining-5",
+            "conditions": [],
+            "effects": [],
+            "choices": []
+          },
+          {
+            "id": "hand-2",
+            "speakerRole": "tamara",
+            "textId": "urman.chapter1:text/tamara-hand-remaining-4",
+            "conditions": [],
+            "effects": [],
+            "choices": []
+          },
+          {
+            "id": "hand-3",
+            "speakerRole": "tamara",
+            "textId": "urman.chapter1:text/tamara-hand-remaining-3",
+            "conditions": [],
+            "effects": [],
+            "choices": []
+          },
+          {
+            "id": "hand-4",
+            "speakerRole": "tamara",
+            "textId": "urman.chapter1:text/tamara-hand-remaining-2",
+            "conditions": [],
+            "effects": [],
+            "choices": []
+          },
+          {
+            "id": "hand-5",
+            "speakerRole": "tamara",
+            "textId": "urman.chapter1:text/tamara-hand-remaining-1",
+            "conditions": [],
+            "effects": [],
+            "choices": []
+          },
+          {
+            "id": "finished",
+            "speakerRole": "tamara",
+            "textId": "urman.chapter1:text/tamara-hand-fit",
+            "conditions": [],
+            "effects": [],
+            "choices": [
+              {
+                "id": "next",
+                "textId": "urman.chapter1:text/tamara-hand-continue",
+                "conditions": [],
+                "effects": [],
+                "nextNodeId": "finished-stack"
+              }
+            ]
+          },
+          {
+            "id": "finished-stack",
+            "speakerRole": "tamara",
+            "textId": "urman.chapter1:text/tamara-hand-stack",
+            "conditions": [],
+            "effects": [],
+            "choices": [
+              {
+                "id": "next",
+                "textId": "urman.chapter1:text/tamara-hand-continue",
+                "conditions": [],
+                "effects": [],
+                "nextNodeId": "finished-herself"
+              }
+            ]
+          },
+          {
+            "id": "finished-herself",
+            "speakerRole": "tamara",
+            "textId": "urman.chapter1:text/tamara-hand-herself",
+            "conditions": [],
+            "effects": [],
             "choices": []
           }
         ]
@@ -11698,6 +11908,30 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:knowledge/tamara_fence_settled",
+        "kind": "clue",
+        "title": {
+          "default": "\u0417\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B",
+          "translations": {
+            "ru": "\u0417\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B"
+          }
+        },
+        "summary": {
+          "default": "\u0410\u0439\u0434\u0430\u0440 \u0432\u044A\u0435\u0445\u0430\u043B \u041D\u0438\u0432\u043E\u0439 \u0432 \u0437\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B \u043D\u0430 \u043E\u0431\u0440\u0430\u0442\u043D\u043E\u0439 \u0443\u043B\u0438\u0446\u0435. \u0414\u043E\u0441\u043A\u0438 \u043D\u0430\u0448\u043B\u0438\u0441\u044C \u043F\u043E \u0441\u043E\u0441\u0435\u0434\u043D\u0438\u043C \u0434\u0432\u043E\u0440\u0430\u043C, \u0437\u0430\u0431\u043E\u0440 \u0432\u0441\u0442\u0430\u043B \u043D\u0430 \u043C\u0435\u0441\u0442\u043E.",
+          "translations": {
+            "ru": "\u0410\u0439\u0434\u0430\u0440 \u0432\u044A\u0435\u0445\u0430\u043B \u041D\u0438\u0432\u043E\u0439 \u0432 \u0437\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B \u043D\u0430 \u043E\u0431\u0440\u0430\u0442\u043D\u043E\u0439 \u0443\u043B\u0438\u0446\u0435. \u0414\u043E\u0441\u043A\u0438 \u043D\u0430\u0448\u043B\u0438\u0441\u044C \u043F\u043E \u0441\u043E\u0441\u0435\u0434\u043D\u0438\u043C \u0434\u0432\u043E\u0440\u0430\u043C, \u0437\u0430\u0431\u043E\u0440 \u0432\u0441\u0442\u0430\u043B \u043D\u0430 \u043C\u0435\u0441\u0442\u043E."
+          }
+        },
+        "initialStatus": "hidden",
+        "sourceIds": [
+          "urman.chapter1:scene/tamara-fence-side"
+        ],
+        "reveals": [],
+        "contradicts": [],
+        "unlocks": []
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:knowledge/topic_marat_unresolved",
         "kind": "clue",
         "title": {
@@ -12105,6 +12339,80 @@
               "mode": "all",
               "objectiveIds": [
                 "find-contradiction"
+              ]
+            }
+          }
+        ],
+        "outcomes": {
+          "success": [],
+          "optional": [],
+          "failure": []
+        },
+        "retryPolicy": {
+          "mode": "none",
+          "maximumAttempts": 1
+        },
+        "checkpointPolicy": {
+          "mode": "objective"
+        },
+        "cancelPolicy": {
+          "allowed": false,
+          "effects": []
+        }
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:quest/quest_tamara_fence",
+        "titleTextId": "urman.chapter1:text/quest-tamara-fence-title",
+        "stages": [
+          {
+            "id": "boards",
+            "objectives": [
+              {
+                "id": "deliver-boards",
+                "titleTextId": "urman.chapter1:text/objective-tamara-fence-boards",
+                "optional": false,
+                "startConditions": [
+                  {
+                    "op": "npc.state",
+                    "characterId": "urman.chapter1:character/tamara",
+                    "stateKey": "fence_crashed",
+                    "value": true
+                  }
+                ],
+                "completionConditions": [
+                  {
+                    "op": "npc.state",
+                    "characterId": "urman.chapter1:character/tamara",
+                    "stateKey": "boards_delivered",
+                    "value": 6
+                  }
+                ],
+                "completionEffects": [
+                  {
+                    "op": "npc.set-state",
+                    "characterId": "urman.chapter1:character/tamara",
+                    "stateKey": "fence_repaired",
+                    "value": true
+                  },
+                  {
+                    "op": "knowledge.set-status",
+                    "knowledgeId": "urman.chapter1:knowledge/tamara_fence_settled",
+                    "status": "confirmed"
+                  },
+                  {
+                    "op": "journal.record",
+                    "entryId": "urman.chapter1:knowledge/tamara_fence_settled",
+                    "sourceId": "urman.chapter1:knowledge/tamara_fence_settled"
+                  }
+                ],
+                "failureEffects": []
+              }
+            ],
+            "composition": {
+              "mode": "all",
+              "objectiveIds": [
+                "deliver-boards"
               ]
             }
           }
@@ -16353,6 +16661,336 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:scene/tamara-fence-side",
+        "sceneType": "presentation",
+        "title": {
+          "default": "\u0417\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B",
+          "translations": {
+            "ru": "\u0417\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B"
+          }
+        },
+        "assetRefs": [],
+        "textRefs": [],
+        "entryConditions": [],
+        "onEnter": [],
+        "onExit": [],
+        "interactions": [
+          {
+            "id": "urman.chapter1:interaction/tamara-fence-take-board-1",
+            "labelTextId": "urman.chapter1:text/tamara-fence-take-board",
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "fence_crashed",
+                "value": true
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "board_1",
+                  "value": true
+                }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "fence_repaired",
+                  "value": true
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "npc.set-state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "board_1",
+                "value": true
+              }
+            ],
+            "worldLocations": [
+              "village_day"
+            ]
+          },
+          {
+            "id": "urman.chapter1:interaction/tamara-fence-take-board-2",
+            "labelTextId": "urman.chapter1:text/tamara-fence-take-board",
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "fence_crashed",
+                "value": true
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "board_2",
+                  "value": true
+                }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "fence_repaired",
+                  "value": true
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "npc.set-state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "board_2",
+                "value": true
+              }
+            ],
+            "worldLocations": [
+              "village_day"
+            ]
+          },
+          {
+            "id": "urman.chapter1:interaction/tamara-fence-take-board-3",
+            "labelTextId": "urman.chapter1:text/tamara-fence-take-board",
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "fence_crashed",
+                "value": true
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "board_3",
+                  "value": true
+                }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "fence_repaired",
+                  "value": true
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "npc.set-state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "board_3",
+                "value": true
+              }
+            ],
+            "worldLocations": [
+              "village_day"
+            ]
+          },
+          {
+            "id": "urman.chapter1:interaction/tamara-fence-take-board-4",
+            "labelTextId": "urman.chapter1:text/tamara-fence-take-board",
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "fence_crashed",
+                "value": true
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "board_4",
+                  "value": true
+                }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "fence_repaired",
+                  "value": true
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "npc.set-state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "board_4",
+                "value": true
+              }
+            ],
+            "worldLocations": [
+              "village_day"
+            ]
+          },
+          {
+            "id": "urman.chapter1:interaction/tamara-fence-take-board-5",
+            "labelTextId": "urman.chapter1:text/tamara-fence-take-board",
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "fence_crashed",
+                "value": true
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "board_5",
+                  "value": true
+                }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "fence_repaired",
+                  "value": true
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "npc.set-state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "board_5",
+                "value": true
+              }
+            ],
+            "worldLocations": [
+              "village_day"
+            ]
+          },
+          {
+            "id": "urman.chapter1:interaction/tamara-fence-take-board-6",
+            "labelTextId": "urman.chapter1:text/tamara-fence-take-board",
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "fence_crashed",
+                "value": true
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "board_6",
+                  "value": true
+                }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "fence_repaired",
+                  "value": true
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "npc.set-state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "board_6",
+                "value": true
+              }
+            ],
+            "worldLocations": [
+              "village_day"
+            ]
+          },
+          {
+            "id": "urman.chapter1:interaction/tamara-fence-hand-in",
+            "labelTextId": "urman.chapter1:text/tamara-fence-hand-in",
+            "conditions": [
+              {
+                "op": "npc.state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "fence_crashed",
+                "value": true
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "fence_repaired",
+                  "value": true
+                }
+              },
+              {
+                "op": "any",
+                "conditions": [
+                  {
+                    "op": "npc.state",
+                    "characterId": "urman.chapter1:character/tamara",
+                    "stateKey": "board_1",
+                    "value": true
+                  },
+                  {
+                    "op": "npc.state",
+                    "characterId": "urman.chapter1:character/tamara",
+                    "stateKey": "board_2",
+                    "value": true
+                  },
+                  {
+                    "op": "npc.state",
+                    "characterId": "urman.chapter1:character/tamara",
+                    "stateKey": "board_3",
+                    "value": true
+                  },
+                  {
+                    "op": "npc.state",
+                    "characterId": "urman.chapter1:character/tamara",
+                    "stateKey": "board_4",
+                    "value": true
+                  },
+                  {
+                    "op": "npc.state",
+                    "characterId": "urman.chapter1:character/tamara",
+                    "stateKey": "board_5",
+                    "value": true
+                  },
+                  {
+                    "op": "npc.state",
+                    "characterId": "urman.chapter1:character/tamara",
+                    "stateKey": "board_6",
+                    "value": true
+                  }
+                ]
+              }
+            ],
+            "effects": [],
+            "worldLocations": [
+              "village_day"
+            ]
+          }
+        ]
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:scene/village-life",
         "sceneType": "presentation",
         "title": {
@@ -20374,6 +21012,17 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:text/objective-tamara-fence-boards",
+        "value": {
+          "default": "\u041D\u0430\u0439\u0442\u0438 \u0446\u0435\u043B\u044B\u0435 \u0434\u043E\u0441\u043A\u0438 \u0438 \u043F\u0440\u0438\u043D\u0435\u0441\u0442\u0438 \u0438\u0445 \u0422\u0430\u043C\u0430\u0440\u0435 \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u0435",
+          "translations": {
+            "ru": "\u041D\u0430\u0439\u0442\u0438 \u0446\u0435\u043B\u044B\u0435 \u0434\u043E\u0441\u043A\u0438 \u0438 \u043F\u0440\u0438\u043D\u0435\u0441\u0442\u0438 \u0438\u0445 \u0422\u0430\u043C\u0430\u0440\u0435 \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u0435"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:text/observation-check-in-world",
         "value": {
           "default": "\u0417\u0430\u043A\u0440\u044B\u0442\u044C \u0437\u0430\u043F\u0438\u0441\u044C \u0438 \u043F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C \u043D\u0430 \u043C\u0435\u0441\u0442\u0435.",
@@ -20533,6 +21182,39 @@
           "default": "Read the words again",
           "translations": {
             "ru": "\u041F\u0435\u0440\u0435\u0447\u0438\u0442\u0430\u0442\u044C \u0441\u043B\u043E\u0432\u0430 \u043F\u043E-\u043D\u043E\u0432\u043E\u043C\u0443"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/quest-tamara-fence-banner-done",
+        "value": {
+          "default": "\u0417\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B \u043E\u0442\u0440\u0435\u043C\u043E\u043D\u0442\u0438\u0440\u043E\u0432\u0430\u043D",
+          "translations": {
+            "ru": "\u0417\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B \u043E\u0442\u0440\u0435\u043C\u043E\u043D\u0442\u0438\u0440\u043E\u0432\u0430\u043D"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/quest-tamara-fence-banner-start",
+        "value": {
+          "default": "\u041F\u0440\u0438\u043D\u0435\u0441\u0442\u0438 \u0422\u0430\u043C\u0430\u0440\u0435 \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u0435 6 \u0446\u0435\u043B\u044B\u0445 \u0434\u043E\u0441\u043E\u043A",
+          "translations": {
+            "ru": "\u041F\u0440\u0438\u043D\u0435\u0441\u0442\u0438 \u0422\u0430\u043C\u0430\u0440\u0435 \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u0435 6 \u0446\u0435\u043B\u044B\u0445 \u0434\u043E\u0441\u043E\u043A"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/quest-tamara-fence-title",
+        "value": {
+          "default": "\u0417\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B",
+          "translations": {
+            "ru": "\u0417\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B"
           }
         },
         "purpose": "ui"
@@ -20933,6 +21615,391 @@
           }
         },
         "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-aidar-erm",
+        "value": {
+          "default": "\u042F\u2026 \u044D\u0442\u043E\u2026",
+          "translations": {
+            "ru": "\u042F\u2026 \u044D\u0442\u043E\u2026"
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-aidar-hello",
+        "value": {
+          "default": "\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439\u0442\u0435\u2026",
+          "translations": {
+            "ru": "\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439\u0442\u0435\u2026"
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-aidar-name",
+        "value": {
+          "default": "\u041C\u0435\u043D\u044F \u0410\u0439\u0434\u0430\u0440 \u0437\u043E\u0432\u0443\u0442. \u0410\u0439\u0434\u0430\u0440 \u0420\u0438\u0448\u0430\u0442\u043E\u0432\u0438\u0447.",
+          "translations": {
+            "ru": "\u041C\u0435\u043D\u044F \u0410\u0439\u0434\u0430\u0440 \u0437\u043E\u0432\u0443\u0442. \u0410\u0439\u0434\u0430\u0440 \u0420\u0438\u0448\u0430\u0442\u043E\u0432\u0438\u0447."
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-aidar-ok",
+        "value": {
+          "default": "\u0425\u043E\u0440\u043E\u0448\u043E.",
+          "translations": {
+            "ru": "\u0425\u043E\u0440\u043E\u0448\u043E."
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-aidar-ouch",
+        "value": {
+          "default": "\u0411\u043B\u0438\u043D\u2026",
+          "translations": {
+            "ru": "\u0411\u043B\u0438\u043D\u2026"
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-aidar-skid",
+        "value": {
+          "default": "\u041C\u0435\u043D\u044F \u043D\u0430 \u043F\u043E\u0432\u043E\u0440\u043E\u0442\u0435 \u043D\u0435\u043C\u043D\u043E\u0433\u043E \u0437\u0430\u043D\u0435\u0441\u043B\u043E\u2026",
+          "translations": {
+            "ru": "\u041C\u0435\u043D\u044F \u043D\u0430 \u043F\u043E\u0432\u043E\u0440\u043E\u0442\u0435 \u043D\u0435\u043C\u043D\u043E\u0433\u043E \u0437\u0430\u043D\u0435\u0441\u043B\u043E\u2026"
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-aidar-stay",
+        "value": {
+          "default": "\u042F \u043D\u0438\u043A\u0443\u0434\u0430 \u043D\u0435 \u0443\u0435\u0434\u0443.",
+          "translations": {
+            "ru": "\u042F \u043D\u0438\u043A\u0443\u0434\u0430 \u043D\u0435 \u0443\u0435\u0434\u0443."
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-aidar-yes",
+        "value": {
+          "default": "\u0414\u0430.",
+          "translations": {
+            "ru": "\u0414\u0430."
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-guy-check",
+        "value": {
+          "default": "\u0410\u0439\u0434\u0430\u0440 \u0420\u0438\u0448\u0430\u0442\u043E\u0432\u0438\u0447?..",
+          "translations": {
+            "ru": "\u0410\u0439\u0434\u0430\u0440 \u0420\u0438\u0448\u0430\u0442\u043E\u0432\u0438\u0447?.."
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-guy-line-1",
+        "value": {
+          "default": "\u0410\u0439\u0434\u0430\u0440 \u0420\u0438\u0448\u0430\u0442\u043E\u0432\u0438\u0447\u2026",
+          "translations": {
+            "ru": "\u0410\u0439\u0434\u0430\u0440 \u0420\u0438\u0448\u0430\u0442\u043E\u0432\u0438\u0447\u2026"
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-guy-line-2",
+        "value": {
+          "default": "\u2026\u0440\u0430\u0441\u0445\u0443\u044F\u0440\u0438\u043B \u0437\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u0435 \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u0435.",
+          "translations": {
+            "ru": "\u2026\u0440\u0430\u0441\u0445\u0443\u044F\u0440\u0438\u043B \u0437\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u0435 \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u0435."
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-guy-wait",
+        "value": {
+          "default": "\u041F\u043E\u0434\u043E\u0436\u0434\u0438\u2026",
+          "translations": {
+            "ru": "\u041F\u043E\u0434\u043E\u0436\u0434\u0438\u2026"
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-guy-yes",
+        "value": {
+          "default": "\u0410\u0433\u0430\u2026",
+          "translations": {
+            "ru": "\u0410\u0433\u0430\u2026"
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-skip-hint",
+        "value": {
+          "default": "\u041F\u0440\u043E\u0431\u0435\u043B \u2014 \u043F\u0440\u043E\u043F\u0443\u0441\u0442\u0438\u0442\u044C",
+          "translations": {
+            "ru": "\u041F\u0440\u043E\u0431\u0435\u043B \u2014 \u043F\u0440\u043E\u043F\u0443\u0441\u0442\u0438\u0442\u044C"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-tamara-boards",
+        "value": {
+          "default": "\u0428\u0435\u0441\u0442\u044C \u0434\u043E\u0441\u043E\u043A \u043F\u0440\u0438\u043D\u0435\u0441\u0451\u0448\u044C.",
+          "translations": {
+            "ru": "\u0428\u0435\u0441\u0442\u044C \u0434\u043E\u0441\u043E\u043A \u043F\u0440\u0438\u043D\u0435\u0441\u0451\u0448\u044C."
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-tamara-filming",
+        "value": {
+          "default": "\u0422\u044B \u0441\u043D\u0438\u043C\u0430\u0435\u0448\u044C?",
+          "translations": {
+            "ru": "\u0422\u044B \u0441\u043D\u0438\u043C\u0430\u0435\u0448\u044C?"
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-tamara-good",
+        "value": {
+          "default": "\u0412\u043E\u0442 \u0438 \u0445\u043E\u0440\u043E\u0448\u043E.",
+          "translations": {
+            "ru": "\u0412\u043E\u0442 \u0438 \u0445\u043E\u0440\u043E\u0448\u043E."
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-tamara-normal",
+        "value": {
+          "default": "\u041D\u043E\u0440\u043C\u0430\u043B\u044C\u043D\u044B\u0445.",
+          "translations": {
+            "ru": "\u041D\u043E\u0440\u043C\u0430\u043B\u044C\u043D\u044B\u0445."
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-tamara-not-these",
+        "value": {
+          "default": "\u042D\u0442\u0438 \u0443\u0436\u0435 \u043D\u0435 \u043D\u043E\u0440\u043C\u0430\u043B\u044C\u043D\u044B\u0435.",
+          "translations": {
+            "ru": "\u042D\u0442\u0438 \u0443\u0436\u0435 \u043D\u0435 \u043D\u043E\u0440\u043C\u0430\u043B\u044C\u043D\u044B\u0435."
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-cutscene-tamara-plate",
+        "value": {
+          "default": "\u041D\u043E\u043C\u0435\u0440 \u0442\u043E\u0433\u0434\u0430 \u0441\u043D\u0438\u043C\u0438.",
+          "translations": {
+            "ru": "\u041D\u043E\u043C\u0435\u0440 \u0442\u043E\u0433\u0434\u0430 \u0441\u043D\u0438\u043C\u0438."
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-fence-hand-in",
+        "value": {
+          "default": "\u041E\u0442\u0434\u0430\u0442\u044C \u0434\u043E\u0441\u043A\u0438 \u0422\u0430\u043C\u0430\u0440\u0435 \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u0435",
+          "translations": {
+            "ru": "\u041E\u0442\u0434\u0430\u0442\u044C \u0434\u043E\u0441\u043A\u0438 \u0422\u0430\u043C\u0430\u0440\u0435 \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u0435"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-fence-take-board",
+        "value": {
+          "default": "\u0412\u0437\u044F\u0442\u044C \u0446\u0435\u043B\u0443\u044E \u0434\u043E\u0441\u043A\u0443",
+          "translations": {
+            "ru": "\u0412\u0437\u044F\u0442\u044C \u0446\u0435\u043B\u0443\u044E \u0434\u043E\u0441\u043A\u0443"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-hand-continue",
+        "value": {
+          "default": "\u0414\u0430\u043B\u044C\u0448\u0435",
+          "translations": {
+            "ru": "\u0414\u0430\u043B\u044C\u0448\u0435"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-hand-fit",
+        "value": {
+          "default": "\u042D\u0442\u0438 \u043F\u043E\u0434\u043E\u0439\u0434\u0443\u0442.",
+          "translations": {
+            "ru": "\u042D\u0442\u0438 \u043F\u043E\u0434\u043E\u0439\u0434\u0443\u0442."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-hand-herself",
+        "value": {
+          "default": "\u0418 \u043C\u0430\u0448\u0438\u043D\u0443 \u043E\u0442\u0441\u044E\u0434\u0430 \u0443\u0431\u0435\u0440\u0438.",
+          "translations": {
+            "ru": "\u0418 \u043C\u0430\u0448\u0438\u043D\u0443 \u043E\u0442\u0441\u044E\u0434\u0430 \u0443\u0431\u0435\u0440\u0438."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-hand-no-boards",
+        "value": {
+          "default": "\u0414\u043E\u0441\u043A\u0438 \u0433\u0434\u0435?",
+          "translations": {
+            "ru": "\u0414\u043E\u0441\u043A\u0438 \u0433\u0434\u0435?"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-hand-remaining-1",
+        "value": {
+          "default": "\u041E\u0441\u0442\u0430\u0432\u044C \u0437\u0434\u0435\u0441\u044C. \u0415\u0449\u0451 \u043E\u0434\u043D\u0443.",
+          "translations": {
+            "ru": "\u041E\u0441\u0442\u0430\u0432\u044C \u0437\u0434\u0435\u0441\u044C. \u0415\u0449\u0451 \u043E\u0434\u043D\u0443."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-hand-remaining-2",
+        "value": {
+          "default": "\u041E\u0441\u0442\u0430\u0432\u044C \u0437\u0434\u0435\u0441\u044C. \u0415\u0449\u0451 \u0434\u0432\u0435.",
+          "translations": {
+            "ru": "\u041E\u0441\u0442\u0430\u0432\u044C \u0437\u0434\u0435\u0441\u044C. \u0415\u0449\u0451 \u0434\u0432\u0435."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-hand-remaining-3",
+        "value": {
+          "default": "\u041E\u0441\u0442\u0430\u0432\u044C \u0437\u0434\u0435\u0441\u044C. \u0415\u0449\u0451 \u0442\u0440\u0438.",
+          "translations": {
+            "ru": "\u041E\u0441\u0442\u0430\u0432\u044C \u0437\u0434\u0435\u0441\u044C. \u0415\u0449\u0451 \u0442\u0440\u0438."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-hand-remaining-4",
+        "value": {
+          "default": "\u041E\u0441\u0442\u0430\u0432\u044C \u0437\u0434\u0435\u0441\u044C. \u0415\u0449\u0451 \u0447\u0435\u0442\u044B\u0440\u0435.",
+          "translations": {
+            "ru": "\u041E\u0441\u0442\u0430\u0432\u044C \u0437\u0434\u0435\u0441\u044C. \u0415\u0449\u0451 \u0447\u0435\u0442\u044B\u0440\u0435."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-hand-remaining-5",
+        "value": {
+          "default": "\u041E\u0441\u0442\u0430\u0432\u044C \u0437\u0434\u0435\u0441\u044C. \u0415\u0449\u0451 \u043F\u044F\u0442\u044C.",
+          "translations": {
+            "ru": "\u041E\u0441\u0442\u0430\u0432\u044C \u0437\u0434\u0435\u0441\u044C. \u0415\u0449\u0451 \u043F\u044F\u0442\u044C."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-hand-stack",
+        "value": {
+          "default": "\u0421\u043B\u043E\u0436\u0438 \u0443 \u0437\u0430\u0431\u043E\u0440\u0430. \u0414\u0430\u043B\u044C\u0448\u0435 \u044F \u0441\u0430\u043C\u0430.",
+          "translations": {
+            "ru": "\u0421\u043B\u043E\u0436\u0438 \u0443 \u0437\u0430\u0431\u043E\u0440\u0430. \u0414\u0430\u043B\u044C\u0448\u0435 \u044F \u0441\u0430\u043C\u0430."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-remark-aidar-yes",
+        "value": {
+          "default": "\u0410\u0433\u0430.",
+          "translations": {
+            "ru": "\u0410\u0433\u0430."
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-remark-guy-boards",
+        "value": {
+          "default": "\u0414\u043E\u0441\u043A\u0438 \u043D\u0443\u0436\u043D\u044B?",
+          "translations": {
+            "ru": "\u0414\u043E\u0441\u043A\u0438 \u043D\u0443\u0436\u043D\u044B?"
+          }
+        },
+        "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-remark-guy-dry",
+        "value": {
+          "default": "\u0411\u0435\u0440\u0438 \u0432\u043E\u043D \u0442\u0435. \u041E\u043D\u0438 \u0441\u0443\u0445\u0438\u0435.",
+          "translations": {
+            "ru": "\u0411\u0435\u0440\u0438 \u0432\u043E\u043D \u0442\u0435. \u041E\u043D\u0438 \u0441\u0443\u0445\u0438\u0435."
+          }
+        },
+        "purpose": "caption"
       },
       {
         "schemaVersion": 1,
@@ -21947,7 +23014,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "748d36a812dfce78da4fd9a648499a198ac28d1ece9367f13d8552494bab4d1f"
+      "sha256": "ff8d012d6df6f0edbe1ad71498b948ab742d87c1f3ffb720d1b3317984ba7779"
     },
     {
       "moduleId": "urman.core",
@@ -21960,5 +23027,5 @@
       "sha256": "f11d7970fd65ec8deb5cab4fe8e78424c6565dcd124684df556e1551039bf496"
     }
   ],
-  "campaignFingerprint": "dea4bec7beef21050e247082a132a0c12d88b596b3a6ef29ba8b2e9eaf1edf5b"
+  "campaignFingerprint": "d07d913ffc482153f1bbc945f015c689817f824c890c959f7a050848cdad4385"
 }

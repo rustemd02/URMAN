@@ -548,7 +548,7 @@ public partial class RuntimeBridge : Node
         return false;
     }
 
-    private async Task SaveCheckpointAsync(bool force = false)
+    internal async Task SaveCheckpointAsync(bool force = false)
     {
         if (_loadingSlot || _checkpointBusy || _content is null || ActiveSceneId is not { } scene)
         {
@@ -1464,6 +1464,8 @@ public partial class RuntimeBridge : Node
         handlers.Add("shop.use", HandleShopUse);
         handlers.Add("bathhouse.ignite", HandleBathIgnition);
         handlers.Add("npc.alsu.walk-checkpoint", HandleAlsuWalkCheckpoint);
+        handlers.Add("tamara-fence.crash", HandleTamaraFenceCrash);
+        handlers.Add("tamara-fence.deliver", HandleTamaraFenceDeliver);
         handlers.Add("quest.lifecycle", _questCoordinator.Handle);
         return handlers;
     }

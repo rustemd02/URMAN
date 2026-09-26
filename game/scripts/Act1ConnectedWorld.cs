@@ -435,6 +435,8 @@ public partial class Act1ConnectedWorld : Node3D
         BuildAddressRegistry();
         // Street faces of the yards: palisadnik, painted gates, board fences.
         BuildStreetFrontages();
+        // Tamara Gennadievna's breakable plot fence, boards and people.
+        BuildTamaraFenceQuest();
         AddressRead += RememberReadAddress;
         BuildAct1Vehicles();
         foreach (var placement in Act1WorldLayout.Placements)
@@ -6017,6 +6019,9 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualGate(parent, "ConnectiveWestParcelGate", new(-17.0f, 0f, -29.0f), 1.65f, 1.16f, 154f);
         AddVisualLandformSegment(parent, "ConnectiveWestHouseDrive", new(-10.0f, 0.025f, -27.2f), new(-16.0f, 0.025f, -29.2f), 1.12f, 0.04f, "625747", "earth");
         AddVisualLandformSegment(parent, "ReturnEastFarmDrive", new(8.6f, 0.025f, -45.0f), new(16.2f, 0.025f, -49.8f), 1.10f, 0.04f, "625747", "earth");
+        // The same drive continues to the street shoulder: Tamara's breach is
+        // reachable by car, not only by the footpath graph.
+        AddVisualLandformSegment(parent, "TamaraFenceApproach", new(2.3f, 0.025f, -44.1f), new(8.6f, 0.025f, -45.0f), 1.35f, 0.04f, "625747", "earth");
         AddVisualShed(parent, "ConnectiveWestShed", new(-11.7f, 0f, -36.5f), 0.70f, 92f, "62655d", "3f403b");
         AddVisualShed(parent, "ReturnEastShed", new(11.5f, 0f, -45.0f), 0.68f, -86f, "5d625b", "3c403c");
         AddVisualTree(parent, "ConnectiveWestBirch", new(-25.0f, 0f, -31.0f), 8.1f, VegetationStyle.Birch, "596047");

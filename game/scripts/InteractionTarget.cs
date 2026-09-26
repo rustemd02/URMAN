@@ -67,6 +67,12 @@ public partial class InteractionTarget : StaticBody3D
     internal Func<bool>? PresentationGate { get; set; }
     internal string PresentationGateHint { get; set; } = string.Empty;
 
+    // Runs after the authored interaction committed and before a dialogue or
+    // document opens. An owner can commit its own transaction (for example a
+    // hand-over whose count only the runtime knows) so the opened content reads
+    // the already-updated world. Returning false stops the presentation chain.
+    internal Func<Task<bool>>? AfterDispatch { get; set; }
+
     /// <summary>Authored conditions pass, but the world gate is still shut.</summary>
     internal bool HeldByGate => _available == true && PresentationGate is not null && !PresentationGate();
 
@@ -137,6 +143,14 @@ public partial class InteractionTarget : StaticBody3D
             || !IsPresentationCurrent(bridge, session))
         {
             return;
+        }
+
+        if (AfterDispatch is { } ownerTransaction)
+        {
+            if (!await ownerTransaction() || !IsPresentationCurrent(bridge, session))
+            {
+                return;
+            }
         }
 
         if (InteractionId == "urman.chapter1:interaction/oldpc-power")
