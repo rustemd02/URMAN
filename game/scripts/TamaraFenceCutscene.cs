@@ -1,4 +1,5 @@
 using Godot;
+using Urman.Core.Persistence;
 
 namespace Urman.Godot;
 
@@ -346,7 +347,10 @@ public partial class TamaraFenceCutscene : Node
         }
 
         LineShown?.Invoke(textSuffix);
-        await _captions.ShowAsync(speaker, text, (float)(seconds / _speed));
+        // The authored beat is a minimum: a line stays up long enough to read
+        // it, so a longer caption never disappears mid-sentence.
+        var readable = Mathf.Max(seconds, text.Length * .055f + .9f);
+        await _captions.ShowAsync(speaker, text, (float)(readable / _speed));
     }
 
     /// <summary>Whoever is speaking uses the kit's talk pose for the line; the
@@ -398,7 +402,7 @@ public partial class TamaraFenceCutscene : Node
 /// Bottom-centre caption strip shared by the cutscene and ambient remarks.
 /// Presentation only: it never blocks input or owns state.
 /// </summary>
-public partial class CaptionStrip : CanvasLayer
+public partial class CaptionStrip : CanvasLayer, IAccessibilitySettingsTarget
 {
     private Control _screen = null!;
     private Label _speaker = null!;
@@ -465,6 +469,11 @@ public partial class CaptionStrip : CanvasLayer
         _line.AddThemeConstantOverride("outline_size", 3);
         layout.AddChild(_speaker);
         layout.AddChild(_line);
+        AddToGroup(AccessibilityPresentation.TargetGroup);
+        if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+        {
+            ApplyAccessibilitySettings(player.Accessibility);
+        }
         panel.AnchorLeft = panel.AnchorRight = .5f;
         panel.AnchorTop = panel.AnchorBottom = 1f;
         panel.OffsetLeft = -430;
@@ -476,6 +485,20 @@ public partial class CaptionStrip : CanvasLayer
         // fit: the strip grows upward from its bottom anchor instead of
         // pushing the text past the viewport edge.
         panel.GrowVertical = Control.GrowDirection.Begin;
+    }
+
+    /// <summary>Captions are the only speech a player gets here: they grow with
+    /// the accessibility text scale and the strip rises with them.</summary>
+    public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
+    {
+        var scale = Mathf.Clamp((float)settings.TextScale, .8f, 1.6f);
+        _speaker.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(14 * scale));
+        _line.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(20 * scale));
+        if (settings.HighContrast)
+        {
+            _line.AddThemeColorOverride("font_color", Colors.White);
+            _speaker.AddThemeColorOverride("font_color", new Color(1f, .85f, .55f));
+        }
     }
 
     public async Task ShowAsync(string speaker, string text, float seconds)

@@ -403,39 +403,60 @@ public partial class TamaraFenceQuest : Node3D
         return mesh;
     }
 
-    /// <summary>An open wicket in the north end of the run: the yard keeps its
-    /// own way in, and the hand-over happens beside it.</summary>
+    /// <summary>An open wicket at the north end of the run: the yard keeps its
+    /// own way in, and the hand-over happens beside it. It is built of the same
+    /// concrete posts and peach shields as the run, swung open toward the yard.
+    /// </summary>
     private void BuildWicket(Node3D root)
     {
-        var postColour = new Color("6b5748");
-        var paint = new Color("bd8272");
-        var wood = VehicleVisualFactory.FrontageWoodMaterial();
+        // The grain shader multiplies a white base by vertex colour, and these
+        // boxes carry none: the leaf needs its own painted materials or it
+        // comes out plain white.
+        var peach = new StandardMaterial3D { AlbedoColor = new Color("c9826f"), Roughness = .9f };
+        var frame = new StandardMaterial3D { AlbedoColor = new Color("8f7566"), Roughness = .92f };
         var wicket = new Node3D { Name = "TamaraFenceWicket" };
         root.AddChild(wicket);
         var ground = Ground(-40.15f);
-        wicket.Position = new(FenceFaceX + .07f, ground, -40.15f);
-        foreach (var z in new[] { -.52f, .52f })
+        wicket.Position = new(FenceFaceX, ground, -40.15f);
+        foreach (var z in new[] { -.62f, .62f })
         {
-            var post = new MeshInstance3D
+            wicket.AddChild(new MeshInstance3D
             {
-                Mesh = Box(.12f, 2.0f, .12f, postColour, wood),
-                Position = new(0, 1f, z)
-            };
-            wicket.AddChild(post);
+                Mesh = Box(.19f, 1.8f, .19f, Colors.White, ConcreteLight()),
+                Position = new(0, .9f, z)
+            });
+            wicket.AddChild(new MeshInstance3D
+            {
+                Mesh = Box(.25f, .08f, .25f, Colors.White, ConcreteDark()),
+                Position = new(0, 1.84f, z)
+            });
         }
 
-        var hinge = new Vector3(0, 0, .52f);
-        var open = new Vector3(0, 0, -1).Cross(Vector3.Left).Normalized();
+        // The leaf swings in from the street hinge and rests at an angle toward
+        // the yard, the way a village gate is left open all day.
+        var leaf = new Node3D { Name = "WicketLeaf", Position = new(0, 0f, .62f) };
+        wicket.AddChild(leaf);
+        leaf.RotationDegrees = new(0, -62f, 0);
         for (var i = 0; i < 6; i++)
         {
-            var leaf = new MeshInstance3D
+            var y = .12f + i * .255f;
+            leaf.AddChild(new MeshInstance3D
             {
-                Mesh = Box(.13f, 1.6f, .04f, paint, wood),
-                Position = hinge + new Vector3(-.1f - i * .15f, .82f, -.04f),
-                RotationDegrees = new(0, -18f, 6f)
-            };
-            wicket.AddChild(leaf);
+                Mesh = Box(.045f, .235f, 1.05f, Colors.White, peach),
+                Position = new(0, y, -.53f)
+            });
         }
+
+        leaf.AddChild(new MeshInstance3D
+        {
+            Mesh = Box(.05f, 1.5f, .05f, Colors.White, frame),
+            Position = new(.03f, .8f, -.05f)
+        });
+        leaf.AddChild(new MeshInstance3D
+        {
+            Mesh = Box(.05f, 1.5f, .05f, Colors.White, frame),
+            Position = new(.03f, .8f, -1.01f)
+        });
     }
 
     private static BoxMesh Box(float x, float y, float z, Color colour, Material? material = null)
@@ -526,10 +547,10 @@ public partial class TamaraFenceQuest : Node3D
             DialogueId = "urman.chapter1:dialogue/tamara_fence_hand_in",
             CollisionLayer = 4u,
             CollisionMask = 0u,
-            Position = new(1.7f, Ground(1.7f, -44.3f) + .85f, -44.3f)
+            Position = new(4.05f, Ground(4.05f, -44.2f) + .85f, -44.2f)
         };
-        _handInTarget.SetMeta("physicalOwner", "Tamara Gennadievna's yard wicket");
-        _handInTarget.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = new(.8f, 1.7f, .7f) } });
+        _handInTarget.SetMeta("physicalOwner", "Tamara Gennadievna at her wicket");
+        _handInTarget.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = new(1.1f, 1.8f, 1.0f) } });
         root.AddChild(_handInTarget);
         _handInTarget.AfterDispatch = HandInTransactionAsync;
     }
@@ -819,6 +840,7 @@ public partial class TamaraFenceQuest : Node3D
             panel.Body.CollisionLayer = 0u;
             var distance = Mathf.Abs(centre.Z - impactPoint.Z);
             TopplePanel(panel, distance, fallTowardYard, animate);
+            PeelBoards(panel, distance, fallTowardYard, animate);
             ScatterLooseBoards(centre, distance, impactPoint, animate);
         }
 
@@ -865,6 +887,57 @@ public partial class TamaraFenceQuest : Node3D
             var angle = Mathf.Lerp(lean, lean * .96f, t);
             panel.Root.RotationDegrees = new(start.X, start.Y + yaw, angle);
         }), 0f, 1f, .42f).SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
+    }
+
+    /// <summary>Two boards tear out of the shield while it is still going over:
+    /// they start at its top edge and drop with it, so the fall reads as a
+    /// breaking panel rather than a rigid plank turning about its foot.</summary>
+    private void PeelBoards(FencePanel panel, float distance, bool towardYard, bool animate)
+    {
+        if (distance > BreakRadius * .8f) return;
+        var centre = panel.Root.GlobalPosition;
+        var ground = Ground(centre.X, centre.Z);
+        var fallSign = towardYard ? 1f : -1f;
+        var rng = new RandomNumberGenerator { Seed = (ulong)(centre.Z * 733f) };
+        var peel = new StandardMaterial3D { AlbedoColor = new Color("c07a67"), Roughness = .9f };
+        for (var board = 0; board < 2; board++)
+        {
+            var along = board == 0 ? -.42f : .38f;
+            var start = centre + new Vector3(0f, 1.28f + board * .26f, along);
+            var end = centre + new Vector3(
+                fallSign * (1.32f + rng.RandfRange(-.12f, .3f)),
+                ground + .045f + board * .05f,
+                along * 1.25f + rng.RandfRange(-.12f, .12f));
+            var debris = new MeshInstance3D
+            {
+                Name = $"CrashPeel_{_debris.Count}",
+                Mesh = new BoxMesh
+                {
+                    Size = new(.05f, .23f, 1.15f + rng.RandfRange(-.12f, .18f)),
+                    Material = peel
+                },
+                Position = start,
+                RotationDegrees = new(0f, rng.RandfRange(-6f, 6f), -52f)
+            };
+            AddChild(debris);
+            _debris.Add(debris);
+            // A fence board lies flat once it is off: its 23 cm face turns up.
+            var landing = new Vector3(2f, rng.RandfRange(-28f, 28f), -88f);
+            if (!animate)
+            {
+                debris.Position = end;
+                debris.RotationDegrees = landing;
+                continue;
+            }
+
+            var drop = CreateTween();
+            drop.SetTrans(Tween.TransitionType.Quad);
+            drop.SetEase(Tween.EaseType.In);
+            drop.TweenProperty(debris, "position", end, .62f + rng.RandfRange(0f, .2f))
+                .SetDelay(.22f + board * .1f);
+            drop.Parallel().TweenProperty(debris, "rotation_degrees", landing, .62f)
+                .SetDelay(.22f + board * .1f);
+        }
     }
 
     /// <summary>Boards that split out of the shield: they are on the ground from
