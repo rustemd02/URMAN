@@ -35,3 +35,13 @@ public/assets/**/_source/**
 *.mp3
 *.wav
 *.glb
+
+# Per-run acceptance evidence. These folders hold capture logs, receipts and
+# transcripts from past sessions (1.4 GB in the takeover set alone) and they
+# used to take the graph from ~20k nodes to 154k, which drowns the actual
+# architecture. The dated summary documents that cite them stay indexed.
+docs/production/act1_takeover_evidence_*/
+docs/production/act1_takeover_geometry_evidence_*/
+docs/production/act1_carry_evidence_*/
+docs/production/act1_player_evidence_*/
+docs/production/evidence_archive/
