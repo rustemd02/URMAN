@@ -773,6 +773,7 @@ public partial class TamaraFenceQuest : Node3D
 
         _cutscene = new TamaraFenceCutscene(this, _bridge, session, player, vehicle, impactPoint);
         _cutscene.AccelerateForTest(_cutsceneTestSpeed);
+        if (CutsceneShotListenerForTest is { } shotListener) _cutscene.SetShotListenerForTest(shotListener);
         AddChild(_cutscene);
         var watched = await _cutscene.RunAsync();
         if (_cutscene is { } scene && GodotObject.IsInstanceValid(scene))
@@ -1240,6 +1241,14 @@ public partial class TamaraFenceQuest : Node3D
     private double _cutsceneTestSpeed = 1.0;
 
     internal void AccelerateCutsceneForTest(double speed) => _cutsceneTestSpeed = speed;
+
+    /// <summary>Capture hook: shots are listed from the moment the scene is
+    /// created, so even the opening cut is photographed.</summary>
+    internal Action<string>? CutsceneShotListenerForTest
+    {
+        get;
+        set;
+    }
 
     internal void DebugExposeGuyForTest(out Node3D guy, out Skeleton3D? skeleton,
         out AnimationPlayer? animation, out MeshInstance3D? phone)

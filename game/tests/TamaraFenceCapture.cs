@@ -61,6 +61,10 @@ public partial class TamaraFenceCapture : Node
             niva.Enter(player, restore: true);
             player.GlobalPosition = niva.ToGlobal(niva.Definition.Seat);
             quest.AccelerateCutsceneForTest(1.0);
+            // The listener goes on before the crash: the opening shot fires as
+            // the scene starts and would otherwise never be photographed.
+            var shots = new System.Collections.Generic.List<string>();
+            quest.CutsceneShotListenerForTest = tag => shots.Add(tag);
             quest.DebugHandleHardStop(niva, 4.6f, quest.Panels[2].Body);
             for (var i = 0; i < 600 && quest.ActiveCutscene is null; i++) await Frames(1);
 
@@ -73,11 +77,6 @@ public partial class TamaraFenceCapture : Node
             await Capture("04b_collapse_falling");
             await Frames(60);
             await Capture("04c_collapse_settled");
-
-            // One frame per shot of the scene, taken after the camera settles.
-            var shots = new System.Collections.Generic.List<string>();
-            var cutscene = quest.ActiveCutscene!;
-            cutscene.SetShotListenerForTest(tag => shots.Add(tag));
             var next = 0;
             var guard = 0;
             while (quest.ActiveCutscene is not null && guard++ < 6000)

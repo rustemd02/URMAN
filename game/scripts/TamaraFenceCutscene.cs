@@ -154,13 +154,15 @@ public partial class TamaraFenceCutscene : Node
         var car = _car is { } liveCar && GodotObject.IsInstanceValid(liveCar)
             ? liveCar.GlobalPosition
             : _impact + new Vector3(-1.6f, 0f, .9f);
-        var alongFence = _car is { } facing && GodotObject.IsInstanceValid(facing)
-            ? facing.GlobalBasis.Z with { Y = 0 }
-            : new Vector3(0f, 0f, 1f);
-        alongFence = alongFence.LengthSquared() < .0001f ? Vector3.Forward : alongFence.Normalized();
-        var acrossHull = alongFence.Cross(Vector3.Up).Normalized();
-        Cut("hit", car + acrossHull * 4.1f + alongFence * .5f + Vector3.Up * 1.78f,
-            car + Vector3.Up * .92f, 54f, 2.6f, handheld: true);
+        // The camera belongs on the street, i.e. opposite the breach: the
+        // shoulders are the only ground around here without a neighbour's
+        // frontage in the way.
+        var towardFence = _impact - car;
+        towardFence.Y = 0f;
+        if (towardFence.LengthSquared() < .01f) towardFence = Vector3.Right;
+        var streetSide = -towardFence.Normalized();
+        Cut("hit", car + streetSide * 4.2f + Vector3.Up * 1.78f,
+            car + Vector3.Up * 1.0f, 54f, 2.6f, handheld: true);
         await Wait(.8);
         await Say("АЙДАР", "tamara-cutscene-aidar-ouch", 1.0f);
 
@@ -169,7 +171,7 @@ public partial class TamaraFenceCutscene : Node
         guy.GlobalPosition = new(-0.8f, GroundAt(-0.8f, -36.3f), -36.3f);
         GeneratedCharacterKitDressing.PlayClip(guy, "Walk");
         Cut("guy-arrives", new(-1.55f, 1.78f, -39.2f), new(0.4f, 1.15f, -41.4f), 58f, 3.0f);
-        await MoveAlong(guy, [new(.15f, -41.9f)], 1.45f);
+        await MoveAlong(guy, [new(.15f, -41.9f)], 1.15f);
         GeneratedCharacterKitDressing.PlayClip(guy, "Idle");
         FaceTowards(guy, new(2.3f, guy.GlobalPosition.Y, -44.6f));
         await Wait(.3);
