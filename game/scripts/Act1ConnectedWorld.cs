@@ -517,7 +517,11 @@ public partial class Act1ConnectedWorld : Node3D
         }
         if (!Act1WorldLayout.TryGetWorldSpawn(zoneId, spawnPointId, out var rootRelativeSpawn))
         {
-            return false;
+            // Places that live only in the connected world (the public
+            // buildings, the mosque, the bathhouse, the Kara forest approach)
+            // have no layout entry; their owners answer instead. See
+            // Act1ConnectedWorld.DebugSpawns.cs.
+            return TryGetPlaceDebugSpawn(zoneId, spawnPointId, out worldSpawn);
         }
 
         // The layout is expressed relative to this persistent root. The root

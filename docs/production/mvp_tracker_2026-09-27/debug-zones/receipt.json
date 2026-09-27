@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-27",
+  "scope": "Отладочный пункт «Отладка: локации»: все 12 переходов резолвятся и ставят игрока на землю",
+  "command": ". eng/dotnet-env.sh && python3 eng/protected_run.py .tools/godot/Godot_mono.app/Contents/MacOS/Godot --path game --quit-after 3600 -- \"--urman-studio-play=<зона>@<точка>\"",
+  "dll_sha256": "1a2f8f00750b3506087f3fe03170ea02963d19b57d3552b7fc07f0aaf1f08e53",
+  "exit_code": 0,
+  "result": "act1-debug-zone-standing для всех 12 пунктов: on-floor=True, speed=0,00; строка «no mapped spawn … transition aborted» больше не появляется",
+  "observed": [
+    "12 переходов: village_day@arrival, @from_house, @shop, @school, @council, @mosque, @bathhouse; house_old_pc@entry; fap_clinic@waiting_room; zirat_road@village_side; kara_urman_night@village_path, @forest-approach",
+    "Бывшие мёртвые записи (village_day@mosque, kara_urman_night@forest-approach) резолвятся через Act1ConnectedWorld.DebugSpawns.cs",
+    "Мечеть, магазин, школа и сельсовет/ДК берут точку и разворот у владельца: PublicBuildingRoom.Outside→Entrance для публичных зданий, реестр адресов (ADR-MOSQUE) и своя дверь для мечети, entryApproach и дверь бани",
+    "Несуществующий адрес (village_day@nosuchplace) отказывает до старта сеанса: «Debug zone jump refused: the Act I world has no spawn …» — сеанс не начинается и мост не записывает чужую зону",
+    "act1_main_menu_smoke_test: PASS (включая фазу debug autosave/F5/F9 и Continue)",
+    "userdata guard: original files and permissions restored and verified"
+  ],
+  "runLog": "docs/production/mvp_tracker_2026-09-27/debug-zones/run.log",
+  "limits": [
+    "Только машинный прогон: ни одну из 12 точек человек не осматривал — вид, кадр и разворот камеры не оценены",
+    "Автотест меню по-прежнему перепрыгивает один пункт (kara_urman_night@village_path); полный перебор двенадцати существует только в этом прогоне",
+    "Первая версия диагностики (ожидание внутри занятого окна перехода) глотала нажатие Continue и валила act1_main_menu_smoke_test; переделано, прогон выше — на исправленной версии",
+    "Отладочное меню в релиз не входит: без файла user://debug-zones.enabled пункта нет, studio/* исключён из пресетов экспорта"
+  ]
+}

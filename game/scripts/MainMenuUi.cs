@@ -49,11 +49,15 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         ("village_day", "arrival", "Кара-Урман · остановка"),
         ("village_day", "from_house", "Кара-Урман · от дома"),
         ("house_old_pc", "entry", "Дом Мансура и Гөлсинә"),
+        ("village_day", "shop", "Магазин"),
+        ("village_day", "school", "Школа"),
+        ("village_day", "council", "Сельсовет / ДК"),
+        ("village_day", "mosque", "Мечеть"),
+        ("village_day", "bathhouse", "Баня бабая"),
         ("fap_clinic", "waiting_room", "ФАП"),
         ("zirat_road", "village_side", "Зиратская дорога"),
         ("kara_urman_night", "village_path", "Кромка Кара-Урмана · ночь"),
-        ("kara_urman_night", "forest-approach", "Кара-Урман · подход к лесу"),
-        ("village_day", "mosque", "Мечеть")
+        ("kara_urman_night", "forest-approach", "Кара-Урман · подход к лесу")
     ];
 
     public static bool DebugZonesEnabled =>

@@ -1429,7 +1429,19 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return false;
         }
 
+        // Refuse before a session exists. A destination the connected world
+        // cannot place used to start a debug run, leave the player where they
+        // were, and still record the requested zone in the bridge and the save.
+        if (position is null && _main.ConnectedWorld is { } world
+            && !world.TryGetWorldSpawn(zoneId, spawnPointId, out _))
+        {
+            GD.PushError($"Debug zone jump refused: the Act I world has no spawn '{zoneId}@{spawnPointId}'.");
+            _mainMenu?.ShowStatus("Отладочный переход: такой точки в мире нет.");
+            return false;
+        }
+
         _menuBusy = true;
+        var started = false;
         try
         {
             if (!await bridge.StartDebugSessionAsync())
@@ -1456,9 +1468,28 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             _player?.NotifyTraversal("Отладочный сеанс: отдельные сохранения.");
             EvaluateEndingState();
             GD.Print($"act1-debug-zone: {zoneId}@{spawnPointId}{(position is { } p ? $" at {p}" : "")}");
-            return true;
+            started = true;
         }
         finally { _menuBusy = false; }
+
+        // Outside the busy window: while it is open a menu press is dropped
+        // without a word, so nothing may wait inside. A jump that lands in the
+        // air or inside geometry looks like a working button in the menu,
+        // hence the line that says where the player actually ended up.
+        if (started)
+        {
+            for (var frame = 0; frame < 20 && _player is not null; frame++)
+            {
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            }
+
+            if (_player is { } standing)
+            {
+                GD.Print($"act1-debug-zone-standing: {zoneId}@{spawnPointId} at {standing.GlobalPosition} yaw={standing.RotationDegrees.Y:0.#} on-floor={standing.IsOnFloor()} speed={standing.Velocity.Length():0.00}");
+            }
+        }
+
+        return started;
     }
 
     private void ShowIntroAfterMenu()
