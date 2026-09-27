@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-27",
+  "packet": "A04 manual Tatar level across a cold restart",
+  "source_head": "4946ecae (dirty main checkout)",
+  "dll_sha256": "b776e7c960cd2b663844e0ff3e87c2d8d896364c53846535c88310ab69489c9c",
+  "command": "URMAN_LANG_COLD_PAIR=1 URMAN_SMOKE_TIMEOUT=300 eng/run-smoke-guarded.sh --shared-session act1_settings_navigation_smoke_test act1_user_settings_smoke_test",
+  "exit_code": 0,
+  "prepare_pid": 27189,
+  "verify_pid": 27776,
+  "observed": {
+    "profile_after_restart": "fluent",
+    "new_game_guessed": 12,
+    "new_game_confirmed": 0,
+    "old_slot_guessed": 1,
+    "old_slot_babai": "unknown",
+    "old_slot_byte_exact": true,
+    "userdata_restored": true
+  },
+  "result": "The current DLL reproduces the already-authored manual-level persistence and existing-save boundary. No production source changed in this packet.",
+  "limits": [
+    "The optional in-world calibration form and precedence with manual choice remain unresolved under ACT1-LANG.4/.5; the author was asked to choose the form.",
+    "Automated UI state does not accept first-time player understanding or language consultant review. The DLL includes other uncommitted work."
+  ]
+}

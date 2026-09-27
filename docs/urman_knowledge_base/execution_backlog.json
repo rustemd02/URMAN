@@ -2740,14 +2740,15 @@
     "priority_policy_2026_09_26": "Use tasks.mvp_priority ascending among dependency-ready units; smaller is earlier. Fix observed control/progression/UI defects before cosmetic expansion. One unit per packet with player effect, evidence, next step. Preserve all EX00–EX14 and >=60 active minutes; no padded duration. Prior statuses/evidence are historical unless tied to this build. in_progress records incomplete work, not a live worker. Priority 90 needs external input; 100 preserves long-term scope outside this Act I run.",
     "active_packet": {
       "task_ids": [
-        "ACT1-LANG",
-        "ACT1-LANG.5"
+        "ACT1-VILLAGE-LAYOUT",
+        "ACT1-ADDR-ACCESS",
+        "ACT1-QUEST-ADDR"
       ],
       "units": [
-        "A04 first unit: inspect the existing cold-start language-level implementation and uncommitted evidence without overwriting foreign edits. Expected effect: a player changing the manual level sees the intended knowledge projection in a new game while an existing save retains its own learning. Done when two protected Godot processes on the current DLL demonstrate fluent Apply/profile persistence, a fresh New Game starting with guessed rather than confirmed words, and an existing slot retaining its own state; repair only a reproduced defect. ACT1-LANG.4 author design remains open."
+        "A05 first unit: take the existing Alsu-provided ADR-FAP address from the first investigation and inspect the actual village approach to the FAP and return. Expected effect: the player can use a learned address and visible street cues rather than a hidden teleport. Done when the address is earned before the trip, a protected native first-person route reaches the correct entrance and returns without recovery/teleport, and current frames show the approach/signage; fix only a reproduced blocker. Human unprompted wayfinding remains external."
       ],
       "owner": "codex-01a0dd89 / GPT-6 Astra; no active native process or child writer",
-      "previous_packet": "A03 third cycle 2026-09-27: exact-DLL guarded full LEN01 route and source inspection cover article reread, wrong voice/route guesses, source return, Timur plan, field landmarks and tag, two revised hypotheses and load without pact reveal. No blocker reproduced; human navigation/meaning remain open. See a03-third-cycle/receipt.json."
+      "previous_packet": "A04 manual language level 2026-09-27: two separate protected Godot processes on exact current DLL exit0; fluent persisted, fresh New Game 12 guessed/0 confirmed, old slot 1 guessed and tt_babai unknown, bytes unchanged, userdata restored. No code change. Optional calibration form/precedence still awaits author choice; see a04-language-cold-current/receipt.json."
     },
     "priority_policy_2026_09_27": "act1_delivery_plan is the current Act I delivery order; it supersedes priority_policy_2026_09_26. Finish the already owned active_packet first; apply packet entry evidence, original dependencies, criteria and human gates. Do not execute HISTORY/FUTURE/AUTHOR-DEFERRED as normal Act I work."
   },
@@ -10371,7 +10372,8 @@
       "evidence": [
         "2026-09-22 карта состояния (read-only рой): UI-ряд none/some/fluent готов (SettingsUi.cs:408, RuntimeBridge.cs:1187), осталось сочетание с тестом и fluent-смок; скоуп-ловушка backlog (InputBindingService) — docs/production/act1_takeover_evidence_2026-09-16/act1_swarm_next_packets_2026-09-22.md §5.",
         "docs/production/tamara_mvp_2026-09-26/settings/",
-        "docs/production/mvp_tracker_2026-09-27/language-cold/receipt.json"
+        "docs/production/mvp_tracker_2026-09-27/language-cold/receipt.json",
+        "docs/production/mvp_tracker_2026-09-27/a04-language-cold-current/receipt.json"
       ],
       "progress_2026_09_20_lang": {
         "note": "2026-09-20: свойство + персистентность в UserSettingsStore/сейвах; сидирование none/some/fluent при новой игре (some проверено смоком, fluent реализован тем же механизмом); остался UI-ряд в настройках и различимый смок fluent.",
@@ -10381,7 +10383,7 @@
       },
       "mvp_priority": 15,
       "mvp_packet": "control-and-ui",
-      "current_checkpoint": "2026-09-27: два отдельных процесса Godot под одним clean userdata guard (PID 9287 → 9439). В первом фактический UI Apply fluent и запись отдельного story slot; во втором профиль/UI fluent, обычный New Game: 12 guessed / 0 confirmed. Прежний slot побайтно неизменен, затем загружен: 1 guessed, tt_babai unknown, текущий профиль fluent. Сборка 0/0 и exit0, guard восстановил пользовательские данные. Холодный старт fluent проверен; сочетание с калибровочным тестом зависит от ACT1-LANG.4, вся карточка не закрыта.",
+      "current_checkpoint": "2026-09-27: два отдельных процесса Godot под одним clean userdata guard (PID 9287 → 9439). В первом фактический UI Apply fluent и запись отдельного story slot; во втором профиль/UI fluent, обычный New Game: 12 guessed / 0 confirmed. Прежний slot побайтно неизменен, затем загружен: 1 guessed, tt_babai unknown, текущий профиль fluent. Сборка 0/0 и exit0, guard восстановил пользовательские данные. Холодный старт fluent проверен; сочетание с калибровочным тестом зависит от ACT1-LANG.4, вся карточка не закрыта. 2026-09-27 exact current DLL b776e7c9: two protected processes exit0; fluent persists, New Game 12 guessed/0 confirmed, old slot 1 guessed and byte-exact, userdata restored. No code change. Calibration/manual precedence remains open with ACT1-LANG.4; see a04-language-cold-current/receipt.json.",
       "mvp_priority_before_2026_09_27_round2": 10,
       "next_packet_2026_09_27": {
         "status": "cold_restart_packet_verified",
@@ -14843,7 +14845,8 @@
         "human_acceptance": [
           "Новый игрок описывает, где слово помогло, без подсказки ведущего; языковой консультант проверяет действующий контент."
         ],
-        "avoid": "Не изобретать калибровочный тест вместо ожидающего авторского выбора; независимые готовые функции продолжаются."
+        "avoid": "Не изобретать калибровочный тест вместо ожидающего авторского выбора; независимые готовые функции продолжаются.",
+        "manual_level_checkpoint_2026_09_27": "Current-DLL cold two-process protected check: fluent profile persists, new game 12 guessed/0 confirmed, old slot byte-exact and vocabulary retained. A04 remains open for ACT1-LANG.4 form/precedence and human language review. a04-language-cold-current/receipt.json."
       },
       {
         "id": "A05",
