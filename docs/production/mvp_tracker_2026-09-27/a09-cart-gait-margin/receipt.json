@@ -1,0 +1,35 @@
+{
+  "scope": "A09 one local guarded horse-cart gait hypothesis; temporary diagnostics and test narrowing reverted",
+  "headAtProbe": "2f865f8e1bce581eb5870830d7a4e36b862f11d9",
+  "baseline": {
+    "exitCode": 1,
+    "checks": 27,
+    "cartRouteEnd": [
+      0.3586034,
+      -0.25309548,
+      -36.827934
+    ],
+    "cartRouteMetres": 2.904602,
+    "firstIKLine": "cart-ik-detail: owner=(0.35236493, -0.25309694, -36.844444) moving=False grounded=True swing=1/0,18166345 error=0,012039157 hipAnkle=1,1000389 max=1,0899999 sole=(-0.10708925, -0.33670565, -38.67862) normal=(-0.009385847, 0.99983513, -0.015544631) gait=0,14368276 travel=0,017657729 yaw=0,0008702875"
+  },
+  "trial8mmReplantReserve": {
+    "exitCode": 1,
+    "checks": 27,
+    "cartRouteEnd": [
+      0.11187736,
+      -0.26043996,
+      -37.53836
+    ],
+    "cartRouteMetres": 3.6589928,
+    "firstIKLine": "cart-ik-detail: owner=(0.11080297, -0.2601932, -37.54184) moving=False grounded=True swing=1/0,112879254 error=0,012690899 hipAnkle=1,1006907 max=1,0899999 sole=(-0.28455395, -0.34782174, -39.407204) normal=(0.0065841237, 0.9998673, -0.014899585) gait=0,3155219 travel=0,022016343 yaw=0,0016801958"
+  },
+  "baselineReplantExample": "cart-replant-detail: hip=HorseLeg2 pose=(0.35359585, -0.25103578, -36.84119) moving=False candidate=(-0.19978377, -0.25103578, -38.941193) floor=(-0.19978377, -0.34143567, -38.941193) grounded=true distance=1,0812156 max=1,0899999 phase=0,39135057",
+  "finding": "The 12 mm reserve rejects a grounded future sole near the road dip even though it is below the 1.09 m geometric reach. Lowering only replant reserve to 8 mm moved the refusal about 0.7 m forward, then the planted leg overextended again. The trial is rejected; posture/contact checks remain unchanged in final source.",
+  "next": "Inspect earlier stance-to-swing timing and planted-foot replanning without stretching, snapping or forced waiting; rerun actual route and visual motion before accepting.",
+  "limits": [
+    "Native cart-only diagnostic, not full fleet acceptance",
+    "No gameplay source change retained",
+    "Human motion/handling not reviewed",
+    "Guard restored userdata"
+  ]
+}
