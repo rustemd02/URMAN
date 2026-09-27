@@ -1,0 +1,10 @@
+rinat-roadside-proof: real target and standing live view; look-away rejected; presence recorded once; final rule hidden; traversal and artistic acceptance remain separate
+rinat-finale-approach: actual endpoint interacted from standing collision ground; eye=(0.73964095, 0.79688907, -121.11357) target=(0.6, 0.29011083, -122.5); warning and hard cut still pending
+state-final-presentation: actual Rinat step and visible stop gesture, completed audio/caption, then one terminal beat
+act1-final-state: PASS missing test-slot load during the real Rinat step; same forest state, ordered cue/step recovery and completion
+rinat-finale-approach: actual endpoint interacted from standing collision ground; eye=(0.73964095, 0.79688907, -121.11357) target=(0.6, 0.29011083, -122.5); warning and hard cut still pending
+state-final-rendered-stance: external/not-run in headless mode
+state-final-presentation: actual Rinat step and visible stop gesture, completed audio/caption, then one terminal beat
+act1-final-state: PASS real Pause/main-menu confirmation; state and both save files unchanged for 3 seconds; normal Continue replayed and completed the pending finale
+act1-final-state: PASS gated approach + pre-reveal save/load + late failed-load recovery + menu cancellation/Continue + single terminal beat + idempotent post-terminal
+userdata guard: original files and permissions restored and verified

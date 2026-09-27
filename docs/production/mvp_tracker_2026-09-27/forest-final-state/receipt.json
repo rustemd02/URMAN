@@ -1,0 +1,27 @@
+{
+  "date": "2026-09-27",
+  "packet": "A00 / LEN01.1, zirat road to forest terminal state",
+  "sourceHead": "325e684e (dirty main checkout)",
+  "gameDllSha256": "fba27230ba95e1cc87d19073e81c0474a19731b21a9acaab20be56a97b83b8d1",
+  "command": ". eng/dotnet-env.sh; python3 eng/protected_run.py --clean --timeout 300 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --headless --path game res://tests/act1_final_state_smoke_test.tscn",
+  "exitCode": 0,
+  "verified": [
+    "The forest route rejects out-of-order access before the roadside source comparison.",
+    "Rinat is physically present at the road before the approach; the final rule remains hidden there and on approach entry.",
+    "The actual forest endpoint begins Marat then Rinat cues; the physical stop gesture precedes the one terminal knowledge/beat.",
+    "A pre-forest save restores a pre-reveal state; an invalid late load does not change the pending scene, and main-menu Continue completes it.",
+    "A completed save does not replay the finale; a second endpoint dispatch cannot duplicate the terminal beat."
+  ],
+  "expectedWarnings": [
+    "A deliberately rejected premature forest interaction.",
+    "A deliberately missing test save during the pending intervention."
+  ],
+  "engineErrorCount": 0,
+  "guardRestored": true,
+  "runExcerpt": "docs/production/mvp_tracker_2026-09-27/forest-final-state/run-excerpt.log",
+  "limits": [
+    "The proof uses authored state setup and supported local target positions; it is not a first-time free-walk playtest.",
+    "Headless did not render or assess the camera, character animation, subtitles layout, physical voice recordings, sound, mood or human duration.",
+    "The source tree was dirty; this validates the current DLL, not a clean release candidate."
+  ]
+}
