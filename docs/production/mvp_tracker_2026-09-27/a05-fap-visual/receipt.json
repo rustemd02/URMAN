@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-27",
+  "assemblySha256": "978221581cb70d2fce7e3108ae28324d447760c45124e273dcc0bf01b8fc63d3",
+  "addressSource": "Protected act1_len01_family_flow_smoke_test exited 0: Alsu grants ADR-FAP before the FAP transition, a repeat request does not duplicate the journal entry, and save/load retains it; user data guard restored.",
+  "image": "02_fap_diagnostic_4m.png",
+  "imageSha256": "dda5e995eff5878b4188a58775419c7f1949321a12f04dadbe60aaa81751df0a",
+  "camera": {
+    "kind": "diagnostic",
+    "distanceMetres": 4,
+    "fieldOfViewDegrees": 68,
+    "controllerTraversal": false
+  },
+  "observation": "The door, FAP sign and house number are recognizable at four metres; the street-name text is too small to read in this frame. Close first-person readability is not established.",
+  "addressAudit": "The full address-world diagnostic was time-capped at 20 seconds and exited 1 with pending and unrelated address failures; this image is not address-audit acceptance.",
+  "remaining": "Read ADR-FAP from the actually reached deck, return physically to the road, capture the first-person approach, and obtain human unprompted wayfinding review."
+}
