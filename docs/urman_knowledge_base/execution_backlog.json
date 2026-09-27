@@ -14637,14 +14637,16 @@
     }
   ],
   "mvp_prioritization_2026_09_27_round2": {
-    "status": "first_priority_packets_selected_full_status_reconciliation_pending",
+    "status": "author_redirected_to_quest_and_world_defects_full_status_reconciliation_pending",
     "order": [
+      "A03",
+      "A10",
+      "A05",
+      "A06",
       "ACT1-UI.4",
-      "ACT1-MECH-AUDIT.1",
-      "ACT1-ADDR-ACCESS",
-      "ACT1-FOOTSTEP.1"
+      "ACT1-MECH-AUDIT.1"
     ],
-    "reason": "Mandatory investigation entry before optional polish; then reliable player preference, reachable addresses and traversal feedback. Prior findings require current-build reproduction.",
+    "reason": "Автор 27 сентября указал на незаконченные квесты, пустые места, дырки поверхностей и край карты. Сначала воспроизводимые дефекты обязательного пути и мира; мелкий UI polish ниже. Каждый пакет ограничен одним эпизодом или участком и проверяется на текущей сборке.",
     "scope": "All existing task IDs, scopes, done_when and statuses retained. This ordering does not close tasks, discard ActI60min/allEX requirements or mark artistic/external gates passed.",
     "execution": "Before each packet state player effect and acceptance; after narrow check update its existing task. No new parallel task queue; IDs point to tasks in this file.",
     "author_direction": "2026-09-27: stop further Tamara work; continue tracker/MVP tasks now.",
@@ -14812,7 +14814,7 @@
       },
       {
         "id": "A03",
-        "priority": 25,
+        "priority": 23,
         "title": "Три разных расследовательских цикла",
         "task_ids": [
           "FINISH-03",
@@ -15029,7 +15031,7 @@
       },
       {
         "id": "A10",
-        "priority": 50,
+        "priority": 24,
         "title": "Цельный зимний Кырлай: форма, свет и материалы",
         "task_ids": [
           "GODOT-003",
@@ -15070,7 +15072,8 @@
           "Автор принимает реальный дом-эталон перед массовым распространением; затем среду в целом, включая ночь и движение.",
           "Культурная уместность деталей принята отдельно; технический screenshot не является art lock."
         ],
-        "avoid": "Не делать весь мир одинаковыми избами, накладывать орнамент на всё или бесконечно полировать один предмет вместо целого эпизода."
+        "avoid": "Не делать весь мир одинаковыми избами, накладывать орнамент на всё или бесконечно полировать один предмет вместо целого эпизода.",
+        "forest_edge_checkpoint_2026_09_27": "Локальный дефект восточной кромки: у высокой физической преграды могла оказаться видимой только ветка/камень/пень. Внутренний коллизионный ряд теперь использует высокие ели, геометрия контакта сохранена. Тот же native Metal boundary smoke: восточный контакт и возврат проходят, EdgeClamps/FallRecoveries 0; весь тест exit1 из-за 2 стволов без ray-контакта и 4 застреваний при обходе. Кадры до/после и оба receipts: docs/production/mvp_tracker_2026-09-27/a10-forest-edge/README.md. Периметр, High/Low, производительность и арт открыты."
       },
       {
         "id": "A11",

@@ -1885,18 +1885,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     continue;
                 }
 
-                var roll = rng.Randf();
-                var thicket = roll switch
-                {
-                    < 0.28f => "WinterSpruce_2",
-                    < 0.56f => "WinterSpruce_1",
-                    < 0.66f => "WinterRowan_1",
-                    < 0.74f => "WinterBirdCherry_1",
-                    < 0.82f => "Stump_0",
-                    < 0.90f => "MossStone_0",
-                    < 0.95f => "FallenBranch_0",
-                    _ => "FallenBranch_1"
-                };
+                // Every point below carries a body-height collision box. Keep
+                // a body-height visible fir there; small debris belongs only
+                // behind that line, where it cannot masquerade as a barrier.
+                var thicket = rng.Randf() < .5f ? "WinterSpruce_1" : "WinterSpruce_2";
                 generated.Add((point, thicket));
                 _forestBoundarySegments.Add(point);
 
