@@ -1,0 +1,79 @@
+{
+  "scope": "A09 horse-cart old main-road route diagnostic on current dirty checkout; no gameplay change or acceptance",
+  "headAtRun": "ddb55fc68fcd856c4887f67f04d52813bc89ecd4",
+  "run": {
+    "guard": "eng/protected_run.py --clean, native Godot, userdata restored",
+    "exitCode": 1,
+    "checks": 75,
+    "failure": "System.InvalidOperationException: all three driver address observations completed: forest-horse-cart: cart-existing-main-road: real driving refusal: Лошадь остановилась перед препятствием. Можно осадить её назад.",
+    "route": "cart-existing-main-road",
+    "start": [
+      0.9,
+      -0.2469068,
+      -34
+    ],
+    "end": [
+      0.3586034,
+      -0.25309548,
+      -36.827934
+    ],
+    "distanceMetres": 2.904602,
+    "lastSamples": [
+      {
+        "physicsFrame": 3315,
+        "position": [
+          0.68986565,
+          -0.24038805,
+          -35.772495
+        ],
+        "Speed": 1.1564144,
+        "waypoint": 0,
+        "target": "(-0.39, -37)",
+        "reverse": false,
+        "LastRefusal": "",
+        "CollisionStops": 0
+      },
+      {
+        "physicsFrame": 3344,
+        "position": [
+          0.5585783,
+          -0.2465906,
+          -36.235905
+        ],
+        "Speed": 0.8610318,
+        "waypoint": 0,
+        "target": "(-0.39, -37)",
+        "reverse": false,
+        "LastRefusal": "",
+        "CollisionStops": 0
+      },
+      {
+        "physicsFrame": 3373,
+        "position": [
+          0.43540865,
+          -0.24814156,
+          -36.58989
+        ],
+        "Speed": 0.81873345,
+        "waypoint": 1,
+        "target": "(-0.06087, -40.8)",
+        "reverse": false,
+        "LastRefusal": "",
+        "CollisionStops": 0
+      }
+    ]
+  },
+  "contact": {
+    "foot": 2,
+    "reason": "IK reached its unstretched joint limit",
+    "kind": "support-or-reach",
+    "vehicleShape": "HoofContactQuery2",
+    "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision"
+  },
+  "finding": "The stop is the articulated hoof reach/supported-pose guard against AgentB_TerrainCollision, not a named roadside prop. The evidence does not distinguish terrain gradient from turn/gait planning.",
+  "limits": [
+    "Initial pedestrian approach is a local fixture",
+    "No player-ready cart route, animation or camera acceptance",
+    "Temporary diagnostic print was reverted after capture"
+  ]
+}
