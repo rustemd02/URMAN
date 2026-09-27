@@ -54,11 +54,14 @@ internal static class Act1AlsuWalkProof
                 // Alsu06 measured its contact at z=2.3147; z=2.6 is not a
                 // standing destination even though the old .30 m route stopped short.
                 // Alsu07's diagonal crossed the parked Niva's real front face.
-                // Cross in front at z=-2.8, then use the street side x=-.1:
-                // the chassis ends at x=-.74, leaving .64 m for the .35 m body.
+                // The new short frontage ends at x=-5.4,z=-3.3. Pass its south
+                // end before returning to z=-2.8; the direct leg hits the fence.
+                // Then use the street side x=-.1: the chassis ends at x=-.74,
+                // leaving .64 m for the .35 m body.
                 // Continue past the initial NPC before approaching her from behind.
                 var exit = new Vector2[] { new(-26.05f,.2f),new(-26.05f,2.2f),new(-25.2f,2.6f),
-                    new(-22.5f,2.4f),new(-16,-.5f),new(-8,-3.5f),new(-3.5f,-2.8f),
+                    new(-22.5f,2.4f),new(-16,-.5f),new(-8,-3.5f),new(-5.5f,-4.1f),
+                    new(-3.5f,-4.1f),new(-3.5f,-2.8f),
                     new(-.1f,-2.8f),new(-.1f,3.7f) };
                 var closest = Enumerable.Range(0, exit.Length).MinBy(i =>
                     exit[i].DistanceTo(new(player.GlobalPosition.X, player.GlobalPosition.Z)));
@@ -264,7 +267,8 @@ internal static class Act1AlsuWalkProof
                     }
                     GD.Print("alsu-walk-proof: actual partial walk -> declared existing house boundary -> indoor save/load -> actual exterior support/body validation; door traversal=separate-check");
                     foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.2f),
-                        new(-25.2f,2.6f), new(-22.5f,2.4f), new(-16,-.5f), new(-8,-3.5f), new(-3.5f,-2.8f),
+                        new(-25.2f,2.6f), new(-22.5f,2.4f), new(-16,-.5f), new(-8,-3.5f),
+                        new(-5.5f,-4.1f), new(-3.5f,-4.1f), new(-3.5f,-2.8f),
                         new(-.1f,-2.8f), new(-.1f,3.7f) })
                         await WalkTo(new(point.X, player.GlobalPosition.Y, point.Y),
                             verifyStandingGoal: point == new Vector2(-26.05f,2.2f) || point.X == -.1f,

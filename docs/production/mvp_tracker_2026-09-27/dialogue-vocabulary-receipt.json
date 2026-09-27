@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-27",
+  "packet": "A04 / ACT1-LANG.2, spoken-word source regression",
+  "sourceHead": "9ed4867d (dirty main checkout)",
+  "gameDllSha256": "fba27230ba95e1cc87d19073e81c0474a19731b21a9acaab20be56a97b83b8d1",
+  "cause": "DialogueUi passed dialogueId:nodeId to vocabulary.learn, but the core validates sourceId as a ContentId. The displayed node already has a valid textId.",
+  "change": "DialogueUi passes the displayed node's textId; CompiledCampaignRepository resolves that text ID as the word's observed source and example.",
+  "command": ". eng/dotnet-env.sh; python3 eng/protected_run.py --clean --timeout 300 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --headless --display-driver macos --path game res://tests/act1_len01_family_flow_smoke_test.tscn --urman-smoke-family-home-only",
+  "testExitCode": 0,
+  "verified": [
+    "C# build completed with 0 warnings and 0 errors.",
+    "The actual Alsu line recorded зират and the actual Gulsina line recorded ярамый as Committed; the previous Invalid content ID rejection did not recur.",
+    "The family-home path, refusal/return and save/load checkpoints still passed.",
+    "Protected userdata guard restored original files and permissions."
+  ],
+  "runLog": "docs/production/mvp_tracker_2026-09-27/dialogue-vocabulary-run.log",
+  "limits": [
+    "Source/example resolution was inspected in code; no screenshot or human readability review of the vocabulary page was run in this packet.",
+    "The pre-existing deliberate corrupt-save ERROR lines and rejected early house action are expected fixtures.",
+    "LANG.4 calibration and human Tatar-language review remain open."
+  ]
+}

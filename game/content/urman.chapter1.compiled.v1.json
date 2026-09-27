@@ -11948,7 +11948,7 @@
         },
         "initialStatus": "hidden",
         "sourceIds": [
-          "urman.chapter1:scene/arrival_vehicle_dusk"
+          "urman.chapter1:document/arrival-photo-evidence"
         ],
         "reveals": [],
         "contradicts": [],
@@ -12454,11 +12454,6 @@
         ],
         "entryConditions": [],
         "onEnter": [
-          {
-            "op": "knowledge.set-status",
-            "knowledgeId": "urman.chapter1:knowledge/topic_marat_unresolved",
-            "status": "confirmed"
-          },
           {
             "op": "vocabulary.set-status",
             "vocabularyId": "urman.chapter1:vocabulary/tt_urman",
@@ -23014,7 +23009,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "ff8d012d6df6f0edbe1ad71498b948ab742d87c1f3ffb720d1b3317984ba7779"
+      "sha256": "cb97855bce87b6447ce08f6ad21f8d867c9bc2857fe8d5702c51d6589f76994a"
     },
     {
       "moduleId": "urman.core",
@@ -23027,5 +23022,5 @@
       "sha256": "f11d7970fd65ec8deb5cab4fe8e78424c6565dcd124684df556e1551039bf496"
     }
   ],
-  "campaignFingerprint": "d07d913ffc482153f1bbc945f015c689817f824c890c959f7a050848cdad4385"
+  "campaignFingerprint": "6934574676811465b2e3deb7551c42142e563897c9b9771e7857c601ae885b7e"
 }

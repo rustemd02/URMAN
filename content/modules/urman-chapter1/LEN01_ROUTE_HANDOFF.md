@@ -1080,7 +1080,7 @@ Optional `URMAN_IMAGE_UI_OUTPUT` сохраняет кадры; захват и 
 | Шаг | Runtime ID после префикса `urman.chapter1:` | Подтверждаемое действие |
 | --- | --- | --- |
 | Телефон на скамье | `interaction/view-arrival-message` → `document/arrival-mother-message` | Чтение подтверждает только `knowledge/arrival_mother_message_read` и оставляет сам источник в журнале |
-| Существующая фотография | `interaction/view-arrival-photo` → `document/arrival-photo-evidence` | Чтение подтверждает две существующие личные памяти; карточка памяти теперь содержит саму фразу и источник |
+| Существующая фотография | `interaction/view-arrival-photo` → `document/arrival-photo-evidence` | Чтение подтверждает две существующие личные памяти и вопрос о Марате; до просмотра фото эта тема больше не подтверждается одним входом в сцену |
 | Решение Айдара | `interaction/arrival-answer-mother` → `dialogue/arrival_mother_reply`, node `reply` | Доступно после обоих источников; открыть и закрыть без выбора можно |
 | Ответ | choice `help-babai` | Отдельная запись `knowledge/arrival_reply_help_babai`; arrival completed |
 | Молчание | choice `keep-silent` | Отдельная запись `knowledge/arrival_reply_kept_silent`; arrival completed |

@@ -1,0 +1,21 @@
+{
+  "date": "2026-09-27",
+  "packet": "A00 / LEN01.1, family-home episode only",
+  "sourceHead": "9ed4867d (dirty main checkout)",
+  "gameDllSha256": "78369b8b3abb19ee72c8ecb92b719dc60e6f670f575ce88d1493d0dabf151505",
+  "change": "The existing family notebook proof reads the displayed task rows through JournalUi.CurrentObjectiveText; Objective is now only the 'ДЕЛА' heading.",
+  "command": ". eng/dotnet-env.sh; python3 eng/protected_run.py --clean --timeout 300 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --headless --display-driver macos --path game res://tests/act1_len01_family_flow_smoke_test.tscn --urman-smoke-family-home-only",
+  "testExitCode": 0,
+  "verified": [
+    "Actual new-game arrival and Alsu street meeting were reached before entering the home.",
+    "Photo and silence versions of the family response completed only after the chosen topic and explicit meal acceptance.",
+    "Decline, interruption, indoor/outdoor return, notebook reminder and save/load kept the pending or completed state without duplicate entries.",
+    "The home response did not manufacture the later clue about Marat's official death or the finale.",
+    "Protected userdata guard restored original files and permissions."
+  ],
+  "runLog": "docs/production/mvp_tracker_2026-09-27/family-home-run.log",
+  "limits": [
+    "This verifies a technical route, not human comprehension, acting, warmth, visual composition, sound or first-play duration.",
+    "The next source comparison at the old PC and the rest of the 16-beat map are separate units."
+  ]
+}

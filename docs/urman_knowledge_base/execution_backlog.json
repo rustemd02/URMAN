@@ -2673,7 +2673,7 @@
   },
   "updated": "2026-09-27",
   "goal_key": "urman-act1-finished-product",
-  "goal_statement": "Довести Акт I до законченного, увлекательного и атмосферного игрового опыта по act1_delivery_plan: личная история Марата, три самостоятельных расследовательских цикла, живая зимняя деревня, все EX00–EX14, завершённые механики/UI, нарастание тревоги и эмоциональный финал. Минимум 60 активных минут обычного первого основного опыта без искусственного добора; интерес, красота и звук принимаются реальными людьми. Исходный объём, история и авторская отсрочка Тамары сохранены; незакрытые внешние гейты остаются external/not-run.",
+  "goal_statement": "Довести Акт I до законченного, увлекательного и атмосферного игрового опыта по act1_delivery_plan: личная история Марата, три самостоятельных расследовательских цикла, живая зимняя деревня, все EX00–EX14, завершённые механики/UI, нарастание тревоги и эмоциональный финал. Минимум 60 активных минут обычного первого основного опыта без искусственного добора; интерес, красота и звук принимаются реальными людьми. Исходный объём и история сохранены; незакрытые внешние гейты остаются external/not-run.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
   "acceptance_contract_2026_09_15": {
     "minimum_first_main_minutes": 60,
@@ -2739,10 +2739,10 @@
     "priority_policy_2026_09_26": "Use tasks.mvp_priority ascending among dependency-ready units; smaller is earlier. Fix observed control/progression/UI defects before cosmetic expansion. One unit per packet with player effect, evidence, next step. Preserve all EX00–EX14 and >=60 active minutes; no padded duration. Prior statuses/evidence are historical unless tied to this build. in_progress records incomplete work, not a live worker. Priority 90 needs external input; 100 preserves long-term scope outside this Act I run.",
     "active_packet": {
       "task_ids": [
-        "ACT1-LANG.5"
+        "LEN01.1"
       ],
       "units": [
-        "Next: inspect remaining fluent new-game/cold-launch coverage for existing manual language-level setting; preserve awaiting author choice for LANG.4. Legs wall-stop/90deg turn technical packet verified; continuous human gait remains open. Dialogue overflow needs a genuine dense authored state before edits."
+        "A00 next episode: FAP, the primary official record and the first player-made comparison. Arrival, house and Alsu source/action/result maps are recorded. The dialogue-word source regression was fixed and guarded family-home-only exit0 on the current DLL. Do not transfer technical PASS to human interest, visual or 60-minute acceptance."
       ],
       "owner": "codex-01a0dd89 / GPT-6 Astra; no active native process or child writer"
     },
@@ -7977,7 +7977,11 @@
         "человеческий хронометраж"
       ],
       "evidence": [
-        "docs/production/act1_len01_playtime_audit_2026-09-15.md"
+        "docs/production/act1_len01_playtime_audit_2026-09-15.md",
+        "docs/production/act1_len01_1_beat_map_draft_2026-09-15.md",
+        "docs/production/mvp_tracker_2026-09-27/arrival/receipt.json",
+        "docs/production/mvp_tracker_2026-09-27/family-home-receipt.json",
+        "docs/production/mvp_tracker_2026-09-27/alsu-route-receipt.json"
       ],
       "progress_2026_09_15_b": "§13 addition integrated into the existing queue; no second queue and no restart. The author's §13 expansion (EX00-EX14 + LEN01) was reconciled against the already-registered ACT1-EX00..ACT1-EX14 and LEN01.1-LEN01.5: the only missing volume was LEN01.6 (turn confirmed causes into fixes), LEN01.7 (target rhythm) and LEN01.8 (acceptance and mandatory report), now added with their dependencies, plus ACT1-EX-ACCEPT, the single §13.18 acceptance ledger tied to the same ACT1-EX01..EX14 rows. Dependencies named by the §13.2 map were filled where the backlog was silent (EX07/EX08/EX09/EX10/EX11/EX12/EX13/EX14). A dedicated read-only investigator was dispatched immediately for the LEN01 audit: reproduce or honestly mark as not reproduced the 5-6 minute run, trace normal start -> finale prerequisites, check automatic knowledge granting through onEnter/document-close/Continue/zone switch, dialogue and PC transitions, and every entry path into the final zone. Confirmed causes become fixes in LEN01.6, not a report.",
       "progress_2026_09_15_c": "Cause audit complete (docs/production/act1_len01_cause_audit_2026-09-15.md). The 5-6 minute report is reproduced as CONTENT, not as a build or start defect: the mandatory path carries ~530 readable words (137 dialogue + 266 document bodies + 42 photo/captions) plus the 424.88 m walk at 3.4 m/s = ~2:05, giving ~5 minutes at a calm reading pace. Compiled and authored content are structurally identical (19/19 scenes), so no old or short package was loaded; the debug zone jump grants no beats and cannot reach the finale. A dedicated read-only investigator produced the LEN01.2 pillar matrix, the LEN01.3 prerequisite list (21 load-bearing steps, each with the action that satisfies it) and the LEN01.5 hypothesis table. No bypass to the finale was found: both forest scenes require route_kara_urman_edge_hint + rinat.alerted + beat/rinat-visible-before-edge, and the only entries are scene-owned interactions. New-game isolation is clean (asserted by chapter_one_flow_smoke_test). Human first-playthrough duration stays external/not-run.",
@@ -8041,6 +8045,7 @@
       "status_correction_2026_09_15": "Старый completed означал арифметический черновик, не выполнение требований. Распределение минут автором не требуется для разрешённых технических и содержательных исправлений в пределах канона.",
       "progress_2026_09_15": "Draft beat map produced with measured values (act1_len01_1_beat_map_draft_2026-09-15.md): the chapter carries 1,234 Russian words distributed across beats (evidence 236, timur 226, mansur 221, other 155, alsu 132, naila 100, gulsina 81, rinat 68, arrival 12, old-pc 3), the mandatory walk is 424.88 m = 2:05, and the investigation core is 22 words. Proposed per-beat targets sum to the ~50 minute goal, which needs the mandatory text to grow 5-7x, with the core (beat 6), the house (2) and the FAP (4) as the priority gaps. The story volume itself is author's content - the draft is the measured side for the author's decision.",
       "progress_2026_09_15_b": "Beat map updated with the measured mandatory volume: ~530 words on the load-bearing path against 1,234 in the whole chapter, so ~700 words sit in optional finds. The 5-6 minute figure now reconciles arithmetically with the corpus. The story volume itself remains the author's content decision.",
+      "current_checkpoint": "2026-09-27 A00 first three episodes mapped: arrival topic follows opened photo; family pause follows invitation, chosen topic and meal; Alsu's account/address follow a walked meeting and explicit question, not an official source. Current DLL guarded family-home-only exit0 with physical approach, journal and save/load. Evidence: docs/production/mvp_tracker_2026-09-27/arrival/receipt.json, family-home-receipt.json, alsu-route-receipt.json. FAP/remaining beats and human time/interest remain open.",
       "mvp_priority": 12,
       "mvp_packet": "A00",
       "delivery": {
@@ -10099,6 +10104,7 @@
       "evidence": [],
       "mvp_priority": 26,
       "mvp_packet": "A04",
+      "current_checkpoint": "2026-09-27 A04: dialogue vocabulary source regression fixed with the displayed node's valid textId and read-only source resolution. Guarded family-home-only exit0 on current DLL, зират/ярамый Committed instead of Invalid content ID. Technical source/example projection inspected in code; human language/readability review and LANG.4/.5 remain open. docs/production/mvp_tracker_2026-09-27/dialogue-vocabulary-receipt.json",
       "delivery": {
         "packet": "A04"
       },
@@ -10168,7 +10174,10 @@
       "done_when": [
         "Слово появляется ровно один раз (идемпотентно, без дублей); автосбор сам по себе не подтверждает значение и не пишет журнал."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/mvp_tracker_2026-09-27/dialogue-vocabulary-receipt.json"
+      ],
+      "current_checkpoint": "2026-09-27: sourceId dialogueId:nodeId was invalid for the kernel; actual textId now commits зират and ярамый during the existing guarded family flow. Repeated dialogue within a session did not emit a second observation; source projection uses observed text only. No human language or UI review in this packet.",
       "progress_2026_09_20_lang": {
         "note": "2026-09-20: ObserveVocabularyTextAsync — автосбор гипотез с sourceId из документов, реплик диалога и документов ПК; лесенка unknown→guessed→confirmed ядра не даёт деградации; смок фиксирует source.",
         "evidence": [
@@ -11850,8 +11859,11 @@
       "done_when": [
         "Повторный аудит обязательного пути: 0 застреваний/провалов/проходов сквозь геометрию."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/mvp_tracker_2026-09-27/alsu-route-receipt.json"
+      ],
       "progress_2026_09_24": "2026-09-24: river ravine soft-lock fixed with plank steps on the village bank (five exits fitted to the bank profile); low forest bank at x~-41 closed with a visible windfall; act1_river_exit_smoke_test in verify-godot.",
+      "current_checkpoint": "2026-09-27 A01: the apparent house-to-Alsu collision was a stale proof line through intended Frontage_26 (x≈-5.4, z=-3.3..-2.3). Existing proof now walks around its south end with the full player capsule; guarded Alsu-only run exit0 through encounter, companion checkpoints and save/load. No game collider changed. General collision audit and human pathfinding remain open.",
       "mvp_priority": 15,
       "mvp_packet": "A01",
       "delivery": {
