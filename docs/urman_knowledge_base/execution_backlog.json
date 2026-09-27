@@ -2739,10 +2739,11 @@
     "priority_policy_2026_09_26": "Use tasks.mvp_priority ascending among dependency-ready units; smaller is earlier. Fix observed control/progression/UI defects before cosmetic expansion. One unit per packet with player effect, evidence, next step. Preserve all EX00–EX14 and >=60 active minutes; no padded duration. Prior statuses/evidence are historical unless tied to this build. in_progress records incomplete work, not a live worker. Priority 90 needs external input; 100 preserves long-term scope outside this Act I run.",
     "active_packet": {
       "task_ids": [
-        "LEN01.1"
+        "ACT1-MECH-AUDIT.1",
+        "ACT1-MECH-AUDIT.2"
       ],
       "units": [
-        "A00 next unit: reconcile the nine mapped episodes against all 16 load-bearing beats and required mechanic uses, assigning each remaining gap to an existing tracker card. Forest approach, pre-reveal load, ordered Marat/Rinat cues and single terminal beat passed a guarded true-headless act1_final_state smoke on the dirty current DLL. Native visual/audio presentation, human interest and 60-minute duration remain open."
+        "A00 next unit: source-excerpt selection on the mandatory route. Enumerate the concrete documents, actions and useful result of every use under ACT1-MECH-AUDIT.1, then classify the mechanic under .2 without inferring removal from frequency. The 16 narrativeOrder entries are mapped; #5, #6 and #16 are handoff/result rather than extra player activity. Native UI and human acceptance remain open."
       ],
       "owner": "codex-01a0dd89 / GPT-6 Astra; no active native process or child writer"
     },
@@ -8048,7 +8049,7 @@
       "status_correction_2026_09_15": "Старый completed означал арифметический черновик, не выполнение требований. Распределение минут автором не требуется для разрешённых технических и содержательных исправлений в пределах канона.",
       "progress_2026_09_15": "Draft beat map produced with measured values (act1_len01_1_beat_map_draft_2026-09-15.md): the chapter carries 1,234 Russian words distributed across beats (evidence 236, timur 226, mansur 221, other 155, alsu 132, naila 100, gulsina 81, rinat 68, arrival 12, old-pc 3), the mandatory walk is 424.88 m = 2:05, and the investigation core is 22 words. Proposed per-beat targets sum to the ~50 minute goal, which needs the mandatory text to grow 5-7x, with the core (beat 6), the house (2) and the FAP (4) as the priority gaps. The story volume itself is author's content - the draft is the measured side for the author's decision.",
       "progress_2026_09_15_b": "Beat map updated with the measured mandatory volume: ~530 words on the load-bearing path against 1,234 in the whole chapter, so ~700 words sit in optional finds. The 5-6 minute figure now reconciles arithmetically with the corpus. The story volume itself remains the author's content decision.",
-      "current_checkpoint": "2026-09-27 A00 nine episodes mapped from arrival to forest edge. The family, Alsu, FAP, saved-message, Urman-article, sketch and roadside source chains have bounded player actions; optional tag-base finds are not a gate. Forest approach requires discussed route, matched road and Rinat presence; Marat/Rinat cues precede the physical intervention, and only it commits the final rule. Guarded true-headless family-flow and final-state smokes exit0 on the current dirty DLL; native background-window keyboard proof exit1, so visual/input acceptance remains open. Evidence: docs/production/mvp_tracker_2026-09-27/fap-records/receipt.json, forest-final-state/receipt.json and act1_len01_1_beat_map_draft_2026-09-15.md. All 16 beat reconciliation and human time/interest remain open.",
+      "current_checkpoint": "2026-09-27 A00 nine episodes mapped from arrival to forest edge and reconciled with the first 16 narrativeOrder entries. #5 FAP desk, #6 projection of the notice already read at home and #16 terminal flag are not independent minutes. The source/action/result path is technically reachable through guarded true-headless family-flow and final-state smokes exit0 on the current dirty DLL; native background-window keyboard proof exit1, so visual/input acceptance remains open. Evidence: docs/production/mvp_tracker_2026-09-27/fap-records/receipt.json, forest-final-state/receipt.json and act1_len01_1_beat_map_draft_2026-09-15.md. Human time/interest and the 60-minute content contract remain open.",
       "mvp_priority": 12,
       "mvp_packet": "A00",
       "delivery": {
