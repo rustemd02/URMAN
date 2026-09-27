@@ -1,0 +1,34 @@
+{
+  "date": "2026-09-27",
+  "scope": "A10 west mosque courtyard, x=-60.5 z=-35, ordinary controller input",
+  "guard": "eng/protected_run.py --clean; userdata restored and verified in both runs",
+  "renderer": "Godot 4.7.1 .NET native Metal; 1280x720; production main.tscn; no SubViewport",
+  "source_revision": "local dirty DLL; controller change is a single west clamp bound; unrelated dirty files preserved",
+  "dll_sha256_after": "a113c5b464a63c3649a0153758bf21a8d7f6677bda39fb699a353b3c2147b907",
+  "before": {
+    "start": "(-60.5, 6.974059, -35.0)",
+    "contact": "(-61.0, 7.095768, -34.99905)",
+    "edgeClamps": 81,
+    "image": "before_contact.png",
+    "sha256": "efea8d55641996a67b16b41bd8d9b3d5147741f22049638b4f8cb99337ca6aae"
+  },
+  "after": {
+    "start": "(-60.5, 6.974059, -35.0)",
+    "contact": "(-61.94938, 7.315723, -34.9972)",
+    "edgeClamps": 0,
+    "collider": "VillageMosqueComplex/MosqueCollisionProxy",
+    "onFloor": true,
+    "image": "after_contact.png",
+    "sha256": "c24c0ffc923bc0c9935c1be73d785d922d019073c196f683b1b3f7bed3c13e67"
+  },
+  "return": {
+    "position": "(-60.53001, 6.980353, -34.9972)",
+    "edgeClamps": 0,
+    "fallRecoveries": 0,
+    "onFloor": true,
+    "image": "after_return.png",
+    "sha256": "c0804abd67a84823bec0c60c6428cc86edead3e144353b4caeb83ac39068d982"
+  },
+  "build": "Urman.Game.csproj --no-restore: 0 warnings, 0 errors",
+  "limits": "One courtyard contact and return; not whole perimeter, human comfort or art acceptance."
+}

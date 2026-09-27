@@ -427,7 +427,8 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     {
         const float edgeMargin = 3f;
         var position = GlobalPosition;
-        var clampedX = Mathf.Clamp(position.X, AgentBAct1HeightField.MinX + edgeMargin, AgentBAct1HeightField.MaxX - edgeMargin);
+        // The west mosque courtyard wall is inside the terrain, past the old 3 m clamp.
+        var clampedX = Mathf.Clamp(position.X, AgentBAct1HeightField.MinX + 1.5f, AgentBAct1HeightField.MaxX - edgeMargin);
         var clampedZ = Mathf.Clamp(position.Z, AgentBAct1HeightField.MinZ + edgeMargin, AgentBAct1HeightField.MaxZ - edgeMargin);
         if (clampedX != position.X || clampedZ != position.Z)
         {
