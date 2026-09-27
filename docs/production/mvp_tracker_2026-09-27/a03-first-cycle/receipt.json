@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-27",
+  "packet": "A03 first investigation loop: official notice, family/Alsu account, FAP records and Naila",
+  "source_head": "ef91f82c (dirty main checkout)",
+  "dll_sha256": "b776e7c960cd2b663844e0ff3e87c2d8d896364c53846535c88310ab69489c9c",
+  "checks": [
+    "eng/run-smoke-guarded.sh journal_flow_smoke_test: exit 0; actual journal selectors, selected document fields, wrong/retry/right comparison, spoken answer and separate conclusion; protected userdata restored",
+    "eng/run-smoke-guarded.sh act1_len01_family_flow_smoke_test: exit 0; normal New Game route through family, Alsu, FAP and Naila, wrong versions, source return and multiple save/load boundaries including the mistaken category; protected userdata restored"
+  ],
+  "result": "No blocker or misleading state transition reproduced on the scripted first-loop route; no production source changed in this packet.",
+  "limits": [
+    "Both checks drive authored actions; they do not prove a first-time player notices or understands the needed comparison, or measure pacing and interest.",
+    "The journal check is headless and does not accept native keyboard layout, text legibility or visual quality. The longer flow emitted an engine texture-RID leak warning; this packet did not diagnose unrelated cleanup behavior.",
+    "The DLL includes other uncommitted work; this is a local exact-build technical receipt, not a clean release candidate."
+  ]
+}
