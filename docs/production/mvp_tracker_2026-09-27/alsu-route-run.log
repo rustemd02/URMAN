@@ -1,0 +1,190 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=71 blockers=74 bank_steps=5 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=60732 publishedVertices=60732 physicsVertices=60732 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=60732 physicsVertices=60732 sameOwner=true
+act1-shop-storefront: reskinned=15 barredWindows=3 parapet=2.27..4.15 ridge=4.03
+act1-school-bank-cut: mesh=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-fap-plate: at=(25.390001, 1.8504713, -28.118002) outward=(0, 0, 1)
+act1-zirat-fence-source: owner=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=23 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-source: owner=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=23 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-post-source: owner=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost0 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost1 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost2 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost3 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost4 meshType=BoxMesh surfaces=1
+act1-zirat-shed-fence-junction: wall=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0 attachmentZ=-46.915245 retainedFirstSpans=2 hiddenPost=3 retainedFarPost=4 frontCut=(-0.99987423, 0.015860919, -2.3291499E-07), -14.446598 rearCut=(0.99986124, 0.016654668, 0), 17.218063
+act1-overlap-cleanup: hidden=4
+act1-overlap-cleanup: relocated=12
+act1-yard-composition: hidden=41
+act1-street-frontage: rejected access=296, footprint=140, road:connector=45, axis=41, obstacle=30, road:authored=13, road:surface=11
+act1-street-frontage: houses=34 runs=94 gates=11 wickets=30 wood_tris=41756 hidden_old_fence_pieces=185
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=99 shapes=1708 carved_door_slabs=110 flat_slab_skipped=2702 exact_architecture_surfaces=976 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=87 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=140; maximum ground drop=0.779m; level entrances preserved
+act1-zirat-foundation-contact: owner=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/AuthoredKitCollisionProxy/OutbuildingShed_Foundation_LOD0_SurfaceContact source=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Foundation_LOD0 policy=exact-existing-mesh-triangles
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=126047229927
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-window-surrounds: painted=952
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=126047229927
+SaveGameV3 new game session started; existing slots untouched.
+arrival-intro-ui: requested=1280x720 actual=(1280, 720) textScale=1,6; source hint and panel bounds
+arrival-intro-ui: requested=1920x1080 actual=(1920, 1080) textScale=1; source hint and panel bounds
+act1-intro: confirmed with E
+WARNING: Interaction urman.chapter1:interaction/arrival-enter-house rejected: ContentConditionRejected Content conditions rejected this action.
+     at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__142.MoveNext() (res://scripts/RuntimeBridge.cs:1349)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__142.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:1349)
+         [2] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+         [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [4] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+         [5] void Urman.Godot.RuntimeBridge+<DispatchInteractionAsync>d__91.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:539)
+         [6] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+         [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+         [8] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchInteractionAsync(string)
+         [9] void Urman.Godot.Tests.Act1ArrivalFlowProof+<CompleteAsync>d__1.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1Len01FamilyFlowSmokeTest.cs:1511)
+         [10] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+         [11] System.Threading.Tasks.Task Urman.Godot.Tests.Act1ArrivalFlowProof.CompleteAsync(Godot.Node, Urman.Godot.RuntimeBridge, string, bool)
+         [12] void Urman.Godot.Tests.Act1Len01FamilyFlowSmokeTest+<_Ready>d__13.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1Len01FamilyFlowSmokeTest.cs:53)
+         [13] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [14] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+         [15] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+         [16] void System.Threading.Tasks.Task.RunContinuations(object)
+         [17] bool System.Threading.Tasks.Task`1.TrySetResult(TResult)
+         [18] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(System.Threading.Tasks.Task`1[TResult], TResult)
+         [19] void Urman.Godot.Tests.Act1Len01FamilyFlowSmokeTest+<Frames>d__49.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/tests/Act1Len01FamilyFlowSmokeTest.cs:1225)
+         [20] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+         [21] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+         [22] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+vocabulary.observe: term=әби status=Committed error=
+vocabulary.observe: term=урман status=Committed error=
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-arrival-message-only.savegame-v3.json
+zone-loaded: village_day@arrival connected-world=126047229927
+SaveGameV3 restored.
+document-image-ui: area len01_arrival_photo_paper 1280x720 canvas=(869.3334, 369.33334) fit=(369.33334, 369.33334) logicalCanvas=(1304, 554) logicalFit=(554, 554) rootLogical=(1920, 1080) contentBase=(1920, 1080) contentFactor=1 rootVisible=(1920, 1080) window=(1280, 720) captured=not-run pixelSource=window pixelScale=(0.6666667, 0.6666667)
+document-image-ui: area len01_arrival_photo_paper 1920x1080 canvas=(788, 585) fit=(585, 585) logicalCanvas=(788, 585) logicalFit=(585, 585) rootLogical=(1920, 1080) contentBase=(1920, 1080) contentFactor=1 rootVisible=(1920, 1080) window=(1920, 1080) captured=not-run pixelSource=window pixelScale=(1, 1)
+document-image-ui: PASS len01_arrival_photo_paper actual=urman.chapter1:asset/photo-marat-childhood 720p-large/1080p fit/zoom/pan/text, no knowledge mutation
+document-image-ui: area len01_arrival_photo_journal 1280x720 canvas=(740, 290) fit=(290, 290) logicalCanvas=(1110, 435) logicalFit=(435, 435) rootLogical=(1920, 1080) contentBase=(1920, 1080) contentFactor=1 rootVisible=(1920, 1080) window=(1280, 720) captured=not-run pixelSource=window pixelScale=(0.6666667, 0.6666667)
+document-image-ui: area len01_arrival_photo_journal 1920x1080 canvas=(774, 535) fit=(535, 535) logicalCanvas=(774, 535) logicalFit=(535, 535) rootLogical=(1920, 1080) contentBase=(1920, 1080) contentFactor=1 rootVisible=(1920, 1080) window=(1920, 1080) captured=not-run pixelSource=window pixelScale=(1, 1)
+document-image-ui: PASS len01_arrival_photo_journal actual=urman.chapter1:asset/photo-marat-childhood 720p-large/1080p fit/zoom/pan/text, no knowledge mutation
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-arrival-before-reply.savegame-v3.json
+zone-loaded: village_day@arrival connected-world=126047229927
+SaveGameV3 restored.
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-arrival-reply-abandoned.savegame-v3.json
+zone-loaded: village_day@arrival connected-world=126047229927
+SaveGameV3 restored.
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-arrival-completed.savegame-v3.json
+zone-loaded: village_day@arrival connected-world=126047229927
+SaveGameV3 restored.
+arrival-flow: source UI, remembered phrase, distinct help-babai, explicit house continuation
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-alsu-walk-deferred.savegame-v3.json
+zone-loaded: village_day@arrival connected-world=126047229927
+SaveGameV3 restored.
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-alsu-midsegment.savegame-v3.json
+zone-loaded: village_day@arrival connected-world=126047229927
+SaveGameV3 restored.
+zone-loaded: village_day@arrival connected-world=126047229927
+ERROR: SaveGameV3 load failed: Alsu's saved travel is not on its actually walked segment.
+   at: void Urman.Godot.RuntimeBridge+<LoadFromStoreAsync>d__81.MoveNext() (res://scripts/RuntimeBridge.cs:389)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Urman.Godot.RuntimeBridge+<LoadFromStoreAsync>d__81.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:389)
+       [2] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [4] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [5] void System.Threading.Tasks.Task.RunContinuations(object)
+       [6] bool System.Threading.Tasks.Task`1.TrySetResult(TResult)
+       [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(System.Threading.Tasks.Task`1[TResult], TResult)
+       [8] void Urman.Core.Persistence.AtomicSaveGameStore+<LoadAsync>d__4.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Core/Persistence/AtomicSaveGameStore.cs:85)
+       [9] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.ExecutionContextCallback(object)
+       [10] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [11] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [12] void Godot.GodotSynchronizationContext.ExecutePendingContinuations() (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GodotSynchronizationContext.cs:51)
+       [13] void Godot.GodotTaskScheduler.Activate() (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GodotTaskScheduler.cs:76)
+       [14] void Godot.Bridge.ScriptManagerBridge.FrameCallback() (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/ScriptManagerBridge.cs:84)
+zone-loaded: village_day@arrival connected-world=126047229927
+SaveGameV3 rejected the loaded placement; the previous session was restored.
+zone-loaded: village_day@arrival connected-world=126047229927
+alsu-physical-contact: {"query":"projection","motion":"(0, 0, 0)","recoveryAsCollision":true,"actorTransform":"[X: (-0.999105, 0, 0.042215675), Y: (0, 1, 0), Z: (-0.042215675, 0, -0.999105), O: (0.85, -0.28935206, 2.05)]","bodyTransform":"[X: (-0.999105, 0, 0.042215675), Y: (0, 1, 0), Z: (-0.042215675, 0, -0.999105), O: (0.85, -0.28935206, 2.05)]","bodyPhysicsTransform":"[X: (-0.999105, 0, 0.042215675), Y: (0, 1, 0), Z: (-0.042215675, 0, -0.999105), O: (0.85, -0.28935206, 2.05)]","capsuleTransform":"[X: (-0.999105, 0, 0.042215675), Y: (0, 1, 0), Z: (-0.042215675, 0, -0.999105), O: (0.85, 0.56064796, 2.05)]","capsuleLocal":"[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (0, 0.85, 0)]","radius":0.28,"height":1.7,"contacts":[{"owner":"/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/Player","colliderTransform":"[X: (0.9990848, 0, -0.042675998), Y: (0, 1, 0), Z: (0.042675998, 0, 0.9990848), O: (0.796052, -0.28591955, 2.321937)]","colliderPhysicsTransform":"[X: (0.9990848, 0, -0.042675998), Y: (0, 1, 0), Z: (0.042675998, 0, 0.9990848), O: (0.796052, -0.28591955, 2.321937)]","shape":"/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/Player/CollisionShape3D","shapeTransform":"[X: (0.9990848, 0, -0.042675998), Y: (0, 1, 0), Z: (0.042675998, 0, 0.9990848), O: (0.796052, 0.25408047, 2.321937)]","shapeSize":null,"point":"(0.86415887, 0.44408047, 1.978629)","normal":"(0.19459192, -5.0934855E-08, -0.98088425)"}]}
+ERROR: SaveGameV3 load failed: Alsu's saved physical body intersects an obstacle or the loaded player.
+   at: void Urman.Godot.RuntimeBridge+<LoadFromStoreAsync>d__81.MoveNext() (res://scripts/RuntimeBridge.cs:389)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Urman.Godot.RuntimeBridge+<LoadFromStoreAsync>d__81.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:389)
+       [2] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [4] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [5] void System.Threading.Tasks.Task.RunContinuations(object)
+       [6] void System.Threading.Tasks.Task.FinishSlow(bool)
+       [7] bool System.Threading.Tasks.Task.TrySetException(object)
+       [8] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetException(System.Exception, System.Threading.Tasks.Task`1[TResult]&)
+       [9] void Urman.Godot.RuntimeBridge+<RestoreLoadedWorldAsync>d__82.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:450)
+       [10] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [11] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [12] void System.Threading.Tasks.Task.RunContinuations(object)
+       [13] void System.Threading.Tasks.Task.FinishSlow(bool)
+       [14] bool System.Threading.Tasks.Task.TrySetException(object)
+       [15] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetException(System.Exception, System.Threading.Tasks.Task`1[TResult]&)
+       [16] void Urman.Godot.RuntimeBridge+<ProjectPhysicalWorldAsync>d__83.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/RuntimeBridge.cs:482)
+       [17] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [18] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [19] void System.Threading.Tasks.Task.RunContinuations(object)
+       [20] bool System.Threading.Tasks.Task`1.TrySetResult(TResult)
+       [21] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(System.Threading.Tasks.Task`1[TResult], TResult)
+       [22] void Urman.Godot.VehicleFleet+<CompleteLoadedProjectionAsync>d__44.MoveNext() (/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/VehicleFleet.cs:234)
+       [23] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [24] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [25] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+zone-loaded: village_day@arrival connected-world=126047229927
+SaveGameV3 rejected the loaded placement; the previous session was restored.
+zone-loaded: house_old_pc@entry connected-world=126047229927
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-alsu-midsegment-house.savegame-v3.json
+zone-loaded: house_old_pc@entry connected-world=126047229927
+SaveGameV3 restored.
+zone-loaded: village_day@from_house connected-world=126047229927
+alsu-exterior-return: {"phase":"immediate","waitedPhysicsFrames":0,"expected":"(0.7792099, -0.2987983, 0.3746354)","poseDelta":0,"requested":false,"bodyLayer":0,"targetLayer":0,"targetAvailable":false,"eligibility":{"runtimeRequested":false,"localRequested":false,"arrived":false,"checkpoint":0,"pendingCheckpoint":0,"stepping":false,"saving":false,"committing":false,"physicalPending":true,"PhysicalPlacementFailure":null,"PhysicalAccessReady":false,"exterior":true,"presentationZone":"village_day","zone":"village_day","modal":false,"vehicle":false,"sessionMatchesLive":true,"sessionMatchesProjection":true,"physicsFrame":841,"validationAfterPhysicsFrame":843,"fleetPending":true,"actor":"(0.7792099, -0.2987983, 0.3746354)","player":"(-26.158367, 0.35846362, -1.2426405)","walkedMetres":1.6768595,"blocked":"none"}}
+alsu-exterior-return: {"phase":"frame3","waitedPhysicsFrames":3,"expected":"(0.7792099, -0.2987983, 0.3746354)","poseDelta":0,"requested":false,"bodyLayer":1,"targetLayer":4,"targetAvailable":true,"eligibility":{"runtimeRequested":false,"localRequested":false,"arrived":false,"checkpoint":0,"pendingCheckpoint":0,"stepping":false,"saving":false,"committing":false,"physicalPending":false,"PhysicalPlacementFailure":null,"PhysicalAccessReady":true,"exterior":true,"presentationZone":"village_day","zone":"village_day","modal":false,"vehicle":false,"sessionMatchesLive":true,"sessionMatchesProjection":true,"physicsFrame":844,"validationAfterPhysicsFrame":843,"fleetPending":false,"actor":"(0.7792099, -0.2987983, 0.3746354)","player":"(-26.158367, 0.30990893, -1.2426405)","walkedMetres":1.6768595,"blocked":"none"}}
+alsu-exterior-return: {"phase":"complete","waitedPhysicsFrames":3,"expected":"(0.7792099, -0.2987983, 0.3746354)","poseDelta":0,"requested":false,"bodyLayer":1,"targetLayer":4,"targetAvailable":true,"eligibility":{"runtimeRequested":false,"localRequested":false,"arrived":false,"checkpoint":0,"pendingCheckpoint":0,"stepping":false,"saving":false,"committing":false,"physicalPending":false,"PhysicalPlacementFailure":null,"PhysicalAccessReady":true,"exterior":true,"presentationZone":"village_day","zone":"village_day","modal":false,"vehicle":false,"sessionMatchesLive":true,"sessionMatchesProjection":true,"physicsFrame":844,"validationAfterPhysicsFrame":843,"fleetPending":false,"actor":"(0.7792099, -0.2987983, 0.3746354)","player":"(-26.158367, 0.30990893, -1.2426405)","walkedMetres":1.6768595,"blocked":"none"}}
+alsu-walk-proof: actual partial walk -> declared existing house boundary -> indoor save/load -> actual exterior support/body validation; door traversal=separate-check
+alsu-yard-turn: {"goal":"(-26.05, 0.34114814, 2.2)","standingClear":true,"standingPurpose":"yard-turn","bodyRadius":0.35,"support":"/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision","chassisOwner":null,"chassisTransform":null,"chassisSize":null,"playerMoved":false,"revision":26}
+alsu-player-walk: {"phase":"standing-yard-turn-reached","leg":6,"elapsedFrames":65,"stalledFrames":1,"start":"(-26.060732, 0.2944402, 0.05720978)","goal":"(-26.05, 0.34114814, 2.2)","feet":"(-26.051182, 0.3230576, 2.0536883)","velocity":"(0, 0, 0)","remaining":0.14631654,"onFloor":true,"crouching":false,"modal":false,"zone":"village_day","input":"(0, 0)","revisionBefore":26,"revisionNow":26,"lastStepRejection":"","stepsClimbed":0,"recentSlideContacts":[],"probeMotion":"(0.00045799004, 0, 0.05666482)","blocked":true,"sweepContacts":[{"owner":"/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision","shape":"/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces","normal":"(-0.037933104, 0.99699736, -0.067507796)","point":"(-26.037796, 0.32424155, 2.091141)"}]}
+alsu-niva-bypass: {"goal":"(-0.1, -0.27012336, -2.8)","standingClear":true,"standingPurpose":"niva-bypass","bodyRadius":0.35,"support":"/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision","chassisOwner":"/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/ChassisCollision","chassisTransform":"[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-1.65, 0.6726499, 1.0250001)]","chassisSize":"(1.82, 1.8, 4.2)","playerMoved":false,"revision":26}
+alsu-player-walk: {"phase":"standing-niva-bypass-reached","leg":14,"elapsedFrames":84,"stalledFrames":0,"start":"(-3.5157905, -0.2529565, -2.9429858)","goal":"(-0.1, -0.27012336, -2.8)","feet":"(-0.24598452, -0.27883583, -2.806106)","velocity":"(0, 0, 0)","remaining":0.14611217,"onFloor":true,"crouching":false,"modal":false,"zone":"village_day","input":"(0, 0)","revisionBefore":26,"revisionNow":26,"lastStepRejection":"","stepsClimbed":0,"recentSlideContacts":[],"probeMotion":"(0.056617167, 0, 0.002368143)","blocked":false,"sweepContacts":[]}
+alsu-niva-bypass: {"goal":"(-0.1, -0.29960537, 3.7)","standingClear":true,"standingPurpose":"niva-bypass","bodyRadius":0.35,"support":"/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision","chassisOwner":"/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/ChassisCollision","chassisTransform":"[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1), O: (-1.65, 0.6726499, 1.0250001)]","chassisSize":"(1.82, 1.8, 4.2)","playerMoved":false,"revision":26}
+alsu-player-walk: {"phase":"standing-niva-bypass-reached","leg":15,"elapsedFrames":142,"stalledFrames":1,"start":"(-0.24598452, -0.27883583, -2.806106)","goal":"(-0.1, -0.29960537, 3.7)","feet":"(-0.1032115, -0.30691418, 3.552651)","velocity":"(0, 0, 0)","remaining":0.1473841,"onFloor":true,"crouching":false,"modal":false,"zone":"village_day","input":"(0, 0)","revisionBefore":26,"revisionNow":26,"lastStepRejection":"","stepsClimbed":0,"recentSlideContacts":[],"probeMotion":"(0.0012347662, 0, 0.056653216)","blocked":false,"sweepContacts":[]}
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-alsu-walk-partial.savegame-v3.json
+zone-loaded: village_day@from_house connected-world=126047229927
+SaveGameV3 restored.
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+vocabulary.observe: term=зират status=Rejected error=Invalid content ID: urman.chapter1:dialogue/alsu_route_context:name-road (Parameter 'value')
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-alsu-walk-arrived.savegame-v3.json
+zone-loaded: village_day@from_house connected-world=126047229927
+SaveGameV3 restored.
+alsu-walk-proof: requested, physical input, one actor/body/ray, checkpoint=3; return=True; no account until manual question; human-duration=not-run
+vocabulary.observe: term=зират status=Rejected error=Invalid content ID: urman.chapter1:dialogue/alsu_route_context:name-road (Parameter 'value')
+vocabulary.observe: term=зират status=Rejected error=Invalid content ID: urman.chapter1:dialogue/alsu_route_context:name-road (Parameter 'value')
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-early-directions.savegame-v3.json
+zone-loaded: village_day@from_house connected-world=126047229927
+SaveGameV3 restored.
+vocabulary.observe: term=зират status=Rejected error=Invalid content ID: urman.chapter1:dialogue/alsu_route_context:name-road (Parameter 'value')
+len01-early-address: real conversation before notice; hearsay has no unread wording; repeat and load retain one address; main comparison remains required
+act1-alsu-walk-only: normal arrival sources; actual companion walk/refusal/return/load; explicit sourced account/address; no first-human-duration claim.
+userdata guard: original files and permissions restored and verified

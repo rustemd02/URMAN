@@ -1,0 +1,16 @@
+zone-loaded: fap_clinic@waiting_room connected-world=116551325688
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-lamp-unacknowledged.savegame-v3.json
+zone-loaded: fap_clinic@waiting_room connected-world=116551325688
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-lamp-acknowledged.savegame-v3.json
+[621] scene.entered: urman.chapter1:interaction/fap-to-document-desk
+[626] scene.entered: urman.chapter1:interaction/fap-document-desk-to-official-record
+[634] scene.entered: urman.chapter1:interaction/official-to-internal-register
+source-excerpt-ui: external/not-run native keyboard/window/render proof requires a windowed display; source excerpt runtime checks continue in caller
+source-excerpt-proof: document=urman.oldpc:document/doc_marat_official_death_notice action=excerpt-notice-cause; heading refused; cancel refused; actual TextEdit selection -> Record -> one source; scene preserved; one persistent confirmation and remaining fields survive reopen
+source-excerpt-proof: document=urman.oldpc:document/rec_marat_case_register_conflict action=excerpt-register-wording; heading refused; cancel refused; actual TextEdit selection -> Record -> one source; scene preserved; one persistent confirmation and remaining fields survive reopen
+source-excerpt-proof: document=urman.oldpc:document/rec_marat_case_register_conflict action=excerpt-register-category; heading refused; cancel refused; actual TextEdit selection -> Record -> one source; scene preserved; one persistent confirmation and remaining fields survive reopen
+source-excerpt-proof: document=urman.oldpc:document/rec_marat_case_register_conflict action=excerpt-register-category; heading refused; cancel refused; actual TextEdit selection -> Record -> one source; scene preserved; one persistent confirmation and remaining fields survive reopen
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-matching-fields.savegame-v3.json
+source-excerpt-proof: document=urman.oldpc:document/msg_marat_saved_last_normal action=excerpt-message-voice; heading refused; cancel refused; actual TextEdit selection -> Record -> one source; scene preserved; one persistent confirmation and remaining fields survive reopen
+act1-len01-family-flow: normal start; unanswered permission; domestic wrong source/reread/return; family and Alsu source checks; Naila field question/misreading/reread/correction; message source/overstatement/Alsu return; voice and route hypotheses corrected against original sources through journal UI; production article reread presentation; preserved-world revisits; unearned-source rejection; Timur greeting/doubt/refusal/reread/return; distinct saved investigation stages; clean new game. Technical coverage only.
+userdata guard: original files and permissions restored and verified

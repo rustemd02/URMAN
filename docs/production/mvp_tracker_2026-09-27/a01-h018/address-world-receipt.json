@@ -1,0 +1,3025 @@
+{
+  "schemaVersion": 1,
+  "ordinaryNewGame": true,
+  "humanSearchPlaytest": false,
+  "diagnosticCameraFixtures": false,
+  "assembly": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/bin/Debug/Urman.Game.dll",
+    "pathSource": "project-debug-candidate; module identity checked",
+    "assemblyLocation": "",
+    "loadedModule": "4ade8164-2c50-49a1-8055-56ccc44d6062",
+    "diskModule": "4ade8164-2c50-49a1-8055-56ccc44d6062",
+    "status": "module-match",
+    "sha256": "8c319c8835544918be07fc7379fee3ca9224a1899fc5e171fbd2145be648e22e"
+  },
+  "scope": "crowded-addresses",
+  "auditRun": false,
+  "fullAuditRun": false,
+  "selectedAccessAuditRun": true,
+  "acceptance": false,
+  "auditCompleted": false,
+  "registry": {
+    "version": "act1-addresses-1",
+    "subsetOnly": true,
+    "addresses": [
+      {
+        "AddressId": "ADR-H018",
+        "BuildingId": "BLD-H018",
+        "ParcelId": "PAR-H018",
+        "StreetId": "tukay",
+        "HouseNumber": "19",
+        "AccessId": "ACC-ADR-H018",
+        "History": []
+      }
+    ],
+    "accesses": [
+      {
+        "AccessId": "ACC-ADR-H018",
+        "BuildingId": "BLD-H018",
+        "Kind": "entrance",
+        "Position": {
+          "X": -6.633072853088379,
+          "Y": -0.21077477931976318,
+          "Z": -11.37392520904541
+        },
+        "GraphNodeId": "ND-16CF1A5981BEBB88",
+        "State": "verified"
+      }
+    ]
+  },
+  "mounts": [
+    {
+      "addressId": "ADR-H018",
+      "buildingId": "BLD-H018",
+      "source": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade",
+      "plate": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-H018",
+      "platePosition": {
+        "x": -7.501375,
+        "y": 2.2281346,
+        "z": -12.365415
+      },
+      "plateBasis": {
+        "x": {
+          "x": 0.034899496,
+          "y": 0,
+          "z": -0.99939084
+        },
+        "y": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "z": {
+          "x": 0.99939084,
+          "y": 0,
+          "z": 0.034899496
+        }
+      },
+      "plateWidth": 0.6,
+      "plateHeight": 0.23,
+      "labels": {
+        "TatarStreet": {
+          "text": "\u0422\u0443\u043A\u0430\u0439 \u0443\u0440.",
+          "font": "",
+          "pixelSize": 0.00135,
+          "fontSize": 34
+        },
+        "RussianStreet": {
+          "text": "\u0443\u043B. \u0422\u0443\u043A\u0430\u044F",
+          "font": "",
+          "pixelSize": 0.00135,
+          "fontSize": 30
+        },
+        "HouseNumber": {
+          "text": "19",
+          "font": "",
+          "pixelSize": 0.00135,
+          "fontSize": 65
+        }
+      },
+      "physicalMountSupported": true,
+      "mountAssessment": {
+        "Supported": true,
+        "MissingArea": 0,
+        "Owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+        "Reason": "complete facade and exterior sightline",
+        "TimberCladding": false
+      },
+      "mountSamples": [
+        {
+          "sample": {
+            "x": -7.511845,
+            "y": 2.1131346,
+            "z": -12.065598
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5897985,
+            "y": 2.1131344,
+            "z": -12.068319
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Portal0_Jamb1_LOD0",
+          "visualGapMeters": 0.020999968,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.511845,
+            "y": 2.3431346,
+            "z": -12.065598
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5897985,
+            "y": 2.3431344,
+            "z": -12.068319
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.5101,
+            "y": 2.1131346,
+            "z": -12.115567
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5880537,
+            "y": 2.1131344,
+            "z": -12.118289
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800131,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.5101,
+            "y": 2.3431346,
+            "z": -12.115567
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.588053,
+            "y": 2.3431344,
+            "z": -12.118289
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.508355,
+            "y": 2.1131346,
+            "z": -12.165537
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5863085,
+            "y": 2.1131344,
+            "z": -12.168259
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.508355,
+            "y": 2.3431346,
+            "z": -12.165537
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5863085,
+            "y": 2.3431344,
+            "z": -12.168259
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.50661,
+            "y": 2.1131346,
+            "z": -12.215506
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5845633,
+            "y": 2.1131344,
+            "z": -12.218227
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.0780012,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.50661,
+            "y": 2.3431346,
+            "z": -12.215506
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5845633,
+            "y": 2.3431344,
+            "z": -12.218227
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.07800114,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.504865,
+            "y": 2.1131346,
+            "z": -12.265475
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5828185,
+            "y": 2.1131344,
+            "z": -12.268197
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.504865,
+            "y": 2.3431346,
+            "z": -12.265475
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5828185,
+            "y": 2.3431344,
+            "z": -12.268197
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.50312,
+            "y": 2.1131346,
+            "z": -12.315445
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5810738,
+            "y": 2.1131344,
+            "z": -12.318167
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800131,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.50312,
+            "y": 2.3431346,
+            "z": -12.315445
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5810738,
+            "y": 2.3431344,
+            "z": -12.318167
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800131,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.501375,
+            "y": 2.1131346,
+            "z": -12.365415
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5793285,
+            "y": 2.1131344,
+            "z": -12.368136
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.501375,
+            "y": 2.3431346,
+            "z": -12.365415
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5793285,
+            "y": 2.3431344,
+            "z": -12.368136
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4996305,
+            "y": 2.1131346,
+            "z": -12.415384
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5775833,
+            "y": 2.1131344,
+            "z": -12.418106
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800037,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.07800025,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4996305,
+            "y": 2.3431346,
+            "z": -12.415384
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5775833,
+            "y": 2.3431344,
+            "z": -12.418106
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800037,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.07800025,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.497885,
+            "y": 2.1131346,
+            "z": -12.465354
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5758386,
+            "y": 2.1131344,
+            "z": -12.468076
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.497885,
+            "y": 2.3431346,
+            "z": -12.465354
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5758386,
+            "y": 2.3431344,
+            "z": -12.468076
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4961405,
+            "y": 2.1131346,
+            "z": -12.515324
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5740933,
+            "y": 2.1131344,
+            "z": -12.518045
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800037,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000784,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4961405,
+            "y": 2.3431346,
+            "z": -12.515324
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5740933,
+            "y": 2.3431344,
+            "z": -12.518045
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800037,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4943953,
+            "y": 2.1131346,
+            "z": -12.565292
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5723486,
+            "y": 2.1131344,
+            "z": -12.568014
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000784,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4943953,
+            "y": 2.3431346,
+            "z": -12.565292
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5723486,
+            "y": 2.3431344,
+            "z": -12.568014
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4926505,
+            "y": 2.1131346,
+            "z": -12.615262
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5706034,
+            "y": 2.1131344,
+            "z": -12.617984
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800037,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.07800031,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4926505,
+            "y": 2.3431346,
+            "z": -12.615262
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5706034,
+            "y": 2.3431344,
+            "z": -12.617984
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800037,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.07800031,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4909053,
+            "y": 2.1131346,
+            "z": -12.665232
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5688586,
+            "y": 2.1131344,
+            "z": -12.6679535
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000784,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4909053,
+            "y": 2.3431346,
+            "z": -12.665232
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5688586,
+            "y": 2.3431344,
+            "z": -12.6679535
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.511845,
+            "y": 2.151468,
+            "z": -12.065598
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5897985,
+            "y": 2.1514678,
+            "z": -12.068319
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Portal0_Jamb1_LOD0",
+          "visualGapMeters": 0.020999968,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4909053,
+            "y": 2.151468,
+            "z": -12.665232
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5688586,
+            "y": 2.1514678,
+            "z": -12.6679535
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000784,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.511845,
+            "y": 2.1898012,
+            "z": -12.065598
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5897985,
+            "y": 2.189801,
+            "z": -12.068319
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Portal0_Jamb1_LOD0",
+          "visualGapMeters": 0.020999968,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4909053,
+            "y": 2.1898012,
+            "z": -12.665232
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5688586,
+            "y": 2.189801,
+            "z": -12.6679535
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000784,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.511845,
+            "y": 2.2281346,
+            "z": -12.065598
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5897985,
+            "y": 2.2281344,
+            "z": -12.068319
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Portal0_Jamb1_LOD0",
+          "visualGapMeters": 0.020999968,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4909053,
+            "y": 2.2281346,
+            "z": -12.665232
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5688586,
+            "y": 2.2281344,
+            "z": -12.6679535
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000784,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.511845,
+            "y": 2.266468,
+            "z": -12.065598
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5897985,
+            "y": 2.2664678,
+            "z": -12.068319
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Portal0_Jamb1_LOD0",
+          "visualGapMeters": 0.020999968,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4909053,
+            "y": 2.266468,
+            "z": -12.665232
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5688586,
+            "y": 2.2664678,
+            "z": -12.6679535
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.511845,
+            "y": 2.3048012,
+            "z": -12.065598
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5897985,
+            "y": 2.304801,
+            "z": -12.068319
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Portal0_Jamb1_LOD0",
+          "visualGapMeters": 0.020999968,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4909053,
+            "y": 2.3048012,
+            "z": -12.665232
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5688586,
+            "y": 2.304801,
+            "z": -12.6679535
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.078000724,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.510798,
+            "y": 2.1431346,
+            "z": -12.095579
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5887513,
+            "y": 2.1431344,
+            "z": -12.098301
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Portal0_Jamb1_LOD0",
+          "visualGapMeters": 0.0227243,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.510798,
+            "y": 2.3131347,
+            "z": -12.095579
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5887513,
+            "y": 2.3131344,
+            "z": -12.098301
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899715
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Portal0_Jamb1_LOD0",
+          "visualGapMeters": 0.0227243,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4919524,
+            "y": 2.1431346,
+            "z": -12.63525
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5699058,
+            "y": 2.1431344,
+            "z": -12.637972
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.07800031,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": -7.4919524,
+            "y": 2.3131347,
+            "z": -12.63525
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": -7.5699058,
+            "y": 2.3131344,
+            "z": -12.637972
+          },
+          "normal": {
+            "x": 0.99939084,
+            "y": 0,
+            "z": 0.034899455
+          },
+          "physicsGapMeters": 0.07800084,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_Street_Wall_LOD0",
+          "visualGapMeters": 0.07800031,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        }
+      ],
+      "doorMeshes": [
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Handle_LOD0",
+          "visible": true,
+          "position": {
+            "x": -10.780215,
+            "y": 1.0813472,
+            "z": -16.796944
+          },
+          "basis": {
+            "x": {
+              "x": 0.03315452,
+              "y": 0,
+              "z": -0.9494213
+            },
+            "y": {
+              "x": 0,
+              "y": 0.95,
+              "z": 0
+            },
+            "z": {
+              "x": 0.9494213,
+              "y": 0,
+              "z": 0.03315452
+            }
+          },
+          "aabbSize": {
+            "x": 0.045,
+            "y": 0.16,
+            "z": 0.07
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Jamb-1_LOD0",
+          "visible": true,
+          "position": {
+            "x": -10.706618,
+            "y": 1.0813472,
+            "z": -16.046268
+          },
+          "basis": {
+            "x": {
+              "x": 0.03315452,
+              "y": 0,
+              "z": -0.9494213
+            },
+            "y": {
+              "x": 0,
+              "y": 0.95,
+              "z": 0
+            },
+            "z": {
+              "x": 0.9494213,
+              "y": 0,
+              "z": 0.03315452
+            }
+          },
+          "aabbSize": {
+            "x": 0.095,
+            "y": 2.16,
+            "z": 0.07
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Jamb1_LOD0",
+          "visible": true,
+          "position": {
+            "x": -10.673132,
+            "y": 1.0813472,
+            "z": -17.005184
+          },
+          "basis": {
+            "x": {
+              "x": 0.03315452,
+              "y": 0,
+              "z": -0.9494213
+            },
+            "y": {
+              "x": 0,
+              "y": 0.95,
+              "z": 0
+            },
+            "z": {
+              "x": 0.9494213,
+              "y": 0,
+              "z": 0.03315452
+            }
+          },
+          "aabbSize": {
+            "x": 0.095,
+            "y": 2.16,
+            "z": 0.07
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Leaf_LOD0",
+          "visible": true,
+          "position": {
+            "x": -10.875012,
+            "y": 1.0813472,
+            "z": -16.53219
+          },
+          "basis": {
+            "x": {
+              "x": 0.03315452,
+              "y": 0,
+              "z": -0.9494213
+            },
+            "y": {
+              "x": 0,
+              "y": 0.95,
+              "z": 0
+            },
+            "z": {
+              "x": 0.9494213,
+              "y": 0,
+              "z": 0.03315452
+            }
+          },
+          "aabbSize": {
+            "x": 0.84,
+            "y": 1.92,
+            "z": 0.035
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Rail-1_LOD0",
+          "visible": true,
+          "position": {
+            "x": -10.689876,
+            "y": 0.08859725,
+            "z": -16.525726
+          },
+          "basis": {
+            "x": {
+              "x": 0.03315452,
+              "y": 0,
+              "z": -0.9494213
+            },
+            "y": {
+              "x": 0,
+              "y": 0.95,
+              "z": 0
+            },
+            "z": {
+              "x": 0.9494213,
+              "y": 0,
+              "z": 0.03315452
+            }
+          },
+          "aabbSize": {
+            "x": 1.1,
+            "y": 0.095,
+            "z": 0.07
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Rail1_LOD0",
+          "visible": true,
+          "position": {
+            "x": -10.689876,
+            "y": 2.0740974,
+            "z": -16.525726
+          },
+          "basis": {
+            "x": {
+              "x": 0.03315452,
+              "y": 0,
+              "z": -0.9494213
+            },
+            "y": {
+              "x": 0,
+              "y": 0.95,
+              "z": 0
+            },
+            "z": {
+              "x": 0.9494213,
+              "y": 0,
+              "z": 0.03315452
+            }
+          },
+          "aabbSize": {
+            "x": 1.1,
+            "y": 0.095,
+            "z": 0.07
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_SeniEntry_Door0_Recess_LOD0",
+          "visible": true,
+          "position": {
+            "x": -10.91299,
+            "y": 1.0813472,
+            "z": -16.533516
+          },
+          "basis": {
+            "x": {
+              "x": 0.03315452,
+              "y": 0,
+              "z": -0.9494213
+            },
+            "y": {
+              "x": 0,
+              "y": 0.95,
+              "z": 0
+            },
+            "z": {
+              "x": 0.9494213,
+              "y": 0,
+              "z": 0.03315452
+            }
+          },
+          "aabbSize": {
+            "x": 0.94,
+            "y": 2.02,
+            "z": 0.045
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/ForwardWestParcel/MainStreetForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_StreetDoorClosed_LOD0",
+          "visible": true,
+          "position": {
+            "x": -7.682852,
+            "y": 1.1905974,
+            "z": -11.411166
+          },
+          "basis": {
+            "x": {
+              "x": 0.03315452,
+              "y": 0,
+              "z": -0.9494213
+            },
+            "y": {
+              "x": 0,
+              "y": 0.95,
+              "z": 0
+            },
+            "z": {
+              "x": 0.9494213,
+              "y": 0,
+              "z": 0.03315452
+            }
+          },
+          "aabbSize": {
+            "x": 1.22,
+            "y": 2.17,
+            "z": 0.17250001
+          }
+        }
+      ],
+      "accessPosition": {
+        "X": -6.633491516113281,
+        "Y": -0.17598533630371094,
+        "Z": -11.374521255493164
+      },
+      "accessState": "pending-physics",
+      "standingCapsuleFits": true,
+      "floorHit": true,
+      "floorOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision"
+    }
+  ],
+  "captures": [],
+  "checks": [
+    {
+      "kind": "check",
+      "message": "ordinary New Game starts",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "construction and proximity do not record a plate read",
+      "passed": true
+    },
+    {
+      "kind": "audit-not-run-in-narrow-scope",
+      "auditRun": false,
+      "constructionEntriesAlreadyObserved": 0,
+      "previousPhysicsProcessing": true,
+      "acceptance": false
+    },
+    {
+      "kind": "check",
+      "message": "select one to four existing, distinct address IDs",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "mounted plate rests against actual facade triangles: ADR-H018",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "sign text agrees with registry: ADR-H018",
+      "passed": true
+    },
+    {
+      "kind": "crowded-door-access",
+      "addressId": "ADR-H018",
+      "access": {
+        "AccessId": "ACC-ADR-H018",
+        "BuildingId": "BLD-H018",
+        "Kind": "entrance",
+        "Position": {
+          "X": -6.633072853088379,
+          "Y": -0.21077477931976318,
+          "Z": -11.37392520904541
+        },
+        "GraphNodeId": "ND-16CF1A5981BEBB88",
+        "State": "verified"
+      },
+      "advances": 215,
+      "plateApproachIsSeparate": true,
+      "humanNavigationTest": false
+    },
+    {
+      "kind": "check",
+      "message": "ADR-H018: standing door route attached to the road graph",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ADR-H018: a physical route is required before walking",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ADR-H018: road fixture has actual support",
+      "passed": true
+    },
+    {
+      "kind": "route-start",
+      "label": "address/ADR-H018/read-approach",
+      "observeOldStops": false,
+      "points": [
+        "(-4.091546, -0.27444744, -6.493986)",
+        "(-4.5336323, -0.28341427, -7.3427835)",
+        "(-4.5704722, -0.282602, -7.4135156)",
+        "(-4.93894, -0.266606, -8.120651)",
+        "(-4.975786, -0.26536313, -8.191365)",
+        "(-5.1231904, -0.25866327, -8.474167)",
+        "(-5.1600366, -0.25740603, -8.544881)",
+        "(-5.381133, -0.2478734, -8.9691105)",
+        "(-5.417994, -0.24589002, -9.039804)",
+        "(-5.4548397, -0.24439861, -9.110517)",
+        "(-5.675779, -0.23891933, -9.534912)",
+        "(-5.712605, -0.23844436, -9.605644)",
+        "(-5.7494235, -0.23727086, -9.676376)",
+        "(-5.9703636, -0.23241435, -10.100758)",
+        "(-6.0440063, -0.23024915, -10.242222)",
+        "(-6.0808234, -0.22968675, -10.312953)",
+        "(-6.633073, -0.21077478, -11.373925)",
+        "(-6.751832, -0.17795162, -12.33924)"
+      ],
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "feet": "(-4.091546, -0.27444732, -6.493986)",
+      "pointRadius": 0.09,
+      "policy": "continuous input; no point removed or reordered"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 0,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 36,
+      "processFrame": 4,
+      "target": "(-4.091546, -0.27444744, -6.493986)",
+      "feet": "(-4.091546, -0.27444732, -6.493986)",
+      "distanceXZ": 0,
+      "velocity": "(0, 0, 0)",
+      "grounded": true,
+      "floorNormal": "(-0.008177371, 0.99994856, -0.005993744)",
+      "forwardHeld": false,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.008177371, 0.99994856, -0.005993744)",
+          "position": "(-4.08868, -0.27482143, -6.4918885)",
+          "depth": 9.298936E-05
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-4.091546, -0.27485743, -6.493986)",
+      "supportNormal": "(-0.008177372, 0.9999486, -0.0059937444)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 1,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 52,
+      "processFrame": 13,
+      "target": "(-4.5336323, -0.28341427, -7.3427835)",
+      "feet": "(-4.5103927, -0.28282624, -7.2981634)",
+      "distanceXZ": 0.050309315,
+      "velocity": "(-1.5705788, 0, -3.015506)",
+      "grounded": true,
+      "floorNormal": "(-0.008177371, 0.99994856, -0.005993744)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-4.5103927, -0.28310296, -7.2981634)",
+      "supportNormal": "(-0.008177372, 0.9999486, -0.0059937444)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 2,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 53,
+      "processFrame": 14,
+      "target": "(-4.5704722, -0.282602, -7.4135156)",
+      "feet": "(-4.5365715, -0.28282624, -7.348427)",
+      "distanceXZ": 0.07338805,
+      "velocity": "(-1.5705832, 0, -3.0155034)",
+      "grounded": true,
+      "floorNormal": "(-0.008177371, 0.99994856, -0.005993744)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-4.5365715, -0.28361833, -7.348427)",
+      "supportNormal": "(-0.008177372, 0.9999486, -0.0059937444)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 3,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 67,
+      "processFrame": 23,
+      "target": "(-4.93894, -0.266606, -8.120651)",
+      "feet": "(-4.903101, -0.2679258, -8.051678)",
+      "distanceXZ": 0.07772894,
+      "velocity": "(-1.5685664, 0, -3.016553)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-4.8919525, -0.26855382, -8.046412)",
+          "depth": 0.0009113454
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-4.8997164, -0.2682179, -8.061329)",
+          "depth": 0.0005586392
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-4.903101, -0.26851648, -8.051678)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 4,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 69,
+      "processFrame": 24,
+      "target": "(-4.975786, -0.26536313, -8.191365)",
+      "feet": "(-4.9554243, -0.26566353, -8.152161)",
+      "distanceXZ": 0.044177,
+      "velocity": "(-1.5687158, 0, -3.0164754)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-4.944275, -0.266291, -8.146895)",
+          "depth": 0.00091194117
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-4.9520397, -0.2659551, -8.161812)",
+          "depth": 0.0005591456
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-4.9554243, -0.26625365, -8.152161)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 5,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 74,
+      "processFrame": 28,
+      "target": "(-5.1231904, -0.25866327, -8.474167)",
+      "feet": "(-5.0863423, -0.25993446, -8.403307)",
+      "distanceXZ": 0.07986806,
+      "velocity": "(-1.5695798, 0, -3.0160258)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-5.077182, -0.26055035, -8.401874)",
+          "depth": 0.0009963934
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-5.0829573, -0.2603008, -8.41296)",
+          "depth": 0.00048434627
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.0863423, -0.2605994, -8.403307)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 6,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 76,
+      "processFrame": 30,
+      "target": "(-5.1600366, -0.25740603, -8.544881)",
+      "feet": "(-5.138681, -0.2576875, -8.50378)",
+      "distanceXZ": 0.046317536,
+      "velocity": "(-1.5691804, 0, -3.0162337)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-5.128908, -0.25831458, -8.501167)",
+          "depth": 0.0009622832
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-5.135296, -0.25803837, -8.513433)",
+          "depth": 0.00049983704
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.138681, -0.25833702, -8.50378)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 7,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 84,
+      "processFrame": 36,
+      "target": "(-5.381133, -0.2478734, -8.9691105)",
+      "feet": "(-5.3481345, -0.24870165, -8.905625)",
+      "distanceXZ": 0.071549065,
+      "velocity": "(-1.5690663, 0, -3.016293)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-5.336881, -0.24933144, -8.900165)",
+          "depth": 0.00090562575
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-5.34475, -0.24899113, -8.915277)",
+          "depth": 0.00056123093
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.3481345, -0.24928975, -8.905625)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 8,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 86,
+      "processFrame": 38,
+      "target": "(-5.417994, -0.24589002, -9.039804)",
+      "feet": "(-5.400483, -0.2464407, -9.006093)",
+      "distanceXZ": 0.03798805,
+      "velocity": "(-1.5693809, 0, -3.0161293)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-5.389124, -0.24707362, -9.00044)",
+          "depth": 0.0009033617
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-5.3970985, -0.24672902, -9.015744)",
+          "depth": 0.0005624225
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.400483, -0.2470276, -9.006093)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 9,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 87,
+      "processFrame": 38,
+      "target": "(-5.4548397, -0.24439861, -9.110517)",
+      "feet": "(-5.4266744, -0.24525356, -9.056312)",
+      "distanceXZ": 0.061085694,
+      "velocity": "(-1.5698795, 0, -3.0158699)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-5.415299, -0.24594256, -9.050673)",
+          "depth": 0.00090318295
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.0096580265, 0.9995741, 0.0275388)",
+          "position": "(-5.4232893, -0.24559847, -9.065964)",
+          "depth": 0.0005058212
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.4266744, -0.24589711, -9.056312)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 10,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 95,
+      "processFrame": 45,
+      "target": "(-5.675779, -0.23891933, -9.534912)",
+      "feet": "(-5.635892, -0.23938935, -9.458373)",
+      "distanceXZ": 0.08630871,
+      "velocity": "(-1.5700588, 0, -3.0157769)",
+      "grounded": true,
+      "floorNormal": "(0.022694437, 0.99974245, 0.00017749298)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(0.022694437, 0.99974245, 0.00017749298)",
+          "position": "(-5.6438503, -0.23998283, -9.458436)",
+          "depth": 0.00084071636
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(0.022694437, 0.99974245, 0.00017749298)",
+          "position": "(-5.643851, -0.2399828, -9.458435)",
+          "depth": 0.00031620904
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.635892, -0.2401635, -9.458373)",
+      "supportNormal": "(0.022694437, 0.99974245, 0.00017749298)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 11,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 97,
+      "processFrame": 46,
+      "target": "(-5.712605, -0.23844436, -9.605644)",
+      "feet": "(-5.688245, -0.23938935, -9.558878)",
+      "distanceXZ": 0.052730482,
+      "velocity": "(-1.5707201, 0, -3.0154326)",
+      "grounded": true,
+      "floorNormal": "(0.022694437, 0.99974245, 0.00017749298)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(0.022694437, 0.99974245, 0.00017749298)",
+          "position": "(-5.6961803, -0.23877709, -9.558948)",
+          "depth": 0.00076565024
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.688245, -0.23895724, -9.558878)",
+      "supportNormal": "(0.022694437, 0.99974245, 0.00017749298)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 12,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 98,
+      "processFrame": 47,
+      "target": "(-5.7494235, -0.23727086, -9.676376)",
+      "feet": "(-5.714374, -0.23758386, -9.609139)",
+      "distanceXZ": 0.0758239,
+      "velocity": "(-1.5702052, 0, -3.0157006)",
+      "grounded": true,
+      "floorNormal": "(0.022694437, 0.99974245, 0.00017749298)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(0.022694437, 0.99974245, 0.00017749298)",
+          "position": "(-5.722333, -0.23817448, -9.609201)",
+          "depth": 0.0008436362
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(0.022694437, 0.99974245, 0.00017749298)",
+          "position": "(-5.722333, -0.2381745, -9.609201)",
+          "depth": 0.00031902464
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.714374, -0.23835516, -9.609139)",
+      "supportNormal": "(0.022694437, 0.99974245, 0.00017749298)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 13,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 107,
+      "processFrame": 55,
+      "target": "(-5.9703636, -0.23241435, -10.100758)",
+      "feet": "(-5.94983, -0.23210198, -10.061431)",
+      "distanceXZ": 0.044364557,
+      "velocity": "(-1.5710584, 0, -3.0152562)",
+      "grounded": true,
+      "floorNormal": "(0.02280093, 0.99973965, 0.0008205532)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(0.02280093, 0.99973965, 0.0008205532)",
+          "position": "(-5.9578266, -0.23268259, -10.061718)",
+          "depth": 0.00088343426
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(0.02280093, 0.99973965, 0.0008205532)",
+          "position": "(-5.9578257, -0.2326826, -10.061719)",
+          "depth": 0.0003280633
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.94983, -0.23286521, -10.061431)",
+      "supportNormal": "(0.022800932, 0.9997397, 0.0008205533)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 14,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 110,
+      "processFrame": 57,
+      "target": "(-6.0440063, -0.23024915, -10.242222)",
+      "feet": "(-6.02832, -0.23019435, -10.212191)",
+      "distanceXZ": 0.033881262,
+      "velocity": "(-1.5707628, 0, -3.0154102)",
+      "grounded": true,
+      "floorNormal": "(0.02280093, 0.99973965, 0.0008205532)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(0.02280093, 0.99973965, 0.0008205532)",
+          "position": "(-6.036315, -0.23076878, -10.212479)",
+          "depth": 0.00088959775
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(0.02280093, 0.99973965, 0.0008205532)",
+          "position": "(-6.0363154, -0.23076876, -10.212479)",
+          "depth": 0.00033426052
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-6.02832, -0.23095137, -10.212191)",
+      "supportNormal": "(0.022800932, 0.9997397, 0.0008205533)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 15,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 111,
+      "processFrame": 58,
+      "target": "(-6.0808234, -0.22968675, -10.312953)",
+      "feet": "(-6.054504, -0.23019435, -10.262443)",
+      "distanceXZ": 0.056956276,
+      "velocity": "(-1.5711224, 0, -3.0152228)",
+      "grounded": true,
+      "floorNormal": "(0.02280093, 0.99973965, 0.0008205532)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(0.02280093, 0.99973965, 0.0008205532)",
+          "position": "(-6.0624866, -0.23013061, -10.262732)",
+          "depth": 0.00072514906
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-6.054504, -0.23031296, -10.262443)",
+      "supportNormal": "(0.022800932, 0.9997397, 0.0008205533)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 16,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 132,
+      "processFrame": 74,
+      "target": "(-6.633073, -0.21077478, -11.373925)",
+      "feet": "(-6.603761, -0.21192442, -11.317775)",
+      "distanceXZ": 0.0633407,
+      "velocity": "(-1.573393, 0, -3.0140388)",
+      "grounded": true,
+      "floorNormal": "(0.031110024, 0.9995147, 0.0015921642)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(0.031110024, 0.9995147, 0.0015921642)",
+          "position": "(-6.6146464, -0.2116274, -11.318334)",
+          "depth": 0.00096931116
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-6.603761, -0.2119671, -11.317775)",
+      "supportNormal": "(0.031110024, 0.9995147, 0.0015921642)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 17,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 149,
+      "processFrame": 89,
+      "target": "(-6.751832, -0.17795162, -12.33924)",
+      "feet": "(-6.741932, -0.21041964, -12.271059)",
+      "distanceXZ": 0.06889605,
+      "velocity": "(-0.4885578, 0, -3.3647137)",
+      "grounded": true,
+      "floorNormal": "(0.032597534, 0.9989526, -0.032109685)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-6.741932, -0.21105659, -12.271059)",
+      "supportNormal": "(0.032597538, 0.9989527, -0.03210969)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/read-approach",
+      "index": 17,
+      "phase": "final-landing",
+      "physicsFrame": 152,
+      "processFrame": 91,
+      "target": "(-6.751832, -0.17795162, -12.33924)",
+      "feet": "(-6.741932, -0.21041964, -12.271059)",
+      "distanceXZ": 0.06889605,
+      "velocity": "(0, 0, 0)",
+      "grounded": true,
+      "floorNormal": "(0.032597534, 0.9989526, -0.032109685)",
+      "forwardHeld": false,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(0.032597534, 0.9989526, -0.032109685)",
+          "position": "(-6.75335, -0.21032248, -12.259811)",
+          "depth": 0.00013819334
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-6.741932, -0.21105659, -12.271059)",
+      "supportNormal": "(0.032597538, 0.9989527, -0.03210969)"
+    },
+    {
+      "kind": "route-complete",
+      "label": "address/ADR-H018/read-approach",
+      "visited": 18,
+      "expected": 18,
+      "walkedMetres": 6.40201,
+      "stableLanding": true,
+      "diagnosticOnly": false,
+      "feet": "(-6.741932, -0.21041964, -12.271059)",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "scene": "urman.chapter1:scene/arrival_vehicle_dusk",
+      "narrativeUnchanged": true
+    },
+    {
+      "kind": "check",
+      "message": "ADR-H018: controller walks the published door path and final segment to the plate",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ordinary player controls are available for the deliberate read",
+      "passed": true
+    },
+    {
+      "kind": "manual-read-position",
+      "addressId": "ADR-H018",
+      "distance": 0,
+      "lateral": 0,
+      "candidate": {
+        "x": -6.741932,
+        "y": -0.21041964,
+        "z": -12.271059
+      },
+      "canStand": true,
+      "contacts": [],
+      "diagnosticApproach": true,
+      "humanNavigationTest": false
+    },
+    {
+      "kind": "manual-read-ray",
+      "addressId": "ADR-H018",
+      "distance": 0,
+      "lateral": 0,
+      "player": {
+        "x": -6.741932,
+        "y": -0.21041964,
+        "z": -12.271059
+      },
+      "camera": {
+        "x": -6.920544,
+        "y": 1.4895804,
+        "z": -12.293366
+      },
+      "target": {
+        "x": -7.501375,
+        "y": 2.2281346,
+        "z": -12.365415
+      },
+      "rayDirection": {
+        "x": -0.6163027,
+        "y": 0.78373873,
+        "z": -0.07697123
+      },
+      "alignment": 0.99999994,
+      "targetDistance": 0.94234705,
+      "hit": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-H018/Read_ADR-H018",
+      "expected": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-H018/Read_ADR-H018"
+    },
+    {
+      "kind": "check",
+      "message": "real controller ray reaches the plate from a supported local fixture",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "plate starts unread before deliberate input",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "one actual interact input records the read address",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "notebook contains exactly one matching address",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "notebook closes back to ordinary controls",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "notebook map shows only actually located houses: ADR-H018_06_located_map_large",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "map retains usable drawing height: ADR-H018_06_located_map_large",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "map bounds stay inside the notebook: ADR-H018_06_located_map_large",
+      "passed": true
+    },
+    {
+      "kind": "notebook-map",
+      "name": "ADR-H018_06_located_map_large",
+      "located": 1,
+      "empty": false,
+      "enlarged": true,
+      "textScale": 1.600000023841858,
+      "size": {
+        "x": 1472,
+        "y": 690
+      },
+      "humanNavigationTest": false
+    },
+    {
+      "kind": "check",
+      "message": "save actual read state through existing snapshot owner",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "load actual read state through existing snapshot owner",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "read knowledge and notebook survive load without duplicates",
+      "passed": true
+    },
+    {
+      "kind": "manual-read-save-load",
+      "addressId": "ADR-H018",
+      "props": {
+        "address/ADR-H018": {
+          "read": true
+        },
+        "vehicle/babay-niva": {
+          "version": 1,
+          "position": [
+            -1.65,
+            -0.21535009,
+            1
+          ],
+          "yawDegrees": 0,
+          "engineRunning": false,
+          "parkingBrake": true,
+          "headlights": false,
+          "travelMetres": 0,
+          "radio": {
+            "enabled": false,
+            "stationId": "avyl-fm",
+            "segmentId": "avyl-ident",
+            "offsetSeconds": 0,
+            "volume": 0.65
+          },
+          "steeringRadians": 0,
+          "leanRadians": 0
+        },
+        "vehicle/village-motorcycle": {
+          "version": 1,
+          "position": [
+            1.4,
+            -0.3142522,
+            -23
+          ],
+          "yawDegrees": 0,
+          "engineRunning": false,
+          "parkingBrake": true,
+          "headlights": false,
+          "travelMetres": 0,
+          "radio": null,
+          "steeringRadians": 0,
+          "leanRadians": 0
+        },
+        "vehicle/forest-horse-cart": {
+          "version": 1,
+          "position": [
+            0.9,
+            -0.22890681,
+            -34
+          ],
+          "yawDegrees": 0,
+          "engineRunning": false,
+          "parkingBrake": true,
+          "headlights": false,
+          "travelMetres": 0,
+          "radio": null,
+          "steeringRadians": 0,
+          "leanRadians": 0
+        },
+        "vehicle/fleet": {
+          "version": 1,
+          "occupiedId": null
+        },
+        "mosque/entrance": {
+          "open": false,
+          "angle": 0,
+          "geometryVersion": 1
+        },
+        "bathhouse/entrance": {
+          "open": false,
+          "angle": 3.1415927,
+          "geometryVersion": 2
+        },
+        "bathhouse/wet-door": {
+          "open": false,
+          "angle": 1.5707964
+        },
+        "shop/entrance": {
+          "open": false,
+          "angle": 1.5707964
+        },
+        "shop/inner-door": {
+          "open": false,
+          "angle": 0
+        },
+        "school/entrance": {
+          "open": false,
+          "angle": 1.5707964
+        },
+        "school/inner-door": {
+          "open": false,
+          "angle": 0
+        },
+        "school/office": {
+          "open": false,
+          "angle": 0
+        },
+        "school/classroom": {
+          "open": false,
+          "angle": 0
+        },
+        "council/entrance": {
+          "open": false,
+          "angle": 1.5707964
+        },
+        "council/inner-door": {
+          "open": false,
+          "angle": 0
+        },
+        "council/office": {
+          "open": false,
+          "angle": 1.5707964
+        },
+        "npc/alsu-street-walk": {
+          "schemaVersion": 1,
+          "checkpoint": 0,
+          "position": {
+            "x": 0.85,
+            "y": -0.2893521,
+            "z": 2.05
+          },
+          "yaw": -0.2617994,
+          "segmentTravel": 0,
+          "pendingCheckpoint": 0
+        }
+      },
+      "notebook": [
+        {
+          "EntryId": "notebook/address/ADR-H018",
+          "SourceId": "notebook/address/ADR-H018",
+          "Title": "\u0422\u0443\u043A\u0430\u0439 \u0443\u0440. / \u0443\u043B. \u0422\u0443\u043A\u0430\u044F, 19",
+          "Body": "\u0422\u0443\u043A\u0430\u0439 \u0443\u0440. / \u0443\u043B. \u0422\u0443\u043A\u0430\u044F, 19\n\n\u041F\u0440\u043E\u0447\u0438\u0442\u0430\u043B \u0430\u0434\u0440\u0435\u0441 \u043D\u0430 \u0442\u0430\u0431\u043B\u0438\u0447\u043A\u0435 \u0443 \u044D\u0442\u043E\u0433\u043E \u0434\u043E\u043C\u0430.\n\n\u0423\u043B\u0438\u0446\u0430: \u0422\u0443\u043A\u0430\u0439 \u0443\u0440. / \u0443\u043B. \u0422\u0443\u043A\u0430\u044F",
+          "SourceTitle": "\u0410\u0434\u0440\u0435\u0441\u043D\u0430\u044F \u0442\u0430\u0431\u043B\u0438\u0447\u043A\u0430",
+          "Images": null,
+          "Status": null
+        }
+      ],
+      "diagnosticApproach": true,
+      "humanNavigationTest": false
+    },
+    {
+      "kind": "route-start",
+      "label": "address/ADR-H018/return-to-road",
+      "observeOldStops": false,
+      "points": [
+        "(-6.751832, -0.17795162, -12.33924)",
+        "(-6.633073, -0.21077478, -11.373925)",
+        "(-6.0808234, -0.22968675, -10.312953)",
+        "(-6.0440063, -0.23024915, -10.242222)",
+        "(-5.9703636, -0.23241435, -10.100758)",
+        "(-5.7494235, -0.23727086, -9.676376)",
+        "(-5.712605, -0.23844436, -9.605644)",
+        "(-5.675779, -0.23891933, -9.534912)",
+        "(-5.4548397, -0.24439861, -9.110517)",
+        "(-5.417994, -0.24589002, -9.039804)",
+        "(-5.381133, -0.2478734, -8.9691105)",
+        "(-5.1600366, -0.25740603, -8.544881)",
+        "(-5.1231904, -0.25866327, -8.474167)",
+        "(-4.975786, -0.26536313, -8.191365)",
+        "(-4.93894, -0.266606, -8.120651)",
+        "(-4.5704722, -0.282602, -7.4135156)",
+        "(-4.5336323, -0.28341427, -7.3427835)",
+        "(-4.091546, -0.27444744, -6.493986)"
+      ],
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "feet": "(-6.741932, -0.21041964, -12.271059)",
+      "pointRadius": 0.09,
+      "policy": "continuous input; no point removed or reordered"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 0,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 196,
+      "processFrame": 105,
+      "target": "(-6.751832, -0.17795162, -12.33924)",
+      "feet": "(-6.741932, -0.21041964, -12.271059)",
+      "distanceXZ": 0.06889605,
+      "velocity": "(0, 0, 0)",
+      "grounded": true,
+      "floorNormal": "(0.032597534, 0.9989526, -0.032109685)",
+      "forwardHeld": false,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(0.032597534, 0.9989526, -0.032109685)",
+          "position": "(-6.75335, -0.21032248, -12.259811)",
+          "depth": 0.00013819334
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-6.741932, -0.21105659, -12.271059)",
+      "supportNormal": "(0.032597538, 0.9989527, -0.03210969)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 1,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 211,
+      "processFrame": 132,
+      "target": "(-6.633073, -0.21077478, -11.373925)",
+      "feet": "(-6.6395373, -0.20980681, -11.427282)",
+      "distanceXZ": 0.0537473,
+      "velocity": "(0.4089381, 0, 3.3753138)",
+      "grounded": true,
+      "floorNormal": "(0.031110024, 0.9995147, 0.0015921642)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-6.6395373, -0.21067911, -11.427282)",
+      "supportNormal": "(0.031110024, 0.9995147, 0.0015921642)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 2,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 232,
+      "processFrame": 174,
+      "target": "(-6.0808234, -0.22968675, -10.312953)",
+      "feet": "(-6.1061254, -0.22860558, -10.363417)",
+      "distanceXZ": 0.05645149,
+      "velocity": "(1.5239168, 0, 3.0393496)",
+      "grounded": true,
+      "floorNormal": "(0.031110024, 0.9995147, 0.0015921642)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-6.1061254, -0.2289763, -10.363417)",
+      "supportNormal": "(0.031110024, 0.9995147, 0.0015921642)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 3,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 233,
+      "processFrame": 176,
+      "target": "(-6.0440063, -0.23024915, -10.242222)",
+      "feet": "(-6.080274, -0.22978723, -10.312981)",
+      "distanceXZ": 0.079512015,
+      "velocity": "(1.5508382, 0, 3.0257013)",
+      "grounded": true,
+      "floorNormal": "(0.02280093, 0.99973965, 0.0008205532)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-6.080274, -0.22968373, -10.312981)",
+      "supportNormal": "(0.022800932, 0.9997397, 0.0008205533)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 4,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 236,
+      "processFrame": 182,
+      "target": "(-5.9703636, -0.23241435, -10.100758)",
+      "feet": "(-6.0020823, -0.23129113, -10.162003)",
+      "distanceXZ": 0.06897118,
+      "velocity": "(1.5636044, 0, 3.019124)",
+      "grounded": true,
+      "floorNormal": "(0.02280093, 0.99973965, 0.0008205532)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-6.0020823, -0.23159096, -10.162003)",
+      "supportNormal": "(0.022800932, 0.9997397, 0.0008205533)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 5,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 245,
+      "processFrame": 200,
+      "target": "(-5.7494235, -0.23727086, -9.676376)",
+      "feet": "(-5.766676, -0.23633997, -9.709537)",
+      "distanceXZ": 0.03737976,
+      "velocity": "(1.5692401, 0, 3.0161986)",
+      "grounded": true,
+      "floorNormal": "(0.022694437, 0.99974245, 0.00017749298)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.766676, -0.23715009, -9.709537)",
+      "supportNormal": "(0.022694437, 0.99974245, 0.00017749298)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 6,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 246,
+      "processFrame": 202,
+      "target": "(-5.712605, -0.23844436, -9.605644)",
+      "feet": "(-5.740514, -0.23784387, -9.659268)",
+      "distanceXZ": 0.060452055,
+      "velocity": "(1.5696692, 0, 3.0159752)",
+      "grounded": true,
+      "floorNormal": "(0.022694437, 0.99974245, 0.00017749298)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.740514, -0.23775288, -9.659268)",
+      "supportNormal": "(0.022694437, 0.99974245, 0.00017749298)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 7,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 247,
+      "processFrame": 204,
+      "target": "(-5.675779, -0.23891933, -9.534912)",
+      "feet": "(-5.7143435, -0.23784387, -9.608995)",
+      "distanceXZ": 0.0835199,
+      "velocity": "(1.569926, 0, 3.0158415)",
+      "grounded": true,
+      "floorNormal": "(0.022694437, 0.99974245, 0.00017749298)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.7143435, -0.23835588, -9.608995)",
+      "supportNormal": "(0.022694437, 0.99974245, 0.00017749298)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 8,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 256,
+      "processFrame": 222,
+      "target": "(-5.4548397, -0.24439861, -9.110517)",
+      "feet": "(-5.478826, -0.24289271, -9.156592)",
+      "distanceXZ": 0.05194541,
+      "velocity": "(1.5699953, 0, 3.015806)",
+      "grounded": true,
+      "floorNormal": "(0.016989028, 0.99984306, 0.005005227)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.478826, -0.2437825, -9.156592)",
+      "supportNormal": "(0.022694437, 0.99974245, 0.00017749298)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 9,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 257,
+      "processFrame": 224,
+      "target": "(-5.417994, -0.24589002, -9.039804)",
+      "feet": "(-5.4526477, -0.24439661, -9.106334)",
+      "distanceXZ": 0.07501347,
+      "velocity": "(1.5706762, 0, 3.0154512)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.4526477, -0.24476998, -9.106334)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 10,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 259,
+      "processFrame": 228,
+      "target": "(-5.381133, -0.2478734, -8.9691105)",
+      "feet": "(-5.400255, -0.24708216, -9.005802)",
+      "distanceXZ": 0.041375525,
+      "velocity": "(1.5713389, 0, 3.015106)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.400255, -0.24703343, -9.005802)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 11,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 267,
+      "processFrame": 244,
+      "target": "(-5.1600366, -0.25740603, -8.544881)",
+      "feet": "(-5.1906986, -0.2557833, -8.603713)",
+      "distanceXZ": 0.06634294,
+      "velocity": "(1.5713784, 0, 3.0150855)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.1906986, -0.25608644, -8.603713)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 12,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 268,
+      "processFrame": 246,
+      "target": "(-5.1231904, -0.25866327, -8.474167)",
+      "feet": "(-5.164505, -0.25696492, -8.553449)",
+      "distanceXZ": 0.08940079,
+      "velocity": "(1.571239, 0, 3.015158)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.164505, -0.25721818, -8.553449)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 13,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 274,
+      "processFrame": 258,
+      "target": "(-4.975786, -0.26536313, -8.191365)",
+      "feet": "(-5.007335, -0.2636251, -8.251896)",
+      "distanceXZ": 0.06825905,
+      "velocity": "(1.5714518, 0, 3.015047)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-5.007335, -0.2640075, -8.251896)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 14,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 276,
+      "processFrame": 262,
+      "target": "(-4.93894, -0.266606, -8.120651)",
+      "feet": "(-4.9549446, -0.265129, -8.151362)",
+      "distanceXZ": 0.034631234,
+      "velocity": "(1.5712713, 0, 3.0151412)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-4.9549446, -0.26627102, -8.151362)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 15,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 290,
+      "processFrame": 290,
+      "target": "(-4.5704722, -0.282602, -7.4135156)",
+      "feet": "(-4.588272, -0.28188676, -7.4476757)",
+      "distanceXZ": 0.038519472,
+      "velocity": "(1.5711426, 0, 3.0152082)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-4.588272, -0.28211516, -7.4476757)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 16,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 291,
+      "processFrame": 292,
+      "target": "(-4.5336323, -0.28341427, -7.3427835)",
+      "feet": "(-4.5620856, -0.28188676, -7.3974056)",
+      "distanceXZ": 0.061588757,
+      "velocity": "(1.5707659, 0, 3.0154045)",
+      "grounded": true,
+      "floorNormal": "(-0.0096580265, 0.9995741, 0.0275388)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-4.5620856, -0.2832471, -7.3974056)",
+      "supportNormal": "(-0.0096580265, 0.9995741, 0.0275388)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 17,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 308,
+      "processFrame": 326,
+      "target": "(-4.091546, -0.27444744, -6.493986)",
+      "feet": "(-4.1171603, -0.27521586, -6.5431476)",
+      "distanceXZ": 0.055434078,
+      "velocity": "(1.5710362, 0, 3.0152638)",
+      "grounded": true,
+      "floorNormal": "(-0.008177371, 0.99994856, -0.005993744)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.008177371, 0.99994856, -0.005993744)",
+          "position": "(-4.114296, -0.27532554, -6.541047)",
+          "depth": 0.00060510734
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-4.1171603, -0.27536154, -6.5431476)",
+      "supportNormal": "(-0.008177372, 0.9999486, -0.0059937444)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-H018/return-to-road",
+      "index": 17,
+      "phase": "final-landing",
+      "physicsFrame": 311,
+      "processFrame": 332,
+      "target": "(-4.091546, -0.27444744, -6.493986)",
+      "feet": "(-4.1171603, -0.27521586, -6.5431476)",
+      "distanceXZ": 0.055434078,
+      "velocity": "(0, 0, 0)",
+      "grounded": true,
+      "floorNormal": "(-0.008177371, 0.99994856, -0.005993744)",
+      "forwardHeld": false,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.008177371, 0.99994856, -0.005993744)",
+          "position": "(-4.1142974, -0.27532557, -6.541049)",
+          "depth": 0.00015659085
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(-4.1171603, -0.27536154, -6.5431476)",
+      "supportNormal": "(-0.008177372, 0.9999486, -0.0059937444)"
+    },
+    {
+      "kind": "route-complete",
+      "label": "address/ADR-H018/return-to-road",
+      "visited": 18,
+      "expected": 18,
+      "walkedMetres": 6.3470893,
+      "stableLanding": true,
+      "diagnosticOnly": false,
+      "feet": "(-4.1171603, -0.27521586, -6.5431476)",
+      "revision": 5,
+      "recoveries": 0,
+      "clamps": 0,
+      "scene": "urman.chapter1:scene/arrival_vehicle_dusk",
+      "narrativeUnchanged": true
+    },
+    {
+      "kind": "check",
+      "message": "ADR-H018: controller returns along the same route to the connected road",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "assembly candidate MVID matches the executing module",
+      "passed": true
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-27",
+  "packet": "A01 / ACT1-TECH.2, house-to-Alsu route only",
+  "sourceHead": "9ed4867d (dirty main checkout)",
+  "gameDllSha256": "78369b8b3abb19ee72c8ecb92b719dc60e6f670f575ce88d1493d0dabf151505",
+  "change": "Existing Act1AlsuWalkProof follows the south end of generated Frontage_26 before crossing to the street. No gameplay fence or collision changed.",
+  "cause": "The previous test leg from (-8,-3.5) to (-3.5,-2.8) crossed the actual short fence at x=-5.4, z=-3.3..-2.3. URMAN_FRONTAGE_DEBUG identified the generated run; the physical walk had stopped at its collider.",
+  "command": ". eng/dotnet-env.sh; python3 eng/protected_run.py --clean --timeout 300 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --headless --display-driver macos --path game res://tests/act1_len01_family_flow_smoke_test.tscn --urman-smoke-alsu-walk-only",
+  "testExitCode": 0,
+  "verified": [
+    "C# build completed with 0 warnings and 0 errors.",
+    "Real player movement reached the south bypass, then both standing Niva-bypass points and the actual Alsu encounter.",
+    "Invitation, refusal, companion checkpoints, replay, early address conversation and save/load passed.",
+    "Protected userdata guard restored original files and permissions."
+  ],
+  "runLog": "docs/production/mvp_tracker_2026-09-27/alsu-route-run.log",
+  "geometryLog": "docs/production/mvp_tracker_2026-09-27/alsu-route-geometry.log",
+  "limits": [
+    "The deliberate rejection of two corrupted Alsu saves is expected and appears as ERROR lines in Godot's log.",
+    "The family-home notebook check belongs to a separate run; see family-home-receipt.json for its later exit0.",
+    "Human navigation, image, sound and 60-minute acceptance are not run."
+  ]
+}

@@ -1431,8 +1431,10 @@ public partial class Act1ConnectedWorld : Node3D
         _villageLife.Visible = inhabited;
         var moving = inhabited && _lifePlayer is not null && !_lifePlayer.ModalOpen
             && !_lifePlayer.ReducedMotion && _lifeCue?.IsPresenting != true;
+        var smokeMoving = moving || inhabited && _lifePlayer?.ReducedMotion != true
+            && GetViewport().GetCamera3D()?.Name.ToString() == "Act1ArrivalFlyoverCamera";
         foreach (var smoke in _chimneySmoke)
-            smoke.SpeedScale = moving ? 1f : 0f;
+            smoke.SpeedScale = smokeMoving ? 1f : 0f;
 
         UpdateConversationFacing();
         _villageLife.SetMeta("motionAllowed", moving);

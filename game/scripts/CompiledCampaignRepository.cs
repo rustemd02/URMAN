@@ -323,6 +323,8 @@ public sealed class CompiledCampaignRepository
         if (string.IsNullOrWhiteSpace(sourceId)) return null;
         if (_documentsById.TryGetValue(sourceId, out var document))
             return new(sourceId, document.Title, document.BodyMarkdown);
+        if (_texts.Ids().Contains(sourceId, StringComparer.Ordinal))
+            return new(sourceId, "Реплика в разговоре", _texts.Resolve(sourceId, "ru").Text);
 
         var separator = sourceId.LastIndexOf(':');
         if (separator <= 0 || separator == sourceId.Length - 1) return null;

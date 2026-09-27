@@ -178,6 +178,21 @@ public partial class Act1MainMenuSmokeTest : Node
         demo.DemoMain?.SwitchZone("kara_urman_night", "village_path");
         await Frames(2);
 
+        var beforeReplayHashes = PlayerSaveHashes();
+        if (demo.MainMenu?.ReplayIntroButton is not { Visible: true } replayButton)
+        { Fail("The boot menu has no explicit intro replay."); return; }
+        replayButton.EmitSignal(BaseButton.SignalName.Pressed);
+        for (var frame = 0; frame < 900 && !demo.IntroVisible; frame++) await Frames(1);
+        if (!demo.IntroVisible || !bridge.IsDebugSession)
+        { Fail("Intro replay did not open in an isolated session."); return; }
+        demo._UnhandledInput(new InputEventAction { Action = "interact", Pressed = true });
+        for (var frame = 0; frame < 900 && !demo.MainMenuVisible; frame++) await Frames(1);
+        continueButton = demo.MainMenu?.ContinueButton;
+        for (var frame = 0; frame < 900 && continueButton?.Visible != true; frame++) await Frames(1);
+        if (demo.IntroVisible || !demo.MainMenuVisible || continueButton?.Visible != true
+            || PlayerSaveHashes() != beforeReplayHashes)
+        { Fail("Replay return changed player saves or lost Continue."); return; }
+
         // M7 error state: when a save exists on disk but none is loadable (for
         // example a save from an older campaign fingerprint), the menu must say
         // so truthfully and reassure that the files were left alone. This checks
@@ -214,7 +229,7 @@ public partial class Act1MainMenuSmokeTest : Node
 
         continueButton.EmitSignal(BaseButton.SignalName.Pressed);
         var frames = 900;
-        while (bridge.CurrentZoneId != expectedZone && frames-- > 0)
+        while (demo.MainMenuVisible && frames-- > 0)
         {
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         }

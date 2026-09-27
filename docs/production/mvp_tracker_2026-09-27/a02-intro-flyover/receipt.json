@@ -1,0 +1,27 @@
+{
+  "date": "2026-09-27",
+  "scope": "A02 first opening segment: authored camera path over the existing winter village to the actual arrival player camera",
+  "dll_sha256": "5ac2be9253f7b3194625ee6ad5bee52d1f36fec53bf3866ede7497a55aab0985",
+  "track_sha256": "5620acd25469909a7038f21314122997f1365aac1a3b850e6c8c1c0f30f63651",
+  "track": "game/content/act1_arrival_flyover.v1.json",
+  "checks": [
+    "C# affected-module build: 0 errors, 0 warnings",
+    "Protected native act1_demo_launch_smoke_test at 1280x720, normal text: exit 0; moving camera, remapped input, skip back to player camera, ordinary walk and physical phone/photo readers",
+    "Same protected native scene at 1280x720 with 160% intro text: exit 0; authored flight ended at player camera while intro input gate remained until confirmation",
+    "Protected headless act1_demo_launch_smoke_test with URMAN_INTRO_REDUCED_MOTION=1: exit 0; stationary player camera, gameplay HUD hidden then restored with input",
+    "Protected headless act1_save_lifecycle_smoke_test on the same DLL: exit 0; prior save, New Game, settings and slot contracts; timed UI and human duration not measured",
+    "All four guarded runs restored original userdata files and permissions; graphify update . exited 0"
+  ],
+  "frames": {
+    "01_departure.png": "first authored high view, normal text",
+    "02_village.png": "village and forest during the camera flight, normal text",
+    "03_handoff.png": "actual first-person arrival camera before player confirmation, normal text",
+    "02_village_large.png": "same phase with 160% intro text"
+  },
+  "limits": [
+    "Still frames and controller-state assertions do not accept perceived camera speed, motion quality, sound sync, smoke, subtitle timing, or artistic composition. Human viewing and listening remain open.",
+    "The task's saved viewed marker, explicit replay and cold Continue are not yet implemented or verified; ACT1-CUTSCENE.1/.2 and A02 remain in progress.",
+    "The JSON track is explicitly included in all export presets, but a fresh release PCK was not exported or inspected in this unit.",
+    "The DLL also contains other uncommitted work; the receipt identifies this exact local build, not a clean release candidate."
+  ]
+}

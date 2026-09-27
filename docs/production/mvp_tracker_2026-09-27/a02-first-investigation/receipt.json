@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-27",
+  "packet": "A02 / first personal source to checked contradiction, technical route",
+  "sourceHead": "5e12bec8 (dirty main checkout)",
+  "gameDllSha256": "5ac2be9253f7b3194625ee6ad5bee52d1f36fec53bf3866ede7497a55aab0985",
+  "commands": [
+    ". eng/dotnet-env.sh; python3 eng/protected_run.py --clean --timeout 300 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --headless --display-driver macos --path game res://tests/act1_len01_family_flow_smoke_test.tscn --urman-smoke-family-home-only",
+    ". eng/dotnet-env.sh; python3 eng/protected_run.py --clean --timeout 300 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --headless --display-driver macos --path game res://tests/journal_flow_smoke_test.tscn"
+  ],
+  "exitCodes": [
+    0,
+    0
+  ],
+  "verified": [
+    "Ordinary New Game photo opening records the personal Marat memory; family reply, deferred meal and save/load return preserve distinct state.",
+    "The authored family and source-access route reaches the journal with actual selected document excerpts. Wrong interpretations remain recoverable; the chosen comparison records a literal mismatch, and the later checked answer records the separate conclusion once.",
+    "The childhood photo memory and original written sources remain available in the journal after the comparison.",
+    "Both protected runs restored original userdata files and permissions."
+  ],
+  "limits": [
+    "The route is scripted; no new player demonstrated noticing the photo, following the chain, understanding the contradiction or spending 8–12 active minutes.",
+    "No post-contradiction cold Continue, cinematic viewed marker/replay, authored sound or human visual-motion review was performed.",
+    "This DLL includes unrelated uncommitted work; it is an exact local build, not a clean release candidate."
+  ]
+}

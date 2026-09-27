@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-27",
+  "scope": "Focused global old-PC search smoke on current dirty DLL; no visual or human acceptance",
+  "command": ". eng/dotnet-env.sh && python3 eng/protected_run.py --clean --timeout 180 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --headless --path game res://tests/old_pc_search_smoke_test.tscn",
+  "dll_sha256": "fba27230ba95e1cc87d19073e81c0474a19731b21a9acaab20be56a97b83b8d1",
+  "exit_code": 0,
+  "result": "oldpc-search-smoke: PASS 12 checks",
+  "observed": [
+    "Readable document, chat, note and visited-page results appeared",
+    "A matching locked record exposed only a non-selectable generic row",
+    "Empty search suggested terms and a term link reran the query",
+    "Search did not change knowledge",
+    "Userdata guard restored original files and permissions"
+  ],
+  "limits": [
+    "Headless run does not verify window layout, keyboard focus or readability",
+    "Does not prove that every suggested term yields a result at every reachable state",
+    "Does not accept the complete 48-document corpus or human investigation experience"
+  ]
+}

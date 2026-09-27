@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-27",
+  "packet": "A00 / LEN01.1, official-notice versus heard-version episode",
+  "sourceHead": "f6acfb30 (dirty main checkout)",
+  "gameDllSha256": "fba27230ba95e1cc87d19073e81c0474a19731b21a9acaab20be56a97b83b8d1",
+  "command": ". eng/dotnet-env.sh; python3 eng/protected_run.py --clean --timeout 300 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --headless --display-driver macos --path game res://tests/act1_len01_family_flow_smoke_test.tscn",
+  "testExitCode": 1,
+  "verifiedBeforeFailure": [
+    "After reading the official notice on the house PC, the test required Mansur's actual response and saved the first family comparison.",
+    "The test required wrong comparisons with Alsu's secondhand account to leave route-to-fap closed, then saved the unverified state.",
+    "After the bounded comparison of the notice and heard account, the test entered fap_clinic@waiting_room and exercised Naila's initial conversation and save/load around the optional lamp."
+  ],
+  "failureLater": "SourceExcerptUiProof waited for a native rendered frame during resize-(1280, 720); headless capture supplied none within 5 seconds. The full family-flow test did not pass.",
+  "runExcerpt": "docs/production/mvp_tracker_2026-09-27/pre-fap-comparison/run-excerpt.log",
+  "guardRestored": true,
+  "limits": [
+    "The retained excerpt records route checkpoints and the terminal render failure; the assertions for wrong and right comparison are in the existing Act1Len01FamilyFlowSmokeTest.cs.",
+    "This does not accept source-excerpt UI rendering, the later record comparison, human comprehension, sound or first-play duration."
+  ]
+}

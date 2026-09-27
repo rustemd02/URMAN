@@ -118,23 +118,26 @@ public partial class OldPcUi
             : $"Совпадений нет. Переформулируйте запрос или попробуйте: {links}";
     }
 
-    // Tatar words the player has already met come first (a key he can use), then
-    // the hints' terms, then what the accessible documents themselves suggest.
+    // Offer learned words and hints only when the current global index can
+    // actually find an accessible document with them.
     private List<string> SuggestedSearchTerms()
     {
         var terms = new List<string>();
         if (_bridge is not { } bridge) return terms;
+        var readableDocuments = bridge.OldPcDocuments
+            .Where(document => bridge.IsOldPcDocumentAccessible(document.Id)).ToArray();
         void Offer(string? term)
         {
             var value = term?.Trim();
-            if (terms.Count >= SearchTermSuggestions || string.IsNullOrEmpty(value)) return;
+            if (terms.Count >= SearchTermSuggestions || string.IsNullOrEmpty(value)
+                || !readableDocuments.Any(document => MatchesGlobalQuery(document.Title, document.BodyMarkdown, value)))
+                return;
             if (!terms.Contains(value, StringComparer.Ordinal)) terms.Add(value);
         }
         foreach (var entry in bridge.LearnedVocabulary()) Offer(entry.Term);
         foreach (var hint in bridge.OldPcHints) Offer(hint.PointsTo);
-        foreach (var document in bridge.OldPcDocuments)
+        foreach (var document in readableDocuments)
         {
-            if (!bridge.IsOldPcDocumentAccessible(document.Id)) continue;
             foreach (var term in document.SuggestedTerms) Offer(term);
         }
         return terms;

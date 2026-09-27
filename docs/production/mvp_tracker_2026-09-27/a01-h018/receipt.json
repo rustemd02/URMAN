@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-27",
+  "scope": "A01 native access check for MainStreetForwardWestFacade / ADR-H018",
+  "command": ". eng/dotnet-env.sh && URMAN_ADDRESS_SCOPE=crowded-addresses URMAN_ADDRESS_IDS=ADR-H018 URMAN_ADDRESS_OUTPUT=<empty evidence directory> python3 eng/protected_run.py --clean --timeout 240 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --path game --resolution 1280x720 res://tests/address_world_smoke_test.tscn --urman-smoke-background-input --no-auto-performance-fallback",
+  "dll_sha256": "8c319c8835544918be07fc7379fee3ca9224a1899fc5e171fbd2145be648e22e",
+  "exit_code": 0,
+  "result": "address-world: PASS; crowded-addresses; 71 checks; userdata guard restored",
+  "observed": [
+    "Ordinary New Game reached the connected world; ADR-H018 access was verified and attached to the road graph.",
+    "Ordinary controller movement visited all 18 points from road to door/plate (6.40m), then all 18 points back to the road (6.35m); both landings were stable, with zero emergency recoveries or edge clamps.",
+    "The native 1280x720 frame shows the player at the address plate. The complete scene receipt and this frame are preserved beside this summary."
+  ],
+  "conclusion": "No blocked road-to-door approach was reproduced for ADR-H018. The separate full boundary test still rejects its arbitrary wall-face approach; direct contact with every wall face and the cause of that fixture rejection remain unverified.",
+  "limits": [
+    "The selected-address scope explicitly sets acceptance=false and is not a full address audit or human navigation test.",
+    "No native listening or unfamiliar-player visual/comfort judgment was performed.",
+    "The DLL contains other uncommitted work; this unit changed no game, controller or test source."
+  ]
+}

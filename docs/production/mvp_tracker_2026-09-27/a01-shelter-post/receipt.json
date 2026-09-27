@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-27",
+  "scope": "A01: recheck the historical Babai shelter-post contact on the current dirty DLL",
+  "command": ". eng/dotnet-env.sh && URMAN_BOUNDARY_ARCHITECTURE_SCOPE=full python3 eng/protected_run.py --clean --timeout 360 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --headless --path game res://tests/act1_boundary_architecture_smoke_test.tscn",
+  "dll_sha256": "8c319c8835544918be07fc7379fee3ca9224a1899fc5e171fbd2145be648e22e",
+  "exit_code": 1,
+  "result": "1005 recorded checks; ordinary movement=438.02m; one reported failure at MainStreetForwardWestFacade",
+  "observed": [
+    "The historical B90 log stopped 1.017m before the shelter post at a neighboring visible FenceBabaiN_PostCap0_5; the existing test now checks a clear person-sized path before choosing its post fixture.",
+    "CheckYardSupports runs in full scope, selects and walks to a shelter post or reports a failure; neither current run reported a BabaiFirewoodShelterPost failure.",
+    "Both protected full-scope runs exited 1 with MainStreetForwardWestFacade: no independently verified face for a physical approach.",
+    "The userdata guard restored original files and permissions."
+  ],
+  "limits": [
+    "The overall boundary check failed; this is not a full collision PASS or a native walking-comfort acceptance.",
+    "The MainStreetForwardWestFacade result does not yet identify whether the road approach is blocked in the game or rejected by the test fixture.",
+    "The DLL includes other uncommitted work; no shared world, controller or test source was edited in this unit."
+  ]
+}

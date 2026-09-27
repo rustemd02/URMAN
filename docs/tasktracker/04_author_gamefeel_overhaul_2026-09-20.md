@@ -107,6 +107,128 @@ ACT1-DEPTH, ACT1-CHAR, ACT1-CUTSCENE, ACT1-NPC, ACT1-FOOTSTEP, ACT1-LEGS)
 | ACT1-MECH-AUDIT.3 | Доработка механик из списка «доработать» | Каждая доработанная механика имеет ≥3 осмысленных применений в основной игре (не искусственные повторы) | ACT1-MECH-AUDIT.2 |
 | ACT1-MECH-AUDIT.4 | Удаление механик из списка «убрать», без следов | Код/контент/поля сейва убраны с миграцией; регресс зелёный; игрок не встречает мёртвых зацепок | ACT1-MECH-AUDIT.2 |
 
+### Срез инвентаризации: выписка из источника, 27 сентября 2026
+
+В обязательном пути есть **четыре разных применения на трёх документах**.
+Повторное выделение категории по просьбе Наили — возврат к тому же полю,
+а не пятый потребитель. [Привязки и проверка выделения](../../game/scripts/RuntimeBridge.SourceExcerpts.cs),
+[эффекты](../../content/modules/urman-chapter1/investigation-source-checks.json),
+[guarded прогон](../production/mvp_tracker_2026-09-27/fap-records/receipt.json).
+
+| Действие | Исходный документ | Полезный результат |
+| --- | --- | --- |
+| `excerpt-notice-cause` | `doc_marat_official_death_notice` | Причина закрытия дела для предметного сравнения с реестром |
+| `excerpt-register-wording` | `rec_marat_case_register_conflict` | Внешняя формулировка для ответа Наили о совпадающих словах |
+| `excerpt-register-category` | тот же реестр | Категория как отдельное поле для исправления ложного «диагноза» и вопроса Наиле |
+| `excerpt-message-voice` | `msg_marat_saved_last_normal` | Точная фраза «слышал… как будто» для возврата к Алсу без додуманного наблюдения |
+
+Классификация .2: **технически рабочая, оставить**. На текущей грязной DLL
+true-headless family-flow завершился с `exit0`: прямой вызов действия,
+заголовок и отмена не выдают улику; точное выделение, повторное открытие и
+сохранение работают. Оконная проверка с фоновым вводом остановилась до
+выделения — это граница проверки, а не установленный баг игрока. Проверить
+клавиатуру, крупный шрифт и понятность выбора поля в A12 / `ACT1-UI.4` и
+`ACT1-UI.7`; не удалять механику по числу четырёх применений и не добавлять
+искусственные повторы. Остальная инвентаризация .1/.2 открыта.
+
+### Срез инвентаризации: сопоставление источников в журнале, 27 сентября 2026
+
+В подключённых JSON модуля — **39 действий на 20 разных парах источников**:
+22 меняют состояние, 17 только объясняют ошибочный вывод. Это не 39
+обязательных сравнений. Все ID действий ниже имеют префикс
+`urman.chapter1:interaction/`; пара указывает суффиксы ID источников.
+[Журнал](../../game/scripts/JournalUi.cs) предлагает действия только для двух
+найденных разных источников; [RuntimeBridge](../../game/scripts/RuntimeBridge.cs)
+повторно проверяет пару и условия перед записью и сохранением.
+
+| Пара источников | Действия в контенте | Отличающийся результат |
+| --- | --- | --- |
+| Извещение + рассказ Мансура о звонке | [`compare-family-call-scope`, `compare-family-call-erased`](../../content/modules/urman-chapter1/investigation-family.json) | Звонок семье не равен запросу родственников; версия об удалённой записи получает только возражение |
+| Извещение + услышанные Алсу версии | [`compare-versions-scope`, `compare-versions-diagnoses`, `compare-versions-departure`](../../content/modules/urman-chapter1/investigation-route.json) | Установить предел справки и вопрос Наиле; два поспешных вывода только поясняются |
+| Извещение + внутренний реестр | [`compare-records-contradiction`, `compare-records-accident`, `compare-records-murder`](../../content/modules/urman-chapter1/definitions.json) | Выписанные поля дают расхождение формулировок; ни убийство, ни вторая причина из них не следуют |
+| Реестр + ответ Наили | [`compare-record-scope`, `compare-record-scope-cause`, `compare-record-scope-lie`](../../content/modules/urman-chapter1/investigation-social.json) | Ограниченное противоречие внутренней и официальной записи; отказ Наили не новый диагноз и не признание |
+| Предупреждение әби + ответ Наили | [`compare-warning-contexts`, `compare-warning-agreement`, `compare-warning-rule`](../../content/modules/urman-chapter1/investigation-social.json) | Разные контексты «ярамый»; общий заговор и правило леса не доказаны |
+| Сообщение Марата + рассказ Алсу | [`compare-message-seen`](../../content/modules/urman-chapter1/investigation-source-checks.json) | Исправимая догадка «видел человека»; ответ Алсу и исходная выписка возвращают границу свидетельства |
+| Сообщение Марата + заметка об урмане | [`compare-voice-link`, `compare-voice-echo`, `compare-voice-creature`](../../content/modules/urman-chapter1/definitions.json) | Связь слов «голос/ответ» и языковой слой; эхо и имя существа остаются исправимыми версиями |
+| Реестр + заметка об урмане | [`compare-reread-response`, `compare-reread-author`, `compare-reread-compensation`](../../content/modules/urman-chapter1/definitions.json) | После перечитывания — версия о месте/действии; автор и смысл компенсации не установлены |
+| Сообщение Марата + схема | [`compare-route-purpose-landmarks`, `compare-route-purpose-alive`, `compare-route-purpose-summon`](../../content/modules/urman-chapter1/investigation-route.json) | Проверяемая цель — ориентиры; встреча с Маратом и повторение его действий не обещаны |
+| Схема + придорожная бирка | [`compare-route-match`, `compare-route-center`, `compare-route-marat-proof`](../../content/modules/urman-chapter1/definitions.json) | Внешняя дорога установлена; уход внутрь и личный след Марата — версии для исправления |
+| Фото первого снега + осмотр нужного двора | [`compare-photo-yard`](../../content/modules/urman-chapter1/exploration-observation-checks.json) | Три ориентира совпали, нужен близкий осмотр стыка калитки |
+| То же фото + похожее боковое окно | [`compare-photo-neighbor`](../../content/modules/urman-chapter1/exploration-observation-checks.json) | Только объяснение, почему похожего дома мало |
+| Схема + осмотр ориентиров у дороги | [`compare-sketch-place`](../../content/modules/urman-chapter1/exploration-observation-checks.json) | Место рисунка уточнено, край бирки ещё надо проверить руками |
+| Схема + вид на минарет | [`compare-sketch-minaret`](../../content/modules/urman-chapter1/exploration-observation-checks.json) | Только объяснение неверного места |
+| Реестр + повреждённый учёт | [`compare-accounting-scope`, `compare-accounting-same-case`](../../content/modules/urman-chapter1/investigation-source-returns.json) | Гипотеза о внутреннем учёте; совпадение одного случая не доказано |
+| Школьная записка + фотоальбом совета | [`compare-sabirov-family`, `compare-sabirov-authorship`](../../content/modules/urman-chapter1/village-life.json) | Родство Сабировых; авторство всех снимков не следует |
+| Версия об эхе + сообщение Марата | [`revise-echo`](../../content/modules/urman-chapter1/investigation-revisions.json) | Снятие уверенности в эхе после проверки слов Марата |
+| Версия о существе + заметка | [`revise-creature`](../../content/modules/urman-chapter1/investigation-revisions.json) | Заголовок не устанавливает говорившего |
+| Версия о входе в зират + схема | [`revise-inside`](../../content/modules/urman-chapter1/investigation-revisions.json) | Исправлено направление внешней дороги |
+| Версия о следе Марата + бирка | [`revise-identity`](../../content/modules/urman-chapter1/investigation-revisions.json) | Бирка обозначает место, не человека |
+
+Классификация .2: **сохранить**. Основная цепь и исправление выбранных ошибок
+прошли guarded true-headless `act1_len01_family_flow_smoke_test` с `exit0` на
+текущей грязной DLL; [receipt](../production/mvp_tracker_2026-09-27/fap-records/receipt.json).
+Остальные пары перечислены по действующему контенту, не приняты отдельным
+оконным или человеческим проходом. 17 ответов без эффекта дают обратную связь
+на той же паре, а не 17 новых игровых задач. Проверка понятности двух списков
+источников и текста выбора остаётся в A12 / `ACT1-UI.4`, `ACT1-UI.7`.
+Остальные механики .1/.2 ещё не инвентаризированы полностью.
+
+### Срез инвентаризации: поиск и чтение на старом ПК, 27 сентября 2026
+
+В [папке источников](../../content/modules/urman-oldpc/documents/) есть **48
+документов в девяти разделах**, 12 имеют условия доступа. Это число записей,
+а не 48 обязательных поисковых действий. [Обычный архив](../../game/scripts/OldPcUi.cs)
+сопоставляет доступные заголовок, тело, раздел и ключевые/подсказанные слова;
+[«Искать везде»](../../game/scripts/OldPcUi.Search.cs) объединяет доступные
+документы, доставленные чаты, заметки Айдара и посещённые страницы. Закрытые
+заголовки не попадают в выдачу. Запрос меняет только состояние ПК; знание и
+отметка прочтения появляются при [открытии](../../game/scripts/RuntimeBridge.cs),
+а запись в книжку требует ранее открытого доступного документа.
+
+| Доступный после условия источник | Пример запроса из данных | Результат чтения на основном пути |
+| --- | --- | --- |
+| [Справка Марата](../../content/modules/urman-oldpc/documents/doc_marat_official_death_notice.md) | `справка` | Первичная официальная формулировка и запись в журнале; ещё не противоречие |
+| [Строка реестра](../../content/modules/urman-oldpc/documents/rec_marat_case_register_conflict.md) | `реестр` после разрешения Наили | Внутренние поля и запись для двух выписок; ранний запрос не обходит допуск |
+| [Сообщение Марата](../../content/modules/urman-oldpc/documents/msg_marat_saved_last_normal.md) | `сообщение` после Рината | Его собственный текст для вопроса Алсу; читатель не устанавливает виденного человека |
+| [Заметка об урмане](../../content/modules/urman-oldpc/documents/tw_shurale_urman_boundary.md) | `Шүрәле` после ответа Алсу | Контекст и догадки о словах; голос не идентифицирован |
+| [Черновик Мансура](../../content/modules/urman-oldpc/documents/msg_mansur_unsent_note.md) | `черновик` после сообщения | Ограниченный факт, что Мансур сознательно оставил бумаги доступными |
+| [Повреждённый учёт](../../content/modules/urman-oldpc/documents/rec_internal_accounting_damaged.md) | `компенсация` после реестра и слова `урман` | Фрагмент для сравнения двух полей; не доказательство того же случая |
+| [Схема кромки](../../content/modules/urman-oldpc/documents/doc_kara_urman_edge_sketch.md) | `кромка` после возвратов к источникам | Изображение, ориентиры и слово `зират`; само чтение не даёт разрешения идти к лесу |
+
+Классификация .2: **сохранить**. Это семь разных источников в цепи, но запрос
+сам по себе не является семью отдельными мини-играми. Guarded true-headless
+`old_pc_search_smoke_test` на текущей DLL завершился `exit0`: 12 проверок
+глобального поиска, закрытого заголовка, чата, заметки, посещённой страницы,
+пустой выдачи и отсутствия скрытого прогресса; [receipt](../production/mvp_tracker_2026-09-27/oldpc-search/receipt.json).
+Открытие основных документов и gate/save/load прошли ранее в guarded
+family-flow; боковые записи и удобство окон этим не приняты. Узкий дефект
+подсказки подтверждён: после домашней реплики әби `ярамый` попадает в словарь,
+но ни один документ ПК не содержит этого слова. Теперь
+[`SuggestedSearchTerms`](../../game/scripts/OldPcUi.Search.cs) оставляет
+только слова, которые в текущем состоянии найдут доступный документ по тому
+же заголовку/телу, что и глобальный поиск. C# сборка без ошибок и повторный
+guarded поиск — `exit0`, 12 проверок; [receipt](../production/mvp_tracker_2026-09-27/oldpc-suggestions/receipt.json).
+Существующий smoke не проходит реальный клик от разговора әби до подсказки;
+конкретное отсутствие мёртвого слова следует из общего предиката фильтра.
+
+### Срез инвентаризации: «Тетрис» на старом ПК, 27 сентября 2026
+
+Это [явно заданная необязательная пасхалка](03_oldpc_full_system.md#7-тетрис-чистая-пасхалка),
+а не звено расследования. Входы — иконка/меню «Пуск» и
+[окно ПК](../../game/scripts/OldPcUi.Tetris.cs); игровой класс
+[OldPcTetris](../../game/scripts/OldPcTetris.cs) не получает RuntimeBridge.
+При сворачивании и закрытии окно ставит игру на паузу. Только рекорд
+`tetrisHigh` (0–999999) идёт в desktop snapshot; поле, счёт и середина партии
+не сохраняются. Счёт не открывает документы, реплики, хинты или журнал.
+
+Классификация .2: **оставить по прямому требованию автора**, не превращать
+пасхалку в три обязательных применения ради числа. Guarded true-headless
+`old_pc_tetris_smoke_test` на текущей грязной DLL: `exit0`, 11 проверок входа,
+управления, паузы, проигрыша, отсутствия сюжетных эффектов и рекорда после
+save/load; [receipt](../production/mvp_tracker_2026-09-27/oldpc-tetris/receipt.json).
+Чужая незакоммиченная правка фокуса в `OldPcTetris.cs` не редактировалась.
+Художественная уместность и удовольствие от игры — external/not-run.
+
 ## §5 Техническое ревью мира — ACT1-TECH
 
 Технический проход по игре: коллизии (застревания, провалы, проходы сквозь

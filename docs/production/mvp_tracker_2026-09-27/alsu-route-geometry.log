@@ -1,0 +1,4 @@
+frontage-house|act1/holding/ArrivalForwardWestFacade|main|hash=1976271799|s0=2.7 s1=11.4 face=4.7 line=4.7 left=0.5 right=14.8 gateRight=True room=2.0
+frontage-run|solid|1976271799|-5.4,-2.3|-5.4,-3.3
+Alsu walk proof: System.InvalidOperationException: Real walking could not reach the companion approach: (-3.5, -0.3117168, -2.8); actual=(-5.8342724, -0.30462012, -3.1269846); contacts=owner=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/StreetFrontages/StreetFrontageCollision shape=/root/Act1Len01FamilyFlowSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/StreetFrontages/StreetFrontageCollision/Frontage_26 normal=(-0.9983714, 0, 0.057049286) point=(-5.4710264, 1.1457266, -3.144974); step=no walkable tread within step height
+userdata guard: original files and permissions restored and verified

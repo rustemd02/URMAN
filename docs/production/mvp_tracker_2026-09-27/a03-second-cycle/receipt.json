@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-27",
+  "packet": "A03 second cycle: Marat's saved message, overconfident reading and Alsu source correction",
+  "source_head": "dce37e97 (dirty main checkout)",
+  "dll_sha256": "b776e7c960cd2b663844e0ff3e87c2d8d896364c53846535c88310ab69489c9c",
+  "evidence": [
+    "The protected act1_len01_family_flow_smoke_test already run on this exact DLL exited 0 and restored userdata; its second-cycle assertions cover unread-source rejection, a mistaken sighting hypothesis through save/load, source reread and selected excerpt, Alsu's explicit correction, later-document gating and one retained reply after load.",
+    "Inspected investigation-source-checks.json and the corresponding dialogue choices in definitions.json: the original message, quoted excerpt, hypothesis and spoken correction have distinct knowledge states. No second run of the same unchanged binary was needed."
+  ],
+  "result": "No second-cycle blocker reproduced; no production source changed. FINISH-03 and LEN01.2/.3 remain in progress.",
+  "limits": [
+    "The scripted route does not prove that a new player chooses to reread, understands Alsu's objection, or finds the response emotionally convincing.",
+    "No native close-up of this dialogue was captured or accepted for subtitle layout and character acting."
+  ]
+}

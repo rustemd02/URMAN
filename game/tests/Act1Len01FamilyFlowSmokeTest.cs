@@ -1449,16 +1449,17 @@ internal static class Act1FamilyMealProof
         journal.Open(bridge);
         journal.GetNode<TabBar>("Screen/Book/Layout/Tabs").CurrentTab = 2;
         for (var frame = 0; frame < 3; frame++) await owner.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
-        var label = journal.GetNode<Label>("Screen/Book/Layout/Overview/Contents/Objective");
+        var tasks = journal.GetNode<VBoxContainer>("Screen/Book/Layout/Overview/Contents/TaskList");
+        var work = journal.CurrentObjectiveText;
         var inside = bridge.ResolveText(Prefix + "text/objective-family-home-inside");
         var outside = bridge.ResolveText(Prefix + "text/objective-family-home-outside");
-        Check(label.IsVisibleInTree() && (pending
-                ? label.Text.Contains(bridge.CurrentZoneId == "house_old_pc" ? inside : outside, StringComparison.Ordinal)
-                : !label.Text.Contains(inside, StringComparison.Ordinal) && !label.Text.Contains(outside, StringComparison.Ordinal)),
-            "The actual notebook lost, leaked or retained the family reminder: pending=" + pending + "; zone=" + bridge.CurrentZoneId);
+        Check(tasks.IsVisibleInTree() && (pending
+                ? work.Contains(bridge.CurrentZoneId == "house_old_pc" ? inside : outside, StringComparison.Ordinal)
+                : !work.Contains(inside, StringComparison.Ordinal) && !work.Contains(outside, StringComparison.Ordinal)),
+            "The actual notebook lost, leaked or retained the family reminder: pending=" + pending + "; zone=" + bridge.CurrentZoneId + "; work=" + work);
         if (pending)
             Check(bridge.JournalEntries().Count(entry => entry.EntryId == Prefix + "knowledge/family_home_invitation") == 1
-                && !label.Text.Contains("{address:", StringComparison.Ordinal),
+                && !work.Contains("{address:", StringComparison.Ordinal),
                 "The family invitation was missing, duplicated or displayed an unresolved address.");
         var output = System.Environment.GetEnvironmentVariable("URMAN_IMAGE_UI_OUTPUT");
         if (captureName is not null && !string.IsNullOrEmpty(output))
@@ -1504,7 +1505,8 @@ internal static class Act1ArrivalFlowProof
         var other = reply == "keep-silent" ? "arrival_reply_help_babai" : "arrival_reply_kept_silent";
         Check(reply is "help-babai" or "keep-silent", "Unknown arrival reply.");
         Check(!Known("arrival_mother_message_read") && !Known("memory_marat_childhood_photo")
-            && !Known("memory_marat_kazansky_ne_otstavay") && !Known(selected) && !Known(other),
+            && !Known("memory_marat_kazansky_ne_otstavay") && !Known("topic_marat_unresolved")
+            && !Known(selected) && !Known(other),
             "New Game fabricated or retained the personal arrival sources.");
         Check(!bridge.IsInteractionAvailable(Interaction("arrival-enter-house"))
             && !await bridge.DispatchInteractionAsync(Interaction("arrival-enter-house"))
@@ -1536,7 +1538,8 @@ internal static class Act1ArrivalFlowProof
 
         if (!photoFirst) await Read("view-arrival-photo", "arrival-photo-evidence");
         Check(Known("memory_marat_childhood_photo") && Known("memory_marat_kazansky_ne_otstavay")
-            && !Known("clue_marat_official_death_version") && !Known("clue_do_not_answer_rule"),
+            && Known("topic_marat_unresolved") && !Known("clue_marat_official_death_version")
+            && !Known("clue_do_not_answer_rule"),
             "The photograph failed to establish the personal phrase or supplied later evidence.");
         Check(bridge.IsInteractionAvailable(Interaction("arrival-answer-mother"))
             && !bridge.IsInteractionAvailable(Interaction("arrival-enter-house")),

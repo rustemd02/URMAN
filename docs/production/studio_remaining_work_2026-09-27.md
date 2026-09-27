@@ -29,7 +29,19 @@
 tests-dotnet/Urman.Studio.Tests                                  → 34 passed
 eng/run-studio.sh --urman-studio-selfcheck=<dir>                 → 50 PASS / 0 FAIL
 eng/run-studio.sh --urman-studio-selfcheck-collab=<dir> (копия)  → PASS
+eng/run-smoke-guarded.sh tamara_fence_smoke_test                 → 56 checks passed
+eng/run-smoke-guarded.sh studio_side_quest_smoke_test            → 29 checks passed
+eng/run-smoke-guarded.sh studio_village_kit_smoke_test           → 5 checks passed
+eng/run-smoke-guarded.sh act1_main_menu_smoke_test               → PASS
 ```
+
+Все восемь прогонов повторены после слияния с `origin/main` (там 25 чужих
+коммитов по Акту I: повтор вступления, облёт приезда, свидетельства расследования).
+Слияние свело трекер трёхсторонним объединением по сущностям: изменения обеих
+сторон сохранены, содержательных конфликтов не было; текстовые конфликты были
+только в четырёх файлах (`decision_log.md`, `execution_backlog.json`,
+`export_presets.cfg`, `MainMenuUi.cs`) и разрешены объединением, а не выбором
+одной стороны. Числа выше — уже на объединённом дереве.
 
 ## 2. Исправлено в этом прогоне
 

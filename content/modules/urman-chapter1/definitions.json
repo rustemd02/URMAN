@@ -1032,7 +1032,7 @@
     },
     "initialStatus": "hidden",
     "sourceIds": [
-      "urman.chapter1:scene/arrival_vehicle_dusk"
+      "urman.chapter1:document/arrival-photo-evidence"
     ],
     "reveals": [],
     "contradicts": [],
@@ -5818,11 +5818,6 @@
     ],
     "entryConditions": [],
     "onEnter": [
-      {
-        "op": "knowledge.set-status",
-        "knowledgeId": "urman.chapter1:knowledge/topic_marat_unresolved",
-        "status": "confirmed"
-      },
       {
         "op": "vocabulary.set-status",
         "vocabularyId": "urman.chapter1:vocabulary/tt_urman",

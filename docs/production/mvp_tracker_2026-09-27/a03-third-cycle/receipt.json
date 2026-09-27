@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-27",
+  "packet": "A03 third cycle: article reread, route sketch, Timur and roadside landmarks",
+  "source_head": "e44811d2 (dirty main checkout)",
+  "dll_sha256": "b776e7c960cd2b663844e0ff3e87c2d8d896364c53846535c88310ab69489c9c",
+  "evidence": [
+    "The protected act1_len01_family_flow_smoke_test already run on this exact DLL exited 0 and restored userdata. Its third-cycle assertions cover article and physical reread, two corrected voice hypotheses, source return, two rejected route-purpose guesses, Timur's refusal and explicit landmark answer, save/load, roadside observation, separate tag reading and two revised field guesses before the checked forest approach.",
+    "Inspected the third-cycle beat map, route content and test call sites. Entry to a scene, opening the sketch and rereading alone do not grant the final comparison or the finale rule. No unchanged test was repeated."
+  ],
+  "result": "No route-state blocker reproduced; no production source changed. A03 remains in progress for player comprehension, pacing and visual review.",
+  "limits": [
+    "Scripted actions prove reachability and state boundaries, not that a new player understands why these sources belong together or wants to follow the route.",
+    "No human walk, subtitle/art acceptance, weak-host performance or 60-minute first-play measurement occurred."
+  ]
+}

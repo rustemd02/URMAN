@@ -1,5 +1,13 @@
 # MVP Playtest Plan
 
+## Действующий порядок — 27 сентября 2026
+
+Владелец критериев — `act1_delivery_plan.playtest` в [execution_backlog.json](execution_backlog.json); задачи FINISH-08, LEN01.5/.8 и QA-001. **Ранние исследовательские сеансы вступления и первого расследовательского цикла проводить по готовности фрагмента, до финального art lock.** Они выявляют скуку/непонимание и не являются финальной приёмкой. Прежний запрет full-slice acceptance до готовой подачи не запрещает эти ранние наблюдения.
+
+Финальный первый опыт — текущий standalone-кандидат от New Game до «Не отвечай», минимум 60 активных основных минут без обязательных секретов и искусственного добора. Начать с трёх новых людей; это качественный минимум, не проценты/статистика и не замена специализированным review. По каждому участнику записать build/host/input, решения и основания, подсказки, aha/скука/потеря цели, узнавание личного мотива в финале и раздельный хронометраж. Повторяющуюся проблему возвращать существующему владельцу; негативные наблюдения сохранять.
+
+Старые таблицы/команды/длительности ниже — исторические методические материалы, а не доказательства новой сборки. Для runtime только действующий Godot-путь и `eng/protected_run.py`; browser/reset-localStorage и широкие suites не запускать по этому старому списку. Существующих бланка сеанса и наблюдения достаточно; новая телеметрия не является предварительным условием. Не связываться с людьми без разрешения, не выдавать агента за нового игрока. Арт, культура, звук, accessibility и host/signing gates отдельно external/not-run до фактической приёмки.
+
 Status: active Godot first-person test strategy; legacy route checks below are historical subsystem evidence only.
 
 Authority note, 2026-08-10: Godot 4.7.1 .NET, Painterly Low-Poly 3D and keyboard/mouse/gamepad are accepted. Route-node scripts, browser telemetry and direct QA URLs do not validate the target and will retire at final cutover.
