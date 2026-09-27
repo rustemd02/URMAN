@@ -2740,15 +2740,14 @@
     "priority_policy_2026_09_26": "Use tasks.mvp_priority ascending among dependency-ready units; smaller is earlier. Fix observed control/progression/UI defects before cosmetic expansion. One unit per packet with player effect, evidence, next step. Preserve all EX00–EX14 and >=60 active minutes; no padded duration. Prior statuses/evidence are historical unless tied to this build. in_progress records incomplete work, not a live worker. Priority 90 needs external input; 100 preserves long-term scope outside this Act I run.",
     "active_packet": {
       "task_ids": [
-        "FINISH-03",
-        "LEN01.2",
-        "LEN01.3"
+        "ACT1-LANG",
+        "ACT1-LANG.5"
       ],
       "units": [
-        "A03 next unit: inspect the third route cycle from old article/repeated reading and physical landmarks to a bounded decision to approach the forest. Expected effect: knowledge changes the route without revealing the pact or rewarding a guessed answer. Done when existing source actions, one wrong hypothesis, reread/return and cold load are demonstrably distinct on the current DLL; repair only a reproduced blocker. Human route comprehension remains external."
+        "A04 first unit: inspect the existing cold-start language-level implementation and uncommitted evidence without overwriting foreign edits. Expected effect: a player changing the manual level sees the intended knowledge projection in a new game while an existing save retains its own learning. Done when two protected Godot processes on the current DLL demonstrate fluent Apply/profile persistence, a fresh New Game starting with guessed rather than confirmed words, and an existing slot retaining its own state; repair only a reproduced defect. ACT1-LANG.4 author design remains open."
       ],
       "owner": "codex-01a0dd89 / GPT-6 Astra; no active native process or child writer",
-      "previous_packet": "A03 second cycle 2026-09-27: exact-DLL guarded full LEN01 route and source inspection confirm retained Marat message, wrong sighting hypothesis through load, selected excerpt, explicit Alsu correction and later-source gate. No code change or human comprehension claim. See a03-second-cycle/receipt.json."
+      "previous_packet": "A03 third cycle 2026-09-27: exact-DLL guarded full LEN01 route and source inspection cover article reread, wrong voice/route guesses, source return, Timur plan, field landmarks and tag, two revised hypotheses and load without pact reveal. No blocker reproduced; human navigation/meaning remain open. See a03-third-cycle/receipt.json."
     },
     "priority_policy_2026_09_27": "act1_delivery_plan is the current Act I delivery order; it supersedes priority_policy_2026_09_26. Finish the already owned active_packet first; apply packet entry evidence, original dependencies, criteria and human gates. Do not execute HISTORY/FUTURE/AUTHOR-DEFERRED as normal Act I work."
   },
@@ -6244,7 +6243,8 @@
         "2026-09-13 R30 f004ed4 source scripted capture: current 403.43m physical route, three actual JournalUI comparisons, final captions/card/menu PASS. Four H264720p30/AAC48k stereo review clips, current frame ranges1800/880/904/440, atom verification and12 decoded frames reviewed including final menu. Original PCM retained, no listening claim; real voices absent. First stale-length verifier failure retained and exact current-range copy passes. Sources/userdata byte-exact restored, final C#0/0. Evidence external scripted_native_review_r30 and review_clips_r30; captured BEFORE R31 access fix, not ordinary gameplay or FPS/overall-art acceptance.",
         "2026-09-14 corridor/journal/chapter narrow smokes on HEAD: three cycles reachable, each correct branch records a conclusion, cycle-2 outcome assertions added to Act1FirstPersonCorridorSmokeTest; scripted evidence only (no human playthrough, no listening).",
         "docs/production/mvp_tracker_2026-09-27/a03-first-cycle/receipt.json",
-        "docs/production/mvp_tracker_2026-09-27/a03-second-cycle/receipt.json"
+        "docs/production/mvp_tracker_2026-09-27/a03-second-cycle/receipt.json",
+        "docs/production/mvp_tracker_2026-09-27/a03-third-cycle/receipt.json"
       ],
       "blocked_reason": null,
       "result": "Three manual journal comparisons, retryable hypotheses, rereading, checkpoint persistence and live Rinat village/home/forest staging implemented. Existing flow and scripted native route pass. Ordinary player understanding, full staging and recorded finale voices remain open.",
@@ -6266,7 +6266,7 @@
         "Все три цикла A03 различаются способом проверки, содержат выбор игрока, обратную связь и реакцию мира; возврат к источнику доступен.",
         "Финальный маршрут следует из проверки места; личный мотив A02 возвращается в голосе, Ринат подготовлен, пакт не объяснён; normal/skip/load технически проверены, постановка принята человеком."
       ],
-      "current_checkpoint": "2026-09-27 first-loop exact-DLL technical check: guarded journal-flow and full LEN01 family-flow exit0 through official notice, family/Alsu, FAP/Naila, wrong versions, document-field selection, source return and save/load. No blocker reproduced; scripted route is not human understanding or visual acceptance. See a03-first-cycle/receipt.json. 2026-09-27 second-loop exact-DLL source/runtime check: message→mistaken sighting→reread/excerpt→Alsu correction/load is reachable without early unlock; no new code, no human comprehension claim. See a03-second-cycle/receipt.json."
+      "current_checkpoint": "2026-09-27 first-loop exact-DLL technical check: guarded journal-flow and full LEN01 family-flow exit0 through official notice, family/Alsu, FAP/Naila, wrong versions, document-field selection, source return and save/load. No blocker reproduced; scripted route is not human understanding or visual acceptance. See a03-first-cycle/receipt.json. 2026-09-27 second-loop exact-DLL source/runtime check: message→mistaken sighting→reread/excerpt→Alsu correction/load is reachable without early unlock; no new code, no human comprehension claim. See a03-second-cycle/receipt.json. 2026-09-27 third-loop exact-DLL source/runtime check: article and physical reread, wrong voice/route hypotheses, Timur answer, roadside view/tag, corrected comparison and load all retain bounded knowledge. No code change; human route comprehension/art remain external. See a03-third-cycle/receipt.json."
     },
     {
       "id": "FINISH-02",
@@ -8118,7 +8118,8 @@
       "evidence": [
         "docs/production/act1_len01_playtime_audit_2026-09-15.md",
         "docs/production/mvp_tracker_2026-09-27/a03-first-cycle/receipt.json",
-        "docs/production/mvp_tracker_2026-09-27/a03-second-cycle/receipt.json"
+        "docs/production/mvp_tracker_2026-09-27/a03-second-cycle/receipt.json",
+        "docs/production/mvp_tracker_2026-09-27/a03-third-cycle/receipt.json"
       ],
       "blocked_reason": null,
       "progress_2026_09_15_b": "Pillar matrix filled for all eight scenario pillars with real scene/interaction/dialogue IDs, the status flags (present/missing/unavailable/auto-granted/mandatory/optional), the derived duration and the evidence. All three investigation cycles verified against definitions.json: they exist and are mandatory, but each is one click whose label already states the conclusion ('У одного дела две разные формулировки', 'Голос, ответ и граница связаны', 'Канава и две засечки совпадают'), and the wrong hypotheses carry effects: [] with no record and unlimited retries. A quest name does not prove investigation here.",
@@ -8131,7 +8132,7 @@
         "mvp_priority": 30,
         "mvp_packet": "investigation"
       },
-      "current_checkpoint": "2026-09-27 first-loop exact-DLL technical check: guarded journal-flow and full LEN01 family-flow exit0 through official notice, family/Alsu, FAP/Naila, wrong versions, document-field selection, source return and save/load. No blocker reproduced; scripted route is not human understanding or visual acceptance. See a03-first-cycle/receipt.json. 2026-09-27 second-loop exact-DLL source/runtime check: message→mistaken sighting→reread/excerpt→Alsu correction/load is reachable without early unlock; no new code, no human comprehension claim. See a03-second-cycle/receipt.json."
+      "current_checkpoint": "2026-09-27 first-loop exact-DLL technical check: guarded journal-flow and full LEN01 family-flow exit0 through official notice, family/Alsu, FAP/Naila, wrong versions, document-field selection, source return and save/load. No blocker reproduced; scripted route is not human understanding or visual acceptance. See a03-first-cycle/receipt.json. 2026-09-27 second-loop exact-DLL source/runtime check: message→mistaken sighting→reread/excerpt→Alsu correction/load is reachable without early unlock; no new code, no human comprehension claim. See a03-second-cycle/receipt.json. 2026-09-27 third-loop exact-DLL source/runtime check: article and physical reread, wrong voice/route hypotheses, Timur answer, roadside view/tag, corrected comparison and load all retain bounded knowledge. No code change; human route comprehension/art remain external. See a03-third-cycle/receipt.json."
     },
     {
       "id": "LEN01.3",
@@ -8181,7 +8182,8 @@
       "evidence": [
         "docs/production/act1_len01_playtime_audit_2026-09-15.md",
         "docs/production/mvp_tracker_2026-09-27/a03-first-cycle/receipt.json",
-        "docs/production/mvp_tracker_2026-09-27/a03-second-cycle/receipt.json"
+        "docs/production/mvp_tracker_2026-09-27/a03-second-cycle/receipt.json",
+        "docs/production/mvp_tracker_2026-09-27/a03-third-cycle/receipt.json"
       ],
       "progress_2026_09_15": "Causal chain traced from the start state to the finale: 21 load-bearing prerequisites, each with the action that makes it true. No bypass found - physical proximity to Kara-Urman cannot enter the forest, because both forest scenes are gated on route_kara_urman_edge_hint + rinat.alerted + beat/rinat-visible-before-edge and IsInteractionAvailable checks the target scene's entry conditions. One defect found and fixed: campaign.json's narrativeOrder referenced a beat that does not exist in any module.",
       "mvp_priority": 25,
@@ -8193,7 +8195,7 @@
         "mvp_priority": 30,
         "mvp_packet": "investigation"
       },
-      "current_checkpoint": "2026-09-27 first-loop exact-DLL technical check: guarded journal-flow and full LEN01 family-flow exit0 through official notice, family/Alsu, FAP/Naila, wrong versions, document-field selection, source return and save/load. No blocker reproduced; scripted route is not human understanding or visual acceptance. See a03-first-cycle/receipt.json. 2026-09-27 second-loop exact-DLL source/runtime check: message→mistaken sighting→reread/excerpt→Alsu correction/load is reachable without early unlock; no new code, no human comprehension claim. See a03-second-cycle/receipt.json."
+      "current_checkpoint": "2026-09-27 first-loop exact-DLL technical check: guarded journal-flow and full LEN01 family-flow exit0 through official notice, family/Alsu, FAP/Naila, wrong versions, document-field selection, source return and save/load. No blocker reproduced; scripted route is not human understanding or visual acceptance. See a03-first-cycle/receipt.json. 2026-09-27 second-loop exact-DLL source/runtime check: message→mistaken sighting→reread/excerpt→Alsu correction/load is reachable without early unlock; no new code, no human comprehension claim. See a03-second-cycle/receipt.json. 2026-09-27 third-loop exact-DLL source/runtime check: article and physical reread, wrong voice/route hypotheses, Timur answer, roadside view/tag, corrected comparison and load all retain bounded knowledge. No code change; human route comprehension/art remain external. See a03-third-cycle/receipt.json."
     },
     {
       "id": "LEN01.4",
@@ -14812,7 +14814,8 @@
         ],
         "avoid": "Не создавать новую доску улик, глобальную симуляцию отношений, NLP или гору документов с одним выводом. Финальный пакт не раскрывается.",
         "first_cycle_checkpoint_2026_09_27": "Current dirty-DLL protected journal-flow and full LEN01 family-flow both exit0 for official notice→family/Alsu→FAP/Naila, selected fields, wrong hypothesis, reread and load. No code change; early cycle technically reachable, not accepted for human comprehension/pacing. a03-first-cycle/receipt.json.",
-        "second_cycle_checkpoint_2026_09_27": "Same exact DLL and guarded LEN01 route plus source inspection: Marat message remains readable, wrong sighting remains a hypothesis through load, explicit excerpt and Alsu correction bound the conclusion; no early article unlock. Scripted technical evidence only; a03-second-cycle/receipt.json."
+        "second_cycle_checkpoint_2026_09_27": "Same exact DLL and guarded LEN01 route plus source inspection: Marat message remains readable, wrong sighting remains a hypothesis through load, explicit excerpt and Alsu correction bound the conclusion; no early article unlock. Scripted technical evidence only; a03-second-cycle/receipt.json.",
+        "third_cycle_checkpoint_2026_09_27": "Same exact DLL and guarded LEN01 route plus source inspection: article/physical reread, revised voice and route guesses, Timur landmark answer, roadside tag and checked path persist through load without final pact reveal. No code change; human route comprehension/pacing remain open. a03-third-cycle/receipt.json."
       },
       {
         "id": "A04",
