@@ -1,0 +1,18 @@
+{
+  "date": "2026-09-27",
+  "scope": "Current dirty-DLL technical classification of optional old-PC Tetris",
+  "command": ". eng/dotnet-env.sh && python3 eng/protected_run.py --clean --timeout 180 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --headless --path game res://tests/old_pc_tetris_smoke_test.tscn",
+  "dll_sha256": "8c319c8835544918be07fc7379fee3ca9224a1899fc5e171fbd2145be648e22e",
+  "exit_code": 0,
+  "result": "oldpc-tetris-smoke: PASS 11 checks",
+  "observed": [
+    "Desktop launch, keyboard movement/drop, pause/resume and game over worked",
+    "No knowledge, journal entry or personal note changed",
+    "Only bounded tetrisHigh record survived save/load",
+    "Userdata guard restored original files and permissions"
+  ],
+  "limits": [
+    "Game class has pre-existing uncommitted input-focus edits that this packet did not modify",
+    "Headless check does not accept visual feel, fun or authorial fit"
+  ]
+}

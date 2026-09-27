@@ -2739,13 +2739,14 @@
     "priority_policy_2026_09_26": "Use tasks.mvp_priority ascending among dependency-ready units; smaller is earlier. Fix observed control/progression/UI defects before cosmetic expansion. One unit per packet with player effect, evidence, next step. Preserve all EX00–EX14 and >=60 active minutes; no padded duration. Prior statuses/evidence are historical unless tied to this build. in_progress records incomplete work, not a live worker. Priority 90 needs external input; 100 preserves long-term scope outside this Act I run.",
     "active_packet": {
       "task_ids": [
-        "ACT1-MECH-AUDIT.1",
-        "ACT1-MECH-AUDIT.2"
+        "ACT1-TECH.1",
+        "ACT1-TECH.2"
       ],
       "units": [
-        "A00 next unit: inventory the optional old-PC Tetris minigame: actual entry point, state effects, persisted record and player value. Classify it under ACT1-MECH-AUDIT.2 without removing an authored requirement; preserve unrelated dirty edits. Native UI and human acceptance remain open."
+        "A01 next unit: recheck the historically reported Babai firewood-shelter post collision on a currently reachable house-yard approach. Record a concrete player path and contact, then fix only if the defect reproduces; preserve existing dirty world/controller edits. Technical collision evidence does not accept walking comfort or visual art."
       ],
-      "owner": "codex-01a0dd89 / GPT-6 Astra; no active native process or child writer"
+      "owner": "codex-01a0dd89 / GPT-6 Astra; no active native process or child writer",
+      "previous_packet": "A00 first-cycle map and four scoped mechanic checks recorded 2026-09-27. LEN01.1 and full ACT1-MECH-AUDIT.1/.2 remain in_progress; the A00 plan says to move after the first cycle and revisit remaining mechanics with their relevant episodes."
     },
     "priority_policy_2026_09_27": "act1_delivery_plan is the current Act I delivery order; it supersedes priority_policy_2026_09_26. Finish the already owned active_packet first; apply packet entry evidence, original dependencies, criteria and human gates. Do not execute HISTORY/FUTURE/AUTHOR-DEFERRED as normal Act I work."
   },
@@ -4897,6 +4898,7 @@
         "game/scripts/OldPcTetris.cs",
         "game/tests/OldPcTetrisSmokeTest.cs"
       ],
+      "current_check_2026_09_27": "Guarded true-headless old_pc_tetris_smoke_test exit0 / 11 checks on DLL 8c319c8835544918be07fc7379fee3ca9224a1899fc5e171fbd2145be648e22e: launch, keys, pause, game over, no knowledge/journal/personal-note effects, save/load of only tetrisHigh. Existing uncommitted input-focus edit in game/scripts/OldPcTetris.cs was not changed. Optional author-specified easter egg; visual feel and fun not accepted. docs/production/mvp_tracker_2026-09-27/oldpc-tetris/receipt.json.",
       "progress_2026_09_19": "2026-09-19 implemented and verified on this build: a standalone tetris control (10x20 well, seven pieces with rotations, level gravity, score/lines/level, pause, game over) with arrows, Z/X/space/P and the same actions on mouse buttons; the class never sees the runtime bridge, so it cannot reach knowledge, the journal, hints or the search. Pausing is real (window minimize, close and application focus loss all pause; opening resumes). The record is the only persistent field: it travels through the ordinary desktop snapshot (tetrisHigh, bounded 0..999999), the window re-reads it on every restore, and no middle of a game is ever saved. old_pc_tetris_smoke_test PASS, old_pc_desktop_smoke_test PASS 102 checks as layout/regression, verify-dotnet green. Boundary: the proof wires the record sink directly instead of clearing a line on purpose.",
       "delivery": {
         "packet": "A12"
@@ -11495,6 +11497,7 @@
       "source_excerpt_checkpoint_2026_09_27": "Four distinct useful actions on three documents: notice cause, register wording, register category, and Marat message voice. Re-selecting the register category is the same consumer, not a fifth use. Bindings and effects: game/scripts/RuntimeBridge.SourceExcerpts.cs; content/modules/urman-chapter1/investigation-source-checks.json. Inventory: docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md. Guarded true-headless family-flow exit0: docs/production/mvp_tracker_2026-09-27/fap-records/receipt.json. Remaining mechanics inventory is open.",
       "journal_comparison_checkpoint_2026_09_27": "The nine authored JSON files with journalAction contain 39 actions on 20 distinct source pairs: 22 state-changing, 17 feedback-only. Every pair, action family and bounded result is listed in docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md. game/scripts/JournalUi.cs and RuntimeBridge.cs require two different found sources and recheck conditions before applying. The guarded true-headless family-flow validates the main chain and selected corrections, not all 20 pairs or native UI. Remaining mechanics inventory is open.",
       "oldpc_search_checkpoint_2026_09_27": "48 authored old-PC documents in nine sections, 12 access-gated; seven main-route source reads and their example queries are mapped in docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md. Archive search uses title/body/section/terms for accessible documents; global search spans accessible documents, delivered chats, notes and visited pages. Search itself grants no clue; opening applies source effects, and saving requires prior opening. Guarded true-headless focused global search exit0 / 12 checks: docs/production/mvp_tracker_2026-09-27/oldpc-search/receipt.json. Other documents and native usability remain unaccepted.",
+      "oldpc_tetris_checkpoint_2026_09_27": "Authored optional easter egg reached through the PC desktop/Start menu. game/scripts/OldPcUi.Tetris.cs passes only bounded tetrisHigh through the desktop snapshot; no narrative consumer. Current guarded true-headless smoke exit0 / 11 checks, including save/load and no knowledge/journal effects. See docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md and docs/production/mvp_tracker_2026-09-27/oldpc-tetris/receipt.json. Full mechanics inventory remains open.",
       "pole_reconciliation_2026_09_27": {
         "status": "source_verified_historical_risk_stale",
         "finding": "Шест зарегистрирован и используется для боковой доски, верхней коробки, верхней створки и соединения с крючком. Старый черновик «возможно декоративный» не основание удаления.",
@@ -11565,6 +11568,7 @@
       "journal_comparison_checkpoint_2026_09_27": "Retain the comparison mechanic: 20 distinct source-pair contexts support bounded deductions, side findings and correction of wrong hypotheses. The 17 feedback-only choices are not 17 separate progression steps. Main chain and selected corrections passed guarded true-headless family-flow on the current dirty DLL; other pairs are source-inventoried only. Native two-picker clarity and human usability remain A12 / ACT1-UI.4 and ACT1-UI.7. Evidence: docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md; docs/production/mvp_tracker_2026-09-27/fap-records/receipt.json. Other mechanics classification remains open.",
       "oldpc_search_checkpoint_2026_09_27": "Retain archive and global search: the seven main-route documents have distinct bounded reading outcomes; 48 documents are not 48 mandatory queries. Current dirty DLL passed guarded true-headless global-search smoke (12 checks) and prior family-flow exercised main document gates/opening. The learned-word suggestion concern was confirmed and corrected in oldpc_suggestion_correction_2026_09_27. Native window clarity and side-record usability remain A12 / ACT1-UI.5 and ACT1-UI.7. Evidence: docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md; docs/production/mvp_tracker_2026-09-27/oldpc-search/receipt.json. Other mechanics classification remains open.",
       "oldpc_suggestion_correction_2026_09_27": "Confirmed reachable dead hint: Gulsina teaches ярамый before PC access, but no old-PC document contains it. game/scripts/OldPcUi.Search.cs now offers only terms matching a currently readable document under the existing global title/body predicate. C# build and guarded true-headless old_pc_search_smoke_test exit0 / 12 checks. Specific Gulsina-to-hint click and visual clarity remain unrun; source-level filter prevents that word from appearing. Evidence: docs/production/mvp_tracker_2026-09-27/oldpc-suggestions/receipt.json. Other mechanics classification remains open.",
+      "oldpc_tetris_checkpoint_2026_09_27": "Retain because §7 of docs/tasktracker/03_oldpc_full_system.md explicitly requires a pure optional Tetris easter egg. It must not be multiplied into three mandatory applications: score has no narrative effect, only bounded tetrisHigh persists. Current guarded true-headless smoke exit0 / 11 checks; human artistic fit and fun remain not-run. Other mechanics classification remains open. Evidence: docs/production/mvp_tracker_2026-09-27/oldpc-tetris/receipt.json.",
       "delivery": {
         "packet": "A00"
       },
@@ -14689,7 +14693,8 @@
         "human_acceptance": [
           "Карта задаёт конкретные вопросы для раннего плейтеста; редакторская оценка не выдана за интерес игрока."
         ],
-        "avoid": "Не превращать аудит в новую систему телеметрии, переписывание канона или месячный документ. После карты первого цикла переходить к его исправлению; остальные эпизоды разбирать по мере работы."
+        "avoid": "Не превращать аудит в новую систему телеметрии, переписывание канона или месячный документ. После карты первого цикла переходить к его исправлению; остальные эпизоды разбирать по мере работы.",
+        "first_cycle_checkpoint_2026_09_27": "Nine core episodes and the first 16 narrativeOrder entries mapped with source/action/result. Source excerpts, journal comparisons, old-PC search and optional Tetris checked in scoped units; arrival auto-progress and a dead search suggestion corrected. Guarded headless route/final/search/Tetris checks passed on their recorded dirty DLLs. Human 60-minute experience, native UI, full EX00–EX14 and complete mechanics inventory remain open; continue through A01 and revisit per episode."
       },
       {
         "id": "A01",
