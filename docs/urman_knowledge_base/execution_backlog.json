@@ -2748,6 +2748,7 @@
         "A05 first unit: take the existing Alsu-provided ADR-FAP address from the first investigation and inspect the actual village approach to the FAP and return. Expected effect: the player can use a learned address and visible street cues rather than a hidden teleport. Done when the address is earned before the trip, a protected native first-person route reaches the correct entrance and returns without recovery/teleport, and current frames show the approach/signage; fix only a reproduced blocker. Human unprompted wayfinding remains external."
       ],
       "owner": "codex-01a0dd89 / GPT-6 Astra; no active native process or child writer",
+      "checkpoint_2026_09_27": "Current-DLL protected ADR-FAP and ADR-MOSQUE crowded-addresses runs reached verified door access points with the real controller, then exit1 before plate read/capture/return. Their single appended read point uses terrain height below an elevated FAP deck or mosque landing; the player stops at porch rail/stair post. This is not proof that the real plate is unreadable or that A05 is complete. Normal first-person walkthrough reached and entered the FAP, but the full run later failed at the mosque. Next: establish a reachable current-camera plate read and reverse route, then capture current frames; preserve human unprompted navigation as external. Evidence: a05-fap-address/address-world-receipt.json and a05-mosque-address/address-world-receipt.json.",
       "previous_packet": "A04 manual language level 2026-09-27: two separate protected Godot processes on exact current DLL exit0; fluent persisted, fresh New Game 12 guessed/0 confirmed, old slot 1 guessed and tt_babai unknown, bytes unchanged, userdata restored. No code change. Optional calibration form/precedence still awaits author choice; see a04-language-cold-current/receipt.json."
     },
     "priority_policy_2026_09_27": "act1_delivery_plan is the current Act I delivery order; it supersedes priority_policy_2026_09_26. Finish the already owned active_packet first; apply packet entry evidence, original dependencies, criteria and human gates. Do not execute HISTORY/FUTURE/AUTHOR-DEFERRED as normal Act I work."
@@ -10004,7 +10005,9 @@
       "evidence": [
         "docs/production/act1_takeover_evidence_2026-09-16/images-address-world-11/address-world-receipt.json",
         "docs/production/act1_takeover_evidence_2026-09-16/images-address-world-19/address-world-receipt.json",
-        "docs/production/mvp_tracker_2026-09-27/h037/address-world-receipt.json"
+        "docs/production/mvp_tracker_2026-09-27/h037/address-world-receipt.json",
+        "docs/production/mvp_tracker_2026-09-27/a05-fap-address/address-world-receipt.json",
+        "docs/production/mvp_tracker_2026-09-27/a05-mosque-address/address-world-receipt.json"
       ],
       "done_when": [
         "Доступные по утверждённой планировке адреса из исходных 11 проверены физическим подходом от связанной дороги и обратно; нет необъяснённых ACCESS_NOT_VERIFIED в доступной половине.",
