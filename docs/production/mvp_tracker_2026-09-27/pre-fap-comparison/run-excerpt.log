@@ -1,0 +1,10 @@
+family-meal-proof: actual invitation, source-dependent personal reply, explicit meal acceptance; topic=photo; decline/return/load=True; no timer, movement automation or human-duration claim
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-family-comparison.savegame-v3.json
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-unverified-versions.savegame-v3.json
+zone-loaded: fap_clinic@waiting_room connected-world=126047229927
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-lamp-unacknowledged.savegame-v3.json
+zone-loaded: fap_clinic@waiting_room connected-world=126047229927
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/len01-lamp-acknowledged.savegame-v3.json
+zone-loaded: fap_clinic@waiting_room connected-world=126047229927
+ERROR: act1-len01-family-flow: System.InvalidOperationException: Native render did not supply a frame for the local capture within 5 seconds: source-excerpt-ui/resize-(1280, 720); rendering external/not-run for this checkpoint.
+userdata guard: original files and permissions restored and verified
