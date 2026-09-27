@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-27",
+  "scope": "Reachable global-search suggestion dead end and narrow correction on current dirty DLL",
+  "trigger": "Gulsina's home-warning dialogue marks tt_yaramyy guessed; after a zero-result global query, learned words were suggested before checking whether a readable old-PC document matched them.",
+  "source_evidence": [
+    "content/modules/urman-chapter1/definitions.json: gulsina_yaramyy home-warning vocabulary effect",
+    "No content/modules/urman-oldpc/documents/*.md contains ярамый",
+    "game/scripts/OldPcUi.Search.cs now filters each suggestion through the same readable-document title/body match as global search"
+  ],
+  "verification": {
+    "static_reachability_and_index_check": "passed",
+    "dotnet_build_game": "exit0, 0 warnings, 0 errors",
+    "guarded_command": ". eng/dotnet-env.sh && python3 eng/protected_run.py --clean --timeout 180 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --headless --path game res://tests/old_pc_search_smoke_test.tscn",
+    "guarded_result": "exit0, oldpc-search-smoke PASS 12 checks; userdata restored",
+    "dll_sha256": "8c319c8835544918be07fc7379fee3ca9224a1899fc5e171fbd2145be648e22e",
+    "graphify_update": "exit0"
+  },
+  "limits": [
+    "The existing smoke covers global-search regression, not a live Gulsina-to-hint click",
+    "Headless checks do not accept visual readability or human search comprehension"
+  ]
+}
