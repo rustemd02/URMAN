@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-27",
+  "head": "2429a5bc",
+  "scope": "A06 porch-nook before/after visual probe on the dirty local checkout",
+  "requestedFrames": ["porch_nook", "porch_nook_used"],
+  "result": "not-run: capture audit exited 1 before either frame; no visual or gameplay acceptance",
+  "checks": {
+    "gameBuild": "exit 0, 0 warnings, 0 errors",
+    "protectedImport": "exit 0; userdata restored",
+    "protectedNativeCapture": "exit 1; userdata restored; no output frames"
+  },
+  "diagnosis": {
+    "firstBlocker": "The committed ravine adds declared layer-2 ravine-blocker collisions, but the older capture audit does not yet recognize that owner.",
+    "temporaryProbe": "A local test-only allowance for the ravine owner was compiled to reveal later blockers, then removed without a source diff. It was diagnostic, not an acceptance change.",
+    "probeAssemblySha256": "0c03e876b944a8e46eda127566724d4fac614abbec787a4eaf03d08da5e1f80c",
+    "additionalForbiddenNodes": 226,
+    "roots": {
+      "YardRepairCorner": 160,
+      "TamaraFenceQuest": 36,
+      "BabaiDrainBoardCrossing": 14,
+      "Act1AuthoredExteriorKitPresentation": 8,
+      "Act1People": 4,
+      "AgentBExteriorWorld": 2,
+      "BabaiYardSideGateExploration": 2
+    },
+    "interpretation": "The capture ownership contract and current scene disagree. This does not establish that all listed collisions are wrong in play. Several owners have foreign uncommitted edits; none were changed by this probe."
+  },
+  "restoredAssemblySha256": "43aec4022433a2fc6cc5998d4186c703eaf38266687d50ab1f6ae0e098830077",
+  "remaining": "Reconcile collision ownership with each scene owner, then capture the porch nook before/after and verify its action, return and save/load. A06 remains open."
+}
