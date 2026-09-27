@@ -255,7 +255,7 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         {
             await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "save", documentId }));
             if (!IsCurrentReader(bridge, session, version)) return;
-            _status.Text = $"Документ добавлен в журнал · Откройте журнал [{JournalShortcutLabel()}]";
+            _status.Text = $"Документ добавлен в журнал · Выйдите из ПК, затем {JournalShortcutLabel()}";
         }
         catch (Exception exception)
         {
@@ -340,10 +340,8 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
     }
 
     private string JournalShortcutLabel() =>
-        GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
-            && player.CurrentInputDevice == "gamepad"
-            ? "Y"
-            : "J";
+        InputBindingService.ActionHint("journal",
+            GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController { CurrentInputDevice: "gamepad" });
 
     private static bool Matches(OldPcDocumentContent document, string query)
     {

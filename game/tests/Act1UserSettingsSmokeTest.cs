@@ -1,5 +1,6 @@
 using Godot;
 using Urman.Core.Persistence;
+using System.Linq;
 
 namespace Urman.Godot.Tests;
 
@@ -14,6 +15,12 @@ public partial class Act1UserSettingsSmokeTest : Node
 
     public override async void _Ready()
     {
+        if (System.Environment.GetEnvironmentVariable("URMAN_LANG_COLD_PAIR") == "1")
+        {
+            await VerifyColdLanguageStart();
+            return;
+        }
+
         var packed = ResourceLoader.Load<PackedScene>("res://scenes/main.tscn");
         var main = packed?.Instantiate<Main>();
         if (main is null)
@@ -129,6 +136,88 @@ public partial class Act1UserSettingsSmokeTest : Node
         UserSettingsStore.Delete();
         DeleteStorySlot();
         await GodotSmokeCleanup.ReleaseAsync(main);
+        GetTree().Quit(0);
+    }
+
+    private async Task VerifyColdLanguageStart()
+    {
+        const string slot = "language-level-cold-story";
+        var savePath = ProjectSettings.GlobalizePath($"user://savegames/{slot}.savegame-v3.json");
+        if (!System.IO.File.Exists(savePath))
+        {
+            Fail("The first Godot process did not leave its story slot for the cold launch.");
+            return;
+        }
+        var savedBytes = System.IO.File.ReadAllBytes(savePath);
+        var demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn")?.Instantiate<Act1DemoRoot>();
+        if (demo is null)
+        {
+            Fail("Cold language launch could not instantiate the ordinary Act I menu.");
+            return;
+        }
+        AddChild(demo);
+        await Frames(8);
+        var player = demo.DemoMain?.GetNodeOrNull<FirstPersonController>("Player");
+        var settings = demo.DemoMain?.GetNodeOrNull<SettingsUi>("SettingsUi");
+        var bridge = demo.DemoMain?.GetNodeOrNull<RuntimeBridge>("RuntimeBridge");
+        if (player?.TatarLanguageLevel != "fluent" || UserSettingsStore.TryLoad()?.TatarLanguageLevel != "fluent"
+            || settings is null || bridge is null || demo.MainMenu?.SettingsButton is null)
+        {
+            Fail("A separate Godot process did not reload the applied fluent profile.");
+            return;
+        }
+        demo.MainMenu.SettingsButton.EmitSignal(BaseButton.SignalName.Pressed);
+        await Frames(2);
+        var level = settings.GetNode<OptionButton>("Screen/Panel/Layout/BodyScroll/Body/TatarLanguageLevelRow/TatarLanguageLevel");
+        if (!settings.IsOpen || level.Selected != 2)
+        {
+            Fail("Cold-launched Settings UI did not display the applied fluent level.");
+            return;
+        }
+        settings._UnhandledInput(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        await Frames(2);
+        for (var frame = 0; frame < 120 && demo.MainMenu?.NewGameButton?.Disabled == true; frame++) await Frames(1);
+        var newGame = demo.MainMenu?.NewGameButton;
+        if (newGame is null || newGame.Disabled)
+        {
+            Fail("The cold-launched main menu did not make New Game available.");
+            return;
+        }
+        newGame.EmitSignal(BaseButton.SignalName.Pressed);
+        await Frames(2);
+        if (demo.MainMenuVisible && newGame.Text == "Начать новую игру")
+            newGame.EmitSignal(BaseButton.SignalName.Pressed);
+        for (var frame = 0; frame < 240 && demo.MainMenuVisible; frame++) await Frames(1);
+        if (demo.MainMenuVisible || !demo.IntroVisible || bridge.IsDebugSession)
+        {
+            Fail("Cold-launched New Game did not start the ordinary arrival session.");
+            return;
+        }
+        var vocabulary = bridge.SelectRuntimeState().GetProperty("vocabulary");
+        var guessed = vocabulary.EnumerateObject().Count(word => word.Value.GetProperty("status").GetString() == "guessed");
+        var confirmed = vocabulary.EnumerateObject().Count(word => word.Value.GetProperty("status").GetString() == "confirmed");
+        if (guessed != 12 || confirmed != 0 || player.TatarLanguageLevel != "fluent"
+            || !System.IO.File.ReadAllBytes(savePath).SequenceEqual(savedBytes))
+        {
+            Fail($"Cold New Game vocabulary/profile or prior story slot changed (guessed={guessed}, confirmed={confirmed}).");
+            return;
+        }
+        if (!await bridge.LoadSlotAsync(slot))
+        {
+            Fail("The prior story slot could not be loaded after the cold New Game.");
+            return;
+        }
+        var restored = bridge.SelectRuntimeState().GetProperty("vocabulary");
+        var oldGuessed = restored.EnumerateObject().Count(word => word.Value.GetProperty("status").GetString() == "guessed");
+        if (restored.GetProperty("urman.chapter1:vocabulary/tt_babai").GetProperty("status").GetString() != "unknown"
+            || oldGuessed >= guessed || player.TatarLanguageLevel != "fluent"
+            || !System.IO.File.ReadAllBytes(savePath).SequenceEqual(savedBytes))
+        {
+            Fail("Loading the prior story lost its vocabulary or overwrote the current fluent profile.");
+            return;
+        }
+        GD.Print($"act1-language-cold-verify: PASS pid={System.Environment.ProcessId} profile=fluent new-guessed={guessed} new-confirmed={confirmed} old-guessed={oldGuessed} old-babai=unknown slot-byte-exact=true");
+        await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
     }
 

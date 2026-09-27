@@ -207,7 +207,7 @@
       "number": "6",
       "cadastral": "URM-Q01-P0108",
       "primaryDoor": "DwellingFacade_SeniEntry_Door0_Leaf_LOD0",
-      "signSurface": "DwellingFacade_Right_Wall_LOD0",
+      "signSurface": "DwellingFacade_SeniOuter_Wall_LOD0",
       "role": "residential"
     },
     {

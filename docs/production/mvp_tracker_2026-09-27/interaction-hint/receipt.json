@@ -1,0 +1,10 @@
+{
+  "date": "2026-09-27",
+  "command": "URMAN_SMOKE_TIMEOUT=240 eng/run-smoke-guarded.sh act1_binding_conflict_smoke_test",
+  "exitCode": 0,
+  "assemblySha256": "86769beb3a00cac60971e56f36504367cf9d5967439470ad2e77097a957d6abe",
+  "actualHint": "[Правый стик →]",
+  "scope": "Existing settings axis-rebind path; HUD InteractionHint; keyboard rebind/default restore and existing journal/document label checks.",
+  "limits": "Headless UI signals; no physical gamepad or visual acceptance.",
+  "guardRestored": true
+}

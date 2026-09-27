@@ -683,7 +683,7 @@ public partial class OldPcUi
         {
             await bridge.HandleOldPcInputAsync(JsonSerializer.SerializeToElement(new { type = "save", documentId }));
             if (BrowserRequestCurrent(bridge, session, version))
-                _browserStatus.Text = $"Документ добавлен в книжку · Откройте журнал [{JournalShortcutLabel()}]";
+                _browserStatus.Text = $"Документ добавлен в книжку · Выйдите из ПК, затем {JournalShortcutLabel()}";
         }
         catch (Exception error)
         {

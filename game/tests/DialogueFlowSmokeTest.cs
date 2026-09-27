@@ -61,6 +61,7 @@ public partial class DialogueFlowSmokeTest : Node
             Fail("Gulsina's start node did not expose both the tea alternative and the guessed ярамый question.");
             return;
         }
+        if (!await CheckLayoutAsync(dialogueUi, player, "gulsina_choices", shortReply: false)) return;
         stayForTea.EmitSignal(Button.SignalName.Pressed);
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         dialogueUi._UnhandledInput(new InputEventKey
@@ -127,6 +128,7 @@ public partial class DialogueFlowSmokeTest : Node
             Fail("Gulsina's porch paint reply did not match its authored line.");
             return;
         }
+        if (!await CheckLayoutAsync(dialogueUi, player, "gulsina_porch_paint_reply", shortReply: true)) return;
         dialogueUi._UnhandledInput(new InputEventKey
         {
             Keycode = Key.E,
@@ -273,6 +275,73 @@ public partial class DialogueFlowSmokeTest : Node
         GD.Print("dialogue-flow-smoke: Gulsina vocabulary, her discovery-gated porch paint reaction + Rinat choice + discovery-gated Mansur memory and its return visit through production UI");
         await GodotSmokeCleanup.ReleaseAsync(main);
         GetTree().Quit(0);
+    }
+
+    private async System.Threading.Tasks.Task<bool> CheckLayoutAsync(DialogueUi dialogueUi, FirstPersonController player,
+        string state, bool shortReply)
+    {
+        var original = player.Accessibility;
+        var output = System.Environment.GetEnvironmentVariable("URMAN_DIALOGUE_FRAMES");
+        if (!string.IsNullOrEmpty(output)
+            && (!System.IO.Path.IsPathFullyQualified(output) || !System.IO.Directory.Exists(output)
+                || DisplayServer.GetName() == "headless"))
+        {
+            Fail("URMAN_DIALOGUE_FRAMES requires an existing absolute directory and native rendering.");
+            return false;
+        }
+
+        try
+        {
+            foreach (var scale in new[] { 1.0, 1.6 })
+            {
+                var settings = original with { TextScale = scale };
+                player.ApplyAccessibilitySettings(settings);
+                AccessibilityPresentation.ApplyToTree(GetTree(), settings);
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+                var panel = dialogueUi.GetNode<PanelContainer>("Screen/Panel");
+                var line = dialogueUi.GetNode<RichTextLabel>("Screen/Panel/Layout/Line");
+                var choices = dialogueUi.GetNode<VBoxContainer>("Screen/Panel/Layout/Choices");
+                var continueButton = dialogueUi.GetNode<Button>("Screen/Panel/Layout/Continue");
+                var panelRect = panel.GetGlobalRect();
+                var viewportRect = dialogueUi.GetViewport().GetVisibleRect();
+                var actions = choices.GetChildren().OfType<Button>().Where(button => button.Visible).ToArray();
+                if (!dialogueUi.IsOpen || !viewportRect.Encloses(panelRect)
+                    || !panelRect.Encloses(line.GetGlobalRect())
+                    || actions.Any(button => !panelRect.Encloses(button.GetGlobalRect()))
+                    || (continueButton.Visible && !panelRect.Encloses(continueButton.GetGlobalRect()))
+                    || (shortReply && (!continueButton.Visible || actions.Length != 0
+                        || line.Size.Y - line.GetContentHeight() > 32f))
+                    || (!shortReply && (actions.Length == 0 || continueButton.Visible)))
+                {
+                    Fail($"Dialogue layout escaped the viewport or expanded a short reply: {state}, scale={scale}, panel={panelRect}.");
+                    return false;
+                }
+
+                if (string.IsNullOrEmpty(output)) continue;
+                var path = System.IO.Path.Combine(output, $"{state}_scale_{(scale == 1.0 ? "1_0" : "1_6")}.png");
+                if (System.IO.File.Exists(path))
+                {
+                    Fail("Dialogue capture already exists: " + path);
+                    return false;
+                }
+                await Act1StateFlowProof.WaitForRenderedFrameAsync(this, "dialogue/" + state + "/" + scale);
+                using var image = GetViewport().GetTexture().GetImage();
+                if (image.IsEmpty() || image.SavePng(path) != Error.Ok)
+                {
+                    Fail("Dialogue capture failed: " + path);
+                    return false;
+                }
+                GD.Print("dialogue-capture: " + path);
+            }
+            return true;
+        }
+        finally
+        {
+            player.ApplyAccessibilitySettings(original);
+            AccessibilityPresentation.ApplyToTree(GetTree(), original);
+        }
     }
 
     private void Fail(string message)

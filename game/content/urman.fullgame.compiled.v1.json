@@ -5458,6 +5458,25 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.chapter1:dialogue/tamara_fence_after",
+        "participantRoles": [
+          "aidar",
+          "tamara"
+        ],
+        "startNodeId": "thanks",
+        "nodes": [
+          {
+            "id": "thanks",
+            "speakerRole": "tamara",
+            "textId": "urman.chapter1:text/tamara-fence-after",
+            "conditions": [],
+            "effects": [],
+            "choices": []
+          }
+        ]
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.chapter1:dialogue/tamara_fence_hand_in",
         "participantRoles": [
           "aidar",
@@ -12368,9 +12387,9 @@
           }
         },
         "summary": {
-          "default": "\u0410\u0439\u0434\u0430\u0440 \u0432\u044A\u0435\u0445\u0430\u043B \u041D\u0438\u0432\u043E\u0439 \u0432 \u0437\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B \u043D\u0430 \u043E\u0431\u0440\u0430\u0442\u043D\u043E\u0439 \u0443\u043B\u0438\u0446\u0435. \u0414\u043E\u0441\u043A\u0438 \u043D\u0430\u0448\u043B\u0438\u0441\u044C \u043F\u043E \u0441\u043E\u0441\u0435\u0434\u043D\u0438\u043C \u0434\u0432\u043E\u0440\u0430\u043C, \u0437\u0430\u0431\u043E\u0440 \u0432\u0441\u0442\u0430\u043B \u043D\u0430 \u043C\u0435\u0441\u0442\u043E.",
+          "default": "\u0410\u0439\u0434\u0430\u0440 \u0432\u044A\u0435\u0445\u0430\u043B \u041D\u0438\u0432\u043E\u0439 \u0432 \u0437\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B \u043D\u0430 \u043E\u0431\u0440\u0430\u0442\u043D\u043E\u0439 \u0443\u043B\u0438\u0446\u0435. \u041E\u043D \u043F\u0440\u0438\u043D\u0451\u0441 \u0448\u0435\u0441\u0442\u044C \u0446\u0435\u043B\u044B\u0445 \u0434\u043E\u0441\u043E\u043A \u0438\u0437 \u0441\u043E\u0441\u0435\u0434\u043D\u0438\u0445 \u0434\u0432\u043E\u0440\u043E\u0432. \u0422\u0430\u043C\u0430\u0440\u0430 \u0432\u0437\u044F\u043B\u0430 \u0440\u0435\u043C\u043E\u043D\u0442 \u043D\u0430 \u0441\u0435\u0431\u044F.",
           "translations": {
-            "ru": "\u0410\u0439\u0434\u0430\u0440 \u0432\u044A\u0435\u0445\u0430\u043B \u041D\u0438\u0432\u043E\u0439 \u0432 \u0437\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B \u043D\u0430 \u043E\u0431\u0440\u0430\u0442\u043D\u043E\u0439 \u0443\u043B\u0438\u0446\u0435. \u0414\u043E\u0441\u043A\u0438 \u043D\u0430\u0448\u043B\u0438\u0441\u044C \u043F\u043E \u0441\u043E\u0441\u0435\u0434\u043D\u0438\u043C \u0434\u0432\u043E\u0440\u0430\u043C, \u0437\u0430\u0431\u043E\u0440 \u0432\u0441\u0442\u0430\u043B \u043D\u0430 \u043C\u0435\u0441\u0442\u043E."
+            "ru": "\u0410\u0439\u0434\u0430\u0440 \u0432\u044A\u0435\u0445\u0430\u043B \u041D\u0438\u0432\u043E\u0439 \u0432 \u0437\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B \u043D\u0430 \u043E\u0431\u0440\u0430\u0442\u043D\u043E\u0439 \u0443\u043B\u0438\u0446\u0435. \u041E\u043D \u043F\u0440\u0438\u043D\u0451\u0441 \u0448\u0435\u0441\u0442\u044C \u0446\u0435\u043B\u044B\u0445 \u0434\u043E\u0441\u043E\u043A \u0438\u0437 \u0441\u043E\u0441\u0435\u0434\u043D\u0438\u0445 \u0434\u0432\u043E\u0440\u043E\u0432. \u0422\u0430\u043C\u0430\u0440\u0430 \u0432\u0437\u044F\u043B\u0430 \u0440\u0435\u043C\u043E\u043D\u0442 \u043D\u0430 \u0441\u0435\u0431\u044F."
           }
         },
         "initialStatus": "hidden",
@@ -17756,6 +17775,15 @@
                   "stateKey": "fence_repaired",
                   "value": true
                 }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "board_taken_1",
+                  "value": true
+                }
               }
             ],
             "effects": [
@@ -17763,6 +17791,12 @@
                 "op": "npc.set-state",
                 "characterId": "urman.chapter1:character/tamara",
                 "stateKey": "board_1",
+                "value": true
+              },
+              {
+                "op": "npc.set-state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "board_taken_1",
                 "value": true
               }
             ],
@@ -17797,6 +17831,15 @@
                   "stateKey": "fence_repaired",
                   "value": true
                 }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "board_taken_2",
+                  "value": true
+                }
               }
             ],
             "effects": [
@@ -17804,6 +17847,12 @@
                 "op": "npc.set-state",
                 "characterId": "urman.chapter1:character/tamara",
                 "stateKey": "board_2",
+                "value": true
+              },
+              {
+                "op": "npc.set-state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "board_taken_2",
                 "value": true
               }
             ],
@@ -17838,6 +17887,15 @@
                   "stateKey": "fence_repaired",
                   "value": true
                 }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "board_taken_3",
+                  "value": true
+                }
               }
             ],
             "effects": [
@@ -17845,6 +17903,12 @@
                 "op": "npc.set-state",
                 "characterId": "urman.chapter1:character/tamara",
                 "stateKey": "board_3",
+                "value": true
+              },
+              {
+                "op": "npc.set-state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "board_taken_3",
                 "value": true
               }
             ],
@@ -17879,6 +17943,15 @@
                   "stateKey": "fence_repaired",
                   "value": true
                 }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "board_taken_4",
+                  "value": true
+                }
               }
             ],
             "effects": [
@@ -17886,6 +17959,12 @@
                 "op": "npc.set-state",
                 "characterId": "urman.chapter1:character/tamara",
                 "stateKey": "board_4",
+                "value": true
+              },
+              {
+                "op": "npc.set-state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "board_taken_4",
                 "value": true
               }
             ],
@@ -17920,6 +17999,15 @@
                   "stateKey": "fence_repaired",
                   "value": true
                 }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "board_taken_5",
+                  "value": true
+                }
               }
             ],
             "effects": [
@@ -17927,6 +18015,12 @@
                 "op": "npc.set-state",
                 "characterId": "urman.chapter1:character/tamara",
                 "stateKey": "board_5",
+                "value": true
+              },
+              {
+                "op": "npc.set-state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "board_taken_5",
                 "value": true
               }
             ],
@@ -17961,6 +18055,15 @@
                   "stateKey": "fence_repaired",
                   "value": true
                 }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "npc.state",
+                  "characterId": "urman.chapter1:character/tamara",
+                  "stateKey": "board_taken_6",
+                  "value": true
+                }
               }
             ],
             "effects": [
@@ -17968,6 +18071,12 @@
                 "op": "npc.set-state",
                 "characterId": "urman.chapter1:character/tamara",
                 "stateKey": "board_6",
+                "value": true
+              },
+              {
+                "op": "npc.set-state",
+                "characterId": "urman.chapter1:character/tamara",
+                "stateKey": "board_taken_6",
                 "value": true
               }
             ],
@@ -22752,9 +22861,9 @@
         "schemaVersion": 1,
         "id": "urman.chapter1:text/quest-tamara-fence-banner-done",
         "value": {
-          "default": "\u0417\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B \u043E\u0442\u0440\u0435\u043C\u043E\u043D\u0442\u0438\u0440\u043E\u0432\u0430\u043D",
+          "default": "\u0414\u043E\u0441\u043A\u0438 \u0434\u043B\u044F \u0437\u0430\u0431\u043E\u0440\u0430 \u043F\u0435\u0440\u0435\u0434\u0430\u043D\u044B \u0422\u0430\u043C\u0430\u0440\u0435 \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u0435",
           "translations": {
-            "ru": "\u0417\u0430\u0431\u043E\u0440 \u0422\u0430\u043C\u0430\u0440\u044B \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u044B \u043E\u0442\u0440\u0435\u043C\u043E\u043D\u0442\u0438\u0440\u043E\u0432\u0430\u043D"
+            "ru": "\u0414\u043E\u0441\u043A\u0438 \u0434\u043B\u044F \u0437\u0430\u0431\u043E\u0440\u0430 \u043F\u0435\u0440\u0435\u0434\u0430\u043D\u044B \u0422\u0430\u043C\u0430\u0440\u0435 \u0413\u0435\u043D\u043D\u0430\u0434\u044C\u0435\u0432\u043D\u0435"
           }
         },
         "purpose": "ui"
@@ -23397,6 +23506,17 @@
           }
         },
         "purpose": "caption"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.chapter1:text/tamara-fence-after",
+        "value": {
+          "default": "\u0421\u043F\u0430\u0441\u0438\u0431\u043E \u0437\u0430 \u0434\u043E\u0441\u043A\u0438. \u0412 \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0438\u0439 \u0440\u0430\u0437 \u0437\u0430 \u0440\u0443\u043B\u0451\u043C \u0432\u043D\u0438\u043C\u0430\u0442\u0435\u043B\u044C\u043D\u0435\u0435.",
+          "translations": {
+            "ru": "\u0421\u043F\u0430\u0441\u0438\u0431\u043E \u0437\u0430 \u0434\u043E\u0441\u043A\u0438. \u0412 \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0438\u0439 \u0440\u0430\u0437 \u0437\u0430 \u0440\u0443\u043B\u0451\u043C \u0432\u043D\u0438\u043C\u0430\u0442\u0435\u043B\u044C\u043D\u0435\u0435."
+          }
+        },
+        "purpose": "dialogue"
       },
       {
         "schemaVersion": 1,
@@ -25038,7 +25158,7 @@
     {
       "moduleId": "urman.chapter1",
       "exactVersion": "1.0.0",
-      "sha256": "cb97855bce87b6447ce08f6ad21f8d867c9bc2857fe8d5702c51d6589f76994a"
+      "sha256": "99dc1dd696644efe89b4aadb78d889a82d1df4b423e432e5c304c21e6b4d3368"
     },
     {
       "moduleId": "urman.core",
@@ -25056,5 +25176,5 @@
       "sha256": "f11d7970fd65ec8deb5cab4fe8e78424c6565dcd124684df556e1551039bf496"
     }
   ],
-  "campaignFingerprint": "2b99a6644a4d7676c8539f60679e868247e50f5b61f2fc86f84cfca32e01c271"
+  "campaignFingerprint": "7f305780f74a62f9c095bb8965d030dc96e94358e88641735e420d2895b5286c"
 }

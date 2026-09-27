@@ -32,6 +32,8 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         _continue = GetNode<Button>("Screen/Panel/Layout/Continue");
         _continue.Pressed += Close;
         GetViewport().SizeChanged += RefitToViewport;
+        _panel.MinimumSizeChanged += RefitToViewport;
+        _line.Resized += RefitToViewport;
         if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
         {
             ApplyAccessibilitySettings(player.Accessibility);
@@ -50,10 +52,11 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         var viewport = _panel.GetViewportRect().Size;
         var scale = Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f);
         var width = Mathf.Max(1f, Mathf.Min(viewport.X - 48f, 860f * scale));
-        // Large text needs room for the line and the choice buttons together.
-        // Keep the bottom edge stable while growing upward inside the viewport.
+        // Grow only as far as this line and its actions need. Long replies
+        // retain the existing scrollable text area and bounded panel height.
         var extraChoicesHeight = Mathf.Max(0, _choices.GetChildCount() - 3) * (44f * scale + 8f);
-        var height = Mathf.Max(1f, Mathf.Min(viewport.Y - 48f, 400f + 160f * (scale - 1f) + extraChoicesHeight));
+        var maximumHeight = Mathf.Max(1f, Mathf.Min(viewport.Y - 96f, 400f + 160f * (scale - 1f) + extraChoicesHeight));
+        var height = Mathf.Min(maximumHeight, _panel.GetCombinedMinimumSize().Y + _line.GetContentHeight());
         _panel.AnchorLeft = _panel.AnchorRight = .5f;
         _panel.AnchorTop = _panel.AnchorBottom = 1f;
         _panel.OffsetLeft = -width * .5f;
@@ -102,6 +105,8 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
             _line.Text = "Айдару пока нечем продолжить этот разговор.";
             ClearChoices();
             _continue.Visible = true;
+            RefitToViewport();
+            _continue.GrabFocus();
         }
     }
 
@@ -136,10 +141,11 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
             button.Pressed += () => Choose(choice);
             _choices.AddChild(button);
         }
+        _choices.Visible = _choices.GetChildCount() > 0;
+        _continue.Visible = !_choices.Visible;
         AccessibilityPresentation.ApplyToControl(_panel, _accessibility);
         RefitToViewport();
 
-        _continue.Visible = _choices.GetChildCount() == 0;
         (_choices.GetChildCount() > 0 ? (Control)_choices.GetChild(0) : _continue).GrabFocus();
         return true;
     }
@@ -168,6 +174,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void ClearChoices()
     {
+        _choices.Visible = false;
         foreach (var child in _choices.GetChildren())
         {
             _choices.RemoveChild(child);

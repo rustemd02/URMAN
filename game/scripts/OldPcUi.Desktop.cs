@@ -320,9 +320,8 @@ public partial class OldPcUi
         var current = GetViewport().GuiGetFocusOwner();
         if (current is not null && current.IsVisibleInTree()
             && (current == window.Panel || window.Panel.IsAncestorOf(current))) return;
-        // Keyboard activation must move input with the foreground window. Mouse
-        // clicks keep their own target, so RaiseWindow only requests this for
-        // taskbar/shortcut activation, Alt+Tab and desktop restoration.
+        // Keep typing with the foreground window, including clicks on its
+        // non-focusable frame. GUI dispatch can still focus the clicked control.
         Control target = window.Id switch
         {
             "archive" => _query,
@@ -440,7 +439,7 @@ public partial class OldPcUi
                 var hit = _windows.Values.Where(window => window.Open && window.Panel.Visible
                     && window.Panel.GetGlobalRect().HasPoint(mouse.Position))
                     .OrderByDescending(window => window.Panel.GetIndex()).FirstOrDefault();
-                if (hit is not null) RaiseWindow(hit.Id);
+                if (hit is not null) RaiseWindow(hit.Id, focusContent: true);
             }
         }
         else if (input is InputEventMouseMotion motion && _dragWindow is { } dragging)

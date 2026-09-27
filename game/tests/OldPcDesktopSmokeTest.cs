@@ -226,6 +226,31 @@ public partial class OldPcDesktopSmokeTest : Node
             Check(ui.GetNode<OldPcWindowTitleBar>("Screen/App_notepad/Layout/Header").Active
                 && !ui.GetNode<OldPcWindowTitleBar>("Screen/App_browser/Layout/Header").Active,
                 "Window-title appearance follows the application that receives keyboard input.");
+            // Expose the browser's non-focusable frame behind the note. A real
+            // mouse press must transfer typing as well as the visual z-order.
+            var browserFrame = ui.GetNode<Control>("Screen/App_browser");
+            browserFrame.Position = new Vector2(4, 4);
+            var frameClick = browserFrame.GetViewport().GetScreenTransform()
+                * browserFrame.GetGlobalTransformWithCanvas() * new Vector2(2, 2);
+            Input.ParseInputEvent(new InputEventMouseButton
+                { ButtonIndex = MouseButton.Left, Pressed = true, Position = frameClick, GlobalPosition = frameClick });
+            await Frames(2);
+            Input.ParseInputEvent(new InputEventMouseButton
+                { ButtonIndex = MouseButton.Left, Pressed = false, Position = frameClick, GlobalPosition = frameClick });
+            Check(ui.ActiveApplicationId == "browser" && addressField.HasFocus() && !editor.HasFocus(),
+                "Clicking the browser frame moves keyboard input out of the background note.");
+            await Capture("04c_mouse_window_focus");
+            var editorClick = editor.GetViewport().GetScreenTransform()
+                * editor.GetGlobalTransformWithCanvas() * (editor.Size - new Vector2(24, 24));
+            Input.ParseInputEvent(new InputEventMouseButton
+                { ButtonIndex = MouseButton.Left, Pressed = true, Position = editorClick, GlobalPosition = editorClick });
+            await Frames(2);
+            Input.ParseInputEvent(new InputEventMouseButton
+                { ButtonIndex = MouseButton.Left, Pressed = false, Position = editorClick, GlobalPosition = editorClick });
+            Check(ui.ActiveApplicationId == "notepad" && editor.HasFocus() && !addressField.HasFocus(),
+                $"Clicking directly into the exposed note keeps keyboard input with that editor: active={ui.ActiveApplicationId} "
+                + $"focus={ui.GetViewport().GuiGetFocusOwner()?.GetPath()} click={editorClick} "
+                + $"editor={editor.GetGlobalRect()} browser={browserFrame.GetGlobalRect()}.");
 
             ui.LaunchApplication("files");
             var files = ui.GetNode<ItemList>("Screen/App_files/Layout/Content/Files");

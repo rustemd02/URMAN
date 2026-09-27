@@ -162,7 +162,7 @@ public partial class OldPcTetris : Control
 
     public override void _Process(double delta)
     {
-        if (!Playable) return;
+        if (!IsVisibleInTree() || !Playable) return;
         _dropTimer += (float)delta;
         var interval = Mathf.Max(.08f, .8f - (Level - 1) * .07f);
         if (_dropTimer >= interval) Step(true, 0f);
@@ -170,6 +170,7 @@ public partial class OldPcTetris : Control
 
     public override void _Input(InputEvent inputEvent)
     {
+        if (!IsVisibleInTree() || !HasFocus()) return;
         if (inputEvent is not InputEventKey { Pressed: true, Echo: false } key) return;
         switch (key.Keycode)
         {

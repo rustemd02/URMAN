@@ -151,8 +151,87 @@ public partial class Act1BindingConflictSmokeTest : Node
             return;
         }
 
-        GD.Print("act1-binding-conflict: PASS two-step conflicting rebind + conflicting action preserved + restore defaults + prompt follows the rebind");
+        // Axis remaps must name the stick and direction in the same HUD hint.
+        using var axis = new InputEventJoypadMotion { Axis = JoyAxis.RightX, AxisValue = 1f };
+        settings.BeginRemap("interact");
+        settings._UnhandledInput(axis);
+        settings.GetNode<Button>("Screen/Panel/Layout/Buttons/Apply").EmitSignal(BaseButton.SignalName.Pressed);
+        player._UnhandledInput(axis);
+        if (settings.IsAwaitingRemap || player.InteractionHint != "[Правый стик →]")
+        {
+            Fail($"The interaction HUD did not explain the rebound axis: {player.InteractionHint}.");
+            return;
+        }
+        GD.Print($"act1-binding-axis-hint: {player.InteractionHint}");
+        InputBindingService.RestoreDefaults();
+        player.SetModalOpen(true);
+        player._UnhandledInput(new InputEventKey { PhysicalKeycode = Key.U, Pressed = false });
+
+        // The journal header must use the same bindings as its close action.
+        settings.BeginRemap("journal");
+        settings._UnhandledInput(new InputEventKey { Keycode = Key.U, PhysicalKeycode = Key.U, Pressed = true });
+        settings.BeginRemap("journal");
+        settings._UnhandledInput(new InputEventJoypadButton { ButtonIndex = JoyButton.LeftShoulder, Pressed = true });
+        settings.GetNode<Button>("Screen/Panel/Layout/Buttons/Apply").EmitSignal(BaseButton.SignalName.Pressed);
         settings.Close();
+        await Frames(2);
+        var journal = demo.DemoMain!.GetNode<JournalUi>("JournalUi");
+        var bridge = (RuntimeBridge)GetTree().GetFirstNodeInGroup("runtime_bridge");
+        journal.Open(bridge);
+        var close = journal.GetNode<Button>("Screen/Book/Layout/Header/Close");
+        if (!close.Text.Contains("[U]", StringComparison.Ordinal)
+            || !close.Text.Contains("[LB]", StringComparison.Ordinal)
+            || !close.Text.Contains("[Esc]", StringComparison.Ordinal)
+            || InputBindingService.Label("journal") != "U / LB")
+        { Fail($"Journal close hint ignored the applied bindings: {close.Text}"); return; }
+        var captureDirectory = OS.GetEnvironment("URMAN_UI_SHOT_DIR");
+        if (!string.IsNullOrWhiteSpace(captureDirectory))
+        {
+            await Act1StateFlowProof.WaitForRenderedFrameAsync(this, "journal/rebound-close");
+            using var image = GetViewport().GetTexture().GetImage();
+            if (image.SavePng(System.IO.Path.Combine(captureDirectory, "journal_rebound_close.png")) != Error.Ok)
+            { Fail("Could not capture the rebound journal header."); return; }
+        }
+        Input.ParseInputEvent(new InputEventKey { Keycode = Key.U, PhysicalKeycode = Key.U, Pressed = true });
+        await Frames(2);
+        Input.ParseInputEvent(new InputEventKey { Keycode = Key.U, PhysicalKeycode = Key.U, Pressed = false });
+        await Frames(2);
+        if (journal.GetNode<Control>("Screen").Visible || player.ModalOpen)
+        { Fail("The displayed rebound key did not close the journal and release control."); return; }
+
+        // The physical document reader must advertise the same rebound action.
+        const string sourceId = "urman.oldpc:document/tw_zirat_customs";
+        if (!await bridge.OpenDocumentAsync(sourceId))
+        { Fail("The accessible source for the document hint could not open."); return; }
+        var reader = (DocumentUi)GetTree().GetFirstNodeInGroup("document_ui");
+        foreach (var gamepad in new[] { false, true })
+        {
+            if (gamepad) player._UnhandledInput(new InputEventJoypadButton { ButtonIndex = JoyButton.LeftShoulder });
+            else player._UnhandledInput(new InputEventKey { Keycode = Key.U, PhysicalKeycode = Key.U });
+            bridge.OpenDocumentUi(sourceId);
+            reader.GetNode<Button>("Screen/Document/Layout/Footer/Save").EmitSignal(BaseButton.SignalName.Pressed);
+            var expectedHint = gamepad ? "Закройте документ, затем [LB]" : "Закройте документ, затем [U]";
+            for (var frame = 0; frame < 120 && !reader.StatusText.Contains(expectedHint, StringComparison.Ordinal); frame++) await Frames(1);
+            if (!reader.StatusText.Contains(expectedHint, StringComparison.Ordinal))
+            { Fail($"Document save advertised the wrong journal binding: {reader.StatusText}"); return; }
+            if (!string.IsNullOrWhiteSpace(captureDirectory))
+            {
+                await Act1StateFlowProof.WaitForRenderedFrameAsync(this, "document/rebound-journal");
+                using var image = GetViewport().GetTexture().GetImage();
+                if (image.SavePng(System.IO.Path.Combine(captureDirectory, gamepad ? "document_gamepad_hint.png" : "document_keyboard_hint.png")) != Error.Ok)
+                { Fail("Could not capture the document's journal hint."); return; }
+            }
+            reader.GetNode<Button>("Screen/Document/Layout/Header/Close").EmitSignal(BaseButton.SignalName.Pressed);
+            await Frames(2);
+        }
+        InputBindingService.RestoreDefaults();
+        journal.Open(bridge);
+        if (!close.Text.Contains(InputBindingService.ActionHint("journal", false), StringComparison.Ordinal)
+            || close.Text.Contains("[U]", StringComparison.Ordinal))
+        { Fail("Reopening the journal retained the old close binding after defaults were restored."); return; }
+        close.EmitSignal(BaseButton.SignalName.Pressed);
+        await Frames(2);
+        GD.Print("act1-binding-conflict: PASS conflicting rebind + restore defaults + interaction hint + readable journal/setting labels + actual rebound close + document keyboard/gamepad save hint");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
     }

@@ -34,7 +34,7 @@ public partial class Act1ConnectedWorld
     internal static readonly (string Name, float X, float Z, string Reason)[] OverlapRelocations =
     [
         ("ReturnStreetDistantLowFacade", -24f, -47f, "H024 inside ReturnWestFarHouse1Silhouette; proposal west plot"),
-        ("ArrivalLeftHorizonDomesticFacade", -31.5f, 29.5f, "H045 inside WestArrivalMidFacade; proposal west plot"),
+        ("ArrivalLeftHorizonDomesticFacade", -31.5f, 36.5f, "H045 human-scale house; north of the old plot's tree, west of H006"),
         ("ArrivalReverseWestDomesticFacade", -11.5f, 35.5f, "H044 inside ArrivalWestNearAuthoredTimberGableParcel; proposal plot"),
         ("FapReverseWestDomesticFacade", 6.2f, -49.6f, "H046 inside ReturnEastHouseA8Silhouette; proposal plot"),
         ("MainStreetEastNeighborFacade", 9.8f, 4f, "H019 inside ArrivalForwardEastFacade; proposal plot"),
@@ -44,7 +44,7 @@ public partial class Act1ConnectedWorld
         ("ConnectiveEastHouseA6Silhouette", 8.5f, -30f, "H022 overlapping FapOppositeFieldNeighborHouse; 2 m north"),
         ("ReturnEastHouseA8Silhouette", 9.5f, -45.3f, "H023 overlapping FapOppositeFieldNeighborHouse; into the plot H046 left"),
         // Sheds follow the houses they belong to.
-        ("MainStreetEastNeighborShed", 5.3f, 8.5f, "H019's shed, beside its house on the new plot"),
+        ("MainStreetEastNeighborShed", 11f, 10.5f, "H019's shed behind its house; clear of the arrival timetable and bench"),
         ("FapReverseWestDomesticShed", 6.0f, -54.5f, "H046's shed, behind its house on the new plot")
     ];
 

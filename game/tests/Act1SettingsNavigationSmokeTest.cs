@@ -113,6 +113,25 @@ public partial class Act1SettingsNavigationSmokeTest : Node
             return;
         }
 
+        if (System.Environment.GetEnvironmentVariable("URMAN_LANG_COLD_PAIR") == "1")
+        {
+            const string slot = "language-level-cold-story";
+            var bridge = demo.DemoMain?.GetNodeOrNull<RuntimeBridge>("RuntimeBridge");
+            var vocabulary = bridge?.SelectRuntimeState().GetProperty("vocabulary");
+            if (bridge is null || vocabulary is null
+                || vocabulary.Value.GetProperty("urman.chapter1:vocabulary/tt_babai").GetProperty("status").GetString() != "unknown"
+                || !await bridge.SaveSlotAsync(slot))
+            {
+                Fail("The pre-new-game story with its original vocabulary could not be saved.");
+                return;
+            }
+            var oldGuessed = vocabulary.Value.EnumerateObject().Count(word => word.Value.GetProperty("status").GetString() == "guessed");
+            GD.Print($"act1-language-cold-prepare: PASS pid={System.Environment.ProcessId} profile=fluent saved={slot} old-guessed={oldGuessed} old-babai=unknown");
+            await GodotSmokeCleanup.ReleaseAsync(demo);
+            GetTree().Quit(0);
+            return;
+        }
+
         settings.GetNode<HSlider>("Screen/Panel/Layout/BodyScroll/Body/FovRow/Fov").Value = 87;
         settings.GetNode<Button>("Screen/Panel/Layout/Buttons/Apply").EmitSignal(BaseButton.SignalName.Pressed);
         await Frames(2);

@@ -22,6 +22,29 @@ public partial class Act1PlayerMovementSmokeTest
         foreach (var mesh in body.FindChildren("*", nameof(MeshInstance3D), true, false)
                      .OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree()))
         {
+            if (pose == "standing" && (mesh.Name == "CouncilWitness_Body_LOD0"
+                || mesh.Name.ToString().StartsWith("CouncilWitness_Trouser", StringComparison.Ordinal)))
+            {
+                for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
+                {
+                    var source = mesh.Mesh.SurfaceGetArrays(surface);
+                    var points = source[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                    var weights = source[(int)Mesh.ArrayType.Weights].AsFloat32Array();
+                    Check(weights.Length == points.Length * 4
+                        && weights.All(w => float.IsFinite(w) && w >= 0 && w <= 1)
+                        && weights.Chunk(4).All(group => Math.Abs(group.Sum() - 1) < .0001f),
+                        mesh.Name + " garment weights are bounded and normalized");
+                    if (mesh.Name.ToString().Contains("Trouser", StringComparison.Ordinal))
+                    {
+                        var calf = Enumerable.Range(0, points.Length).Where(i => points[i].Y < .35f).ToArray();
+                        var thigh = Enumerable.Range(0, points.Length).Where(i => points[i].Y > .60f && weights[i * 4 + 2] < .5f).ToArray();
+                        Check(calf.Length > 0 && thigh.Length > 0
+                            && calf.All(i => weights[i * 4 + 1] > .9999f)
+                            && thigh.All(i => weights[i * 4] > .9999f),
+                            mesh.Name + " calf follows knee and thigh follows hip without constant cross-blending");
+                    }
+                }
+            }
             using var baked = mesh.BakeMeshFromCurrentSkeletonPose();
             for (var surface = 0; surface < baked.GetSurfaceCount(); surface++)
             {

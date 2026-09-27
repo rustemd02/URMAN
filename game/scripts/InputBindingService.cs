@@ -44,7 +44,23 @@ public static class InputBindingService
         if (gamepad)
         {
             var button = events.OfType<InputEventJoypadButton>().FirstOrDefault();
-            if (button is not null) return $"[{button.ButtonIndex}]";
+            if (button is not null)
+            {
+                var label = button.ButtonIndex switch
+                {
+                    JoyButton.A or JoyButton.B or JoyButton.X or JoyButton.Y => button.ButtonIndex.ToString(),
+                    JoyButton.LeftShoulder => "LB", JoyButton.RightShoulder => "RB",
+                    JoyButton.LeftStick => "L3", JoyButton.RightStick => "R3",
+                    JoyButton.DpadUp => "Крестовина ↑", JoyButton.DpadDown => "Крестовина ↓",
+                    JoyButton.DpadLeft => "Крестовина ←", JoyButton.DpadRight => "Крестовина →",
+                    JoyButton.Start => "Menu", JoyButton.Back => "View", JoyButton.Guide => "Главная",
+                    JoyButton.Touchpad => "Тачпад",
+                    JoyButton.Paddle1 => "P1", JoyButton.Paddle2 => "P2",
+                    JoyButton.Paddle3 => "P3", JoyButton.Paddle4 => "P4",
+                    _ => $"Кнопка {(int)button.ButtonIndex + 1}"
+                };
+                return $"[{label}]";
+            }
             var axis = events.OfType<InputEventJoypadMotion>().FirstOrDefault();
             if (axis is null) return "[Gamepad]";
             return axis.Axis switch
@@ -142,13 +158,8 @@ public static class InputBindingService
     {
         var binding = CaptureAction(action);
         var keyboard = OS.GetKeycodeString((Key)binding.KeyboardPhysicalKeycode);
-        if (binding.GamepadButton is { } button)
-        {
-            return $"{keyboard} / {(JoyButton)button}";
-        }
-
-        return binding.GamepadAxis is { } axis && binding.GamepadAxisSign is { } sign
-            ? $"{keyboard} / Axis {axis} {(sign < 0 ? "−" : "+")}"
+        return binding.GamepadButton is not null || binding.GamepadAxis is not null
+            ? $"{keyboard} / {ActionHint(action, true).Trim('[', ']')}"
             : keyboard;
     }
 

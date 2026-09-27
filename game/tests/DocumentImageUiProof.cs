@@ -176,26 +176,36 @@ internal static class DocumentImageUiProof
         var bridge = (RuntimeBridge)owner.GetTree().GetFirstNodeInGroup("runtime_bridge");
         var sourceCount = bridge.JournalEntries().Select(entry => entry.SourceId).Distinct().Count();
         var overviewTab = Enumerable.Range(0, tabs.TabCount)
-            .SingleOrDefault(index => tabs.GetTabTitle(index) == "Дела и слова", -1);
-        Require(overviewTab >= 0 && tabs.IsVisibleInTree() && Fits(tabs), "The notebook overview is not discoverable.");
+            .SingleOrDefault(index => tabs.GetTabTitle(index) == "Дела", -1);
+        var wordsTab = Enumerable.Range(0, tabs.TabCount)
+            .SingleOrDefault(index => tabs.GetTabTitle(index) == "Слова", -1);
+        Require(overviewTab >= 0 && tabs.IsVisibleInTree() && Fits(tabs),
+            $"The notebook overview is not discoverable: tab={overviewTab} visible={tabs.IsVisibleInTree()} "
+            + $"rect={tabs.GetGlobalRect()} viewport={tabs.GetViewportRect().Size} titles="
+            + string.Join(",", Enumerable.Range(0, tabs.TabCount).Select(tabs.GetTabTitle)));
         Require(source.IsVisibleInTree() && sourceText.Length > 0 && Fits(source), "The source/status line is clipped.");
         tabs.CurrentTab = overviewTab;
         await Frames(owner, 3);
         var overview = journal.GetNode<ScrollContainer>("Screen/Book/Layout/Overview");
         var objective = overview.GetNode<Label>("Contents/Objective");
-        var vocabulary = overview.GetNode<Label>("Contents/Vocabulary");
-        Require(overview.IsVisibleInTree() && Fits(overview) && objective.IsVisibleInTree() && vocabulary.IsVisibleInTree(),
-            "Moving the journal overview made goals or vocabulary inaccessible.");
+        Require(overview.IsVisibleInTree() && Fits(overview) && objective.IsVisibleInTree(),
+            "Moving the journal overview made goals inaccessible.");
         if (overview.GetVScrollBar().IsVisibleInTree())
         {
             overview.ScrollVertical = (int)overview.GetVScrollBar().MaxValue;
             await Frames(owner, 2);
-            Require(vocabulary.GetGlobalRect().End.Y <= overview.GetGlobalRect().End.Y + 2,
-                "The end of the learned vocabulary cannot be reached by scrolling.");
             overview.ScrollVertical = 0;
             await Frames(owner, 2);
         }
         await Shot(owner, tag + "_overview");
+        Require(wordsTab >= 0, "The separate vocabulary tab is not discoverable.");
+        tabs.CurrentTab = wordsTab;
+        await Frames(owner, 3);
+        var words = journal.GetNode<Control>("Screen/Book/Layout/Vocabulary");
+        Require(words.IsVisibleInTree() && Fits(words)
+            && words.GetNode<Label>("Count").IsVisibleInTree()
+            && words.GetNode<LineEdit>("SearchRow/Search").IsVisibleInTree(),
+            "The separate vocabulary page is not readable.");
         tabs.CurrentTab = 1;
         await Frames(owner, 2);
         for (var slot = 1; slot <= 2; slot++)

@@ -107,6 +107,10 @@ public partial class Act1CarryInteractionSmokeTest : Node
             await CheckNarrowPickupOpening(log, approach);
             await Press("interact");
             Check(_carry.HeldItem == log && log.CollisionLayer == 0, "aimed pickup commits one held item");
+            var pickupPrompt = _player.GetNode<Label>("Hud/InteractionPrompt").Text;
+            Check(pickupPrompt.Contains(InputBindingService.ActionHint("carry_place", _player.CurrentInputDevice == "gamepad"), StringComparison.Ordinal)
+                && !pickupPrompt.Contains("Подойдите с открытой стороны", StringComparison.Ordinal),
+                "successful retry immediately replaces the pickup refusal with the ordinary carry controls: " + pickupPrompt);
             await Capture("02_held_log");
 
             var beforeRejected = _bridge.SelectWorldProps().GetRawText();
@@ -511,6 +515,18 @@ public partial class Act1CarryInteractionSmokeTest : Node
         _player.ApplyZoneSpawn(start, 0);
         await Frames(6);
         GD.Print($"act1-carry: explicit drain start fixture {start}; pickup, approach, crossing and return use normal input");
+        await WalkLocal(near, "approach the drain before placing its board");
+        var withoutBoard = await WalkLocal(far, "observe the same drain crossing without a board", observeObstruction: true);
+        GD.Print($"act1-carry-drain-alternative: crossedWithoutBoard={withoutBoard}");
+        await Capture("07e_drain_without_board");
+        if (!withoutBoard)
+        {
+            // The board's drying battens occupy the other end of the bed.
+            await WalkLocal(crossing.ToGlobal(new(-2.5f, 0, 0)), "leave the open end of the drain opposite its drying battens");
+            await WalkLocal(crossing.ToGlobal(new(-2.5f, 0, -2.7f)), "go around the near bank on ordinary ground");
+        }
+        await WalkLocal(near, "return from the unbridged drain");
+        await WalkLocal(start, "return to the board's original pickup approach");
         Aim(board.GlobalPosition + Vector3.Up * board.Height * .5f);
         await Press("interact");
         Check(_carry.HeldItem == board, "take the single board from its visible drying battens");
@@ -571,10 +587,13 @@ public partial class Act1CarryInteractionSmokeTest : Node
         Check(await _bridge.SaveSlotAsync("carry-drain-on-board"), "save the placed board and supported player midway across");
         await Capture("08b_board_drain_underfoot");
         await WalkLocal(far, "leave the board over the opposite flush approach");
+        // Go around the north end of the visible Frontage_18 fence; the old
+        // straight waypoint at (-7.3, 11.3) requested walking through it.
         var route = new[] { Point("destinationApproach"), Ground(new(-14.8f, 0, 11.3f)),
-            Ground(new(-10.8f, 0, 11.3f)), Ground(new(-7.3f, 0, 11.3f)) };
+            Ground(new(-10.8f, 0, 11.3f)), Ground(new(-10.8f, 0, 9f)), Ground(new(-5.3f, 0, 9f)) };
         foreach (var point in route) await WalkLocal(point, "follow the household path north of the existing lateral dwelling");
-        Check(board.GlobalPosition.DistanceTo(savedBoard) < .02f, "the crossing remains behind after reaching its useful destination");
+        await Capture("08c_board_far_side_path");
+        Check(board.GlobalPosition.DistanceTo(savedBoard) < .02f, "the crossing remains behind after reaching the far-side household path");
         foreach (var point in route.Reverse().Skip(1)) await WalkLocal(point, "return from the existing service yard");
         await WalkLocal(far, "return to the far bank without moving the plank");
         await WalkLocal(board.GlobalPosition, "cross back on the same real plank");

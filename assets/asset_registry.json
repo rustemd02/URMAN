@@ -2770,22 +2770,24 @@
       "id": "character.act1.human.v2",
       "source": "assets/source/blender/urman_character_kit_v2.blend",
       "derived": "game/assets/generated/urman_character_kit_v2.glb",
-      "sourceSha256": "d5af24ec946933ae952c278228a8552731e27f0669da00d5a2a718ff9ec57539",
-      "derivedSha256": "b5789f1f5fde45c4325dfcc1d9d960c17005725390be9714df62762533c720a6",
+      "sourceSha256": "eb90578e5da77f8b8fe17fdf2c77da4e1f709fdbb7faf8d50c86cf0e3b20e22e",
+      "derivedSha256": "b1b4bf8958b86c29fef9695becd787ac133a491772c3049502d90e6dceb4f6e6",
       "generator": "tools/blender/generate_character_kit_v2.py",
-      "license": "CC0 1.0 (Quaternius Universal Base Characters and Universal Animation Library) + project-original clothing, proportions and clip selection",
+      "license": "CC0 1.0 (Quaternius bodies/hair/motion; MakeHuman/MPFB Tamara age-study head and old-female albedo) + project-original clothing, fitting and clip selection",
       "scale": 1.0,
       "triangleBudget": 60000,
-      "textureBudget": 1024,
+      "textureBudget": 2048,
       "materials": [
         "Skin (CC0 light albedo)",
         "Eyes",
         "Painterly cloth",
-        "Painterly hair"
+        "Painterly hair",
+        "TamaraPolkaDot (packed 128px cloth print and red trim)",
+        "TamaraAgeSkin (CC0 MakeHuman old-female albedo, packed 2048px)"
       ],
       "collision": "none; interaction targets and zone colliders own physics",
       "lod": "LOD0 + Decimate LOD1 (35%); Godot 0-18m / 14-48m",
-      "status": "art candidate 2026-09-24: Mansur, Gulsina, Naila on a 65-bone humanoid rig with Idle/Tension/Talk/Walk library clips; walkers and the player's body stay on character.fullgame kit",
+      "status": "art candidate 2026-09-27 hair-tone: moderate crown smoothing preserves waves; lighter grey hair; warm face factor(.8,.68,.57). Strong smoothing rejected. Native front/profile/Idle/Talk inspected;9 rigs/36 clips and other meshes exact;all14 embedded images unchanged;generator bindings/weights/material/geometry match. Same DLL prior full scene/skip81/cold11 in aged-head-scene/cold-load, not rerun for this cosmetic-only edit. Human likeness, continuous gait/audio remain open. Evidence docs/production/tamara_mvp_2026-09-26/hair-tone/.",
       "releaseDisposition": "include-in-act1-release; runtime-loaded by GeneratedCharacterKitDressing for human prefixes"
     },
     {

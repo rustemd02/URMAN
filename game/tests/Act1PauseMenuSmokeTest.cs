@@ -57,12 +57,40 @@ public partial class Act1PauseMenuSmokeTest : Node
 
         var pause = GetTree().GetFirstNodeInGroup("pause_menu") as PauseMenuUi;
         var journal = demo.DemoMain!.GetNode<JournalUi>("JournalUi");
+        var cue = demo.GetNode<Label>("Act1DemoRouteCue/RoutePrompt");
+        await ToSignal(GetTree().CreateTimer(.3), SceneTreeTimer.SignalName.Timeout);
+        if (string.IsNullOrEmpty(cue.Text) || cue.Modulate.A < .8f)
+        { Fail("Arrival route cue was not visible before opening the journal."); return; }
         journal.Open(bridge);
+        await Frames(2);
+        var pausedAlpha = cue.Modulate.A;
+        await ToSignal(GetTree().CreateTimer(4.1), SceneTreeTimer.SignalName.Timeout);
+        if (cue.Visible || !Mathf.IsEqualApprox(cue.Modulate.A, pausedAlpha))
+        { Fail("The route cue remained visible or expired behind the journal."); return; }
         if (await TryPause() || journal.GetNode<Control>("Screen").Visible || player.ModalOpen)
         {
             Fail("Escape must close the journal without opening pause over it.");
             return;
         }
+        await Frames(2);
+        if (!cue.Visible || cue.Modulate.A < .8f)
+        { Fail("Closing the journal lost the interrupted route cue."); return; }
+        var captureDirectory = OS.GetEnvironment("URMAN_UI_SHOT_DIR");
+        if (!string.IsNullOrWhiteSpace(captureDirectory))
+        {
+            await Act1StateFlowProof.WaitForRenderedFrameAsync(this, "route-cue/resumed");
+            using var image = GetViewport().GetTexture().GetImage();
+            if (image.SavePng(System.IO.Path.Combine(captureDirectory, "route_cue_resumed.png")) != Error.Ok)
+            { Fail("Could not capture the resumed route cue."); return; }
+        }
+        await ToSignal(GetTree().CreateTimer(4.1), SceneTreeTimer.SignalName.Timeout);
+        journal.Open(bridge);
+        await Frames(2);
+        if (await TryPause()) { Fail("Escape opened pause over the second journal."); return; }
+        await Frames(3);
+        if (cue.Modulate.A > .01f)
+        { Fail("An expired route cue replayed on the next modal close."); return; }
+        GD.Print("act1-pause-menu: route cue waits behind journal, resumes, expires and does not replay");
 
         if (pause is null || !await TryPause())
         {

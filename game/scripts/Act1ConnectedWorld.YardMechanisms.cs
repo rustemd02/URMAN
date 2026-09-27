@@ -113,7 +113,7 @@ public partial class Act1ConnectedWorld
             "Доска встала под перекладину. Стук прекратился; на кромке видно, что её поправляли и раньше.",
             solved => loosePanel.RotationDegrees = new(0, solved ? 0 : -5, 0));
         panel.AlternativeApproach = yard.ToGlobal(new(1.93f, .02f, 0));
-        panel.SoundSample = "wood_tap"; panel.SoundCaption = "Справа: сухой стук доски"; panel.MovingPart = loosePanel;
+        panel.SoundSample = "wood_tap"; panel.SoundCaption = "У боковой доски: сухой стук"; panel.MovingPart = loosePanel;
         panel.CueCause = YardMechanism.SoundCause.Wind;
         carry.Register(panel);
         var shutter = MechanismSolid(yard, "LooseUpperShutter", new(.66f, .26f, .035f), new(.71f, 2.35f, -.72f), "7b6c57");

@@ -14,7 +14,7 @@ internal static class AddressFacadeMount
     // Plate centre above the facade's own ground, and the tolerance around it.
     internal const float MountHeight=1.9f, MountLow=1.6f, MountHigh=2.4f;
     internal sealed record Triangle(Vector2 A,Vector2 B,Vector2 C);
-    internal sealed record Coverage(bool Supported,double MissingArea,string Owner,string Reason);
+    internal sealed record Coverage(bool Supported,double MissingArea,string Owner,string Reason,bool TimberCladding=false);
     private sealed record Face(Vector3 A,Vector3 B,Vector3 C,string Owner);
     private sealed class Plane(float depth,string owner)
     {
@@ -33,23 +33,27 @@ internal static class AddressFacadeMount
             ||name=="CoreWallVolume"||name.StartsWith("MosqueHallEast",StringComparison.Ordinal);
     }
 
-    public static bool TryFind(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,string? explicitExteriorWall=null)
+    public static bool TryFind(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out Vector3 mountedOutward,out string owner,out string failure,string? explicitExteriorWall=null)
     {
-        if(TryFindOnWalls(building,door,outward,world,out point,out owner,out failure,explicitExteriorWall))return true;
+        if(TryFindOnWalls(building,door,outward,world,out point,out mountedOutward,out owner,out failure,explicitExteriorWall))return true;
         // Rural fallback: when the facade has no opening-free stretch beside
         // the door (vent gable, fully pierced walls, small silhouette), the
         // plate hangs on the street fence or gate post of the same parcel —
         // exactly where Tatarstan villages put them. The plate keeps
         // its real size; only the mount surface changes.
         var fenceFailure=failure;
-        if(TryFindOnParcelFence(building,door,outward,world,out point,out owner,out var fenceRefusal))return true;
+        if(TryFindOnParcelFence(building,door,outward,world,out point,out owner,out var fenceRefusal))
+        {
+            mountedOutward=new Vector3(outward.X,0,outward.Z).Normalized();
+            return true;
+        }
         failure=fenceFailure+"; fence fallback: "+fenceRefusal;
         return false;
     }
 
-    private static bool TryFindOnWalls(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,string? explicitExteriorWall=null)
+    private static bool TryFindOnWalls(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out Vector3 mountedOutward,out string owner,out string failure,string? explicitExteriorWall=null)
     {
-        point=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
+        point=default;mountedOutward=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
         // Seni-door houses face their side entry away from the street: the
         // door-facing planes are narrow and pierced while a blank street wall
         // stands around the corner. Try the door orientation first, then the
@@ -60,6 +64,7 @@ internal static class AddressFacadeMount
         {
             if(TryFindOnWallsOriented(building,door,sweep,world,out point,out owner,out var orientedFailure,explicitExteriorWall,oriented:sweep!=outward))
             {
+                mountedOutward=sweep;
                 if(sweep!=outward)owner+=" (street-facing wall; seni door faces elsewhere)";
                 return true;
             }
@@ -136,8 +141,12 @@ internal static class AddressFacadeMount
             var coverage=Cover(candidate.Plane.Triangles,candidate.Center,BoardJoints(candidate.Plane.Owner));
             if(!coverage.Supported){Refused(coverage.Reason+" at "+candidate.Plane.Owner);continue;}
             var p=right*candidate.Center.X+Vector3.Up*candidate.Center.Y+outward*(candidate.Plane.Depth+.021f);
-            if(Occluder(faces,p,outward,right) is { } occluder){Refused("Exterior view blocked by "+occluder);continue;}
-            point=ProudOfOwnCladding(building,p,outward,right);owner=candidate.Plane.Owner;return true;
+            var mounted=ProudOfOwnCladding(building,p,outward,right);
+            if(mounted.Dot(outward)-candidate.Plane.Depth>.09f
+                &&!TimberFastenersSupported(building,mounted,outward,right))continue;
+            // Check from the finished mount, not from behind its own cladding.
+            if(Occluder(faces,mounted,outward,right) is { } occluder){Refused("Exterior view blocked by "+occluder);continue;}
+            point=mounted;owner=candidate.Plane.Owner;return true;
         }
         failure=string.Join("; ",refusals.OrderByDescending(r=>r.Value).Take(3).Select(r=>r.Key+" ("+r.Value+" candidates)"));
         return false;
@@ -147,15 +156,43 @@ internal static class AddressFacadeMount
     {
         outward=outward.Normalized();var right=new Vector3(outward.Z,0,-outward.X);
         var center=new Vector2(point.Dot(right),point.Y);
-        foreach(var plane in Planes(building,outward,right,explicitExteriorWall).Where(p=>point.Dot(outward)-p.Depth is >=.001f and <=.09f)
+        foreach(var plane in Planes(building,outward,right,explicitExteriorWall).Where(p=>point.Dot(outward)-p.Depth is >=.001f and <=.321f)
             .OrderByDescending(p=>p.Depth))
         {
             var covered=Cover(plane.Triangles,center,BoardJoints(plane.Owner));
             if(!covered.Supported)continue;
+            var timber=point.Dot(outward)-plane.Depth>.09f;
+            if(timber&&!TimberFastenersSupported(building,point,outward,right))continue;
             var obstruction=Occluder(VisibleFaces(world,new Aabb(point-Vector3.One*4.2f,Vector3.One*8.4f)),point,outward,right);
-            return new(obstruction is null,covered.MissingArea,plane.Owner,obstruction is null?"complete facade and exterior sightline":"occluded by "+obstruction);
+            return new(obstruction is null,covered.MissingArea,plane.Owner,obstruction is null?"complete facade and exterior sightline":"occluded by "+obstruction,timber);
         }
         return new(false,4*HalfWidth*HalfHeight,"","full rim and rivets lack an eligible facade");
+    }
+
+    internal static bool StructuralTimber(string name)=>name.Contains("_Street_Log",StringComparison.Ordinal)
+        ||name.Contains("_Street_Portal",StringComparison.Ordinal)&&name.Contains("_Jamb",StringComparison.Ordinal);
+
+    // A rigid sign bridges the grooves of a log wall, but every rivet must
+    // actually meet timber. The complete backing wall still owns the outline
+    // and opening checks; window trim, snow and loose props cannot support it.
+    private static bool TimberFastenersSupported(Node3D building,Vector3 point,Vector3 outward,Vector3 right)
+    {
+        var faces=Descendants(building).OfType<MeshInstance3D>()
+            .Where(m=>m.Mesh is not null&&m.IsVisibleInTree()&&StructuralTimber(m.Name.ToString()))
+            .SelectMany(m=>m.Mesh!.GetFaces().Select(p=>m.ToGlobal(p))).ToArray();
+        foreach(var fastener in FastenerPoints(new(point.Dot(right),point.Y)))
+        {
+            var origin=right*fastener.X+Vector3.Up*fastener.Y+outward*point.Dot(outward);
+            var supported=false;
+            for(var i=0;i+2<faces.Length;i+=3)
+            {
+                var hit=Geometry3D.RayIntersectsTriangle(origin,-outward,faces[i],faces[i+1],faces[i+2]);
+                if(hit.VariantType==Variant.Type.Nil||origin.DistanceTo(hit.AsVector3())>.09f)continue;
+                supported=true;break;
+            }
+            if(!supported)return false;
+        }
+        return true;
     }
 
     // Thin construction joints between vertical gable boards may sit behind a
@@ -320,10 +357,20 @@ internal static class AddressFacadeMount
             {
                 var a=mesh.GlobalTransform*raw[i];var b=mesh.GlobalTransform*raw[i+1];var c=mesh.GlobalTransform*raw[i+2];
                 var hi=Math.Max(a.Dot(outward),Math.Max(b.Dot(outward),c.Dot(outward)));
-                if(hi<=front+.002f||hi>depth+.30f)continue;
+                if(hi<=front+.002f)continue;
                 if(Math.Max(a.Y,Math.Max(b.Y,c.Y))<point.Y-HalfHeight||Math.Min(a.Y,Math.Min(b.Y,c.Y))>point.Y+HalfHeight)continue;
                 var ar=a.Dot(right);var br=b.Dot(right);var cr=c.Dot(right);
                 if(Math.Max(ar,Math.Max(br,cr))<cx-HalfWidth||Math.Min(ar,Math.Min(br,cr))>cx+HalfWidth)continue;
+                // A diagonal verge's bounds can overlap the plate while its
+                // actual triangle stays above it. Only the clipped surface
+                // beneath the plate may push it away from the wall.
+                var overlap=ClipDepth([a,b,c],right,cx-HalfWidth,true);
+                overlap=ClipDepth(overlap,right,cx+HalfWidth,false);
+                overlap=ClipDepth(overlap,Vector3.Up,point.Y-HalfHeight,true);
+                overlap=ClipDepth(overlap,Vector3.Up,point.Y+HalfHeight,false);
+                if(Area(overlap.Select(p=>new Vector2(p.Dot(right),p.Y)).ToList())<.00001)continue;
+                hi=overlap.Max(p=>p.Dot(outward));
+                if(hi<=front+.002f||hi>depth+.30f)continue;
                 front=hi;
             }
         }

@@ -1,0 +1,21 @@
+{
+  "geometry": "MPFB2.0.17 fuller-study.blend; source/licensing/recipe in docs/production/tamara_mvp_2026-09-26/aged-head-study/",
+  "albedoURL": "https://download.tuxfamily.org/makehuman/assets/1.1/base/skins/textures/old_lightskinned_female_diffuse.png",
+  "albedoSHA256": "00c45246c145562b917371e92de44a1fe394bc5f4bd91418addf24b6adff5e9d",
+  "albedoBytes": 4716109,
+  "license": "CC0 1.0 graphical assets; no legacy AGPL material imported",
+  "licenseClarification": "https://static.makehumancommunity.org/oldsite/faq/what_changed_regarding_the_license_in_2020.html",
+  "assetListing": "https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_assets.html",
+  "fittedAssetSHA256": "07dad698a5d67a80dc4dcd73e998d997973437c3b19c88c0f109ff4687b4d28b",
+  "finishing_2026_09_27": {
+    "faceAlbedoFactor": [
+      0.8,
+      0.68,
+      0.57,
+      1
+    ],
+    "hairColor": "a7a4a0",
+    "hairCrownSmooth": "6 native iterations at0.5 aboveZ1.66; preserved lower attachment; maximum peak reduction4mm; scalp clearance4mm",
+    "embeddedPNG": "unchanged"
+  }
+}

@@ -14,7 +14,6 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     private Label _source = null!;
     private Label _objective = null!;
     private VBoxContainer _tasks = null!;
-    private Label _vocabulary = null!;
     private Button _close = null!;
     private SourceExcerptSelection _excerpts = null!;
     private TabBar _tabs = null!;
@@ -43,7 +42,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         ? string.Join(" ", box.GetChildren().OfType<Label>().Select(label => label.Text))
         : string.Empty;
 
-    public string LearnedVocabularyText => _vocabulary?.Text ?? string.Empty;
+    public string LearnedVocabularyText => BuildWordSummary();
 
     private AudioStreamPlayer? _foley;
 
@@ -61,13 +60,13 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _source.AutowrapMode = TextServer.AutowrapMode.WordSmart;
         _objective = GetNode<Label>("Screen/Book/Layout/Overview/Contents/Objective");
         _tasks = GetNode<VBoxContainer>("Screen/Book/Layout/Overview/Contents/TaskList");
-        _vocabulary = GetNode<Label>("Screen/Book/Layout/Overview/Contents/Vocabulary");
         _close = GetNode<Button>("Screen/Book/Layout/Header/Close");
         _excerpts = SourceExcerptSelection.Attach(_body, _close);
-        var closeLabel = _close.Text;
-        _excerpts.SelectionModeChanged += selecting => _close.Text = selecting ? "Закрыть [J / Y]" : closeLabel;
+        _excerpts.SelectionModeChanged += _ => RefreshCloseHint();
+        RefreshCloseHint();
         BuildComparisonUi();
         BuildNotebookUi();
+        BuildVocabularyUi();
         _close.Pressed += Close;
         _entries.ItemSelected += SelectEntry;
         GetViewport().SizeChanged += RefitToViewport;
@@ -88,6 +87,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _tabs.AddThemeColorOverride("font_unselected_color", settings.HighContrast ? Colors.White : new Color("e5dbc7"));
         foreach (var picker in _sourcePickers) picker.GetPopup().AddThemeFontSizeOverride("font_size", tabFontSize);
         _notebookSection.GetPopup().AddThemeFontSizeOverride("font_size", tabFontSize);
+        _wordStatus.GetPopup().AddThemeFontSizeOverride("font_size", tabFontSize);
         _notesText.AddThemeFontSizeOverride("font_size", tabFontSize);
         _notesText.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("e5dbc7"));
         _title.AddThemeColorOverride("font_color", settings.HighContrast ? Colors.White : new Color("f0c46b"));
@@ -122,6 +122,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public void Open(RuntimeBridge bridge, string? selectedEntryId = null)
     {
+        RefreshCloseHint();
         if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
         _bridge = bridge;
         _bridge.RuntimeStateChanged += OnRuntimeStateChanged;
@@ -138,6 +139,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         SetPlayerModal(true);
         FocusCurrentPage();
     }
+
+    private void RefreshCloseHint() => _close.Text =
+        $"Закрыть {InputBindingService.ActionHint("journal", false)} / {InputBindingService.ActionHint("journal", true)}"
+        + (_excerpts.Selecting ? "" : " / [Esc]");
 
     public override void _ExitTree()
     {
@@ -188,22 +193,8 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         // fence quest keeps its own rows below, because that accident has
         // already happened.
         if (ArrivalObjectiveText() is { } arrivalObjective) objectiveTitles = [arrivalObjective];
-        var vocabulary = _bridge?.LearnedVocabulary() ?? [];
         RefreshTaskList(objectiveTitles, _bridge?.TamaraFenceSnapshotNow());
-        // A word the player only heard is written into the kernel as "guessed",
-        // and the kernel refuses to step a word back down that ladder. The
-        // journal must not read a heard word as a known one, so unconfirmed
-        // entries carry an explicit marker and the phrase is explained once.
-        var heardOnlyCount = vocabulary.Count(entry => entry.Status != "confirmed");
-        _vocabulary.Text = vocabulary.Count == 0
-            ? "ТАТАРСКИЕ СЛОВА\n—"
-            : "ТАТАРСКИЕ СЛОВА\n"
-              + string.Join(" · ", vocabulary.Select(entry => entry.Status == "confirmed"
-                  ? $"{entry.Term} — {entry.Meaning}"
-                  : $"{entry.Term} — {entry.Meaning} (услышано)"))
-              + (heardOnlyCount == 0
-                  ? string.Empty
-                  : "\n«услышано» — Айдар слышал слово, но ещё не проверил его значением.");
+        RefreshVocabularyPage();
         _entries.Clear();
         for (var index = 0; index < _projection.Count; index++)
         {
@@ -277,16 +268,16 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
         if (fence is { Repaired: true })
         {
-            AddTaskRow("✓", "Забор Тамары Геннадьевны починен.",
+            AddTaskRow("✓", "Доски для забора переданы Тамаре Геннадьевне.",
                 new Color(.62f, .72f, .62f), 17, indent: 12);
         }
         else if (fence is { Crashed: true })
         {
             AddTaskRow("•", $"Забор Тамары Геннадьевны — досок у Тамары: {fence.Delivered} / 6",
                 new Color(.86f, .82f, .72f), 18, indent: 12);
-            AddTaskRow("·", fence.Carried > 0
+            AddTaskRow("·", fence.Carried + fence.Delivered >= 6
                     ? $"Целых досок при себе: {fence.Carried} — отнести Тамаре Геннадьевне."
-                    : "Целые доски лежат у сараев и под навесом во дворе бабая.",
+                    : $"При себе: {fence.Carried}. Ищите доски у сараев и у придорожной поленницы по пути к дому бабая.",
                 new Color(.66f, .62f, .52f), 16, indent: 26);
         }
     }
@@ -464,7 +455,8 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void FocusCurrentPage()
     {
-        if (_tabs.CurrentTab == 4) _notesText.GrabFocus();
+        if (_tabs.CurrentTab == 5) _wordSearch.GrabFocus();
+        else if (_tabs.CurrentTab == 4) _notesText.GrabFocus();
         else if (_tabs.CurrentTab == 3) _tabs.GrabFocus();
         else if (_tabs.CurrentTab == 1) _sourcePickers[0].GrabFocus();
         else if (_tabs.CurrentTab == 2)
@@ -554,6 +546,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private async void Close()
     {
+        if (_notesSaving)
+        {
+            if (!await _notesSaveCompletion!.Task || !IsInsideTree() || !_screen.Visible) return;
+        }
         if (!await SaveNotebookDraftAsync()) return;
         _screen.Visible = false;
         _excerpts.Clear();

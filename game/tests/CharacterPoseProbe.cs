@@ -31,6 +31,8 @@ public partial class CharacterPoseProbe : Node
             AddChild(demo);
             for (var i = 0; i < 10; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             if (!await this.StartThroughMainMenuAsync(demo)) throw new InvalidOperationException("no start");
+            GD.Print($"pose-probe graphics: adapter={RenderingServer.GetVideoAdapterName()} type={RenderingServer.GetVideoAdapterType()} " +
+                     $"preset={GraphicsQuality.Preset} scale={GetViewport().Scaling3DScale} msaa={GetViewport().Msaa3D}");
             demo._UnhandledInput(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true });
             for (var i = 0; i < 30; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             var quest = TamaraFenceQuest.Current(GetTree())!;
@@ -106,13 +108,156 @@ public partial class CharacterPoseProbe : Node
         tamara.Visible = true;
         GeneratedCharacterKitDressing.PlayClip(tamara, "Idle");
         await Frames(6);
+        var cuffSubject = System.Environment.GetEnvironmentVariable("URMAN_POSE_CUFFS");
+        if (cuffSubject is "1" or "PhoneGuy")
+        {
+            var actor = cuffSubject == "PhoneGuy" ? guy : tamara;
+            var prefix = cuffSubject == "PhoneGuy" ? "PhoneGuy" : "Tamara";
+            var body = actor.FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>().First(mesh => mesh.Name == prefix + "_Body_LOD0");
+            var rig = body.GetNode<Skeleton3D>(body.Skeleton);
+            var pose = actor.FindChildren("*", nameof(AnimationPlayer), true, false)
+                .OfType<AnimationPlayer>().First(player => player.HasAnimation(prefix + "_Idle"));
+            foreach (var clip in new[] { "Idle", cuffSubject == "PhoneGuy" ? "Filming" : "Talk", "Walk" })
+            {
+                if (actor == guy) quest.SetGuyFilming(clip == "Filming");
+                if (!GeneratedCharacterKitDressing.PlayClip(actor, clip == "Filming" ? "Idle" : clip))
+                    throw new InvalidOperationException("Missing " + prefix + " clip: " + clip);
+                pose.Seek(.4, true);
+                pose.Pause();
+                await Frames(4);
+                await Shoot(actor.GlobalPosition + new Vector3(0, 1.35f, 2.4f),
+                    actor.GlobalPosition + new Vector3(0, 1.2f, 0), "cuffs_" + clip);
+                foreach (var side in new[] { "l", "r" })
+                {
+                    var hand = rig.FindBone("hand_" + side);
+                    if (hand < 0) throw new InvalidOperationException("Missing hand bone: " + side);
+                    var wrist = rig.GlobalTransform * rig.GetBoneGlobalPose(hand).Origin;
+                    await Shoot(wrist + new Vector3(Mathf.Sign(wrist.X - actor.GlobalPosition.X) * .3f, .08f, .4f),
+                        wrist, "cuff_" + clip + "_" + side);
+                }
+            }
+            return;
+        }
+        if (System.Environment.GetEnvironmentVariable("URMAN_POSE_LOOK") == "1")
+        {
+            var body = tamara.FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>().First(mesh => mesh.Name == "Tamara_Body_LOD0");
+            var rig = body.GetNode<Skeleton3D>(body.Skeleton);
+            var head = rig.FindBone("Head");
+            if (head < 0) throw new InvalidOperationException("Tamara rig has no Head bone.");
+            var basis = rig.GlobalBasis * rig.GetBoneGlobalRest(head).Basis;
+            GD.Print($"tamara-look: rest axes X={basis.X} Y={basis.Y} Z={basis.Z}");
+            var target = new Node3D { Name = "TamaraLookProbe" };
+            GetTree().Root.AddChild(target);
+            target.GlobalPosition = tamara.GlobalPosition + new Vector3(0, 1.56f, 3);
+            var look = new LookAtModifier3D
+            {
+                Name = "TamaraLook", BoneName = "Head",
+                ForwardAxis = basis.Z.Dot(tamara.GlobalBasis.Z) > 0
+                    ? SkeletonModifier3D.BoneAxis.PlusZ : SkeletonModifier3D.BoneAxis.MinusZ,
+                PrimaryRotationAxis = Vector3.Axis.Y, UseSecondaryRotation = false,
+                UseAngleLimitation = true, PrimaryLimitAngle = Mathf.DegToRad(35),
+                Duration = .25f
+            };
+            rig.AddChild(look);
+            look.TargetNode = look.GetPathTo(target);
+            foreach (var angle in new[] { 0, -25, 25 })
+            {
+                target.GlobalPosition = tamara.GlobalPosition + new Vector3(
+                    Mathf.Sin(Mathf.DegToRad(angle)) * 3, 1.56f, Mathf.Cos(Mathf.DegToRad(angle)) * 3);
+                await Frames(20);
+                await Shoot(tamara.GlobalPosition + new Vector3(0, 1.56f, 1.2f),
+                    tamara.GlobalPosition + new Vector3(0, 1.5f, 0), "look_" + angle);
+            }
+            return;
+        }
+        if (System.Environment.GetEnvironmentVariable("URMAN_POSE_QUALITY") == "1")
+        {
+            var pose = tamara.FindChildren("*", nameof(AnimationPlayer), true, false).OfType<AnimationPlayer>().First();
+            pose.Seek(.2, true);
+            pose.Pause();
+            foreach (var preset in new[] { "low", "medium", "high" })
+            {
+                PainterlyMaterialLibrary.SetGraphicsPreset(preset);
+                GraphicsQuality.Apply(GetViewport(), preset);
+                GetWindow().GrabFocus();
+                await Frames(20);
+                var timings = new List<double>();
+                var drawn = Engine.GetFramesDrawn();
+                var focused = GetWindow().HasFocus();
+                for (var frame = 0; frame < 120; frame++)
+                {
+                    var started = Time.GetTicksUsec();
+                    await Frames(1);
+                    timings.Add((Time.GetTicksUsec() - started) / 1000.0);
+                    focused &= GetWindow().HasFocus();
+                }
+                File.WriteAllText(Path.Combine(_output!, "quality_" + preset + ".json"),
+                    System.Text.Json.JsonSerializer.Serialize(new { preset, focused,
+                        drawn = Engine.GetFramesDrawn() - drawn, milliseconds = timings }));
+                if (GetViewport().World3D.Environment.SsaoEnabled != (preset != "low"))
+                    throw new InvalidOperationException("Village SSAO did not follow the selected preset: " + preset);
+                await Shoot(new(tamaraSpot.X, 1.35f, tamaraSpot.Z + 2.4f),
+                    tamaraSpot + new Vector3(0, 1.2f, 0), "quality_" + preset);
+                GD.Print($"pose-probe quality: preset={GraphicsQuality.Preset} scale={GetViewport().Scaling3DScale} msaa={GetViewport().Msaa3D}");
+            }
+            return;
+        }
         await Shoot(new(tamaraSpot.X, 1.35f, tamaraSpot.Z + 2.4f), tamaraSpot + new Vector3(0, 1.2f, 0), "tamara_idle");
+        await Shoot(tamara.GlobalPosition+new Vector3(0,1.56f,.85f), tamara.GlobalPosition+new Vector3(0,1.56f,0), "tamara_face_idle");
+        await Shoot(tamara.GlobalPosition + new Vector3(.85f, 1.56f, .06f),
+            tamara.GlobalPosition + new Vector3(0, 1.56f, 0), "tamara_face_profile");
+        await Shoot(tamara.GlobalPosition + new Vector3(.15f, 1.56f, -.85f),
+            tamara.GlobalPosition + new Vector3(0, 1.56f, 0), "tamara_hair_rear");
         GeneratedCharacterKitDressing.PlayClip(tamara, "Talk");
         await Frames(20);
         await Shoot(new(tamaraSpot.X, 1.35f, tamaraSpot.Z + 2.4f), tamaraSpot + new Vector3(0, 1.2f, 0), "tamara_talk");
+        await Shoot(tamara.GlobalPosition+new Vector3(.65f,1.56f,.75f), tamara.GlobalPosition+new Vector3(0,1.56f,0), "tamara_face_talk");
         GeneratedCharacterKitDressing.PlayClip(tamara, "Walk");
         await Frames(12);
         await Shoot(tamaraSpot + new Vector3(2.2f, 1.3f, .6f), tamaraSpot + new Vector3(0, 1.1f, 0), "tamara_walk");
+        // The shared hair bind correction also affects the other female heads.
+        foreach (var prefix in new[] { "Naila", "Alsu" })
+        {
+            tamara.Visible = false;
+            var actor = new Node3D { Name = prefix + "HairProbe", Position = tamara.GlobalPosition };
+            GetTree().Root.AddChild(actor);
+            var instance = GeneratedCharacterKitDressing.Attach(actor, prefix + "HairProbe", prefix, Vector3.Zero);
+            foreach (var clip in new[] { "Idle", "Talk" })
+            {
+                if (!GeneratedCharacterKitDressing.PlayClip(instance, clip))
+                    throw new InvalidOperationException("Missing " + prefix + " clip: " + clip);
+                await Frames(6);
+                await Shoot(actor.GlobalPosition + new Vector3(0, 1.48f, .95f),
+                    actor.GlobalPosition + new Vector3(0, 1.48f, 0), prefix + "_face_" + clip);
+            }
+            actor.Free();
+        }
+        tamara.Visible = true;
+        if (System.Environment.GetEnvironmentVariable("URMAN_POSE_MOTION") == "1")
+        {
+            _camera.GlobalPosition = tamaraSpot + new Vector3(1.35f, 1.15f, 2.7f);
+            _camera.LookAt(tamaraSpot + new Vector3(0, .85f, 0), Vector3.Up);
+            foreach (var clip in new[] { "Idle", "Talk", "Walk" })
+            {
+                if (!GeneratedCharacterKitDressing.PlayClip(tamara, clip))
+                    throw new InvalidOperationException("Missing Tamara clip: " + clip);
+                var timestamps = new List<ulong>();
+                var started = Time.GetTicksMsec();
+                do
+                {
+                    await ToSignal(GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
+                    await Act1StateFlowProof.WaitForRenderedFrameAsync(this, "tamara-motion/" + clip);
+                    timestamps.Add(Time.GetTicksMsec() - started);
+                    using var frame = GetViewport().GetTexture().GetImage();
+                    if (frame.SaveJpg(Path.Combine(_output!, $"motion_{clip}_{timestamps.Count:000}.jpg"), .9f) != Error.Ok)
+                        throw new IOException("Could not save Tamara motion frame.");
+                } while (Time.GetTicksMsec() - started < 3000);
+                File.WriteAllText(Path.Combine(_output!, $"motion_{clip}.json"),
+                    System.Text.Json.JsonSerializer.Serialize(timestamps));
+            }
+        }
         GD.Print($"pose-probe: frames -> {_output}");
     }
 
@@ -121,7 +266,8 @@ public partial class CharacterPoseProbe : Node
         _camera.GlobalPosition = position;
         _camera.LookAt(look, Vector3.Up);
         await Frames(3);
-        var image = GetViewport().GetTexture().GetImage();
+        await Act1StateFlowProof.WaitForRenderedFrameAsync(this, "pose-probe/" + name);
+        using var image = GetViewport().GetTexture().GetImage();
         image.Convert(Image.Format.Rgba8);
         var path = Path.Combine(_output!, name + ".png");
         image.SavePng(path);

@@ -42,10 +42,10 @@ public partial class TamaraFenceQuest : Node3D
 
     private static readonly (Vector3 At, float Yaw)[] BoardSpots =
     {
-        (new(-33.6f, 0f, 3.1f), 14f),    // under the babai yard firewood canopy
-        (new(-32.4f, 0f, 4.5f), -24f),   // ditto, second stack
-        (new(14.5f, 0f, -47.4f), 96f),   // west wall of the village-edge shed
-        (new(15.4f, 0f, -49.7f), 78f),   // shed's south corner
+        (new(-13.62f, 0f, -4.2f), 180f), // road-facing side of the existing west-street woodpile
+        (new(-14.8f, 0f, -3.55f), 90f),  // same woodpile, open side facing the house path
+        (new(14.5f, 0f, -45.9f), 96f),   // outside the village-edge shed's north wall
+        (new(16.4f, 0f, -45.9f), 78f),   // second stack outside the shed's north wall
         (new(-20.6f, 0f, -12.5f), 38f),  // perimeter west shed
         (new(17.5f, 0f, -10.1f), -118f)  // perimeter east shed
     };
@@ -58,13 +58,15 @@ public partial class TamaraFenceQuest : Node3D
     // any closer to the fence would be inside the car.
     private static readonly Vector3 GuyFilming = new(0.15f, 0f, -41.9f);
     internal static readonly Vector3 GuyFilmingSpot = GuyFilming;
-    private static readonly Vector3 GuyRest = new(13.9f, 0f, -46.9f);
+    private static readonly Vector3 GuyRest = new(13.2f, 0f, -45.7f);
 
     private readonly List<FencePanel> _panels = [];
     private readonly List<Node3D> _pillars = [];
     private readonly List<InteractionTarget> _boardTargets = [];
     private readonly List<Node3D> _boardVisuals = [];
     private readonly List<MeshInstance3D> _debris = [];
+    private readonly List<Tween> _fenceTweens = [];
+    private bool _crashPending;
     private Node3D _tamara = null!;
     private Node3D _guy = null!;
     private BoneAttachment3D? _phoneGrip;
@@ -90,6 +92,7 @@ public partial class TamaraFenceQuest : Node3D
         public required Node3D Root;
         public required StaticBody3D Body;
         public required MeshInstance3D Mesh;
+        public required Transform3D IntactTransform;
         public bool Broken;
     }
 
@@ -235,7 +238,7 @@ public partial class TamaraFenceQuest : Node3D
         var stoneDark = ConcreteDark();
         var snow = SnowMaterial();
         var rng = new RandomNumberGenerator { Seed = 61207 };
-        for (var z = FenceZStart; z <= FenceZEnd; z += .34f)
+        for (var z = FenceZStart; z >= FenceZEnd; z -= .34f)
         {
             var ground = Ground(z);
             var width = rng.RandfRange(.34f, .52f);
@@ -303,7 +306,7 @@ public partial class TamaraFenceQuest : Node3D
             Position = new(0, .9f, 0)
         });
         panelRoot.AddChild(body);
-        return new FencePanel { Root = panelRoot, Body = body, Mesh = mesh };
+        return new FencePanel { Root = panelRoot, Body = body, Mesh = mesh, IntactTransform = panelRoot.Transform };
     }
 
     /// <summary>Vertex-coloured boards in one merged mesh, the way the street
@@ -478,6 +481,25 @@ public partial class TamaraFenceQuest : Node3D
         var wood = new StandardMaterial3D { AlbedoColor = new Color("8a745c"), Roughness = .9f };
         var woodDark = new StandardMaterial3D { AlbedoColor = new Color("77644f"), Roughness = .92f };
         var snowMat = new StandardMaterial3D { AlbedoColor = new Color("e9edf2"), Roughness = 1f };
+        // Seat these flat props on the raised shoulder's exact triangles,
+        // which also supply its own SurfaceSupport contact.
+        var shoulder = _world?.FindChild("Grade_Street_West", true, false) as MeshInstance3D
+            ?? throw new InvalidOperationException("Missing roadside board snow support.");
+        var shoulderFaces = shoulder.Mesh.GetFaces();
+        float ShoulderHeight(Vector3 at)
+        {
+            var from = shoulder.ToLocal(root.ToGlobal(at + Vector3.Up * 3));
+            var to = shoulder.ToLocal(root.ToGlobal(at - Vector3.Up * 3));
+            var height = float.MinValue;
+            for (var i = 0; i < shoulderFaces.Length; i += 3)
+            {
+                var hit = Geometry3D.SegmentIntersectsTriangle(from, to, shoulderFaces[i], shoulderFaces[i + 1], shoulderFaces[i + 2]);
+                if (hit.VariantType != Variant.Type.Nil)
+                    height = Math.Max(height, root.ToLocal(shoulder.ToGlobal(hit.AsVector3())).Y);
+            }
+            if (height == float.MinValue) throw new InvalidOperationException("Roadside board is outside its snow support.");
+            return height;
+        }
         for (var index = 0; index < BoardSpots.Length; index++)
         {
             var (at, yaw) = BoardSpots[index];
@@ -485,28 +507,39 @@ public partial class TamaraFenceQuest : Node3D
             var spot = new Node3D { Name = $"BoardSpot_{index + 1}", Position = new(at.X, ground, at.Z) };
             boardsRoot.AddChild(spot);
 
-            // The takeable plank leans where a hand can reach it.
+            // Roadside boards lie beside the low logs; a two-metre upright
+            // plank cannot lean convincingly against that small pile.
+            var roadside = index < 2;
             var takeable = new Node3D { Name = "TakeablePlank", RotationDegrees = new(0, yaw, 0) };
             spot.AddChild(takeable);
+            if (roadside)
+            {
+                var along = takeable.Basis.Z * 1.025f;
+                var first = ShoulderHeight(at - along);
+                var last = ShoulderHeight(at + along);
+                spot.Position = new(at.X, (first + last) * .5f, at.Z);
+                takeable.Rotation = new(-Mathf.Atan2(last - first, 2.05f), Mathf.DegToRad(yaw), 0);
+            }
             var plank = new MeshInstance3D
             {
-                Mesh = new BoxMesh { Size = new(.16f, 2.05f, .05f), Material = wood },
-                Position = new(.16f, .78f, 0),
-                RotationDegrees = new(0, 0, -12f)
+                Mesh = new BoxMesh { Size = roadside ? new(.2f, .05f, 2.05f) : new(.16f, 2.05f, .05f), Material = wood },
+                Position = roadside ? new(0, .03f, 0) : new(.16f, .78f, 0),
+                RotationDegrees = roadside ? Vector3.Zero : new(0, 0, -12f)
             };
             takeable.AddChild(plank);
             takeable.AddChild(new MeshInstance3D
             {
-                Mesh = new BoxMesh { Size = new(.5f, .05f, .1f), Material = snowMat },
-                Position = new(.16f, 1.62f, .0f),
-                RotationDegrees = new(0, 0, -12f)
+                Mesh = new BoxMesh { Size = roadside ? new(.17f, .012f, .65f) : new(.5f, .05f, .1f), Material = snowMat },
+                Position = roadside ? new(0, .06f, -.5f) : new(.16f, 1.62f, .0f),
+                RotationDegrees = roadside ? Vector3.Zero : new(0, 0, -12f)
             });
 
             // Neighbouring lumber is permanent village dressing, never taken.
             var dressing = new Node3D { Name = "LumberDressing" };
             spot.AddChild(dressing);
             var rng = new RandomNumberGenerator { Seed = (ulong)(311 + index * 57) };
-            for (var extra = 0; extra < 2; extra++)
+            // The first two spots already sit beside the existing roadside pile.
+            for (var extra = 0; index >= 2 && extra < 2; extra++)
             {
                 var lying = new MeshInstance3D
                 {
@@ -528,10 +561,11 @@ public partial class TamaraFenceQuest : Node3D
                 Prompt = "Взять целую доску",
                 CollisionLayer = 4u,
                 CollisionMask = 0u,
-                Position = new(0, .8f, 0)
+                Position = new(0, roadside ? .15f : .8f, 0),
+                RotationDegrees = roadside ? new(0, yaw, 0) : Vector3.Zero
             };
             target.SetMeta("worldPropId", $"tamara/board/{index + 1}");
-            target.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = new(.9f, 1.2f, 1.0f) } });
+            target.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = roadside ? new(.6f, .4f, 2.2f) : new(.9f, 1.2f, 1.0f) } });
             spot.AddChild(target);
             var boardIndex = index;
             target.AfterDispatch = () => CommitBoardTakenAsync(boardIndex, takeable);
@@ -547,12 +581,19 @@ public partial class TamaraFenceQuest : Node3D
             DialogueId = "urman.chapter1:dialogue/tamara_fence_hand_in",
             CollisionLayer = 4u,
             CollisionMask = 0u,
-            Position = new(4.05f, Ground(4.05f, -44.2f) + .85f, -44.2f)
+            Position = new(4.05f, Ground(4.05f, -44.2f) + 1.2f, -44.2f)
         };
         _handInTarget.SetMeta("physicalOwner", "Tamara Gennadievna at her wicket");
         _handInTarget.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = new(1.1f, 1.8f, 1.0f) } });
         root.AddChild(_handInTarget);
         _handInTarget.AfterDispatch = HandInTransactionAsync;
+        _handInTarget.PresentationRepeatAvailable = () => TamaraFenceSnapshotNow() is { Repaired: true };
+        _handInTarget.PresentationRepeat = () =>
+        {
+            if (TamaraFenceSnapshotNow() is { Repaired: true }
+                && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController { ModalOpen: false })
+                _bridge?.OpenDialogueUi("urman.chapter1:dialogue/tamara_fence_after");
+        };
     }
 
     private async Task<bool> CommitBoardTakenAsync(int index, Node3D visual)
@@ -578,19 +619,25 @@ public partial class TamaraFenceQuest : Node3D
     {
         if (TamaraFenceSnapshotNow() is not { Repaired: false } snapshot) return;
         PresentBanner("Забор Тамары Геннадьевны",
-            snapshot.Carried >= 6 ? "Вернуться к Тамаре Геннадьевне" : "Целые доски во дворах деревни",
-            $"{snapshot.Carried} / 6");
+            snapshot.Carried + snapshot.Delivered >= 6 ? "Вернуться к Тамаре Геннадьевне" : "Целые доски во дворах деревни",
+            $"При себе: {snapshot.Carried} · У Тамары: {snapshot.Delivered} / 6");
     }
 
     private async Task<bool> HandInTransactionAsync()
     {
         if (_bridge is null) return false;
         var committed = await _bridge.TamaraFenceDeliverAsync();
+        if (committed)
+        {
+            if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+                FaceTowards(_tamara, player.GlobalPosition);
+            PresentBoardProgress();
+        }
         if (committed && TamaraFenceSnapshotNow() is { Delivered: 6 })
         {
-            PresentBanner("Забор Тамары Геннадьевны", "Забор отремонтирован", "6 / 6");
+            PresentBanner("Забор Тамары Геннадьевны", "Доски переданы. Тамара починит забор.", "6 / 6");
         }
-        return true;
+        return committed;
     }
 
     private SideQuestBannerUi? _banner;
@@ -624,22 +671,19 @@ public partial class TamaraFenceQuest : Node3D
         people.SetMeta("presentationOnly", true);
         root.AddChild(people);
 
-        _tamara = GeneratedCharacterKitDressing.Attach(people, "tamara", "Gulsina",
+        _tamara = GeneratedCharacterKitDressing.Attach(people, "tamara", "Tamara",
             new(TamaraRest.X, Ground(TamaraRest.X, TamaraRest.Z), TamaraRest.Z));
         _tamara.Name = "Npc_tamara";
-        TintKitParts(_tamara, "Gulsina",
-            ("Coat", "2f3a52"), ("Scarf", "cfc7b8"), ("Skirt", "3a4257"), ("Sash", "8c3f38"));
         FaceDirection(_tamara, Vector3.Left);
         _tamara.Visible = false;
 
-        _guy = GeneratedCharacterKitDressing.Attach(people, "phone_guy", "Rinat",
+        _guy = GeneratedCharacterKitDressing.Attach(people, "phone_guy", "PhoneGuy",
             new(GuyRest.X, Ground(GuyRest.X, GuyRest.Z), GuyRest.Z));
         _guy.Name = "Npc_phone_guy";
-        TintKitParts(_guy, "Rinat", ("Coat", "4c5566"), ("Sash", "2e333d"), ("Hat", "565f6e"));
         _guy.Visible = false;
         _guyAnimation = _guy.FindChildren("*", nameof(AnimationPlayer), true, false)
             .OfType<AnimationPlayer>()
-            .FirstOrDefault(player => player.HasAnimation("Rinat_Idle"));
+            .FirstOrDefault(player => player.HasAnimation("PhoneGuy_Idle"));
         foreach (var mesh in _guy.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
         {
             if (!mesh.Visible || !mesh.Name.ToString().EndsWith("_BootLeft_LOD0", StringComparison.Ordinal)) continue;
@@ -669,19 +713,6 @@ public partial class TamaraFenceQuest : Node3D
                 }
             }
             break;
-        }
-    }
-
-    private static void TintKitParts(Node3D actor, string prefix, params (string Part, string Hex)[] tints)
-    {
-        foreach (var mesh in actor.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
-        {
-            var name = mesh.Name.ToString();
-            foreach (var (part, hex) in tints)
-            {
-                if (!name.StartsWith($"{prefix}_{part}_", StringComparison.Ordinal)) continue;
-                mesh.MaterialOverride = new StandardMaterial3D { AlbedoColor = new Color(hex), Roughness = .92f };
-            }
         }
     }
 
@@ -781,45 +812,61 @@ public partial class TamaraFenceQuest : Node3D
     internal async Task<bool> HandleCrashAsync(VehicleController? vehicle, float speed, FencePanel panel, Vector3 impactPoint)
     {
         if (_bridge?.SessionIdentity is not { } session) return false;
-        if (_cutscene is not null) return false;
+        if (_cutscene is not null || _crashPending) return false;
         if (TamaraFenceSnapshotNow()?.Crashed == true) return false;
-
-        // The commit precedes every presentation: crash flag, quest gate and
-        // the broken-fence world state are one transaction, then the scene.
-        if (!await _bridge.TamaraFenceCrashAsync(impactPoint)) return false;
-        if (!ReferenceEquals(session, _bridge.SessionIdentity)) return false;
-        ApplyBreak(impactPoint);
-        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
-        if (player is null) return false;
-
-        _cutscene = new TamaraFenceCutscene(this, _bridge, session, player, vehicle, impactPoint);
-        _cutscene.AccelerateForTest(_cutsceneTestSpeed);
-        if (CutsceneShotListenerForTest is { } shotListener) _cutscene.SetShotListenerForTest(shotListener);
-        AddChild(_cutscene);
-        var watched = await _cutscene.RunAsync();
-        if (_cutscene is { } scene && GodotObject.IsInstanceValid(scene))
+        _crashPending = true;
+        TamaraFenceCutscene? scene = null;
+        try
         {
-            scene.QueueFree();
-        }
-        _cutscene = null;
-        if (watched && _bridge is { } bridge)
-        {
-            await bridge.DispatchWorldPropsAsync(new JsonArray
+            // Suppress projection while the transaction saves: otherwise its
+            // notification stages an instant break before the animated impact.
+            if (!await _bridge.TamaraFenceCrashAsync(impactPoint)) return false;
+            if (!IsCurrentSession(session)) return false;
+            ApplyBreak(impactPoint);
+            var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+            if (player is null) return false;
+
+            scene = new TamaraFenceCutscene(this, _bridge, session, player, vehicle, impactPoint);
+            _cutscene = scene;
+            scene.AccelerateForTest(_cutsceneTestSpeed);
+            if (CutsceneShotListenerForTest is { } shotListener) scene.SetShotListenerForTest(shotListener);
+            AddChild(scene);
+            var watched = await scene.RunAsync();
+            if (scene.InterruptedByLoad || !IsCurrentSession(session)) return false;
+            if (watched)
             {
-                new JsonObject { ["propId"] = RuntimeBridge.TamaraFenceStateId, ["cutsceneWatched"] = true }
-            });
-        }
+                await _bridge.DispatchWorldPropsAsync(new JsonArray
+                {
+                    new JsonObject { ["propId"] = RuntimeBridge.TamaraFenceStateId, ["cutsceneWatched"] = true }
+                });
+                if (!IsCurrentSession(session)) return false;
+            }
 
-        StageRestState();
-        if (player is { ModalOpen: true } livePlayer && GodotObject.IsInstanceValid(livePlayer))
-        {
-            // A load during the scene already restored its own controls.
-            livePlayer.SetModalOpen(false);
+            PresentQuestBanner();
+            await _bridge.SaveCheckpointAsync(force: true);
+            return IsCurrentSession(session);
         }
-        PresentQuestBanner();
-        await _bridge.SaveCheckpointAsync(force: true);
-        return true;
+        catch (Exception error)
+        {
+            GD.PushError("tamara-fence: accident presentation failed: " + error);
+            return false;
+        }
+        finally
+        {
+            if (scene is not null && GodotObject.IsInstanceValid(scene)) scene.QueueFree();
+            if (ReferenceEquals(_cutscene, scene)) _cutscene = null;
+            _crashPending = false;
+            if (IsCurrentSession(session))
+            {
+                if (TamaraFenceSnapshotNow() is { Crashed: true }) StageRestState();
+                OnRuntimeStateChanged();
+            }
+        }
     }
+
+    private bool IsCurrentSession(object session) => IsInsideTree() && !IsQueuedForDeletion()
+        && _bridge is not null && GodotObject.IsInstanceValid(_bridge)
+        && ReferenceEquals(session, _bridge.SessionIdentity);
 
     /// <summary>
     /// Panel shields topple over their own bottom edge: the struck shield goes
@@ -849,8 +896,11 @@ public partial class TamaraFenceQuest : Node3D
             _snowPuff?.Restart();
         }
 
-        UiFoley.PlayWorld(this, FenceCenter + Vector3.Up, "wood_tap");
-        UiFoley.PlayWorld(this, FenceCenter + Vector3.Up, "hollow_board");
+        if (animate)
+        {
+            UiFoley.PlayWorld(this, FenceCenter + Vector3.Up, "wood_tap");
+            UiFoley.PlayWorld(this, FenceCenter + Vector3.Up, "hollow_board");
+        }
         SetMeta("tamaraFenceBroken", true);
     }
 
@@ -875,6 +925,7 @@ public partial class TamaraFenceQuest : Node3D
         // Falling is a rotation about the footing, not a dropped prop: the
         // shield swings down, hits, and rocks back a touch before it rests.
         var tween = CreateTween();
+        _fenceTweens.Add(tween);
         tween.SetParallel(false);
         tween.TweenMethod(Callable.From((float t) =>
         {
@@ -931,6 +982,7 @@ public partial class TamaraFenceQuest : Node3D
             }
 
             var drop = CreateTween();
+            _fenceTweens.Add(drop);
             drop.SetTrans(Tween.TransitionType.Quad);
             drop.SetEase(Tween.EaseType.In);
             drop.TweenProperty(debris, "position", end, .62f + rng.RandfRange(0f, .2f))
@@ -979,6 +1031,7 @@ public partial class TamaraFenceQuest : Node3D
             _debris.Add(debris);
             if (!animate) continue;
             var slide = CreateTween();
+            _fenceTweens.Add(slide);
             slide.SetTrans(Tween.TransitionType.Cubic);
             slide.SetEase(Tween.EaseType.Out);
             slide.TweenProperty(debris, "position",
@@ -996,7 +1049,7 @@ public partial class TamaraFenceQuest : Node3D
         _guy.Visible = true;
         _guy.GlobalPosition = new(GuyRest.X, Ground(GuyRest.X, GuyRest.Z), GuyRest.Z);
         FaceTowards(_guy, BoardSpots[2].At with { Y = 0 });
-        _guyAnimation?.Play("Rinat_Idle");
+        GeneratedCharacterKitDressing.PlayClip(_guy, "Idle");
         SetGuyFilming(false);
     }
 
@@ -1051,7 +1104,7 @@ public partial class TamaraFenceQuest : Node3D
         if (!GodotObject.IsInstanceValid(phone) || !phone.IsInsideTree()) return;
         var neck = _guySkeleton.FindBone("neck_01");
         if (neck < 0) return;
-        var face = _guy.ToGlobal(_guySkeleton.GetBoneGlobalPose(neck).Origin);
+        var face = _guySkeleton.ToGlobal(_guySkeleton.GetBoneGlobalPose(neck).Origin);
         var toFace = face - phone.GlobalPosition;
         if (toFace.LengthSquared() < .0001f) return;
         phone.GlobalBasis = Basis.LookingAt(toFace.Normalized(), Vector3.Up);
@@ -1072,16 +1125,20 @@ public partial class TamaraFenceQuest : Node3D
         var rotation = new Basis(axis.Normalized(), current.AngleTo(wanted));
         var parent = skeleton.GetBoneParent(index);
         var parentGlobal = parent >= 0 ? GlobalBonePose(skeleton, parent) : Transform3D.Identity;
-        skeleton.SetBonePose(index,
-            parentGlobal.AffineInverse() * new Transform3D(rotation * global.Basis, global.Origin));
+        // Rotating a scaled global basis and decomposing it every frame adds
+        // shear to the local scale. Over a long take the arm stretches to NaN.
+        // Aim orientation only; the authored bone lengths/scales stay intact.
+        var local = parentGlobal.Basis.Orthonormalized().Inverse()
+            * rotation * global.Basis.Orthonormalized();
+        skeleton.SetBonePoseRotation(index, local.GetRotationQuaternion().Normalized());
     }
 
     private static void NudgeBone(Skeleton3D skeleton, string bone, Basis extra)
     {
         var index = skeleton.FindBone(bone);
         if (index < 0) return;
-        var pose = skeleton.GetBonePose(index);
-        skeleton.SetBonePose(index, new Transform3D(extra * pose.Basis, pose.Origin));
+        skeleton.SetBonePoseRotation(index,
+            (extra.GetRotationQuaternion() * skeleton.GetBonePoseRotation(index)).Normalized());
     }
 
     /// <summary>Walks the parent chain instead of trusting the skeleton's cached
@@ -1108,15 +1165,25 @@ public partial class TamaraFenceQuest : Node3D
     private void OnRuntimeStateChanged()
     {
         if (_bridge is null) return;
-        if (_bridge.SessionIdentity is { } session && !ReferenceEquals(_session, session))
+        var sessionChanged = !ReferenceEquals(_session, _bridge.SessionIdentity);
+        if (sessionChanged)
         {
-            _session = session;
+            (GetTree().GetFirstNodeInGroup("side_quest_banner") as SideQuestBannerUi)?.Dismiss();
+            _session = _bridge.SessionIdentity;
+            _cutscene?.RequestSkip();
             _questBannerShown = false;
             _remarkSaid = false;
             _callbackDone = false;
+            _callbackFilming = false;
+            if (_callbackTween is not null && GodotObject.IsInstanceValid(_callbackTween)
+                && _callbackTween.IsValid()) _callbackTween.Kill();
+            _callbackTween = null;
+            _repairDeferredByLoad = false;
+            SetGuyFilming(false);
+            RestoreFence(repaired: false);
         }
 
-        if (_cutscene is not null) return;
+        if (!sessionChanged && (_cutscene is not null || _crashPending)) return;
         var snapshot = TamaraFenceSnapshotNow();
         if (snapshot is null) return;
 
@@ -1124,17 +1191,35 @@ public partial class TamaraFenceQuest : Node3D
         {
             // Loaded into a crashed world whose scene never played this
             // session: the breach simply exists, people at their rest spots.
-            ApplyBreak(FenceCenter, animate: false);
+            ApplyBreak(SavedImpactPoint(), animate: false);
         }
 
-        if (snapshot.Repaired && !_repairApplied)
+        if (sessionChanged && snapshot.Repaired)
         {
             // A completed quest loads straight into the mended fence.
             ApplyRepair();
         }
 
-        StageFromSnapshot(snapshot);
+        // Unrelated journal/dialogue events must not reset a resident's facing or clip.
+        if (sessionChanged || _tamara.Visible != snapshot.Crashed) StageFromSnapshot(snapshot);
         ProjectBoards(snapshot);
+    }
+
+    private Vector3 SavedImpactPoint()
+    {
+        var props = _bridge!.SelectWorldProps();
+        if (props.ValueKind == System.Text.Json.JsonValueKind.Object
+            && props.TryGetProperty(RuntimeBridge.TamaraFenceStateId, out var fence)
+            && fence.ValueKind == System.Text.Json.JsonValueKind.Object
+            && fence.TryGetProperty("impactX", out var x) && x.ValueKind == System.Text.Json.JsonValueKind.Number
+            && x.TryGetSingle(out var impactX)
+            && fence.TryGetProperty("impactZ", out var z) && z.ValueKind == System.Text.Json.JsonValueKind.Number
+            && z.TryGetSingle(out var impactZ)
+            && float.IsFinite(impactX) && float.IsFinite(impactZ))
+        {
+            return new Vector3(impactX, 0f, impactZ);
+        }
+        return FenceCenter;
     }
 
     private void StageFromSnapshot(RuntimeBridge.TamaraFenceSnapshot snapshot)
@@ -1147,22 +1232,18 @@ public partial class TamaraFenceQuest : Node3D
         GeneratedCharacterKitDressing.PlayClip(_tamara, "Idle");
         _guy.GlobalPosition = new(GuyRest.X, Ground(GuyRest.X, GuyRest.Z), GuyRest.Z);
         FaceTowards(_guy, BoardSpots[2].At with { Y = 0 });
+        GeneratedCharacterKitDressing.PlayClip(_guy, "Idle");
     }
 
     private void ProjectBoards(RuntimeBridge.TamaraFenceSnapshot snapshot)
     {
-        var props = _bridge is null ? default : _bridge.SelectWorldProps();
+        if (_handInTarget is not null)
+            _handInTarget.Prompt = snapshot.Repaired ? "Поговорить с Тамарой Геннадьевной" : "Отдать доски Тамаре Геннадьевне";
         for (var index = 0; index < _boardVisuals.Count; index++)
         {
-            _boardVisuals[index].Visible = snapshot.Crashed && !snapshot.Repaired;
-            if (props.ValueKind == System.Text.Json.JsonValueKind.Object
-                && props.TryGetProperty($"tamara/board/{index + 1}", out var record)
-                && record.ValueKind == System.Text.Json.JsonValueKind.Object
-                && record.TryGetProperty("taken", out var taken)
-                && taken.ValueKind == System.Text.Json.JsonValueKind.True)
-            {
-                _boardVisuals[index].Visible = false;
-            }
+            var available = snapshot.Crashed && !snapshot.Repaired && _bridge?.TamaraFenceBoardTaken(index + 1) != true;
+            _boardVisuals[index].Visible = available;
+            _boardTargets[index].SetPresentationEnabled(available);
         }
     }
 
@@ -1172,7 +1253,7 @@ public partial class TamaraFenceQuest : Node3D
         var snapshot = TamaraFenceSnapshotNow();
         if (snapshot is not { Repaired: true }) return;
         var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
-        if (player is null) return;
+        if (player is null || player.ModalOpen) return;
         // The repair lands when the yard is unattended or after a fresh load;
         // the player never watches boards jump back into place.
         if (player.GlobalPosition.DistanceTo(FenceCenter) < 15f && !_repairDeferredByLoad) return;
@@ -1184,11 +1265,20 @@ public partial class TamaraFenceQuest : Node3D
     /// <summary>The whole run is repainted when Tamara fixes it: fresh boards
     /// replace the old peach-pink shields, every panel stands straight again
     /// and the debris is carted off. The pillars never moved.</summary>
-    private void ApplyRepair()
+    private void ApplyRepair() => RestoreFence(repaired: true);
+
+    private void RestoreFence(bool repaired)
     {
-        _repairApplied = true;
+        foreach (var tween in _fenceTweens)
+        {
+            if (GodotObject.IsInstanceValid(tween) && tween.IsValid()) tween.Kill();
+        }
+        _fenceTweens.Clear();
+        if (_snowPuff is not null) _snowPuff.Emitting = false;
+        _repairApplied = repaired;
         foreach (var debris in _debris.Where(debris => GodotObject.IsInstanceValid(debris)).ToArray())
         {
+            debris.Visible = false;
             debris.QueueFree();
         }
         _debris.Clear();
@@ -1196,21 +1286,14 @@ public partial class TamaraFenceQuest : Node3D
         for (var index = 0; index < _panels.Count; index++)
         {
             var panel = _panels[index];
-            panel.Mesh.QueueFree();
-            panel.Root.RotationDegrees = Vector3.Zero;
-            panel.Root.Position = new Vector3(FenceFaceX, panel.Root.Position.Y, panel.Root.Position.Z);
-            panel.Mesh = new MeshInstance3D
-            {
-                Name = $"PanelBoards_{index}",
-                Mesh = PanelMesh(50 + index, span - .24f, weathered: false),
-                CastShadow = GeometryInstance3D.ShadowCastingSetting.On
-            };
-            panel.Root.AddChild(panel.Mesh);
+            panel.Root.Transform = panel.IntactTransform;
+            panel.Mesh.Mesh = PanelMesh((repaired ? 50 : 0) + index, span - .24f, weathered: !repaired);
             panel.Broken = false;
             panel.Body.CollisionLayer = 1u;
-            panel.Body.SetMeta("tamaraFenceRepaired", true);
+            panel.Body.SetMeta("tamaraFenceRepaired", repaired);
         }
-        SetMeta("tamaraFenceRepaired", true);
+        SetMeta("tamaraFenceRepaired", repaired);
+        SetMeta("tamaraFenceBroken", false);
     }
 
     // ---- ambient life ---------------------------------------------------------
@@ -1221,7 +1304,7 @@ public partial class TamaraFenceQuest : Node3D
         var snapshot = TamaraFenceSnapshotNow();
         if (snapshot is null) return;
         var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
-        if (player is null) return;
+        if (player is null || player.ModalOpen) return;
 
         if (!_remarkSaid && snapshot is { Crashed: true, Repaired: false, Delivered: < 6 }
             && !player.VehicleControlled
@@ -1234,7 +1317,9 @@ public partial class TamaraFenceQuest : Node3D
         if (!_callbackDone && snapshot is { Repaired: true }
             && player.VehicleControlled
             && player.GlobalPosition.DistanceTo(FenceCenter) < 14f
-            && player.Velocity.Length() < 3.2f)
+            && (GetTree().GetFirstNodeInGroup("vehicle_fleet") as VehicleFleet)?.Occupied is { } vehicle
+            && vehicle.Driver == player && vehicle.Definition.Id == "babay-niva"
+            && Mathf.Abs(vehicle.Speed) < 3.2f)
         {
             _callbackDone = true;
             PlayQuietCallback();
@@ -1247,14 +1332,16 @@ public partial class TamaraFenceQuest : Node3D
     }
 
     private bool _callbackFilming;
+    private Tween? _callbackTween;
 
     /// <summary>The one quiet callback: the Niva rolls past the mended fence and
     /// the guy simply raises his phone again. No line, no UI, no new state.</summary>
     private async void PlayQuietCallback()
     {
-        if (!_guy.Visible) return;
+        if (!_guy.Visible || _bridge?.SessionIdentity is not { } session) return;
         _callbackFilming = true;
         var tween = CreateTween();
+        _callbackTween = tween;
         var restYaw = _guy.RotationDegrees.Y;
         var toCar = (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)?.GlobalPosition ?? _guy.GlobalPosition;
         var direction = toCar - _guy.GlobalPosition;
@@ -1262,8 +1349,10 @@ public partial class TamaraFenceQuest : Node3D
         tween.TweenProperty(_guy, "rotation:y", Mathf.DegToRad(targetYaw), .5f);
         SetGuyFilming(true);
         await ToSignal(GetTree().CreateTimer(4.5), SceneTreeTimer.SignalName.Timeout);
+        if (!IsCurrentSession(session)) return;
         SetGuyFilming(false);
         var back = CreateTween();
+        _callbackTween = back;
         back.TweenProperty(_guy, "rotation:y", Mathf.DegToRad(restYaw), .7f);
         _callbackFilming = false;
     }
@@ -1271,14 +1360,20 @@ public partial class TamaraFenceQuest : Node3D
     private async void PlayAmbientRemark()
     {
         var strip = CaptionStrip.Ensure(GetTree());
-        if (_bridge is null) return;
+        if (_bridge?.SessionIdentity is not { } session) return;
+        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        bool CanSpeak() => IsCurrentSession(session) && GodotObject.IsInstanceValid(player)
+            && !player!.ModalOpen && player.GlobalPosition.DistanceTo(_guy.GlobalPosition) < 7f;
         var guy = _bridge.ResolveText("urman.chapter1:text/tamara-remark-guy-boards");
         var aidar = _bridge.ResolveText("urman.chapter1:text/tamara-remark-aidar-yes");
         var dry = _bridge.ResolveText("urman.chapter1:text/tamara-remark-guy-dry");
         FaceTowards(_guy, (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)?.GlobalPosition ?? _guy.GlobalPosition);
-        await strip.ShowAsync("ПАРЕНЬ С ТЕЛЕФОНОМ", guy, 1.6f);
-        await strip.ShowAsync("АЙДАР", aidar, 1.0f);
-        await strip.ShowAsync("ПАРЕНЬ С ТЕЛЕФОНОМ", dry, 2.4f);
+        await strip.ShowAsync("ПАРЕНЬ С ТЕЛЕФОНОМ", guy, 1.6f, () => !CanSpeak());
+        if (!CanSpeak()) return;
+        await strip.ShowAsync("АЙДАР", aidar, 1.0f, () => !CanSpeak());
+        if (!CanSpeak()) return;
+        await strip.ShowAsync("ПАРЕНЬ С ТЕЛЕФОНОМ", dry, 2.4f, () => !CanSpeak());
+        if (!IsCurrentSession(session)) return;
         FaceTowards(_guy, BoardSpots[2].At with { Y = 0 });
     }
 
@@ -1299,10 +1394,7 @@ public partial class TamaraFenceQuest : Node3D
         }
     }
 
-    internal void MarkRepairDeferredByLoadForTest()
-    {
-        _repairDeferredByLoad = true;
-    }
+    internal void MarkRepairDeferredByLoadForTest() => _repairDeferredByLoad = true;
 
     internal bool RemarkSaid => _remarkSaid;
     internal bool QuietCallbackDone => _callbackDone;

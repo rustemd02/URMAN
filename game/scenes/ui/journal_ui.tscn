@@ -101,7 +101,7 @@ text = "ЖУРНАЛ АЙДАРА"
 [node name="Close" type="Button" parent="Screen/Book/Layout/Header"]
 layout_mode = 2
 focus_mode = 2
-text = "Закрыть [J / Y / Esc]"
+text = "Закрыть"
 
 [node name="WorkArea" type="HSplitContainer" parent="Screen/Book/Layout"]
 layout_mode = 2
@@ -170,10 +170,3 @@ autowrap_mode = 2
 [node name="TaskList" type="VBoxContainer" parent="Screen/Book/Layout/Overview/Contents"]
 layout_mode = 2
 theme_override_constants/separation = 8
-
-[node name="Vocabulary" type="Label" parent="Screen/Book/Layout/Overview/Contents"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.55, 0.68, 0.62, 1)
-theme_override_font_sizes/font_size = 17
-text = "ТАТАРСКИЕ СЛОВА\n—"
-autowrap_mode = 2

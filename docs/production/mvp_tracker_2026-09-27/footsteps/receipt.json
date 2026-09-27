@@ -1,0 +1,51 @@
+{
+  "probe": "act1-footstep-lag-probe",
+  "ticks": 1500,
+  "player_end": {
+    "X": 38.81368,
+    "Z": 7.543
+  },
+  "on_road": {
+    "samples": 557,
+    "steps": 57,
+    "step_interval_ticks": {
+      "median": 10,
+      "min": 8,
+      "max": 275
+    },
+    "missed_step_gaps": 2,
+    "mean_speed": 3.3938959,
+    "snow_cpu_ms": {
+      "update_mean": 4.836091382405721,
+      "update_max": 32.0921,
+      "redraw_mean": 1.9259495511669658,
+      "mesh_mean": 2.908985996409338,
+      "rebuilt_triangles_max": 98766
+    }
+  },
+  "off_road": {
+    "samples": 943,
+    "steps": 86,
+    "step_interval_ticks": {
+      "median": 10,
+      "min": 9,
+      "max": 223
+    },
+    "missed_step_gaps": 4,
+    "mean_speed": 3.0283635,
+    "snow_cpu_ms": {
+      "update_mean": 2.8898594909862196,
+      "update_max": 13.2564,
+      "redraw_mean": 1.825030222693538,
+      "mesh_mean": 1.0636091198303277,
+      "rebuilt_triangles_max": 88981
+    }
+  },
+  "note": "update/redraw/mesh are SnowTrampleField main-thread CPU ms metas; step gap = step interval above 2x median",
+  "assemblySha256": "55b4cb8e9a03255265ae1c83810446ba587963adaaf9d29674ff285864457cb5",
+  "limitations": [
+    "Headless only; no rendered frame or audible output acceptance.",
+    "StepSummary groups discontinuous road segments; maximum gaps may include time on another surface. Do not interpret missed_step_gaps as audio dropouts.",
+    "Existing probe has no active voice count or GC measurements; diagnosis remains partial."
+  ]
+}

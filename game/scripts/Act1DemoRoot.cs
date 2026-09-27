@@ -292,9 +292,14 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
         UpdateIntroControls();
         UpdateIntroFlyover(delta);
-        if (_player?.ModalOpen == true && _routeCue is not null && _routeCue.Modulate.A > 0f)
+        if (_routeCueTween is { } cueTween && cueTween.IsValid() && _routeCue is not null)
         {
-            HideRouteCue();
+            // As with side-quest banners, keep the unread time for gameplay.
+            // Killing this tween would leave the cached text permanently hidden.
+            var modal = _player?.ModalOpen == true;
+            _routeCue.Visible = !modal;
+            if (modal) cueTween.Pause();
+            else cueTween.Play();
         }
 
         if (_endingShown || !_endingPending || MainMenuVisible || IntroVisible || _pauseMenu?.IsOpen == true)
@@ -1489,8 +1494,14 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
         _routeCueTween?.Kill();
         _routeCue.Text = text;
+        _routeCue.Visible = _player?.ModalOpen != true;
         _routeCue.Modulate = new Color(1, 1, 1, 0);
         _routeCueTween = CreateTween();
+        var currentTween = _routeCueTween;
+        currentTween.Finished += () =>
+        {
+            if (_routeCueTween == currentTween) _routeCueTween = null;
+        };
         _routeCueTween.TweenProperty(_routeCue, "modulate", Colors.White, 0.22)
             .SetTrans(Tween.TransitionType.Sine)
             .SetEase(Tween.EaseType.Out);
@@ -1498,12 +1509,14 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _routeCueTween.TweenProperty(_routeCue, "modulate", new Color(1, 1, 1, 0), 0.42)
             .SetTrans(Tween.TransitionType.Sine)
             .SetEase(Tween.EaseType.In);
+        if (!_routeCue.Visible) _routeCueTween.Pause();
     }
 
     private void HideRouteCue()
     {
         _routeCueTween?.Kill();
         _routeCueTween = null;
+        _lastRouteCue = string.Empty;
         if (_routeCue is not null && GodotObject.IsInstanceValid(_routeCue))
         {
             _routeCue.Modulate = new Color(1, 1, 1, 0);

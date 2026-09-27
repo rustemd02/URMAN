@@ -14,9 +14,14 @@ GODOT="$URMAN_ROOT/.tools/godot/Godot_mono.app/Contents/MacOS/Godot"
 GUARD=${URMAN_GUARD:-$URMAN_ROOT/eng/protected_run.py}
 # A smoke that throws inside async void never quits; fail it instead of hanging the run.
 SMOKE_TIMEOUT=${URMAN_SMOKE_TIMEOUT:-900}
+shared_session=false
+if [ "${1:-}" = "--shared-session" ]; then
+  shared_session=true
+  shift
+fi
 
 if [ "$#" -lt 1 ]; then
-  echo "usage: $0 <smoke-scene> [smoke-scene ...]" >&2
+  echo "usage: $0 [--shared-session] <smoke-scene> [smoke-scene ...]" >&2
   echo "       a scene may be a bare name (act1_audio_settings_smoke_test) or a res:// path" >&2
   exit 2
 fi
@@ -35,6 +40,22 @@ cd "$URMAN_ROOT"
 }
 
 status=0
+if [ "$shared_session" = true ]; then
+  # Cold-load checks need distinct processes to share only the guarded saves.
+  python3 "$GUARD" --clean --timeout "$SMOKE_TIMEOUT" /bin/sh -eu -c '
+    godot=$1
+    shift
+    for scene do
+      case "$scene" in
+        res://*) path=$scene ;;
+        *) path="res://tests/$scene.tscn" ;;
+      esac
+      echo "run-smoke-guarded shared session: $path"
+      "$godot" --headless --display-driver macos --path game "$path"
+    done
+  ' shared-smoke "$GODOT" "$@"
+  exit $?
+fi
 for scene in "$@"; do
   case "$scene" in
     res://*) path=$scene ;;

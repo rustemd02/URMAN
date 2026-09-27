@@ -61,8 +61,11 @@ public sealed class DeterminismAndSaveTests
         }
     }
 
-    [Fact]
-    public async Task AtomicStore_UsesBackupWhenNewestPrimaryIsSemanticallyInvalid()
+    [Theory]
+    [InlineData("\"fieldOfView\": 75", "\"fieldOfView\": 999")]
+    [InlineData("\"currentZone\": \"forest\"", "\"currentZone\": \"\"")]
+    [InlineData("\"spawnPoint\": \"entry\"", "\"spawnPoint\": \"bad location\"")]
+    public async Task AtomicStore_UsesBackupWhenNewestPrimaryIsSemanticallyInvalid(string original, string malformed)
     {
         var directory = Path.Combine(Path.GetTempPath(), $"urman-save-test-{Guid.NewGuid():N}");
         var store = new AtomicSaveGameStore(directory);
@@ -71,7 +74,8 @@ public sealed class DeterminismAndSaveTests
             await store.SaveAsync("slot-1", CreateSave("house", 1), TestContext.Current.CancellationToken);
             await store.SaveAsync("slot-1", CreateSave("forest", 2), TestContext.Current.CancellationToken);
             var invalid = await File.ReadAllTextAsync(store.SlotPath("slot-1"), TestContext.Current.CancellationToken);
-            invalid = invalid.Replace("\"fieldOfView\": 75", "\"fieldOfView\": 999", StringComparison.Ordinal);
+            Assert.Contains(original, invalid, StringComparison.Ordinal);
+            invalid = invalid.Replace(original, malformed, StringComparison.Ordinal);
             await File.WriteAllTextAsync(store.SlotPath("slot-1"), invalid, TestContext.Current.CancellationToken);
 
             var loaded = await store.LoadAsync("slot-1", CampaignFingerprint, TestContext.Current.CancellationToken);

@@ -77,9 +77,9 @@
   "schemaVersion": 1,
   "id": "urman.chapter1:text/quest-tamara-fence-banner-done",
   "value": {
-   "default": "Забор Тамары Геннадьевны отремонтирован",
+   "default": "Доски для забора переданы Тамаре Геннадьевне",
    "translations": {
-    "ru": "Забор Тамары Геннадьевны отремонтирован"
+    "ru": "Доски для забора переданы Тамаре Геннадьевне"
    }
   },
   "purpose": "ui"
@@ -117,9 +117,9 @@
    }
   },
   "summary": {
-   "default": "Айдар въехал Нивой в забор Тамары Геннадьевны на обратной улице. Доски нашлись по соседним дворам, забор встал на место.",
+   "default": "Айдар въехал Нивой в забор Тамары Геннадьевны на обратной улице. Он принёс шесть целых досок из соседних дворов. Тамара взяла ремонт на себя.",
    "translations": {
-    "ru": "Айдар въехал Нивой в забор Тамары Геннадьевны на обратной улице. Доски нашлись по соседним дворам, забор встал на место."
+    "ru": "Айдар въехал Нивой в забор Тамары Геннадьевны на обратной улице. Он принёс шесть целых досок из соседних дворов. Тамара взяла ремонт на себя."
    }
   },
   "initialStatus": "hidden",
@@ -777,6 +777,15 @@
        "stateKey": "fence_repaired",
        "value": true
       }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "board_taken_1",
+       "value": true
+      }
      }
     ],
     "effects": [
@@ -784,6 +793,12 @@
       "op": "npc.set-state",
       "characterId": "urman.chapter1:character/tamara",
       "stateKey": "board_1",
+      "value": true
+     },
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "board_taken_1",
       "value": true
      }
     ],
@@ -818,6 +833,15 @@
        "stateKey": "fence_repaired",
        "value": true
       }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "board_taken_2",
+       "value": true
+      }
      }
     ],
     "effects": [
@@ -825,6 +849,12 @@
       "op": "npc.set-state",
       "characterId": "urman.chapter1:character/tamara",
       "stateKey": "board_2",
+      "value": true
+     },
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "board_taken_2",
       "value": true
      }
     ],
@@ -859,6 +889,15 @@
        "stateKey": "fence_repaired",
        "value": true
       }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "board_taken_3",
+       "value": true
+      }
      }
     ],
     "effects": [
@@ -866,6 +905,12 @@
       "op": "npc.set-state",
       "characterId": "urman.chapter1:character/tamara",
       "stateKey": "board_3",
+      "value": true
+     },
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "board_taken_3",
       "value": true
      }
     ],
@@ -900,6 +945,15 @@
        "stateKey": "fence_repaired",
        "value": true
       }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "board_taken_4",
+       "value": true
+      }
      }
     ],
     "effects": [
@@ -907,6 +961,12 @@
       "op": "npc.set-state",
       "characterId": "urman.chapter1:character/tamara",
       "stateKey": "board_4",
+      "value": true
+     },
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "board_taken_4",
       "value": true
      }
     ],
@@ -941,6 +1001,15 @@
        "stateKey": "fence_repaired",
        "value": true
       }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "board_taken_5",
+       "value": true
+      }
      }
     ],
     "effects": [
@@ -948,6 +1017,12 @@
       "op": "npc.set-state",
       "characterId": "urman.chapter1:character/tamara",
       "stateKey": "board_5",
+      "value": true
+     },
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "board_taken_5",
       "value": true
      }
     ],
@@ -982,6 +1057,15 @@
        "stateKey": "fence_repaired",
        "value": true
       }
+     },
+     {
+      "op": "not",
+      "condition": {
+       "op": "npc.state",
+       "characterId": "urman.chapter1:character/tamara",
+       "stateKey": "board_taken_6",
+       "value": true
+      }
      }
     ],
     "effects": [
@@ -989,6 +1073,12 @@
       "op": "npc.set-state",
       "characterId": "urman.chapter1:character/tamara",
       "stateKey": "board_6",
+      "value": true
+     },
+     {
+      "op": "npc.set-state",
+      "characterId": "urman.chapter1:character/tamara",
+      "stateKey": "board_taken_6",
       "value": true
      }
     ],
@@ -1061,6 +1151,36 @@
     "worldLocations": [
      "village_day"
     ]
+   }
+  ]
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:text/tamara-fence-after",
+  "value": {
+   "default": "Спасибо за доски. В следующий раз за рулём внимательнее.",
+   "translations": {
+    "ru": "Спасибо за доски. В следующий раз за рулём внимательнее."
+   }
+  },
+  "purpose": "dialogue"
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:dialogue/tamara_fence_after",
+  "participantRoles": [
+   "aidar",
+   "tamara"
+  ],
+  "startNodeId": "thanks",
+  "nodes": [
+   {
+    "id": "thanks",
+    "speakerRole": "tamara",
+    "textId": "urman.chapter1:text/tamara-fence-after",
+    "conditions": [],
+    "effects": [],
+    "choices": []
    }
   ]
  }

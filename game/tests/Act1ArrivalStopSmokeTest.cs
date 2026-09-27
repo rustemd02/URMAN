@@ -222,8 +222,18 @@ public partial class Act1ArrivalStopSmokeTest : Node
             if (state.TryGetProperty(key, out var value)) result[key] = JsonNode.Parse(value.GetRawText());
         return result;
     }
-    private void CheckStory(string label) => Require(_bridge.ActiveSceneId == _initialScene
-        && JsonNode.DeepEquals(_initialStory, Story()), label);
+    private void CheckStory(string label)
+    {
+        var expected = (_initialStory ?? throw new InvalidOperationException("Missing initial story.")).DeepClone();
+        // ACT1-LANG.2 records words actually read as hypotheses, never confirmed
+        // knowledge. The renamed timetable contains урман; proximity must not learn it.
+        if (Opened())
+            expected["vocabulary"]!["urman.chapter1:vocabulary/tt_urman"] = new JsonObject
+            {
+                ["status"] = "guessed", ["sourceId"] = DocumentId
+            };
+        Require(_bridge.ActiveSceneId == _initialScene && JsonNode.DeepEquals(expected, Story()), label);
+    }
     private void CheckUnopened(string label)
     {
         Require(!Opened() && Entries() == 0 && !_documents.IsOpen && !_player.ModalOpen, label);

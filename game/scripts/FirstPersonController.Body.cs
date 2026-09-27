@@ -19,7 +19,12 @@ public partial class FirstPersonController
     private global::Godot.Collections.Array<Rid> _bodyFloorExclude = null!;
 
     private sealed record BodyLeg(int Thigh, int Knee, int Ankle, Transform3D ThighRest,
-        Transform3D KneeRest, Transform3D AnkleRest, Vector3 Sole, float UpperLength, float LowerLength, float Phase);
+        Transform3D KneeRest, Transform3D AnkleRest, Vector3 Sole, float UpperLength, float LowerLength, float Phase)
+    {
+        public Transform3D? TurnPlant;
+        public Transform3D TurnFrom, TurnTarget;
+        public float TurnProgress = 1f;
+    }
 
     internal int VisibleBodyMeshCount { get; private set; }
     internal Vector3[] VisibleBodySoles => _bodyLegs.Select(leg =>
@@ -154,7 +159,7 @@ public partial class FirstPersonController
             var weights = new float[points.Length * 4];
             for (var point = 0; point < points.Length; point++)
             {
-                var upper = Mathf.SmoothStep(.90f, 1.10f, (toSkeleton * points[point]).Y);
+                var upper = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.90f, 1.10f, (toSkeleton * points[point]).Y));
                 bones[point * 4] = bind; bones[point * 4 + 1] = upperBind;
                 weights[point * 4] = 1f - upper; weights[point * 4 + 1] = upper;
             }
@@ -209,7 +214,7 @@ public partial class FirstPersonController
         void Emit(int ring, int point)
         {
             var vertex = rings[ring][point % sides];
-            var lower = 1f - Mathf.SmoothStep(.42f, .53f, vertex.Y);
+            var lower = 1f - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.42f, .53f, vertex.Y));
             builder.SetUV(new(point / (float)sides, 1f - vertex.Y));
             builder.SetBones(new[] { 0, 1, 2, 0 });
             builder.SetWeights(ring == 0 ? new[] { 0f, 0f, 1f, 0f } : new[] { 1f - lower, lower, 0f, 0f });
@@ -266,6 +271,7 @@ public partial class FirstPersonController
     {
         _bodyPreviousFeet = GlobalPosition;
         _bodyGait = _bodyStride = 0;
+        foreach (var leg in _bodyLegs) leg.TurnPlant = null;
     }
 
     /// <summary>Metres of travel per full two-foot stride cycle. Half of it is
@@ -278,6 +284,46 @@ public partial class FirstPersonController
         var parent = _bodySkeleton.GetBoneParent(bone);
         var parentPose = parent >= 0 ? _bodySkeleton.GetBoneGlobalPose(parent) : Transform3D.Identity;
         _bodySkeleton.SetBonePose(bone, parentPose.AffineInverse() * pose);
+    }
+
+    private void UpdateTurnPlants(bool stationary)
+    {
+        foreach (var leg in _bodyLegs)
+        {
+            if (!stationary) { leg.TurnPlant = null; leg.TurnProgress = 1; continue; }
+            if (leg.TurnPlant is null)
+            {
+                leg.TurnPlant = _bodySkeleton.GlobalTransform * new Transform3D(Basis.Identity, ProjectBodyFoot(leg.AnkleRest.Origin));
+                leg.TurnProgress = 1;
+            }
+        }
+        if (!stationary || _bodyLegs.Any(leg => leg.TurnProgress < 1)) return;
+        // Keep one foot planted in the world while the other catches up with
+        // the torso. A small look adjustment needs no step; a real pivot does.
+        BodyLeg? next = null;
+        var largestTurn = Mathf.DegToRad(25f);
+        foreach (var leg in _bodyLegs)
+        {
+            var turn = Mathf.Acos(Mathf.Clamp(leg.TurnPlant!.Value.Basis.Z.Normalized()
+                .Dot(_bodySkeleton.GlobalBasis.Z.Normalized()), -1f, 1f));
+            if (turn <= largestTurn) continue;
+            next = leg; largestTurn = turn;
+        }
+        if (next is null) return;
+        next.TurnFrom = next.TurnPlant!.Value;
+        next.TurnTarget = _bodySkeleton.GlobalTransform * new Transform3D(Basis.Identity, ProjectBodyFoot(next.AnkleRest.Origin));
+        next.TurnProgress = 0;
+    }
+
+    private Vector3 ProjectBodyFoot(Vector3 foot)
+    {
+        var at = _bodySkeleton.ToGlobal(foot);
+        using var query = PhysicsRayQueryParameters3D.Create(at + Vector3.Up * .22f,
+            at - Vector3.Up * .38f, CollisionMask, _bodyFloorExclude);
+        var hit = GetWorld3D().DirectSpaceState.IntersectRay(query);
+        if (hit.Count > 0 && hit["normal"].AsVector3().Y > .70f)
+            foot.Y = _bodySkeleton.ToLocal(hit["position"].AsVector3()).Y + .095f;
+        return foot;
     }
 
     private void UpdateVisibleBody(double delta, bool moving)
@@ -294,9 +340,10 @@ public partial class FirstPersonController
         var forwardLength = forward.Length();
         var forwardShare = distance > .000001f && forwardLength > .000001f
             ? Mathf.Clamp(movement.Dot(forward) / (forwardLength * distance), -1f, 1f) : 0f;
-        var cycleShare = forwardShare >= 0f
-            ? Mathf.Lerp(.35f, 1f, forwardShare)
-            : Mathf.Lerp(.35f, -1f, -forwardShare);
+        // Interpolate magnitude separately: blending .35 to -1 would freeze
+        // the gait on a shallow backward diagonal despite real travel.
+        var cycleShare = Mathf.Lerp(.35f, 1f, Mathf.Abs(forwardShare))
+            * (forwardShare < 0f ? -1f : 1f);
         var planarSpeed = (float)delta > 0f ? distance / (float)delta : 0f;
         var grounded = IsOnFloor() && !IsClimbingLadder;
         if (grounded) _bodyGait = ((_bodyGait + distance * cycleShare / GaitCycleMeters) % 1f + 1f) % 1f;
@@ -309,7 +356,20 @@ public partial class FirstPersonController
             : 0f;
         _bodyStride = Mathf.MoveToward(_bodyStride, strideTarget, (float)delta * 1.2f);
         _bodyCrouch = Mathf.MoveToward(_bodyCrouch, IsCrouching ? 1 : 0, (float)delta * 9f);
+        UpdateTurnPlants(grounded && !walking && distance < .0005f && _bodyStride < .001f
+            && _bodyCrouch < .001f && !_modalOpen);
         var hipShift = new Vector3(0, -.27f * _bodyCrouch, -.10f * _bodyCrouch);
+        // Turning the hips over planted feet needs a little knee bend. Keep
+        // both anchors within the real leg reach instead of dragging them
+        // inward with the final IK clamp as the torso rotates away.
+        foreach (var leg in _bodyLegs.Where(leg => leg.TurnPlant is not null))
+        {
+            var foot = _bodySkeleton.ToLocal(leg.TurnPlant!.Value.Origin);
+            var flat = new Vector2(foot.X - leg.ThighRest.Origin.X, foot.Z - leg.ThighRest.Origin.Z);
+            var reach = leg.UpperLength + leg.LowerLength - .01f;
+            var height = Mathf.Sqrt(Math.Max(0, reach * reach - flat.LengthSquared()));
+            hipShift.Y = Math.Min(hipShift.Y, foot.Y + height - leg.ThighRest.Origin.Y);
+        }
         _bodySkeleton.SetBonePosePosition(_bodySpine, _bodySpineRest + hipShift);
         SetBodyGlobalPose(_bodyUpperCoat, new(Basis.Identity.Scaled(new Vector3(1, 1f - .60f * _bodyCrouch, 1)),
             _bodyUpperCoatRest.Origin + hipShift));
@@ -317,19 +377,26 @@ public partial class FirstPersonController
         {
             var phase = (_bodyGait + leg.Phase) % 1f;
             var wave = Mathf.Sin(phase * Mathf.Tau);
-            var foot = leg.AnkleRest.Origin + new Vector3(0,
-                Math.Max(0, wave) * _bodyStride * .40f, -Mathf.Cos(phase * Mathf.Tau) * _bodyStride);
-            if (IsOnFloor() && !IsClimbingLadder)
+            var foot = leg.AnkleRest.Origin + new Vector3(0, 0, -Mathf.Cos(phase * Mathf.Tau) * _bodyStride);
+            var footBasis = Basis.Identity;
+            var turnLift = 0f;
+            if (leg.TurnPlant is { } plant)
             {
-                var at = _bodySkeleton.ToGlobal(foot);
-                using var query = PhysicsRayQueryParameters3D.Create(at + Vector3.Up * .22f,
-                    at - Vector3.Up * .38f, CollisionMask, _bodyFloorExclude);
-                var hit = GetWorld3D().DirectSpaceState.IntersectRay(query);
-                if (hit.Count > 0 && hit["normal"].AsVector3().Y > .70f)
-                    foot.Y = _bodySkeleton.ToLocal(hit["position"].AsVector3()).Y + .095f
-                        + Math.Max(0, wave) * _bodyStride * .40f;
+                if (leg.TurnProgress < 1)
+                {
+                    leg.TurnProgress = Math.Min(1, leg.TurnProgress + (float)delta / .20f);
+                    plant = leg.TurnFrom.InterpolateWith(leg.TurnTarget, Mathf.SmoothStep(0, 1, leg.TurnProgress));
+                    leg.TurnPlant = plant;
+                    turnLift = Mathf.Sin(leg.TurnProgress * Mathf.Pi) * .045f / _bodySkeleton.GlobalBasis.Scale.Y;
+                }
+                var localPlant = _bodySkeleton.GlobalTransform.AffineInverse() * plant;
+                foot = localPlant.Origin;
+                footBasis = localPlant.Basis;
             }
+            if (IsOnFloor() && !IsClimbingLadder)
+                foot = ProjectBodyFoot(foot);
             else foot.Y += .06f;
+            foot.Y += Math.Max(0, wave) * _bodyStride * .40f + turnLift;
             var hip = leg.ThighRest.Origin + hipShift;
             var offset = foot - hip;
             var reach = Mathf.Clamp(offset.Length(), .05f, leg.UpperLength + leg.LowerLength - .001f);
@@ -344,7 +411,7 @@ public partial class FirstPersonController
             var shinTurn = new Quaternion((leg.AnkleRest.Origin - leg.KneeRest.Origin).Normalized(), (foot - knee).Normalized());
             SetBodyGlobalPose(leg.Thigh, new(new Basis(thighTurn) * leg.ThighRest.Basis, hip));
             SetBodyGlobalPose(leg.Knee, new(new Basis(shinTurn), knee));
-            SetBodyGlobalPose(leg.Ankle, new(Basis.Identity, foot));
+            SetBodyGlobalPose(leg.Ankle, new(footBasis, foot));
         }
     }
 }

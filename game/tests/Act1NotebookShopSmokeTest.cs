@@ -52,9 +52,10 @@ public partial class Act1NotebookShopSmokeTest : Node
             _player.ApplyAccessibilitySettings(enlarged);
             AccessibilityPresentation.ApplyToTree(GetTree(), enlarged);
             var savedNote = await CheckNotebookAsync();
-            await CheckShopAsync(savedNote);
+            var notebookOnly = OS.GetEnvironment("URMAN_NOTEBOOK_ONLY") == "1";
+            if (!notebookOnly) await CheckShopAsync(savedNote);
             GD.Print(JsonSerializer.Serialize(new { test = "act1-notebook-shop", status = "pass",
-                checks = _checks, physicalShopUse = "tea on the existing home tray; batteries and stove are separate checks",
+                checks = _checks, physicalShopUse = notebookOnly ? "not-run (notebook-only scope)" : "tea on the existing home tray; batteries and stove are separate checks",
                 humanPlaytime = "not-run", visual = DisplayServer.GetName() == "headless" ? "not-run" : "captured-if-requested" }));
             exit = 0;
         }
@@ -114,6 +115,8 @@ public partial class Act1NotebookShopSmokeTest : Node
             editor.InsertTextAtCaret(failedText);
             RecordNotebookState("before-immediate-save", editor, save, status);
             save.EmitSignal(BaseButton.SignalName.Pressed);
+            Input.ParseInputEvent(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+            Input.ParseInputEvent(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = false });
             await WaitFor(() => !save.Disabled, "expected disk failure");
             await Frames(2);
             RecordNotebookState("after-disk-failure", editor, save, status);
@@ -150,11 +153,14 @@ public partial class Act1NotebookShopSmokeTest : Node
         }
 
         save.EmitSignal(BaseButton.SignalName.Pressed);
+        Require(save.Disabled, "retry-save-is-in-flight-before-Escape");
+        Input.ParseInputEvent(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
+        Input.ParseInputEvent(new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = false });
         await WaitFor(() => !save.Disabled, "same-text disk retry");
         RecordNotebookState("after-same-text-retry", editor, save, status);
         Require(status.Text == "Записано", "same-text-retry-reaches-real-save-store");
-        close.EmitSignal(BaseButton.SignalName.Pressed);
-        await WaitFor(() => !screen.Visible, "close saved notes");
+        await WaitFor(() => !screen.Visible, "one Escape during save closes after that save");
+        Require(!_player.ModalOpen, "Escape-during-save-releases-player-control");
         Require(await _bridge.LoadSlotAsync(RuntimeBridge.CheckpointSlot), "load-notebook-retry-checkpoint");
         _journal.Open(_bridge);
         await Frames(2);

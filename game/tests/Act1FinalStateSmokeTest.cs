@@ -863,7 +863,7 @@ internal static class Act1StateFlowProof
         var physicsBefore = Engine.GetPhysicsFrames();
         var window = owner.GetWindow();
         var arguments = OS.GetCmdlineArgs();
-        var forceBackgroundCapture = DisplayServer.GetName() != "headless" && !window.HasFocus()
+        var forceBackgroundCapture = DisplayServer.GetName() != "headless"
             && arguments.Contains("--urman-smoke-background-input", StringComparer.Ordinal)
             && arguments.Any(argument => argument.StartsWith("res://tests/", StringComparison.Ordinal)
                 && argument.EndsWith(".tscn", StringComparison.Ordinal));
@@ -877,12 +877,11 @@ internal static class Act1StateFlowProof
             var deadline = Task.Delay(5000);
             if (forceBackgroundCapture)
             {
-                // macOS may stop drawing an occluded native window while its
-                // process/physics loop continues. This explicit test opt-in
+                // Focus may be lost after the request, while process/physics
+                // continue. Do not gate this explicit test opt-in on a focus snapshot; it
                 // requests one actual viewport draw on the main thread. Keep
                 // the real post-draw signal and readback as evidence.
-                GD.Print($"state-final-render-sync-forced: label={label} forced screenshot render after native focus loss; one focus request + ForceDraw(false); no foreground or performance claim");
-                window.GrabFocus();
+                GD.Print($"state-final-render-sync-forced: label={label} explicit background screenshot render; ForceDraw(false) without changing focus; no foreground or performance claim");
                 RenderingServer.ForceDraw(false);
             }
             var completed = await Task.WhenAny(drawn.Task, deadline);

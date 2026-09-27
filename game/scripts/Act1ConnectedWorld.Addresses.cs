@@ -135,8 +135,11 @@ public partial class Act1ConnectedWorld
                 // exterior right-hand walls. It is separate from the door axis.
                 signOutward=surface.GlobalBasis*Vector3.Right;signOutward.Y=0;signOutward=signOutward.Normalized();
             }
-            var mounted=AddressFacadeMount.TryFind(node,door,signOutward,this,out var sign,out var mountOwner,out var mountFailure,signSurface);
-            if(!mounted)
+            node.SetMeta("addressSignDoor",door);
+            node.SetMeta("addressSignPreferredOutward",signOutward);
+            var mounted=AddressFacadeMount.TryFind(node,door,signOutward,this,out var sign,out var mountedOutward,out var mountOwner,out var mountFailure,signSurface);
+            if(mounted)signOutward=mountedOutward;
+            else
                 _addressImportIssues.Add(new("SIGN_MOUNT_NOT_FOUND",addressId,node.GetPath()+": "+mountFailure));
             node.SetMeta("addressSignMountAvailable",mounted);
             node.SetMeta("addressSignMountOwner",mountOwner);
@@ -214,6 +217,36 @@ public partial class Act1ConnectedWorld
             source.SetMeta("addressParcelOwnershipEvidence",binding.Evidence);
             RegisterAddressInheritedBuilding(source,"act1/outbuilding/"+binding.Source,binding.Primary,"shed");
         }
+    }
+
+    private void ReconcileAddressSignsAfterFrontages()
+    {
+        // Frontages need the imported registry, but can obscure a mount chosen
+        // before their meshes existed. Reuse the same geometry policy after
+        // construction; keep every still-supported sign exactly where it was.
+        var sources=FindDescendants<Node3D>(this)
+            .Where(n=>n.HasMeta("address_id")&&n.HasMeta("addressSignDoor"))
+            .ToDictionary(n=>n.GetMeta("address_id").AsString(),StringComparer.Ordinal);
+        foreach(var sign in _addressSigns.ToArray())
+        {
+            if(!sources.TryGetValue(sign.AddressId,out var source))continue;
+            var surface=source.HasMeta("addressSignSurfaceName")?source.GetMeta("addressSignSurfaceName").AsString():null;
+            if(AddressFacadeMount.Inspect(source,sign.GlobalPosition,sign.GlobalBasis.Z,this,surface).Supported)continue;
+            if(!AddressFacadeMount.TryFind(source,source.GetMeta("addressSignDoor").AsVector3(),
+                source.GetMeta("addressSignPreferredOutward").AsVector3(),this,
+                out var point,out var outward,out var owner,out var failure,surface))
+            {
+                _addressImportIssues.Add(new("SIGN_MOUNT_OCCLUDED",sign.AddressId,failure));
+                source.SetMeta("addressSignMountAvailable",false);
+                _addressSigns.Remove(sign);
+                sign.QueueFree();
+                continue;
+            }
+            sign.GlobalPosition=point;
+            sign.GlobalBasis=new Basis(Vector3.Up,Mathf.Atan2(outward.X,outward.Z));
+            source.SetMeta("addressSignMountOwner",owner);
+        }
+        SetMeta("addressImportIssues",_addressImportIssues.Count);
     }
 
     private void ImportAddressBuilding(AddressBuildingRegistration r)

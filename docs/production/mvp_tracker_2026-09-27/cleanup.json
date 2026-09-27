@@ -1,0 +1,20 @@
+{
+  "removed": [
+    {
+      "path": "/tmp/urman-h037-access",
+      "bytes": 2035336,
+      "fileCount": 7
+    },
+    {
+      "path": "/tmp/urman-mvp-footsteps",
+      "bytes": 8910,
+      "fileCount": 1
+    },
+    {
+      "path": "/tmp/urman-mvp-settings",
+      "bytes": 27369,
+      "fileCount": 4
+    }
+  ],
+  "reason": "Completed owned runs; retained receipts and logs checked byte-for-byte before deletion."
+}

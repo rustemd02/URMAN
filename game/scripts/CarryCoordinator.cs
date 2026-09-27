@@ -292,7 +292,7 @@ public partial class CarryCoordinator : Node
             changes.Add(new JsonObject { ["propId"] = prop.AssemblyKey, ["solved"] = false });
         _approvedHeldPose = (prop.ItemId, heldPose);
         return await _bridge!.DispatchWorldCustodyAsync(Transfer(prop, "world", "player"), changes);
-    });
+    }, clearFeedbackOnSuccess: true);
 
     private Task<bool> PlaceAsync() => CommitAsync(async () =>
     {
@@ -341,8 +341,8 @@ public partial class CarryCoordinator : Node
             if (committed)
             {
                 ApplyWorldState();
-                // A placed object must not retain its preceding failed-drop
-                // message. Other actions keep their fresh mechanism results.
+                // Successful pickup/placement supersedes the preceding refusal.
+                // Other actions keep their fresh mechanism results.
                 if (clearFeedbackOnSuccess) { _feedback = string.Empty; _feedbackUntil = 0; }
             }
             else if (Time.GetTicksMsec() >= _feedbackUntil) Feedback("Не получилось. Предмет остался на месте.");

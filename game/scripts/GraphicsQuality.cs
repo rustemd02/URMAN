@@ -4,7 +4,7 @@ namespace Urman.Godot;
 
 /// <summary>
 /// What each graphics preset costs beyond materials. "low" is for weak and
-/// integrated GPUs: FSR upscaling from a lower render scale, hard shadows from
+/// lower-power integrated GPUs: FSR upscaling from a lower render scale, hard shadows from
 /// a smaller atlas over a shorter distance, coarser mesh LOD, no SSAO. Medium
 /// and high keep the look the scenes were authored at; medium's scale and MSAA
 /// are the declared startup contract.
@@ -15,13 +15,15 @@ public static class GraphicsQuality
     public static bool Low => Preset == "low";
 
     /// <summary>
-    /// First-run preset: integrated and software GPUs start on low so the game
-    /// is playable before the player finds the setting; everything else medium.
+    /// Apple silicon's unified-memory GPU reports IntegratedGpu; that does not
+    /// make it a low-end adapter. Other integrated and software GPUs retain low.
     /// </summary>
     public static string DefaultPreset()
     {
         var adapter = RenderingServer.GetVideoAdapterType();
-        return adapter is RenderingDevice.DeviceType.IntegratedGpu or RenderingDevice.DeviceType.Cpu ? "low" : "medium";
+        var appleSilicon = RenderingServer.GetVideoAdapterName().StartsWith("Apple M", StringComparison.Ordinal);
+        return adapter == RenderingDevice.DeviceType.Cpu
+            || (adapter == RenderingDevice.DeviceType.IntegratedGpu && !appleSilicon) ? "low" : "medium";
     }
 
     public static void Apply(Viewport viewport, string preset)
@@ -55,9 +57,13 @@ public static class GraphicsQuality
     }
 
     /// <summary>Environment effects the preset may switch off; called again whenever a zone rebuilds its environment.</summary>
-    public static void ConfigureEnvironment(global::Godot.Environment environment)
+    public static void ConfigureEnvironment(global::Godot.Environment environment, bool? authoredSsao = null)
     {
-        if (Low) environment.SsaoEnabled = false;
+        // Remember the scene's intent, not the result of the previous preset.
+        const string key = "graphicsAuthoredSsao";
+        var enabled = authoredSsao ?? environment.GetMeta(key, environment.SsaoEnabled).AsBool();
+        environment.SetMeta(key, enabled);
+        environment.SsaoEnabled = enabled && !Low;
     }
 
     public static void ConfigureSun(DirectionalLight3D sun)

@@ -162,6 +162,7 @@ public partial class StyleBenchmarkZone : Node3D
             TonemapMode = global::Godot.Environment.ToneMapper.Filmic,
             TonemapExposure = night ? 1.02f : fapInterior ? 1.04f : zirat ? 0.96f : 0.98f
         };
+        GraphicsQuality.ConfigureEnvironment(environment, authoredSsao: interior);
         AddChild(new WorldEnvironment { Environment = environment, Name = "WorldEnvironment" });
 
         if (!interior)

@@ -721,53 +721,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     // the invalidation points, keeping the physics prompt path allocation-free.
     private void RefreshInteractionHints()
     {
-        var keyboardHint = "[Key]";
-        var gamepadHint = "[Gamepad]";
-        if (!InputMap.HasAction(InteractionAction))
-        {
-            _keyboardInteractionHint = keyboardHint;
-            _gamepadInteractionHint = gamepadHint;
-            return;
-        }
-
-        InputEventKey? keyboard = null;
-        InputEventJoypadButton? gamepadButton = null;
-        InputEventJoypadMotion? gamepadAxis = null;
-        foreach (var inputEvent in InputMap.ActionGetEvents(InteractionAction))
-        {
-            switch (inputEvent)
-            {
-                case InputEventKey key when keyboard is null:
-                    keyboard = key;
-                    break;
-                case InputEventJoypadButton button when gamepadButton is null:
-                    gamepadButton = button;
-                    break;
-                case InputEventJoypadMotion axis when gamepadAxis is null:
-                    gamepadAxis = axis;
-                    break;
-            }
-        }
-
-        if (keyboard is not null)
-        {
-            var keyLabel = OS.GetKeycodeString(keyboard.PhysicalKeycode);
-            if (!string.IsNullOrWhiteSpace(keyLabel) && keyLabel != nameof(Key.None))
-            {
-                keyboardHint = $"[{keyLabel}]";
-            }
-        }
-
-        if (gamepadButton is not null)
-        {
-            gamepadHint = $"[{gamepadButton.ButtonIndex}]";
-        }
-        else if (gamepadAxis is not null)
-        {
-            gamepadHint = "[Axis]";
-        }
-
-        _keyboardInteractionHint = keyboardHint;
-        _gamepadInteractionHint = gamepadHint;
+        _keyboardInteractionHint = InputBindingService.ActionHint(InteractionAction, false);
+        _gamepadInteractionHint = InputBindingService.ActionHint(InteractionAction, true);
     }
 }

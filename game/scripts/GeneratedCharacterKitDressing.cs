@@ -18,7 +18,7 @@ public static class GeneratedCharacterKitDressing
     /// until their foot rigs are ported.
     /// </summary>
     public const string HumanScenePath = "res://assets/generated/urman_character_kit_v2.glb";
-    private static readonly HashSet<string> HumanPrefixes = new(StringComparer.Ordinal) { "Mansur", "Gulsina", "Naila", "TimurHazrat", "Alsu", "Rinat", "Resident" };
+    private static readonly HashSet<string> HumanPrefixes = new(StringComparer.Ordinal) { "Mansur", "Gulsina", "Naila", "TimurHazrat", "Alsu", "Rinat", "Resident", "Tamara", "PhoneGuy" };
     private static PackedScene? _humanKit;
 
     public static bool UsesHumanKit(string prefix) => HumanPrefixes.Contains(prefix);
@@ -168,7 +168,7 @@ public static class GeneratedCharacterKitDressing
     /// narrative state. The caller supplies the suffix used by the Blender
     /// source (for example, <c>Idle</c> or <c>Tension</c>).
     /// </summary>
-    public static bool PlayClip(Node3D instance, string clipSuffix)
+    public static bool PlayClip(Node3D instance, string clipSuffix, double blendSeconds = -1)
     {
         var prefix = instance.GetMeta("characterPrefix").AsString();
         if (prefix.Length == 0 || clipSuffix.Length == 0)
@@ -183,7 +183,7 @@ public static class GeneratedCharacterKitDressing
             return false;
         }
 
-        player.Play(clip);
+        player.Play(clip, blendSeconds);
         instance.SetMeta("animationClip", clip);
         instance.SetMeta("animationStatus", $"godot-animationplayer-{clipSuffix.ToLowerInvariant()}-playing");
         return true;

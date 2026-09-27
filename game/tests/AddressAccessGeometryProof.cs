@@ -524,8 +524,8 @@ public static class AddressAccessGeometryProof
                     if(supported)blockedViews?.Add(new(source.Name.ToString(),leaf.GetPath().ToString(),feet,eye,centre,
                         view.Matches,blocked));
                 }
-                var canMount = AddressFacadeMount.TryFind(source, centre, outward, world, out var mount, out var mountOwner, out var mountFailure);
-                var coverage = canMount ? AddressFacadeMount.Inspect(source, mount, outward, world) : null;
+                var canMount = AddressFacadeMount.TryFind(source, centre, outward, world, out var mount, out var mountedOutward, out var mountOwner, out var mountFailure);
+                var coverage = canMount ? AddressFacadeMount.Inspect(source, mount, mountedOutward, world) : null;
                 var worldCorners = (from x in new[] { 0, 1 } from y in new[] { 0, 1 } from z in new[] { 0, 1 }
                     select leaf.GlobalTransform * (bounds.Position + new Vector3(bounds.Size.X * x, bounds.Size.Y * y, bounds.Size.Z * z))).ToArray();
                 candidates.Add(new { label, leaf = leaf.GetPath().ToString(), productionPrimary = leaf == productionLeaf,
@@ -539,7 +539,7 @@ public static class AddressAccessGeometryProof
                         expectedDoorAssembly=leaf==shedLeaf?shedDoorParts.ToArray():new[]{leaf.GetPath().ToString()},
                         interactionRayLength = rayLength, eyeToLeaf = eye.DistanceTo(centre),
                         existingLeafVisibleAndInRange = supported && view.Matches && passesKnownVisibleObstruction && eye.DistanceTo(centre) <= rayLength },
-                    mount = new { canMount, point = canMount ? P(mount) : null, mountOwner, mountFailure, coverage,
+                    mount = new { canMount, point = canMount ? P(mount) : null, outward = canMount ? P(mountedOutward) : null, mountOwner, mountFailure, coverage,
                         requiredForThisBuilding=shedLeaf is null,existingPlateMoved = false, plateWasCreated = false },
                     numberingProposal=standalone&&shedLeaf is null?StandaloneNumberingProposal(registry,target,manifest.RootElement):null,
                     comparisonConditionsSatisfied = supported && reached && view.Matches && passesKnownVisibleObstruction && eye.DistanceTo(centre) <= rayLength
@@ -556,11 +556,12 @@ public static class AddressAccessGeometryProof
                     var wallCentre=wall.GlobalTransform*wall.Mesh!.GetAabb().GetCenter();
                     var outward=(wall.GlobalBasis*Vector3.Right).Normalized();
                     if(outward.Dot(wallCentre-source.GlobalPosition)<0)outward=-outward;
-                    var found=AddressFacadeMount.TryFind(source,seniCentre,outward,world,out var at,out var owner,out var reason,wallName);
-                    var coverage=found?AddressFacadeMount.Inspect(source,at,outward,world,wallName):null;
+                    var found=AddressFacadeMount.TryFind(source,seniCentre,outward,world,out var at,out var mountedOutward,out var owner,out var reason,wallName);
+                    var coverage=found?AddressFacadeMount.Inspect(source,at,mountedOutward,world,wallName):null;
                     var supported=found&&coverage?.Supported==true&&owner==wall.GetPath().ToString();
                     var focus=found?at:wallCentre;
-                    var approachSupplied=Act1ConnectedWorld.AddressGround(focus+outward*1.6f);
+                    var previewOutward=found?mountedOutward:outward;
+                    var approachSupplied=Act1ConnectedWorld.AddressGround(focus+previewOutward*1.6f);
                     var approachSupported=walker.TrySupport(approachSupplied,out var approach);
                     var approachDiagnostic=walker.LastSupportProbe;
                     if(!approachSupported)approach=approachSupplied;
@@ -571,14 +572,14 @@ public static class AddressAccessGeometryProof
                     var road=roadSupplied;
                     var roadSupported=nearest is not null&&walker.TrySupport(roadSupplied,out road);
                     var roadDiagnostic=walker.LastSupportProbe;
-                    alternateMounts.Add(new{surface=wall.GetPath().ToString(),outward=P(outward),found,supported,
+                    alternateMounts.Add(new{surface=wall.GetPath().ToString(),outward=P(previewOutward),found,supported,
                         at=found?P(at):null,owner,reason,coverage,maximumHeightAboveFacadeGround=3.0,
                         actualHeightAboveFacadeGround=found?(float?)(at.Y-Act1ConnectedWorld.AddressGround(at).Y):null,
                         approach=new{supported=approachSupported,point=P(approach),approachDiagnostic,path},
                         road=new{supported=roadSupported,point=P(road),roadDiagnostic,edge=nearest?.Edge,exactAnchor=nearest?.Point},
                         approachReachable=supported&&approachSupported&&reached,readingLineOfSightAndRangeVerified=false,
                         productionBindingChanged=false,accepted=false});
-                    previews.Add(new(id,wallName,focus,outward,supported,road,roadSupported,approach,approachSupported));
+                    previews.Add(new(id,wallName,focus,previewOutward,supported,road,roadSupported,approach,approachSupported));
                 }
             }
             records.Add(new { address, parcel, access, buildingId, source = source.GetPath().ToString(),

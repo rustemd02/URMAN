@@ -94,9 +94,11 @@ public sealed class SaveGameV3Codec
             save = JsonSerializer.Deserialize<SaveGameV3>(bytes, Options)
                 ?? throw new InvalidDataException("SaveGameV3 payload is null.");
         }
-        catch (JsonException exception)
+        catch (Exception exception) when (exception is JsonException or ArgumentException)
         {
-            throw new InvalidDataException("SaveGameV3 contains invalid JSON.", exception);
+            // Logical ID constructors reject malformed save values too; keep
+            // those failures on the atomic store's existing backup path.
+            throw new InvalidDataException("SaveGameV3 contains invalid data.", exception);
         }
 
         Validate(save);

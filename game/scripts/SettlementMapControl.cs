@@ -61,13 +61,12 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         _zoomOut = Tool("ZoomOut", "−", "Уменьшить масштаб", () => ZoomAt(1 / 1.35f, _canvas.Size * .5f));
         _zoomIn = Tool("ZoomIn", "+", "Увеличить масштаб", () => ZoomAt(1.35f, _canvas.Size * .5f));
         _fit = Tool("Fit", "Все найденные", "Показать найденные дома (Home)", ResetView);
-        _hint = new Label { Text = "Колесо — масштаб · перетащить — сдвиг",
+        _hint = new Label { Text = "Перетаскивание/стрелки — сдвиг\nКолесо/+− — масштаб · Home — все дома",
             AutowrapMode = TextServer.AutowrapMode.WordSmart, SizeFlagsHorizontal = SizeFlags.ExpandFill };
         _toolbar.AddChild(_hint);
         _canvas = new Control { Name = "Sketch", ClipContents = true, FocusMode = FocusModeEnum.All,
             MouseDefaultCursorShape = CursorShape.Drag, CustomMinimumSize = new(0, 100),
-            SizeFlagsVertical = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Stop,
-            TooltipText = "Стрелки — сдвиг, + / − — масштаб, Home — все найденные дома" };
+            SizeFlagsVertical = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Stop };
         _canvas.Draw += DrawSketch;
         _canvas.GuiInput += HandleMapInput;
         _canvas.Resized += () => _canvas.QueueRedraw();

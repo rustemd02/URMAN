@@ -98,7 +98,7 @@ public partial class JournalFlowSmokeTest : Node
         await Frames(4);
         oldPc.GetNode<Button>("Screen/Computer/Layout/Footer/Save").EmitSignal(Button.SignalName.Pressed);
         await Frames(8);
-        if (!oldPc.StatusText.Contains("Откройте журнал [J]", StringComparison.Ordinal))
+        if (!oldPc.StatusText.Contains("Выйдите из ПК, затем [J]", StringComparison.Ordinal))
         {
             Fail($"Old-PC save status did not point the keyboard player to the journal: status='{oldPc.StatusText}' activeDoc='{oldPc.ActiveDocumentId ?? "<null>"}'");
             return;

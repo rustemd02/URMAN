@@ -10,3 +10,5 @@
 - Expects agent to directly read past session transcript files (e.g. ~/.commandcode/projects/.../*.jsonl) to reconstruct prior conversation context instead of being told about it. Confidence: 0.7
 - Wants AI agents to run in an endless autonomous loop over the task tracker, moving to the next unblocked task without pausing for per-step confirmation. Confidence: 0.75
 - Prefers reusable "launch prompts" written out so work can be handed off to another AI agent/model. Confidence: 0.65
+- Grants the agent "полный картбланш" — broad autonomy to freely change files without seeking per-change approval. Confidence: 0.8
+- Sets time-boxed /goal sessions demanding non-stop autonomous work until a hard deadline (e.g. "работай до 11 утра по мск"). Confidence: 0.75

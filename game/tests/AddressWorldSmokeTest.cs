@@ -33,7 +33,7 @@ public partial class AddressWorldSmokeTest : Node
         try
         {
             _scope=System.Environment.GetEnvironmentVariable("URMAN_ADDRESS_SCOPE")??"full";
-            if(_scope is not ("full" or "remediation-search" or "entrance-candidates" or "standalone-candidates" or "standalone-access" or "production-entrances" or "verge-contacts"))throw new InvalidOperationException("Unknown address smoke scope: "+_scope);
+            if(_scope is not ("full" or "remediation-search" or "entrance-candidates" or "standalone-candidates" or "standalone-access" or "production-entrances" or "verge-contacts" or "h045-layout" or "frontage-sightlines" or "crowded-addresses"))throw new InvalidOperationException("Unknown address smoke scope: "+_scope);
             _output=System.Environment.GetEnvironmentVariable("URMAN_ADDRESS_OUTPUT")??"";
             if(!Path.IsPathFullyQualified(_output)||!Directory.Exists(_output)||Directory.EnumerateFileSystemEntries(_output).Any())
                 throw new InvalidOperationException("URMAN_ADDRESS_OUTPUT must name an existing empty absolute evidence directory.");
@@ -50,7 +50,7 @@ public partial class AddressWorldSmokeTest : Node
             var registry=_world.AddressRegistry??throw new InvalidOperationException("No imported address registry.");
             Check(!_bridge.SelectWorldProps().EnumerateObject().Any(p=>p.Name.StartsWith("address/",StringComparison.Ordinal)),"construction and proximity do not record a plate read");
 
-            if(_scope is "remediation-search" or "entrance-candidates" or "standalone-candidates" or "standalone-access" or "production-entrances" or "verge-contacts")
+            if(_scope is "remediation-search" or "entrance-candidates" or "standalone-candidates" or "standalone-access" or "production-entrances" or "verge-contacts" or "h045-layout" or "frontage-sightlines" or "crowded-addresses")
             {
                 // Scope is confined to this explicit smoke scene. The ordinary
                 // runtime lifecycle and live address records are not modified.
@@ -62,7 +62,77 @@ public partial class AddressWorldSmokeTest : Node
                 _checks.Add(new{kind="audit-not-run-in-narrow-scope",auditRun=false,
                     constructionEntriesAlreadyObserved=registry.AccessPoints.Values.Count(a=>a.State!="pending-physics"),
                     previousPhysicsProcessing=auditWasProcessing,acceptance=false});
-                if(_scope=="remediation-search")
+                if(_scope=="crowded-addresses")
+                {
+                    var selectedIds=(System.Environment.GetEnvironmentVariable("URMAN_ADDRESS_IDS")??"ADR-H013,ADR-H041")
+                        .Split(',',StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
+                    Require(selectedIds.Length is >0 and <=4 && selectedIds.Distinct().Count()==selectedIds.Length
+                        && selectedIds.All(registry.Addresses.ContainsKey),"select one to four existing, distinct address IDs");
+                    foreach(var id in selectedIds)
+                    {
+                        var sign=Descendants(_world).OfType<AddressSignVisualComponent>().Single(n=>n.AddressId==id);
+                        RecordMount(sign,registry);
+                        var accessId=registry.Addresses[id].AccessId;
+                        var advances=await ProbeSelectedAccess(suspendedAudit,accessId,Time.GetTicksMsec());
+                        _world.AttachVerifiedAddressAccessPaths();
+                        var access=registry.AccessPoints[accessId];
+                        _checks.Add(new{kind="crowded-door-access",addressId=id,access,advances,
+                            plateApproachIsSeparate=true,humanNavigationTest=false});
+                        Check(access.State=="verified",id+": standing door route attached to the road graph");
+                        try
+                        {
+                            Require(access.State=="verified",id+": a physical route is required before walking");
+                            var road=registry.Graph.Roads["access/"+accessId];
+                            var readPoint=Act1ConnectedWorld.AddressGround(sign.GlobalPosition+sign.GlobalBasis.Z.Normalized()*.75f);
+                            var points=road.Points.Select(V).Append(readPoint).ToArray();
+                            using(var support=new AddressWalkProbe(_world))
+                            {
+                                Require(support.TrySupport(points[0],out var roadStart),id+": road fixture has actual support");
+                                _player.ApplyZoneSpawn(roadStart,0);
+                            }
+                            await Frames(6);
+                            var arrival=await Act1FirstPersonWalkthroughSmokeTest.FollowMosqueRouteAsync(this,_player,_bridge,
+                                points,"address/"+id+"/read-approach",row=>_checks.Add(row));
+                            Require(arrival.VisitedPoints==points.Length&&arrival.StableLanding,
+                                id+": controller walks the published door path and final segment to the plate");
+                            await ReadNotebookSaveLoad(id,id+"_");
+                            var returned=await Act1FirstPersonWalkthroughSmokeTest.FollowMosqueRouteAsync(this,_player,_bridge,
+                                points.Reverse().ToArray(),"address/"+id+"/return-to-road",row=>_checks.Add(row));
+                            Require(returned.VisitedPoints==points.Length&&returned.StableLanding,
+                                id+": controller returns along the same route to the connected road");
+                        }
+                        catch(Exception error){_failures.Add(id+": "+error.Message);}
+                    }
+                    _registryEvidence=JsonSerializer.SerializeToElement(new{version=SettlementRegistry.RegistryVersion,
+                        subsetOnly=true,addresses=registry.Addresses.Values.Where(a=>selectedIds.Contains(a.AddressId)),
+                        accesses=registry.AccessPoints.Values.Where(a=>selectedIds.Any(id=>a.AccessId=="ACC-"+id))});
+                }
+                else if(_scope=="frontage-sightlines")
+                {
+                    foreach(var issue in _world.AddressImportIssues.Where(i=>i.Code.StartsWith("SIGN_MOUNT",StringComparison.Ordinal)))
+                        _failures.Add(issue.Code+" "+issue.EntityId+": "+issue.Detail);
+                    _registryEvidence=JsonSerializer.SerializeToElement(new{version=SettlementRegistry.RegistryVersion,
+                        subsetOnly=true,addresses=registry.Addresses.Values,importIssues=_world.AddressImportIssues});
+                    foreach(var sign in Descendants(_world).OfType<AddressSignVisualComponent>())RecordMount(sign,registry);
+                    foreach(var id in new[]{"ADR-H009","ADR-H015","ADR-H019","ADR-H013","ADR-H041","ADR-BABAI","ADR-H017"})await CaptureHouse("frontage_"+id,id);
+                }
+                else if(_scope=="h045-layout")
+                {
+                    foreach(var sign in Descendants(_world).OfType<AddressSignVisualComponent>())RecordMount(sign,registry);
+                    await CaptureSourceReview("ArrivalLeftHorizonDomesticFacade");
+                    await CaptureHouse("h045_plate","ADR-H045");
+                    var accessId=registry.Addresses["ADR-H045"].AccessId;
+                    var advances=await ProbeSelectedAccess(suspendedAudit,accessId,Time.GetTicksMsec());
+                    _world.AttachVerifiedAddressAccessPaths();
+                    var access=registry.AccessPoints[accessId];
+                    _checks.Add(new{kind="h045-selected-access",access,advances});
+                    Check(access.State=="verified","H045 has an actual standing route attached to the road graph");
+                    _registryEvidence=JsonSerializer.SerializeToElement(new{version=SettlementRegistry.RegistryVersion,
+                        subsetOnly=true,buildings=registry.Buildings.Values,parcels=registry.Parcels.Values,
+                        addresses=registry.Addresses.Values,access,importIssues=_world.AddressImportIssues});
+                    await ReadNotebookSaveLoad("ADR-H045","h045_");
+                }
+                else if(_scope=="remediation-search")
                     AddressRemediationGeometryProof.Capture(_world,_player,_output,boundedSearchOnly:true);
                 else if(_scope=="production-entrances")
                     await VerifyProductionEntrances(suspendedAudit);
@@ -160,7 +230,7 @@ public partial class AddressWorldSmokeTest : Node
                     {
                         schemaVersion=1,ordinaryNewGame=true,humanSearchPlaytest=false,diagnosticCameraFixtures=_captures.Count>0,
                         assembly=identity,scope=_scope,auditRun=_auditRun,fullAuditRun=_auditRun,
-                        selectedAccessAuditRun=_scope is "production-entrances" or "standalone-access",acceptance=_scope=="full"&&exit==0,
+                        selectedAccessAuditRun=_scope is "production-entrances" or "standalone-access" or "h045-layout" or "crowded-addresses",acceptance=_scope=="full"&&exit==0,
                         auditCompleted=_auditCompleted,registry=_registryEvidence,mounts=_mounts,captures=_captures,checks=_checks,failures=_failures
                     },new JsonSerializerOptions{WriteIndented=true});
                     var path=Path.Combine(_output,"address-world-receipt.json");
@@ -227,7 +297,8 @@ public partial class AddressWorldSmokeTest : Node
             AddressFacadeMount.Inspect(source,sign.GlobalPosition,normal,_world,explicitSurface);
         var supportOkay=assessment.Supported;
         var surfaces=source is null?Array.Empty<(MeshInstance3D Mesh,Vector3[] Faces)>():Descendants(source).OfType<MeshInstance3D>()
-            .Where(m=>m.Mesh is not null&&m.IsVisibleInTree()&&(explicitSurface is null?AddressFacadeMount.Eligible(m.Name.ToString()):m.Name==explicitSurface)).Select(m=>(Mesh:m,Faces:m.Mesh!.GetFaces())).ToArray();
+            .Where(m=>m.Mesh is not null&&m.IsVisibleInTree()&&((explicitSurface is null?AddressFacadeMount.Eligible(m.Name.ToString()):m.Name==explicitSurface)
+                ||AddressFacadeMount.StructuralTimber(m.Name.ToString()))).Select(m=>(Mesh:m,Faces:m.Mesh!.GetFaces())).ToArray();
         // Independent ray observations cover the physical outer rim and rivets;
         // the polygon assessment also detects openings between these samples.
         foreach(var offset2 in AddressFacadeMount.RequiredMountPoints(Vector2.Zero))
@@ -239,18 +310,22 @@ public partial class AddressWorldSmokeTest : Node
             var fastener=Mathf.IsEqualApprox(Mathf.Abs(offset.X),AddressFacadeMount.RivetX)&&Mathf.IsEqualApprox(Mathf.Abs(offset.Y),AddressFacadeMount.RivetY);
             var boardJoint=visualGap is null&&!fastener&&assessment.Supported&&assessment.MissingArea>0
                 &&assessment.Owner.Contains("BoardedGable",StringComparison.Ordinal);
-            var mounted=visualGap is >=-.02f and <=.09f||boardJoint;
+            // The rigid rim may span a log groove only after the independent
+            // polygon/fastener assessment proves the backing and all four screws.
+            // Rivets retain the same 9 cm limit against actual visible timber.
+            var timberJoint=!fastener&&assessment.Supported&&assessment.TimberCladding&&visualGap is >=-.02f and <=.321f;
+            var mounted=visualGap is >=-.02f and <=.09f||boardJoint||timberJoint;
             if(!mounted)supportOkay=false;
             using var ray=PhysicsRayQueryParameters3D.Create(point+normal*.45f,point-normal*.8f,3);
             ray.Exclude=new global::Godot.Collections.Array<Rid>{_player.GetRid()};
             var hit=_player.GetWorld3D().DirectSpaceState.IntersectRay(ray);
             if(hit.Count==0)
             {
-                samples.Add(new{sample=P(point),physicsHit=false,visualMesh=visibleSupport?.Mesh,visualGapMeters=visualGap,mounted,boardJoint});continue;
+                samples.Add(new{sample=P(point),physicsHit=false,visualMesh=visibleSupport?.Mesh,visualGapMeters=visualGap,mounted,boardJoint,timberJoint});continue;
             }
             var surface=hit["position"].AsVector3();var gap=(point-surface).Dot(normal);
             samples.Add(new{sample=P(point),physicsHit=true,collider=(hit["collider"].AsGodotObject() as Node)?.GetPath().ToString(),point=P(surface),normal=P(hit["normal"].AsVector3()),physicsGapMeters=gap,
-                visualMesh=visibleSupport?.Mesh,visualGapMeters=visualGap,mounted,boardJoint});
+                visualMesh=visibleSupport?.Mesh,visualGapMeters=visualGap,mounted,boardJoint,timberJoint});
         }
         var leaf=source is null?Array.Empty<object>():Descendants(source).OfType<MeshInstance3D>()
             .Where(m=>m.Name.ToString().Contains("Door",StringComparison.Ordinal)&&m.Mesh is not null)
@@ -687,13 +762,15 @@ public partial class AddressWorldSmokeTest : Node
         var sign=(AddressSignVisualComponent)target.GetParent();
         var camera=_player.GetNode<Camera3D>("Head/Camera3D");
         var approached=false;
-        var fixtures=(from distance in new[]{.75f,.95f,1.15f,1.35f,1.75f,2.1f}
+        var fixtures=_scope=="crowded-addresses"?new[]{(Distance:0f,Lateral:0f)}:
+            (from distance in new[]{.75f,.95f,1.15f,1.35f,1.75f,2.1f}
             from lateral in new[]{0f,-.40f,.40f,-.80f,.80f}
             select (Distance:distance,Lateral:lateral)).ToArray();
         foreach(var fixture in fixtures)
         {
             var distance=fixture.Distance;
-            var candidate=Act1ConnectedWorld.AddressGround(sign.GlobalPosition+sign.GlobalBasis.Z.Normalized()*distance+sign.GlobalBasis.X.Normalized()*fixture.Lateral);
+            var candidate=_scope=="crowded-addresses"?_player.GlobalPosition:
+                Act1ConnectedWorld.AddressGround(sign.GlobalPosition+sign.GlobalBasis.Z.Normalized()*distance+sign.GlobalBasis.X.Normalized()*fixture.Lateral);
             var fits=_player.CanStandAt(candidate);
             // Mirror CanStandAt's clearance probe so recorded owners explain
             // its actual refusal, rather than a differently sized test capsule.
@@ -705,7 +782,8 @@ public partial class AddressWorldSmokeTest : Node
             _checks.Add(new{kind="manual-read-position",addressId,distance,lateral=fixture.Lateral,candidate=P(candidate),canStand=fits,contacts,
                 diagnosticApproach=true,humanNavigationTest=false});
             if(!fits)continue;
-            _player.ApplyZoneSpawn(candidate,0);await Frames(4);
+            if(_scope!="crowded-addresses")_player.ApplyZoneSpawn(candidate,0);
+            await Frames(4);
             await AimFromCurrentCamera(camera,sign.GlobalPosition);
             using var ray=PhysicsRayQueryParameters3D.Create(camera.GlobalPosition,camera.GlobalPosition-camera.GlobalBasis.Z*2.4f,7);
             ray.Exclude=new global::Godot.Collections.Array<Rid>{_player.GetRid()};
@@ -717,6 +795,8 @@ public partial class AddressWorldSmokeTest : Node
             if(hit.Count>0 && hit["collider"].AsGodotObject()==target){approached=true;break;}
         }
         Require(approached,"real controller ray reaches the plate from a supported local fixture");
+        if(_scope=="h045-layout")await Capture("h045_controller_plate");
+        if(_scope=="crowded-addresses")await Capture(capturePrefix+"controller_plate");
         var before=_bridge.SelectWorldProps();
         Require(!before.TryGetProperty("address/"+addressId,out _),"plate starts unread before deliberate input");
         await PressInteract();

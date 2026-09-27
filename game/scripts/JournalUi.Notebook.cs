@@ -16,6 +16,7 @@ public partial class JournalUi
     private bool _notesDirty;
     private bool _notesLoading;
     private bool _notesSaving;
+    private TaskCompletionSource<bool>? _notesSaveCompletion;
     private string _notesBaseline = string.Empty;
     private string _notesObservedText = string.Empty;
     private RuntimeBridge? _notesBoundaryBridge;
@@ -146,6 +147,8 @@ public partial class JournalUi
         var text = _notesText.Text;
         if (text.Length > 12000) { _notesStatus.Text = "На странице помещается до 12000 знаков."; return false; }
         _notesSaving = true;
+        var completion = _notesSaveCompletion = new TaskCompletionSource<bool>();
+        var completed = false;
         _notesSave.Disabled = true;
         try
         {
@@ -156,12 +159,15 @@ public partial class JournalUi
             _notesDirty = !saved || HasNotebookDraftChanges();
             _notesStatus.Text = currentSaved ? "Записано" : saved
                 ? "Есть новые незаписанные изменения" : "Не удалось записать — текст остался на странице";
+            completed = currentSaved;
             return currentSaved;
         }
         finally
         {
             _notesSaving = false;
             if (GodotObject.IsInstanceValid(_notesSave)) _notesSave.Disabled = false;
+            _notesSaveCompletion = null;
+            completion.SetResult(completed);
         }
     }
 

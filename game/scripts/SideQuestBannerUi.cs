@@ -7,7 +7,7 @@ namespace Urman.Godot;
 /// Presentation-only toast for optional assignments: a short title, a goal and
 /// a live counter. It never owns quest state; owners hand it resolved text.
 /// </summary>
-public partial class SideQuestBannerUi : CanvasLayer
+public partial class SideQuestBannerUi : CanvasLayer, IAccessibilitySettingsTarget
 {
     private Control _screen = null!;
     private Label _kicker = null!;
@@ -18,6 +18,17 @@ public partial class SideQuestBannerUi : CanvasLayer
     private AudioStreamPlayer? _foley;
 
     public bool IsVisibleNow => _screen is { } screen && screen.Visible;
+
+    public override void _Process(double delta)
+    {
+        if (_tween is null || !_tween.IsValid()) return;
+        // Read the conversation first; retain the whole toast for the return
+        // to play instead of obscuring the speaker or expiring behind a modal.
+        var modal = GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController { ModalOpen: true };
+        _screen.Visible = !modal;
+        if (modal) _tween.Pause();
+        else _tween.Play();
+    }
 
     public override void _Ready()
     {
@@ -37,6 +48,8 @@ public partial class SideQuestBannerUi : CanvasLayer
         _screen.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
         var panel = new PanelContainer { Name = "Panel" };
         _screen.AddChild(panel);
+        // Give wrapped labels a real width before they calculate their minimum height.
+        panel.Size = new Vector2(520, 136);
         var style = new StyleBoxFlat
         {
             BgColor = new Color(.12f, .11f, .09f, .92f),
@@ -68,6 +81,7 @@ public partial class SideQuestBannerUi : CanvasLayer
             ApplyAccessibilitySettings(player.Accessibility);
         }
         AddToGroup(AccessibilityPresentation.TargetGroup);
+        GetViewport().SizeChanged += FitPanel;
     }
 
     private static Label MakeLabel(string text, int fontSize, Color colour)
@@ -77,6 +91,7 @@ public partial class SideQuestBannerUi : CanvasLayer
             Text = text,
             HorizontalAlignment = HorizontalAlignment.Left,
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            CustomMaximumSize = new Vector2(468, -1),
             MouseFilter = Control.MouseFilterEnum.Ignore
         };
         label.AddThemeFontSizeOverride("font_size", fontSize);
@@ -93,6 +108,20 @@ public partial class SideQuestBannerUi : CanvasLayer
         _title.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(24 * scale));
         _goal.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(17 * scale));
         _counter.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(19 * scale));
+        CallDeferred(nameof(FitPanel));
+    }
+
+    private void FitPanel()
+    {
+        var panel = _screen.GetNode<PanelContainer>("Panel");
+        var width = Mathf.Min(520, _screen.Size.X - 48);
+        var textWidth = Mathf.Max(1, width - 52);
+        foreach (var label in new[] { _kicker, _title, _goal, _counter })
+            label.CustomMaximumSize = new Vector2(textWidth, -1);
+        panel.OffsetLeft = -width / 2;
+        panel.OffsetRight = width / 2;
+        // Containers grow for wrapped text but do not shrink back by themselves.
+        panel.Size = new Vector2(width, 0);
     }
 
     /// <summary>Shows the toast. Pure presentation; the owner already committed any state.</summary>
@@ -105,13 +134,19 @@ public partial class SideQuestBannerUi : CanvasLayer
         _tween?.Kill();
         _screen.Visible = true;
         var panel = _screen.GetNode<PanelContainer>("Panel");
+        CallDeferred(nameof(FitPanel));
         panel.Modulate = new Color(1, 1, 1, 0);
-        panel.Position = new Vector2(panel.Position.X, panel.Position.Y - 14);
+        panel.Position = new Vector2(panel.Position.X, 40);
         _tween = CreateTween();
+        var currentTween = _tween;
+        currentTween.Finished += () =>
+        {
+            if (_tween == currentTween) _tween = null;
+        };
         _tween.SetTrans(Tween.TransitionType.Cubic);
         _tween.SetEase(Tween.EaseType.Out);
         _tween.TweenProperty(panel, "modulate:a", 1f, .35f);
-        _tween.Parallel().TweenProperty(panel, "position:y", panel.Position.Y + 14, .35f);
+        _tween.Parallel().TweenProperty(panel, "position:y", 54f, .35f);
         _tween.TweenInterval(4.2f);
         _tween.TweenProperty(panel, "modulate:a", 0f, .6f);
         _tween.TweenCallback(Callable.From(() => _screen.Visible = false));
@@ -122,5 +157,12 @@ public partial class SideQuestBannerUi : CanvasLayer
     {
         _tween?.Kill();
         _tween = null;
+    }
+
+    public void Dismiss()
+    {
+        _tween?.Kill();
+        _tween = null;
+        _screen.Hide();
     }
 }

@@ -167,8 +167,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             }
         }
 
-        BuildTerrainCollision();
         ConformRoadPresentation();
+        BuildTerrainCollision();
         BuildKaraGradeSupports();
         // Settle the retained banks into the ground before creating their
         // collision, so the visible low profile and physical boundary agree.
@@ -305,6 +305,23 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var shape = new ConcavePolygonShape3D();
         shape.SetFaces(AgentBAct1HeightField.BuildTerrainFaces());
         body.AddChild(new CollisionShape3D { Name = "AgentB_TerrainFaces", Shape = shape });
+        // The western shoulder now carries the Tamara board approach. Its
+        // raised snow surface needs contact, not the lower base heightfield.
+        var shoulder = EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_TerrainRoadKit"))
+            .Single(mesh => mesh.Name == "Grade_Street_West");
+        // The base terrain must keep its single-shape contract for articulated
+        // hoof support. Give this raised surface its own exact contact body.
+        var support = new StaticBody3D { Name = "SurfaceSupport", CollisionLayer = 1u, CollisionMask = 1u };
+        shoulder.AddChild(support);
+        support.SetMeta("collisionOwner", shoulder.GetPath().ToString());
+        var contact = new CollisionShape3D
+        {
+            Name = "Grade_Street_West_Contact",
+            Shape = shoulder.Mesh.CreateTrimeshShape()
+        };
+        contact.SetMeta("authoredSourceMesh", shoulder.GetPath().ToString());
+        support.AddChild(contact);
+        shoulder.SetMeta("supportOwner", support.GetPath().ToString());
     }
 
     private void ConformRoadPresentation()
@@ -313,7 +330,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         foreach (var mesh in EnumerateDescendants<MeshInstance3D>(kit))
         {
             var name = mesh.Name.ToString();
-            if (mesh.Mesh is not ArrayMesh original || (name != "Terrain_Main" && !name.StartsWith("Road_", StringComparison.Ordinal))) continue;
+            var shoulder = name == "Grade_Street_West";
+            if (mesh.Mesh is not ArrayMesh original || (name != "Terrain_Main" && !name.StartsWith("Road_", StringComparison.Ordinal) && !shoulder)) continue;
+            var bounds = (GlobalTransform.AffineInverse() * mesh.GlobalTransform) * original.GetAabb();
             var result = new ArrayMesh();
             if (name == "Terrain_Main")
             {
@@ -338,8 +357,15 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     for (var i = 0; i < vertices.Length; i++)
                     {
                         var point = ToLocal(mesh.ToGlobal(vertices[i]));
-                        point.Y += AgentBAct1HeightField.CollisionGround(point.X, point.Z)
-                            - (float)AgentBAct1HeightField.Ground(point.X, point.Z);
+                        var ground = AgentBAct1HeightField.CollisionGround(point.X, point.Z);
+                        if (shoulder)
+                        {
+                            // The old presentation-only bank ended at full crest
+                            // height. Ease its two ends into walkable ground.
+                            var endDistance = Math.Min(point.Z - bounds.Position.Z, bounds.End.Z - point.Z);
+                            point.Y = Mathf.Lerp(ground + .005f, point.Y, Mathf.SmoothStep(0, 1, endDistance / 3f));
+                        }
+                        else point.Y += ground - (float)AgentBAct1HeightField.Ground(point.X, point.Z);
                         vertices[i] = mesh.ToLocal(ToGlobal(point));
                     }
                     arrays[(int)Mesh.ArrayType.Vertex] = vertices;

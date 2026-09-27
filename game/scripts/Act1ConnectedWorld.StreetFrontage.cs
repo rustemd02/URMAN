@@ -255,7 +255,7 @@ public partial class Act1ConnectedWorld
                 var q = p0 + tangent2 * s + normal2 * d;
                 return new(q.X, AgentBAct1HeightField.CollisionGround(q.X, q.Y), q.Y);
             }
-            var hash = Math.Abs(building.BuildingId.GetHashCode(StringComparison.Ordinal));
+            var hash = (int)(Urman.Core.Determinism.SeededRng.HashText(building.BuildingId) & 0x7fffffffu);
             var paint = hash % GatePaints.Length;
 
             void Emit(float from, float to, float d, string kind)

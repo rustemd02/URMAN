@@ -58,6 +58,19 @@ public partial class RuntimeBridge
         return new TamaraFenceSnapshot(crashed, repaired, watched, carried, delivered);
     }
 
+    internal bool TamaraFenceBoardTaken(int board)
+    {
+        if (_kernel is null) return false;
+        var state = _kernel.SelectState();
+        if (TamaraNpcFlag(state, $"board_taken_{board}") || TamaraNpcFlag(state, $"board_{board}")) return true;
+        // Existing saves recorded picked places here, before the immutable flag.
+        var props = SelectWorldProps();
+        return props.ValueKind == JsonValueKind.Object
+            && props.TryGetProperty($"tamara/board/{board}", out var record)
+            && record.ValueKind == JsonValueKind.Object
+            && record.TryGetProperty("taken", out var taken) && taken.ValueKind == JsonValueKind.True;
+    }
+
     private static bool TamaraNpcFlag(JsonElement state, string stateKey) =>
         state.TryGetProperty("npc", out var npc)
         && npc.TryGetProperty(TamaraCharacterId, out var tamara)
@@ -115,6 +128,10 @@ public partial class RuntimeBridge
     {
         if (TamaraNpcFlag(context.State, "fence_crashed"))
             return new CommandPlan(Rejection: new("tamara-fence-already-crashed", "Забор уже сломан."));
+        if (!command.Payload.TryGetProperty("impactX", out var x) || !x.TryGetSingle(out var impactX)
+            || !command.Payload.TryGetProperty("impactZ", out var z) || !z.TryGetSingle(out var impactZ)
+            || !float.IsFinite(impactX) || !float.IsFinite(impactZ))
+            return new CommandPlan(Rejection: new("tamara-fence-invalid-impact", "Не удалось определить место удара."));
         var effects = JsonSerializer.SerializeToElement(new object[]
         {
             new { op = "npc.set-state", characterId = TamaraCharacterId, stateKey = "fence_crashed", value = true }
@@ -122,7 +139,7 @@ public partial class RuntimeBridge
         var planned = ContentRuleEngine.PlanEffects(effects, context.State);
         var placement = JsonSerializer.SerializeToElement(new[]
         {
-            new { propId = TamaraFenceStateId, crashed = true, cutsceneWatched = false }
+            new { propId = TamaraFenceStateId, crashed = true, cutsceneWatched = false, impactX, impactZ }
         });
         var list = planned.Effects.ToList();
         list.Add(new StateEffect(StateEffectOperation.Set, WorldPropsStateKey,

@@ -14,7 +14,7 @@ public partial class Act1PlayerMovementSmokeTest : Node
     private static readonly Vector2 ScreenMouseProbe = new(64, 32);
     private bool _observeMouseMotion;
     private (Vector2 Relative, Vector2 ScreenRelative)? _observedMouseMotion;
-    private static readonly string[] Actions = { "move_forward", "move_right", "jump", "sprint", "crouch" };
+    private static readonly string[] Actions = { "move_forward", "move_backward", "move_right", "jump", "sprint", "crouch" };
     private string Output => System.Environment.GetEnvironmentVariable("URMAN_PLAYER_OUTPUT")
         ?? throw new InvalidOperationException("Set URMAN_PLAYER_OUTPUT to a new absolute evidence directory.");
 
@@ -69,6 +69,30 @@ public partial class Act1PlayerMovementSmokeTest : Node
             await Frames(8);
             await Place(start);
 
+            // A shallow backward diagonal used to cancel the signed gait rate
+            // while the capsule continued travelling at full walking speed.
+            _player.ApplySmokeLook(-78, 0);
+            var bodyRig = _player.GetNode<Node3D>("AidarLowerBody")
+                .FindChildren("*", nameof(Skeleton3D), true, false).OfType<Skeleton3D>()
+                .Single(rig => rig.FindBone("AidarAnkleLeft") >= 0);
+            var ankle = bodyRig.FindBone("AidarAnkleLeft");
+            const float backwardShare = .35f / 1.35f;
+            Input.ActionPress("move_backward", backwardShare);
+            Input.ActionPress("move_right", Mathf.Sqrt(1f - backwardShare * backwardShare));
+            await Frames(18); // Let the stride amplitude settle before measuring.
+            var ankleDepths = new List<float>();
+            for (var frame = 0; frame < 36; frame++)
+            {
+                await Frames(1);
+                ankleDepths.Add(bodyRig.GetBoneGlobalPose(ankle).Origin.Z);
+            }
+            await Capture("04_backward_diagonal_lower_body");
+            ReleaseInputs();
+            var ankleTravel = ankleDepths.Max() - ankleDepths.Min();
+            _events.Add(new { kind = "backward-diagonal-gait", ankleTravel, samples = ankleDepths });
+            Check(ankleTravel > .035f, $"backward diagonal advances the actual ankle pose: {ankleTravel:F4}m");
+            await Place(start);
+
             var jumps = _player.GroundedJumps;
             var baseY = _player.GlobalPosition.Y;
             Input.ActionPress("jump");
@@ -121,10 +145,54 @@ public partial class Act1PlayerMovementSmokeTest : Node
                 await Frames(45);
                 Check(_player.GlobalPosition.Z > wall.GlobalPosition.Z + .30f && _player.IsOnWall(),
                     "sprinting stops the actual capsule at a physical wall");
+                _player.ApplySmokeLook(-78, 0);
+                var stoppedAnkle = bodyRig.GetBoneGlobalPose(ankle).Origin;
+                await Frames(18);
+                Check(stoppedAnkle.DistanceTo(bodyRig.GetBoneGlobalPose(ankle).Origin) < .002f,
+                    "held sprint against the wall does not keep the visible leg walking");
+                await Capture("05_wall_stop_lower_body");
             }
             finally { ReleaseInputs(); wall.QueueFree(); await Frames(3); }
 
             await Place(start);
+            if (System.Environment.GetEnvironmentVariable("URMAN_PLAYER_CAPTURE") == "1")
+            {
+                _player.ApplySmokeLook(-78, 0);
+                for (var step = 1; step <= 9; step++)
+                {
+                    var relative = new Vector2(-10f / _player.MouseSensitivity, 0);
+                    using var motion = new InputEventMouseMotion { Relative = relative, ScreenRelative = relative };
+                    var plantedBefore = _player.VisibleBodySoles;
+                    var supportedBefore = plantedBefore.Select(HasPlantedSupport).ToArray();
+                    Input.ParseInputEvent(motion);
+                    for (var frame = 0; frame < 4; frame++)
+                    {
+                        await Frames(1);
+                        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                        var soles = _player.VisibleBodySoles;
+                        var supported = soles.Select(HasPlantedSupport).ToArray();
+                        Check(supported.Any(value => value), "turn keeps an actual sole on the floor during support transfer");
+                        // More than one physics tick may occur between rendered
+                        // samples. A landing foot can hand support to the other;
+                        // only a foot grounded in both samples must stay fixed.
+                        for (var foot = 0; foot < soles.Length; foot++)
+                            if (supported[foot] && supportedBefore[foot])
+                                Check(soles[foot].DistanceTo(plantedBefore[foot]) < .004f,
+                                    "the planted sole does not slide with the turning camera");
+                        plantedBefore = soles;
+                        supportedBefore = supported;
+                    }
+                    _events.Add(new { kind = "turn-body-soles", yaw = _player.RotationDegrees.Y,
+                        position = _player.GlobalPosition.ToString(),
+                        soles = _player.VisibleBodySoles.Select(point => point.ToString()).ToArray() });
+                    if (step % 3 == 0) await Capture($"06_turn_{step * 10}_lower_body");
+                }
+                await Frames(40);
+                await Capture("07_turn_settled_lower_body");
+                CheckSoleSupport("turned");
+                CheckPresentedLowerBody("turned");
+                await Place(start);
+            }
             var beforeModal = _player.GlobalPosition;
             _player.SetModalOpen(true);
             Input.ActionPress("move_forward"); Input.ActionPress("sprint"); Input.ActionPress("jump");
@@ -343,6 +411,14 @@ public partial class Act1PlayerMovementSmokeTest : Node
                 stance + " imported boot sole has a nearby real support");
         }
         _events.Add(new { kind = "body-soles", stance, soles = soles.Select(point => point.ToString()).ToArray() });
+    }
+
+    private bool HasPlantedSupport(Vector3 sole)
+    {
+        using var ray = PhysicsRayQueryParameters3D.Create(sole + Vector3.Up * .12f, sole - Vector3.Up * .12f,
+            _player.CollisionMask, new global::Godot.Collections.Array<Rid> { _player.GetRid() });
+        var hit = _player.GetWorld3D().DirectSpaceState.IntersectRay(ray);
+        return hit.Count > 0 && Math.Abs(hit["position"].AsVector3().Y - sole.Y) < .004f;
     }
 
     private StaticBody3D Fixture(string name, Vector3 size, Vector3 position)

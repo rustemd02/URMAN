@@ -161,6 +161,17 @@ public partial class Act1MainMenuSmokeTest : Node
 
         if ((await bridge.FindContinueAsync())?.Slot != MainMenuUi.CheckpointSlot)
         { Fail("An older quick-save hid the newer checkpoint."); return; }
+        // Exercise the production decoder/backup path with a malformed logical
+        // ID, not a menu-only error fixture. The guard owns this test profile.
+        if (!await bridge.SaveSlotAsync(MainMenuUi.CheckpointSlot)) return;
+        var checkpointPath = ProjectSettings.GlobalizePath("user://savegames/checkpoint.savegame-v3.json");
+        var damaged = System.Text.Json.Nodes.JsonNode.Parse(System.IO.File.ReadAllText(checkpointPath))!;
+        damaged["spawnPoint"] = "bad location";
+        System.IO.File.WriteAllText(checkpointPath, damaged.ToJsonString());
+        var recoveryCandidate = await bridge.FindContinueAsync();
+        if (recoveryCandidate?.Slot != MainMenuUi.CheckpointSlot
+            || !recoveryCandidate.Value.Description.Contains("резервная копия", StringComparison.Ordinal))
+        { Fail("Continue did not describe the valid checkpoint backup behind a malformed primary."); return; }
         var expectedZone = bridge.CurrentZoneId;
         await GodotSmokeCleanup.ReleaseAsync(demo);
         demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn").Instantiate<Act1DemoRoot>();
@@ -193,23 +204,36 @@ public partial class Act1MainMenuSmokeTest : Node
             || PlayerSaveHashes() != beforeReplayHashes)
         { Fail("Replay return changed player saves or lost Continue."); return; }
 
-        // M7 error state: when a save exists on disk but none is loadable (for
-        // example a save from an older campaign fingerprint), the menu must say
-        // so truthfully and reassure that the files were left alone. This checks
-        // the rendered message only; the safe-failure behaviour itself is covered
-        // by the engine-independent core store tests, and provoking a real load
-        // error here would put an expected ERROR line into the fail-closed log.
-        demo.MainMenu?.SetContinueAvailable(available: false, description: null, existingSavePresent: true);
-        await Frames(2);
+        // Refresh through the ordinary menu owner with unreadable files on disk.
+        // Discovery handles this without dispatching a failed LoadSlot operation.
+        var savedFiles = System.IO.Directory.EnumerateFiles(ProjectSettings.GlobalizePath("user://savegames"))
+            .ToDictionary(path => path, path => (Bytes: System.IO.File.ReadAllBytes(path), Time: System.IO.File.GetLastWriteTimeUtc(path)));
+        foreach (var path in savedFiles.Keys) System.IO.File.WriteAllText(path, "{damaged");
+        var damagedHashes = PlayerSaveHashes();
+        demo.CallDeferred("RefreshMenuContinueAvailability");
+        for (var frame = 0; frame < 300 && continueButton.Visible; frame++) await Frames(1);
         var continueHint = demo.MainMenu?.GetNodeOrNull<Label>(
             "Screen/Panel/Layout/ContinueUnavailable") ?? demo.MainMenu?.FindChild("ContinueUnavailable", true, false) as Label;
-        if (continueHint is null
+        if (continueButton.Visible || continueHint is null
             || !continueHint.Text.Contains("не удалось загрузить подходящее сохранение", StringComparison.Ordinal)
             || !continueHint.Text.Contains("Файлы сохранений оставлены без изменений", StringComparison.Ordinal))
         {
             Fail($"The menu did not explain an unloadable save truthfully: '{(continueHint?.Text ?? "<missing label>")}'.");
             return;
         }
+        if (await bridge.FindContinueAsync() is not null || PlayerSaveHashes() != damagedHashes)
+        { Fail("Unrecoverable menu discovery offered a save or changed its files."); return; }
+        await Capture("main_menu_damaged_saves");
+        foreach (var (path, saved) in savedFiles)
+        {
+            System.IO.File.WriteAllBytes(path, saved.Bytes);
+            System.IO.File.SetLastWriteTimeUtc(path, saved.Time);
+        }
+        demo.CallDeferred("RefreshMenuContinueAvailability");
+        for (var frame = 0; frame < 300 && !continueButton.Visible; frame++) await Frames(1);
+        if (!continueButton.Visible || !continueHint.Text.Contains("резервная копия", StringComparison.Ordinal))
+        { Fail("Menu did not restore Continue and its backup label after a working backup returned."); return; }
+        await Capture("main_menu_backup_recovery");
 
         // Exit affordance: the Quit button must exist, be reachable and be wired to
         // a handler. Actually pressing it is deliberately not exercised here because
@@ -247,7 +271,7 @@ public partial class Act1MainMenuSmokeTest : Node
             return;
         }
 
-        GD.Print("act1-main-menu: PASS menu gate + settings from menu + checkpoint-based Continue restore + truthful unloadable-save message + wired Quit affordance");
+        GD.Print("act1-main-menu: PASS menu gate + settings from menu + malformed-primary backup Continue restore + real unreadable files preserved + truthful backup/error labels + wired Quit affordance");
 
         // Exit probe, and the last action of this run. The button captured before
         // Continue is disposed once the session is restored, so reach the menu the

@@ -248,10 +248,12 @@ public partial class RuntimeBridge : Node
                 latestTime = time;
                 var place = loaded.Save.CurrentZone.Value switch
                 {
+                    "village_day" => "Деревня",
                     "house_old_pc" => "Дом", "fap_clinic" => "ФАП",
                     "zirat_road" => "Дорога к зирату", "kara_urman_night" => "Кромка леса", _ => "Кара-Урман"
                 };
-                newest = (slot, $"{place} · {time.ToLocalTime():dd.MM HH:mm}");
+                var recovery = loaded.RecoveredFromBackup ? " · резервная копия" : "";
+                newest = (slot, $"{place} · {time.ToLocalTime():dd.MM HH:mm}{recovery}");
             }
             catch (Exception exception) when (exception is IOException or InvalidDataException or UnauthorizedAccessException)
             {
@@ -765,9 +767,15 @@ public partial class RuntimeBridge : Node
 
     // A consequence recorded by the physical mechanism is a saved prerequisite,
     // not a camera condition. Availability and dispatch must use the same owner.
-    private bool HasRequiredWorldState(string interactionId) =>
-        interactionId != "urman.chapter1:interaction/mark-underdeck-quiet"
-        || (_kernel is not null && YardMechanism.Flag(SelectWorldProps(), "yard/loose-footboard"));
+    private bool HasRequiredWorldState(string interactionId)
+    {
+        const string boardPrefix = "urman.chapter1:interaction/tamara-fence-take-board-";
+        if (interactionId.StartsWith(boardPrefix, StringComparison.Ordinal)
+            && int.TryParse(interactionId.AsSpan(boardPrefix.Length), out var board) && board is >= 1 and <= 6)
+            return !TamaraFenceBoardTaken(board);
+        return interactionId != "urman.chapter1:interaction/mark-underdeck-quiet"
+            || (_kernel is not null && YardMechanism.Flag(SelectWorldProps(), "yard/loose-footboard"));
+    }
 
     public bool IsInteractionAvailable(string interactionId)
     {

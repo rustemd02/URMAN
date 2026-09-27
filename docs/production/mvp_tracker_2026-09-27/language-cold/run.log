@@ -1,0 +1,96 @@
+run-smoke-guarded shared session: res://tests/act1_settings_navigation_smoke_test.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=71 blockers=74 bank_steps=5 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=60732 publishedVertices=60732 physicsVertices=60732 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=60732 physicsVertices=60732 sameOwner=true
+act1-shop-storefront: reskinned=15 barredWindows=3 parapet=2.27..4.15 ridge=4.03
+act1-school-bank-cut: mesh=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-fap-plate: at=(25.390001, 1.8504713, -28.118002) outward=(0, 0, 1)
+act1-zirat-fence-source: owner=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=23 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-source: owner=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=23 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-post-source: owner=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost0 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost1 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost2 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost3 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost4 meshType=BoxMesh surfaces=1
+act1-zirat-shed-fence-junction: wall=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0 attachmentZ=-46.915245 retainedFirstSpans=2 hiddenPost=3 retainedFarPost=4 frontCut=(-0.99987423, 0.015860919, -2.3291499E-07), -14.446598 rearCut=(0.99986124, 0.016654668, 0), 17.218063
+act1-overlap-cleanup: hidden=4
+act1-overlap-cleanup: relocated=12
+act1-yard-composition: hidden=41
+act1-street-frontage: rejected access=296, footprint=140, road:connector=45, axis=41, obstacle=30, road:authored=13, road:surface=11
+act1-street-frontage: houses=34 runs=94 gates=11 wickets=30 wood_tris=41756 hidden_old_fence_pieces=185
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=99 shapes=1708 carved_door_slabs=110 flat_slab_skipped=2702 exact_architecture_surfaces=976 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=87 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=140; maximum ground drop=0.779m; level entrances preserved
+act1-zirat-foundation-contact: owner=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/AuthoredKitCollisionProxy/OutbuildingShed_Foundation_LOD0_SurfaceContact source=/root/Act1SettingsNavigationSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Foundation_LOD0 policy=exact-existing-mesh-triangles
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=126047229927
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-window-surrounds: painted=952
+act1-legacy-sign: suppressed=1
+SaveGameV3 written to /Users/unterlantas/Library/Application Support/Godot/app_userdata/URMAN/savegames/language-level-cold-story.savegame-v3.json
+act1-language-cold-prepare: PASS pid=9287 profile=fluent saved=language-level-cold-story old-guessed=1 old-babai=unknown
+run-smoke-guarded shared session: res://tests/act1_user_settings_smoke_test.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 Pro (Apple9)
+
+act1-river: ice_slabs=71 blockers=74 bank_steps=5 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=60732 publishedVertices=60732 physicsVertices=60732 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=60732 physicsVertices=60732 sameOwner=true
+act1-shop-storefront: reskinned=15 barredWindows=3 parapet=2.27..4.15 ridge=4.03
+act1-school-bank-cut: mesh=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-fap-plate: at=(25.390001, 1.8504713, -28.118002) outward=(0, 0, 1)
+act1-zirat-fence-source: owner=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=23 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-source: owner=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=23 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-post-source: owner=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost0 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost1 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost2 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost3 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost4 meshType=BoxMesh surfaces=1
+act1-zirat-shed-fence-junction: wall=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0 attachmentZ=-46.915245 retainedFirstSpans=2 hiddenPost=3 retainedFarPost=4 frontCut=(-0.99987423, 0.015860919, -2.3291499E-07), -14.446598 rearCut=(0.99986124, 0.016654668, 0), 17.218063
+act1-overlap-cleanup: hidden=4
+act1-overlap-cleanup: relocated=12
+act1-yard-composition: hidden=41
+act1-street-frontage: rejected access=296, footprint=140, road:connector=45, axis=41, obstacle=30, road:authored=13, road:surface=11
+act1-street-frontage: houses=34 runs=94 gates=11 wickets=30 wood_tris=41756 hidden_old_fence_pieces=185
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=99 shapes=1708 carved_door_slabs=110 flat_slab_skipped=2702 exact_architecture_surfaces=976 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=87 worst_analytic_vs_collision_delta=0.028m worst_placement=ArrivalForwardEastShed
+act1-building-supports: supported foundations=140; maximum ground drop=0.779m; level entrances preserved
+act1-zirat-foundation-contact: owner=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/AuthoredKitCollisionProxy/OutbuildingShed_Foundation_LOD0_SurfaceContact source=/root/Act1UserSettingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Foundation_LOD0 policy=exact-existing-mesh-triangles
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=126131116037
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-window-surrounds: painted=952
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=126131116037
+SaveGameV3 new game session started; existing slots untouched.
+zone-loaded: village_day@arrival connected-world=126131116037
+SaveGameV3 restored.
+act1-language-cold-verify: PASS pid=9439 profile=fluent new-guessed=12 new-confirmed=0 old-guessed=1 old-babai=unknown slot-byte-exact=true
+userdata guard: original files and permissions restored and verified

@@ -119,7 +119,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _save.Disabled = true;
         if (await _bridge.RecordJournalEntryAsync(_document.Id, _document.Id))
         {
-            _status.Text = $"Документ добавлен в журнал · Откройте журнал [{JournalShortcutLabel()}]";
+            _status.Text = $"Документ добавлен в журнал · Закройте документ, затем {JournalShortcutLabel()}";
             if (GetTree().GetFirstNodeInGroup("journal_ui") is JournalUi journalUi)
             {
                 journalUi.RefreshProjection();
@@ -149,7 +149,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
     private void SetPlayerModal(bool open) => FindPlayer()?.SetModalOpen(open);
 
     private string JournalShortcutLabel() =>
-        FindPlayer()?.CurrentInputDevice == "gamepad" ? "Y" : "J";
+        InputBindingService.ActionHint("journal", FindPlayer()?.CurrentInputDevice == "gamepad");
 
     private void RefitToViewport()
     {

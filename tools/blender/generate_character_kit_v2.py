@@ -28,6 +28,7 @@ from pathlib import Path
 import bmesh
 import bpy
 from mathutils import Vector
+from mathutils.bvhtree import BVHTree
 
 # Build: height (m), shoulder (clavicle length), arm girth, neck girth, belly, hips
 PEOPLE = {
@@ -43,6 +44,20 @@ PEOPLE = {
         hair="Hair_Buns", beard=False, headwear="scarf", skin="e0baa0",
         coat=("6b5960", "knit"), collar=None, trousers="3c3538", boots="4a4038",
         coat_length="hip", skirt="4a3f44", apron="b6a389", scarf="a2463c", sash="4a3f44"),
+    # Reference: short grey hair, a stout silhouette and the navy/red housecoat.
+    # Long sleeves, wool leggings and felt boots suit her brief winter outing.
+    "Tamara": dict(
+        body="Female", height=1.61, shoulder=1.02, arm=1.12, neck=1.14, belly=1.30, hips=1.20, leg=1.04,
+        hair="Hair_SimpleParted", hair_color="928a83", head=(1.22, .95, 1.08), cheek_fullness=.22,
+        skin_normal=.28, brow_color="716258", hair_lift=.010,
+        beard=False, headwear=None, skin="d9b397",
+        coat=("252e49", "cloth"), collar=None, trousers="34323a", boots="49413b",
+        coat_length="hip", skirt="252e49", sash="a33d39", polka=True),
+    "PhoneGuy": dict(
+        body="Male", height=1.76, shoulder=.96, arm=.90, neck=.90, belly=1.06, hips=1.0, leg=.93,
+        hair="Hair_SimpleParted", hide_hair=True, beard=False, headwear="knit", hat="565f6e", skin="d8b199",
+        coat=("4c5566", "cloth"), collar=None, trousers="292e37", boots="24262b",
+        coat_length="hip", sash="343c49", boot_cut="ankle"),
     "TimurHazrat": dict(
         body="Male", height=1.78, shoulder=.92, arm=.86, neck=.86, belly=1.04, hips=1.0, leg=.92,
         hair="Hair_Buzzed", beard=True, headwear="karakul", skin="d6b096",
@@ -136,12 +151,19 @@ def attach_rigged(arm: bpy.types.Object, source: Path, name: str, color: str | N
     """Hair/beard/brows rigged to the Head bone: retarget onto this armature."""
     objs = import_gltf(source)
     mesh = next((o for o in objs if o.type == "MESH"), None)
+    if mesh is not None:
+        world = mesh.matrix_world.copy()
+        source_arm = mesh.find_armature()
+        # SimpleParted uses the male head bind pose, about 5 cm above the
+        # female one. Preserve each attachment's offset when changing rigs.
+        source_head = source_arm.matrix_world @ source_arm.data.bones["Head"].matrix_local
+        target_head = arm.matrix_world @ arm.data.bones["Head"].matrix_local
+        mesh.data.transform(world.inverted() @ target_head @ source_head.inverted() @ world)
     for o in objs:
         if o is not mesh:
             bpy.data.objects.remove(o, do_unlink=True)
     if mesh is None:
         return None
-    world = mesh.matrix_world.copy()
     mesh.parent = arm
     mesh.matrix_world = world
     mod = next((m for m in mesh.modifiers if m.type == "ARMATURE"), None) or mesh.modifiers.new("Armature", "ARMATURE")
@@ -168,7 +190,8 @@ def shape_body(arm: bpy.types.Object, meshes: list[bpy.types.Object], spec: dict
         pb[f"thigh_{side}"].scale = (spec["leg"], 1, spec["leg"])
         pb[f"calf_{side}"].scale = (1 / spec["leg"] ** .5, 1, 1 / spec["leg"] ** .5)
     pb["neck_01"].scale = (spec["neck"], 1, spec["neck"])
-    pb["Head"].scale = (1 / spec["neck"], 1, 1 / spec["neck"])
+    head_width, head_height, head_depth = spec.get("head", (1, 1, 1))
+    pb["Head"].scale = (head_width / spec["neck"], head_height, head_depth / spec["neck"])
     pb["spine_01"].scale = (spec["belly"], 1, spec["belly"])
     pb["spine_02"].scale = (1 / spec["belly"] ** .5, 1, 1 / spec["belly"] ** .5)
     pb["pelvis"].scale = (spec["hips"], 1, spec["hips"])
@@ -240,6 +263,38 @@ def garment(body: bpy.types.Object, arm: bpy.types.Object, name: str, bones: set
     dec.ratio = .5
     select_only(obj)
     bpy.ops.object.modifier_apply(modifier=dec.name)
+    if name in {"Tamara_Coat_LOD0", "PhoneGuy_Coat_LOD0"}:
+        # Replace the ragged bone-ownership boundary by a continuous sleeve
+        # section. Solidify then closes its rim; the cuff overlaps the hand 8 mm.
+        bm = bmesh.new()
+        bm.from_mesh(mesh)
+        weights = bm.verts.layers.deform.active
+        inverse = obj.matrix_world.inverted()
+        for side in ("l", "r"):
+            bone = arm.data.bones[f"lowerarm_{side}"]
+            axis = (arm.matrix_world.to_3x3() @ (bone.tail_local - bone.head_local)).normalized()
+            wrist = arm.matrix_world @ arm.data.bones[f"hand_{side}"].head_local
+            cut = wrist - axis * .085
+            bmesh.ops.bisect_plane(bm, geom=list(bm.verts)+list(bm.edges)+list(bm.faces),
+                                  plane_co=inverse @ cut,
+                                  plane_no=obj.matrix_world.to_3x3().transposed() @ axis,
+                                  dist=.000001, clear_outer=True)
+            cuff = [v for v in bm.verts if v.is_boundary and
+                    abs((obj.matrix_world @ v.co - cut).dot(axis)) < .00001]
+            assert len(cuff) >= 6, f"{name}: missing {side} cuff ring"
+            group = obj.vertex_groups[f"lowerarm_{side}"].index
+            for v in cuff:
+                point = obj.matrix_world @ v.co
+                if name == "PhoneGuy_Coat_LOD0":
+                    # His hand is wider than the narrowed forearm; allow the
+                    # animated wrist to turn inside the cuff without poking out.
+                    radial = point - cut - axis * (point - cut).dot(axis)
+                    point += radial.normalized() * .008
+                v.co = inverse @ (point + axis * .093)
+                v[weights].clear()
+                v[weights][group] = 1
+        bm.to_mesh(mesh)
+        bm.free()
     solid = obj.modifiers.new("Thickness", "SOLIDIFY")
     solid.thickness = thickness
     solid.offset = 1
@@ -355,6 +410,34 @@ def coat_hem_level(coat: bpy.types.Object, hip: float, buckets: int = 16) -> flo
         b = int((math.atan2(p.y - cy, p.x - cx) + math.pi) / math.tau * buckets) % buckets
         lowest[b] = min(lowest[b], p.z)
     return max(z for z in lowest if z < math.inf)
+
+
+def fitted_sash(coat: bpy.types.Object, name: str, z: float, material) -> bpy.types.Object:
+    """A narrow belt cut from the coat, retaining its exact deformation weights."""
+    obj = coat.copy()
+    obj.data = coat.data.copy()
+    obj.name = name
+    bpy.context.scene.collection.objects.link(obj)
+    bm = bmesh.new()
+    bm.from_mesh(obj.data)
+    world = obj.matrix_world
+    inverse = world.inverted()
+    for height in (z - .025, z + .025):
+        bmesh.ops.bisect_plane(bm, geom=list(bm.verts) + list(bm.edges) + list(bm.faces),
+                              plane_co=inverse @ Vector((0, 0, height)),
+                              plane_no=world.to_3x3().transposed() @ Vector((0, 0, 1)),
+                              dist=.000001)
+    bmesh.ops.delete(bm, geom=[v for v in bm.verts if abs((world @ v.co).z - z) > .025001], context="VERTS")
+    bm.normal_update()
+    for v in bm.verts:
+        v.co += v.normal * .004
+    bm.to_mesh(obj.data)
+    bm.free()
+    obj.data.materials.clear()
+    obj.data.materials.append(material)
+    for face in obj.data.polygons:
+        face.material_index = 0
+    return obj
 
 
 def sash(body: bpy.types.Object, arm: bpy.types.Object, name: str, z: float, material) -> bpy.types.Object:
@@ -498,6 +581,110 @@ LEGS_LOWER = {"calf_l", "calf_r"}
 FEET = {"foot_l", "foot_r", "ball_l", "ball_r", "ball_leaf_l", "ball_leaf_r"}
 
 
+def soften_tamara(body, brows, eyes, hair):
+    """Tamara-only lower face, relaxed brow and broad short-hair waves."""
+    group=body.vertex_groups['Head'].index
+    head=[v for v in body.data.vertices if any(g.group==group and g.weight>.5 for g in v.groups)]
+    bottom=min(v.co.z for v in head); top=max(v.co.z for v in head)
+    for v in body.data.vertices:
+        weight=next((g.weight for g in v.groups if g.group==group),0)
+        h=(v.co.z-bottom)/(top-bottom)
+        lower=max(0,1-abs(h-.12)/.33)*weight
+        front=min(1,max(0,(.07-v.co.y)/.09))
+        v.co.x+=.012*math.sin(v.co.x/.144*math.pi)*lower
+        v.co.y-=.016*lower*front
+    # Relax the superhero's pinched inner brow along with the skin beneath it.
+    # Apply one continuous warp to skin, eyebrow strands and eyeballs.
+    for mesh in (body,brows,eyes):
+        if mesh is None:continue
+        for v in mesh.data.vertices:
+            x,y,z=v.co
+            band=max(0,1-abs(z-(bottom+(top-bottom)*.56))/.045)
+            front=min(1,max(0,(.045-y)/.075))
+            inside=max(0,1-abs(x)/.11)
+            v.co.z+=.009*inside*band*front
+    # A little weight below the cheekbone; the eye and eyelid meshes stay put.
+    for v in head:
+        x,y,z=v.co
+        h=(z-bottom)/(top-bottom)
+        lower=math.exp(-((abs(x)-.083)/.037)**2-((h-.18)/.14)**2)*min(1,max(0,(.055-y)/.08))
+        v.co.z-=.008*lower
+        v.co.y-=.003*lower
+    surface=BVHTree.FromPolygons([v.co for v in body.data.vertices],
+                                [list(p.vertices) for p in body.data.polygons])
+    if brows:
+        for v in brows.data.vertices:
+            # The source object includes lashes below this separate brow band.
+            if v.co.z < bottom+(top-bottom)*.55:continue
+            old=surface.ray_cast(Vector((v.co.x,-.4,v.co.z)),Vector((0,1,0)),.6)[0]
+            along=min(1,max(0,(abs(v.co.x)-.012)/.090))
+            v.co.z+=.016*(1-along)+.006*math.sin(math.pi*along)
+            raised=surface.ray_cast(Vector((v.co.x,-.4,v.co.z)),Vector((0,1,0)),.6)[0]
+            if old is None or raised is None:
+                raise ValueError("Tamara eyebrow has no forehead support")
+            # Preserve strand depth instead of flattening front/back vertices
+            # onto one plane, which causes overlaps and erases the eyebrow.
+            v.co.y+=raised.y-old.y
+    if hair:
+        for v in hair.data.vertices:
+            crown=min(1,max(0,(v.co.z-top+.035)/.09))
+            v.co.z+=.006*math.sin(v.co.x*26+v.co.y*10)*crown
+            v.co.x*=1+.045*crown
+        # Sample short waves without shrinking the fitted hairline. A shared
+        # vertical displacement keeps coincident strand edges together.
+        select_only(hair)
+        subdivision=hair.modifiers.new("ShortWaveSurface", "SUBSURF")
+        subdivision.subdivision_type="SIMPLE"
+        subdivision.levels=2
+        bpy.ops.object.modifier_move_to_index(modifier=subdivision.name,index=0)
+        bpy.ops.object.modifier_apply(modifier=subdivision.name)
+        for v in hair.data.vertices:
+            x,y,z=v.co
+            crown=min(1,max(0,(z-top+.075)/.08))
+            v.co.z+=.004*math.sin(x*115+y*45+1.3*math.sin(y*22))*crown
+        # The male source's nape is narrower than this head. Keep its existing
+        # rear surface outside the skull instead of adding a second hair cap.
+        for v in hair.data.vertices:
+            if v.co.y < .06:continue
+            point,normal,_,_=surface.find_nearest(v.co)
+            if point is not None and normal.dot(v.co-point)<.003:
+                v.co=point+normal*.006
+
+
+def fit_tamara_head(root: Path, arm: bpy.types.Object, body: bpy.types.Object,
+                    parts: list[bpy.types.Object]) -> None:
+    """Use the fitted CC0 age study with the existing skeleton and clothing."""
+    names = [f"Tamara_{part}_LOD0" for part in ("Head", "FaceEyes", "FaceBrows", "Hair")]
+    materials = {m.name: m for m in bpy.data.materials}
+    for part in list(parts):
+        if part.name in names:
+            parts.remove(part)
+            bpy.data.objects.remove(part, do_unlink=True)
+    # The retained body owns the hands; the authored head extends into the collar.
+    bm = bmesh.new()
+    bm.from_mesh(body.data)
+    bmesh.ops.delete(bm, geom=[v for v in bm.verts if abs(v.co.x) < .3 and v.co.z > 1.405],
+                     context="VERTS")
+    bm.to_mesh(body.data)
+    bm.free()
+    source = root / "assets/source/blender/characters/tamara_aged_head.blend"
+    with bpy.data.libraries.load(str(source), link=False) as (_, loaded):
+        loaded.objects = names
+    for part in loaded.objects:
+        if part is None:
+            raise ValueError(f"Incomplete Tamara head source: {source}")
+        bpy.context.scene.collection.objects.link(part)
+        part.parent = arm
+        part.matrix_parent_inverse.identity()
+        part.matrix_basis.identity()
+        part.modifiers.new("Armature", "ARMATURE").object = arm
+        for slot in part.material_slots:
+            material = slot.material
+            if material and material.name.rsplit(".", 1)[0] in materials:
+                slot.material = materials[material.name.rsplit(".", 1)[0]]
+        parts.append(part)
+
+
 def dress(prefix: str, spec: dict, arm: bpy.types.Object, body: bpy.types.Object) -> list[bpy.types.Object]:
     """Winter clothes cut from the body: coat, trousers, felt boots, collar, headwear."""
     parts = []
@@ -527,8 +714,13 @@ def dress(prefix: str, spec: dict, arm: bpy.types.Object, body: bpy.types.Object
         # A coat below the waist hangs almost straight; only a skirt flares.
         parts.append(coat_skirt(body, arm, f"{prefix}_CoatSkirt_LOD0", waist, coat_bottom,
                                 flat_material(*spec["coat"]), flare=1.07))
-    parts.append(sash(body, arm, f"{prefix}_Sash_LOD0", waist,
-                      flat_material(spec.get("sash", "2e2924"), "cloth")))
+    if spec.get("polka"):
+        for part in parts:
+            if "_Coat_" in part.name or "_Skirt_" in part.name:
+                tamara_housecoat(part, arm, collar="_Coat_" in part.name)
+    sash_material = flat_material(spec.get("sash", "2e2924"), "cloth")
+    parts.append(fitted_sash(coat, f"{prefix}_Sash_LOD0", waist, sash_material) if prefix == "Tamara"
+                 else sash(body, arm, f"{prefix}_Sash_LOD0", waist, sash_material))
     # Trousers only show below the coat; their hidden upper part bulged
     # through the hem when a relaxed knee came forward.
     trousers = garment(body, arm, f"{prefix}_Trousers_LOD0", LEGS_UPPER | LEGS_LOWER, .014,
@@ -564,9 +756,93 @@ def dress(prefix: str, spec: dict, arm: bpy.types.Object, body: bpy.types.Object
                              flat_material(spec["scarf"], "cloth"),
                              keep=lambda co, b=brow: not (co.y < -.045 and b - .15 < co.z < b + .015 and abs(co.x) < .075)))
     # Hide skin under the coat, trousers and boots; hands, neck and face stay.
-    hide_covered_skin(body, TORSO | ARMS | LEGS_UPPER | LEGS_LOWER | FEET,
-                      keep=lambda co, n=top * .80: co.z > n)
+    # Bone ownership already excludes hands, neck and face. A height cutoff
+    # preserved bind-pose elbows, which then pierced raised/bent sleeves.
+    keep_skin = None
+    if prefix in {"Tamara", "PhoneGuy"}:
+        # The open cuff needs skin beneath it when the wrist bends.
+        wrists = [arm.matrix_world @ arm.data.bones[f"hand_{side}"].head_local for side in ("l", "r")]
+        keep_skin = lambda point: any((point - wrist).length < .12 for wrist in wrists)
+    hide_covered_skin(body, TORSO | ARMS | LEGS_UPPER | LEGS_LOWER | FEET, keep=keep_skin)
     return parts
+
+
+
+def tamara_housecoat(obj: bpy.types.Object, arm: bpy.types.Object, collar: bool) -> None:
+    """Packed, repeatable cloth print; authored UVs survive skinning and LODs."""
+    name = "TamaraPolkaDot"
+    mat = bpy.data.materials.get(name)
+    if mat is None:
+        mat = bpy.data.materials.new(name)
+        mat.use_nodes = True
+        shader = mat.node_tree.nodes["Principled BSDF"]
+        shader.inputs["Roughness"].default_value = .95
+        image = bpy.data.images.new(name, width=128, height=128)
+        navy, ivory = G("252e49"), G("e7e3da")
+        pixels = []
+        for y in range(128):
+            for x in range(128):
+                # Two staggered rows avoid a rigid checkerboard appearance.
+                dx = ((x / 128 - (.25 if y < 64 else .75) + .5) % 1) - .5
+                dy = ((y / 64 - .5 + .5) % 1) - .5
+                pixels.extend(ivory if dx * dx + (dy / 2) ** 2 < .115 ** 2 else navy)
+        image.pixels[:] = pixels
+        image.pack()
+        tex = mat.node_tree.nodes.new("ShaderNodeTexImage")
+        tex.image = image
+        mat.node_tree.links.new(tex.outputs["Color"], shader.inputs["Base Color"])
+    obj.data.materials.clear()
+    obj.data.materials.append(mat)
+    obj.data.materials.append(flat_material("a33d39", "cloth"))
+    neck = arm.matrix_world @ arm.data.bones["neck_01"].head_local
+    if collar:
+        # Cut the cloth at the trim edges before assigning red. Whole original
+        # triangles turned the narrow fastening into a serrated stripe.
+        bm = bmesh.new()
+        bm.from_mesh(obj.data)
+        inverse = obj.matrix_world.inverted()
+        for axis, value in ((0, -.12), (0, -.016), (0, .016), (0, .12),
+                            (1, neck.y), (2, neck.z - .018)):
+            point, normal = Vector(), Vector()
+            point[axis], normal[axis] = value, 1
+            bmesh.ops.bisect_plane(bm, geom=list(bm.verts) + list(bm.edges) + list(bm.faces),
+                                  plane_co=inverse @ point,
+                                  plane_no=obj.matrix_world.to_3x3().transposed() @ normal,
+                                  dist=.000001)
+        bm.to_mesh(obj.data)
+        bm.free()
+    uv = obj.data.uv_layers.get("UVMap") or obj.data.uv_layers.new(name="UVMap")
+    coords = [obj.matrix_world @ v.co for v in obj.data.vertices]
+    for face in obj.data.polygons:
+        points = [coords[obj.data.loops[i].vertex_index] for i in face.loop_indices]
+        centre = sum(points, Vector()) / len(points)
+        # Collar and narrow front fastening reproduce the red housecoat trim.
+        if collar and centre.y < neck.y and (abs(centre.x) < .016 or
+                (centre.z > neck.z - .018 and abs(centre.x) < .12)):
+            face.material_index = 1
+        angles = [math.atan2(p.x, -p.y) for p in points]
+        if max(angles) - min(angles) > math.pi:
+            angles = [a + math.tau if a < 0 else a for a in angles]
+        for loop, point, angle in zip(face.loop_indices, points, angles):
+            uv.data[loop].uv = (angle * .21 / .095, point.z / .095)
+    if collar:
+        # One torso cylinder collapses the horizontal sleeves into long stripes.
+        # Project cloth panels natively, then restore the print's 95 mm repeat.
+        select_only(obj)
+        obj.data.uv_layers.active = uv
+        bpy.ops.object.mode_set(mode="EDIT")
+        bpy.ops.mesh.select_all(action="SELECT")
+        bpy.ops.uv.smart_project(angle_limit=math.radians(66), island_margin=.01,
+                                 area_weight=0, scale_to_bounds=False)
+        bpy.ops.object.mode_set(mode="OBJECT")
+        uv = obj.data.uv_layers["UVMap"]
+        area = 0
+        for face in obj.data.polygons:
+            points = [uv.data[i].uv for i in face.loop_indices]
+            area += abs(sum(p.x*q.y-q.x*p.y for p, q in zip(points, points[1:]+points[:1]))) * .5
+        scale = math.sqrt(sum(f.area for f in obj.data.polygons) / area) / .095
+        for loop in uv.data:
+            loop.uv *= scale
 
 
 def load_actions(ual: Path) -> dict[str, bpy.types.Action]:
@@ -741,6 +1017,7 @@ def finish_character(prefix: str, arm: bpy.types.Object, parts: list[bpy.types.O
             select_only(copy)
             bpy.ops.object.modifier_move_to_index(modifier=dec.name, index=0)
             bpy.ops.object.modifier_apply(modifier=dec.name)
+            copy.data.validate()
         lod1 += 1
     # The runtime removes a 10 mm sole clearance (GroundSolesOnAnchor), so the
     # anchor sits 10 mm below the soles as they stand in the Idle clip, as in
@@ -804,14 +1081,33 @@ def main() -> None:
         body_parts(arm, body, prefix)
         light = textures / ("T_Superhero_Male_Ligh.png" if spec["body"] == "Male" else "T_Superhero_Female_Light_BaseColor.png")
         set_skin(body, light, spec["skin"])
+        if "skin_normal" in spec:
+            for node in body.data.materials[0].node_tree.nodes:
+                if node.type == "NORMAL_MAP":
+                    node.inputs["Strength"].default_value = spec["skin_normal"]
         rigged = [body] + [o for o in (eyes, brows) if o]
         if eyes:
             eyes.name = f"{prefix}_FaceEyes_LOD0"
         if brows:
             brows.name = f"{prefix}_FaceBrows_LOD0"
+            if spec.get("brow_color"):
+                # Tint the existing hair cards; retain their alpha and strands.
+                mat = brows.data.materials[0].copy()
+                brows.data.materials[0] = mat
+                mat.name = f"{prefix}_Brows_Textured"
+                bsdf = mat.node_tree.nodes.get("Principled BSDF")
+                source = bsdf.inputs["Base Color"].links[0].from_socket
+                tint = mat.node_tree.nodes.new("ShaderNodeMix")
+                tint.data_type = "RGBA"
+                tint.blend_type = "MULTIPLY"
+                tint.inputs[0].default_value = 1
+                colors = {s.identifier: s for s in tint.inputs}
+                colors["B_Color"].default_value = G(spec["brow_color"])
+                mat.node_tree.links.new(source, colors["A_Color"])
+                mat.node_tree.links.new(tint.outputs["Result"], bsdf.inputs["Base Color"])
         # Under a headscarf the hair is covered, as it is in the village.
-        hair = None if spec.get("headwear") == "scarf" else attach_rigged(arm, hair_dir / f"{spec['hair']}.gltf", f"{prefix}_Hair_LOD0",
-                             "d8d4cc" if prefix in ("Mansur",) else "2a2420" if spec["body"] == "Female" else "3a3530")
+        hair = None if spec.get("headwear") == "scarf" or spec.get("hide_hair") else attach_rigged(arm, hair_dir / f"{spec['hair']}.gltf", f"{prefix}_Hair_LOD0",
+                             spec.get("hair_color", "d8d4cc" if prefix in ("Mansur",) else "2a2420" if spec["body"] == "Female" else "3a3530"))
         if hair:
             rigged.append(hair)
         if spec.get("beard"):
@@ -820,15 +1116,35 @@ def main() -> None:
             if beard:
                 rigged.append(beard)
         shape_body(arm, rigged, spec)
+        if spec.get("cheek_fullness"):
+            head_group = body.vertex_groups["Head"].index
+            head = [v for v in body.data.vertices
+                    if any(g.group == head_group and g.weight > .5 for g in v.groups)]
+            bottom, top = min(v.co.z for v in head), max(v.co.z for v in head)
+            # Fill the lower cheeks/jaw without moving the eyes or hairline.
+            for vertex in body.data.vertices:
+                weight = next((g.weight for g in vertex.groups if g.group == head_group), 0)
+                height = (vertex.co.z - bottom) / (top - bottom)
+                fullness = max(0, 1 - abs(height - .20) / .35)
+                vertex.co.x *= 1 + spec["cheek_fullness"] * fullness * weight
+            if hair and spec.get("hair_lift"):
+                # Lift the short crown while leaving scalp attachments intact.
+                for vertex in hair.data.vertices:
+                    crown = min(1, max(0, (vertex.co.z - top + .04) / .10))
+                    vertex.co.z += spec["hair_lift"] * crown
+        if prefix == "Tamara":
+            soften_tamara(body, brows, eyes, hair)
         rigged += dress(prefix, spec, arm, body)
+        if prefix == "Tamara":
+            fit_tamara_head(Path(args.root), arm, body, rigged)
         assign_clips(prefix, arm, actions)
         arm.location.x = index * 1.2
         lod1 = finish_character(prefix, arm, rigged)
         print(f"character-kit-v2: {prefix} parts={len(rigged)} lod1={lod1}")
 
-    # Skin albedo at 1024 keeps the kit light; faces stay readable at talk distance.
+    # Keep the age-study albedo at its authored 2048; other skin maps stay at 1024.
     for image in bpy.data.images:
-        if image.size[0] > 1024:
+        if image.size[0] > 1024 and image.name != "old_lightskinned_female_diffuse.png":
             image.scale(1024, 1024)
     if args.export:
         root = Path(args.root)

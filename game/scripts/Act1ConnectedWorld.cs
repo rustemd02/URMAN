@@ -492,6 +492,8 @@ public partial class Act1ConnectedWorld : Node3D
         // Interaction boxes are created by the zone scripts, so this runs after
         // the frame is built rather than in the one-shot suppression pass.
         CallDeferred(nameof(SuppressLegacySignInteraction));
+        // Final visibility includes the initial shutter pose and deferred trim.
+        CallDeferred(nameof(ReconcileAddressSignsAfterFrontages));
         IsBuilt = true;
     }
 
@@ -1655,14 +1657,13 @@ public partial class Act1ConnectedWorld : Node3D
         // Contact shading stays local; broad halos and full-frame grading
         // are unnecessary after the snow/foliage geometry pass.
         environment.GlowEnabled = false;
-        environment.SsaoEnabled = true;
         environment.SsaoIntensity = .75f;
         environment.SsaoRadius = .4f;
         environment.AdjustmentEnabled = false;
         environment.AdjustmentBrightness = 1f;
         environment.AdjustmentSaturation = 1f;
         environment.AdjustmentContrast = 1f;
-        GraphicsQuality.ConfigureEnvironment(environment);
+        GraphicsQuality.ConfigureEnvironment(environment, authoredSsao: true);
 
         if (environment.Sky?.SkyMaterial is ProceduralSkyMaterial sky)
         {
@@ -4682,7 +4683,9 @@ public partial class Act1ConnectedWorld : Node3D
                 "ArrivalLeftHorizonDomesticFacade",
                 Vector3.Zero,
                 88f,
-                Vector3.One * 0.34f,
+                // H045 is a reachable addressed house, not a forced-perspective
+                // silhouette: retain the kit's 1.92 m doorway.
+                Vector3.One,
                 "village_day@arrival-left-horizon-domestic-facade"));
         AddAct1AuthoredExteriorParcel(
             AddAct1ExteriorParcelSubmount(

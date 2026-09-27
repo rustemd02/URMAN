@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-27",
+  "command": "URMAN_LANG_COLD_PAIR=1 URMAN_SMOKE_TIMEOUT=300 eng/run-smoke-guarded.sh --shared-session act1_settings_navigation_smoke_test act1_user_settings_smoke_test",
+  "exitCode": 0,
+  "assemblySha256": "86769beb3a00cac60971e56f36504367cf9d5967439470ad2e77097a957d6abe",
+  "preparePid": 9287,
+  "verifyPid": 9439,
+  "profile": "fluent",
+  "newGuessed": 12,
+  "newConfirmed": 0,
+  "oldGuessed": 1,
+  "oldBabai": "unknown",
+  "priorSlotBytesUnchanged": true,
+  "guardRestored": true,
+  "limits": [
+    "No quiz/manual precedence acceptance: ACT1-LANG.4 remains open.",
+    "No production code changed for this verification."
+  ]
+}
