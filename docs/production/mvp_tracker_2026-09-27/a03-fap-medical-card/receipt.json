@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-27",
+  "packet": "A03 first investigation cycle: FAP document desk",
+  "playerEffect": "After Naila grants access, the FAP desk shows Marat's outpatient card instead of repeating the official notice already read at home.",
+  "change": [
+    "Existing access-gated document urman.oldpc:document/doc_marat_medical_card is opened by the physical desk target.",
+    "Desk prompt, route cue and exit wording reflect the card; the notice remains on the old PC.",
+    "The existing physical walkthrough's exact FAP document assertion now expects the card. Narrative interaction and scene IDs stay stable for existing saves."
+  ],
+  "assemblySha256": "9769d608871bee97c06dd42245119bb27cf6f9300e2230d24da80318ecfef85d",
+  "checks": [
+    "Urman.Game.csproj --no-restore build: exit0, 0 errors, 0 warnings.",
+    "Guarded native URMAN_WALK_MAIN_ROUTE_ONLY=1 first-person walkthrough: actual FAP dialogue, desk interaction and card assertion passed; player exited FAP, saved and loaded, then reached the internal register. Overall exit1 occurred later during the mosque route, so it is not a full-route PASS. Userdata guard restored originals.",
+    "Guarded chapter_one_flow_smoke_test: exit0 through FAP scene transitions, internal register, finale and fresh session. This check follows logical content, not the card's physical UI. Userdata guard restored originals.",
+    "git diff --check: exit0."
+  ],
+  "limits": [
+    "No current screenshot or human observation of the card reader; visual quality and comprehension are not accepted.",
+    "Opening the card exposes an existing optional source; it does not by itself confirm a medical diagnosis or complete the evidence comparison.",
+    "The downstream physical walkthrough failure at the mosque is separate and remains open; this receipt does not determine its exact cause."
+  ],
+  "authorVisualDecision": "Does the existing outpatient-card text and reader at the FAP desk feel like a meaningful new source at this point in the investigation?"
+}

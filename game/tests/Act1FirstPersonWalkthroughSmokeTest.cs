@@ -713,7 +713,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return;
         }
 
-        // FAP -> official record -> street -> house. The document is opened and closed
+        // FAP medical card -> street -> house. The document is opened and closed
         // through the same UI path, but no state is injected by the test.
         if (!await InteractAt(player, ray, Interaction("fap-to-document-desk"))
             || !await InteractAt(player, ray, Interaction("fap-document-desk-to-official-record")))
@@ -721,7 +721,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return;
         }
         await Frames(5);
-        AssertDocument(OfficialNotice);
+        AssertDocument("urman.oldpc:document/doc_marat_medical_card");
         CloseDocument();
         await Frames(3);
 

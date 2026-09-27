@@ -899,8 +899,8 @@ public partial class StyleBenchmarkZone : Node3D
             new(0, 0.94f, -4.1f),
             "b7a47e",
             "urman.chapter1:interaction/fap-document-desk-to-official-record",
-            "Прочитать официальную справку о Марате",
-            documentId: "urman.oldpc:document/doc_marat_official_death_notice",
+            "Прочитать амбулаторную карту Марата",
+            documentId: "urman.oldpc:document/doc_marat_medical_card",
             rayOnly: true);
         MakeInteractionBox(
             "OfficialRecordExitToStreet",
@@ -908,7 +908,7 @@ public partial class StyleBenchmarkZone : Node3D
             new(0, 1.05f, 5.82f),
             "625849",
             "urman.chapter1:interaction/official-leave-clinic",
-            "Выйти из ФАПа и вернуться домой со справкой",
+            "Выйти из ФАПа и сверить записи дома",
             "village_day",
             "from_fap",
             rayOnly: true);

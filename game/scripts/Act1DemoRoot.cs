@@ -1527,7 +1527,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         "urman.chapter1:scene/fap_pressure_document_desk" => AvailableCue(
             bridge,
             "fap-document-desk-to-official-record",
-            "Прочитать официальную справку о Марате."),
+            "Прочитать амбулаторную карту Марата."),
         "urman.chapter1:scene/evidence-official-death" => AvailableCue(
             bridge,
             "official-to-internal-register",
