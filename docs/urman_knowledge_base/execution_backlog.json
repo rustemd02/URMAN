@@ -2743,7 +2743,7 @@
         "ACT1-MECH-AUDIT.2"
       ],
       "units": [
-        "A00 next unit: journal source comparison on the mandatory route. Enumerate its concrete consumer IDs, locations and distinct useful results under ACT1-MECH-AUDIT.1, then classify it under .2. Source excerpt selection already has four useful applications on three documents; native UI and human acceptance remain open."
+        "A00 next unit: old-PC document search and opening. Enumerate actual query, result and document-reading consumers under ACT1-MECH-AUDIT.1, then classify the mechanic under .2; do not infer player usability from source counts. Source excerpts and journal comparisons are inventoried, while native UI and human acceptance remain open."
       ],
       "owner": "codex-01a0dd89 / GPT-6 Astra; no active native process or child writer"
     },
@@ -11492,6 +11492,7 @@
       "mvp_packet": "A00",
       "current_checkpoint": "2026-09-26 scoped read-only Sol inventory: EX06 two real gated lantern readings; EX07 bath stove/water/condensation plus warm-water→window/cabinet thaw; EX08 three yard sound mechanisms. No dangling loop proved in these three systems; human listening/clarity unrun. Remaining mechanics inventory still open. Side-panel directional caption defect forwarded and corrected under EX08.",
       "source_excerpt_checkpoint_2026_09_27": "Four distinct useful actions on three documents: notice cause, register wording, register category, and Marat message voice. Re-selecting the register category is the same consumer, not a fifth use. Bindings and effects: game/scripts/RuntimeBridge.SourceExcerpts.cs; content/modules/urman-chapter1/investigation-source-checks.json. Inventory: docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md. Guarded true-headless family-flow exit0: docs/production/mvp_tracker_2026-09-27/fap-records/receipt.json. Remaining mechanics inventory is open.",
+      "journal_comparison_checkpoint_2026_09_27": "The nine authored JSON files with journalAction contain 39 actions on 20 distinct source pairs: 22 state-changing, 17 feedback-only. Every pair, action family and bounded result is listed in docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md. game/scripts/JournalUi.cs and RuntimeBridge.cs require two different found sources and recheck conditions before applying. The guarded true-headless family-flow validates the main chain and selected corrections, not all 20 pairs or native UI. Remaining mechanics inventory is open.",
       "pole_reconciliation_2026_09_27": {
         "status": "source_verified_historical_risk_stale",
         "finding": "Шест зарегистрирован и используется для боковой доски, верхней коробки, верхней створки и соединения с крючком. Старый черновик «возможно декоративный» не основание удаления.",
@@ -11559,6 +11560,7 @@
       "mvp_priority": 12,
       "mvp_packet": "A00",
       "source_excerpt_checkpoint_2026_09_27": "Technically working on the current dirty DLL in guarded true-headless family-flow; retain four distinct uses and do not add artificial repeats. Native keyboard/focus, large text and human clarity remain unverified under A12 / ACT1-UI.4 and ACT1-UI.7. Background-input failure is a verification limit, not a proven player bug. Remaining mechanics classification is open. Evidence: docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md; docs/production/mvp_tracker_2026-09-27/fap-records/receipt.json.",
+      "journal_comparison_checkpoint_2026_09_27": "Retain the comparison mechanic: 20 distinct source-pair contexts support bounded deductions, side findings and correction of wrong hypotheses. The 17 feedback-only choices are not 17 separate progression steps. Main chain and selected corrections passed guarded true-headless family-flow on the current dirty DLL; other pairs are source-inventoried only. Native two-picker clarity and human usability remain A12 / ACT1-UI.4 and ACT1-UI.7. Evidence: docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md; docs/production/mvp_tracker_2026-09-27/fap-records/receipt.json. Other mechanics classification remains open.",
       "delivery": {
         "packet": "A00"
       },

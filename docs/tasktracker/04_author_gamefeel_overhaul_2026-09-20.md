@@ -131,6 +131,48 @@ true-headless family-flow завершился с `exit0`: прямой вызо
 `ACT1-UI.7`; не удалять механику по числу четырёх применений и не добавлять
 искусственные повторы. Остальная инвентаризация .1/.2 открыта.
 
+### Срез инвентаризации: сопоставление источников в журнале, 27 сентября 2026
+
+В подключённых JSON модуля — **39 действий на 20 разных парах источников**:
+22 меняют состояние, 17 только объясняют ошибочный вывод. Это не 39
+обязательных сравнений. Все ID действий ниже имеют префикс
+`urman.chapter1:interaction/`; пара указывает суффиксы ID источников.
+[Журнал](../../game/scripts/JournalUi.cs) предлагает действия только для двух
+найденных разных источников; [RuntimeBridge](../../game/scripts/RuntimeBridge.cs)
+повторно проверяет пару и условия перед записью и сохранением.
+
+| Пара источников | Действия в контенте | Отличающийся результат |
+| --- | --- | --- |
+| Извещение + рассказ Мансура о звонке | [`compare-family-call-scope`, `compare-family-call-erased`](../../content/modules/urman-chapter1/investigation-family.json) | Звонок семье не равен запросу родственников; версия об удалённой записи получает только возражение |
+| Извещение + услышанные Алсу версии | [`compare-versions-scope`, `compare-versions-diagnoses`, `compare-versions-departure`](../../content/modules/urman-chapter1/investigation-route.json) | Установить предел справки и вопрос Наиле; два поспешных вывода только поясняются |
+| Извещение + внутренний реестр | [`compare-records-contradiction`, `compare-records-accident`, `compare-records-murder`](../../content/modules/urman-chapter1/definitions.json) | Выписанные поля дают расхождение формулировок; ни убийство, ни вторая причина из них не следуют |
+| Реестр + ответ Наили | [`compare-record-scope`, `compare-record-scope-cause`, `compare-record-scope-lie`](../../content/modules/urman-chapter1/investigation-social.json) | Ограниченное противоречие внутренней и официальной записи; отказ Наили не новый диагноз и не признание |
+| Предупреждение әби + ответ Наили | [`compare-warning-contexts`, `compare-warning-agreement`, `compare-warning-rule`](../../content/modules/urman-chapter1/investigation-social.json) | Разные контексты «ярамый»; общий заговор и правило леса не доказаны |
+| Сообщение Марата + рассказ Алсу | [`compare-message-seen`](../../content/modules/urman-chapter1/investigation-source-checks.json) | Исправимая догадка «видел человека»; ответ Алсу и исходная выписка возвращают границу свидетельства |
+| Сообщение Марата + заметка об урмане | [`compare-voice-link`, `compare-voice-echo`, `compare-voice-creature`](../../content/modules/urman-chapter1/definitions.json) | Связь слов «голос/ответ» и языковой слой; эхо и имя существа остаются исправимыми версиями |
+| Реестр + заметка об урмане | [`compare-reread-response`, `compare-reread-author`, `compare-reread-compensation`](../../content/modules/urman-chapter1/definitions.json) | После перечитывания — версия о месте/действии; автор и смысл компенсации не установлены |
+| Сообщение Марата + схема | [`compare-route-purpose-landmarks`, `compare-route-purpose-alive`, `compare-route-purpose-summon`](../../content/modules/urman-chapter1/investigation-route.json) | Проверяемая цель — ориентиры; встреча с Маратом и повторение его действий не обещаны |
+| Схема + придорожная бирка | [`compare-route-match`, `compare-route-center`, `compare-route-marat-proof`](../../content/modules/urman-chapter1/definitions.json) | Внешняя дорога установлена; уход внутрь и личный след Марата — версии для исправления |
+| Фото первого снега + осмотр нужного двора | [`compare-photo-yard`](../../content/modules/urman-chapter1/exploration-observation-checks.json) | Три ориентира совпали, нужен близкий осмотр стыка калитки |
+| То же фото + похожее боковое окно | [`compare-photo-neighbor`](../../content/modules/urman-chapter1/exploration-observation-checks.json) | Только объяснение, почему похожего дома мало |
+| Схема + осмотр ориентиров у дороги | [`compare-sketch-place`](../../content/modules/urman-chapter1/exploration-observation-checks.json) | Место рисунка уточнено, край бирки ещё надо проверить руками |
+| Схема + вид на минарет | [`compare-sketch-minaret`](../../content/modules/urman-chapter1/exploration-observation-checks.json) | Только объяснение неверного места |
+| Реестр + повреждённый учёт | [`compare-accounting-scope`, `compare-accounting-same-case`](../../content/modules/urman-chapter1/investigation-source-returns.json) | Гипотеза о внутреннем учёте; совпадение одного случая не доказано |
+| Школьная записка + фотоальбом совета | [`compare-sabirov-family`, `compare-sabirov-authorship`](../../content/modules/urman-chapter1/village-life.json) | Родство Сабировых; авторство всех снимков не следует |
+| Версия об эхе + сообщение Марата | [`revise-echo`](../../content/modules/urman-chapter1/investigation-revisions.json) | Снятие уверенности в эхе после проверки слов Марата |
+| Версия о существе + заметка | [`revise-creature`](../../content/modules/urman-chapter1/investigation-revisions.json) | Заголовок не устанавливает говорившего |
+| Версия о входе в зират + схема | [`revise-inside`](../../content/modules/urman-chapter1/investigation-revisions.json) | Исправлено направление внешней дороги |
+| Версия о следе Марата + бирка | [`revise-identity`](../../content/modules/urman-chapter1/investigation-revisions.json) | Бирка обозначает место, не человека |
+
+Классификация .2: **сохранить**. Основная цепь и исправление выбранных ошибок
+прошли guarded true-headless `act1_len01_family_flow_smoke_test` с `exit0` на
+текущей грязной DLL; [receipt](../production/mvp_tracker_2026-09-27/fap-records/receipt.json).
+Остальные пары перечислены по действующему контенту, не приняты отдельным
+оконным или человеческим проходом. 17 ответов без эффекта дают обратную связь
+на той же паре, а не 17 новых игровых задач. Проверка понятности двух списков
+источников и текста выбора остаётся в A12 / `ACT1-UI.4`, `ACT1-UI.7`.
+Остальные механики .1/.2 ещё не инвентаризированы полностью.
+
 ## §5 Техническое ревью мира — ACT1-TECH
 
 Технический проход по игре: коллизии (застревания, провалы, проходы сквозь
