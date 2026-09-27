@@ -2744,7 +2744,7 @@
         "ACT1-CUTSCENE"
       ],
       "units": [
-        "A02 next unit: arrival to the first player-chosen personal clue about Marat. Capture the current first playable handoff, verify ordinary progression plus skip/load on the same DLL, and fix one reproduced player-facing defect. Preserve dirty shared world/controller/scene files and existing canon; do not infer human interest or visual acceptance from a smoke."
+        "A02 next unit: follow ordinary New Game from arrival photo memory to the first concrete contradiction and player-chosen check on the current DLL. Verify the actual action, journal effect and return path; fix only a reproduced gap. The authored 8-second intro flight is a technical candidate, not accepted sound, motion art, saved seen-state or full A02 experience; see a02-intro-flyover/receipt.json."
       ],
       "owner": "codex-01a0dd89 / GPT-6 Astra; no active native process or child writer",
       "previous_packet": "A01 scoped collision triage recorded 2026-09-27: historical Babai shelter-post failure did not recur in guarded full-scope checks; full boundary still exits1 for MainStreetForwardWestFacade arbitrary wall-face fixture. Current native ADR-H018 route reached the door/plate from road and returned, 18/18 points each way, zero recoveries/clamps; no user-facing road-to-door blocker reproduced. ACT1-TECH.1/.2 and other A01 tasks remain in_progress; revisit on concrete episode defects, not as a full A01 acceptance claim."
@@ -6304,6 +6304,7 @@
         "game/scripts/DialogueUi.cs"
       ],
       "deliverable": "Early meaningful choices and first evidence/application/reaction loop with polished home, character, audio and save.",
+      "current_checkpoint": "2026-09-27 A02 opening presentation candidate: an authored 8-second winter-village camera flight now joins New Game to the real arrival camera, with immediate skip, reduced-motion still view and readable lower-third at normal/160% in inspected native 1280x720 frames. Current DLL normal/large intro and save-lifecycle checks pass; this does not accept the first 8–12-minute story loop, audio, cold Continue, human interest or artistic motion. See docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/receipt.json.",
       "done_when": [
         "Early meaningful choices and first evidence/application/reaction loop with polished home, character, audio and save."
       ],
@@ -13395,7 +13396,10 @@
       "done_when": [
         "Катсцена не даёт знаний и не пишет журнал; save/load и повторный старт устойчивы; кривые/тайминги — в данных, не в коде."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/receipt.json"
+      ],
+      "current_checkpoint": "2026-09-27: intro-specific presentation track/control candidate only. Authored Bezier controls and 8s timing live in JSON; normal/160% native launch checks confirm moving camera, ordinary input/phone/photo, mid-flight skip and natural camera return; reduced-motion headless confirms still camera/HUD restoration; save lifecycle headless passes. No generic multi-scene player, saved viewed marker, replay UI, authored sound or cold-load proof; keep ACT1-CUTSCENE.1 in_progress.",
       "mvp_priority": 20,
       "mvp_packet": "A02",
       "delivery": {
@@ -13453,7 +13457,10 @@
       "done_when": [
         "Пролёт читается (силуэты деревни, лес, дым), скорость комфортна; звук синхронизирован."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/receipt.json"
+      ],
+      "current_checkpoint": "2026-09-27: one camera-curve segment from above the current winter village to actual arrival spawn, with four current-DLL native frames including 160% text. Forest and settlement are visible without a centre card. No visible smoke established, no authored sound synchronization/listening, motion-art review, weak-hardware FPS or human acceptance; ACT1-CUTSCENE.2 remains in_progress.",
       "mvp_priority": 20,
       "mvp_packet": "A02",
       "delivery": {
@@ -14756,7 +14763,8 @@
           "После первых 10–15 минут новый игрок объясняет, к кому приехал, чем ему важен Марат, что не сходится и что он намерен проверить; наблюдатель не подсказывает ответ.",
           "Автор оценивает постановку по реальной сцене/захвату, не по концепту."
         ],
-        "avoid": "Не ждать идеального лица второстепенного NPC и не удлинять заставку ради хронометража."
+        "avoid": "Не ждать идеального лица второстепенного NPC и не удлинять заставку ради хронометража.",
+        "first_segment_checkpoint_2026_09_27": "Authored arrival camera path and lower-third on current dirty DLL: native normal/160% launch exit0, reduced-motion exit0, same-DLL save lifecycle exit0; selected keyframes in docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/. A02 first personal action/contradiction, seen-state, replay, sound, smoke, cold Continue and human art/interest remain open."
       },
       {
         "id": "A03",

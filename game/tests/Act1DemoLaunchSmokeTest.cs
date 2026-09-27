@@ -38,6 +38,13 @@ public partial class Act1DemoLaunchSmokeTest : Node
             return;
         }
 
+        var reducedMotionIntro = System.Environment.GetEnvironmentVariable("URMAN_INTRO_REDUCED_MOTION") == "1";
+        if (reducedMotionIntro)
+            menuPlayer.ApplySettings(menuPlayer.CaptureSettings() with
+            {
+                Accessibility = menuPlayer.Accessibility with { ReducedMotion = true }
+            });
+
         if (!await this.StartThroughMainMenuAsync(demo))
         {
             Fail("Act 1 demo did not reach the intro through the main menu New Game button.");
@@ -56,6 +63,51 @@ public partial class Act1DemoLaunchSmokeTest : Node
         {
             Fail("Act 1 demo did not start in the first-person Chapter 1 arrival state.");
             return;
+        }
+
+        if (reducedMotionIntro)
+        {
+            var playerCamera = menuPlayer.GetNode<Camera3D>("Head/Camera3D");
+            var hud = menuPlayer.GetNode<CanvasLayer>("Hud");
+            if (GetViewport().GetCamera3D() != playerCamera || hud.Visible)
+            {
+                Fail("Reduced motion did not keep the arrival camera still and hide gameplay HUD.");
+                return;
+            }
+            demo._UnhandledInput(new InputEventAction { Action = "interact", Pressed = true });
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (demo.IntroVisible || menuPlayer.ModalOpen || !hud.Visible)
+            {
+                Fail("Reduced-motion intro did not restore HUD and input after confirmation.");
+                return;
+            }
+            GD.Print("act1-demo-launch-smoke: reduced-motion intro -> still player camera -> HUD/input restored");
+            await GodotSmokeCleanup.ReleaseAsync(demo);
+            GetTree().Quit(0);
+            return;
+        }
+
+        var introCamera = GetViewport().GetCamera3D();
+        if (introCamera?.Name.ToString() != "Act1ArrivalFlyoverCamera")
+        {
+            Fail("New Game did not start the authored arrival camera before input.");
+            return;
+        }
+        var firstIntroPosition = introCamera.GlobalPosition;
+        var introCaptureDir = System.Environment.GetEnvironmentVariable("URMAN_INTRO_CAPTURE_DIR");
+        if (!string.IsNullOrEmpty(introCaptureDir))
+        {
+            if (!Path.IsPathFullyQualified(introCaptureDir) || !Directory.Exists(introCaptureDir)
+                || Directory.EnumerateFileSystemEntries(introCaptureDir).Any())
+            {
+                Fail("Intro capture needs an existing empty absolute directory.");
+                return;
+            }
+            if (System.Environment.GetEnvironmentVariable("URMAN_INTRO_CAPTURE_SCALE") == "large")
+                demo.ApplyAccessibilitySettings(menuPlayer.Accessibility with { TextScale = 1.6 });
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            CaptureIntro(introCaptureDir, "01_departure");
         }
 
         var connectedWorld = demo.DemoMain.ConnectedWorld;
@@ -135,10 +187,24 @@ public partial class Act1DemoLaunchSmokeTest : Node
             return;
         }
         await ToSignal(GetTree().CreateTimer(3.6), SceneTreeTimer.SignalName.Timeout);
-        if (!demo.IntroVisible || !menuPlayer.ModalOpen)
+        if (!demo.IntroVisible || !menuPlayer.ModalOpen
+            || GetViewport().GetCamera3D() != introCamera
+            || introCamera.GlobalPosition.DistanceTo(firstIntroPosition) < 1f)
         {
-            Fail($"Ordinary New Game lost its intro input gate before confirmation: intro={demo.IntroVisible}, modal={menuPlayer.ModalOpen}.");
+            Fail($"Ordinary New Game lost its moving intro and input gate before confirmation: intro={demo.IntroVisible}, modal={menuPlayer.ModalOpen}.");
             return;
+        }
+        if (!string.IsNullOrEmpty(introCaptureDir))
+        {
+            CaptureIntro(introCaptureDir, "02_village");
+            await ToSignal(GetTree().CreateTimer(5.0), SceneTreeTimer.SignalName.Timeout);
+            if (!demo.IntroVisible || !menuPlayer.ModalOpen
+                || GetViewport().GetCamera3D() != menuPlayer.GetNode<Camera3D>("Head/Camera3D"))
+            {
+                Fail("Arrival flyover did not return to the player camera while preserving the intro input gate.");
+                return;
+            }
+            CaptureIntro(introCaptureDir, "03_handoff");
         }
 
         connectedWorld.SetActiveLogicalZone("house_old_pc");
@@ -238,9 +304,10 @@ public partial class Act1DemoLaunchSmokeTest : Node
 
         demo._UnhandledInput(gamepadPress);
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        if (demo.IntroVisible || player.ModalOpen)
+        if (demo.IntroVisible || player.ModalOpen
+            || GetViewport().GetCamera3D() != player.GetNode<Camera3D>("Head/Camera3D"))
         {
-            Fail("Act 1 intro did not dismiss on the mapped gamepad interact action.");
+            Fail("Act 1 intro did not return the camera and input on the mapped gamepad interact action.");
             return;
         }
 
@@ -248,6 +315,12 @@ public partial class Act1DemoLaunchSmokeTest : Node
         GD.Print("act1-demo-launch-smoke: dedicated entrypoint -> remapped intro -> ordinary arrival walk -> physical phone and photo readers; first-player duration not measured");
         await GodotSmokeCleanup.ReleaseAsync(demo);
         GetTree().Quit(0);
+    }
+
+    private void CaptureIntro(string directory, string name)
+    {
+        var error = GetViewport().GetTexture().GetImage().SavePng(Path.Combine(directory, name + ".png"));
+        if (error != Error.Ok) Fail($"Could not capture arrival intro {name}: {error}.");
     }
 
     private async Task<bool> CheckArrivalReach(Act1DemoRoot demo, RuntimeBridge bridge, FirstPersonController player)

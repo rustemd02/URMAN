@@ -153,6 +153,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         if (_introStack is not null && GodotObject.IsInstanceValid(_introStack))
         {
             AccessibilityPresentation.ApplyToControl(_introStack, settings);
+            if (_introStack.GetParent() is PanelContainer panel)
+                panel.OffsetTop = -245f - 115f * (float)(settings.TextScale - 1.0);
         }
 
         if (_endingStack is not null && GodotObject.IsInstanceValid(_endingStack))
@@ -287,6 +289,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         }
 
         UpdateIntroControls();
+        UpdateIntroFlyover(delta);
         if (_player?.ModalOpen == true && _routeCue is not null && _routeCue.Modulate.A > 0f)
         {
             HideRouteCue();
@@ -316,6 +319,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _ExitTree()
     {
+        StopIntroFlyover();
         StopRendererDiagnostics();
         _vehiclePerformanceRoute?.ReleaseInput();
         RecordM10Timing("process-exit", force: true);
@@ -1368,44 +1372,46 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
         var shade = new ColorRect
         {
-            Color = new Color(0.015f, 0.02f, 0.018f, 0.88f),
+            Color = new Color(0.015f, 0.02f, 0.018f, 0.55f),
             MouseFilter = Control.MouseFilterEnum.Ignore
         };
         StretchFullScreen(shade);
         screen.AddChild(shade);
 
-        var center = new CenterContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
-        StretchFullScreen(center);
-        screen.AddChild(center);
         var stack = new VBoxContainer { Alignment = BoxContainer.AlignmentMode.Center };
-        stack.AddThemeConstantOverride("separation", 12);
+        stack.AddThemeConstantOverride("separation", 7);
         var panel = new PanelContainer { Name = "IntroPanel", MouseFilter = Control.MouseFilterEnum.Ignore };
+        panel.AnchorTop = panel.AnchorBottom = 1f;
+        panel.AnchorRight = 1f;
+        panel.OffsetTop = -245;
         panel.AddThemeStyleboxOverride("panel", new StyleBoxFlat
         {
-            BgColor = new Color(0.025f, 0.043f, 0.038f, 0.97f),
-            ContentMarginLeft = 32, ContentMarginRight = 32,
-            ContentMarginTop = 28, ContentMarginBottom = 28,
-            CornerRadiusTopLeft = 6, CornerRadiusTopRight = 6,
-            CornerRadiusBottomLeft = 6, CornerRadiusBottomRight = 6
+            BgColor = new Color(0.015f, 0.025f, 0.023f, 0.88f),
+            ContentMarginLeft = 40, ContentMarginRight = 40,
+            ContentMarginTop = 20, ContentMarginBottom = 20
         });
-        center.AddChild(panel);
+        screen.AddChild(panel);
         panel.AddChild(stack);
         _introStack = stack;
-        stack.AddChild(Label("УРМАН", 56, new Color(0.88f, 0.78f, 0.59f)));
-        stack.AddChild(Label("Акт I — Возвращение", 24, new Color(0.72f, 0.72f, 0.66f)));
-        stack.AddChild(Label("Я снова в Кара-Урмане. Снег. Десять лет молчания.", 18, new Color(0.57f, 0.62f, 0.59f)));
-        stack.AddChild(Label("На скамье справа — мой телефон и фото Марата.", 18, new Color(0.72f, 0.74f, 0.68f)));
-        stack.AddChild(Label("Мама спрашивает, доехал ли я. Потом — к бабаю и әби.", 18, new Color(0.72f, 0.74f, 0.68f)));
-        _introControls = Label(string.Empty, 18, new Color(0.48f, 0.54f, 0.52f));
+        Label IntroLine(string text, int size, Color color)
+        {
+            var label = Label(text, size, color);
+            label.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+            label.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+            return label;
+        }
+        stack.AddChild(IntroLine("УРМАН  /  Акт I — Возвращение", 32, new Color(0.94f, 0.84f, 0.65f)));
+        stack.AddChild(IntroLine("Я снова в Кара-Урмане. Десять лет молчания.", 19, new Color(0.87f, 0.89f, 0.83f)));
+        stack.AddChild(IntroLine("На скамье справа — мой телефон и старое фото Марата.", 19, new Color(0.87f, 0.89f, 0.83f)));
+        _introControls = IntroLine(string.Empty, 17, new Color(0.72f, 0.78f, 0.74f));
         stack.AddChild(_introControls);
 
         _introTween = CreateTween();
-        // The first-time card must remain available until the player confirms
-        // they are ready. Fade the backing shade to a readable resting alpha,
-        // but never dismiss the modal or unlock movement on a timer.
-        _introTween.TweenProperty(shade, "color", new Color(0.015f, 0.02f, 0.018f, 0.32f), 1.8f).SetDelay(1.4f);
+        // Keep the village visible while the input gate remains until confirmation.
+        _introTween.TweenProperty(shade, "color", new Color(0.015f, 0.02f, 0.018f, 0.07f), 1.5f);
         UpdateIntroControls();
         ApplyAccessibilitySettings(player?.Accessibility ?? AccessibilitySettingsSnapshot.Default);
+        StartIntroFlyover();
     }
 
     private void BuildRouteCue()
@@ -1643,10 +1649,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             ? "Левый стик" : !gamepad && directions.SequenceEqual(new[] { "W", "A", "S", "D" })
                 ? "WASD" : string.Join(" / ", directions);
         var interact = Hint("interact");
-        _introControls.Text = $"{movement} — идти   ·   {(gamepad ? "правый стик" : "мышь")} — смотреть\n"
-            + $"{interact} — начать / осмотреть   ·   {Hint("journal")} — журнал   ·   {Hint("pause")} — меню\n"
-            + (gamepad ? $"Нажмите {interact}, чтобы продолжить"
-                : $"Нажмите {interact} или левую кнопку мыши, чтобы продолжить");
+        _introControls.Text = $"{movement} — идти   ·   {(gamepad ? "правый стик" : "мышь")} — смотреть   ·   {interact} — начать / осмотреть\n"
+            + $"{interact} — пропустить вступление   ·   {Hint("journal")} — журнал   ·   {Hint("pause")} — меню";
     }
 
     private void DismissIntro()
@@ -1658,6 +1662,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         }
 
         _introTween?.Kill();
+        StopIntroFlyover();
         _introTween = null;
         _introScreen = null;
         _introStack = null;
