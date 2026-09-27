@@ -1,0 +1,2207 @@
+{
+  "schemaVersion": 1,
+  "ordinaryNewGame": true,
+  "humanSearchPlaytest": false,
+  "diagnosticCameraFixtures": false,
+  "assembly": {
+    "path": "/Users/unterlantas/Documents/GitHub/URMAN/game/.godot/mono/temp/bin/Debug/Urman.Game.dll",
+    "pathSource": "project-debug-candidate; module identity checked",
+    "assemblyLocation": "",
+    "loadedModule": "0c8e6e37-3f6a-4a27-93e4-55c8d1b3c74e",
+    "diskModule": "0c8e6e37-3f6a-4a27-93e4-55c8d1b3c74e",
+    "status": "module-match",
+    "sha256": "b776e7c960cd2b663844e0ff3e87c2d8d896364c53846535c88310ab69489c9c"
+  },
+  "scope": "crowded-addresses",
+  "auditRun": false,
+  "fullAuditRun": false,
+  "selectedAccessAuditRun": true,
+  "acceptance": false,
+  "auditCompleted": false,
+  "registry": {
+    "version": "act1-addresses-1",
+    "subsetOnly": true,
+    "addresses": [
+      {
+        "AddressId": "ADR-FAP",
+        "BuildingId": "BLD-FAP",
+        "ParcelId": "PAR-FAP",
+        "StreetId": "urman",
+        "HouseNumber": "2",
+        "AccessId": "ACC-ADR-FAP",
+        "History": []
+      }
+    ],
+    "accesses": [
+      {
+        "AccessId": "ACC-ADR-FAP",
+        "BuildingId": "BLD-FAP",
+        "Kind": "entrance",
+        "Position": {
+          "X": 26.69999122619629,
+          "Y": 0.16048601269721985,
+          "Z": -27.379995346069336
+        },
+        "GraphNodeId": "ND-95E61FC45872176B",
+        "State": "verified"
+      }
+    ]
+  },
+  "mounts": [
+    {
+      "addressId": "ADR-FAP",
+      "buildingId": "BLD-FAP",
+      "source": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade",
+      "plate": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-FAP",
+      "platePosition": {
+        "x": 27.9,
+        "y": 1.6340684,
+        "z": -28.119001
+      },
+      "plateBasis": {
+        "x": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "y": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "z": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "plateWidth": 0.6,
+      "plateHeight": 0.23,
+      "labels": {
+        "TatarStreet": {
+          "text": "\u0423\u0440\u043C\u0430\u043D \u0443\u0440.",
+          "font": "",
+          "pixelSize": 0.00135,
+          "fontSize": 34
+        },
+        "RussianStreet": {
+          "text": "\u0443\u043B. \u041B\u0435\u0441\u043D\u0430\u044F",
+          "font": "",
+          "pixelSize": 0.00135,
+          "fontSize": 30
+        },
+        "HouseNumber": {
+          "text": "2",
+          "font": "",
+          "pixelSize": 0.00135,
+          "fontSize": 65
+        }
+      },
+      "physicalMountSupported": true,
+      "mountAssessment": {
+        "Supported": true,
+        "MissingArea": 0,
+        "Owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+        "Reason": "complete facade and exterior sightline",
+        "TimberCladding": false
+      },
+      "mountSamples": [
+        {
+          "sample": {
+            "x": 27.6,
+            "y": 1.5190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.6,
+            "y": 1.5190684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.6,
+            "y": 1.7490684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.6,
+            "y": 1.7490685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.65,
+            "y": 1.5190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.65,
+            "y": 1.5190684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.65,
+            "y": 1.7490684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.65,
+            "y": 1.7490685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.699999,
+            "y": 1.5190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.699999,
+            "y": 1.5190684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.699999,
+            "y": 1.7490684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.699999,
+            "y": 1.7490685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.75,
+            "y": 1.5190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.75,
+            "y": 1.5190684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.75,
+            "y": 1.7490684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.75,
+            "y": 1.7490685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.8,
+            "y": 1.5190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.8,
+            "y": 1.5190684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.8,
+            "y": 1.7490684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.8,
+            "y": 1.7490685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.85,
+            "y": 1.5190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.85,
+            "y": 1.5190684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.85,
+            "y": 1.7490684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.85,
+            "y": 1.7490685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.9,
+            "y": 1.5190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.9,
+            "y": 1.5190684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.9,
+            "y": 1.7490684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.9,
+            "y": 1.7490685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.949999,
+            "y": 1.5190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.949999,
+            "y": 1.5190684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.949999,
+            "y": 1.7490684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.949999,
+            "y": 1.7490685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28,
+            "y": 1.5190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28,
+            "y": 1.5190684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28,
+            "y": 1.7490684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28,
+            "y": 1.7490685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.05,
+            "y": 1.5190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.05,
+            "y": 1.5190684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.05,
+            "y": 1.7490684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.05,
+            "y": 1.7490685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.1,
+            "y": 1.5190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.1,
+            "y": 1.5190684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.1,
+            "y": 1.7490684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.1,
+            "y": 1.7490685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.15,
+            "y": 1.5190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.15,
+            "y": 1.5190684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.15,
+            "y": 1.7490684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.15,
+            "y": 1.7490685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.199999,
+            "y": 1.5190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.199999,
+            "y": 1.5190684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.199999,
+            "y": 1.7490684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.199999,
+            "y": 1.7490685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.6,
+            "y": 1.5574017,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.6,
+            "y": 1.5574017,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.199999,
+            "y": 1.5574017,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.199999,
+            "y": 1.5574017,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.6,
+            "y": 1.5957351,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.6,
+            "y": 1.5957351,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.199999,
+            "y": 1.5957351,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.199999,
+            "y": 1.5957351,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.6,
+            "y": 1.6340684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.6,
+            "y": 1.6340684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.199999,
+            "y": 1.6340684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.199999,
+            "y": 1.6340684,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.6,
+            "y": 1.6724017,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.6,
+            "y": 1.6724017,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.199999,
+            "y": 1.6724017,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.199999,
+            "y": 1.6724017,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.6,
+            "y": 1.7107351,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.6,
+            "y": 1.7107351,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.199999,
+            "y": 1.7107351,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.199999,
+            "y": 1.7107351,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.63,
+            "y": 1.5490683,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.63,
+            "y": 1.5490683,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 27.63,
+            "y": 1.7190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 27.63,
+            "y": 1.7190685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.17,
+            "y": 1.5490683,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.17,
+            "y": 1.5490683,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        },
+        {
+          "sample": {
+            "x": 28.17,
+            "y": 1.7190684,
+            "z": -28.119001
+          },
+          "physicsHit": true,
+          "collider": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/AuthoredKitCollisionProxy",
+          "point": {
+            "x": 28.17,
+            "y": 1.7190685,
+            "z": -28.140001
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "physicsGapMeters": 0.020999908,
+          "visualMesh": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "visualGapMeters": 0.021000683,
+          "mounted": true,
+          "boardJoint": false,
+          "timberJoint": false
+        }
+      ],
+      "doorMeshes": [
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_DoorFrameLeft_LOD0",
+          "visible": true,
+          "position": {
+            "x": 25.880001,
+            "y": 1.5254712,
+            "z": -28.160002
+          },
+          "basis": {
+            "x": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            }
+          },
+          "aabbSize": {
+            "x": 0.14,
+            "y": 2.73,
+            "z": 0.38
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_DoorFrameRight_LOD0",
+          "visible": true,
+          "position": {
+            "x": 27.52,
+            "y": 1.5254712,
+            "z": -28.160002
+          },
+          "basis": {
+            "x": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            }
+          },
+          "aabbSize": {
+            "x": 0.14,
+            "y": 2.73,
+            "z": 0.38
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_DoorFrameTop_LOD0",
+          "visible": true,
+          "position": {
+            "x": 26.7,
+            "y": 2.8104713,
+            "z": -28.160002
+          },
+          "basis": {
+            "x": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            }
+          },
+          "aabbSize": {
+            "x": 1.78,
+            "y": 0.16,
+            "z": 0.38
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_DoorHandle_LOD0",
+          "visible": true,
+          "position": {
+            "x": 27.18,
+            "y": 1.5604712,
+            "z": -28.34
+          },
+          "basis": {
+            "x": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            }
+          },
+          "aabbSize": {
+            "x": 0.1,
+            "y": 0.16,
+            "z": 0.12
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_DoorPanel_LOD0",
+          "visible": true,
+          "position": {
+            "x": 26.7,
+            "y": 1.4804713,
+            "z": -28.43
+          },
+          "basis": {
+            "x": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            }
+          },
+          "aabbSize": {
+            "x": 1.5,
+            "y": 2.5,
+            "z": 0.07
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_DoorPanelInset_LOD0",
+          "visible": true,
+          "position": {
+            "x": 26.7,
+            "y": 0.9404712,
+            "z": -28.382
+          },
+          "basis": {
+            "x": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            }
+          },
+          "aabbSize": {
+            "x": 1.08,
+            "y": 0.72,
+            "z": 0.035
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_ServiceDoor_LOD0",
+          "visible": true,
+          "position": {
+            "x": 32.48,
+            "y": 1.0854712,
+            "z": -38.98
+          },
+          "basis": {
+            "x": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            }
+          },
+          "aabbSize": {
+            "x": 0.07,
+            "y": 2.05,
+            "z": 0.94
+          }
+        },
+        {
+          "name": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_ServiceDoorFrame_LOD0",
+          "visible": true,
+          "position": {
+            "x": 32.65,
+            "y": 2.1704712,
+            "z": -38.98
+          },
+          "basis": {
+            "x": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "y": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "z": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            }
+          },
+          "aabbSize": {
+            "x": 0.36,
+            "y": 0.12,
+            "z": 1.18
+          }
+        }
+      ],
+      "accessPosition": {
+        "X": 26.700000762939453,
+        "Y": -0.29382362961769104,
+        "Z": -27.3799991607666
+      },
+      "accessState": "pending-physics",
+      "standingCapsuleFits": false,
+      "floorHit": true,
+      "floorOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0"
+    }
+  ],
+  "captures": [],
+  "checks": [
+    {
+      "kind": "check",
+      "message": "ordinary New Game starts",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "construction and proximity do not record a plate read",
+      "passed": true
+    },
+    {
+      "kind": "audit-not-run-in-narrow-scope",
+      "auditRun": false,
+      "constructionEntriesAlreadyObserved": 0,
+      "previousPhysicsProcessing": true,
+      "acceptance": false
+    },
+    {
+      "kind": "check",
+      "message": "select one to four existing, distinct address IDs",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "mounted plate rests against actual facade triangles: ADR-FAP",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "sign text agrees with registry: ADR-FAP",
+      "passed": true
+    },
+    {
+      "kind": "crowded-door-access",
+      "addressId": "ADR-FAP",
+      "access": {
+        "AccessId": "ACC-ADR-FAP",
+        "BuildingId": "BLD-FAP",
+        "Kind": "entrance",
+        "Position": {
+          "X": 26.69999122619629,
+          "Y": 0.16048601269721985,
+          "Z": -27.379995346069336
+        },
+        "GraphNodeId": "ND-95E61FC45872176B",
+        "State": "verified"
+      },
+      "advances": 165,
+      "plateApproachIsSeparate": true,
+      "humanNavigationTest": false
+    },
+    {
+      "kind": "check",
+      "message": "ADR-FAP: standing door route attached to the road graph",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ADR-FAP: a physical route is required before walking",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "message": "ADR-FAP: road fixture has actual support",
+      "passed": true
+    },
+    {
+      "kind": "route-start",
+      "label": "address/ADR-FAP/read-approach",
+      "observeOldStops": false,
+      "points": [
+        "(27.038578, -0.3469263, -25.96926)",
+        "(27.020758, -0.30237895, -26.043509)",
+        "(27.002937, -0.25431526, -26.117758)",
+        "(26.985117, -0.22814474, -26.192007)",
+        "(26.967297, -0.21901906, -26.266256)",
+        "(26.949476, -0.21925843, -26.340506)",
+        "(26.931656, -0.15590134, -26.414755)",
+        "(26.913836, -0.11478985, -26.489004)",
+        "(26.896015, -0.09386744, -26.563253)",
+        "(26.878195, -0.089177825, -26.637503)",
+        "(26.860374, -0.07288024, -26.711752)",
+        "(26.842554, -0.01155578, -26.786001)",
+        "(26.824734, 0.02313418, -26.86025)",
+        "(26.806913, 0.039214842, -26.9345)",
+        "(26.789093, 0.064227626, -27.008749)",
+        "(26.771273, 0.1184779, -27.082998)",
+        "(26.753452, 0.14828674, -27.157248)",
+        "(26.735632, 0.16017403, -27.231497)",
+        "(26.699991, 0.16048601, -27.379995)",
+        "(27.9, -0.19609615, -27.369001)"
+      ],
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "feet": "(27.038578, -0.34692618, -25.96926)",
+      "pointRadius": 0.09,
+      "policy": "continuous input; no point removed or reordered"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 0,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 35,
+      "processFrame": 4,
+      "target": "(27.038578, -0.3469263, -25.96926)",
+      "feet": "(27.038578, -0.34692618, -25.96926)",
+      "distanceXZ": 0,
+      "velocity": "(0, 0, 0)",
+      "grounded": true,
+      "floorNormal": "(-0.092380285, 0.99503857, 0.03693291)",
+      "forwardHeld": false,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.092380285, 0.99503857, 0.03693291)",
+          "position": "(27.070911, -0.34520257, -25.982185)",
+          "depth": 0.00017112779
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(27.038578, -0.348684, -25.96926)",
+      "supportNormal": "(-0.09238029, 0.9950386, 0.036932915)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 1,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 35,
+      "processFrame": 4,
+      "target": "(27.020758, -0.30237895, -26.043509)",
+      "feet": "(27.038578, -0.34692618, -25.96926)",
+      "distanceXZ": 0.076357834,
+      "velocity": "(0, 0, 0)",
+      "grounded": true,
+      "floorNormal": "(-0.092380285, 0.99503857, 0.03693291)",
+      "forwardHeld": false,
+      "standingClear": true,
+      "StepsClimbed": 0,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+          "normal": "(-0.092380285, 0.99503857, 0.03693291)",
+          "position": "(27.070911, -0.34520257, -25.982185)",
+          "depth": 0.00017112779
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(27.038578, -0.348684, -25.96926)",
+      "supportNormal": "(-0.09238029, 0.9950386, 0.036932915)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 2,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 37,
+      "processFrame": 5,
+      "target": "(27.002937, -0.25431526, -26.117758)",
+      "feet": "(27.018064, -0.29072315, -26.053272)",
+      "distanceXZ": 0.06623607,
+      "velocity": "(-0.79346293, 0, -3.306118)",
+      "grounded": true,
+      "floorNormal": "(-0, 0.71623826, 0.69785583)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 1,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0/FapEntryPorch_Step_02_LOD0_SurfaceContact",
+          "normal": "(0, 0.7151547, 0.6989663)",
+          "position": "(27.02499, -0.21952882, -26.27)",
+          "depth": 0.0011137979
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0/FapEntryPorch_Step_02_LOD0_SurfaceContact",
+          "normal": "(0, 0.71623826, 0.69785583)",
+          "position": "(27.024809, -0.21952882, -26.27)",
+          "depth": 0.0009948763
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(27.018064, -0.34747016, -26.053272)",
+      "supportNormal": "(-0.09238029, 0.9950386, 0.036932915)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 3,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 39,
+      "processFrame": 6,
+      "target": "(26.985117, -0.22814474, -26.192007)",
+      "feet": "(26.99857, -0.24338749, -26.13396)",
+      "distanceXZ": 0.0595848,
+      "velocity": "(-0.7788411, 0, -3.309593)",
+      "grounded": true,
+      "floorNormal": "(-0, 0.8713735, 0.4906203)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 1,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0/FapEntryPorch_Step_02_LOD0_SurfaceContact",
+          "normal": "(0, 0.8694362, 0.49404523)",
+          "position": "(27.007439, -0.21952882, -26.27)",
+          "depth": 0.0011419896
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0/FapEntryPorch_Step_02_LOD0_SurfaceContact",
+          "normal": "(0, 0.8713735, 0.4906203)",
+          "position": "(27.007067, -0.21952882, -26.27)",
+          "depth": 0.0010043355
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(26.99857, -0.34628516, -26.13396)",
+      "supportNormal": "(-0.09238029, 0.9950386, 0.036932915)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 4,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 40,
+      "processFrame": 6,
+      "target": "(26.967297, -0.21901906, -26.266256)",
+      "feet": "(26.986795, -0.22701183, -26.183153)",
+      "distanceXZ": 0.08536008,
+      "velocity": "(-0.7821579, 0, -3.3088105)",
+      "grounded": true,
+      "floorNormal": "(-0, 0.9339631, 0.3573694)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 1,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0/FapEntryPorch_Step_02_LOD0_SurfaceContact",
+          "normal": "(0, 0.93174654, 0.36310932)",
+          "position": "(26.996456, -0.21952882, -26.27)",
+          "depth": 0.0009675613
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0/FapEntryPorch_Step_02_LOD0_SurfaceContact",
+          "normal": "(0, 0.9339631, 0.3573694)",
+          "position": "(26.995909, -0.21952882, -26.27)",
+          "depth": 0.0010137901
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+      "supportPoint": "(26.986795, -0.34555244, -26.183153)",
+      "supportNormal": "(-0.09238029, 0.9950386, 0.036932915)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 5,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 42,
+      "processFrame": 8,
+      "target": "(26.949476, -0.21925843, -26.340506)",
+      "feet": "(26.96099, -0.21838762, -26.291796)",
+      "distanceXZ": 0.05005236,
+      "velocity": "(-0.7821879, 0, -3.308803)",
+      "grounded": true,
+      "floorNormal": "(0, 1, -0)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 1,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0/FapEntryPorch_Step_02_LOD0_SurfaceContact",
+      "supportPoint": "(26.96099, -0.21952882, -26.291796)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 6,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 43,
+      "processFrame": 9,
+      "target": "(26.931656, -0.15590134, -26.414755)",
+      "feet": "(26.947842, -0.21956927, -26.346916)",
+      "distanceXZ": 0.069742836,
+      "velocity": "(-0.78901225, 0, -3.3071823)",
+      "grounded": true,
+      "floorNormal": "(0, 1, -0)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 1,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0/FapEntryPorch_Step_02_LOD0_SurfaceContact",
+      "supportPoint": "(26.947842, -0.21952882, -26.346916)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 7,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 44,
+      "processFrame": 10,
+      "target": "(26.913836, -0.11478985, -26.489004)",
+      "feet": "(26.934652, -0.16535583, -26.402027)",
+      "distanceXZ": 0.08943343,
+      "velocity": "(-0.7913776, 0, -3.306617)",
+      "grounded": true,
+      "floorNormal": "(-0, 0.7818426, 0.6234759)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 2,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0/FapEntryPorch_Step_01_LOD0_SurfaceContact",
+          "normal": "(0, 0.7818426, 0.6234759)",
+          "position": "(26.934652, -0.08952883, -26.62)",
+          "depth": 0.0007132059
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0/FapEntryPorch_Step_02_LOD0_SurfaceContact",
+      "supportPoint": "(26.934652, -0.21952882, -26.402027)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 8,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 46,
+      "processFrame": 12,
+      "target": "(26.896015, -0.09386744, -26.563253)",
+      "feet": "(26.915665, -0.11526492, -26.479626)",
+      "distanceXZ": 0.08590515,
+      "velocity": "(-0.7847421, 0, -3.308198)",
+      "grounded": true,
+      "floorNormal": "(-0, 0.86512315, 0.50155944)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 2,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0/FapEntryPorch_Step_01_LOD0_SurfaceContact",
+          "normal": "(0, 0.8631633, 0.5049249)",
+          "position": "(26.924486, -0.08952883, -26.62)",
+          "depth": 0.00091372663
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0/FapEntryPorch_Step_01_LOD0_SurfaceContact",
+          "normal": "(0, 0.86512315, 0.50155944)",
+          "position": "(26.92411, -0.08952883, -26.62)",
+          "depth": 0.0010215826
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0/FapEntryPorch_Step_02_LOD0_SurfaceContact",
+      "supportPoint": "(26.915665, -0.21952882, -26.479626)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 9,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 48,
+      "processFrame": 13,
+      "target": "(26.878195, -0.089177825, -26.637503)",
+      "feet": "(26.891317, -0.08876957, -26.58151)",
+      "distanceXZ": 0.0575093,
+      "velocity": "(-0.78057677, 0, -3.3091831)",
+      "grounded": true,
+      "floorNormal": "(-0, 0.9772077, 0.21228547)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 2,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0/FapEntryPorch_Step_01_LOD0_SurfaceContact",
+          "normal": "(0, 0.9749385, 0.22247435)",
+          "position": "(26.900692, -0.08952883, -26.62)",
+          "depth": 0.0009762451
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0/FapEntryPorch_Step_01_LOD0_SurfaceContact",
+          "normal": "(0, 0.9772077, 0.21228547)",
+          "position": "(26.899809, -0.08952883, -26.62)",
+          "depth": 0.000951115
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_02_LOD0/FapEntryPorch_Step_02_LOD0_SurfaceContact",
+      "supportPoint": "(26.891317, -0.21952882, -26.58151)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 10,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 49,
+      "processFrame": 14,
+      "target": "(26.860374, -0.07288024, -26.711752)",
+      "feet": "(26.87822, -0.08876957, -26.636642)",
+      "distanceXZ": 0.077200286,
+      "velocity": "(-0.7859005, 0, -3.3079226)",
+      "grounded": true,
+      "floorNormal": "(0, 1, -0)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 2,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0/FapEntryPorch_Step_01_LOD0_SurfaceContact",
+      "supportPoint": "(26.87822, -0.089528814, -26.636642)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 11,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 51,
+      "processFrame": 15,
+      "target": "(26.842554, -0.01155578, -26.786001)",
+      "feet": "(26.851896, -0.03945446, -26.746876)",
+      "distanceXZ": 0.040225327,
+      "velocity": "(-0.7897081, 0, -3.3070154)",
+      "grounded": true,
+      "floorNormal": "(-0, 0.7699707, 0.6380793)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 3,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0/FapEntryPorch_Step_00_LOD0_SurfaceContact",
+          "normal": "(0, 0.7699707, 0.6380793)",
+          "position": "(26.851896, 0.040471166, -26.97)",
+          "depth": 0.0007017768
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0/FapEntryPorch_Step_01_LOD0_SurfaceContact",
+      "supportPoint": "(26.851896, -0.08952883, -26.746876)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 12,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 52,
+      "processFrame": 15,
+      "target": "(26.824734, 0.02313418, -26.86025)",
+      "feet": "(26.843538, -0.01121857, -26.78045)",
+      "distanceXZ": 0.08198534,
+      "velocity": "(-0.7921612, 0, -3.3064287)",
+      "grounded": true,
+      "floorNormal": "(-0, 0.7743709, 0.632732)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 3,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0/FapEntryPorch_Step_00_LOD0_SurfaceContact",
+          "normal": "(0, 0.7730464, 0.6343496)",
+          "position": "(26.851536, 0.040471166, -26.97)",
+          "depth": 0.0010179259
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0/FapEntryPorch_Step_00_LOD0_SurfaceContact",
+          "normal": "(0, 0.7743709, 0.632732)",
+          "position": "(26.851309, 0.040471166, -26.97)",
+          "depth": 0.0010090434
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0/FapEntryPorch_Step_01_LOD0_SurfaceContact",
+      "supportPoint": "(26.843538, -0.08952883, -26.78045)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 13,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 54,
+      "processFrame": 17,
+      "target": "(26.806913, 0.039214842, -26.9345)",
+      "feet": "(26.821884, 0.029528074, -26.87039)",
+      "distanceXZ": 0.065834574,
+      "velocity": "(-0.7810233, 0, -3.309077)",
+      "grounded": true,
+      "floorNormal": "(-0, 0.91965073, 0.3927372)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 3,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0/FapEntryPorch_Step_00_LOD0_SurfaceContact",
+          "normal": "(0, 0.9175056, 0.3977227)",
+          "position": "(26.831387, 0.040471166, -26.97)",
+          "depth": 0.0010452803
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0/FapEntryPorch_Step_00_LOD0_SurfaceContact",
+          "normal": "(0, 0.91965073, 0.3927372)",
+          "position": "(26.830898, 0.040471166, -26.97)",
+          "depth": 0.0010129791
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0/FapEntryPorch_Step_01_LOD0_SurfaceContact",
+      "supportPoint": "(26.821884, -0.08952886, -26.87039)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 14,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 55,
+      "processFrame": 18,
+      "target": "(26.789093, 0.064227626, -27.008749)",
+      "feet": "(26.809315, 0.0402856, -26.923006)",
+      "distanceXZ": 0.08809524,
+      "velocity": "(-0.78408074, 0, -3.3083537)",
+      "grounded": true,
+      "floorNormal": "(-0, 0.97118336, 0.23833363)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 3,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0/FapEntryPorch_Step_00_LOD0_SurfaceContact",
+          "normal": "(0, 0.96876264, 0.24798985)",
+          "position": "(26.818848, 0.040471166, -26.97)",
+          "depth": 0.0010101935
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0/FapEntryPorch_Step_00_LOD0_SurfaceContact",
+          "normal": "(0, 0.97118336, 0.23833363)",
+          "position": "(26.817997, 0.040471166, -26.97)",
+          "depth": 0.001019135
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_01_LOD0/FapEntryPorch_Step_01_LOD0_SurfaceContact",
+      "supportPoint": "(26.809315, -0.08952886, -26.923006)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 15,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 57,
+      "processFrame": 20,
+      "target": "(26.771273, 0.1184779, -27.082998)",
+      "feet": "(26.783102, 0.08541833, -27.033232)",
+      "distanceXZ": 0.05115313,
+      "velocity": "(-0.7862408, 0, -3.307841)",
+      "grounded": true,
+      "floorNormal": "(-0, 0.7843793, 0.62028146)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 4,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0/FapEntryPorch_Deck_LOD0_SurfaceContact",
+          "normal": "(0, 0.7843793, 0.62028146)",
+          "position": "(26.783102, 0.16047117, -27.25)",
+          "depth": 0.00071715785
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0/FapEntryPorch_Step_00_LOD0_SurfaceContact",
+      "supportPoint": "(26.783102, 0.040471166, -27.033232)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 16,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 59,
+      "processFrame": 22,
+      "target": "(26.753452, 0.14828674, -27.157248)",
+      "feet": "(26.764101, 0.13538928, -27.11119)",
+      "distanceXZ": 0.047271762,
+      "velocity": "(-0.77937096, 0, -3.3094661)",
+      "grounded": true,
+      "floorNormal": "(-0, 0.86774284, 0.4970134)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 4,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0/FapEntryPorch_Deck_LOD0_SurfaceContact",
+          "normal": "(0, 0.8658074, 0.5003773)",
+          "position": "(26.772848, 0.16047117, -27.25)",
+          "depth": 0.0010291595
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0/FapEntryPorch_Deck_LOD0_SurfaceContact",
+          "normal": "(0, 0.86774284, 0.4970134)",
+          "position": "(26.772478, 0.16047117, -27.25)",
+          "depth": 0.0010091459
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0/FapEntryPorch_Step_00_LOD0_SurfaceContact",
+      "supportPoint": "(26.764101, 0.040471166, -27.11119)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 17,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 60,
+      "processFrame": 23,
+      "target": "(26.735632, 0.16017403, -27.231497)",
+      "feet": "(26.752403, 0.15223083, -27.16003)",
+      "distanceXZ": 0.07340797,
+      "velocity": "(-0.78294855, 0, -3.3086214)",
+      "grounded": true,
+      "floorNormal": "(-0, 0.93026745, 0.36688194)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 4,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0/FapEntryPorch_Deck_LOD0_SurfaceContact",
+          "normal": "(0, 0.9282535, 0.37194827)",
+          "position": "(26.762062, 0.16047117, -27.25)",
+          "depth": 0.00096837746
+        },
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0/FapEntryPorch_Deck_LOD0_SurfaceContact",
+          "normal": "(0, 0.93026745, 0.36688194)",
+          "position": "(26.761576, 0.16047117, -27.25)",
+          "depth": 0.00094323186
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Step_00_LOD0/FapEntryPorch_Step_00_LOD0_SurfaceContact",
+      "supportPoint": "(26.752403, 0.040471196, -27.16003)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 18,
+      "phase": "point-visited-before-release",
+      "physicsFrame": 63,
+      "processFrame": 26,
+      "target": "(26.699991, 0.16048601, -27.379995)",
+      "feet": "(26.713396, 0.16127019, -27.323608)",
+      "distanceXZ": 0.057958413,
+      "velocity": "(-0.7863467, 0, -3.3078153)",
+      "grounded": true,
+      "floorNormal": "(0, 1, -0)",
+      "forwardHeld": true,
+      "standingClear": true,
+      "StepsClimbed": 4,
+      "LastStepRejection": "",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0/FapEntryPorch_Deck_LOD0_SurfaceContact",
+          "normal": "(0, 1, -0)",
+          "position": "(26.713396, 0.16047117, -27.323608)",
+          "depth": 6.954372E-05
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0/FapEntryPorch_Deck_LOD0_SurfaceContact",
+      "supportPoint": "(26.713396, 0.16047117, -27.323608)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "physical-route-sample",
+      "label": "address/ADR-FAP/read-approach",
+      "index": 19,
+      "phase": "point-stall",
+      "physicsFrame": 183,
+      "processFrame": 265,
+      "target": "(27.9, -0.19609615, -27.369001)",
+      "feet": "(27.714735, 0.16127019, -27.361916)",
+      "distanceXZ": 0.18540004,
+      "velocity": "(0, 0, 0)",
+      "grounded": true,
+      "floorNormal": "(0, 1, -0)",
+      "forwardHeld": true,
+      "standingClear": false,
+      "StepsClimbed": 4,
+      "LastStepRejection": "no walkable tread within step height",
+      "revision": 3,
+      "recoveries": 0,
+      "clamps": 0,
+      "contacts": [
+        {
+          "owner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Rail_R_LOD0",
+          "shape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Rail_R_LOD0/FapEntryPorch_Rail_R_LOD0_SurfaceContact",
+          "normal": "(-1, 0, 0)",
+          "position": "(28.065, 0.5554712, -27.36195)",
+          "depth": 0.0009422302
+        }
+      ],
+      "supportOwner": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0",
+      "supportShape": "/root/AddressWorldSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredEntryPorch/FapPropContact_FapEntryPorch_Deck_LOD0/FapEntryPorch_Deck_LOD0_SurfaceContact",
+      "supportPoint": "(27.714735, 0.16047117, -27.361916)",
+      "supportNormal": "(0, 1, 0)"
+    },
+    {
+      "kind": "check",
+      "message": "assembly candidate MVID matches the executing module",
+      "passed": true
+    }
+  ],
+  "failures": [
+    "ADR-FAP: Continuous mosque input could not reach address/ADR-FAP/read-approach[19]: (27.714735, 0.16127019, -27.361916) -\u003E (27.9, -0.19609615, -27.369001)."
+  ]
+}
