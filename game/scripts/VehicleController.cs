@@ -156,7 +156,7 @@ public partial class VehicleController : CharacterBody3D
         if (Math.Abs(Speed) > .25f)
         { Notice("Сначала остановитесь."); return false; }
         if (!TryFindSafeExit(out var feet))
-        { Notice("Дверь прижата. Переставьте транспорт: рядом негде встать."); return false; }
+        { Notice("Рядом негде встать. Переставьте транспорт."); return false; }
         // An empty vehicle is parked; the ignition and radio retain their actual state.
         ParkingBrake = true; Speed = 0; Velocity = Vector3.Zero;
         Driver = null;
@@ -448,9 +448,12 @@ public partial class VehicleController : CharacterBody3D
         if (Driver is not { } player) return false;
         var side = Definition.HullSize.X*.5f + player.BodyRadius + .19f;
         var seatZ = Definition.Kind == VehicleKind.HorseCart ? .39f : .15f;
-        // The near-side door is preferred. Far side and rear are explicit physical alternatives.
-        foreach (var offset in new[]{new Vector3(-side,0,seatZ),new(side,0,seatZ),
-            new(-side,0,seatZ+.7f),new(side,0,seatZ+.7f)})
+        // Prefer the sides; a motorcycle can also be left behind its rear wheel.
+        var offsets = new List<Vector3>{new(-side,0,seatZ),new(side,0,seatZ),
+            new(-side,0,seatZ+.7f),new(side,0,seatZ+.7f)};
+        if (Definition.Kind == VehicleKind.Motorcycle)
+            offsets.Add(new(0,0,Definition.HullSize.Z*.5f+player.BodyRadius+.19f));
+        foreach (var offset in offsets)
         {
             var candidate = ToGlobal(offset);
             var ray = PhysicsRayQueryParameters3D.Create(candidate+Vector3.Up*2.0f,candidate-Vector3.Up*2.1f,3);
@@ -460,7 +463,9 @@ public partial class VehicleController : CharacterBody3D
             candidate = hit["position"].AsVector3()+Vector3.Up*.035f;
             if (Math.Abs(candidate.Y-GlobalPosition.Y) > .65f || !player.CanStandAt(candidate)) continue;
             _exitShape.Height = player.StandingBodyHeight; _exitShape.Radius = player.BodyRadius;
-            var start = ToGlobal(new(Math.Sign(offset.X)*(Definition.HullSize.X*.5f+.02f),0,offset.Z));
+            var start = offset.X == 0
+                ? ToGlobal(new(0,0,Definition.HullSize.Z*.5f+.02f))
+                : ToGlobal(new(Math.Sign(offset.X)*(Definition.HullSize.X*.5f+.02f),0,offset.Z));
             start.Y = candidate.Y;
             var sweep = new PhysicsShapeQueryParameters3D { Shape = _exitShape,
                 Transform = new(Basis.Identity,start+Vector3.Up*(player.StandingBodyHeight*.5f+.025f)),

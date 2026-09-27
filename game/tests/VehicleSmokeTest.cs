@@ -357,11 +357,19 @@ public partial class VehicleSmokeTest : Node
                 AddChild(wall);wall.GlobalTransform=new(vehicle.GlobalBasis,vehicle.ToGlobal(new(sign*wallSide,1.2f,z+.3f)));
                 fixtures.Add(wall);
             }
+            if(vehicle.Definition.Kind==VehicleKind.Motorcycle)
+            {
+                var rear=vehicle.Definition.HullSize.Z*.5f+(startOnly?.02f:_player.BodyRadius+.19f);
+                var wall=new StaticBody3D{Name="VehicleExitProofRear",CollisionLayer=1,CollisionMask=0};
+                wall.AddChild(new CollisionShape3D{Shape=new BoxShape3D{Size=new(.48f,2.4f,startOnly?.02f:.48f)}});
+                AddChild(wall);wall.GlobalTransform=new(vehicle.GlobalBasis,vehicle.ToGlobal(new(0,1.2f,rear)));
+                fixtures.Add(wall);
+            }
             await Frames(3);
             var position=_player.GlobalPosition;
             Require(!vehicle.TryExit()&&vehicle.Driver==_player&&_player.GlobalPosition.IsEqualApprox(position),
                 startOnly?"thin fences overlapping sweep origins reject exit even with clear endpoints"
-                    :"two actual blocked door exits preserve driver state");
+                    :"all actual blocked exits preserve driver state");
         }
         finally{foreach(var wall in fixtures)wall.QueueFree();await Frames(3);}
     }

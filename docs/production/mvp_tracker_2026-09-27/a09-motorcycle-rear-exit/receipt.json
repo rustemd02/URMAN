@@ -1,0 +1,42 @@
+{
+  "scope": "A09 single motorcycle-to-FAP drive/park/dismount on the current dirty checkout; not full fleet or human acceptance",
+  "headAtRun": "e6ac797c057b0d1d4f9046a3c9802050a90d0299",
+  "workspaceDirty": true,
+  "verification": {
+    "csharpBuild": "pass, 0 warnings, 0 errors",
+    "beforeNative": {
+      "exit": 1,
+      "checks": 67,
+      "observed": "motorcycle parked at FAP but mapped E left the driver in vehicle; no safe side exit"
+    },
+    "afterNative": {
+      "exit": 1,
+      "checks": 75,
+      "motorcycle": "mapped E restored walking control/camera/standing at the same FAP stop",
+      "niva": "also passed local route and exit",
+      "remainingFailure": "horse-cart obstacle near x=0.36,z=-36.83 stopped its old route before address capture; A09 stays open"
+    },
+    "guardedFleetSmoke": {
+      "exit": 0,
+      "checks": 864,
+      "scope": "existing full fleet smoke; blocked starts/endpoints and ordinary exits passed for all three",
+      "negativeSaveErrors": "expected blocked-geometry rejection phases in receipt"
+    }
+  },
+  "evidence": {
+    "before-exit-receipt.json": "9971cef25975f940cfacf494a662ea22301278c1d401bc2848efeeb5868c05e5",
+    "after-driver-receipt.json": "cf42c71ebcb97f4343ad519c84b7966c48fd2a2c01890923be9d03a4f32f8ac6",
+    "fleet-smoke-receipt.json": "70f124e689320248b0ad37667e5c7672c7bcde785ca494e470c8b4a642353d1a",
+    "motorcycle-fap-720.png": "3eb1a7cff2703a1baf6e96f0f1ec5ec85937db5d39d8952cfb2d72891d827fac",
+    "motorcycle-fap-1080.png": "0ef0a4eb2b5e805d61d1a41edc53bf7e398c716084138dea6025c609b88235e3",
+    "niva-babay-720.png": "709401a724ce187f7f3a5767fbb548cc17ff3740a4c6199070a3fbe071f0fa73"
+  },
+  "limits": [
+    "pedestrian approach to initial vehicle is a local fixture",
+    "FAP entrance after motorcycle dismount is not proven in this run",
+    "camera/handling and address readability need human review",
+    "cart obstruction remains open"
+  ],
+  "finalSourceSha256": "b067d74fda592e1a235e74f1b085c1d79991a8be4a5ac11a3b798562395ebfe9",
+  "postProbeEdit": "Only the no-exit notice became vehicle-neutral after the successful smoke; final C# build passed. No movement or exit logic changed after the probes."
+}

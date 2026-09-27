@@ -1,0 +1,4938 @@
+{
+  "kind": "actual-game-vehicle-smoke",
+  "scope": "driver-address-observation",
+  "exitCode": 1,
+  "checks": 75,
+  "failure": "System.InvalidOperationException: all three driver address observations completed: forest-horse-cart: cart-existing-main-road: real driving refusal: \u041B\u043E\u0448\u0430\u0434\u044C \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0430\u0441\u044C \u043F\u0435\u0440\u0435\u0434 \u043F\u0440\u0435\u043F\u044F\u0442\u0441\u0442\u0432\u0438\u0435\u043C. \u041C\u043E\u0436\u043D\u043E \u043E\u0441\u0430\u0434\u0438\u0442\u044C \u0435\u0451 \u043D\u0430\u0437\u0430\u0434.\n   at Urman.Godot.Tests.VehicleSmokeTest.Require(Boolean condition, String label) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.cs:line 447\n   at Urman.Godot.Tests.VehicleSmokeTest.RunAddressReadabilityChecks() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.AddressReadability.cs:line 107\n   at Urman.Godot.Tests.VehicleSmokeTest._Ready() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.cs:line 65",
+  "records": [
+    {
+      "kind": "check",
+      "label": "radio boundary carries fractional offset into the next segment",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "whole-loop advance still reports a playback boundary",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "saved radio segment survives input reordering",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "non-finite playback offsets are rejected",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "a retired unavailable segment starts the remaining programme at zero instead of copying an unrelated offset",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary New Game",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "three vehicle instances in the actual connected world",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "stable unique fleet IDs",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ordinary free control after arrival card",
+      "passed": true
+    },
+    {
+      "kind": "initial-fleet-parking",
+      "vehicle": "babay-niva",
+      "probe": {
+        "vehicleId": "babay-niva",
+        "origin": [
+          -1.65,
+          -0.21535009,
+          1
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          0.888,
+          0.025
+        ],
+        "hullSize": [
+          1.82,
+          1.8,
+          4.2
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              -2.3052,
+              -0.22735006,
+              -0.571
+            ],
+            "hit": true,
+            "position": [
+              -2.3052,
+              -0.25232512,
+              -0.571
+            ],
+            "normal": [
+              0.018784864,
+              0.99977803,
+              0.009541303
+            ],
+            "gapMetres": 0.024975061,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -2.3052,
+              -0.22735006,
+              2.6209998
+            ],
+            "hit": true,
+            "position": [
+              -2.3052,
+              -0.29845876,
+              2.6209998
+            ],
+            "normal": [
+              -0.008939898,
+              0.9998704,
+              0.013390849
+            ],
+            "gapMetres": 0.0711087,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -0.9947999,
+              -0.22735006,
+              -0.571
+            ],
+            "hit": true,
+            "position": [
+              -0.9947999,
+              -0.2781468,
+              -0.571
+            ],
+            "normal": [
+              0.022432983,
+              0.999722,
+              0.0072584394
+            ],
+            "gapMetres": 0.050796747,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              -0.9947999,
+              -0.22735006,
+              2.6209998
+            ],
+            "hit": true,
+            "position": [
+              -0.9947999,
+              -0.29313195,
+              2.6209998
+            ],
+            "normal": [
+              0.0014286969,
+              0.99989986,
+              0.014080784
+            ],
+            "gapMetres": 0.06578189,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ],
+        "steering": {
+          "angle": 0,
+          "leanRadians": 0,
+          "stops": 0,
+          "volumes": [
+            {
+              "name": "FrontLeftWheelCollision",
+              "centre": "(-0.78, 0.345, -1.18)",
+              "radius": 0.345,
+              "width": 0.19,
+              "colliderYaw": 0,
+              "visualYaw": -0,
+              "spin": 0,
+              "envelopeSides": 64,
+              "radialOverestimateMetres": 0.00042014546
+            },
+            {
+              "name": "FrontRightWheelCollision",
+              "centre": "(0.78, 0.345, -1.18)",
+              "radius": 0.345,
+              "width": 0.19,
+              "colliderYaw": 0,
+              "visualYaw": -0,
+              "spin": 0,
+              "envelopeSides": 64,
+              "radialOverestimateMetres": 0.00042014546
+            }
+          ],
+          "lastRejectedAngle": 0,
+          "lastRejectedLean": 0,
+          "lastAcceptedLeanBeforeContact": 0,
+          "lastContact": null
+        },
+        "compound": {
+          "sameBodyRid": "RID(1245914177995948)",
+          "volumes": [
+            {
+              "name": "ChassisCollision",
+              "shape": "BoxShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                -1.65,
+                0.6726499,
+                1.0250001
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "name": "FrontLeftWheelCollision",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                -2.4299998,
+                0.1296499,
+                -0.17999995
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "name": "FrontRightWheelCollision",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                -0.87,
+                0.1296499,
+                -0.17999995
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            }
+          ],
+          "supports": [
+            {
+              "group": "niva-existing-0",
+              "bindLocal": [
+                -0.65520006,
+                -0.011999965,
+                -1.571
+              ],
+              "local": [
+                -0.65520006,
+                -0.011999965,
+                -1.571
+              ],
+              "source": "actual current convex bottom vertices"
+            },
+            {
+              "group": "niva-existing-1",
+              "bindLocal": [
+                -0.65520006,
+                -0.011999965,
+                1.6209999
+              ],
+              "local": [
+                -0.65520006,
+                -0.011999965,
+                1.6209999
+              ],
+              "source": "actual current convex bottom vertices"
+            },
+            {
+              "group": "niva-existing-2",
+              "bindLocal": [
+                0.65520006,
+                -0.011999965,
+                -1.571
+              ],
+              "local": [
+                0.65520006,
+                -0.011999965,
+                -1.571
+              ],
+              "source": "actual current convex bottom vertices"
+            },
+            {
+              "group": "niva-existing-3",
+              "bindLocal": [
+                0.65520006,
+                -0.011999965,
+                1.6209999
+              ],
+              "local": [
+                0.65520006,
+                -0.011999965,
+                1.6209999
+              ],
+              "source": "actual current convex bottom vertices"
+            }
+          ],
+          "leanRadians": 0,
+          "nativeBodyShapeCount": 3,
+          "hoofQueryCount": 0,
+          "lowerLegQueryCount": 0,
+          "wholeHoofBodyRidContainment": false,
+          "hoofProjectionValid": true,
+          "hoofProjectionFailure": "",
+          "lastHoofContact": null,
+          "requiredGroups": 3,
+          "totalGroups": 4,
+          "policy": "existing three of four",
+          "scope": "One native body holds upper geometry and road/cart wheels. Four actual articulated hoof volumes constrain movement by guarded queries, with separate coherent full-sole support; they are not native body shapes."
+        }
+      },
+      "rejectedBeforeRecovery": null
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva ordinary authored start needs no parking recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva starts at its authored grounded position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva initial chassis and actual support are valid",
+      "passed": true
+    },
+    {
+      "kind": "initial-fleet-parking",
+      "vehicle": "village-motorcycle",
+      "probe": {
+        "vehicleId": "village-motorcycle",
+        "origin": [
+          1.4,
+          -0.3142522,
+          -23
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          0.77,
+          -0.01
+        ],
+        "hullSize": [
+          1,
+          1.54,
+          2.24
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              1.4,
+              -0.3180393,
+              -22.32
+            ],
+            "hit": true,
+            "position": [
+              1.4,
+              -0.343028,
+              -22.32
+            ],
+            "normal": [
+              0.0016139989,
+              0.99961066,
+              -0.027855622
+            ],
+            "gapMetres": 0.02498871,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.4,
+              -0.3180393,
+              -23.76
+            ],
+            "hit": true,
+            "position": [
+              1.4,
+              -0.3946421,
+              -23.76
+            ],
+            "normal": [
+              0.012477273,
+              0.99922377,
+              -0.03736695
+            ],
+            "gapMetres": 0.07660282,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ],
+        "steering": {
+          "angle": 0,
+          "leanRadians": 0,
+          "stops": 0,
+          "volumes": [
+            {
+              "name": "FrontWheelCollision",
+              "centre": "(0, 0.34, -0.76)",
+              "radius": 0.34,
+              "width": 0.095,
+              "colliderYaw": 0,
+              "visualYaw": -0,
+              "spin": 0,
+              "envelopeSides": 64,
+              "radialOverestimateMetres": 0.0004141217
+            }
+          ],
+          "lastRejectedAngle": 0,
+          "lastRejectedLean": 0,
+          "lastAcceptedLeanBeforeContact": 0,
+          "lastContact": null
+        },
+        "compound": {
+          "sameBodyRid": "RID(1262359607772334)",
+          "volumes": [
+            {
+              "name": "ChassisCollision",
+              "shape": "BoxShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                1.4,
+                0.54159176,
+                -23.030603
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "name": "RearWheelCollision",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                1.4,
+                0.025747806,
+                -22.32
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "name": "FrontWheelCollision",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                1.4,
+                0.025747806,
+                -23.76
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            }
+          ],
+          "supports": [
+            {
+              "group": "RearWheelCollision",
+              "bindLocal": [
+                0,
+                -0.0037871003,
+                0.68
+              ],
+              "local": [
+                0,
+                -0.0037871003,
+                0.67999995
+              ],
+              "source": "actual current convex bottom vertices"
+            },
+            {
+              "group": "FrontWheelCollision",
+              "bindLocal": [
+                0,
+                -0.0037871003,
+                -0.76
+              ],
+              "local": [
+                0,
+                -0.0037871003,
+                -0.76000005
+              ],
+              "source": "actual current convex bottom vertices"
+            }
+          ],
+          "leanRadians": 0,
+          "nativeBodyShapeCount": 3,
+          "hoofQueryCount": 0,
+          "lowerLegQueryCount": 0,
+          "wholeHoofBodyRidContainment": false,
+          "hoofProjectionValid": true,
+          "hoofProjectionFailure": "",
+          "lastHoofContact": null,
+          "requiredGroups": 2,
+          "totalGroups": 2,
+          "policy": "every named wheel and hoof group required",
+          "scope": "One native body holds upper geometry and road/cart wheels. Four actual articulated hoof volumes constrain movement by guarded queries, with separate coherent full-sole support; they are not native body shapes."
+        }
+      },
+      "rejectedBeforeRecovery": null
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle ordinary authored start needs no parking recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle starts at its authored grounded position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle initial chassis and actual support are valid",
+      "passed": true
+    },
+    {
+      "kind": "initial-fleet-parking",
+      "vehicle": "forest-horse-cart",
+      "probe": {
+        "vehicleId": "forest-horse-cart",
+        "origin": [
+          0.9,
+          -0.22890681,
+          -34
+        ],
+        "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+        "hullCenter": [
+          0,
+          1.225,
+          -0.5
+        ],
+        "hullSize": [
+          1.8,
+          2.45,
+          5.78
+        ],
+        "valid": true,
+        "reason": "",
+        "overlaps": [],
+        "supports": [
+          {
+            "bottom": [
+              0.67499995,
+              -0.28008866,
+              -36.16
+            ],
+            "hit": true,
+            "position": [
+              0.67499995,
+              -0.28008872,
+              -36.16
+            ],
+            "normal": [
+              -0.00035888905,
+              0.99962604,
+              -0.027344355
+            ],
+            "gapMetres": 5.9604645E-08,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              0.66499996,
+              -0.27163848,
+              -35.005
+            ],
+            "hit": true,
+            "position": [
+              0.66499996,
+              -0.27163848,
+              -35.005
+            ],
+            "normal": [
+              0.014730651,
+              0.9997689,
+              -0.015656227
+            ],
+            "gapMetres": 0,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.125,
+              -0.27992713,
+              -36.16
+            ],
+            "hit": true,
+            "position": [
+              1.125,
+              -0.27992713,
+              -36.16
+            ],
+            "normal": [
+              -0.00035888905,
+              0.99962604,
+              -0.027344355
+            ],
+            "gapMetres": 0,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.135,
+              -0.27272728,
+              -35.005
+            ],
+            "hit": true,
+            "position": [
+              1.135,
+              -0.2727273,
+              -35.005
+            ],
+            "normal": [
+              0.0012036979,
+              0.9999819,
+              -0.005903914
+            ],
+            "gapMetres": 2.9802322E-08,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              0.14999998,
+              -0.22942546,
+              -33.64
+            ],
+            "hit": true,
+            "position": [
+              0.14999998,
+              -0.25438452,
+              -33.64
+            ],
+            "normal": [
+              -0.009878599,
+              0.99994147,
+              0.004412309
+            ],
+            "gapMetres": 0.024959058,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              0.14999998,
+              -0.22942549,
+              -32.11
+            ],
+            "hit": true,
+            "position": [
+              0.14999998,
+              -0.2638567,
+              -32.11
+            ],
+            "normal": [
+              0.007376721,
+              0.99991095,
+              0.011125258
+            ],
+            "gapMetres": 0.03443122,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.65,
+              -0.22942546,
+              -33.64
+            ],
+            "hit": true,
+            "position": [
+              1.65,
+              -0.2647758,
+              -33.64
+            ],
+            "normal": [
+              0.014730651,
+              0.9997689,
+              -0.015656227
+            ],
+            "gapMetres": 0.035350353,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          },
+          {
+            "bottom": [
+              1.65,
+              -0.22942549,
+              -32.11
+            ],
+            "hit": true,
+            "position": [
+              1.65,
+              -0.27503657,
+              -32.11
+            ],
+            "normal": [
+              0.007481565,
+              0.9998459,
+              0.01588211
+            ],
+            "gapMetres": 0.045611084,
+            "contact": {
+              "vehicleShape": null,
+              "colliderPath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+              "shapeIndex": 0,
+              "shapePath": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces",
+              "shapeType": "ConcavePolygonShape3D",
+              "collisionOwner": "act1-exterior-terrain",
+              "authoredSourceMesh": null
+            }
+          }
+        ],
+        "steering": {
+          "angle": 0,
+          "leanRadians": 0,
+          "stops": 0,
+          "volumes": [],
+          "lastRejectedAngle": 0,
+          "lastRejectedLean": 0,
+          "lastAcceptedLeanBeforeContact": 0,
+          "lastContact": null
+        },
+        "compound": {
+          "sameBodyRid": "RID(1269957404918960)",
+          "volumes": [
+            {
+              "name": "ChassisCollision",
+              "shape": "BoxShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                0.9,
+                0.820337,
+                -33.90628
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "name": "HorseBodyCollision",
+              "shape": "BoxShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                0.9,
+                0.974433,
+                -35.501373
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "name": "HorseHeadCollision",
+              "shape": "BoxShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                0.9,
+                1.7306917,
+                -36.642845
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "name": "ReinsCollision",
+              "shape": "BoxShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                0.9,
+                1.4110932,
+                -35.47
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "name": "HorseLegMovementCollision",
+              "shape": "BoxShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                0.9,
+                0.54609317,
+                -35.5825
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "name": "CartWheelCollision5",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                0.14999998,
+                0.2010932,
+                -33.64
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "name": "CartWheelCollision6",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                0.14999998,
+                0.2010932,
+                -32.11
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "name": "CartWheelCollision7",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                1.65,
+                0.2010932,
+                -33.64
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "name": "CartWheelCollision8",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "native body",
+              "origin": [
+                1.65,
+                0.2010932,
+                -32.11
+              ],
+              "basisX": [
+                1,
+                0,
+                0
+              ],
+              "basisY": [
+                0,
+                1,
+                0
+              ],
+              "basisZ": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "name": "HoofContactQuery0",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "current hoof query",
+              "origin": [
+                0.6749533,
+                -0.15013725,
+                -36.163555
+              ],
+              "basisX": [
+                1,
+                0.0003590233,
+                0
+              ],
+              "basisY": [
+                -0.00035888905,
+                0.99962604,
+                -0.027344355
+              ],
+              "basisZ": [
+                -9.817261E-06,
+                0.027344355,
+                0.9996261
+              ]
+            },
+            {
+              "name": "HoofContactQuery1",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "current hoof query",
+              "origin": [
+                0.66691494,
+                -0.1416685,
+                -35.00704
+              ],
+              "basisX": [
+                0.9998915,
+                -0.014732458,
+                1.4551917E-11
+              ],
+              "basisY": [
+                0.014730651,
+                0.9997689,
+                -0.015656227
+              ],
+              "basisZ": [
+                0.00023065468,
+                0.015654529,
+                0.99987745
+              ]
+            },
+            {
+              "name": "HoofContactQuery2",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "current hoof query",
+              "origin": [
+                1.1249534,
+                -0.14997572,
+                -36.163555
+              ],
+              "basisX": [
+                1,
+                0.0003590233,
+                0
+              ],
+              "basisY": [
+                -0.00035888905,
+                0.99962604,
+                -0.027344355
+              ],
+              "basisZ": [
+                -9.817261E-06,
+                0.027344355,
+                0.9996261
+              ]
+            },
+            {
+              "name": "HoofContactQuery3",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "current hoof query",
+              "origin": [
+                1.1351565,
+                -0.14272958,
+                -35.005768
+              ],
+              "basisX": [
+                0.99999934,
+                -0.0012037188,
+                -4.5474735E-13
+              ],
+              "basisY": [
+                0.0012036979,
+                0.9999819,
+                -0.005903914
+              ],
+              "basisZ": [
+                7.106653E-06,
+                0.00590391,
+                0.9999826
+              ]
+            },
+            {
+              "name": "LowerLegContactQuery0",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "current articulated lower leg",
+              "origin": [
+                0.67497575,
+                0.35102054,
+                -36.302265
+              ],
+              "basisX": [
+                1,
+                -4.16476E-05,
+                1.1527188E-05
+              ],
+              "basisY": [
+                4.3213404E-05,
+                0.96376574,
+                -0.26675028
+              ],
+              "basisZ": [
+                0,
+                0.26675028,
+                0.96376574
+              ]
+            },
+            {
+              "name": "LowerLegContactQuery1",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "current articulated lower leg",
+              "origin": [
+                0.6660176,
+                0.3516462,
+                -34.8426
+              ],
+              "basisX": [
+                0.9999985,
+                0.001637117,
+                0.0005456994
+              ],
+              "basisY": [
+                -0.0017256708,
+                0.948683,
+                0.31622404
+              ],
+              "basisZ": [
+                0,
+                -0.31622452,
+                0.9486844
+              ]
+            },
+            {
+              "name": "LowerLegContactQuery2",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "current articulated lower leg",
+              "origin": [
+                1.1249759,
+                0.35110924,
+                -36.302532
+              ],
+              "basisX": [
+                1,
+                -4.175182E-05,
+                1.1579963E-05
+              ],
+              "basisY": [
+                4.3327935E-05,
+                0.9636236,
+                -0.2672632
+              ],
+              "basisZ": [
+                0,
+                0.2672632,
+                0.9636236
+              ]
+            },
+            {
+              "name": "LowerLegContactQuery3",
+              "shape": "ConvexPolygonShape3D",
+              "contactOwner": "current articulated lower leg",
+              "origin": [
+                1.1350831,
+                0.35132423,
+                -34.843563
+              ],
+              "basisX": [
+                1,
+                0.00013417113,
+                4.4050248E-05
+              ],
+              "basisY": [
+                -0.00014121727,
+                0.9501043,
+                0.31193244
+              ],
+              "basisZ": [
+                0,
+                -0.31193244,
+                0.9501043
+              ]
+            }
+          ],
+          "supports": [
+            {
+              "group": "fore-hoof-0",
+              "bindLocal": [
+                -0.225,
+                0,
+                -2.1599998
+              ],
+              "local": [
+                -0.22500002,
+                -0.051181853,
+                -2.1599998
+              ],
+              "source": "accepted articulated sole"
+            },
+            {
+              "group": "hind-hoof-1",
+              "bindLocal": [
+                -0.235,
+                0,
+                -1.005
+              ],
+              "local": [
+                -0.23500001,
+                -0.042731673,
+                -1.0050011
+              ],
+              "source": "accepted articulated sole"
+            },
+            {
+              "group": "fore-hoof-2",
+              "bindLocal": [
+                0.225,
+                0,
+                -2.1599998
+              ],
+              "local": [
+                0.22500002,
+                -0.051020324,
+                -2.1599998
+              ],
+              "source": "accepted articulated sole"
+            },
+            {
+              "group": "hind-hoof-3",
+              "bindLocal": [
+                0.235,
+                0,
+                -1.005
+              ],
+              "local": [
+                0.23500001,
+                -0.04382047,
+                -1.0050011
+              ],
+              "source": "accepted articulated sole"
+            },
+            {
+              "group": "CartWheelCollision5",
+              "bindLocal": [
+                -0.75,
+                -0.0005186498,
+                0.36
+              ],
+              "local": [
+                -0.75,
+                -0.0005186498,
+                0.35999998
+              ],
+              "source": "actual current convex bottom vertices"
+            },
+            {
+              "group": "CartWheelCollision6",
+              "bindLocal": [
+                -0.75,
+                -0.0005186796,
+                1.89
+              ],
+              "local": [
+                -0.75,
+                -0.0005186796,
+                1.89
+              ],
+              "source": "actual current convex bottom vertices"
+            },
+            {
+              "group": "CartWheelCollision7",
+              "bindLocal": [
+                0.75,
+                -0.0005186498,
+                0.36
+              ],
+              "local": [
+                0.75,
+                -0.0005186498,
+                0.35999998
+              ],
+              "source": "actual current convex bottom vertices"
+            },
+            {
+              "group": "CartWheelCollision8",
+              "bindLocal": [
+                0.75,
+                -0.0005186796,
+                1.89
+              ],
+              "local": [
+                0.75,
+                -0.0005186796,
+                1.89
+              ],
+              "source": "actual current convex bottom vertices"
+            },
+            {
+              "group": "LowerLegContactQuery0",
+              "bindLocal": [
+                0,
+                0,
+                0
+              ],
+              "local": [
+                0,
+                0,
+                0
+              ],
+              "source": "articulated lower leg; clearance volume only, never a support group"
+            },
+            {
+              "group": "LowerLegContactQuery1",
+              "bindLocal": [
+                0,
+                0,
+                0
+              ],
+              "local": [
+                0,
+                0,
+                0
+              ],
+              "source": "articulated lower leg; clearance volume only, never a support group"
+            },
+            {
+              "group": "LowerLegContactQuery2",
+              "bindLocal": [
+                0,
+                0,
+                0
+              ],
+              "local": [
+                0,
+                0,
+                0
+              ],
+              "source": "articulated lower leg; clearance volume only, never a support group"
+            },
+            {
+              "group": "LowerLegContactQuery3",
+              "bindLocal": [
+                0,
+                0,
+                0
+              ],
+              "local": [
+                0,
+                0,
+                0
+              ],
+              "source": "articulated lower leg; clearance volume only, never a support group"
+            }
+          ],
+          "leanRadians": 0,
+          "nativeBodyShapeCount": 9,
+          "hoofQueryCount": 8,
+          "lowerLegQueryCount": 4,
+          "wholeHoofBodyRidContainment": false,
+          "hoofProjectionValid": true,
+          "hoofProjectionFailure": "",
+          "lastHoofContact": null,
+          "requiredGroups": 8,
+          "totalGroups": 8,
+          "policy": "every named wheel and hoof group required",
+          "scope": "One native body holds upper geometry and road/cart wheels. Four actual articulated hoof volumes constrain movement by guarded queries, with separate coherent full-sole support; they are not native body shapes."
+        }
+      },
+      "rejectedBeforeRecovery": null
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart ordinary authored start needs no parking recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart starts at its authored grounded position",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart initial chassis and actual support are valid",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "one explicit narrow vehicle proof is selected",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "driver address observation requires native images, not a headless or capture-disabled result",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: three actual mounted labels equal the live registry",
+      "passed": true
+    },
+    {
+      "kind": "driver-address-live-mount",
+      "Vehicle": "babay-niva",
+      "Address": "ADR-H016",
+      "BuildingId": "BLD-H016",
+      "ParcelId": "PAR-H016",
+      "StreetId": "tukay",
+      "HouseNumber": "15",
+      "plate": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-H016",
+      "position": [
+        -5.8941255,
+        1.80728,
+        0.58000004
+      ],
+      "basis": "[X: (-4.371139E-08, 0, -1), Y: (0, 1, 0), Z: (1, 0, -4.371139E-08)]",
+      "labels": [
+        {
+          "name": "HouseNumber",
+          "Text": "15",
+          "FontSize": 65,
+          "PixelSize": 0.00135,
+          "NoDepthTest": false,
+          "DoubleSided": false
+        },
+        {
+          "name": "RussianStreet",
+          "Text": "\u0443\u043B. \u0422\u0443\u043A\u0430\u044F",
+          "FontSize": 30,
+          "PixelSize": 0.00135,
+          "NoDepthTest": false,
+          "DoubleSided": false
+        },
+        {
+          "name": "TatarStreet",
+          "Text": "\u0422\u0443\u043A\u0430\u0439 \u0443\u0440.",
+          "FontSize": 34,
+          "PixelSize": 0.00135,
+          "NoDepthTest": false,
+          "DoubleSided": false
+        }
+      ],
+      "geometryChanged": false,
+      "automaticKnowledge": false,
+      "readabilityAccepted": false
+    },
+    {
+      "kind": "local-fixture",
+      "vehicle": "babay-niva",
+      "feet": "(-2.9661467, -0.27911785, 0.41089636)",
+      "target": "(-2.6599998, 0.75464994, 1.15)",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: ordinary entry owns the real driver camera",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: mapped ignition releases parking",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: ordinary service brake and parking brake hold the stop",
+      "passed": true
+    },
+    {
+      "kind": "driver-address-actual-route",
+      "phase": "niva-existing-parking-reverse",
+      "vehicle": "babay-niva",
+      "reverse": true,
+      "start": [
+        -1.65,
+        -0.23335008,
+        1
+      ],
+      "end": [
+        -1.6514969,
+        -0.23034836,
+        2.1074235
+      ],
+      "distance": 1.1313952,
+      "waypoints": [
+        "(-1.65, 2.5)"
+      ],
+      "samples": [
+        {
+          "physicsFrame": 89,
+          "position": [
+            -1.6500162,
+            -0.23269433,
+            1.0006124
+          ],
+          "Speed": -0.035,
+          "waypoint": 0,
+          "target": "(-1.65, 2.5)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 120,
+          "position": [
+            -1.6504519,
+            -0.22516511,
+            1.2521725
+          ],
+          "Speed": -0.65,
+          "waypoint": 0,
+          "target": "(-1.65, 2.5)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 152,
+          "position": [
+            -1.6509237,
+            -0.22850245,
+            1.5991508
+          ],
+          "Speed": -0.63806665,
+          "waypoint": 0,
+          "target": "(-1.65, 2.5)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 181,
+          "position": [
+            -1.6514969,
+            -0.2327463,
+            1.8598896
+          ],
+          "Speed": -0.45336103,
+          "waypoint": 0,
+          "target": "(-1.65, 2.5)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 213,
+          "position": [
+            -1.6514969,
+            -0.23028305,
+            2.0602703
+          ],
+          "Speed": -0.31144595,
+          "waypoint": 0,
+          "target": "(-1.65, 2.5)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        }
+      ],
+      "milliseconds": 2479,
+      "fullTraversalFromNewGame": false,
+      "teleportedVehicle": false
+    },
+    {
+      "kind": "check",
+      "label": "niva-existing-parking-reverse: actual controls reach and brake at the selected road stop without a rejected move",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: measured stop has the actual compound support and clear stationary chassis",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: sign is within ordinary driver head-turn limits",
+      "passed": true
+    },
+    {
+      "kind": "vehicle-mouse-projection-wait",
+      "phase": "address-sign-aim",
+      "ready": true,
+      "frames": 1,
+      "milliseconds": 32,
+      "startedProcess": 144,
+      "deliveredProcess": 0,
+      "state": {
+        "storedYaw": 66.631,
+        "storedPitch": 8.728031,
+        "projectedRotation": "(8.728031, 66.63099, 0)",
+        "hasDriver": true,
+        "driverModal": false,
+        "vehicleControlled": true,
+        "fleetSuspended": false,
+        "placementAvailable": true,
+        "treePaused": false,
+        "ownerCanProcess": true,
+        "controlsNeedRelease": false,
+        "mouseMode": "Captured",
+        "focus": true,
+        "physicsFrame": 241,
+        "processFrame": 145
+      }
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: ordinary mouse input publishes the requested driver view",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: actual camera axis aims at the live sign",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: screenshot belongs to the actual parked driver, not a diagnostic camera",
+      "passed": true
+    },
+    {
+      "kind": "actual-rendered-frame",
+      "path": "/tmp/urman-a09-driver-rear-exit.713F5X/address-babay-niva-adr-h016-720.png",
+      "camera": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+    },
+    {
+      "kind": "driver-address-image-observation",
+      "vehicle": "babay-niva",
+      "AddressId": "ADR-H016",
+      "path": "/tmp/urman-a09-driver-rear-exit.713F5X/address-babay-niva-adr-h016-720.png",
+      "camera": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera",
+      "cameraPosition": [
+        -2.051497,
+        1.1696516,
+        2.2274234
+      ],
+      "cameraBasis": "[X: (0.39665136, 0, -0.91796935), Y: (0.13929671, 0.9884198, 0.060189623), Z: (0.90733904, -0.1517444, 0.39205804)]",
+      "vehiclePosition": [
+        -1.6514969,
+        -0.23034836,
+        2.1074235
+      ],
+      "Speed": 0,
+      "ParkingBrake": true,
+      "originalFov": 75,
+      "actualFov": 75,
+      "requested": "(1280, 720)",
+      "actualRaster": "(1280, 720)",
+      "logicalViewport": "(1920, 1080)",
+      "rim": [
+        [
+          575.02405,
+          381.25058,
+          1
+        ],
+        [
+          575.83325,
+          380.95737,
+          1
+        ],
+        [
+          576.0798,
+          331.25317,
+          1
+        ],
+        [
+          576.8817,
+          330.68073,
+          1
+        ],
+        [
+          696.9843,
+          386.57312,
+          1
+        ],
+        [
+          698.33826,
+          386.33832,
+          1
+        ],
+        [
+          696.15405,
+          341.66272,
+          1
+        ],
+        [
+          697.484,
+          341.20276,
+          1
+        ]
+      ],
+      "projectedLabels": [
+        {
+          "name": "HouseNumber",
+          "Text": "15",
+          "FontSize": 65,
+          "PixelSize": 0.00135,
+          "rasterBounds": [
+            [
+              656.2714,
+              367.8348,
+              1
+            ],
+            [
+              656.2714,
+              367.8348,
+              1
+            ],
+            [
+              656.2014,
+              354.64938,
+              1
+            ],
+            [
+              656.2014,
+              354.64938,
+              1
+            ],
+            [
+              666.1179,
+              368.41882,
+              1
+            ],
+            [
+              666.1179,
+              368.41882,
+              1
+            ],
+            [
+              666.00653,
+              355.3504,
+              1
+            ],
+            [
+              666.00653,
+              355.3504,
+              1
+            ]
+          ]
+        },
+        {
+          "name": "RussianStreet",
+          "Text": "\u0443\u043B. \u0422\u0443\u043A\u0430\u044F",
+          "FontSize": 30,
+          "PixelSize": 0.00135,
+          "rasterBounds": [
+            [
+              620.6631,
+              366.14478,
+              1
+            ],
+            [
+              620.6631,
+              366.14478,
+              1
+            ],
+            [
+              620.70325,
+              359.77927,
+              1
+            ],
+            [
+              620.70325,
+              359.77927,
+              1
+            ],
+            [
+              639.6724,
+              367.26514,
+              1
+            ],
+            [
+              639.6724,
+              367.26514,
+              1
+            ],
+            [
+              639.6731,
+              361.00534,
+              1
+            ],
+            [
+              639.6731,
+              361.00534,
+              1
+            ]
+          ]
+        },
+        {
+          "name": "TatarStreet",
+          "Text": "\u0422\u0443\u043A\u0430\u0439 \u0443\u0440.",
+          "FontSize": 34,
+          "PixelSize": 0.00135,
+          "rasterBounds": [
+            [
+              619.0708,
+              357.6631,
+              1
+            ],
+            [
+              619.0708,
+              357.6631,
+              1
+            ],
+            [
+              619.1194,
+              350.5702,
+              1
+            ],
+            [
+              619.1194,
+              350.5702,
+              1
+            ],
+            [
+              641.25854,
+              359.13702,
+              1
+            ],
+            [
+              641.25854,
+              359.13702,
+              1
+            ],
+            [
+              641.2556,
+              352.18103,
+              1
+            ],
+            [
+              641.2556,
+              352.18103,
+              1
+            ]
+          ]
+        }
+      ],
+      "projectedInside": true,
+      "contacts": [
+        {
+          "localSample": "(0, 0)",
+          "pixel": "(639.86725, 360.04663)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+          "candidateDistance": 0.39129305,
+          "targetDistance": 4.204711,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(-0.48, 0.14)",
+          "pixel": "(588.66406, 340.61298)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+          "candidateDistance": 0.377116,
+          "targetDistance": 4.0652924,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(0.48, 0.14)",
+          "pixel": "(686.70575, 348.40744)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+          "candidateDistance": 0.41162544,
+          "targetDistance": 4.437303,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(-0.48, -0.14)",
+          "pixel": "(588.11816, 372.9061)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+          "candidateDistance": 0.37540665,
+          "targetDistance": 4.021136,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(0.48, -0.14)",
+          "pixel": "(687.15967, 377.99606)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+          "candidateDistance": 0.41048583,
+          "targetDistance": 4.3968835,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        }
+      ],
+      "passiveUnchanged": true,
+      "vehiclePoseUnchanged": true,
+      "readabilityAccepted": false,
+      "independentImageReviewRequired": true,
+      "limit": "Raw triangle candidates include glass/cutouts and do not prove opaque pixel ownership; physics shell differs from cabin visibility. Screen inclusion is framing only, never readable-text acceptance."
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: actual requested raster frames the mounted plate",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: capture keeps normal FOV, parked pose and passive knowledge",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: sign is within ordinary driver head-turn limits",
+      "passed": true
+    },
+    {
+      "kind": "vehicle-mouse-projection-wait",
+      "phase": "address-sign-aim",
+      "ready": true,
+      "frames": 1,
+      "milliseconds": 40,
+      "startedProcess": 153,
+      "deliveredProcess": 0,
+      "state": {
+        "storedYaw": 66.631,
+        "storedPitch": 8.728031,
+        "projectedRotation": "(8.728031, 66.63099, 0)",
+        "hasDriver": true,
+        "driverModal": false,
+        "vehicleControlled": true,
+        "fleetSuspended": false,
+        "placementAvailable": true,
+        "treePaused": false,
+        "ownerCanProcess": true,
+        "controlsNeedRelease": false,
+        "mouseMode": "Captured",
+        "focus": true,
+        "physicsFrame": 266,
+        "processFrame": 154
+      }
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: ordinary mouse input publishes the requested driver view",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: actual camera axis aims at the live sign",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: screenshot belongs to the actual parked driver, not a diagnostic camera",
+      "passed": true
+    },
+    {
+      "kind": "actual-rendered-frame",
+      "path": "/tmp/urman-a09-driver-rear-exit.713F5X/address-babay-niva-adr-h016-1080.png",
+      "camera": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera"
+    },
+    {
+      "kind": "driver-address-image-observation",
+      "vehicle": "babay-niva",
+      "AddressId": "ADR-H016",
+      "path": "/tmp/urman-a09-driver-rear-exit.713F5X/address-babay-niva-adr-h016-1080.png",
+      "camera": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/DriverLook/VehicleCamera",
+      "cameraPosition": [
+        -2.051497,
+        1.1696516,
+        2.2274234
+      ],
+      "cameraBasis": "[X: (0.39665136, 0, -0.91796935), Y: (0.13929671, 0.9884198, 0.060189623), Z: (0.90733904, -0.1517444, 0.39205804)]",
+      "vehiclePosition": [
+        -1.6514969,
+        -0.23034836,
+        2.1074235
+      ],
+      "Speed": 0,
+      "ParkingBrake": true,
+      "originalFov": 75,
+      "actualFov": 75,
+      "requested": "(1920, 1080)",
+      "actualRaster": "(1920, 1080)",
+      "logicalViewport": "(1920, 1080)",
+      "rim": [
+        [
+          862.5361,
+          571.87585,
+          1
+        ],
+        [
+          863.7498,
+          571.43604,
+          1
+        ],
+        [
+          864.1196,
+          496.87973,
+          1
+        ],
+        [
+          865.3225,
+          496.0211,
+          1
+        ],
+        [
+          1045.4764,
+          579.8597,
+          1
+        ],
+        [
+          1047.5073,
+          579.50745,
+          1
+        ],
+        [
+          1044.2311,
+          512.4941,
+          1
+        ],
+        [
+          1046.226,
+          511.8041,
+          1
+        ]
+      ],
+      "projectedLabels": [
+        {
+          "name": "HouseNumber",
+          "Text": "15",
+          "FontSize": 65,
+          "PixelSize": 0.00135,
+          "rasterBounds": [
+            [
+              984.4071,
+              551.7522,
+              1
+            ],
+            [
+              984.4071,
+              551.7522,
+              1
+            ],
+            [
+              984.30206,
+              531.97406,
+              1
+            ],
+            [
+              984.30206,
+              531.97406,
+              1
+            ],
+            [
+              999.1768,
+              552.62823,
+              1
+            ],
+            [
+              999.1768,
+              552.62823,
+              1
+            ],
+            [
+              999.00977,
+              533.0256,
+              1
+            ],
+            [
+              999.00977,
+              533.0256,
+              1
+            ]
+          ]
+        },
+        {
+          "name": "RussianStreet",
+          "Text": "\u0443\u043B. \u0422\u0443\u043A\u0430\u044F",
+          "FontSize": 30,
+          "PixelSize": 0.00135,
+          "rasterBounds": [
+            [
+              930.99457,
+              549.21716,
+              1
+            ],
+            [
+              930.99457,
+              549.21716,
+              1
+            ],
+            [
+              931.0549,
+              539.6689,
+              1
+            ],
+            [
+              931.0549,
+              539.6689,
+              1
+            ],
+            [
+              959.5086,
+              550.8977,
+              1
+            ],
+            [
+              959.5086,
+              550.8977,
+              1
+            ],
+            [
+              959.50964,
+              541.508,
+              1
+            ],
+            [
+              959.50964,
+              541.508,
+              1
+            ]
+          ]
+        },
+        {
+          "name": "TatarStreet",
+          "Text": "\u0422\u0443\u043A\u0430\u0439 \u0443\u0440.",
+          "FontSize": 34,
+          "PixelSize": 0.00135,
+          "rasterBounds": [
+            [
+              928.60614,
+              536.4946,
+              1
+            ],
+            [
+              928.60614,
+              536.4946,
+              1
+            ],
+            [
+              928.6791,
+              525.8553,
+              1
+            ],
+            [
+              928.6791,
+              525.8553,
+              1
+            ],
+            [
+              961.88776,
+              538.7055,
+              1
+            ],
+            [
+              961.88776,
+              538.7055,
+              1
+            ],
+            [
+              961.8834,
+              528.27155,
+              1
+            ],
+            [
+              961.8834,
+              528.27155,
+              1
+            ]
+          ]
+        }
+      ],
+      "projectedInside": true,
+      "contacts": [
+        {
+          "localSample": "(0, 0)",
+          "pixel": "(959.80084, 540.06995)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+          "candidateDistance": 0.391293,
+          "targetDistance": 4.204711,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(-0.48, 0.14)",
+          "pixel": "(882.9961, 510.91943)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+          "candidateDistance": 0.377116,
+          "targetDistance": 4.0652924,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(0.48, 0.14)",
+          "pixel": "(1030.0586, 522.61115)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+          "candidateDistance": 0.4116254,
+          "targetDistance": 4.437303,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(-0.48, -0.14)",
+          "pixel": "(882.1772, 559.35913)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+          "candidateDistance": 0.37540665,
+          "targetDistance": 4.021136,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(0.48, -0.14)",
+          "pixel": "(1030.7395, 566.9941)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+          "candidateDistance": 0.41048583,
+          "targetDistance": 4.3968835,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        }
+      ],
+      "passiveUnchanged": true,
+      "vehiclePoseUnchanged": true,
+      "readabilityAccepted": false,
+      "independentImageReviewRequired": true,
+      "limit": "Raw triangle candidates include glass/cutouts and do not prove opaque pixel ownership; physics shell differs from cabin visibility. Screen inclusion is framing only, never readable-text acceptance."
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: actual requested raster frames the mounted plate",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: capture keeps normal FOV, parked pose and passive knowledge",
+      "passed": true
+    },
+    {
+      "kind": "vehicle-mouse-projection-wait",
+      "phase": "address-view-restore",
+      "ready": true,
+      "frames": 2,
+      "milliseconds": 54,
+      "startedProcess": 162,
+      "deliveredProcess": 0,
+      "state": {
+        "storedYaw": 0,
+        "storedPitch": 0,
+        "projectedRotation": "(0, 0, 0)",
+        "hasDriver": true,
+        "driverModal": false,
+        "vehicleControlled": true,
+        "fleetSuspended": false,
+        "placementAvailable": true,
+        "treePaused": false,
+        "ownerCanProcess": true,
+        "controlsNeedRelease": false,
+        "mouseMode": "Captured",
+        "focus": true,
+        "physicsFrame": 286,
+        "processFrame": 163
+      }
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: ordinary input restores the previous driver look",
+      "passed": true
+    },
+    {
+      "kind": "driver-address-passive-state",
+      "Vehicle": "babay-niva",
+      "Address": "ADR-H016",
+      "beforeLook": {
+        "Knowledge": "{\u0022urman.chapter1:knowledge/address-babai\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-council\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-fap\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-mosque\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-school\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-shop\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/alsu_walk_invitation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/arrival_mother_message_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/arrival_reply_help_babai\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/arrival_reply_kept_silent\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/bathhouse-condensation-observation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_accounting_fragment_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_alsu_heard_versions\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_alsu_knows_more_than_says\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_alsu_message_reply\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_do_not_answer_rule\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_family_avoids_marat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_family_notice_by_phone\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_first_snow_source_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_folklore_as_survival_rule\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_gulsina_warning_context\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_household_electric_receipts\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_household_niva_list\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_household_request_checked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_internal_wording_reread\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_local_words_return\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_mansur_household_request\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_mansur_unsent_note_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_case_boundary_marker\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_last_route_near_zirat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_message_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_official_death_version\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_versions_conflict\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_was_afraid_before_death\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_message_question_prepared\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_message_voice_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_naila_record_scope\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_naila_request_entry_scope\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_notice_call_not_request\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_notice_cause_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_facade_windows_observed\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_gate_repair_checked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_place_compared\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_question_answered\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_yard_observed\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_record_shared_formulation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_record_wording_mismatch\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_register_category_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_register_wording_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_rinat_accounting_question_heard\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_rinat_at_roadside\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_rinat_word_reaction\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_route_check_discussed\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_route_check_intent\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_sketch_field_landmarks\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_sketch_place_compared\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_sketch_tag_base_checked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_timur_warns_against_marat_path\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_underdeck_rattle_quiet\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_village_has_internal_compensation_system\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_yaramyy_contexts_distinguished\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_yard_loop_return\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_zirat_roadside_marks\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/contradiction_marat_official_vs_internal\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/council-photo-album-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/council-sabantuy-poster-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/council-village-plan-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-arrival-bench-race-notches\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-arrival-insulated-well\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-entry-wall-joint\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-sled-repair\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-connective-street-repair-bench\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-connective-street-return-bench\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-connective-street-shed-bypass\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-exterior-care-porch\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-exterior-service-path\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-interior-height-marks\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-interior-repaired-desk-object\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-service-cabinet\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-exterior-porch-nook\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-interior-language-tin\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-interior-photo-back\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-kara-branch-profile\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-kara-old-forestry-side-track\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-kara-warm-window-clearing\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-main-street-fenced-service-lane\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-main-street-side-window\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-main-street-sign-reverse\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-shed-loft-roofline\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-underdeck-rattle\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-zirat-outer-culvert-crossing\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-zirat-outer-rest-bench\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/family_home_invitation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/family_home_pause\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_category_is_diagnosis\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_heading_identifies_voice\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_message_proves_sighting\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_route_enters_zirat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_tag_identifies_marat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_voice_explained_as_echo\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/memory_gulsina_childhood_table\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/memory_marat_childhood_photo\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/mosque-visit\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/observation-bench-plank\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/observation-branch-overlap\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/observation-well-tie\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/pressure_council_attention_1\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/route_kara_urman_edge_hint\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/sabirov-family-linked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/school-class-photo-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/school-staff-note-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/school-transport-notice-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/shop-account-book-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/shop-sabirov-family-memory\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/shop-school-photo-memory\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/tamara_fence_settled\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/topic_marat_unresolved\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/zirat-family-links-read\u0022:{\u0022status\u0022:\u0022hidden\u0022}}",
+        "AddressProps": "[]",
+        "Known": "[]",
+        "Located": "[]",
+        "Scene": "urman.chapter1:scene/arrival_vehicle_dusk",
+        "Zone": "village_day"
+      },
+      "afterLook": {
+        "Knowledge": "{\u0022urman.chapter1:knowledge/address-babai\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-council\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-fap\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-mosque\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-school\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-shop\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/alsu_walk_invitation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/arrival_mother_message_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/arrival_reply_help_babai\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/arrival_reply_kept_silent\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/bathhouse-condensation-observation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_accounting_fragment_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_alsu_heard_versions\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_alsu_knows_more_than_says\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_alsu_message_reply\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_do_not_answer_rule\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_family_avoids_marat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_family_notice_by_phone\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_first_snow_source_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_folklore_as_survival_rule\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_gulsina_warning_context\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_household_electric_receipts\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_household_niva_list\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_household_request_checked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_internal_wording_reread\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_local_words_return\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_mansur_household_request\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_mansur_unsent_note_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_case_boundary_marker\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_last_route_near_zirat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_message_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_official_death_version\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_versions_conflict\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_was_afraid_before_death\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_message_question_prepared\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_message_voice_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_naila_record_scope\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_naila_request_entry_scope\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_notice_call_not_request\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_notice_cause_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_facade_windows_observed\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_gate_repair_checked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_place_compared\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_question_answered\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_yard_observed\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_record_shared_formulation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_record_wording_mismatch\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_register_category_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_register_wording_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_rinat_accounting_question_heard\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_rinat_at_roadside\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_rinat_word_reaction\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_route_check_discussed\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_route_check_intent\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_sketch_field_landmarks\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_sketch_place_compared\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_sketch_tag_base_checked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_timur_warns_against_marat_path\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_underdeck_rattle_quiet\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_village_has_internal_compensation_system\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_yaramyy_contexts_distinguished\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_yard_loop_return\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_zirat_roadside_marks\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/contradiction_marat_official_vs_internal\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/council-photo-album-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/council-sabantuy-poster-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/council-village-plan-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-arrival-bench-race-notches\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-arrival-insulated-well\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-entry-wall-joint\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-sled-repair\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-connective-street-repair-bench\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-connective-street-return-bench\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-connective-street-shed-bypass\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-exterior-care-porch\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-exterior-service-path\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-interior-height-marks\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-interior-repaired-desk-object\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-service-cabinet\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-exterior-porch-nook\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-interior-language-tin\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-interior-photo-back\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-kara-branch-profile\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-kara-old-forestry-side-track\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-kara-warm-window-clearing\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-main-street-fenced-service-lane\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-main-street-side-window\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-main-street-sign-reverse\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-shed-loft-roofline\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-underdeck-rattle\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-zirat-outer-culvert-crossing\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-zirat-outer-rest-bench\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/family_home_invitation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/family_home_pause\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_category_is_diagnosis\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_heading_identifies_voice\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_message_proves_sighting\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_route_enters_zirat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_tag_identifies_marat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_voice_explained_as_echo\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/memory_gulsina_childhood_table\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/memory_marat_childhood_photo\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/mosque-visit\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/observation-bench-plank\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/observation-branch-overlap\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/observation-well-tie\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/pressure_council_attention_1\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/route_kara_urman_edge_hint\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/sabirov-family-linked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/school-class-photo-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/school-staff-note-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/school-transport-notice-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/shop-account-book-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/shop-sabirov-family-memory\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/shop-school-photo-memory\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/tamara_fence_settled\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/topic_marat_unresolved\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/zirat-family-links-read\u0022:{\u0022status\u0022:\u0022hidden\u0022}}",
+        "AddressProps": "[]",
+        "Known": "[]",
+        "Located": "[]",
+        "Scene": "urman.chapter1:scene/arrival_vehicle_dusk",
+        "Zone": "village_day"
+      },
+      "unchanged": true,
+      "mountUnchanged": true,
+      "explicitPlateInteraction": false,
+      "readabilityAccepted": false
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: entering, driving and passive looking add no knowledge or located address",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: actual sign mount and registry text survive observation unchanged",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: ordinary service brake and parking brake hold the stop",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "babay-niva: mapped E returns to supported pedestrian control",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: three actual mounted labels equal the live registry",
+      "passed": true
+    },
+    {
+      "kind": "driver-address-live-mount",
+      "Vehicle": "village-motorcycle",
+      "Address": "ADR-FAP",
+      "BuildingId": "BLD-FAP",
+      "ParcelId": "PAR-FAP",
+      "StreetId": "urman",
+      "HouseNumber": "2",
+      "plate": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-FAP",
+      "position": [
+        27.9,
+        1.6340684,
+        -28.119001
+      ],
+      "basis": "[X: (1, 0, 0), Y: (0, 1, 0), Z: (0, 0, 1)]",
+      "labels": [
+        {
+          "name": "HouseNumber",
+          "Text": "2",
+          "FontSize": 65,
+          "PixelSize": 0.00135,
+          "NoDepthTest": false,
+          "DoubleSided": false
+        },
+        {
+          "name": "RussianStreet",
+          "Text": "\u0443\u043B. \u041B\u0435\u0441\u043D\u0430\u044F",
+          "FontSize": 30,
+          "PixelSize": 0.00135,
+          "NoDepthTest": false,
+          "DoubleSided": false
+        },
+        {
+          "name": "TatarStreet",
+          "Text": "\u0423\u0440\u043C\u0430\u043D \u0443\u0440.",
+          "FontSize": 34,
+          "PixelSize": 0.00135,
+          "NoDepthTest": false,
+          "DoubleSided": false
+        }
+      ],
+      "geometryChanged": false,
+      "automaticKnowledge": false,
+      "readabilityAccepted": false
+    },
+    {
+      "kind": "local-fixture",
+      "vehicle": "village-motorcycle",
+      "feet": "(0.49385318, -0.3768057, -23.589104)",
+      "target": "(0.79999995, 0.65574783, -22.85)",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: ordinary entry owns the real driver camera",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: mapped ignition releases parking",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: ordinary service brake and parking brake hold the stop",
+      "passed": true
+    },
+    {
+      "kind": "driver-address-actual-route",
+      "phase": "motorcycle-main-road-return",
+      "vehicle": "village-motorcycle",
+      "reverse": true,
+      "start": [
+        1.4,
+        -0.3322522,
+        -23
+      ],
+      "end": [
+        0.006930824,
+        -0.20827992,
+        -10.193963
+      ],
+      "distance": 12.907034,
+      "waypoints": [
+        "(0.9, -19)",
+        "(0.4, -15)",
+        "(-0.02, -9.8)"
+      ],
+      "samples": [
+        {
+          "physicsFrame": 376,
+          "position": [
+            1.4000047,
+            -0.3318261,
+            -22.999332
+          ],
+          "Speed": -0.045,
+          "waypoint": 0,
+          "target": "(0.9, -19)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 407,
+          "position": [
+            1.3966428,
+            -0.3206062,
+            -22.72884
+          ],
+          "Speed": -0.65,
+          "waypoint": 0,
+          "target": "(0.9, -19)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 438,
+          "position": [
+            1.3839571,
+            -0.31044987,
+            -22.395638
+          ],
+          "Speed": -0.65,
+          "waypoint": 0,
+          "target": "(0.9, -19)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 467,
+          "position": [
+            1.364825,
+            -0.30111903,
+            -22.084509
+          ],
+          "Speed": -0.65,
+          "waypoint": 0,
+          "target": "(0.9, -19)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 497,
+          "position": [
+            1.3387226,
+            -0.29147753,
+            -21.763098
+          ],
+          "Speed": -0.65,
+          "waypoint": 0,
+          "target": "(0.9, -19)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 528,
+          "position": [
+            1.3059245,
+            -0.28152314,
+            -21.431559
+          ],
+          "Speed": -0.65,
+          "waypoint": 0,
+          "target": "(0.9, -19)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 558,
+          "position": [
+            1.2693837,
+            -0.2719334,
+            -21.111372
+          ],
+          "Speed": -0.65,
+          "waypoint": 0,
+          "target": "(0.9, -19)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 590,
+          "position": [
+            1.2254126,
+            -0.26233768,
+            -20.77013
+          ],
+          "Speed": -0.65,
+          "waypoint": 0,
+          "target": "(0.9, -19)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 620,
+          "position": [
+            1.1801279,
+            -0.2525594,
+            -20.450733
+          ],
+          "Speed": -0.65,
+          "waypoint": 0,
+          "target": "(0.9, -19)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 651,
+          "position": [
+            1.1295328,
+            -0.24258247,
+            -20.121395
+          ],
+          "Speed": -0.65,
+          "waypoint": 0,
+          "target": "(0.9, -19)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 682,
+          "position": [
+            1.0758808,
+            -0.23263979,
+            -19.792585
+          ],
+          "Speed": -0.65,
+          "waypoint": 1,
+          "target": "(0.4, -15)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 712,
+          "position": [
+            1.0253688,
+            -0.22231454,
+            -19.474503
+          ],
+          "Speed": -0.65,
+          "waypoint": 1,
+          "target": "(0.4, -15)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 742,
+          "position": [
+            0.9762273,
+            -0.21127665,
+            -19.156256
+          ],
+          "Speed": -0.65,
+          "waypoint": 1,
+          "target": "(0.4, -15)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 772,
+          "position": [
+            0.92820466,
+            -0.20023865,
+            -18.83781
+          ],
+          "Speed": -0.65,
+          "waypoint": 1,
+          "target": "(0.4, -15)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 802,
+          "position": [
+            0.8810664,
+            -0.19148661,
+            -18.518425
+          ],
+          "Speed": -0.65,
+          "waypoint": 1,
+          "target": "(0.4, -15)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 834,
+          "position": [
+            0.8316706,
+            -0.1913208,
+            -18.175348
+          ],
+          "Speed": -0.65,
+          "waypoint": 1,
+          "target": "(0.4, -15)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 862,
+          "position": [
+            0.789107,
+            -0.19107692,
+            -17.875122
+          ],
+          "Speed": -0.65,
+          "waypoint": 1,
+          "target": "(0.4, -15)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 894,
+          "position": [
+            0.74089473,
+            -0.19170924,
+            -17.53162
+          ],
+          "Speed": -0.65,
+          "waypoint": 1,
+          "target": "(0.4, -15)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 924,
+          "position": [
+            0.6962168,
+            -0.192128,
+            -17.209616
+          ],
+          "Speed": -0.65,
+          "waypoint": 1,
+          "target": "(0.4, -15)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 953,
+          "position": [
+            0.65344304,
+            -0.19130793,
+            -16.89835
+          ],
+          "Speed": -0.65,
+          "waypoint": 1,
+          "target": "(0.4, -15)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 986,
+          "position": [
+            0.60526174,
+            -0.19126002,
+            -16.544142
+          ],
+          "Speed": -0.65,
+          "waypoint": 1,
+          "target": "(0.4, -15)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1017,
+          "position": [
+            0.56029016,
+            -0.1915891,
+            -16.211231
+          ],
+          "Speed": -0.65,
+          "waypoint": 1,
+          "target": "(0.4, -15)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1047,
+          "position": [
+            0.51717895,
+            -0.1919985,
+            -15.888989
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1077,
+          "position": [
+            0.47670284,
+            -0.19244406,
+            -15.566401
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1107,
+          "position": [
+            0.43923742,
+            -0.19880474,
+            -15.242158
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1139,
+          "position": [
+            0.40166837,
+            -0.20883748,
+            -14.8954735
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1167,
+          "position": [
+            0.3763461,
+            -0.2173051,
+            -14.591916
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1198,
+          "position": [
+            0.34243715,
+            -0.22724535,
+            -14.255741
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1230,
+          "position": [
+            0.30866107,
+            -0.23822881,
+            -13.908582
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1259,
+          "position": [
+            0.27909383,
+            -0.24802753,
+            -13.59385
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1290,
+          "position": [
+            0.24843311,
+            -0.25848827,
+            -13.257329
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1321,
+          "position": [
+            0.22006215,
+            -0.2588737,
+            -12.922842
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1350,
+          "position": [
+            0.19467399,
+            -0.25586885,
+            -12.610559
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1381,
+          "position": [
+            0.1673007,
+            -0.2535567,
+            -12.276365
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1413,
+          "position": [
+            0.14005734,
+            -0.24504958,
+            -11.932971
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1443,
+          "position": [
+            0.11494277,
+            -0.23707591,
+            -11.611006
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1473,
+          "position": [
+            0.09018538,
+            -0.22910368,
+            -11.289013
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1505,
+          "position": [
+            0.06381216,
+            -0.22237183,
+            -10.945133
+          ],
+          "Speed": -0.65,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1536,
+          "position": [
+            0.03880522,
+            -0.21637997,
+            -10.6179
+          ],
+          "Speed": -0.5807461,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1567,
+          "position": [
+            0.020075863,
+            -0.21161593,
+            -10.369866
+          ],
+          "Speed": -0.40457696,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1597,
+          "position": [
+            0.0075336522,
+            -0.20839666,
+            -10.202066
+          ],
+          "Speed": -0.28540033,
+          "waypoint": 2,
+          "target": "(-0.02, -9.8)",
+          "reverse": true,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        }
+      ],
+      "milliseconds": 20612,
+      "fullTraversalFromNewGame": false,
+      "teleportedVehicle": false
+    },
+    {
+      "kind": "check",
+      "label": "motorcycle-main-road-return: actual controls reach and brake at the selected road stop without a rejected move",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: ordinary service brake and parking brake hold the stop",
+      "passed": true
+    },
+    {
+      "kind": "driver-address-actual-route",
+      "phase": "motorcycle-existing-fap-branch",
+      "vehicle": "village-motorcycle",
+      "reverse": false,
+      "start": [
+        0.006930824,
+        -0.20827992,
+        -10.193963
+      ],
+      "end": [
+        26.808292,
+        -0.30203635,
+        -25.427013
+      ],
+      "distance": 31.953352,
+      "waypoints": [
+        "(4.5, -12.5)",
+        "(10, -17)",
+        "(17, -21.5)",
+        "(23, -25)",
+        "(27.2, -25.4)"
+      ],
+      "samples": [
+        {
+          "physicsFrame": 1623,
+          "position": [
+            0.006989894,
+            -0.2083223,
+            -10.194757
+          ],
+          "Speed": 0.045,
+          "waypoint": 0,
+          "target": "(4.5, -12.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1653,
+          "position": [
+            0.056030802,
+            -0.21500188,
+            -10.563779
+          ],
+          "Speed": 1.3949999,
+          "waypoint": 0,
+          "target": "(4.5, -12.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1683,
+          "position": [
+            0.33236867,
+            -0.23053844,
+            -11.305866
+          ],
+          "Speed": 1.6,
+          "waypoint": 0,
+          "target": "(4.5, -12.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1714,
+          "position": [
+            0.84311134,
+            -0.25209954,
+            -11.953101
+          ],
+          "Speed": 1.6,
+          "waypoint": 0,
+          "target": "(4.5, -12.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1745,
+          "position": [
+            1.5307381,
+            -0.26810977,
+            -12.407962
+          ],
+          "Speed": 1.6,
+          "waypoint": 0,
+          "target": "(4.5, -12.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1775,
+          "position": [
+            2.290252,
+            -0.27988812,
+            -12.654474
+          ],
+          "Speed": 1.5681665,
+          "waypoint": 0,
+          "target": "(4.5, -12.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1806,
+          "position": [
+            2.962884,
+            -0.28335753,
+            -12.748815
+          ],
+          "Speed": 1.1025282,
+          "waypoint": 0,
+          "target": "(4.5, -12.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1836,
+          "position": [
+            3.427716,
+            -0.2927584,
+            -12.7631645
+          ],
+          "Speed": 0.78178674,
+          "waypoint": 0,
+          "target": "(4.5, -12.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1866,
+          "position": [
+            3.9544556,
+            -0.27588055,
+            -12.74622
+          ],
+          "Speed": 1.6,
+          "waypoint": 1,
+          "target": "(10, -17)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1898,
+          "position": [
+            4.789963,
+            -0.25111037,
+            -12.86727
+          ],
+          "Speed": 1.6,
+          "waypoint": 1,
+          "target": "(10, -17)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1928,
+          "position": [
+            5.5232635,
+            -0.25597426,
+            -13.181831
+          ],
+          "Speed": 1.6,
+          "waypoint": 1,
+          "target": "(10, -17)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1956,
+          "position": [
+            6.1597385,
+            -0.25399992,
+            -13.568329
+          ],
+          "Speed": 1.6,
+          "waypoint": 1,
+          "target": "(10, -17)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 1988,
+          "position": [
+            6.8457584,
+            -0.25257626,
+            -14.074163
+          ],
+          "Speed": 1.6,
+          "waypoint": 1,
+          "target": "(10, -17)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2020,
+          "position": [
+            7.5021715,
+            -0.26685685,
+            -14.619993
+          ],
+          "Speed": 1.6,
+          "waypoint": 1,
+          "target": "(10, -17)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2050,
+          "position": [
+            8.10005,
+            -0.28165236,
+            -15.15046
+          ],
+          "Speed": 1.6,
+          "waypoint": 1,
+          "target": "(10, -17)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2081,
+          "position": [
+            8.675538,
+            -0.3559657,
+            -15.682488
+          ],
+          "Speed": 1.3231456,
+          "waypoint": 1,
+          "target": "(10, -17)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2110,
+          "position": [
+            9.066642,
+            -0.3925827,
+            -16.05606
+          ],
+          "Speed": 0.94026244,
+          "waypoint": 1,
+          "target": "(10, -17)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2141,
+          "position": [
+            9.376268,
+            -0.41746798,
+            -16.357428
+          ],
+          "Speed": 1.0229934,
+          "waypoint": 2,
+          "target": "(17, -21.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2171,
+          "position": [
+            9.935111,
+            -0.42904267,
+            -16.84846
+          ],
+          "Speed": 1.6,
+          "waypoint": 2,
+          "target": "(17, -21.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2203,
+          "position": [
+            10.610103,
+            -0.42095363,
+            -17.3689
+          ],
+          "Speed": 1.6,
+          "waypoint": 2,
+          "target": "(17, -21.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2231,
+          "position": [
+            11.218489,
+            -0.41905278,
+            -17.801418
+          ],
+          "Speed": 1.6,
+          "waypoint": 2,
+          "target": "(17, -21.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2263,
+          "position": [
+            11.925183,
+            -0.42062357,
+            -18.27989
+          ],
+          "Speed": 1.6,
+          "waypoint": 2,
+          "target": "(17, -21.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2293,
+          "position": [
+            12.593764,
+            -0.4185521,
+            -18.718845
+          ],
+          "Speed": 1.6,
+          "waypoint": 2,
+          "target": "(17, -21.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2324,
+          "position": [
+            13.289317,
+            -0.42864937,
+            -19.166975
+          ],
+          "Speed": 1.6,
+          "waypoint": 2,
+          "target": "(17, -21.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2355,
+          "position": [
+            13.987563,
+            -0.44525668,
+            -19.611778
+          ],
+          "Speed": 1.6,
+          "waypoint": 2,
+          "target": "(17, -21.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2385,
+          "position": [
+            14.66487,
+            -0.46596605,
+            -20.04006
+          ],
+          "Speed": 1.6,
+          "waypoint": 2,
+          "target": "(17, -21.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2412,
+          "position": [
+            15.265228,
+            -0.48724225,
+            -20.41758
+          ],
+          "Speed": 1.448308,
+          "waypoint": 2,
+          "target": "(17, -21.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2442,
+          "position": [
+            15.780587,
+            -0.5045697,
+            -20.740406
+          ],
+          "Speed": 1.0175604,
+          "waypoint": 2,
+          "target": "(17, -21.5)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2476,
+          "position": [
+            16.18781,
+            -0.52230316,
+            -20.994783
+          ],
+          "Speed": 0.8408665,
+          "waypoint": 3,
+          "target": "(23, -25)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2504,
+          "position": [
+            16.73914,
+            -0.54143214,
+            -21.334677
+          ],
+          "Speed": 1.6,
+          "waypoint": 3,
+          "target": "(23, -25)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2535,
+          "position": [
+            17.445898,
+            -0.5425926,
+            -21.762869
+          ],
+          "Speed": 1.6,
+          "waypoint": 3,
+          "target": "(23, -25)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2566,
+          "position": [
+            18.152393,
+            -0.5164111,
+            -22.185654
+          ],
+          "Speed": 1.6,
+          "waypoint": 3,
+          "target": "(23, -25)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2597,
+          "position": [
+            18.861994,
+            -0.49904698,
+            -22.605644
+          ],
+          "Speed": 1.6,
+          "waypoint": 3,
+          "target": "(23, -25)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2628,
+          "position": [
+            19.57447,
+            -0.49570224,
+            -23.024164
+          ],
+          "Speed": 1.6,
+          "waypoint": 3,
+          "target": "(23, -25)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2658,
+          "position": [
+            20.264357,
+            -0.48956802,
+            -23.427927
+          ],
+          "Speed": 1.6,
+          "waypoint": 3,
+          "target": "(23, -25)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2685,
+          "position": [
+            20.88596,
+            -0.48286122,
+            -23.789751
+          ],
+          "Speed": 1.6,
+          "waypoint": 3,
+          "target": "(23, -25)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2718,
+          "position": [
+            21.558771,
+            -0.4723141,
+            -24.178682
+          ],
+          "Speed": 1.1749221,
+          "waypoint": 3,
+          "target": "(23, -25)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2749,
+          "position": [
+            21.997343,
+            -0.47430146,
+            -24.431293
+          ],
+          "Speed": 0.81642973,
+          "waypoint": 3,
+          "target": "(23, -25)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2778,
+          "position": [
+            22.392345,
+            -0.47737953,
+            -24.651464
+          ],
+          "Speed": 1.4208521,
+          "waypoint": 4,
+          "target": "(27.2, -25.4)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2810,
+          "position": [
+            23.180515,
+            -0.47453532,
+            -24.963121
+          ],
+          "Speed": 1.6,
+          "waypoint": 4,
+          "target": "(27.2, -25.4)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2840,
+          "position": [
+            23.956059,
+            -0.47844937,
+            -25.159147
+          ],
+          "Speed": 1.6,
+          "waypoint": 4,
+          "target": "(27.2, -25.4)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2872,
+          "position": [
+            24.794676,
+            -0.45347962,
+            -25.297073
+          ],
+          "Speed": 1.6,
+          "waypoint": 4,
+          "target": "(27.2, -25.4)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2903,
+          "position": [
+            25.51672,
+            -0.415138,
+            -25.373985
+          ],
+          "Speed": 1.1921179,
+          "waypoint": 4,
+          "target": "(27.2, -25.4)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2932,
+          "position": [
+            25.99379,
+            -0.3769973,
+            -25.406898
+          ],
+          "Speed": 0.8540572,
+          "waypoint": 4,
+          "target": "(27.2, -25.4)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2952,
+          "position": [
+            26.239744,
+            -0.3540236,
+            -25.417795
+          ],
+          "Speed": 0.6799842,
+          "waypoint": 4,
+          "target": "(27.2, -25.4)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 2992,
+          "position": [
+            26.589598,
+            -0.32164276,
+            -25.426609
+          ],
+          "Speed": 0.43252194,
+          "waypoint": 4,
+          "target": "(27.2, -25.4)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 3023,
+          "position": [
+            26.768595,
+            -0.3052811,
+            -25.427391
+          ],
+          "Speed": 0.305963,
+          "waypoint": 4,
+          "target": "(27.2, -25.4)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        }
+      ],
+      "milliseconds": 23789,
+      "fullTraversalFromNewGame": false,
+      "teleportedVehicle": false
+    },
+    {
+      "kind": "check",
+      "label": "motorcycle-existing-fap-branch: actual controls reach and brake at the selected road stop without a rejected move",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: measured stop has the actual compound support and clear stationary chassis",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: sign is within ordinary driver head-turn limits",
+      "passed": true
+    },
+    {
+      "kind": "vehicle-mouse-projection-wait",
+      "phase": "address-sign-aim",
+      "ready": true,
+      "frames": 1,
+      "milliseconds": 13,
+      "startedProcess": 1961,
+      "deliveredProcess": 0,
+      "state": {
+        "storedYaw": 59.941093,
+        "storedPitch": 3.2040095,
+        "projectedRotation": "(3.2040093, 59.94109, 0)",
+        "hasDriver": true,
+        "driverModal": false,
+        "vehicleControlled": true,
+        "fleetSuspended": false,
+        "placementAvailable": true,
+        "treePaused": false,
+        "ownerCanProcess": true,
+        "controlsNeedRelease": false,
+        "mouseMode": "Captured",
+        "focus": true,
+        "physicsFrame": 3047,
+        "processFrame": 1962
+      }
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: ordinary mouse input publishes the requested driver view",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: actual camera axis aims at the live sign",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: screenshot belongs to the actual parked driver, not a diagnostic camera",
+      "passed": true
+    },
+    {
+      "kind": "actual-rendered-frame",
+      "path": "/tmp/urman-a09-driver-rear-exit.713F5X/address-village-motorcycle-adr-fap-720.png",
+      "camera": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+    },
+    {
+      "kind": "driver-address-image-observation",
+      "vehicle": "village-motorcycle",
+      "AddressId": "ADR-FAP",
+      "path": "/tmp/urman-a09-driver-rear-exit.713F5X/address-village-motorcycle-adr-fap-720.png",
+      "camera": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera",
+      "cameraPosition": [
+        26.408335,
+        1.4629636,
+        -25.421087
+      ],
+      "cameraBasis": "[X: (0.872836, 0, 0.4880139), Y: (-0.027275838, 0.99843687, 0.048784133), Z: (-0.487251, -0.05589153, 0.8714715)]",
+      "vehiclePosition": [
+        26.808292,
+        -0.30203635,
+        -25.427013
+      ],
+      "Speed": 0,
+      "ParkingBrake": true,
+      "originalFov": 75,
+      "actualFov": 75,
+      "requested": "(1280, 720)",
+      "actualRaster": "(1280, 720)",
+      "logicalViewport": "(1920, 1080)",
+      "rim": [
+        [
+          551.7511,
+          393.6985,
+          1
+        ],
+        [
+          553.1322,
+          393.75732,
+          1
+        ],
+        [
+          552.5091,
+          321.42377,
+          1
+        ],
+        [
+          553.88416,
+          320.91498,
+          1
+        ],
+        [
+          711.1843,
+          392.422,
+          1
+        ],
+        [
+          713.3708,
+          392.46234,
+          1
+        ],
+        [
+          710.6772,
+          332.47595,
+          1
+        ],
+        [
+          712.8446,
+          332.12628,
+          1
+        ]
+      ],
+      "projectedLabels": [
+        {
+          "name": "HouseNumber",
+          "Text": "2",
+          "FontSize": 65,
+          "PixelSize": 0.00135,
+          "rasterBounds": [
+            [
+              663.985,
+              369.84515,
+              1
+            ],
+            [
+              663.985,
+              369.84515,
+              1
+            ],
+            [
+              663.9335,
+              351.84296,
+              1
+            ],
+            [
+              663.9335,
+              351.84296,
+              1
+            ],
+            [
+              670.22815,
+              369.97067,
+              1
+            ],
+            [
+              670.22815,
+              369.97067,
+              1
+            ],
+            [
+              670.1638,
+              352.1056,
+              1
+            ],
+            [
+              670.1638,
+              352.1056,
+              1
+            ]
+          ]
+        },
+        {
+          "name": "RussianStreet",
+          "Text": "\u0443\u043B. \u041B\u0435\u0441\u043D\u0430\u044F",
+          "FontSize": 30,
+          "PixelSize": 0.00135,
+          "rasterBounds": [
+            [
+              612.0256,
+              369.37512,
+              1
+            ],
+            [
+              612.0256,
+              369.37512,
+              1
+            ],
+            [
+              612.05536,
+              360.43307,
+              1
+            ],
+            [
+              612.05536,
+              360.43307,
+              1
+            ],
+            [
+              641.56256,
+              369.94955,
+              1
+            ],
+            [
+              641.56256,
+              369.94955,
+              1
+            ],
+            [
+              641.561,
+              361.31073,
+              1
+            ],
+            [
+              641.561,
+              361.31073,
+              1
+            ]
+          ]
+        },
+        {
+          "name": "TatarStreet",
+          "Text": "\u0423\u0440\u043C\u0430\u043D \u0443\u0440.",
+          "FontSize": 34,
+          "PixelSize": 0.00135,
+          "rasterBounds": [
+            [
+              611.00726,
+              357.5752,
+              1
+            ],
+            [
+              611.00726,
+              357.5752,
+              1
+            ],
+            [
+              611.0419,
+              347.58575,
+              1
+            ],
+            [
+              611.0419,
+              347.58575,
+              1
+            ],
+            [
+              642.545,
+              358.6158,
+              1
+            ],
+            [
+              642.545,
+              358.6158,
+              1
+            ],
+            [
+              642.54205,
+              348.98715,
+              1
+            ],
+            [
+              642.54205,
+              348.98715,
+              1
+            ]
+          ]
+        }
+      ],
+      "projectedInside": true,
+      "contacts": [
+        {
+          "localSample": "(0, 0)",
+          "pixel": "(639.7758, 360.02255)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-FAP/EnamelFace",
+          "candidateDistance": 3.0743294,
+          "targetDistance": 3.064004,
+          "candidateIsPlate": true,
+          "candidateMaterial": "StandardMaterial3D",
+          "transparency": "Disabled",
+          "alpha": 1,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(-0.48, 0.14)",
+          "pixel": "(570.4966, 334.75177)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_DoorFrameRight_LOD0",
+          "candidateDistance": 2.9581797,
+          "targetDistance": 2.8729832,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(0.48, 0.14)",
+          "pixel": "(699.25305, 342.04065)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "candidateDistance": 3.3942945,
+          "targetDistance": 3.3343706,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(-0.48, -0.14)",
+          "pixel": "(570.1112, 381.08444)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_DoorFrameRight_LOD0",
+          "candidateDistance": 2.9409592,
+          "targetDistance": 2.8562589,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(0.48, -0.14)",
+          "pixel": "(699.53485, 381.82074)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "candidateDistance": 3.3796358,
+          "targetDistance": 3.319971,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        }
+      ],
+      "passiveUnchanged": true,
+      "vehiclePoseUnchanged": true,
+      "readabilityAccepted": false,
+      "independentImageReviewRequired": true,
+      "limit": "Raw triangle candidates include glass/cutouts and do not prove opaque pixel ownership; physics shell differs from cabin visibility. Screen inclusion is framing only, never readable-text acceptance."
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: actual requested raster frames the mounted plate",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: capture keeps normal FOV, parked pose and passive knowledge",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: sign is within ordinary driver head-turn limits",
+      "passed": true
+    },
+    {
+      "kind": "vehicle-mouse-projection-wait",
+      "phase": "address-sign-aim",
+      "ready": true,
+      "frames": 1,
+      "milliseconds": 47,
+      "startedProcess": 1978,
+      "deliveredProcess": 0,
+      "state": {
+        "storedYaw": 59.941093,
+        "storedPitch": 3.2040098,
+        "projectedRotation": "(3.2040095, 59.94109, 0)",
+        "hasDriver": true,
+        "driverModal": false,
+        "vehicleControlled": true,
+        "fleetSuspended": false,
+        "placementAvailable": true,
+        "treePaused": false,
+        "ownerCanProcess": true,
+        "controlsNeedRelease": false,
+        "mouseMode": "Captured",
+        "focus": true,
+        "physicsFrame": 3073,
+        "processFrame": 1979
+      }
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: ordinary mouse input publishes the requested driver view",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: actual camera axis aims at the live sign",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: screenshot belongs to the actual parked driver, not a diagnostic camera",
+      "passed": true
+    },
+    {
+      "kind": "actual-rendered-frame",
+      "path": "/tmp/urman-a09-driver-rear-exit.713F5X/address-village-motorcycle-adr-fap-1080.png",
+      "camera": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera"
+    },
+    {
+      "kind": "driver-address-image-observation",
+      "vehicle": "village-motorcycle",
+      "AddressId": "ADR-FAP",
+      "path": "/tmp/urman-a09-driver-rear-exit.713F5X/address-village-motorcycle-adr-fap-1080.png",
+      "camera": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/village-motorcycle/DriverLook/VehicleCamera",
+      "cameraPosition": [
+        26.408335,
+        1.4629636,
+        -25.421087
+      ],
+      "cameraBasis": "[X: (0.872836, 0, 0.4880139), Y: (-0.027275842, 0.99843687, 0.048784137), Z: (-0.487251, -0.055891532, 0.8714715)]",
+      "vehiclePosition": [
+        26.808292,
+        -0.30203635,
+        -25.427013
+      ],
+      "Speed": 0,
+      "ParkingBrake": true,
+      "originalFov": 75,
+      "actualFov": 75,
+      "requested": "(1920, 1080)",
+      "actualRaster": "(1920, 1080)",
+      "logicalViewport": "(1920, 1080)",
+      "rim": [
+        [
+          827.62665,
+          590.5477,
+          1
+        ],
+        [
+          829.69824,
+          590.636,
+          1
+        ],
+        [
+          828.7636,
+          482.13568,
+          1
+        ],
+        [
+          830.82623,
+          481.37247,
+          1
+        ],
+        [
+          1066.7765,
+          588.633,
+          1
+        ],
+        [
+          1070.0562,
+          588.6935,
+          1
+        ],
+        [
+          1066.0157,
+          498.7139,
+          1
+        ],
+        [
+          1069.2668,
+          498.1894,
+          1
+        ]
+      ],
+      "projectedLabels": [
+        {
+          "name": "HouseNumber",
+          "Text": "2",
+          "FontSize": 65,
+          "PixelSize": 0.00135,
+          "rasterBounds": [
+            [
+              995.9774,
+              554.7677,
+              1
+            ],
+            [
+              995.9774,
+              554.7677,
+              1
+            ],
+            [
+              995.9002,
+              527.7644,
+              1
+            ],
+            [
+              995.9002,
+              527.7644,
+              1
+            ],
+            [
+              1005.3422,
+              554.956,
+              1
+            ],
+            [
+              1005.3422,
+              554.956,
+              1
+            ],
+            [
+              1005.24567,
+              528.1584,
+              1
+            ],
+            [
+              1005.24567,
+              528.1584,
+              1
+            ]
+          ]
+        },
+        {
+          "name": "RussianStreet",
+          "Text": "\u0443\u043B. \u041B\u0435\u0441\u043D\u0430\u044F",
+          "FontSize": 30,
+          "PixelSize": 0.00135,
+          "rasterBounds": [
+            [
+              918.0383,
+              554.0627,
+              1
+            ],
+            [
+              918.0383,
+              554.0627,
+              1
+            ],
+            [
+              918.083,
+              540.6496,
+              1
+            ],
+            [
+              918.083,
+              540.6496,
+              1
+            ],
+            [
+              962.3438,
+              554.9243,
+              1
+            ],
+            [
+              962.3438,
+              554.9243,
+              1
+            ],
+            [
+              962.34143,
+              541.96606,
+              1
+            ],
+            [
+              962.34143,
+              541.96606,
+              1
+            ]
+          ]
+        },
+        {
+          "name": "TatarStreet",
+          "Text": "\u0423\u0440\u043C\u0430\u043D \u0443\u0440.",
+          "FontSize": 34,
+          "PixelSize": 0.00135,
+          "rasterBounds": [
+            [
+              916.51086,
+              536.3628,
+              1
+            ],
+            [
+              916.51086,
+              536.3628,
+              1
+            ],
+            [
+              916.56274,
+              521.3786,
+              1
+            ],
+            [
+              916.56274,
+              521.3786,
+              1
+            ],
+            [
+              963.81744,
+              537.9237,
+              1
+            ],
+            [
+              963.81744,
+              537.9237,
+              1
+            ],
+            [
+              963.81305,
+              523.4807,
+              1
+            ],
+            [
+              963.81305,
+              523.4807,
+              1
+            ]
+          ]
+        }
+      ],
+      "projectedInside": true,
+      "contacts": [
+        {
+          "localSample": "(0, 0)",
+          "pixel": "(959.6637, 540.0338)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-FAP/EnamelFace",
+          "candidateDistance": 3.0743294,
+          "targetDistance": 3.064004,
+          "candidateIsPlate": true,
+          "candidateMaterial": "StandardMaterial3D",
+          "transparency": "Disabled",
+          "alpha": 1,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(-0.48, 0.14)",
+          "pixel": "(855.7449, 502.12762)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_DoorFrameRight_LOD0",
+          "candidateDistance": 2.9581797,
+          "targetDistance": 2.8729832,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(0.48, 0.14)",
+          "pixel": "(1048.8795, 513.061)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "candidateDistance": 3.3942945,
+          "targetDistance": 3.3343706,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(-0.48, -0.14)",
+          "pixel": "(855.1668, 571.62665)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_DoorFrameRight_LOD0",
+          "candidateDistance": 2.9409592,
+          "targetDistance": 2.8562589,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        },
+        {
+          "localSample": "(0.48, -0.14)",
+          "pixel": "(1049.3022, 572.7311)",
+          "physicsHasHit": false,
+          "physicsOwner": null,
+          "physicsPoint": null,
+          "candidateRenderOwner": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/FapExterior/FapClinicAuthoredKitPresentation/FapAuthoredFacade/FapFacade_Main/FapFacade_Body_LOD0",
+          "candidateDistance": 3.3796358,
+          "targetDistance": 3.319971,
+          "candidateIsPlate": false,
+          "candidateMaterial": "ShaderMaterial",
+          "transparency": "shader-or-unknown",
+          "alpha": null,
+          "visibilityAccepted": false
+        }
+      ],
+      "passiveUnchanged": true,
+      "vehiclePoseUnchanged": true,
+      "readabilityAccepted": false,
+      "independentImageReviewRequired": true,
+      "limit": "Raw triangle candidates include glass/cutouts and do not prove opaque pixel ownership; physics shell differs from cabin visibility. Screen inclusion is framing only, never readable-text acceptance."
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: actual requested raster frames the mounted plate",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: capture keeps normal FOV, parked pose and passive knowledge",
+      "passed": true
+    },
+    {
+      "kind": "vehicle-mouse-projection-wait",
+      "phase": "address-view-restore",
+      "ready": true,
+      "frames": 2,
+      "milliseconds": 69,
+      "startedProcess": 1990,
+      "deliveredProcess": 0,
+      "state": {
+        "storedYaw": 0,
+        "storedPitch": 2.3841858E-07,
+        "projectedRotation": "(2.3841856E-07, 0, 0)",
+        "hasDriver": true,
+        "driverModal": false,
+        "vehicleControlled": true,
+        "fleetSuspended": false,
+        "placementAvailable": true,
+        "treePaused": false,
+        "ownerCanProcess": true,
+        "controlsNeedRelease": false,
+        "mouseMode": "Captured",
+        "focus": true,
+        "physicsFrame": 3093,
+        "processFrame": 1991
+      }
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: ordinary input restores the previous driver look",
+      "passed": true
+    },
+    {
+      "kind": "driver-address-passive-state",
+      "Vehicle": "village-motorcycle",
+      "Address": "ADR-FAP",
+      "beforeLook": {
+        "Knowledge": "{\u0022urman.chapter1:knowledge/address-babai\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-council\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-fap\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-mosque\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-school\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-shop\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/alsu_walk_invitation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/arrival_mother_message_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/arrival_reply_help_babai\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/arrival_reply_kept_silent\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/bathhouse-condensation-observation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_accounting_fragment_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_alsu_heard_versions\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_alsu_knows_more_than_says\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_alsu_message_reply\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_do_not_answer_rule\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_family_avoids_marat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_family_notice_by_phone\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_first_snow_source_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_folklore_as_survival_rule\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_gulsina_warning_context\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_household_electric_receipts\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_household_niva_list\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_household_request_checked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_internal_wording_reread\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_local_words_return\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_mansur_household_request\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_mansur_unsent_note_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_case_boundary_marker\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_last_route_near_zirat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_message_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_official_death_version\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_versions_conflict\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_was_afraid_before_death\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_message_question_prepared\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_message_voice_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_naila_record_scope\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_naila_request_entry_scope\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_notice_call_not_request\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_notice_cause_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_facade_windows_observed\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_gate_repair_checked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_place_compared\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_question_answered\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_yard_observed\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_record_shared_formulation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_record_wording_mismatch\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_register_category_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_register_wording_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_rinat_accounting_question_heard\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_rinat_at_roadside\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_rinat_word_reaction\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_route_check_discussed\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_route_check_intent\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_sketch_field_landmarks\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_sketch_place_compared\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_sketch_tag_base_checked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_timur_warns_against_marat_path\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_underdeck_rattle_quiet\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_village_has_internal_compensation_system\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_yaramyy_contexts_distinguished\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_yard_loop_return\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_zirat_roadside_marks\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/contradiction_marat_official_vs_internal\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/council-photo-album-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/council-sabantuy-poster-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/council-village-plan-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-arrival-bench-race-notches\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-arrival-insulated-well\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-entry-wall-joint\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-sled-repair\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-connective-street-repair-bench\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-connective-street-return-bench\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-connective-street-shed-bypass\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-exterior-care-porch\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-exterior-service-path\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-interior-height-marks\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-interior-repaired-desk-object\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-service-cabinet\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-exterior-porch-nook\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-interior-language-tin\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-interior-photo-back\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-kara-branch-profile\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-kara-old-forestry-side-track\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-kara-warm-window-clearing\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-main-street-fenced-service-lane\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-main-street-side-window\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-main-street-sign-reverse\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-shed-loft-roofline\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-underdeck-rattle\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-zirat-outer-culvert-crossing\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-zirat-outer-rest-bench\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/family_home_invitation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/family_home_pause\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_category_is_diagnosis\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_heading_identifies_voice\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_message_proves_sighting\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_route_enters_zirat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_tag_identifies_marat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_voice_explained_as_echo\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/memory_gulsina_childhood_table\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/memory_marat_childhood_photo\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/mosque-visit\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/observation-bench-plank\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/observation-branch-overlap\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/observation-well-tie\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/pressure_council_attention_1\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/route_kara_urman_edge_hint\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/sabirov-family-linked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/school-class-photo-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/school-staff-note-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/school-transport-notice-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/shop-account-book-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/shop-sabirov-family-memory\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/shop-school-photo-memory\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/tamara_fence_settled\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/topic_marat_unresolved\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/zirat-family-links-read\u0022:{\u0022status\u0022:\u0022hidden\u0022}}",
+        "AddressProps": "[]",
+        "Known": "[]",
+        "Located": "[]",
+        "Scene": "urman.chapter1:scene/arrival_vehicle_dusk",
+        "Zone": "village_day"
+      },
+      "afterLook": {
+        "Knowledge": "{\u0022urman.chapter1:knowledge/address-babai\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-council\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-fap\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-mosque\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-school\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/address-shop\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/alsu_walk_invitation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/arrival_mother_message_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/arrival_reply_help_babai\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/arrival_reply_kept_silent\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/bathhouse-condensation-observation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_accounting_fragment_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_alsu_heard_versions\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_alsu_knows_more_than_says\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_alsu_message_reply\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_do_not_answer_rule\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_family_avoids_marat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_family_notice_by_phone\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_first_snow_source_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_folklore_as_survival_rule\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_gulsina_warning_context\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_household_electric_receipts\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_household_niva_list\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_household_request_checked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_internal_wording_reread\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_kara_urman_edge_is_rule_boundary\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_local_words_return\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_mansur_allowed_pc_access_deliberately\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_mansur_household_request\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_mansur_unsent_note_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_case_boundary_marker\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_last_route_near_zirat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_message_read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_official_death_version\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_versions_conflict\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_marat_was_afraid_before_death\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_message_question_prepared\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_message_voice_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_naila_record_scope\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_naila_request_entry_scope\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_notice_call_not_request\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_notice_cause_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_facade_windows_observed\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_gate_repair_checked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_place_compared\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_question_answered\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_photo_yard_observed\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_record_shared_formulation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_record_wording_mismatch\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_register_category_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_register_wording_excerpt\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_rinat_accounting_question_heard\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_rinat_at_roadside\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_rinat_word_reaction\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_route_check_discussed\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_route_check_intent\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_sketch_field_landmarks\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_sketch_place_compared\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_sketch_tag_base_checked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_timur_warns_against_marat_path\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_underdeck_rattle_quiet\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_village_has_internal_compensation_system\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_voice_answer_is_dangerous_hint\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_yaramyy_contexts_distinguished\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_yard_loop_return\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/clue_zirat_roadside_marks\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/contradiction_marat_official_vs_internal\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/council-photo-album-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/council-sabantuy-poster-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/council-village-plan-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-arrival-bench-race-notches\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-arrival-insulated-well\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-entry-wall-joint\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-babai-yard-sled-repair\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-connective-street-repair-bench\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-connective-street-return-bench\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-connective-street-shed-bypass\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-exterior-care-porch\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-exterior-service-path\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-interior-height-marks\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-interior-repaired-desk-object\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-fap-service-cabinet\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-exterior-porch-nook\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-interior-language-tin\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-house-interior-photo-back\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-kara-branch-profile\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-kara-old-forestry-side-track\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-kara-warm-window-clearing\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-main-street-fenced-service-lane\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-main-street-side-window\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-main-street-sign-reverse\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-shed-loft-roofline\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-underdeck-rattle\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-zirat-outer-culvert-crossing\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/discovery-zirat-outer-rest-bench\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/family_home_invitation\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/family_home_pause\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_category_is_diagnosis\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_heading_identifies_voice\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_message_proves_sighting\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_route_enters_zirat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_tag_identifies_marat\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/hypothesis_voice_explained_as_echo\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/memory_gulsina_childhood_table\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/memory_marat_childhood_photo\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/mosque-visit\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/observation-bench-plank\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/observation-branch-overlap\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/observation-well-tie\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/pressure_council_attention_1\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/route_kara_urman_edge_hint\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/sabirov-family-linked\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/school-class-photo-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/school-staff-note-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/school-transport-notice-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/shop-account-book-read\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/shop-sabirov-family-memory\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/shop-school-photo-memory\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/tamara_fence_settled\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/topic_marat_unresolved\u0022:{\u0022status\u0022:\u0022hidden\u0022},\u0022urman.chapter1:knowledge/zirat-family-links-read\u0022:{\u0022status\u0022:\u0022hidden\u0022}}",
+        "AddressProps": "[]",
+        "Known": "[]",
+        "Located": "[]",
+        "Scene": "urman.chapter1:scene/arrival_vehicle_dusk",
+        "Zone": "village_day"
+      },
+      "unchanged": true,
+      "mountUnchanged": true,
+      "explicitPlateInteraction": false,
+      "readabilityAccepted": false
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: entering, driving and passive looking add no knowledge or located address",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: actual sign mount and registry text survive observation unchanged",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: ordinary service brake and parking brake hold the stop",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "village-motorcycle: mapped E returns to supported pedestrian control",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart: three actual mounted labels equal the live registry",
+      "passed": true
+    },
+    {
+      "kind": "driver-address-live-mount",
+      "Vehicle": "forest-horse-cart",
+      "Address": "ADR-H023",
+      "BuildingId": "BLD-H023",
+      "ParcelId": "PAR-H023",
+      "StreetId": "tukay",
+      "HouseNumber": "20",
+      "plate": "/root/VehicleSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-H023",
+      "position": [
+        8.255,
+        1.8996975,
+        -43.15
+      ],
+      "basis": "[X: (-4.371139E-08, 0, 1), Y: (0, 1, 0), Z: (-1, 0, -4.371139E-08)]",
+      "labels": [
+        {
+          "name": "HouseNumber",
+          "Text": "20",
+          "FontSize": 65,
+          "PixelSize": 0.00135,
+          "NoDepthTest": false,
+          "DoubleSided": false
+        },
+        {
+          "name": "RussianStreet",
+          "Text": "\u0443\u043B. \u0422\u0443\u043A\u0430\u044F",
+          "FontSize": 30,
+          "PixelSize": 0.00135,
+          "NoDepthTest": false,
+          "DoubleSided": false
+        },
+        {
+          "name": "TatarStreet",
+          "Text": "\u0422\u0443\u043A\u0430\u0439 \u0443\u0440.",
+          "FontSize": 34,
+          "PixelSize": 0.00135,
+          "NoDepthTest": false,
+          "DoubleSided": false
+        }
+      ],
+      "geometryChanged": false,
+      "automaticKnowledge": false,
+      "readabilityAccepted": false
+    },
+    {
+      "kind": "local-fixture",
+      "vehicle": "forest-horse-cart",
+      "feet": "(-0.4061468, -0.2642855, -34.349106)",
+      "target": "(-0.100000024, 0.7710932, -33.61)",
+      "isTraversalMeasurement": false
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart: ordinary entry owns the real driver camera",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart: mapped ignition releases parking",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart: ordinary service brake and parking brake hold the stop",
+      "passed": true
+    },
+    {
+      "kind": "driver-address-actual-route",
+      "phase": "cart-existing-main-road",
+      "vehicle": "forest-horse-cart",
+      "reverse": false,
+      "start": [
+        0.9,
+        -0.2469068,
+        -34
+      ],
+      "end": [
+        0.3586034,
+        -0.25309548,
+        -36.827934
+      ],
+      "distance": 2.904602,
+      "waypoints": [
+        "(-0.39, -37)",
+        "(-0.06087, -40.8)"
+      ],
+      "samples": [
+        {
+          "physicsFrame": 3183,
+          "position": [
+            0.89997286,
+            -0.24665779,
+            -34.000225
+          ],
+          "Speed": 0.014166668,
+          "waypoint": 0,
+          "target": "(-0.39, -37)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 3208,
+          "position": [
+            0.8990297,
+            -0.24185635,
+            -34.08217
+          ],
+          "Speed": 0.36833328,
+          "waypoint": 0,
+          "target": "(-0.39, -37)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 3237,
+          "position": [
+            0.89066947,
+            -0.24431905,
+            -34.363575
+          ],
+          "Speed": 0.7791662,
+          "waypoint": 0,
+          "target": "(-0.39, -37)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 3260,
+          "position": [
+            0.86540437,
+            -0.24548139,
+            -34.726665
+          ],
+          "Speed": 1.1049997,
+          "waypoint": 0,
+          "target": "(-0.39, -37)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 3285,
+          "position": [
+            0.7959395,
+            -0.2419784,
+            -35.258877
+          ],
+          "Speed": 1.4591675,
+          "waypoint": 0,
+          "target": "(-0.39, -37)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 3312,
+          "position": [
+            0.6760553,
+            -0.24055329,
+            -35.827454
+          ],
+          "Speed": 1.1208757,
+          "waypoint": 0,
+          "target": "(-0.39, -37)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 3341,
+          "position": [
+            0.54556984,
+            -0.2470261,
+            -36.27615
+          ],
+          "Speed": 0.83611083,
+          "waypoint": 0,
+          "target": "(-0.39, -37)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 3370,
+          "position": [
+            0.421456,
+            -0.24875496,
+            -36.62987
+          ],
+          "Speed": 0.8612334,
+          "waypoint": 1,
+          "target": "(-0.06087, -40.8)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        },
+        {
+          "physicsFrame": 3382,
+          "position": [
+            0.36477974,
+            -0.25059694,
+            -36.811634
+          ],
+          "Speed": 1.0312334,
+          "waypoint": 1,
+          "target": "(-0.06087, -40.8)",
+          "reverse": false,
+          "LastRefusal": "",
+          "CollisionStops": 0
+        }
+      ],
+      "milliseconds": 4351,
+      "fullTraversalFromNewGame": false,
+      "teleportedVehicle": false
+    },
+    {
+      "kind": "driver-address-observation-failed",
+      "Vehicle": "forest-horse-cart",
+      "Address": "ADR-H023",
+      "error": "System.InvalidOperationException: cart-existing-main-road: real driving refusal: \u041B\u043E\u0448\u0430\u0434\u044C \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0430\u0441\u044C \u043F\u0435\u0440\u0435\u0434 \u043F\u0440\u0435\u043F\u044F\u0442\u0441\u0442\u0432\u0438\u0435\u043C. \u041C\u043E\u0436\u043D\u043E \u043E\u0441\u0430\u0434\u0438\u0442\u044C \u0435\u0451 \u043D\u0430\u0437\u0430\u0434.\n   at Urman.Godot.Tests.VehicleSmokeTest.DriveAddressLeg(VehicleController vehicle, Vector2[] waypoints, Boolean reverse, String phase) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.AddressReadability.cs:line 136\n   at Urman.Godot.Tests.VehicleSmokeTest.DriveAddressLeg(VehicleController vehicle, Vector2[] waypoints, Boolean reverse, String phase) in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.AddressReadability.cs:line 166\n   at Urman.Godot.Tests.VehicleSmokeTest.RunAddressReadabilityChecks() in /Users/unterlantas/Documents/GitHub/URMAN/game/tests/VehicleSmokeTest.AddressReadability.cs:line 65",
+      "vehiclePosition": [
+        0.3586034,
+        -0.25309548,
+        -36.827934
+      ],
+      "LastRefusal": "",
+      "accepted": false
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart: ordinary service brake and parking brake hold the stop",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "forest-horse-cart: mapped E returns to supported pedestrian control",
+      "passed": true
+    },
+    {
+      "kind": "driver-address-scope-result",
+      "technicalFailures": [
+        "forest-horse-cart: cart-existing-main-road: real driving refusal: \u041B\u043E\u0448\u0430\u0434\u044C \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u043B\u0430\u0441\u044C \u043F\u0435\u0440\u0435\u0434 \u043F\u0440\u0435\u043F\u044F\u0442\u0441\u0442\u0432\u0438\u0435\u043C. \u041C\u043E\u0436\u043D\u043E \u043E\u0441\u0430\u0434\u0438\u0442\u044C \u0435\u0451 \u043D\u0430\u0437\u0430\u0434."
+      ],
+      "passiveKnowledgeUnchanged": true,
+      "acceptance": false,
+      "readability": "requires independent inspection of actual 720p/1080p driver images",
+      "limit": "Projection and candidate ray contacts do not establish readable glyphs. No GPS, sign relocation, FOV override or seated notebook action."
+    },
+    {
+      "kind": "check",
+      "label": "complete driver observation leaves knowledge, address props and notebook locations unchanged",
+      "passed": true
+    }
+  ],
+  "limit": "local fixtures; not human experience, final art, listening or performance",
+  "stationRecordings": "actual delivered and missing programme rows reported separately; playback fixtures are not station content"
+}
