@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-27",
+  "scope": "A05 diagnosis of the ordinary first-person mosque route after address read and save/load; not full route acceptance",
+  "nativeRuns": [
+    {
+      "scenario": "URMAN_WALK_MAIN_ROUTE_ONLY=1 act1_first_person_walkthrough_smoke_test",
+      "result": "exit 1 at mosque door, reproduced twice; user data guard restored",
+      "reached": "ordinary New Game, FAP entrance/return, 259/259 physical mosque route points, 117.32823 m on the mosque leg, stable landing, zero recoveries/clamps, real plate read and saved/loaded walk-mosque-plate slot",
+      "doorProbe": "one mapped press reached the callback: open=false, yaw=0, busy=false, exterior=true; commit=true and open=true; first subsequent tick: paused=true, PlayTimeBlock=Unfocused, window focus=false, blocked=false; physical yaw stayed 0",
+      "interpretation": "The background-input smoke can deliver a door press while Godot is unfocused, but production TickFacilities intentionally pauses physical door motion when play time is blocked. The post-load door assertion is therefore a harness false negative in this run; a focused post-load full route is still unverified."
+    },
+    {
+      "scenario": "protected native Act1FacilitiesSmokeTest, mosque-only, focused window",
+      "result": "the existing check 'full inward mosque leaf opens by a real aimed action without hitting the landing guards' passed; the larger scenario later exited 1 at an unrelated Timur footwear geometry check",
+      "scopeLimit": "local supported start and ordinary New Game; it does not cover the same post-load full route"
+    }
+  ],
+  "remaining": [
+    "ADR-FAP plate read and reverse route from the reached deck are not verified by the current crowded-addresses fixture.",
+    "Focused full-route door motion after the plate save/load and current first-person frames remain to be checked.",
+    "Unprompted human wayfinding and visual legibility remain external/not-run."
+  ],
+  "cleanup": "Temporary GD.Print instrumentation was removed and Urman.Game.csproj rebuilt with zero warnings/errors; run logs and temporary facility output were deleted after this compact diagnosis."
+}
