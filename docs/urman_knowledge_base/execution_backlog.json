@@ -11193,14 +11193,15 @@
         "evidence": "docs/production/tamara_mvp_2026-09-26/binding-labels/followup-audit.md"
       },
       "places_followup_2026_09_27": {
-        "status": "confirmed_source_defect",
+        "status": "source_fixed_native_category_unverified",
         "trigger": "Выбрать «Адреса», затем «Места»: обе категории вызывают NotebookAddresses и показывают один список.",
         "files": [
           "game/scripts/JournalUi.Notebook.cs",
           "game/scripts/RuntimeBridge.Notebook.cs"
         ],
-        "next_step": "Разобрать NOTE-001 и существующие данные обнаруженных мест; реализовать отдельную полезную проекцию. Не удалять требуемую категорию и не подменять места только адресами ради закрытия.",
-        "verification": "Source trace only; native category comparison not run."
+        "implementation": "«Места» теперь строятся отдельной проекцией из уже записанных наблюдений игрока: 10 карточек мест охватывают все 29 authored discovery-* и наблюдения мечети/бани. Адресная проекция и сохранения не изменены; неизвестные места не показываются.",
+        "verification": "C# build 0 ошибок/предупреждений, DLL sha256 18f3c079eb33086bbfdfabe8b6c33b01896d9c50a063d3c38cff6ef399719183; protected journal_flow_smoke_test exit0, userdata restored. Static content coverage: 29/29 discovery-* mapped; native switch to «Места» not exercised.",
+        "remaining": "Проверить в игре переключение «Адреса»/«Места», пустое и наполненное состояния, длинный список и повторное открытие после загрузки. Проверка не заменяет человеческую оценку читаемости. ACT1-UI.4 и A12 остаются открытыми."
       },
       "delivery": {
         "packet": "A12"

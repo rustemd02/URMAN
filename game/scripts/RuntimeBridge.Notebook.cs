@@ -59,6 +59,34 @@ public partial class RuntimeBridge
         }).ToArray();
     }
 
+    public IReadOnlyList<ResolvedJournalEntry> NotebookPlaces()
+    {
+        var entries = JournalEntries();
+        var places = new (string Id, string Title, string[] Facts)[]
+        {
+            ("arrival", "Остановка", ["discovery-arrival-"]),
+            ("babai-yard", "Двор бабая", ["discovery-babai-yard-"]),
+            ("babai-house", "Дом бабая и әби", ["discovery-house-"]),
+            ("streets", "Улицы Кырлая", ["discovery-main-street-", "discovery-connective-street-"]),
+            ("outbuildings", "Сараи и настил", ["discovery-shed-", "discovery-underdeck-"]),
+            ("fap", "ФАП", ["discovery-fap-"]),
+            ("zirat-road", "Зиратская дорога", ["discovery-zirat-"]),
+            ("kara-urman", "Кара-Урман", ["discovery-kara-"]),
+            ("mosque", "Мечеть", ["mosque-visit"]),
+            ("bathhouse", "Баня", ["bathhouse-condensation-observation"])
+        };
+        return places.Select(place =>
+        {
+            var found = entries.Where(entry => place.Facts.Any(fact => entry.EntryId.StartsWith(
+                "urman.chapter1:knowledge/" + fact, StringComparison.Ordinal)))
+                .DistinctBy(entry => entry.EntryId).ToArray();
+            return found.Length == 0 ? null : new ResolvedJournalEntry(
+                "notebook/place/" + place.Id, "notebook/place/" + place.Id, place.Title,
+                string.Join("\n\n", found.Select(entry => entry.Title + "\n" + entry.Body)),
+                "Найдено и записано на месте");
+        }).Where(place => place is not null).Select(place => place!).ToArray();
+    }
+
     public IReadOnlyList<ResolvedJournalEntry> NotebookPeople()
     {
         if (_kernel is null) return [];

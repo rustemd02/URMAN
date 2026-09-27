@@ -95,7 +95,7 @@ public partial class JournalUi
             1 => _bridge?.NotebookPeople() ?? [],
             2 => _bridge?.NotebookAddresses() ?? [],
             3 => _sourceProjection.Where(entry => entry.EntryId.Contains(":document/", StringComparison.Ordinal)).ToArray(),
-            4 => _bridge?.NotebookAddresses() ?? [],
+            4 => _bridge?.NotebookPlaces() ?? [],
             5 => _sourceProjection.Where(entry => !entry.EntryId.Contains(":document/", StringComparison.Ordinal)
                 && !entry.EntryId.Contains(":knowledge/address-", StringComparison.Ordinal)).ToArray(),
             _ => _sourceProjection
