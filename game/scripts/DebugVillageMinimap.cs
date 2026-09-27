@@ -18,7 +18,8 @@ public partial class DebugVillageMinimap : Control
 
     public static void AttachIfEnabled(Node host)
     {
-        if (!MainMenuUi.DebugZonesEnabled) return;
+        if (!MainMenuUi.DebugZonesEnabled
+            && !OS.GetCmdlineArgs().Contains(DebugWorldGrid.LaunchArgument, StringComparer.Ordinal)) return;
         var layer = new CanvasLayer { Name = "DebugVillageMinimapLayer", Layer = 90 };
         host.AddChild(layer);
         layer.AddChild(new DebugVillageMinimap { Name = "DebugVillageMinimap", Visible = false });

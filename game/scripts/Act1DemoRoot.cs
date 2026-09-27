@@ -244,6 +244,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             throw new InvalidOperationException("Act I world or campaign did not finish loading.");
         }
 
+        DebugWorldGrid.AttachIfEnabled(this);
+
         BuildMainMenu();
         if (_mainMenu?.NewGameButton is null)
         {
@@ -1551,7 +1553,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return label;
         }
         stack.AddChild(IntroLine("УРМАН  /  Акт I — Возвращение", 32, new Color(0.94f, 0.84f, 0.65f)));
-        stack.AddChild(IntroLine("Я снова в Кара-Урмане. Десять лет молчания.", 19, new Color(0.87f, 0.89f, 0.83f)));
+        stack.AddChild(IntroLine("Я снова в Кырлае. Десять лет молчания.", 19, new Color(0.87f, 0.89f, 0.83f)));
         stack.AddChild(IntroLine("На скамье справа — мой телефон и старое фото Марата.", 19, new Color(0.87f, 0.89f, 0.83f)));
         _introControls = IntroLine(string.Empty, 17, new Color(0.72f, 0.78f, 0.74f));
         stack.AddChild(_introControls);
