@@ -1,0 +1,18 @@
+{
+  "date": "2026-09-27",
+  "packet": "A02 / explicit boot-menu intro replay and cold Continue",
+  "sourceHead": "0f1da659 (dirty main checkout)",
+  "gameDllSha256": "37cad5bfa9c3533496f59f9eac491d79ce3ebfe190b0511f810645b3ebba5203",
+  "checks": [
+    "Affected C# build completed with 0 warnings and 0 errors after the intro UI-layer cleanup.",
+    "Protected headless act1_demo_launch_smoke_test.tscn exited 0 on the exact DLL: the new menu action opens isolated arrival playback, early skip returns to the menu, New Game starts a normal session, and the physical phone/photo readers remain available.",
+    "Protected headless act1_main_menu_smoke_test.tscn exited 0 on the exact DLL: boot replay with existing slots preserved their byte-identical hashes, restored Continue availability, and cold Continue loaded its original session without replaying the intro.",
+    "Both runs restored original userdata files and permissions; graphify update . exited 0."
+  ],
+  "decision": "Do not add an unused viewed flag to SaveGameV3. New Game alone opens the intro; Continue loads the saved scene directly, and replay is an explicit boot-menu action in a separate debug session. The replay button is hidden after selecting a player session so it cannot discard unsaved in-memory play.",
+  "limits": [
+    "Replay from a menu reached after entering gameplay is intentionally unavailable until the app is relaunched; this avoids replacing unsaved in-memory progress.",
+    "This is technical menu/state verification. The replay button layout was not visually accepted, and full-flight motion, audio synchronization, smoke, weak-host FPS and human first-play remain open.",
+    "The DLL includes unrelated uncommitted work; this is an exact local build, not a clean release candidate."
+  ]
+}

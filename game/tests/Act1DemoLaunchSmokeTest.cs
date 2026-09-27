@@ -31,10 +31,35 @@ public partial class Act1DemoLaunchSmokeTest : Node
         if (!demo.MainMenuVisible
             || demo.MainMenu?.NewGameButton is null
             || demo.MainMenu.ContinueButton is null
+            || demo.MainMenu.ReplayIntroButton is not { Visible: true } replayButton
             || demo.IntroVisible
             || menuPlayer?.ModalOpen != true)
         {
             Fail("Act 1 main menu did not gate the demo start before any intro or gameplay input.");
+            return;
+        }
+
+        var quickBeforeReplay = bridge?.IsPlayerSlotAvailable(MainMenuUi.ContinueSlot) ?? false;
+        var checkpointBeforeReplay = bridge?.IsPlayerSlotAvailable(MainMenuUi.CheckpointSlot) ?? false;
+        replayButton.EmitSignal(BaseButton.SignalName.Pressed);
+        for (var frame = 0; frame < 900 && !demo.IntroVisible; frame++)
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!demo.IntroVisible || bridge?.IsDebugSession != true)
+        {
+            Fail("Main menu did not start an isolated arrival-intro replay.");
+            return;
+        }
+        demo._UnhandledInput(new InputEventAction { Action = "interact", Pressed = true });
+        for (var frame = 0; frame < 900 && !demo.MainMenuVisible; frame++)
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (demo.IntroVisible || !demo.MainMenuVisible || menuPlayer.ModalOpen != true
+            || bridge.IsPlayerSlotAvailable(MainMenuUi.ContinueSlot) != quickBeforeReplay
+            || bridge.IsPlayerSlotAvailable(MainMenuUi.CheckpointSlot) != checkpointBeforeReplay
+            || bridge.SelectRuntimeState().GetProperty("knowledge")
+                .GetProperty("urman.chapter1:knowledge/memory_marat_childhood_photo")
+                .GetProperty("status").GetString() != "hidden")
+        {
+            Fail("Skipping intro replay did not restore the menu or preserved player saves.");
             return;
         }
 
@@ -45,9 +70,18 @@ public partial class Act1DemoLaunchSmokeTest : Node
                 Accessibility = menuPlayer.Accessibility with { ReducedMotion = true }
             });
 
+        for (var frame = 0; frame < 900 && demo.MainMenu?.NewGameButton?.Disabled == true; frame++)
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
         if (!await this.StartThroughMainMenuAsync(demo))
         {
             Fail("Act 1 demo did not reach the intro through the main menu New Game button.");
+            return;
+        }
+
+        if (bridge?.IsDebugSession != false)
+        {
+            Fail("New Game inherited the isolated intro replay session.");
             return;
         }
 

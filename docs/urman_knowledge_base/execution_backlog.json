@@ -2744,7 +2744,7 @@
         "ACT1-CUTSCENE"
       ],
       "units": [
-        "A02 next unit: inspect the existing save/menu owners, then persist arrival-intro seen/skip state and offer an explicit replay without granting clues. Verify cold Continue before and after the intro and replay on the same DLL. The first personal-source-to-checked-contradiction route is technically covered by a02-first-investigation/receipt.json; human comprehension, visual motion and audio remain open."
+        "A02 next unit: inspect existing winter ambience and scene props for the arrival flight; if a real authored sound/smoke owner already exists, connect only that source and verify timing/camera frames. Otherwise record the missing asset and advance to the next dependency-ready MVP packet. Human motion, pacing and comprehension remain external; no synthetic audio or invented 60-minute claim."
       ],
       "owner": "codex-01a0dd89 / GPT-6 Astra; no active native process or child writer",
       "previous_packet": "A01 scoped collision triage recorded 2026-09-27: historical Babai shelter-post failure did not recur in guarded full-scope checks; full boundary still exits1 for MainStreetForwardWestFacade arbitrary wall-face fixture. Current native ADR-H018 route reached the door/plate from road and returned, 18/18 points each way, zero recoveries/clamps; no user-facing road-to-door blocker reproduced. ACT1-TECH.1/.2 and other A01 tasks remain in_progress; revisit on concrete episode defects, not as a full A01 acceptance claim."
@@ -6304,7 +6304,7 @@
         "game/scripts/DialogueUi.cs"
       ],
       "deliverable": "Early meaningful choices and first evidence/application/reaction loop with polished home, character, audio and save.",
-      "current_checkpoint": "2026-09-27 A02 technical first-investigation route: on the same dirty DLL as the intro capture, guarded family-home-only and journal-flow smoke both exited 0. Ordinary New Game reads the physical photo before its memory/question, handles both family replies and return/load, then reaches a player-selected document comparison with recoverable wrong choices, a checked spoken answer, one journal conclusion and the original memory still readable. This is scripted state/UI verification, not a human first-play, 8–12-minute measurement, artistic assessment, post-contradiction cold load or completed A02. See docs/production/mvp_tracker_2026-09-27/a02-first-investigation/receipt.json.",
+      "current_checkpoint": "2026-09-27 A02 technical first-investigation route: on the same dirty DLL as the intro capture, guarded family-home-only and journal-flow smoke both exited 0. Ordinary New Game reads the physical photo before its memory/question, handles both family replies and return/load, then reaches a player-selected document comparison with recoverable wrong choices, a checked spoken answer, one journal conclusion and the original memory still readable. This is scripted state/UI verification, not a human first-play, 8–12-minute measurement, artistic assessment, post-contradiction cold load or completed A02. See docs/production/mvp_tracker_2026-09-27/a02-first-investigation/receipt.json. Same-build boot-menu intro replay, skip and cold Continue now pass with player-save hashes unchanged; see a02-intro-replay/receipt.json. Human first-play and sound remain open.",
       "done_when": [
         "Early meaningful choices and first evidence/application/reaction loop with polished home, character, audio and save."
       ],
@@ -13362,7 +13362,7 @@
           },
           {
             "id": "ACT1-CUTSCENE.1/S2",
-            "action": "Довести переход с управлением, letterbox/звуком и seen-state; кривые остаются данными."
+            "action": "Довести переход с управлением, letterbox/звуком и явным безопасным повтором; кривые остаются данными."
           },
           {
             "id": "ACT1-CUTSCENE.1/S3",
@@ -13392,14 +13392,14 @@
         "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
         "author/2026-09-20-gamefeel-overhaul"
       ],
-      "deliverable": "Треки камеры по контрольным точкам, таймлайн, звук, леттербокс/титры, пропуск с первого кадра, пометка «просмотрено» в сейве.",
+      "deliverable": "Треки камеры по контрольным точкам, таймлайн, звук, леттербокс/титры и пропуск с первого кадра. Continue не повторяет вступление автоматически; явный просмотр из стартового меню не меняет сохранения игрока.",
       "done_when": [
         "Катсцена не даёт знаний и не пишет журнал; save/load и повторный старт устойчивы; кривые/тайминги — в данных, не в коде."
       ],
       "evidence": [
         "docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/receipt.json"
       ],
-      "current_checkpoint": "2026-09-27: intro-specific presentation track/control candidate only. Authored Bezier controls and 8s timing live in JSON; normal/160% native launch checks confirm moving camera, ordinary input/phone/photo, mid-flight skip and natural camera return; reduced-motion headless confirms still camera/HUD restoration; save lifecycle headless passes. No generic multi-scene player, saved viewed marker, replay UI, authored sound or cold-load proof; keep ACT1-CUTSCENE.1 in_progress.",
+      "current_checkpoint": "2026-09-27: intro-specific JSON camera track/control candidate. Native normal/160% frames, reduced-motion path, skip and natural return were checked earlier; current-DLL guarded launch and cold main-menu runs exit0. Boot-menu replay uses a separate debug save store, returns to menu, leaves player save hashes unchanged; New Game returns to ordinary session and Continue loads directly without replay. A new save-schema seen bit was rejected because no behavior consumes it. No generic multi-scene player, authored sound, weak-host performance or human motion review; keep in_progress. See a02-intro-flyover/ and a02-intro-replay/receipts.",
       "mvp_priority": 20,
       "mvp_packet": "A02",
       "delivery": {
@@ -13483,7 +13483,7 @@
           },
           {
             "id": "ACT1-CUTSCENE.3/S2",
-            "action": "Пройти сценарий с обычным вводом, проверить камеру, звук, UI, знания и seen-state."
+            "action": "Пройти сценарий с обычным вводом, проверить камеру, звук, UI, знания и отсутствие автоматического повтора после Continue."
           },
           {
             "id": "ACT1-CUTSCENE.3/S3",
@@ -13525,7 +13525,8 @@
       "priority_before_overhaul_2026_09_27": {
         "mvp_priority": 60,
         "mvp_packet": "remaining-act1"
-      }
+      },
+      "current_checkpoint": "2026-09-27 same-DLL guarded launch and main-menu runs exit0: explicit replay/skip returns to boot menu without changing normal slots, New Game starts ordinary arrival, cold Continue restores existing save without intro. Earlier native normal/160% frames and reduced-motion route are technical evidence. Full natural replay, authored audio, weak-host FPS, human movement/art judgment and first-play comprehension remain open; see a02-intro-replay/receipt.json."
     },
     {
       "id": "ACT1-NPC",
@@ -14764,7 +14765,7 @@
           "Автор оценивает постановку по реальной сцене/захвату, не по концепту."
         ],
         "avoid": "Не ждать идеального лица второстепенного NPC и не удлинять заставку ради хронометража.",
-        "first_segment_checkpoint_2026_09_27": "Authored arrival flight/lower-third and current dirty-DLL route: native intro normal/160%, reduced-motion and save lifecycle exit0 with selected frames in a02-intro-flyover/; guarded family-home-only and journal-flow exit0 from photo action through recoverable manual comparison and checked conclusion, documented in a02-first-investigation/. This does not accept human noticing, 8–12-minute pacing, seen-state, replay, sound, smoke, cold Continue or artistic motion."
+        "first_segment_checkpoint_2026_09_27": "Current dirty-DLL technical evidence: authored intro flight and 1280×720 normal/160% frames in a02-intro-flyover/; photo→family→selected excerpts→checked conclusion in a02-first-investigation/; explicit boot-menu replay/skip and cold Continue with byte-identical normal saves in a02-intro-replay/. A persisted seen bit is unnecessary because replay is opt-in and Continue never enters the intro. A02 remains open for authored sound, smoke, motion/camera art, weak-host performance, and human first-play comprehension/duration."
       },
       {
         "id": "A03",

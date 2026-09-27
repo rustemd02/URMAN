@@ -26,6 +26,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private MainMenuUi? _mainMenu;
     private PauseMenuUi? _pauseMenu;
     private Control? _introScreen;
+    private bool _introReplay;
+    private bool _playerSessionSelected;
     private VBoxContainer? _introStack;
     private Label? _introControls;
     private Tween? _introTween;
@@ -1222,6 +1224,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _mainMenu = new MainMenuUi { Name = "Act1MainMenu" };
         _mainMenu.NewGameRequested += () => _ = OnMenuStartSessionAsync(startNewGame: true);
         _mainMenu.ContinueRequested += () => _ = OnMenuStartSessionAsync(startNewGame: false);
+        _mainMenu.ReplayIntroRequested += () => _ = OnMenuReplayIntroAsync();
         _mainMenu.DebugZoneRequested += (zoneId, spawnPointId) => _ = OnMenuStartDebugZoneAsync(zoneId, spawnPointId);
         _mainMenu.SettingsRequested += () =>
         {
@@ -1232,6 +1235,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         };
         _mainMenu.QuitRequested += () => GetTree().Quit();
         AddChild(_mainMenu);
+        if (_mainMenu.ReplayIntroButton is { } replay) replay.Visible = !_playerSessionSelected;
 
         // Initial lookup begins when the bridge attaches. Do not allow a
         // fresh start before we know whether the confirmation is needed.
@@ -1285,6 +1289,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                     : "Не удалось загрузить сеанс. Сохранения оставлены без изменений.");
                 return;
             }
+            _playerSessionSelected = true;
+            _introReplay = false;
             _endingShown = false;
             _endingPending = false;
             _endingDelay = 0;
@@ -1298,6 +1304,24 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 EvaluateEndingState();
             }
             RecordM10Timing(startNewGame ? "new-game" : "continue", force: true);
+        }
+        finally { _menuBusy = false; }
+    }
+
+    private async Task OnMenuReplayIntroAsync()
+    {
+        if (_menuBusy || _playerSessionSelected || !MainMenuVisible || _bridge is not { } bridge) return;
+        _menuBusy = true;
+        try
+        {
+            // A separate debug session supplies the arrival world without changing player saves.
+            if (!await bridge.StartDebugSessionAsync())
+            {
+                _mainMenu?.ShowStatus("Не удалось показать вступление.");
+                return;
+            }
+            _introReplay = true;
+            ShowIntroAfterMenu();
         }
         finally { _menuBusy = false; }
     }
@@ -1333,6 +1357,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             _endingShown = false;
             _endingPending = false;
             _endingDelay = 0;
+            _playerSessionSelected = true;
             _mainMenu?.Dismiss();
             _mainMenu = null;
             _player?.SetModalOpen(false);
@@ -1669,7 +1694,15 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _introControls = null;
         if (GodotObject.IsInstanceValid(screen))
         {
-            screen.QueueFree();
+            (screen.GetParent() ?? screen).QueueFree();
+        }
+
+        if (_introReplay)
+        {
+            _introReplay = false;
+            BuildMainMenu();
+            RefreshGameplayAudioPauseState();
+            return;
         }
 
         _player?.SetModalOpen(false);

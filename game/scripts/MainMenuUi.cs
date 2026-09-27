@@ -23,6 +23,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private PanelContainer? _panel;
     private Button? _newGameButton;
     private Button? _continueButton;
+    private Button? _replayIntroButton;
     private Button? _settingsButton;
     private Button? _quitButton;
     private Button? _aboutButton;
@@ -58,12 +59,14 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public event Action? NewGameRequested;
     public event Action? ContinueRequested;
+    public event Action? ReplayIntroRequested;
     public event Action? SettingsRequested;
     public event Action? QuitRequested;
     public event Action<string, string>? DebugZoneRequested;
 
     public Button? NewGameButton => _newGameButton;
     public Button? ContinueButton => _continueButton;
+    public Button? ReplayIntroButton => _replayIntroButton;
     public Button? SettingsButton => _settingsButton;
     public Button? AboutButton => _aboutButton;
     public bool IsDismissed { get; private set; }
@@ -177,7 +180,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         }
 
         if (_about is not null) AccessibilityPresentation.ApplyToControl(_about, settings);
-        foreach (var button in new[] { _newGameButton, _continueButton, _settingsButton, _aboutButton, _quitButton })
+        foreach (var button in new[] { _newGameButton, _continueButton, _replayIntroButton, _settingsButton, _aboutButton, _quitButton })
         {
             if (button is null)
             {
@@ -309,6 +312,10 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
             MouseFilter = Control.MouseFilterEnum.Ignore
         };
         layout.AddChild(_continueHint);
+
+        _replayIntroButton = MenuButton("ReplayIntroButton", "Посмотреть вступление");
+        _replayIntroButton.Pressed += () => { DisarmNewGame(); ReplayIntroRequested?.Invoke(); };
+        layout.AddChild(_replayIntroButton);
 
         _settingsButton = MenuButton("SettingsButton", "Настройки");
         _settingsButton.Pressed += () => { DisarmNewGame(); SettingsRequested?.Invoke(); };
