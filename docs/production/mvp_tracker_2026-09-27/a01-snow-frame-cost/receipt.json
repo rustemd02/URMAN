@@ -1,0 +1,113 @@
+{
+  "date": "2026-09-27",
+  "headBeforeChange": "d6904319",
+  "beforeSnowSourceSha256": "b5125b1b485648d4a326993a22998ec985fd560e332f187d55ce8a85d671174f",
+  "afterSnowSourceSha256": "bf5398b5f5d3730d1c0028f4e7f87fa6367cd08af62f50dbc7bfce13424a1025",
+  "afterAssemblySha256": "b356599b3a9882d44c1ccc311b7f54a3060a583d805512e9d92f66c35ba8f989",
+  "scope": "A01 snow presentation CPU cost during scripted road/off-road walk; same 1500-tick existing probe before and after a one-file SnowTrampleField change",
+  "runs": {
+    "before": {
+      "ticks": 1500,
+      "player_end": {
+        "X": 38.813725,
+        "Z": 7.5430083
+      },
+      "on_road": {
+        "samples": 557,
+        "steps": 57,
+        "step_interval_ticks": {
+          "median": 10,
+          "min": 8,
+          "max": 275
+        },
+        "missed_step_gaps": 1,
+        "mean_speed": 3.3938959,
+        "snow_cpu_ms": {
+          "update_mean": 5.049233213644513,
+          "update_max": 31.1124,
+          "redraw_mean": 2.1734332136445262,
+          "mesh_mean": 2.874828186714547,
+          "rebuilt_triangles_max": 98766
+        }
+      },
+      "off_road": {
+        "samples": 943,
+        "steps": 86,
+        "step_interval_ticks": {
+          "median": 10,
+          "min": 9,
+          "max": 223
+        },
+        "missed_step_gaps": 4,
+        "mean_speed": 3.0283563,
+        "snow_cpu_ms": {
+          "update_mean": 2.99839257688228,
+          "update_max": 17.2299,
+          "redraw_mean": 1.9390821845174977,
+          "mesh_mean": 1.0585616118769898,
+          "rebuilt_triangles_max": 88981
+        }
+      }
+    },
+    "after": {
+      "ticks": 1500,
+      "player_end": {
+        "X": 38.81378,
+        "Z": 7.5431113
+      },
+      "on_road": {
+        "samples": 557,
+        "steps": 57,
+        "step_interval_ticks": {
+          "median": 10,
+          "min": 9,
+          "max": 276
+        },
+        "missed_step_gaps": 1,
+        "mean_speed": 3.3938959,
+        "snow_cpu_ms": {
+          "update_mean": 4.243539497307015,
+          "update_max": 13.8283,
+          "redraw_mean": 1.8518204667863514,
+          "mesh_mean": 2.3909226211849246,
+          "rebuilt_triangles_max": 98766
+        }
+      },
+      "off_road": {
+        "samples": 943,
+        "steps": 86,
+        "step_interval_ticks": {
+          "median": 10,
+          "min": 8,
+          "max": 223
+        },
+        "missed_step_gaps": 4,
+        "mean_speed": 3.0283568,
+        "snow_cpu_ms": {
+          "update_mean": 3.06347115588548,
+          "update_max": 12.2305,
+          "redraw_mean": 1.881315800636275,
+          "mesh_mean": 1.1815012725344596,
+          "rebuilt_triangles_max": 88981
+        }
+      }
+    }
+  },
+  "percentChangeAfterVsBefore": {
+    "on_road": {
+      "update_mean": -16.0,
+      "update_max": -55.6,
+      "redraw_mean": -14.8,
+      "mesh_mean": -16.8
+    },
+    "off_road": {
+      "update_mean": 2.2,
+      "update_max": -29.0,
+      "redraw_mean": -3.0,
+      "mesh_mean": 11.6
+    }
+  },
+  "codeEffect": "When the 24 m window does not reset, previously selected triangles are already in the selected set; skip rechecking them and compute the pending stamp range once per surface. Mask, 6 cm subdivision, 20-division cap, cadence and collider are unchanged.",
+  "verification": "Both guarded probe processes exit 0, 57 road and 86 off-road step triggers each, median 10 ticks, unchanged maximum rebuilt triangle counts (98766 road, 88981 off-road); targeted C# build: 0 warnings/errors; userdata restored.",
+  "limits": "CPU metas are the most recent stamp cost sampled on each physics tick, not full-frame render times. Single A/B pair on a dirty local checkout; baseline assembly SHA was not captured. No focused native frame-time measurement, audible step check or human comfort acceptance. Grouped route intervals may span surfaces."
+}

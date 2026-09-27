@@ -14756,7 +14756,8 @@
         "human_acceptance": [
           "Походка, комфорт камеры и звук шагов оценены в движении, отдельно от числового smoke."
         ],
-        "avoid": "До первого игрового цикла исправлять блокеры и заметное трение; второстепенную косметику не ставить впереди содержания."
+        "avoid": "До первого игрового цикла исправлять блокеры и заметное трение; второстепенную косметику не ставить впереди содержания.",
+        "snow_cpu_checkpoint_2026_09_27": "Protected 1500-tick A/B probe on the current dirty checkout: one-file SnowTrampleField scan optimization kept 57 road/86 off-road step triggers, median 10 ticks and identical maximum triangle counts. Road snow update mean 5.05→4.24ms, max 31.11→13.83ms; off-road mean 3.00→3.06ms, so no off-road improvement is claimed. Both exit0 and restore userdata. This is CPU diagnostic, not focused frame-time, audible footstep or human comfort acceptance; ACT1-FOOTSTEP.2 remains open. Evidence: docs/production/mvp_tracker_2026-09-27/a01-snow-frame-cost/receipt.json."
       },
       {
         "id": "A02",

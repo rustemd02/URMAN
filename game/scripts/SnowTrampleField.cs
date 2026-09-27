@@ -293,6 +293,8 @@ public partial class SnowTrampleField : Node3D
             var reselect = ground.RefreshBounds() || rebuild;
             var selected = reselect ? new HashSet<(int Surface, int Triangle)>()
                 : new HashSet<(int Surface, int Triangle)>(ground.Refined);
+            var pending = Math.Min(_stamps.Count, _totalStamps - _refinedStampTotal);
+            var stampStart = reselect ? 0 : _stamps.Count - pending;
             var transform = ground.Node.GlobalTransform;
             for (var s = 0; s < ground.Surfaces.Count; s++)
             {
@@ -303,10 +305,10 @@ public partial class SnowTrampleField : Node3D
                     var half = WindowExtent * .5f;
                     if (min.X > _windowCentre.X + half || max.X < _windowCentre.X - half
                         || min.Z > _windowCentre.Y + half || max.Z < _windowCentre.Y - half) continue;
+                    if (!reselect && selected.Contains((s, t))) continue;
                     // Throttled refreshes leave several new stamps unscanned;
                     // they were appended in order, so scan exactly that tail.
-                    var pending = Math.Min(_stamps.Count, _totalStamps - _refinedStampTotal);
-                    for (var stampIndex = reselect ? 0 : _stamps.Count - pending; stampIndex < _stamps.Count; stampIndex++)
+                    for (var stampIndex = stampStart; stampIndex < _stamps.Count; stampIndex++)
                     {
                         var stamp = _stamps[stampIndex];
                         if (stamp.Position.X < min.X - .27f || stamp.Position.X > max.X + .27f
