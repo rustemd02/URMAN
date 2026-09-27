@@ -11924,6 +11924,7 @@
       ],
       "progress_2026_09_24": "2026-09-24: river ravine soft-lock fixed with plank steps on the village bank (five exits fitted to the bank profile); low forest bank at x~-41 closed with a visible windfall; act1_river_exit_smoke_test in verify-godot.",
       "current_checkpoint": "2026-09-27 A01: the apparent house-to-Alsu collision was a stale proof line through intended Frontage_26; guarded Alsu-only run exit0 without changing game collider. Historical Babai shelter-post B90 failure did not recur in the full boundary run after existing clear-path fixture selection. That run exited1 for a MainStreetForwardWestFacade arbitrary wall-face approach; a separate native ADR-H018 road-to-door/plate and return route passed 18/18 points each way without recovery/clamp. No actual door-path blocker reproduced; direct wall contact, general collision audit and human pathfinding remain open. See docs/production/mvp_tracker_2026-09-27/a01-h018/receipt.json.",
+      "kara_grade_checkpoint_2026_09_27": "A10: two forest-edge Grade_Kara meshes now follow current terrain and carry exact independent surface contacts. C# build 0/0; protected FAP-path exit0/119; protected kara-side walk exit0/157.37m; native forest frame captured. Full architecture exit1/1005 at the already-open MainStreetForwardWestFacade face probe. Direct crest traversal, other Grade_* and human art acceptance remain open. Evidence: docs/production/mvp_tracker_2026-09-27/a10-kara-grade/README.md.",
       "mvp_priority": 15,
       "mvp_packet": "A01",
       "delivery": {

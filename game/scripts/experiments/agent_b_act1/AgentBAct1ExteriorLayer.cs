@@ -169,6 +169,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
         BuildTerrainCollision();
         ConformRoadPresentation();
+        BuildKaraGradeSupports();
         // Settle the retained banks into the ground before creating their
         // collision, so the visible low profile and physical boundary agree.
         foreach (var mesh in EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_KaraEdgeKit")).ToArray())
