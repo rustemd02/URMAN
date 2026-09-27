@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.world-plot",
+  "id": "urman.world:act1/tamara-plot",
+  "name": "Двор и забор Тамары Геннадьевны",
+  "note": "Авторские данные мира (URMAN Studio, эксперимент X1). Единственный источник этих позиций и параметров: TamaraFenceQuest только исполняет их. Координаты — метры мира Акта I.",
+  "entities": [
+    {
+      "id": "urman.world:act1/tamara-plot/fence",
+      "kind": "fence-run",
+      "name": "Забор Тамары Геннадьевны",
+      "params": {
+        "faceX": 2.18,
+        "zStart": -40.75,
+        "zEnd": -48.3,
+        "panelCount": 5,
+        "center": [
+          2.3,
+          0,
+          -44.5
+        ],
+        "wicketZ": -40.15,
+        "crashSpeed": 2.2,
+        "breakRadius": 2.35
+      }
+    },
+    {
+      "id": "urman.world:act1/tamara-plot/approach",
+      "kind": "road-path",
+      "name": "Съезд к забору",
+      "params": {
+        "points": [
+          [
+            -0.15,
+            -44.0
+          ],
+          [
+            2.6,
+            -44.4
+          ]
+        ],
+        "width": 3.2
+      }
+    },
+    {
+      "id": "urman.world:act1/tamara-plot/board-01",
+      "kind": "item-spawn",
+      "name": "Целая доска №1",
+      "note": "под навесом дровяника бабая",
+      "params": {
+        "position": [
+          -33.6,
+          0,
+          3.1
+        ],
+        "yawDegrees": 14,
+        "interactionId": "urman.chapter1:interaction/tamara-fence-take-board-1"
+      }
+    },
+    {
+      "id": "urman.world:act1/tamara-plot/board-02",
+      "kind": "item-spawn",
+      "name": "Целая доска №2",
+      "note": "там же, вторая стопка",
+      "params": {
+        "position": [
+          -32.4,
+          0,
+          4.5
+        ],
+        "yawDegrees": -24,
+        "interactionId": "urman.chapter1:interaction/tamara-fence-take-board-2"
+      }
+    },
+    {
+      "id": "urman.world:act1/tamara-plot/board-03",
+      "kind": "item-spawn",
+      "name": "Целая доска №3",
+      "note": "западная стена сарая на краю деревни",
+      "params": {
+        "position": [
+          14.5,
+          0,
+          -47.4
+        ],
+        "yawDegrees": 96,
+        "interactionId": "urman.chapter1:interaction/tamara-fence-take-board-3"
+      }
+    },
+    {
+      "id": "urman.world:act1/tamara-plot/board-04",
+      "kind": "item-spawn",
+      "name": "Целая доска №4",
+      "note": "южный угол того же сарая",
+      "params": {
+        "position": [
+          15.4,
+          0,
+          -49.7
+        ],
+        "yawDegrees": 78,
+        "interactionId": "urman.chapter1:interaction/tamara-fence-take-board-4"
+      }
+    },
+    {
+      "id": "urman.world:act1/tamara-plot/board-05",
+      "kind": "item-spawn",
+      "name": "Целая доска №5",
+      "note": "западный сарай по периметру",
+      "params": {
+        "position": [
+          -20.6,
+          0,
+          -12.5
+        ],
+        "yawDegrees": 38,
+        "interactionId": "urman.chapter1:interaction/tamara-fence-take-board-5"
+      }
+    },
+    {
+      "id": "urman.world:act1/tamara-plot/board-06",
+      "kind": "item-spawn",
+      "name": "Целая доска №6",
+      "note": "восточный сарай по периметру",
+      "params": {
+        "position": [
+          17.5,
+          0,
+          -10.1
+        ],
+        "yawDegrees": -118,
+        "interactionId": "urman.chapter1:interaction/tamara-fence-take-board-6"
+      }
+    },
+    {
+      "id": "urman.world:act1/tamara-plot/tamara-emergence",
+      "kind": "marker",
+      "name": "Тамара выходит со двора",
+      "params": {
+        "position": [
+          9.3,
+          0,
+          -40.9
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/tamara-plot/tamara-rest",
+      "kind": "marker",
+      "name": "Тамара стоит у пролома",
+      "params": {
+        "position": [
+          4.7,
+          0,
+          -44.4
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/tamara-plot/guy-entry",
+      "kind": "marker",
+      "name": "Парень с телефоном появляется",
+      "params": {
+        "position": [
+          -0.8,
+          0,
+          -36.3
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/tamara-plot/guy-filming",
+      "kind": "marker",
+      "name": "Парень снимает с обочины",
+      "params": {
+        "position": [
+          0.15,
+          0,
+          -41.9
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/tamara-plot/guy-rest",
+      "kind": "marker",
+      "name": "Парень отходит к сараю",
+      "params": {
+        "position": [
+          13.9,
+          0,
+          -46.9
+        ]
+      }
+    }
+  ]
+}

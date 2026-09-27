@@ -22,7 +22,8 @@
       "properties": {
         "id": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
         "objectives": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/Objective" } },
-        "composition": { "$ref": "#/$defs/Composition" }
+        "composition": { "$ref": "#/$defs/Composition" },
+        "transitions": { "type": "array", "items": { "$ref": "#/$defs/Transition" } }
       },
       "additionalProperties": false
     },
@@ -106,6 +107,54 @@
       "properties": {
         "allowed": { "type": "boolean" },
         "effects": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } }
+      },
+      "additionalProperties": false
+    },
+    "Transition": {
+      "type": "object",
+      "required": ["id", "on", "conditions", "effects", "target"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+        "on": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": ["kind"],
+              "properties": { "kind": { "const": "stage-complete" } },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": ["kind", "objectiveId"],
+              "properties": {
+                "kind": { "enum": ["objective-complete", "objective-fail"] },
+                "objectiveId": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "conditions": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+        "effects": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
+        "target": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": ["stageId"],
+              "properties": { "stageId": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" } },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": ["end"],
+              "properties": {
+                "end": { "enum": ["completed", "failed"] },
+                "outcomeId": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" }
+              },
+              "additionalProperties": false
+            }
+          ]
+        }
       },
       "additionalProperties": false
     }

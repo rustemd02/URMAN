@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="../src-dotnet/Urman.Core/Urman.Core.csproj" />
     <ProjectReference Include="../src-dotnet/Urman.Content/Urman.Content.csproj" />
+    <ProjectReference Include="../src-dotnet/Urman.Studio.Core/Urman.Studio.Core.csproj" />
   </ItemGroup>
 </Project>
 

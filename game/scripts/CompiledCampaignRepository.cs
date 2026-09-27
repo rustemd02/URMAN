@@ -388,8 +388,16 @@ public sealed class CompiledCampaignRepository
         return JsonSerializer.SerializeToElement(state);
     }
 
+    /// <summary>Test-only: a smoke test compiles its own pack (URMAN Studio template runs) and points the game at it.</summary>
+    internal static string? PackOverrideForTest { get; set; }
+
     public static CompiledCampaignRepository Load(string resourcePath = ResourcePath)
     {
+        if (resourcePath == ResourcePath && PackOverrideForTest is { } overridePath)
+        {
+            resourcePath = overridePath;
+        }
+
         using var file = global::Godot.FileAccess.Open(resourcePath, global::Godot.FileAccess.ModeFlags.Read);
         if (file is null)
         {

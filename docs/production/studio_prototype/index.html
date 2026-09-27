@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>URMAN Studio — прототип</title>
+<!--
+  Кликабельный прототип пяти экранов из ТЗ URMAN Studio §4.2
+  (docs/production/urman_authoring_studio_spec_2026-09-27.md).
+  Это не приложение и не принятый дизайн: только проверка понятности,
+  плотности и размеров для автора. Данные Тамары взяты из
+  content/modules/urman-chapter1/tamara-fence.json и TamaraFenceCutscene.cs;
+  ветка «отказ» — пример черновика, не канон.
+-->
+<style>
+:root{
+  --bg:#15171b; --panel:#1c1f24; --panel2:#23272e; --line:#323843; --line2:#414958;
+  --text:#e8eaee; --muted:#9aa3b2; --faint:#6d7686;
+  --accent:#7fb3d5; --accent2:#a4c9e2; --ok:#8cc49a; --warn:#e3b760; --bad:#e58b7d; --violet:#b9a3dc;
+  --snow:#dfe6ee; --road:#4b4f57; --grass:#2e3a33; --wood:#8a6a4a;
+  --scale:1;
+  font-size:calc(14px * var(--scale));
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,"PT Sans","Segoe UI",Roboto,sans-serif}
+button{font:inherit;color:inherit;background:var(--panel2);border:1px solid var(--line2);border-radius:7px;padding:.38em .8em;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+button.primary{background:#2d4a60;border-color:#4d7896}
+button.ghost{background:transparent;border-color:transparent;color:var(--muted)}
+button.ghost:hover{color:var(--text);border-color:var(--line2)}
+button:disabled{opacity:.45;cursor:not-allowed}
+input,select,textarea{font:inherit;color:var(--text);background:#121418;border:1px solid var(--line2);border-radius:6px;padding:.35em .55em}
+.app{display:grid;grid-template-rows:auto auto 1fr;height:100vh}
+/* top bar */
+.top{display:flex;align-items:center;gap:.6em;padding:.5em .8em;border-bottom:1px solid var(--line);background:var(--panel)}
+.brand{font-weight:700;letter-spacing:.02em;margin-right:.4em}
+.brand small{color:var(--muted);font-weight:400}
+.search{flex:1;max-width:460px;position:relative}
+.search input{width:100%}
+.results{position:absolute;top:110%;left:0;right:0;background:var(--panel2);border:1px solid var(--line2);border-radius:8px;z-index:50;max-height:320px;overflow:auto;display:none}
+.results div{padding:.45em .7em;cursor:pointer;display:flex;justify-content:space-between;gap:1em}
+.results div:hover,.results div.act{background:#2c3440}
+.results small{color:var(--muted)}
+.status{display:flex;align-items:center;gap:.4em;padding:.25em .65em;border-radius:20px;border:1px solid var(--line2);font-size:.92em;white-space:nowrap}
+.status .ic{font-weight:700}
+.st-saved{color:var(--ok)} .st-dirty{color:var(--warn)} .st-draft{color:var(--violet)} .st-conf{color:var(--bad)} .st-run{color:var(--accent)} .st-err{color:var(--bad);border-color:var(--bad)}
+.spacer{flex:1}
+/* tabs row */
+.tabs{display:flex;align-items:center;gap:.2em;padding:.25em .6em;border-bottom:1px solid var(--line);background:#181a1f;overflow-x:auto}
+.tab{padding:.3em .8em;border-radius:7px 7px 0 0;color:var(--muted);cursor:pointer;white-space:nowrap;border:1px solid transparent}
+.tab.on{color:var(--text);background:var(--panel2);border-color:var(--line)}
+/* body */
+.body{display:grid;grid-template-columns:210px minmax(0,1fr) 320px;min-height:0}
+.nav{border-right:1px solid var(--line);background:var(--panel);padding:.6em .4em;display:flex;flex-direction:column;gap:.15em;overflow:auto}
+.nav a{display:flex;gap:.6em;align-items:center;padding:.5em .7em;border-radius:7px;color:var(--muted);text-decoration:none;cursor:pointer}
+.nav a.on{background:var(--panel2);color:var(--text)}
+.nav a:hover{color:var(--text)}
+.nav .sep{border-top:1px solid var(--line);margin:.5em .3em}
+.nav .hint{color:var(--faint);font-size:.85em;padding:.3em .7em}
+.center{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden}
+.side{border-left:1px solid var(--line);background:var(--panel);overflow:auto;padding:.9em}
+.side h3{margin:.1em 0 .1em;font-size:1.15em}
+.side .type{color:var(--muted);font-size:.9em;margin-bottom:.7em}
+.field{margin:.55em 0}
+.field label{display:block;color:var(--muted);font-size:.85em;margin-bottom:.2em}
+.row{display:flex;gap:.4em;align-items:center;flex-wrap:wrap}
+.xyz{display:grid;grid-template-columns:repeat(3,1fr);gap:.3em}
+.xyz input{width:100%}
+.idline{display:flex;gap:.4em;align-items:center;font-family:ui-monospace,Menlo,monospace;font-size:.8em;color:var(--muted);background:#121418;border:1px solid var(--line);border-radius:6px;padding:.3em .5em;word-break:break-all}
+.idline button{padding:.1em .5em;font-family:inherit;font-size:1em}
+details{border-top:1px solid var(--line);padding-top:.5em;margin-top:.7em}
+summary{cursor:pointer;color:var(--muted)}
+.links li{margin:.25em 0}
+.links a{color:var(--accent2);cursor:pointer}
+.chip{display:inline-block;padding:.05em .55em;border-radius:12px;border:1px solid var(--line2);font-size:.82em;color:var(--muted)}
+.chip.ok{color:var(--ok);border-color:#44624c}.chip.warn{color:var(--warn);border-color:#6e5b34}.chip.bad{color:var(--bad);border-color:#74443e}.chip.vio{color:var(--violet);border-color:#5a4d73}
+.toolbar{display:flex;gap:.4em;align-items:center;padding:.45em .7em;border-bottom:1px solid var(--line);background:var(--panel);flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:8px;overflow:hidden}
+.seg button{border:0;border-radius:0;background:transparent;color:var(--muted)}
+.seg button.on{background:#2d4a60;color:var(--text)}
+.viewport{position:relative;flex:1;min-height:0;overflow:hidden;background:#0f1114}
+.drawer{border-top:1px solid var(--line);background:var(--panel);height:250px;display:flex;flex-direction:column;min-height:0}
+.drawer.collapsed{height:auto}
+.drawer.collapsed .drawer-body{display:none}
+.drawer-head{display:flex;gap:.5em;align-items:center;padding:.4em .7em;border-bottom:1px solid var(--line)}
+.drawer-body{display:grid;grid-template-columns:190px 1fr;min-height:0;flex:1}
+.cats{overflow:auto;border-right:1px solid var(--line);padding:.3em}
+.cats div{padding:.3em .55em;border-radius:6px;color:var(--muted);cursor:pointer;display:flex;justify-content:space-between}
+.cats div.on{background:var(--panel2);color:var(--text)}
+.cards{overflow:auto;padding:.6em;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.6em;align-content:start}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:.4em;cursor:grab;display:flex;flex-direction:column;gap:.25em}
+.card:hover,.card.on{border-color:var(--accent)}
+.card .pv{height:78px;border-radius:6px;background:linear-gradient(160deg,#2a3038,#1a1d22);display:flex;align-items:center;justify-content:center}
+.card b{font-weight:600;font-size:.95em}
+.card small{color:var(--muted);font-size:.8em}
+.banner{margin:.6em .7em 0;padding:.6em .8em;border-radius:8px;border:1px solid;display:flex;gap:.8em;align-items:flex-start}
+.banner.err{border-color:#7a4a43;background:#2b1f1e}
+.banner.info{border-color:#3e5568;background:#1b242d}
+.banner.draft{border-color:#5a4d73;background:#221f2b}
+.banner p{margin:.1em 0}
+.empty{max-width:520px;margin:3em auto;text-align:center;color:var(--muted)}
+.empty h2{color:var(--text);font-weight:600}
+.empty ol{text-align:left;display:inline-block}
+/* plan */
+svg text{font-family:inherit}
+.obj{cursor:pointer}
+.obj.sel>.shape,.obj.sel>rect,.obj.sel>circle,.obj.sel>polygon{stroke:var(--accent2)!important;stroke-width:3!important}
+.lock{opacity:.9}
+.ghost{pointer-events:none;opacity:.55}
+.trigger{fill:rgba(185,163,220,.16);stroke:var(--violet);stroke-dasharray:7 5;stroke-width:2}
+.trigger.sel{fill:rgba(185,163,220,.3);stroke-width:3}
+.handle{fill:var(--violet);stroke:#fff;stroke-width:1;cursor:nwse-resize}
+.hud{position:absolute;left:.7em;bottom:.7em;display:flex;gap:.4em;flex-wrap:wrap}
+.hud .chip{background:rgba(20,22,26,.85)}
+.legend{position:absolute;right:.7em;bottom:.7em;background:rgba(20,22,26,.9);border:1px solid var(--line);border-radius:8px;padding:.5em .7em;font-size:.88em}
+.legend label{display:flex;gap:.4em;align-items:center;margin:.15em 0;cursor:pointer}
+.plan3d{transform:perspective(1300px) rotateX(52deg) rotateZ(-14deg) scale(.95);transform-origin:50% 60%;transition:transform .35s}
+.plan2d{transition:transform .35s}
+/* split */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);flex:1;min-height:0}
+.split>div{min-height:0;overflow:auto}
+.qpanel{border-left:1px solid var(--line);padding:.7em;background:var(--panel)}
+.qpanel .branches{grid-template-columns:1fr}
+.split .viewport svg{height:auto!important;max-height:100%}
+/* quest list/graph */
+.steps{list-style:none;padding:0;margin:.4em 0}
+.step{border:1px solid var(--line);background:var(--panel2);border-radius:8px;padding:.45em .6em;margin:.35em 0;display:flex;gap:.5em;align-items:flex-start}
+.step.hl{border-color:var(--violet);box-shadow:0 0 0 2px rgba(185,163,220,.25)}
+.step.sel{border-color:var(--accent2)}
+.step .k{font-size:.78em;color:var(--muted);min-width:7.5em}
+.step .t{flex:1}
+.step .t input{width:100%;background:transparent;border-color:transparent;padding:.1em .25em}
+.step .t input:hover{border-color:var(--line2)}
+.group{border:1px dashed var(--line2);border-radius:9px;padding:.35em .6em .5em;margin:.4em 0}
+.group>.gh{display:flex;gap:.5em;align-items:center;color:var(--muted);font-size:.88em}
+.branches{display:grid;grid-template-columns:1fr 1fr;gap:.5em}
+.branch{border-left:3px solid var(--accent);padding-left:.5em}
+.branch.b2{border-left-color:var(--warn)}
+.problem{color:var(--bad);font-size:.85em;margin-top:.2em}
+.graph{position:relative;flex:1;min-height:0;overflow:auto;background:#121418}
+.gnode{cursor:pointer}
+.gnode rect{fill:var(--panel2);stroke:var(--line2);stroke-width:1.5;rx:9}
+.gnode.sel rect{stroke:var(--accent2);stroke-width:2.5}
+.gnode.bad rect{stroke:var(--bad)}
+.gnode text{fill:var(--text);font-size:13px}
+.gnode .sub{fill:var(--muted);font-size:11px}
+.edge{stroke:#6f7a8c;stroke-width:1.6;fill:none;marker-end:url(#arr)}
+.edge.req{stroke:var(--accent)} .edge.excl{stroke:var(--bad);stroke-dasharray:6 4} .edge.par{stroke:var(--ok);stroke-dasharray:2 4} .edge.shared{stroke:var(--violet);stroke-dasharray:9 3}
+.elabel{fill:var(--muted);font-size:11px}
+/* campaign cards */
+.qcards{display:flex;flex-direction:column;gap:.45em;padding:.6em}
+.qcard{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:.55em .75em;display:grid;grid-template-columns:auto 1fr auto;gap:.3em .8em;align-items:center}
+.qcard.on{border-color:var(--accent)}
+.qcard .h{font-weight:600}
+.qcard .m{grid-column:2/4;color:var(--muted);font-size:.86em}
+.drag{cursor:grab;color:var(--faint)}
+/* timeline */
+.tl{display:grid;grid-template-columns:300px minmax(0,1fr);flex:1;min-height:0}
+.alist{border-right:1px solid var(--line);overflow:auto;padding:.4em}
+.aitem{display:flex;gap:.5em;padding:.3em .45em;border-radius:6px;cursor:pointer;font-size:.9em;align-items:baseline}
+.aitem.on{background:#2c3440}
+.aitem .at{color:var(--faint);font-family:ui-monospace,Menlo,monospace;font-size:.85em;min-width:3.4em}
+.aitem .ak{color:var(--muted);min-width:5.5em;font-size:.85em}
+.tracks{overflow:auto;position:relative}
+.trk{display:grid;grid-template-columns:140px 1fr;border-bottom:1px solid var(--line);min-height:38px}
+.trk .tn{padding:.5em .6em;color:var(--muted);font-size:.86em;border-right:1px solid var(--line);background:var(--panel);position:sticky;left:0;z-index:2}
+.trk .lane{position:relative}
+.clip{position:absolute;top:5px;height:28px;border-radius:6px;padding:0 .4em;font-size:.78em;line-height:28px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;border:1px solid rgba(255,255,255,.12)}
+.clip.on{outline:2px solid var(--accent2)}
+.c-say{background:#314a5d}.c-cam{background:#4b3f63}.c-move{background:#3c5a44}.c-anim{background:#55503a}.c-wait{background:repeating-linear-gradient(45deg,#343a44,#343a44 6px,#2a2f37 6px,#2a2f37 12px);color:var(--muted)}.c-world{background:#6a4038}.c-sfx{background:#3e4a52}
+.ruler{position:sticky;top:0;z-index:3;display:grid;grid-template-columns:140px 1fr;background:var(--panel);border-bottom:1px solid var(--line2)}
+.ruler .lane{position:relative;height:24px}
+.tick{position:absolute;top:0;height:24px;border-left:1px solid var(--line2);font-size:.72em;color:var(--faint);padding-left:3px}
+.playhead{position:absolute;top:0;bottom:0;width:2px;background:var(--warn);z-index:4;pointer-events:none}
+.preview{display:grid;grid-template-columns:1fr 280px;gap:.7em;padding:.6em .7em;border-bottom:1px solid var(--line);background:#121418}
+.frame{aspect-ratio:16/9;max-height:210px;background:linear-gradient(180deg,#3a4452 0%,#6c7684 55%,#cfd6de 56%,#e8edf2 100%);border-radius:8px;position:relative;overflow:hidden;border:1px solid var(--line)}
+.frame .safe{position:absolute;inset:8%;border:1px dashed rgba(255,255,255,.35);border-radius:4px}
+.frame .sub{position:absolute;left:10%;right:10%;bottom:9%;text-align:center;background:rgba(0,0,0,.55);padding:.3em .5em;border-radius:5px;font-size:.95em}
+.frame .shot{position:absolute;left:.5em;top:.4em;font-size:.78em;background:rgba(0,0,0,.5);padding:.1em .45em;border-radius:5px}
+/* conflicts */
+.merge{flex:1;overflow:auto;padding:.7em}
+.ccard{border:1px solid var(--line);border-radius:10px;background:var(--panel);margin:.6em 0;overflow:hidden}
+.ccard.res{border-color:#44624c}
+.chead{display:flex;gap:.6em;align-items:center;padding:.55em .8em;border-bottom:1px solid var(--line);background:var(--panel2)}
+.chead b{flex:1}
+.cbody{padding:.6em .8em}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:.5em}
+.col{border:1px solid var(--line);border-radius:8px;padding:.5em;background:#15181c}
+.col h5{margin:0 0 .35em;color:var(--muted);font-weight:600;font-size:.85em}
+.col.pick{border-color:var(--accent2);background:#1a232c}
+.ins{background:#243a2a;border-radius:3px}.del{background:#46292a;text-decoration:line-through;border-radius:3px}
+.auto{color:var(--ok)}
+.thumb{height:70px;border-radius:6px}
+/* modal / toast / tour */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:100}
+.modal{background:var(--panel);border:1px solid var(--line2);border-radius:12px;max-width:640px;width:92%;padding:1em 1.2em}
+.modal pre{white-space:pre-wrap;background:#121418;border:1px solid var(--line);border-radius:8px;padding:.7em;font-size:.88em;max-height:340px;overflow:auto}
+.toast{position:fixed;bottom:1.1em;left:50%;transform:translateX(-50%);background:#2a323c;border:1px solid var(--line2);padding:.5em 1em;border-radius:8px;display:none;z-index:120}
+.tour{position:fixed;z-index:110;background:#243240;border:1px solid var(--accent);border-radius:10px;padding:.8em 1em;max-width:330px;display:none;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.tour p{margin:.2em 0 .6em}
+.proto{position:fixed;right:.8em;bottom:.8em;z-index:90;background:rgba(28,31,36,.96);border:1px dashed var(--line2);border-radius:10px;padding:.5em .7em;font-size:.84em;color:var(--muted);max-width:280px}
+.proto b{color:var(--text)}
+.proto button{font-size:.92em;padding:.2em .55em;margin:.15em .1em}
+.kbd{font-family:ui-monospace,Menlo,monospace;font-size:.85em;border:1px solid var(--line2);border-radius:4px;padding:0 .3em;color:var(--muted)}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <span class="brand">URMAN Studio <small>· проект «Урман», кампания «Глава 1»</small></span>
+    <button id="undoBtn" title="Отменить (⌘Z)">↶ Отменить</button>
+    <button id="redoBtn" title="Повторить (⇧⌘Z)">↷</button>
+    <button id="saveBtn" title="Сохранить (⌘S)">Сохранить</button>
+    <div class="search">
+      <input id="search" placeholder="Поиск: имя, ID, тип, текст реплики — или вставьте ID от разработчика" aria-label="Общий поиск">
+      <div class="results" id="results"></div>
+    </div>
+    <span class="spacer"></span>
+    <span class="status st-saved" id="saveState" role="status"><span class="ic">✓</span><span>Сохранено</span></span>
+    <button id="collabBtn" title="Совместная работа">⇅ Изменения: <b id="incomingCount">3</b></button>
+    <button id="checkBtn">Проверить</button>
+    <button id="playBtn" class="primary">▶ Играть отсюда</button>
+  </div>
+  <div class="tabs" id="tabs" role="tablist"></div>
+  <div class="body">
+    <nav class="nav" id="nav" aria-label="Разделы">
+      <a data-sec="world">🏠 Мир</a>
+      <a data-sec="quests">❖ Квесты</a>
+      <a data-sec="scenes">🎬 Диалоги и сцены</a>
+      <a data-sec="chars">👤 Персонажи</a>
+      <a data-sec="items">🪵 Предметы</a>
+      <a data-sec="content">📄 Контент</a>
+      <a data-sec="ui">▭ Интерфейс игры</a>
+      <div class="sep"></div>
+      <a data-sec="merge">⇅ Совместная работа</a>
+      <div class="hint">В прототипе показаны пять экранов из ТЗ §4.2. «Персонажи», «Предметы», «Контент» и «Интерфейс игры» здесь не нарисованы.</div>
+    </nav>
+    <main class="center" id="center"></main>
+    <aside class="side" id="side" aria-label="Свойства"></aside>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalBg"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast" role="status"></div>
+<div class="tour" id="tour"></div>
+<div class="proto" id="proto">
+  <b>Прототип.</b> Переключить состояние экрана:<br>
+  <button data-proto="empty">Пустой раздел</button>
+  <button data-proto="error">Сбой записи</button>
+  <button data-proto="draft">Незаконченный черновик</button>
+  <button data-proto="tour">Знакомство заново</button>
+  <button data-proto="scale">Масштаб: <span id="scaleV">100</span>%</button>
+</div>
+
+<script>
+"use strict";
+/* ---------- data (real IDs from content/modules/urman-chapter1/tamara-fence.json) ---------- */
+const NS='urman.chapter1:';
+const S={
+  section:'world', view2d:true, sel:'obj/gate', dirty:false, saveError:false, draftBroken:true,
+  emptyQuests:false, questView:'list', campaignView:'side', layers:{arch:1,veg:1,npc:1,items:1,trig:1,routes:1,cams:0,sound:0,coll:0},
+  placing:null, catCat:'fences', scale:1, tabs:[{sec:'world',title:'Мир · Обратная улица'}], tabOn:0,
+  back:[], tlSel:0, playT:0, tabState:{}, conflicts:{}, merged:false,
+};
+let objects=[
+  {id:'obj/house-tamara',name:'Дом Тамары Геннадьевны',kind:'house',x:720,y:120,w:170,h:120,rot:0,cat:'Дома и постройки',def:'model/house-village-a',locked:true,note:'Дом с интерьером: 2 комнаты, сени, 1 дверь'},
+  {id:'obj/fence-tamara',name:'Забор Тамары (щиты на бетонных столбах)',kind:'fence',x:560,y:285,w:330,h:10,rot:0,cat:'Заборы и ворота',def:'model/fence-shield-concrete'},
+  {id:'obj/gate',name:'Калитка Тамары',kind:'gate',x:520,y:282,w:40,h:14,rot:0,cat:'Заборы и ворота',def:'model/gate-wicket-a',states:['закрыта','сломана','починена']},
+  {id:'obj/niva',name:'«Нива» Айдара',kind:'car',x:430,y:330,w:92,h:44,rot:-12,cat:'Транспорт',def:'vehicle/niva'},
+  {id:'obj/tamara',name:'Тамара Геннадьевна',kind:'npc',x:760,y:262,r:11,cat:'Персонажи',def:NS+'character/tamara'},
+  {id:'obj/phone-guy',name:'Парень с телефоном',kind:'npc',x:398,y:392,r:11,cat:'Персонажи',def:NS+'character/phone_guy'},
+  {id:'obj/board-1',name:'Целая доска №1',kind:'item',x:180,y:170,w:44,h:8,cat:'Игровые предметы',def:'item/board-whole'},
+  {id:'obj/board-2',name:'Целая доска №2',kind:'item',x:230,y:470,w:44,h:8,cat:'Игровые предметы',def:'item/board-whole'},
+  {id:'obj/board-3',name:'Целая доска №3',kind:'item',x:910,y:470,w:44,h:8,cat:'Игровые предметы',def:'item/board-whole'},
+  {id:'obj/tree-1',name:'Берёза',kind:'tree',x:120,y:90,r:26,cat:'Деревья и кусты',def:'model/birch-winter-a'},
+  {id:'obj/tree-2',name:'Ель',kind:'tree',x:960,y:110,r:30,cat:'Деревья и кусты',def:'model/spruce-winter-b'},
+  {id:'obj/lamp',name:'Фонарь на столбе',kind:'light',x:330,y:250,r:9,cat:'Источники света',def:'model/street-lamp-a'},
+];
+const trigger={id:'trig/tamara-yard-enter',name:'Вход во двор Тамары',x:560,y:190,w:170,h:85,actor:'Только игрок',freq:'Один раз на запуск квеста',already:true};
+/* catalogue (WORLD01 categories; counts are illustrative) */
+const CATS=[
+ ['houses','Дома и постройки',14],['fences','Заборы и ворота',9],['roads','Дороги и покрытия',7],['trees','Деревья и кусты',22],['rocks','Камни и снег',11],
+ ['furniture','Мебель',31],['props','Бытовой реквизит',58],['tools','Инструменты',12],['lights','Источники света',8],['chars','Персонажи',9],
+ ['vehicles','Транспорт',3],['items','Игровые предметы',17],['sound','Звук и эффекты',15],['service','Служебные точки и триггеры',6]];
+const CARDS={
+ fences:[['Калитка деревянная','1,1 × 1,9 м','Дерево, металл','Физическая','gate'],['Щит забора из широких досок','2,4 × 1,7 м','Дерево','Физическая','fence'],['Столб бетонный','0,15 × 2,0 м','Бетон','Физическая','post'],['Штакетник крашеный','2,0 × 1,2 м','Дерево, краска','Физическая','fence'],['Ворота двустворчатые','3,2 × 2,0 м','Дерево','Физическая','gate'],['Сетка-рабица','2,5 × 1,5 м','Металл','Физическая','fence']],
+ houses:[['Деревенский дом А (с интерьером)','8,4 × 6,2 м','Брус, шифер','Физическая','house'],['Баня','4,0 × 3,5 м','Брус','Физическая','house'],['Сарай','5,0 × 3,0 м','Доска','Физическая','house']],
+ trees:[['Берёза зимняя','⌀ 5 м','Кора, снег','Физическая (ствол)','tree'],['Ель высокая','⌀ 6 м','Хвоя, снег','Физическая (ствол)','tree'],['Куст сирени','⌀ 2 м','Ветки','Без коллизии','tree']],
+ items:[['Целая доска','1,6 × 0,15 м','Дерево','Подбираемая','board'],['Ключ от сарая','0,08 м','Металл','Подбираемая','key']],
+ chars:[['Тамара Геннадьевна','1,62 м','—','Капсула','npc'],['Парень с телефоном','1,78 м','—','Капсула','npc']],
+ lights:[['Фонарь на столбе','5,5 м','Металл','Физическая','lamp'],['Лампа в окне','—','Свет','Без коллизии','lamp']],
+};
+const ICON={
+ gate:'<rect x="8" y="10" width="36" height="44" rx="2" fill="#8a6a4a"/><line x1="8" y1="24" x2="44" y2="24" stroke="#5b4430" stroke-width="3"/><line x1="8" y1="42" x2="44" y2="42" stroke="#5b4430" stroke-width="3"/>',
+ fence:'<rect x="4" y="16" width="56" height="34" fill="#8a6a4a"/><g stroke="#5b4430" stroke-width="2"><line x1="16" y1="16" x2="16" y2="50"/><line x1="30" y1="16" x2="30" y2="50"/><line x1="44" y1="16" x2="44" y2="50"/></g>',
+ post:'<rect x="26" y="6" width="10" height="50" fill="#9aa0a6"/>',
+ house:'<polygon points="6,30 32,8 58,30" fill="#6b5a4a"/><rect x="11" y="30" width="42" height="26" fill="#9c7a55"/><rect x="18" y="37" width="10" height="9" fill="#e7d49a"/><rect x="36" y="38" width="9" height="18" fill="#4a3a2c"/>',
+ tree:'<polygon points="32,4 12,46 52,46" fill="#3d5b47"/><polygon points="32,4 20,28 44,28" fill="#e7eef4" opacity=".7"/><rect x="29" y="46" width="6" height="12" fill="#5b4430"/>',
+ board:'<rect x="4" y="27" width="56" height="10" rx="2" fill="#a57e55"/>',
+ key:'<circle cx="20" cy="32" r="9" fill="none" stroke="#c9b27a" stroke-width="4"/><rect x="28" y="30" width="26" height="4" fill="#c9b27a"/>',
+ npc:'<circle cx="32" cy="18" r="9" fill="#d9b99a"/><rect x="20" y="28" width="24" height="26" rx="8" fill="#4d5d73"/>',
+ lamp:'<rect x="30" y="14" width="4" height="44" fill="#6c737c"/><circle cx="32" cy="12" r="7" fill="#f2d98a"/>',
+};
+/* quest model: ONE structure, two projections (list and graph) */
+const Q={
+ id:NS+'quest/quest_tamara_fence', name:'Забор Тамары Геннадьевны', rev:'r41 · черновик r42',
+ nodes:[
+  {id:'n-start',k:'Стартовое событие',t:'Авария «Нивы» у забора Тамары',ref:'Событие мира: fence_crashed'},
+  {id:'n-scene',k:'Сцена',t:'Катсцена «Забор Тамары» (34 с, можно пропустить)',ref:'Сцена: tamara-fence-cutscene'},
+  {id:'n-choice',k:'Ветвление',t:'Ответ Айдара Тамаре',ref:'Диалог: выбор ответа',branches:[
+    {label:'Согласиться помочь',id:'b-accept',nodes:[
+      {id:'n-par',k:'Параллельная группа',mode:'N из M',n:6,m:8,t:'Найти целые доски',children:['Доски у сарая (×3)','Доски у бани (×2)','Доски у фонаря (×1)','Доски за ФАПом (×2)']},
+      {id:'n-return',k:'Цель',t:'Вернуться к Тамаре и отдать доски',ref:'Персонаж: — не выбран —',problem:'Не выбран персонаж, которому отдать доски'},
+    ]},
+    {label:'Отказаться',id:'b-refuse',nodes:[
+      {id:'n-refuse',k:'Результат',t:'Тамара: «Номер тогда сними»',ref:'Квестовый факт: aidar_refused_fence'},
+      {id:'n-fail',k:'Провал',t:'Квест провален: забор остаётся сломан',ref:'Состояние мира: калитка «сломана»'},
+    ]},
+  ]},
+  {id:'n-join',k:'Объединение',t:'Любая ветка завершена'},
+  {id:'n-end',k:'Завершение',t:'Калитка «починена» (при согласии) · журнал',ref:'Пакет изменений мира: забор-починка'},
+ ]};
+const CAMPAIGN=[
+ {id:'q-main-1',name:'Приезд в Кырлай',type:'Основной',status:'Готов',ch:'Глава 1',problems:0,deps:[]},
+ {id:'q-main-2',name:'Что случилось с Маратом',type:'Основной',status:'Готов',ch:'Глава 1',problems:0,deps:['q-main-1']},
+ {id:'q-tamara',name:'Забор Тамары Геннадьевны',type:'Побочный',status:'Черновик',ch:'Глава 1',problems:1,deps:['q-main-1'],sel:true},
+ {id:'q-shop',name:'Долг в магазине',type:'Побочный',status:'Готов',ch:'Глава 1',problems:0,deps:['q-main-1']},
+ {id:'q-bath',name:'Баня бабая',type:'Побочный',status:'В работе',ch:'Глава 1',problems:2,deps:['q-main-2']},
+];
+/* cutscene from TamaraFenceCutscene.cs, now as data (list = timeline) */
+const SCENE=[
+ ['cam','Кадр «удар»: ручная камера у машины, FOV 54',2.6,'hit'],
+ ['wait',"Пауза",0.8],
+ ['say','АЙДАР: Блин…',1.0],
+ ['move','Парень с телефоном идёт к пролому',1.15,'walk'],
+ ['cam','Кадр «парень подходит», FOV 58',3.0,'guy-arrives'],
+ ['say','ПАРЕНЬ: Подожди…',1.0],
+ ['cam','Кадр «съёмка»: ручная, FOV 50',2.4,'filming'],
+ ['move','Шаг ближе к пролому',0.8],
+ ['move','Тамара выходит со двора',1.2,'walk'],
+ ['cam','Кадр «Тамара выходит», FOV 52',3.2,'tamara-comes-out'],
+ ['say','АЙДАР: Здравствуйте…',1.1],
+ ['say','АЙДАР: Я… это…',1.0],
+ ['cam','Кадр «объясняет», FOV 50',8.2,'explains'],
+ ['say','АЙДАР: Меня Айдар зовут. Айдар Ришатович.',2.2],
+ ['say','АЙДАР: Меня на повороте немного занесло…',2.2],
+ ['cam','Кадр «главная реплика», FOV 44',7.4,'punchline'],
+ ['say','ПАРЕНЬ: Айдар Ришатович?..',1.0],
+ ['say','АЙДАР: Да.',0.9],
+ ['say','ПАРЕНЬ: Айдар Ришатович…',1.3],
+ ['anim','Парень смеётся (0,45)',2.0],
+ ['cam','Кадр «реакция Тамары», наезд, FOV 46',4.6,'tamara-reaction'],
+ ['wait','Тишина',2.6],
+ ['say','ТАМАРА: Ты снимаешь?',1.1],
+ ['say','ПАРЕНЬ: Ага…',1.0],
+ ['say','ТАМАРА: Номер тогда сними.',1.3],
+ ['cam','Кадр «про доски», FOV 50',2.8,'boards-talk'],
+ ['say','АЙДАР: Я никуда не уеду.',1.2],
+ ['say','ТАМАРА: Шесть досок принесёшь.',1.5],
+ ['say','ТАМАРА: Нормальных.',1.1],
+ ['say','АЙДАР: Хорошо.',1.0],
+ ['say','ТАМАРА: Эти уже не нормальные.',1.5],
+ ['cam','Кадр «вся улица», FOV 62',2.8,'final-wide'],
+ ['wait','Ожидание: парень дошёл до точки (длительность заранее неизвестна)',null],
+ ['world','Постоянный итог: забор сломан, квест начат, контрольная точка',0.1],
+];
+const TRACK={cam:'Камеры',say:'Реплики и субтитры',move:'Персонажи: перемещение',anim:'Анимации',wait:'Ожидания',world:'События мира',sfx:'Звук'};
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(e._t);e._t=setTimeout(()=>e.style.display='none',2200)}
+function fullId(id){return id.includes(':')?id:NS+id}
+function idLine(id){return `<div class="idline"><span style="flex:1">${esc(fullId(id))}</span><button data-copy="${esc(fullId(id))}" title="Скопировать ID">Копировать</button></div>`}
+/* ---------- undo / redo (typed operations) ---------- */
+const undo=[],redo=[];
+function apply(op,isRedo){op.do();undo.push(op);if(!isRedo)redo.length=0;markDirty();render()}
+function doUndo(){const op=undo.pop();if(!op)return toast('Нечего отменять');op.undo();redo.push(op);markDirty();render();toast('Отменено: '+op.label)}
+function doRedo(){const op=redo.pop();if(!op)return;op.do();undo.push(op);markDirty();render();toast('Повторено: '+op.label)}
+/* ---------- save state (UX11) ---------- */
+function markDirty(){S.dirty=true;renderStatus()}
+function save(){ if(S.saveError){renderStatus();toast('Запись не удалась: изменения остаются в памяти');return}
+  S.dirty=false;renderStatus();toast('Сохранено: черновик r42 записан')}
+function renderStatus(){const e=$('#saveState');let cls,ic,t;
+  if(S.saveError){cls='st-err';ic='!';t='Не сохранено: диск заполнен'}
+  else if(!S.merged&&S.section==='merge'&&Object.keys(S.conflicts).length<5){cls='st-conf';ic='⚠';t='Конфликт: 5 вопросов'}
+  else if(S.dirty){cls='st-dirty';ic='●';t='Есть изменения'}
+  else if(S.draftBroken&&S.section==='quests'){cls='st-draft';ic='◐';t='Черновик не готов к запуску'}
+  else {cls='st-saved';ic='✓';t='Сохранено'}
+  e.className='status '+cls;e.innerHTML=`<span class="ic">${ic}</span><span>${t}</span>`;
+  $('#undoBtn').disabled=!undo.length;$('#redoBtn').disabled=!redo.length;}
+setInterval(()=>{if(S.dirty&&!S.saveError){S.dirty=false;renderStatus();toast('Автосохранение черновика')}},30000);
+/* ---------- tabs (UX01) ---------- */
+const SEC_TITLE={world:'Мир · Обратная улица',quests:'Квесты',scenes:'Сцена «Забор Тамары»',merge:'Изменения от Рустема',trigger:'Карта + квест'};
+function go(sec,opts={}){ // keep previous tab's state
+  S.tabState[S.tabs[S.tabOn].sec]={sel:S.sel,questView:S.questView,tlSel:S.tlSel,playT:S.playT};
+  if(!opts.noBack)S.back.push(S.tabOn);
+  let i=S.tabs.findIndex(t=>t.sec===sec);
+  if(i<0){S.tabs.push({sec,title:SEC_TITLE[sec]||sec});i=S.tabs.length-1}
+  S.tabOn=i;S.section=sec;const st=S.tabState[sec];
+  if(st&&!opts.sel){S.sel=st.sel;S.questView=st.questView;S.tlSel=st.tlSel;S.playT=st.playT}
+  if(opts.sel)S.sel=opts.sel;
+  render();
+}
+function renderTabs(){$('#tabs').innerHTML=(S.back.length?`<button class="ghost" id="backBtn" title="Назад">← Назад</button>`:'')+
+  S.tabs.map((t,i)=>`<span class="tab ${i===S.tabOn?'on':''}" data-tab="${i}" role="tab">${esc(t.title)}</span>`).join('');
+  $$('.nav a').forEach(a=>a.classList.toggle('on',a.dataset.sec===(S.section==='trigger'?'world':S.section)));}
+/* ---------- render ---------- */
+function render(){renderTabs();renderStatus();
+  const c=$('#center'),s=$('#side');
+  if(S.section==='world')renderWorld(c,s);
+  else if(S.section==='trigger')renderTrigger(c,s);
+  else if(S.section==='quests')renderQuests(c,s);
+  else if(S.section==='scenes')renderScene(c,s);
+  else if(S.section==='merge')renderMerge(c,s);
+  else {c.innerHTML=`<div class="empty"><h2>Этот раздел не входит в прототип</h2><p>В прототипе ТЗ §4.2 пять экранов: мир с каталогом, карта с триггером и квестом, квесты, монтажная шкала, разбор конфликта.</p></div>`;s.innerHTML=''}
+  bindCommon();}
+function errBanner(){return S.saveError?`<div class="banner err" role="alert"><div>⚠</div><div><p><b>Не удалось сохранить: на диске нет места.</b></p><p>Последняя целая версия (r41, 18:02) не тронута. Ваши изменения за последние 4 минуты находятся в памяти и не потеряны. Освободите место и нажмите «Повторить запись».</p><div class="row"><button data-act="retry-save">Повторить запись</button><button data-act="show-space">Что занимает место</button></div></div></div>`:''}
+/* ---------- plan SVG (shared by world and trigger screens) ---------- */
+function planSvg(opts={}){
+  const L=S.layers;let o='';
+  o+=`<rect x="0" y="0" width="1000" height="560" fill="#d8dfe6"/>`;
+  o+=`<path d="M0 360 C 250 340, 520 380, 1000 350 L1000 420 C 560 450, 240 410, 0 430 Z" fill="#8d939b"/>`;
+  o+=`<path d="M0 395 C 260 375, 520 415, 1000 385" stroke="#c9ced4" stroke-width="2" stroke-dasharray="14 12" fill="none"/>`;
+  o+=`<text x="16" y="455" fill="#5a616b" font-size="13">Обратная улица · масштаб: 1 клетка = 5 м</text>`;
+  for(let x=0;x<1000;x+=50)o+=`<line x1="${x}" y1="0" x2="${x}" y2="560" stroke="rgba(0,0,0,.05)"/>`;
+  for(let y=0;y<560;y+=50)o+=`<line x1="0" y1="${y}" x2="1000" y2="${y}" stroke="rgba(0,0,0,.05)"/>`;
+  if(L.routes)o+=`<path d="M398 392 C 430 360, 470 330, 520 296" stroke="#3c7d58" stroke-width="3" stroke-dasharray="4 6" fill="none"/><text x="404" y="420" fill="#3c7d58" font-size="12">маршрут парня</text>`;
+  for(const ob of objects){
+    const vis=({house:L.arch,fence:L.arch,gate:L.arch,car:L.arch,npc:L.npc,item:L.items,tree:L.veg,light:L.arch})[ob.kind];
+    if(!vis)continue;
+    const sel=S.sel===ob.id?'sel':'';
+    const tr=ob.rot?` transform="rotate(${ob.rot} ${ob.x+(ob.w||0)/2} ${ob.y+(ob.h||0)/2})"`:'';
+    let g='';
+    if(ob.kind==='house')g=`<rect class="shape" x="${ob.x}" y="${ob.y}" width="${ob.w}" height="${ob.h}" fill="#8b7258" stroke="#5a4633" stroke-width="2"/><rect x="${ob.x+12}" y="${ob.y+12}" width="${ob.w-24}" height="${ob.h-24}" fill="none" stroke="#c7ae8c" stroke-dasharray="5 4"/><text x="${ob.x+10}" y="${ob.y-8}" fill="#333" font-size="13">${esc(ob.name)} 🔒</text>`;
+    else if(ob.kind==='fence')g=`<rect class="shape" x="${ob.x}" y="${ob.y}" width="${ob.w}" height="${ob.h}" fill="#8a6a4a" stroke="#5b4430"/>`;
+    else if(ob.kind==='gate'){const col={закрыта:'#8a6a4a',сломана:'#b0583f',починена:'#b99a6a'}[ob.state||'закрыта'];g=`<rect class="shape" x="${ob.x}" y="${ob.y}" width="${ob.w}" height="${ob.h}" fill="${col}" stroke="#5b4430" stroke-width="2"/><text x="${ob.x-6}" y="${ob.y-6}" fill="#333" font-size="12">калитка</text>`}
+    else if(ob.kind==='car')g=`<rect class="shape" x="${ob.x}" y="${ob.y}" width="${ob.w}" height="${ob.h}" rx="8" fill="#5d7a55" stroke="#2f3f2b" stroke-width="2"/>`;
+    else if(ob.kind==='npc')g=`<circle class="shape" cx="${ob.x}" cy="${ob.y}" r="${ob.r}" fill="#4d5d73" stroke="#fff" stroke-width="2"/><text x="${ob.x+14}" y="${ob.y+4}" fill="#222" font-size="12">${esc(ob.name)}</text>`;
+    else if(ob.kind==='item')g=`<rect class="shape" x="${ob.x}" y="${ob.y}" width="${ob.w}" height="${ob.h}" rx="2" fill="#a57e55" stroke="#6b4f33"/><text x="${ob.x}" y="${ob.y-5}" fill="#6b4f33" font-size="11">доска</text>`;
+    else if(ob.kind==='tree')g=`<circle class="shape" cx="${ob.x}" cy="${ob.y}" r="${ob.r}" fill="#3d5b47" stroke="#263a2d"/>`;
+    else if(ob.kind==='light')g=`<circle cx="${ob.x}" cy="${ob.y}" r="60" fill="rgba(242,217,138,.18)"/><circle class="shape" cx="${ob.x}" cy="${ob.y}" r="${ob.r}" fill="#f2d98a" stroke="#6c737c"/>`;
+    o+=`<g class="obj ${sel}" data-obj="${ob.id}"${tr}>${g}</g>`;
+  }
+  if(L.trig){const t=trigger,sel=(S.sel===t.id||opts.trigSel)?'sel':'';
+    o+=`<g data-obj="${t.id}" class="obj"><rect class="trigger ${sel}" x="${t.x}" y="${t.y}" width="${t.w}" height="${t.h}" rx="6"/><text x="${t.x+8}" y="${t.y+18}" fill="#5b4a80" font-size="12">◇ ${esc(t.name)}</text>${sel?`<rect class="handle" x="${t.x+t.w-6}" y="${t.y+t.h-6}" width="12" height="12"/>`:''}</g>`}
+  if(L.coll)o+=`<rect x="720" y="120" width="170" height="120" fill="none" stroke="#e58b7d" stroke-width="2" stroke-dasharray="3 3"/><rect x="560" y="283" width="330" height="14" fill="none" stroke="#e58b7d" stroke-width="2" stroke-dasharray="3 3"/>`;
+  if(L.cams)o+=`<polygon points="470,300 540,250 540,340" fill="rgba(185,163,220,.25)" stroke="#b9a3dc"/><text x="470" y="296" fill="#5b4a80" font-size="11">кадр «съёмка»</text>`;
+  o+=`<g id="ghost"></g>`;
+  return `<svg id="plan" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%" class="${S.view2d?'plan2d':'plan3d'}">${o}</svg>`;
+}
+function layersBox(){const names={arch:'Архитектура',veg:'Растительность',npc:'Персонажи',items:'Предметы',trig:'Триггеры',routes:'Маршруты',cams:'Камеры',sound:'Звук',coll:'Коллизии'};
+  return `<details class="legend" ${S.layersOpen?'open':''} ontoggle="S.layersOpen=this.open"><summary><b>Слои</b></summary>${Object.keys(names).map(k=>`<label><input type="checkbox" data-layer="${k}" ${S.layers[k]?'checked':''}> ${names[k]}</label>`).join('')}</details>`}
+/* ---------- screen 1: world + catalogue ---------- */
+function renderWorld(c,s){
+  c.innerHTML=`${errBanner()}
+  <div class="toolbar">
+    <div class="seg"><button data-view="3d" class="${S.view2d?'':'on'}">3D</button><button data-view="2d" class="${S.view2d?'on':''}">План сверху</button></div>
+    <button data-act="focus" title="Фокус на выделенном (F)">◎ К выделенному</button>
+    <button data-act="eye">👁 С уровня глаз</button>
+    <span class="chip">Сетка 0,5 м · привязка к поверхности</span>
+    <span class="spacer"></span>
+    <button data-act="night">🌙 Посмотреть ночью</button>
+    <span class="chip">Состояние мира: <b>до квеста</b></span>
+  </div>
+  <div class="viewport" id="vp">${planSvg()}${layersBox()}
+    <div class="hud"><span class="chip">Перетащите объект — одно действие отмены</span><span class="chip">Escape — отменить размещение</span></div></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-head"><b>Каталог</b><input id="catSearch" placeholder="Найти в каталоге" style="width:220px">
+      <span class="seg"><button class="on">Все</button><button>★ Избранное</button><button>Недавние</button></span>
+      <span class="spacer"></span><button class="ghost" data-act="import">＋ Импорт модели, звука…</button><button class="ghost" data-act="drawer">▾</button></div>
+    <div class="drawer-body">
+      <div class="cats">${CATS.map(([k,n,cnt])=>`<div data-cat="${k}" class="${S.catCat===k?'on':''}"><span>${n}</span><small>${cnt}</small></div>`).join('')}</div>
+      <div class="cards">${(CARDS[S.catCat]||[]).map((cd,i)=>`<div class="card ${S.placing&&S.placing.i===i?'on':''}" data-card="${i}" tabindex="0"><div class="pv"><svg viewBox="0 0 64 64" width="64" height="64">${ICON[cd[4]]||''}</svg></div><b>${esc(cd[0])}</b><small>${cd[1]} · ${cd[2]}</small><small>${cd[3]}</small></div>`).join('')||`<div class="empty" style="margin:1em"><p>Здесь появятся подходящие модели.</p></div>`}</div>
+    </div></div>`;
+  const ob=objects.find(o=>o.id===S.sel);
+  if(S.sel===trigger.id){renderTriggerSide(s);return}
+  if(!ob){s.innerHTML=`<div class="empty" style="margin:1em 0"><h3>Ничего не выбрано</h3><p>Щёлкните объект на карте или перетащите модель из каталога внизу.</p></div>`;return}
+  const deg=ob.rot||0;
+  s.innerHTML=`<h3>${esc(ob.name)}</h3><div class="type">${esc(ob.cat)} · экземпляр</div>
+   ${idLine(ob.id)}
+   <div class="field"><label>Название</label><input value="${esc(ob.name)}" data-rename="${ob.id}" style="width:100%"></div>
+   <div class="field"><label>Положение, м (мир)</label><div class="xyz"><input value="${(ob.x/10).toFixed(1)}" data-num="x"><input value="0.0" disabled><input value="${(ob.y/10).toFixed(1)}" data-num="y"></div></div>
+   <div class="field"><label>Поворот, °</label><input value="${deg}" data-num="rot" style="width:6em"></div>
+   ${ob.states?`<div class="field"><label>Сюжетные состояния</label><div class="row">${ob.states.map(st=>`<button data-state="${st}" class="${(ob.state||'закрыта')===st?'primary':''}">${st}</button>`).join('')}</div><small style="color:var(--muted)">Базовое: «закрыта». «Сломана» включает квест, «починена» — итог.</small></div>`:''}
+   <div class="row" style="margin:.6em 0"><button data-act="onmap">На карте</button><button data-act="uses">Где используется</button><button data-act="ctx">Скопировать контекст</button></div>
+   <div class="field"><label>Связи</label><ul class="links">${ob.id==='obj/gate'?`<li>Квест <a data-goto="quests">«Забор Тамары Геннадьевны»</a> → итог «починена»</li><li>Триггер <a data-goto="trigger">«Вход во двор Тамары»</a></li>`:ob.kind==='item'?`<li>Цель <a data-goto="quests">«Найти целые доски»</a></li>`:ob.kind==='npc'?`<li>Сцена <a data-goto="scenes">«Забор Тамары»</a></li>`:'<li style="color:var(--muted)">Нет связей</li>'}</ul></div>
+   <details><summary>Дополнительно</summary><div class="field"><label>Определение</label>${idLine(ob.def)}</div><div class="field"><label>Коллизия</label>совпадает с геометрией · обновляется при перемещении</div><div class="field"><label>Защита от случайного выбора</label><label><input type="checkbox" ${ob.locked?'checked':''}> Заблокировать</label></div></details>`;
+}
+/* ---------- screen 2: map with selected trigger + quest (split) ---------- */
+function renderTriggerSide(s){
+  const t=trigger;
+  s.innerHTML=`<h3>◇ ${esc(t.name)}</h3><div class="type">Триггер · область (коробка)</div>${idLine(t.id)}
+  <div class="field"><label>Когда срабатывает</label><select style="width:100%"><option>Игрок входит в область</option><option>Игрок выходит</option><option>Игрок находится внутри</option></select></div>
+  <div class="field"><label>Кто может сработать</label><select style="width:100%"><option>${t.actor}</option><option>Любой персонаж</option><option>Выбранный NPC…</option></select></div>
+  <div class="field"><label>Сколько раз</label><select style="width:100%"><option>${t.freq}</option><option>Один раз за всю игру</option><option>При каждом новом входе</option><option>С задержкой…</option></select></div>
+  <div class="field"><label><input type="checkbox" ${t.already?'checked':''}> Если игрок уже внутри, когда шаг стал активен — считать выполненным</label></div>
+  <div class="banner info" style="margin:.6em 0"><div>ℹ</div><div><b>Сейчас не сработает</b><p>Шаг «Вернуться к Тамаре» ещё не активен: нужно «найти доски — 6 из 8», найдено 0.</p></div></div>
+  <div class="field"><label>Связанные шаги</label><ul class="links"><li><a data-act="open-step">«Вернуться к Тамаре и отдать доски»</a> — квест «Забор Тамары»</li></ul></div>
+  <div class="row"><button data-act="ctx">Скопировать контекст</button><button data-act="uses">Где используется</button></div>`;
+}
+function renderTrigger(c,s){
+  S.sel=trigger.id;
+  c.innerHTML=`${errBanner()}<div class="toolbar"><b>Карта + квест</b><span class="chip">Выделен триггер · подсвечен связанный шаг</span><span class="spacer"></span><button data-act="new-area">＋ Создать область на карте для шага</button></div>
+  <div class="split"><div class="viewport" style="min-height:420px">${planSvg({trigSel:true})}${layersBox()}<div class="hud"><span class="chip">Тяните угол области, чтобы изменить размер</span></div></div>
+  <div class="qpanel"><div class="row"><b>Квест «Забор Тамары Геннадьевны»</b><span class="chip vio">Черновик</span></div>
+  <p style="color:var(--muted);margin:.3em 0 .6em">Список квестов не пропадает при выборе на карте. Щёлкните шаг — на карте подсветится его область.</p>
+  ${questListHtml(true)}</div></div>`;
+  renderTriggerSide(s);
+}
+/* ---------- screen 3: quests (campaign + list/graph of one model) ---------- */
+function stepHtml(n,hl){const bad=n.problem&&S.draftBroken;
+  return `<li class="step ${hl&&n.id==='n-return'?'hl':''} ${S.sel===n.id?'sel':''}" data-step="${n.id}"><span class="k">${esc(n.k)}</span><span class="t"><input value="${esc(n.t)}" data-steptext="${n.id}" aria-label="Текст шага">${n.ref?`<small style="color:var(--muted)">${esc(n.ref)}</small>`:''}${bad?`<div class="problem">⚠ ${esc(n.problem)} — <a data-act="fix-step" style="color:var(--accent2);cursor:pointer">выбрать персонажа</a></div>`:''}</span></li>`}
+function questListHtml(hl){let o='<ul class="steps">';
+  for(const n of Q.nodes){
+    if(n.branches){o+=`<li class="group"><div class="gh">⑂ <b>${esc(n.k)}:</b> ${esc(n.t)}</div><div class="branches">${n.branches.map((b,bi)=>`<div class="branch ${bi?'b2':''}"><div style="font-weight:600;margin:.2em 0">↳ ${esc(b.label)}</div><ul class="steps">${b.nodes.map(m=>m.children?`<li class="group"><div class="gh">⇉ Параллельно · <select data-mode><option ${m.mode==='Все'?'selected':''}>Все</option><option>Любая</option><option selected>N из M</option></select> ${m.n} из ${m.m}</div><div style="font-weight:600">${esc(m.t)}</div><ul style="margin:.2em 0 0 1em;color:var(--muted);font-size:.9em">${m.children.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></li>`:stepHtml(m,hl)).join('')}</ul></div>`).join('')}</div></li>`}
+    else o+=stepHtml(n,hl);
+  }
+  return o+'</ul>';}
+function questGraphSvg(){
+  const W=900;let o='',boxes=[];
+  const box=(id,x,y,t,k,bad)=>{boxes.push({id,x,y});o+=`<g class="gnode ${S.sel===id?'sel':''} ${bad?'bad':''}" data-step="${id}"><rect x="${x}" y="${y}" width="230" height="52" rx="9"/><text x="${x+12}" y="${y+21}" class="sub">${esc(k)}</text><text x="${x+12}" y="${y+40}">${esc(t.length>30?t.slice(0,29)+'…':t)}</text>${bad?`<text x="${x+205}" y="${y+22}" fill="#e58b7d">⚠</text>`:''}</g>`};
+  const e=(x1,y1,x2,y2,cls='',lab='')=>{o+=`<path class="edge ${cls}" d="M${x1} ${y1} C ${x1} ${(y1+y2)/2}, ${x2} ${(y1+y2)/2}, ${x2} ${y2}"/>`+(lab?`<text class="elabel" x="${(x1+x2)/2+6}" y="${(y1+y2)/2}">${lab}</text>`:'')};
+  const cx=W/2-115;
+  box('n-start',cx,20,Q.nodes[0].t,Q.nodes[0].k);
+  box('n-scene',cx,110,Q.nodes[1].t,Q.nodes[1].k);
+  box('n-choice',cx,200,Q.nodes[2].t,'Ветвление');
+  const A=Q.nodes[2].branches[0].nodes,B=Q.nodes[2].branches[1].nodes;
+  box('n-par',130,300,A[0].t+' ('+A[0].n+' из '+A[0].m+')','Параллельная группа');
+  box('n-return',130,400,A[1].t,A[1].k,A[1].problem&&S.draftBroken);
+  box('n-refuse',540,300,B[0].t,B[0].k); box('n-fail',540,400,B[1].t,B[1].k);
+  box('n-join',cx,500,Q.nodes[3].t,Q.nodes[3].k); box('n-end',cx,590,Q.nodes[4].t,Q.nodes[4].k);
+  e(W/2,72,W/2,110);e(W/2,162,W/2,200);
+  e(W/2,252,245,300,'','согласиться');e(W/2,252,655,300,'','отказаться');
+  e(245,352,245,400);e(655,352,655,400);e(245,452,W/2,500);e(655,452,W/2,500);e(W/2,552,W/2,590);
+  return `<svg viewBox="0 0 ${W} 660" style="width:100%;min-width:620px"><defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8a94a6"/></marker></defs>${o}</svg>`;}
+function campaignHtml(){
+  if(S.emptyQuests)return `<div class="empty"><h2>Побочных квестов пока нет</h2><p>Побочный квест — необязательное задание рядом с основной историей.</p><ol><li>Нажмите «Новый квест» или выберите шаблон «выбор с двумя исходами».</li><li>Поставьте на карту персонажа, который его выдаёт.</li><li>Нажмите «Играть отсюда», чтобы пройти квест.</li></ol><div class="row" style="justify-content:center"><button class="primary" data-act="new-quest">＋ Новый квест</button><button data-act="templates">Шаблоны</button></div></div>`;
+  if(S.campaignView==='graph'){return `<div class="graph" style="padding:.6em">${depGraph()}</div>`}
+  const list=CAMPAIGN.filter(q=>S.campaignView==='all'||(S.campaignView==='main'?q.type==='Основной':q.type==='Побочный'));
+  return `<div style="padding:.4em .7em;color:var(--muted);font-size:.88em">Перетаскивание меняет только порядок в этом списке. Чтобы изменить, когда квест становится доступен, используйте «Сделать доступным после…».</div><div class="qcards">${list.map(q=>`<div class="qcard ${q.sel?'on':''}" data-q="${q.id}"><span class="drag" title="Переставить в списке">⠿</span><span class="h">${esc(q.name)}</span><span>${q.problems?`<span class="chip bad">⚠ ${q.problems}</span>`:''} <span class="chip ${q.status==='Готов'?'ok':q.status==='Черновик'?'vio':'warn'}">${q.status}</span></span><span class="m">${q.type} · ${q.ch} · доступен после: ${q.deps.map(d=>CAMPAIGN.find(x=>x.id===d).name).join(', ')||'начала игры'} · <a data-act="after" data-qid="${q.id}" style="color:var(--accent2);cursor:pointer">Сделать доступным после…</a></span></div>`).join('')}</div>`;}
+function depGraph(){const pos={'q-main-1':[330,20],'q-main-2':[80,140],'q-tamara':[330,140],'q-shop':[580,140],'q-bath':[80,260]};let o='';
+  const ed=(a,b,cls,lab)=>{const[x1,y1]=pos[a],[x2,y2]=pos[b];o+=`<path class="edge ${cls}" d="M${x1+110} ${y1+48} C ${x1+110} ${y1+90}, ${x2+110} ${y2-40}, ${x2+110} ${y2}"/><text class="elabel" x="${(x1+x2)/2+120}" y="${(y1+y2)/2+30}">${lab}</text>`};
+  ed('q-main-1','q-main-2','req','открывает');ed('q-main-1','q-tamara','req','открывает');ed('q-main-1','q-shop','req','открывает');ed('q-main-2','q-bath','req','требует');
+  o+=`<path class="edge shared" d="M550 164 C 570 164, 560 164, 580 164"/><text class="elabel" x="500" y="205">меняет общий объект: калитка</text>`;
+  for(const q of CAMPAIGN){const[x,y]=pos[q.id];o+=`<g class="gnode ${q.sel?'sel':''}" data-q="${q.id}"><rect x="${x}" y="${y}" width="220" height="48"/><text x="${x+12}" y="${y+20}" class="sub">${q.type}</text><text x="${x+12}" y="${y+38}">${esc(q.name)}</text></g>`}
+  return `<svg viewBox="0 0 820 330" style="width:100%;min-width:720px"><defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8a94a6"/></marker></defs>${o}</svg><p style="color:var(--muted);padding:0 .6em">Стрелки: <span style="color:var(--accent)">открывает / требует</span> · <span style="color:var(--bad)">исключает</span> · <span style="color:var(--ok)">можно параллельно</span> · <span style="color:var(--violet)">меняет общий объект</span>. Положение карточек по горизонтали не влияет на игру.</p>`}
+function renderQuests(c,s){
+  c.innerHTML=`${errBanner()}<div style="display:grid;grid-template-columns:380px minmax(0,1fr);flex:1;min-height:0">
+   <div style="border-right:1px solid var(--line);overflow:auto;display:flex;flex-direction:column">
+    <div class="toolbar"><div class="seg">${[['main','Сюжет'],['side','Побочные'],['all','Все'],['graph','Граф']].map(([k,n])=>`<button data-cview="${k}" class="${S.campaignView===k?'on':''}">${n}</button>`).join('')}</div><span class="spacer"></span><button data-act="new-quest">＋</button></div>
+    ${campaignHtml()}</div>
+   <div style="display:flex;flex-direction:column;min-height:0">
+    <div class="toolbar"><b>Забор Тамары Геннадьевны</b><span class="chip vio">Черновик · ${Q.rev}</span><span class="spacer"></span>
+      <div class="seg"><button data-qview="list" class="${S.questView==='list'?'on':''}">☰ Список</button><button data-qview="graph" class="${S.questView==='graph'?'on':''}">⑂ Граф</button></div>
+      <button data-act="add-step">＋ Шаг</button><button data-act="templates">Шаблоны</button></div>
+    ${S.draftBroken?`<div class="banner draft"><div>◐</div><div><p><b>Черновик не готов к запуску.</b> 1 проблема: у шага «Вернуться к Тамаре» не выбран персонаж.</p><p>Сохранять можно. «Играть отсюда» запустит последнюю готовую ревизию r41 только если вы явно это выберете.</p></div></div>`:''}
+    <div style="flex:1;overflow:auto;padding:.4em .8em">${S.questView==='list'?questListHtml(false):`<div class="graph">${questGraphSvg()}</div>`}
+    <p style="color:var(--muted);font-size:.86em">Список и граф показывают одну и ту же логику. Переключение не меняет ветки, параллельные группы и объединение.</p></div>
+   </div></div>`;
+  const all=[...Q.nodes,...Q.nodes[2].branches.flatMap(b=>b.nodes)];const n=all.find(x=>x.id===S.sel);
+  if(!n){s.innerHTML=`<h3>${esc(Q.name)}</h3><div class="type">Квест · побочный</div>${idLine('quest/quest_tamara_fence')}
+   <div class="field"><label>Краткая цель</label><input style="width:100%" value="Найти целые доски и принести их Тамаре Геннадьевне"></div>
+   <div class="field"><label>Авторский статус</label><select><option>Черновик</option><option>Готов к проверке</option><option>Готов</option></select></div>
+   <div class="field"><label>Персонажи</label><span class="chip">Тамара Геннадьевна</span> <span class="chip">Парень с телефоном</span></div>
+   <div class="field"><label>Места</label><a data-goto="trigger" style="color:var(--accent2);cursor:pointer">Двор Тамары, Обратная улица</a></div>
+   <div class="field"><label>Повторяемость</label>Не повторяется</div>
+   <div class="row"><button data-act="ctx">Скопировать контекст</button><button data-act="uses">Где используется</button></div>`;return}
+  s.innerHTML=`<h3>${esc(n.t)}</h3><div class="type">${esc(n.k)}</div>${idLine('quest/quest_tamara_fence/'+n.id)}
+   ${n.id==='n-return'?`<div class="field"><label>Условие выполнения</label><div class="group"><div>Игрок <b>отдал</b> персонажу <select><option>— выберите персонажа —</option><option>Тамара Геннадьевна</option></select></div><div style="margin-top:.3em">предмет <b>Целая доска</b> · количество <input value="6" style="width:3em"></div><div style="margin-top:.4em"><button>＋ И</button> <button>＋ ИЛИ</button> <button>＋ НЕ</button></div></div></div>
+   <div class="field"><label>Если персонаж недоступен</label><select style="width:100%"><option>Ждать, пока освободится (показать причину)</option><option>Провалить шаг</option></select></div>
+   <div class="field"><label>Область на карте</label><a data-goto="trigger" style="color:var(--accent2);cursor:pointer">◇ Вход во двор Тамары</a></div>`:
+   n.mode?`<div class="field"><label>Сколько целей нужно</label><div class="row"><select><option>Все</option><option>Любая</option><option selected>N из M</option></select> <input value="${n.n}" style="width:3em"> из ${n.m}</div></div>`:''}
+   <div class="row"><button data-act="ctx">Скопировать контекст</button></div>`;
+}
+/* ---------- screen 4: cutscene list + timeline ---------- */
+function sceneTimes(){let t=0;return SCENE.map(a=>{const st=t,d=a[2]??1.5;if(a[0]!=='cam')t+=d;return{st,d,a,unknown:a[2]==null}})}
+function renderScene(c,s){
+  const T=sceneTimes(),total=T[T.length-1].st+2,px=64;
+  let camStart=0;
+  const lanes={};for(const k of Object.keys(TRACK))lanes[k]='';
+  T.forEach((x,i)=>{const k=x.a[0];const w=Math.max(16,(k==='cam'?(x.a[2]):x.d)*px);lanes[k]+=`<div class="clip c-${k} ${S.tlSel===i?'on':''}" data-clip="${i}" style="left:${x.st*px}px;width:${w}px" title="${esc(x.a[1])}">${x.unknown?'⧗ ':''}${esc(x.a[1])}</div>`});
+  const cur=T.filter(x=>x.st<=S.playT);const sub=[...cur].reverse().find(x=>x.a[0]==='say'&&S.playT<x.st+x.d+.3);const shot=[...cur].reverse().find(x=>x.a[0]==='cam');
+  c.innerHTML=`${errBanner()}<div class="toolbar"><b>Сцена «Забор Тамары»</b><span class="chip">≈ ${total.toFixed(0)} с + ожидания</span><span class="chip ok">Можно пропустить</span><span class="spacer"></span>
+    <button data-act="play-scene">▶ Предпросмотр</button><button data-act="cam-from-view">📷 Кадр из текущего вида</button><button data-act="skip-check">Проверить пропуск</button></div>
+   <div class="preview"><div class="frame"><div class="safe"></div><div class="shot">${shot?esc(shot.a[1]):''}</div>${sub?`<div class="sub">${esc(sub.a[1])}</div>`:''}</div>
+    <div><div class="field"><label>Время</label><input type="range" min="0" max="${total}" step=".1" value="${S.playT}" id="scrub" style="width:100%"><div class="row"><span class="kbd">${S.playT.toFixed(1)} с</span><small style="color:var(--muted)">Перемотка ничего не выдаёт и не пишет прогресс</small></div></div>
+     <div class="field"><label>Проверка в предпросмотре</label><label><input type="checkbox"> Уменьшенное движение</label><br><label><input type="checkbox"> Крупные субтитры</label></div></div></div>
+   <div class="tl"><div class="alist" id="alist">${T.map((x,i)=>`<div class="aitem ${S.tlSel===i?'on':''}" data-clip="${i}"><span class="at">${x.st.toFixed(1)}</span><span class="ak">${TRACK[x.a[0]].split(':')[0]}</span><span>${x.unknown?'⧗ ':''}${esc(x.a[1])}</span></div>`).join('')}</div>
+    <div class="tracks" id="tracks"><div class="ruler"><div class="tn"></div><div class="lane" style="width:${total*px}px">${Array.from({length:Math.ceil(total/5)+1},(_,i)=>`<span class="tick" style="left:${i*5*px}px">${i*5} с</span>`).join('')}</div></div>
+     ${Object.keys(TRACK).map(k=>`<div class="trk"><div class="tn">${TRACK[k]}</div><div class="lane" style="width:${total*px}px">${lanes[k]}</div></div>`).join('')}
+     <div class="playhead" style="left:${140+S.playT*px}px"></div></div></div>`;
+  const x=T[S.tlSel];
+  s.innerHTML=`<h3>${esc(x.a[1])}</h3><div class="type">${TRACK[x.a[0]]}</div>${idLine('scene/tamara-fence-cutscene/action-'+String(S.tlSel+1).padStart(2,'0'))}
+   <div class="field"><label>Начало</label><select><option>После предыдущего действия</option><option>Вместе с предыдущим</option><option>По маркеру…</option></select></div>
+   ${x.unknown?`<div class="banner info"><div>⧗</div><div>Длительность зависит от ходьбы персонажа. На шкале показано ожидание, а не ложные секунды. Если путь недостижим — <select><option>телепортировать за кадром</option><option>завершить сцену</option></select></div></div>`:`<div class="field"><label>Длительность, с</label><input value="${x.a[2]}" style="width:5em"></div>`}
+   ${x.a[0]==='cam'?`<div class="field"><label>Камера</label><div class="row"><button>Из текущего вида</button><button>Следить за персонажем…</button></div><small style="color:var(--muted)">Поле кадра с запасом под субтитры.</small></div>`:''}
+   ${x.a[0]==='world'?`<div class="banner draft"><div>◆</div><div>Постоянный итог применяется ровно один раз — и при просмотре, и при пропуске. Промежуточные положения персонажей в сохранение не попадают.</div></div>`:''}
+   <details><summary>Дополнительно</summary><p style="color:var(--muted)">Сейчас эта постановка записана в коде (TamaraFenceCutscene.cs). В Studio она будет храниться в данных сцены с теми же ID реплик.</p></details>`;
+}
+/* ---------- screen 5: conflict review ---------- */
+const CONF=[
+ {id:'c1',title:'Реплика Тамары · одно поле изменено по-разному',kind:'text',base:'Эти уже не нормальные.',mine:'Эти уже не годятся.',inc:'Эти уже не нормальные, Айдар Ришатович.'},
+ {id:'c2',title:'Калитка Тамары · положение',kind:'xf'},
+ {id:'c3',title:'Целая доска №3 · удалена у Рустема, вы её передвинули',kind:'del'},
+ {id:'c4',title:'Порядок шагов в ветке «Согласиться»',kind:'order'},
+ {id:'c5',title:'Текстура «Доски забора» · изменён бинарный файл у обоих',kind:'bin'},
+];
+function renderMerge(c,s){
+  const done=Object.keys(S.conflicts).length;
+  c.innerHTML=`${errBanner()}<div class="toolbar"><b>Изменения от Рустема</b><span class="chip">база r41 · его ревизия r43 · ваша r42</span><span class="spacer"></span><button data-act="fetch">Получить изменения</button><button class="primary" data-act="merge" ${done<CONF.length?'disabled':''}>Объединить (${done}/${CONF.length} решено)</button><button data-act="push" ${S.merged?'':'disabled'}>Отправить</button></div>
+  <div class="merge">
+   <div class="ccard res"><div class="chead"><span class="auto">✓</span><b>Объединено автоматически: 14 изменений</b><button class="ghost" data-act="show-auto">Показать</button></div>
+    <div class="cbody" style="color:var(--muted)">Рустем: 9 новых деревьев у бани, звук ветра, 2 реплики продавщицы. Вы: калитка, триггер, квест «Забор». Проверка после объединения: ошибок нет.</div></div>
+   ${CONF.map(cf=>conflictCard(cf)).join('')}
+  </div>`;
+  s.innerHTML=`<h3>Разбор конфликтов</h3><div class="type">Совместная работа</div>
+   <p>Разные объекты и поля объединены сами. Здесь только то, где нужно ваше решение.</p>
+   <ul class="links">${CONF.map(cf=>`<li>${S.conflicts[cf.id]?'✓':'○'} ${esc(cf.title.split(' · ')[0])}</li>`).join('')}</ul>
+   <p style="color:var(--muted)">Можно отложить любой вопрос: ваша работа сохранится, объединение подождёт.</p>`;
+}
+function conflictCard(cf){const r=S.conflicts[cf.id];let body='';
+  const pick=(v,l)=>`<button data-resolve="${cf.id}" data-v="${v}" class="${r===v?'primary':''}">${l}</button>`;
+  if(cf.kind==='text')body=`<div class="three"><div class="col"><h5>Было (r41)</h5>${esc(cf.base)}</div><div class="col ${r==='mine'?'pick':''}"><h5>Моё</h5>Эти уже не <span class="del">нормальные</span><span class="ins">годятся</span>.</div><div class="col ${r==='inc'?'pick':''}"><h5>Рустем</h5>Эти уже не нормальные<span class="ins">, Айдар Ришатович</span>.</div></div><div class="row" style="margin-top:.5em">${pick('mine','Оставить моё')}${pick('inc','Взять у Рустема')}${pick('manual','Собрать вручную…')}${pick('later','Отложить')}</div>`;
+  if(cf.kind==='xf')body=`<div class="three"><div class="col"><h5>Было</h5><svg viewBox="0 0 160 70"><rect x="0" y="40" width="160" height="6" fill="#8a6a4a"/><rect x="60" y="36" width="24" height="12" fill="#6d7686"/></svg>x 52,0 · поворот 0°</div><div class="col ${r==='mine'?'pick':''}"><h5>Моё</h5><svg viewBox="0 0 160 70"><rect x="0" y="40" width="160" height="6" fill="#8a6a4a"/><rect x="92" y="36" width="24" height="12" fill="#7fb3d5"/></svg>x 55,2 · поворот 0°</div><div class="col ${r==='inc'?'pick':''}"><h5>Рустем</h5><svg viewBox="0 0 160 70"><rect x="0" y="40" width="160" height="6" fill="#8a6a4a"/><rect x="60" y="30" width="24" height="12" fill="#e3b760" transform="rotate(12 72 36)"/></svg>x 52,0 · поворот 12°</div></div><div class="row" style="margin-top:.5em">${pick('mine','Моё')}${pick('inc','Рустема')}${pick('manual','Моё место + его поворот')}${pick('later','Отложить')}<button class="ghost">Показать в 3D</button></div>`;
+  if(cf.kind==='del')body=`<p>Рустем удалил «Целая доска №3». Вы передвинули её на 4 м к бане. Она нужна цели «Найти целые доски (6 из 8)».</p><div class="row">${pick('keep','Оставить доску (моё)')}${pick('delete','Удалить (как у Рустема) — останется 7 из 8')}${pick('later','Отложить')}</div>`;
+  if(cf.kind==='order')body=`<div class="three"><div class="col"><h5>Было</h5>1. Найти доски<br>2. Вернуться к Тамаре</div><div class="col ${r==='mine'?'pick':''}"><h5>Моё</h5>1. Найти доски<br>2. <span class="ins">Спросить парня про доски</span><br>3. Вернуться к Тамаре</div><div class="col ${r==='inc'?'pick':''}"><h5>Рустем</h5>1. <span class="ins">Убрать машину</span><br>2. Найти доски<br>3. Вернуться к Тамаре</div></div><p style="color:var(--muted)">Шаги сопоставлены по ID, а не по номерам строк.</p><div class="row">${pick('both','Оба новых шага: машина → доски → парень → вернуться')}${pick('mine','Только моё')}${pick('inc','Только Рустема')}${pick('later','Отложить')}</div>`;
+  if(cf.kind==='bin')body=`<div class="three"><div class="col"><h5>Было</h5><div class="thumb" style="background:repeating-linear-gradient(90deg,#8a6a4a 0 18px,#6f5439 18px 21px)"></div></div><div class="col ${r==='mine'?'pick':''}"><h5>Моё</h5><div class="thumb" style="background:repeating-linear-gradient(90deg,#a3845f 0 18px,#6f5439 18px 21px)"></div></div><div class="col ${r==='inc'?'pick':''}"><h5>Рустем</h5><div class="thumb" style="background:repeating-linear-gradient(90deg,#7b6a58 0 26px,#50412f 26px 29px)"></div></div></div><p style="color:var(--muted)">Изображения не смешиваются. Используется: забор Тамары, 3 забора на Обратной улице.</p><div class="row">${pick('mine','Моё')}${pick('inc','Рустема')}${pick('copy','Сохранить версию Рустема как новый ресурс')}${pick('later','Отложить')}</div>`;
+  return `<div class="ccard ${r&&r!=='later'?'res':''}"><div class="chead"><span>${r&&r!=='later'?'✓':'⚠'}</span><b>${esc(cf.title)}</b>${r==='later'?'<span class="chip warn">отложено</span>':''}</div><div class="cbody">${body}</div></div>`;}
+/* ---------- context / play modals ---------- */
+function modal(html){$('#modal').innerHTML=html;$('#modalBg').style.display='flex';$('#modal').querySelector('button')?.focus()}
+function closeModal(){$('#modalBg').style.display='none'}
+function ctxText(){return `Квест «Забор Тамары Геннадьевны», ID ${NS}quest/quest_tamara_fence, черновик r42 (база r41, не опубликован).
+Шаг «Вернуться к Тамаре и отдать доски», ID ${NS}quest/quest_tamara_fence/n-return.
+Проблема автора: после передачи 6 досок калитка осталась закрыта. Ожидается состояние «починена».
+Case ID: case-7f3a-2026-09-27.
+Приложены: черновик квеста, калитка (obj/gate), триггер trig/tamara-yard-enter, начальное состояние пробного запуска.
+Отпечаток контента: 9c1e…b27; игра: локальная сборка r41.`}
+function playModal(){ if(S.draftBroken&&S.section==='quests'){modal(`<h3>Черновик не готов к запуску</h3><p>У шага «Вернуться к Тамаре» не выбран персонаж. Текущий черновик r42 запустить нельзя.</p><div class="row"><button data-act="fix-step">Исправить шаг</button><button data-act="run-old">Запустить готовую ревизию r41 (без ваших правок)</button><button class="ghost" data-act="close">Отмена</button></div>`);return}
+  modal(`<h3>▶ Играть отсюда</h3><div class="field"><label>Точка появления</label><select style="width:100%"><option>У калитки Тамары (выделенный объект)</option><option>Начало главы</option></select></div>
+  <div class="field"><label>Стартовое состояние</label><select style="width:100%"><option>Обычное: после аварии (достижимо в игре)</option><option>Искусственно: доски 5 из 6 (помечается как искусственное)</option></select></div>
+  <p style="color:var(--muted)">Запуск использует отдельные тестовые сохранения и настройки. Ваши обычные сохранения не затрагиваются. Будет запущена ревизия r42.</p>
+  <div class="row"><button class="primary" data-act="run">Запустить</button><button class="ghost" data-act="close">Отмена</button></div>`)}
+/* ---------- tour (UX09) ---------- */
+const TOUR=[['#drawer','Это каталог. Перетащите «Калитку деревянную» на карту — появится полупрозрачная модель.'],['#undoBtn','Передумали? «Отменить» или ⌘Z возвращает всё одним действием.'],['[data-sec=quests]','Здесь квесты. Выберите шаг и привяжите к нему область на карте.'],['#playBtn','«Играть отсюда» открывает настоящую игру с вашими изменениями.']];
+let tourI=-1;
+function tour(i){tourI=i;const t=$('#tour');if(i<0||i>=TOUR.length){t.style.display='none';try{localStorage.setItem('studioTour','1')}catch(e){}return}
+  if(S.section!=='world'&&i<2)go('world',{noBack:true});
+  const el=$(TOUR[i][0]);const r=el?el.getBoundingClientRect():{left:200,top:200,bottom:200,width:0};
+  t.innerHTML=`<p><b>Знакомство ${i+1}/${TOUR.length}.</b> ${TOUR[i][1]}</p><div class="row"><button class="primary" data-tour="next">${i<TOUR.length-1?'Дальше':'Готово'}</button><button class="ghost" data-tour="skip">Пропустить</button></div>`;
+  t.style.display='block';const top=Math.min(window.innerHeight-160,(r.bottom||r.top)+10);t.style.top=Math.max(10,top-(i===0?200:0))+'px';t.style.left=Math.min(window.innerWidth-350,Math.max(10,r.left))+'px';}
+/* ---------- events ---------- */
+let drag=null;
+function svgPt(e){const sv=$('#plan');if(!sv)return{x:0,y:0};const p=sv.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const m=sv.getScreenCTM();return m?p.matrixTransform(m.inverse()):{x:0,y:0}}
+function bindCommon(){
+  $$('#nav a').forEach(a=>a.onclick=()=>go(a.dataset.sec));
+  $$('[data-tab]').forEach(t=>t.onclick=()=>{S.back.push(S.tabOn);const sec=S.tabs[+t.dataset.tab].sec;go(sec,{noBack:true})});
+  const bb=$('#backBtn');if(bb)bb.onclick=()=>{const i=S.back.pop();if(i!=null)go(S.tabs[i].sec,{noBack:true})};
+  $$('[data-copy]').forEach(b=>b.onclick=()=>{navigator.clipboard?.writeText(b.dataset.copy).catch(()=>{});toast('ID скопирован')});
+  $$('[data-layer]').forEach(b=>b.onchange=()=>{S.layers[b.dataset.layer]=b.checked?1:0;render()});
+  $$('[data-view]').forEach(b=>b.onclick=()=>{S.view2d=b.dataset.view==='2d';render()});
+  $$('[data-cat]').forEach(b=>b.onclick=()=>{S.catCat=b.dataset.cat;S.placing=null;render()});
+  $$('[data-card]').forEach(b=>{b.onmousedown=e=>{const cd=CARDS[S.catCat][+b.dataset.card];S.placing={i:+b.dataset.card,cd};toast('Наведите на карту и щёлкните, чтобы поставить. Escape — отмена')}});
+  $$('[data-goto]').forEach(a=>a.onclick=()=>go(a.dataset.goto));
+  $$('[data-cview]').forEach(b=>b.onclick=()=>{S.campaignView=b.dataset.cview;render()});
+  $$('[data-qview]').forEach(b=>b.onclick=()=>{S.questView=b.dataset.qview;render()});
+  $$('[data-step]').forEach(b=>b.onclick=e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT'||e.target.tagName==='A')return;S.sel=b.dataset.step;render()});
+  $$('[data-steptext]').forEach(inp=>inp.onchange=()=>{const id=inp.dataset.steptext;const all=[...Q.nodes,...Q.nodes[2].branches.flatMap(b=>b.nodes)];const n=all.find(x=>x.id===id);const old=n.t,nv=inp.value;apply({label:'текст шага',do:()=>n.t=nv,undo:()=>n.t=old})});
+  $$('[data-clip]').forEach(b=>b.onclick=()=>{S.tlSel=+b.dataset.clip;S.playT=sceneTimes()[S.tlSel].st;render()});
+  const sc=$('#scrub');if(sc)sc.oninput=()=>{S.playT=+sc.value;const T=sceneTimes();let i=0;T.forEach((x,j)=>{if(x.st<=S.playT)i=j});S.tlSel=i;render();$('#scrub')?.focus()};
+  $$('[data-resolve]').forEach(b=>b.onclick=()=>{S.conflicts[b.dataset.resolve]=b.dataset.v;if(b.dataset.v==='later')delete S.conflicts[b.dataset.resolve];render();if(b.dataset.v==='later')toast('Отложено: вопрос останется в списке')});
+  $$('[data-state]').forEach(b=>b.onclick=()=>{const ob=objects.find(o=>o.id===S.sel);const old=ob.state,nv=b.dataset.state;apply({label:'состояние калитки',do:()=>ob.state=nv,undo:()=>ob.state=old})});
+  $$('[data-rename]').forEach(inp=>inp.onchange=()=>{const ob=objects.find(o=>o.id===inp.dataset.rename);const old=ob.name,nv=inp.value;apply({label:'переименование',do:()=>ob.name=nv,undo:()=>ob.name=old})});
+  $$('[data-num]').forEach(inp=>inp.onchange=()=>{const ob=objects.find(o=>o.id===S.sel);const k=inp.dataset.num;const old=ob[k];const v=parseFloat(inp.value.replace(',','.'));if(isNaN(v)){inp.style.borderColor='var(--bad)';inp.title='Нужно число, например 12,5';return}const nv=k==='rot'?v:v*10;apply({label:'положение',do:()=>ob[k]=nv,undo:()=>ob[k]=old})});
+  $$('[data-q]').forEach(b=>b.onclick=e=>{if(e.target.dataset.act)return;CAMPAIGN.forEach(q=>q.sel=q.id===b.dataset.q);render()});
+  $$('[data-act]').forEach(b=>b.onclick=e=>{e.stopPropagation();act(b.dataset.act,b)});
+  const plan=$('#plan');if(plan){
+    plan.onmousedown=e=>{const g=e.target.closest('[data-obj]');if(S.placing)return;if(g){S.sel=g.dataset.obj;
+      if(e.target.classList.contains('handle')){drag={resize:true,start:svgPt(e),w:trigger.w,h:trigger.h};return}
+      const ob=objects.find(o=>o.id===S.sel)||(S.sel===trigger.id?trigger:null);
+      if(ob&&!ob.locked){const p=svgPt(e);drag={ob,dx:p.x-ob.x,dy:p.y-ob.y,ox:ob.x,oy:ob.y}}render()}
+      else{S.sel=null;render()}};
+    plan.onmousemove=e=>{const p=svgPt(e);
+      if(S.placing){const bad=p.x>720&&p.x<890&&p.y>120&&p.y<240;$('#ghost').innerHTML=`<g class="ghost"><rect x="${p.x-20}" y="${p.y-7}" width="40" height="14" fill="${bad?'#e58b7d':'#8cc49a'}" stroke="#222"/><text x="${p.x+26}" y="${p.y+4}" font-size="12" fill="${bad?'#a33':'#2a5'}">${bad?'нельзя: внутри дома':'можно поставить'}</text></g>`;return}
+      if(!drag)return;
+      if(drag.resize){trigger.w=Math.max(40,drag.w+p.x-drag.start.x);trigger.h=Math.max(30,drag.h+p.y-drag.start.y);render();return}
+      drag.ob.x=Math.round((p.x-drag.dx)/5)*5;drag.ob.y=Math.round((p.y-drag.dy)/5)*5;drag.moved=true;
+      const g=$(`[data-obj="${drag.ob.id}"]`);if(g){render()}};
+    plan.onmouseup=e=>{if(S.placing){const p=svgPt(e);const bad=p.x>720&&p.x<890&&p.y>120&&p.y<240;if(bad){toast('Сюда нельзя: пересечение с домом');return}
+        const cd=S.placing.cd;const nid='obj/'+cd[4]+'-'+Math.random().toString(16).slice(2,6);const ob={id:nid,name:cd[0],kind:cd[4]==='gate'?'gate':cd[4]==='fence'||cd[4]==='post'?'fence':cd[4]==='tree'?'tree':cd[4]==='board'?'item':cd[4]==='lamp'?'light':cd[4]==='npc'?'npc':'fence',x:Math.round(p.x-20),y:Math.round(p.y-7),w:40,h:14,r:12,cat:CATS.find(c=>c[0]===S.catCat)[1],def:'model/'+cd[4]};
+        S.placing=null;apply({label:'новый объект',do:()=>{objects.push(ob);S.sel=nid},undo:()=>{objects=objects.filter(o=>o.id!==nid);S.sel=null}});toast('Поставлено: '+cd[0]+'. ID создан сразу: '+fullId(nid));return}
+      if(drag&&drag.moved&&!drag.resize){const {ob,ox,oy}=drag,nx=ob.x,ny=ob.y;undo.push({label:'перемещение',do:()=>{ob.x=nx;ob.y=ny},undo:()=>{ob.x=ox;ob.y=oy}});redo.length=0;markDirty()}
+      else if(drag&&drag.resize){markDirty()}
+      drag=null;render()};
+  }
+}
+function act(a,b){
+  if(a==='drawer'){$('#drawer').classList.toggle('collapsed');return}
+  if(a==='focus'){toast('Камера наведена на: '+(objects.find(o=>o.id===S.sel)?.name||'—'));return}
+  if(a==='eye'){toast('Вид с высоты глаз (1,7 м) у выделенного объекта');return}
+  if(a==='night'){toast('Предпросмотр ночи. Сюжетное время не меняется');return}
+  if(a==='import'){modal(`<h3>Импорт</h3><p>Перетащите файл в это окно или выберите: модели glTF/GLB, изображения PNG/JPEG, звук WAV/OGG.</p><p style="color:var(--muted)">Перед добавлением Studio проверит масштаб, оси, материалы, текстуры, скелет и коллизии и покажет, чего не хватает.</p><div class="row"><button>Выбрать файл…</button><button class="ghost" data-act="close">Закрыть</button></div>`);return}
+  if(a==='onmap'){go('world',{sel:S.sel});return}
+  if(a==='uses'){modal(`<h3>Где используется</h3><ul class="links"><li>Квест «Забор Тамары Геннадьевны» → итог «калитка починена»</li><li>Триггер «Вход во двор Тамары» → рядом</li><li>Сцена «Забор Тамары» → кадр «съёмка»</li></ul><p style="color:var(--muted)">Удаление этого объекта затронет 3 связи — их список будет показан до удаления.</p><button data-act="close">Закрыть</button>`);return}
+  if(a==='ctx'){modal(`<h3>Скопировать контекст для разработчика</h3><pre>${esc(ctxText())}</pre><div class="field"><label>Что вложить в пакет</label><label><input type="checkbox" checked> Черновик и зависимости (42 КБ)</label><br><label><input type="checkbox" checked> Начальное состояние запуска</label><br><label><input type="checkbox"> Кадр с камеры (1,8 МБ)</label></div><div class="row"><button class="primary" data-act="copy-ctx">Скопировать текст</button><button>Сохранить пакет…</button><button class="ghost" data-act="close">Закрыть</button></div>`);return}
+  if(a==='copy-ctx'){navigator.clipboard?.writeText(ctxText()).catch(()=>{});toast('Контекст скопирован');closeModal();return}
+  if(a==='close'){closeModal();return}
+  if(a==='open-step'){go('quests',{sel:'n-return'});return}
+  if(a==='new-area'){toast('Нарисуйте область на карте — связь с шагом «Вернуться» создастся сразу');return}
+  if(a==='fix-step'){closeModal();S.draftBroken=false;const n=Q.nodes[2].branches[0].nodes[1];const old=n.ref;apply({label:'персонаж шага',do:()=>{n.ref='Персонаж: Тамара Геннадьевна';S.draftBroken=false},undo:()=>{n.ref=old;S.draftBroken=true}});toast('Шаг исправлен: черновик готов к запуску');return}
+  if(a==='run-old'){closeModal();toast('Запущена ревизия r41. В окне игры видна надпись «r41 — без черновика»');return}
+  if(a==='run'){closeModal();const e=$('#saveState');e.className='status st-run';e.innerHTML='<span class="ic">▶</span><span>Запущена проверка · r42</span>';setTimeout(renderStatus,4000);return}
+  if(a==='retry-save'){S.saveError=false;save();render();return}
+  if(a==='show-space'){modal(`<h3>Место на диске</h3><p>Свободно 12 МБ. Больше всего занимают:</p><ul><li>Кеш превью Studio — 1,4 ГБ (можно очистить)</li><li>Записи пробных запусков — 620 МБ (10 последних)</li></ul><p style="color:var(--muted)">Исходники, именованные версии и ваши сохранения не удаляются.</p><div class="row"><button data-act="close">Очистить кеш превью</button><button class="ghost" data-act="close">Закрыть</button></div>`);return}
+  if(a==='new-quest'||a==='templates'){modal(`<h3>Новый квест</h3><p>Выберите шаблон — появятся обычные шаги, которые можно менять:</p><div class="cards" style="grid-template-columns:repeat(2,1fr)">${['Разговор → поиск → возврат','Доставка предмета','Исследование улики','Открытие пути','Сопровождение','Выбор с двумя исходами'].map(t=>`<div class="card"><b>${t}</b></div>`).join('')}</div><div class="row" style="margin-top:.6em"><button class="ghost" data-act="close">Закрыть</button></div>`);return}
+  if(a==='after'){modal(`<h3>Сделать доступным после…</h3><p>Квест «${esc(CAMPAIGN.find(q=>q.id===b.dataset.qid).name)}» станет доступен после:</p><select style="width:100%">${CAMPAIGN.map(q=>`<option>${esc(q.name)}</option>`).join('')}</select><div class="banner info" style="margin:.7em 0"><div>ℹ</div><div>Последствия: квест появится позже; «Баня бабая» не затронута. Это меняет игру — в отличие от перестановки в списке.</div></div><div class="row"><button class="primary" data-act="close">Применить</button><button class="ghost" data-act="close">Отмена</button></div>`);return}
+  if(a==='add-step'){toast('Добавлен шаг «Новая цель» (ID создан сразу)');return}
+  if(a==='play-scene'){let t=S.playT;const T=sceneTimes(),end=T[T.length-1].st;clearInterval(S._pl);S._pl=setInterval(()=>{t+=.2;S.playT=t;let i=0;T.forEach((x,j)=>{if(x.st<=t)i=j});S.tlSel=i;if(t>=end)clearInterval(S._pl);if(S.section==='scenes')render();else clearInterval(S._pl)},200);return}
+  if(a==='cam-from-view'){toast('Кадр создан из текущего вида редактора');return}
+  if(a==='skip-check'){modal(`<h3>Проверка пропуска</h3><p>Обычный просмотр и пропуск дают одно и то же постоянное состояние:</p><ul><li>✓ Забор Тамары: «сломан»</li><li>✓ Квест «Забор Тамары» начат, 0 из 6 досок</li><li>✓ Контрольная точка «после сцены»</li><li>— Положения персонажей во время сцены не сохраняются</li></ul><button data-act="close">Закрыть</button>`);return}
+  if(a==='fetch'){toast('Получено 3 изменения от Рустема (r43)');return}
+  if(a==='merge'){S.merged=true;$('#incomingCount').textContent='0';toast('Объединено. Проверка после объединения: ошибок нет');render();return}
+  if(a==='push'){toast('Отправлено. Операция op-51d2 подтверждена');return}
+  if(a==='show-auto'){toast('14 автоматически объединённых изменений — список по объектам');return}
+}
+document.addEventListener('keydown',e=>{
+  const typing=['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName);
+  if(e.key==='Escape'){if(S.placing){S.placing=null;$('#ghost')&&($('#ghost').innerHTML='');toast('Размещение отменено');render()}closeModal();$('#results').style.display='none';return}
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();save();return}
+  if(typing)return; // hotkeys never steal text input (UX05)
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?doRedo():doUndo()}
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='d'&&S.sel){e.preventDefault();const ob=objects.find(o=>o.id===S.sel);if(!ob)return;const nid=ob.id+'-copy-'+Math.random().toString(16).slice(2,5);const cp={...ob,id:nid,name:ob.name+' (копия)',x:ob.x+30,y:ob.y+20,locked:false};apply({label:'дублирование',do:()=>{objects.push(cp);S.sel=nid},undo:()=>{objects=objects.filter(o=>o.id!==nid)}});toast('Дубликат с новым ID')}
+});
+$('#undoBtn').onclick=doUndo;$('#redoBtn').onclick=doRedo;$('#saveBtn').onclick=save;
+$('#playBtn').onclick=playModal;$('#collabBtn').onclick=()=>go('merge');
+$('#checkBtn').onclick=()=>modal(`<h3>Проверка</h3><p><b>Ошибки ссылок и данных:</b> 0</p><p><b>Логические проблемы:</b> 1 — у шага «Вернуться к Тамаре» не выбран персонаж${S.draftBroken?'':' (исправлено)'}</p><p><b>Геометрия:</b> 0 — проход у калитки 1,1 м для профиля «Айдар»</p><p><b>Художественные замечания:</b> проверяет человек</p><p style="color:var(--muted)">Проверка не доказывает, что проходимы все ветки игры.</p><button data-act="close">Закрыть</button>`);
+$('#modalBg').onclick=e=>{if(e.target.id==='modalBg')closeModal()};
+$('#modal').addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b)act(b.dataset.act,b)});
+$('#tour').addEventListener('click',e=>{const b=e.target.closest('[data-tour]');if(!b)return;tour(b.dataset.tour==='next'?tourI+1:-1)});
+/* search (UX08) */
+const INDEX=()=>[...objects.map(o=>({n:o.name,t:o.cat,id:fullId(o.id),go:()=>go('world',{sel:o.id})})),{n:trigger.name,t:'Триггер',id:fullId(trigger.id),go:()=>go('trigger')},{n:Q.name,t:'Квест',id:Q.id,go:()=>go('quests')},{n:'Вернуться к Тамаре и отдать доски',t:'Шаг квеста',id:Q.id+'/n-return',go:()=>go('quests',{sel:'n-return'})},...SCENE.map((a,i)=>({n:a[1],t:'Сцена · '+TRACK[a[0]],id:NS+'scene/tamara-fence-cutscene/action-'+String(i+1).padStart(2,'0'),go:()=>{S.tlSel=i;S.playT=sceneTimes()[i].st;go('scenes')}}))];
+$('#search').oninput=e=>{const q=e.target.value.trim().toLowerCase();const r=$('#results');if(!q){r.style.display='none';return}
+  const hits=INDEX().filter(x=>(x.n+' '+x.t+' '+x.id).toLowerCase().includes(q)).slice(0,10);
+  r.innerHTML=hits.length?hits.map((h,i)=>`<div data-hit="${i}"><span>${esc(h.n)}</span><small>${esc(h.t)}</small></div>`).join(''):`<div><span>Ничего не найдено.</span><small>Этого ID может не быть в вашей копии проекта — получите изменения.</small></div>`;
+  r.style.display='block';$$('[data-hit]').forEach(d=>d.onclick=()=>{hits[+d.dataset.hit].go();r.style.display='none';$('#search').value=''});};
+/* prototype strip */
+$('#proto').onclick=e=>{const b=e.target.closest('[data-proto]');if(!b)return;const k=b.dataset.proto;
+  if(k==='empty'){S.emptyQuests=!S.emptyQuests;S.campaignView='side';go('quests')}
+  if(k==='error'){S.saveError=!S.saveError;markDirty();render()}
+  if(k==='draft'){S.draftBroken=!S.draftBroken;go('quests')}
+  if(k==='tour')tour(0);
+  if(k==='scale'){S.scale=S.scale>=1.5?1:+(S.scale+.25).toFixed(2);document.documentElement.style.setProperty('--scale',S.scale);$('#scaleV').textContent=Math.round(S.scale*100);render()}};
+const H=location.hash.slice(1).split('&');
+if(H[0]&&['world','trigger','quests','scenes','merge'].includes(H[0])){if(H.includes('graph'))S.questView='graph';if(H.includes('sel'))S.sel='n-return';if(H[0]==='scenes'){S.tlSel=24;S.playT=sceneTimes()[24].st+.3}S.section=H[0];S.tabs=[{sec:H[0],title:SEC_TITLE[H[0]]}]}
+render();
+let seen=!!H[0];try{seen=!!localStorage.getItem('studioTour')}catch(e){}
+if(!seen)setTimeout(()=>tour(0),500);
+</script>
+</body>
+</html>

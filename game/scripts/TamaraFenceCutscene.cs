@@ -135,135 +135,112 @@ public partial class TamaraFenceCutscene : Node
 
     // ---- script ---------------------------------------------------------------
 
+    /// <summary>The scene's direction is authored data (URMAN Studio, spec CINE01), played action by action.</summary>
+    public const string ScriptPath = "res://content/cutscenes/tamara_fence.cutscene.v1.json";
+
+    /// <summary>Studio preview / tests: play edited direction instead of the saved file.</summary>
+    internal static string? ScriptJsonOverride { get; set; }
+
     private async Task Script()
     {
-        var guy = _quest.GuyActor;
-        var tamara = _quest.TamaraActor;
-        // The crash transaction stages both witnesses at their rest spots one
-        // frame before this scene exists; the script decides when they appear,
-        // so nothing pops in behind the first shot.
-        tamara.Visible = false;
-        guy.Visible = false;
-
-        // Every camera stands clear of the wreck: the Niva sits nose-in at the
-        // breach, so the shots are placed off its quarter rather than looking
-        // through it. §5.1 the hit itself: no lines for a second, the settling
-        // village and the car still ticking.
-        // The wreck decides where the cameras stand: the Niva is nose-in at the
-        // breach, so the hit plays from beside its left flank, clear of both
-        // the hull and the new concrete pillars.
+        using var document = System.Text.Json.JsonDocument.Parse(ScriptJsonOverride ?? global::Godot.FileAccess.GetFileAsString(ScriptPath));
+        var actors = new Dictionary<string, Node3D>(StringComparer.Ordinal) { ["guy"] = _quest.GuyActor, ["tamara"] = _quest.TamaraActor };
+        // The wreck decides where car-anchored cameras stand: the Niva is
+        // nose-in at the breach, so those shots play from beside its flank on
+        // the street side, clear of the hull and the concrete pillars.
         var car = _car is { } liveCar && GodotObject.IsInstanceValid(liveCar)
             ? liveCar.GlobalPosition
             : _impact + new Vector3(-1.6f, 0f, .9f);
-        // The camera belongs on the street, i.e. opposite the breach: the
-        // shoulders are the only ground around here without a neighbour's
-        // frontage in the way.
         var towardFence = _impact - car;
         towardFence.Y = 0f;
         if (towardFence.LengthSquared() < .01f) towardFence = Vector3.Right;
         var streetSide = -towardFence.Normalized();
-        Cut("hit", car + streetSide * 4.2f + Vector3.Up * 1.78f,
-            car + Vector3.Up * 1.0f, 54f, 2.6f, handheld: true);
-        await Wait(.8);
-        await Say("АЙДАР", "tamara-cutscene-aidar-ouch", 1.0f);
 
-        // §5.2 the guy arrives, already reaching for the phone.
-        guy.Visible = true;
-        guy.GlobalPosition = new(-0.8f, GroundAt(-0.8f, -36.3f), -36.3f);
-        GeneratedCharacterKitDressing.PlayClip(guy, "Walk");
-        Cut("guy-arrives", new(-1.55f, 1.78f, -39.2f), new(0.4f, 1.15f, -41.4f), 58f, 3.0f);
-        await MoveAlong(guy, [new(.15f, -41.9f)], 1.15f);
-        GeneratedCharacterKitDressing.PlayClip(guy, "Idle");
-        FaceTowards(guy, new(2.3f, guy.GlobalPosition.Y, -44.6f));
-        await Wait(.3);
-        await Say("ПАРЕНЬ С ТЕЛЕФОНОМ", "tamara-cutscene-guy-wait", 1.0f);
-        _quest.SetGuyFilming(true);
-        FaceTowards(guy, _impact with { Y = guy.GlobalPosition.Y });
-        Cut("filming", new(.7f, 1.75f, -40.7f), new(2.3f, 1.0f, -44.3f), 50f, 2.4f, handheld: true);
-        await Wait(.9);
-        // A step closer to the breach; the first quiet laugh.
-        await MoveAlong(guy, [new(-.15f, -42.35f)], .8f);
-        await Wait(.4);
+        Vector3 Point(System.Text.Json.JsonElement spec)
+        {
+            if (spec.TryGetProperty("point", out var point))
+            {
+                return new Vector3(point[0].GetSingle(), point[1].GetSingle(), point[2].GetSingle());
+            }
 
-        // §5.3 Tamara Gennadievna comes out.
-        tamara.Visible = true;
-        tamara.GlobalPosition = new(8.6f, GroundAt(8.6f, -41.3f), -41.3f);
-        GeneratedCharacterKitDressing.PlayClip(tamara, "Walk");
-        Cut("tamara-comes-out", new(2.7f, 1.7f, -38.9f), new(6.7f, 1.25f, -42.1f), 52f, 3.2f);
-        await MoveAlong(tamara, [new(6.4f, -42.9f), new(4.7f, -44.4f)], 1.2f);
-        GeneratedCharacterKitDressing.PlayClip(tamara, "Idle");
-        FaceTowards(tamara, _impact with { Y = tamara.GlobalPosition.Y });
-        FaceTowards(guy, tamara.GlobalPosition);
-        // She simply registers what stands where.
-        await Wait(.3);
-        FaceTowards(tamara, new(-.2f, tamara.GlobalPosition.Y, -42.8f));
-        await Wait(.5);
-        FaceTowards(tamara, guy.GlobalPosition);
+            var anchor = spec.GetProperty("car");
+            var away = anchor.TryGetProperty("awayFromImpact", out var distance) ? distance.GetSingle() : 0f;
+            return car + streetSide * away + Vector3.Up * anchor.GetProperty("height").GetSingle();
+        }
 
-        // §5.4 Aidar explains himself as decently as he can. Two faces and the
-        // wreck between them: the wreck never hides the people.
-        await Say("АЙДАР", "tamara-cutscene-aidar-hello", 1.1f);
-        await Say("АЙДАР", "tamara-cutscene-aidar-erm", 1.0f);
-        Cut("explains", new(6.3f, 1.72f, -41.0f), new(4.75f, 1.32f, -44.4f), 50f, 8.2f);
-        await Say("АЙДАР", "tamara-cutscene-aidar-name", 2.2f);
-        FaceTowards(guy, new(.0f, guy.GlobalPosition.Y, -43.2f));
-        await Say("АЙДАР", "tamara-cutscene-aidar-skid", 2.2f);
+        Vector3 Target(Node3D actor, System.Text.Json.JsonElement spec)
+        {
+            if (spec.TryGetProperty("impact", out _)) return _impact with { Y = actor.GlobalPosition.Y };
+            if (spec.TryGetProperty("actor", out var other)) return actors[other.GetString()!].GlobalPosition;
+            var point = spec.GetProperty("point");
+            return new Vector3(point[0].GetSingle(), actor.GlobalPosition.Y, point[1].GetSingle());
+        }
 
-        // §5.5 the line the whole village will hear about.
-        Cut("punchline", new(1.35f, 1.58f, -40.4f), new(.2f, 1.42f, -41.95f), 44f, 7.4f);
-        await Say("ПАРЕНЬ С ТЕЛЕФОНОМ", "tamara-cutscene-guy-check", 1.0f);
-        await Say("АЙДАР", "tamara-cutscene-aidar-yes", .9f);
-        FaceTowards(guy, _impact with { Y = guy.GlobalPosition.Y });
-        await Wait(.3);
-        FaceTowards(guy, tamara.GlobalPosition);
-        await Wait(.25);
-        await Say("ПАРЕНЬ С ТЕЛЕФОНОМ", "tamara-cutscene-guy-line-1", 1.3f);
-        // He cannot keep the phone still through the punchline.
-        SetGuyLaugh(.45f);
-        await Say("ПАРЕНЬ С ТЕЛЕФОНОМ", "tamara-cutscene-guy-line-2", 2.0f);
-        SetGuyLaugh(1f);
-        // Her face from her own yard: the fallen shields reach x≈4.0, so the
-        // camera stands outside that heap instead of behind it.
-        Cut("tamara-reaction", new(5.6f, 1.6f, -47.4f), new(4.75f, 1.4f, -44.5f), 46f, 4.6f, pushIn: true);
-        // §5.5: no next joke — a few seconds of people just being there.
-        await Wait(2.6);
-        SetGuyLaugh(.5f);
-
-        // §5.6 the phone keeps the situation moving, in its own way.
-        FaceTowards(tamara, guy.GlobalPosition);
-        await SayAs(tamara, "ТАМАРА ГЕННАДЬЕВНА", "tamara-cutscene-tamara-filming", 1.1f);
-        await Say("ПАРЕНЬ С ТЕЛЕФОНОМ", "tamara-cutscene-guy-yes", 1.0f);
-        FaceTowards(tamara, new(-.4f, tamara.GlobalPosition.Y, -42.6f));
-        await SayAs(tamara, "ТАМАРА ГЕННАДЬЕВНА", "tamara-cutscene-tamara-plate", 1.3f);
-        FaceTowards(guy, new(-.6f, guy.GlobalPosition.Y, -42.4f));
-        Cut("boards-talk", new(-1.8f, 1.8f, -40.2f), new(2.4f, 1.1f, -43.8f), 50f, 2.8f);
-        await Wait(1.2);
-        SetGuyLaugh(.2f);
-        await Say("АЙДАР", "tamara-cutscene-aidar-stay", 1.2f);
-        FaceTowards(tamara, _impact with { Y = tamara.GlobalPosition.Y });
-        await SayAs(tamara, "ТАМАРА ГЕННАДЬЕВНА", "tamara-cutscene-tamara-good", 1.0f);
-        await SayAs(tamara, "ТАМАРА ГЕННАДЬЕВНА", "tamara-cutscene-tamara-boards", 1.5f);
-        await Wait(.35);
-        await SayAs(tamara, "ТАМАРА ГЕННАДЬЕВНА", "tamara-cutscene-tamara-normal", 1.1f);
-        await Say("АЙДАР", "tamara-cutscene-aidar-ok", 1.0f);
-        FaceTowards(tamara, new(2.6f, tamara.GlobalPosition.Y, -44.2f));
-        await SayAs(tamara, "ТАМАРА ГЕННАДЬЕВНА", "tamara-cutscene-tamara-not-these", 1.5f, deadpan: true);
-
-        // §5.7 the whole street with the three of them, the guy still filming.
-        Cut("final-wide", new(-2.6f, 1.9f, -47.6f), new(2.3f, 1.0f, -43.8f), 62f, 2.8f);
-        await Wait(.4);
-        await MoveAlong(guy, [new(-.45f, -42.6f)], .35f);
-        await Wait(1.0);
-        SetGuyLaugh(0f);
+        foreach (var entity in document.RootElement.GetProperty("entities").EnumerateArray())
+        {
+            var p = entity.GetProperty("params");
+            Node3D Actor() => actors[p.GetProperty("actor").GetString()!];
+            bool Flag(string name) => p.TryGetProperty(name, out var value) && value.GetBoolean();
+            switch (p.GetProperty("action").GetString())
+            {
+                case "show": Show(Actor(), p.GetProperty("visible").GetBoolean()); break;
+                case "place":
+                {
+                    var at = p.GetProperty("at");
+                    var x = at[0].GetSingle();
+                    var z = at[1].GetSingle();
+                    Place(Actor(), new Vector3(x, GroundAt(x, z), z));
+                    break;
+                }
+                case "clip": Clip(Actor(), p.GetProperty("clip").GetString()!); break;
+                case "cut":
+                    Cut(p.GetProperty("tag").GetString()!, Point(p.GetProperty("position")), Point(p.GetProperty("look")),
+                        p.GetProperty("fov").GetSingle(), p.GetProperty("seconds").GetSingle(), Flag("handheld"), Flag("pushIn"));
+                    break;
+                case "wait": await Pause(p.GetProperty("seconds").GetDouble()); break;
+                case "say":
+                    if (p.TryGetProperty("talk", out var talker))
+                        await SayAs(actors[talker.GetString()!], p.GetProperty("speaker").GetString()!, p.GetProperty("text").GetString()!, p.GetProperty("seconds").GetSingle(), Flag("deadpan"));
+                    else
+                        await Say(p.GetProperty("speaker").GetString()!, p.GetProperty("text").GetString()!, p.GetProperty("seconds").GetSingle(), Flag("deadpan"));
+                    break;
+                case "move":
+                    await MoveAlong(Actor(), p.GetProperty("stops").EnumerateArray().Select(stop => new Vector2(stop[0].GetSingle(), stop[1].GetSingle())).ToArray(), p.GetProperty("speed").GetSingle());
+                    break;
+                case "face": FaceTowards(Actor(), Target(Actor(), p.GetProperty("target"))); break;
+                case "filming": Filming(p.GetProperty("on").GetBoolean()); break;
+                case "laugh": SetGuyLaugh(p.GetProperty("level").GetSingle()); break;
+                default:
+                    GD.PushError($"Cutscene action {p.GetProperty("action").GetString()} ({entity.GetProperty("id").GetString()}) has no executor; it needs a new mechanic.");
+                    break;
+            }
+        }
     }
 
     // ---- direction helpers ----------------------------------------------------
 
+    /// <summary>Diagnostic: with URMAN_CUTSCENE_TRACE=&lt;file&gt; every direction call is recorded, so the scene played from data can be compared with the scripted original.</summary>
+    private static ulong? _traceStart;
+
+    private static void Trace(string line)
+    {
+        if (System.Environment.GetEnvironmentVariable("URMAN_CUTSCENE_TRACE") is { Length: > 0 } path)
+        {
+            _traceStart ??= Time.GetTicksMsec();
+            System.IO.File.AppendAllText(path, FormattableString.Invariant($"{(Time.GetTicksMsec() - _traceStart.Value) / 1000.0:0.00} ") + line + "\n");
+        }
+    }
+
+    private static string V(Vector3 v) => FormattableString.Invariant($"{v.X:0.###},{v.Y:0.###},{v.Z:0.###}");
+
+    private string ActorName(Node3D actor) => actor == _quest.GuyActor ? "guy" : actor == _quest.TamaraActor ? "tamara" : actor.Name.ToString();
+
     private static float GroundAt(float x, float z) =>
         Urman.Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(x, z);
 
-    private static void FaceTowards(Node3D actor, Vector3 worldPoint)
+    private void FaceTowards(Node3D actor, Vector3 worldPoint)
     {
+        Trace($"face {ActorName(actor)} {V(worldPoint)}");
         var direction = worldPoint - actor.GlobalPosition;
         direction.Y = 0;
         if (direction.LengthSquared() < .0001f) return;
@@ -275,6 +252,7 @@ public partial class TamaraFenceCutscene : Node
         bool handheld = false, bool pushIn = false)
     {
         ShotShown?.Invoke(tag);
+        Trace(FormattableString.Invariant($"cut {tag} {V(position)} {V(look)} {fov:0.##} {seconds:0.##} {handheld} {pushIn}"));
         _camFrom = _camTo != default ? _camTo : position;
         _camTo = position;
         _lookFrom = _lookTo != default ? _lookTo : look;
@@ -292,7 +270,35 @@ public partial class TamaraFenceCutscene : Node
 
     private float _guyLaughLevel;
 
-    private void SetGuyLaugh(float level) => _guyLaughLevel = level;
+    private void Clip(Node3D actor, string clip)
+    {
+        Trace($"clip {ActorName(actor)} {clip}");
+        GeneratedCharacterKitDressing.PlayClip(actor, clip);
+    }
+
+    private void Show(Node3D actor, bool visible)
+    {
+        Trace($"show {ActorName(actor)} {visible}");
+        actor.Visible = visible;
+    }
+
+    private void Filming(bool on)
+    {
+        Trace($"filming {on}");
+        _quest.SetGuyFilming(on);
+    }
+
+    private void Place(Node3D actor, Vector3 position)
+    {
+        Trace($"place {ActorName(actor)} {V(position)}");
+        actor.GlobalPosition = position;
+    }
+
+    private void SetGuyLaugh(float level)
+    {
+        Trace(FormattableString.Invariant($"laugh {level:0.##}"));
+        _guyLaughLevel = level;
+    }
 
     public override void _Process(double delta)
     {
@@ -317,6 +323,12 @@ public partial class TamaraFenceCutscene : Node
         }
 
         _quest.UpdateGuyFilming(scaled, _guyLaughLevel);
+    }
+
+    private async Task Pause(double seconds)
+    {
+        Trace(FormattableString.Invariant($"wait {seconds:0.###}"));
+        await Wait(seconds);
     }
 
     private async Task Wait(double seconds)
@@ -347,6 +359,7 @@ public partial class TamaraFenceCutscene : Node
         }
 
         LineShown?.Invoke(textSuffix);
+        Trace(FormattableString.Invariant($"say {speaker} {textSuffix} {seconds:0.##} {deadpan}"));
         // The authored beat is a minimum: a line stays up long enough to read
         // it, so a longer caption never disappears mid-sentence.
         var readable = Mathf.Max(seconds, text.Length * .055f + .9f);
@@ -360,6 +373,7 @@ public partial class TamaraFenceCutscene : Node
     private async Task SayAs(Node3D actor, string speaker, string textSuffix, float seconds, bool deadpan = false)
     {
         if (_skipRequested || !StillCurrent()) return;
+        Trace($"talk {ActorName(actor)}");
         var canTalk = GeneratedCharacterKitDressing.PlayClip(actor, "Talk");
         await Say(speaker, textSuffix, seconds, deadpan);
         if (canTalk && StillCurrent() && !_skipRequested)
@@ -370,6 +384,7 @@ public partial class TamaraFenceCutscene : Node
 
     private async Task MoveAlong(Node3D actor, Vector2[] stops, float metresPerSecond)
     {
+        Trace(FormattableString.Invariant($"move {ActorName(actor)} {string.Join(";", stops.Select(stop => FormattableString.Invariant($"{stop.X:0.###},{stop.Y:0.###}")))} {metresPerSecond:0.##}"));
         foreach (var stop in stops)
         {
             if (_skipRequested || !StillCurrent()) return;

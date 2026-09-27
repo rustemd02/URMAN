@@ -188,6 +188,53 @@ public static class QuestLifecycleReducer
             scopeReleases.AddRange(cleanupScopes);
         }
 
+        void TakeTransition(JsonObject transition, JsonObject fromStage, Dictionary<string, JsonObject> fromObjectives)
+        {
+            var transitionId = RequiredString(transition, "id");
+            AppendPlan(RequiredArray(transition, "effects"));
+            var target = RequiredObject(transition, "target");
+            if (target["end"] is JsonNode end)
+            {
+                var ending = RequiredStringNode(end);
+                var outcomeId = target["outcomeId"] is JsonNode outcome ? RequiredStringNode(outcome) : null;
+                if (outcomeId is not null)
+                {
+                    state["outcomeId"] = outcomeId;
+                }
+
+                var succeeded = ending == QuestStatuses.Completed;
+                state["status"] = succeeded ? QuestStatuses.Completed : QuestStatuses.Failed;
+                AppendCleanup(succeeded ? "quest-completed" : "quest-failed");
+                AppendPlan(RequiredArray(RequiredObject(definitionNode, "outcomes"), succeeded ? "success" : "failure"));
+                var details = new JsonObject { ["transitionId"] = transitionId };
+                if (outcomeId is not null)
+                {
+                    details["outcomeId"] = outcomeId;
+                }
+
+                events.Add(LifecycleEvent(state, succeeded ? "completed" : "failed", details));
+                return;
+            }
+
+            var targetStageId = RequiredString(target, "stageId");
+            var targetIndex = StageIndexOf(definitionNode, targetStageId);
+            var outgoing = fromObjectives
+                .Where(entry => entry.Value["capability"] is JsonObject)
+                .Select(entry => CapabilityInstanceId(RequiredString(state, "questInstanceId"), RequiredString(fromStage, "id"), entry.Key))
+                .ToArray();
+            AppendCleanup("stage-advance", outgoing);
+            // Re-entering a stage (a loop back) starts its objectives afresh.
+            RequiredObject(state, "objectives").Remove(targetStageId);
+            state["stageIndex"] = targetIndex;
+            ActivateStage(definitionNode, state, predicate, context, capabilityRequests, configResolver ?? EmptyConfig);
+            if (RequiredString(RequiredObject(definitionNode, "checkpointPolicy"), "mode") != "none")
+            {
+                state["checkpoint"] = SnapshotCheckpoint(state);
+            }
+
+            events.Add(LifecycleEvent(state, "stage-advanced", new JsonObject { ["transitionId"] = transitionId }));
+        }
+
         var status = RequiredString(state, "status");
         if (status != QuestStatuses.Active && commandType != "quest.retry")
         {
@@ -244,12 +291,33 @@ public static class QuestLifecycleReducer
                     state["checkpoint"] = SnapshotCheckpoint(state);
                 }
 
-                if (!completed && !RequiredBool(objective, "optional"))
+                // Authored transitions turn a stage into a branch point: the
+                // objective that resolved (or the stage as a whole) may lead to
+                // another stage or end the quest with a named outcome. A stage
+                // without transitions keeps the original sequential order.
+                var objectiveTransition = FindTransition(stage, completed ? "objective-complete" : "objective-fail", objectiveId, predicate, context);
+                if (objectiveTransition is not null)
+                {
+                    TakeTransition(objectiveTransition, stage, objectives);
+                }
+                else if (!completed && !RequiredBool(objective, "optional"))
                 {
                     state["status"] = QuestStatuses.Failed;
                     AppendCleanup("quest-failed");
                     AppendPlan(RequiredArray(RequiredObject(definitionNode, "outcomes"), "failure"));
                     events.Add(LifecycleEvent(state, "failed", new JsonObject { ["objectiveId"] = objectiveId }));
+                }
+                else if (IsStageComplete(stage, stageStatuses) && HasTransitions(stage, "stage-complete"))
+                {
+                    var stageTransition = FindTransition(stage, "stage-complete", null, predicate, context);
+                    if (stageTransition is not null)
+                    {
+                        TakeTransition(stageTransition, stage, objectives);
+                    }
+                    else
+                    {
+                        events.Add(LifecycleEvent(state, "stage-waiting"));
+                    }
                 }
                 else if (IsStageComplete(stage, stageStatuses))
                 {
@@ -424,6 +492,111 @@ public static class QuestLifecycleReducer
         requests.Add(request);
     }
 
+    private static bool HasTransitions(JsonObject stage, string kind) =>
+        stage["transitions"] is JsonArray transitions &&
+        transitions.OfType<JsonObject>().Any(transition => RequiredString(RequiredObject(transition, "on"), "kind") == kind);
+
+    // The first authored transition whose trigger matches and whose conditions
+    // pass wins; authoring order is the priority, so an empty-condition entry
+    // placed last acts as "otherwise".
+    private static JsonObject? FindTransition(
+        JsonObject stage,
+        string kind,
+        string? objectiveId,
+        Func<JsonElement, JsonElement, bool> evaluateCondition,
+        JsonElement evaluationContext)
+    {
+        if (stage["transitions"] is not JsonArray transitions)
+        {
+            return null;
+        }
+
+        foreach (var transition in transitions.OfType<JsonObject>())
+        {
+            var on = RequiredObject(transition, "on");
+            if (RequiredString(on, "kind") != kind)
+            {
+                continue;
+            }
+
+            if (objectiveId is not null && RequiredString(on, "objectiveId") != objectiveId)
+            {
+                continue;
+            }
+
+            if (ConditionsPass(RequiredArray(transition, "conditions"), evaluateCondition, evaluationContext))
+            {
+                return transition;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Reference problems in authored transitions: duplicate stage IDs, targets
+    /// that name no stage and triggers that name no objective of their stage.
+    /// Shared by the reducer and the content compiler so both refuse the same data.
+    /// </summary>
+    public static IEnumerable<string> TransitionProblems(JsonArray stages)
+    {
+        var stageIds = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var stage in stages.OfType<JsonObject>())
+        {
+            if (!stageIds.Add(RequiredString(stage, "id")))
+            {
+                yield return $"Quest stage {RequiredString(stage, "id")} is defined twice.";
+            }
+        }
+
+        foreach (var stage in stages.OfType<JsonObject>())
+        {
+            if (stage["transitions"] is not JsonArray transitions)
+            {
+                continue;
+            }
+
+            var stageId = RequiredString(stage, "id");
+            var objectiveIds = RequiredArray(stage, "objectives").OfType<JsonObject>()
+                .Select(objective => RequiredString(objective, "id"))
+                .ToHashSet(StringComparer.Ordinal);
+            var transitionIds = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var transition in transitions.OfType<JsonObject>())
+            {
+                var transitionId = RequiredString(transition, "id");
+                if (!transitionIds.Add(transitionId))
+                {
+                    yield return $"Quest stage {stageId} defines transition {transitionId} twice.";
+                }
+
+                var on = RequiredObject(transition, "on");
+                if (on["objectiveId"] is JsonNode objective && !objectiveIds.Contains(RequiredStringNode(objective)))
+                {
+                    yield return $"Quest transition {stageId}/{transitionId} names unknown objective {RequiredStringNode(objective)}.";
+                }
+
+                if (RequiredObject(transition, "target")["stageId"] is JsonNode target && !stageIds.Contains(RequiredStringNode(target)))
+                {
+                    yield return $"Quest transition {stageId}/{transitionId} targets unknown stage {RequiredStringNode(target)}.";
+                }
+            }
+        }
+    }
+
+    private static int StageIndexOf(JsonObject definition, string stageId)
+    {
+        var stages = RequiredArray(definition, "stages");
+        for (var index = 0; index < stages.Count; index++)
+        {
+            if (stages[index] is JsonObject stage && RequiredString(stage, "id") == stageId)
+            {
+                return index;
+            }
+        }
+
+        throw new ArgumentException($"Quest transition targets unknown stage {stageId}.");
+    }
+
     private static bool IsStageComplete(JsonObject stage, JsonObject statuses)
     {
         var composition = RequiredObject(stage, "composition");
@@ -507,6 +680,11 @@ public static class QuestLifecycleReducer
             }
 
             _ = ObjectiveMap(stage);
+        }
+
+        foreach (var problem in TransitionProblems(stages))
+        {
+            throw new ArgumentException(problem);
         }
 
         _ = RequiredObject(node, "outcomes");

@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.world-plot",
+  "id": "urman.world:atmosphere",
+  "name": "Свет, небо и туман Акта I",
+  "executor": "atmosphere",
+  "note": "Профили освещения улицы. Раньше задавались в Act1ConnectedWorld.TuneConnectedAct1Atmosphere; теперь код выбирает профиль по зоне и применяет эти значения. Цвета — HTML без #.",
+  "entities": [
+    {
+      "id": "urman.world:atmosphere/village-winter-frost",
+      "kind": "atmosphere-profile",
+      "name": "Деревня · зимний день",
+      "params": {
+        "profile": "village-winter-frost",
+        "zones": [
+          "village_day",
+          "house_old_pc",
+          "fap_clinic"
+        ],
+        "ambient": {
+          "energy": 0.48,
+          "color": "a8bfe1",
+          "skyContribution": 0.3
+        },
+        "fog": {
+          "color": "b9cfdd",
+          "density": 0.0022,
+          "height": 1.0,
+          "heightDensity": 0.025,
+          "aerialPerspective": 0.64,
+          "skyAffect": 0.14,
+          "sunScatter": 0.09
+        },
+        "exposure": 0.92,
+        "ssao": {
+          "intensity": 0.75,
+          "radius": 0.4
+        },
+        "sky": {
+          "top": "6694ad",
+          "horizon": "d3e3ea",
+          "groundHorizon": "a4b5c1",
+          "groundBottom": "71828f",
+          "sunAngleMax": 3.0,
+          "sunCurve": 0.12,
+          "cover": [
+            0.86,
+            0.94,
+            0.98,
+            0.68
+          ]
+        },
+        "sun": {
+          "color": "ffe7c9",
+          "energy": 1.65,
+          "shadowOpacity": 0.82,
+          "rotation": [
+            -31,
+            42
+          ]
+        }
+      }
+    },
+    {
+      "id": "urman.world:atmosphere/zirat-winter-muted",
+      "kind": "atmosphere-profile",
+      "name": "Зиратская дорога · пасмурно",
+      "params": {
+        "profile": "zirat-winter-muted",
+        "zones": [
+          "zirat_road"
+        ],
+        "ambient": {
+          "energy": 0.64,
+          "color": "c0c8d0",
+          "skyContribution": 0.3
+        },
+        "fog": {
+          "color": "a7b5c1",
+          "density": 0.0038,
+          "height": 1.0,
+          "heightDensity": 0.03,
+          "aerialPerspective": 0.6,
+          "skyAffect": 0.22,
+          "sunScatter": 0.06
+        },
+        "exposure": 0.9,
+        "ssao": {
+          "intensity": 0.75,
+          "radius": 0.4
+        },
+        "sky": {
+          "top": "7f95a8",
+          "horizon": "c3cdd6",
+          "groundHorizon": "9aa7b1",
+          "groundBottom": "6d7883",
+          "sunAngleMax": 3.0,
+          "sunCurve": 0.12,
+          "cover": [
+            0.9,
+            0.93,
+            0.95,
+            0.5
+          ]
+        },
+        "sun": {
+          "color": "e8eef4",
+          "energy": 1.05,
+          "shadowOpacity": 0.5,
+          "rotation": [
+            -31,
+            42
+          ]
+        }
+      }
+    },
+    {
+      "id": "urman.world:atmosphere/kara-winter-night-edge",
+      "kind": "atmosphere-profile",
+      "name": "Кромка Кара-Урмана · ночь",
+      "params": {
+        "profile": "kara-winter-night-edge",
+        "zones": [
+          "kara_urman_night"
+        ],
+        "ambient": {
+          "energy": 0.52,
+          "color": "a1aebb",
+          "skyContribution": 0.3
+        },
+        "fog": {
+          "color": "90a8b8",
+          "density": 0.009,
+          "height": 0.95,
+          "heightDensity": 0.05,
+          "aerialPerspective": 0.35,
+          "skyAffect": 0.08,
+          "sunScatter": 0.07
+        },
+        "exposure": 1.04,
+        "ssao": {
+          "intensity": 0.75,
+          "radius": 0.4
+        },
+        "sky": {
+          "top": "1b2836",
+          "horizon": "3c4c60",
+          "groundHorizon": "2c3a4a",
+          "groundBottom": "141d28",
+          "sunAngleMax": 0.0,
+          "sunCurve": 0.12,
+          "cover": [
+            0.6,
+            0.68,
+            0.76,
+            0.26
+          ]
+        },
+        "sun": {
+          "color": "9fb6d4",
+          "energy": 0.55,
+          "shadowOpacity": 0.38,
+          "rotation": [
+            -52,
+            -28
+          ]
+        }
+      }
+    }
+  ]
+}

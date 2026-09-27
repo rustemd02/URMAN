@@ -294,6 +294,33 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         SetMeta("physicalSheltered", sheltered);
     }
 
+    /// <summary>URMAN Studio preview: rebuild the terrain's visual surface and collider after author strokes changed.</summary>
+    public void RebuildTerrainForStudio()
+    {
+        if (GetNodeOrNull<CollisionShape3D>("AgentB_TerrainCollision/AgentB_TerrainFaces")?.Shape is ConcavePolygonShape3D shape)
+        {
+            shape.SetFaces(AgentBAct1HeightField.BuildTerrainFaces());
+        }
+
+        var kit = GetNodeOrNull<Node3D>("AgentB_TerrainRoadKit");
+        var terrain = kit is null ? null : EnumerateDescendants<MeshInstance3D>(kit).FirstOrDefault(mesh => mesh.Name == "Terrain_Main");
+        if (terrain?.Mesh is not ArrayMesh current) return;
+        var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        foreach (var vertex in AgentBAct1HeightField.BuildTerrainFaces())
+        {
+            surface.SetUV(new Vector2(vertex.X, vertex.Z));
+            surface.AddVertex(terrain.ToLocal(ToGlobal(vertex)));
+        }
+
+        surface.Index();
+        surface.GenerateNormals();
+        var result = new ArrayMesh();
+        surface.Commit(result);
+        result.SurfaceSetMaterial(0, current.SurfaceGetMaterial(0));
+        terrain.Mesh = result;
+    }
+
     private void BuildTerrainCollision()
     {
         var body = new StaticBody3D { Name = "AgentB_TerrainCollision" };

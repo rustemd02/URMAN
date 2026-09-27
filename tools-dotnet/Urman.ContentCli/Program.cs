@@ -107,7 +107,7 @@ static async Task<int> CompileAsync(string root, string campaign, IReadOnlyColle
         return 1;
     }
 
-    var output = result.Pack!.ToJsonString(new JsonSerializerOptions { WriteIndented = true }) + Environment.NewLine;
+    var output = CompiledPackText.Serialize(result.Pack!);
     if (outputPath is null)
     {
         Console.Write(output);

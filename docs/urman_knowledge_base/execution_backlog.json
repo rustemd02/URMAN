@@ -2671,7 +2671,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-09-26",
+  "updated": "2026-09-27",
   "goal_key": "urman-act1-finished-product",
   "goal_statement": "Довести Акт I до законченного игрового результата. Действующее поручение автора 2026-09-15: минимум 60 минут обычного первого основного опыта; все EX00 и EX01–EX14; исправленные физика, геометрия, ассеты, взаимодействия, NPC, звук, сохранения и производительность; связное расследование, культурный код, зима 2026 и высокий непроницаемый лес. Продолжать основной checkout и эту очередь; debug и необходимые локальные проверки разрешены. Технический walkthrough, объём текста и количество PASS не принимают художественное качество, интерес или длительность. Неизмеренный человеческий опыт и недоступное прослушивание — external/not-run; независимые локальные работы продолжаются.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -2901,8 +2901,37 @@
       "tasks": [
         "REL-004"
       ]
+    },
+    {
+      "id": "M7",
+      "title": "URMAN Studio — визуальный редактор (ТЗ 2026-09-27)",
+      "status": "in_progress",
+      "depends_on": [
+        "M1"
+      ],
+      "tasks": [
+        "STUDIO",
+        "STUDIO.X1",
+        "STUDIO.X2",
+        "STUDIO.X3",
+        "STUDIO.X4",
+        "STUDIO.P0",
+        "STUDIO.P1",
+        "STUDIO.P2",
+        "STUDIO.P3",
+        "STUDIO.P4",
+        "STUDIO.P5",
+        "STUDIO.P6"
+      ]
     }
   ],
+  "complexity_scale": {
+    "simple": "аудит, опись, приёмка по готовому чек-листу или точечная правка",
+    "medium": "одна система или зона: реализация плюс проверка",
+    "complex": "сквозная система, большой объём контента/арта или внешняя зависимость (человек, железо)",
+    "umbrella": "зонтичная задача, закрывается по подзадачам",
+    "note": "Оценка 2026-09-25 по объёму и done_when; закрытые задачи не оценивались."
+  },
   "tasks": [
     {
       "id": "ACT1-VILLAGE-LAYOUT",
@@ -2956,6 +2985,7 @@
       "title": "Согласовать расширенную извилистую деревню и доступную половину Акта I",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": null,
       "owner": "world/art/narrative",
       "depends_on": [],
@@ -3028,6 +3058,7 @@
       "title": "Сгенерировать и внедрить разнообразную библиотеку текстур",
       "milestone": "M4",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/texture-tracker-2026-09-22",
       "owner": "art/materials/qa",
       "depends_on": [],
@@ -3186,6 +3217,7 @@
       "progress_2026_09_22": "B07 v02: source PASS1/1, b07-03 PASS348 без drift; High/Low ФАП стоя просмотрены. В группе 3 кандидата из 31, другие 28 карточек и оставшиеся потребители открыты. Точные исходники, промпты, SHA и границы в 05_texture_production_2026-09-22.md. Предыдущие W05/W02 и их незакрытые ограничения сохранены в журнале; прежняя авария .NET BGC не объявлена исправленной.",
       "milestone": "M4",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/texture-tracker-2026-09-22",
       "owner": "art/materials/qa",
       "depends_on": [
@@ -3291,6 +3323,7 @@
       "progress_2026_09_22": "2/24 карточки обработаны: T04 v01 (new, cloth_curtain, 14 штор семи Factory-окон) и T12 (reuse старых обоев, исправлено направление проекции). Source-gate PASS2/2, curtains-01 build/import PASS342; три High/Low-кадра просмотрены с отмеченной crouched-стойкой Rear High. Остальные 22 карточки, движение и art lock открыты. Точный промпт, SHA и границы в painterly README/production journal.",
       "milestone": "M4",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/texture-tracker-2026-09-22",
       "owner": "art/materials/qa",
       "depends_on": [
@@ -3377,6 +3410,7 @@
       "title": "Бумага, документы и сюжетные изображения",
       "milestone": "M4",
       "status": "todo",
+      "complexity": "medium",
       "active_owner": null,
       "owner": "art/materials/qa",
       "depends_on": [
@@ -3453,6 +3487,7 @@
       "title": "Адресные декали и изменяемые состояния",
       "milestone": "M4",
       "status": "todo",
+      "complexity": "simple",
       "active_owner": null,
       "owner": "art/materials/qa",
       "depends_on": [
@@ -3526,6 +3561,7 @@
       "title": "Персонажи, одежда и первое лицо по реальным UV",
       "milestone": "M4",
       "status": "todo",
+      "complexity": "medium",
       "active_owner": null,
       "owner": "art/materials/qa",
       "depends_on": [
@@ -3600,6 +3636,7 @@
       "title": "Крупные предметы, ПК и транспорт по реальным UV",
       "milestone": "M4",
       "status": "todo",
+      "complexity": "medium",
       "active_owner": null,
       "owner": "art/materials/qa",
       "depends_on": [
@@ -3668,6 +3705,7 @@
       "title": "Экранные подложки и условные эффекты",
       "milestone": "M4",
       "status": "todo",
+      "complexity": "simple",
       "active_owner": null,
       "owner": "art/materials/qa",
       "depends_on": [
@@ -3735,6 +3773,7 @@
       "title": "Уникальные носители Актов II–V",
       "milestone": "M4",
       "status": "todo",
+      "complexity": "medium",
       "active_owner": null,
       "owner": "art/materials/qa",
       "depends_on": [
@@ -3810,6 +3849,7 @@
       "title": "Утверждённые поверхности Шурале и Су Анасы",
       "milestone": "M4",
       "status": "todo",
+      "complexity": "medium",
       "active_owner": null,
       "owner": "art/materials/qa",
       "depends_on": [
@@ -3870,6 +3910,7 @@
       "title": "Подключить карты к правильным семантическим материалам",
       "milestone": "M4",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "progress_2026_09_22": "20 новых карт плюс T12 reuse. B07 stone_foundation/scale1 на connected-world FapFoundationStone и BuildPublicEntrySteps treads/nosings. Finish stone сохранён; глобальные камни, FapWetStone, геометрия и коллизии не изменены. Прочие потребители, close/motion/art открыты. Предыдущие W05/W02 и их незакрытые ограничения сохранены в журнале; прежняя авария .NET BGC не объявлена исправленной.",
       "owner": "art/materials/qa",
@@ -3896,7 +3937,12 @@
         "Учтён low_quality: отсутствие чтения карты не скрыто; High и Low оцениваются отдельно.",
         "Сохранены канон, контент, коллизии и предметное состояние; новые UV не выдуманы."
       ],
-      "evidence": []
+      "evidence": [
+        "2026-09-25: surface cloth_towel -> game/assets/textures/painterly/urman_t07_v01_basecolor.png (SHA fccb9fd4da890707bbb2bc7762f836474d17fc49fa36e95aad7f60ba96d5e899); consumers switched from generic fabric/fabric_pattern: HouseWashTowel, BathDryTowel, MosqueWashTowel, FAP wash-unit towels (game/scripts/PainterlyMaterialLibrary.cs, StyleBenchmarkZone.cs, Act1ConnectedWorld.Bathhouse.cs, Act1ConnectedWorld.MosqueInterior.cs, ClinicSurfacePresentation.cs)",
+        "2026-09-25: plates painted faces wired on their own quads: FAP state plate (fix: was 19 cm inside the wall), school enamel plate, council-club 2000s panel (game/scripts/Act1ConnectedWorld.FapPlate.cs, Act1ConnectedWorld.PlateFaces.cs)",
+        "docs/tasktracker/05_texture_production_2026-09-22.md (срез 2026-09-25)"
+      ],
+      "progress_2026_09_25": "Срез 2026-09-25: T07 подключена как cloth_towel; таблички ФАПа, школы и сельсовета-клуба сделаны и в main; по шву T07 гейт OPEN, правка сгенерирована в чате и ждёт выгрузки. Следующие: M03 (эмаль), M13 (ламинат), T05 (ковёр); T02 и T06 условные."
     },
     {
       "id": "ACT1-TEXTURE.12",
@@ -3929,6 +3975,7 @@
       "title": "Проверить текстуры и игровые кадры каждой интегрированной партии",
       "milestone": "M4",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "progress_2026_09_22": "Source PASS1/1, 20260922-texture-b07-03.json PASS348 input/source drift/errors=[]; texture-b07-20260922-01 High/Low exit0, стоя, guard restored, SHA проверены и оба кадра просмотрены. Средний вид узкой открытой полосы цоколя, не close/motion/ступени/сарай или human art. Ошибка первого capture MaterialOverride исправлена на GetActiveMaterial(0); build02 input drift не принят как финальное свидетельство. Журнал сохраняет историю отказов. Предыдущие W05/W02 и их незакрытые ограничения сохранены в журнале; прежняя авария .NET BGC не объявлена исправленной.",
       "owner": "art/materials/qa",
@@ -3953,7 +4000,12 @@
         "Проверены швы/альфа/направление/масштаб, близко/средне/в движении и применимые игровые состояния.",
         "Проверки используют действующий guard, пользовательские saves/preferences сохранены; сохраняются только необходимые итоговые свидетельства."
       ],
-      "evidence": []
+      "evidence": [
+        "2026-09-25 frames captured (receipts live outside the repository by the harness policy): fap_state_plate, school_plate, council_plate, fap_wash_towel; each receipt carries output sha256 and the resolved subject path",
+        "2026-09-25 OPEN item: eng/verify-painterly-textures.sh reports the T07 map OPEN on edge seam (mean 0.073 / max 0.365 against 0.028 / 0.31 accepted) - awaiting the seam-edited version already generated in the chat",
+        "docs/tasktracker/05_texture_production_2026-09-22.md (срез 2026-09-25)"
+      ],
+      "progress_2026_09_25": "Срез 2026-09-25: T07 подключена как cloth_towel; таблички ФАПа, школы и сельсовета-клуба сделаны и в main; по шву T07 гейт OPEN, правка сгенерирована в чате и ждёт выгрузки. Следующие: M03 (эмаль), M13 (ламинат), T05 (ковёр); T02 и T06 условные."
     },
     {
       "id": "ACT1-TEXTURE.13",
@@ -3986,6 +4038,7 @@
       "title": "Человеческая художественная и культурная приёмка библиотеки",
       "milestone": "M4",
       "status": "blocked",
+      "complexity": "complex",
       "active_owner": null,
       "owner": "art/materials/qa",
       "depends_on": [
@@ -4042,6 +4095,7 @@
       "title": "Игрок: прыжок, бег, приседание и видимое тело",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -4190,6 +4244,7 @@
       "title": "Адреса действующей деревни и самостоятельная навигация",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -4321,6 +4376,7 @@
       "title": "Личная записная книжка и постепенное знание",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -4401,6 +4457,7 @@
       "title": "Компьютер 2000-х и внутриигровая сеть",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -4563,6 +4620,7 @@
       "title": "30+ глубоких документов: Tier A 12 × ≥350 слов / Tier B 10 × ≥150 / Tier C 10+, gating-цепочки, татарский слой, ссылки",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -4755,6 +4813,7 @@
       "title": "Нива, мотоцикл, лошадь и телега",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -4851,6 +4910,7 @@
       "title": "Татарское местное радио в транспорте",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -4909,6 +4969,7 @@
       "title": "Приезд на остановку Кара-Урмана",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -5013,6 +5074,7 @@
       "title": "Магазин и атомарная долговая тетрадь",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -5157,6 +5219,7 @@
       "title": "Баня, мечеть, школа, сельсовет/ДК и семейный зират",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -5216,6 +5279,7 @@
       "title": "Совокупная приёмка расширенного ТЗ и адресов",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -5284,6 +5348,7 @@
       "title": "Dense open-world exploration, secrets and hidden paths",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "main",
       "depends_on": [],
       "owner": "finished-act1",
@@ -5357,6 +5422,7 @@
       "title": "External release confirmation",
       "milestone": "M5",
       "status": "blocked",
+      "complexity": "complex",
       "active_owner": null,
       "depends_on": [],
       "owner": "finished-act1",
@@ -5436,6 +5502,7 @@
       "title": "Final performance traversal and standalone candidate",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": null,
       "depends_on": [],
       "owner": "finished-act1",
@@ -5521,6 +5588,7 @@
       "title": "Product UI menus save resume and credits",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "main",
       "depends_on": [],
       "owner": "finished-act1",
@@ -5600,6 +5668,7 @@
       "title": "Winter sound and complete cue lifecycle",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": null,
       "depends_on": [],
       "owner": "finished-act1",
@@ -5673,6 +5742,7 @@
       "title": "Home FAP cast and contextual village presentation",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": null,
       "depends_on": [],
       "owner": "finished-act1",
@@ -5772,6 +5842,7 @@
       "title": "Three investigation cycles and staged final route",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": null,
       "depends_on": [],
       "owner": "finished-act1",
@@ -5842,6 +5913,7 @@
       "title": "First 8–12 minute playable investigation slice",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": null,
       "depends_on": [],
       "owner": "finished-act1",
@@ -6109,6 +6181,7 @@
       "title": "Принять три in-engine style benchmarks",
       "milestone": "M2",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "godot/art",
       "depends_on": [
         "GODOT-001",
@@ -6391,6 +6464,7 @@
       "title": "Провести татарский и культурно-религиозный review authored Acts 2–5",
       "milestone": "M3",
       "status": "blocked",
+      "complexity": "complex",
       "active_owner": null,
       "depends_on": [
         "NARR-001"
@@ -6513,6 +6587,7 @@
       "title": "Создать hero faces, clothing and authored character animation",
       "milestone": "M4",
       "status": "blocked",
+      "complexity": "complex",
       "active_owner": null,
       "depends_on": [
         "GODOT-003",
@@ -6581,6 +6656,7 @@
       "title": "Заменить greybox dressing и принять authored mesh collision",
       "milestone": "M4",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "act1-village-rework",
       "depends_on": [
         "GODOT-003",
@@ -6833,6 +6909,7 @@
       "title": "Подключить authored WellA, WoodpileA и GateA к village dressing",
       "milestone": "M4",
       "status": "review",
+      "complexity": "simple",
       "active_owner": null,
       "depends_on": [
         "ASSET-001",
@@ -6939,6 +7016,7 @@
       "title": "Произвести authored ambience, voice, captions and non-audio cues",
       "milestone": "M4",
       "status": "blocked",
+      "complexity": "complex",
       "active_owner": null,
       "depends_on": [
         "NARR-001",
@@ -7001,6 +7079,7 @@
       "title": "Провести внешнюю accessibility and first-time usability review",
       "milestone": "M5",
       "status": "blocked",
+      "complexity": "complex",
       "active_owner": null,
       "depends_on": [
         "GODOT-003",
@@ -7060,6 +7139,7 @@
       "title": "Получить M1 and Windows release-class performance evidence",
       "milestone": "M5",
       "status": "blocked",
+      "complexity": "complex",
       "active_owner": null,
       "depends_on": [
         "ASSET-004"
@@ -7117,6 +7197,7 @@
       "title": "Проверить macOS and Windows desktop exports on hosts",
       "milestone": "M5",
       "status": "blocked",
+      "complexity": "complex",
       "active_owner": null,
       "depends_on": [
         "ASSET-004",
@@ -7183,6 +7264,7 @@
       "title": "Пройти полный 6–8-hour acceptance path",
       "milestone": "M5",
       "status": "blocked",
+      "complexity": "complex",
       "active_owner": null,
       "depends_on": [
         "NARR-002",
@@ -7245,6 +7327,7 @@
       "title": "Выполнить absence-gated web runtime retirement",
       "milestone": "M6",
       "status": "blocked",
+      "complexity": "complex",
       "active_owner": null,
       "depends_on": [
         "REL-003"
@@ -7345,6 +7428,7 @@
       "title": "LEN01: устранить причины короткого акта и обеспечить минимум 60 минут первого основного опыта",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/len01_content + root",
       "depends_on": [],
       "owner": "narrative/design",
@@ -7398,6 +7482,7 @@
       "title": "Карта переживаемых эпизодов обязательного пути",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/len01_content + root",
       "depends_on": [],
       "owner": "narrative/author",
@@ -7449,6 +7534,7 @@
       "title": "Расширить ядро расследования из трёх однострочных сравнений",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/len01_content + root",
       "depends_on": [
         "LEN01.1"
@@ -7502,6 +7588,7 @@
       "title": "Проверить полное чтение обязательных документов и повторное чтение с новыми знаниями",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/len01_content + root",
       "depends_on": [],
       "owner": "narrative/implementation",
@@ -7552,6 +7639,7 @@
       "title": "Отделить основной опыт от полезного добровольного исследования",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": null,
       "depends_on": [
         "LEN01.1"
@@ -7606,6 +7694,7 @@
       "title": "Честный хронометраж обычного прохождения",
       "milestone": "M5",
       "status": "blocked",
+      "complexity": "complex",
       "active_owner": null,
       "depends_on": [
         "LEN01.1"
@@ -7733,6 +7822,7 @@
       "title": "§13.19 LEN01.6: подтверждённые исправления короткого прохождения",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/len01_content + root",
       "depends_on": [],
       "owner": "narrative/design",
@@ -7789,6 +7879,7 @@
       "title": "§13.19 LEN01.7: целевой ритм основного опыта",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/len01_content + root",
       "depends_on": [
         "LEN01.6"
@@ -7844,6 +7935,7 @@
       "title": "§13.19 LEN01.8: приёмка LEN01 и обязательный отчёт",
       "milestone": "M5",
       "status": "blocked",
+      "complexity": "complex",
       "active_owner": "act1-village-rework",
       "depends_on": [
         "LEN01.6",
@@ -7900,6 +7992,7 @@
       "title": "§13 EX00: Общий контракт новых действий",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root",
       "depends_on": [],
       "owner": "gameplay/design",
@@ -7993,6 +8086,7 @@
       "title": "§13 EX01: Поднимать, переносить, ставить",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/exploration_runtime",
       "depends_on": [
         "ACT1-EX00"
@@ -8062,6 +8156,7 @@
       "title": "§13 EX02: Несколько решений одной задачи",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/exploration_runtime",
       "depends_on": [
         "ACT1-EX00"
@@ -8129,6 +8224,7 @@
       "title": "§13 EX03: Многоцелевые инструменты",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/exploration_runtime",
       "depends_on": [
         "ACT1-EX00",
@@ -8190,6 +8286,7 @@
       "title": "§13 EX04: Ограниченные сочетания",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/exploration_runtime",
       "depends_on": [
         "ACT1-EX01",
@@ -8293,6 +8390,7 @@
       "title": "§13 EX05: Читаемый и изменяемый снег",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/exploration_runtime",
       "depends_on": [
         "ACT1-EX03"
@@ -8362,6 +8460,7 @@
       "title": "§13 EX06: Переносной свет",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/exploration_runtime",
       "depends_on": [
         "ACT1-EX00",
@@ -8464,6 +8563,7 @@
       "title": "§13 EX07: Тепло/холод/материал",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/exploration_runtime",
       "depends_on": [
         "ACT1-EX00",
@@ -8522,6 +8622,7 @@
       "title": "§13 EX08: Поиск и проверка звуком",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/exploration_runtime",
       "depends_on": [
         "ACT1-EX00"
@@ -8589,6 +8690,7 @@
       "title": "§13 EX09: Человеческая вертикальность",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/geometry_architecture + root/exploration_runtime",
       "depends_on": [
         "ACT1-EX01"
@@ -8646,6 +8748,7 @@
       "title": "§13 EX10: Небольшие самостоятельные места",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/geometry_architecture + root/exploration_runtime",
       "depends_on": [
         "ACT1-EX06",
@@ -8701,6 +8804,7 @@
       "title": "§13 EX11: Микрозагадки на странность",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root + root/len01_content",
       "depends_on": [],
       "owner": "gameplay/design",
@@ -8753,6 +8857,7 @@
       "title": "§13 EX12: Найти место по фото/рисунку",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root + root/len01_content",
       "depends_on": [],
       "owner": "gameplay/design",
@@ -8805,6 +8910,7 @@
       "title": "§13 EX13: Цепочки любопытства",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root + root/len01_content",
       "depends_on": [],
       "owner": "gameplay/design",
@@ -8902,6 +9008,7 @@
       "title": "§13 EX14: Устойчивый результат",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/exploration_runtime",
       "depends_on": [
         "ACT1-EX00"
@@ -8961,6 +9068,7 @@
       "title": "§13.18: единый учёт приёмки EX01–EX14",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root",
       "depends_on": [
         "ACT1-EX00"
@@ -9016,6 +9124,7 @@
       "title": "Таблички на заборе/калитке для домов без места на фасаде (H032/H034/H045/H046)",
       "milestone": "M2",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -9069,6 +9178,7 @@
       "title": "Проходы к 11 домам: точки доступа внутри коллизии (H001/H005/H008/H014/H021/H024/H033/H037/H044/H046/H049)",
       "milestone": "M2",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -9130,6 +9240,7 @@
       "title": "Татарский словарь: автосбор слов и начальная калибровка знания",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -9273,6 +9384,7 @@
       "title": "Калибровочный тест в прологе (игровая форма)",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -9325,6 +9437,7 @@
       "title": "Ручной выбор уровня знания в настройках",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "progress_2026_09_22": "Реализованы UI none/some/fluent, Apply/Cancel, нормализация и восстановление настройки; act1_settings_navigation_smoke_test PASS на integrated-build-20260922-texture-lang-01, guard userdata restored. Калибровка пролога, skip и quiz/manual precedence остаются открыты; задача целиком не закрыта.",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
@@ -9450,6 +9563,7 @@
       "title": "Квесты ведутся адресной системой (без маркеров и автопути)",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -9502,6 +9616,7 @@
       "title": "Аудит квестов на адресность",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "parent_id": "ACT1-QUEST-ADDR",
@@ -9553,6 +9668,7 @@
       "title": "Убрать маркеры и автопуть с обязательного пути",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -9603,6 +9719,7 @@
       "title": "Источники адресов для всех квестовых целей (data-driven)",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -9653,6 +9770,7 @@
       "title": "Приёмочный адресный проход квестов",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -9712,6 +9830,7 @@
       "title": "Полный редизайн UI в духе Persona, включая словарь татарского",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -9764,6 +9883,7 @@
       "title": "Стиль-гайд UI: тема, типографика, анимации",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "parent_id": "ACT1-UI",
@@ -9813,6 +9933,7 @@
       "title": "Главное меню и настройки в новом стиле",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -9862,6 +9983,7 @@
       "title": "HUD и диалоги в новом стиле",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -9912,6 +10034,7 @@
       "title": "Журнал и записная книжка в новом стиле",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -9963,6 +10086,7 @@
       "title": "ПК бабая в новом стиле",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10016,6 +10140,7 @@
       "title": "Экран татарского словаря (быстрый доступ, поиск, статусы)",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10067,6 +10192,7 @@
       "title": "Сквозная приёмка UI",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10125,6 +10251,7 @@
       "title": "Аудит механик: ни одна не висит без дела",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [],
@@ -10174,6 +10301,7 @@
       "title": "Инвентаризация всех механик с частотой применения",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "parent_id": "ACT1-MECH-AUDIT",
@@ -10224,6 +10352,7 @@
       "title": "Классификация механик и решения доработать/убрать",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10272,6 +10401,7 @@
       "title": "Доработка выбранных механик до ≥3 применений",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10321,6 +10451,7 @@
       "title": "Удаление выбранных механик без следов",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10376,6 +10507,7 @@
       "title": "Техническое ревью мира: свет, коллизии, мерцание текстур",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [],
@@ -10425,6 +10557,7 @@
       "title": "Аудит технических проблем по зонам",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "parent_id": "ACT1-TECH",
@@ -10475,6 +10608,7 @@
       "title": "Фиксы коллизий",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10525,6 +10659,7 @@
       "title": "Фиксы мерцания и просвечивания текстур",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10574,6 +10709,7 @@
       "title": "Освещение интерьеров",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10636,6 +10772,7 @@
       "title": "Настоящие объёмные объекты вместо плоских заглушек",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10688,6 +10825,7 @@
       "title": "Инвентаризация плоских заглушек",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "parent_id": "ACT1-DEPTH",
@@ -10738,6 +10876,7 @@
       "progress_2026_09_22": "Действующий Factory/Floor пока цельная плита: отдельные доски и адресный износ нужны. T01 теперь настоящая TeaTablecloth по реальному столу, с плоской опорой и свесом, 672треугольника, без новых контактов. Деревянная столешница/предметы сохранены. House01 PASS105; Medium и статичные Low/High просмотрены. Остальная приёмка объёмных объектов и движение сохраняются.",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10787,6 +10926,7 @@
       "title": "ФАП: объёмные объекты интерьера",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10836,6 +10976,7 @@
       "title": "Магазин: объёмные объекты интерьера",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10886,6 +11027,7 @@
       "title": "Школа и сельсовет/ДК: объёмные объекты интерьеров",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10936,6 +11078,7 @@
       "title": "Мечеть и баня: объёмные объекты интерьеров",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -10986,6 +11129,7 @@
       "title": "Улица и дворы: объёмные объекты",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -11060,6 +11204,7 @@
       "title": "Эталон жилого срубного дома по вступительному изображению",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/main-checkout",
       "owner": "art/architecture",
       "depends_on": [],
@@ -11122,6 +11267,7 @@
       "title": "Распространить срубную архитектуру на жилые дома Акта I",
       "milestone": "M5",
       "status": "todo",
+      "complexity": "complex",
       "active_owner": null,
       "owner": "art/architecture",
       "depends_on": [
@@ -11176,6 +11322,7 @@
       "title": "Художественная приёмка домов относительно вступительного изображения",
       "milestone": "M5",
       "status": "todo",
+      "complexity": "medium",
       "active_owner": null,
       "owner": "art/qa/author",
       "depends_on": [
@@ -11232,6 +11379,7 @@
       "title": "Приблизить эталонный дом к изначальному вступительному изображению",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": null,
       "owner": "art/architecture",
       "depends_on": [
@@ -11291,6 +11439,7 @@
       "title": "Расчесать композицию участка: убрать визуальный шум",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": null,
       "owner": "world/art",
       "depends_on": [],
@@ -11347,6 +11496,7 @@
       "title": "Приёмка глубины: нет плоских имитаций объёма",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -11409,6 +11559,7 @@
       "title": "Персонажи на грани uncanny valley (весь каст)",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -11462,6 +11613,7 @@
       "title": "Арт-эталон uncanny по всему касту",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "parent_id": "ACT1-CHAR",
@@ -11511,6 +11663,7 @@
       "title": "Лица и головы до эталона",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -11559,6 +11712,7 @@
       "title": "Материалы кожи, глаз, волос, одежды",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -11607,6 +11761,7 @@
       "title": "Тревожная пластика движения",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "complex",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -11656,6 +11811,7 @@
       "title": "Приёмка персонажей по эталону",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -11711,6 +11867,7 @@
       "title": "Катсцены с пролётами камеры и вступление над Кырлаем",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [],
@@ -11759,6 +11916,7 @@
       "title": "Движковая система катсцен",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "parent_id": "ACT1-CUTSCENE",
@@ -11807,6 +11965,7 @@
       "title": "Вступительная катсцена: пролёт над Кырлаем",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -11855,6 +12014,7 @@
       "title": "Приёмка катсцен",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -11910,6 +12070,7 @@
       "title": "Живая деревня: NPC с распорядком и занятиями",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [],
@@ -11959,6 +12120,7 @@
       "title": "Data-driven распорядок NPC (routine)",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "parent_id": "ACT1-NPC",
@@ -12007,6 +12169,7 @@
       "title": "Набор занятий и поз с переходами",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -12056,6 +12219,7 @@
       "title": "Новые жители деревни из данных",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -12106,6 +12270,7 @@
       "title": "Реакции NPC на события и время суток",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -12155,6 +12320,7 @@
       "title": "Приёмка живой деревни",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -12210,6 +12376,7 @@
       "title": "Звук шагов вне основной дороги: лаг",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [],
@@ -12260,6 +12427,7 @@
       "title": "Диагностика лага шагов вне основной дороги",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "parent_id": "ACT1-FOOTSTEP",
@@ -12309,6 +12477,7 @@
       "title": "Фикс лага шагов и проверка проходом",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -12362,6 +12531,7 @@
       "title": "Правдоподобные ноги при взгляде вниз",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "umbrella",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -12413,6 +12583,7 @@
       "title": "Синхронизация ног с фактическим движением",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "medium",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "parent_id": "ACT1-LEGS",
@@ -12461,6 +12632,7 @@
       "title": "Приёмка походки (ходьба/бег/присед/повороты)",
       "milestone": "M5",
       "status": "in_progress",
+      "complexity": "simple",
       "active_owner": "root/expanded-act1",
       "owner": "finished-act1",
       "depends_on": [
@@ -12523,6 +12695,675 @@
         "act1_main_menu_smoke_test: PASS",
         "journal_flow_smoke_test: PASS",
         "tamara_fence_capture: 19 frames (standing fence, collapse, every shot, repaired fence, work list)"
+      ]
+    },
+    {
+      "id": "STUDIO",
+      "title": "URMAN Studio — визуальный редактор игры по ТЗ 2026-09-27 (зонтик)",
+      "milestone": "M7",
+      "status": "in_progress",
+      "complexity": "umbrella",
+      "active_owner": "claude/studio-2026-09-27",
+      "owner": "studio",
+      "depends_on": [],
+      "scope": [
+        "studio/",
+        "src-dotnet/",
+        "game/",
+        "content/"
+      ],
+      "source_requirements": [
+        "U01–U18",
+        "§23 A01–A25"
+      ],
+      "opened": "2026-09-27",
+      "execution": {
+        "kind": "work",
+        "unit": "Отдельное macOS-приложение: мир, квесты, диалоги, сцены, персонажи, моделирование, прочие редакторы, пробный запуск, передача контекста, совместная работа. Результат редактирования исполняет настоящая игра.",
+        "steps": [
+          {
+            "id": "STUDIO/S1",
+            "action": "P0 интерфейс и технические границы"
+          },
+          {
+            "id": "STUDIO/S2",
+            "action": "P1 сквозной участок карта+квест"
+          },
+          {
+            "id": "STUDIO/S3",
+            "action": "P2 вся деревня и каталог"
+          },
+          {
+            "id": "STUDIO/S4",
+            "action": "P3 полная логика и постановка"
+          },
+          {
+            "id": "STUDIO/S5",
+            "action": "P4 остальные игровые редакторы"
+          },
+          {
+            "id": "STUDIO/S6",
+            "action": "P5 геометрия и персонажи"
+          },
+          {
+            "id": "STUDIO/S7",
+            "action": "P6 объединение и окончательная приёмка"
+          }
+        ],
+        "acceptance": "Матрица A01–A25 §23 пройдена; человеческая приёмка A01/A15/A23/A25 проведена автором; ни один модуль не заглушка.",
+        "verification": "ACCEPTANCE",
+        "stop_if": "Требование ТЗ противоречит канону, AGENTS.md или технически невозможно: назвать требование, доказательство и варианты; продолжать независимую работу.",
+        "read_first": [
+          "docs/production/urman_authoring_studio_spec_2026-09-27.md",
+          "AGENTS.md"
+        ]
+      },
+      "done_when": "Все дочерние задачи закрыты доказательствами; человеческие пункты оценены автором, а не walkthrough.",
+      "child_tasks": [
+        "STUDIO.X1",
+        "STUDIO.X2",
+        "STUDIO.X3",
+        "STUDIO.X4",
+        "STUDIO.P0",
+        "STUDIO.P1",
+        "STUDIO.P2",
+        "STUDIO.P3",
+        "STUDIO.P4",
+        "STUDIO.P5",
+        "STUDIO.P6"
+      ],
+      "status_doc": "docs/production/studio_remaining_work_2026-09-27.md",
+      "remaining_2026_09_27": "Открыто: P2 (перенос остальной деревни, WORLD09/10/13/14, схемы данных мира), P3 (QUEST01–05/07/09/10/12/14, DLG02–07, CINE02–09, NPC01–04, ANIM01–05, §20.5), P4 (разделы §14 и ITEM01–05), P5 (MODEL01–07), P6 (транспорт COLLAB01/08/10, COLLAB03/05/06/09 в окне, SAVE04, HAND03/06/07, PLAY02–06/09, EXP01–06, §21, A24/A25). Разметка по требованиям и честная матрица A01–A25 — в status_doc; P4/P5/P6 не начаты."
+    },
+    {
+      "id": "STUDIO.X1",
+      "title": "Эксперимент: перенос участка мира из C# в авторские данные",
+      "milestone": "M7",
+      "status": "completed",
+      "complexity": "complex",
+      "active_owner": null,
+      "owner": "studio",
+      "depends_on": [],
+      "scope": [
+        "game/scripts/Act1ConnectedWorld*.cs",
+        "game/scripts/TamaraFence*.cs"
+      ],
+      "source_requirements": [
+        "§20.2–20.4",
+        "WORLD15",
+        "§19.3.1"
+      ],
+      "opened": "2026-09-27",
+      "execution": {
+        "kind": "work",
+        "unit": "Ограниченный опыт на одном законченном участке (двор/забор Тамары): вынести трансформации и параметры в файл мира с постоянными ID, отключить старого владельца только этого участка, сравнить сцену до/после.",
+        "steps": [
+          {
+            "id": "STUDIO.X1/S1",
+            "action": "Выбрать участок и составить реестр его сущностей (ID, владелец, источник)"
+          },
+          {
+            "id": "STUDIO.X1/S2",
+            "action": "Определить формат файла мира и место хранения вне narrative kernel"
+          },
+          {
+            "id": "STUDIO.X1/S3",
+            "action": "Загрузка участка из данных в Godot-слое; C#-путь участка отключён"
+          },
+          {
+            "id": "STUDIO.X1/S4",
+            "action": "Сравнение позиций/коллизий до и после; tamara_fence_smoke_test через protected_run"
+          }
+        ],
+        "acceptance": "Ответ на вопрос «можно ли без смены поведения и ID перенести участок в данные и каков объём остального переноса»; результат не объявлен готовым продуктом.",
+        "verification": "SMOKE",
+        "stop_if": "Требование ТЗ противоречит канону, AGENTS.md или технически невозможно: назвать требование, доказательство и варианты; продолжать независимую работу.",
+        "read_first": [
+          "docs/production/urman_authoring_studio_spec_2026-09-27.md",
+          "AGENTS.md"
+        ]
+      },
+      "parent_id": "STUDIO",
+      "closed": "2026-09-27",
+      "result": "Да, для законченного участка: двор/забор Тамары вынесен в game/content/world/act1_tamara_plot.world.v1.json (13 сущностей с постоянными ID), загрузчик AuthoredWorldPlot без fallback, константы удалены из TamaraFenceQuest.cs. Объём остального переноса: ~2 900 литеральных Vector3 в 64 файлах game/scripts — P2 по участкам. Решение в decision_log 2026-09-27.",
+      "evidence": [
+        "tamara_fence_smoke_test baseline 49 checks passed (до переноса)",
+        "tamara_fence_smoke_test 56 checks passed (после, + сверка досок с данными)",
+        "tamara_fence_smoke_test 56 passed с доской №3, сдвинутой в данных на +1.5 м X (данные затем восстановлены, cmp)",
+        "tamara_fence_drive_proof PASS"
+      ]
+    },
+    {
+      "id": "STUDIO.X2",
+      "title": "Эксперимент: встроенное моделирование (Godot-меш + Blender 4.5 за интерфейсом)",
+      "milestone": "M7",
+      "status": "completed",
+      "complexity": "complex",
+      "active_owner": null,
+      "owner": "studio",
+      "depends_on": [],
+      "scope": [
+        ".tools/blender",
+        "studio/"
+      ],
+      "source_requirements": [
+        "§7",
+        "MODEL01–MODEL07",
+        "§24.4"
+      ],
+      "opened": "2026-09-27",
+      "execution": {
+        "kind": "work",
+        "unit": "Выяснить, какие операции MODEL02–MODEL05 исполняются интерактивно в окне Studio, а какие безопасно делегируются поставляемому Blender 4.5 LTS в фоне без действий автора; лицензия, установка, время отклика на M1 8 ГБ.",
+        "steps": [
+          {
+            "id": "STUDIO.X2/S1",
+            "action": "Прототип редактирования вершин/граней на ArrayMesh в Godot с отменой"
+          },
+          {
+            "id": "STUDIO.X2/S2",
+            "action": "Фоновый Blender: фаска, разрез, UV, привязка весов по шаблонному скелету, экспорт GLB"
+          },
+          {
+            "id": "STUDIO.X2/S3",
+            "action": "Замер времени и памяти; проверка лицензии GPL для вызова отдельным процессом"
+          },
+          {
+            "id": "STUDIO.X2/S4",
+            "action": "Решение записать в decision_log; при заметном влиянии на UX/установку — вернуть автору"
+          }
+        ],
+        "acceptance": "Письменный выбор средства с замерами; MODEL07 не объявлен выполненным.",
+        "verification": "SPIKE",
+        "stop_if": "Требование ТЗ противоречит канону, AGENTS.md или технически невозможно: назвать требование, доказательство и варианты; продолжать независимую работу.",
+        "read_first": [
+          "docs/production/urman_authoring_studio_spec_2026-09-27.md",
+          "AGENTS.md"
+        ]
+      },
+      "parent_id": "STUDIO",
+      "closed": "2026-09-27",
+      "result": "Технически осуществимо: интерактив в виде Studio (Godot), топология/UV/одежда/веса/экспорт — постоянный фоновый Blender 4.5 LTS (tools/studio/blender_worker.py). Замеры на M1 8 ГБ: операции 0,2–182 мс, экспорт персонажа 1,05 с, пик 542 МБ; GLB одежды загружается Godot во время работы со скелетом 65 костей. Proposal: установка и GPL — ответ автора (§24.4). MODEL07/A21 не закрыты.",
+      "evidence": [
+        "x2 drive run 2026-09-27: 13 ops ok incl. garment 182 ms, auto-weights 53 ms, export 1047 ms, peak RSS 542 MB",
+        "Godot 4.7.1 GLTFDocument runtime load: alsu_scarf.glb meshes=2 skinned=2 bones=65; crate.glb meshes=1"
+      ]
+    },
+    {
+      "id": "STUDIO.X3",
+      "title": "Эксперимент: единая модель квеста для списка и графа с развилками",
+      "milestone": "M7",
+      "status": "completed",
+      "complexity": "complex",
+      "active_owner": null,
+      "owner": "studio",
+      "depends_on": [],
+      "scope": [
+        "src-dotnet/Urman.Content",
+        "src-dotnet/Urman.Core/Quests",
+        "studio/"
+      ],
+      "source_requirements": [
+        "QUEST06",
+        "QUEST07",
+        "DATA07",
+        "A05"
+      ],
+      "opened": "2026-09-27",
+      "execution": {
+        "kind": "work",
+        "unit": "Модель квеста с ветвлением, параллельной группой (все/любая/N) и объединением; список и граф — проекции одной модели; компиляция в исполняемый формат Urman.Core без второго исполнителя.",
+        "steps": [
+          {
+            "id": "STUDIO.X3/S1",
+            "action": "Спроектировать расширение quest.schema (узлы/переходы) совместимое с существующими stages"
+          },
+          {
+            "id": "STUDIO.X3/S2",
+            "action": "Проекция в список (вложенные блоки) и граф; обратное редактирование"
+          },
+          {
+            "id": "STUDIO.X3/S3",
+            "action": "Проверка круговым прогоном: развилка/параллель/объединение переживают правку в обоих видах и сохранение"
+          },
+          {
+            "id": "STUDIO.X3/S4",
+            "action": "Сопоставить с QuestLifecycleReducer: какие расширения Core нужны"
+          }
+        ],
+        "acceptance": "Тест: структура сохраняется при переключениях и записи/чтении; исполнение через Urman.Core.",
+        "verification": "UNIT",
+        "stop_if": "Требование ТЗ противоречит канону, AGENTS.md или технически невозможно: назвать требование, доказательство и варианты; продолжать независимую работу.",
+        "read_first": [
+          "docs/production/urman_authoring_studio_spec_2026-09-27.md",
+          "AGENTS.md"
+        ]
+      },
+      "parent_id": "STUDIO",
+      "closed": "2026-09-27",
+      "result": "Да: развилки, группы all/any/N, объединения, петли и именованные исходы выражаются необязательными transitions этапа и исполняются существующим QuestLifecycleReducer без второго исполнителя; список — производная проекция QuestOutline, правки — общие операции QuestFlowEditor. Решение в decision_log 2026-09-27.",
+      "evidence": [
+        "tests-dotnet/Urman.Core.Tests/QuestTransitionTests.cs: 7 passed (Core 66/66)",
+        "tests-dotnet/Urman.Studio.Tests/QuestFlowTests.cs: 7 passed",
+        "ContentCompilerParityTests golden failure pre-exists (golden 2026-09-24 predates tamara module)"
+      ]
+    },
+    {
+      "id": "STUDIO.X4",
+      "title": "Эксперимент: семантическое объединение ревизий по сущностям и полям",
+      "milestone": "M7",
+      "status": "completed",
+      "complexity": "complex",
+      "active_owner": null,
+      "owner": "studio",
+      "depends_on": [],
+      "scope": [
+        "studio/"
+      ],
+      "source_requirements": [
+        "§18.2",
+        "COLLAB01–COLLAB10",
+        "A19"
+      ],
+      "opened": "2026-09-27",
+      "execution": {
+        "kind": "work",
+        "unit": "Трёхстороннее объединение авторских данных по ID сущностей и полям; упорядоченные списки по ID; удаление против правки; бинарные ресурсы; транспорт поверх существующего git-репозитория без ручных команд.",
+        "steps": [
+          {
+            "id": "STUDIO.X4/S1",
+            "action": "Модель изменения: base revision, автор, затронутые ID/поля"
+          },
+          {
+            "id": "STUDIO.X4/S2",
+            "action": "3-way merge JSON-сущностей по ID с конфликтами поле/удаление/порядок"
+          },
+          {
+            "id": "STUDIO.X4/S3",
+            "action": "Бинарный конфликт: выбрать/сохранить как новый ресурс/отложить"
+          },
+          {
+            "id": "STUDIO.X4/S4",
+            "action": "Транспорт: выбор способа поверх git (отдельная авторская ветка/коммиты Studio); решение в decision_log до P6"
+          }
+        ],
+        "acceptance": "Тесты конфликтов A19 на синтетических ревизиях; транспорт зафиксирован решением.",
+        "verification": "UNIT",
+        "stop_if": "Требование ТЗ противоречит канону, AGENTS.md или технически невозможно: назвать требование, доказательство и варианты; продолжать независимую работу.",
+        "read_first": [
+          "docs/production/urman_authoring_studio_spec_2026-09-27.md",
+          "AGENTS.md"
+        ]
+      },
+      "parent_id": "STUDIO",
+      "closed": "2026-09-27",
+      "result": "Модель объединения подтверждена: SemanticMerge по ID/полям с конфликтами поле/удаление/порядок, BinaryMerge по SHA, обязательная семантическая проверка после объединения. Транспорт поверх git — Proposal, требует ответа автора до P6. Исправлен дефект разрешения порядка: решение по конфликту порядка теперь переставляет сущности (ConflictResolution.Reorder), а не заменяет их ID (2026-09-27).",
+      "evidence": [
+        "tests-dotnet/Urman.Studio.Tests/SemanticMergeTests.cs: 8 passed",
+        "order-конфликт: до правки решение «взять входящее» подставляло в список последовательность ID вместо перестановки сущностей (на корневом массиве модуля — весь документ становился массивом строк); исправлено ConflictResolution.Reorder",
+        "tests-dotnet/Urman.Studio.Tests: 34 passed (добавлены «TakingTheIncomingOrderMovesWholeEntitiesInsteadOfReplacingThemWithTheirIds» и «OrderConflictInsideAStageListKeepsEntitiesAndUnmentionedOnesInPlace»; до правки оба падали)",
+        "studio-collab-check: PASS на одноразовой копии checkout (чужое изменение того же поля решено, прочие правки обеих сторон сохранены)"
+      ]
+    },
+    {
+      "id": "STUDIO.P0",
+      "title": "P0: кликабельный прототип пяти экранов и технические границы",
+      "milestone": "M7",
+      "status": "in_progress",
+      "complexity": "medium",
+      "active_owner": "claude/studio-2026-09-27",
+      "owner": "studio",
+      "depends_on": [],
+      "scope": [
+        "docs/production/studio_prototype/"
+      ],
+      "source_requirements": [
+        "§4.2",
+        "§22 P0",
+        "UX01–UX11"
+      ],
+      "opened": "2026-09-27",
+      "execution": {
+        "kind": "work",
+        "unit": "Связанный кликабельный прототип §4.2: мир с каталогом; карта с триггером и квестом; список/граф квестов; монтажная шкала; разбор конфликта — с пустым состоянием, ошибкой и незаконченным черновиком.",
+        "steps": [
+          {
+            "id": "STUDIO.P0/S1",
+            "action": "Прототип на реальных ID и названиях URMAN (Тамара)"
+          },
+          {
+            "id": "STUDIO.P0/S2",
+            "action": "Показ автору; сбор замечаний по понятности, плотности, размеру"
+          },
+          {
+            "id": "STUDIO.P0/S3",
+            "action": "Выбор путей хранения/моделирования/обмена по итогам X1–X4"
+          }
+        ],
+        "acceptance": "Пять экранов просмотрены автором; визуальный дизайн не объявляется принятым до его оценки.",
+        "verification": "HUMAN",
+        "stop_if": "Требование ТЗ противоречит канону, AGENTS.md или технически невозможно: назвать требование, доказательство и варианты; продолжать независимую работу.",
+        "read_first": [
+          "docs/production/urman_authoring_studio_spec_2026-09-27.md",
+          "AGENTS.md"
+        ]
+      },
+      "parent_id": "STUDIO",
+      "done_when": "Автор просмотрел прототип; решения X1–X4 записаны.",
+      "progress_2026_09_27": "Кликабельный прототип пяти экранов готов: docs/production/studio_prototype/index.html (+README). Данные Тамары из tamara-fence.json и TamaraFenceCutscene.cs; ветка «отказ» и «изменения Рустема» — вымышленные примеры. Технически проверено в браузере: размещение из каталога с новым ID, Undo/Redo, Cmd+S, список↔граф без потери веток, поиск по ID, объединение открывается после решения всех 5 конфликтов, состояния пусто/сбой записи/черновик/знакомство/масштаб. Кадры 1440×900 переданы автору. Визуальный дизайн, понятность и плотность — не оценены человеком.",
+      "evidence": [
+        "docs/production/studio_prototype/index.html",
+        "browser run 2026-09-27: place/undo/redo/save, list/graph 2 branches preserved, merge gate 5/5, search n-return 1 hit"
+      ],
+      "progress_2026_09_27_b": "X1–X4 закрыты как эксперименты (решения в decision_log 2026-09-27). P0 остаётся открытой до просмотра прототипа автором и ответов: транспорт совместной работы (git), установка/лицензия Blender."
+    },
+    {
+      "id": "STUDIO.P1",
+      "title": "P1: один сквозной рабочий участок — карта и квест вместе",
+      "milestone": "M7",
+      "status": "in_progress",
+      "complexity": "complex",
+      "active_owner": "claude/studio-2026-09-27",
+      "owner": "studio",
+      "depends_on": [
+        "STUDIO.P0",
+        "STUDIO.X1",
+        "STUDIO.X3"
+      ],
+      "scope": [
+        "studio/",
+        "src-dotnet/",
+        "game/"
+      ],
+      "source_requirements": [
+        "§22 P1",
+        "A01",
+        "A06",
+        "A07",
+        "A16",
+        "SAVE01–SAVE03",
+        "DATA01–DATA08"
+      ],
+      "opened": "2026-09-27",
+      "execution": {
+        "kind": "work",
+        "unit": "Приложение Studio (Godot/.NET, общие библиотеки URMAN): изменить кусок деревни, создать связанный квест/диалог/предмет/триггер, пройти два исхода; ID, отмена, автосохранение, изолированный запуск «Играть отсюда».",
+        "steps": [
+          {
+            "id": "STUDIO.P1/S1",
+            "action": "Проект studio/ и оболочка окна; хранилище черновиков с атомарной записью и обнаружением внешних изменений"
+          },
+          {
+            "id": "STUDIO.P1/S2",
+            "action": "Типизированные операции и Undo/Redo"
+          },
+          {
+            "id": "STUDIO.P1/S3",
+            "action": "Мир: выбор/перемещение/каталог на перенесённом участке"
+          },
+          {
+            "id": "STUDIO.P1/S4",
+            "action": "Квест: список+граф на модели X3, условия фразами, два исхода"
+          },
+          {
+            "id": "STUDIO.P1/S5",
+            "action": "Триггер на карте ↔ шаг квеста"
+          },
+          {
+            "id": "STUDIO.P1/S6",
+            "action": "Играть отсюда через eng/protected_run.py с ревизией контента"
+          }
+        ],
+        "acceptance": "A01 (технически), A06, A07, A16 на настоящем runtime.",
+        "verification": "SMOKE",
+        "stop_if": "Требование ТЗ противоречит канону, AGENTS.md или технически невозможно: назвать требование, доказательство и варианты; продолжать независимую работу.",
+        "read_first": [
+          "docs/production/urman_authoring_studio_spec_2026-09-27.md",
+          "AGENTS.md"
+        ]
+      },
+      "parent_id": "STUDIO",
+      "progress_2026_09_27": "Сделано: P1.1 Urman.Studio.Core — хранилище без переформатирования (JsonSpanDocument, все 55 авторских JSON байт-в-байт), атомарная запись, обнаружение и объединение внешних правок, EditSession (undo/redo, составные команды, защита чужих правок SAVE05), черновики, ID с namespace+random, EntityCatalog+поиск, ReferenceIndex; P1.2 окно Studio (game/studio, eng/run-studio.sh под protected_run): верхняя строка, разделы/вкладки/Назад, панель свойств, статусы, ⌘S/⌘Z, автосохранение черновика 30 с, слежение за диском 2 с; «Мир» — настоящая деревня, маркеры участка Тамары, выбор/перетаскивание одной командой, числовые поля, «Где используется»; «Квесты» — список и граф одной модели, правило этапа, вставка этапа/выбора/удаление; «Играть отсюда» — компиляция, запуск настоящей игры у выбранного объекта, ревизия в игре, журнал в .urman-studio/runs. Осталось в P1: условия фразами и эффекты, триггер на карте ↔ шаг, диалог/предмет/NPC побочного квеста, два исхода с последствиями мира и их прохождение, разбор конфликта в UI, передача контекста.",
+      "evidence": [
+        "tests-dotnet/Urman.Studio.Tests: 24 passed (StorageTests 9, QuestFlowTests 7, SemanticMergeTests 8)",
+        "studio selfcheck 2026-09-27: PASS (village 13 markers, select by ID, drag=1 undo, undo clean, quests list+graph, Play from here started at (13.24,-0.29,-45.60), file on disk untouched, userdata restored)",
+        "tamara_fence_smoke_test 56 passed; act1_main_menu_smoke_test PASS after shared debug entry",
+        "studio_side_quest_smoke_test: 29 checks passed (accept/refuse, gate state+collision, repeat trigger/pickup, save/load)",
+        "studio selfcheck: PASS incl. catalogue place/undo/redo in real world, template NPC+gate, map↔quest links both ways",
+        "studio collab selfcheck (disposable copy): PASS — same-field conflict decided, other changes of both sides kept, saved",
+        "tests-dotnet/Urman.Studio.Tests: 29 passed",
+        "studio selfcheck 2026-09-27 (повтор после правок): 50 PASS / 0 FAIL — знакомство, выбор по ID, перетаскивание = 1 отмена, список и граф квеста, шаблон NPC+калитка, перенос колодца, туман и «ночь», кисть 6 растений, рельеф 1,14→2,98 м, монтажная шкала 75 действий, «Играть отсюда», файл на диске не изменён",
+        "tests-dotnet/Urman.Studio.Tests: 34 passed (было 32)",
+        "studio-collab-check 2026-09-27: PASS (6 проверок, одноразовая копия checkout, guard восстановил userdata)"
+      ],
+      "progress_2026_09_27_b": "Сделано дополнительно: общий исполнитель авторского мира в игре (AuthoredWorldDirector: prop/npc/pickup/trigger, сюжетные состояния с видимостью+коллизией, отложенная коллизия над игроком); каталог 129 объектов из наборов проекта с превью; в окне — каталог с размещением силуэтом/Escape, свойства объектов, редактор состояний, удаление со списком связей, живой предпросмотр правок/отмены на настоящем мире; редактор условий/эффектов фразами с типизированными выборами и группами ИЛИ/НЕ; названия фактов и исходов (content/studio/facts.v1.json); связи карта↔квест по фактам в обе стороны; шаблон «выбор с двумя исходами» и форма в «Квестах»; правка текстов целей, условий, последствий переходов; раздел «Диалоги» (реплики, ответы, условия, последствия, правила входа); «Контекст…» у каждого ID (текст + пакет с черновиком и зависимостями); раздел «Совместная работа» с разбором конфликтов было/моё/входящее. Осталось в P1: обучение-знакомство в окне (UX09), человеческий прогон A01/A25 автором; транспорт обмена ревизиями ждёт решения автора."
+    },
+    {
+      "id": "STUDIO.P2",
+      "title": "P2: вся деревня и каталог",
+      "milestone": "M7",
+      "status": "in_progress",
+      "complexity": "umbrella",
+      "active_owner": "claude/studio-2026-09-27",
+      "owner": "studio",
+      "depends_on": [
+        "STUDIO.P1"
+      ],
+      "scope": [
+        "studio/"
+      ],
+      "source_requirements": [
+        "§6",
+        "§10",
+        "WORLD01–WORLD15",
+        "STATE01–STATE06"
+      ],
+      "opened": "2026-09-27",
+      "execution": {
+        "kind": "work",
+        "unit": "Расстановка, дом+интерьер, рельеф, дороги, растительность, материалы, свет, погода, звук, сюжетные состояния мира; перенос всей обещанной деревни из C# по участкам.",
+        "steps": [],
+        "acceptance": "A02, A03, A08, A09 проверены; покрытие «редактируется/требуется перенос» показано и закрыто.",
+        "verification": "ACCEPTANCE",
+        "stop_if": "Требование ТЗ противоречит канону, AGENTS.md или технически невозможно: назвать требование, доказательство и варианты; продолжать независимую работу.",
+        "read_first": [
+          "docs/production/urman_authoring_studio_spec_2026-09-27.md",
+          "AGENTS.md"
+        ]
+      },
+      "parent_id": "STUDIO",
+      "progress_2026_09_27": "Начато заранее в рамках P1: общий исполнитель участков мира, каталог 129 объектов, размещение, сюжетные состояния. Перенос остальной деревни из кода, рельеф, дороги, растительность, свет, погода, звук — не начаты.",
+      "progress_2026_09_27_b": "205 постановок наборов деревни (дома, участки, заборы, сараи, дровницы, калитки, дороги, опушка, обочина, ФАП) переданы в данные act1_village_kit.world.v1.json через KitPlacementTakeover; отклонение от прежней сборки 0; в Studio — перетаскивание/поворот/масштаб/скрытие с живым обновлением настоящего мира и отменой; оси дорожного набора исправлены в каталоге. Осталось в P2: срезы рельефа/порталы/дорожки за перемещёнными объектами (WORLD13), интерьеры как часть дома (WORLD09), рельеф/дороги/кисть растительности (WORLD10–11), свет/погода/звук (WORLD12), проверки проходов (WORLD14), импорт GLB с проверками (WORLD05–06), остальные ~2 700 координат кода (NPC-постановки, находки, интерьеры).",
+      "evidence": [
+        "harvest 205 unique anchors; takeover result deviation 0",
+        "studio_village_kit_smoke_test: 5 checks passed (moved+turned well, hidden woodpile, blocker follows)",
+        "studio selfcheck: village well moved live and undone",
+        "atmosphere dump before/after: 3 profiles, 0 diffs",
+        "studio selfcheck: fog edit reaches environment, undo, night preview; brush 7 plants, undo/redo same positions, road stroke 8 skipped; brightness 147.8 before/after play"
+      ],
+      "progress_2026_09_27_c": "Свет/небо/туман: 3 профиля в atmosphere.v1.json, 0 расхождений с кодом, панель с живым предпросмотром. Кисть растительности: штрих-сущность с семенем, воспроизводимость и защита проходов проверены самопроверкой. Каталог 177 записей. Исправлено затемнение вида Studio паузой игры.",
+      "progress_2026_09_27_d": "Импорт GLB/glTF/PNG/JPEG/WAV/OGG с проверкой и отчётом (9/9 на одноразовой копии); каталог как сущности рабочего пространства; группы/дублирование/блокировка/слои/линейка/уровень глаз; рельеф штрихами (поднять/опустить/сгладить/выровнять) в данных, вид и коллизия из одной функции высоты — проверено самопроверкой.",
+      "remaining_2026_09_27": [
+        "WORLD09 дом как целое: интерьер, крыша, двери, связанные входы, скрытие стен/крыши",
+        "WORLD10 дороги и тропинки: линии с шириной, материалом и точками соединения",
+        "WORLD13 показ коллизий, проходов, доступности двери/предмета, маршрутов и препятствий; сверка видимого объекта с физическим двойником",
+        "WORLD14 предупреждения при масштабировании дома и проверки достижимости по состоянию мира",
+        "WORLD02 карточка каталога (материалы, коллизия, совместимость, источник/лицензия), избранное, недавние, правка названия/категории в окне",
+        "WORLD05/06 импорт материалов и анимаций, проверка коллизий, предпросмотр модели до вставки",
+        "WORLD07 масштаб по осям, числовой ввод, локальные/мировые оси, сетка, привязка к поверхности, выравнивание, блокировка",
+        "WORLD12 осадки, ветер, время суток, звуковые зоны, материалы (свет/небо/туман уже в данных)",
+        "WORLD11 авторские scatter-штрихи в канонических данных и области исключения",
+        "Схемы и компиляционная проверка world-plot/cutscene/animation: сейчас их видит только самопроверка Studio, ContentCompiler их не знает",
+        "Реестр охвата §20.2 «редактируется / требуется перенос» и обратная проверка, что каждая постановка генератора покрыта файлом участка",
+        "Перенос остальной деревни: 9 якорных групп, ~22 узла участков, рельеф, уличный реквизит, растительность, река/мост, мечеть, интерьеры, AgentBAct1*, таблицы Act1WorldLayout (~1 275 литеральных Vector3 в 80 файлах); производные (срезы, дверные порталы, дорожки) должны следовать за перемещением"
+      ]
+    },
+    {
+      "id": "STUDIO.P3",
+      "title": "P3: полная логика квестов, диалоги, NPC, анимации, сцены",
+      "milestone": "M7",
+      "status": "in_progress",
+      "complexity": "umbrella",
+      "active_owner": "claude/studio-2026-09-27",
+      "owner": "studio",
+      "depends_on": [
+        "STUDIO.P1"
+      ],
+      "scope": [
+        "studio/"
+      ],
+      "source_requirements": [
+        "§8",
+        "§9",
+        "§11",
+        "§12",
+        "§20.5"
+      ],
+      "opened": "2026-09-27",
+      "execution": {
+        "kind": "work",
+        "unit": "Все отношения квестов, таймеры, повторяемость, сложные диалоги, расписания NPC, каталог анимаций, камеры и монтажная шкала; Тамара полностью из редакторских данных.",
+        "steps": [],
+        "acceptance": "A04, A05, A10–A15; Тамара: обычный сценарий, пропуск, сохранение/загрузка согласованы.",
+        "verification": "ACCEPTANCE",
+        "stop_if": "Требование ТЗ противоречит канону, AGENTS.md или технически невозможно: назвать требование, доказательство и варианты; продолжать независимую работу.",
+        "read_first": [
+          "docs/production/urman_authoring_studio_spec_2026-09-27.md",
+          "AGENTS.md"
+        ]
+      },
+      "parent_id": "STUDIO",
+      "progress_2026_09_27": "Катсцена Тамары перенесена в данные (75 действий, след 86 вызовов совпал); монтажная шкала в Studio: список+дорожки, перемотка без состояния, кадр из вида, перестановка с отменой; свойства действий. Переходы квестов (развилки/группы/объединения) в Core — из X3. Осталось: расписания и маршруты NPC, каталог анимаций, таймеры и повторяемость квестов, сложные диалоги (таймер выбора, проверки), сопровождение, конфликт занятости сцен.",
+      "evidence": [
+        "cutscene trace before/after: 86/86 identical",
+        "tests: CutsceneTimelineTests 2 passed (length 50–70 s; measured 61.3 s)",
+        "studio selfcheck: timeline 75 actions, scrub shot, insert/move/undo exact"
+      ],
+      "remaining_2026_09_27": [
+        "QUEST01–05 представления кампании (сюжет/побочные/все/карта), карточка квеста, типизированный граф зависимостей, сортировка списка отдельно от «сделать доступным после…», фильтры и выделение предков/последствий",
+        "QUEST07/09/10/12/14 стартовое событие как сущность, состояния и повторяемость с run ID и политикой награды, таймеры, политика ожиданий, проблемы рядом с шагом",
+        "DLG02–DLG07 несколько участников, условные ответы, исход неуспеха и таймаут, локализация и татарские токены, озвучка, проигрывание диалога, показ в игровом UI",
+        "CINE02–CINE09 обрезка/перекрытие/маркеры, камера с сопровождением и границами кадра, анимации и маршруты из каталогов, снимок физики для перемотки, постоянные эффекты и пропуск, контрольная точка, Reduced Motion, занятость NPC",
+        "NPC01–04 карточка персонажа, расписания блоками, маршруты с недостижимостью и политикой неуспеха",
+        "ANIM01–05 каталог анимаций с движущимися превью и выбор клипа (31 запись в данных есть, потребителя нет), импорт и повторное использование, владелец перемещения, сокеты предметов",
+        "§20.5 прогон Тамары целиком из редакторских данных: расстановка, камеры, маршрут, реплики, предметы, итоговое состояние, пропуск и загрузка"
+      ]
+    },
+    {
+      "id": "STUDIO.P4",
+      "title": "P4: остальные игровые редакторы",
+      "milestone": "M7",
+      "status": "todo",
+      "complexity": "umbrella",
+      "active_owner": null,
+      "owner": "studio",
+      "depends_on": [
+        "STUDIO.P1"
+      ],
+      "scope": [
+        "studio/"
+      ],
+      "source_requirements": [
+        "§13",
+        "§14"
+      ],
+      "opened": "2026-09-27",
+      "execution": {
+        "kind": "work",
+        "unit": "Документы, улики, журнал, татарский язык, старый ПК, магазины, транспорт, головоломки, игровой UI, звук; предметы и взаимодействия.",
+        "steps": [],
+        "acceptance": "A11, A22: каждый из десяти разделов §14 подтверждён редактированием с игровым результатом.",
+        "verification": "ACCEPTANCE",
+        "stop_if": "Требование ТЗ противоречит канону, AGENTS.md или технически невозможно: назвать требование, доказательство и варианты; продолжать независимую работу.",
+        "read_first": [
+          "docs/production/urman_authoring_studio_spec_2026-09-27.md",
+          "AGENTS.md"
+        ]
+      },
+      "parent_id": "STUDIO",
+      "remaining_2026_09_27": "Ни один раздел §14 не начат: документы и записки, улики и расследование, журнал, татарский язык, старый ПК, магазины, транспорт, головоломки, игровой UI, звук и атмосфера; отдельно ITEM01–ITEM05 (карточка определения и экземпляр, действия, комбинации с атомарным списанием/выдачей, «требуется новая механика», правила для предмета, полученного до квеста)."
+    },
+    {
+      "id": "STUDIO.P5",
+      "title": "P5: встроенное моделирование, лица, одежда, персонажи",
+      "milestone": "M7",
+      "status": "todo",
+      "complexity": "umbrella",
+      "active_owner": null,
+      "owner": "studio",
+      "depends_on": [
+        "STUDIO.X2",
+        "STUDIO.P1"
+      ],
+      "scope": [
+        "studio/"
+      ],
+      "source_requirements": [
+        "§7",
+        "§8 ANIM01–ANIM05"
+      ],
+      "opened": "2026-09-27",
+      "execution": {
+        "kind": "work",
+        "unit": "Пять сценариев MODEL07 внутри Studio с игровым предпросмотром.",
+        "steps": [],
+        "acceptance": "A21: все пять MODEL07 выполнены в Studio; результат в каталоге и игре.",
+        "verification": "ACCEPTANCE",
+        "stop_if": "Требование ТЗ противоречит канону, AGENTS.md или технически невозможно: назвать требование, доказательство и варианты; продолжать независимую работу.",
+        "read_first": [
+          "docs/production/urman_authoring_studio_spec_2026-09-27.md",
+          "AGENTS.md"
+        ]
+      },
+      "parent_id": "STUDIO",
+      "remaining_2026_09_27": "Техника подтверждена X2, пользовательского модуля нет: выбор вершин/рёбер/граней, скульптурные кисти, одежда из поверхности, привязка к шаблонному скелету, интеграция с каталогом и обновление производных ресурсов (MODEL01–MODEL06); пять сценариев MODEL07/A21 не пройдены. Нужен ответ автора по установке Blender (~400 МБ) и условиям GPL."
+    },
+    {
+      "id": "STUDIO.P6",
+      "title": "P6: совместная работа, восстановление, передача контекста, окончательная приёмка",
+      "milestone": "M7",
+      "status": "todo",
+      "complexity": "umbrella",
+      "active_owner": null,
+      "owner": "studio",
+      "depends_on": [
+        "STUDIO.X4",
+        "STUDIO.P1"
+      ],
+      "scope": [
+        "studio/"
+      ],
+      "source_requirements": [
+        "§17",
+        "§18",
+        "§21",
+        "§23"
+      ],
+      "opened": "2026-09-27",
+      "execution": {
+        "kind": "work",
+        "unit": "Получить/посмотреть/объединить/отправить; конфликты; восстановление после сбоя; case ID и пакеты для разработчика; замеры §21; приёмка A01–A25.",
+        "steps": [],
+        "acceptance": "A17–A20, A24 технически; A01, A15, A23, A25 — человеческая оценка автором.",
+        "verification": "ACCEPTANCE",
+        "stop_if": "Требование ТЗ противоречит канону, AGENTS.md или технически невозможно: назвать требование, доказательство и варианты; продолжать независимую работу.",
+        "read_first": [
+          "docs/production/urman_authoring_studio_spec_2026-09-27.md",
+          "AGENTS.md"
+        ]
+      },
+      "parent_id": "STUDIO",
+      "remaining_2026_09_27": [
+        "COLLAB01/08/10 получение и отправка ревизий через общий источник, повтор отправки по ID операции, запрет публикации билда вместе с правками (транспорт поверх git — предложение, ждёт решения автора)",
+        "COLLAB03/05 сквозной UI-путь разрешения конфликта порядка (движок исправлен 2026-09-27) и ручная сборка итога",
+        "COLLAB06 разбор бинарного ресурса в окне: BinaryMerge без вызывающего, бинарные файлы не отслеживаются",
+        "COLLAB09 второй писатель на той же копии: нет блокировки и режима «только чтение», AuthoredFile.Save без блокировки (окно TOCTOU)",
+        "SAVE04 именованные контрольные версии с описанием, просмотром изменений и восстановлением как новой ревизии",
+        "HAND03/06/07 case ID и пакет сбоя; входящее предложение разработчика с базовой ревизией и выборочным применением; защита авторского объекта",
+        "PLAY02–PLAY06/09 панель стартового состояния, различение достижимого и искусственного, причины несрабатывания, пауза и следующий логический шаг, заморозка времени, правка во время игры",
+        "EXP01–EXP06 точки интереса, связи «внимание → как добраться → что сделать → что изменится», линия видимости и альтернативные проходы, запись пути, шаблоны окружения, защита канона",
+        "§21 числовые цели не измерялись (UI ≤100 мс, поиск ≤300 мс, граф до 100 квестов, мир ≥30 FPS, запуск ≤15 с, кеш 2 ГБ); RunFolders пишет pinned=false и закрепить запуск нельзя",
+        "§23 A24 и A25 измеряются и оцениваются человеком"
       ]
     }
   ]
