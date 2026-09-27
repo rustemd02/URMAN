@@ -2744,7 +2744,7 @@
         "ACT1-CUTSCENE"
       ],
       "units": [
-        "A02 next unit: follow ordinary New Game from arrival photo memory to the first concrete contradiction and player-chosen check on the current DLL. Verify the actual action, journal effect and return path; fix only a reproduced gap. The authored 8-second intro flight is a technical candidate, not accepted sound, motion art, saved seen-state or full A02 experience; see a02-intro-flyover/receipt.json."
+        "A02 next unit: inspect the existing save/menu owners, then persist arrival-intro seen/skip state and offer an explicit replay without granting clues. Verify cold Continue before and after the intro and replay on the same DLL. The first personal-source-to-checked-contradiction route is technically covered by a02-first-investigation/receipt.json; human comprehension, visual motion and audio remain open."
       ],
       "owner": "codex-01a0dd89 / GPT-6 Astra; no active native process or child writer",
       "previous_packet": "A01 scoped collision triage recorded 2026-09-27: historical Babai shelter-post failure did not recur in guarded full-scope checks; full boundary still exits1 for MainStreetForwardWestFacade arbitrary wall-face fixture. Current native ADR-H018 route reached the door/plate from road and returned, 18/18 points each way, zero recoveries/clamps; no user-facing road-to-door blocker reproduced. ACT1-TECH.1/.2 and other A01 tasks remain in_progress; revisit on concrete episode defects, not as a full A01 acceptance claim."
@@ -5258,7 +5258,7 @@
       ],
       "mvp_priority": 20,
       "mvp_packet": "A02",
-      "current_checkpoint": "2026-09-26 timetable unit PASS: shed moved behind H019 retaining identity/collision; guarded arrival3 83 checks, 25.39m actual walking with no teleport/recovery; physical E/manual journal/close/save/load/revisit. Exact expected unconfirmed урман exposure from read source; no other story/vocabulary changes. docs/production/tamara_mvp_2026-09-26/arrival. Sound/personal clue/whole arrival human acceptance remain open.",
+      "current_checkpoint": "2026-09-26 timetable unit PASS: shed moved behind H019 retaining identity/collision; guarded arrival3 83 checks, 25.39m actual walking with no teleport/recovery; physical E/manual journal/close/save/load/revisit. Exact expected unconfirmed урман exposure from read source; no other story/vocabulary changes. docs/production/tamara_mvp_2026-09-26/arrival. Sound/personal clue/whole arrival human acceptance remain open. 2026-09-27 A02 current-DLL family-home-only and journal-flow guarded routes exit0 from New Game through photo memory and manual first contradiction; source actions are checked, human noticing and quality are not. See a02-first-investigation/receipt.json.",
       "delivery": {
         "packet": "A02"
       },
@@ -6304,7 +6304,7 @@
         "game/scripts/DialogueUi.cs"
       ],
       "deliverable": "Early meaningful choices and first evidence/application/reaction loop with polished home, character, audio and save.",
-      "current_checkpoint": "2026-09-27 A02 opening presentation candidate: an authored 8-second winter-village camera flight now joins New Game to the real arrival camera, with immediate skip, reduced-motion still view and readable lower-third at normal/160% in inspected native 1280x720 frames. Current DLL normal/large intro and save-lifecycle checks pass; this does not accept the first 8–12-minute story loop, audio, cold Continue, human interest or artistic motion. See docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/receipt.json.",
+      "current_checkpoint": "2026-09-27 A02 technical first-investigation route: on the same dirty DLL as the intro capture, guarded family-home-only and journal-flow smoke both exited 0. Ordinary New Game reads the physical photo before its memory/question, handles both family replies and return/load, then reaches a player-selected document comparison with recoverable wrong choices, a checked spoken answer, one journal conclusion and the original memory still readable. This is scripted state/UI verification, not a human first-play, 8–12-minute measurement, artistic assessment, post-contradiction cold load or completed A02. See docs/production/mvp_tracker_2026-09-27/a02-first-investigation/receipt.json.",
       "done_when": [
         "Early meaningful choices and first evidence/application/reaction loop with polished home, character, audio and save."
       ],
@@ -14764,7 +14764,7 @@
           "Автор оценивает постановку по реальной сцене/захвату, не по концепту."
         ],
         "avoid": "Не ждать идеального лица второстепенного NPC и не удлинять заставку ради хронометража.",
-        "first_segment_checkpoint_2026_09_27": "Authored arrival camera path and lower-third on current dirty DLL: native normal/160% launch exit0, reduced-motion exit0, same-DLL save lifecycle exit0; selected keyframes in docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/. A02 first personal action/contradiction, seen-state, replay, sound, smoke, cold Continue and human art/interest remain open."
+        "first_segment_checkpoint_2026_09_27": "Authored arrival flight/lower-third and current dirty-DLL route: native intro normal/160%, reduced-motion and save lifecycle exit0 with selected frames in a02-intro-flyover/; guarded family-home-only and journal-flow exit0 from photo action through recoverable manual comparison and checked conclusion, documented in a02-first-investigation/. This does not accept human noticing, 8–12-minute pacing, seen-state, replay, sound, smoke, cold Continue or artistic motion."
       },
       {
         "id": "A03",
