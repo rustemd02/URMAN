@@ -1,0 +1,31 @@
+{
+  "date": "2026-09-27",
+  "packet": "A00 / LEN01.1, Naila permission and document-field episode",
+  "sourceHead": "ed42e122 (dirty main checkout)",
+  "gameDllSha256": "fba27230ba95e1cc87d19073e81c0474a19731b21a9acaab20be56a97b83b8d1",
+  "headlessCommand": ". eng/dotnet-env.sh; python3 eng/protected_run.py --clean --timeout 360 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --headless --path game res://tests/act1_len01_family_flow_smoke_test.tscn",
+  "headlessExitCode": 0,
+  "verified": [
+    "Normal start reaches FAP only after the family and Alsu source checks.",
+    "Naila must answer the family request before the document desk opens; the optional lamp does not grant record access.",
+    "The FAP document desk and official-record scenes lead to the internal register; reading alone does not produce selected fields or the contradiction.",
+    "The actual source selector rejects a heading and cancelled selection, records distinct fields, and preserves them through save/load.",
+    "A mistaken diagnosis hypothesis survives rereading and save/load; the corrected field question and later journal comparison produce the bounded conclusion.",
+    "The existing family-flow smoke continued through its later route and exited 0."
+  ],
+  "headlessUi": "Native keyboard, resize, raster capture and human readability were explicitly external/not-run.",
+  "nativeAttempt": {
+    "command": ". eng/dotnet-env.sh; python3 eng/protected_run.py --clean --timeout 360 .tools/godot/Godot_mono.app/Contents/MacOS/Godot --path game --resolution 1280x720 res://tests/act1_len01_family_flow_smoke_test.tscn --urman-smoke-background-input --no-auto-performance-fallback",
+    "exitCode": 1,
+    "reached": "FAP permission and internal-register transition",
+    "failure": "The background-window keyboard UI proof did not process Space on Begin; no native selection or visual PASS is claimed."
+  },
+  "nativeRunExcerpt": "docs/production/mvp_tracker_2026-09-27/fap-records/native-run-excerpt.log",
+  "engineErrors": "Two SaveGameV3 load refusals in the existing deliberate invalid-Alsu-save checks; no harness error in the headless PASS.",
+  "guardRestored": true,
+  "runExcerpt": "docs/production/mvp_tracker_2026-09-27/fap-records/run-excerpt.log",
+  "limits": [
+    "The source tree was dirty; this validates the current DLL, not a clean release candidate.",
+    "Neither a first-time human route, a 60-minute experience, sound, nor visual quality was measured."
+  ]
+}

@@ -1,0 +1,5 @@
+[621] scene.entered: urman.chapter1:interaction/fap-to-document-desk
+[626] scene.entered: urman.chapter1:interaction/fap-document-desk-to-official-record
+[634] scene.entered: urman.chapter1:interaction/official-to-internal-register
+ERROR: act1-len01-family-flow: System.InvalidOperationException: Begin did not focus the actual source text in read-only selection mode: selecting=False, visible=False, focus=False, editable=False, sameText=False (0/2687).
+userdata guard: original files and permissions restored and verified
