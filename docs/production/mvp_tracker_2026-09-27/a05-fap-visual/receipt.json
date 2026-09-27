@@ -10,7 +10,23 @@
     "fieldOfViewDegrees": 68,
     "controllerTraversal": false
   },
-  "observation": "The door, FAP sign and house number are recognizable at four metres; the street-name text is too small to read in this frame. Close first-person readability is not established.",
+  "observation": "The door, FAP sign and house number are recognizable at four metres; the street-name text is too small to read in this diagnostic frame alone.",
+  "walkedCapture": {
+    "scenario": "Protected URMAN_WALK_MAIN_ROUTE_ONLY=1 act1_first_person_walkthrough_smoke_test with existing URMAN_WALK_CAPTURE_DIR; stopped after FAP frames, so this capture run is not a PASS verdict; user data guard restored.",
+    "frames": [
+      {
+        "image": "03_fap_walked_branch.png",
+        "imageSha256": "1951900d9e67d2854f1a62c362c89557d58db21a060fb2c414fa2df8dbba963f",
+        "actualPlayerPosition": "(22.767828, -0.48907846, -24.864191)"
+      },
+      {
+        "image": "04_fap_walked_door.png",
+        "imageSha256": "8401bb7d313a753677ec8281a8cc2053cf3f1439400d653e04d381d380286596",
+        "actualPlayerPosition": "(26.60174, -0.12453182, -26.46669)"
+      }
+    ],
+    "observation": "The physical door approach shows the bilingual street plate and house number readable from the player's near position, with the mapped entry prompt visible. This does not show a separate address-read interaction or a return from the plate."
+  },
   "addressAudit": "The full address-world diagnostic was time-capped at 20 seconds and exited 1 with pending and unrelated address failures; this image is not address-audit acceptance.",
-  "remaining": "Read ADR-FAP from the actually reached deck, return physically to the road, capture the first-person approach, and obtain human unprompted wayfinding review."
+  "remaining": "Read ADR-FAP through its plate interaction from the actually reached deck, return physically to the road, and obtain human unprompted wayfinding review."
 }
