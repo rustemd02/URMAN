@@ -254,6 +254,9 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     /// </summary>
     private void RefreshTaskList(IReadOnlyList<string> titles, RuntimeBridge.TamaraFenceSnapshot? fence)
     {
+        var gamepad = GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
+            && player.CurrentInputDevice == "gamepad";
+        var journalHint = InputBindingService.ActionHint("journal", gamepad);
         foreach (var row in _taskRows)
         {
             if (GodotObject.IsInstanceValid(row)) row.QueueFree();
@@ -267,7 +270,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         for (var index = 0; index < titles.Count; index++)
         {
             var current = index == 0;
-            AddTaskRow(current ? "●" : "•", titles[index],
+            AddTaskRow(current ? "●" : "•", titles[index].Replace("[J]", journalHint, StringComparison.Ordinal),
                 current ? new Color(.95f, .83f, .56f) : new Color(.86f, .82f, .72f),
                 current ? 20 : 18, indent: current ? 0 : 12);
         }
