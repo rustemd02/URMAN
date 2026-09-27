@@ -2739,15 +2739,16 @@
     "priority_policy_2026_09_26": "Use tasks.mvp_priority ascending among dependency-ready units; smaller is earlier. Fix observed control/progression/UI defects before cosmetic expansion. One unit per packet with player effect, evidence, next step. Preserve all EX00–EX14 and >=60 active minutes; no padded duration. Prior statuses/evidence are historical unless tied to this build. in_progress records incomplete work, not a live worker. Priority 90 needs external input; 100 preserves long-term scope outside this Act I run.",
     "active_packet": {
       "task_ids": [
-        "FINISH-02",
-        "ACT1-ARRIVAL",
-        "ACT1-CUTSCENE"
+        "FINISH-03",
+        "LEN01.2",
+        "LEN01.3",
+        "ACT1-OLDPC-DOCS"
       ],
       "units": [
-        "A02 next unit: inspect existing winter ambience and scene props for the arrival flight; if a real authored sound/smoke owner already exists, connect only that source and verify timing/camera frames. Otherwise record the missing asset and advance to the next dependency-ready MVP packet. Human motion, pacing and comprehension remain external; no synthetic audio or invented 60-minute claim."
+        "A03 first unit: on the current build, trace the first official-version/witness/FAP investigation loop from a player-selected question to one wrong or incomplete hypothesis, source return and cold load. Repair only a reproduced blocker or misleading transition on that path; preserve existing content/knowledge owners. Criterion: ordinary guarded route and the narrow affected-path check agree, no automatic knowledge or duplicated reaction. Human understanding and interest remain external."
       ],
       "owner": "codex-01a0dd89 / GPT-6 Astra; no active native process or child writer",
-      "previous_packet": "A01 scoped collision triage recorded 2026-09-27: historical Babai shelter-post failure did not recur in guarded full-scope checks; full boundary still exits1 for MainStreetForwardWestFacade arbitrary wall-face fixture. Current native ADR-H018 route reached the door/plate from road and returned, 18/18 points each way, zero recoveries/clamps; no user-facing road-to-door blocker reproduced. ACT1-TECH.1/.2 and other A01 tasks remain in_progress; revisit on concrete episode defects, not as a full A01 acceptance claim."
+      "previous_packet": "A02 smoke/audio unit 2026-09-27: existing arrival wind bed already routes through Main.SwitchZone; two chimney emitters now advance during the non-reduced-motion flyover while village NPC life remains gated. Native normal/reduced-motion launch and three current-DLL frames pass, but plume is barely readable and sound/art/human checks stay open. See a02-intro-smoke/receipt.json."
     },
     "priority_policy_2026_09_27": "act1_delivery_plan is the current Act I delivery order; it supersedes priority_policy_2026_09_26. Finish the already owned active_packet first; apply packet entry evidence, original dependencies, criteria and human gates. Do not execute HISTORY/FUTURE/AUTHOR-DEFERRED as normal Act I work."
   },
@@ -13399,7 +13400,7 @@
       "evidence": [
         "docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/receipt.json"
       ],
-      "current_checkpoint": "2026-09-27: intro-specific JSON camera track/control candidate. Native normal/160% frames, reduced-motion path, skip and natural return were checked earlier; current-DLL guarded launch and cold main-menu runs exit0. Boot-menu replay uses a separate debug save store, returns to menu, leaves player save hashes unchanged; New Game returns to ordinary session and Continue loads directly without replay. A new save-schema seen bit was rejected because no behavior consumes it. No generic multi-scene player, authored sound, weak-host performance or human motion review; keep in_progress. See a02-intro-flyover/ and a02-intro-replay/receipts.",
+      "current_checkpoint": "2026-09-27: intro-specific JSON camera track/control candidate. Native normal/160% frames, reduced-motion path, skip and natural return were checked earlier; current-DLL guarded launch and cold main-menu runs exit0. Boot-menu replay uses a separate debug save store, returns to menu, leaves player save hashes unchanged; New Game returns to ordinary session and Continue loads directly without replay. A new save-schema seen bit was rejected because no behavior consumes it. No generic multi-scene player, authored sound, weak-host performance or human motion review; keep in_progress. See a02-intro-flyover/ and a02-intro-replay/receipts. The arrival zone already routes its recorded wind bed through the existing AmbientAudioDirector; no separate sound player was added. Listening and scene-specific mix are still open.",
       "mvp_priority": 20,
       "mvp_packet": "A02",
       "delivery": {
@@ -13458,9 +13459,10 @@
         "Пролёт читается (силуэты деревни, лес, дым), скорость комфортна; звук синхронизирован."
       ],
       "evidence": [
-        "docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/receipt.json"
+        "docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/receipt.json",
+        "docs/production/mvp_tracker_2026-09-27/a02-intro-smoke/receipt.json"
       ],
-      "current_checkpoint": "2026-09-27: one camera-curve segment from above the current winter village to actual arrival spawn, with four current-DLL native frames including 160% text. Forest and settlement are visible without a centre card. No visible smoke established, no authored sound synchronization/listening, motion-art review, weak-hardware FPS or human acceptance; ACT1-CUTSCENE.2 remains in_progress.",
+      "current_checkpoint": "2026-09-27: one camera-curve segment from above the current winter village to actual arrival spawn, with four current-DLL native frames including 160% text. Forest and settlement are visible without a centre card. No visible smoke established, no authored sound synchronization/listening, motion-art review, weak-hardware FPS or human acceptance; ACT1-CUTSCENE.2 remains in_progress. 2026-09-27: existing ambient.village-arrival bed is already selected for village_day@arrival. Existing two chimney emitters advance during the non-reduced-motion flyover after the VillageLife gate fix; native normal/reduced launch and three frames passed on exact local DLL. The plume is barely readable in the wide frame; synchronized sound, perceived motion, composition, weak-host FPS and human review remain open. See a02-intro-smoke/receipt.json.",
       "mvp_priority": 20,
       "mvp_packet": "A02",
       "delivery": {
@@ -14765,7 +14767,7 @@
           "Автор оценивает постановку по реальной сцене/захвату, не по концепту."
         ],
         "avoid": "Не ждать идеального лица второстепенного NPC и не удлинять заставку ради хронометража.",
-        "first_segment_checkpoint_2026_09_27": "Current dirty-DLL technical evidence: authored intro flight and 1280×720 normal/160% frames in a02-intro-flyover/; photo→family→selected excerpts→checked conclusion in a02-first-investigation/; explicit boot-menu replay/skip and cold Continue with byte-identical normal saves in a02-intro-replay/. A persisted seen bit is unnecessary because replay is opt-in and Continue never enters the intro. A02 remains open for authored sound, smoke, motion/camera art, weak-host performance, and human first-play comprehension/duration."
+        "first_segment_checkpoint_2026_09_27": "Current dirty-DLL technical evidence: authored intro flight and 1280×720 normal/160% frames in a02-intro-flyover/; photo→family→selected excerpts→checked conclusion in a02-first-investigation/; explicit boot-menu replay/skip and cold Continue with byte-identical normal saves in a02-intro-replay/. A persisted seen bit is unnecessary because replay is opt-in and Continue never enters the intro. A02 remains open for authored sound, smoke, motion/camera art, weak-host performance, and human first-play comprehension/duration. Existing recorded arrival wind is routed already; chimney particles now advance while the authored camera is current, with normal/reduced-motion protected launch and current-DLL frames in a02-intro-smoke/. Smoke is barely legible in the wide frame, and timed audio/mix/human art review remain open. Continue A03 while those external/art gates remain visible."
       },
       {
         "id": "A03",

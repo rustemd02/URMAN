@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-27",
+  "scope": "A02 arrival ambience and chimney smoke during the authored flyover",
+  "dll_sha256": "b776e7c960cd2b663844e0ff3e87c2d8d896364c53846535c88310ab69489c9c",
+  "finding": "The recorded ambient.village-arrival bed was already selected by Main.SwitchZone(village_day, arrival). Two existing chimney emitters were frozen because VillageLife used the player's ModalOpen state during the flyover.",
+  "change": "VillageLife keeps its normal modal motion gate, but the two chimney particles advance while the arrival flyover camera is current and reduced motion is off.",
+  "checks": [
+    "Affected C# build: exit 0, zero errors and warnings",
+    "Protected native act1_demo_launch_smoke_test at 1280x720: exit 0, authored camera, normal handoff, ordinary arrival input/phone/photo; original userdata restored",
+    "Protected headless act1_demo_launch_smoke_test with URMAN_INTRO_REDUCED_MOTION=1: exit 0, still player camera and restored HUD/input; original userdata restored",
+    "Three native frames inspected; graphify update . exited 0"
+  ],
+  "frames": [
+    "01_departure.png",
+    "02_village.png",
+    "03_handoff.png"
+  ],
+  "limits": [
+    "The smoke update follows the camera condition in code, but the plume is barely legible in the wide village frame; this does not accept visual composition or prove perceived particle motion.",
+    "The recorded bed is already wired to the arrival zone; synchronization, mix and audibility were not listened to or accepted. No new cue was authored.",
+    "Human comfort, pacing, comprehension and weaker-host performance remain unrun. The DLL includes other uncommitted work, so this is a local build receipt, not a release receipt."
+  ]
+}
