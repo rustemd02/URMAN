@@ -1,0 +1,35 @@
+# Отладочные переходы «Отладка: локации» — все 12 записей, финальная сборка 2026-09-27
+# Команда на каждый пункт (сериализованно, guard держит userdata):
+#   . eng/dotnet-env.sh && python3 eng/protected_run.py .tools/godot/Godot_mono.app/Contents/MacOS/Godot \
+#       --path game --quit-after 3600 -- "--urman-studio-play=<зона>@<точка>"
+# Столбец on-floor/speed печатает сам переход через 20 кадров после посадки.
+
+jump: fap_clinic@waiting_room
+jump: house_old_pc@entry
+jump: kara_urman_night@forest-approach
+jump: kara_urman_night@village_path
+jump: village_day@arrival
+jump: village_day@bathhouse
+jump: village_day@council
+jump: village_day@from_house
+jump: village_day@mosque
+jump: village_day@school
+jump: village_day@shop
+jump: zirat_road@village_side
+
+fap_clinic@waiting_room at (26.7, 0.078549296, -29.330002) yaw=0 on-floor=True speed=0,00
+house_old_pc@entry at (-28.799229, 0.59390223, -2.4897168) yaw=64,7 on-floor=True speed=0,00
+kara_urman_night@forest-approach at (0.5261888, -0.86387193, -120.101135) yaw=-1,8 on-floor=True speed=0,00
+kara_urman_night@village_path at (0, -0.6362501, -103) yaw=0 on-floor=True speed=0,00
+village_day@arrival at (0, -0.53931254, 9) yaw=0 on-floor=True speed=0,00
+village_day@bathhouse at (-29.133991, 0.65782684, 5.941516) yaw=91,4 on-floor=True speed=0,00
+village_day@council at (33.03354, 0.11366864, 21.299232) yaw=-106 on-floor=True speed=0,00
+village_day@from_house at (-26.158367, 0.3089636, -1.2426405) yaw=-115,3 on-floor=True speed=0,00
+village_day@mosque at (-45.2, 4.7823143, -35.25) yaw=78,3 on-floor=True speed=0,00
+village_day@school at (36.344505, -0.41083282, -50.725025) yaw=-88 on-floor=True speed=0,00
+village_day@shop at (-31.249239, 0.40960705, -39.695545) yaw=88 on-floor=True speed=0,00
+zirat_road@village_side at (0, -0.29301956, -53.5) yaw=0 on-floor=True speed=0,00
+
+jump: village_day@nosuchplace — отказ до старта сеанса:
+Debug zone jump refused: the Act I world has no spawn 'village_day@nosuchplace'.
+(строк «no mapped spawn … transition aborted» в новых прогонах нет)

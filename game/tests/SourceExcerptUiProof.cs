@@ -48,13 +48,16 @@ internal static class SourceExcerptUiProof
         try
         {
             if (selection.Selecting) back.EmitSignal(BaseButton.SignalName.Pressed);
+            await EnsureWindowFocusAsync(host);
             begin.GrabFocus();
             await KeyAsync(host, Key.Space, "begin");
             Require(selection.Selecting && editor.IsVisibleInTree() && editor.HasFocus()
                 && !editor.Editable && editor.Text == sourceText,
                 "Begin did not focus the actual source text in read-only selection mode: "
                 + $"selecting={selection.Selecting}, visible={editor.IsVisibleInTree()}, focus={editor.HasFocus()}, "
-                + $"editable={editor.Editable}, sameText={editor.Text == sourceText} ({editor.Text.Length}/{sourceText.Length}).");
+                + $"editable={editor.Editable}, sameText={editor.Text == sourceText} ({editor.Text.Length}/{sourceText.Length}); "
+                + $"windowFocused={DisplayServer.WindowIsFocused()}, treePaused={host.GetTree().Paused}, "
+                + $"pauseOpen={(host.GetTree().GetFirstNodeInGroup("pause_menu") as PauseMenuUi)?.IsOpen}.");
             var excerpt = await SelectWithShiftAsync(host, editor);
             Require(!record.Disabled, "A real keyboard selection did not enable the excerpt button.");
 
@@ -159,6 +162,22 @@ internal static class SourceExcerptUiProof
         Require(selected == editor.GetLine(line)[..8],
             "Shift+Right did not select characters from the visible source text.");
         return selected;
+    }
+
+    /// <summary>
+    /// A background native window receives no parsed key events, so an unfocused
+    /// run would report a UI fault that is really the desktop's. Ask for focus;
+    /// the Begin failure below names the window and pause state if it stays out.
+    /// </summary>
+    private static async Task EnsureWindowFocusAsync(Node host)
+    {
+        if (DisplayServer.WindowIsFocused()) return;
+        host.GetWindow().GrabFocus();
+        var started = Time.GetTicksMsec();
+        while (!DisplayServer.WindowIsFocused() && Time.GetTicksMsec() - started < 12000)
+            await host.ToSignal(host.GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (!DisplayServer.WindowIsFocused())
+            GD.Print("source-excerpt-ui: native window has no OS focus; keyboard steps below may be dropped by the OS");
     }
 
     private static async Task KeyAsync(Node host, Key key, string label, bool shift = false)

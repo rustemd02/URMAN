@@ -23,7 +23,8 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
     public override void _Ready()
     {
         AddToGroup("dialogue_ui");
-        _foley = UiFoley.Attach(this);        AddToGroup(AccessibilityPresentation.TargetGroup);
+        _foley = UiFoley.Attach(this);
+        AddToGroup(AccessibilityPresentation.TargetGroup);
         _screen = GetNode<Control>("Screen");
         _panel = GetNode<Control>("Screen/Panel");
         _speaker = GetNode<Label>("Screen/Panel/Layout/Speaker");
@@ -98,6 +99,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         _continue.Visible = false;
         UiFoley.Play(_foley, "ui_click");
         _screen.Visible = true;
+        UrmanUiTheme.PlayOpen(_panel, _accessibility.ReducedMotion);
         SetPlayerModal(true);
         if (!await ShowNodeAsync(bridge.ResolveDialogueStartNodeId(_dialogue), applyEffects: true))
         {
@@ -133,11 +135,11 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
             var button = new Button
             {
                 Text = _bridge.ResolveText(choice.TextId),
+                ThemeTypeVariation = UrmanUiTheme.ChoiceButton,
+                Alignment = HorizontalAlignment.Left,
+                AutowrapMode = TextServer.AutowrapMode.WordSmart,
                 SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
             };
-            button.AddThemeStyleboxOverride("normal", _continue.GetThemeStylebox("normal"));
-            button.AddThemeStyleboxOverride("hover", _continue.GetThemeStylebox("hover"));
-            button.AddThemeStyleboxOverride("focus", _continue.GetThemeStylebox("focus"));
             button.Pressed += () => Choose(choice);
             _choices.AddChild(button);
         }

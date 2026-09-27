@@ -115,5 +115,8 @@ public partial class JournalUi
     private string BuildWordSummary() => _wordEntries.Count == 0
         ? "ТАТАРСКИЕ СЛОВА\n—"
         : "ТАТАРСКИЕ СЛОВА\n" + string.Join(" · ", _wordEntries.Select(entry =>
-            $"{entry.Term} — {entry.Meaning}" + (entry.Status == "confirmed" ? "" : " (услышано)")));
+            $"{entry.Term} — {entry.Meaning}" + (entry.Status == "confirmed" ? "" : " (услышано)")))
+          + (_wordEntries.Any(entry => entry.Status != "confirmed")
+              ? "\n«услышано» — Айдар слышал слово, но ещё не проверил его значение."
+              : string.Empty);
 }

@@ -1,0 +1,506 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.world-plot",
+  "id": "urman.anim",
+  "name": "Каталог анимаций",
+  "executor": "animation-catalog",
+  "note": "Движения для персонажей URMAN. Все на одном 65-костном скелете кита персонажей и библиотеки Quaternius UAL (CC0). «kit» — клип самого кита персонажа (Idle/Walk/Talk/Tension), «library ual» — клип библиотеки, «procedural» — движение без клипа.",
+  "entities": [
+    {
+      "id": "urman.anim:idle",
+      "kind": "animation",
+      "name": "Стоять",
+      "params": {
+        "category": "Ожидание",
+        "source": {
+          "kit": "Idle"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:idle-plain",
+      "kind": "animation",
+      "name": "Стоять (простая стойка)",
+      "params": {
+        "category": "Ожидание",
+        "source": {
+          "library": "ual",
+          "clip": "Idle_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:tension",
+      "kind": "animation",
+      "name": "Настороженно стоять",
+      "params": {
+        "category": "Реакция на опасность",
+        "source": {
+          "kit": "Tension"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:walk",
+      "kind": "animation",
+      "name": "Идти",
+      "params": {
+        "category": "Ходьба и бег",
+        "source": {
+          "kit": "Walk"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:walk-plain",
+      "kind": "animation",
+      "name": "Идти (простая походка)",
+      "params": {
+        "category": "Ходьба и бег",
+        "source": {
+          "library": "ual",
+          "clip": "Walk_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:walk-formal",
+      "kind": "animation",
+      "name": "Идти степенно",
+      "params": {
+        "category": "Ходьба и бег",
+        "source": {
+          "library": "ual",
+          "clip": "Walk_Formal_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:run",
+      "kind": "animation",
+      "name": "Бежать трусцой",
+      "params": {
+        "category": "Ходьба и бег",
+        "source": {
+          "library": "ual",
+          "clip": "Jog_Fwd_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:sprint",
+      "kind": "animation",
+      "name": "Бежать изо всех сил",
+      "params": {
+        "category": "Ходьба и бег",
+        "source": {
+          "library": "ual",
+          "clip": "Sprint_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:crouch-walk",
+      "kind": "animation",
+      "name": "Идти пригнувшись",
+      "params": {
+        "category": "Ходьба и бег",
+        "source": {
+          "library": "ual",
+          "clip": "Crouch_Fwd_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:crouch",
+      "kind": "animation",
+      "name": "Присесть и ждать",
+      "params": {
+        "category": "Ожидание",
+        "source": {
+          "library": "ual",
+          "clip": "Crouch_Idle_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:turn",
+      "kind": "animation",
+      "name": "Повернуться на месте",
+      "params": {
+        "category": "Ходьба и бег",
+        "source": {
+          "procedural": "turn"
+        },
+        "loop": false,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65",
+        "note": "Процедурно: персонаж поворачивается к цели на месте, ноги в стойке. Отдельного клипа поворота в библиотеке нет."
+      }
+    },
+    {
+      "id": "urman.anim:talk",
+      "kind": "animation",
+      "name": "Говорить",
+      "params": {
+        "category": "Разговор и жесты",
+        "source": {
+          "kit": "Talk"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:talk-plain",
+      "kind": "animation",
+      "name": "Говорить с жестами",
+      "params": {
+        "category": "Разговор и жесты",
+        "source": {
+          "library": "ual",
+          "clip": "Idle_Talking_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:point",
+      "kind": "animation",
+      "name": "Указать рукой",
+      "params": {
+        "category": "Разговор и жесты",
+        "source": {
+          "library": "ual",
+          "clip": "Pistol_Aim_Neutral"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65",
+        "note": "Вариант: вытянутая вперёд правая рука из позы прицеливания UAL (оружия в клипе нет). Нужна художественная проверка."
+      }
+    },
+    {
+      "id": "urman.anim:point-up",
+      "kind": "animation",
+      "name": "Указать вверх",
+      "params": {
+        "category": "Разговор и жесты",
+        "source": {
+          "library": "ual",
+          "clip": "Pistol_Aim_Up"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65",
+        "note": "Вариант: поднятая рука из позы прицеливания вверх UAL."
+      }
+    },
+    {
+      "id": "urman.anim:scared",
+      "kind": "animation",
+      "name": "Вздрогнуть от испуга",
+      "params": {
+        "category": "Реакция на опасность",
+        "source": {
+          "library": "ual",
+          "clip": "Hit_Head"
+        },
+        "loop": false,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:flinch",
+      "kind": "animation",
+      "name": "Отшатнуться",
+      "params": {
+        "category": "Реакция на опасность",
+        "source": {
+          "library": "ual",
+          "clip": "Hit_Chest"
+        },
+        "loop": false,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:fall",
+      "kind": "animation",
+      "name": "Упасть",
+      "params": {
+        "category": "Реакция на опасность",
+        "source": {
+          "library": "ual",
+          "clip": "Death01"
+        },
+        "loop": false,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:pick-up",
+      "kind": "animation",
+      "name": "Поднять предмет",
+      "params": {
+        "category": "Подбор и перенос",
+        "source": {
+          "library": "ual",
+          "clip": "PickUp_Table"
+        },
+        "loop": false,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:hand-over",
+      "kind": "animation",
+      "name": "Передать или взять из рук",
+      "params": {
+        "category": "Подбор и перенос",
+        "source": {
+          "library": "ual",
+          "clip": "Interact"
+        },
+        "loop": false,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:carry",
+      "kind": "animation",
+      "name": "Нести перед собой",
+      "params": {
+        "category": "Подбор и перенос",
+        "source": {
+          "library": "ual",
+          "clip": "Push_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65",
+        "note": "Вариант: ходьба с вытянутыми вперёд руками из клипа «толкать» UAL. Нужна проверка с предметом в руках."
+      }
+    },
+    {
+      "id": "urman.anim:sit-down",
+      "kind": "animation",
+      "name": "Сесть",
+      "params": {
+        "category": "Сидение",
+        "source": {
+          "library": "ual",
+          "clip": "Sitting_Enter"
+        },
+        "loop": false,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:sit",
+      "kind": "animation",
+      "name": "Сидеть",
+      "params": {
+        "category": "Сидение",
+        "source": {
+          "library": "ual",
+          "clip": "Sitting_Idle_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:sit-talk",
+      "kind": "animation",
+      "name": "Сидеть и говорить",
+      "params": {
+        "category": "Сидение",
+        "source": {
+          "library": "ual",
+          "clip": "Sitting_Talking_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:stand-up",
+      "kind": "animation",
+      "name": "Встать",
+      "params": {
+        "category": "Сидение",
+        "source": {
+          "library": "ual",
+          "clip": "Sitting_Exit"
+        },
+        "loop": false,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:work-kneel",
+      "kind": "animation",
+      "name": "Чинить на коленях",
+      "params": {
+        "category": "Работа и взаимодействие",
+        "source": {
+          "library": "ual",
+          "clip": "Fixing_Kneeling"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:interact",
+      "kind": "animation",
+      "name": "Взаимодействовать с предметом",
+      "params": {
+        "category": "Работа и взаимодействие",
+        "source": {
+          "library": "ual",
+          "clip": "Interact"
+        },
+        "loop": false,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:push",
+      "kind": "animation",
+      "name": "Толкать",
+      "params": {
+        "category": "Работа и взаимодействие",
+        "source": {
+          "library": "ual",
+          "clip": "Push_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:drive",
+      "kind": "animation",
+      "name": "Сидеть за рулём",
+      "params": {
+        "category": "Работа и взаимодействие",
+        "source": {
+          "library": "ual",
+          "clip": "Driving_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:torch",
+      "kind": "animation",
+      "name": "Держать фонарь",
+      "params": {
+        "category": "Работа и взаимодействие",
+        "source": {
+          "library": "ual",
+          "clip": "Idle_Torch_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65"
+      }
+    },
+    {
+      "id": "urman.anim:dance",
+      "kind": "animation",
+      "name": "Танцевать",
+      "params": {
+        "category": "Эмоции",
+        "source": {
+          "library": "ual",
+          "clip": "Dance_Loop"
+        },
+        "loop": true,
+        "speed": 1.0,
+        "rootMotion": false,
+        "skeleton": "urman-ue65",
+        "note": "Не для серьёзных сцен; есть в библиотеке."
+      }
+    }
+  ]
+}

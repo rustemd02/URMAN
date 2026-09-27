@@ -126,7 +126,10 @@ def main() -> int:
                 # a symlink into the protected original or another save folder.
                 shutil.copytree(original, userdata, symlinks=False)
             if not interrupted:
-                child = subprocess.Popen(command, start_new_session=True)
+                # Tell the child it runs inside the guard; URMAN Studio and its
+                # "Play from here" refuse to start without this marker.
+                child_env = dict(os.environ, URMAN_PROTECTED_RUN="1")
+                child = subprocess.Popen(command, start_new_session=True, env=child_env)
                 started = time.monotonic()
                 while child.poll() is None:
                     # A smoke that throws inside async void can keep its window

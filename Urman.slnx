@@ -2,6 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src-dotnet/Urman.Core/Urman.Core.csproj" />
     <Project Path="src-dotnet/Urman.Content/Urman.Content.csproj" />
+    <Project Path="src-dotnet/Urman.Studio.Core/Urman.Studio.Core.csproj" />
   </Folder>
   <Folder Name="/tools/">
     <Project Path="tools-dotnet/Urman.ContentCli/Urman.ContentCli.csproj" />
@@ -12,6 +13,7 @@
   <Folder Name="/tests/">
     <Project Path="tests-dotnet/Urman.Core.Tests/Urman.Core.Tests.csproj" />
     <Project Path="tests-dotnet/Urman.Content.Tests/Urman.Content.Tests.csproj" />
+    <Project Path="tests-dotnet/Urman.Studio.Tests/Urman.Studio.Tests.csproj" />
   </Folder>
 </Solution>
 

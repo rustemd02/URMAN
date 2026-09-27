@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>URMAN Studio authoring model: typed edit operations, projections and storage over the portable content formats. Engine-neutral; the Studio window and the game both stay separate owners.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Urman.Core/Urman.Core.csproj" />
+    <ProjectReference Include="../Urman.Content/Urman.Content.csproj" />
+  </ItemGroup>
+</Project>

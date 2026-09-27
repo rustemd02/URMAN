@@ -253,6 +253,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         BuildPauseMenu();
         BuildRouteCue();
         CallDeferred(nameof(AttachRuntimeBridge));
+        if (StudioPlayRequest.Parse([.. commandLine, .. OS.GetCmdlineUserArgs()]) is { } studioPlay)
+        {
+            _ = StartStudioPlayAsync(studioPlay);
+        }
 
         _startupPerformanceGuard = !_performanceProbe
             && !commandLine.Contains("--no-auto-performance-fallback", StringComparer.Ordinal);
@@ -1344,19 +1348,110 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return;
         }
 
-        var bridge = _bridge ?? GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
-        if (bridge is null)
+        if (!await StartDebugZoneAsync(zoneId, spawnPointId))
         {
+            _mainMenu?.ShowStatus("Отладочный переход: не удалось начать сеанс.");
+        }
+    }
+
+    /// <summary>A "Play from here" request from URMAN Studio, passed on the command line.</summary>
+    internal sealed record StudioPlayRequest(string ZoneId, string SpawnPointId, Vector3? Position, float Yaw, string Label)
+    {
+        public const string PlayPrefix = "--urman-studio-play=";
+        public const string AtPrefix = "--urman-studio-at=";
+        public const string LabelPrefix = "--urman-studio-label=";
+
+        public static StudioPlayRequest? Parse(IReadOnlyList<string> arguments)
+        {
+            var play = arguments.FirstOrDefault(argument => argument.StartsWith(PlayPrefix, StringComparison.Ordinal));
+            if (play is null)
+            {
+                return null;
+            }
+
+            // Studio runs only inside the userdata guard; a run outside it would
+            // write test state into the player's saves (spec PLAY07).
+            if (System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") != "1")
+            {
+                GD.PushError("URMAN Studio play request refused: not running under eng/protected_run.py.");
+                return null;
+            }
+
+            var target = play[PlayPrefix.Length..].Split('@');
+            Vector3? position = null;
+            var yaw = 0f;
+            if (arguments.FirstOrDefault(argument => argument.StartsWith(AtPrefix, StringComparison.Ordinal)) is { } at)
+            {
+                var parts = at[AtPrefix.Length..].Split(',').Select(value => float.Parse(value, CultureInfo.InvariantCulture)).ToArray();
+                position = new Vector3(parts[0], parts[1], parts[2]);
+                yaw = parts.Length > 3 ? parts[3] : 0f;
+            }
+
+            var label = arguments.FirstOrDefault(argument => argument.StartsWith(LabelPrefix, StringComparison.Ordinal))?[LabelPrefix.Length..] ?? "";
+            return new(target[0], target.Length > 1 ? target[1] : "arrival", position, yaw, label);
+        }
+    }
+
+    private async Task StartStudioPlayAsync(StudioPlayRequest request)
+    {
+        for (var frame = 0; frame < 600 && (_bridge is null || !MainMenuVisible); frame++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+
+        if (!await StartDebugZoneAsync(request.ZoneId, request.SpawnPointId, request.Position, request.Yaw))
+        {
+            GD.PushError($"URMAN Studio play request failed for {request.ZoneId}@{request.SpawnPointId}.");
             return;
         }
 
+        // The run always says what it is: a Studio test with its own saves,
+        // started at an arbitrary point rather than reached by playing (PLAY03).
+        var layer = new CanvasLayer { Name = "StudioPlayBanner", Layer = 90 };
+        AddChild(layer);
+        var banner = new Label
+        {
+            Text = $"Пробный запуск URMAN Studio · {request.Label} · старт в выбранной точке · отдельные сохранения",
+            Position = new Vector2(12, 8),
+            Modulate = new Color(1, 1, 1, .78f)
+        };
+        banner.AddThemeFontSizeOverride("font_size", 14);
+        layer.AddChild(banner);
+        GD.Print($"urman-studio-play: started {request.ZoneId}@{request.SpawnPointId} label={request.Label}");
+    }
+
+    /// <summary>
+    /// URMAN Studio entry: the same isolated debug session as the menu's zone
+    /// jump, optionally placed at an exact authored point. Used by Studio's own
+    /// world preview and by "Play from here" (<c>--urman-studio-play</c>); it
+    /// grants no progression and saves only into the debug session.
+    /// </summary>
+    public async Task<bool> StartDebugZoneAsync(string zoneId, string spawnPointId, Vector3? position = null, float yawDegrees = 0f)
+    {
+        var bridge = _bridge ?? GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        if (bridge is null || _menuBusy)
+        {
+            return false;
+        }
+
+        // Refuse before a session exists. A destination the connected world
+        // cannot place used to start a debug run, leave the player where they
+        // were, and still record the requested zone in the bridge and the save.
+        if (position is null && _main.ConnectedWorld is { } world
+            && !world.TryGetWorldSpawn(zoneId, spawnPointId, out _))
+        {
+            GD.PushError($"Debug zone jump refused: the Act I world has no spawn '{zoneId}@{spawnPointId}'.");
+            _mainMenu?.ShowStatus("Отладочный переход: такой точки в мире нет.");
+            return false;
+        }
+
         _menuBusy = true;
+        var started = false;
         try
         {
             if (!await bridge.StartDebugSessionAsync())
             {
-                _mainMenu?.ShowStatus("Отладочный переход: не удалось начать сеанс.");
-                return;
+                return false;
             }
 
             _endingShown = false;
@@ -1370,11 +1465,36 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             _main.SwitchZone(zoneId, spawnPointId);
             bridge.CurrentZoneId = zoneId;
             bridge.CurrentSpawnPointId = spawnPointId;
+            if (position is { } at)
+            {
+                _player?.ApplyZoneSpawn(at, yawDegrees);
+            }
+
             _player?.NotifyTraversal("Отладочный сеанс: отдельные сохранения.");
             EvaluateEndingState();
-            GD.Print($"act1-debug-zone: {zoneId}@{spawnPointId}");
+            GD.Print($"act1-debug-zone: {zoneId}@{spawnPointId}{(position is { } p ? $" at {p}" : "")}");
+            started = true;
         }
         finally { _menuBusy = false; }
+
+        // Outside the busy window: while it is open a menu press is dropped
+        // without a word, so nothing may wait inside. A jump that lands in the
+        // air or inside geometry looks like a working button in the menu,
+        // hence the line that says where the player actually ended up.
+        if (started)
+        {
+            for (var frame = 0; frame < 20 && _player is not null; frame++)
+            {
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            }
+
+            if (_player is { } standing)
+            {
+                GD.Print($"act1-debug-zone-standing: {zoneId}@{spawnPointId} at {standing.GlobalPosition} yaw={standing.RotationDegrees.Y:0.#} on-floor={standing.IsOnFloor()} speed={standing.Velocity.Length():0.00}");
+            }
+        }
+
+        return started;
     }
 
     private void ShowIntroAfterMenu()

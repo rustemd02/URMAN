@@ -38,6 +38,16 @@ public static class AccessibilityPresentation
         root.SetMeta("accessibilityHighContrast", settings.HighContrast);
         root.SetMeta("accessibilityReducedMotion", settings.ReducedMotion);
 
+        // ACT1-UI.1: a screen without its own scene theme takes the shared
+        // theme; high contrast swaps the whole theme instead of recolouring
+        // nodes one by one, so type variations keep their own colours.
+        if (root.Theme is null || UrmanUiTheme.IsShared(root.Theme)) root.Theme = UrmanUiTheme.For(settings);
+        if (UsesSharedTheme(root))
+        {
+            ApplyThemedText(root, settings);
+            return;
+        }
+
         foreach (var node in root.FindChildren("*", "Control", recursive: true, owned: false))
         {
             if (node is Label label)
@@ -81,6 +91,43 @@ public static class AccessibilityPresentation
                 button.AddThemeColorOverride("font_disabled_color", new Color(1, 1, 1, 0.62f));
                 button.AddThemeColorOverride("font_outline_color", Colors.Black);
                 button.AddThemeConstantOverride("outline_size", settings.HighContrast ? 3 : 2);
+            }
+        }
+    }
+
+    private static bool UsesSharedTheme(Control control)
+    {
+        for (Node? node = control; node is not null; node = node.GetParent())
+        {
+            if (node is Control { Theme: { } theme }) return UrmanUiTheme.IsShared(theme);
+        }
+        return false;
+    }
+
+    /// <summary>Text under the shared theme: only the size follows the player's
+    /// scale; colour, outline and shadow come from the theme or its variation.</summary>
+    private static void ApplyThemedText(Control root, AccessibilitySettingsSnapshot settings)
+    {
+        var scale = (float)settings.TextScale;
+        foreach (var node in root.FindChildren("*", "Control", recursive: true, owned: false).Prepend(root))
+        {
+            switch (node)
+            {
+                case RichTextLabel richText:
+                    ApplyFontScale(richText, "normal_font_size", scale, UrmanUiTheme.Size.Body);
+                    ApplyFontScale(richText, "bold_font_size", scale, UrmanUiTheme.Size.Body);
+                    ApplyFontScale(richText, "italics_font_size", scale, UrmanUiTheme.Size.Body);
+                    break;
+                case Label or LineEdit or TextEdit or ItemList or TabBar:
+                    ApplyFontScale((Control)node, "font_size", scale, UrmanUiTheme.Size.Body);
+                    break;
+                case BaseButton button:
+                    ApplyFontScale(button, "font_size", scale, UrmanUiTheme.Size.Button);
+                    if (button is Button plain) UrmanUiTheme.BindFocusAsHover(plain);
+                    if (button is OptionButton options)
+                        options.GetPopup().AddThemeFontSizeOverride("font_size",
+                            Mathf.RoundToInt(UrmanUiTheme.Size.Body * Mathf.Clamp(scale, 0.8f, 1.6f)));
+                    break;
             }
         }
     }

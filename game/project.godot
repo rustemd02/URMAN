@@ -29,6 +29,10 @@ window/stretch/mode="canvas_items"
 
 project/assembly_name="Urman.Game"
 
+[gui]
+
+theme/custom_font="res://assets/fonts/PT_Sans-Web-Regular.ttf"
+
 [input]
 
 move_forward={

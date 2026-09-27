@@ -20,17 +20,22 @@ public partial class TamaraFenceQuest : Node3D
     public const string QuestId = "urman.chapter1:quest/quest_tamara_fence";
     public const string HandInInteractionId = "urman.chapter1:interaction/tamara-fence-hand-in";
 
+    /// <summary>The plot's positions and tuning live in authored world data (URMAN Studio); this node executes them.</summary>
+    public const string PlotPath = "res://content/world/act1_tamara_plot.world.v1.json";
+    private static readonly AuthoredWorldPlot Plot = AuthoredWorldPlot.Load(PlotPath);
+
     // The fence line hugs the return street shoulder, roadward of the aligned
     // street frontages: her old fence leans toward the road the way the plot
     // reads in the source video. The car's road-graph reach covers the face.
-    private const float FenceFaceX = 2.18f;
-    private const float FenceZStart = -40.75f;
-    private const float FenceZEnd = -48.3f;
-    private const int PanelCount = 5;
-    private const float CrashSpeedThreshold = 2.2f;
-    private const float BreakRadius = 2.35f;
+    private static readonly float FenceFaceX = Plot.Number("fence", "faceX");
+    private static readonly float FenceZStart = Plot.Number("fence", "zStart");
+    private static readonly float FenceZEnd = Plot.Number("fence", "zEnd");
+    private static readonly int PanelCount = Plot.Params("fence").GetProperty("panelCount").GetInt32();
+    private static readonly float WicketZ = Plot.Number("fence", "wicketZ");
+    private static readonly float CrashSpeedThreshold = Plot.Number("fence", "crashSpeed");
+    private static readonly float BreakRadius = Plot.Number("fence", "breakRadius");
 
-    private static readonly Vector3 FenceCenter = new(2.3f, 0f, -44.5f);
+    private static readonly Vector3 FenceCenter = Plot.Point("fence", "center");
 
     /// <summary>
     /// The driveway the road graph knows about: from the street axis to the
@@ -38,27 +43,28 @@ public partial class TamaraFenceQuest : Node3D
     /// before the hull can reach the boards, and the crash reads as an
     /// invisible wall instead of a real impact.
     /// </summary>
-    public static readonly Vector2[] ApproachAxis = [new(-0.15f, -44.0f), new(2.6f, -44.4f)];
+    public static readonly Vector2[] ApproachAxis = Plot.Params("approach").GetProperty("points")
+        .EnumerateArray().Select(AuthoredWorldPlot.ToVector2).ToArray();
 
-    private static readonly (Vector3 At, float Yaw)[] BoardSpots =
-    {
-        (new(-13.62f, 0f, -4.2f), 180f), // road-facing side of the existing west-street woodpile
-        (new(-14.8f, 0f, -3.55f), 90f),  // same woodpile, open side facing the house path
-        (new(14.5f, 0f, -45.9f), 96f),   // outside the village-edge shed's north wall
-        (new(16.4f, 0f, -45.9f), 78f),   // second stack outside the shed's north wall
-        (new(-20.6f, 0f, -12.5f), 38f),  // perimeter west shed
-        (new(17.5f, 0f, -10.1f), -118f)  // perimeter east shed
-    };
+    // Board spots in authored order; their interaction IDs are part of the data.
+    private static readonly (Vector3 At, float Yaw, string InteractionId, string EntityId)[] BoardSpots = Plot.EntitiesOfKind("item-spawn")
+        .OrderBy(entity => entity.Id, StringComparer.Ordinal)
+        .Select(entity => (
+            AuthoredWorldPlot.ToVector3(entity.Params.GetProperty("position")),
+            entity.Params.GetProperty("yawDegrees").GetSingle(),
+            entity.Params.GetProperty("interactionId").GetString()!,
+            entity.Id))
+        .ToArray();
 
-    private static readonly Vector3 TamaraEmergence = new(9.3f, 0f, -40.9f);
-    private static readonly Vector3 TamaraRest = new(4.7f, 0f, -44.4f);
-    private static readonly Vector3 GuyEntry = new(-0.8f, 0f, -36.3f);
+    private static readonly Vector3 TamaraEmergence = Plot.Point("tamara-emergence");
+    private static readonly Vector3 TamaraRest = Plot.Point("tamara-rest");
+    private static readonly Vector3 GuyEntry = Plot.Point("guy-entry");
     // He films from the street shoulder north of the wreck: the Niva is nose-in
     // at the breach and its body covers z -42.7..-44.5, so a bystander standing
     // any closer to the fence would be inside the car.
-    private static readonly Vector3 GuyFilming = new(0.15f, 0f, -41.9f);
+    private static readonly Vector3 GuyFilming = Plot.Point("guy-filming");
     internal static readonly Vector3 GuyFilmingSpot = GuyFilming;
-    private static readonly Vector3 GuyRest = new(13.2f, 0f, -45.7f);
+    private static readonly Vector3 GuyRest = Plot.Point("guy-rest");
 
     private readonly List<FencePanel> _panels = [];
     private readonly List<Node3D> _pillars = [];
@@ -419,8 +425,8 @@ public partial class TamaraFenceQuest : Node3D
         var frame = new StandardMaterial3D { AlbedoColor = new Color("8f7566"), Roughness = .92f };
         var wicket = new Node3D { Name = "TamaraFenceWicket" };
         root.AddChild(wicket);
-        var ground = Ground(-40.15f);
-        wicket.Position = new(FenceFaceX, ground, -40.15f);
+        var ground = Ground(WicketZ);
+        wicket.Position = new(FenceFaceX, ground, WicketZ);
         foreach (var z in new[] { -.62f, .62f })
         {
             wicket.AddChild(new MeshInstance3D
@@ -502,9 +508,10 @@ public partial class TamaraFenceQuest : Node3D
         }
         for (var index = 0; index < BoardSpots.Length; index++)
         {
-            var (at, yaw) = BoardSpots[index];
+            var (at, yaw, interactionId, entityId) = BoardSpots[index];
             var ground = Ground(at.X, at.Z);
             var spot = new Node3D { Name = $"BoardSpot_{index + 1}", Position = new(at.X, ground, at.Z) };
+            spot.SetMeta(AuthoredWorldPlot.AuthoredIdMeta, entityId);
             boardsRoot.AddChild(spot);
 
             // Roadside boards lie beside the low logs; a two-metre upright
@@ -557,7 +564,7 @@ public partial class TamaraFenceQuest : Node3D
             var target = new InteractionTarget
             {
                 Name = $"TakeBoard_{index + 1}",
-                InteractionId = $"urman.chapter1:interaction/tamara-fence-take-board-{index + 1}",
+                InteractionId = interactionId,
                 Prompt = "Взять целую доску",
                 CollisionLayer = 4u,
                 CollisionMask = 0u,

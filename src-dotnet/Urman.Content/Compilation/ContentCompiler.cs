@@ -225,6 +225,13 @@ public sealed partial class ContentCompiler
                         $"Dialogue entry node {nodeId} does not exist."));
             }
         }
+        foreach (var quest in registries["quests"].Values)
+        {
+            if (quest["stages"] is not JsonArray stages) continue;
+            foreach (var problem in Urman.Core.Quests.QuestLifecycleReducer.TransitionProblems(stages))
+                diagnostics.Add(new("InvalidQuestTransition", Relative(root, campaignPath),
+                    $"/quests/{RequiredString(quest, "id")}/stages", problem));
+        }
         return new(diagnostics.Count == 0 ? pack : null, diagnostics);
     }
 

@@ -329,8 +329,10 @@ PHASE 8  Forest / cart / Shurale (FOREST-001, SHURALE-001)
 и не даёт прогресса (существующее правило).
 **Edge cases:** флаг `user://debug-zones.enabled` отсутствует → меню обычное (не ломать);
 неизвестный спавн → статус об ошибке, а не молчаливый сброс сеанса.
-**Acceptance criteria:**
-- для всех 8 записей `DebugZones` выполняется `Act1WorldLayout.TryGetWorldSpawn(zone, spawn, out _) == true`;
+**Acceptance criteria:** (обновлено 2026-09-27: переходов 12, источник точки — владелец
+места, поэтому литеральная проверка `Act1WorldLayout.TryGetWorldSpawn` заменена на
+`Act1ConnectedWorld.TryGetWorldSpawn` после сборки мира; см. журнал решений)
+- для всех записей `DebugZones` выполняется `Act1ConnectedWorld.TryGetWorldSpawn(zone, spawn, out _) == true`;
 - после нажатия любой кнопки `bridge.CurrentZoneId/CurrentSpawnPointId` совпадают с записью,
   и позиция игрока совпадает со спавном (проверка через `Main.ActiveZoneScenePath` + координаты);
 - смоук меню проходит.

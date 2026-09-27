@@ -61,7 +61,76 @@ public static class AgentBAct1HeightField
         (MainAxis, HalfWidths[0]), (FapAxis, HalfWidths[1]),
         (HouseAxis, HalfWidths[2]), (ZiratAxis, HalfWidths[3]), (KaraAxis, HalfWidths[4])
     };
-    private static readonly System.Lazy<Vector3[]> CollisionFaces = new(BuildTerrainFaces);
+    private static Vector3[]? _collisionFaces;
+    private static Vector3[] CollisionFacesValue => _collisionFaces ??= BuildTerrainFaces();
+
+    /// <summary>
+    /// Author terrain strokes (URMAN Studio, spec WORLD10) from
+    /// res://content/world/terrain.v1.json, applied on top of the generated
+    /// field in authored order. The visual terrain and its collider are both
+    /// built from <see cref="Ground"/>, so they always agree.
+    /// </summary>
+    private static TerrainStroke[]? _strokes;
+    public const string StrokesPath = "res://content/world/terrain.v1.json";
+    internal static string? StrokesOverrideForTest { get; set; }
+
+    public readonly record struct TerrainStroke(string Mode, float X, float Z, float Radius, float Strength, float Target);
+
+    private static TerrainStroke[] Strokes => _strokes ??= LoadStrokes(null);
+
+    /// <summary>Studio preview / tests: replace the strokes (null = reread the file) and drop cached faces.</summary>
+    public static void ReloadStrokes(string? json = null)
+    {
+        _strokes = LoadStrokes(json);
+        _collisionFaces = null;
+    }
+
+    private static TerrainStroke[] LoadStrokes(string? json)
+    {
+        var path = StrokesOverrideForTest ?? StrokesPath;
+        if (json is null)
+        {
+            if (!global::Godot.FileAccess.FileExists(path)) return [];
+            json = global::Godot.FileAccess.GetFileAsString(path);
+        }
+
+        using var document = System.Text.Json.JsonDocument.Parse(json);
+        return document.RootElement.GetProperty("entities").EnumerateArray()
+            .Where(entity => entity.GetProperty("kind").GetString() == "terrain-stroke")
+            .Select(entity => entity.GetProperty("params"))
+            .Select(p => new TerrainStroke(
+                p.GetProperty("mode").GetString()!,
+                p.GetProperty("position")[0].GetSingle(), p.GetProperty("position")[2].GetSingle(),
+                p.GetProperty("radius").GetSingle(),
+                p.TryGetProperty("strength", out var strength) ? strength.GetSingle() : 0f,
+                p.TryGetProperty("target", out var target) ? target.GetSingle() : 0f))
+            .ToArray();
+    }
+
+    private static double ApplyStrokes(float x, float z, double height, System.Func<float, float, double> generated)
+    {
+        foreach (var stroke in Strokes)
+        {
+            var dx = x - stroke.X;
+            var dz = z - stroke.Z;
+            var t = (dx * dx + dz * dz) / (stroke.Radius * stroke.Radius);
+            if (t >= 1f) continue;
+            var falloff = (1.0 - t) * (1.0 - t);
+            height = stroke.Mode switch
+            {
+                "raise" => height + stroke.Strength * falloff,
+                "lower" => height - stroke.Strength * falloff,
+                "flatten" => height + (stroke.Target - height) * falloff * System.Math.Clamp(stroke.Strength, 0, 1),
+                "smooth" => height + (Average(x, z, stroke.Radius * .5f, generated) - height) * falloff * System.Math.Clamp(stroke.Strength, 0, 1),
+                _ => height
+            };
+        }
+
+        return height;
+    }
+
+    private static double Average(float x, float z, float reach, System.Func<float, float, double> generated) =>
+        (generated(x + reach, z) + generated(x - reach, z) + generated(x, z + reach) + generated(x, z - reach) + generated(x, z)) / 5.0;
 
     private static readonly (float X, float Z, float Radius)[] Yards =
     {
@@ -262,6 +331,13 @@ public static class AgentBAct1HeightField
 
     public static double Ground(float x, float z)
     {
+        var generated = GeneratedGround(x, z);
+        return Strokes.Length == 0 ? generated : ApplyStrokes(x, z, generated, GeneratedGround);
+    }
+
+    /// <summary>The generator's ground before author strokes.</summary>
+    public static double GeneratedGround(float x, float z)
+    {
         var baseHeight = Terrain(x, z);
         var (distance, halfWidth) = RoadInfo(x, z);
         var channel = System.Math.Min(RiverChannel(x, z), RavineChannel(x, z));
@@ -300,7 +376,7 @@ public static class AgentBAct1HeightField
         var rows = (int)((MaxZ - MinZ) / Step);
         var column = (int)System.Math.Floor((x - MinX) / Step);
         var row = (int)System.Math.Floor((z - MinZ) / Step);
-        var faces = CollisionFaces.Value;
+        var faces = CollisionFacesValue;
         // Jitter is bounded below one grid cell; only these nine cells can
         // contain the query. This is the collider's actual diagonal/winding.
         for (var iy = System.Math.Max(0, row - 1); iy <= System.Math.Min(rows - 1, row + 1); iy++)

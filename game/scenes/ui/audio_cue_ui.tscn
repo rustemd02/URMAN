@@ -13,19 +13,12 @@ offset_left = 390.0
 offset_top = 72.0
 offset_right = -390.0
 offset_bottom = 156.0
+theme_type_variation = &"UrmanSubtitlePanel"
 
 [node name="Margin" type="MarginContainer" parent="Panel"]
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 14
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 14
 
 [node name="Text" type="Label" parent="Panel/Margin"]
-theme_override_colors/font_color = Color(0.94, 0.9, 0.8, 1)
-theme_override_colors/font_shadow_color = Color(0.03, 0.04, 0.04, 0.9)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 22
+theme_type_variation = &"UrmanSubtitle"
 text = ""
 horizontal_alignment = 1
 vertical_alignment = 1

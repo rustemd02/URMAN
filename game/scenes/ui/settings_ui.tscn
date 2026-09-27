@@ -1,41 +1,6 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=2 format=3]
 
 [ext_resource path="res://scripts/SettingsUi.cs" type="Script" id="1_ui"]
-
-[sub_resource type="Theme" id="SettingsTypography"]
-default_font_size = 20
-
-[sub_resource type="StyleBoxFlat" id="SettingsPanel"]
-bg_color = Color(0.105, 0.12, 0.115, 0.99)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.4, 0.37, 0.28, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-content_margin_left = 32.0
-content_margin_top = 30.0
-content_margin_right = 32.0
-content_margin_bottom = 28.0
-
-[sub_resource type="StyleBoxFlat" id="SettingsFocus"]
-bg_color = Color(0.18, 0.16, 0.11, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.83, 0.65, 0.33, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-content_margin_left = 15.0
-content_margin_top = 7.0
-content_margin_right = 15.0
-content_margin_bottom = 7.0
 
 [node name="SettingsUi" type="CanvasLayer"]
 layer = 110
@@ -58,10 +23,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.02, 0.025, 0.022, 0.9)
+color = Color(0.02, 0.031, 0.027, 0.88)
 
 [node name="Panel" type="PanelContainer" parent="Screen"]
-theme = SubResource("SettingsTypography")
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -74,8 +38,7 @@ offset_right = 480.0
 offset_bottom = 470.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("SettingsPanel")
-theme_override_font_sizes/font_size = 20
+theme_type_variation = &"UrmanSheet"
 
 [node name="Layout" type="VBoxContainer" parent="Screen/Panel"]
 layout_mode = 2
@@ -83,8 +46,7 @@ theme_override_constants/separation = 18
 
 [node name="Title" type="Label" parent="Screen/Panel/Layout"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.75, 0.46, 1)
-theme_override_font_sizes/font_size = 30
+theme_type_variation = &"UrmanHeading"
 text = "НАСТРОЙКИ"
 
 [node name="BodyScroll" type="ScrollContainer" parent="Screen/Panel/Layout"]
@@ -212,8 +174,8 @@ size_flags_horizontal = 3
 
 [node name="BindingsTitle" type="Label" parent="Screen/Panel/Layout/BodyScroll/Body"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.78, 0.67, 0.48, 1)
-theme_override_font_sizes/font_size = 21
+theme_type_variation = &"UrmanHeading"
+theme_override_font_sizes/font_size = 22
 text = "УПРАВЛЕНИЕ"
 
 [node name="BindingScroll" type="MarginContainer" parent="Screen/Panel/Layout/BodyScroll/Body"]
@@ -228,8 +190,7 @@ theme_override_constants/separation = 6
 
 [node name="Status" type="Label" parent="Screen/Panel/Layout"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.7, 0.62, 1)
-theme_override_font_sizes/font_size = 16
+theme_type_variation = &"UrmanHint"
 text = "Esc / Menu — закрыть"
 autowrap_mode = 2
 
@@ -241,26 +202,22 @@ alignment = 2
 layout_mode = 2
 focus_mode = 2
 custom_minimum_size = Vector2(0, 44)
-theme_override_styles/focus = SubResource("SettingsFocus")
 text = "Сохранить"
 
 [node name="Load" type="Button" parent="Screen/Panel/Layout/Buttons"]
 layout_mode = 2
 focus_mode = 2
 custom_minimum_size = Vector2(0, 44)
-theme_override_styles/focus = SubResource("SettingsFocus")
 text = "Загрузить"
 
 [node name="Apply" type="Button" parent="Screen/Panel/Layout/Buttons"]
 layout_mode = 2
 focus_mode = 2
 custom_minimum_size = Vector2(0, 44)
-theme_override_styles/focus = SubResource("SettingsFocus")
 text = "Применить"
 
 [node name="Close" type="Button" parent="Screen/Panel/Layout/Buttons"]
 layout_mode = 2
 focus_mode = 2
 custom_minimum_size = Vector2(0, 44)
-theme_override_styles/focus = SubResource("SettingsFocus")
 text = "Закрыть"

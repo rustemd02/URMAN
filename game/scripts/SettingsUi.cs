@@ -229,6 +229,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         _status.Text = "Изменения применяются кнопкой «Применить».";
         RefreshBindingLabels();
         _screen.Visible = true;
+        UrmanUiTheme.PlayOpen(_panel, settings.Accessibility.ReducedMotion);
         RefreshSaveLoadAvailability();
         // UIUX-006: keyboard/gamepad entry lands on the first control so the
         // whole panel is reachable without a mouse.

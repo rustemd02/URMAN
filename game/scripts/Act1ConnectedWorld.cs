@@ -437,6 +437,7 @@ public partial class Act1ConnectedWorld : Node3D
         BuildStreetFrontages();
         // Tamara Gennadievna's breakable plot fence, boards and people.
         BuildTamaraFenceQuest();
+        BuildAuthoredWorld();
         AddressRead += RememberReadAddress;
         BuildAct1Vehicles();
         foreach (var placement in Act1WorldLayout.Placements)
@@ -518,7 +519,11 @@ public partial class Act1ConnectedWorld : Node3D
         }
         if (!Act1WorldLayout.TryGetWorldSpawn(zoneId, spawnPointId, out var rootRelativeSpawn))
         {
-            return false;
+            // Places that live only in the connected world (the public
+            // buildings, the mosque, the bathhouse, the Kara forest approach)
+            // have no layout entry; their owners answer instead. See
+            // Act1ConnectedWorld.DebugSpawns.cs.
+            return TryGetPlaceDebugSpawn(zoneId, spawnPointId, out worldSpawn);
         }
 
         // The layout is expressed relative to this persistent root. The root
@@ -1611,6 +1616,18 @@ public partial class Act1ConnectedWorld : Node3D
     /// Tunes the existing Agent B environment after its normal zone toggle.
     /// No environment, weather or light owner is added here.
     /// </summary>
+    /// <summary>URMAN Studio preview only: show another profile without changing story time or zone.</summary>
+    public static string? StudioPreviewProfile { get; set; }
+
+    /// <summary>URMAN Studio preview: re-apply the outdoor atmosphere after its data changed.</summary>
+    public void RefreshAtmosphereForStudio()
+    {
+        var core = GetNodeOrNull<Node3D>("Act1CoreWorldGreybox");
+        if (core is null) return;
+        var zone = string.IsNullOrEmpty(ActiveZoneId) ? "village_day" : ActiveZoneId;
+        TuneConnectedAct1Atmosphere(core, true, zone == "kara_urman_night", zone == "zirat_road");
+    }
+
     private static void TuneConnectedAct1Atmosphere(
         Node3D core,
         bool enabled,
@@ -1630,35 +1647,30 @@ public partial class Act1ConnectedWorld : Node3D
             return;
         }
 
-        // Neutral snow bounce keeps the key-light direction readable.
-        environment.AmbientLightEnergy = karaNight ? .52f : zirat ? .64f : .48f;
+        // The values live in authored data (URMAN Studio): this only picks the
+        // profile for the zone and applies it.
+        var profileId = StudioPreviewProfile ?? (karaNight ? "kara-winter-night-edge" : zirat ? "zirat-winter-muted" : "village-winter-frost");
+        var profile = AtmosphereProfiles.Get(profileId);
+        environment.AmbientLightEnergy = profile.AmbientEnergy;
         environment.AmbientLightSource = global::Godot.Environment.AmbientSource.Color;
-        // Keep the snow bounce cool enough to separate shaded faces from the
-        // warm low winter key; the existing sun remains the only outdoor key.
-        environment.AmbientLightColor = Color.FromHtml(karaNight ? "a1aebb" : zirat ? "c0c8d0" : "a8bfe1");
-        environment.AmbientLightSkyContribution = .30f;
-        // Frost haze: cold pale blue-grey that the far houses and forest melt
-        // into, so distant snow does not read as a flat white wall.
-        environment.FogLightColor = karaNight
-            ? Color.FromHtml("90a8b8")
-            : zirat ? Color.FromHtml("a7b5c1") : Color.FromHtml("b9cfdd");
-        environment.FogDensity = karaNight ? .009f : zirat ? .0038f : .0022f;
-        environment.FogHeight = karaNight ? 0.95f : 1.0f;
-        environment.FogHeightDensity = karaNight ? .05f : zirat ? .03f : .025f;
-        environment.FogAerialPerspective = karaNight ? 0.35f : zirat ? 0.60f : 0.64f;
-        // Let the procedural sky carry its blue gradient instead of washing
-        // every roof and distant facade into the same grey veil.
-        environment.FogSkyAffect = karaNight ? 0.08f : zirat ? 0.22f : 0.14f;
-        environment.FogSunScatter = karaNight ? 0.07f : zirat ? 0.06f : 0.09f;
+        environment.AmbientLightColor = profile.AmbientColor;
+        environment.AmbientLightSkyContribution = profile.AmbientSky;
+        environment.FogLightColor = profile.FogColor;
+        environment.FogDensity = profile.FogDensity;
+        environment.FogHeight = profile.FogHeight;
+        environment.FogHeightDensity = profile.FogHeightDensity;
+        environment.FogAerialPerspective = profile.FogAerial;
+        environment.FogSkyAffect = profile.FogSkyAffect;
+        environment.FogSunScatter = profile.FogSunScatter;
         environment.TonemapMode = global::Godot.Environment.ToneMapper.Agx;
-        // Snow is the brightest surface in frame; exposure protects its detail.
-        environment.TonemapExposure = karaNight ? 1.04f : zirat ? 0.90f : 0.92f;
+        environment.TonemapExposure = profile.Exposure;
 
         // Contact shading stays local; broad halos and full-frame grading
         // are unnecessary after the snow/foliage geometry pass.
         environment.GlowEnabled = false;
-        environment.SsaoIntensity = .75f;
-        environment.SsaoRadius = .4f;
+        environment.SsaoEnabled = true;
+        environment.SsaoIntensity = profile.SsaoIntensity;
+        environment.SsaoRadius = profile.SsaoRadius;
         environment.AdjustmentEnabled = false;
         environment.AdjustmentBrightness = 1f;
         environment.AdjustmentSaturation = 1f;
@@ -1667,46 +1679,29 @@ public partial class Act1ConnectedWorld : Node3D
 
         if (environment.Sky?.SkyMaterial is ProceduralSkyMaterial sky)
         {
-            sky.SkyTopColor = karaNight
-                ? Color.FromHtml("1b2836")
-                : zirat ? Color.FromHtml("7f95a8") : Color.FromHtml("6694ad");
-            sky.SkyHorizonColor = karaNight
-                ? Color.FromHtml("3c4c60")
-                : zirat ? Color.FromHtml("c3cdd6") : Color.FromHtml("d3e3ea");
-            sky.GroundHorizonColor = karaNight
-                ? Color.FromHtml("2c3a4a")
-                : zirat ? Color.FromHtml("9aa7b1") : Color.FromHtml("a4b5c1");
-            sky.GroundBottomColor = karaNight
-                ? Color.FromHtml("141d28")
-                : zirat ? Color.FromHtml("6d7883") : Color.FromHtml("71828f");
-            // Soft day sun disc/halo from the active sun direction; the kara
-            // night keeps a bare cold sky with no disc.
-            sky.SunAngleMax = karaNight ? 0f : 3.0f;
-            sky.SunCurve = 0.12f;
-            sky.SkyCoverModulate = karaNight
-                ? new Color(0.60f, 0.68f, 0.76f, 0.26f)
-                : zirat ? new Color(0.90f, 0.93f, 0.95f, 0.50f) : new Color(0.86f, 0.94f, 0.98f, 0.68f);
+            sky.SkyTopColor = profile.SkyTop;
+            sky.SkyHorizonColor = profile.SkyHorizon;
+            sky.GroundHorizonColor = profile.GroundHorizon;
+            sky.GroundBottomColor = profile.GroundBottom;
+            sky.SunAngleMax = profile.SunAngleMax;
+            sky.SunCurve = profile.SunCurve;
+            sky.SkyCoverModulate = profile.Cover;
         }
 
         var sun = layer.GetNodeOrNull<DirectionalLight3D>("AgentBSun");
         if (sun is not null)
         {
-            // Phase 3: warm low key for day zones; long readable shadows.
-            // Pale winter sun: warm-white on the snow, long blue shadows.
-            sun.LightColor = karaNight
-                ? Color.FromHtml("9fb6d4")
-                : zirat ? Color.FromHtml("e8eef4") : Color.FromHtml("ffe7c9");
-            sun.LightEnergy = karaNight ? .55f : zirat ? 1.05f : 1.65f;
-            sun.ShadowOpacity = karaNight ? .38f : zirat ? .50f : .82f;
+            sun.LightColor = profile.SunColor;
+            sun.LightEnergy = profile.SunEnergy;
+            sun.ShadowOpacity = profile.ShadowOpacity;
             sun.ShadowEnabled = true;
-            sun.RotationDegrees = karaNight
-                ? new Vector3(-52f, -28f, 0f)
-                : new Vector3(-31f, 42f, 0f);
+            sun.RotationDegrees = profile.SunRotation;
             GraphicsQuality.ConfigureSun(sun);
         }
         core.SetMeta("unifiedAtmosphereProfile", karaNight
             ? "kara-winter-night-edge"
             : zirat ? "zirat-winter-muted" : "village-winter-frost");
+        AtmosphereDump.Write((string)core.GetMeta("unifiedAtmosphereProfile"), environment, sun);
     }
 
     /// <summary>
@@ -5353,6 +5348,7 @@ public partial class Act1ConnectedWorld : Node3D
         placement.SetMeta("logicalAnchor", logicalAnchor);
         parent.AddChild(placement);
         placement.AddChild(component);
+        KitPlacementTakeover.Apply(placement, component.Name.ToString(), assetSource, logicalAnchor);
         if (assetSource == WetVillageRoadKitScenePath
             && (component.Name.ToString().StartsWith("RoadCrown_", StringComparison.Ordinal)
                 || component.Name.ToString().StartsWith("RoadRuts_", StringComparison.Ordinal)

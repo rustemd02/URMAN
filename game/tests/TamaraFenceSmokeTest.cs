@@ -48,6 +48,18 @@ public partial class TamaraFenceSmokeTest : Node
             Require(_quest.Panels.All(panel => panel.Body.CollisionLayer == 1u),
                 "intact panels physically stop the car");
             Require(_quest.BoardTargets.Count == 6, "six board pickup targets");
+            // Board spots come from the authored world plot (URMAN Studio data), not from code.
+            var plot = AuthoredWorldPlot.Load(TamaraFenceQuest.PlotPath);
+            var authoredBoards = plot.EntitiesOfKind("item-spawn").OrderBy(entity => entity.Id, StringComparer.Ordinal).ToArray();
+            Require(authoredBoards.Length == _quest.BoardTargets.Count, "one pickup per authored board spawn");
+            for (var index = 0; index < authoredBoards.Length; index++)
+            {
+                var authored = AuthoredWorldPlot.ToVector3(authoredBoards[index].Params.GetProperty("position"));
+                var spot = _quest.BoardTargets[index].GetParent<Node3D>().GlobalPosition;
+                Require(new Vector2(spot.X - authored.X, spot.Z - authored.Z).Length() < .01f
+                        && _quest.BoardTargets[index].InteractionId == authoredBoards[index].Params.GetProperty("interactionId").GetString(),
+                    $"board {index + 1} stands where the authored plot puts it");
+            }
             Require(_quest.HandInTarget is not null, "hand-over target exists");
             Require(_bridge.TamaraFenceSnapshotNow() is { Crashed: false, Carried: 0, Delivered: 0 },
                 "quest starts invisible: no crash, no boards");
