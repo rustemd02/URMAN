@@ -2743,7 +2743,7 @@
         "ACT1-TECH.2"
       ],
       "units": [
-        "A01 next unit: recheck the historically reported Babai firewood-shelter post collision on a currently reachable house-yard approach. Record a concrete player path and contact, then fix only if the defect reproduces; preserve existing dirty world/controller edits. Technical collision evidence does not accept walking comfort or visual art."
+        "A01 next unit: diagnose the current MainStreetForwardWestFacade road-approach failure. Use an existing narrow movement/geometry probe to distinguish blocked player path from over-restrictive fixture, name the actual blocker if any, and fix only a reproduced game defect. Preserve dirty shared world/controller/test files. The historical Babai shelter-post B90 report was not reproduced in the current full-scope run; see a01-shelter-post/receipt.json."
       ],
       "owner": "codex-01a0dd89 / GPT-6 Astra; no active native process or child writer",
       "previous_packet": "A00 first-cycle map and four scoped mechanic checks recorded 2026-09-27. LEN01.1 and full ACT1-MECH-AUDIT.1/.2 remain in_progress; the A00 plan says to move after the first cycle and revisit remaining mechanics with their relevant episodes."
@@ -10959,7 +10959,7 @@
         "evidence": "docs/production/tamara_mvp_2026-09-26/graphics-quality/README.md",
         "remaining": "M1/other hardware/resolutions/sustained route/cold profile reload untested. Tamara model and human art acceptance unchanged."
       },
-      "current_checkpoint": "2026-09-27 graphics-quality: Apple M startup no longer forced to Low; native M4 Pro confirms Medium/0.9/MSAA2X. Authored SSAO restores after Low. Build/native comparison/player-settings smoke pass. One short stationary timing sample per preset, not world performance acceptance; broader task open.",
+      "current_checkpoint": "2026-09-27 A01: current guarded full boundary run selected a clear shelter-post fixture without reporting the historical B90 collision. Overall exit1: MainStreetForwardWestFacade has no independently verified road approach; classify fixture versus real blocker before editing. 1005 checks/438.02m movement on recorded dirty DLL; no native comfort, art or human acceptance. See docs/production/mvp_tracker_2026-09-27/a01-shelter-post/receipt.json.",
       "delivery": {
         "packet": "A12"
       },
@@ -11879,7 +11879,7 @@
         "docs/production/mvp_tracker_2026-09-27/alsu-route-receipt.json"
       ],
       "progress_2026_09_24": "2026-09-24: river ravine soft-lock fixed with plank steps on the village bank (five exits fitted to the bank profile); low forest bank at x~-41 closed with a visible windfall; act1_river_exit_smoke_test in verify-godot.",
-      "current_checkpoint": "2026-09-27 A01: the apparent house-to-Alsu collision was a stale proof line through intended Frontage_26 (x≈-5.4, z=-3.3..-2.3). Existing proof now walks around its south end with the full player capsule; guarded Alsu-only run exit0 through encounter, companion checkpoints and save/load. No game collider changed. General collision audit and human pathfinding remain open.",
+      "current_checkpoint": "2026-09-27 A01: the apparent house-to-Alsu collision was a stale proof line through intended Frontage_26; guarded Alsu-only run exit0 without changing game collider. Historical Babai shelter-post B90 failure also did not recur in the current full boundary run after the existing clear-path fixture selection. That run exited1 for MainStreetForwardWestFacade road approach instead; actual game blocker not yet identified. General collision audit and human pathfinding remain open. See docs/production/mvp_tracker_2026-09-27/a01-shelter-post/receipt.json.",
       "mvp_priority": 15,
       "mvp_packet": "A01",
       "delivery": {
