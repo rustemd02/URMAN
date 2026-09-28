@@ -1,5 +1,10 @@
 # Backlog
 
+**Актуальный разбор требований — 28 сентября 2026:** [полный пакет](../tasktracker/review_2026-09-28/README.md),
+[покрытие каждой претензии](../tasktracker/review_2026-09-28/coverage.md), единственная очередь — `execution_backlog.json`.
+Нынешний этап документальный, дальнейший игровой запуск остаётся на авторской паузе. Предыдущие срезы ниже — история;
+совместимые требования Акта I, EX00–EX14 и 60 активных минут сохраняются. Тамару не возобновлять.
+
 Current production baseline, 2026-08-10: Godot 4.7.1 .NET, C#/.NET 10, Painterly Low-Poly 3D and walkable first-person compact zones. Tasks that extend the old discrete route runtime, replace 3D scenes with static ink-wash screens or validate fixed 90-degree navigation are historical and must not be executed.
 
 Execution queue: `execution_backlog.json` is the machine-readable source for orchestration. This file remains the human-readable index and historical audit; do not create a second task owner in an external tracker. 2026-09-03: the active task queue for the Act I repo-grounded run is `../production/act1_repo_grounded_production_tracker.md`; `../archive_tz_mvp_full_tracker_2026-09-03.md` is retired as authority and kept as provenance only (its verification commands are fictional and must never be executed or cited as evidence). Current focus: `GODOT-005` (dedicated Act 1 demo entrypoint) alongside the still-open `GODOT-003` style gate; `ASSET-006` (host-independent provenance preflight) is completed; `NARR-001` (Acts 2–5 narrative lock) completed 2026-08-11, while `NARR-002` remains deferred from the current demo and blocked on external cultural review.
