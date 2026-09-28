@@ -413,6 +413,47 @@ public partial class Act1UiReadabilitySmokeTest : Node
 
             bridge.OpenDialogueUi(Dialogue("mansur_pc_request"));
             await Frames(3);
+            // Exactly one active reply: the shared theme draws keyboard focus
+            // as the hover plate, so a mouse hover on another choice must
+            // claim the single focus slot instead of drawing a second plate.
+            var choiceButtons = dialogue.GetNode<Control>("Screen/Panel/Layout/Choices")
+                .GetChildren().OfType<Button>().ToArray();
+            if (choiceButtons.Length >= 2)
+            {
+                var focusOwner = GetViewport().GuiGetFocusOwner();
+                if (focusOwner != choiceButtons[0])
+                { Fail($"Dialogue opening did not focus its first choice at {width}x{height}."); return; }
+                var secondCenter = choiceButtons[1].GlobalPosition + choiceButtons[1].Size * .5f;
+                var toInput = GetViewport().GetScreenTransform() * choiceButtons[1].GetGlobalTransformWithCanvas();
+                var inputPosition = toInput * secondCenter;
+                Input.ParseInputEvent(new InputEventMouseMotion { Position = inputPosition, GlobalPosition = inputPosition });
+                await Frames(2);
+                // Headless dispatch can drop absolute mouse motion before the
+                // GUI hover pass, so the production MouseEntered signal itself
+                // stands in for the real pointer here; the focus and plate
+                // invariants below are what the player sees either way.
+                choiceButtons[1].EmitSignal(Control.SignalName.MouseEntered);
+                await Frames(2);
+                focusOwner = GetViewport().GuiGetFocusOwner();
+                if (focusOwner != choiceButtons[1])
+                {
+                    var hovered = GetViewport().GuiGetHoveredControl()?.GetPath().ToString() ?? "none";
+                    Fail($"Hovering the second dialogue choice did not move keyboard focus to it at {width}x{height}; "
+                         + $"focus={focusOwner?.GetPath()} hovered={hovered} choices={choiceButtons.Length} "
+                         + $"secondVisible={choiceButtons[1].IsVisibleInTree()} secondRect={choiceButtons[1].GetGlobalRect()}.");
+                    return;
+                }
+                bool DrawsActivePlate(Button choice) =>
+                    choice.HasThemeStyleboxOverride("normal") || choice.IsHovered();
+                var activeCount = choiceButtons.Count(DrawsActivePlate);
+                if (activeCount != 1)
+                { Fail($"Dialogue shows {activeCount} active choices; exactly one must read as current at {width}x{height}."); return; }
+            }
+            else
+            {
+                Fail($"Dialogue focus check needs two visible choices, found {choiceButtons.Length}.");
+                return;
+            }
             await SaveShot("dialogue_choices" + suffix, dialogue.GetNode<Control>("Screen/Panel"), width, height);
             dialogue._UnhandledInput(Cancel());
 
@@ -458,7 +499,9 @@ public partial class Act1UiReadabilitySmokeTest : Node
             .Where(control => control is Label or RichTextLabel or Button or ItemList or LineEdit).ToArray();
         foreach (var control in textControls)
         {
-            if (control is RichTextLabel rich && !string.IsNullOrWhiteSpace(rich.Text)
+            // Reader area matters only for readers the player can actually see:
+            // a hidden tab keeps Godot from laying its collapsed children out.
+            if (control is RichTextLabel rich && control.IsVisibleInTree() && !string.IsNullOrWhiteSpace(rich.Text)
                 && (rich.Size.X < 40 || rich.Size.Y < rich.GetThemeFontSize("normal_font_size")))
             { Fail($"UI '{name}' reader has no usable visible area: {rich.GetPath()} {rich.Size}."); return; }
             var font = control.GetThemeFont(control is RichTextLabel ? "normal_font" : "font");

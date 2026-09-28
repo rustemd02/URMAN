@@ -421,6 +421,7 @@ public partial class Act1ConnectedWorld : Node3D
         BuildAct1BypassDiscoveries();
         BuildAct1ImageDiscoveries();
         BuildRinatRoadsidePresentation();
+        BuildWatchingFormsPilot(GetNode<Node3D>("Act1CoreWorldGreybox"));
         ConfigureInvestigationRevisits();
         BuildMosqueInterior();
         BuildBathhouse();
@@ -1168,8 +1169,11 @@ public partial class Act1ConnectedWorld : Node3D
         {
             CarryableProp.Create("carry-log", "Полено", CarryableProp.ItemClass.Light,
                 GroundedYardPoint(new(-32.4f, 0f, 4.6f)), 24f, "8a6b50", "wood"),
+            // Stored against the house wall by the porch: its previous strip
+            // rest at (-27.5, 2.8) sat on the walking line between the yard
+            // gate and the house's north side and blocked that discovery loop.
             CarryableProp.Create("carry-crate", "Ящик", CarryableProp.ItemClass.Medium,
-                GroundedYardPoint(new(-27.5f, 0f, 2.8f)), -12f, "7a5c3a", "wood"),
+                GroundedYardPoint(new(-27.24f, 0f, .6f)), -12f, "7a5c3a", "wood"),
             CarryableProp.Create("carry-bucket", "Ведро", CarryableProp.ItemClass.Bucket,
                 GroundedYardPoint(new(-26.6f, 0f, 0.2f)), 8f, "6f6d61", "metal"),
             CarryableProp.Create("carry-board", "Доска", CarryableProp.ItemClass.Bulky,

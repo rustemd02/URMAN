@@ -303,7 +303,11 @@ public partial class Act1ConnectedWorld
             knock.GlobalBasis=doorBasis;
             knock.PresentationRepeat=()=>
             {
-                UiFoley.PlayWorld(knock,knock.GlobalPosition,"door_creak");
+                // Knocking is a knuckle tap, not a door swing: door_creak here
+                // sounded like the door opening while the notice says nobody
+                // answered. wood_tap is the honest stand-in until a real knock
+                // sample is recorded (review 2026-09-28, R062).
+                UiFoley.PlayWorld(knock,knock.GlobalPosition,"wood_tap");
                 (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)?.NotifyTraversal(
                     "Никто не открыл. "+registry.FormatAddress(r.AddressId)+". Можно свериться с записной книжкой.");
             };

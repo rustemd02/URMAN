@@ -32,6 +32,10 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         _choices = GetNode<VBoxContainer>("Screen/Panel/Layout/Choices");
         _continue = GetNode<Button>("Screen/Panel/Layout/Continue");
         _continue.Pressed += Close;
+        _continue.MouseEntered += () =>
+        {
+            if (_screen.Visible && _continue.IsVisibleInTree() && !_continue.HasFocus()) _continue.GrabFocus();
+        };
         GetViewport().SizeChanged += RefitToViewport;
         _panel.MinimumSizeChanged += RefitToViewport;
         _line.Resized += RefitToViewport;
@@ -141,6 +145,13 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
                 SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
             };
             button.Pressed += () => Choose(choice);
+            // A keyboard-focused answer and a mouse-hovered answer must never
+            // read as two active choices: the shared theme draws focus as the
+            // hover plate, so hover has to claim the single focus slot.
+            button.MouseEntered += () =>
+            {
+                if (_screen.Visible && button.IsVisibleInTree() && !button.HasFocus()) button.GrabFocus();
+            };
             _choices.AddChild(button);
         }
         _choices.Visible = _choices.GetChildCount() > 0;

@@ -5203,7 +5203,8 @@
       "progress_2026_09_16_expanded": "Новые страницы и world.props-проекция записаны; старые сравнения/paths сохранены. Свежие UI720/1080,1.6,контроллер,load/reset и ошибочный адрес ещё не проверены.",
       "evidence": [
         "docs/production/act1_takeover_evidence_2026-09-16/integrated-build-19.json",
-        "docs/production/act1_takeover_evidence_2026-09-16/b19-csharp-probe03.json"
+        "docs/production/act1_takeover_evidence_2026-09-16/b19-csharp-probe03.json",
+        "docs/production/a01_ex13_yard_2026-09-28/README.md"
       ],
       "mvp_priority": 14,
       "mvp_packet": "A03",
@@ -5214,7 +5215,8 @@
         "mvp_priority": 10,
         "mvp_packet": "control-and-ui"
       },
-      "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance"
+      "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
+      "progress_2026_09_28": "J1 diagnostic table and J2 implementation (parallel executor): the comparison page now reads as Aidar's personal notes - first-person intro line, record cards under each source selector, personal phrasing for hypotheses/feedback/empty state; the two wrong first-case hypotheses are written as personal notebook lines. Source IDs, kernel conditions, wrong-hypothesis recoverability, save/load and the late 19 pairs untouched. journal_flow and act1_ui_readability PASS on the integrated build. J3 (newcomer observation) remains external/not-run; the 'only-official-notice' state still relies on the tab intro line as its single nudge."
     },
     {
       "id": "ACT1-OLDPC",
@@ -6000,7 +6002,9 @@
       "evidence": [
         "docs/production/act1_takeover_evidence_2026-09-16/integrated-build-19.json",
         "docs/production/act1_takeover_evidence_2026-09-16/b19-csharp-probe03.json",
-        "docs/production/tamara_mvp_2026-09-26/arrival/arrival-stop-receipt.json"
+        "docs/production/tamara_mvp_2026-09-26/arrival/arrival-stop-receipt.json",
+        "docs/production/act1_prologue_beat_sheet_2026-09-28.md",
+        "docs/production/a01_ex13_yard_2026-09-28/README.md"
       ],
       "mvp_priority": 12,
       "mvp_packet": "A02",
@@ -6082,7 +6086,8 @@
       },
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
-      "author_contract_revision": "2026-09-28 round2"
+      "author_contract_revision": "2026-09-28 round2",
+      "progress_2026_09_28": "N1 beat sheet authored: docs/production/act1_prologue_beat_sheet_2026-09-28.md (forest flash-forward -> blackout/babai voice -> Niva front seat -> language calibration -> tea/residents -> sleep -> blizzard collapse -> morning news, with the existing-gates transfer table). N2.1 implemented and verified: the forest teaser (Act1DemoRoot.PrologueForest.cs) is the first game image - a short walk in kara_urman_night, unseen movement cue, sting to black, babai caption, return to the village arrival; one-press full skip preserves every existing single-E start contract; no knowledge/vocabulary effects. Narrow check URMAN_DISCOVERY_ROUTE_ONLY=prologue-watch PASS (night-first, natural cue, village return, card dismiss, arrival resume). Intro card fixed per R020/R021: toponym Kara-Urman, bench-prop caption removed. Remaining A02 units: Niva ride P3, calibration P4 (L1), tea/residents P5-P6, blizzard/bridge states P7-P8."
     },
     {
       "id": "ACT1-SHOP",
@@ -10886,7 +10891,10 @@
         "ручной сценарий карточки"
       ],
       "evidence": [
-        "docs/tasktracker/02_village_rework_plan.md §13"
+        "docs/tasktracker/02_village_rework_plan.md §13",
+        "docs/production/a01_ex13_yard_2026-09-28/README.md",
+        "docs/production/a01_ex13_yard_2026-09-28/frames_ex13_chain",
+        "docs/production/a01_ex13_yard_2026-09-28/frames_yard_loop"
       ],
       "note": "L1 и E1; проектирование сразу §13.2: цепочки любопытства на L1 и E1; проектирование сразу.",
       "mvp_priority": 12,
@@ -10903,7 +10911,8 @@
       "source_requirements": [
         "docs/urman_knowledge_base/decision_log.md",
         "docs/urman_knowledge_base/gameplay.md"
-      ]
+      ],
+      "progress_2026_09_28": "First sample realised on the existing house->yard->street stretch: service-gap drift cue -> shovel pickup through ordinary input -> aimed clearing -> physical barrier removed -> passage walked both ways (47.51m CharacterBody in URMAN_DISCOVERY_ROUTE_ONLY=rear-house), next possibility (buried axe handle at the woodpile) covered by the full carry smoke (329 checks PASS). gameplay.md records the realised chain. Human interest remains not-run. Second chain with a different context still open on this card."
     },
     {
       "id": "ACT1-EX14",
@@ -14024,7 +14033,8 @@
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
       "evidence": [
-        "docs/production/mvp_tracker_2026-09-27/alsu-route-receipt.json"
+        "docs/production/mvp_tracker_2026-09-27/alsu-route-receipt.json",
+        "docs/production/a01_ex13_yard_2026-09-28/README.md"
       ],
       "progress_2026_09_24": "2026-09-24: river ravine soft-lock fixed with plank steps on the village bank (five exits fitted to the bank profile); low forest bank at x~-41 closed with a visible windfall; act1_river_exit_smoke_test in verify-godot.",
       "current_checkpoint": "2026-09-27 A01: the apparent house-to-Alsu collision was a stale proof line through intended Frontage_26; guarded Alsu-only run exit0 without changing game collider. Historical Babai shelter-post B90 failure did not recur in the full boundary run after existing clear-path fixture selection. That run exited1 for a MainStreetForwardWestFacade arbitrary wall-face approach; a separate native ADR-H018 road-to-door/plate and return route passed 18/18 points each way without recovery/clamp. No actual door-path blocker reproduced; direct wall contact, general collision audit and human pathfinding remain open. See docs/production/mvp_tracker_2026-09-27/a01-h018/receipt.json.",
@@ -14094,7 +14104,8 @@
       },
       "review_scope": "source-linked rework; historical evidence retained",
       "entry_contract": "Воспроизведённая строка/предмет/кандидат этого пакета достаточны; полный аудит класса не блокирует локальный фикс.",
-      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя."
+      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
+      "progress_2026_09_28": "Author's D14 fall (X~29.8 Z~2.6, sign conflict preserved) not reproduced on the 2026-09-28 build: pressing the wall spot from south-face and gate-strip stands 150 physics frames each gave worst_below_ground=0.000m, recoveries=0 (URMAN_DISCOVERY_ROUTE_ONLY=d14-wall-probe). A real blocker on the same walking line was found and fixed instead: carry-crate's authored rest (-27.5,2.8) sat on the rear-house strip and blocked passage; moved to the house wall by the porch (-27.24,0.6). The wall spot itself needs a human confirmation frame before closing; other walls unproven."
     },
     {
       "id": "ACT1-TECH.3",
@@ -15510,7 +15521,8 @@
         "2026-09-26 пакет 2: инвентаризация по построенному миру (babai_yard_composition_capture) и список объектов с судьбой — docs/production/act1_babai_yard_composition_2026-09-26.md. Скрыты китовые калитка/прогон Agent B внутри двора и два голых саженца в рабочей части (hidden=41). Зоны A/B из карты шума оказались ложным следом: слой Act1AuthoredOutdoorBackbone в действующем мире не строится.",
         "Проверки пакета 2: act1_boundary_architecture_smoke_test PASS (1011 проверок, обычное движение 473,21 м); first_person_interaction_smoke_test PASS; babai_yard_composition_capture — 5 кадров до/после.",
         "docs/production/tamara_mvp_2026-09-26/frontage-palette/",
-        "docs/production/tamara_mvp_2026-09-26/west-shoulder/README.md"
+        "docs/production/tamara_mvp_2026-09-26/west-shoulder/README.md",
+        "docs/production/a01_ex13_yard_2026-09-28/README.md"
       ],
       "mvp_priority": 20,
       "mvp_packet": "A05",
@@ -15604,7 +15616,8 @@
         "unit": "W5/W12: один названный участок"
       },
       "review_scope": "source-linked rework; historical evidence retained",
-      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя."
+      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
+      "progress_2026_09_28": "Found while rerouting the rear-house loop: the authored Babai house volume closed the old west rear corridor (x~-34.2), the workshop board-rest stand with its north gangway fills the north strip, the rear boundary fence ends at (-36.5,-3.1), and the SE funnel between house and lower fence is narrower than the capsule. The rear minaret-view discovery ((-35.06,-14.28)) therefore has no ordinary walking access; walkthroughs print BLOCKED leg=rear-minaret-view owner=ACT1-VILLAGE-COMPOSITION/R123. Resolve by deliberate re-authored access in the yard composition pass, not by threading a fragile polyline. Also on this yard: carry-crate blocking already fixed (moved to the porch wall)."
     },
     {
       "id": "ACT1-DEPTH.8",
@@ -18926,7 +18939,9 @@
         "docs/урман претензии.md",
         "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/a01_ex13_yard_2026-09-28/README.md"
+      ],
       "deliverable": "Редакторская карта: видимые ремарки и лишние записки заменены действием, звуком, предметом либо содержательной репликой.",
       "done_when": [
         "Каждый обязательный факт и источник адреса сохранён/заменён; игрок видит действие без озвученного описания очевидного; нет раннего раскрытия пакта. Проверить один эпизод целиком, затем следующий.",
@@ -18976,7 +18991,8 @@
         "packet": "A02"
       },
       "review_scope": "source-linked rework; historical evidence retained",
-      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя."
+      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
+      "progress_2026_09_28": "R021 done: the arrival card no longer narrates the bench props (line removed; toponym updated to Kara-Urman per R020). R022 first pass done (parallel executor): 34 dialogue texts across definitions.json/investigation-family.json cleaned of visible-action remarks (scarf adjusting, glances, pauses, tray moving etc.); spoken lines keep knowledge boundaries, Alsu's address source and the Naila question; ids/conditions/effects untouched; dialogue_flow and family-flow PASS. Six borderline cases listed for an editorial decision (attitude lines kept), plus one same-class remark in address-navigation.json (dialogue-alsu-fap-address) handed to this card. Human read-through remains external."
     },
     {
       "id": "ACT1-TUTORIAL",
@@ -19716,13 +19732,16 @@
       ],
       "source_requirements": [
         "docs/урман претензии.md",
-        "docs/tasktracker/review_2026-09-28/03_world_geometry.md"
+        "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
+        "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md",
+        "docs/urman_knowledge_base/decision_log.md"
       ],
       "evidence": [],
       "deliverable": "Видимая естественная граница деревни/лесного эпизода с аварийной страховкой вне обычного пути.",
       "done_when": [
         "При обычном движении игрок видит причину остановки до clamp, возвращается без застревания и не видит внешний конец леса; решение не открывает весь лес и АктII автоматически.",
-        "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
+        "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены.",
+        "Усиление жуткого вида леса по ТЗ05 A01.1 не прячет путь, случайную коллизию или щель: угрожающая многослойная граница без видимого внешнего края, читаемый подход и безопасный возврат при обычном движении."
       ],
       "review_requirement_ids": [
         "R089",
@@ -19749,7 +19768,7 @@
             "action": "При обычном движении игрок видит причину остановки до clamp, возвращается без застревания и не видит внешний конец леса; решение не открывает весь лес и АктII автоматически."
           }
         ],
-        "acceptance": "При обычном движении игрок видит причину остановки до clamp, возвращается без застревания и не видит внешний конец леса; решение не открывает весь лес и АктII автоматически.",
+        "acceptance": "При обычном движении игрок видит причину остановки до clamp, возвращается без застревания и не видит внешний конец леса; решение не открывает весь лес и АктII автоматически. Усиление жуткого вида леса по ТЗ05 A01.1 не прячет путь, случайную коллизию или щель: угрожающая многослойная граница без видимого внешнего края, читаемый подход и безопасный возврат при обычном движении.",
         "verification": "Узкая проверка выбранного пути из ТЗ; runtime только protected_run.py. Документы: ссылки/JSON/diff. Нет новых тестов/широкого прогона без необходимости.",
         "stop_if": "Единица принята — остановиться. Нет необходимого авторского решения/ресурса/права или занят общий файл — обозначить локальную зависимость и взять независимую единицу. После двух итераций без измеримого приближения сравнить с эталоном и пересмотреть подход; не объявлять PASS и не полировать бесконечно.",
         "read_first": [
@@ -19766,7 +19785,8 @@
         "packet": "A05"
       },
       "review_scope": "source-linked rework; historical evidence retained",
-      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя."
+      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
+      "author_atmosphere_addendum": "2026-09-28 / ТЗ05 A01.1"
     },
     {
       "id": "ACT1-ADDR.MOUNT",
@@ -20219,7 +20239,7 @@
       "id": "ACT1-ART-DIRECTION",
       "title": "Доказать достижимый стиль одним участком в действующем движке",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -20235,12 +20255,15 @@
         "docs/urman_knowledge_base/decision_log.md",
         "docs/urman_knowledge_base/gameplay.md"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/a01_ex13_yard_2026-09-28/README.md"
+      ],
       "deliverable": "Доказать достижимый стиль одним участком в действующем движке",
       "done_when": [
         "Один дом/двор/забор/снег/свет с собственными или разрешёнными геометрией, UV и материалами; уютная обычная татарская деревня, без обязательной зловещести/сказочных орнаментов.",
         "Кандидат показан при обычной ходьбе, поворотах, приближении и с тем же профилем настроек; бюджеты берутся из реального замера. Не imagegen-картинка как обещание графики.",
-        "Один повторно применимый образец до массового тиража; фактура не заменяет толщину стены, дверной проём, опору и масштаб. Две бесплодные итерации — сменить подход."
+        "Один повторно применимый образец до массового тиража; фактура не заменяет толщину стены, дверной проём, опору и масштаб. Две бесплодные итерации — сменить подход.",
+        "ТЗ05 A01.1: глазоподобные элементы встречаются на многих объектах разных семейств/мест, создают неоднозначное ощущение наблюдения без одинаковых наклеек и буквального раскрытия мистики. Первый реальный набор материалов/форм и лесной фрагмент проверены в движении до тиража."
       ],
       "review_requirement_ids": [
         "R013",
@@ -20271,7 +20294,7 @@
             "action": "Проверить критерии: Один дом/двор/забор/снег/свет с собственными или разрешёнными геометрией, UV и материалами; уютная обычная татарская деревня, без обязательной зловещести/сказочных орнаментов. Кандидат показан при обычной ходьбе, поворотах, приближении и с тем же профилем настроек; бюджеты берутся из реального замера. Не imagegen-картинка как обещание графики. Один повторно применимый образец до массового тиража; фактура не заменяет толщину стены, дверной проём, опору и масштаб. Две бесплодные итерации — сменить подход."
           }
         ],
-        "acceptance": "Один дом/двор/забор/снег/свет с собственными или разрешёнными геометрией, UV и материалами; уютная обычная татарская деревня, без обязательной зловещести/сказочных орнаментов. Кандидат показан при обычной ходьбе, поворотах, приближении и с тем же профилем настроек; бюджеты берутся из реального замера. Не imagegen-картинка как обещание графики. Один повторно применимый образец до массового тиража; фактура не заменяет толщину стены, дверной проём, опору и масштаб. Две бесплодные итерации — сменить подход.",
+        "acceptance": "Один дом/двор/забор/снег/свет с собственными или разрешёнными геометрией, UV и материалами; уютная обычная татарская деревня, без обязательной зловещести/сказочных орнаментов. Кандидат показан при обычной ходьбе, поворотах, приближении и с тем же профилем настроек; бюджеты берутся из реального замера. Не imagegen-картинка как обещание графики. Один повторно применимый образец до массового тиража; фактура не заменяет толщину стены, дверной проём, опору и масштаб. Две бесплодные итерации — сменить подход. ТЗ05 A01.1: глазоподобные элементы встречаются на многих объектах разных семейств/мест, создают неоднозначное ощущение наблюдения без одинаковых наклеек и буквального раскрытия мистики. Первый реальный набор материалов/форм и лесной фрагмент проверены в движении до тиража.",
         "verification": "Документы: конкретные ссылки/JSON/diff. При реализации — существующая узкая проверка изменённого пути и защищённый обычный запуск с проходом/поворотами; человеческий интерес не выводить из PASS.",
         "stop_if": "После приёмки выбранной единицы остановиться. Две итерации без заметного улучшения — пересмотреть сигнал/действие/масштаб, не продолжать полировку. Не расширять задачу на весь акт.",
         "read_first": [
@@ -20289,7 +20312,9 @@
       },
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
-      "author_contract_revision": "2026-09-28 round2"
+      "author_contract_revision": "2026-09-28 round2",
+      "author_atmosphere_addendum": "2026-09-28 / ТЗ05 A01.1",
+      "progress_2026_09_28": "Pilot unit walked with the ordinary controller: babai yard loop 46.03m PASS with 16 walking frames, EX13 chain frames captured. Local frame budget on the executor machine (M4 Pro, forward_plus, preset=high, MSAA4x, 1280x720 window, vsync off, arrival spot): avg 26.7ms, p95 32.3ms, p99 41.5ms, 37.4 fps, draw calls 26190, primitives 6.67M; window unfocused during sampling, so numbers are a lower bound. Author's in-engine review and the M1 target-host profile remain external. A01.1 first iteration added same day: Act1ConnectedWorld.WatchingForms.cs (presentation-only) - workshop knot pair + single trestle knot, a crooked dead snag with two asymmetric hollows by the north fence, and a five-trunk dark leaning edge fragment with bare crowns, a distant hollow pair and an under-storey dark line beyond the north fence. Frame analysis confirms the workshop knots and dark crooked silhouettes read from the walking route (some trunks partly read as poles - recorded honestly); the snag hollows need a closer look/author. Perf with forms: avg 26.76ms p95 31.5ms 37.4fps 26152 draw calls - within probe noise. Author's feeling-of-being-watched acceptance remains external; no propagation to other routes before the author gate."
     },
     {
       "id": "ACT1-ATMOSPHERE",
@@ -20309,13 +20334,15 @@
         "docs/урман претензии.md",
         "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md",
         "docs/urman_knowledge_base/decision_log.md",
-        "docs/urman_knowledge_base/gameplay.md"
+        "docs/urman_knowledge_base/gameplay.md",
+        "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md"
       ],
       "evidence": [],
-      "deliverable": "Обычная уютная деревня с редкими сюжетными нарушениями спокойствия",
+      "deliverable": "Уютная жилая деревня, неоднозначные наблюдающие формы и значительно более жуткий окружающий лес.",
       "done_when": [
         "Большая часть прогулки ощущается нормальной обжитой деревней; семья не единственный безопасный кадр.",
-        "Лес/звук/свет усиливают конкретные события, без непрерывных скримеров, постоянных монстров и uncanny всего каста. 12+ — целевой тон, не официальный рейтинг."
+        "Лес/звук/свет усиливают конкретные события, без непрерывных скримеров, постоянных монстров и uncanny всего каста. 12+ — целевой тон, не официальный рейтинг.",
+        "ТЗ05 A01.1: фоновые глазоподобные детали и значительно более страшный окружающий лес сохраняются вне катсцен. Высота, искривлённые силуэты, плотность и тёмная глубина работают днём и вечером; уют жилой среды сохранён. До/после на одинаковом маршруте, повороты камеры, сравнимый профиль; чувство страха не объявляется доказанным по числу объектов."
       ],
       "review_requirement_ids": [
         "R005",
@@ -20338,14 +20365,14 @@
           },
           {
             "id": "ACT1-ATMOSPHERE/S2",
-            "action": "Обычная уютная деревня с редкими сюжетными нарушениями спокойствия"
+            "action": "Уютная жилая деревня, неоднозначные наблюдающие формы и значительно более жуткий окружающий лес."
           },
           {
             "id": "ACT1-ATMOSPHERE/S3",
             "action": "Проверить критерии: Большая часть прогулки ощущается нормальной обжитой деревней; семья не единственный безопасный кадр. Лес/звук/свет усиливают конкретные события, без непрерывных скримеров, постоянных монстров и uncanny всего каста. 12+ — целевой тон, не официальный рейтинг."
           }
         ],
-        "acceptance": "Большая часть прогулки ощущается нормальной обжитой деревней; семья не единственный безопасный кадр. Лес/звук/свет усиливают конкретные события, без непрерывных скримеров, постоянных монстров и uncanny всего каста. 12+ — целевой тон, не официальный рейтинг.",
+        "acceptance": "Большая часть прогулки ощущается нормальной обжитой деревней; семья не единственный безопасный кадр. Лес/звук/свет усиливают конкретные события, без непрерывных скримеров, постоянных монстров и uncanny всего каста. 12+ — целевой тон, не официальный рейтинг. ТЗ05 A01.1: фоновые глазоподобные детали и значительно более страшный окружающий лес сохраняются вне катсцен. Высота, искривлённые силуэты, плотность и тёмная глубина работают днём и вечером; уют жилой среды сохранён. До/после на одинаковом маршруте, повороты камеры, сравнимый профиль; чувство страха не объявляется доказанным по числу объектов.",
         "verification": "Документы: конкретные ссылки/JSON/diff. При реализации — существующая узкая проверка изменённого пути и защищённый обычный запуск с проходом/поворотами; человеческий интерес не выводить из PASS.",
         "stop_if": "После приёмки выбранной единицы остановиться. Две итерации без заметного улучшения — пересмотреть сигнал/действие/масштаб, не продолжать полировку. Не расширять задачу на весь акт.",
         "read_first": [
@@ -20363,7 +20390,8 @@
       },
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
-      "author_contract_revision": "2026-09-28 round2"
+      "author_contract_revision": "2026-09-28 round2",
+      "author_atmosphere_addendum": "2026-09-28 / ТЗ05 A01.1"
     },
     {
       "id": "ACT1-MATERIAL.MOTION",
@@ -20505,7 +20533,7 @@
       "id": "ACT1-UI.FOCUS",
       "title": "Один активный выбор при keyboard focus и hover другого пункта",
       "milestone": "M5",
-      "status": "todo",
+      "status": "completed",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -20517,7 +20545,9 @@
         "docs/урман претензии.md",
         "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/a01_ex13_yard_2026-09-28/README.md"
+      ],
       "deliverable": "Один активный выбор при keyboard focus и hover другого пункта.",
       "done_when": [
         "Мышь/клавиатура переводят предсказуемый focus, визуальное выделение совпадает с подтверждаемым ответом; нет двух одинаково активных строк или случайной отправки.",
@@ -20562,7 +20592,8 @@
         "packet": "A01"
       },
       "review_scope": "source-linked rework; historical evidence retained",
-      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя."
+      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
+      "progress_2026_09_28": "R058 fixed: DialogueUi choices and the continue button claim the single focus slot on mouse hover, so the keyboard-focus plate and the native hover plate can no longer show two active replies. Verified in act1_ui_readability_smoke_test at 2 resolutions x 2 text scales: opening focuses the first choice, hovering the second moves focus to it, exactly one choice draws the active plate; the same smoke's false positive on the hidden vocabulary tab reader is also fixed (hidden readers are no longer size-checked). Human look at the screen remains external/not-run."
     },
     {
       "id": "ACT1-UI.LOADING",
@@ -20709,7 +20740,7 @@
       "id": "ACT1-AUDIO.CUES",
       "title": "Ложный success и неправильный звук стука",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -20723,7 +20754,9 @@
         "docs/урман претензии.md",
         "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/a01_ex13_yard_2026-09-28/README.md"
+      ],
       "deliverable": "Найти событие случайного success и исправить общий binding стука/двери без переписывания аудиосистемы.",
       "done_when": [
         "В повторённом сценарии стук слышен как стук, открывание как открывание; success имеет понятную причину или снят у источника. Повтор/загрузка не дублируют cue; человеческое прослушивание отделено от логической проверки.",
@@ -20771,7 +20804,8 @@
         "packet": "A08"
       },
       "review_scope": "source-linked rework; historical evidence retained",
-      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя."
+      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
+      "progress_2026_09_28": "R062 fixed (parallel executor): Knock_* closed-house interactions now play wood_tap instead of door_creak in Act1ConnectedWorld.Addresses.cs; all other door_creak consumers verified as real door/leaf motion and unchanged. Real knock sample remains an external recording gate. R060 findings recorded, unfixed: ui_click replays on every fap_clinic re-entry for the already-found repaired lamp (Act1ConnectedWorld.Exploration.cs:211, _lampFound resets per world rebuild), and the closed storage-door check plays door_creak while reporting the door locked (Act1ConnectedWorld.PublicBuildings.cs:421) - same class as R062, needs an honest sample choice. Human listening remains external."
     },
     {
       "id": "ACT1-CARRY.CONTACT",
