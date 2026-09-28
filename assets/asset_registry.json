@@ -3008,6 +3008,47 @@
       "qa": "43 clips on the same 65-bone skeleton as urman_character_kit_v2; applied through URMAN Studio's animation catalogue; art review of motion on each character pending",
       "status": "integrated-candidate; art-pending",
       "releaseDisposition": "runtime-referenced by the animation catalogue"
+    },
+    {
+      "id": "texture.prop.chayan.magazine.atlas.v01",
+      "source": "OpenAI ImageGen built-in, 2026-09-28; complete front cover: assets/source/illustrations/chayan_full_cover_v1.png; winter illustration reference/interior source: assets/source/illustrations/chayan_winter_cover_art_v1.png; prompt in game/assets/textures/props/README.md",
+      "derived": "game/assets/textures/props/chayan_magazine_atlas_v1.png",
+      "sourceSha256": "60546f050e0df42a56e3d8c9eceea13c1ce9247ba47381fa2ec48736700d48a8",
+      "derivedSha256": "4317b40e8e5284213ba8128d2d84605b7122350f0444e79021968602f4695ae1",
+      "generator": "OpenAI ImageGen full front cover; tools/asset_generation/build_chayan_magazine.py packs it unchanged into the UV atlas and composes remaining print surfaces",
+      "license": "Project-generated ImageGen cover based on project-generated art; reference links in README; no published cover pixels copied",
+      "scale": 1,
+      "triangleBudget": 0,
+      "textureBudget": 4096,
+      "materials": [
+        "MagazinePrint base-color UV atlas"
+      ],
+      "materialOwner": "Standalone Chayan magazine GLB; not yet referenced by an Act I scene",
+      "collision": "not applicable; printed texture",
+      "lod": "glTF sampler uses mipmaps",
+      "qa": "full cover and atlas preview visually inspected; date and issue number absent; engine import and native-speaker review not run",
+      "status": "asset-candidate; engine-and-language-review-pending",
+      "releaseDisposition": "asset-only; no runtime scene reference"
+    },
+    {
+      "id": "model.prop.chayan.magazine.animated.v01",
+      "source": "tools/asset_generation/build_chayan_magazine.py; generated 2026-09-28; texture atlas embedded",
+      "derived": "game/assets/models/props/chayan_magazine_animated_v1.glb",
+      "derivedSha256": "097b656cfe998b90d7d1cb673a6f292c0c42927c717fa379ef41a4bd88e12c95",
+      "generator": "Custom Python glTF 2.0 builder; eight double-sided hinged leaves and 19 animation clips",
+      "license": "Project-generated model and texture; source references and usage notes in game/assets/textures/props/README.md",
+      "scale": 1,
+      "triangleBudget": 56,
+      "textureBudget": 4096,
+      "materials": [
+        "MagazinePrint"
+      ],
+      "materialOwner": "Standalone model; no gameplay or scene owner assigned",
+      "collision": "none",
+      "lod": "single low-poly prop; 8 animated page leaves",
+      "qa": "GLB header, embedded atlas, node list and animation clip names inspected; Godot/Blender import not run",
+      "status": "animated-model-candidate; engine-review-pending",
+      "releaseDisposition": "standalone asset; scene placement pending"
     }
   ]
 }

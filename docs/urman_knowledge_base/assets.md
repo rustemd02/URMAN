@@ -1,5 +1,16 @@
 # Assets
 
+2026-09-28, date-free «Чаян» prop candidate: ImageGen created the complete front
+page (masthead, scorpion mascot, Tatar copy, and winter cartoon) as one image;
+the generator places it unchanged into the front UV panel of a 4096² atlas. A
+custom glTF 2.0 builder creates a 155 × 215 mm soft-cover magazine with eight
+hinged, double-sided page leaves and 19 animation clips. The cover has no
+date, month, year, issue number, or ISSN. Atlas/model sources and references are
+documented in
+[the texture README](../../game/assets/textures/props/README.md).
+Standalone asset only: not yet placed in a scene, imported in-engine, or given
+a gameplay interaction; native-speaker review of new filler text remains open.
+
 2026-09-22, B07: `urman_b07_v02_basecolor.png`, source PASS1/1; новый спокойный минеральный материал stone_foundation на основаниях ФАП и ступенях общественных зданий. b07-03 build/import PASS348, drift/errors=[]; High/Low действующего фундамента из стоячего сервисного подхода просмотрены, guard restored. Глобальный лесной камень и смешанный FapWetStone сохранены. Это 20 новых подключённых карт плюс T12 reuse; close/motion, другие потребители и art lock открыты. [Промпты, границы и свидетельства](../tasktracker/05_texture_production_2026-09-22.md).
 
 W05, итог текущего среза: w05-04 build/import PASS346; street-02 снят из штатного from_house, CanStandAt прошёл, crouching=false, кадр просмотрен. Промежуточный вид 3,2 м под навесом отвергнут. Production-материал после w05-02 не менялся; ранние кадры остаются свидетельствами своих сборок. Движение, batch pilot runtime и art lock не закрыты.
