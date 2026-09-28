@@ -137,7 +137,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public double EndingDelaySeconds => _endingDelay;
 
-    public bool IntroVisible => _introScreen is not null;
+    public bool IntroVisible => _introScreen is not null || _prologueForestActive;
 
     /// <summary>UIUX-001: the public main menu gates gameplay until a choice.</summary>
     public bool MainMenuVisible => _mainMenu is not null && GodotObject.IsInstanceValid(_mainMenu) && !_mainMenu.IsDismissed;
@@ -1172,6 +1172,19 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             GetViewport().SetInputAsHandled();
             return;
         }
+        if (_prologueForestActive)
+        {
+            if (inputEvent.IsActionPressed("interact")
+                || inputEvent.IsActionPressed("ui_accept")
+                || inputEvent.IsActionPressed("ui_cancel")
+                || inputEvent is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
+            {
+                _prologueSkipRequested = true;
+                GetViewport().SetInputAsHandled();
+            }
+            return;
+        }
+
         if (_introScreen is null || inputEvent is InputEventKey { Echo: true })
         {
             return;
@@ -1499,18 +1512,6 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         return started;
     }
 
-    private void ShowIntroAfterMenu()
-    {
-        if (!MainMenuVisible)
-        {
-            return;
-        }
-
-        _mainMenu?.Dismiss();
-        _mainMenu = null;
-        BuildIntro();
-    }
-
     private void BuildIntro()
     {
         var player = _player;
@@ -1553,8 +1554,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return label;
         }
         stack.AddChild(IntroLine("УРМАН  /  Акт I — Возвращение", 32, new Color(0.94f, 0.84f, 0.65f)));
-        stack.AddChild(IntroLine("Я снова в Кырлае. Десять лет молчания.", 19, new Color(0.87f, 0.89f, 0.83f)));
-        stack.AddChild(IntroLine("На скамье справа — мой телефон и старое фото Марата.", 19, new Color(0.87f, 0.89f, 0.83f)));
+        stack.AddChild(IntroLine("Я снова в Кара-Урмане. Десять лет молчания.", 19, new Color(0.87f, 0.89f, 0.83f)));
         _introControls = IntroLine(string.Empty, 17, new Color(0.72f, 0.78f, 0.74f));
         stack.AddChild(_introControls);
 

@@ -29,6 +29,15 @@ public partial class ChapterOneFlowSmokeTest : Node
         demo._UnhandledInput(new InputEventKey { Keycode = Key.Enter, PhysicalKeycode = Key.Enter, Pressed = true });
         var main = demo.DemoMain;
         var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        // The forest teaser returns the player to the village asynchronously
+        // after its skip; let that land before any state invariant begins.
+        for (var frame = 0; frame < 600 && bridge?.CurrentZoneId != "village_day"; frame++)
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        if (bridge?.CurrentZoneId != "village_day")
+        {
+            Fail("Chapter 1 flow did not settle at the village after the prologue.");
+            return;
+        }
         if (bridge is null || bridge.ActiveSceneId != Scene("arrival_vehicle_dusk"))
         {
             Fail("Chapter 1 flow did not start at the authored arrival scene.");

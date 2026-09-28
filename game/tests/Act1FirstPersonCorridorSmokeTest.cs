@@ -81,6 +81,16 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             Fail("Act 1 first-person corridor could not dismiss its intro card with E.");
             return;
         }
+        // The skipped forest teaser returns its zone asynchronously; let the
+        // village settle before the corridor's scripted evidence flow starts.
+        var corridorBridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        for (var frame = 0; frame < 600 && corridorBridge?.CurrentZoneId != "village_day"; frame++)
+            await Frames(1);
+        if (corridorBridge?.CurrentZoneId != "village_day")
+        {
+            Fail("Act 1 first-person corridor did not settle at the village after the prologue.");
+            return;
+        }
 
         await Act1ArrivalFlowProof.CompleteAsync(this, bridge);
         await InteractAt(player, ray, Interaction("arrival-enter-house"));

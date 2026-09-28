@@ -39,6 +39,16 @@ public partial class Act1Len01FamilyFlowSmokeTest : Node
             _dialogue = (DialogueUi)GetTree().GetFirstNodeInGroup("dialogue_ui");
             _pc = (OldPcUi)GetTree().GetFirstNodeInGroup("old_pc_ui");
             _player = (FirstPersonController)GetTree().GetFirstNodeInGroup("player_controller");
+            // The forest teaser runs first; this suite verifies the arrival
+            // card itself, so it waits out the natural teaser instead of
+            // skipping the whole prologue block.
+            Control? introPanel = null;
+            for (var frame = 0; frame < 1500 && introPanel is null; frame++)
+            {
+                await Frames(1);
+                introPanel = _demo.FindChild("IntroPanel", true, false) as Control;
+            }
+            Require(introPanel is not null, "The arrival card did not follow the watched forest teaser.");
             await VerifyIntroLayout();
             _demo._UnhandledInput(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true });
             await Frames(4);
@@ -924,8 +934,13 @@ public partial class Act1Len01FamilyFlowSmokeTest : Node
                 var labels = panel!.FindChildren("*", "Label", true, false).OfType<Label>()
                     .Where(label => label.IsVisibleInTree()).ToArray();
                 var text = string.Join(" ", labels.Select(label => label.Text));
-                Require(text.Contains("скамье") && text.Contains("телефон") && text.Contains("фото Марата"),
-                    "The ordinary intro does not name the first personal source and its location.");
+                // R020/R021 (review 2026-09-28): the card keeps the title and
+                // the current toponym; it no longer narrates the bench props,
+                // whose discovery belongs to the player's own action.
+                Require(text.Contains("Кара-Урман") && text.Contains("Возвращение"),
+                    "The ordinary intro lost its title or the current toponym.");
+                Require(!text.Contains("скамье") && !text.Contains("фото Марата"),
+                    "The ordinary intro still narrates visible props instead of showing them.");
                 foreach (var control in labels.Cast<Control>().Prepend(panel!))
                 {
                     var rect = control.GetGlobalRect();
