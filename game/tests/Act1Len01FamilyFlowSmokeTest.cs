@@ -43,7 +43,8 @@ public partial class Act1Len01FamilyFlowSmokeTest : Node
             // card itself, so it waits out the natural teaser instead of
             // skipping the whole prologue block.
             Control? introPanel = null;
-            for (var frame = 0; frame < 1500 && introPanel is null; frame++)
+            var cardDeadline = Time.GetTicksMsec() + 75_000u;
+            while (Time.GetTicksMsec() < cardDeadline && introPanel is null)
             {
                 await Frames(1);
                 introPanel = _demo.FindChild("IntroPanel", true, false) as Control;

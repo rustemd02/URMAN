@@ -208,6 +208,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private void InitializeDemo()
     {
         AddToGroup(AccessibilityPresentation.TargetGroup);
+        AddToGroup("act1_demo_root");
         DebugVillageMinimap.AttachIfEnabled(this);
         var commandLine = OS.GetCmdlineArgs();
         _performanceProbe = commandLine.Contains("--urman-perf-probe", StringComparer.Ordinal)

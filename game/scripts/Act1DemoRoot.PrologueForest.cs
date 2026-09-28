@@ -68,7 +68,18 @@ public partial class Act1DemoRoot
         {
             await PlayPrologueCueAsync();
         }
-        _main.SwitchZone("village_day", "arrival");
+        if (skipped)
+        {
+            _main.SwitchZone("village_day", "arrival");
+        }
+        else
+        {
+            // The blackout caption hands straight into the Niva ride (P3/P4);
+            // it ends on its own fade, still inside this prologue block.
+            await RunPrologueNivaRideAsync();
+            FadePrologueBlackout(visible: false);
+            await PrologueFrames(18);
+        }
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         ReleasePrologueOverlay();
         _prologueForestActive = false;

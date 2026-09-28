@@ -1182,8 +1182,9 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             { Fail("Prologue teaser must keep the intro surface blocking menus."); return; }
             Input.ActionPress("move_forward");
             var sawNightZone = false;
-            // Headless frames run faster than wall clock; budget real time.
-            var deadline = Time.GetTicksMsec() + 45_000u;
+            // Headless frames run faster than wall clock; budget real time
+            // for the teaser walk, the cue, the 21s ride and the fade.
+            var deadline = Time.GetTicksMsec() + 75_000u;
             try
             {
                 while (Time.GetTicksMsec() < deadline)
@@ -1197,8 +1198,53 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
                 }
             }
             finally { Input.ActionRelease("move_forward"); }
-            // The teaser finishes one frame after the zone returns (overlay
-            // release, then the arrival card); let that land before pressing.
+            // N2.2: the Niva ride follows the teaser inside the same block;
+            // answer the calibration with the second choice ("some") through
+            // the real dialogue UI, then verify its guessed vocabulary.
+            var rideDialogue = GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi;
+            DialogueUi? calib = null;
+            var calibDeadline = Time.GetTicksMsec() + 30_000u;
+            while (Time.GetTicksMsec() < calibDeadline && calib is null)
+            {
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                if (rideDialogue is { IsOpen: true }) calib = rideDialogue;
+            }
+            if (calib is null)
+            { Fail("The Niva ride did not open the language calibration dialogue."); return; }
+            var answerButtons = calib.GetNode("Screen/Panel/Layout/Choices").GetChildren().OfType<Button>().ToArray();
+            if (answerButtons.Length < 4)
+            { Fail($"The calibration dialogue lost its choices: {answerButtons.Length}."); return; }
+            answerButtons[1].EmitSignal(Button.SignalName.Pressed);
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            // The reply node ends on its own Continue button, like a player.
+            var continueButton = calib.GetNodeOrNull<Button>("Screen/Panel/Layout/Continue");
+            for (var reveal = 0; reveal < 30 && (continueButton?.IsVisibleInTree() != true); reveal++)
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            continueButton?.EmitSignal(Button.SignalName.Pressed);
+            for (var close = 0; close < 90 && calib.IsOpen; close++)
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (calib.IsOpen)
+            { Fail("The calibration reply did not close the dialogue."); return; }
+            var vocabBridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+            var vocabState = vocabBridge?.SelectRuntimeState();
+            if (vocabState is not { ValueKind: System.Text.Json.JsonValueKind.Object } state
+                || !state.TryGetProperty("vocabulary", out var vocabProbe)
+                || vocabProbe.ValueKind != System.Text.Json.JsonValueKind.Object)
+            { Fail("The runtime state has no vocabulary registry after the calibration."); return; }
+            if (!vocabProbe.TryGetProperty("urman.chapter1:vocabulary/tt_yul", out var yul)
+                || yul.GetProperty("status").GetString() != "guessed")
+            { Fail("The 'some' calibration answer did not seed its household vocabulary as guessed."); return; }
+            // tt_urman is legitimately seeded by the arrival scene's own
+            // onEnter; tt_tavysh is not, so it probes the level boundary.
+            if (vocabProbe.TryGetProperty("urman.chapter1:vocabulary/tt_tavysh", out var tavysh)
+                && tavysh.GetProperty("status").GetString() == "guessed")
+            { Fail("The 'some' calibration answer leaked a literary word beyond its level."); return; }
+            // The zone returns when the RIDE starts, not when the prologue
+            // ends; the arrival card is the block's last surface and the
+            // only part that reopens the player's modal.
+            var cardDeadline = Time.GetTicksMsec() + 45_000u;
+            while (Time.GetTicksMsec() < cardDeadline && !player.ModalOpen)
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             for (var settle = 0; settle < 12; settle++)
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             var finalZone = (GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge)?.CurrentZoneId;

@@ -5802,6 +5802,179 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.chapter1:dialogue/prologue-niva-language",
+    "startNodeId": "teasing-question",
+    "entryRoutes": [],
+    "nodes": [
+      {
+        "id": "teasing-question",
+        "textId": "urman.chapter1:text/prologue-niva-question",
+        "choices": [
+          {
+            "id": "answer-none",
+            "textId": "urman.chapter1:text/prologue-niva-answer-none",
+            "nextNodeId": "none-reply",
+            "conditions": [],
+            "effects": []
+          },
+          {
+            "id": "answer-some",
+            "textId": "urman.chapter1:text/prologue-niva-answer-some",
+            "nextNodeId": "some-reply",
+            "conditions": [],
+            "effects": []
+          },
+          {
+            "id": "answer-fluent",
+            "textId": "urman.chapter1:text/prologue-niva-answer-fluent",
+            "nextNodeId": "fluent-reply",
+            "conditions": [],
+            "effects": []
+          },
+          {
+            "id": "answer-skip",
+            "textId": "urman.chapter1:text/prologue-niva-answer-skip",
+            "nextNodeId": "skip-reply",
+            "conditions": [],
+            "effects": []
+          }
+        ],
+        "conditions": [],
+        "effects": [],
+        "speakerRole": "mansur"
+      },
+      {
+        "id": "none-reply",
+        "textId": "urman.chapter1:text/prologue-niva-none-reply",
+        "choices": [],
+        "conditions": [],
+        "effects": [],
+        "speakerRole": "mansur"
+      },
+      {
+        "id": "some-reply",
+        "textId": "urman.chapter1:text/prologue-niva-some-reply",
+        "choices": [],
+        "conditions": [],
+        "effects": [
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_babai",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_abi",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_yul",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_uy",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_zirat",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_barma",
+            "status": "guessed"
+          }
+        ],
+        "speakerRole": "mansur"
+      },
+      {
+        "id": "fluent-reply",
+        "textId": "urman.chapter1:text/prologue-niva-fluent-reply",
+        "choices": [],
+        "conditions": [],
+        "effects": [
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_urman",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_tavysh",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_javap",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_yaramyy",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_zirat",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_shurale",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_yul",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_uy",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_babai",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_abi",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_barma",
+            "status": "guessed"
+          },
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.chapter1:vocabulary/tt_xazrat",
+            "status": "guessed"
+          }
+        ],
+        "speakerRole": "mansur"
+      },
+      {
+        "id": "skip-reply",
+        "textId": "urman.chapter1:text/prologue-niva-skip-reply",
+        "choices": [],
+        "conditions": [],
+        "effects": [],
+        "speakerRole": "mansur"
+      }
+    ],
+    "participantRoles": [
+      "mansur",
+      "aidar"
+    ]
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.chapter1:scene/arrival_vehicle_dusk",
     "sceneType": "route",
     "title": {
@@ -10583,6 +10756,105 @@
       }
     },
     "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-niva-question",
+    "value": {
+      "default": "So, Kazan has completely knocked the Tatar out of you? Listen to how you answer me — I understand everything, babai.",
+      "translations": {
+        "ru": "Ну что, Казань совсем татарский из тебя выбила? Слушай, как ты мне отвечаешь — я-то всё пойму, бабай."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-niva-answer-none",
+    "value": {
+      "default": "Almost nothing, babai. I understand you, but I answer in Russian.",
+      "translations": {
+        "ru": "Почти ничего, бабай. Я тебя понимаю, а отвечаю по-русски."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-niva-answer-some",
+    "value": {
+      "default": "I understand a little. If they speak slowly, I can keep up.",
+      "translations": {
+        "ru": "Понимаю немного. Если говорят медленно — успеваю."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-niva-answer-fluent",
+    "value": {
+      "default": "I speak it, but it's rusty — without practice.",
+      "translations": {
+        "ru": "Говорю, но ржаво — без практики."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-niva-answer-skip",
+    "value": {
+      "default": "(Say nothing and look out the window.)",
+      "translations": {
+        "ru": "(Промолчать и смотреть в окно.)"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-niva-none-reply",
+    "value": {
+      "default": "We'll fix that. Here everyone will speak to you slowly — and әbi will definitely find the words.",
+      "translations": {
+        "ru": "Ничего, догоним. Здесь с тобой все будут говорить медленно, а әби и вовсе найдёт слова."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-niva-some-reply",
+    "value": {
+      "default": "Well done. In the village they speak simply: юл is the road, өй is the house. You'll get by.",
+      "translations": {
+        "ru": "Молодец. В деревне говорят просто: юл — дорога, өй — дом. Ты справишься."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-niva-fluent-reply",
+    "value": {
+      "default": "I knew it — it will come back by evening. Just don't rush: here a word is worth more than a hurried answer.",
+      "translations": {
+        "ru": "Я и знал — к вечеру вернётся. Ты только не спеши: тут слово дороже спешного ответа."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-niva-skip-reply",
+    "value": {
+      "default": "Silent? All right, sleep. I'll wake you when we reach Kara-Urman.",
+      "translations": {
+        "ru": "Молчишь? Ну и ладно, спи. У Кара-Урмана разбужу."
+      }
+    },
+    "purpose": "dialogue"
   },
   {
     "schemaVersion": 1,

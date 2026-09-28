@@ -118,6 +118,8 @@ public partial class AlsuStreetWalkPresentation : Node3D
         SynchronizeTarget();
     }
 
+    private Act1DemoRoot? _demoPrologueRoot;
+
     public override void _PhysicsProcess(double delta)
     {
         if (_bridge is null)
@@ -139,7 +141,11 @@ public partial class AlsuStreetWalkPresentation : Node3D
             SynchronizeTarget();
         }
         if (!PhysicalAccessReady) return;
-        if (_player.ModalOpen || _player.VehicleControlled || _bridge.CurrentZoneId != "village_day")
+        // The demo's prologue block (forest teaser + Niva ride) precedes any
+        // villager routine: Alsu does not walk her street segment while the
+        // opening cutscene chain is still holding the session.
+        if ((_demoPrologueRoot ??= GetTree().GetFirstNodeInGroup("act1_demo_root") as Act1DemoRoot) is { IntroVisible: true }
+            || _player.ModalOpen || _player.VehicleControlled || _bridge.CurrentZoneId != "village_day")
         {
             _stepSound.StreamPaused = true;
             return;

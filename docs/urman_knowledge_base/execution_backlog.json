@@ -6087,7 +6087,7 @@
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
       "author_contract_revision": "2026-09-28 round2",
-      "progress_2026_09_28": "N1 beat sheet authored: docs/production/act1_prologue_beat_sheet_2026-09-28.md (forest flash-forward -> blackout/babai voice -> Niva front seat -> language calibration -> tea/residents -> sleep -> blizzard collapse -> morning news, with the existing-gates transfer table). N2.1 implemented and verified: the forest teaser (Act1DemoRoot.PrologueForest.cs) is the first game image - a short walk in kara_urman_night, unseen movement cue, sting to black, babai caption, return to the village arrival; one-press full skip preserves every existing single-E start contract; no knowledge/vocabulary effects. Narrow check URMAN_DISCOVERY_ROUTE_ONLY=prologue-watch PASS (night-first, natural cue, village return, card dismiss, arrival resume). Intro card fixed per R020/R021: toponym Kara-Urman, bench-prop caption removed. Remaining A02 units: Niva ride P3, calibration P4 (L1), tea/residents P5-P6, blizzard/bridge states P7-P8."
+      "progress_2026_09_28": "N1 beat sheet authored: docs/production/act1_prologue_beat_sheet_2026-09-28.md (forest flash-forward -> blackout/babai voice -> Niva front seat -> language calibration -> tea/residents -> sleep -> blizzard collapse -> morning news, with the existing-gates transfer table). N2.1 implemented and verified: the forest teaser (Act1DemoRoot.PrologueForest.cs) is the first game image - a short walk in kara_urman_night, unseen movement cue, sting to black, babai caption, return to the village arrival; one-press full skip preserves every existing single-E start contract; no knowledge/vocabulary effects. Narrow check URMAN_DISCOVERY_ROUTE_ONLY=prologue-watch PASS (night-first, natural cue, village return, card dismiss, arrival resume). Intro card fixed per R020/R021: toponym Kara-Urman, bench-prop caption removed. Remaining A02 units: Niva ride P3, calibration P4 (L1), tea/residents P5-P6, blizzard/bridge states P7-P8. N2.2 first iteration: after the teaser's blackout the player rides the Niva's front passenger seat along the entry road to the stop (Act1DemoRoot.PrologueNivaRide.cs - factory Niva visual, in-cabin camera, 21s eased path ending at the world's parked Niva). The ride does not cross the bridge: both bridge states stay with ACT1-RIVER-BRIDGE (P7). Free cabin look and visible hands are the next iteration (ACT1-TRANSPORT.CABIN). Ride frames not captured this pass (walk-capture hooks WalkTo only); author's in-engine review open."
     },
     {
       "id": "ACT1-SHOP",
@@ -11564,7 +11564,8 @@
         "Skip и загрузка не назначают прогресс расследования и не теряют выбранный уровень."
       ],
       "evidence": [
-        "2026-09-22 карта состояния (read-only рой): вопросов теста в контенте нет, onEnter уже сеет tt_urman=guessed (definitions.json:5827) — калибровка не должна задваивать источник; smoke-каркас готов — docs/production/act1_takeover_evidence_2026-09-16/act1_swarm_next_packets_2026-09-22.md §5."
+        "2026-09-22 карта состояния (read-only рой): вопросов теста в контенте нет, onEnter уже сеет tt_urman=guessed (definitions.json:5827) — калибровка не должна задваивать источник; smoke-каркас готов — docs/production/act1_takeover_evidence_2026-09-16/act1_swarm_next_packets_2026-09-22.md §5.",
+        "docs/production/act1_prologue_beat_sheet_2026-09-28.md"
       ],
       "mvp_priority": 16,
       "mvp_packet": "A04",
@@ -11631,7 +11632,8 @@
       },
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
-      "author_contract_revision": "2026-09-28 round2"
+      "author_contract_revision": "2026-09-28 round2",
+      "progress_2026_09_28": "L1 first iteration (in the Niva ride, per the 28.09 decision): dialogue urman.chapter1:dialogue/prologue-niva-language - Mansur's household teasing question, three answers plus a silent skip; effects are vocabulary.set-status guessed only (some: family+everyday words; fluent: all twelve; none/skip: none), no story flags and no confirmed words. The manual setting still seeds before the calibration and the vocabulary ladder is monotonic, so an explicit manual choice cannot be downgraded by the talk. Verified inside prologue-watch: choosing 'some' seeds юл as guessed, does not leak literary тавыш (урман is legitimately seeded by the arrival scene's onEnter). Authored Tatar phrasing awaits the native-speaker review; skip parity holds (one press skips the whole prologue block with no effects)."
     },
     {
       "id": "ACT1-LANG.5",
@@ -16512,7 +16514,8 @@
       },
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
-      "author_contract_revision": "2026-09-28 round2"
+      "author_contract_revision": "2026-09-28 round2",
+      "progress_2026_09_28": "The prologue now chains three authored presentations without a new cutscene engine: forest teaser (zone walk + cue), blackout caption, and the Niva passenger ride (camera-path presentation reusing the existing factory Niva). Skip parity and single-press semantics verified by prologue-watch."
     },
     {
       "id": "ACT1-CUTSCENE.2",
