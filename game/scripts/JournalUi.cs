@@ -22,6 +22,9 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     private ScrollContainer _overview = null!;
     private ScrollContainer _comparison = null!;
     private readonly OptionButton[] _sourcePickers = new OptionButton[2];
+    private readonly PanelContainer[] _recordCards = new PanelContainer[2];
+    private readonly Label[] _recordCardTitles = new Label[2];
+    private readonly Label[] _recordCardQuotes = new Label[2];
     private VBoxContainer _hypotheses = null!;
     private Label _comparisonFeedback = null!;
     private bool _comparing;
@@ -401,7 +404,9 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         var contents = new VBoxContainer { Name = "Layout", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         contents.AddThemeConstantOverride("separation", 14);
         _comparison.AddChild(contents);
-        contents.AddChild(new Label { Text = "Выберите два найденных источника, затем проверьте объяснение.",
+        // ACT1-UI.4/J2: the spread reads as Aidar's own page, not a candidate
+        // picker: a spoken account and a read document are both records here.
+        contents.AddChild(new Label { Text = "Кладу рядом две записи — из разговора или с бумаги — и смотрю, что из них следует.",
             AutowrapMode = TextServer.AutowrapMode.WordSmart });
         for (var i = 0; i < 2; i++)
         {
@@ -427,6 +432,22 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
                 SelectEntry(index);
                 _tabs.CurrentTab = 0;
             };
+            var card = new PanelContainer { Name = $"RecordCard{i + 1}", Visible = false };
+            card.AddThemeStyleboxOverride("panel", UrmanUiTheme.PlateBox(
+                new Color(1f, 1f, 1f, .05f), new Color(1f, 1f, 1f, .16f), 1,
+                marginX: UrmanUiTheme.Space.M, marginY: UrmanUiTheme.Space.S));
+            contents.AddChild(card);
+            var cardText = new VBoxContainer { Name = "Text" };
+            cardText.AddThemeConstantOverride("separation", 4);
+            card.AddChild(cardText);
+            _recordCards[i] = card;
+            _recordCardTitles[i] = new Label { Name = "Title", AutowrapMode = TextServer.AutowrapMode.WordSmart };
+            _recordCardTitles[i].AddThemeFontSizeOverride("font_size", 18);
+            cardText.AddChild(_recordCardTitles[i]);
+            _recordCardQuotes[i] = new Label { Name = "Quote", AutowrapMode = TextServer.AutowrapMode.WordSmart };
+            _recordCardQuotes[i].AddThemeFontSizeOverride("font_size", 15);
+            _recordCardQuotes[i].AddThemeColorOverride("font_color", new Color(.82f, .78f, .68f));
+            cardText.AddChild(_recordCardQuotes[i]);
         }
         _hypotheses = new VBoxContainer { Name = "Hypotheses" };
         _hypotheses.AddThemeConstantOverride("separation", 10);
@@ -470,7 +491,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             var selected = SelectedSource(i);
             var picker = _sourcePickers[i];
             picker.Clear();
-            picker.AddItem(i == 0 ? "Первый источник…" : "Второй источник…");
+            picker.AddItem(i == 0 ? "Первая запись…" : "Вторая запись…");
             foreach (var entry in _sourceProjection.DistinctBy(entry => entry.SourceId))
             {
                 picker.AddItem(EntryListTitle(entry));
@@ -486,17 +507,18 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     private void RefreshHypotheses()
     {
         foreach (var child in _hypotheses.GetChildren()) { _hypotheses.RemoveChild(child); child.QueueFree(); }
+        RefreshRecordCards();
         var first = SelectedSource(0);
         var second = SelectedSource(1);
         if (first is null || second is null || first == second)
         {
-            _comparisonFeedback.Text = "Нужны два разных источника. Любой из них можно перечитать перед выводом.";
+            _comparisonFeedback.Text = "Пока не с чем сравнивать. Нужны две разные записи — например, услышанная и прочитанная.";
             return;
         }
         var actions = _bridge?.JournalActions(new[] { first, second }) ?? [];
         _comparisonFeedback.Text = actions.Count == 0
-            ? "Эта пара пока не даёт нового вывода. Сверьте, об одном ли вопросе говорят источники; уже проверенные связи не требуют повторного выбора."
-            : "Что следует из обоих источников? Неудачную гипотезу можно пересмотреть.";
+            ? "Эти две записи я уже сверил, или они пока ни к чему не ведут. Перечитаю их, когда появится новый вопрос."
+            : "Что из этих двух записей следует вместе? Поспешную запись можно зачеркнуть и переписать.";
         foreach (var action in actions)
         {
             var button = new Button { Text = _bridge!.ResolveText(action.LabelTextId),
@@ -506,6 +528,37 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             _hypotheses.AddChild(button);
         }
         AccessibilityPresentation.ApplyToControl(_comparison, _accessibility);
+    }
+
+    /// <summary>The chosen record as a short handwritten card: the saved title
+    /// plus one trimmed line of the source itself, with its kind named.</summary>
+    private void RefreshRecordCards()
+    {
+        for (var i = 0; i < 2; i++)
+        {
+            var id = SelectedSource(i);
+            var entry = id is null
+                ? null
+                : _sourceProjection.FirstOrDefault(source => source.SourceId == id);
+            _recordCards[i].Visible = entry is not null;
+            if (entry is null) continue;
+            _recordCardTitles[i].Text = entry.Title;
+            _recordCardQuotes[i].Text =
+                (entry.SourceId.Contains(":document/", StringComparison.Ordinal)
+                    ? "Прочитанный документ" : "Моя запись")
+                + ". «" + RecordExcerpt(entry) + "»";
+        }
+    }
+
+    private static string RecordExcerpt(ResolvedJournalEntry entry)
+    {
+        var plain = SourceExcerptSelection.FormatPlainSourceText(entry.Body).Replace("\r", string.Empty);
+        var text = string.Join(" ", plain.Split('\n', StringSplitOptions.RemoveEmptyEntries)).Trim();
+        const int limit = 150;
+        if (text.Length <= limit) return text;
+        var cut = text[..limit];
+        var space = cut.LastIndexOf(' ');
+        return (space > limit / 2 ? cut[..space] : cut).TrimEnd() + "…";
     }
 
     private async void Compare(CompiledInteractionContent action, string first, string second)
@@ -521,7 +574,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             Refresh();
             _comparisonFeedback.Text = committed
                 ? bridge.ResolveText(action.JournalAction!.ResultTextId)
-                : "Состояние изменилось. Выберите найденные источники ещё раз.";
+                : "Пока я выбирал, записи изменились. Выберу две записи заново.";
             _comparisonFeedback.GrabFocus();
         }
         finally

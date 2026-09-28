@@ -267,9 +267,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-gulsina-warning",
     "value": {
-      "default": "Gulsina makes room at the table. “Come and warm up. Ярамый — not toward the urman after dusk.” She looks at me as if I might run straight outside again.",
+      "default": "“Come and warm up. Ярамый — not toward the urman after dusk.”",
       "translations": {
-        "ru": "Гөлсинә освобождает место у стола. «Садись, согрейся. Ярамый — вечером к урману не ходят». Смотрит на меня так, будто я опять собираюсь сразу выбежать во двор."
+        "ru": "«Садись, согрейся. Ярамый — вечером к урману не ходят»."
       }
     },
     "purpose": "dialogue"
@@ -278,9 +278,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-alsu-route",
     "value": {
-      "default": "Алсу показывает вдоль улицы: «Зират — дальше по этой дороге, за последними домами. Ты ведь столько лет не приезжал. Что тебе говорили о Марате?»",
+      "default": "«Зират — дальше по этой дороге, за последними домами. Ты ведь столько лет не приезжал. Что тебе говорили о Марате?»",
       "translations": {
-        "ru": "Алсу показывает вдоль улицы: «Зират — дальше по этой дороге, за последними домами. Ты ведь столько лет не приезжал. Что тебе говорили о Марате?»"
+        "ru": "«Зират — дальше по этой дороге, за последними домами. Ты ведь столько лет не приезжал. Что тебе говорили о Марате?»"
       }
     },
     "purpose": "dialogue"
@@ -289,9 +289,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-rinat-no-key",
     "value": {
-      "default": "Rinat looks past Aidar: you came to family, so stay with family.",
+      "default": "You came to family, so stay with family.",
       "translations": {
-        "ru": "Ринат смотрит мимо Айдара: «Ты приехал к семье — вот и будь с семьёй»."
+        "ru": "«Ты приехал к семье — вот и будь с семьёй»."
       }
     },
     "purpose": "dialogue"
@@ -300,9 +300,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-mansur-pc-request",
     "value": {
-      "default": "Mansur turns the chair toward the desk. “Help me find that old list for the Niva, will you? We wrote down what to replace and what to leave alone. The folders are all mixed up.”",
+      "default": "“Help me find that old list for the Niva, will you? We wrote down what to replace and what to leave alone. The folders are all mixed up.”",
       "translations": {
-        "ru": "Мансур поворачивает стул к столу. «Поможешь старый список к Ниве найти? Мы там записывали, что менять, а что пока не трогать. Папки все вперемешку»."
+        "ru": "«Поможешь старый список к Ниве найти? Мы там записывали, что менять, а что пока не трогать. Папки все вперемешку»."
       }
     },
     "purpose": "dialogue"
@@ -322,9 +322,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-naila-medical-record",
     "value": {
-      "default": "Naila keeps a hand on the folder. “You came about Marat? I cannot open other people’s medical files for you. Tell me exactly what you want to clarify.”",
+      "default": "“You came about Marat? I cannot open other people’s medical files for you. Tell me exactly what you want to clarify.”",
       "translations": {
-        "ru": "Наиля придерживает папку ладонью. «Ты про Марата? Чужие карты я тебе не открою. Скажи, что именно ты хочешь уточнить»."
+        "ru": "«Ты про Марата? Чужие карты я тебе не открою. Скажи, что именно ты хочешь уточнить»."
       }
     },
     "purpose": "dialogue"
@@ -355,9 +355,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-naila-separate-record",
     "value": {
-      "default": "“I answer only for the medical wording. I will not interpret it.” She closes the folder, then almost inaudibly: “Бу ярамый… one does not ask like that.”",
+      "default": "“I answer only for the medical wording. I will not interpret it. Бу ярамый… one does not ask like that.”",
       "translations": {
-        "ru": "Наиля читает строку «граница / ответил» и закрывает папку. «За медицинскую формулировку я отвечаю. Эту категорию я тебе толковать не буду». Почти неслышно: «Бу ярамый… нельзя так спрашивать». Я спросил о записи, а получил границу её ответа. Надо сохранить точные слова и проверить их по реестру в журнале [J], прежде чем делать вывод о причине смерти."
+        "ru": "«За медицинскую формулировку я отвечаю. „Граница / ответил“ — эту категорию я тебе толковать не буду. Бу ярамый… нельзя так спрашивать». Я спросил о записи, а получил границу её ответа. Надо сохранить точные слова и проверить их по реестру в журнале [J], прежде чем делать вывод о причине смерти."
       }
     },
     "purpose": "dialogue"
@@ -368,7 +368,7 @@
     "value": {
       "default": "Formally, the case is closed.",
       "translations": {
-        "ru": "«Формально дело закрыто», — говорит Ринат слишком аккуратно."
+        "ru": "«Формально дело закрыто», — говорит Ринат."
       }
     },
     "purpose": "dialogue"
@@ -388,9 +388,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-timur-restraint",
     "value": {
-      "default": "«Айдар, ты совсем замёрз. Проходи, здесь тепло». Тимур оставляет место рядом со столом. «Ты всё спрашиваешь про Марата. Что именно ты узнал?»",
+      "default": "«Айдар, ты совсем замёрз. Проходи, здесь тепло. Ты всё спрашиваешь про Марата. Что именно ты узнал?»",
       "translations": {
-        "ru": "«Айдар, ты совсем замёрз. Проходи, здесь тепло». Тимур оставляет место рядом со столом. «Ты всё спрашиваешь про Марата. Что именно ты узнал?»"
+        "ru": "«Айдар, ты совсем замёрз. Проходи, здесь тепло. Ты всё спрашиваешь про Марата. Что именно ты узнал?»"
       }
     },
     "purpose": "dialogue"
@@ -8163,9 +8163,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-gulsina-marat-reply",
     "value": {
-      "default": "“Sometimes I think he is about to come round for you. Like he used to.” Gulsina falls quiet for a moment. “Go and talk to Timur hazrat, Aidar. It is still hard for me.”",
+      "default": "“Sometimes I think he is about to come round for you. Like he used to. Go and talk to Timur hazrat, Aidar. It is still hard for me.”",
       "translations": {
-        "ru": "«Иногда кажется, он сейчас зайдёт за тобой. Как раньше». Гөлсинә ненадолго замолкает. «Ты с Тимуром хәзрәтом поговори, Айдар. Мне пока трудно»."
+        "ru": "«Иногда кажется, он сейчас зайдёт за тобой. Как раньше. Ты с Тимуром хәзрәтом поговори, Айдар. Мне пока трудно»."
       }
     },
     "purpose": "dialogue"
@@ -8196,9 +8196,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-gulsina-stay-for-tea-reply",
     "value": {
-      "default": "“Sit. The tea is still hot.” She slides the sugar bowl closer. “It has been a long time since you sat here with us.”",
+      "default": "“Sit. The tea is still hot. It has been a long time since you sat here with us.”",
       "translations": {
-        "ru": "«Посиди. Чай ещё горячий». Она пододвигает сахарницу. «Давно с нами так не сидел»."
+        "ru": "«Посиди. Чай ещё горячий. Давно с нами так не сидел»."
       }
     },
     "purpose": "dialogue"
@@ -8229,9 +8229,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-alsu-boundary-reply",
     "value": {
-      "default": "Alsu stops smiling: “The boundary is not a ditch, Aidar, you will not step over it and look back. Ask where it begins — that is already one foot inside it. I walk the main street; that is enough for me.”",
+      "default": "“The boundary is not a ditch, Aidar, you will not step over it and look back. Ask where it begins — that is already one foot inside it. I walk the main street; that is enough for me.”",
       "translations": {
-        "ru": "Алсу перестаёт улыбаться: «Граница — это не канава, Айдар, её не перешагнёшь и не выглянешь обратно. Спросить, где она начинается, — это уже одной ногой в ней. Я хожу по главной улице — мне хватает»."
+        "ru": "«Граница — это не канава, Айдар, её не перешагнёшь и не выглянешь обратно. Спросить, где она начинается, — это уже одной ногой в ней. Я хожу по главной улице — мне хватает»."
       }
     },
     "purpose": "dialogue"
@@ -8295,9 +8295,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-mansur-offer-help-reply",
     "value": {
-      "default": "Mansur nods toward the chair. “Sit down. Try ‘Niva’ or ‘receipt’ in the search. Find the list, then tell me what we meant to do. I’m here.”",
+      "default": "“Sit down. Try ‘Niva’ or ‘receipt’ in the search. Find the list, then tell me what we meant to do. I’m here.”",
       "translations": {
-        "ru": "Мансур кивает на стул. «Садись. Поищи „Нива“ или „квитанция“. Найдёшь список — скажи, что мы там собирались делать. Я здесь, рядом»."
+        "ru": "«Садись. Поищи „Нива“ или „квитанция“. Найдёшь список — скажи, что мы там собирались делать. Я здесь, рядом»."
       }
     },
     "purpose": "dialogue"
@@ -8328,9 +8328,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-mansur-marat-reply",
     "value": {
-      "default": "He holds the printout for a long time without reading it. “So that is the wording they gave your grandmother on the phone, word for word. You see — a paper agrees with itself. Papers always do.”",
+      "default": "“So that is the wording they gave your grandmother on the phone, word for word. You see — a paper agrees with itself. Papers always do.”",
       "translations": {
-        "ru": "Он долго держит распечатку, не читая. «Вот, значит, как сформулировали — бабушке по телефону слово в слово так и сказали. Видишь — бумага сходится с бумагой. Бумага всегда сходится»."
+        "ru": "«Вот, значит, как сформулировали — бабушке по телефону слово в слово так и сказали. Видишь — бумага сходится с бумагой. Бумага всегда сходится»."
       }
     },
     "purpose": "dialogue"
@@ -8350,9 +8350,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-mansur-javap-reply",
     "value": {
-      "default": "Mansur looks away. “I do not know what Marat heard that time. Where was he? The note mentions the forest edge, doesn’t it? Read it again, Aidar. Show me the place, not just one word.”",
+      "default": "“I do not know what Marat heard that time. Where was he? The note mentions the forest edge, doesn’t it? Read it again, Aidar. Show me the place, not just one word.”",
       "translations": {
-        "ru": "Мансур отводит взгляд. «Я не знаю, что Марат тогда услышал. Где он был? В той заметке ведь кромка указана. Перечитай её, Айдар. Ты мне место покажи, а не одно слово»."
+        "ru": "«Я не знаю, что Марат тогда услышал. Где он был? В той заметке ведь кромка указана. Перечитай её, Айдар. Ты мне место покажи, а не одно слово»."
       }
     },
     "purpose": "dialogue"
@@ -8427,9 +8427,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-rinat-javap-interrupt",
     "value": {
-      "default": "Rinat cuts him off, quietly and without anger: “Not here. And not that word.” He looks once toward the zirat road and walks away.",
+      "default": "“Not here. And not that word.”",
       "translations": {
-        "ru": "Ринат обрывает его — тихо, без злости: «Не здесь. И не этим словом». Он отворачивается к двери, в сторону зиратской дороги. Разговор окончен. Я услышал реакцию на слово, но он так и не объяснил, что именно опасно."
+        "ru": "«Не здесь. И не этим словом». Я услышал реакцию на слово, но он так и не объяснил, что именно опасно."
       }
     },
     "purpose": "dialogue"
@@ -8449,9 +8449,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-timur-boundary-reply",
     "value": {
-      "default": "«Две записи об одном человеке — и две разные истории. Это нужно выяснить. Только не начинай с обвинения: спроси, кто сделал пометку и что он видел сам». Тимур понижает голос. «Марат тоже торопился. Не повторяй его путь вслепую».",
+      "default": "«Две записи об одном человеке — и две разные истории. Это нужно выяснить. Только не начинай с обвинения: спроси, кто сделал пометку и что он видел сам. Марат тоже торопился. Не повторяй его путь вслепую».",
       "translations": {
-        "ru": "«Две записи об одном человеке — и две разные истории. Это нужно выяснить. Только не начинай с обвинения: спроси, кто сделал пометку и что он видел сам». Тимур понижает голос. «Марат тоже торопился. Не повторяй его путь вслепую»."
+        "ru": "«Две записи об одном человеке — и две разные истории. Это нужно выяснить. Только не начинай с обвинения: спроси, кто сделал пометку и что он видел сам. Марат тоже торопился. Не повторяй его путь вслепую»."
       }
     },
     "purpose": "dialogue"
@@ -9334,9 +9334,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-timur-shurale-reply",
     "value": {
-      "default": "Тимур не отвечает сразу. «Его так называют. Не потому, что видели, а потому, что договорились не давать имён тому, что у кромки не наше. Имя — уже утверждение. Мне не нравится, когда утверждают о том, чего не знают. Ты спроси о конкретном дне: кто был рядом с Маратом, что они делали. На такой вопрос людям придётся ответить».",
+      "default": "«Его так называют. Не потому, что видели, а потому, что договорились не давать имён тому, что у кромки не наше. Имя — уже утверждение. Мне не нравится, когда утверждают о том, чего не знают. Ты спроси о конкретном дне: кто был рядом с Маратом, что они делали. На такой вопрос людям придётся ответить».",
       "translations": {
-        "ru": "Тимур не отвечает сразу. «Его так называют. Не потому, что видели, а потому, что договорились не давать имён тому, что у кромки не наше. Имя — уже утверждение. Мне не нравится, когда утверждают о том, чего не знают. Ты спроси о конкретном дне: кто был рядом с Маратом, что они делали. На такой вопрос людям придётся ответить»."
+        "ru": "«Его так называют. Не потому, что видели, а потому, что договорились не давать имён тому, что у кромки не наше. Имя — уже утверждение. Мне не нравится, когда утверждают о том, чего не знают. Ты спроси о конкретном дне: кто был рядом с Маратом, что они делали. На такой вопрос людям придётся ответить»."
       }
     },
     "purpose": "dialogue"
@@ -9356,9 +9356,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-mansur-babai-name-reply",
     "value": {
-      "default": "Мансур откладывает отвёртку. «Зови как звал. Бабай — это не про годы, это про место, куда возвращаются. И скажи мне, когда соберёшься к кромке. Один туда не ходи».",
+      "default": "«Зови как звал. Бабай — это не про годы, это про место, куда возвращаются. И скажи мне, когда соберёшься к кромке. Один туда не ходи».",
       "translations": {
-        "ru": "Мансур откладывает отвёртку. «Зови как звал. Бабай — это не про годы, это про место, куда возвращаются. И скажи мне, когда соберёшься к кромке. Один туда не ходи»."
+        "ru": "«Зови как звал. Бабай — это не про годы, это про место, куда возвращаются. И скажи мне, когда соберёшься к кромке. Один туда не ходи»."
       }
     },
     "purpose": "dialogue"
@@ -10387,9 +10387,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-alsu-versions-reply",
     "value": {
-      "default": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал». Алсу ненадолго замолкает. «Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе — {address:ADR-FAP}. Спроси её, что здесь назвали случаем. На табличке улица подписана „Урман“ и „Лесная“; номер ищи уже на ней. У входа написано „ФАП“». Теперь знаю, у кого проверять пересказ.",
+      "default": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал. Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе — {address:ADR-FAP}. Спроси её, что здесь назвали случаем. Дом найдёшь по табличке „Урман/Лесная“». Теперь знаю, у кого проверять пересказ.",
       "translations": {
-        "ru": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал». Алсу ненадолго замолкает. «Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе — {address:ADR-FAP}. Спроси её, что здесь назвали случаем. На табличке улица подписана „Урман“ и „Лесная“; номер ищи уже на ней. У входа написано „ФАП“». Теперь знаю, у кого проверять пересказ."
+        "ru": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал. Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе — {address:ADR-FAP}. Спроси её, что здесь назвали случаем. Дом найдёшь по табличке „Урман/Лесная“». Теперь знаю, у кого проверять пересказ."
       }
     },
     "purpose": "dialogue"
@@ -10420,9 +10420,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-alsu-source-reply",
     "value": {
-      "default": "«Потому что я могу повторить неправильно. А лист останется тем же, сколько ни спрашивай». Она чуть отодвигается от дороги, пропуская меня. «Не начинай с того, что кто-то врёт. Узнай, за какую часть Наиля отвечает сама. Остальное придётся спрашивать у другого человека».",
+      "default": "«Потому что я могу повторить неправильно. А лист останется тем же, сколько ни спрашивай. Не начинай с того, что кто-то врёт. Узнай, за какую часть Наиля отвечает сама. Остальное придётся спрашивать у другого человека».",
       "translations": {
-        "ru": "«Потому что я могу повторить неправильно. А лист останется тем же, сколько ни спрашивай». Она чуть отодвигается от дороги, пропуская меня. «Не начинай с того, что кто-то врёт. Узнай, за какую часть Наиля отвечает сама. Остальное придётся спрашивать у другого человека»."
+        "ru": "«Потому что я могу повторить неправильно. А лист останется тем же, сколько ни спрашивай. Не начинай с того, что кто-то врёт. Узнай, за какую часть Наиля отвечает сама. Остальное придётся спрашивать у другого человека»."
       }
     },
     "purpose": "dialogue"
@@ -10431,9 +10431,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-rinat-check-source",
     "value": {
-      "default": "Ринат остаётся у двери. «Ты опять про закрытое дело? Я уже слышал, что ты ходил в ФАП. Что именно ты хочешь спросить?» Он ещё не смотрел на найденную строку. Одно дело — сказать, что бумаги расходятся. Другое — показать, где.",
+      "default": "«Ты опять про закрытое дело? Я уже слышал, что ты ходил в ФАП. Что именно ты хочешь спросить?» Одно дело — сказать, что бумаги расходятся. Другое — показать, где.",
       "translations": {
-        "ru": "Ринат остаётся у двери. «Ты опять про закрытое дело? Я уже слышал, что ты ходил в ФАП. Что именно ты хочешь спросить?» Он ещё не смотрел на найденную строку. Одно дело — сказать, что бумаги расходятся. Другое — показать, где."
+        "ru": "«Ты опять про закрытое дело? Я уже слышал, что ты ходил в ФАП. Что именно ты хочешь спросить?» Одно дело — сказать, что бумаги расходятся. Другое — показать, где."
       }
     },
     "purpose": "dialogue"
