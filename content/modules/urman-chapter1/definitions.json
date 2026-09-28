@@ -6007,39 +6007,14 @@
       {
         "id": "urman.chapter1:interaction/arrival-enter-house",
         "labelTextId": "urman.chapter1:text/arrival-enter-house",
-        "conditions": [
+        "conditions": [],
+        "effects": [
           {
-            "knowledgeId": "urman.chapter1:knowledge/arrival_mother_message_read",
-            "op": "knowledge.status",
-            "status": "confirmed"
-          },
-          {
-            "knowledgeId": "urman.chapter1:knowledge/memory_marat_childhood_photo",
-            "op": "knowledge.status",
-            "status": "confirmed"
-          },
-          {
-            "knowledgeId": "urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay",
-            "op": "knowledge.status",
-            "status": "confirmed"
-          },
-          {
-            "conditions": [
-              {
-                "knowledgeId": "urman.chapter1:knowledge/arrival_reply_help_babai",
-                "op": "knowledge.status",
-                "status": "confirmed"
-              },
-              {
-                "knowledgeId": "urman.chapter1:knowledge/arrival_reply_kept_silent",
-                "op": "knowledge.status",
-                "status": "confirmed"
-              }
-            ],
-            "op": "any"
+            "op": "beat.set-state",
+            "beatId": "urman.chapter1:beat/arrival",
+            "state": "completed"
           }
         ],
-        "effects": [],
         "targetSceneId": "urman.chapter1:scene/house"
       },
       {
@@ -6196,16 +6171,6 @@
             "state": "completed"
           },
           {
-            "op": "knowledge.status",
-            "knowledgeId": "urman.chapter1:knowledge/clue_family_avoids_marat",
-            "status": "confirmed"
-          },
-          {
-            "op": "knowledge.status",
-            "knowledgeId": "urman.chapter1:knowledge/clue_marat_official_death_version",
-            "status": "confirmed"
-          },
-          {
             "op": "npc.state",
             "characterId": "urman.chapter1:character/gulsina",
             "stateKey": "warning_heard",
@@ -6279,6 +6244,26 @@
           "house_old_pc"
         ],
         "targetJournalEntryId": "urman.chapter1:knowledge/discovery-house-interior-language-tin"
+      },
+      {
+        "id": "urman.chapter1:interaction/first-night-sleep",
+        "labelTextId": "urman.chapter1:text/first-night-sleep",
+        "conditions": [
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.chapter1:knowledge/family_home_pause",
+            "status": "confirmed"
+          },
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.chapter1:knowledge/alsu_walk_invitation",
+            "status": "confirmed"
+          }
+        ],
+        "effects": [],
+        "worldLocations": [
+          "house_old_pc"
+        ]
       }
     ]
   },
@@ -11000,6 +10985,66 @@
           ],
           "resultTextId": "urman.chapter1:text/compare-reread-author-result"
         }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/first-night-sleep",
+    "value": {
+      "default": "Лечь спать",
+      "translations": {
+        "ru": "Лечь спать"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/first-morning-news",
+    "value": {
+      "default": "С добрым утром. В сельском чате пишут: ночью у моста подмыло опору, пролёт ушёл в овраг. На ту сторону пока не ходить и не ездить. Дорожники сначала должны осмотреть берег.\n\nХорошо, что вчера успели проехать. Ты не торопись домой — побудешь с нами. Чай на столе. Потом загляни к Алсу, вы вчера так и не наговорились.",
+      "translations": {
+        "ru": "С добрым утром. В сельском чате пишут: ночью у моста подмыло опору, пролёт ушёл в овраг. На ту сторону пока не ходить и не ездить. Дорожники сначала должны осмотреть берег.\n\nХорошо, что вчера успели проехать. Ты не торопись домой — побудешь с нами. Чай на столе. Потом загляни к Алсу, вы вчера так и не наговорились."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/first-morning-answer",
+    "value": {
+      "default": "Доброе утро, бабай. Я и собирался побыть с вами.",
+      "translations": {
+        "ru": "Доброе утро, бабай. Я и собирался побыть с вами."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:dialogue/first-morning-news",
+    "participantRoles": [
+      "mansur",
+      "aidar"
+    ],
+    "startNodeId": "news",
+    "nodes": [
+      {
+        "id": "news",
+        "speakerRole": "mansur",
+        "textId": "urman.chapter1:text/first-morning-news",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "stay",
+            "textId": "urman.chapter1:text/first-morning-answer",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": null
+          }
+        ]
       }
     ]
   }

@@ -124,12 +124,12 @@
           "kara_urman_night"
         ],
         "ambient": {
-          "energy": 0.52,
-          "color": "a1aebb",
-          "skyContribution": 0.3
+          "energy": 0.23,
+          "color": "72899f",
+          "skyContribution": 0.18
         },
         "fog": {
-          "color": "90a8b8",
+          "color": "304451",
           "density": 0.009,
           "height": 0.95,
           "heightDensity": 0.05,
@@ -137,7 +137,7 @@
           "skyAffect": 0.08,
           "sunScatter": 0.07
         },
-        "exposure": 1.04,
+        "exposure": 0.92,
         "ssao": {
           "intensity": 0.75,
           "radius": 0.4
@@ -150,16 +150,16 @@
           "sunAngleMax": 0.0,
           "sunCurve": 0.12,
           "cover": [
-            0.6,
-            0.68,
-            0.76,
-            0.26
+            0.24,
+            0.32,
+            0.41,
+            0.55
           ]
         },
         "sun": {
           "color": "9fb6d4",
-          "energy": 0.55,
-          "shadowOpacity": 0.38,
+          "energy": 0.22,
+          "shadowOpacity": 0.52,
           "rotation": [
             -52,
             -28

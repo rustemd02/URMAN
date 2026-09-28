@@ -79,6 +79,44 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         // The prologue-watch mode needs the teaser's natural path, so the
         // ordinary one-press skip below would cut it short before the mode
         // could observe anything.
+        if (OS.GetEnvironment("URMAN_DISCOVERY_ROUTE_ONLY") == "bath-door")
+        {
+            // R125: opening the bathhouse door while standing on its porch.
+            // Spawn on the authored bath entry approach (the same fixture the
+            // carry smoke uses), climb the real treads to the door, aim the
+            // ordinary interaction ray at the leaf and require the door to
+            // actually toggle - not a stronger-press advice.
+            var bath = main.ConnectedWorld?.GetNodeOrNull<Node3D>("Act1CoreWorldGreybox/BabaiBathhouse");
+            if (bath is null)
+            { Fail("bath-door: the bathhouse is missing from the world."); return; }
+            var approach = bath.GetMeta("entryApproach").AsVector3();
+            player.ApplyZoneSpawn(approach with { Y = approach.Y + .05f }, 0);
+            await Frames(6);
+            var clear = bath.GetMeta("entryClearDoor").AsVector3();
+            if (!await WalkTo(player, clear with { Y = player.GlobalPosition.Y }, "bath-door-landing")) return;
+            var target = main.ConnectedWorld!.FindChild("BathEntranceUse", true, false) as InteractionTarget
+                ?? (InteractionTarget)GetTree().Root.FindChild("BathEntranceUse", true, false)!;
+            var hinge = bath.GetNode<Node3D>("BathEntranceHinge");
+            var yawBefore = hinge.RotationDegrees.Y;
+            // Try the real ray from a natural standing look at the leaf's
+            // centre; a miss here is the defect the author reported.
+            AimAt(player, target.GlobalPosition);
+            await Frames(4);
+            var rayHit = ray.GetCollider() == target;
+            Input.ActionPress("interact");
+            await PhysicsFrames(2);
+            Input.ActionRelease("interact");
+            await Frames(10);
+            var moved = Mathf.Abs(hinge.RotationDegrees.Y - yawBefore) > 1f;
+            GD.Print($"act1-bath-door: rayHit={rayHit} moved={moved} yaw {yawBefore:F0}->{hinge.RotationDegrees.Y:F0} meta={target.GetMeta("lastDoorActionResult").AsString()}");
+            if (!moved)
+            { Fail($"bath-door: standing on the porch did not open the door (rayHit={rayHit})."); return; }
+            GD.Print("act1-bath-door: PASS porch-open");
+            await GodotSmokeCleanup.ReleaseAsync(demo);
+            GetTree().Quit(0);
+            return;
+        }
+
         if (OS.GetEnvironment("URMAN_DISCOVERY_ROUTE_ONLY") == "prologue-watch")
         {
             await RunAsyncPrologueWatch(demo, player);
@@ -157,15 +195,28 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             foreach (var point in new Vector2[] { new(-24.3f, -2.85f), new(-25.4f, -2.85f) })
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-gap-{point.X}-{point.Y}")) return;
             GD.Print($"act1-discovery-walk: PASS loop=yard-service-gap mode=physical-characterbody-walk distance={_walkedMeters:F2}m no-player-teleport=true ex13-shovel-clear-gap-open=true");
-            // The 2026-09-11 rear minaret-view discovery is no longer reachable
-            // by ordinary walking: the authored Babai house volume closed the
-            // west rear corridor, the workshop board-rest stand fills the north
-            // strip, and the rear boundary fence ends at (-36.5,-3.1). That is
-            // a yard-composition defect tracked on ACT1-VILLAGE-COMPOSITION
-            // (review R123), not this chain's contract; restore this leg when
-            // deliberate rear access is re-authored.
-            var rear = FindInteraction(Interaction("discover-house-exterior-rear-minaret-view"), GetTree().Root);
-            GD.Print($"act1-discovery-walk: BLOCKED leg=rear-minaret-view target={rear?.GlobalPosition} reason=authored-house-volume+workshop-stand+rear-boundary-fence owner=ACT1-VILLAGE-COMPOSITION/R123");
+            // The rear minaret-view discovery is reached through the yard's
+            // south band behind the house and the south-fence opening at
+            // x=-32.5 (verified by the standability grid, 2026-09-28).
+            // Through the rear neighbour gate (the deliberate 2026-09-28
+            // passage) and down the west field into the rear field.
+            foreach (var point in new Vector2[] { new(-30.5f, -.8f), new(-32.3f, -1.6f), new(-33.4f, -2.2f),
+                         new(-34.4f, -2.7f), new(-35.2f, -3.0f), new(-36.0f, -3.25f), new(-36.4f, -4.4f),
+                         new(-36.5f, -6.0f), new(-36.5f, -7.2f), new(-35.8f, -8.8f), new(-34.6f, -12.0f),
+                         new(-34.9f, -13.4f) })
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-rear-{point.X}-{point.Y}")) return;
+            var sceneBefore = bridge.ActiveSceneId;
+            if (!await InteractAt(player, ray, Interaction("discover-house-exterior-rear-minaret-view"))) return;
+            (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.GetNode<Button>("Screen/Book/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+            await Frames(35);
+            if (bridge.ActiveSceneId != sceneBefore)
+            { Fail("The rear minaret view discovery changed the scene."); return; }
+            foreach (var point in new Vector2[] { new(-34.6f, -12.0f), new(-35.8f, -8.8f), new(-36.5f, -7.2f),
+                         new(-36.5f, -6.0f), new(-36.4f, -4.4f), new(-36.0f, -3.25f), new(-35.2f, -3.0f),
+                         new(-34.4f, -2.7f), new(-33.4f, -2.2f), new(-32.3f, -1.6f), new(-30.5f, -.8f),
+                         new(-25.9f, -2.3f), new(-26.2f, -2.85f) })
+                if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-return-{point.X}-{point.Y}")) return;
+            GD.Print($"act1-discovery-walk: PASS loop=rear-minaret-view mode=physical-characterbody-walk distance={_walkedMeters:F2}m no-player-teleport=true");
             await GodotSmokeCleanup.ReleaseAsync(demo);
             GetTree().Quit(0);
             return;
@@ -210,6 +261,15 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             GD.Print($"act1-d14-debug: grid_env='{OS.GetEnvironment("URMAN_D14_GRID")}' route_env='{OS.GetEnvironment("URMAN_DISCOVERY_ROUTE_ONLY")}'");
             if (OS.GetEnvironment("URMAN_D14_GRID") == "1")
             {
+                var probeLine = "act1-d14-points:";
+                foreach (var z in new[] { -3.6f, -4.0f, -4.4f, -4.8f, -5.2f, -5.6f, -6.0f })
+                    foreach (var x in new[] { -25.4f, -25.6f, -25.8f, -26.0f, -26.2f, -26.4f, -26.6f })
+                        probeLine += $" {(x)},{z}={(player.CanStandAt(new(x, (float)AgentBAct1HeightField.CollisionGround(x, z) + .05f, z)) ? 1 : 0)}";
+                GD.Print(probeLine);
+                var bandLine = "act1-d14-band:";
+                foreach (var x in new[] { -26.5f, -27.5f, -28.5f, -29.5f, -30.5f, -31.5f, -32.5f })
+                    bandLine += $" {x}={(player.CanStandAt(new(x, (float)AgentBAct1HeightField.CollisionGround(x, -5.2f) + .05f, -5.2f)) ? 1 : 0)}";
+                GD.Print(bandLine);
                 var line = "act1-d14-terrain:";
                 for (var z = -2.5f; z >= -7.0f; z -= .5f)
                 {

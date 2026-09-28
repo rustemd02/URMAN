@@ -62,6 +62,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private CarryCoordinator? _carryCoordinator;
 
     public bool ModalOpen => _modalOpen || _sessionTransition;
+    internal bool InIntro => GetParent()?.GetParent() is Act1DemoRoot { IntroVisible: true };
     internal bool InteractionNoticeActive => Time.GetTicksMsec() < _traversalNoticeUntil;
     internal string FocusedInteractionId => _focusedTarget is not null && GodotObject.IsInstanceValid(_focusedTarget)
         ? _focusedTarget.InteractionId : string.Empty;
@@ -497,6 +498,12 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
     private void UpdateInteraction()
     {
+        if (InIntro)
+        {
+            _worldInteractionNeedsRelease = true;
+            SetInteractionPrompt(string.Empty);
+            return;
+        }
         // UI accept and world interaction can share E or the gamepad A button.
         // Input's action state survives GUI event consumption. Require a neutral
         // physics frame after a modal closes before offering any world action,

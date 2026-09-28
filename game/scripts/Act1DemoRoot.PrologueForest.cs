@@ -8,10 +8,8 @@ public partial class Act1DemoRoot
     // image is a short walk in the night forest at the Kara-Urman edge - a
     // flash-forward of a future episode, cut short by an unseen movement and
     // a sting into black, where Mansur babai's voice wakes Aidar in the Niva.
-    // No knowledge, vocabulary or story effects: watching and skipping leave
-    // exactly the same state. One confirm press during the teaser skips the
-    // whole prologue block, so the ordinary single-E flow of every existing
-    // start contract keeps working.
+    // The teaser grants no story progress. Its owner also restores the camera,
+    // input and overlays when a later part of the opening is skipped.
     private bool _prologueForestActive;
     private bool _prologueSkipRequested;
     private Vector3 _prologueStartFeet;
@@ -19,6 +17,7 @@ public partial class Act1DemoRoot
     private CanvasLayer? _prologueOverlay;
     private ColorRect? _prologueBlackout;
     private Label? _prologueCaption;
+    private Tween? _prologueFade;
 
     private const string PrologueForestZone = "kara_urman_night";
     private const string PrologueForestSpawn = "forest-approach";
@@ -44,15 +43,13 @@ public partial class Act1DemoRoot
         _prologueSkipRequested = false;
         _prologueElapsed = 0;
         _prologueStartFeet = _player.GlobalPosition;
-        // The teaser is walked, not read: the arrival card's modal comes
-        // after it (or not at all on a full skip).
         _player.SetModalOpen(false);
         BuildPrologueOverlay();
 
         // The walk itself: ordinary movement through the existing dark edge
         // until the player has covered the authored stretch, lingered long
         // enough, or asked to skip. There is nothing to collect and no gate.
-        while (true)
+        while (IsInsideTree())
         {
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             _prologueElapsed += GetProcessDeltaTime();
@@ -63,12 +60,13 @@ public partial class Act1DemoRoot
             if (walked >= 5.5f || _prologueElapsed >= 12d) break;
         }
 
-        var skipped = _prologueSkipRequested;
-        if (!skipped)
+        if (!IsInsideTree()) return false;
+
+        if (!_prologueSkipRequested)
         {
             await PlayPrologueCueAsync();
         }
-        if (skipped)
+        if (_prologueSkipRequested)
         {
             _main.SwitchZone("village_day", "arrival");
         }
@@ -78,12 +76,12 @@ public partial class Act1DemoRoot
             // it ends on its own fade, still inside this prologue block.
             await RunPrologueNivaRideAsync();
             FadePrologueBlackout(visible: false);
-            await PrologueFrames(18);
+            await PrologueWaitAsync(.3);
         }
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         ReleasePrologueOverlay();
         _prologueForestActive = false;
-        return !skipped;
+        return !_prologueSkipRequested;
     }
 
     // The unseen movement and the cut: close wooden steps beside the player,
@@ -93,35 +91,36 @@ public partial class Act1DemoRoot
     private async Task PlayPrologueCueAsync()
     {
         if (_player is null || _prologueOverlay is null) return;
+        _player.SetModalOpen(true);
         var behind = _player.GlobalPosition
-            - (_player.GlobalBasis.Z with { Y = 0 }).Normalized() * 2.2f;
+            + (_player.GlobalBasis.Z with { Y = 0 }).Normalized() * 2.2f;
         UiFoley.PlayWorld(this, behind, "wood_tap");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         if (_prologueSkipRequested) return;
-        await PrologueFrames(22);
+        await PrologueWaitAsync(.65);
         if (_prologueSkipRequested) return;
         UiFoley.PlayWorld(this, behind, "metal_rattle");
         UiFoley.PlayWorld(this, _player.GlobalPosition, "hollow_board");
         FadePrologueBlackout(visible: true);
-        await PrologueFrames(20);
+        await PrologueWaitAsync(.35);
         if (_prologueCaption is not null)
         {
             _prologueCaption.Text = "Мансур бабай: «Әй, уян. Приехали почти, внучек.»";
             _prologueCaption.Visible = true;
         }
-        await PrologueFrames(75);
+        await PrologueWaitAsync(2.6);
     }
 
-    private async Task PrologueFrames(int count)
+    private async Task PrologueWaitAsync(double seconds)
     {
-        for (var frame = 0; frame < count; frame++)
+        while (seconds > 0 && IsInsideTree() && _prologueForestActive && !_prologueSkipRequested)
         {
-            if (_prologueSkipRequested) return;
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            seconds -= GetProcessDeltaTime();
         }
     }
 
-    private void BuildPrologueOverlay()
+    private void BuildPrologueOverlay(string skipText = "пропустить вступление")
     {
         _prologueOverlay = new CanvasLayer { Layer = 99, Name = "Act1PrologueOverlay" };
         AddChild(_prologueOverlay);
@@ -139,35 +138,53 @@ public partial class Act1DemoRoot
             Text = string.Empty,
             Visible = false,
             HorizontalAlignment = HorizontalAlignment.Center,
-            AutowrapMode = TextServer.AutowrapMode.WordSmart
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            MouseFilter = Control.MouseFilterEnum.Ignore
         };
-        _prologueCaption.SetAnchorsPreset(Control.LayoutPreset.CenterBottom);
+        _prologueCaption.AnchorRight = 1;
+        _prologueCaption.AnchorTop = _prologueCaption.AnchorBottom = 1;
         _prologueCaption.OffsetTop = -120;
         _prologueCaption.OffsetBottom = -72;
-        _prologueCaption.OffsetLeft = 220;
-        _prologueCaption.OffsetRight = -220;
-        _prologueCaption.AddThemeFontSizeOverride("font_size", 21);
+        _prologueCaption.OffsetLeft = 64;
+        _prologueCaption.OffsetRight = -64;
+        _prologueCaption.AddThemeFontSizeOverride("font_size", (int)(21 * (_player?.Accessibility.TextScale ?? 1)));
         _prologueCaption.AddThemeColorOverride("font_color", new Color(0.92f, 0.9f, 0.82f));
+        _prologueCaption.AddThemeColorOverride("font_outline_color", Colors.Black);
+        _prologueCaption.AddThemeConstantOverride("outline_size", 6);
         _prologueOverlay.AddChild(_prologueCaption);
+        var skip = new Label
+        {
+            Text = InputBindingService.ActionHint("ui_cancel", _player?.CurrentInputDevice == "gamepad") + " — " + skipText,
+            AnchorLeft = 1, AnchorRight = 1, OffsetLeft = -410, OffsetRight = -28,
+            OffsetTop = 24, OffsetBottom = 64, HorizontalAlignment = HorizontalAlignment.Right,
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+        skip.AddThemeFontSizeOverride("font_size", 18);
+        skip.AddThemeColorOverride("font_outline_color", Colors.Black);
+        skip.AddThemeConstantOverride("outline_size", 5);
+        _prologueOverlay.AddChild(skip);
     }
 
     private void FadePrologueBlackout(bool visible)
     {
         if (_prologueBlackout is null) return;
-        var tween = CreateTween();
-        tween.TweenProperty(_prologueBlackout, "color:a", visible ? 1f : 0f,
+        _prologueFade?.Kill();
+        _prologueFade = CreateTween();
+        _prologueFade.TweenProperty(_prologueBlackout, "color:a", visible ? 1f : 0f,
             _player?.Accessibility.ReducedMotion == true ? 0f : .3f);
     }
 
     private void ReleasePrologueOverlay()
     {
-        _prologueOverlay?.QueueFree();
+        _prologueFade?.Kill();
+        _prologueFade = null;
+        if (_prologueOverlay is not null && IsInstanceValid(_prologueOverlay)) _prologueOverlay.QueueFree();
         _prologueOverlay = null;
         _prologueBlackout = null;
         _prologueCaption = null;
     }
 
-    private async void ShowIntroAfterMenu()
+    private async Task ShowIntroAfterMenuAsync()
     {
         if (!MainMenuVisible)
         {
@@ -176,17 +193,35 @@ public partial class Act1DemoRoot
 
         _mainMenu?.Dismiss();
         _mainMenu = null;
-        var showArrivalCard = await RunPrologueForestAsync();
-        if (showArrivalCard)
+        // The menu press must finish before the prologue accepts skip input.
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        try
         {
-            BuildIntro();
+            if (_introReplay && _bridge is not null) await _bridge.SetFirstNightPassedAsync(false);
+            await RunPrologueForestAsync();
         }
-        else if (_player is { } player)
+        catch (Exception error)
         {
-            // The whole prologue block was skipped with one press: hand the
-            // controls straight to the arrival instead of a card for a scene
-            // the player chose not to read.
-            player.SetModalOpen(false);
+            GD.PushError($"Act I prologue failed: {error}");
+            if (IsInsideTree()) BuildMainMenu();
+        }
+        finally
+        {
+            _prologueForestActive = false;
+            ReleasePrologueRide();
+            ReleasePrologueOverlay();
+            if (IsInsideTree())
+            {
+                if (_introReplay)
+                {
+                    _introReplay = false;
+                    BuildMainMenu();
+                }
+                _player?.SetModalOpen(MainMenuVisible);
+                RefreshGameplayAudioPauseState();
+                UpdateRouteCue();
+                RecordM10Timing("intro-dismissed", force: true);
+            }
         }
     }
 }

@@ -246,8 +246,6 @@ public partial class StyleBenchmarkZone : Node3D
         MakeBox("BenchByFence", new(1.8f, 0.14f, 0.42f), new(4.9f, 0.7f, 6.1f), "6f543c", surface: "wood",
             collision: GetParent() is not Act1ConnectedWorld);
         MakeBox("BenchBack", new(1.8f, 0.7f, 0.12f), new(4.9f, 1.0f, 6.27f), "604a37", surface: "wood", collision: false);
-        if (GetParent() is not Act1ConnectedWorld)
-            ArrivalPersonalProps.Build(this, .166f);
         MakeFence(-4.4f, -2, 18);
         MakeFence(4.4f, -8, 16);
         MakeUtilityPole(new(5.8f, 0, 5.5f));
@@ -373,6 +371,7 @@ public partial class StyleBenchmarkZone : Node3D
     private void BuildHouseOldPc()
     {
         StyleBenchmarkInteriorFactory.Build(this);
+        ArrivalPersonalProps.Build(this);
         // Small domestic items follow their actual support, independently of
         // the resized room shell and the unchanged furniture/character scale.
         MakeBox("HouseThresholdCoatRail", new(.62f, .08f, .10f), new(-1.78f, 2.18f, 3.43f), "5d4a38", collision: false, surface: "wood");

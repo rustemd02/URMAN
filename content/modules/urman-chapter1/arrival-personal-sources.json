@@ -34,9 +34,9 @@
       }
     },
     "summary": {
-      "default": "Мама спросила, доехал ли я, и напомнила зайти к бабаю и әби. Они меня ждут.",
+      "default": "Мама спросила, как мы доехали с бабаем, напомнила поесть с семьёй и оставила адрес дома для прогулки.",
       "translations": {
-        "ru": "Мама спросила, доехал ли я, и напомнила зайти к бабаю и әби. Они меня ждут."
+        "ru": "Мама спросила, как мы доехали с бабаем, напомнила поесть с семьёй и оставила адрес дома для прогулки."
       }
     },
     "initialStatus": "hidden",
@@ -58,9 +58,9 @@
       }
     },
     "summary": {
-      "default": "Я ответил маме: «Я просто помогу бабаю». Снимок с Маратом убрал, но его «Казанский, не отставай» осталось в голове. Теперь — к бабаю и әби.",
+      "default": "Я ответил маме: «Я просто помогу бабаю». Фото осталось на столе. Вспомнил Маратово «Казанский, не отставай».",
       "translations": {
-        "ru": "Я ответил маме: «Я просто помогу бабаю». Снимок с Маратом убрал, но его «Казанский, не отставай» осталось в голове. Теперь — к бабаю и әби."
+        "ru": "Я ответил маме: «Я просто помогу бабаю». Фото осталось на столе. Вспомнил Маратово «Казанский, не отставай»."
       }
     },
     "initialStatus": "hidden",
@@ -84,9 +84,9 @@
       }
     },
     "summary": {
-      "default": "Я прочитал сообщение мамы и убрал телефон, ничего не написав. Фото Марата вернул в карман. Сначала увижу бабая и әби; объяснить себе возвращение пока труднее, чем просто войти.",
+      "default": "Я прочитал сообщение мамы, но пока не ответил. Фотография Марата лежит на столе. Бабай и әби рядом — поговорю с ними.",
       "translations": {
-        "ru": "Я прочитал сообщение мамы и убрал телефон, ничего не написав. Фото Марата вернул в карман. Сначала увижу бабая и әби; объяснить себе возвращение пока труднее, чем просто войти."
+        "ru": "Я прочитал сообщение мамы, но пока не ответил. Фотография Марата лежит на столе. Бабай и әби рядом — поговорю с ними."
       }
     },
     "initialStatus": "hidden",
@@ -180,9 +180,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/arrival-reply-help-result",
     "value": {
-      "default": "Отправлено. Убираю снимок и телефон. Адрес бабая — {address:ADR-BABAI}. Пора найти дом.",
+      "default": "Отправлено. Бабай и әби рядом, дома тепло. Фотографию оставлю на столе.",
       "translations": {
-        "ru": "Отправлено. Убираю снимок и телефон. Адрес бабая — {address:ADR-BABAI}. Пора найти дом."
+        "ru": "Отправлено. Бабай и әби рядом, дома тепло. Фотографию оставлю на столе."
       }
     },
     "purpose": "dialogue"
@@ -191,9 +191,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/arrival-reply-silent-result",
     "value": {
-      "default": "Пока ничего не пишу. Убираю снимок и телефон. Адрес бабая — {address:ADR-BABAI}. Пора найти дом.",
+      "default": "Отвечу чуть позже. Бабай и әби рядом, дома тепло. Фотографию оставлю на столе.",
       "translations": {
-        "ru": "Пока ничего не пишу. Убираю снимок и телефон. Адрес бабая — {address:ADR-BABAI}. Пора найти дом."
+        "ru": "Отвечу чуть позже. Бабай и әби рядом, дома тепло. Фотографию оставлю на столе."
       }
     },
     "purpose": "dialogue"
@@ -295,11 +295,6 @@
                 "op": "journal.record",
                 "entryId": "urman.chapter1:knowledge/arrival_reply_help_babai",
                 "sourceId": "urman.chapter1:knowledge/arrival_reply_help_babai"
-              },
-              {
-                "op": "beat.set-state",
-                "beatId": "urman.chapter1:beat/arrival",
-                "state": "completed"
               }
             ],
             "nextNodeId": "help-result"
@@ -352,11 +347,6 @@
                 "op": "journal.record",
                 "entryId": "urman.chapter1:knowledge/arrival_reply_kept_silent",
                 "sourceId": "urman.chapter1:knowledge/arrival_reply_kept_silent"
-              },
-              {
-                "op": "beat.set-state",
-                "beatId": "urman.chapter1:beat/arrival",
-                "state": "completed"
               }
             ],
             "nextNodeId": "silent-result"
@@ -421,28 +411,17 @@
         ],
         "effects": [],
         "worldLocations": [
-          "village_day"
+          "house_old_pc"
         ],
         "targetDocumentId": "urman.chapter1:document/arrival-mother-message"
       },
       {
         "id": "urman.chapter1:interaction/view-arrival-photo",
         "labelTextId": "urman.chapter1:text/view-arrival-photo",
-        "conditions": [
-          {
-            "op": "not",
-            "condition": {
-              "op": "any",
-              "conditions": [
-                {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/arrival_reply_help_babai", "status": "confirmed"},
-                {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/arrival_reply_kept_silent", "status": "confirmed"}
-              ]
-            }
-          }
-        ],
+        "conditions": [],
         "effects": [],
         "worldLocations": [
-          "village_day"
+          "house_old_pc"
         ],
         "targetDocumentId": "urman.chapter1:document/arrival-photo-evidence"
       },
@@ -486,7 +465,7 @@
         ],
         "effects": [],
         "worldLocations": [
-          "village_day"
+          "house_old_pc"
         ],
         "targetDialogueId": "urman.chapter1:dialogue/arrival_mother_reply"
       }

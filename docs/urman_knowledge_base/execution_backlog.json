@@ -2708,7 +2708,7 @@
   "long_term_goal": "Полная миграция УРМАН на Godot 4.7.1 .NET и C# с последующим производством 6–8-часовой игры, desktop acceptance и отдельным absence-gated решением о web retirement остаётся долгосрочным направлением, но не текущим демо-объёмом.",
   "current_scope": {
     "name": "Finished Act I local product candidate",
-    "status": "paused_for_author_feedback",
+    "status": "in_progress",
     "entrypoint": "game/scenes/act1_demo.tscn",
     "route": [
       "arrival",
@@ -2738,10 +2738,28 @@
       "./eng/verify-godot.sh"
     ],
     "priority_policy_2026_09_26": "Use tasks.mvp_priority ascending among dependency-ready units; smaller is earlier. Fix observed control/progression/UI defects before cosmetic expansion. One unit per packet with player effect, evidence, next step. Preserve all EX00–EX14 and >=60 active minutes; no padded duration. Prior statuses/evidence are historical unless tied to this build. in_progress records incomplete work, not a live worker. Priority 90 needs external input; 100 preserves long-term scope outside this Act I run.",
-    "active_packet": null,
+    "active_packet": "A02: связать реальный языковой профиль с разговором в Ниве/настройкой/репликами",
     "priority_policy_2026_09_27": "Historical; see planning_history_2026_09_27.",
     "planning_deliverable": "review_2026-09-28: both product answer rounds, Zelda research, synchronized specs and existing task contracts",
-    "priority_policy_2026_09_28": "После возобновления: наблюдаемые блокеры обычного управления/входа → один связный образец исследования ACT1-EX13 с нужными EX-действиями и производимым art pilot → принятый пролог/языковое применение → следующие места и полный Акт I. Не новый широкий аудит, не полировка одного квеста. Сюжет один, маршруты свободны."
+    "priority_policy_2026_09_28": "После возобновления: наблюдаемые блокеры обычного управления/входа → один связный образец исследования ACT1-EX13 с нужными EX-действиями и производимым art pilot → принятый пролог/языковое применение → следующие места и полный Акт I. Не новый широкий аудит, не полировка одного квеста. Сюжет один, маршруты свободны.",
+    "takeover_2026_09_28": {
+      "authority": "Author resumed complete IMPLEMENTATION_PROMPT_RU.md; no Tamara/Studio/future acts; no commit/push.",
+      "baseline_head": "304b8d92ed0599af1f00d8cca5b64b6923dfc301",
+      "preexisting_dirty": [
+        "docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+        "game/scripts/Act1ConnectedWorld.WatchingForms.cs",
+        "game/scripts/Act1ConnectedWorld.cs",
+        "game/tests/Act1FirstPersonWalkthroughSmokeTest.cs",
+        "game/scripts/Act1ConnectedWorld.RearYardGate.cs"
+      ],
+      "owners": {
+        "root": "Astra owns integration/root prologue/RuntimeBridge, tracker; no active child writers",
+        "finished_children": "Sol JournalUi, ShopStorefront and WatchingForms integrated; read-only first-night lifecycle review done; all children interrupted. Sol language-profile read-only map delivered; child interrupted."
+      },
+      "checkpoint": "Opening night and home-arrival source packets integrated. Native family-home-only PASS after home door gate removal and photo/phone relocation: no fabricated source on entering, both source orders, reply/load, tea/exterior return, night normal/skip/save-load; guards restored userdata. Close native debug view confirms table placement; manual E approach not verified. Evidence: docs/production/act1_opening_takeover_2026-09-28/README.md.",
+      "verification": "TDD off: existing focused checks and native protected launch, no new/expanded test infrastructure. Preserve saves. Completed flags never stand in for fresh visual evidence.",
+      "next": "A02 language: Niva choices currently guessed vocabulary only; session world.props act1/opening already has languageLevel but no dialogue consumer. Wire committed choice and explicit SettingsUi.Apply into saved session level; authored tiered dialogue text without plot/confirmed changes, old-save/profile compatibility. Sol read-only map in evidence. Then remaining EX13/shop/notebook ordinary route and full A00–A14; no Tamara/Studio/commit/push."
+    }
   },
   "role": "Машиночитаемая очередь исполнения. Она не заменяет goal, канон, decision log, архитектуру или evidence.",
   "authority": {
@@ -5216,7 +5234,12 @@
         "mvp_packet": "control-and-ui"
       },
       "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
-      "progress_2026_09_28": "J1 diagnostic table and J2 implementation (parallel executor): the comparison page now reads as Aidar's personal notes - first-person intro line, record cards under each source selector, personal phrasing for hypotheses/feedback/empty state; the two wrong first-case hypotheses are written as personal notebook lines. Source IDs, kernel conditions, wrong-hypothesis recoverability, save/load and the late 19 pairs untouched. journal_flow and act1_ui_readability PASS on the integrated build. J3 (newcomer observation) remains external/not-run; the 'only-official-notice' state still relies on the tab intro line as its single nudge."
+      "progress_2026_09_28": "J1 diagnostic table and J2 implementation (parallel executor): the comparison page now reads as Aidar's personal notes - first-person intro line, record cards under each source selector, personal phrasing for hypotheses/feedback/empty state; the two wrong first-case hypotheses are written as personal notebook lines. Source IDs, kernel conditions, wrong-hypothesis recoverability, save/load and the late 19 pairs untouched. journal_flow and act1_ui_readability PASS on the integrated build. J3 (newcomer observation) remains external/not-run; the 'only-official-notice' state still relies on the tab intro line as its single nudge.",
+      "takeover_2026_09_28": {
+        "done": "Sol: contextual first-pair feedback and default earned pair, remapped J text. Integration: objective readiness now checks actual Alsu+notice pair.",
+        "verified": "Source contract review, C# build, diff --check.",
+        "pending": "Ordinary first-investigation UI and save/load not yet rerun; no card completion."
+      }
     },
     {
       "id": "ACT1-OLDPC",
@@ -6004,7 +6027,8 @@
         "docs/production/act1_takeover_evidence_2026-09-16/b19-csharp-probe03.json",
         "docs/production/tamara_mvp_2026-09-26/arrival/arrival-stop-receipt.json",
         "docs/production/act1_prologue_beat_sheet_2026-09-28.md",
-        "docs/production/a01_ex13_yard_2026-09-28/README.md"
+        "docs/production/a01_ex13_yard_2026-09-28/README.md",
+        "docs/production/act1_opening_takeover_2026-09-28/README.md"
       ],
       "mvp_priority": 12,
       "mvp_packet": "A02",
@@ -11633,7 +11657,11 @@
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
       "author_contract_revision": "2026-09-28 round2",
-      "progress_2026_09_28": "L1 first iteration (in the Niva ride, per the 28.09 decision): dialogue urman.chapter1:dialogue/prologue-niva-language - Mansur's household teasing question, three answers plus a silent skip; effects are vocabulary.set-status guessed only (some: family+everyday words; fluent: all twelve; none/skip: none), no story flags and no confirmed words. The manual setting still seeds before the calibration and the vocabulary ladder is monotonic, so an explicit manual choice cannot be downgraded by the talk. Verified inside prologue-watch: choosing 'some' seeds юл as guessed, does not leak literary тавыш (урман is legitimately seeded by the arrival scene's onEnter). Authored Tatar phrasing awaits the native-speaker review; skip parity holds (one press skips the whole prologue block with no effects)."
+      "progress_2026_09_28": "L1 first iteration (in the Niva ride, per the 28.09 decision): dialogue urman.chapter1:dialogue/prologue-niva-language - Mansur's household teasing question, three answers plus a silent skip; effects are vocabulary.set-status guessed only (some: family+everyday words; fluent: all twelve; none/skip: none), no story flags and no confirmed words. The manual setting still seeds before the calibration and the vocabulary ladder is monotonic, so an explicit manual choice cannot be downgraded by the talk. Verified inside prologue-watch: choosing 'some' seeds юл as guessed, does not leak literary тавыш (урман is legitimately seeded by the arrival scene's onEnter). Authored Tatar phrasing awaits the native-speaker review; skip parity holds (one press skips the whole prologue block with no effects).",
+      "takeover_2026_09_28": {
+        "finding": "Current dialogue grants guessed vocabulary but never selects session language or adaptive speech; existing in_progress is not completion.",
+        "pending": "Persist session-level selection, confirmation/manual override and three authored speech variants under existing owners."
+      }
     },
     {
       "id": "ACT1-LANG.5",
@@ -16343,7 +16371,9 @@
       "done_when": [
         "Связанные профильные карточки приняты по текущим ТЗ; новые игровые/художественные свидетельства относятся к поставляемой версии."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_opening_takeover_2026-09-28/README.md"
+      ],
       "mvp_priority": 12,
       "mvp_packet": "A02",
       "delivery": {
@@ -16515,7 +16545,13 @@
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
       "author_contract_revision": "2026-09-28 round2",
-      "progress_2026_09_28": "The prologue now chains three authored presentations without a new cutscene engine: forest teaser (zone walk + cue), blackout caption, and the Niva passenger ride (camera-path presentation reusing the existing factory Niva). Skip parity and single-press semantics verified by prologue-watch."
+      "progress_2026_09_28": "The prologue now chains three authored presentations without a new cutscene engine: forest teaser (zone walk + cue), blackout caption, and the Niva passenger ride (camera-path presentation reusing the existing factory Niva). Skip parity and single-press semantics verified by prologue-watch.",
+      "takeover_2026_09_28": {
+        "done": "Menu press no longer skips prologue; Esc skip routed before dialogue; awaited lifecycle; seconds-based cue/fades; removed duplicate arrival flyover; player locked during ride; dialogue waits for response; cleanup restores camera and HUD.",
+        "verified": "Build 0 errors/warnings; guarded native menu → forest → visible passenger view → answer → street → pause; existing act1_main_menu_smoke_test PASS including intro replay skip, backup Continue and byte-identical save protection. Final rebuild 0 errors/warnings; existing main-menu smoke repeated after shared prologue save/load guards, including rejection of both operations inside intro: exit 0, PASS, originals restored. Native Esc during the ride dialogue returns to street.",
+        "pending": "Driver seated in existing rig, roof clearance corrected and passenger view inspected; hand grip/live acting remain unaccepted. Intact bridge/full tour, tea/night/morning, persisted language and complete new-opening load equivalence remain open.",
+        "review": "Independent Sol source review found forest J/F5/F9 leak; fixed input, shared save/load, player world interaction and playtime/proximity gate. No other confirmed independent lifecycle defect."
+      }
     },
     {
       "id": "ACT1-CUTSCENE.2",
@@ -19643,7 +19679,7 @@
       "id": "ACT1-RIVER-BRIDGE",
       "title": "Целый мост при приезде, обрушение ночью, повреждённая переправа утром",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -19661,7 +19697,9 @@
         "docs/urman_knowledge_base/decision_log.md",
         "docs/urman_knowledge_base/gameplay.md"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_opening_takeover_2026-09-28/README.md"
+      ],
       "deliverable": "Целый мост при приезде, обрушение ночью, повреждённая переправа утром",
       "done_when": [
         "У моста два согласованных физических/визуальных состояния; путь Нивы проходит до разрушения и закрыт после, дороги связаны с дальней деревней и главной трассой.",
@@ -19717,7 +19755,8 @@
       },
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
-      "author_contract_revision": "2026-09-28 round2"
+      "author_contract_revision": "2026-09-28 round2",
+      "implementation_checkpoint": "A02 dependency integrated: intact/collapsed mesh+collision projection from saved opening state; ride crosses bridge; night normal/skip/save-load PASS. W7/W8 physical bank/boundary and visual acceptance pending."
     },
     {
       "id": "ACT1-BOUNDARY",

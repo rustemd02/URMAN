@@ -422,7 +422,9 @@ public partial class Act1ConnectedWorld : Node3D
         BuildAct1ImageDiscoveries();
         BuildRinatRoadsidePresentation();
         BuildWatchingFormsPilot(GetNode<Node3D>("Act1CoreWorldGreybox"));
+        BuildRearYardGate(GetNode<Node3D>("Act1CoreWorldGreybox"));
         ConfigureInvestigationRevisits();
+        BuildOpeningSleep();
         BuildMosqueInterior();
         BuildBathhouse();
         BuildPublicBuildings();
@@ -680,6 +682,7 @@ public partial class Act1ConnectedWorld : Node3D
         // lights and environment are active. The same village is visible through
         // its glazed openings; the exterior contacts remain separately disabled.
         ClinicSurfacePresentation.SetClinicActive(_zoneInstances["fap_clinic"], zoneId == "fap_clinic");
+        UpdateOpeningBridge();
         UpdateAct1Discoveries();
         ApplyInteractionRouting();
     }
@@ -704,6 +707,7 @@ public partial class Act1ConnectedWorld : Node3D
 
     private void OnRuntimeStateChanged()
     {
+        UpdateOpeningBridge();
         UpdateAct1NpcStaging();
         UpdateAct1Discoveries();
         ApplyInteractionRouting();

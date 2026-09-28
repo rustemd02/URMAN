@@ -33,11 +33,11 @@ public partial class Act1ConnectedWorld
     {
         var yard = forms.GetParent().FindChild("YardRepairCorner", true, false) as Node3D;
         if (yard is null) return;
-        Knot(forms, yard, "WorkshopKnotLeft", new(-.88f, 1.52f, -.815f), .052f, "241d16", tiltDegrees: 7);
-        Knot(forms, yard, "WorkshopKnotRight", new(-.74f, 1.44f, -.815f), .039f, "2a221a", tiltDegrees: -11);
+        Knot(yard, "WorkshopKnotLeft", new(-.88f, 1.52f, -.815f), .052f, "241d16", tiltDegrees: 7);
+        Knot(yard, "WorkshopKnotRight", new(-.74f, 1.44f, -.815f), .039f, "2a221a", tiltDegrees: -11);
         // A single lower knot on the trestle crossbar: the same motif, alone,
         // so the family never repeats as one identical stamp.
-        Knot(forms, yard, "TrestleSingleKnot", new(1.82f, .685f, 1.19f), .030f, "262019", tiltDegrees: 4);
+        Knot(yard, "TrestleSingleKnot", new(1.82f, .623f, .623f), .026f, "262019", tiltDegrees: 4);
     }
 
     // A dead standing snag inside the north fence line: crooked, dark, with
@@ -76,7 +76,7 @@ public partial class Act1ConnectedWorld
         // The hollow pair: an oval low wound and a small round hole higher and
         // to the side. Both face the yard (the snag root faces +Z toward it).
         Hollow(snag, "SnagHollowLow", new(.07f, 1.62f, -.132f), .085f, .125f, "171310");
-        Hollow(snag, "SnagHollowHigh", new(-.045f, 2.51f, -.104f), .048f, .052f, "1b1512");
+        Hollow(snag, "SnagHollowHigh", new(-.045f, 2.51f, -.128f), .048f, .052f, "1b1512");
     }
 
     // The edge fragment beyond the north fence, seen from the yard and from
@@ -144,8 +144,8 @@ public partial class Act1ConnectedWorld
         // far enough to stay ambiguous, close enough to be noticed once.
         if (nearestTrunk is not null)
         {
-            Hollow(fragment, "EdgeHollowPairA", nearestTrunk.Position + new Vector3(.14f, .35f, -.27f), .07f, .09f, "14100d");
-            Hollow(fragment, "EdgeHollowPairB", nearestTrunk.Position + new Vector3(.14f, .52f, -.24f), .05f, .06f, "14100d");
+            Hollow(nearestTrunk, "EdgeHollowPairA", new(.06f, .35f, -.235f), .07f, .09f, "14100d");
+            Hollow(nearestTrunk, "EdgeHollowPairB", new(-.07f, .57f, -.235f), .05f, .06f, "14100d");
         }
         // The dark under-storey line: low thin masses that ground the trunks
         // and keep a continuous dark band at the fence horizon.
@@ -164,38 +164,76 @@ public partial class Act1ConnectedWorld
         }
     }
 
-    private static void Knot(Node3D forms, Node3D parent, string name, Vector3 localAt, float radius, string colour, float tiltDegrees)
+    // Slightly raised grain surrounds a dark, visually recessed knot. The
+    // backing board stays intact, including its existing collision owner.
+    private static void Knot(Node3D parent, string name, Vector3 localAt, float radius, string colour, float tiltDegrees)
     {
-        var knot = new MeshInstance3D
-        {
-            Name = name,
-            Position = localAt,
-            RotationDegrees = new(0, 0, tiltDegrees),
-            Mesh = new CylinderMesh { TopRadius = radius, BottomRadius = radius * .82f, Height = .016f, RadialSegments = 12, Rings = 1 },
-            MaterialOverride = PainterlyMaterialLibrary.ForColor(colour, "wood")
-        };
+        var knot = new Node3D { Name = name, Position = localAt, RotationDegrees = new(0, 0, tiltDegrees) };
         knot.SetMeta("visualOnly", true);
-        knot.SetMeta("a01_1_motif", "knot pair / single knot pareidolia");
-        forms.AddChild(knot);
-        knot.Reparent(parent);
-        knot.Position = localAt;
-        knot.RotationDegrees = new(90, 0, tiltDegrees);
+        knot.SetMeta("a01_1_motif", "irregular recessed wood knot pareidolia");
+        parent.AddChild(knot);
+        Recess(knot, radius, radius * .86f, colour, "6b5a45", .18f);
     }
 
+    // A bark lip and dark throat suggest depth without cutting the existing
+    // structural trunk mesh or adding a collision seam at the route edge.
     private static void Hollow(Node3D parent, string name, Vector3 localAt, float width, float height, string colour)
     {
-        var hollow = new MeshInstance3D
-        {
-            Name = name,
-            Position = localAt,
-            Mesh = new CylinderMesh { TopRadius = width * .5f, BottomRadius = width * .5f, Height = .02f, RadialSegments = 10, Rings = 1 },
-            Scale = new(1, 1, height / width),
-            MaterialOverride = PainterlyMaterialLibrary.ForColor(colour, "wood")
-        };
-        hollow.RotationDegrees = new(90, 0, 0);
+        var hollow = new Node3D { Name = name, Position = localAt };
         hollow.SetMeta("visualOnly", true);
-        hollow.SetMeta("a01_1_motif", "trunk hollow pareidolia");
+        hollow.SetMeta("a01_1_motif", "irregular bark wound pareidolia");
         parent.AddChild(hollow);
+        Recess(hollow, width * .5f, height * .5f, colour, "4c4034", name.Length * .37f);
+    }
+
+    private static void Recess(Node3D parent, float rx, float ry, string dark, string bark, float variation)
+    {
+        const int sides = 13;
+        Vector3 Ring(int i, float radius, float depth)
+        {
+            var angle = Mathf.Tau * i / sides;
+            var irregularity = 1f + .055f * Mathf.Sin(3f * angle + variation)
+                + .035f * Mathf.Sin(7f * angle - variation);
+            return new Vector3(Mathf.Cos(angle) * rx * radius * irregularity,
+                Mathf.Sin(angle) * ry * radius * irregularity, -depth);
+        }
+
+        using var lip = new SurfaceTool();
+        lip.Begin(Mesh.PrimitiveType.Triangles);
+        for (var i = 0; i < sides; i++)
+        {
+            var outer = Ring(i, 1.48f, .018f);
+            var outerNext = Ring(i + 1, 1.48f, .018f);
+            var crest = Ring(i, 1f, .051f);
+            var crestNext = Ring(i + 1, 1f, .051f);
+            var throat = Ring(i, .61f, .018f);
+            var throatNext = Ring(i + 1, .61f, .018f);
+            lip.AddVertex(outer); lip.AddVertex(crest); lip.AddVertex(outerNext);
+            lip.AddVertex(crest); lip.AddVertex(crestNext); lip.AddVertex(outerNext);
+            lip.AddVertex(crest); lip.AddVertex(throat); lip.AddVertex(crestNext);
+            lip.AddVertex(throat); lip.AddVertex(throatNext); lip.AddVertex(crestNext);
+        }
+        lip.GenerateNormals();
+        parent.AddChild(new MeshInstance3D
+        {
+            Name = "RaisedBarkLip", Mesh = lip.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor(bark, "wood")
+        });
+
+        using var bottom = new SurfaceTool();
+        bottom.Begin(Mesh.PrimitiveType.Triangles);
+        for (var i = 0; i < sides; i++)
+        {
+            bottom.AddVertex(new Vector3(0, 0, -.019f));
+            bottom.AddVertex(Ring(i + 1, .62f, .019f));
+            bottom.AddVertex(Ring(i, .62f, .019f));
+        }
+        bottom.GenerateNormals();
+        parent.AddChild(new MeshInstance3D
+        {
+            Name = "DarkRecess", Mesh = bottom.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor(dark, "wood")
+        });
     }
 
     private static void Stub(Node3D parent, Vector3 at, float length, float yawDegrees, string name)

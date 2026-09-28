@@ -243,7 +243,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _subtitle = new Label
         {
             Name = "Subtitle",
-            Text = "АКТ I · ВОЗВРАЩЕНИЕ В КЫРЛАЙ",
+            Text = "АКТ I · ВОЗВРАЩЕНИЕ В КАРА-УРМАН",
             ThemeTypeVariation = UrmanUiTheme.Tag,
             SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin
         };

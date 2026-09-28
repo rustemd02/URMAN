@@ -1175,14 +1175,6 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         }
         if (_prologueForestActive)
         {
-            if (inputEvent.IsActionPressed("interact")
-                || inputEvent.IsActionPressed("ui_accept")
-                || inputEvent.IsActionPressed("ui_cancel")
-                || inputEvent is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
-            {
-                _prologueSkipRequested = true;
-                GetViewport().SetInputAsHandled();
-            }
             return;
         }
 
@@ -1319,7 +1311,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             _endingShown = false;
             _endingPending = false;
             _endingDelay = 0;
-            if (startNewGame) ShowIntroAfterMenu();
+            if (startNewGame) await ShowIntroAfterMenuAsync();
             else
             {
                 _mainMenu?.Dismiss();
@@ -1346,7 +1338,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 return;
             }
             _introReplay = true;
-            ShowIntroAfterMenu();
+            await ShowIntroAfterMenuAsync();
         }
         finally { _menuBusy = false; }
     }
@@ -1593,7 +1585,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         var bridge = _bridge;
         if (_routeCue is null
             || _endingShown
-            || _introScreen is not null
+            || IntroVisible
             || bridge is null
             || !GodotObject.IsInstanceValid(bridge))
         {
@@ -1601,7 +1593,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return;
         }
 
-        var text = RouteCueText(bridge)?.Replace("[J]",
+        var text = (OpeningRouteCue(bridge) ?? RouteCueText(bridge))?.Replace("[J]",
             InputBindingService.ActionHint("journal", _player?.CurrentInputDevice == "gamepad"), StringComparison.Ordinal);
         if (string.Equals(text, _lastRouteCue, StringComparison.Ordinal))
         {
@@ -1737,11 +1729,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     }
 
     private static string? ArrivalRouteCue(RuntimeBridge bridge) =>
-        AvailableCue(bridge, "arrival-enter-house", bridge.ResolveWorldText("Дом бабая: {address:ADR-BABAI}. Мамины приметы остались в книжке."))
-        ?? AvailableCue(bridge, "arrival-answer-mother", "Телефон на скамье: ответить маме или пока промолчать.")
-        ?? (!KnowledgeConfirmed(bridge, "arrival_mother_message_read")
-            ? "Телефон на скамье справа — прочитать сообщение мамы."
-            : "Рядом с телефоном — старая фотография Марата.");
+        AvailableCue(bridge, "arrival-enter-house", "Приехали. Войти домой — бабай и әби ждут к чаю.");
 
     private static string? HouseRouteCue(RuntimeBridge bridge)
     {

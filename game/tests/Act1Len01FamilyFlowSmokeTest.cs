@@ -39,21 +39,12 @@ public partial class Act1Len01FamilyFlowSmokeTest : Node
             _dialogue = (DialogueUi)GetTree().GetFirstNodeInGroup("dialogue_ui");
             _pc = (OldPcUi)GetTree().GetFirstNodeInGroup("old_pc_ui");
             _player = (FirstPersonController)GetTree().GetFirstNodeInGroup("player_controller");
-            // The forest teaser runs first; this suite verifies the arrival
-            // card itself, so it waits out the natural teaser instead of
-            // skipping the whole prologue block.
-            Control? introPanel = null;
-            var cardDeadline = Time.GetTicksMsec() + 75_000u;
-            while (Time.GetTicksMsec() < cardDeadline && introPanel is null)
-            {
-                await Frames(1);
-                introPanel = _demo.FindChild("IntroPanel", true, false) as Control;
-            }
-            Require(introPanel is not null, "The arrival card did not follow the watched forest teaser.");
-            await VerifyIntroLayout();
-            _demo._UnhandledInput(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true });
-            await Frames(4);
-            Require(!_demo.IntroVisible && !_player.ModalOpen, "Intro did not release input.");
+            // The opening now hands control straight from the ride to the street;
+            // this family-flow check takes the supported skip, not the retired card.
+            _demo._Input(new InputEventAction { Action = "ui_cancel", Pressed = true });
+            for (var frame = 0; frame < 180 && _demo.IntroVisible; frame++) await Frames(1);
+            Require(!_demo.IntroVisible && !_player.ModalOpen && !_bridge.FirstNightPassed,
+                "Skipped opening did not release input on day one.");
 
             foreach (var node in new[] { "restraint", "route-return", "route-follow-up" })
                 Require(!await _bridge.ChooseDialogueAsync(Prefix + "dialogue/timur_restraint", node, "ask-shurale-name"),
@@ -61,10 +52,15 @@ public partial class Act1Len01FamilyFlowSmokeTest : Node
             Require(Vocabulary("tt_shurale") == "unknown", "A rejected name question taught an unread word.");
             Require(!Known("address-babai") && !Known("address-fap"),
                 "New Game supplied addresses before their messages or conversations.");
+            Require(Available("arrival-enter-house"), "The family door still requires the old bus-stop sources.");
+            await Move("arrival-enter-house", "house_old_pc", "entry");
+            Require(!Known("memory_marat_childhood_photo") && !Known("arrival_mother_message_read"),
+                "Entering home fabricated the personal sources.");
             await Act1ArrivalFlowProof.CompleteAsync(this, _bridge, verifyReturn: true);
             Require(Known("address-babai") && !Known("address-fap")
                 && _bridge.JournalEntries().Count(entry => entry.EntryId == Knowledge("address-babai")) == 1,
                 "Reading the mother's actual message did not retain just the home address.");
+            await Revisit("HouseExit");
             await VerifyEarlyDirections();
             if (OS.GetCmdlineArgs().Concat(OS.GetCmdlineUserArgs())
                 .Contains("--urman-smoke-alsu-walk-only", StringComparer.Ordinal))
@@ -82,7 +78,7 @@ public partial class Act1Len01FamilyFlowSmokeTest : Node
                 GetTree().Quit(0);
                 return;
             }
-            await Move("arrival-enter-house", "house_old_pc", "entry");
+            await Revisit("ReturnToHouseRegister");
             Require(!Known("clue_family_avoids_marat") && Beat("house-warmth-and-pause") != "completed",
                 "Entering the house fabricated a family conversation.");
             await Act1FamilyMealProof.VerifyNotebookAsync(this, _bridge, pending: false, captureName: "family_home_before_invitation");
@@ -105,6 +101,57 @@ public partial class Act1Len01FamilyFlowSmokeTest : Node
             if (OS.GetCmdlineArgs().Concat(OS.GetCmdlineUserArgs())
                 .Contains("--urman-smoke-family-home-only", StringComparer.Ordinal))
             {
+                Require(Available("house-to-route") && !Known("clue_marat_official_death_version"),
+                    "Tea still requires investigating Marat before the first walk.");
+                Require(await _bridge.SaveSlotAsync("first-night-before"), "Bed checkpoint failed.");
+                var knowledgeBeforeNight = _bridge.SelectRuntimeState().GetProperty("knowledge").GetRawText();
+                var bed = _demo.DemoMain.ConnectedWorld!.FindChild("FirstNightSleep", true, false) as InteractionTarget;
+                Require(bed?.IsAvailable() == true, "Tea and the actual Alsu greeting did not make the daybed usable.");
+                foreach (var skip in new[] { false, true })
+                {
+                    if (skip) Require(await _bridge.LoadSlotAsync("first-night-before"), "Day-one load failed.");
+                    await Frames(4);
+                    Require(!_bridge.FirstNightPassed, "Reload did not restore the intact bridge's day.");
+                    bed!.Interact();
+                    var deadline = Time.GetTicksMsec() + 15_000;
+                    while (!_demo.IntroVisible && Time.GetTicksMsec() < deadline) await Frames(1);
+                    Require(_demo.IntroVisible, "The actual daybed did not start the night.");
+                    Require(!await _bridge.SaveSlotAsync("quick") && !await _bridge.LoadSlotAsync("first-night-before"),
+                        "Night presentation allowed saving/loading a temporary bridge camera.");
+                    if (skip) _demo._Input(new InputEventAction { Action = "ui_cancel", Pressed = true });
+                    var captured = new System.Collections.Generic.HashSet<string>();
+                    var start = Time.GetTicksMsec();
+                    while (!_dialogue.IsOpen && Time.GetTicksMsec() < deadline)
+                    {
+                        await Frames(1);
+                        if (!skip && GetViewport().GetCamera3D()?.Name == "FirstNightBridgeCamera"
+                            && _demo.FindChild("PrologueBlackout", true, false) is ColorRect { Color.A: < .05f })
+                        {
+                            var phase = _bridge.FirstNightPassed ? "night_collapsed" : Time.GetTicksMsec() - start > 1000 ? "night_intact" : null;
+                            if (phase is not null && captured.Add(phase)) CaptureNight(phase);
+                        }
+                    }
+                    if (!skip) { await Frames(2); CaptureNight("night_morning"); }
+                    Require(_bridge.FirstNightPassed && !_demo.IntroVisible && _dialogue.IsOpen
+                        && _bridge.CurrentZoneId == "house_old_pc", "Night did not return to the house and morning news.");
+                    await CloseTalk();
+                    Require(_bridge.SelectRuntimeState().GetProperty("knowledge").GetRawText() == knowledgeBeforeNight,
+                        "Night/skip fabricated investigation knowledge.");
+                    await RoundTrip("first-night-after");
+                    Require(_bridge.FirstNightPassed && !bed.IsAvailable(), "Morning load reopened sleep or restored the intact bridge.");
+                }
+                GD.Print("act1-first-night: PASS bed target; normal and skip; no clues; before/after save-load; morning control.");
+                void CaptureNight(string name)
+                {
+                    var output = OS.GetEnvironment("URMAN_IMAGE_UI_OUTPUT");
+                    if (string.IsNullOrEmpty(output)) return;
+                    System.IO.Directory.CreateDirectory(output);
+                    var path = System.IO.Path.Combine(output, name + ".png");
+                    Require(!System.IO.File.Exists(path), "Night capture would overwrite an earlier proof.");
+                    RenderingServer.ForceDraw(false);
+                    using var shot = GetViewport().GetTexture().GetImage();
+                    Require(!shot.IsEmpty() && shot.SavePng(path) == Error.Ok, "Night capture failed.");
+                }
                 await VerifyAlternativeFamilyStart();
                 GD.Print("act1-family-home-only: normal arrival; photo and silent family replies; refusal/interruption/load; actual notebook invitation; early warning without Naila knowledge; preserved-world outside return; one completed meal. Technical coverage only.");
                 await GodotSmokeCleanup.ReleaseAsync(_demo);
@@ -170,8 +217,8 @@ public partial class Act1Len01FamilyFlowSmokeTest : Node
             Require(!HasDocument(Register) && !HasDocument(Message), "Search exposed later sources before their real prerequisites.");
             await ReadFromPc(Official);
             await ClosePc();
-            Require(!Known("clue_family_avoids_marat") && !Available("house-to-route"),
-                "Opening the official notice bypassed the actual family response.");
+            Require(!Known("clue_family_avoids_marat") && Available("house-to-route"),
+                "Opening the notice fabricated a family response or re-locked the earned street exit.");
             Require(!await _bridge.OpenDocumentAsync(Register), "The direct document reader bypassed Naila's permission.");
             var registerRejected = false;
             try { await _bridge.HandleOldPcInputAsync(Input("open", Register)); }
@@ -656,13 +703,13 @@ public partial class Act1Len01FamilyFlowSmokeTest : Node
             _demo._UnhandledInput(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true });
             await Frames(4);
         }
+        await Move("arrival-enter-house", "house_old_pc", "entry");
         await Act1ArrivalFlowProof.CompleteAsync(this, _bridge, reply: "keep-silent");
         Require(Status("clue_mansur_allowed_pc_access_deliberately") == "hidden"
             && Status("clue_village_has_internal_compensation_system") == "hidden"
             && !Known("clue_mansur_unsent_note_read") && !Known("clue_accounting_fragment_read")
             && !Known("clue_rinat_accounting_question_heard"),
             "New Game retained the prior source returns or their interpretations.");
-        await Move("arrival-enter-house", "house_old_pc", "entry");
         Require(!Known("clue_household_niva_list") && !Npc("mansur", "household_help_done")
             && !Known("clue_naila_record_scope") && !Known("clue_alsu_heard_versions")
             && !Known("clue_marat_versions_conflict") && !Known("clue_route_check_intent")
@@ -1524,10 +1571,19 @@ internal static class Act1ArrivalFlowProof
             && !Known("memory_marat_kazansky_ne_otstavay") && !Known("topic_marat_unresolved")
             && !Known(selected) && !Known(other),
             "New Game fabricated or retained the personal arrival sources.");
-        Check(!bridge.IsInteractionAvailable(Interaction("arrival-enter-house"))
-            && !await bridge.DispatchInteractionAsync(Interaction("arrival-enter-house"))
-            && !await bridge.ChooseDialogueAsync(replyDialogue, "reply", reply),
-            "The ordinary house transition or a reply bypassed the unread personal sources.");
+        Check(!await bridge.ChooseDialogueAsync(replyDialogue, "reply", reply),
+            "A personal reply bypassed its unread sources.");
+        var main = tree.GetFirstNodeInGroup("zone_manager") as Main
+            ?? throw new InvalidOperationException("Home sources have no world owner.");
+        var originZone = bridge.CurrentZoneId;
+        var originSpawn = bridge.CurrentSpawnPointId;
+        // Other narrow source consumers keep their story scene; the family-flow
+        // caller enters through the real door before invoking this source proof.
+        if (originZone != "house_old_pc")
+        {
+            main.SwitchZone("house_old_pc", "entry");
+            await Frames(5);
+        }
 
         var photoFirst = reply == "keep-silent";
         if (photoFirst)
@@ -1547,8 +1603,7 @@ internal static class Act1ArrivalFlowProof
         if (verifyReturn && !photoFirst)
         {
             await RoundTrip("len01-arrival-message-only");
-            Check(Known("arrival_mother_message_read") && !Known("memory_marat_childhood_photo")
-                && !bridge.IsInteractionAvailable(Interaction("arrival-enter-house")),
+            Check(Known("arrival_mother_message_read") && !Known("memory_marat_childhood_photo"),
                 "Loading after the message completed an unread photograph or the arrival.");
         }
 
@@ -1557,8 +1612,7 @@ internal static class Act1ArrivalFlowProof
             && Known("topic_marat_unresolved") && !Known("clue_marat_official_death_version")
             && !Known("clue_do_not_answer_rule"),
             "The photograph failed to establish the personal phrase or supplied later evidence.");
-        Check(bridge.IsInteractionAvailable(Interaction("arrival-answer-mother"))
-            && !bridge.IsInteractionAvailable(Interaction("arrival-enter-house")),
+        Check(bridge.IsInteractionAvailable(Interaction("arrival-answer-mother")),
             "The two read sources did not expose the reply before the door.");
         if (verifyReturn)
         {
@@ -1569,16 +1623,14 @@ internal static class Act1ArrivalFlowProof
         }
 
         await OpenReply();
-        Check(!Known(selected) && !Known(other)
-            && !bridge.IsInteractionAvailable(Interaction("arrival-enter-house")),
+        Check(!Known(selected) && !Known(other),
             "Opening the reply dialogue silently selected an answer.");
         if (verifyReturn)
         {
             await CloseDialogue();
             await RoundTrip("len01-arrival-reply-abandoned");
             Check(!Known(selected) && !Known(other)
-                && bridge.IsInteractionAvailable(Interaction("arrival-answer-mother"))
-                && !bridge.IsInteractionAvailable(Interaction("arrival-enter-house")),
+                && bridge.IsInteractionAvailable(Interaction("arrival-answer-mother")),
                 "Abandoning and loading the reply either locked the return or supplied an answer.");
             await OpenReply();
         }
@@ -1593,15 +1645,10 @@ internal static class Act1ArrivalFlowProof
         await Frames(3);
         Check(Known(selected) && !Known(other), "The selected personal response did not persist distinctly.");
         var replyLine = dialogue.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text;
-        var homeAddress = bridge.ResolveWorldText("{address:ADR-BABAI}");
-        Check(replyLine.Contains("Пора найти дом", StringComparison.Ordinal)
-            && !homeAddress.Contains("{address:", StringComparison.Ordinal)
-            && replyLine.Contains(homeAddress, StringComparison.Ordinal),
-            "The response did not name the same home address as the registry before independent navigation: "
-            + $"line='{replyLine}', registry='{homeAddress}'.");
+        Check(replyLine.Contains("Фотографию оставлю на столе", StringComparison.Ordinal),
+            "The home reply still sends the player back to find the house: " + replyLine);
         await CloseDialogue();
-        Check(bridge.IsInteractionAvailable(Interaction("arrival-enter-house"))
-            && !bridge.IsInteractionAvailable(Interaction("arrival-answer-mother"))
+        Check(!bridge.IsInteractionAvailable(Interaction("arrival-answer-mother"))
             && !await bridge.ChooseDialogueAsync(replyDialogue, "reply", reply),
             "The completed arrival failed to open the door or allowed a second response.");
         Check(bridge.JournalEntries().Count(entry => entry.EntryId == Prefix + "document/arrival-mother-message") == 1
@@ -1611,12 +1658,16 @@ internal static class Act1ArrivalFlowProof
         if (verifyReturn)
         {
             await RoundTrip("len01-arrival-completed");
-            Check(Known(selected) && !Known(other)
-                && bridge.IsInteractionAvailable(Interaction("arrival-enter-house")),
+            Check(Known(selected) && !Known(other),
                 "A completed personal response was lost on load.");
         }
         Check(!player.ModalOpen, "Arrival source/response readers retained player input.");
-        GD.Print("arrival-flow: source UI, remembered phrase, distinct " + reply + ", explicit house continuation");
+        if (originZone != "house_old_pc")
+        {
+            main.SwitchZone(originZone, originSpawn);
+            await Frames(5);
+        }
+        GD.Print("home-arrival-sources: actual source UI, remembered phrase, distinct " + reply + ", no door gate");
 
         async Task Read(string action, string document)
         {
@@ -1628,7 +1679,7 @@ internal static class Act1ArrivalFlowProof
             Check(documents.IsOpen && documents.OpenDocumentId == Prefix + "document/" + document && player.ModalOpen,
                 "The arrival source did not open its actual reader: " + action);
             var body = documents.GetNode<RichTextLabel>("Screen/Document/Layout/Reader/Body").Text;
-            Check(body.Contains(document == "arrival-photo-evidence" ? "Казанский, не отставай" : "Ты уже доехал"),
+            Check(body.Contains(document == "arrival-photo-evidence" ? "Казанский, не отставай" : "Бабай написал, что встретил тебя"),
                 "The source UI omitted its personal content: " + document);
             documents._UnhandledInput(Escape());
             await Frames(3);

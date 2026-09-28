@@ -73,7 +73,7 @@ public static class InputBindingService
             };
         }
         var key = events.OfType<InputEventKey>().FirstOrDefault();
-        return key is null ? "[Key]" : $"[{OS.GetKeycodeString(key.PhysicalKeycode)}]";
+        return key is null ? "[Key]" : $"[{OS.GetKeycodeString(key.PhysicalKeycode != Key.None ? key.PhysicalKeycode : key.Keycode)}]";
     }
 
     public static void Apply(IEnumerable<InputBindingSnapshot> bindings)

@@ -55,7 +55,6 @@ public partial class Act1ConnectedWorld
         DiscoveryTarget(village, "main-street-sign-reverse", new(1.35f, .95f, .80f),
             new(-2.05f, signGround + 1.68f, 5.8f), true);
 
-        ArrivalPersonalProps.Build(village, benchGround);
     }
 
     private void BuildArrivalBenchDiscovery(Node3D parent, float groundY)

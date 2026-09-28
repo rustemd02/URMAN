@@ -12,7 +12,8 @@ public partial class FirstPersonController
     public bool IsClimbingLadder => _activeLadder is not null
         && GodotObject.IsInstanceValid(_activeLadder) && _activeLadder.Player == this;
     internal LadderTraversal3D? ActiveLadder => IsClimbingLadder ? _activeLadder : null;
-    public string? SaveBlockReason => IsClimbingLadder ? "Сохраниться можно на площадке. Сначала сойдите с лестницы." : null;
+    public string? SaveBlockReason => InIntro ? "Сохранение доступно после вступления."
+        : IsClimbingLadder ? "Сохраниться можно на площадке. Сначала сойдите с лестницы." : null;
 
     internal void NotifyTraversal(string message)
     {

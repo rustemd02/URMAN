@@ -44,6 +44,21 @@ public partial class Act1DemoRoot
 
     public override void _Input(InputEvent inputEvent)
     {
+        if (_rideCamera is not null && inputEvent is InputEventMouseMotion rideMotion
+            && Input.MouseMode == Input.MouseModeEnum.Captured)
+        {
+            _rideLook -= rideMotion.ScreenRelative * (_player?.MouseSensitivity ?? .1f);
+            ApplyPrologueRideLook();
+        }
+        if (_prologueForestActive && inputEvent.IsActionPressed("ui_cancel")
+            && inputEvent is not InputEventKey { Echo: true })
+        {
+            _prologueSkipRequested = true;
+            GetViewport().SetInputAsHandled();
+        }
+        if (_prologueForestActive && (inputEvent.IsActionPressed("journal")
+            || inputEvent.IsActionPressed("quick_save") || inputEvent.IsActionPressed("quick_load")))
+            GetViewport().SetInputAsHandled();
         if (!_rendererDiagnosticsRequested || !_rendererTimersOwned) return;
         // Observe delivery only. Device IDs cannot identify a human or prove
         // native versus synthetic input; no event is handled or replayed here.

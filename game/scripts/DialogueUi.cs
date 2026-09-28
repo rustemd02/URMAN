@@ -18,6 +18,11 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public bool IsOpen => _screen.Visible;
 
+    internal void CloseIfDialogue(string id)
+    {
+        if (_dialogue?.Id == id) Close();
+    }
+
     private AudioStreamPlayer? _foley;
 
     public override void _Ready()

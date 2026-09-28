@@ -69,17 +69,11 @@ public partial class Act1ConnectedWorld
         bool NpcFlag(string person, string flag) => state.TryGetProperty("npc", out var people)
             && people.TryGetProperty("urman.chapter1:character/" + person, out var npc)
             && npc.TryGetProperty(flag, out var value) && value.ValueKind == JsonValueKind.True;
-        bool Confirmed(string id) => state.TryGetProperty("knowledge", out var knowledge)
-            && knowledge.TryGetProperty("urman.chapter1:knowledge/" + id, out var entry)
-            && entry.TryGetProperty("status", out var status) && status.GetString() == "confirmed";
-
-        // The household's first exit already establishes this door. An optional
-        // photograph found outside must be returnable before visiting the clinic.
-        // Reuse the earned first-exit conditions; never grant a new story beat.
+        // Visiting the family never locks the player inside an unfinished tea.
+        // This only revisits the physical door: house-to-route still owns the
+        // completed meal's story transition and grants no progress on a detour.
         if (target.Name == "HouseExit" || target.Name == "ReturnToHouseRegister")
-            return NpcFlag("gulsina", "warning_heard")
-                && Confirmed("clue_family_avoids_marat")
-                && Confirmed("clue_marat_official_death_version");
+            return _runtimeBridge.ActiveSceneId != "urman.chapter1:scene/arrival_vehicle_dusk";
 
         // A player inside the legitimately entered clinic can leave a question
         // unanswered and return. These active scenes survive presentation-only

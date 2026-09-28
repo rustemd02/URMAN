@@ -196,7 +196,9 @@ public partial class Act1MainMenuSmokeTest : Node
         for (var frame = 0; frame < 900 && !demo.IntroVisible; frame++) await Frames(1);
         if (!demo.IntroVisible || !bridge.IsDebugSession)
         { Fail("Intro replay did not open in an isolated session."); return; }
-        demo._UnhandledInput(new InputEventAction { Action = "interact", Pressed = true });
+        if (await bridge.SaveSlotAsync("quick") || await bridge.LoadSlotAsync("quick"))
+        { Fail("The prologue allowed a save/load across its temporary forest and arrival poses."); return; }
+        demo._Input(new InputEventAction { Action = "ui_cancel", Pressed = true });
         for (var frame = 0; frame < 900 && !demo.MainMenuVisible; frame++) await Frames(1);
         continueButton = demo.MainMenu?.ContinueButton;
         for (var frame = 0; frame < 900 && continueButton?.Visible != true; frame++) await Frames(1);

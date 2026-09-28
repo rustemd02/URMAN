@@ -26,6 +26,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private global::Godot.Environment? _environmentResource;
     private DirectionalLight3D? _sun;
     private CpuParticles3D? _rain;
+    private bool _openingBlizzard;
     private bool _sheltered;
     private SnowTrampleField? _snowTrample;
     private readonly List<OmniLight3D> _karaAccentLights = new();
@@ -2324,6 +2325,18 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     /// with a long lifetime, denser and wind-driven at the Kara edge. Same
     /// single weather owner, same toggle path (ART-010 unchanged).
     /// </summary>
+    internal void SetOpeningBlizzard(bool active)
+    {
+        _openingBlizzard = active;
+        if (_rain is null) return;
+        _rain.Direction = active ? new Vector3(-1f, -.18f, .22f) : new Vector3(.22f, -1f, .14f);
+        _rain.InitialVelocityMin = active ? 7f : .7f;
+        _rain.InitialVelocityMax = active ? 11f : 1.4f;
+        _rain.Spread = active ? 12f : 26f;
+        _rain.EmissionBoxExtents = active ? new Vector3(18f, 6f, 18f) : new Vector3(20f, .8f, 20f);
+        _rain.Restart();
+    }
+
     private void BuildSnow()
     {
         _rain = new CpuParticles3D
@@ -2453,6 +2466,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         quad.Material = new StandardMaterial3D
         {
             AlbedoColor = new Color(0.93f, 0.95f, 0.98f, 0.62f),
+            AlbedoTexture = new GradientTexture2D
+            {
+                Width = 32, Height = 32, Fill = GradientTexture2D.FillEnum.Radial,
+                FillFrom = new(.5f, .5f), FillTo = new(.5f, 1f),
+                Gradient = new Gradient { Colors = [Colors.White, new Color(1, 1, 1, 0)], Offsets = [0, 1] }
+            },
             Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
             ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
             BillboardMode = BaseMaterial3D.BillboardModeEnum.Enabled,
@@ -2472,12 +2491,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var focus = camera?.GlobalPosition ?? GlobalPosition;
         if (_rain is not null)
         {
-            _rain.GlobalPosition = focus + new Vector3(0f, 6f, 0f);
+            _rain.GlobalPosition = focus + (_openingBlizzard ? new Vector3(6f, 2f, 0f) : new Vector3(0f, 6f, 0f));
             // Rain thickens toward the Kara-Urman forest edge while retaining
             // enough village particles for a readable near/mid/far weather layer.
             // Calm village snowfall thickens into a Kara-edge blizzard.
             var karaPhase = Mathf.Clamp((-70f - focus.Z) / 30f, 0f, 1f);
-            _rain.Amount = (int)Mathf.Lerp(1300f, 2600f, karaPhase);
+            var amount = _openingBlizzard ? 2800 : (int)Mathf.Lerp(1300f, 2600f, karaPhase);
+            if (_rain.Amount != amount) _rain.Amount = amount;
         }
     }
 

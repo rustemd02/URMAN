@@ -57,7 +57,7 @@ public partial class Act1ConnectedWorld
 
     private static float RavineCentreX(float z) => (float)AgentBAct1HeightField.RavineCentre(z);
 
-    private static void AddVillageRavine(Node3D core)
+    private void AddVillageRavine(Node3D core)
     {
         var ravine = new Node3D { Name = "VillageRavine" };
         ravine.SetMeta("presentationOnly", true);
@@ -76,6 +76,9 @@ public partial class Act1ConnectedWorld
         AddRavineBanks(ravine);
         AddRavineRimFence(ravine, proxy);
         AddCollapsedRavineBridge(ravine, proxy);
+        _collapsedOpeningBridge = ravine.GetNode<Node3D>("RavineBridgeCollapsed");
+        _openingBridgeTrestle = proxy.GetNode<CollisionShape3D>("RavineBridgeTrestleBlocker");
+        BuildIntactOpeningBridge(ravine);
         AddRavineFarBank(ravine);
     }
 

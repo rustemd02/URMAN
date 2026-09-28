@@ -55,7 +55,7 @@ public partial class RuntimeBridge : Node
     internal enum PlayTimeBlock
     {
         None = 0, NotReady = 1, Loading = 2, MainMenu = 4, Pause = 8,
-        Settings = 16, Unfocused = 32, Ending = 64
+        Settings = 16, Unfocused = 32, Ending = 64, Intro = 128
     }
 
     internal double PlayTimeSeconds => _playTimeSeconds;
@@ -109,6 +109,7 @@ public partial class RuntimeBridge : Node
         if (demo?.MainMenuVisible == true || (demo is null && HasActiveMainMenu()))
             blocks |= PlayTimeBlock.MainMenu;
         if (demo?.DemoEnded == true) blocks |= PlayTimeBlock.Ending;
+        if (demo?.IntroVisible == true) blocks |= PlayTimeBlock.Intro;
         if (GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true })
             blocks |= PlayTimeBlock.Pause;
         if (GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true })
@@ -324,6 +325,7 @@ public partial class RuntimeBridge : Node
 
     private async Task<bool> LoadFromStoreAsync(string slot, AtomicSaveGameStore? store, bool debugSession)
     {
+        if (FindPlayer()?.InIntro == true) return false;
         if (_loadingSlot || _loadPreparing || store is null || FindPlayer() is not { } player)
         {
             GD.PushWarning("Quick load is unavailable before the runtime and player are ready.");
@@ -769,6 +771,7 @@ public partial class RuntimeBridge : Node
     // not a camera condition. Availability and dispatch must use the same owner.
     private bool HasRequiredWorldState(string interactionId)
     {
+        if (interactionId == "urman.chapter1:interaction/first-night-sleep") return !FirstNightPassed;
         const string boardPrefix = "urman.chapter1:interaction/tamara-fence-take-board-";
         if (interactionId.StartsWith(boardPrefix, StringComparison.Ordinal)
             && int.TryParse(interactionId.AsSpan(boardPrefix.Length), out var board) && board is >= 1 and <= 6)
@@ -1172,7 +1175,7 @@ public partial class RuntimeBridge : Node
 
     private void CreateNewSession()
     {
-        var kernel = new RuntimeKernel(SeedStartingVocabulary(_content.CreateInitialNarrativeState()), CreateHandlers());
+        var kernel = new RuntimeKernel(SeedOpeningState(SeedStartingVocabulary(_content.CreateInitialNarrativeState())), CreateHandlers());
         var capabilities = CreateCapabilities();
         var questCapabilities = new QuestCapabilitySessionOrchestrator(capabilities);
         try

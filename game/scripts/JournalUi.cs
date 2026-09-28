@@ -5,6 +5,9 @@ namespace Urman.Godot;
 
 public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 {
+    private const string AlsuAccountId = "urman.chapter1:knowledge/clue_alsu_heard_versions";
+    private const string MaratNoticeId = "urman.oldpc:document/doc_marat_official_death_notice";
+    private const string FirstConclusionId = "urman.chapter1:knowledge/clue_marat_versions_conflict";
     private Control _screen = null!;
     private Control _book = null!;
     private ItemList _entries = null!;
@@ -163,9 +166,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         var objectives = _bridge?.ActiveObjectives() ?? [];
         // An active investigation is not yet an actionable source comparison.
         // Use the same readiness gate as the comparison tab, including both sources.
-        var canCompareRecords = (_bridge?.JournalActions([
-            "urman.oldpc:document/doc_marat_official_death_notice",
-            "urman.oldpc:document/rec_marat_case_register_conflict"]).Count ?? 0) > 0;
+        var canCompareRecords = (_bridge?.JournalActions([AlsuAccountId, MaratNoticeId]).Count ?? 0) > 0;
         var objectiveTitles = objectives.Select(objective =>
             objective.QuestId == "urman.chapter1:quest/quest_marat_first_contradiction"
                 && objective.ObjectiveId == "find-contradiction" && !canCompareRecords
@@ -310,21 +311,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _taskRows.Add(row);
     }
 
-    private string? ArrivalObjectiveText()
-    {
-        if (_bridge is not { ActiveSceneId: "urman.chapter1:scene/arrival_vehicle_dusk" } bridge) return null;
-        if (bridge.IsInteractionAvailable("urman.chapter1:interaction/arrival-enter-house"))
-            return bridge.ResolveWorldText("Дом бабая: {address:ADR-BABAI}. Найти его по маминым приметам и табличкам.");
-        if (bridge.IsInteractionAvailable("urman.chapter1:interaction/arrival-answer-mother"))
-            return "Телефон на скамье: ответить маме или пока промолчать.";
-        var state = bridge.SelectRuntimeState();
-        var messageRead = state.TryGetProperty("knowledge", out var knowledge)
-            && knowledge.TryGetProperty("urman.chapter1:knowledge/arrival_mother_message_read", out var message)
-            && message.TryGetProperty("status", out var status) && status.GetString() == "confirmed";
-        return messageRead
-            ? "Рядом с телефоном — старая фотография Марата."
-            : "Телефон на скамье справа — прочитать сообщение мамы.";
-    }
+    private string? ArrivalObjectiveText() =>
+        _bridge is { ActiveSceneId: "urman.chapter1:scene/arrival_vehicle_dusk" }
+            ? "Бабай довёз меня домой. Зайти к нему и әби — они ждут к чаю."
+            : null;
 
     private string? FamilyHomeObjectiveText()
     {
@@ -356,7 +346,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         }
 
         var entry = _projection[(int)index];
-        var displayedBody = SourceExcerptSelection.FormatPlainSourceText(entry.Body);
+        var displayedBody = DisplayJournalText(SourceExcerptSelection.FormatPlainSourceText(entry.Body));
         var sameSourceBody = _screen.Visible && ActiveEntryId == entry.EntryId && _body.Text == displayedBody;
         ActiveEntryId = entry.EntryId;
         _title.Text = entry.Title;
@@ -377,6 +367,11 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             _ => null
         };
         _source.Text = (status is null ? string.Empty : status + " · ") + $"Источник: {entry.SourceTitle}";
+        if ((entry.SourceId == AlsuAccountId || entry.SourceId == MaratNoticeId)
+            && _sourceProjection.Any(source => source.SourceId == AlsuAccountId)
+            && _sourceProjection.Any(source => source.SourceId == MaratNoticeId)
+            && !_sourceProjection.Any(source => source.EntryId == FirstConclusionId))
+            _source.Text += "\nТеперь обе записи у меня. Открою «Сопоставить» и проверю, что справка не объясняет.";
     }
 
     private static string EntryListTitle(ResolvedJournalEntry entry) => entry.Status switch
@@ -385,6 +380,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         "contradicted" => "Пересмотрено: " + entry.Title,
         _ => entry.Title
     };
+
+    private string DisplayJournalText(string text) => text.Replace("[J]",
+        InputBindingService.ActionHint("journal", FindPlayer()?.CurrentInputDevice == "gamepad"),
+        StringComparison.Ordinal);
 
     private void BuildComparisonUi()
     {
@@ -501,6 +500,25 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
                 if (entry.SourceId == selected) picker.Select(index);
             }
         }
+        // On the first case, place the two earned records on the page once.
+        // The player's later choices remain untouched.
+        if (SelectedSource(0) is null && SelectedSource(1) is null)
+        {
+            var firstPair = new[] { AlsuAccountId, MaratNoticeId };
+            if (firstPair.All(id => _sourceProjection.Any(entry => entry.SourceId == id)))
+            {
+                for (var slot = 0; slot < firstPair.Length; slot++)
+                {
+                    var picker = _sourcePickers[slot];
+                    for (var index = 1; index < picker.ItemCount; index++)
+                        if (picker.GetItemMetadata(index).AsString() == firstPair[slot])
+                        {
+                            picker.Select(index);
+                            break;
+                        }
+                }
+            }
+        }
         RefreshHypotheses();
     }
 
@@ -512,13 +530,22 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         var second = SelectedSource(1);
         if (first is null || second is null || first == second)
         {
-            _comparisonFeedback.Text = "Пока не с чем сравнивать. Нужны две разные записи — например, услышанная и прочитанная.";
+            var heard = _sourceProjection.Any(entry => entry.SourceId == AlsuAccountId);
+            var read = _sourceProjection.Any(entry => entry.SourceId == MaratNoticeId);
+            _comparisonFeedback.Text = heard && !read
+                ? "Слова Алсу записаны. Найду и прочитаю официальную справку о Марате, затем положу записи рядом."
+                : read && !heard
+                    ? "Справка записана. Поговорю с Алсу о том, что она слышала, затем сравню её слова с документом."
+                    : "Для сравнения нужны две разные записи — например, услышанная и прочитанная.";
             return;
         }
         var actions = _bridge?.JournalActions(new[] { first, second }) ?? [];
         _comparisonFeedback.Text = actions.Count == 0
-            ? "Эти две записи я уже сверил, или они пока ни к чему не ведут. Перечитаю их, когда появится новый вопрос."
-            : "Что из этих двух записей следует вместе? Поспешную запись можно зачеркнуть и переписать.";
+            ? ((first == AlsuAccountId && second == MaratNoticeId || first == MaratNoticeId && second == AlsuAccountId)
+                && _sourceProjection.Any(entry => entry.EntryId == FirstConclusionId)
+                ? "Вывод о справке уже записан в «Записях». С ним можно задать Наиле конкретный вопрос."
+                : "Эти две записи я уже сверил, или они пока ни к чему не ведут. Перечитаю их, когда появится новый вопрос.")
+            : "Что из этих двух записей следует вместе? Если версия не выдержит сверки, выберу другую.";
         foreach (var action in actions)
         {
             var button = new Button { Text = _bridge!.ResolveText(action.LabelTextId),
@@ -550,9 +577,9 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         }
     }
 
-    private static string RecordExcerpt(ResolvedJournalEntry entry)
+    private string RecordExcerpt(ResolvedJournalEntry entry)
     {
-        var plain = SourceExcerptSelection.FormatPlainSourceText(entry.Body).Replace("\r", string.Empty);
+        var plain = DisplayJournalText(SourceExcerptSelection.FormatPlainSourceText(entry.Body)).Replace("\r", string.Empty);
         var text = string.Join(" ", plain.Split('\n', StringSplitOptions.RemoveEmptyEntries)).Trim();
         const int limit = 150;
         if (text.Length <= limit) return text;
