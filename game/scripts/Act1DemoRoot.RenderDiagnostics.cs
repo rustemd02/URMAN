@@ -44,6 +44,7 @@ public partial class Act1DemoRoot
 
     public override void _Input(InputEvent inputEvent)
     {
+        if (DevQuickKey(inputEvent)) return;
         if (_rideCamera is not null && inputEvent is InputEventMouseMotion rideMotion
             && Input.MouseMode == Input.MouseModeEnum.Captured)
         {

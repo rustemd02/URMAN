@@ -25,4 +25,8 @@ if ! "$URMAN_ROOT/.tools/dotnet/dotnet" build game/Urman.Game.csproj \
   echo "act1-demo: C# build failed; the game was not started" >&2
   exit 1
 fi
+# Newly generated preview voice clips must be imported before the game can load them.
+echo "act1-demo: importing new assets"
+"$GODOT" --headless --path game --import >/dev/null 2>&1 ||
+  echo "act1-demo: asset import reported a problem; new voice clips may stay silent" >&2
 exec "$GODOT" --path game "$@"

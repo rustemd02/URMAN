@@ -95,15 +95,16 @@ public partial class Act1DemoRoot
         var bodyYaw = _player.RotationDegrees.Y;
         try
         {
-            // The voice was behind. Aidar turns slowly - and there is nobody.
+            // The voice was behind. Aidar turns slowly - and there is nobody. The
+            // voice does not stop: it keeps calling his name from here to the black.
+            StartNameCalls();
             var turn = CreateTween();
             turn.TweenProperty(_player, "rotation_degrees:y", bodyYaw + 180f, 1.1).SetTrans(Tween.TransitionType.Sine);
             _forestSilence = true;
             await PrologueWaitAsync(1.2);
             if (_prologueSkipRequested) return;
-            // The forest goes quiet; only breath and the heart.
+            // The forest goes quiet; only breath, the heart and the name.
             UiFoley.PlayWorld(this, _player.GlobalPosition + Vector3.Up * .3f, "forest/heartbeat", -8f, 10f, 3f);
-            ShowPrologueCaption("[тишина. никого.]", 2.2);
             await PrologueWaitAsync(2.3);
             if (_prologueSkipRequested) return;
             // Aidar turns back to the clearing...
@@ -112,43 +113,115 @@ public partial class Act1DemoRoot
             await PrologueWaitAsync(1.0);
             if (_prologueSkipRequested) return;
 
-            // ...and something unseen seizes him from under the snow and drags
-            // him down: the sting, a burst of snow, black. No creature is shown.
+            // ...and something unseen lunges at him. He does not fall: the sting, a burst
+            // of snow, a jolt of the head, and the world drains of colour.
             UiFoley.PlayWorld(this, _player.GlobalPosition + Vector3.Up * 1.2f, "forest/scare_sting", 4f, 30f, 12f);
-            UiFoley.PlayWorld(this, _player.GlobalPosition, "forest/body_fall", 0f, 20f, 6f);
+            UiFoley.PlayWorld(this, _player.GlobalPosition + Vector3.Up * 1.4f, "forest/knockout_ring", 3f, 40f, 16f);
             _deepForest?.SnowPuff(_player.GlobalPosition + Vector3.Up * 1.1f);
             if (head is not null)
             {
-                var grab = CreateTween().SetParallel();
-                grab.TweenProperty(head, "position:y", headTransform.Origin.Y - 1.55f, .16).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.In);
-                grab.TweenProperty(head, "rotation_degrees", new Vector3(-62f, 0, 18f), .16).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.In);
+                var jolt = CreateTween();
+                jolt.TweenProperty(head, "rotation_degrees", new Vector3(-8f, 0, 7f), .09).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
+                jolt.TweenProperty(head, "rotation_degrees", new Vector3(-3f, 0, 3f), 1.6).SetTrans(Tween.TransitionType.Sine);
             }
-            await PrologueWaitAsync(.14);
-            if (_prologueBlackout is not null)
-            {
-                _prologueFade?.Kill();
-                _prologueBlackout.Color = new Color(.9f, .93f, 1f, .95f);
-                _prologueFade = CreateTween();
-                _prologueFade.TweenProperty(_prologueBlackout, "color", new Color(0, 0, 0, 1), .12);
-            }
-            await PrologueWaitAsync(1.3);
+            FlashPrologueBlackout(.35f, .5);
+            DrainPrologueColour(1f, 1.4);
+            // The name goes on while the grey dims. Slowly it is not the forest's voice
+            // any more but babai's, calling him the same way.
+            _nameCallsFade = true;
+            await PrologueWaitAsync(1.6);
+            if (_prologueSkipRequested) return;
+            SlowPrologueBlackout(1f, 3.2);
+            var babai = PrologueVoice.PlayClip(this, "forest-babai-name");
+            if (babai <= 0) babai = PrologueVoice.PlayClip(this, "forest-wake-muffled");
+            ShowPrologueCaption("…Айдар… Айдар…", Math.Max(3, babai));
+            await PrologueWaitAsync(Math.Clamp(babai, 2.4, 4.2));
+            StopNameCalls();
             if (_prologueSkipRequested) return;
 
-            // Waking in the Niva: babai's voice first, in the dark.
+            // Waking in the Niva: babai's voice, clear now, in the dark.
             UiFoley.PlayWorld(this, _player.GlobalPosition + Vector3.Up * 1.5f, "forest/gasp", 0f, 10f, 4f);
             if (_prologueCaption is not null)
             {
                 _prologueCaptionToken++;
-                _prologueCaption.Text = "Мансур бабай: «Әй! Әй, улым, уян! Уян дим!»\n(Эй! Эй, сынок, проснись! Проснись, говорю!)";
+                _prologueCaption.Text = "Мансур бабай: «Айдар! Әй, улым, уян! Уян дим!»\n(Айдар! Эй, сынок, проснись! Проснись, говорю!)";
                 _prologueCaption.Visible = true;
             }
-            await PrologueWaitAsync(2.4);
+            await PrologueWaitAsync(Math.Max(2.4, PrologueVoice.PlayClip(this, "forest-wake") + .3));
         }
         finally
         {
             if (head is not null && IsInstanceValid(head)) head.Transform = headTransform;
+            StopNameCalls();
+            DrainPrologueColour(0f, 0);
             if (_deepForest?.Silhouette is { } figure && IsInstanceValid(figure)) figure.Visible = false;
         }
+    }
+
+    // "Айдар..." over and over from behind, each call from a slightly different place.
+    // When the colour drains it thins out under babai's voice instead of stopping.
+    private bool _nameCallsActive;
+    private bool _nameCallsFade;
+
+    private async void StartNameCalls()
+    {
+        if (_nameCallsActive) return;
+        _nameCallsActive = true;
+        _nameCallsFade = false;
+        var volume = -2f;
+        var index = 0;
+        while (_nameCallsActive && IsInsideTree() && _player is not null && !_prologueSkipRequested)
+        {
+            if (_nameCallsFade) volume -= 3.5f;
+            if (volume < -30f) break;
+            var behind = _player.GlobalBasis.Z.Normalized();
+            var side = _player.GlobalBasis.X.Normalized() * (index % 2 == 0 ? -1f : 1f) * 3f;
+            PrologueVoice.PlayAt(this, _player.GlobalPosition + behind * (9f - Mathf.Min(index, 5)) + side + Vector3.Up * 1.6f,
+                "forest-name-call", volume, 60f);
+            index++;
+            await PrologueWaitAsync(_nameCallsFade ? 1.05 : 1.35);
+        }
+        _nameCallsActive = false;
+    }
+
+    private void StopNameCalls() => _nameCallsActive = false;
+
+    // Screen-space desaturation above the world and under the blackout (0 = full colour).
+    private ColorRect? _prologueDesaturate;
+
+    private void DrainPrologueColour(float amount, double seconds)
+    {
+        if (_prologueOverlay is null || !IsInstanceValid(_prologueOverlay)) return;
+        if (_prologueDesaturate is null || !IsInstanceValid(_prologueDesaturate))
+        {
+            if (amount <= 0f) return;
+            _prologueDesaturate = new ColorRect
+            {
+                Name = "PrologueDesaturate",
+                MouseFilter = Control.MouseFilterEnum.Ignore,
+                Material = new ShaderMaterial
+                {
+                    Shader = new Shader
+                    {
+                        Code = "shader_type canvas_item;\nuniform sampler2D screen_tex : hint_screen_texture, filter_linear;\nuniform float amount = 0.0;\n"
+                            + "void fragment() {\n  vec3 c = texture(screen_tex, SCREEN_UV).rgb;\n  float g = dot(c, vec3(0.299, 0.587, 0.114));\n"
+                            + "  COLOR = vec4(mix(c, vec3(g) * 0.82, amount), 1.0);\n}\n"
+                    }
+                }
+            };
+            StretchFullScreen(_prologueDesaturate);
+            _prologueOverlay.AddChild(_prologueDesaturate);
+            _prologueOverlay.MoveChild(_prologueDesaturate, 0);
+        }
+        var material = (ShaderMaterial)_prologueDesaturate.Material;
+        if (seconds <= 0)
+        {
+            material.SetShaderParameter("amount", amount);
+            if (amount <= 0f) { _prologueDesaturate.QueueFree(); _prologueDesaturate = null; }
+            return;
+        }
+        CreateTween().TweenMethod(Callable.From<float>(value => material.SetShaderParameter("amount", value)),
+            (float)material.GetShaderParameter("amount"), amount, seconds);
     }
 
     private void FlashPrologueBlackout(float alpha, double seconds)
@@ -179,9 +252,8 @@ public partial class Act1DemoRoot
     // player who stands still. Nothing is collected; there is no gate.
     private async Task RunDeepForestWalkAsync(PrologueDeepForest forest)
     {
-        var fired = new bool[14];
+        var fired = new bool[24];
         var nextAmbient = 4.0;
-        var owlCaptioned = false;
         var best = 0f;
         var lastGain = 0d;
         var silhouetteAt = -1d;
@@ -199,12 +271,20 @@ public partial class Act1DemoRoot
             if (p > best + .5f) { best = p; lastGain = t; }
 
             if (!fired[0] && t > 1.2) { fired[0] = true; ShowPrologueCaption("Урман. Несколько дней спустя.", 4.5); }
+            if (!fired[14] && t > 2.2)
+            {
+                fired[14] = true;
+                // A cold low bed under the whole walk: the forest is not empty.
+                UiFoley.PlayWorld(this, feet + Vector3.Up * 1.5f, "forest/dread_drone", -20f, 60f, 30f);
+            }
+            if (!fired[15] && p >= 24f) { fired[15] = true; ForestVoiceCall(feet, "forest-call-hey", 38f, -55f, -3f); }
+            if (!fired[16] && p >= 78f) { fired[16] = true; ForestVoiceCall(feet, "forest-call-far", 46f, 62f, 0f); }
+            if (!fired[17] && p >= 138f) { fired[17] = true; ForestVoiceCall(feet, "forest-call-hey", 30f, 165f, 2f); }
             if (!fired[1] && p >= 14f) { fired[1] = true; ShowPrologueCaption("Свежие следы. Кто-то прошёл здесь совсем недавно.", 4.5); }
             if (!fired[2] && p >= 32f)
             {
                 fired[2] = true;
                 KnockInTheDark(forest.ToWorld(PrologueDeepForest.TrackX(-40f) - 22f, -40f, 2f));
-                ShowPrologueCaption("[где-то слева, в глубине, стучат по дереву]", 4);
             }
             if (!fired[3] && p >= 50f) { fired[3] = true; ShowPrologueCaption("Высоко на ветке — синяя детская варежка. Рукой туда не достать.", 5); }
             if (!fired[7] && p >= -PrologueDeepForest.FallenSpruceZ - 9f)
@@ -218,7 +298,7 @@ public partial class Act1DemoRoot
                 figure.Visible = true;
                 silhouetteAt = t;
                 UiFoley.PlayWorld(this, figure.GlobalPosition + Vector3.Up * 2f, "hollow_board");
-                ShowPrologueCaption("[между деревьями, тихо: «Айдар…»]", 4);
+                ShowPrologueCaption("«Айдар…»", Math.Max(2.5, PrologueVoice.PlayClip(this, "forest-name-call") + .5));
             }
             if (silhouetteAt >= 0 && forest.Silhouette is { Visible: true } shown)
             {
@@ -239,14 +319,10 @@ public partial class Act1DemoRoot
             if (!fired[9] && fired[8] && p >= -PrologueDeepForest.HutZ - 8f)
             {
                 fired[9] = true;
-                forest.PutOutHutLight();
-                UiFoley.PlayWorld(this, forest.ToWorld(PrologueDeepForest.TrackX(PrologueDeepForest.HutZ) - 13f, PrologueDeepForest.HutZ, 1.4f), "hollow_board");
-                ShowPrologueCaption("Свет в окне погас.", 3.5);
+                HutScare(forest);
             }
-            if (!fired[5] && p >= 160f) { fired[5] = true; glintsAt = t; foreach (var glint in forest.EyeGlints) glint.Visible = true; }
-            if (glintsAt >= 0)
-                for (var index = 0; index < forest.EyeGlints.Count; index++)
-                    if (t - glintsAt > 2.6 + index * .75) forest.EyeGlints[index].Visible = false;
+            if (!fired[5] && p >= 138f) { fired[5] = true; glintsAt = t; _glintLookedAt.Clear(); }
+            if (glintsAt >= 0) UpdateEyeGlints(forest, t - glintsAt);
             if (!fired[6] && p >= -PrologueDeepForest.ClearingZ - 7f)
             {
                 fired[6] = true;
@@ -255,8 +331,9 @@ public partial class Act1DemoRoot
             }
             if (fired[6] && (t - clearingAt > 6.5 || p >= -PrologueDeepForest.ClearingZ + 4f))
             {
-                ShowPrologueCaption("[за спиной, совсем близко: «Айдар. Кил монда…»]", 3);
-                await PrologueWaitAsync(1.9);
+                var callLength = PrologueVoice.PlayClip(this, "forest-come-here");
+                ShowPrologueCaption("«Айдар. Кил монда…»", Math.Max(2.5, callLength + .5));
+                await PrologueWaitAsync(Math.Max(1.9, Math.Min(callLength, 8)));
                 break;
             }
             // The living night: owls high in the crowns, cracks, rustles close
@@ -265,31 +342,28 @@ public partial class Act1DemoRoot
             {
                 nextAmbient = t + 4.5 + _forestRng.Randf() * 6.5;
                 var owl = ForestAmbientEvent(forest, p);
-                if (owl && !owlCaptioned) { owlCaptioned = true; ShowPrologueCaption("[где-то высоко, в кронах, ухает сова]", 3.5); }
+                _ = owl;
             }
             if (!fired[10] && p >= 20f)
             {
                 fired[10] = true;
                 ForestSound(forest, feet, "forest/wolf_far", 95f, 4f, -4f, 260f, 40f);
-                ShowPrologueCaption("[очень далеко воет волк]", 4);
             }
             if (!fired[11] && p >= 88f)
             {
                 fired[11] = true;
                 RunAcrossTrack(forest, feet);
-                ShowPrologueCaption("[что-то быстро пробежало через просеку]", 4);
             }
             if (!fired[12] && p >= 128f)
             {
                 fired[12] = true;
-                ForestSound(forest, feet, "forest/fox_scream", 38f, 1f, -3f, 140f, 18f);
-                ShowPrologueCaption("[короткий истошный крик в чаще]", 4);
+                var screamAt = ForestSoundAt(feet, "forest/fox_scream", 38f, 1f, -3f, 140f, 18f);
+                ShowScreamSource(forest, screamAt);
             }
             if (!fired[13] && p >= 184f)
             {
                 fired[13] = true;
                 ForestSound(forest, feet, "forest/low_moan", 22f, .5f, -6f, 80f, 10f);
-                ShowPrologueCaption("[низкий протяжный звук — не зверь и не ветер]", 4.5);
             }
             if (t - lastGain > 22 && t > 20) { lastGain = t; ShowPrologueCaption("Следы ведут дальше по просеке.", 4); }
             if (t > 300) break;
@@ -339,11 +413,33 @@ public partial class Act1DemoRoot
 
     // A sound at a random bearing and distance from the walker.
     private void ForestSound(PrologueDeepForest forest, Vector3 from, string sample, float distance, float height,
+        float volumeDb, float maxDistance, float unitSize) =>
+        ForestSoundAt(from, sample, distance, height, volumeDb, maxDistance, unitSize);
+
+    private Vector3 ForestSoundAt(Vector3 from, string sample, float distance, float height,
         float volumeDb, float maxDistance, float unitSize)
     {
         var angle = _forestRng.RandfRange(0, Mathf.Tau);
         var at = from + new Vector3(Mathf.Cos(angle) * distance, height, Mathf.Sin(angle) * distance);
         UiFoley.PlayWorld(this, at, sample, volumeDb, maxDistance, unitSize);
+        return at;
+    }
+
+    // The thing that screamed has a life of about a second: the tall figure
+    // stands where the cry came from and is gone, leaving only a snow puff.
+    private async void ShowScreamSource(PrologueDeepForest forest, Vector3 cryAt)
+    {
+        if (forest.Silhouette is not { } figure || _player is null) return;
+        var toward = (cryAt - _player.GlobalPosition) with { Y = 0 };
+        var spot = _player.GlobalPosition + toward.Normalized() * Math.Min(toward.Length(), 26f);
+        var local = spot - PrologueDeepForest.Origin;
+        figure.GlobalPosition = forest.ToWorld(local.X, local.Z);
+        figure.LookAt(new Vector3(_player.GlobalPosition.X, figure.GlobalPosition.Y, _player.GlobalPosition.Z), Vector3.Up, true);
+        figure.Visible = true;
+        await ToSignal(GetTree().CreateTimer(.9), SceneTreeTimer.SignalName.Timeout);
+        if (!IsInstanceValid(figure)) return;
+        figure.Visible = false;
+        forest.SnowPuff(figure.GlobalPosition + Vector3.Up * .4f);
     }
 
     // Something crosses the track a few metres ahead, left to right, through
@@ -351,12 +447,13 @@ public partial class Act1DemoRoot
     private async void RunAcrossTrack(PrologueDeepForest forest, Vector3 feet)
     {
         var local = feet - PrologueDeepForest.Origin;
-        var z = local.Z - 9f;
+        // Far ahead and quick: a glimpse, not a show (author feedback 2026-09-29).
+        var z = local.Z - 21f;
         var cx = PrologueDeepForest.TrackX(z);
-        var from = forest.ToWorld(cx - 14f, z, .5f);
-        var to = forest.ToWorld(cx + 14f, z - 3f, .5f);
-        var runner = UiFoley.PlayWorld(this, from, "forest/runner_past", -2f, 45f, 6f);
-        const double duration = 1.7;
+        var from = forest.ToWorld(cx - 16f, z, .5f);
+        var to = forest.ToWorld(cx + 16f, z - 4f, .5f);
+        var runner = UiFoley.PlayWorld(this, from, "forest/runner_past", -9f, 45f, 6f);
+        const double duration = 1.15;
         var elapsed = 0d;
         var puffAt = 0d;
         while (elapsed < duration && IsInsideTree() && _prologueForestActive)
@@ -367,8 +464,8 @@ public partial class Act1DemoRoot
             if (runner is not null && IsInstanceValid(runner)) runner.GlobalPosition = position;
             if (elapsed >= puffAt)
             {
-                puffAt += .22;
-                forest.SnowPuff(position with { Y = position.Y - .2f });
+                puffAt += .5;
+                if (Mathf.Abs(position.X - forest.ToWorld(cx, z).X) < 5f) forest.SnowPuff(position with { Y = position.Y - .2f });
                 foreach (var bush in forest.Bushes.Where(bush => bush.GlobalPosition.DistanceTo(position) < 2.6f))
                     forest.Shake(bush, 1.2f);
             }
@@ -385,6 +482,76 @@ public partial class Act1DemoRoot
         }
     }
 
+    /// <summary>A voice from among the trees: <paramref name="bearing"/> degrees off the way Aidar faces.</summary>
+    private void ForestVoiceCall(Vector3 feet, string clip, float distance, float bearing, float volumeDb)
+    {
+        if (_player is null) return;
+        var facing = -_player.GlobalBasis.Z;
+        facing.Y = 0;
+        var direction = facing.Normalized().Rotated(Vector3.Up, Mathf.DegToRad(bearing));
+        PrologueVoice.PlayAt(this, feet + direction * distance + Vector3.Up * 1.7f, clip, volumeDb);
+    }
+
+    // The lit hut answers a step too close: the window flares twice, something
+    // inside strikes the wall, the light dies. A short jolt, nothing shown.
+    private async void HutScare(PrologueDeepForest forest)
+    {
+        var hutAt = forest.ToWorld(PrologueDeepForest.TrackX(PrologueDeepForest.HutZ) - 13f, PrologueDeepForest.HutZ, 1.4f);
+        for (var flicker = 0; flicker < 2; flicker++)
+        {
+            forest.HutLight!.Visible = false;
+            await ToSignal(GetTree().CreateTimer(.11), SceneTreeTimer.SignalName.Timeout);
+            forest.HutLight.Visible = true;
+            forest.HutLight.LightEnergy = 3.2f;
+            await ToSignal(GetTree().CreateTimer(.14), SceneTreeTimer.SignalName.Timeout);
+        }
+        UiFoley.PlayWorld(this, hutAt, "hollow_board", 2f, 40f, 8f);
+        UiFoley.PlayWorld(this, hutAt, "forest/scare_sting", -10f, 40f, 10f);
+        forest.PutOutHutLight();
+        FlashPrologueBlackout(.3f, .35);
+    }
+
+    // Eyes in the trees. They open one by one, follow the walker and blink; each
+    // shuts for good the moment it is looked at, or after a few seconds.
+    private readonly Dictionary<Node3D, double> _glintLookedAt = new();
+
+    private void UpdateEyeGlints(PrologueDeepForest forest, double sinceStart)
+    {
+        if (_player is null) return;
+        var camera = _player.GetNodeOrNull<Camera3D>("Head/Camera3D");
+        var facing = camera is null ? -_player.GlobalBasis.Z : -camera.GlobalBasis.Z;
+        for (var index = 0; index < forest.EyeGlints.Count; index++)
+        {
+            var glint = forest.EyeGlints[index];
+            var opensAt = 0.3 + index * .9;
+            var alive = sinceStart > opensAt && sinceStart < opensAt + 6.5 && !_glintLookedAt.ContainsKey(glint);
+            if (!alive)
+            {
+                if (glint.Visible)
+                {
+                    glint.Visible = false;
+                    UiFoley.PlayWorld(this, glint.GlobalPosition, "forest/strange_clicks", -16f, 30f, 4f);
+                }
+                continue;
+            }
+            if (!glint.Visible)
+            {
+                glint.Visible = true;
+                UiFoley.PlayWorld(this, glint.GlobalPosition, "forest/strange_clicks", -18f, 30f, 4f);
+            }
+            var target = _player.GlobalPosition + Vector3.Up * 1.5f;
+            glint.LookAt(target, Vector3.Up, true);
+            var blink = Math.Sin(sinceStart * 2.1 + index * 1.7) > .93;
+            glint.Scale = new Vector3(1f, blink ? .08f : 1f, 1f);
+            var toGlint = (glint.GlobalPosition - target).Normalized();
+            var looked = facing.Dot(toGlint) > .965f;
+            if (looked)
+            {
+                _glintLookedAt[glint] = sinceStart;
+            }
+        }
+    }
+
     private async void ShowPrologueCaption(string text, double seconds)
     {
         if (_prologueCaption is null) return;
@@ -398,6 +565,7 @@ public partial class Act1DemoRoot
 
     private void ReleaseDeepForest()
     {
+        PrologueVoice.Stop();
         FirstPersonController.DetachedWorldGuard = null;
         if (_deepForest is not null && IsInstanceValid(_deepForest)) _deepForest.QueueFree();
         _deepForest = null;
@@ -451,10 +619,15 @@ public partial class Act1DemoRoot
             OffsetTop = 24, OffsetBottom = 64, HorizontalAlignment = HorizontalAlignment.Right,
             MouseFilter = Control.MouseFilterEnum.Ignore
         };
-        skip.AddThemeFontSizeOverride("font_size", 18);
+        skip.AddThemeFontSizeOverride("font_size", 14);
         skip.AddThemeColorOverride("font_outline_color", Colors.Black);
-        skip.AddThemeConstantOverride("outline_size", 5);
+        skip.AddThemeConstantOverride("outline_size", 4);
+        skip.Modulate = new Color(1, 1, 1, .6f);
         _prologueOverlay.AddChild(skip);
+        // Shown at the start, then it fades away instead of sitting on the cinematic frame like debug UI.
+        var hintFade = CreateTween();
+        hintFade.TweenInterval(6.0);
+        hintFade.TweenProperty(skip, "modulate:a", 0f, 1.5);
     }
 
     private void FadePrologueBlackout(bool visible)

@@ -613,37 +613,43 @@ def build_radio(root):
 
 def fleece(name, size, center, parent, rotation=(0, 0, 0)):
     """Sheepskin: a soft slab whose surface is broken into woolly lumps."""
-    obj = box(name, size, center, "b8a07c", "sheepskin", parent, min(size) * .45, 3, rotation)
+    obj = box(name, size, center, "9a8562", "sheepskin", parent, min(size) * .48, 3, rotation)
     sub = obj.modifiers.new("Sub", "SUBSURF")
     sub.levels = 2
     tex = bpy.data.textures.new(name + "Wool", "CLOUDS")
     tex.noise_scale = .025
     disp = obj.modifiers.new("Wool", "DISPLACE")
     disp.texture = tex
-    disp.strength = .012
+    disp.strength = .02
     apply_modifiers(obj)
     return obj
 
 
 def seat(prefix, x, parent, sheepskin=False):
     """Front bucket seat: cushion, reclined back and headrest on posts, vinyl
-    bolsters around a cloth centre."""
-    box(f"{prefix}_Frame", (.44, .06, .46), (x, .56, .10), "1c1e1c", "metal", parent, .01)
+    bolsters around a cloth centre. Author feedback 2026-09-29: the old seat sat
+    too far forward and too high, pressing into a seated driver's back and
+    leaving no headroom, so the whole seat moved 7 cm back and 4 cm down and the
+    back reclines further."""
+    dz, dy = .02, -.04
+    box(f"{prefix}_Frame", (.44, .06, .46), (x, .56, .10 + dz), "1c1e1c", "metal", parent, .01)
     for rail in (-.17, .17):
-        box(f"{prefix}_Rail{rail}", (.03, .03, .60), (x + rail, .515, .05), "2c2e2b", "metal", parent, .006)
-    box(f"{prefix}_Cushion", (.50, .12, .50), (x, .70, .10), "302f2b", "vinyl", parent, .045, 4)
-    box(f"{prefix}_Back", (.50, .58, .11), (x, 1.02, .40), "302f2b", "vinyl", parent, .045, 4, rotation=(-12, 0, 0))
+        box(f"{prefix}_Rail{rail}", (.03, .03, .60), (x + rail, .515, .05 + dz), "2c2e2b", "metal", parent, .006)
+    box(f"{prefix}_Cushion", (.50, .12, .50), (x, .70 + dy, .10 + dz), "302f2b", "vinyl", parent, .045, 4)
+    box(f"{prefix}_Back", (.50, .58, .11), (x, 1.00 + dy * .5, .40 + dz + .03), "302f2b", "vinyl", parent, .045, 4, rotation=(-18, 0, 0))
     for post in (-.07, .07):
-        beam(f"{prefix}_HeadPost{post}", (x + post, 1.28, .455), (x + post, 1.36, .47), .012, "8f938c", "chrome", parent)
-    box(f"{prefix}_Headrest", (.27, .17, .085), (x, 1.43, .485), "302f2b", "vinyl", parent, .035, 4, rotation=(-8, 0, 0))
-    box(f"{prefix}_Recliner", (.02, .06, .06), (x + (.26 if x > 0 else -.26), .78, .32), "1c1e1c", "plastic", parent, .008)
+        beam(f"{prefix}_HeadPost{post}", (x + post, 1.26 + dy * .5, .455 + dz + .06), (x + post, 1.34 + dy * .5, .47 + dz + .07), .012, "8f938c", "chrome", parent)
+    box(f"{prefix}_Headrest", (.27, .17, .085), (x, 1.41 + dy * .5, .485 + dz + .075), "302f2b", "vinyl", parent, .035, 4, rotation=(-14, 0, 0))
+    box(f"{prefix}_Recliner", (.02, .06, .06), (x + (.26 if x > 0 else -.26), .78 + dy, .32 + dz), "1c1e1c", "plastic", parent, .008)
     if sheepskin:
-        # Babay drives on a sheepskin cover, as village drivers do in winter.
-        fleece(f"{prefix}_FleeceSeat", (.46, .045, .46), (x, .775, .09), parent)
-        fleece(f"{prefix}_FleeceBack", (.46, .54, .045), (x, 1.02, .343), parent, rotation=(-12, 0, 0))
+        # Babay drives on a sheepskin cover, as village drivers do in winter: a
+        # thick tan pelt that follows the cushion and stops short of the seat's
+        # top and edges, so it reads as a cover and not as a white slab.
+        fleece(f"{prefix}_FleeceSeat", (.44, .05, .44), (x, .775 + dy, .09 + dz), parent)
+        fleece(f"{prefix}_FleeceBack", (.40, .44, .05), (x, .98 + dy * .5, .343 + dz + .045), parent, rotation=(-18, 0, 0))
     else:
-        box(f"{prefix}_ClothSeat", (.30, .012, .42), (x, .763, .09), "5a5046", "cloth", parent, .004)
-        box(f"{prefix}_ClothBack", (.30, .44, .012), (x, 1.03, .343), "5a5046", "cloth", parent, .004, rotation=(-12, 0, 0))
+        box(f"{prefix}_ClothSeat", (.30, .012, .42), (x, .763 + dy, .09 + dz), "5a5046", "cloth", parent, .004)
+        box(f"{prefix}_ClothBack", (.30, .44, .012), (x, 1.01 + dy * .5, .343 + dz + .045), "5a5046", "cloth", parent, .004, rotation=(-18, 0, 0))
 
 
 def rubber_mat(name, x0, x1, z0, z1, parent, y=.506):
@@ -796,7 +802,7 @@ def build_interior(root):
             rotation=(0, 6, 0))
 
     # Steering column shroud, stalks and the key in the ignition.
-    beam("NivaCab_Column", (-.40, .95, -.47), (-.40, 1.04, -.30), .07, "1d1f1d", "plastic", root, .08)
+    beam("NivaCab_Column", (-.40, .97, -.50), (-.40, 1.085, -.19), .07, "1d1f1d", "plastic", root, .08)
     for side, colour in ((-1, "1d1f1d"), (1, "1d1f1d")):
         beam(f"NivaCab_Stalk{side}", (-.40 + side * .03, 1.00, -.37), (-.40 + side * .15, 1.01, -.35), .009, colour, "plastic", root)
     cylinder_z("NivaCab_IgnitionRing", .013, .01, (-.34, .985, -.36), "a0a39b", "chrome", root, 14)
@@ -851,13 +857,15 @@ def build_interior(root):
         box(f"NivaCab_BeltAnchor{side}", (.02, .05, .03), (side * .74, 1.52, .49), "3a3c38", "metal", root, .005)
     box("NivaCab_Headliner", (1.46, .012, 1.84), (0, 1.636, .615), "c9c3b3", "headliner", root, .006)
     for x in (-.36, .36):
-        box(f"NivaCab_Visor{x}", (.36, .014, .15), (x, 1.605, -.25), "bfb9a8", "vinyl", root, .006, rotation=(-12, 0, 0))
+        # Flipped up against the roof and slimmer (author feedback 2026-09-29: the
+        # passenger's visor filled the view from the front seat).
+        box(f"NivaCab_Visor{x}", (.30, .012, .10), (x, 1.622, -.27), "bfb9a8", "vinyl", root, .005, rotation=(-3, 0, 0))
     # A tucked card and a folded paper in the driver's visor strap.
-    box("NivaCab_VisorPaper", (.14, .003, .09), (-.40, 1.595, -.245), "e8e2cf", "cloth", root, rotation=(-12, 0, 0))
-    box("NivaCab_VisorStrap", (.02, .005, .13), (-.30, 1.597, -.25), "3a3833", "vinyl", root, rotation=(-12, 0, 0))
-    beam("NivaCab_MirrorStem", (0, 1.63, -.33), (0, 1.585, -.345), .014, "1d1f1d", "plastic", root)
-    box("NivaCab_Mirror", (.22, .065, .025), (0, 1.555, -.355), "1d1f1d", "plastic", root, .012, 3, rotation=(8, 0, 0))
-    box("NivaCab_MirrorGlass", (.205, .05, .003), (0, 1.555, -.341), "9aa8a2", "glass", root, rotation=(8, 0, 0))
+    box("NivaCab_VisorPaper", (.12, .003, .07), (-.40, 1.613, -.265), "e8e2cf", "cloth", root, rotation=(-3, 0, 0))
+    box("NivaCab_VisorStrap", (.02, .005, .09), (-.30, 1.614, -.27), "3a3833", "vinyl", root, rotation=(-3, 0, 0))
+    beam("NivaCab_MirrorStem", (0, 1.63, -.33), (0, 1.60, -.345), .014, "1d1f1d", "plastic", root)
+    box("NivaCab_Mirror", (.17, .05, .022), (0, 1.578, -.355), "1d1f1d", "plastic", root, .012, 3, rotation=(8, 0, 0))
+    box("NivaCab_MirrorGlass", (.155, .038, .003), (0, 1.578, -.341), "9aa8a2", "glass", root, rotation=(8, 0, 0))
     box("NivaCab_DomeLight", (.12, .022, .07), (0, 1.622, .40), "d8d4c4", "plastic", root, .008)
 
 

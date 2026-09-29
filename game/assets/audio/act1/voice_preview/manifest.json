@@ -1,0 +1,92 @@
+{
+  "forest-wake": {
+    "speaker": "mansur",
+    "voice": "Algenib",
+    "model": "gemini-3.8-flash-lite-tts",
+    "text": "Әй! Әй, улым, уян! Уян дим!",
+    "synthetic": true,
+    "seconds": 3.16,
+    "sha256": "d6ea4a4bc6ae6bc340856843ff96c891a8dcf5f08c2adab3973022c987c8a11d"
+  },
+  "forest-name-call": {
+    "speaker": "marat",
+    "voice": "Puck",
+    "model": "gemini-3.8-flash-lite-tts",
+    "text": "Айдар…",
+    "synthetic": true,
+    "seconds": 1.2,
+    "sha256": "e59bc28fa7065a5d5c9fbfc8ce0736cdf4b26ec738befe3703bf56724fffdc38"
+  },
+  "forest-come-here": {
+    "speaker": "marat",
+    "voice": "Puck",
+    "model": "gemini-3.8-flash-lite-tts",
+    "text": "Айдар. Кил монда…",
+    "synthetic": true,
+    "seconds": 2.4,
+    "sha256": "134216913cf26157943b93d10e621b055b9e93dfa8fbbb730f0bf1e39f215370"
+  },
+  "forest-call-far": {
+    "speaker": "marat",
+    "voice": "Puck",
+    "model": "gemini-3.8-flash-lite-tts",
+    "text": "Эй! Эй! Айдар! Кил монда!",
+    "synthetic": true,
+    "seconds": 3.24,
+    "sha256": "db08a54d8fbd2bc2c36f92ed98e9756f0f6530586ea91360abb73544092b18f4"
+  },
+  "forest-call-hey": {
+    "speaker": "marat",
+    "voice": "Puck",
+    "model": "gemini-3.8-flash-lite-tts",
+    "text": "Эй… эй… эй…",
+    "synthetic": true,
+    "seconds": 3.92,
+    "sha256": "18b16395e3091349826558256836eafe9058175ac21a60804a21fcb5a3ebd18a"
+  },
+  "prologue-niva-question": {
+    "speaker": "mansur",
+    "voice": "Algenib",
+    "model": "gemini-3.8-flash-lite-tts",
+    "text": "Йә, улым, Казанда татарчаны бөтенләй оныттыңмы әллә?» (Ну что, сынок, в Казани татарский совсем забыл, что ли?)",
+    "synthetic": true,
+    "seconds": 11.16,
+    "sha256": "251490afb3d3458e3890cdbedb0104edca649b802a10817c58daa96f9ba0ae99"
+  },
+  "prologue-niva-none-reply": {
+    "speaker": "mansur",
+    "voice": "Algenib",
+    "model": "gemini-3.8-flash-lite-tts",
+    "text": "Ярар, ярар — ладно, ладно. Буду по-русски, а татарские слова — по одному. Вот: „юл“ — дорога, „өй“ — дом. Уже половина разговора».",
+    "synthetic": true,
+    "seconds": 13.84,
+    "sha256": "7fbc559468a9ab77000cbcff4880003c837a4e1a1621043b733096a036fc4dfe"
+  },
+  "prologue-niva-some-reply": {
+    "speaker": "mansur",
+    "voice": "Algenib",
+    "model": "gemini-3.8-flash-lite-tts",
+    "text": "Аз-маз — ул да яхшы! Немного — тоже хорошо. Буду вперемешку: бабай, әби, өй, юл — это ты и так помнишь».",
+    "synthetic": true,
+    "seconds": 12.16,
+    "sha256": "ac07322e6147380161fa023259a72e9f6d57e4800904b4a9dd6d21970f309d33"
+  },
+  "prologue-niva-fluent-reply": {
+    "speaker": "mansur",
+    "voice": "Algenib",
+    "model": "gemini-3.8-flash-lite-tts",
+    "text": "Менә бит! Алайса татарча гына сөйләшәбез — әбиең дә шатланыр». (Вот это да! Тогда говорим только по-татарски — әби обрадуется.)",
+    "synthetic": true,
+    "seconds": 12.76,
+    "sha256": "c22f9198c723103f6792a33bc44bdc9533b124301123b77c3a5bad072dbaa0ee"
+  },
+  "prologue-niva-skip-reply": {
+    "speaker": "mansur",
+    "voice": "Algenib",
+    "model": "gemini-3.8-flash-lite-tts",
+    "text": "Ярар, эндәшмә. Юл озын әле — ещё поговорим».",
+    "synthetic": true,
+    "seconds": 6.68,
+    "sha256": "2751a0775f01de06e9da0221e3eb4508588e996ef8b767452c2c888e5d7a312f"
+  }
+}

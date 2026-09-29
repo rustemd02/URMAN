@@ -151,6 +151,11 @@ public partial class FootstepAudioController : Node
             _activeSurface = surface;
         }
 
+        // The prologue's deep forest: deep snow swallows each step, so they are
+        // softer and duller than on the village paths (author feedback 2026-09-29).
+        var deepForest = FirstPersonController.DetachedWorldGuard is not null;
+        _stepPlayer.VolumeDb = deepForest ? -26f : -14f;
+        _stepPlayer.PitchScale = deepForest ? .88f : 1f;
         _stepPlayer.Play();
     }
 

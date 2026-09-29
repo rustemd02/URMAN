@@ -23,6 +23,8 @@ public partial class PrologueDeepForest : Node3D
 
     private readonly RandomNumberGenerator _rng = new() { Seed = 0x55524d31 };
     private readonly List<Vector3> _colliderTrees = new();
+    // Live trunks further in, where eyes can watch from.
+    private readonly List<Vector3> _deepTrunks = new();
 
     public Node3D? Silhouette { get; private set; }
     public Node3D? Mitten { get; private set; }
@@ -200,6 +202,7 @@ public partial class PrologueDeepForest : Node3D
                 var isNear = d < 16f;
                 (dead ? (isNear ? deadN : deadF) : (isNear ? near : far)).Add(transform);
                 if (d < 7.5f && d >= 2.4f) _colliderTrees.Add(new Vector3(px, Ground(px, pz), pz));
+                else if (!dead && d is > 8f and < 28f) _deepTrunks.Add(new Vector3(px, Ground(px, pz), pz));
             }
             AddFamily($"Pines{chunkStart:0}", pineNear.Value, near);
             AddFamily($"PinesFar{chunkStart:0}", pineFar.Value, far);
@@ -230,27 +233,40 @@ public partial class PrologueDeepForest : Node3D
     // of the clearing.
     private void BuildFootprints()
     {
-        var transforms = new List<Transform3D>();
+        // Deep-snow boot prints (author feedback 2026-09-29: the flat grey boxes read as
+        // dots). Each print is a trampled rim of loose snow, a shadowed sole hollow and a
+        // deeper heel, with an uneven stride and a slight toe-out.
+        var soles = new List<Transform3D>();
+        var heels = new List<Transform3D>();
+        var rims = new List<Transform3D>();
         var left = true;
-        for (var z = -8f; z > ClearingZ; z -= .74f)
+        for (var z = -8f; z > ClearingZ; z -= _rng.RandfRange(.68f, .82f))
         {
-            var x = TrackX(z) + (left ? -.14f : .14f) + _rng.RandfRange(-.05f, .05f);
-            var yaw = Mathf.Atan2(TrackX(z - .5f) - TrackX(z + .5f), -1f);
-            transforms.Add(new Transform3D(new Basis(Vector3.Up, yaw), new Vector3(x, Ground(x, z) + .012f, z)));
+            var x = TrackX(z) + (left ? -.13f : .13f) + _rng.RandfRange(-.04f, .04f);
+            var yaw = Mathf.Atan2(TrackX(z - .5f) - TrackX(z + .5f), -1f) + (left ? .12f : -.12f) + _rng.RandfRange(-.06f, .06f);
+            var basis = new Basis(Vector3.Up, yaw);
+            var ground = Ground(x, z);
+            var at = new Vector3(x, ground, z);
+            rims.Add(new Transform3D(basis.Scaled(new Vector3(1f, 1f, 2.1f)), at + Vector3.Up * .006f));
+            soles.Add(new Transform3D(basis.Scaled(new Vector3(.95f, 1f, 1.65f)), at + basis * new Vector3(0, .011f, -.03f)));
+            heels.Add(new Transform3D(basis, at + basis * new Vector3(0, .014f, .1f)));
             left = !left;
         }
-        var multi = new MultiMesh
-        {
-            TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
-            Mesh = new BoxMesh { Size = new Vector3(.11f, .02f, .27f) },
-            InstanceCount = transforms.Count
-        };
+        AddPrintLayer("DeepForestPrintRims", rims, new CylinderMesh { TopRadius = .085f, BottomRadius = .1f, Height = .012f, RadialSegments = 14 }, "e9eef3", "snow_trampled");
+        AddPrintLayer("DeepForestPrintSoles", soles, new CylinderMesh { TopRadius = .06f, BottomRadius = .065f, Height = .01f, RadialSegments = 14 }, "8795a8", "snow_trampled");
+        AddPrintLayer("DeepForestPrintHeels", heels, new CylinderMesh { TopRadius = .045f, BottomRadius = .05f, Height = .01f, RadialSegments = 12 }, "6e7c90", "snow_trampled");
+    }
+
+    private void AddPrintLayer(string name, List<Transform3D> transforms, Mesh mesh, string color, string surface)
+    {
+        var multi = new MultiMesh { TransformFormat = MultiMesh.TransformFormatEnum.Transform3D, Mesh = mesh, InstanceCount = transforms.Count };
         for (var index = 0; index < transforms.Count; index++) multi.SetInstanceTransform(index, transforms[index]);
         AddChild(new MultiMeshInstance3D
         {
-            Name = "DeepForestFootprints",
+            Name = name,
             Multimesh = multi,
-            MaterialOverride = PainterlyMaterialLibrary.ForColor("77818b", "snow_trampled")
+            MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface),
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
         });
     }
 
@@ -335,27 +351,48 @@ public partial class PrologueDeepForest : Node3D
     // Pairs of faint glints deep in the dark: animal eyes, or not.
     private void BuildEyeGlints()
     {
-        var glow = new StandardMaterial3D
+        // Yellow eyes with a slit pupil, set on real trunks deep off the track, facing
+        // the walker. Author feedback 2026-09-29: the old ones were two loose dots in
+        // the air. Whose they are stays unclear: bird, animal, something else.
+        var iris = new StandardMaterial3D
         {
             ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
-            AlbedoColor = new Color(.78f, .74f, .55f),
+            AlbedoColor = new Color(.98f, .78f, .16f),
             EmissionEnabled = true,
-            Emission = new Color(.55f, .5f, .32f),
-            EmissionEnergyMultiplier = .9f
+            Emission = new Color(.95f, .62f, .08f),
+            EmissionEnergyMultiplier = 1.6f
         };
-        var spots = new[] { (-17f, -168f, 1.6f), (21f, -172f, 2.3f), (-24f, -177f, 1.2f), (14f, -180f, 2.9f) };
-        foreach (var (dx, z, h) in spots)
+        var pupil = new StandardMaterial3D { ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded, AlbedoColor = new Color(.02f, .015f, .01f) };
+        var wanted = new[] { -150f, -158f, -166f, -171f, -177f, -184f };
+        var used = new HashSet<Vector3>();
+        foreach (var targetZ in wanted)
         {
-            var x = TrackX(z) + dx;
-            var facing = new Vector3(TrackX(z) - x, 0, 0).Normalized();
+            var tree = _deepTrunks
+                .Where(candidate => !used.Contains(candidate) && Mathf.Abs(candidate.Z - targetZ) < 5f
+                    && Mathf.Abs(candidate.X - TrackX(candidate.Z)) is > 9f and < 26f)
+                .OrderBy(candidate => Mathf.Abs(candidate.Z - targetZ)).FirstOrDefault();
+            if (tree == default) continue;
+            used.Add(tree);
+            var toTrack = new Vector3(TrackX(tree.Z) - tree.X, 0, 0).Normalized();
+            var height = _rng.RandfRange(1.3f, 3.4f);
+            // Peering round the trunk: on its edge, not in the middle of the bark.
+            var edge = new Vector3(0, 0, _rng.Randf() < .5f ? -.3f : .3f);
             var pair = new Node3D
             {
                 Name = $"Glint{_eyeGlints.Count}",
-                Transform = new Transform3D(Basis.LookingAt(facing, Vector3.Up, true), new Vector3(x, Ground(x, z) + h, z)),
+                Transform = new Transform3D(Basis.LookingAt(toTrack, Vector3.Up, true), tree + toTrack * .34f + edge + Vector3.Up * height),
                 Visible = false
             };
-            foreach (var side in new[] { -.055f, .055f })
-                pair.AddChild(new MeshInstance3D { Position = new Vector3(side, 0, 0), Mesh = new SphereMesh { Radius = .018f, Height = .036f, RadialSegments = 6, Rings = 3 }, MaterialOverride = glow, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off });
+            var spacing = _rng.RandfRange(.07f, .11f);
+            foreach (var side in new[] { -spacing * .5f, spacing * .5f })
+            {
+                pair.AddChild(new MeshInstance3D { Position = new Vector3(side, 0, 0), Scale = new Vector3(1f, .78f, .5f),
+                    Mesh = new SphereMesh { Radius = .026f, Height = .052f, RadialSegments = 10, Rings = 6 }, MaterialOverride = iris,
+                    CastShadow = GeometryInstance3D.ShadowCastingSetting.Off });
+                pair.AddChild(new MeshInstance3D { Position = new Vector3(side, 0, .014f),
+                    Mesh = new BoxMesh { Size = new Vector3(.007f, .036f, .004f) }, MaterialOverride = pupil,
+                    CastShadow = GeometryInstance3D.ShadowCastingSetting.Off });
+            }
             AddChild(pair);
             _eyeGlints.Add(pair);
         }

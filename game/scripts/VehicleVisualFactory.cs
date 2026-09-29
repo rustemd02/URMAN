@@ -43,11 +43,11 @@ public static partial class VehicleVisualFactory
         var speed=Gauge(root,"Speedometer",new(-.52f,1.102f,-.397f),.061f,"км/ч",160);
         var revs=Gauge(root,"Tachometer",new(-.36f,1.102f,-.397f),.061f,"×1000",8);
         var radioDisplay=CabinLabel(root,"RadioTuningDisplay","101.4",new(.10f,1.008f,-.362f),.00025f,new(.76f,.83f,.43f));
-        var steering = new Node3D { Name="SteeringWheel", Position=new(-.40f,1.06f,-.28f), RotationDegrees=new(NivaSteeringTiltDegrees,0,0) };
+        var steering = new Node3D { Name="SteeringWheel", Position=new(-.40f,1.10f,-.16f), RotationDegrees=new(NivaSteeringTiltDegrees,0,0) };
         root.AddChild(steering);
         NivaModelPart(steering,"NivaSteering","SteeringRim");
         // Shamail and tasbih hang under the rear-view mirror and swing freely.
-        var charm = new Node3D { Name="MirrorCharm", Position=new(0,1.52f,-.35f) };
+        var charm = new Node3D { Name="MirrorCharm", Position=new(.07f,1.548f,-.35f), Scale=Vector3.One*.82f };
         root.AddChild(charm);
         NivaModelPart(charm,"NivaCharm","MirrorCharmMesh");
         NivaPlate(root,"FrontPlate",new(0,.63f,-2.0800f),180f);

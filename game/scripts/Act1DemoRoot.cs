@@ -184,6 +184,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _Ready()
     {
+        DevRideCaptureBoot();
+        DevQuickStartBoot();
         try
         {
             InitializeDemo();

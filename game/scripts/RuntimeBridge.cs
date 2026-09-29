@@ -840,6 +840,9 @@ public partial class RuntimeBridge : Node
         };
     }
 
+    /// <summary>The player's chosen Tatar level ("none"/"some"/"fluent"), the same one text variants follow.</summary>
+    public string TatarLanguageLevel => FindPlayer()?.TatarLanguageLevel ?? "none";
+
     public string ResolveText(string textId) =>
         ResolveWorldText(_content.ResolveText(textId, FindPlayer()?.TatarLanguageLevel ?? "none"));
 

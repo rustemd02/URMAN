@@ -139,6 +139,8 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         _node = node;
         _speaker.Text = SpeakerName(node.SpeakerRole);
         _line.Text = _bridge.ResolveText(node.TextId);
+        // Synthetic preview voice, when a clip exists for this text id (silent otherwise).
+        PrologueVoice.PlayText(this, node.TextId, _bridge.TatarLanguageLevel);
         // ACT1-LANG.2: a heard line auto-collects unknown Tatar words.
         _ = _bridge.ObserveVocabularyTextAsync(_line.Text, node.TextId);
         ClearChoices();
@@ -206,6 +208,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void Close()
     {
+        PrologueVoice.Stop();
         UiFoley.Play(_foley, "ui_click");
         _screen.Visible = false;
         _bridge = null;

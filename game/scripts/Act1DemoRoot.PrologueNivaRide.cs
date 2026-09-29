@@ -17,6 +17,7 @@ public partial class Act1DemoRoot
     private VehicleController? _parkedNivaForRide;
     private bool _parkedNivaWasVisible;
     private Vector2 _rideLook;
+    private static readonly Vector3 RideCameraRest = new(.42f, 1.44f, .30f);
 
     private const string PrologueRideDialogue = "urman.chapter1:dialogue/prologue-niva-language";
 
@@ -108,10 +109,23 @@ public partial class Act1DemoRoot
             Name = "PrologueRideCamera",
             // The factory Niva is left-hand drive; the front passenger seat
             // sits on +X, eye height above the seat cushion.
-            Position = new(.42f, 1.44f, .18f),
-            Fov = _player.GetNodeOrNull<Camera3D>("Head/Camera3D")?.Fov ?? 75f
+            // A little further back and a narrower lens: at 75+ degrees the cabin read as a
+            // wide-angle action-cam shot (author feedback 2026-09-29).
+            Position = RideCameraRest,
+            Fov = Mathf.Min(_player.GetNodeOrNull<Camera3D>("Head/Camera3D")?.Fov ?? 75f, 62f)
         };
         _rideNiva.AddChild(_rideCamera);
+        // A warm dome light: the cabin was a cold grey box against the white road.
+        _rideNiva.AddChild(new OmniLight3D
+        {
+            Name = "PrologueCabinLight",
+            Position = new(0f, 1.5f, .05f),
+            LightColor = new Color(1f, .86f, .66f),
+            LightEnergy = .5f,
+            LightSpecular = 0f,
+            OmniRange = 2.6f,
+            ShadowEnabled = false
+        });
         BuildPrologueDriver();
         // Aidar wakes toward the person speaking, then can look out through the windshield.
         _rideLook = new(35f, 0f);
@@ -144,6 +158,7 @@ public partial class Act1DemoRoot
         ApplyPrologueRideLook();
         FadePrologueBlackout(visible: false);
         WakeJolt();
+        DriverShakeAwake();
         var driven = 0f;
         var speed = 0f;
         var calibrationOpened = false;
@@ -151,7 +166,7 @@ public partial class Act1DemoRoot
         var barkIndex = 0;
         var barks = new (float At, string Id)[]
         {
-            (1f, "prologue-ride-bark-nightmare"), (48f, "prologue-ride-bark-wake"), (95f, "prologue-ride-bark-bus"), (160f, "prologue-ride-bark-kazan"),
+            (1f, "prologue-ride-bark-nightmare"), (48f, "prologue-ride-bark-wake"), (95f, "prologue-ride-bark-bus"), (122f, "prologue-ride-bark-radio"), (160f, "prologue-ride-bark-kazan"),
             (205f, "prologue-ride-bark-sign"), (ApproachForestAt - 40f, "prologue-ride-bark-field"),
             (ApproachForestAt + 10f, "prologue-ride-bark-forest"), (ApproachForestAt + 150f, "prologue-ride-bark-marat")
         };
@@ -170,6 +185,7 @@ public partial class Act1DemoRoot
             var before = _rideNiva.GlobalPosition;
             PlaceOnApproach(approach, 18f - driven, snap: false);
             SpinRideWheels(visual, before);
+            TickRideRoad(delta, speed);
             while (barkIndex < barks.Length && driven >= barks[barkIndex].At)
                 RideBark(bridge, barks[barkIndex++].Id);
             if (!calibrationOpened && driven >= calibrationAt && bridge is not null)
@@ -237,6 +253,7 @@ public partial class Act1DemoRoot
             var before = _rideNiva.GlobalPosition;
             PlaceRideAt(MathF.Min(along / villageLength, 1f), eased: false);
             SpinRideWheels(visual, before);
+            TickRideRoad(delta, speed);
             _prologueElapsed += delta;
             if (villageBark < villageBarks.Length && along >= villageBarks[villageBark].At && _prologueElapsed >= nextBarkReady)
             {
@@ -292,7 +309,7 @@ public partial class Act1DemoRoot
             var k = Mathf.Clamp(elapsed / .35f, 0f, 1f);
             _rideLook = from.Lerp(to, 1f - (1f - k) * (1f - k) * (1f - k));
             ApplyPrologueRideLook();
-            var shake = (1f - Mathf.Clamp(elapsed / .55f, 0f, 1f)) * 1.6f;
+            var shake = (1f - Mathf.Clamp(elapsed / .55f, 0f, 1f)) * .5f;
             _rideCamera.RotationDegrees += new Vector3(Mathf.Sin(elapsed * 71f) * shake, Mathf.Sin(elapsed * 53f) * shake, 0);
         }
         await PrologueWaitAsync(7.5);
@@ -314,7 +331,11 @@ public partial class Act1DemoRoot
         if (bridge is null) return;
         var text = bridge.ResolveText($"urman.chapter1:text/{localTextId}");
         _ = bridge.ObserveVocabularyTextAsync(text, $"urman.chapter1:text/{localTextId}");
-        ShowPrologueCaption("Мансур бабай: " + text, Math.Clamp(text.Length / 15.0, 4.5, 11));
+        if (localTextId == "prologue-ride-bark-radio") StartRideRadio();
+        // The forest closes in: the music thins out and dies before the trees.
+        else if (localTextId == "prologue-ride-bark-field") StopRideRadio(9);
+        var voiced = PrologueVoice.PlayText(this, $"urman.chapter1:text/{localTextId}", bridge.TatarLanguageLevel);
+        ShowPrologueCaption("Мансур бабай: " + text, Math.Max(Math.Clamp(text.Length / 15.0, 4.5, 11), voiced + .8));
     }
 
     private static string LanguageLevelLabel(string level) => level switch
@@ -326,6 +347,8 @@ public partial class Act1DemoRoot
 
     private void ReleaseApproachRoad()
     {
+        PrologueVoice.Stop();
+        StopRideRadio(1.5);
         if (_approachRoad is not null && IsInstanceValid(_approachRoad)) _approachRoad.QueueFree();
         _approachRoad = null;
     }
@@ -334,44 +357,7 @@ public partial class Act1DemoRoot
     {
         _rideLook.X = Mathf.Clamp(_rideLook.X, -95f, 105f);
         _rideLook.Y = Mathf.Clamp(_rideLook.Y, -45f, 40f);
-        if (_rideCamera is not null) _rideCamera.RotationDegrees = new(_rideLook.Y, _rideLook.X, 0);
-    }
-
-    private void BuildPrologueDriver()
-    {
-        var driver = GeneratedCharacterKitDressing.Attach(_rideNiva!, "prologue-mansur", "Mansur", Vector3.Zero, sheltered: true);
-        foreach (var animation in driver.FindChildren("*", nameof(AnimationPlayer), true, false).OfType<AnimationPlayer>())
-            animation.Stop();
-        driver.RotationDegrees = new(0, 180, 0);
-        // The source body's crown is 1.82 m; Mansur is 1.72 m. He takes off his
-        // ushanka in the heated cabin, keeping the roof clearance of the real model.
-        driver.Scale = Vector3.One * (1.72f / 1.82f);
-        foreach (var hat in driver.FindChildren("Mansur_Hat*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
-            hat.Visible = false;
-        var skeleton = driver.FindChildren("*", nameof(Skeleton3D), true, false).OfType<Skeleton3D>()
-            .First(item => item.Name.ToString().Contains("Mansur", StringComparison.Ordinal)
-                || item.GetParent().Name.ToString().Contains("Mansur", StringComparison.Ordinal));
-        skeleton.ResetBonePoses();
-        var pelvis = skeleton.GetBoneGlobalPose(skeleton.FindBone("pelvis")).Origin;
-        driver.GlobalPosition += _rideNiva!.ToGlobal(new(-.4f, .86f, .22f)) - skeleton.ToGlobal(pelvis);
-        foreach (var (side, x) in new[] { ("l", -.23f), ("r", -.57f) })
-        {
-            AimBone("thigh_" + side, "calf_" + side, new(x, .72f, -.19f));
-            AimBone("calf_" + side, "foot_" + side, new(x, .48f, -.53f));
-            AimBone("upperarm_" + side, "lowerarm_" + side, new(x, 1.13f, .07f));
-            AimBone("lowerarm_" + side, "hand_" + side, new(x, 1.08f, -.25f));
-        }
-
-        // Pose this existing rig against the authored seat and wheel; no second NPC state.
-        void AimBone(string boneName, string childName, Vector3 target)
-        {
-            var bone = skeleton.FindBone(boneName);
-            var pose = skeleton.GetBoneGlobalPose(bone);
-            var current = skeleton.GetBoneGlobalPose(skeleton.FindBone(childName)).Origin - pose.Origin;
-            var desired = skeleton.ToLocal(_rideNiva.ToGlobal(target)) - pose.Origin;
-            pose.Basis = new Basis(new Quaternion(current.Normalized(), desired.Normalized())) * pose.Basis;
-            skeleton.SetBoneGlobalPose(bone, pose);
-        }
+        if (_rideCamera is not null) _rideCamera.RotationDegrees = new(_rideLook.Y + _rideShake.Y, _rideLook.X + _rideShake.X, _rideShake.Y * .6f);
     }
 
     private static VehicleDefinition? LoadBabayNivaDefinition()

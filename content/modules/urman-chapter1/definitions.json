@@ -11333,6 +11333,39 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-radio",
+    "value": {
+      "default": "«Едем молча — тоска. Давай я радио включу, с ним веселее».",
+      "translations": {
+        "ru": "«Едем молча — тоска. Давай я радио включу, с ним веселее»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-radio.lvl-some",
+    "value": {
+      "default": "«Тыныч кына барабыз, күңелсез. Давай радио кабызам — юл күңеллерәк булыр».",
+      "translations": {
+        "ru": "«Тыныч кына барабыз, күңелсез. Давай радио кабызам — юл күңеллерәк булыр»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-radio.lvl-fluent",
+    "value": {
+      "default": "«Тыныч кына барабыз, күңелсез. Әйдә радио кабызам әле — юл күңеллерәк булыр».\n(Едем тихо, грустно. Давай включу радио — дорога будет веселее.)",
+      "translations": {
+        "ru": "«Тыныч кына барабыз, күңелсез. Әйдә радио кабызам әле — юл күңеллерәк булыр».\n(Едем тихо, грустно. Давай включу радио — дорога будет веселее.)"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.chapter1:text/prologue-ride-bark-sign",
     "value": {
       "default": "«Вон, табличка. Кара-Урман — „чёрный лес“, если по-русски. Не пугайся, это просто старое название».",

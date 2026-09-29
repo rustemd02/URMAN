@@ -111,3 +111,8 @@ incoming/
 
 # URMAN Studio: autosaved drafts, local layout and run folders (never sources)
 /.urman-studio/
+
+# Secrets and generated synthetic voice previews (never commit)
+api_key*.txt
+*gemini_api_key*
+tools/voice/**/.venv/
