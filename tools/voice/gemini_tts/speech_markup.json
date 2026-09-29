@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "note": "Разметка озвучки пролога для tools/voice/gemini_tts/generate_prologue_voices.py. speaker->голос в скрипте; tone уходит в speech_metadata (не читается вслух); pace: slow|medium|fast; pause_*_ms — тишина, вшиваемая в WAV; priority: P0 без этого сцена теряет смысл, P1 желательно, P2 по возможности; tts_text — запасное написание для синтеза, если модель ошибается в произношении (на слух, не по умолчанию). Текст берётся из definitions.json, а не дублируется здесь. Синтез — превью, не финальная запись. Лесные реплики (forest-*, кроме голоса бабая) озвучивает не Марат, а «чужой» голос keeper: слова верные, пауза неправильная (решение по умолчанию 29.09, см. decision_log).",
+  "note": "Разметка озвучки пролога для tools/voice/gemini_tts/generate_prologue_voices.py. speaker->голос в скрипте; tone уходит в speech_metadata (не читается вслух); pace: slow|medium|fast; pause_*_ms — тишина, вшиваемая в WAV; priority: P0 без этого сцена теряет смысл, P1 желательно, P2 по возможности; tts_text — запасное написание для синтеза, если модель ошибается в произношении (на слух, не по умолчанию). Текст берётся из definitions.json, а не дублируется здесь. Синтез — превью, не финальная запись.",
   "speakers": {
     "mansur": {
       "voice": "Algenib",
@@ -13,10 +13,6 @@
     "aidar": {
       "voice": "Charon",
       "base_style": "young man of nineteen from Kazan, city Russian with a soft Tatar accent, quiet and observant"
-    },
-    "keeper": {
-      "voice": "Umbriel",
-      "base_style": "an unplaceable adult voice, neither young nor old, too even and unhurried, no breath, no warmth; speaks Tatar words correctly but places the pause in the wrong spot"
     }
   },
   "lines": {
@@ -814,15 +810,15 @@
       "fx": "forest_fx.py"
     },
     "forest-name-fade": {
-      "speaker": "keeper",
+      "speaker": "marat",
       "scene": "forest",
       "language": "tt",
-      "tone": "unearthly, the name split by a pause in the wrong place, repeated and fading into echo",
+      "tone": "unearthly, calling his name over and over, fading into echo",
       "pace": "slow",
       "pause_before_ms": 0,
       "pause_after_ms": 0,
       "priority": "P0",
-      "tts_text": "Ай… дар… Ай… дар… Ай… дар…",
+      "tts_text": null,
       "fx": "forest_fx.py"
     },
     "forest-babai-name": {
@@ -838,34 +834,34 @@
       "fx": "forest_fx.py"
     },
     "forest-name-call": {
-      "speaker": "keeper",
+      "speaker": "marat",
       "scene": "forest",
       "language": "tt",
-      "tone": "distant, flat, the pause splits the name in two",
+      "tone": "distant, quiet, from between the trees",
       "pace": "slow",
       "pause_before_ms": 0,
       "pause_after_ms": 0,
       "priority": "P0",
-      "tts_text": "Ай… дар.",
+      "tts_text": null,
       "fx": "forest_fx.py"
     },
     "forest-come-here": {
-      "speaker": "keeper",
+      "speaker": "marat",
       "scene": "forest",
       "language": "tt",
-      "tone": "close behind the listener, calm, the pause falls between the two words that belong together",
+      "tone": "close behind the listener, calm, unsettling",
       "pace": "slow",
       "pause_before_ms": 0,
       "pause_after_ms": 0,
       "priority": "P0",
-      "tts_text": "Айдар. Кил… монда.",
+      "tts_text": null,
       "fx": "forest_fx.py"
     },
     "forest-call-far": {
-      "speaker": "keeper",
+      "speaker": "marat",
       "scene": "forest",
       "language": "tt",
-      "tone": "calling from very far between the trees, hollow, too even, no urgency",
+      "tone": "calling from very far away between the trees, hollow",
       "pace": "medium",
       "pause_before_ms": 0,
       "pause_after_ms": 0,
@@ -874,10 +870,10 @@
       "fx": "forest_fx.py"
     },
     "forest-call-hey": {
-      "speaker": "keeper",
+      "speaker": "marat",
       "scene": "forest",
       "language": "tt",
-      "tone": "faint, far away, drawn out like an echo, no breath",
+      "tone": "faint, far away, drawn out like an echo",
       "pace": "slow",
       "pause_before_ms": 0,
       "pause_after_ms": 0,

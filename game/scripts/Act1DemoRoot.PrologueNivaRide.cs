@@ -37,8 +37,8 @@ public partial class Act1DemoRoot
         var path = new List<Vector3>
         {
             new(69f, 0, 8f), new(69f, 0, -18f), new(68f, 0, -21f), new(63f, 0, -24.4f),
-            new(58f, 0, -25f), new(41.5f, 0, -25f), new(38f, 0, -23.8f), new(32f, 0, -24.2f),
-            new(28f, 0, -26.2f), new(23f, 0, -25f), new(17f, 0, -21.5f), new(10f, 0, -17f),
+            new(58f, 0, -25f), new(47f, 0, -25f), new(44f, 0, -24f), new(38f, 0, -23.3f), new(31f, 0, -23.5f),
+            new(26f, 0, -23.8f), new(22f, 0, -23.4f), new(17f, 0, -21.5f), new(10f, 0, -17f),
             new(4.5f, 0, -12.5f), new(0f, 0, -10f), new(-.6f, 0, -1.5f)
         };
         // Main axis south to north from the village entrance to the ring's south entry.
@@ -53,7 +53,8 @@ public partial class Act1DemoRoot
             path.Add(new(point.X + outward.X * RideLane, 0, point.Y + outward.Y * RideLane));
         }
         // Down the other lane to the arrival stop.
-        foreach (var point in north.Reverse().Skip(1)) path.Add(new(point.X - RideLane, 0, point.Y));
+        // Near the entrance the arrival sign stands on the left verge, so the return lane keeps right of it.
+        foreach (var point in north.Reverse().Skip(1)) path.Add(new(point.Y < 20f ? point.X + .5f : point.X - RideLane, 0, point.Y));
         path.Add(new(-1.65f, 0, 1f));
         return path.ToArray();
     }

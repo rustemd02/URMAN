@@ -18,6 +18,8 @@ public partial class Act1RideRouteCheck : Node
         => Mathf.Abs(at.Z - Act1ConnectedWorld.RavineBridgeZ) < 1.6f
            && Mathf.Abs(at.X - (float)AgentBAct1HeightField.RavineCentre(Act1ConnectedWorld.RavineBridgeZ)) <= 8f;
 
+    private static bool NearBridgeRamp(Vector3 at) => at.X is > 40f and < 59f && Mathf.Abs(at.Z - Act1ConnectedWorld.RavineBridgeZ) < 3f;
+
     private static float RideGround(Vector3 at)
         => IsOnBridge(at) ? Act1ConnectedWorld.OpeningBridgeRoadHeight(at.X) : AgentBAct1HeightField.CollisionGround(at.X, at.Z);
 
@@ -55,12 +57,47 @@ public partial class Act1RideRouteCheck : Node
                 return;
             }
 
+            if (OS.GetEnvironment("URMAN_ROUTE_CANDIDATES") is { Length: > 0 } candidates)
+            {
+                // name=x,z;x,z;...|name2=...  - each polyline is driven like the ride and scored.
+                foreach (var candidate in candidates.Split('|', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var parts = candidate.Split('=', 2);
+                    var points = parts[1].Split(';', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(pair => pair.Split(','))
+                        .Select(xz => new Vector3(float.Parse(xz[0], System.Globalization.CultureInfo.InvariantCulture), 0,
+                            float.Parse(xz[1], System.Globalization.CultureInfo.InvariantCulture))).ToArray();
+                    var (found, _, _, _) = Drive(points, space, props);
+                    GD.Print($"ride-route: CANDIDATE {parts[0]}: {found.Count} blockers {string.Join(" | ", found.Select(item => $"{item.Key}@({item.Value.X:0.#},{item.Value.Z:0.#})"))}");
+                }
+                GetTree().Quit(0);
+                return;
+            }
+
+            var (blocked, passedThrough, offRoad, steepest) = Drive(route, space, props);
+            GD.Print($"ride-route: {offRoad} off-road samples, steepest {steepest:0.0} deg");
+            foreach (var (name, at) in blocked) GD.Print($"ride-route: BLOCKED by physics body {name} near ({at.X:0.0}, {at.Z:0.0})");
+            foreach (var (name, at) in passedThrough) GD.Print($"ride-route: passes through visible prop without collision {name} near ({at.X:0.0}, {at.Z:0.0})");
+            if (blocked.Count > 0) exit = 1;
+            GD.Print(exit == 0 ? "ride-route: PASS (no physics blockers)" : "ride-route: FAIL");
+        }
+        catch (Exception error)
+        {
+            GD.PrintErr("ride-route: FAIL " + error);
+            exit = 1;
+        }
+        GetTree().Quit(exit);
+    }
+
+
+    private static (Dictionary<string, Vector3> Blocked, Dictionary<string, Vector3> PassedThrough, int OffRoad, float Steepest) Drive(
+        IReadOnlyList<Vector3> route, PhysicsDirectSpaceState3D space, (MeshInstance3D Mesh, Aabb Box)[] props)
+    {
             var blocked = new Dictionary<string, Vector3>();
             var passedThrough = new Dictionary<string, Vector3>();
             var offRoad = 0; var worstOff = 0.0; var worstOffAt = Vector3.Zero;
             var steepest = 0f; var steepAt = Vector3.Zero;
-            var distance = 0f; var samples = 0; var total = 0f;
-            for (var i = 1; i < route.Count; i++) total += route[i - 1].DistanceTo(route[i]);
+            var distance = 0f; var samples = 0;
             for (var i = 1; i < route.Count; i++)
             {
                 var a = route[i - 1]; var b = route[i];
@@ -84,8 +121,9 @@ public partial class Act1RideRouteCheck : Node
                         var name = node.Name + " < " + node.GetParent()?.Name;
                         // The span itself and the ground it bridges are how the car crosses;
                         // the parked Niva and the arrival walker are hidden/absent during the ride.
-                        if (onBridge && (node.Name == "RavineBridgeIntact" || node.Name == "AgentB_TerrainCollision")) continue;
-                        if (node.Name.ToString() is "babay-niva" or "DriverDoor" or "AlsuNpc" or "AlsuPhysicalContact") continue;
+                        // The intact span and its approach ramp; the ride itself only uses the deck line (z -25).
+                        if ((onBridge || NearBridgeRamp(at)) && node.Name.ToString() is "RavineBridgeIntact" or "RavineCollisionProxy" or "AgentB_TerrainCollision") continue;
+                        if (node.Name.ToString() is "babay-niva" or "DriverDoor" or "AlsuNpc" or "AlsuPhysicalContact" or "Player") continue;
                         blocked.TryAdd(name, at);
                     }
                     // Axis-aligned bound of the yawed box.
@@ -110,19 +148,9 @@ public partial class Act1RideRouteCheck : Node
                     distance += 1f;
                 }
             }
-
-            GD.Print($"ride-route: {samples} samples over {total:0} m, {offRoad} off-road (worst {worstOff:0.0} m beyond the verge at {worstOffAt}), steepest {steepest:0.0} deg at {steepAt}");
             foreach (var (name, at) in blocked) GD.Print($"ride-route: BLOCKED by physics body {name} near ({at.X:0.0}, {at.Z:0.0})");
             foreach (var (name, at) in passedThrough) GD.Print($"ride-route: passes through visible prop without collision {name} near ({at.X:0.0}, {at.Z:0.0})");
-            if (blocked.Count > 0) exit = 1;
-            GD.Print(exit == 0 ? "ride-route: PASS (no physics blockers)" : "ride-route: FAIL");
-        }
-        catch (Exception error)
-        {
-            GD.PrintErr("ride-route: FAIL " + error);
-            exit = 1;
-        }
-        GetTree().Quit(exit);
+        return (blocked, passedThrough, offRoad, steepest);
     }
 
     // Grid A* over the real colliders and props (1 m cells, car radius) between two points,
