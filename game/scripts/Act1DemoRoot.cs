@@ -186,6 +186,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     {
         DevRideCaptureBoot();
         DevViewCaptureBoot();
+        DevWalkProbeBoot();
         DevQuickStartBoot();
         try
         {

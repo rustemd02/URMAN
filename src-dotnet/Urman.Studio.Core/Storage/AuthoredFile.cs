@@ -26,12 +26,18 @@ public sealed class AuthoredFile
     private JsonSpanDocument _outer;
     private JsonSpanDocument _document;
     private JsonNode _base;
+    // A Markdown source (document, chat, hint) is one entity; its last known
+    // text keeps untouched front-matter lines byte for byte on save.
+    private readonly bool _markdown;
+    private string _markdownText = "";
 
     private AuthoredFile(string root, string relativePath, byte[] bytes, bool isNew = false)
     {
         Root = root;
         RelativePath = relativePath;
-        (_outer, _document) = Open(Encoding.UTF8.GetString(bytes));
+        _markdown = relativePath.EndsWith(".md", StringComparison.OrdinalIgnoreCase);
+        _markdownText = Encoding.UTF8.GetString(bytes);
+        (_outer, _document) = Open(_markdownText);
         _base = _document.ToNode();
         LoadedSha256 = isNew ? "" : AtomicFile.Sha256(bytes);
         IsNew = isNew;
@@ -43,8 +49,14 @@ public sealed class AuthoredFile
     public static AuthoredFile CreateNew(string root, string relativePath, string initialText) =>
         new(root, relativePath, new UTF8Encoding(false).GetBytes(initialText), isNew: true);
 
-    private static (JsonSpanDocument Outer, JsonSpanDocument Entities) Open(string text)
+    private (JsonSpanDocument Outer, JsonSpanDocument Entities) Open(string text)
     {
+        if (_markdown)
+        {
+            var single = JsonSpanDocument.Parse("[\n" + MarkdownSource.Parse(text).ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }) + "\n]\n");
+            return (single, single);
+        }
+
         var outer = JsonSpanDocument.Parse(text);
         if (!outer.RootIsArray && outer.IndexOfKey("entities") is var index and >= 0 && outer.Get(index) is JsonArray)
         {
@@ -127,6 +139,11 @@ public sealed class AuthoredFile
     {
         get
         {
+            if (_markdown)
+            {
+                return _document.Count == 0 ? "" : MarkdownSource.Write((JsonObject)_document.Get(0)!, _markdownText);
+            }
+
             if (!ReferenceEquals(_outer, _document))
             {
                 _outer.ReplaceRaw(_outer.IndexOfKey("entities"), _document.ToText());
@@ -157,8 +174,10 @@ public sealed class AuthoredFile
             return;
         }
 
-        var bytes = new UTF8Encoding(false).GetBytes(Text);
+        var text = Text;
+        var bytes = new UTF8Encoding(false).GetBytes(text);
         AtomicFile.WriteAllBytes(FullPath, bytes);
+        _markdownText = text;
         LoadedSha256 = AtomicFile.Sha256(bytes);
         _base = _document.ToNode();
         Dirty = false;
@@ -177,6 +196,7 @@ public sealed class AuthoredFile
         var (incomingOuter, incoming) = Open(Encoding.UTF8.GetString(bytes));
         if (!Dirty)
         {
+            _markdownText = Encoding.UTF8.GetString(bytes);
             _outer = incomingOuter;
             _document = incoming;
             _base = incoming.ToNode();
@@ -206,6 +226,7 @@ public sealed class AuthoredFile
         // Start from the disk text (their formatting, their untouched entities)
         // and re-apply only the entities whose merged value differs from it.
         var theirs = incoming.ToNode();
+        _markdownText = Encoding.UTF8.GetString(bytes);
         _outer = incomingOuter;
         _document = incoming;
         foreach (var (key, value) in Entries(merged))

@@ -40,6 +40,16 @@ public sealed class StudioWorkspace
                 var relative = Path.GetRelativePath(workspace.Root, path).Replace('\\', '/');
                 workspace._files[relative] = AuthoredFile.Load(workspace.Root, relative);
             }
+
+            // Markdown content sources (documents, old-PC chats and hints):
+            // only files with front matter, never READMEs or hand-off notes.
+            if (!folder.StartsWith("content/modules", StringComparison.Ordinal)) continue;
+            foreach (var path in Directory.EnumerateFiles(full, "*.md", SearchOption.AllDirectories).Order(StringComparer.Ordinal))
+            {
+                if (!Storage.MarkdownSource.IsSource(System.IO.File.ReadAllText(path))) continue;
+                var relative = Path.GetRelativePath(workspace.Root, path).Replace('\\', '/');
+                workspace._files[relative] = AuthoredFile.Load(workspace.Root, relative);
+            }
         }
 
         workspace.Reindex();

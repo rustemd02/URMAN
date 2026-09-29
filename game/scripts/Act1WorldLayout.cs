@@ -62,6 +62,8 @@ public static class Act1WorldLayout
             true,
             SpawnPoints(
                 ("entry", new SpawnTransform(StyleBenchmarkInteriorFactory.Entry, 0f)),
+                ("wing_kitchen", new SpawnTransform(StyleBenchmarkInteriorFactory.WingKitchenSpawn, 0f)),
+                ("attic", new SpawnTransform(StyleBenchmarkInteriorFactory.WingAtticSpawn, 90f)),
                 ("default", new SpawnTransform(StyleBenchmarkInteriorFactory.Entry, 0f)))),
         new(
             "fap_clinic",

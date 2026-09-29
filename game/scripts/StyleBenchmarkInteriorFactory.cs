@@ -7,7 +7,7 @@ namespace Urman.Godot;
 /// Only architectural members are cut to fit. Furniture is moved rigidly from
 /// its published module; people and the separately authored CRT keep their size.
 /// </summary>
-public static class StyleBenchmarkInteriorFactory
+public static partial class StyleBenchmarkInteriorFactory
 {
     public const string ContractVersion = "hero-house-eight-by-seven-v1";
     public const string ExteriorComponent = "HeroHouse_TimberPlaster";
@@ -87,6 +87,7 @@ public static class StyleBenchmarkInteriorFactory
             new(DoorX, .0125f, 3.49f), "574636", "wood", false);
 
         AttachFurniture(room);
+        BuildHouseRooms(room);
         // The photograph can turn over on this shallow shelf without rotating
         // through a wall. Its frame bottom rests on the shelf at 1.11m.
         Block(room, "FamilyPhotoShelf", new(.72f, .08f, 1.10f), new(-3.63f, 1.07f, -2.50f), "765842", "wood");

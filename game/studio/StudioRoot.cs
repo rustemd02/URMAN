@@ -93,7 +93,8 @@ public partial class StudioRoot : Control
         Register(new StudioDialogueSection(this));
         Register(Collab = new StudioCollabSection(this));
         Register(new StudioCharacterSection(this));
-        foreach (var (key, title) in new[] { ("items", "Предметы"), ("content", "Контент"), ("ui", "Интерфейс игры") })
+        Register(new StudioContentSection(this));
+        foreach (var (key, title) in new[] { ("items", "Предметы"), ("ui", "Интерфейс игры") })
         {
             Register(new StudioPendingSection(key, title));
         }

@@ -300,8 +300,10 @@ public static class AgentBAct1HeightField
     {
         // The grade starts 36 m before the terrain's north edge (it began at
         // z 52 when the edge was 104); the centre square lies south of it.
-        const double riseStart = MaxZ - 36.0;
-        var along = System.Math.Clamp((z - riseStart) / 36.0, 0.0, 1.0);
+        // Square slice: the public buildings of the former sovkhoz centre stand up to
+        // z 210, so the hill starts 20 m before the edge (was 36) and stays behind them.
+        const double riseStart = MaxZ - 20.0;
+        var along = System.Math.Clamp((z - riseStart) / 20.0, 0.0, 1.0);
         along *= along * (3.0 - 2.0 * along);
         var centre = -8.0 + (z - riseStart) * 0.10;
         var lateral = System.Math.Clamp(1.0 - System.Math.Abs(x - centre) / 52.0,

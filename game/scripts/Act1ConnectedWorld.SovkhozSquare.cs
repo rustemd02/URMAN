@@ -26,16 +26,16 @@ public partial class Act1ConnectedWorld
         var trim = PainterlyMaterialLibrary.ForColor("eeeae0", "wood_painted_trim");
 
         // Old two-storey school: long, many windows, upper floor partly boarded.
-        var school = SquareBuilding(square, "OldSchool", new(-3f, 204f), 28f, 11f, 3.4f, 2, PainterlyMaterialLibrary.ForColor("e2d6b8", "plaster"), roofPitch: 16f);
-        SquareWindows(school, 28f, 11f, 3.4f, 2, 9, trim, lit: index => index is 2 or 3, boarded: (floor, index) => floor == 1 && index % 3 != 1);
-        SquarePorch(school, 11f, 3.2f, trim);
+        var school = SquareBuilding(square, "OldSchool", new(-3f, 204f), 28f, 11f, 3.4f, 2, PainterlyMaterialLibrary.ForColor("e2d6b8", "plaster"), roofPitch: 16f, hollow: true);
+        SquarePorch(school, 11f, 3.2f, trim, open: true);
+        BuildSchoolInterior(school, PainterlyMaterialLibrary.ForColor("e2d6b8", "plaster"), PainterlyMaterialLibrary.ForColor("eeeae0", "wood_painted_trim"));
         SquareSign(school, new(0, 3.95f, 5.6f), "КАРА-УРМАН УРТА МӘКТӘБЕ\nКАРА-УРМАНСКАЯ СРЕДНЯЯ ШКОЛА", 62, new Color(.15f, .18f, .28f));
         SquareSign(school, new(-6.5f, 1.35f, 5.58f), "1974", 44, new Color(.35f, .3f, .25f), plate: false);
 
         // House of culture: a tall hall behind a four-column portico and pediment.
-        var club = SquareBuilding(square, "HouseOfCulture", new(25f, 188f), 18f, 14f, 6.8f, 1, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), roofPitch: 12f);
-        SquareWindows(club, 18f, 14f, 6.8f, 1, 4, trim, lit: index => index == 1, tall: true);
-        SquarePortico(club, 18f, 14f, 6.8f, trim);
+        var club = SquareBuilding(square, "HouseOfCulture", new(25f, 188f), 18f, 14f, 6.8f, 1, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), roofPitch: 12f, hollow: true);
+        SquarePortico(club, 18f, 14f, 6.8f, trim, open: true);
+        BuildClubInterior(club, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), PainterlyMaterialLibrary.ForColor("eeeae0", "wood_painted_trim"));
         SquareSign(club, new(0, 7.35f, 9.35f), "МӘДӘНИЯТ ЙОРТЫ\nДОМ КУЛЬТУРЫ", 54, new Color(.55f, .12f, .1f), plate: false);
         SquarePoster(club, new(-6.2f, 1.6f, 7.03f), "САБАНТУЙ\nиюнь");
 
@@ -58,7 +58,7 @@ public partial class Act1ConnectedWorld
     }
 
     private Node3D SquareBuilding(Node3D square, string name, Vector2 centre, float width, float depth, float floorHeight,
-        int floors, Material walls, float roofPitch)
+        int floors, Material walls, float roofPitch, bool hollow = false)
     {
         // Facing the ring: local +Z is the front.
         var toRing = new Vector2(SquareRingCentre.X - centre.X, SquareRingCentre.Z - centre.Y);
@@ -74,20 +74,30 @@ public partial class Act1ConnectedWorld
             var ground = AgentBAct1HeightField.CollisionGround(world.X, world.Z);
             low = Mathf.Min(low, ground); high = Mathf.Max(high, ground); sum += ground; count++;
         }
-        // Floor near the mean ground: the uphill side is banked into the slope
-        // (a buried edge reads as a cut), the downhill side gets a plinth.
-        var floorY = Mathf.Min(sum / count + .45f, low + 1.1f);
+        // Floor clears the highest sampled ground (interiors must never be
+        // pierced by terrain); the downhill side gets a taller plinth.
+        var floorY = high + .25f;
         var building = new Node3D { Name = name, Position = new Vector3(centre.X, floorY, centre.Y), Basis = basis };
         building.SetMeta("plinthDrop", floorY - low);
         square.AddChild(building);
         var plinthHeight = floorY - low + .4f;
         Box(building, "Plinth", new(width + .3f, plinthHeight, depth + .3f), new(0, -plinthHeight * .5f, 0), PainterlyMaterialLibrary.ForColor("7d786f", "stone_foundation"));
         var wallHeight = floorHeight * floors;
-        Box(building, "Walls", new(width, wallHeight, depth), new(0, wallHeight * .5f, 0), walls);
+        if (!hollow) Box(building, "Walls", new(width, wallHeight, depth), new(0, wallHeight * .5f, 0), walls);
         var trim = PainterlyMaterialLibrary.ForColor("c9bfa9", "plaster");
+        // Exterior belt courses and cornice: a solid box for solid shells, a perimeter
+        // frame for hollow (enterable) ones so nothing fills the rooms.
+        void Course(string name, float y, float height, float over)
+        {
+            if (!hollow) { Box(building, name, new(width + over, height, depth + over), new(0, y, 0), trim); return; }
+            Box(building, name + "F", new(width + over, height, .16f), new(0, y, depth * .5f + over * .5f - .06f), trim);
+            Box(building, name + "B", new(width + over, height, .16f), new(0, y, -depth * .5f - over * .5f + .06f), trim);
+            Box(building, name + "L", new(.16f, height, depth + over), new(-width * .5f - over * .5f + .06f, y, 0), trim);
+            Box(building, name + "R", new(.16f, height, depth + over), new(width * .5f + over * .5f - .06f, y, 0), trim);
+        }
         for (var floor = 1; floor < floors; floor++)
-            Box(building, $"Belt{floor}", new(width + .12f, .18f, depth + .12f), new(0, floor * floorHeight, 0), trim);
-        Box(building, "Cornice", new(width + .4f, .3f, depth + .4f), new(0, wallHeight + .15f, 0), trim);
+            Course($"Belt{floor}", floor * floorHeight, .18f, .12f);
+        Course("Cornice", wallHeight + .15f, .3f, .4f);
         // Gable roof along the width, snow on both slopes.
         var rise = Mathf.Tan(Mathf.DegToRad(roofPitch)) * (depth * .5f + .4f);
         var slope = Mathf.Sqrt((depth * .5f + .4f) * (depth * .5f + .4f) + rise * rise);
@@ -116,7 +126,14 @@ public partial class Act1ConnectedWorld
             building.AddChild(gable);
         }
         var body = new StaticBody3D { Name = "SquareBuildingBody" };
-        body.AddChild(new CollisionShape3D { Position = new(0, (wallHeight - plinthHeight) * .5f, 0), Shape = new BoxShape3D { Size = new Vector3(width + .3f, wallHeight + plinthHeight, depth + .3f) } });
+        if (hollow)
+        {
+            // Enterable: only the plinth is solid (its top is the interior floor);
+            // walls, partitions and ceilings come from the interior builder.
+            body.AddChild(new CollisionShape3D { Position = new(0, -plinthHeight * .5f, 0), Shape = new BoxShape3D { Size = new Vector3(width + .3f, plinthHeight, depth + .3f) } });
+        }
+        else
+            body.AddChild(new CollisionShape3D { Position = new(0, (wallHeight - plinthHeight) * .5f, 0), Shape = new BoxShape3D { Size = new Vector3(width + .3f, wallHeight + plinthHeight, depth + .3f) } });
         building.AddChild(body);
         return building;
     }
@@ -155,14 +172,15 @@ public partial class Act1ConnectedWorld
         }
     }
 
-    private static void SquarePorch(Node3D building, float depth, float width, Material trim, bool boardedDoor = false)
+    private static void SquarePorch(Node3D building, float depth, float width, Material trim, bool boardedDoor = false, bool open = false)
     {
         var front = depth * .5f;
-        var stone = PainterlyMaterialLibrary.ForColor("8c877d", "stone_foundation");
-        for (var step = 0; step < 3; step++)
-            Box(building, $"Step{step}", new(width, .17f, .35f * (3 - step)), new(0, -.26f + step * .17f, front + .35f * (3 - step) * .5f), stone);
-        Box(building, "Door", new(1.2f, 2.2f, .08f), new(0, 1.1f, front + .05f), PainterlyMaterialLibrary.ForColor("5b4636", "wood"));
-        Box(building, "DoorFrame", new(1.45f, 2.4f, .05f), new(0, 1.2f, front + .02f), trim);
+        SquareSteps(building, front, width);
+        if (!open)
+        {
+            Box(building, "Door", new(1.2f, 2.2f, .08f), new(0, 1.1f, front + .05f), PainterlyMaterialLibrary.ForColor("5b4636", "wood"));
+            Box(building, "DoorFrame", new(1.45f, 2.4f, .05f), new(0, 1.2f, front + .02f), trim);
+        }
         Box(building, "Canopy", new(width + .4f, .12f, 1.3f), new(0, 2.65f, front + .65f), PainterlyMaterialLibrary.ForColor("e6ebef", "snow_roof"));
         foreach (var side in new[] { -1f, 1f })
             Box(building, $"CanopyPost{side}", new(.1f, 2.65f, .1f), new(side * (width * .5f), 1.33f, front + 1.2f), trim);
@@ -174,17 +192,44 @@ public partial class Act1ConnectedWorld
         }
     }
 
-    private static void SquarePortico(Node3D building, float width, float depth, float height, Material trim)
+    // Solid steps from the door sill down to the real ground in front of it.
+    private static void SquareSteps(Node3D building, float front, float width)
+    {
+        var outside = building.ToGlobal(new Vector3(0, 0, front + 1.4f));
+        var drop = building.GlobalPosition.Y - AgentBAct1HeightField.CollisionGround(outside.X, outside.Z);
+        if (drop < .02f) return;
+        var count = Mathf.Clamp(Mathf.CeilToInt(drop / .17f), 1, 10);
+        var stone = PainterlyMaterialLibrary.ForColor("8c877d", "stone_foundation");
+        var body = new StaticBody3D { Name = "SquareStepsBody", CollisionLayer = 2, CollisionMask = 0 };
+        building.AddChild(body);
+        for (var i = 0; i < count; i++)
+        {
+            var top = -drop + (i + 1) * drop / count;
+            var depth = .34f * (count - i);
+            var height = top + drop + .3f;
+            var size = new Vector3(width, height, depth);
+            var at = new Vector3(0, top - height * .5f, front + depth * .5f);
+            Box(building, $"Step{i}", size, at, stone);
+            body.AddChild(new CollisionShape3D { Name = $"Step{i}Shape", Position = at, Shape = new BoxShape3D { Size = size } });
+        }
+    }
+
+    private static void SquarePortico(Node3D building, float width, float depth, float height, Material trim, bool open = false)
     {
         var front = depth * .5f;
         var column = PainterlyMaterialLibrary.ForColor("efe9dc", "plaster");
-        Box(building, "PorticoFloor", new(10f, .35f, 3f), new(0, -.1f, front + 1.5f), PainterlyMaterialLibrary.ForColor("8c877d", "stone_foundation"));
+        var porticoBody = new StaticBody3D { Name = "PorticoFloorBody", CollisionLayer = 2, CollisionMask = 0 };
+        porticoBody.AddChild(new CollisionShape3D { Position = new(0, -.175f, front + 1.5f), Shape = new BoxShape3D { Size = new(10f, .35f, 3f) } });
+        building.AddChild(porticoBody);
+        Box(building, "PorticoFloor", new(10f, .35f, 3f), new(0, -.175f, front + 1.5f), PainterlyMaterialLibrary.ForColor("8c877d", "stone_foundation"));
+        SquareSteps(building, front + 3f, 6f);
         foreach (var x in new[] { -3.9f, -1.3f, 1.3f, 3.9f })
             building.AddChild(new MeshInstance3D { Name = $"Column{x:0.0}", Mesh = new CylinderMesh { TopRadius = .24f, BottomRadius = .28f, Height = height - .3f, RadialSegments = 12 }, Position = new Vector3(x, (height - .3f) * .5f + .1f, front + 2.6f), MaterialOverride = column });
         Box(building, "Entablature", new(10.2f, .6f, 3.2f), new(0, height + .05f, front + 1.5f), trim);
         building.AddChild(new MeshInstance3D { Name = "Pediment", Mesh = new PrismMesh { Size = new Vector3(10.2f, 1.9f, .5f) }, Position = new Vector3(0, height + 1.3f, front + 2.85f), MaterialOverride = trim });
-        foreach (var x in new[] { -.9f, .9f })
-            Box(building, $"DoubleDoor{x}", new(.85f, 2.8f, .08f), new(x * .5f, 1.4f, front + .05f), PainterlyMaterialLibrary.ForColor("6a4a33", "wood"));
+        if (!open)
+            foreach (var x in new[] { -.9f, .9f })
+                Box(building, $"DoubleDoor{x}", new(.85f, 2.8f, .08f), new(x * .5f, 1.4f, front + .05f), PainterlyMaterialLibrary.ForColor("6a4a33", "wood"));
         var body = new StaticBody3D { Name = "PorticoBody" };
         foreach (var x in new[] { -3.9f, -1.3f, 1.3f, 3.9f })
             body.AddChild(new CollisionShape3D { Position = new Vector3(x, height * .5f, front + 2.6f), Shape = new CylinderShape3D { Radius = .3f, Height = height } });

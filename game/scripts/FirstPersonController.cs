@@ -422,10 +422,17 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     /// </summary>
     internal static Func<Vector3, (Vector3 Position, float Ground)>? DetachedWorldGuard { get; set; }
 
+    /// <summary>
+    /// A sealed interior volume authored below the terrain (the house wing) owns
+    /// its own floor: inside it the terrain fall guard must not lift the player.
+    /// </summary>
+    internal static Func<Vector3, bool>? SealedInteriorVolume { get; set; }
+
     private void ClampToAuthoredWorld()
     {
         const float edgeMargin = 3f;
         var position = GlobalPosition;
+        if (SealedInteriorVolume?.Invoke(position) == true) return;
         if (DetachedWorldGuard is { } detached)
         {
             var (inside, detachedGround) = detached(position);
