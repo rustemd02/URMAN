@@ -3049,6 +3049,133 @@
       "qa": "GLB header, embedded atlas, node list and animation clip names inspected; Godot/Blender import not run",
       "status": "animated-model-candidate; engine-review-pending",
       "releaseDisposition": "standalone asset; scene placement pending"
+    },
+    {
+      "id": "texture.prop.karaurman.chakchak.contents.v01",
+      "source": "OpenAI ImageGen built-in, 2026-09-28; prompt in game/assets/textures/props/chakchak/README.md",
+      "derived": "assets/source/illustrations/karaurman_chakchak_contents_v1.png",
+      "derivedSha256": "069945b3034f26be1a36c66afdf30e50bb259cb65691f071d1826ef4bdb1d1c2",
+      "generator": "OpenAI ImageGen built-in; transparent-background chak-chak cutout embedded as an alpha-textured plane behind PET",
+      "license": "Project-generated fictional food illustration",
+      "scale": 1,
+      "triangleBudget": 0,
+      "textureBudget": 1254,
+      "materials": [
+        "KaraUrmanChakchakIllustration RGBA"
+      ],
+      "materialOwner": "Not currently referenced; earlier appetizing variant kept for visual comparison",
+      "collision": "not applicable; texture",
+      "lod": "GLB sampler uses mipmaps",
+      "qa": "Earlier appetizing RGBA source visually inspected; not embedded in current GLB",
+      "status": "comparison-source",
+      "releaseDisposition": "comparison-only; superseded by v02 experiment"
+    },
+    {
+      "id": "texture.prop.karaurman.chakchak.contents.v02",
+      "source": "OpenAI ImageGen built-in edit of contents v01, 2026-09-28; prompt in game/assets/textures/props/chakchak/README.md",
+      "derived": "assets/source/illustrations/karaurman_chakchak_contents_v02_experiment.png",
+      "derivedSha256": "7959c8d81100f2bcf5ed0bd924e2bd06ffb2ea7b8475e6d79a21a8facdb07538",
+      "generator": "OpenAI ImageGen built-in; full-frame, densely packed, intentionally gross chak-chak slab embedded behind PET",
+      "license": "Project-generated fictional food illustration",
+      "scale": 1,
+      "triangleBudget": 0,
+      "textureBudget": 1254,
+      "materials": [
+        "KaraUrmanChakchakIllustration RGBA"
+      ],
+      "materialOwner": "Standalone Kara-Urman chak-chak carton GLB; current contents experiment behind transparent window film",
+      "collision": "not applicable; texture",
+      "lod": "GLB sampler uses mipmaps",
+      "qa": "Full-window food slab visually inspected; GLB embeds the separate RGBA image; Godot/Blender import not run",
+      "status": "asset-candidate; engine-review-pending",
+      "releaseDisposition": "current deliberately gross visual experiment for standalone prop"
+    },
+    {
+      "id": "texture.prop.karaurman.chakchak.atlas.v01",
+      "source": "OpenAI ImageGen built-in, 2026-09-28; assets/source/illustrations/karaurman_chakchak_front_window_v1.png; initial and window-edit prompts in game/assets/textures/props/chakchak/README.md; canonical place-name line set with project PT Sans Bold",
+      "derived": "game/assets/textures/props/chakchak/karaurman_chakchak_box_atlas_v1.png",
+      "sourceSha256": "60b1bb6c20f26f0e09c47f2c8ee4a8e6c97742bb580b8b3ca4d56a69e6974931",
+      "derivedSha256": "23d3be057caacb8064ce4b10d33e056fd717af9e8a3ac33f4d850e03cb4c0f90",
+      "generator": "OpenAI ImageGen label with alpha cutout; project PT Sans Bold brand correction; tools/asset_generation/build_karaurman_chakchak_box.py packs panels and preserves the display window",
+      "license": "Project-generated fictional packaging; Tatarica and Tatarstan heritage references documented in README; no real brand packaging copied",
+      "scale": 1,
+      "triangleBudget": 0,
+      "textureBudget": 3072,
+      "materials": [
+        "KaraUrmanPrintedCardboard RGBA atlas"
+      ],
+      "materialOwner": "Standalone Kara-Urman chak-chak carton GLB; not yet referenced by an Act I scene",
+      "collision": "not applicable; printed texture",
+      "lod": "glTF sampler uses mipmaps",
+      "qa": "ImageGen front label and windowed package preview visually inspected; engine import and native-speaker review not run",
+      "status": "asset-candidate; engine-and-language-review-pending",
+      "releaseDisposition": "asset-only; no runtime scene reference"
+    },
+    {
+      "id": "model.prop.karaurman.chakchak.box.v01",
+      "source": "tools/asset_generation/build_karaurman_chakchak_box.py; generated 2026-09-28; RGBA atlas and contents v02 experiment embedded",
+      "derived": "game/assets/models/props/chakchak/karaurman_chakchak_box_v1.glb",
+      "derivedSha256": "48e76d7a26f0c0f456df2cf24c39b9ef001262b3c75b9575c80df537d8590105",
+      "generator": "Custom Python glTF 2.0 builder; 120 × 150 × 72 mm box, alpha-textured chak-chak contents plane behind transparent PET window",
+      "license": "Project-generated fictional model and texture; cultural references and usage notes in game/assets/textures/props/chakchak/README.md",
+      "scale": 1,
+      "triangleBudget": 16,
+      "textureBudget": 4096,
+      "materials": [
+        "KaraUrmanPrintedCardboard",
+        "KaraUrmanChakchakIllustration",
+        "ClearPETFilm"
+      ],
+      "materialOwner": "Standalone model; no gameplay or scene owner assigned",
+      "collision": "none",
+      "lod": "single low-poly carton with one alpha-textured food image behind PET",
+      "qa": "GLB embeds RGBA atlas and ImageGen contents cutout; preview visually inspected; Godot/Blender import not run",
+      "status": "static-model-candidate; engine-review-pending",
+      "releaseDisposition": "standalone asset; scene placement pending"
+    },
+    {
+      "id": "texture.prop.karaurman.milk-bottle.label.v01",
+      "source": "OpenAI ImageGen built-in, 2026-09-28; full prompt and style references in game/assets/textures/props/milk_bottle/README.md",
+      "derived": "game/assets/textures/props/milk_bottle/karaurman_milk_bottle_label_v1.png",
+      "sourceSha256": "bd6aa275b00a3019364b755142fe361f52b859a206396d083f17427306f99d2c",
+      "derivedSha256": "bd6aa275b00a3019364b755142fe361f52b859a206396d083f17427306f99d2c",
+      "generator": "OpenAI ImageGen built-in; 360-degree RGBA paper label with a transparent tulip-shaped product window, applied to one cylindrical UV band",
+      "license": "Project-generated fictional packaging; VAMIN color and tulip-window approach used as broad inspiration, no logo or wording copied; references in README",
+      "scale": 1,
+      "triangleBudget": 0,
+      "textureBudget": 2172,
+      "materials": [
+        "PrintedPaperLabel RGBA"
+      ],
+      "materialOwner": "Standalone Kara-Urman milk-bottle GLB; no Act I scene consumer assigned",
+      "collision": "not applicable; texture",
+      "lod": "glTF base-color and alpha texture; sampler uses mipmaps",
+      "qa": "ImageGen artwork and Blender preview visually inspected; label alpha and full-wrap UV included; Godot import and native-speaker review not run",
+      "status": "asset-candidate; engine-and-language-review-pending",
+      "releaseDisposition": "standalone label; no runtime scene reference"
+    },
+    {
+      "id": "model.prop.karaurman.milk-bottle.glass.v01",
+      "source": "tools/asset_generation/build_karaurman_milk_bottle.py; Blender 4.5.12 source saved in game/assets/models/props/milk_bottle/karaurman_milk_bottle_v1.blend; ImageGen label embedded",
+      "derived": "game/assets/models/props/milk_bottle/karaurman_milk_bottle_v1.glb",
+      "derivedSha256": "8a3b48a4536a20f7382a972aecb8ae2f29f9e32e619cce365a7e276a3494f757",
+      "generator": "Blender 4.5.12; lathed 1 L clear glass bottle, separate milk fill, red cap, 360-degree alpha-textured label",
+      "license": "Project-generated fictional model and texture; broad visual inspiration and source links documented in game/assets/textures/props/milk_bottle/README.md",
+      "scale": 1,
+      "triangleBudget": 4732,
+      "textureBudget": 2172,
+      "materials": [
+        "ClearBottleGlass",
+        "FreshWhiteMilk",
+        "PrintedPaperLabel",
+        "VermilionMetalCap"
+      ],
+      "materialOwner": "Standalone asset; no gameplay or scene owner assigned",
+      "collision": "none",
+      "lod": "Single 4732-triangle glass bottle prop with RGBA label and visible contents through tulip window",
+      "qa": "GLB v2 structure, embedded image, four materials and triangle count inspected; Blender render visually inspected; Godot import, scene placement and native-speaker review not run",
+      "status": "static-model-candidate; engine-and-language-review-pending",
+      "releaseDisposition": "standalone asset; scene placement pending"
     }
   ]
 }

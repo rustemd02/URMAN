@@ -17,7 +17,7 @@ public sealed record StudioPlayStart(string Zone, string Spawn, Vector3? Positio
 /// is shown at once on the game's own nodes — bespoke plots by authoredId,
 /// generic plots rebuilt by the game's AuthoredWorldDirector.
 /// </summary>
-public sealed class StudioWorldSection(StudioRoot studio) : IStudioSection
+public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSection
 {
     private const float PickRadiusPixels = 22f;
     public const string StreetPlotPath = "game/content/world/studio-street.world.v1.json";
@@ -461,6 +461,8 @@ public sealed class StudioWorldSection(StudioRoot studio) : IStudioSection
             _markerRoot.AddChild(marker);
             _markers[id] = marker;
         }
+
+        DrawRoutine();
     }
 
     private static Vector3? Anchor(JsonObject entity)
@@ -574,6 +576,12 @@ public sealed class StudioWorldSection(StudioRoot studio) : IStudioSection
                 break;
             case InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true } press when _brushing:
                 if (GroundHit(press.Position) is { } stroke) PaintStroke(stroke, BrushModels(), (float)_brushRadius.Value, (float)_brushDensity.Value);
+                break;
+            case InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true } press when _pointPick is not null:
+                if (GroundHit(press.Position) is { } picked) _pointPick(picked);
+                break;
+            case InputEventKey { Pressed: true, Keycode: global::Godot.Key.Escape or global::Godot.Key.Enter } when _pointPick is not null:
+                EndPointPick();
                 break;
             case InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true } press when _placing is not null:
                 if (GroundHit(press.Position) is { } spot) Place(_placing, spot);
@@ -1173,6 +1181,7 @@ public sealed class StudioWorldSection(StudioRoot studio) : IStudioSection
         if (IsGeneric(id))
         {
             StatesEditor(panel, id, parameters);
+            if ((string?)entity["kind"] == "npc") RoutineEditor(panel, id, parameters);
             panel.Buttons(("Удалить объект…", () => ConfirmDelete(id)));
         }
 

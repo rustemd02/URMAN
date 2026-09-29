@@ -25,8 +25,6 @@ public sealed class ConditionPhrases(EntityCatalog catalog)
         new("npc.state", "Факт о персонаже", false, [new("characterId", "Персонаж", "character"), new("stateKey", "Факт", "fact"), new("value", "Значение", "value")]),
         new("quest.status", "Состояние квеста", false, [new("questId", "Квест", "quest"), new("status", "Состояние", "enum", QuestStatuses)]),
         new("knowledge.status", "Сведение / улика", false, [new("knowledgeId", "Сведение", "knowledge"), new("status", "Статус", "enum", KnowledgeStatuses)]),
-        new("inventory.has", "У игрока есть предмет", false, [new("itemId", "Предмет", "item"), new("minimumQuantity", "Сколько", "integer")]),
-        new("time.phase", "Время суток", false, [new("phase", "Когда", "text")]),
         new("location.is", "Игрок в месте", false, [new("locationId", "Место", "scene")]),
         new("beat.state", "Сюжетный момент", false, [new("beatId", "Момент", "beat"), new("state", "Состояние", "enum", [("locked", "закрыт"), ("available", "доступен"), ("completed", "пройден")])]),
         new("vocabulary.status", "Татарское слово", false, [new("vocabularyId", "Слово", "vocabulary"), new("status", "Статус", "enum", [("unknown", "не встречено"), ("guessed", "угадано"), ("confirmed", "выучено")])]),
@@ -35,7 +33,7 @@ public sealed class ConditionPhrases(EntityCatalog catalog)
     public static readonly IReadOnlyList<RuleKind> Effects =
     [
         new("npc.set-state", "Запомнить факт о персонаже", true, [new("characterId", "Персонаж", "character"), new("stateKey", "Факт", "fact"), new("value", "Значение", "value")]),
-        new("quest.set-status", "Изменить состояние квеста", true, [new("questId", "Квест", "quest"), new("status", "Состояние", "enum", QuestStatuses.Skip(1).ToArray())]),
+        new("beat.set-state", "Отметить сюжетный момент", true, [new("beatId", "Момент", "beat"), new("state", "Состояние", "enum", [("available", "доступен"), ("completed", "пройден")])]),
         new("knowledge.set-status", "Подтвердить сведение", true, [new("knowledgeId", "Сведение", "knowledge"), new("status", "Статус", "enum", KnowledgeStatuses.Skip(1).ToArray())]),
         new("journal.record", "Записать в журнал", true, [new("entryId", "Запись", "knowledge"), new("sourceId", "Источник", "knowledge")]),
         new("document.open", "Открыть документ", true, [new("documentId", "Документ", "document")]),
@@ -43,8 +41,41 @@ public sealed class ConditionPhrases(EntityCatalog catalog)
         new("audio.request", "Проиграть звук", true, [new("assetId", "Звук", "asset")]),
     ];
 
+    /// <summary>Operations the schema allows but Urman.Core's rule engine does not execute yet (checked 2026-09-29).</summary>
+    public static readonly IReadOnlySet<string> NotExecuted = new HashSet<string>(StringComparer.Ordinal)
+    {
+        "time.phase", "inventory.has", "pressure.at-least", "quest.set-status", "item.transaction", "location.unlock"
+    };
+
+    /// <summary>Every rule in the project that the game would reject at run time, with where it is.</summary>
+    public static IReadOnlyList<(string EntityId, string Op)> FindNotExecuted(StudioWorkspace workspace)
+    {
+        var found = new List<(string, string)>();
+        void Scan(string id, JsonNode? node)
+        {
+            switch (node)
+            {
+                case JsonObject obj:
+                    if (obj["op"] is JsonValue op && op.TryGetValue<string>(out var name) && NotExecuted.Contains(name)) found.Add((id, name));
+                    foreach (var (_, child) in obj) Scan(id, child);
+                    break;
+                case JsonArray array:
+                    foreach (var child in array) Scan(id, child);
+                    break;
+            }
+        }
+
+        foreach (var id in workspace.EntityIds) Scan(id, workspace.Get(id));
+        return found;
+    }
+
     public string Describe(JsonObject rule)
     {
+        if ((string?)(rule["op"] as JsonValue) is { } unsupported && NotExecuted.Contains(unsupported))
+        {
+            return $"Требуется новая механика: «{unsupported}» есть в схеме, но игра его не исполняет";
+        }
+
         var op = (string?)rule["op"] ?? "";
         return op switch
         {
