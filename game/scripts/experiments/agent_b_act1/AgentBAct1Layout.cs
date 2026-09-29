@@ -19,12 +19,18 @@ public static class AgentBAct1Layout
     public const float TerrainMinX = -64f;
     public const float TerrainMaxX = 64f;
     public const float TerrainMinZ = -152f;
-    public const float TerrainMaxZ = 104f;
+    public const float TerrainMaxZ = 232f;
 
     // ---- Main road spline control points (x, z), crown width ~5.6 m -------
     public static readonly Vector2[] MainRoadAxis = new[]
     {
-        new Vector2(0f, 40f),      // off-map arrival tail (fog eats it)
+        new Vector2(0f, 196f),     // centre square, south side (village expansion)
+        new Vector2(2.2f, 172f),   // road climbs the north fields
+        new Vector2(-1.5f, 148f),
+        new Vector2(-3f, 118f),
+        new Vector2(-1.4f, 88f),
+        new Vector2(1.2f, 62f),
+        new Vector2(0f, 40f),      // north gate of the old street (was the off-map tail)
         new Vector2(0f, 9f),       // arrival spawn
         new Vector2(-0.6f, -1.5f), // village entrance pinch
         new Vector2(-1.2f, -8f),   // main street

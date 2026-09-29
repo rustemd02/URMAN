@@ -1812,8 +1812,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // an empty edge. Big, sparse and far — cheap, reads as skyline.
         var rimZones = new (float X0, float X1, float Z0, float Z1)[]
         {
-            (-62f, -40f, -120f, 14f),   // west rim
-            (83f, 88f, -120f, 14f),     // east rim, behind the far-bank houses
+            (-62f, -40f, -120f, 214f),  // west rim (runs on with the northern expansion)
+            (83f, 88f, -120f, 214f),    // east rim, behind the far-bank houses
             (-30f, 30f, -150f, -124f)   // forest rim behind kara
         };
         foreach (var (x0, x1, z0, z1) in rimZones)
@@ -1893,7 +1893,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // closed with staggered groups; the entrance vista then terminates in
         // forest instead of running on to the terrain edge. Groups sit behind the
         // road end, so a trunk never stands in the kerb line itself.
-        for (var z = 48f; z <= ForestRingInnerMax.Y; z += 3.4f)
+        for (var z = ForestRingInnerMax.Y - 24f; z <= ForestRingInnerMax.Y; z += 3.4f)
         {
             var stagger = Mathf.Sin(z * 0.63f) * 3.6f;
             for (var x = -17f; x <= 17f; x += 3.4f)
@@ -2095,7 +2095,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     // East edge sits past the ravine's far bank: the second half of the
     // village stands between the ravine and the ring (author, 2026-09-25).
-    internal static readonly Vector2 ForestRingInnerMax = new(88f, 68f);
+    internal static readonly Vector2 ForestRingInnerMax = new(88f, 216f);
 
     /// <summary>Ring depth in metres: how far the forest runs past the envelope.</summary>
     internal const float ForestRingDepth = 30.4f;

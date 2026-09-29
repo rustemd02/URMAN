@@ -18,7 +18,15 @@ public static class AgentBAct1HeightField
     public const float MinZ = -152f;
     // Extend the arrival-side terrain with a low reverse-field grade beyond
     // the z≈52 framing band; the old 56 m cap ended immediately behind it.
-    public const float MaxZ = 104f;
+    //
+    // 2026-09-29 (village expansion, slice 1): the arrival road no longer dies
+    // at z 40 in a forest wall. It runs north to the former sovkhoz centre
+    // (square, public buildings, lower street), so the window grows to 232.
+    // The reverse-field hill that used to close the view moves with it.
+    public const float MaxZ = 232f;
+    // Old north edge; the reverse-field grade is measured from here so the
+    // existing arrival houses (z 52-61) keep the ground they were placed on.
+    public const float LegacyMaxZ = 104f;
 
     private static readonly (double X, double Z, double RadiusX, double RadiusZ, double Rise)[] ForestShoulders =
     {
@@ -28,7 +36,8 @@ public static class AgentBAct1HeightField
 
     private static readonly (float X, float Z)[] MainAxis =
     {
-        (0f, 40f), (0f, 9f), (-0.6f, -1.5f), (-1.2f, -8f), (0f, -19f),
+        (0f, 196f), (2.2f, 172f), (-1.5f, 148f), (-3f, 118f), (-1.4f, 88f), (1.2f, 62f), (0f, 40f),
+        (0f, 9f), (-0.6f, -1.5f), (-1.2f, -8f), (0f, -19f),
         (-1f, -30f), (0f, -41.5f), (-0.4f, -53.5f)
     };
 
@@ -269,9 +278,12 @@ public static class AgentBAct1HeightField
 
     private static double ReverseFieldRise(double x, double z)
     {
-        var along = System.Math.Clamp((z - 52.0) / 52.0, 0.0, 1.0);
+        // The grade starts 36 m before the terrain's north edge (it began at
+        // z 52 when the edge was 104); the centre square lies south of it.
+        const double riseStart = MaxZ - 36.0;
+        var along = System.Math.Clamp((z - riseStart) / 36.0, 0.0, 1.0);
         along *= along * (3.0 - 2.0 * along);
-        var centre = -8.0 + (z - 52.0) * 0.10;
+        var centre = -8.0 + (z - riseStart) * 0.10;
         var lateral = System.Math.Clamp(1.0 - System.Math.Abs(x - centre) / 52.0,
             0.0, 1.0);
         lateral *= lateral * (3.0 - 2.0 * lateral);

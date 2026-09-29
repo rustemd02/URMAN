@@ -397,7 +397,7 @@ public partial class Act1ConnectedWorld
             foreach(var mesh in FindDescendants<MeshInstance3D>(river).Where(n=>n.Name.ToString().StartsWith("RiverIce_",StringComparison.Ordinal)))
                 registry.AddConstraint(new("water/"+mesh.Name,"water",AddressFootprint(mesh),SettlementTravelMode.All));
         var ravineWest=new List<SettlementPoint>();var ravineEast=new List<SettlementPoint>();
-        for(var z=-92f;z<=104f;z+=4f)
+        for(var z=-92f;z<=AgentBAct1HeightField.MaxZ;z+=4f)
         {
             var centre=AgentBAct1HeightField.RavineCentre(z);
             ravineWest.Add(new(centre-AgentBAct1HeightField.RavineHalfWidth,0,z));
