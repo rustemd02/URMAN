@@ -63,12 +63,25 @@ public static class AgentBAct1HeightField
         (-1.2f, -8f), (-6f, -5.5f), (-12f, -2.5f), (-19f, 0f), (-24f, 1.2f)
     };
 
-    private static readonly float[] HalfWidths = { 2.8f, 2.3f, 1.4f, 2.1f, 1.75f };
+    // Northern expansion: the lower street ends at the ravine lookout, the west
+    // spur at the field edge (kept in step with tools/world/generate_north_street.py).
+    private static readonly (float X, float Z)[] EastStreetAxis =
+    {
+        (-3f, 118f), (10f, 115.5f), (24f, 118f), (38f, 116.5f), (41f, 116f)
+    };
+
+    private static readonly (float X, float Z)[] WestSpurAxis =
+    {
+        (-1.5f, 148f), (-14f, 150.5f), (-26f, 149f), (-36f, 151.5f)
+    };
+
+    private static readonly float[] HalfWidths = { 2.8f, 2.3f, 1.4f, 2.1f, 1.75f, 2.0f, 1.75f };
 
     private static readonly ((float X, float Z)[] Points, double HalfWidth)[] RoadAxes =
     {
         (MainAxis, HalfWidths[0]), (FapAxis, HalfWidths[1]),
-        (HouseAxis, HalfWidths[2]), (ZiratAxis, HalfWidths[3]), (KaraAxis, HalfWidths[4])
+        (HouseAxis, HalfWidths[2]), (ZiratAxis, HalfWidths[3]), (KaraAxis, HalfWidths[4]),
+        (EastStreetAxis, HalfWidths[5]), (WestSpurAxis, HalfWidths[6])
     };
     private static Vector3[]? _collisionFaces;
     private static Vector3[] CollisionFacesValue => _collisionFaces ??= BuildTerrainFaces();

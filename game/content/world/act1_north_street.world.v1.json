@@ -1,0 +1,2101 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.world-plot",
+  "id": "urman.world:act1/north-street",
+  "name": "Северная улица, Нижняя улица и площадь центра",
+  "executor": "generic",
+  "note": "Расширение деревни (срез 2). Предложение генератора tools/world/generate_north_street.py; положение объектов можно править в Studio. Здания площади — объёмы-заготовки до интерьерных срезов ТЗ04.",
+  "entities": [
+    {
+      "id": "urman.world:act1/north-street/main-crown0",
+      "kind": "prop",
+      "name": "main-crown0",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          0.3,
+          0,
+          45.5
+        ],
+        "yawDegrees": 3.1,
+        "scale": 0.95,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/main-crown1",
+      "kind": "prop",
+      "name": "main-crown1",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          0.9,
+          0,
+          56.5
+        ],
+        "yawDegrees": 3.1,
+        "scale": 0.95,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/main-crown2",
+      "kind": "prop",
+      "name": "main-crown2",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          0.55,
+          0,
+          68.5
+        ],
+        "yawDegrees": -5.7,
+        "scale": 0.95,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/main-crown3",
+      "kind": "prop",
+      "name": "main-crown3",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          -0.75,
+          0,
+          81.5
+        ],
+        "yawDegrees": -5.7,
+        "scale": 0.95,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/main-crown4",
+      "kind": "prop",
+      "name": "main-crown4",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          -1.8,
+          0,
+          95.5
+        ],
+        "yawDegrees": -3.1,
+        "scale": 0.95,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/main-crown5",
+      "kind": "prop",
+      "name": "main-crown5",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          -2.6,
+          0,
+          110.5
+        ],
+        "yawDegrees": -3.1,
+        "scale": 0.95,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/main-crown6",
+      "kind": "prop",
+      "name": "main-crown6",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          -2.62,
+          0,
+          125.5
+        ],
+        "yawDegrees": 2.9,
+        "scale": 0.95,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/main-crown7",
+      "kind": "prop",
+      "name": "main-crown7",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          -1.88,
+          0,
+          140.5
+        ],
+        "yawDegrees": 2.9,
+        "scale": 0.95,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/main-crown8",
+      "kind": "prop",
+      "name": "main-crown8",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          -0.57,
+          0,
+          154.0
+        ],
+        "yawDegrees": 8.8,
+        "scale": 0.95,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/main-crown9",
+      "kind": "prop",
+      "name": "main-crown9",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          1.28,
+          0,
+          166.0
+        ],
+        "yawDegrees": 8.8,
+        "scale": 0.95,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/main-crown10",
+      "kind": "prop",
+      "name": "main-crown10",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          1.65,
+          0,
+          178.0
+        ],
+        "yawDegrees": -5.2,
+        "scale": 0.95,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/main-crown11",
+      "kind": "prop",
+      "name": "main-crown11",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          0.55,
+          0,
+          190.0
+        ],
+        "yawDegrees": -5.2,
+        "scale": 0.95,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w1-house",
+      "kind": "prop",
+      "name": "m-w1-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          -15.61,
+          0,
+          80
+        ],
+        "yawDegrees": 85.1,
+        "scale": 0.9
+      },
+      "note": "Хозяйство: дом с двором, вход к дороге"
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w1-shed",
+      "kind": "prop",
+      "name": "m-w1-shed",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/outbuildingshed-low",
+        "position": [
+          -28.11,
+          0,
+          81.81
+        ],
+        "yawDegrees": 85.1
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w1-wood",
+      "kind": "prop",
+      "name": "m-w1-wood",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
+        "position": [
+          -21.11,
+          0,
+          72.6
+        ],
+        "yawDegrees": 83.2
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w1-fence0",
+      "kind": "prop",
+      "name": "m-w1-fence0",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -6.8,
+          0,
+          70.3
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w1-fence1",
+      "kind": "prop",
+      "name": "m-w1-fence1",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -6.8,
+          0,
+          75.7
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w1-fence2",
+      "kind": "prop",
+      "name": "m-w1-fence2",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -6.8,
+          0,
+          84.3
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w1-fence3",
+      "kind": "prop",
+      "name": "m-w1-fence3",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -6.8,
+          0,
+          89.7
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e1-house",
+      "kind": "prop",
+      "name": "m-e1-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          17.34,
+          0,
+          76
+        ],
+        "yawDegrees": -86.6,
+        "scale": 0.9
+      },
+      "note": "Хозяйство: дом с двором, вход к дороге"
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e1-shed",
+      "kind": "prop",
+      "name": "m-e1-shed",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/outbuildingshed-low",
+        "position": [
+          29.84,
+          0,
+          74.85
+        ],
+        "yawDegrees": -86.6
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e1-wood",
+      "kind": "prop",
+      "name": "m-e1-wood",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
+        "position": [
+          22.84,
+          0,
+          68.6
+        ],
+        "yawDegrees": 88.1
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e1-fence0",
+      "kind": "prop",
+      "name": "m-e1-fence0",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          6.0,
+          0,
+          66.3
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e1-fence1",
+      "kind": "prop",
+      "name": "m-e1-fence1",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          6.0,
+          0,
+          71.7
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e1-fence2",
+      "kind": "prop",
+      "name": "m-e1-fence2",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          6.0,
+          0,
+          80.3
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e1-fence3",
+      "kind": "prop",
+      "name": "m-e1-fence3",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          6.0,
+          0,
+          85.7
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w2-house",
+      "kind": "prop",
+      "name": "m-w2-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          -15.87,
+          0,
+          104
+        ],
+        "yawDegrees": 85.5,
+        "scale": 0.9
+      },
+      "note": "Хозяйство: дом с двором, вход к дороге"
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w2-shed",
+      "kind": "prop",
+      "name": "m-w2-shed",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/outbuildingshed-low",
+        "position": [
+          -28.37,
+          0,
+          102.17
+        ],
+        "yawDegrees": 265.5
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w2-wood",
+      "kind": "prop",
+      "name": "m-w2-wood",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
+        "position": [
+          -21.37,
+          0,
+          96.6
+        ],
+        "yawDegrees": 97.8
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w2-fence0",
+      "kind": "prop",
+      "name": "m-w2-fence0",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -8.45,
+          0,
+          94.3
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w2-fence1",
+      "kind": "prop",
+      "name": "m-w2-fence1",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -8.45,
+          0,
+          99.7
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w2-fence2",
+      "kind": "prop",
+      "name": "m-w2-fence2",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -8.45,
+          0,
+          108.3
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w2-fence3",
+      "kind": "prop",
+      "name": "m-w2-fence3",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -8.45,
+          0,
+          113.7
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w3-house",
+      "kind": "prop",
+      "name": "m-w3-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          -18.52,
+          0,
+          128
+        ],
+        "yawDegrees": 90.2,
+        "scale": 0.9
+      },
+      "note": "Хозяйство: дом с двором, вход к дороге"
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w3-shed",
+      "kind": "prop",
+      "name": "m-w3-shed",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/outbuildingshed-low",
+        "position": [
+          -31.02,
+          0,
+          125.06
+        ],
+        "yawDegrees": 270.2
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w3-wood",
+      "kind": "prop",
+      "name": "m-w3-wood",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
+        "position": [
+          -24.02,
+          0,
+          120.6
+        ],
+        "yawDegrees": 89.7
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w3-fence0",
+      "kind": "prop",
+      "name": "m-w3-fence0",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -8.7,
+          0,
+          118.3
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w3-fence1",
+      "kind": "prop",
+      "name": "m-w3-fence1",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -8.7,
+          0,
+          123.7
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w3-fence2",
+      "kind": "prop",
+      "name": "m-w3-fence2",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -8.7,
+          0,
+          132.3
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w3-fence3",
+      "kind": "prop",
+      "name": "m-w3-fence3",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -8.7,
+          0,
+          137.7
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w4-house",
+      "kind": "prop",
+      "name": "m-w4-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          -20.34,
+          0,
+          166
+        ],
+        "yawDegrees": 87.7,
+        "scale": 0.9
+      },
+      "note": "Хозяйство: дом с двором, вход к дороге"
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w4-shed",
+      "kind": "prop",
+      "name": "m-w4-shed",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/outbuildingshed-low",
+        "position": [
+          -32.84,
+          0,
+          163.48
+        ],
+        "yawDegrees": 87.7
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w4-wood",
+      "kind": "prop",
+      "name": "m-w4-wood",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
+        "position": [
+          -25.84,
+          0,
+          158.6
+        ],
+        "yawDegrees": 94.9
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w4-fence0",
+      "kind": "prop",
+      "name": "m-w4-fence0",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -4.92,
+          0,
+          156.3
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w4-fence1",
+      "kind": "prop",
+      "name": "m-w4-fence1",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -4.92,
+          0,
+          161.7
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w4-fence2",
+      "kind": "prop",
+      "name": "m-w4-fence2",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -4.92,
+          0,
+          170.3
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-w4-fence3",
+      "kind": "prop",
+      "name": "m-w4-fence3",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          -4.92,
+          0,
+          175.7
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e4-house",
+      "kind": "prop",
+      "name": "m-e4-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          23.57,
+          0,
+          168
+        ],
+        "yawDegrees": -87.5,
+        "scale": 0.9
+      },
+      "note": "Хозяйство: дом с двором, вход к дороге"
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e4-shed",
+      "kind": "prop",
+      "name": "m-e4-shed",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/outbuildingshed-low",
+        "position": [
+          36.07,
+          0,
+          167.39
+        ],
+        "yawDegrees": 92.5
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e4-wood",
+      "kind": "prop",
+      "name": "m-e4-wood",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
+        "position": [
+          29.07,
+          0,
+          160.6
+        ],
+        "yawDegrees": 92.6
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e4-fence0",
+      "kind": "prop",
+      "name": "m-e4-fence0",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          7.78,
+          0,
+          158.3
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e4-fence1",
+      "kind": "prop",
+      "name": "m-e4-fence1",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          7.78,
+          0,
+          163.7
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e4-fence2",
+      "kind": "prop",
+      "name": "m-e4-fence2",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          7.78,
+          0,
+          172.3
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/m-e4-fence3",
+      "kind": "prop",
+      "name": "m-e4-fence3",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+        "position": [
+          7.78,
+          0,
+          177.7
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/well",
+      "kind": "prop",
+      "name": "well",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/well-yardlandmark",
+        "position": [
+          4.57,
+          0,
+          111
+        ],
+        "yawDegrees": 0,
+        "scale": 0.9
+      },
+      "note": "Колодец у поворота на Нижнюю улицу"
+    },
+    {
+      "id": "urman.world:act1/north-street/east-crown0",
+      "kind": "prop",
+      "name": "east-crown0",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          3.5,
+          0,
+          116.75
+        ],
+        "yawDegrees": 100.9,
+        "scale": 0.68,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/east-crown1",
+      "kind": "prop",
+      "name": "east-crown1",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          17.0,
+          0,
+          116.75
+        ],
+        "yawDegrees": 79.9,
+        "scale": 0.68,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/east-crown2",
+      "kind": "prop",
+      "name": "east-crown2",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          31.0,
+          0,
+          117.25
+        ],
+        "yawDegrees": 96.1,
+        "scale": 0.68,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/east-crown3",
+      "kind": "prop",
+      "name": "east-crown3",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          39.5,
+          0,
+          116.25
+        ],
+        "yawDegrees": 99.5,
+        "scale": 0.68,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/e-n1-house",
+      "kind": "prop",
+      "name": "e-n1-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          13.57,
+          0,
+          132
+        ],
+        "yawDegrees": 179.3,
+        "scale": 0.9
+      },
+      "note": "Нижняя улица"
+    },
+    {
+      "id": "urman.world:act1/north-street/e-n1-wood",
+      "kind": "prop",
+      "name": "e-n1-wood",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
+        "position": [
+          21,
+          0,
+          127
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/e-s1-house",
+      "kind": "prop",
+      "name": "e-s1-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          11.92,
+          0,
+          99
+        ],
+        "yawDegrees": -0.9,
+        "scale": 0.9
+      },
+      "note": "Нижняя улица"
+    },
+    {
+      "id": "urman.world:act1/north-street/e-s1-wood",
+      "kind": "prop",
+      "name": "e-s1-wood",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
+        "position": [
+          19,
+          0,
+          104
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/e-n2-house",
+      "kind": "prop",
+      "name": "e-n2-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          30.43,
+          0,
+          134
+        ],
+        "yawDegrees": 179.1,
+        "scale": 0.9
+      },
+      "note": "Нижняя улица"
+    },
+    {
+      "id": "urman.world:act1/north-street/e-n2-wood",
+      "kind": "prop",
+      "name": "e-n2-wood",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
+        "position": [
+          38,
+          0,
+          129
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/e-s2-house",
+      "kind": "prop",
+      "name": "e-s2-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          29.17,
+          0,
+          100
+        ],
+        "yawDegrees": -0.8,
+        "scale": 0.9
+      },
+      "note": "Нижняя улица"
+    },
+    {
+      "id": "urman.world:act1/north-street/e-s2-wood",
+      "kind": "prop",
+      "name": "e-s2-wood",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
+        "position": [
+          37,
+          0,
+          105
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/lookout-bench",
+      "kind": "prop",
+      "name": "lookout-bench",
+      "params": {
+        "catalogId": "urman.catalog:urman_fap_clinic_kit/fapbench",
+        "position": [
+          38.5,
+          0,
+          113.2
+        ],
+        "yawDegrees": -90
+      },
+      "note": "Обзорная точка над оврагом, вид на дальний берег"
+    },
+    {
+      "id": "urman.world:act1/north-street/lookout-board",
+      "kind": "prop",
+      "name": "lookout-board",
+      "params": {
+        "catalogId": "urman.catalog:urman_fap_clinic_kit/fapnoticeboard",
+        "position": [
+          38.0,
+          0,
+          119.4
+        ],
+        "yawDegrees": -90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/west-crown0",
+      "kind": "prop",
+      "name": "west-crown0",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          -4.62,
+          0,
+          148.62
+        ],
+        "yawDegrees": -78.7,
+        "scale": 0.59,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/west-crown1",
+      "kind": "prop",
+      "name": "west-crown1",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          -10.88,
+          0,
+          149.88
+        ],
+        "yawDegrees": -78.7,
+        "scale": 0.59,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/west-crown2",
+      "kind": "prop",
+      "name": "west-crown2",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          -20.0,
+          0,
+          149.75
+        ],
+        "yawDegrees": -97.1,
+        "scale": 0.59,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/west-crown3",
+      "kind": "prop",
+      "name": "west-crown3",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          -31.0,
+          0,
+          150.25
+        ],
+        "yawDegrees": -76.0,
+        "scale": 0.59,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/w-s1-house",
+      "kind": "prop",
+      "name": "w-s1-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          -32,
+          0,
+          138
+        ],
+        "yawDegrees": -0.8,
+        "scale": 0.9
+      },
+      "note": "Западный проулок"
+    },
+    {
+      "id": "urman.world:act1/north-street/w-s1-shed",
+      "kind": "prop",
+      "name": "w-s1-shed",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/outbuildingshed-low",
+        "position": [
+          -43,
+          0,
+          140
+        ],
+        "yawDegrees": 0
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/sq-office",
+      "kind": "prop",
+      "name": "sq-office",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/herohouse-timberplaster",
+        "position": [
+          -22,
+          0,
+          190
+        ],
+        "yawDegrees": 90
+      },
+      "note": "Объём площади бывшего совхозного центра; фасады и функции — по ТЗ04"
+    },
+    {
+      "id": "urman.world:act1/north-street/sq-shop",
+      "kind": "prop",
+      "name": "sq-shop",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/herohouse-timberplaster",
+        "position": [
+          23,
+          0,
+          188
+        ],
+        "yawDegrees": -90
+      },
+      "note": "Объём площади бывшего совхозного центра; фасады и функции — по ТЗ04"
+    },
+    {
+      "id": "urman.world:act1/north-street/sq-well",
+      "kind": "prop",
+      "name": "sq-well",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/well-yardlandmark",
+        "position": [
+          10.0,
+          0,
+          180.0
+        ],
+        "yawDegrees": 0
+      },
+      "note": "Центральный колодец площади"
+    },
+    {
+      "id": "urman.world:act1/north-street/sq-bench1",
+      "kind": "prop",
+      "name": "sq-bench1",
+      "params": {
+        "catalogId": "urman.catalog:urman_fap_clinic_kit/fapbench",
+        "position": [
+          -6.5,
+          0,
+          186.0
+        ],
+        "yawDegrees": 90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/sq-bench2",
+      "kind": "prop",
+      "name": "sq-bench2",
+      "params": {
+        "catalogId": "urman.catalog:urman_fap_clinic_kit/fapbench",
+        "position": [
+          6.5,
+          0,
+          190.0
+        ],
+        "yawDegrees": -90
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/sq-board",
+      "kind": "prop",
+      "name": "sq-board",
+      "params": {
+        "catalogId": "urman.catalog:urman_fap_clinic_kit/fapnoticeboard",
+        "position": [
+          -4.0,
+          0,
+          177.0
+        ],
+        "yawDegrees": 0
+      },
+      "note": "Доска объявлений — обновляемая точка для сюжетных объявлений"
+    },
+    {
+      "id": "urman.world:act1/north-street/trees-0",
+      "kind": "scatter",
+      "name": "Деревья поля 0",
+      "params": {
+        "position": [
+          -30,
+          0,
+          90
+        ],
+        "radius": 16,
+        "density": 0.012,
+        "seed": 1000,
+        "catalogIds": [
+          "urman.catalog:agentb_foliage_kit/winterbirch-1",
+          "urman.catalog:agentb_foliage_kit/winterbirch-2",
+          "urman.catalog:agentb_foliage_kit/winterlinden-1",
+          "urman.catalog:agentb_foliage_kit/winterrowan-1",
+          "urman.catalog:agentb_foliage_kit/winterspruce-2"
+        ],
+        "scaleMin": 0.8,
+        "scaleMax": 1.25,
+        "exclude": [
+          [
+            -15.61,
+            80,
+            11.0
+          ],
+          [
+            17.34,
+            76,
+            11.0
+          ],
+          [
+            -15.87,
+            104,
+            11.0
+          ],
+          [
+            -18.52,
+            128,
+            11.0
+          ],
+          [
+            -20.34,
+            166,
+            11.0
+          ],
+          [
+            23.57,
+            168,
+            11.0
+          ],
+          [
+            13.57,
+            132,
+            11.0
+          ],
+          [
+            11.92,
+            99,
+            11.0
+          ],
+          [
+            30.43,
+            134,
+            11.0
+          ],
+          [
+            29.17,
+            100,
+            11.0
+          ],
+          [
+            -32,
+            138,
+            11.0
+          ],
+          [
+            -22,
+            190,
+            11.0
+          ],
+          [
+            23,
+            188,
+            11.0
+          ],
+          [
+            10.0,
+            180.0,
+            11.0
+          ],
+          [
+            -6.5,
+            186.0,
+            11.0
+          ],
+          [
+            6.5,
+            190.0,
+            11.0
+          ],
+          [
+            -4.0,
+            177.0,
+            11.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/trees-1",
+      "kind": "scatter",
+      "name": "Деревья поля 1",
+      "params": {
+        "position": [
+          -28,
+          0,
+          125
+        ],
+        "radius": 14,
+        "density": 0.01,
+        "seed": 1001,
+        "catalogIds": [
+          "urman.catalog:agentb_foliage_kit/winterbirch-1",
+          "urman.catalog:agentb_foliage_kit/winterbirch-2",
+          "urman.catalog:agentb_foliage_kit/winterlinden-1",
+          "urman.catalog:agentb_foliage_kit/winterrowan-1",
+          "urman.catalog:agentb_foliage_kit/winterspruce-2"
+        ],
+        "scaleMin": 0.8,
+        "scaleMax": 1.25,
+        "exclude": [
+          [
+            -15.61,
+            80,
+            11.0
+          ],
+          [
+            17.34,
+            76,
+            11.0
+          ],
+          [
+            -15.87,
+            104,
+            11.0
+          ],
+          [
+            -18.52,
+            128,
+            11.0
+          ],
+          [
+            -20.34,
+            166,
+            11.0
+          ],
+          [
+            23.57,
+            168,
+            11.0
+          ],
+          [
+            13.57,
+            132,
+            11.0
+          ],
+          [
+            11.92,
+            99,
+            11.0
+          ],
+          [
+            30.43,
+            134,
+            11.0
+          ],
+          [
+            29.17,
+            100,
+            11.0
+          ],
+          [
+            -32,
+            138,
+            11.0
+          ],
+          [
+            -22,
+            190,
+            11.0
+          ],
+          [
+            23,
+            188,
+            11.0
+          ],
+          [
+            10.0,
+            180.0,
+            11.0
+          ],
+          [
+            -6.5,
+            186.0,
+            11.0
+          ],
+          [
+            6.5,
+            190.0,
+            11.0
+          ],
+          [
+            -4.0,
+            177.0,
+            11.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/trees-2",
+      "kind": "scatter",
+      "name": "Деревья поля 2",
+      "params": {
+        "position": [
+          34,
+          0,
+          78
+        ],
+        "radius": 16,
+        "density": 0.012,
+        "seed": 1002,
+        "catalogIds": [
+          "urman.catalog:agentb_foliage_kit/winterbirch-1",
+          "urman.catalog:agentb_foliage_kit/winterbirch-2",
+          "urman.catalog:agentb_foliage_kit/winterlinden-1",
+          "urman.catalog:agentb_foliage_kit/winterrowan-1",
+          "urman.catalog:agentb_foliage_kit/winterspruce-2"
+        ],
+        "scaleMin": 0.8,
+        "scaleMax": 1.25,
+        "exclude": [
+          [
+            -15.61,
+            80,
+            11.0
+          ],
+          [
+            17.34,
+            76,
+            11.0
+          ],
+          [
+            -15.87,
+            104,
+            11.0
+          ],
+          [
+            -18.52,
+            128,
+            11.0
+          ],
+          [
+            -20.34,
+            166,
+            11.0
+          ],
+          [
+            23.57,
+            168,
+            11.0
+          ],
+          [
+            13.57,
+            132,
+            11.0
+          ],
+          [
+            11.92,
+            99,
+            11.0
+          ],
+          [
+            30.43,
+            134,
+            11.0
+          ],
+          [
+            29.17,
+            100,
+            11.0
+          ],
+          [
+            -32,
+            138,
+            11.0
+          ],
+          [
+            -22,
+            190,
+            11.0
+          ],
+          [
+            23,
+            188,
+            11.0
+          ],
+          [
+            10.0,
+            180.0,
+            11.0
+          ],
+          [
+            -6.5,
+            186.0,
+            11.0
+          ],
+          [
+            6.5,
+            190.0,
+            11.0
+          ],
+          [
+            -4.0,
+            177.0,
+            11.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/trees-3",
+      "kind": "scatter",
+      "name": "Деревья поля 3",
+      "params": {
+        "position": [
+          36,
+          0,
+          155
+        ],
+        "radius": 14,
+        "density": 0.01,
+        "seed": 1003,
+        "catalogIds": [
+          "urman.catalog:agentb_foliage_kit/winterbirch-1",
+          "urman.catalog:agentb_foliage_kit/winterbirch-2",
+          "urman.catalog:agentb_foliage_kit/winterlinden-1",
+          "urman.catalog:agentb_foliage_kit/winterrowan-1",
+          "urman.catalog:agentb_foliage_kit/winterspruce-2"
+        ],
+        "scaleMin": 0.8,
+        "scaleMax": 1.25,
+        "exclude": [
+          [
+            -15.61,
+            80,
+            11.0
+          ],
+          [
+            17.34,
+            76,
+            11.0
+          ],
+          [
+            -15.87,
+            104,
+            11.0
+          ],
+          [
+            -18.52,
+            128,
+            11.0
+          ],
+          [
+            -20.34,
+            166,
+            11.0
+          ],
+          [
+            23.57,
+            168,
+            11.0
+          ],
+          [
+            13.57,
+            132,
+            11.0
+          ],
+          [
+            11.92,
+            99,
+            11.0
+          ],
+          [
+            30.43,
+            134,
+            11.0
+          ],
+          [
+            29.17,
+            100,
+            11.0
+          ],
+          [
+            -32,
+            138,
+            11.0
+          ],
+          [
+            -22,
+            190,
+            11.0
+          ],
+          [
+            23,
+            188,
+            11.0
+          ],
+          [
+            10.0,
+            180.0,
+            11.0
+          ],
+          [
+            -6.5,
+            186.0,
+            11.0
+          ],
+          [
+            6.5,
+            190.0,
+            11.0
+          ],
+          [
+            -4.0,
+            177.0,
+            11.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/trees-4",
+      "kind": "scatter",
+      "name": "Деревья поля 4",
+      "params": {
+        "position": [
+          -34,
+          0,
+          178
+        ],
+        "radius": 14,
+        "density": 0.014,
+        "seed": 1004,
+        "catalogIds": [
+          "urman.catalog:agentb_foliage_kit/winterbirch-1",
+          "urman.catalog:agentb_foliage_kit/winterbirch-2",
+          "urman.catalog:agentb_foliage_kit/winterlinden-1",
+          "urman.catalog:agentb_foliage_kit/winterrowan-1",
+          "urman.catalog:agentb_foliage_kit/winterspruce-2"
+        ],
+        "scaleMin": 0.8,
+        "scaleMax": 1.25,
+        "exclude": [
+          [
+            -15.61,
+            80,
+            11.0
+          ],
+          [
+            17.34,
+            76,
+            11.0
+          ],
+          [
+            -15.87,
+            104,
+            11.0
+          ],
+          [
+            -18.52,
+            128,
+            11.0
+          ],
+          [
+            -20.34,
+            166,
+            11.0
+          ],
+          [
+            23.57,
+            168,
+            11.0
+          ],
+          [
+            13.57,
+            132,
+            11.0
+          ],
+          [
+            11.92,
+            99,
+            11.0
+          ],
+          [
+            30.43,
+            134,
+            11.0
+          ],
+          [
+            29.17,
+            100,
+            11.0
+          ],
+          [
+            -32,
+            138,
+            11.0
+          ],
+          [
+            -22,
+            190,
+            11.0
+          ],
+          [
+            23,
+            188,
+            11.0
+          ],
+          [
+            10.0,
+            180.0,
+            11.0
+          ],
+          [
+            -6.5,
+            186.0,
+            11.0
+          ],
+          [
+            6.5,
+            190.0,
+            11.0
+          ],
+          [
+            -4.0,
+            177.0,
+            11.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/trees-5",
+      "kind": "scatter",
+      "name": "Деревья поля 5",
+      "params": {
+        "position": [
+          30,
+          0,
+          205
+        ],
+        "radius": 20,
+        "density": 0.02,
+        "seed": 1005,
+        "catalogIds": [
+          "urman.catalog:agentb_foliage_kit/winterbirch-1",
+          "urman.catalog:agentb_foliage_kit/winterbirch-2",
+          "urman.catalog:agentb_foliage_kit/winterlinden-1",
+          "urman.catalog:agentb_foliage_kit/winterrowan-1",
+          "urman.catalog:agentb_foliage_kit/winterspruce-2"
+        ],
+        "scaleMin": 0.8,
+        "scaleMax": 1.25,
+        "exclude": [
+          [
+            -15.61,
+            80,
+            11.0
+          ],
+          [
+            17.34,
+            76,
+            11.0
+          ],
+          [
+            -15.87,
+            104,
+            11.0
+          ],
+          [
+            -18.52,
+            128,
+            11.0
+          ],
+          [
+            -20.34,
+            166,
+            11.0
+          ],
+          [
+            23.57,
+            168,
+            11.0
+          ],
+          [
+            13.57,
+            132,
+            11.0
+          ],
+          [
+            11.92,
+            99,
+            11.0
+          ],
+          [
+            30.43,
+            134,
+            11.0
+          ],
+          [
+            29.17,
+            100,
+            11.0
+          ],
+          [
+            -32,
+            138,
+            11.0
+          ],
+          [
+            -22,
+            190,
+            11.0
+          ],
+          [
+            23,
+            188,
+            11.0
+          ],
+          [
+            10.0,
+            180.0,
+            11.0
+          ],
+          [
+            -6.5,
+            186.0,
+            11.0
+          ],
+          [
+            6.5,
+            190.0,
+            11.0
+          ],
+          [
+            -4.0,
+            177.0,
+            11.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/trees-6",
+      "kind": "scatter",
+      "name": "Деревья поля 6",
+      "params": {
+        "position": [
+          -30,
+          0,
+          206
+        ],
+        "radius": 20,
+        "density": 0.02,
+        "seed": 1006,
+        "catalogIds": [
+          "urman.catalog:agentb_foliage_kit/winterbirch-1",
+          "urman.catalog:agentb_foliage_kit/winterbirch-2",
+          "urman.catalog:agentb_foliage_kit/winterlinden-1",
+          "urman.catalog:agentb_foliage_kit/winterrowan-1",
+          "urman.catalog:agentb_foliage_kit/winterspruce-2"
+        ],
+        "scaleMin": 0.8,
+        "scaleMax": 1.25,
+        "exclude": [
+          [
+            -15.61,
+            80,
+            11.0
+          ],
+          [
+            17.34,
+            76,
+            11.0
+          ],
+          [
+            -15.87,
+            104,
+            11.0
+          ],
+          [
+            -18.52,
+            128,
+            11.0
+          ],
+          [
+            -20.34,
+            166,
+            11.0
+          ],
+          [
+            23.57,
+            168,
+            11.0
+          ],
+          [
+            13.57,
+            132,
+            11.0
+          ],
+          [
+            11.92,
+            99,
+            11.0
+          ],
+          [
+            30.43,
+            134,
+            11.0
+          ],
+          [
+            29.17,
+            100,
+            11.0
+          ],
+          [
+            -32,
+            138,
+            11.0
+          ],
+          [
+            -22,
+            190,
+            11.0
+          ],
+          [
+            23,
+            188,
+            11.0
+          ],
+          [
+            10.0,
+            180.0,
+            11.0
+          ],
+          [
+            -6.5,
+            186.0,
+            11.0
+          ],
+          [
+            6.5,
+            190.0,
+            11.0
+          ],
+          [
+            -4.0,
+            177.0,
+            11.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/trees-7",
+      "kind": "scatter",
+      "name": "Деревья поля 7",
+      "params": {
+        "position": [
+          0,
+          0,
+          212
+        ],
+        "radius": 24,
+        "density": 0.03,
+        "seed": 1007,
+        "catalogIds": [
+          "urman.catalog:agentb_foliage_kit/winterbirch-1",
+          "urman.catalog:agentb_foliage_kit/winterbirch-2",
+          "urman.catalog:agentb_foliage_kit/winterlinden-1",
+          "urman.catalog:agentb_foliage_kit/winterrowan-1",
+          "urman.catalog:agentb_foliage_kit/winterspruce-2"
+        ],
+        "scaleMin": 0.8,
+        "scaleMax": 1.25,
+        "exclude": [
+          [
+            -15.61,
+            80,
+            11.0
+          ],
+          [
+            17.34,
+            76,
+            11.0
+          ],
+          [
+            -15.87,
+            104,
+            11.0
+          ],
+          [
+            -18.52,
+            128,
+            11.0
+          ],
+          [
+            -20.34,
+            166,
+            11.0
+          ],
+          [
+            23.57,
+            168,
+            11.0
+          ],
+          [
+            13.57,
+            132,
+            11.0
+          ],
+          [
+            11.92,
+            99,
+            11.0
+          ],
+          [
+            30.43,
+            134,
+            11.0
+          ],
+          [
+            29.17,
+            100,
+            11.0
+          ],
+          [
+            -32,
+            138,
+            11.0
+          ],
+          [
+            -22,
+            190,
+            11.0
+          ],
+          [
+            23,
+            188,
+            11.0
+          ],
+          [
+            10.0,
+            180.0,
+            11.0
+          ],
+          [
+            -6.5,
+            186.0,
+            11.0
+          ],
+          [
+            6.5,
+            190.0,
+            11.0
+          ],
+          [
+            -4.0,
+            177.0,
+            11.0
+          ]
+        ]
+      }
+    }
+  ]
+}

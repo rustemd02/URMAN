@@ -40,6 +40,21 @@ public static class AgentBAct1Layout
         new Vector2(-0.4f, -53.5f) // zirat roadside
     };
 
+    // Lower street: leaves the main street at the first bend and ends at the
+    // ravine lookout (width 4.0 m).
+    public static readonly Vector2[] EastStreetAxis = new[]
+    {
+        new Vector2(-3f, 118f), new Vector2(10f, 115.5f), new Vector2(24f, 118f),
+        new Vector2(38f, 116.5f), new Vector2(41f, 116f)
+    };
+
+    // West spur: a short lane to three western yards (width 3.5 m).
+    public static readonly Vector2[] WestSpurAxis = new[]
+    {
+        new Vector2(-1.5f, 148f), new Vector2(-14f, 150.5f), new Vector2(-26f, 149f),
+        new Vector2(-36f, 151.5f)
+    };
+
     // Zirat road continues at 4.2 m width.
     public static readonly Vector2[] ZiratRoadAxis = new[]
     {
