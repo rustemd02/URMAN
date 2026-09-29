@@ -1,0 +1,593 @@
+{
+  "kind": "asset request passports; execution stays in execution_backlog.json",
+  "requests": [
+    {
+      "id": "TX29-01",
+      "family": "Жилые фасады/срубы/обшивка",
+      "priority": 0,
+      "consumer": "tools/world/generate_north_street.py; agent_b_buildings.py; act1_village_kit.world.v1.json",
+      "geometry_required": "венцы, торцы, угол/стыки, карниз, крыльцо; не сплошной блок",
+      "uv_contract": "wood_weathered / wood_painted, metric UV 0.5–2m",
+      "format_size": "1024 square tile PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.78,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-02",
+      "family": "Ограды, ворота, калитки",
+      "priority": 0,
+      "consumer": "generate_north_street.py; Act1ConnectedWorld.Fences.cs",
+      "geometry_required": "раздельные доски с толщиной/скосом, столбы, петли/защёлка",
+      "uv_contract": "wood_weathered / enamel metal, metric UV",
+      "format_size": "1024 square tile PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.72,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-03",
+      "family": "Наличники, окна, двери, крыльца",
+      "priority": 0,
+      "consumer": "SovkhozSquare; SquareInteriors; public/house builders",
+      "geometry_required": "проёмы, рамы, откосы, ручки, петли; стекло отдельно",
+      "uv_contract": "painted wood trim; glass shader, island UV",
+      "format_size": "1024 square tile PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.65,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-04",
+      "family": "Крыши, водостоки, дымоходы",
+      "priority": 0,
+      "consumer": "SovkhozSquare; north_street; agent_b_buildings",
+      "geometry_required": "фальцы/волны, свес, жёлоб/труба, колпак, снег отдельным мешем",
+      "uv_contract": "galvanized / roof paint metric UV",
+      "format_size": "1024 square tile PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.55,
+        "metallic": 0.65,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-05",
+      "family": "Штукатурка общественных зданий",
+      "priority": 0,
+      "consumer": "SovkhozSquare; PublicBuildings",
+      "geometry_required": "цоколь, пояс, углы, толщина, проёмы; дверной маршрут",
+      "uv_contract": "limewashed_plaster metric 2m",
+      "format_size": "1024 square tile PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.92,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-06",
+      "family": "Кирпич конторы/печи, бетон остановки/ступеней",
+      "priority": 0,
+      "consumer": "SovkhozSquare; house stove",
+      "geometry_required": "масштаб кладки, швы/кромки; фундамент без парения",
+      "uv_contract": "brick / concrete metric 1m",
+      "format_size": "1024 square tiles PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.9,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-07",
+      "family": "Дворы, дорожки, снег, дрова",
+      "priority": 0,
+      "consumer": "RoadsideGrounding; SnowTrampleField; north_street",
+      "geometry_required": "следы/посадка, отдельные колотые поленья, снежные шапки",
+      "uv_contract": "reuse reviewed snow/earth/bark; gap requests only",
+      "format_size": "1024 tiles PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.95,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-08",
+      "family": "Лавки и уличные сиденья",
+      "priority": 0,
+      "consumer": "BuildBusPavilion; public/house yard builders",
+      "geometry_required": "доски, скос, ножки/раскосы/крепёж; нормальная посадка",
+      "uv_contract": "weathered wood metric; enamel steel",
+      "format_size": "1024 square tile PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.8,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-09",
+      "family": "Школьная парта, столы, мебель",
+      "priority": 0,
+      "consumer": "SquareInteriors.SDesk; StyleBenchmarkInteriorFactory",
+      "geometry_required": "фаска столешницы, кромка ЛДСП, сварная рама, заглушки/винты",
+      "uv_contract": "laminated birch / edge band metric 1m",
+      "format_size": "1024 square tile PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.42,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-10",
+      "family": "Фанерный школьный/домашний стул",
+      "priority": 0,
+      "consumer": "SquareInteriors.SChair; house furniture",
+      "geometry_required": "согнутая фанера, округлые углы, толщина, трубчатая рама, заклёпки",
+      "uv_contract": "plywood varnished / enamel steel metric 0.5m",
+      "format_size": "1024 square tile PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.48,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-11",
+      "family": "Зелёная школьная доска",
+      "priority": 0,
+      "consumer": "SquareInteriors.School",
+      "geometry_required": "рама, листовая толщина, лоток, крепление; мел отдельный",
+      "uv_contract": "green chalkboard straight-on 2m x 1m",
+      "format_size": "1536x1024 surface PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.9,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-12",
+      "family": "Секционные батареи, отопительные трубы",
+      "priority": 0,
+      "consumer": "SquareInteriors.SRadiator; public/house interiors",
+      "geometry_required": "радиаторные каналы секциями, ниппели, кран, изгиб трубы",
+      "uv_contract": "warm white enamel metal metric",
+      "format_size": "1024 square tile PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.48,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-13",
+      "family": "Кресла зала ДК",
+      "priority": 0,
+      "consumer": "SquareInteriors.Club",
+      "geometry_required": "мягкое выгнутое сиденье/спинка, швы, боковины, подлокотник, рама",
+      "uv_contract": "burgundy upholstery weave metric 0.35m",
+      "format_size": "1024 square tile PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.92,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-14",
+      "family": "Сценические шторы/домашние занавески",
+      "priority": 0,
+      "consumer": "SCurtain; StyleBenchmarkInteriorFactory",
+      "geometry_required": "складки/сборка/низ, толщина и удержание сверху",
+      "uv_contract": "burgundy velvet / cotton weave; metric UV",
+      "format_size": "1024 square tiles PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.97,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-15",
+      "family": "Скатерти, полотенца, коврики",
+      "priority": 0,
+      "consumer": "StyleBenchmarkInteriorFactory; bath/mosque",
+      "geometry_required": "свисание вокруг столешницы, вес/складки, подгиб; не плоский box",
+      "uv_contract": "woven cotton restrained local pattern, real cloth UV",
+      "format_size": "1024 square tile PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.97,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-16",
+      "family": "Линолеум, паркет, плитка",
+      "priority": 0,
+      "consumer": "SquareInteriors; public/house floor",
+      "geometry_required": "плоскость/стыки/плинтус; пол с честной опорой",
+      "uv_contract": "CIS beige institutional lino / parquet metric 1m",
+      "format_size": "1024 tiles PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.62,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-17",
+      "family": "Шкафы, полки, вешалки",
+      "priority": 1,
+      "consumer": "SquareInteriors.School/Club; public/house",
+      "geometry_required": "панели, открытые полки, корешки книг, ручки/крючки",
+      "uv_contract": "wood_furniture / laminate / painted metal; metric",
+      "format_size": "1024 tiles PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.55,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-18",
+      "family": "ПК, сканер, принтер, телефон, телевизор",
+      "priority": 1,
+      "consumer": "SquareInteriors.Club; OldPc; ArrivalPersonalProps",
+      "geometry_required": "радиусы, кнопки, вентрешётки, кабели, стекло экрана",
+      "uv_contract": "aged ABS; actual UV atlas after geometry",
+      "format_size": "2048 atlas PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.48,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-19",
+      "family": "Посуда, чайник, самовар, кастрюля",
+      "priority": 1,
+      "consumer": "StyleBenchmarkInteriorFactory; tea props",
+      "geometry_required": "полый профиль, бортик/дно, ручки, носик/крышка",
+      "uv_contract": "ceramic / enamel / aluminum, actual UV",
+      "format_size": "1024 tile or 2048 atlas PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.22,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-20",
+      "family": "Вёдра, таз, банные вещи",
+      "priority": 1,
+      "consumer": "BathInterior; CarryableProp.Geometry",
+      "geometry_required": "толщина стенки, обод, дно, ручка, форма веников/лавки",
+      "uv_contract": "galvanized / enamel / birch; real UV",
+      "format_size": "1024 tiles PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.4,
+        "metallic": 0.6,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-21",
+      "family": "Бумага, книги, стенды, доски объявлений",
+      "priority": 1,
+      "consumer": "SquareSchool documents; shop/council",
+      "geometry_required": "толщина стопки, корешок, рамка, крепления; текст отдельным слоем",
+      "uv_contract": "paper/cloth binding; exact atlas UV",
+      "format_size": "1024 tile, 2048 atlas PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.95,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-22",
+      "family": "Мозаика автобусной остановки",
+      "priority": 1,
+      "consumer": "BuildBusPavilion",
+      "geometry_required": "мозаичная поверхность с швами на бетонной стене",
+      "uv_contract": "flat wheat/sun mosaic, no words/dates",
+      "format_size": "1024 square surface PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.78,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-23",
+      "family": "Светильники, выключатели, розетки",
+      "priority": 1,
+      "consumer": "SquareInteriors.SLight; house/public builders",
+      "geometry_required": "плафон, кронштейн, патрон/провод, рассеиватель",
+      "uv_contract": "glass / aged ABS / painted metal",
+      "format_size": "1024 tiles PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.5,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-24",
+      "family": "Мост, перила, колодцы, оградки",
+      "priority": 1,
+      "consumer": "ravine/river builders; well builder",
+      "geometry_required": "настоящие опоры, сечение/крепежи; проход/коллизия",
+      "uv_contract": "reuse wood/steel/concrete; unique gap surfaces only",
+      "format_size": "1024 tiles PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.8,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-25",
+      "family": "Нива, салон и багаж",
+      "priority": 1,
+      "consumer": "generate_niva.py; ArrivalPersonalProps",
+      "geometry_required": "собственные UV; скруглённые панели, окна, сиденья/швы",
+      "uv_contract": "seat vinyl, rubber, paint; existing atlas edit",
+      "format_size": "2048 real UV atlas PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.4,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-26",
+      "family": "Растения/камни/лесной край",
+      "priority": 1,
+      "consumer": "AgentBAct1ExteriorLayer; GLB vegetation",
+      "geometry_required": "объём/варианты/LOD, снег по опоре; не одинаковые призмы",
+      "uv_contract": "bark / rock existing library coverage; missing identified separately",
+      "format_size": "1024 tiles PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.95,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-27",
+      "family": "NPC и одежда",
+      "priority": 1,
+      "consumer": "character kit v2; NPC presentation",
+      "geometry_required": "существующие rig/UV, объём одежды/швы; исключить Тамару",
+      "uv_contract": "actual supplied UV only; no invented atlas",
+      "format_size": "2048 atlas PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 0.88,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    },
+    {
+      "id": "TX29-28",
+      "family": "Снег/дым/пар, эффекты",
+      "priority": 1,
+      "consumer": "StyleBenchmarkAtmosphere; snow particle emitters",
+      "geometry_required": "мягкие billboard alpha, глубина/ветер; particles not opaque boxes",
+      "uv_contract": "procedural soft alpha permitted for VFX; imagegen if needed",
+      "format_size": "256–512 alpha PNG base color, no baked light",
+      "physical_response": {
+        "roughness": 1.0,
+        "metallic": 0,
+        "note": "initial physically motivated values; validate under current game lights"
+      },
+      "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
+      "generation_status": "pending coverage review",
+      "geometry_status": "audit required",
+      "runtime_status": "not-run",
+      "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
+      "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
+      "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json"
+    }
+  ]
+}

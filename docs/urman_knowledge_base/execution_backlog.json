@@ -2671,7 +2671,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-09-28",
+  "updated": "2026-09-29",
   "goal_key": "urman-act1-finished-product",
   "goal_statement": "Выполнить все задачи текущего MVP-плана Акта I в execution_backlog.json и довести игру до законченного, увлекательного и атмосферного опыта: личная история Марата, три самостоятельных расследовательских цикла, живая зимняя деревня, все EX00–EX14, завершённые механики и UI, нарастание тревоги и эмоциональный финал. Обычный первый основной опыт длится минимум 60 активных минут без искусственного добора. Интерес, красоту и звук принимают реальные люди; незакрытые внешние проверки остаются external/not-run.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -3123,7 +3123,31 @@
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
       "entry_contract": "План фиксирует обе застроенные территории; закрытая не меньше открытой по принятому footprint/плотности. Отдельно сохранить авторскую раскладку и обязательные runtime-якоря.",
-      "author_contract_revision": "2026-09-28 round2"
+      "author_contract_revision": "2026-09-28 round2",
+      "author_extension_2026_09_29": {
+        "authority": "author/current chat 2026-09-29",
+        "scope": "layout old/new inhabited quarters, central DK, complete primitive/material audit, high quality real geometry and physical materials, improved VFX",
+        "specs": [
+          "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md",
+          "docs/tasktracker/review_2026-09-28/02_investigation_language.md",
+          "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
+          "docs/tasktracker/review_2026-09-28/04_interiors_culture.md",
+          "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md",
+          "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
+        ],
+        "asset_requests": "docs/urman_knowledge_base/art/primitive_surface_requests_2026-09-29.json",
+        "source_audit": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
+        "order": [
+          "record requirements",
+          "audit",
+          "layout",
+          "frequent MVP geometry",
+          "ImageGen gaps via dedicated subagent",
+          "UV/material integration",
+          "guarded runtime review"
+        ],
+        "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
+      }
     },
     {
       "id": "ACT1-TEXTURE",
@@ -3226,7 +3250,7 @@
       "title": "Дополненный существующий инвентарь текстур для текущих и планируемых объектов",
       "progress_2026_09_22": "Полный реестр 132/132 на cd4e703: 31 reuse, 37 new, 5 edit, 59 conditional. Все карточки книги и групп очереди совпадают без дублей; для каждой указан реальный потребитель либо конкретно недостающие UV/маска/носитель/решение. 18 ранее подключённых результатов включены как reuse. Рекомендации reuse не закрывают source/visual/art; условные карточки остаются работой соответствующих групп. Проверены локальные ссылки и названные PNG: три отсутствующих файла явно отмечены как отсутствующие, не выданы за готовые.",
       "milestone": "M4",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "art/materials/qa",
       "depends_on": [],
@@ -3327,7 +3351,31 @@
         ]
       },
       "review_scope": "source-linked rework; historical evidence retained",
-      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя."
+      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
+      "author_extension_2026_09_29": {
+        "authority": "author/current chat 2026-09-29",
+        "scope": "layout old/new inhabited quarters, central DK, complete primitive/material audit, high quality real geometry and physical materials, improved VFX",
+        "specs": [
+          "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md",
+          "docs/tasktracker/review_2026-09-28/02_investigation_language.md",
+          "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
+          "docs/tasktracker/review_2026-09-28/04_interiors_culture.md",
+          "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md",
+          "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
+        ],
+        "asset_requests": "docs/urman_knowledge_base/art/primitive_surface_requests_2026-09-29.json",
+        "source_audit": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
+        "order": [
+          "record requirements",
+          "audit",
+          "layout",
+          "frequent MVP geometry",
+          "ImageGen gaps via dedicated subagent",
+          "UV/material integration",
+          "guarded runtime review"
+        ],
+        "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
+      }
     },
     {
       "id": "ACT1-TEXTURE.01",
@@ -3579,7 +3627,31 @@
           "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
         ]
       },
-      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя."
+      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
+      "author_extension_2026_09_29": {
+        "authority": "author/current chat 2026-09-29",
+        "scope": "layout old/new inhabited quarters, central DK, complete primitive/material audit, high quality real geometry and physical materials, improved VFX",
+        "specs": [
+          "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md",
+          "docs/tasktracker/review_2026-09-28/02_investigation_language.md",
+          "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
+          "docs/tasktracker/review_2026-09-28/04_interiors_culture.md",
+          "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md",
+          "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
+        ],
+        "asset_requests": "docs/urman_knowledge_base/art/primitive_surface_requests_2026-09-29.json",
+        "source_audit": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
+        "order": [
+          "record requirements",
+          "audit",
+          "layout",
+          "frequent MVP geometry",
+          "ImageGen gaps via dedicated subagent",
+          "UV/material integration",
+          "guarded runtime review"
+        ],
+        "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
+      }
     },
     {
       "id": "ACT1-TEXTURE.03",
@@ -3752,7 +3824,31 @@
           "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
         ]
       },
-      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя."
+      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
+      "author_extension_2026_09_29": {
+        "authority": "author/current chat 2026-09-29",
+        "scope": "layout old/new inhabited quarters, central DK, complete primitive/material audit, high quality real geometry and physical materials, improved VFX",
+        "specs": [
+          "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md",
+          "docs/tasktracker/review_2026-09-28/02_investigation_language.md",
+          "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
+          "docs/tasktracker/review_2026-09-28/04_interiors_culture.md",
+          "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md",
+          "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
+        ],
+        "asset_requests": "docs/urman_knowledge_base/art/primitive_surface_requests_2026-09-29.json",
+        "source_audit": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
+        "order": [
+          "record requirements",
+          "audit",
+          "layout",
+          "frequent MVP geometry",
+          "ImageGen gaps via dedicated subagent",
+          "UV/material integration",
+          "guarded runtime review"
+        ],
+        "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
+      }
     },
     {
       "id": "ACT1-TEXTURE.04",
@@ -4120,7 +4216,7 @@
       },
       "title": "Крупные предметы, ПК и используемый транспорт по настоящим UV",
       "milestone": "M4",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "art/materials/qa",
@@ -4237,7 +4333,31 @@
         ]
       },
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
-      "production_constraint": "Видимый автобус не обязателен для нового вступления; автобусный ассет обрабатывать только если есть реальный текущий потребитель. Нива и ПК остаются обязательны."
+      "production_constraint": "Видимый автобус не обязателен для нового вступления; автобусный ассет обрабатывать только если есть реальный текущий потребитель. Нива и ПК остаются обязательны.",
+      "author_extension_2026_09_29": {
+        "authority": "author/current chat 2026-09-29",
+        "scope": "layout old/new inhabited quarters, central DK, complete primitive/material audit, high quality real geometry and physical materials, improved VFX",
+        "specs": [
+          "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md",
+          "docs/tasktracker/review_2026-09-28/02_investigation_language.md",
+          "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
+          "docs/tasktracker/review_2026-09-28/04_interiors_culture.md",
+          "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md",
+          "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
+        ],
+        "asset_requests": "docs/urman_knowledge_base/art/primitive_surface_requests_2026-09-29.json",
+        "source_audit": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
+        "order": [
+          "record requirements",
+          "audit",
+          "layout",
+          "frequent MVP geometry",
+          "ImageGen gaps via dedicated subagent",
+          "UV/material integration",
+          "guarded runtime review"
+        ],
+        "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
+      }
     },
     {
       "id": "ACT1-TEXTURE.08",
@@ -4273,7 +4393,7 @@
       },
       "title": "Экранные подложки, загрузочный арт и условные эффекты",
       "milestone": "M4",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "simple",
       "active_owner": null,
       "owner": "art/materials/qa",
@@ -4389,7 +4509,31 @@
       },
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
       "author_contract_revision": "2026-09-28 round2",
-      "production_constraint": "Только реальные потребители UI/бумаги/паттерна; ImageGen допустим как способ изготовления пригодного ассета, не требуется отдельный гламурный концепт/новый loading artwork. Принятие в работающем UI."
+      "production_constraint": "Только реальные потребители UI/бумаги/паттерна; ImageGen допустим как способ изготовления пригодного ассета, не требуется отдельный гламурный концепт/новый loading artwork. Принятие в работающем UI.",
+      "author_extension_2026_09_29": {
+        "authority": "author/current chat 2026-09-29",
+        "scope": "layout old/new inhabited quarters, central DK, complete primitive/material audit, high quality real geometry and physical materials, improved VFX",
+        "specs": [
+          "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md",
+          "docs/tasktracker/review_2026-09-28/02_investigation_language.md",
+          "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
+          "docs/tasktracker/review_2026-09-28/04_interiors_culture.md",
+          "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md",
+          "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
+        ],
+        "asset_requests": "docs/urman_knowledge_base/art/primitive_surface_requests_2026-09-29.json",
+        "source_audit": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
+        "order": [
+          "record requirements",
+          "audit",
+          "layout",
+          "frequent MVP geometry",
+          "ImageGen gaps via dedicated subagent",
+          "UV/material integration",
+          "guarded runtime review"
+        ],
+        "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
+      }
     },
     {
       "id": "ACT1-TEXTURE.09",
@@ -4701,7 +4845,31 @@
           "Сохранены канон, контент, коллизии и предметное состояние; новые UV не выдуманы."
         ]
       },
-      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя."
+      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
+      "author_extension_2026_09_29": {
+        "authority": "author/current chat 2026-09-29",
+        "scope": "layout old/new inhabited quarters, central DK, complete primitive/material audit, high quality real geometry and physical materials, improved VFX",
+        "specs": [
+          "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md",
+          "docs/tasktracker/review_2026-09-28/02_investigation_language.md",
+          "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
+          "docs/tasktracker/review_2026-09-28/04_interiors_culture.md",
+          "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md",
+          "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
+        ],
+        "asset_requests": "docs/urman_knowledge_base/art/primitive_surface_requests_2026-09-29.json",
+        "source_audit": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
+        "order": [
+          "record requirements",
+          "audit",
+          "layout",
+          "frequent MVP geometry",
+          "ImageGen gaps via dedicated subagent",
+          "UV/material integration",
+          "guarded runtime review"
+        ],
+        "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
+      }
     },
     {
       "id": "ACT1-TEXTURE.12",
@@ -4774,7 +4942,31 @@
         "mvp_priority": 60,
         "mvp_packet": "remaining-act1"
       },
-      "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance"
+      "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
+      "author_extension_2026_09_29": {
+        "authority": "author/current chat 2026-09-29",
+        "scope": "layout old/new inhabited quarters, central DK, complete primitive/material audit, high quality real geometry and physical materials, improved VFX",
+        "specs": [
+          "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md",
+          "docs/tasktracker/review_2026-09-28/02_investigation_language.md",
+          "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
+          "docs/tasktracker/review_2026-09-28/04_interiors_culture.md",
+          "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md",
+          "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
+        ],
+        "asset_requests": "docs/urman_knowledge_base/art/primitive_surface_requests_2026-09-29.json",
+        "source_audit": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
+        "order": [
+          "record requirements",
+          "audit",
+          "layout",
+          "frequent MVP geometry",
+          "ImageGen gaps via dedicated subagent",
+          "UV/material integration",
+          "guarded runtime review"
+        ],
+        "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
+      }
     },
     {
       "id": "ACT1-TEXTURE.13",
@@ -15689,7 +15881,31 @@
       },
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
-      "progress_2026_09_28": "Found while rerouting the rear-house loop: the authored Babai house volume closed the old west rear corridor (x~-34.2), the workshop board-rest stand with its north gangway fills the north strip, the rear boundary fence ends at (-36.5,-3.1), and the SE funnel between house and lower fence is narrower than the capsule. The rear minaret-view discovery ((-35.06,-14.28)) therefore has no ordinary walking access; walkthroughs print BLOCKED leg=rear-minaret-view owner=ACT1-VILLAGE-COMPOSITION/R123. Resolve by deliberate re-authored access in the yard composition pass, not by threading a fragile polyline. Also on this yard: carry-crate blocking already fixed (moved to the porch wall)."
+      "progress_2026_09_28": "Found while rerouting the rear-house loop: the authored Babai house volume closed the old west rear corridor (x~-34.2), the workshop board-rest stand with its north gangway fills the north strip, the rear boundary fence ends at (-36.5,-3.1), and the SE funnel between house and lower fence is narrower than the capsule. The rear minaret-view discovery ((-35.06,-14.28)) therefore has no ordinary walking access; walkthroughs print BLOCKED leg=rear-minaret-view owner=ACT1-VILLAGE-COMPOSITION/R123. Resolve by deliberate re-authored access in the yard composition pass, not by threading a fragile polyline. Also on this yard: carry-crate blocking already fixed (moved to the porch wall).",
+      "author_extension_2026_09_29": {
+        "authority": "author/current chat 2026-09-29",
+        "scope": "layout old/new inhabited quarters, central DK, complete primitive/material audit, high quality real geometry and physical materials, improved VFX",
+        "specs": [
+          "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md",
+          "docs/tasktracker/review_2026-09-28/02_investigation_language.md",
+          "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
+          "docs/tasktracker/review_2026-09-28/04_interiors_culture.md",
+          "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md",
+          "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
+        ],
+        "asset_requests": "docs/urman_knowledge_base/art/primitive_surface_requests_2026-09-29.json",
+        "source_audit": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
+        "order": [
+          "record requirements",
+          "audit",
+          "layout",
+          "frequent MVP geometry",
+          "ImageGen gaps via dedicated subagent",
+          "UV/material integration",
+          "guarded runtime review"
+        ],
+        "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
+      }
     },
     {
       "id": "ACT1-DEPTH.8",
@@ -19477,7 +19693,7 @@
       "id": "ACT1-VILLAGE-BLOCKOUT",
       "title": "Проходимая раскладка принятой деревни и пассажирский въезд",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -19549,7 +19765,31 @@
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
       "entry_contract": "План фиксирует обе застроенные территории; закрытая не меньше открытой по принятому footprint/плотности. Отдельно сохранить авторскую раскладку и обязательные runtime-якоря.",
-      "author_contract_revision": "2026-09-28 round2"
+      "author_contract_revision": "2026-09-28 round2",
+      "author_extension_2026_09_29": {
+        "authority": "author/current chat 2026-09-29",
+        "scope": "layout old/new inhabited quarters, central DK, complete primitive/material audit, high quality real geometry and physical materials, improved VFX",
+        "specs": [
+          "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md",
+          "docs/tasktracker/review_2026-09-28/02_investigation_language.md",
+          "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
+          "docs/tasktracker/review_2026-09-28/04_interiors_culture.md",
+          "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md",
+          "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
+        ],
+        "asset_requests": "docs/urman_knowledge_base/art/primitive_surface_requests_2026-09-29.json",
+        "source_audit": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
+        "order": [
+          "record requirements",
+          "audit",
+          "layout",
+          "frequent MVP geometry",
+          "ImageGen gaps via dedicated subagent",
+          "UV/material integration",
+          "guarded runtime review"
+        ],
+        "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
+      }
     },
     {
       "id": "ACT1-PLACEMENT-RULES",
@@ -20439,7 +20679,31 @@
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
       "author_contract_revision": "2026-09-28 round2",
       "author_atmosphere_addendum": "2026-09-28 / ТЗ05 A01.1",
-      "progress_2026_09_28": "Pilot unit walked with the ordinary controller: babai yard loop 46.03m PASS with 16 walking frames, EX13 chain frames captured. Local frame budget on the executor machine (M4 Pro, forward_plus, preset=high, MSAA4x, 1280x720 window, vsync off, arrival spot): avg 26.7ms, p95 32.3ms, p99 41.5ms, 37.4 fps, draw calls 26190, primitives 6.67M; window unfocused during sampling, so numbers are a lower bound. Author's in-engine review and the M1 target-host profile remain external. A01.1 first iteration added same day: Act1ConnectedWorld.WatchingForms.cs (presentation-only) - workshop knot pair + single trestle knot, a crooked dead snag with two asymmetric hollows by the north fence, and a five-trunk dark leaning edge fragment with bare crowns, a distant hollow pair and an under-storey dark line beyond the north fence. Frame analysis confirms the workshop knots and dark crooked silhouettes read from the walking route (some trunks partly read as poles - recorded honestly); the snag hollows need a closer look/author. Perf with forms: avg 26.76ms p95 31.5ms 37.4fps 26152 draw calls - within probe noise. Author's feeling-of-being-watched acceptance remains external; no propagation to other routes before the author gate."
+      "progress_2026_09_28": "Pilot unit walked with the ordinary controller: babai yard loop 46.03m PASS with 16 walking frames, EX13 chain frames captured. Local frame budget on the executor machine (M4 Pro, forward_plus, preset=high, MSAA4x, 1280x720 window, vsync off, arrival spot): avg 26.7ms, p95 32.3ms, p99 41.5ms, 37.4 fps, draw calls 26190, primitives 6.67M; window unfocused during sampling, so numbers are a lower bound. Author's in-engine review and the M1 target-host profile remain external. A01.1 first iteration added same day: Act1ConnectedWorld.WatchingForms.cs (presentation-only) - workshop knot pair + single trestle knot, a crooked dead snag with two asymmetric hollows by the north fence, and a five-trunk dark leaning edge fragment with bare crowns, a distant hollow pair and an under-storey dark line beyond the north fence. Frame analysis confirms the workshop knots and dark crooked silhouettes read from the walking route (some trunks partly read as poles - recorded honestly); the snag hollows need a closer look/author. Perf with forms: avg 26.76ms p95 31.5ms 37.4fps 26152 draw calls - within probe noise. Author's feeling-of-being-watched acceptance remains external; no propagation to other routes before the author gate.",
+      "author_extension_2026_09_29": {
+        "authority": "author/current chat 2026-09-29",
+        "scope": "layout old/new inhabited quarters, central DK, complete primitive/material audit, high quality real geometry and physical materials, improved VFX",
+        "specs": [
+          "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md",
+          "docs/tasktracker/review_2026-09-28/02_investigation_language.md",
+          "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
+          "docs/tasktracker/review_2026-09-28/04_interiors_culture.md",
+          "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md",
+          "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
+        ],
+        "asset_requests": "docs/urman_knowledge_base/art/primitive_surface_requests_2026-09-29.json",
+        "source_audit": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
+        "order": [
+          "record requirements",
+          "audit",
+          "layout",
+          "frequent MVP geometry",
+          "ImageGen gaps via dedicated subagent",
+          "UV/material integration",
+          "guarded runtime review"
+        ],
+        "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
+      }
     },
     {
       "id": "ACT1-ATMOSPHERE",
@@ -22731,5 +22995,29 @@
         "implementation": "not-run"
       }
     }
+  },
+  "visual_layout_request_2026_09_29": {
+    "authority": "author/current chat 2026-09-29",
+    "scope": "layout old/new inhabited quarters, central DK, complete primitive/material audit, high quality real geometry and physical materials, improved VFX",
+    "specs": [
+      "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md",
+      "docs/tasktracker/review_2026-09-28/02_investigation_language.md",
+      "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
+      "docs/tasktracker/review_2026-09-28/04_interiors_culture.md",
+      "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md",
+      "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
+    ],
+    "asset_requests": "docs/urman_knowledge_base/art/primitive_surface_requests_2026-09-29.json",
+    "source_audit": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
+    "order": [
+      "record requirements",
+      "audit",
+      "layout",
+      "frequent MVP geometry",
+      "ImageGen gaps via dedicated subagent",
+      "UV/material integration",
+      "guarded runtime review"
+    ],
+    "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
   }
 }
