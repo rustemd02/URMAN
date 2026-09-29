@@ -10,7 +10,20 @@
 set -eu
 
 URMAN_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-GODOT="$URMAN_ROOT/.tools/godot/Godot_mono.app/Contents/MacOS/Godot"
+# Pinned Godot .NET binary: macOS app bundle by default, plain binary elsewhere;
+# URMAN_GODOT overrides both (e.g. a system-wide install on Linux CI).
+case "$(uname -s)" in
+  Darwin)
+    GODOT_DEFAULT="$URMAN_ROOT/.tools/godot/Godot_mono.app/Contents/MacOS/Godot"
+    DISPLAY_ARGS="--display-driver macos"
+    ;;
+  *)
+    GODOT_DEFAULT="$URMAN_ROOT/.tools/godot/Godot_mono.app/Contents/MacOS/Godot"
+    [ -x "$GODOT_DEFAULT" ] || GODOT_DEFAULT="$URMAN_ROOT/.tools/godot/Godot"
+    DISPLAY_ARGS=""
+    ;;
+esac
+GODOT=${URMAN_GODOT:-$GODOT_DEFAULT}
 GUARD=${URMAN_GUARD:-$URMAN_ROOT/eng/protected_run.py}
 # A smoke that throws inside async void never quits; fail it instead of hanging the run.
 SMOKE_TIMEOUT=${URMAN_SMOKE_TIMEOUT:-900}
@@ -44,16 +57,17 @@ if [ "$shared_session" = true ]; then
   # Cold-load checks need distinct processes to share only the guarded saves.
   python3 "$GUARD" --clean --timeout "$SMOKE_TIMEOUT" /bin/sh -eu -c '
     godot=$1
-    shift
+    display_args=$2
+    shift 2
     for scene do
       case "$scene" in
         res://*) path=$scene ;;
         *) path="res://tests/$scene.tscn" ;;
       esac
       echo "run-smoke-guarded shared session: $path"
-      "$godot" --headless --display-driver macos --path game "$path"
+      "$godot" --headless $display_args --path game "$path"
     done
-  ' shared-smoke "$GODOT" "$@"
+  ' shared-smoke "$GODOT" "$DISPLAY_ARGS" "$@"
   exit $?
 fi
 for scene in "$@"; do
@@ -62,7 +76,7 @@ for scene in "$@"; do
     *) path="res://tests/$scene.tscn" ;;
   esac
   echo "run-smoke-guarded: $path"
-  python3 "$GUARD" --clean --timeout "$SMOKE_TIMEOUT" "$GODOT" --headless --display-driver macos --path game "$path" || status=$?
+  python3 "$GUARD" --clean --timeout "$SMOKE_TIMEOUT" "$GODOT" --headless $DISPLAY_ARGS --path game "$path" || status=$?
 done
 
 exit "$status"
