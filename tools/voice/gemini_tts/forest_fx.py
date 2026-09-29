@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Forest sound design for the Act I prologue (numpy/scipy only; ffmpeg is not required).
 
-1. Turns the raw synthetic Marat/Mansur forest clips into eerie, distant, distorted
+1. Turns the raw synthetic keeper/Mansur forest clips into eerie, distant, distorted
    voices (echo, band-limit, bit-crush, detuned second layer). Raw clips are copied
    once to .tools/voice-preview/raw-forest/ and every run re-processes from them,
    so the effect can be tuned repeatedly without new API calls.

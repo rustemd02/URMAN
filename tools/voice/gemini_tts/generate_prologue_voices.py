@@ -65,12 +65,12 @@ PACE = {"slow": "slow, unhurried pace", "medium": "", "fast": "fast, urgent pace
 # Lines that are not in the content pack (captions in the forest teaser).
 EXTRA_LINES = [
     ("forest-wake", "mansur", "Әй! Әй, улым, уян! Уян дим!", "urgent, alarmed, shaking someone awake"),
-    ("forest-name-fade", "marat", "Айдар… Айдар… Айдар…", "unearthly, calling his name over and over, fading into echo as if the listener is losing consciousness"),
+    ("forest-name-fade", "keeper", "Айдар… Айдар… Айдар…", "unearthly, calling his name over and over, fading into echo as if the listener is losing consciousness"),
     ("forest-babai-name", "mansur", "Айдар… Айдар! Улым, уян!", "worried, close, calling his grandson by name to wake him"),
-    ("forest-name-call", "marat", "Айдар…", "distant, quiet, from between the trees"),
-    ("forest-come-here", "marat", "Айдар. Кил монда…", "close behind the listener, calm, unsettling"),
-    ("forest-call-far", "marat", "Эй! Эй! Айдар! Кил монда!", "calling from very far away between the trees, shouting, hollow"),
-    ("forest-call-hey", "marat", "Эй… эй… эй…", "faint, far away, drawn out, like an echo in a forest"),
+    ("forest-name-call", "keeper", "Айдар…", "distant, quiet, from between the trees"),
+    ("forest-come-here", "keeper", "Айдар. Кил монда…", "close behind the listener, calm, unsettling"),
+    ("forest-call-far", "keeper", "Эй! Эй! Айдар! Кил монда!", "calling from very far away between the trees, shouting, hollow"),
+    ("forest-call-hey", "keeper", "Эй… эй… эй…", "faint, far away, drawn out, like an echo in a forest"),
 ]
 
 # Tone hints for a few ride barks; everything else uses the default direction.
@@ -255,7 +255,8 @@ def main():
     for index, (lid, speaker, text, tone, before_ms, after_ms, _priority) in enumerate(lines, start=1):
         target = args.out / f"{lid}.wav"
         # A clip is current only when the text it was voiced from is still the text in the pack.
-        stale = target.exists() and manifest.get(lid, {}).get("text") not in (None, text)
+        known = manifest.get(lid, {})
+        stale = target.exists() and (known.get("text") not in (None, text) or known.get("speaker") not in (None, speaker))
         if target.exists() and not args.force and not stale:
             print(f"[{index}/{len(lines)}] есть: {lid}")
             continue
