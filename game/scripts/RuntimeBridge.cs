@@ -840,7 +840,8 @@ public partial class RuntimeBridge : Node
         };
     }
 
-    public string ResolveText(string textId) => ResolveWorldText(_content.ResolveText(textId));
+    public string ResolveText(string textId) =>
+        ResolveWorldText(_content.ResolveText(textId, FindPlayer()?.TatarLanguageLevel ?? "none"));
 
     public IReadOnlyList<string> TextIdsWithPrefix(string prefix) => _content.TextIdsWithPrefix(prefix);
 

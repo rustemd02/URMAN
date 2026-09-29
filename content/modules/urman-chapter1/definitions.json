@@ -313,7 +313,7 @@
     "value": {
       "default": "“Did you find anything, Aidar?” Mansur asks.",
       "translations": {
-        "ru": "«Нашёл что-нибудь, Айдар?» — спрашивает Мансур."
+        "ru": "«Нашёл что-нибудь, Айдар?»"
       }
     },
     "purpose": "dialogue"
@@ -335,7 +335,7 @@
     "value": {
       "default": "Naila asks, “What else do you want to clarify, Aidar?”",
       "translations": {
-        "ru": "«Что ещё хочешь уточнить, Айдар?» — спрашивает Наиля."
+        "ru": "«Что ещё хочешь уточнить, Айдар?»"
       }
     },
     "purpose": "dialogue"
@@ -368,7 +368,7 @@
     "value": {
       "default": "Formally, the case is closed.",
       "translations": {
-        "ru": "«Формально дело закрыто», — говорит Ринат."
+        "ru": "«Формально дело закрыто»."
       }
     },
     "purpose": "dialogue"
@@ -5846,7 +5846,22 @@
       {
         "id": "none-reply",
         "textId": "urman.chapter1:text/prologue-niva-none-reply",
-        "choices": [],
+        "choices": [
+          {
+            "id": "level-keep",
+            "textId": "urman.chapter1:text/prologue-niva-level-keep",
+            "nextNodeId": null,
+            "conditions": [],
+            "effects": []
+          },
+          {
+            "id": "level-raise",
+            "textId": "urman.chapter1:text/prologue-niva-level-raise",
+            "nextNodeId": null,
+            "conditions": [],
+            "effects": []
+          }
+        ],
         "conditions": [],
         "effects": [],
         "speakerRole": "mansur"
@@ -5854,7 +5869,29 @@
       {
         "id": "some-reply",
         "textId": "urman.chapter1:text/prologue-niva-some-reply",
-        "choices": [],
+        "choices": [
+          {
+            "id": "level-keep",
+            "textId": "urman.chapter1:text/prologue-niva-level-keep",
+            "nextNodeId": null,
+            "conditions": [],
+            "effects": []
+          },
+          {
+            "id": "level-lower",
+            "textId": "urman.chapter1:text/prologue-niva-level-lower",
+            "nextNodeId": null,
+            "conditions": [],
+            "effects": []
+          },
+          {
+            "id": "level-raise",
+            "textId": "urman.chapter1:text/prologue-niva-level-raise",
+            "nextNodeId": null,
+            "conditions": [],
+            "effects": []
+          }
+        ],
         "conditions": [],
         "effects": [
           {
@@ -5893,7 +5930,22 @@
       {
         "id": "fluent-reply",
         "textId": "urman.chapter1:text/prologue-niva-fluent-reply",
-        "choices": [],
+        "choices": [
+          {
+            "id": "level-keep",
+            "textId": "urman.chapter1:text/prologue-niva-level-keep",
+            "nextNodeId": null,
+            "conditions": [],
+            "effects": []
+          },
+          {
+            "id": "level-lower",
+            "textId": "urman.chapter1:text/prologue-niva-level-lower",
+            "nextNodeId": null,
+            "conditions": [],
+            "effects": []
+          }
+        ],
         "conditions": [],
         "effects": [
           {
@@ -10545,9 +10597,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/dialogue-alsu-versions-reply",
     "value": {
-      "default": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал. Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе — {address:ADR-FAP}. Спроси её, что здесь назвали случаем. Дом найдёшь по табличке „Урман/Лесная“». Теперь знаю, у кого проверять пересказ.",
+      "default": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал. Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе — {address:ADR-FAP}. Спроси её, что здесь назвали случаем».",
       "translations": {
-        "ru": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал. Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе — {address:ADR-FAP}. Спроси её, что здесь назвали случаем. Дом найдёшь по табличке „Урман/Лесная“». Теперь знаю, у кого проверять пересказ."
+        "ru": "«Мне говорили: несчастный случай. Потом — сердце. Другие вообще говорят, что он уехал. Я слышала эти разговоры, Айдар. Самого случая я не видела. Не записывай мои слова так, будто видела. Наиля в ФАПе — {address:ADR-FAP}. Спроси её, что здесь назвали случаем»."
       }
     },
     "purpose": "dialogue"
@@ -10746,9 +10798,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/prologue-niva-question",
     "value": {
-      "default": "So, Kazan has completely knocked the Tatar out of you? Listen to how you answer me — I understand everything, babai.",
+      "default": "«Йә, улым, Казанда татарчаны бөтенләй оныттыңмы әллә?»\n(Ну что, сынок, в Казани татарский совсем забыл, что ли?)",
       "translations": {
-        "ru": "Ну что, Казань совсем татарский из тебя выбила? Слушай, как ты мне отвечаешь — я-то всё пойму, бабай."
+        "ru": "«Йә, улым, Казанда татарчаны бөтенләй оныттыңмы әллә?»\n(Ну что, сынок, в Казани татарский совсем забыл, что ли?)"
       }
     },
     "purpose": "dialogue"
@@ -10757,9 +10809,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/prologue-niva-answer-none",
     "value": {
-      "default": "Almost nothing, babai. I understand you, but I answer in Russian.",
+      "default": "«Бабай, я понял только „татарча“… Можно по-русски?»",
       "translations": {
-        "ru": "Почти ничего, бабай. Я тебя понимаю, а отвечаю по-русски."
+        "ru": "«Бабай, я понял только „татарча“… Можно по-русски?»"
       }
     },
     "purpose": "dialogue"
@@ -10768,9 +10820,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/prologue-niva-answer-some",
     "value": {
-      "default": "I understand a little. If they speak slowly, I can keep up.",
+      "default": "«Аз-маз беләм, бабай. Понимаю больше, чем говорю».",
       "translations": {
-        "ru": "Понимаю немного. Если говорят медленно — успеваю."
+        "ru": "«Аз-маз беләм, бабай. Понимаю больше, чем говорю»."
       }
     },
     "purpose": "dialogue"
@@ -10779,9 +10831,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/prologue-niva-answer-fluent",
     "value": {
-      "default": "I speak it, but it's rusty — without practice.",
+      "default": "«Юк, бабай, онытмадым! Татарча сөйләшәм».",
       "translations": {
-        "ru": "Говорю, но ржаво — без практики."
+        "ru": "«Юк, бабай, онытмадым! Татарча сөйләшәм»."
       }
     },
     "purpose": "dialogue"
@@ -10790,7 +10842,7 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/prologue-niva-answer-skip",
     "value": {
-      "default": "(Say nothing and look out the window.)",
+      "default": "(Промолчать и смотреть в окно.)",
       "translations": {
         "ru": "(Промолчать и смотреть в окно.)"
       }
@@ -10801,9 +10853,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/prologue-niva-none-reply",
     "value": {
-      "default": "We'll fix that. Here everyone will speak to you slowly — and әbi will definitely find the words.",
+      "default": "«Ярар, ярар — ладно, ладно. Буду по-русски, а татарские слова — по одному. Вот: „юл“ — дорога, „өй“ — дом. Уже половина разговора».",
       "translations": {
-        "ru": "Ничего, догоним. Здесь с тобой все будут говорить медленно, а әби и вовсе найдёт слова."
+        "ru": "«Ярар, ярар — ладно, ладно. Буду по-русски, а татарские слова — по одному. Вот: „юл“ — дорога, „өй“ — дом. Уже половина разговора»."
       }
     },
     "purpose": "dialogue"
@@ -10812,9 +10864,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/prologue-niva-some-reply",
     "value": {
-      "default": "Well done. In the village they speak simply: юл is the road, өй is the house. You'll get by.",
+      "default": "«Аз-маз — ул да яхшы! Немного — тоже хорошо. Буду вперемешку: бабай, әби, өй, юл — это ты и так помнишь».",
       "translations": {
-        "ru": "Молодец. В деревне говорят просто: юл — дорога, өй — дом. Ты справишься."
+        "ru": "«Аз-маз — ул да яхшы! Немного — тоже хорошо. Буду вперемешку: бабай, әби, өй, юл — это ты и так помнишь»."
       }
     },
     "purpose": "dialogue"
@@ -10823,9 +10875,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/prologue-niva-fluent-reply",
     "value": {
-      "default": "I knew it — it will come back by evening. Just don't rush: here a word is worth more than a hurried answer.",
+      "default": "«Менә бит! Алайса татарча гына сөйләшәбез — әбиең дә шатланыр».\n(Вот это да! Тогда говорим только по-татарски — әби обрадуется.)",
       "translations": {
-        "ru": "Я и знал — к вечеру вернётся. Ты только не спеши: тут слово дороже спешного ответа."
+        "ru": "«Менә бит! Алайса татарча гына сөйләшәбез — әбиең дә шатланыр».\n(Вот это да! Тогда говорим только по-татарски — әби обрадуется.)"
       }
     },
     "purpose": "dialogue"
@@ -10834,9 +10886,9 @@
     "schemaVersion": 1,
     "id": "urman.chapter1:text/prologue-niva-skip-reply",
     "value": {
-      "default": "Silent? All right, sleep. I'll wake you when we reach Kara-Urman.",
+      "default": "«Ярар, эндәшмә. Юл озын әле — ещё поговорим».",
       "translations": {
-        "ru": "Молчишь? Ну и ладно, спи. У Кара-Урмана разбужу."
+        "ru": "«Ярар, эндәшмә. Юл озын әле — ещё поговорим»."
       }
     },
     "purpose": "dialogue"
@@ -11047,5 +11099,566 @@
         ]
       }
     ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-gulsina-warning.lvl-some",
+    "value": {
+      "default": "«Утыр, җылын — садись, согрейся. Ярамый — вечером к урману не ходят».",
+      "translations": {
+        "ru": "«Утыр, җылын — садись, согрейся. Ярамый — вечером к урману не ходят»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-gulsina-warning.lvl-fluent",
+    "value": {
+      "default": "«Утыр, җылын, балам. Кичен урманга барырга ярамый — беләсең бит».",
+      "translations": {
+        "ru": "«Утыр, җылын, балам. Кичен урманга барырга ярамый — беләсең бит»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-gulsina-stay-for-tea-reply.lvl-some",
+    "value": {
+      "default": "«Утыр әле — посиди. Чай ещё горячий. Давно с нами так не сидел».",
+      "translations": {
+        "ru": "«Утыр әле — посиди. Чай ещё горячий. Давно с нами так не сидел»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-gulsina-stay-for-tea-reply.lvl-fluent",
+    "value": {
+      "default": "«Утыр әле, балам. Чәй әле кайнар. Күптән безнең белән болай утырганың юк иде».",
+      "translations": {
+        "ru": "«Утыр әле, балам. Чәй әле кайнар. Күптән безнең белән болай утырганың юк иде»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-gulsina-yaramyy-reply.lvl-some",
+    "value": {
+      "default": "«Я знаю, ты не маленький. Но кичен урманга бармыйлар — вечером к лесу не ходи. Мне спокойнее, когда ты өйдә, дома».",
+      "translations": {
+        "ru": "«Я знаю, ты не маленький. Но кичен урманга бармыйлар — вечером к лесу не ходи. Мне спокойнее, когда ты өйдә, дома»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-gulsina-yaramyy-reply.lvl-fluent",
+    "value": {
+      "default": "«Беләм, син бала түгел инде. Тик кичен урман ягына бармый торыйк. Син өйдә булсаң, миңа тынычрак».",
+      "translations": {
+        "ru": "«Беләм, син бала түгел инде. Тик кичен урман ягына бармый торыйк. Син өйдә булсаң, миңа тынычрак»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-mansur-pc-request.lvl-some",
+    "value": {
+      "default": "«Поможешь старый список к Ниве найти? Мы там язып барган — записывали, что менять, а что пока не трогать. Папки все вперемешку».",
+      "translations": {
+        "ru": "«Поможешь старый список к Ниве найти? Мы там язып барган — записывали, что менять, а что пока не трогать. Папки все вперемешку»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-mansur-pc-request.lvl-fluent",
+    "value": {
+      "default": "«Нива өчен иске исемлекне табып бирерсең микән? Анда нәрсәне алыштырырга, нәрсәгә тимәскә дип язып барган идек. Папкалар бөтенесе бутала».",
+      "translations": {
+        "ru": "«Нива өчен иске исемлекне табып бирерсең микән? Анда нәрсәне алыштырырга, нәрсәгә тимәскә дип язып барган идек. Папкалар бөтенесе бутала»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-mansur-babai-name-reply.lvl-some",
+    "value": {
+      "default": "«Зови как звал. Бабай — это не про годы, это про место, куда возвращаются. И скажи мне, когда соберёшься к кромке. Ялгыз бармаска — один туда не ходи».",
+      "translations": {
+        "ru": "«Зови как звал. Бабай — это не про годы, это про место, куда возвращаются. И скажи мне, когда соберёшься к кромке. Ялгыз бармаска — один туда не ходи»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-mansur-babai-name-reply.lvl-fluent",
+    "value": {
+      "default": "«Ничек чакырсаң, шулай чакыр. Бабай — яшь турында түгел, кире кайтасы урын турында. Кырыйга барырга чыксаң, миңа әйт. Ялгызың бармавың хәерлерәк».",
+      "translations": {
+        "ru": "«Ничек чакырсаң, шулай чакыр. Бабай — яшь турында түгел, кире кайтасы урын турында. Кырыйга барырга чыксаң, миңа әйт. Ялгызың бармавың хәерлерәк»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-timur-restraint.lvl-some",
+    "value": {
+      "default": "«Айдар, ты совсем замёрз. Рәхим ит — проходи, здесь тепло. Ты всё спрашиваешь про Марата. Что именно ты узнал?»",
+      "translations": {
+        "ru": "«Айдар, ты совсем замёрз. Рәхим ит — проходи, здесь тепло. Ты всё спрашиваешь про Марата. Что именно ты узнал?»"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/dialogue-timur-restraint.lvl-fluent",
+    "value": {
+      "default": "«Айдар, бөтенләй туңгансың. Рәхим ит, уз, монда җылы. Син һаман Марат турында сорыйсың. Нәрсә белдең соң?»",
+      "translations": {
+        "ru": "«Айдар, бөтенләй туңгансың. Рәхим ит, уз, монда җылы. Син һаман Марат турында сорыйсың. Нәрсә белдең соң?»"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-niva-level-keep",
+    "value": {
+      "default": "«Давай так, бабай».",
+      "translations": {
+        "ru": "«Давай так, бабай»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-niva-level-lower",
+    "value": {
+      "default": "«Давай попроще, бабай».",
+      "translations": {
+        "ru": "«Давай попроще, бабай»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-niva-level-raise",
+    "value": {
+      "default": "«Давай больше по-татарски».",
+      "translations": {
+        "ru": "«Давай больше по-татарски»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-wake",
+    "value": {
+      "default": "«Уяндыңмы? Проснулся? Автобус твой опять на час опоздал — я уж думал, в Казани передумал ехать».",
+      "translations": {
+        "ru": "«Уяндыңмы? Проснулся? Автобус твой опять на час опоздал — я уж думал, в Казани передумал ехать»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-wake.lvl-some",
+    "value": {
+      "default": "«Уяндыңмы? Автобусың тагын бер сәгатькә соңга калды — я уж думал, передумал».",
+      "translations": {
+        "ru": "«Уяндыңмы? Автобусың тагын бер сәгатькә соңга калды — я уж думал, передумал»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-wake.lvl-fluent",
+    "value": {
+      "default": "«Уяндыңмы? Автобусың тагын бер сәгатькә соңга калды. Казанда уйлап бетердеңме дип торам».\n(Проснулся? Автобус опять на час опоздал — думал, ты там передумал.)",
+      "translations": {
+        "ru": "«Уяндыңмы? Автобусың тагын бер сәгатькә соңга калды. Казанда уйлап бетердеңме дип торам».\n(Проснулся? Автобус опять на час опоздал — думал, ты там передумал.)"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-bus",
+    "value": {
+      "default": "«Раньше автобус до самой деревни ходил, два раза в день. Совхоз большой был: своя школа, клуб, больница. Теперь только до поворота».",
+      "translations": {
+        "ru": "«Раньше автобус до самой деревни ходил, два раза в день. Совхоз большой был: своя школа, клуб, больница. Теперь только до поворота»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-bus.lvl-some",
+    "value": {
+      "default": "«Элек автобус авылга ук килә иде, два раза в день. Совхоз зур иде — школа, клуб, больница. Хәзер только до поворота».",
+      "translations": {
+        "ru": "«Элек автобус авылга ук килә иде, два раза в день. Совхоз зур иде — школа, клуб, больница. Хәзер только до поворота»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-bus.lvl-fluent",
+    "value": {
+      "default": "«Элек автобус авылга ук көненә ике тапкыр килә иде. Совхоз зур иде — мәктәп, клуб, хастаханә. Хәзер борылышка кадәр генә».\n(Раньше автобус до самой деревни ходил дважды в день. Совхоз был большой. Теперь — только до поворота.)",
+      "translations": {
+        "ru": "«Элек автобус авылга ук көненә ике тапкыр килә иде. Совхоз зур иде — мәктәп, клуб, хастаханә. Хәзер борылышка кадәр генә».\n(Раньше автобус до самой деревни ходил дважды в день. Совхоз был большой. Теперь — только до поворота.)"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-sign",
+    "value": {
+      "default": "«Вон, табличка. Кара-Урман — „чёрный лес“, если по-русски. Не пугайся, это просто старое название».",
+      "translations": {
+        "ru": "«Вон, табличка. Кара-Урман — „чёрный лес“, если по-русски. Не пугайся, это просто старое название»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-sign.lvl-some",
+    "value": {
+      "default": "«Әнә, табличка. Кара Урман — „чёрный лес“. Не пугайся, иске исем, старое название».",
+      "translations": {
+        "ru": "«Әнә, табличка. Кара Урман — „чёрный лес“. Не пугайся, иске исем, старое название»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-sign.lvl-fluent",
+    "value": {
+      "default": "«Әнә, табличка. Кара Урман. Куркма, иске исем генә».\n(Вон, табличка. Кара-Урман. Не бойся, это просто старое название.)",
+      "translations": {
+        "ru": "«Әнә, табличка. Кара Урман. Куркма, иске исем генә».\n(Вон, табличка. Кара-Урман. Не бойся, это просто старое название.)"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-forest",
+    "value": {
+      "default": "«…Урманга карама. На лес не смотри. На дорогу смотри, говорю».",
+      "translations": {
+        "ru": "«…Урманга карама. На лес не смотри. На дорогу смотри, говорю»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-forest.lvl-some",
+    "value": {
+      "default": "«…Урманга карама. Юлга кара. На дорогу смотри, говорю».",
+      "translations": {
+        "ru": "«…Урманга карама. Юлга кара. На дорогу смотри, говорю»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-forest.lvl-fluent",
+    "value": {
+      "default": "«…Урманга карама. Юлга кара, дим».\n(На лес не смотри. На дорогу смотри, говорю.)",
+      "translations": {
+        "ru": "«…Урманга карама. Юлга кара, дим».\n(На лес не смотри. На дорогу смотри, говорю.)"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-marat",
+    "value": {
+      "default": "«Про Марата… Дома поговорим, улым. Не в дороге».",
+      "translations": {
+        "ru": "«Про Марата… Дома поговорим, улым. Не в дороге»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-marat.lvl-some",
+    "value": {
+      "default": "«Марат турында… Өйдә сөйләшербез, улым. Не в дороге».",
+      "translations": {
+        "ru": "«Марат турында… Өйдә сөйләшербез, улым. Не в дороге»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-marat.lvl-fluent",
+    "value": {
+      "default": "«Марат турында… Өйдә сөйләшербез, улым. Юлда түгел».\n(Про Марата… Дома поговорим, сынок. Не в дороге.)",
+      "translations": {
+        "ru": "«Марат турында… Өйдә сөйләшербез, улым. Юлда түгел».\n(Про Марата… Дома поговорим, сынок. Не в дороге.)"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-bridge",
+    "value": {
+      "default": "«Мост. Весной обещали чинить, а он всё держится. Под ним овраг, летом ручей — сейчас всё замело».",
+      "translations": {
+        "ru": "«Мост. Весной обещали чинить, а он всё держится. Под ним овраг, летом ручей — сейчас всё замело»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-bridge.lvl-some",
+    "value": {
+      "default": "«Күпер — мост. Весной обещали чинить, а он всё держится. Под ним овраг — сейчас всё замело».",
+      "translations": {
+        "ru": "«Күпер — мост. Весной обещали чинить, а он всё держится. Под ним овраг — сейчас всё замело»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-bridge.lvl-fluent",
+    "value": {
+      "default": "«Күпер. Язын ремонтлыйбыз диделәр, ә ул һаман тора әле. Астында чокыр — хәзер барысын да кар күмде».\n(Мост. Весной обещали чинить, а он всё стоит. Внизу овраг — сейчас всё замело.)",
+      "translations": {
+        "ru": "«Күпер. Язын ремонтлыйбыз диделәр, ә ул һаман тора әле. Астында чокыр — хәзер барысын да кар күмде».\n(Мост. Весной обещали чинить, а он всё стоит. Внизу овраг — сейчас всё замело.)"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-fap",
+    "value": {
+      "default": "«Вон ФАП, медпункт. Наиля там работает — заболеешь, к ней иди».",
+      "translations": {
+        "ru": "«Вон ФАП, медпункт. Наиля там работает — заболеешь, к ней иди»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-fap.lvl-some",
+    "value": {
+      "default": "«Әнә ФАП. Наиля там эшли — авырсаң, к ней иди».",
+      "translations": {
+        "ru": "«Әнә ФАП. Наиля там эшли — авырсаң, к ней иди»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-fap.lvl-fluent",
+    "value": {
+      "default": "«Әнә ФАП. Наиля анда эшли — авырсаң, аңа бар».\n(Вон ФАП. Наиля там работает — заболеешь, к ней иди.)",
+      "translations": {
+        "ru": "«Әнә ФАП. Наиля анда эшли — авырсаң, аңа бар».\n(Вон ФАП. Наиля там работает — заболеешь, к ней иди.)"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-street",
+    "value": {
+      "default": "«Минарет видишь? Мечеть, Тимур хәзрәт там. А магазин у Разили — она про всех всё знает, раньше меня».",
+      "translations": {
+        "ru": "«Минарет видишь? Мечеть, Тимур хәзрәт там. А магазин у Разили — она про всех всё знает, раньше меня»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-street.lvl-some",
+    "value": {
+      "default": "«Манара күрәсеңме? Мечеть, Тимур хәзрәт там. Кибет — у Разили, она про всех всё знает».",
+      "translations": {
+        "ru": "«Манара күрәсеңме? Мечеть, Тимур хәзрәт там. Кибет — у Разили, она про всех всё знает»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-street.lvl-fluent",
+    "value": {
+      "default": "«Манараны күрәсеңме? Мәчеттә Тимур хәзрәт. Кибет Разилядә — ул барысы турында да миннән алда белә».\n(Минарет видишь? В мечети Тимур хәзрәт. Магазин у Разили — она обо всех знает раньше меня.)",
+      "translations": {
+        "ru": "«Манараны күрәсеңме? Мәчеттә Тимур хәзрәт. Кибет Разилядә — ул барысы турында да миннән алда белә».\n(Минарет видишь? В мечети Тимур хәзрәт. Магазин у Разили — она обо всех знает раньше меня.)"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-home",
+    "value": {
+      "default": "«Ну вот. Кайттык — приехали. Әби заждалась, чай уже на столе».",
+      "translations": {
+        "ru": "«Ну вот. Кайттык — приехали. Әби заждалась, чай уже на столе»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-home.lvl-some",
+    "value": {
+      "default": "«Менә. Кайттык. Әбиең көтеп тора — чай уже на столе».",
+      "translations": {
+        "ru": "«Менә. Кайттык. Әбиең көтеп тора — чай уже на столе»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-home.lvl-fluent",
+    "value": {
+      "default": "«Менә, кайттык. Әбиең көтеп тора, чәй өстәлдә инде».\n(Вот и приехали. Әби ждёт, чай уже на столе.)",
+      "translations": {
+        "ru": "«Менә, кайттык. Әбиең көтеп тора, чәй өстәлдә инде».\n(Вот и приехали. Әби ждёт, чай уже на столе.)"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-kazan",
+    "value": {
+      "default": "«Ну, как там Казань? Учёба, работа? Әби всё спрашивала, ешь ли ты там нормально. Я сказал — большой уже, сам разберётся».",
+      "translations": {
+        "ru": "«Ну, как там Казань? Учёба, работа? Әби всё спрашивала, ешь ли ты там нормально. Я сказал — большой уже, сам разберётся»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-kazan.lvl-some",
+    "value": {
+      "default": "«Йә, Казан ничек? Укуың, эшең? Әби всё спрашивала, ашыйсыңмы нормально. Я сказал — зур инде, сам разберётся».",
+      "translations": {
+        "ru": "«Йә, Казан ничек? Укуың, эшең? Әби всё спрашивала, ашыйсыңмы нормально. Я сказал — зур инде, сам разберётся»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-kazan.lvl-fluent",
+    "value": {
+      "default": "«Йә, Казан ничек? Укуың, эшең? Әбиең һаман сорый: ашыйсыңмы анда рәтләп? Мин әйттем: зур инде, үзе белә».\n(Ну, как Казань? Учёба, работа? Әби всё спрашивает, нормально ли ты ешь. Я сказал: большой уже, сам знает.)",
+      "translations": {
+        "ru": "«Йә, Казан ничек? Укуың, эшең? Әбиең һаман сорый: ашыйсыңмы анда рәтләп? Мин әйттем: зур инде, үзе белә».\n(Ну, как Казань? Учёба, работа? Әби всё спрашивает, нормально ли ты ешь. Я сказал: большой уже, сам знает.)"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-field",
+    "value": {
+      "default": "«Вот это поле совхозное было. Мы с твоим отцом тут сено возили. Сейчас зарастает — лес каждый год на шаг ближе».",
+      "translations": {
+        "ru": "«Вот это поле совхозное было. Мы с твоим отцом тут сено возили. Сейчас зарастает — лес каждый год на шаг ближе»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-field.lvl-some",
+    "value": {
+      "default": "«Бу кыр совхозныкы иде. Мы с твоим әтиең тут сено возили. Хәзер зарастает — урман каждый год на шаг ближе».",
+      "translations": {
+        "ru": "«Бу кыр совхозныкы иде. Мы с твоим әтиең тут сено возили. Хәзер зарастает — урман каждый год на шаг ближе»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-field.lvl-fluent",
+    "value": {
+      "default": "«Бу кыр совхозныкы иде. Әтиең белән монда печән ташыдык. Хәзер урман ел саен бер адымга якыная».\n(Это поле было совхозным. Мы с твоим отцом возили тут сено. Теперь лес каждый год на шаг ближе.)",
+      "translations": {
+        "ru": "«Бу кыр совхозныкы иде. Әтиең белән монда печән ташыдык. Хәзер урман ел саен бер адымга якыная».\n(Это поле было совхозным. Мы с твоим отцом возили тут сено. Теперь лес каждый год на шаг ближе.)"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-nightmare",
+    "value": {
+      "default": "«Тише, тише, улым! Это сон, просто сон. Ты кричал — я чуть в кювет не съехал».",
+      "translations": {
+        "ru": "«Тише, тише, улым! Это сон, просто сон. Ты кричал — я чуть в кювет не съехал»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-nightmare.lvl-some",
+    "value": {
+      "default": "«Тынычлан, улым! Төш кенә — просто сон. Ты кричал — я чуть в кювет не съехал».",
+      "translations": {
+        "ru": "«Тынычлан, улым! Төш кенә — просто сон. Ты кричал — я чуть в кювет не съехал»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/prologue-ride-bark-nightmare.lvl-fluent",
+    "value": {
+      "default": "«Тынычлан, улым, тынычлан! Төш кенә бу. Кычкырдың — мин чак кюветка төшмәдем».\n(Тише, сынок, тише! Это просто сон. Ты кричал — я чуть в кювет не съехал.)",
+      "translations": {
+        "ru": "«Тынычлан, улым, тынычлан! Төш кенә бу. Кычкырдың — мин чак кюветка төшмәдем».\n(Тише, сынок, тише! Это просто сон. Ты кричал — я чуть в кювет не съехал.)"
+      }
+    },
+    "purpose": "dialogue"
   }
 ]

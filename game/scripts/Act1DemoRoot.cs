@@ -139,6 +139,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public bool IntroVisible => _introScreen is not null || _prologueForestActive;
 
+    /// <summary>The forest teaser or Niva ride owns the screen; E is ignored, Esc skips.</summary>
+    internal bool PrologueActive => _prologueForestActive;
+
     /// <summary>UIUX-001: the public main menu gates gameplay until a choice.</summary>
     public bool MainMenuVisible => _mainMenu is not null && GodotObject.IsInstanceValid(_mainMenu) && !_mainMenu.IsDismissed;
 
@@ -1647,6 +1650,12 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         "urman.chapter1:scene/house" => HouseRouteCue(bridge),
         "urman.chapter1:scene/crossroad_signs_inspect" =>
             AvailableCue(bridge, "route-to-fap", "На улице ищу указатель «ФАП».")
+            // R059: the FAP opens after the first comparison; between Alsu's
+            // versions and that comparison the cue names the notebook step.
+            ?? (KnowledgeConfirmed(bridge, "clue_alsu_heard_versions")
+                && !KnowledgeConfirmed(bridge, "clue_marat_versions_conflict")
+                    ? $"Открыть книжку ({InputBindingService.Label("journal")}): сравнить, что слышала Алсу, со справкой о смерти."
+                    : null)
             ?? AvailableCue(bridge, "talk-alsu", "Спросить Алсу, что ей говорили о Марате.")
             ?? AvailableCue(bridge, "talk-rinat", "Поговорить с Ринатом."),
         "urman.chapter1:scene/fap_waiting_room_day" =>

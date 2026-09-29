@@ -11,13 +11,11 @@ public partial class Act1ConnectedWorld
     private MeshInstance3D? _heightMarksCover;
     private bool? _photoFound, _tinFound, _lampFound, _heightMarksFound;
     private Tween? _photoTurn, _tinOpen;
-    private AudioStreamPlayer? _discoveryFoley;
 
     private const string DiscoveryPrefix = "urman.chapter1:knowledge/discovery-";
 
     private void BuildAct1InteriorDiscoveries()
     {
-        _discoveryFoley = UiFoley.Attach(this);
         var house = (StyleBenchmarkZone)_zoneInstances["house_old_pc"];
         foreach (var name in new[] { "FamilyPhoto", "FamilyPhotoInner" })
             if (house.GetNodeOrNull<Node3D>(name) is { } old) old.Visible = false;
@@ -208,7 +206,10 @@ public partial class Act1ConnectedWorld
         if (_repairedLampLight is not null) _repairedLampLight.Visible = lampOn && ActiveZoneId == "fap_clinic";
         if (_repairedLampBulb is not null && _lampFound != lampOn)
         {
-            if (_lampFound == false && lampOn && ActiveZoneId == "fap_clinic") UiFoley.Play(_discoveryFoley, "ui_click");
+            // R060: the switch clicks at the lamp itself, not as a
+            // listener-centred "success" cue.
+            if (_lampFound == false && lampOn && ActiveZoneId == "fap_clinic")
+                UiFoley.PlayWorld(this, _repairedLampBulb.GlobalPosition, "ui_click");
             _repairedLampBulb.MaterialOverride = new StandardMaterial3D
             {
                 AlbedoColor = new Color(lampOn ? "ffe3a3" : "d6c79f"), Roughness = .5f,

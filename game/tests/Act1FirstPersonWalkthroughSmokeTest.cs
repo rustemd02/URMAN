@@ -123,6 +123,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             return;
         }
 
+        await SkipPrologueLikePlayer(demo);
         demo._UnhandledInput(new InputEventKey
         {
             Keycode = Key.E,
@@ -136,6 +137,9 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             Fail("Act 1 walkthrough could not dismiss the intro card with E.");
             return;
         }
+        var settleBridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        for (var frame = 0; frame < 600 && settleBridge?.CurrentZoneId != "village_day"; frame++)
+            await Frames(1);
 
         // Narrow mode still starts through the ordinary menu/arrival and walks
         // every metre. It verifies the optional loop without replaying dialogue.
@@ -1244,12 +1248,24 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             var sawNightZone = false;
             // Headless frames run faster than wall clock; budget real time
             // for the teaser walk, the cue, the 21s ride and the fade.
-            var deadline = Time.GetTicksMsec() + 75_000u;
+            var deadline = Time.GetTicksMsec() + 240_000u;
+            var sawDeepForest = false;
             try
             {
                 while (Time.GetTicksMsec() < deadline)
                 {
                     await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                    // 2026-09-29: the teaser has its own deep-forest location;
+                    // look along the track ahead, as a walking player would.
+                    if (demo.DeepForest is { } forest && IsInstanceValid(forest))
+                    {
+                        sawDeepForest = true;
+                        var local = player.GlobalPosition - PrologueDeepForest.Origin;
+                        var aheadZ = local.Z - 4f;
+                        var detour = Mathf.Abs(aheadZ - PrologueDeepForest.FallenSpruceZ) < 9f ? 7f : 0f;
+                        var dx = PrologueDeepForest.TrackX(aheadZ) + detour - local.X;
+                        player.ApplySmokeLook(0, Mathf.RadToDeg(Mathf.Atan2(-dx, 4f)));
+                    }
                     var zone = (GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge)?.CurrentZoneId;
                     sawNightZone |= zone == "kara_urman_night";
                     // The walk covers the authored stretch and the cue fires;
@@ -1258,12 +1274,14 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
                 }
             }
             finally { Input.ActionRelease("move_forward"); }
+            if (!sawDeepForest)
+            { Fail("The teaser did not use its own deep-forest location."); return; }
             // N2.2: the Niva ride follows the teaser inside the same block;
             // answer the calibration with the second choice ("some") through
             // the real dialogue UI, then verify its guessed vocabulary.
             var rideDialogue = GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi;
             DialogueUi? calib = null;
-            var calibDeadline = Time.GetTicksMsec() + 30_000u;
+            var calibDeadline = Time.GetTicksMsec() + 120_000u;
             while (Time.GetTicksMsec() < calibDeadline && calib is null)
             {
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -1274,13 +1292,20 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             var answerButtons = calib.GetNode("Screen/Panel/Layout/Choices").GetChildren().OfType<Button>().ToArray();
             if (answerButtons.Length < 4)
             { Fail($"The calibration dialogue lost its choices: {answerButtons.Length}."); return; }
+            if (!calib.GetNode<RichTextLabel>("Screen/Panel/Layout/Line").Text.Contains("татарча", StringComparison.Ordinal))
+            { Fail("Babai's calibration question must open in Tatar."); return; }
             answerButtons[1].EmitSignal(Button.SignalName.Pressed);
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            // The reply node ends on its own Continue button, like a player.
-            var continueButton = calib.GetNodeOrNull<Button>("Screen/Panel/Layout/Continue");
-            for (var reveal = 0; reveal < 30 && (continueButton?.IsVisibleInTree() != true); reveal++)
+            // The reply offers keep / simpler / more Tatar; keep the answer.
+            Button? keep = null;
+            for (var reveal = 0; reveal < 60 && keep is null; reveal++)
+            {
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            continueButton?.EmitSignal(Button.SignalName.Pressed);
+                keep = calib.GetNode("Screen/Panel/Layout/Choices").GetChildren().OfType<Button>()
+                    .FirstOrDefault(button => button.Text == vocabBridgeForKeep()?.ResolveText("urman.chapter1:text/prologue-niva-level-keep"));
+            }
+            RuntimeBridge? vocabBridgeForKeep() => GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+            if (keep is null) { Fail("The calibration reply did not offer to keep the chosen level."); return; }
+            keep.EmitSignal(Button.SignalName.Pressed);
             for (var close = 0; close < 90 && calib.IsOpen; close++)
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             if (calib.IsOpen)
@@ -1294,32 +1319,32 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             if (!vocabProbe.TryGetProperty("urman.chapter1:vocabulary/tt_yul", out var yul)
                 || yul.GetProperty("status").GetString() != "guessed")
             { Fail("The 'some' calibration answer did not seed its household vocabulary as guessed."); return; }
+            // The answer also sets the profile density; the same content id
+            // then reads with authored Tatar, while the fabula id is unchanged.
+            if (player.TatarLanguageLevel != "some"
+                || !vocabBridge!.ResolveText("urman.chapter1:text/dialogue-gulsina-warning").Contains("Утыр", StringComparison.Ordinal))
+            { Fail($"The 'some' answer did not adapt the family dialogue (level={player.TatarLanguageLevel})."); return; }
             // tt_urman is legitimately seeded by the arrival scene's own
             // onEnter; tt_tavysh is not, so it probes the level boundary.
             if (vocabProbe.TryGetProperty("urman.chapter1:vocabulary/tt_tavysh", out var tavysh)
                 && tavysh.GetProperty("status").GetString() == "guessed")
             { Fail("The 'some' calibration answer leaked a literary word beyond its level."); return; }
-            // The zone returns when the RIDE starts, not when the prologue
-            // ends; the arrival card is the block's last surface and the
-            // only part that reopens the player's modal.
-            var cardDeadline = Time.GetTicksMsec() + 45_000u;
-            while (Time.GetTicksMsec() < cardDeadline && !player.ModalOpen)
+            // A02: the watched ride hands control straight to the village; there
+            // is no separate arrival card after it (the skip path shares this).
+            var handoverDeadline = Time.GetTicksMsec() + 300_000u;
+            while (Time.GetTicksMsec() < handoverDeadline && demo.PrologueActive)
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             for (var settle = 0; settle < 12; settle++)
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             var finalZone = (GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge)?.CurrentZoneId;
+            GD.Print($"act1-prologue-watch: handover intro={demo.IntroVisible} prologue={demo.PrologueActive} modal={player.ModalOpen} zone={finalZone} at={player.GlobalPosition}");
             if (!sawNightZone || finalZone != "village_day")
             { Fail($"Prologue natural path did not return to the village: sawNight={sawNightZone} zone={finalZone}."); return; }
-            if (!demo.IntroVisible)
-            { Fail("The arrival card should follow the watched prologue."); return; }
-            demo._UnhandledInput(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true, Echo = false });
-            await Frames(4);
-            GD.Print($"act1-prologue-watch: after-E intro={demo.IntroVisible} modal={player.ModalOpen}");
-            if (demo.IntroVisible || player.ModalOpen)
-            { Fail("The arrival card did not dismiss with E after the watched prologue."); return; }
+            if (demo.PrologueActive || demo.IntroVisible || player.ModalOpen)
+            { Fail("The watched prologue did not hand control to the player in the village."); return; }
             if (player.GlobalPosition.DistanceTo(new Vector3(0, player.GlobalPosition.Y, 9)) > 3f)
             { Fail($"Player did not resume at the arrival after the prologue: {player.GlobalPosition}."); return; }
-            GD.Print("act1-prologue-watch: PASS night-first natural-cue village-return card-dismiss arrival-resume");
+            GD.Print("act1-prologue-watch: PASS night-first natural-cue niva-language village-handover arrival-resume");
             await GodotSmokeCleanup.ReleaseAsync(demo);
             GetTree().Quit(0);
             return;
@@ -1914,6 +1939,16 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             if (GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true })
                 throw new InvalidOperationException("The physical walk was interrupted by an actual pause overlay.");
         }
+    }
+
+    // The forest teaser now opens a new game (A02 N2.1); a player skips it with
+    // Esc and then confirms the arrival card, so the smoke does the same.
+    private async Task SkipPrologueLikePlayer(Act1DemoRoot demo)
+    {
+        if (!demo.PrologueActive) return;
+        demo._Input(new InputEventAction { Action = "ui_cancel", Pressed = true });
+        for (var frame = 0; frame < 1200 && demo.PrologueActive; frame++) await Frames(1);
+        for (var frame = 0; frame < 600 && !demo.IntroVisible; frame++) await Frames(1);
     }
 
     private async Task Frames(int count)

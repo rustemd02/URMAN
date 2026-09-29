@@ -30,4 +30,19 @@ public partial class RuntimeBridge
     {
         new JsonObject { ["propId"] = OpeningStateId, ["firstNightPassed"] = passed }
     });
+
+    /// <summary>
+    /// The live talk in the Niva sets the starting Tatar density. It is the
+    /// same profile field the settings screen edits, so a later manual change
+    /// wins; the world prop only records how the session started.
+    /// </summary>
+    internal async Task SetTatarLanguageLevelAsync(string level)
+    {
+        if (FindPlayer() is not { } player) return;
+        player.ApplySettings(player.CaptureSettings() with { TatarLanguageLevel = level });
+        await DispatchWorldPropsAsync(new JsonArray
+        {
+            new JsonObject { ["propId"] = OpeningStateId, ["languageLevel"] = player.TatarLanguageLevel }
+        });
+    }
 }

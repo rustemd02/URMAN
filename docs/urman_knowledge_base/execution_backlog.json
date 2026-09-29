@@ -3020,7 +3020,13 @@
         "План связывает доступный берег, дальнюю половину и главную дорогу одним мостом; начальный транзит Нивы возможен, свободная дальняя половина АктаII не добавлена.",
         "Сохранены все адресные жалобы, ориентиры, основная фабула и место финала; Z24 и текущий мост не отождествлены по догадке."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-09-29",
+          "kind": "plan",
+          "result": "29.09: план расширения деревни (4,2× площадь, существующая часть на месте, центр/нижняя улица/кромка, типовое хозяйство из данных) — docs/production/act1_village_expansion_plan_2026-09-29.md. Не реализовано."
+        }
+      ],
       "progress_2026_09_25": "S7: автор одобрил схему layout_v1 и причину непроходимости моста — обрушенный пролёт (decision_log 2026-09-25). Пакет 1: овраг (AgentBAct1HeightField.RavineChannel, центр ≈ 50.5), ручей, забор по кромке с коллизией, обрушенный мост у петли ФАПа (z = −25), дальний берег — улица yar, 9 домов (H033/H034/H039/H048/H050 перенесены, H069–H072 новые). Рельеф MaxX = 94, кольцо InnerMax.X = 88. Выход из реки перенесён с x = 44 на x = 34. Обязательные места не переносились. Остальные пакеты (извилистая главная улица, петля к мечети, дворы H02) открыты.",
       "mvp_priority": 20,
       "mvp_packet": "A05",
@@ -6028,7 +6034,12 @@
         "docs/production/tamara_mvp_2026-09-26/arrival/arrival-stop-receipt.json",
         "docs/production/act1_prologue_beat_sheet_2026-09-28.md",
         "docs/production/a01_ex13_yard_2026-09-28/README.md",
-        "docs/production/act1_opening_takeover_2026-09-28/README.md"
+        "docs/production/act1_opening_takeover_2026-09-28/README.md",
+        {
+          "date": "2026-09-29",
+          "kind": "code+smoke",
+          "result": "29.09: поездка — отдельная подъездная дорога PrologueApproachRoad (654 м: остановка-поворот, поля, ЛЭП, указатель, лес, фигура у кромки) + деревенский отрезок; 9 реплик бабая в трёх плотностях. Смок PASS: подъезд 94 с + деревня 34 с (было 28 с). Деревенский отрезок ограничен размером деревни — план docs/production/act1_village_expansion_plan_2026-09-29.md."
+        }
       ],
       "mvp_priority": 12,
       "mvp_packet": "A02",
@@ -11589,7 +11600,18 @@
       ],
       "evidence": [
         "2026-09-22 карта состояния (read-only рой): вопросов теста в контенте нет, onEnter уже сеет tt_urman=guessed (definitions.json:5827) — калибровка не должна задваивать источник; smoke-каркас готов — docs/production/act1_takeover_evidence_2026-09-16/act1_swarm_next_packets_2026-09-22.md §5.",
-        "docs/production/act1_prologue_beat_sheet_2026-09-28.md"
+        "docs/production/act1_prologue_beat_sheet_2026-09-28.md",
+        {
+          "date": "2026-09-29",
+          "kind": "code",
+          "result": "Ответ в Ниве задаёт уровень через тот же профиль, что настройки (FirstPersonController.ApplySettings), и пишет act1/opening.languageLevel в world.props; «промолчать» сохраняет профиль. Код: Act1DemoRoot.PrologueNivaRide.cs OnPrologueRideChoice, RuntimeBridge.Opening.cs SetTatarLanguageLevelAsync, DialogueUi.ChoiceAccepted. C#-сборка 0 ошибок; смок act1_first_person_walkthrough дополнен проверкой, НЕ ЗАПУЩЕН (guard занят другой сессией).",
+          "verified": "build-only"
+        },
+        {
+          "date": "2026-09-29",
+          "kind": "code+smoke",
+          "result": "29.09: вопрос бабая по-татарски с переводом; ответы none/some/fluent/skip + подтверждение «давай так / попроще / больше по-татарски»; подпись выбранного уровня. Смок prologue-watch PASS (уровень some, адаптация реплики Гөлсинә, граница словаря)."
+        }
       ],
       "mvp_priority": 16,
       "mvp_packet": "A04",
@@ -12084,7 +12106,14 @@
         "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, нет маркера/автопути.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-09-29",
+          "kind": "code",
+          "result": "29.09: Алсу один раз кратко объясняет «Урман» = Лесная и нумерацию; остальные адресные реплики (мечеть, дом бабая, школа/сельсовет, версии Алсу) больше не диктуют табличку/буквы/цифры. Все {address:*} сохранены.",
+          "verified": "build-only"
+        }
+      ],
       "mvp_priority": 20,
       "mvp_packet": "A05",
       "delivery": {
@@ -13810,7 +13839,14 @@
         "Нет оставшегося prompt/флага/подсказки/ссылки на удалённое; сюжетный путь и сейв не потеряли факт. Сохранены EX00–14 как возможности, переделанные реализации названы.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-09-29",
+          "kind": "code",
+          "result": "29.09 R160: варежка у колодца — убран ложный вариант «понять, кто оставил»; осталась бытовая причина (утеплённая рукоять) и связь с цепочкой юл/өй.",
+          "verified": "build-only"
+        }
+      ],
       "mvp_priority": 32,
       "mvp_packet": "A06",
       "delivery": {
@@ -16611,7 +16647,12 @@
       ],
       "evidence": [
         "docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/receipt.json",
-        "docs/production/mvp_tracker_2026-09-27/a02-intro-smoke/receipt.json"
+        "docs/production/mvp_tracker_2026-09-27/a02-intro-smoke/receipt.json",
+        {
+          "date": "2026-09-29",
+          "kind": "code+smoke",
+          "result": "29.09 по отзыву автора: флешфорвард перенесён в отдельную локацию PrologueDeepForest (230 м старой просеки, 25–38 м деревья, следы, стук, варежка, поваленная ель, силуэт, избушка с гаснущим светом, огоньки глаз, поляна с оборванными следами, голос за спиной). Смок prologue-watch PASS: лес 71 с (был ~12 с). Художественная сила и страх — человеческая оценка открыта."
+        }
       ],
       "current_checkpoint": "2026-09-27: one camera-curve segment from above the current winter village to actual arrival spawn, with four current-DLL native frames including 160% text. Forest and settlement are visible without a centre card. No visible smoke established, no authored sound synchronization/listening, motion-art review, weak-hardware FPS or human acceptance; ACT1-CUTSCENE.2 remains in_progress. 2026-09-27: existing ambient.village-arrival bed is already selected for village_day@arrival. Existing two chimney emitters advance during the non-reduced-motion flyover after the VillageLife gate fix; native normal/reduced launch and three frames passed on exact local DLL. The plume is barely readable in the wide frame; synchronized sound, perceived motion, composition, weak-host FPS and human review remain open. See a02-intro-smoke/receipt.json.",
       "mvp_priority": 12,
@@ -18663,15 +18704,17 @@
       "evidence": [
         "cutscene trace before/after: 86/86 identical",
         "tests: CutsceneTimelineTests 2 passed (length 50–70 s; measured 61.3 s)",
-        "studio selfcheck: timeline 75 actions, scrub shot, insert/move/undo exact"
+        "studio selfcheck: timeline 75 actions, scrub shot, insert/move/undo exact",
+        "tests: RoutineCheckTests 1 passed; Studio tests 35/35",
+        "studio selfcheck 2026-09-29: block by story condition, walks route, arrives with activity, scene claim/refuse/release+resume, blocked route stay / go-directly — all PASS; frame 22_routine_route"
       ],
       "remaining_2026_09_27": [
         "QUEST01–05 представления кампании (сюжет/побочные/все/карта), карточка квеста, типизированный граф зависимостей, сортировка списка отдельно от «сделать доступным после…», фильтры и выделение предков/последствий",
         "QUEST07/09/10/12/14 стартовое событие как сущность, состояния и повторяемость с run ID и политикой награды, таймеры, политика ожиданий, проблемы рядом с шагом",
         "DLG02–DLG07 несколько участников, условные ответы, исход неуспеха и таймаут, локализация и татарские токены, озвучка, проигрывание диалога, показ в игровом UI",
         "CINE02–CINE09 обрезка/перекрытие/маркеры, камера с сопровождением и границами кадра, анимации и маршруты из каталогов, снимок физики для перемотки, постоянные эффекты и пропуск, контрольная точка, Reduced Motion, занятость NPC",
-        "NPC01–04 карточка персонажа, расписания блоками, маршруты с недостижимостью и политикой неуспеха",
-        "ANIM01–05 каталог анимаций с движущимися превью и выбор клипа (31 запись в данных есть, потребителя нет), импорт и повторное использование, владелец перемещения, сокеты предметов",
+        "NPC03 остаток: ожидание/взгляд на цель/сопровождение игрока как действия маршрута; NPC04 отношения; занятие NPC шагом квеста из редактора (исполнитель Claim есть)",
+        "ANIM03/05 импорт внешних клипов и сокеты предметов",
         "§20.5 прогон Тамары целиком из редакторских данных: расстановка, камеры, маршрут, реплики, предметы, итоговое состояние, пропуск и загрузка"
       ],
       "review_scope": "separate-author-request: Studio сохранён; не блокировать MVP его полной реализацией",
@@ -18679,7 +18722,8 @@
       "mvp_priority": 80,
       "delivery": {
         "packet": "STUDIO"
-      }
+      },
+      "progress_2026_09_29": "Каталог анимаций исполняется (AnimationCatalog, 14/14 минимального набора на ките), раздел «Персонажи». Распорядок NPC: блоки по состоянию истории (часов в Акте I нет), место/поворот/занятие/путь точками, политика перекрытого пути («сразу на месте» / «остаться и сообщить»), захват сценой с возвратом и отказом второму претенденту (A13, CINE09 в исполнителе), проверки в Studio: недостижимые блоки, отсутствующие занятия, двое в одной точке, пересечения актёров сцен. Выбор правил ограничен исполняемыми Core операциями."
     },
     {
       "id": "STUDIO.P4",
@@ -18964,7 +19008,7 @@
       "id": "ACT1-NARRATIVE-SHOW",
       "title": "Редакторская карта: видимые ремарки и лишние записки заменены действием, звуком, предметом либо содержательной репликой",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -18979,7 +19023,13 @@
         "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md"
       ],
       "evidence": [
-        "docs/production/a01_ex13_yard_2026-09-28/README.md"
+        "docs/production/a01_ex13_yard_2026-09-28/README.md",
+        {
+          "date": "2026-09-29",
+          "kind": "code",
+          "result": "29.09: из 25 диалоговых реплик убраны ремарки/пересказ жестов и мета-подсказки («— спрашивает Мансур», «Мансур смотрит…», «Разговор можно оставить здесь»); навигационный смысл перенесён в речь персонажа. Файлы content/modules/urman-chapter1/{address-navigation,exploration-*,investigation-*,village-life}.json. Постановка жестами не сделана.",
+          "verified": "build-only"
+        }
       ],
       "deliverable": "Редакторская карта: видимые ремарки и лишние записки заменены действием, звуком, предметом либо содержательной репликой.",
       "done_when": [
@@ -19107,7 +19157,7 @@
       "id": "ACT1-PROGRESSION-DOORS",
       "title": "Установленные и исправленные причины отсутствия подсказки/входа на трёх названных дверях",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -19122,7 +19172,14 @@
         "docs/урман претензии.md",
         "docs/tasktracker/review_2026-09-28/02_investigation_language.md"
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-09-29",
+          "kind": "code",
+          "result": "29.09 R059: подсказка маршрута на перекрёстке между разговором с Алсу и первым сопоставлением теперь называет шаг «Открыть книжку (J): сравнить…» вместо повторного «Спросить Алсу» (Act1DemoRoot.RouteCueText). Условие входа в ФАП не менялось; прогон не выполнен.",
+          "verified": "build-only"
+        }
+      ],
       "deliverable": "Установленные и исправленные причины отсутствия подсказки/входа на трёх названных дверях.",
       "done_when": [
         "На обычном маршруте корректный ray/range/door state дают актуальную подсказку и вход; сюжетный gate имеет видимую причину и доступный следующий шаг. С крыльца бани вход работает. Вход/выход после загрузки без телепорта в пустоту; не снимать gate вслепую.",
@@ -19251,7 +19308,7 @@
       "id": "ACT1-LANG.APPLY",
       "title": "Решить содержательную задачу через татарское слово в поиске ПК/Татарвики",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -19269,7 +19326,14 @@
         "docs/urman_knowledge_base/decision_log.md",
         "docs/urman_knowledge_base/gameplay.md"
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-09-29",
+          "kind": "code",
+          "result": "Поиск ПК (OldPcUi.Search.cs): FoldSearchText — регистр, лишние пробелы, ё/е и ә/ө/ү/җ/ң/һ ↔ кириллица; ступенчатая помощь при промахе: варианты → указание на книжку → прямая ссылка. Знание по-прежнему только при чтении документа. Смок old_pc_search дополнен, НЕ ЗАПУЩЕН. Задача с конкретным словом/результатом ещё не выстроена.",
+          "verified": "build-only"
+        }
+      ],
       "deliverable": "Решить содержательную задачу через татарское слово в поиске ПК/Татарвики",
       "done_when": [
         "Последовательность: понятный контекст слова → возможность вспомнить в книжке → самостоятельный ввод/поиск → полезный результат → применение в мире/расследовании. Это не тест выбора перевода.",
@@ -19327,7 +19391,7 @@
       "id": "ACT1-LANG.ADAPT",
       "title": "Три авторских варианта доли и сложности татарского при одной истории",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -19343,7 +19407,14 @@
         "docs/urman_knowledge_base/decision_log.md",
         "docs/urman_knowledge_base/gameplay.md"
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-09-29",
+          "kind": "code",
+          "result": "Механизм авторских вариантов: text id + \".lvl-some\"/\".lvl-fluent\" (CompiledCampaignRepository.ResolveText(id, level)); базовый id остаётся владельцем фабулы/знаний. 12 вариантов: Гөлсинә (warning, stay-for-tea, yaramyy), Мансур (pc-request, babai-name), Тимур (restraint). Татарские формулировки — черновик, consultant pending. Контент скомпилирован; прогон не выполнен.",
+          "verified": "build-only"
+        }
+      ],
       "deliverable": "Три авторских варианта доли и сложности татарского при одной истории",
       "done_when": [
         "На одной сцене показана фактическая разница плотности и сложности для трёх уровней; одинаковый текст с разными подсказками не достаточен.",
@@ -20713,7 +20784,7 @@
       "id": "ACT1-AUDIO.MAP",
       "title": "Карта существующих звуковых событий и среды",
       "milestone": "M5",
-      "status": "todo",
+      "status": "review",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -20728,7 +20799,14 @@
         "docs/урман претензии.md",
         "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-09-29",
+          "kind": "doc+code",
+          "path": "docs/urman_knowledge_base/audio/act1_sound_map.md#карта-событий-по-отзыву-28092026-act1-audiomap",
+          "result": "Код-срез событий→источник→способ; лампа ФАПа переведена с UI-щелчка на позиционный (R060 кандидат). Отсутствующие записи перечислены. Прослушивания нет."
+        }
+      ],
       "deliverable": "Дополнить существующий аудиореестр: событие/место→cue/consumer→роль→условия начала/остановки→ресурс/права/статус проверки.",
       "done_when": [
         "Все перечисленные в отзыве звуки и их реальные соседние события имеют источник/назначение; отдельно отмечены неизвестные, ложные и отсутствующие. Карта не утверждает исправление или прослушивание.",

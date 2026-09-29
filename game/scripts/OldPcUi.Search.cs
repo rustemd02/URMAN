@@ -36,6 +36,7 @@ public partial class OldPcUi
     {
         _globalSearch = true;
         GlobalQuery = query.Trim();
+        _countSearchMiss = true;
         LaunchApplication("archive");
         RefreshResults();
     }
@@ -90,13 +91,43 @@ public partial class OldPcUi
             _results.SetItemSelectable(_results.AddItem("🔒 Закрытые записи"), false);
         }
         _status.Text = $"Искать везде · найдено: {matches.Count}";
-        if (matches.Count == 0) ShowSearchTerms();
+        if (matches.Count == 0) ShowSearchTerms(); else { _failedSearches = 0; _countSearchMiss = false; }
     }
 
-    private static bool MatchesGlobalQuery(string title, string body, string query) =>
-        query.Length > 0
-        && (title.Contains(query, StringComparison.CurrentCultureIgnoreCase)
-            || body.Contains(query, StringComparison.CurrentCultureIgnoreCase));
+    // The query is never a trap: case, doubled spaces, ё/е and the Tatar
+    // letters versus their Cyrillic look-alikes (ә/а, ө/о, ү/у, җ/ж, ң/н, һ/х)
+    // all fold to one form, so «хазрат» finds «хәзрәт» and vice versa. Both
+    // spellings stay visible in the documents themselves.
+    internal static string FoldSearchText(string text)
+    {
+        var builder = new System.Text.StringBuilder(text.Length);
+        var lastSpace = true;
+        foreach (var raw in text.ToLowerInvariant())
+        {
+            var c = raw switch
+            {
+                'ә' => 'а', 'ө' => 'о', 'ү' => 'у', 'җ' => 'ж', 'ң' => 'н', 'һ' => 'х', 'ё' => 'е', 'ў' => 'у',
+                _ => raw
+            };
+            if (char.IsWhiteSpace(c))
+            {
+                if (!lastSpace) builder.Append(' ');
+                lastSpace = true;
+                continue;
+            }
+            builder.Append(c);
+            lastSpace = false;
+        }
+        return builder.ToString().TrimEnd();
+    }
+
+    private static bool MatchesGlobalQuery(string title, string body, string query)
+    {
+        var folded = FoldSearchText(query);
+        return folded.Length > 0
+            && (FoldSearchText(title).Contains(folded, StringComparison.Ordinal)
+                || FoldSearchText(body).Contains(folded, StringComparison.Ordinal));
+    }
 
     private static string SiteLabel(string address) => address switch
     {
@@ -108,14 +139,27 @@ public partial class OldPcUi
         _ => address
     };
 
+    private int _failedSearches;
+    private bool _countSearchMiss;
+
+    // Stepped help, never a dead end: the first miss offers terms, the second
+    // says where a word can be recalled (the notebook), the third names the
+    // best candidate outright as a link.
     private void ShowSearchTerms()
     {
+        if (_countSearchMiss) _failedSearches++;
+        _countSearchMiss = false;
         var terms = SuggestedSearchTerms();
         _reader.BbcodeEnabled = true;
         var links = string.Join("  ", terms.Select(term => $"[url=term:{term}]{term}[/url]"));
-        _reader.Text = terms.Count == 0
-            ? "Совпадений нет. Переформулируйте запрос."
+        var reader = terms.Count == 0
+            ? "Совпадений нет. Переформулируйте запрос: достаточно слова из разговора, любым регистром, можно кириллицей вместо ә, ө, ү, җ, ң, һ."
             : $"Совпадений нет. Переформулируйте запрос или попробуйте: {links}";
+        if (_failedSearches >= 2)
+            reader += "\n\nПодсказка: слово, которое вы слышали, записано в книжке Айдара — откройте её и найдите нужную запись.";
+        if (_failedSearches >= 3 && terms.Count > 0)
+            reader += $"\n\nПохоже, вы ищете: [url=term:{terms[0]}]{terms[0]}[/url]";
+        _reader.Text = reader;
     }
 
     // Offer learned words and hints only when the current global index can

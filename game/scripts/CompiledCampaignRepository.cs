@@ -309,6 +309,25 @@ public sealed class CompiledCampaignRepository
 
     public string ResolveText(string textId) => _texts.Resolve(textId, "ru").Text;
 
+    private HashSet<string>? _textIdSet;
+
+    /// <summary>
+    /// Adaptive Tatar density (ACT1-LANG): an authored variant is a separate
+    /// text id "&lt;id&gt;.lvl-some" / "&lt;id&gt;.lvl-fluent". It changes only how a line
+    /// is phrased; the base id stays the fabula and the save/knowledge owner.
+    /// A line without a variant resolves to the base text for every level.
+    /// </summary>
+    public string ResolveText(string textId, string languageLevel)
+    {
+        if (languageLevel is "some" or "fluent")
+        {
+            _textIdSet ??= _texts.Ids().ToHashSet(StringComparer.Ordinal);
+            var variant = $"{textId}.lvl-{languageLevel}";
+            if (_textIdSet.Contains(variant)) return _texts.Resolve(variant, "ru").Text;
+        }
+        return _texts.Resolve(textId, "ru").Text;
+    }
+
     /// <summary>Authored text ids that start with a prefix, in id order.</summary>
     public IReadOnlyList<string> TextIdsWithPrefix(string prefix) =>
         _texts.Ids().Where(id => id.StartsWith(prefix, StringComparison.Ordinal)).Order(StringComparer.Ordinal).ToArray();

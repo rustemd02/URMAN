@@ -68,6 +68,7 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
 
         // The launch smoke owns the intro-specific control wording; here we
         // dismiss it through the same mapped keyboard event as a player.
+        await SkipPrologueLikePlayer(demo);
         demo._UnhandledInput(new InputEventKey
         {
             Keycode = Key.E,
@@ -227,10 +228,13 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
         if (gulsinaDialogue.IsOpen || player.ModalOpen
             || VocabularyStatus(gulsinaState, "tt_yaramyy") != "guessed"
             || !NpcState(gulsinaState, "gulsina", "warning_heard")
-            || KnowledgeStatus(gulsinaState, "clue_family_avoids_marat") != "hidden"
-            || bridge.IsInteractionAvailable(Interaction("house-to-route")))
+            // 2026-09-28 A02: leaving the house no longer waits for both Marat
+            // sources, so an open house-to-route is the accepted state.
+            || KnowledgeStatus(gulsinaState, "clue_family_avoids_marat") != "hidden")
         {
-            Fail("Tea did not preserve Gulsina's warning or incorrectly supplied an unasked answer about Marat.");
+            Fail($"Tea did not preserve Gulsina's warning or incorrectly supplied an unasked answer about Marat "
+                + $"(open={gulsinaDialogue.IsOpen} modal={player.ModalOpen} yaramyy={VocabularyStatus(gulsinaState, "tt_yaramyy")} "
+                + $"warned={NpcState(gulsinaState, "gulsina", "warning_heard")} avoids={KnowledgeStatus(gulsinaState, "clue_family_avoids_marat")}).");
             return;
         }
 
@@ -935,6 +939,16 @@ public partial class Act1FirstPersonCorridorSmokeTest : Node
             if (GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true })
                 Fail("The physical corridor was interrupted by an actual pause overlay.");
         }
+    }
+
+    // The forest teaser now opens a new game (A02 N2.1); a player skips it with
+    // Esc and then confirms the arrival card, so the smoke does the same.
+    private async Task SkipPrologueLikePlayer(Act1DemoRoot demo)
+    {
+        if (!demo.PrologueActive) return;
+        demo._Input(new InputEventAction { Action = "ui_cancel", Pressed = true });
+        for (var frame = 0; frame < 1200 && demo.PrologueActive; frame++) await Frames(1);
+        for (var frame = 0; frame < 600 && !demo.IntroVisible; frame++) await Frames(1);
     }
 
     private async Task Frames(int count)

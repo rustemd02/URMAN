@@ -414,10 +414,34 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     /// through the world. The same guard recovers from any unforeseen hole
     /// instead of leaving a player falling forever.
     /// </summary>
+    /// <summary>
+    /// A presentation location outside the village terrain (the prologue's deep
+    /// forest) owns its own walkable window while it is active: it returns the
+    /// clamped position and the ground height under it. Null restores the
+    /// village terrain guard.
+    /// </summary>
+    internal static Func<Vector3, (Vector3 Position, float Ground)>? DetachedWorldGuard { get; set; }
+
     private void ClampToAuthoredWorld()
     {
         const float edgeMargin = 3f;
         var position = GlobalPosition;
+        if (DetachedWorldGuard is { } detached)
+        {
+            var (inside, detachedGround) = detached(position);
+            if (inside.X != position.X || inside.Z != position.Z)
+            {
+                GlobalPosition = inside with { Y = position.Y };
+                EdgeClamps++;
+            }
+            if (GlobalPosition.Y < detachedGround - FallRecoveryDepth)
+            {
+                GlobalPosition = GlobalPosition with { Y = detachedGround + 0.05f };
+                Velocity = Vector3.Zero;
+                FallRecoveries++;
+            }
+            return;
+        }
         // The west mosque courtyard wall is inside the terrain, past the old 3 m clamp.
         var clampedX = Mathf.Clamp(position.X, AgentBAct1HeightField.MinX + 1.5f, AgentBAct1HeightField.MaxX - edgeMargin);
         var clampedZ = Mathf.Clamp(position.Z, AgentBAct1HeightField.MinZ + edgeMargin, AgentBAct1HeightField.MaxZ - edgeMargin);

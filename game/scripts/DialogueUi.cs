@@ -18,6 +18,9 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public bool IsOpen => _screen.Visible;
 
+    /// <summary>Raised after the runtime accepted a dialogue answer (dialogue id, choice id).</summary>
+    internal static event Action<string, string>? ChoiceAccepted;
+
     internal void CloseIfDialogue(string id)
     {
         if (_dialogue?.Id == id) Close();
@@ -181,6 +184,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
             return;
         }
 
+        ChoiceAccepted?.Invoke(_dialogue.Id, choice.Id);
         if (choice.NextNodeId is null)
         {
             Close();

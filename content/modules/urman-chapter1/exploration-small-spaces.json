@@ -7,7 +7,7 @@
   },
   {"schemaVersion": 1, "id": "urman.chapter1:text/mark-underdeck-quiet", "value": {"default": "Проверить крепление после работы", "translations": {"ru": "Проверить крепление после работы"}}, "purpose": "ui"},
   {"schemaVersion": 1, "id": "urman.chapter1:text/choice-mansur-underdeck-quiet", "value": {"default": "Под настилом дребезжало крепление. Я поправил его и проверил — теперь тихо.", "translations": {"ru": "Под настилом дребезжало крепление. Я поправил его и проверил — теперь тихо."}}, "purpose": "dialogue"},
-  {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-mansur-underdeck-quiet", "value": {"default": "Мансур на мгновение замолкает, прислушиваясь. «А я уже не замечал. Привык». Он смотрит на мои рукава. «Снег отряхни. Погрей руки сначала». Я вернулся с небольшим сделанным делом, и он его заметил; к разговору о документах можно вернуться отдельно.", "translations": {"ru": "Мансур на мгновение замолкает, прислушиваясь. «А я уже не замечал. Привык». Он смотрит на мои рукава. «Снег отряхни. Погрей руки сначала». Я вернулся с небольшим сделанным делом, и он его заметил; к разговору о документах можно вернуться отдельно."}}, "purpose": "dialogue"},
+  {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-mansur-underdeck-quiet", "value": {"default": "«А я уже не замечал. Привык». Пауза. «Снег отряхни. Погрей руки сначала, потом про бумаги поговорим».", "translations": {"ru": "«А я уже не замечал. Привык». Пауза. «Снег отряхни. Погрей руки сначала, потом про бумаги поговорим»."}}, "purpose": "dialogue"},
   {
     "schemaVersion": 1, "id": "urman.chapter1:knowledge/discovery-shed-loft-roofline", "kind": "fact",
     "title": {"default": "Крыши с верхней площадки", "translations": {"ru": "Крыши с верхней площадки"}},

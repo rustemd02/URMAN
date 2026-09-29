@@ -84,42 +84,187 @@ public partial class Act1DemoRoot
             _parkedNivaForRide.Visible = false;
         }
 
-        PlaceRideAt(0);
         _rideCamera.MakeCurrent();
         if (_prologueCaption is not null) _prologueCaption.Visible = false;
-        FadePrologueBlackout(visible: false);
-
-        var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
-        var calibrationOpened = false;
-        var elapsed = 0d;
-        const double rideSeconds = 28d;
-        const double calibrationAt = 12d;
+        DialogueUi.ChoiceAccepted += OnPrologueRideChoice;
+        var rideStarted = Time.GetTicksMsec();
         var dialogueUi = GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi;
-        while (IsInsideTree() && (elapsed < rideSeconds || dialogueUi?.IsOpen == true))
+        var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+
+        // Leg A (author feedback 2026-09-29): the long winter road from the
+        // district bus stop, through the fields and the forest the road cuts.
+        _approachRoad = new PrologueApproachRoad();
+        _main.AddChild(_approachRoad);
+        var approach = _approachRoad;
+        PlaceOnApproach(approach, 18f, snap: true);
+        // Jolted awake: slumped against the window, then up with a start.
+        _rideLook = new(62f, -32f);
+        ApplyPrologueRideLook();
+        FadePrologueBlackout(visible: false);
+        WakeJolt();
+        var driven = 0f;
+        var speed = 0f;
+        var calibrationOpened = false;
+        var calibrationCaptioned = false;
+        var barkIndex = 0;
+        var barks = new (float At, string Id)[]
+        {
+            (1f, "prologue-ride-bark-nightmare"), (48f, "prologue-ride-bark-wake"), (95f, "prologue-ride-bark-bus"), (160f, "prologue-ride-bark-kazan"),
+            (205f, "prologue-ride-bark-sign"), (ApproachForestAt - 40f, "prologue-ride-bark-field"),
+            (ApproachForestAt + 10f, "prologue-ride-bark-forest"), (ApproachForestAt + 150f, "prologue-ride-bark-marat")
+        };
+        const float calibrationAt = 265f;
+        var total = PrologueApproachRoad.RoadLength + 18f;
+        while (IsInsideTree() && driven < total - 4f)
         {
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             if (_prologueSkipRequested) break;
-            elapsed += GetProcessDeltaTime();
-            if (dialogueUi?.IsOpen != true)
-            {
-                var look = Input.GetVector("look_left", "look_right", "look_up", "look_down");
-                _rideLook -= look * (float)GetProcessDeltaTime() * 105f;
-                ApplyPrologueRideLook();
-            }
-            var previousPosition = _rideNiva.GlobalPosition;
-            PlaceRideAt(MathF.Min((float)(elapsed / rideSeconds), 1f));
-            var wheelTurn = previousPosition.DistanceTo(_rideNiva.GlobalPosition) / .345f;
-            foreach (var wheel in visual.Wheels) wheel.RotateX(-wheelTurn);
-            if (!calibrationOpened && elapsed >= calibrationAt && bridge is not null)
+            var delta = (float)GetProcessDeltaTime();
+            var talking = dialogueUi?.IsOpen == true;
+            UpdateRideLook(talking, delta);
+            var target = talking ? 3f : driven > ApproachForestAt - 20f ? 6.5f : 8.5f;
+            speed = Mathf.MoveToward(speed, target, 2.2f * delta);
+            driven += speed * delta;
+            var before = _rideNiva.GlobalPosition;
+            PlaceOnApproach(approach, 18f - driven, snap: false);
+            SpinRideWheels(visual, before);
+            while (barkIndex < barks.Length && driven >= barks[barkIndex].At)
+                RideBark(bridge, barks[barkIndex++].Id);
+            if (!calibrationOpened && driven >= calibrationAt && bridge is not null)
             {
                 calibrationOpened = true;
                 bridge.OpenDialogueUi(PrologueRideDialogue);
             }
+            if (calibrationOpened && !calibrationCaptioned && dialogueUi?.IsOpen != true)
+            {
+                calibrationCaptioned = true;
+                ShowPrologueCaption($"Татарский в разговорах: {LanguageLevelLabel(_player.TatarLanguageLevel)}. Это можно поменять в настройках.", 5);
+            }
+            if (approach.EdgeFigure is { Visible: true } figure && _rideNiva.GlobalPosition.Z < figure.GlobalPosition.Z + 12f)
+                figure.Visible = false;
         }
+
+        GD.Print($"act1-prologue: approach road {driven:0}m {(Time.GetTicksMsec() - rideStarted) / 1000.0:0.0}s skipped={_prologueSkipRequested}");
+        var villageLegStarted = Time.GetTicksMsec();
+        // Through the trees into the village: a short dip, not a loading screen.
+        if (!_prologueSkipRequested && IsInsideTree())
+        {
+            FadePrologueBlackout(visible: true);
+            await PrologueWaitAsync(.45);
+        }
+        ReleaseApproachRoad();
+
+        // Leg B: the far bank, the whole bridge and the village street home.
+        var villageLength = 0f;
+        for (var index = 1; index < PrologueRidePath.Length; index++)
+            villageLength += PrologueRidePath[index - 1].DistanceTo(PrologueRidePath[index]);
+        PlaceRideAt(0);
+        if (!_prologueSkipRequested) FadePrologueBlackout(visible: false);
+        var villageBarks = new (float At, string Id)[]
+        {
+            (4f, "prologue-ride-bark-bridge"), (villageLength * .33f, "prologue-ride-bark-fap"),
+            (villageLength * .62f, "prologue-ride-bark-street"), (villageLength * .9f, "prologue-ride-bark-home")
+        };
+        var villageBark = 0;
+        var along = 0f;
+        speed = 4.5f;
+        while (IsInsideTree() && along < villageLength)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (_prologueSkipRequested) break;
+            var delta = (float)GetProcessDeltaTime();
+            UpdateRideLook(dialogueUi?.IsOpen == true, delta);
+            var remaining = villageLength - along;
+            speed = Mathf.MoveToward(speed, remaining < 12f ? 1.6f : 4.2f, 1.8f * delta);
+            along += speed * delta;
+            var before = _rideNiva.GlobalPosition;
+            PlaceRideAt(MathF.Min(along / villageLength, 1f), eased: false);
+            SpinRideWheels(visual, before);
+            while (villageBark < villageBarks.Length && along >= villageBarks[villageBark].At)
+                RideBark(bridge, villageBarks[villageBark++].Id);
+        }
+        if (!_prologueSkipRequested) await PrologueWaitAsync(2.2);
+        GD.Print($"act1-prologue: village leg {(Time.GetTicksMsec() - villageLegStarted) / 1000.0:0.0}s");
 
         FadePrologueBlackout(visible: true);
         await PrologueWaitAsync(.3);
         ReleasePrologueRide();
+    }
+
+    private PrologueApproachRoad? _approachRoad;
+    private const float ApproachForestAt = 18f - PrologueApproachRoad.ForestStart;
+
+    // Distance along the approach road (local Z runs toward -Z); the body
+    // yaws smoothly into the road's direction and rests on its surface.
+    private void PlaceOnApproach(PrologueApproachRoad road, float localZ, bool snap)
+    {
+        if (_rideNiva is null) return;
+        var here = road.RoadPoint(localZ) + Vector3.Right * 1.35f;
+        var ahead = road.RoadPoint(localZ - 3f) + Vector3.Right * 1.35f;
+        var forward = ahead - here;
+        var yaw = Mathf.Atan2(-forward.X, -forward.Z);
+        var pitch = Mathf.Atan2(forward.Y, new Vector2(forward.X, forward.Z).Length());
+        var smoothing = snap ? 1f : 1f - MathF.Exp(-6f * (float)GetProcessDeltaTime());
+        _rideNiva.Rotation = new Vector3(Mathf.LerpAngle(_rideNiva.Rotation.X, pitch, smoothing), Mathf.LerpAngle(_rideNiva.Rotation.Y, yaw, smoothing), 0);
+        _rideNiva.GlobalPosition = here;
+    }
+
+    private void SpinRideWheels(VehicleVisualFactory.Visual visual, Vector3 before)
+    {
+        if (_rideNiva is null) return;
+        var turn = before.DistanceTo(_rideNiva.GlobalPosition) / .345f;
+        foreach (var wheel in visual.Wheels) wheel.RotateX(-turn);
+    }
+
+    private async void WakeJolt()
+    {
+        if (_rideCamera is null) return;
+        var from = _rideLook;
+        var to = new Vector2(35f, -2f);
+        var elapsed = 0f;
+        while (elapsed < .55f && _rideCamera is not null && IsInstanceValid(_rideCamera))
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            elapsed += (float)GetProcessDeltaTime();
+            var k = Mathf.Clamp(elapsed / .35f, 0f, 1f);
+            _rideLook = from.Lerp(to, 1f - (1f - k) * (1f - k) * (1f - k));
+            ApplyPrologueRideLook();
+            var shake = (1f - Mathf.Clamp(elapsed / .55f, 0f, 1f)) * 1.6f;
+            _rideCamera.RotationDegrees += new Vector3(Mathf.Sin(elapsed * 71f) * shake, Mathf.Sin(elapsed * 53f) * shake, 0);
+        }
+        await PrologueWaitAsync(7.5);
+        ShowPrologueCaption("Сон. Просто сон… Лес, следы на снегу, этот голос за спиной.", 5);
+    }
+
+    private void UpdateRideLook(bool talking, float delta)
+    {
+        if (talking) return;
+        var look = Input.GetVector("look_left", "look_right", "look_up", "look_down");
+        _rideLook -= look * delta * 105f;
+        ApplyPrologueRideLook();
+    }
+
+    // Babai's talk on the road: authored lines with Tatar density variants,
+    // shown as subtitles; the car keeps going.
+    private void RideBark(RuntimeBridge? bridge, string localTextId)
+    {
+        if (bridge is null) return;
+        var text = bridge.ResolveText($"urman.chapter1:text/{localTextId}");
+        _ = bridge.ObserveVocabularyTextAsync(text, $"urman.chapter1:text/{localTextId}");
+        ShowPrologueCaption("Мансур бабай: " + text, Math.Clamp(text.Length / 15.0, 4.5, 11));
+    }
+
+    private static string LanguageLevelLabel(string level) => level switch
+    {
+        "fluent" => "свободно — бабай говорит по-татарски",
+        "some" => "немного понимаю — вперемешку с русским",
+        _ => "почти не знаю — по-русски, татарские слова по одному"
+    };
+
+    private void ReleaseApproachRoad()
+    {
+        if (_approachRoad is not null && IsInstanceValid(_approachRoad)) _approachRoad.QueueFree();
+        _approachRoad = null;
     }
 
     private void ApplyPrologueRideLook()
@@ -185,16 +330,16 @@ public partial class Act1DemoRoot
     // Distance-parameterised placement over the authored polyline with
     // smooth ends; the car banks its yaw toward the active segment and the
     // body rests on the terrain like the parked runtime vehicles.
-    private void PlaceRideAt(float progress)
+    private void PlaceRideAt(float progress, bool eased = true)
     {
         if (_rideNiva is null) return;
-        var eased = progress * progress * (3f - 2f * progress);
+        var shaped = eased ? progress * progress * (3f - 2f * progress) : progress;
         var total = 0f;
         for (var index = 1; index < PrologueRidePath.Length; index++)
         {
             total += PrologueRidePath[index - 1].DistanceTo(PrologueRidePath[index]);
         }
-        var target = eased * total;
+        var target = shaped * total;
         var walked = 0f;
         var position = PrologueRidePath[0];
         var forward = PrologueRidePath[1] - PrologueRidePath[0];
@@ -221,8 +366,27 @@ public partial class Act1DemoRoot
         _rideNiva.GlobalPosition = new(position.X, height + .02f, position.Z);
     }
 
+    // The answer to Mansur sets the starting Tatar density; "skip" keeps
+    // whatever the player's profile already says.
+    private void OnPrologueRideChoice(string dialogueId, string choiceId)
+    {
+        if (dialogueId != PrologueRideDialogue) return;
+        var current = _player?.TatarLanguageLevel ?? "none";
+        var level = choiceId switch
+        {
+            "answer-none" => "none", "answer-some" => "some", "answer-fluent" => "fluent",
+            "level-lower" => current == "fluent" ? "some" : "none",
+            "level-raise" => current == "none" ? "some" : "fluent",
+            _ => null
+        };
+        if (level is null || GetTree().GetFirstNodeInGroup("runtime_bridge") is not RuntimeBridge bridge) return;
+        _ = bridge.SetTatarLanguageLevelAsync(level);
+    }
+
     private void ReleasePrologueRide()
     {
+        DialogueUi.ChoiceAccepted -= OnPrologueRideChoice;
+        ReleaseApproachRoad();
         if (IsInsideTree())
         {
             (GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi)?.CloseIfDialogue(PrologueRideDialogue);

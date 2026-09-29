@@ -52,19 +52,28 @@ public static class UiFoley
     /// authoritative; the bounded max distance prevents a remote gate from
     /// sounding like a UI cue at the listener.
     /// </summary>
-    public static void PlayWorld(Node host, Vector3 globalPosition, string sample)
+    public static void PlayWorld(Node host, Vector3 globalPosition, string sample) =>
+        PlayWorld(host, globalPosition, sample, -12f, 14f, 2f);
+
+    /// <summary>
+    /// A world one-shot with its own audible range: distant calls in the
+    /// prologue forest carry tens of metres, unlike a door or a gate.
+    /// Returns the player so a caller may move it (something running past).
+    /// </summary>
+    public static AudioStreamPlayer3D? PlayWorld(Node host, Vector3 globalPosition, string sample,
+        float volumeDb, float maxDistance, float unitSize)
     {
         if (DisplayServer.GetName() == "headless"
             || !GodotObject.IsInstanceValid(host)
             || !host.IsInsideTree())
         {
-            return;
+            return null;
         }
 
         var stream = LoadStream(sample);
         if (stream is null)
         {
-            return;
+            return null;
         }
 
         AudioSettingsService.EnsureBuses();
@@ -73,9 +82,9 @@ public static class UiFoley
             Name = $"WorldFoley_{sample}",
             Stream = stream,
             Bus = AudioSettingsService.SfxBus,
-            VolumeDb = -12f,
-            UnitSize = 2f,
-            MaxDistance = 14f,
+            VolumeDb = volumeDb,
+            UnitSize = unitSize,
+            MaxDistance = maxDistance,
             Autoplay = false
         };
         player.AddToGroup(WorldFoleyGroup);
@@ -87,6 +96,7 @@ public static class UiFoley
         // playback that AudioStreamPlayer3D has not created yet.
         player.RequestPlay(host.GetTree().GetFirstNodeInGroup("pause_menu")
             is PauseMenuUi { IsOpen: true });
+        return player;
     }
 
     /// <summary>Pauses or resumes active source-positioned one-shots.</summary>

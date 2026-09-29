@@ -112,6 +112,19 @@ public partial class OldPcSearchSmokeTest : Node
             Check(reader.GetParsedText().Contains("Переформулируйте запрос", StringComparison.Ordinal)
                 && reader.GetParsedText().Contains("попробуйте", StringComparison.Ordinal),
                 "an empty search asks the player to rephrase and offers terms: " + reader.GetParsedText());
+            // The second miss adds a notebook pointer; the field is no trap for case, spaces or Tatar letters.
+            query.Text = "яяя";
+            everywhere.EmitSignal(BaseButton.SignalName.Pressed);
+            await Frames(6);
+            Check(reader.GetParsedText().Contains("книжке", StringComparison.Ordinal),
+                "a repeated miss points to the notebook: " + reader.GetParsedText());
+            Check(OldPcUi.FoldSearchText("  ХӘЗРӘТ   Җәүһәр  ") == "хазрат жаухар"
+                && OldPcUi.FoldSearchText("Хазрат") == OldPcUi.FoldSearchText("хәзрәт"),
+                "case, doubled spaces and Tatar letters fold to one search form");
+            query.Text = "  МАРАТ  ";
+            everywhere.EmitSignal(BaseButton.SignalName.Pressed);
+            await Frames(6);
+            Check(results.ItemCount > 0, "upper case and stray spaces still find the record");
             reader.EmitSignal(RichTextLabel.SignalName.MetaClicked, Variant.From("term:Марат"));
             await Frames(6);
             Check(ui.GlobalQuery == "Марат" && results.ItemCount > 0,

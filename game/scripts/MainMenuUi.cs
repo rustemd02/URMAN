@@ -46,8 +46,8 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     // file shows the ordinary menu and the check is testable.
     private static readonly (string ZoneId, string SpawnPointId, string Label)[] DebugZones =
     [
-        ("village_day", "arrival", "Кырлай · остановка"),
-        ("village_day", "from_house", "Кырлай · от дома"),
+        ("village_day", "arrival", "Кара-Урман · остановка"),
+        ("village_day", "from_house", "Кара-Урман · от дома"),
         ("house_old_pc", "entry", "Дом Мансура и Гөлсинә"),
         ("village_day", "shop", "Магазин"),
         ("village_day", "school", "Школа"),
