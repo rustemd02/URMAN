@@ -1,0 +1,582 @@
+{
+  "schema": "urman.texture_generation_receipt.v1",
+  "recorded_at": "2026-09-29T19:20:40Z",
+  "scope": "Reusable revised Act I village surfaces; source audit only; Tamara/Studio/later acts excluded",
+  "new_bitmap_count": 0,
+  "mode_used": "builtin attempt failed; CLI not invoked live because key missing",
+  "attempts": [
+    {
+      "request": "TX29-10 birch veneer",
+      "mode": "builtin image_gen",
+      "outcome": "HTTP 429 usage_limit_reached",
+      "plan_type": "plus",
+      "resets_at_unix": 1790723572,
+      "resets_in_seconds_at_failure": 14229,
+      "exact_prompt": "Use case: photorealistic-natural\nAsset type: seamless base-color material texture for real 3D post-Soviet Tatar village school furniture; only the flat surface, not a photograph of an object.\nPrimary request: one 1024-square seamless tile of honey-blond varnished birch plywood face, restrained pale warm wood grain and small pore detail, maintained older school chair / desk appearance from ambiguous 2000–2026 use.\nComposition/framing: orthographic perpendicular flat scan, grain running vertically, same exposure across entire tile, seamless opposite borders.\nMaterials/textures: thin clear varnish over birch veneer; subtle wear in color, no deep cracks, no separate board joins, no chipboard cut edge.\nConstraints: base color only; no gloss highlights, no lighting gradients, no cast shadows or ambient occlusion, no baked curvature, no hardware, no furniture silhouette, no words, no dates, no frame or watermark. Roughness and metallic response are assigned by the real game material; bevels and bent plywood are geometry."
+    }
+  ],
+  "cli_permission": "User explicitly confirmed API/CLI gpt-image-2 in this session",
+  "cli_key_check": "OPENAI_API_KEY configured: false; value not emitted; arbitrary secret files not searched",
+  "blocker": "Builtin quota reached; authorised CLI lacks configured key. Only missing bitmap production blocked; geometry/reuse integration can continue.",
+  "resume_command": "python3 /Users/kadyrahunov/.codex/skills/.system/imagegen/scripts/image_gen.py generate-batch --input docs/production/visual_rework_2026-09-29/texture_jobs.jsonl --out-dir output/imagegen/realism_20260929 --model gpt-image-2 --concurrency 1 --no-augment",
+  "jobs_file": "docs/production/visual_rework_2026-09-29/texture_jobs.jsonl",
+  "jobs_validation": {
+    "mode": "bundled CLI --dry-run; no live API",
+    "exit_code": 0,
+    "payload_count": 10,
+    "command": [
+      "python3",
+      "/Users/kadyrahunov/.codex/skills/.system/imagegen/scripts/image_gen.py",
+      "generate-batch",
+      "--input",
+      "docs/production/visual_rework_2026-09-29/texture_jobs.jsonl",
+      "--out-dir",
+      "output/imagegen/realism_20260929",
+      "--model",
+      "gpt-image-2",
+      "--concurrency",
+      "1",
+      "--no-augment",
+      "--dry-run"
+    ],
+    "note": "Dry-run validates CLI syntax/output names/API fields, not image success or artistic quality."
+  },
+  "generation_jobs": [
+    {
+      "asset": "birch_plywood_varnished_v1_basecolor.png",
+      "requests": [
+        "TX29-09",
+        "TX29-10"
+      ],
+      "status": "blocked_not_generated",
+      "prompt": "Use case: photorealistic-natural. Asset type: real 3D game base-color surface for URMAN, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Produce only one flat material surface, not a scene or object photograph. Orthographic perpendicular scan, uniform neutral exposure, physically plausible restrained color variation. Base color only: no illumination gradient, cast shadow, ambient occlusion, highlights, reflection, perspective, frame, watermark, text or dates. Fine details must remain quiet with mipmaps; no painterly brush strokes. Geometry and roughness create the shape and light response in the real game.\nMaterial request: Seamless square tile of warm honey-blond birch face veneer under clear varnish. Subtle straight vertical grain, small low-contrast pores, maintained older school furniture. No separate boards, knots dominating the tile, cut edges, bolts, deep cracks, scratches exposing wood layers, or gloss highlights. Opposite edges seamless. Bent plywood, laminate layers and edge rounding are authored mesh geometry.",
+      "cli_model": "gpt-image-2",
+      "size": "1024x1024",
+      "staging_output": "output/imagegen/realism_20260929/birch_plywood_varnished_v1_basecolor.png",
+      "intended_runtime_output": "game/assets/textures/realism_20260929/birch_plywood_varnished_v1_basecolor.png",
+      "uv_extent_m": 0.5,
+      "initial_roughness": 0.48,
+      "initial_metallic": 0,
+      "physical_response_note": "Starting values: validate at glancing camera angle. Do not reconstruct normals from color variation blindly. Coating and bare metal need separate slots.",
+      "verification_required": [
+        "visually inspect raw output",
+        "check seamless border unless unique mural/board",
+        "inspect real UV and grain scale",
+        "walking and glancing-light view in engine",
+        "silhouette/edges/folds provided by geometry",
+        "no artistic acceptance inferred from source review"
+      ]
+    },
+    {
+      "asset": "school_laminate_beige_v1_basecolor.png",
+      "requests": [
+        "TX29-09",
+        "TX29-17"
+      ],
+      "status": "blocked_not_generated",
+      "prompt": "Use case: photorealistic-natural. Asset type: real 3D game base-color surface for URMAN, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Produce only one flat material surface, not a scene or object photograph. Orthographic perpendicular scan, uniform neutral exposure, physically plausible restrained color variation. Base color only: no illumination gradient, cast shadow, ambient occlusion, highlights, reflection, perspective, frame, watermark, text or dates. Fine details must remain quiet with mipmaps; no painterly brush strokes. Geometry and roughness create the shape and light response in the real game.\nMaterial request: Seamless square tile of warm pale beige melamine school desk laminate, fine muted mineral speckle, restrained broad color variation from maintained use. No boards, wood grain, border, burn marks, printed notebook, screw holes or glossy highlights. Tile both axes. Desk edge banding and chipboard cut edge are separate mesh/material components.",
+      "cli_model": "gpt-image-2",
+      "size": "1024x1024",
+      "staging_output": "output/imagegen/realism_20260929/school_laminate_beige_v1_basecolor.png",
+      "intended_runtime_output": "game/assets/textures/realism_20260929/school_laminate_beige_v1_basecolor.png",
+      "uv_extent_m": 1,
+      "initial_roughness": 0.4,
+      "initial_metallic": 0,
+      "physical_response_note": "Starting values: validate at glancing camera angle. Do not reconstruct normals from color variation blindly. Coating and bare metal need separate slots.",
+      "verification_required": [
+        "visually inspect raw output",
+        "check seamless border unless unique mural/board",
+        "inspect real UV and grain scale",
+        "walking and glancing-light view in engine",
+        "silhouette/edges/folds provided by geometry",
+        "no artistic acceptance inferred from source review"
+      ]
+    },
+    {
+      "asset": "painted_steel_enamel_v1_basecolor.png",
+      "requests": [
+        "TX29-02",
+        "TX29-08",
+        "TX29-09",
+        "TX29-10",
+        "TX29-12",
+        "TX29-17",
+        "TX29-19",
+        "TX29-20",
+        "TX29-23"
+      ],
+      "status": "blocked_not_generated",
+      "prompt": "Use case: photorealistic-natural. Asset type: real 3D game base-color surface for URMAN, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Produce only one flat material surface, not a scene or object photograph. Orthographic perpendicular scan, uniform neutral exposure, physically plausible restrained color variation. Base color only: no illumination gradient, cast shadow, ambient occlusion, highlights, reflection, perspective, frame, watermark, text or dates. Fine details must remain quiet with mipmaps; no painterly brush strokes. Geometry and roughness create the shape and light response in the real game.\nMaterial request: Seamless square tile of light warm grey opaque enamel paint over steel, restrained age yellowing and extremely subtle small coating mottling. No broad rusty patches, no bare shiny metal, no tubes, radiator ribs, borders, paint drips, hardware or highlights. Paint stays continuous so material metallic is zero; separately modeled bare metal parts retain their own metallic response. Neutral grey permits modest material tint variants without baking green/blue lighting.",
+      "cli_model": "gpt-image-2",
+      "size": "1024x1024",
+      "staging_output": "output/imagegen/realism_20260929/painted_steel_enamel_v1_basecolor.png",
+      "intended_runtime_output": "game/assets/textures/realism_20260929/painted_steel_enamel_v1_basecolor.png",
+      "uv_extent_m": 0.5,
+      "initial_roughness": 0.45,
+      "initial_metallic": 0,
+      "physical_response_note": "Starting values: validate at glancing camera angle. Do not reconstruct normals from color variation blindly. Coating and bare metal need separate slots.",
+      "verification_required": [
+        "visually inspect raw output",
+        "check seamless border unless unique mural/board",
+        "inspect real UV and grain scale",
+        "walking and glancing-light view in engine",
+        "silhouette/edges/folds provided by geometry",
+        "no artistic acceptance inferred from source review"
+      ]
+    },
+    {
+      "asset": "burgundy_seat_upholstery_v1_basecolor.png",
+      "requests": [
+        "TX29-13"
+      ],
+      "status": "blocked_not_generated",
+      "prompt": "Use case: photorealistic-natural. Asset type: real 3D game base-color surface for URMAN, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Produce only one flat material surface, not a scene or object photograph. Orthographic perpendicular scan, uniform neutral exposure, physically plausible restrained color variation. Base color only: no illumination gradient, cast shadow, ambient occlusion, highlights, reflection, perspective, frame, watermark, text or dates. Fine details must remain quiet with mipmaps; no painterly brush strokes. Geometry and roughness create the shape and light response in the real game.\nMaterial request: Seamless square tile of muted burgundy tightly woven wool-blend auditorium seat upholstery, maintained rural house of culture, fine low-contrast yarn variation and discreet nap. No floral centerpiece, seam, stitched cushion outline, fold, light/shadow ridge or worn hole. Flat fabric only; cushioning, piping and sewing lines are 3D geometry. Tile opposite borders.",
+      "cli_model": "gpt-image-2",
+      "size": "1024x1024",
+      "staging_output": "output/imagegen/realism_20260929/burgundy_seat_upholstery_v1_basecolor.png",
+      "intended_runtime_output": "game/assets/textures/realism_20260929/burgundy_seat_upholstery_v1_basecolor.png",
+      "uv_extent_m": 0.35,
+      "initial_roughness": 0.92,
+      "initial_metallic": 0,
+      "physical_response_note": "Starting values: validate at glancing camera angle. Do not reconstruct normals from color variation blindly. Coating and bare metal need separate slots.",
+      "verification_required": [
+        "visually inspect raw output",
+        "check seamless border unless unique mural/board",
+        "inspect real UV and grain scale",
+        "walking and glancing-light view in engine",
+        "silhouette/edges/folds provided by geometry",
+        "no artistic acceptance inferred from source review"
+      ]
+    },
+    {
+      "asset": "burgundy_stage_velvet_v1_basecolor.png",
+      "requests": [
+        "TX29-14"
+      ],
+      "status": "blocked_not_generated",
+      "prompt": "Use case: photorealistic-natural. Asset type: real 3D game base-color surface for URMAN, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Produce only one flat material surface, not a scene or object photograph. Orthographic perpendicular scan, uniform neutral exposure, physically plausible restrained color variation. Base color only: no illumination gradient, cast shadow, ambient occlusion, highlights, reflection, perspective, frame, watermark, text or dates. Fine details must remain quiet with mipmaps; no painterly brush strokes. Geometry and roughness create the shape and light response in the real game.\nMaterial request: Seamless square tile of deep subdued burgundy cotton velvet stage-curtain surface, minute low-contrast nap mottling, uniform diffuse color. No fold bands, drape silhouette, stripes, fabric edge, visible glossy streaks or lighting. Physical curtain folds are mesh and velvet grazing response is shader sheen, never drawn shading. Tile opposite borders.",
+      "cli_model": "gpt-image-2",
+      "size": "1024x1024",
+      "staging_output": "output/imagegen/realism_20260929/burgundy_stage_velvet_v1_basecolor.png",
+      "intended_runtime_output": "game/assets/textures/realism_20260929/burgundy_stage_velvet_v1_basecolor.png",
+      "uv_extent_m": 0.5,
+      "initial_roughness": 0.97,
+      "initial_metallic": 0,
+      "physical_response_note": "Starting values: validate at glancing camera angle. Do not reconstruct normals from color variation blindly. Coating and bare metal need separate slots.",
+      "verification_required": [
+        "visually inspect raw output",
+        "check seamless border unless unique mural/board",
+        "inspect real UV and grain scale",
+        "walking and glancing-light view in engine",
+        "silhouette/edges/folds provided by geometry",
+        "no artistic acceptance inferred from source review"
+      ]
+    },
+    {
+      "asset": "school_green_chalkboard_v1_basecolor.png",
+      "requests": [
+        "TX29-11"
+      ],
+      "status": "blocked_not_generated",
+      "prompt": "Use case: photorealistic-natural. Asset type: real 3D game base-color surface for URMAN, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Produce only one flat material surface, not a scene or object photograph. Orthographic perpendicular scan, uniform neutral exposure, physically plausible restrained color variation. Base color only: no illumination gradient, cast shadow, ambient occlusion, highlights, reflection, perspective, frame, watermark, text or dates. Fine details must remain quiet with mipmaps; no painterly brush strokes. Geometry and roughness create the shape and light response in the real game.\nMaterial request: One rectangular flat front-on green enamel chalkboard surface, restrained dark forest green, subtle diffuse erased chalk residue and fine surface wear. Entire image filled by board coating, no frame, tray, chalk stick, letters, numbers, equations, decorative marks or dates. No shiny glare or chalk dust edge vignette. Suitable as unique 2m x 1m board base color; material/mesh adds sheet thickness, wooden frame, fittings and actual writing.",
+      "cli_model": "gpt-image-2",
+      "size": "1536x1024",
+      "staging_output": "output/imagegen/realism_20260929/school_green_chalkboard_v1_basecolor.png",
+      "intended_runtime_output": "game/assets/textures/realism_20260929/school_green_chalkboard_v1_basecolor.png",
+      "uv_extent_m": [
+        2,
+        1
+      ],
+      "initial_roughness": 0.88,
+      "initial_metallic": 0,
+      "physical_response_note": "Starting values: validate at glancing camera angle. Do not reconstruct normals from color variation blindly. Coating and bare metal need separate slots.",
+      "verification_required": [
+        "visually inspect raw output",
+        "check seamless border unless unique mural/board",
+        "inspect real UV and grain scale",
+        "walking and glancing-light view in engine",
+        "silhouette/edges/folds provided by geometry",
+        "no artistic acceptance inferred from source review"
+      ]
+    },
+    {
+      "asset": "public_red_brick_v1_basecolor.png",
+      "requests": [
+        "TX29-06"
+      ],
+      "status": "blocked_not_generated",
+      "prompt": "Use case: photorealistic-natural. Asset type: real 3D game base-color surface for URMAN, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Produce only one flat material surface, not a scene or object photograph. Orthographic perpendicular scan, uniform neutral exposure, physically plausible restrained color variation. Base color only: no illumination gradient, cast shadow, ambient occlusion, highlights, reflection, perspective, frame, watermark, text or dates. Fine details must remain quiet with mipmaps; no painterly brush strokes. Geometry and roughness create the shape and light response in the real game.\nMaterial request: Seamless rectangular red-orange Soviet public-building brick masonry surface, running bond, exactly four bricks across and eight courses high, standard brick faces 250 by 65 millimetres with 14 millimetre pale grey mortar joints. Consistent moderate maintained weathering, no graffiti, moss, damage hole or directional light. Mortar is intrinsic color only, no baked joint shadows. Repeat aligns at both boundaries; physical mortar recess and wall openings are real geometry or separately authored relief.",
+      "cli_model": "gpt-image-2",
+      "size": "1536x1024",
+      "staging_output": "output/imagegen/realism_20260929/public_red_brick_v1_basecolor.png",
+      "intended_runtime_output": "game/assets/textures/realism_20260929/public_red_brick_v1_basecolor.png",
+      "uv_extent_m": [
+        1.056,
+        0.624
+      ],
+      "initial_roughness": 0.9,
+      "initial_metallic": 0,
+      "physical_response_note": "Starting values: validate at glancing camera angle. Do not reconstruct normals from color variation blindly. Coating and bare metal need separate slots.",
+      "verification_required": [
+        "visually inspect raw output",
+        "check seamless border unless unique mural/board",
+        "inspect real UV and grain scale",
+        "walking and glancing-light view in engine",
+        "silhouette/edges/folds provided by geometry",
+        "no artistic acceptance inferred from source review"
+      ]
+    },
+    {
+      "asset": "public_concrete_v1_basecolor.png",
+      "requests": [
+        "TX29-06",
+        "TX29-24"
+      ],
+      "status": "blocked_not_generated",
+      "prompt": "Use case: photorealistic-natural. Asset type: real 3D game base-color surface for URMAN, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Produce only one flat material surface, not a scene or object photograph. Orthographic perpendicular scan, uniform neutral exposure, physically plausible restrained color variation. Base color only: no illumination gradient, cast shadow, ambient occlusion, highlights, reflection, perspective, frame, watermark, text or dates. Fine details must remain quiet with mipmaps; no painterly brush strokes. Geometry and roughness create the shape and light response in the real game.\nMaterial request: Seamless square tile of medium warm-grey maintained cast concrete, small fine aggregate and pore color variation, restrained diffuse wear. No slab border, crack canyon, rusty rebar, pavement markings or baked raised-relief shadows. Tile opposite borders. Steps, bevels, cracks requiring silhouette, snow and contact are real meshes.",
+      "cli_model": "gpt-image-2",
+      "size": "1024x1024",
+      "staging_output": "output/imagegen/realism_20260929/public_concrete_v1_basecolor.png",
+      "intended_runtime_output": "game/assets/textures/realism_20260929/public_concrete_v1_basecolor.png",
+      "uv_extent_m": 1,
+      "initial_roughness": 0.92,
+      "initial_metallic": 0,
+      "physical_response_note": "Starting values: validate at glancing camera angle. Do not reconstruct normals from color variation blindly. Coating and bare metal need separate slots.",
+      "verification_required": [
+        "visually inspect raw output",
+        "check seamless border unless unique mural/board",
+        "inspect real UV and grain scale",
+        "walking and glancing-light view in engine",
+        "silhouette/edges/folds provided by geometry",
+        "no artistic acceptance inferred from source review"
+      ]
+    },
+    {
+      "asset": "bus_wheat_sun_mosaic_v1_basecolor.png",
+      "requests": [
+        "TX29-22"
+      ],
+      "status": "blocked_not_generated",
+      "prompt": "Use case: photorealistic-natural. Asset type: real 3D game base-color surface for URMAN, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Produce only one flat material surface, not a scene or object photograph. Orthographic perpendicular scan, uniform neutral exposure, physically plausible restrained color variation. Base color only: no illumination gradient, cast shadow, ambient occlusion, highlights, reflection, perspective, frame, watermark, text or dates. Fine details must remain quiet with mipmaps; no painterly brush strokes. Geometry and roughness create the shape and light response in the real game.\nMaterial request: One original rectangular flat orthographic ceramic mosaic mural for a rural Soviet bus shelter. Stylized modest golden wheat ears reaching toward a muted ochre sun against cream, faded turquoise and dusty blue field, warm welcoming agricultural subject, no political symbols, people, religious symbols, slogans, dates or text. Whole artwork fills image edge to edge without frame. Small irregular flat ceramic tesserae separated by pale thin grout. Uniform unlit base color, no tessera cast shadows or metallic glints. Not a tileable repeated wheat wallpaper: one complete panel mapped to its real 2m x 1m mural island; concrete surround and tile thickness are geometry.",
+      "cli_model": "gpt-image-2",
+      "size": "1536x1024",
+      "staging_output": "output/imagegen/realism_20260929/bus_wheat_sun_mosaic_v1_basecolor.png",
+      "intended_runtime_output": "game/assets/textures/realism_20260929/bus_wheat_sun_mosaic_v1_basecolor.png",
+      "uv_extent_m": [
+        2,
+        1
+      ],
+      "initial_roughness": 0.82,
+      "initial_metallic": 0,
+      "physical_response_note": "Starting values: validate at glancing camera angle. Do not reconstruct normals from color variation blindly. Coating and bare metal need separate slots.",
+      "verification_required": [
+        "visually inspect raw output",
+        "check seamless border unless unique mural/board",
+        "inspect real UV and grain scale",
+        "walking and glancing-light view in engine",
+        "silhouette/edges/folds provided by geometry",
+        "no artistic acceptance inferred from source review"
+      ]
+    },
+    {
+      "asset": "galvanized_zinc_v1_basecolor.png",
+      "requests": [
+        "TX29-04",
+        "TX29-20",
+        "TX29-24"
+      ],
+      "status": "blocked_not_generated",
+      "prompt": "Use case: photorealistic-natural. Asset type: real 3D game base-color surface for URMAN, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Produce only one flat material surface, not a scene or object photograph. Orthographic perpendicular scan, uniform neutral exposure, physically plausible restrained color variation. Base color only: no illumination gradient, cast shadow, ambient occlusion, highlights, reflection, perspective, frame, watermark, text or dates. Fine details must remain quiet with mipmaps; no painterly brush strokes. Geometry and roughness create the shape and light response in the real game.\nMaterial request: Seamless square tile of pale neutral grey zinc galvanization spangle, low contrast irregular crystal flecks with quiet maintained wear, consistent flat exposure. No shiny highlights, reflective stripes, rust patches, corrugations, seams, rivets, pail silhouette, border or lighting gradient. Tile opposite borders. Corrugated roofing, pail rim and handles are geometry; metallic reflection belongs to runtime material.",
+      "cli_model": "gpt-image-2",
+      "size": "1024x1024",
+      "staging_output": "output/imagegen/realism_20260929/galvanized_zinc_v1_basecolor.png",
+      "intended_runtime_output": "game/assets/textures/realism_20260929/galvanized_zinc_v1_basecolor.png",
+      "uv_extent_m": 0.5,
+      "initial_roughness": 0.55,
+      "initial_metallic": 0.85,
+      "physical_response_note": "Starting values: validate at glancing camera angle. Do not reconstruct normals from color variation blindly. Coating and bare metal need separate slots.",
+      "verification_required": [
+        "visually inspect raw output",
+        "check seamless border unless unique mural/board",
+        "inspect real UV and grain scale",
+        "walking and glancing-light view in engine",
+        "silhouette/edges/folds provided by geometry",
+        "no artistic acceptance inferred from source review"
+      ]
+    }
+  ],
+  "reviewed_reuse": [
+    {
+      "path": "game/assets/textures/painterly/urman_w01_v01_basecolor.png",
+      "godot_path": "res://assets/textures/painterly/urman_w01_v01_basecolor.png",
+      "semantic": "wood_facade",
+      "sha256": "0a205444a6413b9a4a420ecd5660c2a6ee3016285e58f14c1a5aaa1569a8ba75",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 1,
+      "initial_roughness": 0.78,
+      "initial_metallic": 0,
+      "note": "Pale grey-honey unpainted grain; direction follows each timber. PROVISIONAL substitute for light chair veneer, pending birch replacement, not final plywood.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_w02_v02_basecolor.png",
+      "godot_path": "res://assets/textures/painterly/urman_w02_v02_basecolor.png",
+      "semantic": "wood_fence_uv",
+      "sha256": "73d9883cdc094f70f720a0246e6a6d7a10e3f19cc8a20ad39a92a9c4f7e0f148",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 1,
+      "initial_roughness": 0.8,
+      "initial_metallic": 0,
+      "note": "Weathered light grain; exterior boards, not varnished chair faces.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_w03_v01_basecolor.png",
+      "godot_path": "res://assets/textures/painterly/urman_w03_v01_basecolor.png",
+      "semantic": "wood_painted_blue",
+      "sha256": "e0cabef7cc30329e9a121024eb0a11e74959e6126c5a4a30fdee66ab0e843d37",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 1,
+      "initial_roughness": 0.67,
+      "initial_metallic": 0,
+      "note": "Flaking blue exterior wood; only painted wooden parts; never substitute onto steel.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_w05_v02_basecolor.png",
+      "godot_path": "res://assets/textures/painterly/urman_w05_v02_basecolor.png",
+      "semantic": "wood_painted_trim",
+      "sha256": "c2170588472b77aab0f560818d34349cc4397d1793f0e5d06a7cbd73ee2ac317",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 0.5,
+      "initial_roughness": 0.65,
+      "initial_metallic": 0,
+      "note": "Cream painted trim; cut edges and handle details remain mesh.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_w08_v01_basecolor.png",
+      "godot_path": "res://assets/textures/painterly/urman_w08_v01_basecolor.png",
+      "semantic": "wood_furniture_interior",
+      "sha256": "88546942069a47b12d21c0eba19d69cc64038677d4fdee7cb949c55a647d37ff",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 0.75,
+      "initial_roughness": 0.48,
+      "initial_metallic": 0,
+      "note": "Dark brown finished furniture grain; cabinets/armrests. Not honey-blond school plywood.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_w09_v01_basecolor.png",
+      "godot_path": "res://assets/textures/painterly/urman_w09_v01_basecolor.png",
+      "semantic": "wood_floor_painted",
+      "sha256": "b606047aff0776239d5b164d1113b47a9797ae19ee3c7ae3dd72e785639f8697",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 1,
+      "initial_roughness": 0.78,
+      "initial_metallic": 0,
+      "note": "Worn grey paint on floor wood; floor boards, not clear-varnished furniture.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_t01_v02_basecolor.png",
+      "godot_path": "res://assets/textures/painterly/urman_t01_v02_basecolor.png",
+      "semantic": "cloth_table",
+      "sha256": "f3fa91c57468ea4034a126f55d1971303361cf0aceb5c70f644a561093127627",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 0.5,
+      "initial_roughness": 0.97,
+      "initial_metallic": 0,
+      "note": "Soft ivory cotton. Draped geometry and restrained physical weave scale required; no new cotton bitmap needed.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_t04_v01_basecolor.png",
+      "godot_path": "res://assets/textures/painterly/urman_t04_v01_basecolor.png",
+      "semantic": "cloth_curtain",
+      "sha256": "01d96aa2ff9e10974984ce64ba05f637e48f80dc55bc00ecc353876e7df70e45",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 0.5,
+      "initial_roughness": 0.97,
+      "initial_metallic": 0,
+      "note": "Muted blue-green domestic weave. Not stage velvet. Respect actual folds and top support.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_t08_v01_basecolor.png",
+      "godot_path": "res://assets/textures/painterly/urman_t08_v01_basecolor.png",
+      "semantic": "fabric_upholstery",
+      "sha256": "0d711435c9f9525b86c868272f54e2ac2fa29b4333e413860e657cea672fea1e",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 0.5,
+      "initial_roughness": 0.92,
+      "initial_metallic": 0,
+      "note": "Brown-olive domestic weave. Not burgundy auditorium cloth. Seams and cushion curvature remain geometry.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_b01_v01_basecolor.png",
+      "godot_path": "res://assets/textures/painterly/urman_b01_v01_basecolor.png",
+      "semantic": "plaster_domestic",
+      "sha256": "16fdff059dba5815101b038e0bd0a2b2f28f2dc39c52c0c299945df6b8bc8158",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 1,
+      "initial_roughness": 0.94,
+      "initial_metallic": 0,
+      "note": "Cream domestic plaster; not glossy enamel.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_b03_v01_basecolor.png",
+      "godot_path": "res://assets/textures/painterly/urman_b03_v01_basecolor.png",
+      "semantic": "wall_institution",
+      "sha256": "e96d19f902c167da4b268a25555721b7a7c15728237093412d7dfc35102966a7",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 1,
+      "initial_roughness": 0.92,
+      "initial_metallic": 0,
+      "note": "Light sage maintained wall paint/plaster; new facade use requires tint/tile inspection.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/aged_plaster_v3_albedo.png",
+      "godot_path": "res://assets/textures/painterly/aged_plaster_v3_albedo.png",
+      "semantic": "plaster",
+      "sha256": "bb5f6c13d1947ef5616e9dac49ff37b41e6ff323901cc0b44b783212ac21454e",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 2,
+      "initial_roughness": 0.93,
+      "initial_metallic": 0,
+      "note": "Cream worn plaster; candidate for selected public facades, not every wall automatically.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_b04_v01_basecolor.png",
+      "godot_path": "res://assets/textures/painterly/urman_b04_v01_basecolor.png",
+      "semantic": "floor_institution",
+      "sha256": "3f64843593ad8b33462e568410ca669f3911b2fd20857778c0911c491098ae09",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 1,
+      "initial_roughness": 0.68,
+      "initial_metallic": 0,
+      "note": "Blue-grey linoleum; selected lino only, not parquet/ceramic/wood by default.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_m05_v01_basecolor.png",
+      "godot_path": "res://assets/textures/painterly/urman_m05_v01_basecolor.png",
+      "semantic": "plastic_abs",
+      "sha256": "fdc055f27878a249a519c69d0ffa0006bfe45b9f028946caaa6fd5998d9a597a",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "candidate_scope_confirmed",
+      "uv_tile_m": 0.5,
+      "initial_roughness": 0.42,
+      "initial_metallic": 0,
+      "note": "Aged ivory ABS; vents/buttons/screen are geometry or exact authored content. Not metal/enamel.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    },
+    {
+      "path": "game/assets/textures/painterly/weathered_wood_boards_v3_albedo.png",
+      "godot_path": "res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png",
+      "semantic": "wood_furniture",
+      "sha256": "65372413ff490da9dce831fd5f4022d6f804265b42dd9895ad4b13a6fa196093",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "source_review": "view_image inspected 2026-09-29; raw bitmap only",
+      "reuse_decision": "reject_for_plywood",
+      "uv_tile_m": null,
+      "initial_roughness": 0.8,
+      "initial_metallic": 0,
+      "note": "REJECT for smooth plywood: visible painted seams and nailheads. Existing coarse exterior owner pending address review.",
+      "original_provenance": "game/assets/textures/painterly/README.md; assets/asset_registry.json; docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+      "runtime_validation": "not-run for new recipients"
+    }
+  ],
+  "coverage_note": "28 source-family passports; first missing-surface wave, not all objects ready. Conditional UV/atlas/geometry gaps remain. No duplicate cotton/plaster generation; no fake bitmap, runtime capture, import or art PASS.",
+  "subagent_result": "Dedicated texture worker wrote source reuse audit and 10 CLI jobs; final turn failed due selected model capacity. No generated bitmaps produced."
+}
