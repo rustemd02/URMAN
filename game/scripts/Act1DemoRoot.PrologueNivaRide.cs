@@ -258,9 +258,8 @@ public partial class Act1DemoRoot
             if (villageBark < villageBarks.Length && along >= villageBarks[villageBark].At && _prologueElapsed >= nextBarkReady)
             {
                 var id = villageBarks[villageBark++].Id;
-                RideBark(bridge, id);
-                var text = bridge?.ResolveText($"urman.chapter1:text/{id}") ?? "";
-                nextBarkReady = _prologueElapsed + Math.Clamp(text.Length / 15.0, 4.5, 11) + 1.5;
+                // The next remark waits for this one - its voice clip when there is one.
+                nextBarkReady = _prologueElapsed + RideBark(bridge, id) + 1.5;
             }
         }
         if (!_prologueSkipRequested) await PrologueWaitAsync(2.2);
@@ -326,16 +325,18 @@ public partial class Act1DemoRoot
 
     // Babai's talk on the road: authored lines with Tatar density variants,
     // shown as subtitles; the car keeps going.
-    private void RideBark(RuntimeBridge? bridge, string localTextId)
+    private double RideBark(RuntimeBridge? bridge, string localTextId)
     {
-        if (bridge is null) return;
+        if (bridge is null) return 0;
         var text = bridge.ResolveText($"urman.chapter1:text/{localTextId}");
         _ = bridge.ObserveVocabularyTextAsync(text, $"urman.chapter1:text/{localTextId}");
         if (localTextId == "prologue-ride-bark-radio") StartRideRadio();
         // The forest closes in: the music thins out and dies before the trees.
         else if (localTextId == "prologue-ride-bark-field") StopRideRadio(9);
         var voiced = PrologueVoice.PlayText(this, $"urman.chapter1:text/{localTextId}", bridge.TatarLanguageLevel);
-        ShowPrologueCaption("Мансур бабай: " + text, Math.Max(Math.Clamp(text.Length / 15.0, 4.5, 11), voiced + .8));
+        var shown = Math.Max(Math.Clamp(text.Length / 15.0, 4.5, 11), voiced + .8);
+        ShowPrologueCaption("Мансур бабай: " + text, shown);
+        return shown;
     }
 
     private static string LanguageLevelLabel(string level) => level switch

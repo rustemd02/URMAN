@@ -32,6 +32,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[3]
 DEFINITIONS = REPO / "content/modules/urman-chapter1/definitions.json"
 DEFAULT_OUT = REPO / ".tools/voice-preview/prologue-01"
+MARKUP = Path(__file__).with_name("speech_markup.json")
 # Free tier allows ~10 requests/day per model; when one is spent, fall through to the next.
 MODELS = ["gemini-3.8-flash-tts", "gemini-3.8-flash-lite-tts"]
 KEYCHAIN_SERVICE = "urman-gemini-api-key"
@@ -47,6 +48,19 @@ VOICES = {
         "style": "young Tatar man of about twenty, familiar and teasing, natural pace",
     },
 }
+
+def load_markup():
+    """Per-line direction (speaker, tone, pace, pauses, priority) kept in speech_markup.json."""
+    if not MARKUP.exists():
+        return {"speakers": {}, "lines": {}}
+    return json.loads(MARKUP.read_text(encoding="utf-8"))
+
+
+MARKUP_DATA = load_markup()
+for _name, _spec in MARKUP_DATA["speakers"].items():
+    VOICES.setdefault(_name, {"voice": _spec["voice"], "style": _spec["base_style"]})
+
+PACE = {"slow": "slow, unhurried pace", "medium": "", "fast": "fast, urgent pace"}
 
 # Lines that are not in the content pack (captions in the forest teaser).
 EXTRA_LINES = [
@@ -76,23 +90,60 @@ NIVA_NODES = {
 
 
 def clean(text):
-    text = text.strip()
-    text = re.sub(r"^[«\"]+|[»\"]+$", "", text)
+    """Spoken text only: the Russian gloss on the next line "(...)" is a subtitle aid and is never voiced."""
+    text = re.split(r"\n\s*\(", text.strip(), maxsplit=1)[0]
+    text = text.replace("«", "").replace("»", "").replace("\"", "").strip()
     return re.sub(r"\s+", " ", text).strip()
 
 
 def build_lines():
+    """(id, speaker, text, tone, pause_before_ms, pause_after_ms, priority) for every line to voice."""
     defs = {item["id"]: item for item in json.loads(DEFINITIONS.read_text(encoding="utf-8"))}
+    marked = MARKUP_DATA["lines"]
+
+    def direction(lid, speaker, fallback_tone):
+        m = marked.get(lid, {})
+        tone = ", ".join(part for part in (m.get("tone") or fallback_tone, PACE.get(m.get("pace", "medium"), "")) if part)
+        return (m.get("speaker", speaker), tone, m.get("pause_before_ms", 0), m.get("pause_after_ms", 0),
+                m.get("priority", "P1"), m.get("tts_text"))
+
     lines = []
     for record_id, item in defs.items():
         short = record_id.split("/", 1)[1]
+        if "value" not in item:
+            continue  # dialogues, graphs and other non-text records
+        text = clean(item["value"]["default"])
         if short.startswith("prologue-ride-bark-"):
             base = short.split(".lvl-")[0]
-            lines.append((short, "mansur", clean(item["value"]["default"]), TONE.get(base, "")))
+            speaker, tone, before, after, priority, alt = direction(short, "mansur", TONE.get(base, ""))
         elif record_id in NIVA_NODES:
-            lines.append((short, "mansur", clean(item["value"]["default"]), "playful, teasing about the language"))
-    lines.extend(EXTRA_LINES)
+            speaker, tone, before, after, priority, alt = direction(short, "mansur", "playful, teasing about the language")
+        elif short in marked and marked[short]["speaker"] == "aidar":
+            speaker, tone, before, after, priority, alt = direction(short, "aidar", "")
+        else:
+            continue
+        lines.append((short, speaker, alt or text, tone, before, after, priority))
+    for lid, speaker, text, tone in EXTRA_LINES:
+        speaker, tone2, before, after, priority, alt = direction(lid, speaker, tone)
+        lines.append((lid, speaker, alt or text, tone2, before, after, priority))
     return lines
+
+
+def pad_silence(wav_bytes, before_ms, after_ms):
+    """Bake the marked pauses into the clip so the runtime needs no timing logic."""
+    if not before_ms and not after_ms:
+        return wav_bytes
+    import io
+    with wave.open(io.BytesIO(wav_bytes), "rb") as src:
+        params, frames = src.getparams(), src.readframes(src.getnframes())
+    frame_bytes = params.sampwidth * params.nchannels
+    def silence(ms):
+        return b"\x00" * (int(params.framerate * ms / 1000) * frame_bytes)
+    out = io.BytesIO()
+    with wave.open(out, "wb") as dst:
+        dst.setparams(params)
+        dst.writeframes(silence(before_ms) + frames + silence(after_ms))
+    return out.getvalue()
 
 
 def read_api_key():
@@ -173,15 +224,20 @@ def main():
     parser.add_argument("--only", action="append", help="только эти id (можно несколько раз)")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--force", action="store_true", help="перезаписать готовые файлы")
+    parser.add_argument("--priority", choices=["P0", "P1", "P2"],
+                        help="только реплики этого приоритета и важнее (бесплатный лимит ~10 запросов/сутки: сначала --priority P0)")
     args = parser.parse_args()
 
     lines = build_lines()
     if args.only:
         wanted = set(args.only)
         lines = [line for line in lines if line[0] in wanted]
+    if args.priority:
+        order = {"P0": 0, "P1": 1, "P2": 2}
+        lines = [line for line in lines if order.get(line[6], 1) <= order[args.priority]]
     if args.list:
-        for lid, speaker, text, _ in lines:
-            print(f"{lid:52} {speaker:7} {text[:70]}")
+        for lid, speaker, text, _, _, _, priority in lines:
+            print(f"{lid:52} {speaker:7} {priority} {text[:64]}")
         print(f"всего: {len(lines)}")
         return 0
 
@@ -196,15 +252,19 @@ def main():
 
     failures = 0
     model_index = 0
-    for index, (lid, speaker, text, tone) in enumerate(lines, start=1):
+    for index, (lid, speaker, text, tone, before_ms, after_ms, _priority) in enumerate(lines, start=1):
         target = args.out / f"{lid}.wav"
-        if target.exists() and not args.force:
+        # A clip is current only when the text it was voiced from is still the text in the pack.
+        stale = target.exists() and manifest.get(lid, {}).get("text") not in (None, text)
+        if target.exists() and not args.force and not stale:
             print(f"[{index}/{len(lines)}] есть: {lid}")
             continue
+        if stale:
+            print(f"[{index}/{len(lines)}] текст изменился, пересинтез: {lid}")
         while True:
             model = MODELS[model_index]
             try:
-                target.write_bytes(with_retry(lambda: synthesize(client, model, speaker, text, tone)))
+                target.write_bytes(pad_silence(with_retry(lambda: synthesize(client, model, speaker, text, tone)), before_ms, after_ms))
                 break
             except Exception as exc:
                 if ("per day" in str(exc) or "RESOURCE_EXHAUSTED" in str(exc)) and model_index + 1 < len(MODELS):
