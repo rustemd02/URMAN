@@ -24,7 +24,7 @@ public static class AgentBAct1Layout
     // ---- Main road spline control points (x, z), crown width ~5.6 m -------
     public static readonly Vector2[] MainRoadAxis = new[]
     {
-        new Vector2(0f, 196f),     // centre square, south side (village expansion)
+        new Vector2(0.5f, 179.5f), // centre square, south entry of the ring road (village expansion)
         new Vector2(2.2f, 172f),   // road climbs the north fields
         new Vector2(-1.5f, 148f),
         new Vector2(-3f, 118f),
@@ -53,6 +53,12 @@ public static class AgentBAct1Layout
     {
         new Vector2(-1.5f, 148f), new Vector2(-14f, 150.5f), new Vector2(-26f, 149f),
         new Vector2(-36f, 151.5f)
+    };
+
+    // Ring road round the open square (width 4.8 m); starts and ends at the south entry.
+    public static readonly Vector2[] SquareRingAxis = new[]
+    {
+        new Vector2(0.5f, 179.5f), new Vector2(3.75f, 180.37f), new Vector2(6.13f, 182.75f), new Vector2(7.0f, 186.0f), new Vector2(6.13f, 189.25f), new Vector2(3.75f, 191.63f), new Vector2(0.5f, 192.5f), new Vector2(-2.75f, 191.63f), new Vector2(-5.13f, 189.25f), new Vector2(-6.0f, 186.0f), new Vector2(-5.13f, 182.75f), new Vector2(-2.75f, 180.37f), new Vector2(0.5f, 179.5f)
     };
 
     // Zirat road continues at 4.2 m width.

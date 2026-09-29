@@ -20,13 +20,55 @@ public partial class Act1DemoRoot
 
     private const string PrologueRideDialogue = "urman.chapter1:dialogue/prologue-niva-language";
 
-    private static readonly Vector3[] PrologueRidePath =
+    // The village leg: the far-bank lane, the bridge and the FAP branch as before,
+    // then the whole main street north (right-hand lane), once round the square's
+    // ring road and back down the other lane to the arrival stop. Built from the
+    // street axes so it can never drift from the roads it drives on.
+    private static readonly Vector3[] PrologueRidePath = BuildPrologueRidePath();
+
+    private const float RideLane = 1.3f;
+
+    /// <summary>The village-leg polyline, for route diagnostics.</summary>
+    internal static IReadOnlyList<Vector3> RideRoute => PrologueRidePath;
+
+    private static Vector3[] BuildPrologueRidePath()
     {
-        new(69f, 0, 8f), new(69f, 0, -18f), new(68f, 0, -21f), new(63f, 0, -24.4f),
-        new(58f, 0, -25f), new(41.5f, 0, -25f), new(38f, 0, -23.8f), new(32f, 0, -24.2f),
-        new(28f, 0, -26.2f), new(23f, 0, -25f), new(17f, 0, -21.5f), new(10f, 0, -17f),
-        new(4.5f, 0, -12.5f), new(0f, 0, -10f), new(-.6f, 0, -1.5f), new(-1.65f, 0, 1f)
-    };
+        var path = new List<Vector3>
+        {
+            new(69f, 0, 8f), new(69f, 0, -18f), new(68f, 0, -21f), new(63f, 0, -24.4f),
+            new(58f, 0, -25f), new(41.5f, 0, -25f), new(38f, 0, -23.8f), new(32f, 0, -24.2f),
+            new(28f, 0, -26.2f), new(23f, 0, -25f), new(17f, 0, -21.5f), new(10f, 0, -17f),
+            new(4.5f, 0, -12.5f), new(0f, 0, -10f), new(-.6f, 0, -1.5f)
+        };
+        // Main axis south to north from the village entrance to the ring's south entry.
+        var north = AgentBAct1Layout.MainRoadAxis.Where(point => point.Y >= 9f).OrderBy(point => point.Y).ToArray();
+        foreach (var point in north) path.Add(new(point.X + RideLane, 0, point.Y));
+        // Once round the ring, counter-clockwise, on the outer (right-hand) side of the island.
+        var ring = AgentBAct1Layout.SquareRingAxis;
+        var centre = new Vector2(.5f, 186f);
+        foreach (var point in ring.Skip(1))
+        {
+            var outward = (point - centre).Normalized();
+            path.Add(new(point.X + outward.X * RideLane, 0, point.Y + outward.Y * RideLane));
+        }
+        // Down the other lane to the arrival stop.
+        foreach (var point in north.Reverse().Skip(1)) path.Add(new(point.X - RideLane, 0, point.Y));
+        path.Add(new(-1.65f, 0, 1f));
+        return path.ToArray();
+    }
+
+    /// <summary>Distance along the ride path of the first vertex within reach of (x, z), searching forward from <paramref name="after"/>.</summary>
+    private static float RideMark(float x, float z, float after = 0f, float reach = 6f)
+    {
+        var walked = 0f;
+        for (var index = 0; index < PrologueRidePath.Length; index++)
+        {
+            if (index > 0) walked += PrologueRidePath[index - 1].DistanceTo(PrologueRidePath[index]);
+            if (walked < after) continue;
+            if (new Vector2(PrologueRidePath[index].X - x, PrologueRidePath[index].Z - z).Length() <= reach) return walked;
+        }
+        return after;
+    }
 
     private async Task RunPrologueNivaRideAsync()
     {
@@ -160,12 +202,26 @@ public partial class Act1DemoRoot
             villageLength += PrologueRidePath[index - 1].DistanceTo(PrologueRidePath[index]);
         PlaceRideAt(0);
         if (!_prologueSkipRequested) FadePrologueBlackout(visible: false);
+        // Tour of the village: each remark waits for the previous one to finish
+        // and for the car to reach its place, so nothing talks over anything.
+        var northLeg = RideMark(0f + RideLane, 9f, 60f);
+        var ringStart = RideMark(.5f, 179.5f, northLeg);
         var villageBarks = new (float At, string Id)[]
         {
-            (4f, "prologue-ride-bark-bridge"), (villageLength * .33f, "prologue-ride-bark-fap"),
-            (villageLength * .62f, "prologue-ride-bark-street"), (villageLength * .9f, "prologue-ride-bark-home")
+            (3f, "prologue-ride-bark-bridge"),
+            (RideMark(32f, -24.2f), "prologue-ride-bark-fap"),
+            (RideMark(0f, -10f), "prologue-ride-bark-street"),
+            (northLeg + 6f, "prologue-ride-bark-edge"),
+            (RideMark(1.2f + RideLane, 62f, northLeg), "prologue-ride-bark-fields"),
+            (RideMark(-3f + RideLane, 108f, northLeg), "prologue-ride-bark-lower-street"),
+            (RideMark(-1.5f + RideLane, 150f, northLeg), "prologue-ride-bark-square-road"),
+            (ringStart, "prologue-ride-bark-square"),
+            (ringStart + 24f, "prologue-ride-bark-square-year"),
+            (RideMark(-1.5f - RideLane, 148f, ringStart), "prologue-ride-bark-back"),
+            (RideMark(0f - RideLane, 20f, ringStart), "prologue-ride-bark-home")
         };
         var villageBark = 0;
+        var nextBarkReady = 0.0;
         var along = 0f;
         speed = 4.5f;
         while (IsInsideTree() && along < villageLength)
@@ -175,13 +231,20 @@ public partial class Act1DemoRoot
             var delta = (float)GetProcessDeltaTime();
             UpdateRideLook(dialogueUi?.IsOpen == true, delta);
             var remaining = villageLength - along;
-            speed = Mathf.MoveToward(speed, remaining < 12f ? 1.6f : 4.2f, 1.8f * delta);
+            var onRing = along >= ringStart - 8f && along <= ringStart + 52f;
+            speed = Mathf.MoveToward(speed, remaining < 12f ? 1.6f : onRing ? 3.2f : along > northLeg ? 5.2f : 4.2f, 1.8f * delta);
             along += speed * delta;
             var before = _rideNiva.GlobalPosition;
             PlaceRideAt(MathF.Min(along / villageLength, 1f), eased: false);
             SpinRideWheels(visual, before);
-            while (villageBark < villageBarks.Length && along >= villageBarks[villageBark].At)
-                RideBark(bridge, villageBarks[villageBark++].Id);
+            _prologueElapsed += delta;
+            if (villageBark < villageBarks.Length && along >= villageBarks[villageBark].At && _prologueElapsed >= nextBarkReady)
+            {
+                var id = villageBarks[villageBark++].Id;
+                RideBark(bridge, id);
+                var text = bridge?.ResolveText($"urman.chapter1:text/{id}") ?? "";
+                nextBarkReady = _prologueElapsed + Math.Clamp(text.Length / 15.0, 4.5, 11) + 1.5;
+            }
         }
         if (!_prologueSkipRequested) await PrologueWaitAsync(2.2);
         GD.Print($"act1-prologue: village leg {(Time.GetTicksMsec() - villageLegStarted) / 1000.0:0.0}s");

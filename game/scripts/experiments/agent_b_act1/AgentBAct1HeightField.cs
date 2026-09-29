@@ -36,7 +36,7 @@ public static class AgentBAct1HeightField
 
     private static readonly (float X, float Z)[] MainAxis =
     {
-        (0f, 196f), (2.2f, 172f), (-1.5f, 148f), (-3f, 118f), (-1.4f, 88f), (1.2f, 62f), (0f, 40f),
+        (0.5f, 179.5f), (2.2f, 172f), (-1.5f, 148f), (-3f, 118f), (-1.4f, 88f), (1.2f, 62f), (0f, 40f),
         (0f, 9f), (-0.6f, -1.5f), (-1.2f, -8f), (0f, -19f),
         (-1f, -30f), (0f, -41.5f), (-0.4f, -53.5f)
     };
@@ -75,13 +75,20 @@ public static class AgentBAct1HeightField
         (-1.5f, 148f), (-14f, 150.5f), (-26f, 149f), (-36f, 151.5f)
     };
 
-    private static readonly float[] HalfWidths = { 2.8f, 2.3f, 1.4f, 2.1f, 1.75f, 2.0f, 1.75f };
+    // Ring road round the open square at the north end of the main street; it
+    // starts and ends at the street's last point (the south entry).
+    private static readonly (float X, float Z)[] SquareRingAxis =
+    {
+        (0.5f, 179.5f), (3.75f, 180.37f), (6.13f, 182.75f), (7.0f, 186.0f), (6.13f, 189.25f), (3.75f, 191.63f), (0.5f, 192.5f), (-2.75f, 191.63f), (-5.13f, 189.25f), (-6.0f, 186.0f), (-5.13f, 182.75f), (-2.75f, 180.37f), (0.5f, 179.5f)
+    };
+
+    private static readonly float[] HalfWidths = { 2.8f, 2.3f, 1.4f, 2.1f, 1.75f, 2.0f, 1.75f, 2.4f };
 
     private static readonly ((float X, float Z)[] Points, double HalfWidth)[] RoadAxes =
     {
         (MainAxis, HalfWidths[0]), (FapAxis, HalfWidths[1]),
         (HouseAxis, HalfWidths[2]), (ZiratAxis, HalfWidths[3]), (KaraAxis, HalfWidths[4]),
-        (EastStreetAxis, HalfWidths[5]), (WestSpurAxis, HalfWidths[6])
+        (EastStreetAxis, HalfWidths[5]), (WestSpurAxis, HalfWidths[6]), (SquareRingAxis, HalfWidths[7])
     };
     private static Vector3[]? _collisionFaces;
     private static Vector3[] CollisionFacesValue => _collisionFaces ??= BuildTerrainFaces();

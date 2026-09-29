@@ -1893,7 +1893,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // closed with staggered groups; the entrance vista then terminates in
         // forest instead of running on to the terrain edge. Groups sit behind the
         // road end, so a trunk never stands in the kerb line itself.
-        for (var z = ForestRingInnerMax.Y - 24f; z <= ForestRingInnerMax.Y; z += 3.4f)
+        for (var z = ForestRingInnerMax.Y - 14f; z <= ForestRingInnerMax.Y; z += 3.4f)
         {
             var stagger = Mathf.Sin(z * 0.63f) * 3.6f;
             for (var x = -17f; x <= 17f; x += 3.4f)

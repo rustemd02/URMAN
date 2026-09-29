@@ -30,10 +30,13 @@ KIT = ROOT / "game/content/world/act1_village_kit.world.v1.json"
 CATALOG = ROOT / "game/content/world/catalog.v1.json"
 
 # Keep in sync with AgentBAct1HeightField / AgentBAct1Layout.
-MAIN = [(0, 196), (2.2, 172), (-1.5, 148), (-3, 118), (-1.4, 88), (1.2, 62), (0, 40)]
+MAIN = [(0.5, 179.5), (2.2, 172), (-1.5, 148), (-3, 118), (-1.4, 88), (1.2, 62), (0, 40)]
 EAST_STREET = [(-3, 118), (10, 115.5), (24, 118), (38, 116.5), (41, 116)]
 WEST_SPUR = [(-1.5, 148), (-14, 150.5), (-26, 149), (-36, 151.5)]
-HALF = {"main": 2.8, "east": 2.0, "west": 1.75}
+RING_C, RING_R = (0.5, 186.0), 6.5
+RING = [(round(RING_C[0] + RING_R * math.sin(math.radians(a)), 2), round(RING_C[1] - RING_R * math.cos(math.radians(a)), 2))
+        for a in range(0, 361, 30)]
+HALF = {"main": 2.8, "east": 2.0, "west": 1.75, "ring": 2.4}
 
 V = "urman.catalog:urman_village_exterior_kit/"
 PARCELS = {
@@ -74,7 +77,7 @@ def seg_dist(px, pz, ax, az, bx, bz):
 
 def road_gap(px, pz):
     best = 1e9
-    for pts, half in ((MAIN, HALF["main"]), (EAST_STREET, HALF["east"]), (WEST_SPUR, HALF["west"])):
+    for pts, half in ((MAIN, HALF["main"]), (EAST_STREET, HALF["east"]), (WEST_SPUR, HALF["west"]), (RING, HALF["ring"])):
         for a, b in zip(pts, pts[1:]):
             best = min(best, seg_dist(px, pz, *a, *b) - half)
     return best
@@ -127,7 +130,7 @@ def add(name, cat, x, z, yaw, scale=1.0, size=None, note=None, collide=True, sol
         footprints.append((name, rect_corners(x, z, size[0] * scale, size[1] * scale, yaw)))
 
 
-def parcel(name, side, z, variant, road_pts, half, *, setback=15.5, jitter=1.2, with_shed=True, wood=True):
+def parcel(name, side, z, variant, road_pts, half, *, setback=15.5, jitter=1.2, with_shed=True, wood=True, fence=True):
     """One household: parcel, shed, woodpile, front fence with a gate gap."""
     sign = -1 if side == "W" else 1
     ax = axis_at(road_pts, z)
@@ -141,7 +144,7 @@ def parcel(name, side, z, variant, road_pts, half, *, setback=15.5, jitter=1.2, 
         add(f"{name}-wood", WOOD, x + sign * 5.5, z + (7.4 if rng.random() < .5 else -7.4), 90 + rng.uniform(-12, 12), 1.0, WOOD[1:])
     # Front fence: two pieces either side of a 3.4 m gate gap, along the road.
     fx = ax + sign * (half + 3.4)
-    for k, dz in enumerate((-9.7, -4.3, 4.3, 9.7)):
+    for k, dz in enumerate((-9.7, -4.3, 4.3, 9.7) if fence else ()):
         add(f"{name}-fence{k}", FENCE, fx, z + dz, 90, 1.0, FENCE[1:], solid_check=False)
 
 
@@ -169,7 +172,8 @@ for name, side, z, v, setback in [
     ("m-w3", "W", 128, "C", 16.5),
     ("m-w4", "W", 166, "A", 22.0), ("m-e4", "E", 168, "B", 22.0),
 ]:
-    parcel(name, side, z, v, MAIN, HALF["main"], setback=setback)
+    # The two parcels at the square's mouth stay open to the plaza: no front fence.
+    parcel(name, side, z, v, MAIN, HALF["main"], setback=setback, fence=name not in ("m-w4", "m-e4"))
 
 # ---- first bend: the village well (landmark on the east verge at the crossing) -----------------
 add("well", WELL, axis_at(MAIN, 111) + 7.2, 111, 0, 0.9, WELL[1:], note="Колодец у поворота на Нижнюю улицу")
@@ -195,17 +199,22 @@ for name, side, x, z, v in [("w-s1", "S", -32, 138, "B")]:
     add(f"{name}-house", (cat,), x, z, yaw + rng.uniform(-5, 5), PARCEL_SCALE, (w, d), note="Западный проулок")
     add(f"{name}-shed", SHED, x - 11, z + (2 if side == "S" else -2), 0, 1.0, SHED[1:])
 
-# ---- centre square (far end of the straight; public buildings arrive with the interior slices) -
-CX, CZ = 0.0, 184.0
+# ---- centre square: open plaza inside the ring road (public buildings arrive with the interior slices) -
+# Four crown tiles lie tangent to the ring at N/E/S/W (a ring of 3 m segments would stack tiles).
+for k, (a, name) in enumerate([(0, "s"), (90, "e"), (180, "n"), (270, "w")]):
+    px = RING_C[0] + RING_R * math.sin(math.radians(a))
+    pz = RING_C[1] - RING_R * math.cos(math.radians(a))
+    tangent_yaw = (a + 90) % 360
+    add(f"ring-crown-{name}", CROWN, px, pz, tangent_yaw, scale=0.81, size=None, collide=False)
 for name, x, z, yaw, cat in [
     ("sq-office", -22, 190, 90, HERO),      # old sovkhoz office: west side (placeholder for school/DK volumes)
-    ("sq-shop", 23, 188, -90, HERO),         # east side (placeholder volume, not the final shop)
+    ("sq-shop", 24, 188, -90, HERO),         # east side (placeholder volume, not the final shop)
 ]:
     add(name, cat, x, z, yaw, 1.0, cat[1:], note="Объём площади бывшего совхозного центра; фасады и функции — по ТЗ04")
-add("sq-well", WELL, CX + 10, CZ - 4, 0, 1.0, WELL[1:], note="Центральный колодец площади")
-add("sq-bench1", BENCH, CX - 6.5, CZ + 2, 90, 1.0, BENCH[1:])
-add("sq-bench2", BENCH, CX + 6.5, CZ + 6, -90, 1.0, BENCH[1:])
-add("sq-board", BOARD, CX - 4, CZ - 7, 0, 1.0, BOARD[1:], note="Доска объявлений — обновляемая точка для сюжетных объявлений")
+add("sq-well", WELL, 13.0, 181.0, 0, 1.0, WELL[1:], note="Колодец площади")
+add("sq-bench1", BENCH, -12.0, 186.0, 90, 1.0, BENCH[1:])
+add("sq-bench2", BENCH, 12.5, 190.0, -90, 1.0, BENCH[1:])
+add("sq-board", BOARD, -9.5, 178.0, 0, 1.0, BOARD[1:], note="Доска объявлений — обновляемая точка для сюжетных объявлений")
 
 # ---- vegetation: sparse fields between parcels and toward the ring -----------------------------
 holes = [(json_e["params"]["position"][0], json_e["params"]["position"][2]) for json_e in entities if "-house" in json_e["id"]

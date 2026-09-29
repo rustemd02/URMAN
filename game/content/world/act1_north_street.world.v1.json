@@ -173,27 +173,11 @@
       "params": {
         "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
         "position": [
-          1.65,
+          1.35,
           0,
-          178.0
+          175.75
         ],
-        "yawDegrees": -5.2,
-        "scale": 0.95,
-        "collision": "none"
-      }
-    },
-    {
-      "id": "urman.world:act1/north-street/main-crown11",
-      "kind": "prop",
-      "name": "main-crown11",
-      "params": {
-        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
-        "position": [
-          0.55,
-          0,
-          190.0
-        ],
-        "yawDegrees": -5.2,
+        "yawDegrees": -12.8,
         "scale": 0.95,
         "collision": "none"
       }
@@ -643,62 +627,6 @@
       }
     },
     {
-      "id": "urman.world:act1/north-street/m-w4-fence0",
-      "kind": "prop",
-      "name": "m-w4-fence0",
-      "params": {
-        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
-        "position": [
-          -4.92,
-          0,
-          156.3
-        ],
-        "yawDegrees": 90
-      }
-    },
-    {
-      "id": "urman.world:act1/north-street/m-w4-fence1",
-      "kind": "prop",
-      "name": "m-w4-fence1",
-      "params": {
-        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
-        "position": [
-          -4.92,
-          0,
-          161.7
-        ],
-        "yawDegrees": 90
-      }
-    },
-    {
-      "id": "urman.world:act1/north-street/m-w4-fence2",
-      "kind": "prop",
-      "name": "m-w4-fence2",
-      "params": {
-        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
-        "position": [
-          -4.92,
-          0,
-          170.3
-        ],
-        "yawDegrees": 90
-      }
-    },
-    {
-      "id": "urman.world:act1/north-street/m-w4-fence3",
-      "kind": "prop",
-      "name": "m-w4-fence3",
-      "params": {
-        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
-        "position": [
-          -4.92,
-          0,
-          175.7
-        ],
-        "yawDegrees": 90
-      }
-    },
-    {
       "id": "urman.world:act1/north-street/m-e4-house",
       "kind": "prop",
       "name": "m-e4-house",
@@ -740,62 +668,6 @@
           160.6
         ],
         "yawDegrees": 92.6
-      }
-    },
-    {
-      "id": "urman.world:act1/north-street/m-e4-fence0",
-      "kind": "prop",
-      "name": "m-e4-fence0",
-      "params": {
-        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
-        "position": [
-          7.78,
-          0,
-          158.3
-        ],
-        "yawDegrees": 90
-      }
-    },
-    {
-      "id": "urman.world:act1/north-street/m-e4-fence1",
-      "kind": "prop",
-      "name": "m-e4-fence1",
-      "params": {
-        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
-        "position": [
-          7.78,
-          0,
-          163.7
-        ],
-        "yawDegrees": 90
-      }
-    },
-    {
-      "id": "urman.world:act1/north-street/m-e4-fence2",
-      "kind": "prop",
-      "name": "m-e4-fence2",
-      "params": {
-        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
-        "position": [
-          7.78,
-          0,
-          172.3
-        ],
-        "yawDegrees": 90
-      }
-    },
-    {
-      "id": "urman.world:act1/north-street/m-e4-fence3",
-      "kind": "prop",
-      "name": "m-e4-fence3",
-      "params": {
-        "catalogId": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
-        "position": [
-          7.78,
-          0,
-          177.7
-        ],
-        "yawDegrees": 90
       }
     },
     {
@@ -1122,6 +994,70 @@
       }
     },
     {
+      "id": "urman.world:act1/north-street/ring-crown-s",
+      "kind": "prop",
+      "name": "ring-crown-s",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          0.5,
+          0,
+          179.5
+        ],
+        "yawDegrees": 90,
+        "scale": 0.81,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/ring-crown-e",
+      "kind": "prop",
+      "name": "ring-crown-e",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          7.0,
+          0,
+          186.0
+        ],
+        "yawDegrees": 180,
+        "scale": 0.81,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/ring-crown-n",
+      "kind": "prop",
+      "name": "ring-crown-n",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          0.5,
+          0,
+          192.5
+        ],
+        "yawDegrees": 270,
+        "scale": 0.81,
+        "collision": "none"
+      }
+    },
+    {
+      "id": "urman.world:act1/north-street/ring-crown-w",
+      "kind": "prop",
+      "name": "ring-crown-w",
+      "params": {
+        "catalogId": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+        "position": [
+          -6.0,
+          0,
+          186.0
+        ],
+        "yawDegrees": 0,
+        "scale": 0.81,
+        "collision": "none"
+      }
+    },
+    {
       "id": "urman.world:act1/north-street/sq-office",
       "kind": "prop",
       "name": "sq-office",
@@ -1143,7 +1079,7 @@
       "params": {
         "catalogId": "urman.catalog:urman_village_exterior_kit/herohouse-timberplaster",
         "position": [
-          23,
+          24,
           0,
           188
         ],
@@ -1158,13 +1094,13 @@
       "params": {
         "catalogId": "urman.catalog:urman_village_exterior_kit/well-yardlandmark",
         "position": [
-          10.0,
+          13.0,
           0,
-          180.0
+          181.0
         ],
         "yawDegrees": 0
       },
-      "note": "Центральный колодец площади"
+      "note": "Колодец площади"
     },
     {
       "id": "urman.world:act1/north-street/sq-bench1",
@@ -1173,7 +1109,7 @@
       "params": {
         "catalogId": "urman.catalog:urman_fap_clinic_kit/fapbench",
         "position": [
-          -6.5,
+          -12.0,
           0,
           186.0
         ],
@@ -1187,7 +1123,7 @@
       "params": {
         "catalogId": "urman.catalog:urman_fap_clinic_kit/fapbench",
         "position": [
-          6.5,
+          12.5,
           0,
           190.0
         ],
@@ -1201,9 +1137,9 @@
       "params": {
         "catalogId": "urman.catalog:urman_fap_clinic_kit/fapnoticeboard",
         "position": [
-          -4.0,
+          -9.5,
           0,
-          177.0
+          178.0
         ],
         "yawDegrees": 0
       },
@@ -1293,28 +1229,28 @@
             11.0
           ],
           [
-            23,
+            24,
             188,
             11.0
           ],
           [
-            10.0,
-            180.0,
+            13.0,
+            181.0,
             11.0
           ],
           [
-            -6.5,
+            -12.0,
             186.0,
             11.0
           ],
           [
-            6.5,
+            12.5,
             190.0,
             11.0
           ],
           [
-            -4.0,
-            177.0,
+            -9.5,
+            178.0,
             11.0
           ]
         ]
@@ -1404,28 +1340,28 @@
             11.0
           ],
           [
-            23,
+            24,
             188,
             11.0
           ],
           [
-            10.0,
-            180.0,
+            13.0,
+            181.0,
             11.0
           ],
           [
-            -6.5,
+            -12.0,
             186.0,
             11.0
           ],
           [
-            6.5,
+            12.5,
             190.0,
             11.0
           ],
           [
-            -4.0,
-            177.0,
+            -9.5,
+            178.0,
             11.0
           ]
         ]
@@ -1515,28 +1451,28 @@
             11.0
           ],
           [
-            23,
+            24,
             188,
             11.0
           ],
           [
-            10.0,
-            180.0,
+            13.0,
+            181.0,
             11.0
           ],
           [
-            -6.5,
+            -12.0,
             186.0,
             11.0
           ],
           [
-            6.5,
+            12.5,
             190.0,
             11.0
           ],
           [
-            -4.0,
-            177.0,
+            -9.5,
+            178.0,
             11.0
           ]
         ]
@@ -1626,28 +1562,28 @@
             11.0
           ],
           [
-            23,
+            24,
             188,
             11.0
           ],
           [
-            10.0,
-            180.0,
+            13.0,
+            181.0,
             11.0
           ],
           [
-            -6.5,
+            -12.0,
             186.0,
             11.0
           ],
           [
-            6.5,
+            12.5,
             190.0,
             11.0
           ],
           [
-            -4.0,
-            177.0,
+            -9.5,
+            178.0,
             11.0
           ]
         ]
@@ -1737,28 +1673,28 @@
             11.0
           ],
           [
-            23,
+            24,
             188,
             11.0
           ],
           [
-            10.0,
-            180.0,
+            13.0,
+            181.0,
             11.0
           ],
           [
-            -6.5,
+            -12.0,
             186.0,
             11.0
           ],
           [
-            6.5,
+            12.5,
             190.0,
             11.0
           ],
           [
-            -4.0,
-            177.0,
+            -9.5,
+            178.0,
             11.0
           ]
         ]
@@ -1848,28 +1784,28 @@
             11.0
           ],
           [
-            23,
+            24,
             188,
             11.0
           ],
           [
-            10.0,
-            180.0,
+            13.0,
+            181.0,
             11.0
           ],
           [
-            -6.5,
+            -12.0,
             186.0,
             11.0
           ],
           [
-            6.5,
+            12.5,
             190.0,
             11.0
           ],
           [
-            -4.0,
-            177.0,
+            -9.5,
+            178.0,
             11.0
           ]
         ]
@@ -1959,28 +1895,28 @@
             11.0
           ],
           [
-            23,
+            24,
             188,
             11.0
           ],
           [
-            10.0,
-            180.0,
+            13.0,
+            181.0,
             11.0
           ],
           [
-            -6.5,
+            -12.0,
             186.0,
             11.0
           ],
           [
-            6.5,
+            12.5,
             190.0,
             11.0
           ],
           [
-            -4.0,
-            177.0,
+            -9.5,
+            178.0,
             11.0
           ]
         ]
@@ -2070,28 +2006,28 @@
             11.0
           ],
           [
-            23,
+            24,
             188,
             11.0
           ],
           [
-            10.0,
-            180.0,
+            13.0,
+            181.0,
             11.0
           ],
           [
-            -6.5,
+            -12.0,
             186.0,
             11.0
           ],
           [
-            6.5,
+            12.5,
             190.0,
             11.0
           ],
           [
-            -4.0,
-            177.0,
+            -9.5,
+            178.0,
             11.0
           ]
         ]
