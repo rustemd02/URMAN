@@ -1,5 +1,21 @@
 # Assets
 
+2026-09-28, standalone «Чәк-чәк» package candidate: a fictional Kara-Urman bakery
+carton with ImageGen Tatar floral front label and a real alpha-cut display
+window. The current visual experiment places a full-window block of compressed,
+overly wet honey-glazed chak-chak behind transparent film; an earlier appetizing
+cutout is retained for comparison. Neither image is printed on the box.
+120 × 150 × 72 mm, 3072 × 2048 RGBA atlas. Not yet placed or imported in-game;
+language review and runtime/art acceptance remain open. [Source, prompts,
+references, and builder](../../game/assets/textures/props/chakchak/README.md).
+
+2026-09-28, standalone «Кара-Урманское подворье» milk-bottle candidate: a 1 L
+clear-glass bottle with milk fill, red cap, and a 360° ImageGen label whose
+transparent tulip window reveals the bottle contents. Blender source and GLB are
+saved separately; the prop has no runtime scene placement. Engine import and
+native-speaker language review remain open. [Texture passport, full prompt,
+references, and builder](../../game/assets/textures/props/milk_bottle/README.md).
+
 2026-09-28, date-free «Чаян» prop candidate: ImageGen created the complete front
 page (masthead, scorpion mascot, Tatar copy, and winter cartoon) as one image;
 the generator places it unchanged into the front UV panel of a 4096² atlas. A
@@ -1528,3 +1544,18 @@ Evidence: внешний `fap_service_ledge_v1`; исходный светово
 мелким и тёмным, но в 1:1 она занимает центр от головы до обуви, видно платок,
 лицо, кисти и лист бумаги в руках. Это подтверждает прежнюю запись: судить кадры
 состава нужно в полном разрешении, а не по уменьшенному листу.
+
+## 2026-09-29 — библиотека анимаций Quaternius UAL для каталога движений Studio
+
+- `game/assets/animations/ual1_standard.glb` — неизменённая копия Quaternius
+  Universal Animation Library [Standard] (CC0 1.0), 43 клипа на том же
+  65-костном скелете, что и `urman_character_kit_v2`; запись
+  `animation.library.ual1-standard` в `assets/asset_registry.json`.
+- Каталог движений — `game/content/animations/catalog.v1.json` (31 движение,
+  8 категорий); исполнение — `game/scripts/AnimationCatalog.cs` (перенос дорожек
+  на скелет персонажа, корневое смещение отключено). «Указать рукой», «указать
+  вверх» и «нести перед собой» — варианты из ближайших клипов библиотеки,
+  «повернуться» — процедурно; помечены в каталоге.
+- Не проверено человеком: художественное качество движений на каждом персонаже,
+  пересечения одежды в движении (в позе «сидеть» у Resident полы кафтана
+  проходят сквозь ноги).

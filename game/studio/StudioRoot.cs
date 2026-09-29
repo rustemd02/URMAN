@@ -92,7 +92,8 @@ public partial class StudioRoot : Control
         Register(new StudioQuestSection(this));
         Register(new StudioDialogueSection(this));
         Register(Collab = new StudioCollabSection(this));
-        foreach (var (key, title) in new[] { ("characters", "Персонажи"), ("items", "Предметы"), ("content", "Контент"), ("ui", "Интерфейс игры") })
+        Register(new StudioCharacterSection(this));
+        foreach (var (key, title) in new[] { ("items", "Предметы"), ("content", "Контент"), ("ui", "Интерфейс игры") })
         {
             Register(new StudioPendingSection(key, title));
         }
@@ -682,12 +683,14 @@ public partial class StudioRoot : Control
         RefreshStatus("Проверка…");
         var result = await new Urman.Content.Compilation.ContentCompiler().CompileAsync(Workspace.Root, PlayPreparation.Campaign, []);
         var dirty = Workspace.Files.Count(file => file.Dirty);
+        var unsupported = Urman.Studio.Core.Editing.ConditionPhrases.FindNotExecuted(Workspace);
         var dialog = new AcceptDialog
         {
             Title = "Проверка",
             DialogText = (result.IsSuccess
                     ? "Ошибки ссылок и данных: 0.\n"
                     : $"Ошибки ссылок и данных: {result.Diagnostics.Count}\n" + string.Join("\n", result.Diagnostics.Take(8).Select(d => $"• {d.Message}")) + "\n") +
+                (unsupported.Count == 0 ? "Правила, которые игра не исполняет: 0.\n" : $"Правила, которые игра не исполняет: {unsupported.Count}\n" + string.Join("\n", unsupported.Take(6).Select(item => $"• «{Catalog.NameOf(item.EntityId)}»: {item.Op} — нужна новая механика")) + "\n") +
                 (dirty > 0 ? $"\nПроверены сохранённые файлы; несохранённых изменений: {dirty} файл(ов).\n" : "") +
                 "\nЛогические и художественные замечания здесь не проверяются. Проверка не доказывает, что проходимы все ветки игры."
         };

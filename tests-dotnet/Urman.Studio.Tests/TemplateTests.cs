@@ -87,6 +87,9 @@ public sealed class TemplateTests : IDisposable
         var gate = workspace.Get(ids.GateEntityId)!;
         Assert.Equal("Сосед: калитка починена = да", phrases.DescribeAll(gate["params"]!["states"]![0]!["when"]!.AsArray()));
         Assert.StartsWith("Требуется новая механика", phrases.Describe(new JsonObject { ["op"] = "teleport.anywhere" }), StringComparison.Ordinal);
+        Assert.StartsWith("Требуется новая механика", phrases.Describe(new JsonObject { ["op"] = "time.phase", ["phase"] = "evening" }), StringComparison.Ordinal);
+        Assert.DoesNotContain(ConditionPhrases.Conditions.Concat(ConditionPhrases.Effects), kind => ConditionPhrases.NotExecuted.Contains(kind.Op));
+        Assert.Empty(ConditionPhrases.FindNotExecuted(workspace));
 
         var facts = new FactIndex(workspace);
         var accepted = facts.Uses(new StoryFact(ids.CharacterId, "accepted"));

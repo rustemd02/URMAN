@@ -142,6 +142,109 @@ public static class StudioSelfCheck
     public static string? OutputDirectory =>
         OS.GetCmdlineUserArgs().FirstOrDefault(argument => argument.StartsWith(Prefix, StringComparison.Ordinal))?[Prefix.Length..];
 
+    // NPC02, NPC03, A13, CINE09: the routine walks its route, yields to a scene
+    // and resumes, refuses a second scene, and a blocked route ends as authored.
+    private static async Task RoutineChecks(StudioRoot studio, StudioWorldSection world, Urman.Studio.Core.Templates.TwoOutcomeQuestIds ids, Vector3 pivot,
+        Action<bool, string> Check, Func<int, Task> Frames, Func<string, Task> Capture)
+    {
+        var npc = ids.NpcEntityId;
+        var director = Urman.Godot.AuthoredWorldDirector.Current(studio.GetTree())!;
+        System.Text.Json.Nodes.JsonArray At(float dx, float dz) => new(Math.Round(pivot.X + dx, 2), 0.0, Math.Round(pivot.Z + dz, 2));
+        System.Text.Json.Nodes.JsonObject Block(string id, string name, System.Text.Json.Nodes.JsonArray place, string motion, string onBlocked = "go-directly",
+            System.Text.Json.Nodes.JsonArray? when = null, System.Text.Json.Nodes.JsonArray? route = null)
+        {
+            var block = new System.Text.Json.Nodes.JsonObject { ["id"] = id, ["name"] = name, ["when"] = when ?? [], ["place"] = place, ["motion"] = motion, ["onBlocked"] = onBlocked };
+            if (route is not null) block["route"] = route;
+            return block;
+        }
+
+        world.SetRoutinesLive(true);
+        var afterQuest = new System.Text.Json.Nodes.JsonArray(new System.Text.Json.Nodes.JsonObject { ["op"] = "quest.status", ["questId"] = ids.QuestId, ["status"] = "completed" });
+        studio.Session.SetField(npc, ["params", "schedule"], new System.Text.Json.Nodes.JsonArray(
+            Block("after", "После калитки", At(6, 0), "urman.anim:sit", when: afterQuest),
+            Block("usual", "Обычно у поленницы", At(0, 5), "urman.anim:work-kneel", route: [At(1.5f, 2.5f)])), "распорядок");
+        studio.Refresh();
+        await Frames(6);
+        var start = world.PreviewNode(npc)!.GlobalPosition;
+        var status = director.RoutineStatus(npc);
+        Check(status.Block == "usual", $"the first block whose story condition holds is chosen ({status.Block})");
+        var walkedWhileWalking = 0f;
+        for (var sample = 0; sample < 40 && walkedWhileWalking < .5f; sample++)
+        {
+            await Frames(1);
+            if (director.RoutineStatus(npc).Walking) walkedWhileWalking = world.PreviewNode(npc)!.GlobalPosition.DistanceTo(start);
+        }
+
+        Check(walkedWhileWalking > .5f, $"the character walks the drawn route ({walkedWhileWalking:0.0} м в пути)");
+        studio.Navigate(npc);
+        world.LookAt(new Vector3(pivot.X, 0, pivot.Z + 2.5f), 11f);
+        await Frames(2);
+        await Capture("22_routine_route");
+        for (var wait = 0; wait < 60 && director.RoutineStatus(npc).Walking; wait++) await Frames(10);
+        var there = world.PreviewNode(npc)!.GlobalPosition;
+        Check(new Vector2(there.X - (pivot.X), there.Z - (pivot.Z + 5)).Length() < .2f && director.RoutineStatus(npc).Status.StartsWith("на месте", StringComparison.Ordinal),
+            $"it arrives and does the block's activity ({director.RoutineStatus(npc).Status})");
+
+        Check(director.Claim(npc, "сцена А", out _), "a scene takes the character");
+        Check(!director.Claim(npc, "сцена Б", out var holder) && holder == "сцена А", "a second scene is refused and told who holds the character");
+        world.PreviewNode(npc)!.GlobalPosition = new Vector3(pivot.X + 3, there.Y, pivot.Z + 1);
+        director.Release(npc, "сцена А");
+        await Frames(4);
+        Check(director.ClaimedBy(npc) is null && director.RoutineStatus(npc) is { Block: "usual", Walking: true }, "after the scene the routine resumes and walks back");
+
+        // A solid object across the way: the story does not wait on the path.
+        var woodpile = world.Place("urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs", new Vector3(pivot.X, 0, pivot.Z - 3));
+        await Frames(6);
+        studio.Session.SetField(npc, ["params", "schedule"], new System.Text.Json.Nodes.JsonArray(
+            Block("usual", "За поленницей", At(0, -6), "urman.anim:idle", onBlocked: "stay")), "распорядок: остаться");
+        studio.Refresh();
+        await Frames(8);
+        var stayed = director.RoutineStatus(npc).Status;
+        Check(stayed.Contains("путь перекрыт", StringComparison.Ordinal) && stayed.Contains("остался", StringComparison.Ordinal), $"a blocked route with «остаться» stays and says where ({stayed})");
+        studio.Session.SetField(npc, ["params", "schedule"], new System.Text.Json.Nodes.JsonArray(
+            Block("usual", "За поленницей", At(0, -6), "urman.anim:idle")), "распорядок: сразу на месте");
+        studio.Refresh();
+        await Frames(8);
+        var direct = world.PreviewNode(npc)!.GlobalPosition;
+        Check(director.RoutineStatus(npc).Status.Contains("сразу на месте", StringComparison.Ordinal) && Math.Abs(direct.Z - (pivot.Z - 6)) < .2f,
+            "a blocked route with «сразу на месте» puts the character there so the quest never hangs");
+        studio.Session.SetField(npc, ["params", "schedule"], new System.Text.Json.Nodes.JsonArray(
+            Block("usual", "За поленницей", At(0, -6), "urman.anim:idle", onBlocked: "safe-point")), "распорядок: безопасная точка");
+        var safeBlocks = (System.Text.Json.Nodes.JsonArray)studio.Workspace.Get(npc)!["params"]!["schedule"]!.DeepClone();
+        safeBlocks[0]!["safePoint"] = At(-4, 1);
+        studio.Session.SetField(npc, ["params", "schedule"], safeBlocks, "безопасная точка");
+        studio.Refresh();
+        await Frames(8);
+        var safe = world.PreviewNode(npc)!.GlobalPosition;
+        Check(director.RoutineStatus(npc).Status.Contains("безопасную точку", StringComparison.Ordinal) && Math.Abs(safe.X - (pivot.X - 4)) < .2f,
+            "a blocked route with «безопасная точка» sends the character there");
+
+        // Route actions: stand at a point looking at the player, then go on (NPC03).
+        var waitPoint = new System.Text.Json.Nodes.JsonObject { ["at"] = At(1, 1.5f), ["waitSeconds"] = 1.0, ["look"] = "player" };
+        studio.Session.SetField(npc, ["params", "schedule"], new System.Text.Json.Nodes.JsonArray(
+            Block("usual", "Постоять и дальше", At(2, 3), "urman.anim:idle", route: [waitPoint])), "распорядок: ожидание в точке");
+        studio.Refresh();
+        var sawWait = false;
+        for (var sample = 0; sample < 200 && !director.RoutineStatus(npc).Status.StartsWith("на месте", StringComparison.Ordinal); sample++)
+        {
+            await Frames(1);
+            sawWait |= director.RoutineStatus(npc).Status.StartsWith("ждёт", StringComparison.Ordinal);
+        }
+
+        Check(sawWait && director.RoutineStatus(npc).Status.StartsWith("на месте", StringComparison.Ordinal), "the character waits at a route point, then walks on to the place");
+
+        // Escort: follows while the player is near, waits when the player is far away.
+        var escortBlock = Block("escort", "Провожает", At(0, 0), "urman.anim:idle");
+        escortBlock["follow"] = new System.Text.Json.Nodes.JsonObject { ["distance"] = 2.5, ["loseMetres"] = 1.0 };
+        studio.Session.SetField(npc, ["params", "schedule"], new System.Text.Json.Nodes.JsonArray(escortBlock), "распорядок: сопровождение");
+        studio.Refresh();
+        await Frames(10);
+        var escort = director.RoutineStatus(npc);
+        Check(escort.Walking && escort.Status.StartsWith("отстал от игрока", StringComparison.Ordinal), $"an escort waits instead of chasing a player who is far away ({escort.Status})");
+        _ = woodpile;
+        world.SetRoutinesLive(false);
+    }
+
     public static async void Run(StudioRoot studio, string output)
     {
         var lines = new List<string>();
@@ -341,6 +444,24 @@ public static class StudioSelfCheck
             studio.Undo();
             Check(studio.Workspace.File(scenePath).Text == sceneBefore, "undo restores the scene exactly, order included");
 
+            // --- animation catalogue on real characters (ANIM01–ANIM04, A14 technical part) ---
+            studio.OpenSection("characters");
+            await Frames(10);
+            var people = (StudioCharacterSection)studio.Section("characters");
+            var required = new[] { "idle", "walk", "run", "talk", "turn", "point", "pick-up", "hand-over", "carry", "sit-down", "sit", "stand-up", "scared", "work-kneel" };
+            var played = required.Where(motion => people.PlayMotion("urman.anim:" + motion).Played).ToArray();
+            Check(played.Length == required.Length, $"the minimum motion set plays on a kit character ({played.Length}/{required.Length}: missing {string.Join(",", required.Except(played))})");
+            people.PlayMotion("urman.anim:walk");
+            await Frames(20);
+            await Capture("19_character_walk");
+            people.PlayMotion("urman.anim:pick-up");
+            await Frames(25);
+            await Capture("20_character_pick_up");
+            people.PlayMotion("urman.anim:sit");
+            await Frames(20);
+            await Capture("21_character_sit");
+            Check(Urman.Godot.AnimationCatalog.Compatibility(people.Figure!, "Walk_Loop") == "совместим", "library clips fit the kit skeleton");
+
             // --- terrain strokes (WORLD10) ---
             var hill = new Vector3(world.Pivot.X - 18f, 0, world.Pivot.Z + 14f);
             float Height() => Urman.Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(hill.X, hill.Z);
@@ -400,6 +521,7 @@ public static class StudioSelfCheck
             studio.Refresh();
             await Frames(8);
             Check(world.PreviewNode(ids.NpcEntityId) is not null && world.PreviewNode(ids.GateEntityId) is not null, "the template's NPC and gate stand in the world");
+            await RoutineChecks(studio, world, ids, pivot, Check, Frames, Capture);
             var worldLinks = world.StoryLinkList(ids.GateEntityId);
             Check(worldLinks.Any(link => link.Id == ids.QuestId), "the gate shows which quest changes it");
             studio.Navigate(ids.NpcEntityId);
