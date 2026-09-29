@@ -206,11 +206,11 @@ for k, (a, name) in enumerate([(0, "s"), (90, "e"), (180, "n"), (270, "w")]):
     pz = RING_C[1] - RING_R * math.cos(math.radians(a))
     tangent_yaw = (a + 90) % 360
     add(f"ring-crown-{name}", CROWN, px, pz, tangent_yaw, scale=0.81, size=None, collide=False)
-for name, x, z, yaw, cat in [
-    ("sq-office", -22, 190, 90, HERO),      # old sovkhoz office: west side (placeholder for school/DK volumes)
-    ("sq-shop", 24, 188, -90, HERO),         # east side (placeholder volume, not the final shop)
-]:
-    add(name, cat, x, z, yaw, 1.0, cat[1:], note="Объём площади бывшего совхозного центра; фасады и функции — по ТЗ04")
+# The square's public buildings (old school, house of culture, sovkhoz office, post office, bus pavilion,
+# Sabantuy pole) are built in code: game/scripts/Act1ConnectedWorld.SovkhozSquare.cs. Keep their
+# footprints clear of generated trees and parcels.
+SQUARE_BUILDING_CLEARANCE = [(-13, 204, 10), (-3, 204, 10), (7, 204, 10), (25, 188, 12), (-23, 190, 9),
+                             (22, 205, 8), (-9, 176, 4)]  # keep in sync with AgentBAct1Layout.SquareBuildingClearance
 add("sq-well", WELL, 13.0, 181.0, 0, 1.0, WELL[1:], note="Колодец площади")
 add("sq-bench1", BENCH, -12.0, 186.0, 90, 1.0, BENCH[1:])
 add("sq-bench2", BENCH, 12.5, 190.0, -90, 1.0, BENCH[1:])
@@ -219,7 +219,7 @@ add("sq-board", BOARD, -9.5, 178.0, 0, 1.0, BOARD[1:], note="Доска объя
 # ---- vegetation: sparse fields between parcels and toward the ring -----------------------------
 holes = [(json_e["params"]["position"][0], json_e["params"]["position"][2]) for json_e in entities if "-house" in json_e["id"]
          or "sq-" in json_e["id"]]
-exclude = [[x, z, 11.0] for x, z in holes]
+exclude = [[x, z, 11.0] for x, z in holes] + [[x, z, r] for x, z, r in SQUARE_BUILDING_CLEARANCE]
 for i, (x, z, r, dens) in enumerate([(-30, 90, 16, .012), (-28, 125, 14, .010), (34, 78, 16, .012), (36, 155, 14, .010),
                                      (-34, 178, 14, .014), (30, 205, 20, .02), (-30, 206, 20, .02), (0, 212, 24, .03)]):
     entities.append({"id": f"urman.world:act1/north-street/trees-{i}", "kind": "scatter", "name": f"Деревья поля {i}",

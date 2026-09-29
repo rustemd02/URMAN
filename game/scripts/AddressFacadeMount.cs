@@ -12,7 +12,10 @@ internal static class AddressFacadeMount
     internal const float HalfWidth=.30f, HalfHeight=.115f;
     internal const float RivetX=HalfWidth-.03f, RivetY=HalfHeight-.03f;
     // Plate centre above the facade's own ground, and the tolerance around it.
-    internal const float MountHeight=1.9f, MountLow=1.6f, MountHigh=2.4f;
+    // R063/R107 (review 2026-09-28): one uniform mount near the top edge of the
+    // door-side wall, under the eave, toward the corner - not a random centre.
+    // MountTop caps the target so tall public walls keep a readable plate.
+    internal const float MountHeight=1.9f, MountLow=1.6f, MountHigh=3.2f, MountTop=2.85f;
     internal sealed record Triangle(Vector2 A,Vector2 B,Vector2 C);
     internal sealed record Coverage(bool Supported,double MissingArea,string Owner,string Reason,bool TimberCladding=false);
     private sealed record Face(Vector3 A,Vector3 B,Vector3 C,string Owner);
@@ -79,9 +82,9 @@ internal static class AddressFacadeMount
         point=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
         var right=new Vector3(outward.Z,0,-outward.X);
         var planes=Planes(building,outward,right,explicitExteriorWall);
-        // Rural Tatarstan convention: the plate hangs on the facade beside the
-        // door or gate, at eye height — on the wall segment the door pierces,
-        // offset along the facade, never centered above the entrance.
+        // The plate hangs on the wall segment the door pierces (or its gate),
+        // high under the eave toward the facade corner, never centred above
+        // the entrance. No normative height is claimed (B-R28-03).
         var doorAlong=door.Dot(right);
         var desired=new Vector2(doorAlong+.62f,Act1ConnectedWorld.AddressGround(door).Y+MountHeight);
         var candidates=new List<(float Score,Vector2 Center,Plane Plane)>();
@@ -110,7 +113,7 @@ internal static class AddressFacadeMount
             }
             if(ranges.Count==0)continue;
             foreach(var (rangeLo,rangeHi) in ranges)
-            foreach(var x in Samples(rangeLo,rangeHi,desired.X,.08f))
+            foreach(var x in Samples(rangeLo,rangeHi,rangeHi-.15f,.08f))
             {
                 // A recessed annex entrance may lie several metres down the
                 // slope. Judge plate height against the facade's own ground.
@@ -118,13 +121,15 @@ internal static class AddressFacadeMount
                 var minY=Math.Max(vertices.Min(p=>p.Y)+HalfHeight+.025f,facadeGround+MountLow);
                 var maxY=Math.Min(vertices.Max(p=>p.Y)-HalfHeight-.025f,facadeGround+MountHigh);
                 if(minY>maxY)continue;
-                foreach(var y in Samples(minY,maxY,desired.Y,.06f))
+                var topY=Math.Min(vertices.Max(p=>p.Y)-HalfHeight-.2f,facadeGround+MountTop);
+                var cornerX=rangeHi;
+                foreach(var y in Samples(minY,maxY,topY,.06f))
                 {
                     var center=new Vector2(x,y);
                     var fastCheck=BoardJoints(plane.Owner)?FastenerPoints(center):RequiredMountPoints(center);
                     if(!fastCheck.All(p=>plane.Triangles.Any(t=>Contains(t,p))))continue;
                     var orientationPenalty=oriented?4f:0f;
-                    var score=new Vector2(x-desired.X,(y-desired.Y)*1.4f).LengthSquared()+Math.Abs(plane.Depth-door.Dot(outward))*.12f+orientationPenalty;
+                    var score=(x-cornerX)*(x-cornerX)*.35f+(y-topY)*(y-topY)*1.96f+Math.Abs(plane.Depth-door.Dot(outward))*.12f+orientationPenalty;
                     candidates.Add((score,center,plane));
                 }
             }

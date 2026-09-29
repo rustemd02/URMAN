@@ -422,6 +422,7 @@ public partial class Act1ConnectedWorld : Node3D
         BuildAct1ImageDiscoveries();
         BuildRinatRoadsidePresentation();
         BuildWatchingFormsPilot(GetNode<Node3D>("Act1CoreWorldGreybox"));
+        BuildSovkhozSquare(GetNode<Node3D>("Act1CoreWorldGreybox"));
         BuildRearYardGate(GetNode<Node3D>("Act1CoreWorldGreybox"));
         ConfigureInvestigationRevisits();
         BuildOpeningSleep();

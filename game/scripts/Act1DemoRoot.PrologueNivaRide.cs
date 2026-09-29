@@ -333,7 +333,7 @@ public partial class Act1DemoRoot
         _ = bridge.ObserveVocabularyTextAsync(text, $"urman.chapter1:text/{localTextId}");
         if (localTextId == "prologue-ride-bark-radio") StartRideRadio();
         // The forest closes in: the music thins out and dies before the trees.
-        else if (localTextId == "prologue-ride-bark-field") StopRideRadio(9);
+        else if (localTextId == "prologue-ride-bark-field") RadioCatchesName();
         var voiced = PrologueVoice.PlayText(this, $"urman.chapter1:text/{localTextId}", bridge.TatarLanguageLevel);
         var shown = Math.Max(Math.Clamp(text.Length / 15.0, 4.5, 11), voiced + .8);
         ShowPrologueCaption("Мансур бабай: " + text, shown);

@@ -1901,7 +1901,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 var candidate = new Vector2(
                     x + stagger + rng.RandfRange(-1.1f, 1.1f),
                     z + rng.RandfRange(-1.1f, 1.1f));
-                if (InsideArrivalClosureKeepOut(candidate))
+                if (InsideArrivalClosureKeepOut(candidate)
+                    || AgentBAct1Layout.InsideSquareBuildingClearance(candidate))
                 {
                     continue;
                 }

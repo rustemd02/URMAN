@@ -141,6 +141,23 @@ public static class AgentBAct1Layout
     public static readonly Vector3 KaraApproachSpawn = new(0f, 0.05f, -103f);
     public static readonly Vector3 CliffhangerEndpoint = new(0.6f, 0.05f, -122.5f);
 
+    // Former sovkhoz square (village expansion, square slice): circles kept
+    // clear of generated trees around the public buildings built in
+    // Act1ConnectedWorld.SovkhozSquare. Keep in sync with
+    // tools/world/generate_north_street.py SQUARE_BUILDING_CLEARANCE.
+    public static readonly (float X, float Z, float Radius)[] SquareBuildingClearance =
+    {
+        (-13f, 204f, 10f), (-3f, 204f, 10f), (7f, 204f, 10f), (25f, 188f, 12f), (-23f, 190f, 9f),
+        (22f, 205f, 8f), (-9f, 176f, 4f)
+    };
+
+    public static bool InsideSquareBuildingClearance(Vector2 point)
+    {
+        foreach (var (x, z, radius) in SquareBuildingClearance)
+            if (new Vector2(point.X - x, point.Y - z).Length() < radius) return true;
+        return false;
+    }
+
     // ---- Traversal waypoints (physical walk, in order) ---------------------
     public sealed record Waypoint(string Id, Vector3 Position);
 
