@@ -176,6 +176,8 @@ public partial class AuthoredWorldDirector : Node3D
             case "npc":
                 var characterId = parameters.GetProperty("characterId").GetString()!;
                 var character = GeneratedCharacterKitDressing.Attach(root, characterId, Text(parameters, "kitPrefix", "Resident"), Vector3.Zero);
+                // Villagers differ in build (children, tall and short adults); the kit has one body.
+                if (parameters.TryGetProperty("scale", out var bodyScale)) character.Scale = Vector3.One * bodyScale.GetSingle();
                 GeneratedCharacterKitDressing.PlayClip(character, Text(parameters, "clip", "Idle"));
                 RegisterRoutine(item, character);
                 if (parameters.TryGetProperty("talk", out var talk))

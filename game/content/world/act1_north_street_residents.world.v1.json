@@ -1,0 +1,967 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.world-plot",
+  "id": "urman.world:act1/residents",
+  "executor": "generic",
+  "name": "Жители северного квартала (фоновые)",
+  "note": "Ambient: стоят, беседуют парами, чинят, сидят. Без диалогов и без сюжетного состояния. Точки подобраны диагностикой tests/Act1ResidentSpotCheck (физика и видимые предметы свободны); внешний вид не проверялся. Генератор — tools/world/generate_residents.py. Имена собственные и реплики добавляются отдельно (ACT1-NPC.2/3).",
+  "entities": [
+    {
+      "id": "urman.world:act1/residents/e-n1-a",
+      "kind": "npc",
+      "name": "Житель двора e-n1",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-e-n1-a",
+        "kitPrefix": "Resident",
+        "position": [
+          31.6,
+          0.0,
+          85.5
+        ],
+        "yawDegrees": 210.0,
+        "scale": 0.99,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              31.6,
+              0.0,
+              85.5
+            ],
+            "yawDegrees": 210.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/e-s1-a",
+      "kind": "npc",
+      "name": "Житель двора e-s1",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-e-s1-a",
+        "kitPrefix": "Resident",
+        "position": [
+          38.2,
+          0.0,
+          66.5
+        ],
+        "yawDegrees": 10.0,
+        "scale": 1.03,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              38.2,
+              0.0,
+              66.5
+            ],
+            "yawDegrees": 10.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e1-a",
+      "kind": "npc",
+      "name": "Житель двора m-e1 (чинит)",
+      "note": "Чинит калитку или доску у ворот.",
+      "params": {
+        "characterId": "resident-m-e1-a",
+        "kitPrefix": "Resident",
+        "position": [
+          11.43,
+          0.0,
+          93.4
+        ],
+        "yawDegrees": -115.0,
+        "scale": 0.99,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              11.43,
+              0.0,
+              93.4
+            ],
+            "yawDegrees": -115.0,
+            "motion": "urman.anim:work-kneel"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e3-a",
+      "kind": "npc",
+      "name": "Житель двора m-e3",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-m-e3-a",
+        "kitPrefix": "Resident",
+        "position": [
+          -4.5,
+          0.0,
+          167.4
+        ],
+        "yawDegrees": -60.0,
+        "scale": 1.02,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -4.5,
+              0.0,
+              167.4
+            ],
+            "yawDegrees": -60.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e3b-a",
+      "kind": "npc",
+      "name": "Житель двора m-e3b (беседа)",
+      "note": "Разговаривает через двор с соседом.",
+      "params": {
+        "characterId": "resident-m-e3b-a",
+        "kitPrefix": "Resident",
+        "position": [
+          -9.5,
+          0.0,
+          179.4
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.96,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -9.5,
+              0.0,
+              179.4
+            ],
+            "yawDegrees": -90.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e3b-b",
+      "kind": "npc",
+      "name": "Сосед двора m-e3b (беседа)",
+      "note": "Собеседник.",
+      "params": {
+        "characterId": "resident-m-e3b-b",
+        "kitPrefix": "Resident",
+        "position": [
+          -11.5,
+          0.0,
+          179.4
+        ],
+        "yawDegrees": 90.0,
+        "scale": 0.97,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -11.5,
+              0.0,
+              179.4
+            ],
+            "yawDegrees": 90.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e4-a",
+      "kind": "npc",
+      "name": "Житель двора m-e4",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-m-e4-a",
+        "kitPrefix": "Resident",
+        "position": [
+          -9.5,
+          0.0,
+          192.4
+        ],
+        "yawDegrees": -80.0,
+        "scale": 1.02,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -9.5,
+              0.0,
+              192.4
+            ],
+            "yawDegrees": -80.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e4b-a",
+      "kind": "npc",
+      "name": "Житель двора m-e4b (чинит)",
+      "note": "Чинит калитку или доску у ворот.",
+      "params": {
+        "characterId": "resident-m-e4b-a",
+        "kitPrefix": "Resident",
+        "position": [
+          -9.5,
+          0.0,
+          205.9
+        ],
+        "yawDegrees": -115.0,
+        "scale": 1.03,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -9.5,
+              0.0,
+              205.9
+            ],
+            "yawDegrees": -115.0,
+            "motion": "urman.anim:work-kneel"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e5-a",
+      "kind": "npc",
+      "name": "Житель двора m-e5 (беседа)",
+      "note": "Разговаривает через двор с соседом.",
+      "params": {
+        "characterId": "resident-m-e5-a",
+        "kitPrefix": "Resident",
+        "position": [
+          -9.5,
+          0.0,
+          219.4
+        ],
+        "yawDegrees": -90.0,
+        "scale": 1.02,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -9.5,
+              0.0,
+              219.4
+            ],
+            "yawDegrees": -90.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e5-b",
+      "kind": "npc",
+      "name": "Сосед двора m-e5 (беседа)",
+      "note": "Собеседник.",
+      "params": {
+        "characterId": "resident-m-e5-b",
+        "kitPrefix": "Resident",
+        "position": [
+          -11.5,
+          0.0,
+          219.4
+        ],
+        "yawDegrees": 90.0,
+        "scale": 0.91,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -11.5,
+              0.0,
+              219.4
+            ],
+            "yawDegrees": 90.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-w1-a",
+      "kind": "npc",
+      "name": "Житель двора m-w1",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-m-w1-a",
+        "kitPrefix": "Resident",
+        "position": [
+          -12.1,
+          0.0,
+          77.6
+        ],
+        "yawDegrees": 80.0,
+        "scale": 0.96,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -12.1,
+              0.0,
+              77.6
+            ],
+            "yawDegrees": 80.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-w3-a",
+      "kind": "npc",
+      "name": "Житель двора m-w3",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-m-w3-a",
+        "kitPrefix": "Resident",
+        "position": [
+          -37.5,
+          0.0,
+          160.6
+        ],
+        "yawDegrees": 80.0,
+        "scale": 0.96,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -37.5,
+              0.0,
+              160.6
+            ],
+            "yawDegrees": 80.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-w4-a",
+      "kind": "npc",
+      "name": "Житель двора m-w4",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-m-w4-a",
+        "kitPrefix": "Resident",
+        "position": [
+          -35.5,
+          0.0,
+          187.6
+        ],
+        "yawDegrees": 120.0,
+        "scale": 0.97,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -35.5,
+              0.0,
+              187.6
+            ],
+            "yawDegrees": 120.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-w4b-a",
+      "kind": "npc",
+      "name": "Житель двора m-w4b (беседа)",
+      "note": "Разговаривает через двор с соседом.",
+      "params": {
+        "characterId": "resident-m-w4b-a",
+        "kitPrefix": "Resident",
+        "position": [
+          -35.5,
+          0.0,
+          201.1
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.96,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -35.5,
+              0.0,
+              201.1
+            ],
+            "yawDegrees": -90.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-w4b-b",
+      "kind": "npc",
+      "name": "Сосед двора m-w4b (беседа)",
+      "note": "Собеседник.",
+      "params": {
+        "characterId": "resident-m-w4b-b",
+        "kitPrefix": "Resident",
+        "position": [
+          -36.5,
+          0.0,
+          201.1
+        ],
+        "yawDegrees": 90.0,
+        "scale": 0.99,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -36.5,
+              0.0,
+              201.1
+            ],
+            "yawDegrees": 90.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-w5-a",
+      "kind": "npc",
+      "name": "Житель двора m-w5 (чинит)",
+      "note": "Чинит калитку или доску у ворот.",
+      "params": {
+        "characterId": "resident-m-w5-a",
+        "kitPrefix": "Resident",
+        "position": [
+          -35.5,
+          0.0,
+          214.6
+        ],
+        "yawDegrees": 90.0,
+        "scale": 1.03,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -35.5,
+              0.0,
+              214.6
+            ],
+            "yawDegrees": 90.0,
+            "motion": "urman.anim:work-kneel"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e1-a",
+      "kind": "npc",
+      "name": "Житель двора n-e1",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-n-e1-a",
+        "kitPrefix": "Resident",
+        "position": [
+          29.5,
+          0.0,
+          165.4
+        ],
+        "yawDegrees": -120.0,
+        "scale": 0.99,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              29.5,
+              0.0,
+              165.4
+            ],
+            "yawDegrees": -120.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e1b-a",
+      "kind": "npc",
+      "name": "Житель двора n-e1b (беседа)",
+      "note": "Разговаривает через двор с соседом.",
+      "params": {
+        "characterId": "resident-n-e1b-a",
+        "kitPrefix": "Resident",
+        "position": [
+          29.5,
+          0.0,
+          178.4
+        ],
+        "yawDegrees": 90.0,
+        "scale": 1.03,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              29.5,
+              0.0,
+              178.4
+            ],
+            "yawDegrees": 90.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e1b-b",
+      "kind": "npc",
+      "name": "Сосед двора n-e1b (беседа)",
+      "note": "Собеседник.",
+      "params": {
+        "characterId": "resident-n-e1b-b",
+        "kitPrefix": "Resident",
+        "position": [
+          30.5,
+          0.0,
+          178.4
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.94,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              30.5,
+              0.0,
+              178.4
+            ],
+            "yawDegrees": -90.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e2-a",
+      "kind": "npc",
+      "name": "Житель двора n-e2",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-n-e2-a",
+        "kitPrefix": "Resident",
+        "position": [
+          29.5,
+          0.0,
+          190.4
+        ],
+        "yawDegrees": -60.0,
+        "scale": 0.97,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              29.5,
+              0.0,
+              190.4
+            ],
+            "yawDegrees": -60.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e2b-a",
+      "kind": "npc",
+      "name": "Житель двора n-e2b (чинит)",
+      "note": "Чинит калитку или доску у ворот.",
+      "params": {
+        "characterId": "resident-n-e2b-a",
+        "kitPrefix": "Resident",
+        "position": [
+          29.5,
+          0.0,
+          203.4
+        ],
+        "yawDegrees": -115.0,
+        "scale": 1.0,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              29.5,
+              0.0,
+              203.4
+            ],
+            "yawDegrees": -115.0,
+            "motion": "urman.anim:work-kneel"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e3-a",
+      "kind": "npc",
+      "name": "Житель двора n-e3 (беседа)",
+      "note": "Разговаривает через двор с соседом.",
+      "params": {
+        "characterId": "resident-n-e3-a",
+        "kitPrefix": "Resident",
+        "position": [
+          29.5,
+          0.0,
+          216.4
+        ],
+        "yawDegrees": 90.0,
+        "scale": 0.95,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              29.5,
+              0.0,
+              216.4
+            ],
+            "yawDegrees": 90.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e3-b",
+      "kind": "npc",
+      "name": "Сосед двора n-e3 (беседа)",
+      "note": "Собеседник.",
+      "params": {
+        "characterId": "resident-n-e3-b",
+        "kitPrefix": "Resident",
+        "position": [
+          30.5,
+          0.0,
+          216.4
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.92,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              30.5,
+              0.0,
+              216.4
+            ],
+            "yawDegrees": -90.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/w-n1-a",
+      "kind": "npc",
+      "name": "Житель двора w-n1",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-w-n1-a",
+        "kitPrefix": "Resident",
+        "position": [
+          -49.5,
+          0.0,
+          121.8
+        ],
+        "yawDegrees": 120.0,
+        "scale": 1.03,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -49.5,
+              0.0,
+              121.8
+            ],
+            "yawDegrees": 120.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/w-n2-a",
+      "kind": "npc",
+      "name": "Житель двора w-n2",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-w-n2-a",
+        "kitPrefix": "Resident",
+        "position": [
+          -47.5,
+          0.0,
+          87.8
+        ],
+        "yawDegrees": 100.0,
+        "scale": 1.01,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -47.5,
+              0.0,
+              87.8
+            ],
+            "yawDegrees": 100.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/kid-1",
+      "kind": "npc",
+      "name": "Ребёнок 1",
+      "note": "Ребёнок у колодца/доски: в школе одиннадцать детей, остальные дома.",
+      "params": {
+        "characterId": "resident-kid-1",
+        "kitPrefix": "Resident",
+        "position": [
+          12.5,
+          0.0,
+          123.6
+        ],
+        "yawDegrees": 302.7,
+        "scale": 0.74,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              12.5,
+              0.0,
+              123.6
+            ],
+            "yawDegrees": 302.7,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/kid-2",
+      "kind": "npc",
+      "name": "Ребёнок 2",
+      "note": "Ребёнок у колодца/доски: в школе одиннадцать детей, остальные дома.",
+      "params": {
+        "characterId": "resident-kid-2",
+        "kitPrefix": "Resident",
+        "position": [
+          14.1,
+          0.0,
+          122.0
+        ],
+        "yawDegrees": 187.7,
+        "scale": 0.7,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              14.1,
+              0.0,
+              122.0
+            ],
+            "yawDegrees": 187.7,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/kid-3",
+      "kind": "npc",
+      "name": "Ребёнок 3",
+      "note": "Ребёнок у колодца/доски: в школе одиннадцать детей, остальные дома.",
+      "params": {
+        "characterId": "resident-kid-3",
+        "kitPrefix": "Resident",
+        "position": [
+          -10.5,
+          0.0,
+          103.6
+        ],
+        "yawDegrees": 1.7,
+        "scale": 0.78,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -10.5,
+              0.0,
+              103.6
+            ],
+            "yawDegrees": 1.7,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/square-sq-board",
+      "kind": "npc",
+      "name": "Читает объявления",
+      "note": "Читает доску объявлений.",
+      "params": {
+        "characterId": "resident-square-sq-board",
+        "kitPrefix": "Resident",
+        "position": [
+          -9.7,
+          0.0,
+          103.39
+        ],
+        "yawDegrees": -150.1,
+        "scale": 1.0,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -9.7,
+              0.0,
+              103.39
+            ],
+            "yawDegrees": -150.1,
+            "motion": "urman.anim:idle-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/square-well-a",
+      "kind": "npc",
+      "name": "Женщина у колодца",
+      "note": "Разговаривает у колодца площади.",
+      "params": {
+        "characterId": "resident-square-well-a",
+        "kitPrefix": "Resident",
+        "position": [
+          12.5,
+          0.0,
+          120.4
+        ],
+        "yawDegrees": -45.0,
+        "scale": 1.0,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              12.5,
+              0.0,
+              120.4
+            ],
+            "yawDegrees": -45.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/square-well-b",
+      "kind": "npc",
+      "name": "Соседка у колодца",
+      "note": "Собеседница.",
+      "params": {
+        "characterId": "resident-square-well-b",
+        "kitPrefix": "Resident",
+        "position": [
+          10.9,
+          0.0,
+          122.0
+        ],
+        "yawDegrees": 135.0,
+        "scale": 0.97,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              10.9,
+              0.0,
+              122.0
+            ],
+            "yawDegrees": 135.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/lookout-sitter",
+      "kind": "npc",
+      "name": "Старик на лавочке",
+      "note": "Сидит над оврагом и смотрит на дальний берег.",
+      "params": {
+        "characterId": "resident-lookout-sitter",
+        "kitPrefix": "Resident",
+        "position": [
+          38.55,
+          0.32,
+          68.5
+        ],
+        "yawDegrees": 90.0,
+        "scale": 1.0,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              38.55,
+              0.32,
+              68.5
+            ],
+            "yawDegrees": 90.0,
+            "motion": "urman.anim:sit"
+          }
+        ]
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/sq1-sitter",
+      "kind": "npc",
+      "name": "Женщина на лавочке",
+      "note": "Сидит на площади.",
+      "params": {
+        "characterId": "resident-sq1-sitter",
+        "kitPrefix": "Resident",
+        "position": [
+          -11.95,
+          0.32,
+          108.0
+        ],
+        "yawDegrees": 90.0,
+        "scale": 1.0,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -11.95,
+              0.32,
+              108.0
+            ],
+            "yawDegrees": 90.0,
+            "motion": "urman.anim:sit"
+          }
+        ]
+      }
+    }
+  ]
+}

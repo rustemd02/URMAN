@@ -199,7 +199,7 @@ NORTH_RETURN = [(-23,218),(-23,220.5),(-22.5,223),(-21,225),(-18,227),(15,227),(
 line_tiles(WEST_SERVICE,"west-service",1.75)
 line_tiles(NORTH_EAST,"north-east",1.75)
 add("well", WELL, 7.2, 82.5, 0, .9, WELL[1:], note="Колодец у Нижней улицы")
-add("lookout-bench", BENCH, 38.5, 68.5, -90, 1, BENCH[1:], note="Обзор оврага")
+add("lookout-bench", BENCH, 38.5, 68.5, 90, 1, BENCH[1:], note="Обзор оврага: скамья смотрит на овраг, спинка с деревенской стороны")
 add("lookout-board", BOARD, 38, 79, -90, 1, BOARD[1:])
 
 # Square furnishings and building clearances use the same plan as C#.
