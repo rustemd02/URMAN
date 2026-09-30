@@ -4,7 +4,9 @@
     "id": "urman.chapter1:text/greeting-mansur-1",
     "value": {
       "default": "«Уз, улым, туңгансыңдыр.» — Проходи, сынок, замёрз, наверное.",
-      "translations": { "ru": "«Уз, улым, туңгансыңдыр.» — Проходи, сынок, замёрз, наверное." }
+      "translations": {
+        "ru": "«Уз, улым, туңгансыңдыр.» — Проходи, сынок, замёрз, наверное."
+      }
     },
     "purpose": "caption"
   },
@@ -13,7 +15,9 @@
     "id": "urman.chapter1:text/greeting-mansur-2",
     "value": {
       "default": "«Хәлләр ничек, улым?» — Как дела, сынок?",
-      "translations": { "ru": "«Хәлләр ничек, улым?» — Как дела, сынок?" }
+      "translations": {
+        "ru": "«Хәлләр ничек, улым?» — Как дела, сынок?"
+      }
     },
     "purpose": "caption"
   },
@@ -22,7 +26,9 @@
     "id": "urman.chapter1:text/greeting-mansur-3",
     "value": {
       "default": "«Бүген салкын, бияләйләреңне ки.» — Сегодня холодно, надень варежки.",
-      "translations": { "ru": "«Бүген салкын, бияләйләреңне ки.» — Сегодня холодно, надень варежки." }
+      "translations": {
+        "ru": "«Бүген салкын, бияләйләреңне ки.» — Сегодня холодно, надень варежки."
+      }
     },
     "purpose": "caption"
   },
@@ -31,7 +37,9 @@
     "id": "urman.chapter1:text/greeting-mansur-4",
     "value": {
       "default": "«Ашыкма, улым. Барысы да вакытында.» — Не торопись, сынок. Всему своё время.",
-      "translations": { "ru": "«Ашыкма, улым. Барысы да вакытында.» — Не торопись, сынок. Всему своё время." }
+      "translations": {
+        "ru": "«Ашыкма, улым. Барысы да вакытында.» — Не торопись, сынок. Всему своё время."
+      }
     },
     "purpose": "caption"
   },
@@ -40,7 +48,9 @@
     "id": "urman.chapter1:text/greeting-timur_hazrat-1",
     "value": {
       "default": "«Әссәламәгаләйкем, энем. Хәлләр ничек?» — Мир тебе, братишка. Как дела?",
-      "translations": { "ru": "«Әссәламәгаләйкем, энем. Хәлләр ничек?» — Мир тебе, братишка. Как дела?" }
+      "translations": {
+        "ru": "«Әссәламәгаләйкем, энем. Хәлләр ничек?» — Мир тебе, братишка. Как дела?"
+      }
     },
     "purpose": "caption"
   },
@@ -49,7 +59,9 @@
     "id": "urman.chapter1:text/greeting-timur_hazrat-2",
     "value": {
       "default": "«Бабаеңа сәлам әйт.» — Передавай привет бабаю.",
-      "translations": { "ru": "«Бабаеңа сәлам әйт.» — Передавай привет бабаю." }
+      "translations": {
+        "ru": "«Бабаеңа сәлам әйт.» — Передавай привет бабаю."
+      }
     },
     "purpose": "caption"
   },
@@ -58,7 +70,9 @@
     "id": "urman.chapter1:text/greeting-timur_hazrat-3",
     "value": {
       "default": "«Хәерле көн. Җомгага кил, энем.» — Добрый день. Приходи в пятницу на намаз, братишка.",
-      "translations": { "ru": "«Хәерле көн. Җомгага кил, энем.» — Добрый день. Приходи в пятницу на намаз, братишка." }
+      "translations": {
+        "ru": "«Хәерле көн. Җомгага кил, энем.» — Добрый день. Приходи в пятницу на намаз, братишка."
+      }
     },
     "purpose": "caption"
   },
@@ -67,7 +81,9 @@
     "id": "urman.chapter1:text/greeting-naila-1",
     "value": {
       "default": "«Исәнмесез. Нәрсә борчый?» — Здравствуйте. Что беспокоит?",
-      "translations": { "ru": "«Исәнмесез. Нәрсә борчый?» — Здравствуйте. Что беспокоит?" }
+      "translations": {
+        "ru": "«Исәнмесез. Нәрсә борчый?» — Здравствуйте. Что беспокоит?"
+      }
     },
     "purpose": "caption"
   },
@@ -76,7 +92,9 @@
     "id": "urman.chapter1:text/greeting-naila-2",
     "value": {
       "default": "«Утырып торыгыз, хәзер карыйм.» — Посидите, сейчас посмотрю.",
-      "translations": { "ru": "«Утырып торыгыз, хәзер карыйм.» — Посидите, сейчас посмотрю." }
+      "translations": {
+        "ru": "«Утырып торыгыз, хәзер карыйм.» — Посидите, сейчас посмотрю."
+      }
     },
     "purpose": "caption"
   },
@@ -85,7 +103,9 @@
     "id": "urman.chapter1:text/greeting-naila-3",
     "value": {
       "default": "«Салкын тидермәгез, яме?» — Не простудитесь, ладно?",
-      "translations": { "ru": "«Салкын тидермәгез, яме?» — Не простудитесь, ладно?" }
+      "translations": {
+        "ru": "«Салкын тидермәгез, яме?» — Не простудитесь, ладно?"
+      }
     },
     "purpose": "caption"
   },
@@ -94,7 +114,9 @@
     "id": "urman.chapter1:text/greeting-alsu-1",
     "value": {
       "default": "«Сәлам! Кайчан кайттың?» — Привет! Когда вернулся?",
-      "translations": { "ru": "«Сәлам! Кайчан кайттың?» — Привет! Когда вернулся?" }
+      "translations": {
+        "ru": "«Сәлам! Кайчан кайттың?» — Привет! Когда вернулся?"
+      }
     },
     "purpose": "caption"
   },
@@ -103,7 +125,9 @@
     "id": "urman.chapter1:text/greeting-alsu-2",
     "value": {
       "default": "«Ничек анда, Казанда?» — Как там, в Казани?",
-      "translations": { "ru": "«Ничек анда, Казанда?» — Как там, в Казани?" }
+      "translations": {
+        "ru": "«Ничек анда, Казанда?» — Как там, в Казани?"
+      }
     },
     "purpose": "caption"
   },
@@ -112,7 +136,185 @@
     "id": "urman.chapter1:text/greeting-alsu-3",
     "value": {
       "default": "«Әйдә, озакламыйк.» — Пойдём, не будем задерживаться.",
-      "translations": { "ru": "«Әйдә, озакламыйк.» — Пойдём, не будем задерживаться." }
+      "translations": {
+        "ru": "«Әйдә, озакламыйк.» — Пойдём, не будем задерживаться."
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-neighbor-f-1",
+    "value": {
+      "default": "«Исәнмесез!» — Здравствуйте!",
+      "translations": {
+        "ru": "«Исәнмесез!» — Здравствуйте!"
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-neighbor-f-2",
+    "value": {
+      "default": "«Мансурның оныгымы син? Хәерле көн.» — Ты внук Мансура? Добрый день.",
+      "translations": {
+        "ru": "«Мансурның оныгымы син? Хәерле көн.» — Ты внук Мансура? Добрый день."
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-neighbor-f-3",
+    "value": {
+      "default": "«Салкын бүген, җылырак киен.» — Сегодня холодно, одевайся теплее.",
+      "translations": {
+        "ru": "«Салкын бүген, җылырак киен.» — Сегодня холодно, одевайся теплее."
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-neighbor-m-1",
+    "value": {
+      "default": "«Исәнме, егет.» — Здравствуй, парень.",
+      "translations": {
+        "ru": "«Исәнме, егет.» — Здравствуй, парень."
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-neighbor-m-2",
+    "value": {
+      "default": "«Кунакка кайттыңмы?» — В гости приехал?",
+      "translations": {
+        "ru": "«Кунакка кайттыңмы?» — В гости приехал?"
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-neighbor-m-3",
+    "value": {
+      "default": "«Юл ерак булгандыр, хәлләр ничек?» — Дорога, наверное, была дальняя, как дела?",
+      "translations": {
+        "ru": "«Юл ерак булгандыр, хәлләр ничек?» — Дорога, наверное, была дальняя, как дела?"
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-repair-1",
+    "value": {
+      "default": "«Аз гына төзәтәм, эш бетми.» — Чиню понемногу, работа не кончается.",
+      "translations": {
+        "ru": "«Аз гына төзәтәм, эш бетми.» — Чиню понемногу, работа не кончается."
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-repair-2",
+    "value": {
+      "default": "«Исән бул!» — Будь здоров!",
+      "translations": {
+        "ru": "«Исән бул!» — Будь здоров!"
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-chat-1",
+    "value": {
+      "default": "«Сәлам!» — Привет!",
+      "translations": {
+        "ru": "«Сәлам!» — Привет!"
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-chat-2",
+    "value": {
+      "default": "«Исәнмесез, сөйләшеп торабыз әле.» — Здравствуйте, мы тут разговариваем.",
+      "translations": {
+        "ru": "«Исәнмесез, сөйләшеп торабыз әле.» — Здравствуйте, мы тут разговариваем."
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-kid-1",
+    "value": {
+      "default": "«Сәлам! Син кем?» — Привет! Ты кто?",
+      "translations": {
+        "ru": "«Сәлам! Син кем?» — Привет! Ты кто?"
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-kid-2",
+    "value": {
+      "default": "«Кар яуды, күрдеңме?» — Снег пошёл, видел?",
+      "translations": {
+        "ru": "«Кар яуды, күрдеңме?» — Снег пошёл, видел?"
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-elder-1",
+    "value": {
+      "default": "«Утыр, малай, теге якка кара әле.» — Садись, парень, посмотри-ка на ту сторону.",
+      "translations": {
+        "ru": "«Утыр, малай, теге якка кара әле.» — Садись, парень, посмотри-ка на ту сторону."
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-elder-2",
+    "value": {
+      "default": "«Элек теге якта да ут яна иде.» — Раньше и на том берегу свет горел.",
+      "translations": {
+        "ru": "«Элек теге якта да ут яна иде.» — Раньше и на том берегу свет горел."
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-square-woman-1",
+    "value": {
+      "default": "«Мәйдан хәзер тын бит.» — Тихо теперь на площади.",
+      "translations": {
+        "ru": "«Мәйдан хәзер тын бит.» — Тихо теперь на площади."
+      }
+    },
+    "purpose": "caption"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.chapter1:text/greeting-resident-square-woman-2",
+    "value": {
+      "default": "«Исәнмесез. Бабагыз сәламәтме?» — Здравствуйте. Дед ваш здоров?",
+      "translations": {
+        "ru": "«Исәнмесез. Бабагыз сәламәтме?» — Здравствуйте. Дед ваш здоров?"
+      }
     },
     "purpose": "caption"
   }

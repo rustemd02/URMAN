@@ -59,13 +59,14 @@ def yaw_to(ax, az, bx, bz):
     return round(math.degrees(math.atan2(bx - ax, bz - az)), 1)
 
 
-def person(slug, name, x, z, yaw, motion, scale, note, y=0.0):
+def person(slug, name, x, z, yaw, motion, scale, note, y=0.0, pool=None, speaker="ЖИТЕЛЬ", turn=True):
     entities.append({
         "id": f"urman.world:act1/residents/{slug}", "kind": "npc", "name": name, "note": note,
         "params": {
             "characterId": f"resident-{slug}", "kitPrefix": "Resident", "position": [round(x, 2), y, round(z, 2)],
             "yawDegrees": round(yaw, 1), "scale": scale,
             "schedule": [{"id": "day", "place": [round(x, 2), y, round(z, 2)], "yawDegrees": round(yaw, 1), "motion": ANIM[motion]}],
+            **({"greeting": pool, "speaker": speaker, **({} if turn else {"turn": False})} if pool else {}),
         }})
     count[motion] += 1
 
@@ -85,17 +86,18 @@ for index, slug in enumerate(sorted(houses)):
         partner = next((p for p in spots[1:] if 1.0 <= math.hypot(p[0] - sx, p[1] - sz) <= 2.6), None)
         if partner:
             person(f"{slug}-a", f"Житель двора {slug} (беседа)", sx, sz, yaw_to(sx, sz, *partner), "talk", scale,
-                   "Разговаривает через двор с соседом.")
+                   "Разговаривает через двор с соседом.", pool="chat", speaker="СОСЕД", turn=False)
             person(f"{slug}-b", f"Сосед двора {slug} (беседа)", partner[0], partner[1], yaw_to(*partner, sx, sz), "talk",
-                   round(rng.uniform(.9, 1.0), 2), "Собеседник.")
+                   round(rng.uniform(.9, 1.0), 2), "Собеседник.", pool="chat", speaker="СОСЕДКА", turn=False)
             continue
         plan = "idle"
     if plan == "kneel":
         person(f"{slug}-a", f"Житель двора {slug} (чинит)", sx, sz, facing_street + rng.choice([-25, 0, 25]), "kneel", scale,
-               "Чинит калитку или доску у ворот.")
+               "Чинит калитку или доску у ворот.", pool="repair", speaker="СОСЕД")
         continue
     person(f"{slug}-a", f"Житель двора {slug}", sx, sz, facing_street + rng.choice([-30, -10, 10, 30]), "idle", scale,
-           "Стоит во дворе, смотрит на улицу.")
+           "Стоит во дворе, смотрит на улицу.", pool="neighbor-m" if index % 2 else "neighbor-f",
+           speaker="СОСЕД" if index % 2 else "СОСЕДКА")
 
 # ---- children: two small figures near the square and one lane --------------------------------------
 kids = [("sq-well", .74), ("sq-well", .70), ("sq-board", .78)]
@@ -105,7 +107,7 @@ for i, (anchor, scale) in enumerate(kids):
         if spot not in used and all(math.hypot(spot[0] - u[0], spot[1] - u[1]) > 1.8 for u in used):
             used.add(spot)
             person(f"kid-{i + 1}", f"Ребёнок {i + 1}", spot[0], spot[1], rng.uniform(0, 360), "idle", scale,
-                   "Ребёнок у колодца/доски: в школе одиннадцать детей, остальные дома.")
+                   "Ребёнок у колодца/доски: в школе одиннадцать детей, остальные дома.", pool="kid", speaker="РЕБЁНОК")
             break
 
 # ---- square: adults at the notice board and the well --------------------------------------------------
@@ -116,15 +118,16 @@ for i, anchor in enumerate(["sq-board", "sq-well"]):
         a = placed[0]
         b = next((p for p in placed[1:] if 1.0 <= math.hypot(p[0] - a[0], p[1] - a[1]) <= 2.6), None)
         if b:
-            person("square-well-a", "Женщина у колодца", a[0], a[1], yaw_to(*a, *b), "talk", 1.0, "Разговаривает у колодца площади.")
-            person("square-well-b", "Соседка у колодца", b[0], b[1], yaw_to(*b, *a), "talk", .97, "Собеседница.")
+            person("square-well-a", "Женщина у колодца", a[0], a[1], yaw_to(*a, *b), "talk", 1.0, "Разговаривает у колодца площади.", pool="chat", speaker="СОСЕДКА", turn=False)
+            person("square-well-b", "Соседка у колодца", b[0], b[1], yaw_to(*b, *a), "talk", .97, "Собеседница.", pool="chat", speaker="СОСЕДКА", turn=False)
             used.update([a, b])
             continue
     if placed:
         a = placed[0]
         bx, bz = (-10.5, 102.0) if anchor == "sq-board" else (12.5, 122.0)
         person(f"square-{anchor}", "Читает объявления" if anchor == "sq-board" else "Стоит у колодца", a[0], a[1],
-               yaw_to(*a, bx, bz), "idle", 1.0, "Читает доску объявлений." if anchor == "sq-board" else "Ждёт очереди с вёдрами.")
+               yaw_to(*a, bx, bz), "idle", 1.0, "Читает доску объявлений." if anchor == "sq-board" else "Ждёт очереди с вёдрами.",
+               pool="neighbor-f", speaker="СОСЕДКА")
         used.add(a)
 
 # ---- benches: the lookout bench is promised by the tour ("люди сидят, на тот берег смотрят") ---------
@@ -135,7 +138,9 @@ for bench, who, note in [("lookout-bench", "Старик на лавочке", "
     if b:
         if bench == "lookout-bench":
             b = {**b, "yaw": 90.0}  # the bench was turned to face the ravine after the spot check ran
-        person(bench.replace("-bench", "") + "-sitter", who, b["x"], b["z"], b["yaw"], "sit", 1.0, note, y=round(b["top"] - .45, 2))
+        person(bench.replace("-bench", "") + "-sitter", who, b["x"], b["z"], b["yaw"], "sit", 1.0, note, y=round(b["top"] - .45, 2),
+               pool="elder" if bench == "lookout-bench" else "square-woman",
+               speaker="СТАРИК" if bench == "lookout-bench" else "СОСЕДКА", turn=False)
 
 doc = {"schemaVersion": 1, "kind": "urman.world-plot", "id": "urman.world:act1/residents", "executor": "generic",
        "name": "Жители северного квартала (фоновые)",

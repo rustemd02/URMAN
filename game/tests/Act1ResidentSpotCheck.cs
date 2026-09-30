@@ -125,6 +125,27 @@ public partial class Act1ResidentSpotCheck : Node
                 var root = director.ObjectRoot(id);
                 GD.Print($"resident-built|{id.Split('/')[^1]}|block={block}|{status}|at=({root?.GlobalPosition.X:0.0},{root?.GlobalPosition.Z:0.0})|clip={root?.GetChildren().OfType<Node3D>().FirstOrDefault()?.GetMetaOrDefault("animationClip")}");
             }
+            // Greeting: walk up to a few residents and read what they said.
+            var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController ?? throw new InvalidOperationException("no player");
+            foreach (var id in new[] { "m-e1-a", "kid-1", "lookout-sitter", "m-e3b-a" })
+            {
+                var resident = director.ObjectRoot("urman.world:act1/residents/" + id);
+                if (resident is null) { GD.Print($"greeting-check|{id}|missing"); continue; }
+                player.GlobalPosition = resident.GlobalPosition + new Vector3(id == "lookout-sitter" ? -1.4f : 1.4f, .1f, 0);
+                // The shared pause between two greetings is real time (7 s); the resident keeps trying while we stand close.
+                var waitUntil = Time.GetTicksMsec() + 17000; // two neighbours within reach take turns 7 s apart
+                var frames = 0; var modalFrames = 0; var startedAt = Time.GetTicksMsec();
+                while (!resident.HasMeta("lastGreeting") && Time.GetTicksMsec() < waitUntil)
+                {
+                    await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+                    frames++; if (player.ModalOpen) modalFrames++;
+                }
+                GD.Print($"greeting-wait|{id}|frames={frames}|modalFrames={modalFrames}|ms={Time.GetTicksMsec() - startedAt}");
+                var said = resident.HasMeta("lastGreeting") ? resident.GetMeta("lastGreeting").AsString() : "NOTHING";
+                GD.Print($"greeting-check|{id}|{said}|yaw={resident.RotationDegrees.Y:0}|dist={resident.GlobalPosition.DistanceTo(player.GlobalPosition):0.0}|player=({player.GlobalPosition.X:0.0},{player.GlobalPosition.Y:0.0},{player.GlobalPosition.Z:0.0})|npc=({resident.GlobalPosition.X:0.0},{resident.GlobalPosition.Y:0.0},{resident.GlobalPosition.Z:0.0})|modal={player.ModalOpen}");
+                player.GlobalPosition = resident.GlobalPosition + new Vector3(12f, .1f, 0);
+                for (var i = 0; i < 40; i++) await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+            }
             GD.Print("resident-spots: done");
         }
         catch (Exception error)

@@ -115,6 +115,7 @@ public partial class AuthoredWorldDirector : Node3D
     {
         // A state held back because the player stood where its collision
         // would appear is applied as soon as they step away (STATE05).
+        StepGreetings(delta);
         StepRoutines((float)delta);
         foreach (var item in _objects.Values.Where(item => item.PendingState is not null))
         {

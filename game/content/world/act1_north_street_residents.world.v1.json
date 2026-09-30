@@ -32,7 +32,9 @@
             "yawDegrees": 210.0,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "neighbor-f",
+        "speaker": "СОСЕДКА"
       }
     },
     {
@@ -61,7 +63,9 @@
             "yawDegrees": 10.0,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД"
       }
     },
     {
@@ -90,7 +94,9 @@
             "yawDegrees": -115.0,
             "motion": "urman.anim:work-kneel"
           }
-        ]
+        ],
+        "greeting": "repair",
+        "speaker": "СОСЕД"
       }
     },
     {
@@ -119,7 +125,9 @@
             "yawDegrees": -60.0,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД"
       }
     },
     {
@@ -148,7 +156,10 @@
             "yawDegrees": -90.0,
             "motion": "urman.anim:talk-plain"
           }
-        ]
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕД",
+        "turn": false
       }
     },
     {
@@ -177,7 +188,10 @@
             "yawDegrees": 90.0,
             "motion": "urman.anim:talk-plain"
           }
-        ]
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false
       }
     },
     {
@@ -206,7 +220,9 @@
             "yawDegrees": -80.0,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД"
       }
     },
     {
@@ -235,7 +251,9 @@
             "yawDegrees": -115.0,
             "motion": "urman.anim:work-kneel"
           }
-        ]
+        ],
+        "greeting": "repair",
+        "speaker": "СОСЕД"
       }
     },
     {
@@ -264,7 +282,10 @@
             "yawDegrees": -90.0,
             "motion": "urman.anim:talk-plain"
           }
-        ]
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕД",
+        "turn": false
       }
     },
     {
@@ -293,7 +314,10 @@
             "yawDegrees": 90.0,
             "motion": "urman.anim:talk-plain"
           }
-        ]
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false
       }
     },
     {
@@ -322,7 +346,9 @@
             "yawDegrees": 80.0,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "neighbor-f",
+        "speaker": "СОСЕДКА"
       }
     },
     {
@@ -351,7 +377,9 @@
             "yawDegrees": 80.0,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД"
       }
     },
     {
@@ -380,7 +408,9 @@
             "yawDegrees": 120.0,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "neighbor-f",
+        "speaker": "СОСЕДКА"
       }
     },
     {
@@ -409,7 +439,10 @@
             "yawDegrees": -90.0,
             "motion": "urman.anim:talk-plain"
           }
-        ]
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕД",
+        "turn": false
       }
     },
     {
@@ -438,7 +471,10 @@
             "yawDegrees": 90.0,
             "motion": "urman.anim:talk-plain"
           }
-        ]
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false
       }
     },
     {
@@ -467,7 +503,9 @@
             "yawDegrees": 90.0,
             "motion": "urman.anim:work-kneel"
           }
-        ]
+        ],
+        "greeting": "repair",
+        "speaker": "СОСЕД"
       }
     },
     {
@@ -496,7 +534,9 @@
             "yawDegrees": -120.0,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД"
       }
     },
     {
@@ -525,7 +565,10 @@
             "yawDegrees": 90.0,
             "motion": "urman.anim:talk-plain"
           }
-        ]
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕД",
+        "turn": false
       }
     },
     {
@@ -554,7 +597,10 @@
             "yawDegrees": -90.0,
             "motion": "urman.anim:talk-plain"
           }
-        ]
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false
       }
     },
     {
@@ -583,7 +629,9 @@
             "yawDegrees": -60.0,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД"
       }
     },
     {
@@ -612,7 +660,9 @@
             "yawDegrees": -115.0,
             "motion": "urman.anim:work-kneel"
           }
-        ]
+        ],
+        "greeting": "repair",
+        "speaker": "СОСЕД"
       }
     },
     {
@@ -641,7 +691,10 @@
             "yawDegrees": 90.0,
             "motion": "urman.anim:talk-plain"
           }
-        ]
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕД",
+        "turn": false
       }
     },
     {
@@ -670,7 +723,10 @@
             "yawDegrees": -90.0,
             "motion": "urman.anim:talk-plain"
           }
-        ]
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false
       }
     },
     {
@@ -699,7 +755,9 @@
             "yawDegrees": 120.0,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "neighbor-f",
+        "speaker": "СОСЕДКА"
       }
     },
     {
@@ -728,7 +786,9 @@
             "yawDegrees": 100.0,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД"
       }
     },
     {
@@ -757,7 +817,9 @@
             "yawDegrees": 302.7,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "kid",
+        "speaker": "РЕБЁНОК"
       }
     },
     {
@@ -786,7 +848,9 @@
             "yawDegrees": 187.7,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "kid",
+        "speaker": "РЕБЁНОК"
       }
     },
     {
@@ -815,7 +879,9 @@
             "yawDegrees": 1.7,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "kid",
+        "speaker": "РЕБЁНОК"
       }
     },
     {
@@ -844,7 +910,9 @@
             "yawDegrees": -150.1,
             "motion": "urman.anim:idle-plain"
           }
-        ]
+        ],
+        "greeting": "neighbor-f",
+        "speaker": "СОСЕДКА"
       }
     },
     {
@@ -873,7 +941,10 @@
             "yawDegrees": -45.0,
             "motion": "urman.anim:talk-plain"
           }
-        ]
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false
       }
     },
     {
@@ -902,7 +973,10 @@
             "yawDegrees": 135.0,
             "motion": "urman.anim:talk-plain"
           }
-        ]
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false
       }
     },
     {
@@ -931,7 +1005,10 @@
             "yawDegrees": 90.0,
             "motion": "urman.anim:sit"
           }
-        ]
+        ],
+        "greeting": "elder",
+        "speaker": "СТАРИК",
+        "turn": false
       }
     },
     {
@@ -960,7 +1037,10 @@
             "yawDegrees": 90.0,
             "motion": "urman.anim:sit"
           }
-        ]
+        ],
+        "greeting": "square-woman",
+        "speaker": "СОСЕДКА",
+        "turn": false
       }
     }
   ]
