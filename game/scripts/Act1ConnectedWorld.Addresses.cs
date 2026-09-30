@@ -364,7 +364,15 @@ public partial class Act1ConnectedWorld
                 connector.ConnectorId.Contains("kara",StringComparison.Ordinal)?SettlementTravelMode.Foot|SettlementTravelMode.HorseCart:SettlementTravelMode.All);
         Road("authored/ravine-bridge-approach","urman",RavineBridgeApproach,1.8,SettlementTravelMode.Foot);
         // Tamara Gennadievna's driveway: the car may turn into the breach.
-        Road("authored/tamara-fence-approach","tukay",TamaraFenceQuest.ApproachAxis,3.2,SettlementTravelMode.All);
+        // The graph ends 1.3 m short of the fence face: its tip is where a standing
+        // body is anchored, and inside the intact panels there is no such point.
+        var driveway=TamaraFenceQuest.ApproachAxis.ToArray();
+        if(driveway.Length>1)
+        {
+            var tip=driveway[^1];var back=driveway[^2];
+            driveway[^1]=tip+(back-tip).Normalized()*Mathf.Min(1.3f,tip.DistanceTo(back)*.5f);
+        }
+        Road("authored/tamara-fence-approach","tukay",driveway,3.2,SettlementTravelMode.All);
         // The far bank's lane is its own piece of graph: the bridge span is gone.
         Road("authored/yar-lane","yar",RavineFarLane,3.2,SettlementTravelMode.All);
         Road("authored/yar-lane-south","yar",RavineFarLaneSouth,2.8,SettlementTravelMode.All);

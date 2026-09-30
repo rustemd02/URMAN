@@ -338,6 +338,7 @@ public partial class AuthoredWorldDirector : Node3D
         {
             // A complete household parcel contains empty yard and gate space.
             // Its catalogue bounding box cannot serve as a solid collision.
+            OpenYardGateway(visual);
             var faces = new List<Vector3>();
             foreach (var mesh in visual.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
             {

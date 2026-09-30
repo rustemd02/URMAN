@@ -27,9 +27,18 @@ public partial class Act1FirstPersonWalkthroughSmokeTest
         var stable = false;
         void CheckControl()
         {
+            // A native walk outlasts window focus, and the game then opens its own pause menu.
+            // Return to the window as a player would; any other modal still fails the route.
+            if (!DisplayServer.WindowIsFocused() && host.GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true } focusPause)
+            {
+                DisplayServer.WindowMoveToForeground();
+                focusPause.Resume();
+            }
             if (player.PresentationTransformRevision != revision || player.FallRecoveries != recoveries
                 || player.EdgeClamps != clamps || player.ModalOpen || player.IsCrouching)
-                throw new InvalidOperationException($"Mosque route changed ordinary standing control: {label}; point={visited}.");
+                throw new InvalidOperationException($"Mosque route changed ordinary standing control: {label}; point={visited}; "
+                    + $"revision={player.PresentationTransformRevision}/{revision} falls={player.FallRecoveries}/{recoveries} "
+                    + $"clamps={player.EdgeClamps}/{clamps} modal={player.ModalOpen} crouching={player.IsCrouching} at={player.GlobalPosition}.");
         }
         void CheckProgress()
         {

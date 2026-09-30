@@ -53,19 +53,26 @@ public partial class Act1ConnectedWorld
         SquareSign(post, new(0, 2.7f, 3.62f), "ПОЧТА", 120, new Color(.12f, .25f, .55f));
         SquareSign(post, new(.95f, 1.2f, 3.64f), "Почта ябык.\nХатлар — кибеттә,\nРазиләдә.\n\nПочта закрыта.\nПисьма — в магазине,\nу Разили.", 18, new Color(.1f, .1f, .12f), paper: true);
 
-        void Address(Node3D owner, string suffix, string number, string cadastral, float width, float depth, float apron, string role)
+        // The plate hangs on a real wall piece between openings (never over a
+        // window); `surface` names that piece so the mount check reads its triangles.
+        void Address(Node3D owner, string suffix, string number, string cadastral, float signX, string surface, float depth, float apron, string role,
+            IReadOnlyList<Vector3>? approach = null)
         {
-            var access = AddressGround(owner.ToGlobal(new Vector3(0, 0, depth * .5f + apron + 1.05f)));
-            var sign = owner.ToGlobal(new Vector3(-width * .5f + 1.6f, 1.65f, depth * .5f + .035f));
+            var access = approach is { Count: > 0 } ? approach[^1] : AddressGround(owner.ToGlobal(new Vector3(0, 0, depth * .5f + apron + 1.05f)));
+            var sign = owner.ToGlobal(new Vector3(signX, 1.65f, depth * .5f + .035f));
             var outward = owner.GlobalBasis.Z.Normalized();
             RegisterAddressedBuilding(new(owner, "act1/square/" + suffix, "BLD-SQUARE-" + suffix,
                 "PAR-SQUARE-" + suffix, "ADR-SQUARE-" + suffix, "urman", number,
-                cadastral, access, sign, outward, role));
+                cadastral, access, sign, outward, role, ApproachPath: approach, SignSurfaceName: surface));
         }
-        Address(school, "SCHOOL", "12", "URM-Q03-P0001", 28f, 11f, 1.3f, "school");
-        Address(club, "DK", "14", "URM-Q03-P0002", 18f, 14f, 3f, "culture");
-        Address(office, "OFFICE", "16", "URM-Q03-P0003", 14f, 9f, 1.3f, "office");
-        Address(post, "POST", "18", "URM-Q03-P0004", 9f, 7f, 1.3f, "post");
+        Address(school, "SCHOOL", "12", "URM-Q03-P0001", -10.885f, "Pier1Skin", 11f, 1.3f, "school");
+        // Foot of the central steps, then the portico landing before the door. Both
+        // are walked by the physical verifier; the plate is read on the portico floor.
+        var clubFoot = AddressGround(club.ToGlobal(new Vector3(0, 0, 7f + 3f + SquareStepsRun(club, 10f) + .5f)));
+        var clubLanding = club.ToGlobal(new Vector3(0, .01f, 7f + 1.5f));
+        Address(club, "DK", "14", "URM-Q03-P0002", -4.4f, "Pier1Skin", 14f, 0f, "culture", new[] { clubFoot, clubLanding });
+        Address(office, "OFFICE", "16", "URM-Q03-P0003", -4.2f, "Walls", 9f, 1.3f, "office");
+        Address(post, "POST", "18", "URM-Q03-P0004", -3.7f, "Walls", 7f, 1.3f, "post");
 
         // Where the bus used to turn: a concrete pavilion by the road.
         BuildBusPavilion(square, new(-9f, 96f));
@@ -154,7 +161,12 @@ public partial class Act1ConnectedWorld
             body.AddChild(new CollisionShape3D { Position = new(0, -plinthHeight * .5f, 0), Shape = new BoxShape3D { Size = new Vector3(width + .3f, plinthHeight, depth + .3f) } });
         }
         else
-            body.AddChild(new CollisionShape3D { Position = new(0, (wallHeight - plinthHeight) * .5f, 0), Shape = new BoxShape3D { Size = new Vector3(width + .3f, wallHeight + plinthHeight, depth + .3f) } });
+        {
+            // The plinth overhangs the walls by 15 cm; the walls themselves stand on it,
+            // so a plate on the wall face is in open air rather than inside the collider.
+            body.AddChild(new CollisionShape3D { Name = "PlinthShape", Position = new(0, -plinthHeight * .5f, 0), Shape = new BoxShape3D { Size = new Vector3(width + .3f, plinthHeight, depth + .3f) } });
+            body.AddChild(new CollisionShape3D { Name = "WallsShape", Position = new(0, wallHeight * .5f, 0), Shape = new BoxShape3D { Size = new Vector3(width, wallHeight, depth) } });
+        }
         building.AddChild(body);
         return building;
     }
@@ -213,20 +225,42 @@ public partial class Act1ConnectedWorld
         }
     }
 
+    // A tread must be deeper than the capsule's rounded toe so a standing body settles on it.
+    private const float SquareTreadDepth = .45f;
+
+    private static int SquareStepCount(Node3D building, float front, out float drop)
+    {
+        float Ground(float z)
+        {
+            var at = building.ToGlobal(new Vector3(0, 0, z));
+            return AgentBAct1HeightField.CollisionGround(at.X, at.Z);
+        }
+        drop = building.GlobalPosition.Y - Ground(front + 1.4f);
+        // Where the ground falls away the lowest tread must still start one ordinary
+        // riser above the ground at the foot of the flight, not above the ground at its head.
+        for (var pass = 0; pass < 3 && drop >= .02f; pass++)
+        {
+            var count = Mathf.Clamp(Mathf.CeilToInt(drop / .17f), 1, 10);
+            drop = Mathf.Max(drop, building.GlobalPosition.Y - Ground(front + count * SquareTreadDepth + .2f));
+        }
+        return drop < .02f ? 0 : Mathf.Clamp(Mathf.CeilToInt(drop / .17f), 1, 10);
+    }
+
+    /// <summary>Horizontal run of the steps that <see cref="SquareSteps"/> builds from `front`.</summary>
+    private static float SquareStepsRun(Node3D building, float front) => SquareStepCount(building, front, out _) * SquareTreadDepth;
+
     // Solid steps from the door sill down to the real ground in front of it.
     private static void SquareSteps(Node3D building, float front, float width)
     {
-        var outside = building.ToGlobal(new Vector3(0, 0, front + 1.4f));
-        var drop = building.GlobalPosition.Y - AgentBAct1HeightField.CollisionGround(outside.X, outside.Z);
-        if (drop < .02f) return;
-        var count = Mathf.Clamp(Mathf.CeilToInt(drop / .17f), 1, 10);
+        var count = SquareStepCount(building, front, out var drop);
+        if (count == 0) return;
         var stone = PainterlyMaterialLibrary.ForColor("8c877d", "stone_foundation");
         var body = new StaticBody3D { Name = "SquareStepsBody", CollisionLayer = 2, CollisionMask = 0 };
         building.AddChild(body);
         for (var i = 0; i < count; i++)
         {
             var top = -drop + (i + 1) * drop / count;
-            var depth = .34f * (count - i);
+            var depth = SquareTreadDepth * (count - i);
             var height = top + drop + .3f;
             var size = new Vector3(width, height, depth);
             var at = new Vector3(0, top - height * .5f, front + depth * .5f);
@@ -369,7 +403,7 @@ public partial class Act1ConnectedWorld
         foreach(var building in buildings)
         {
             var depth=building.Name.ToString() switch { "OldSchool"=>11f,"HouseOfCulture"=>14f,"SovkhozOffice"=>9f,_=>7f };
-            var apron=building.Name.ToString()=="HouseOfCulture" ? 4.4f : 1.7f;
+            var apron=building.Name.ToString()=="HouseOfCulture" ? 3f+SquareStepsRun(building,10f)+.5f : 1.7f;
             var target=building.ToGlobal(new Vector3(0,0,depth*.5f+apron));
             var direction=(new Vector2(target.X,target.Z)-centre).Normalized();
             // A short broad ramp bridges the level platform to its downhill

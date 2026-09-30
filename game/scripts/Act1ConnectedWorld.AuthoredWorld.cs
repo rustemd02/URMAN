@@ -43,7 +43,12 @@ public partial class Act1ConnectedWorld
             }
             var access = AddressGround(accessOwner + outward * .72f);
             root.SetMeta("addressAccessOwner", gates.Length == 2 ? "actual street gate" : "actual dwelling door");
-            var mount = AddressFacadeMount.TryFind(root, door, outward, this, out var sign, out var signOutward, out var owner, out var failure);
+            Vector3 sign = default, signOutward = default; string owner = "", failure = "";
+            // Behind a street gate the plate belongs on the gate itself, readable from the street;
+            // the house facade stays the fallback when the gate offers no free rail or post.
+            var mount = false;
+            if (gates.Length == 2 && AddressFacadeMount.TryFindOnOwnYardFence(root, accessOwner, outward, this, out sign, out owner, out failure)) { mount = true; signOutward = outward; }
+            if (!mount) mount = AddressFacadeMount.TryFind(root, door, outward, this, out sign, out signOutward, out owner, out failure);
             root.SetMeta("addressSignMountAvailable", mount);
             root.SetMeta("addressSignMountOwner", owner);
             root.SetMeta("addressSignMountFailure", failure);

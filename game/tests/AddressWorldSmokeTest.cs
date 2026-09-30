@@ -25,6 +25,18 @@ public partial class AddressWorldSmokeTest : Node
     private bool _auditRun=true;
     private string _scope="full";
 
+    /// <summary>The game pauses itself when its window loses focus. These native walks run for minutes
+    /// while other applications take focus, so the fixture resumes as a player returning to the window
+    /// would; the pause is otherwise untouched and remains covered by its own tests.</summary>
+    public override void _Process(double delta)
+    {
+        if(GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi{IsOpen:true} pause)
+        {
+            DisplayServer.WindowMoveToForeground();
+            pause.Resume();
+        }
+    }
+
     public override async void _Ready()
     {
         var exit=1;
@@ -42,7 +54,14 @@ public partial class AddressWorldSmokeTest : Node
             AddChild(_demo);
             await Frames(8);
             Require(await this.StartThroughMainMenuAsync(_demo),"ordinary New Game starts");
-            _demo._UnhandledInput(new InputEventKey{Keycode=Key.E,PhysicalKeycode=Key.E,Pressed=true});
+            // The ordinary game opens with the forest prologue; the production skip input
+            // hands over to the village before any address fixture is placed.
+            DisplayServer.WindowMoveToForeground();
+            _demo._Input(new InputEventAction{Action="ui_cancel",Pressed=true});
+            for(var frame=0;frame<600&&_demo.PrologueActive;frame++)await Frames(1);
+            await Frames(8);
+            Require(!_demo.PrologueActive&&!_demo.IntroVisible,"production skip input completes the prologue transition");
+            for(var frame=0;frame<300&&_demo.MainMenuVisible;frame++)await Frames(1);
             await Frames(8);
             _world=_demo.DemoMain.ConnectedWorld??throw new InvalidOperationException("The ordinary world was not created.");
             _player=_demo.DemoMain.GetNode<FirstPersonController>("Player");
@@ -71,6 +90,7 @@ public partial class AddressWorldSmokeTest : Node
                     foreach(var id in selectedIds)
                     {
                         var sign=Descendants(_world).OfType<AddressSignVisualComponent>().Single(n=>n.AddressId==id);
+                        GD.Print($"address-world: {id} start prologue={_demo.PrologueActive} intro={_demo.IntroVisible} menu={_demo.MainMenuVisible} modal={_player.ModalOpen} zone={_bridge.CurrentZoneId} at={_player.GlobalPosition}");
                         RecordMount(sign,registry);
                         var accessId=registry.Addresses[id].AccessId;
                         var advances=await ProbeSelectedAccess(suspendedAudit,accessId,Time.GetTicksMsec());
@@ -84,18 +104,31 @@ public partial class AddressWorldSmokeTest : Node
                             Require(access.State=="verified",id+": a physical route is required before walking");
                             var road=registry.Graph.Roads["access/"+accessId];
                             var readPoint=Act1ConnectedWorld.AddressGround(sign.GlobalPosition+sign.GlobalBasis.Z.Normalized()*.75f);
-                            var points=road.Points.Select(V).Append(readPoint).ToArray();
+                            // A plate above a raised portico is read from that floor, not from the terrain below it.
+                            {
+                                var above=sign.GlobalPosition+sign.GlobalBasis.Z.Normalized()*.75f;
+                                using var floorRay=PhysicsRayQueryParameters3D.Create(above,above-Vector3.Up*3f,3);
+                                floorRay.Exclude=new global::Godot.Collections.Array<Rid>{_player.GetRid()};
+                                var floorHit=_player.GetWorld3D().DirectSpaceState.IntersectRay(floorRay);
+                                if(floorHit.Count>0&&floorHit["normal"].AsVector3().Y>.7f)readPoint=floorHit["position"].AsVector3()+Vector3.Up*.035f;
+                            }
+                            var roadPoints=road.Points.Select(V).ToList();
+                            var yardLeg=await PlanYardLegAsync(roadPoints[^1],readPoint);
+                            _checks.Add(new{kind="yard-leg-plan",addressId=id,from=P(roadPoints[^1]),to=P(readPoint),found=yardLeg is not null,waypoints=yardLeg?.Count??0});
+                            var points=roadPoints.Concat(yardLeg??[readPoint]).ToArray();
                             using(var support=new AddressWalkProbe(_world))
                             {
                                 Require(support.TrySupport(points[0],out var roadStart),id+": road fixture has actual support");
                                 _player.ApplyZoneSpawn(roadStart,0);
                             }
                             await Frames(6);
+                            await RestoreControlsAsync();
                             var arrival=await Act1FirstPersonWalkthroughSmokeTest.FollowMosqueRouteAsync(this,_player,_bridge,
                                 points,"address/"+id+"/read-approach",row=>_checks.Add(row));
                             Require(arrival.VisitedPoints==points.Length&&arrival.StableLanding,
                                 id+": controller walks the published door path and final segment to the plate");
                             await ReadNotebookSaveLoad(id,id+"_");
+                            await RestoreControlsAsync();
                             var returned=await Act1FirstPersonWalkthroughSmokeTest.FollowMosqueRouteAsync(this,_player,_bridge,
                                 points.Reverse().ToArray(),"address/"+id+"/return-to-road",row=>_checks.Add(row));
                             Require(returned.VisitedPoints==points.Length&&returned.StableLanding,
@@ -253,6 +286,22 @@ public partial class AddressWorldSmokeTest : Node
             GD.Print("address-world: "+(exit==0?"PASS":"FAIL")+"; scope="+_scope+"; "+_checks.Count+" checks; native diagnostics, not a human search or duration measurement");
             GetTree().Quit(exit);
         }
+    }
+
+    /// <summary>A long physical search can outlast the window's focus; the game then opens its own
+    /// pause menu. That is ordinary behaviour, so the fixture closes it the way a player would
+    /// (bring the window forward, press cancel) instead of walking a route under a modal.</summary>
+    private async Task RestoreControlsAsync()
+    {
+        for(var attempt=0;attempt<4&&_player.ModalOpen;attempt++)
+        {
+            DisplayServer.WindowMoveToForeground();
+            if(GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi{IsOpen:true} pause)pause.Resume();
+            await Frames(20);
+        }
+        if(_player.ModalOpen)GD.Print("address-world: modal "+_player.ModalDiagnostic+" ui="+string.Join(",",_demo!.GetChildren().OfType<CanvasLayer>().Where(l=>l.Visible).Select(l=>l.Name))
+            +" pause="+(GetTree().GetFirstNodeInGroup("pause_menu")?.Name??"none")+" blocks="+_bridge.CapturePlayTimeBlocks());
+        Require(!_player.ModalOpen,"ordinary player controls are available before the route");
     }
 
     private object AssemblyIdentity()

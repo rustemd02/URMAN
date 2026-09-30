@@ -16,6 +16,7 @@ internal static class AddressFacadeMount
     // door-side wall, under the eave, toward the corner - not a random centre.
     // MountTop caps the target so tall public walls keep a readable plate.
     internal const float MountHeight=1.9f, MountLow=1.6f, MountHigh=3.2f, MountTop=2.85f;
+    internal const string FenceMountSuffix=" (parcel fence mount)";
     internal sealed record Triangle(Vector2 A,Vector2 B,Vector2 C);
     internal sealed record Coverage(bool Supported,double MissingArea,string Owner,string Reason,bool TimberCladding=false);
     private sealed record Face(Vector3 A,Vector3 B,Vector3 C,string Owner);
@@ -160,6 +161,9 @@ internal static class AddressFacadeMount
     internal static Coverage Inspect(Node3D building,Vector3 point,Vector3 outward,Node3D world,string? explicitExteriorWall=null)
     {
         outward=outward.Normalized();var right=new Vector3(outward.Z,0,-outward.X);
+        if(explicitExteriorWall is null&&building.HasMeta("addressSignMountOwner")
+            &&building.GetMeta("addressSignMountOwner").AsString() is { } mountOwner&&mountOwner.EndsWith(FenceMountSuffix,StringComparison.Ordinal))
+            return InspectOwnMember(world,mountOwner[..^FenceMountSuffix.Length],point,outward,right);
         var center=new Vector2(point.Dot(right),point.Y);
         foreach(var plane in Planes(building,outward,right,explicitExteriorWall).Where(p=>point.Dot(outward)-p.Depth is >=.001f and <=.321f)
             .OrderByDescending(p=>p.Depth))
@@ -249,12 +253,14 @@ internal static class AddressFacadeMount
     }
     private static List<Plane> Planes(Node3D building,Vector3 outward,Vector3 right,string? explicitExteriorWall=null)
     {
-        // These two names are exterior walls in author_rural_dwelling, not
-        // interior room dividers. Explicit selection still checks actual faces,
+        // The first two names are exterior walls in author_rural_dwelling; Pier1Skin is the
+        // outer skin of the civic square's hollow front walls and Walls the solid shells of
+        // the office and post. None is an interior room divider.
+        // Explicit selection still checks actual faces,
         // openings, fasteners and every foreground obstruction. Default policy
         // and the three-metre height limit are unchanged.
         if(explicitExteriorWall is not null && explicitExteriorWall is not
-            ("DwellingFacade_Right_Wall_LOD0" or "DwellingFacade_SeniOuter_Wall_LOD0"))
+            ("DwellingFacade_Right_Wall_LOD0" or "DwellingFacade_SeniOuter_Wall_LOD0" or "Pier1Skin" or "Walls"))
             throw new ArgumentException("Unverified explicit exterior facade: "+explicitExteriorWall);
         var planes=new List<Plane>();
         foreach(var mesh in Descendants(building).OfType<MeshInstance3D>().Where(m=>m.IsVisibleInTree()&&m.Mesh is not null
@@ -277,12 +283,21 @@ internal static class AddressFacadeMount
     /// A fence picket field is slats with gaps, so only solid rails and
     /// posts qualify — never the picket field itself.</summary>
     private static bool TryFindOnParcelFence(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure)
+        =>TryFindOnParcelFence(building,door,outward,world,out point,out owner,out failure,ownMembersOnly:false);
+
+    /// <summary>A yard whose street gate is the entrance carries its plate on that gate's own
+    /// posts and rails, where a passer-by in the street can read it. Only members of this
+    /// household are considered, never a neighbour's fence.</summary>
+    internal static bool TryFindOnOwnYardFence(Node3D building,Vector3 gate,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure)
+        =>TryFindOnParcelFence(building,gate,outward,world,out point,out owner,out failure,ownMembersOnly:true);
+
+    private static bool TryFindOnParcelFence(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,bool ownMembersOnly)
     {
         point=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
         var right=new Vector3(outward.Z,0,-outward.X);
         var parcelTop=building.GetParent();
         var pickets=new List<(MeshInstance3D Mesh,string Owner)>();
-        foreach(var scope in new[]{building,parcelTop}.Where(n=>n is not null))
+        foreach(var scope in (ownMembersOnly?new[]{building}:new[]{building,parcelTop}).Where(n=>n is not null))
             foreach(var mesh in Descendants(scope!).OfType<MeshInstance3D>().Where(m=>m.Mesh is not null&&m.IsVisibleInTree()))
             {
                 var name=mesh.Name.ToString();
@@ -323,9 +338,12 @@ internal static class AddressFacadeMount
             var groundY=Act1ConnectedWorld.AddressGround(new Vector3((minA+maxA)*.5f*right.X,0,(minA+maxA)*.5f*right.Z)+outward*depth).Y;
             var wantY=Math.Max(minY+.25f,groundY+1.35f);
             if(wantY+HalfHeight>Math.Min(maxY,groundY+2.2f))continue;
-            foreach(var t in new[]{.25f,.5f,.75f})
+            var memberTriangles=ownMembersOnly?MemberTriangles(faces,outward,right,depth):null;
+            foreach(var t in ownMembersOnly?new[]{.2f,.35f,.5f,.65f,.8f}:new[]{.25f,.5f,.75f})
             {
                 var a=minA+(maxA-minA)*t;
+                // A gate plate must lie wholly on the member's own face: no overhang past a post.
+                if(memberTriangles is not null&&!Cover(memberTriangles,new(a,wantY)).Supported)continue;
                 var p=right*a+Vector3.Up*wantY+outward*(depth+.021f);
                 var toDoor=new Vector2(p.X-door.X,p.Z-door.Z).Length();
                 if(toDoor>9f)continue;
@@ -342,11 +360,49 @@ internal static class AddressFacadeMount
             {
                 refusals[occluder]=refusals.GetValueOrDefault(occluder)+1;continue;
             }
-            point=candidate.Point;owner=candidate.Owner+" (parcel fence mount)";return true;
+            point=candidate.Point;owner=candidate.Owner+FenceMountSuffix;return true;
         }
         failure="fence candidates occluded: "+string.Join("; ",refusals.OrderByDescending(r=>r.Value).Take(2).Select(r=>r.Key+" ("+r.Value+")"));
         return false;
     }
+    private static List<Triangle> MemberTriangles(IEnumerable<Face> faces,Vector3 outward,Vector3 right,float depth)
+    {
+        var result=new List<Triangle>();
+        foreach(var f in faces)
+        {
+            if(Math.Abs(new[]{f.A,f.B,f.C}.Average(p=>p.Dot(outward))-depth)>.006f)continue;
+            result.Add(new(new(f.A.Dot(right),f.A.Y),new(f.B.Dot(right),f.B.Y),new(f.C.Dot(right),f.C.Y)));
+        }
+        return result;
+    }
+
+    /// <summary>Verifies a plate recorded as mounted on a household's own gate or fence member:
+    /// the plate rectangle must lie wholly on that member's street-facing plane, 1 mm to 9 cm proud,
+    /// with a clear exterior sightline.</summary>
+    private static Coverage InspectOwnMember(Node3D world,string ownerPath,Vector3 point,Vector3 outward,Vector3 right)
+    {
+        if(world.GetNodeOrNull<MeshInstance3D>(ownerPath) is not { Mesh: not null } mesh)
+            return new(false,4*HalfWidth*HalfHeight,ownerPath,"recorded fence member is missing");
+        var raw=mesh.Mesh.GetFaces();var faces=new List<Face>();
+        for(var i=0;i+2<raw.Length;i+=3)
+        {
+            var a=mesh.GlobalTransform*raw[i];var b=mesh.GlobalTransform*raw[i+1];var c=mesh.GlobalTransform*raw[i+2];
+            if(Math.Abs((b-a).Cross(c-a).Normalized().Dot(outward))<.9f)continue;
+            faces.Add(new(a,b,c,ownerPath));
+        }
+        var center=new Vector2(point.Dot(right),point.Y);
+        foreach(var depth in faces.Select(f=>new[]{f.A,f.B,f.C}.Average(p=>p.Dot(outward))).Distinct().OrderByDescending(d=>d))
+        {
+            var gap=point.Dot(outward)-depth;
+            if(gap is <.001f or >.09f)continue;
+            var covered=Cover(MemberTriangles(faces,outward,right,depth),center);
+            if(!covered.Supported)continue;
+            var obstruction=Occluder(VisibleFaces(world,new Aabb(point-Vector3.One*4.2f,Vector3.One*8.4f)),point,outward,right);
+            return new(obstruction is null,covered.MissingArea,ownerPath,obstruction is null?"complete gate member and exterior sightline":"occluded by "+obstruction);
+        }
+        return new(false,4*HalfWidth*HalfHeight,ownerPath,"plate is not wholly on the recorded fence member");
+    }
+
     /// <summary>The house's own cladding in front of the wall plane (hewn log
     /// courses, casings) is presentation geometry the occluder ignores; a plate
     /// on the plane behind it would be buried. Move the plate onto the
