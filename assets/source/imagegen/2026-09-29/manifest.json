@@ -262,6 +262,20 @@
       "uv_contract": "Await the exact current outfit atlas and supplied real UV layout; no character atlas was invented.",
       "surface_scale": "Pending current outfit UV layout.",
       "visual_check": "Not generated or reviewed."
+    },
+    {
+      "request_ids": [
+        "TX29-16"
+      ],
+      "status": "awaiting_surface_selection",
+      "file": null,
+      "prompt": null,
+      "tool": "not invoked",
+      "size": "No new bitmap generated",
+      "purpose": "Current inventory already provides blue clinic linoleum (B04) and painted timber floor (W09). A beige institutional linoleum, parquet, or tile finish has no selected receiver yet.",
+      "uv_contract": "Wait for the actual floor receiver and selected finish. Do not assign B04 to wooden floors; public shop/school floors are currently inventoried as timber.",
+      "surface_scale": "Pending finish and receiver UV audit; request nominal is metric 1m.",
+      "visual_check": "No new image generated or reviewed because the target finish/receiver is not selected. Existing B04 and W09 are reuse candidates, not duplicates to regenerate."
     }
   ]
 }
