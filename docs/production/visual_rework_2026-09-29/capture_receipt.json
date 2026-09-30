@@ -1,0 +1,45 @@
+{
+  "date": "2026-09-30",
+  "renderer": "Forward+ / Metal, Apple M1",
+  "captures": [
+    {
+      "file": "docs/production/visual_rework_2026-09-29/captures/north_street.png",
+      "sha256": "c394a219e71bc687c8141b0c370f192ee9bb10fd8d0d25d4144241f1d9ce3c01",
+      "origin_run": "r4",
+      "note": "actual native frame viewed; development camera, no human artistic acceptance"
+    },
+    {
+      "file": "docs/production/visual_rework_2026-09-29/captures/old_layout.png",
+      "sha256": "27b7716117505f28eab02b052cce8f3fe46ab6193812e0334d0b970a88defe9f",
+      "origin_run": "r2",
+      "note": "actual native frame viewed; development camera, no human artistic acceptance"
+    },
+    {
+      "file": "docs/production/visual_rework_2026-09-29/captures/hall_chairs.png",
+      "sha256": "0030cf759b7c0880214514f705faf4997ad1dfc84e869a7eb9dafcf95ec51f4b",
+      "origin_run": "r3",
+      "note": "actual native frame viewed; development camera, no human artistic acceptance"
+    },
+    {
+      "file": "docs/production/visual_rework_2026-09-29/captures/new_layout.png",
+      "sha256": "da55cd75f99f342dbf5d7ba9ae6cb2dff80c5ee898dda8e56b05c53ca8c5a80c",
+      "origin_run": "r4",
+      "note": "actual native frame viewed; development camera, no human artistic acceptance"
+    },
+    {
+      "file": "docs/production/visual_rework_2026-09-29/captures/school_desks.png",
+      "sha256": "cc4df08dd39e532263718b76728a5a5ba46af171b208b656ef11e10d892f65f9",
+      "origin_run": "r3",
+      "note": "actual native frame viewed; development camera, no human artistic acceptance"
+    },
+    {
+      "file": "docs/production/visual_rework_2026-09-29/captures/square.png",
+      "sha256": "330c89b03f8c0548f6b3bb7f1dec698fbb79c74e3dd518d2b8e8a60a938da555",
+      "origin_run": "r4",
+      "note": "actual native frame viewed; development camera, no human artistic acceptance"
+    }
+  ],
+  "r4_observations": "4319/9908/4678 draw calls and 16.7ms at three camera points; individual frames, not stable FPS",
+  "guards": "r2/r3/r4 restored and verified",
+  "rejected": "r2 school_desks/hall_chairs duplicate square; excluded"
+}

@@ -1902,7 +1902,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     x + stagger + rng.RandfRange(-1.1f, 1.1f),
                     z + rng.RandfRange(-1.1f, 1.1f));
                 if (InsideArrivalClosureKeepOut(candidate)
-                    || AgentBAct1Layout.InsideSquareBuildingClearance(candidate))
+                    || AgentBAct1Layout.InsideSquareBuildingClearance(candidate)
+                    || AgentBAct1HeightField.InsideHouseholdClearance(candidate))
                 {
                     continue;
                 }
@@ -2096,7 +2097,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     // East edge sits past the ravine's far bank: the second half of the
     // village stands between the ravine and the ring (author, 2026-09-25).
-    internal static readonly Vector2 ForestRingInnerMax = new(88f, 216f);
+    internal static readonly Vector2 ForestRingInnerMax = new(88f, AgentBAct1HeightField.MaxZ);
 
     /// <summary>Ring depth in metres: how far the forest runs past the envelope.</summary>
     internal const float ForestRingDepth = 30.4f;
@@ -2459,27 +2460,16 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         return ImageTexture.CreateFromImage(image);
     }
 
-    private static QuadMesh CreateSnowflakeMesh()
-    {
-        // Soft round flake facing the camera; unshaded so it stays a light
-        // value against dark winter geometry without any glow.
-        var quad = new QuadMesh { Size = new Vector2(0.075f, 0.075f) };
-        quad.Material = new StandardMaterial3D
-        {
-            AlbedoColor = new Color(0.93f, 0.95f, 0.98f, 0.62f),
-            AlbedoTexture = new GradientTexture2D
-            {
-                Width = 32, Height = 32, Fill = GradientTexture2D.FillEnum.Radial,
-                FillFrom = new(.5f, .5f), FillTo = new(.5f, 1f),
-                Gradient = new Gradient { Colors = [Colors.White, new Color(1, 1, 1, 0)], Offsets = [0, 1] }
-            },
-            Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
-            ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
-            BillboardMode = BaseMaterial3D.BillboardModeEnum.Enabled,
-            CullMode = BaseMaterial3D.CullModeEnum.Disabled
-        };
-        return quad;
-    }
+    private static QuadMesh CreateSnowflakeMesh() => WinterParticleSurfaces.Snow(.044f, .58f);
+
+    private readonly List<(Node3D Owner, Vector3 Centre, Vector3 Half)> _weatherShelters = new();
+    public void RegisterWeatherShelter(Node3D owner, Vector3 centre, Vector3 half)
+        => _weatherShelters.Add((owner, centre, half));
+    private bool WeatherSheltered(Vector3 point)
+        => _weatherShelters.Any(shelter => GodotObject.IsInstanceValid(shelter.Owner)
+            && Inside(shelter.Owner.ToLocal(point) - shelter.Centre, shelter.Half));
+    private static bool Inside(Vector3 p, Vector3 h)
+        => Mathf.Abs(p.X) < h.X && Mathf.Abs(p.Y) < h.Y && Mathf.Abs(p.Z) < h.Z;
 
     public override void _Process(double delta)
     {
@@ -2492,6 +2482,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var focus = camera?.GlobalPosition ?? GlobalPosition;
         if (_rain is not null)
         {
+            _rain.Visible = !WeatherSheltered(focus);
             _rain.GlobalPosition = focus + (_openingBlizzard ? new Vector3(6f, 2f, 0f) : new Vector3(0f, 6f, 0f));
             // Rain thickens toward the Kara-Urman forest edge while retaining
             // enough village particles for a readable near/mid/far weather layer.

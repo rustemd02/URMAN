@@ -87,7 +87,14 @@ public static class KitPlacementTakeover
 
         var parameters = entity.GetProperty("params");
         var position = AuthoredWorldPlot.ToVector3(parameters.GetProperty("position"));
-        placement.GlobalPosition = new Vector3(position.X, placement.GlobalPosition.Y, position.Z);
+        var height = placement.GlobalPosition.Y;
+        if (parameters.TryGetProperty("groundingReferenceXZ", out var reference))
+        {
+            var point = reference.EnumerateArray().Select(value => value.GetSingle()).ToArray();
+            height += (float)(Urman.Experiments.AgentBAct1.AgentBAct1HeightField.Ground(position.X, position.Z)
+                - Urman.Experiments.AgentBAct1.AgentBAct1HeightField.Ground(point[0], point[1]));
+        }
+        placement.GlobalPosition = new Vector3(position.X, height, position.Z);
         placement.RotationDegrees = new Vector3(0f, parameters.GetProperty("yawDegrees").GetSingle(), 0f);
         placement.Scale = AuthoredWorldPlot.ToVector3(parameters.GetProperty("scale"));
         if (parameters.TryGetProperty("hidden", out var hidden) && hidden.GetBoolean())

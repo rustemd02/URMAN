@@ -258,6 +258,12 @@ public partial class AuthoredWorldDirector : Node3D
                   && !name.Contains("LOD1", StringComparison.Ordinal) && !name.Contains("LOD2", StringComparison.Ordinal) && !name.EndsWith("-col", StringComparison.Ordinal);
             if (!matches) continue;
             var transform = new Transform3D(correction, Vector3.Zero) * (top == instance ? child.Transform : top.Transform * child.Transform);
+            void ClearSourceOwner(Node node)
+            {
+                node.Owner = null;
+                foreach (var member in node.GetChildren()) ClearSourceOwner(member);
+            }
+            ClearSourceOwner(child);
             top.RemoveChild(child);
             holder.AddChild(child);
             child.Transform = transform;
@@ -327,7 +333,25 @@ public partial class AuthoredWorldDirector : Node3D
         var catalogId = (string)item.Root.GetMeta("catalogId");
         var size = ReadVector(_catalog[catalogId], "size") * visual.Scale.X;
         var body = new StaticBody3D { Name = "Collision", CollisionLayer = 1u, CollisionMask = 0u };
-        body.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = size }, Position = new Vector3(0, size.Y / 2, 0) });
+        if (item.Params.TryGetProperty("collision", out var policy) && policy.GetString() == "surfaces")
+        {
+            // A complete household parcel contains empty yard and gate space.
+            // Its catalogue bounding box cannot serve as a solid collision.
+            var faces = new List<Vector3>();
+            foreach (var mesh in visual.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
+            {
+                if (mesh.Mesh is null || !mesh.IsVisibleInTree()) continue;
+                var name = mesh.Name.ToString();
+                if (new[] { "_Moss_", "_Sedge_", "_Shrub_", "_Branch_" }.Any(name.Contains)) continue;
+                var relative = item.Root.GlobalTransform.AffineInverse() * mesh.GlobalTransform;
+                faces.AddRange(mesh.Mesh.GetFaces().Select(vertex => relative * vertex));
+            }
+            if (faces.Count == 0) throw new InvalidOperationException("Surface collision has no visible source faces: " + item.Id);
+            body.AddChild(new CollisionShape3D { Shape = new ConcavePolygonShape3D { Data = faces.ToArray() } });
+            body.SetMeta("collisionPolicy", "actual static source triangles; open yard and gate spaces remain empty");
+            body.SetMeta("sourceTriangleCount", faces.Count / 3);
+        }
+        else body.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = size }, Position = new Vector3(0, size.Y / 2, 0) });
         item.Root.AddChild(body);
         item.Body = body;
         item.BodyLayer = body.CollisionLayer;

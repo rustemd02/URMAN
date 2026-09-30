@@ -349,6 +349,8 @@ public partial class Act1ConnectedWorld
         Road("authored/fap-axis","urman",AgentBAct1Layout.FapBranchAxis,4.6,SettlementTravelMode.All);
         Road("authored/east-street-axis","urman",AgentBAct1Layout.EastStreetAxis,4.0,SettlementTravelMode.All);
         Road("authored/west-spur-axis","tukay",AgentBAct1Layout.WestSpurAxis,3.5,SettlementTravelMode.Foot|SettlementTravelMode.HorseCart);
+        Road("authored/north-east-street-axis","urman",AgentBAct1Layout.NorthEastStreetAxis,3.5,SettlementTravelMode.All);
+        Road("authored/west-service-axis","tukay",AgentBAct1Layout.WestServiceAxis,3.5,SettlementTravelMode.All);
         Road("authored/square-ring-axis","urman",AgentBAct1Layout.SquareRingAxis,4.8,SettlementTravelMode.All);
         Road("authored/zirat-axis","tukay",AgentBAct1Layout.ZiratRoadAxis,4.2,SettlementTravelMode.All);
         Road("authored/kara-axis","",AgentBAct1Layout.KaraRoadAxis,3.5,SettlementTravelMode.Foot|SettlementTravelMode.HorseCart);
@@ -472,6 +474,7 @@ public partial class Act1ConnectedWorld
         AddressGraphAttachmentFrame=Engine.GetPhysicsFrames();
         SetMeta("addressGraphAttachmentFrame",(long)AddressGraphAttachmentFrame);
         SetMeta("addressGraphAttachmentCount",++_addressGraphAttachmentCount);
+        RefreshVerifiedWinterFootpaths();
     }
     internal static Vector3 AddressGround(Vector3 p)=>new(p.X,AgentBAct1HeightField.CollisionGround(p.X,p.Z)+.035f,p.Z);
     internal static SettlementPoint AddressPoint(Vector3 p)=>new(p.X,p.Y,p.Z);

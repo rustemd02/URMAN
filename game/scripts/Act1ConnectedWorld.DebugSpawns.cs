@@ -21,7 +21,15 @@ public partial class Act1ConnectedWorld
         spawn = default;
         if (zoneId == "village_day")
         {
-            // Shop, school and council: the measured spot outside their own
+            if (spawnPointId == "school" && _squareSchool is not null)
+            {
+                var outside = _squareSchool.ToGlobal(new Vector3(0, 0, 9f));
+                outside.Y = Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(outside.X, outside.Z) + .035f;
+                var archiveDoor = _squareSchool.ToGlobal(new Vector3(0, 1.2f, 5.6f));
+                spawn = new(outside, YawTowards(archiveDoor - outside));
+                return true;
+            }
+            // Shop, school annex and council: the measured spot outside their own
             // entrance, turned to face that entrance.
             var room = _publicBuildings.FirstOrDefault(building => building.Id == spawnPointId);
             if (room is not null)

@@ -5,20 +5,19 @@ namespace Urman.Godot;
 
 public partial class Act1ConnectedWorld
 {
-    // Village expansion, square slice (plan 2026-09-29, ТЗ04 R072/R159): the
-    // former sovkhoz centre around the ring at (0.5, 186). Babai's tour says
-    // the big school once had two hundred children, the post office is shut
-    // and letters come with Razilya's bread, and the whole village gathers
-    // here once a year for Sabantuy. Exterior architecture only: doors are
-    // shut, no interior is promised. The working school, the council and the
-    // shop keep their existing addresses in the old street.
-    private static readonly Vector3 SquareRingCentre = new(.5f, 0, 186f);
+    // Civic square is surrounded by old and new inhabited quarters. School and
+    // DK have real interiors; office/post are closed. All transforms and terrain
+    // clearances move together with the connected road and prologue route.
+    private static readonly Vector3 SquareRingCentre = new(AgentBAct1Layout.CivicCentre.X, 0, AgentBAct1Layout.CivicCentre.Y);
+    // The former central school owns the village's school archive and its
+    // existing document IDs. The small school building remains a later annex.
+    private Node3D? _squareSchool;
 
     private void BuildSovkhozSquare(Node3D core)
     {
         var square = new Node3D { Name = "SovkhozSquare" };
         square.SetMeta("presentationOwner", nameof(Act1ConnectedWorld));
-        square.SetMeta("scope", "exterior only; closed doors; see docs/production/act1_village_expansion_plan_2026-09-29.md");
+        square.SetMeta("scope", "central civic square; school/archive and DK enterable; housing continues north and south");
         core.AddChild(square);
 
         var plaster = PainterlyMaterialLibrary.ForColor("d9cdb4", "plaster");
@@ -26,36 +25,57 @@ public partial class Act1ConnectedWorld
         var trim = PainterlyMaterialLibrary.ForColor("eeeae0", "wood_painted_trim");
 
         // Old two-storey school: long, many windows, upper floor partly boarded.
-        var school = SquareBuilding(square, "OldSchool", new(-3f, 204f), 28f, 11f, 3.4f, 2, PainterlyMaterialLibrary.ForColor("e2d6b8", "plaster"), roofPitch: 16f, hollow: true);
+        var school = SquareBuilding(square, "OldSchool", new(-2f, 138f), 28f, 11f, 3.4f, 2, PainterlyMaterialLibrary.ForColor("e2d6b8", "plaster"), roofPitch: 16f, hollow: true);
+        _squareSchool = school;
+        SquareWeatherShelter(school, new(0, 3.4f, 0), new(13.65f, 3.4f, 5.15f));
         SquarePorch(school, 11f, 3.2f, trim, open: true);
         BuildSchoolInterior(school, PainterlyMaterialLibrary.ForColor("e2d6b8", "plaster"), PainterlyMaterialLibrary.ForColor("eeeae0", "wood_painted_trim"));
         SquareSign(school, new(0, 3.95f, 5.6f), "КАРА-УРМАН УРТА МӘКТӘБЕ\nКАРА-УРМАНСКАЯ СРЕДНЯЯ ШКОЛА", 62, new Color(.15f, .18f, .28f));
-        SquareSign(school, new(-6.5f, 1.35f, 5.58f), "1974", 44, new Color(.35f, .3f, .25f), plate: false);
 
         // House of culture: a tall hall behind a four-column portico and pediment.
-        var club = SquareBuilding(square, "HouseOfCulture", new(25f, 188f), 18f, 14f, 6.8f, 1, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), roofPitch: 12f, hollow: true);
+        var club = SquareBuilding(square, "HouseOfCulture", new(-26f, 111f), 18f, 14f, 6.8f, 1, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), roofPitch: 12f, hollow: true);
+        SquareWeatherShelter(club, new(0, 3.4f, 0), new(8.65f, 3.4f, 6.65f));
         SquarePortico(club, 18f, 14f, 6.8f, trim, open: true);
         BuildClubInterior(club, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), PainterlyMaterialLibrary.ForColor("eeeae0", "wood_painted_trim"));
         SquareSign(club, new(0, 7.35f, 9.35f), "МӘДӘНИЯТ ЙОРТЫ\nДОМ КУЛЬТУРЫ", 54, new Color(.55f, .12f, .1f), plate: false);
         SquarePoster(club, new(-6.2f, 1.6f, 7.03f), "САБАНТУЙ\nиюнь");
 
         // Former sovkhoz office: two storeys, brick, a faded plaque.
-        var office = SquareBuilding(square, "SovkhozOffice", new(-23f, 190f), 14f, 9f, 3.2f, 2, brick, roofPitch: 22f);
+        var office = SquareBuilding(square, "SovkhozOffice", new(25f, 112f), 14f, 9f, 3.2f, 2, brick, roofPitch: 22f);
         SquareWindows(office, 14f, 9f, 3.2f, 2, 5, trim, lit: index => index == 0);
         SquarePorch(office, 9f, 2.6f, trim);
         SquareSign(office, new(2.9f, 2.2f, 4.58f), "«КАРА УРМАН» СОВХОЗЫ\nИДАРӘСЕ · КОНТОРА", 30, new Color(.15f, .15f, .15f));
 
         // The closed post office: boarded door and a note about letters.
-        var post = SquareBuilding(square, "PostOffice", new(22f, 205f), 9f, 7f, 3.1f, 1, PainterlyMaterialLibrary.ForColor("aebfcf", "wood_painted_blue"), roofPitch: 28f);
+        var post = SquareBuilding(square, "PostOffice", new(-32.5f, 140f), 9f, 7f, 3.1f, 1, PainterlyMaterialLibrary.ForColor("aebfcf", "wood_painted_blue"), roofPitch: 28f);
         SquareWindows(post, 9f, 7f, 3.1f, 1, 2, trim, lit: _ => false, boarded: (_, _) => true);
         SquarePorch(post, 7f, 2.3f, trim, boardedDoor: true);
         SquareSign(post, new(0, 2.7f, 3.62f), "ПОЧТА", 120, new Color(.12f, .25f, .55f));
         SquareSign(post, new(.95f, 1.2f, 3.64f), "Почта ябык.\nХатлар — кибеттә,\nРазиләдә.\n\nПочта закрыта.\nПисьма — в магазине,\nу Разили.", 18, new Color(.1f, .1f, .12f), paper: true);
 
+        void Address(Node3D owner, string suffix, string number, string cadastral, float width, float depth, float apron, string role)
+        {
+            var access = AddressGround(owner.ToGlobal(new Vector3(0, 0, depth * .5f + apron + 1.05f)));
+            var sign = owner.ToGlobal(new Vector3(-width * .5f + 1.6f, 1.65f, depth * .5f + .035f));
+            var outward = owner.GlobalBasis.Z.Normalized();
+            RegisterAddressedBuilding(new(owner, "act1/square/" + suffix, "BLD-SQUARE-" + suffix,
+                "PAR-SQUARE-" + suffix, "ADR-SQUARE-" + suffix, "urman", number,
+                cadastral, access, sign, outward, role));
+        }
+        Address(school, "SCHOOL", "12", "URM-Q03-P0001", 28f, 11f, 1.3f, "school");
+        Address(club, "DK", "14", "URM-Q03-P0002", 18f, 14f, 3f, "culture");
+        Address(office, "OFFICE", "16", "URM-Q03-P0003", 14f, 9f, 1.3f, "office");
+        Address(post, "POST", "18", "URM-Q03-P0004", 9f, 7f, 1.3f, "post");
+
         // Where the bus used to turn: a concrete pavilion by the road.
-        BuildBusPavilion(square, new(-9f, 176f));
+        BuildBusPavilion(square, new(-9f, 96f));
         BuildSabantuyPole(square);
+        BuildNorthWinterRoads(core);
     }
+
+    private void SquareWeatherShelter(Node3D owner, Vector3 centre, Vector3 half)
+        => GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld")
+            .RegisterWeatherShelter(owner, centre, half);
 
     private Node3D SquareBuilding(Node3D square, string name, Vector2 centre, float width, float depth, float floorHeight,
         int floors, Material walls, float roofPitch, bool hollow = false)
@@ -260,18 +280,19 @@ public partial class Act1ConnectedWorld
         var ground = AgentBAct1HeightField.CollisionGround(at.X, at.Y);
         var pavilion = new Node3D { Name = "OldBusPavilion", Position = new Vector3(at.X, ground, at.Y), RotationDegrees = new Vector3(0, 90, 0) };
         square.AddChild(pavilion);
-        var concrete = PainterlyMaterialLibrary.ForColor("a7a39a", "stone");
-        Box(pavilion, "Back", new(4.4f, 2.5f, .2f), new(0, 1.25f, -.9f), concrete);
-        Box(pavilion, "Roof", new(4.8f, .2f, 2.1f), new(0, 2.6f, -.2f), concrete);
+        var concrete = RuralPropMaterials.Surface("concrete");
+        RuralPropGeometry.Block(pavilion, "Back", new(4.4f, 2.5f, .2f), new(0, 1.25f, -.9f), concrete, .025f);
+        RuralPropGeometry.Block(pavilion, "Roof", new(4.8f, .2f, 2.1f), new(0, 2.6f, -.2f), concrete, .025f);
         Box(pavilion, "RoofSnow", new(4.8f, .14f, 2.1f), new(0, 2.77f, -.2f), PainterlyMaterialLibrary.ForColor("e6ebef", "snow_roof"));
         foreach (var side in new[] { -2.1f, 2.1f })
-            Box(pavilion, $"Side{side}", new(.2f, 2.5f, 1.4f), new(side, 1.25f, -.35f), concrete);
-        Box(pavilion, "Bench", new(3.4f, .08f, .4f), new(0, .45f, -.6f), PainterlyMaterialLibrary.ForColor("6b5846", "wood"));
+            RuralPropGeometry.Block(pavilion, $"Side{side}", new(.2f, 2.5f, 1.4f), new(side, 1.25f, -.35f), concrete, .025f);
+        RuralPropModels.Bench(pavilion, "Bench", new(0, 0, -.53f), 0, 3.4f, false);
         // A faded mosaic of a wheat sheaf and a sun on the back wall.
         Box(pavilion, "MosaicSun", new(.7f, .7f, .03f), new(1.1f, 1.8f, -.79f), PainterlyMaterialLibrary.ForColor("c9953f", "stone"), new Vector3(0, 0, 45));
         Box(pavilion, "MosaicSheaf", new(.35f, 1.1f, .03f), new(-.8f, 1.5f, -.79f), PainterlyMaterialLibrary.ForColor("b58b3a", "stone"));
-        pavilion.AddChild(new Label3D { Text = "Автобус соңгы тапкыр: 2014\nПоследний рейс: 2014", Position = new Vector3(0, 2.2f, -.78f), FontSize = 22, PixelSize = .005f, Modulate = new Color(.2f, .2f, .22f), OutlineSize = 0 });
+        pavilion.AddChild(new Label3D { Text = "Автобус — борылышта\nАвтобус — у поворота", Position = new Vector3(0, 2.2f, -.78f), FontSize = 22, PixelSize = .005f, Modulate = new Color(.2f, .2f, .22f), OutlineSize = 0 });
         var body = new StaticBody3D();
+        body.AddChild(new CollisionShape3D { Name = "BenchSeatContact", Position = new(0, .46f, -.53f), Shape = new BoxShape3D { Size = new(3.4f, .04f, .405f) } });
         body.AddChild(new CollisionShape3D { Position = new(0, 1.25f, -.9f), Shape = new BoxShape3D { Size = new Vector3(4.4f, 2.5f, .2f) } });
         foreach (var side in new[] { -2.1f, 2.1f })
             body.AddChild(new CollisionShape3D { Position = new(side, 1.25f, -.35f), Shape = new BoxShape3D { Size = new Vector3(.2f, 2.5f, 1.4f) } });

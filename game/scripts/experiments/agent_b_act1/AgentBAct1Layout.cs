@@ -14,6 +14,8 @@ namespace Urman.Experiments.AgentBAct1;
 public static class AgentBAct1Layout
 {
     public const float EyeHeight = 1.7f;
+    // Public centre between inhabited quarters; the street continues behind school.
+    public static readonly Vector2 CivicCentre = new(.5f, 114f);
 
     // ---- Terrain envelope -------------------------------------------------
     public const float TerrainMinX = -64f;
@@ -24,43 +26,82 @@ public static class AgentBAct1Layout
     // ---- Main road spline control points (x, z), crown width ~5.6 m -------
     public static readonly Vector2[] MainRoadAxis = new[]
     {
-        new Vector2(0.5f, 179.5f), // centre square, south entry of the ring road (village expansion)
-        new Vector2(2.2f, 172f),   // road climbs the north fields
-        new Vector2(-1.5f, 148f),
-        new Vector2(-3f, 118f),
+        new Vector2(-23f, 218f),
+        new Vector2(-23f, 195f),
+        new Vector2(-23f, 175f),
+        new Vector2(-23f, 158f),
+        new Vector2(-23f, 143f),
+        new Vector2(-19f, 127f),
+        new Vector2(-8f, 114f),
+        new Vector2(0.5f, 105.5f),
         new Vector2(-1.4f, 88f),
+        new Vector2(-0.1f, 75f),
         new Vector2(1.2f, 62f),
-        new Vector2(0f, 40f),      // north gate of the old street (was the off-map tail)
-        new Vector2(0f, 9f),       // arrival spawn
-        new Vector2(-0.6f, -1.5f), // village entrance pinch
-        new Vector2(-1.2f, -8f),   // main street
-        new Vector2(0f, -19f),     // main street end / returns begin
-        new Vector2(-1f, -30f),    // return street
-        new Vector2(0f, -41.5f),   // return street mid
-        new Vector2(-0.4f, -53.5f) // zirat roadside
+        new Vector2(0f, 40f),
+        new Vector2(0f, 9f),
+        new Vector2(-0.6f, -1.5f),
+        new Vector2(-1.2f, -8f),
+        new Vector2(0f, -19f),
+        new Vector2(-1f, -30f),
+        new Vector2(0f, -41.5f),
+        new Vector2(-0.4f, -53.5f),
     };
 
     // Lower street: leaves the main street at the first bend and ends at the
     // ravine lookout (width 4.0 m).
     public static readonly Vector2[] EastStreetAxis = new[]
     {
-        new Vector2(-3f, 118f), new Vector2(10f, 115.5f), new Vector2(24f, 118f),
-        new Vector2(38f, 116.5f), new Vector2(41f, 116f)
+        new Vector2(-0.3f, 75f),
+        new Vector2(12f, 73.5f),
+        new Vector2(25f, 75f),
+        new Vector2(39f, 74f),
+        new Vector2(41f, 74f),
     };
 
     // West spur: a short lane to three western yards (width 3.5 m).
     public static readonly Vector2[] WestSpurAxis = new[]
     {
-        new Vector2(-1.5f, 148f), new Vector2(-14f, 150.5f), new Vector2(-26f, 149f),
-        new Vector2(-36f, 151.5f)
+        new Vector2(-23f, 175f),
+        new Vector2(-30f, 178f),
+        new Vector2(-40f, 177f),
+        new Vector2(-44f, 178f),
     };
 
     // Ring road round the open square (width 4.8 m); starts and ends at the south entry.
     public static readonly Vector2[] SquareRingAxis = new[]
     {
-        new Vector2(0.5f, 179.5f), new Vector2(3.75f, 180.37f), new Vector2(6.13f, 182.75f), new Vector2(7.0f, 186.0f), new Vector2(6.13f, 189.25f), new Vector2(3.75f, 191.63f), new Vector2(0.5f, 192.5f), new Vector2(-2.75f, 191.63f), new Vector2(-5.13f, 189.25f), new Vector2(-6.0f, 186.0f), new Vector2(-5.13f, 182.75f), new Vector2(-2.75f, 180.37f), new Vector2(0.5f, 179.5f)
+        new Vector2(0.5f, 105.5f),
+        new Vector2(4.75f, 106.64f),
+        new Vector2(7.86f, 109.75f),
+        new Vector2(9f, 114f),
+        new Vector2(7.86f, 118.25f),
+        new Vector2(4.75f, 121.36f),
+        new Vector2(0.5f, 122.5f),
+        new Vector2(-3.75f, 121.36f),
+        new Vector2(-6.86f, 118.25f),
+        new Vector2(-8f, 114f),
+        new Vector2(-6.86f, 109.75f),
+        new Vector2(-3.75f, 106.64f),
+        new Vector2(0.5f, 105.5f),
     };
 
+    public static readonly Vector2[] NorthEastStreetAxis =
+    {
+        new(12.5f,151f),
+        new(20f,155f),
+        new(20f,180f),
+        new(20f,207f),
+        new(20f,229f),
+    };
+    public static readonly Vector2[] WestServiceAxis =
+    {
+        new(-42f,80f),
+        new(-41f,110f),
+        new(-43f,135f),
+        new(-39f,146f),
+        new(-30f,152f),
+        new(-23f,158f),
+    };
     // Zirat road continues at 4.2 m width.
     public static readonly Vector2[] ZiratRoadAxis = new[]
     {
@@ -147,8 +188,13 @@ public static class AgentBAct1Layout
     // tools/world/generate_north_street.py SQUARE_BUILDING_CLEARANCE.
     public static readonly (float X, float Z, float Radius)[] SquareBuildingClearance =
     {
-        (-13f, 204f, 10f), (-3f, 204f, 10f), (7f, 204f, 10f), (25f, 188f, 12f), (-23f, 190f, 9f),
-        (22f, 205f, 8f), (-9f, 176f, 4f)
+        (-12f, 138f, 10f),
+        (-2f, 138f, 10f),
+        (8f, 138f, 10f),
+        (-26f, 111f, 13f),
+        (25f, 112f, 10f),
+        (-32.5f, 140f, 8f),
+        (-9f, 96f, 4f),
     };
 
     public static bool InsideSquareBuildingClearance(Vector2 point)

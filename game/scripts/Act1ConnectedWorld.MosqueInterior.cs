@@ -625,14 +625,12 @@ public partial class Act1ConnectedWorld
 
     private void FacilityBench(Node3D parent, string name, Vector3 at, float width, float yaw)
     {
-        var bench = new Node3D { Name = name, Position = at, RotationDegrees = new(0, yaw, 0) };
-        parent.AddChild(bench);
-        for (var plank = 0; plank < 3; plank++)
-            FacilitySolid(bench, "Seat" + plank, new(width, .055f, .135f), new(0, .445f, -.145f + plank * .145f), "9c7956", "wood_furniture");
-        foreach (var x in new[] { -width * .38f, width * .38f })
-        foreach (var z in new[] { -.14f, .14f })
-            FacilitySolid(bench, $"Leg{x}_{z}", new(.065f, .42f, .07f), new(x, .21f, z), "6e5842", "wood_furniture");
-        FacilitySolid(bench, "Stretcher", new(width * .8f, .07f, .07f), new(0, .16f, 0), "6e5842", "wood_furniture");
+        var bench = RuralPropModels.Bench(parent, name, at, yaw, width, backrest: false);
+        var body = new StaticBody3D { Name = "SeatContact" };
+        body.AddChild(new CollisionShape3D { Position = new(0, .445f, 0), Shape = new BoxShape3D { Size = new(width, .075f, .425f) } });
+        bench.AddChild(body);
+        _facilityBodies.Add(body);
+
     }
 
     private void FacilityTable(Node3D parent, string name, Vector3 at, Vector3 size)
@@ -659,12 +657,12 @@ public partial class Act1ConnectedWorld
 
     private void FacilityRadiator(Node3D parent, string name, Vector3 at, float yaw)
     {
-        var radiator = new Node3D { Name = name, Position = at, RotationDegrees = new(0, yaw, 0) };
-        parent.AddChild(radiator);
-        for (var i = 0; i < 9; i++)
-            FacilitySolid(radiator, "Fin" + i, new(.072f, .53f, .135f), new(-.36f + i * .09f, 0, 0), "c4c5b7", "metal");
-        foreach (var y in new[] { -.20f, .20f }) FacilityRod(radiator, "Header" + y, new(-.48f, y, 0), new(.48f, y, 0), .025f, "b2b7ab");
-        FacilityRod(radiator, "PipeToWall", new(.46f, -.20f, 0), new(.46f, -.20f, -.29f), .02f, "a3aaa8");
+        var radiator = RuralPropModels.Radiator(parent, name, at - Vector3.Up * .3f, .86f, yaw);
+        var body = new StaticBody3D { Name = "RadiatorContact" };
+        body.AddChild(new CollisionShape3D { Position = new(0, .3f, 0), Shape = new BoxShape3D { Size = new(.88f, .55f, .15f) } });
+        radiator.AddChild(body);
+        _facilityBodies.Add(body);
+
     }
 
     private void FacilityLamp(Node3D parent, string name, Vector3 at, string color, float energy, float range)

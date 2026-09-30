@@ -153,27 +153,43 @@ public partial class Act1ConnectedWorld
         if (caption is not null) SLabel(frame, caption, new(0, -size.Y * .5f - .09f, .01f), 0, 26, new Color(.15f, .13f, .1f));
     }
 
+    // A real folded sheet with metric UVs. A textile map can be assigned to
+    // the existing material without ever baking lighting or folds into albedo.
+    private static void SCurtain(Node3D parent, string name, Vector3 centre, float width, float height, Material material)
+    {
+        const int columns = 64;
+        const int rows = 24;
+        var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        void Vertex(int x, int y)
+        {
+            var u = x / (float)columns;
+            var v = y / (float)rows;
+            var fold = Mathf.Sin(u * Mathf.Pi * 10f) * (.064f + .021f * (1 - v))
+                + Mathf.Sin(u * Mathf.Pi * 20f) * .009f;
+            var hem = Mathf.Pow(1 - v, 5) * .045f * Mathf.Pow(Mathf.Sin(u * Mathf.Pi * 5), 2);
+            surface.SetUV(new Vector2(u * width * 1.25f, v * height));
+            surface.AddVertex(new Vector3((u - .5f) * width, (v - .5f) * height + hem, fold));
+        }
+        for (var y = 0; y < rows; y++)
+        for (var x = 0; x < columns; x++)
+        {
+            Vertex(x, y); Vertex(x + 1, y); Vertex(x + 1, y + 1);
+            Vertex(x, y); Vertex(x + 1, y + 1); Vertex(x, y + 1);
+        }
+        surface.Index(); surface.GenerateNormals();
+        parent.AddChild(new MeshInstance3D { Name = name, Position = centre,
+            Mesh = surface.Commit(), MaterialOverride = material });
+    }
+
     private static void SDesk(Node3D room, StaticBody3D body, string name, Vector3 at, float yaw, float w = 1.2f, float d = .6f, float h = .74f)
     {
-        var desk = new Node3D { Name = name, Position = at, RotationDegrees = new Vector3(0, yaw, 0) };
-        room.AddChild(desk);
-        SBox(desk, null, "Top", new(w, .045f, d), new(0, h - .022f, 0), Mat("a88a63", "wood_furniture"));
-        foreach (var x in new[] { -w * .5f + .05f, w * .5f - .05f })
-        foreach (var z in new[] { -d * .5f + .05f, d * .5f - .05f })
-            SBox(desk, null, "Leg", new(.05f, h - .045f, .05f), new(x, (h - .045f) * .5f, z), Mat("6e5842", "wood_furniture"));
+        RuralPropModels.Desk(room,name,at,yaw,w,d,h);
         body.AddChild(new CollisionShape3D { Name = name + "Shape", Position = at + new Vector3(0, h * .5f, 0), RotationDegrees = new Vector3(0, yaw, 0), Shape = new BoxShape3D { Size = new(w, h, d) } });
     }
 
     private static void SChair(Node3D room, string name, Vector3 at, float yaw, string color = "8a6a48")
-    {
-        var chair = new Node3D { Name = name, Position = at, RotationDegrees = new Vector3(0, yaw, 0) };
-        room.AddChild(chair);
-        SBox(chair, null, "Seat", new(.42f, .04f, .42f), new(0, .45f, 0), Mat(color, "wood_furniture"));
-        SBox(chair, null, "Back", new(.42f, .4f, .035f), new(0, .68f, -.2f), Mat(color, "wood_furniture"));
-        foreach (var x in new[] { -.18f, .18f })
-        foreach (var z in new[] { -.18f, .18f })
-            SBox(chair, null, "Leg", new(.035f, .43f, .035f), new(x, .215f, z), Mat("6e5842", "wood_furniture"));
-    }
+        => RuralPropModels.Chair(room,name,at,yaw);
 
     private static void SShelf(Node3D room, StaticBody3D body, string name, Vector3 at, float yaw, float w, float h, float d = .32f, string[]? spines = null)
     {

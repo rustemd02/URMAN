@@ -4,6 +4,27 @@
   "sourceTool": "Blender 4.5 LTS",
   "assets": [
     {
+      "id": "model.rural.realism.shared.20260929",
+      "source": "game/scripts/RuralPropGeometry.cs; game/scripts/RuralPropModels.cs",
+      "derived": "Runtime cached metre-scale ArrayMesh; furniture and tea props",
+      "generator": "Project-authored Godot C# meshes; no generated illustration",
+      "license": "Project-original",
+      "scale": 1,
+      "triangleBudget": "family-specific; shared cached mesh and auditorium MultiMesh; performance review pending",
+      "textureBudget": 1024,
+      "materials": [
+        "inspected selected ImageGen plywood/velvet/enamel/laminate/zinc/ceramic/earthenware/concrete/chalkboard",
+        "existing W08/T01/T04/M05",
+        "brass/rubber pending worker"
+      ],
+      "materialOwner": "RuralPropMaterials; per-kind roughness, metallic and metric UV",
+      "collision": "caller-owned contact proxies; ordinary traversal regression required",
+      "lod": "shared mesh; distance LOD pending",
+      "qa": "C# build and initial native near captures; final current-run receipt under docs/production/visual_rework_2026-09-29/README.md",
+      "status": "integrated candidate; named bitmap production resumed; current capture/LOD/performance/art review open",
+      "releaseDisposition": "MVP furniture replacements; no claim all primitive families completed"
+    },
+    {
       "id": "texture.painterly.b07.v02",
       "source": "ImageGen built-in, 2026-09-22; exec-0aea5211-11d9-4c15-90e9-b00c8a1049a0.png; exact initial/edit prompts in game/assets/textures/painterly/README.md (B07)",
       "derived": "game/assets/textures/painterly/urman_b07_v02_basecolor.png",
@@ -3176,6 +3197,204 @@
       "qa": "GLB v2 structure, embedded image, four materials and triangle count inspected; Blender render visually inspected; Godot import, scene placement and native-speaker review not run",
       "status": "static-model-candidate; engine-and-language-review-pending",
       "releaseDisposition": "standalone asset; scene placement pending"
+    },
+    {
+      "id": "texture.rural.realism.plywood.20260930",
+      "source": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "derived": "game/assets/textures/realism_20260929/birch_plywood_varnished_v1_basecolor.png",
+      "derivedSha256": "27efa99c785e23e3ce28a89b5de2379339c6e914f64e9dbb710061c5ec699481",
+      "generator": "OpenAI built-in ImageGen; model ID not exposed",
+      "license": "Project generated",
+      "units": "meters",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "uv": 0.5,
+      "roughness": 0.48,
+      "metallic": 0,
+      "requests": [
+        "TX29-09",
+        "TX29-10"
+      ],
+      "consumer": "RuralPropMaterials.Surface(plywood); actual metric mesh UV",
+      "qa": "source viewed; game receiver review pending, no human acceptance"
+    },
+    {
+      "id": "texture.rural.realism.velvet.20260930",
+      "source": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "derived": "game/assets/textures/realism_20260929/burgundy_stage_velvet_v1_basecolor.png",
+      "derivedSha256": "a07844477147927a41da5c2f33b8967b052c64c7a6643de9e99ab32557049d47",
+      "generator": "OpenAI built-in ImageGen; model ID not exposed",
+      "license": "Project generated",
+      "units": "meters",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "uv": 0.5,
+      "roughness": 0.97,
+      "metallic": 0,
+      "requests": [
+        "TX29-13",
+        "TX29-14"
+      ],
+      "consumer": "RuralPropMaterials.Surface(velvet); actual metric mesh UV",
+      "qa": "source viewed; game receiver review pending, no human acceptance"
+    },
+    {
+      "id": "texture.rural.realism.steel.20260930",
+      "source": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "derived": "game/assets/textures/realism_20260929/painted_steel_enamel_v1_basecolor.png",
+      "derivedSha256": "b3e51ca2d1ba8c2db18ed6ed6541e4093da17793cc49318640bcb57693303fe2",
+      "generator": "OpenAI built-in ImageGen; model ID not exposed",
+      "license": "Project generated",
+      "units": "meters",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "uv": 0.5,
+      "roughness": 0.45,
+      "metallic": 0,
+      "requests": [
+        "TX29-08",
+        "TX29-09",
+        "TX29-10",
+        "TX29-12"
+      ],
+      "consumer": "RuralPropMaterials.Surface(steel); actual metric mesh UV",
+      "qa": "source viewed; game receiver review pending, no human acceptance"
+    },
+    {
+      "id": "texture.rural.realism.laminate.20260930",
+      "source": "assets/source/imagegen/2026-09-29/school_laminate_beige_v1_basecolor.png",
+      "derived": "game/assets/textures/realism_20260929/school_laminate_beige_source_v1_basecolor.png",
+      "derivedSha256": "d9ecd589101d853f2d785284f8e2206bd41da7b4d30fca7c78ff85ac24a48425",
+      "generator": "OpenAI built-in ImageGen; model ID not exposed",
+      "license": "Project generated",
+      "units": "meters",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "uv": 1,
+      "roughness": 0.4,
+      "metallic": 0,
+      "requests": [
+        "TX29-09"
+      ],
+      "consumer": "RuralPropMaterials.Surface(laminate); actual metric mesh UV",
+      "qa": "source viewed; game receiver review pending, no human acceptance"
+    },
+    {
+      "id": "texture.rural.realism.ceramic.20260930",
+      "source": "assets/source/imagegen/2026-09-29/glazed_ceramic_cream_v1_basecolor.png",
+      "derived": "game/assets/textures/realism_20260929/glazed_ceramic_cream_source_v1_basecolor.png",
+      "derivedSha256": "68c36f276415f25a287f4a85ec7b1765059e4c42d4604ef6cb31e619ca624757",
+      "generator": "OpenAI built-in ImageGen; model ID not exposed",
+      "license": "Project generated",
+      "units": "meters",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "uv": 0.5,
+      "roughness": 0.28,
+      "metallic": 0,
+      "requests": [
+        "TX29-19"
+      ],
+      "consumer": "RuralPropMaterials.Surface(ceramic); actual metric mesh UV",
+      "qa": "source viewed; game receiver review pending, no human acceptance"
+    },
+    {
+      "id": "texture.rural.realism.earthenware.20260930",
+      "source": "assets/source/imagegen/2026-09-29/unglazed_earthenware_v1_basecolor.png",
+      "derived": "game/assets/textures/realism_20260929/unglazed_earthenware_source_v1_basecolor.png",
+      "derivedSha256": "312d6457da248ca89d2d7e0b992841350981d5ec09fd9c81d896936b044c6da4",
+      "generator": "OpenAI built-in ImageGen; model ID not exposed",
+      "license": "Project generated",
+      "units": "meters",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "uv": 0.5,
+      "roughness": 0.9,
+      "metallic": 0,
+      "requests": [
+        "TX29-19"
+      ],
+      "consumer": "RuralPropMaterials.Surface(earthenware); actual metric mesh UV",
+      "qa": "source viewed; game receiver review pending, no human acceptance"
+    },
+    {
+      "id": "texture.rural.realism.metal.20260930",
+      "source": "assets/source/imagegen/2026-09-29/galvanized_zinc_v1_basecolor.png",
+      "derived": "game/assets/textures/realism_20260929/galvanized_zinc_source_v1_basecolor.png",
+      "derivedSha256": "899c9a9a2384ae43c70b5640e2d381712ea0e1af2210ce405f3b347d265546d7",
+      "generator": "OpenAI built-in ImageGen; model ID not exposed",
+      "license": "Project generated",
+      "units": "meters",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "uv": 0.5,
+      "roughness": 0.58,
+      "metallic": 1,
+      "requests": [
+        "TX29-09",
+        "TX29-10",
+        "TX29-11",
+        "TX29-12"
+      ],
+      "consumer": "RuralPropMaterials.Surface(metal); actual metric mesh UV",
+      "qa": "source viewed; game receiver review pending, no human acceptance"
+    },
+    {
+      "id": "texture.rural.realism.concrete.20260930",
+      "source": "assets/source/imagegen/2026-09-29/public_concrete_v1_basecolor.png",
+      "derived": "game/assets/textures/realism_20260929/public_concrete_source_v1_basecolor.png",
+      "derivedSha256": "009f68a751b497fe4b20f6a6ee63a9108c393bc902e64243c707a3fd2886f1f5",
+      "generator": "OpenAI built-in ImageGen; model ID not exposed",
+      "license": "Project generated",
+      "units": "meters",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "uv": 1,
+      "roughness": 0.9,
+      "metallic": 0,
+      "requests": [
+        "TX29-06",
+        "TX29-11"
+      ],
+      "consumer": "RuralPropMaterials.Surface(concrete); actual metric mesh UV",
+      "qa": "source viewed; game receiver review pending, no human acceptance"
+    },
+    {
+      "id": "texture.rural.realism.chalkboard.20260930",
+      "source": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "derived": "game/assets/textures/realism_20260929/school_green_chalkboard_v1_basecolor.png",
+      "derivedSha256": "5f6d7ed56c4f5c7cff9e1e1a6e7dfb2235df7a6d132106c7a30fb7a409f0bc24",
+      "generator": "OpenAI built-in ImageGen; model ID not exposed",
+      "license": "Project generated",
+      "units": "meters",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "uv": "one complete board face",
+      "roughness": 0.9,
+      "metallic": 0,
+      "requests": [
+        "TX29-11"
+      ],
+      "consumer": "BuildClassroom/Chalkboard: full unique bitmap on 3.1x1.1 m quad, backing thickness and tray separate",
+      "qa": "source viewed; game receiver review pending, no human acceptance"
     }
   ]
 }

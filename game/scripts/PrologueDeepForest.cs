@@ -518,7 +518,9 @@ public partial class PrologueDeepForest : Node3D
             EmissionShape = CpuParticles3D.EmissionShapeEnum.Sphere, EmissionSphereRadius = .5f,
             Direction = Vector3.Up, Spread = 70f, InitialVelocityMin = .6f, InitialVelocityMax = 1.8f,
             Gravity = new Vector3(.3f, -1.6f, 0), LocalCoords = false,
-            Mesh = new QuadMesh { Size = new Vector2(.05f, .05f), Material = new StandardMaterial3D { ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded, AlbedoColor = new Color(.93f, .95f, 1f, .9f), Transparency = BaseMaterial3D.TransparencyEnum.Alpha, BillboardMode = BaseMaterial3D.BillboardModeEnum.Enabled } }
+            Mesh = WinterParticleSurfaces.Snow(.06f, .65f),
+            ColorRamp = WinterParticleSurfaces.Fade(),
+            ScaleAmountMin = .35f, ScaleAmountMax = 1.2f
         };
         AddChild(puff);
         puff.GlobalPosition = at;
@@ -545,17 +547,9 @@ public partial class PrologueDeepForest : Node3D
             ScaleAmountMin = .6f,
             ScaleAmountMax = 1.3f,
             LocalCoords = false,
-            Mesh = new QuadMesh
-            {
-                Size = new Vector2(.035f, .035f),
-                Material = new StandardMaterial3D
-                {
-                    ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
-                    AlbedoColor = new Color(.92f, .94f, 1f, .85f),
-                    Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
-                    BillboardMode = BaseMaterial3D.BillboardModeEnum.Enabled
-                }
-            }
+            Mesh = WinterParticleSurfaces.Snow(.042f, .65f),
+            ColorRamp = WinterParticleSurfaces.Fade(),
+            LifetimeRandomness = .35f, Randomness = .4f
         };
         AddChild(snow);
         Snowfall = snow;

@@ -1,0 +1,2357 @@
+{
+  "passed": true,
+  "checks": 199,
+  "measuredWalkingMetres": 71.81239,
+  "fixture": "ordinary NewGame; one explicit supported exterior setup per existing public building; all entrances/returns use controller input",
+  "humanPlaytime": "external/not-run",
+  "visualCulturalAcceptance": "external/not-run",
+  "events": [
+    {
+      "kind": "check",
+      "label": "ordinary New Game",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "production skip input completes the prologue transition",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "three public rooms are in the ordinary connected world",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W1: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W1: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W1: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-M-W1",
+      "access": "(-9.728501, -0.25133714, 77.282005)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E1: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E1: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E1: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-M-E1",
+      "access": "(9.441001, -0.32498083, 92.728)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W3: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W3: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W3: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-M-W3",
+      "access": "(-35.817, 1.2342105, 160.057)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E3: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E3: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E3: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-M-E3",
+      "access": "(-6.8715, 0.0009476729, 167.71799)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E3B: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E3B: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E3B: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-M-E3B",
+      "access": "(-11.183001, 0.41966102, 179.943)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W4: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W4: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W4: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-M-W4",
+      "access": "(-33.510998, 1.4801, 188.272)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E4: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E4: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E4: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-M-E4",
+      "access": "(-11.871501, 0.3168849, 192.71799)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W4B: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W4B: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W4B: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-M-W4B",
+      "access": "(-33.1285, 0.32461807, 200.78201)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E4B: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E4B: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E4B: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-M-E4B",
+      "access": "(-11.183001, 0.1515709, 206.443)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W5: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W5: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-W5: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-M-W5",
+      "access": "(-33.817, 1.0663831, 214.057)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E5: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E5: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-M-E5: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-M-E5",
+      "access": "(-11.488999, 1.0646423, 218.728)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-E-S1: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-E-S1: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-E-S1: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-E-S1",
+      "access": "(36.727997, 0.058893353, 66.489)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-E-N1: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-E-N1: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-E-N1: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-E-N1",
+      "access": "(31.057, 0.022776477, 83.81699)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-W-N1: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-W-N1: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-W-N1: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-W-N1",
+      "access": "(-47.1285, 1.5992659, 122.282005)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-W-N2: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-W-N2: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-W-N2: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-W-N2",
+      "access": "(-47.510998, 1.4918429, 89.272)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E1: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E1: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E1: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-N-E1",
+      "access": "(27.817, 0.0054117627, 165.943)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E1B: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E1B: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E1B: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-N-E1B",
+      "access": "(27.1285, -0.29920238, 178.71799)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E2: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E2: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E2: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-N-E2",
+      "access": "(27.511002, -0.37571558, 189.728)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E2B: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E2B: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E2B: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-N-E2B",
+      "access": "(27.817, -0.39535925, 203.943)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E3: full household retains its explicit address binding",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E3: empty yard is preserved by actual source-triangle contact",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "ADR-NS-N-E3: actual street-gate approach fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "north-household-binding",
+      "id": "ADR-NS-N-E3",
+      "access": "(27.1285, -0.099508986, 216.71799)",
+      "accessStandingFit": true,
+      "accessState": "pending-physics",
+      "gateRoute": "physical verifier owns acceptance; binding alone is not a route PASS"
+    },
+    {
+      "kind": "check",
+      "label": "north quarter: all 20 complete households have stable bindings",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central square: SCHOOL is addressed",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central square: DK is addressed",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central square: OFFICE is addressed",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central square: POST is addressed",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "requested public building exists",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: exterior fixture fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "central school: real treads and entrance aperture",
+      "from": "(-1.0675452, -0.43359262, 129.04843)",
+      "goal": "(-1.5700347, 0.24105597, 133.87233)",
+      "final": "(-1.5617188, 0.20638824, 133.79248)",
+      "remaining": 0.08028111,
+      "support": true,
+      "stepsClimbed": 8,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/SquareBuildingBody",
+          "point": "(-1.5617188, 0.20605597, 133.79248)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "central school: real treads and entrance aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: real treads and entrance aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: registry recognises the archive interior",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "central school: corridor to class photograph",
+      "from": "(-1.5617188, 0.20638824, 133.79248)",
+      "goal": "(4.7955236, 0.24105597, 134.53542)",
+      "final": "(4.713857, 0.20638824, 134.52588)",
+      "remaining": 0.08222142,
+      "support": true,
+      "stepsClimbed": 8,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/SquareBuildingBody",
+          "point": "(4.713857, 0.20605597, 134.52588)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "central school: corridor to class photograph: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: corridor to class photograph: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: original class-photo document is physically readable at its new owner",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school_class_photo_Source: a real photograph texture is bound",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school_class_photo_Source: published image provenance and aspect ratio are preserved",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "central school: corridor to staff-room aperture",
+      "from": "(4.713857, 0.20638824, 134.52588)",
+      "goal": "(9.370768, 0.24105597, 135.012)",
+      "final": "(9.293124, 0.20638824, 135.00388)",
+      "remaining": 0.078066595,
+      "support": true,
+      "stepsClimbed": 8,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/SquareBuildingBody",
+          "point": "(9.293124, 0.20605597, 135.00388)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "central school: corridor to staff-room aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: corridor to staff-room aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "central school: enter staff room through real opening",
+      "from": "(9.293124, 0.20638824, 135.00388)",
+      "goal": "(9.106572, 0.24105597, 137.54828)",
+      "final": "(9.111832, 0.20638824, 137.47656)",
+      "remaining": 0.07190891,
+      "support": true,
+      "stepsClimbed": 8,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/SquareBuildingBody",
+          "point": "(9.111832, 0.20605597, 137.47656)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "central school: enter staff room through real opening: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: enter staff room through real opening: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "central school: approach the staff desk",
+      "from": "(9.111832, 0.20638824, 137.47656)",
+      "goal": "(8.373041, 0.24105597, 141.6946)",
+      "final": "(8.38594, 0.20638824, 141.62096)",
+      "remaining": 0.07476002,
+      "support": true,
+      "stepsClimbed": 8,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/SquareBuildingBody",
+          "point": "(8.38594, 0.20605597, 141.62096)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "central school: approach the staff desk: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: approach the staff desk: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: original staff-note document is physically readable from the desk aisle",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: archive traversal used controller input without corrective teleport",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: actual interior save/load",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: load keeps supported interior position",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "central school: return along staff-room aisle",
+      "from": "(8.38594, 0.20638824, 141.62096)",
+      "goal": "(9.106572, 0.24105597, 137.54828)",
+      "final": "(9.091902, 0.20638824, 137.6312)",
+      "remaining": 0.08420407,
+      "support": true,
+      "stepsClimbed": 8,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/SquareBuildingBody",
+          "point": "(9.091902, 0.20605597, 137.6312)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "central school: return along staff-room aisle: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: return along staff-room aisle: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "central school: return to corridor",
+      "from": "(9.091902, 0.20638824, 137.6312)",
+      "goal": "(9.370768, 0.24105597, 135.012)",
+      "final": "(9.361884, 0.20638824, 135.09544)",
+      "remaining": 0.08392182,
+      "support": true,
+      "stepsClimbed": 8,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/SquareBuildingBody",
+          "point": "(9.361884, 0.20605597, 135.09544)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "central school: return to corridor: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: return to corridor: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "central school: corridor to entrance",
+      "from": "(9.361884, 0.20638824, 135.09544)",
+      "goal": "(-1.5700347, 0.24105597, 133.87233)",
+      "final": "(-1.4928772, 0.20638824, 133.88098)",
+      "remaining": 0.07764104,
+      "support": true,
+      "stepsClimbed": 8,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/SquareBuildingBody",
+          "point": "(-1.4928772, 0.20605597, 133.88098)",
+          "normal": "(0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "central school: corridor to entrance: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: corridor to entrance: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "central school: descend treads to the square",
+      "from": "(-1.4928772, 0.20638824, 133.88098)",
+      "goal": "(-1.0675452, -0.39882308, 129.04843)",
+      "final": "(-1.073732, -0.4342257, 129.11987)",
+      "remaining": 0.07170904,
+      "support": true,
+      "stepsClimbed": 8,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "point": "(-1.0816902, -0.43481955, 129.1127)",
+          "normal": "(0.022689084, 0.9995336, 0.020443914)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "central school: descend treads to the square: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: descend treads to the square: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "central school: ordinary return reaches the square",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: the measured exterior bank has an explicit occupied-room cut",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: only the identified single-surface bank is cut with its original material",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: the cut boundary lies inside the existing wall thickness",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: the timber floor top retains the existing room height",
+      "passed": true
+    },
+    {
+      "kind": "school-exterior-bank-cut",
+      "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat",
+      "room": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom",
+      "halfSize": "(2.5154998, 2.3804996)",
+      "wallThickness": 0.17999999,
+      "triangleSource": "SurfaceGetArrays with published indices",
+      "originalTriangles": 148,
+      "publishedTriangles": 162,
+      "originalArea": 293.8134631064551,
+      "removedArea": 17.667568324268863,
+      "publishedArea": 276.1458755231569,
+      "insideArea": 8.699451345691178E-07,
+      "exteriorTriangles": 128,
+      "missingExterior": 0,
+      "offOriginalPlane": 0,
+      "changedExteriorAttributes": 0,
+      "floorY": -0.0049708784,
+      "limit": "published mesh geometry and material; actual floor appearance is captured with the same camera pixel probes"
+    },
+    {
+      "kind": "check",
+      "label": "school: published bank has no area inside the room cut and preserves the complete exterior area",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: unchanged exterior triangles, normals, UVs and all clipped source planes are retained",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: measured exterior setup fits the standing capsule",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: setup has actual support",
+      "passed": true
+    },
+    {
+      "kind": "local-exterior-fixture",
+      "building": "school",
+      "source": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade",
+      "feet": "(35.79484, -0.41538873, -50.70583)",
+      "addressId": "ADR-H031",
+      "countsAsWalk": false
+    },
+    {
+      "kind": "check",
+      "label": "school: approaching leaves both doors closed and does not knock automatically",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: explicit entrance interaction is aimed and available",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "closed-leaf approach uses real controller movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: closed outer leaf stops the standing player",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: walking against the leaf never opens it",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: outward leaf refuses a player standing in its swept arc",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: step away from the leaf",
+      "from": "(37.11411, -0.17094103, -50.75176)",
+      "goal": "(35.79484, -0.38101372, -50.70583)",
+      "final": "(35.866463, -0.41498762, -50.708313)",
+      "remaining": 0.07166398,
+      "support": true,
+      "stepsClimbed": 10,
+      "stepRejection": "body blocked beyond riser by /root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/schoolEntranceHinge/schoolEntranceLeafBody normal (-0.9993908, 0, 0.03490087) travel (0.009512356, 0, -0.000332189) raised feet (37.11411, -0.046470895, -50.75176)",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "point": "(35.8682, -0.41543344, -50.71618)",
+          "normal": "(-0.00494399, 0.999736, 0.022438211)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: step away from the leaf: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: step away from the leaf: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "school/entrance",
+      "feet": "(35.866463, -0.41498762, -50.708313)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/schoolEntranceUse at (37.44883, 0.9913864, -50.763554)",
+      "actionNumber": 1,
+      "transformRevision": 9,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(37.11411, -0.17094103, -50.75176)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "blocked-by-full-shape-sweep",
+      "sweep": "{\u0022clear\u0022:false,\u0022sample\u0022:1,\u0022samples\u0022:88,\u0022yaw\u0022:1.5519547,\u0022size\u0022:\u0022(0.065, 1.9050001, 0.946)\u0022,\u0022pose\u0022:\u0022[X: (0.99987096, 0, -0.016064316), Y: (0, 1, 0), Z: (0.016064316, 0, 0.99987096), O: (37.497387, 0.9100291, -50.765373)]\u0022,\u0022collider\u0022:\u0022/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/Player\u0022,\u0022shapeIndex\u0022:0,\u0022shapePath\u0022:\u0022/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/Player/CollisionShape3D\u0022,\u0022authoredSourceMesh\u0022:null}"
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "school/entrance",
+      "feet": "(35.866463, -0.41498762, -50.708313)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/schoolEntranceUse at (37.38164, 1.005454, -50.761208)",
+      "actionNumber": 2,
+      "transformRevision": 9,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(35.866463, -0.41498762, -50.708313)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:1.5707964,\u0022to\u0022:-0.08726646}"
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "school/entrance",
+      "feet": "(35.866463, -0.41498762, -50.708313)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/schoolEntranceUse at (37.38164, 1.005454, -50.761208)",
+      "actionNumber": 2,
+      "transformRevision": 9,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(35.866463, -0.41498762, -50.708313)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:1.5707964,\u0022to\u0022:-0.08726646}"
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "school/entrance",
+      "open": true,
+      "player": "(35.866463, -0.41498762, -50.708313)",
+      "target": "(37.017437, 0.90402913, -51.263065)"
+    },
+    {
+      "kind": "walking",
+      "label": "school: walk up real treads and through the outer aperture",
+      "from": "(35.866463, -0.41498762, -50.708313)",
+      "goal": "(38.210365, -0.054470897, -50.790184)",
+      "final": "(38.132584, -0.054228734, -50.787468)",
+      "remaining": 0.077829085,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/SeniFloorBody",
+          "point": "(38.132584, -0.054470904, -50.787468)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: walk up real treads and through the outer aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: walk up real treads and through the outer aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: the seni has standing headroom",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school/seni: real support is level enough to stand",
+      "passed": true
+    },
+    {
+      "kind": "floor-probe",
+      "label": "school/seni",
+      "feet": "(38.132584, -0.054228734, -50.787468)",
+      "hit": "(38.132584, -0.05447091, -50.78747)",
+      "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/SeniFloorBody"
+    },
+    {
+      "kind": "check",
+      "label": "school/inner-door: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school/inner-door: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "school/inner-door",
+      "feet": "(38.132584, -0.054228734, -50.787468)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/inner-door",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/schoolInnerDoorUse at (38.512627, 1.1119872, -51.676773)",
+      "actionNumber": 0,
+      "transformRevision": 9,
+      "action": "not-called",
+      "result": "not-called",
+      "sweep": "not-called"
+    },
+    {
+      "kind": "check",
+      "label": "school/inner-door: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "school/inner-door",
+      "feet": "(38.132584, -0.054228734, -50.787468)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/inner-door",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/schoolInnerDoorUse at (38.553417, 1.0417076, -51.772232)",
+      "actionNumber": 1,
+      "transformRevision": 9,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/inner-door\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(38.132584, -0.054228734, -50.787468)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:94,\u0022from\u0022:0,\u0022to\u0022:-1.6580628}"
+    },
+    {
+      "kind": "check",
+      "label": "school/inner-door: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "school/inner-door",
+      "feet": "(38.132584, -0.054228734, -50.787468)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/inner-door",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/schoolInnerDoorUse at (38.553417, 1.0417076, -51.772232)",
+      "actionNumber": 1,
+      "transformRevision": 9,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/inner-door\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(38.132584, -0.054228734, -50.787468)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:94,\u0022from\u0022:0,\u0022to\u0022:-1.6580628}"
+    },
+    {
+      "kind": "check",
+      "label": "school/inner-door: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "school/inner-door",
+      "open": true,
+      "player": "(38.132584, -0.054228734, -50.787468)",
+      "target": "(39.251755, 0.94677913, -52.2665)"
+    },
+    {
+      "kind": "fixed-aperture-approach",
+      "building": "school",
+      "actualApertureGoal": "(38.75004, -0.054470897, -50.80903)",
+      "formerMovingTargetGoal": "(39.30198, -0.054470897, -50.8283)",
+      "fixedGoalFits": true,
+      "movingTargetGoalFits": false
+    },
+    {
+      "kind": "walking",
+      "label": "school: align within existing seni",
+      "from": "(38.132584, -0.054228734, -50.787468)",
+      "goal": "(38.75004, -0.054470897, -50.80903)",
+      "final": "(38.670578, -0.054228734, -50.806255)",
+      "remaining": 0.07950853,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/SeniFloorBody",
+          "point": "(38.670578, -0.054470904, -50.806255)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: align within existing seni: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: align within existing seni: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: cross the actual main-wall aperture",
+      "from": "(38.670578, -0.054228734, -50.806255)",
+      "goal": "(38.703636, -0.0049708784, -52.137722)",
+      "final": "(38.701683, -0.0047371276, -52.05853)",
+      "remaining": 0.079217196,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloorBody",
+          "point": "(38.701683, -0.00497088, -52.05853)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: cross the actual main-wall aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: cross the actual main-wall aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: public interior owner matches the physical room",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: both thresholds are crossed with input and no relocation or fall recovery",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school/main: real support is level enough to stand",
+      "passed": true
+    },
+    {
+      "kind": "floor-probe",
+      "label": "school/main",
+      "feet": "(38.701683, -0.0047371276, -52.05853)",
+      "hit": "(38.701687, -0.0049708784, -52.05853)",
+      "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloorBody"
+    },
+    {
+      "kind": "check",
+      "label": "school: timber floor is the actual support level",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: reach the corridor outside the office",
+      "from": "(38.701683, -0.0047371276, -52.05853)",
+      "goal": "(38.607758, -0.0049708784, -52.82029)",
+      "final": "(38.616737, -0.0047371276, -52.74748)",
+      "remaining": 0.073362775,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloorBody",
+          "point": "(38.616737, -0.00497088, -52.74748)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: reach the corridor outside the office: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: reach the corridor outside the office: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school/office: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school/office: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "school/office",
+      "feet": "(38.616737, -0.0047371276, -52.74748)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": false,
+      "focusedInteraction": "urman.chapter1:local/school/office",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/SchoolOfficeDoorUse at (38.60533, 1.0713383, -53.40306)",
+      "actionNumber": 0,
+      "transformRevision": 9,
+      "action": "not-called",
+      "result": "not-called",
+      "sweep": "not-called"
+    },
+    {
+      "kind": "check",
+      "label": "school/office: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "school/office",
+      "feet": "(38.616737, -0.0047371276, -52.74748)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/office",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/SchoolOfficeDoorUse at (38.604103, 0.97875714, -53.473637)",
+      "actionNumber": 1,
+      "transformRevision": 9,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/office\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(38.616737, -0.0047371276, -52.74748)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:97,\u0022from\u0022:0,\u0022to\u0022:-1.6580628}"
+    },
+    {
+      "kind": "check",
+      "label": "school/office: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "school/office",
+      "feet": "(38.616737, -0.0047371276, -52.74748)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/office",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/SchoolOfficeDoorUse at (38.604103, 0.97875714, -53.473637)",
+      "actionNumber": 1,
+      "transformRevision": 9,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/office\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(38.616737, -0.0047371276, -52.74748)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:97,\u0022from\u0022:0,\u0022to\u0022:-1.6580628}"
+    },
+    {
+      "kind": "check",
+      "label": "school/office: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "school/office",
+      "open": true,
+      "player": "(38.616737, -0.0047371276, -52.74748)",
+      "target": "(39.136528, 0.9950291, -54.00147)"
+    },
+    {
+      "kind": "walking",
+      "label": "school annex: pass the preserved office door",
+      "from": "(38.616737, -0.0047371276, -52.74748)",
+      "goal": "(38.57251, -0.0049708784, -53.829674)",
+      "final": "(38.57566, -0.0047371276, -53.752464)",
+      "remaining": 0.07727374,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloorBody",
+          "point": "(38.57566, -0.00497088, -53.752464)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school annex: pass the preserved office door: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school annex: pass the preserved office door: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school annex: relocated archive cannot be read from this different building",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: return to corridor",
+      "from": "(38.57566, -0.0047371276, -53.752464)",
+      "goal": "(38.607758, -0.0049708784, -52.82029)",
+      "final": "(38.60491, -0.0047371276, -52.902985)",
+      "remaining": 0.08274396,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloorBody",
+          "point": "(38.60491, -0.00497088, -52.902985)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: return to corridor: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: return to corridor: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: walk to the classroom door",
+      "from": "(38.60491, -0.0047371276, -52.902985)",
+      "goal": "(36.58899, -0.0049708784, -52.749794)",
+      "final": "(36.669674, -0.0047371276, -52.755928)",
+      "remaining": 0.08091749,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloorBody",
+          "point": "(36.669674, -0.00497088, -52.755928)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: walk to the classroom door: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: walk to the classroom door: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school/classroom: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school/classroom: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "school/classroom",
+      "feet": "(36.669674, -0.0047371276, -52.755928)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": false,
+      "focusedInteraction": "urman.chapter1:local/school/classroom",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/ClassroomDoorUse at (36.738434, 1.2589879, -53.337868)",
+      "actionNumber": 0,
+      "transformRevision": 9,
+      "action": "not-called",
+      "result": "not-called",
+      "sweep": "not-called"
+    },
+    {
+      "kind": "check",
+      "label": "school/classroom: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "school/classroom",
+      "feet": "(36.669674, -0.0047371276, -52.755928)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/classroom",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/ClassroomDoorUse at (36.744164, 1.2064888, -53.386387)",
+      "actionNumber": 1,
+      "transformRevision": 9,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/classroom\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(36.669674, -0.0047371276, -52.755928)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:97,\u0022from\u0022:0,\u0022to\u0022:-1.6580628}"
+    },
+    {
+      "kind": "check",
+      "label": "school/classroom: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "school/classroom",
+      "feet": "(36.669674, -0.0047371276, -52.755928)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/classroom",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/ClassroomDoorUse at (36.744164, 1.2064888, -53.386387)",
+      "actionNumber": 1,
+      "transformRevision": 9,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/classroom\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(36.669674, -0.0047371276, -52.755928)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:97,\u0022from\u0022:0,\u0022to\u0022:-1.6580628}"
+    },
+    {
+      "kind": "check",
+      "label": "school/classroom: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "school/classroom",
+      "open": true,
+      "player": "(36.669674, -0.0047371276, -52.755928)",
+      "target": "(37.117756, 0.9950291, -53.930973)"
+    },
+    {
+      "kind": "walking",
+      "label": "school: enter the preserved classroom footprint",
+      "from": "(36.669674, -0.0047371276, -52.755928)",
+      "goal": "(36.542225, -0.0049708784, -54.088978)",
+      "final": "(36.54968, -0.0047371276, -54.011013)",
+      "remaining": 0.078320295,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloorBody",
+          "point": "(36.54968, -0.00497088, -54.011013)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: enter the preserved classroom footprint: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: enter the preserved classroom footprint: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school annex: no duplicate active archive source remains in the small classroom",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: leave classroom through the same opening",
+      "from": "(36.54968, -0.0047371276, -54.011013)",
+      "goal": "(36.58899, -0.0049708784, -52.749794)",
+      "final": "(36.586754, -0.0047371276, -52.821632)",
+      "remaining": 0.07187315,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloorBody",
+          "point": "(36.586754, -0.00497088, -52.821632)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: leave classroom through the same opening: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: leave classroom through the same opening: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: return along the corridor without crossing partitions",
+      "from": "(36.586754, -0.0047371276, -52.821632)",
+      "goal": "(38.607758, -0.0049708784, -52.82029)",
+      "final": "(38.52762, -0.0047371276, -52.820343)",
+      "remaining": 0.080139175,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloorBody",
+          "point": "(38.52762, -0.00497088, -52.820343)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: return along the corridor without crossing partitions: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: return along the corridor without crossing partitions: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: return along the room corridor",
+      "from": "(38.52762, -0.0047371276, -52.820343)",
+      "goal": "(38.703636, -0.0049708784, -52.137722)",
+      "final": "(38.683247, -0.0047371276, -52.216766)",
+      "remaining": 0.08163175,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloorBody",
+          "point": "(38.683247, -0.00497088, -52.216766)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: return along the room corridor: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: return along the room corridor: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: return through inner aperture",
+      "from": "(38.683247, -0.0047371276, -52.216766)",
+      "goal": "(38.75004, -0.054470897, -50.80903)",
+      "final": "(38.74637, -0.053936347, -50.886406)",
+      "remaining": 0.07746429,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/SeniFloorBody",
+          "point": "(38.74637, -0.054470904, -50.886406)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: return through inner aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: return through inner aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: pass the free end of the outer leaf",
+      "from": "(38.74637, -0.053936347, -50.886406)",
+      "goal": "(38.210365, -0.054470897, -50.790184)",
+      "final": "(38.286236, -0.053936347, -50.803806)",
+      "remaining": 0.07708373,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/SeniFloorBody",
+          "point": "(38.286236, -0.054470904, -50.803806)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: pass the free end of the outer leaf: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: pass the free end of the outer leaf: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: descend the real entry treads",
+      "from": "(38.286236, -0.053936347, -50.803806)",
+      "goal": "(35.79484, -0.38101372, -50.70583)",
+      "final": "(35.878136, -0.41447815, -50.709095)",
+      "remaining": 0.0833579,
+      "support": true,
+      "stepsClimbed": 14,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "point": "(35.87987, -0.41535798, -50.716972)",
+          "normal": "(-0.00494399, 0.999736, 0.022438211)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: descend the real entry treads: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: descend the real entry treads: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: ordinary return reaches the exterior",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: actual open doors and exterior player pose save together",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "school/entrance",
+      "feet": "(35.878136, -0.41447815, -50.709095)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": false,
+      "focusedInteraction": "urman.chapter1:local/school/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/schoolEntranceUse at (37.042263, 0.99677, -51.204185)",
+      "actionNumber": 2,
+      "transformRevision": 9,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(35.866463, -0.41498762, -50.708313)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:1.5707964,\u0022to\u0022:-0.08726646}"
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "school/entrance",
+      "feet": "(35.878136, -0.41447815, -50.709095)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/schoolEntranceUse at (36.855793, 1.0506941, -51.124886)",
+      "actionNumber": 3,
+      "transformRevision": 9,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(35.878136, -0.41447815, -50.709095)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "school/entrance",
+      "feet": "(35.878136, -0.41447815, -50.709095)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/schoolEntranceUse at (36.855793, 1.0506941, -51.124886)",
+      "actionNumber": 3,
+      "transformRevision": 9,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(35.878136, -0.41447815, -50.709095)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "school/entrance",
+      "open": false,
+      "player": "(35.878136, -0.41447815, -50.709095)",
+      "target": "(37.506294, 0.90402913, -50.7656)"
+    },
+    {
+      "kind": "check",
+      "label": "school: restore the same runtime snapshot",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: both door states are restored without discovering a source",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: load leaves an unobstructed standing body",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: return through restored outward leaf",
+      "from": "(35.878136, -0.41447815, -50.709095)",
+      "goal": "(38.210365, -0.054470897, -50.790184)",
+      "final": "(38.12546, -0.05412668, -50.787224)",
+      "remaining": 0.084955305,
+      "support": true,
+      "stepsClimbed": 17,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/SeniFloorBody",
+          "point": "(38.12546, -0.054470904, -50.787224)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: return through restored outward leaf: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: return through restored outward leaf: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "fixed-aperture-approach",
+      "building": "school",
+      "actualApertureGoal": "(38.75004, -0.054470897, -50.80903)",
+      "formerMovingTargetGoal": "(39.30198, -0.054470897, -50.8283)",
+      "fixedGoalFits": true,
+      "movingTargetGoalFits": false
+    },
+    {
+      "kind": "walking",
+      "label": "school: align within existing seni",
+      "from": "(38.12546, -0.05412668, -50.787224)",
+      "goal": "(38.75004, -0.054470897, -50.80903)",
+      "final": "(38.6776, -0.05412668, -50.8065)",
+      "remaining": 0.07248142,
+      "support": true,
+      "stepsClimbed": 17,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/SeniFloorBody",
+          "point": "(38.6776, -0.054470904, -50.8065)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: align within existing seni: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: align within existing seni: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: cross the actual main-wall aperture",
+      "from": "(38.6776, -0.05412668, -50.8065)",
+      "goal": "(38.703636, -0.0049708784, -52.137722)",
+      "final": "(38.702103, -0.004661716, -52.05902)",
+      "remaining": 0.07871596,
+      "support": true,
+      "stepsClimbed": 17,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloorBody",
+          "point": "(38.702103, -0.00497088, -52.05902)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: cross the actual main-wall aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: cross the actual main-wall aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: public interior owner matches the physical room",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: return along the room corridor",
+      "from": "(38.702103, -0.004661716, -52.05902)",
+      "goal": "(38.703636, -0.0049708784, -52.137722)",
+      "final": "(38.702103, -0.004661716, -52.05902)",
+      "remaining": 0.07871596,
+      "support": true,
+      "stepsClimbed": 17,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom/TimberFloorBody",
+          "point": "(38.702103, -0.00497088, -52.05902)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: return along the room corridor: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: return along the room corridor: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: return through inner aperture",
+      "from": "(38.702103, -0.004661716, -52.05902)",
+      "goal": "(38.75004, -0.054470897, -50.80903)",
+      "final": "(38.74718, -0.0541832, -50.88347)",
+      "remaining": 0.07449482,
+      "support": true,
+      "stepsClimbed": 17,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/SeniFloorBody",
+          "point": "(38.74718, -0.054470904, -50.88347)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: return through inner aperture: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: return through inner aperture: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: pass the free end of the outer leaf",
+      "from": "(38.74718, -0.0541832, -50.88347)",
+      "goal": "(38.210365, -0.054470897, -50.790184)",
+      "final": "(38.28659, -0.0541832, -50.80343)",
+      "remaining": 0.077367395,
+      "support": true,
+      "stepsClimbed": 17,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/SeniFloorBody",
+          "point": "(38.28659, -0.054470904, -50.80343)",
+          "normal": "(-0, 1, 0)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: pass the free end of the outer leaf: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: pass the free end of the outer leaf: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "walking",
+      "label": "school: descend the real entry treads",
+      "from": "(38.28659, -0.0541832, -50.80343)",
+      "goal": "(35.79484, -0.38101372, -50.70583)",
+      "final": "(35.878563, -0.4144751, -50.70911)",
+      "remaining": 0.083785415,
+      "support": true,
+      "stepsClimbed": 17,
+      "stepRejection": "",
+      "canStand": true,
+      "crouched": false,
+      "councilStanding": null,
+      "contacts": [
+        {
+          "owner": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision",
+          "point": "(35.8803, -0.41535565, -50.716988)",
+          "normal": "(-0.00494399, 0.999736, 0.022438211)"
+        }
+      ]
+    },
+    {
+      "kind": "check",
+      "label": "school: descend the real entry treads: standing capsule reaches the actual destination",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school: descend the real entry treads: no teleport or recovery during movement",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: door starts in the expected state",
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: live input ray reaches the door",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "before-input",
+      "key": "school/entrance",
+      "feet": "(35.878563, -0.4144751, -50.70911)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": false,
+      "focusedInteraction": "urman.chapter1:local/school/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/schoolEntranceUse at (37.042316, 0.9967837, -51.20418)",
+      "actionNumber": 3,
+      "transformRevision": 11,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(35.878136, -0.41447815, -50.709095)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: passive focus follows the actual aimed door during a result notice",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "after-input",
+      "key": "school/entrance",
+      "feet": "(35.878563, -0.4144751, -50.70911)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/schoolEntranceUse at (36.855953, 1.050696, -51.124897)",
+      "actionNumber": 4,
+      "transformRevision": 11,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(35.878563, -0.4144751, -50.70911)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: one deliberate mapped press reaches exactly one door action",
+      "passed": true
+    },
+    {
+      "kind": "door-input-probe",
+      "phase": "finished-wait",
+      "key": "school/entrance",
+      "feet": "(35.878563, -0.4144751, -50.70911)",
+      "velocity": "(0, 0, 0)",
+      "forward": 0,
+      "backward": 0,
+      "left": 0,
+      "right": 0,
+      "interact": 0,
+      "focus": true,
+      "playTimeBlocks": "None",
+      "modal": false,
+      "sessionReady": true,
+      "noticeActive": true,
+      "focusedInteraction": "urman.chapter1:local/school/entrance",
+      "aim": "/root/Act1PublicBuildingsSmokeTest/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/schoolEntranceUse at (36.855953, 1.050696, -51.124897)",
+      "actionNumber": 4,
+      "transformRevision": 11,
+      "action": "{\u0022phase\u0022:\u0022received\u0022,\u0022key\u0022:\u0022school/entrance\u0022,\u0022busy\u0022:false,\u0022sessionReady\u0022:true,\u0022feet\u0022:\u0022(35.878563, -0.4144751, -50.70911)\u0022,\u0022focus\u0022:true,\u0022forward\u0022:0,\u0022backward\u0022:0,\u0022left\u0022:0,\u0022right\u0022:0}",
+      "result": "committed",
+      "sweep": "{\u0022clear\u0022:true,\u0022samples\u0022:88,\u0022from\u0022:-0.08726646,\u0022to\u0022:1.5707964}"
+    },
+    {
+      "kind": "check",
+      "label": "school/entrance: explicit interaction changes the existing saved door property",
+      "passed": true
+    },
+    {
+      "kind": "door-action",
+      "key": "school/entrance",
+      "open": false,
+      "player": "(35.878563, -0.4144751, -50.70911)",
+      "target": "(37.506294, 0.90402913, -50.7656)"
+    },
+    {
+      "kind": "building-complete",
+      "building": "school",
+      "addressId": "ADR-H031",
+      "exterior": "(35.79484, -0.38101372, -50.70583)",
+      "entry": "(37.59874, -0.054470897, -50.768826)",
+      "halfSize": "(2.4255, 2.2904997)",
+      "ceiling": 2.2914999
+    }
+  ]
+}

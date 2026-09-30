@@ -1,0 +1,10 @@
+{
+  "source_base_head": "d2980cb8da5f976ca6141c9396b11000eeabb6ee",
+  "source_state": "dirty implementation stage; commit to follow",
+  "build": "r6 Debug build0 warnings/errors",
+  "dll_sha256": "ac3e1f06591698dd44655505fc0591fce8a86fe9fc2cb6f715a1b279709b0044",
+  "captures": "r3 interiors, r4 exterior; capture_receipt.json",
+  "mechanical_smoke": "r9 before final pigment/capture/road-join refinements; public_school_r9_receipt.json",
+  "graph": "unavailable graphify command; not refreshed",
+  "human_art_performance": "open"
+}

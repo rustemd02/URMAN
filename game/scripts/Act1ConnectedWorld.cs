@@ -436,12 +436,12 @@ public partial class Act1ConnectedWorld : Node3D
         HideOverlappingStructures();
         RelocateOverlappingHouses();
         ComposeBabaiYard();
+        BuildAuthoredWorld();
         BuildAddressRegistry();
         // Street faces of the yards: palisadnik, painted gates, board fences.
         BuildStreetFrontages();
         // Tamara Gennadievna's breakable plot fence, boards and people.
         BuildTamaraFenceQuest();
-        BuildAuthoredWorld();
         AddressRead += RememberReadAddress;
         BuildAct1Vehicles();
         foreach (var placement in Act1WorldLayout.Placements)

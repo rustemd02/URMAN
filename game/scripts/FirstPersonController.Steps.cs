@@ -68,17 +68,24 @@ public partial class FirstPersonController
                 new(at.X, from.Origin.Y + MaximumStepHeight + StepClearance, at.Z),
                 new(at.X, from.Origin.Y + .015f, at.Z), CollisionMask, _stepRayExclude);
             var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
-            if (hit.Count == 0 || hit["normal"].AsVector3().Y < floorNormalY) return false;
+            if (hit.Count == 0) { LastStepRejection = $"no tread support at {at}; feet {from.Origin}"; return false; }
+            if (hit["normal"].AsVector3().Y < floorNormalY)
+            { LastStepRejection = $"steep tread support {hit["normal"].AsVector3()} at {at}"; return false; }
             var height = hit["position"].AsVector3().Y - from.Origin.Y;
             highest = Math.Max(highest, height); lowest = Math.Min(lowest, height);
         }
-        if (highest > MaximumStepHeight || lowest < .015f || highest - lowest > .025f) return false;
+        if (highest > MaximumStepHeight || lowest < .015f || highest - lowest > .025f)
+        { LastStepRejection = $"tread height range {lowest:0.000}..{highest:0.000} at {edge}; feet {from.Origin}"; return false; }
         var up = Vector3.Up * (highest + StepClearance);
         LastStepRejection = "ceiling above the step";
         if (TestMove(from, up, _stepSweep, .001f, false, 4)) return false;
         var raised = from; raised.Origin += up;
         LastStepRejection = "body blocked beyond the riser";
-        if (TestMove(raised, forward, _stepSweep, .001f, false, 4)) return false;
+        if (TestMove(raised, forward, _stepSweep, .001f, false, 4))
+        {
+            LastStepRejection = $"body blocked beyond riser by {(_stepSweep.GetCollider() as Node)?.GetPath()} normal {_stepSweep.GetNormal()} travel {_stepSweep.GetTravel()} raised feet {raised.Origin}";
+            return false;
+        }
         raised.Origin += forward;
         var down = Vector3.Down * (up.Y + .025f);
         LastStepRejection = "no physical landing";

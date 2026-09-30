@@ -127,23 +127,21 @@ public static partial class StyleBenchmarkInteriorFactory
             Cylinder(root, $"KitchenPlate{i}", .11f, .015f, new(-4.8f + i * .24f, 2.13f, -3.42f), "d9d3c2", "enamel", false, new(90, 0, 0));
         }
         Prop(root, "KitchenBreadTin", new(.34f, .22f, .24f), new(-2.3f, 1.99f, -3.36f), "bfb59a", "iron");
-        // Dining table by the west window with an oilcloth, four stools, a samovar and tea things.
+        // Dining table by the west window with a washed cotton cloth, four stools and tea things.
         var table = new Vector3(-3.85f, 0, -.6f);
         Block(root, "KitchenTableTop", new(1.3f, .05f, .86f), table + new Vector3(0, .74f, 0), "6b4e36", "wood_furniture_interior");
-        Prop(root, "KitchenOilcloth", new(1.34f, .006f, .9f), table + new Vector3(0, .768f, 0), "b8a36a", "fabric_pattern");
+        RuralPropGeometry.Part(root,"KitchenCottonTablecloth",RuralPropGeometry.DrapedCloth(1.3f,.86f,.18f),table+new Vector3(0,.768f,0),RuralPropMaterials.Surface("cloth"));
         foreach (var (dx, dz) in new[] { (-.58f, -.35f), (.58f, -.35f), (-.58f, .35f), (.58f, .35f) })
             Prop(root, $"KitchenTableLeg{dx}{dz}", new(.06f, .72f, .06f), table + new Vector3(dx, .36f, dz), "5a412d", "wood_furniture_interior");
         foreach (var (dx, dz) in new[] { (-.35f, -.72f), (.35f, -.72f), (-.35f, .72f), (.35f, .72f) })
         {
-            Cylinder(root, $"KitchenStool{dx}{dz}", .17f, .05f, table + new Vector3(dx, .44f, dz), "7a6148", "wood_prop", true);
-            Cylinder(root, $"KitchenStoolLeg{dx}{dz}", .04f, .42f, table + new Vector3(dx, .21f, dz), "5a412d", "wood_prop", false);
+            RuralPropModels.Stool(root,$"KitchenStool{dx}{dz}",table+new Vector3(dx,0,dz));
+            Collider(root,$"KitchenStoolContact{dx}{dz}",new(.32f,.46f,.32f),table+new Vector3(dx,.23f,dz));
         }
-        Cylinder(root, "KitchenSamovar", .13f, .38f, table + new Vector3(-.3f, .96f, 0), "a6845a", "iron", false);
-        Cylinder(root, "KitchenSamovarChimney", .04f, .12f, table + new Vector3(-.3f, 1.21f, 0), "8a6c47", "iron", false);
-        Cylinder(root, "KitchenTeapot", .09f, .14f, table + new Vector3(.15f, .84f, .1f), "c2b8a0", "enamel", false);
-        for (var i = 0; i < 3; i++)
-            Cylinder(root, $"KitchenCup{i}", .045f, .07f, table + new Vector3(.35f + i * .13f, .805f, -.15f + i * .12f), "e0dccf", "enamel", false);
-        Prop(root, "KitchenBowlOfSweets", new(.22f, .05f, .22f), table + new Vector3(.4f, .8f, .28f), "9a4a3c", "enamel");
+        RuralPropModels.Samovar(root,"KitchenSamovar",table+new Vector3(-.3f,.772f,0));
+        RuralPropModels.Teapot(root,"KitchenTeapot",table+new Vector3(.15f,.772f,.1f));
+        for(var i=0;i<3;i++)RuralPropModels.Cup(root,$"KitchenCup{i}",table+new Vector3(.35f+i*.13f,.772f,-.15f+i*.12f));
+        RuralPropGeometry.Part(root,"KitchenBowlOfSweets",RuralPropGeometry.Lathe("sweet-bowl",[new(0,0),new(.07f,0),new(.11f,.04f),new(.105f,.045f),new(.063f,.008f),new(0,.008f)]),table+new Vector3(.4f,.77f,.28f),RuralPropMaterials.Surface("earthenware"));
         // Tall sideboard against the partition, a tiled floor rug and a wall clock.
         Block(root, "KitchenSideboard", new(.46f, 1.9f, 1.3f), new(-1.79f, .95f, -2.2f), "7a6148", "wood_furniture_interior");
         Prop(root, "KitchenSideboardGlass", new(.02f, .8f, 1.0f), new(-1.55f, 1.3f, -2.2f), "6f8079", "glass");

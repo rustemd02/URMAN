@@ -1,0 +1,173 @@
+{
+  "scope": "12 already-remediated runtime transforms now owned by data; same IDs and final XZ, explicit ground delta; future author moves no longer overridden by legacy cleanup",
+  "changes": [
+    {
+      "entity": "urman.world:act1/kit/zirat-road-return-street-low-facade",
+      "before": [
+        -11,
+        0,
+        -48.5
+      ],
+      "after": [
+        -24.0,
+        0,
+        -47.0
+      ],
+      "reason": "H024 inside ReturnWestFarHouse1Silhouette; proposal west plot"
+    },
+    {
+      "entity": "urman.world:act1/kit/village-day-arrival-left-horizon-domestic-facade",
+      "before": [
+        -24,
+        0,
+        27.5
+      ],
+      "after": [
+        -31.5,
+        0,
+        36.5
+      ],
+      "reason": "H045 human-scale house; north of the old plot's tree, west of H006"
+    },
+    {
+      "entity": "urman.world:act1/kit/village-day-arrival-reverse-west-domestic-facade",
+      "before": [
+        -11.5,
+        0,
+        26
+      ],
+      "after": [
+        -11.5,
+        0,
+        35.5
+      ],
+      "reason": "H044 inside ArrivalWestNearAuthoredTimberGableParcel; proposal plot"
+    },
+    {
+      "entity": "urman.world:act1/kit/fap-clinic-reverse-west-domestic-facade",
+      "before": [
+        9,
+        0,
+        -42
+      ],
+      "after": [
+        6.2,
+        0,
+        -49.6
+      ],
+      "reason": "H046 inside ReturnEastHouseA8Silhouette; proposal plot"
+    },
+    {
+      "entity": "urman.world:act1/kit/village-day-main-street-east-facade",
+      "before": [
+        9.8,
+        0,
+        -10.5
+      ],
+      "after": [
+        9.8,
+        0,
+        4.0
+      ],
+      "reason": "H019 inside ArrivalForwardEastFacade; proposal plot"
+    },
+    {
+      "entity": "urman.world:act1/kit/village-day-arrival-west-lateral-facade",
+      "before": [
+        -11,
+        0,
+        16
+      ],
+      "after": [
+        -31.5,
+        0,
+        17.0
+      ],
+      "reason": "H014 inside ArrivalWestNearAuthoredTimberGableParcel; proposal plot"
+    },
+    {
+      "entity": "urman.world:act1/kit/village-house-arrivalreverseedgehousewest",
+      "before": [
+        -7.8,
+        0,
+        52
+      ],
+      "after": [
+        -7.8,
+        0,
+        58.5
+      ],
+      "reason": "H001 inside ArrivalFarWestFacade; next plot north"
+    },
+    {
+      "entity": "urman.world:act1/kit/village-house-arrivalreversefareasthouse",
+      "before": [
+        14,
+        0,
+        54
+      ],
+      "after": [
+        18.5,
+        0,
+        54.0
+      ],
+      "reason": "H005 inside ArrivalReverseEdgeHouseEast; next plot east"
+    },
+    {
+      "entity": "urman.world:act1/kit/village-house-connectiveeasthousea6silhouette",
+      "before": [
+        8.5,
+        0.86,
+        -32
+      ],
+      "after": [
+        8.5,
+        0.86,
+        -30.0
+      ],
+      "reason": "H022 overlapping FapOppositeFieldNeighborHouse; 2 m north"
+    },
+    {
+      "entity": "urman.world:act1/kit/village-house-returneasthousea8silhouette",
+      "before": [
+        8.5,
+        0.84,
+        -42.5
+      ],
+      "after": [
+        9.5,
+        0.84,
+        -45.3
+      ],
+      "reason": "H023 overlapping FapOppositeFieldNeighborHouse; into the plot H046 left"
+    },
+    {
+      "entity": "urman.world:act1/kit/village-day-main-street-east-shed",
+      "before": [
+        5.3,
+        0,
+        -2
+      ],
+      "after": [
+        11.0,
+        0,
+        10.5
+      ],
+      "reason": "H019's shed behind its house; clear of the arrival timetable and bench"
+    },
+    {
+      "entity": "urman.world:act1/kit/fap-clinic-reverse-west-domestic-outbuilding",
+      "before": [
+        11.6,
+        0,
+        -43.4
+      ],
+      "after": [
+        6.0,
+        0,
+        -54.5
+      ],
+      "reason": "H046's shed, behind its house on the new plot"
+    }
+  ]
+}

@@ -205,21 +205,20 @@
         "note": "initial physically motivated values; validate under current game lights"
       },
       "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
-      "generation_status": "missing_generation_blocked",
+      "generation_status": "generated_sources_inspected_selected_integration_candidate",
       "geometry_status": "audit required",
-      "runtime_status": "not-run",
+      "runtime_status": "current receiver capture pending; public traversal r9 passes, no art acceptance",
       "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
       "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
       "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
       "output": {
-        "new_generated": [],
-        "reviewed_reuse": [],
-        "blocked_job_assets": [
-          "public_red_brick_v1_basecolor.png",
-          "public_concrete_v1_basecolor.png"
+        "new_generated": [
+          "game/assets/textures/realism_20260929/public_concrete_source_v1_basecolor.png"
         ],
-        "receipt": "docs/production/visual_rework_2026-09-29/texture_generation_receipt.json",
-        "scope_note": "Running-bond brick and cast concrete are two separate gaps with dimensional UV; joints need real relief."
+        "reviewed_reuse": [],
+        "blocked_job_assets": [],
+        "receipt": "docs/production/visual_rework_2026-09-29/selected_material_bindings.json",
+        "scope_note": "Selected sources/actual scales and provenance: docs/production/visual_rework_2026-09-29/selected_material_bindings.json. Other receivers in this family remain open."
       },
       "provenance": {
         "audit_date": "2026-09-29",
@@ -280,22 +279,22 @@
         "note": "initial physically motivated values; validate under current game lights"
       },
       "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
-      "generation_status": "reuse_scoped_and_missing_generation_blocked",
+      "generation_status": "generated_sources_inspected_selected_integration_candidate",
       "geometry_status": "School corridor and common public benches: rounded planks, splayed tubular frame; exterior source kit benches remain pending",
-      "runtime_status": "current-run verification pending",
+      "runtime_status": "current receiver capture pending; public traversal r9 passes, no art acceptance",
       "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
       "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
       "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
       "output": {
-        "new_generated": [],
+        "new_generated": [
+          "game/assets/textures/realism_20260929/painted_steel_enamel_v1_basecolor.png"
+        ],
         "reviewed_reuse": [
           "game/assets/textures/painterly/urman_w02_v02_basecolor.png"
         ],
-        "blocked_job_assets": [
-          "painted_steel_enamel_v1_basecolor.png"
-        ],
-        "receipt": "docs/production/visual_rework_2026-09-29/texture_generation_receipt.json",
-        "scope_note": "W02 address-specific bench reuse; shared steel coating blocked. Thickness/support/fasteners stay geometry."
+        "blocked_job_assets": [],
+        "receipt": "docs/production/visual_rework_2026-09-29/selected_material_bindings.json",
+        "scope_note": "Selected sources/actual scales and provenance: docs/production/visual_rework_2026-09-29/selected_material_bindings.json. Other receivers in this family remain open."
       },
       "provenance": {
         "audit_date": "2026-09-29",
@@ -319,24 +318,25 @@
         "note": "initial physically motivated values; validate under current game lights"
       },
       "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
-      "generation_status": "reuse_scoped_and_missing_generation_blocked",
+      "generation_status": "generated_sources_inspected_selected_integration_candidate",
       "geometry_status": "School desks: rounded veneer top and edge band, tube frame, caps and fasteners; dedicated veneer missing",
-      "runtime_status": "initial native near capture inspected; final current-run verification pending",
+      "runtime_status": "current receiver capture pending; public traversal r9 passes, no art acceptance",
       "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
       "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
       "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
       "output": {
-        "new_generated": [],
+        "new_generated": [
+          "game/assets/textures/realism_20260929/birch_plywood_varnished_v1_basecolor.png",
+          "game/assets/textures/realism_20260929/painted_steel_enamel_v1_basecolor.png",
+          "game/assets/textures/realism_20260929/school_laminate_beige_source_v1_basecolor.png",
+          "game/assets/textures/realism_20260929/galvanized_zinc_source_v1_basecolor.png"
+        ],
         "reviewed_reuse": [
           "game/assets/textures/painterly/urman_w08_v01_basecolor.png"
         ],
-        "blocked_job_assets": [
-          "birch_plywood_varnished_v1_basecolor.png",
-          "school_laminate_beige_v1_basecolor.png",
-          "painted_steel_enamel_v1_basecolor.png"
-        ],
-        "receipt": "docs/production/visual_rework_2026-09-29/texture_generation_receipt.json",
-        "scope_note": "W08 is dark cabinets/frame wood. Light plywood/laminate blocked. W01 only provisional pending replacement; separate edge band and steel frame."
+        "blocked_job_assets": [],
+        "receipt": "docs/production/visual_rework_2026-09-29/selected_material_bindings.json",
+        "scope_note": "Selected sources/actual scales and provenance: docs/production/visual_rework_2026-09-29/selected_material_bindings.json. Other receivers in this family remain open."
       },
       "provenance": {
         "audit_date": "2026-09-29",
@@ -360,21 +360,22 @@
         "note": "initial physically motivated values; validate under current game lights"
       },
       "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
-      "generation_status": "missing_generation_blocked",
+      "generation_status": "generated_sources_inspected_selected_integration_candidate",
       "geometry_status": "School/canteen chairs and family kitchen stools: bowed plywood, splayed legs/braces/rivets; living-room source chair remains pending",
-      "runtime_status": "initial native near capture inspected; final current-run verification pending",
+      "runtime_status": "current receiver capture pending; public traversal r9 passes, no art acceptance",
       "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
       "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
       "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
       "output": {
-        "new_generated": [],
-        "reviewed_reuse": [],
-        "blocked_job_assets": [
-          "birch_plywood_varnished_v1_basecolor.png",
-          "painted_steel_enamel_v1_basecolor.png"
+        "new_generated": [
+          "game/assets/textures/realism_20260929/birch_plywood_varnished_v1_basecolor.png",
+          "game/assets/textures/realism_20260929/painted_steel_enamel_v1_basecolor.png",
+          "game/assets/textures/realism_20260929/galvanized_zinc_source_v1_basecolor.png"
         ],
-        "receipt": "docs/production/visual_rework_2026-09-29/texture_generation_receipt.json",
-        "scope_note": "No final light birch source found. W01 only provisional pending replacement. Bent plywood/thickness/laminated cut edge are mesh. Weathered boards v3 rejected for these faces: painted seams/nails."
+        "reviewed_reuse": [],
+        "blocked_job_assets": [],
+        "receipt": "docs/production/visual_rework_2026-09-29/selected_material_bindings.json",
+        "scope_note": "Selected sources/actual scales and provenance: docs/production/visual_rework_2026-09-29/selected_material_bindings.json. Other receivers in this family remain open."
       },
       "provenance": {
         "audit_date": "2026-09-29",
@@ -398,20 +399,22 @@
         "note": "initial physically motivated values; validate under current game lights"
       },
       "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
-      "generation_status": "missing_generation_blocked",
-      "geometry_status": "audit required",
-      "runtime_status": "not-run",
+      "generation_status": "generated_sources_inspected_selected_integration_candidate",
+      "geometry_status": "rounded wood backing, separate board sheet/front UV, channel chalk tray and chalk cylinder; authored readable Tatar writing",
+      "runtime_status": "current receiver capture pending; public traversal r9 passes, no art acceptance",
       "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
       "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
       "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
       "output": {
-        "new_generated": [],
-        "reviewed_reuse": [],
-        "blocked_job_assets": [
-          "school_green_chalkboard_v1_basecolor.png"
+        "new_generated": [
+          "game/assets/textures/realism_20260929/galvanized_zinc_source_v1_basecolor.png",
+          "game/assets/textures/realism_20260929/public_concrete_source_v1_basecolor.png",
+          "game/assets/textures/realism_20260929/school_green_chalkboard_v1_basecolor.png"
         ],
-        "receipt": "docs/production/visual_rework_2026-09-29/texture_generation_receipt.json",
-        "scope_note": "Exact legible writing is authored content/decal; frame/tray/mounts are parts. Surface job blocked."
+        "reviewed_reuse": [],
+        "blocked_job_assets": [],
+        "receipt": "docs/production/visual_rework_2026-09-29/selected_material_bindings.json",
+        "scope_note": "Selected sources/actual scales and provenance: docs/production/visual_rework_2026-09-29/selected_material_bindings.json. Other receivers in this family remain open."
       },
       "provenance": {
         "audit_date": "2026-09-29",
@@ -435,20 +438,21 @@
         "note": "initial physically motivated values; validate under current game lights"
       },
       "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
-      "generation_status": "missing_generation_blocked",
+      "generation_status": "generated_sources_inspected_selected_integration_candidate",
       "geometry_status": "School, club and common public MC-140 sectional radiators; enamel map pending",
-      "runtime_status": "current-run verification pending",
+      "runtime_status": "current receiver capture pending; public traversal r9 passes, no art acceptance",
       "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
       "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
       "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
       "output": {
-        "new_generated": [],
-        "reviewed_reuse": [],
-        "blocked_job_assets": [
-          "painted_steel_enamel_v1_basecolor.png"
+        "new_generated": [
+          "game/assets/textures/realism_20260929/painted_steel_enamel_v1_basecolor.png",
+          "game/assets/textures/realism_20260929/galvanized_zinc_source_v1_basecolor.png"
         ],
-        "receipt": "docs/production/visual_rework_2026-09-29/texture_generation_receipt.json",
-        "scope_note": "Shared enamel job; coating metallic=0. Bare connectors separate metal slot. Cast sections/cavities/valves/pipes are mesh."
+        "reviewed_reuse": [],
+        "blocked_job_assets": [],
+        "receipt": "docs/production/visual_rework_2026-09-29/selected_material_bindings.json",
+        "scope_note": "Selected sources/actual scales and provenance: docs/production/visual_rework_2026-09-29/selected_material_bindings.json. Other receivers in this family remain open."
       },
       "provenance": {
         "audit_date": "2026-09-29",
@@ -472,20 +476,20 @@
         "note": "initial physically motivated values; validate under current game lights"
       },
       "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
-      "generation_status": "missing_generation_blocked",
+      "generation_status": "generated_sources_inspected_selected_integration_candidate",
       "geometry_status": "96 auditorium seats via cached curved padded meshes and rounded armrests in MultiMesh; velvet map pending",
-      "runtime_status": "initial native near capture inspected; final current-run verification pending",
+      "runtime_status": "current receiver capture pending; public traversal r9 passes, no art acceptance",
       "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
       "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
       "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
       "output": {
-        "new_generated": [],
-        "reviewed_reuse": [],
-        "blocked_job_assets": [
-          "burgundy_seat_upholstery_v1_basecolor.png"
+        "new_generated": [
+          "game/assets/textures/realism_20260929/burgundy_stage_velvet_v1_basecolor.png"
         ],
-        "receipt": "docs/production/visual_rework_2026-09-29/texture_generation_receipt.json",
-        "scope_note": "Viewed T08 domestic brown-olive weave unsuitable as final burgundy seats. New burgundy cloth shared across pads; seams/cushion curves mesh."
+        "reviewed_reuse": [],
+        "blocked_job_assets": [],
+        "receipt": "docs/production/visual_rework_2026-09-29/selected_material_bindings.json",
+        "scope_note": "Selected sources/actual scales and provenance: docs/production/visual_rework_2026-09-29/selected_material_bindings.json. Other receivers in this family remain open."
       },
       "provenance": {
         "audit_date": "2026-09-29",
@@ -509,22 +513,22 @@
         "note": "initial physically motivated values; validate under current game lights"
       },
       "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
-      "generation_status": "reuse_scoped_and_missing_generation_blocked",
-      "geometry_status": "audit required",
-      "runtime_status": "not-run",
+      "generation_status": "generated_sources_inspected_selected_integration_candidate",
+      "geometry_status": "64x24 gathered hanging velvet curtain mesh with hems and continuous flat-pattern UV; other room curtains remain open",
+      "runtime_status": "current receiver capture pending; public traversal r9 passes, no art acceptance",
       "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
       "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
       "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
       "output": {
-        "new_generated": [],
+        "new_generated": [
+          "game/assets/textures/realism_20260929/burgundy_stage_velvet_v1_basecolor.png"
+        ],
         "reviewed_reuse": [
           "game/assets/textures/painterly/urman_t04_v01_basecolor.png"
         ],
-        "blocked_job_assets": [
-          "burgundy_stage_velvet_v1_basecolor.png"
-        ],
-        "receipt": "docs/production/visual_rework_2026-09-29/texture_generation_receipt.json",
-        "scope_note": "T04 retained domestic weave; stage velvet job blocked. Velvet needs nap/sheen plus mesh folds, never painted stripes."
+        "blocked_job_assets": [],
+        "receipt": "docs/production/visual_rework_2026-09-29/selected_material_bindings.json",
+        "scope_note": "Selected sources/actual scales and provenance: docs/production/visual_rework_2026-09-29/selected_material_bindings.json. Other receivers in this family remain open."
       },
       "provenance": {
         "audit_date": "2026-09-29",
@@ -700,20 +704,21 @@
         "note": "initial physically motivated values; validate under current game lights"
       },
       "reference": "ordinary inhabited Tatar village, Soviet construction and repaired 2000–2026 domestic use; no exact decorative dates",
-      "generation_status": "missing_generation_blocked",
+      "generation_status": "generated_sources_inspected_selected_integration_candidate",
       "geometry_status": "Family kitchen and school tea props: hollow cups, lathed bodies, separate handles/spouts; ceramic/metal maps pending",
-      "runtime_status": "current-run verification pending",
+      "runtime_status": "current receiver capture pending; public traversal r9 passes, no art acceptance",
       "verification": "silhouette/scale/support/UV; native close and walking camera; roughness at glancing light",
       "execution_queue": "docs/urman_knowledge_base/execution_backlog.json ACT1-TEXTURE.00/.02/.03/.07/.08/.11/.12",
       "source_callsite_inventory": "docs/urman_knowledge_base/art/primitive_surface_audit_2026-09-29.json",
       "output": {
-        "new_generated": [],
-        "reviewed_reuse": [],
-        "blocked_job_assets": [
-          "painted_steel_enamel_v1_basecolor.png"
+        "new_generated": [
+          "game/assets/textures/realism_20260929/glazed_ceramic_cream_source_v1_basecolor.png",
+          "game/assets/textures/realism_20260929/unglazed_earthenware_source_v1_basecolor.png"
         ],
-        "receipt": "docs/production/visual_rework_2026-09-29/texture_generation_receipt.json",
-        "scope_note": "Enamel coating job only coated vessels. Glazed ceramic/aluminium/brass need recipient-specific material audit; not covered by iron. Rim/bowl interior/handle/spout mesh."
+        "reviewed_reuse": [],
+        "blocked_job_assets": [],
+        "receipt": "docs/production/visual_rework_2026-09-29/selected_material_bindings.json",
+        "scope_note": "Selected sources/actual scales and provenance: docs/production/visual_rework_2026-09-29/selected_material_bindings.json. Other receivers in this family remain open."
       },
       "provenance": {
         "audit_date": "2026-09-29",

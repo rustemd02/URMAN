@@ -294,7 +294,13 @@ public static partial class StyleBenchmarkInteriorFactory
                 || name.StartsWith("HouseInterior_OldPcDocumentFolio", StringComparison.Ordinal))
             { source = new(0, 0, -3.60f); destination = new(0, 0, -2.60f); }
             else if (name.StartsWith("HouseInterior_Chair", StringComparison.Ordinal))
-            { source = new(-2.15f, 0, -1.25f); destination = new(-1.25f, 0, -1.20f); }
+            {
+                // Keep the source asset identifiable, but retire both its crude
+                // silhouette and its contacts before adding the shaped chair.
+                mesh.Visible = false;
+                mesh.SetMeta("replacementModel", "LivingRoomPlywoodChair");
+                continue;
+            }
             else if (name.StartsWith("HouseInterior_Cupboard", StringComparison.Ordinal))
             { source = new(-4.82f, 0, -3.88f); destination = new(3.52f, 0, -2.40f); yaw = -90; }
             else if (name.StartsWith("HouseInterior_Daybed", StringComparison.Ordinal))
@@ -335,6 +341,17 @@ public static partial class StyleBenchmarkInteriorFactory
             body.AddChild(shape);
             count++;
         }
+        var chair = RuralPropModels.Chair(room, "LivingRoomPlywoodChair", new(-1.25f, 0, -1.20f));
+        var chairBody = new StaticBody3D { Name = "LivingRoomChairContact", CollisionLayer = 1, CollisionMask = 1 };
+        chair.AddChild(chairBody);
+        chairBody.SetMeta("collisionOwner", "house-interior-floor-furniture");
+        foreach (var member in chair.GetChildren().OfType<MeshInstance3D>())
+        {
+            if (member.Mesh is null) continue;
+            chairBody.AddChild(new CollisionShape3D { Name = member.Name + "Contact", Transform = member.Transform,
+                Shape = member.Mesh.CreateConvexShape(clean: true, simplify: true) });
+            count++;
+        }
         Block(room, "HearthFlueToCeiling", new(.20f, 1.30f, .20f), StoveAnchor + new Vector3(0, 1.95f, 0), "3e3934", "metal", false);
         Block(room, "HearthCeilingFirestop", new(.48f, .035f, .48f), StoveAnchor + new Vector3(0, 2.58f, 0), "777067", "metal", false);
         room.SetMeta("houseInteriorFloorCollisionProxies", count);
@@ -345,58 +362,13 @@ public static partial class StyleBenchmarkInteriorFactory
 
     private static void BuildTablecloth(Node3D room, MeshInstance3D table)
     {
-        // Fit the actual rigidly placed tabletop, not its old source anchor.
-        // The short cloth leaves a wooden side/rear border and hangs only at
-        // the player's edge. No new collision or interaction target is needed.
         var points = table.Mesh.GetFaces().Select(vertex => room.ToLocal(table.ToGlobal(vertex))).ToArray();
-        var left = points.Min(point => point.X) + .05f;
-        var right = points.Max(point => point.X) - .05f;
-        var back = points.Min(point => point.Z) + .035f;
-        var front = points.Max(point => point.Z);
-        var top = points.Max(point => point.Y) + .003f;
-        var profile = new Vector2[]
-        {
-            new(back, top), new(front - .06f, top), new(front - .018f, top),
-            new(front + .018f, top - .015f), new(front + .04f, top - .04f),
-            new(front + .05f, top - .08f), new(front + .06f, top - .16f),
-            new(front + .06f, top - .25f)
-        };
-        var lengths = new float[profile.Length];
-        for (var row = 1; row < profile.Length; row++)
-            lengths[row] = lengths[row - 1] + profile[row].DistanceTo(profile[row - 1]);
-        const int columns = 24;
-        using var surface = new SurfaceTool();
-        surface.Begin(Mesh.PrimitiveType.Triangles);
-        for (var row = 0; row < profile.Length - 1; row++)
-        for (var column = 0; column < columns; column++)
-        {
-            surface.SetSmoothGroup(0);
-            Add(row, column); Add(row + 1, column); Add(row + 1, column + 1);
-            Add(row, column); Add(row + 1, column + 1); Add(row, column + 1);
-            // Reverse faces keep the hanging underside visible with the same
-            // cached material; no per-object shader or alpha transparency.
-            surface.SetSmoothGroup(1);
-            Add(row, column); Add(row + 1, column + 1); Add(row + 1, column);
-            Add(row, column); Add(row, column + 1); Add(row + 1, column + 1);
-        }
-        surface.GenerateNormals();
-        var cloth = new MeshInstance3D { Name = "TeaTablecloth", Mesh = surface.Commit(),
-            MaterialOverride = PainterlyMaterialLibrary.ForColor("bab5a5", "cloth_table", sheltered: true) };
-        cloth.SetMeta("furnitureSupportMesh", table.GetPath().ToString());
-        cloth.SetMeta("householdRole", "washed cotton; flat on table with folded front overhang");
-        room.AddChild(cloth);
-
-        void Add(int row, int column)
-        {
-            var u = column / (float)columns;
-            var drop = Mathf.Clamp((top - profile[row].Y) / .25f, 0, 1);
-            var wave = Mathf.Sin(u * Mathf.Tau * 5f);
-            // UVs measure unrolled metres, so the weave does not stretch or
-            // turn sideways where the cloth bends over the edge.
-            surface.SetUV(new((right - left) * u, lengths[row]));
-            surface.AddVertex(new(Mathf.Lerp(left, right, u),
-                profile[row].Y + .006f * wave * drop, profile[row].X + .012f * wave * drop));
-        }
+        var left=points.Min(p=>p.X);var right=points.Max(p=>p.X);
+        var back=points.Min(p=>p.Z);var front=points.Max(p=>p.Z);var top=points.Max(p=>p.Y)+.004f;
+        var cloth=RuralPropGeometry.Part(room,"TeaTablecloth",RuralPropGeometry.DrapedCloth(right-left,front-back,.24f),
+            new((left+right)*.5f,top,(back+front)*.5f),RuralPropMaterials.Surface("cloth"));
+        cloth.SetMeta("furnitureSupportMesh",table.GetPath().ToString());
+        cloth.SetMeta("householdRole","washed cotton; gravity drape on four sides; actual folds and metric cloth UV");
     }
 
     private static bool NeedsContact(string name) =>

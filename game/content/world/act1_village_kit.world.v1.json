@@ -17,7 +17,7 @@
         "position": [
           -7.8,
           0,
-          52
+          58.5
         ],
         "yawDegrees": 180,
         "scale": [
@@ -25,8 +25,13 @@
           0.9,
           0.9
         ],
-        "hidden": false
-      }
+        "hidden": false,
+        "groundingReferenceXZ": [
+          -7.8,
+          52
+        ]
+      },
+      "note": "29.09: authored overlap remediation; H001 inside ArrivalFarWestFacade; next plot north"
     },
     {
       "id": "urman.world:act1/kit/village-house-arrivalreverseedgehouseeast",
@@ -81,9 +86,9 @@
         "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
         "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
         "position": [
-          14,
+          18.5,
           0,
-          54
+          54.0
         ],
         "yawDegrees": 176,
         "scale": [
@@ -91,8 +96,13 @@
           0.9,
           0.9
         ],
-        "hidden": false
-      }
+        "hidden": false,
+        "groundingReferenceXZ": [
+          14,
+          54
+        ]
+      },
+      "note": "29.09: authored overlap remediation; H005 inside ArrivalReverseEdgeHouseEast; next plot east"
     },
     {
       "id": "urman.world:act1/kit/village-house-mainstreeteastlateralhouse",
@@ -2679,7 +2689,7 @@
         "position": [
           9.8,
           0,
-          -10.5
+          4.0
         ],
         "yawDegrees": -83,
         "scale": [
@@ -2687,8 +2697,13 @@
           0.74,
           0.7
         ],
-        "hidden": false
-      }
+        "hidden": false,
+        "groundingReferenceXZ": [
+          9.8,
+          -10.5
+        ]
+      },
+      "note": "29.09: authored overlap remediation; H019 inside ArrivalForwardEastFacade; proposal plot"
     },
     {
       "id": "urman.world:act1/kit/village-day-main-street-east-partial-fence",
@@ -2743,9 +2758,9 @@
         "component": "OutbuildingShed_Low",
         "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
         "position": [
-          5.3,
+          11.0,
           0,
-          -2
+          10.5
         ],
         "yawDegrees": 191,
         "scale": [
@@ -2753,8 +2768,13 @@
           0.95,
           0.95
         ],
-        "hidden": false
-      }
+        "hidden": false,
+        "groundingReferenceXZ": [
+          5.3,
+          -2
+        ]
+      },
+      "note": "29.09: authored overlap remediation; H019's shed behind its house; clear of the arrival timetable and bench"
     },
     {
       "id": "urman.world:act1/kit/village-day-main-street-east-woodpile",
@@ -2897,9 +2917,9 @@
         "component": "DwellingFacade_TimberPlaster",
         "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
         "position": [
-          -11,
+          -24.0,
           0,
-          -48.5
+          -47.0
         ],
         "yawDegrees": 109.664,
         "scale": [
@@ -2907,8 +2927,13 @@
           0.42,
           0.52
         ],
-        "hidden": false
-      }
+        "hidden": false,
+        "groundingReferenceXZ": [
+          -11,
+          -48.5
+        ]
+      },
+      "note": "29.09: authored overlap remediation; H024 inside ReturnWestFarHouse1Silhouette; proposal west plot"
     },
     {
       "id": "urman.world:act1/kit/zirat-road-return-street-distant-fence",
@@ -3031,7 +3056,7 @@
         "position": [
           8.5,
           0.86,
-          -32
+          -30.0
         ],
         "yawDegrees": -90,
         "scale": [
@@ -3039,8 +3064,13 @@
           0.9,
           0.9
         ],
-        "hidden": false
-      }
+        "hidden": false,
+        "groundingReferenceXZ": [
+          8.5,
+          -32
+        ]
+      },
+      "note": "29.09: authored overlap remediation; H022 overlapping FapOppositeFieldNeighborHouse; 2 m north"
     },
     {
       "id": "urman.world:act1/kit/village-house-returneasthousea8silhouette",
@@ -3051,9 +3081,9 @@
         "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
         "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
         "position": [
-          8.5,
+          9.5,
           0.84,
-          -42.5
+          -45.3
         ],
         "yawDegrees": -90,
         "scale": [
@@ -3061,8 +3091,13 @@
           0.9,
           0.9
         ],
-        "hidden": false
-      }
+        "hidden": false,
+        "groundingReferenceXZ": [
+          8.5,
+          -42.5
+        ]
+      },
+      "note": "29.09: authored overlap remediation; H023 overlapping FapOppositeFieldNeighborHouse; into the plot H046 left"
     },
     {
       "id": "urman.world:act1/kit/house-old-pc-west-side-facade",
@@ -3997,9 +4032,9 @@
         "component": "DwellingFacade_TimberPlaster",
         "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
         "position": [
-          -11,
+          -31.5,
           0,
-          16
+          17.0
         ],
         "yawDegrees": 90,
         "scale": [
@@ -4007,8 +4042,13 @@
           0.78,
           0.78
         ],
-        "hidden": false
-      }
+        "hidden": false,
+        "groundingReferenceXZ": [
+          -11,
+          16
+        ]
+      },
+      "note": "29.09: authored overlap remediation; H014 inside ArrivalWestNearAuthoredTimberGableParcel; proposal plot"
     },
     {
       "id": "urman.world:act1/kit/village-day-arrival-west-lateral-shed",
@@ -4131,7 +4171,7 @@
         "position": [
           -11.5,
           0,
-          26
+          35.5
         ],
         "yawDegrees": 176,
         "scale": [
@@ -4139,8 +4179,13 @@
           0.5,
           0.5
         ],
-        "hidden": false
-      }
+        "hidden": false,
+        "groundingReferenceXZ": [
+          -11.5,
+          26
+        ]
+      },
+      "note": "29.09: authored overlap remediation; H044 inside ArrivalWestNearAuthoredTimberGableParcel; proposal plot"
     },
     {
       "id": "urman.world:act1/kit/village-day-arrival-reverse-west-domestic-yard",
@@ -4195,9 +4240,9 @@
         "component": "DwellingFacade_TimberPlaster",
         "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
         "position": [
-          -24,
+          -31.5,
           0,
-          27.5
+          36.5
         ],
         "yawDegrees": 88,
         "scale": [
@@ -4205,8 +4250,13 @@
           0.34,
           0.34
         ],
-        "hidden": false
-      }
+        "hidden": false,
+        "groundingReferenceXZ": [
+          -24,
+          27.5
+        ]
+      },
+      "note": "29.09: authored overlap remediation; H045 human-scale house; north of the old plot's tree, west of H006"
     },
     {
       "id": "urman.world:act1/kit/village-day-arrival-right-horizon-domestic-fence",
@@ -4239,9 +4289,9 @@
         "component": "DwellingFacade_TimberPlaster",
         "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
         "position": [
-          9,
+          6.2,
           0,
-          -42
+          -49.6
         ],
         "yawDegrees": 90,
         "scale": [
@@ -4249,8 +4299,13 @@
           0.44,
           0.44
         ],
-        "hidden": false
-      }
+        "hidden": false,
+        "groundingReferenceXZ": [
+          9,
+          -42
+        ]
+      },
+      "note": "29.09: authored overlap remediation; H046 inside ReturnEastHouseA8Silhouette; proposal plot"
     },
     {
       "id": "urman.world:act1/kit/fap-clinic-reverse-west-domestic-outbuilding",
@@ -4261,9 +4316,9 @@
         "component": "OutbuildingShed_Low",
         "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
         "position": [
-          11.6,
+          6.0,
           0,
-          -43.4
+          -54.5
         ],
         "yawDegrees": 84,
         "scale": [
@@ -4271,8 +4326,13 @@
           0.55,
           0.55
         ],
-        "hidden": false
-      }
+        "hidden": false,
+        "groundingReferenceXZ": [
+          11.6,
+          -43.4
+        ]
+      },
+      "note": "29.09: authored overlap remediation; H046's shed, behind its house on the new plot"
     },
     {
       "id": "urman.world:act1/kit/fap-clinic-reverse-west-domestic-fence",

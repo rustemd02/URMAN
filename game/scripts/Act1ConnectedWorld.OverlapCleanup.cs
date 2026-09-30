@@ -51,17 +51,25 @@ public partial class Act1ConnectedWorld
     private void RelocateOverlappingHouses()
     {
         var core = GetNode<Node3D>("Act1CoreWorldGreybox");
+        var legacy = 0; var authored = 0;
         foreach (var (name, x, z, reason) in OverlapRelocations)
         {
             var node = core.FindChild(name, true, false) as Node3D
                 ?? throw new InvalidOperationException($"Overlap relocation target is missing: {name}.");
+            if (node.HasMeta("placementOwner"))
+            {
+                authored++;
+                node.SetMeta("overlapRemediationOwner", "authored plot; future author transforms are authoritative");
+                continue;
+            }
+            legacy++;
             var from = node.GlobalPosition;
             var lift = (float)(Experiments.AgentBAct1.AgentBAct1HeightField.Ground(x, z)
                 - Experiments.AgentBAct1.AgentBAct1HeightField.Ground(from.X, from.Z));
             node.GlobalPosition = new Vector3(x, from.Y + lift, z);
             node.SetMeta("overlapRelocation", $"2026-09-25: {reason}; from ({from.X:0.0},{from.Z:0.0})");
         }
-        GD.Print($"act1-overlap-cleanup: relocated={OverlapRelocations.Length}");
+        GD.Print($"act1-overlap-cleanup: legacyRelocated={legacy} authoredOwners={authored}");
     }
 
     private void HideOverlappingStructures()

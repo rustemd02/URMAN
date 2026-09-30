@@ -27,6 +27,10 @@ GODOT=${URMAN_GODOT:-$GODOT_DEFAULT}
 GUARD=${URMAN_GUARD:-$URMAN_ROOT/eng/protected_run.py}
 # A smoke that throws inside async void never quits; fail it instead of hanging the run.
 SMOKE_TIMEOUT=${URMAN_SMOKE_TIMEOUT:-900}
+# Physical door animations use actual window focus. Their native checks need
+# a real window; the default remains the existing headless test invocation.
+HEADLESS_ARGS="--headless"
+[ "${URMAN_SMOKE_NATIVE:-0}" != "1" ] || HEADLESS_ARGS=""
 shared_session=false
 if [ "${1:-}" = "--shared-session" ]; then
   shared_session=true
@@ -58,16 +62,17 @@ if [ "$shared_session" = true ]; then
   python3 "$GUARD" --clean --timeout "$SMOKE_TIMEOUT" /bin/sh -eu -c '
     godot=$1
     display_args=$2
-    shift 2
+    headless_args=$3
+    shift 3
     for scene do
       case "$scene" in
         res://*) path=$scene ;;
         *) path="res://tests/$scene.tscn" ;;
       esac
       echo "run-smoke-guarded shared session: $path"
-      "$godot" --headless $display_args --path game "$path"
+      "$godot" $headless_args $display_args --path game "$path"
     done
-  ' shared-smoke "$GODOT" "$DISPLAY_ARGS" "$@"
+  ' shared-smoke "$GODOT" "$DISPLAY_ARGS" "$HEADLESS_ARGS" "$@"
   exit $?
 fi
 for scene in "$@"; do
@@ -76,7 +81,7 @@ for scene in "$@"; do
     *) path="res://tests/$scene.tscn" ;;
   esac
   echo "run-smoke-guarded: $path"
-  python3 "$GUARD" --clean --timeout "$SMOKE_TIMEOUT" "$GODOT" --headless $DISPLAY_ARGS --path game "$path" || status=$?
+  python3 "$GUARD" --clean --timeout "$SMOKE_TIMEOUT" "$GODOT" $HEADLESS_ARGS $DISPLAY_ARGS --path game "$path" || status=$?
 done
 
 exit "$status"

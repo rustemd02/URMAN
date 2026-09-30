@@ -40,13 +40,16 @@ public partial class Act1ConnectedWorld
         if (_publicBuildings.Count != 0) throw new InvalidOperationException("Public buildings are already assembled.");
         var shop = PreparePublicBuilding("shop", "WestReturnMidFacade", "H020", "tukay", "23", "URM-Q01-P0119", "village-shop-sign");
         BuildVillageShop(shop);
+        SquareWeatherShelter(shop.Room, new(0, shop.Ceiling * .5f, 0), new(shop.HalfSize.X, shop.Ceiling * .5f, shop.HalfSize.Y));
         BuildShopSign(FindDescendants<Node3D>(this).Single(node => node.Name == "WestReturnMidFacade"));
         BuildShopStorefront(shop);
         var school = PreparePublicBuilding("school", "EastReturnMidFacade", "H031", "urman", "6", "URM-Q02-P0130", "school-building-sign");
         BuildClosedSchool(school);
+        SquareWeatherShelter(school.Room, new(0, school.Ceiling * .5f, 0), new(school.HalfSize.X, school.Ceiling * .5f, school.HalfSize.Y));
         ExcludeSchoolFloorBank(school);
         var council = PreparePublicBuilding("council", "EastStreetHorizonFacade", "H040", "tukay", "8А", "URM-Q01-P0139", "council-building-sign");
         BuildCouncilClub(council);
+        SquareWeatherShelter(council.Room, new(0, council.Ceiling * .5f, 0), new(council.HalfSize.X, council.Ceiling * .5f, council.HalfSize.Y));
         RepairCouncilFenceJunction(council);
         foreach (var room in _publicBuildings) ShelterPublicMaterials(room.Metric);
         EnsureFacilityTick();
@@ -323,10 +326,6 @@ public partial class Act1ConnectedWorld
             RegisterPublicUse("school", door.Target, door.Hinge);
             PublicDoorFrame(room, "SchoolDoorFrame" + center, new(partitionX + .075f, 0, center), 1.08f, portalHeight, 90);
         }
-        PublicDocument(room, "school-transport-notice", new(h.X - .035f, 1.56f, -1.47f),
-            new(0, -90, 0), new(.64f, .48f));
-        PublicDocument(room, "school-class-photo", new(-h.X + .035f, 1.48f, 1.06f),
-            new(0, 90, 0), new(.91f, .68f), image: "res://assets/images/school-class-2005.png");
         PublicSolid(room, "ChalkboardBacking", new(1.96f, .91f, .055f), new(-.84f, 1.31f, h.Y - .055f), "514c37", "wood_furniture");
         PublicBox(room, "Chalkboard", new(1.84f, .80f, .022f), new(-.84f, 1.31f, h.Y - .090f), "304839", "plaster");
         PublicSolid(room, "ChalkTray", new(1.95f, .045f, .13f), new(-.84f, .845f, h.Y - .145f), "8c7c61", "wood_furniture");
@@ -340,7 +339,6 @@ public partial class Act1ConnectedWorld
             PublicBox(room, "ExerciseBook" + row, new(.20f, .018f, .26f), new(-.86f, .704f, z), "6d9780", "paper");
         }
         FacilityTable(room, "SchoolStaffDesk", new(-1.13f, 0, -1.14f), new(1.35f, .75f, .64f));
-        PublicDocument(room, "school-staff-note", new(-1.15f, .787f, -1.15f), Vector3.Zero, new(.39f, .28f), flat: true);
         PublicShelf(room, "SchoolArchiveShelves", new(-1.24f, 0, -h.Y + .21f), 1.81f, 1.83f, .31f, goods: false);
         PublicNotice(room, "SchoolDrawingDisplay", new(.35f, 1.41f, h.Y - .035f), 180,
             "Наш класс\nРисунки · 2005\nИмя, класс, год", .49f);
@@ -435,6 +433,13 @@ public partial class Act1ConnectedWorld
     internal string PublicInteriorAt(Vector3 point)
     {
         if (!FacilityExteriorActive) return string.Empty;
+        if (_squareSchool is { } centralSchool)
+        {
+            var schoolLocal = centralSchool.ToLocal(point);
+            if (Math.Abs(schoolLocal.X) < 13.65f && Math.Abs(schoolLocal.Z) < 5.15f
+                && schoolLocal.Y > -.20f && schoolLocal.Y < 6.8f)
+                return "school";
+        }
         foreach (var room in _publicBuildings)
         {
             var local = room.Room.ToLocal(point);

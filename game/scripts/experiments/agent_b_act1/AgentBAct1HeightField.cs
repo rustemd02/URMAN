@@ -36,9 +36,25 @@ public static class AgentBAct1HeightField
 
     private static readonly (float X, float Z)[] MainAxis =
     {
-        (0.5f, 179.5f), (2.2f, 172f), (-1.5f, 148f), (-3f, 118f), (-1.4f, 88f), (1.2f, 62f), (0f, 40f),
-        (0f, 9f), (-0.6f, -1.5f), (-1.2f, -8f), (0f, -19f),
-        (-1f, -30f), (0f, -41.5f), (-0.4f, -53.5f)
+        (-23f, 218f),
+        (-23f, 195f),
+        (-23f, 175f),
+        (-23f, 158f),
+        (-23f, 143f),
+        (-19f, 127f),
+        (-8f, 114f),
+        (0.5f, 105.5f),
+        (-1.4f, 88f),
+        (-0.1f, 75f),
+        (1.2f, 62f),
+        (0f, 40f),
+        (0f, 9f),
+        (-0.6f, -1.5f),
+        (-1.2f, -8f),
+        (0f, -19f),
+        (-1f, -30f),
+        (0f, -41.5f),
+        (-0.4f, -53.5f),
     };
 
     private static readonly (float X, float Z)[] ZiratAxis =
@@ -67,30 +83,97 @@ public static class AgentBAct1HeightField
     // spur at the field edge (kept in step with tools/world/generate_north_street.py).
     private static readonly (float X, float Z)[] EastStreetAxis =
     {
-        (-3f, 118f), (10f, 115.5f), (24f, 118f), (38f, 116.5f), (41f, 116f)
+        (-0.3f, 75f),
+        (12f, 73.5f),
+        (25f, 75f),
+        (39f, 74f),
+        (41f, 74f),
     };
 
     private static readonly (float X, float Z)[] WestSpurAxis =
     {
-        (-1.5f, 148f), (-14f, 150.5f), (-26f, 149f), (-36f, 151.5f)
+        (-23f, 175f),
+        (-30f, 178f),
+        (-40f, 177f),
+        (-44f, 178f),
     };
 
     // Ring road round the open square at the north end of the main street; it
     // starts and ends at the street's last point (the south entry).
     private static readonly (float X, float Z)[] SquareRingAxis =
     {
-        (0.5f, 179.5f), (3.75f, 180.37f), (6.13f, 182.75f), (7.0f, 186.0f), (6.13f, 189.25f), (3.75f, 191.63f), (0.5f, 192.5f), (-2.75f, 191.63f), (-5.13f, 189.25f), (-6.0f, 186.0f), (-5.13f, 182.75f), (-2.75f, 180.37f), (0.5f, 179.5f)
+        (0.5f, 105.5f),
+        (4.75f, 106.64f),
+        (7.86f, 109.75f),
+        (9f, 114f),
+        (7.86f, 118.25f),
+        (4.75f, 121.36f),
+        (0.5f, 122.5f),
+        (-3.75f, 121.36f),
+        (-6.86f, 118.25f),
+        (-8f, 114f),
+        (-6.86f, 109.75f),
+        (-3.75f, 106.64f),
+        (0.5f, 105.5f),
     };
 
+    private static readonly (float X,float Z)[] NorthEastStreetAxis =
+    {
+        (12.5f,151f),
+        (20f,155f),
+        (20f,180f),
+        (20f,207f),
+        (20f,229f),
+    };
+    private static readonly (float X,float Z)[] WestServiceAxis =
+    {
+        (-42f,80f),
+        (-41f,110f),
+        (-43f,135f),
+        (-39f,146f),
+        (-30f,152f),
+        (-23f,158f),
+    };
     private static readonly float[] HalfWidths = { 2.8f, 2.3f, 1.4f, 2.1f, 1.75f, 2.0f, 1.75f, 2.4f };
 
     private static readonly ((float X, float Z)[] Points, double HalfWidth)[] RoadAxes =
     {
         (MainAxis, HalfWidths[0]), (FapAxis, HalfWidths[1]),
         (HouseAxis, HalfWidths[2]), (ZiratAxis, HalfWidths[3]), (KaraAxis, HalfWidths[4]),
-        (EastStreetAxis, HalfWidths[5]), (WestSpurAxis, HalfWidths[6]), (SquareRingAxis, HalfWidths[7])
+        (EastStreetAxis, HalfWidths[5]), (WestSpurAxis, HalfWidths[6]), (SquareRingAxis, HalfWidths[7]), (NorthEastStreetAxis, 1.75), (WestServiceAxis, 1.75)
     };
     private static Vector3[]? _collisionFaces;
+    private sealed class HouseholdPad(float x, float z, float halfX, float halfZ, float yaw, float anchorX, float anchorZ, float feather)
+    {
+        public readonly float X = x, Z = z, HalfX = halfX, HalfZ = halfZ, Yaw = yaw, AnchorX = anchorX, AnchorZ = anchorZ, Feather = feather;
+        public double Target = double.NaN;
+        public float Outside(float x, float z)
+        {
+            var dx = x - X; var dz = z - Z;
+            var lx = dx * Mathf.Cos(Yaw) - dz * Mathf.Sin(Yaw);
+            var lz = dx * Mathf.Sin(Yaw) + dz * Mathf.Cos(Yaw);
+            return Mathf.Max(0, Mathf.Max(Mathf.Abs(lx) - HalfX, Mathf.Abs(lz) - HalfZ));
+        }
+    }
+    private static readonly HouseholdPad[] HouseholdPads = LoadHouseholdPads();
+    private static HouseholdPad[] LoadHouseholdPads()
+    {
+        const string path = "res://content/world/act1_north_street.world.v1.json";
+        if (!global::Godot.FileAccess.FileExists(path)) return [];
+        using var doc = System.Text.Json.JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(path));
+        var result = new System.Collections.Generic.List<HouseholdPad>();
+        foreach (var entity in doc.RootElement.GetProperty("entities").EnumerateArray())
+        {
+            var p = entity.GetProperty("params");
+            if (!p.TryGetProperty("terrainPad", out var pad)) continue;
+            var at = p.GetProperty("position"); var size = pad.GetProperty("halfSize"); var anchor = pad.GetProperty("streetAnchor");
+            result.Add(new(at[0].GetSingle(), at[2].GetSingle(), size[0].GetSingle(), size[1].GetSingle(),
+                Mathf.DegToRad(p.GetProperty("yawDegrees").GetSingle()), anchor[0].GetSingle(), anchor[1].GetSingle(), pad.GetProperty("feather").GetSingle()));
+        }
+        return result.ToArray();
+    }
+    internal static bool InsideHouseholdClearance(Vector2 point)
+        => HouseholdPads.Any(pad => pad.Outside(point.X, point.Y) < pad.Feather);
     private static Vector3[] CollisionFacesValue => _collisionFaces ??= BuildTerrainFaces();
 
     /// <summary>
@@ -371,6 +454,23 @@ public static class AgentBAct1HeightField
 
     /// <summary>The generator's ground before author strokes.</summary>
     public static double GeneratedGround(float x, float z)
+    {
+        var height = GeneratedGroundWithoutHouseholdPads(x, z);
+        // Real level yard platforms share the adjacent street grade. Author
+        // strokes remain the final override in Ground; the river/ravine stay cut.
+        if (RiverChannel(x, z) != 0 || RavineChannel(x, z) != 0) return height;
+        foreach (var pad in HouseholdPads)
+        {
+            var outside = pad.Outside(x, z);
+            if (outside >= pad.Feather) continue;
+            if (double.IsNaN(pad.Target)) pad.Target = GeneratedGroundWithoutHouseholdPads(pad.AnchorX, pad.AnchorZ);
+            var blend = 1 - Mathf.SmoothStep(0, pad.Feather, outside);
+            height += (pad.Target - height) * blend;
+        }
+        return height;
+    }
+
+    private static double GeneratedGroundWithoutHouseholdPads(float x, float z)
     {
         var baseHeight = Terrain(x, z);
         var (distance, halfWidth) = RoadInfo(x, z);

@@ -386,18 +386,11 @@ public partial class SnowTrampleField : Node3D
 
     private static CpuParticles3D BuildPuffs()
     {
-        var quad = new QuadMesh { Size = new Vector2(0.12f, 0.12f) };
-        quad.Material = new StandardMaterial3D
-        {
-            AlbedoColor = new Color(0.95f, 0.96f, 0.99f, 0.55f),
-            Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
-            ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
-            BillboardMode = BaseMaterial3D.BillboardModeEnum.Enabled,
-            CullMode = BaseMaterial3D.CullModeEnum.Disabled
-        };
+        var quad = WinterParticleSurfaces.Snow(.09f, .44f);
         return new CpuParticles3D
         {
             Name = "SnowStepPuffs",
+            ColorRamp = WinterParticleSurfaces.Fade(),
             Amount = 10,
             OneShot = true,
             Explosiveness = 0.96f,

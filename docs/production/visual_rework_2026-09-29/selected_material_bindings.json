@@ -1,0 +1,191 @@
+{
+  "date": "2026-09-30",
+  "source_head": "d2980cb",
+  "selected": [
+    {
+      "kind": "plywood",
+      "file": "game/assets/textures/realism_20260929/birch_plywood_varnished_v1_basecolor.png",
+      "sha256": "27efa99c785e23e3ce28a89b5de2379339c6e914f64e9dbb710061c5ec699481",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "requests": [
+        "TX29-09",
+        "TX29-10"
+      ],
+      "tile_metres": 0.5,
+      "roughness": 0.48,
+      "metallic": 0,
+      "consumer": "RuralPropMaterials.Surface(plywood); actual metric mesh UV",
+      "provenance": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "visual_check": "source pixels inspected; actual receiver capture pending at this cutoff",
+      "normal_map": "none; do not infer height from pigment"
+    },
+    {
+      "kind": "velvet",
+      "file": "game/assets/textures/realism_20260929/burgundy_stage_velvet_v1_basecolor.png",
+      "sha256": "a07844477147927a41da5c2f33b8967b052c64c7a6643de9e99ab32557049d47",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "requests": [
+        "TX29-13",
+        "TX29-14"
+      ],
+      "tile_metres": 0.5,
+      "roughness": 0.97,
+      "metallic": 0,
+      "consumer": "RuralPropMaterials.Surface(velvet); actual metric mesh UV",
+      "provenance": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "visual_check": "source pixels inspected; actual receiver capture pending at this cutoff",
+      "normal_map": "none; do not infer height from pigment"
+    },
+    {
+      "kind": "steel",
+      "file": "game/assets/textures/realism_20260929/painted_steel_enamel_v1_basecolor.png",
+      "sha256": "b3e51ca2d1ba8c2db18ed6ed6541e4093da17793cc49318640bcb57693303fe2",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "requests": [
+        "TX29-08",
+        "TX29-09",
+        "TX29-10",
+        "TX29-12"
+      ],
+      "tile_metres": 0.5,
+      "roughness": 0.45,
+      "metallic": 0,
+      "consumer": "RuralPropMaterials.Surface(steel); actual metric mesh UV",
+      "provenance": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "visual_check": "source pixels inspected; actual receiver capture pending at this cutoff",
+      "normal_map": "none; do not infer height from pigment"
+    },
+    {
+      "kind": "laminate",
+      "file": "game/assets/textures/realism_20260929/school_laminate_beige_source_v1_basecolor.png",
+      "sha256": "d9ecd589101d853f2d785284f8e2206bd41da7b4d30fca7c78ff85ac24a48425",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "requests": [
+        "TX29-09"
+      ],
+      "tile_metres": 1,
+      "roughness": 0.4,
+      "metallic": 0,
+      "consumer": "RuralPropMaterials.Surface(laminate); actual metric mesh UV",
+      "provenance": "assets/source/imagegen/2026-09-29/school_laminate_beige_v1_basecolor.png",
+      "visual_check": "source pixels inspected; actual receiver capture pending at this cutoff",
+      "normal_map": "none; do not infer height from pigment"
+    },
+    {
+      "kind": "ceramic",
+      "file": "game/assets/textures/realism_20260929/glazed_ceramic_cream_source_v1_basecolor.png",
+      "sha256": "68c36f276415f25a287f4a85ec7b1765059e4c42d4604ef6cb31e619ca624757",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "requests": [
+        "TX29-19"
+      ],
+      "tile_metres": 0.5,
+      "roughness": 0.28,
+      "metallic": 0,
+      "consumer": "RuralPropMaterials.Surface(ceramic); actual metric mesh UV",
+      "provenance": "assets/source/imagegen/2026-09-29/glazed_ceramic_cream_v1_basecolor.png",
+      "visual_check": "source pixels inspected; actual receiver capture pending at this cutoff",
+      "normal_map": "none; do not infer height from pigment"
+    },
+    {
+      "kind": "earthenware",
+      "file": "game/assets/textures/realism_20260929/unglazed_earthenware_source_v1_basecolor.png",
+      "sha256": "312d6457da248ca89d2d7e0b992841350981d5ec09fd9c81d896936b044c6da4",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "requests": [
+        "TX29-19"
+      ],
+      "tile_metres": 0.5,
+      "roughness": 0.9,
+      "metallic": 0,
+      "consumer": "RuralPropMaterials.Surface(earthenware); actual metric mesh UV",
+      "provenance": "assets/source/imagegen/2026-09-29/unglazed_earthenware_v1_basecolor.png",
+      "visual_check": "source pixels inspected; actual receiver capture pending at this cutoff",
+      "normal_map": "none; do not infer height from pigment"
+    },
+    {
+      "kind": "metal",
+      "file": "game/assets/textures/realism_20260929/galvanized_zinc_source_v1_basecolor.png",
+      "sha256": "899c9a9a2384ae43c70b5640e2d381712ea0e1af2210ce405f3b347d265546d7",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "requests": [
+        "TX29-09",
+        "TX29-10",
+        "TX29-11",
+        "TX29-12"
+      ],
+      "tile_metres": 0.5,
+      "roughness": 0.58,
+      "metallic": 1,
+      "consumer": "RuralPropMaterials.Surface(metal); actual metric mesh UV",
+      "provenance": "assets/source/imagegen/2026-09-29/galvanized_zinc_v1_basecolor.png",
+      "visual_check": "source pixels inspected; actual receiver capture pending at this cutoff",
+      "normal_map": "none; do not infer height from pigment"
+    },
+    {
+      "kind": "concrete",
+      "file": "game/assets/textures/realism_20260929/public_concrete_source_v1_basecolor.png",
+      "sha256": "009f68a751b497fe4b20f6a6ee63a9108c393bc902e64243c707a3fd2886f1f5",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "requests": [
+        "TX29-06",
+        "TX29-11"
+      ],
+      "tile_metres": 1,
+      "roughness": 0.9,
+      "metallic": 0,
+      "consumer": "RuralPropMaterials.Surface(concrete); actual metric mesh UV",
+      "provenance": "assets/source/imagegen/2026-09-29/public_concrete_v1_basecolor.png",
+      "visual_check": "source pixels inspected; actual receiver capture pending at this cutoff",
+      "normal_map": "none; do not infer height from pigment"
+    },
+    {
+      "kind": "chalkboard",
+      "file": "game/assets/textures/realism_20260929/school_green_chalkboard_v1_basecolor.png",
+      "sha256": "5f6d7ed56c4f5c7cff9e1e1a6e7dfb2235df7a6d132106c7a30fb7a409f0bc24",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "requests": [
+        "TX29-11"
+      ],
+      "tile_metres": null,
+      "roughness": 0.9,
+      "metallic": 0,
+      "consumer": "BuildClassroom/Chalkboard: full unique bitmap on 3.1x1.1 m quad, backing thickness and tray separate",
+      "provenance": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "visual_check": "source pixels inspected; actual receiver capture pending at this cutoff",
+      "normal_map": "none; do not infer height from pigment"
+    }
+  ],
+  "not_selected": [
+    "local school_laminate_beige_v1_basecolor.png: coarse terrazzo speckle",
+    "public_red_brick_source_v1_basecolor.png: anisotropic 1.056x0.624 m UV required; staged only"
+  ],
+  "brass_rubber_mosaic": "dedicated worker producing named recipients; not yet bound"
+}

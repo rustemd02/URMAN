@@ -42,11 +42,11 @@ public partial class Act1DemoRoot
             new(4.5f, 0, -12.5f), new(0f, 0, -10f), new(-.6f, 0, -1.5f)
         };
         // Main axis south to north from the village entrance to the ring's south entry.
-        var north = AgentBAct1Layout.MainRoadAxis.Where(point => point.Y >= 9f).OrderBy(point => point.Y).ToArray();
+        var north = AgentBAct1Layout.MainRoadAxis.Where(point => point.Y >= 9f && point.Y <= AgentBAct1Layout.CivicCentre.Y - 8.5f).Reverse().ToArray();
         foreach (var point in north) path.Add(new(point.X + RideLane, 0, point.Y));
         // Once round the ring, counter-clockwise, on the outer (right-hand) side of the island.
         var ring = AgentBAct1Layout.SquareRingAxis;
-        var centre = new Vector2(.5f, 186f);
+        var centre = AgentBAct1Layout.CivicCentre;
         foreach (var point in ring.Skip(1))
         {
             var outward = (point - centre).Normalized();
@@ -222,7 +222,7 @@ public partial class Act1DemoRoot
         // Tour of the village: each remark waits for the previous one to finish
         // and for the car to reach its place, so nothing talks over anything.
         var northLeg = RideMark(0f + RideLane, 9f, 60f);
-        var ringStart = RideMark(.5f, 179.5f, northLeg);
+        var ringStart = RideMark(.5f, 105.5f, northLeg);
         var villageBarks = new (float At, string Id)[]
         {
             (3f, "prologue-ride-bark-bridge"),
@@ -230,11 +230,11 @@ public partial class Act1DemoRoot
             (RideMark(0f, -10f), "prologue-ride-bark-street"),
             (northLeg + 6f, "prologue-ride-bark-edge"),
             (RideMark(1.2f + RideLane, 62f, northLeg), "prologue-ride-bark-fields"),
-            (RideMark(-3f + RideLane, 108f, northLeg), "prologue-ride-bark-lower-street"),
-            (RideMark(-1.5f + RideLane, 150f, northLeg), "prologue-ride-bark-square-road"),
+            (RideMark(1.2f + RideLane, 75f, northLeg), "prologue-ride-bark-lower-street"),
+            (RideMark(-1.4f + RideLane, 88f, northLeg), "prologue-ride-bark-square-road"),
             (ringStart, "prologue-ride-bark-square"),
             (ringStart + 24f, "prologue-ride-bark-square-year"),
-            (RideMark(-1.5f - RideLane, 148f, ringStart), "prologue-ride-bark-back"),
+            (RideMark(-1.4f - RideLane, 88f, ringStart), "prologue-ride-bark-back"),
             (RideMark(0f - RideLane, 20f, ringStart), "prologue-ride-bark-home")
         };
         var villageBark = 0;

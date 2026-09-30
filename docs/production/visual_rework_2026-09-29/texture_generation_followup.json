@@ -1,0 +1,408 @@
+{
+  "schema": "urman.texture_generation_followup.v1",
+  "recorded_at": "2026-09-30",
+  "resource_check": {
+    "api_key_configured": false,
+    "prior_builtin_reset_unix": 1790723572,
+    "prior_builtin_reset_utc": "2026-09-29T23:12:52Z",
+    "clock_utc": "2026-09-30T07:01:13Z",
+    "decision": "Prior builtin reset had elapsed; one fresh call was meaningful and succeeded."
+  },
+  "assets": [
+    {
+      "source": "/Users/kadyrahunov/.codex/generated_images/01a0ee97-8c26-7721-b97b-b04607feef65/exec-2c5b8f3b-88cc-4bbd-be86-3fe4f18da6ab.png",
+      "saved_path": "/Users/kadyrahunov/Projects/URMAN/game/assets/textures/realism_20260929/birch_plywood_varnished_v1_basecolor.png",
+      "relative_path": "game/assets/textures/realism_20260929/birch_plywood_varnished_v1_basecolor.png",
+      "sha256": "27efa99c785e23e3ce28a89b5de2379339c6e914f64e9dbb710061c5ec699481",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: reusable real 3D game base-color texture, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Generate ONE seamless square material surface filling the whole image: warm honey-blond birch face veneer under clear varnish. Fine restrained straight vertical wood grain and small low-contrast pores, maintained older school furniture. Orthographic perpendicular flat scan, perfectly uniform neutral diffuse exposure. No separate boards, no seams between planks, no edge, no chipboard cut edge, no bolts, no deep cracks, no furniture silhouette. No shiny highlights, reflections, shadows, ambient occlusion, lighting gradient, perspective, words, numbers, dates, frame or watermark. Opposite edges seamless. Base color only: the game material provides varnish roughness, while rounded bent plywood and laminated cut edges are real mesh geometry. Avoid painterly brush strokes and excessive micro-noise. Produce only the opaque RGB texture, not a PBR map sheet or scene.",
+      "method": "builtin image_gen",
+      "status": "source_generated_reviewed; runtime_not_run",
+      "review": "Flat warm birch grain, no modeled-board seams/hardware/highlights; roughness belongs to material.",
+      "uv_tile_m": 0.5,
+      "roughness": 0.48,
+      "metallic": 0,
+      "verification": "Raw generated output visually inspected; seamless repetition and engine view require integration owner."
+    },
+    {
+      "source": "/Users/kadyrahunov/.codex/generated_images/01a0ee97-8c26-7721-b97b-b04607feef65/exec-54aa4b63-301a-4c67-ae31-1cfa3e180d1f.png",
+      "saved_path": "/Users/kadyrahunov/Projects/URMAN/game/assets/textures/realism_20260929/burgundy_stage_velvet_v1_basecolor.png",
+      "relative_path": "game/assets/textures/realism_20260929/burgundy_stage_velvet_v1_basecolor.png",
+      "sha256": "a07844477147927a41da5c2f33b8967b052c64c7a6643de9e99ab32557049d47",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: reusable real 3D game base-color texture, rural Soviet house of culture in inhabited Tatar village, ambiguous 2000–2026 use. Produce only ONE seamless square flat cotton velvet material surface filling the entire image. Deep subdued wine burgundy color, extremely fine low-contrast nap and quiet minute tonal mottling, tactile maintained stage-curtain velvet. Orthographic perpendicular unlit diffuse scan, consistent exposure throughout, opposite borders seamless. No folds, draping, vertical shadow bands, glowing velvet streaks, perspective, fabric edges, objects, seams, printed pattern, text, dates, frame or watermark. No directional lighting, cast shadows, ambient occlusion, reflections, gloss highlights or sheen painted into color. Physical curtain folds and seat curvature are real meshes; velvet grazing sheen and roughness are runtime material response. Avoid coarse burlap weave, coarse grit, saturated red, painterly brush strokes and obvious repetitive blotches. Output only one opaque RGB base-color image, not scene, mockup or map collage.",
+      "method": "builtin image_gen",
+      "status": "source_generated_reviewed; runtime_not_run",
+      "review": "Fine burgundy nap, no folds or directional fold-shadows; grazing sheen belongs to material.",
+      "uv_tile_m": 0.5,
+      "roughness": 0.97,
+      "metallic": 0,
+      "verification": "Raw generated output visually inspected; seamless repetition and engine view require integration owner."
+    },
+    {
+      "source": "/Users/kadyrahunov/.codex/generated_images/01a0ee97-8c26-7721-b97b-b04607feef65/exec-955a725f-36c9-4995-a138-9e106e6bda62.png",
+      "saved_path": "/Users/kadyrahunov/Projects/URMAN/game/assets/textures/realism_20260929/school_laminate_beige_v1_basecolor.png",
+      "relative_path": "game/assets/textures/realism_20260929/school_laminate_beige_v1_basecolor.png",
+      "sha256": "68d58a67d38ddbad86787e5e6302b94b26ffa243c741473a95408f736ee4aaa4",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: real 3D game base-color surface for URMAN, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Produce only one flat material surface, not a scene or object photograph. Orthographic perpendicular scan, uniform neutral exposure, physically plausible restrained color variation. Base color only: no illumination gradient, cast shadow, ambient occlusion, highlights, reflection, perspective, frame, watermark, text or dates. Fine details must remain quiet with mipmaps; no painterly brush strokes. Geometry and roughness create the shape and light response in the real game.\nMaterial request: Seamless square tile of warm pale beige melamine school desk laminate, fine muted mineral speckle, restrained broad color variation from maintained use. No boards, wood grain, border, burn marks, printed notebook, screw holes or glossy highlights. Tile both axes. Desk edge banding and chipboard cut edge are separate mesh/material components.",
+      "method": "builtin image_gen",
+      "status": "source_generated_reviewed; runtime_not_run",
+      "review": "Local source has large aggregate chips: terrazzo-like. Retained as generated variant provenance; do not use as final school desk melamine.",
+      "uv_tile_m": 1,
+      "roughness": 0.4,
+      "metallic": 0,
+      "verification": "Raw output visually inspected; seam repetition/real UV/engine integration remain owner checks.",
+      "selection_status": "not_selected_for_school_desk; remote quiet laminate preferred"
+    },
+    {
+      "source": "/Users/kadyrahunov/.codex/generated_images/01a0ee97-8c26-7721-b97b-b04607feef65/exec-70ae5390-d4c8-411b-b69d-182b46b35ac3.png",
+      "saved_path": "/Users/kadyrahunov/Projects/URMAN/game/assets/textures/realism_20260929/painted_steel_enamel_v1_basecolor.png",
+      "relative_path": "game/assets/textures/realism_20260929/painted_steel_enamel_v1_basecolor.png",
+      "sha256": "b3e51ca2d1ba8c2db18ed6ed6541e4093da17793cc49318640bcb57693303fe2",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: real 3D game base-color surface for URMAN, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Produce only one flat material surface, not a scene or object photograph. Orthographic perpendicular scan, uniform neutral exposure, physically plausible restrained color variation. Base color only: no illumination gradient, cast shadow, ambient occlusion, highlights, reflection, perspective, frame, watermark, text or dates. Fine details must remain quiet with mipmaps; no painterly brush strokes. Geometry and roughness create the shape and light response in the real game.\nMaterial request: Seamless square tile of light warm grey opaque enamel paint over steel, restrained age yellowing and extremely subtle small coating mottling. No broad rusty patches, no bare shiny metal, no tubes, radiator ribs, borders, paint drips, hardware or highlights. Paint stays continuous so material metallic is zero; separately modeled bare metal parts retain their own metallic response. Neutral grey permits modest material tint variants without baking green/blue lighting.",
+      "method": "builtin image_gen",
+      "status": "source_generated_reviewed; runtime_not_run",
+      "review": "Corrected smooth enamel; first result rejected as plaster-like. No highlighted bumps.",
+      "uv_tile_m": 0.5,
+      "roughness": 0.45,
+      "metallic": 0,
+      "verification": "Raw output visually inspected; seam repetition/real UV/engine integration remain owner checks.",
+      "edit_target": "/Users/kadyrahunov/.codex/generated_images/01a0ee97-8c26-7721-b97b-b04607feef65/exec-504a56e2-e8a5-45ff-a8ac-79d382ae8c86.png",
+      "correction_prompt": "Edit this base-color texture ONLY to correct its surface from gritty plaster-like paint to continuous SMOOTH glossy industrial enamel coating over school-chair steel tubes and painted cast-iron radiators. Preserve the neutral very light warm grey, flat square material-only framing, seamless borders and extremely subtle faint age mottling. Remove the raised-looking granular dots, pore relief, plaster ridges and their little dark/light paired shadows. Reduce microtexture contrast strongly, nearly smooth enamel with only very subtle low-contrast occasional color imperfections. DO NOT draw gloss, reflections or lighting to communicate enamel: runtime roughness provides gloss. No rust, bare metal, scratches exposing metal, objects, borders, hardware or text. Uniform diffuse color exposure. Produce one opaque RGB base-color tile."
+    },
+    {
+      "source": "/Users/kadyrahunov/.codex/generated_images/01a0ee97-8c26-7721-b97b-b04607feef65/exec-547e9df6-c426-4db2-812b-ddb71729e2fc.png",
+      "saved_path": "/Users/kadyrahunov/Projects/URMAN/game/assets/textures/realism_20260929/school_green_chalkboard_v1_basecolor.png",
+      "relative_path": "game/assets/textures/realism_20260929/school_green_chalkboard_v1_basecolor.png",
+      "sha256": "5f6d7ed56c4f5c7cff9e1e1a6e7dfb2235df7a6d132106c7a30fb7a409f0bc24",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: real 3D game base-color surface for URMAN, an inhabited Tatar village with Soviet construction and ambiguous 2000–2026 everyday use. Produce only one flat material surface, not a scene or object photograph. Orthographic perpendicular scan, uniform neutral exposure, physically plausible restrained color variation. Base color only: no illumination gradient, cast shadow, ambient occlusion, highlights, reflection, perspective, frame, watermark, text or dates. Fine details must remain quiet with mipmaps; no painterly brush strokes. Geometry and roughness create the shape and light response in the real game.\nMaterial request: One rectangular flat front-on green enamel chalkboard surface, restrained dark forest green, subtle diffuse erased chalk residue and fine surface wear. Entire image filled by board coating, no frame, tray, chalk stick, letters, numbers, equations, decorative marks or dates. No shiny glare or chalk dust edge vignette. Suitable as unique 2m x 1m board base color; material/mesh adds sheet thickness, wooden frame, fittings and actual writing.",
+      "method": "builtin image_gen",
+      "status": "source_generated_reviewed; runtime_not_run",
+      "review": "Dark green erased board surface, no writing/edge/glare; unique board island.",
+      "uv_tile_m": [
+        2,
+        1
+      ],
+      "roughness": 0.88,
+      "metallic": 0,
+      "verification": "Raw output visually inspected; seam repetition/real UV/engine integration remain owner checks."
+    },
+    {
+      "source": "/Users/kadyrahunov/.codex/generated_images/01a0ee97-8c26-7721-b97b-b04607feef65/exec-c5c2a146-c589-460f-be4e-40f1077e121e.png",
+      "saved_path": "/Users/kadyrahunov/Projects/URMAN/game/assets/textures/realism_20260929/samovar_brass_v1_basecolor.png",
+      "relative_path": "game/assets/textures/realism_20260929/samovar_brass_v1_basecolor.png",
+      "sha256": "5f91bcae24b2dbe694aaa22a41f2ea248fa4a231edb7a706253a6432c017fc90",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: one reusable seamless square RGB base-color material texture for bare brass parts of a realistic Soviet household samovar in URMAN, an inhabited Tatar village with everyday objects of ambiguous 2000–2026 age. Named real 3D consumers: RuralPropModels.Samovar Body, Foot, HandleBracket, Tap, TapSpout, TapKey. Flat orthographic perpendicular unlit reflectance color, no object photograph. Surface: pale warm golden yellow brass, restrained tiny non-directional warm color imperfections and very faint soft maintained age variation; practically clean, not newly mirror-polished and not neglected green corrosion. Uniform even exposure, seamless opposite borders. Absolutely no gleaming stripes, reflected environment, specular highlights, light gradients, shadows, ambient occlusion, dents, scratches suggesting directional relief, green verdigris, decorative ornament, engraved text, dates, borders, metal sphere, object silhouette or collage. Metallic1 roughness.32 is supplied in actual real 3D material; rounded spun samovar profile, rim, fittings and tube curvature are real geometry. The bitmap supplies only quiet brass intrinsic color; no polish/light baked into it. Nominal tile.5m. Output only one opaque RGB basecolor image.",
+      "method": "builtin image_gen",
+      "status": "source_generated_reviewed; runtime_not_run",
+      "review": "Corrected smooth warm straw-gold intrinsic color. First gritty/pitted image rejected; no specular light or polish painted.",
+      "uv_tile_m": 0.5,
+      "roughness": 0.32,
+      "metallic": 1,
+      "consumer": "RuralPropModels.Samovar Body/Foot/HandleBracket/Tap/TapSpout/TapKey",
+      "verification": "Raw image visually inspected; real UV/glancing light/tiling checks remain integration owner.",
+      "edit_target": "/Users/kadyrahunov/.codex/generated_images/01a0ee97-8c26-7721-b97b-b04607feef65/exec-fc9de549-0817-4094-9f14-21a3139587b5.png",
+      "correction_prompt": "Edit this square brass base-color tile. It is currently too porous and looks like yellow gritty stone. Remove ALL granular dots, pits, pores, bumps, cracks, paired light-and-dark microrelief, and hard mottled patches. Make it a smooth spun brass intrinsic-color field, softly desaturated pale warm straw-gold with tiny faint diffuse color variations only, almost uniform at normal game distance. Preserve flat full-bleed square view and seamlessly repeating opposite edges. Do not draw highlights or reflections: the real game metallic1 material produces those. No visible directional light, gradients, baked gloss, shadow, texture relief, ornament, text, hardware, scratches, rust/verdigris, frame or objects. Continuous smooth warm brass substrate, not plaster, concrete, gold leaf or yellow paint. One opaque RGB base-color texture."
+    },
+    {
+      "source": "/Users/kadyrahunov/.codex/generated_images/01a0ee97-8c26-7721-b97b-b04607feef65/exec-42064ef9-569e-4fe4-9662-1b3e2ee9f3ae.png",
+      "saved_path": "/Users/kadyrahunov/Projects/URMAN/game/assets/textures/realism_20260929/moulded_rubber_black_v1_basecolor.png",
+      "relative_path": "game/assets/textures/realism_20260929/moulded_rubber_black_v1_basecolor.png",
+      "sha256": "b93a9616d9fca772570a7cf8e0c7746686a21f291eb51d3e9f33ba5426ca2f1e",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: one reusable seamless square opaque RGB BASE-COLOR material tile for real 3D black moulded rubber foot plugs/leg caps of Soviet school chair and desk frames in URMAN. Named consumers RuralPropModels.Chair/Desk RubberFoot and LegCap. Surface only, flat perpendicular orthographic material scan filling image; continuous smooth dense black elastomer, muted very dark neutral charcoal, extremely subtle faint broad non-directional pigment variation. Keep nearly uniform at game distance. This is plain smooth moulded rubber, not tyre tread, foam, leather, cloth, sandpaper or cracked rubber. No visible granules, pores, raised-looking stipple, crease, mould line, skids, scratch grooves, hardware or object silhouette. Opposite edges seamless. No shiny streaks, light/shadow, reflections, highlights, gradients, directional relief, perspective, ornament, dates, text, frame or collage. Runtime supplies matte rubber response roughness .91 metallic0; foot thickness, bevel and seating against tube are real mesh. Nominal tile .35m. Output one basecolor RGB tile only.",
+      "method": "builtin image_gen",
+      "status": "source_generated_reviewed; runtime_not_run",
+      "review": "Smooth dense charcoal rubber, quiet pigment variation, no tread/leather/pores/shine.",
+      "uv_tile_m": 0.35,
+      "roughness": 0.91,
+      "metallic": 0,
+      "consumer": "RuralPropModels.Chair/Desk RubberFoot/LegCap",
+      "verification": "Raw image visually inspected; real UV/glancing light/tiling checks remain integration owner."
+    },
+    {
+      "source": "/Users/kadyrahunov/.codex/generated_images/01a0ee97-8c26-7721-b97b-b04607feef65/exec-6b2742af-af16-46f0-b1cf-0e6503c628c4.png",
+      "saved_path": "/Users/kadyrahunov/Projects/URMAN/game/assets/textures/realism_20260929/bus_wheat_sun_mosaic_v1_basecolor.png",
+      "relative_path": "game/assets/textures/realism_20260929/bus_wheat_sun_mosaic_v1_basecolor.png",
+      "sha256": "88116e1a22853edcae37aeadadd712a6c43072a4fc32f4f878397ec18ceffe69",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "prompt": "Use case: historical-scene. Asset type: original opaque RGB BASE-COLOR mural map for the single real 3D OldBusPavilion/MosaicPanel in URMAN, an inhabited Tatar rural village with Soviet construction and ambiguous 2000–2026 repair/use. Generate ONE full-bleed 2:1 wide rectangular ceramic mosaic artwork, front-on orthographic flat panel. Physical receiver is a 2m wide by1m high QuadMesh, front+Z, exact full UV[0,1]²; NOT a repeatable tile and NOT an invented atlas. Subject: modest welcoming Soviet rural agricultural mosaic, a small group of golden wheat ears rising toward a simple ochre sun, understated graphic composition across the wide panel, muted ochre,terracotta,cream,dustyblue palette. Fine flat individual ceramic tesserae and narrow pale grout boundaries supply intrinsic pigment texture, slight quiet maintained fading. Keep the artwork at ordinary bus-shelter scale, not grand propaganda. NO words,letters,numbers,dates,flags,political emblems,people,religious symbols,folk ornament,sculpture,objects,frame or watermark. Absolutely no sunlight cast on panel, baked shadows, directional highlights, glossy tile glints,ambient occlusion around grout,perspective,3D-rendered relief,vignette or backdrop. Ceramic matte response roughness.85 metallic0 and physical panel/contact form are supplied in engine. Image fills the complete landscape rectangle edge to edge. Output only one original diffuse RGB mosaic surface, no scene, mockup, border or collage.",
+      "method": "builtin image_gen",
+      "status": "source_generated_reviewed; runtime_not_run",
+      "review": "One original muted wheat/sun ceramic mural; 2:1 full-bleed panel, no writing/dates/people/political or religious symbols. No directional macro light/glare; tessera color and grout edges carry material artwork. Fine perceived tile microrelief is not a validated normal map.",
+      "uv_extent_m": [
+        2,
+        1
+      ],
+      "uv_contract": "Full [0,1]² unique map, no repeat; OldBusPavilion/MosaicPanel QuadMesh2x1m front+Z local center(0,1.45,-.788).",
+      "roughness": 0.85,
+      "metallic": 0,
+      "consumer": "OldBusPavilion/MosaicPanel",
+      "verification": "Raw bitmap visually inspected; real wall placement/orientation/lighting and art/cultural review remain integration owner."
+    }
+  ],
+  "remaining": "Assigned texture production complete:8 real local finals/variants and10 pulled-source material reviews. All engine import/consumer UV/visual acceptance remains with integration owner; no new duplication.",
+  "remote_review": {
+    "received_from_head": "d2980cb",
+    "manifest_path": "assets/source/imagegen/2026-09-29/manifest.json",
+    "manifest_sha256": "02d4b547daa6a0d7b386ad10a469ac4f47279db50f542d9de7f238f6a624abe5",
+    "assets_reviewed": [
+      {
+        "source_path": "assets/source/imagegen/2026-09-29/painted_steel_enamel_v1_basecolor.png",
+        "sha256": "6b5e2d7d839b5e9e889edc3853e3621fbb3880eccb9403a91ae48e3a427bb68b",
+        "actual_dimensions": [
+          1024,
+          1024
+        ],
+        "manifest_size": {
+          "source": "1254x1254 RGB",
+          "final": "1024x1024 RGB PNG"
+        },
+        "manifest_tool": "OpenAI built-in ImageGen; native sips used only to normalize output dimensions",
+        "source_review": "Raw bitmap viewed using view_image 2026-09-30; no runtime verification",
+        "decision": "candidate_fit_for_named_material; exact UV/engine integration pending",
+        "review": "Flat continuous coating plausible; local corrective version retained as integration owner selected. Runtime metallic0, not exposed steel.",
+        "uv_tile_m": 0.5,
+        "roughness": 0.45,
+        "metallic": 0,
+        "physical_response_note": "Starting value; inspect under real game glancing lights. No physical shape, reflection or contact inferred from bitmap.",
+        "provenance_note": "Remote manifest declares generation/edit prompt and resize; original provider call/source path not independently available in pulled package."
+      },
+      {
+        "source_path": "assets/source/imagegen/2026-09-29/galvanized_zinc_v1_basecolor.png",
+        "sha256": "899c9a9a2384ae43c70b5640e2d381712ea0e1af2210ce405f3b347d265546d7",
+        "actual_dimensions": [
+          1024,
+          1024
+        ],
+        "manifest_size": {
+          "source": "1254x1254 RGB",
+          "final": "1024x1024 RGB PNG"
+        },
+        "manifest_tool": "OpenAI built-in ImageGen; native sips used only to normalize output dimensions",
+        "source_review": "Raw bitmap viewed using view_image 2026-09-30; no runtime verification",
+        "decision": "candidate_fit_for_named_material; exact UV/engine integration pending",
+        "review": "Quiet grey spangle, no corrugations/rivets/glare. Suitable bare zinc; use physical metallic response.",
+        "uv_tile_m": 0.5,
+        "roughness": 0.55,
+        "metallic": 1,
+        "physical_response_note": "Starting value; inspect under real game glancing lights. No physical shape, reflection or contact inferred from bitmap.",
+        "provenance_note": "Remote manifest declares generation/edit prompt and resize; original provider call/source path not independently available in pulled package."
+      },
+      {
+        "source_path": "assets/source/imagegen/2026-09-29/public_concrete_v1_basecolor.png",
+        "sha256": "009f68a751b497fe4b20f6a6ee63a9108c393bc902e64243c707a3fd2886f1f5",
+        "actual_dimensions": [
+          1024,
+          1024
+        ],
+        "manifest_size": {
+          "source": "1254x1254 RGB",
+          "final": "1024x1024 RGB PNG"
+        },
+        "manifest_tool": "OpenAI built-in ImageGen (final output edited with ImageGen); native sips used only to normalize output dimensions",
+        "source_review": "Raw bitmap viewed using view_image 2026-09-30; no runtime verification",
+        "decision": "candidate_fit_for_named_material; exact UV/engine integration pending",
+        "review": "Quiet warm-grey aggregate field, no slabs/step edges/pits/baked light; suitable selected public concrete.",
+        "uv_tile_m": 1,
+        "roughness": 0.92,
+        "metallic": 0,
+        "physical_response_note": "Starting value; inspect under real game glancing lights. No physical shape, reflection or contact inferred from bitmap.",
+        "provenance_note": "Remote manifest declares generation/edit prompt and resize; original provider call/source path not independently available in pulled package."
+      },
+      {
+        "source_path": "assets/source/imagegen/2026-09-29/birch_plywood_varnished_v1_basecolor.png",
+        "sha256": "ead6f26d7a602ea150a92c8572f5d8badbed12e692b66bf4e935c6247301fc35",
+        "actual_dimensions": [
+          1024,
+          1024
+        ],
+        "manifest_size": {
+          "source": "1254x1254 RGB",
+          "final": "1024x1024 RGB PNG"
+        },
+        "manifest_tool": "OpenAI built-in ImageGen (final output edited with ImageGen); native sips used only to normalize output dimensions",
+        "source_review": "Raw bitmap viewed using view_image 2026-09-30; no runtime verification",
+        "decision": "candidate_fit_for_named_material; exact UV/engine integration pending",
+        "review": "Pale straw vertical veneer, quieter than local warm honey version; both are candidates with separate provenance, local chosen by integration owner.",
+        "uv_tile_m": 0.5,
+        "roughness": 0.48,
+        "metallic": 0,
+        "physical_response_note": "Starting value; inspect under real game glancing lights. No physical shape, reflection or contact inferred from bitmap.",
+        "provenance_note": "Remote manifest declares generation/edit prompt and resize; original provider call/source path not independently available in pulled package."
+      },
+      {
+        "source_path": "assets/source/imagegen/2026-09-29/school_laminate_beige_v1_basecolor.png",
+        "sha256": "d9ecd589101d853f2d785284f8e2206bd41da7b4d30fca7c78ff85ac24a48425",
+        "actual_dimensions": [
+          1024,
+          1024
+        ],
+        "manifest_size": {
+          "source": "1254x1254 RGB",
+          "final": "1024x1024 RGB PNG"
+        },
+        "manifest_tool": "OpenAI built-in ImageGen (final output edited with ImageGen); native sips used only to normalize output dimensions",
+        "source_review": "Raw bitmap viewed using view_image 2026-09-30; no runtime verification",
+        "decision": "candidate_fit_for_named_material; exact UV/engine integration pending",
+        "review": "Quiet low-contrast fine speckle. Preferred desk-top candidate over local terrazzo-like source.",
+        "uv_tile_m": 1,
+        "roughness": 0.4,
+        "metallic": 0,
+        "physical_response_note": "Starting value; inspect under real game glancing lights. No physical shape, reflection or contact inferred from bitmap.",
+        "provenance_note": "Remote manifest declares generation/edit prompt and resize; original provider call/source path not independently available in pulled package."
+      },
+      {
+        "source_path": "assets/source/imagegen/2026-09-29/school_green_chalkboard_v1_basecolor.png",
+        "sha256": "2ff3f6b6cfa535303f3a9960f19ae58d64789829a3bddf3ad802e980a021cd6f",
+        "actual_dimensions": [
+          1536,
+          1024
+        ],
+        "manifest_size": {
+          "source": "1536x1024 RGB",
+          "final": "1536x1024 RGB PNG"
+        },
+        "manifest_tool": "OpenAI built-in ImageGen",
+        "source_review": "Raw bitmap viewed using view_image 2026-09-30; no runtime verification",
+        "decision": "candidate_fit_for_named_material; exact UV/engine integration pending",
+        "review": "Muted erased board coating no text/frame/light; 3:2 image for2:1 target needs exact unique face mapping. Local2:1 source retained.",
+        "uv_tile_m": [
+          2,
+          1
+        ],
+        "roughness": 0.9,
+        "metallic": 0,
+        "physical_response_note": "Starting value; inspect under real game glancing lights. No physical shape, reflection or contact inferred from bitmap.",
+        "provenance_note": "Remote manifest declares generation/edit prompt and resize; original provider call/source path not independently available in pulled package."
+      },
+      {
+        "source_path": "assets/source/imagegen/2026-09-29/burgundy_seat_upholstery_v1_basecolor.png",
+        "sha256": "4b38082ece19e9f8d2ae0f58ab29c848c400f442317a44b3333a1ffc4cfd3c71",
+        "actual_dimensions": [
+          1024,
+          1024
+        ],
+        "manifest_size": {
+          "source": "1254x1254 RGB",
+          "final": "1024x1024 RGB PNG"
+        },
+        "manifest_tool": "OpenAI built-in ImageGen; native sips used only to normalize output dimensions",
+        "source_review": "Raw bitmap viewed using view_image 2026-09-30; no runtime verification",
+        "decision": "candidate_fit_for_named_material; exact UV/engine integration pending",
+        "review": "Fine subdued burgundy nap, suitable seat fabric; .35m tile; for curtain diffuse same tile can share with separate roughness/sheen. Local stage velvet also retained.",
+        "uv_tile_m": 0.35,
+        "roughness": 0.92,
+        "metallic": 0,
+        "physical_response_note": "Starting value; inspect under real game glancing lights. No physical shape, reflection or contact inferred from bitmap.",
+        "provenance_note": "Remote manifest declares generation/edit prompt and resize; original provider call/source path not independently available in pulled package."
+      },
+      {
+        "source_path": "assets/source/imagegen/2026-09-29/public_red_brick_v1_basecolor.png",
+        "sha256": "c2881fcba70be5ecf9475cc589e5f432d73d22a5e30cd580efb329b496477246",
+        "actual_dimensions": [
+          1024,
+          1024
+        ],
+        "manifest_size": {
+          "source": "1536x1024 RGB",
+          "final": "1024x1024 RGB PNG"
+        },
+        "manifest_tool": "OpenAI built-in ImageGen (final result edited with ImageGen); native sips used only to normalize output dimensions",
+        "source_review": "Raw bitmap viewed using view_image 2026-09-30; no runtime verification",
+        "decision": "candidate_fit_for_named_material; exact UV/engine integration pending",
+        "review": "Flat red pigment/pale grout with no bevel shadows; actual1024 square is resized from3:2 source. UV MUST map tile1.056x.624m to preserve brick proportions. Rows/widths approximate; mesh relief remains required.",
+        "uv_tile_m": [
+          1.056,
+          0.624
+        ],
+        "roughness": 0.9,
+        "metallic": 0,
+        "physical_response_note": "Starting value; inspect under real game glancing lights. No physical shape, reflection or contact inferred from bitmap.",
+        "provenance_note": "Remote manifest declares generation/edit prompt and resize; original provider call/source path not independently available in pulled package."
+      },
+      {
+        "source_path": "assets/source/imagegen/2026-09-29/unglazed_earthenware_v1_basecolor.png",
+        "sha256": "312d6457da248ca89d2d7e0b992841350981d5ec09fd9c81d896936b044c6da4",
+        "actual_dimensions": [
+          1024,
+          1024
+        ],
+        "manifest_size": {
+          "source": "1254x1254 RGB",
+          "final": "1024x1024 RGB PNG"
+        },
+        "manifest_tool": "OpenAI built-in ImageGen; native sips used only to normalize output dimensions",
+        "source_review": "Raw bitmap viewed using view_image 2026-09-30; no runtime verification",
+        "decision": "candidate_fit_for_named_material; exact UV/engine integration pending",
+        "review": "Clay beige pore color intrinsic, no rim/silhouette; suitable matte vessel. Do not derive normal depth blindly from pore color.",
+        "uv_tile_m": 0.5,
+        "roughness": 0.9,
+        "metallic": 0,
+        "physical_response_note": "Starting value; inspect under real game glancing lights. No physical shape, reflection or contact inferred from bitmap.",
+        "provenance_note": "Remote manifest declares generation/edit prompt and resize; original provider call/source path not independently available in pulled package."
+      },
+      {
+        "source_path": "assets/source/imagegen/2026-09-29/glazed_ceramic_cream_v1_basecolor.png",
+        "sha256": "68c36f276415f25a287f4a85ec7b1765059e4c42d4604ef6cb31e619ca624757",
+        "actual_dimensions": [
+          1024,
+          1024
+        ],
+        "manifest_size": {
+          "source": "1254x1254 RGB",
+          "final": "1024x1024 RGB PNG"
+        },
+        "manifest_tool": "OpenAI built-in ImageGen; native sips used only to normalize output dimensions",
+        "source_review": "Raw bitmap viewed using view_image 2026-09-30; no runtime verification",
+        "decision": "candidate_fit_for_named_material; exact UV/engine integration pending",
+        "review": "Quiet ivory pigment no painted glare; suitable cup glaze, rim/handle mesh and grazing gloss material.",
+        "uv_tile_m": 0.5,
+        "roughness": 0.28,
+        "metallic": 0,
+        "physical_response_note": "Starting value; inspect under real game glancing lights. No physical shape, reflection or contact inferred from bitmap.",
+        "provenance_note": "Remote manifest declares generation/edit prompt and resize; original provider call/source path not independently available in pulled package."
+      }
+    ],
+    "summary": "10 remote materials visually reviewed. No duplicate generation. Local5 finals preserved; local laminate is coarse compared with selected remote desk top. No map has received runtime/artistic acceptance from this source audit."
+  },
+  "local_bitmap_count": 8,
+  "rejected_provider_candidates": [
+    {
+      "source": "/Users/kadyrahunov/.codex/generated_images/01a0ee97-8c26-7721-b97b-b04607feef65/exec-504a56e2-e8a5-45ff-a8ac-79d382ae8c86.png",
+      "reason": "First enamel gritty/plaster-like; corrective edit selected."
+    },
+    {
+      "source": "/Users/kadyrahunov/.codex/generated_images/01a0ee97-8c26-7721-b97b-b04607feef65/exec-fc9de549-0817-4094-9f14-21a3139587b5.png",
+      "reason": "First brass porous/stone-like; corrective edit selected."
+    }
+  ]
+}

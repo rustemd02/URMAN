@@ -29,16 +29,21 @@ public partial class Act1PublicBuildingsSmokeTest : Node
             AddChild(_demo);
             await Frames(10);
             Require(await this.StartThroughMainMenuAsync(_demo), "ordinary New Game");
-            _demo._UnhandledInput(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true });
+            DisplayServer.WindowMoveToForeground();
+            _demo._Input(new InputEventAction { Action = "ui_cancel", Pressed = true });
+            for (var frame = 0; frame < 600 && _demo.PrologueActive; frame++) await Frames(1);
             await Frames(8);
+            Require(!_demo.PrologueActive && !_demo.IntroVisible, "production skip input completes the prologue transition");
             _bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge ?? throw new InvalidOperationException("Missing runtime.");
             _world = _demo.DemoMain.ConnectedWorld ?? throw new InvalidOperationException("Missing connected world.");
             _player = _demo.DemoMain.GetNode<FirstPersonController>("Player");
             _camera = _player.GetNode<Camera3D>("Head/Camera3D");
             Require(!_player.ModalOpen && _world.PublicBuildingRooms.Count == 3, "three public rooms are in the ordinary connected world");
+            CheckNorthHouseholdBindings();
             var requested = System.Environment.GetEnvironmentVariable("URMAN_PUBLIC_BUILDING");
             var rooms = _world.PublicBuildingRooms.Where(room => string.IsNullOrEmpty(requested) || room.Id == requested).ToArray();
             Require(rooms.Length > 0, "requested public building exists");
+            if (string.IsNullOrEmpty(requested) || requested == "school") await VisitCentralSchool();
             foreach (var building in rooms) await Visit(building);
             exit = 0;
         }
@@ -145,6 +150,77 @@ public partial class Act1PublicBuildingsSmokeTest : Node
             exterior = start.ToString(), entry = building.Entrance.ToString(), halfSize = building.HalfSize.ToString(), ceiling = building.Ceiling });
     }
 
+    private async Task VisitCentralSchool()
+    {
+        var school = _world.FindChild("OldSchool", true, false) as Node3D
+            ?? throw new InvalidOperationException("Central school is missing.");
+        Vector3 At(float x, float z) => school.ToGlobal(new(x, .035f, z));
+        var start = At(0, 9f);
+        start.Y = AgentBAct1HeightField.CollisionGround(start.X, start.Z) + .035f;
+        Release();
+        Require(_player.CanStandAt(start), "central school: exterior fixture fits the standing capsule");
+        _player.ApplyZoneSpawn(start, school.RotationDegrees.Y);
+        await Frames(8);
+        var revision = _player.PresentationTransformRevision;
+        var recovery = _player.FallRecoveries;
+        await WalkTo(At(0, 4.15f), "central school: real treads and entrance aperture");
+        Require(_world.PublicInteriorAt(_player.GlobalPosition) == "school", "central school: registry recognises the archive interior");
+        await WalkTo(At(-6.4f, 4.15f), "central school: corridor to class photograph");
+        var photo = Target("urman.chapter1:interaction/school-class-photo");
+        Aim(photo.GlobalPosition); await Frames(3);
+        Require(school.FindChild("school_class_photo_Source", true, false) is not null
+            && photo.IsAvailable() && RayTarget(photo),
+            "central school: original class-photo document is physically readable at its new owner");
+        CheckPhoto("school_class_photo_Source", "res://assets/images/school-class-2005.png");
+        await Capture("central_school_archive_photo");
+        await WalkTo(At(-11f, 4.15f), "central school: corridor to staff-room aperture");
+        await WalkTo(At(-11f, 1.6f), "central school: enter staff room through real opening");
+        await WalkTo(At(-10.7f, -2.6f), "central school: approach the staff desk");
+        var note = Target("urman.chapter1:interaction/school-staff-note");
+        Aim(note.GlobalPosition); await Frames(3);
+        Require(school.FindChild("school_staff_note_Source", true, false) is not null
+            && note.IsAvailable() && RayTarget(note),
+            "central school: original staff-note document is physically readable from the desk aisle");
+        Require(_player.PresentationTransformRevision == revision && _player.FallRecoveries == recovery,
+            "central school: archive traversal used controller input without corrective teleport");
+        await Capture("central_school_staff_note");
+        var slot = "central-school-archive-proof";
+        var before = _player.GlobalPosition;
+        Require(await _bridge.SaveSlotAsync(slot) && await _bridge.LoadSlotAsync(slot), "central school: actual interior save/load");
+        await Frames(8);
+        Require(_player.GlobalPosition.DistanceTo(before) < .15f && _player.IsOnFloor(), "central school: load keeps supported interior position");
+        await WalkTo(At(-11f, 1.6f), "central school: return along staff-room aisle");
+        await WalkTo(At(-11f, 4.15f), "central school: return to corridor");
+        await WalkTo(At(0, 4.15f), "central school: corridor to entrance");
+        await WalkTo(start, "central school: descend treads to the square");
+        Require(_world.PublicInteriorAt(_player.GlobalPosition) != "school", "central school: ordinary return reaches the square");
+    }
+
+    private void CheckNorthHouseholdBindings()
+    {
+        using var layout = JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString("res://content/world/act1_north_street.world.v1.json"));
+        var count = 0;
+        foreach (var row in layout.RootElement.GetProperty("entities").EnumerateArray())
+        {
+            if (!row.GetProperty("params").TryGetProperty("address", out var binding)) continue;
+            var id = binding.GetProperty("id").GetString()!;
+            var root = _world.AuthoredWorld!.ObjectRoot(row.GetProperty("id").GetString()!)!;
+            Require(_world.AddressRegistry!.TryResolve(id, out var address) && root.GetMeta("address_id").AsString() == id,
+                id + ": full household retains its explicit address binding");
+            Require(root.GetNode<StaticBody3D>("Collision").GetChild<CollisionShape3D>(0).Shape is ConcavePolygonShape3D,
+                id + ": empty yard is preserved by actual source-triangle contact");
+            var access = Act1ConnectedWorld.AddressVector(_world.AddressRegistry.AccessPoints[address.AccessId].Position);
+            Require(_player.CanStandAt(access), id + ": actual street-gate approach fits the standing capsule");
+            _events.Add(new { kind = "north-household-binding", id, access = access.ToString(),
+                accessStandingFit = _player.CanStandAt(access), accessState = _world.AddressRegistry.AccessPoints[address.AccessId].State,
+                gateRoute = "physical verifier owns acceptance; binding alone is not a route PASS" });
+            count++;
+        }
+        Require(count == 20, "north quarter: all 20 complete households have stable bindings");
+        foreach (var suffix in new[] { "SCHOOL", "DK", "OFFICE", "POST" })
+            Require(_world.AddressRegistry!.TryResolve("ADR-SQUARE-" + suffix, out _), "central square: " + suffix + " is addressed");
+    }
+
     private async Task EnterMainRoom(Act1ConnectedWorld.PublicBuildingRoom building)
     {
         var local = building.Metric.ToLocal(building.Vestibule);
@@ -191,23 +267,18 @@ public partial class Act1PublicBuildingsSmokeTest : Node
         else if (building.Id == "school")
         {
             await WalkTo(At(1.27f, -1.26f), "school: reach the corridor outside the office");
-            var note = Target("urman.chapter1:interaction/school-staff-note");
-            Require(_camera.GlobalPosition.DistanceTo(note.GlobalPosition) < 3.15f
-                && !_world.CanUsePublicBuildingInteraction(note.InteractionId), "school: closed office leaf physically blocks a nearby source");
             await ToggleDoor(Target("urman.chapter1:local/school/office"), "school/office", true);
-            await WalkTo(At(.26f, -1.26f), "school: pass the office door");
-            Aim(note.GlobalPosition); await Frames(3);
-            Require(note.IsAvailable() && RayTarget(note), "school: actual staff source becomes readable after entering");
+            await WalkTo(At(.26f, -1.26f), "school annex: pass the preserved office door");
+            var note = Target("urman.chapter1:interaction/school-staff-note");
+            Require(!building.Room.IsAncestorOf(note) && !note.IsAvailable(),
+                "school annex: relocated archive cannot be read from this different building");
             await Capture("school_03_office");
             await WalkTo(At(1.27f, -1.26f), "school: return to corridor");
             await WalkTo(At(1.27f, .76f), "school: walk to the classroom door");
             await ToggleDoor(Target("urman.chapter1:local/school/classroom"), "school/classroom", true);
             await WalkTo(At(-.07f, .76f), "school: enter the preserved classroom footprint");
-            var photo = Target("urman.chapter1:interaction/school-class-photo");
-            Aim(photo.GlobalPosition); await Frames(3);
-            Require(photo.DocumentId == "urman.chapter1:document/school-class-photo" && photo.IsAvailable() && RayTarget(photo),
-                "school: class photo belongs to the real room and actual content source");
-            CheckPhoto("school_class_photo_Source", "res://assets/images/school-class-2005.png");
+            Require(!building.Room.IsAncestorOf(Target("urman.chapter1:interaction/school-class-photo")),
+                "school annex: no duplicate active archive source remains in the small classroom");
             await Capture("school_04_classroom_photo");
             await WalkTo(At(1.27f, .76f), "school: leave classroom through the same opening");
             await WalkTo(At(1.27f, -1.26f), "school: return along the corridor without crossing partitions");
@@ -414,6 +485,7 @@ public partial class Act1PublicBuildingsSmokeTest : Node
                 forward = Input.GetActionStrength("move_forward"), backward = Input.GetActionStrength("move_backward"),
                 left = Input.GetActionStrength("move_left"), right = Input.GetActionStrength("move_right"),
                 interact = Input.GetActionStrength("interact"), focus = DisplayServer.WindowIsFocused(),
+                playTimeBlocks = _bridge.CapturePlayTimeBlocks().ToString(),
                 modal = _player.ModalOpen, sessionReady = _bridge.SessionIdentity is not null,
                 noticeActive = _player.InteractionNoticeActive, focusedInteraction = _player.FocusedInteractionId,
                 aim = DescribeAim(7),
@@ -478,6 +550,7 @@ public partial class Act1PublicBuildingsSmokeTest : Node
         var distance = new Vector2(goal.X - _player.GlobalPosition.X, goal.Z - _player.GlobalPosition.Z).Length();
         _events.Add(new { kind = "walking", label, from = from.ToString(), goal = goal.ToString(),
             final = _player.GlobalPosition.ToString(), remaining = distance, support = _player.IsOnFloor(),
+            stepsClimbed = _player.StepsClimbed, stepRejection = _player.LastStepRejection,
             canStand = _player.CanStandAt(_player.GlobalPosition), crouched = _player.IsCrouching,
             councilStanding = label.StartsWith("council:",StringComparison.Ordinal)?CouncilStandingProbe(_player.GlobalPosition).Evidence:null,
             contacts = Enumerable.Range(0, _player.GetSlideCollisionCount()).Select(index =>

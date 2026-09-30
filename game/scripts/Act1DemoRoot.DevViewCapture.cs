@@ -82,9 +82,12 @@ public partial class Act1DemoRoot
             var lookText = parts[1].Contains('@') || owner.Length == 0 ? parts[1] : owner + "@" + parts[1];
             camera.GlobalPosition = P(parts[0]);
             camera.LookAt(P(lookText), Vector3.Up);
+            DisplayServer.WindowMoveToForeground();
+            camera.MakeCurrent();
             for (var frame = 0; frame < 150; frame++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
             GetViewport().GetTexture().GetImage().SavePng($"{dir}/{name}.png");
-            GD.Print($"view-capture: {name}");
+            GD.Print($"view-capture: {name} camera={GetViewport().GetCamera3D()?.Name} at={camera.GlobalPosition} drawCalls={Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)} frameMs={GetProcessDeltaTime()*1000:0.0}");
         }
         GetTree().Quit();
     }
