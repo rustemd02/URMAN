@@ -30,7 +30,13 @@ SMOKE_TIMEOUT=${URMAN_SMOKE_TIMEOUT:-900}
 # Physical door animations use actual window focus. Their native checks need
 # a real window; the default remains the existing headless test invocation.
 HEADLESS_ARGS="--headless"
-[ "${URMAN_SMOKE_NATIVE:-0}" != "1" ] || HEADLESS_ARGS=""
+if [ "${URMAN_SMOKE_NATIVE:-0}" = "1" ]; then
+  HEADLESS_ARGS=""
+else
+  # An explicit macOS display driver overrides --headless in Godot. Keep
+  # native window checks opt-in and let --headless select its own driver.
+  DISPLAY_ARGS=""
+fi
 shared_session=false
 if [ "${1:-}" = "--shared-session" ]; then
   shared_session=true

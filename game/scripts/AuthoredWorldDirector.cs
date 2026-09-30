@@ -284,6 +284,7 @@ public partial class AuthoredWorldDirector : Node3D
     {
         var p = item.Params;
         var radius = p.GetProperty("radius").GetSingle();
+        var roadClearance = p.TryGetProperty("roadClearance", out var roadMargin) ? roadMargin.GetSingle() : .6f;
         var density = p.GetProperty("density").GetSingle();
         var seed = p.GetProperty("seed").GetUInt64();
         var models = p.GetProperty("catalogIds").EnumerateArray().Select(model => model.GetString()!).ToArray();
@@ -306,7 +307,7 @@ public partial class AuthoredWorldDirector : Node3D
             var model = models[rng.RandiRange(0, models.Length - 1)];
             var at = new Vector2(center.X + Mathf.Cos(angle) * distance, center.Z + Mathf.Sin(angle) * distance);
             var road = Urman.Experiments.AgentBAct1.AgentBAct1HeightField.RoadInfo(at.X, at.Y);
-            if (road.Distance < road.HalfWidth + .6 || excludes.Any(circle => at.DistanceTo(circle.Center) < circle.Radius))
+            if (road.Distance < road.HalfWidth + roadClearance || excludes.Any(circle => at.DistanceTo(circle.Center) < circle.Radius))
             {
                 skipped++;
                 continue; // passages stay clear of the brush

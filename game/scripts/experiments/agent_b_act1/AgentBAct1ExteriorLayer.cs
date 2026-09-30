@@ -1612,16 +1612,15 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             // Authored summer trees that now sit on the winter road shoulder
             // are dropped rather than left growing out of the kerb.
             var isAuthoredTree = winterVariant.Contains("Winter", StringComparison.Ordinal);
-            if (isAuthoredTree)
-            {
-                var authoredRoad = AgentBAct1HeightField.RoadInfo(position.X, position.Y);
-                if ((float)(authoredRoad.Distance - authoredRoad.HalfWidth) < 2.0f)
-                {
-                    continue;
-                }
-            }
-
-            baseEntries.Add((position, winterVariant));
+            var authoredRoad = AgentBAct1HeightField.RoadInfo(position.X, position.Y);
+            // New connected streets can replace a former grassy gap. Cull the
+            // actual source shrub/stone as well as trees before its rooted
+            // visual and contact are built; PlantFoliage keeps its strict guard.
+            var sourceClear = (float)(authoredRoad.Distance - authoredRoad.HalfWidth) >= (isAuthoredTree ? 2.0f : .75f);
+            if (isAuthoredTree && !sourceClear) continue;
+            // Ground-cover removal must not consume a different random stream:
+            // later garden fixtures retain their authored roots and positions.
+            if (sourceClear) baseEntries.Add((position, winterVariant));
             min = new Vector2(Mathf.Min(min.X, position.X), Mathf.Min(min.Y, position.Y));
             max = new Vector2(Mathf.Max(max.X, position.X), Mathf.Max(max.Y, position.Y));
 
@@ -1999,6 +1998,14 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             }
         }
         SetMeta("forestBoundarySegmentCount", _forestBoundarySegments.Count);
+
+        // This north-yard root is an authored composition/contact fixture,
+        // recorded in the 2026-09-27 boundary receipt. Roadside RNG must not
+        // move it or replace it when a connected street changes the verges.
+        generated.RemoveAll(entry => entry.Item2 == "WinterWillow_1"
+            && entry.Item1.X >= -27f && entry.Item1.X < -24f
+            && entry.Item1.Y >= 5f && entry.Item1.Y < 7f);
+        generated.Add((new Vector2(-25.704922f, 5.9302864f), "WinterWillow_1"));
 
         // Generated entries (satellites, ring, boundary thicket) must never
         // violate the road envelope; unlike authored plan entries they are

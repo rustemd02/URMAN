@@ -18,6 +18,8 @@ public partial class FootstepAudioController : Node
     private Vector2? _lastPosition;
     private int _transformRevision = -1;
     private string? _activeSurface;
+    private int _parquetSteps;
+    private ulong _lastCreak;
 
     /// <summary>Metres of travel between steps (walk cadence). Half the
     /// visible body's stride cycle, so a heard step and a planted foot agree.</summary>
@@ -36,6 +38,8 @@ public partial class FootstepAudioController : Node
         LoadSurface("snow_packed");
         LoadSurface("snow_soft");
         LoadSurface("wood");
+        // Same shoe impacts; parquet's quiet flex is a separate local layer.
+        if (_bySurface.TryGetValue("wood", out var wood)) _bySurface["herringbone_parquet"] = wood;
         LoadSurface("interior_floor");
         LoadSurface("grass");
         LoadSurface("mud");
@@ -125,12 +129,27 @@ public partial class FootstepAudioController : Node
         var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
         LastSurface = SurfaceUnderfoot(bridge?.CurrentZoneId ?? "village_day", position);
         PlayStep(LastSurface);
+        if (LastSurface == "herringbone_parquet")
+        {
+            _parquetSteps++;
+            var now = Time.GetTicksMsec();
+            if (_parquetSteps >= 6 && now - _lastCreak > 3400)
+            {
+                var variant = ((int)Mathf.Floor(position.X * 2) ^ (int)Mathf.Floor(position.Y * 2)) & 3;
+                UiFoley.PlayWorld(this, _actor.GlobalPosition + Vector3.Up * .015f,
+                    $"parquet/creak_{variant % 3:00}", -29f, 5f, 1f);
+                _parquetSteps = 0;
+                _lastCreak = now;
+            }
+        }
+        else _parquetSteps = 0;
     }
 
     private void ResetStep()
     {
         _lastPosition = null;
         _distanceSinceStep = 0f;
+        _parquetSteps = 0;
     }
 
     /// <summary>Test/debug hook: play one step of the given surface now.</summary>

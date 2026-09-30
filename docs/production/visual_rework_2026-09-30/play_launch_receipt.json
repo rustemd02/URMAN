@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-30",
+  "scope": "Current working tree local playtest, not full Act I acceptance",
+  "build": "PASS: zero errors and warnings",
+  "import": "PASS: exit 0, no ERROR lines",
+  "menu_check": "Initial menu/settings/credits reached; longer save/restore check interrupted to open the game for author, no full PASS claimed",
+  "dll_sha256": "41414f46eb60e481e66711e9549e29d44f468058962d31126b5684a556334162",
+  "logs": [
+    "/tmp/urman-play-build-20260930.log",
+    "/tmp/urman-play-import-20260930.log",
+    "/tmp/urman-play-menu-20260930.log",
+    "/tmp/urman-play-live-20260930.log"
+  ],
+  "remaining": "Route collision acceptance, art acceptance and listening remain open."
+}

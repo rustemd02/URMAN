@@ -30,7 +30,7 @@ KIT = ROOT / "game/content/world/act1_village_kit.world.v1.json"
 CATALOG = ROOT / "game/content/world/catalog.v1.json"
 
 # Keep in sync with AgentBAct1HeightField / AgentBAct1Layout.
-MAIN = [(-23, 218), (-23, 195), (-23, 175), (-23, 158), (-23, 143), (-19, 127), (-8, 114), (0.5, 105.5), (-1.4, 88), (-0.1, 75), (1.2, 62), (0, 40)]
+MAIN = [(-23, 218), (-23, 195), (-23, 175), (-23, 158), (-23, 143), (-20, 128), (-11,121), (-8, 114), (0.5, 105.5), (-1.4, 88), (-0.1, 75), (1.2, 62), (0, 40)]
 EAST_STREET = [(-0.3, 75), (12, 73.5), (25, 75), (39, 74), (41, 74)]
 WEST_SPUR = [(-23, 175), (-30, 178), (-40, 177), (-44, 178)]
 RING_C, RING_R = (0.5, 114.0), 8.5
@@ -77,7 +77,7 @@ def seg_dist(px, pz, ax, az, bx, bz):
 
 def road_gap(px, pz):
     best = 1e9
-    for pts, half in ((MAIN, HALF["main"]), (EAST_STREET, HALF["east"]), (WEST_SPUR, HALF["west"]), (RING, HALF["ring"]), (NORTH_EAST, 1.75), (WEST_SERVICE, 1.75)):
+    for pts, half in ((MAIN, HALF["main"]), (EAST_STREET, HALF["east"]), (WEST_SPUR, HALF["west"]), (RING, HALF["ring"]), (NORTH_EAST, 1.75), (WEST_SERVICE, 1.75), (NORTH_CROSS, 2.0), (NORTH_RETURN, 2.4)):
         for a, b in zip(pts, pts[1:]):
             best = min(best, seg_dist(px, pz, *a, *b) - half)
     return best
@@ -194,6 +194,8 @@ for name, x, z, yaw, variant in [
 # East residential lane reaches the three rows beyond the civic buildings.
 NORTH_EAST = [(12.5,151), (20,155), (20,180), (20,207), (20,229)]
 WEST_SERVICE = [(-42,80),(-41,110),(-43,135),(-39,146),(-30,152),(-23,158)]
+NORTH_CROSS = [(-23,151),(-16,150),(0,150),(12.5,151)]
+NORTH_RETURN = [(-23,218),(-23,220.5),(-22.5,223),(-21,225),(-18,227),(15,227),(18,225),(20,223),(20,220)]
 line_tiles(WEST_SERVICE,"west-service",1.75)
 line_tiles(NORTH_EAST,"north-east",1.75)
 add("well", WELL, 7.2, 82.5, 0, .9, WELL[1:], note="Колодец у Нижней улицы")
@@ -216,7 +218,7 @@ for i, (x, z, r, dens) in enumerate([(-52, 100, 9, .012), (-52, 145, 8, .010), (
                                      (-52, 218, 10, .014), (35, 230, 12, .02), (-30, 230, 12, .02), (0, 230, 12, .03)]):
     entities.append({"id": f"urman.world:act1/north-street/trees-{i}", "kind": "scatter", "name": f"Деревья поля {i}",
                      "params": {"position": [x, 0, z], "radius": r, "density": dens, "seed": 1000 + i,
-                                "catalogIds": TREES, "scaleMin": .8, "scaleMax": 1.25, "exclude": exclude}})
+                                "roadClearance": 1.8, "catalogIds": TREES, "scaleMin": .8, "scaleMax": 1.25, "exclude": exclude}})
 
 # ---- self-checks --------------------------------------------------------------------------------
 problems: list[str] = []
@@ -242,7 +244,7 @@ for i, (na, pa) in enumerate(footprints):
 
 for owner, polygon in footprints:
     for axis, half in [(MAIN, 2.8), (EAST_STREET, 2), (WEST_SPUR, 1.75),
-                       (RING, 2.4), (NORTH_EAST, 1.75), (WEST_SERVICE, 1.75)]:
+                       (RING, 2.4), (NORTH_EAST, 1.75), (WEST_SERVICE, 1.75), (NORTH_CROSS, 2.0), (NORTH_RETURN, 2.4)]:
         for (ax, az), (bx, bz) in zip(axis, axis[1:]):
             road = rect_corners((ax + bx) / 2, (az + bz) / 2, half * 2,
                                 math.hypot(bx - ax, bz - az), math.degrees(math.atan2(bx - ax, bz - az)))
@@ -264,7 +266,7 @@ for name, x, z, width, depth, apron in [
         for owner, polygon in footprints:
             if sat_overlap(envelope, polygon): problems.append(f"{name} overlaps {owner}")
         for axis, half in [(MAIN, 2.8), (EAST_STREET, 2), (WEST_SPUR, 1.75),
-                           (RING, 2.4), (NORTH_EAST, 1.75), (WEST_SERVICE, 1.75)]:
+                           (RING, 2.4), (NORTH_EAST, 1.75), (WEST_SERVICE, 1.75), (NORTH_CROSS, 2.0), (NORTH_RETURN, 2.4)]:
             for (ax, az), (bx, bz) in zip(axis, axis[1:]):
                 road = rect_corners((ax + bx) / 2, (az + bz) / 2, half * 2,
                                     math.hypot(bx - ax, bz - az), math.degrees(math.atan2(bx - ax, bz - az)))
@@ -297,7 +299,7 @@ house_cadastral = {
 catalog_rows = {row["id"]: row for row in json.loads(CATALOG.read_text())["entities"]}
 def nearest_street(x, z):
     candidates = []
-    for axis in [MAIN, EAST_STREET, WEST_SPUR, NORTH_EAST, WEST_SERVICE]:
+    for axis in [MAIN, EAST_STREET, WEST_SPUR, NORTH_EAST, WEST_SERVICE, NORTH_CROSS, NORTH_RETURN]:
         for (ax, az), (bx, bz) in zip(axis, axis[1:]):
             dx, dz = bx - ax, bz - az
             t = max(0, min(1, ((x - ax) * dx + (z - az) * dz) / (dx * dx + dz * dz)))
@@ -316,7 +318,9 @@ for entity in entities:
         size = catalog_rows[params["catalogId"]]["size"]
         params["terrainPad"] = {"halfSize": [round(size[0] * PARCEL_SCALE / 2 + .65, 3),
                                                    round(size[2] * PARCEL_SCALE / 2 + .65, 3)],
-                                "streetAnchor": nearest_street(params["position"][0], params["position"][2]),
+                                "streetAnchor": nearest_street(
+                                    params["position"][0] + math.sin(math.radians(params["yawDegrees"])) * size[2] * PARCEL_SCALE / 2,
+                                    params["position"][2] + math.cos(math.radians(params["yawDegrees"])) * size[2] * PARCEL_SCALE / 2),
                                 "feather": 2.25}
 
 doc = {"schemaVersion": 1, "kind": "urman.world-plot", "id": "urman.world:act1/north-street",

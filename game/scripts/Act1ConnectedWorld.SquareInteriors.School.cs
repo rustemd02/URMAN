@@ -13,7 +13,8 @@ public partial class Act1ConnectedWorld
         var ix = w * .5f - t; var iz = d * .5f - t;              // inner half sizes
         var cream = Mat("e4dfd1", "wall_institution");
         var mint = Mat("a6b4a4", "wall_institution");
-        var floorMat = Mat("8f7551", "wood_floor_painted");
+        var floorMat = RuralPropMaterials.Surface("wood");
+        school.SetMeta("footstepSurface", "herringbone_parquet"); school.SetMeta("woodCreak", true);
         var body = SBody(school, "SchoolFurnitureBody");
         const float corridorZ = 2.9f;                            // corridor partition
 
@@ -37,18 +38,16 @@ public partial class Act1ConnectedWorld
         SWall(school, "WestWall", new(-w * .5f + t * .5f, 0, 0), -90, d - t * 2, fh * 2, t, outer, cream, trim, west);
 
         // ---- floors and ceilings ---------------------------------------------------------------
-        SBox(school, null, "GroundFloor", new(ix * 2, .02f, iz * 2), new(0, .011f, 0), floorMat, shadow: false);
-        // Linoleum in the corridor was replaced later than the classroom
-        // floorboards. It also gives the entrance a distinct footstep surface.
-        SBox(school, null, "CorridorLinoleum", new(ix * 2, .023f, iz - corridorZ),
-            new(0, .027f, (iz + corridorZ) * .5f), Mat("b9b6a3", "floor_institution"), shadow: false);
+        CivicSurfaceLibrary.Floor(school,"GroundFloor",new(ix*2,iz*2),new(0,.002f,0));
+        // One continuous herringbone pattern through classrooms and corridor.
+        // No overlaid linoleum hides the parquet at the entrance.
         // First-floor slab with the stairwell hole (x 12.0..13.65, z -5.15..0.65).
         const float holeX0 = 12.0f, holeZ1 = .45f;
         SSlab(school, "SlabWest", new(holeX0 + ix, .3f, iz * 2), new((-ix + holeX0) * .5f, fh - .15f, 0), floorMat);
         SSlab(school, "SlabEastFront", new(ix - holeX0, .3f, iz - holeZ1), new((holeX0 + ix) * .5f, fh - .15f, (holeZ1 + iz) * .5f), floorMat);
         // Visible floor skin on the slab (same treatment as the ground floor).
-        SBox(school, null, "UpperFloorWest", new(holeX0 + ix, .02f, iz * 2), new((-ix + holeX0) * .5f, fh + .011f, 0), floorMat, shadow: false);
-        SBox(school, null, "UpperFloorEast", new(ix - holeX0, .02f, iz - holeZ1), new((holeX0 + ix) * .5f, fh + .011f, (holeZ1 + iz) * .5f), floorMat, shadow: false);
+        CivicSurfaceLibrary.Floor(school,"UpperFloorWest",new(holeX0+ix,iz*2),new((-ix+holeX0)*.5f,fh+.002f,0));
+        CivicSurfaceLibrary.Floor(school,"UpperFloorEast",new(ix-holeX0,iz-holeZ1),new((holeX0+ix)*.5f,fh+.002f,(holeZ1+iz)*.5f));
         SBox(school, null, "SlabUndersideWest", new(holeX0 + ix, .04f, iz * 2), new((-ix + holeX0) * .5f, fh - .32f, 0), cream, shadow: false);
         SBox(school, null, "SlabUndersideEastFront", new(ix - holeX0, .04f, iz - holeZ1), new((holeX0 + ix) * .5f, fh - .32f, (holeZ1 + iz) * .5f), cream, shadow: false);
         SBox(school, null, "UpperCeiling", new(ix * 2, .06f, iz * 2), new(0, fh * 2 - .03f, 0), cream, shadow: false);
@@ -67,7 +66,7 @@ public partial class Act1ConnectedWorld
             foreach (var x in roomXs)
                 SWall(school, $"RoomWall{floor}_{x}", new(x, y, (-iz + corridorZ - .08f) * .5f), 90, corridorZ - .08f + iz, partitionHeight, .16f, cream, cream, trim, new List<Opening>());
         }
-        SBox(school, null, "StairHallFloor", new(ix - 10.38f, .02f, iz * 2), new((10.38f + ix) * .5f, .011f, 0), floorMat, shadow: false);
+
 
         // ---- lights -----------------------------------------------------------------------------------
         foreach (var floor in new[] { 0, 1 })
@@ -81,10 +80,12 @@ public partial class Act1ConnectedWorld
 
         // ---- stairs (20 solid steps, 17 cm rise, 28 cm run) ----------------------------------------------
         var stairBody = SBody(school, "SchoolStairBody");
+        stairBody.SetMeta("footstepSurface","herringbone_parquet");
         for (var i = 0; i < 20; i++)
         {
             var top = (i + 1) * .17f;
             SBox(school, stairBody, $"Step{i}", new(1.65f, top, .28f), new(12.83f, top * .5f, -5.15f + .14f + i * .28f), Mat("7d6548", "wood_furniture"));
+            CivicSurfaceLibrary.Floor(school,$"StairParquet{i}",new(1.65f,.28f),new(12.83f,top+.002f,-5.15f+.14f+i*.28f));
         }
         SBox(school, stairBody, "StairRailUpper", new(.06f, 1.0f, 5.8f), new(11.95f, fh + .5f, -2.25f), Mat("5a4a3a", "wood"));
         SBox(school, stairBody, "StairRailLower", new(.06f, .95f, 5.6f), new(11.98f, 1.9f, -2.35f), Mat("5a4a3a", "wood"), new(Mathf.RadToDeg(Mathf.Atan2(3.4f, 5.6f)), 0, 0));
@@ -95,7 +96,7 @@ public partial class Act1ConnectedWorld
             RuralPropModels.Radiator(school, $"WindowRadiator{floor}_{x}", new(x, floor * fh + .13f, -4.96f));
         BuildSchoolGround(school, body, cream, trim, corridorZ);
         BuildSchoolUpper(school, body, cream, trim, corridorZ, fh);
-        school.SetMeta("interior", "school ground floor + first floor; presentation and physics only");
+        school.SetMeta("interior", "school ground floor + first floor; handmade faces; metric herringbone parquet");
     }
 
     private void BuildSchoolGround(Node3D school, StaticBody3D body, Material cream, Material trim, float corridorZ)
@@ -125,15 +126,15 @@ public partial class Act1ConnectedWorld
             Vector3.Zero, new(1.1f, .82f), image: "res://assets/images/school-class-2005.png");
         PublicDocument(school, "school-transport-notice", new(3.4f, 1.57f, 5.13f),
             new(0, 180, 0), new(.64f, .48f));
-        SPicture(school, "HonourBoard", new(6.0f, 1.55f, corridorZ + .17f), 0, new(1.5f, 1.0f), null, "5f7462", null);
+        SPicture(school, "HonourBoard", new(6.0f, 1.55f, corridorZ + .17f), 0, new(2.2f, .55f), null, "5f7462", null);
         SLabel(school, "МАКТАУ ТАКТАСЫ\nДОСКА ПОЧЁТА", new(6.0f, 2.2f, corridorZ + .2f), 0, 30, new Color(.95f, .9f, .75f));
         SLabel(school, "Часть рамок снята", new(6.0f, 1.55f, corridorZ + .2f), 0, 18, new Color(.9f, .88f, .8f));
-        // Pencil height marks on the door frame of the first class (initials only).
-        var marks = new Node3D { Name = "HeightMarks", Position = new(-2.95f + .02f, 0, corridorZ + .09f) };
-        school.AddChild(marks);
-        for (var i = 0; i < 6; i++)
-            SBox(marks, null, "Mark" + i, new(.05f, .006f, .004f), new(i % 2 == 0 ? -.025f : .025f, .82f + i * .085f, 0), Mat(i % 2 == 0 ? "3a3a3a" : "4a3a2a", "stone"), shadow: false);
-        SLabel(marks, "М.  А.", new(0, .74f, .01f), 0, 14, new Color(.22f, .2f, .18f), .003f);
+        // Pencil marks are a unique generated wood-face, kept on the actual jamb.
+        var marks = new Node3D { Name="HeightMarks",Position=new(-2.93f,0,corridorZ+.09f) };school.AddChild(marks);
+        var growthMat=(StandardMaterial3D)CivicSurfaceLibrary.Face("craft_details_v1_atlas.png",2,4,6).Duplicate();
+        growthMat.Uv1Scale=new(.28f/2,.976f/4,1);growthMat.Uv1Offset=new(.38f/2,(3+.012f)/4,0);
+        CivicSurfaceLibrary.Paper(marks,"PencilGrowthMarks",new(.12f,.70f),new(0,1.04f,.012f),growthMat,0);
+        marks.SetMeta("readableText","М. / А.");
         SquareLook(school, "SchoolHeightMarks", "Осмотреть косяк", marks.Position + new Vector3(0, 1.05f, .1f), new(.5f, 1.3f, .3f),
             "Карандашные отметки роста на косяке: «М.» и «А.». Двое стояли рядом и спорили, кто выше. «М.» — выше на палец.");
         SLabel(school, "УРМАН КАМИЛЛӘРЕ — КАРА-УРМАН МӘКТӘБЕ", new(-10.5f, 2.6f, corridorZ + .12f), 0, 22, new Color(.25f, .3f, .27f), .004f);
@@ -143,7 +144,10 @@ public partial class Act1ConnectedWorld
         SChair(school, "StaffChair", new(-11.4f, 0, -3.15f), 180);
         SDesk(school, body, "TeaTable", new(-9.2f, 0, .4f), 90, 1.0f, .7f);
         RuralPropModels.Teapot(school, "Kettle", new(-9.2f, .75f, .4f));
-        SBox(school, null, "Register", new(.32f, .04f, .23f), new(-11.1f, .77f, -3.9f), Mat("3b5f4a", "cloth"), shadow: false);
+        RuralPropGeometry.Block(school,"Register",new(.32f,.04f,.23f),new(-11.1f,.77f,-3.9f),RuralPropMaterials.Surface("cloth"),.004f);
+        RuralPropGeometry.Block(school,"JournalCover",new(.32f,.006f,.23f),new(-11.1f,.790f,-3.9f),RuralPropMaterials.Surface("upholstery","315442"),.002f);
+        var journal=CivicSurfaceLibrary.Paper(school,"HandmadeJournalTitle",new(.28f,.07f),new(-11.1f,.795f,-3.9f),CivicSurfaceLibrary.Face("craft_details_v1_atlas.png",2,4,2),.001f);
+        journal.RotationDegrees=new(-90,0,0);
         PublicDocument(school, "school-staff-note", new(-10.7f, .775f, -3.9f),
             Vector3.Zero, new(.39f, .28f), flat: true);
         SquareLook(school, "SchoolRegister", "Открыть журнал", new(-11.1f, .8f, -3.9f), new(.6f, .3f, .5f),
@@ -160,6 +164,9 @@ public partial class Act1ConnectedWorld
         BuildClassroom(school, body, -8.22f, -.58f, "1–4 класс", tukay: true, drawings: true);
         BuildClassroom(school, body, -.42f, 7.22f, "5–9 класс", tukay: false, drawings: false);
 
+        SLabel(school,"1–4 класс",new(-4.4f,2.45f,corridorZ+.12f),0,22,new(.2f,.18f,.15f));
+        SLabel(school,"5–9 класс",new(3.4f,2.45f,corridorZ+.12f),0,22,new(.2f,.18f,.15f));
+
         // ---- Canteen: x 7.38 .. 10.22 ---------------------------------------------------------------------
         SDesk(school, body, "CanteenTable", new(8.8f, 0, -1.2f), 90, 2.2f, .8f);
         foreach (var z in new[] { -2.0f, -.4f })
@@ -167,7 +174,7 @@ public partial class Act1ConnectedWorld
         SDesk(school, body, "SamovarTable", new(9.7f, 0, -4.7f), 0, .9f, .5f);
         RuralPropModels.Samovar(school, "Samovar", new(9.7f, .75f, -4.7f));
         SPicture(school, "CanteenMenu", new(8.8f, 1.6f, -5.03f), 0, new(1.2f, .8f), null, "e8e2d0", null);
-        SLabel(school, "ЧӘЙ ВАКЫТЫ\nСуп · перемяч · чай", new(8.8f, 1.6f, -5.0f), 0, 20, new Color(.2f, .18f, .14f));
+
         // ---- Stair-hall wall: pencil "лесенка" and the window on the forest ---------------------------------
         SquareLook(school, "SchoolStairWindow", "Выглянуть в окно", new(13.4f, 1.9f, -1.2f), new(.5f, 1.5f, 1.4f),
             "Из окна лестницы лес виден вплотную: ели стоят почти у ограды. Другие здания площади он не так теснит — только школу.");
@@ -180,14 +187,15 @@ public partial class Act1ConnectedWorld
         RuralPropGeometry.Block(school, "BoardSheet_" + title, new(.018f, 1.1f, 3.1f), new(boardX + .038f, 1.55f, -1.0f), RuralPropMaterials.Surface("steel", "304839"), .004f);
         var boardMaterial = new StandardMaterial3D {
             ResourceName = "SchoolChalkboardUniqueFace", Roughness = .9f, Metallic = 0,
-            AlbedoTexture = ResourceLoader.Load<Texture2D>("res://assets/textures/realism_20260929/school_green_chalkboard_v1_basecolor.png") };
+            AlbedoTexture = ResourceLoader.Load<Texture2D>(CivicSurfaceLibrary.Root + "chalkboard_lessons_v1_atlas.png"),
+            Uv1Scale = new(1,.5f,1), Uv1Offset = new(0,title == "1–4 класс" ? 0 : .5f,0) };
         boardMaterial.SetMeta("surfaceUVContract", "one full unique bitmap on actual 3.1 x 1.1 m face; no repeated writing or painted frame");
         RuralPropGeometry.Part(school, "Chalkboard_" + title, new QuadMesh { Size = new(3.1f, 1.1f) }, new(boardX + .048f, 1.55f, -1), boardMaterial, new(0, 90, 0));
         var tray = RuralPropMaterials.Surface("metal");
         RuralPropGeometry.Block(school, "ChalkTrayBase_" + title, new(.14f, .012f, 3f), new(boardX + .075f, .96f, -1), tray, .004f);
         RuralPropGeometry.Block(school, "ChalkTrayLip_" + title, new(.012f, .035f, 3f), new(boardX + .14f, .973f, -1), tray, .004f);
         RuralPropGeometry.Tube(school, "WhiteChalk_" + title, new(boardX + .09f, .972f, -.85f), new(boardX + .09f, .972f, -.76f), .005f, RuralPropMaterials.Surface("concrete", "fffdf5"), 12);
-        SLabel(school, title == "1–4 класс" ? "Ә ә   Ө ө   Ү ү\nҖ җ   Ң ң   Һ һ" : "Татар теле\nАлга таба!", new(boardX + .066f, 1.55f, -1.0f), 90, 46, new Color(.9f, .92f, .85f));
+
         SDesk(school, body, "TeacherDesk_" + title, new(x0 + 1.0f, 0, -1.0f), 90, 1.3f, .65f);
         SChair(school, "TeacherChair_" + title, new(x0 + .55f, 0, -1.0f), -90);
         for (var row = 0; row < 4; row++)
@@ -239,11 +247,19 @@ public partial class Act1ConnectedWorld
         for (var i = 0; i < 5; i++)
             SBox(school, null, "Medal" + i, new(.08f, .008f, .08f), new(-4.3f + i * .4f, y + .93f, -4.4f), Mat("c9953f", "metal"), shadow: false);
         SDesk(school, body, "MuseumTable", new(-3.5f, y, -1.6f), 0, 1.6f, .8f);
-        SBox(school, null, "Kulmak", new(1.3f, .02f, .45f), new(-3.5f, y + .755f, -1.6f), Mat("e8e2d0", "cloth"), shadow: false);
-        SBox(school, null, "KulmakStripe", new(1.3f, .022f, .06f), new(-3.5f, y + .756f, -1.6f), Mat("b8412f", "cloth"), shadow: false);
+        // Rotate the flat-pattern's long direction along the table; do not
+        // stretch the 0.5 x 1.2 m hanging embroidery sideways across a long towel.
+        var clothSource=RuralPropGeometry.DrapedCloth(1.3f,.45f,.03f);
+        var clothArrays=clothSource.SurfaceGetArrays(0);
+        var clothUvs=clothArrays[(int)Mesh.ArrayType.TexUV].AsVector2Array();
+        for(var i=0;i<clothUvs.Length;i++)clothUvs[i]=new(clothUvs[i].Y/.51f,clothUvs[i].X/1.36f);
+        clothArrays[(int)Mesh.ArrayType.TexUV]=clothUvs;
+        var clothMesh=new ArrayMesh();clothMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles,clothArrays);
+        RuralPropGeometry.Part(school,"Kulmak",clothMesh,new(-3.5f,y+.76f,-1.6f),CivicSurfaceLibrary.Face("museum_towel_v1_basecolor.png",roughness:.97f));
         SBox(school, body, "SpinningWheelBase", new(.5f, .5f, .3f), new(-1.1f, y + .25f, -4.6f), Mat("7d6548", "wood_furniture"));
         school.AddChild(new MeshInstance3D { Name = "SpinningWheel", Mesh = new TorusMesh { InnerRadius = .3f, OuterRadius = .34f }, Position = new(-1.1f, y + .7f, -4.6f), RotationDegrees = new(90, 0, 0), MaterialOverride = Mat("7d6548", "wood_furniture") });
-        SPicture(school, "MuseumTowel", new(-5.0f, y + 1.7f, -5.0f), 0, new(.5f, 1.2f), null, "e8e2d0", null);
+        CivicSurfaceLibrary.HangingTextile(school,"MuseumTowel",new(.5f,1.2f),new(-5,y+1.7f,-5),CivicSurfaceLibrary.Face("museum_towel_v1_basecolor.png",roughness:.97f));
+        RuralPropGeometry.Tube(school,"TowelDisplayRod",new(-5.30f,y+2.32f,-5),new(-4.70f,y+2.32f,-5),.012f,RuralPropMaterials.Surface("wood"));
         SLabel(school, "Мәктәп почмагы\nШкольный уголок", new(-5.0f, y + 2.6f, -5.02f), 0, 24, new Color(.25f, .22f, .18f));
         SPicture(school, "MuseumEmptyFrame", new(-2.0f, y + 1.7f, -5.0f), 0, new(.9f, .65f), null, "b6ad98", "Снимок забрали для архива");
         SquareLook(school, "SchoolMuseumCase", "Осмотреть витрину", new(-3.5f, y + 1.0f, -4.4f), new(2.3f, .8f, .8f),

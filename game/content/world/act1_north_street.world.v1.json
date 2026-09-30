@@ -32,8 +32,8 @@
             6.887
           ],
           "streetAnchor": [
-            -0.758,
-            81.584
+            -0.697,
+            80.967
           ],
           "feather": 2.25
         }
@@ -124,8 +124,8 @@
             6.649
           ],
           "streetAnchor": [
-            -0.876,
-            92.825
+            -0.946,
+            92.181
           ],
           "feather": 2.25
         }
@@ -202,8 +202,8 @@
             6.316
           ],
           "streetAnchor": [
-            -40,
-            177
+            -28.216,
+            153.529
           ],
           "feather": 2.25
         }
@@ -294,8 +294,8 @@
             6.887
           ],
           "streetAnchor": [
-            12.5,
-            151
+            -6.237,
+            150.0
           ],
           "feather": 2.25
         }
@@ -478,8 +478,8 @@
             6.649
           ],
           "streetAnchor": [
-            -43.059,
-            177.765
+            -23.0,
+            190.0
           ],
           "feather": 2.25
         }
@@ -938,8 +938,8 @@
             6.649
           ],
           "streetAnchor": [
-            -23.0,
-            217.0
+            -10.998,
+            227.0
           ],
           "feather": 2.25
         }
@@ -1030,8 +1030,8 @@
             6.649
           ],
           "streetAnchor": [
-            36.015,
-            74.213
+            35.589,
+            74.244
           ],
           "feather": 2.25
         }
@@ -1094,8 +1094,8 @@
             6.316
           ],
           "streetAnchor": [
-            32.888,
-            74.437
+            33.291,
+            74.408
           ],
           "feather": 2.25
         }
@@ -1158,8 +1158,8 @@
             6.887
           ],
           "streetAnchor": [
-            -42.275,
-            125.938
+            -42.235,
+            125.442
           ],
           "feather": 2.25
         }
@@ -1222,8 +1222,8 @@
             6.649
           ],
           "streetAnchor": [
-            -41.647,
-            90.588
+            -41.64,
+            90.788
           ],
           "feather": 2.25
         }
@@ -1621,6 +1621,7 @@
         "radius": 9,
         "density": 0.012,
         "seed": 1000,
+        "roadClearance": 1.8,
         "catalogIds": [
           "urman.catalog:agentb_foliage_kit/winterbirch-1",
           "urman.catalog:agentb_foliage_kit/winterbirch-2",
@@ -1872,6 +1873,7 @@
         "radius": 8,
         "density": 0.01,
         "seed": 1001,
+        "roadClearance": 1.8,
         "catalogIds": [
           "urman.catalog:agentb_foliage_kit/winterbirch-1",
           "urman.catalog:agentb_foliage_kit/winterbirch-2",
@@ -2123,6 +2125,7 @@
         "radius": 7,
         "density": 0.012,
         "seed": 1002,
+        "roadClearance": 1.8,
         "catalogIds": [
           "urman.catalog:agentb_foliage_kit/winterbirch-1",
           "urman.catalog:agentb_foliage_kit/winterbirch-2",
@@ -2374,6 +2377,7 @@
         "radius": 8,
         "density": 0.01,
         "seed": 1003,
+        "roadClearance": 1.8,
         "catalogIds": [
           "urman.catalog:agentb_foliage_kit/winterbirch-1",
           "urman.catalog:agentb_foliage_kit/winterbirch-2",
@@ -2625,6 +2629,7 @@
         "radius": 10,
         "density": 0.014,
         "seed": 1004,
+        "roadClearance": 1.8,
         "catalogIds": [
           "urman.catalog:agentb_foliage_kit/winterbirch-1",
           "urman.catalog:agentb_foliage_kit/winterbirch-2",
@@ -2876,6 +2881,7 @@
         "radius": 12,
         "density": 0.02,
         "seed": 1005,
+        "roadClearance": 1.8,
         "catalogIds": [
           "urman.catalog:agentb_foliage_kit/winterbirch-1",
           "urman.catalog:agentb_foliage_kit/winterbirch-2",
@@ -3127,6 +3133,7 @@
         "radius": 12,
         "density": 0.02,
         "seed": 1006,
+        "roadClearance": 1.8,
         "catalogIds": [
           "urman.catalog:agentb_foliage_kit/winterbirch-1",
           "urman.catalog:agentb_foliage_kit/winterbirch-2",
@@ -3378,6 +3385,7 @@
         "radius": 12,
         "density": 0.03,
         "seed": 1007,
+        "roadClearance": 1.8,
         "catalogIds": [
           "urman.catalog:agentb_foliage_kit/winterbirch-1",
           "urman.catalog:agentb_foliage_kit/winterbirch-2",

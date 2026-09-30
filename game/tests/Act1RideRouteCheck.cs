@@ -97,6 +97,7 @@ public partial class Act1RideRouteCheck : Node
             var passedThrough = new Dictionary<string, Vector3>();
             var offRoad = 0; var worstOff = 0.0; var worstOffAt = Vector3.Zero;
             var steepest = 0f; var steepAt = Vector3.Zero;
+            var faces = new Dictionary<MeshInstance3D, Vector3[]>();
             var distance = 0f; var samples = 0;
             for (var i = 1; i < route.Count; i++)
             {
@@ -104,12 +105,13 @@ public partial class Act1RideRouteCheck : Node
                 var length = a.DistanceTo(b);
                 var heading = (b - a).Normalized();
                 var yaw = Mathf.Atan2(-heading.X, -heading.Z);
-                for (var step = 0f; step < length; step += 1f, samples++)
+                for (var step = 0f; step <= length; step += .25f, samples++)
                 {
-                    var at = a + heading * step;
+                    var at = a + heading * MathF.Min(step, length);
                     var ground = RideGround(at);
                     var onBridge = IsOnBridge(at);
-                    var pose = new Transform3D(Basis.FromEuler(new Vector3(0, yaw, 0)), new Vector3(at.X, ground + WheelClearance + BodyHeight / 2, at.Z));
+                    var pitch = Mathf.Atan2(RideGround(at + heading * 1.225f) - RideGround(at - heading * 1.225f), 2.45f);
+                    var pose = new Transform3D(Basis.FromEuler(new Vector3(pitch, yaw, 0)), new Vector3(at.X, ground + WheelClearance + BodyHeight / 2, at.Z));
                     var query = new PhysicsShapeQueryParameters3D
                     {
                         Shape = new BoxShape3D { Size = new Vector3(BodyWidth, BodyHeight, BodyLength) },
@@ -122,19 +124,33 @@ public partial class Act1RideRouteCheck : Node
                         // The span itself and the ground it bridges are how the car crosses;
                         // the parked Niva and the arrival walker are hidden/absent during the ride.
                         // The intact span and its approach ramp; the ride itself only uses the deck line (z -25).
-                        if ((onBridge || NearBridgeRamp(at)) && node.Name.ToString() is "RavineBridgeIntact" or "RavineCollisionProxy" or "AgentB_TerrainCollision") continue;
+                        if (node is CollisionObject3D bridgeBody && node.Name == "RavineBridgeIntact"
+                            && bridgeBody.ShapeOwnerGetOwner(bridgeBody.ShapeFindOwner(hit["shape"].AsInt32())) is CollisionShape3D contact
+                            && contact.Name.ToString().StartsWith("DeckContact", StringComparison.Ordinal)) continue;
+                        if (onBridge && node.Name == "AgentB_TerrainCollision") continue;
                         if (node.Name.ToString() is "babay-niva" or "DriverDoor" or "AlsuNpc" or "AlsuPhysicalContact" or "Player") continue;
                         blocked.TryAdd(name, at);
                     }
                     // Axis-aligned bound of the yawed box.
                     var halfExtents = new Vector3(BodyWidth, BodyHeight, BodyLength) * .5f;
                     var reach = new Vector3(
-                        Mathf.Abs(pose.Basis.X.X) * halfExtents.X + Mathf.Abs(pose.Basis.Z.X) * halfExtents.Z, halfExtents.Y,
-                        Mathf.Abs(pose.Basis.X.Z) * halfExtents.X + Mathf.Abs(pose.Basis.Z.Z) * halfExtents.Z);
+                        Mathf.Abs(pose.Basis.X.X) * halfExtents.X + Mathf.Abs(pose.Basis.Y.X) * halfExtents.Y + Mathf.Abs(pose.Basis.Z.X) * halfExtents.Z,
+                        Mathf.Abs(pose.Basis.X.Y) * halfExtents.X + Mathf.Abs(pose.Basis.Y.Y) * halfExtents.Y + Mathf.Abs(pose.Basis.Z.Y) * halfExtents.Z,
+                        Mathf.Abs(pose.Basis.X.Z) * halfExtents.X + Mathf.Abs(pose.Basis.Y.Z) * halfExtents.Y + Mathf.Abs(pose.Basis.Z.Z) * halfExtents.Z);
                     var car = new Aabb(pose.Origin - reach, reach * 2f);
                     foreach (var (mesh, box) in props)
-                        if (car.Intersects(box.Grow(-.15f)) && !blocked.ContainsKey(mesh.Name + " < " + mesh.GetParent()?.Name))
-                            passedThrough.TryAdd(mesh.Name + " < " + mesh.GetParent()?.Name, at);
+                    {
+                        if (!car.Intersects(box.Grow(-.15f))) continue;
+                        // The parked car is hidden by production during this ride.
+                        if (mesh.GetParent()?.Name == "VehicleVisual") continue;
+                        var name = mesh.Name + " < " + mesh.GetParent()?.Name;
+                        if (blocked.ContainsKey(name) || passedThrough.ContainsKey(name)) continue;
+                        if (!faces.TryGetValue(mesh, out var triangles)) faces[mesh] = triangles = mesh.Mesh.GetFaces();
+                        var local = pose.AffineInverse() * mesh.GlobalTransform;
+                        for (var vertex = 0; vertex + 2 < triangles.Length; vertex += 3)
+                            if (TriangleTouchesBox(local * triangles[vertex], local * triangles[vertex+1], local * triangles[vertex+2], halfExtents))
+                            { passedThrough.TryAdd(name, at); break; }
+                    }
                     var (roadDistance, halfWidth) = AgentBAct1HeightField.RoadInfo(at.X, at.Z);
                     var away = roadDistance - halfWidth;
                     if (away > .4 && !(at.X > 45f && at.Z is > -30f and < 30f))
@@ -145,12 +161,31 @@ public partial class Act1RideRouteCheck : Node
                     var ahead = RideGround(at + heading * 2f);
                     var slope = Mathf.RadToDeg(Mathf.Atan2(Mathf.Abs(ahead - ground), 2f));
                     if (!onBridge && slope > steepest) { steepest = slope; steepAt = at; }
-                    distance += 1f;
+                    distance += .25f;
                 }
             }
             foreach (var (name, at) in blocked) GD.Print($"ride-route: BLOCKED by physics body {name} near ({at.X:0.0}, {at.Z:0.0})");
             foreach (var (name, at) in passedThrough) GD.Print($"ride-route: passes through visible prop without collision {name} near ({at.X:0.0}, {at.Z:0.0})");
+            GD.Print($"ride-route: bounds worstOff={worstOff:0.00}m@({worstOffAt.X:0.0},{worstOffAt.Z:0.0}) steep={steepest:0.0}deg@({steepAt.X:0.0},{steepAt.Z:0.0})");
         return (blocked, passedThrough, offRoad, steepest);
+    }
+
+    // Separating-axis narrow phase: a rotated thin wall's world AABB is not
+    // evidence that the vehicle crosses its real triangles.
+    private static bool TriangleTouchesBox(Vector3 a, Vector3 b, Vector3 c, Vector3 half)
+    {
+        bool Separated(Vector3 axis)
+        {
+            if (axis.LengthSquared() < .0000001f) return false;
+            var x = axis.Dot(a); var y = axis.Dot(b); var z = axis.Dot(c);
+            var reach = Mathf.Abs(axis.X)*half.X + Mathf.Abs(axis.Y)*half.Y + Mathf.Abs(axis.Z)*half.Z;
+            return Mathf.Min(x,Mathf.Min(y,z)) > reach || Mathf.Max(x,Mathf.Max(y,z)) < -reach;
+        }
+        var units = new[] { Vector3.Right,Vector3.Up,Vector3.Back };
+        if (units.Any(Separated) || Separated((b-a).Cross(c-a))) return false;
+        foreach (var edge in new[] { b-a,c-b,a-c })
+            foreach (var unit in units) if (Separated(edge.Cross(unit))) return false;
+        return true;
     }
 
     // Grid A* over the real colliders and props (1 m cells, car radius) between two points,

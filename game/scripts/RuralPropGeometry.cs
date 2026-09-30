@@ -7,6 +7,23 @@ namespace Urman.Godot;
 public static class RuralPropGeometry
 {
     private static readonly Dictionary<string, ArrayMesh> Cache = new();
+    private static readonly Dictionary<ulong, Shape3D> ContactCache = new();
+
+    /// <summary>Contacts follow the actual pieces and preserve the air between
+    /// table legs. Shared meshes also share their static convex contact shapes.</summary>
+    public static void AttachMemberContacts(Node3D model, StaticBody3D body)
+    {
+        foreach (var part in model.GetChildren().OfType<MeshInstance3D>())
+        {
+            if (part.Mesh is null || part.Name.ToString().Contains("Bolt", StringComparison.Ordinal)) continue;
+            var key = part.Mesh.GetRid().Id;
+            if (!ContactCache.TryGetValue(key, out var shape))
+                ContactCache[key] = shape = part.Mesh.CreateConvexShape();
+            body.AddChild(new CollisionShape3D { Name = model.Name + "_" + part.Name + "Contact", Shape = shape,
+                Transform = body.GlobalTransform.AffineInverse() * part.GlobalTransform });
+        }
+        model.SetMeta("contactPolicy", "actual furniture members; shared convex shapes; no filled leg-space box");
+    }
 
     public static ArrayMesh BevelBox(Vector3 size, float radius = .008f)
     {

@@ -22,7 +22,7 @@ public partial class Act1ConnectedWorld
         new(41.5f, 0f, -28.4f),
         new(40.8f, 0f, -28.4f),
         new(34.5f, 0f, -28.4f),
-        new(34.5f, 0f, -26.05f),
+        new(34.5f, 0f, -27.85f),
         new(34.5f, 0f, -24.4f),
         new(32f, 0f, -24.2f),
         new(28f, 0f, -26.2f)
@@ -122,14 +122,15 @@ public partial class Act1ConnectedWorld
         presentation.SetMeta("loopWorldPoints", FapServiceLoopPoints);
         fapPresentation.AddChild(presentation);
 
+        // The service fence is recessed from the public bridge-exit carriageway.
         // A small U-shaped parcel: the existing gate is the west end of the
         // north edge, the west/south runs close the shed-side parcel, and the
         // east side remains the permanent open return. Each visible run and
         // its collider use the same endpoint pair.
         var fenceSegments = new[]
         {
-            ("FapServiceFenceNorthEast", new Vector3(35.75f, 0f, -25.2f), new Vector3(40.5f, 0f, -25.2f)),
-            ("FapServiceFenceWest", new Vector3(33.25f, 0f, -25.2f), new Vector3(33.25f, 0f, -33.6f)),
+            ("FapServiceFenceNorthEast", new Vector3(35.75f, 0f, -27f), new Vector3(40.5f, 0f, -27f)),
+            ("FapServiceFenceWest", new Vector3(33.25f, 0f, -27f), new Vector3(33.25f, 0f, -33.6f)),
             ("FapServiceFenceSouth", new Vector3(33.25f, 0f, -33.6f), new Vector3(40.5f, 0f, -33.6f))
         };
         foreach (var (name, start, end) in fenceSegments)
@@ -153,9 +154,9 @@ public partial class Act1ConnectedWorld
         }
 
         // The gate occupies the west end of the north parcel edge at the
-        // authored FAP gate anchor (34.5,-25.2). The latch is on its east post;
+        // authored FAP gate anchor (34.5,-27). The latch is on its east post;
         // the player approaches it from the parcel interior, to the south.
-        var gateWorld = new Vector3(34.5f, 0f, -25.2f);
+        var gateWorld = new Vector3(34.5f, 0f, -27f);
         var gate = new Node3D
         {
             Name = "FapServiceGateInteractive",
@@ -179,10 +180,10 @@ public partial class Act1ConnectedWorld
             village,
             FapServiceExplorationSlug,
             new(.60f, 1.0f, .60f),
-            new(35.25f, 1.05f, -25.82f),
+            new(35.25f, 1.05f, -27.62f),
             journal: false);
         target.SetMeta("targetRole", "inside east-post service-gate latch");
-        target.SetMeta("targetWorldPosition", new Vector3(35.69f, 0f, -25.29f));
+        target.SetMeta("targetWorldPosition", new Vector3(35.69f, 0f, -27.09f));
         target.WorldFoleySample = "door_creak";
 
         // Fence shapes mirror the three visible runs; only the horizontal gate
@@ -211,8 +212,8 @@ public partial class Act1ConnectedWorld
         AddFapCollisionBox(
             _fapServiceGateCollision,
             "GateLeafCollision",
-            new(33.25f, 0f, -25.2f),
-            new(35.75f, 0f, -25.2f),
+            new(33.25f, 0f, -27f),
+            new(35.75f, 0f, -27f),
             .12f,
             1.05f);
         SetFapCollisionEnabled(_fapServiceFenceCollision, false);

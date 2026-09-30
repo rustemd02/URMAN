@@ -57,9 +57,7 @@ public partial class Act1ConnectedWorld
                  {
                      ("GateBabai_PostW", "Agent B kit gate post inside the authored yard gate"),
                      ("GateBabai_PostCapW", "Agent B kit gate cap inside the authored yard gate"),
-                     ("FenceBabaiW_N", "Agent B kit fence run duplicating the yard's west boundary"),
-                     ("WinterBirch_1_Plant23", "bare sapling standing in the yard's working area"),
-                     ("WinterWillow_1_Plant43", "bare willow standing in the yard's working area")
+                     ("FenceBabaiW_N", "Agent B kit fence run duplicating the yard's west boundary")
                  })
         {
             var targets = FindDescendants<Node3D>(core)
@@ -67,6 +65,23 @@ public partial class Act1ConnectedWorld
             if (targets.Length == 0) throw new InvalidOperationException(
                 "Yard composition target is missing: " + duplicate.Item1);
             foreach (var target in targets) Hide(target, duplicate.Item2);
+        }
+
+        // Generated Plant indices change when a street gains a real verge.
+        // Match source-confirmed variant/root instead of suppressing whichever
+        // unrelated sapling happens to inherit the old numerical name.
+        foreach (var duplicate in new[]
+        {
+            (Variant: "WinterBirch_1", Root: new Vector2(-29f, 6.4f), Reason: "bare sapling standing in the yard's working area"),
+            (Variant: "WinterWillow_1", Root: new Vector2(-25.704922f, 5.9302864f), Reason: "bare willow standing in the yard's working area")
+        })
+        {
+            var targets = FindDescendants<Node3D>(core).Where(n => n.GetParent()?.Name == "AgentB_PlantedFoliage" && n.HasMeta("plantVariant")
+                && n.GetMeta("plantVariant").AsString() == duplicate.Variant
+                && new Vector2(n.GlobalPosition.X, n.GlobalPosition.Z).DistanceSquaredTo(duplicate.Root) < .0001f).ToArray();
+            if (targets.Length != 1) throw new InvalidOperationException(
+                $"Yard composition root match count {targets.Length}: {duplicate.Variant}@{duplicate.Root}");
+            Hide(targets[0], duplicate.Reason);
         }
 
         // The kit gate planted on the entry path, two metres inside the real gate.

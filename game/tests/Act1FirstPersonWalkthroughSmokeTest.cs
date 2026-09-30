@@ -1250,6 +1250,19 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             // for the teaser walk, the cue, the 21s ride and the fade.
             var deadline = Time.GetTicksMsec() + 240_000u;
             var sawDeepForest = false;
+            var cueStarted = 0UL;
+            var cueCaptured = false;
+            var nightCaptured = false;
+            var captureDirectory = OS.GetEnvironment("URMAN_PROLOGUE_WATCH_CAPTURE");
+            async Task CaptureCue(string name)
+            {
+                if (string.IsNullOrEmpty(captureDirectory) || DisplayServer.GetName() == "headless") return;
+                Directory.CreateDirectory(captureDirectory);
+                DisplayServer.WindowMoveToForeground();
+                await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+                GetViewport().GetTexture().GetImage().SavePng(Path.Combine(captureDirectory, name + ".png"));
+                GD.Print("act1-prologue-watch: captured " + name);
+            }
             try
             {
                 while (Time.GetTicksMsec() < deadline)
@@ -1264,7 +1277,15 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
                         var aheadZ = local.Z - 4f;
                         var detour = Mathf.Abs(aheadZ - PrologueDeepForest.FallenSpruceZ) < 9f ? 7f : 0f;
                         var dx = PrologueDeepForest.TrackX(aheadZ) + detour - local.X;
-                        player.ApplySmokeLook(0, Mathf.RadToDeg(Mathf.Atan2(-dx, 4f)));
+                        if (!player.ModalOpen) player.ApplySmokeLook(0, Mathf.RadToDeg(Mathf.Atan2(-dx, 4f)));
+                    }
+                    if (!nightCaptured && sawDeepForest && !player.ModalOpen)
+                    { nightCaptured = true; await CaptureCue("forest_walk"); }
+                    if (demo.DeepForest?.FindChild("PeripheralForestPresence", true, false) is Node3D presence && presence.IsInsideTree())
+                    {
+                        if (cueStarted == 0) cueStarted = Time.GetTicksMsec();
+                        if (!cueCaptured && Time.GetTicksMsec() - cueStarted >= 1900)
+                        { cueCaptured = true; await CaptureCue("peripheral_presence"); }
                     }
                     var zone = (GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge)?.CurrentZoneId;
                     sawNightZone |= zone == "kara_urman_night";
@@ -1276,6 +1297,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             finally { Input.ActionRelease("move_forward"); }
             if (!sawDeepForest)
             { Fail("The teaser did not use its own deep-forest location."); return; }
+            await CaptureCue("niva_handover");
             // N2.2: the Niva ride follows the teaser inside the same block;
             // answer the calibration with the second choice ("some") through
             // the real dialogue UI, then verify its guessed vocabulary.

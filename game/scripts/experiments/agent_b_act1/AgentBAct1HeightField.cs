@@ -41,7 +41,8 @@ public static class AgentBAct1HeightField
         (-23f, 175f),
         (-23f, 158f),
         (-23f, 143f),
-        (-19f, 127f),
+        (-20f, 128f),
+        (-11f, 121f),
         (-8f, 114f),
         (0.5f, 105.5f),
         (-1.4f, 88f),
@@ -70,8 +71,8 @@ public static class AgentBAct1HeightField
 
     private static readonly (float X, float Z)[] FapAxis =
     {
-        (0f, -10f), (4.5f, -12.5f), (10f, -17f), (17f, -21.5f), (23f, -25f),
-        (28f, -26.2f)
+        (0f, -10f), (4.5f, -12.5f), (10f, -17f), (17f, -21.5f), (22f, -23.4f),
+        (28f, -24.2f)
     };
 
     private static readonly (float X, float Z)[] HouseAxis =
@@ -139,8 +140,11 @@ public static class AgentBAct1HeightField
     private static readonly ((float X, float Z)[] Points, double HalfWidth)[] RoadAxes =
     {
         (MainAxis, HalfWidths[0]), (FapAxis, HalfWidths[1]),
+        (AgentBAct1Layout.BridgeApproachAxis.Select(p => (p.X, p.Y)).ToArray(), 2.3),
         (HouseAxis, HalfWidths[2]), (ZiratAxis, HalfWidths[3]), (KaraAxis, HalfWidths[4]),
-        (EastStreetAxis, HalfWidths[5]), (WestSpurAxis, HalfWidths[6]), (SquareRingAxis, HalfWidths[7]), (NorthEastStreetAxis, 1.75), (WestServiceAxis, 1.75)
+        (EastStreetAxis, HalfWidths[5]), (WestSpurAxis, HalfWidths[6]), (SquareRingAxis, HalfWidths[7]), (NorthEastStreetAxis, 1.75), (WestServiceAxis, 1.75),
+        (AgentBAct1Layout.NorthCrossStreetAxis.Select(p => (p.X, p.Y)).ToArray(), 2.0),
+        (AgentBAct1Layout.NorthReturnStreetAxis.Select(p => (p.X, p.Y)).ToArray(), 2.4)
     };
     private static Vector3[]? _collisionFaces;
     private sealed class HouseholdPad(float x, float z, float halfX, float halfZ, float yaw, float anchorX, float anchorZ, float feather)
@@ -323,6 +327,20 @@ public static class AgentBAct1HeightField
         return (best, width);
     }
 
+    private static Vector2 ClosestRoadPoint(float x, float z)
+    {
+        var p = new Vector2(x,z); var best = float.MaxValue; var result=p;
+        foreach (var (points, _) in RoadAxes)
+        for (var i=1; i<points.Length; i++)
+        {
+            var a=new Vector2(points[i-1].X,points[i-1].Z); var b=new Vector2(points[i].X,points[i].Z);
+            var ab=b-a; var t=ab.LengthSquared()<.000001f ? 0 : Mathf.Clamp((p-a).Dot(ab)/ab.LengthSquared(),0,1);
+            var q=a+ab*t; var distance=p.DistanceSquaredTo(q);
+            if(distance<best){best=distance;result=q;}
+        }
+        return result;
+    }
+
     public static double Terrain(float x, float z)
     {
         var h = (Fbm(x * 0.03 + 40.0, z * 0.03, 3) - 0.5) * 1.5;
@@ -465,6 +483,13 @@ public static class AgentBAct1HeightField
             if (outside >= pad.Feather) continue;
             if (double.IsNaN(pad.Target)) pad.Target = GeneratedGroundWithoutHouseholdPads(pad.AnchorX, pad.AnchorZ);
             var blend = 1 - Mathf.SmoothStep(0, pad.Feather, outside);
+            // The plot feather must not raise a ramp through the carriageway.
+            // The real parcel stays level; its exterior blend ends at the verge.
+            if (outside > 0)
+            {
+                var road = RoadInfo(x, z);
+                blend *= Mathf.SmoothStep((float)road.HalfWidth + .7f, (float)road.HalfWidth + pad.Feather, (float)road.Distance);
+            }
             height += (pad.Target - height) * blend;
         }
         return height;
@@ -480,16 +505,32 @@ public static class AgentBAct1HeightField
             return baseHeight + channel;
         }
 
-        if (distance >= halfWidth + 3.0)
+        // The 2m terrain triangles also need a graded verge around the northern
+        // hairpin. Otherwise an outer grid corner imports the forest bank into
+        // the carriageway between samples, even while the road centre is level.
+        var gradedWidth = halfWidth + (z > 194f ? 1.5 : 0.0);
+        var shoulder = z > 194f ? 4.0 : 3.0;
+        if (distance >= gradedWidth + shoulder)
         {
             return baseHeight;
         }
+        // Cut the northern loop into the foot of the forest hill rather than
+        // sending the inhabited street up its steep shoulder. This is the
+        // actual visual/collision height field, including the roadside blend.
         var crown = baseHeight - 0.02;
-        if (distance <= halfWidth)
+        if (z > 194f)
+        {
+            var roadCentre = ClosestRoadPoint(x,z);
+            // A road has a graded cross-section. Sample its centreline, not
+            // the forest shoulder under the outer wheel, and keep a shallow crown.
+            var foot = Terrain(roadCentre.X, Mathf.Min(roadCentre.Y, 204f)) - .02 - distance * .012;
+            crown += (foot - crown) * Mathf.SmoothStep(194f, 208f, z);
+        }
+        if (distance <= gradedWidth)
         {
             return crown;
         }
-        var blend = 1.0 - (distance - halfWidth) / 3.0;
+        var blend = 1.0 - (distance - gradedWidth) / shoulder;
         return baseHeight * (1.0 - blend) + crown * blend;
     }
 

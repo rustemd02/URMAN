@@ -118,6 +118,7 @@ public partial class Act1ConnectedWorld
     private static void SSlab(Node3D building, string name, Vector3 size, Vector3 at, Material material)
     {
         var body = SBody(building, name + "Body");
+        body.SetMeta("footstepSurface","herringbone_parquet");
         SBox(building, body, name, size, at, material);
     }
 
@@ -133,24 +134,39 @@ public partial class Act1ConnectedWorld
         return light;
     }
 
-    private static void SLabel(Node3D parent, string text, Vector3 at, float yaw, int fontSize, Color color, float pixel = .005f) =>
-        parent.AddChild(new Label3D
-        {
-            Text = text, Position = at, RotationDegrees = new Vector3(0, yaw, 0), FontSize = fontSize, PixelSize = pixel,
-            Modulate = color, OutlineSize = 0, HorizontalAlignment = HorizontalAlignment.Center
-        });
+    // Handwritten/enamel lettering is generated pigment on a real measured carrier.
+    // Metadata preserves exact author text for inspection/accessibility; no new clue is inferred from bitmap text.
+    private static void SLabel(Node3D parent, string text, Vector3 at, float yaw, int fontSize, Color color, float pixel = .005f)
+    {
+        var lines = text.Split('\n');
+        var width = Mathf.Clamp(lines.Max(l => l.Length) * fontSize * pixel * .43f, .13f, 2.6f);
+        var height = Mathf.Clamp(Mathf.Max(lines.Length * fontSize * pixel * 1.1f,width/2.2f), .075f, .8f);
+        CivicSurfaceLibrary.Sign(parent,text,at,yaw,new(width,height));
+    }
 
-    // Wall-mounted framed picture: real image when given, else a coloured field.
     private static void SPicture(Node3D parent, string name, Vector3 at, float yaw, Vector2 size, string? image, string fallback, string? caption = null)
     {
-        var frame = new Node3D { Name = name, Position = at, RotationDegrees = new Vector3(0, yaw, 0) };
-        parent.AddChild(frame);
-        SBox(frame, null, "Frame", new(size.X + .1f, size.Y + .1f, .04f), new(0, 0, -.02f), Mat("5a4433", "wood"), shadow: false);
-        Material picture = Mat(fallback, "cloth");
+        Material pigment;
         if (image is not null && ResourceLoader.Exists(image))
-            picture = new StandardMaterial3D { AlbedoTexture = ResourceLoader.Load<Texture2D>(image), Roughness = 1f };
-        SBox(frame, null, "Picture", new(size.X, size.Y, .01f), new(0, 0, .003f), picture, shadow: false);
-        if (caption is not null) SLabel(frame, caption, new(0, -size.Y * .5f - .09f, .01f), 0, 26, new Color(.15f, .13f, .1f));
+            pigment = new StandardMaterial3D { AlbedoTexture = ResourceLoader.Load<Texture2D>(image), Roughness = .86f };
+        else if (name.StartsWith("TukayPortrait",StringComparison.Ordinal) || name == "StageTukay")
+            pigment = CivicSurfaceLibrary.Face("tukay_portrait_v1_basecolor.png");
+        else if (name.StartsWith("Map_",StringComparison.Ordinal) || name == "UpperMap")
+            pigment = CivicSurfaceLibrary.Face("classroom_map_v1_basecolor.png");
+        else if (name.StartsWith("Drawing",StringComparison.Ordinal))
+        {
+            var i = int.Parse(name[7..]);
+            pigment = CivicSurfaceLibrary.Face("children_drawings_v1_atlas.png",2,2,i == 5 ? 3 : i % 3);
+        }
+        else if (name == "MuseumTowel") pigment = CivicSurfaceLibrary.Face("museum_towel_v1_basecolor.png");
+        else if (name == "HonourBoard") pigment = CivicSurfaceLibrary.Face("craft_details_v1_atlas.png",2,4,5);
+        else if (name == "StaffNotice") pigment = CivicSurfaceLibrary.Face("notices_v2_atlas.png",2,4,2);
+        else if (name == "CanteenMenu") pigment = CivicSurfaceLibrary.Face("notices_v2_atlas.png",2,4,1);
+        else if (name == "ConcertBill") pigment = CivicSurfaceLibrary.Face("notices_v2_atlas.png",2,4,3);
+        else if (name == "MuseumEmptyFrame") pigment = RuralPropMaterials.Surface("plywood"); // An intentionally empty frame, not a missing painting.
+        else throw new InvalidOperationException("Uninventoried civic picture: " + name);
+        var frame = CivicSurfaceLibrary.FramedFace(parent,name,at,yaw,size,pigment);
+        if (caption is not null) SLabel(frame,caption,new(0,-size.Y*.5f-.09f,.015f),0,20,new(.15f,.13f,.1f));
     }
 
     // A real folded sheet with metric UVs. A textile map can be assigned to
@@ -184,8 +200,8 @@ public partial class Act1ConnectedWorld
 
     private static void SDesk(Node3D room, StaticBody3D body, string name, Vector3 at, float yaw, float w = 1.2f, float d = .6f, float h = .74f)
     {
-        RuralPropModels.Desk(room,name,at,yaw,w,d,h);
-        body.AddChild(new CollisionShape3D { Name = name + "Shape", Position = at + new Vector3(0, h * .5f, 0), RotationDegrees = new Vector3(0, yaw, 0), Shape = new BoxShape3D { Size = new(w, h, d) } });
+        var desk = RuralPropModels.Desk(room,name,at,yaw,w,d,h);
+        RuralPropGeometry.AttachMemberContacts(desk, body);
     }
 
     private static void SChair(Node3D room, string name, Vector3 at, float yaw, string color = "8a6a48")

@@ -13,7 +13,7 @@ public static class RuralPropModels
     }
     public static Node3D Chair(Node3D parent,string name,Vector3 at,float yaw=0)
     {
-        var r=Root(parent,name,at,yaw);var wood=M("plywood");var steel=M("steel","60756c");var rubber=M("rubber","363936");
+        var r=Root(parent,name,at,yaw);var wood=M("plywood");var steel=M("steel","60756c");var rubber=M("rubber");
         RuralPropGeometry.Part(r,"BentPlywoodSeat",RuralPropGeometry.BowedPanel(.42f,.39f,.018f,.048f,.012f),new(0,.457f,0),wood,new(-90,0,0));
         RuralPropGeometry.Part(r,"BentPlywoodBack",RuralPropGeometry.BowedPanel(.40f,.27f,.018f,.048f,.024f),new(0,.756f,-.20f),wood,new(-8,0,0));
         foreach(var x in new[]{-.17f,.17f})
@@ -39,7 +39,7 @@ public static class RuralPropModels
             foreach(var z in new[]{-d*.5f+.085f,d*.5f-.085f})
             {
                 RuralPropGeometry.Tube(r,"SteelLeg",new(x,.03f,z),new(x,h-.045f,z),.018f,steel);
-                RuralPropGeometry.Block(r,"LegCap",new(.039f,.027f,.039f),new(x,.014f,z),M("rubber","373a37"),.006f);
+                RuralPropGeometry.Block(r,"LegCap",new(.039f,.027f,.039f),new(x,.014f,z),M("rubber"),.006f);
             }
             RuralPropGeometry.Tube(r,"EndBrace",new(x,.22f,-d*.5f+.085f),new(x,.22f,d*.5f-.085f),.014f,steel);
             RuralPropGeometry.Tube(r,"TopRail",new(x,h-.058f,-d*.5f+.08f),new(x,h-.058f,d*.5f-.08f),.014f,steel);
@@ -116,7 +116,7 @@ public static class RuralPropModels
     }
     public static Node3D Samovar(Node3D parent,string name,Vector3 at)
     {
-        var r=Root(parent,name,at);var brass=M("brass","ba9a60");
+        var r=Root(parent,name,at);var brass=M("brass");
         RuralPropGeometry.Part(r,"Body",RuralPropGeometry.Lathe("samovar",[new(0,.03f),new(.08f,.03f),new(.075f,.09f),new(.125f,.14f),new(.135f,.23f),new(.10f,.31f),new(.115f,.33f),new(.11f,.345f),new(.06f,.36f),new(.04f,.36f),new(.04f,.44f)]),Vector3.Zero,brass);
         foreach(var x in new[]{-.07f,.07f})foreach(var z in new[]{-.07f,.07f})RuralPropGeometry.Block(r,"Foot",new(.025f,.06f,.025f),new(x,.03f,z),brass,.006f);
         foreach(var side in new[]{-1f,1f})

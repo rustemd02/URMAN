@@ -347,10 +347,13 @@ public partial class Act1ConnectedWorld
         }
         Road("authored/main-axis","tukay",AgentBAct1Layout.MainRoadAxis,5.6,SettlementTravelMode.All);
         Road("authored/fap-axis","urman",AgentBAct1Layout.FapBranchAxis,4.6,SettlementTravelMode.All);
+        Road("authored/bridge-approach-axis","urman",AgentBAct1Layout.BridgeApproachAxis,4.6,SettlementTravelMode.All);
         Road("authored/east-street-axis","urman",AgentBAct1Layout.EastStreetAxis,4.0,SettlementTravelMode.All);
         Road("authored/west-spur-axis","tukay",AgentBAct1Layout.WestSpurAxis,3.5,SettlementTravelMode.Foot|SettlementTravelMode.HorseCart);
         Road("authored/north-east-street-axis","urman",AgentBAct1Layout.NorthEastStreetAxis,3.5,SettlementTravelMode.All);
         Road("authored/west-service-axis","tukay",AgentBAct1Layout.WestServiceAxis,3.5,SettlementTravelMode.All);
+        Road("authored/north-cross-axis","urman",AgentBAct1Layout.NorthCrossStreetAxis,4.0,SettlementTravelMode.All);
+        Road("authored/north-return-axis","urman",AgentBAct1Layout.NorthReturnStreetAxis,4.8,SettlementTravelMode.All);
         Road("authored/square-ring-axis","urman",AgentBAct1Layout.SquareRingAxis,4.8,SettlementTravelMode.All);
         Road("authored/zirat-axis","tukay",AgentBAct1Layout.ZiratRoadAxis,4.2,SettlementTravelMode.All);
         Road("authored/kara-axis","",AgentBAct1Layout.KaraRoadAxis,3.5,SettlementTravelMode.Foot|SettlementTravelMode.HorseCart);

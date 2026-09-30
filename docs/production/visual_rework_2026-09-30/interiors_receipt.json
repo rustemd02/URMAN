@@ -1,0 +1,643 @@
+{
+  "date": "2026-09-30",
+  "scope": "school and DK interiors / civic square physical composition; static integration handoff, no native acceptance claimed",
+  "owner": "civic_interiors",
+  "owned_files": [
+    "game/scripts/CivicSurfaceLibrary.cs",
+    "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
+    "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+    "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+    "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs"
+  ],
+  "checks": {
+    "source_asset_paths": "13 selected runtime resources exist; source dimensions/SHA read from PNG files",
+    "atlas_rows": "row-major exact selected source grids; superseded Bv1 and noticesv1 are not bound",
+    "source_visual_review": "worker source review for generation; civic_interiors independently viewed signs A and crafts",
+    "build_import_runtime_capture": "root serialized integration owner; not run by this worker",
+    "runtime_physics": "pending root current native checks; source bounds alone do not prove walking or vehicle routes"
+  },
+  "source_assets": [
+    {
+      "file": "game/assets/textures/realism_20260930/herringbone_oak_v1_basecolor.png",
+      "size_px": [
+        1254,
+        1254
+      ],
+      "sha256": "b721dd2f46852197f4e4f8e2fd130187a171bf2d23b6961a722d22b3b20ac1cd"
+    },
+    {
+      "file": "game/assets/textures/realism_20260930/signs_exterior_v1_atlas.png",
+      "size_px": [
+        2172,
+        724
+      ],
+      "sha256": "7655292742eab6b2afb00ef302862e1a63ef8582dbc2ebba62225640335eae98"
+    },
+    {
+      "file": "game/assets/textures/realism_20260930/signs_civic_a_v1_atlas.png",
+      "size_px": [
+        1254,
+        1254
+      ],
+      "sha256": "b7cfc1d45284d35a7922b7a5910cce3de17cb8d26e2f992794aadd2219c7b7b7"
+    },
+    {
+      "file": "game/assets/textures/realism_20260930/signs_civic_b_v2_atlas.png",
+      "size_px": [
+        1254,
+        1254
+      ],
+      "sha256": "a0961694cd952e2086cc85b83b49fc5475288a5fb3aa0cefea009e6bc6c1c19e"
+    },
+    {
+      "file": "game/assets/textures/realism_20260930/notices_v2_atlas.png",
+      "size_px": [
+        1254,
+        1254
+      ],
+      "sha256": "98b1e16468d5a710a4fa980efcdf85b246138850aada6f903e58ab14b89dca38"
+    },
+    {
+      "file": "game/assets/textures/realism_20260930/children_drawings_v1_atlas.png",
+      "size_px": [
+        1254,
+        1254
+      ],
+      "sha256": "1411ce1b695ced72cfbf3f4a42c084ffb55e3f5c39a4cb4c200f91419899c265"
+    },
+    {
+      "file": "game/assets/textures/realism_20260930/chalkboard_lessons_v1_atlas.png",
+      "size_px": [
+        1490,
+        1056
+      ],
+      "sha256": "cd5824b1b04c5b2a67f3352c7b90f5269f100bbb700cd68c631b4a7701df94e5"
+    },
+    {
+      "file": "game/assets/textures/realism_20260930/tukay_portrait_v1_basecolor.png",
+      "size_px": [
+        1100,
+        1430
+      ],
+      "sha256": "e4ebfb70761f3b64e3434953803c24636d16e39417f8af3047ebc12022247fbe"
+    },
+    {
+      "file": "game/assets/textures/realism_20260930/classroom_map_v1_basecolor.png",
+      "size_px": [
+        1520,
+        1035
+      ],
+      "sha256": "b91cec9dfaa4ecd8f5d0afa8f9a4f340917fa1b1f3bf641f30177d7c3e4e6689"
+    },
+    {
+      "file": "game/assets/textures/realism_20260930/museum_towel_v1_basecolor.png",
+      "size_px": [
+        809,
+        1942
+      ],
+      "sha256": "8415c0939208b66f3b0ba01c4dbe532d5cdeb739d2098fd20af5f2c35ae3944e"
+    },
+    {
+      "file": "game/assets/textures/realism_20260930/craft_details_v1_atlas.png",
+      "size_px": [
+        1774,
+        887
+      ],
+      "sha256": "3685b61688112431892f71111da3a6e16ef917065fd0fafa4f3c88b06976aa88"
+    },
+    {
+      "file": "game/assets/textures/realism_20260930/postal_closure_v1_basecolor.png",
+      "size_px": [
+        1448,
+        1086
+      ],
+      "sha256": "86f3a6f569fb1a89ed8425da4c282ce1cce55b7ca53c4518d9e74906093994ac"
+    },
+    {
+      "file": "game/assets/textures/realism_20260930/costume_tag_v1_basecolor.png",
+      "size_px": [
+        1774,
+        887
+      ],
+      "sha256": "3cb649a3012831c36eb0e6ac962b67e9194619dc425d78737931f5b24e11bd87"
+    }
+  ],
+  "generated_sign_bindings": [
+    {
+      "runtime_exact_text": "КАРА-УРМАН УРТА МӘКТӘБЕ\nКАРА-УРМАНСКАЯ СРЕДНЯЯ ШКОЛА",
+      "file": "signs_exterior_v1_atlas.png",
+      "cell": 0,
+      "grid": [
+        2,
+        2
+      ]
+    },
+    {
+      "runtime_exact_text": "МӘДӘНИЯТ ЙОРТЫ\nДОМ КУЛЬТУРЫ",
+      "file": "signs_exterior_v1_atlas.png",
+      "cell": 1,
+      "grid": [
+        2,
+        2
+      ]
+    },
+    {
+      "runtime_exact_text": "«КАРА УРМАН» СОВХОЗЫ\nИДАРӘСЕ · КОНТОРА",
+      "file": "signs_exterior_v1_atlas.png",
+      "cell": 2,
+      "grid": [
+        2,
+        2
+      ]
+    },
+    {
+      "runtime_exact_text": "ПОЧТА",
+      "file": "signs_exterior_v1_atlas.png",
+      "cell": 3,
+      "grid": [
+        2,
+        2
+      ]
+    },
+    {
+      "runtime_exact_text": "МАКТАУ ТАКТАСЫ\nДОСКА ПОЧЁТА",
+      "file": "signs_civic_a_v1_atlas.png",
+      "cell": 4,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "Часть рамок снята",
+      "file": "signs_civic_a_v1_atlas.png",
+      "cell": 5,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "М.  А.",
+      "file": "signs_civic_a_v1_atlas.png",
+      "cell": 6,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "УРМАН КАМИЛЛӘРЕ — КАРА-УРМАН МӘКТӘБЕ",
+      "file": "signs_civic_a_v1_atlas.png",
+      "cell": 7,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "ГАРДЕРОБ · ЧИК",
+      "file": "signs_civic_a_v1_atlas.png",
+      "cell": 8,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "КАССА",
+      "file": "signs_civic_a_v1_atlas.png",
+      "cell": 9,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "ЗАЛ · 96 УРЫН",
+      "file": "signs_civic_a_v1_atlas.png",
+      "cell": 10,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "КОСТЮМЕРНАЯ",
+      "file": "signs_civic_a_v1_atlas.png",
+      "cell": 11,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "ИНСТРУМЕНТЫ",
+      "file": "signs_civic_a_v1_atlas.png",
+      "cell": 12,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "Мәктәп почмагы\nШкольный уголок",
+      "file": "signs_civic_a_v1_atlas.png",
+      "cell": 13,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "УРМАН — балалар рәсемнәре\nЛес — рисунки детей",
+      "file": "signs_civic_a_v1_atlas.png",
+      "cell": 14,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "Габдулла Тукай",
+      "file": "signs_civic_a_v1_atlas.png",
+      "cell": 15,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "УЧИТЕЛЬСКАЯ-2\nне открывать",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 0,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "5 «А»\nтечёт крыша",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 1,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "6 «Б»\nна ремонте",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 2,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "КЛАДОВАЯ",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 3,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "Проход закрыт",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 4,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "КАРТА · КАРА-УРМАН",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 5,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "ТАТАРСТАН",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 6,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "КАРА-УРМАН\nстарый план",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 7,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "Снимок забрали для архива",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 8,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "Сцену собрал Габдулла Сабиров",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 9,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "Наҗия апа — не трогать, ещё дошью",
+      "file": "costume_tag_v1_basecolor.png",
+      "cell": null,
+      "grid": [
+        1,
+        1
+      ]
+    },
+    {
+      "runtime_exact_text": "Автобус — борылышта\nАвтобус — у поворота",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 11,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "САБАНТУЙ",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 12,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "Сабантуй",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 12,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "1–4 класс",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 13,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "5–9 класс",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 14,
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "runtime_exact_text": "ЧӘЙ ВАКЫТЫ",
+      "file": "signs_civic_b_v2_atlas.png",
+      "cell": 15,
+      "grid": [
+        4,
+        4
+      ]
+    }
+  ],
+  "uv_contract": {
+    "unique_faces": "mesh0..1 selects one atlas cell; 1.2% normalized cell inset avoids neighbour ink; no repeated letters",
+    "exterior_signs": "dedicated 3:1 face atlas; school4.2x1.4m, DK3.3x1.1m, office2.4x0.8m, post1.8x0.6m; flat enamel face, no curl",
+    "interior_signs": "consumer widths capped2.6m, heights >=width/2.2 capped0.8m; physical beveled wooden rails/backing; no code glyph overlay",
+    "parquet": "metre coordinates shared within each building, rotated45deg, repeat1.4x1.4m; roughness0.43, metallic0, specular0.38; pigment does not drive guessed displacement/normal",
+    "chalkboards": "1x2 atlas, 3.1x1.1m face, top beginner letters / lower older class; real backed board and chalktray preserved",
+    "growth_marks": "crafts2x4 cell6 u0.38..0.66 crops actual wood jamb; no blurred source wall strip",
+    "textiles": "hanging towel unique0.5x1.2m; flatpattern real folded mesh24x32; table1.3x0.45m drapedcloth long-axis UV rotation on independent ArrayMesh; roughness0.97",
+    "corrected_unique_labels": "postal4:3 .72x.54m and costume2:1 .20x.10m; distinct corrected glyph assets replace atlas cells"
+  },
+  "picture_bindings": [
+    {
+      "consumer": "School HonourBoard",
+      "file": "craft_details_v1_atlas.png",
+      "grid": [
+        2,
+        4
+      ],
+      "cell": 5
+    },
+    {
+      "consumer": "School StaffNotice (decorative, not quest staff-note)",
+      "file": "notices_v2_atlas.png",
+      "grid": [
+        2,
+        4
+      ],
+      "cell": 2
+    },
+    {
+      "consumer": "School CanteenMenu",
+      "file": "notices_v2_atlas.png",
+      "grid": [
+        2,
+        4
+      ],
+      "cell": 1
+    },
+    {
+      "consumer": "Club ConcertBill",
+      "file": "notices_v2_atlas.png",
+      "grid": [
+        2,
+        4
+      ],
+      "cell": 3
+    },
+    {
+      "consumer": "Club exterior SabantuyPoster",
+      "file": "notices_v2_atlas.png",
+      "grid": [
+        2,
+        4
+      ],
+      "cell": 4
+    },
+    {
+      "consumer": "Club StageMakerPlaque",
+      "file": "notices_v2_atlas.png",
+      "grid": [
+        2,
+        4
+      ],
+      "cell": 5
+    },
+    {
+      "consumer": "School6childrenframes",
+      "file": "children_drawings_v1_atlas.png",
+      "grid": [
+        2,
+        2
+      ],
+      "variant_order": [
+        0,
+        1,
+        2,
+        0,
+        1,
+        3
+      ],
+      "note": "last inspected frame uses tiny ambiguous dark mark from generated cell3; no new named monster/clue"
+    },
+    {
+      "consumer": "School and stage Tukay portrait",
+      "file": "tukay_portrait_v1_basecolor.png",
+      "grid": [
+        1,
+        1
+      ]
+    },
+    {
+      "consumer": "School classroom maps and upper map",
+      "file": "classroom_map_v1_basecolor.png",
+      "grid": [
+        1,
+        1
+      ],
+      "note": "decorative educational geography, not village navigation topology"
+    },
+    {
+      "consumer": "Club8foyerfolkfrieze and4portalornaments",
+      "file": "craft_details_v1_atlas.png",
+      "grid": [
+        2,
+        4
+      ],
+      "cell": 0
+    },
+    {
+      "consumer": "Club physical folded stage backdrop",
+      "file": "craft_details_v1_atlas.png",
+      "grid": [
+        2,
+        4
+      ],
+      "cell": 1
+    },
+    {
+      "consumer": "School class journal cover",
+      "file": "craft_details_v1_atlas.png",
+      "grid": [
+        2,
+        4
+      ],
+      "cell": 2
+    },
+    {
+      "consumer": "Club empty archive envelope",
+      "file": "craft_details_v1_atlas.png",
+      "grid": [
+        2,
+        4
+      ],
+      "cell": 4
+    },
+    {
+      "consumer": "School pencil growth marks on existing jamb",
+      "file": "craft_details_v1_atlas.png",
+      "grid": [
+        2,
+        4
+      ],
+      "cell": 6
+    },
+    {
+      "consumer": "School hanging/tabled embroidered cloth",
+      "file": "museum_towel_v1_basecolor.png",
+      "grid": [
+        1,
+        1
+      ]
+    },
+    {
+      "consumer": "Club SabantuyPhoto",
+      "file": "res://assets/images/council-sabantuy-2005.png",
+      "note": "preexisting ImageGen source retained in physical four-rail frame; historical internal filename is not a decorative date"
+    }
+  ],
+  "physical_geometry": {
+    "frames": "real plywood backing and4separate beveled rails; paper12x16 vertex grid with lowercorner curl <=4mm; enamel curl0",
+    "textiles": "real woven material response and physical folds/hem; table DrapedCloth reused without mutating cached geometry",
+    "school_floors": [
+      "GroundFloor entireclass/corridor/canteen/stairhall",
+      "UpperFloorWest",
+      "UpperFloorEast preservesactual stairwell hole",
+      "20 stair treads"
+    ],
+    "club_floors": [
+      "ClubFloor entirefoyer/hall/groundwings",
+      "StageParquet",
+      "14 backstage treads",
+      "2 actualbacklandings"
+    ],
+    "floor_support": "existing plinth/slab/stage/stair contact solids retained; parquet surface top +2mm rather than previous+21mm; support bodies publish footstepSurface=herringbone_parquet",
+    "square": "radius3.5/3.2m96segmenttiered low platform grounded to sampleminimum; 17chordcut detailed timberboards;4actualtrimesh ramps4.35mend;4detailedbenchesmembercontacts;4leaflessbranchingshrubs;4metricconforming approach ribbons toactual entranceaprons",
+    "coordinates": {
+      "civiccentre": [
+        0.5,
+        114
+      ],
+      "school": [
+        -2,
+        138
+      ],
+      "DK": [
+        -26,
+        111
+      ],
+      "office": [
+        25,
+        112
+      ],
+      "post": [
+        -32.5,
+        140
+      ]
+    },
+    "facing": "all building local+Z toCivicCentre; source transform IDs unchanged",
+    "front_placement_fixes": "school plaque nowactualfront5.7; DK pediment label10.12 andposter7.2; earlier versions were behindfacade"
+  },
+  "semantics": {
+    "preserved_archive_ids": [
+      "school-class-photo",
+      "school-transport-notice",
+      "school-staff-note"
+    ],
+    "inspections": "all existing SquareLook IDs/text unchanged; exact generated sign text retained readableText metadata; source ink cannot introduce quest state",
+    "intentional_empty": "MuseumEmptyFrame is actual empty plywood frame with generated removed-photo caption, not missing painting",
+    "years": "no newly generated decorative year/date; existing narrative archives remain root-owned"
+  },
+  "open_limits": [
+    "Current native capture/readability/route/standing tests and stable FPS remain root integration checks; this receipt alone grants no PASS.",
+    "Not every existing furniture model is rebuilt in this slice: piano, accordion, sewingmachine, costume rack/coats/mannequin dress, scanner, display cabinet, geraniums, medal/pennant geometry and bookspines still need further shape/surface work.",
+    "Generated craft atlas medal cell3 and pennant cell7 are currently unbound; medal/pennant consumers remain explicitly open rather than applying printed baked medallion lighting to a physical metal object.",
+    "Craft atlas actual1774x887 means each2x4cell4:1; journal/envelope/backdrop adapt that painted composition to consumer dimensions. Dedicated consumer aspect refinements still require close native art review.",
+    "Generic material library retains reused wood/plywood/concrete for frames/roads/benches. This is not a claim all28primitive/materialpassports are closed.",
+    "Parquet measured pigment/roughness is integrated without invented normal maps; individual block chamfers/gaps are not modeled on each floor lamella.",
+    "Accessible readableText metadata is preserved; exposing every decorative label through a dedicated inspection UI is not implemented in this worker scope."
+  ]
+}

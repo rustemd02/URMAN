@@ -15,10 +15,10 @@
       "materials": [
         "inspected selected ImageGen plywood/velvet/enamel/laminate/zinc/ceramic/earthenware/concrete/chalkboard",
         "existing W08/T01/T04/M05",
-        "brass/rubber pending worker"
+        "inspected new brass/rubber/mosaic maps; actual physical response, runtime capture pending"
       ],
       "materialOwner": "RuralPropMaterials; per-kind roughness, metallic and metric UV",
-      "collision": "caller-owned contact proxies; ordinary traversal regression required",
+      "collision": "School desks: cached convex member contacts preserve leg space; other consumers retain caller-owned proxies; r10 local desk support/object clearance and traversal pass",
       "lod": "shared mesh; distance LOD pending",
       "qa": "C# build and initial native near captures; final current-run receipt under docs/production/visual_rework_2026-09-29/README.md",
       "status": "integrated candidate; named bitmap production resumed; current capture/LOD/performance/art review open",
@@ -3200,7 +3200,7 @@
     },
     {
       "id": "texture.rural.realism.plywood.20260930",
-      "source": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "source": "assets/source/imagegen/2026-09-29/birch_plywood_varnished_v1_basecolor.png",
       "derived": "game/assets/textures/realism_20260929/birch_plywood_varnished_v1_basecolor.png",
       "derivedSha256": "27efa99c785e23e3ce28a89b5de2379339c6e914f64e9dbb710061c5ec699481",
       "generator": "OpenAI built-in ImageGen; model ID not exposed",
@@ -3218,11 +3218,12 @@
         "TX29-10"
       ],
       "consumer": "RuralPropMaterials.Surface(plywood); actual metric mesh UV",
-      "qa": "source viewed; game receiver review pending, no human acceptance"
+      "qa": "source viewed; game receiver review pending, no human acceptance",
+      "sourceSha256": "ead6f26d7a602ea150a92c8572f5d8badbed12e692b66bf4e935c6247301fc35"
     },
     {
       "id": "texture.rural.realism.velvet.20260930",
-      "source": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "source": "ImageGen local generation 2026-09-30; receipt docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
       "derived": "game/assets/textures/realism_20260929/burgundy_stage_velvet_v1_basecolor.png",
       "derivedSha256": "a07844477147927a41da5c2f33b8967b052c64c7a6643de9e99ab32557049d47",
       "generator": "OpenAI built-in ImageGen; model ID not exposed",
@@ -3244,7 +3245,7 @@
     },
     {
       "id": "texture.rural.realism.steel.20260930",
-      "source": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "source": "assets/source/imagegen/2026-09-29/painted_steel_enamel_v1_basecolor.png",
       "derived": "game/assets/textures/realism_20260929/painted_steel_enamel_v1_basecolor.png",
       "derivedSha256": "b3e51ca2d1ba8c2db18ed6ed6541e4093da17793cc49318640bcb57693303fe2",
       "generator": "OpenAI built-in ImageGen; model ID not exposed",
@@ -3264,7 +3265,8 @@
         "TX29-12"
       ],
       "consumer": "RuralPropMaterials.Surface(steel); actual metric mesh UV",
-      "qa": "source viewed; game receiver review pending, no human acceptance"
+      "qa": "source viewed; game receiver review pending, no human acceptance",
+      "sourceSha256": "6b5e2d7d839b5e9e889edc3853e3621fbb3880eccb9403a91ae48e3a427bb68b"
     },
     {
       "id": "texture.rural.realism.laminate.20260930",
@@ -3285,7 +3287,8 @@
         "TX29-09"
       ],
       "consumer": "RuralPropMaterials.Surface(laminate); actual metric mesh UV",
-      "qa": "source viewed; game receiver review pending, no human acceptance"
+      "qa": "source viewed; game receiver review pending, no human acceptance",
+      "sourceSha256": "d9ecd589101d853f2d785284f8e2206bd41da7b4d30fca7c78ff85ac24a48425"
     },
     {
       "id": "texture.rural.realism.ceramic.20260930",
@@ -3306,7 +3309,8 @@
         "TX29-19"
       ],
       "consumer": "RuralPropMaterials.Surface(ceramic); actual metric mesh UV",
-      "qa": "source viewed; game receiver review pending, no human acceptance"
+      "qa": "source viewed; game receiver review pending, no human acceptance",
+      "sourceSha256": "68c36f276415f25a287f4a85ec7b1765059e4c42d4604ef6cb31e619ca624757"
     },
     {
       "id": "texture.rural.realism.earthenware.20260930",
@@ -3327,7 +3331,8 @@
         "TX29-19"
       ],
       "consumer": "RuralPropMaterials.Surface(earthenware); actual metric mesh UV",
-      "qa": "source viewed; game receiver review pending, no human acceptance"
+      "qa": "source viewed; game receiver review pending, no human acceptance",
+      "sourceSha256": "312d6457da248ca89d2d7e0b992841350981d5ec09fd9c81d896936b044c6da4"
     },
     {
       "id": "texture.rural.realism.metal.20260930",
@@ -3351,7 +3356,8 @@
         "TX29-12"
       ],
       "consumer": "RuralPropMaterials.Surface(metal); actual metric mesh UV",
-      "qa": "source viewed; game receiver review pending, no human acceptance"
+      "qa": "source viewed; game receiver review pending, no human acceptance",
+      "sourceSha256": "899c9a9a2384ae43c70b5640e2d381712ea0e1af2210ce405f3b347d265546d7"
     },
     {
       "id": "texture.rural.realism.concrete.20260930",
@@ -3373,11 +3379,12 @@
         "TX29-11"
       ],
       "consumer": "RuralPropMaterials.Surface(concrete); actual metric mesh UV",
-      "qa": "source viewed; game receiver review pending, no human acceptance"
+      "qa": "source viewed; game receiver review pending, no human acceptance",
+      "sourceSha256": "009f68a751b497fe4b20f6a6ee63a9108c393bc902e64243c707a3fd2886f1f5"
     },
     {
       "id": "texture.rural.realism.chalkboard.20260930",
-      "source": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "source": "assets/source/imagegen/2026-09-29/school_green_chalkboard_v1_basecolor.png",
       "derived": "game/assets/textures/realism_20260929/school_green_chalkboard_v1_basecolor.png",
       "derivedSha256": "5f6d7ed56c4f5c7cff9e1e1a6e7dfb2235df7a6d132106c7a30fb7a409f0bc24",
       "generator": "OpenAI built-in ImageGen; model ID not exposed",
@@ -3394,7 +3401,563 @@
         "TX29-11"
       ],
       "consumer": "BuildClassroom/Chalkboard: full unique bitmap on 3.1x1.1 m quad, backing thickness and tray separate",
-      "qa": "source viewed; game receiver review pending, no human acceptance"
+      "qa": "source viewed; game receiver review pending, no human acceptance",
+      "sourceSha256": "2ff3f6b6cfa535303f3a9960f19ae58d64789829a3bddf3ad802e980a021cd6f"
+    },
+    {
+      "id": "texture.rural.realism.brass.20260930",
+      "source": "ImageGen local generation 2026-09-30; receipt docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "derived": "game/assets/textures/realism_20260929/samovar_brass_v1_basecolor.png",
+      "derivedSha256": "5f91bcae24b2dbe694aaa22a41f2ea248fa4a231edb7a706253a6432c017fc90",
+      "generator": "OpenAI built-in ImageGen; model ID not exposed",
+      "license": "Project generated",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "uv": 0.5,
+      "roughness": 0.32,
+      "metallic": 1,
+      "consumer": "RuralPropModels.Samovar body/feet/brackets/tap; actual lathed/tubular metric UV; no duplicate gold tint",
+      "qa": "source viewed; current receiver native review pending"
+    },
+    {
+      "id": "texture.rural.realism.rubber.20260930",
+      "source": "ImageGen local generation 2026-09-30; receipt docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "derived": "game/assets/textures/realism_20260929/moulded_rubber_black_v1_basecolor.png",
+      "derivedSha256": "b93a9616d9fca772570a7cf8e0c7746686a21f291eb51d3e9f33ba5426ca2f1e",
+      "generator": "OpenAI built-in ImageGen; model ID not exposed",
+      "license": "Project generated",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "uv": 0.35,
+      "roughness": 0.91,
+      "metallic": 0,
+      "consumer": "RuralPropModels.Chair/Desk moulded foot caps; actual bevel geometry and metric UV",
+      "qa": "source viewed; current receiver native review pending"
+    },
+    {
+      "id": "texture.rural.realism.mosaic.20260930",
+      "source": "ImageGen local generation 2026-09-30; receipt docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "derived": "game/assets/textures/realism_20260929/bus_wheat_sun_mosaic_v1_basecolor.png",
+      "derivedSha256": "88116e1a22853edcae37aeadadd712a6c43072a4fc32f4f878397ec18ceffe69",
+      "generator": "OpenAI built-in ImageGen; model ID not exposed",
+      "license": "Project generated",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "uv": "single2x1m panel",
+      "roughness": 0.85,
+      "metallic": 0,
+      "consumer": "OldBusPavilion/MosaicPanel full[0,1]2 UV on2x1m ceramic face; actual26mm backing; individual tessera relief remains open",
+      "qa": "source viewed; current receiver native review pending"
+    },
+    {
+      "id": "texture.civic.handmade.chalkboard_lessons_v1_atlas",
+      "source": "game/assets/textures/realism_20260930/chalkboard_lessons_v1_atlas.png",
+      "derived": "game/assets/textures/realism_20260930/chalkboard_lessons_v1_atlas.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1490,
+      "sha256": "cd5824b1b04c5b2a67f3352c7b90f5269f100bbb700cd68c631b4a7701df94e5",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "sizePx": [
+        1490,
+        1056
+      ],
+      "sourceBytes": 2339553,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "cd5824b1b04c5b2a67f3352c7b90f5269f100bbb700cd68c631b4a7701df94e5",
+      "sourceSha256": "cd5824b1b04c5b2a67f3352c7b90f5269f100bbb700cd68c631b4a7701df94e5",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.children_drawings_v1_atlas",
+      "source": "game/assets/textures/realism_20260930/children_drawings_v1_atlas.png",
+      "derived": "game/assets/textures/realism_20260930/children_drawings_v1_atlas.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1254,
+      "sha256": "1411ce1b695ced72cfbf3f4a42c084ffb55e3f5c39a4cb4c200f91419899c265",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "sizePx": [
+        1254,
+        1254
+      ],
+      "sourceBytes": 3472849,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "1411ce1b695ced72cfbf3f4a42c084ffb55e3f5c39a4cb4c200f91419899c265",
+      "sourceSha256": "1411ce1b695ced72cfbf3f4a42c084ffb55e3f5c39a4cb4c200f91419899c265",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.classroom_map_v1_basecolor",
+      "source": "game/assets/textures/realism_20260930/classroom_map_v1_basecolor.png",
+      "derived": "game/assets/textures/realism_20260930/classroom_map_v1_basecolor.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1520,
+      "sha256": "b91cec9dfaa4ecd8f5d0afa8f9a4f340917fa1b1f3bf641f30177d7c3e4e6689",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "sizePx": [
+        1520,
+        1035
+      ],
+      "sourceBytes": 3341547,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "b91cec9dfaa4ecd8f5d0afa8f9a4f340917fa1b1f3bf641f30177d7c3e4e6689",
+      "sourceSha256": "b91cec9dfaa4ecd8f5d0afa8f9a4f340917fa1b1f3bf641f30177d7c3e4e6689",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.costume_tag_v1_basecolor",
+      "source": "game/assets/textures/realism_20260930/costume_tag_v1_basecolor.png",
+      "derived": "game/assets/textures/realism_20260930/costume_tag_v1_basecolor.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1774,
+      "sha256": "3cb649a3012831c36eb0e6ac962b67e9194619dc425d78737931f5b24e11bd87",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "sizePx": [
+        1774,
+        887
+      ],
+      "sourceBytes": 2865865,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "3cb649a3012831c36eb0e6ac962b67e9194619dc425d78737931f5b24e11bd87",
+      "sourceSha256": "3cb649a3012831c36eb0e6ac962b67e9194619dc425d78737931f5b24e11bd87",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.craft_details_v1_atlas",
+      "source": "game/assets/textures/realism_20260930/craft_details_v1_atlas.png",
+      "derived": "game/assets/textures/realism_20260930/craft_details_v1_atlas.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1774,
+      "sha256": "3685b61688112431892f71111da3a6e16ef917065fd0fafa4f3c88b06976aa88",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "sizePx": [
+        1774,
+        887
+      ],
+      "sourceBytes": 3014914,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "3685b61688112431892f71111da3a6e16ef917065fd0fafa4f3c88b06976aa88",
+      "sourceSha256": "3685b61688112431892f71111da3a6e16ef917065fd0fafa4f3c88b06976aa88",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.herringbone_oak_v1_basecolor",
+      "source": "game/assets/textures/realism_20260930/herringbone_oak_v1_basecolor.png",
+      "derived": "game/assets/textures/realism_20260930/herringbone_oak_v1_basecolor.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1254,
+      "sha256": "b721dd2f46852197f4e4f8e2fd130187a171bf2d23b6961a722d22b3b20ac1cd",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "sizePx": [
+        1254,
+        1254
+      ],
+      "sourceBytes": 2673885,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "b721dd2f46852197f4e4f8e2fd130187a171bf2d23b6961a722d22b3b20ac1cd",
+      "sourceSha256": "b721dd2f46852197f4e4f8e2fd130187a171bf2d23b6961a722d22b3b20ac1cd",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.museum_towel_v1_basecolor",
+      "source": "game/assets/textures/realism_20260930/museum_towel_v1_basecolor.png",
+      "derived": "game/assets/textures/realism_20260930/museum_towel_v1_basecolor.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1942,
+      "sha256": "8415c0939208b66f3b0ba01c4dbe532d5cdeb739d2098fd20af5f2c35ae3944e",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "sizePx": [
+        809,
+        1942
+      ],
+      "sourceBytes": 3205306,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "8415c0939208b66f3b0ba01c4dbe532d5cdeb739d2098fd20af5f2c35ae3944e",
+      "sourceSha256": "8415c0939208b66f3b0ba01c4dbe532d5cdeb739d2098fd20af5f2c35ae3944e",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.notices_v1_atlas",
+      "source": "game/assets/textures/realism_20260930/notices_v1_atlas.png",
+      "derived": "game/assets/textures/realism_20260930/notices_v1_atlas.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1254,
+      "sha256": "e1089900da8189f39a9458ff35d73568119327a5c68a44fc32041351fb03c4c2",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "superseded; not bound",
+      "sizePx": [
+        1254,
+        1254
+      ],
+      "sourceBytes": 2901654,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "e1089900da8189f39a9458ff35d73568119327a5c68a44fc32041351fb03c4c2",
+      "sourceSha256": "e1089900da8189f39a9458ff35d73568119327a5c68a44fc32041351fb03c4c2",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.notices_v2_atlas",
+      "source": "game/assets/textures/realism_20260930/notices_v2_atlas.png",
+      "derived": "game/assets/textures/realism_20260930/notices_v2_atlas.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1254,
+      "sha256": "98b1e16468d5a710a4fa980efcdf85b246138850aada6f903e58ab14b89dca38",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "sizePx": [
+        1254,
+        1254
+      ],
+      "sourceBytes": 2552637,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "98b1e16468d5a710a4fa980efcdf85b246138850aada6f903e58ab14b89dca38",
+      "sourceSha256": "98b1e16468d5a710a4fa980efcdf85b246138850aada6f903e58ab14b89dca38",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.postal_closure_v1_basecolor",
+      "source": "game/assets/textures/realism_20260930/postal_closure_v1_basecolor.png",
+      "derived": "game/assets/textures/realism_20260930/postal_closure_v1_basecolor.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1448,
+      "sha256": "86f3a6f569fb1a89ed8425da4c282ce1cce55b7ca53c4518d9e74906093994ac",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "sizePx": [
+        1448,
+        1086
+      ],
+      "sourceBytes": 2432041,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "86f3a6f569fb1a89ed8425da4c282ce1cce55b7ca53c4518d9e74906093994ac",
+      "sourceSha256": "86f3a6f569fb1a89ed8425da4c282ce1cce55b7ca53c4518d9e74906093994ac",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.signs_civic_a_v1_atlas",
+      "source": "game/assets/textures/realism_20260930/signs_civic_a_v1_atlas.png",
+      "derived": "game/assets/textures/realism_20260930/signs_civic_a_v1_atlas.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1254,
+      "sha256": "b7cfc1d45284d35a7922b7a5910cce3de17cb8d26e2f992794aadd2219c7b7b7",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "sizePx": [
+        1254,
+        1254
+      ],
+      "sourceBytes": 2693377,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "b7cfc1d45284d35a7922b7a5910cce3de17cb8d26e2f992794aadd2219c7b7b7",
+      "sourceSha256": "b7cfc1d45284d35a7922b7a5910cce3de17cb8d26e2f992794aadd2219c7b7b7",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.signs_civic_b_v1_atlas",
+      "source": "game/assets/textures/realism_20260930/signs_civic_b_v1_atlas.png",
+      "derived": "game/assets/textures/realism_20260930/signs_civic_b_v1_atlas.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1254,
+      "sha256": "590b8e3b8f2047699911bdd700c7baab06523a39a9fa216bf8e557ede6fb8b90",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "superseded; not bound",
+      "sizePx": [
+        1254,
+        1254
+      ],
+      "sourceBytes": 2752104,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "590b8e3b8f2047699911bdd700c7baab06523a39a9fa216bf8e557ede6fb8b90",
+      "sourceSha256": "590b8e3b8f2047699911bdd700c7baab06523a39a9fa216bf8e557ede6fb8b90",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.signs_civic_b_v2_atlas",
+      "source": "game/assets/textures/realism_20260930/signs_civic_b_v2_atlas.png",
+      "derived": "game/assets/textures/realism_20260930/signs_civic_b_v2_atlas.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1254,
+      "sha256": "a0961694cd952e2086cc85b83b49fc5475288a5fb3aa0cefea009e6bc6c1c19e",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "sizePx": [
+        1254,
+        1254
+      ],
+      "sourceBytes": 2377843,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "a0961694cd952e2086cc85b83b49fc5475288a5fb3aa0cefea009e6bc6c1c19e",
+      "sourceSha256": "a0961694cd952e2086cc85b83b49fc5475288a5fb3aa0cefea009e6bc6c1c19e",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.signs_exterior_v1_atlas",
+      "source": "game/assets/textures/realism_20260930/signs_exterior_v1_atlas.png",
+      "derived": "game/assets/textures/realism_20260930/signs_exterior_v1_atlas.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 2172,
+      "sha256": "7655292742eab6b2afb00ef302862e1a63ef8582dbc2ebba62225640335eae98",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "sizePx": [
+        2172,
+        724
+      ],
+      "sourceBytes": 1756942,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "7655292742eab6b2afb00ef302862e1a63ef8582dbc2ebba62225640335eae98",
+      "sourceSha256": "7655292742eab6b2afb00ef302862e1a63ef8582dbc2ebba62225640335eae98",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.tukay_portrait_v1_basecolor",
+      "source": "game/assets/textures/realism_20260930/tukay_portrait_v1_basecolor.png",
+      "derived": "game/assets/textures/realism_20260930/tukay_portrait_v1_basecolor.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "textureBudget": 1430,
+      "sha256": "e4ebfb70761f3b64e3434953803c24636d16e39417f8af3047ebc12022247fbe",
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "sizePx": [
+        1100,
+        1430
+      ],
+      "sourceBytes": 2774269,
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "derivedSha256": "e4ebfb70761f3b64e3434953803c24636d16e39417f8af3047ebc12022247fbe",
+      "sourceSha256": "e4ebfb70761f3b64e3434953803c24636d16e39417f8af3047ebc12022247fbe",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.quest_papers_v1_atlas",
+      "source": "game/assets/textures/realism_20260930/quest_papers_v1_atlas.png",
+      "derived": "game/assets/textures/realism_20260930/quest_papers_v1_atlas.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; actual paper/cloth/wood geometry"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "textureBudget": 1254,
+      "sizePx": [
+        1254,
+        1254
+      ],
+      "sourceBytes": 2769496,
+      "sha256": "cafe889349c73d90ec5152c05bf125dee579cbdbc03647d9275fd56af294b995",
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.PublicWorldProps.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "status": "superseded; not bound",
+      "derivedSha256": "cafe889349c73d90ec5152c05bf125dee579cbdbc03647d9275fd56af294b995",
+      "sourceSha256": "cafe889349c73d90ec5152c05bf125dee579cbdbc03647d9275fd56af294b995",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "texture.civic.handmade.quest_papers_v2_atlas",
+      "source": "game/assets/textures/realism_20260930/quest_papers_v2_atlas.png",
+      "derived": "game/assets/textures/realism_20260930/quest_papers_v2_atlas.png",
+      "generator": "built-in ImageGen via dedicated agent",
+      "license": "Project-generated",
+      "scale": 1,
+      "materials": [
+        "CivicSurfaceLibrary; unique atlas cell UV; actual paper/cloth/wood geometry"
+      ],
+      "collision": "carrier geometry owns contact; no texture-to-height guess",
+      "textureBudget": 1254,
+      "sizePx": [
+        1254,
+        1254
+      ],
+      "sourceBytes": 2433581,
+      "sha256": "a7d5d8961dbbc23f6cf28f2d26fa30b70f57e5765a33eb48baac549f61230453",
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.PublicWorldProps.cs"
+      ],
+      "passport": "docs/production/visual_rework_2026-09-30/imagegen_manifest.json",
+      "status": "selected current working-tree surface; native artistic acceptance pending",
+      "derivedSha256": "a7d5d8961dbbc23f6cf28f2d26fa30b70f57e5765a33eb48baac549f61230453",
+      "sourceSha256": "a7d5d8961dbbc23f6cf28f2d26fa30b70f57e5765a33eb48baac549f61230453",
+      "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
     }
   ]
 }

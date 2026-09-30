@@ -21,11 +21,11 @@ public static class RuralPropMaterials
             "velvet" => ("realism_20260929/burgundy_stage_velvet_v1_basecolor.png",.5f,.97f,0f),
             "curtain" => ("urman_t04_v01_basecolor.png",.5f,.97f,0f),
             "plastic" => ("urman_m05_v01_basecolor.png",.5f,.43f,0f),
-            "rubber" => ("",.35f,.91f,0f),
+            "rubber" => ("realism_20260929/moulded_rubber_black_v1_basecolor.png",.35f,.91f,0f),
             "ceramic" => ("realism_20260929/glazed_ceramic_cream_source_v1_basecolor.png",.5f,.28f,0f),
             "earthenware" => ("realism_20260929/unglazed_earthenware_source_v1_basecolor.png",.5f,.9f,0f),
             "metal" => ("realism_20260929/galvanized_zinc_source_v1_basecolor.png",.5f,.58f,1f),
-            "brass" => ("",.5f,.32f,1f),
+            "brass" => ("realism_20260929/samovar_brass_v1_basecolor.png",.5f,.32f,1f),
             "concrete" => ("realism_20260929/public_concrete_source_v1_basecolor.png",1f,.9f,0f),
             _ => ("urman_w08_v01_basecolor.png",.75f,.65f,0f)
         };

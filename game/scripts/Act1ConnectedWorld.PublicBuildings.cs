@@ -140,9 +140,15 @@ public partial class Act1ConnectedWorld
         metric.AddChild(room);
         var halfSize = new Vector2((half - .205f) * scale, (depth * .5f - .205f) * scale);
         var ceiling = (streetBounds.End.Y - mainFloorSource) * scale - .035f;
-        PublicSolid(room, "TimberFloor", new(halfSize.X * 2, .06f, halfSize.Y * 2), new(0, -.03f, 0), "948064", "wood_furniture");
+        var timber = PublicSolid(room, "TimberFloor", new(halfSize.X * 2, .06f, halfSize.Y * 2), new(0, -.03f, 0), "948064", "wood_furniture");
+        if (id is "school" or "council")
+        {
+            timber.Visible = false;
+            CivicSurfaceLibrary.Floor(room,"AnnexHerringbone",halfSize*2,new(0,.001f,0));
+            room.GetNode<StaticBody3D>("TimberFloorBody").SetMeta("footstepSurface","herringbone_parquet");
+        }
         PublicSolid(room, "Ceiling", new(halfSize.X * 2, .055f, halfSize.Y * 2), new(0, ceiling + .0275f, 0), "c6c0aa", "plaster");
-        for (var i = 1; i < 10; i++)
+        for (var i = 1; id == "shop" && i < 10; i++)
             PublicBox(room, "FloorboardJoint" + i, new(.009f, .002f, halfSize.Y * 2 - .03f),
                 new(-halfSize.X + i * halfSize.X * .2f, .0015f, 0), "685845", "wood_furniture");
         // A thin interior finish shares the real wall plane; windows retain their
@@ -156,6 +162,12 @@ public partial class Act1ConnectedWorld
         var seniCenter = new Vector3((mainOuterX + seniOuterBounds.Position.X) * .5f * scale,
             seniFloorSource * scale, (back + .10f + entryZ) * .5f * scale);
         PublicSolid(metric, "SeniFloor", new(seniWidth, .045f, seniDepth), seniCenter - Vector3.Up * .0225f, "8f7453", "wood_furniture");
+        if (id is "school" or "council")
+        {
+            metric.GetNode<MeshInstance3D>("SeniFloor").Visible = false;
+            CivicSurfaceLibrary.Floor(metric,"SeniHerringbone",new(seniWidth,seniDepth),seniCenter+Vector3.Up*.001f);
+            metric.GetNode<StaticBody3D>("SeniFloorBody").SetMeta("footstepSurface","herringbone_parquet");
+        }
         FacilityLamp(metric, id + "SeniLamp", new(entryX * scale, 2.34f * scale, (entryZ - .65f) * scale), "efcd91", .46f, 2.6f);
         var threshold = new Vector3(entryX * scale, seniFloorSource * scale, entryZ * scale);
         var approachDistance = BuildPublicEntrySteps(metric, id, threshold);
@@ -327,7 +339,8 @@ public partial class Act1ConnectedWorld
             PublicDoorFrame(room, "SchoolDoorFrame" + center, new(partitionX + .075f, 0, center), 1.08f, portalHeight, 90);
         }
         PublicSolid(room, "ChalkboardBacking", new(1.96f, .91f, .055f), new(-.84f, 1.31f, h.Y - .055f), "514c37", "wood_furniture");
-        PublicBox(room, "Chalkboard", new(1.84f, .80f, .022f), new(-.84f, 1.31f, h.Y - .090f), "304839", "plaster");
+        CivicSurfaceLibrary.FramedFace(room,"AnnexChalkboard",new(-.84f,1.31f,h.Y-.103f),180,new(1.84f,.80f),
+            CivicSurfaceLibrary.Face("chalkboard_lessons_v1_atlas.png",1,2,0),paper:false);
         PublicSolid(room, "ChalkTray", new(1.95f, .045f, .13f), new(-.84f, .845f, h.Y - .145f), "8c7c61", "wood_furniture");
         for (var i = 0; i < 3; i++)
             PublicBox(room, "Chalk" + i, new(.052f, .012f, .013f), new(-1.12f + i * .10f, .88f, h.Y - .16f), "d5d2bd", "stone");
@@ -340,8 +353,8 @@ public partial class Act1ConnectedWorld
         }
         FacilityTable(room, "SchoolStaffDesk", new(-1.13f, 0, -1.14f), new(1.35f, .75f, .64f));
         PublicShelf(room, "SchoolArchiveShelves", new(-1.24f, 0, -h.Y + .21f), 1.81f, 1.83f, .31f, goods: false);
-        PublicNotice(room, "SchoolDrawingDisplay", new(.35f, 1.41f, h.Y - .035f), 180,
-            "Наш класс\nРисунки · 2005\nИмя, класс, год", .49f);
+        CivicSurfaceLibrary.FramedFace(room,"SchoolDrawingDisplay",new(.35f,1.41f,h.Y-.035f),180,new(.49f,.43f),
+            CivicSurfaceLibrary.Face("children_drawings_v1_atlas.png",2,2,0));
         PublicLockedSeniStore(building, "school/store", "Хозяйственная кладовая закрыта.");
         building.Building.SetMeta("schoolClosure", "few pupils; remaining children take school transport to another village; content owns exact notice");
     }
@@ -378,19 +391,16 @@ public partial class Act1ConnectedWorld
         PublicDocument(room, "council-sabantuy-poster", new(-h.X + .035f, 1.42f, .19f),
             new(0, 90, 0), new(.65f, .86f));
         PublicSolid(room, "ClubStageDeck", new(2.8f, .16f, .71f), new(-.59f, .08f, h.Y - .40f), "8e7251", "wood_furniture");
-        for (var plank = 0; plank < 9; plank++)
-            PublicBox(room, "StageBoardJoint" + plank, new(.009f, .003f, .67f),
-                new(-1.84f + plank * .31f, .162f, h.Y - .40f), "63503c", "wood_furniture");
+        room.GetNode<MeshInstance3D>("ClubStageDeck").Visible = false;
+        room.GetNode<StaticBody3D>("ClubStageDeckBody").SetMeta("footstepSurface","herringbone_parquet");
+        CivicSurfaceLibrary.Floor(room,"AnnexStageHerringbone",new(2.8f,.71f),new(-.59f,.161f,h.Y-.40f));
         foreach (var z in new[] { .74f, 1.38f })
             // The front bench leaves the full door swing clear; retain its row
             // and width, with the rear bench in its existing position.
             FacilityBench(room, "ClubAudienceBench" + z, new(z < 1f ? -.23f : -.53f, 0, z), 1.72f, 0);
         foreach (var x in new[] { -1.94f, .76f })
         {
-            PublicBox(room, "StageCurtain" + x, new(.23f, 1.90f, .12f), new(x, 1.10f, h.Y - .13f), "73514e", "fabric");
-            for (var fold = 0; fold < 4; fold++)
-                PublicBox(room, "CurtainFold" + x + "_" + fold, new(.038f, 1.86f, .03f),
-                    new(x - .087f + fold * .056f, 1.10f, h.Y - .205f), "875f57", "fabric");
+            SCurtain(room,"AnnexStageCurtain"+x,new(x,1.10f,h.Y-.13f),.23f,1.90f,RuralPropMaterials.Surface("velvet"));
         }
         FacilityRod(room, "StageCurtainRod", new(-2.03f, 2.04f, h.Y - .12f), new(.89f, 2.04f, h.Y - .12f), .022f, "65615a");
         PublicShelf(room, "ClubStore", new(h.X - .32f, 0, h.Y - .55f), .66f, 1.56f, .41f, goods: false);
@@ -551,7 +561,13 @@ public partial class Act1ConnectedWorld
                 Roughness = 1, MetallicSpecular = 0, TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmapsAnisotropic };
             paper.SetMeta("assetSource", image);
         }
-        else paper.MaterialOverride = PainterlyMaterialLibrary.ForColor("d6cbb0", "paper", sheltered: true);
+        else if (slug == "school-transport-notice" || slug == "school-staff-note" || slug == "council-sabantuy-poster")
+        {
+            var cell = slug == "school-transport-notice" ? 0 : slug == "school-staff-note" ? 1 : 2;
+            paper.MaterialOverride = CivicSurfaceLibrary.Face("quest_papers_v2_atlas.png",2,2,cell);
+            paper.SetMeta("sourceDocumentId","urman.chapter1:document/"+slug);
+        }
+        else paper.MaterialOverride = CivicSurfaceLibrary.Face("quest_papers_v2_atlas.png",2,2,3);
         mount.AddChild(paper);
         if (image is null)
         {
@@ -560,7 +576,8 @@ public partial class Act1ConnectedWorld
             var title = PublicText(mount, "DocumentTitle", "urman.chapter1:document/" + slug,
                 new(0, size.Y * .30f, .020f), Math.Min(.0011f, size.X / 560f), true);
             title.Modulate = Color.FromHtml("3c443c");
-            for (var row = 0; row < 5; row++)
+            if (slug is "school-transport-notice" or "school-staff-note" or "council-sabantuy-poster") title.Visible = false;
+            for (var row = 0; title.Visible && row < 5; row++)
                 PublicBox(mount, "WrittenLine" + row, new(size.X * (.75f - row % 2 * .13f), .002f, .001f),
                     new(-size.X * .03f, size.Y * .08f - row * size.Y * .105f, .021f), "8d8977", "paper");
         }

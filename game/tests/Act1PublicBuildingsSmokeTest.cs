@@ -40,6 +40,7 @@ public partial class Act1PublicBuildingsSmokeTest : Node
             _camera = _player.GetNode<Camera3D>("Head/Camera3D");
             Require(!_player.ModalOpen && _world.PublicBuildingRooms.Count == 3, "three public rooms are in the ordinary connected world");
             CheckNorthHouseholdBindings();
+            CheckSchoolDeskContacts();
             var requested = System.Environment.GetEnvironmentVariable("URMAN_PUBLIC_BUILDING");
             var rooms = _world.PublicBuildingRooms.Where(room => string.IsNullOrEmpty(requested) || room.Id == requested).ToArray();
             Require(rooms.Length > 0, "requested public building exists");
@@ -196,6 +197,20 @@ public partial class Act1PublicBuildingsSmokeTest : Node
         Require(_world.PublicInteriorAt(_player.GlobalPosition) != "school", "central school: ordinary return reaches the square");
     }
 
+    private void CheckSchoolDeskContacts()
+    {
+        var school = _world.FindChild("OldSchool", true, false) as Node3D ?? throw new InvalidOperationException("Missing central school");
+        var desk = school.FindChild("PupilDesk_1–4 класс_00", true, false) as Node3D ?? throw new InvalidOperationException("Missing actual pupil desk");
+        using var sphere = new SphereShape3D { Radius = .055f };
+        using var query = new PhysicsShapeQueryParameters3D { Shape = sphere, CollisionMask = uint.MaxValue,
+            Transform = new(Basis.Identity, desk.ToGlobal(new Vector3(0, .12f, 0))) };
+        Require(_world.GetWorld3D().DirectSpaceState.IntersectShape(query).Count == 0,
+            "central school: actual space between desk legs is empty for a small physical object");
+        query.Transform = new(Basis.Identity, desk.ToGlobal(new Vector3(0, .667f, 0)));
+        Require(_world.GetWorld3D().DirectSpaceState.IntersectShape(query).Count > 0,
+            "central school: actual pupil tabletop still has physical support");
+    }
+
     private void CheckNorthHouseholdBindings()
     {
         using var layout = JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString("res://content/world/act1_north_street.world.v1.json"));
@@ -340,20 +355,24 @@ public partial class Act1PublicBuildingsSmokeTest : Node
         var sourceLines = document.BodyMarkdown.Split('\n').Select(line => line.Trim()).Where(line => line.Length > 0).ToArray();
         var fields = new[] { "Heading", "Date", "Programme" }.Select(name => printed.GetNode<Label3D>(name)).ToArray();
         Require(fields.Select(label => label.Text).SequenceEqual(sourceLines.Take(3).Select(SourceExcerptSelection.FormatPlainSourceText)),
-            "council poster: the visible face uses the three actual authored lines, without the reverse-side list");
+            "council poster: retained source metadata uses the three actual authored face lines");
         var caption = printed.GetNode<Label3D>("PreparationCaption");
         var expectedCaption = album.BodyMarkdown.Split('\n').Select(line => line.Trim()).Where(line => line.Length > 0).Skip(1).First();
         Require(caption.Text == SourceExcerptSelection.FormatPlainSourceText(expectedCaption)
             && fields.All(label => !label.DoubleSided && !label.NoDepthTest) && !caption.DoubleSided,
             "council poster: the photograph is explicitly captioned as preparation and ink retains ordinary occlusion");
         Require(mount.GetMeta("printedPosterBound", false).AsBool() && !mount.GetNode<Label3D>("DocumentTitle").Visible
-            && Enumerable.Range(0, 5).All(row => !mount.GetNode<MeshInstance3D>("WrittenLine" + row).Visible),
+            && Enumerable.Range(0, 5).All(row => mount.GetNodeOrNull<MeshInstance3D>("WrittenLine" + row) is not { Visible: true }),
             "council poster: only this bound poster retires its title-and-lines placeholder");
         Require(target.DocumentId == documentId && mount.ToLocal(target.GlobalPosition).DistanceTo(new(0, 0, .052f)) < .0001f
             && mount.Position.DistanceTo(new(-building.HalfSize.X + .035f, 1.42f, .19f)) < .0001f
             && ((QuadMesh)mount.GetNode<MeshInstance3D>("SourceFace").Mesh).Size.DistanceTo(new(.65f, .86f)) < .0001f,
             "council poster: source ID and paper dimensions remain fixed, with target and mount on the solid window pier");
+        Require(mount.GetNode<MeshInstance3D>("SourceFace").MaterialOverride is StandardMaterial3D pigment
+            && pigment.AlbedoTexture?.ResourcePath == CivicSurfaceLibrary.Root + "quest_papers_v2_atlas.png",
+            "council poster: the active face binds the corrected generated source atlas");
         var photograph = printed.GetNode<MeshInstance3D>("PreparationPhotograph");
+        Require(photograph.Position.Y + .184f < -.43f, "council poster: source photograph does not obscure printed programme");
         var material = photograph.MaterialOverride as StandardMaterial3D;
         Require(photograph.Mesh is QuadMesh image && Math.Abs(image.Size.X / image.Size.Y - 1.5f) < .0001f
             && material is not null && material.AlbedoTexture?.ResourcePath == album.Images!.Single().ResourcePath
@@ -559,6 +578,19 @@ public partial class Act1PublicBuildingsSmokeTest : Node
                 return new { owner = (contact.GetCollider() as Node)?.GetPath().ToString(),
                     point = contact.GetPosition().ToString(), normal = contact.GetNormal().ToString() };
             }).ToArray() });
+        if (distance >= .12f)
+        {
+            var space = _player.GetWorld3D().DirectSpaceState;
+            var toward = (goal - _player.GlobalPosition) with { Y = 0 };
+            toward = toward.Normalized();
+            _events.Add(new { kind = "blocked-ahead", label, ahead = new[] { .15f, .5f, .9f, 1.4f, 1.8f }.Select(height =>
+            {
+                var origin = _player.GlobalPosition + Vector3.Up * height;
+                using var ray = PhysicsRayQueryParameters3D.Create(origin, origin + toward * .8f);
+                var hit = space.IntersectRay(ray);
+                return hit.Count == 0 ? height + ": none" : height + ": " + ((Node)hit["collider"].AsGodotObject()).GetPath() + " @" + hit["position"].AsVector3();
+            }).ToArray() });
+        }
         Require(distance < .12f && _player.IsOnFloor() && !_player.IsCrouching && _player.CanStandAt(_player.GlobalPosition),
             label + ": standing capsule reaches the actual destination");
         Require(_player.PresentationTransformRevision == revision && _player.FallRecoveries == recoveries,

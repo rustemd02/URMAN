@@ -64,9 +64,9 @@ PACE = {"slow": "slow, unhurried pace", "medium": "", "fast": "fast, urgent pace
 
 # Lines that are not in the content pack (captions in the forest teaser).
 EXTRA_LINES = [
-    ("forest-wake", "mansur", "Әй! Әй, улым, уян! Уян дим!", "urgent, alarmed, shaking someone awake"),
+    ("forest-wake-v2", "mansur", "Айдар… Айдар, уян. Килеп җитәбез.", "close, calm and concerned; wake his grandson gently by name, no shouting, natural breath between the two calls"),
     ("forest-name-fade", "marat", "Айдар… Айдар… Айдар…", "unearthly, calling his name over and over, fading into echo as if the listener is losing consciousness"),
-    ("forest-babai-name", "mansur", "Айдар… Айдар! Улым, уян!", "worried, close, calling his grandson by name to wake him"),
+    ("forest-babai-name-v2", "mansur", "Айдар… Айдар…", "restrained concern; first name distant through sleep, second a little clearer and closer, no theatrical ghost delivery"),
     ("forest-name-call", "marat", "Айдар…", "distant, quiet, from between the trees"),
     ("forest-come-here", "marat", "Айдар. Кил монда…", "close behind the listener, calm, unsettling"),
     ("forest-call-far", "marat", "Эй! Эй! Айдар! Кил монда!", "calling from very far away between the trees, shouting, hollow"),

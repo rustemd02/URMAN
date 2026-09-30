@@ -13,7 +13,8 @@ public partial class Act1ConnectedWorld
         var ix = w * .5f - t; var iz = d * .5f - t;
         var cream = Mat("e6dfd1", "wall_institution");
         var green = Mat("708b75", "wall_institution");
-        var floorMat = Mat("8a6d4b", "wood_floor_painted");
+        var floorMat = RuralPropMaterials.Surface("wood");
+        club.SetMeta("footstepSurface", "herringbone_parquet"); club.SetMeta("woodCreak", true);
         var body = SBody(club, "ClubFurnitureBody");
         const float foyerZ = 3.85f, stageZ = -2.45f, wingX = 5.35f, deck = 1.2f;
 
@@ -30,9 +31,8 @@ public partial class Act1ConnectedWorld
         SWall(club, "BackWall", new(0, 0, -d * .5f + t * .5f), 180, w, h, t, outer, cream, trim, back);
         SWall(club, "EastWall", new(w * .5f - t * .5f, 0, 0), 90, d - t * 2, h, t, outer, cream, trim, side);
         SWall(club, "WestWall", new(-w * .5f + t * .5f, 0, 0), -90, d - t * 2, h, t, outer, cream, trim, side);
-        SBox(club, null, "ClubFloor", new(ix * 2, .02f, iz * 2), new(0, .011f, 0), floorMat, shadow: false);
-        SBox(club, null, "FoyerLinoleum", new(ix * 2, .023f, iz - foyerZ),
-            new(0, .027f, (iz + foyerZ) * .5f), Mat("bab6a7", "floor_institution"), shadow: false);
+        CivicSurfaceLibrary.Floor(club,"ClubFloor",new(ix*2,iz*2),new(0,.002f,0));
+
         SBox(club, null, "HallCeiling", new(wingX * 2 - .1f, .08f, foyerZ + iz), new(0, h - .04f, (foyerZ - iz) * .5f), Mat("f1ead6", "plaster"), shadow: false);
         SBox(club, null, "FoyerCeiling", new(ix * 2, .08f, iz - foyerZ), new(0, foyerH - .04f, (foyerZ + iz) * .5f), cream, shadow: false);
         foreach (var wingSign in new[] { -1f, 1f })
@@ -55,13 +55,15 @@ public partial class Act1ConnectedWorld
             SBox(club, null, "WingCross", new(ix - wingX, wingH, .16f), new(s * (ix + wingX) * .5f, wingH * .5f, 0), cream);
             // Stage-side platform reached by backstage stairs.
             var stair = SBody(club, "BackstageStairBody");
+            stair.SetMeta("footstepSurface","herringbone_parquet");
             for (var i = 0; i < 7; i++)
             {
                 var top = (i + 1) * .17f;
                 SBox(club, stair, $"BackStep{s}_{i}", new(.3f, top, 1.4f), new(s * (ix - .3f - i * .3f), top * .5f, -4.6f), Mat("7d6548", "wood_furniture"));
+                CivicSurfaceLibrary.Floor(club,$"BackStepParquet{s}_{i}",new(.3f,1.4f),new(s*(ix-.3f-i*.3f),top+.002f,-4.6f));
             }
             SBox(club, stair, $"BackPlatform{s}", new(ix - wingX - 2.4f, deck, 2.2f), new(s * (wingX + (ix - wingX - 2.4f) * .5f), deck * .5f, -4.6f), Mat("7d6548", "wood_furniture"));
-            SBox(club, stair, $"WingBackFloor{s}", new(ix - wingX, .04f, 4.8f), new(s * (ix + wingX) * .5f, .02f, -4.3f), floorMat, shadow: false);
+            CivicSurfaceLibrary.Floor(club,$"BackLandingParquet{s}",new(ix-wingX-2.4f,2.2f),new(s*(wingX+(ix-wingX-2.4f)*.5f),deck+.002f,-4.6f));
         }
         // Wing back rooms: west has the stairs at x -8.3..; keep the pass to the deck clear.
 
@@ -94,20 +96,20 @@ public partial class Act1ConnectedWorld
         SLabel(club, "КАССА", new(5.6f, 1.95f, 5.58f), 0, 28, new Color(.25f, .2f, .15f));
         SPicture(club, "SabantuyPhoto", new(-2.6f, 1.75f, 4.05f), 0, new(1.5f, 1.0f), "res://assets/images/council-sabantuy-2005.png", "8d8672", "Сабантуй");
         SPicture(club, "ConcertBill", new(2.6f, 1.75f, 4.05f), 0, new(1.0f, 1.4f), null, "d9b44a", null);
-        SLabel(club, "КИЧӘ · ВЕЧЕР\nСубботний концерт\nвход свободный", new(2.6f, 1.85f, 4.08f), 0, 24, new Color(.5f, .12f, .08f));
-        // Tulip ornament frieze.
-        for (var i = 0; i < 26; i++)
-        {
-            var x = -8.3f + i * .64f;
-            SBox(club, null, "Tulip" + i, new(.16f, .22f, .02f), new(x, 2.85f, 6.5f), Mat(i % 2 == 0 ? "b8412f" : "4c6b48", "cloth"), shadow: false);
-        }
-        SBox(club, body, "FoyerBench", new(1.6f, .5f, .4f), new(2.9f, .25f, 6.2f), Mat("8a6a48", "wood_furniture"));
+
+        // A hand-painted folk border has real board thickness, not coloured blocks.
+        RuralPropGeometry.Block(club,"FoyerFriezeBacking",new(16.6f,.32f,.025f),new(0,2.85f,6.5f),RuralPropMaterials.Surface("wood"),.003f);
+        for(var i=0;i<8;i++)
+            CivicSurfaceLibrary.Paper(club,"TulipFrieze"+i,new(2.075f,.30f),new(-7.2625f+i*2.075f,2.85f,6.52f),CivicSurfaceLibrary.Face("craft_details_v1_atlas.png",2,4,0),0);
+        var foyerBench=RuralPropModels.Bench(club,"FoyerBench",new(2.9f,0,6.2f),180,1.6f);
+        RuralPropGeometry.AttachMemberContacts(foyerBench,body);
         SBox(club, null, "EntryMat", new(2.2f, .012f, .8f), new(0, .038f, 6.05f), Mat("646a60", "fabric"), shadow: false);
         // Photo sorting is a current use of the club, already mentioned in the
         // village archive. The equipment is kept on a side table, not on stage.
         SDesk(club, body, "ArchivePhotoTable", new(4.8f, 0, 5.7f), 180, 1.3f, .65f);
         SBox(club, null, "ArchiveScanner", new(.45f, .10f, .32f), new(4.8f, .8f, 5.7f), Mat("c4c4bd", "plastic_abs"), shadow: false);
-        SBox(club, null, "ArchiveEnvelope", new(.34f, .008f, .25f), new(4.25f, .78f, 5.7f), Mat("d2c6a8", "paper"), shadow: false);
+        var envelope=CivicSurfaceLibrary.Paper(club,"ArchiveEnvelope",new(.34f,.085f),new(4.25f,.78f,5.7f),CivicSurfaceLibrary.Face("craft_details_v1_atlas.png",2,4,4),.002f);
+        envelope.RotationDegrees=new(-90,0,0);
         SquareLook(club, "ClubSabantuyBoard", "Осмотреть фотографию", new(-2.6f, 1.75f, 4.1f), new(1.7f, 1.2f, .3f),
             "Тот же Сабантуй, что и в альбоме сельсовета: люди у сцены, шест, дети в первом ряду. Кадр сняли с этого самого места.");
     }
@@ -117,22 +119,21 @@ public partial class Act1ConnectedWorld
         var wood = Mat("7d6548", "wood_furniture");
         var red = RuralPropMaterials.Surface("velvet");
         var stage = SBody(club, "StageBody");
+        stage.SetMeta("footstepSurface","herringbone_parquet");
         SBox(club, stage, "StageDeck", new(10.5f, deck, 4.2f), new(0, deck * .5f, stageZ - 2.1f), wood);
-        for (var i = 0; i < 10; i++)
-            SBox(club, null, "StagePlank" + i, new(.012f, .004f, 4.15f), new(-4.7f + i * 1.05f, deck + .003f, stageZ - 2.1f), Mat("574632", "wood_furniture"), shadow: false);
+        CivicSurfaceLibrary.Floor(club,"StageParquet",new(10.5f,4.2f),new(0,deck+.002f,stageZ-2.1f));
         SBox(club, null, "StageFront", new(10.5f, .4f, .06f), new(0, .9f, stageZ + .03f), Mat("5d3a2f", "wood_furniture"), shadow: false);
         // Proscenium with ornament, curtains, backdrop.
         SBox(club, null, "ProsceniumBeam", new(10.5f, 1.5f, .35f), new(0, h - .9f, stageZ - .1f), Mat("efe3c8", "plaster"));
-        for (var i = 0; i < 17; i++)
-            SBox(club, null, "ProsceniumTulip" + i, new(.3f, .5f, .02f), new(-4.8f + i * .6f, h - 1.05f, stageZ + .09f), Mat(i % 2 == 0 ? "b8412f" : "4c6b48", "cloth"), shadow: false);
+        for(var i=0;i<4;i++)
+            CivicSurfaceLibrary.Paper(club,"PortalFolkOrnament"+i,new(2.625f,.50f),new(-3.9375f+i*2.625f,h-1.05f,stageZ+.085f),CivicSurfaceLibrary.Face("craft_details_v1_atlas.png",2,4,0),0);
         foreach (var s in new[] { -1f, 1f })
         {
             SCurtain(club, "PleatedStageCurtain" + s, new(s * 4.3f, deck + 2.3f, stageZ - .35f), 1.5f, 4.4f, red);
             SBox(club, null, "CurtainRail" + s, new(1.65f, .045f, .045f),
                 new(s * 4.3f, deck + 4.52f, stageZ - .35f), Mat("494a47", "metal"), shadow: false);
         }
-        SBox(club, null, "Backdrop", new(10.3f, 4.6f, .05f), new(0, deck + 2.4f, -6.55f), Mat("9db9c9", "cloth"), shadow: false);
-        SBox(club, null, "BackdropHill", new(10.3f, 1.4f, .06f), new(0, deck + .8f, -6.5f), Mat("8ba36b", "cloth"), shadow: false);
+        CivicSurfaceLibrary.HangingTextile(club,"HandpaintedStageBackdrop",new(10.3f,2.575f),new(0,deck+2.4f,-6.50f),CivicSurfaceLibrary.Face("craft_details_v1_atlas.png",2,4,1,.97f));
         SLabel(club, "САБАНТУЙ", new(0, deck + 3.3f, -6.47f), 0, 90, new Color(.7f, .15f, .1f));
         SPicture(club, "StageTukay", new(0, 5.85f, stageZ + .1f), 0, new(.6f, .8f), null, "6b5a4a", null);
         // Flags on stage right and left.
@@ -193,6 +194,8 @@ public partial class Act1ConnectedWorld
         foreach (var x in new[] { -6.75f, -2.25f, 2.25f, 6.75f })
             RuralPropModels.Radiator(club, "Radiator" + x, new(x, .13f, 6.45f), 1.1f, 180);
 
+        // Stage inscriptions are generated visual carriers with exact existing inspection semantics.
+        CivicSurfaceLibrary.FramedFace(club,"StageMakerPlaque",new(-4.6f,deck+.9f,stageZ+.085f),0,new(.58f,.27f),CivicSurfaceLibrary.Face("notices_v2_atlas.png",2,4,5));
         // Stage inspections.
         SquareLook(club, "ClubStagePlaque", "Прочитать табличку", new(-4.6f, deck + .9f, stageZ - .3f), new(.6f, .4f, .4f),
             "На портале табличка мастера: «Сцену собрал Габдулла Сабиров». Доски пригнаны плотно, а у края уже заметен ремонт.");
@@ -223,7 +226,7 @@ public partial class Act1ConnectedWorld
         SBox(club, body, "CostumeRack", new(.06f, 1.9f, 2.4f), new(-8.5f, .95f, 4.0f), Mat("5a4433", "wood"));
         for (var i = 0; i < 6; i++)
             SBox(club, null, "Costume" + i, new(.12f, 1.1f, .3f), new(-8.42f, 1.15f, 3.0f + i * .35f), Mat(new[] { "2f4f8a", "b8412f", "4c6b48", "d1b46a", "6b4f7a", "8a3b34" }[i], "fabric"), shadow: false);
-        SBox(club, null, "CostumeTag", new(.1f, .1f, .01f), new(-7.5f, 1.35f, 2.13f), Mat("efe9dc", "cloth"), shadow: false);
+        CivicSurfaceLibrary.Paper(club,"CostumeTag",new(.20f,.10f),new(-7.5f,1.35f,2.13f),CivicSurfaceLibrary.Face("costume_tag_v1_basecolor.png"),.003f);
         SquareLook(club, "ClubMannequinTag", "Прочитать бирку", new(-7.5f, 1.35f, 2.0f), new(.6f, .6f, .4f),
             "К платью пришита бирка: «Наҗия апа — не трогать, ещё дошью». Иголка воткнута в подол.");
 

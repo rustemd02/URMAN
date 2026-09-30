@@ -880,6 +880,28 @@
       "priority": "P1",
       "tts_text": null,
       "fx": "forest_fx.py"
+    },
+    "forest-wake-v2": {
+      "speaker": "mansur",
+      "scene": "forest",
+      "language": "tt",
+      "tone": "quiet, warm concern, waking someone by name inside a moving car; intimate, no shouting or acting as a monster",
+      "pace": "slow",
+      "pause_before_ms": 120,
+      "pause_after_ms": 300,
+      "priority": "P0",
+      "tts_text": null
+    },
+    "forest-babai-name-v2": {
+      "speaker": "mansur",
+      "scene": "forest",
+      "language": "tt",
+      "tone": "quiet, warm concern, waking someone by name inside a moving car; intimate, no shouting or acting as a monster",
+      "pace": "slow",
+      "pause_before_ms": 120,
+      "pause_after_ms": 300,
+      "priority": "P0",
+      "tts_text": null
     }
   }
 }

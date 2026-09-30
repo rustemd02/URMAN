@@ -78,6 +78,7 @@ public partial class Act1ConnectedWorld
             var b = new Vector3(cx + end, OpeningBridgeRoadHeight(cx + end), RavineBridgeZ);
             _intactOpeningBridge.AddChild(new CollisionShape3D
             {
+                Name = $"DeckContact{start}",
                 Position = (a + b) * .5f - Vector3.Up * .08f,
                 Rotation = new(0, 0, Mathf.Atan2(b.Y - a.Y, b.X - a.X)),
                 Shape = new BoxShape3D { Size = new(a.DistanceTo(b), .16f, 3.2f) }
@@ -88,6 +89,7 @@ public partial class Act1ConnectedWorld
                 AddRavineLog(_intactOpeningBridge, $"Support{start}_{z}", a + new Vector3(0, -.22f, z * .7f), b + new Vector3(0, -.22f, z * .7f), .16f, "4f4032");
                 _intactOpeningBridge.AddChild(new CollisionShape3D
                 {
+                    Name = $"RailContact{start}_{z}",
                     Position = (a + b) * .5f + new Vector3(0, .53f, z),
                     Rotation = new(0, 0, Mathf.Atan2(b.Y - a.Y, b.X - a.X)),
                     Shape = new BoxShape3D { Size = new(a.DistanceTo(b), 1.05f, .12f) }

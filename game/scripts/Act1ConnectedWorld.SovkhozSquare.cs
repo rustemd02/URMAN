@@ -30,15 +30,15 @@ public partial class Act1ConnectedWorld
         SquareWeatherShelter(school, new(0, 3.4f, 0), new(13.65f, 3.4f, 5.15f));
         SquarePorch(school, 11f, 3.2f, trim, open: true);
         BuildSchoolInterior(school, PainterlyMaterialLibrary.ForColor("e2d6b8", "plaster"), PainterlyMaterialLibrary.ForColor("eeeae0", "wood_painted_trim"));
-        SquareSign(school, new(0, 3.95f, 5.6f), "КАРА-УРМАН УРТА МӘКТӘБЕ\nКАРА-УРМАНСКАЯ СРЕДНЯЯ ШКОЛА", 62, new Color(.15f, .18f, .28f));
+        SquareSign(school, new(0, 3.6f, 5.7f), "КАРА-УРМАН УРТА МӘКТӘБЕ\nКАРА-УРМАНСКАЯ СРЕДНЯЯ ШКОЛА", 62, new Color(.15f, .18f, .28f));
 
         // House of culture: a tall hall behind a four-column portico and pediment.
         var club = SquareBuilding(square, "HouseOfCulture", new(-26f, 111f), 18f, 14f, 6.8f, 1, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), roofPitch: 12f, hollow: true);
         SquareWeatherShelter(club, new(0, 3.4f, 0), new(8.65f, 3.4f, 6.65f));
         SquarePortico(club, 18f, 14f, 6.8f, trim, open: true);
         BuildClubInterior(club, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), PainterlyMaterialLibrary.ForColor("eeeae0", "wood_painted_trim"));
-        SquareSign(club, new(0, 7.35f, 9.35f), "МӘДӘНИЯТ ЙОРТЫ\nДОМ КУЛЬТУРЫ", 54, new Color(.55f, .12f, .1f), plate: false);
-        SquarePoster(club, new(-6.2f, 1.6f, 7.03f), "САБАНТУЙ\nиюнь");
+        SquareSign(club, new(0, 7.6f, 10.12f), "МӘДӘНИЯТ ЙОРТЫ\nДОМ КУЛЬТУРЫ", 54, new Color(.55f, .12f, .1f), plate: false);
+        SquarePoster(club, new(-6.2f, 1.6f, 7.2f), "САБАНТУЙ\nиюнь");
 
         // Former sovkhoz office: two storeys, brick, a faded plaque.
         var office = SquareBuilding(square, "SovkhozOffice", new(25f, 112f), 14f, 9f, 3.2f, 2, brick, roofPitch: 22f);
@@ -69,7 +69,7 @@ public partial class Act1ConnectedWorld
 
         // Where the bus used to turn: a concrete pavilion by the road.
         BuildBusPavilion(square, new(-9f, 96f));
-        BuildSabantuyPole(square);
+        BuildWinterCivicGarden(square, new[] { school, club, office, post });
         BuildNorthWinterRoads(core);
     }
 
@@ -148,6 +148,7 @@ public partial class Act1ConnectedWorld
         var body = new StaticBody3D { Name = "SquareBuildingBody" };
         if (hollow)
         {
+            body.SetMeta("footstepSurface","herringbone_parquet");
             // Enterable: only the plinth is solid (its top is the interior floor);
             // walls, partitions and ceilings come from the interior builder.
             body.AddChild(new CollisionShape3D { Position = new(0, -plinthHeight * .5f, 0), Shape = new BoxShape3D { Size = new Vector3(width + .3f, plinthHeight, depth + .3f) } });
@@ -258,21 +259,21 @@ public partial class Act1ConnectedWorld
 
     private static void SquareSign(Node3D building, Vector3 at, string text, int fontSize, Color color, bool plate = true, bool paper = false)
     {
-        var lines = text.Split('\n');
-        var longest = lines.Max(line => line.Length);
-        if (plate || paper)
+        if (paper)
         {
-            var size = new Vector3(Mathf.Max(.5f, longest * fontSize * .0028f), Mathf.Max(.3f, lines.Length * fontSize * .0062f), .04f);
-            Box(building, "Plate", size, at + new Vector3(0, 0, -.025f), paper ? PainterlyMaterialLibrary.ForColor("efece2", "cloth") : PainterlyMaterialLibrary.ForColor("f1efe8", "plastic_abs"));
+            var note = CivicSurfaceLibrary.FramedFace(building,"PostClosureNotice",at,0,new(.72f,.54f),CivicSurfaceLibrary.Face("postal_closure_v1_basecolor.png"));
+            note.SetMeta("readableText",text); return;
         }
-        building.AddChild(new Label3D { Text = text, Position = at + new Vector3(0, 0, .005f), FontSize = fontSize, PixelSize = .005f, Modulate = color, OutlineSize = 0, HorizontalAlignment = HorizontalAlignment.Center });
+        var size = building.Name.ToString() switch {
+            "OldSchool" => new Vector2(4.2f,1.4f), "HouseOfCulture" => new Vector2(3.3f,1.1f),
+            "SovkhozOffice" => new Vector2(2.4f,.8f), _ => new Vector2(1.8f,.6f) };
+        CivicSurfaceLibrary.Sign(building,text,at,0,size);
     }
 
     private static void SquarePoster(Node3D building, Vector3 at, string text)
     {
-        Box(building, "PosterBoard", new(1.3f, 1.7f, .06f), at + new Vector3(0, 0, -.03f), PainterlyMaterialLibrary.ForColor("6b5846", "wood"));
-        Box(building, "Poster", new(1.1f, 1.45f, .02f), at + new Vector3(0, 0, .01f), PainterlyMaterialLibrary.ForColor("d9b44a", "cloth"));
-        building.AddChild(new Label3D { Text = text, Position = at + new Vector3(0, .1f, .025f), FontSize = 40, PixelSize = .005f, Modulate = new Color(.55f, .1f, .08f), OutlineSize = 0 });
+        var poster = CivicSurfaceLibrary.FramedFace(building,"SabantuyPoster",at,0,new(1.1f,1.45f),CivicSurfaceLibrary.Face("notices_v2_atlas.png",2,4,4));
+        poster.SetMeta("readableText","САБАНТУЙ"); // No date is printed on this village notice.
     }
 
     private void BuildBusPavilion(Node3D square, Vector2 at)
@@ -287,10 +288,16 @@ public partial class Act1ConnectedWorld
         foreach (var side in new[] { -2.1f, 2.1f })
             RuralPropGeometry.Block(pavilion, $"Side{side}", new(.2f, 2.5f, 1.4f), new(side, 1.25f, -.35f), concrete, .025f);
         RuralPropModels.Bench(pavilion, "Bench", new(0, 0, -.53f), 0, 3.4f, false);
-        // A faded mosaic of a wheat sheaf and a sun on the back wall.
-        Box(pavilion, "MosaicSun", new(.7f, .7f, .03f), new(1.1f, 1.8f, -.79f), PainterlyMaterialLibrary.ForColor("c9953f", "stone"), new Vector3(0, 0, 45));
-        Box(pavilion, "MosaicSheaf", new(.35f, 1.1f, .03f), new(-.8f, 1.5f, -.79f), PainterlyMaterialLibrary.ForColor("b58b3a", "stone"));
-        pavilion.AddChild(new Label3D { Text = "Автобус — борылышта\nАвтобус — у поворота", Position = new Vector3(0, 2.2f, -.78f), FontSize = 22, PixelSize = .005f, Modulate = new Color(.2f, .2f, .22f), OutlineSize = 0 });
+        // One real mural face with a measured UV island, slab thickness and
+        // perimeter mortar. The image supplies pigment; no guessed normal map
+        // is derived from the colours of the ceramic pieces.
+        RuralPropGeometry.Block(pavilion, "MosaicBacking", new(2.05f, 1.05f, .026f), new(0, 1.45f, -.791f), concrete, .007f);
+        var mosaicMaterial = new StandardMaterial3D { ResourceName = "BusCeramicMosaic",
+            AlbedoTexture = ResourceLoader.Load<Texture2D>("res://assets/textures/realism_20260929/bus_wheat_sun_mosaic_v1_basecolor.png"),
+            Roughness = .85f, Metallic = 0 };
+        mosaicMaterial.SetMeta("surfaceUVContract", "TX29-22 single complete 2x1 m wall panel; full unique UV; no repeat");
+        RuralPropGeometry.Part(pavilion, "MosaicPanel", new QuadMesh { Size = new(2, 1) }, new(0, 1.45f, -.776f), mosaicMaterial);
+        CivicSurfaceLibrary.Sign(pavilion,"Автобус — борылышта\nАвтобус — у поворота",new(0,2.2f,-.77f),0,new(1.5f,.24f));
         var body = new StaticBody3D();
         body.AddChild(new CollisionShape3D { Name = "BenchSeatContact", Position = new(0, .46f, -.53f), Shape = new BoxShape3D { Size = new(3.4f, .04f, .405f) } });
         body.AddChild(new CollisionShape3D { Position = new(0, 1.25f, -.9f), Shape = new BoxShape3D { Size = new Vector3(4.4f, 2.5f, .2f) } });
@@ -299,17 +306,104 @@ public partial class Act1ConnectedWorld
         pavilion.AddChild(body);
     }
 
-    // The Sabantuy climbing pole stands in the ring all year, snow on its cap.
-    private void BuildSabantuyPole(Node3D square)
+    // A winter village square: a modest permanent gathering platform and a
+    // planted perimeter, not a working fountain. Everything is within the ring's
+    // car-free inner island (the vehicle lane starts outside radius 6.1 m).
+    private void BuildWinterCivicGarden(Node3D square, IReadOnlyList<Node3D> buildings)
     {
-        var ground = AgentBAct1HeightField.CollisionGround(SquareRingCentre.X, SquareRingCentre.Z);
-        var pole = new Node3D { Name = "SabantuyPole", Position = new Vector3(SquareRingCentre.X, ground, SquareRingCentre.Z) };
-        square.AddChild(pole);
-        pole.AddChild(new MeshInstance3D { Mesh = new CylinderMesh { TopRadius = .07f, BottomRadius = .13f, Height = 9f, RadialSegments = 10 }, Position = new Vector3(0, 4.5f, 0), MaterialOverride = PainterlyMaterialLibrary.ForColor("8a7155", "wood") });
-        pole.AddChild(new MeshInstance3D { Mesh = new TorusMesh { InnerRadius = .28f, OuterRadius = .34f }, Position = new Vector3(0, 8.7f, 0), MaterialOverride = PainterlyMaterialLibrary.ForColor("b8412f", "wood_painted_trim") });
-        pole.AddChild(new MeshInstance3D { Mesh = new SphereMesh { Radius = .16f, Height = .2f }, Position = new Vector3(0, 9.05f, 0), MaterialOverride = PainterlyMaterialLibrary.ForColor("e6ebef", "snow_roof") });
-        var body = new StaticBody3D();
-        body.AddChild(new CollisionShape3D { Position = new(0, 1.5f, 0), Shape = new CylinderShape3D { Radius = .18f, Height = 3f } });
-        pole.AddChild(body);
+        var centre = new Vector2(SquareRingCentre.X,SquareRingCentre.Z);
+        var garden = new Node3D { Name = "WinterCivicGarden", Position = new(centre.X,0,centre.Y) };
+        garden.SetMeta("scope","low winter festival platform; radius 4.75 m maximum furniture envelope; paths to actual entrances");
+        square.AddChild(garden);
+        var high = AgentBAct1HeightField.CollisionGround(centre.X,centre.Y); var low = high;
+        for(var i=0;i<48;i++)
+        {
+            var angle = i/48f*Mathf.Tau;
+            var height = AgentBAct1HeightField.CollisionGround(centre.X+Mathf.Cos(angle)*3.5f,centre.Y+Mathf.Sin(angle)*3.5f);
+            high = Mathf.Max(high,height); low = Mathf.Min(low,height);
+        }
+        var top = high+.12f;
+        var body = new StaticBody3D { Name = "FestivalPlatformBody", CollisionLayer = 2, CollisionMask = 0 };
+        garden.AddChild(body);
+        var stone = RuralPropMaterials.Surface("concrete");
+        // Broad 6 cm risers are walkable in winter and retain actual support down to the ground.
+        foreach(var (radius,rise) in new[] { (3.5f,0f),(3.2f,.06f) })
+        {
+            var height=top+rise-low+.2f; var y=top+rise-height*.5f;
+            RuralPropGeometry.Part(garden,"PlatformStep"+radius,
+                RuralPropGeometry.Lathe("FestivalStep"+radius,new[] { new Vector2(0,-height*.5f),new Vector2(radius-.018f,-height*.5f),new Vector2(radius,-height*.5f+.02f),new Vector2(radius,height*.5f-.008f),new Vector2(radius-.012f,height*.5f),new Vector2(0,height*.5f) },96),
+                new(0,y,0),stone);
+            body.AddChild(new CollisionShape3D { Position = new(0,y,0), Shape = new CylinderShape3D { Radius=radius,Height=height } });
+        }
+        // A restrained wooden apron gives the centre a tangible human scale.
+        var deck = new Node3D { Name = "FestivalDeck", Position = new(0,top+.064f,0) }; garden.AddChild(deck);
+        for(var i=-8;i<=8;i++)
+        {
+            var x=i*.34f; var length=2*Mathf.Sqrt(Mathf.Max(0,2.95f*2.95f-x*x));
+            if(length<.15f)continue;
+            RuralPropGeometry.Block(deck,"OakDeckBoard"+i,new(.332f,.035f,length),new(x,-.0175f,0),RuralPropMaterials.Surface("wood"),.004f);
+        }
+        foreach(var angle in new[] { .80f,2.08f,2.88f,4.73f })
+        {
+            var x=Mathf.Cos(angle)*4.3f; var z=Mathf.Sin(angle)*4.3f;
+            var ground=AgentBAct1HeightField.CollisionGround(centre.X+x,centre.Y+z);
+            var bench=RuralPropModels.Bench(garden,"SquareBench"+angle,new(x,ground,z),Mathf.RadToDeg(-angle)-90,1.3f);
+            RuralPropGeometry.AttachMemberContacts(bench,body);
+        }
+        // Bare winter shrubs retain branching silhouettes and leave every approach clear.
+        foreach(var angle in new[] { .38f,1.25f,3.66f,5.35f })
+        {
+            var p=new Vector2(Mathf.Cos(angle),Mathf.Sin(angle))*4.1f;
+            var y=AgentBAct1HeightField.CollisionGround(centre.X+p.X,centre.Y+p.Y);
+            var shrub=new Node3D { Name="WinterSpirea"+angle,Position=new(p.X,y,p.Y) };garden.AddChild(shrub);
+            for(var i=0;i<9;i++)
+            {
+                var a=i/9f*Mathf.Tau;var tip=new Vector3(Mathf.Cos(a)*.20f,.25f+(i%3)*.045f,Mathf.Sin(a)*.20f);
+                var joint=new Vector3(tip.X*.42f,.13f,tip.Z*.42f);
+                RuralPropGeometry.Tube(shrub,"Stem"+i,new(0,0,0),joint,.006f,RuralPropMaterials.Surface("wood"),8);
+                RuralPropGeometry.Tube(shrub,"Twig"+i,joint,tip,.003f,RuralPropMaterials.Surface("wood"),8);
+            }
+        }
+        // Paths are top surfaces conforming to the same collision terrain, not
+        // raised roadside plates. Their actual endpoints are the entrance aprons.
+        foreach(var building in buildings)
+        {
+            var depth=building.Name.ToString() switch { "OldSchool"=>11f,"HouseOfCulture"=>14f,"SovkhozOffice"=>9f,_=>7f };
+            var apron=building.Name.ToString()=="HouseOfCulture" ? 4.4f : 1.7f;
+            var target=building.ToGlobal(new Vector3(0,0,depth*.5f+apron));
+            var direction=(new Vector2(target.X,target.Z)-centre).Normalized();
+            // A short broad ramp bridges the level platform to its downhill
+            // approach instead of leaving a tall concrete lip on uneven ground.
+            using(var ramp=new SurfaceTool())
+            {
+                ramp.Begin(Mesh.PrimitiveType.Triangles);
+                var rampTangent=new Vector2(-direction.Y,direction.X)*.78f;
+                Vector3 P(float distance,float side,bool bottom=false)
+                {
+                    var p=centre+direction*distance+rampTangent*side;
+                    var y=distance<3.3f ? top+.06f : AgentBAct1HeightField.CollisionGround(p.X,p.Y)+.016f;
+                    return new(p.X-centre.X,bottom ? low-.1f : y,p.Y-centre.Y);
+                }
+                void RampVertex(Vector3 p){ramp.SetUV(new(p.X,p.Z));ramp.AddVertex(p);}
+                var a=P(3.15f,-1);var b=P(3.15f,1);var c=P(4.35f,1);var d=P(4.35f,-1);
+                RampVertex(a);RampVertex(b);RampVertex(c);RampVertex(a);RampVertex(c);RampVertex(d);
+                foreach(var (e,f) in new[]{(a,d),(c,b),(d,c)})
+                {var eb=new Vector3(e.X,low-.1f,e.Z);var fb=new Vector3(f.X,low-.1f,f.Z);RampVertex(e);RampVertex(f);RampVertex(fb);RampVertex(e);RampVertex(fb);RampVertex(eb);}
+                ramp.Index();ramp.GenerateNormals();var mesh=ramp.Commit();
+                garden.AddChild(new MeshInstance3D { Name=building.Name+"PlatformRamp",Mesh=mesh,MaterialOverride=stone });
+                body.AddChild(new CollisionShape3D { Name=building.Name+"RampContact",Shape=mesh.CreateTrimeshShape() });
+            }
+            var from=centre+direction*4.35f; var to=new Vector2(target.X,target.Z);
+            using var s=new SurfaceTool();s.Begin(Mesh.PrimitiveType.Triangles);
+            var length=from.DistanceTo(to);var count=Mathf.Max(1,Mathf.CeilToInt(length/.6f));var tangent=new Vector2(-direction.Y,direction.X)*.78f;
+            void V(int i,float side)
+            {
+                var p=from.Lerp(to,i/(float)count)+tangent*side;
+                s.SetUV(new(side*.78f,i/(float)count*length));
+                s.AddVertex(new(p.X-centre.X,AgentBAct1HeightField.CollisionGround(p.X,p.Y)+.012f,p.Y-centre.Y));
+            }
+            for(var i=0;i<count;i++){V(i,-1);V(i,1);V(i+1,1);V(i,-1);V(i+1,1);V(i+1,-1);}
+            s.Index();s.GenerateNormals();garden.AddChild(new MeshInstance3D { Name=building.Name+"ApproachPath",Mesh=s.Commit(),MaterialOverride=stone,CastShadow=GeometryInstance3D.ShadowCastingSetting.Off });
+        }
     }
 }

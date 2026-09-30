@@ -22,8 +22,8 @@ public partial class Act1DemoRoot
     private const string PrologueRideDialogue = "urman.chapter1:dialogue/prologue-niva-language";
 
     // The village leg: the far-bank lane, the bridge and the FAP branch as before,
-    // then the whole main street north (right-hand lane), once round the square's
-    // ring road and back down the other lane to the arrival stop. Built from the
+    // then the central square, both inhabited north streets and their return
+    // loop, and back down the other lane to the arrival stop. Built from the
     // street axes so it can never drift from the roads it drives on.
     private static readonly Vector3[] PrologueRidePath = BuildPrologueRidePath();
 
@@ -37,37 +37,88 @@ public partial class Act1DemoRoot
         var path = new List<Vector3>
         {
             new(69f, 0, 8f), new(69f, 0, -18f), new(68f, 0, -21f), new(63f, 0, -24.4f),
-            new(58f, 0, -25f), new(47f, 0, -25f), new(44f, 0, -24f), new(38f, 0, -23.3f), new(31f, 0, -23.5f),
-            new(26f, 0, -23.8f), new(22f, 0, -23.4f), new(17f, 0, -21.5f), new(10f, 0, -17f),
-            new(4.5f, 0, -12.5f), new(0f, 0, -10f), new(-.6f, 0, -1.5f)
+            new(58f, 0, -25f), new(47f, 0, -25f), new(44f, 0, -25f), new(41.5f, 0, -25f), new(38.5f, 0, -25f), new(37f, 0, -24f), new(32f, 0, -24.2f),
+            new(28f, 0, -24.2f), new(22f, 0, -23.4f), new(17f, 0, -21.5f), new(10f, 0, -17f),
+            new(4.5f, 0, -12.5f), new(0f, 0, -10f), new(-.6f, 0, -1.5f), new(1.3f, 0, 2f), new(1.3f, 0, 10f), new(-1.3f, 0, 25f)
         };
-        // Main axis south to north from the village entrance to the ring's south entry.
-        var north = AgentBAct1Layout.MainRoadAxis.Where(point => point.Y >= 9f && point.Y <= AgentBAct1Layout.CivicCentre.Y - 8.5f).Reverse().ToArray();
-        foreach (var point in north) path.Add(new(point.X + RideLane, 0, point.Y));
-        // Once round the ring, counter-clockwise, on the outer (right-hand) side of the island.
-        var ring = AgentBAct1Layout.SquareRingAxis;
-        var centre = AgentBAct1Layout.CivicCentre;
-        foreach (var point in ring.Skip(1))
+        // Offset the real axes to the vehicle's right-hand side. The narrow
+        // east lane has less lateral offset than the main two-way street.
+        void Lane(IReadOnlyList<Vector2> axis, float lateral)
         {
-            var outward = (point - centre).Normalized();
-            path.Add(new(point.X + outward.X * RideLane, 0, point.Y + outward.Y * RideLane));
+            for (var i = 0; i < axis.Count; i++)
+            {
+                var incoming = (axis[i] - axis[Math.Max(0, i - 1)]).Normalized();
+                var outgoing = (axis[Math.Min(axis.Count - 1, i + 1)] - axis[i]).Normalized();
+                if (incoming == Vector2.Zero) incoming = outgoing;
+                if (outgoing == Vector2.Zero) outgoing = incoming;
+                var n0 = new Vector2(-incoming.Y, incoming.X);
+                var n1 = new Vector2(-outgoing.Y, outgoing.X);
+                var miter = (n0 + n1).Normalized();
+                var at = axis[i] + miter * (lateral / Mathf.Max(.5f, miter.Dot(n1)));
+                if (path.Count == 0 || path[^1].DistanceTo(new(at.X, 0, at.Y)) > .05f)
+                    path.Add(new(at.X, 0, at.Y));
+            }
         }
-        // Down the other lane to the arrival stop.
-        // Near the entrance the arrival sign stands on the left verge, so the return lane keeps right of it.
-        foreach (var point in north.Reverse().Skip(1)) path.Add(new(point.Y < 20f ? point.X + .5f : point.X - RideLane, 0, point.Y));
+        var south = AgentBAct1Layout.MainRoadAxis
+            .Where(point => point.Y >= 40 && point.Y <= AgentBAct1Layout.CivicCentre.Y - 8.5f).Reverse().ToArray();
+        Lane(south, RideLane);
+        var ring = AgentBAct1Layout.SquareRingAxis.Reverse().ToArray();
+        var centre = AgentBAct1Layout.CivicCentre;
+        // Clockwise in the world's XZ basis: the outside of the island is the
+        // right-hand lane. Leave at the west junction for the inhabited north.
+        void Ring(IEnumerable<Vector2> points)
+        {
+            foreach (var point in points)
+            {
+                var at = point + (point - centre).Normalized() * RideLane;
+                path.Add(new(at.X, 0, at.Y));
+            }
+        }
+        var junction = Array.FindIndex(ring, p => p.IsEqualApprox(new Vector2(-8, 114)));
+        Ring(ring.Take(junction + 1));
+        var mainNorth = AgentBAct1Layout.MainRoadAxis.Where(p => p.Y >= 114).Reverse().ToArray();
+        Lane(mainNorth, RideLane);
+        Lane(AgentBAct1Layout.NorthReturnStreetAxis, .65f);
+        var eastReturn = AgentBAct1Layout.NorthEastStreetAxis.Where(p => p.Y <= 220).Reverse().ToArray();
+        Lane(new[] { new Vector2(20, 220) }.Concat(eastReturn).ToArray(), .65f);
+        Lane(AgentBAct1Layout.NorthCrossStreetAxis.Reverse().ToArray(), .9f);
+        var mainReturn = new[] { new Vector2(-23, 151) }
+            .Concat(AgentBAct1Layout.MainRoadAxis.Where(p => p.Y < 151 && p.Y >= 114)).ToArray();
+        Lane(mainReturn, RideLane);
+        Ring(ring.Skip(junction + 1));
+        Lane(south.Reverse().ToArray(), RideLane);
+        path.Add(new(1.3f, 0, 9f));
+        path.Add(new(1.3f, 0, 1f));
         path.Add(new(-1.65f, 0, 1f));
         return path.ToArray();
     }
 
-    /// <summary>Distance along the ride path of the first vertex within reach of (x, z), searching forward from <paramref name="after"/>.</summary>
+    /// <summary>First point of the actual route within reach, including the
+    /// middle of long segments, searching forward from <paramref name="after"/>.</summary>
     private static float RideMark(float x, float z, float after = 0f, float reach = 6f)
     {
         var walked = 0f;
-        for (var index = 0; index < PrologueRidePath.Length; index++)
+        var target = new Vector2(x, z);
+        for (var index = 1; index < PrologueRidePath.Length; index++)
         {
-            if (index > 0) walked += PrologueRidePath[index - 1].DistanceTo(PrologueRidePath[index]);
-            if (walked < after) continue;
-            if (new Vector2(PrologueRidePath[index].X - x, PrologueRidePath[index].Z - z).Length() <= reach) return walked;
+            var a = new Vector2(PrologueRidePath[index - 1].X, PrologueRidePath[index - 1].Z);
+            var b = new Vector2(PrologueRidePath[index].X, PrologueRidePath[index].Z);
+            var direction = b - a; var length = direction.Length();
+            if (length < .001f) continue;
+            var minimum = Mathf.Max(0, (after - walked) / length);
+            if (minimum <= 1)
+            {
+                if (a.Lerp(b, minimum).DistanceTo(target) <= reach) return walked + minimum * length;
+                var from = a - target; var aa = direction.LengthSquared();
+                var bb = 2 * from.Dot(direction); var cc = from.LengthSquared() - reach * reach;
+                var discriminant = bb * bb - 4 * aa * cc;
+                if (discriminant >= 0)
+                {
+                    var enter = (-bb - Mathf.Sqrt(discriminant)) / (2 * aa);
+                    if (enter >= minimum && enter <= 1) return walked + enter * length;
+                }
+            }
+            walked += length;
         }
         return after;
     }
@@ -408,13 +459,20 @@ public partial class Act1DemoRoot
             walked += length;
         }
         var yaw = Mathf.Atan2(-forward.X, -forward.Z);
-        _rideNiva.Rotation = new Vector3(0, progress == 0 ? yaw
-            : Mathf.LerpAngle(_rideNiva.Rotation.Y, yaw, 1f - MathF.Exp(-7f * (float)GetProcessDeltaTime())), 0);
         var bridgeX = (float)AgentBAct1HeightField.RavineCentre(Act1ConnectedWorld.RavineBridgeZ);
-        var height = MathF.Abs(position.Z - Act1ConnectedWorld.RavineBridgeZ) < .2f && MathF.Abs(position.X - bridgeX) <= 8f
-            ? Act1ConnectedWorld.OpeningBridgeRoadHeight(position.X)
-            : AgentBAct1HeightField.CollisionGround(position.X, position.Z);
-        _rideNiva.GlobalPosition = new(position.X, height + .02f, position.Z);
+        float GroundAt(Vector3 point) => MathF.Abs(point.Z - Act1ConnectedWorld.RavineBridgeZ) < .2f && MathF.Abs(point.X - bridgeX) <= 8f
+            ? Act1ConnectedWorld.OpeningBridgeRoadHeight(point.X)
+            : AgentBAct1HeightField.CollisionGround(point.X, point.Z);
+        // Axle-height samples make the cabin follow a road's real grade. The
+        // same terrain/deck drives placement; this never bypasses collisions.
+        var heading = forward.Normalized();
+        var front = GroundAt(position + heading * 1.225f);
+        var rear = GroundAt(position - heading * 1.225f);
+        var pitch = Mathf.Atan2(front - rear, 2.45f);
+        var smoothing = progress == 0 ? 1f : 1f - MathF.Exp(-7f * (float)GetProcessDeltaTime());
+        _rideNiva.Rotation = new Vector3(Mathf.LerpAngle(_rideNiva.Rotation.X, pitch, smoothing),
+            Mathf.LerpAngle(_rideNiva.Rotation.Y, yaw, smoothing), 0);
+        _rideNiva.GlobalPosition = new(position.X, GroundAt(position) + .02f, position.Z);
     }
 
     // The answer to Mansur sets the starting Tatar density; "skip" keeps

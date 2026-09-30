@@ -1,0 +1,93 @@
+{
+  "provider": "existing configured Gemini TTS generator",
+  "clips": [
+    {
+      "id": "forest-wake-v2",
+      "speaker": "mansur",
+      "voice": "Algenib",
+      "model": "gemini-3.8-flash-tts",
+      "text": "Айдар… Айдар, уян. Килеп җитәбез.",
+      "synthetic": true,
+      "seconds": 8.74,
+      "sha256": "5ecbb6ec838d040f1ec10a19f18b914228fd81210f0333491416519d5e716ff4",
+      "format_check": {
+        "channels": 1,
+        "rate": 24000,
+        "bits": 16,
+        "seconds": 8.74
+      },
+      "listened": "external/not-run"
+    },
+    {
+      "id": "forest-babai-name-v2",
+      "speaker": "mansur",
+      "voice": "Algenib",
+      "model": "gemini-3.8-flash-tts",
+      "text": "Айдар… Айдар…",
+      "synthetic": true,
+      "seconds": 4.02,
+      "sha256": "b487e1246e8b59f64ced31aa48366fbe56680f21e794e0a0503dfde792a338f8",
+      "format_check": {
+        "channels": 1,
+        "rate": 24000,
+        "bits": 16,
+        "seconds": 4.02
+      },
+      "listened": "external/not-run"
+    },
+    {
+      "id": "prologue-ride-bark-nightmare",
+      "speaker": "mansur",
+      "voice": "Algenib",
+      "model": "gemini-3.8-flash-tts",
+      "text": "Айдар, что с тобой? Вскочил, весь дрожишь. Что приснилось? От остановки до нас далеко — вот и уснул.",
+      "synthetic": true,
+      "seconds": 11.78,
+      "sha256": "874d0c11b95acc23bc34fc63dce64deece2546c960d6fede6f8542dfe6dfb253",
+      "format_check": {
+        "channels": 1,
+        "rate": 24000,
+        "bits": 16,
+        "seconds": 11.78
+      },
+      "listened": "external/not-run"
+    },
+    {
+      "id": "prologue-ride-bark-nightmare.lvl-some",
+      "speaker": "mansur",
+      "voice": "Algenib",
+      "model": "gemini-3.8-flash-tts",
+      "text": "Айдар, ни булды? Вскочил, дрожишь. Төшеңә нәрсә керде? От остановки юл ерак — вот и уснул.",
+      "synthetic": true,
+      "seconds": 11.26,
+      "sha256": "11456fa554e952d2469488b375de37a4b94564f51e980256a8cf4f6fbc919e09",
+      "format_check": {
+        "channels": 1,
+        "rate": 24000,
+        "bits": 16,
+        "seconds": 11.26
+      },
+      "listened": "external/not-run"
+    },
+    {
+      "id": "prologue-ride-bark-nightmare.lvl-fluent",
+      "speaker": "mansur",
+      "voice": "Algenib",
+      "model": "gemini-3.8-flash-tts",
+      "text": "Айдар, ни булды сиңа? Сикереп тордың, калтырыйсың. Төшеңә нәрсә керде? Тукталыштан безгә кадәр юл ерак — шуңа йоклап киттең.",
+      "synthetic": true,
+      "seconds": 13.9,
+      "sha256": "54f6a4be422537cdb5b04fafc3ca911696344a6617f62108fe743d82d6f9c0c9",
+      "format_check": {
+        "channels": 1,
+        "rate": 24000,
+        "bits": 16,
+        "seconds": 13.9
+      },
+      "listened": "external/not-run"
+    }
+  ],
+  "caption": "Айдар… Айдар, уян. Килеп җитәбез.",
+  "meaning": "Айдар… Айдар, проснись. Уже подъезжаем.",
+  "synthetic": true
+}

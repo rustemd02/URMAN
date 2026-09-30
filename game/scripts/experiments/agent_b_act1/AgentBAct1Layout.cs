@@ -31,7 +31,8 @@ public static class AgentBAct1Layout
         new Vector2(-23f, 175f),
         new Vector2(-23f, 158f),
         new Vector2(-23f, 143f),
-        new Vector2(-19f, 127f),
+        new Vector2(-20f, 128f),
+        new Vector2(-11f, 121f),
         new Vector2(-8f, 114f),
         new Vector2(0.5f, 105.5f),
         new Vector2(-1.4f, 88f),
@@ -93,6 +94,17 @@ public static class AgentBAct1Layout
         new(20f,207f),
         new(20f,229f),
     };
+    // The east lane joins the main street behind the school and again at the
+    // forest edge. This is an inhabited street loop, not an isolated cul-de-sac.
+    public static readonly Vector2[] NorthCrossStreetAxis =
+    {
+        new(-23f,151f), new(-16f,150f), new(0f,150f), new(12.5f,151f),
+    };
+    public static readonly Vector2[] NorthReturnStreetAxis =
+    {
+        new(-23f,218f), new(-23f,220.5f), new(-22.5f,223f), new(-21f,225f),
+        new(-18f,227f), new(15f,227f), new(18f,225f), new(20f,223f), new(20f,220f),
+    };
     public static readonly Vector2[] WestServiceAxis =
     {
         new(-42f,80f),
@@ -129,8 +141,15 @@ public static class AgentBAct1Layout
         new Vector2(4.5f, -12.5f),
         new Vector2(10f, -17f),
         new Vector2(17f, -21.5f),
-        new Vector2(23f, -25f),
-        new Vector2(28f, -26.2f)
+        new Vector2(22f, -23.4f),
+        new Vector2(28f, -24.2f)
+    };
+
+    // The FAP service street reaches the intact prologue bridge. The bridge
+    // owns its deck; this axis owns the connected carriageway and road graph.
+    public static readonly Vector2[] BridgeApproachAxis =
+    {
+        new(28f, -24.2f), new(32f, -24.2f), new(37f, -24f), new(38.5f, -25f), new(41.5f, -25f), new(45.3f, -25f),
     };
 
     // House path from main street into the babai yard.

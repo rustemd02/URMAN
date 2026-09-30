@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-30",
+  "scope": "working tree after Codex handover; continuation by Claude Sonnet 5.5",
+  "build": "PASS: 0 errors, 0 warnings (Urman.Game)",
+  "import": "PASS: exit 0, no ERROR lines (needs eng/dotnet-env.sh on PATH)",
+  "rideRoute": {
+    "scene": "act1_ride_route_check",
+    "result": "PASS (no physics blockers)",
+    "note": "conservative visible-prop crossings (MainStreetSnowBanks StreetBankE_0, wheel mesh, outer field fence post) are reported, not physics blockers"
+  },
+  "publicBuildings": {
+    "scene": "act1_public_buildings_smoke_test",
+    "mode": "native (URMAN_SMOKE_NATIVE=1)",
+    "passed": true,
+    "checks": 680,
+    "walkingMetres": 129.18,
+    "receipt": "public_buildings_final/public-buildings-receipt.json",
+    "flakeNote": "two earlier native runs failed at a WalkTo with the player stationary and nothing ahead (window focus lost while other work ran); third run and the final full run passed. Not a geometry defect."
+  },
+  "prologueWatch": {
+    "scene": "act1_first_person_walkthrough_smoke_test URMAN_DISCOVERY_ROUTE_ONLY=prologue-watch",
+    "result": "PASS night-first natural-cue niva-language village-handover arrival-resume",
+    "frames": [
+      "prologue_watch/forest_walk.png",
+      "prologue_watch/peripheral_presence.png",
+      "prologue_watch/niva_handover.png"
+    ],
+    "testFix": "capture env var renamed URMAN_PROLOGUE_WATCH_CAPTURE; the old name is the dev ride-capture switch and booted the wrong mode"
+  },
+  "footsteps": "act1_footstep_smoke_test PASS (surface table incl. herringbone alias). The 6th-step creak rule (pause >= 3.4 s) has no automated assertion; unverified by listening.",
+  "defectFixed": "CivicSurfaceLibrary.Floor wound its triangles counter-clockwise from above, so Godot back-face culled every parquet floor and school/club floors rendered as the plain plinth. Winding fixed; real frames captured before/after.",
+  "assetRegistry": "assets 135-163 now carry real sourceSha256/derived/derivedSha256. Remaining FAIL at HEAD and unchanged: assets[0] (runtime mesh has no file), [60] village exterior kit, [113] niva body (stale Blender/GLB hashes).",
+  "dotnetTests": "Urman.Content.Tests 16/17; ChapterOne_MatchesFrozenJavascriptGoldenPack fails because tests-dotnet/fixtures/content golden is 11 content commits stale (pre-existing, unrelated to the Aidar-name change).",
+  "contentCompile": "game/content/*.compiled.v1.json equal a fresh compile of content/",
+  "frames": [
+    {
+      "file": "captures/club_hall_stage.png",
+      "sha256": "9a8deae3db13fcb19bc47470c6109e14be14c5278980aec1d696b0babac326b9"
+    },
+    {
+      "file": "captures/club_parquet_close.png",
+      "sha256": "9b2805a2d03fa3124b7b9bd45d7bef08090ff8c166814059ae359270c62c0666"
+    },
+    {
+      "file": "captures/school_corridor.png",
+      "sha256": "1f5ea363e53652b0a580ffc48eed11fa8ea45ebf2f78c5130138e9af2c6489f5"
+    },
+    {
+      "file": "captures/school_room.png",
+      "sha256": "78779a07075795e6cab41efd6c29612ac556afb45337595326f58c172cf679a8"
+    },
+    {
+      "file": "captures/square_eye.png",
+      "sha256": "0e146b4d2d53a46c1e7e53527fca4d9c1ed2afe07d41ca0da287df3718e1ab6f"
+    },
+    {
+      "file": "captures/square_high.png",
+      "sha256": "42609d3195de5189279e5af5a4ff10a64330f8402dd21df82b59a914563cc50d"
+    },
+    {
+      "file": "prologue_watch/forest_walk.png",
+      "sha256": "c1f883b73204b9bed9aae4415a566c5f4c3ba4230a1256a4f2b0fcd0946bbb26"
+    },
+    {
+      "file": "prologue_watch/niva_handover.png",
+      "sha256": "0b37fe2b760522c6101c70c0322547ae6c9dcca72424fd596870988e00b13196"
+    },
+    {
+      "file": "prologue_watch/peripheral_presence.png",
+      "sha256": "0729c6cac093fd97efbb019a26eb07d3ed8925a0d1c0cede36ca9ab7d98cf811"
+    }
+  ],
+  "notAccepted": [
+    "human artistic/cultural acceptance",
+    "listening to the five synthetic voice clips and three procedural creaks",
+    "human hour of play",
+    "stable FPS",
+    "old-village composition pass and full new-address routes",
+    "graphify update (command not installed)"
+  ]
+}

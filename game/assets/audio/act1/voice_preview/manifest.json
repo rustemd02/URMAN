@@ -88,5 +88,50 @@
     "synthetic": true,
     "seconds": 6.68,
     "sha256": "2751a0775f01de06e9da0221e3eb4508588e996ef8b767452c2c888e5d7a312f"
+  },
+  "prologue-ride-bark-nightmare": {
+    "speaker": "mansur",
+    "voice": "Algenib",
+    "model": "gemini-3.8-flash-tts",
+    "text": "Айдар, что с тобой? Вскочил, весь дрожишь. Что приснилось? От остановки до нас далеко — вот и уснул.",
+    "synthetic": true,
+    "seconds": 11.78,
+    "sha256": "874d0c11b95acc23bc34fc63dce64deece2546c960d6fede6f8542dfe6dfb253"
+  },
+  "prologue-ride-bark-nightmare.lvl-some": {
+    "speaker": "mansur",
+    "voice": "Algenib",
+    "model": "gemini-3.8-flash-tts",
+    "text": "Айдар, ни булды? Вскочил, дрожишь. Төшеңә нәрсә керде? От остановки юл ерак — вот и уснул.",
+    "synthetic": true,
+    "seconds": 11.26,
+    "sha256": "11456fa554e952d2469488b375de37a4b94564f51e980256a8cf4f6fbc919e09"
+  },
+  "prologue-ride-bark-nightmare.lvl-fluent": {
+    "speaker": "mansur",
+    "voice": "Algenib",
+    "model": "gemini-3.8-flash-tts",
+    "text": "Айдар, ни булды сиңа? Сикереп тордың, калтырыйсың. Төшеңә нәрсә керде? Тукталыштан безгә кадәр юл ерак — шуңа йоклап киттең.",
+    "synthetic": true,
+    "seconds": 13.9,
+    "sha256": "54f6a4be422537cdb5b04fafc3ca911696344a6617f62108fe743d82d6f9c0c9"
+  },
+  "forest-wake-v2": {
+    "speaker": "mansur",
+    "voice": "Algenib",
+    "model": "gemini-3.8-flash-tts",
+    "text": "Айдар… Айдар, уян. Килеп җитәбез.",
+    "synthetic": true,
+    "seconds": 8.74,
+    "sha256": "5ecbb6ec838d040f1ec10a19f18b914228fd81210f0333491416519d5e716ff4"
+  },
+  "forest-babai-name-v2": {
+    "speaker": "mansur",
+    "voice": "Algenib",
+    "model": "gemini-3.8-flash-tts",
+    "text": "Айдар… Айдар…",
+    "synthetic": true,
+    "seconds": 4.02,
+    "sha256": "b487e1246e8b59f64ced31aa48366fbe56680f21e794e0a0503dfde792a338f8"
   }
 }

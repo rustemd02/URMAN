@@ -338,14 +338,8 @@ public partial class PrologueDeepForest : Node3D
     {
         const float z = -113f;
         var x = TrackX(z) + 15.5f;
-        Silhouette = new Node3D { Name = "TallFigure", Position = new Vector3(x, Ground(x, z), z), Visible = false };
+        Silhouette = new ProloguePresence { Name = "TallFigure", Position = new Vector3(x, Ground(x, z) + 1.4f, z), Visible = false };
         AddChild(Silhouette);
-        var dark = new StandardMaterial3D { AlbedoColor = new Color(.02f, .02f, .025f), Roughness = 1f };
-        Silhouette.AddChild(new MeshInstance3D { Position = new Vector3(0, 1.75f, 0), Scale = new Vector3(.55f, 1f, .45f), Mesh = new CapsuleMesh { Radius = .28f, Height = 3.5f }, MaterialOverride = dark });
-        Silhouette.AddChild(new MeshInstance3D { Position = new Vector3(.05f, 3.62f, 0), Scale = new Vector3(.8f, 1.25f, .8f), Mesh = new SphereMesh { Radius = .17f, Height = .34f }, MaterialOverride = dark });
-        // Over-long arms hanging past the knees.
-        foreach (var side in new[] { -1f, 1f })
-            Silhouette.AddChild(new MeshInstance3D { Position = new Vector3(side * .24f, 1.9f, 0), RotationDegrees = new Vector3(0, 0, side * 4f), Mesh = new CylinderMesh { TopRadius = .05f, BottomRadius = .025f, Height = 2.4f, RadialSegments = 6 }, MaterialOverride = dark });
     }
 
     // Pairs of faint glints deep in the dark: animal eyes, or not.

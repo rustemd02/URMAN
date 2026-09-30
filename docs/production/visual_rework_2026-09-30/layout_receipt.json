@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-30",
+  "scope": "civic street composition and connected northern transit",
+  "sourceBase": "9ef3321356378b89ac0d865db706f304b3b27f9d",
+  "status": "native-route-verified-2026-09-30-claude-continuation",
+  "civicCenterXZ": [
+    0.5,
+    114
+  ],
+  "buildingCoordinatesUnchanged": true,
+  "changes": [
+    "main junction routes around DK entrance and school west corner through [-11,121],[-20,128]",
+    "northern return street ties two inhabited streets behind all civic buildings; maximum z227 and legal .65m lateral vehicle lane",
+    "actual visual/collision terrain grades north road at foot of forest hill; household pad feathers end at roadside",
+    "new authored trees use explicit 1.8m carriageway clearance; unrelated scatter retains prior default",
+    "arrival sign bypass and final parking approach stay within existing carriageway",
+    "vehicle axle heights orient cabin along real street grades; saves and stable parcel IDs preserved",
+    "bridge vehicle leg stays centered until bridge approach ends; shared FAP-to-bridge carriageway axis/visible snow and road graph; route uses real FAP road center",
+    "base source vegetation re-evaluated against new roads before actual visuals/rooted contacts are built; road guard remains strict",
+    "authored yard declutter uses stable source-confirmed root/variant; north-yard willow fixture stays at recorded root across road generation changes"
+  ],
+  "static": {
+    "generator": "tools/world/generate_north_street.py",
+    "exitCode": 0,
+    "entities": 91,
+    "solidFootprints": 61,
+    "checks": "SAT public envelopes/roads/households; corner clearance; river margin",
+    "mergedManualOverrideCaveat": "generator validates proposal before preserving manual overrides; current entities equal generated baseline exactly"
+  },
+  "native": {
+    "previousRoute": "/tmp/urman-ride-route-20260930-r1.log",
+    "previousExitCode": 1,
+    "physicsBlockers": [
+      [
+        "Discovery_main-street-sign-reverse",
+        [
+          -0.9,
+          3.5
+        ]
+      ],
+      [
+        "AgentB_TerrainCollision",
+        [
+          -24.3,
+          214
+        ]
+      ],
+      [
+        "AgentB_ArchitectureCollision",
+        [
+          -18.6,
+          229.2
+        ]
+      ]
+    ],
+    "candidate": {
+      "scene": "act1_ride_route_check",
+      "result": "PASS (no physics blockers)",
+      "log": "/tmp/urman-ride-c1.log",
+      "note": "r1 blockers no longer reproduce; earlier r2/r3 startup failures remediated (see entries above)"
+    },
+    "r2Startup": {
+      "log": "/tmp/urman-ride-route-20260930-r2.log",
+      "status": "failed-before-route",
+      "error": "authored shrub at30,-24.5 inside newly connected bridge road",
+      "remediation": "real source foliage culled before planting; strict PlantFoliage road guard unchanged",
+      "verification": "pending"
+    },
+    "r3Startup": {
+      "log": "/tmp/urman-ride-route-20260930-r3.log",
+      "status": "failed-before-route",
+      "error": "yard composition depended on procedural Plant43 index and shared roadside RNG",
+      "remediation": "pin source-confirmed required north-yard willow root; resolve both yard declutter fixtures by unique variant+root, strict count remains",
+      "verification": "pending"
+    }
+  },
+  "open": [
+    "20 gate standing access after altered ground",
+    "capture actual new composition; human art/play acceptance",
+    "old-village far-bank route and roads remain audit scope; no population count inferred from house count",
+    "conservative visible-prop crossings still reported by the route check (snow bank, wheel mesh, outer field fence post): not physics blockers, not promoted to PASS of visuals"
+  ],
+  "graphify": "unavailable: command not found; update not performed"
+}

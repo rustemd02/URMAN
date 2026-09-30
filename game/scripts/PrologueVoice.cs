@@ -59,6 +59,7 @@ internal static class PrologueVoice
             UnitSize = 14f
         };
         host.AddChild(player);
+        player.AddToGroup("prologue_spatial_voice");
         player.GlobalPosition = globalPosition;
         player.Finished += () => player.QueueFree();
         player.Play();
@@ -68,6 +69,13 @@ internal static class PrologueVoice
     public static void Stop()
     {
         if (_player is not null && GodotObject.IsInstanceValid(_player)) _player.Stop();
+    }
+
+    public static void StopSpatial(Node host)
+    {
+        foreach (var player in host.GetChildren().OfType<AudioStreamPlayer3D>()
+                     .Where(player => player.IsInGroup("prologue_spatial_voice")))
+        { player.Stop(); player.QueueFree(); }
     }
 
     private static bool Exists(string clipId) => ResourceLoader.Exists(Dir + clipId + ".wav");

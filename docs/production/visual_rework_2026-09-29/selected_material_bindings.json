@@ -181,11 +181,69 @@
       "provenance": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
       "visual_check": "source pixels inspected; actual receiver capture pending at this cutoff",
       "normal_map": "none; do not infer height from pigment"
+    },
+    {
+      "kind": "brass",
+      "file": "game/assets/textures/realism_20260929/samovar_brass_v1_basecolor.png",
+      "sha256": "5f91bcae24b2dbe694aaa22a41f2ea248fa4a231edb7a706253a6432c017fc90",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "requests": [
+        "TX29-19"
+      ],
+      "tile_metres": 0.5,
+      "roughness": 0.32,
+      "metallic": 1,
+      "consumer": "RuralPropModels.Samovar body/feet/brackets/tap; actual lathed/tubular metric UV; no duplicate gold tint",
+      "provenance": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "visual_check": "parent and worker inspected source; current native receiver review pending",
+      "normal_map": "none; no height inferred blindly from colour"
+    },
+    {
+      "kind": "rubber",
+      "file": "game/assets/textures/realism_20260929/moulded_rubber_black_v1_basecolor.png",
+      "sha256": "b93a9616d9fca772570a7cf8e0c7746686a21f291eb51d3e9f33ba5426ca2f1e",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "requests": [
+        "TX29-09",
+        "TX29-10"
+      ],
+      "tile_metres": 0.35,
+      "roughness": 0.91,
+      "metallic": 0,
+      "consumer": "RuralPropModels.Chair/Desk moulded foot caps; actual bevel geometry and metric UV",
+      "provenance": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "visual_check": "parent and worker inspected source; current native receiver review pending",
+      "normal_map": "none; no height inferred blindly from colour"
+    },
+    {
+      "kind": "mosaic",
+      "file": "game/assets/textures/realism_20260929/bus_wheat_sun_mosaic_v1_basecolor.png",
+      "sha256": "88116e1a22853edcae37aeadadd712a6c43072a4fc32f4f878397ec18ceffe69",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "requests": [
+        "TX29-22"
+      ],
+      "tile_metres": null,
+      "roughness": 0.85,
+      "metallic": 0,
+      "consumer": "OldBusPavilion/MosaicPanel full[0,1]2 UV on2x1m ceramic face; actual26mm backing; individual tessera relief remains open",
+      "provenance": "docs/production/visual_rework_2026-09-29/texture_generation_followup.json",
+      "visual_check": "parent and worker inspected source; current native receiver review pending",
+      "normal_map": "none; no height inferred blindly from colour"
     }
   ],
   "not_selected": [
     "local school_laminate_beige_v1_basecolor.png: coarse terrazzo speckle",
     "public_red_brick_source_v1_basecolor.png: anisotropic 1.056x0.624 m UV required; staged only"
   ],
-  "brass_rubber_mosaic": "dedicated worker producing named recipients; not yet bound"
+  "brass_rubber_mosaic": "bitmap sources inspected and now bound; current receiver capture pending"
 }

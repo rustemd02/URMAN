@@ -33,11 +33,7 @@ public partial class Act1ConnectedWorld
         var sheet = mount.GetNode<MeshInstance3D>("SourceFace");
         if (sheet.Mesh is not QuadMesh paper || paper.Size.DistanceTo(new(.65f, .86f)) > .0001f)
             throw new InvalidOperationException("The existing poster mount changed size.");
-        sheet.MaterialOverride = new StandardMaterial3D
-        {
-            AlbedoColor = Color.FromHtml("e3d6b4"), Roughness = 1, MetallicSpecular = 0,
-            CullMode = BaseMaterial3D.CullModeEnum.Back
-        };
+        sheet.MaterialOverride = CivicSurfaceLibrary.Face("quest_papers_v2_atlas.png",2,2,2);
         mount.GetNode<MeshInstance3D>("PaperOrFrame").MaterialOverride =
             PainterlyMaterialLibrary.ForColor("53614e", "wood_furniture", sheltered: true);
 
@@ -52,10 +48,10 @@ public partial class Act1ConnectedWorld
         PosterText(printed, "Heading", face[0], .345f, 82, .00077f, .57f, "304f44");
         PosterText(printed, "Date", face[1], .291f, 30, .00075f, .57f, "555640");
         PublicBox(printed, "PrintedRule", new(.556f, .002f, .0007f), new(0, .257f, .022f), "63735c", "paper");
-        PublicBox(printed, "PhotoBorder", new(.574f, .390f, .001f), new(0, .054f, .022f), "f0e7cf", "paper");
+        PublicBox(printed, "PhotoBorder", new(.574f, .390f, .001f), new(0, -.70f, .022f), "f0e7cf", "paper");
         printed.AddChild(new MeshInstance3D
         {
-            Name = "PreparationPhotograph", Position = new(0, .054f, .024f),
+            Name = "PreparationPhotograph", Position = new(0, -.70f, .024f),
             Mesh = new QuadMesh { Size = new(.552f, .368f) }, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
             MaterialOverride = new StandardMaterial3D
             {
@@ -64,10 +60,18 @@ public partial class Act1ConnectedWorld
                 CullMode = BaseMaterial3D.CullModeEnum.Back
             }
         });
-        PosterText(printed, "PreparationCaption", caption, -.162f, 22, .00075f, .57f, "555640");
+        PosterText(printed, "PreparationCaption", caption, -.916f, 22, .00075f, .57f, "555640");
         var programme = PosterText(printed, "Programme", face[2], -.207f, 25, .00075f, .55f, "343e34");
         programme.VerticalAlignment = VerticalAlignment.Top;
-        PublicBox(printed, "FooterRule", new(.556f, .0015f, .0007f), new(0, -.390f, .022f), "63735c", "paper");
+        foreach (var label in printed.GetChildren().OfType<Label3D>()) label.Visible = false;
+        printed.GetNode<MeshInstance3D>("PrintedRule").Visible = false;
+        printed.SetMeta("handmadePrintedFace", "ImageGen source-bound paper; exact text retained in metadata/manual reader");
+        // The source photograph has its own mount below the notice; it must not
+        // cover the generated heading or the programme on the printed paper.
+        foreach (var x in new[] { -.287f, .287f })
+            PublicBox(printed,"PhotoSide"+x,new(.018f,.406f,.025f),new(x,-.70f,.016f),"53614e","wood_furniture");
+        foreach (var y in new[] { -.895f, -.505f })
+            PublicBox(printed,"PhotoEnd"+y,new(.592f,.018f,.025f),new(0,y,.016f),"53614e","wood_furniture");
 
         // The original mounting plane and source target stay fixed. These narrow
         // rails retain the paper, and four shafts cross the actual wall plane.
@@ -90,7 +94,7 @@ public partial class Act1ConnectedWorld
         // Retire only this instance's generic placeholder after the binding has
         // succeeded. The same manual target still opens the complete document.
         mount.GetNode<Label3D>("DocumentTitle").Visible = false;
-        for (var row = 0; row < 5; row++) mount.GetNode<MeshInstance3D>("WrittenLine" + row).Visible = false;
+        for (var row = 0; row < 5; row++) if (mount.GetNodeOrNull<MeshInstance3D>("WrittenLine" + row) is { } line) line.Visible = false;
         mount.SetMeta("printedPosterBound", true);
     }
 
