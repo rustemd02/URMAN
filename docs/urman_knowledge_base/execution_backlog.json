@@ -23027,8 +23027,21 @@
       "art_acceptance": "open",
       "current_receipt": "docs/production/visual_rework_2026-09-29/README.md",
       "pulled_source_texture_count": 10,
-      "selected_new_runtime_surfaces": 9,
-      "mechanical_verification": "native school r9: 199 checks, 20/20 street gate points fit standing body; 71.81239m controller traversal. Full new household routes and human/art/performance remain open."
+      "selected_new_runtime_surfaces": 12,
+      "mechanical_verification": "native school r9: 199 checks, 20/20 street gate points fit standing body; 71.81239m controller traversal. Full new household routes and human/art/performance remain open.",
+      "next_slice": "Brass/rubber/mosaic bound; desk member contacts r10 local pass201; north connecting roads/tour candidate passes61 static footprints; latest dynamic route/standing-fit verification pending"
     }
+  },
+  "author_visual_request_2026_09_30": {
+    "status": "in_progress",
+    "contract": "docs/production/visual_rework_2026-09-30/AUTHOR_REQUEST_RU.md",
+    "scope": [
+      "name-wake-preview-voice",
+      "ambiguous-forest-blackout",
+      "civic-square-layout",
+      "imagegen-school-club-handmade-surfaces",
+      "herringbone-parquet-creaks"
+    ],
+    "verification": "pending; previous northern route r1 failed; no transferred PASS"
   }
 }
