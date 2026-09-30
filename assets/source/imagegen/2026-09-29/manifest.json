@@ -1,0 +1,267 @@
+{
+  "schema": "urman.imagegen_texture_manifest.v1",
+  "assets": [
+    {
+      "request_ids": [
+        "TX29-02",
+        "TX29-08",
+        "TX29-09",
+        "TX29-10",
+        "TX29-12",
+        "TX29-17",
+        "TX29-19",
+        "TX29-20",
+        "TX29-23"
+      ],
+      "file": "painted_steel_enamel_v1_basecolor.png",
+      "prompt": "Use case: stylized-concept\nAsset type: seamless RGB base-color tile for real 3D materials in URMAN, an inhabited Tatar village in winter 2026.\nPrimary request: one square repeating texture for continuous, intact light warm-grey Soviet-era enamel paint on steel fixtures and furniture in an ordinary village. Slightly softened ivory-grey tone with restrained broad pigment variation and mild age-yellowing from practical use and repairs through 2000–2026.\nStyle: restrained stylized realism matching URMAN's calm painterly material maps: broad quiet color fields, muted natural palette, readable at game distance, no photographic micro-noise and no extreme grunge. Soviet everyday character comes through the practical institutional finish and color; no cultural pattern or decoration.\nComposition: flat perpendicular orthographic surface only, filling the square, evenly balanced with no focal mark. The four edges must tile seamlessly.\nLighting: flat, neutral and even; base-color pigment only.\nAvoid: chipped, flaking or pitted paint; exposed substrate; rust; scratches; dirt speckles; holes; plaster or concrete appearance; metal objects; tubes, ribs, borders, hardware; directional shading, shadows, ambient occlusion, highlights, reflections, perspective, text, logos, dates, symbols, watermark, mockup, material ball, collage.",
+      "tool": "OpenAI built-in ImageGen; native sips used only to normalize output dimensions",
+      "size": {
+        "source": "1254x1254 RGB",
+        "final": "1024x1024 RGB PNG"
+      },
+      "purpose": "Shared base color for painted steel on village fences and benches, institutional furniture, chair frames and radiators. No geometry, seams, hardware or reflections are baked in.",
+      "uv_contract": "Opaque square seamless tile on real metric UVs; nominal 1x1 m tile, scale receiver UVs to each passport. Painted coating uses metallic=0; roughness remains a receiver material parameter.",
+      "surface_scale": "Metric: 1x1 m nominal per tile; use 0.5 m mapping where the receiving passport specifies chair-scale surfaces. Final UV density is not runtime-verified.",
+      "visual_check": "Viewed at full size and in a 3x3 repeat after export. Calm warm ivory-grey enamel, low-contrast broad variation, plausible maintained Soviet institutional finish; no focal repeat, objects, symbols, baked folds, shadows, highlights or perspective. Slight low-contrast tonal transitions remain visible at enlarged tile boundaries; verify on receiving meshes in runtime. No runtime/import check was run."
+    },
+    {
+      "request_ids": [
+        "TX29-04",
+        "TX29-20",
+        "TX29-24"
+      ],
+      "file": "galvanized_zinc_v1_basecolor.png",
+      "prompt": "Use case: stylized-concept\nAsset type: seamless 1024-square RGB base-color tile for a 3D galvanized zinc material in URMAN.\nPrimary request: a restrained, almost uniform cool medium silver-grey zinc surface used on practical Soviet-era village roofs, gutters and metal household fixtures. Keep it clean and maintained, with only very faint soft tonal variation and extremely fine dull grain; the surface should read as zinc through its cool color and the runtime metallic response, not through painted patterns.\nStyle: quiet muted material matching URMAN's painterly low-poly environment maps; simple broad color fields, low contrast, no photographic micro-noise or grunge.\nComposition: flat orthographic material surface, no focal area, fully uniform scale, seamless repeat on all four edges and corners.\nLighting: neutral, flat base-color only. No baked reflection or light response.\nAvoid: crystalline, cellular, fractured, pebbled or stone-like patterns; visible scratches, oxidation spots, rust, dirt, chips, dents, corrugations, seams, rivets, highlights, shadows, gradients, ambient occlusion, perspective, objects, text, logos, symbols, watermark, mockup, material ball or collage.",
+      "tool": "OpenAI built-in ImageGen; native sips used only to normalize output dimensions",
+      "size": {
+        "source": "1254x1254 RGB",
+        "final": "1024x1024 RGB PNG"
+      },
+      "purpose": "Shared cool silver-grey base color for bare galvanized roof metal, gutters, bath vessels and bridge/well hardware. Corrugations, seams, rivets, handles and other form remain geometry.",
+      "uv_contract": "Opaque square tile on real metric UVs. No roof waves, seams, rivets or object details baked into the image. Metallic response remains in the runtime material.",
+      "surface_scale": "Nominal 0.5x0.5 m per tile following prompt-book M01; receiver UV scale still requires review per mesh.",
+      "reuse_check": "Existing roof_metal_v2_albedo.png was visually checked and excluded for smooth galvanized receivers: its corrugations, rivets, rust and lichen are baked into the image.",
+      "visual_check": "Viewed full size and in a 3x3 repeat after export. Cool silver-grey, quiet low-contrast grain with no distinct focal repeat or strong grid; no baked light, highlight, shadow, rust, geometry, text or perspective. UV scale and metallic response remain unverified in runtime."
+    },
+    {
+      "request_ids": [
+        "TX29-06",
+        "TX29-24"
+      ],
+      "file": "public_concrete_v1_basecolor.png",
+      "prompt": "Simplify the attached concrete base-color tile much further for a stylized low-poly game environment. Remove almost all visible grain: erase tiny aggregate points, dark speckles, pinholes and sharp micro-texture. Aim for a calm, nearly smooth medium warm-grey concrete pigment with only a few very soft broad cloudy tonal variations, low contrast and no directional marks. It should read as maintained Soviet village cast concrete at normal game distance, not sand, stone, terrazzo or a photograph. Keep a flat orthographic RGB base-color surface and seamless opposite edges. No shadow, lighting, reflection, highlights, cracks, stains, marks, slabs, steps, bevels, objects, text, symbols or perspective. Return one square texture.",
+      "tool": "OpenAI built-in ImageGen (final output edited with ImageGen); native sips used only to normalize output dimensions",
+      "size": {
+        "source": "1254x1254 RGB",
+        "final": "1024x1024 RGB PNG"
+      },
+      "purpose": "Shared base color for maintained village public-stop and stair concrete surfaces. No slabs, steps, cracks, snow, contact or edges are drawn; those belong to geometry.",
+      "uv_contract": "Opaque square repeating tile mapped over real metric UVs; nominal 1x1 m per tile. Starting material response: roughness=0.9, metallic=0. Relief, step edges, openings and contact remain geometry.",
+      "surface_scale": "Metric: 1x1 m per tile; scale UVs on each receiver consistently. Runtime UV density is not verified.",
+      "visual_check": "Viewed at full size and as a 3x3 repeat. Muted warm medium-grey concrete with restrained broad tonal variation and almost imperceptible aggregate; calm enough for the game's painterly low-poly environment. No obvious repeat boundary, focal mark, pits, cracks, baked light, highlights, text or perspective. Game lighting and receiving UVs were not runtime-verified."
+    },
+    {
+      "request_ids": [
+        "TX29-09",
+        "TX29-10"
+      ],
+      "file": "birch_plywood_varnished_v1_basecolor.png",
+      "prompt": "Refine the attached birch veneer base-color tile. Shift its vivid yellow-orange toward a quieter, lighter honey-blond / pale straw birch with neutral warm-beige undertone; reduce saturation and contrast while keeping it clearly wood, not white or grey. Preserve subtle straight vertical grain with restrained warm pigment variation and few low-contrast pores; no knots, dark marks or plank seams. Make the texture repeat seamlessly on all four edges: vertical fibers crossing the left edge must continue at the same height from the right edge, and tonal grain at top and bottom must wrap without a line. A 3x3 repeat should show no tile boundaries. Flat orthographic RGB base-color pigment only; no varnish glare, highlights, shadows, lighting gradients, perspective, objects, text, symbols or frame. Return one square tile.",
+      "tool": "OpenAI built-in ImageGen (final output edited with ImageGen); native sips used only to normalize output dimensions",
+      "size": {
+        "source": "1254x1254 RGB",
+        "final": "1024x1024 RGB PNG"
+      },
+      "purpose": "Shared light birch face-veneer base color for school and household plywood chair surfaces. No boards, cut edges, banding, upholstery, folds, joints or hardware are drawn.",
+      "uv_contract": "Opaque square repeating face-veneer tile on real UVs; nominal 0.5x0.5 m per tile. Keep the vertical grain aligned to the broad veneer face. Starting material response: roughness=0.48, metallic=0; real varnish response stays in the material.",
+      "surface_scale": "Metric: 0.5x0.5 m per tile; adjust mapping per chair receiver. Curved plywood layers, edge rounding and grain direction on each mesh require review; runtime UV density is not verified.",
+      "visual_check": "Viewed full size and in a 3x3 repeat. Light honey-blond birch with quiet straight vertical grain and low-contrast pores; no plank borders, dominant knots, folds, glossy streaks, baked lighting, text or perspective. Repeat has only faint low-contrast tonal transitions at enlarged boundaries. Runtime appearance and receiver UVs were not verified."
+    },
+    {
+      "request_ids": [
+        "TX29-09",
+        "TX29-17"
+      ],
+      "file": "school_laminate_beige_v1_basecolor.png",
+      "prompt": "Refine the attached school melamine laminate base-color tile so it reads as a manufactured Soviet desk laminate, not concrete or terrazzo. Preserve the warm pale beige ground, but remove the large dark and pale aggregate chips. Reduce speckle size and contrast strongly: only fine, sparse, low-contrast warm-grey mineral dots should remain, subtle at normal game distance. Keep the broad surface calm and evenly pigmented, with no wood grain, printed pattern, boards, edges, scratches, burn marks or dirt. Flat orthographic RGB base-color only, no light, shadows, highlights, gloss streaks or depth. Keep opposite edges seamless for repeating. No object, text, symbols, perspective or mockup. Return one square texture.",
+      "tool": "OpenAI built-in ImageGen (final output edited with ImageGen); native sips used only to normalize output dimensions",
+      "size": {
+        "source": "1254x1254 RGB",
+        "final": "1024x1024 RGB PNG"
+      },
+      "purpose": "Shared pale-beige melamine base color for selected school desk/table top surfaces. No wood grain, boards, edge banding, legs, cut edge or hardware is drawn.",
+      "uv_contract": "Opaque square repeating tile on real metric UVs; nominal 1x1 m per tile. Starting material response: roughness=0.4, metallic=0. Desk edge banding and chipboard cut edge are separate mesh/material components.",
+      "surface_scale": "Metric: 1x1 m per tile; map only to selected horizontal laminate tops and review UV density on each receiver. Runtime UVs are not verified.",
+      "visual_check": "Viewed full size and in a 3x3 repeat. Warm pale-beige manufactured laminate with fine sparse low-contrast mineral speckle; no large aggregate chips, wood grain, printed pattern, baked lighting, gloss streaks, text or perspective. No obvious repeat boundary at review scale. Runtime appearance and receiving UVs were not verified."
+    },
+    {
+      "request_ids": [
+        "TX29-11"
+      ],
+      "file": "school_green_chalkboard_v1_basecolor.png",
+      "prompt": "Use case: stylized-concept. Asset type: one wide landscape 3:2 RGB base-color surface map for a real 3D Soviet-era school chalkboard in URMAN, an ordinary Tatar village in winter 2026. The image is only the flat green coated board face, intended for a 2 m x 1 m rectangular mesh surface. Material: restrained dark forest-green matte chalkboard enamel with subtle diffuse erased-chalk haze and very fine quiet surface wear, evenly distributed and low contrast. Calm painterly low-poly environment style matching URMAN, muted institutional Soviet palette. Composition: front-on orthographic full-bleed rectangle, no perspective; surface fills the entire image, with no frame or tray. Lighting: uniform neutral base-color pigment only, no baked directional light or gloss. Avoid: any letters, words, numbers, equations, diagrams, decorative marks, chalk stick, chalk line, border, frame, tray, fittings, scratches, strong smears, dust vignette, reflections, highlights, shadows, gradients, ambient occlusion, perspective, mockup, objects, logos, dates, watermark or collage. The frame, sheet thickness, tray, mount and real writing are authored separately as geometry or runtime content.",
+      "tool": "OpenAI built-in ImageGen",
+      "size": {
+        "source": "1536x1024 RGB",
+        "final": "1536x1024 RGB PNG"
+      },
+      "purpose": "Dedicated base-color surface for the front face of the school classroom chalkboard. No frame, tray, fittings, sheet thickness or writing is baked in.",
+      "uv_contract": "Map the full image to the straight-on board face with the requested 2x1 m surface extent. Starting material response: roughness=0.9, metallic=0. The source image is 3:2 while the target surface is 2:1; check UV aspect on the actual board mesh before runtime acceptance.",
+      "surface_scale": "Target physical surface: 2x1 m, one unique board-face map. UV layout and resulting texel density have not been checked on the actual mesh.",
+      "visual_check": "Viewed at full resolution. Muted dark forest-green matte board with soft, low-contrast erased-chalk haze; no legible marks, symbols, frame, tray, fittings, baked directional light, glare, shadow or perspective. Fits the understated Soviet classroom palette. Runtime/mesh UV and aspect mapping remain unverified."
+    },
+    {
+      "request_ids": [
+        "TX29-13",
+        "TX29-14"
+      ],
+      "file": "burgundy_seat_upholstery_v1_basecolor.png",
+      "prompt": "Use case: stylized-concept. Create a seamless square RGB base-color tile for a muted burgundy seat upholstery material in URMAN's ordinary Soviet village house of culture. Real material: dense matte wool-blend upholstery, well maintained. The color is deep wine-burgundy with restrained warm variation, not vivid red. At normal game distance the surface should read as quiet continuous cloth; show only extremely subtle broad fiber mottling and tiny irregular short-fiber variation. Do not depict a visible weave grid or individual loops. No knitted, crocheted, bouclé, carpet or raised pile texture. Style: painterly low-poly 3D material, low contrast and no photographic micro-noise. Flat orthographic base-color pigment only, balanced across the square, seamless on all four edges. No directional shading, light, shadows, highlights, reflection, folds, wrinkles, seam, stitching, piping, cushion silhouette, worn hole, stain, pattern, ornament, text, symbol, object, perspective or mockup. Chair padding and sewing are geometry.",
+      "tool": "OpenAI built-in ImageGen; native sips used only to normalize output dimensions",
+      "size": {
+        "source": "1254x1254 RGB",
+        "final": "1024x1024 RGB PNG"
+      },
+      "purpose": "Shared muted burgundy base color for house-of-culture chair upholstery and stage curtain velvet. Chair cushioning and sewing are geometry; curtain folds are geometry, with velvet grazing response supplied by the runtime material.",
+      "uv_contract": "Opaque square repeating tile on real metric UVs; nominal 0.35x0.35 m per seat tile and 0.5x0.5 m per stage-curtain tile. Starting material responses: seat roughness=0.92, velvet roughness=0.97, metallic=0. Velvet nap sheen remains a runtime material response.",
+      "surface_scale": "Metric: 0.35x0.35 m for chair upholstery; 0.5x0.5 m for stage curtain velvet. Map each receiver at its scale. Runtime UV density and material response are not verified.",
+      "visual_check": "Viewed full size and in a 3x3 repeat. Muted wine-burgundy, matte continuous fabric with very subtle fiber mottling; no knitted loops, strong weave grid, pattern, folds, seams, baked shadow, highlight, text or perspective. No prominent tile boundary at review scale. Reused as the shared diffuse base color for TX29-14; velvet pile and shader sheen are not represented by folds or lighting in the map and must come from material response and geometry. Runtime and receiver UVs were not verified.",
+      "reuse_note": "TX29-14 reuses this generated TX29-13 base-color tile to avoid a near-duplicate burgundy fabric map. Stage-velvet differences come from runtime roughness/shader sheen and curtain geometry."
+    },
+    {
+      "request_ids": [
+        "TX29-06"
+      ],
+      "file": "public_red_brick_v1_basecolor.png",
+      "prompt": "Edit the attached landscape 3:2 brick base-color texture. Remove the thin bright top bevels, dark lower-edge outlines and any apparent cast shadow around the brick faces. Each brick should be a flat, evenly lit terracotta pigment field with only very subtle non-directional color variation. Mortar should be one uniform pale neutral grey band, with no dark inner outline, occlusion, depth or bevel. Preserve the current exact running-bond layout and dimensions: four equal brick widths across the repeat and eight course periods vertically, with the border course continuing cleanly between top and bottom. Preserve equal brick face sizes, alternating half-brick offsets and seamless continuation at all four borders. Keep the same muted red-clay palette and 1536x1024 landscape proportions. Base color only: no light, shadows, ambient occlusion, highlights, reflections, gradients, damage, graffiti, text, symbols, frame or mockup. Return one flat orthographic tile.",
+      "tool": "OpenAI built-in ImageGen (final result edited with ImageGen); native sips used only to normalize output dimensions",
+      "size": {
+        "source": "1536x1024 RGB",
+        "final": "1024x1024 RGB PNG"
+      },
+      "purpose": "Shared red-clay brick and pale mortar base color for village public-building masonry and stove facing. Physical joint relief, corners, wall openings and edges remain geometry.",
+      "uv_contract": "Opaque repeating tile with four brick widths and eight course periods. Target metric tile extent 1.056x0.624 m per the detailed production receipt; standard brick faces approximately 250x65 mm and pale 14 mm mortar. Starting material response: roughness=0.9, metallic=0. Verify receiver UVs and actual mapping before runtime use.",
+      "surface_scale": "Metric target: 1.056x0.624 m per tile; map on real wall/stove UVs so brick and mortar dimensions remain consistent. Runtime UV density is not verified.",
+      "visual_check": "Viewed full size and in a 3x3 repeat after export. Muted red-clay faces and pale-grey mortar form a running-bond pattern with four brick widths and eight course periods per repeat; the edge course continues across the tile boundary. Bevel shading and baked light are absent; no prominent tile boundary, graffiti, text or perspective. Mesh UV scale and runtime lighting remain unverified."
+    },
+    {
+      "request_ids": [
+        "TX29-19"
+      ],
+      "file": "unglazed_earthenware_v1_basecolor.png",
+      "prompt": "Edit the supplied image into a production-ready seamless base-color tile for a real 3D material. Preserve its square dimensions, flat orthographic view, opaque RGB appearance, and continuous texture across all four borders.\n\nThe current surface is too orange and densely covered with dark pores. Replace that with modest Soviet-era everyday earthenware: subdued warm clay-beige / buff, low saturation, broad faint firing variation, a soft painterly material field, only very sparse tiny pores with no dark pits, gravel, or gritty noise. Keep the material visibly ceramic rather than plaster, but calm and clean enough for a small household bowl. Subtle Tatar regional character only through restrained natural clay color, absolutely no folk ornament.\n\nNo object silhouette, rim, pattern, cracks, lettering, perspective, directional light, shadow, ambient-occlusion border, reflection, baked highlight, or central focal feature. Keep the left/right and top/bottom edges seamlessly tileable.",
+      "tool": "OpenAI built-in ImageGen; native sips used only to normalize output dimensions",
+      "size": {
+        "source": "1254x1254 RGB",
+        "final": "1024x1024 RGB PNG"
+      },
+      "purpose": "Unglazed ceramic base color for the identified household bowl material slot; restrained Soviet everyday earthenware with no decoration. Geometry supplies vessel profile and rim; runtime material supplies roughness (initial target 0.9, metallic 0).",
+      "uv_contract": "Seamless RGB tile on the real vessel UV; nominal 0.5x0.5 m tile from prompt book. No atlas/layout was invented; receiver UVs not runtime-verified.",
+      "surface_scale": "0.5x0.5 m nominal tile scale per M10 prompt-book entry.",
+      "visual_check": "Viewed at full size and as a 3x3 repeat before export. Muted clay-beige with broad low-contrast firing variation and sparse fine pores; no object, ornament, directional shading or baked gloss. Repeat edges have subtle low-contrast tonal transitions, not a prominent seam. Final 1024 export still requires receiver/runtime review."
+    },
+    {
+      "request_ids": [
+        "TX29-19"
+      ],
+      "file": "glazed_ceramic_cream_v1_basecolor.png",
+      "prompt": "For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.\n\nGenerate one square seamless base-color texture, material only, flat orthographic surface filling the entire image. Tile continuously on all four edges, balanced detail with no central focal mark. Neutral even illumination: no directional shadows, ambient-occlusion borders, reflections or baked highlights. No perspective, object silhouette, text, logo, watermark, border, sample sphere, mockup or collage. Output only the single opaque RGB texture image, not a PBR map sheet.\n\nMaterial request: Quiet warm cream ceramic glaze base color, slight ivory variation and minimal material imperfections. No plate rim, painted floral centerpiece, object shape, reflections, highlights or visible crackle network. Understated maintained household finish. It should feel like plain, practical Soviet-era tableware; keep the Tatar village context subtle and use no folk ornament.",
+      "tool": "OpenAI built-in ImageGen; native sips used only to normalize output dimensions",
+      "size": {
+        "source": "1254x1254 RGB",
+        "final": "1024x1024 RGB PNG"
+      },
+      "purpose": "Cream-glazed ceramic base color for household cups and simple tableware. Vessel form, rims and handles remain geometry; glaze response remains a receiver material property (initial target roughness 0.28, metallic 0).",
+      "uv_contract": "Seamless RGB tile on real vessel UVs; nominal 0.5x0.5 m tile from M11 prompt-book entry. No atlas/layout was invented; receiver UVs not runtime-verified.",
+      "surface_scale": "0.5x0.5 m nominal tile scale per M11 prompt-book entry.",
+      "visual_check": "Viewed at full size and in a 3x3 repeat before export. Warm ivory ceramic with restrained broad variation and sparse fine imperfections; no central mark, ornament, object, baked gloss or directional shading. Mean source border difference was about 3.3 RGB levels on both axes; no visible repeat seam in the preview. Final receiver/runtime review remains pending."
+    }
+  ],
+  "pending_requests": [
+    {
+      "request_ids": [
+        "TX29-22"
+      ],
+      "status": "awaiting_input",
+      "file": null,
+      "prompt": null,
+      "tool": "not invoked",
+      "size": "Not generated; requested 1024x1024 RGB PNG",
+      "purpose": "One original wheat-and-sun ceramic mosaic mural panel for the bus-shelter back wall, with no words or dates.",
+      "uv_contract": "Non-tileable 2x1 m mural requires the actual single-panel mesh and its real UV island. Current BuildBusPavilion has separate colored MosaicSun and MosaicSheaf boxes and no unified mural UV surface.",
+      "surface_scale": "Target 2x1 m from the production receipt; actual mesh extent and UV layout are absent.",
+      "visual_check": "Not generated or visually reviewed. Waiting for the unified mural surface and actual UV layout; no atlas was invented."
+    },
+    {
+      "request_ids": [
+        "TX29-19"
+      ],
+      "status": "partial_awaiting_material_audit",
+      "file": null,
+      "prompt": null,
+      "tool": "not invoked for unresolved surfaces",
+      "size": "No additional bitmap generated",
+      "purpose": "Ceramic M10/M11 and shared enamel are supplied. Aluminum/brass vessels still need named recipients and a material decision.",
+      "uv_contract": "No atlas requested for the unresolved metal surfaces; wait for recipient-specific material assignment before making another generic metal map.",
+      "surface_scale": "Pending recipient/material audit.",
+      "visual_check": "No additional surface generated or visually reviewed."
+    },
+    {
+      "request_ids": [
+        "TX29-21"
+      ],
+      "status": "awaiting_input",
+      "file": null,
+      "prompt": null,
+      "tool": "not invoked",
+      "size": "No atlas generated",
+      "purpose": "Paper/book/document atlas; textual content must be authored and tied to actual receivers.",
+      "uv_contract": "Await the exact receiving mesh and actual atlas UV islands before generating unique paper/document atlas.",
+      "surface_scale": "Pending receiver and UV layout.",
+      "visual_check": "Not generated or reviewed; no Cyrillic clues were invented."
+    },
+    {
+      "request_ids": [
+        "TX29-25"
+      ],
+      "status": "awaiting_input",
+      "file": null,
+      "prompt": null,
+      "tool": "not invoked",
+      "size": "No atlas generated",
+      "purpose": "Niva interior/seat material atlas.",
+      "uv_contract": "Await exact current vehicle atlas and actual UV islands; no cabin atlas was invented.",
+      "surface_scale": "Pending actual Niva UV layout.",
+      "visual_check": "Not generated or reviewed."
+    },
+    {
+      "request_ids": [
+        "TX29-26"
+      ],
+      "status": "awaiting_receiver_review",
+      "file": null,
+      "prompt": null,
+      "tool": "not invoked; inventory reuse candidate exists",
+      "size": "No new bitmap generated",
+      "purpose": "Existing bark/rock library candidates F01/F02; no new forest backdrop.",
+      "uv_contract": "Review actual vegetation/rock receiver UVs and scale before deciding if a new surface is missing.",
+      "surface_scale": "Pending receiver review; existing tile candidate only.",
+      "visual_check": "No new bitmap generated or reviewed in this run; silhouette/density belong to geometry/layout."
+    },
+    {
+      "request_ids": [
+        "TX29-27"
+      ],
+      "status": "awaiting_input",
+      "file": null,
+      "prompt": null,
+      "tool": "not invoked",
+      "size": "No atlas generated",
+      "purpose": "Current NPC clothing atlas; exclude Tamara.",
+      "uv_contract": "Await the exact current outfit atlas and supplied real UV layout; no character atlas was invented.",
+      "surface_scale": "Pending current outfit UV layout.",
+      "visual_check": "Not generated or reviewed."
+    }
+  ]
+}
