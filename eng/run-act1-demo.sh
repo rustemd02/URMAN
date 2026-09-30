@@ -13,6 +13,11 @@ GODOT="$URMAN_ROOT/.tools/godot/Godot_mono.app/Contents/MacOS/Godot"
 cd "$URMAN_ROOT"
 . "$URMAN_ROOT/eng/dotnet-env.sh"
 
+# Keep the player's existing saves intact during a local test session.
+if [ "${URMAN_PROTECTED_RUN:-0}" != "1" ]; then
+  exec python3 "$URMAN_ROOT/eng/protected_run.py" /bin/sh "$URMAN_ROOT/eng/run-act1-demo.sh" "$@"
+fi
+
 # Regenerate derived content and let MSBuild perform its incremental freshness
 # check. A failed refresh must never fall through to yesterday's runtime DLL.
 echo "act1-demo: refreshing campaign packs and checking the C# build"
@@ -27,6 +32,8 @@ if ! "$URMAN_ROOT/.tools/dotnet/dotnet" build game/Urman.Game.csproj \
 fi
 # Newly generated preview voice clips must be imported before the game can load them.
 echo "act1-demo: importing new assets"
-"$GODOT" --headless --path game --import >/dev/null 2>&1 ||
-  echo "act1-demo: asset import reported a problem; new voice clips may stay silent" >&2
+if ! "$GODOT" --headless --path game --import; then
+  echo "act1-demo: asset import failed; the game was not started" >&2
+  exit 1
+fi
 exec "$GODOT" --path game "$@"
