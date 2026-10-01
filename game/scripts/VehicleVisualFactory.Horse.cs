@@ -85,7 +85,7 @@ public static partial class VehicleVisualFactory
         foreach(var side in new[]{-1f,1f})foreach(var hind in new[]{false,true})
         {
             var x=side*(hind ? .235f : .225f);var z=hind ? -1.03f : -2.12f;
-            var upper=hind ? .59f : .57f;const float lower=.52f;
+            var upper=hind ? .59f : .60f;const float lower=.52f;
             var hip=new Node3D{Name="HorseLeg"+legs.Count,Position=new(x,hind?1.14f:1.12f,z)};horse.AddChild(hip);
             var thigh=new Batch(hip,hind?"ThighAndHock":"ForearmAndKnee");
             thigh.Loft(new[]{S(.085f,0,hind ? .145f : .105f,hind ? .17f : .115f),

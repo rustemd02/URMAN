@@ -36,8 +36,11 @@ public partial class VehicleSmokeTest : Node
             _demo=ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn").Instantiate<Act1DemoRoot>();AddChild(_demo);
             await Frames(10);
             Require(await this.StartThroughMainMenuAsync(_demo),"ordinary New Game");
-            _demo._UnhandledInput(new InputEventKey{Keycode=Key.E,PhysicalKeycode=Key.E,Pressed=true});
+            DisplayServer.WindowMoveToForeground();
+            _demo._Input(new InputEventAction{Action="ui_cancel",Pressed=true});
+            for(var frame=0;frame<600&&_demo.PrologueActive;frame++)await Frames(1);
             await Frames(8);
+            Require(!_demo.PrologueActive&&!_demo.IntroVisible,"production skip finishes before vehicle checks");
             _player=_demo.DemoMain.GetNode<FirstPersonController>("Player");
             _camera=_player.GetNode<Camera3D>("Head/Camera3D");
             _bridge=(RuntimeBridge)GetTree().GetFirstNodeInGroup("runtime_bridge");
