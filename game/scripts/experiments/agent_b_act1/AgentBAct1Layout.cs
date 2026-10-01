@@ -15,7 +15,23 @@ public static class AgentBAct1Layout
 {
     public const float EyeHeight = 1.7f;
     // Public centre between inhabited quarters; the street continues behind school.
-    public static readonly Vector2 CivicCentre = new(.5f, 114f);
+    // Relayout v3, stage 3 (2026-10-01): the civic centre is the paved square Мәйдан
+    // west of the main street (docs/production/village_relayout_2026-10-01/plan.json).
+    public static readonly Vector2 CivicCentre = new(-15.5f, 48f);
+
+    /// <summary>The paved square Мәйдан: x0, x1, z0, z1 (plan.json "plaza").</summary>
+    public static readonly (float X0, float X1, float Z0, float Z1) PlazaRect = (-28f, -3f, 33f, 63f);
+
+    public static bool InsidePlaza(Vector2 point, float margin = 0f)
+        => point.X >= PlazaRect.X0 - margin && point.X <= PlazaRect.X1 + margin
+           && point.Y >= PlazaRect.Z0 - margin && point.Y <= PlazaRect.Z1 + margin;
+
+    /// <summary>Pedestrian walk round the square's central garden, linked to the main street.</summary>
+    public static readonly Vector2[] PlazaWalkAxis =
+    {
+        new(-1.8f, 48f), new(-5.5f, 48f), new(-5.5f, 36f), new(-25.5f, 36f), new(-25.5f, 60f),
+        new(-5.5f, 60f), new(-5.5f, 48f)
+    };
 
     // ---- Terrain envelope -------------------------------------------------
     public const float TerrainMinX = -64f;
@@ -68,23 +84,6 @@ public static class AgentBAct1Layout
         new Vector2(-44f, 178f),
     };
 
-    // Ring road round the open square (width 4.8 m); starts and ends at the south entry.
-    public static readonly Vector2[] SquareRingAxis = new[]
-    {
-        new Vector2(0.5f, 105.5f),
-        new Vector2(4.75f, 106.64f),
-        new Vector2(7.86f, 109.75f),
-        new Vector2(9f, 114f),
-        new Vector2(7.86f, 118.25f),
-        new Vector2(4.75f, 121.36f),
-        new Vector2(0.5f, 122.5f),
-        new Vector2(-3.75f, 121.36f),
-        new Vector2(-6.86f, 118.25f),
-        new Vector2(-8f, 114f),
-        new Vector2(-6.86f, 109.75f),
-        new Vector2(-3.75f, 106.64f),
-        new Vector2(0.5f, 105.5f),
-    };
 
     public static readonly Vector2[] NorthEastStreetAxis =
     {
@@ -207,13 +206,12 @@ public static class AgentBAct1Layout
     // tools/world/generate_north_street.py SQUARE_BUILDING_CLEARANCE.
     public static readonly (float X, float Z, float Radius)[] SquareBuildingClearance =
     {
-        (-12f, 138f, 10f),
-        (-2f, 138f, 10f),
-        (8f, 138f, 10f),
-        (-26f, 111f, 13f),
-        (25f, 112f, 10f),
-        (-32.5f, 140f, 8f),
-        (-9f, 96f, 4f),
+        (-17.5f, 71.5f, 15f),   // school
+        (-37.5f, 48f, 12f),     // house of culture
+        (11f, 52f, 9f),         // former sovkhoz office
+        (-15.5f, 27f, 6f),      // closed post office
+        (-15.5f, 48f, 17f),     // the square itself
+        (-5f, 20f, 4f),         // bus pavilion
     };
 
     public static bool InsideSquareBuildingClearance(Vector2 point)

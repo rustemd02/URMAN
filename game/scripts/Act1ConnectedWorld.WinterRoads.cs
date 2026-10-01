@@ -80,7 +80,7 @@ public partial class Act1ConnectedWorld
         var axes = new (string Name, Vector2[] Points, float Half)[]
         {
             ("Main", main, 2.8f), ("Lower", AgentBAct1Layout.EastStreetAxis, 2f),
-            ("West", AgentBAct1Layout.WestSpurAxis, 1.75f), ("Square", AgentBAct1Layout.SquareRingAxis, 2.4f),
+            ("West", AgentBAct1Layout.WestSpurAxis, 1.75f),
             ("EastLane", AgentBAct1Layout.NorthEastStreetAxis, 1.75f), ("Service", AgentBAct1Layout.WestServiceAxis, 1.75f),
             ("BridgeApproach", AgentBAct1Layout.BridgeApproachAxis.Where(p => p.X <= 41.5f).ToArray(), 2.3f),
             ("SchoolRearLink", AgentBAct1Layout.NorthCrossStreetAxis, 2f), ("NorthReturnLink", AgentBAct1Layout.NorthReturnStreetAxis, 2.4f)

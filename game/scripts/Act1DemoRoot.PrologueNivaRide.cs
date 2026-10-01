@@ -62,34 +62,17 @@ public partial class Act1DemoRoot
                     path.Add(new(at.X, 0, at.Y));
             }
         }
-        var south = AgentBAct1Layout.MainRoadAxis
-            .Where(point => point.Y >= 40 && point.Y <= AgentBAct1Layout.CivicCentre.Y - 8.5f).Reverse().ToArray();
-        Lane(south, RideLane);
-        var ring = AgentBAct1Layout.SquareRingAxis.Reverse().ToArray();
-        var centre = AgentBAct1Layout.CivicCentre;
-        // Clockwise in the world's XZ basis: the outside of the island is the
-        // right-hand lane. Leave at the west junction for the inhabited north.
-        void Ring(IEnumerable<Vector2> points)
-        {
-            foreach (var point in points)
-            {
-                var at = point + (point - centre).Normalized() * RideLane;
-                path.Add(new(at.X, 0, at.Y));
-            }
-        }
-        var junction = Array.FindIndex(ring, p => p.IsEqualApprox(new Vector2(-8, 114)));
-        Ring(ring.Take(junction + 1));
-        var mainNorth = AgentBAct1Layout.MainRoadAxis.Where(p => p.Y >= 114).Reverse().ToArray();
+        // North along the main street past the square Мәйдан (relayout v3: it is on the west
+        // side between z 33 and 63), round the inhabited north loop and back down the other lane.
+        var mainNorth = AgentBAct1Layout.MainRoadAxis.Where(p => p.Y >= 40).Reverse().ToArray();
         Lane(mainNorth, RideLane);
         Lane(AgentBAct1Layout.NorthReturnStreetAxis, .65f);
         var eastReturn = AgentBAct1Layout.NorthEastStreetAxis.Where(p => p.Y <= 220).Reverse().ToArray();
         Lane(new[] { new Vector2(20, 220) }.Concat(eastReturn).ToArray(), .65f);
         Lane(AgentBAct1Layout.NorthCrossStreetAxis.Reverse().ToArray(), .9f);
         var mainReturn = new[] { new Vector2(-23, 151) }
-            .Concat(AgentBAct1Layout.MainRoadAxis.Where(p => p.Y < 151 && p.Y >= 114)).ToArray();
+            .Concat(AgentBAct1Layout.MainRoadAxis.Where(p => p.Y < 151 && p.Y >= 40)).ToArray();
         Lane(mainReturn, RideLane);
-        Ring(ring.Skip(junction + 1));
-        Lane(south.Reverse().ToArray(), RideLane);
         path.Add(new(1.3f, 0, 9f));
         path.Add(new(1.3f, 0, 1f));
         path.Add(new(-1.65f, 0, 1f));
@@ -276,20 +259,21 @@ public partial class Act1DemoRoot
         // Tour of the village: each remark waits for the previous one to finish
         // and for the car to reach its place, so nothing talks over anything.
         var northLeg = RideMark(0f + RideLane, 9f, 60f);
-        var ringStart = RideMark(.5f, 105.5f, northLeg);
+        // The square comes first now (z 33-63 on the left), then the lower street and the fields.
+        var squareAt = RideMark(1.2f + RideLane, 46f, northLeg);
         var villageBarks = new (float At, string Id)[]
         {
             (3f, "prologue-ride-bark-bridge"),
             (RideMark(32f, -24.2f), "prologue-ride-bark-fap"),
             (RideMark(0f, -10f), "prologue-ride-bark-street"),
             (northLeg + 6f, "prologue-ride-bark-edge"),
-            (RideMark(1.2f + RideLane, 62f, northLeg), "prologue-ride-bark-fields"),
-            (RideMark(1.2f + RideLane, 75f, northLeg), "prologue-ride-bark-lower-street"),
-            (RideMark(-1.4f + RideLane, 88f, northLeg), "prologue-ride-bark-square-road"),
-            (ringStart, "prologue-ride-bark-square"),
-            (ringStart + 24f, "prologue-ride-bark-square-year"),
-            (RideMark(-1.4f - RideLane, 88f, ringStart), "prologue-ride-bark-back"),
-            (RideMark(0f - RideLane, 20f, ringStart), "prologue-ride-bark-home")
+            (RideMark(0f + RideLane, 26f, northLeg), "prologue-ride-bark-square-road"),
+            (squareAt, "prologue-ride-bark-square"),
+            (RideMark(1.2f + RideLane, 62f, northLeg), "prologue-ride-bark-square-year"),
+            (RideMark(-0.1f + RideLane, 75f, northLeg), "prologue-ride-bark-lower-street"),
+            (RideMark(-1.4f + RideLane, 95f, northLeg), "prologue-ride-bark-fields"),
+            (RideMark(-1.4f - RideLane, 88f, squareAt + 60f), "prologue-ride-bark-back"),
+            (RideMark(0f - RideLane, 20f, squareAt + 60f), "prologue-ride-bark-home")
         };
         var villageBark = 0;
         var nextBarkReady = 0.0;
@@ -302,7 +286,8 @@ public partial class Act1DemoRoot
             var delta = (float)GetProcessDeltaTime();
             UpdateRideLook(dialogueUi?.IsOpen == true, delta);
             var remaining = villageLength - along;
-            var onRing = along >= ringStart - 8f && along <= ringStart + 52f;
+            // Slow past the square so it can be seen from the passenger seat.
+            var onRing = along >= squareAt - 14f && along <= squareAt + 20f;
             speed = Mathf.MoveToward(speed, remaining < 12f ? 1.6f : onRing ? 3.2f : along > northLeg ? 5.2f : 4.2f, 1.8f * delta);
             along += speed * delta;
             var before = _rideNiva.GlobalPosition;

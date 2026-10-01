@@ -5,6 +5,8 @@ namespace Urman.Godot;
 
 public partial class Act1ConnectedWorld
 {
+    // Relayout v3 stage 3: the civic square Мәйдан lies west of the main street in the middle of
+    // the open part (plan.json); DK, school and post face it, the office faces it across the street.
     // Civic square is surrounded by old and new inhabited quarters. School and
     // DK have real interiors; office/post are closed. All transforms and terrain
     // clearances move together with the connected road and prologue route.
@@ -25,7 +27,7 @@ public partial class Act1ConnectedWorld
         var trim = PainterlyMaterialLibrary.ForColor("eeeae0", "wood_painted_trim");
 
         // Old two-storey school: long, many windows, upper floor partly boarded.
-        var school = SquareBuilding(square, "OldSchool", new(-2f, 138f), 28f, 11f, 3.4f, 2, PainterlyMaterialLibrary.ForColor("e2d6b8", "plaster"), roofPitch: 16f, hollow: true);
+        var school = SquareBuilding(square, "OldSchool", new(-17.5f, 71.5f), 28f, 11f, 3.4f, 2, PainterlyMaterialLibrary.ForColor("e2d6b8", "plaster"), roofPitch: 16f, hollow: true);
         _squareSchool = school;
         SquareWeatherShelter(school, new(0, 3.4f, 0), new(13.65f, 3.4f, 5.15f));
         SquarePorch(school, 11f, 3.2f, trim, open: true);
@@ -33,7 +35,7 @@ public partial class Act1ConnectedWorld
         SquareSign(school, new(0, 3.6f, 5.7f), "КАРА-УРМАН УРТА МӘКТӘБЕ\nКАРА-УРМАНСКАЯ СРЕДНЯЯ ШКОЛА", 62, new Color(.15f, .18f, .28f));
 
         // House of culture: a tall hall behind a four-column portico and pediment.
-        var club = SquareBuilding(square, "HouseOfCulture", new(-26f, 111f), 18f, 14f, 6.8f, 1, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), roofPitch: 12f, hollow: true);
+        var club = SquareBuilding(square, "HouseOfCulture", new(-37.5f, 48f), 18f, 14f, 6.8f, 1, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), roofPitch: 12f, hollow: true);
         SquareWeatherShelter(club, new(0, 3.4f, 0), new(8.65f, 3.4f, 6.65f));
         SquarePortico(club, 18f, 14f, 6.8f, trim, open: true);
         BuildClubInterior(club, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), PainterlyMaterialLibrary.ForColor("eeeae0", "wood_painted_trim"));
@@ -41,13 +43,13 @@ public partial class Act1ConnectedWorld
         SquarePoster(club, new(-6.2f, 1.6f, 7.2f), "САБАНТУЙ\nиюнь");
 
         // Former sovkhoz office: two storeys, brick, a faded plaque.
-        var office = SquareBuilding(square, "SovkhozOffice", new(25f, 112f), 14f, 9f, 3.2f, 2, brick, roofPitch: 22f);
+        var office = SquareBuilding(square, "SovkhozOffice", new(11f, 52f), 14f, 9f, 3.2f, 2, brick, roofPitch: 22f);
         SquareWindows(office, 14f, 9f, 3.2f, 2, 5, trim, lit: index => index == 0);
         SquarePorch(office, 9f, 2.6f, trim);
         SquareSign(office, new(2.9f, 2.2f, 4.58f), "«КАРА УРМАН» СОВХОЗЫ\nИДАРӘСЕ · КОНТОРА", 30, new Color(.15f, .15f, .15f));
 
         // The closed post office: boarded door and a note about letters.
-        var post = SquareBuilding(square, "PostOffice", new(-32.5f, 140f), 9f, 7f, 3.1f, 1, PainterlyMaterialLibrary.ForColor("aebfcf", "wood_painted_blue"), roofPitch: 28f);
+        var post = SquareBuilding(square, "PostOffice", new(-15.5f, 27f), 9f, 7f, 3.1f, 1, PainterlyMaterialLibrary.ForColor("aebfcf", "wood_painted_blue"), roofPitch: 28f);
         SquareWindows(post, 9f, 7f, 3.1f, 1, 2, trim, lit: _ => false, boarded: (_, _) => true);
         SquarePorch(post, 7f, 2.3f, trim, boardedDoor: true);
         SquareSign(post, new(0, 2.7f, 3.62f), "ПОЧТА", 120, new Color(.12f, .25f, .55f));
@@ -75,7 +77,8 @@ public partial class Act1ConnectedWorld
         Address(post, "POST", "18", "URM-Q03-P0004", -3.7f, "Walls", 7f, 1.3f, "post");
 
         // Where the bus used to turn: a concrete pavilion by the road.
-        BuildBusPavilion(square, new(-9f, 96f));
+        BuildBusPavilion(square, new(-5f, 20f));
+        BuildPlazaPaving(square);
         BuildWinterCivicGarden(square, new[] { school, club, office, post });
         BuildNorthWinterRoads(core);
     }
@@ -338,6 +341,55 @@ public partial class Act1ConnectedWorld
         foreach (var side in new[] { -2.1f, 2.1f })
             body.AddChild(new CollisionShape3D { Position = new(side, 1.25f, -.35f), Shape = new BoxShape3D { Size = new Vector3(.2f, 2.5f, 1.4f) } });
         pavilion.AddChild(body);
+    }
+
+    // The square's surface: packed, swept winter snow over the paving, laid on the levelled
+    // terrain (AgentBAct1HeightField.LevelPlaza) as a top surface with no collider of its own.
+    private static void BuildPlazaPaving(Node3D square)
+    {
+        var r = AgentBAct1Layout.PlazaRect;
+        const float cell = 1f;
+        using var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        Vector3 P(float x, float z) => new(x, AgentBAct1HeightField.CollisionGround(x, z) + .02f, z);
+        for (var z = r.Z0; z < r.Z1 - .001f; z += cell)
+        for (var x = r.X0; x < r.X1 - .001f; x += cell)
+        {
+            var x1 = Mathf.Min(x + cell, r.X1); var z1 = Mathf.Min(z + cell, r.Z1);
+            foreach (var v in new[] { P(x, z), P(x1, z1), P(x, z1), P(x, z), P(x1, z), P(x1, z1) })
+            {
+                surface.SetUV(new Vector2(v.X, v.Z) * .25f);
+                surface.AddVertex(v);
+            }
+        }
+        surface.Index();
+        surface.GenerateNormals();
+        var paving = new MeshInstance3D
+        {
+            Name = "MaidanPaving", Mesh = surface.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("d5d8d8", "snow_trampled"),
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        };
+        paving.SetMeta("presentationOnly", true);
+        paving.SetMeta("collisionOwner", "AgentB_TerrainCollision");
+        paving.SetMeta("mapLabel", "Мәйдан");
+        square.AddChild(paving);
+        // A low stone kerb marks the edge of the square where it meets the yards.
+        var kerb = PainterlyMaterialLibrary.ForColor("8f8a82", "stone");
+        foreach (var (a, b) in new[] { (new Vector2(r.X0, r.Z0), new Vector2(r.X1, r.Z0)), (new Vector2(r.X0, r.Z1), new Vector2(r.X1, r.Z1)),
+                     (new Vector2(r.X0, r.Z0), new Vector2(r.X0, r.Z1)) })
+        {
+            var mid = (a + b) * .5f; var length = a.DistanceTo(b);
+            var along = b - a; var yaw = Mathf.Atan2(along.X, along.Y);
+            var y = AgentBAct1HeightField.CollisionGround(mid.X, mid.Y);
+            var piece = new MeshInstance3D
+            {
+                Name = "MaidanKerb" + square.GetChildCount(), Mesh = new BoxMesh { Size = new Vector3(.25f, .12f, length) },
+                MaterialOverride = kerb, Position = new Vector3(mid.X, y + .04f, mid.Y), Rotation = new Vector3(0, yaw, 0)
+            };
+            piece.SetMeta("presentationOnly", true);
+            square.AddChild(piece);
+        }
     }
 
     // A winter village square: a modest permanent gathering platform and a

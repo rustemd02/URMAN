@@ -358,7 +358,7 @@ public partial class Act1ConnectedWorld
         Road("authored/west-service-axis","tukay",AgentBAct1Layout.WestServiceAxis,3.5,SettlementTravelMode.All);
         Road("authored/north-cross-axis","urman",AgentBAct1Layout.NorthCrossStreetAxis,4.0,SettlementTravelMode.All);
         Road("authored/north-return-axis","urman",AgentBAct1Layout.NorthReturnStreetAxis,4.8,SettlementTravelMode.All);
-        Road("authored/square-ring-axis","urman",AgentBAct1Layout.SquareRingAxis,4.8,SettlementTravelMode.All);
+        Road("authored/plaza-walk","urman",AgentBAct1Layout.PlazaWalkAxis,2.4,SettlementTravelMode.Foot);
         Road("authored/zirat-axis","tukay",AgentBAct1Layout.ZiratRoadAxis,4.2,SettlementTravelMode.All);
         Road("authored/kara-axis","",AgentBAct1Layout.KaraRoadAxis,3.5,SettlementTravelMode.Foot);  // crosses on the suspension bridge
         Road("authored/house-path","tukay",AgentBAct1Layout.HousePathAxis,1.15,SettlementTravelMode.Foot);

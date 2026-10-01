@@ -101,24 +101,8 @@ public static class AgentBAct1HeightField
         (-44f, 178f),
     };
 
-    // Ring road round the open square at the north end of the main street; it
-    // starts and ends at the street's last point (the south entry).
-    private static readonly (float X, float Z)[] SquareRingAxis =
-    {
-        (0.5f, 105.5f),
-        (4.75f, 106.64f),
-        (7.86f, 109.75f),
-        (9f, 114f),
-        (7.86f, 118.25f),
-        (4.75f, 121.36f),
-        (0.5f, 122.5f),
-        (-3.75f, 121.36f),
-        (-6.86f, 118.25f),
-        (-8f, 114f),
-        (-6.86f, 109.75f),
-        (-3.75f, 106.64f),
-        (0.5f, 105.5f),
-    };
+    private static readonly (float X, float Z)[] PlazaWalk =
+        AgentBAct1Layout.PlazaWalkAxis.Select(point => (point.X, point.Y)).ToArray();
 
     private static readonly (float X,float Z)[] NorthEastStreetAxis =
     {
@@ -144,7 +128,7 @@ public static class AgentBAct1HeightField
         (MainAxis, HalfWidths[0]), (FapAxis, HalfWidths[1]),
         (AgentBAct1Layout.BridgeApproachAxis.Select(p => (p.X, p.Y)).ToArray(), 2.3),
         (HouseAxis, HalfWidths[2]), (ZiratAxis, HalfWidths[3]), (KaraAxis, HalfWidths[4]),
-        (EastStreetAxis, HalfWidths[5]), (WestSpurAxis, HalfWidths[6]), (SquareRingAxis, HalfWidths[7]), (NorthEastStreetAxis, 1.75), (WestServiceAxis, 1.75),
+        (EastStreetAxis, HalfWidths[5]), (WestSpurAxis, HalfWidths[6]), (PlazaWalk, 1.2), (NorthEastStreetAxis, 1.75), (WestServiceAxis, 1.75),
         (AgentBAct1Layout.NorthCrossStreetAxis.Select(p => (p.X, p.Y)).ToArray(), 2.0),
         (AgentBAct1Layout.NorthReturnStreetAxis.Select(p => (p.X, p.Y)).ToArray(), 2.4)
     }.Concat(FarBankRoads()).ToArray();
@@ -357,7 +341,29 @@ public static class AgentBAct1HeightField
         return result;
     }
 
-    public static double Terrain(float x, float z)
+    public static double Terrain(float x, float z) => LevelPlaza(x, z, RawTerrain(x, z));
+
+    private static double? _plazaLevel;
+
+    /// <summary>
+    /// The paved square Мәйдан is level: inside its rectangle the ground is the mean of the
+    /// unlevelled terrain there, blended back to the natural slope over 5 m outside it.
+    /// </summary>
+    private static double LevelPlaza(float x, float z, double h)
+    {
+        var r = AgentBAct1Layout.PlazaRect;
+        var dx = System.Math.Max(System.Math.Max(r.X0 - x, x - r.X1), 0.0);
+        var dz = System.Math.Max(System.Math.Max(r.Z0 - z, z - r.Z1), 0.0);
+        var outside = System.Math.Sqrt(dx * dx + dz * dz);
+        if (outside >= 5.0) return h;
+        _plazaLevel ??= Enumerable.Range(0, 25).Average(i =>
+            RawTerrain(r.X0 + (r.X1 - r.X0) * (i % 5) / 4f, r.Z0 + (r.Z1 - r.Z0) * (i / 5) / 4f));
+        var t = outside / 5.0;
+        t = t * t * (3.0 - 2.0 * t);
+        return _plazaLevel.Value + (h - _plazaLevel.Value) * t;
+    }
+
+    private static double RawTerrain(float x, float z)
     {
         var h = (Fbm(x * 0.03 + 40.0, z * 0.03, 3) - 0.5) * 1.5;
         var west = System.Math.Clamp((-12.0 - x) / 34.0, 0.0, 1.0);
