@@ -437,6 +437,7 @@ public partial class Act1ConnectedWorld : Node3D
         RelocateOverlappingHouses();
         ComposeBabaiYard();
         BuildAuthoredWorld();
+        ClearGorgeOfLegacyPresentation();
         BuildAddressRegistry();
         // Street faces of the yards: palisadnik, painted gates, board fences.
         BuildStreetFrontages();
@@ -684,6 +685,7 @@ public partial class Act1ConnectedWorld : Node3D
         // its glazed openings; the exterior contacts remain separately disabled.
         ClinicSurfacePresentation.SetClinicActive(_zoneInstances["fap_clinic"], zoneId == "fap_clinic");
         UpdateOpeningBridge();
+        UpdateSuspensionBridge();
         UpdateAct1Discoveries();
         ApplyInteractionRouting();
     }
@@ -709,6 +711,7 @@ public partial class Act1ConnectedWorld : Node3D
     private void OnRuntimeStateChanged()
     {
         UpdateOpeningBridge();
+        UpdateSuspensionBridge();
         UpdateAct1NpcStaging();
         UpdateAct1Discoveries();
         ApplyInteractionRouting();
@@ -1092,10 +1095,9 @@ public partial class Act1ConnectedWorld : Node3D
         // for a real mosque in this part of the village: the hall, dome, closed
         // entrance and courtyard wall now stand around the existing minaret.
         AddVillageMosque(core, minaretAnchor);
-        // Canon boundary the author confirmed: the river separates the village from
-        // the forest, with an old broken bridge as the landmark. The road crosses at
-        // the authored culvert, which stays the only passable line.
-        AddVillageRiverAndBrokenBridge(core);
+        // Relayout v3 (author, 2026-10-01): no river. A deep gorge separates the village
+        // from the forest; the old suspension bridge is the only crossing.
+        AddVillageGorge(core);
         // The ravine east of the FAP splits the village in two; its bridge has
         // lost the middle span (author, 2026-09-25).
         AddVillageRavine(core);
@@ -1438,7 +1440,10 @@ public partial class Act1ConnectedWorld : Node3D
 
     public override void _Process(double delta)
     {
+        // First frame: every owner has placed its solids; trim relief that shows through them.
+        if (!_snowReliefClipped) ClipSnowReliefUnderStructures();
         UpdatePhysicalInteriorPresentation();
+        WatchSuspensionBridge();
         if (_villageLife is null) return;
         _lifePlayer ??= GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
         _lifeCue ??= GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
@@ -7292,12 +7297,13 @@ public partial class Act1ConnectedWorld : Node3D
         Curve3D? centerline = null)
     {
         var snowBank = surface == "snow_ground";
-        var crossSections = snowBank ? 9 : 5;
+        var trodden = surface == "snow_trampled";
+        var crossSections = snowBank || trodden ? 9 : 5;
         var lengthSections = conformToTerrain || centerline is not null ? Mathf.CeilToInt(length / .4f) + 1 : 7;
         var vertices = new Vector3[crossSections * lengthSections];
         var normals = new Vector3[vertices.Length];
         var uvs = new Vector2[vertices.Length];
-        var xProfile = snowBank
+        var xProfile = snowBank || trodden
             ? new[] { -.5f, -.38f, -.26f, -.12f, 0f, .12f, .26f, .38f, .5f }
             : new[] { -0.5f, -0.24f, 0f, 0.24f, 0.5f };
         var phase = name.Length * 0.37f;
@@ -7320,11 +7326,30 @@ public partial class Act1ConnectedWorld : Node3D
                     z);
                 if (snowBank)
                 {
-                    var cap = Mathf.Pow(Mathf.Max(0f, Mathf.Sin(zT * Mathf.Pi)), .7f);
-                    var rounded = Mathf.Pow(Mathf.Max(0f, 1f - 4f * profile * profile), 1.4f);
-                    vertices[vertexIndex].X *= .94f + .10f * Mathf.Sin(zT * 8f + phase);
-                    vertices[vertexIndex].Y = -.025f + cap * rounded
-                        * (height + .035f * Mathf.Sin(zT * 9f + phase));
+                    // A shovelled/plowed bank, not a tube: it tapers only over its last metre and
+                    // a half, its crest wanders in height, and the side toward -X (profile < 0)
+                    // is the steeper cut face.
+                    var fromEnd = Mathf.Min(z + length * .5f, length * .5f - z);
+                    var cap = Mathf.SmoothStep(0f, 1f, fromEnd / Mathf.Min(1.5f, length * .3f));
+                    var skew = profile + .08f;
+                    var rounded = Mathf.Pow(Mathf.Max(0f, 1f - 4f * skew * skew * (skew < 0 ? 1.35f : .85f)), 1.25f);
+                    // Clods: broad swells every few metres, shovel-sized lumps across the crest.
+                    var lumps = .74f + .3f * Mathf.Sin(z * .7f + phase) * Mathf.Sin(z * .29f + phase * 1.7f)
+                        + .16f * Mathf.Sin(z * 2.1f + xIndex * 1.3f + phase) * Mathf.Sin(z * 1.37f - xIndex * .7f);
+                    var plateau = Mathf.Min(1f, rounded * 1.35f);
+                    vertices[vertexIndex].X *= .88f + .2f * Mathf.Sin(z * .5f + phase) * Mathf.Sin(z * .23f)
+                        + .05f * Mathf.Sin(z * 1.9f + xIndex);
+                    vertices[vertexIndex].Y = -.025f + cap * plateau * height * Mathf.Max(.35f, lumps);
+                }
+                else if (trodden)
+                {
+                    // Trodden snow sits a little below the drift on either side: a nearly level
+                    // floor with a low, soft lip of displaced snow toward the edges.
+                    var across = Mathf.Abs(profile) * 2f;
+                    var lip = .035f * Mathf.SmoothStep(.35f, .75f, across) * (1f - Mathf.SmoothStep(.78f, 1f, across))
+                        * (.8f + .2f * Mathf.Sin(z * .55f + Mathf.Sign(profile) * 1.7f + phase));
+                    vertices[vertexIndex].X *= 1.25f;
+                    vertices[vertexIndex].Y = height * .4f + lip;
                 }
                 if (centerline is not null)
                 {
@@ -7395,7 +7420,7 @@ public partial class Act1ConnectedWorld : Node3D
             Position = center,
             RotationDegrees = new Vector3(0f, yawDegrees, 0f),
             Mesh = reliefMesh,
-            MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface),
+            MaterialOverride = trodden ? PainterlyMaterialLibrary.ForPath(color) : PainterlyMaterialLibrary.ForColor(color, surface),
             // The shared terrain owns relief. Old constant-height ribbons
             // become floating slabs with correct winding; do not render that
             // obsolete overlay. Only explicitly ground-conformed paths remain.
@@ -7902,160 +7927,6 @@ public partial class Act1ConnectedWorld : Node3D
     }
 
 /// <summary>
-    /// The river between the village and the forest, with the old broken bridge.
-    /// Canon decision (author, 2026-09-14): the river plus the broken bridge are the
-    /// boundary, and the only passable crossing is the authored culvert on the road.
-    /// Water and banks are presentation; layer-2 blockers keep the player out of the
-    /// water except across the road gap.
-    /// </summary>
-    private static void AddVillageRiverAndBrokenBridge(Node3D core)
-    {
-        var river = new Node3D { Name = "VillageForestRiver", Position = Vector3.Zero };
-        river.SetMeta("presentationOnly", true);
-        river.SetMeta("visualOnly", true);
-        river.SetMeta("collisionOwner", "river-blocker");
-        river.SetMeta("navigationOwner", "none");
-        river.SetMeta("interactionOwner", "none");
-        river.SetMeta(
-            "presentationRole",
-            "canon village/forest boundary: frozen river with snow banks and the old broken bridge; the culvert crossing is the only passable line");
-        core.AddChild(river);
-
-        var proxy = new StaticBody3D { Name = "RiverCollisionProxy", CollisionLayer = 2, CollisionMask = 0 };
-        proxy.SetMeta("collisionOwner", "river-blocker");
-        proxy.SetMeta("collisionStatus", "authored-blocker-layer-2");
-        river.AddChild(proxy);
-
-        var water = PainterlyMaterialLibrary.ForColor("33463f", "water");
-        var ice = PainterlyMaterialLibrary.ForColor("5c6f74", "ice");
-        var bank = PainterlyMaterialLibrary.ForColor("eef2f6", "snow_ground");
-        var blockedShapes = 0;
-        var openAtRoad = 0;
-        // The river runs on under the far bank of the ravine to the east ring.
-        for (var x = -60f; x <= 86f; x += 4f)
-        {
-            // A gentle meander keeps the line from reading as a ruler.
-            var z = -88f + 3.2f * Mathf.Sin(x / 12f) + 1.4f * Mathf.Sin(x / 4.3f);
-            var road = AgentBAct1HeightField.RoadInfo(x, z);
-            var inRoadGap = (float)(road.Distance - road.HalfWidth) < 1.4f;
-            var ground = (float)AgentBAct1HeightField.Ground(x, z);
-            if (inRoadGap)
-            {
-                // The road crosses on the culvert: keep the channel visible but
-                // leave the corridor free of blockers.
-                openAtRoad++;
-            }
-
-            var openLead = Mathf.Abs(x) % 12f < 5f;
-            var slab = new MeshInstance3D
-            {
-                Name = $"RiverIce_{x:0}",
-                Position = new Vector3(x, ground + .10f, z),
-                RotationDegrees = new Vector3(0f, 18f * Mathf.Sin(x / 9f), 0f),
-                Mesh = new BoxMesh { Size = new Vector3(4.4f, .34f, 9.6f) },
-                MaterialOverride = openLead ? water : ice
-            };
-            slab.SetMeta("visualOnly", true);
-            river.AddChild(slab);
-            if (!openLead && Mathf.Abs(x) % 8f < 4f)
-            {
-                // Broken ice along the channel so the water line never reads as a
-                // smooth white floor from the bank.
-                var lead = new MeshInstance3D
-                {
-                    Name = $"RiverLead_{x:0}",
-                    Position = new Vector3(x + 1.1f, ground + .22f, z + 1.6f * Mathf.Sin(x / 3.1f)),
-                    RotationDegrees = new Vector3(0f, 24f * Mathf.Cos(x / 5f), 0f),
-                    Mesh = new BoxMesh { Size = new Vector3(1.4f, .12f, 3.2f) },
-                    MaterialOverride = water
-                };
-                lead.SetMeta("visualOnly", true);
-                river.AddChild(lead);
-            }
-
-            foreach (var side in new[] { -1f, 1f })
-            {
-                var bankZ = z + side * 5.7f;
-                // Banks sit on their own ground. The old offset took the channel
-                // -centre height and added a fixed 2.62 m, which is the carved
-                // bank top only where the ravine is actually cut; where the road
-                // gap flattens the channel that same number left the bank
-                // hanging 2.6 m over open snow with nothing under it.
-                var bankGround = (float)AgentBAct1HeightField.CollisionGround(x, bankZ);
-                var bankMesh = new MeshInstance3D
-                {
-                    Name = $"RiverBankSnow_{x:0}_{(side < 0 ? "north" : "south")}",
-                    Position = new Vector3(x, bankGround + .10f, bankZ),
-                    RotationDegrees = new Vector3(side * 8f, 0f, 0f),
-                    Mesh = new BoxMesh { Size = new Vector3(4.6f, .34f, 2.4f) },
-                    MaterialOverride = bank
-                };
-                bankMesh.SetMeta("visualOnly", true);
-                river.AddChild(bankMesh);
-            }
-
-            if ((float)(road.Distance - road.HalfWidth) > 2.6f)
-            {
-                blockedShapes += AddForestBankWindfall(river, proxy, x, z);
-            }
-
-            if (inRoadGap)
-            {
-                continue;
-            }
-
-            // The bed blocker sits under the ice, inside the ravine: it stops a
-            // player who tries to cross the frozen channel without floating in view,
-            // and the visible reason stays the river and its banks.
-            proxy.AddChild(new CollisionShape3D
-            {
-                Name = $"RiverBlocker_{x:0}",
-                Position = new Vector3(x, ground + .28f, z),
-                Shape = new BoxShape3D { Size = new Vector3(4.3f, 1.0f, 8.6f) }
-            });
-            blockedShapes++;
-        }
-
-        // The old broken bridge: two stone abutments and a deck that ends over the
-        // water, with a fallen span and a leaning post. Unpassable by design.
-        var bridgeX = 15f;
-        var bridgeZ = -88f + 3.2f * Mathf.Sin(bridgeX / 12f) + 1.4f * Mathf.Sin(bridgeX / 4.3f);
-        // The bridge straddles the channel, so anchor it to the shoulder height.
-        var bridgeGround = (float)AgentBAct1HeightField.Ground(bridgeX, bridgeZ + 5.1f);
-        var bridge = new Node3D { Name = "ForestBridgeBroken", Position = new Vector3(bridgeX, bridgeGround, bridgeZ) };
-        bridge.SetMeta("presentationOnly", true);
-        bridge.SetMeta("visualOnly", true);
-        bridge.SetMeta("presentationRole", "old broken river bridge: stone abutments and a collapsed span; not crossable");
-        river.AddChild(bridge);
-        foreach (var side in new[] { -1f, 1f })
-        {
-            AddVisualBox(bridge, $"BridgeAbutment_{(side < 0 ? "near" : "far")}", new(2.2f, 2.6f, 1.4f),
-                new(0f, 1.0f, side * 5.0f), "6f6a5d", "stone");
-            proxy.AddChild(new CollisionShape3D
-            {
-                Name = $"BridgeAbutmentBlocker_{(side < 0 ? "near" : "far")}",
-                Position = new Vector3(bridgeX, bridgeGround + 1.0f, bridgeZ + side * 5.0f),
-                Shape = new BoxShape3D { Size = new Vector3(2.1f, 2.5f, 1.3f) }
-            });
-        }
-
-        AddVisualBox(bridge, "BridgeDeckNear", new(1.6f, 0.22f, 3.4f), new(0f, 1.62f, -3.1f), "59493a", "wood", rollDegrees: 1.5f);
-        AddVisualBox(bridge, "BridgeDeckFallen", new(1.5f, 0.20f, 3.0f), new(0.55f, 1.05f, 0.4f), "4f4133", "wood", rollDegrees: 34f);
-        AddVisualBox(bridge, "BridgeDeckHintFar", new(1.4f, 0.20f, 1.6f), new(0.1f, 1.46f, 3.6f), "57493b", "wood", rollDegrees: -6f);
-        AddVisualBox(bridge, "BridgeRailNearLeft", new(0.12f, 0.86f, 3.2f), new(-0.72f, 2.02f, -3.1f), "6d5845", "wood");
-        AddVisualBox(bridge, "BridgePostLeaning", new(0.16f, 1.35f, 0.16f), new(0.9f, 1.3f, 1.9f), "6d5845", "wood", rollDegrees: 24f);
-        AddVisualBox(bridge, "BridgeRope", new(0.05f, 0.05f, 2.1f), new(0.55f, 1.95f, 0.2f), "b7a07c", "wood", rollDegrees: -8f);
-
-        var stepShapes = AddRiverBankSteps(river, proxy);
-        blockedShapes += stepShapes;
-        river.SetMeta("riverBankStepCount", stepShapes);
-        river.SetMeta("riverBlockerShapeCount", blockedShapes);
-        river.SetMeta("riverRoadGapSamples", openAtRoad);
-        proxy.SetMeta("riverBlockerShapeCount", blockedShapes + 2);
-        GD.Print($"act1-river: ice_slabs={blockedShapes - stepShapes + openAtRoad} blockers={blockedShapes} bank_steps={stepShapes} road_gap_samples={openAtRoad} bridge=broken@({bridgeX:0},{bridgeZ:0})");
-    }
-
-/// <summary>
     /// Village mosque complex around the existing minaret: hall with a low dome,
     /// a closed street entrance facing the village, a plinth, a courtyard wall with
     /// a gate opening and an ablution trough. Presentation geometry with layer-2
@@ -8403,7 +8274,28 @@ public partial class Act1ConnectedWorld : Node3D
         root.SetMeta("presentationRole", "unplowed snow banks flanking the cleared village street");
         parent.AddChild(root);
 
-        for (var z = 16f; z >= -84f; z -= 4.0f)
+        // Each shoulder gets continuous plowed runs, sampled every metre, broken only where a
+        // gate, lane or the footbridge needs the shoulder clear; short stubs are dropped.
+        var runs = new Dictionary<float, List<Vector3>> { [-1f] = [], [1f] = [] };
+        void Flush(float side)
+        {
+            var run = runs[side];
+            if (run.Count >= 4)
+            {
+                var height = .3f + .08f * Mathf.Sin(run[0].Z * .31f + side);
+                var name = $"StreetBank{(side > 0 ? "E" : "W")}_{Mathf.RoundToInt(run[0].Z)}";
+                var curve = new Curve3D { BakeInterval = .2f };
+                // Point the run so its steeper cut face (the bank's -X side) is toward the road.
+                foreach (var point in side > 0 ? Enumerable.Reverse(run) : run) curve.AddPoint(point);
+                var mesh = AddVisualLandformSurface(root, name, 1.8f, height, curve.GetBakedLength(),
+                    Vector3.Zero, "e8edf0", "snow_ground", 0f, true, curve);
+                mesh.SetMeta("snowBankHeight", height);
+                mesh.SetMeta("presentationOnly", true);
+                mesh.SetMeta("collisionOwner", "none");
+            }
+            run.Clear();
+        }
+        for (var z = 16f; z >= -84f; z -= 1f)
         {
             var bestX = 0f;
             var bestClearance = float.MaxValue;
@@ -8419,39 +8311,21 @@ public partial class Act1ConnectedWorld : Node3D
                     halfWidth = (float)info.HalfWidth;
                 }
             }
-
-            if (bestClearance > 1.2f)
-            {
-                continue; // between roads: no bank here
-            }
-
             foreach (var side in new[] { -1f, 1f })
             {
-                var wobble = Mathf.Sin(z * 0.7f + side) * 0.25f;
-                var bankX = bestX + side * (halfWidth + .9f + wobble);
+                if (bestClearance > 1.2f) { Flush(side); continue; } // between roads: no bank here
+                var wobble = Mathf.Sin(z * 0.45f + side) * 0.2f;
+                var bankX = bestX + side * (halfWidth + .95f + wobble);
                 var atBank = AgentBAct1HeightField.RoadInfo(bankX, z);
-                // House/FAP approaches cross the bank: keep those gates clear.
-                if (atBank.Distance - atBank.HalfWidth <= .7f) continue;
-                var bankStart = new Vector3(bankX, 0f, z - 2.5f);
-                var bankEnd = new Vector3(bankX + wobble * .5f, 0f, z + 2.5f);
-                var bankName = $"StreetBank{(side > 0 ? "E" : "W")}_{Mathf.RoundToInt(z)}";
-                var bankHeight = .48f + .11f * Mathf.Sin(z * .31f + side);
-                // The maintained footbridge crosses this bank: leave its real
-                // aperture instead of drawing a snow ridge through the deck.
-                if (side > 0 && bankStart.Z < ZiratCulvertZ + .7f && bankEnd.Z > ZiratCulvertZ - .7f)
-                {
-                    if (bankStart.Z < ZiratCulvertZ - .7f)
-                        AddSnowBank(root, bankName + "Before", bankStart,
-                            bankStart.Lerp(bankEnd, (ZiratCulvertZ - .7f - bankStart.Z) / 5f),
-                            1.65f, bankHeight, z + side);
-                    if (bankEnd.Z > ZiratCulvertZ + .7f)
-                        AddSnowBank(root, bankName + "After",
-                            bankStart.Lerp(bankEnd, (ZiratCulvertZ + .7f - bankStart.Z) / 5f), bankEnd,
-                            1.65f, bankHeight, z + side);
-                }
-                else AddSnowBank(root, bankName, bankStart, bankEnd, 1.65f, bankHeight, z + side);
+                // House/FAP approaches cross the bank, and the maintained footbridge has its
+                // real aperture: keep those clear.
+                if (atBank.Distance - atBank.HalfWidth <= .7f
+                    || (side > 0 && Mathf.Abs(z - ZiratCulvertZ) < 1.4f)) { Flush(side); continue; }
+                runs[side].Add(new Vector3(bankX, 0f, z));
             }
         }
+        Flush(-1f);
+        Flush(1f);
         foreach (var side in new[] { -1f, 1f })
             AddSnowBank(root, side < 0 ? "UnplowedWest" : "UnplowedEast",
                 new(side * 6.1f, 0f, 14f), new(side * 6.8f, 0f, -12f),

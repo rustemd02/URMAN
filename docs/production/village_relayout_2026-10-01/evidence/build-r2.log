@@ -1,0 +1,12 @@
+  Urman.Core -> /Users/kadyrahunov/Projects/URMAN/src-dotnet/Urman.Core/bin/Debug/net10.0/Urman.Core.dll
+  Urman.Content -> /Users/kadyrahunov/Projects/URMAN/src-dotnet/Urman.Content/bin/Debug/net10.0/Urman.Content.dll
+  Urman.Studio.Core -> /Users/kadyrahunov/Projects/URMAN/src-dotnet/Urman.Studio.Core/bin/Debug/net10.0/Urman.Studio.Core.dll
+/Users/kadyrahunov/Projects/URMAN/game/tests/AddressWorldSmokeTest.FarBank.cs(47,19): error CS8602: Dereference of a possibly null reference. [/Users/kadyrahunov/Projects/URMAN/game/Urman.Game.csproj]
+
+Build FAILED.
+
+/Users/kadyrahunov/Projects/URMAN/game/tests/AddressWorldSmokeTest.FarBank.cs(47,19): error CS8602: Dereference of a possibly null reference. [/Users/kadyrahunov/Projects/URMAN/game/Urman.Game.csproj]
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:19.81

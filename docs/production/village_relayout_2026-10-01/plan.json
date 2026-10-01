@@ -1,0 +1,1780 @@
+{
+ "roads": {
+  "main": [
+   [
+    0,
+    -90
+   ],
+   [
+    0,
+    150
+   ]
+  ],
+  "suspension-bridge": [
+   [
+    0,
+    -90
+   ],
+   [
+    0,
+    -122
+   ]
+  ],
+  "kara": [
+   [
+    0,
+    -122
+   ],
+   [
+    1,
+    -142
+   ]
+  ],
+  "bridge-road": [
+   [
+    0,
+    -24
+   ],
+   [
+    45,
+    -24
+   ]
+  ],
+  "bridge": [
+   [
+    45,
+    -24.5
+   ],
+   [
+    62,
+    -25
+   ]
+  ],
+  "arrival-east": [
+   [
+    0,
+    12
+   ],
+   [
+    43,
+    12
+   ]
+  ],
+  "lane-36": [
+   [
+    0,
+    -36
+   ],
+   [
+    -54,
+    -36
+   ]
+  ],
+  "cross-62": [
+   [
+    -54,
+    -62
+   ],
+   [
+    43,
+    -62
+   ]
+  ],
+  "cross84": [
+   [
+    -54,
+    84
+   ],
+   [
+    43,
+    84
+   ]
+  ],
+  "cross130": [
+   [
+    -54,
+    130
+   ],
+   [
+    43,
+    130
+   ]
+  ],
+  "yar-north": [
+   [
+    62,
+    -25
+   ],
+   [
+    72,
+    -16
+   ],
+   [
+    76,
+    4
+   ],
+   [
+    77.5,
+    34
+   ],
+   [
+    75.5,
+    62
+   ],
+   [
+    77,
+    92
+   ],
+   [
+    76,
+    120
+   ]
+  ],
+  "yar-east": [
+   [
+    112,
+    -66
+   ],
+   [
+    110,
+    -30
+   ],
+   [
+    113,
+    6
+   ],
+   [
+    111,
+    44
+   ],
+   [
+    113,
+    80
+   ],
+   [
+    111,
+    104
+   ]
+  ],
+  "yar-cross-1": [
+   [
+    69.5,
+    -36
+   ],
+   [
+    92,
+    -36
+   ],
+   [
+    110,
+    -34
+   ]
+  ],
+  "yar-cross-2": [
+   [
+    77.5,
+    34
+   ],
+   [
+    94,
+    38
+   ],
+   [
+    111.42,
+    36
+   ]
+  ],
+  "yar-cross-3": [
+   [
+    76.57,
+    104
+   ],
+   [
+    111,
+    104
+   ]
+  ],
+  "yar-south": [
+   [
+    62,
+    -25
+   ],
+   [
+    75,
+    -44
+   ],
+   [
+    77,
+    -84
+   ]
+  ],
+  "yar-lower": [
+   [
+    75.9,
+    -62
+   ],
+   [
+    112,
+    -66
+   ]
+  ],
+  "yar-tykryk": [
+   [
+    112,
+    62
+   ],
+   [
+    134,
+    66
+   ]
+  ]
+ },
+ "zirat": {
+  "x0": -40.0,
+  "x1": 36.0,
+  "z0": -90.0,
+  "z1": -65.0
+ },
+ "plaza": {
+  "name": "Мәйдан",
+  "x0": -28.0,
+  "x1": -3.0,
+  "z0": 33.0,
+  "z1": 63.0
+ },
+ "green": {
+  "x": 69,
+  "z": -27,
+  "r": 5
+ },
+ "gorge": [
+  -120.0,
+  -92.0
+ ],
+ "plan": [
+  {
+   "id": "ADR-H023",
+   "role": "residential",
+   "x": 9.5,
+   "z": -45.3,
+   "to": {
+    "street": "tukay-main",
+    "x": 13.0,
+    "z": -42.75,
+    "yaw": -90.0,
+    "w": 10.67,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H030",
+   "role": "residential",
+   "x": 22,
+   "z": -73,
+   "to": {
+    "street": "tukay-main",
+    "x": 13.0,
+    "z": -53.42,
+    "yaw": -90.0,
+    "w": 10.67,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H028",
+   "role": "residential",
+   "x": 28,
+   "z": -68,
+   "to": {
+    "street": "tukay-main",
+    "x": 13.0,
+    "z": -32.08,
+    "yaw": -90.0,
+    "w": 10.67,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H027",
+   "role": "residential",
+   "x": -28,
+   "z": -64,
+   "to": {
+    "street": "cross-west",
+    "x": -27.92,
+    "z": -49.0,
+    "yaw": -180.0,
+    "w": 10.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H029",
+   "role": "residential",
+   "x": 23,
+   "z": -59,
+   "to": {
+    "street": "tukay-main",
+    "x": -13.0,
+    "z": -53.75,
+    "yaw": 90.0,
+    "w": 10.0,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H031",
+   "role": "school",
+   "x": 36,
+   "z": -54,
+   "to": {
+    "street": "bridge-road",
+    "x": 38.12,
+    "z": -14.0,
+    "yaw": 180.0,
+    "w": 10.25,
+    "d": 12
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H026",
+   "role": "residential",
+   "x": 11.5,
+   "z": -53,
+   "to": {
+    "street": "tukay-main",
+    "x": -13.0,
+    "z": -43.75,
+    "yaw": 90.0,
+    "w": 10.0,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H025",
+   "role": "residential",
+   "x": -12,
+   "z": -52.7,
+   "to": {
+    "street": "cross-west",
+    "x": -38.25,
+    "z": -49.0,
+    "yaw": -180.0,
+    "w": 10.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H046",
+   "role": "residential",
+   "x": 6.2,
+   "z": -49.6,
+   "to": {
+    "street": "tukay-main",
+    "x": -13.0,
+    "z": -23.5,
+    "yaw": 90.0,
+    "w": 18.5,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H024",
+   "role": "residential",
+   "x": -24,
+   "z": -47,
+   "to": {
+    "street": "lane-west",
+    "x": -27.92,
+    "z": -23.0,
+    "yaw": -180.0,
+    "w": 10.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H073",
+   "role": "residential",
+   "x": -9,
+   "z": -45.5,
+   "to": {
+    "street": "lane-west",
+    "x": -38.25,
+    "z": -23.0,
+    "yaw": -180.0,
+    "w": 10.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H032",
+   "role": "residential",
+   "x": 20,
+   "z": -43,
+   "to": {
+    "street": "tukay-main",
+    "x": 13.0,
+    "z": -15.75,
+    "yaw": -90.0,
+    "w": 10.0,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H047",
+   "role": "residential",
+   "x": 42,
+   "z": -40,
+   "to": {
+    "street": "bridge-road",
+    "x": 27.88,
+    "z": -14.0,
+    "yaw": 180.0,
+    "w": 10.25,
+    "d": 12
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H049",
+   "role": "residential",
+   "x": 12,
+   "z": -38,
+   "to": {
+    "street": "tukay-main",
+    "x": 13.0,
+    "z": -5.75,
+    "yaw": -90.0,
+    "w": 10.0,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H022",
+   "role": "residential",
+   "x": 8.5,
+   "z": -30,
+   "to": {
+    "street": "tukay-main",
+    "x": 13.0,
+    "z": 4.25,
+    "yaw": -90.0,
+    "w": 10.0,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H021",
+   "role": "residential",
+   "x": -11.5,
+   "z": -29.5,
+   "to": {
+    "street": "lane-west",
+    "x": -48.58,
+    "z": -23.0,
+    "yaw": -180.0,
+    "w": 10.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H036",
+   "role": "residential",
+   "x": 25.3,
+   "z": -19.2,
+   "to": {
+    "street": "arrival-east",
+    "x": 27.75,
+    "z": 1.0,
+    "yaw": -0.0,
+    "w": 10.0,
+    "d": 14
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H037",
+   "role": "residential",
+   "x": 35.4,
+   "z": -16.9,
+   "to": {
+    "street": "arrival-east",
+    "x": 37.75,
+    "z": 1.0,
+    "yaw": -0.0,
+    "w": 10.0,
+    "d": 14
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H018",
+   "role": "residential",
+   "x": -8.8,
+   "z": -12.8,
+   "to": {
+    "street": "tukay-main",
+    "x": -13.0,
+    "z": 18.0,
+    "yaw": 90.0,
+    "w": 10.5,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H035",
+   "role": "residential",
+   "x": 26,
+   "z": -8.5,
+   "to": {
+    "street": "arrival-east",
+    "x": 27.75,
+    "z": 23.0,
+    "yaw": 180.0,
+    "w": 10.0,
+    "d": 14
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H041",
+   "role": "residential",
+   "x": -38,
+   "z": -6,
+   "to": {
+    "street": "cross-west",
+    "x": -48.58,
+    "z": -49.0,
+    "yaw": -180.0,
+    "w": 10.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H038",
+   "role": "residential",
+   "x": 36,
+   "z": -4,
+   "to": {
+    "street": "arrival-east",
+    "x": 37.75,
+    "z": 23.0,
+    "yaw": 180.0,
+    "w": 10.0,
+    "d": 14
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H017",
+   "role": "residential",
+   "x": 7.8,
+   "z": -3.6,
+   "to": {
+    "street": "tukay-main",
+    "x": 13.0,
+    "z": 23.5,
+    "yaw": -90.0,
+    "w": 16.5,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H016",
+   "role": "residential",
+   "x": -7.2,
+   "z": 3.2,
+   "to": {
+    "street": "tukay-main",
+    "x": 13.0,
+    "z": 65.12,
+    "yaw": -90.0,
+    "w": 10.75,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H019",
+   "role": "residential",
+   "x": 9.8,
+   "z": 4,
+   "to": {
+    "street": "cross-east",
+    "x": 27.75,
+    "z": 71.0,
+    "yaw": -0.0,
+    "w": 10.0,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H042",
+   "role": "residential",
+   "x": -40,
+   "z": 5.5,
+   "to": {
+    "street": "cross-west",
+    "x": -37.62,
+    "z": 71.0,
+    "yaw": 0.0,
+    "w": 10.75,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H012",
+   "role": "residential",
+   "x": -17.5,
+   "z": 16.5,
+   "to": {
+    "street": "cross-west",
+    "x": -48.38,
+    "z": 71.0,
+    "yaw": 0.0,
+    "w": 10.75,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H014",
+   "role": "residential",
+   "x": -31.5,
+   "z": 17,
+   "to": {
+    "street": "tukay-main",
+    "x": 13.0,
+    "z": 75.88,
+    "yaw": -90.0,
+    "w": 10.75,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H015",
+   "role": "residential",
+   "x": 11,
+   "z": 17,
+   "to": {
+    "street": "cross-east",
+    "x": 37.75,
+    "z": 71.0,
+    "yaw": -0.0,
+    "w": 10.0,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H013",
+   "role": "residential",
+   "x": 18,
+   "z": 17,
+   "to": {
+    "street": "tukay-main",
+    "x": 13.0,
+    "z": 93.92,
+    "yaw": -90.0,
+    "w": 13.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H040",
+   "role": "council",
+   "x": 33.5,
+   "z": 18,
+   "to": {
+    "street": "cross-east",
+    "x": 37.75,
+    "z": 97.0,
+    "yaw": 180.0,
+    "w": 10.0,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H010",
+   "role": "residential",
+   "x": -24,
+   "z": 24,
+   "to": {
+    "street": "tukay-main",
+    "x": -13.0,
+    "z": 93.92,
+    "yaw": 90.0,
+    "w": 13.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H008",
+   "role": "residential",
+   "x": -10,
+   "z": 25.8,
+   "to": {
+    "street": "cross-west",
+    "x": -27.92,
+    "z": 97.0,
+    "yaw": -180.0,
+    "w": 10.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H009",
+   "role": "residential",
+   "x": 10,
+   "z": 26.2,
+   "to": {
+    "street": "cross-east",
+    "x": 27.75,
+    "z": 97.0,
+    "yaw": 180.0,
+    "w": 10.0,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H011",
+   "role": "residential",
+   "x": 27,
+   "z": 27,
+   "to": {
+    "street": "tukay-main",
+    "x": 13.0,
+    "z": 107.25,
+    "yaw": -90.0,
+    "w": 13.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H044",
+   "role": "residential",
+   "x": -11.5,
+   "z": 35.5,
+   "to": {
+    "street": "cross-west",
+    "x": -38.25,
+    "z": 97.0,
+    "yaw": -180.0,
+    "w": 10.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H045",
+   "role": "residential",
+   "x": -31.5,
+   "z": 36.5,
+   "to": {
+    "street": "cross-west",
+    "x": -48.58,
+    "z": 97.0,
+    "yaw": -180.0,
+    "w": 10.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H006",
+   "role": "residential",
+   "x": -22,
+   "z": 38,
+   "to": {
+    "street": "tukay-main",
+    "x": -13.0,
+    "z": 107.25,
+    "yaw": 90.0,
+    "w": 13.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H007",
+   "role": "residential",
+   "x": 22,
+   "z": 40,
+   "to": {
+    "street": "cross-east",
+    "x": 27.75,
+    "z": 117.0,
+    "yaw": -0.0,
+    "w": 10.0,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H043",
+   "role": "residential",
+   "x": 12,
+   "z": 41,
+   "to": {
+    "street": "tukay-main",
+    "x": 13.0,
+    "z": 120.58,
+    "yaw": -90.0,
+    "w": 13.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H003",
+   "role": "residential",
+   "x": -12,
+   "z": 49,
+   "to": {
+    "street": "cross-west",
+    "x": -27.92,
+    "z": 117.0,
+    "yaw": 0.0,
+    "w": 10.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H002",
+   "role": "residential",
+   "x": 7.9,
+   "z": 52.8,
+   "to": {
+    "street": "cross-east",
+    "x": 37.75,
+    "z": 117.0,
+    "yaw": -0.0,
+    "w": 10.0,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H005",
+   "role": "residential",
+   "x": 18.5,
+   "z": 54,
+   "to": {
+    "street": "tukay-main",
+    "x": -13.0,
+    "z": 120.58,
+    "yaw": 90.0,
+    "w": 13.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H001",
+   "role": "residential",
+   "x": -7.8,
+   "z": 58.5,
+   "to": {
+    "street": "cross-west",
+    "x": -38.25,
+    "z": 117.0,
+    "yaw": 0.0,
+    "w": 10.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-NS-E-S1",
+   "role": "residential",
+   "x": 35,
+   "z": 60,
+   "to": {
+    "street": "cross-east",
+    "x": 27.75,
+    "z": 143.0,
+    "yaw": 180.0,
+    "w": 10.0,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H004",
+   "role": "residential",
+   "x": -21,
+   "z": 61,
+   "to": {
+    "street": "cross-west",
+    "x": -48.58,
+    "z": 117.0,
+    "yaw": 0.0,
+    "w": 10.33,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-NS-M-W1",
+   "role": "residential",
+   "x": -16.6,
+   "z": 80,
+   "to": {
+    "street": "tukay-main",
+    "x": -13.0,
+    "z": 141.5,
+    "yaw": 90.0,
+    "w": 16.5,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-NS-E-N1",
+   "role": "residential",
+   "x": 34,
+   "z": 90,
+   "to": {
+    "street": "tukay-main",
+    "x": 13.0,
+    "z": 141.5,
+    "yaw": -90.0,
+    "w": 16.5,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-NS-M-E1",
+   "role": "residential",
+   "x": 15.9,
+   "z": 91,
+   "to": {
+    "street": "cross-west",
+    "x": -47.25,
+    "z": -75.0,
+    "yaw": 0.0,
+    "w": 13.0,
+    "d": 18.0
+   },
+   "zone": "open"
+  },
+  {
+   "id": "ADR-H034",
+   "role": "residential",
+   "x": 62.5,
+   "z": -52,
+   "to": {
+    "street": "yar-south",
+    "x": 64.67,
+    "z": -57.62,
+    "yaw": 87.1,
+    "w": 10.67,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-H070",
+   "role": "residential",
+   "x": 77,
+   "z": -44,
+   "to": {
+    "street": "yar-east",
+    "x": 99.75,
+    "z": -43.9,
+    "yaw": 86.8,
+    "w": 11.0,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-H033",
+   "role": "residential",
+   "x": 62.5,
+   "z": -38,
+   "to": {
+    "street": "yar-south",
+    "x": 65.2,
+    "z": -68.27,
+    "yaw": 87.1,
+    "w": 10.67,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-H050",
+   "role": "residential",
+   "x": 77,
+   "z": -30,
+   "to": {
+    "street": "yar-east",
+    "x": 99.55,
+    "z": -22.94,
+    "yaw": 94.8,
+    "w": 11.83,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-H048",
+   "role": "residential",
+   "x": 62.5,
+   "z": -12,
+   "to": {
+    "street": "yar-north",
+    "x": 63.22,
+    "z": -3.79,
+    "yaw": 101.3,
+    "w": 19.0,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-H071",
+   "role": "residential",
+   "x": 77,
+   "z": -4,
+   "to": {
+    "street": "yar-north",
+    "x": 87.35,
+    "z": 10.69,
+    "yaw": -87.1,
+    "w": 14.0,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-H039",
+   "role": "residential",
+   "x": 62.5,
+   "z": 2,
+   "to": {
+    "street": "yar-north",
+    "x": 65.49,
+    "z": 14.04,
+    "yaw": 92.9,
+    "w": 13.5,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-H069",
+   "role": "residential",
+   "x": 62.5,
+   "z": 16,
+   "to": {
+    "street": "yar-north",
+    "x": 66.16,
+    "z": 27.52,
+    "yaw": 92.9,
+    "w": 13.5,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-H072",
+   "role": "residential",
+   "x": 77,
+   "z": 20,
+   "to": {
+    "street": "yar-north",
+    "x": 88.05,
+    "z": 24.67,
+    "yaw": -87.1,
+    "w": 14.0,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "NEW-FAR-01",
+   "role": "residential",
+   "x": 74,
+   "z": 30,
+   "new": true,
+   "to": {
+    "street": "yar-north",
+    "x": 65.89,
+    "z": 42.19,
+    "yaw": 85.9,
+    "w": 12.5,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "NEW-FAR-02",
+   "role": "residential",
+   "x": 74,
+   "z": 30,
+   "new": true,
+   "to": {
+    "street": "yar-north",
+    "x": 87.64,
+    "z": 46.38,
+    "yaw": -94.1,
+    "w": 10.75,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "NEW-FAR-03",
+   "role": "residential",
+   "x": 74,
+   "z": 30,
+   "new": true,
+   "to": {
+    "street": "yar-north",
+    "x": 65.0,
+    "z": 54.66,
+    "yaw": 85.9,
+    "w": 12.5,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "NEW-FAR-04",
+   "role": "residential",
+   "x": 74,
+   "z": 30,
+   "new": true,
+   "to": {
+    "street": "yar-north",
+    "x": 86.88,
+    "z": 57.1,
+    "yaw": -94.1,
+    "w": 10.75,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "NEW-FAR-05",
+   "role": "residential",
+   "x": 74,
+   "z": 30,
+   "new": true,
+   "to": {
+    "street": "yar-cross-2",
+    "x": 102.21,
+    "z": 48.13,
+    "yaw": -173.5,
+    "w": 11.5,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "NEW-FAR-06",
+   "role": "residential",
+   "x": 74,
+   "z": 30,
+   "new": true,
+   "to": {
+    "street": "yar-east",
+    "x": 101.52,
+    "z": 0.64,
+    "yaw": 94.8,
+    "w": 11.83,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "NEW-FAR-07",
+   "role": "residential",
+   "x": 74,
+   "z": 30,
+   "new": true,
+   "to": {
+    "street": "yar-north",
+    "x": 64.89,
+    "z": 70.16,
+    "yaw": 92.9,
+    "w": 14.75,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "NEW-FAR-08",
+   "role": "residential",
+   "x": 74,
+   "z": 30,
+   "new": true,
+   "to": {
+    "street": "yar-north",
+    "x": 86.96,
+    "z": 70.94,
+    "yaw": -87.1,
+    "w": 13.5,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "NEW-FAR-09",
+   "role": "residential",
+   "x": 74,
+   "z": 30,
+   "new": true,
+   "to": {
+    "street": "yar-east",
+    "x": 100.53,
+    "z": -11.15,
+    "yaw": 94.8,
+    "w": 11.83,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "NEW-FAR-10",
+   "role": "residential",
+   "x": 74,
+   "z": 30,
+   "new": true,
+   "to": {
+    "street": "yar-east",
+    "x": 122.33,
+    "z": 38.03,
+    "yaw": -93.0,
+    "w": 12.5,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-W-N2",
+   "role": "residential",
+   "x": -54,
+   "z": 91,
+   "to": {
+    "street": "yar-north",
+    "x": 65.63,
+    "z": 84.9,
+    "yaw": 92.9,
+    "w": 14.75,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-W-N1",
+   "role": "residential",
+   "x": -54,
+   "z": 125,
+   "to": {
+    "street": "yar-north",
+    "x": 87.63,
+    "z": 84.42,
+    "yaw": -87.1,
+    "w": 13.5,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-M-W3",
+   "role": "residential",
+   "x": -42,
+   "z": 163,
+   "to": {
+    "street": "yar-cross-3",
+    "x": 102.32,
+    "z": 93.0,
+    "yaw": -0.0,
+    "w": 13.0,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-N-E1",
+   "role": "residential",
+   "x": 34,
+   "z": 163,
+   "to": {
+    "street": "yar-east",
+    "x": 101.69,
+    "z": 74.69,
+    "yaw": 93.2,
+    "w": 11.25,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-M-E3",
+   "role": "residential",
+   "x": 0,
+   "z": 165,
+   "to": {
+    "street": "yar-east",
+    "x": 123.45,
+    "z": 87.02,
+    "yaw": -94.8,
+    "w": 11.75,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-N-E1B",
+   "role": "residential",
+   "x": 34,
+   "z": 176,
+   "to": {
+    "street": "yar-east",
+    "x": 123.69,
+    "z": 74.09,
+    "yaw": -86.8,
+    "w": 10.0,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-M-E3B",
+   "role": "residential",
+   "x": -5,
+   "z": 177,
+   "to": {
+    "street": "yar-east",
+    "x": 122.5,
+    "z": 52.63,
+    "yaw": -86.8,
+    "w": 14.0,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-N-E2",
+   "role": "residential",
+   "x": 34,
+   "z": 188,
+   "to": {
+    "street": "yar-east",
+    "x": 122.99,
+    "z": 25.55,
+    "yaw": -93.0,
+    "w": 12.5,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-M-W4",
+   "role": "residential",
+   "x": -40,
+   "z": 190,
+   "to": {
+    "street": "yar-east",
+    "x": 123.64,
+    "z": 13.07,
+    "yaw": -93.0,
+    "w": 12.5,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-M-E4",
+   "role": "residential",
+   "x": -5,
+   "z": 190,
+   "to": {
+    "street": "yar-east",
+    "x": 123.47,
+    "z": -0.77,
+    "yaw": -85.2,
+    "w": 11.0,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-N-E2B",
+   "role": "residential",
+   "x": 34,
+   "z": 201,
+   "to": {
+    "street": "yar-east",
+    "x": 122.56,
+    "z": -11.73,
+    "yaw": -85.2,
+    "w": 11.0,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-M-W4B",
+   "role": "residential",
+   "x": -40,
+   "z": 203.5,
+   "to": {
+    "street": "yar-east",
+    "x": 121.65,
+    "z": -22.69,
+    "yaw": -85.2,
+    "w": 11.0,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-M-E4B",
+   "role": "residential",
+   "x": -5,
+   "z": 203.5,
+   "to": {
+    "street": "yar-east",
+    "x": 121.41,
+    "z": -37.06,
+    "yaw": -93.2,
+    "w": 14.75,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-N-E3",
+   "role": "residential",
+   "x": 34,
+   "z": 214,
+   "to": {
+    "street": "yar-east",
+    "x": 100.37,
+    "z": -54.88,
+    "yaw": 86.8,
+    "w": 11.0,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-M-W5",
+   "role": "residential",
+   "x": -40,
+   "z": 217,
+   "to": {
+    "street": "yar-east",
+    "x": 122.23,
+    "z": -51.79,
+    "yaw": -93.2,
+    "w": 14.75,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-NS-M-E5",
+   "role": "residential",
+   "x": -5,
+   "z": 217,
+   "to": {
+    "street": "yar-south",
+    "x": 65.73,
+    "z": -78.92,
+    "yaw": 87.1,
+    "w": 10.67,
+    "d": 14.0
+   },
+   "zone": "far-bank"
+  },
+  {
+   "id": "ADR-BABAI",
+   "role": "residential",
+   "x": -28,
+   "z": -3.4,
+   "to": {
+    "x": -26.5,
+    "z": -1.0,
+    "yaw": 90,
+    "w": 26.0,
+    "d": 44.0,
+    "street": "tukay-main"
+   },
+   "zone": "babai"
+  },
+  {
+   "id": "ADR-FAP",
+   "role": "clinic",
+   "x": 26.7,
+   "z": -34.1,
+   "to": {
+    "x": 35,
+    "z": -35,
+    "yaw": 0,
+    "w": 16,
+    "d": 16,
+    "street": "bridge-road"
+   },
+   "zone": "centre"
+  },
+  {
+   "id": "ADR-MOSQUE",
+   "role": "public",
+   "x": -46,
+   "z": -34,
+   "to": {
+    "x": -38,
+    "z": 25,
+    "yaw": 45,
+    "street": "square",
+    "w": 16,
+    "d": 16
+   },
+   "zone": "centre"
+  },
+  {
+   "id": "ADR-H020",
+   "role": "shop",
+   "x": -30,
+   "z": -36.5,
+   "to": {
+    "x": 10,
+    "z": 37,
+    "yaw": -90,
+    "street": "square",
+    "w": 10,
+    "d": 8
+   },
+   "zone": "centre"
+  },
+  {
+   "id": "ADR-SQUARE-SCHOOL",
+   "role": "school",
+   "x": -2,
+   "z": 138,
+   "to": {
+    "x": -17.5,
+    "z": 71.5,
+    "yaw": 180,
+    "street": "square",
+    "w": 28,
+    "d": 11
+   },
+   "zone": "centre"
+  },
+  {
+   "id": "ADR-SQUARE-DK",
+   "role": "culture",
+   "x": -26,
+   "z": 111,
+   "to": {
+    "x": -37.5,
+    "z": 48,
+    "yaw": 90,
+    "street": "square",
+    "w": 18,
+    "d": 14
+   },
+   "zone": "centre"
+  },
+  {
+   "id": "ADR-SQUARE-OFFICE",
+   "role": "office",
+   "x": 25,
+   "z": 112,
+   "to": {
+    "x": 11,
+    "z": 52,
+    "yaw": -90,
+    "street": "square",
+    "w": 14,
+    "d": 9
+   },
+   "zone": "centre"
+  },
+  {
+   "id": "ADR-SQUARE-POST",
+   "role": "post",
+   "x": -32.5,
+   "z": 140,
+   "to": {
+    "x": -15.5,
+    "z": 27,
+    "yaw": 0,
+    "street": "square",
+    "w": 9,
+    "d": 7
+   },
+   "zone": "centre"
+  },
+  {
+   "id": "FAR-POLICE",
+   "role": "public",
+   "label": "опорный пункт полиции",
+   "x": 84,
+   "z": -14,
+   "new": true,
+   "to": {
+    "x": 84,
+    "z": -14,
+    "yaw": -90,
+    "w": 12,
+    "d": 9,
+    "street": "far"
+   },
+   "zone": "far-public"
+  },
+  {
+   "id": "FAR-BAKERY",
+   "role": "public",
+   "label": "пекарня",
+   "x": 88,
+   "z": -45,
+   "new": true,
+   "to": {
+    "x": 88,
+    "z": -45,
+    "yaw": 180,
+    "w": 9,
+    "d": 7,
+    "street": "far"
+   },
+   "zone": "far-public"
+  },
+  {
+   "id": "FAR-DAIRY",
+   "role": "public",
+   "label": "молокозавод",
+   "x": 98,
+   "z": -74,
+   "new": true,
+   "to": {
+    "x": 98,
+    "z": -74,
+    "yaw": 0,
+    "w": 16,
+    "d": 10,
+    "street": "far"
+   },
+   "zone": "far-public"
+  },
+  {
+   "id": "FAR-FORESTRY",
+   "role": "public",
+   "label": "лесничество",
+   "x": 94,
+   "z": 115,
+   "new": true,
+   "to": {
+    "x": 94,
+    "z": 115,
+    "yaw": 0,
+    "w": 14,
+    "d": 10,
+    "street": "far"
+   },
+   "zone": "far-public"
+  }
+ ],
+ "overlaps": [],
+ "spareOpen": [
+  {
+   "street": "cross-east",
+   "x": 37.75,
+   "z": 143.0,
+   "yaw": 180.0,
+   "w": 10.0,
+   "d": 18.0
+  },
+  {
+   "street": "cross-west",
+   "x": -27.92,
+   "z": 143.0,
+   "yaw": -180.0,
+   "w": 10.33,
+   "d": 18.0
+  },
+  {
+   "street": "cross-west",
+   "x": -38.25,
+   "z": 143.0,
+   "yaw": -180.0,
+   "w": 10.33,
+   "d": 18.0
+  },
+  {
+   "street": "cross-west",
+   "x": -48.58,
+   "z": 143.0,
+   "yaw": -180.0,
+   "w": 10.33,
+   "d": 18.0
+  }
+ ],
+ "spareFar": [
+  {
+   "street": "yar-north",
+   "x": 65.71,
+   "z": 99.85,
+   "yaw": 88.0,
+   "w": 13.0,
+   "d": 14.0
+  },
+  {
+   "street": "yar-north",
+   "x": 65.25,
+   "z": 112.84,
+   "yaw": 88.0,
+   "w": 13.0,
+   "d": 14.0
+  },
+  {
+   "street": "yar-east",
+   "x": 122.48,
+   "z": 98.73,
+   "yaw": -94.8,
+   "w": 11.75,
+   "d": 14.0
+  }
+ ],
+ "fences": {
+  "plotEdgesM": 3791,
+  "fenceBuiltM": 3145,
+  "sharedM": 646
+ }
+}

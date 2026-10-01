@@ -1,0 +1,1449 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.world-plot",
+  "id": "urman.world:act1/far-bank",
+  "name": "Заречье",
+  "executor": "generic",
+  "note": "Заречье за оврагом: две изгибающиеся улицы с задами двор к двору, переулки, тупик и спуск к оврагу. Генератор tools/world/generate_far_bank.py по утверждённой схеме v3.",
+  "green": {
+    "x": 69,
+    "z": -27,
+    "r": 5
+  },
+  "roads": [
+    {
+      "id": "yar-north",
+      "street": "yar",
+      "points": [
+        [
+          62,
+          -25
+        ],
+        [
+          72,
+          -16
+        ],
+        [
+          76,
+          4
+        ],
+        [
+          77.5,
+          34
+        ],
+        [
+          75.5,
+          62
+        ],
+        [
+          77,
+          92
+        ],
+        [
+          76,
+          120
+        ]
+      ],
+      "width": 4.2
+    },
+    {
+      "id": "yar-east",
+      "street": "tau",
+      "points": [
+        [
+          112,
+          -66
+        ],
+        [
+          110,
+          -30
+        ],
+        [
+          113,
+          6
+        ],
+        [
+          111,
+          44
+        ],
+        [
+          113,
+          80
+        ],
+        [
+          111,
+          104
+        ]
+      ],
+      "width": 4.2
+    },
+    {
+      "id": "yar-cross-1",
+      "street": "yar",
+      "points": [
+        [
+          69.5,
+          -36
+        ],
+        [
+          92,
+          -36
+        ],
+        [
+          110,
+          -34
+        ]
+      ],
+      "width": 3.6
+    },
+    {
+      "id": "yar-cross-2",
+      "street": "yar",
+      "points": [
+        [
+          77.5,
+          34
+        ],
+        [
+          94,
+          38
+        ],
+        [
+          111.42,
+          36
+        ]
+      ],
+      "width": 3.6
+    },
+    {
+      "id": "yar-cross-3",
+      "street": "tau",
+      "points": [
+        [
+          76.57,
+          104
+        ],
+        [
+          111,
+          104
+        ]
+      ],
+      "width": 3.6
+    },
+    {
+      "id": "yar-south",
+      "street": "yar",
+      "points": [
+        [
+          62,
+          -25
+        ],
+        [
+          75,
+          -44
+        ],
+        [
+          77,
+          -84
+        ]
+      ],
+      "width": 4.2
+    },
+    {
+      "id": "yar-lower",
+      "street": "tuben",
+      "points": [
+        [
+          75.9,
+          -62
+        ],
+        [
+          112,
+          -66
+        ]
+      ],
+      "width": 4.2
+    },
+    {
+      "id": "yar-tykryk",
+      "street": "tau",
+      "points": [
+        [
+          112,
+          62
+        ],
+        [
+          134,
+          66
+        ]
+      ],
+      "width": 3.6
+    }
+  ],
+  "publicBuildings": [
+    {
+      "id": "far-police",
+      "label": "опорный пункт полиции",
+      "position": [
+        84,
+        0,
+        -14
+      ],
+      "yawDegrees": -90,
+      "size": [
+        12,
+        9
+      ]
+    },
+    {
+      "id": "far-bakery",
+      "label": "пекарня",
+      "position": [
+        88,
+        0,
+        -45
+      ],
+      "yawDegrees": 180,
+      "size": [
+        9,
+        7
+      ]
+    },
+    {
+      "id": "far-dairy",
+      "label": "молокозавод",
+      "position": [
+        98,
+        0,
+        -74
+      ],
+      "yawDegrees": 0,
+      "size": [
+        16,
+        10
+      ]
+    },
+    {
+      "id": "far-forestry",
+      "label": "лесничество",
+      "position": [
+        94,
+        0,
+        115
+      ],
+      "yawDegrees": 0,
+      "size": [
+        14,
+        10
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "urman.world:act1/far-bank/h033-house",
+      "kind": "prop",
+      "name": "h033-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          65.2,
+          0,
+          -68.27
+        ],
+        "yawDegrees": 87.1,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H033",
+          "street": "yar",
+          "number": "16",
+          "cadastral": "URM-Q02-P0132"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            76.186,
+            -67.721
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h034-house",
+      "kind": "prop",
+      "name": "h034-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          64.67,
+          0,
+          -57.62
+        ],
+        "yawDegrees": 87.1,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H034",
+          "street": "yar",
+          "number": "14",
+          "cadastral": "URM-Q02-P0133"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            75.654,
+            -57.071
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h039-house",
+      "kind": "prop",
+      "name": "h039-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          65.49,
+          0,
+          14.04
+        ],
+        "yawDegrees": 92.9,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H039",
+          "street": "yar",
+          "number": "3",
+          "cadastral": "URM-Q02-P0138"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            76.475,
+            13.491
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h048-house",
+      "kind": "prop",
+      "name": "h048-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          63.22,
+          0,
+          -3.79
+        ],
+        "yawDegrees": 101.3,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H048",
+          "street": "yar",
+          "number": "1",
+          "cadastral": "URM-Q02-P0147"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            74.01,
+            -5.948
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h050-house",
+      "kind": "prop",
+      "name": "h050-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          99.55,
+          0,
+          -22.94
+        ],
+        "yawDegrees": 94.8,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H050",
+          "street": "tau",
+          "number": "5",
+          "cadastral": "URM-Q02-P0149"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            110.512,
+            -23.854
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h069-house",
+      "kind": "prop",
+      "name": "h069-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          66.16,
+          0,
+          27.52
+        ],
+        "yawDegrees": 92.9,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H069",
+          "street": "yar",
+          "number": "5",
+          "cadastral": "URM-Q03-P0201"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            77.149,
+            26.971
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h070-house",
+      "kind": "prop",
+      "name": "h070-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          99.75,
+          0,
+          -43.9
+        ],
+        "yawDegrees": 86.8,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H070",
+          "street": "tau",
+          "number": "3",
+          "cadastral": "URM-Q03-P0202"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            110.738,
+            -43.29
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h071-house",
+      "kind": "prop",
+      "name": "h071-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          87.35,
+          0,
+          10.69
+        ],
+        "yawDegrees": -87.1,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H071",
+          "street": "yar",
+          "number": "2",
+          "cadastral": "URM-Q03-P0203"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            76.362,
+            11.239
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h072-house",
+      "kind": "prop",
+      "name": "h072-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          88.05,
+          0,
+          24.67
+        ],
+        "yawDegrees": -87.1,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H072",
+          "street": "yar",
+          "number": "4",
+          "cadastral": "URM-Q03-P0204"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            77.061,
+            25.219
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h074-house",
+      "kind": "prop",
+      "name": "h074-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          65.89,
+          0,
+          42.19
+        ],
+        "yawDegrees": 85.9,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H074",
+          "street": "yar",
+          "number": "7",
+          "cadastral": "URM-Q04-P0109"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            76.859,
+            42.974
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h075-house",
+      "kind": "prop",
+      "name": "h075-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          87.64,
+          0,
+          46.38
+        ],
+        "yawDegrees": -94.1,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H075",
+          "street": "yar",
+          "number": "6",
+          "cadastral": "URM-Q04-P0110"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            76.672,
+            45.597
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h076-house",
+      "kind": "prop",
+      "name": "h076-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          65.0,
+          0,
+          54.66
+        ],
+        "yawDegrees": 85.9,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H076",
+          "street": "yar",
+          "number": "9",
+          "cadastral": "URM-Q04-P0111"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            75.968,
+            55.443
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h077-house",
+      "kind": "prop",
+      "name": "h077-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          86.88,
+          0,
+          57.1
+        ],
+        "yawDegrees": -94.1,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H077",
+          "street": "yar",
+          "number": "8",
+          "cadastral": "URM-Q04-P0112"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            75.906,
+            56.316
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h078-house",
+      "kind": "prop",
+      "name": "h078-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          102.21,
+          0,
+          48.13
+        ],
+        "yawDegrees": -173.5,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H078",
+          "street": "yar",
+          "number": "15",
+          "cadastral": "URM-Q04-P0113"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            100.955,
+            37.201
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h079-house",
+      "kind": "prop",
+      "name": "h079-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          101.52,
+          0,
+          0.64
+        ],
+        "yawDegrees": 94.8,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H079",
+          "street": "tau",
+          "number": "9",
+          "cadastral": "URM-Q04-P0114"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            112.477,
+            -0.273
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h080-house",
+      "kind": "prop",
+      "name": "h080-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          64.89,
+          0,
+          70.16
+        ],
+        "yawDegrees": 92.9,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H080",
+          "street": "yar",
+          "number": "11",
+          "cadastral": "URM-Q04-P0115"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            75.881,
+            69.61
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h081-house",
+      "kind": "prop",
+      "name": "h081-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          86.96,
+          0,
+          70.94
+        ],
+        "yawDegrees": -87.1,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H081",
+          "street": "yar",
+          "number": "10",
+          "cadastral": "URM-Q04-P0116"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            75.974,
+            71.489
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h082-house",
+      "kind": "prop",
+      "name": "h082-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          100.53,
+          0,
+          -11.15
+        ],
+        "yawDegrees": 94.8,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H082",
+          "street": "tau",
+          "number": "7",
+          "cadastral": "URM-Q04-P0117"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            111.495,
+            -12.064
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/h083-house",
+      "kind": "prop",
+      "name": "h083-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          122.33,
+          0,
+          38.03
+        ],
+        "yawDegrees": -93.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H083",
+          "street": "tau",
+          "number": "16",
+          "cadastral": "URM-Q04-P0118"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            111.345,
+            37.452
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-m-e3-house",
+      "kind": "prop",
+      "name": "ns-m-e3-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          123.45,
+          0,
+          87.02
+        ],
+        "yawDegrees": -94.8,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-M-E3",
+          "street": "tau",
+          "number": "22",
+          "cadastral": "URM-Q03-P0104"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            112.491,
+            86.107
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-m-e3b-house",
+      "kind": "prop",
+      "name": "ns-m-e3b-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          122.5,
+          0,
+          52.63
+        ],
+        "yawDegrees": -86.8,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-M-E3B",
+          "street": "tau",
+          "number": "18",
+          "cadastral": "URM-Q03-P0105"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            111.513,
+            53.24
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-m-e4-house",
+      "kind": "prop",
+      "name": "ns-m-e4-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          123.47,
+          0,
+          -0.77
+        ],
+        "yawDegrees": -85.2,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-M-E4",
+          "street": "tau",
+          "number": "10",
+          "cadastral": "URM-Q03-P0107"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            112.512,
+            0.143
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-m-e4b-house",
+      "kind": "prop",
+      "name": "ns-m-e4b-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          121.41,
+          0,
+          -37.06
+        ],
+        "yawDegrees": -93.2,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-M-E4B",
+          "street": "tau",
+          "number": "4",
+          "cadastral": "URM-Q03-P0109"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            110.426,
+            -37.67
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-m-e5-house",
+      "kind": "prop",
+      "name": "ns-m-e5-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          65.73,
+          0,
+          -78.92
+        ],
+        "yawDegrees": 87.1,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-M-E5",
+          "street": "yar",
+          "number": "18",
+          "cadastral": "URM-Q03-P0111"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            76.719,
+            -78.371
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-m-w3-house",
+      "kind": "prop",
+      "name": "ns-m-w3-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          102.32,
+          0,
+          93.0
+        ],
+        "yawDegrees": -0.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-M-W3",
+          "street": "tau",
+          "number": "24",
+          "cadastral": "URM-Q03-P0103"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            102.32,
+            104.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-m-w4-house",
+      "kind": "prop",
+      "name": "ns-m-w4-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          123.64,
+          0,
+          13.07
+        ],
+        "yawDegrees": -93.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-M-W4",
+          "street": "tau",
+          "number": "12",
+          "cadastral": "URM-Q03-P0106"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            112.658,
+            12.492
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-m-w4b-house",
+      "kind": "prop",
+      "name": "ns-m-w4b-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          121.65,
+          0,
+          -22.69
+        ],
+        "yawDegrees": -85.2,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-M-W4B",
+          "street": "tau",
+          "number": "6",
+          "cadastral": "URM-Q03-P0108"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            110.685,
+            -21.776
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-m-w5-house",
+      "kind": "prop",
+      "name": "ns-m-w5-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          122.23,
+          0,
+          -51.79
+        ],
+        "yawDegrees": -93.2,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-M-W5",
+          "street": "tau",
+          "number": "2",
+          "cadastral": "URM-Q03-P0110"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            111.244,
+            -52.4
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-n-e1-house",
+      "kind": "prop",
+      "name": "ns-n-e1-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          101.69,
+          0,
+          74.69
+        ],
+        "yawDegrees": 93.2,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-N-E1",
+          "street": "tau",
+          "number": "11",
+          "cadastral": "URM-Q03-P0116"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            112.671,
+            74.08
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-n-e1b-house",
+      "kind": "prop",
+      "name": "ns-n-e1b-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          123.69,
+          0,
+          74.09
+        ],
+        "yawDegrees": -86.8,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-N-E1B",
+          "street": "tau",
+          "number": "20",
+          "cadastral": "URM-Q03-P0117"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            112.706,
+            74.7
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-n-e2-house",
+      "kind": "prop",
+      "name": "ns-n-e2-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          122.99,
+          0,
+          25.55
+        ],
+        "yawDegrees": -93.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-N-E2",
+          "street": "tau",
+          "number": "14",
+          "cadastral": "URM-Q03-P0118"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            112.001,
+            24.972
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-n-e2b-house",
+      "kind": "prop",
+      "name": "ns-n-e2b-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          122.56,
+          0,
+          -11.73
+        ],
+        "yawDegrees": -85.2,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-N-E2B",
+          "street": "tau",
+          "number": "8",
+          "cadastral": "URM-Q03-P0119"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            111.599,
+            -10.817
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-n-e3-house",
+      "kind": "prop",
+      "name": "ns-n-e3-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          100.37,
+          0,
+          -54.88
+        ],
+        "yawDegrees": 86.8,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-N-E3",
+          "street": "tau",
+          "number": "1",
+          "cadastral": "URM-Q03-P0120"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            111.348,
+            -54.27
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-w-n1-house",
+      "kind": "prop",
+      "name": "ns-w-n1-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          87.63,
+          0,
+          84.42
+        ],
+        "yawDegrees": -87.1,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-W-N1",
+          "street": "yar",
+          "number": "12",
+          "cadastral": "URM-Q03-P0112"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            76.648,
+            84.969
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/ns-w-n2-house",
+      "kind": "prop",
+      "name": "ns-w-n2-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          65.63,
+          0,
+          84.9
+        ],
+        "yawDegrees": 92.9,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-W-N2",
+          "street": "yar",
+          "number": "13",
+          "cadastral": "URM-Q03-P0113"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            76.618,
+            84.351
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Заречье: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/far-bank/green-well",
+      "kind": "prop",
+      "name": "green-well",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/well-yardlandmark",
+        "position": [
+          69,
+          0,
+          -27
+        ],
+        "yawDegrees": 0,
+        "scale": 1.0
+      },
+      "note": "Колодец на лужайке у моста"
+    }
+  ]
+}

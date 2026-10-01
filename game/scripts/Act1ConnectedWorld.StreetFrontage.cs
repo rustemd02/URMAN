@@ -109,10 +109,8 @@ public partial class Act1ConnectedWorld
         var registry = AddressRegistry!;
         var axes = new (string Id, Vector2[] Points, float HalfWidth)[]
         {
-            ("main", AgentBAct1Layout.MainRoadAxis, 2.8f),
-            // The second half's lane across the ravine: seen, never walked.
-            ("yar", RavineFarLane, 1.2f),
-            ("yar-south", RavineFarLaneSouth, 1.2f)
+            ("main", AgentBAct1Layout.MainRoadAxis, 2.8f)
+            // The far bank's generic parcels carry their own yard fences (relayout v3).
             // The FAP branch keeps its authored service loop and holding walks
             // unfenced, and the zirat road its open memory field.
         };

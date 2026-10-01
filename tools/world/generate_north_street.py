@@ -344,6 +344,11 @@ if OUT.exists() and BASELINE.exists():
     BASELINE.write_text(json.dumps(proposal,ensure_ascii=False,indent=2)+"\n")
 else:
     BASELINE.write_text(json.dumps(doc,ensure_ascii=False,indent=2)+"\n")
+# Relayout v3 (2026-10-01): the north tail's households moved to the far bank
+# (tools/world/generate_far_bank.py carries their address ids); drop them and their yards here.
+MOVED_TO_FAR = {"m-w3", "m-e3", "m-e3b", "m-w4", "m-e4", "m-w4b", "m-e4b", "m-w5", "m-e5",
+                "n-e1", "n-e1b", "n-e2", "n-e2b", "n-e3", "w-n1", "w-n2"}
+doc["entities"] = [e for e in doc["entities"] if e["name"].rsplit("-", 1)[0] not in MOVED_TO_FAR]
 OUT.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 print(f"wrote {OUT.relative_to(ROOT)}: {len(entities)} entities, {len(footprints)} footprints")
 if problems:

@@ -14,7 +14,9 @@ public static class AgentBAct1HeightField
     // East of the FAP the village continues past the ravine (author, 2026-09-25):
     // the far bank carries the second half of the settlement, so the terrain
     // runs on to the forest ring there instead of stopping at the old rim.
-    public const float MaxX = 94f;
+    // Relayout v3 (2026-10-01): the far bank becomes a quarter of two streets,
+    // so the terrain and the forest ring move east to x 150 / 138.
+    public const float MaxX = 150f;
     public const float MinZ = -152f;
     // Extend the arrival-side terrain with a low reverse-field grade beyond
     // the z≈52 framing band; the old 56 m cap ended immediately behind it.
@@ -137,7 +139,7 @@ public static class AgentBAct1HeightField
     };
     private static readonly float[] HalfWidths = { 2.8f, 2.3f, 1.4f, 2.1f, 1.75f, 2.0f, 1.75f, 2.4f };
 
-    private static readonly ((float X, float Z)[] Points, double HalfWidth)[] RoadAxes =
+    private static readonly ((float X, float Z)[] Points, double HalfWidth)[] RoadAxes = new ((float X, float Z)[] Points, double HalfWidth)[]
     {
         (MainAxis, HalfWidths[0]), (FapAxis, HalfWidths[1]),
         (AgentBAct1Layout.BridgeApproachAxis.Select(p => (p.X, p.Y)).ToArray(), 2.3),
@@ -145,7 +147,19 @@ public static class AgentBAct1HeightField
         (EastStreetAxis, HalfWidths[5]), (WestSpurAxis, HalfWidths[6]), (SquareRingAxis, HalfWidths[7]), (NorthEastStreetAxis, 1.75), (WestServiceAxis, 1.75),
         (AgentBAct1Layout.NorthCrossStreetAxis.Select(p => (p.X, p.Y)).ToArray(), 2.0),
         (AgentBAct1Layout.NorthReturnStreetAxis.Select(p => (p.X, p.Y)).ToArray(), 2.4)
-    };
+    }.Concat(FarBankRoads()).ToArray();
+
+    /// <summary>Far-bank streets live in the far-bank plot data with the households they serve.</summary>
+    internal const string FarBankPlotPath = "res://content/world/act1_far_bank.world.v1.json";
+    internal static ((float X, float Z)[] Points, double HalfWidth)[] FarBankRoads()
+    {
+        if (!global::Godot.FileAccess.FileExists(FarBankPlotPath)) return [];
+        using var doc = System.Text.Json.JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(FarBankPlotPath));
+        if (!doc.RootElement.TryGetProperty("roads", out var roads)) return [];
+        return roads.EnumerateArray().Select(road => (
+            road.GetProperty("points").EnumerateArray().Select(p => (p[0].GetSingle(), p[1].GetSingle())).ToArray(),
+            road.GetProperty("width").GetDouble() * .5)).ToArray();
+    }
     private static Vector3[]? _collisionFaces;
     private sealed class HouseholdPad(float x, float z, float halfX, float halfZ, float yaw, float anchorX, float anchorZ, float feather)
     {
@@ -162,10 +176,11 @@ public static class AgentBAct1HeightField
     private static readonly HouseholdPad[] HouseholdPads = LoadHouseholdPads();
     private static HouseholdPad[] LoadHouseholdPads()
     {
-        const string path = "res://content/world/act1_north_street.world.v1.json";
-        if (!global::Godot.FileAccess.FileExists(path)) return [];
-        using var doc = System.Text.Json.JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(path));
         var result = new System.Collections.Generic.List<HouseholdPad>();
+        foreach (var path in new[] { "res://content/world/act1_north_street.world.v1.json", FarBankPlotPath })
+        {
+        if (!global::Godot.FileAccess.FileExists(path)) continue;
+        using var doc = System.Text.Json.JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(path));
         foreach (var entity in doc.RootElement.GetProperty("entities").EnumerateArray())
         {
             var p = entity.GetProperty("params");
@@ -173,6 +188,7 @@ public static class AgentBAct1HeightField
             var at = p.GetProperty("position"); var size = pad.GetProperty("halfSize"); var anchor = pad.GetProperty("streetAnchor");
             result.Add(new(at[0].GetSingle(), at[2].GetSingle(), size[0].GetSingle(), size[1].GetSingle(),
                 Mathf.DegToRad(p.GetProperty("yawDegrees").GetSingle()), anchor[0].GetSingle(), anchor[1].GetSingle(), pad.GetProperty("feather").GetSingle()));
+        }
         }
         return result.ToArray();
     }
@@ -381,7 +397,7 @@ public static class AgentBAct1HeightField
         // Same watershed grades as the authored Blender terrain; all starts
         // lie outside the yards and the final playable route endpoint.
         var westRim = System.Math.Clamp((-x - 40.0) / 24.0, 0.0, 1.0);
-        var eastRim = System.Math.Clamp((x - 79.0) / 16.0, 0.0, 1.0);
+        var eastRim = System.Math.Clamp((x - 131.0) / 16.0, 0.0, 1.0);
         // The far bank stands a little higher than the village side, so the
         // second half is seen across the ravine rather than hidden by its lip.
         var farBank = System.Math.Clamp((x - RavineCentre(z) - 4.6) / 2.5, 0.0, 1.0);
@@ -424,22 +440,20 @@ public static class AgentBAct1HeightField
     /// </summary>
     public static double RiverChannel(float x, float z)
     {
-        var meander = -88.0 + 3.2 * System.Math.Sin(x / 12.0) + 1.4 * System.Math.Sin(x / 4.3);
-        var distance = System.Math.Abs(z - meander);
-        const double halfWidth = 4.6;
-        if (distance >= halfWidth)
-        {
-            return 0.0;
-        }
-
-        // 3.4 m deep over a 9.2 m channel keeps the banks past the controller's
-        // 45-degree floor limit, so the ravine is the boundary and no invisible
-        // wall is needed.
-        var profile = System.Math.Cos(System.Math.PI * 0.5 * distance / halfWidth);
-        var (roadDistance, roadHalfWidth) = RoadInfo(x, z);
-        var roadGap = System.Math.Clamp((roadDistance - roadHalfWidth - 1.2f) / 3.0f, 0.0, 1.0);
-        return -3.4 * profile * roadGap;
+        // Relayout v3 (author, 2026-10-01): no river. A wide, deep gorge closes the
+        // village from the Kara-Urman forest: a flat frozen bottom and walls far past
+        // the controller's floor limit. Only the suspension bridge spans it.
+        var distance = System.Math.Abs(z - RiverMeander(x));
+        if (distance >= GorgeHalfWidth) return 0.0;
+        var t = distance / GorgeHalfWidth;
+        var wall = t <= .5 ? 1.0 : 1.0 - Mathf.SmoothStep(.5f, 1f, (float)t);
+        return -GorgeDepth * wall;
     }
+
+    /// <summary>Half the gorge width, rim to centre (metres).</summary>
+    public const double GorgeHalfWidth = 8.0;
+    /// <summary>Gorge depth below the surrounding ground (metres).</summary>
+    public const double GorgeDepth = 9.0;
 
     /// <summary>
     /// The ravine with a stream that splits the village (author, 2026-09-25).
@@ -461,8 +475,9 @@ public static class AgentBAct1HeightField
         return -3.4 * System.Math.Cos(System.Math.PI * 0.5 * distance / RavineHalfWidth);
     }
 
+    /// <summary>Centre line of the southern gorge (the name is kept from the former river).</summary>
     public static double RiverMeander(float x)
-        => -88.0 + 3.2 * System.Math.Sin(x / 12.0) + 1.4 * System.Math.Sin(x / 4.3);
+        => -97.0 + 1.2 * System.Math.Sin(x / 14.0) + .5 * System.Math.Sin(x / 5.3);
 
     public static double Ground(float x, float z)
     {

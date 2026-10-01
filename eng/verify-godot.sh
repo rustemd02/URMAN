@@ -72,7 +72,6 @@ for TEST_SCENE in \
   res://tests/act1_binding_conflict_smoke_test.tscn \
   res://tests/act1_reduced_motion_smoke_test.tscn \
   res://tests/act1_npc_greeting_smoke_test.tscn \
-  res://tests/act1_river_exit_smoke_test.tscn \
   res://tests/act1_npc_presentation_smoke_test.tscn \
   res://tests/vehicle_radio_dial_smoke_test.tscn \
   res://tests/act1_boundary_architecture_smoke_test.tscn \

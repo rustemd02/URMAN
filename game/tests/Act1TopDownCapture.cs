@@ -19,6 +19,65 @@ public partial class Act1TopDownCapture : Node
             if (!await this.StartThroughMainMenuAsync(demo)) throw new InvalidOperationException("demo did not start");
             foreach (var layer in GetTree().Root.FindChildren("*", nameof(CanvasLayer), true, false).OfType<CanvasLayer>())
                 layer.Visible = false;
+            if (OS.GetEnvironment("URMAN_INTERACTION_SURVEY") == "1")
+            {
+                // One line per interaction target in the connected world: what the relayout must carry.
+                foreach (var target in GetTree().Root.FindChildren("*", "", true, false).OfType<InteractionTarget>())
+                {
+                    var at = target.GlobalPosition;
+                    GD.Print(System.FormattableString.Invariant(
+                        $"interaction|{target.InteractionId}|{at.X:0.0}|{at.Z:0.0}|{target.GetPath()}"));
+                }
+                GetTree().Quit(0);
+                return;
+            }
+            if (OS.GetEnvironment("URMAN_SNOW_SURVEY") == "1")
+            {
+                // One line per snow relief mesh that pushes into something solid: buildings,
+                // bridges, fences, porches. Terrain bodies are ignored.
+                await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+                await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+                var world = GetTree().Root.FindChild("Act1ConnectedWorld", true, false) as Node3D
+                    ?? throw new InvalidOperationException("no world");
+                var space = world.GetWorld3D().DirectSpaceState;
+                var query = new PhysicsPointQueryParameters3D { CollideWithAreas = false, CollideWithBodies = true, CollisionMask = uint.MaxValue };
+                foreach (var mesh in world.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
+                {
+                    if (!mesh.IsVisibleInTree() || mesh.Mesh is not { } m) continue;
+                    var surface = (mesh.MaterialOverride ?? mesh.GetActiveMaterial(0))?.GetMeta("surface", "").AsString() ?? "";
+                    if (surface is not ("snow_ground" or "snow_trampled")) continue;
+                    var hits = new Dictionary<string, int>();
+                    var vertices = 0;
+                    for (var s = 0; s < m.GetSurfaceCount(); s++)
+                    {
+                        // Triangle centres of the drawn index list, so trimmed triangles do not count.
+                        var arrays = m.SurfaceGetArrays(s);
+                        var vs = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                        var ix = arrays[(int)Mesh.ArrayType.Index].VariantType == Variant.Type.Nil
+                            ? Enumerable.Range(0, vs.Length).ToArray() : arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
+                        for (var t = 0; t + 2 < ix.Length; t += 3)
+                        {
+                            var v = (vs[ix[t]] + vs[ix[t + 1]] + vs[ix[t + 2]]) / 3f;
+                            vertices++;
+                            query.Position = mesh.ToGlobal(v) + Vector3.Up * .04f;
+                            foreach (var hit in space.IntersectPoint(query, 4))
+                            {
+                                if (hit["collider"].AsGodotObject() is not Node body) continue;
+                                var key = body.GetPath().ToString();
+                                if (key.Contains("Terrain", StringComparison.Ordinal)) continue;
+                                hits[key] = hits.GetValueOrDefault(key) + 1;
+                            }
+                        }
+                    }
+                    if (hits.Count == 0) continue;
+                    var box = mesh.GlobalTransform * mesh.GetAabb();
+                    foreach (var (key, count) in hits.OrderByDescending(h => h.Value).Take(3))
+                        GD.Print(System.FormattableString.Invariant(
+                            $"snow|{mesh.GetPath()}|{surface}|{box.GetCenter().X:0.0}|{box.GetCenter().Z:0.0}|{box.Size.Y:0.00}|{count}/{vertices}|{key}"));
+                }
+                GetTree().Quit(0);
+                return;
+            }
             if (OS.GetEnvironment("URMAN_BUILDING_SURVEY") == "1")
             {
                 // One line per registered building: where it stands relative to the roads.

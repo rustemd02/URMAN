@@ -360,12 +360,12 @@ public partial class Act1ConnectedWorld
         Road("authored/north-return-axis","urman",AgentBAct1Layout.NorthReturnStreetAxis,4.8,SettlementTravelMode.All);
         Road("authored/square-ring-axis","urman",AgentBAct1Layout.SquareRingAxis,4.8,SettlementTravelMode.All);
         Road("authored/zirat-axis","tukay",AgentBAct1Layout.ZiratRoadAxis,4.2,SettlementTravelMode.All);
-        Road("authored/kara-axis","",AgentBAct1Layout.KaraRoadAxis,3.5,SettlementTravelMode.Foot|SettlementTravelMode.HorseCart);
+        Road("authored/kara-axis","",AgentBAct1Layout.KaraRoadAxis,3.5,SettlementTravelMode.Foot);  // crosses on the suspension bridge
         Road("authored/house-path","tukay",AgentBAct1Layout.HousePathAxis,1.15,SettlementTravelMode.Foot);
         foreach(var connector in Act1WorldLayout.Connectors)
             Road("connector/"+connector.ConnectorId,connector.ConnectorId.Contains("fap",StringComparison.Ordinal)?"urman":connector.ConnectorId.Contains("kara",StringComparison.Ordinal)?"":"tukay",
                 [new(connector.Start.X,connector.Start.Z),new(connector.End.X,connector.End.Z)],connector.Width,
-                connector.ConnectorId.Contains("kara",StringComparison.Ordinal)?SettlementTravelMode.Foot|SettlementTravelMode.HorseCart:SettlementTravelMode.All);
+                connector.ConnectorId.Contains("kara",StringComparison.Ordinal)?SettlementTravelMode.Foot:SettlementTravelMode.All);
         // The foot lane likewise ends before the first deck board (see the bridge approach above).
         var footApproach=RavineBridgeApproach.ToArray();
         footApproach[^1]=footApproach[^1]+(footApproach[^2]-footApproach[^1]).Normalized()*1.3f;
@@ -381,8 +381,11 @@ public partial class Act1ConnectedWorld
         }
         Road("authored/tamara-fence-approach","tukay",driveway,3.2,SettlementTravelMode.All);
         // The far bank's lane is its own piece of graph: the bridge span is gone.
-        Road("authored/yar-lane","yar",RavineFarLane,3.2,SettlementTravelMode.All);
-        Road("authored/yar-lane-south","yar",RavineFarLaneSouth,2.8,SettlementTravelMode.All);
+        // Заречье: its streets come from the far-bank plot. The span between the bridge
+        // approach and the first far street is the bridge itself (walkable until the night).
+        foreach(var road in FarBankPlot().Roads)
+            Road("authored/"+road.Id,road.Street,road.Points,road.Width,SettlementTravelMode.All);
+        Road("authored/ravine-bridge-span","yar",[new(44.0f,RavineBridgeZ),new(62f,-25f)],2.8,SettlementTravelMode.Foot);
         registry.Graph.Rebuild(registry.Streets);
         foreach(var (name,street) in new[]{("ZiratWestHoldingAccess","usal"),("EastStreetPlotAccessPath","urman"),("ConnectiveWestHouseDrive","tukay"),("ReturnEastFarmDrive","tukay"),("FapClinicEntryPath","urman")})
         {
@@ -415,10 +418,16 @@ public partial class Act1ConnectedWorld
     }
     private void ImportAddressConstraints(SettlementRegistry registry)
     {
-        var river=FindDescendants<Node3D>(this).FirstOrDefault(n=>n.Name=="VillageForestRiver");
-        if(river is not null)
-            foreach(var mesh in FindDescendants<MeshInstance3D>(river).Where(n=>n.Name.ToString().StartsWith("RiverIce_",StringComparison.Ordinal)))
-                registry.AddConstraint(new("water/"+mesh.Name,"water",AddressFootprint(mesh),SettlementTravelMode.All));
+        // The southern gorge (relayout v3): nothing crosses it except on the suspension bridge.
+        var gorgeNear=new List<SettlementPoint>();var gorgeFar=new List<SettlementPoint>();
+        for(var x=AgentBAct1HeightField.MinX;x<=AgentBAct1HeightField.MaxX;x+=4f)
+        {
+            if(Math.Abs(x-SuspensionBridgeX)<2.5f){x=SuspensionBridgeX+2.5f;}
+            gorgeNear.Add(new(x,0,GorgeNearRim(x)));gorgeFar.Add(new(x,0,GorgeFarRim(x)));
+        }
+        gorgeFar.Reverse();
+        registry.AddConstraint(new("water/gorge-west","water",[..gorgeNear.Where(p=>p.X<SuspensionBridgeX),..gorgeFar.Where(p=>p.X<SuspensionBridgeX)],SettlementTravelMode.All));
+        registry.AddConstraint(new("water/gorge-east","water",[..gorgeNear.Where(p=>p.X>SuspensionBridgeX),..gorgeFar.Where(p=>p.X>SuspensionBridgeX)],SettlementTravelMode.All));
         var ravineWest=new List<SettlementPoint>();var ravineEast=new List<SettlementPoint>();
         for(var z=-92f;z<=AgentBAct1HeightField.MaxZ;z+=4f)
         {

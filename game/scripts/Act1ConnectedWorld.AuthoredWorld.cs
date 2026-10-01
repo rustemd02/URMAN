@@ -21,12 +21,29 @@ public partial class Act1ConnectedWorld
         // not silently retain plain preview materials.
         var rebound = RegradeAct1DaylightKitMaterials(AuthoredWorld);
         AuthoredWorld.SetMeta("revisedSurfaceBindings", rebound);
-        using var layout = JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString("res://content/world/act1_north_street.world.v1.json"));
-        foreach (var row in layout.RootElement.GetProperty("entities").EnumerateArray())
+        // Use the same plot discovery contract as the director. A household
+        // keeps its address when it moves between quarters; no second list of
+        // addressed plots should silently omit the far bank.
+        foreach (var file in DirAccess.GetFilesAt(AuthoredWorldDirector.WorldDirectory)
+            .Where(file => file.EndsWith(".world.v1.json", StringComparison.Ordinal)).Order(StringComparer.Ordinal))
+        {
+            using var layout = JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString($"{AuthoredWorldDirector.WorldDirectory}/{file}"));
+            if (!layout.RootElement.TryGetProperty("executor", out var executor) || executor.GetString() != "generic") continue;
+            RegisterAuthoredPlotAddresses(layout.RootElement);
+        }
+        foreach (var anchor in KitPlacementTakeover.Unmatched())
+        {
+            GD.PushError($"authored-world: the plot owns placement {anchor}, but the village builder no longer places it; decide in URMAN Studio.");
+        }
+    }
+
+    private void RegisterAuthoredPlotAddresses(JsonElement layout)
+    {
+        foreach (var row in layout.GetProperty("entities").EnumerateArray())
         {
             if (!row.GetProperty("params").TryGetProperty("address", out var address)) continue;
             var id = row.GetProperty("id").GetString()!;
-            var root = AuthoredWorld.ObjectRoot(id) ?? throw new InvalidOperationException("Missing addressed household: " + id);
+            var root = AuthoredWorld!.ObjectRoot(id) ?? throw new InvalidOperationException("Missing addressed household: " + id);
             if (!TryAddressDoor(root, null, out var door, out var outward))
                 throw new InvalidOperationException("New household has no actual door: " + id);
             var addressId = address.GetProperty("id").GetString()!;
@@ -56,10 +73,6 @@ public partial class Act1ConnectedWorld
             RegisterAddressedBuilding(new(root, id, "BLD-" + slug, "PAR-" + slug, addressId,
                 address.GetProperty("street").GetString()!, address.GetProperty("number").GetString()!,
                 address.GetProperty("cadastral").GetString()!, access, sign, outward, "residential", SignOutward: signOutward));
-        }
-        foreach (var anchor in KitPlacementTakeover.Unmatched())
-        {
-            GD.PushError($"authored-world: the plot owns placement {anchor}, but the village builder no longer places it; decide in URMAN Studio.");
         }
     }
 }

@@ -108,21 +108,21 @@
         "characterId": "resident-m-e3-a",
         "kitPrefix": "Resident",
         "position": [
-          -4.5,
+          118.76,
           0.0,
-          167.4
+          89.04
         ],
-        "yawDegrees": -60.0,
+        "yawDegrees": -64.8,
         "scale": 1.02,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -4.5,
+              118.76,
               0.0,
-              167.4
+              89.04
             ],
-            "yawDegrees": -60.0,
+            "yawDegrees": -64.8,
             "motion": "urman.anim:idle-plain"
           }
         ],
@@ -139,21 +139,21 @@
         "characterId": "resident-m-e3b-a",
         "kitPrefix": "Resident",
         "position": [
-          -9.5,
+          118.14,
           0.0,
-          179.4
+          55.28
         ],
-        "yawDegrees": -90.0,
+        "yawDegrees": -86.8,
         "scale": 0.96,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -9.5,
+              118.14,
               0.0,
-              179.4
+              55.28
             ],
-            "yawDegrees": -90.0,
+            "yawDegrees": -86.8,
             "motion": "urman.anim:talk-plain"
           }
         ],
@@ -171,21 +171,21 @@
         "characterId": "resident-m-e3b-b",
         "kitPrefix": "Resident",
         "position": [
-          -11.5,
+          116.14,
           0.0,
-          179.4
+          55.39
         ],
-        "yawDegrees": 90.0,
+        "yawDegrees": 93.2,
         "scale": 0.97,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -11.5,
+              116.14,
               0.0,
-              179.4
+              55.39
             ],
-            "yawDegrees": 90.0,
+            "yawDegrees": 93.2,
             "motion": "urman.anim:talk-plain"
           }
         ],
@@ -203,21 +203,21 @@
         "characterId": "resident-m-e4-a",
         "kitPrefix": "Resident",
         "position": [
-          -9.5,
+          119.19,
           0.0,
-          192.4
+          2.0
         ],
-        "yawDegrees": -80.0,
+        "yawDegrees": -75.2,
         "scale": 1.02,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -9.5,
+              119.19,
               0.0,
-              192.4
+              2.0
             ],
-            "yawDegrees": -80.0,
+            "yawDegrees": -75.2,
             "motion": "urman.anim:idle-plain"
           }
         ],
@@ -234,21 +234,21 @@
         "characterId": "resident-m-e4b-a",
         "kitPrefix": "Resident",
         "position": [
-          -9.5,
+          116.78,
           0.0,
-          205.9
+          -34.91
         ],
-        "yawDegrees": -115.0,
+        "yawDegrees": -118.2,
         "scale": 1.03,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -9.5,
+              116.78,
               0.0,
-              205.9
+              -34.91
             ],
-            "yawDegrees": -115.0,
+            "yawDegrees": -118.2,
             "motion": "urman.anim:work-kneel"
           }
         ],
@@ -265,21 +265,21 @@
         "characterId": "resident-m-e5-a",
         "kitPrefix": "Resident",
         "position": [
-          -9.5,
+          70.35,
           0.0,
-          219.4
+          -81.09
         ],
-        "yawDegrees": -90.0,
+        "yawDegrees": 87.1,
         "scale": 1.02,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -9.5,
+              70.35,
               0.0,
-              219.4
+              -81.09
             ],
-            "yawDegrees": -90.0,
+            "yawDegrees": 87.1,
             "motion": "urman.anim:talk-plain"
           }
         ],
@@ -297,21 +297,21 @@
         "characterId": "resident-m-e5-b",
         "kitPrefix": "Resident",
         "position": [
-          -11.5,
+          72.34,
           0.0,
-          219.4
+          -80.99
         ],
-        "yawDegrees": 90.0,
+        "yawDegrees": 267.1,
         "scale": 0.91,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -11.5,
+              72.34,
               0.0,
-              219.4
+              -80.99
             ],
-            "yawDegrees": 90.0,
+            "yawDegrees": 267.1,
             "motion": "urman.anim:talk-plain"
           }
         ],
@@ -360,21 +360,21 @@
         "characterId": "resident-m-w3-a",
         "kitPrefix": "Resident",
         "position": [
-          -37.5,
+          104.72,
           0.0,
-          160.6
+          97.5
         ],
-        "yawDegrees": 80.0,
+        "yawDegrees": -10.0,
         "scale": 0.96,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -37.5,
+              104.72,
               0.0,
-              160.6
+              97.5
             ],
-            "yawDegrees": 80.0,
+            "yawDegrees": -10.0,
             "motion": "urman.anim:idle-plain"
           }
         ],
@@ -391,21 +391,21 @@
         "characterId": "resident-m-w4-a",
         "kitPrefix": "Resident",
         "position": [
-          -35.5,
+          119.02,
           0.0,
-          187.6
+          15.23
         ],
-        "yawDegrees": 120.0,
+        "yawDegrees": -63.0,
         "scale": 0.97,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -35.5,
+              119.02,
               0.0,
-              187.6
+              15.23
             ],
-            "yawDegrees": 120.0,
+            "yawDegrees": -63.0,
             "motion": "urman.anim:idle-plain"
           }
         ],
@@ -422,21 +422,21 @@
         "characterId": "resident-m-w4b-a",
         "kitPrefix": "Resident",
         "position": [
-          -35.5,
+          117.37,
           0.0,
-          201.1
+          -19.92
         ],
-        "yawDegrees": -90.0,
+        "yawDegrees": -265.2,
         "scale": 0.96,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -35.5,
+              117.37,
               0.0,
-              201.1
+              -19.92
             ],
-            "yawDegrees": -90.0,
+            "yawDegrees": -265.2,
             "motion": "urman.anim:talk-plain"
           }
         ],
@@ -454,21 +454,21 @@
         "characterId": "resident-m-w4b-b",
         "kitPrefix": "Resident",
         "position": [
-          -36.5,
+          118.36,
           0.0,
-          201.1
+          -20.01
         ],
-        "yawDegrees": 90.0,
+        "yawDegrees": -85.2,
         "scale": 0.99,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -36.5,
+              118.36,
               0.0,
-              201.1
+              -20.01
             ],
-            "yawDegrees": 90.0,
+            "yawDegrees": -85.2,
             "motion": "urman.anim:talk-plain"
           }
         ],
@@ -486,21 +486,21 @@
         "characterId": "resident-m-w5-a",
         "kitPrefix": "Resident",
         "position": [
-          -35.5,
+          117.6,
           0.0,
-          214.6
+          -49.64
         ],
-        "yawDegrees": 90.0,
+        "yawDegrees": -93.2,
         "scale": 1.03,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -35.5,
+              117.6,
               0.0,
-              214.6
+              -49.64
             ],
-            "yawDegrees": 90.0,
+            "yawDegrees": -93.2,
             "motion": "urman.anim:work-kneel"
           }
         ],
@@ -517,21 +517,21 @@
         "characterId": "resident-n-e1-a",
         "kitPrefix": "Resident",
         "position": [
-          29.5,
+          106.05,
           0.0,
-          165.4
+          72.04
         ],
-        "yawDegrees": -120.0,
+        "yawDegrees": 63.2,
         "scale": 0.99,
         "schedule": [
           {
             "id": "day",
             "place": [
-              29.5,
+              106.05,
               0.0,
-              165.4
+              72.04
             ],
-            "yawDegrees": -120.0,
+            "yawDegrees": 63.2,
             "motion": "urman.anim:idle-plain"
           }
         ],
@@ -548,21 +548,21 @@
         "characterId": "resident-n-e1b-a",
         "kitPrefix": "Resident",
         "position": [
-          29.5,
+          119.33,
           0.0,
-          178.4
+          76.74
         ],
-        "yawDegrees": 90.0,
+        "yawDegrees": 93.2,
         "scale": 1.03,
         "schedule": [
           {
             "id": "day",
             "place": [
-              29.5,
+              119.33,
               0.0,
-              178.4
+              76.74
             ],
-            "yawDegrees": 90.0,
+            "yawDegrees": 93.2,
             "motion": "urman.anim:talk-plain"
           }
         ],
@@ -580,21 +580,21 @@
         "characterId": "resident-n-e1b-b",
         "kitPrefix": "Resident",
         "position": [
-          30.5,
+          120.33,
           0.0,
-          178.4
+          76.68
         ],
-        "yawDegrees": -90.0,
+        "yawDegrees": -86.8,
         "scale": 0.94,
         "schedule": [
           {
             "id": "day",
             "place": [
-              30.5,
+              120.33,
               0.0,
-              178.4
+              76.68
             ],
-            "yawDegrees": -90.0,
+            "yawDegrees": -86.8,
             "motion": "urman.anim:talk-plain"
           }
         ],
@@ -612,21 +612,21 @@
         "characterId": "resident-n-e2-a",
         "kitPrefix": "Resident",
         "position": [
-          29.5,
+          118.37,
           0.0,
-          190.4
+          27.71
         ],
-        "yawDegrees": -60.0,
+        "yawDegrees": -63.0,
         "scale": 0.97,
         "schedule": [
           {
             "id": "day",
             "place": [
-              29.5,
+              118.37,
               0.0,
-              190.4
+              27.71
             ],
-            "yawDegrees": -60.0,
+            "yawDegrees": -63.0,
             "motion": "urman.anim:idle-plain"
           }
         ],
@@ -643,21 +643,21 @@
         "characterId": "resident-n-e2b-a",
         "kitPrefix": "Resident",
         "position": [
-          29.5,
+          118.28,
           0.0,
-          203.4
+          -8.96
         ],
-        "yawDegrees": -115.0,
+        "yawDegrees": -110.2,
         "scale": 1.0,
         "schedule": [
           {
             "id": "day",
             "place": [
-              29.5,
+              118.28,
               0.0,
-              203.4
+              -8.96
             ],
-            "yawDegrees": -115.0,
+            "yawDegrees": -110.2,
             "motion": "urman.anim:work-kneel"
           }
         ],
@@ -674,21 +674,21 @@
         "characterId": "resident-n-e3-a",
         "kitPrefix": "Resident",
         "position": [
-          29.5,
+          105.0,
           0.0,
-          216.4
+          -57.03
         ],
-        "yawDegrees": 90.0,
+        "yawDegrees": 266.8,
         "scale": 0.95,
         "schedule": [
           {
             "id": "day",
             "place": [
-              29.5,
+              105.0,
               0.0,
-              216.4
+              -57.03
             ],
-            "yawDegrees": 90.0,
+            "yawDegrees": 266.8,
             "motion": "urman.anim:talk-plain"
           }
         ],
@@ -706,21 +706,21 @@
         "characterId": "resident-n-e3-b",
         "kitPrefix": "Resident",
         "position": [
-          30.5,
+          104.0,
           0.0,
-          216.4
+          -57.08
         ],
-        "yawDegrees": -90.0,
+        "yawDegrees": 86.8,
         "scale": 0.92,
         "schedule": [
           {
             "id": "day",
             "place": [
-              30.5,
+              104.0,
               0.0,
-              216.4
+              -57.08
             ],
-            "yawDegrees": -90.0,
+            "yawDegrees": 86.8,
             "motion": "urman.anim:talk-plain"
           }
         ],
@@ -738,21 +738,21 @@
         "characterId": "resident-w-n1-a",
         "kitPrefix": "Resident",
         "position": [
-          -49.5,
+          83.3,
           0.0,
-          121.8
+          87.84
         ],
-        "yawDegrees": 120.0,
+        "yawDegrees": -57.1,
         "scale": 1.03,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -49.5,
+              83.3,
               0.0,
-              121.8
+              87.84
             ],
-            "yawDegrees": 120.0,
+            "yawDegrees": -57.1,
             "motion": "urman.anim:idle-plain"
           }
         ],
@@ -769,21 +769,21 @@
         "characterId": "resident-w-n2-a",
         "kitPrefix": "Resident",
         "position": [
-          -47.5,
+          71.96,
           0.0,
-          87.8
+          81.38
         ],
-        "yawDegrees": 100.0,
+        "yawDegrees": 102.9,
         "scale": 1.01,
         "schedule": [
           {
             "id": "day",
             "place": [
-              -47.5,
+              71.96,
               0.0,
-              87.8
+              81.38
             ],
-            "yawDegrees": 100.0,
+            "yawDegrees": 102.9,
             "motion": "urman.anim:idle-plain"
           }
         ],

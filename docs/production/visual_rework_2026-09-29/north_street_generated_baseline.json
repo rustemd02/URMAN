@@ -1532,9 +1532,9 @@
           0,
           68.5
         ],
-        "yawDegrees": -90
+        "yawDegrees": 90
       },
-      "note": "Обзор оврага"
+      "note": "Обзор оврага: скамья смотрит на овраг, спинка с деревенской стороны"
     },
     {
       "id": "urman.world:act1/north-street/lookout-board",

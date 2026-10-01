@@ -55,6 +55,30 @@
       ],
       "oddSide": "left",
       "protected": false
+    },
+    {
+      "id": "tau",
+      "tatar": "Тау ур.",
+      "russian": "ул. Нагорная",
+      "origin": [
+        112.0,
+        0.0,
+        -66.0
+      ],
+      "oddSide": "left",
+      "protected": false
+    },
+    {
+      "id": "tuben",
+      "tatar": "Түбән ур.",
+      "russian": "ул. Нижняя",
+      "origin": [
+        76.0,
+        0.0,
+        -62.0
+      ],
+      "oddSide": "left",
+      "protected": false
     }
   ],
   "buildings": [
@@ -477,28 +501,6 @@
       "role": "residential"
     },
     {
-      "sourceName": "FapEastViewHouse",
-      "sourceKey": "act1/holding/FapEastViewHouse",
-      "buildingId": "BLD-H033",
-      "parcelId": "PAR-H033",
-      "addressId": "ADR-H033",
-      "streetId": "yar",
-      "number": "4",
-      "cadastral": "URM-Q02-P0132",
-      "role": "residential"
-    },
-    {
-      "sourceName": "FapEastHorizonAuthoredHouse",
-      "sourceKey": "act1/holding/FapEastHorizonAuthoredHouse",
-      "buildingId": "BLD-H034",
-      "parcelId": "PAR-H034",
-      "addressId": "ADR-H034",
-      "streetId": "yar",
-      "number": "2",
-      "cadastral": "URM-Q02-P0133",
-      "role": "residential"
-    },
-    {
       "sourceName": "MainStreetEastNearMidHouse",
       "sourceKey": "act1/holding/MainStreetEastNearMidHouse",
       "buildingId": "BLD-H035",
@@ -540,17 +542,6 @@
       "streetId": "urman",
       "number": "1А",
       "cadastral": "URM-Q02-P0137",
-      "role": "residential"
-    },
-    {
-      "sourceName": "MainStreetEastFarParcelHouse",
-      "sourceKey": "act1/holding/MainStreetEastFarParcelHouse",
-      "buildingId": "BLD-H039",
-      "parcelId": "PAR-H039",
-      "addressId": "ADR-H039",
-      "streetId": "yar",
-      "number": "8",
-      "cadastral": "URM-Q02-P0138",
       "role": "residential"
     },
     {
@@ -646,17 +637,6 @@
       "role": "residential"
     },
     {
-      "sourceName": "FapRightFieldHouse",
-      "sourceKey": "act1/holding/FapRightFieldHouse",
-      "buildingId": "BLD-H048",
-      "parcelId": "PAR-H048",
-      "addressId": "ADR-H048",
-      "streetId": "yar",
-      "number": "6",
-      "cadastral": "URM-Q02-P0147",
-      "role": "residential"
-    },
-    {
       "sourceName": "FapOppositeFieldNeighborHouse",
       "sourceKey": "act1/holding/FapOppositeFieldNeighborHouse",
       "buildingId": "BLD-H049",
@@ -670,17 +650,6 @@
         12.762,
         -34.856
       ]
-    },
-    {
-      "sourceName": "FapEastFieldViewHouse",
-      "sourceKey": "act1/holding/FapEastFieldViewHouse",
-      "buildingId": "BLD-H050",
-      "parcelId": "PAR-H050",
-      "addressId": "ADR-H050",
-      "streetId": "yar",
-      "number": "3",
-      "cadastral": "URM-Q02-P0149",
-      "role": "residential"
     },
     {
       "sourceName": "ZiratVillageMemoryHouseWest",
@@ -878,50 +847,6 @@
       "streetId": "tukay",
       "number": "17Г",
       "cadastral": "URM-Q01-P0167",
-      "role": "residential"
-    },
-    {
-      "sourceName": "FarBankNorthHouse",
-      "sourceKey": "act1/holding/FarBankNorthHouse",
-      "buildingId": "BLD-H069",
-      "parcelId": "PAR-H069",
-      "addressId": "ADR-H069",
-      "streetId": "yar",
-      "number": "10",
-      "cadastral": "URM-Q03-P0201",
-      "role": "residential"
-    },
-    {
-      "sourceName": "FarBankSouthHouse",
-      "sourceKey": "act1/holding/FarBankSouthHouse",
-      "buildingId": "BLD-H070",
-      "parcelId": "PAR-H070",
-      "addressId": "ADR-H070",
-      "streetId": "yar",
-      "number": "1",
-      "cadastral": "URM-Q03-P0202",
-      "role": "residential"
-    },
-    {
-      "sourceName": "FarBankMidHouse",
-      "sourceKey": "act1/holding/FarBankMidHouse",
-      "buildingId": "BLD-H071",
-      "parcelId": "PAR-H071",
-      "addressId": "ADR-H071",
-      "streetId": "yar",
-      "number": "5",
-      "cadastral": "URM-Q03-P0203",
-      "role": "residential"
-    },
-    {
-      "sourceName": "FarBankEndHouse",
-      "sourceKey": "act1/holding/FarBankEndHouse",
-      "buildingId": "BLD-H072",
-      "parcelId": "PAR-H072",
-      "addressId": "ADR-H072",
-      "streetId": "yar",
-      "number": "7",
-      "cadastral": "URM-Q03-P0204",
       "role": "residential"
     },
     {

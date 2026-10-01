@@ -21,39 +21,12 @@ public partial class Act1ConnectedWorld
     private const float RavineRimOffset = 5.0f;
     private const float RavineFenceGap = 1.9f;
 
-    /// <summary>Lane along the far bank; the second half's houses face it.</summary>
-    internal static readonly Vector2[] RavineFarLane =
-    [
-        new(58.0f, RavineBridgeZ), new(63.0f, -24.4f), new(69.0f, -21.0f), new(69.0f, -4.0f),
-        new(68.6f, 12.0f), new(69.0f, 26.0f)
-    ];
-
-    internal static readonly Vector2[] RavineFarLaneSouth =
-    [
-        new(69.0f, -21.0f), new(68.6f, -36.0f), new(69.2f, -58.0f)
-    ];
-
     /// <summary>Trampled lane from the corner of the FAP service loop to the bridge.</summary>
     internal static readonly Vector2[] RavineBridgeApproach =
     [
         new(41.5f, RavineBridgeZ), new(43.5f, -25.1f), new(45.3f, RavineBridgeZ)
     ];
 
-    // Second half of the village. Five houses that used to close the FAP's
-    // east field keep their names and address ids; four more complete the
-    // lane. West row faces east, east row faces west.
-    private static readonly (string Name, float X, float Z, float Yaw)[] RavineFarBankHouses =
-    [
-        ("FapEastHorizonAuthoredHouse", 62.5f, -52f, 90f),
-        ("FapEastViewHouse", 62.5f, -38f, 90f),
-        ("FapRightFieldHouse", 62.5f, -12f, 90f),
-        ("MainStreetEastFarParcelHouse", 62.5f, 2f, 90f),
-        ("FarBankNorthHouse", 62.5f, 16f, 90f),
-        ("FarBankSouthHouse", 77.0f, -44f, -90f),
-        ("FapEastFieldViewHouse", 77.0f, -30f, -90f),
-        ("FarBankMidHouse", 77.0f, -4f, -90f),
-        ("FarBankEndHouse", 77.0f, 20f, -90f)
-    ];
 
     private static float RavineCentreX(float z) => (float)AgentBAct1HeightField.RavineCentre(z);
 
@@ -309,41 +282,23 @@ public partial class Act1ConnectedWorld
     {
         var farBank = new Node3D { Name = "RavineFarBank" };
         farBank.SetMeta("presentationOnly", true);
-        farBank.SetMeta("presentationRole", "second half of the village beyond the ravine; seen, not reached, in Act I");
+        farBank.SetMeta("presentationRole", "Заречье: second half of the village beyond the ravine (relayout v3)");
         ravine.AddChild(farBank);
-
-        foreach (var (name, points, width) in new[]
-                 {
-                     ("RavineBridgeApproachLane", RavineBridgeApproach, 1.8f),
-                     ("RavineFarLane", RavineFarLane, 3.2f),
-                     ("RavineFarLaneSouth", RavineFarLaneSouth, 2.8f)
-                 })
+        // The trodden lane stops where the bridge's deck ramp begins instead of running under it
+        // (with the current ravine the ramp already reaches the FAP loop corner: no lane at all).
+        var deckStart = RavineCentreX(RavineBridgeZ) - 8.2f;
+        var lane = RavineBridgeApproach.Where(point => point.X < deckStart).ToList();
+        if (lane.Count >= 1 && lane[^1].X < deckStart - .5f) lane.Add(new(deckStart, RavineBridgeZ));
+        if (lane.Count >= 2)
         {
             using var curve = new Curve3D();
-            foreach (var point in points) curve.AddPoint(new Vector3(point.X, 0f, point.Y));
-            AddVisualLandformSurface(farBank, name, width, .025f, curve.GetBakedLength(), new(0f, .02f, 0f),
+            foreach (var point in lane) curve.AddPoint(new Vector3(point.X, 0f, point.Y));
+            AddVisualLandformSurface(farBank, "RavineBridgeApproachLane", 1.8f, .025f, curve.GetBakedLength(), new(0f, .02f, 0f),
                 "cbd3d8", "snow_trampled", 0f, true, curve);
         }
-
-        foreach (var (name, x, z, yaw) in RavineFarBankHouses)
-        {
-            AddDistantHouse(farBank, new Vector3(x, 0f, z), yaw, name);
-            // A front fence toward the lane with a gap for the gate: the H02
-            // plot line, 3 m in front of the house.
-            var front = Math.Sign(69f - x);
-            var fenceX = x + front * 4.7f;
-            AddVisualFenceRun(farBank, name + "FrontFenceSouth", new Vector3(fenceX, 0f, z - 5.5f), new Vector3(fenceX, 0f, z - 1.2f), true);
-            AddVisualFenceRun(farBank, name + "FrontFenceNorth", new Vector3(fenceX, 0f, z + 1.2f), new Vector3(fenceX, 0f, z + 5.5f), true);
-        }
-        foreach (var (name, x, z, height, style, colour) in new[]
-                 {
-                     ("FarBankBirch_a", 58.5f, -45f, 8.4f, VegetationStyle.Birch, "596047"),
-                     ("FarBankBirch_b", 59.0f, 9f, 7.8f, VegetationStyle.Birch, "596047"),
-                     ("FarBankBroadleaf", 77.5f, -17f, 8.8f, VegetationStyle.Broadleaf, "48553f"),
-                     ("FarBankConifer_a", 79.0f, 8f, 9.6f, VegetationStyle.Conifer, "30483f"),
-                     ("FarBankBirch_c", 77.0f, -56f, 8.0f, VegetationStyle.Birch, "596047")
-                 })
-            AddVisualTree(farBank, name, new Vector3(x, 0f, z), height, style, colour);
+        // Households are generic parcels of the far-bank plot; streets, green and public
+        // buildings come from the same data.
+        AddFarBankQuarter(farBank);
     }
 
     /// <summary>A round log between two points (local to <paramref name="parent"/>).</summary>

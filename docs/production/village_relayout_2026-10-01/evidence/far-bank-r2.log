@@ -1,0 +1,8 @@
+run-smoke-guarded: res://tests/address_world_smoke_test.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M1 (Apple7)
+
+address-world FAIL System.InvalidOperationException: Unknown address smoke scope: far-bank
+   at Urman.Godot.Tests.AddressWorldSmokeTest._Ready() in /Users/kadyrahunov/Projects/URMAN/game/tests/AddressWorldSmokeTest.cs:line 48
+address-world: FAIL; scope=far-bank; 0 checks; native diagnostics, not a human search or duration measurement
+userdata guard: original files and permissions restored and verified

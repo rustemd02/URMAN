@@ -73,6 +73,9 @@ public static class PainterlyMaterialLibrary
         uniform bool trample_ground_surface = false;
         uniform vec2 trample_origin = vec2(0.0);
         uniform float trample_extent = 0.0;
+        // Trodden village paths (ribbons whose UV.x runs 0..1 across): packed snow in the
+        // middle with two worn foot lines, a ragged edge that fades into fresh snow.
+        uniform bool soft_path_edges = false;
 
         varying vec3 world_position;
         varying vec3 world_normal;
@@ -287,6 +290,18 @@ public static class PainterlyMaterialLibrary
                         - grain * 0.04, snow_roughness_range.x, snow_roughness_range.y);
                     SPECULAR = specular_value + grain * 0.08;
                 }
+            }
+            if (soft_path_edges) {
+                float across = abs(UV.x - 0.5) * 2.0;
+                float ragged = painter_value_noise(world_position.xz * 1.3)
+                    + 0.5 * painter_value_noise(world_position.xz * 4.7) - 0.75;
+                float trodden = 1.0 - smoothstep(0.38, 0.92, across + ragged * 0.32);
+                float lines = 1.0 - smoothstep(0.0, 0.14, abs(across - 0.26 + ragged * 0.08));
+                float prints = smoothstep(0.4, 0.8, painter_value_noise(world_position.xz * vec2(3.9, 4.3)));
+                vec3 packed_snow = ALBEDO * (1.0 - 0.1 * lines * prints) * mix(1.0, 0.96, painter_value_noise(world_position.xz * 0.8));
+                vec3 fresh = snow_color.rgb * (0.96 + 0.05 * painter_value_noise(world_position.xz * 1.9));
+                ALBEDO = mix(fresh, packed_snow, trodden);
+                ROUGHNESS = mix(0.93, ROUGHNESS, trodden);
             }
             vec4 trail = snow_trample_at(world_position);
             if (trail.a > 0.0) {
@@ -560,6 +575,21 @@ public static class PainterlyMaterialLibrary
         return material;
     }
 
+    /// <summary>A trodden snow path: the trampled-snow material with a soft, ragged edge into
+    /// fresh snow (needs ribbon UVs, x across 0..1). Packed snow is only a shade darker and
+    /// bluer than fresh, never a grey strip, so the caller's tone is pulled toward it.</summary>
+    public static Material ForPath(string htmlColor)
+    {
+        var cacheKey = $"path:{htmlColor}";
+        if (Materials.TryGetValue(cacheKey, out var existing)) return existing;
+        var tone = Color.FromHtml(htmlColor).Lerp(new Color(.85f, .88f, .92f), .35f);
+        var material = (ShaderMaterial)ForColor(tone.ToHtml(false), "snow_trampled").Duplicate();
+        material.SetMeta("surface", "snow_trampled");
+        material.SetShaderParameter("soft_path_edges", true);
+        Materials.Add(cacheKey, material);
+        return material;
+    }
+
     public static Material ForColor(string htmlColor, string surface = "", bool sheltered = false)
     {
         var cacheKey = $"{surface}:{htmlColor}:{(sheltered ? "sheltered" : "exposed")}";
@@ -583,6 +613,7 @@ public static class PainterlyMaterialLibrary
         };
         var shadow = new Color(color.R * 0.54f, color.G * 0.56f, color.B * 0.58f, color.A);
         var material = new ShaderMaterial { Shader = PainterlyShader };
+        material.SetMeta("surface", surface);
         material.SetShaderParameter("base_color", color);
         material.SetShaderParameter("cut_wood_end", surface == "wood_cut");
         material.SetShaderParameter("upright_texture", surface is "log_wall" or "fabric_pattern" or "hay_bundle"

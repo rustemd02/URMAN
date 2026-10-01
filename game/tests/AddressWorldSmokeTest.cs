@@ -45,7 +45,7 @@ public partial class AddressWorldSmokeTest : Node
         try
         {
             _scope=System.Environment.GetEnvironmentVariable("URMAN_ADDRESS_SCOPE")??"full";
-            if(_scope is not ("full" or "remediation-search" or "entrance-candidates" or "standalone-candidates" or "standalone-access" or "production-entrances" or "verge-contacts" or "h045-layout" or "frontage-sightlines" or "crowded-addresses"))throw new InvalidOperationException("Unknown address smoke scope: "+_scope);
+            if(_scope is not ("full" or "remediation-search" or "entrance-candidates" or "standalone-candidates" or "standalone-access" or "production-entrances" or "verge-contacts" or "h045-layout" or "frontage-sightlines" or "crowded-addresses" or "far-bank"))throw new InvalidOperationException("Unknown address smoke scope: "+_scope);
             _output=System.Environment.GetEnvironmentVariable("URMAN_ADDRESS_OUTPUT")??"";
             if(!Path.IsPathFullyQualified(_output)||!Directory.Exists(_output)||Directory.EnumerateFileSystemEntries(_output).Any())
                 throw new InvalidOperationException("URMAN_ADDRESS_OUTPUT must name an existing empty absolute evidence directory.");
@@ -69,7 +69,7 @@ public partial class AddressWorldSmokeTest : Node
             var registry=_world.AddressRegistry??throw new InvalidOperationException("No imported address registry.");
             Check(!_bridge.SelectWorldProps().EnumerateObject().Any(p=>p.Name.StartsWith("address/",StringComparison.Ordinal)),"construction and proximity do not record a plate read");
 
-            if(_scope is "remediation-search" or "entrance-candidates" or "standalone-candidates" or "standalone-access" or "production-entrances" or "verge-contacts" or "h045-layout" or "frontage-sightlines" or "crowded-addresses")
+            if(_scope is "remediation-search" or "entrance-candidates" or "standalone-candidates" or "standalone-access" or "production-entrances" or "verge-contacts" or "h045-layout" or "frontage-sightlines" or "crowded-addresses" or "far-bank")
             {
                 // Scope is confined to this explicit smoke scene. The ordinary
                 // runtime lifecycle and live address records are not modified.
@@ -81,12 +81,14 @@ public partial class AddressWorldSmokeTest : Node
                 _checks.Add(new{kind="audit-not-run-in-narrow-scope",auditRun=false,
                     constructionEntriesAlreadyObserved=registry.AccessPoints.Values.Count(a=>a.State!="pending-physics"),
                     previousPhysicsProcessing=auditWasProcessing,acceptance=false});
-                if(_scope=="crowded-addresses")
+                if(_scope is "crowded-addresses" or "far-bank")
                 {
-                    var selectedIds=(System.Environment.GetEnvironmentVariable("URMAN_ADDRESS_IDS")??"ADR-H013,ADR-H041")
+                    var selectedIds=_scope=="far-bank" ? CheckFarBankBindings(registry) :
+                        (System.Environment.GetEnvironmentVariable("URMAN_ADDRESS_IDS")??"ADR-H013,ADR-H041")
                         .Split(',',StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
-                    Require(selectedIds.Length is >0 and <=4 && selectedIds.Distinct().Count()==selectedIds.Length
-                        && selectedIds.All(registry.Addresses.ContainsKey),"select one to four existing, distinct address IDs");
+                    Require((_scope=="far-bank" ? selectedIds.Length==35 : selectedIds.Length is >0 and <=4)
+                        && selectedIds.Distinct().Count()==selectedIds.Length && selectedIds.All(registry.Addresses.ContainsKey),
+                        "selected existing, distinct address IDs match the requested diagnostic scope");
                     foreach(var id in selectedIds)
                     {
                         var sign=Descendants(_world).OfType<AddressSignVisualComponent>().Single(n=>n.AddressId==id);
@@ -263,7 +265,7 @@ public partial class AddressWorldSmokeTest : Node
                     {
                         schemaVersion=1,ordinaryNewGame=true,humanSearchPlaytest=false,diagnosticCameraFixtures=_captures.Count>0,
                         assembly=identity,scope=_scope,auditRun=_auditRun,fullAuditRun=_auditRun,
-                        selectedAccessAuditRun=_scope is "production-entrances" or "standalone-access" or "h045-layout" or "crowded-addresses",acceptance=_scope=="full"&&exit==0,
+                        selectedAccessAuditRun=_scope is "production-entrances" or "standalone-access" or "h045-layout" or "crowded-addresses" or "far-bank",acceptance=_scope=="full"&&exit==0,
                         auditCompleted=_auditCompleted,registry=_registryEvidence,mounts=_mounts,captures=_captures,checks=_checks,failures=_failures
                     },new JsonSerializerOptions{WriteIndented=true});
                     var path=Path.Combine(_output,"address-world-receipt.json");
@@ -845,7 +847,7 @@ public partial class AddressWorldSmokeTest : Node
         }
         Require(approached,"real controller ray reaches the plate from a supported local fixture");
         if(_scope=="h045-layout")await Capture("h045_controller_plate");
-        if(_scope=="crowded-addresses")await Capture(capturePrefix+"controller_plate");
+        if(_scope is "crowded-addresses" or "far-bank")await Capture(capturePrefix+"controller_plate");
         var before=_bridge.SelectWorldProps();
         Require(!before.TryGetProperty("address/"+addressId,out _),"plate starts unread before deliberate input");
         await PressInteract();

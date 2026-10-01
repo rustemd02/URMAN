@@ -1,0 +1,114 @@
+run-smoke-guarded: res://tests/act1_ride_route_check.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+act1-river: ice_slabs=70 blockers=73 bank_steps=5 road_gap_samples=2 bridge=broken@(15,-85)
+village-chimney: /root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ArrivalAuthoredParcels/ArrivalForwardWestFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-10.2875, 4.7722464, 2.3450005)
+village-chimney: /root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestArrivalNearParcel/WestArrivalNearFacade/DwellingFacade_TimberPlaster/DwellingFacade_ChimneyCap_LOD0 top=(-19.730013, 3.9641316, 15.965501)
+act1-terrain-room-cut: room=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=123324 publishedVertices=123324 physicsVertices=123324 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-rear-gate: retired_meshes=15 disabled_shapes=15 bypass=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/Act1BypassCollision
+act1-mosque-terrain-cut: affectedTriangles=70 publishedVertices=123324 physicsVertices=123324 sameOwner=true
+act1-shop-storefront: reskinned=75 gableSign=(-28.815722, 3.3575687, -36.45865) entry=(-32.18367, 0.64856875, -39.728176)
+act1-school-bank-cut: mesh=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Ditch_FieldBank_EastZirat room=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade/PublicInterior_school/MainRoom half=(2.5154998, 2.3804996) affectedTriangles=20 clippedVertices=486 publishedVertices=486 floorY=-0.0049708784 collision=unchanged-existing-terrain-and-timber-floor
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-fap-plate: at=(25.390001, 1.8601619, -28.118002) outward=(0, 0, 1)
+act1-zirat-fence-source: owner=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=23 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-source: owner=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail surfaces=1
+act1-zirat-fence-source: owner=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFenceRail/ReturnEastParcelFenceLowerRail rawVertices=144 normals=144 tangents=576 indices=0 expandedVertices=144 format=23 indexed=False primitive=Triangles lods=0 shadow=False failedTerms=
+act1-zirat-fence-post-source: owner=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost0 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost1 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost2 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost3 meshType=BoxMesh surfaces=1
+act1-zirat-fence-post-source: owner=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ReturnEastParcelFencePost4 meshType=BoxMesh surfaces=1
+act1-zirat-shed-fence-junction: wall=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Wall_LOD0 attachmentZ=-46.915245 retainedFirstSpans=2 hiddenPost=3 retainedFarPost=4 frontCut=(-0.99987423, 0.015860919, -2.3291499E-07), -14.446598 rearCut=(0.99986124, 0.016654668, 0), 17.218063
+act1-overlap-cleanup: hidden=4
+act1-overlap-cleanup: legacyRelocated=0 authoredOwners=12
+act1-yard-composition: hidden=28
+authored-world: 99 objects from res://content/world
+act1-street-frontage: rejected access=270, footprint=173, axis=60, obstacle=49, road:connector=45, road:surface=14, road:surface-link=6
+act1-street-frontage: houses=30 runs=84 gates=7 wickets=23 wood_tris=35524 hidden_old_fence_pieces=53
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=90 shapes=1460 carved_door_slabs=104 flat_slab_skipped=2305 exact_architecture_surfaces=823 hidden_skipped=7 road_clearance_skipped=0
+act1-dwelling-threshold: placements=78 worst_analytic_vs_collision_delta=0.042m worst_placement=ConnectiveEastHouseA6Silhouette
+act1-building-supports: supported foundations=121; maximum ground drop=0.557m; level entrances preserved
+act1-zirat-foundation-contact: owner=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/AuthoredKitCollisionProxy/OutbuildingShed_Foundation_LOD0_SurfaceContact source=/root/Act1RideRouteCheck/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/ZiratVillageEdgeAuthoredParcels/ZiratVillageEdgeEastShed/OutbuildingShed_Low/OutbuildingShed_Foundation_LOD0 policy=exact-existing-mesh-triangles
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=117306300544
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-window-surrounds: painted=952
+act1-legacy-sign: suppressed=1
+zone-loaded: village_day@arrival connected-world=117306300544
+SaveGameV3 new game session started; existing slots untouched.
+zone-loaded: kara_urman_night@forest-approach connected-world=117306300544
+act1-prologue: deep-forest walk 0,1s skipped=True
+zone-loaded: village_day@arrival connected-world=117306300544
+ride-route: BLOCKED by physics body Collision < h048-house near (69,0, 0,0)
+ride-route: BLOCKED by physics body Knock_ADR-H048 < SettlementAddressPresentation near (69,0, -5,3)
+ride-route: passes through visible prop without collision VariantB_Yard_Post_00_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -0,3)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_00_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -0,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_01_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -0,8)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_02_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -1,3)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_03_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -1,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_04_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -1,8)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_05_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -2,3)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_06_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -2,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Post_01_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -2,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_07_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -3,0)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_08_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -3,3)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_09_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -3,8)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_10_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -4,0)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_11_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -4,3)
+ride-route: passes through visible prop without collision VariantB_Yard_Post_02_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -4,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_12_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -4,8)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_17_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -6,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Post_03_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -6,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_18_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -7,0)
+ride-route: passes through visible prop without collision MainStreetEastOuterFieldFencePost0 < MainStreet near (38,8, -25,0)
+ride-route: passes through visible prop without collision RoadWheelMesh < Wheel11 near (-0,5, -2,3)
+ride-route: passes through visible prop without collision StreetBankE_0 < MainStreetSnowBanks near (1,3, 1,0)
+ride-route: bounds worstOff=0,00m@(0,0,0,0) steep=6,6deg@(69,0,6,3)
+ride-route: 0 off-road samples, steepest 6,6 deg
+ride-route: BLOCKED by physics body Collision < h048-house near (69,0, 0,0)
+ride-route: BLOCKED by physics body Knock_ADR-H048 < SettlementAddressPresentation near (69,0, -5,3)
+ride-route: passes through visible prop without collision VariantB_Yard_Post_00_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -0,3)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_00_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -0,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_01_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -0,8)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_02_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -1,3)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_03_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -1,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_04_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -1,8)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_05_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -2,3)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_06_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -2,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Post_01_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -2,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_07_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -3,0)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_08_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -3,3)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_09_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -3,8)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_10_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -4,0)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_11_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -4,3)
+ride-route: passes through visible prop without collision VariantB_Yard_Post_02_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -4,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_12_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -4,8)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_17_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -6,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Post_03_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -6,5)
+ride-route: passes through visible prop without collision VariantB_Yard_Plank_18_LOD0 < VillageParcel_VariantB_PlasterAnnex_Yard near (69,0, -7,0)
+ride-route: passes through visible prop without collision MainStreetEastOuterFieldFencePost0 < MainStreet near (38,8, -25,0)
+ride-route: passes through visible prop without collision RoadWheelMesh < Wheel11 near (-0,5, -2,3)
+ride-route: passes through visible prop without collision StreetBankE_0 < MainStreetSnowBanks near (1,3, 1,0)
+ride-route: FAIL
+ERROR: Pages in use exist at exit in PagedAllocator: N20RasterizerSceneDummy21GeometryInstanceDummyE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: 53 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 48 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+ERROR: 2 RID allocations of type 'N13RendererDummy15MaterialStorage13DummyMaterialE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N13RendererDummy15MaterialStorage11DummyShaderE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N13RendererDummy9DummyMeshE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
+userdata guard: original files and permissions restored and verified

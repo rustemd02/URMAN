@@ -1206,25 +1206,14 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
 
     private string _lastWalkFailure = string.Empty;
 
-    private async Task<bool> WalkOutOfRiver(FirstPersonController player, Vector3 probeStart)
+    private Task<bool> WalkOutOfRiver(FirstPersonController player, Vector3 probeStart)
     {
+        // Relayout v3: the river became a deep gorge fenced along both rims. A probe
+        // that ends up inside it found a hole in the rim fence; there is no walk out.
         var position = player.GlobalPosition;
-        if (Math.Abs(position.Z - (float)AgentBAct1HeightField.RiverMeander(position.X)) > 6f)
-        {
-            _lastWalkFailure = "not in the river ravine";
-            return false;
-        }
-        var exitX = Act1ConnectedWorld.RiverStepXs.MinBy(x => Math.Abs(x - position.X));
-        var (bottom, top) = Act1ConnectedWorld.RiverStepLine(exitX);
-        var bed = new Vector3(exitX, bottom.Y, bottom.Z - .4f);
-        var village = new Vector3(0f, 0f, -80f);
-        var forest = new Vector3(0f, 0f, -96f);
-        return await WalkTo(player, bed, "river-exit-bed", reportFailure: false)
-            && await WalkTo(player, bottom + new Vector3(0f, 0f, .6f), "river-exit-steps", reportFailure: false)
-            && await WalkTo(player, top + new Vector3(0f, 0f, 1.2f), "river-exit-top", reportFailure: false)
-            && await WalkTo(player, village, "river-exit-road", reportFailure: false)
-            && await WalkTo(player, forest, "river-exit-culvert", reportFailure: false)
-            && await WalkTo(player, probeStart, "river-exit-return", reportFailure: false);
+        _lastWalkFailure = Math.Abs(position.Z - (float)AgentBAct1HeightField.RiverMeander(position.X)) > AgentBAct1HeightField.GorgeHalfWidth
+            ? "not in the gorge" : $"walked past the gorge rim fence at {position}";
+        return Task.FromResult(false);
     }
 
     private async Task RunAsyncPrologueWatch(Act1DemoRoot demo, FirstPersonController player)

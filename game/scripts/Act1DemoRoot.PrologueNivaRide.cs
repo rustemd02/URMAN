@@ -34,13 +34,16 @@ public partial class Act1DemoRoot
 
     private static Vector3[] BuildPrologueRidePath()
     {
-        var path = new List<Vector3>
+        // The old x=69 lane now runs through a moved yard. Follow the same
+        // far-bank polyline that owns the visible street and the terrain.
+        var path = Act1ConnectedWorld.FarBankPlot().Roads.Single(road => road.Id == "yar-north")
+            .Points.Take(3).Reverse().Select(point => new Vector3(point.X, 0, point.Y)).ToList();
+        path.AddRange(new Vector3[]
         {
-            new(69f, 0, 8f), new(69f, 0, -18f), new(68f, 0, -21f), new(63f, 0, -24.4f),
             new(58f, 0, -25f), new(47f, 0, -25f), new(44f, 0, -25f), new(41.5f, 0, -25f), new(38.5f, 0, -25f), new(37f, 0, -24f), new(32f, 0, -24.2f),
             new(28f, 0, -24.2f), new(22f, 0, -23.4f), new(17f, 0, -21.5f), new(10f, 0, -17f),
             new(4.5f, 0, -12.5f), new(0f, 0, -10f), new(-.6f, 0, -1.5f), new(1.3f, 0, 2f), new(1.3f, 0, 10f), new(-1.3f, 0, 25f)
-        };
+        });
         // Offset the real axes to the vehicle's right-hand side. The narrow
         // east lane has less lateral offset than the main two-way street.
         void Lane(IReadOnlyList<Vector2> axis, float lateral)

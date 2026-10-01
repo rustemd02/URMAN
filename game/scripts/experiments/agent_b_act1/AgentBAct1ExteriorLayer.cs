@@ -359,7 +359,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         {
             var name = mesh.Name.ToString();
             var shoulder = name == "Grade_Street_West";
-            if (mesh.Mesh is not ArrayMesh original || (name != "Terrain_Main" && !name.StartsWith("Road_", StringComparison.Ordinal) && !shoulder)) continue;
+            // Other authored grades only follow the southern gorge down (relayout v3); elsewhere they stay as authored.
+            var gorgeOnly = !shoulder && name.StartsWith("Grade_", StringComparison.Ordinal);
+            if (mesh.Mesh is not ArrayMesh original || (name != "Terrain_Main" && !name.StartsWith("Road_", StringComparison.Ordinal) && !shoulder && !gorgeOnly)) continue;
             var bounds = (GlobalTransform.AffineInverse() * mesh.GlobalTransform) * original.GetAabb();
             var result = new ArrayMesh();
             if (name == "Terrain_Main")
@@ -382,9 +384,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 {
                     var arrays = original.SurfaceGetArrays(index).Duplicate(true);
                     var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                    var inCut = new bool[vertices.Length];
                     for (var i = 0; i < vertices.Length; i++)
                     {
                         var point = ToLocal(mesh.ToGlobal(vertices[i]));
+                        inCut[i] = AgentBAct1HeightField.RiverChannel(point.X, point.Z) < -.05;
                         var ground = AgentBAct1HeightField.CollisionGround(point.X, point.Z);
                         if (shoulder)
                         {
@@ -393,17 +397,32 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                             var endDistance = Math.Min(point.Z - bounds.Position.Z, bounds.End.Z - point.Z);
                             point.Y = Mathf.Lerp(ground + .005f, point.Y, Mathf.SmoothStep(0, 1, endDistance / 3f));
                         }
-                        else point.Y += ground - (float)AgentBAct1HeightField.Ground(point.X, point.Z);
+                        else if (!gorgeOnly) point.Y += ground - (float)AgentBAct1HeightField.Ground(point.X, point.Z);
                         vertices[i] = mesh.ToLocal(ToGlobal(point));
                     }
                     arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+                    // The authored road ribbons and grades predate the southern gorge (relayout v3):
+                    // every triangle touching the cut is dropped, so no sheet or slab spans the void
+                    // or pierces its slopes; the suspension bridge carries the path across.
+                    if (inCut.Any(cut => cut))
+                    {
+                        var indices = arrays[(int)Mesh.ArrayType.Index].VariantType == Variant.Type.Nil
+                            ? Enumerable.Range(0, vertices.Length).ToArray()
+                            : arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
+                        var kept = new List<int>(indices.Length);
+                        for (var t = 0; t + 2 < indices.Length; t += 3)
+                            if (!inCut[indices[t]] && !inCut[indices[t + 1]] && !inCut[indices[t + 2]])
+                                kept.AddRange([indices[t], indices[t + 1], indices[t + 2]]);
+                        if (kept.Count == 0) continue;
+                        arrays[(int)Mesh.ArrayType.Index] = kept.ToArray();
+                    }
                     var reshaped = new ArrayMesh();
                     reshaped.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
                     var surface = new SurfaceTool();
                     surface.CreateFrom(reshaped, 0);
                     surface.GenerateNormals();
                     surface.Commit(result);
-                    result.SurfaceSetMaterial(index, original.SurfaceGetMaterial(index));
+                    result.SurfaceSetMaterial(result.GetSurfaceCount() - 1, original.SurfaceGetMaterial(index));
                 }
             }
             mesh.Mesh = result;
@@ -1724,6 +1743,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 return;
             }
 
+            // Far-bank yards (relayout v3) are kept clear like the house keep-outs.
+            if (point.X > 56f && AgentBAct1HeightField.InsideHouseholdClearance(point))
+            {
+                return;
+            }
+
             foreach (var (center, radius) in keepOuts)
             {
                 if (center.DistanceTo(point) < radius)
@@ -1812,7 +1837,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var rimZones = new (float X0, float X1, float Z0, float Z1)[]
         {
             (-62f, -40f, -120f, 214f),  // west rim (runs on with the northern expansion)
-            (83f, 88f, -120f, 214f),    // east rim, behind the far-bank houses
+            (134f, 140f, -120f, 214f),  // east rim, behind the far-bank quarter (relayout v3)
             (-30f, 30f, -150f, -124f)   // forest rim behind kara
         };
         foreach (var (x0, x1, z0, z1) in rimZones)
@@ -2104,7 +2129,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     // East edge sits past the ravine's far bank: the second half of the
     // village stands between the ravine and the ring (author, 2026-09-25).
-    internal static readonly Vector2 ForestRingInnerMax = new(88f, AgentBAct1HeightField.MaxZ);
+    internal static readonly Vector2 ForestRingInnerMax = new(138f, AgentBAct1HeightField.MaxZ);
 
     /// <summary>Ring depth in metres: how far the forest runs past the envelope.</summary>
     internal const float ForestRingDepth = 30.4f;
