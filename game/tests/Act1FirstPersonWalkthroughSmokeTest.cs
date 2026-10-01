@@ -449,8 +449,6 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         await PhysicsFrames(3);
         }
 
-        if (!await CompletePhysicalArrival(player, ray, bridge)) return;
-
         // Arrival -> house. Keep the authored signpost clear, then resolve the
         // door's connected-world position from its named interaction target.
         var arrivalTarget = FindInteraction(Interaction("arrival-enter-house"), GetTree().Root);
@@ -507,6 +505,15 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         if (HasFailed()) return;
         if (_addressLifecycleOnly && !_addressNaturalQueueOnly) _addressLifecycleAudit!.SetPhysicsProcess(true);
         if (_addressNaturalQueueOnly && !BeginNaturalAddressIndoor(main.ConnectedWorld, bridge, player)) return;
+
+        // A02: the message, the photograph and the answer to mother are at the kitchen table.
+        if (!await CompletePhysicalArrival(player, ray, bridge)) return;
+        if (System.Environment.GetEnvironmentVariable("URMAN_ARRIVAL_ONLY") == "1")
+        {
+            GD.Print("act1-walkthrough: arrival-only PASS (house table sources read, answer chosen)");
+            GetTree().Quit(0);
+            return;
+        }
 
         // House -> Mansur -> old PC -> street. The household request is a
         // real player-facing gate: find Mansur with the camera ray, close the
@@ -1540,8 +1547,22 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             targetPosition = expected.GetMeta("observationLookAt").AsVector3();
         }
         if (interactionId is "urman.chapter1:interaction/view-arrival-message"
-            or "urman.chapter1:interaction/view-arrival-photo" or "urman.chapter1:interaction/arrival-answer-mother")
-            approach = new Vector3(3.60f, player.GlobalPosition.Y, 5.05f);
+            or "urman.chapter1:interaction/view-arrival-photo" or "urman.chapter1:interaction/arrival-answer-mother"
+            && expected.GetParent() is StyleBenchmarkZone { ZoneKind: StyleBenchmarkZone.BenchmarkKind.HouseOldPc } home)
+        {
+            // A02: the phone and the photograph lie at the end of the kitchen table. Walk the
+            // room's central aisle first, then stand a table-width in front of them.
+            var floorY = home.ToLocal(player.GlobalPosition).Y;
+            var local = home.ToLocal(expected.GlobalPosition);
+            foreach (var step in new[] { new Vector3(-.15f, floorY, 1.10f), new Vector3(local.X, floorY, local.Z + 1.05f) })
+            {
+                var point = home.ToGlobal(step);
+                if (!player.CanStandAt(point))
+                { Fail($"The arrival table aisle does not fit a standing player: local={step}, world={point}."); return false; }
+                if (!await WalkTo(player, point, $"arrival-table-{step.X:F2}-{step.Z:F2}")) return false;
+            }
+            approach = player.GlobalPosition;
+        }
         if (interactionId == Interaction("route-to-fap"))
             approach = new Vector3(expected.GlobalPosition.X, player.GlobalPosition.Y, expected.GlobalPosition.Z + 1.50f);
         if (expected.Name == "HouseExit" && expected.GetParent() is StyleBenchmarkZone
@@ -1628,17 +1649,16 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             CloseDocument();
             await Frames(3);
         }
-        if (bridge.IsInteractionAvailable(Interaction("arrival-enter-house")))
-        { Fail("Physical arrival skipped the personal answer after reading the two sources."); return false; }
         if (!await InteractAt(player, ray, Interaction("arrival-answer-mother"))
             || !await ChooseVisibleDialogue(bridge, "arrival-reply-help-babai")) return false;
         (GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi)?._UnhandledInput(
             new InputEventKey { Keycode = Key.Escape, PhysicalKeycode = Key.Escape, Pressed = true });
         await Frames(3);
-        if (KnowledgeStatus(bridge.SelectRuntimeState(), "arrival_reply_help_babai") != "confirmed"
-            || !bridge.IsInteractionAvailable(Interaction("arrival-enter-house")) || player.ModalOpen)
-        { Fail("The visible arrival choice did not open the house route and release the player."); return false; }
-        GD.Print("act1-physical-arrival: ordinary walk to bench; phone/photo through camera ray and mapped input; visible personal answer");
+        // A02: we are already inside the house, so the arrival door is no longer offered here;
+        // what matters is that the answer was recorded and the player is free again.
+        if (KnowledgeStatus(bridge.SelectRuntimeState(), "arrival_reply_help_babai") != "confirmed" || player.ModalOpen)
+        { Fail("The visible arrival choice was not recorded or did not release the player."); return false; }
+        GD.Print("act1-physical-arrival: phone/photo at the house table through camera ray and mapped input; visible personal answer");
         return true;
     }
 
