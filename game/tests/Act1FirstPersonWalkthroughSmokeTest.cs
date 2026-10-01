@@ -628,9 +628,13 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             || VocabularyStatus(gulsinaState, "tt_yaramyy") != "guessed"
             || !NpcState(gulsinaState, "gulsina", "warning_heard")
             || KnowledgeStatus(gulsinaState, "clue_family_avoids_marat") != "hidden"
-            || bridge.IsInteractionAvailable(Interaction("house-to-route")))
+            // A02: after the meal the way out is open, while Marat is still unasked (Len01 family flow, line 220).
+            || !bridge.IsInteractionAvailable(Interaction("house-to-route")))
         {
-            Fail("Tea did not preserve Gulsina's warning or incorrectly supplied an unasked answer about Marat.");
+            Fail("Tea did not preserve Gulsina's warning or incorrectly supplied an unasked answer about Marat. "
+                + $"dialogueOpen={gulsinaDialogue.IsOpen} modal={player.ModalOpen} yaramyy={VocabularyStatus(gulsinaState, "tt_yaramyy")} "
+                + $"warningHeard={NpcState(gulsinaState, "gulsina", "warning_heard")} marat={KnowledgeStatus(gulsinaState, "clue_family_avoids_marat")} "
+                + $"houseToRoute={bridge.IsInteractionAvailable(Interaction("house-to-route"))}");
             return;
         }
 
