@@ -347,7 +347,11 @@ public partial class Act1ConnectedWorld
         }
         Road("authored/main-axis","tukay",AgentBAct1Layout.MainRoadAxis,5.6,SettlementTravelMode.All);
         Road("authored/fap-axis","urman",AgentBAct1Layout.FapBranchAxis,4.6,SettlementTravelMode.All);
-        Road("authored/bridge-approach-axis","urman",AgentBAct1Layout.BridgeApproachAxis,4.6,SettlementTravelMode.All);
+        // The graph stops 1.3 m before the first deck board: while the bridge stands, a standing
+        // body anchored on the board edge is inside its collision.
+        var bridgeApproach=AgentBAct1Layout.BridgeApproachAxis.ToArray();
+        bridgeApproach[^1]=bridgeApproach[^1]+(bridgeApproach[^2]-bridgeApproach[^1]).Normalized()*1.3f;
+        Road("authored/bridge-approach-axis","urman",bridgeApproach,4.6,SettlementTravelMode.All);
         Road("authored/east-street-axis","urman",AgentBAct1Layout.EastStreetAxis,4.0,SettlementTravelMode.All);
         Road("authored/west-spur-axis","tukay",AgentBAct1Layout.WestSpurAxis,3.5,SettlementTravelMode.Foot|SettlementTravelMode.HorseCart);
         Road("authored/north-east-street-axis","urman",AgentBAct1Layout.NorthEastStreetAxis,3.5,SettlementTravelMode.All);
@@ -362,7 +366,10 @@ public partial class Act1ConnectedWorld
             Road("connector/"+connector.ConnectorId,connector.ConnectorId.Contains("fap",StringComparison.Ordinal)?"urman":connector.ConnectorId.Contains("kara",StringComparison.Ordinal)?"":"tukay",
                 [new(connector.Start.X,connector.Start.Z),new(connector.End.X,connector.End.Z)],connector.Width,
                 connector.ConnectorId.Contains("kara",StringComparison.Ordinal)?SettlementTravelMode.Foot|SettlementTravelMode.HorseCart:SettlementTravelMode.All);
-        Road("authored/ravine-bridge-approach","urman",RavineBridgeApproach,1.8,SettlementTravelMode.Foot);
+        // The foot lane likewise ends before the first deck board (see the bridge approach above).
+        var footApproach=RavineBridgeApproach.ToArray();
+        footApproach[^1]=footApproach[^1]+(footApproach[^2]-footApproach[^1]).Normalized()*1.3f;
+        Road("authored/ravine-bridge-approach","urman",footApproach,1.8,SettlementTravelMode.Foot);
         // Tamara Gennadievna's driveway: the car may turn into the breach.
         // The graph ends 1.3 m short of the fence face: its tip is where a standing
         // body is anchored, and inside the intact panels there is no such point.

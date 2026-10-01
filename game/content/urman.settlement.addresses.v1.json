@@ -923,6 +923,17 @@
       "number": "7",
       "cadastral": "URM-Q03-P0204",
       "role": "residential"
+    },
+    {
+      "sourceName": "ReturnWestBanyaSilhouette",
+      "sourceKey": "act1/holding/ReturnWestBanyaSilhouette",
+      "buildingId": "BLD-H073",
+      "parcelId": "PAR-H073",
+      "addressId": "ADR-H073",
+      "streetId": "usal",
+      "number": "17",
+      "cadastral": "URM-Q03-P0125",
+      "role": "residential"
     }
   ]
 }

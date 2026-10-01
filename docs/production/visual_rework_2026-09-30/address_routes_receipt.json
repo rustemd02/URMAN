@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-01",
+  "scope": "physical routes to addresses: 20 north-street households, 4 civic buildings, old village",
+  "method": "address_world_smoke_test scope crowded-addresses, native; real controller walks road -> door/gate -> plate, reads it, saves/loads, returns",
+  "passedWalkedAndRead": {
+    "civic": [
+      "ADR-SQUARE-SCHOOL",
+      "ADR-SQUARE-DK",
+      "ADR-SQUARE-OFFICE",
+      "ADR-SQUARE-POST"
+    ],
+    "northStreet": "all 20 ADR-NS-* (batches of 3-4; the only recurring failures were window-focus pauses and a random .NET startup crash, each rerun passed)",
+    "oldVillage": [
+      "ADR-H023",
+      "ADR-H046",
+      "ADR-H048",
+      "ADR-H069",
+      "ADR-H073 (bath-house plot, newly bound)"
+    ]
+  },
+  "doorRouteVerifiedButPlateLegOpen": {
+    "ADR-H026": "plate is on the street wall, door on the far side; no standing path around the house",
+    "ADR-H033": "same, far bank",
+    "ADR-H034": "same, far bank",
+    "ADR-H039": "same"
+  },
+  "stillBlocked": {
+    "ADR-H032": "no walkable tread within step height",
+    "ADR-H049": "door route blocked",
+    "ADR-H072": "no physical step landing",
+    "ADR-MOSQUE": "ZiratWestLateralHouse proxy blocks the approach search",
+    "ADR-H045": "no wall rectangle for the plate on the small house"
+  },
+  "notRerunAfterFixes": [
+    "ADR-H050",
+    "ADR-H070",
+    "ADR-H071",
+    "PAR-3BE818BAD103E824",
+    "PAR-CD709C39546561E0",
+    "PAR-F0BEBEC3DE92DD30 (audit time cap 300 s leaves them pending)"
+  ],
+  "fixes": [
+    "OpenYardGateway: yard gates of the 20 households were sealed (1 m closed assembly, rails across); now 1.24 m clear with split rails",
+    "plates of gated yards: own-yard fence mount tried first with full-coverage check, facade remains the fallback",
+    "civic plates on real wall piers; DK authored approach and deeper treads; solid shells get a walls collider",
+    "graph ends 1.3 m short of Tamara fence face, the bridge approach and the foot lane (anchors were inside collision)",
+    "ADR-H073 added for ReturnWestBanyaSilhouette (was UNBOUND_DWELLING)"
+  ],
+  "regression": {
+    "rideRoute": "PASS",
+    "publicBuildings": "680 checks PASS (before the bridge/H073 edits; graph-only changes since)"
+  },
+  "notAccepted": [
+    "old-village composition pass is not done (H045 is an isolated cottage in a snowfield; house/door/plate sides of the moved houses disagree)",
+    "human play and art acceptance",
+    "stable FPS"
+  ]
+}
