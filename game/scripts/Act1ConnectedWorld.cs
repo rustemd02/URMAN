@@ -445,6 +445,9 @@ public partial class Act1ConnectedWorld : Node3D
         BuildTamaraFenceQuest();
         AddressRead += RememberReadAddress;
         BuildAct1Vehicles();
+        // Parallel lane (docs/production/parallel_lanes_2026-10-01.md): mechanics and
+        // mini-games add their world content in Act1ConnectedWorld.MechanicsLane.cs only.
+        BuildMechanicsLane();
         foreach (var placement in Act1WorldLayout.Placements)
         {
             var zone = _zoneInstances[placement.ZoneId];
