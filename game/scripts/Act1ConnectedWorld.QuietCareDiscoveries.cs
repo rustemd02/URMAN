@@ -33,12 +33,13 @@ public partial class Act1ConnectedWorld
             ?? throw new InvalidOperationException(
                 "Act I core world is missing ConnectiveStreetReturn.");
 
+        // Relayout v3: on the verge in front of the Тукай урамы plots (their fences stand at x -6).
         var anchor = new Vector3(
-            -5.6f,
-            AgentBAct1HeightField.CollisionGround(-5.6f, -38.8f),
+            -4.4f,
+            AgentBAct1HeightField.CollisionGround(-4.4f, -38.8f),
             -38.8f);
         var minaretDirection = HorizontalDirection(
-            new Vector3(-46f, 0f, -34f) - anchor);
+            new Vector3(AgentBAct1Layout.MosqueAnchor.X, 0f, AgentBAct1Layout.MosqueAnchor.Y) - anchor);
         var bench = new Node3D
         {
             Name = "ConnectiveReturnCareBench",

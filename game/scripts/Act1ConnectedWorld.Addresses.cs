@@ -352,13 +352,11 @@ public partial class Act1ConnectedWorld
         var bridgeApproach=AgentBAct1Layout.BridgeApproachAxis.ToArray();
         bridgeApproach[^1]=bridgeApproach[^1]+(bridgeApproach[^2]-bridgeApproach[^1]).Normalized()*1.3f;
         Road("authored/bridge-approach-axis","urman",bridgeApproach,4.6,SettlementTravelMode.All);
-        Road("authored/east-street-axis","urman",AgentBAct1Layout.EastStreetAxis,4.0,SettlementTravelMode.All);
-        Road("authored/west-spur-axis","tukay",AgentBAct1Layout.WestSpurAxis,3.5,SettlementTravelMode.Foot|SettlementTravelMode.HorseCart);
-        Road("authored/north-east-street-axis","urman",AgentBAct1Layout.NorthEastStreetAxis,3.5,SettlementTravelMode.All);
-        Road("authored/west-service-axis","tukay",AgentBAct1Layout.WestServiceAxis,3.5,SettlementTravelMode.All);
-        Road("authored/north-cross-axis","urman",AgentBAct1Layout.NorthCrossStreetAxis,4.0,SettlementTravelMode.All);
-        Road("authored/north-return-axis","urman",AgentBAct1Layout.NorthReturnStreetAxis,4.8,SettlementTravelMode.All);
         Road("authored/plaza-walk","urman",AgentBAct1Layout.PlazaWalkAxis,2.4,SettlementTravelMode.Foot);
+        Road("authored/mosque-walk","tukay",AgentBAct1Layout.MosqueWalkAxis,1.6,SettlementTravelMode.Foot);
+        // Relayout v3: the cross streets of the open part come from the open-part plot.
+        foreach(var road in OpenPartPlot().Roads)
+            Road("authored/"+road.Id,road.Street,road.Points,road.Width,SettlementTravelMode.All);
         Road("authored/zirat-axis","tukay",AgentBAct1Layout.ZiratRoadAxis,4.2,SettlementTravelMode.All);
         Road("authored/kara-axis","",AgentBAct1Layout.KaraRoadAxis,3.5,SettlementTravelMode.Foot);  // crosses on the suspension bridge
         Road("authored/house-path","tukay",AgentBAct1Layout.HousePathAxis,1.15,SettlementTravelMode.Foot);

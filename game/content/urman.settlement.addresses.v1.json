@@ -79,6 +79,54 @@
       ],
       "oddSide": "left",
       "protected": false
+    },
+    {
+      "id": "yana",
+      "tatar": "Яңа ур.",
+      "russian": "ул. Новая",
+      "origin": [
+        0.0,
+        0.0,
+        12.0
+      ],
+      "oddSide": "left",
+      "protected": false
+    },
+    {
+      "id": "chishma",
+      "tatar": "Чишмә ур.",
+      "russian": "ул. Родниковая",
+      "origin": [
+        0.0,
+        0.0,
+        -36.0
+      ],
+      "oddSide": "left",
+      "protected": false
+    },
+    {
+      "id": "bakcha",
+      "tatar": "Бакча ур.",
+      "russian": "ул. Садовая",
+      "origin": [
+        0.0,
+        0.0,
+        84.0
+      ],
+      "oddSide": "left",
+      "protected": false
+    },
+    {
+      "id": "kyr",
+      "tatar": "Кыр ур.",
+      "russian": "ул. Полевая",
+      "origin": [
+        0.0,
+        0.0,
+        130.0
+      ],
+      "oddSide": "left",
+      "protected": false
     }
   ],
   "buildings": [
@@ -126,226 +174,13 @@
       ]
     },
     {
-      "sourceName": "ArrivalReverseEdgeHouseWest",
-      "sourceKey": "act1/holding/ArrivalReverseEdgeHouseWest",
-      "buildingId": "BLD-H001",
-      "parcelId": "PAR-H001",
-      "addressId": "ADR-H001",
-      "streetId": "tukay",
-      "number": "1",
-      "cadastral": "URM-Q01-P0100",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ArrivalReverseEdgeHouseEast",
-      "sourceKey": "act1/holding/ArrivalReverseEdgeHouseEast",
-      "buildingId": "BLD-H002",
-      "parcelId": "PAR-H002",
-      "addressId": "ADR-H002",
-      "streetId": "tukay",
-      "number": "2",
-      "cadastral": "URM-Q01-P0101",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ArrivalFarWestFacade",
-      "sourceKey": "act1/holding/ArrivalFarWestFacade",
-      "buildingId": "BLD-H003",
-      "parcelId": "PAR-H003",
-      "addressId": "ADR-H003",
-      "streetId": "tukay",
-      "number": "3",
-      "cadastral": "URM-Q01-P0102",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ArrivalReverseFarCenterHouse",
-      "sourceKey": "act1/holding/ArrivalReverseFarCenterHouse",
-      "buildingId": "BLD-H004",
-      "parcelId": "PAR-H004",
-      "addressId": "ADR-H004",
-      "streetId": "tukay",
-      "number": "1А",
-      "cadastral": "URM-Q01-P0103",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ArrivalReverseFarEastHouse",
-      "sourceKey": "act1/holding/ArrivalReverseFarEastHouse",
-      "buildingId": "BLD-H005",
-      "parcelId": "PAR-H005",
-      "addressId": "ADR-H005",
-      "streetId": "tukay",
-      "number": "2А",
-      "cadastral": "URM-Q01-P0104",
-      "role": "residential",
-      "accessXZ": [
-        11.01,
-        55.175
-      ]
-    },
-    {
-      "sourceName": "PerimeterWestArrivalFacade",
-      "sourceKey": "act1/holding/PerimeterWestArrivalFacade",
-      "buildingId": "BLD-H006",
-      "parcelId": "PAR-H006",
-      "addressId": "ADR-H006",
-      "streetId": "tukay",
-      "number": "5",
-      "cadastral": "URM-Q01-P0105",
-      "role": "residential"
-    },
-    {
-      "sourceName": "PerimeterEastArrivalFacade",
-      "sourceKey": "act1/holding/PerimeterEastArrivalFacade",
-      "buildingId": "BLD-H007",
-      "parcelId": "PAR-H007",
-      "addressId": "ADR-H007",
-      "streetId": "tukay",
-      "number": "4",
-      "cadastral": "URM-Q01-P0106",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ArrivalWestNearAuthoredTimberGableParcel",
-      "sourceKey": "act1/holding/ArrivalWestNearAuthoredTimberGableParcel",
-      "buildingId": "BLD-H008",
-      "parcelId": "PAR-H008",
-      "addressId": "ADR-H008",
-      "streetId": "tukay",
-      "number": "7",
-      "cadastral": "URM-Q01-P0107",
-      "role": "residential",
-      "accessXZ": [
-        -14.066,
-        26.606
-      ]
-    },
-    {
-      "sourceName": "ArrivalEastNearAuthoredFacade",
-      "sourceKey": "act1/holding/ArrivalEastNearAuthoredFacade",
-      "buildingId": "BLD-H009",
-      "parcelId": "PAR-H009",
-      "addressId": "ADR-H009",
-      "streetId": "tukay",
-      "number": "6",
-      "cadastral": "URM-Q01-P0108",
-      "primaryDoor": "DwellingFacade_SeniEntry_Door0_Leaf_LOD0",
-      "signSurface": "DwellingFacade_SeniOuter_Wall_LOD0",
-      "role": "residential"
-    },
-    {
-      "sourceName": "WestArrivalMidFacade",
-      "sourceKey": "act1/holding/WestArrivalMidFacade",
-      "buildingId": "BLD-H010",
-      "parcelId": "PAR-H010",
-      "addressId": "ADR-H010",
-      "streetId": "tukay",
-      "number": "7А",
-      "cadastral": "URM-Q01-P0109",
-      "role": "residential"
-    },
-    {
-      "sourceName": "EastArrivalMidFacade",
-      "sourceKey": "act1/holding/EastArrivalMidFacade",
-      "buildingId": "BLD-H011",
-      "parcelId": "PAR-H011",
-      "addressId": "ADR-H011",
-      "streetId": "tukay",
-      "number": "6А",
-      "cadastral": "URM-Q01-P0110",
-      "role": "residential"
-    },
-    {
-      "sourceName": "WestArrivalNearFacade",
-      "sourceKey": "act1/holding/WestArrivalNearFacade",
-      "buildingId": "BLD-H012",
-      "parcelId": "PAR-H012",
-      "addressId": "ADR-H012",
-      "streetId": "tukay",
-      "number": "9",
-      "cadastral": "URM-Q01-P0111",
-      "role": "residential"
-    },
-    {
-      "sourceName": "EastArrivalNearFacade",
-      "sourceKey": "act1/holding/EastArrivalNearFacade",
-      "buildingId": "BLD-H013",
-      "parcelId": "PAR-H013",
-      "addressId": "ADR-H013",
-      "streetId": "tukay",
-      "number": "8",
-      "cadastral": "URM-Q01-P0112",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ArrivalWestLateralFacade",
-      "sourceKey": "act1/holding/ArrivalWestLateralFacade",
-      "buildingId": "BLD-H014",
-      "parcelId": "PAR-H014",
-      "addressId": "ADR-H014",
-      "streetId": "tukay",
-      "number": "11",
-      "cadastral": "URM-Q01-P0113",
-      "role": "residential",
-      "accessXZ": [
-        -8.64,
-        17.461
-      ]
-    },
-    {
-      "sourceName": "ArrivalEastLateralFacade",
-      "sourceKey": "act1/holding/ArrivalEastLateralFacade",
-      "buildingId": "BLD-H015",
-      "parcelId": "PAR-H015",
-      "addressId": "ADR-H015",
-      "streetId": "tukay",
-      "number": "10",
-      "cadastral": "URM-Q01-P0114",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ArrivalForwardWestFacade",
-      "sourceKey": "act1/holding/ArrivalForwardWestFacade",
-      "buildingId": "BLD-H016",
-      "parcelId": "PAR-H016",
-      "addressId": "ADR-H016",
-      "streetId": "tukay",
-      "number": "15",
-      "cadastral": "URM-Q01-P0115",
-      "primaryDoor": "DwellingFacade_SeniEntry_Door0_Leaf_LOD0",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ArrivalForwardEastFacade",
-      "sourceKey": "act1/holding/ArrivalForwardEastFacade",
-      "buildingId": "BLD-H017",
-      "parcelId": "PAR-H017",
-      "addressId": "ADR-H017",
-      "streetId": "tukay",
-      "number": "12",
-      "cadastral": "URM-Q01-P0116",
-      "role": "residential"
-    },
-    {
-      "sourceName": "MainStreetForwardWestFacade",
-      "sourceKey": "act1/holding/MainStreetForwardWestFacade",
-      "buildingId": "BLD-H018",
-      "parcelId": "PAR-H018",
-      "addressId": "ADR-H018",
-      "streetId": "tukay",
-      "number": "19",
-      "cadastral": "URM-Q01-P0117",
-      "role": "residential"
-    },
-    {
       "sourceName": "MainStreetEastNeighborFacade",
       "sourceKey": "act1/holding/MainStreetEastNeighborFacade",
       "buildingId": "BLD-H019",
       "parcelId": "PAR-H019",
       "addressId": "ADR-H019",
-      "streetId": "tukay",
-      "number": "14",
+      "streetId": "bakcha",
+      "number": "6",
       "cadastral": "URM-Q01-P0118",
       "role": "residential"
     },
@@ -356,7 +191,7 @@
       "parcelId": "PAR-H020",
       "addressId": "ADR-H020",
       "streetId": "tukay",
-      "number": "23",
+      "number": "14",
       "cadastral": "URM-Q01-P0119",
       "role": "residential"
     },
@@ -366,8 +201,8 @@
       "buildingId": "BLD-H021",
       "parcelId": "PAR-H021",
       "addressId": "ADR-H021",
-      "streetId": "tukay",
-      "number": "21",
+      "streetId": "chishma",
+      "number": "6",
       "cadastral": "URM-Q01-P0120",
       "role": "residential",
       "accessXZ": [
@@ -376,106 +211,14 @@
       ]
     },
     {
-      "sourceName": "ConnectiveEastHouseA6Silhouette",
-      "sourceKey": "act1/holding/ConnectiveEastHouseA6Silhouette",
-      "buildingId": "BLD-H022",
-      "parcelId": "PAR-H022",
-      "addressId": "ADR-H022",
-      "streetId": "tukay",
-      "number": "18",
-      "cadastral": "URM-Q01-P0121",
-      "role": "residential"
-    },
-    {
       "sourceName": "ReturnEastHouseA8Silhouette",
       "sourceKey": "act1/holding/ReturnEastHouseA8Silhouette",
       "buildingId": "BLD-H023",
       "parcelId": "PAR-H023",
       "addressId": "ADR-H023",
       "streetId": "tukay",
-      "number": "20",
-      "cadastral": "URM-Q01-P0122",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ReturnStreetDistantLowFacade",
-      "sourceKey": "act1/holding/ReturnStreetDistantLowFacade",
-      "buildingId": "BLD-H024",
-      "parcelId": "PAR-H024",
-      "addressId": "ADR-H024",
-      "streetId": "tukay",
-      "number": "25",
-      "cadastral": "URM-Q01-P0123",
-      "role": "residential",
-      "accessXZ": [
-        -9.258,
-        -48.604
-      ]
-    },
-    {
-      "sourceName": "ReturnWestFarHouse1Silhouette",
-      "sourceKey": "act1/holding/ReturnWestFarHouse1Silhouette",
-      "buildingId": "BLD-H025",
-      "parcelId": "PAR-H025",
-      "addressId": "ADR-H025",
-      "streetId": "usal",
-      "number": "15",
-      "cadastral": "URM-Q03-P0124",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ReturnEastFarHouse2Silhouette",
-      "sourceKey": "act1/holding/ReturnEastFarHouse2Silhouette",
-      "buildingId": "BLD-H026",
-      "parcelId": "PAR-H026",
-      "addressId": "ADR-H026",
-      "streetId": "tukay",
-      "number": "22",
-      "cadastral": "URM-Q01-P0125",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ZiratWestLateralHouse",
-      "sourceKey": "act1/holding/ZiratWestLateralHouse",
-      "buildingId": "BLD-H027",
-      "parcelId": "PAR-H027",
-      "addressId": "ADR-H027",
-      "streetId": "usal",
-      "number": "52",
-      "cadastral": "URM-Q03-P0126",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ZiratEastLateralHouse",
-      "sourceKey": "act1/holding/ZiratEastLateralHouse",
-      "buildingId": "BLD-H028",
-      "parcelId": "PAR-H028",
-      "addressId": "ADR-H028",
-      "streetId": "tukay",
       "number": "26",
-      "cadastral": "URM-Q01-P0127",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ZiratEastNearMidHouse",
-      "sourceKey": "act1/holding/ZiratEastNearMidHouse",
-      "buildingId": "BLD-H029",
-      "parcelId": "PAR-H029",
-      "addressId": "ADR-H029",
-      "streetId": "tukay",
-      "number": "24",
-      "cadastral": "URM-Q01-P0128",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ZiratEastBoundaryHouse",
-      "sourceKey": "act1/holding/ZiratEastBoundaryHouse",
-      "buildingId": "BLD-H030",
-      "parcelId": "PAR-H030",
-      "addressId": "ADR-H030",
-      "streetId": "tukay",
-      "number": "28",
-      "cadastral": "URM-Q01-P0129",
+      "cadastral": "URM-Q01-P0122",
       "role": "residential"
     },
     {
@@ -485,63 +228,8 @@
       "parcelId": "PAR-H031",
       "addressId": "ADR-H031",
       "streetId": "urman",
-      "number": "6",
-      "cadastral": "URM-Q02-P0130",
-      "role": "residential"
-    },
-    {
-      "sourceName": "PerimeterEastReturnFacade",
-      "sourceKey": "act1/holding/PerimeterEastReturnFacade",
-      "buildingId": "BLD-H032",
-      "parcelId": "PAR-H032",
-      "addressId": "ADR-H032",
-      "streetId": "urman",
-      "number": "4",
-      "cadastral": "URM-Q02-P0131",
-      "role": "residential"
-    },
-    {
-      "sourceName": "MainStreetEastNearMidHouse",
-      "sourceKey": "act1/holding/MainStreetEastNearMidHouse",
-      "buildingId": "BLD-H035",
-      "parcelId": "PAR-H035",
-      "addressId": "ADR-H035",
-      "streetId": "urman",
-      "number": "1",
-      "cadastral": "URM-Q02-P0134",
-      "role": "residential"
-    },
-    {
-      "sourceName": "EastStreetMidFacade",
-      "sourceKey": "act1/holding/EastStreetMidFacade",
-      "buildingId": "BLD-H036",
-      "parcelId": "PAR-H036",
-      "addressId": "ADR-H036",
-      "streetId": "urman",
       "number": "3",
-      "cadastral": "URM-Q02-P0135",
-      "role": "residential"
-    },
-    {
-      "sourceName": "EastStreetFarHolding",
-      "sourceKey": "act1/holding/EastStreetFarHolding",
-      "buildingId": "BLD-H037",
-      "parcelId": "PAR-H037",
-      "addressId": "ADR-H037",
-      "streetId": "urman",
-      "number": "5",
-      "cadastral": "URM-Q02-P0136",
-      "role": "residential"
-    },
-    {
-      "sourceName": "MainStreetEastLateralHouse",
-      "sourceKey": "act1/holding/MainStreetEastLateralHouse",
-      "buildingId": "BLD-H038",
-      "parcelId": "PAR-H038",
-      "addressId": "ADR-H038",
-      "streetId": "urman",
-      "number": "1А",
-      "cadastral": "URM-Q02-P0137",
+      "cadastral": "URM-Q02-P0130",
       "role": "residential"
     },
     {
@@ -550,106 +238,10 @@
       "buildingId": "BLD-H040",
       "parcelId": "PAR-H040",
       "addressId": "ADR-H040",
-      "streetId": "tukay",
-      "number": "8А",
+      "streetId": "bakcha",
+      "number": "9",
       "cadastral": "URM-Q01-P0139",
       "role": "residential"
-    },
-    {
-      "sourceName": "HouseExteriorWestNeighborFacade",
-      "sourceKey": "act1/holding/HouseExteriorWestNeighborFacade",
-      "buildingId": "BLD-H041",
-      "parcelId": "PAR-H041",
-      "addressId": "ADR-H041",
-      "streetId": "tukay",
-      "number": "17А",
-      "cadastral": "URM-Q01-P0140",
-      "role": "residential"
-    },
-    {
-      "sourceName": "BabaiWestFieldNeighborHouse",
-      "sourceKey": "act1/holding/BabaiWestFieldNeighborHouse",
-      "buildingId": "BLD-H042",
-      "parcelId": "PAR-H042",
-      "addressId": "ADR-H042",
-      "streetId": "tukay",
-      "number": "17Б",
-      "cadastral": "URM-Q01-P0141",
-      "role": "residential"
-    },
-    {
-      "sourceName": "BabaiReverseFieldNeighborHouse",
-      "sourceKey": "act1/holding/BabaiReverseFieldNeighborHouse",
-      "buildingId": "BLD-H043",
-      "parcelId": "PAR-H043",
-      "addressId": "ADR-H043",
-      "streetId": "tukay",
-      "number": "13",
-      "cadastral": "URM-Q01-P0142",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ArrivalReverseWestDomesticFacade",
-      "sourceKey": "act1/holding/ArrivalReverseWestDomesticFacade",
-      "buildingId": "BLD-H044",
-      "parcelId": "PAR-H044",
-      "addressId": "ADR-H044",
-      "streetId": "tukay",
-      "number": "5А",
-      "cadastral": "URM-Q01-P0143",
-      "role": "residential",
-      "accessXZ": [
-        -11.029,
-        24.037
-      ]
-    },
-    {
-      "sourceName": "ArrivalLeftHorizonDomesticFacade",
-      "sourceKey": "act1/holding/ArrivalLeftHorizonDomesticFacade",
-      "buildingId": "BLD-H045",
-      "parcelId": "PAR-H045",
-      "addressId": "ADR-H045",
-      "streetId": "tukay",
-      "number": "7Б",
-      "cadastral": "URM-Q01-P0144",
-      "role": "residential"
-    },
-    {
-      "sourceName": "FapReverseWestDomesticFacade",
-      "sourceKey": "act1/holding/FapReverseWestDomesticFacade",
-      "buildingId": "BLD-H046",
-      "parcelId": "PAR-H046",
-      "addressId": "ADR-H046",
-      "streetId": "urman",
-      "number": "7",
-      "cadastral": "URM-Q02-P0145",
-      "role": "residential"
-    },
-    {
-      "sourceName": "FapWestFieldNeighborHouse",
-      "sourceKey": "act1/holding/FapWestFieldNeighborHouse",
-      "buildingId": "BLD-H047",
-      "parcelId": "PAR-H047",
-      "addressId": "ADR-H047",
-      "streetId": "urman",
-      "number": "9",
-      "cadastral": "URM-Q02-P0146",
-      "role": "residential"
-    },
-    {
-      "sourceName": "FapOppositeFieldNeighborHouse",
-      "sourceKey": "act1/holding/FapOppositeFieldNeighborHouse",
-      "buildingId": "BLD-H049",
-      "parcelId": "PAR-H049",
-      "addressId": "ADR-H049",
-      "streetId": "urman",
-      "number": "11",
-      "cadastral": "URM-Q02-P0148",
-      "role": "residential",
-      "accessXZ": [
-        12.762,
-        -34.856
-      ]
     },
     {
       "sourceName": "ZiratVillageMemoryHouseWest",
@@ -847,17 +439,6 @@
       "streetId": "tukay",
       "number": "17Г",
       "cadastral": "URM-Q01-P0167",
-      "role": "residential"
-    },
-    {
-      "sourceName": "ReturnWestBanyaSilhouette",
-      "sourceKey": "act1/holding/ReturnWestBanyaSilhouette",
-      "buildingId": "BLD-H073",
-      "parcelId": "PAR-H073",
-      "addressId": "ADR-H073",
-      "streetId": "usal",
-      "number": "17",
-      "cadastral": "URM-Q03-P0125",
       "role": "residential"
     }
   ]

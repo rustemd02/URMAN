@@ -79,9 +79,10 @@ public partial class Act1ConnectedWorld
             var targets = FindDescendants<Node3D>(core).Where(n => n.GetParent()?.Name == "AgentB_PlantedFoliage" && n.HasMeta("plantVariant")
                 && n.GetMeta("plantVariant").AsString() == duplicate.Variant
                 && new Vector2(n.GlobalPosition.X, n.GlobalPosition.Z).DistanceSquaredTo(duplicate.Root) < .0001f).ToArray();
-            if (targets.Length != 1) throw new InvalidOperationException(
+            // The planting follows the street axes; after relayout v3 a sapling may no longer grow here.
+            if (targets.Length > 1) throw new InvalidOperationException(
                 $"Yard composition root match count {targets.Length}: {duplicate.Variant}@{duplicate.Root}");
-            Hide(targets[0], duplicate.Reason);
+            foreach (var target in targets) Hide(target, duplicate.Reason);
         }
 
         // The kit gate planted on the entry path, two metres inside the real gate.

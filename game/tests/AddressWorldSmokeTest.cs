@@ -45,11 +45,15 @@ public partial class AddressWorldSmokeTest : Node
         try
         {
             _scope=System.Environment.GetEnvironmentVariable("URMAN_ADDRESS_SCOPE")??"full";
-            if(_scope is not ("full" or "remediation-search" or "entrance-candidates" or "standalone-candidates" or "standalone-access" or "production-entrances" or "verge-contacts" or "h045-layout" or "frontage-sightlines" or "crowded-addresses" or "far-bank"))throw new InvalidOperationException("Unknown address smoke scope: "+_scope);
+            if(_scope is not ("full" or "remediation-search" or "entrance-candidates" or "standalone-candidates" or "standalone-access" or "production-entrances" or "verge-contacts" or "h045-layout" or "frontage-sightlines" or "crowded-addresses" or "far-bank" or "open-part"))throw new InvalidOperationException("Unknown address smoke scope: "+_scope);
             _output=System.Environment.GetEnvironmentVariable("URMAN_ADDRESS_OUTPUT")??"";
             if(!Path.IsPathFullyQualified(_output)||!Directory.Exists(_output)||Directory.EnumerateFileSystemEntries(_output).Any())
                 throw new InvalidOperationException("URMAN_ADDRESS_OUTPUT must name an existing empty absolute evidence directory.");
-            if(DisplayServer.GetName()=="headless")throw new InvalidOperationException("Address world acceptance requires native rendered frames.");
+            // A physics-only diagnostic of the open part may run headless (software rendering in
+            // the cloud is ~1 frame/s); it is never acceptance and records that it had no frames.
+            var headlessDiagnostic=_scope=="open-part"&&System.Environment.GetEnvironmentVariable("URMAN_ADDRESS_HEADLESS_DIAGNOSTIC")=="1";
+            if(DisplayServer.GetName()=="headless"&&!headlessDiagnostic)throw new InvalidOperationException("Address world acceptance requires native rendered frames.");
+            if(headlessDiagnostic)_checks.Add(new{kind="headless-physics-diagnostic",nativeFrames=false,acceptance=false});
             _demo=ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn").Instantiate<Act1DemoRoot>();
             AddChild(_demo);
             await Frames(8);
@@ -69,7 +73,7 @@ public partial class AddressWorldSmokeTest : Node
             var registry=_world.AddressRegistry??throw new InvalidOperationException("No imported address registry.");
             Check(!_bridge.SelectWorldProps().EnumerateObject().Any(p=>p.Name.StartsWith("address/",StringComparison.Ordinal)),"construction and proximity do not record a plate read");
 
-            if(_scope is "remediation-search" or "entrance-candidates" or "standalone-candidates" or "standalone-access" or "production-entrances" or "verge-contacts" or "h045-layout" or "frontage-sightlines" or "crowded-addresses" or "far-bank")
+            if(_scope is "remediation-search" or "entrance-candidates" or "standalone-candidates" or "standalone-access" or "production-entrances" or "verge-contacts" or "h045-layout" or "frontage-sightlines" or "crowded-addresses" or "far-bank" or "open-part")
             {
                 // Scope is confined to this explicit smoke scene. The ordinary
                 // runtime lifecycle and live address records are not modified.
@@ -81,12 +85,17 @@ public partial class AddressWorldSmokeTest : Node
                 _checks.Add(new{kind="audit-not-run-in-narrow-scope",auditRun=false,
                     constructionEntriesAlreadyObserved=registry.AccessPoints.Values.Count(a=>a.State!="pending-physics"),
                     previousPhysicsProcessing=auditWasProcessing,acceptance=false});
-                if(_scope is "crowded-addresses" or "far-bank")
+                if(_scope is "crowded-addresses" or "far-bank" or "open-part")
                 {
                     var selectedIds=_scope=="far-bank" ? CheckFarBankBindings(registry) :
+                        _scope=="open-part" ? CheckOpenPartBindings(registry) :
                         (System.Environment.GetEnvironmentVariable("URMAN_ADDRESS_IDS")??"ADR-H013,ADR-H041")
                         .Split(',',StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
-                    Require((_scope=="far-bank" ? selectedIds.Length==35 : selectedIds.Length is >0 and <=4)
+                    // URMAN_ADDRESS_IDS narrows the open part to a few households for a quick rerun.
+                    if(_scope=="open-part"&&System.Environment.GetEnvironmentVariable("URMAN_ADDRESS_IDS") is {Length:>0} only)
+                        selectedIds=selectedIds.Where(only.Split(',').Contains).ToArray();
+                    Require((_scope=="far-bank" ? selectedIds.Length==35 : _scope=="open-part" ? selectedIds.Length>0
+                        : selectedIds.Length is >0 and <=4)
                         && selectedIds.Distinct().Count()==selectedIds.Length && selectedIds.All(registry.Addresses.ContainsKey),
                         "selected existing, distinct address IDs match the requested diagnostic scope");
                     foreach(var id in selectedIds)
@@ -265,7 +274,7 @@ public partial class AddressWorldSmokeTest : Node
                     {
                         schemaVersion=1,ordinaryNewGame=true,humanSearchPlaytest=false,diagnosticCameraFixtures=_captures.Count>0,
                         assembly=identity,scope=_scope,auditRun=_auditRun,fullAuditRun=_auditRun,
-                        selectedAccessAuditRun=_scope is "production-entrances" or "standalone-access" or "h045-layout" or "crowded-addresses" or "far-bank",acceptance=_scope=="full"&&exit==0,
+                        selectedAccessAuditRun=_scope is "production-entrances" or "standalone-access" or "h045-layout" or "crowded-addresses" or "far-bank" or "open-part",acceptance=_scope=="full"&&exit==0,
                         auditCompleted=_auditCompleted,registry=_registryEvidence,mounts=_mounts,captures=_captures,checks=_checks,failures=_failures
                     },new JsonSerializerOptions{WriteIndented=true});
                     var path=Path.Combine(_output,"address-world-receipt.json");
@@ -914,6 +923,8 @@ public partial class AddressWorldSmokeTest : Node
     {
         var path=Path.Combine(_output,name+".png");
         if(File.Exists(path))throw new IOException("Refusing to overwrite historical capture: "+path);
+        // The headless physics diagnostic has no frames to capture (recorded as nativeFrames=false).
+        if(DisplayServer.GetName()=="headless"){_checks.Add(new{kind="capture-skipped-headless",name});return;}
         await Act1StateFlowProof.WaitForRenderedFrameAsync(this,"address/"+name);
         using var shot=GetViewport().GetTexture().GetImage();
         if(shot.SavePng(path)!=Error.Ok)throw new IOException(path);

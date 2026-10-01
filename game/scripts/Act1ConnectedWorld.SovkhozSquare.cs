@@ -77,10 +77,11 @@ public partial class Act1ConnectedWorld
         Address(post, "POST", "18", "URM-Q03-P0004", -3.7f, "Walls", 7f, 1.3f, "post");
 
         // Where the bus used to turn: a concrete pavilion by the road.
-        BuildBusPavilion(square, new(-5f, 20f));
+        BuildBusPavilion(square, new(-4.4f, 20f));
         BuildPlazaPaving(square);
         BuildWinterCivicGarden(square, new[] { school, club, office, post });
         BuildNorthWinterRoads(core);
+        AddOpenPartStreets(core);
     }
 
     private void SquareWeatherShelter(Node3D owner, Vector3 centre, Vector3 half)

@@ -21,9 +21,8 @@ public partial class Act1DemoRoot
 
     private const string PrologueRideDialogue = "urman.chapter1:dialogue/prologue-niva-language";
 
-    // The village leg: the far-bank lane, the bridge and the FAP branch as before,
-    // then the central square, both inhabited north streets and their return
-    // loop, and back down the other lane to the arrival stop. Built from the
+    // The village leg: the far-bank lane, the bridge and the FAP street, north up the
+    // main street, once round Мәйдан and back to the arrival stop. Built from the
     // street axes so it can never drift from the roads it drives on.
     private static readonly Vector3[] PrologueRidePath = BuildPrologueRidePath();
 
@@ -41,11 +40,8 @@ public partial class Act1DemoRoot
         path.AddRange(new Vector3[]
         {
             new(58f, 0, -25f), new(47f, 0, -25f), new(44f, 0, -25f), new(41.5f, 0, -25f), new(38.5f, 0, -25f), new(37f, 0, -24f), new(32f, 0, -24.2f),
-            new(28f, 0, -24.2f), new(22f, 0, -23.4f), new(17f, 0, -21.5f), new(10f, 0, -17f),
-            new(4.5f, 0, -12.5f), new(0f, 0, -10f), new(-.6f, 0, -1.5f), new(1.3f, 0, 2f), new(1.3f, 0, 10f), new(-1.3f, 0, 25f)
         });
-        // Offset the real axes to the vehicle's right-hand side. The narrow
-        // east lane has less lateral offset than the main two-way street.
+        // Offset the real axes to the vehicle's right-hand side.
         void Lane(IReadOnlyList<Vector2> axis, float lateral)
         {
             for (var i = 0; i < axis.Count; i++)
@@ -62,19 +58,21 @@ public partial class Act1DemoRoot
                     path.Add(new(at.X, 0, at.Y));
             }
         }
-        // North along the main street past the square Мәйдан (relayout v3: it is on the west
-        // side between z 33 and 63), round the inhabited north loop and back down the other lane.
-        var mainNorth = AgentBAct1Layout.MainRoadAxis.Where(p => p.Y >= 40).Reverse().ToArray();
-        Lane(mainNorth, RideLane);
-        Lane(AgentBAct1Layout.NorthReturnStreetAxis, .65f);
-        var eastReturn = AgentBAct1Layout.NorthEastStreetAxis.Where(p => p.Y <= 220).Reverse().ToArray();
-        Lane(new[] { new Vector2(20, 220) }.Concat(eastReturn).ToArray(), .65f);
-        Lane(AgentBAct1Layout.NorthCrossStreetAxis.Reverse().ToArray(), .9f);
-        var mainReturn = new[] { new Vector2(-23, 151) }
-            .Concat(AgentBAct1Layout.MainRoadAxis.Where(p => p.Y < 151 && p.Y >= 40)).ToArray();
-        Lane(mainReturn, RideLane);
-        path.Add(new(1.3f, 0, 9f));
-        path.Add(new(1.3f, 0, 1f));
+        // Relayout v3: the straight FAP street (Урман урамы) west to the main street, north
+        // along Тукай урамы past the arrival stop to Мәйдан, once round the square's garden
+        // (west of the main street, z 33-63) and back south to the stop by the house.
+        Lane(AgentBAct1Layout.FapBranchAxis.Reverse().ToArray(), RideLane);
+        Lane(new[] { new Vector2(-0.5f, -24f) }.Concat(AgentBAct1Layout.MainRoadAxis
+            .Where(p => p.Y > -24f && p.Y <= -1.5f).Reverse()).ToArray(), RideLane);
+        // Past the arrival stop on the east half: the sign and bench of the stop stand on the west verge.
+        path.Add(new(1.3f, 0, 2f)); path.Add(new(1.3f, 0, 10f)); path.Add(new(-1.3f, 0, 25f));
+        Lane(new[] { new Vector2(0f, 25f), new Vector2(0f, 40f), new Vector2(0f, 52f) }, RideLane);
+        // Round Мәйдан on its paved carriageway, then south again.
+        foreach (var point in AgentBAct1Layout.PlazaDriveAxis) path.Add(new(point.X, 0, point.Y));
+        var mainSouth = new[] { new Vector2(0f, 30f) }
+            .Concat(AgentBAct1Layout.MainRoadAxis.Where(p => p.Y < 30f && p.Y >= 0f)).Append(new Vector2(0f, 4f)).ToArray();
+        Lane(mainSouth, RideLane);
+        path.Add(new(-1.3f, 0, 1f));
         path.Add(new(-1.65f, 0, 1f));
         return path.ToArray();
     }
@@ -258,22 +256,23 @@ public partial class Act1DemoRoot
         if (!_prologueSkipRequested) FadePrologueBlackout(visible: false);
         // Tour of the village: each remark waits for the previous one to finish
         // and for the car to reach its place, so nothing talks over anything.
-        var northLeg = RideMark(0f + RideLane, 9f, 60f);
-        // The square comes first now (z 33-63 on the left), then the lower street and the fields.
-        var squareAt = RideMark(1.2f + RideLane, 46f, northLeg);
+        var northLeg = RideMark(0f - RideLane, 9f, 60f);
+        // Мәйдан is on the right going north (west of the main street, z 33-63); the car goes
+        // once round its garden, then back south past Яңа урам (on the right) to the house.
+        var squareAt = RideMark(-12f, 58.8f, northLeg, 2f);
         var villageBarks = new (float At, string Id)[]
         {
             (3f, "prologue-ride-bark-bridge"),
             (RideMark(32f, -24.2f), "prologue-ride-bark-fap"),
             (RideMark(0f, -10f), "prologue-ride-bark-street"),
             (northLeg + 6f, "prologue-ride-bark-edge"),
-            (RideMark(0f + RideLane, 26f, northLeg), "prologue-ride-bark-square-road"),
+            (RideMark(0f - RideLane, 26f, northLeg), "prologue-ride-bark-square-road"),
             (squareAt, "prologue-ride-bark-square"),
-            (RideMark(1.2f + RideLane, 62f, northLeg), "prologue-ride-bark-square-year"),
-            (RideMark(-0.1f + RideLane, 75f, northLeg), "prologue-ride-bark-lower-street"),
-            (RideMark(-1.4f + RideLane, 95f, northLeg), "prologue-ride-bark-fields"),
-            (RideMark(-1.4f - RideLane, 88f, squareAt + 60f), "prologue-ride-bark-back"),
-            (RideMark(0f - RideLane, 20f, squareAt + 60f), "prologue-ride-bark-home")
+            (RideMark(-21.5f, 48f, squareAt, 2f), "prologue-ride-bark-square-year"),
+            (RideMark(-12f, 37.4f, squareAt, 2f), "prologue-ride-bark-fields"),
+            (RideMark(0f + RideLane, 30f, squareAt + 20f), "prologue-ride-bark-back"),
+            (RideMark(0f + RideLane, 16f, squareAt + 20f), "prologue-ride-bark-lower-street"),
+            (RideMark(0f + RideLane, 5f, squareAt + 20f), "prologue-ride-bark-home")
         };
         var villageBark = 0;
         var nextBarkReady = 0.0;
@@ -287,7 +286,7 @@ public partial class Act1DemoRoot
             UpdateRideLook(dialogueUi?.IsOpen == true, delta);
             var remaining = villageLength - along;
             // Slow past the square so it can be seen from the passenger seat.
-            var onRing = along >= squareAt - 14f && along <= squareAt + 20f;
+            var onRing = along >= squareAt - 12f && along <= squareAt + 48f;
             speed = Mathf.MoveToward(speed, remaining < 12f ? 1.6f : onRing ? 3.2f : along > northLeg ? 5.2f : 4.2f, 1.8f * delta);
             along += speed * delta;
             var before = _rideNiva.GlobalPosition;

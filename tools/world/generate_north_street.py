@@ -26,6 +26,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "game/content/world/act1_north_street.world.v1.json"
+# Superseded by relayout v3 (2026-10-01): its households moved to the far bank
+# (generate_far_bank.py) and the open part (generate_open_part.py), the square
+# furniture to Мәйдан. Re-running it would put them back on the old north street.
+if "--legacy" not in sys.argv:
+    sys.exit("generate_north_street.py is superseded by relayout v3 (generate_far_bank.py, generate_open_part.py); "
+             "pass --legacy to regenerate the historical plot anyway.")
 KIT = ROOT / "game/content/world/act1_village_kit.world.v1.json"
 CATALOG = ROOT / "game/content/world/catalog.v1.json"
 

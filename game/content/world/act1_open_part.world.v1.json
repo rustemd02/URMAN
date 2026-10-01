@@ -1,0 +1,2716 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.world-plot",
+  "id": "urman.world:act1/open-part",
+  "name": "Открытая часть деревни",
+  "executor": "generic",
+  "note": "Открытая часть по утверждённой схеме v3: прямая Тукай урамы, поперечные улицы Яңа, Чишмә, Усал, Бакча, Кыр, участки с садом за домом. Генератор tools/world/generate_open_part.py; положения можно править в Studio.",
+  "openArea": [
+    -64.0,
+    46.0,
+    -80.0,
+    160.0
+  ],
+  "roads": [
+    {
+      "id": "arrival-east",
+      "street": "yana",
+      "points": [
+        [
+          0,
+          12
+        ],
+        [
+          5.38,
+          12.0
+        ],
+        [
+          10.75,
+          12.0
+        ],
+        [
+          16.12,
+          12.0
+        ],
+        [
+          21.5,
+          12.0
+        ],
+        [
+          26.88,
+          12.0
+        ],
+        [
+          32.25,
+          12.0
+        ],
+        [
+          37.62,
+          12.0
+        ],
+        [
+          43.0,
+          12.0
+        ]
+      ],
+      "width": 4.0
+    },
+    {
+      "id": "lane-36",
+      "street": "chishma",
+      "points": [
+        [
+          0,
+          -36
+        ],
+        [
+          -6.0,
+          -36.0
+        ],
+        [
+          -12.0,
+          -36.0
+        ],
+        [
+          -18.0,
+          -36.0
+        ],
+        [
+          -24.0,
+          -36.0
+        ],
+        [
+          -30.0,
+          -36.0
+        ],
+        [
+          -36.0,
+          -36.0
+        ],
+        [
+          -42.0,
+          -36.0
+        ],
+        [
+          -48.0,
+          -36.0
+        ],
+        [
+          -54.0,
+          -36.0
+        ]
+      ],
+      "width": 4.0
+    },
+    {
+      "id": "cross-62-west",
+      "street": "usal",
+      "points": [
+        [
+          0.0,
+          -62
+        ],
+        [
+          -6.0,
+          -62.0
+        ],
+        [
+          -12.0,
+          -62.0
+        ],
+        [
+          -18.0,
+          -62.0
+        ],
+        [
+          -24.0,
+          -62.0
+        ],
+        [
+          -30.0,
+          -62.0
+        ],
+        [
+          -36.0,
+          -62.0
+        ],
+        [
+          -42.0,
+          -62.0
+        ],
+        [
+          -48.0,
+          -62.0
+        ],
+        [
+          -54.0,
+          -62.0
+        ]
+      ],
+      "width": 4.0
+    },
+    {
+      "id": "cross-62-east",
+      "street": "usal",
+      "points": [
+        [
+          0.0,
+          -62
+        ],
+        [
+          5.38,
+          -62.0
+        ],
+        [
+          10.75,
+          -62.0
+        ],
+        [
+          16.12,
+          -62.0
+        ],
+        [
+          21.5,
+          -62.0
+        ],
+        [
+          26.88,
+          -62.0
+        ],
+        [
+          32.25,
+          -62.0
+        ],
+        [
+          37.62,
+          -62.0
+        ],
+        [
+          43.0,
+          -62.0
+        ]
+      ],
+      "width": 4.0
+    },
+    {
+      "id": "cross84-west",
+      "street": "bakcha",
+      "points": [
+        [
+          0.0,
+          84
+        ],
+        [
+          -6.0,
+          84.0
+        ],
+        [
+          -12.0,
+          84.0
+        ],
+        [
+          -18.0,
+          84.0
+        ],
+        [
+          -24.0,
+          84.0
+        ],
+        [
+          -30.0,
+          84.0
+        ],
+        [
+          -36.0,
+          84.0
+        ],
+        [
+          -42.0,
+          84.0
+        ],
+        [
+          -48.0,
+          84.0
+        ],
+        [
+          -54.0,
+          84.0
+        ]
+      ],
+      "width": 4.0
+    },
+    {
+      "id": "cross84-east",
+      "street": "bakcha",
+      "points": [
+        [
+          0.0,
+          84
+        ],
+        [
+          5.38,
+          84.0
+        ],
+        [
+          10.75,
+          84.0
+        ],
+        [
+          16.12,
+          84.0
+        ],
+        [
+          21.5,
+          84.0
+        ],
+        [
+          26.88,
+          84.0
+        ],
+        [
+          32.25,
+          84.0
+        ],
+        [
+          37.62,
+          84.0
+        ],
+        [
+          43.0,
+          84.0
+        ]
+      ],
+      "width": 4.0
+    },
+    {
+      "id": "cross130-west",
+      "street": "kyr",
+      "points": [
+        [
+          0.0,
+          130
+        ],
+        [
+          -6.0,
+          130.0
+        ],
+        [
+          -12.0,
+          130.0
+        ],
+        [
+          -18.0,
+          130.0
+        ],
+        [
+          -24.0,
+          130.0
+        ],
+        [
+          -30.0,
+          130.0
+        ],
+        [
+          -36.0,
+          130.0
+        ],
+        [
+          -42.0,
+          130.0
+        ],
+        [
+          -48.0,
+          130.0
+        ],
+        [
+          -54.0,
+          130.0
+        ]
+      ],
+      "width": 4.0
+    },
+    {
+      "id": "cross130-east",
+      "street": "kyr",
+      "points": [
+        [
+          0.0,
+          130
+        ],
+        [
+          5.38,
+          130.0
+        ],
+        [
+          10.75,
+          130.0
+        ],
+        [
+          16.12,
+          130.0
+        ],
+        [
+          21.5,
+          130.0
+        ],
+        [
+          26.88,
+          130.0
+        ],
+        [
+          32.25,
+          130.0
+        ],
+        [
+          37.62,
+          130.0
+        ],
+        [
+          43.0,
+          130.0
+        ]
+      ],
+      "width": 4.0
+    }
+  ],
+  "lots": [
+    {
+      "id": "ADR-H023",
+      "kind": "keep",
+      "position": [
+        13.0,
+        -42.75
+      ],
+      "yawDegrees": -90.0,
+      "size": [
+        10.67,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "26"
+    },
+    {
+      "id": "ADR-H030",
+      "kind": "parcel",
+      "position": [
+        13.0,
+        -53.42
+      ],
+      "yawDegrees": -90.0,
+      "size": [
+        10.67,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "28"
+    },
+    {
+      "id": "ADR-H028",
+      "kind": "parcel",
+      "position": [
+        13.0,
+        -32.08
+      ],
+      "yawDegrees": -90.0,
+      "size": [
+        10.67,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "24"
+    },
+    {
+      "id": "ADR-H027",
+      "kind": "parcel",
+      "position": [
+        -27.92,
+        -49.0
+      ],
+      "yawDegrees": -180.0,
+      "size": [
+        10.33,
+        18.0
+      ],
+      "street": "usal",
+      "number": "5"
+    },
+    {
+      "id": "ADR-H029",
+      "kind": "parcel",
+      "position": [
+        -13.0,
+        -53.75
+      ],
+      "yawDegrees": 90.0,
+      "size": [
+        10.0,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "23"
+    },
+    {
+      "id": "ADR-H031",
+      "kind": "kit",
+      "position": [
+        38.12,
+        -14.0
+      ],
+      "yawDegrees": 180.0,
+      "size": [
+        10.25,
+        12
+      ],
+      "street": "urman",
+      "number": "3"
+    },
+    {
+      "id": "ADR-H026",
+      "kind": "parcel",
+      "position": [
+        -13.0,
+        -43.75
+      ],
+      "yawDegrees": 90.0,
+      "size": [
+        10.0,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "21"
+    },
+    {
+      "id": "ADR-H025",
+      "kind": "parcel",
+      "position": [
+        -38.25,
+        -49.0
+      ],
+      "yawDegrees": -180.0,
+      "size": [
+        10.33,
+        18.0
+      ],
+      "street": "usal",
+      "number": "3"
+    },
+    {
+      "id": "ADR-H046",
+      "kind": "parcel",
+      "position": [
+        -13.0,
+        -23.5
+      ],
+      "yawDegrees": 90.0,
+      "size": [
+        18.5,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "19"
+    },
+    {
+      "id": "ADR-H024",
+      "kind": "parcel",
+      "position": [
+        -27.92,
+        -23.0
+      ],
+      "yawDegrees": -180.0,
+      "size": [
+        10.33,
+        18.0
+      ],
+      "street": "chishma",
+      "number": "2"
+    },
+    {
+      "id": "ADR-H073",
+      "kind": "parcel",
+      "position": [
+        -38.25,
+        -23.0
+      ],
+      "yawDegrees": -180.0,
+      "size": [
+        10.33,
+        18.0
+      ],
+      "street": "chishma",
+      "number": "4"
+    },
+    {
+      "id": "ADR-H032",
+      "kind": "parcel",
+      "position": [
+        13.0,
+        -16.0
+      ],
+      "yawDegrees": -90.0,
+      "size": [
+        10.0,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "22"
+    },
+    {
+      "id": "ADR-H047",
+      "kind": "parcel",
+      "position": [
+        27.88,
+        -14.0
+      ],
+      "yawDegrees": 180.0,
+      "size": [
+        10.25,
+        12
+      ],
+      "street": "urman",
+      "number": "1"
+    },
+    {
+      "id": "ADR-H049",
+      "kind": "parcel",
+      "position": [
+        13.0,
+        -6.2
+      ],
+      "yawDegrees": -90.0,
+      "size": [
+        10.0,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "20"
+    },
+    {
+      "id": "ADR-H022",
+      "kind": "parcel",
+      "position": [
+        10.8,
+        5.0
+      ],
+      "yawDegrees": 0.0,
+      "size": [
+        10.0,
+        10.6
+      ],
+      "street": "yana",
+      "number": "2"
+    },
+    {
+      "id": "ADR-H021",
+      "kind": "kit",
+      "position": [
+        -48.58,
+        -23.0
+      ],
+      "yawDegrees": -180.0,
+      "size": [
+        10.33,
+        18.0
+      ],
+      "street": "chishma",
+      "number": "6"
+    },
+    {
+      "id": "ADR-H036",
+      "kind": "parcel",
+      "position": [
+        27.75,
+        1.0
+      ],
+      "yawDegrees": -0.0,
+      "size": [
+        10.0,
+        14
+      ],
+      "street": "yana",
+      "number": "4"
+    },
+    {
+      "id": "ADR-H037",
+      "kind": "parcel",
+      "position": [
+        37.75,
+        1.0
+      ],
+      "yawDegrees": -0.0,
+      "size": [
+        10.0,
+        14
+      ],
+      "street": "yana",
+      "number": "6"
+    },
+    {
+      "id": "ADR-H018",
+      "kind": "parcel",
+      "position": [
+        -13.0,
+        18.0
+      ],
+      "yawDegrees": 90.0,
+      "size": [
+        10.5,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "15"
+    },
+    {
+      "id": "ADR-H035",
+      "kind": "parcel",
+      "position": [
+        27.75,
+        23.0
+      ],
+      "yawDegrees": 180.0,
+      "size": [
+        10.0,
+        14
+      ],
+      "street": "yana",
+      "number": "1"
+    },
+    {
+      "id": "ADR-H041",
+      "kind": "parcel",
+      "position": [
+        -48.58,
+        -49.0
+      ],
+      "yawDegrees": -180.0,
+      "size": [
+        10.33,
+        18.0
+      ],
+      "street": "usal",
+      "number": "1"
+    },
+    {
+      "id": "ADR-H038",
+      "kind": "parcel",
+      "position": [
+        37.75,
+        23.0
+      ],
+      "yawDegrees": 180.0,
+      "size": [
+        10.0,
+        14
+      ],
+      "street": "yana",
+      "number": "3"
+    },
+    {
+      "id": "ADR-H017",
+      "kind": "parcel",
+      "position": [
+        13.0,
+        22.0
+      ],
+      "yawDegrees": -90.0,
+      "size": [
+        13.0,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "18"
+    },
+    {
+      "id": "ADR-H016",
+      "kind": "parcel",
+      "position": [
+        13.0,
+        65.42
+      ],
+      "yawDegrees": -90.0,
+      "size": [
+        10.4,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "12"
+    },
+    {
+      "id": "ADR-H019",
+      "kind": "kit",
+      "position": [
+        27.75,
+        71.0
+      ],
+      "yawDegrees": -0.0,
+      "size": [
+        10.0,
+        18.0
+      ],
+      "street": "bakcha",
+      "number": "6"
+    },
+    {
+      "id": "ADR-H042",
+      "kind": "parcel",
+      "position": [
+        -37.62,
+        71.0
+      ],
+      "yawDegrees": 0.0,
+      "size": [
+        10.75,
+        18.0
+      ],
+      "street": "bakcha",
+      "number": "4"
+    },
+    {
+      "id": "ADR-H012",
+      "kind": "parcel",
+      "position": [
+        -48.38,
+        71.0
+      ],
+      "yawDegrees": 0.0,
+      "size": [
+        10.75,
+        18.0
+      ],
+      "street": "bakcha",
+      "number": "2"
+    },
+    {
+      "id": "ADR-H014",
+      "kind": "parcel",
+      "position": [
+        13.0,
+        75.88
+      ],
+      "yawDegrees": -90.0,
+      "size": [
+        10.75,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "10"
+    },
+    {
+      "id": "ADR-H015",
+      "kind": "parcel",
+      "position": [
+        37.75,
+        71.0
+      ],
+      "yawDegrees": -0.0,
+      "size": [
+        10.0,
+        18.0
+      ],
+      "street": "bakcha",
+      "number": "8"
+    },
+    {
+      "id": "ADR-H013",
+      "kind": "parcel",
+      "position": [
+        13.0,
+        93.92
+      ],
+      "yawDegrees": -90.0,
+      "size": [
+        13.33,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "8"
+    },
+    {
+      "id": "ADR-H040",
+      "kind": "kit",
+      "position": [
+        37.75,
+        97.0
+      ],
+      "yawDegrees": 180.0,
+      "size": [
+        10.0,
+        18.0
+      ],
+      "street": "bakcha",
+      "number": "9"
+    },
+    {
+      "id": "ADR-H010",
+      "kind": "parcel",
+      "position": [
+        -13.0,
+        93.92
+      ],
+      "yawDegrees": 90.0,
+      "size": [
+        13.33,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "13"
+    },
+    {
+      "id": "ADR-H008",
+      "kind": "parcel",
+      "position": [
+        -27.92,
+        97.0
+      ],
+      "yawDegrees": -180.0,
+      "size": [
+        10.33,
+        18.0
+      ],
+      "street": "bakcha",
+      "number": "5"
+    },
+    {
+      "id": "ADR-H009",
+      "kind": "parcel",
+      "position": [
+        27.75,
+        97.0
+      ],
+      "yawDegrees": 180.0,
+      "size": [
+        10.0,
+        18.0
+      ],
+      "street": "bakcha",
+      "number": "7"
+    },
+    {
+      "id": "ADR-H011",
+      "kind": "parcel",
+      "position": [
+        13.0,
+        107.25
+      ],
+      "yawDegrees": -90.0,
+      "size": [
+        13.33,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "6"
+    },
+    {
+      "id": "ADR-H044",
+      "kind": "parcel",
+      "position": [
+        -38.25,
+        97.0
+      ],
+      "yawDegrees": -180.0,
+      "size": [
+        10.33,
+        18.0
+      ],
+      "street": "bakcha",
+      "number": "3"
+    },
+    {
+      "id": "ADR-H045",
+      "kind": "parcel",
+      "position": [
+        -48.58,
+        97.0
+      ],
+      "yawDegrees": -180.0,
+      "size": [
+        10.33,
+        18.0
+      ],
+      "street": "bakcha",
+      "number": "1"
+    },
+    {
+      "id": "ADR-H006",
+      "kind": "parcel",
+      "position": [
+        -13.0,
+        107.25
+      ],
+      "yawDegrees": 90.0,
+      "size": [
+        13.33,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "11"
+    },
+    {
+      "id": "ADR-H007",
+      "kind": "parcel",
+      "position": [
+        27.75,
+        117.0
+      ],
+      "yawDegrees": -0.0,
+      "size": [
+        10.0,
+        18.0
+      ],
+      "street": "kyr",
+      "number": "8"
+    },
+    {
+      "id": "ADR-H043",
+      "kind": "parcel",
+      "position": [
+        13.0,
+        120.58
+      ],
+      "yawDegrees": -90.0,
+      "size": [
+        13.33,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "4"
+    },
+    {
+      "id": "ADR-H003",
+      "kind": "parcel",
+      "position": [
+        -27.92,
+        117.0
+      ],
+      "yawDegrees": 0.0,
+      "size": [
+        10.33,
+        18.0
+      ],
+      "street": "kyr",
+      "number": "6"
+    },
+    {
+      "id": "ADR-H002",
+      "kind": "parcel",
+      "position": [
+        37.75,
+        117.0
+      ],
+      "yawDegrees": -0.0,
+      "size": [
+        10.0,
+        18.0
+      ],
+      "street": "kyr",
+      "number": "10"
+    },
+    {
+      "id": "ADR-H005",
+      "kind": "parcel",
+      "position": [
+        -13.0,
+        120.58
+      ],
+      "yawDegrees": 90.0,
+      "size": [
+        13.33,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "9"
+    },
+    {
+      "id": "ADR-H001",
+      "kind": "parcel",
+      "position": [
+        -38.25,
+        117.0
+      ],
+      "yawDegrees": 0.0,
+      "size": [
+        10.33,
+        18.0
+      ],
+      "street": "kyr",
+      "number": "4"
+    },
+    {
+      "id": "ADR-NS-E-S1",
+      "kind": "parcel",
+      "position": [
+        27.75,
+        143.0
+      ],
+      "yawDegrees": 180.0,
+      "size": [
+        10.0,
+        18.0
+      ],
+      "street": "kyr",
+      "number": "1"
+    },
+    {
+      "id": "ADR-H004",
+      "kind": "parcel",
+      "position": [
+        -48.58,
+        117.0
+      ],
+      "yawDegrees": 0.0,
+      "size": [
+        10.33,
+        18.0
+      ],
+      "street": "kyr",
+      "number": "2"
+    },
+    {
+      "id": "ADR-NS-M-W1",
+      "kind": "parcel",
+      "position": [
+        -13.0,
+        141.5
+      ],
+      "yawDegrees": 90.0,
+      "size": [
+        16.5,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "7"
+    },
+    {
+      "id": "ADR-NS-E-N1",
+      "kind": "parcel",
+      "position": [
+        13.0,
+        141.5
+      ],
+      "yawDegrees": -90.0,
+      "size": [
+        16.5,
+        18.0
+      ],
+      "street": "tukay",
+      "number": "2"
+    },
+    {
+      "id": "ADR-NS-M-E1",
+      "kind": "parcel",
+      "position": [
+        -47.25,
+        -75.0
+      ],
+      "yawDegrees": 0.0,
+      "size": [
+        13.0,
+        18.0
+      ],
+      "street": "usal",
+      "number": "2"
+    },
+    {
+      "id": "ADR-H020",
+      "kind": "kit",
+      "position": [
+        10,
+        38.8
+      ],
+      "yawDegrees": -90,
+      "size": [
+        10,
+        8
+      ],
+      "street": "tukay",
+      "number": "14"
+    }
+  ],
+  "entities": [
+    {
+      "id": "urman.world:act1/open-part/h001-house",
+      "kind": "prop",
+      "name": "h001-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          -38.25,
+          0,
+          118.961
+        ],
+        "yawDegrees": 0.0,
+        "scale": 0.756,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H001",
+          "street": "kyr",
+          "number": "4",
+          "cadastral": "URM-Q01-P0100"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.617,
+            5.689
+          ],
+          "streetAnchor": [
+            -38.25,
+            130.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h002-house",
+      "kind": "prop",
+      "name": "h002-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          37.75,
+          0,
+          118.747
+        ],
+        "yawDegrees": -0.0,
+        "scale": 0.758,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H002",
+          "street": "kyr",
+          "number": "10",
+          "cadastral": "URM-Q01-P0101"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.452,
+            5.903
+          ],
+          "streetAnchor": [
+            37.75,
+            130.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h003-house",
+      "kind": "prop",
+      "name": "h003-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          -27.92,
+          0,
+          119.304
+        ],
+        "yawDegrees": 0.0,
+        "scale": 0.746,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H003",
+          "street": "kyr",
+          "number": "6",
+          "cadastral": "URM-Q01-P0102"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.615,
+            5.346
+          ],
+          "streetAnchor": [
+            -27.92,
+            130.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h004-house",
+      "kind": "prop",
+      "name": "h004-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          -48.58,
+          0,
+          118.961
+        ],
+        "yawDegrees": 0.0,
+        "scale": 0.756,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H004",
+          "street": "kyr",
+          "number": "2",
+          "cadastral": "URM-Q01-P0103"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.617,
+            5.689
+          ],
+          "streetAnchor": [
+            -48.58,
+            130.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h005-house",
+      "kind": "prop",
+      "name": "h005-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          -12.237,
+          0,
+          120.58
+        ],
+        "yawDegrees": 90.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H005",
+          "street": "tukay",
+          "number": "9",
+          "cadastral": "URM-Q01-P0104"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            0.0,
+            120.58
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h006-house",
+      "kind": "prop",
+      "name": "h006-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          -11.665,
+          0,
+          107.25
+        ],
+        "yawDegrees": 90.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H006",
+          "street": "tukay",
+          "number": "11",
+          "cadastral": "URM-Q01-P0105"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            0.0,
+            107.25
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h007-house",
+      "kind": "prop",
+      "name": "h007-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          27.75,
+          0,
+          119.461
+        ],
+        "yawDegrees": -0.0,
+        "scale": 0.721,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H007",
+          "street": "kyr",
+          "number": "8",
+          "cadastral": "URM-Q01-P0106"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.448,
+            5.189
+          ],
+          "streetAnchor": [
+            27.75,
+            130.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h008-house",
+      "kind": "prop",
+      "name": "h008-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          -27.92,
+          0,
+          95.039
+        ],
+        "yawDegrees": -180.0,
+        "scale": 0.756,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H008",
+          "street": "bakcha",
+          "number": "5",
+          "cadastral": "URM-Q01-P0107"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.617,
+            5.689
+          ],
+          "streetAnchor": [
+            -27.92,
+            84.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h009-house",
+      "kind": "prop",
+      "name": "h009-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          27.75,
+          0,
+          95.253
+        ],
+        "yawDegrees": 180.0,
+        "scale": 0.758,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H009",
+          "street": "bakcha",
+          "number": "7",
+          "cadastral": "URM-Q01-P0108"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.452,
+            5.903
+          ],
+          "streetAnchor": [
+            27.75,
+            84.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h010-house",
+      "kind": "prop",
+      "name": "h010-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          -11.665,
+          0,
+          93.92
+        ],
+        "yawDegrees": 90.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H010",
+          "street": "tukay",
+          "number": "13",
+          "cadastral": "URM-Q01-P0109"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            0.0,
+            93.92
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h011-house",
+      "kind": "prop",
+      "name": "h011-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          11.998,
+          0,
+          107.25
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H011",
+          "street": "tukay",
+          "number": "6",
+          "cadastral": "URM-Q01-P0110"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            0.0,
+            107.25
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h012-house",
+      "kind": "prop",
+      "name": "h012-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          -48.38,
+          0,
+          72.338
+        ],
+        "yawDegrees": 0.0,
+        "scale": 0.817,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H012",
+          "street": "bakcha",
+          "number": "2",
+          "cadastral": "URM-Q01-P0111"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.826,
+            6.312
+          ],
+          "streetAnchor": [
+            -48.38,
+            84.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h013-house",
+      "kind": "prop",
+      "name": "h013-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          11.998,
+          0,
+          93.92
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H013",
+          "street": "tukay",
+          "number": "8",
+          "cadastral": "URM-Q01-P0112"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            0.0,
+            93.92
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h014-house",
+      "kind": "prop",
+      "name": "h014-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          11.662,
+          0,
+          75.88
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.817,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H014",
+          "street": "tukay",
+          "number": "10",
+          "cadastral": "URM-Q01-P0113"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.826,
+            6.312
+          ],
+          "streetAnchor": [
+            0.0,
+            75.88
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h015-house",
+      "kind": "prop",
+      "name": "h015-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          37.75,
+          0,
+          73.461
+        ],
+        "yawDegrees": -0.0,
+        "scale": 0.721,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H015",
+          "street": "bakcha",
+          "number": "8",
+          "cadastral": "URM-Q01-P0114"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.448,
+            5.189
+          ],
+          "streetAnchor": [
+            37.75,
+            84.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h016-house",
+      "kind": "prop",
+      "name": "h016-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          11.468,
+          0,
+          65.42
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.789,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H016",
+          "street": "tukay",
+          "number": "12",
+          "cadastral": "URM-Q01-P0115"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.648,
+            6.118
+          ],
+          "streetAnchor": [
+            0.0,
+            65.42
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h017-house",
+      "kind": "prop",
+      "name": "h017-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          12.237,
+          0,
+          22.0
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H017",
+          "street": "tukay",
+          "number": "18",
+          "cadastral": "URM-Q01-P0116"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            0.0,
+            22.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h018-house",
+      "kind": "prop",
+      "name": "h018-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          -11.378,
+          0,
+          18.0
+        ],
+        "yawDegrees": 90.0,
+        "scale": 0.759,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H018",
+          "street": "tukay",
+          "number": "15",
+          "cadastral": "URM-Q01-P0117"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.701,
+            5.428
+          ],
+          "streetAnchor": [
+            0.0,
+            18.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h022-house",
+      "kind": "prop",
+      "name": "h022-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          10.8,
+          0,
+          4.447
+        ],
+        "yawDegrees": 0.0,
+        "scale": 0.758,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H022",
+          "street": "yana",
+          "number": "2",
+          "cadastral": "URM-Q01-P0121"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.452,
+            5.903
+          ],
+          "streetAnchor": [
+            10.8,
+            12.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h024-house",
+      "kind": "prop",
+      "name": "h024-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          -27.92,
+          0,
+          -24.567
+        ],
+        "yawDegrees": -180.0,
+        "scale": 0.784,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H024",
+          "street": "chishma",
+          "number": "2",
+          "cadastral": "URM-Q01-P0123"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.617,
+            6.083
+          ],
+          "streetAnchor": [
+            -27.92,
+            -36.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h025-house",
+      "kind": "prop",
+      "name": "h025-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          -38.25,
+          0,
+          -50.961
+        ],
+        "yawDegrees": -180.0,
+        "scale": 0.756,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H025",
+          "street": "usal",
+          "number": "3",
+          "cadastral": "URM-Q03-P0124"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.617,
+            5.689
+          ],
+          "streetAnchor": [
+            -38.25,
+            -62.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h026-house",
+      "kind": "prop",
+      "name": "h026-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          -11.253,
+          0,
+          -43.75
+        ],
+        "yawDegrees": 90.0,
+        "scale": 0.758,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H026",
+          "street": "tukay",
+          "number": "21",
+          "cadastral": "URM-Q01-P0125"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.452,
+            5.903
+          ],
+          "streetAnchor": [
+            0.0,
+            -43.75
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h027-house",
+      "kind": "prop",
+      "name": "h027-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          -27.92,
+          0,
+          -50.961
+        ],
+        "yawDegrees": -180.0,
+        "scale": 0.756,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H027",
+          "street": "usal",
+          "number": "5",
+          "cadastral": "URM-Q03-P0126"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.617,
+            5.689
+          ],
+          "streetAnchor": [
+            -27.92,
+            -62.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h028-house",
+      "kind": "prop",
+      "name": "h028-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          11.62,
+          0,
+          -32.08
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.811,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H028",
+          "street": "tukay",
+          "number": "24",
+          "cadastral": "URM-Q01-P0127"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.788,
+            6.27
+          ],
+          "streetAnchor": [
+            0.0,
+            -32.08
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h029-house",
+      "kind": "prop",
+      "name": "h029-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          -11.253,
+          0,
+          -53.75
+        ],
+        "yawDegrees": 90.0,
+        "scale": 0.758,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H029",
+          "street": "tukay",
+          "number": "23",
+          "cadastral": "URM-Q01-P0128"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.452,
+            5.903
+          ],
+          "streetAnchor": [
+            0.0,
+            -53.5
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h030-house",
+      "kind": "prop",
+      "name": "h030-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          11.62,
+          0,
+          -53.42
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.811,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H030",
+          "street": "tukay",
+          "number": "28",
+          "cadastral": "URM-Q01-P0129"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.788,
+            6.27
+          ],
+          "streetAnchor": [
+            0.0,
+            -53.42
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h032-house",
+      "kind": "prop",
+      "name": "h032-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          10.872,
+          0,
+          -16.0
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.731,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H032",
+          "street": "tukay",
+          "number": "22",
+          "cadastral": "URM-Q02-P0131"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.453,
+            5.522
+          ],
+          "streetAnchor": [
+            0.0,
+            -16.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h035-house",
+      "kind": "prop",
+      "name": "h035-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          27.75,
+          0,
+          23.0
+        ],
+        "yawDegrees": 180.0,
+        "scale": 0.758,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H035",
+          "street": "yana",
+          "number": "1",
+          "cadastral": "URM-Q02-P0134"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.452,
+            5.903
+          ],
+          "streetAnchor": [
+            27.75,
+            12.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h036-house",
+      "kind": "prop",
+      "name": "h036-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          27.75,
+          0,
+          1.128
+        ],
+        "yawDegrees": -0.0,
+        "scale": 0.731,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H036",
+          "street": "yana",
+          "number": "4",
+          "cadastral": "URM-Q02-P0135"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.453,
+            5.522
+          ],
+          "streetAnchor": [
+            27.75,
+            12.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h037-house",
+      "kind": "prop",
+      "name": "h037-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          37.75,
+          0,
+          1.461
+        ],
+        "yawDegrees": -0.0,
+        "scale": 0.721,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H037",
+          "street": "yana",
+          "number": "6",
+          "cadastral": "URM-Q02-P0136"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.448,
+            5.189
+          ],
+          "streetAnchor": [
+            37.75,
+            12.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h038-house",
+      "kind": "prop",
+      "name": "h038-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          37.75,
+          0,
+          23.0
+        ],
+        "yawDegrees": 180.0,
+        "scale": 0.758,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H038",
+          "street": "yana",
+          "number": "3",
+          "cadastral": "URM-Q02-P0137"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.452,
+            5.903
+          ],
+          "streetAnchor": [
+            37.75,
+            12.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h041-house",
+      "kind": "prop",
+      "name": "h041-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          -48.58,
+          0,
+          -50.567
+        ],
+        "yawDegrees": -180.0,
+        "scale": 0.784,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H041",
+          "street": "usal",
+          "number": "1",
+          "cadastral": "URM-Q01-P0140"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.617,
+            6.083
+          ],
+          "streetAnchor": [
+            -48.58,
+            -62.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h042-house",
+      "kind": "prop",
+      "name": "h042-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          -37.62,
+          0,
+          72.748
+        ],
+        "yawDegrees": 0.0,
+        "scale": 0.788,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H042",
+          "street": "bakcha",
+          "number": "4",
+          "cadastral": "URM-Q01-P0141"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.827,
+            5.902
+          ],
+          "streetAnchor": [
+            -37.62,
+            84.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h043-house",
+      "kind": "prop",
+      "name": "h043-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          11.998,
+          0,
+          120.58
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H043",
+          "street": "tukay",
+          "number": "4",
+          "cadastral": "URM-Q01-P0142"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            0.0,
+            120.58
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h044-house",
+      "kind": "prop",
+      "name": "h044-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          -38.25,
+          0,
+          95.039
+        ],
+        "yawDegrees": -180.0,
+        "scale": 0.756,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H044",
+          "street": "bakcha",
+          "number": "3",
+          "cadastral": "URM-Q01-P0143"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.617,
+            5.689
+          ],
+          "streetAnchor": [
+            -38.25,
+            84.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h045-house",
+      "kind": "prop",
+      "name": "h045-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          -48.58,
+          0,
+          94.696
+        ],
+        "yawDegrees": -180.0,
+        "scale": 0.746,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H045",
+          "street": "bakcha",
+          "number": "1",
+          "cadastral": "URM-Q01-P0144"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.615,
+            5.346
+          ],
+          "streetAnchor": [
+            -48.58,
+            84.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h046-house",
+      "kind": "prop",
+      "name": "h046-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          -11.665,
+          0,
+          -23.5
+        ],
+        "yawDegrees": 90.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H046",
+          "street": "tukay",
+          "number": "19",
+          "cadastral": "URM-Q02-P0145"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            0.0,
+            -23.5
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h047-house",
+      "kind": "prop",
+      "name": "h047-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          27.88,
+          0,
+          -14.0
+        ],
+        "yawDegrees": 180.0,
+        "scale": 0.75,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H047",
+          "street": "urman",
+          "number": "1",
+          "cadastral": "URM-Q02-P0146"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.578,
+            5.649
+          ],
+          "streetAnchor": [
+            27.88,
+            -24.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h049-house",
+      "kind": "prop",
+      "name": "h049-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          10.872,
+          0,
+          -6.2
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.731,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H049",
+          "street": "tukay",
+          "number": "20",
+          "cadastral": "URM-Q02-P0148"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.453,
+            5.522
+          ],
+          "streetAnchor": [
+            0.0,
+            -6.2
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/h073-house",
+      "kind": "prop",
+      "name": "h073-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          -38.25,
+          0,
+          -24.961
+        ],
+        "yawDegrees": -180.0,
+        "scale": 0.756,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-H073",
+          "street": "chishma",
+          "number": "4",
+          "cadastral": "URM-Q03-P0125"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.617,
+            5.689
+          ],
+          "streetAnchor": [
+            -38.25,
+            -36.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/ns-e-n1-house",
+      "kind": "prop",
+      "name": "ns-e-n1-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+        "position": [
+          11.665,
+          0,
+          141.5
+        ],
+        "yawDegrees": -90.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-E-N1",
+          "street": "tukay",
+          "number": "2",
+          "cadastral": "URM-Q03-P0115"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.64,
+            6.316
+          ],
+          "streetAnchor": [
+            0.0,
+            141.5
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/ns-e-s1-house",
+      "kind": "prop",
+      "name": "ns-e-s1-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          27.75,
+          0,
+          140.872
+        ],
+        "yawDegrees": 180.0,
+        "scale": 0.731,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-E-S1",
+          "street": "kyr",
+          "number": "1",
+          "cadastral": "URM-Q03-P0114"
+        },
+        "terrainPad": {
+          "halfSize": [
+            5.453,
+            5.522
+          ],
+          "streetAnchor": [
+            27.75,
+            130.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/ns-m-e1-house",
+      "kind": "prop",
+      "name": "ns-m-e1-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "position": [
+          -47.25,
+          0,
+          -73.999
+        ],
+        "yawDegrees": 0.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-M-E1",
+          "street": "usal",
+          "number": "2",
+          "cadastral": "URM-Q03-P0102"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.563,
+            6.649
+          ],
+          "streetAnchor": [
+            -47.25,
+            -62.0
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/ns-m-w1-house",
+      "kind": "prop",
+      "name": "ns-m-w1-house",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+        "position": [
+          -12.237,
+          0,
+          141.5
+        ],
+        "yawDegrees": 90.0,
+        "scale": 0.9,
+        "collision": "surfaces",
+        "address": {
+          "id": "ADR-NS-M-W1",
+          "street": "tukay",
+          "number": "7",
+          "cadastral": "URM-Q03-P0101"
+        },
+        "terrainPad": {
+          "halfSize": [
+            6.352,
+            6.887
+          ],
+          "streetAnchor": [
+            0.0,
+            141.5
+          ],
+          "feather": 2.25
+        }
+      },
+      "note": "Открытая часть: хозяйство, ворота к своей улице"
+    },
+    {
+      "id": "urman.world:act1/open-part/sq-well",
+      "kind": "prop",
+      "name": "sq-well",
+      "params": {
+        "catalogId": "urman.catalog:urman_village_exterior_kit/well-yardlandmark",
+        "position": [
+          -25.5,
+          0,
+          61.3
+        ],
+        "yawDegrees": 0.0
+      },
+      "note": "Мәйдан"
+    },
+    {
+      "id": "urman.world:act1/open-part/sq-bench1",
+      "kind": "prop",
+      "name": "sq-bench1",
+      "params": {
+        "catalogId": "urman.catalog:urman_fap_clinic_kit/fapbench",
+        "position": [
+          -12.5,
+          0,
+          34.2
+        ],
+        "yawDegrees": 0.0
+      },
+      "note": "Мәйдан"
+    },
+    {
+      "id": "urman.world:act1/open-part/sq-bench2",
+      "kind": "prop",
+      "name": "sq-bench2",
+      "params": {
+        "catalogId": "urman.catalog:urman_fap_clinic_kit/fapbench",
+        "position": [
+          -8.5,
+          0,
+          34.2
+        ],
+        "yawDegrees": 0.0
+      },
+      "note": "Мәйдан"
+    },
+    {
+      "id": "urman.world:act1/open-part/sq-board",
+      "kind": "prop",
+      "name": "sq-board",
+      "params": {
+        "catalogId": "urman.catalog:urman_fap_clinic_kit/fapnoticeboard",
+        "position": [
+          -4.6,
+          0,
+          40.5
+        ],
+        "yawDegrees": 90.0
+      },
+      "note": "Мәйдан"
+    },
+    {
+      "id": "urman.world:act1/open-part/lookout-bench",
+      "kind": "prop",
+      "name": "lookout-bench",
+      "params": {
+        "catalogId": "urman.catalog:urman_fap_clinic_kit/fapbench",
+        "position": [
+          44.4,
+          0,
+          15.5
+        ],
+        "yawDegrees": 90.0
+      },
+      "note": "Смотровая над оврагом в конце Яңа урам"
+    },
+    {
+      "id": "urman.world:act1/open-part/lookout-board",
+      "kind": "prop",
+      "name": "lookout-board",
+      "params": {
+        "catalogId": "urman.catalog:urman_fap_clinic_kit/fapnoticeboard",
+        "position": [
+          44.4,
+          0,
+          8.6
+        ],
+        "yawDegrees": -90.0
+      },
+      "note": "Смотровая над оврагом в конце Яңа урам"
+    }
+  ]
+}

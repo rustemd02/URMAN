@@ -16,6 +16,10 @@ namespace Urman.Godot.Tests;
 /// </summary>
 public partial class Act1FirstPersonWalkthroughSmokeTest : Node
 {
+    // The main street from the house-path junction south to the zirat transition
+    // (z -19 .. -53.5); independent of how far north the street runs.
+    private static IEnumerable<Vector2> SouthMainStreet() => AgentBAct1Layout.MainRoadAxis.SkipWhile(point => point.Y > -19f);
+
     private const string ChapterPrefix = "urman.chapter1:";
     private const string OfficialNotice = "urman.oldpc:document/doc_marat_official_death_notice";
     private const float InteractionStandOff = 1.5f;
@@ -1016,7 +1020,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
                 "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/doc_kara_urman_edge_sketch")
             || !await InteractAt(player, ray, Interaction("house-to-route"))) return;
         foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.2f), new(-25.2f,2.6f), new(-24.42f,2.4f) }
-                     .Concat(AgentBAct1Layout.HousePathAxis.Reverse()).Append(AgentBAct1Layout.MainRoadAxis[4]))
+                     .Concat(AgentBAct1Layout.HousePathAxis.Reverse()).Append(SouthMainStreet().First()))
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"timur-route-outward-{point.X}-{point.Y}")) return;
         if (!await InteractAt(player, ray, Interaction("route-to-mosque"))
             || !await ChooseVisibleDialogue(bridge, "choice-timur-register")
@@ -1033,7 +1037,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         if (!await LeaveMosque(player, main.ConnectedWorld)) return;
         // Follow the inhabited street to its actual roadside transition. This
         // traversal checks the connected space; it is not a duration estimate.
-        foreach (var point in AgentBAct1Layout.MainRoadAxis.Skip(4).Take(4))
+        foreach (var point in SouthMainStreet().Take(4))
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"timur-to-zirat-street-{point.X}-{point.Y}")) return;
 
         if (!await InteractAt(player, ray, Interaction("edge-sketch-to-zirat-road"), maxTransitionDistance: 2.5f))

@@ -29,8 +29,19 @@ public static class AgentBAct1Layout
     /// <summary>Pedestrian walk round the square's central garden, linked to the main street.</summary>
     public static readonly Vector2[] PlazaWalkAxis =
     {
-        new(-1.8f, 48f), new(-5.5f, 48f), new(-5.5f, 36f), new(-25.5f, 36f), new(-25.5f, 60f),
+        // West side at x -21.8: in front of the DK steps, not across them; a node at the DK foot.
+        new(-1.8f, 48f), new(-5.5f, 48f), new(-5.5f, 36f), new(-21.8f, 36f), new(-21.8f, 48f), new(-21.8f, 60f),
         new(-5.5f, 60f), new(-5.5f, 48f)
+    };
+
+    /// <summary>The paved carriageway once round the square's garden (centre -15.5, 48), entered
+    /// from the main street at its north-east corner and left at the south-east one: clear of the
+    /// DK steps (x -23), the school apron (z 64), the post office apron (z 32) and the garden
+    /// (radius 4.75). Cars drive it anticlockwise (the prologue ride does).</summary>
+    public static readonly Vector2[] PlazaDriveAxis =
+    {
+        new(-1.2f, 56f), new(-5f, 58.6f), new(-12f, 58.8f), new(-18.5f, 57.6f), new(-21.4f, 53.5f), new(-21.6f, 43f),
+        new(-19f, 38.4f), new(-12f, 37.4f), new(-5f, 37.4f), new(-1.2f, 35f)
     };
 
     // ---- Terrain envelope -------------------------------------------------
@@ -40,20 +51,16 @@ public static class AgentBAct1Layout
     public const float TerrainMaxZ = 232f;
 
     // ---- Main road spline control points (x, z), crown width ~5.6 m -------
+    // Relayout v3, stage 4: Тукай урамы runs straight north from the arrival to the
+    // last plots at z 150; the cross streets of the open part (Яңа, Чишмә, Усал, Бакча,
+    // Кыр) live in the open-part plot data (OpenPartPlotPath) with their households.
     public static readonly Vector2[] MainRoadAxis = new[]
     {
-        new Vector2(-23f, 218f),
-        new Vector2(-23f, 195f),
-        new Vector2(-23f, 175f),
-        new Vector2(-23f, 158f),
-        new Vector2(-23f, 143f),
-        new Vector2(-20f, 128f),
-        new Vector2(-11f, 121f),
-        new Vector2(-8f, 114f),
-        new Vector2(0.5f, 105.5f),
-        new Vector2(-1.4f, 88f),
-        new Vector2(-0.1f, 75f),
-        new Vector2(1.2f, 62f),
+        new Vector2(0f, 150f),
+        new Vector2(0f, 130f),
+        new Vector2(0f, 105f),
+        new Vector2(0f, 84f),
+        new Vector2(0f, 62f),
         new Vector2(0f, 40f),
         new Vector2(0f, 9f),
         new Vector2(-0.6f, -1.5f),
@@ -64,55 +71,17 @@ public static class AgentBAct1Layout
         new Vector2(-0.4f, -53.5f),
     };
 
-    // Lower street: leaves the main street at the first bend and ends at the
-    // ravine lookout (width 4.0 m).
-    public static readonly Vector2[] EastStreetAxis = new[]
+    internal const string OpenPartPlotPath = "res://content/world/act1_open_part.world.v1.json";
+
+    /// <summary>The village mosque's minaret corner (the complex fronts east, onto the square's west side).</summary>
+    public static readonly Vector2 MosqueAnchor = new(-29.5f, 25f);
+
+    /// <summary>Foot path from the mosque yard gate to the walk round Мәйдан.</summary>
+    public static readonly Vector2[] MosqueWalkAxis =
     {
-        new Vector2(-0.3f, 75f),
-        new Vector2(12f, 73.5f),
-        new Vector2(25f, 75f),
-        new Vector2(39f, 74f),
-        new Vector2(41f, 74f),
+        new(-21.8f, 36f), new(-21.8f, 24f), new(MosqueAnchor.X - .2f, 24f)
     };
 
-    // West spur: a short lane to three western yards (width 3.5 m).
-    public static readonly Vector2[] WestSpurAxis = new[]
-    {
-        new Vector2(-23f, 175f),
-        new Vector2(-30f, 178f),
-        new Vector2(-40f, 177f),
-        new Vector2(-44f, 178f),
-    };
-
-
-    public static readonly Vector2[] NorthEastStreetAxis =
-    {
-        new(12.5f,151f),
-        new(20f,155f),
-        new(20f,180f),
-        new(20f,207f),
-        new(20f,229f),
-    };
-    // The east lane joins the main street behind the school and again at the
-    // forest edge. This is an inhabited street loop, not an isolated cul-de-sac.
-    public static readonly Vector2[] NorthCrossStreetAxis =
-    {
-        new(-23f,151f), new(-16f,150f), new(0f,150f), new(12.5f,151f),
-    };
-    public static readonly Vector2[] NorthReturnStreetAxis =
-    {
-        new(-23f,218f), new(-23f,220.5f), new(-22.5f,223f), new(-21f,225f),
-        new(-18f,227f), new(15f,227f), new(18f,225f), new(20f,223f), new(20f,220f),
-    };
-    public static readonly Vector2[] WestServiceAxis =
-    {
-        new(-42f,80f),
-        new(-41f,110f),
-        new(-43f,135f),
-        new(-39f,146f),
-        new(-30f,152f),
-        new(-23f,158f),
-    };
     // Zirat road continues at 4.2 m width.
     public static readonly Vector2[] ZiratRoadAxis = new[]
     {
@@ -133,14 +102,14 @@ public static class AgentBAct1Layout
         new Vector2(0.6f, -122.5f)  // cliffhanger endpoint
     };
 
-    // FAP branch leaves main street at (3.8, -8.2) and bends east.
+    // Relayout v3: the FAP street (Урман урамы) leaves the main street at a right angle
+    // at z -24 and runs straight to the FAP gate and on to the ravine bridge.
     public static readonly Vector2[] FapBranchAxis = new[]
     {
-        new Vector2(0f, -10f),
-        new Vector2(4.5f, -12.5f),
-        new Vector2(10f, -17f),
-        new Vector2(17f, -21.5f),
-        new Vector2(22f, -23.4f),
+        new Vector2(-0.5f, -24f),
+        new Vector2(7f, -24f),
+        new Vector2(14f, -24f),
+        new Vector2(21f, -24.1f),
         new Vector2(28f, -24.2f)
     };
 
@@ -211,7 +180,8 @@ public static class AgentBAct1Layout
         (11f, 52f, 9f),         // former sovkhoz office
         (-15.5f, 27f, 6f),      // closed post office
         (-15.5f, 48f, 17f),     // the square itself
-        (-5f, 20f, 4f),         // bus pavilion
+        (-4.4f, 20f, 4f),       // bus pavilion
+        (MosqueAnchor.X - 7f, MosqueAnchor.Y - 1f, 11f), // mosque hall and courtyard
     };
 
     public static bool InsideSquareBuildingClearance(Vector2 point)
@@ -231,7 +201,7 @@ public static class AgentBAct1Layout
         new("house_exterior", HouseDoorApproach),
         new("back_to_street", new Vector3(-3.5f, 0.05f, -2.8f)),
         new("main_street", new Vector3(-2.2f, 0.05f, -8f)),
-        new("fap_branch", new Vector3(10f, 0.05f, -17f)),
+        new("fap_branch", new Vector3(10f, 0.05f, -24f)),
         new("fap_exterior", new Vector3(24f, 0.05f, -24f)),
         new("return_street", new Vector3(-7f, 0.05f, -41.5f)),
         new("zirat_roadside", new Vector3(-3.2f, 0.05f, -68f)),
@@ -267,18 +237,17 @@ public static class AgentBAct1Layout
         new(-3.5f, -2.8f),      // back_to_street
         new(-2.5f, -5.5f),
         new(-2.2f, -8f),        // main_street
-        new(0f, -10f),          // FAP branch
-        new(4.5f, -12.5f),
-        new(10f, -17f),         // fap_branch
-        new(17f, -21.5f),
-        new(23f, -25f),
+        new(-0.8f, -16f),
+        new(-0.5f, -24f),       // FAP street
+        new(4.5f, -24f),
+        new(10f, -24f),         // fap_branch
+        new(17f, -24f),
+        new(23f, -24.5f),
         new(24f, -24f),         // fap_exterior (outside the gate)
-        new(23f, -24.5f),       // turn around and take the branch back west
-        new(17f, -21f),
-        new(8f, -16f),
-        new(-0.5f, -12f),
-        new(-1.5f, -16f),       // south down the main street again
-        new(-0.5f, -24f),
+        new(23f, -24.5f),       // turn around and take the street back west
+        new(17f, -24f),
+        new(8f, -24f),
+        new(-0.5f, -24f),       // south down the main street again
         new(-0.5f, -32f),
         new(-1f, -38f),
         new(-7f, -41.5f),       // return_street

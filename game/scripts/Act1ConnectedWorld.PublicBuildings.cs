@@ -38,16 +38,16 @@ public partial class Act1ConnectedWorld
     private void BuildPublicBuildings()
     {
         if (_publicBuildings.Count != 0) throw new InvalidOperationException("Public buildings are already assembled.");
-        var shop = PreparePublicBuilding("shop", "WestReturnMidFacade", "H020", "tukay", "23", "URM-Q01-P0119", "village-shop-sign");
+        var shop = PreparePublicBuilding("shop", "WestReturnMidFacade", "H020", "tukay", "14", "URM-Q01-P0119", "village-shop-sign");
         BuildVillageShop(shop);
         SquareWeatherShelter(shop.Room, new(0, shop.Ceiling * .5f, 0), new(shop.HalfSize.X, shop.Ceiling * .5f, shop.HalfSize.Y));
         BuildShopSign(FindDescendants<Node3D>(this).Single(node => node.Name == "WestReturnMidFacade"));
         BuildShopStorefront(shop);
-        var school = PreparePublicBuilding("school", "EastReturnMidFacade", "H031", "urman", "6", "URM-Q02-P0130", "school-building-sign");
+        var school = PreparePublicBuilding("school", "EastReturnMidFacade", "H031", "urman", "3", "URM-Q02-P0130", "school-building-sign");
         BuildClosedSchool(school);
         SquareWeatherShelter(school.Room, new(0, school.Ceiling * .5f, 0), new(school.HalfSize.X, school.Ceiling * .5f, school.HalfSize.Y));
         ExcludeSchoolFloorBank(school);
-        var council = PreparePublicBuilding("council", "EastStreetHorizonFacade", "H040", "tukay", "8А", "URM-Q01-P0139", "council-building-sign");
+        var council = PreparePublicBuilding("council", "EastStreetHorizonFacade", "H040", "bakcha", "9", "URM-Q01-P0139", "council-building-sign");
         BuildCouncilClub(council);
         SquareWeatherShelter(council.Room, new(0, council.Ceiling * .5f, 0), new(council.HalfSize.X, council.Ceiling * .5f, council.HalfSize.Y));
         RepairCouncilFenceJunction(council);
@@ -73,7 +73,13 @@ public partial class Act1ConnectedWorld
         var halfSize = school.HalfSize + Vector2.One * (.10f * school.Building.GlobalBasis.Scale.X);
         var (result, changed, vertices) = AgentBAct1ExteriorLayer.ClipGroundFootprint(bank, original, school.Room, halfSize);
         if (changed == 0)
-            throw new InvalidOperationException("The measured field-bank overlap no longer meets the school footprint.");
+        {
+            // Relayout v3 moved the school to the FAP street; the bank no longer reaches its floor.
+            result.Dispose();
+            school.Room.SetMeta("exteriorBankFootprintExcluded", false);
+            GD.Print("act1-school-bank-cut: the field bank does not meet the school footprint (relayout v3); no cut");
+            return;
+        }
         bank.SetMeta("occupiedRoomOriginalMesh", original);
         bank.Mesh = result;
         bank.SetMeta("occupiedRoomTerrainCut", school.Room.GetPath().ToString());

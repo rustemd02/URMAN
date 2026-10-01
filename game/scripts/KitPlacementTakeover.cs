@@ -102,8 +102,32 @@ public static class KitPlacementTakeover
             placement.Visible = false;
         }
 
+        // Relayout v3: a household that became a generic parcel elsewhere leaves its old
+        // kit house, shed and fence behind. Retired pieces neither draw nor collide; the
+        // node stays so builders that look it up by name keep working.
+        if (parameters.TryGetProperty("retired", out var retired) && retired.GetBoolean())
+        {
+            Retire(placement);
+        }
+
         placement.SetMeta(AuthoredWorldPlot.AuthoredIdMeta, entity.GetProperty("id").GetString()!);
         placement.SetMeta("placementOwner", "authored plot " + (PlotOverrideForTest ?? PlotPath));
+    }
+
+    public const string RetiredMeta = "retiredByPlot";
+
+    internal static void Retire(Node3D placement)
+    {
+        placement.Visible = false;
+        placement.SetMeta(RetiredMeta, true);
+        foreach (var shape in placement.FindChildren("*", nameof(CollisionShape3D), true, false).OfType<CollisionShape3D>())
+            shape.Disabled = true;
+        foreach (var body in placement.FindChildren("*", "", true, false).OfType<CollisionObject3D>().Prepend(placement as CollisionObject3D))
+        {
+            if (body is null) continue;
+            body.CollisionLayer = 0;
+            body.CollisionMask = 0;
+        }
     }
 
     /// <summary>Anchors listed in the plot that the builder never placed: the generator changed and the author must decide.</summary>

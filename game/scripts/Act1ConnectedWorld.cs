@@ -437,6 +437,7 @@ public partial class Act1ConnectedWorld : Node3D
         RelocateOverlappingHouses();
         ComposeBabaiYard();
         BuildAuthoredWorld();
+        ClearOpenPartOfLegacyPresentation();
         ClearGorgeOfLegacyPresentation();
         BuildAddressRegistry();
         // Street faces of the yards: palisadnik, painted gates, board fences.
@@ -1092,7 +1093,9 @@ public partial class Act1ConnectedWorld : Node3D
 
         // Distant minaret silhouette on the western skyline: identifies the
         // Tatar village without creating a new zone (presentation-only).
-        var minaretAnchor = new Vector3(-46f, (float)AgentBAct1HeightField.Ground(-46f, -34f), -34f);
+        // Relayout v3, stage 4: the mosque stands west of Мәйдан, fronting the square.
+        var mosque = AgentBAct1Layout.MosqueAnchor;
+        var minaretAnchor = new Vector3(mosque.X, (float)AgentBAct1HeightField.Ground(mosque.X, mosque.Y), mosque.Y);
         AddDistantMinaret(core, "DistantMinaretSilhouette", minaretAnchor, 1.0f);
         // The author reported the bare minaret reading as a lone tower and asked
         // for a real mosque in this part of the village: the hall, dome, closed
@@ -8994,6 +8997,8 @@ public partial class Act1ConnectedWorld : Node3D
         // their external geometry and paths, ending them against the actual shed
         // instead of running through its right door recess and occupied volume.
         var shed = FindDescendants<Node3D>(this).Single(n => n.Name == "ZiratVillageEdgeEastShed");
+        // Relayout v3 retired this yard (its household is a parcel on Тукай урамы now).
+        if (shed.HasMeta(KitPlacementTakeover.RetiredMeta)) return;
         MeshInstance3D Part(string name) => FindDescendants<MeshInstance3D>(shed).Single(m => m.Name == name);
         var wall = Part("OutbuildingShed_Wall_LOD0");
         var foundation = Part("OutbuildingShed_Foundation_LOD0");
@@ -9207,6 +9212,8 @@ public partial class Act1ConnectedWorld : Node3D
 
     private void FinalizeStandaloneZiratFenceContacts()
     {
+        if (ZiratShedFenceJunction is null && FindDescendants<Node3D>(this).Any(n => n.Name == "ZiratVillageEdgeEastShed"
+                && n.HasMeta(KitPlacementTakeover.RetiredMeta))) return;
         var repair = ZiratShedFenceJunction ?? throw new InvalidOperationException("Missing Zirat fence projection.");
         var contacts = FindDescendants<CollisionShape3D>(this).Where(s => s.HasMeta("authoredSourceMesh")).ToArray();
         // This exact low foundation is a visible support for the new rail ends.

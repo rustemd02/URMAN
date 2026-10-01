@@ -9,9 +9,30 @@ public partial class AddressWorldSmokeTest
     // The ordinary selected-address proof below walks, reads, saves/loads and
     // returns for every household. These checks also catch a visually joined
     // lane whose centreline never intersects the shared navigation graph.
+    private string[] CheckOpenPartBindings(SettlementRegistry registry)
+    {
+        var ids = CheckPlotBindings(registry, AgentBAct1Layout.OpenPartPlotPath);
+        var graph = registry.Graph;
+        var origin = graph.NodeAt(graph.Roads["authored/main-axis"].Points[0])!;
+        var connected = graph.ReachableNodes(origin, SettlementTravelMode.Foot);
+        foreach (var road in Act1ConnectedWorld.OpenPartPlot().Roads)
+        {
+            var edges = graph.Edges.Values.Where(edge => edge.RoadId == "authored/" + road.Id).ToArray();
+            Check(edges.Length > 0 && edges.All(edge => connected.Contains(edge.A) && connected.Contains(edge.B)),
+                road.Id + ": entire street joins the main street graph");
+        }
+        return ids;
+    }
+
     private string[] CheckFarBankBindings(SettlementRegistry registry)
     {
-        using var plot = JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(AgentBAct1HeightField.FarBankPlotPath));
+        var ids = CheckPlotBindings(registry, AgentBAct1HeightField.FarBankPlotPath).ToList();
+        return CheckFarBankStreetsAndPublic(registry, ids);
+    }
+
+    private string[] CheckPlotBindings(SettlementRegistry registry, string path)
+    {
+        using var plot = JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(path));
         var ids = new List<string>();
         foreach (var entity in plot.RootElement.GetProperty("entities").EnumerateArray())
         {
@@ -20,7 +41,7 @@ public partial class AddressWorldSmokeTest
             ids.Add(id);
             var root = _world.AuthoredWorld!.ObjectRoot(entity.GetProperty("id").GetString()!)!;
             Require(registry.TryResolve(id, out var address) && root.GetMeta("address_id").AsString() == id,
-                id + ": far-bank parcel has its stable address");
+                id + ": plot parcel has its stable address");
             Check(address.StreetId == binding.GetProperty("street").GetString()
                 && address.HouseNumber == binding.GetProperty("number").GetString()
                 && registry.Parcels[address.ParcelId].GameCadastralId == binding.GetProperty("cadastral").GetString(),
@@ -30,6 +51,11 @@ public partial class AddressWorldSmokeTest
             Check(Descendants(_world).OfType<AddressSignVisualComponent>().Count(sign => sign.AddressId == id) == 1,
                 id + ": exactly one address plate is mounted");
         }
+        return ids.ToArray();
+    }
+
+    private string[] CheckFarBankStreetsAndPublic(SettlementRegistry registry, List<string> ids)
+    {
         var graph = registry.Graph;
         var first = graph.Roads["authored/yar-north"].Points[0];
         var origin = graph.NodeAt(first)!;

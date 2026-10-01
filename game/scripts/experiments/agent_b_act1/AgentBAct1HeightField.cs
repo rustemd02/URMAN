@@ -37,28 +37,7 @@ public static class AgentBAct1HeightField
     };
 
     private static readonly (float X, float Z)[] MainAxis =
-    {
-        (-23f, 218f),
-        (-23f, 195f),
-        (-23f, 175f),
-        (-23f, 158f),
-        (-23f, 143f),
-        (-20f, 128f),
-        (-11f, 121f),
-        (-8f, 114f),
-        (0.5f, 105.5f),
-        (-1.4f, 88f),
-        (-0.1f, 75f),
-        (1.2f, 62f),
-        (0f, 40f),
-        (0f, 9f),
-        (-0.6f, -1.5f),
-        (-1.2f, -8f),
-        (0f, -19f),
-        (-1f, -30f),
-        (0f, -41.5f),
-        (-0.4f, -53.5f),
-    };
+        AgentBAct1Layout.MainRoadAxis.Select(point => (point.X, point.Y)).ToArray();
 
     private static readonly (float X, float Z)[] ZiratAxis =
     {
@@ -72,55 +51,16 @@ public static class AgentBAct1HeightField
     };
 
     private static readonly (float X, float Z)[] FapAxis =
-    {
-        (0f, -10f), (4.5f, -12.5f), (10f, -17f), (17f, -21.5f), (22f, -23.4f),
-        (28f, -24.2f)
-    };
+        AgentBAct1Layout.FapBranchAxis.Select(point => (point.X, point.Y)).ToArray();
 
     private static readonly (float X, float Z)[] HouseAxis =
     {
         (-1.2f, -8f), (-6f, -5.5f), (-12f, -2.5f), (-19f, 0f), (-24f, 1.2f)
     };
 
-    // Northern expansion: the lower street ends at the ravine lookout, the west
-    // spur at the field edge (kept in step with tools/world/generate_north_street.py).
-    private static readonly (float X, float Z)[] EastStreetAxis =
-    {
-        (-0.3f, 75f),
-        (12f, 73.5f),
-        (25f, 75f),
-        (39f, 74f),
-        (41f, 74f),
-    };
-
-    private static readonly (float X, float Z)[] WestSpurAxis =
-    {
-        (-23f, 175f),
-        (-30f, 178f),
-        (-40f, 177f),
-        (-44f, 178f),
-    };
-
     private static readonly (float X, float Z)[] PlazaWalk =
         AgentBAct1Layout.PlazaWalkAxis.Select(point => (point.X, point.Y)).ToArray();
 
-    private static readonly (float X,float Z)[] NorthEastStreetAxis =
-    {
-        (12.5f,151f),
-        (20f,155f),
-        (20f,180f),
-        (20f,207f),
-        (20f,229f),
-    };
-    private static readonly (float X,float Z)[] WestServiceAxis =
-    {
-        (-42f,80f),
-        (-41f,110f),
-        (-43f,135f),
-        (-39f,146f),
-        (-30f,152f),
-        (-23f,158f),
-    };
     private static readonly float[] HalfWidths = { 2.8f, 2.3f, 1.4f, 2.1f, 1.75f, 2.0f, 1.75f, 2.4f };
 
     private static readonly ((float X, float Z)[] Points, double HalfWidth)[] RoadAxes = new ((float X, float Z)[] Points, double HalfWidth)[]
@@ -128,17 +68,18 @@ public static class AgentBAct1HeightField
         (MainAxis, HalfWidths[0]), (FapAxis, HalfWidths[1]),
         (AgentBAct1Layout.BridgeApproachAxis.Select(p => (p.X, p.Y)).ToArray(), 2.3),
         (HouseAxis, HalfWidths[2]), (ZiratAxis, HalfWidths[3]), (KaraAxis, HalfWidths[4]),
-        (EastStreetAxis, HalfWidths[5]), (WestSpurAxis, HalfWidths[6]), (PlazaWalk, 1.2), (NorthEastStreetAxis, 1.75), (WestServiceAxis, 1.75),
-        (AgentBAct1Layout.NorthCrossStreetAxis.Select(p => (p.X, p.Y)).ToArray(), 2.0),
-        (AgentBAct1Layout.NorthReturnStreetAxis.Select(p => (p.X, p.Y)).ToArray(), 2.4)
-    }.Concat(FarBankRoads()).ToArray();
+        (PlazaWalk, 1.2),
+        (AgentBAct1Layout.PlazaDriveAxis.Select(p => (p.X, p.Y)).ToArray(), 2.0),
+        (AgentBAct1Layout.MosqueWalkAxis.Select(p => (p.X, p.Y)).ToArray(), .8)
+    }.Concat(PlotRoads(FarBankPlotPath)).Concat(PlotRoads(AgentBAct1Layout.OpenPartPlotPath)).ToArray();
 
-    /// <summary>Far-bank streets live in the far-bank plot data with the households they serve.</summary>
+    /// <summary>Streets of the far bank and of the open part live in their plot data with the households they serve.</summary>
     internal const string FarBankPlotPath = "res://content/world/act1_far_bank.world.v1.json";
-    internal static ((float X, float Z)[] Points, double HalfWidth)[] FarBankRoads()
+    internal static ((float X, float Z)[] Points, double HalfWidth)[] FarBankRoads() => PlotRoads(FarBankPlotPath);
+    internal static ((float X, float Z)[] Points, double HalfWidth)[] PlotRoads(string path)
     {
-        if (!global::Godot.FileAccess.FileExists(FarBankPlotPath)) return [];
-        using var doc = System.Text.Json.JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(FarBankPlotPath));
+        if (!global::Godot.FileAccess.FileExists(path)) return [];
+        using var doc = System.Text.Json.JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(path));
         if (!doc.RootElement.TryGetProperty("roads", out var roads)) return [];
         return roads.EnumerateArray().Select(road => (
             road.GetProperty("points").EnumerateArray().Select(p => (p[0].GetSingle(), p[1].GetSingle())).ToArray(),
@@ -161,7 +102,7 @@ public static class AgentBAct1HeightField
     private static HouseholdPad[] LoadHouseholdPads()
     {
         var result = new System.Collections.Generic.List<HouseholdPad>();
-        foreach (var path in new[] { "res://content/world/act1_north_street.world.v1.json", FarBankPlotPath })
+        foreach (var path in new[] { "res://content/world/act1_north_street.world.v1.json", FarBankPlotPath, AgentBAct1Layout.OpenPartPlotPath })
         {
         if (!global::Godot.FileAccess.FileExists(path)) continue;
         using var doc = System.Text.Json.JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(path));
@@ -346,18 +287,31 @@ public static class AgentBAct1HeightField
     private static double? _plazaLevel;
 
     /// <summary>
-    /// The paved square Мәйдан is level: inside its rectangle the ground is the mean of the
-    /// unlevelled terrain there, blended back to the natural slope over 5 m outside it.
+    /// The paved square Мәйдан is level, and so are the plots of the civic buildings that open
+    /// onto it from the rising west side (the DK and the mosque): inside these rectangles the
+    /// ground is the mean of the unlevelled terrain of the square, blended back to the natural
+    /// slope over 5 m outside them. Without it the DK portico stood 2.4 m above the square.
     /// </summary>
+    private static readonly (float X0, float X1, float Z0, float Z1)[] CivicTerrace =
+    {
+        AgentBAct1Layout.PlazaRect,
+        (-46f, -28f, 37f, 59f),    // house of culture
+        (-48f, -26f, 18f, 33f),    // mosque hall and courtyard (south edge kept clear of the babai yard)
+    };
+
     private static double LevelPlaza(float x, float z, double h)
     {
-        var r = AgentBAct1Layout.PlazaRect;
-        var dx = System.Math.Max(System.Math.Max(r.X0 - x, x - r.X1), 0.0);
-        var dz = System.Math.Max(System.Math.Max(r.Z0 - z, z - r.Z1), 0.0);
-        var outside = System.Math.Sqrt(dx * dx + dz * dz);
+        var outside = double.MaxValue;
+        foreach (var r in CivicTerrace)
+        {
+            var dx = System.Math.Max(System.Math.Max(r.X0 - x, x - r.X1), 0.0);
+            var dz = System.Math.Max(System.Math.Max(r.Z0 - z, z - r.Z1), 0.0);
+            outside = System.Math.Min(outside, System.Math.Sqrt(dx * dx + dz * dz));
+        }
         if (outside >= 5.0) return h;
+        var plaza = AgentBAct1Layout.PlazaRect;
         _plazaLevel ??= Enumerable.Range(0, 25).Average(i =>
-            RawTerrain(r.X0 + (r.X1 - r.X0) * (i % 5) / 4f, r.Z0 + (r.Z1 - r.Z0) * (i / 5) / 4f));
+            RawTerrain(plaza.X0 + (plaza.X1 - plaza.X0) * (i % 5) / 4f, plaza.Z0 + (plaza.Z1 - plaza.Z0) * (i / 5) / 4f));
         var t = outside / 5.0;
         t = t * t * (3.0 - 2.0 * t);
         return _plazaLevel.Value + (h - _plazaLevel.Value) * t;

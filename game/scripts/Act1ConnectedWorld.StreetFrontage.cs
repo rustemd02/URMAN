@@ -196,6 +196,8 @@ public partial class Act1ConnectedWorld
             // The shop's front stays open to the street: people walk up to it.
             if (building.Role is not ("residential" or "council" or "school") || building.Footprint.Count < 3) continue;
             if (building.SourceKey.EndsWith("/babai", StringComparison.Ordinal)) continue;
+            // Generic parcels of the authored plots carry their own yard fence and gate.
+            if (building.SourceKey.StartsWith("urman.world:", StringComparison.Ordinal)) continue;
             // Tamara Gennadievna's plot owns its own street face: the quest's
             // breakable fence stands on the shoulder, roadward of this line.
             if (building.SourceKey.EndsWith("/ReturnEastHouseA8Silhouette", StringComparison.Ordinal)) continue;

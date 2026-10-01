@@ -2084,9 +2084,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     /// innermost row is affected; the rows behind it still close the skyline, so
     /// the mosque keeps its forest backdrop without trees standing in its yard.
     /// </summary>
-    internal static readonly Vector2 MosqueKeepOutMin = new(-63.5f, -43f);
+    // Relative to the minaret corner, which moved west of Мәйдан in relayout v3.
+    internal static readonly Vector2 MosqueKeepOutMin = AgentBAct1Layout.MosqueAnchor + new Vector2(-17.5f, -9f);
 
-    internal static readonly Vector2 MosqueKeepOutMax = new(-42.5f, -27f);
+    internal static readonly Vector2 MosqueKeepOutMax = AgentBAct1Layout.MosqueAnchor + new Vector2(3.5f, 7f);
 
     internal static bool InsideMosqueKeepOut(Vector2 point) =>
         point.X >= MosqueKeepOutMin.X && point.X <= MosqueKeepOutMax.X

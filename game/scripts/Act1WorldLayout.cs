@@ -108,9 +108,10 @@ public static class Act1WorldLayout
             new(0f, 0.025f, -19f),
             5.6f,
             "685b49"),
+        // Relayout v3: the FAP street is straight (z -24); this is its last stretch to the FAP gate.
         new(
             "village-to-fap-branch",
-            new(0f, 0.025f, -10f),
+            new(20f, 0.025f, -24.1f),
             FapOrigin + new Vector3(0f, 0.025f, 3.8f),
             4.6f,
             "625747"),
