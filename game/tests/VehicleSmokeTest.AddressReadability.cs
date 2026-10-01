@@ -19,12 +19,14 @@ public partial class VehicleSmokeTest
         var world = _demo.DemoMain.ConnectedWorld ?? throw new InvalidOperationException("Missing address world.");
         var registry = world.AddressRegistry ?? throw new InvalidOperationException("Missing live address registry.");
         var failures = new List<string>();
+        var cartOnly = System.Environment.GetEnvironmentVariable("URMAN_VEHICLE_CART_ONLY") == "1";
         var initialKnowledge = AddressKnowledge();
         foreach (var sample in new[] {
             (Vehicle: "babay-niva", Address: "ADR-H016"),
             (Vehicle: "village-motorcycle", Address: "ADR-FAP"),
             (Vehicle: "forest-horse-cart", Address: "ADR-H023") })
         {
+            if (cartOnly && sample.Vehicle != "forest-horse-cart") continue;
             var vehicle = _fleet.Vehicles.Single(v => v.Definition.Id == sample.Vehicle);
             try
             {
@@ -98,12 +100,12 @@ public partial class VehicleSmokeTest
                 }
             }
         }
-        _records.Add(new { kind = "driver-address-scope-result", technicalFailures = failures,
+        _records.Add(new { kind = "driver-address-scope-result", cartOnly, technicalFailures = failures,
             passiveKnowledgeUnchanged = AddressKnowledge() == initialKnowledge, acceptance = false,
             readability = "requires independent inspection of actual 720p/1080p driver images",
             limit = "Projection and candidate ray contacts do not establish readable glyphs. No GPS, sign relocation, FOV override or seated notebook action." });
         Require(AddressKnowledge() == initialKnowledge, "complete driver observation leaves knowledge, address props and notebook locations unchanged");
-        Require(failures.Count == 0, "all three driver address observations completed: " + string.Join(" | ", failures));
+        Require(failures.Count == 0, "selected driver address observations completed: " + string.Join(" | ", failures));
     }
 
     private AddressKnowledgeSnapshot AddressKnowledge()
