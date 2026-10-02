@@ -26,7 +26,6 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private global::Godot.Environment? _environmentResource;
     private DirectionalLight3D? _sun;
     private CpuParticles3D? _rain;
-    private bool _openingBlizzard;
     private bool _sheltered;
     private SnowTrampleField? _snowTrample;
     private readonly List<OmniLight3D> _karaAccentLights = new();
@@ -2482,19 +2481,18 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     }
 
     /// <summary>
-    /// Winter snowfall replaces the former rain system: slow drifting flakes
-    /// with a long lifetime, denser and wind-driven at the Kara edge. Same
+    /// Persistent wind-driven snow; the opening night escalates the storm. Same
     /// single weather owner, same toggle path (ART-010 unchanged).
     /// </summary>
     internal void SetOpeningBlizzard(bool active)
     {
-        _openingBlizzard = active;
         if (_rain is null) return;
-        _rain.Direction = active ? new Vector3(-1f, -.18f, .22f) : new Vector3(.22f, -1f, .14f);
-        _rain.InitialVelocityMin = active ? 7f : .7f;
-        _rain.InitialVelocityMax = active ? 11f : 1.4f;
-        _rain.Spread = active ? 12f : 26f;
-        _rain.EmissionBoxExtents = active ? new Vector3(18f, 6f, 18f) : new Vector3(20f, .8f, 20f);
+        _rain.Direction = new Vector3(-1f, active ? -.18f : -.28f, .22f);
+        _rain.InitialVelocityMin = active ? 11f : 6f;
+        _rain.InitialVelocityMax = active ? 16f : 10f;
+        _rain.Spread = active ? 12f : 18f;
+        _rain.EmissionBoxExtents = new Vector3(14f, 4f, 14f);
+        _rain.Amount = active ? 5200 : 4000;
         _rain.Restart();
     }
 
@@ -2504,24 +2502,21 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         {
             Name = "AgentBSnow",
             Emitting = true,
-            Amount = 1300,
-            Lifetime = 7.5,
-            LocalCoords = true,
-            Preprocess = 6.0,
+            Amount = 4000,
+            Lifetime = 5.0,
+            LocalCoords = false,
+            Preprocess = 5.0,
             Mesh = CreateSnowflakeMesh(),
             EmissionShape = CpuParticles3D.EmissionShapeEnum.Box,
-            EmissionBoxExtents = new Vector3(20f, 0.8f, 20f),
-            Direction = new Vector3(0.22f, -1f, 0.14f),
-            Spread = 26f,
             Gravity = new Vector3(0f, -0.32f, 0f),
-            InitialVelocityMin = 0.7f,
-            InitialVelocityMax = 1.4f,
             Randomness = 0.55f,
             LifetimeRandomness = 0.5f,
-            ScaleAmountMin = 0.6f,
-            ScaleAmountMax = 1.7f
+            ScaleAmountMin = 0.7f,
+            ScaleAmountMax = 1.5f,
+            ColorRamp = WinterParticleSurfaces.Fade()
         };
         AddChild(_rain);
+        SetOpeningBlizzard(false);
     }
 
     private void BuildKaraAccentLights()
@@ -2641,14 +2636,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var focus = camera?.GlobalPosition ?? GlobalPosition;
         if (_rain is not null)
         {
-            _rain.Visible = !WeatherSheltered(focus);
-            _rain.GlobalPosition = focus + (_openingBlizzard ? new Vector3(6f, 2f, 0f) : new Vector3(0f, 6f, 0f));
-            // Rain thickens toward the Kara-Urman forest edge while retaining
-            // enough village particles for a readable near/mid/far weather layer.
-            // Calm village snowfall thickens into a Kara-edge blizzard.
-            var karaPhase = Mathf.Clamp((-70f - focus.Z) / 30f, 0f, 1f);
-            var amount = _openingBlizzard ? 2800 : (int)Mathf.Lerp(1300f, 2600f, karaPhase);
-            if (_rain.Amount != amount) _rain.Amount = amount;
+            _rain.Visible = _exteriorPresentationEnabled && !_sheltered && !WeatherSheltered(focus);
+            // Spawn upwind; world-space flakes keep their trajectory as the player turns.
+            _rain.GlobalPosition = focus + new Vector3(10f, 2f, -2f);
         }
     }
 

@@ -31,7 +31,7 @@ public partial class AmbientAudioSmokeTest : Node
         }
 
         // AUDIO-003: the arrival spawn selects the arrival sub-zone bed.
-        if (!await CheckZone(director, "village_day", "ambient.village-arrival", "village_arrival.wav"))
+        if (!await CheckZone(director, "village_day", "ambient.village-arrival", "kara_urman_edge_ambience.wav"))
         {
             return;
         }
@@ -39,7 +39,7 @@ public partial class AmbientAudioSmokeTest : Node
         // A spawn without a sub-zone bed falls back to the plain zone bed.
         main.SwitchZone("village_day", "default");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        if (!await CheckZone(director, "village_day", "ambient.village-day", "village_day_ambience.wav"))
+        if (!await CheckZone(director, "village_day", "ambient.village-day", "kara_urman_edge_ambience.wav"))
         {
             return;
         }
@@ -60,8 +60,8 @@ public partial class AmbientAudioSmokeTest : Node
 
         foreach (var route in new[]
         {
-            (Zone: "village_day", Spawn: "from_house", Stem: "ambient.village-yard", File: "village_yard.wav"),
-            (Zone: "village_day", Spawn: "from_forest", Stem: "ambient.village-return", File: "village_return.wav"),
+            (Zone: "village_day", Spawn: "from_house", Stem: "ambient.village-yard", File: "kara_urman_edge_ambience.wav"),
+            (Zone: "village_day", Spawn: "from_forest", Stem: "ambient.village-return", File: "kara_urman_edge_ambience.wav"),
             (Zone: "fap_clinic", Spawn: "waiting_room", Stem: "ambient.fap-institutional", File: "fap_institutional.wav"),
             (Zone: "zirat_road", Spawn: "village_side", Stem: "ambient.zirat-wind", File: "zirat_wind.wav")
         })
@@ -70,6 +70,11 @@ public partial class AmbientAudioSmokeTest : Node
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             if (!await CheckZone(director, route.Zone, route.Stem, route.File)) return;
         }
+
+        director.SetPhysicalShelter(true);
+        if (!await CheckZone(director, "zirat_road", "ambient.house-room", "house_room_tone.wav")) return;
+        director.SetPhysicalShelter(false);
+        if (!await CheckZone(director, "zirat_road", "ambient.zirat-wind", "zirat_wind.wav")) return;
 
         GD.Print("ambient-audio-smoke: PASS all 8 Act I beds + native loop ranges + zone switching; mixer seam checked when windowed");
         await GodotSmokeCleanup.ReleaseAsync(main);
@@ -100,6 +105,13 @@ public partial class AmbientAudioSmokeTest : Node
             || Math.Abs(wav.LoopEnd / (double)wav.MixRate - wav.GetLength()) > 1d / wav.MixRate)
         {
             Fail($"Ambient bed {stemId} has no native whole-file loop; a Finished/Play restart leaves a gap at the seam.");
+            return false;
+        }
+
+        var expectedDb = stemId is "ambient.house-room" or "ambient.fap-institutional" ? -12f : -3f;
+        if (DisplayServer.GetName() == "headless" && Math.Abs(player.VolumeDb - expectedDb) > .01f)
+        {
+            Fail($"Ambient shelter gain failed for {stemId}: {player.VolumeDb} instead of {expectedDb} dB.");
             return false;
         }
 

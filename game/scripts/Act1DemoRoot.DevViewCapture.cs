@@ -61,7 +61,7 @@ public partial class Act1DemoRoot
         _mainMenu?.Dismiss();
         _mainMenu = null;
         _player!.SetModalOpen(true);
-        var camera = new Camera3D { Name = "DevViewCamera", Fov = 70f, Far = 900f };
+        var camera = new Camera3D { Name = "DevViewCamera", Fov = 70f, Far = GetViewport().GetCamera3D()?.Far ?? 160f };
         _main!.AddChild(camera);
         camera.MakeCurrent();
         foreach (var entry in points.Split(';', StringSplitOptions.RemoveEmptyEntries))

@@ -6,7 +6,7 @@
   "stems": [
     {
       "id": "ambient.village-day",
-      "file": "res://assets/audio/village_day_ambience.wav",
+      "file": "res://assets/audio/kara_urman_edge_ambience.wav",
       "zones": [
         "village_day",
         "fullgame_act2_house",
@@ -17,30 +17,31 @@
         "fullgame_act5_epilogue"
       ],
       "loop": true,
-      "source": "https://freesound.org/people/lwdickens/sounds/261226/",
+      "source": "https://freesound.org/people/bruno.auzet/sounds/670307/",
       "license": "CC0-1.0",
       "status": "recorded CC0 preview candidate; listening/mix/cultural review open",
-      "sourcePreviewUrl": "https://cdn.freesound.org/previews/261/261226_2663250-hq.mp3",
-      "sourcePreviewSha256": "0c7f7451a18373dce28121c4d6339ca254bf762d2e3c828914257a7d41cdfb25",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/670/670307_11519060-hq.mp3",
+      "sourcePreviewSha256": "a2ead39d080b346c46ed237adc46e83f747d19a81345f74a5e5d115be5f131ac",
       "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
       "sourcePreviewOnly": true,
       "sourceProof": "Official Freesound page declares Creative Commons 0 and links the CC0 deed; documented public HQ preview.",
-      "design": "Recorded winter wind through conifers in a residential area.",
+      "design": "Recorded January wind in pine trees; no procedural drone or added stinger.",
       "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
       "preparation": {
-        "startSeconds": 0,
+        "startSeconds": 30,
         "durationSeconds": 120,
         "crossfadeSeconds": 1,
-        "targetRms": 0.015
+        "targetRms": 0.035
       },
-      "preparedSha256": "bd8b9d4ae36a14a27595f3c8829ad39b948cdc80a15c240386bb94d0ce0cf210",
+      "preparedSha256": "a11cbbe1fd2afcb60e22972012863c184a84d6cd5eaf040d4cae9a9d47c0fc87",
       "preparedMetrics": {
         "durationSeconds": 119.0,
-        "gainDb": 11.757870737697578,
-        "peak": 0.593231201171875,
-        "rms": 0.0149995336458693,
-        "loopBoundaryDelta": 0.0006103515625
-      }
+        "gainDb": -1.7472863722836254,
+        "peak": 0.26776123046875,
+        "rms": 0.03499893252398677,
+        "loopBoundaryDelta": 0.00299072265625
+      },
+      "volumeDb": -3
     },
     {
       "id": "ambient.house-room",
@@ -108,7 +109,8 @@
         "peak": 0.26776123046875,
         "rms": 0.03499893252398677,
         "loopBoundaryDelta": 0.00299072265625
-      }
+      },
+      "volumeDb": -3
     },
     {
       "id": "ambient.water-edge",
@@ -172,103 +174,107 @@
       "conversion": "macOS afconvert to LEI16@24000 mono, then stdlib RIFF PCM normalization and 0.25 s equal-power loop overlap; peak ceiling 0.70",
       "license": "CC0-1.0",
       "design": "Open remembrance space with restrained external forest wind; final listening, mix, loop and cultural review remain open.",
-      "status": "technical-runtime-pass; recorded CC0 preview; listening/mix/cultural review open"
+      "status": "technical-runtime-pass; recorded CC0 preview; listening/mix/cultural review open",
+      "volumeDb": -3
     },
     {
       "id": "ambient.village-arrival",
-      "file": "res://assets/audio/village_arrival.wav",
+      "file": "res://assets/audio/kara_urman_edge_ambience.wav",
       "zones": [
         "village_day@arrival"
       ],
       "loop": true,
-      "source": "https://freesound.org/people/lwdickens/sounds/261226/",
+      "source": "https://freesound.org/people/bruno.auzet/sounds/670307/",
       "license": "CC0-1.0",
-      "design": "Winter wind at the arrival; no synthetic rain, roof drips or summer birds.",
       "status": "recorded CC0 preview candidate; listening/mix/cultural review open",
-      "sourcePreviewUrl": "https://cdn.freesound.org/previews/261/261226_2663250-hq.mp3",
-      "sourcePreviewSha256": "0c7f7451a18373dce28121c4d6339ca254bf762d2e3c828914257a7d41cdfb25",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/670/670307_11519060-hq.mp3",
+      "sourcePreviewSha256": "a2ead39d080b346c46ed237adc46e83f747d19a81345f74a5e5d115be5f131ac",
       "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
       "sourcePreviewOnly": true,
       "sourceProof": "Official Freesound page declares Creative Commons 0 and links the CC0 deed; documented public HQ preview.",
+      "design": "Recorded January wind in pine trees; no procedural drone or added stinger.",
       "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
       "preparation": {
-        "startSeconds": 0,
-        "durationSeconds": 70,
+        "startSeconds": 30,
+        "durationSeconds": 120,
         "crossfadeSeconds": 1,
-        "targetRms": 0.015
+        "targetRms": 0.035
       },
-      "preparedSha256": "5b39aba16584cafc2b0e05de75c37f47950587d3f3ecfe9473794edcb898989a",
+      "preparedSha256": "a11cbbe1fd2afcb60e22972012863c184a84d6cd5eaf040d4cae9a9d47c0fc87",
       "preparedMetrics": {
-        "durationSeconds": 69.0,
-        "gainDb": 11.498434328352129,
-        "peak": 0.151947021484375,
-        "rms": 0.01499951637657302,
-        "loopBoundaryDelta": 0.000579833984375
-      }
+        "durationSeconds": 119.0,
+        "gainDb": -1.7472863722836254,
+        "peak": 0.26776123046875,
+        "rms": 0.03499893252398677,
+        "loopBoundaryDelta": 0.00299072265625
+      },
+      "volumeDb": -3
     },
     {
       "id": "ambient.village-yard",
-      "file": "res://assets/audio/village_yard.wav",
+      "file": "res://assets/audio/kara_urman_edge_ambience.wav",
       "zones": [
         "village_day@from_house"
       ],
       "loop": true,
-      "source": "https://freesound.org/people/lwdickens/sounds/261226/",
+      "source": "https://freesound.org/people/bruno.auzet/sounds/670307/",
       "license": "CC0-1.0",
-      "design": "A quieter winter wind fragment inside the domestic yard.",
       "status": "recorded CC0 preview candidate; listening/mix/cultural review open",
-      "sourcePreviewUrl": "https://cdn.freesound.org/previews/261/261226_2663250-hq.mp3",
-      "sourcePreviewSha256": "0c7f7451a18373dce28121c4d6339ca254bf762d2e3c828914257a7d41cdfb25",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/670/670307_11519060-hq.mp3",
+      "sourcePreviewSha256": "a2ead39d080b346c46ed237adc46e83f747d19a81345f74a5e5d115be5f131ac",
       "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
       "sourcePreviewOnly": true,
       "sourceProof": "Official Freesound page declares Creative Commons 0 and links the CC0 deed; documented public HQ preview.",
+      "design": "Recorded January wind in pine trees; no procedural drone or added stinger.",
       "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
       "preparation": {
-        "startSeconds": 50,
-        "durationSeconds": 70,
+        "startSeconds": 30,
+        "durationSeconds": 120,
         "crossfadeSeconds": 1,
-        "targetRms": 0.01
+        "targetRms": 0.035
       },
-      "preparedSha256": "7b73602eef16b131c876b62fcd8c38be78f09e5fdceb8355e5f6b18523aee0d2",
+      "preparedSha256": "a11cbbe1fd2afcb60e22972012863c184a84d6cd5eaf040d4cae9a9d47c0fc87",
       "preparedMetrics": {
-        "durationSeconds": 69.0,
-        "gainDb": 8.250222372428928,
-        "peak": 0.3961181640625,
-        "rms": 0.009999644461922278,
-        "loopBoundaryDelta": 0.00079345703125
-      }
+        "durationSeconds": 119.0,
+        "gainDb": -1.7472863722836254,
+        "peak": 0.26776123046875,
+        "rms": 0.03499893252398677,
+        "loopBoundaryDelta": 0.00299072265625
+      },
+      "volumeDb": -3
     },
     {
       "id": "ambient.village-return",
-      "file": "res://assets/audio/village_return.wav",
+      "file": "res://assets/audio/kara_urman_edge_ambience.wav",
       "zones": [
         "village_day@from_forest"
       ],
       "loop": true,
-      "source": "https://freesound.org/people/lwdickens/sounds/261226/",
+      "source": "https://freesound.org/people/bruno.auzet/sounds/670307/",
       "license": "CC0-1.0",
-      "design": "A later winter wind fragment on the return street.",
       "status": "recorded CC0 preview candidate; listening/mix/cultural review open",
-      "sourcePreviewUrl": "https://cdn.freesound.org/previews/261/261226_2663250-hq.mp3",
-      "sourcePreviewSha256": "0c7f7451a18373dce28121c4d6339ca254bf762d2e3c828914257a7d41cdfb25",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/670/670307_11519060-hq.mp3",
+      "sourcePreviewSha256": "a2ead39d080b346c46ed237adc46e83f747d19a81345f74a5e5d115be5f131ac",
       "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
       "sourcePreviewOnly": true,
       "sourceProof": "Official Freesound page declares Creative Commons 0 and links the CC0 deed; documented public HQ preview.",
+      "design": "Recorded January wind in pine trees; no procedural drone or added stinger.",
       "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
       "preparation": {
-        "startSeconds": 82,
-        "durationSeconds": 70,
+        "startSeconds": 30,
+        "durationSeconds": 120,
         "crossfadeSeconds": 1,
-        "targetRms": 0.014
+        "targetRms": 0.035
       },
-      "preparedSha256": "494bfbd1db4bdb22676c51391afc08c44b483e390b745bebfe5a172d89dcbd4c",
+      "preparedSha256": "a11cbbe1fd2afcb60e22972012863c184a84d6cd5eaf040d4cae9a9d47c0fc87",
       "preparedMetrics": {
-        "durationSeconds": 69.0,
-        "gainDb": 11.620110676949944,
-        "peak": 0.2603759765625,
-        "rms": 0.013999546009045261,
-        "loopBoundaryDelta": 0.000244140625
-      }
+        "durationSeconds": 119.0,
+        "gainDb": -1.7472863722836254,
+        "peak": 0.26776123046875,
+        "rms": 0.03499893252398677,
+        "loopBoundaryDelta": 0.00299072265625
+      },
+      "volumeDb": -3
     }
   ]
 }

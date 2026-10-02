@@ -9,7 +9,7 @@
     {
       "id": "urman.world:atmosphere/village-winter-frost",
       "kind": "atmosphere-profile",
-      "name": "Деревня · зимний день",
+      "name": "Деревня · вьюжные сумерки",
       "params": {
         "profile": "village-winter-frost",
         "zones": [
@@ -18,18 +18,18 @@
           "fap_clinic"
         ],
         "ambient": {
-          "energy": 0.85,
-          "color": "7e90c5",
+          "energy": 0.36,
+          "color": "7d90b1",
           "skyContribution": 0
         },
         "fog": {
-          "color": "aebdcd",
-          "density": 0.0018,
+          "color": "44566b",
+          "density": 0.032,
           "height": 1.0,
-          "heightDensity": 0.025,
+          "heightDensity": 0.008,
           "aerialPerspective": 0.55,
-          "skyAffect": 0.14,
-          "sunScatter": 0.06
+          "skyAffect": 0.6,
+          "sunScatter": 0.025
         },
         "exposure": 1.0,
         "ssao": {
@@ -37,25 +37,25 @@
           "radius": 0.4
         },
         "sky": {
-          "top": "365b86",
-          "horizon": "e6c6a3",
-          "groundHorizon": "a4b6d4",
-          "groundBottom": "71828f",
-          "sunAngleMax": 3.0,
+          "top": "263346",
+          "horizon": "4b6074",
+          "groundHorizon": "3f5062",
+          "groundBottom": "263346",
+          "sunAngleMax": 0,
           "sunCurve": 0.12,
           "cover": [
-            0.76,
-            0.82,
-            0.9,
-            0.22
+            0.29,
+            0.38,
+            0.5,
+            0.86
           ]
         },
         "sun": {
-          "color": "ffdeb0",
-          "energy": 3.4,
-          "shadowOpacity": 0.95,
+          "color": "c6d4e2",
+          "energy": 0.55,
+          "shadowOpacity": 0.45,
           "rotation": [
-            -10,
+            -16,
             18
           ]
         }
@@ -64,52 +64,52 @@
     {
       "id": "urman.world:atmosphere/zirat-winter-muted",
       "kind": "atmosphere-profile",
-      "name": "Зиратская дорога · пасмурно",
+      "name": "Зиратская дорога · вьюжные сумерки",
       "params": {
         "profile": "zirat-winter-muted",
         "zones": [
           "zirat_road"
         ],
         "ambient": {
-          "energy": 0.64,
-          "color": "c0c8d0",
-          "skyContribution": 0.3
+          "energy": 0.36,
+          "color": "7d90b1",
+          "skyContribution": 0
         },
         "fog": {
-          "color": "a7b5c1",
-          "density": 0.0038,
+          "color": "44566b",
+          "density": 0.032,
           "height": 1.0,
-          "heightDensity": 0.03,
-          "aerialPerspective": 0.6,
-          "skyAffect": 0.22,
-          "sunScatter": 0.06
+          "heightDensity": 0.008,
+          "aerialPerspective": 0.55,
+          "skyAffect": 0.6,
+          "sunScatter": 0.025
         },
-        "exposure": 0.9,
+        "exposure": 1.0,
         "ssao": {
           "intensity": 0.75,
           "radius": 0.4
         },
         "sky": {
-          "top": "7f95a8",
-          "horizon": "c3cdd6",
-          "groundHorizon": "9aa7b1",
-          "groundBottom": "6d7883",
-          "sunAngleMax": 3.0,
+          "top": "263346",
+          "horizon": "4b6074",
+          "groundHorizon": "3f5062",
+          "groundBottom": "263346",
+          "sunAngleMax": 0,
           "sunCurve": 0.12,
           "cover": [
-            0.9,
-            0.93,
-            0.95,
-            0.5
+            0.29,
+            0.38,
+            0.5,
+            0.86
           ]
         },
         "sun": {
-          "color": "e8eef4",
-          "energy": 1.05,
-          "shadowOpacity": 0.5,
+          "color": "c6d4e2",
+          "energy": 0.55,
+          "shadowOpacity": 0.45,
           "rotation": [
-            -31,
-            42
+            -16,
+            18
           ]
         }
       }
@@ -124,18 +124,18 @@
           "kara_urman_night"
         ],
         "ambient": {
-          "energy": 0.23,
+          "energy": 0.28,
           "color": "72899f",
-          "skyContribution": 0.18
+          "skyContribution": 0
         },
         "fog": {
-          "color": "304451",
-          "density": 0.009,
-          "height": 0.95,
-          "heightDensity": 0.05,
-          "aerialPerspective": 0.35,
-          "skyAffect": 0.08,
-          "sunScatter": 0.07
+          "color": "354955",
+          "density": 0.026,
+          "height": 1.0,
+          "heightDensity": 0.008,
+          "aerialPerspective": 0.55,
+          "skyAffect": 0.6,
+          "sunScatter": 0.025
         },
         "exposure": 0.92,
         "ssao": {
@@ -147,13 +147,13 @@
           "horizon": "3c4c60",
           "groundHorizon": "2c3a4a",
           "groundBottom": "141d28",
-          "sunAngleMax": 0.0,
+          "sunAngleMax": 0,
           "sunCurve": 0.12,
           "cover": [
             0.24,
             0.32,
             0.41,
-            0.55
+            0.75
           ]
         },
         "sun": {

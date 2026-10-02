@@ -199,7 +199,7 @@ public partial class AmbientAudioDirector : Node
         incomingPlayer.Stream = stream;
 
         var canCrossfade = !_headless && activePlayer?.Playing == true && activePlayer != incomingPlayer;
-        incomingPlayer.VolumeDb = canCrossfade ? MutedVolumeDb : TargetVolumeDb;
+        incomingPlayer.VolumeDb = canCrossfade ? MutedVolumeDb : stem.VolumeDb;
         if (!_headless)
         {
             incomingPlayer.Play();
@@ -226,7 +226,7 @@ public partial class AmbientAudioDirector : Node
         _crossfadeTween = CreateTween();
         _crossfadeTween.SetParallel(true);
         _crossfadeTween.TweenProperty(activePlayer, "volume_db", MutedVolumeDb, CrossfadeDurationSeconds);
-        _crossfadeTween.TweenProperty(incomingPlayer, "volume_db", TargetVolumeDb, CrossfadeDurationSeconds);
+        _crossfadeTween.TweenProperty(incomingPlayer, "volume_db", stem.VolumeDb, CrossfadeDurationSeconds);
         _crossfadeTween.SetParallel(false);
         _crossfadeTween.TweenCallback(Callable.From(() => ReleasePlayer(activePlayer)));
     }
@@ -265,6 +265,9 @@ public partial class AmbientAudioDirector : Node
             {
                 throw new InvalidOperationException("Ambient audio manifest contains an incomplete stem entry.");
             }
+
+            if (!float.IsFinite(stem.VolumeDb) || stem.VolumeDb < MutedVolumeDb || stem.VolumeDb > 0f)
+                throw new InvalidOperationException($"Ambient stem has invalid volumeDb: {stem.Id}.");
 
             foreach (var zone in stem.Zones)
             {
@@ -386,6 +389,9 @@ public partial class AmbientAudioDirector : Node
 
         [JsonPropertyName("zones")]
         public List<string> Zones { get; set; } = [];
+
+        [JsonPropertyName("volumeDb")]
+        public float VolumeDb { get; set; } = TargetVolumeDb;
 
         [JsonPropertyName("loop")]
         public bool Loop { get; set; }
