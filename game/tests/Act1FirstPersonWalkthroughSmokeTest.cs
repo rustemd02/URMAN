@@ -164,7 +164,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
                 .SelectMany(tool => tool.Targets).FirstOrDefault(target => target.UseId == "fence");
             if (carry is null || shovel is null || fenceUse is null)
             { Fail("rear-house requires the yard shovel and its fence drift use."); return; }
-            foreach (var point in new Vector2[] { new(-25.2f, 2.6f), new(-26.05f, 2.6f), new(-26.05f, .2f), new(-26.8f, .75f) })
+            foreach (var point in new Vector2[] { BabaiRelocation.Apply(new Vector2(-25.2f,2.6f)), BabaiRelocation.Apply(new Vector2(-26.05f,2.6f)), BabaiRelocation.Apply(new Vector2(-26.05f,.2f)), BabaiRelocation.Apply(new Vector2(-26.8f,.75f)) })
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-yard-{point.X}-{point.Y}")) return;
             AimAt(player, shovel.GlobalPosition + Vector3.Up * .45f);
             await PhysicsFrames(2);
@@ -174,7 +174,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             await Frames(6);
             if (carry.HeldItem != shovel)
             { Fail($"rear-house could not take the yard shovel through ordinary input: held={carry.HeldItem?.ItemId}."); return; }
-            foreach (var point in new Vector2[] { new(-26.05f, .2f), new(-25.9f, -2.3f) })
+            foreach (var point in new Vector2[] { BabaiRelocation.Apply(new Vector2(-26.05f,.2f)), BabaiRelocation.Apply(new Vector2(-25.9f,-2.3f)) })
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-drift-approach-{point.X}-{point.Y}")) return;
             AimAt(player, fenceUse.GlobalPosition);
             await PhysicsFrames(2);
@@ -200,7 +200,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             { Fail($"rear-house could not set the shovel down: held={carry.HeldItem.ItemId}."); return; }
             // The opened service gap is walked through to the lower street
             // side and back: the EX13 chain's short passage works both ways.
-            foreach (var point in new Vector2[] { new(-24.3f, -2.85f), new(-25.4f, -2.85f) })
+            foreach (var point in new Vector2[] { BabaiRelocation.Apply(new Vector2(-24.3f,-2.85f)), BabaiRelocation.Apply(new Vector2(-25.4f,-2.85f)) })
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-gap-{point.X}-{point.Y}")) return;
             GD.Print($"act1-discovery-walk: PASS loop=yard-service-gap mode=physical-characterbody-walk distance={_walkedMeters:F2}m no-player-teleport=true ex13-shovel-clear-gap-open=true");
             // The rear minaret-view discovery is reached through the yard's
@@ -222,7 +222,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             foreach (var point in new Vector2[] { new(-34.6f, -12.0f), new(-35.8f, -8.8f), new(-36.5f, -7.2f),
                          new(-36.5f, -6.0f), new(-36.4f, -4.4f), new(-36.0f, -3.25f), new(-35.2f, -3.0f),
                          new(-34.4f, -2.7f), new(-33.4f, -2.2f), new(-32.3f, -1.6f), new(-30.5f, -.8f),
-                         new(-25.9f, -2.3f), new(-26.2f, -2.85f) })
+                         BabaiRelocation.Apply(new Vector2(-25.9f,-2.3f)), BabaiRelocation.Apply(new Vector2(-26.2f,-2.85f)) })
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"rear-house-return-{point.X}-{point.Y}")) return;
             GD.Print($"act1-discovery-walk: PASS loop=rear-minaret-view mode=physical-characterbody-walk distance={_walkedMeters:F2}m no-player-teleport=true");
             await GodotSmokeCleanup.ReleaseAsync(demo);
@@ -243,7 +243,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             await Frames(35);
             if (gate.CollisionLayer != 0 || bridge.ActiveSceneId != sceneBefore)
             { Fail("Babai side board failed to clear its collider while preserving the scene."); return; }
-            foreach (var point in new Vector2[] { new(-24.35f,-.70f), new(-26.05f,-.70f), new(-26.05f,.20f), new(-26.05f,2.20f), new(-25.20f,2.60f), new(-24.42f,2.40f), new(-24.42f,1.70f) })
+            foreach (var point in new Vector2[] { BabaiRelocation.Apply(new Vector2(-24.35f,-.70f)), BabaiRelocation.Apply(new Vector2(-26.05f,-.70f)), BabaiRelocation.Apply(new Vector2(-26.05f,.20f)), BabaiRelocation.Apply(new Vector2(-26.05f,2.20f)), BabaiRelocation.Apply(new Vector2(-25.20f,2.60f)), BabaiRelocation.Apply(new Vector2(-24.42f,2.40f)), BabaiRelocation.Apply(new Vector2(-24.42f,1.70f)) })
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"yard-side-loop-{point.X}-{point.Y}")) return;
             GD.Print($"act1-discovery-walk: PASS loop=babai-side mode=physical-characterbody-walk distance={_walkedMeters:F2}m no-player-teleport=true");
             await GodotSmokeCleanup.ReleaseAsync(demo);
@@ -262,7 +262,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             // with production input, then verify the ordinary way back out.
             foreach (var point in AgentBAct1Layout.WalkChain.Skip(1).Take(3).Concat(AgentBAct1Layout.HousePathAxis.Skip(1)))
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"d14-approach-{point.X}-{point.Y}")) return;
-            foreach (var point in new Vector2[] { new(-25.2f, 2.6f), new(-26.4f, 2.6f) })
+            foreach (var point in new Vector2[] { BabaiRelocation.Apply(new Vector2(-25.2f,2.6f)), BabaiRelocation.Apply(new Vector2(-26.4f,2.6f)) })
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"d14-yard-{point.X}-{point.Y}")) return;
             var target = new Vector3(-29.8f, 0f, 2.6f);
             target.Y = (float)AgentBAct1HeightField.CollisionGround(target.X, target.Z);
@@ -311,7 +311,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             var probes = new (Vector2 stand, string name)[]
             {
                 (new(-29.8f, .4f), "south-face"),
-                (new(-26.9f, 2.2f), "gate-strip"),
+                (BabaiRelocation.Apply(new Vector2(-26.9f,2.2f)), "gate-strip"),
                 (new(-34.2f, .8f), "west-end"),
                 (new(-29.0f, 1.1f), "diagonal"),
                 (new(-27.6f, .4f), "east-corner"),
@@ -356,7 +356,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
                 Fail($"d14-wall-probe: reproduced fall/stuck at the author's wall spot: worst_below_ground={worstBelow:F2}m stuck_headings=[{string.Join(',', stuckHeadings)}] fall_recoveries={player.FallRecoveries}.");
                 return;
             }
-            foreach (var point in new Vector2[] { new(-26.4f, 2.6f), new(-25.2f, 2.6f), new(-24f, 1.2f) })
+            foreach (var point in new Vector2[] { BabaiRelocation.Apply(new Vector2(-26.4f,2.6f)), BabaiRelocation.Apply(new Vector2(-25.2f,2.6f)), BabaiRelocation.Apply(new Vector2(-24f,1.2f)) })
                 if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"d14-return-{point.X}-{point.Y}")) return;
             GD.Print($"act1-d14-wall-probe: PASS verdict=not-reproduced worst_below_ground={worstBelow:F2}m fall_recoveries={player.FallRecoveries} return_walk=ok");
             await GodotSmokeCleanup.ReleaseAsync(demo);
@@ -498,7 +498,9 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             }
         }
 
-        foreach (var point in new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.2f), new(-26.05f,.2f) })
+        // The yard stands on the main street now (relayout v3 stage 5): the same authored
+        // gate-to-door steps, carried with the yard.
+        foreach (var point in new Vector2[] { BabaiRelocation.Apply(new Vector2(-24.42f,2.4f)), BabaiRelocation.Apply(new Vector2(-25.2f,2.6f)), BabaiRelocation.Apply(new Vector2(-26.05f,2.2f)), BabaiRelocation.Apply(new Vector2(-26.05f,.2f)) })
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"house-yard-entry-{point.X}-{point.Y}")) return;
         var houseApproach = AgentBAct1Layout.HouseDoorApproach;
         if (!await WalkTo(player, houseApproach, "house-door-approach")) return;
@@ -675,7 +677,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             GetTree().Quit(0);
             return;
         }
-        foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.2f), new(-25.2f,2.6f), new(-24.42f,2.4f) }
+        foreach (var point in new Vector2[] { BabaiRelocation.Apply(new Vector2(-26.05f,.2f)), BabaiRelocation.Apply(new Vector2(-26.05f,2.2f)), BabaiRelocation.Apply(new Vector2(-25.2f,2.6f)), BabaiRelocation.Apply(new Vector2(-24.42f,2.4f)) }
                      .Concat(AgentBAct1Layout.HousePathAxis.Reverse())
                      .Concat(new Vector2[] { new(-.1f,-2.8f), new(-.1f,3.7f) }))
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"house-exit-street-{point.X}-{point.Y}")) return;
@@ -871,7 +873,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             if (!await WalkTo(player, new Vector3(point.X, player.GlobalPosition.Y, point.Y),
                 $"house-return-{point.X}-{point.Y}")) return;
         }
-        foreach (var point in new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.2f), new(-26.05f,.2f), new(houseApproach.X,houseApproach.Z) })
+        foreach (var point in new Vector2[] { BabaiRelocation.Apply(new Vector2(-24.42f,2.4f)), BabaiRelocation.Apply(new Vector2(-25.2f,2.6f)), BabaiRelocation.Apply(new Vector2(-26.05f,2.2f)), BabaiRelocation.Apply(new Vector2(-26.05f,.2f)), new(houseApproach.X,houseApproach.Z) })
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"house-return-yard-{point.X}-{point.Y}")) return;
         if (!await InteractAt(player, ray, Interaction("official-to-internal-register")))
         {
@@ -905,7 +907,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         // both doors. The outside legs use the same tested footpaths as the
         // first visit, without inserting a direct SwitchZone shortcut.
         if (!await InteractAt(player, ray, Interaction("house-to-route"))) return;
-        foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.2f), new(-25.2f,2.6f), new(-24.42f,2.4f) }
+        foreach (var point in new Vector2[] { BabaiRelocation.Apply(new Vector2(-26.05f,.2f)), BabaiRelocation.Apply(new Vector2(-26.05f,2.2f)), BabaiRelocation.Apply(new Vector2(-25.2f,2.6f)), BabaiRelocation.Apply(new Vector2(-24.42f,2.4f)) }
                      .Concat(AgentBAct1Layout.HousePathAxis.Reverse())
                      .Append(new Vector2(-1.2f, -10f))
                      .Concat(AgentBAct1Layout.FapBranchAxis.SkipLast(1)))
@@ -926,7 +928,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         foreach (var point in AgentBAct1Layout.FapBranchAxis.Reverse().Skip(1)
                      .Append(new Vector2(-1.2f, -10f))
                      .Concat(AgentBAct1Layout.HousePathAxis)
-                     .Concat(new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.2f), new(-26.05f,.2f), new(houseApproach.X,houseApproach.Z) }))
+                     .Concat(new Vector2[] { BabaiRelocation.Apply(new Vector2(-24.42f,2.4f)), BabaiRelocation.Apply(new Vector2(-25.2f,2.6f)), BabaiRelocation.Apply(new Vector2(-26.05f,2.2f)), BabaiRelocation.Apply(new Vector2(-26.05f,.2f)), new(houseApproach.X,houseApproach.Z) }))
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"naila-question-return-{point.X}-{point.Y}")) return;
         if (!await InteractAt(player, ray, Interaction("official-to-internal-register"))) return;
         AssertState(main, bridge, "house_old_pc", "evidence-internal-register", "res://scenes/zones/style_benchmark_house_pc.tscn");
@@ -962,7 +964,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         { Fail("Reading Marat's message silently answered the question for Alsu."); return; }
         await Act1SourceExcerptProof.RecordMessageVoiceAsync(this, bridge);
         if (!await InteractAt(player, ray, Interaction("house-to-route"))) return;
-        foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.2f), new(-25.2f,2.6f), new(-24.42f,2.4f) }
+        foreach (var point in new Vector2[] { BabaiRelocation.Apply(new Vector2(-26.05f,.2f)), BabaiRelocation.Apply(new Vector2(-26.05f,2.2f)), BabaiRelocation.Apply(new Vector2(-25.2f,2.6f)), BabaiRelocation.Apply(new Vector2(-24.42f,2.4f)) }
                      .Concat(AgentBAct1Layout.HousePathAxis.Reverse()))
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"alsu-message-outward-{point.X}-{point.Y}")) return;
         AssertState(main, bridge, "village_day", "evidence-saved-message", "res://scenes/zones/style_benchmark_day_street.tscn");
@@ -977,7 +979,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             || KnowledgeStatus(bridge.SelectRuntimeState(), "clue_marat_was_afraid_before_death") != "confirmed")
         { Fail("Alsu's bounded reply did not preserve the source and release the physical return."); return; }
         foreach (var point in AgentBAct1Layout.HousePathAxis
-                     .Concat(new Vector2[] { new(-24.42f,2.4f), new(-25.2f,2.6f), new(-26.05f,2.2f), new(-26.05f,.2f), new(houseApproach.X,houseApproach.Z) }))
+                     .Concat(new Vector2[] { BabaiRelocation.Apply(new Vector2(-24.42f,2.4f)), BabaiRelocation.Apply(new Vector2(-25.2f,2.6f)), BabaiRelocation.Apply(new Vector2(-26.05f,2.2f)), BabaiRelocation.Apply(new Vector2(-26.05f,.2f)), new(houseApproach.X,houseApproach.Z) }))
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"alsu-message-return-{point.X}-{point.Y}")) return;
         if (!await InteractAt(player, ray, Interaction("official-to-internal-register"))) return;
         AssertState(main, bridge, "house_old_pc", "evidence-saved-message", "res://scenes/zones/style_benchmark_house_pc.tscn");
@@ -1019,7 +1021,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         if (!await CompareVisibleSources(bridge, "compare-route-purpose-landmarks",
                 "urman.oldpc:document/msg_marat_saved_last_normal", "urman.oldpc:document/doc_kara_urman_edge_sketch")
             || !await InteractAt(player, ray, Interaction("house-to-route"))) return;
-        foreach (var point in new Vector2[] { new(-26.05f,.2f), new(-26.05f,2.2f), new(-25.2f,2.6f), new(-24.42f,2.4f) }
+        foreach (var point in new Vector2[] { BabaiRelocation.Apply(new Vector2(-26.05f,.2f)), BabaiRelocation.Apply(new Vector2(-26.05f,2.2f)), BabaiRelocation.Apply(new Vector2(-25.2f,2.6f)), BabaiRelocation.Apply(new Vector2(-24.42f,2.4f)) }
                      .Concat(AgentBAct1Layout.HousePathAxis.Reverse()).Append(SouthMainStreet().First()))
             if (!await WalkTo(player, new(point.X, player.GlobalPosition.Y, point.Y), $"timur-route-outward-{point.X}-{point.Y}")) return;
         if (!await InteractAt(player, ray, Interaction("route-to-mosque"))
@@ -1053,8 +1055,8 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
         if (!mainRouteOnly)
         foreach (var point in new Vector2[]
                  { new(0f, -59.5f), new(-3.8f, -59.5f), new(-12f, -59.5f),
-                   new(-19f, -63.2f), new(-24f, -64.5f), new(-25f, -68.3f),
-                   new(-28.6f, -67.4f), new(-25f, -68.3f), new(-24f, -64.5f),
+                   new(-19f, -63.2f), new(-24f,-64.5f), new(-25f,-68.3f),
+                   new(-28.6f, -67.4f), new(-25f,-68.3f), new(-24f,-64.5f),
                    new(-19f, -63.2f), new(-12f, -59.5f), new(-3.8f, -59.5f), new(0f, -59.5f) })
         {
             if (!await WalkTo(player, new Vector3(point.X, player.GlobalPosition.Y, point.Y),
@@ -1611,7 +1613,7 @@ public partial class Act1FirstPersonWalkthroughSmokeTest : Node
             var actual = collider is InteractionTarget hit
                 ? hit.InteractionId
                 : collider is GodotObject objectHit
-                    ? $"<{objectHit.GetType().Name}:{objectHit.GetInstanceId()}>"
+                    ? $"<{objectHit.GetType().Name}:{(objectHit as Node)?.GetPath().ToString() ?? objectHit.GetInstanceId().ToString()} shape {((objectHit as CollisionObject3D)?.ShapeOwnerGetOwner((objectHit as CollisionObject3D)!.ShapeFindOwner(ray.GetColliderShape())) as Node)?.Name} at {ray.GetCollisionPoint()}>"
                     : "<none>";
             var expectedInfo = expected is null
                 ? "target-node=<none>"

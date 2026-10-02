@@ -123,31 +123,30 @@ public static class AgentBAct1Layout
     // House path from main street into the babai yard.
     public static readonly Vector2[] HousePathAxis = new[]
     {
-        new Vector2(-1.2f, -8f),
-        new Vector2(-6f, -5.5f),
-        new Vector2(-12f, -2.5f),
-        new Vector2(-19f, 0f),
-        new Vector2(-24f, 1.2f)
+        // Relayout v3 stage 5: a few steps from the carriageway to the street gate.
+        new Vector2(-1.2f, BabaiRelocation.Apply(new Vector2(-25.2f, 2.6f)).Y),
+        BabaiRelocation.Apply(new Vector2(-24f, 2.5f)),
+        BabaiRelocation.Apply(new Vector2(-25.2f, 2.6f))
     };
+
 
     // ---- Zone anchors ------------------------------------------------------
     // Arrival: road enters between two leaning fences and a well landmark.
     public static readonly Vector3 ArrivalSpawn = new(0f, 0.05f, 9f);
     // Babai/ebi yard: house rotated east, front veranda around x=-26.
-    public static readonly Vector3 BabaiHouseCenter = new(-30f, 0f, -1f);
-    public static readonly Vector3 BabaiYardSpawn = new(-24.4f, 0.05f, 1.7f);
+    public static readonly Vector3 BabaiHouseCenter = BabaiRelocation.Apply(new Vector3(-30f, 0f, -1f));
+    public static readonly Vector3 BabaiYardSpawn = BabaiRelocation.Apply(new Vector3(-24.4f, 0.05f, 1.7f));
 
     // The hero facade is mounted at (-28, -3.4) with the authored 0.82
     // scale. These values are the centre of its real GLB portal after the
     // imported preview origin is removed (local portal centre x=-1.42,
     // y=1.425, z=1.325). Target and player approach share this portal.
-    public const float HouseDoorYawDegrees = 64.72228f;
+    public const float HouseDoorYawDegrees = 64.72228f + BabaiRelocation.YawDegrees;
     public static readonly Vector3 HouseDoorPortalCenter = new(
-        -27.51474f,
-        (float)AgentBAct1HeightField.Ground(-28f, -3.4f) + .03f + 1.425f * .82f,
-        -1.88315f);
-    public static readonly Vector3 HouseDoorOutwardDirection =
-        new(.90424865f, 0f, .42700631f);
+        BabaiRelocation.DoorX,
+        (float)AgentBAct1HeightField.Ground(-28f, -3.4f) + BabaiRelocation.Lift + .03f + 1.425f * .82f,
+        BabaiRelocation.DoorZ);
+    public static readonly Vector3 HouseDoorOutwardDirection = new(1f, 0f, 0f);
     private static readonly Vector3 HouseDoorApproachXZ = new(
         HouseDoorPortalCenter.X + HouseDoorOutwardDirection.X * 1.5f,
         0f,
@@ -197,9 +196,9 @@ public static class AgentBAct1Layout
     public static readonly IReadOnlyList<Waypoint> Route = new List<Waypoint>
     {
         new("arrival", new Vector3(0f, 0.05f, 9f)),
-        new("house_yard", new Vector3(-24.4f, 0.05f, 1.7f)),
+        new("house_yard", BabaiRelocation.Apply(new Vector3(-24.4f, 0.05f, 1.7f))),
         new("house_exterior", HouseDoorApproach),
-        new("back_to_street", new Vector3(-3.5f, 0.05f, -2.8f)),
+        new("back_to_street", new Vector3(-2.4f, 0.05f, -2.8f)),
         new("main_street", new Vector3(-2.2f, 0.05f, -8f)),
         new("fap_branch", new Vector3(10f, 0.05f, -24f)),
         new("fap_exterior", new Vector3(24f, 0.05f, -24f)),
@@ -218,23 +217,18 @@ public static class AgentBAct1Layout
     {
         new(0f, 9f),
         new(-0.4f, 2f),
-        new(-1.2f, -1.5f),
-        new(-4f, -5.8f),        // onto the house path
-        new(-10f, -3.5f),
-        new(-16f, -1f),
-        new(-20f, 1.5f),
-        new(-23f, 2.6f),
-        new(-25.2f, 2.6f),      // through the open yard gate (gap z 1.75-3.45)
-        new(-26.05f, 2.6f),    // inside the original yard gate
-        new(-26.05f, .2f),
+        new(-1.2f, HousePathAxis[0].Y),          // onto the house path at the street gate
+        BabaiRelocation.Apply(new Vector2(-24f, 2.5f)),
+        BabaiRelocation.Apply(new Vector2(-25.2f, 2.6f)),      // through the open yard gate
+        BabaiRelocation.Apply(new Vector2(-26.05f, 2.6f)),     // inside the original yard gate
+        BabaiRelocation.Apply(new Vector2(-26.05f, .2f)),
         new(HouseDoorApproach.X, HouseDoorApproach.Z),
-        new(-26.05f, .2f),
-        new(-26.05f, 2.6f),
-        new(-25.2f, 2.6f),
-        new(-22.5f, 2.4f),
-        new(-16f, -0.5f),
-        new(-8f, -3.5f),
-        new(-3.5f, -2.8f),      // back_to_street
+        BabaiRelocation.Apply(new Vector2(-26.05f, .2f)),
+        BabaiRelocation.Apply(new Vector2(-26.05f, 2.6f)),
+        BabaiRelocation.Apply(new Vector2(-25.2f, 2.6f)),
+        BabaiRelocation.Apply(new Vector2(-24f, 2.5f)),
+        new(-1.2f, HousePathAxis[0].Y),
+        new(-2.4f, -2.8f),      // back_to_street
         new(-2.5f, -5.5f),
         new(-2.2f, -8f),        // main_street
         new(-0.8f, -16f),
@@ -334,4 +328,69 @@ public static class AgentBAct1Layout
     public const string RoadCrown = "6a5a49";
     public const string RoadRut = "3d352c";
     public const string WarmWindow = "e8b04a";
+}
+
+/// <summary>
+/// Relayout v3, stage 5 (2026-10-02): the babai and әби household stands on the main street.
+/// The whole yard as it was authored (house, interior, bath, workshop, gates, yard props) is
+/// carried by one rigid transform: turned 25.3° so the street door faces the street (+X) and
+/// moved so that door is 6 m from the carriageway edge. Authored coordinates stay in their old
+/// frame; <see cref="Apply"/> maps them to the street. Pure constants: safe in static initialisers.
+/// </summary>
+public static class BabaiRelocation
+{
+    public const float PivotX = -27.51474f, PivotZ = -1.88315f;   // the old street-door portal
+    public const float DoorX = -9.5f, DoorZ = -1.88315f;           // where that door stands now
+    public const float YawDegrees = 90f - 64.72228f;              // turn so the door faces +X
+    // The old yard stood ~0.6 m above the street; it settles to street level at its gate.
+    public const float Lift = -.6f;
+
+    private static float Cos => Mathf.Cos(Mathf.DegToRad(YawDegrees));
+    private static float Sin => Mathf.Sin(Mathf.DegToRad(YawDegrees));
+
+    public static Vector2 Apply(Vector2 old)
+    {
+        float dx = old.X - PivotX, dz = old.Y - PivotZ;
+        return new(DoorX + dx * Cos + dz * Sin, DoorZ - dx * Sin + dz * Cos);
+    }
+
+    public static Vector3 Apply(Vector3 old)
+    {
+        var p = Apply(new Vector2(old.X, old.Z));
+        return new(p.X, old.Y, p.Y);
+    }
+
+    public static Vector2 Inverse(Vector2 now)
+    {
+        float dx = now.X - DoorX, dz = now.Y - DoorZ;
+        return new(PivotX + dx * Cos - dz * Sin, PivotZ + dx * Sin + dz * Cos);
+    }
+
+    /// <summary>The rigid transform itself (rotation about the old door, then the move).</summary>
+    public static Transform3D Transform =>
+        new Transform3D(Basis.Identity, new Vector3(DoorX, Lift, DoorZ))
+        * new Transform3D(new Basis(Vector3.Up, Mathf.DegToRad(YawDegrees)), Vector3.Zero)
+        * new Transform3D(Basis.Identity, new Vector3(-PivotX, 0, -PivotZ));
+
+    // Yard frame: forward toward the street, side to the right of the door (old frame
+    // forward (.904, .427)); the yard is forward -12..5.8 m, side -15.5..10 m from the door.
+    public const float YardBack = -12f, YardFront = 5.8f, YardSideMin = -14.2f, YardSideMax = 10f;
+
+    /// <summary>Distance outside the new yard rectangle (0 inside).</summary>
+    public static float OutsideNewYard(float x, float z)
+    {
+        float forward = x - DoorX, side = -(z - DoorZ);
+        return Mathf.Max(0, Mathf.Max(Mathf.Max(YardBack - forward, forward - YardFront),
+            Mathf.Max(YardSideMin - side, side - YardSideMax)));
+    }
+
+    /// <summary>True when an authored (old-frame) point lies in the old yard.</summary>
+    public static bool InsideOldYard(float x, float z, float margin = 0f)
+    {
+        float dx = x - PivotX, dz = z - PivotZ;
+        var forward = dx * .90424865f + dz * .42700631f;
+        var side = dx * .42700631f - dz * .90424865f;
+        return forward >= YardBack - margin && forward <= YardFront - .4f + margin
+            && side >= YardSideMin - margin && side <= YardSideMax + margin;
+    }
 }

@@ -74,6 +74,11 @@ public partial class Act1ConnectedWorld
                     || meshName.Contains("_Leaf_", StringComparison.Ordinal)
                     || meshName.EndsWith("StreetDoorClosed_LOD0", StringComparison.Ordinal)
                     || meshName is "FapFacade_DoorPanel_LOD0" or "FapFacade_ServiceDoor_LOD0");
+            // The playable house's street leaf is where the entry interaction lives; a contact
+            // on it stands in front of that target and swallows the player's look ray.
+            if (closedOpening && placement.Name == "BabaiApproachDwellingFacade"
+                && meshName == "HeroHouse_StreetDoorClosed_LOD0")
+                continue;
             if (piercedWall || clinicShell || closedOpening)
             {
                 proxy ??= NewKitBlockerProxy();

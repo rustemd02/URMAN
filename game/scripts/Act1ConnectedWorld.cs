@@ -427,6 +427,7 @@ public partial class Act1ConnectedWorld : Node3D
         ConfigureInvestigationRevisits();
         BuildOpeningSleep();
         BuildMosqueInterior();
+        RestyleVillageMosque();
         BuildBathhouse();
         BuildPublicBuildings();
         BuildFapPlate();
@@ -438,6 +439,8 @@ public partial class Act1ConnectedWorld : Node3D
         ComposeBabaiYard();
         BuildAuthoredWorld();
         ClearOpenPartOfLegacyPresentation();
+        // Relayout v3 stage 5: the babai household moves whole onto the main street.
+        RelocateBabaiHousehold();
         ClearGorgeOfLegacyPresentation();
         BuildAddressRegistry();
         // Street faces of the yards: palisadnik, painted gates, board fences.

@@ -31,6 +31,59 @@ public partial class Act1TopDownCapture : Node
                 GetTree().Quit(0);
                 return;
             }
+            if (OS.GetEnvironment("URMAN_SHAPE_PROBE") is { Length: > 0 } shapeProbe)
+            {
+                await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+                await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+                var n = shapeProbe.Split(':').Select(v => float.Parse(v, System.Globalization.CultureInfo.InvariantCulture)).ToArray();
+                var world = GetTree().Root.FindChild("Act1ConnectedWorld", true, false) as Node3D ?? throw new InvalidOperationException("no world");
+                var query = new PhysicsShapeQueryParameters3D
+                {
+                    Shape = new CapsuleShape3D { Radius = .32f, Height = 1.7f },
+                    Transform = new Transform3D(Basis.Identity, new Vector3(n[0], n[1] + .9f, n[2])),
+                    CollisionMask = uint.MaxValue, CollideWithAreas = false
+                };
+                foreach (var hit in world.GetWorld3D().DirectSpaceState.IntersectShape(query, 32))
+                {
+                    var body = hit["collider"].AsGodotObject() as CollisionObject3D;
+                    var owner = body?.ShapeOwnerGetOwner(body.ShapeFindOwner(hit["shape"].AsInt32())) as Node;
+                    GD.Print($"shape-hit|{body?.GetPath()}|{owner?.Name}|layer={body?.CollisionLayer}");
+                }
+                GetTree().Quit(0);
+                return;
+            }
+            if (OS.GetEnvironment("URMAN_GROUND_PROBE") is { Length: > 0 } probe)
+            {
+                var b = probe.Split(':').Select(v => float.Parse(v, System.Globalization.CultureInfo.InvariantCulture)).ToArray();
+                for (var z = b[2]; z <= b[3] + .01f; z += .5f)
+                {
+                    var line = System.FormattableString.Invariant($"ground z={z,6:0.0}:");
+                    for (var x = b[0]; x <= b[1] + .01f; x += .5f)
+                        line += System.FormattableString.Invariant($" {Urman.Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(x, z),6:0.00}");
+                    GD.Print(line);
+                }
+                GetTree().Quit(0);
+                return;
+            }
+            if (OS.GetEnvironment("URMAN_AREA_SURVEY") is { Length: > 0 } area)
+            {
+                // "x0:x1:z0:z1" — every visible mesh whose bounds centre lies inside, one line each:
+                // what stands where (sheds, trees, stray houses, drifts) before deciding what to remove.
+                var a = area.Split(':').Select(v => float.Parse(v, System.Globalization.CultureInfo.InvariantCulture)).ToArray();
+                var world = GetTree().Root.FindChild("Act1ConnectedWorld", true, false) as Node3D
+                    ?? throw new InvalidOperationException("no world");
+                foreach (var geo in world.FindChildren("*", nameof(GeometryInstance3D), true, false).OfType<GeometryInstance3D>())
+                {
+                    if (!geo.IsVisibleInTree()) continue;
+                    var box = geo.GlobalTransform * geo.GetAabb();
+                    var c = box.GetCenter();
+                    if (c.X < a[0] || c.X > a[1] || c.Z < a[2] || c.Z > a[3] || box.Size.Length() > 120f) continue;
+                    GD.Print(System.FormattableString.Invariant(
+                        $"area|{geo.GetPath()}|{c.X:0.0}|{c.Z:0.0}|{box.Size.X:0.0}|{box.Size.Y:0.0}|{box.Size.Z:0.0}|{box.Position.Y:0.00}"));
+                }
+                GetTree().Quit(0);
+                return;
+            }
             if (OS.GetEnvironment("URMAN_SNOW_SURVEY") == "1")
             {
                 // One line per snow relief mesh that pushes into something solid: buildings,

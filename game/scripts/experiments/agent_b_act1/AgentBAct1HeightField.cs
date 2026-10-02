@@ -53,10 +53,9 @@ public static class AgentBAct1HeightField
     private static readonly (float X, float Z)[] FapAxis =
         AgentBAct1Layout.FapBranchAxis.Select(point => (point.X, point.Y)).ToArray();
 
+    // Relayout v3 stage 5: the babai street gate is a few steps off the carriageway.
     private static readonly (float X, float Z)[] HouseAxis =
-    {
-        (-1.2f, -8f), (-6f, -5.5f), (-12f, -2.5f), (-19f, 0f), (-24f, 1.2f)
-    };
+        AgentBAct1Layout.HousePathAxis.Select(p => (p.X, p.Y)).ToArray();
 
     private static readonly (float X, float Z)[] PlazaWalk =
         AgentBAct1Layout.PlazaWalkAxis.Select(point => (point.X, point.Y)).ToArray();
@@ -440,6 +439,26 @@ public static class AgentBAct1HeightField
         => -97.0 + 1.2 * System.Math.Sin(x / 14.0) + .5 * System.Math.Sin(x / 5.3);
 
     public static double Ground(float x, float z)
+    {
+        var ground = AuthoredGround(x, z);
+        // Relayout v3 stage 5: the babai yard was moved whole to the main street. Under its
+        // new footprint the ground is the old yard's own ground carried with it, so every
+        // authored step, plinth and path keeps its contact; it feathers out over 2.5 m and
+        // never lifts the carriageway.
+        var outside = BabaiRelocation.OutsideNewYard(x, z);
+        if (outside >= 2.5f) return ground;
+        var blend = 1 - Mathf.SmoothStep(0, 2.5f, outside);
+        // The main street's carriageway and first verge metre stay the street's own.
+        var toMain = double.MaxValue;
+        for (var i = 0; i < MainAxis.Length - 1; i++)
+            toMain = System.Math.Min(toMain, DistanceToSegment(x, z, MainAxis[i].X, MainAxis[i].Z, MainAxis[i + 1].X, MainAxis[i + 1].Z));
+        blend *= Mathf.SmoothStep(HalfWidths[0] + .4f, HalfWidths[0] + 1.6f, (float)toMain);
+        if (blend <= 0) return ground;
+        var old = BabaiRelocation.Inverse(new Vector2(x, z));
+        return ground + (AuthoredGround(old.X, old.Y) + BabaiRelocation.Lift - ground) * blend;
+    }
+
+    private static double AuthoredGround(float x, float z)
     {
         var generated = GeneratedGround(x, z);
         return Strokes.Length == 0 ? generated : ApplyStrokes(x, z, generated, GeneratedGround);

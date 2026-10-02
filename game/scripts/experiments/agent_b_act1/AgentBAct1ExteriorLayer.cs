@@ -485,6 +485,34 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         FitBabaiSouthFenceToOccupiedHouse(room, halfSize + new Vector2(.2f, .2f));
     }
 
+    /// <summary>
+    /// The occupied room moved after its first cut (relayout v3 stage 5). Rebuild the shared
+    /// terrain surface and its single physics owner from the height field, restore the yard
+    /// apron, then cut again under the room's present footprint.
+    /// </summary>
+    public void RecutOccupiedRoomTerrain(Node3D room, Vector2 halfSize)
+    {
+        var mesh = EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_TerrainRoadKit"))
+            .Single(node => node.Name == "Terrain_Main");
+        var material = mesh.Mesh.SurfaceGetMaterial(0);
+        var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        foreach (var vertex in AgentBAct1HeightField.BuildTerrainFaces())
+        {
+            surface.SetUV(new Vector2(vertex.X, vertex.Z));
+            surface.AddVertex(mesh.ToLocal(ToGlobal(vertex)));
+        }
+        surface.Index();
+        surface.GenerateNormals();
+        var rebuilt = surface.Commit();
+        rebuilt.SurfaceSetMaterial(0, material);
+        mesh.Mesh = rebuilt;
+        var apron = EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_TerrainRoadKit"))
+            .Single(node => node.Name == "Apron_BabaiYard");
+        if (apron.HasMeta("occupiedRoomOriginalMesh")) apron.Mesh = apron.GetMeta("occupiedRoomOriginalMesh").As<ArrayMesh>();
+        ExcludeOccupiedRoomTerrain(room, halfSize);
+    }
+
     internal static (ArrayMesh Mesh, int ChangedTriangles, int OutputVertices) ClipGroundFootprint(
         MeshInstance3D mesh, ArrayMesh original, Node3D room, Vector2 halfSize)
     {

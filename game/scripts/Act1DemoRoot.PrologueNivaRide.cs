@@ -69,11 +69,11 @@ public partial class Act1DemoRoot
         Lane(new[] { new Vector2(0f, 25f), new Vector2(0f, 40f), new Vector2(0f, 52f) }, RideLane);
         // Round Мәйдан on its paved carriageway, then south again.
         foreach (var point in AgentBAct1Layout.PlazaDriveAxis) path.Add(new(point.X, 0, point.Y));
-        var mainSouth = new[] { new Vector2(0f, 30f) }
-            .Concat(AgentBAct1Layout.MainRoadAxis.Where(p => p.Y < 30f && p.Y >= 0f)).Append(new Vector2(0f, 4f)).ToArray();
-        Lane(mainSouth, RideLane);
-        path.Add(new(-1.3f, 0, 1f));
-        path.Add(new(-1.65f, 0, 1f));
+        // Back south to the house: babai's yard stands on the street (relayout v3 stage 5), so
+        // the Niva pulls over on the west verge just north of the yard, clear of the gate path,
+        // Alsu's walk and the arrival-east junction.
+        Lane(new[] { new Vector2(0f, 30f), new Vector2(0f, 21f) }, RideLane);
+        path.Add(new(-1.3f, 0, 17f));
         return path.ToArray();
     }
 
