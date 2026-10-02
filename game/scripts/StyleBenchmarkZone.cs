@@ -570,13 +570,18 @@ public partial class StyleBenchmarkZone : Node3D
             ShadowEnabled = false
         });
 
-        AddChild(new OmniLight3D
+        // Broad downward room light keeps the low ceiling free of an
+        // unmotivated hotspot while illuminating the occupied room below.
+        AddChild(new SpotLight3D
         {
             Name = "RoomFill",
             Position = new(0, 2.35f, .5f),
+            RotationDegrees = new(-90, 0, 0),
             LightColor = Color.FromHtml("dfc7a6"),
             LightEnergy = 1.0f,
-            OmniRange = 8.5f,
+            SpotRange = 8.5f,
+            SpotAngle = 85f,
+            SpotAttenuation = .5f,
             ShadowEnabled = false
         });
 
