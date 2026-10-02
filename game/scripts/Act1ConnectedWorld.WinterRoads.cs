@@ -81,7 +81,7 @@ public partial class Act1ConnectedWorld
         {
             // Relayout v3: the open part's cross streets and the FAP street are drawn by
             // AddOpenPartStreets from the open-part plot.
-            ("Main", main, 2.8f)
+            ("Main", main, 2.25f)
         };
         var offset = .012f;
         foreach (var (name, points, half) in axes)

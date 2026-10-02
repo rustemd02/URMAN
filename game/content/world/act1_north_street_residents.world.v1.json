@@ -4,7 +4,7 @@
   "id": "urman.world:act1/residents",
   "executor": "generic",
   "name": "Жители северного квартала (фоновые)",
-  "note": "Ambient: стоят, беседуют парами, чинят, сидят. Без диалогов и без сюжетного состояния. Точки подобраны диагностикой tests/Act1ResidentSpotCheck (физика и видимые предметы свободны); внешний вид не проверялся. Генератор — tools/world/generate_residents.py. Имена собственные и реплики добавляются отдельно (ACT1-NPC.2/3).",
+  "note": "Ambient: 33 стабильных жителя и прежние greeting IDs. Срез 2026-10-02: шесть существующих зимних v2 семейств, умеренные силуэты и палитры одежды вместо одной мужской модели; ребёнок у доски отодвинут от взрослой. Точки дворов связаны с актуальными ns-* домами open-part/far-bank; физическая и художественная приёмка новой сборки открыты. Паспорт docs/production/village_relayout_2026-10-02/residents_audit.md; старый tools/world/generate_residents.py не учитывает новые presentation-поля.",
   "entities": [
     {
       "id": "urman.world:act1/residents/e-n1-a",
@@ -13,7 +13,7 @@
       "note": "Стоит во дворе, смотрит на улицу.",
       "params": {
         "characterId": "resident-e-n1-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Gulsina",
         "position": [
           7.16,
           0.0,
@@ -34,7 +34,15 @@
           }
         ],
         "greeting": "neighbor-f",
-        "speaker": "СОСЕДКА"
+        "speaker": "СОСЕДКА",
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 0.98,
+          "depth": 1.0,
+          "coatColor": "48584c",
+          "headwearColor": "4d443b",
+          "accentColor": "685154"
+        }
       }
     },
     {
@@ -51,7 +59,7 @@
           134.37
         ],
         "yawDegrees": 190.0,
-        "scale": 1.03,
+        "scale": 1.01,
         "schedule": [
           {
             "id": "day",
@@ -65,7 +73,15 @@
           }
         ],
         "greeting": "neighbor-m",
-        "speaker": "СОСЕД"
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in quilted jacket and valenki",
+          "width": 0.97,
+          "depth": 0.97,
+          "coatColor": "5b4d42",
+          "headwearColor": "686158",
+          "accentColor": "655c47"
+        }
       }
     },
     {
@@ -75,14 +91,14 @@
       "note": "Чинит калитку или доску у ворот.",
       "params": {
         "characterId": "resident-m-e1-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "PhoneGuy",
         "position": [
           -44.85,
           0.0,
           -69.5
         ],
         "yawDegrees": -25.0,
-        "scale": 0.99,
+        "scale": 0.98,
         "schedule": [
           {
             "id": "day",
@@ -96,7 +112,15 @@
           }
         ],
         "greeting": "repair",
-        "speaker": "СОСЕД"
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in knit cap and short coat",
+          "width": 1.0,
+          "depth": 1.0,
+          "coatColor": "3f4f60",
+          "headwearColor": "49494c",
+          "accentColor": "435655"
+        }
       }
     },
     {
@@ -106,7 +130,7 @@
       "note": "Стоит во дворе, смотрит на улицу.",
       "params": {
         "characterId": "resident-m-e3-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Rinat",
         "position": [
           118.76,
           0.0,
@@ -127,7 +151,15 @@
           }
         ],
         "greeting": "neighbor-m",
-        "speaker": "СОСЕД"
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in dark winter coat and ushanka",
+          "width": 1.04,
+          "depth": 1.02,
+          "coatColor": "685154",
+          "headwearColor": "736356",
+          "accentColor": "72574c"
+        }
       }
     },
     {
@@ -144,7 +176,7 @@
           55.28
         ],
         "yawDegrees": -86.8,
-        "scale": 0.96,
+        "scale": 1.0,
         "schedule": [
           {
             "id": "day",
@@ -159,7 +191,15 @@
         ],
         "greeting": "chat",
         "speaker": "СОСЕД",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "man in quilted jacket and valenki",
+          "width": 1.03,
+          "depth": 0.97,
+          "coatColor": "655c47",
+          "headwearColor": "61484a",
+          "accentColor": "565568"
+        }
       }
     },
     {
@@ -169,14 +209,14 @@
       "note": "Собеседник.",
       "params": {
         "characterId": "resident-m-e3b-b",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Alsu",
         "position": [
           116.14,
           0.0,
           55.39
         ],
         "yawDegrees": 93.2,
-        "scale": 0.97,
+        "scale": 1.01,
         "schedule": [
           {
             "id": "day",
@@ -191,7 +231,15 @@
         ],
         "greeting": "chat",
         "speaker": "СОСЕДКА",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in winter coat and knit cap",
+          "width": 1.03,
+          "depth": 0.98,
+          "coatColor": "435655",
+          "headwearColor": "535f5b",
+          "accentColor": "48584c"
+        }
       }
     },
     {
@@ -201,14 +249,14 @@
       "note": "Стоит во дворе, смотрит на улицу.",
       "params": {
         "characterId": "resident-m-e4-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "PhoneGuy",
         "position": [
           119.19,
           0.0,
           2.0
         ],
         "yawDegrees": -75.2,
-        "scale": 1.02,
+        "scale": 0.97,
         "schedule": [
           {
             "id": "day",
@@ -222,7 +270,15 @@
           }
         ],
         "greeting": "neighbor-m",
-        "speaker": "СОСЕД"
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in knit cap and short coat",
+          "width": 1.0,
+          "depth": 1.02,
+          "coatColor": "72574c",
+          "headwearColor": "4d443b",
+          "accentColor": "5b4d42"
+        }
       }
     },
     {
@@ -232,14 +288,14 @@
       "note": "Чинит калитку или доску у ворот.",
       "params": {
         "characterId": "resident-m-e4b-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Rinat",
         "position": [
           116.78,
           0.0,
           -34.91
         ],
         "yawDegrees": -118.2,
-        "scale": 1.03,
+        "scale": 1.0,
         "schedule": [
           {
             "id": "day",
@@ -253,7 +309,15 @@
           }
         ],
         "greeting": "repair",
-        "speaker": "СОСЕД"
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in dark winter coat and ushanka",
+          "width": 1.04,
+          "depth": 0.97,
+          "coatColor": "565568",
+          "headwearColor": "686158",
+          "accentColor": "3f4f60"
+        }
       }
     },
     {
@@ -270,7 +334,7 @@
           -81.08
         ],
         "yawDegrees": 87.1,
-        "scale": 1.02,
+        "scale": 0.99,
         "schedule": [
           {
             "id": "day",
@@ -285,7 +349,15 @@
         ],
         "greeting": "chat",
         "speaker": "СОСЕД",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "man in quilted jacket and valenki",
+          "width": 1.03,
+          "depth": 1.0,
+          "coatColor": "48584c",
+          "headwearColor": "49494c",
+          "accentColor": "685154"
+        }
       }
     },
     {
@@ -295,14 +367,14 @@
       "note": "Собеседник.",
       "params": {
         "characterId": "resident-m-e5-b",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Gulsina",
         "position": [
           72.53,
           0.0,
           -80.98
         ],
         "yawDegrees": 267.1,
-        "scale": 0.91,
+        "scale": 1.01,
         "schedule": [
           {
             "id": "day",
@@ -317,7 +389,15 @@
         ],
         "greeting": "chat",
         "speaker": "СОСЕДКА",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 1.03,
+          "depth": 1.0,
+          "coatColor": "5b4d42",
+          "headwearColor": "736356",
+          "accentColor": "655c47"
+        }
       }
     },
     {
@@ -327,14 +407,14 @@
       "note": "Стоит во дворе, смотрит на улицу.",
       "params": {
         "characterId": "resident-m-w1-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Alsu",
         "position": [
           -7.74,
           0.0,
           139.1
         ],
         "yawDegrees": 80.0,
-        "scale": 0.96,
+        "scale": 0.98,
         "schedule": [
           {
             "id": "day",
@@ -348,7 +428,15 @@
           }
         ],
         "greeting": "neighbor-f",
-        "speaker": "СОСЕДКА"
+        "speaker": "СОСЕДКА",
+        "residentAppearance": {
+          "profile": "woman in winter coat and knit cap",
+          "width": 1.0,
+          "depth": 1.03,
+          "coatColor": "3f4f60",
+          "headwearColor": "61484a",
+          "accentColor": "435655"
+        }
       }
     },
     {
@@ -358,14 +446,14 @@
       "note": "Стоит во дворе, смотрит на улицу.",
       "params": {
         "characterId": "resident-m-w3-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "PhoneGuy",
         "position": [
           104.72,
           0.0,
           97.5
         ],
         "yawDegrees": -10.0,
-        "scale": 0.96,
+        "scale": 1.02,
         "schedule": [
           {
             "id": "day",
@@ -379,7 +467,15 @@
           }
         ],
         "greeting": "neighbor-m",
-        "speaker": "СОСЕД"
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in knit cap and short coat",
+          "width": 1.04,
+          "depth": 1.0,
+          "coatColor": "685154",
+          "headwearColor": "535f5b",
+          "accentColor": "72574c"
+        }
       }
     },
     {
@@ -389,14 +485,14 @@
       "note": "Стоит во дворе, смотрит на улицу.",
       "params": {
         "characterId": "resident-m-w4-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Gulsina",
         "position": [
           119.02,
           0.0,
           15.23
         ],
         "yawDegrees": -63.0,
-        "scale": 0.97,
+        "scale": 1.0,
         "schedule": [
           {
             "id": "day",
@@ -410,7 +506,15 @@
           }
         ],
         "greeting": "neighbor-f",
-        "speaker": "СОСЕДКА"
+        "speaker": "СОСЕДКА",
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 0.98,
+          "depth": 1.0,
+          "coatColor": "655c47",
+          "headwearColor": "4d443b",
+          "accentColor": "565568"
+        }
       }
     },
     {
@@ -420,14 +524,14 @@
       "note": "Разговаривает через двор с соседом.",
       "params": {
         "characterId": "resident-m-w4b-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Rinat",
         "position": [
           117.37,
           0.0,
           -19.92
         ],
         "yawDegrees": -265.2,
-        "scale": 0.96,
+        "scale": 1.01,
         "schedule": [
           {
             "id": "day",
@@ -442,7 +546,15 @@
         ],
         "greeting": "chat",
         "speaker": "СОСЕД",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "man in dark winter coat and ushanka",
+          "width": 0.97,
+          "depth": 0.97,
+          "coatColor": "435655",
+          "headwearColor": "686158",
+          "accentColor": "48584c"
+        }
       }
     },
     {
@@ -452,14 +564,14 @@
       "note": "Собеседник.",
       "params": {
         "characterId": "resident-m-w4b-b",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Alsu",
         "position": [
           118.36,
           0.0,
           -20.01
         ],
         "yawDegrees": -85.2,
-        "scale": 0.99,
+        "scale": 0.97,
         "schedule": [
           {
             "id": "day",
@@ -474,7 +586,15 @@
         ],
         "greeting": "chat",
         "speaker": "СОСЕДКА",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in winter coat and knit cap",
+          "width": 1.0,
+          "depth": 0.98,
+          "coatColor": "72574c",
+          "headwearColor": "49494c",
+          "accentColor": "5b4d42"
+        }
       }
     },
     {
@@ -491,7 +611,7 @@
           -49.64
         ],
         "yawDegrees": -93.2,
-        "scale": 1.03,
+        "scale": 1.0,
         "schedule": [
           {
             "id": "day",
@@ -505,7 +625,15 @@
           }
         ],
         "greeting": "repair",
-        "speaker": "СОСЕД"
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in quilted jacket and valenki",
+          "width": 1.04,
+          "depth": 1.02,
+          "coatColor": "565568",
+          "headwearColor": "736356",
+          "accentColor": "3f4f60"
+        }
       }
     },
     {
@@ -515,11 +643,11 @@
       "note": "Стоит во дворе, смотрит на улицу.",
       "params": {
         "characterId": "resident-n-e1-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "PhoneGuy",
         "position": [
-          106.32,
+          105.59,
           0.0,
-          72.03
+          76.88
         ],
         "yawDegrees": 63.2,
         "scale": 0.99,
@@ -527,16 +655,24 @@
           {
             "id": "day",
             "place": [
-              106.32,
+              105.59,
               0.0,
-              72.03
+              76.88
             ],
             "yawDegrees": 63.2,
             "motion": "urman.anim:idle-plain"
           }
         ],
         "greeting": "neighbor-m",
-        "speaker": "СОСЕД"
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in knit cap and short coat",
+          "width": 1.03,
+          "depth": 0.97,
+          "coatColor": "48584c",
+          "headwearColor": "61484a",
+          "accentColor": "685154"
+        }
       }
     },
     {
@@ -546,14 +682,14 @@
       "note": "Разговаривает через двор с соседом.",
       "params": {
         "characterId": "resident-n-e1b-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Rinat",
         "position": [
           119.18,
           0.0,
           76.75
         ],
         "yawDegrees": 93.2,
-        "scale": 1.03,
+        "scale": 1.01,
         "schedule": [
           {
             "id": "day",
@@ -568,7 +704,15 @@
         ],
         "greeting": "chat",
         "speaker": "СОСЕД",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "man in dark winter coat and ushanka",
+          "width": 0.97,
+          "depth": 1.0,
+          "coatColor": "5b4d42",
+          "headwearColor": "535f5b",
+          "accentColor": "655c47"
+        }
       }
     },
     {
@@ -578,14 +722,14 @@
       "note": "Собеседник.",
       "params": {
         "characterId": "resident-n-e1b-b",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Gulsina",
         "position": [
           120.18,
           0.0,
           76.69
         ],
         "yawDegrees": -86.8,
-        "scale": 0.94,
+        "scale": 0.98,
         "schedule": [
           {
             "id": "day",
@@ -600,7 +744,15 @@
         ],
         "greeting": "chat",
         "speaker": "СОСЕДКА",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 1.0,
+          "depth": 1.0,
+          "coatColor": "3f4f60",
+          "headwearColor": "4d443b",
+          "accentColor": "435655"
+        }
       }
     },
     {
@@ -617,7 +769,7 @@
           27.71
         ],
         "yawDegrees": -63.0,
-        "scale": 0.97,
+        "scale": 1.02,
         "schedule": [
           {
             "id": "day",
@@ -631,7 +783,15 @@
           }
         ],
         "greeting": "neighbor-m",
-        "speaker": "СОСЕД"
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in quilted jacket and valenki",
+          "width": 1.04,
+          "depth": 0.97,
+          "coatColor": "685154",
+          "headwearColor": "686158",
+          "accentColor": "72574c"
+        }
       }
     },
     {
@@ -641,11 +801,11 @@
       "note": "Чинит калитку или доску у ворот.",
       "params": {
         "characterId": "resident-n-e2b-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "PhoneGuy",
         "position": [
-          117.89,
+          118.48,
           0.0,
-          -8.93
+          -13.8
         ],
         "yawDegrees": -110.2,
         "scale": 1.0,
@@ -653,16 +813,24 @@
           {
             "id": "day",
             "place": [
-              117.89,
+              118.48,
               0.0,
-              -8.93
+              -13.8
             ],
             "yawDegrees": -110.2,
             "motion": "urman.anim:work-kneel"
           }
         ],
         "greeting": "repair",
-        "speaker": "СОСЕД"
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in knit cap and short coat",
+          "width": 1.03,
+          "depth": 1.0,
+          "coatColor": "655c47",
+          "headwearColor": "49494c",
+          "accentColor": "565568"
+        }
       }
     },
     {
@@ -672,14 +840,14 @@
       "note": "Разговаривает через двор с соседом.",
       "params": {
         "characterId": "resident-n-e3-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Rinat",
         "position": [
           105.0,
           0.0,
           -57.03
         ],
         "yawDegrees": 266.8,
-        "scale": 0.95,
+        "scale": 1.01,
         "schedule": [
           {
             "id": "day",
@@ -694,7 +862,15 @@
         ],
         "greeting": "chat",
         "speaker": "СОСЕД",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "man in dark winter coat and ushanka",
+          "width": 0.97,
+          "depth": 1.02,
+          "coatColor": "435655",
+          "headwearColor": "736356",
+          "accentColor": "48584c"
+        }
       }
     },
     {
@@ -704,14 +880,14 @@
       "note": "Собеседник.",
       "params": {
         "characterId": "resident-n-e3-b",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Alsu",
         "position": [
           104.0,
           0.0,
           -57.08
         ],
         "yawDegrees": 86.8,
-        "scale": 0.92,
+        "scale": 0.97,
         "schedule": [
           {
             "id": "day",
@@ -726,7 +902,15 @@
         ],
         "greeting": "chat",
         "speaker": "СОСЕДКА",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in winter coat and knit cap",
+          "width": 1.0,
+          "depth": 1.03,
+          "coatColor": "72574c",
+          "headwearColor": "61484a",
+          "accentColor": "5b4d42"
+        }
       }
     },
     {
@@ -736,14 +920,14 @@
       "note": "Стоит во дворе, смотрит на улицу.",
       "params": {
         "characterId": "resident-w-n1-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Gulsina",
         "position": [
           83.3,
           0.0,
           87.84
         ],
         "yawDegrees": -57.1,
-        "scale": 1.03,
+        "scale": 1.0,
         "schedule": [
           {
             "id": "day",
@@ -757,7 +941,15 @@
           }
         ],
         "greeting": "neighbor-f",
-        "speaker": "СОСЕДКА"
+        "speaker": "СОСЕДКА",
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 0.96,
+          "depth": 0.98,
+          "coatColor": "565568",
+          "headwearColor": "535f5b",
+          "accentColor": "3f4f60"
+        }
       }
     },
     {
@@ -774,7 +966,7 @@
           81.38
         ],
         "yawDegrees": 102.9,
-        "scale": 1.01,
+        "scale": 0.99,
         "schedule": [
           {
             "id": "day",
@@ -788,7 +980,15 @@
           }
         ],
         "greeting": "neighbor-m",
-        "speaker": "СОСЕД"
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in quilted jacket and valenki",
+          "width": 1.03,
+          "depth": 1.02,
+          "coatColor": "48584c",
+          "headwearColor": "4d443b",
+          "accentColor": "685154"
+        }
       }
     },
     {
@@ -798,14 +998,14 @@
       "note": "Ребёнок у колодца/доски: в школе одиннадцать детей, остальные дома.",
       "params": {
         "characterId": "resident-kid-1",
-        "kitPrefix": "Resident",
+        "kitPrefix": "PhoneGuy",
         "position": [
           -25.5,
           0.0,
           62.9
         ],
         "yawDegrees": 302.7,
-        "scale": 0.74,
+        "scale": 0.8,
         "schedule": [
           {
             "id": "day",
@@ -819,7 +1019,15 @@
           }
         ],
         "greeting": "kid",
-        "speaker": "РЕБЁНОК"
+        "speaker": "РЕБЁНОК",
+        "residentAppearance": {
+          "profile": "school-age boy in knit cap",
+          "width": 0.98,
+          "depth": 0.98,
+          "coatColor": "5b4d42",
+          "headwearColor": "686158",
+          "accentColor": "655c47"
+        }
       }
     },
     {
@@ -829,14 +1037,14 @@
       "note": "Ребёнок у колодца/доски: в школе одиннадцать детей, остальные дома.",
       "params": {
         "characterId": "resident-kid-2",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Alsu",
         "position": [
           -23.9,
           0.0,
           61.3
         ],
         "yawDegrees": 187.7,
-        "scale": 0.7,
+        "scale": 0.82,
         "schedule": [
           {
             "id": "day",
@@ -850,7 +1058,15 @@
           }
         ],
         "greeting": "kid",
-        "speaker": "РЕБЁНОК"
+        "speaker": "РЕБЁНОК",
+        "residentAppearance": {
+          "profile": "school-age girl in knit cap",
+          "width": 0.98,
+          "depth": 0.98,
+          "coatColor": "3f4f60",
+          "headwearColor": "49494c",
+          "accentColor": "435655"
+        }
       }
     },
     {
@@ -860,28 +1076,36 @@
       "note": "Ребёнок у колодца/доски: в школе одиннадцать детей, остальные дома.",
       "params": {
         "characterId": "resident-kid-3",
-        "kitPrefix": "Resident",
+        "kitPrefix": "PhoneGuy",
         "position": [
           -3.0,
           0.0,
-          40.5
+          42.8
         ],
-        "yawDegrees": 91.7,
-        "scale": 0.78,
+        "yawDegrees": 184.0,
+        "scale": 0.84,
         "schedule": [
           {
             "id": "day",
             "place": [
               -3.0,
               0.0,
-              40.5
+              42.8
             ],
-            "yawDegrees": 91.7,
+            "yawDegrees": 184.0,
             "motion": "urman.anim:idle-plain"
           }
         ],
         "greeting": "kid",
-        "speaker": "РЕБЁНОК"
+        "speaker": "РЕБЁНОК",
+        "residentAppearance": {
+          "profile": "older school-age boy",
+          "width": 0.98,
+          "depth": 0.98,
+          "coatColor": "685154",
+          "headwearColor": "736356",
+          "accentColor": "72574c"
+        }
       }
     },
     {
@@ -891,7 +1115,7 @@
       "note": "Читает доску объявлений.",
       "params": {
         "characterId": "resident-square-sq-board",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Alsu",
         "position": [
           -3.21,
           0.0,
@@ -912,7 +1136,15 @@
           }
         ],
         "greeting": "neighbor-f",
-        "speaker": "СОСЕДКА"
+        "speaker": "СОСЕДКА",
+        "residentAppearance": {
+          "profile": "woman in winter coat and knit cap",
+          "width": 0.98,
+          "depth": 1.03,
+          "coatColor": "655c47",
+          "headwearColor": "61484a",
+          "accentColor": "565568"
+        }
       }
     },
     {
@@ -922,14 +1154,14 @@
       "note": "Разговаривает у колодца площади.",
       "params": {
         "characterId": "resident-square-well-a",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Gulsina",
         "position": [
           -25.5,
           0.0,
           59.7
         ],
         "yawDegrees": -45.0,
-        "scale": 1.0,
+        "scale": 1.01,
         "schedule": [
           {
             "id": "day",
@@ -944,7 +1176,15 @@
         ],
         "greeting": "chat",
         "speaker": "СОСЕДКА",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 1.03,
+          "depth": 0.98,
+          "coatColor": "435655",
+          "headwearColor": "535f5b",
+          "accentColor": "48584c"
+        }
       }
     },
     {
@@ -954,7 +1194,7 @@
       "note": "Собеседница.",
       "params": {
         "characterId": "resident-square-well-b",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Alsu",
         "position": [
           -27.1,
           0.0,
@@ -976,7 +1216,15 @@
         ],
         "greeting": "chat",
         "speaker": "СОСЕДКА",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in winter coat and knit cap",
+          "width": 1.0,
+          "depth": 1.0,
+          "coatColor": "72574c",
+          "headwearColor": "4d443b",
+          "accentColor": "5b4d42"
+        }
       }
     },
     {
@@ -986,14 +1234,14 @@
       "note": "Сидит над оврагом и смотрит на дальний берег.",
       "params": {
         "characterId": "resident-lookout-sitter",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Mansur",
         "position": [
           44.45,
           0.32,
           15.5
         ],
         "yawDegrees": 90.0,
-        "scale": 1.0,
+        "scale": 0.99,
         "schedule": [
           {
             "id": "day",
@@ -1008,7 +1256,15 @@
         ],
         "greeting": "elder",
         "speaker": "СТАРИК",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "older man in sheepskin and ushanka",
+          "width": 0.98,
+          "depth": 1.02,
+          "coatColor": "565568",
+          "headwearColor": "686158",
+          "accentColor": "3f4f60"
+        }
       }
     },
     {
@@ -1018,20 +1274,20 @@
       "note": "Сидит на площади.",
       "params": {
         "characterId": "resident-sq1-sitter",
-        "kitPrefix": "Resident",
+        "kitPrefix": "Gulsina",
         "position": [
           -12.5,
-          0.32,
+          0.35,
           34.25
         ],
         "yawDegrees": 0.0,
-        "scale": 1.0,
+        "scale": 0.99,
         "schedule": [
           {
             "id": "day",
             "place": [
               -12.5,
-              0.32,
+              0.35,
               34.25
             ],
             "yawDegrees": 0.0,
@@ -1040,7 +1296,15 @@
         ],
         "greeting": "square-woman",
         "speaker": "СОСЕДКА",
-        "turn": false
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 0.98,
+          "depth": 0.98,
+          "coatColor": "48584c",
+          "headwearColor": "49494c",
+          "accentColor": "685154"
+        }
       }
     }
   ]

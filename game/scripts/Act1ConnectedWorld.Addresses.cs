@@ -345,19 +345,19 @@ public partial class Act1ConnectedWorld
         {
             registry.Graph.AddRoad(new(id,street,points.Select(p=>AddressPoint(AddressGround(new(p.X,0,p.Y)))).ToArray(),width,"snow_trampled",modes));
         }
-        Road("authored/main-axis","tukay",AgentBAct1Layout.MainRoadAxis,5.6,SettlementTravelMode.All);
-        Road("authored/fap-axis","urman",AgentBAct1Layout.FapBranchAxis,4.6,SettlementTravelMode.All);
+        Road("authored/main-axis","tukay",AgentBAct1Layout.MainRoadAxis,4.5,SettlementTravelMode.All);
+        Road("authored/fap-axis","urman",AgentBAct1Layout.FapBranchAxis,3.8,SettlementTravelMode.All);
         // The graph stops 1.3 m before the first deck board: while the bridge stands, a standing
         // body anchored on the board edge is inside its collision.
         var bridgeApproach=AgentBAct1Layout.BridgeApproachAxis.ToArray();
         bridgeApproach[^1]=bridgeApproach[^1]+(bridgeApproach[^2]-bridgeApproach[^1]).Normalized()*1.3f;
-        Road("authored/bridge-approach-axis","urman",bridgeApproach,4.6,SettlementTravelMode.All);
+        Road("authored/bridge-approach-axis","urman",bridgeApproach,3.8,SettlementTravelMode.All);
         Road("authored/plaza-walk","urman",AgentBAct1Layout.PlazaWalkAxis,2.4,SettlementTravelMode.Foot);
         Road("authored/mosque-walk","tukay",AgentBAct1Layout.MosqueWalkAxis,1.6,SettlementTravelMode.Foot);
         // Relayout v3: the cross streets of the open part come from the open-part plot.
         foreach(var road in OpenPartPlot().Roads)
             Road("authored/"+road.Id,road.Street,road.Points,road.Width,SettlementTravelMode.All);
-        Road("authored/zirat-axis","tukay",AgentBAct1Layout.ZiratRoadAxis,4.2,SettlementTravelMode.All);
+        Road("authored/zirat-axis","tukay",AgentBAct1Layout.ZiratRoadAxis,3.8,SettlementTravelMode.All);
         Road("authored/kara-axis","",AgentBAct1Layout.KaraRoadAxis,3.5,SettlementTravelMode.Foot);  // crosses on the suspension bridge
         Road("authored/house-path","tukay",AgentBAct1Layout.HousePathAxis,1.15,SettlementTravelMode.Foot);
         foreach(var connector in Act1WorldLayout.Connectors)

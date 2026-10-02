@@ -441,6 +441,7 @@ public partial class Act1ConnectedWorld : Node3D
         ClearOpenPartOfLegacyPresentation();
         // Relayout v3 stage 5: the babai household moves whole onto the main street.
         RelocateBabaiHousehold();
+        BuildCozyBabaiStorage();
         ClearGorgeOfLegacyPresentation();
         BuildAddressRegistry();
         // Street faces of the yards: palisadnik, painted gates, board fences.
@@ -1310,7 +1311,7 @@ public partial class Act1ConnectedWorld : Node3D
         // Carried things cross the actual house/FAP portal. They must not be
         // children of the outdoor-only visual root, which is hidden indoors.
         BuildYardMechanisms(core, coordinator);
-        AddChild(coordinator);
+        // Mounted after the yard relocation and storage placement so _Ready captures the actual authored pose.
         _carryCoordinator = coordinator;
         if (_runtimeBridge is not null)
         {
@@ -5974,26 +5975,32 @@ public partial class Act1ConnectedWorld : Node3D
 
     private static void ApplyHeroWarmWindow(Node3D facade)
     {
-        // Joinery color belongs to the hero's authored material slots. This
-        // pass owns only the inhabited warm window, not another trim repaint.
-        var warmWindow = FindDescendants<MeshInstance3D>(facade)
-            .FirstOrDefault(mesh => mesh.Name == "HeroHouse_Street_Window2_Glass_LOD0");
-        if (warmWindow is null)
+        var windows=FindDescendants<MeshInstance3D>(facade).Where(mesh=>mesh.Mesh is not null
+            &&mesh.Name.ToString().Contains("Window",StringComparison.Ordinal)
+            &&mesh.Name.ToString().Contains("Glass",StringComparison.Ordinal)).ToArray();
+        foreach(var pane in windows)
         {
-            return;
+            // Frost and curtains soften the warm room, while actual spot sources
+            // cast the window's light onto sill, posts and snow outside.
+            pane.MaterialOverride=new StandardMaterial3D {
+                AlbedoColor=Color.FromHtml("d6b98a"),
+                AlbedoTexture=ResourceLoader.Load<Texture2D>("res://assets/textures/painterly/frost_window_v1_albedo.png"),
+                EmissionEnabled=true,Emission=Color.FromHtml("ffce83"),EmissionEnergyMultiplier=1.35f,
+                Roughness=.42f,MetallicSpecular=.35f };
+            var centre=pane.GlobalTransform*pane.Mesh!.GetAabb().GetCenter();
+            var outward=pane.GlobalBasis.Z;outward.Y=0;outward=outward.Normalized();
+            var relative=centre-facade.GlobalPosition;relative.Y=0;
+            if(outward.Dot(relative)<0)outward=-outward;
+            var light=new SpotLight3D {
+                Name="WarmWindowSpill_"+pane.Name,LightColor=Color.FromHtml("ffd6a0"),LightEnergy=1.25f,
+                SpotRange=5.2f,SpotAngle=67f,SpotAttenuation=1.4f,ShadowEnabled=true,
+                LightSize=.16f,ShadowBias=.04f };
+            facade.AddChild(light);light.GlobalPosition=centre+outward*.16f;
+            light.LookAt(light.GlobalPosition+outward+Vector3.Down*.18f);
+            light.SetMeta("lightingRole","occupied house window; warm local spill, real shadows");
+            pane.SetMeta("lightingRole","occupied house window with frosted warm emission");
         }
-
-        warmWindow.MaterialOverride = new StandardMaterial3D
-        {
-            AlbedoColor = Color.FromHtml("b6814f"),
-            EmissionEnabled = true,
-            Emission = Color.FromHtml("9b5a32"),
-            EmissionEnergyMultiplier = 1.55f,
-            Roughness = 0.48f
-        };
-        warmWindow.SetMeta("presentationOnly", true);
-        warmWindow.SetMeta("visualOnly", true);
-        warmWindow.SetMeta("lightingRole", "hero dwelling warm window");
+        facade.SetMeta("litWindowCount",windows.Length);
     }
 
     private static void AddBabaiRearFacadeDressing(Node3D parent, Vector3 origin, float yawDegrees)

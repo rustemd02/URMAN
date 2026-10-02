@@ -26,21 +26,21 @@ public partial class Act1ConnectedWorld
         var brick = PainterlyMaterialLibrary.ForColor("9a5a45", "stone");
         var trim = PainterlyMaterialLibrary.ForColor("eeeae0", "wood_painted_trim");
 
-        // Old two-storey school: long, many windows, upper floor partly boarded.
-        var school = SquareBuilding(square, "OldSchool", new(-17.5f, 71.5f), 28f, 11f, 3.4f, 2, PainterlyMaterialLibrary.ForColor("e2d6b8", "plaster"), roofPitch: 16f, hollow: true);
+        // Small, one-storey village school; rooms are refitted to the smaller shell.
+        var school = SquareBuilding(square, "OldSchool", new(-17.5f, 71.5f), 20f, 11f, 3.4f, 1, PainterlyMaterialLibrary.ForColor("e2d6b8", "plaster"), roofPitch: 16f, hollow: true);
         _squareSchool = school;
-        SquareWeatherShelter(school, new(0, 3.4f, 0), new(13.65f, 3.4f, 5.15f));
+        SquareWeatherShelter(school, new(0, 1.7f, 0), new(9.65f, 1.7f, 5.15f));
         SquarePorch(school, 11f, 3.2f, trim, open: true);
         BuildSchoolInterior(school, PainterlyMaterialLibrary.ForColor("e2d6b8", "plaster"), PainterlyMaterialLibrary.ForColor("eeeae0", "wood_painted_trim"));
-        SquareSign(school, new(0, 3.6f, 5.7f), "КАРА-УРМАН УРТА МӘКТӘБЕ\nКАРА-УРМАНСКАЯ СРЕДНЯЯ ШКОЛА", 62, new Color(.15f, .18f, .28f));
+        SquareSign(school, new(0, 3.0f, 5.57f), "КАРА-УРМАН УРТА МӘКТӘБЕ\nКАРА-УРМАНСКАЯ СРЕДНЯЯ ШКОЛА", 62, new Color(.15f, .18f, .28f));
 
-        // House of culture: a tall hall behind a four-column portico and pediment.
-        var club = SquareBuilding(square, "HouseOfCulture", new(-37.5f, 48f), 18f, 14f, 6.8f, 1, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), roofPitch: 12f, hollow: true);
-        SquareWeatherShelter(club, new(0, 3.4f, 0), new(8.65f, 3.4f, 6.65f));
-        SquarePortico(club, 18f, 14f, 6.8f, trim, open: true);
+        // A village club with a modest timber entrance canopy and low hall.
+        var club = SquareBuilding(square, "HouseOfCulture", new(-37.5f, 48f), 16f, 12f, 4.2f, 1, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), roofPitch: 12f, hollow: true);
+        SquareWeatherShelter(club, new(0, 2.1f, 0), new(7.65f, 2.1f, 5.65f));
+        SquarePorch(club, 12f, 3.2f, trim, open: true);
         BuildClubInterior(club, PainterlyMaterialLibrary.ForColor("e8dcc4", "plaster"), PainterlyMaterialLibrary.ForColor("eeeae0", "wood_painted_trim"));
-        SquareSign(club, new(0, 7.6f, 10.12f), "МӘДӘНИЯТ ЙОРТЫ\nДОМ КУЛЬТУРЫ", 54, new Color(.55f, .12f, .1f), plate: false);
-        SquarePoster(club, new(-6.2f, 1.6f, 7.2f), "САБАНТУЙ\nиюнь");
+        SquareSign(club, new(0, 3.3f, 6.08f), "МӘДӘНИЯТ ЙОРТЫ\nДОМ КУЛЬТУРЫ", 54, new Color(.55f, .12f, .1f), plate: false);
+        SquarePoster(club, new(-4.4f, 1.65f, 6.07f), "САБАНТУЙ");
 
         // Former sovkhoz office: two storeys, brick, a faded plaque.
         var office = SquareBuilding(square, "SovkhozOffice", new(11f, 52f), 14f, 9f, 3.2f, 2, brick, roofPitch: 22f);
@@ -67,12 +67,11 @@ public partial class Act1ConnectedWorld
                 "PAR-SQUARE-" + suffix, "ADR-SQUARE-" + suffix, "urman", number,
                 cadastral, access, sign, outward, role, ApproachPath: approach, SignSurfaceName: surface));
         }
-        Address(school, "SCHOOL", "12", "URM-Q03-P0001", -10.885f, "Pier1Skin", 11f, 1.3f, "school");
-        // Foot of the central steps, then the portico landing before the door. Both
-        // are walked by the physical verifier; the plate is read on the portico floor.
-        var clubFoot = AddressGround(club.ToGlobal(new Vector3(0, 0, 7f + 3f + SquareStepsRun(club, 10f) + .5f)));
-        var clubLanding = club.ToGlobal(new Vector3(0, .01f, 7f + 1.5f));
-        Address(club, "DK", "14", "URM-Q03-P0002", -4.4f, "Pier1Skin", 14f, 0f, "culture", new[] { clubFoot, clubLanding });
+        Address(school, "SCHOOL", "12", "URM-Q03-P0001", -6.5f, "Pier1Skin", 11f, 1.3f, "school");
+        // Entrance apron and steps follow the new shallow canopy, not the former portico.
+        var clubFoot = AddressGround(club.ToGlobal(new Vector3(0, 0, 6f + SquareStepsRun(club, 6f) + .5f)));
+        var clubLanding = club.ToGlobal(new Vector3(0, .01f, 6.8f));
+        Address(club, "DK", "14", "URM-Q03-P0002", 4.4f, "Pier4Skin", 12f, 1.3f, "culture", new[] { clubFoot, clubLanding });
         Address(office, "OFFICE", "16", "URM-Q03-P0003", -4.2f, "Walls", 9f, 1.3f, "office");
         Address(post, "POST", "18", "URM-Q03-P0004", -3.7f, "Walls", 7f, 1.3f, "post");
 
@@ -303,14 +302,15 @@ public partial class Act1ConnectedWorld
             note.SetMeta("readableText",text); return;
         }
         var size = building.Name.ToString() switch {
-            "OldSchool" => new Vector2(4.2f,1.4f), "HouseOfCulture" => new Vector2(3.3f,1.1f),
+            "OldSchool" => new Vector2(2.1f,.70f), "HouseOfCulture" => new Vector2(3.0f,1.0f),
             "SovkhozOffice" => new Vector2(2.4f,.8f), _ => new Vector2(1.8f,.6f) };
         CivicSurfaceLibrary.Sign(building,text,at,0,size);
     }
 
     private static void SquarePoster(Node3D building, Vector3 at, string text)
     {
-        var poster = CivicSurfaceLibrary.FramedFace(building,"SabantuyPoster",at,0,new(1.1f,1.45f),CivicSurfaceLibrary.Face("notices_v2_atlas.png",2,4,4));
+        // The source atlas cell is 2:1. Preserve that ratio on a solid pier.
+        var poster = CivicSurfaceLibrary.FramedFace(building,"SabantuyPoster",at,0,new(1.2f,.60f),CivicSurfaceLibrary.Face("notices_v2_atlas.png",2,4,4));
         poster.SetMeta("readableText","САБАНТУЙ"); // No date is printed on this village notice.
     }
 
@@ -455,8 +455,8 @@ public partial class Act1ConnectedWorld
         // raised roadside plates. Their actual endpoints are the entrance aprons.
         foreach(var building in buildings)
         {
-            var depth=building.Name.ToString() switch { "OldSchool"=>11f,"HouseOfCulture"=>14f,"SovkhozOffice"=>9f,_=>7f };
-            var apron=building.Name.ToString()=="HouseOfCulture" ? 3f+SquareStepsRun(building,10f)+.5f : 1.7f;
+            var depth=building.Name.ToString() switch { "OldSchool"=>11f,"HouseOfCulture"=>12f,"SovkhozOffice"=>9f,_=>7f };
+            var apron=building.Name.ToString()=="HouseOfCulture" ? SquareStepsRun(building,6f)+.5f : 1.7f;
             var target=building.ToGlobal(new Vector3(0,0,depth*.5f+apron));
             var direction=(new Vector2(target.X,target.Z)-centre).Normalized();
             // A short broad ramp bridges the level platform to its downhill

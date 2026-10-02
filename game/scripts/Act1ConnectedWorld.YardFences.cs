@@ -94,7 +94,7 @@ public partial class Act1ConnectedWorld
 
         // 2. Edges, front edges first so a shared corner keeps its street face.
         var root = new Node3D { Name = "YardFences" };
-        root.SetMeta("presentationRole", "village yard fences along the real lot lines; street pickets, board sides and backs");
+        root.SetMeta("presentationRole", "village yard fences along the real lot lines; five timber designs, open street gates and permeable yard boundaries");
         core.AddChild(root);
         var body = new StaticBody3D { Name = "YardFenceBody", CollisionLayer = 2, CollisionMask = 0 };
         body.SetMeta("collisionOwner", "authored-kit-blocker");
@@ -174,11 +174,17 @@ public partial class Act1ConnectedWorld
             if (front && registry is not null && registry.Addresses.TryGetValue(lot.Id, out var address)
                 && registry.AccessPoints.TryGetValue(address.AccessId, out var access))
                 gateAt = (new Vector2((float)access.Position.X, (float)access.Position.Z) - (lot.Centre + f * hd - s * hw)).Dot(s);
-            var colour = streetColours[Math.Abs(lot.Id.GetHashCode()) % streetColours.Length];
+            var variant = (int)(TimberHomeStyle.StableHash(lot.Id) % 5);
+            var colour = streetColours[(int)(TimberHomeStyle.StableHash(lot.Id) % (uint)streetColours.Length)];
             foreach (var (a, b, kind) in edges)
             {
                 var length = a.DistanceTo(b);
                 var dir = (b - a) / length;
+                if (front && gateAt is { } opening && length > 5f)
+                {
+                    var gate = a + dir * Mathf.Clamp(opening, 2f, length - 2f);
+                    BuildTimberStreetGate(root, body, gate, dir, -f, colour, variant, pickets);
+                }
                 var run = new List<Vector2>();
                 void Flush()
                 {
@@ -187,7 +193,7 @@ public partial class Act1ConnectedWorld
                         // Any edge that faces a street (a corner lot's side) gets the street pickets.
                         var mid = run[run.Count / 2];
                         var (rd, rh) = AgentBAct1HeightField.RoadInfo(mid.X, mid.Y);
-                        BuildFenceRun(root, body, run, kind == "front" || rd - rh < 3.2, colour, pickets);
+                        BuildFenceRun(root, body, run, kind == "front" || rd - rh < 3.2, colour, pickets, variant);
                         runs++;
                     }
                     run.Clear();
@@ -195,7 +201,7 @@ public partial class Act1ConnectedWorld
                 for (var t = 0f; t <= length + .01f; t += .5f)
                 {
                     var p = a + dir * Mathf.Min(t, length);
-                    var inGate = gateAt is { } g && Mathf.Abs(t - Mathf.Clamp(g, 1f, length - 1f)) < .8f;
+                    var inGate = gateAt is { } g && Mathf.Abs(t - Mathf.Clamp(g, 2f, length - 2f)) < 1.8f;
                     if (inGate || Blocked(p) || !Claim(p)) { if (inGate && run.Count > 0) gates++; Flush(); continue; }
                     run.Add(p);
                 }
@@ -207,47 +213,43 @@ public partial class Act1ConnectedWorld
         // One mesh per material: picket instances and boxes alike are baked into a single surface.
         foreach (var (key, transforms) in pickets)
         {
-            var box = key.StartsWith("box:", StringComparison.Ordinal);
-            var (colour, surface) = box ? (key[4..].Split('|')[0], key[4..].Split('|')[1]) : (key, "wood_painted_green");
-            using var unit = new BoxMesh { Size = box ? Vector3.One : new(.075f, 1.12f, .022f) };
+            var parts = key[4..].Split('|');
             using var tool = new SurfaceTool();
             tool.Begin(Mesh.PrimitiveType.Triangles);
-            foreach (var t in transforms) tool.AppendFrom(unit, 0, t);
+            foreach (var t in transforms) TimberHomeStyle.AppendMetricBox(tool, t);
             tool.Index();
-            var mesh = tool.Commit();
-            root.AddChild(new MeshInstance3D { Name = (box ? "FenceParts_" : "Pickets_") + colour, Mesh = mesh,
-                MaterialOverride = PainterlyMaterialLibrary.ForColor(colour, surface) });
+            root.AddChild(new MeshInstance3D { Name = "FenceParts_" + parts[0] + "_" + parts[1], Mesh = tool.Commit(),
+                MaterialOverride = PainterlyMaterialLibrary.ForColor(parts[0], parts[1]) });
         }
         GD.Print($"act1-yard-fences: lots={lots.Count} runs={runs} wickets={gates} retired={retired}");
     }
 
-    /// <summary>One straight fence run along sampled points: posts, rails and pickets on the
-    /// street, posts and close boards elsewhere, a thin snow line on top, one blocker box per bay.</summary>
-    private static void BuildFenceRun(Node3D root, StaticBody3D body, List<Vector2> run, bool street, string colour,
-        Dictionary<string, List<Transform3D>> pickets)
+    private static void FencePart(Dictionary<string, List<Transform3D>> parts, string material, Vector3 size, Transform3D at)
     {
-        // All pieces are batched per material (posts, rails, boards, snow) into a few meshes.
-        void Box(string material, Vector3 size, Transform3D at)
-        {
-            if (!pickets.TryGetValue("box:" + material, out var list)) pickets["box:" + material] = list = [];
-            list.Add(at * new Transform3D(Basis.Identity.Scaled(size), Vector3.Zero));
-        }
+        if (!parts.TryGetValue("box:" + material, out var list)) parts["box:" + material] = list = [];
+        list.Add(at * new Transform3D(Basis.Identity.Scaled(size), Vector3.Zero));
+    }
+
+    // Five real carpentry designs, with daylight between boards on every boundary.
+    // No solid sheet pretending to be wood; the metric UV follows each individual piece.
+    private static void BuildFenceRun(Node3D root, StaticBody3D body, List<Vector2> run, bool street, string colour,
+        Dictionary<string, List<Transform3D>> parts, int variant)
+    {
         var a = run[0]; var b = run[^1];
         var length = a.DistanceTo(b);
         if (length < .8f) return;
         var dir = (b - a) / length;
-        var yaw = Mathf.Atan2(dir.X, dir.Y);
-        var basis = new Basis(Vector3.Up, yaw);   // local +Z along the run
-        var height = street ? 1.3f : 1.65f;
-        var bays = Mathf.Max(1, Mathf.CeilToInt(length / 2.4f));
+        var basis = new Basis(Vector3.Up, Mathf.Atan2(dir.X, dir.Y));
+        var height = street ? 1.10f + variant * .045f : 1.38f;
+        var bays = Mathf.Max(1, Mathf.CeilToInt(length / 2.35f));
         var bay = length / bays;
-        var wood = street ? colour : "a69a86";
+        var paint = street ? colour + "|wood_painted_trim" : "9b886b|wood_fence";
         for (var i = 0; i <= bays; i++)
         {
             var p = a + dir * (i * bay);
-            var ground = AgentBAct1HeightField.CollisionGround(p.X, p.Y);
-            Box("5a4b3c|wood_fence", new(.11f, height + .15f, .11f),
-                new Transform3D(basis, new Vector3(p.X, ground + (height + .15f) * .5f - .05f, p.Y)));
+            var g = AgentBAct1HeightField.CollisionGround(p.X, p.Y);
+            FencePart(parts, paint, new(.12f, height + .16f, .12f), new(basis, new(p.X, g + height * .5f + .03f, p.Y)));
+            FencePart(parts, "e6dfc6|wood_painted_trim", new(.16f, .045f, .16f), new(basis, new(p.X, g + height + .125f, p.Y)));
         }
         for (var i = 0; i < bays; i++)
         {
@@ -256,35 +258,76 @@ public partial class Act1ConnectedWorld
             var g0 = AgentBAct1HeightField.CollisionGround(p0.X, p0.Y);
             var g1 = AgentBAct1HeightField.CollisionGround(p1.X, p1.Y);
             var gm = (g0 + g1) * .5f;
-            var tilt = Mathf.Atan2(g1 - g0, bay);
-            var segBasis = basis * new Basis(Vector3.Right, -tilt);
-            if (street)
+            var segBasis = basis * new Basis(Vector3.Right, -Mathf.Atan2(g1 - g0, bay));
+            foreach (var y in new[] { .27f, height - .23f })
+                FencePart(parts, paint, new(.045f, .075f, bay), new(segBasis, new(mid.X, gm + y, mid.Y)));
+            var spacing = variant == 3 ? .30f : variant == 4 ? .22f : .17f;
+            var count = Mathf.Max(1, Mathf.FloorToInt(bay / spacing));
+            for (var k = 0; k < count; k++)
             {
-                foreach (var y in new[] { .32f, height - .22f })
+                var t = (k + .5f) / count;
+                var q = p0.Lerp(p1, t); var g = Mathf.Lerp(g0, g1, t);
+                var top = variant switch {
+                    1 => height - .16f * Mathf.Sin(t * Mathf.Pi), // scalloped palisadnik
+                    2 => height - (k % 2 == 0 ? 0 : .16f),       // staggered slats
+                    3 => height - .15f,
+                    _ => height };
+                var width = variant == 3 ? .055f : .095f;
+                FencePart(parts, paint, new(.034f, top - .09f, width), new(basis, new(q.X, g + (top + .09f) * .5f, q.Y)));
+                if (variant == 0 || variant == 2)
+                    FencePart(parts, paint, new(.035f, .068f, .068f),
+                        new(basis * new Basis(Vector3.Right, Mathf.Pi / 4), new(q.X, g + top, q.Y)));
+            }
+            if (variant == 3 || variant == 4)
+                FencePart(parts, "e3d6b8|wood_painted_trim", new(.055f, .06f, bay), new(segBasis, new(mid.X, gm + height, mid.Y)));
+            if (variant == 4)
+            {
+                // Open diagonal lattice across the upper part of each bay.
+                for (var k = 0; k < 5; k++)
                 {
-                    Box("6a5a48|wood_fence", new(.04f, .07f, bay), new Transform3D(segBasis, new Vector3(mid.X, gm + y, mid.Y)));
-                }
-                if (!pickets.TryGetValue(colour, out var list)) pickets[colour] = list = [];
-                var count = Mathf.Max(1, Mathf.FloorToInt(bay / .15f));
-                for (var k = 0; k < count; k++)
-                {
-                    var t = (k + .5f) / count;
-                    var q = p0.Lerp(p1, t);
-                    var g = Mathf.Lerp(g0, g1, t);
-                    list.Add(new Transform3D(basis, new Vector3(q.X, g + .62f, q.Y) + basis * new Vector3(.03f, 0, 0)));
+                    var q = p0.Lerp(p1, (k + .5f) / 5f);
+                    foreach (var sign in new[] { -1f, 1f })
+                        FencePart(parts, paint, new(.036f, .028f, .42f), new(basis * new Basis(Vector3.Right, sign * .65f), new(q.X, Mathf.Lerp(g0, g1, (k+.5f)/5f)+height-.16f, q.Y)));
                 }
             }
-            else
-            {
-                Box(wood + "|wood_fence", new(.04f, height - .08f, bay), new Transform3D(segBasis, new Vector3(mid.X, gm + height * .5f, mid.Y)));
-                Box("eef2f6|snow_ground", new(.09f, .05f, bay), new Transform3D(segBasis, new Vector3(mid.X, gm + height, mid.Y)));
-            }
-            body.AddChild(new CollisionShape3D
-            {
-                Name = $"FenceBay_{body.GetChildCount()}",
-                Shape = new BoxShape3D { Size = new(.14f, height, bay) },
-                Transform = new Transform3D(segBasis, new Vector3(mid.X, gm + height * .5f, mid.Y))
-            });
+            body.AddChild(new CollisionShape3D {
+                Name = $"FenceBay_{body.GetChildCount()}", Shape = new BoxShape3D { Size = new(.14f, height, bay) },
+                Transform = new Transform3D(segBasis, new(mid.X, gm + height * .5f, mid.Y)) });
+        }
+    }
+
+    private static void BuildTimberStreetGate(Node3D root, StaticBody3D body, Vector2 centre, Vector2 along,
+        Vector2 inward, string colour, int variant, Dictionary<string, List<Transform3D>> parts)
+    {
+        var right = new Vector3(along.X, 0, along.Y);
+        var back = new Vector3(inward.X, 0, inward.Y);
+        var basis = new Basis(right, Vector3.Up, -back);
+        var ground = AgentBAct1HeightField.CollisionGround(centre.X, centre.Y);
+        var at = new Vector3(centre.X, ground, centre.Y);
+        var paint = colour + "|wood_painted_trim";
+        foreach (var sign in new[] { -1f, 1f })
+        {
+            var post = at + right * sign * 1.72f;
+            FencePart(parts, paint, new(.17f, 2.4f, .17f), new(basis, post + Vector3.Up * 1.2f));
+            FencePart(parts, "eadcc0|wood_painted_trim", new(.23f, .055f, .23f), new(basis, post + Vector3.Up * 2.42f));
+            // Leaves folded 90 degrees into the yard: the street access stays fully open.
+            var leaf = post + back * .65f;
+            var leafBasis = new Basis(back, Vector3.Up, right);
+            foreach (var y in new[] { .40f, 1.38f })
+                FencePart(parts, paint, new(1.30f, .09f, .065f), new(leafBasis, leaf + Vector3.Up*y));
+            for (var k=0;k<9;k++)
+                FencePart(parts, paint, new(.105f, 1.48f, .04f), new(leafBasis, post + back*(.09f+k*.145f)+Vector3.Up*.82f));
+            body.AddChild(new CollisionShape3D { Name=$"OpenGateLeaf{body.GetChildCount()}",
+                Shape=new BoxShape3D {Size=new(1.3f,1.55f,.10f)}, Transform=new(leafBasis,leaf+Vector3.Up*.80f) });
+        }
+        FencePart(parts, paint, new(3.6f,.14f,.19f),new(basis,at+Vector3.Up*2.32f));
+        FencePart(parts, "eadcc0|wood_painted_trim",new(3.72f,.065f,.25f),new(basis,at+Vector3.Up*2.44f));
+        // A restrained fan over the capka; actual bars cast their own shadows.
+        for(var k=0;k<7;k++)
+        {
+            var angle=(k-3)*.24f;
+            FencePart(parts, "eadcc0|wood_painted_trim", new(.035f,.40f,.04f),
+                new(basis*new Basis(Vector3.Back,angle),at+Vector3.Up*2.63f+right*Mathf.Sin(angle)*.20f));
         }
     }
 }

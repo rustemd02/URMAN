@@ -180,8 +180,7 @@ public partial class AuthoredWorldDirector : Node3D
             case "npc":
                 var characterId = parameters.GetProperty("characterId").GetString()!;
                 var character = GeneratedCharacterKitDressing.Attach(root, characterId, Text(parameters, "kitPrefix", "Resident"), Vector3.Zero);
-                // Villagers differ in build (children, tall and short adults); the kit has one body.
-                if (parameters.TryGetProperty("scale", out var bodyScale)) character.Scale = Vector3.One * bodyScale.GetSingle();
+                ConfigureResidentPresentation(character, parameters);
                 GeneratedCharacterKitDressing.PlayClip(character, Text(parameters, "clip", "Idle"));
                 RegisterRoutine(item, character);
                 if (parameters.TryGetProperty("talk", out var talk))
@@ -379,6 +378,8 @@ public partial class AuthoredWorldDirector : Node3D
                         piece.Position += piece.GetParent<Node3D>().Basis.Inverse() * shift;
                     }
             }
+            if (catalogId.Contains("villageparcel", StringComparison.Ordinal))
+                TimberHomeStyle.DressParcel(visual, item.Id);
             if (catalogId.Contains("villageparcel", StringComparison.Ordinal))
                 foreach (var rail in visual.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>()
                              .Where(mesh => YardFenceMesh.IsMatch(mesh.Name.ToString())).ToArray())

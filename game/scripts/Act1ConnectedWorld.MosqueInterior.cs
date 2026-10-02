@@ -59,7 +59,7 @@ public partial class Act1ConnectedWorld
             HidePresentationNode(complex.GetNode<Node3D>(name));
 
         FacilitySolid(_mosqueRoom, "MosqueTimberFloor", new(10.45f, .06f, 7.95f), new(0, -.03f, 0), "ac8e65", "wood_furniture");
-        AddVisualBox(_mosqueRoom, "MosqueCeiling", new(10.45f, .12f, 7.95f), new(0, 3.35f, 0), "d8d1bc", "plaster");
+        BuildMosqueDecoratedCeiling();
         for (var side = -1; side <= 1; side += 2)
         {
             var z = side * 4.25f;
@@ -96,42 +96,14 @@ public partial class Act1ConnectedWorld
         courtesyText.Modulate = new Color("303b32");
         courtesyText.OutlineSize = 0;
         BuildPlayerFootwearPlace();
-        // Indoor water and a visible drain replace the unverified outdoor winter trough.
-        FacilitySolid(_mosqueRoom, "MosqueWashCabinet", new(1.40f, .79f, .53f), new(3.71f, .395f, -3.57f), "ded9c6", "wood_furniture");
-        FacilityVessel(_mosqueRoom, "MosqueWashBasin", new(3.71f, .84f, -3.54f), .26f, .10f, "d4dad6", false);
-        FacilityRod(_mosqueRoom, "MosqueWaterRiser", new(4.18f, .16f, -3.78f), new(4.18f, 1.11f, -3.78f), .018f, "a3aaa8");
-        FacilityRod(_mosqueRoom, "MosqueTapSpout", new(4.18f, 1.10f, -3.78f), new(3.91f, 1.10f, -3.54f), .016f, "a3aaa8");
-        FacilityRod(_mosqueRoom, "MosqueBasinDrain", new(3.71f, .77f, -3.54f), new(3.71f, .11f, -3.78f), .027f, "a3aaa8");
-        AddVisualBox(_mosqueRoom, "MosqueWashTowel", new(.33f, .49f, .02f), new(4.76f, 1.22f, -3.91f), "ded8c2", "cloth_towel");
-        FacilityRod(_mosqueRoom, "MosqueTowelRail", new(4.52f, 1.48f, -3.85f), new(5.0f, 1.48f, -3.85f), .014f, "898e88");
-
-        // Mosque06 measured soles on the timber 16.5 mm below the visible rug.
-        // Pair this exact existing surface with its contact; the low edge stays
-        // well inside the controller's normal step height and outside the doors.
-        var prayerCarpet = FacilitySolid(_mosqueRoom, "MosquePrayerCarpet", new(6.30f, .015f, 6.55f), new(-1.32f, .009f, -.05f), "38655f", "fabric");
+        BuildMosqueWashCorner();
+        var prayerCarpet = BuildMosquePrayerAndLibrary();
         var prayerCarpetTop = prayerCarpet.Position.Y + prayerCarpet.Mesh.GetAabb().End.Y;
-        for (var row = 0; row < 4; row++)
-            AddVisualBox(_mosqueRoom, "MosqueCarpetWovenRow" + row, new(.032f, .004f, 6.42f), new(-4.13f + row * 1.60f, .02f, -.05f), "c6b884", "fabric");
-        FacilitySolid(_mosqueRoom, "MosqueBookcaseLeft", new(.08f, 1.65f, .39f), new(-4.85f, .825f, 3.63f), "80674c", "wood_furniture");
-        FacilitySolid(_mosqueRoom, "MosqueBookcaseRight", new(.08f, 1.65f, .39f), new(-3.30f, .825f, 3.63f), "80674c", "wood_furniture");
-        for (var shelf = 0; shelf < 4; shelf++)
-        {
-            FacilitySolid(_mosqueRoom, "MosqueBookShelf" + shelf, new(1.65f, .055f, .40f), new(-4.075f, .10f + shelf * .49f, 3.63f), "80674c", "wood_furniture");
-            if (shelf == 3) continue;
-            for (var book = 0; book < 8; book++)
-                AddMosqueShelfBook(_mosqueRoom, $"MosqueBook{book}_{shelf}", new(.065f, .31f + (book % 3) * .025f, .22f), new(-4.63f + book * .15f, .1275f + shelf * .49f, 3.63f), book % 2 == 0 ? "405d57" : "8f7960");
-        }
-        FacilityBench(_mosqueRoom, "MosqueReadingBench", new(-3.85f, 0, -3.26f), 1.6f, 0);
-        FacilityTable(_mosqueRoom, "MosqueImamDesk", new(.48f, 0, -2.69f), new(1.32f, .74f, .64f));
-        AddVisualBox(_mosqueRoom, "MosqueImamNotebook", new(.29f, .018f, .21f), new(.40f, .767f, -2.69f), "bbb297", "paper");
-        AddVisualBox(_mosqueRoom, "MosqueImamPhoneCase", new(.074f, .012f, .151f), new(.94f, .765f, -2.65f), "283633", "metal");
-        AddVisualBox(_mosqueRoom, "MosqueImamPhoneScreen", new(.063f, .003f, .126f), new(.94f, .773f, -2.65f), "4b6260", "glass");
-        FacilityRod(_mosqueRoom, "MosqueDeskCable", new(1.00f, .762f, -2.70f), new(1.79f, .72f, -3.89f), .004f, "333a36");
-        FacilitySolid(_mosqueRoom, "MosqueHeatingCabinet", new(.52f, .76f, .30f), new(4.72f, 1.74f, -3.77f), "b4bbb0", "metal");
+        FacilitySolid(_mosqueRoom, "MosqueHeatingCabinet", new(.52f, .76f, .30f), new(4.72f, 1.74f, 3.77f), "b4bbb0", "metal");
         for (var i = 0; i < 5; i++)
-            AddVisualBox(_mosqueRoom, "MosqueHeatingVent" + i, new(.34f, .012f, .014f), new(4.72f, 1.53f + i * .046f, -3.61f), "5b6661", "metal");
-        FacilityRod(_mosqueRoom, "MosqueHeatSupply", new(4.65f, 1.36f, -3.79f), new(4.65f, .27f, -3.79f), .018f, "a3aaa8");
-        FacilityRod(_mosqueRoom, "MosqueHeatReturn", new(4.83f, 1.36f, -3.79f), new(4.83f, .12f, -3.79f), .018f, "a3aaa8");
+            AddVisualBox(_mosqueRoom, "MosqueHeatingVent" + i, new(.34f, .012f, .014f), new(4.72f, 1.53f + i * .046f, 3.61f), "5b6661", "metal");
+        FacilityRod(_mosqueRoom, "MosqueHeatSupply", new(4.65f, 1.36f, 3.79f), new(4.65f, .27f, 3.79f), .018f, "a3aaa8");
+        FacilityRod(_mosqueRoom, "MosqueHeatReturn", new(4.83f, 1.36f, 3.79f), new(4.83f, .12f, 3.79f), .018f, "a3aaa8");
         FacilityLamp(_mosqueRoom, "MosqueHallLamp", new(-1.10f, 2.90f, 0), "ffdfad", 1.20f, 7.5f);
         FacilityLamp(_mosqueRoom, "MosqueVestibuleLamp", new(3.63f, 2.56f, .15f), "ffdfa8", .68f, 4.2f);
 
@@ -162,8 +134,10 @@ public partial class Act1ConnectedWorld
         // Move the existing actor and his existing interaction together; no duplicate imam.
         var timur = GetNode<Node3D>("Act1CoreWorldGreybox/Act1People/Npc_timur_hazrat");
         timur.Reparent(_mosqueRoom, false);
-        timur.Position = new(.42f, prayerCarpetTop, -1.67f);
-        timur.RotationDegrees = new(0, -82, 0);
+        timur.Position = new(-.55f, prayerCarpetTop, -1.67f);
+        // Authored character faces +Z; its prayer pose follows the same true bearing as the mihrab.
+        timur.Rotation = timur.Rotation with { Y = Mathf.Atan2(MosqueLocalQibla.X, MosqueLocalQibla.Z) };
+        timur.SetMeta("qiblaBearingDegrees", MosqueQiblaBearingDegrees);
         ConfigureMosqueTimurFootwear(timur);
         GeneratedCharacterKitDressing.GroundSolesOnAnchor(timur);
         var conversation = FindDescendants<InteractionTarget>(_zoneInstances["village_day"])
