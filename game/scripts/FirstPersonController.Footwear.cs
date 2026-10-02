@@ -44,7 +44,7 @@ public partial class FirstPersonController
         {
             item.Node.Mesh = removed ? item.Indoor : item.Boots;
             item.Node.MaterialOverride = removed
-                ? PainterlyMaterialLibrary.ForColor("6d6c64", "cloth", sheltered: true) : item.BootMaterial;
+                ? PainterlyMaterialLibrary.ForMovingCloth("6d6c64") : item.BootMaterial;
         }
     }
 }

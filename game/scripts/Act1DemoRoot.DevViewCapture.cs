@@ -9,6 +9,7 @@ public partial class Act1DemoRoot
 {
     // Development only: URMAN_WALK_PROBE="Building;x,y,z;yawDegrees;seconds;action" puts the real
     // player controller at a building-local point, holds move_forward and prints where it ends up.
+    // Optional sixth field is look pitch for capturing the visible body in motion.
     private async void DevWalkProbeBoot()
     {
         var spec = System.Environment.GetEnvironmentVariable("URMAN_WALK_PROBE");
@@ -30,6 +31,8 @@ public partial class Act1DemoRoot
             _player.SetModalOpen(false);
             var start = building!.ToGlobal(new Vector3(n[0], n[1], n[2]));
             _player.ApplyZoneSpawn(start, building.RotationDegrees.Y + yaw);
+            if (parts.Length > 5)
+                _player.ApplySmokeLook(float.Parse(parts[5], System.Globalization.CultureInfo.InvariantCulture), building.RotationDegrees.Y + yaw);
             DisplayServer.WindowMoveToForeground();
             for (var frame = 0; frame < 20; frame++) await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
             if (_pauseMenu?.IsOpen == true) _pauseMenu.Resume();

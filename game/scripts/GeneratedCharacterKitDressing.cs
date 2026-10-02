@@ -98,7 +98,7 @@ public static class GeneratedCharacterKitDressing
             }
 
             ConfigureVisibilityRange(mesh);
-            if (human) ApplyHumanMaterials(mesh, sheltered);
+            if (human) ApplyHumanMaterials(mesh, prefix, sheltered);
             else ApplyPainterlyMaterial(mesh, prefix, sheltered);
         }
 
@@ -316,7 +316,9 @@ public static class GeneratedCharacterKitDressing
             : "cloth";
         // Living characters do not carry the roof/furniture snow blanket on
         // shoulders and boots. Reuse the existing no-deposit material variant.
-        mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface, sheltered: true);
+        mesh.MaterialOverride = prefix == "CouncilWitness" && surface == "cloth"
+            ? PainterlyMaterialLibrary.ForMovingCloth(color)
+            : PainterlyMaterialLibrary.ForColor(color, surface, sheltered: true);
         mesh.SetMeta("painterlyMaterial", surface.Length == 0 ? "shader" : surface);
     }
 
@@ -327,20 +329,22 @@ public static class GeneratedCharacterKitDressing
     /// take the world's painterly shader; the textured skin, eyes and brows keep
     /// their CC0 albedo under the same toon diffuse the first kit's faces use.
     /// </summary>
-    private static void ApplyHumanMaterials(MeshInstance3D mesh, bool sheltered)
+    private static void ApplyHumanMaterials(MeshInstance3D mesh, string prefix, bool sheltered)
     {
         for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
         {
             var authored = mesh.Mesh.SurfaceGetMaterial(surface);
             var name = authored?.ResourceName ?? string.Empty;
-            var key = $"{name}|{sheltered}";
+            var key = $"{name}|{sheltered}|{prefix == "Alsu"}";
             if (!HumanMaterials.TryGetValue(key, out var material))
             {
                 var parts = name.Split("__", 2);
                 if (parts.Length == 2 && parts[0].Length == 6 && parts[1] != "skin_textured")
                 {
                     var surfaceKind = parts[1] is "hair" ? string.Empty : "cloth";
-                    material = PainterlyMaterialLibrary.ForColor(parts[0], surfaceKind, sheltered: true);
+                    material = prefix == "Alsu" && surfaceKind == "cloth"
+                        ? PainterlyMaterialLibrary.ForMovingCloth(parts[0])
+                        : PainterlyMaterialLibrary.ForColor(parts[0], surfaceKind, sheltered: true);
                 }
                 else if (authored is StandardMaterial3D textured)
                 {

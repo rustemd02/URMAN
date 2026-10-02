@@ -96,6 +96,34 @@ def material(name: str, color: tuple[float, float, float, float], roughness: flo
     return result
 
 
+def metric_cloth_uv(obj: bpy.types.Object) -> None:
+    """Rest-surface cloth panels: one UV unit is one metre before runtime tiling."""
+    bpy.ops.object.select_all(action="DESELECT")
+    obj.select_set(True)
+    bpy.context.view_layer.objects.active = obj
+    uv = obj.data.uv_layers[0] if obj.data.uv_layers else obj.data.uv_layers.new(name="UVMap")
+    obj.data.uv_layers.active = uv
+    uv.active_render = True
+    bpy.ops.object.mode_set(mode="EDIT")
+    bpy.ops.mesh.select_all(action="SELECT")
+    bpy.ops.uv.smart_project(angle_limit=math.radians(66), island_margin=.01,
+                             area_weight=0, scale_to_bounds=False)
+    bpy.ops.object.mode_set(mode="OBJECT")
+    uv = obj.data.uv_layers.active
+    obj.data.calc_loop_triangles()
+    geometry_area = uv_area = 0.0
+    for triangle in obj.data.loop_triangles:
+        a, b, c = [obj.matrix_world @ obj.data.vertices[i].co for i in triangle.vertices]
+        geometry_area += (b - a).cross(c - a).length * .5
+        a, b, c = [uv.data[i].uv for i in triangle.loops]
+        uv_area += abs((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)) * .5
+    assert geometry_area > 0 and uv_area > 0, f"{obj.name}: cloth UV has no surface area"
+    scale = math.sqrt(geometry_area / uv_area)
+    for loop in uv.data:
+        loop.uv *= scale
+    obj["cloth_uv_units"] = "metres; rest surface; runtime repeat 0.5m"
+
+
 def tag(obj: bpy.types.Object, asset_id: str, budget: int, lod_status: str = "LOD0") -> None:
     obj["urman_asset_id"] = asset_id
     obj["license"] = "Project-original"
@@ -1356,6 +1384,10 @@ def main() -> None:
     for index, (prefix, coat, accent, has_hat, has_beard) in enumerate(CHARACTERS):
         create_character(prefix, coat, accent, has_hat, has_beard, index * 2.4, materials, head_templates)
 
+    for obj in bpy.context.scene.objects:
+        if obj.type == "MESH" and obj.name.startswith("CouncilWitness_") and not any(
+                part in obj.name for part in ("Hand", "Head", "Hair", "Face", "Ear", "Neck")):
+            metric_cloth_uv(obj)
     lod_count = generate_lod1_variants()
     rigs = [add_animation_rig(prefix, index * 2.4) for index, (prefix, *_rest) in enumerate(CHARACTERS)]
     bpy.context.scene["generator"] = "tools/blender/generate_character_kit.py"

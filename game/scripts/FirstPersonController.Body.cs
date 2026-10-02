@@ -208,6 +208,13 @@ public partial class FirstPersonController
                 SampleBodyClothRing(sourceRings[ring - 1], Mathf.Atan2(Mathf.Sin(index * Mathf.Tau / sides),
                     sign * Mathf.Cos(index * Mathf.Tau / sides)))).ToArray();
 
+        var arcLengths = rings.Select(ring =>
+        {
+            var lengths = new float[sides + 1];
+            for (var point = 1; point <= sides; point++)
+                lengths[point] = lengths[point - 1] + ring[point % sides].DistanceTo(ring[point - 1]);
+            return lengths;
+        }).ToArray();
         using var builder = new SurfaceTool();
         builder.Begin(Mesh.PrimitiveType.Triangles);
         builder.SetSmoothGroup(0);
@@ -215,7 +222,7 @@ public partial class FirstPersonController
         {
             var vertex = rings[ring][point % sides];
             var lower = 1f - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.42f, .53f, vertex.Y));
-            builder.SetUV(new(point / (float)sides, 1f - vertex.Y));
+            builder.SetUV(new(arcLengths[ring][point], 1f - vertex.Y));
             builder.SetBones(new[] { 0, 1, 2, 0 });
             builder.SetWeights(ring == 0 ? new[] { 0f, 0f, 1f, 0f } : new[] { 1f - lower, lower, 0f, 0f });
             builder.AddVertex(vertex);

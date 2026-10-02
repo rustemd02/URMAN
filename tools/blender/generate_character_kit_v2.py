@@ -29,6 +29,8 @@ import bmesh
 import bpy
 from mathutils import Vector
 from mathutils.bvhtree import BVHTree
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from generate_character_kit import metric_cloth_uv
 
 # Build: height (m), shoulder (clavicle length), arm girth, neck girth, belly, hips
 PEOPLE = {
@@ -1002,6 +1004,12 @@ def idle_sole_height(arm: bpy.types.Object, boots: list[bpy.types.Object]) -> fl
 def finish_character(prefix: str, arm: bpy.types.Object, parts: list[bpy.types.Object]) -> int:
     """LOD1 copies, the ground anchor and export-time cleanup for one character."""
     lod1 = 0
+    if prefix == "Alsu":
+        for part in parts:
+            if any(len(mat.name.split("__", 1)[0]) == 6 and "__" in mat.name
+                   and mat.name.split("__", 1)[1] not in {"skin_textured", "hair"}
+                   for mat in part.data.materials if mat):
+                metric_cloth_uv(part)
     for part in list(parts):
         copy = part.copy()
         copy.data = part.data.copy()

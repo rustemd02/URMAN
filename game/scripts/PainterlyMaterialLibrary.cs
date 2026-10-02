@@ -41,6 +41,7 @@ public static class PainterlyMaterialLibrary
         // Packed hay already has a continuous circumferential/vertical UV
         // layout; preserve it instead of projecting fibers through the stack.
         uniform bool authored_uv_texture = false;
+        uniform bool bound_uv_pigment = false;
         // Low uses one projected albedo read; medium keeps triplanar blending.
         uniform bool low_quality = false;
         uniform vec2 texture_scale = vec2(1.0);
@@ -187,16 +188,17 @@ public static class PainterlyMaterialLibrary
                 SPECULAR = clamp(specular_value + wet_factor * 0.22, 0.0, 1.0);
                 METALLIC = metallic_value;
             } else {
+            vec3 pigment_position = bound_uv_pigment ? vec3(UV, 0.0) : world_position;
             // Quieter stroke wash: with the promoted candidate textures the
             // texture now carries the value rhythm; strokes only keep the
             // painted plane alive.
             float stroke = sin(
-                (world_position.x * 0.37 + world_position.z * 0.43 + world_position.y * 0.19)
+                (pigment_position.x * 0.37 + pigment_position.z * 0.43 + pigment_position.y * 0.19)
                 * brush_scale * 2.1);
             float broad_stroke = sin(
-                (world_position.x * 0.11 + world_position.z * 0.07 + world_position.y * 0.05)
+                (pigment_position.x * 0.11 + pigment_position.z * 0.07 + pigment_position.y * 0.05)
                 * brush_scale * 0.85
-                + cos((world_position.x * 0.17 - world_position.z * 0.09) * brush_scale * 0.62));
+                + cos((pigment_position.x * 0.17 - pigment_position.z * 0.09) * brush_scale * 0.62));
             float wash = clamp(
                 0.80 + stroke * variation * 0.10 + broad_stroke * variation * 0.18,
                 0.55,
@@ -240,7 +242,7 @@ public static class PainterlyMaterialLibrary
                 1.06);
             // ~3 m value breakup: broad stains across walls and fields.
             float macro_stain = mix(0.93, 1.05,
-                painter_value_noise(world_position.xz * 0.33 + world_position.y * 0.11));
+                painter_value_noise(pigment_position.xz * 0.33 + pigment_position.y * 0.11));
             // Grounding: darken the first metres above the ground line so
             // facades/fences sit into the dirt instead of floating on it.
             float ground_line = 1.0 - ground_darken
@@ -249,7 +251,7 @@ public static class PainterlyMaterialLibrary
             ALBEDO = mix(painted_shadow, painted_color, wash)
                 * macro_pigment
                 * macro_stain
-                * cell_tint(world_position, cell_jitter)
+                * cell_tint(pigment_position, cell_jitter)
                 * ground_line
                 * upward
                 * edge_wash
@@ -559,6 +561,18 @@ public static class PainterlyMaterialLibrary
         material.Shader = TwoSidedPainterlyShader;
         material.SetMeta("sourceCullingPreserved", true);
         Materials.Add(key, material);
+        return material;
+    }
+
+    public static ShaderMaterial ForMovingCloth(string htmlColor)
+    {
+        var key = $"moving-cloth:{htmlColor}";
+        if (Materials.TryGetValue(key, out var existing)) return existing;
+        var material = (ShaderMaterial)ForColor(htmlColor, "cloth", sheltered: true).Duplicate();
+        material.SetShaderParameter("authored_uv_texture", true);
+        material.SetShaderParameter("bound_uv_pigment", true);
+        material.SetShaderParameter("ground_darken", 0f);
+        Materials[key] = material;
         return material;
     }
 
