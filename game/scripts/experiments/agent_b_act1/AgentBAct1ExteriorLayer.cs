@@ -1403,13 +1403,32 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 vertical *= Mathf.Lerp(.78f, 1.2f, distance)
                     * Mathf.Lerp(.86f, 1.14f, DeterministicPhase(position, 19.3f));
             }
+            if (variant is "WinterSpruce_4" or "WinterSpruce_5" or "WinterSpruce_6")
+            {
+                // Broad groves share a skyline instead of making every tree
+                // another independent spike in an even-height perimeter.
+                var field = .65f * Mathf.Sin(position.X * .055f + position.Y * .075f + 1.2f)
+                    + .35f * Mathf.Sin(position.X * -.028f + position.Y * .110f - .3f);
+                var grove = Mathf.SmoothStep(-.10f, .65f, field);
+                vertical *= Mathf.Lerp(1.10f, 1.65f, grove);
+                vertical = Mathf.Min(vertical, 50f / template.Mesh.GetAabb().Size.Y);
+                horizontal *= Mathf.Lerp(1f, 1.12f, grove);
+            }
+            var forestRim = position.X <= -40f || position.X >= 134f || position.Y <= -128f;
+            if (forestRim && variant is "WinterLinden_1" or "WinterLinden_2" or "WinterMaple_1")
+            {
+                // Broad dark forks break the former pale, evenly thin rim.
+                horizontal *= variant == "WinterLinden_2" ? 1.65f : 1.35f;
+                vertical *= variant == "WinterMaple_1" ? 1.65f : 1.9f;
+            }
             if (smallShrub) { horizontal *= .38f; vertical *= .35f; }
             if (sourceVariant.StartsWith("Sedge_", StringComparison.Ordinal))
             {
                 horizontal *= .62f;
                 vertical *= .78f;
             }
-            var basis = new Basis(Vector3.Up, Mathf.DegToRad(Mathf.Lerp(-14, 14, DeterministicPhase(position, 8.1f))))
+            var yawRange = forestRim || variant is "WinterSpruce_4" or "WinterSpruce_5" or "WinterSpruce_6" ? 180f : 14f;
+            var basis = new Basis(Vector3.Up, Mathf.DegToRad(Mathf.Lerp(-yawRange, yawRange, DeterministicPhase(position, 8.1f))))
                 .Scaled(new Vector3(horizontal, vertical, horizontal));
             // Turn this rooted birch away from the rear-house minaret view.
             // Match its placement, not the generated Plant child number.
@@ -1434,7 +1453,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 hidden = true; break;
             }
             if (hidden) { suppressed++; continue; }
-            var region = position.Y <= -86f ? "kara" : position.Y <= -58f ? "zirat" : "village";
+            var region = forestRim || position.Y <= -86f ? "kara" : position.Y <= -58f ? "zirat" : "village";
             var hasLods = variant.StartsWith("Winter", StringComparison.Ordinal);
             var tiers = hasLods ? new[] { variant, variant.Replace("Winter", "WinterLight", StringComparison.Ordinal), variant.Replace("Winter", "WinterFar", StringComparison.Ordinal) }
                 : new[] { variant };
@@ -1460,7 +1479,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 {
                     var instance = new MeshInstance3D { Name = $"{variant}_LOD{lod}", Mesh = mesh };
                     tree!.AddChild(instance);
-                    ConfigureFoliageRange(instance, hasLods ? lod : -1, false);
+                    ConfigureFoliageRange(instance, hasLods ? lod : -1, false,
+                        template.Mesh.GetAabb().Size.Y * vertical);
                 }
             }
             // A visible, independently approachable trunk must stop the player.
@@ -1505,7 +1525,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             plants.AddChild(group);
             group.SetMeta("presentationOnly", true);
             group.SetMeta("plantVariant", key.Variant);
-            ConfigureFoliageRange(group, key.Lod, true);
+            ConfigureFoliageRange(group, key.Lod, true, 0f);
         }
         foreach (var region in new[] { "village", "zirat", "kara" })
         foreach (var variant in new[] { "WinterBirch_1", "WinterLinden_1", "WinterBirdCherry_1",
@@ -1571,13 +1591,16 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             .ToArray();
     }
 
-    internal static void ConfigureFoliageRange(GeometryInstance3D instance, int lod, bool groundCover)
+    internal static void ConfigureFoliageRange(GeometryInstance3D instance, int lod, bool groundCover, float treeHeight)
     {
+        // The same distance cannot serve a sapling and a thirty-metre canopy.
+        // Use projected-size parity while preserving matching LOD fade bands.
+        var rangeScale = groundCover ? 1f : Mathf.Clamp(treeHeight / 8f, 1f, 3f);
         instance.VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self;
-        instance.VisibilityRangeBegin = lod switch { 1 => 24, 2 => 60, _ => 0 };
-        instance.VisibilityRangeBeginMargin = lod switch { 1 => 2, 2 => 4, _ => 0 };
-        instance.VisibilityRangeEnd = lod switch { 0 => 26, 1 => 64, _ => groundCover ? 85 : 0 };
-        instance.VisibilityRangeEndMargin = lod switch { 0 => 2, 1 => 4, _ => groundCover ? 5 : 0 };
+        instance.VisibilityRangeBegin = rangeScale * (lod switch { 1 => 24, 2 => 60, _ => 0 });
+        instance.VisibilityRangeBeginMargin = rangeScale * (lod switch { 1 => 2, 2 => 4, _ => 0 });
+        instance.VisibilityRangeEnd = rangeScale * (lod switch { 0 => 26, 1 => 64, _ => groundCover ? 85 : 0 });
+        instance.VisibilityRangeEndMargin = rangeScale * (lod switch { 0 => 2, 1 => 4, _ => groundCover ? 5 : 0 });
     }
 
     private static Material RegionalFoliageMaterial(string variant, string kind, string region)
@@ -1589,9 +1612,16 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         {
             "snow" => PainterlyMaterialLibrary.ForColor("e8edf0", "snow_roof"),
             "berries" => PainterlyMaterialLibrary.ForColor("784239", "rowan_berries"),
-            "bark" => PainterlyMaterialLibrary.ForColor(birch ? "c9c2ad" : !conifer ? "9b9487" : region == "kara" ? "504c43" : "685e50", birch ? "bark_birch_winter" : pine ? "bark_pine" : "wood_bark"),
+            "bark" => PainterlyMaterialLibrary.ForColor(
+                birch ? region == "kara" ? "90978c" : "c9c2ad"
+                    : !conifer ? region == "kara" ? "575953" : "9b9487"
+                    : region == "kara" ? "504c43" : "685e50",
+                birch ? "bark_birch_winter" : pine ? "bark_pine" : "wood_bark", sheltered: region == "kara"),
             "stone" => PainterlyMaterialLibrary.ForColor("74766d", "stone"),
-            _ => PainterlyMaterialLibrary.ForColor(conifer ? "455749" : "827a65", conifer ? "foliage" : "grass")
+            // Winter conifers already carry shaped snow caps. A second shader
+            // blanket bleaches every bough into a bright plate against the sky.
+            _ => PainterlyMaterialLibrary.ForColor(conifer ? "394c50" : "827a65",
+                conifer ? "foliage" : "grass", sheltered: conifer)
         };
     }
 
@@ -1922,7 +1952,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     var forestSide = point.Y <= -100f;
                     var variant = forestSide && rng.Randf() < 0.55f
                         ? "WinterSpruce_" + rng.RandiRange(1, 2)
-                        : "WinterLightBirch_" + rng.RandiRange(1, 2);
+                        : rng.RandiRange(1, 4) switch
+                        {
+                            1 => "WinterLightBirch_2",
+                            2 => "WinterLinden_2",
+                            3 => "WinterMaple_1",
+                            _ => "WinterLinden_1"
+                        };
                     generated.Add((point, variant));
                 }
             }
@@ -2280,13 +2316,6 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 _ => "WinterSpruce_1"
             };
         }
-
-        // House pilot: keep the near crowns below the tall middle and far stand.
-        // The existing understory still closes sightlines at walking height.
-        if (row >= 5 && position.X <= -62f && position.X >= -90f
-            && Mathf.Abs(position.Y) <= 24f
-            && variant is ("WinterSpruce_4" or "WinterSpruce_5" or "WinterSpruce_6"))
-            variant = "WinterSpruce_3";
 
         planned.Add((position, variant));
 

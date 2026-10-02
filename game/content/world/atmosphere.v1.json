@@ -18,45 +18,45 @@
           "fap_clinic"
         ],
         "ambient": {
-          "energy": 0.48,
-          "color": "a8bfe1",
-          "skyContribution": 0.3
+          "energy": 0.85,
+          "color": "7e90c5",
+          "skyContribution": 0
         },
         "fog": {
-          "color": "b9cfdd",
-          "density": 0.0022,
+          "color": "aebdcd",
+          "density": 0.0018,
           "height": 1.0,
           "heightDensity": 0.025,
-          "aerialPerspective": 0.64,
+          "aerialPerspective": 0.55,
           "skyAffect": 0.14,
-          "sunScatter": 0.09
+          "sunScatter": 0.06
         },
-        "exposure": 0.92,
+        "exposure": 1.0,
         "ssao": {
           "intensity": 0.75,
           "radius": 0.4
         },
         "sky": {
-          "top": "6694ad",
-          "horizon": "d3e3ea",
-          "groundHorizon": "a4b5c1",
+          "top": "365b86",
+          "horizon": "e6c6a3",
+          "groundHorizon": "a4b6d4",
           "groundBottom": "71828f",
           "sunAngleMax": 3.0,
           "sunCurve": 0.12,
           "cover": [
-            0.86,
-            0.94,
-            0.98,
-            0.68
+            0.76,
+            0.82,
+            0.9,
+            0.22
           ]
         },
         "sun": {
-          "color": "ffe7c9",
-          "energy": 1.65,
-          "shadowOpacity": 0.82,
+          "color": "ffdeb0",
+          "energy": 3.4,
+          "shadowOpacity": 0.95,
           "rotation": [
-            -31,
-            42
+            -10,
+            18
           ]
         }
       }

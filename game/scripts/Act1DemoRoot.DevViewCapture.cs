@@ -30,7 +30,9 @@ public partial class Act1DemoRoot
             _player.SetModalOpen(false);
             var start = building!.ToGlobal(new Vector3(n[0], n[1], n[2]));
             _player.ApplyZoneSpawn(start, building.RotationDegrees.Y + yaw);
+            DisplayServer.WindowMoveToForeground();
             for (var frame = 0; frame < 20; frame++) await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+            if (_pauseMenu?.IsOpen == true) _pauseMenu.Resume();
             Input.ActionPress(action);
             var elapsed = 0d;
             while (elapsed < seconds)
@@ -40,6 +42,7 @@ public partial class Act1DemoRoot
             }
             Input.ActionRelease(action);
             var local = building.ToLocal(_player.GlobalPosition);
+            GD.Print($"walk-probe-view: focus={DisplayServer.WindowIsFocused()} pause={_pauseMenu?.IsOpen} preset={GraphicsQuality.Preset} scale={GetViewport().Scaling3DScale} fov={GetViewport().GetCamera3D()?.Fov}");
             var ci = System.Globalization.CultureInfo.InvariantCulture;
             GD.Print(string.Format(ci, "walk-probe: {0} start=({1},{2},{3}) yaw={4} floorY={5:0.00} startGlobal={6} -> local=({7:0.00},{8:0.00},{9:0.00}) global={10}",
                 parts[0], n[0], n[1], n[2], yaw, building.GlobalPosition.Y, start, local.X, local.Y, local.Z, _player.GlobalPosition));

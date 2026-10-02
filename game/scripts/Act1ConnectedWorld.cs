@@ -2014,7 +2014,7 @@ public partial class Act1ConnectedWorld : Node3D
             // surface. Rebind its named strips here so the wet crown, wheel
             // ruts, ditches and grass do not collapse into one dark plane.
             ["AB_terrain"] = PainterlyMaterialLibrary.ForColor("eef2f6", "snow_ground"),
-            ["AB_road_pigment"] = PainterlyMaterialLibrary.ForColor("e8edf2", "snow_road"),
+            ["AB_road_pigment"] = PainterlyMaterialLibrary.ForColor("eef2f6", "snow_road"),
             ["AB_earth"] = PainterlyMaterialLibrary.ForColor("f0f4f8", "snow_ground"),
             ["AB_earth_wet"] = PainterlyMaterialLibrary.ForColor("f2f6f9", "snow_ground"),
             ["AB_earth_path"] = PainterlyMaterialLibrary.ForColor("eef3f7", "snow_ground"),
@@ -8352,10 +8352,10 @@ public partial class Act1ConnectedWorld : Node3D
         }
         Flush(-1f);
         Flush(1f);
-        foreach (var side in new[] { -1f, 1f })
-            AddSnowBank(root, side < 0 ? "UnplowedWest" : "UnplowedEast",
-                new(side * 6.1f, 0f, 14f), new(side * 6.8f, 0f, -12f),
-                3.1f, side < 0 ? .32f : .38f, side * 2.3f);
+        // The relocated babai yard occupies the old west drift. Its street
+        // shoulder is already covered by the approach-aware runs above.
+        AddSnowBank(root, "UnplowedEast", new(6.1f, 0f, 14f), new(6.8f, 0f, -12f),
+            3.1f, .38f, 2.3f);
 
     }
 
@@ -9914,7 +9914,8 @@ public partial class Act1ConnectedWorld : Node3D
             {
                 var mesh = new MeshInstance3D { Name = $"BranchSkeletonLOD{lod}", Mesh = layer.FoliageMesh(tiers[lod], region) };
                 tree.AddChild(mesh);
-                AgentBAct1ExteriorLayer.ConfigureFoliageRange(mesh, tiers.Length == 1 ? -1 : lod, false);
+                AgentBAct1ExteriorLayer.ConfigureFoliageRange(mesh, tiers.Length == 1 ? -1 : lod, false,
+                    source.GetAabb().Size.Y * scale);
             }
         }
     }
@@ -9939,13 +9940,13 @@ public partial class Act1ConnectedWorld : Node3D
                 .Scaled(Vector3.One * (Mathf.Clamp(bounds.Size.Y, .55f, 1.7f) / source.GetAabb().Size.Y)), root);
             mesh.SetMeta("presentationOnly", true);
             mesh.SetMeta("winterShrubReplacement", true);
-            AgentBAct1ExteriorLayer.ConfigureFoliageRange(mesh, 0, true);
+            AgentBAct1ExteriorLayer.ConfigureFoliageRange(mesh, 0, true, 0f);
             for (var lod = 1; lod <= 2; lod++)
             {
                 var child = new MeshInstance3D { Name = $"WinterShrubLOD{lod}",
                     Mesh = layer.FoliageMesh(lod == 1 ? "WinterLightBirdCherry_1" : "WinterFarBirdCherry_1", region) };
                 mesh.AddChild(child);
-                AgentBAct1ExteriorLayer.ConfigureFoliageRange(child, lod, true);
+                AgentBAct1ExteriorLayer.ConfigureFoliageRange(child, lod, true, 0f);
             }
         }
     }

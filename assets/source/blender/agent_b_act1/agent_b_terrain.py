@@ -278,9 +278,11 @@ def _assign_road_materials(obj: object, profile: list[tuple[float, float]],
         else:
             packed = 0.0
         edge = max(0.0, min(1.0, (normalizedrut - 0.78) / 0.22))
-        surface = (0.84, 0.85, 0.86)
-        packed_surface = (0.66, 0.68, 0.70)
-        shoulder = (0.90, 0.91, 0.92)
+        # Fresh road snow meets Terrain_Main without a painted grey ribbon.
+        # Wear belongs to the two wheel tracks, not the entire four-metre road.
+        surface = (1.0, 1.0, 1.0)
+        packed_surface = (0.78, 0.81, 0.84)
+        shoulder = (1.0, 1.0, 1.0)
         rgb = [surface[c] * (1.0 - packed) + packed_surface[c] * packed
                for c in range(3)]
         rgb = [value * (1.0 - edge * 0.25) + shoulder[c] * edge * 0.25

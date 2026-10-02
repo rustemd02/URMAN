@@ -901,9 +901,32 @@ def variant_log(
         location=center, role=role, asset_id=f"urman.act1.village.{component_root.lower()}",
         component_root=component_root, geometry_pass=geometry_pass,
     )
-    # Smooth the rounded sides; the end grain stays a flat cut.
-    for polygon in obj.data.polygons[2:]:
-        polygon.use_smooth = True
+    # W01's grain runs along V. Unroll the section in metres so every
+    # course keeps horizontal grain through the rounded face and top.
+    # UV seams live on the hidden rear edge; split spans share their phase.
+    uv = obj.data.uv_layers.new(name="UVMap")
+    ring_count = len(vertices) // 2
+    arc = [0.0]
+    for i in range(ring_count):
+        arc.append(arc[-1] + (Vector(vertices[(i + 1) % ring_count]) - Vector(vertices[i])).length)
+    for polygon in obj.data.polygons:
+        for loop_index in polygon.loop_indices:
+            index = obj.data.loops[loop_index].vertex_index
+            point = obj.data.vertices[index].co
+            if polygon.index < 2:
+                across = point.y if axis == "X" else point.x
+                uv.data[loop_index].uv = (across / thickness + .5, point.z / height + .5)
+            else:
+                section = index % ring_count
+                if polygon.index == ring_count + 1 and section == 0:
+                    section = ring_count
+                along = point.x + center[0] if axis == "X" else point.y + center[1]
+                uv.data[loop_index].uv = (arc[section] + center[2], along)
+        polygon.use_smooth = polygon.index >= 2
+    if materials == (HERO_LOG_MATERIAL,):
+        obj.data.materials.append(material(HERO_LOG_END_MATERIAL))
+        for polygon in obj.data.polygons[:2]:
+            polygon.material_index = 1
     obj["log_section"] = "superellipse hewn log v1"
     return obj
 
@@ -2434,24 +2457,45 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                 ("URMAN_Roof_WetSlate","URMAN_Wood_WetShadow"),[0,0,1,1,1,1,1,1,1,1],
                 component_root=root_name,
                 role=f"continuous thick pitched roof with {round(roof_overhang*100)}cm overhang")
-    if hero_layout:
-        # ACT1-DEPTH.12 winter mass: the settled cap is a closed solid that
-        # rides the slope 10cm above the slate, buries its underside inside the
-        # thicker slab and rolls 13cm past the eave, so the street view reads a
-        # loaded cornice with a dark gap above the fascia instead of a paper
-        # sheet glued to the slope.
-        snow_run = roof_overhang + .13
-        snow_slope = (ridge + .12 - eave) / (half + roof_overhang)
-        snow_eave_z = eave + .10 - snow_slope * .13
-        snow = [(x, y, z) for y in (front-roof_overhang, back+roof_overhang)
-                for x, z in ((-half-snow_run, snow_eave_z), (0, ridge+.22),
-                             (half+snow_run, snow_eave_z))]
-        snow += [(x, y, z-.13) for x, y, z in snow]
-        mesh_object(f"{prefix}_RoofSnow_LOD0", parent, snow,
-                    [(0,1,4,3),(1,2,5,4),(6,9,10,7),(7,10,11,8),(0,1,7,6),
-                     (1,2,8,7),(2,5,11,8),(5,4,10,11),(4,3,9,10),(3,0,6,9)],
-                    (HERO_ROOF_SNOW_MATERIAL,), component_root=root_name,
-                    role="solid settled snow slab wrapping the hero eave")
+    # Every dwelling carries settled snow as a closed mass. Rounded eaves
+    # and a shallow longitudinal swell keep the village roofscape from
+    # reading as thin white sheets; the roof and parcel footprints stay put.
+    snow_run = half + roof_overhang + .13
+    snow_slope = (ridge + .12 - eave) / (half + roof_overhang)
+    snow_x = [-snow_run, -snow_run+.14, -half*.52, -.12,
+              .12, half*.52, snow_run-.14, snow_run]
+    snow_y = [front-roof_overhang, front-roof_overhang+.18,
+              (front+back)/2, back+roof_overhang-.18, back+roof_overhang]
+    snow = []
+    for row, y in enumerate(snow_y):
+        for col, x in enumerate(snow_x):
+            plane = ridge + .12 - abs(x) * snow_slope
+            edge = .06 if col in (0, len(snow_x)-1) else .20
+            depth = edge * (.6 if row in (0, len(snow_y)-1) else 1.0)
+            depth += .035 * math.sin(row * math.pi / (len(snow_y)-1))
+            snow.append((x, y, plane + depth))
+    count, cols = len(snow), len(snow_x)
+    snow += [(x, y, ridge+.12-abs(x)*snow_slope-.035) for x,y,_ in snow[:]]
+    faces = []
+    for row in range(len(snow_y)-1):
+        for col in range(cols-1):
+            i = row*cols+col
+            faces += [(i,i+1,i+cols+1,i+cols),
+                      (i+count,i+cols+count,i+cols+1+count,i+1+count)]
+    perimeter = (list(range(cols)) + [row*cols+cols-1 for row in range(1,len(snow_y))]
+                 + list(range(count-2,count-cols-1,-1))
+                 + [row*cols for row in range(len(snow_y)-2,0,-1)])
+    for i, j in zip(perimeter, perimeter[1:]+perimeter[:1]):
+        faces.append((i,i+count,j+count,j))
+    snow_cap = mesh_object(f"{prefix}_RoofSnow_LOD0", parent, snow, faces,
+                           (HERO_ROOF_SNOW_MATERIAL,), component_root=root_name,
+                           role="closed settled snow with rounded eaves over the existing dwelling roof")
+    for polygon in snow_cap.data.polygons:
+        polygon.use_smooth = polygon.normal.z > 0
+    closed_cap = bmesh.new()
+    closed_cap.from_mesh(snow_cap.data)
+    assert all(edge.is_manifold for edge in closed_cap.edges) and closed_cap.calc_volume(signed=True) > 0
+    closed_cap.free()
     if hero_layout:
         author_hero_carving(parent, prefix, root_name, half, front, back, eave, ridge, roof_overhang, roof_thickness)
     if hero_layout:

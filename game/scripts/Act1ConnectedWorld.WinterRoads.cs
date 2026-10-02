@@ -43,7 +43,7 @@ public partial class Act1ConnectedWorld
                 void Vertex(float t, float lateral)
                 {
                     surface.SetNormal(Vector3.Up);
-                    surface.SetUV(new((lateral + 1) * .32f, walked + flat.Length() * t));
+                    surface.SetUV(new((lateral + 1) * .5f, walked + flat.Length() * t));
                     surface.SetColor(Colors.White); surface.AddVertex(ToLocal(Point(t, lateral)));
                 }
                 for (var i = 0; i < count; i++)
@@ -62,7 +62,7 @@ public partial class Act1ConnectedWorld
             if (triangles == 0) continue;
             surface.Index();
             var mesh = new MeshInstance3D { Name = "WinterPath_" + id, Mesh = surface.Commit(),
-                MaterialOverride = PainterlyMaterialLibrary.ForColor("c9cdcd", "snow_road"),
+                MaterialOverride = PainterlyMaterialLibrary.ForPath("c9cdcd"),
                 CastShadow = GeometryInstance3D.ShadowCastingSetting.Off };
             mesh.SetMeta("accessId", id); mesh.SetMeta("routeRevision", revision);
             mesh.SetMeta("routeOwner", "AddressAccessVerifier + SettlementGraph");
