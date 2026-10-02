@@ -384,6 +384,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 {
                     var arrays = original.SurfaceGetArrays(index).Duplicate(true);
                     var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                    var pathUv = name == "Road_HousePath" ? new Vector2[vertices.Length] : null;
                     var inCut = new bool[vertices.Length];
                     for (var i = 0; i < vertices.Length; i++)
                     {
@@ -398,9 +399,29 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                             point.Y = Mathf.Lerp(ground + .005f, point.Y, Mathf.SmoothStep(0, 1, endDistance / 3f));
                         }
                         else if (!gorgeOnly) point.Y += ground - (float)AgentBAct1HeightField.Ground(point.X, point.Z);
+                        if (pathUv is not null)
+                        {
+                            var world = ToGlobal(point);
+                            var position = new Vector2(world.X, world.Z);
+                            var nearest = float.MaxValue;
+                            var across = 0f;
+                            var axis = AgentBAct1Layout.HousePathAxis;
+                            for (var segment = 0; segment < axis.Length - 1; segment++)
+                            {
+                                var edge = axis[segment + 1] - axis[segment];
+                                var offset = position - axis[segment];
+                                var onAxis = axis[segment] + edge * Mathf.Clamp(offset.Dot(edge) / edge.LengthSquared(), 0f, 1f);
+                                var delta = position - onAxis;
+                                if (delta.LengthSquared() >= nearest) continue;
+                                nearest = delta.LengthSquared();
+                                across = edge.Normalized().Cross(delta);
+                            }
+                            pathUv[i] = new Vector2(Mathf.Clamp(.5f + across / 3f, 0f, 1f), 0f);
+                        }
                         vertices[i] = mesh.ToLocal(ToGlobal(point));
                     }
                     arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+                    if (pathUv is not null) arrays[(int)Mesh.ArrayType.TexUV] = pathUv;
                     // The authored road ribbons and grades predate the southern gorge (relayout v3):
                     // every triangle touching the cut is dropped, so no sheet or slab spans the void
                     // or pierces its slopes; the suspension bridge carries the path across.
@@ -1372,6 +1393,16 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var depth = Mathf.Clamp((-position.Y - 8f) / 118f, 0, 1);
             var horizontal = Mathf.Lerp(1.04f, .90f, depth) * Mathf.Lerp(.92f, 1.08f, DeterministicPhase(position, 2.7f));
             var vertical = Mathf.Lerp(1.02f, .90f, depth) * Mathf.Lerp(.93f, 1.07f, DeterministicPhase(position, 4.9f));
+            if (variant.StartsWith("WinterSpruce_", StringComparison.Ordinal)
+                && position.X >= -90f && position.X <= -62f && Mathf.Abs(position.Y) <= 24f)
+            {
+                // House pilot: broad near crowns overlap taller trees behind them.
+                var distance = Mathf.InverseLerp(-62f, -90f, position.X);
+                horizontal *= Mathf.Lerp(1.28f, 1.12f, distance)
+                    * Mathf.Lerp(.86f, 1.14f, DeterministicPhase(position, 12.7f));
+                vertical *= Mathf.Lerp(.78f, 1.2f, distance)
+                    * Mathf.Lerp(.86f, 1.14f, DeterministicPhase(position, 19.3f));
+            }
             if (smallShrub) { horizontal *= .38f; vertical *= .35f; }
             if (sourceVariant.StartsWith("Sedge_", StringComparison.Ordinal))
             {
@@ -2249,6 +2280,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 _ => "WinterSpruce_1"
             };
         }
+
+        // House pilot: keep the near crowns below the tall middle and far stand.
+        // The existing understory still closes sightlines at walking height.
+        if (row >= 5 && position.X <= -62f && position.X >= -90f
+            && Mathf.Abs(position.Y) <= 24f
+            && variant is ("WinterSpruce_4" or "WinterSpruce_5" or "WinterSpruce_6"))
+            variant = "WinterSpruce_3";
 
         planned.Add((position, variant));
 

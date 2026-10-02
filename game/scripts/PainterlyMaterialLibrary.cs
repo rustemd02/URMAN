@@ -40,8 +40,7 @@ public static class PainterlyMaterialLibrary
         // Packed hay already has a continuous circumferential/vertical UV
         // layout; preserve it instead of projecting fibers through the stack.
         uniform bool authored_uv_texture = false;
-        // Safe mode skips the three triplanar texture reads below. The normal
-        // medium profile keeps the full painterly material unchanged.
+        // Low uses one projected albedo read; medium keeps triplanar blending.
         uniform bool low_quality = false;
         uniform vec2 texture_scale = vec2(1.0);
         // Prod-ready phase 2: grounding darken near the ground line (0 = off),
@@ -156,7 +155,20 @@ public static class PainterlyMaterialLibrary
         void fragment() {
             float wet_factor = clamp(wet_grade, 0.0, 1.0);
             if (low_quality) {
-                ALBEDO = mix(shadow_color.rgb, base_color.rgb, 0.82)
+                vec3 low_color = base_color.rgb;
+                if (has_albedo_texture) {
+                    vec3 position = (local_wood_texture || local_floor_texture) ? local_wood_position : world_position;
+                    vec3 axis = abs((local_wood_texture || local_floor_texture) ? local_wood_normal : world_normal);
+                    vec2 uv = authored_uv_texture ? UV
+                        : axis.y >= max(axis.x, axis.z) ? position.xz
+                        : axis.x >= axis.z ? (upright_texture ? position.zy : position.yz) : position.xy;
+                    vec3 detail = texture(albedo_texture, uv * texture_scale).rgb;
+                    vec3 tinted = snow_material
+                        ? base_color.rgb * (vec3(0.90) + detail * 0.12)
+                        : base_color.rgb * (vec3(0.30) + detail * 1.75);
+                    low_color = mix(low_color, tinted, texture_strength);
+                }
+                ALBEDO = mix(shadow_color.rgb, low_color, 0.82)
                     * mix(vec3(1.0), vec3(0.90, 0.95, 0.98), wet_factor);
                 if (snow_coverage > 0.0) {
                     float snow_up = clamp(normalize(world_normal).y, 0.0, 1.0);
@@ -485,8 +497,8 @@ public static class PainterlyMaterialLibrary
 
     /// <summary>
     /// Applies the explicit graphics profile to cached presentation materials.
-    /// Low mode avoids triplanar texture reads while preserving scene geometry,
-    /// colors, interactions and gameplay owners.
+    /// Low mode replaces triplanar blending with one albedo read while
+    /// preserving scene geometry, interactions and gameplay owners.
     /// </summary>
     public static void SetGraphicsPreset(string graphicsPreset)
     {

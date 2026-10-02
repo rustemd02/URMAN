@@ -4936,7 +4936,8 @@
       "evidence": [
         "2026-09-25 frames captured (receipts live outside the repository by the harness policy): fap_state_plate, school_plate, council_plate, fap_wash_towel; each receipt carries output sha256 and the resolved subject path",
         "2026-09-25 OPEN item: eng/verify-painterly-textures.sh reports the T07 map OPEN on edge seam (mean 0.073 / max 0.365 against 0.028 / 0.31 accepted) - awaiting the seam-edited version already generated in the chat",
-        "docs/tasktracker/05_texture_production_2026-09-22.md (срез 2026-09-25)"
+        "docs/tasktracker/05_texture_production_2026-09-22.md (срез 2026-09-25)",
+        "2026-10-01 Low albedo: PainterlyMaterialLibrary retains one projected texture read. Actual house_exterior_trim_street and house_table_materials Low frames, birch Low/Medium pair and SHA receipt: /Users/unterlantas/Documents/URMAN_visual_20261001_stage1/. Same camera Low facade before/after; cloth, floor, paper and screen inspected. Birch bark remains weak in both presets; forest form is still open. Guard restored userdata."
       ],
       "progress_2026_09_25": "Срез 2026-09-25: T07 подключена как cloth_towel; таблички ФАПа, школы и сельсовета-клуба сделаны и в main; по шву T07 гейт OPEN, правка сгенерирована в чате и ждёт выгрузки. Следующие: M03 (эмаль), M13 (ламинат), T05 (ковёр); T02 и T06 условные.",
       "mvp_priority": 22,
@@ -20659,7 +20660,9 @@
         "docs/urman_knowledge_base/gameplay.md"
       ],
       "evidence": [
-        "docs/production/a01_ex13_yard_2026-09-28/README.md"
+        "docs/production/a01_ex13_yard_2026-09-28/README.md",
+        "2026-10-01 art-plan stages 0-1: actual pilot frames, atmosphere dumps, guarded walk toward and away from BabaiApproachDwellingFacade and valid 12+60s static probes at /Users/unterlantas/Documents/URMAN_visual_20261001_stage0/ and /Users/unterlantas/Documents/URMAN_visual_20261001_stage1/. HEAD d541711, Metal Forward+, 1280x720 window, viewport 1920x1080, FOV75, Medium scale .9 avg25.795/p95 32.133ms FAIL; Low scale .7 before avg21.063/p95 26.773ms FAIL, after one-read albedo avg20.031/p95 25.571ms FAIL. All valid probes focused, unobscured and fixed pose. Ambient-off, fog-off and material-multiplier-off A/B returned to baseline; human art review and pilot stages 2-7 remain open.",
+        "2026-10-01 pilot stages 2-6 on HEAD d541711: stage2 light A/B reverted (shadow .45 flattened snow); stage3 west forest tier silhouettes retained, matched frames /Users/unterlantas/Documents/URMAN_visual_20261001_stage3/; stage4 Road_HousePath UV/ForPath and EX05 static print shape retained, matched frames /Users/unterlantas/Documents/URMAN_visual_20261001_stage4/. Fresh-snow actual controller pass/repeat PASS 5.837/5.835m, 10/21 stamps, protected guard restored; old arrival-road capture failed at 151 frames near the current Niva, no whole-road acceptance. Stage5 actual babai door surface slots retained, /Users/unterlantas/Documents/URMAN_visual_20261001_stage5/; stage6 cloth/lamp A/B reverted, current interior Low and PC Medium /Users/unterlantas/Documents/URMAN_visual_20261001_stage7/. Corridor smoke reached HouseDoor entry and house-to-route exit but failed later at physical document opening; no full PASS. Current fixed-pose Medium 12+12s diagnostic: avg26.213/p95 33.411ms, 38.15fps, status DIAGNOSTIC_SHORT; single runs do not prove speed change. New spruce GLB/LOD and local albedo A/B did not improve the repeated crown/near-black canopy; all were fully restored, no new asset retained. Stage3 forest form remains artistically open. Final current-build protected player walk covered 4.6m toward the door and 5.5m back with userdata restored at /Users/unterlantas/Documents/URMAN_visual_20261001_stage7/walk_final/. Human artistic review and stage7 choice pending; no propagation to rest of village."
       ],
       "deliverable": "Доказать достижимый стиль одним участком в действующем движке",
       "done_when": [

@@ -1232,11 +1232,12 @@ public partial class Act1ConnectedWorld : Node3D
             for (var foot = 0; foot < 2; foot++)
             {
                 var offset = (i % 2 == 0 ? 1f : -1f) * 0.10f;
-                AddVisualBox(trail, $"Print{i}_{foot}",
+                var print = AddVisualBox(trail, $"Print{i}_{foot}",
                     new(0.13f, 0.016f, 0.26f),
-                    new(x + (foot == 0 ? offset : -offset), ground + 0.012f, z + (foot == 0 ? 0.10f : -0.10f)),
-                    "cfc9bd", "snow",
-                    yawDegrees: -58f);
+                    new(x + (foot == 0 ? offset : -offset), ground + 0.003f, z + (foot == 0 ? 0.10f : -0.10f)),
+                    "aebec9", "snow", yawDegrees: -58f);
+                print.Mesh = new SphereMesh { Radius = .13f, Height = .012f, RadialSegments = 10, Rings = 2 };
+                print.Scale = new Vector3(.55f, 1f, 1f);
             }
         }
 
@@ -2158,7 +2159,22 @@ public partial class Act1ConnectedWorld : Node3D
                 // Their shared outdoor source slots added snow to dry storage;
                 // scope the sheltered finish to these members at both LODs.
                 var memberName = mesh.Name.ToString();
-                if (memberName.StartsWith("HeroYardShed_LoftBoard_", StringComparison.Ordinal))
+                if (memberName == "HeroHouse_StreetDoorClosed_LOD0"
+                    && path.Contains("BabaiApproachDwellingFacade", StringComparison.Ordinal))
+                {
+                    material = sourceName switch
+                    {
+                        "URMAN_Wood_WetShadow" => PainterlyMaterialLibrary.ForColor("846e56", "wood_facade"),
+                        "URMAN_Wood_Weathered" => PainterlyMaterialLibrary.ForColor("9d8668", "wood"),
+                        "URMAN_Metal_Dulled" => PainterlyMaterialLibrary.ForColor("595d57", "iron"),
+                        _ => material
+                    };
+                }
+                else if (memberName == "Road_HousePath" && sourceName == "AB_road_pigment")
+                {
+                    material = PainterlyMaterialLibrary.ForPath("b6c4cc");
+                }
+                else if (memberName.StartsWith("HeroYardShed_LoftBoard_", StringComparison.Ordinal))
                 {
                     material = PainterlyMaterialLibrary.ForColor("6f6353", "wood", sheltered: true);
                     mesh.SetMeta("painterlyMaterial", "sheltered_loft_wood");
@@ -3746,7 +3762,6 @@ public partial class Act1ConnectedWorld : Node3D
         var streetDoorLeaf = FindDescendants<MeshInstance3D>(babaiApproachFacade)
             .Single(mesh => mesh.Name == "HeroHouse_StreetDoorClosed_LOD0");
         streetDoorLeaf.Visible = true;
-        streetDoorLeaf.MaterialOverride = PainterlyMaterialLibrary.ForColor("5a4433", "wood");
         babaiApproachFacade.SetMeta("streetDoorPolicy", "authored closed leaf visible; entry stays an interaction");
         AddBabaiRearFacadeDressing(babaiApproachFacade, Vector3.Zero, 0f);
         AttachAct1ExteriorKitComponent(

@@ -142,19 +142,20 @@ public static class AgentBAct1Layout
     // imported preview origin is removed (local portal centre x=-1.42,
     // y=1.425, z=1.325). Target and player approach share this portal.
     public const float HouseDoorYawDegrees = 64.72228f + BabaiRelocation.YawDegrees;
-    public static readonly Vector3 HouseDoorPortalCenter = new(
+    private static readonly Lazy<Vector3> HouseDoorPortalCenterValue = new(() => new Vector3(
         BabaiRelocation.DoorX,
         (float)AgentBAct1HeightField.Ground(-28f, -3.4f) + BabaiRelocation.Lift + .03f + 1.425f * .82f,
-        BabaiRelocation.DoorZ);
+        BabaiRelocation.DoorZ));
+    public static Vector3 HouseDoorPortalCenter => HouseDoorPortalCenterValue.Value;
     public static readonly Vector3 HouseDoorOutwardDirection = new(1f, 0f, 0f);
-    private static readonly Vector3 HouseDoorApproachXZ = new(
-        HouseDoorPortalCenter.X + HouseDoorOutwardDirection.X * 1.5f,
-        0f,
-        HouseDoorPortalCenter.Z + HouseDoorOutwardDirection.Z * 1.5f);
-    public static readonly Vector3 HouseDoorApproach = new(
-        HouseDoorApproachXZ.X,
-        AgentBAct1HeightField.CollisionGround(HouseDoorApproachXZ.X, HouseDoorApproachXZ.Z) + .05f,
-        HouseDoorApproachXZ.Z);
+    private static readonly Lazy<Vector3> HouseDoorApproachValue = new(() =>
+    {
+        var portal = HouseDoorPortalCenter;
+        var x = portal.X + HouseDoorOutwardDirection.X * 1.5f;
+        var z = portal.Z + HouseDoorOutwardDirection.Z * 1.5f;
+        return new Vector3(x, AgentBAct1HeightField.CollisionGround(x, z) + .05f, z);
+    });
+    public static Vector3 HouseDoorApproach => HouseDoorApproachValue.Value;
     public static readonly Vector3 HouseDoorProxySize = new(1.02f, 1.84f, .18f);
     // FAP clinic sits east of the branch end, facade to the road.
     public static readonly Vector3 FapCenter = new(30f, 0f, -28f);
@@ -193,7 +194,7 @@ public static class AgentBAct1Layout
     // ---- Traversal waypoints (physical walk, in order) ---------------------
     public sealed record Waypoint(string Id, Vector3 Position);
 
-    public static readonly IReadOnlyList<Waypoint> Route = new List<Waypoint>
+    private static readonly Lazy<IReadOnlyList<Waypoint>> RouteValue = new(() => new List<Waypoint>
     {
         new("arrival", new Vector3(0f, 0.05f, 9f)),
         new("house_yard", BabaiRelocation.Apply(new Vector3(-24.4f, 0.05f, 1.7f))),
@@ -206,14 +207,15 @@ public static class AgentBAct1Layout
         new("zirat_roadside", new Vector3(-3.2f, 0.05f, -68f)),
         new("kara_approach", new Vector3(0f, 0.05f, -103f)),
         new("cliffhanger", new Vector3(0.6f, 0.05f, -122.5f))
-    };
+    });
+    public static IReadOnlyList<Waypoint> Route => RouteValue.Value;
 
     // ---- Authored walk chain (ordered open-road nodes) ---------------------
     // The continuous pedestrian corridor the route physically follows. It
     // hugs the road centreline, turns into the babai yard through its gate,
     // comes back out, branches to the FAP gate, returns to the main street
     // and rides south through the zirat roadside to the Kara cliffhanger.
-    public static readonly IReadOnlyList<Vector2> WalkChain = new List<Vector2>
+    private static readonly Lazy<IReadOnlyList<Vector2>> WalkChainValue = new(() => new List<Vector2>
     {
         new(0f, 9f),
         new(-0.4f, 2f),
@@ -259,7 +261,8 @@ public static class AgentBAct1Layout
         new(1.1f, -110f),
         new(0f, -117f),
         new(0.6f, -122.5f)      // cliffhanger
-    };
+    });
+    public static IReadOnlyList<Vector2> WalkChain => WalkChainValue.Value;
 
     // ---- Per-zone visual review points (capture spec) -----------------------
     public sealed record ReviewPoint(string Id, Vector3 Camera, Vector3 Target);

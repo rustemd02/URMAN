@@ -44,6 +44,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private bool _menuBusy;
     private RuntimeBridge? _bridge;
     private bool _performanceProbe;
+    private bool _performanceTimingStarted;
     private const string PerformanceProbeModeMenu = "menu";
     private const string PerformanceProbeModeGameplay = "gameplay";
     private const string PerformanceProbeSampleArgumentPrefix = "--urman-perf-sample=";
@@ -516,6 +517,14 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return;
         }
         var now = Time.GetTicksUsec();
+        // World construction before the first process frame can take longer
+        // than warmup. Start timing on the following frame.
+        if (!_performanceTimingStarted)
+        {
+            _performanceTimingStarted = true;
+            _performanceLastTicks = now;
+            return;
+        }
         var frameMilliseconds = (now - _performanceLastTicks) / 1000.0;
         _performanceLastTicks = now;
         if (!_performanceProbeConfigurationValid)
