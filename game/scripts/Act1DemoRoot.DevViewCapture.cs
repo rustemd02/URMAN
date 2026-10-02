@@ -58,6 +58,17 @@ public partial class Act1DemoRoot
         System.IO.Directory.CreateDirectory(dir);
         for (var frame = 0; frame < 900 && !(MainMenuVisible && _main is not null && _player is not null); frame++)
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var zone = System.Environment.GetEnvironmentVariable("URMAN_VIEW_ZONE");
+        if (!string.IsNullOrEmpty(zone))
+        {
+            if (System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") != "1"
+                || !await StartDebugZoneAsync(zone, "entry"))
+            {
+                GD.PushError($"View capture refused: protected debug zone '{zone}' unavailable.");
+                GetTree().Quit(1);
+                return;
+            }
+        }
         _mainMenu?.Dismiss();
         _mainMenu = null;
         _player!.SetModalOpen(true);
@@ -93,10 +104,12 @@ public partial class Act1DemoRoot
             camera.LookAt(P(lookText), Vector3.Up);
             DisplayServer.WindowMoveToForeground();
             camera.MakeCurrent();
+            for (var frame = 0; frame < 20; frame++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (_pauseMenu?.IsOpen == true) _pauseMenu.Resume();
             for (var frame = 0; frame < 150; frame++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
             GetViewport().GetTexture().GetImage().SavePng($"{dir}/{name}.png");
-            GD.Print($"view-capture: {name} camera={GetViewport().GetCamera3D()?.Name} at={camera.GlobalPosition} drawCalls={Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)} frameMs={GetProcessDeltaTime()*1000:0.0}");
+            GD.Print($"view-capture: {name} camera={GetViewport().GetCamera3D()?.Name} at={camera.GlobalPosition} zone={_main.ConnectedWorld?.ActiveZoneId} preset={GraphicsQuality.Preset} scale={GetViewport().Scaling3DScale} fov={camera.Fov} focus={DisplayServer.WindowIsFocused()} pause={_pauseMenu?.IsOpen} drawCalls={Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)} frameMs={GetProcessDeltaTime()*1000:0.0}");
         }
         GetTree().Quit();
     }

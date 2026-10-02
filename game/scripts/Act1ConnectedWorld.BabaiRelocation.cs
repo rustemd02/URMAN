@@ -217,6 +217,11 @@ public partial class Act1ConnectedWorld
 
         // H018's old house reached onto the yard; the household lives on its plan plot now.
         if (kit.GetNodeOrNull("NeighborParcels/MainStreet/ForwardWestParcel") is { } h018) HidePresentationNode(h018);
+        // PlantFoliage ran against the old roof. Reuse its exact owner/contact
+        // reconciliation after the household's move, including every tree LOD.
+        var facade = kit.GetNode<Node3D>("BabaiApproachDwellingFacade");
+        core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").ReconcileBuildingFoliage(facade);
+        GD.Print($"act1-babai-foliage: owners={facade.GetMeta("roofSuppressedFoliageOwners").AsStringArray().Length} contacts={facade.GetMeta("roofSuppressedFoliageContacts").AsStringArray().Length}");
         core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").RecutOccupiedRoomTerrain(_zoneInstances["house_old_pc"], new Vector2(
             StyleBenchmarkInteriorFactory.ClearWidth * .5f, StyleBenchmarkInteriorFactory.ClearDepth * .5f));
         SetMeta("babaiRelocatedNodes", moved.Count);

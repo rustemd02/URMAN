@@ -139,13 +139,13 @@ public partial class StyleBenchmarkZone : Node3D
             // into one blue-black mass at first-person distance.
             AmbientLightColor = night
                 ? Color.FromHtml("748a91")
-                : houseInterior ? Color.FromHtml("a89b8e")
+                : houseInterior ? Color.FromHtml("a6b4c8")
                 : fapInterior ? Color.FromHtml("879397")
                 : zirat ? Color.FromHtml("99a6a2")
                 : Color.FromHtml("a5b0ab"),
             // Keep the clinic's cold institutional base restrained so the
             // window and document pools can establish the room's depth.
-            AmbientLightEnergy = night ? 0.82f : houseInterior ? 0.58f : fapInterior ? 0.48f : zirat ? 0.72f : 0.78f,
+            AmbientLightEnergy = night ? 0.82f : houseInterior ? 0.40f : fapInterior ? 0.48f : zirat ? 0.72f : 0.78f,
             SsaoEnabled = interior,
             SsaoIntensity = 0.55f,
             SsaoRadius = 0.30f,
@@ -159,7 +159,7 @@ public partial class StyleBenchmarkZone : Node3D
             FogAerialPerspective = night ? 0.52f : 0.46f,
             FogSkyAffect = night ? 0.28f : 0.25f,
             FogSunScatter = night ? 0.08f : 0.06f,
-            TonemapMode = global::Godot.Environment.ToneMapper.Filmic,
+            TonemapMode = houseInterior ? global::Godot.Environment.ToneMapper.Agx : global::Godot.Environment.ToneMapper.Filmic,
             TonemapExposure = night ? 1.02f : fapInterior ? 1.04f : zirat ? 0.96f : 0.98f
         };
         GraphicsQuality.ConfigureEnvironment(environment, authoredSsao: interior);
@@ -553,8 +553,8 @@ public partial class StyleBenchmarkZone : Node3D
         {
             Name = "WarmTableLamp",
             Position = new(-1.28f, 1.60f, -2.99f),
-            LightColor = Color.FromHtml("c5aa8d"),
-            LightEnergy = 1.45f,
+            LightColor = Color.FromHtml("f0d5ae"),
+            LightEnergy = 1.70f,
             OmniRange = 4.75f,
             ShadowEnabled = true
         };
@@ -564,8 +564,8 @@ public partial class StyleBenchmarkZone : Node3D
         {
             Name = "WindowFill",
             Position = new(-2.55f, 1.60f, -3.10f),
-            LightColor = Color.FromHtml("9aaeb0"),
-            LightEnergy = 0.46f,
+            LightColor = Color.FromHtml("92b0d3"),
+            LightEnergy = 0.68f,
             OmniRange = 5.5f,
             ShadowEnabled = false
         });
@@ -574,8 +574,8 @@ public partial class StyleBenchmarkZone : Node3D
         {
             Name = "RoomFill",
             Position = new(0, 2.35f, .5f),
-            LightColor = Color.FromHtml("958878"),
-            LightEnergy = 0.56f,
+            LightColor = Color.FromHtml("dfc7a6"),
+            LightEnergy = 1.0f,
             OmniRange = 8.5f,
             ShadowEnabled = false
         });

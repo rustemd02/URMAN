@@ -158,7 +158,7 @@ public static partial class StyleBenchmarkInteriorFactory
             Prop(root, $"KitchenOnionPlait{i}", new(.10f, .7f, .10f), new(-4.6f + i * .3f, 1.75f, -3.44f), "b07a3e", "hay_bundle");
             Prop(root, $"KitchenHerbBundle{i}", new(.14f, .3f, .10f), new(-2.2f + i * .3f, 2.3f, 3.4f), i == 1 ? "6f7a4d" : "8a8653", "foliage");
         }
-        Light(root, "KitchenBulb", new(-3.2f, 2.25f, 0f), "e0bf8c", 1.15f, 6.5f, shadow: true);
+        Light(root, "KitchenBulb", new(-3.2f, 2.25f, 0f), "ead7b9", 1.0f, 6.5f, shadow: true);
         Prop(root, "KitchenBulbGlass", new(.07f, .09f, .07f), new(-3.2f, 2.25f, 0f), "f0e6c8", "glass");
         Prop(root, "KitchenBulbCord", new(.012f, .35f, .012f), new(-3.2f, 2.42f, 0f), "2e2c29", "fabric_upholstery");
     }

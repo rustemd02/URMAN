@@ -606,6 +606,28 @@ public partial class Act1ConnectedWorld : Node3D
 
         var exteriorLayer = GetNodeOrNull<AgentBAct1ExteriorLayer>(
             "Act1CoreWorldGreybox/AgentBExteriorWorld");
+        if (zoneId == "house_old_pc" && exteriorLayer?.ExteriorAtmosphere is { } outdoor)
+        {
+            foreach (var binding in _environmentsByZone[zoneId])
+            {
+                // Keep the real village beyond the glazing in its current weather.
+                // Depth fog starts past the room diagonal; the occupied room stays clear.
+                var indoor = binding.Resource;
+                indoor.BackgroundMode = global::Godot.Environment.BGMode.Sky;
+                indoor.Sky = outdoor.Sky;
+                indoor.FogEnabled = outdoor.FogEnabled;
+                indoor.FogMode = global::Godot.Environment.FogModeEnum.Depth;
+                indoor.FogLightColor = outdoor.FogLightColor;
+                indoor.FogLightEnergy = outdoor.FogLightEnergy;
+                indoor.FogDensity = .93f;
+                indoor.FogDepthBegin = 12f;
+                indoor.FogDepthEnd = Mathf.Clamp(2.4f / Mathf.Max(.001f, outdoor.FogDensity), 24f, 160f);
+                indoor.FogHeightDensity = 0f;
+                indoor.FogAerialPerspective = 0f;
+                indoor.FogSunScatter = 0f;
+                indoor.FogSkyAffect = outdoor.FogSkyAffect;
+            }
+        }
         var isKaraNight = string.Equals(zoneId, "kara_urman_night", StringComparison.Ordinal);
         var isZirat = string.Equals(zoneId, "zirat_road", StringComparison.Ordinal);
         exteriorLayer?.SetExteriorPresentationEnabled(

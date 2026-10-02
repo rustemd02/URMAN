@@ -56,7 +56,7 @@ public static partial class StyleBenchmarkInteriorFactory
         room.SetMeta("heroHouseContract", ContractVersion);
         room.SetMeta("heroHouseClearDimensions", new Vector3(ClearWidth, CeilingHeight, ClearDepth));
         Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "777068", "wood_floor_painted");
-        Block(room, "Ceiling", new(8.4f, .16f, 7.4f), new(0, 2.68f, 0), "695746", "wood");
+        Block(room, "Ceiling", new(8.4f, .16f, 7.4f), new(0, 2.68f, 0), "c4bda9", "wood_painted_trim");
 
         Wall(room, "FrontWall", 4.2f, 3.6f, false,
             [new(DoorX, DoorWidth, 0, DoorHeight),
@@ -71,7 +71,7 @@ public static partial class StyleBenchmarkInteriorFactory
         // Exposed beams sit above the clear ceiling datum, never through heads.
         foreach (var x in new[] { -2.25f, 2.25f })
             Block(room, "CeilingBeam" + (x < 0 ? "Left" : "Right"), new(.20f, .18f, 7f),
-                new(x, 2.69f, 0), "493629", "wood", collision: false);
+                new(x, 2.693f, 0), "493629", "wood", collision: false);
         foreach (var window in Windows) BuildWindow(room, window);
 
         // A closed interior leaf is physical even while the route target is

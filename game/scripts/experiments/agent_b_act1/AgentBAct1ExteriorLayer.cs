@@ -240,6 +240,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         AddChild(_snowTrample);
     }
 
+    public global::Godot.Environment? ExteriorAtmosphere => _environmentResource;
+
     /// <summary>
     /// Routes the single global exterior atmosphere owner. Interior logical
     /// zones keep their authored WorldEnvironment; the Agent B exterior
