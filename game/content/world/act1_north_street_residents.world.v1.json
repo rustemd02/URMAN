@@ -265,9 +265,9 @@
         "characterId": "resident-m-e5-a",
         "kitPrefix": "Resident",
         "position": [
-          70.35,
+          70.54,
           0.0,
-          -81.09
+          -81.08
         ],
         "yawDegrees": 87.1,
         "scale": 1.02,
@@ -275,9 +275,9 @@
           {
             "id": "day",
             "place": [
-              70.35,
+              70.54,
               0.0,
-              -81.09
+              -81.08
             ],
             "yawDegrees": 87.1,
             "motion": "urman.anim:talk-plain"
@@ -297,9 +297,9 @@
         "characterId": "resident-m-e5-b",
         "kitPrefix": "Resident",
         "position": [
-          72.34,
+          72.53,
           0.0,
-          -80.99
+          -80.98
         ],
         "yawDegrees": 267.1,
         "scale": 0.91,
@@ -307,9 +307,9 @@
           {
             "id": "day",
             "place": [
-              72.34,
+              72.53,
               0.0,
-              -80.99
+              -80.98
             ],
             "yawDegrees": 267.1,
             "motion": "urman.anim:talk-plain"
@@ -517,9 +517,9 @@
         "characterId": "resident-n-e1-a",
         "kitPrefix": "Resident",
         "position": [
-          106.05,
+          106.32,
           0.0,
-          72.04
+          72.03
         ],
         "yawDegrees": 63.2,
         "scale": 0.99,
@@ -527,9 +527,9 @@
           {
             "id": "day",
             "place": [
-              106.05,
+              106.32,
               0.0,
-              72.04
+              72.03
             ],
             "yawDegrees": 63.2,
             "motion": "urman.anim:idle-plain"
@@ -548,9 +548,9 @@
         "characterId": "resident-n-e1b-a",
         "kitPrefix": "Resident",
         "position": [
-          119.33,
+          119.18,
           0.0,
-          76.74
+          76.75
         ],
         "yawDegrees": 93.2,
         "scale": 1.03,
@@ -558,9 +558,9 @@
           {
             "id": "day",
             "place": [
-              119.33,
+              119.18,
               0.0,
-              76.74
+              76.75
             ],
             "yawDegrees": 93.2,
             "motion": "urman.anim:talk-plain"
@@ -580,9 +580,9 @@
         "characterId": "resident-n-e1b-b",
         "kitPrefix": "Resident",
         "position": [
-          120.33,
+          120.18,
           0.0,
-          76.68
+          76.69
         ],
         "yawDegrees": -86.8,
         "scale": 0.94,
@@ -590,9 +590,9 @@
           {
             "id": "day",
             "place": [
-              120.33,
+              120.18,
               0.0,
-              76.68
+              76.69
             ],
             "yawDegrees": -86.8,
             "motion": "urman.anim:talk-plain"
@@ -643,9 +643,9 @@
         "characterId": "resident-n-e2b-a",
         "kitPrefix": "Resident",
         "position": [
-          118.28,
+          117.89,
           0.0,
-          -8.96
+          -8.93
         ],
         "yawDegrees": -110.2,
         "scale": 1.0,
@@ -653,9 +653,9 @@
           {
             "id": "day",
             "place": [
-              118.28,
+              117.89,
               0.0,
-              -8.96
+              -8.93
             ],
             "yawDegrees": -110.2,
             "motion": "urman.anim:work-kneel"

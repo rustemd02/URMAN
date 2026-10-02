@@ -10,19 +10,20 @@
       "kind": "fence-run",
       "name": "Забор Тамары Геннадьевны",
       "params": {
-        "faceX": 2.18,
+        "faceX": 3.9,
         "zStart": -40.75,
         "zEnd": -48.3,
         "panelCount": 5,
         "center": [
-          2.3,
+          4.0,
           0,
           -44.5
         ],
         "wicketZ": -40.15,
         "crashSpeed": 2.2,
         "breakRadius": 2.35
-      }
+      },
+      "note": "Перенесён на уличную линию участка (x 3.9), с проезжей части (аудит 2026-10-02)."
     },
     {
       "id": "urman.world:act1/tamara-plot/approach",
@@ -35,7 +36,7 @@
             -44.0
           ],
           [
-            2.6,
+            4.3,
             -44.4
           ]
         ],

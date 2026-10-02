@@ -106,6 +106,7 @@ for street, hs in groups.items():
 
 # --- plot entities ----------------------------------------------------------------------------
 entities = []
+lots = []
 variants = "ABCBACCAB"
 moved_residents = {}
 for i, h in enumerate(sorted(households, key=lambda h: h["address"])):
@@ -113,25 +114,38 @@ for i, h in enumerate(sorted(households, key=lambda h: h["address"])):
     aid = h["address"]
     slug = aid[4:].lower()
     old_ns = ns_address.get(aid)
+    res_key = None
     if old_ns:
         slug_ns, source = old_ns
         cat = source["params"]["catalogId"]
         cadastral = source["params"]["address"]["cadastral"]
-        moved_residents[slug_ns] = (source["params"]["position"], source["params"]["yawDegrees"], t)
+        res_key = slug_ns
+        moved_residents[slug_ns] = (source["params"]["position"], source["params"]["yawDegrees"], None)
     elif aid in previous:
         cat, cadastral = previous[aid]["catalogId"], previous[aid]["address"]["cadastral"]
         # Its residents (if any) follow from the pose of the previous run.
-        moved_residents[slug.removeprefix("ns-")] = (previous[aid]["position"], previous[aid]["yawDegrees"], t)
+        res_key = slug.removeprefix("ns-")
+        moved_residents[res_key] = (previous[aid]["position"], previous[aid]["yawDegrees"], None)
     else:
         cat = PARCELS[variants[i % len(variants)]][0]
         cadastral = manifest_rows[aid]["cadastral"] if aid in manifest_rows else f"URM-Q04-P{100 + i:04d}"
     w, d = next((pw, pd) for c, pw, pd in PARCELS.values() if c == cat)
+    # Fit the parcel to its lot (as the open part does): never wider than the lot, front fence
+    # a short verge from the street edge, garden behind.
+    scale = round(min(SCALE, (t["w"] - .4) / w), 3)
+    fx, fz = math.sin(math.radians(t["yaw"])), math.cos(math.radians(t["yaw"]))
+    shift = t["d"] / 2 - max(.6, min(1.6, t["d"] / 2 - d * scale / 2)) - d * scale / 2
+    px, pz = round(t["x"] + fx * shift, 3), round(t["z"] + fz * shift, 3)
+    if res_key:
+        moved_residents[res_key] = (moved_residents[res_key][0], moved_residents[res_key][1], {"x": px, "z": pz, "yaw": t["yaw"]})
+    lots.append({"id": aid, "kind": "parcel", "position": [t["x"], t["z"]], "yawDegrees": round(t["yaw"], 1),
+                 "size": [t["w"], t["d"]], "street": h["street"], "number": h["number"]})
     entities.append({
         "id": f"urman.world:act1/far-bank/{slug}-house", "kind": "prop", "name": f"{slug}-house",
-        "params": {"catalogId": cat, "position": [t["x"], 0, t["z"]], "yawDegrees": round(t["yaw"], 1), "scale": SCALE,
+        "params": {"catalogId": cat, "position": [px, 0, pz], "yawDegrees": round(t["yaw"], 1), "scale": scale,
                    "collision": "surfaces",
                    "address": {"id": aid, "street": h["street"], "number": h["number"], "cadastral": cadastral},
-                   "terrainPad": {"halfSize": [round(w * SCALE / 2 + .65, 3), round(d * SCALE / 2 + .65, 3)],
+                   "terrainPad": {"halfSize": [round(w * scale / 2 + .65, 3), round(d * scale / 2 + .65, 3)],
                                   "streetAnchor": [round(h["anchor"][0], 3), round(h["anchor"][1], 3)], "feather": 2.25}},
         "note": "Заречье: хозяйство, ворота к своей улице"})
 g = plan["green"]
@@ -152,7 +166,7 @@ doc = {"schemaVersion": 1, "kind": "urman.world-plot", "id": "urman.world:act1/f
        "executor": "generic",
        "note": "Заречье за оврагом: две изгибающиеся улицы с задами двор к двору, переулки, тупик и спуск к оврагу. "
                "Генератор tools/world/generate_far_bank.py по утверждённой схеме v3.",
-       "green": g, "roads": far_roads, "publicBuildings": public, "entities": entities}
+       "green": g, "roads": far_roads, "publicBuildings": public, "lots": lots, "entities": entities}
 OUT.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 # --- residents follow their yard ----------------------------------------------------------------

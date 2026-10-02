@@ -238,6 +238,533 @@
       ]
     }
   ],
+  "lots": [
+    {
+      "id": "ADR-H033",
+      "kind": "parcel",
+      "position": [
+        65.2,
+        -68.27
+      ],
+      "yawDegrees": 87.1,
+      "size": [
+        10.67,
+        14.0
+      ],
+      "street": "yar",
+      "number": "16"
+    },
+    {
+      "id": "ADR-H034",
+      "kind": "parcel",
+      "position": [
+        64.67,
+        -57.62
+      ],
+      "yawDegrees": 87.1,
+      "size": [
+        10.67,
+        14.0
+      ],
+      "street": "yar",
+      "number": "14"
+    },
+    {
+      "id": "ADR-H039",
+      "kind": "parcel",
+      "position": [
+        65.49,
+        14.04
+      ],
+      "yawDegrees": 92.9,
+      "size": [
+        13.5,
+        14.0
+      ],
+      "street": "yar",
+      "number": "3"
+    },
+    {
+      "id": "ADR-H048",
+      "kind": "parcel",
+      "position": [
+        63.22,
+        -3.79
+      ],
+      "yawDegrees": 101.3,
+      "size": [
+        19.0,
+        14.0
+      ],
+      "street": "yar",
+      "number": "1"
+    },
+    {
+      "id": "ADR-H050",
+      "kind": "parcel",
+      "position": [
+        99.55,
+        -22.94
+      ],
+      "yawDegrees": 94.8,
+      "size": [
+        11.83,
+        14.0
+      ],
+      "street": "tau",
+      "number": "5"
+    },
+    {
+      "id": "ADR-H069",
+      "kind": "parcel",
+      "position": [
+        66.16,
+        27.52
+      ],
+      "yawDegrees": 92.9,
+      "size": [
+        13.5,
+        14.0
+      ],
+      "street": "yar",
+      "number": "5"
+    },
+    {
+      "id": "ADR-H070",
+      "kind": "parcel",
+      "position": [
+        99.75,
+        -43.9
+      ],
+      "yawDegrees": 86.8,
+      "size": [
+        11.0,
+        14.0
+      ],
+      "street": "tau",
+      "number": "3"
+    },
+    {
+      "id": "ADR-H071",
+      "kind": "parcel",
+      "position": [
+        87.35,
+        10.69
+      ],
+      "yawDegrees": -87.1,
+      "size": [
+        14.0,
+        14.0
+      ],
+      "street": "yar",
+      "number": "2"
+    },
+    {
+      "id": "ADR-H072",
+      "kind": "parcel",
+      "position": [
+        88.05,
+        24.67
+      ],
+      "yawDegrees": -87.1,
+      "size": [
+        14.0,
+        14.0
+      ],
+      "street": "yar",
+      "number": "4"
+    },
+    {
+      "id": "ADR-H074",
+      "kind": "parcel",
+      "position": [
+        65.89,
+        42.19
+      ],
+      "yawDegrees": 85.9,
+      "size": [
+        12.5,
+        14.0
+      ],
+      "street": "yar",
+      "number": "7"
+    },
+    {
+      "id": "ADR-H075",
+      "kind": "parcel",
+      "position": [
+        87.64,
+        46.38
+      ],
+      "yawDegrees": -94.1,
+      "size": [
+        10.75,
+        14.0
+      ],
+      "street": "yar",
+      "number": "6"
+    },
+    {
+      "id": "ADR-H076",
+      "kind": "parcel",
+      "position": [
+        65.0,
+        54.66
+      ],
+      "yawDegrees": 85.9,
+      "size": [
+        12.5,
+        14.0
+      ],
+      "street": "yar",
+      "number": "9"
+    },
+    {
+      "id": "ADR-H077",
+      "kind": "parcel",
+      "position": [
+        86.88,
+        57.1
+      ],
+      "yawDegrees": -94.1,
+      "size": [
+        10.75,
+        14.0
+      ],
+      "street": "yar",
+      "number": "8"
+    },
+    {
+      "id": "ADR-H078",
+      "kind": "parcel",
+      "position": [
+        102.21,
+        48.13
+      ],
+      "yawDegrees": -173.5,
+      "size": [
+        11.5,
+        14.0
+      ],
+      "street": "yar",
+      "number": "15"
+    },
+    {
+      "id": "ADR-H079",
+      "kind": "parcel",
+      "position": [
+        101.52,
+        0.64
+      ],
+      "yawDegrees": 94.8,
+      "size": [
+        11.83,
+        14.0
+      ],
+      "street": "tau",
+      "number": "9"
+    },
+    {
+      "id": "ADR-H080",
+      "kind": "parcel",
+      "position": [
+        64.89,
+        70.16
+      ],
+      "yawDegrees": 92.9,
+      "size": [
+        14.75,
+        14.0
+      ],
+      "street": "yar",
+      "number": "11"
+    },
+    {
+      "id": "ADR-H081",
+      "kind": "parcel",
+      "position": [
+        86.96,
+        70.94
+      ],
+      "yawDegrees": -87.1,
+      "size": [
+        13.5,
+        14.0
+      ],
+      "street": "yar",
+      "number": "10"
+    },
+    {
+      "id": "ADR-H082",
+      "kind": "parcel",
+      "position": [
+        100.53,
+        -11.15
+      ],
+      "yawDegrees": 94.8,
+      "size": [
+        11.83,
+        14.0
+      ],
+      "street": "tau",
+      "number": "7"
+    },
+    {
+      "id": "ADR-H083",
+      "kind": "parcel",
+      "position": [
+        122.33,
+        38.03
+      ],
+      "yawDegrees": -93.0,
+      "size": [
+        12.5,
+        14.0
+      ],
+      "street": "tau",
+      "number": "16"
+    },
+    {
+      "id": "ADR-NS-M-E3",
+      "kind": "parcel",
+      "position": [
+        123.45,
+        87.02
+      ],
+      "yawDegrees": -94.8,
+      "size": [
+        11.75,
+        14.0
+      ],
+      "street": "tau",
+      "number": "22"
+    },
+    {
+      "id": "ADR-NS-M-E3B",
+      "kind": "parcel",
+      "position": [
+        122.5,
+        52.63
+      ],
+      "yawDegrees": -86.8,
+      "size": [
+        14.0,
+        14.0
+      ],
+      "street": "tau",
+      "number": "18"
+    },
+    {
+      "id": "ADR-NS-M-E4",
+      "kind": "parcel",
+      "position": [
+        123.47,
+        -0.77
+      ],
+      "yawDegrees": -85.2,
+      "size": [
+        11.0,
+        14.0
+      ],
+      "street": "tau",
+      "number": "10"
+    },
+    {
+      "id": "ADR-NS-M-E4B",
+      "kind": "parcel",
+      "position": [
+        121.41,
+        -37.06
+      ],
+      "yawDegrees": -93.2,
+      "size": [
+        14.75,
+        14.0
+      ],
+      "street": "tau",
+      "number": "4"
+    },
+    {
+      "id": "ADR-NS-M-E5",
+      "kind": "parcel",
+      "position": [
+        65.73,
+        -78.92
+      ],
+      "yawDegrees": 87.1,
+      "size": [
+        10.67,
+        14.0
+      ],
+      "street": "yar",
+      "number": "18"
+    },
+    {
+      "id": "ADR-NS-M-W3",
+      "kind": "parcel",
+      "position": [
+        102.32,
+        93.0
+      ],
+      "yawDegrees": -0.0,
+      "size": [
+        13.0,
+        14.0
+      ],
+      "street": "tau",
+      "number": "24"
+    },
+    {
+      "id": "ADR-NS-M-W4",
+      "kind": "parcel",
+      "position": [
+        123.64,
+        13.07
+      ],
+      "yawDegrees": -93.0,
+      "size": [
+        12.5,
+        14.0
+      ],
+      "street": "tau",
+      "number": "12"
+    },
+    {
+      "id": "ADR-NS-M-W4B",
+      "kind": "parcel",
+      "position": [
+        121.65,
+        -22.69
+      ],
+      "yawDegrees": -85.2,
+      "size": [
+        11.0,
+        14.0
+      ],
+      "street": "tau",
+      "number": "6"
+    },
+    {
+      "id": "ADR-NS-M-W5",
+      "kind": "parcel",
+      "position": [
+        122.23,
+        -51.79
+      ],
+      "yawDegrees": -93.2,
+      "size": [
+        14.75,
+        14.0
+      ],
+      "street": "tau",
+      "number": "2"
+    },
+    {
+      "id": "ADR-NS-N-E1",
+      "kind": "parcel",
+      "position": [
+        101.69,
+        74.69
+      ],
+      "yawDegrees": 93.2,
+      "size": [
+        11.25,
+        14.0
+      ],
+      "street": "tau",
+      "number": "11"
+    },
+    {
+      "id": "ADR-NS-N-E1B",
+      "kind": "parcel",
+      "position": [
+        123.69,
+        74.09
+      ],
+      "yawDegrees": -86.8,
+      "size": [
+        10.0,
+        14.0
+      ],
+      "street": "tau",
+      "number": "20"
+    },
+    {
+      "id": "ADR-NS-N-E2",
+      "kind": "parcel",
+      "position": [
+        122.99,
+        25.55
+      ],
+      "yawDegrees": -93.0,
+      "size": [
+        12.5,
+        14.0
+      ],
+      "street": "tau",
+      "number": "14"
+    },
+    {
+      "id": "ADR-NS-N-E2B",
+      "kind": "parcel",
+      "position": [
+        122.56,
+        -11.73
+      ],
+      "yawDegrees": -85.2,
+      "size": [
+        11.0,
+        14.0
+      ],
+      "street": "tau",
+      "number": "8"
+    },
+    {
+      "id": "ADR-NS-N-E3",
+      "kind": "parcel",
+      "position": [
+        100.37,
+        -54.88
+      ],
+      "yawDegrees": 86.8,
+      "size": [
+        11.0,
+        14.0
+      ],
+      "street": "tau",
+      "number": "1"
+    },
+    {
+      "id": "ADR-NS-W-N1",
+      "kind": "parcel",
+      "position": [
+        87.63,
+        84.42
+      ],
+      "yawDegrees": -87.1,
+      "size": [
+        13.5,
+        14.0
+      ],
+      "street": "yar",
+      "number": "12"
+    },
+    {
+      "id": "ADR-NS-W-N2",
+      "kind": "parcel",
+      "position": [
+        65.63,
+        84.9
+      ],
+      "yawDegrees": 92.9,
+      "size": [
+        14.75,
+        14.0
+      ],
+      "street": "yar",
+      "number": "13"
+    }
+  ],
   "entities": [
     {
       "id": "urman.world:act1/far-bank/h033-house",
@@ -246,12 +773,12 @@
       "params": {
         "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
         "position": [
-          65.2,
+          65.388,
           0,
-          -68.27
+          -68.26
         ],
         "yawDegrees": 87.1,
-        "scale": 0.9,
+        "scale": 0.782,
         "collision": "surfaces",
         "address": {
           "id": "ADR-H033",
@@ -261,8 +788,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.563,
-            6.649
+            5.788,
+            5.862
           ],
           "streetAnchor": [
             76.186,
@@ -285,7 +812,7 @@
           -57.62
         ],
         "yawDegrees": 87.1,
-        "scale": 0.9,
+        "scale": 0.811,
         "collision": "surfaces",
         "address": {
           "id": "ADR-H034",
@@ -295,8 +822,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.352,
-            6.887
+            5.788,
+            6.27
           ],
           "streetAnchor": [
             75.654,
@@ -387,7 +914,7 @@
           -22.94
         ],
         "yawDegrees": 94.8,
-        "scale": 0.9,
+        "scale": 0.87,
         "collision": "surfaces",
         "address": {
           "id": "ADR-H050",
@@ -397,8 +924,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.563,
-            6.649
+            6.366,
+            6.449
           ],
           "streetAnchor": [
             110.512,
@@ -450,12 +977,12 @@
       "params": {
         "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
         "position": [
-          99.75,
+          100.139,
           0,
-          -43.9
+          -43.878
         ],
         "yawDegrees": 86.8,
-        "scale": 0.9,
+        "scale": 0.796,
         "collision": "surfaces",
         "address": {
           "id": "ADR-H070",
@@ -465,8 +992,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.64,
-            6.316
+            5.947,
+            5.661
           ],
           "streetAnchor": [
             110.738,
@@ -591,7 +1118,7 @@
           46.38
         ],
         "yawDegrees": -94.1,
-        "scale": 0.9,
+        "scale": 0.817,
         "collision": "surfaces",
         "address": {
           "id": "ADR-H075",
@@ -601,8 +1128,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.352,
-            6.887
+            5.826,
+            6.312
           ],
           "streetAnchor": [
             76.672,
@@ -659,7 +1186,7 @@
           57.1
         ],
         "yawDegrees": -94.1,
-        "scale": 0.9,
+        "scale": 0.817,
         "collision": "surfaces",
         "address": {
           "id": "ADR-H077",
@@ -669,8 +1196,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.352,
-            6.887
+            5.826,
+            6.312
           ],
           "streetAnchor": [
             75.906,
@@ -693,7 +1220,7 @@
           48.13
         ],
         "yawDegrees": -173.5,
-        "scale": 0.9,
+        "scale": 0.845,
         "collision": "surfaces",
         "address": {
           "id": "ADR-H078",
@@ -703,8 +1230,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.563,
-            6.649
+            6.202,
+            6.282
           ],
           "streetAnchor": [
             100.955,
@@ -727,7 +1254,7 @@
           0.64
         ],
         "yawDegrees": 94.8,
-        "scale": 0.9,
+        "scale": 0.859,
         "collision": "surfaces",
         "address": {
           "id": "ADR-H079",
@@ -737,8 +1264,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.64,
-            6.316
+            6.367,
+            6.057
           ],
           "streetAnchor": [
             112.477,
@@ -897,7 +1424,7 @@
           87.02
         ],
         "yawDegrees": -94.8,
-        "scale": 0.9,
+        "scale": 0.896,
         "collision": "surfaces",
         "address": {
           "id": "ADR-NS-M-E3",
@@ -907,8 +1434,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.352,
-            6.887
+            6.326,
+            6.859
           ],
           "streetAnchor": [
             112.491,
@@ -965,7 +1492,7 @@
           -0.77
         ],
         "yawDegrees": -85.2,
-        "scale": 0.9,
+        "scale": 0.837,
         "collision": "surfaces",
         "address": {
           "id": "ADR-NS-M-E4",
@@ -975,8 +1502,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.352,
-            6.887
+            5.952,
+            6.45
           ],
           "streetAnchor": [
             112.512,
@@ -1028,12 +1555,12 @@
       "params": {
         "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
         "position": [
-          65.73,
+          65.918,
           0,
-          -78.92
+          -78.91
         ],
         "yawDegrees": 87.1,
-        "scale": 0.9,
+        "scale": 0.782,
         "collision": "surfaces",
         "address": {
           "id": "ADR-NS-M-E5",
@@ -1043,8 +1570,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.563,
-            6.649
+            5.788,
+            5.862
           ],
           "streetAnchor": [
             76.719,
@@ -1135,7 +1662,7 @@
           -22.69
         ],
         "yawDegrees": -85.2,
-        "scale": 0.9,
+        "scale": 0.837,
         "collision": "surfaces",
         "address": {
           "id": "ADR-NS-M-W4B",
@@ -1145,8 +1672,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.352,
-            6.887
+            5.952,
+            6.45
           ],
           "streetAnchor": [
             110.685,
@@ -1198,12 +1725,12 @@
       "params": {
         "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
         "position": [
-          101.69,
+          101.959,
           0,
-          74.69
+          74.675
         ],
         "yawDegrees": 93.2,
-        "scale": 0.9,
+        "scale": 0.815,
         "collision": "surfaces",
         "address": {
           "id": "ADR-NS-N-E1",
@@ -1213,8 +1740,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.64,
-            6.316
+            6.074,
+            5.78
           ],
           "streetAnchor": [
             112.671,
@@ -1232,12 +1759,12 @@
       "params": {
         "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
         "position": [
-          123.69,
+          123.543,
           0,
-          74.09
+          74.098
         ],
         "yawDegrees": -86.8,
-        "scale": 0.9,
+        "scale": 0.758,
         "collision": "surfaces",
         "address": {
           "id": "ADR-NS-N-E1B",
@@ -1247,8 +1774,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.352,
-            6.887
+            5.452,
+            5.903
           ],
           "streetAnchor": [
             112.706,
@@ -1300,12 +1827,12 @@
       "params": {
         "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
         "position": [
-          122.56,
+          122.172,
           0,
-          -11.73
+          -11.697
         ],
         "yawDegrees": -85.2,
-        "scale": 0.9,
+        "scale": 0.796,
         "collision": "surfaces",
         "address": {
           "id": "ADR-NS-N-E2B",
@@ -1315,8 +1842,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.64,
-            6.316
+            5.947,
+            5.661
           ],
           "streetAnchor": [
             111.599,
@@ -1339,7 +1866,7 @@
           -54.88
         ],
         "yawDegrees": 86.8,
-        "scale": 0.9,
+        "scale": 0.837,
         "collision": "surfaces",
         "address": {
           "id": "ADR-NS-N-E3",
@@ -1349,8 +1876,8 @@
         },
         "terrainPad": {
           "halfSize": [
-            6.352,
-            6.887
+            5.952,
+            6.45
           ],
           "streetAnchor": [
             111.348,

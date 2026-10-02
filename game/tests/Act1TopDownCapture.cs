@@ -31,6 +31,13 @@ public partial class Act1TopDownCapture : Node
                 GetTree().Quit(0);
                 return;
             }
+            if (OS.GetEnvironment("URMAN_LAYOUT_AUDIT") == "1")
+            {
+                await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+                Act1LayoutAudit.Dump(GetTree().Root, OS.GetEnvironment("URMAN_TOPDOWN_OUTPUT"));
+                GetTree().Quit(0);
+                return;
+            }
             if (OS.GetEnvironment("URMAN_SHAPE_PROBE") is { Length: > 0 } shapeProbe)
             {
                 await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);

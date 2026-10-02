@@ -31,6 +31,7 @@ public partial class Act1ConnectedWorld
         // Outbuildings go: the loft barn, the street shed and the second "banya yard" parcel
         // whose dwelling the real bath already replaced. Their two discoveries go with them.
         foreach (var path in new[] { "BabaiYardAuthoredShed", "DistantPerimeterParcels/PerimeterWestStreetShed",
+                     "DistantPerimeterParcels/BabaiEastDepthParcel",
                      "BabaiYardAuthoredParcels/BabaiYardWestDepthBanyaYardParcel" })
             if (kit.GetNodeOrNull(path) is { } outbuilding)
             {

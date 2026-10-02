@@ -445,6 +445,8 @@ public partial class Act1ConnectedWorld : Node3D
         BuildAddressRegistry();
         // Street faces of the yards: palisadnik, painted gates, board fences.
         BuildStreetFrontages();
+        // One fence system along the real lot lines replaces every older yard fence.
+        RebuildYardFences();
         // Tamara Gennadievna's breakable plot fence, boards and people.
         BuildTamaraFenceQuest();
         AddressRead += RememberReadAddress;

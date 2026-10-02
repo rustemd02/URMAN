@@ -17,6 +17,9 @@ namespace Urman.Godot;
 /// </summary>
 public partial class AuthoredWorldDirector : Node3D
 {
+    private static readonly System.Text.RegularExpressions.Regex YardFenceMesh =
+        new(@"_Yard_(Post|\w*Rail|Gate|Picket|Fence|Paling|Board|Plank)", System.Text.RegularExpressions.RegexOptions.Compiled);
+
     public const string WorldDirectory = "res://content/world";
     public const string CatalogPath = "res://content/world/catalog.v1.json";
 
@@ -342,6 +345,47 @@ public partial class AuthoredWorldDirector : Node3D
             // A complete household parcel contains empty yard and gate space.
             // Its catalogue bounding box cannot serve as a solid collision.
             OpenYardGateway(visual);
+            // Yard fences of every plot are rebuilt as one village-wide system along the real lot
+            // lines (Act1ConnectedWorld.YardFences); the parcel's own short rails would double them.
+            // A parcel squeezed into a narrow lot keeps its yard layout, but its house stays
+            // full-size: the dwelling and outbuilding grow back about their own base to the
+            // ordinary 0.9 kit scale (walls ~2.6 m, not a toy house).
+            if (catalogId.Contains("villageparcel", StringComparison.Ordinal) && visual.Scale.X < .895f)
+            {
+                var toVisual = visual.GlobalTransform.AffineInverse();
+                Aabb? Bounds(Node3D root)
+                {
+                    Aabb? result = null;
+                    foreach (var mesh in root.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
+                    {
+                        if (mesh.Mesh is null || !mesh.Visible) continue;
+                        var box = toVisual * mesh.GlobalTransform * mesh.GetAabb();
+                        result = result is { } r ? r.Merge(box) : box;
+                    }
+                    return result;
+                }
+                if (Bounds(visual) is { } parcel)
+                    foreach (var piece in visual.FindChildren("*", "Node3D", true, false).OfType<Node3D>()
+                                 .Where(n => n.Name.ToString().EndsWith("_Dwelling", StringComparison.Ordinal)
+                                     || n.Name.ToString().EndsWith("_Outbuilding", StringComparison.Ordinal)).ToArray())
+                    {
+                        piece.Scale *= .9f / visual.Scale.X;
+                        // Keep the grown house inside its own parcel: shift it back from any edge.
+                        if (Bounds(piece) is not { } extent) continue;
+                        float Push(float lo, float hi, float min, float max) =>
+                            lo < min ? min - lo : hi > max ? max - hi : 0f;
+                        var shift = new Vector3(Push(extent.Position.X, extent.End.X, parcel.Position.X + .3f, parcel.End.X - .3f), 0,
+                            Push(extent.Position.Z, extent.End.Z, parcel.Position.Z + .3f, parcel.End.Z - .3f));
+                        piece.Position += piece.GetParent<Node3D>().Basis.Inverse() * shift;
+                    }
+            }
+            if (catalogId.Contains("villageparcel", StringComparison.Ordinal))
+                foreach (var rail in visual.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>()
+                             .Where(mesh => YardFenceMesh.IsMatch(mesh.Name.ToString())).ToArray())
+                {
+                    rail.Visible = false;
+                    rail.SetMeta("suppressionReason", "yard fences rebuilt along lot lines");
+                }
             var faces = new List<Vector3>();
             foreach (var mesh in visual.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
             {
