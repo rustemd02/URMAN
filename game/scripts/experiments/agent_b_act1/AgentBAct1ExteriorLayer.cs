@@ -1427,7 +1427,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 horizontal *= .62f;
                 vertical *= .78f;
             }
-            var yawRange = forestRim || variant is "WinterSpruce_4" or "WinterSpruce_5" or "WinterSpruce_6" ? 180f : 14f;
+            var yawRange = forestRim || variant is "FallenBranch_2" or "WinterSpruce_4" or "WinterSpruce_5" or "WinterSpruce_6" ? 180f : 14f;
             var basis = new Basis(Vector3.Up, Mathf.DegToRad(Mathf.Lerp(-yawRange, yawRange, DeterministicPhase(position, 8.1f))))
                 .Scaled(new Vector3(horizontal, vertical, horizontal));
             // Turn this rooted birch away from the rear-house minaret view.
@@ -1436,9 +1436,24 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 && position.DistanceSquaredTo(new Vector2(-33.82144f, -12.23175f)) < .01f)
                 basis = new Basis(Vector3.Up, Mathf.Pi * .5f) * basis;
             var target = new Vector3(position.X, AgentBAct1HeightField.CollisionGround(position.X, position.Y) - .04f, position.Y);
+            if (variant == "FallenBranch_2")
+            {
+                var run = basis.X.Normalized() * 4.9f * horizontal;
+                var rise = AgentBAct1HeightField.CollisionGround(target.X + run.X, target.Z + run.Z)
+                    - AgentBAct1HeightField.CollisionGround(target.X - run.X, target.Z - run.Z);
+                basis = new Basis(basis.Z.Normalized(), Mathf.Atan(rise / (run.Length() * 2f))) * basis;
+                // Seat the broken lower limbs on the actual slope, not on an
+                // imaginary horizontal plane across the rising forest bank.
+                var lowest = template.LowVertices.Min(vertex =>
+                {
+                    var point = target + basis * vertex;
+                    return point.Y - AgentBAct1HeightField.CollisionGround(point.X, point.Z);
+                });
+                target.Y -= lowest + .04f;
+            }
             var karaSuppression = position.Y <= -86f && new[] { "Birch_", "Spruce_", "MossStone_", "Stump_" }
                 .Any(prefix => sourceVariant.StartsWith(prefix, StringComparison.Ordinal));
-            var hidden = karaSuppression || position.Y > -86f && DeterministicPhase(position, 17.3f) < .75f
+            var hidden = karaSuppression || sourceVariant != "FallenBranch_2" && position.Y > -86f && DeterministicPhase(position, 17.3f) < .75f
                 && new[] { "FallenBranch_", "GrassTuft_", "MossStone_" }.Any(prefix => sourceVariant.StartsWith(prefix, StringComparison.Ordinal));
             if (karaSuppression) suppressedKara++;
             var worldRoot = ToGlobal(target);
@@ -1447,13 +1462,15 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             foreach (var sample in template.LowVertices)
             {
                 var point = target + basis * sample;
+                if (variant == "FallenBranch_2" && UnderBuildingRoof(ToGlobal(point), roofs))
+                { hidden = true; break; }
                 if (point.Y - target.Y > 2.6f) continue;
                 var edge = AgentBAct1HeightField.RoadInfo(point.X, point.Z);
                 if (edge.Distance - edge.HalfWidth >= .1) continue;
                 hidden = true; break;
             }
             if (hidden) { suppressed++; continue; }
-            var region = forestRim || position.Y <= -86f ? "kara" : position.Y <= -58f ? "zirat" : "village";
+            var region = forestRim || variant == "FallenBranch_2" || position.Y <= -86f ? "kara" : position.Y <= -58f ? "zirat" : "village";
             var hasLods = variant.StartsWith("Winter", StringComparison.Ordinal);
             var tiers = hasLods ? new[] { variant, variant.Replace("Winter", "WinterLight", StringComparison.Ordinal), variant.Replace("Winter", "WinterFar", StringComparison.Ordinal) }
                 : new[] { variant };
@@ -1487,13 +1504,24 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             // Build after all suppression, from the rooted wood rather than the
             // crown's AABB. Outer-ring trees are already behind the thicket's
             // physical carrier; shrubs and ground cover stay walk-through.
-            if (tree is not null && hasLods && template.Mesh.GetAabb().Size.Y * vertical >= 3.5f
+            if (tree is not null && (variant == "FallenBranch_2" || hasLods && template.Mesh.GetAabb().Size.Y * vertical >= 3.5f)
                 && _forestRingBand is { } ring
-                && position.X > ring.InnerMin.X + 2f && position.X < ring.InnerMax.X - 2f
-                && position.Y > ring.InnerMin.Y + 2f && position.Y < ring.InnerMax.Y - 2f)
+                && (variant == "FallenBranch_2"
+                    || position.X > ring.InnerMin.X + 2f && position.X < ring.InnerMax.X - 2f
+                    && position.Y > ring.InnerMin.Y + 2f && position.Y < ring.InnerMax.Y - 2f))
             {
                 if (!rootedStems.TryGetValue(variant, out var faces))
-                    rootedStems[variant] = faces = RootedStemFaces(template.Mesh, Array.IndexOf(template.Kinds, "bark"));
+                {
+                    var bark = Array.IndexOf(template.Kinds, "bark");
+                    if (variant == "FallenBranch_2")
+                    {
+                        var arrays = template.Mesh.SurfaceGetArrays(bark);
+                        var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                        faces = arrays[(int)Mesh.ArrayType.Index].AsInt32Array().Select(index => vertices[index]).ToArray();
+                    }
+                    else faces = RootedStemFaces(template.Mesh, bark);
+                    rootedStems[variant] = faces;
+                }
                 if (faces.Length == 0)
                     throw new InvalidOperationException($"Visible winter tree has no rooted stem geometry: {variant}");
                 // Bake the real yaw and non-uniform plant scale into these few
@@ -1960,6 +1988,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                             _ => "WinterLinden_1"
                         };
                     generated.Add((point, variant));
+                    if ((point.X <= -52f || point.X >= 140f || point.Y <= -130f)
+                        && !InsideMosqueKeepOut(point) && DeterministicPhase(point, 31.7f) > .55f)
+                        generated.Add((point + new Vector2(-.8f, 1.2f), "FallenBranch_2"));
                 }
             }
         }

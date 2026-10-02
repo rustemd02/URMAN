@@ -438,6 +438,53 @@ def grass_tuft(index):
 
 def fallen_branch(index, length):
     prefix = f"FallenBranch_{index}"
+    if index == 2:
+        # Mature windthrow, consumed only by the forest rim. Reuse
+        # the rooted wood/snow library rather than enlarge a garden twig.
+        points = [Vector((length*t, y, z)) for t, y, z in
+                  ((-.5, 0, .8), (-.34, .12, .9), (-.18, .05, .82),
+                   (0, .2, .73), (.19, .25, .58), (.37, .48, .4), (.5, .4, .3))]
+        vertices, faces, snow_vertices, snow_faces = [], [], [], []
+        _bare_branch(prefix, vertices, faces, points, [.48, .44, .38, .35, .31, .26, .22], segments=9)
+        # A blunt irregular fracture, rather than a uniformly sharpened tip.
+        for i, splinter in enumerate((.14, 0, -.22, .08, -.18, .11, .02, -.15, .04)):
+            vertex = Vector(vertices[(len(points)-1)*9+i])
+            vertex.x += splinter
+            vertices[(len(points)-1)*9+i] = tuple(vertex)
+        for i in range(5):
+            angle = .25 + i*1.15
+            root = points[0]
+            tip = root + Vector((-.4-.12*i, math.cos(angle)*1.3, math.sin(angle)*1.3))
+            _bare_branch(prefix, vertices, faces,
+                         [root, root.lerp(tip, .55), tip], [.19, .11, .025], segments=5)
+        for i, t in enumerate((.24, .46, .69)):
+            root = _point_on_polyline(points, t)
+            tip = root + Vector((.8, (-1 if i%2 else 1)*1.7, .75+.25*i))
+            _bare_branch(prefix, vertices, faces,
+                         [root, root.lerp(tip, .65), tip], [.12, .07, .012], segments=5)
+        # Broken lower limbs support the raised bole opposite its root plate.
+        for root in (points[4], points[-1]):
+            foot = root + Vector((.18, -.35, -.5-root.z))
+            _bare_branch(prefix, vertices, faces, [root, foot], [.13, .04], segments=5)
+        for a, b in zip(points[::2], points[2::2]):
+            _append_snow_cap(snow_vertices, snow_faces, [a, b], .75, .29, index)
+        wood = ab.mesh_from_pydata(prefix + "_Branch", vertices, faces)
+        snow = ab.mesh_from_pydata(prefix + "_Snow", snow_vertices, snow_faces)
+        ab.assign_material(wood, "AB_bark_dark")
+        ab.assign_material(snow, "AB_snow")
+        objects = [wood, snow]
+        for polygon in wood.data.polygons:
+            polygon.use_smooth = len(polygon.vertices) == 4
+        _smooth_winter_surfaces(objects, "near")
+        base = min(v.co.z for obj in objects for v in obj.data.vertices)
+        for obj in objects:
+            for v in obj.data.vertices:
+                v.co.z -= base
+                assert all(math.isfinite(value) for value in v.co), prefix
+        triangles = sum(len(p.vertices)-2 for obj in objects for p in obj.data.polygons)
+        assert triangles <= 600, (prefix, triangles)
+        print(f"AGENTB_DEADFALL {prefix} triangles={triangles} length={length}")
+        return objects
     objs = []
     branch = ab.make_cylinder(f"{prefix}_Main", (0, 0, 0.06), 0.035, 0.015,
                               length, segments=6, axis="x")
@@ -1241,6 +1288,8 @@ def main() -> None:
     for i in range(2):
         objects.extend(fallen_branch(i, 1.4 + i * 0.5))
         variants.append((f"FallenBranch_{i}", None))
+    objects.extend(fallen_branch(2, 9.8))
+    variants.append(("FallenBranch_2", None))
     objects.extend(moss_stone(0, 0.5))
     variants.append(("MossStone_0", None))
     objects.extend(dead_stump(0, 0.55))

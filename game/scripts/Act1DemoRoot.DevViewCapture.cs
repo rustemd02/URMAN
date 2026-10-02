@@ -78,6 +78,12 @@ public partial class Act1DemoRoot
             {
                 var at = text.IndexOf('@');
                 if (at < 0) return V(text);
+                if (text[..at] == "Ground")
+                {
+                    var point = V(text[(at + 1)..]);
+                    point.Y += Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(point.X, point.Z);
+                    return point;
+                }
                 var node = _main!.FindChild(text[..at], true, false) as Node3D;
                 return node is null ? V(text[(at + 1)..]) : node.ToGlobal(V(text[(at + 1)..]));
             }

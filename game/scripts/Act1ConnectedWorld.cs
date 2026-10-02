@@ -433,7 +433,6 @@ public partial class Act1ConnectedWorld : Node3D
         BuildFapPlate();
         BuildPlateFaces();
         RepairStandaloneZiratFenceJunction();
-        BuildShopUses();
         HideOverlappingStructures();
         RelocateOverlappingHouses();
         ComposeBabaiYard();
@@ -442,6 +441,7 @@ public partial class Act1ConnectedWorld : Node3D
         // Relayout v3 stage 5: the babai household moves whole onto the main street.
         RelocateBabaiHousehold();
         BuildCozyBabaiStorage();
+        BuildShopUses();
         ClearGorgeOfLegacyPresentation();
         BuildAddressRegistry();
         // Street faces of the yards: palisadnik, painted gates, board fences.
