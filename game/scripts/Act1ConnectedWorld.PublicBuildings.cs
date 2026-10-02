@@ -452,8 +452,8 @@ public partial class Act1ConnectedWorld
         if (_squareSchool is { } centralSchool)
         {
             var schoolLocal = centralSchool.ToLocal(point);
-            if (Math.Abs(schoolLocal.X) < 13.65f && Math.Abs(schoolLocal.Z) < 5.15f
-                && schoolLocal.Y > -.20f && schoolLocal.Y < 6.8f)
+            if (Math.Abs(schoolLocal.X) < 9.65f && Math.Abs(schoolLocal.Z) < 5.15f
+                && schoolLocal.Y > -.20f && schoolLocal.Y < 3.4f)
                 return "school";
         }
         foreach (var room in _publicBuildings)

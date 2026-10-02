@@ -60,7 +60,7 @@ public static class AgentBAct1HeightField
     private static readonly (float X, float Z)[] PlazaWalk =
         AgentBAct1Layout.PlazaWalkAxis.Select(point => (point.X, point.Y)).ToArray();
 
-    private static readonly float[] HalfWidths = { 2.8f, 2.3f, 1.4f, 2.1f, 1.75f, 2.0f, 1.75f, 2.4f };
+    private static readonly float[] HalfWidths = { 2.25f, 1.90f, 1.4f, 1.90f, 1.75f, 2.0f, 1.75f, 2.1f };
 
     private static readonly ((float X, float Z)[] Points, double HalfWidth)[] RoadAxes = new ((float X, float Z)[] Points, double HalfWidth)[]
     {
