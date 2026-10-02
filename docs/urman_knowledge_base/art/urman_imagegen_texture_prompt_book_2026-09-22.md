@@ -1920,17 +1920,16 @@ Material request: A small irregular cluster of faded glue residue and thin torn 
 
 Применение: frost_window, края стекла.\
 Тип: DECAL · один адресный след с альфой. Масштаб / формат: Одно окно; формат 2:3.\
-Имя кандидата: `urman_d07_v01_rgba.png`.
+Фактический файл от 03.10.2026: `frost_window_v1_albedo.png`, 1024×1536 RGBA. Встроенный ImageGen, `transparent_background=true`; одна генерация, без последующей обработки. Фактический промпт:
 
 ```text
-For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
-
-Generate exactly one flat localized color decal on genuine alpha transparency. Keep pigment variation restrained and edges suitable for compositing; no baked cast shadow, glow, substrate plane, checkerboard picture, text, watermark or collage. If a reference silhouette or mask is required below, use that supplied reference and do not guess it. Output only one RGBA decal image.
-
-Material request: Subtle edge-localized window frost: delicate grouped fernlike ice crystal color along the outer perimeter, leaving the central two-thirds clearly transparent. Pale neutral ivory crystals, no blue lighting or glow. No room, landscape, frame, text, face, dense opaque snow or checkerboard.
+Create exactly ONE production-ready RGBA game texture, not an illustration or presentation mockup.
+Asset: URMAN D07 frost_window_v1_albedo.png, a non-tiling transparent frost overlay for one vertical glass pane. Portrait 2:3 aspect ratio, preferably 1024 x 1536 pixels. Physical authored scale: about 0.67 meters wide by 1 meter tall. Flat orthographic front view, texture occupies the complete rectangular image; no perspective and no depicted window frame.
+Subject/material: very restrained, pale neutral ivory and soft gray-white ice crystals growing inward only from the outermost edges of the pane. A few delicate grouped fern-like branches and broken crystalline wisps, strongest in the lower corners, quieter sparse frost at top and sides. The narrow frost margin varies naturally from about 2 to 8 percent of image width, a few feather tips up to 12 percent. The central two-thirds of the entire area must be completely clear REAL alpha transparency, with no haze, glass color, reflective fill or ice floating in the center. Crystals have naturally varied partial opacity, subtle medium-scale shapes readable on a one-meter pane, restrained painterly simplification without noise or dense detail. Keep the overall frost coverage low, elegant and quiet. No uniformly solid white border.
+Output genuine transparency, including between crystal branches. Neutral unlit albedo pigment only: no baked directional light, cast shadows, blue glow, reflections, refraction, bloom, vignette or lens effects. No background, underlying glass rectangle, room, landscape, sky, snow scene, trees, monster, person, face, curtains, wood, mullion, trim, frame, text, watermark, symbols, collage, checkerboard pixels or preview border. This image is applied to existing geometry and must contain only the sparse ice crystals on alpha.
 ```
 
-Подключение и контроль: Не обещает прозрачность текущего шейдера; подключать alpha в правильном владельце стекла.
+Подключение и контроль: [паспорт D07](texture_runtime_inventory_2026-09-22.md) содержит хеш, измерения alpha и текущих потребителей. 71,84% пикселей полностью прозрачны. Картинка не доказывает прозрачность текущего шейдера: RGB центра чёрный, alpha=0; RGB-only потребитель затемнит albedo. Runtime-интеграция и приёмка на реальном окне остаются открытыми.
 
 <a id="d08"></a>
 

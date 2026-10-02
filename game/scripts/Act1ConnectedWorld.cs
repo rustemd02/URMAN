@@ -5285,6 +5285,9 @@ public partial class Act1ConnectedWorld : Node3D
                     placement.Scale,
                     placement.LogicalAnchor,
                     VillageExteriorKitScenePath);
+                if (placement.ComponentName.StartsWith("VillageParcel_", StringComparison.Ordinal)
+                    || placement.ComponentName == "DwellingFacade_TimberPlaster")
+                    TimberHomeStyle.LightOccupiedWindows(attached, placement.LogicalAnchor);
                 if (string.Equals(placement.ComponentName, "DwellingFacade_TimberPlaster", StringComparison.Ordinal))
                 {
                     AddBabaiRearFacadeDressing(attached, Vector3.Zero, 0f);
@@ -5984,7 +5987,8 @@ public partial class Act1ConnectedWorld : Node3D
             // cast the window's light onto sill, posts and snow outside.
             pane.MaterialOverride=new StandardMaterial3D {
                 AlbedoColor=Color.FromHtml("d6b98a"),
-                AlbedoTexture=ResourceLoader.Load<Texture2D>("res://assets/textures/painterly/frost_window_v1_albedo.png"),
+                DetailEnabled=true,DetailBlendMode=BaseMaterial3D.BlendModeEnum.Mix,
+                DetailAlbedo=ResourceLoader.Load<Texture2D>("res://assets/textures/painterly/frost_window_v1_albedo.png"),
                 EmissionEnabled=true,Emission=Color.FromHtml("ffce83"),EmissionEnergyMultiplier=1.35f,
                 Roughness=.42f,MetallicSpecular=.35f };
             var centre=pane.GlobalTransform*pane.Mesh!.GetAabb().GetCenter();

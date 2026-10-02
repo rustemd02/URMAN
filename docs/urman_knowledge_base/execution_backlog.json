@@ -20660,6 +20660,7 @@
         "docs/urman_knowledge_base/gameplay.md"
       ],
       "evidence": [
+        "2026-10-03 inhabited-window slice: existing TimberHomeStyle now assigns deterministic warm emission to 1–2 street panes per residential family, leaving a minority of houses dark. Both authored DressParcel and original connected-neighbor import use the same owner; no added Light nodes. Missing D07 frost PNG supplied via ImageGen with RGBA alpha; native DetailAlbedo Mix and existing PML frost_window branch preserve transparent center as glass, including Low shader path by code inspection. Existing village source normalized UV on43 glass meshes; GLB position/normal/index bytes, node transforms and slots unchanged against1e575dec. Blender export/import pass, source MD5052640712254e354c318646a3036a251. Final C# build0errors/0warnings10.71s. Protected native Metal Forward+ High scale1 1280x720 FOV70 comparison at /Users/unterlantas/Documents/URMAN_visual_20261003_inhabited/occupied_family/: back/street show selective warm windows across adjacent houses; first candidate lit_street missed old import path and was corrected. No frost load or shader errors; pre-existing exit leaks remain. No new movement/FPS/Low acceptance or author fear/beauty acceptance. Full interior refuge lighting and street-house transition remain next.",
         "2026-10-03 global-weather slice on author direction: permanent wind-driven snow through existing exterior owner,4000 particles/world-space/6–10m/s; first-night escalation5200/11–16m/s returns to ongoing storm. Removed movement-dependent Amount resets; shelter visibility now respects exterior enabled + physical shelter + camera shelter bounds. Existing day/zirat atmosphere profiles now cold twilight: ambient.36,sun.55,dark blue fog.032; ordinary camera far160m instead of native4000; no new manager/profile/effect. First bright-fog candidate storm/ rejected as washed out and less threatening; twilight/ retains near-path readability and stronger warm-window/cold-outdoor contrast, independent still review agrees. Existing recorded January pine wind reused for four day bed IDs; manifest provenance copied from actual asset; outdoor gain-3dB versus existing quiet indoor-12dB, existing crossfade/voice duck unchanged. JSON/diff checks pass; final C# build0errors/0warnings11.57s; one guarded ambient_audio_smoke_test PASS includes native loop/bed/gain and physical shelter-return contract. Protected Metal Forward+ High scale1 captures at /Users/unterlantas/Documents/URMAN_visual_20261003_blizzard/twilight/ (1280x720,DevView FOV70). Current ordinary-controller motion movement/walk.avi173frames/30fps,FOV75,focusTrue,pauseFalse,presetHigh,scale1; approach and reverse cover6.6m/8.2m, no human playtest. Userdata restored/verified for each run. No new FPS benchmark or Low/night/interior-route acceptance; existing missing frost_window texture and exit leaks remain. Fear/panic and audio listening are author acceptance, not technical PASS; remaining village warmth is uneven beyond babai house.",
         "2026-10-03 forest checkpoint before new global-weather steering: added existing-library FallenBranch_2 windthrow,9.8m/542tri, seven-station crooked bole, blunt irregular fracture, root plate and supporting broken limbs; wood_bark/snow_roof reuse, no new texture. Deep-band placement rejected as hidden; retained rim placement uses existing road/roof guards, slope alignment/support seating and matching bark trimesh in existing architecture body. Generator checks and import/source MD509687d5b78f08b982a71ffdae8dd1a4d pass; final C# build0errors/0warnings11.38s, diff check passes. Protected High Metal Forward+ scale1 FOV70 PNGs at /Users/unterlantas/Documents/URMAN_visual_20261003_forest/broken_deadfall/: same forest pose, edge at Ground(-44)+1.65; guard restored. Lower diagonal closure is a small visible gain; no fear acceptance or current ordinary movement/cost claim. Previous rim_deadfall close edge at-56 looked like a sharpened beam and did not show full support; revised and camera pulled back. Integrated origin/main5ddcb412 into d4cb9267 and fixed resulting startup dependency by moving BuildShopUses after detached carry coordinator mounts in BuildCozyBabaiStorage. Current game successfully loads/captures. Missing frost_window texture and existing exit resource leaks remain unrelated open defects. Author now redirects priority to permanent outdoor blizzard/shorter visibility/wind audio and comfortable sheltered interiors; pause further individual tree work.",
         "2026-10-03 checkpoint: author rejected previous forest fear level. Current old-growth iteration uses the existing winter_spruce_variant/PlantFoliage owners: shared crooked six-station mature trunk axis and rooted heavy dry limbs; near rim mixes three dark forked deciduous forms with rare birch, full yaw and existing kara bark grade. Removed west pilot adult-to-young substitution. Mature Near3752–5792/Light1296–1464/Far304–400 triangles; existing generator assertions pass, foliage GLB/import MD5db3fa06804479f6a4f425dfd121f352c matched. C# build0errors/0warnings10.68s and diff check pass. Protected High old_growth/yard.png, forest.png, back.png at /Users/unterlantas/Documents/URMAN_visual_20261002_references/: Metal Forward+,1280x720,scale1,DevView FOV70, same day light; userdata restored. edge.png is INVALID: camera below terrain, excluded. Viewed images show denser darker interlocking rim; open snow before it still softens the threat. Fear is not accepted; next iteration addresses entrance depth, no mystical particles. Current ordinary-camera movement, Low and cost remain unverified; no full-art completion.",
@@ -20758,9 +20759,9 @@
     },
     {
       "id": "ACT1-ATMOSPHERE",
-      "title": "Обычная уютная деревня с редкими сюжетными нарушениями спокойствия",
+      "title": "Уютные помещения и давящая зимняя непогода снаружи",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -20777,10 +20778,12 @@
         "docs/urman_knowledge_base/gameplay.md",
         "docs/tasktracker/review_2026-09-28/05_art_characters_assets.md"
       ],
-      "evidence": [],
+      "evidence": [
+        "2026-10-03 inhabited-window slice: existing TimberHomeStyle now assigns deterministic warm emission to 1–2 street panes per residential family, leaving a minority of houses dark. Both authored DressParcel and original connected-neighbor import use the same owner; no added Light nodes. Missing D07 frost PNG supplied via ImageGen with RGBA alpha; native DetailAlbedo Mix and existing PML frost_window branch preserve transparent center as glass, including Low shader path by code inspection. Existing village source normalized UV on43 glass meshes; GLB position/normal/index bytes, node transforms and slots unchanged against1e575dec. Blender export/import pass, source MD5052640712254e354c318646a3036a251. Final C# build0errors/0warnings10.71s. Protected native Metal Forward+ High scale1 1280x720 FOV70 comparison at /Users/unterlantas/Documents/URMAN_visual_20261003_inhabited/occupied_family/: back/street show selective warm windows across adjacent houses; first candidate lit_street missed old import path and was corrected. No frost load or shader errors; pre-existing exit leaks remain. No new movement/FPS/Low acceptance or author fear/beauty acceptance. Full interior refuge lighting and street-house transition remain next."
+      ],
       "deliverable": "Уютная жилая деревня, неоднозначные наблюдающие формы и значительно более жуткий окружающий лес.",
       "done_when": [
-        "Большая часть прогулки ощущается нормальной обжитой деревней; семья не единственный безопасный кадр.",
+        "По прямому уточнению автора 03.10: улица постоянно некомфортна из-за метели, ветра, короткой видимости и давления леса; жилые помещения остаются уютными убежищами. Деревня обжита и ухожена, ближайший путь читается.",
         "Лес/звук/свет усиливают конкретные события, без непрерывных скримеров, постоянных монстров и uncanny всего каста. 12+ — целевой тон, не официальный рейтинг.",
         "ТЗ05 A01.1: фоновые глазоподобные детали и значительно более страшный окружающий лес сохраняются вне катсцен. Высота, искривлённые силуэты, плотность и тёмная глубина работают днём и вечером; уют жилой среды сохранён. До/после на одинаковом маршруте, повороты камеры, сравнимый профиль; чувство страха не объявляется доказанным по числу объектов."
       ],
@@ -20809,10 +20812,10 @@
           },
           {
             "id": "ACT1-ATMOSPHERE/S3",
-            "action": "Проверить критерии: Большая часть прогулки ощущается нормальной обжитой деревней; семья не единственный безопасный кадр. Лес/звук/свет усиливают конкретные события, без непрерывных скримеров, постоянных монстров и uncanny всего каста. 12+ — целевой тон, не официальный рейтинг."
+            "action": "Проверить текущий контраст: давящая постоянная непогода снаружи, обжитые тёплые помещения внутри; ближайший путь читается. Страх и уют требуют оценки автора, а не числа PASS."
           }
         ],
-        "acceptance": "Большая часть прогулки ощущается нормальной обжитой деревней; семья не единственный безопасный кадр. Лес/звук/свет усиливают конкретные события, без непрерывных скримеров, постоянных монстров и uncanny всего каста. 12+ — целевой тон, не официальный рейтинг. ТЗ05 A01.1: фоновые глазоподобные детали и значительно более страшный окружающий лес сохраняются вне катсцен. Высота, искривлённые силуэты, плотность и тёмная глубина работают днём и вечером; уют жилой среды сохранён. До/после на одинаковом маршруте, повороты камеры, сравнимый профиль; чувство страха не объявляется доказанным по числу объектов.",
+        "acceptance": "По прямому уточнению автора 03.10: улица постоянно некомфортна из-за метели, ветра, короткой видимости и давления леса; жилые помещения остаются уютными убежищами. Деревня обжита и ухожена, ближайший путь читается. Лес/звук/свет усиливают конкретные события, без непрерывных скримеров, постоянных монстров и uncanny всего каста. 12+ — целевой тон, не официальный рейтинг. ТЗ05 A01.1: фоновые глазоподобные детали и значительно более страшный окружающий лес сохраняются вне катсцен. Высота, искривлённые силуэты, плотность и тёмная глубина работают днём и вечером; уют жилой среды сохранён. До/после на одинаковом маршруте, повороты камеры, сравнимый профиль; чувство страха не объявляется доказанным по числу объектов.",
         "verification": "Документы: конкретные ссылки/JSON/diff. При реализации — существующая узкая проверка изменённого пути и защищённый обычный запуск с проходом/поворотами; человеческий интерес не выводить из PASS.",
         "stop_if": "После приёмки выбранной единицы остановиться. Две итерации без заметного улучшения — пересмотреть сигнал/действие/масштаб, не продолжать полировку. Не расширять задачу на весь акт.",
         "read_first": [
@@ -20830,7 +20833,7 @@
       },
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
-      "author_contract_revision": "2026-09-28 round2",
+      "author_contract_revision": "2026-10-03 persistent outdoor blizzard / comfortable interiors",
       "author_atmosphere_addendum": "2026-09-28 / ТЗ05 A01.1"
     },
     {
@@ -20986,6 +20989,7 @@
         "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
       ],
       "evidence": [
+        "2026-10-03 author revision: persistent blizzard and reduced outdoor visibility with recorded wind; uncomfortable outdoors versus comfortable interiors. Previous calm-only/rare-weather acceptance is superseded by this explicit direction; first-night story event remains an escalation. Current weather baseline committed/pushed1e575dec, native High ordinary-camera evidence /Users/unterlantas/Documents/URMAN_visual_20261003_blizzard/. Next global slice: occupied-window variation across existing residential family, no new lights/managers or layout change; author acceptance and listening stay open.",
         "docs/production/a01_ex13_yard_2026-09-28/README.md"
       ],
       "deliverable": "Один активный выбор при keyboard focus и hover другого пункта.",

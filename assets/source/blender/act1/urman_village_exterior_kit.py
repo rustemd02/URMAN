@@ -2163,6 +2163,7 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         def local_box(name, u, inset, z, sx, sy, sz, mat):
             obj = box(name, point(u, inset, z), (sx, sy, sz), mat)
             obj.rotation_euler.z = math.atan2(ty, tx)
+            return obj
         def local_profile(name, u, inset, z, outline, thickness, mat):
             # A flat carved board: the outline (du, dz) around (u, z) in the
             # wall plane, extruded outward. Nailed over the casing like the
@@ -2188,8 +2189,14 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
             x, z, w, h = (x0+x1)/2, (z0+z1)/2, x1-x0, z1-z0
             if kind != "Portal":
                 local_box(tag+"_Recess", x, .21, z, w, .045, h, "URMAN_Wood_Dark")
-                local_box(tag+"_Glass" if kind == "Window" else tag+"_Leaf", x, .17, z,
+                panel = local_box(tag+"_Glass" if kind == "Window" else tag+"_Leaf", x, .17, z,
                           w-.10, .035, h-.10, "URMAN_Window_DimGlass" if kind == "Window" else "URMAN_Wood_WetShadow")
+                if kind == "Window":
+                    uv = panel.data.uv_layers.new(name="UVMap")
+                    for face in panel.data.polygons:
+                        for loop in face.loop_indices:
+                            v = panel.data.vertices[panel.data.loops[loop].vertex_index].co
+                            uv.data[loop].uv = (v.x / (w-.10) + .5, v.z / (h-.10) + .5)
             for side in (-1, 1):
                 local_box(tag+f"_Jamb{side}", x+side*(w/2+.035), casing_inset, z,
                           .095, casing_depth, h+.14, hero_joinery)

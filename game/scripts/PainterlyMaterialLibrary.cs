@@ -9,6 +9,7 @@ public static class PainterlyMaterialLibrary
         render_mode diffuse_burley, specular_schlick_ggx;
 
         uniform vec4 base_color : source_color;
+        uniform bool edge_frost = false;
         uniform vec4 shadow_color : source_color;
         uniform float brush_scale = 0.7;
         uniform float variation = 0.16;
@@ -154,7 +155,14 @@ public static class PainterlyMaterialLibrary
 
         void fragment() {
             float wet_factor = clamp(wet_grade, 0.0, 1.0);
-            if (low_quality) {
+            if (edge_frost && has_albedo_texture) {
+                // RGBA edge pigment overlays intact glass, including on Low.
+                vec4 frost = texture(albedo_texture, UV);
+                ALBEDO = mix(base_color.rgb, frost.rgb, frost.a);
+                ROUGHNESS = mix(0.30, 0.86, frost.a);
+                SPECULAR = 0.35;
+                METALLIC = 0.0;
+            } else if (low_quality) {
                 vec3 low_color = base_color.rgb;
                 if (has_albedo_texture) {
                     vec3 position = (local_wood_texture || local_floor_texture) ? local_wood_position : world_position;
@@ -627,6 +635,7 @@ public static class PainterlyMaterialLibrary
         var material = new ShaderMaterial { Shader = PainterlyShader };
         material.SetMeta("surface", surface);
         material.SetShaderParameter("base_color", color);
+        material.SetShaderParameter("edge_frost", surface == "frost_window");
         material.SetShaderParameter("cut_wood_end", surface == "wood_cut");
         material.SetShaderParameter("upright_texture", surface is "log_wall" or "fabric_pattern" or "hay_bundle"
             or "wood_facade" or "wood_painted_blue" or "wood_painted_green" or "wood_painted_trim" or "wood_floor_painted"
