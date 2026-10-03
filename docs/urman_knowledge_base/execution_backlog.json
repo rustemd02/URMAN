@@ -2971,6 +2971,7 @@
   "tasks": [
     {
       "id": "ACT1-VILLAGE-LAYOUT",
+      "progress_2026_10_04": "2026-10-04: авторский файл планировки разобран по данным: docs/production/act1_village_layout_data_2026-10-04.md. В нём 196 постановок: 96 активных и 100 помечены retired (51 %), причём причина записана только у 10 из 100 снятых (например «29.09: authored overlap remediation; H001 inside ArrivalFarWestFacade; next plot north»). Активная часть — дорожная/рельефная обвязка (RoadRuts 8, RoadsideDitch 7, VillageParcel 7, MuddyShoulder 6, RoadCrown 4, ForestBank 4, MixedTreeCluster 4, RootWall 4), активных жилых постановок всего 5. Снятые компоненты остаются упомянутыми в коде (1–3 скрипта на компонент), поэтому «retired в данных» не равно «не упоминается в коде». Следующий шаг — дописать причину к снятым постановкам (восстанавливается по истории git и заметкам ремедиации 29.09), данные не переписывать.",
       "execution": {
         "kind": "work",
         "unit": "W1: один согласованный план до физической перестановки",
@@ -3036,7 +3037,8 @@
           "result": "Шурале как лицо антагониста (решение автора 29.09: «лицо — Шурале»): проект «Хранитель кромки», пять справедливых правил, приметы по трём уровням татарского — docs/urman_knowledge_base/antagonist_shurale.md (Proposal); обзор пролога — gameplay/act1_prologue_review_2026-09-29.md",
           "not_verified": "фольклорные детали помечены «проверить»; реализация правил не начата"
         }
-      ],
+      ,
+        "docs/production/act1_village_layout_data_2026-10-04.md"],
       "progress_2026_09_25": "S7: автор одобрил схему layout_v1 и причину непроходимости моста — обрушенный пролёт (decision_log 2026-09-25). Пакет 1: овраг (AgentBAct1HeightField.RavineChannel, центр ≈ 50.5), ручей, забор по кромке с коллизией, обрушенный мост у петли ФАПа (z = −25), дальний берег — улица yar, 9 домов (H033/H034/H039/H048/H050 перенесены, H069–H072 новые). Рельеф MaxX = 94, кольцо InnerMax.X = 88. Выход из реки перенесён с x = 44 на x = 34. Обязательные места не переносились. Остальные пакеты (извилистая главная улица, петля к мечети, дворы H02) открыты.",
       "mvp_priority": 20,
       "mvp_packet": "A05",
@@ -15513,6 +15515,7 @@
     },
     {
       "id": "ACT1-DEPTH.10",
+      "progress_2026_10_04": "2026-10-04: важное ограничение источника: по авторскому файлу планировки число вариантов семейства жилых домов НЕ выводится — там всего 5 активных жилых постановок (A 1, B 2, C 1 и один DwellingFacade_TimberPlaster), остальные 39 из 44 постановок жилых домов помечены retired при переносе раскладки 29.09. Измеренные ранее меши семейства: варианты A/B/C (VillageParcel_VariantA_TimberGable, VariantB_PlasterAnnex, VariantC_BanyaYard) с дверными узлами 1.92/2.02 м и сенями SeniEntry 1.92 м; выразительность и «фанерность» оцениваются по кадрам. Аудит данных: docs/production/act1_village_layout_data_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одно семейство жилых домов; сначала улица прибытия, затем остальные видимые семьи.",
@@ -15566,7 +15569,8 @@
         "I12камни имеют естественную опору/силуэт, дома используют работающий оконный/срубный набор; все замены сохраняют необходимые маршруты/ID. Не добавлять детали ради полигонов.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_village_layout_data_2026-10-04.md"],
       "mvp_priority": 22,
       "mvp_packet": "A10",
       "delivery": {
@@ -20320,6 +20324,7 @@
     },
     {
       "id": "ACT1-PUBLIC.FACADES",
+      "progress_2026_10_04": "2026-10-04: R072 проверен по источникам: в авторском файле планировки общественные здания не описаны вовсе (school/council/club/shop не встречаются), их форму задаёт код — BuildClosedSchool, BuildCouncilClub, BuildVillageShop, а ФАП приходит из отдельного кита (urman_fap_clinic_kit.glb; измеренный Fap_Body 9.02 × 2.54 × 9.48 м заметно крупнее жилых домов 4.4–6.2 м). То есть отличимость «архитектурой, а не только вывеской» опирается на разные сборщики/кит и поддерживается, а внешний вид «заметная школа, выразительный ДК, узнаваемый ФАП, сине-белый магазин» требует кадров и остаётся not-run. Аудит: docs/production/act1_village_layout_data_2026-10-04.md",
       "title": "Различимая сельская школа, ДК, ФАП и сине-белый магазин",
       "milestone": "M5",
       "status": "todo",
@@ -20338,7 +20343,8 @@
         "docs/urman_knowledge_base/decision_log.md",
         "docs/urman_knowledge_base/gameplay.md"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_village_layout_data_2026-10-04.md"],
       "deliverable": "Различимая сельская школа, ДК, ФАП и сине-белый магазин",
       "done_when": [
         "Школа — заметное многоэтажное здание, ДК выразительнее без гротеска, ФАП узнаваем по функции; не одинаковые жилые коробки.",
@@ -23241,6 +23247,7 @@
       "acceptance_matrix_traceability_2026_10_04": "Cross-checked the acceptance matrix against the live queue. The matrix stays a snapshot of its own build (HEAD 04f039ee, package r45) and names the queue as the only live authority; its 25 checks are 14 proved, 7 partial and 4 externally blocked, matching the counts the handover cites. Reverse traceability was verified: three cards name the matrix by title (ACT1-TZ-ACCEPT, FINISH-03, FINISH-02), and the four external checks map onto concrete blocked cards - 21 to LEN01.5 and REL-003, 22 to QA-001 and LEN01.8, 23 to FINISH-02/FINISH-03, 24 to REL-002 and FINISH-08. The queue holds twelve externally blocked cards and none of those matrix points is claimed as done. A dated note recording this was added to the matrix itself.",
       "json_integrity_2026_10_04": "JSON integrity across the repository, checked with an object_pairs_hook: of 951 tracked .json files, **0 contain duplicate keys** and only three fail a strict parse, each for a benign, verified reason. Two are evidence logs whose first token is the game's log prefix before the JSON payload - act1_takeover_evidence_2026-09-20/footstep-lag/probe-before-fix.json and probe-after-fix.json - and both payloads were decoded successfully here (ticks 1500, on_road samples 557 / steps 57), so the evidence itself is intact and only the extension reads as pure JSON. The third is tsconfig.json, a JSONC config for the retired web runtime, which legitimately carries comments. No other tracked JSON file has a strict-parse or duplicate-key problem.",
       "scope_and_status_2026_10_04": "Two queue defects fixed: ACT1-TAMARA-FENCE was in_progress although its own review_scope says author-deferred, its mvp_packet says AUTHOR-DEFERRED and current_scope.out_of_scope excludes the Tamara quest by the author's 2026-09-27 decision, so it is now deferred with its code and historical evidence intact; LEN01.5 had an empty scope list and now names docs/production/ as the place its human session report lands, keeping the blocked status. After both fixes every task has a non-empty scope list. status_counts was recomputed. ACT1-TAMARA-FENCE was also the only object in the queue with a duplicate key - two progress_2026_10_04 notes where the later shadowed the earlier - so both are merged into one note; its null scope now names its four implementation files. A duplicate-key scan of the whole queue reports no other occurrence.",
+      "village_layout_data_2026_10_04": "World layout data audit: 196 kit placements, 96 active and 100 retired, but only 10 of the retired ones record a reason, which is a traceability gap rather than a proven layout fault; the file also shows that the dwelling-variant count cannot be read from it (only five active dwellings), and that public buildings are not described there at all - their form comes from code builders plus the FAP kit. Report: docs/production/act1_village_layout_data_2026-10-04.md",
       "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 35 (REVIEW28-RESEARCH and LEN01.1).",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
       "review_spec_traceability": "All 78 cards carrying a review_spec resolve: every review_spec.path exists (7 distinct documents - the six themed specs plus the review README, with 06 used by 23 cards, 05 by 19, 03 by 14, 01 and 04 by 7 each, 02 by 6 and the README by 2), and every review_spec.unit label (W0, A02, M and so on) appears verbatim in the document it cites, 0 failures. 22 of those cards also pin contract_revision 2026-09-28 round2. What this does not check: the specs' own prose cannot be scanned for missing cards, so only the card-to-section direction is machine-verified.",
