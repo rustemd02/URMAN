@@ -4027,6 +4027,7 @@
     },
     {
       "id": "ACT1-TEXTURE.05",
+      "progress_2026_10_04": "2026-10-04: группа .05 (D01–D10) проверена по перечню: docs/production/act1_texture_groups_050610_2026-10-04.md. Состав 3 new (D01,D03,D06), 6 conditional (D02,D04,D05,D08,D09,D10) и 1 integrated (D07: файл есть, alpha=0 у 71,84 %, остаток — подключение к WindowFrost). Потребитель и профиль декали (маска/UV/палитра) названы у 10/10 — для декали это и есть требуемые поля. Остаток: D10 (получатель EX11 не подтверждён), D08 (точная маска инея и связь с оттаиванием), D09 (утверждённый силуэт 25–30 см). Генерация и приёмка не выполнялись.",
       "execution": {
         "kind": "work",
         "unit": "Одна карточка из texture_cards, один кандидат; не вся партия за запуск.",
@@ -4085,7 +4086,8 @@
         "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
         "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_texture_groups_050610_2026-10-04.md"],
       "texture_cards": [
         "D01",
         "D02",
@@ -4111,6 +4113,7 @@
     },
     {
       "id": "ACT1-TEXTURE.06",
+      "progress_2026_10_04": "2026-10-04: группа .06 (C01–C12) проверена по перечню: docs/production/act1_texture_groups_050610_2026-10-04.md. Состав 2 new (C09,C12), 1 edit, 2 reuse, 7 conditional; потребитель назван у 12/12, профиль поверхности (атлас/UV/маска или явный тайл: C09 ткань 0,3 м, C10 knit 0,2 м) — тоже 12/12. Лицензия уточнена: база персонажей — внешний пак UniversalBaseCharacters_Standard под CC0 (см. AGENTS.md: локальная копия пака единственная, в репозитории производные .blend), то есть .06 — CC0-производная, а не чисто проектная; запись добавлена в инвентарь. Приёмка атласов — not-run.",
       "execution": {
         "kind": "work",
         "unit": "Одна карточка из texture_cards, один кандидат; не вся партия за запуск.",
@@ -4168,7 +4171,8 @@
         "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
         "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_texture_groups_050610_2026-10-04.md"],
       "texture_cards": [
         "C01",
         "C02",
@@ -4549,6 +4553,7 @@
     },
     {
       "id": "ACT1-TEXTURE.09",
+      "progress_2026_10_04": "2026-10-04: 12 строк группы .09 (A2-01…A5-02) относятся к Актам II–V: ближайший проверяемый объём — Акт I (EX00–EX14), Акты II–V в него не входят, и сам инвентарь пишет, что поздние книги/существа не опережают утверждение носителей. Поэтому карточка не получает производственного результата сейчас и не объявляется выполненной — это отложено по объёму. Разбор групп .05/.06/.10: docs/production/act1_texture_groups_050610_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одна карточка из texture_cards, один кандидат; не вся партия за запуск.",
@@ -4607,7 +4612,8 @@
         "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
         "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_texture_groups_050610_2026-10-04.md"],
       "texture_cards": [
         "A2-01",
         "A2-02",
@@ -4635,6 +4641,7 @@
     },
     {
       "id": "ACT1-TEXTURE.10",
+      "progress_2026_10_04": "2026-10-04: группа .10 (K01 Шурале, K02 Су Анасы) разобрана по перечню: docs/production/act1_texture_groups_050610_2026-10-04.md. Обе карточки остаются conditional: K01 требует утверждённых модели/вида/реальных UV-атласа-маски (выдумывать анатомию и делать боевого монстра запрещено), K02 — утверждённого видимого тела, причём голос и присутствие у воды текстуры тела автоматически не требуют. Потребитель-заготовка назван (FullGameNpcDressing обслуживает человеческие префиксы), но готовности носителей нет. Работа не начинается.",
       "execution": {
         "kind": "work",
         "unit": "Одна карточка из texture_cards, один кандидат; не вся партия за запуск.",
@@ -4692,7 +4699,8 @@
         "TILE проверен на повтор; alpha на настоящий канал и края; UV/PHOTO только по реальному утверждённому исходнику без новых фактов.",
         "Источник сохранён, выбранный файл находится в workspace; временные копии не накапливаются без необходимости."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_texture_groups_050610_2026-10-04.md"],
       "texture_cards": [
         "K01",
         "K02"
@@ -23223,6 +23231,7 @@
       "dictionary_2026_10_04": "ACT1-UI.6: the vocabulary tab has a status filter (all/hypotheses/confirmed), search across word, meaning and source, an explicit empty-result message and working close/escape; all five project fonts were checked in cmap and carry every Tatar letter; the UI only reads the content registry. Document: docs/production/act1_dictionary_2026-10-04.md",
       "recount_2026_10_04": "Recount after tonight's two completions: status_counts is now in_progress 130, completed 35, todo 27, blocked 12, review 2; 171 unfinished cards (152 work, 15 aggregate, 4 rollup) carrying 499 steps instead of 505, because the two completed cards' six steps moved to history while staying on their cards; the all-cards total of 527 is unchanged. Those stale numbers came from this audit's own earlier entries and are corrected here rather than left to drift.",
       "texture_group04_2026_10_04": "ACT1-TEXTURE.04: the paper and story-image group was audited by its list rather than by a sample - 14 rows with 5 new, 6 conditional and 3 reuse, a consumer named in 14 of 14 rows, and the result path verified in code; the licence field was empty in every row, so the inventory now states the group's project licence explicitly and asks imported carriers to name their pack licence. Report: docs/production/act1_texture_group04_2026-10-04.md",
+      "texture_groups_050610_2026_10_04": "Texture groups .05 (address decals D01-D10: consumer and decal profile in 10/10 rows, 3 new, 6 conditional, 1 integrated), .06 (characters C01-C12: consumer and surface profile at 12/12, and the base is the CC0 UniversalBaseCharacters_Standard pack, so the licence is CC0-derived rather than purely project) and .10 (K01/K02 stay conditional on approved creature carriers) were audited by their lists; .09 belongs to Acts II-V and is deferred by scope, not completed. Report: docs/production/act1_texture_groups_050610_2026-10-04.md",
       "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 35 (REVIEW28-RESEARCH and LEN01.1).",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
       "review_spec_traceability": "All 78 cards carrying a review_spec resolve: every review_spec.path exists (7 distinct documents - the six themed specs plus the review README, with 06 used by 23 cards, 05 by 19, 03 by 14, 01 and 04 by 7 each, 02 by 6 and the README by 2), and every review_spec.unit label (W0, A02, M and so on) appears verbatim in the document it cites, 0 failures. 22 of those cards also pin contract_revision 2026-09-28 round2. What this does not check: the specs' own prose cannot be scanned for missing cards, so only the card-to-section direction is machine-verified.",
