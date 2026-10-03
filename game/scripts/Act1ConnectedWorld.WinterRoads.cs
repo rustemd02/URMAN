@@ -6,6 +6,13 @@ namespace Urman.Godot;
 public partial class Act1ConnectedWorld
 {
     private readonly Dictionary<string, MeshInstance3D> _winterAccessMeshes = new(StringComparer.Ordinal);
+    // The revision is a pure function of the verified path array, and committing a
+    // route stores a freshly built array (Compact returns a new Vector3[]), so the
+    // array instance identifies its own contents. Remembering that instance lets an
+    // unchanged route skip rebuilding its revision string on every later attach:
+    // each published address walks every already verified route, so this removes an
+    // O(routes x points) string build and its garbage from every publication.
+    private readonly Dictionary<string, (Vector3[] Path, string Revision)> _winterAccessRevisions = new(StringComparer.Ordinal);
 
     // The physical audit owns the route. A visible path is created only after
     // the standing body and connected street graph have accepted that route.
@@ -17,10 +24,13 @@ public partial class Act1ConnectedWorld
         {
             _winterAccessMeshes[id].QueueFree();
             _winterAccessMeshes.Remove(id);
+            _winterAccessRevisions.Remove(id);
         }
         foreach (var (id, path) in accepted)
         {
-            var revision = string.Join(";", path.Select(point => point.ToString()));
+            if (!_winterAccessRevisions.TryGetValue(id, out var recorded) || !ReferenceEquals(recorded.Path, path))
+                _winterAccessRevisions[id] = recorded = (path, string.Join(";", path.Select(point => point.ToString())));
+            var revision = recorded.Revision;
             if (_winterAccessMeshes.TryGetValue(id, out var previous))
             {
                 if (previous.GetMeta("routeRevision").AsString() == revision) continue;

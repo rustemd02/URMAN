@@ -51,6 +51,13 @@ public sealed class SettlementRoadGraph
         var byKey=string.CompareOrdinal(left.Cut.Key,right.Cut.Key);
         return byKey!=0?byKey:left.Order.CompareTo(right.Order);
     };
+    // Node lookup by one-metre cell. NodeAt's tolerance is .001, so any matching
+    // node lies in the query cell or one of its eight neighbours: the candidate set
+    // is a superset and the same distance test and smallest-id tie-break are applied
+    // to it, so the returned id is unchanged while the per-call scan over every node
+    // (once per verified route on every publication) disappears. _nodes is written
+    // only by RebuildCore, which rebuilds this index right after filling it.
+    private readonly Dictionary<long,List<string>> _nodeCells=new();
     public IReadOnlyDictionary<string, SettlementRoad> Roads => _roads;
     public IReadOnlyDictionary<string, SettlementGraphNode> Nodes => _nodes;
     public IReadOnlyDictionary<string, SettlementGraphEdge> Edges => _edges;
@@ -418,6 +425,13 @@ public sealed class SettlementRoadGraph
                 _edges[id]=new(id,a.NodeId,b.NodeId,s.Road.Id,s.Road.StreetId,a.Point.Distance(b.Point),s.Road.Width,s.Road.Surface,s.Road.Modes,s.Road.WinterBlocked,s.Road.GateKey);
             }
         }
+        _nodeCells.Clear();
+        foreach(var node in _nodes.Values)
+        {
+            var key=CellKey((int)Math.Floor(node.Position.X),(int)Math.Floor(node.Position.Z));
+            if(!_nodeCells.TryGetValue(key,out var bucket))_nodeCells[key]=bucket=[];
+            bucket.Add(node.Id);
+        }
         if(_measureRebuild)
         {
             var finishedUsec=global::Godot.Time.GetTicksUsec();
@@ -495,8 +509,16 @@ public sealed class SettlementRoadGraph
     public string? NodeAt(SettlementPoint point)
     {
         string? best=null;
-        foreach(var node in _nodes.Values)
-            if(node.Position.DistanceXZ(point)<.001&&(best is null||string.CompareOrdinal(node.Id,best)<0))best=node.Id;
+        var cellX=(int)Math.Floor(point.X);var cellZ=(int)Math.Floor(point.Z);
+        for(var x=cellX-1;x<=cellX+1;x++) for(var z=cellZ-1;z<=cellZ+1;z++)
+        {
+            if(!_nodeCells.TryGetValue(CellKey(x,z),out var bucket))continue;
+            foreach(var id in bucket)
+            {
+                var node=_nodes[id];
+                if(node.Position.DistanceXZ(point)<.001&&(best is null||string.CompareOrdinal(node.Id,best)<0))best=node.Id;
+            }
+        }
         return best;
     }
     public bool Allowed(SettlementGraphEdge edge,SettlementTravelMode mode,bool winter) =>
