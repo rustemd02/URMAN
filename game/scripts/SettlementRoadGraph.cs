@@ -345,7 +345,9 @@ public sealed class SettlementRoadGraph
         // segments.SelectMany(s=>s.Cuts). The explicit comparator reproduces that
         // permutation exactly (key, then the position in that sequence) without the
         // iterator, buffer and key-array allocations of the LINQ pipeline.
-        var groupSequence=new List<(Cut Cut,int Order)>(segments.Count);
+        // Every segment starts with two cuts, so this is the common size; a
+        // segment with junctions needs a little more and the list grows once.
+        var groupSequence=new List<(Cut Cut,int Order)>(segments.Count*2);
         var groupPosition=0;
         foreach(var segment in segments) foreach(var cut in segment.Cuts) groupSequence.Add((cut,groupPosition++));
         groupSequence.Sort(GroupOrder);
