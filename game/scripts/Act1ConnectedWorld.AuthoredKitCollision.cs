@@ -207,6 +207,11 @@ public partial class Act1ConnectedWorld
         var roomWindowPrefixes = new[] { "Street_Window1", "Street_Window2", "Street_Window3",
             "Rear_Window0", "Rear_Window1", "Left_Window0", "Right_Window0" };
         if (heroFacade is not null)
+            // The outer and inner closed leaves occupy the same plane. The
+            // active room owns its visible panel; physics follows the existing zone gate.
+            FindDescendants<MeshInstance3D>(heroFacade)
+                .Single(mesh => mesh.Name == "HeroHouse_StreetDoorClosed_LOD0").Visible = activeZoneId != "house_old_pc";
+        if (heroFacade is not null)
         foreach (var mesh in FindDescendants<MeshInstance3D>(heroFacade).Where(mesh =>
             roomWindowPrefixes.Any(prefix => mesh.Name == "HeroHouse_" + prefix + "_Glass_LOD0"
                 || mesh.Name == "HeroHouse_" + prefix + "_Recess_LOD0")))

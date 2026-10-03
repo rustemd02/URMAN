@@ -177,12 +177,15 @@ public static partial class StyleBenchmarkInteriorFactory
             Mesh = new CylinderMesh { Height = 1.40f, TopRadius = .014f, BottomRadius = .014f, RadialSegments = 8 },
             MaterialOverride = PainterlyMaterialLibrary.ForColor("5d4a38", "wood", sheltered: true) };
         root.AddChild(rod);
+        // Rear privacy curtains shelter the table zone; the other five windows
+        // keep their open view onto the cold village.
+        var rear = window.Name.StartsWith("Rear", StringComparison.Ordinal);
         foreach (var sign in new[] { -1f, 1f })
         {
             Block(root, sign < 0 ? "RodBracketLeft" : "RodBracketRight", new(.05f, .06f, .25f),
                 new(sign * .61f, .82f, .155f), "5d4a38", "wood", false);
-            DrapedFabric(root, sign < 0 ? "CurtainLeft" : "CurtainRight", sign * .53f,
-                .25f, .81f, -.68f, .28f, .025f, 3, false);
+            DrapedFabric(root, sign < 0 ? "CurtainLeft" : "CurtainRight", sign * (rear ? .27f : .53f),
+                rear ? .52f : .25f, .81f, -.68f, .28f, .025f, 3, false, rear ? "c3b28f" : "94aaa4");
         }
         DrapedFabric(root, "SheerCurtain", 0, 1.04f, .81f, -.67f, .22f, .010f, 7, true);
     }
@@ -206,7 +209,7 @@ public static partial class StyleBenchmarkInteriorFactory
     };
 
     private static void DrapedFabric(Node3D root, string name, float centerX, float width,
-        float top, float bottom, float depth, float foldDepth, int folds, bool sheer)
+        float top, float bottom, float depth, float foldDepth, int folds, bool sheer, string color = "94aaa4")
     {
         const int columns = 24;
         const int rows = 6;
@@ -247,7 +250,7 @@ public static partial class StyleBenchmarkInteriorFactory
             Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
             AlbedoColor = new Color(.81f, .79f, .71f, .10f), Roughness = .95f,
             MetallicSpecular = 0f, CullMode = BaseMaterial3D.CullModeEnum.Disabled
-        } : PainterlyMaterialLibrary.ForColor("94aaa4", "cloth_curtain", sheltered: true);
+        } : PainterlyMaterialLibrary.ForColor(color, "cloth_curtain", sheltered: true);
         var fabric = new MeshInstance3D { Name = name, Mesh = surface.Commit(), MaterialOverride = material,
             CastShadow = sheer ? GeometryInstance3D.ShadowCastingSetting.Off : GeometryInstance3D.ShadowCastingSetting.On };
         fabric.SetMeta("householdRole", sheer ? "light transmitting sheer on rod" : "short privacy curtain gathered on rod");

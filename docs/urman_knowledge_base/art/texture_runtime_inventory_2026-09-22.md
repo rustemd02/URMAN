@@ -41,7 +41,7 @@
 | T10 | reuse | `urman_t10_v02_basecolor.png`; PML `cloth_clinic`, медицинская ткань ФАПа | Не подменяет металл рамы; сохранять чистоту без хоррор-пятен. |
 | F01 | reuse | `urman_f01_v03_basecolor.png`; PML `bark_birch_winter`, региональные зимние берёзы | Стоящие стволы и повёрнутые брёвна проверять отдельно: проекция последних ещё риск. |
 | F02 | reuse | `urman_f02_v02_basecolor.png`; PML `bark_pine`, CW `PineBark` | Отдельный сосновый получатель есть; не перекрашивать ели/корни через общий `wood_bark`. |
-| T04 | reuse | `urman_t04_v01_basecolor.png`; PML `cloth_curtain`, 14 плотных драпировок семи окон Factory | Low/High просмотрены; Rear High — присевшая камера, не доказательство стоячего вида. |
+| T04 | reuse | `urman_t04_v01_basecolor.png`; PML `cloth_curtain`, 14 плотных драпировок семи окон Factory | Исторический Low/High просмотр сохраняется. 03.10: задние пары закрыты (ширина 0,52 м, центры ±0,27 м), tint `c3b28f`; прежние карта, метрические UV и складки. Актуальный native High, стоячая камера FOV75: `URMAN_visual_20261003_window_composition/retained_house/hero_house_entry.png`; house scope PASS105, уют — оценка образца, не авторская приёмка. Новый Low/night не проверен. |
 | T12 | reuse | `wallpaper_old_v1_albedo.png`; PML `wallpaper`, стены Factory | Исправлены V и боковая проекция. Сохранить этот источник; новые обои не требуются автоматически. |
 
 ## Экстерьер: оставшиеся 31 карточка, группа .02
