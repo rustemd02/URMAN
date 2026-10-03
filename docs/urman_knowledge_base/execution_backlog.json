@@ -23177,6 +23177,7 @@
     "date": "2026-10-04",
     "scope": "Static consistency audit of the whole queue during the documentation-only stage; implementation and game launches stay on the author's pause. No task content, evidence history or completion was rewritten.",
     "checks": {
+      "milestones_and_grouping": "Milestone statuses agree with their task sets: M0/M1 completed with all tasks completed, M2 in_progress with one open card, M3-M6 deferred with completed/blocked cards and a reason, M7 in_progress with a mixed set. Their tasks arrays, however, list only the 39 cards of the original milestone plan, while 167 other cards group themselves through the per-card milestone field (M5 155, M4 25, M2 7, and the rest). That is not a contradiction to repair silently: the milestone arrays are the coarse original grouping and the operational grouping is act1_delivery_plan's packets, where the same audit found every card in exactly one packet. Recorded so neither reader treats the arrays as a complete index.",
       "review_checks_all_verified": {
           "1_quotes_in_source_line": "164/164 requirements quote their exact source line after Markdown unescape; 0 failures",
           "2_content_lines_covered": "all 26 nonempty content lines L2-L34 are referenced by at least one requirement",
