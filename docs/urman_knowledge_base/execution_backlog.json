@@ -2671,7 +2671,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-10-01",
+  "updated": "2026-10-04",
   "goal_key": "urman-act1-finished-product",
   "goal_statement": "Выполнить все задачи текущего MVP-плана Акта I в execution_backlog.json и довести игру до законченного, увлекательного и атмосферного опыта: личная история Марата, три самостоятельных расследовательских цикла, живая зимняя деревня, все EX00–EX14, завершённые механики и UI, нарастание тревоги и эмоциональный финал. Обычный первый основной опыт длится минимум 60 активных минут без искусственного добора. Интерес, красоту и звук принимают реальные люди; незакрытые внешние проверки остаются external/not-run.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -23190,6 +23190,18 @@
       "status_vocabulary": "todo added to orchestrator_policy.statuses because review_2026_09_28.status_semantics defines it; the single \"done\" spelling normalised to \"completed\"",
       "cross_document_checks": "TASKS.md names all 206 cards and invents none; act1_delivery_plan packets reference all 206 cards and no unknown ids; every milestone task id exists; all 12 blocked cards match implementation_blockers.md (11 through its register rows, LEN01.8 through its own declared dependencies) and the register now names those card ids as its own rule requires; resolved_product_decisions ids appear in decision_log.md; open_questions.md carries PD-R28-01.",
       "fixed_in_this_audit": "ACT1-TAMARA-FENCE was the only card without a milestone field (now M5, its author-deferred exclusion unchanged); implementation_blockers.md now names the dependent card ids in the B-R28-02, B-R28-04 and B-R28-06 rows.",
+      "review_package_reverified": {
+        "source_sha256_matches": true,
+        "requirements": 164,
+        "inferred_intentions": 8,
+        "requirement_ids_contiguous": "R001..R164",
+        "quotes_failing_their_source_line": 0,
+        "nonempty_content_lines_L2_L34": 26,
+        "content_lines_without_a_requirement": 0,
+        "ids_verified_against_git_history": "the queue revision before the review package was added had 174 ids; the current queue retains all 174 and adds 32, with 0 removed, which reproduces the review's old_ids_retained/new_ids numbers",
+        "updated_contracts_78": "reproduced as the number of cards carrying review_spec (78); review_requirement_ids appear on 77 cards",
+        "note": "The review's own verification block was re-checked independently from the sources, not copied."
+      },
       "evidence_reality_notes": "8 cards (FINISH-01/02/03/05, ACT1-ADDR-FENCE, AUDIO-001, STUDIO, GODOT-005) received a dated progress_2026_10_04 note because their evidence or scope named files that no longer exist: the external package cleaned on 2026-09-14, two cleaned address-world receipts, and three plan-only paths (content/audio/, studio/, act1_demo_handoff.md). The notes name the surviving paths and the reproduction route; no evidence entry was deleted or rewritten.",
       "stale_current_scope_paths_fixed": [
         "ACT1-RIVER-BRIDGE and ACT1-RIVER-BRIDGE/S3: game/scripts/Act1ConnectedWorld.RiverSteps.cs does not exist; the owners are Act1ConnectedWorld.Gorge.cs and Act1ConnectedWorld.OpeningBridge.cs",
