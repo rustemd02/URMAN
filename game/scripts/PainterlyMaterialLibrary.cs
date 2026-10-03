@@ -599,6 +599,19 @@ public static class PainterlyMaterialLibrary
         return material;
     }
 
+    /// <summary>
+    /// Diagnostics only: reports whether this material reaches the renderer's shared
+    /// shadow material. The engine requires an opaque back-culled material that does
+    /// not write VERTEX, uses no alpha clip/discard and no world_vertex_coords
+    /// (SceneShaderForwardClustered::ShaderData::uses_shared_shadow_material). The
+    /// rigid variant is exactly that case here: it is the only shader built from
+    /// ShaderSource with the vertex deformation removed, while the cutout and
+    /// two-sided variants use their own shaders. Reading the shader identity never
+    /// changes which material a mesh uses.
+    /// </summary>
+    public static bool UsesSharedShadowMaterial(Material? material) =>
+        material is ShaderMaterial { Shader: { } shader } && ReferenceEquals(shader, RigidPainterlyShader);
+
     public static Material PreserveSourceCulling(Material painted, Material? source)
     {
         if (source is not BaseMaterial3D { CullMode: BaseMaterial3D.CullModeEnum.Disabled }

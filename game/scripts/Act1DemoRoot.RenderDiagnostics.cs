@@ -210,6 +210,9 @@ public partial class Act1DemoRoot
             var worldShell = world.GetNodeOrNull<Node>("Act1CoreWorldGreybox");
             var windowRows = new List<object>();
             var windowResources = new Dictionary<ulong, object>();
+            // Surface counts by shadow path (see UsesSharedShadowMaterial). Counted
+            // over every MeshInstance3D of the connected world, visible or not.
+            long sharedShadowSurfaces = 0, deformingShadowSurfaces = 0;
             foreach (var mesh in meshes)
             {
                 Node owner = mesh;
@@ -243,6 +246,16 @@ public partial class Act1DemoRoot
                 var activeMaterials = Enumerable.Range(0, source.GetSurfaceCount())
                     .Select(surface => mesh.GetActiveMaterial(surface)?.GetRid().Id ?? 0UL).ToArray();
                 foreach (var rid in activeMaterials) group.MaterialRids.Add(rid);
+                // How many surfaces reach the engine's shared shadow material, and
+                // over the whole connected world rather than only the frustum
+                // candidates. This is the observable effect of choosing the
+                // non-deforming painterly shader from its provable flags; it changes
+                // no visibility, geometry or material assignment.
+                for (var surface = 0; surface < source.GetSurfaceCount(); surface++)
+                {
+                    if (PainterlyMaterialLibrary.UsesSharedShadowMaterial(mesh.GetActiveMaterial(surface))) sharedShadowSurfaces++;
+                    else if (mesh.GetActiveMaterial(surface) is ShaderMaterial) deformingShadowSurfaces++;
+                }
                 if (visible && layerMatches && candidate && mesh.Skin is null
                     && (source is not ArrayMesh rigid || rigid.GetBlendShapeCount() == 0))
                 {
@@ -297,6 +310,9 @@ public partial class Act1DemoRoot
                 camera = camera.GetPath().ToString(), cameraPose = camera.GlobalTransform.ToString(),
                 scope = "connected world MeshInstance3D inventory; tree visibility and camera-mask/frustum candidates exclude GPU occlusion/LOD decisions",
                 meshNodes = meshes.Length, distinctMeshResources = meshReferences.Count,
+                sharedShadowPathSurfaces = sharedShadowSurfaces,
+                otherShaderMaterialSurfaces = deformingShadowSurfaces,
+                shadowPathScope = "all connected-world MeshInstance3D surfaces; the shared path needs an opaque back-culled material without VERTEX writes, alpha clip or world_vertex_coords",
                 addressAudits = nodes.OfType<AddressAccessVerifier>().Select(audit => audit.DescribeProgress()).ToArray(),
                 multiMeshNodes = nodes.OfType<MultiMeshInstance3D>().Count(),
                 multiMeshInstances = nodes.OfType<MultiMeshInstance3D>().Sum(node => (long)(node.Multimesh?.InstanceCount ?? 0)),
