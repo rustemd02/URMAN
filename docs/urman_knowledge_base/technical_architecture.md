@@ -571,3 +571,152 @@ Evidence: внешние `journal_scroll_audit_r23`, `oldpc_focus_before`,
 Следствие для правила дрейфа: правка только тестов не устаревает кандидата, потому
 что сам артефакт не меняется. Правки игровых скриптов, контента и ассетов —
 устаревают, и тогда нужен новый экспорт и перенаправление документов.
+
+
+## Windows test station — 2026-10-02
+
+Прямое поручение автора: игровые запуски перенести с ноутбука на выделенный Windows-ПК.
+Минимальная схема — штатный Remote и чат в основном Windows-checkout; собственного
+сервера/MCP/Cloud-очереди не добавляем. Подготовлены `eng/setup-windows-station.ps1` и
+`eng/run-windows-check.ps1`; закреплённые версии берутся из существующих global.json/toolchain.json.
+Guard расширен на Windows: APPDATA, byte-range lock, остановка дерева процесса, прежние
+rename/backup/recovery/fingerprint. Windows ACL отдельно не сравниваются. Станция использует
+локальный override, отключающий импорт авторского .blend при наличии готового GLB.
+Порядок: одна сборка/импорт/сцена под lock, лог и receipt; настоящий GPU-прогон пока not-run.
+Подробности: [Windows-станция](../production/WINDOWS_TEST_STATION_RU.md).
+
+### 2026-10-03 — неизменяемая проекция состояния при частых чтениях
+
+`RuntimeKernel.SelectState` переиспользует JSON-снимок между успешными commit.
+Инициализация/сброс защищены тем же `_dispatchLock`; effects меняют отдельный
+draft, а rejected dispatch не сбрасывает снимок. Старый выданный JsonElement
+сохраняет прежнее содержимое. CaptureSnapshot, restore, ledger и save-схема
+не менялись. Это устраняет полную сериализацию при каждом кадровом чтении
+bridge/opening, сохраняя единственного владельца состояния в RuntimeKernel.
+Пять существующих KernelTests и отдельный CPU-микрозамер прошли; текущая
+игровая производительность/M1 не измерены. Остальной аудит и ограничения:
+[performance_audit_2026-10-03](../production/performance_audit_2026-10-03.md).
+
+### 2026-10-03 — runtime стоимость скрытых character rigs / horse contacts
+
+Character adapter оставляет selected Rig/Anchor до AddChild; per-instance
+AnimationLibrary с копиями выбранных клипов удаляет чужие rest tracks,
+не меняя shared imported animations. Idle/Tension/Talk/Walk и добавляемая
+позднее retargeted библиотека остаются. World mesh census 70 430 → 62 913.
+Horse fresh support повторно используется только при неизменившейся подошве
+в текущем PreparePose; pending Rebase / swing / изменённый floor получают
+прежнюю проекцию. Нулевая траектория пропускает sweep, но endpoint остаётся.
+Native High M4Pro 1080p Debug после правок 23.83 FPS; измеримого общего
+ускорения нет. Renderer CPU ~16.7 мс, ~34 311 shadow draws; GPU timer недоступен.
+Следующий этап требует передачи W/common. Полная верификация и ограничения:
+[perf audit](../production/performance_audit_2026-10-03.md).
+
+Perf verification 03.10: текущая C#-сборка PASS, KernelTests 5 PASS.
+NPC presentation: первый borderline sole-gap FAIL; original adapter baseline
+PASS; повтор текущей правки PASS (4 turns/36 samples/10 families), threshold
+не менялся. Idle-фаза не фиксируется: первый failure не объявлен предсуществующим.
+Horse native route INVALID после 1.314 м, travel gate «нет подходящей дороги»;
+движение/obstacles/save recovery не приняты. Guard во всех запусках подтвердил
+восстановление userdata. Native High после правок 23.83 FPS: цель открыта.
+
+### 2026-10-03 — полный доступ и продолжение performance-аудита
+
+Автор отменил ownership/W-common ограничения; protected M4 Pro прогоны
+разрешены. SelectWorldProps возвращает fragment неизменяемого Kernel snapshot
+без второго parse/serialize. RuralPropGeometry владеет exact-size BoxMesh cache;
+callers не меняют shared resources. ShelterPublicMaterials получает cached
+полную копию материала без трёх snow flags через прежний Materials owner.
+Сопоставимый fixed High arrival: 24.74 → 26.32 FPS, draw calls 41 378 → 36 809;
+MSAA4/scale1/1080p, фактуры/геометрия/коллизии сохранены. Цель M1 открыта.
+
+Address graph publication происходит после search physics budget. Longer native
+прогон обнаружил до 2 490 segments и 131 мс rebuild; cut spatial index сохраняет
+точные predicates/первый anchor/минимум creation index. Intersection append
+устраняет heap iterators и endpoint arrays; диагностика включает phase timing.
+Exhaustive mode отключает candidate indices и сохраняет тот же narrow phase.
+Существующий AddressRegistrySmokeTest после обоих этапов прошёл (84 checks),
+новые тесты не созданы. Steady/native стоимость новой версии ещё измеряется.
+
+Static opaque shader без VERTEX writes исследуется отдельно только с
+URMAN_STATIC_MATERIAL_PILOT=1. Общий fragment и varying расчёты сохранены;
+snow/trample/wind материалы исключены, source two-sided treatment сохранён.
+Default пока не включён. Triplanar zero-axis эксперимент отклонён и удалён;
+его контроль получил movement input и не годится для сравнения.
+Доказательства и ограничения — [perf audit](../production/performance_audit_2026-10-03.md).
+
+### 2026-10-03 — прекращение игровых запусков по просьбе автора
+
+Автор попросил продолжать только статически, чтобы ноутбук оставался доступным.
+Игровые/native/headless запуски остановлены; последний guard подтвердил
+восстановление userdata. Новые benchmark/smoke не разрешены до нового поручения.
+Продолжаются статический аудит, точечные оптимизации и C#-компиляция.
+Непроверенный static-material pilot удалён; первоначальный shader/culling
+восстановлен. Новые horse disposal/identity правки ещё не измерены в игре.
+
+Статический этап: собственные ray/shape results и exclusion arrays в horse
+ground/endpoints/sweeps и AddressWalkProbe освобождаются в текущем scope.
+В установленном GodotSharp 4.7.1 Array<T> не IDisposable; отдельный untyped
+using-owner освобождает тот же underlying Array (подтверждено actual DLL IL).
+Borrowed scene nodes/space/resources не освобождаются. Nearest сохраняет
+distance/ordinal ordering одним проходом; лишний startup graph Rebuild удалён,
+публикации новых проверенных путей сохранены. C# build PASS 0 warnings/errors,
+11.05 с; git diff --check чистый. Последние игровые эффекты not-run; M1 цель
+открыта, поздний O(N²) graph rebuild остаётся риском.
+
+### 2026-10-03 — второй статический performance-этап
+
+По просьбе автора три субагента параллельно проверили renderer/fog/shadows,
+CPU/physics/audio и address graph, затем провели перекрёстный review. Игровых
+запусков нет. ForColor выбирает RigidPainterlyShader для 30 явных семейств с
+immutable zero deformation flags: единый VertexDeformation block удалён,
+fragment/varyings/uniforms сохранены. Это разрешает existing Godot shared
+shadow path; TwoSided/Cutout/unknown/snow/wind сохраняют прежние shaders.
+Потенциальная точность imported ShadowMesh и GLSL/pixels/FPS ещё не проверены.
+Road pair index объединяет padded spatial и near-parallel direction
+кандидаты, сохраняя numeric predicate/i-j order/exhaustive fallback и bounded
+index memory. Плотные наборы всё ещё дороги. Vehicle audio использует один
+span-buffer вместо per-sample calls; exact transform guards не инвалидируют
+неизменные деревья/коллайдеры. Snow binding memo зависит от exact texture
+reference/origin/extent/cacheCount, сбрасывается при ClearCache.
+Метель fog=.032 не согласована с реальным culling: camera Far160, High
+shadows120. Самовольное уменьшение дистанций/числа частиц не внедрено.
+Текущая C#-сборка PASS 0 warnings/errors, 10.90 с; diff-check чистый, Godot не
+запускался. Подробные proof/unknowns — production/performance_audit_2026-10-03.md.
+
+### 2026-10-03 — третий статический performance-этап
+
+Пять read-only аудитов (rendering, CPU, physics/NPC/vehicles, world/algorithms,
+weather/particles) и четыре исполнителя на непересекающихся файлах; игровых,
+импортных, headless- и тестовых запусков нет.
+
+Проверено по исходникам Godot 4.7-stable, а не по памяти: счётчик
+`ViewportRenderInfoType.Shadow` включает теневые проходы всех типов источников
+(`render_forward_clustered.cpp:2850`); `VisibilityRange` учитывается и для
+теневых кастеров по расстоянию до камеры (`renderer_scene_cull.cpp:2924`), т.е.
+LOD деревьев уже ограничивает их вклад в тени; `ArrayMesh.ShadowMesh` — это
+позиционный прокси с теми же треугольниками и той же LOD-цепочкой
+(`importer_mesh.cpp:955-1046`), поэтому он снижает только вершинную полосу
+теневого прохода. Ни один способ сократить число теневых кастеров без изменения
+вида не найден: `CastShadow` у ground-cover, 13 интерьерных омни и оконных
+спотов убирают видимую тень при солнце 16° и в интерьерах.
+
+Внедрено без изменения вида: кэш `SettlementRegistry.StableId`; топологическая
+фаза `SettlementRoadGraph.RebuildCore` без per-segment LINQ (эквивалентность
+проверена внешним harness на 400 000 враждебных наборов); `NodeAt` одним
+проходом; индекс кандидатов дорожного графа больше не отключается целиком при
+превышении бюджета ячеек (сегмент дедемитируется и сравнивается со всеми,
+кандидаты — надмножество, порядок пар сохранён); кадр лошади в `VolumeOverlaps`
+считается один раз вместо ~18 полных `PreparePose` за такт; `SettlePose`
+переиспользует уже доказанную в том же такте опору ноги; собственные результаты
+запросов освобождаются детерминированно; одна оценка контекста на такт в
+`AddressAccessVerifier`; аллокации и групповые поиски в per-frame путях
+транспорта, мира, звука и facility-тика (facility больше не переписывает
+константные `CollisionLayer`/`Visible` и трансформ стоящей двери; `door.Target`
+Prompt/ray-слой намеренно не мемоизируются). Удерживаемые статические кэши
+частиц получили тестовый сброс по существующему паттерну.
+
+Переписывание маски следов на `GetData`/`SetData` **опровергнуто** как побитово
+идентичное: `Math::make_half_float` усекает мантиссу и обнуляет денормали, а
+`System.Half` округляет к ближайшему чётному. Читается как кандидат с точным
+путём (дословный порт RGBAH-энкодера), не внедрялось. Цель M1 открыта; игровой
+эффект и FPS не измерены.
