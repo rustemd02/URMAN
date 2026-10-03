@@ -2302,6 +2302,14 @@ public partial class Act1BoundaryArchitectureSmokeTest : Node
             "Exterior window backings still obstruct the real view from the seven room windows.");
         Check(world.GetNode<Node3D>("Act1CoreWorldGreybox").IsVisibleInTree(),
             "The actual village disappeared from the house window view.");
+        var snow = world.GetNode<CpuParticles3D>("Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBSnow");
+        Check(snow.Visible && snow.Emitting && snow.GetMeta("windowSnowView", false).AsBool(),
+            "The active house windows lost the ongoing exterior blizzard.");
+        var snowMaterial = (ShaderMaterial)((QuadMesh)snow.Mesh).Material;
+        Check(snowMaterial.GetShaderParameter("shelter_enabled").AsBool()
+            && snowMaterial.GetShaderParameter("shelter_from_world").AsTransform3D()
+                .IsEqualApprox(room.GlobalTransform.AffineInverse()),
+            "Snow exclusion no longer follows the actual moved occupied room.");
         foreach (var (interior, _) in windows)
         {
             var window = room.GetNode<Node3D>($"HeroRoomWindow{interior}");

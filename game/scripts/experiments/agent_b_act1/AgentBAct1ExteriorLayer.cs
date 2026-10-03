@@ -27,6 +27,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private DirectionalLight3D? _sun;
     private CpuParticles3D? _rain;
     private bool _sheltered;
+    private bool _windowSnowView;
     private SnowTrampleField? _snowTrample;
     private readonly List<OmniLight3D> _karaAccentLights = new();
     private readonly Dictionary<(string Variant, string Region), ArrayMesh> _foliageMeshes = new();
@@ -248,7 +249,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     /// environment and sun must be disabled there so two global presentation
     /// owners never compete for the same frame.
     /// </summary>
-    public void SetExteriorPresentationEnabled(bool enabled, bool night = false)
+    public void SetExteriorPresentationEnabled(bool enabled, bool night = false, bool windowSnowView = false)
     {
         if (_environment is null)
         {
@@ -257,6 +258,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
         _environment.Environment = enabled ? _environmentResource : null;
         _exteriorPresentationEnabled = enabled;
+        _windowSnowView = windowSnowView;
         if (enabled)
         {
             ApplyAtmosphere(night);
@@ -267,11 +269,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             _sun.Visible = enabled;
         }
 
-        if (_rain is not null)
-        {
-            _rain.Emitting = enabled && !_sheltered;
-            _rain.Visible = enabled && !_sheltered;
-        }
+        UpdateSnowPresentation(GetViewport()?.GetCamera3D()?.GlobalPosition ?? GlobalPosition);
         _snowTrample?.SetEnabled(enabled && !_sheltered);
 
         foreach (var light in _karaAccentLights)
@@ -288,11 +286,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     public void SetSheltered(bool sheltered)
     {
         _sheltered = sheltered;
-        if (_rain is not null)
-        {
-            _rain.Emitting = _exteriorPresentationEnabled && !sheltered;
-            _rain.Visible = _exteriorPresentationEnabled && !sheltered;
-        }
+        UpdateSnowPresentation(GetViewport()?.GetCamera3D()?.GlobalPosition ?? GlobalPosition);
         _snowTrample?.SetEnabled(_exteriorPresentationEnabled && !sheltered);
         SetMeta("physicalSheltered", sheltered);
     }
@@ -2616,16 +2610,44 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         return ImageTexture.CreateFromImage(image);
     }
 
-    private static QuadMesh CreateSnowflakeMesh() => WinterParticleSurfaces.Snow(.044f, .58f);
+    private static QuadMesh CreateSnowflakeMesh() => WinterParticleSurfaces.Snow(.044f, .58f, roomExclusion: true);
 
     private readonly List<(Node3D Owner, Vector3 Centre, Vector3 Half)> _weatherShelters = new();
-    public void RegisterWeatherShelter(Node3D owner, Vector3 centre, Vector3 half)
-        => _weatherShelters.Add((owner, centre, half));
+    private int _windowWeatherShelter = -1;
+    public void RegisterWeatherShelter(Node3D owner, Vector3 centre, Vector3 half, bool windowView = false)
+    {
+        if (windowView) _windowWeatherShelter = _weatherShelters.Count;
+        _weatherShelters.Add((owner, centre, half));
+    }
     private bool WeatherSheltered(Vector3 point)
         => _weatherShelters.Any(shelter => GodotObject.IsInstanceValid(shelter.Owner)
             && Inside(shelter.Owner.ToLocal(point) - shelter.Centre, shelter.Half));
     private static bool Inside(Vector3 p, Vector3 h)
         => Mathf.Abs(p.X) < h.X && Mathf.Abs(p.Y) < h.Y && Mathf.Abs(p.Z) < h.Z;
+
+    private void UpdateSnowPresentation(Vector3 focus)
+    {
+        if (_rain is null) return;
+        var material = (ShaderMaterial)((QuadMesh)_rain.Mesh).Material;
+        var windowView = false;
+        var validShelter = _windowWeatherShelter >= 0
+            && GodotObject.IsInstanceValid(_weatherShelters[_windowWeatherShelter].Owner);
+        material.SetShaderParameter("shelter_enabled", validShelter);
+        if (validShelter)
+        {
+            // Pilot: only the real glazed main room. The sealed underground wing
+            // and other logical interiors retain their existing weather policy.
+            var shelter = _weatherShelters[_windowWeatherShelter];
+            material.SetShaderParameter("shelter_from_world", shelter.Owner.GlobalTransform.AffineInverse());
+            material.SetShaderParameter("shelter_centre", shelter.Centre);
+            material.SetShaderParameter("shelter_half", shelter.Half);
+            windowView = _windowSnowView && Inside(shelter.Owner.ToLocal(focus) - shelter.Centre, shelter.Half);
+        }
+        var enabled = windowView || (_exteriorPresentationEnabled && !_sheltered && !WeatherSheltered(focus));
+        _rain.Emitting = enabled;
+        _rain.Visible = enabled;
+        _rain.SetMeta("windowSnowView", windowView);
+    }
 
     public override void _Process(double delta)
     {
@@ -2638,7 +2660,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var focus = camera?.GlobalPosition ?? GlobalPosition;
         if (_rain is not null)
         {
-            _rain.Visible = _exteriorPresentationEnabled && !_sheltered && !WeatherSheltered(focus);
+            UpdateSnowPresentation(focus);
             // Spawn upwind; world-space flakes keep their trajectory as the player turns.
             _rain.GlobalPosition = focus + new Vector3(10f, 2f, -2f);
         }

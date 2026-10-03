@@ -404,6 +404,12 @@ public partial class Act1ConnectedWorld : Node3D
             .ExcludeOccupiedRoomTerrain(_zoneInstances["house_old_pc"], new Vector2(
                 StyleBenchmarkInteriorFactory.ClearWidth * .5f,
                 StyleBenchmarkInteriorFactory.ClearDepth * .5f));
+        GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld")
+            .RegisterWeatherShelter(_zoneInstances["house_old_pc"],
+                new Vector3(0, StyleBenchmarkInteriorFactory.CeilingHeight * .5f, 0),
+                new Vector3(StyleBenchmarkInteriorFactory.ClearWidth * .5f + .15f,
+                    StyleBenchmarkInteriorFactory.CeilingHeight * .5f + .15f,
+                    StyleBenchmarkInteriorFactory.ClearDepth * .5f + .15f), windowView: true);
         BuildAct1NpcStaging();
         BuildAct1InteriorDiscoveries();
         BuildAct1ExteriorDiscoveries();
@@ -632,7 +638,7 @@ public partial class Act1ConnectedWorld : Node3D
         var isZirat = string.Equals(zoneId, "zirat_road", StringComparison.Ordinal);
         exteriorLayer?.SetExteriorPresentationEnabled(
             useExteriorAtmosphere,
-            isKaraNight);
+            isKaraNight, windowSnowView: zoneId == "house_old_pc");
         var coreWorld = GetNodeOrNull<Node3D>("Act1CoreWorldGreybox");
         if (coreWorld is not null)
         {
