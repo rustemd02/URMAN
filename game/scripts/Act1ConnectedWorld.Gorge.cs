@@ -243,9 +243,14 @@ public partial class Act1ConnectedWorld
     /// blizzard, stepping back onto the village rim brings the bridge down behind him.</summary>
     private void WatchSuspensionBridge()
     {
-        if (_suspensionIntact is null || _suspensionCollapsing || _runtimeBridge is null || SuspensionBridgeBroken) return;
+        if (_suspensionIntact is null || _suspensionCollapsing || _runtimeBridge is null) return;
         if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player || ActiveZoneId is not ("village_day" or "zirat_road" or "kara_urman_night")) return;
+        // Ordered cheap-to-expensive: both properties read the same immutable kernel
+        // snapshot, but SuspensionBridgeBroken additionally walks into the nested
+        // "broken" object. All four conditions are conjunctive guards with no side
+        // effects, so the set of frames that reaches the collapse code is identical.
         if (!_runtimeBridge.FirstNightPassed) return;
+        if (SuspensionBridgeBroken) return;
         var z = player.GlobalPosition.Z;
         var x = player.GlobalPosition.X;
         if (z < GorgeFarRim(x) - 1f) _suspensionVisitedFar = true;

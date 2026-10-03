@@ -28,6 +28,14 @@ public partial class RinatPresencePresentation : Node3D
     private Vector3 _handLocal;
     private readonly List<(MeshInstance3D Mesh, int Bone, Vector3[] Points)> _stopHandLandmarks = new();
     private bool _compact;
+    // The compact presence predicate reads only committed kernel state, and every
+    // committed kernel mutation raises RuntimeBridge.RuntimeStateChanged (all
+    // DispatchAsync paths call QueueRuntimeStateChanged). So the snapshot is
+    // re-read on that event, on the first frame after the bridge is resolved and
+    // on a session change, instead of once per frame.
+    private bool _presenceDirty = true;
+    // The bridge whose RuntimeStateChanged this instance is currently subscribed to.
+    private RuntimeBridge? _presenceSource;
     private string _stage = string.Empty;
     private object? _session;
     private Task<bool>? _intervention;
@@ -196,14 +204,27 @@ public partial class RinatPresencePresentation : Node3D
 
     public override void _Process(double delta)
     {
-        _bridge ??= GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        if (_bridge is null) _bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        if (_bridge is { } source && !ReferenceEquals(source, _presenceSource))
+        {
+            // Subscribing here (and dropping the previous source) keeps the handler
+            // attached after a re-entry into the tree, and the first pass after the
+            // subscription reads every commit that predates it.
+            if (_presenceSource is not null && IsInstanceValid(_presenceSource))
+                _presenceSource.RuntimeStateChanged -= MarkPresenceDirty;
+            _presenceSource = source;
+            source.RuntimeStateChanged += MarkPresenceDirty;
+            _presenceDirty = true;
+        }
         if (_bridge?.SessionIdentity is { } session && !ReferenceEquals(_session, session))
         {
             _session = session;
             ResetStep();
+            _presenceDirty = true;
         }
-        if (_compact && _bridge?.ActiveSceneId is not null)
+        if (_compact && _bridge?.ActiveSceneId is not null && _presenceDirty)
         {
+            _presenceDirty = false;
             var state = _bridge.SelectRuntimeState();
             var present = state.TryGetProperty("npc", out var people)
                 && people.TryGetProperty("urman.chapter1:character/rinat", out var rinat)
@@ -211,12 +232,18 @@ public partial class RinatPresencePresentation : Node3D
                 && state.TryGetProperty("knowledge", out var knowledge)
                 && knowledge.TryGetProperty("urman.chapter1:knowledge/route_kara_urman_edge_hint", out var route)
                 && route.GetProperty("status").GetString() == "confirmed";
-            _actor.Visible = present;
-            _body.CollisionLayer = present ? 1u : 0u;
+            // Comparing against the live property keeps the previous per-frame
+            // re-assertion while skipping the write when it already holds the value;
+            // no other code writes these two properties.
+            if (_actor.Visible != present) _actor.Visible = present;
+            var collisionLayer = present ? 1u : 0u;
+            if (_body.CollisionLayer != collisionLayer) _body.CollisionLayer = collisionLayer;
         }
         UpdateLamp();
         ResolvePauseMenu();
     }
+
+    private void MarkPresenceDirty() => _presenceDirty = true;
 
     // The retained player belongs to this actor. world_foley is deliberately
     // unsuitable: its lifecycle reset destroys every member of that group.
@@ -752,6 +779,11 @@ public partial class RinatPresencePresentation : Node3D
 
     public override void _ExitTree()
     {
+        if (_presenceSource is not null && IsInstanceValid(_presenceSource))
+        {
+            _presenceSource.RuntimeStateChanged -= MarkPresenceDirty;
+        }
+        _presenceSource = null;
         if (_pauseMenu is not null && IsInstanceValid(_pauseMenu))
             _pauseMenu.PauseChanged -= UpdateLandingStepAudioPause;
         _pauseMenu = null;

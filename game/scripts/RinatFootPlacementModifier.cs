@@ -142,7 +142,12 @@ public partial class RinatFootPlacementModifier : SkeletonModifier3D
             new Basis(new Quaternion((currentAnkle - calfPose.Origin).Normalized(),
                 (ankleTarget - calfPose.Origin).Normalized())) * calfPose.Basis, calfPose.Origin));
         SetGlobal(skeleton, foot, new Transform3D(target.Basis, skeleton.GetBoneGlobalPose(foot).Origin));
-        foreach (var bone in new[] { thigh, calf, foot }) _appliedSkeleton[bone] = skeleton.GetBoneGlobalPose(bone);
+        // Same three distinct keys as the previous `new[] { thigh, calf, foot }`, in
+        // the same order, so the dictionary ends in the identical state without the
+        // per-leg int[3] allocation.
+        _appliedSkeleton[thigh] = skeleton.GetBoneGlobalPose(thigh);
+        _appliedSkeleton[calf] = skeleton.GetBoneGlobalPose(calf);
+        _appliedSkeleton[foot] = skeleton.GetBoneGlobalPose(foot);
     }
 
     private static void SetGlobal(Skeleton3D skeleton, int bone, Transform3D global)

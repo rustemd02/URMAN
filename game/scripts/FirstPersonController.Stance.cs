@@ -58,29 +58,54 @@ public partial class FirstPersonController
         // available, including after releasing the key or loading a save.
     }
 
+    // Probe resources are pure functions of (capsule radius, requested height):
+    // the walk audit calls CanFitAt thousands of times with the same one or two
+    // heights, and every call used to create a native CapsuleShape3D, a query
+    // wrapper and an exclusion array that only the finaliser reclaimed. The query
+    // is rewritten per call (shape, transform, mask, exclude) exactly like the
+    // previous object initialiser, and the exclusion set never changes.
+    private readonly Dictionary<(float Height, float Radius), CapsuleShape3D> _stanceProbeShapes = new();
+    private PhysicsShapeQueryParameters3D? _stanceProbeQuery;
+    private global::Godot.Collections.Array<Rid>? _stanceProbeExclude;
+
     public bool CanStandAt(Vector3 feet) => CanFitAt(feet, _standingHeight);
     internal bool CanCrouchAt(Vector3 feet) => CanFitAt(feet, CrouchedHeight);
 
     private bool CanFitAt(Vector3 feet, float height)
     {
         if (_stanceCapsule is null || !IsInsideTree()) return false;
-        using var shape = new CapsuleShape3D
-            { Radius = _stanceCapsule.Radius, Height = height - .015f };
-        using var query = new PhysicsShapeQueryParameters3D
-        {
-            Shape = shape,
-            Transform = new(Basis.Identity, feet + Vector3.Up * (height * .5f + .01f)),
-            CollisionMask = VehicleControlled ? _walkingCollisionMask : CollisionMask,
-            Exclude = new global::Godot.Collections.Array<Rid> { GetRid() },
-            Margin = .002f
-        };
+        var key = (height, _stanceCapsule.Radius);
+        if (!_stanceProbeShapes.TryGetValue(key, out var shape))
+            _stanceProbeShapes[key] = shape = new CapsuleShape3D
+                { Radius = _stanceCapsule.Radius, Height = height - .015f };
+        _stanceProbeExclude ??= new global::Godot.Collections.Array<Rid> { GetRid() };
+        _stanceProbeQuery ??= new PhysicsShapeQueryParameters3D { Margin = .002f };
+        _stanceProbeQuery.Shape = shape;
+        _stanceProbeQuery.Transform = new(Basis.Identity, feet + Vector3.Up * (height * .5f + .01f));
+        _stanceProbeQuery.CollisionMask = VehicleControlled ? _walkingCollisionMask : CollisionMask;
+        _stanceProbeQuery.Exclude = _stanceProbeExclude;
         // IntersectShape returns an owned native array. It used to be left to the
         // finalizer on every probe, and the walk audit calls this thousands of
         // times. The element dictionaries are never materialized for a Count
         // check, so releasing the outer array covers the whole result.
-        var hits = GetWorld3D().DirectSpaceState.IntersectShape(query, 1);
+        var hits = GetWorld3D().DirectSpaceState.IntersectShape(_stanceProbeQuery, 1);
         using var hitsOwner = (global::Godot.Collections.Array)hits;
         return hits.Count == 0;
+    }
+
+    /// <summary>Releases the owned stance probe resources when the body leaves the
+    /// tree, so shutdown leak checks stay clean. In GodotSharp 4.7.1 Array<T> is not
+    /// IDisposable, so the untyped owner releases the same underlying array.</summary>
+    private void ReleaseStanceProbes()
+    {
+        foreach (var shape in _stanceProbeShapes.Values) shape.Dispose();
+        _stanceProbeShapes.Clear();
+        _stanceProbeQuery?.Dispose(); _stanceProbeQuery = null;
+        if (_stanceProbeExclude is not null)
+        {
+            ((global::Godot.Collections.Array)_stanceProbeExclude).Dispose();
+            _stanceProbeExclude = null;
+        }
     }
 
     private void SetCrouched(bool crouched)

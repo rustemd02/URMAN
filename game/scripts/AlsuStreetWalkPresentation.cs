@@ -43,6 +43,11 @@ public partial class AlsuStreetWalkPresentation : Node3D
     private RinatFootPlacementModifier _feetModifier = null!;
     private readonly List<Foot> _feet = new();
     private readonly global::Godot.Collections.Array<Rid> _groundExcludes = new();
+    // Reused ground probe: both GroundAt and RecordGroundRefusal are synchronous and
+    // never nested, so one query object can carry only the mutating From/To just like
+    // VehicleHorsePose.Ground does. _groundExcludes is filled once in _Ready and never
+    // mutated afterwards, so the exclusion set stays identical to the per-call Create.
+    private PhysicsRayQueryParameters3D? _groundRay;
     private AudioStreamPlayer3D _stepSound = null!;
     private bool _stepping;
     private float _stepT;
@@ -677,10 +682,15 @@ public partial class AlsuStreetWalkPresentation : Node3D
         return clear;
     }
 
+    private PhysicsRayQueryParameters3D GroundRay() => _groundRay ??=
+        PhysicsRayQueryParameters3D.Create(Vector3.Zero, Vector3.Zero, 3, _groundExcludes);
+
     private bool GroundAt(Vector3 at, out Vector3 point, out Vector3 normal)
     {
-        using var ray = PhysicsRayQueryParameters3D.Create(at + Vector3.Up * .6f, at - Vector3.Up * .7f, 3, _groundExcludes);
-        var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
+        var ray = GroundRay();
+        ray.From = at + Vector3.Up * .6f;
+        ray.To = at - Vector3.Up * .7f;
+        using var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
         point = hit.Count > 0 ? hit["position"].AsVector3() : at;
         normal = hit.Count > 0 ? hit["normal"].AsVector3() : Vector3.Up;
         return hit.Count > 0 && normal.Y > .85f;
@@ -693,9 +703,10 @@ public partial class AlsuStreetWalkPresentation : Node3D
         var key = "groundRefusalRecorded-" + stage;
         if (HasMeta(key)) return;
         SetMeta(key, true);
-        using var ray = PhysicsRayQueryParameters3D.Create(at + Vector3.Up * .6f,
-            at - Vector3.Up * .7f, 3, _groundExcludes);
-        var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
+        var ray = GroundRay();
+        ray.From = at + Vector3.Up * .6f;
+        ray.To = at - Vector3.Up * .7f;
+        using var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
         var collider = hit.Count > 0 ? hit["collider"].AsGodotObject() as Node3D : null;
         GD.Print("alsu-ground-refusal: " + JsonSerializer.Serialize(new
         {
@@ -836,5 +847,9 @@ public partial class AlsuStreetWalkPresentation : Node3D
         if (_bridge is not null && IsInstanceValid(_bridge)) _bridge.RuntimeStateChanged -= ReadRuntimeState;
         if (_feetModifier is not null && IsInstanceValid(_feetModifier)) _feetModifier.ClearPoses();
         if (_stepSound is not null && IsInstanceValid(_stepSound)) { _stepSound.Stop(); _stepSound.Stream = null; }
+        // The one retained ray query is a C#-owned RefCounted; release it last, after
+        // every probe in this node has stopped, exactly like FirstPersonController.Steps.
+        _groundRay?.Dispose();
+        _groundRay = null;
     }
 }

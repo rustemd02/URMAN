@@ -170,6 +170,9 @@ public partial class Act1ConnectedWorld
 
     private readonly System.Collections.Generic.Dictionary<Node3D, (float RestYaw, bool Facing, Tween? Turn, ulong RetargetAfter)>
         _conversationFacing = new();
+    // Reused per-frame key snapshot: the loop below removes entries as it goes, so it
+    // must iterate a copy of the keys exactly like the previous Keys.ToArray() did.
+    private readonly System.Collections.Generic.List<Node3D> _conversationFacingSnapshot = new();
     private bool _conversationFacingResolved;
 
     /// <summary>
@@ -181,7 +184,7 @@ public partial class Act1ConnectedWorld
     /// </summary>
     private void UpdateConversationFacing()
     {
-        _lifePlayer ??= GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        _lifePlayer = LifePlayer();
         if (_lifePlayer is null)
         {
             return;
@@ -206,7 +209,12 @@ public partial class Act1ConnectedWorld
 
         var playerPosition = _lifePlayer.GlobalPosition;
         var now = Time.GetTicksMsec();
-        foreach (var npc in _conversationFacing.Keys.ToArray())
+        // Same iteration contract as the previous Keys.ToArray(): a snapshot taken
+        // before the loop, so removals inside it stay legal and are not revisited.
+        // Only the per-frame array/LINQ allocation is gone.
+        _conversationFacingSnapshot.Clear();
+        foreach (var npc in _conversationFacing.Keys) _conversationFacingSnapshot.Add(npc);
+        foreach (var npc in _conversationFacingSnapshot)
         {
             if (!IsInstanceValid(npc))
             {

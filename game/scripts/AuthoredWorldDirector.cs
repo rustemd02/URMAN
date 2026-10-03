@@ -33,6 +33,10 @@ public partial class AuthoredWorldDirector : Node3D
     private readonly Dictionary<string, PackedScene> _scenes = new(StringComparer.Ordinal);
     private RuntimeBridge? _bridge;
     private Node _interactionHost = null!;
+    // Number of objects whose PendingState is currently non-null. Rebuilt from
+    // scratch on every ApplyStates pass, which is the only place PendingState is
+    // written (set at the overlap guard, cleared when the state is committed).
+    private int _pendingStates;
 
     private sealed class AuthoredObject
     {
@@ -120,11 +124,10 @@ public partial class AuthoredWorldDirector : Node3D
         // would appear is applied as soon as they step away (STATE05).
         StepGreetings(delta);
         StepRoutines((float)delta);
-        foreach (var item in _objects.Values.Where(item => item.PendingState is not null))
-        {
-            ApplyStates();
-            break;
-        }
+        // Same "is there at least one held-back state" test as the previous LINQ
+        // scan; ApplyStates itself clears PendingState, so a stale non-zero count
+        // can only keep re-running the pass, never hide a pending state.
+        if (_pendingStates > 0) ApplyStates();
     }
 
     /// <summary>
@@ -479,6 +482,10 @@ public partial class AuthoredWorldDirector : Node3D
         }
 
         var player = GetTree().GetFirstNodeInGroup("player_controller") as Node3D;
+        // The pass below visits every object exactly once and writes PendingState on
+        // every one of them, so counting assignments here reproduces the exact
+        // "values.Where(PendingState is not null).Any()" answer for the next tick.
+        _pendingStates = 0;
         foreach (var item in _objects.Values)
         {
             JsonElement? chosen = null;
@@ -497,6 +504,11 @@ public partial class AuthoredWorldDirector : Node3D
             var stateId = chosen?.GetProperty("id").GetString() ?? "base";
             if (stateId == item.AppliedState)
             {
+                // An object can still hold a PendingState from an earlier pass whose
+                // desired state has since reverted to the applied one. The pass writes
+                // nothing for it, but the old "is there any non-null PendingState" scan
+                // still saw it, so the count keeps tracking that answer exactly.
+                if (item.PendingState is not null) _pendingStates++;
                 continue;
             }
 
@@ -511,6 +523,7 @@ public partial class AuthoredWorldDirector : Node3D
                 && OverlapsBody(item, position, player.GlobalPosition))
             {
                 item.PendingState = stateId;
+                _pendingStates++;
                 continue;
             }
 

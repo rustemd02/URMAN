@@ -254,6 +254,12 @@ public partial class Act1ConnectedWorld : Node3D
     private readonly RandomNumberGenerator _lifeRandom = new();
     private FirstPersonController? _lifePlayer;
     private AudioCueUi? _lifeCue;
+    private bool? _lifeMotionAllowed;
+    // Active camera of the moment plus the answer for it. Only a Node reference is
+    // retained (non-owning), never a String/StringName, and the name is converted
+    // once per camera change instead of allocating a String on every frame.
+    private Camera3D? _lifeCamera;
+    private bool _lifeCameraIsArrivalFlyover;
     private float _lifeWait = 28f;
     private float _lifeTime;
     private int _lifeEvent;
@@ -1480,6 +1486,37 @@ public partial class Act1ConnectedWorld : Node3D
     private static Vector3 LifeGround(float x, float z) =>
         new(x, AgentBAct1HeightField.CollisionGround(x, z) - .01f, z);
 
+    /// <summary>
+    /// The one player controller, resolved through the existing field cache.
+    /// IsInstanceValid re-resolves only after a zone rebuild disposed the node, so
+    /// the per-frame GetFirstNodeInGroup query disappears while a live player is
+    /// cached; which node is returned is unchanged.
+    /// </summary>
+    private FirstPersonController? LifePlayer()
+    {
+        if (_lifePlayer is not null && !IsInstanceValid(_lifePlayer)) _lifePlayer = null;
+        return _lifePlayer ??= GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+    }
+
+    /// <summary>
+    /// True while the active camera is the authored arrival flyover camera. The name
+    /// is only converted when the active camera changes, so no String is allocated per
+    /// frame; the camera is created and named once in Act1DemoRoot.IntroFlyover and is
+    /// never renamed in code, so a cached answer stays valid for as long as that node
+    /// remains the current camera.
+    /// </summary>
+    private bool ArrivalFlyoverCameraActive()
+    {
+        var camera = GetViewport().GetCamera3D();
+        if (!ReferenceEquals(camera, _lifeCamera))
+        {
+            _lifeCamera = camera;
+            _lifeCameraIsArrivalFlyover = camera is not null
+                && camera.Name.ToString() == "Act1ArrivalFlyoverCamera";
+        }
+        return _lifeCameraIsArrivalFlyover;
+    }
+
     public override void _Process(double delta)
     {
         // First frame: every owner has placed its solids; trim relief that shows through them.
@@ -1487,19 +1524,32 @@ public partial class Act1ConnectedWorld : Node3D
         UpdatePhysicalInteriorPresentation();
         WatchSuspensionBridge();
         if (_villageLife is null) return;
-        _lifePlayer ??= GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        _lifePlayer = LifePlayer();
         _lifeCue ??= GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
         var inhabited = ActiveZoneId == "village_day";
-        _villageLife.Visible = inhabited;
+        if (_villageLife.Visible != inhabited) _villageLife.Visible = inhabited;
         var moving = inhabited && _lifePlayer is not null && !_lifePlayer.ModalOpen
             && !_lifePlayer.ReducedMotion && _lifeCue?.IsPresenting != true;
         var smokeMoving = moving || inhabited && _lifePlayer?.ReducedMotion != true
-            && GetViewport().GetCamera3D()?.Name.ToString() == "Act1ArrivalFlyoverCamera";
+            && ArrivalFlyoverCameraActive();
         foreach (var smoke in _chimneySmoke)
-            smoke.SpeedScale = smokeMoving ? 1f : 0f;
+        {
+            // Writing an unchanged SpeedScale is unobservable (the property already
+            // holds this exact float), so only the target that actually differs is set.
+            var speedScale = smokeMoving ? 1f : 0f;
+            if (smoke.SpeedScale != speedScale) smoke.SpeedScale = speedScale;
+        }
 
         UpdateConversationFacing();
-        _villageLife.SetMeta("motionAllowed", moving);
+        // motionAllowed is read back as a bool (AsBool() in the route capture, so the
+        // key must exist from the first pass) and set nowhere else: caching the last
+        // value written keeps the first write unconditional and skips a native
+        // metadata write whenever the value is unchanged.
+        if (_lifeMotionAllowed != moving)
+        {
+            _villageLife.SetMeta("motionAllowed", moving);
+            _lifeMotionAllowed = moving;
+        }
         if (!moving) return;
         var elapsed = (float)Math.Min(delta, .1);
         if (_lifeEvent == 0)
@@ -10078,7 +10128,7 @@ public partial class Act1ConnectedWorld : Node3D
             Name = name,
             Position = position,
             RotationDegrees = new Vector3(0f, yawDegrees, rollDegrees),
-            Mesh = new BoxMesh { Size = size },
+            Mesh = RuralPropGeometry.Box(size),
             MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface)
         };
         mesh.SetMeta("visualOnly", true);

@@ -21,6 +21,20 @@ public partial class Act1ConnectedWorld
     private JsonElement _facilityProps;
     private bool _facilityBusy;
     private bool _facilityTickBuilt;
+    // W4/P1: the per-tick projection below is a pure function of
+    // FacilityExteriorActive (written only by SetActiveLogicalZone) plus the two
+    // list lengths; the lists change only during the one-time world build.
+    // ActiveZoneId is part of the key because the authored-kit collision pass
+    // (Act1ConnectedWorld.AuthoredKitCollision.cs) also writes CollisionLayer on
+    // every body tagged collisionOwner=act1-exterior-architecture, which
+    // FacilitySolid stamps; that pass runs only on a zone change.
+    // "not applied" starts false so the first tick after RefreshFacilityState
+    // always writes the current state.
+    private bool _facilityProjectionApplied;
+    private bool _facilityProjectionExterior;
+    private string _facilityProjectionZone = string.Empty;
+    private int _facilityProjectionBodyCount = -1;
+    private int _facilityProjectionLightCount = -1;
 
     private sealed class FacilityDoor
     {
@@ -368,8 +382,26 @@ public partial class Act1ConnectedWorld
         }
         if (_facilityBridge is null) return;
         var exterior = FacilityExteriorActive;
-        foreach (var body in _facilityBodies) body.CollisionLayer = exterior ? 2u : 0u;
-        foreach (var light in _facilityLights) light.Visible = exterior;
+        // W4/P1: 110-250 StaticBody3D and 13 OmniLight3D are re-stamped with the
+        // same two constants on every physics tick. FacilityExteriorActive is
+        // derived from ActiveZoneId, which only SetActiveLogicalZone writes, and
+        // the only other writer of these bodies' CollisionLayer (the
+        // authored-kit collision pass) runs on that same zone change and writes
+        // the same value, so the loop cannot produce a different result while
+        // this key is unchanged.
+        if (!_facilityProjectionApplied || _facilityProjectionExterior != exterior
+            || !string.Equals(_facilityProjectionZone, ActiveZoneId, StringComparison.Ordinal)
+            || _facilityProjectionBodyCount != _facilityBodies.Count
+            || _facilityProjectionLightCount != _facilityLights.Count)
+        {
+            foreach (var body in _facilityBodies) body.CollisionLayer = exterior ? 2u : 0u;
+            foreach (var light in _facilityLights) light.Visible = exterior;
+            _facilityProjectionApplied = true;
+            _facilityProjectionExterior = exterior;
+            _facilityProjectionZone = ActiveZoneId;
+            _facilityProjectionBodyCount = _facilityBodies.Count;
+            _facilityProjectionLightCount = _facilityLights.Count;
+        }
         var paused = _facilityBridge.CapturePlayTimeBlocks() != RuntimeBridge.PlayTimeBlock.None;
         foreach (var door in _facilityDoors)
         {
@@ -379,7 +411,12 @@ public partial class Act1ConnectedWorld
                 door.Blocked = !FacilityDoorSweepClear(door, door.Hinge.Rotation.Y, next);
                 if (!door.Blocked) door.Hinge.Rotation = new(0, next, 0);
             }
-            door.Target.GlobalTransform = door.Hinge.GlobalTransform * new Transform3D(Basis.Identity, new(0, door.Height * .5f, door.Width * .5f));
+            // W4/P1: the pose only changes while the hinge turns; while it stands
+            // still the recomputed product is identical, so the physics-server
+            // transform push is skipped. Target.Prompt and Target.CollisionLayer
+            // stay per-tick writes: ApplyInteractionRouting owns that same layer.
+            var pose = door.Hinge.GlobalTransform * new Transform3D(Basis.Identity, new(0, door.Height * .5f, door.Width * .5f));
+            if (door.Target.GlobalTransform != pose) door.Target.GlobalTransform = pose;
             door.Target.Prompt = door.Blocked ? "Дверь упёрлась — отступить или убрать вещь" : door.Open ? "Закрыть дверь" : "Открыть дверь";
             door.Target.CollisionLayer = exterior ? 4u : 0u;
         }

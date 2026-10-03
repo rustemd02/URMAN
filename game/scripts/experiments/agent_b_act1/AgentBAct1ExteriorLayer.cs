@@ -274,6 +274,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             _sun.Visible = enabled;
         }
 
+        // A zone switch changes the signed shelter inputs; drop the cached uniforms so
+        // the very next pass re-pushes them instead of trusting the previous zone.
+        InvalidateSnowPresentationParameters();
         UpdateSnowPresentation(GetViewport()?.GetCamera3D()?.GlobalPosition ?? GlobalPosition);
         _snowTrample?.SetEnabled(enabled && !_sheltered);
 
@@ -291,6 +294,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     public void SetSheltered(bool sheltered)
     {
         _sheltered = sheltered;
+        InvalidateSnowPresentationParameters();
         UpdateSnowPresentation(GetViewport()?.GetCamera3D()?.GlobalPosition ?? GlobalPosition);
         _snowTrample?.SetEnabled(_exteriorPresentationEnabled && !sheltered);
         SetMeta("physicalSheltered", sheltered);
@@ -1502,6 +1506,26 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 hidden = true; break;
             }
             if (hidden) { suppressed++; continue; }
+            if (variant == "WinterPine" && position.X >= -64f && position.X <= -44f && Mathf.Abs(position.Y) <= 24f)
+            {
+                // Rooted, irregular lean breaks the vertical colonnade. Use the
+                // same basis for all LODs and the baked trunk collision below.
+                var direction = Mathf.Tau * DeterministicPhase(position, 71.3f);
+                var lean = new Basis(new Vector3(Mathf.Cos(direction), 0, Mathf.Sin(direction)),
+                    Mathf.DegToRad(Mathf.Lerp(2f, 7f, DeterministicPhase(position, 73.7f)))) * basis;
+                var canopy = GlobalTransform * (new Transform3D(lean, target) * template.Mesh.GetAabb());
+                var clear = !roofs.Any(roof => roof.Grow(.35f).Intersects(canopy))
+                    && template.LowVertices.All(sample =>
+                    {
+                        var point = target + lean * sample;
+                        if (point.Y - target.Y > 2.6f) return true;
+                        var edge = AgentBAct1HeightField.RoadInfo(point.X, point.Z);
+                        return edge.Distance - edge.HalfWidth >= .1f;
+                    });
+                // Preserve every accepted planting and its ID at a tight path
+                // or roof: keep the original upright basis if lean cannot fit.
+                if (clear) basis = lean;
+            }
             var region = forestRim || variant == "FallenBranch_2" || position.Y <= -86f ? "kara" : position.Y <= -58f ? "zirat" : "village";
             var hasLods = variant.StartsWith("Winter", StringComparison.Ordinal);
             var tiers = hasLods ? new[] { variant, variant.Replace("Winter", "WinterLight", StringComparison.Ordinal), variant.Replace("Winter", "WinterFar", StringComparison.Ordinal) }
@@ -2591,6 +2615,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         };
         AddChild(_rain);
         SetOpeningBlizzard(false);
+        // The emitter and its fresh ShaderMaterial are created only here (and _rain.Mesh
+        // is never reassigned), so this is the single place that can invalidate the
+        // pushed snow uniforms without retaining a reference to the material itself.
+        InvalidateSnowPresentationParameters();
     }
 
     private void BuildKaraAccentLights()
@@ -2694,7 +2722,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private int _windowWeatherShelter = -1;
     public void RegisterWeatherShelter(Node3D owner, Vector3 centre, Vector3 half, bool windowView = false)
     {
-        if (windowView) _windowWeatherShelter = _weatherShelters.Count;
+        if (windowView)
+        {
+            _windowWeatherShelter = _weatherShelters.Count;
+            // The selected shelter may have changed; never compare against the old one.
+            InvalidateSnowPresentationParameters();
+        }
         _weatherShelters.Add((owner, centre, half));
     }
     private bool WeatherSheltered(Vector3 point)
@@ -2703,6 +2736,24 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private static bool Inside(Vector3 p, Vector3 h)
         => Mathf.Abs(p.X) < h.X && Mathf.Abs(p.Y) < h.Y && Mathf.Abs(p.Z) < h.Z;
 
+    // Last uniforms pushed for the snow shelter. A null entry means "not written
+    // yet" and forces a write; everything is reset when the emitter's material is
+    // (re)created or the atmosphere owner switches zone or shelter. No Material
+    // reference is kept, so this cache adds nothing to the shutdown resource count.
+    private bool? _snowShelterEnabled;
+    private Transform3D? _snowShelterOwner;
+    private Vector3? _snowShelterCentre;
+    private Vector3? _snowShelterHalf;
+
+    /// <summary>Forget the pushed snow uniforms so the next pass rewrites all of them.</summary>
+    private void InvalidateSnowPresentationParameters()
+    {
+        _snowShelterEnabled = null;
+        _snowShelterOwner = null;
+        _snowShelterCentre = null;
+        _snowShelterHalf = null;
+    }
+
     private void UpdateSnowPresentation(Vector3 focus)
     {
         if (_rain is null) return;
@@ -2710,21 +2761,44 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var windowView = false;
         var validShelter = _windowWeatherShelter >= 0
             && GodotObject.IsInstanceValid(_weatherShelters[_windowWeatherShelter].Owner);
-        material.SetShaderParameter("shelter_enabled", validShelter);
+        if (_snowShelterEnabled != validShelter)
+        {
+            material.SetShaderParameter("shelter_enabled", validShelter);
+            _snowShelterEnabled = validShelter;
+        }
         if (validShelter)
         {
             // Pilot: only the real glazed main room. The sealed underground wing
             // and other logical interiors retain their existing weather policy.
             var shelter = _weatherShelters[_windowWeatherShelter];
-            material.SetShaderParameter("shelter_from_world", shelter.Owner.GlobalTransform.AffineInverse());
-            material.SetShaderParameter("shelter_centre", shelter.Centre);
-            material.SetShaderParameter("shelter_half", shelter.Half);
+            // Each uniform is a pure function of one authored value, so re-pushing an
+            // equal value is unobservable; the AffineInverse is only needed when the
+            // owner transform itself changed.
+            var owner = shelter.Owner.GlobalTransform;
+            if (_snowShelterOwner != owner)
+            {
+                material.SetShaderParameter("shelter_from_world", owner.AffineInverse());
+                _snowShelterOwner = owner;
+            }
+            if (_snowShelterCentre != shelter.Centre)
+            {
+                material.SetShaderParameter("shelter_centre", shelter.Centre);
+                _snowShelterCentre = shelter.Centre;
+            }
+            if (_snowShelterHalf != shelter.Half)
+            {
+                material.SetShaderParameter("shelter_half", shelter.Half);
+                _snowShelterHalf = shelter.Half;
+            }
             windowView = _windowSnowView && Inside(shelter.Owner.ToLocal(focus) - shelter.Centre, shelter.Half);
         }
         var enabled = windowView || (_exteriorPresentationEnabled && !_sheltered && !WeatherSheltered(focus));
-        _rain.Emitting = enabled;
-        _rain.Visible = enabled;
-        _rain.SetMeta("windowSnowView", windowView);
+        // Compared against the live properties and meta, so an external change is
+        // still re-asserted exactly as the previous unconditional writes did.
+        if (_rain.Emitting != enabled) _rain.Emitting = enabled;
+        if (_rain.Visible != enabled) _rain.Visible = enabled;
+        if (_rain.GetMeta("windowSnowView", false).AsBool() != windowView)
+            _rain.SetMeta("windowSnowView", windowView);
     }
 
     public override void _Process(double delta)

@@ -455,7 +455,15 @@ public partial class Act1ConnectedWorld
         var hot = FacilityNumber(_facilityProps, BathStoveKey, "heatUntil") > now;
         var steam = FacilityNumber(_facilityProps, BathSteamKey, "until") > now;
         if (_bathEmbers is not null) _bathEmbers.Visible = hot;
-        if (_bathFireLight is not null) { _bathFireLight.Visible = burn && FacilityExteriorActive; _bathFireLight.LightEnergy = .17f; }
+        if (_bathFireLight is not null)
+        {
+            _bathFireLight.Visible = burn && FacilityExteriorActive;
+            // W4/P4: .17f is this light's steady authored energy (it is built at
+            // .18f but never rendered before this line runs; the only other
+            // writer is the constructor). Re-pushing that same float every tick
+            // cannot change the frame, so only a real difference is written.
+            if (_bathFireLight.LightEnergy != .17f) _bathFireLight.LightEnergy = .17f;
+        }
         if (_bathSteam is not null) { _bathSteam.Emitting = steam && FacilityExteriorActive && !paused; _bathSteam.Visible = FacilityExteriorActive; _bathSteam.SpeedScale = paused ? 0 : 1; }
         if (_bathSmoke is not null) { _bathSmoke.Emitting = burn && FacilityExteriorActive && !paused; _bathSmoke.Visible = FacilityExteriorActive; _bathSmoke.SpeedScale = paused ? 0 : 1; }
         TickBathAtmosphere(burn && !paused, GetProcessDeltaTime());

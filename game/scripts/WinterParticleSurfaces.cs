@@ -7,6 +7,15 @@ namespace Urman.Godot;
 public static class WinterParticleSurfaces
 {
     private static Texture2D? _mask;
+    // W4/P3: the airborne-snow shader program is a compile-time constant, so one
+    // Shader resource serves every emitter. The open-snow QuadMesh and its
+    // StandardMaterial3D are immutable after creation (no caller writes Size,
+    // Material or a shader parameter on them), so they are reused per
+    // (size, opacity). The room-exclusion ShaderMaterial is deliberately NOT
+    // cached: AgentBAct1ExteriorLayer writes per-emitter uniforms into it.
+    private static Shader? _roomExclusionShader;
+    private static readonly Dictionary<(float Size, float Opacity), QuadMesh> _openSnowMeshes = new();
+    private static Gradient? _fade;
     public static QuadMesh Snow(float size, float opacity, bool roomExclusion = false)
     {
         if (_mask is null)
@@ -24,10 +33,13 @@ public static class WinterParticleSurfaces
             }
             _mask = ImageTexture.CreateFromImage(image);
         }
-        Material material;
         if (roomExclusion)
         {
-            var snow = new ShaderMaterial { Shader = new Shader { Code = """
+            // Same code as before, interned once: Snow(.026f, .50f, true) is
+            // built by AgentBAct1ExteriorLayer.CreateSnowflakeMesh, and the
+            // material below stays per-call because that owner writes
+            // snow_velocity and the shelter_* uniforms into it afterwards.
+            _roomExclusionShader ??= new Shader { Code = """
                 shader_type spatial;
                 render_mode unshaded, cull_disabled;
                 uniform sampler2D snow_mask : source_color;
@@ -67,30 +79,74 @@ public static class WinterParticleSurfaces
                     ALBEDO = flake.rgb;
                     ALPHA = flake.a * near_fade;
                 }
-                """ } };
+                """ };
+            var snow = new ShaderMaterial { Shader = _roomExclusionShader };
             snow.SetShaderParameter("snow_mask", _mask);
             snow.SetShaderParameter("snow_tint", new Color(.93f, .95f, .98f, opacity));
             snow.SetShaderParameter("flake_size", size);
-            material = snow;
+            return new QuadMesh { Size = new(size, size), Material = snow };
         }
-        else material = new StandardMaterial3D
+        // Identical property values for identical parameters, returned once and
+        // reused. Callers only read the mesh (as CpuParticles3D.Mesh); the
+        // shared albedo mask is the same single _mask texture as before.
+        if (!_openSnowMeshes.TryGetValue((size, opacity), out var cached))
         {
-            AlbedoColor = new(.93f, .95f, .98f, opacity), AlbedoTexture = _mask,
-            Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
-            ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
-            BillboardMode = BaseMaterial3D.BillboardModeEnum.Enabled,
-            CullMode = BaseMaterial3D.CullModeEnum.Disabled,
-            VertexColorUseAsAlbedo = true
-        };
-        return new QuadMesh
-        {
-            Size = new(size, size),
-            Material = material
-        };
+            cached = new QuadMesh
+            {
+                Size = new(size, size),
+                Material = new StandardMaterial3D
+                {
+                    AlbedoColor = new(.93f, .95f, .98f, opacity), AlbedoTexture = _mask,
+                    Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
+                    ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
+                    BillboardMode = BaseMaterial3D.BillboardModeEnum.Enabled,
+                    CullMode = BaseMaterial3D.CullModeEnum.Disabled,
+                    VertexColorUseAsAlbedo = true
+                }
+            };
+            _openSnowMeshes[(size, opacity)] = cached;
+        }
+        return cached;
     }
-    public static Gradient Fade() => new()
+    public static Gradient Fade()
     {
-        Colors = [new(1, 1, 1, 0), Colors.White, Colors.White, new(1, 1, 1, 0)],
-        Offsets = [0, .12f, .65f, 1]
-    };
+        // W4/P3: the ramp is a constant and every caller only assigns it to
+        // CpuParticles3D.ColorRamp (no offsets/colors are ever mutated), so the
+        // same value is returned instead of a fresh allocation.
+        if (_fade is null)
+        {
+            _fade = new Gradient
+            {
+                Colors = [new(1, 1, 1, 0), Colors.White, Colors.White, new(1, 1, 1, 0)],
+                Offsets = [0, .12f, .65f, 1]
+            };
+        }
+        return _fade;
+    }
+
+    /// <summary>
+    /// Test-only, like PainterlyMaterialLibrary.ClearCacheForHeadlessTests: the
+    /// retained mask, shader, gradient and per-parameter meshes would otherwise
+    /// outlive the smoke scene and be reported as resources still in use at
+    /// exit. Called after the scene is freed, so no live node still holds them;
+    /// the next Snow/Fade call rebuilds every piece lazily.
+    /// </summary>
+    public static void ClearCacheForHeadlessTests()
+    {
+        // Release the holders of the shared resources before the shared
+        // resources themselves: each cached mesh owns its material, and those
+        // materials reference _mask.
+        foreach (var mesh in _openSnowMeshes.Values)
+        {
+            mesh.Material?.Dispose();
+            mesh.Dispose();
+        }
+        _openSnowMeshes.Clear();
+        _roomExclusionShader?.Dispose();
+        _roomExclusionShader = null;
+        _fade?.Dispose();
+        _fade = null;
+        _mask?.Dispose();
+        _mask = null;
+    }
 }

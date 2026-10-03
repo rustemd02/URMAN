@@ -35,6 +35,7 @@ public partial class YardMechanism : StaticBody3D
     private ulong _pulseUntil;
     private float _restRotation;
     private Vector3 _authoredPartRotation;
+    private FirstPersonController? _player;
 
     public static YardMechanism Create(string id, Operation action, MeshInstance3D surface,
         string prompt, string requirement, string result, Action<bool>? project = null)
@@ -99,8 +100,9 @@ public partial class YardMechanism : StaticBody3D
 
     public override void _Process(double delta)
     {
-        if (!_enabled || Solved || CueCause == SoundCause.None || string.IsNullOrEmpty(SoundSample)
-            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController { ModalOpen: false } player
+        if (!_enabled || Solved || CueCause == SoundCause.None || string.IsNullOrEmpty(SoundSample)) return;
+        var player = ResolvePlayer();
+        if (player is not { ModalOpen: false }
             || player.GlobalPosition.DistanceSquaredTo(GlobalPosition) > 121f) return;
         var now = Time.GetTicksMsec();
         var footContact = CueCause == SoundCause.FootContact
@@ -116,8 +118,23 @@ public partial class YardMechanism : StaticBody3D
             EmittedCueCount++;
         }
         if (MovingPart is not null)
-            MovingPart.Rotation = MovingPart.Rotation with
-            { Z = _restRotation + (now < _pulseUntil && !player.ReducedMotion ? Mathf.Sin(now * .035f) * .018f : 0) };
+        {
+            var z = _restRotation + (now < _pulseUntil && !player.ReducedMotion ? Mathf.Sin(now * .035f) * .018f : 0);
+            // Re-assigning an identical Z leaves the node in the same pose, so only a
+            // real change is written. X/Y were and still are preserved by `with`.
+            if (MovingPart.Rotation.Z != z) MovingPart.Rotation = MovingPart.Rotation with { Z = z };
+        }
+    }
+
+    /// <summary>
+    /// One player controller per scene. IsInstanceValid re-resolves it only after a
+    /// zone rebuild disposed the cached node, so the identical group lookup runs at
+    /// most once instead of once per active mechanism per frame.
+    /// </summary>
+    private FirstPersonController? ResolvePlayer()
+    {
+        if (_player is not null && !IsInstanceValid(_player)) _player = null;
+        return _player ??= GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
     }
 
     private bool HasFootContact(FirstPersonController player)

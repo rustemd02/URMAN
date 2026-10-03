@@ -18,7 +18,11 @@ public partial class Act1ConnectedWorld
 
     private void UpdatePhysicalInteriorPresentation()
     {
-        if (!IsBuilt || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player) return;
+        // Uses the Act1ConnectedWorld._lifePlayer cache through LifePlayer(): the same
+        // node the group query returned while it is alive, re-resolved only after it
+        // was disposed. This pass runs before the cache line in _Process, so the
+        // first frame still fills the cache here and no query is repeated after it.
+        if (!IsBuilt || LifePlayer() is not { } player) return;
         var interior = FacilityInteriorAt(player.GlobalPosition);
         if (interior == _physicalInterior) return;
         _physicalInterior = interior;

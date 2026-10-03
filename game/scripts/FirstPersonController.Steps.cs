@@ -122,5 +122,6 @@ public partial class FirstPersonController
     public override void _ExitTree()
     {
         _stepObstacle?.Dispose(); _stepSweep?.Dispose(); _stepLanding?.Dispose();
+        ReleaseStanceProbes();
     }
 }

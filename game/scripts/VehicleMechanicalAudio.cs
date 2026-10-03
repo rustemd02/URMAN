@@ -12,6 +12,7 @@ public partial class VehicleMechanicalAudio : Node3D
     private const int Rate = 22050;
     private AudioStreamPlayer3D? _player;
     private AudioStreamGeneratorPlayback? _playback;
+    private AudioCueUi? _cueUi;
     private readonly Vector2[] _buffer = new Vector2[2048];
     private VehicleKind _kind;
     private bool _running, _paused;
@@ -45,7 +46,14 @@ public partial class VehicleMechanicalAudio : Node3D
     public override void _Process(double delta)
     {
         if(_player is null)return;
-        _player.VolumeDb=GetTree().GetFirstNodeInGroup("audio_cue_ui") is AudioCueUi { IsPresenting:true } ? -18f : -10f;
+        // One cue presenter per scene, resolved through a validity-checked cache so
+        // the three vehicle instances stop querying the group every frame. The
+        // target is exactly -18f or -10f, so re-storing the identical value is
+        // unobservable and only an actual duck change reaches the audio server.
+        if(_cueUi is not null&&!GodotObject.IsInstanceValid(_cueUi))_cueUi=null;
+        _cueUi??=GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
+        var targetDb=_cueUi is { IsPresenting:true }?-18f:-10f;
+        if(_player.VolumeDb!=targetDb)_player.VolumeDb=targetDb;
         _player.StreamPaused=_paused;
         if(_paused)return;
         var shouldPlay=(_kind==VehicleKind.HorseCart?_speed>.02f:_running)||_gain>.001f;
@@ -56,8 +64,7 @@ public partial class VehicleMechanicalAudio : Node3D
         var count=Math.Min(_playback.GetFramesAvailable(),_buffer.Length);
         if(count<=0)return;
         for(var i=0;i<count;i++){var sample=Next();_buffer[i]=new(sample,sample);}
-        if(count==_buffer.Length)_playback.PushBuffer(_buffer);
-        else for(var i=0;i<count;i++)_playback.PushFrame(_buffer[i]);
+        _playback.PushBuffer(_buffer.AsSpan(0,count));
     }
 
     private float Next()
