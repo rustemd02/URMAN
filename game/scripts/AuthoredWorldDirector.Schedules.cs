@@ -348,9 +348,13 @@ public partial class AuthoredWorldDirector
             var t = index / (float)steps;
             var ground = Ground(new Vector3(Mathf.Lerp(from.X, to.X, t), 0, Mathf.Lerp(from.Z, to.Z, t)));
             var point = ground + Vector3.Up * RouteProbeHeight;
-            var query = PhysicsRayQueryParameters3D.Create(previous, point, RouteProbeMask);
+            // The parameters object and the returned dictionary are both owned by
+            // this call. Leaving them to the finalizer fed the finalizer thread that
+            // the managed profile showed busy, once for every sampled metre of every
+            // routine step.
+            using var query = PhysicsRayQueryParameters3D.Create(previous, point, RouteProbeMask);
             query.CollideWithAreas = false;
-            var hit = space.IntersectRay(query);
+            using var hit = space.IntersectRay(query);
             if (hit.Count > 0) return (Vector3)hit["position"];
             previous = point;
         }

@@ -462,6 +462,9 @@ public partial class VehicleController : CharacterBody3D
         // and low fences. The unmodified collision hull retains its floor contact.
         var steps=Math.Max(1,(int)Math.Ceiling(Math.Abs(yaw)/Mathf.DegToRad(.25f)));
         var excluded=Excluded();
+        // The array is owned by this call; the queries copy the reference, so releasing
+        // our wrapper here cannot invalidate them.
+        using var excludedOwner = (global::Godot.Collections.Array)excluded;
         for(var i=1;i<=steps;i++)
         {
             var basis=GlobalBasis.Rotated(Vector3.Up,yaw*i/steps);
@@ -484,9 +487,13 @@ public partial class VehicleController : CharacterBody3D
         foreach (var offset in offsets)
         {
             var candidate = ToGlobal(offset);
-            var ray = PhysicsRayQueryParameters3D.Create(candidate+Vector3.Up*2.0f,candidate-Vector3.Up*2.1f,3);
-            ray.Exclude = Excluded();
-            var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
+            // Owned per call, released here: the parameters, the exclusion array and
+            // the returned dictionary otherwise all end up in the finalizer queue.
+            using var ray = PhysicsRayQueryParameters3D.Create(candidate+Vector3.Up*2.0f,candidate-Vector3.Up*2.1f,3);
+            var exclude = Excluded();
+            using var excludeOwner = (global::Godot.Collections.Array)exclude;
+            ray.Exclude = exclude;
+            using var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
             if (hit.Count == 0 || hit["normal"].AsVector3().Y < .82f) continue;
             candidate = hit["position"].AsVector3()+Vector3.Up*.035f;
             if (Math.Abs(candidate.Y-GlobalPosition.Y) > .65f || !player.CanStandAt(candidate)) continue;
@@ -495,12 +502,16 @@ public partial class VehicleController : CharacterBody3D
                 ? ToGlobal(new(0,0,Definition.HullSize.Z*.5f+.02f))
                 : ToGlobal(new(Math.Sign(offset.X)*(Definition.HullSize.X*.5f+.02f),0,offset.Z));
             start.Y = candidate.Y;
-            var sweep = new PhysicsShapeQueryParameters3D { Shape = _exitShape,
+            var sweepExclude = Excluded();
+            using var sweepExcludeOwner = (global::Godot.Collections.Array)sweepExclude;
+            using var sweep = new PhysicsShapeQueryParameters3D { Shape = _exitShape,
                 Transform = new(Basis.Identity,start+Vector3.Up*(player.StandingBodyHeight*.5f+.025f)),
-                Motion = candidate-start, CollisionMask = 3, Exclude = Excluded(), Margin = .01f };
+                Motion = candidate-start, CollisionMask = 3, Exclude = sweepExclude, Margin = .01f };
             // CastMotion explicitly ignores shapes already overlapped at its
             // origin. A thin fence beside the door must not be crossed on exit.
-            if(GetWorld3D().DirectSpaceState.IntersectShape(sweep,1).Count>0)continue;
+            var overlap = GetWorld3D().DirectSpaceState.IntersectShape(sweep,1);
+            using var overlapOwner = (global::Godot.Collections.Array)overlap;
+            if(overlap.Count>0)continue;
             var travel = GetWorld3D().DirectSpaceState.CastMotion(sweep);
             if (travel.Length >= 1 && travel[0] < .995f) continue;
             feet = candidate; return true;
@@ -690,6 +701,7 @@ public partial class VehicleController : CharacterBody3D
         var access=_fleet.EvaluateTravel(this,pose.Origin,pose.Origin);
         if(!access.Allowed){reason="the current road graph rejects this parking: "+access.Reason;return false;}
         var exclude=PlacementExcluded();
+        using var excludeOwner = (global::Godot.Collections.Array)exclude;
         var horseFrame = _horseProjectionFailure.Length != 0 && _visual.HorsePose is {} horse
             // PreparePose just re-grounded every leg of this plan, so its retained
             // soles are proven for this tick and this HorsePose.Basis; letting
@@ -713,7 +725,7 @@ public partial class VehicleController : CharacterBody3D
             var bottom=pose*group.Point;
             using var ray=PhysicsRayQueryParameters3D.Create(bottom+Vector3.Up*.24f,bottom-Vector3.Up*.42f,CollisionMask);
             ray.Exclude=exclude;
-            var hit=GetWorld3D().DirectSpaceState.IntersectRay(ray);
+            using var hit=GetWorld3D().DirectSpaceState.IntersectRay(ray);
             if(hit.Count==0||hit["normal"].AsVector3().Y<Mathf.Cos(FloorMaxAngle))continue;
             var gap=bottom.Y-hit["position"].AsVector3().Y;
             if(gap>=-.015f&&gap<=.40f)supports++;
@@ -739,6 +751,7 @@ public partial class VehicleController : CharacterBody3D
     {
         var basis=Basis.FromEuler(new(0,Mathf.DegToRad(Definition.YawDegrees),0));
         var exclude=PlacementExcluded();
+        using var excludeOwner = (global::Godot.Collections.Array)exclude;
         // A changed object may occupy the saved position or original bay. Use
         // only a short, checked part of the existing road near authored parking.
         foreach(var distance in new[]{0f,6f,-6f,12f,-12f})
@@ -749,7 +762,7 @@ public partial class VehicleController : CharacterBody3D
             {
                 var sample=candidate+basis*point;
                 using var ray=PhysicsRayQueryParameters3D.Create(sample+Vector3.Up*2,sample-Vector3.Up*2,CollisionMask);
-                ray.Exclude=exclude;var hit=GetWorld3D().DirectSpaceState.IntersectRay(ray);
+                ray.Exclude=exclude;using var hit=GetWorld3D().DirectSpaceState.IntersectRay(ray);
                 if(hit.Count==0||hit["normal"].AsVector3().Y<Mathf.Cos(FloorMaxAngle))continue;
                 var floor=hit["position"].AsVector3().Y-point.Y;
                 highest=Math.Max(highest,floor);lowest=Math.Min(lowest,floor);supports++;

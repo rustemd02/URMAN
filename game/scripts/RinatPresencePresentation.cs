@@ -387,7 +387,7 @@ public partial class RinatPresencePresentation : Node3D
         if (!camera.IsPositionInFrustum(point)) return false;
         ResolveRayExclusions();
         using var ray = PhysicsRayQueryParameters3D.Create(camera.GlobalPosition, point, 3u, _rayExcludes);
-        var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
+        using var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
         return hit.Count == 0 || hit["position"].AsVector3().DistanceTo(point) < .10f;
     }
 
@@ -747,7 +747,7 @@ public partial class RinatPresencePresentation : Node3D
         ResolveRayExclusions();
         using var ray = PhysicsRayQueryParameters3D.Create(at + Vector3.Up * .55f,
             at - Vector3.Up * .65f, 1u, _rayExcludes);
-        var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
+        using var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
         point = hit.Count == 0 ? at : hit["position"].AsVector3();
         normal = hit.Count == 0 ? Vector3.Up : hit["normal"].AsVector3();
         return hit.Count != 0 && normal.Dot(Vector3.Up) > .85f;

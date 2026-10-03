@@ -298,8 +298,10 @@ public partial class VehicleFleet : Node3D
     {
         feet=default;
         using var ray=PhysicsRayQueryParameters3D.Create(candidate+Vector3.Up*1.5f,candidate-Vector3.Up*.8f,3);
-        ray.Exclude=new global::Godot.Collections.Array<Rid>{player.GetRid()};
-        var hit=GetWorld3D().DirectSpaceState.IntersectRay(ray);
+        var recoveryExclude=new global::Godot.Collections.Array<Rid>{player.GetRid()};
+        using var recoveryExcludeOwner=(global::Godot.Collections.Array)recoveryExclude;
+        ray.Exclude=recoveryExclude;
+        using var hit=GetWorld3D().DirectSpaceState.IntersectRay(ray);
         if(hit.Count==0||hit["normal"].AsVector3().Y<.82f)return false;
         candidate=hit["position"].AsVector3()+Vector3.Up*.035f;
         // Do not recover onto the roof of the blocked vehicle or fixture.

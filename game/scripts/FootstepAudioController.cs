@@ -201,12 +201,16 @@ public partial class FootstepAudioController : Node
             // capsule without adding a slide collision. Resolve that support
             // at the actual feet, once per step, rather than reverting a wood
             // platform to the snow family underneath its XZ.
+            // Array<T> is not IDisposable in GodotSharp 4.7.1; the untyped alias of the
+            // same object releases the underlying array.
+            var supportExclude = new global::Godot.Collections.Array<Rid> { _actor.GetRid() };
+            using var supportExcludeOwner = (global::Godot.Collections.Array)supportExclude;
             using var query = PhysicsRayQueryParameters3D.Create(
                 _actor.GlobalPosition + _actor.UpDirection * .03f,
                 _actor.GlobalPosition - _actor.UpDirection * .08f,
                 _actor.CollisionMask,
-                new global::Godot.Collections.Array<Rid> { _actor.GetRid() });
-            var hit = _actor.GetWorld3D().DirectSpaceState.IntersectRay(query);
+                supportExclude);
+            using var hit = _actor.GetWorld3D().DirectSpaceState.IntersectRay(query);
             if (hit.Count > 0
                 && hit["normal"].AsVector3().Dot(_actor.UpDirection) >= Mathf.Cos(_actor.FloorMaxAngle)
                 && hit["collider"].AsGodotObject() is Node floor && floor.HasMeta("footstepSurface"))
