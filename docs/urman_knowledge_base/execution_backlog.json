@@ -13617,6 +13617,7 @@
     },
     {
       "id": "ACT1-MECH-AUDIT.1",
+      "progress_2026_10_04": "2026-10-04: инвентаризация собрана: docs/production/act1_mechanics_inventory_2026-10-04.md — 156 исходных interaction ID в 14 модулях, классификация по фактическому игровому результату (33 сюжетное знание → keep, 47 наблюдение вне реестра → fix по M2, 76 без эффекта → класс M1), таблицы A/B/C, именованные случаи M2 по точным ID, пилот по маршруту, влияния на save/квест/EX и ограничения. Ни одна цель знания не «мертва» (все 69 на что-то ссылаются), а класс без результата по построению не влияет на save/квест/EX. Решения по спорным строкам (Z13, лавка, варежка/щеколда) остаются автору — по M1/M2.",
       "execution": {
         "kind": "work",
         "unit": "M: один класс действующих интерактивов",
@@ -13671,7 +13672,8 @@
       ],
       "evidence": [
         "2026-09-22 черновик инвентаризации механик (read-only рой, Hypothesis): 125 интеракций/52 документа/3 квеста; плотные 3+ и одиночные перечислены; незавершённые — радио-превью, живые голоса (external), книги мечети, шест — docs/production/act1_takeover_evidence_2026-09-16/act1_swarm_next_packets_2026-09-22.md §4."
-      ],
+      ,
+        "docs/production/act1_mechanics_inventory_2026-10-04.md"],
       "mvp_priority": 10,
       "mvp_packet": "A00",
       "current_checkpoint": "2026-09-26 scoped read-only Sol inventory: EX06 two real gated lantern readings; EX07 bath stove/water/condensation plus warm-water→window/cabinet thaw; EX08 three yard sound mechanisms. No dangling loop proved in these three systems; human listening/clarity unrun. Remaining mechanics inventory still open. Side-panel directional caption defect forwarded and corrected under EX08.",
@@ -13755,6 +13757,7 @@
     },
     {
       "id": "ACT1-MECH-AUDIT.2",
+      "progress_2026_10_04": "2026-10-04: карточка .2 несёт тот же заголовок, deliverable и done_when, что .1 (копия текста); её предметная часть — то же покрытие M1 («ACT1-MECH-AUDIT.1–.4» и зонная последовательность). Собранная инвентаризация docs/production/act1_mechanics_inventory_2026-10-04.md закрывает это покрытие для обеих карточек; .3 и .4 отвечают за бытовую/сюжетную роль сохранённого механизма и снятие ложных обещаний. Заголовки .1/.2 не переименованы: конкретное разбиение зон в карточках не задано — это решение владельца очереди.",
       "execution": {
         "kind": "work",
         "unit": "M: один класс действующих интерактивов",
@@ -13804,7 +13807,8 @@
         "Учтены Z13, кружка ФАПа, D13, Z18, И22, вода/топка, варежка/щеколда/записки и все реальные peers класса. Не считать 90% измеренной долей. Для удаления обязательного факта/действия назначена замена.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_mechanics_inventory_2026-10-04.md"],
       "mvp_priority": 10,
       "mvp_packet": "A00",
       "source_excerpt_checkpoint_2026_09_27": "Technically working on the current dirty DLL in guarded true-headless family-flow; retain four distinct uses and do not add artificial repeats. Native keyboard/focus, large text and human clarity remain unverified under A12 / ACT1-UI.4 and ACT1-UI.7. Background-input failure is a verification limit, not a proven player bug. Remaining mechanics classification is open. Evidence: docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md; docs/production/mvp_tracker_2026-09-27/fap-records/receipt.json.",
@@ -23181,6 +23185,7 @@
     "date": "2026-10-04",
     "scope": "Static consistency audit of the whole queue during the documentation-only stage; implementation and game launches stay on the author's pause. No task content, evidence history or completion was rewritten.",
     "checks": {
+      "mechanics_inventory_2026_10_04": "docs/production/act1_mechanics_inventory_2026-10-04.md was added as the missing inventory for ACT1-MECH-AUDIT.1/.2: 156 source interaction ids across 14 modules classified by their actual game result (33 carry registry knowledge, 47 knowledge outside the chapter-1 registry, 76 no effect at all), the M2 named cases resolved to exact ids, the M1 pilot order, save/quest/EX impact and explicit evidence limits. The audit also found that .1 and .2 duplicate each other's title, deliverable and done_when; the document covers both, while .3 and .4 stay for the in-world role and the removal of false promises. Titles were not renamed because the card text does not define the zone split.",
       "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 34.",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
       "review_spec_traceability": "All 78 cards carrying a review_spec resolve: every review_spec.path exists (7 distinct documents - the six themed specs plus the review README, with 06 used by 23 cards, 05 by 19, 03 by 14, 01 and 04 by 7 each, 02 by 6 and the README by 2), and every review_spec.unit label (W0, A02, M and so on) appears verbatim in the document it cites, 0 failures. 22 of those cards also pin contract_revision 2026-09-28 round2. What this does not check: the specs' own prose cannot be scanned for missing cards, so only the card-to-section direction is machine-verified.",
