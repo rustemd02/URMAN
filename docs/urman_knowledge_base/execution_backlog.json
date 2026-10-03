@@ -2802,6 +2802,7 @@
     "statuses": [
       "blocked",
       "ready",
+      "todo",
       "in_progress",
       "review",
       "completed",
@@ -5250,7 +5251,7 @@
         "ACT1-EX00"
       ],
       "scope": [
-        "docs/production/address_mechanics_v3",
+        "docs/tasktracker/address_mechanics_v3",
         "game/scripts/SettlementRegistry.cs",
         "game/scripts/SettlementRoadGraph.cs",
         "game/scripts/Act1ConnectedWorld.Addresses.cs",
@@ -7566,7 +7567,7 @@
       "id": "FINISH-01",
       "title": "Native release export and timed package baseline",
       "milestone": "M5",
-      "status": "done",
+      "status": "completed",
       "active_owner": "/root",
       "depends_on": [],
       "owner": "finished-act1",
@@ -20051,7 +20052,8 @@
       ],
       "scope": [
         "game/scripts/Act1ConnectedWorld.cs",
-        "game/scripts/Act1ConnectedWorld.RiverSteps.cs",
+        "game/scripts/Act1ConnectedWorld.Gorge.cs",
+        "game/scripts/Act1ConnectedWorld.OpeningBridge.cs",
         "game/scripts/Act1WorldLayout.cs"
       ],
       "source_requirements": [
@@ -20107,7 +20109,8 @@
           "docs/tasktracker/review_2026-09-28/03_world_geometry.md",
           "docs/tasktracker/review_2026-09-28/README.md",
           "game/scripts/Act1ConnectedWorld.cs",
-          "game/scripts/Act1ConnectedWorld.RiverSteps.cs",
+          "game/scripts/Act1ConnectedWorld.Gorge.cs",
+          "game/scripts/Act1ConnectedWorld.OpeningBridge.cs",
           "game/scripts/Act1WorldLayout.cs"
         ]
       },
@@ -23152,5 +23155,34 @@
       "herringbone-parquet-creaks"
     ],
     "verification": "pending; previous northern route r1 failed; no transferred PASS"
+  },
+  "queue_verification_2026_10_04": {
+    "date": "2026-10-04",
+    "scope": "Static consistency audit of the whole queue during the documentation-only stage; implementation and game launches stay on the author's pause. No task content, evidence history or completion was rewritten.",
+    "checks": {
+      "json_parses": true,
+      "task_ids_unique": true,
+      "depends_on_targets_exist": true,
+      "dependency_cycles": 0,
+      "tasks": 206,
+      "unfinished": 173,
+      "completed": 33,
+      "status_counts": {"in_progress": 131, "todo": 28, "blocked": 12, "review": 2, "completed": 33},
+      "work_tasks": 159,
+      "aggregate_tasks": 10,
+      "rollup_tasks": 4,
+      "execution_steps": 505,
+      "work_task_steps": 475,
+      "requirements": 164,
+      "requirements_without_a_task": 0,
+      "tasks_citing_unknown_requirement_ids": 0,
+      "coverage_md_ids_missing_from_requirements": 0,
+      "status_vocabulary": "todo added to orchestrator_policy.statuses because review_2026_09_28.status_semantics defines it; the single \"done\" spelling normalised to \"completed\"",
+      "stale_current_scope_paths_fixed": [
+        "ACT1-RIVER-BRIDGE and ACT1-RIVER-BRIDGE/S3: game/scripts/Act1ConnectedWorld.RiverSteps.cs does not exist; the owners are Act1ConnectedWorld.Gorge.cs and Act1ConnectedWorld.OpeningBridge.cs",
+        "ACT1-ADDR: docs/production/address_mechanics_v3 does not exist; the spec lives at docs/tasktracker/address_mechanics_v3"
+      ]
+    },
+    "not_checked": "Gameplay, art, audio, performance and human acceptance are untouched by this audit; nothing was launched, imported or exported."
   }
 }
