@@ -691,7 +691,11 @@ public partial class VehicleController : CharacterBody3D
         if(!access.Allowed){reason="the current road graph rejects this parking: "+access.Reason;return false;}
         var exclude=PlacementExcluded();
         var horseFrame = _horseProjectionFailure.Length != 0 && _visual.HorsePose is {} horse
-            ? SupportedHorseFrame(horse, horse.PreparePose(this, pose, 0, 0, _steering, HorseState, rest: true))
+            // PreparePose just re-grounded every leg of this plan, so its retained
+            // soles are proven for this tick and this HorsePose.Basis; letting
+            // SupportedHorseFrame reuse them skips only the duplicate Ground rays.
+            ? SupportedHorseFrame(horse, horse.PreparePose(this, pose, 0, 0, _steering, HorseState, rest: true),
+                freshlyPrepared: true)
             : HorseFrameForPose(pose);
         if(horseFrame is not null && !HoofEndpointClear(horseFrame,out var hoofContact))
         { reason="the actual articulated hoof pose is blocked or unsupported: "+hoofContact?.ToJsonString();return false; }
