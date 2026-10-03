@@ -10,7 +10,6 @@ invocations begin with a copy of the player's data. Backups stay outside git.
 from __future__ import annotations
 
 import argparse
-import fcntl
 import hashlib
 import json
 import os
@@ -22,6 +21,11 @@ import subprocess
 import sys
 import tempfile
 import time
+
+if sys.platform == "win32":
+    import msvcrt
+else:
+    import fcntl
 
 
 def fingerprint(root: Path) -> dict[str, tuple[int, str]]:
@@ -45,11 +49,15 @@ def fingerprint(root: Path) -> dict[str, tuple[int, str]]:
 
 
 def default_userdata() -> Path:
+    if sys.platform == "win32":
+        if not os.environ.get("APPDATA"):
+            raise RuntimeError("APPDATA is required on the Windows development host")
+        return Path(os.environ["APPDATA"]) / "Godot/app_userdata/URMAN"
     if sys.platform == "darwin":
         return Path.home() / "Library/Application Support/Godot/app_userdata/URMAN"
     if sys.platform.startswith("linux"):
         return Path(os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local/share"))) / "godot/app_userdata/URMAN"
-    raise RuntimeError("protected_run currently supports the macOS/Linux development host")
+    raise RuntimeError("unsupported development host")
 
 
 def signal_group(pid: int, sig: int) -> None:
@@ -58,6 +66,11 @@ def signal_group(pid: int, sig: int) -> None:
     macOS answers EPERM rather than ESRCH for a group whose leader has exited,
     and an escaping error here used to skip the restore below entirely.
     """
+    if sys.platform == "win32":
+        # The station invokes Godot directly. Kill its tree before restoring saves.
+        subprocess.run(["taskkill", "/PID", str(pid), "/T", "/F"],
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+        return
     try:
         os.killpg(pid, sig)
     except (ProcessLookupError, PermissionError):
@@ -76,18 +89,31 @@ def main() -> int:
     if not command:
         parser.error("a child command is required")
     userdata = (args.userdata or default_userdata()).absolute()
-    if userdata.is_symlink() or len(userdata.parts) < 4 or userdata == Path.home():
+    if (userdata.is_symlink() or getattr(userdata, "is_junction", lambda: False)()
+            or len(userdata.parts) < 4 or userdata == Path.home()):
         raise RuntimeError("refusing an unsafe userdata path")
     userdata.parent.mkdir(parents=True, exist_ok=True)
     lock_path = userdata.parent / f".{userdata.name}.protected-run.lock"
     # Keep the lock inode: unlinking it permits a third process to bypass a waiter.
     with lock_path.open("a+", encoding="utf-8") as lock:
+        # Windows locks byte zero; keep recovery metadata outside that byte.
+        metadata_offset = 1 if sys.platform == "win32" else 0
         try:
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            if sys.platform == "win32":
+                if lock_path.stat().st_size == 0:
+                    lock.write(" ")
+                    lock.flush()
+                lock.seek(0)
+                try:
+                    msvcrt.locking(lock.fileno(), msvcrt.LK_NBLCK, 1)
+                except OSError as error:
+                    raise BlockingIOError("Windows userdata lock is unavailable") from error
+            else:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
             print("userdata guard: another protected check is active", file=sys.stderr)
             return 73
-        lock.seek(0)
+        lock.seek(metadata_offset)
         unfinished = lock.read().strip()
         if unfinished:
             raise RuntimeError(f"userdata recovery is pending; inspect {lock_path} before another run")
@@ -114,7 +140,11 @@ def main() -> int:
             if child is not None and child.poll() is None:
                 signal_group(child.pid, signal.SIGTERM)
 
-        previous = {sig: signal.signal(sig, interrupt) for sig in (signal.SIGINT, signal.SIGTERM, signal.SIGHUP)}
+        signals = [signal.SIGINT, signal.SIGTERM]
+        if hasattr(signal, "SIGHUP"):
+            signals.append(signal.SIGHUP)
+        force_signal = getattr(signal, "SIGKILL", signal.SIGTERM)
+        previous = {sig: signal.signal(sig, interrupt) for sig in signals}
         try:
             if existed:
                 userdata.rename(original)
@@ -129,7 +159,9 @@ def main() -> int:
                 # Tell the child it runs inside the guard; URMAN Studio and its
                 # "Play from here" refuse to start without this marker.
                 child_env = dict(os.environ, URMAN_PROTECTED_RUN="1")
-                child = subprocess.Popen(command, start_new_session=True, env=child_env)
+                process_options = ({"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP}
+                                   if sys.platform == "win32" else {"start_new_session": True})
+                child = subprocess.Popen(command, env=child_env, **process_options)
                 started = time.monotonic()
                 while child.poll() is None:
                     # A smoke that throws inside async void can keep its window
@@ -140,19 +172,19 @@ def main() -> int:
                         print(f"userdata guard: child exceeded {args.timeout:g}s; stopping it", file=sys.stderr, flush=True)
                         signal_group(child.pid, signal.SIGTERM)
                     if (interrupted or timed_out) and time.monotonic() - interrupted_at >= 5:
-                        signal_group(child.pid, signal.SIGKILL)
+                        signal_group(child.pid, force_signal)
                     try:
                         child.wait(timeout=0.25)
                     except subprocess.TimeoutExpired:
                         pass
                 code = child.returncode
         finally:
-            if child is not None:
+            if child is not None and (sys.platform != "win32" or child.poll() is None):
                 signal_group(child.pid, signal.SIGTERM)
                 try:
                     child.wait(timeout=5)
                 except subprocess.TimeoutExpired:
-                    signal_group(child.pid, signal.SIGKILL)
+                    signal_group(child.pid, force_signal)
                     child.wait(timeout=5)
             try:
                 if original_moved or not existed:
@@ -164,11 +196,14 @@ def main() -> int:
                 if after != before:
                     raise RuntimeError(f"userdata verification failed; preserved recovery directory: {backup}")
                 shutil.rmtree(backup)
-                lock.seek(0)
+                lock.seek(metadata_offset)
                 lock.truncate()
                 lock.flush()
                 os.fsync(lock.fileno())
-                print("userdata guard: original files and permissions restored and verified", flush=True)
+                if sys.platform == "win32":
+                    print("userdata guard: original files restored by rename and verified (Windows ACLs not compared)", flush=True)
+                else:
+                    print("userdata guard: original files and permissions restored and verified", flush=True)
             finally:
                 for sig, handler in previous.items():
                     signal.signal(sig, handler)
