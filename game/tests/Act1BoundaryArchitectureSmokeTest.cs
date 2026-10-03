@@ -2107,7 +2107,9 @@ public partial class Act1BoundaryArchitectureSmokeTest : Node
         var groundLayers = Descendants(layer.GetNode<Node3D>("AgentB_TerrainRoadKit")).OfType<MeshInstance3D>()
             .Where(mesh => mesh.Mesh is not null && mesh.IsVisibleInTree())
             .Select(mesh => (Mesh: mesh, Bounds: mesh.GlobalTransform * mesh.Mesh.GetAabb())).ToArray();
-        var apron = groundLayers.Single(value => value.Mesh.Name == "Apron_BabaiYard").Mesh;
+        var apron = Descendants(layer.GetNode<Node3D>("AgentB_TerrainRoadKit")).OfType<MeshInstance3D>()
+            .Single(mesh => mesh.Name == "Apron_BabaiYard");
+        Check(!apron.IsVisibleInTree(), "The obsolete yard apron still covers the canonical snow after household relocation.");
         CheckOccupiedApronExterior(room, apron);
         var timberFloor = room.GetNode<MeshInstance3D>("Floor/Visible");
         var foundations = Descendants(facade).OfType<MeshInstance3D>().Where(mesh => mesh.Name.ToString()
@@ -2124,7 +2126,7 @@ public partial class Act1BoundaryArchitectureSmokeTest : Node
             var at = room.ToGlobal(new(x, 0, z));
             var from = at + Vector3.Up * 2; var to = at - Vector3.Up * 2;
             var terrainInside = RenderedHit(terrain, from, to, out _, out _);
-            var apronInside = RenderedHit(apron, from, to, out _, out _);
+            var apronInside = apron.IsVisibleInTree() && RenderedHit(apron, from, to, out _, out _);
             var capInside = foundations.Any(mesh => RenderedHit(mesh, from, to, out _, out _));
             var floorFound = RenderedHit(timberFloor, from, to, out var woodPoint, out _);
             var coveringLayers = new List<string>();

@@ -358,6 +358,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         foreach (var mesh in EnumerateDescendants<MeshInstance3D>(kit))
         {
             var name = mesh.Name.ToString();
+            // Legacy yard and field-horizon sheets overlap the walkable Terrain_Main.
+            // The current western horizon already belongs to the native forest.
+            if (name is "Apron_BabaiYard" or "Grade_Babai_West" or "Ditch_FieldBank_WestStreet")
+            {
+                mesh.Visible = false;
+                mesh.SetMeta("agentBPresentationSuppressed", "canonical-terrain-replaces-preview-snow-sheets");
+            }
             var shoulder = name == "Grade_Street_West";
             // Other authored grades only follow the southern gorge down (relayout v3); elsewhere they stay as authored.
             var gorgeOnly = !shoulder && name.StartsWith("Grade_", StringComparison.Ordinal);
