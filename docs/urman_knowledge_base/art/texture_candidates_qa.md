@@ -7,8 +7,8 @@ provenance was mirrored by the root integration pass after this QA run.
 
 ## Provenance / license
 
-Текущий repository evidence: [`game/assets/textures/painterly/README.md`](../../../../game/assets/textures/painterly/README.md)
-и [`assets/asset_registry.json`](../../../../assets/asset_registry.json) теперь
+Текущий repository evidence: [`game/assets/textures/painterly/README.md`](../../../game/assets/textures/painterly/README.md)
+и [`assets/asset_registry.json`](../../../assets/asset_registry.json) теперь
 содержат отдельную versioned запись/hash для каждого `_v2` и `_v3` файла. Семейная
 provenance — project-generated через встроенный OpenAI ImageGen, без
 third-party source images, с `Project-generated` license; точные prompts и
