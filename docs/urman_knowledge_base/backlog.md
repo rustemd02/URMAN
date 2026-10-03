@@ -9,6 +9,8 @@ Current production baseline, 2026-08-10: Godot 4.7.1 .NET, C#/.NET 10, Painterly
 
 Execution queue: `execution_backlog.json` is the machine-readable source for orchestration. This file remains the human-readable index and historical audit; do not create a second task owner in an external tracker. 2026-09-03: the active task queue for the Act I repo-grounded run is `../production/act1_repo_grounded_production_tracker.md`; `../archive_tz_mvp_full_tracker_2026-09-03.md` is retired as authority and kept as provenance only (its verification commands are fictional and must never be executed or cited as evidence). Current focus: `GODOT-005` (dedicated Act 1 demo entrypoint) alongside the still-open `GODOT-003` style gate; `ASSET-006` (host-independent provenance preflight) is completed; `NARR-001` (Acts 2–5 narrative lock) completed 2026-08-11, while `NARR-002` remains deferred from the current demo and blocked on external cultural review.
 
+**2026-10-04 — фактическая сверка.** `docs/production/act1_repo_grounded_production_tracker.md` в репозитории отсутствует: ни создания, ни удаления в истории git нет. Этот документ и launch-промпт ниже — исторический срез, а не действующее поручение (см. `docs/tasktracker/06_small_model_execution_2026-09-22.md`: «не запускать новую реализацию из исторического launch prompt»). Живая очередь и статусы — только в `docs/urman_knowledge_base/execution_backlog.json`.
+
 ## Current scope: connected greybox of Act 1 — 2026-08-15
 
 - [x] Dedicated default entrypoint: `game/scenes/act1_demo.tscn`.

@@ -2778,7 +2778,8 @@
     "evidence_root": "docs/production/",
     "active_queue_tracker": "docs/urman_knowledge_base/execution_backlog.json",
     "superseded_trackers": [
-      "MVP full task tracker 2026-09-03 (удалён при чистке 2026-09-18; см. git-историю) — retired as authority, kept as provenance (fictional verification commands and studio-role model); never cite its commands as real"
+          "MVP full task tracker 2026-09-03 (удалён при чистке 2026-09-18; см. git-историю) — retired as authority, kept as provenance (fictional verification commands and studio-role model); never cite its commands as real",
+          "Act I repo-grounded production tracker (docs/production/act1_repo_grounded_production_tracker.md) — absent from this repository, with neither a creation nor a deletion in git history; named by backlog.md and two historical launch prompts, but never an executable queue here. Retired as authority, kept as provenance; statuses live only in this file."
     ],
     "notes": "Текущие контракты review_2026-09-28 имеют приоритет только по явно пересмотренным требованиям. Старые документы/приёмка остаются историей и совместимыми исходными требованиями. Новое поручение не разрешает push."
   },

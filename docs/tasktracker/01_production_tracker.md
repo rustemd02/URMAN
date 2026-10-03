@@ -25,6 +25,8 @@ task rows, их ID, scope, gates и текущие статусы остаютс
 
 ### COPY-PASTE LAUNCH PROMPT
 
+**2026-10-04 — фактическая сверка.** `docs/production/act1_repo_grounded_production_tracker.md` в репозитории отсутствует: ни создания, ни удаления в истории git нет. Этот документ и launch-промпт ниже — исторический срез, а не действующее поручение (см. `docs/tasktracker/06_small_model_execution_2026-09-22.md`: «не запускать новую реализацию из исторического launch prompt»). Живая очередь и статусы — только в `docs/urman_knowledge_base/execution_backlog.json`.
+
 ```text
 Ты — единственный implementer для URMAN Act I. Прочитай целиком
 `AGENTS.md` и `docs/production/act1_repo_grounded_production_tracker.md`, затем

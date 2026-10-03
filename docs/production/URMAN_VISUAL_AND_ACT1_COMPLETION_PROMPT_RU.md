@@ -21,6 +21,8 @@ Worktree/клоны/субагенты/параллельные writer'ы зап
 коммить без разрешения, не смешивай. Перед тяжёлыми запусками проверяй
 `df -h .` (в этом проекте уже дважды останавливались из-за диска).
 
+**2026-10-04 — фактическая сверка.** `docs/production/act1_repo_grounded_production_tracker.md` в репозитории отсутствует: ни создания, ни удаления в истории git нет. Этот документ и launch-промпт ниже — исторический срез, а не действующее поручение (см. `docs/tasktracker/06_small_model_execution_2026-09-22.md`: «не запускать новую реализацию из исторического launch prompt»). Живая очередь и статусы — только в `docs/urman_knowledge_base/execution_backlog.json`.
+
 Обязательное чтение перед стартом: `AGENTS.md`, раздел 0
 `act1_repo_grounded_production_tracker.md`, начало
 `docs/production/act1_opencode_execution_state.md` (карточки сверху —
