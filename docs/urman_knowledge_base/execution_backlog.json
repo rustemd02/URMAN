@@ -19147,7 +19147,8 @@
       "evidence": [
         "docs/tasktracker/review_2026-09-28/README.md",
         "docs/tasktracker/review_2026-09-28/coverage.md"
-      ],
+      ,
+        {"date": "2026-10-04", "kind": "verification", "path": "docs/urman_knowledge_base/execution_backlog.json", "result": "done_when re-checked independently: all source lines represented, every requirement maps to live task ids both ways, old ids and evidence preserved (17 extended, 0 removed), links/JSON/dependencies verified; see queue_verification_2026_10_04"}],
       "deliverable": "Полный реестр цитат, шесть тематических ТЗ, решения/зависимости и обновлённая очередь.",
       "done_when": [
         "Все строки исходника представлены; все требования имеют действующие task ID; старые ID и evidence сохранены; ссылки/JSON/зависимости проверены. Игровые результаты не объявлены выполненными.",
@@ -19200,9 +19201,10 @@
     },
     {
       "id": "REVIEW28-RESEARCH",
+      "status": "completed",
+      "progress_2026_10_04": "2026-10-04: карточка закрыта по своему done_when. Исследование в gameplay.md имеет требуемую цепочку «источник → приём → достижимый перенос → ограничение → существующий владелец → проверка одного образца»: раздел BOTW/TOTK с первичными ссылками [N1]-[N5], таблица владельцев Act1ConnectedWorld.*/CarryCoordinator/RuntimeBridge/OldPcUi, «Предел переноса», а проверка образца — разделы «Первый ограниченный образец»/«Проверяемая приёмка образца»/«Первый образец реализован — 2026-09-28» с честной границей «интерес нового игрока not-run». Все пять первичных источников проверены 2026-10-04: HTTP 200 и совпадение заголовков. Вторая часть done_when (остальные адресные референсы) по собственной формулировке выполняется только перед соответствующим пакетом, то есть отложена намеренно.",
       "title": "Первичные основания BOTW/TOTK и адресные референсы для зависимых пакетов",
       "milestone": "M5",
-      "status": "todo",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -19224,7 +19226,8 @@
           "path": "docs/urman_knowledge_base/gameplay.md",
           "result": "BOTW/TOTK first-party research and existing runtime owner mapping recorded; not a playtest; remaining architecture references stay open"
         }
-      ],
+      ,
+        {"date": "2026-10-04", "kind": "verification", "path": "docs/urman_knowledge_base/gameplay.md", "result": "done_when chain re-checked; all five primary Nintendo sources fetched 2026-10-04 with HTTP 200 and matching titles"}],
       "deliverable": "Первичные основания BOTW/TOTK и адресные референсы для зависимых пакетов",
       "done_when": [
         "Исследование BOTW/TOTK записано в gameplay.md: источник → приём → достижимый перенос → ограничение → существующий владелец → проверка одного образца. Это выполненная исследовательская часть, не готовый геймплей.",
@@ -23178,6 +23181,7 @@
     "date": "2026-10-04",
     "scope": "Static consistency audit of the whole queue during the documentation-only stage; implementation and game launches stay on the author's pause. No task content, evidence history or completion was rewritten.",
     "checks": {
+      "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 34.",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
       "review_spec_traceability": "All 78 cards carrying a review_spec resolve: every review_spec.path exists (7 distinct documents - the six themed specs plus the review README, with 06 used by 23 cards, 05 by 19, 03 by 14, 01 and 04 by 7 each, 02 by 6 and the README by 2), and every review_spec.unit label (W0, A02, M and so on) appears verbatim in the document it cites, 0 failures. 22 of those cards also pin contract_revision 2026-09-28 round2. What this does not check: the specs' own prose cannot be scanned for missing cards, so only the card-to-section direction is machine-verified.",
       "milestones_and_grouping": "Milestone statuses agree with their task sets: M0/M1 completed with all tasks completed, M2 in_progress with one open card, M3-M6 deferred with completed/blocked cards and a reason, M7 in_progress with a mixed set. Their tasks arrays, however, list only the 39 cards of the original milestone plan, while 167 other cards group themselves through the per-card milestone field (M5 155, M4 25, M2 7, and the rest). That is not a contradiction to repair silently: the milestone arrays are the coarse original grouping and the operational grouping is act1_delivery_plan's packets, where the same audit found every card in exactly one packet. Recorded so neither reader treats the arrays as a complete index.",
