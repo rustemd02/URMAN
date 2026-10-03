@@ -65,9 +65,11 @@ internal sealed class AddressWalkProbe : IDisposable
         return PhysicsServer3D.BodyTestMotion(_body, _motion, result);
     }
 
-    // Bitwise-exact component comparison. The redundant-query skips below must
-    // trigger only when two poses hold the same float values; Vector3's own
-    // equality contract is not what this decision needs, so it is spelled out.
+    // IEEE-exact component comparison: no tolerance, so poses that differ by even
+    // one ULP count as different, and NaN compares false (no skip). +0.0 and -0.0
+    // do compare equal here; in the only reachable case that still hands CanFitAt
+    // bitwise-identical arguments, because it adds strictly positive offsets to the
+    // pose, so the skipped query would have returned the same answer.
     private static bool SameFeet(Vector3 a, Vector3 b) => a.X == b.X && a.Y == b.Y && a.Z == b.Z;
 
     private bool Floor(Vector3 from, Vector3 to, out Vector3 point)
