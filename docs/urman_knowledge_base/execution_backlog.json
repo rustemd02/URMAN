@@ -7130,6 +7130,7 @@
     },
     {
       "id": "FINISH-05",
+      "progress_2026_10_04": "2026-10-04: часть evidence/scope выше указывает на внешний пакет /Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/, очищенный 2026-09-14 (31 ГБ → 1,2 ГБ); этих файлов больше нет. Пакет воспроизводится из git: eng/export-desktop-release.sh <пустая-папка> плюс eng/verify-desktop-artifacts.sh; прежние границы доказательства сохраняются, новая приёмка не заявляется.",
       "execution": {
         "kind": "work",
         "unit": "Один зимний звук или одно состояние очереди cues.",
@@ -7397,6 +7398,7 @@
     },
     {
       "id": "FINISH-03",
+      "progress_2026_10_04": "2026-10-04: часть evidence/scope выше указывает на внешний пакет /Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/, очищенный 2026-09-14 (31 ГБ → 1,2 ГБ); этих файлов больше нет. Пакет воспроизводится из git: eng/export-desktop-release.sh <пустая-папка> плюс eng/verify-desktop-artifacts.sh; прежние границы доказательства сохраняются, новая приёмка не заявляется.",
       "execution": {
         "kind": "work",
         "unit": "Один из трёх циклов расследования.",
@@ -7487,6 +7489,7 @@
     },
     {
       "id": "FINISH-02",
+      "progress_2026_10_04": "2026-10-04: часть evidence/scope выше указывает на внешний пакет /Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/, очищенный 2026-09-14 (31 ГБ → 1,2 ГБ); этих файлов больше нет. Пакет воспроизводится из git: eng/export-desktop-release.sh <пустая-папка> плюс eng/verify-desktop-artifacts.sh; прежние границы доказательства сохраняются, новая приёмка не заявляется.",
       "execution": {
         "kind": "work",
         "unit": "Один эпизод первых 8–12 минут.",
@@ -7565,6 +7568,7 @@
     },
     {
       "id": "FINISH-01",
+      "progress_2026_10_04": "2026-10-04: часть evidence/scope выше указывает на внешний пакет /Users/unterlantas/Documents/URMAN_ActI_Finish_20260911/, очищенный 2026-09-14 (31 ГБ → 1,2 ГБ); этих файлов больше нет. Пакет воспроизводится из git: eng/export-desktop-release.sh <пустая-папка> плюс eng/verify-desktop-artifacts.sh; прежние границы доказательства сохраняются, новая приёмка не заявляется.",
       "title": "Native release export and timed package baseline",
       "milestone": "M5",
       "status": "completed",
@@ -7967,6 +7971,7 @@
     },
     {
       "id": "GODOT-005",
+      "progress_2026_10_04": "2026-10-04: docs/urman_knowledge_base/act1_demo_handoff.md не существует; сохранившиеся handover-документы — docs/production/URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md и docs/production/act1_prologue_handover_2026-09-29.md. Карточка закрыта исторически, границы не пересматриваются.",
       "title": "Зафиксировать отдельную играбельную демо-точку входа первого акта",
       "milestone": "M2",
       "status": "completed",
@@ -8739,6 +8744,7 @@
     },
     {
       "id": "AUDIO-001",
+      "progress_2026_10_04": "2026-10-04: каталог content/audio/ ещё не создан — это запланированное место для производимого audio, а не существующее доказательство; задача остаётся заблокированной внешней записью и приёмкой.",
       "execution": {
         "kind": "work",
         "unit": "Один cue и эквивалентная неаудиоподсказка.",
@@ -11337,6 +11343,7 @@
     },
     {
       "id": "ACT1-ADDR-FENCE",
+      "progress_2026_10_04": "2026-10-04: два receipt'а images-address-world-11/19 из evidence очищены вместе со старым пакетом доказательств; в docs/production/act1_takeover_evidence_2026-09-16/ сохранились родственные прогоны images-address-world-05/06/07/08/21, а также перечисленные рядом tamara_mvp_2026-09-26/address, h045-layout и frontage-sightlines. Приёмка H032/H034/H045/H046 от очищенных receipt'ов не зависит.",
       "execution": {
         "kind": "work",
         "unit": "Одна табличка: H032, H034, H045 или H046.",
@@ -18368,6 +18375,7 @@
     },
     {
       "id": "STUDIO",
+      "progress_2026_10_04": "2026-10-04: каталог studio/ ещё не создан; Studio — отдельный поток и в текущем объёме Акта I не реализуется, поэтому ссылка остаётся плановой.",
       "title": "URMAN Studio — визуальный редактор игры по ТЗ 2026-09-27 (зонтик)",
       "milestone": "M7",
       "status": "in_progress",
@@ -23178,6 +23186,7 @@
       "tasks_citing_unknown_requirement_ids": 0,
       "coverage_md_ids_missing_from_requirements": 0,
       "status_vocabulary": "todo added to orchestrator_policy.statuses because review_2026_09_28.status_semantics defines it; the single \"done\" spelling normalised to \"completed\"",
+      "evidence_reality_notes": "8 cards (FINISH-01/02/03/05, ACT1-ADDR-FENCE, AUDIO-001, STUDIO, GODOT-005) received a dated progress_2026_10_04 note because their evidence or scope named files that no longer exist: the external package cleaned on 2026-09-14, two cleaned address-world receipts, and three plan-only paths (content/audio/, studio/, act1_demo_handoff.md). The notes name the surviving paths and the reproduction route; no evidence entry was deleted or rewritten.",
       "stale_current_scope_paths_fixed": [
         "ACT1-RIVER-BRIDGE and ACT1-RIVER-BRIDGE/S3: game/scripts/Act1ConnectedWorld.RiverSteps.cs does not exist; the owners are Act1ConnectedWorld.Gorge.cs and Act1ConnectedWorld.OpeningBridge.cs",
         "ACT1-ADDR: docs/production/address_mechanics_v3 does not exist; the spec lives at docs/tasktracker/address_mechanics_v3"
