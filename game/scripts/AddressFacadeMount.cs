@@ -461,7 +461,7 @@ internal static class AddressFacadeMount
     {
         for(var node=(Node?)mesh;node is not null;node=node.GetParent())
         {
-            if(node.HasMeta("presentationOnly")||node.HasMeta("presentationOnlyInstance")||node.HasMeta("visualOnly"))return true;
+            if(node.HasMeta(PresentationOnlyKey)||node.HasMeta(PresentationOnlyInstanceKey)||node.HasMeta(VisualOnlyKey))return true;
             if(node is StaticBody3D||node is CollisionShape3D||node is CollisionObject3D)return false;
             var name=node.Name.ToString();
             if(name.Contains("PlantedFoliage",StringComparison.Ordinal)||name.Contains("Foliage",StringComparison.Ordinal)
@@ -478,7 +478,7 @@ internal static class AddressFacadeMount
     {
         for(var node=(Node?)mesh;node is not null;node=node.GetParent())
         {
-            if(node.HasMeta("interiorZone")||node.HasMeta("interiorRoom")||node.HasMeta("roomVolume"))return true;
+            if(node.HasMeta(InteriorZoneKey)||node.HasMeta(InteriorRoomKey)||node.HasMeta(RoomVolumeKey))return true;
             var name=node.Name.ToString();
             if(name is "Ceiling" or "Visible"||name.Contains("Interior",StringComparison.Ordinal)
                 ||name.Contains("RoomVolume",StringComparison.Ordinal)||name.Contains("house_old_pc",StringComparison.Ordinal)
@@ -551,5 +551,28 @@ internal static class AddressFacadeMount
     private static float[] Samples(float min,float max,float desired,float step){var points=new List<float>{min,max,Math.Clamp(desired,min,max),(min+max)*.5f};for(var x=min+step;x<max;x+=step)points.Add(x);return points.Distinct().ToArray();}
     private static float Cross(Vector2 a,Vector2 b)=>a.X*b.Y-a.Y*b.X;
     private static bool Contains(Triangle t,Vector2 p){var a=Cross(t.B-t.A,p-t.A);var b=Cross(t.C-t.B,p-t.B);var c=Cross(t.A-t.C,p-t.C);return a>=-.00001f&&b>=-.00001f&&c>=-.00001f||a<=.00001f&&b<=.00001f&&c<=.00001f;}
-    private static IEnumerable<Node> Descendants(Node node){foreach(var child in node.GetChildren()){yield return child;foreach(var nested in Descendants(child))yield return nested;}}
+    // HasMeta(string) builds a StringName on every call, and both walks below ask
+    // the same key set for every ancestor of every candidate mesh; keeping the
+    // keys as StringNames is what the engine's own guidance recommends for
+    // repeatedly used names.
+    private static readonly StringName PresentationOnlyKey=new("presentationOnly");
+    private static readonly StringName PresentationOnlyInstanceKey=new("presentationOnlyInstance");
+    private static readonly StringName VisualOnlyKey=new("visualOnly");
+    private static readonly StringName InteriorZoneKey=new("interiorZone");
+    private static readonly StringName InteriorRoomKey=new("interiorRoom");
+    private static readonly StringName RoomVolumeKey=new("roomVolume");
+    // GetChildren returns an owned native array and this walk visits every
+    // descendant, so leaving each array to the finaliser was real churn during the
+    // world build. The typed view is iterated while the untyped alias owns the same
+    // object and disposes it when the enumerator ends.
+    private static IEnumerable<Node> Descendants(Node node)
+    {
+        var children=node.GetChildren();
+        using var owned=(global::Godot.Collections.Array)children;
+        foreach(var child in children)
+        {
+            yield return child;
+            foreach(var nested in Descendants(child))yield return nested;
+        }
+    }
 }
