@@ -665,19 +665,10 @@ public partial class Act1ConnectedWorld
 
     private static void ShelterPublicMaterials(Node3D root)
     {
-        var variants = new Dictionary<ShaderMaterial, ShaderMaterial>();
         foreach (var mesh in root.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
         {
             if (mesh.MaterialOverride is not ShaderMaterial source) continue;
-            if (!variants.TryGetValue(source, out var sheltered))
-            {
-                sheltered = (ShaderMaterial)source.Duplicate();
-                sheltered.SetShaderParameter("snow_coverage", 0f);
-                sheltered.SetShaderParameter("snow_sparkle", 0f);
-                sheltered.SetShaderParameter("has_snow_micro", false);
-                variants.Add(source, sheltered);
-            }
-            mesh.MaterialOverride = sheltered;
+            mesh.MaterialOverride = PainterlyMaterialLibrary.WithoutSnow(source);
         }
     }
 

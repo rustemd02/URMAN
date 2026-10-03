@@ -7,7 +7,17 @@ namespace Urman.Godot;
 public static class RuralPropGeometry
 {
     private static readonly Dictionary<string, ArrayMesh> Cache = new();
+    private static readonly Dictionary<Vector3, BoxMesh> BoxCache = new();
     private static readonly Dictionary<ulong, Shape3D> ContactCache = new();
+
+    /// <summary>Shared default box with its original dimensions and UVs.
+    /// Treat the returned resource as immutable; duplicate before editing it.</summary>
+    public static BoxMesh Box(Vector3 size)
+    {
+        if (!BoxCache.TryGetValue(size, out var mesh))
+            BoxCache[size] = mesh = new BoxMesh { Size = size };
+        return mesh;
+    }
 
     /// <summary>Contacts follow the actual pieces and preserve the air between
     /// table legs. Shared meshes also share their static convex contact shapes.</summary>

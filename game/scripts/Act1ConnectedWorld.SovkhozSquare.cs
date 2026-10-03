@@ -175,7 +175,7 @@ public partial class Act1ConnectedWorld
     }
 
     private static void Box(Node3D parent, string name, Vector3 size, Vector3 position, Material material, Vector3? rotation = null) =>
-        parent.AddChild(new MeshInstance3D { Name = name, Mesh = new BoxMesh { Size = size }, Position = position, RotationDegrees = rotation ?? Vector3.Zero, MaterialOverride = material });
+        parent.AddChild(new MeshInstance3D { Name = name, Mesh = RuralPropGeometry.Box(size), Position = position, RotationDegrees = rotation ?? Vector3.Zero, MaterialOverride = material });
 
     private static void SquareWindows(Node3D building, float width, float depth, float floorHeight, int floors, int perRow,
         Material trim, Func<int, bool> lit, Func<int, int, bool>? boarded = null, bool tall = false)
@@ -281,8 +281,9 @@ public partial class Act1ConnectedWorld
         building.AddChild(porticoBody);
         Box(building, "PorticoFloor", new(10f, .35f, 3f), new(0, -.175f, front + 1.5f), PainterlyMaterialLibrary.ForColor("8c877d", "stone_foundation"));
         SquareSteps(building, front + 3f, 6f);
+        var columnMesh = new CylinderMesh { TopRadius = .24f, BottomRadius = .28f, Height = height - .3f, RadialSegments = 12 };
         foreach (var x in new[] { -3.9f, -1.3f, 1.3f, 3.9f })
-            building.AddChild(new MeshInstance3D { Name = $"Column{x:0.0}", Mesh = new CylinderMesh { TopRadius = .24f, BottomRadius = .28f, Height = height - .3f, RadialSegments = 12 }, Position = new Vector3(x, (height - .3f) * .5f + .1f, front + 2.6f), MaterialOverride = column });
+            building.AddChild(new MeshInstance3D { Name = $"Column{x:0.0}", Mesh = columnMesh, Position = new Vector3(x, (height - .3f) * .5f + .1f, front + 2.6f), MaterialOverride = column });
         Box(building, "Entablature", new(10.2f, .6f, 3.2f), new(0, height + .05f, front + 1.5f), trim);
         building.AddChild(new MeshInstance3D { Name = "Pediment", Mesh = new PrismMesh { Size = new Vector3(10.2f, 1.9f, .5f) }, Position = new Vector3(0, height + 1.3f, front + 2.85f), MaterialOverride = trim });
         if (!open)

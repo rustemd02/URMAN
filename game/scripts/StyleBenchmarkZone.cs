@@ -1882,7 +1882,7 @@ public partial class StyleBenchmarkZone : Node3D
             Name = name,
             Position = position,
             RotationDegrees = rotationDegrees,
-            Mesh = new BoxMesh { Size = size },
+            Mesh = RuralPropGeometry.Box(size),
             MaterialOverride = Material(color, surface)
         };
         AddChild(mesh);
@@ -1918,7 +1918,7 @@ public partial class StyleBenchmarkZone : Node3D
         var body = new StaticBody3D { Name = name, Position = position };
         body.AddChild(new MeshInstance3D
         {
-            Mesh = new BoxMesh { Size = size },
+            Mesh = RuralPropGeometry.Box(size),
             MaterialOverride = Material(color, surface)
         });
         if (collision)

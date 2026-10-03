@@ -4,6 +4,30 @@ namespace Urman.Godot;
 
 public static class PainterlyMaterialLibrary
 {
+    private const string VertexDeformation = """
+            // Ground microrelief is normal detail: its sub-centimetre height
+            // cannot be represented by metre-wide base triangles. Displacing
+            // newly refined vertices here would split coarse/fine borders.
+            if (has_snow_micro && !low_quality && !trample_ground_surface) {
+                float up = smoothstep(0.45, 0.85, world_normal.y);
+                float height = (textureLod(snow_micro_response, world_position.xz, 0.0).r - 0.5)
+                    * 0.004 * snow_relief_scale * up;
+                VERTEX += transpose(MODEL_NORMAL_MATRIX) * vec3(0.0, height, 0.0);
+                world_position.y += height;
+            }
+            vec4 trail = snow_trample_at(world_position);
+            float pressed_height = (trail.r + trail.g) * smoothstep(0.55, 0.85, world_normal.y);
+            VERTEX += transpose(MODEL_NORMAL_MATRIX) * vec3(0.0, pressed_height, 0.0);
+            world_position.y += pressed_height;
+            if (wind_enabled && wind_sway > 0.0) {
+                float phase = TIME * 1.6 + world_position.x * 0.55 + world_position.z * 0.4;
+                float gust = sin(phase) * 0.65 + sin(phase * 2.3 + 1.7) * 0.35;
+                float reach = max(VERTEX.y, 0.0);
+                VERTEX.x += gust * wind_sway * reach;
+                VERTEX.z += gust * wind_sway * 0.6 * reach;
+            }
+        """;
+
     private const string ShaderSource = """
         shader_type spatial;
         render_mode diffuse_burley, specular_schlick_ggx;
@@ -131,27 +155,7 @@ public static class PainterlyMaterialLibrary
                 : (local_floor_texture ? NORMAL : NORMAL.zyx);
             world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
             world_normal = normalize(MODEL_NORMAL_MATRIX * NORMAL);
-            // Ground microrelief is normal detail: its sub-centimetre height
-            // cannot be represented by metre-wide base triangles. Displacing
-            // newly refined vertices here would split coarse/fine borders.
-            if (has_snow_micro && !low_quality && !trample_ground_surface) {
-                float up = smoothstep(0.45, 0.85, world_normal.y);
-                float height = (textureLod(snow_micro_response, world_position.xz, 0.0).r - 0.5)
-                    * 0.004 * snow_relief_scale * up;
-                VERTEX += transpose(MODEL_NORMAL_MATRIX) * vec3(0.0, height, 0.0);
-                world_position.y += height;
-            }
-            vec4 trail = snow_trample_at(world_position);
-            float pressed_height = (trail.r + trail.g) * smoothstep(0.55, 0.85, world_normal.y);
-            VERTEX += transpose(MODEL_NORMAL_MATRIX) * vec3(0.0, pressed_height, 0.0);
-            world_position.y += pressed_height;
-            if (wind_enabled && wind_sway > 0.0) {
-                float phase = TIME * 1.6 + world_position.x * 0.55 + world_position.z * 0.4;
-                float gust = sin(phase) * 0.65 + sin(phase * 2.3 + 1.7) * 0.35;
-                float reach = max(VERTEX.y, 0.0);
-                VERTEX.x += gust * wind_sway * reach;
-                VERTEX.z += gust * wind_sway * 0.6 * reach;
-            }
+        """ + "\n" + VertexDeformation + "\n" + """
         }
 
         void fragment() {
@@ -343,6 +347,12 @@ public static class PainterlyMaterialLibrary
         """;
 
     private static readonly Shader PainterlyShader = new() { Code = ShaderSource };
+    private static readonly Shader RigidPainterlyShader = new()
+    {
+        // Known opaque families never deform. Preserve their visible finish
+        // while allowing the renderer's existing shared shadow material path.
+        Code = ShaderSource.Replace(VertexDeformation, string.Empty, StringComparison.Ordinal)
+    };
     private static readonly Shader TwoSidedPainterlyShader = new()
     {
         // Imported opaque sheets may explicitly expose both sides. Keep all
@@ -455,6 +465,14 @@ public static class PainterlyMaterialLibrary
 
     private static bool _lowQualityMaterials;
     private static bool _windMotion = true;
+    // W4/P2: last value broadcast to the cached materials. Nullable so the first
+    // SetWindMotion always broadcasts; _windMotion itself stays the value that
+    // ForColor stamps into newly created materials (line 893).
+    private static bool? _windMotionBroadcast;
+    private static Texture2D? _boundTrampleMask;
+    private static Vector2 _boundTrampleOrigin;
+    private static float _boundTrampleExtent;
+    private static int _boundTrampleMaterialCount = -1;
 
     public static bool LowQualityMaterials => _lowQualityMaterials;
 
@@ -468,6 +486,11 @@ public static class PainterlyMaterialLibrary
     /// </summary>
     public static void SetSnowTrample(Texture2D? mask, Vector2 origin, float extent)
     {
+        // Updating pixels in the same ImageTexture does not change its binding.
+        // Newly cached materials still require the normal binding pass.
+        if (Materials.Count == _boundTrampleMaterialCount
+            && ReferenceEquals(mask, _boundTrampleMask)
+            && origin == _boundTrampleOrigin && extent == _boundTrampleExtent) return;
         foreach (var material in Materials.Values)
         {
             // Other surfaces never sample the mask; rebinding them stalls every footstep.
@@ -486,15 +509,27 @@ public static class PainterlyMaterialLibrary
                 material.SetShaderParameter("trample_extent", extent);
             }
         }
+        _boundTrampleMask = mask;
+        _boundTrampleOrigin = origin;
+        _boundTrampleExtent = extent;
+        _boundTrampleMaterialCount = Materials.Count;
     }
 
     public static void SetWindMotion(bool enabled)
     {
+        // W4/P2: FirstPersonController pushes the setting whenever preferences
+        // change, not only when this switch flips. Re-sending one identical
+        // boolean to all cached materials is a no-op, so only the first call and
+        // real transitions walk the cache. _windMotion equals
+        // _windMotionBroadcast after that first call, so new materials still
+        // pick up the current value in ForColor.
+        if (_windMotionBroadcast == enabled) return;
         _windMotion = enabled;
         foreach (var material in Materials.Values)
         {
             material.SetShaderParameter("wind_enabled", enabled);
         }
+        _windMotionBroadcast = enabled;
     }
 
     /// <summary>
@@ -524,6 +559,12 @@ public static class PainterlyMaterialLibrary
     public static void ClearCacheForHeadlessTests()
     {
         Materials.Clear();
+        _boundTrampleMask = null;
+        _boundTrampleMaterialCount = -1;
+        // W4/P2: the cache is gone, so the wind memo is dropped too; the next
+        // SetWindMotion re-broadcasts into the recreated cache while new
+        // materials already inherit _windMotion from ForColor.
+        _windMotionBroadcast = null;
         // ShaderMaterial/ImageTexture wrappers are managed Godot objects. A
         // headless smoke process can otherwise reach native shutdown before
         // the wrappers' finalizers release their renderer RIDs. This method is
@@ -547,7 +588,8 @@ public static class PainterlyMaterialLibrary
     public static Material PreserveSourceCulling(Material painted, Material? source)
     {
         if (source is not BaseMaterial3D { CullMode: BaseMaterial3D.CullModeEnum.Disabled }
-            || painted is not ShaderMaterial shader || shader.Shader != PainterlyShader)
+            || painted is not ShaderMaterial shader
+            || (shader.Shader != PainterlyShader && shader.Shader != RigidPainterlyShader))
             return painted;
 
         // The shared opaque material remains unchanged for solid geometry.
@@ -589,6 +631,20 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("texture_scale", new Vector2(.55f, .30f));
         material.SetShaderParameter("snow_coverage", .14f);
         Materials[cacheKey] = material;
+        return material;
+    }
+
+    /// <summary>Preserve the source finish and render state, disabling only
+    /// snow. Shared variants receive the normal graphics and motion updates.</summary>
+    public static ShaderMaterial WithoutSnow(ShaderMaterial source)
+    {
+        var key = $"without-snow:{source.GetInstanceId()}";
+        if (Materials.TryGetValue(key, out var existing)) return existing;
+        var material = (ShaderMaterial)source.Duplicate();
+        material.SetShaderParameter("snow_coverage", 0f);
+        material.SetShaderParameter("snow_sparkle", 0f);
+        material.SetShaderParameter("has_snow_micro", false);
+        Materials[key] = material;
         return material;
     }
 
@@ -903,6 +959,24 @@ public static class PainterlyMaterialLibrary
                 material.SetShaderParameter("has_snow_micro", true);
             }
         }
+
+        // Only this owner's known rigid families have immutable zero
+        // deformation flags. Snow, wind, cutout and unknown families retain
+        // the original shader, including when texture loads are suppressed.
+        var rigidSurface = surface is "wood" or "wood_log_uv" or "wood_facade"
+            or "wood_painted_blue" or "wood_painted_green" or "wood_painted_trim"
+            or "wood_floor_painted" or "wood_fence" or "wood_fence_vertical"
+            or "wood_fence_rail" or "wood_fence_uv" or "wood_furniture"
+            or "wood_furniture_interior" or "wood_prop" or "log_wall" or "wood_bark"
+            or "bark_pine" or "bark_birch_winter" or "wattle"
+            or "plaster" or "plaster_domestic" or "wall_institution" or "wallpaper"
+            or "stone" or "stone_foundation" or "iron" or "roof_metal" or "enamel"
+            or "plastic_abs" or "floor_institution";
+        if (rigidSurface && material.Shader == PainterlyShader
+            && material.GetShaderParameter("wind_sway").AsSingle() == 0f
+            && !material.GetShaderParameter("has_snow_micro").AsBool()
+            && !material.GetShaderParameter("trample_ground_surface").AsBool())
+            material.Shader = RigidPainterlyShader;
 
         Materials.Add(cacheKey, material);
         return material;

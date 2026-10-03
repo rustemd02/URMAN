@@ -176,7 +176,8 @@ public partial class Act1ConnectedWorld
         }
         ImportAddressAuxiliaries(imported);
         ImportAddressConstraints(registry);
-        registry.Graph.Rebuild(registry.Streets);
+        // ImportAddressRoads already built the final road graph. Registrations
+        // above add addresses and constraints, not road vertices or streets.
         SetMeta("addressAccessCommitFrames",_addressAccessCommitFrames);
         SetMeta("addressAccessAttachFrames",_addressAccessAttachFrames);
         SetMeta("addressGraphAttachmentFrame",-1L);

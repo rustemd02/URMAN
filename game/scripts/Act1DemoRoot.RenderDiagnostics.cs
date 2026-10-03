@@ -39,6 +39,7 @@ public partial class Act1DemoRoot
         int Sample, double ElapsedSeconds, double FrameMilliseconds, ulong ProcessFrame,
         ulong DrawnFrameObserved, bool NewDrawnFrame,
         double? CpuMilliseconds, double? GpuMilliseconds, double? SetupMilliseconds,
+        double? ProcessMilliseconds, double? PhysicsMilliseconds,
         long VisibleDraws, long VisiblePrimitives, long ShadowDraws, long ShadowPrimitives,
         RendererGameplayObservation Gameplay);
 
@@ -153,6 +154,8 @@ public partial class Act1DemoRoot
                 Finite(RenderingServer.ViewportGetMeasuredRenderTimeCpu(_rendererViewport)),
                 Finite(RenderingServer.ViewportGetMeasuredRenderTimeGpu(_rendererViewport)),
                 Finite(RenderingServer.GetFrameSetupTimeCpu()),
+                Finite(Performance.GetMonitor(Performance.Monitor.TimeProcess) * 1000.0),
+                Finite(Performance.GetMonitor(Performance.Monitor.TimePhysicsProcess) * 1000.0),
                 Count(RenderingServer.ViewportRenderInfoType.Visible, RenderingServer.ViewportRenderInfo.DrawCallsInFrame),
                 Count(RenderingServer.ViewportRenderInfoType.Visible, RenderingServer.ViewportRenderInfo.PrimitivesInFrame),
                 Count(RenderingServer.ViewportRenderInfoType.Shadow, RenderingServer.ViewportRenderInfo.DrawCallsInFrame),
@@ -203,6 +206,7 @@ public partial class Act1DemoRoot
                 .ToDictionary(group => group.Key, group => group.Count());
             var owners = new Dictionary<string, RendererCensusOwner>(StringComparer.Ordinal);
             var rootFallback = new Dictionary<string, (int MeshNodes, int Surfaces, int Visible, int Candidates)>(StringComparer.Ordinal);
+            var resourceGroups = new Dictionary<string, (int Surfaces, HashSet<(ulong Mesh, int Surface, ulong Material, bool Mirror)> Pairs)>(StringComparer.Ordinal);
             var worldShell = world.GetNodeOrNull<Node>("Act1CoreWorldGreybox");
             var windowRows = new List<object>();
             var windowResources = new Dictionary<ulong, object>();
@@ -239,6 +243,19 @@ public partial class Act1DemoRoot
                 var activeMaterials = Enumerable.Range(0, source.GetSurfaceCount())
                     .Select(surface => mesh.GetActiveMaterial(surface)?.GetRid().Id ?? 0UL).ToArray();
                 foreach (var rid in activeMaterials) group.MaterialRids.Add(rid);
+                if (visible && layerMatches && candidate && mesh.Skin is null
+                    && (source is not ArrayMesh rigid || rigid.GetBlendShapeCount() == 0))
+                {
+                    Node spatialRoot = mesh;
+                    while (spatialRoot.GetParent() is { } ancestor && ancestor != world && ancestor != worldShell)
+                        spatialRoot = ancestor;
+                    var key = spatialRoot.GetPath().ToString();
+                    if (!resourceGroups.TryGetValue(key, out var counts))
+                        counts = (0, new HashSet<(ulong, int, ulong, bool)>());
+                    for (var surface = 0; surface < activeMaterials.Length; surface++)
+                        counts.Pairs.Add((source.GetRid().Id, surface, activeMaterials[surface], mesh.GlobalBasis.Determinant() < 0));
+                    resourceGroups[key] = (counts.Surfaces + activeMaterials.Length, counts.Pairs);
+                }
                 if (!mesh.HasMeta("windowSurroundPaint")) continue;
                 group.PaintedWindowNodes++;
                 if (visible && layerMatches && candidate) group.WindowSpatialCandidates++;
@@ -280,6 +297,7 @@ public partial class Act1DemoRoot
                 camera = camera.GetPath().ToString(), cameraPose = camera.GlobalTransform.ToString(),
                 scope = "connected world MeshInstance3D inventory; tree visibility and camera-mask/frustum candidates exclude GPU occlusion/LOD decisions",
                 meshNodes = meshes.Length, distinctMeshResources = meshReferences.Count,
+                addressAudits = nodes.OfType<AddressAccessVerifier>().Select(audit => audit.DescribeProgress()).ToArray(),
                 multiMeshNodes = nodes.OfType<MultiMeshInstance3D>().Count(),
                 multiMeshInstances = nodes.OfType<MultiMeshInstance3D>().Sum(node => (long)(node.Multimesh?.InstanceCount ?? 0)),
                 ownerGroups = owners.Values.OrderByDescending(group => group.SurfaceCount).ToArray(),
@@ -287,6 +305,12 @@ public partial class Act1DemoRoot
                 {
                     owner = pair.Key, meshNodes = pair.Value.MeshNodes, surfaceCount = pair.Value.Surfaces,
                     visibleInTree = pair.Value.Visible, visibleSpatialCandidates = pair.Value.Candidates
+                }).ToArray(),
+                rigidResourceGroups = resourceGroups.OrderByDescending(pair => pair.Value.Surfaces).Select(pair => new
+                {
+                    owner = pair.Key, candidateSurfaces = pair.Value.Surfaces,
+                    distinctMeshMaterialMirrorPairs = pair.Value.Pairs.Count,
+                    scope = "frustum candidates only; excludes skins/blendshapes; depth sorting, lights, transparency and GPU culling may split actual draws"
                 }).ToArray(),
                 occlusionCulling = GetViewport().UseOcclusionCulling,
                 windowCandidates = windowRows, windowMeshResources = windowResources.Values.ToArray(),
@@ -371,6 +395,8 @@ public partial class Act1DemoRoot
                 {
                     cpuMs = Stats(row => row.CpuMilliseconds, true), gpuMs = Stats(row => row.GpuMilliseconds, true),
                     setupMs = Stats(row => row.SetupMilliseconds, true),
+                    processMs = Stats(row => row.ProcessMilliseconds, false),
+                    physicsMs = Stats(row => row.PhysicsMilliseconds, false),
                     visibleDraws = Stats(row => row.VisibleDraws, false),
                     visiblePrimitives = Stats(row => row.VisiblePrimitives, false),
                     shadowDraws = Stats(row => row.ShadowDraws, false),

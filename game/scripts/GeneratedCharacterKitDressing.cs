@@ -62,6 +62,45 @@ public static class GeneratedCharacterKitDressing
         }
 
         var instance = packed.Instantiate<Node3D>();
+        // Each placement needs one character. Other kit rigs are hidden below,
+        // but retaining them also retains their skeletons and render instances.
+        // Imported clips also carry rest tracks for the other kit rigs.
+        // Give this instance its own selected clips before it enters the tree.
+        foreach (var child in instance.GetChildren().OfType<Node3D>().ToArray())
+        {
+            var name = NodeName(child);
+            if (name == $"{prefix}_Rig" || name == $"{prefix}_Anchor"
+                || !(name.EndsWith("_Rig", StringComparison.Ordinal) || name.EndsWith("_Anchor", StringComparison.Ordinal))) continue;
+            instance.RemoveChild(child);
+            child.Free();
+        }
+        foreach (var player in instance.FindChildren("*", nameof(AnimationPlayer), true, false).OfType<AnimationPlayer>())
+        {
+            player.Autoplay = "";
+            foreach (var libraryName in player.GetAnimationLibraryList())
+            {
+                var sourceLibrary = player.GetAnimationLibrary(libraryName);
+                var selectedLibrary = new AnimationLibrary();
+                foreach (var clipName in sourceLibrary.GetAnimationList())
+                {
+                    var name = clipName.ToString();
+                    if (name != "RESET" && !name.StartsWith($"{prefix}_", StringComparison.Ordinal)) continue;
+                    var clip = (Animation)sourceLibrary.GetAnimation(clipName).Duplicate();
+                    for (var track = clip.GetTrackCount() - 1; track >= 0; track--)
+                    {
+                        var path = clip.TrackGetPath(track);
+                        if (path.GetNameCount() == 0) continue;
+                        var rootName = path.GetName(0).ToString();
+                        if (rootName != $"{prefix}_Rig" && rootName != $"{prefix}_Anchor"
+                            && (rootName.EndsWith("_Rig", StringComparison.Ordinal) || rootName.EndsWith("_Anchor", StringComparison.Ordinal)))
+                            clip.RemoveTrack(track);
+                    }
+                    selectedLibrary.AddAnimation(clipName, clip);
+                }
+                player.RemoveAnimationLibrary(libraryName);
+                player.AddAnimationLibrary(libraryName, selectedLibrary);
+            }
+        }
         instance.Name = $"GeneratedCharacterKit_{characterId}";
         instance.SetMeta("assetSource", source);
         instance.SetMeta("characterKit", human ? "human-v2" : "procedural-v1");

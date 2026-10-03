@@ -27,7 +27,7 @@ public partial class Act1ConnectedWorld
     {
         var mesh = new MeshInstance3D
         {
-            Name = name, Mesh = new BoxMesh { Size = size }, Position = at, MaterialOverride = material,
+            Name = name, Mesh = RuralPropGeometry.Box(size), Position = at, MaterialOverride = material,
             RotationDegrees = rotation ?? Vector3.Zero,
             CastShadow = shadow ? GeometryInstance3D.ShadowCastingSetting.On : GeometryInstance3D.ShadowCastingSetting.Off
         };

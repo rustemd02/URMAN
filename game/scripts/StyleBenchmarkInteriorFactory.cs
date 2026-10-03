@@ -135,9 +135,9 @@ public static partial class StyleBenchmarkInteriorFactory
             var inward = sideWall ? new Vector3(-Math.Sign(at), 0, 0)
                 : new Vector3(0, 0, -Math.Sign(at));
             lining.Position = inward * InteriorFinishThickness;
-            ((BoxMesh)lining.Mesh).Size = size + (sideWall
+            lining.Mesh = RuralPropGeometry.Box(size + (sideWall
                 ? new Vector3(0, InteriorFinishThickness * 2, InteriorFinishThickness * 2)
-                : new Vector3(InteriorFinishThickness * 2, InteriorFinishThickness * 2, 0));
+                : new Vector3(InteriorFinishThickness * 2, InteriorFinishThickness * 2, 0)));
             lining.SetMeta("interiorFinishThickness", InteriorFinishThickness);
         }
     }
@@ -418,7 +418,7 @@ public static partial class StyleBenchmarkInteriorFactory
     {
         var body = new StaticBody3D { Name = name, Position = at, CollisionLayer = collision ? 1u : 0u, CollisionMask = 0 };
         body.SetMeta("collisionOwner", collision ? "house-interior-architecture" : "none");
-        var mesh = new MeshInstance3D { Name = "Visible", Mesh = new BoxMesh { Size = size },
+        var mesh = new MeshInstance3D { Name = "Visible", Mesh = RuralPropGeometry.Box(size),
             MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface, sheltered: true) };
         body.AddChild(mesh);
         if (collision) body.AddChild(new CollisionShape3D { Name = "Contact", Shape = new BoxShape3D { Size = size } });

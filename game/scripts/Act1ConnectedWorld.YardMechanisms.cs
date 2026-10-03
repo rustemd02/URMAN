@@ -306,7 +306,7 @@ public partial class Act1ConnectedWorld
 
     private static MeshInstance3D MechanismVisual(Node3D parent, string name, Vector3 size, Vector3 position, string colour, string surface = "wood")
     {
-        var mesh = new MeshInstance3D { Name = name, Mesh = new BoxMesh { Size = size }, Position = position,
+        var mesh = new MeshInstance3D { Name = name, Mesh = RuralPropGeometry.Box(size), Position = position,
             MaterialOverride = PainterlyMaterialLibrary.ForColor(colour, surface) };
         parent.AddChild(mesh);
         return mesh;
