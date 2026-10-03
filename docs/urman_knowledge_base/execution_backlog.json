@@ -9293,6 +9293,7 @@
     },
     {
       "id": "LEN01.1",
+      "progress_2026_10_04": "2026-10-04: карточка закрыта по своему done_when. В gameplay.md сведён ритм («Сведённый ритм Акта I — 2026-10-04»): последовательность до сна (тизер → Нива с целым мостом → чай/Алсу → сон) и после (обрушение ночью → утренняя новость → первый самостоятельный вопрос о Марате → источники → финал «Не отвечай»), метель не отдельный квест и не выдаёт улику; каждый эпизод описан как цель → действие → отклик → новая возможность → существующий владелец (владельцы — таблица «На чём строить»); 60 минут не добиваются ожиданием/секретами; одна фабула без развилок, доверия NPC и ветвящихся квестов, свободный маршрут не меняет истину. Новые системы и развилки не вводились.",
       "execution": {
         "kind": "work",
         "unit": "N6: один эпизод основной истории",
@@ -9321,7 +9322,7 @@
       },
       "title": "Свести ритм Акта I вокруг исследования, семейного приезда и ночного перелома",
       "milestone": "M5",
-      "status": "in_progress",
+      "status": "completed",
       "complexity": "simple",
       "active_owner": null,
       "depends_on": [],
@@ -9340,7 +9341,8 @@
       ],
       "evidence": [
         "docs/production/act1_len01_playtime_audit_2026-09-15.md"
-      ],
+      ,
+        "docs/urman_knowledge_base/gameplay.md#сведённый-ритм-акта-i--2026-10-04-len011"],
       "blocked_reason": null,
       "status_correction_2026_09_15": "Старый completed означал арифметический черновик, не выполнение требований. Распределение минут автором не требуется для разрешённых технических и содержательных исправлений в пределах канона.",
       "progress_2026_09_15": "Draft beat map produced with measured values (act1_len01_1_beat_map_draft_2026-09-15.md): the chapter carries 1,234 Russian words distributed across beats (evidence 236, timur 226, mansur 221, other 155, alsu 132, naila 100, gulsina 81, rinat 68, arrival 12, old-pc 3), the mandatory walk is 424.88 m = 2:05, and the investigation core is 22 words. Proposed per-beat targets sum to the ~50 minute goal, which needs the mandatory text to grow 5-7x, with the core (beat 6), the house (2) and the FAP (4) as the priority gaps. The story volume itself is author's content - the draft is the measured side for the author's decision.",
@@ -23186,6 +23188,7 @@
     "scope": "Static consistency audit of the whole queue during the documentation-only stage; implementation and game launches stay on the author's pause. No task content, evidence history or completion was rewritten.",
     "checks": {
       "mechanics_inventory_2026_10_04": "docs/production/act1_mechanics_inventory_2026-10-04.md was added as the missing inventory for ACT1-MECH-AUDIT.1/.2: 156 source interaction ids across 14 modules classified by their actual game result (33 carry registry knowledge, 47 knowledge outside the chapter-1 registry, 76 no effect at all), the M2 named cases resolved to exact ids, the M1 pilot order, save/quest/EX impact and explicit evidence limits. The audit also found that .1 and .2 duplicate each other's title, deliverable and done_when; the document covers both, while .3 and .4 stay for the in-world role and the removal of false promises. Titles were not renamed because the card text does not define the zone split.",
+      "len01_rhythm_2026_10_04": "LEN01.1 completed: gameplay.md carries the consolidated Act I rhythm (before sleep: teaser, Niva with the intact bridge, tea and Alsu, sleep; after sleep: night collapse, morning news, Aidar's first independent question about Marat, the sources, the «Не отвечай» finale), states that the blizzard is not a separate quest and yields no clue, frames each episode as goal/action/response/new possibility/existing owner with owners from the existing table, and repeats that the 60 active minutes are not padded and that one storyline has no branching, NPC trust or alternative endings.",
       "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 34.",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
       "review_spec_traceability": "All 78 cards carrying a review_spec resolve: every review_spec.path exists (7 distinct documents - the six themed specs plus the review README, with 06 used by 23 cards, 05 by 19, 03 by 14, 01 and 04 by 7 each, 02 by 6 and the README by 2), and every review_spec.unit label (W0, A02, M and so on) appears verbatim in the document it cites, 0 failures. 22 of those cards also pin contract_revision 2026-09-28 round2. What this does not check: the specs' own prose cannot be scanned for missing cards, so only the card-to-section direction is machine-verified.",
