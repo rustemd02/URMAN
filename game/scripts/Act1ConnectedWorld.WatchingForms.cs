@@ -1,4 +1,5 @@
 using Godot;
+using Urman.Experiments.AgentBAct1;
 
 namespace Urman.Godot;
 
@@ -21,7 +22,7 @@ public partial class Act1ConnectedWorld
         core.AddChild(forms);
 
         BuildWorkshopKnotPair(forms);
-        BuildYardSnagWithHollows(forms);
+        BuildYardSnag(forms);
     }
 
     // The workshop's own back boards: two uneven knot holes at eye height.
@@ -41,40 +42,37 @@ public partial class Act1ConnectedWorld
     // A dead standing snag inside the north fence line: crooked, dark, with
     // two asymmetric hollows facing the yard. Real geometry for the hollows,
     // because this one is inspected from the EX13 route a few metres away.
-    private static void BuildYardSnagWithHollows(Node3D forms)
+    private static void BuildYardSnag(Node3D forms)
     {
         var anchor = new Vector3(-34.55f, 0f, 5.85f);
         var snag = new Node3D { Name = "YardDeadSnag", RotationDegrees = new(0, 18, 0) };
         snag.Position = GroundedYardPoint(anchor);
         snag.SetMeta("visualOnly", true);
         forms.AddChild(snag);
-        // Three chained trunk segments with alternating lean read as a broken,
-        // watching figure; the crown stays bare - it is dead, not leafy.
-        var lean = new Vector3(.06f, 0, .045f);
-        var segmentHeight = new[] { 2.6f, 2.2f, 1.5f };
-        var basePoint = Vector3.Zero;
-        for (var index = 0; index < segmentHeight.Length; index++)
-        {
-            var height = segmentHeight[index];
-            var radius = .155f - index * .042f;
-            var segment = new MeshInstance3D
-            {
-                Name = $"SnagTrunk{index}",
-                Position = basePoint + Vector3.Up * (height * .5f),
-                RotationDegrees = new(index % 2 == 0 ? lean.Z : -lean.Z, 0, index % 2 == 0 ? lean.X : -lean.X),
-                Mesh = new CylinderMesh { TopRadius = radius * .82f, BottomRadius = radius, Height = height, RadialSegments = 10, Rings = 1 },
-                MaterialOverride = PainterlyMaterialLibrary.ForColor(index == 0 ? "463c31" : "3d352b", "wood")
-            };
-            snag.AddChild(segment);
-            basePoint += Vector3.Up * height + (index % 2 == 0 ? lean : -lean) * .8f;
-        }
-        // Two crooked stub branches keep the silhouette off-balance.
-        Stub(snag, basePoint with { Y = basePoint.Y - 1.1f }, 0.62f, 38, "SnagBranchHigh");
-        Stub(snag, new Vector3(0, 1.35f, 0), 0.48f, -52, "SnagBranchLow");
-        // The hollow pair: an oval low wound and a small round hole higher and
-        // to the side. Both face the yard (the snag root faces +Z toward it).
-        Hollow(snag, "SnagHollowLow", new(.07f, 1.62f, -.132f), .085f, .125f, "171310");
-        Hollow(snag, "SnagHollowHigh", new(-.045f, 2.51f, -.128f), .048f, .052f, "1b1512");
+    }
+
+    private static void BindYardSnagWithHollows(Node3D core)
+    {
+        var snag = core.GetNode<Node3D>("WatchingFormsPilot/YardDeadSnag");
+        // Bind at the relocated anchor so road/roof guards use the final yard.
+        // Reuse the shared native mesh, grading and LOD binder for this child.
+        var body = AddAuthoredWinterTree(snag, "NativeDeadWood", Vector3.Zero, 6.3f, "WinterDeadTree");
+        body.RotationDegrees = Vector3.Zero;
+        BindAuthoredWinterTrees(core, body);
+        // Keep scars in physical metres despite the normalized native tree.
+        var wounds = new Node3D { Name = "BarkWounds", Scale = Vector3.One / body.Scale };
+        body.AddChild(wounds);
+        // Slots measured on the current native LOD0; Y includes its 4cm rooting.
+        // ponytail: flat bark lips deviate up to 12mm on the curved stem;
+        // project to the host mesh if the close view exposes the contact.
+        var low = Hollow(wounds, "SnagHollowLow", new(-.114f, 1.66f, -.120535063f), .085f, .125f, "171310");
+        low.Quaternion = new Quaternion(Vector3.Forward, new Vector3(-.198539f, .022778f, -.979828f).Normalized());
+        low.Position -= low.Quaternion * Vector3.Forward * .018f;
+        var high = Hollow(wounds, "SnagHollowHigh", new(-.174f, 2.55f, -.122651556f), .048f, .052f, "1b1512");
+        high.Quaternion = new Quaternion(Vector3.Forward, new Vector3(.209716f, .000540f, -.977762f).Normalized());
+        high.Position -= high.Quaternion * Vector3.Forward * .018f;
+        foreach (var mesh in FindDescendants<MeshInstance3D>(wounds))
+            AgentBAct1ExteriorLayer.ConfigureFoliageRange(mesh, 0, false, 6.3f);
     }
 
     // Slightly raised grain surrounds a dark, visually recessed knot. The
@@ -90,13 +88,14 @@ public partial class Act1ConnectedWorld
 
     // A bark lip and dark throat suggest depth without cutting the existing
     // structural trunk mesh or adding a collision seam at the route edge.
-    private static void Hollow(Node3D parent, string name, Vector3 localAt, float width, float height, string colour)
+    private static Node3D Hollow(Node3D parent, string name, Vector3 localAt, float width, float height, string colour)
     {
         var hollow = new Node3D { Name = name, Position = localAt };
         hollow.SetMeta("visualOnly", true);
         hollow.SetMeta("a01_1_motif", "irregular bark wound pareidolia");
         parent.AddChild(hollow);
         Recess(hollow, width * .5f, height * .5f, colour, "4c4034", name.Length * .37f);
+        return hollow;
     }
 
     private static void Recess(Node3D parent, float rx, float ry, string dark, string bark, float variation)
@@ -147,18 +146,5 @@ public partial class Act1ConnectedWorld
             Name = "DarkRecess", Mesh = bottom.Commit(),
             MaterialOverride = PainterlyMaterialLibrary.ForColor(dark, "wood")
         });
-    }
-
-    private static void Stub(Node3D parent, Vector3 at, float length, float yawDegrees, string name)
-    {
-        var stub = new MeshInstance3D
-        {
-            Name = name,
-            Position = at,
-            RotationDegrees = new(0, yawDegrees, 62),
-            Mesh = new CylinderMesh { TopRadius = .02f, BottomRadius = .05f, Height = length, RadialSegments = 7, Rings = 1 },
-            MaterialOverride = PainterlyMaterialLibrary.ForColor("3a3229", "wood")
-        };
-        parent.AddChild(stub);
     }
 }

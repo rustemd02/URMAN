@@ -446,6 +446,7 @@ public partial class Act1ConnectedWorld : Node3D
         ClearOpenPartOfLegacyPresentation();
         // Relayout v3 stage 5: the babai household moves whole onto the main street.
         RelocateBabaiHousehold();
+        BindYardSnagWithHollows(GetNode<Node3D>("Act1CoreWorldGreybox"));
         BuildCozyBabaiStorage();
         BuildShopUses();
         ClearGorgeOfLegacyPresentation();
@@ -9905,7 +9906,7 @@ public partial class Act1ConnectedWorld : Node3D
     private static void AddVisualShrub(Node3D parent, string name, Vector3 origin, float size, string foliageColor)
         => AddAuthoredWinterTree(parent, name, origin, size * 1.3f, "WinterBirdCherry_1");
 
-    private static void AddAuthoredWinterTree(Node3D parent, string name, Vector3 origin, float height, string variant)
+    private static Node3D AddAuthoredWinterTree(Node3D parent, string name, Vector3 origin, float height, string variant)
     {
         var tree = new Node3D { Name = name, Position = origin,
             RotationDegrees = new Vector3(0, VegetationHash(origin, 15.1f) * 360f, 0) };
@@ -9913,13 +9914,17 @@ public partial class Act1ConnectedWorld : Node3D
         tree.SetMeta("visualOnly", true);
         tree.SetMeta("winterVariant", variant);
         tree.SetMeta("winterHeight", height);
+        return tree;
     }
 
-    private static void BindAuthoredWinterTrees(Node3D core)
+    private static void BindAuthoredWinterTrees(Node3D core, Node3D? onlyTree = null)
     {
         var layer = core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld");
         var roofs = AgentBAct1ExteriorLayer.BuildingRoofBounds(core);
-        foreach (var tree in FindDescendants<Node3D>(core).Where(node => node.HasMeta("winterVariant")).ToArray())
+        var trees = onlyTree is null
+            ? FindDescendants<Node3D>(core).Where(node => node.HasMeta("winterVariant")).ToArray()
+            : new[] { onlyTree };
+        foreach (var tree in trees)
         {
             // Dressing replacements may suppress the empty root before meshes bind.
             if (HasTrueMeta(tree, "connectedWorldHidden"))

@@ -2123,8 +2123,8 @@
       ],
       "collision": "none; presentation-only, existing heightfield and road/roof guards",
       "lod": "LOD0 5802 triangles 0–26m; LOD1 2901 triangles 24–64m; LOD2 1160 triangles 60m+; normalized height 1m",
-      "status": "source/import/build and three native Kara views verified; overall forest art acceptance open",
-      "releaseDisposition": "include-in-act1-release; KaraClosureMidBroadleafWest replacement",
+      "status": "source/import/build and native Kara views verified; 2026-10-03 relocated yard snag reuses unchanged GLB/UV/materials/3LOD; physical hollow carrier ends with near LOD. Overall forest art and close scar contact acceptance open",
+      "releaseDisposition": "include-in-act1-release; KaraClosureMidBroadleafWest replacement and relocated WatchingFormsPilot/YardDeadSnag/NativeDeadWood at6.3m via shared native binder",
       "originalSource": {
         "source": "assets/source/quaternius/stylized_nature/DeadTree_3.gltf",
         "sha256": "aa74a47c69259f217388d7b3e2871d76c0385449fc1efd92299c2e55417fdffc",
