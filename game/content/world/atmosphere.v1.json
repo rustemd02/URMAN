@@ -53,7 +53,7 @@
         "sun": {
           "color": "c6d4e2",
           "energy": 0.55,
-          "shadowOpacity": 0.45,
+          "shadowOpacity": 0.18,
           "rotation": [
             -16,
             18
