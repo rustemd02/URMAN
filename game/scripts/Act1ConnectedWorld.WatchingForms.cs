@@ -1,5 +1,4 @@
 using Godot;
-using Urman.Experiments.AgentBAct1;
 
 namespace Urman.Godot;
 
@@ -7,8 +6,8 @@ public partial class Act1ConnectedWorld
 {
     /// <summary>
     /// A01.1 pilot (review 2026-09-28): ambiguous eye-like details on yard
-    /// objects and one deliberately menacing forest-edge fragment beyond the
-    /// north fence. Pareidolia of real construction - knot holes, hollows and
+    /// objects. The surrounding forest belongs to the existing native foliage
+    /// owner. Pareidolia of real construction - knot holes, hollows and
     /// dark recesses - never literal eyeballs, stickers or a new creature.
     /// Presentation only: no collision, no runtime state, no story flags.
     /// </summary>
@@ -18,12 +17,11 @@ public partial class Act1ConnectedWorld
         forms.SetMeta("presentationOnly", true);
         forms.SetMeta("visualOnly", true);
         forms.SetMeta("presentationOwner", nameof(Act1ConnectedWorld));
-        forms.SetMeta("a01_1_pilot", "eye-like pareidolia details + menacing edge fragment; see docs/tasktracker/review_2026-09-28/05_art_characters_assets.md A01.1");
+        forms.SetMeta("a01_1_pilot", "eye-like pareidolia details on workshop wood and yard snag; see docs/tasktracker/review_2026-09-28/05_art_characters_assets.md A01.1");
         core.AddChild(forms);
 
         BuildWorkshopKnotPair(forms);
         BuildYardSnagWithHollows(forms);
-        BuildMenacingEdgeFragment(forms);
     }
 
     // The workshop's own back boards: two uneven knot holes at eye height.
@@ -77,91 +75,6 @@ public partial class Act1ConnectedWorld
         // to the side. Both face the yard (the snag root faces +Z toward it).
         Hollow(snag, "SnagHollowLow", new(.07f, 1.62f, -.132f), .085f, .125f, "171310");
         Hollow(snag, "SnagHollowHigh", new(-.045f, 2.51f, -.128f), .048f, .052f, "1b1512");
-    }
-
-    // The edge fragment beyond the north fence, seen from the yard and from
-    // the house path: three tall dark trunks leaning slightly over the
-    // village, a sparse second row behind them, and a dark under-storey line
-    // that deepens the base so no sky gap shows an outside edge.
-    private static void BuildMenacingEdgeFragment(Node3D forms)
-    {
-        var fragment = new Node3D { Name = "MenacingEdgeFragment" };
-        fragment.SetMeta("visualOnly", true);
-        forms.AddChild(fragment);
-        var trunkSpec = new (Vector3 at, float height, float leanX, float leanZ, float yaw)[]
-        {
-            (new(-29.6f, 0, 7.9f), 9.6f, .10f, -.06f, 24),
-            (new(-31.9f, 0, 9.1f), 10.4f, -.07f, .09f, -18),
-            (new(-33.4f, 0, 7.3f), 8.8f, .05f, .12f, 41),
-            (new(-28.4f, 0, 10.6f), 7.2f, -.09f, -.10f, -35),
-            (new(-32.2f, 0, 12.3f), 8.1f, .08f, .07f, 12),
-        };
-        MeshInstance3D? nearestTrunk = null;
-        foreach (var (at, height, leanX, leanZ, yaw) in trunkSpec)
-        {
-            var trunk = new MeshInstance3D
-            {
-                Name = "EdgeTrunk_" + Mathf.RoundToInt(at.X * 10) + "_" + Mathf.RoundToInt(at.Z * 10),
-                Position = GroundedYardPoint(at) + Vector3.Up * (height * .5f),
-                RotationDegrees = new(Mathf.RadToDeg(leanZ), yaw, Mathf.RadToDeg(leanX)),
-                Mesh = new CylinderMesh { TopRadius = .13f, BottomRadius = .30f, Height = height, RadialSegments = 9, Rings = 1 },
-                MaterialOverride = PainterlyMaterialLibrary.ForColor("332c24", "wood")
-            };
-            trunk.SetMeta("visualOnly", true);
-            fragment.AddChild(trunk);
-            nearestTrunk ??= trunk;
-        }
-        // Crooked bare crowns: a few angled branches per trunk, uneven by
-        // position hash so no two silhouettes repeat.
-        for (var index = 0; index < trunkSpec.Length; index++)
-        {
-            var (at, height, _, _, yaw) = trunkSpec[index];
-            var crown = new Node3D
-            {
-                Name = $"EdgeCrown_{index}",
-                // Follow the trunk's own lean so the bare crown stays attached.
-                Position = GroundedYardPoint(at) + Vector3.Up * (height * .74f)
-                    + new Vector3(trunkSpec[index].leanX, 0, trunkSpec[index].leanZ) * (height * .38f),
-                RotationDegrees = new(0, yaw, 0)
-            };
-            fragment.AddChild(crown);
-            var branches = 3 + index % 2;
-            for (var branch = 0; branch < branches; branch++)
-            {
-                var angle = (branch * Mathf.Tau / branches) + VegetationHash(at, branch + 1) * 2.4f;
-                var arm = new MeshInstance3D
-                {
-                    Name = $"EdgeBranch{branch}",
-                    Position = new(Mathf.Sin(angle) * .34f, .18f - branch * .22f, Mathf.Cos(angle) * .34f),
-                    RotationDegrees = new(Mathf.RadToDeg(Mathf.Cos(angle) * .85f), Mathf.RadToDeg(-angle), Mathf.RadToDeg(Mathf.Sin(angle) * .85f)),
-                    Mesh = new CylinderMesh { TopRadius = .018f, BottomRadius = .05f, Height = 1.5f + branch * .35f, RadialSegments = 6, Rings = 1 },
-                    MaterialOverride = PainterlyMaterialLibrary.ForColor("2e2720", "wood")
-                };
-                crown.AddChild(arm);
-            }
-        }
-        // One distant hollow pair in the nearest trunk, angled toward the yard:
-        // far enough to stay ambiguous, close enough to be noticed once.
-        if (nearestTrunk is not null)
-        {
-            Hollow(nearestTrunk, "EdgeHollowPairA", new(.06f, .35f, -.235f), .07f, .09f, "14100d");
-            Hollow(nearestTrunk, "EdgeHollowPairB", new(-.07f, .57f, -.235f), .05f, .06f, "14100d");
-        }
-        // The dark under-storey line: low thin masses that ground the trunks
-        // and keep a continuous dark band at the fence horizon.
-        foreach (var (x, z, width) in new[] { (-28.6f, 7.2f, 2.6f), (-31.2f, 8.2f, 3.4f), (-33.8f, 7.0f, 2.8f) })
-        {
-            var mass = new MeshInstance3D
-            {
-                Name = $"EdgeUnderstorey_{x:0.0}",
-                Position = GroundedYardPoint(new(x, 0, z)) + Vector3.Up * .42f,
-                RotationDegrees = new(0, VegetationHash(new(x, 0, z), 3.3f) * 60f, 0),
-                Mesh = new BoxMesh { Size = new(width, .84f, .9f) },
-                MaterialOverride = PainterlyMaterialLibrary.ForColor("232019", "wood")
-            };
-            mass.SetMeta("visualOnly", true);
-            fragment.AddChild(mass);
-        }
     }
 
     // Slightly raised grain surrounds a dark, visually recessed knot. The

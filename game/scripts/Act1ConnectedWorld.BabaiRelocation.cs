@@ -130,7 +130,7 @@ public partial class Act1ConnectedWorld
             Collect(root);
 
         // The bath (and the firewood and old spinner beside it) stand at the back of the yard,
-        // not beside the house on the street; the edge fragment stands beyond the back fence.
+        // not beside the house on the street.
         var bathCentre = _bathhouse!.GlobalPosition;
         foreach (var node in moved.ToArray())
         {
@@ -145,14 +145,11 @@ public partial class Act1ConnectedWorld
             var lift = AgentBAct1HeightField.CollisionGround(after.X, after.Z) - AgentBAct1HeightField.CollisionGround(before.X, before.Z);
             node.GlobalPosition = after + Vector3.Up * lift;
         }
-        if (core.GetNodeOrNull<Node3D>("WatchingFormsPilot") is { } forms)
-            foreach (var piece in FindDescendants<Node3D>(forms).Where(n => n.GetParent() is Node3D p && (p.Name == "MenacingEdgeFragment" || p == forms)).ToArray())
-            {
-                var at = piece.GlobalPosition;
-                var floor = AgentBAct1HeightField.CollisionGround(at.X, at.Z);
-                if (piece.Name.ToString().StartsWith("EdgeTrunk_", StringComparison.Ordinal)) continue;   // tall trunks carry their own base
-                if (piece.Name == "YardDeadSnag") piece.GlobalPosition = at with { Y = floor };
-            }
+        if (core.GetNodeOrNull<Node3D>("WatchingFormsPilot/YardDeadSnag") is { } snag)
+        {
+            var at = snag.GlobalPosition;
+            snag.GlobalPosition = at with { Y = AgentBAct1HeightField.CollisionGround(at.X, at.Z) };
+        }
 
         // Clear the new plot of what stood there before: houses, sheds, fences, trees.
         var cleared = 0;
