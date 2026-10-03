@@ -1255,6 +1255,21 @@ Managed-профиль показал поток финализатора зан
 которая в профиле держала отдельное ядро занятым; независимое ревью этой правки —
 в этом же отчёте (вердикт добавляется по факту).
 
+**Что осталось в этом классе (инвентарь для отдельного прохода).** Скан нашёл
+ещё около двадцати мест, где созданный на вызов объект Godot по-прежнему не
+освобождается, но все они событийные или диагностические, а не покадровые:
+`Act1ConnectedWorld.Bathhouse.cs:339`, `Act1ConnectedWorld.MosqueInterior.cs:540`,
+`Act1ConnectedWorld.MosqueSaveSupport.cs:37,47,63,70`,
+`Act1ConnectedWorld.PlayerFootwear.cs:52`, `Act1ConnectedWorld.PublicBuildings.cs:478`,
+`Act1ConnectedWorld.ShopUses.cs:187`, `CarryCoordinator.Mechanisms.cs:94`,
+`CarryCoordinator.Physics.cs:26,136,155,168,201,370`, `CarryCoordinator.cs:228,407`,
+`LadderTraversal3D.cs:212,217,224`, `PortableLight.cs:38,41`,
+`VehicleController.PlacementDiagnostics.cs:9,41,42`,
+`VehicleController.WheelCollision.cs:157` и `DebugWorldGrid.cs:139` (последний —
+только отладочный). Их стоит закрыть одним механическим проходом с независимым
+ревью, как это сделано для устойчивых мест выше; отдельного эффекта на кадр они не
+дают, потому что вызываются по взаимодействию, сохранению или отладочному запросу.
+
 ### Независимая проверка трёх правок второго исполнителя
 
 Коммиты `1ef6a246` (мемо проверки стойки внутри такта), `509b8e5c` (обход фасадов
