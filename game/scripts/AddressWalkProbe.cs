@@ -65,6 +65,11 @@ internal sealed class AddressWalkProbe : IDisposable
         return PhysicsServer3D.BodyTestMotion(_body, _motion, result);
     }
 
+    // Bitwise-exact component comparison. The redundant-query skips below must
+    // trigger only when two poses hold the same float values; Vector3's own
+    // equality contract is not what this decision needs, so it is spelled out.
+    private static bool SameFeet(Vector3 a, Vector3 b) => a.X == b.X && a.Y == b.Y && a.Z == b.Z;
+
     private bool Floor(Vector3 from, Vector3 to, out Vector3 point)
     {
         using var ray = PhysicsRayQueryParameters3D.Create(from, to, 3, _exclude);
@@ -107,7 +112,9 @@ internal sealed class AddressWalkProbe : IDisposable
                 continue;
             }
             var landed = raised + _landing.GetTravel();
-            if (!Clear(landed))
+            // Same reasoning as TryAdvance: Clear(raised) above already passed this
+            // exact query in this tick, so a zero-travel landing repeats nothing.
+            if (!SameFeet(landed, raised) && !Clear(landed))
             {
                 LastRejection = "standing capsule overlaps its returned landing contact";
                 if (diagnose) attempts.Add($"lift={lift} initialFree=true hit=true travel={_landing.GetTravel()} "
@@ -213,7 +220,10 @@ internal sealed class AddressWalkProbe : IDisposable
             return DescribeLandingRefusal("step-down-normal-rejected", from, horizontal, advanced, null, true, true, null);
         }
         feet = advanced + _downObstacle.GetTravel();
-        if (!Clear(feet))
+        // Only an exactly zero travel reuses a query: the standing check above for
+        // `advanced` already ran and passed in this tick, so the identical pose
+        // cannot answer differently, while a one-ULP difference is still queried.
+        if (!SameFeet(feet, advanced) && !Clear(feet))
         {
             LastRejection = "standing body blocked at ordinary step-down landing";
             return DescribeLandingRefusal("landed-standing-blocked", from, horizontal, advanced, feet, true, true, false);
