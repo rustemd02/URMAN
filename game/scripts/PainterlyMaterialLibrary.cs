@@ -211,15 +211,13 @@ public static class PainterlyMaterialLibrary
                     ? texture(albedo_texture, UV * texture_scale).rgb
                     : triplanar_albedo(albedo_position, normalize(albedo_normal)))
                 : vec3(1.0);
-            // Keep the source hue and broad brush value while avoiding the
-            // crushed-to-clay contrast of the previous texture grade.
-            vec3 graded_texture = pow(clamp(texture_color, 0.0, 1.0), vec3(1.02));
-            graded_texture = clamp((graded_texture - vec3(0.5)) * 1.18 + vec3(0.5), 0.0, 1.0);
+            // source_color samples are already linear. Contrast around 0.5
+            // crushed dark pigment before the existing tint and lighting.
             // Texture-dominant balance: the albedo painting owns the value
             // range; base_color acts as a light tint over it.
             vec3 tinted_texture = snow_material
-                ? base_color.rgb * (vec3(0.90) + graded_texture * 0.12)
-                : base_color.rgb * (vec3(0.30) + graded_texture * 1.75);
+                ? base_color.rgb * (vec3(0.90) + texture_color * 0.12)
+                : base_color.rgb * (vec3(0.30) + texture_color * 1.75);
             vec3 painted_color = has_albedo_texture
                 ? mix(base_color.rgb, tinted_texture, texture_strength)
                 : base_color.rgb;
