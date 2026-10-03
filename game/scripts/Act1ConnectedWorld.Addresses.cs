@@ -21,6 +21,11 @@ public partial class Act1ConnectedWorld
     private readonly List<AddressBuildingRegistration> _addressExtraBuildings=[];
     private readonly List<(Node3D Building,string SourceKey,string PrimaryAddressId,string Role)> _addressInheritedBuildings=[];
     private readonly List<(string AccessId,Vector3 Point)> _addressPendingAccess=[];
+    // Every value is a freshly built array from the verifier's Compact(), and no
+    // code writes into its elements afterwards: re-verification replaces the whole
+    // array. RefreshVerifiedWinterFootpaths relies on that — it memoises each route's
+    // revision string by array identity, so an in-place edit here would silently keep
+    // a stale revision and the old visible path.
     private readonly Dictionary<string,Vector3[]> _addressVerifiedPaths=new(StringComparer.Ordinal);
     private bool _addressGraphNeedsAttachment;
     private readonly global::Godot.Collections.Dictionary _addressAccessCommitFrames=new();

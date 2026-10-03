@@ -58,6 +58,11 @@ public sealed class SettlementRoadGraph
     // (once per verified route on every publication) disappears. _nodes is written
     // only by RebuildCore, which rebuilds this index right after filling it.
     private readonly Dictionary<long,List<string>> _nodeCells=new();
+    // _nodes and _nodeCells are written together only by RebuildCore, and the cell
+    // function below must stay identical to the one NodeAt uses: a plain (int) cast
+    // would round towards zero and break the neighbour guarantee for negative
+    // coordinates. Nodes is a read-only view — casting it back to Dictionary and
+    // mutating it would leave this index stale.
     public IReadOnlyDictionary<string, SettlementRoad> Roads => _roads;
     public IReadOnlyDictionary<string, SettlementGraphNode> Nodes => _nodes;
     public IReadOnlyDictionary<string, SettlementGraphEdge> Edges => _edges;
