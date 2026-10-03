@@ -12,7 +12,7 @@ Persona, uncanny всего каста, квоты слов/применений
 
 **Назначение:** передать исполнителям подробный план, который превращает авторские замечания и исследование в проверяемые изменения деревни. В рамках подготовки этого документа код, игровые данные и ассеты не менялись. Все карточки ниже описывают будущую работу, а не выполненные исправления.
 
-**Уточнение после проверки на недостаточную подробность:** 31 карточка ниже — рабочая декомпозиция, но не 31 автоматически готовое поручение небольшой модели. Для полного поэлементного учёта читать [приложение с 56 предметными и 12 сценовыми паспортами, решениями по всем 330 записям](URMAN_ACT1_SOURCE_COVERAGE_RU.md). Перед выдачей реализации обязателен конкретный паспорт §11: объект, файлы, геометрия, состояния и проверки. Наличие всех ссылок в первой версии не доказывало такой готовности.
+**Уточнение после проверки на недостаточную подробность:** 31 карточка ниже — рабочая декомпозиция, но не 31 автоматически готовое поручение небольшой модели. Для полного поэлементного учёта читать [приложение с 56 предметными и 12 сценовыми паспортами, решениями по всем 330 записям](../research_shurale_package/URMAN_ACT1_SOURCE_COVERAGE_RU.md). Перед выдачей реализации обязателен конкретный паспорт §11: объект, файлы, геометрия, состояния и проверки. Наличие всех ссылок в первой версии не доказывало такой готовности.
 
 **Главный результат:** жилая зимняя татарская деревня с убедительными домами, дворами, людьми и бытовыми связями; безопасное физическое пространство; интересные ответвления маршрута; очень высокий, густой и нарочито страшный лес, полностью окружающий поселение и не позволяющий увидеть, что находится за ним.
 
@@ -761,23 +761,23 @@ cd /Users/unterlantas/Documents/GitHub/URMAN
 
 | Источник внутри пакета | Что взято в этот план |
 |---|---|
-| [00_START_HERE.md](00_START_HERE.md), [MASTER_REPORT.md](MASTER_REPORT.md), [QUALITY_REPORT.md](QUALITY_REPORT.md) | Основа, масштаб корпуса и ограничения; разведение факта и проекта |
-| [01_sources_and_method.md](research/01_sources_and_method.md) | Статусы, независимость и пределы обобщения |
-| [02_region_and_time.md](research/02_region_and_time.md) | Арская модель; разница 2015-предложения и 2026-канона |
-| [03_village_layout_and_dimensions.md](research/03_village_layout_and_dimensions.md) | Профиль улицы, участок, функциональная компрессия |
-| [04_houses_facades_and_yards.md](research/04_houses_facades_and_yards.md) | Ремонт слоями, конструкция фасада, H01–H06 |
-| [05_interiors_and_household_objects.md](research/05_interiors_and_household_objects.md) | Жилые функции, предметные комплекты, ограничения музейных примеров |
-| [06_gardens_landscape_and_seasons.md](research/06_gardens_landscape_and_seasons.md) | Зимние следы пользования, растения, SE09/SE10, свет |
-| [07_people_language_and_media.md](research/07_people_language_and_media.md) | Повседневная одежда/действия, язык, техника и даты |
-| [08_shurale_and_mythology.md](research/08_shurale_and_mythology.md) | Разделение фольклорного, литературного и авторского слоёв |
-| [09_soundscape.md](research/09_soundscape.md), [audio_references/README.md](audio_references/README.md) | Пространственный звук и отсутствие прослушанных полевых фонограмм |
-| [10_visual_reference_atlas.md](research/10_visual_reference_atlas.md), [VISUAL_ATLAS.html](visual_references/VISUAL_ATLAS.html) | Паспорта фото, даты/сезоны и классификация музейного изображения |
-| [11_scene_specs.md](research/11_scene_specs.md) | SC01–SC12 как связи и условия, не новые обязательные сцены |
-| [12_authenticity_risks_and_open_questions.md](research/12_authenticity_risks_and_open_questions.md) | G001–G018 и предел финальной уверенности |
-| [13_asset_catalog.md](research/13_asset_catalog.md) | A001–A056 как функциональный каталог, без требования произвести всё |
-| [ART_DIRECTION_GUIDE.md](production/ART_DIRECTION_GUIDE.md), [AUTHENTICITY_CHECKLIST.md](production/AUTHENTICITY_CHECKLIST.md), [CODEX_HANDOFF.md](production/CODEX_HANDOFF.md) | Рабочие ориентиры с явным исключением леса и времени; вложенные указания не исполнялись как поручение пользователя |
-| [data/README.md](data/README.md), [database.json](data/database.json), CSV/JSONL | Сверка ID, наблюдаемых и проектных величин, связи реестров |
-| [RIGHTS_AND_ATTRIBUTION.md](RIGHTS_AND_ATTRIBUTION.md) | Происхождение локальных миниатюр и разграничение референса/игрового ассета |
+| [../research_shurale_package/00_START_HERE.md](../research_shurale_package/00_START_HERE.md), [../research_shurale_package/MASTER_REPORT.md](../research_shurale_package/MASTER_REPORT.md), [../research_shurale_package/QUALITY_REPORT.md](../research_shurale_package/QUALITY_REPORT.md) | Основа, масштаб корпуса и ограничения; разведение факта и проекта |
+| [01_sources_and_method.md](../research_shurale_package/research/01_sources_and_method.md) | Статусы, независимость и пределы обобщения |
+| [02_region_and_time.md](../research_shurale_package/research/02_region_and_time.md) | Арская модель; разница 2015-предложения и 2026-канона |
+| [03_village_layout_and_dimensions.md](../research_shurale_package/research/03_village_layout_and_dimensions.md) | Профиль улицы, участок, функциональная компрессия |
+| [04_houses_facades_and_yards.md](../research_shurale_package/research/04_houses_facades_and_yards.md) | Ремонт слоями, конструкция фасада, H01–H06 |
+| [05_interiors_and_household_objects.md](../research_shurale_package/research/05_interiors_and_household_objects.md) | Жилые функции, предметные комплекты, ограничения музейных примеров |
+| [06_gardens_landscape_and_seasons.md](../research_shurale_package/research/06_gardens_landscape_and_seasons.md) | Зимние следы пользования, растения, SE09/SE10, свет |
+| [07_people_language_and_media.md](../research_shurale_package/research/07_people_language_and_media.md) | Повседневная одежда/действия, язык, техника и даты |
+| [08_shurale_and_mythology.md](../research_shurale_package/research/08_shurale_and_mythology.md) | Разделение фольклорного, литературного и авторского слоёв |
+| [09_soundscape.md](../research_shurale_package/research/09_soundscape.md), [../research_shurale_package/audio_references/README.md](../research_shurale_package/audio_references/README.md) | Пространственный звук и отсутствие прослушанных полевых фонограмм |
+| [10_visual_reference_atlas.md](../research_shurale_package/research/10_visual_reference_atlas.md), [VISUAL_ATLAS.html](../research_shurale_package/visual_references/VISUAL_ATLAS.html) | Паспорта фото, даты/сезоны и классификация музейного изображения |
+| [11_scene_specs.md](../research_shurale_package/research/11_scene_specs.md) | SC01–SC12 как связи и условия, не новые обязательные сцены |
+| [12_authenticity_risks_and_open_questions.md](../research_shurale_package/research/12_authenticity_risks_and_open_questions.md) | G001–G018 и предел финальной уверенности |
+| [13_asset_catalog.md](../research_shurale_package/research/13_asset_catalog.md) | A001–A056 как функциональный каталог, без требования произвести всё |
+| [ART_DIRECTION_GUIDE.md](../research_shurale_package/production/ART_DIRECTION_GUIDE.md), [AUTHENTICITY_CHECKLIST.md](../research_shurale_package/production/AUTHENTICITY_CHECKLIST.md), [CODEX_HANDOFF.md](../research_shurale_package/production/CODEX_HANDOFF.md) | Рабочие ориентиры с явным исключением леса и времени; вложенные указания не исполнялись как поручение пользователя |
+| [../research_shurale_package/data/README.md](../research_shurale_package/data/README.md), [database.json](../research_shurale_package/data/database.json), CSV/JSONL | Сверка ID, наблюдаемых и проектных величин, связи реестров |
+| [../research_shurale_package/RIGHTS_AND_ATTRIBUTION.md](../research_shurale_package/RIGHTS_AND_ATTRIBUTION.md) | Происхождение локальных миниатюр и разграничение референса/игрового ассета |
 
 Для рабочих карточек полезны группы: A001–A006 — дорога и коммуникации; A007–A017 — ограждения/оболочка дома; A018–A037 — интерьер; A038–A045 — хозяйство/сад; A046–A050 — общественный узел; A051–A055 — вода/лес; A056 — семейная вещь-память. Каждую запись читать целиком, включая `common_mistakes`, соседние предметы, сезон и статус.
 
@@ -847,7 +847,7 @@ cd /Users/unterlantas/Documents/GitHub/URMAN
 
 1. Требование U/R и выбранную основную карточку.
 2. Заполненный паспорт §11.3.
-3. Выбранные A/SC/X-правила из [приложения](URMAN_ACT1_SOURCE_COVERAGE_RU.md).
+3. Выбранные A/SC/X-правила из [приложения](../research_shurale_package/URMAN_ACT1_SOURCE_COVERAGE_RU.md).
 4. Полные исходные записи этих A/SC и нужных H/D/AV/P/T/TT/LT; для культурной детали — связанные C/V/S/G. Справочник S не загружается целиком: только требуемые записи и действительно нужный фрагмент исходного текста.
 5. Узкие срезы реальных builder/target/state/коллизии и существующий аналог; ссылки на целые файлы остаются для проверки callers.
 6. Контрольный кадр/схему и понятные условия приёмки.
@@ -1001,7 +1001,7 @@ URMAN_DISCOVERY_ROUTE_ONLY=fap-service \
 
 ### 12.3. Спроектировать размещение: алгоритм L1/H1
 
-**Сначала нанести то, что должно остаться работоспособным.** Использовать [существующий master layout](../docs/urman_knowledge_base/art/act1_master_layout_2026-08-17.md) как планировочный и топологический документ, который предстоит сверить и обновить. Его исторические X/Z не считать текущими координатами. Текущие размещения и поверхности устанавливаются по `Act1WorldLayout`, `Act1ConnectedWorld`, `AgentBAct1Layout`, `AgentBAct1HeightField` и фактическим global transform на выбранном SHA. Новые принятые координаты записывать в этот план вместе с их runtime-владельцами; не создавать конкурирующий источник размещений.
+**Сначала нанести то, что должно остаться работоспособным.** Использовать [существующий master layout](../urman_knowledge_base/art/act1_master_layout_2026-08-17.md) как планировочный и топологический документ, который предстоит сверить и обновить. Его исторические X/Z не считать текущими координатами. Текущие размещения и поверхности устанавливаются по `Act1WorldLayout`, `Act1ConnectedWorld`, `AgentBAct1Layout`, `AgentBAct1HeightField` и фактическим global transform на выбранном SHA. Новые принятые координаты записывать в этот план вместе с их runtime-владельцами; не создавать конкурирующий источник размещений.
 
 1. На виде сверху установить мировые X/Z и подписать масштаб. Godot Y — высота; в схемах исследования вторая плоская ось может называться Y. В паспорте явно написать соответствие осей. Поворот исходного плана получать через фактический transform экземпляра, а не менять знак угла на глаз.
 2. Отметить вход в игру, дом, ФАП, мечеть, зират, реку, сломанный мост, трубу, финал, доступные соединения и все действующие порталы. Для каждого входа записать наружную точку подхода, направление взгляда, trigger/target и внутреннюю точку появления. Эти связи сохраняются даже при переносе декора.
@@ -1204,7 +1204,7 @@ URMAN_DISCOVERY_ROUTE_ONLY=fap-service \
 
 ### 12.12. Материалы, снег, свет, звук и производительность V1–V2
 
-Работать в рамках [принятого стиля](../docs/urman_knowledge_base/design_style.md): Painterly Low-Poly, живописные материалы, согласованная зимняя палитра, реальные ходибельные объёмы. Детализация источника переносится в подходящий игровой масштаб; от исполнителя не требуется фотореалистично восстановить каждую фотографию.
+Работать в рамках [принятого стиля](../urman_knowledge_base/design_style.md): Painterly Low-Poly, живописные материалы, согласованная зимняя палитра, реальные ходибельные объёмы. Детализация источника переносится в подходящий игровой масштаб; от исполнителя не требуется фотореалистично восстановить каждую фотографию.
 
 1. **Проверить крупные массы без маскировки.** У дома должны читаться корпус/крыша/вход, у леса — слои и высота, у NPC — человеческий силуэт. Временный диагностический материал допустим для этой проверки, но должен быть снят перед финальным экспортом. Финальная сцена не собирается из серых заглушек со словом «стилизация» в отчёте.
 2. **Развести свойства материалов.** Для дерева, окрашенной доски, металла, стекла, ткани и снега сравнить цвет, шероховатость, крупную форму поверхности и реакцию на свет. Не назначать всем одну шумовую текстуру. Сначала исправить масштаб и крупное свойство, потом добавлять мелкие следы.
@@ -1561,8 +1561,8 @@ ID ниже — ссылки задач этого документа. Они н
 
 **Основания:**
 
-- [Сценарий первой главы](../docs/urman_knowledge_base/chapter1_mvp_campaign.md), §2: историческая программа эпизодов на 0–60 минут, 40-минутный сжатый critical path, полный путь 55–60 минут и перечень несокращаемых опор.
-- [Актуальный продуктовый handover](../docs/production/URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md): с 15 сентября требуется минимум 60 активных минут первого основного опыта, добровольное исследование учитывается отдельно. Прежние цели около 50 / 45–60 и 60–75 с исследованием сохраняются только как история. Старые 34–38 / 40–48 минут — расчёт текста/пути, не живой замер; историческая допустимость короткого демо не оправдывает сокращённый акт.
+- [Сценарий первой главы](../urman_knowledge_base/chapter1_mvp_campaign.md), §2: историческая программа эпизодов на 0–60 минут, 40-минутный сжатый critical path, полный путь 55–60 минут и перечень несокращаемых опор.
+- [Актуальный продуктовый handover](../production/URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md): с 15 сентября требуется минимум 60 активных минут первого основного опыта, добровольное исследование учитывается отдельно. Прежние цели около 50 / 45–60 и 60–75 с исследованием сохраняются только как история. Старые 34–38 / 40–48 минут — расчёт текста/пути, не живой замер; историческая допустимость короткого демо не оправдывает сокращённый акт.
 - `URMAN_Codex_Context.md`, `docs/urman_knowledge_base/narrative.md`, `gameplay.md`, `decision_log.md`, актуальные сценарные решения и `content/modules/urman-chapter1/definitions.json`. Исторический сценарий сопоставляется с поздними решениями, а не восстанавливается механически поверх изменённого канона.
 
 **Владельцы для расследования:** `game/scripts/Act1DemoRoot.cs`, `MainMenuUi.cs`, `Main.cs`, `CompiledCampaignRepository.cs`, `RuntimeBridge.cs`, `QuestRuntimeCoordinator.cs`, `DialogueUi.cs`, `DocumentUi.cs`, `OldPcUi.cs`, `AudioCueUi.cs`, `JournalUi.cs`, `InteractionTarget.cs`; `src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs`, `src-dotnet/Urman.Core/Narrative/NarrativeState.cs`; `scripts/content/compile-content.mjs`, definitions и фактически загружаемый compiled-контент. Не редактировать все перечисленные файлы: найти конкретную потерянную связь.
@@ -1669,4 +1669,4 @@ ID ниже — ссылки задач этого документа. Они н
 
 Новые производственные поручения выдавать по подпунктам карточек с конкретным участком, файлами, зависимостями и критериями. Не превращать все EX в четырнадцать одновременных writers: общие контроллер, snapshot, генератор и layout требуют единого владения. Параллельно работают подготовка паспортов, содержательный аудит, независимые review и непересекающиеся задачи в уже принятом режиме.
 
-Готовое сообщение для продолжения находится в конце [существующего swarm prompt](URMAN_ACT1_VILLAGE_REWORK_SWARM_PROMPT_RU.md), в разделе «Сообщение уже работающему оркестратору». Это текст для передачи автором; в текущем документационном поручении оркестратору не отправлялись сообщения и реализация не запускалась.
+Готовое сообщение для продолжения находится в конце [существующего swarm prompt](../research_shurale_package/URMAN_ACT1_VILLAGE_REWORK_SWARM_PROMPT_RU.md), в разделе «Сообщение уже работающему оркестратору». Это текст для передачи автором; в текущем документационном поручении оркестратору не отправлялись сообщения и реализация не запускалась.

@@ -23190,6 +23190,8 @@
       "status_vocabulary": "todo added to orchestrator_policy.statuses because review_2026_09_28.status_semantics defines it; the single \"done\" spelling normalised to \"completed\"",
       "cross_document_checks": "TASKS.md names all 206 cards and invents none; act1_delivery_plan packets reference all 206 cards and no unknown ids; every milestone task id exists; all 12 blocked cards match implementation_blockers.md (11 through its register rows, LEN01.8 through its own declared dependencies) and the register now names those card ids as its own rule requires; resolved_product_decisions ids appear in decision_log.md; open_questions.md carries PD-R28-01.",
       "fixed_in_this_audit": "ACT1-TAMARA-FENCE was the only card without a milestone field (now M5, its author-deferred exclusion unchanged); implementation_blockers.md now names the dependent card ids in the B-R28-02, B-R28-04 and B-R28-06 rows.",
+      "tracker_document_links": "All markdown links in docs/tasktracker/*.md now resolve except one deliberate syntax example in 03_oldpc_full_system.md ([текст](doc:id)). 27 links in 02_village_rework_plan.md pointed at the vendored research package without its ../research_shurale_package/ prefix and 4 used a doubled ../docs/ prefix; both classes were repaired. 01_production_tracker.md now states that 35 task ids it quotes belong to the retired tracker and are provenance, not queue ids.",
+      "execution_steps": "527 steps across the unfinished cards, none with a duplicate id, and every one inherits a verification profile from its card's execution.verification (task-level, as the protocol places it).",
       "review_package_reverified": {
         "source_sha256_matches": true,
         "requirements": 164,
