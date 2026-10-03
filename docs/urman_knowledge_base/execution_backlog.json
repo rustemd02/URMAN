@@ -9623,6 +9623,7 @@
     },
     {
       "id": "LEN01.5",
+      "progress_2026_10_04": "2026-10-04: список scope был пустым. Работа — внешний человеческий проход (verification: HUMAN), поэтому scope указывает каталог, куда ложится отчёт о сеансе: docs/production/. Статус blocked оставлен: нужен реальный незнакомый игрок и журнал действий/времени, минимум 60 активных минут.",
       "execution": {
         "kind": "work",
         "unit": "Один первый проход незнакомого человека.",
@@ -9658,7 +9659,7 @@
         "LEN01.1"
       ],
       "owner": "human/playtest",
-      "scope": [],
+      "scope": ["docs/production/"],
       "deliverable": "Замер обычного прохождения человеком и сравнение с целью.",
       "done_when": [
         "Есть реальный незнакомый игрок, идентификатор сборки, журнал действий и времени: минимум 60 активных минут первого основного опыта, отдельно быстрый знакомый маршрут, исследование, загрузки, паузы и потери из-за ошибок."
@@ -18098,6 +18099,7 @@
     },
     {
       "id": "ACT1-TAMARA-FENCE",
+      "progress_2026_10_04": "2026-10-04: статус приведён в соответствие с полями самой карточки: review_scope = «author-deferred: не возобновлять», mvp_packet = AUTHOR-DEFERRED, а current_scope.out_of_scope прямо исключает необязательный квест/катсцену Тамары Геннадьевны (решение автора 2026-09-27). in_progress заменён на deferred; код забора, журнал и исторические доказательства (tamara_fence_smoke_test 49 проверок и другие) остаются и не удаляются. Работа не возобновляется.",
       "milestone": "M5",
       "progress_2026_10_04": "Карточка была единственной без поля milestone (проверка 2026-10-04). Проставлен M5 — как у родственных задач ограды и деревенского благоустройства; исключение Тамары из текущей цели уже зафиксировано полями mvp_packet/delivery = AUTHOR-DEFERRED, поэтому содержание карточки не менялось.",
       "execution": {
@@ -18131,7 +18133,7 @@
         ]
       },
       "title": "Забор Тамары Геннадьевны (необязательный квест)",
-      "status": "in_progress",
+      "status": "deferred",
       "notes": "Мем-квест по видео «Николай Николаевич/Тамара Геннадьевна»: механика юмора — имя-отчество + будничная хроника, не цитата. Айдар Ришатович фигурирует в обращении впервые; в канон персонаж не внесён, противоречий нет. 2026-09-26 по списку автора перестроены забор (бетонные столбы и щиты из широких досок, падение опрокидыванием щита вокруг нижнего края), субтитры и баннер (полноэкранный корень UI — до этого рисовались за краем), планы камеры, поза съёмки и список дел в журнале. Проверки: tamara_fence_smoke_test exit0 49 проверок, tamara_fence_drive_proof PASS обычным вводом, act1_main_menu_smoke_test PASS, journal_flow_smoke_test PASS, tamara_fence_capture 19 кадров. Человеческий проход и читаемость субтитров человеком — external/not-run.",
       "opened": "2026-09-25",
       "evidence": [
@@ -23235,6 +23237,7 @@
       "texture_group04_2026_10_04": "ACT1-TEXTURE.04: the paper and story-image group was audited by its list rather than by a sample - 14 rows with 5 new, 6 conditional and 3 reuse, a consumer named in 14 of 14 rows, and the result path verified in code; the licence field was empty in every row, so the inventory now states the group's project licence explicitly and asks imported carriers to name their pack licence. Report: docs/production/act1_texture_group04_2026-10-04.md",
       "texture_groups_050610_2026_10_04": "Texture groups .05 (address decals D01-D10: consumer and decal profile in 10/10 rows, 3 new, 6 conditional, 1 integrated), .06 (characters C01-C12: consumer and surface profile at 12/12, and the base is the CC0 UniversalBaseCharacters_Standard pack, so the licence is CC0-derived rather than purely project) and .10 (K01/K02 stay conditional on approved creature carriers) were audited by their lists; .09 belongs to Acts II-V and is deferred by scope, not completed. Report: docs/production/act1_texture_groups_050610_2026-10-04.md",
       "fence_kit_2026_10_04": "ACT1-FENCE-KIT: the five-variant fence library is already implemented (variant from a lot-id hash with a parameter table), each post is grounded through AgentBAct1HeightField with rails joining neighbouring ground points, corners have an explicit rule, and the positive example is preserved by construction since runs come from lot data; what remains is a lot-boundary decision for K15/L15, clarification of whether I11 is Latin or Cyrillic, and applying the existing rule to those instances. Report: docs/production/act1_fence_kit_2026-10-04.md",
+      "scope_and_status_2026_10_04": "Two queue defects fixed: ACT1-TAMARA-FENCE was in_progress although its own review_scope says author-deferred, its mvp_packet says AUTHOR-DEFERRED and current_scope.out_of_scope excludes the Tamara quest by the author's 2026-09-27 decision, so it is now deferred with its code and historical evidence intact; LEN01.5 had an empty scope list and now names docs/production/ as the place its human session report lands, keeping the blocked status. After both fixes every task has a non-empty scope list. status_counts was recomputed.",
       "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 35 (REVIEW28-RESEARCH and LEN01.1).",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
       "review_spec_traceability": "All 78 cards carrying a review_spec resolve: every review_spec.path exists (7 distinct documents - the six themed specs plus the review README, with 06 used by 23 cards, 05 by 19, 03 by 14, 01 and 04 by 7 each, 02 by 6 and the README by 2), and every review_spec.unit label (W0, A02, M and so on) appears verbatim in the document it cites, 0 failures. 22 of those cards also pin contract_revision 2026-09-28 round2. What this does not check: the specs' own prose cannot be scanned for missing cards, so only the card-to-section direction is machine-verified.",
@@ -23256,7 +23259,7 @@
       "tasks": 206,
       "unfinished": 173,
       "completed": 33,
-      "status_counts": {"in_progress": 130, "completed": 35, "todo": 27, "blocked": 12, "review": 2},
+      "status_counts": {"in_progress": 129, "completed": 35, "todo": 27, "blocked": 12, "review": 2, "deferred": 1},
       "work_tasks": 159,
       "aggregate_tasks": 10,
       "rollup_tasks": 4,
