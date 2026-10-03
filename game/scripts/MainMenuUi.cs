@@ -86,6 +86,10 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     /// queue-freed node is skipped; the callers that previously omitted those
     /// guards only differed for an already-freed menu, where reading its state
     /// would have thrown.</summary>
+    // The fast path avoids allocating the group array in the steady state (no menu,
+    // or one live undismissed menu); the fallback allocates and disposes it. Both
+    // branches must keep the same three conditions - valid instance, not queued for
+    // deletion, not dismissed - because callers use this as a per-frame predicate.
     internal static bool AnyUndismissed(SceneTree tree)
     {
         var first = tree.GetFirstNodeInGroup(Group);

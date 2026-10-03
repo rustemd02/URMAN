@@ -89,6 +89,15 @@ internal sealed class AddressWalkProbe : IDisposable
         // switches the collision mask. The world, the exclusion set and the masks
         // cannot change inside one tick for a caller that never returns to the
         // engine, so the frame plus these three inputs is the whole key.
+        //
+        // Named explicitly, because a future edit must not weaken this: CanFitAt
+        // also reads the live CollisionMask (FirstPersonController.Movement.cs
+        // switches it to 0 and back), the exclusion array (built once from the
+        // player's own rid) and IsInsideTree(), and none of those three is part of
+        // the key. They are covered only because the audit driver runs its whole
+        // probe loop synchronously inside one _PhysicsProcess, so no other callback
+        // can touch them between two steps. A driver that awaits frames must not
+        // pass memoizeSameFrameClear: true.
         var standing = _player.StandingBodyHeight;
         var radius = _player.BodyRadius;
         var controlled = _player.VehicleControlled;
