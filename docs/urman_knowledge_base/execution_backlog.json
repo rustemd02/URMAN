@@ -18862,6 +18862,7 @@
     },
     {
       "id": "STUDIO.P2",
+      "progress_2026_10_04": "2026-10-04: карточка помечена как aggregate: её объём — вся волна Studio, а предметная работа идёт в пакетах act1_delivery_plan, перечисленных в acceptance (A02–A25). Протокол запрещает отдавать aggregate одному исполнителю; это соответствует прежнему смыслу карточки и не меняет её содержание.",
       "title": "P2: вся деревня и каталог",
       "milestone": "M7",
       "status": "in_progress",
@@ -18882,7 +18883,7 @@
       ],
       "opened": "2026-09-27",
       "execution": {
-        "kind": "work",
+        "kind": "aggregate",
         "unit": "Расстановка, дом+интерьер, рельеф, дороги, растительность, материалы, свет, погода, звук, сюжетные состояния мира; перенос всей обещанной деревни из C# по участкам.",
         "steps": [],
         "acceptance": "A02, A03, A08, A09 проверены; покрытие «редактируется/требуется перенос» показано и закрыто.",
@@ -18928,6 +18929,7 @@
     },
     {
       "id": "STUDIO.P3",
+      "progress_2026_10_04": "2026-10-04: карточка помечена как aggregate: её объём — вся волна Studio, а предметная работа идёт в пакетах act1_delivery_plan, перечисленных в acceptance (A02–A25). Протокол запрещает отдавать aggregate одному исполнителю; это соответствует прежнему смыслу карточки и не меняет её содержание.",
       "title": "P3: полная логика квестов, диалоги, NPC, анимации, сцены",
       "milestone": "M7",
       "status": "in_progress",
@@ -18949,7 +18951,7 @@
       ],
       "opened": "2026-09-27",
       "execution": {
-        "kind": "work",
+        "kind": "aggregate",
         "unit": "Все отношения квестов, таймеры, повторяемость, сложные диалоги, расписания NPC, каталог анимаций, камеры и монтажная шкала; Тамара полностью из редакторских данных.",
         "steps": [],
         "acceptance": "A04, A05, A10–A15; Тамара: обычный сценарий, пропуск, сохранение/загрузка согласованы.",
@@ -18988,6 +18990,7 @@
     },
     {
       "id": "STUDIO.P4",
+      "progress_2026_10_04": "2026-10-04: карточка помечена как aggregate: её объём — вся волна Studio, а предметная работа идёт в пакетах act1_delivery_plan, перечисленных в acceptance (A02–A25). Протокол запрещает отдавать aggregate одному исполнителю; это соответствует прежнему смыслу карточки и не меняет её содержание.",
       "title": "P4: остальные игровые редакторы",
       "milestone": "M7",
       "status": "todo",
@@ -19006,7 +19009,7 @@
       ],
       "opened": "2026-09-27",
       "execution": {
-        "kind": "work",
+        "kind": "aggregate",
         "unit": "Документы, улики, журнал, татарский язык, старый ПК, магазины, транспорт, головоломки, игровой UI, звук; предметы и взаимодействия.",
         "steps": [],
         "acceptance": "A11, A22: каждый из десяти разделов §14 подтверждён редактированием с игровым результатом.",
@@ -19028,6 +19031,7 @@
     },
     {
       "id": "STUDIO.P5",
+      "progress_2026_10_04": "2026-10-04: карточка помечена как aggregate: её объём — вся волна Studio, а предметная работа идёт в пакетах act1_delivery_plan, перечисленных в acceptance (A02–A25). Протокол запрещает отдавать aggregate одному исполнителю; это соответствует прежнему смыслу карточки и не меняет её содержание.",
       "title": "P5: встроенное моделирование, лица, одежда, персонажи",
       "milestone": "M7",
       "status": "todo",
@@ -19047,7 +19051,7 @@
       ],
       "opened": "2026-09-27",
       "execution": {
-        "kind": "work",
+        "kind": "aggregate",
         "unit": "Пять сценариев MODEL07 внутри Studio с игровым предпросмотром.",
         "steps": [],
         "acceptance": "A21: все пять MODEL07 выполнены в Studio; результат в каталоге и игре.",
@@ -19069,6 +19073,7 @@
     },
     {
       "id": "STUDIO.P6",
+      "progress_2026_10_04": "2026-10-04: карточка помечена как aggregate: её объём — вся волна Studio, а предметная работа идёт в пакетах act1_delivery_plan, перечисленных в acceptance (A02–A25). Протокол запрещает отдавать aggregate одному исполнителю; это соответствует прежнему смыслу карточки и не меняет её содержание.",
       "title": "P6: совместная работа, восстановление, передача контекста, окончательная приёмка",
       "milestone": "M7",
       "status": "todo",
@@ -19090,7 +19095,7 @@
       ],
       "opened": "2026-09-27",
       "execution": {
-        "kind": "work",
+        "kind": "aggregate",
         "unit": "Получить/посмотреть/объединить/отправить; конфликты; восстановление после сбоя; case ID и пакеты для разработчика; замеры §21; приёмка A01–A25.",
         "steps": [],
         "acceptance": "A17–A20, A24 технически; A01, A15, A23, A25 — человеческая оценка автором.",
@@ -23191,6 +23196,7 @@
       "status_vocabulary": "todo added to orchestrator_policy.statuses because review_2026_09_28.status_semantics defines it; the single \"done\" spelling normalised to \"completed\"",
       "cross_document_checks": "TASKS.md names all 206 cards and invents none; act1_delivery_plan packets reference all 206 cards and no unknown ids; every milestone task id exists; all 12 blocked cards match implementation_blockers.md (11 through its register rows, LEN01.8 through its own declared dependencies) and the register now names those card ids as its own rule requires; resolved_product_decisions ids appear in decision_log.md; open_questions.md carries PD-R28-01.",
       "fixed_in_this_audit": "ACT1-TAMARA-FENCE was the only card without a milestone field (now M5, its author-deferred exclusion unchanged); implementation_blockers.md now names the dependent card ids in the B-R28-02, B-R28-04 and B-R28-06 rows.",
+      "execution_block_schema": "Every one of the 173 unfinished cards carries the full execution block (kind, unit, read_first, steps, acceptance, verification, stop_if); 475 steps carry an id and an action, and every step id is prefixed by its card id. Five cards (STUDIO.P2-P6) were marked kind: work although their unit is a whole Studio wave with no steps and their acceptance names the act1_delivery_plan packets that hold the real work; the protocol forbids handing an aggregate to one executor, so they are now kind aggregate with a dated note. After the fix no work card lacks steps.",
       "queue_reference_paths": "2417 repo-path-like strings anywhere in the queue were checked. Twelve distinct targets were missing and six remain, all recorded as history rather than deleted: the cleaned historical batch receipts (images-address-registry-14, address-world-16/19.json and two images-address-world receipts) now carry a dated note in continuation_2026_09_16_expanded, and the four act1_demo_handoff.md references are covered by the dated note on GODOT-005 plus the retargeted current_scope evidence. Four file:line strings are informational: their files exist. Fixed here: five references used a malformed docs/production/act1_takeover_evidence_2026-09-20/../tasktracker_lang_2026-09-20.md and now name the file that sits in that directory; ten references pointed at docs/production/act1_expanded_rework_brief_2026-09-15.md, which never existed in git history, and now name docs/tasktracker/00_rework_brief.md, the rework brief whose §1-§23 scope is exactly the player/interaction/address/notebook/PC/transport/radio/building/village set those cards cite.",
       "knowledge_base_and_production_links": "All 209 tracked markdown files under docs/urman_knowledge_base/ and docs/production/ were scanned for link integrity and for task ids that do not exist in the queue. No document invents a task id. Broken links fell from 21 to 11, and every remaining one is a documented case rather than a silent dead end: 6 point at artifacts deleted with the cleaned evidence package and carry a dated note each, 2 are the historical decision_log.md references whose target file was never vendored (a dated trace note now names docs/tasktracker/02_village_rework_plan.md instead), 2 are the missing sibling json files of the miniature remediation proposal (noted), and 1 is the deliberate doc: syntax example. Repaired mechanically: 6 live navigation links in mindmap.md, weak_points.md and gameplay.md now point at the plan document that exists, and the texture provenance paths in art/texture_candidates_qa.md resolved one directory too deep. Paths ignored by .gitignore, including local evidence directories, are outside this audit and were left untouched.",
       "tracker_document_links": "All markdown links in docs/tasktracker/*.md now resolve except one deliberate syntax example in 03_oldpc_full_system.md ([текст](doc:id)). 27 links in 02_village_rework_plan.md pointed at the vendored research package without its ../research_shurale_package/ prefix and 4 used a doubled ../docs/ prefix; both classes were repaired. 01_production_tracker.md now states that 35 task ids it quotes belong to the retired tracker and are provenance, not queue ids.",
