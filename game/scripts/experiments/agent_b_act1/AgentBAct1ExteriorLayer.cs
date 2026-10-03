@@ -1449,10 +1449,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             }
             if (smallShrub)
             {
-                // Near-house woodland has shoulder-high tangled regrowth;
+                // Near-house woodland overlaps at eye level beneath the tall trunks;
                 // the same village shrubs remain low in gardens and verges.
-                horizontal *= woodlandRegrowth ? Mathf.Lerp(.85f, 1.6f, DeterministicPhase(position, 63.5f)) : .38f;
-                vertical *= woodlandRegrowth ? Mathf.Lerp(.42f, 1.0f, DeterministicPhase(position, 61.3f)) : .35f;
+                horizontal *= woodlandRegrowth ? Mathf.Lerp(1.3f, 2.1f, DeterministicPhase(position, 63.5f)) : .38f;
+                vertical *= woodlandRegrowth ? Mathf.Lerp(.85f, 1.6f, DeterministicPhase(position, 61.3f)) : .35f;
             }
             if (sourceVariant.StartsWith("Sedge_", StringComparison.Ordinal))
             {
