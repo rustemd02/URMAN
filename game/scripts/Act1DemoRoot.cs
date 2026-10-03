@@ -736,6 +736,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             $"adapter={ProbeToken(RenderingServer.GetVideoAdapterName())}",
             $"rendering_method={ProbeToken(renderingMethod)}",
             $"preset={player?.GraphicsPreset ?? "unknown"}",
+            $"graphics_overrides={GraphicsQuality.ProbeOverrideSummary()}",
             $"scale={viewport.Scaling3DScale.ToString("F2", CultureInfo.InvariantCulture)}",
             $"msaa={viewport.Msaa3D}",
             $"fov={(camera?.Fov ?? 0).ToString("F1", CultureInfo.InvariantCulture)}",
