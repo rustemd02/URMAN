@@ -1769,8 +1769,7 @@ public partial class RuntimeBridge : Node
             CallDeferred(nameof(CommitRinatIntervention));
     }
 
-    private bool HasActiveMainMenu() => GetTree().GetNodesInGroup("main_menu")
-        .OfType<MainMenuUi>().Any(menu => IsInstanceValid(menu) && !menu.IsQueuedForDeletion() && !menu.IsDismissed);
+    private bool HasActiveMainMenu() => MainMenuUi.AnyUndismissed(GetTree());
 
     internal bool CanPresentRinatIntervention(object session) => IsInsideTree()
         && ReferenceEquals(session, SessionIdentity) && CurrentZoneId == "kara_urman_night"

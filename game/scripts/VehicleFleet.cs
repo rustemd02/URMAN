@@ -128,10 +128,7 @@ public partial class VehicleFleet : Node3D
         // this. The full enumeration remains as the fallback for the frame where
         // a dismissed node is still in the tree or a non-menu node shares the
         // group, preserving "at least one un-dismissed MainMenuUi".
-        Node? firstMenu=GetTree().GetFirstNodeInGroup("main_menu");
-        var menu=firstMenu is MainMenuUi{IsDismissed:false}
-            ||(firstMenu is not null&&firstMenu is not MainMenuUi{IsDismissed:false}
-                &&GetTree().GetNodesInGroup("main_menu").OfType<MainMenuUi>().Any(item=>!item.IsDismissed));
+        var menu=MainMenuUi.AnyUndismissed(GetTree());
         var demo=_bridge?.GetParent()?.GetParent() as Act1DemoRoot;
         Suspended=_saving||_loading||_projectionFrames>0||_projectionFailure is not null||menu||demo?.DemoEnded==true
             ||_pauseMenu is {IsOpen:true}

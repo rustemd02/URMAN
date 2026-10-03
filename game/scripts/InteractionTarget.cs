@@ -213,7 +213,7 @@ public partial class InteractionTarget : StaticBody3D
         GodotObject.IsInstanceValid(this) && !IsQueuedForDeletion() && IsInsideTree()
         && GodotObject.IsInstanceValid(bridge) && !bridge.IsQueuedForDeletion() && bridge.IsInsideTree()
         && ReferenceEquals(session, bridge.SessionIdentity)
-        && !GetTree().GetNodesInGroup("main_menu").OfType<MainMenuUi>().Any(menu => !menu.IsDismissed);
+        && !MainMenuUi.AnyUndismissed(GetTree());
 
     private void RefreshAvailability()
     {

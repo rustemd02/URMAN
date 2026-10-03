@@ -77,9 +77,33 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     public Button? AboutButton => _aboutButton;
     public bool IsDismissed { get; private set; }
 
+    internal const string Group = "main_menu";
+
+    /// <summary>At least one live, undismissed main menu exists. Interaction and
+    /// modal predicates poll this every frame, so the common answers are decided by
+    /// the first node - which allocates nothing - and only the fallback enumerates
+    /// the group, with the native Array it allocates disposed. A freed or
+    /// queue-freed node is skipped; the callers that previously omitted those
+    /// guards only differed for an already-freed menu, where reading its state
+    /// would have thrown.</summary>
+    internal static bool AnyUndismissed(SceneTree tree)
+    {
+        var first = tree.GetFirstNodeInGroup(Group);
+        if (first is null) return false;
+        if (first is MainMenuUi head && GodotObject.IsInstanceValid(head) && !head.IsQueuedForDeletion() && !head.IsDismissed)
+            return true;
+        var nodes = tree.GetNodesInGroup(Group);
+        // Array<T> is not IDisposable in GodotSharp 4.7; the owned untyped wrapper is.
+        using var owned = (global::Godot.Collections.Array)nodes;
+        foreach (var node in nodes)
+            if (node is MainMenuUi item && GodotObject.IsInstanceValid(item) && !item.IsQueuedForDeletion() && !item.IsDismissed)
+                return true;
+        return false;
+    }
+
     public override void _Ready()
     {
-        AddToGroup("main_menu");
+        AddToGroup(Group);
         AddToGroup(AccessibilityPresentation.TargetGroup);
         Layer = 100;
         Name = "Act1MainMenu";

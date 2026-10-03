@@ -120,7 +120,7 @@ public partial class BathIgnitionChoiceUi : CanvasLayer, IAccessibilitySettingsT
     {
         if (GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true }
             || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true }
-            || GetTree().GetNodesInGroup("main_menu").OfType<MainMenuUi>().Any(menu => !menu.IsDismissed)) return true;
+            || MainMenuUi.AnyUndismissed(GetTree())) return true;
         foreach (var group in new[] { "dialogue_ui", "journal_ui", "document_ui", "old_pc_ui", "village_shop_ui" })
             if (GetTree().GetFirstNodeInGroup(group)?.GetNodeOrNull<Control>("Screen") is { Visible: true }) return true;
         return _bridge?.GetParent()?.GetParent() is Act1DemoRoot { DemoEnded: true };
