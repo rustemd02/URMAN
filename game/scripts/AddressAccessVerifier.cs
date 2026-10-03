@@ -14,7 +14,14 @@ public partial class AddressAccessVerifier : Node3D
     private IEnumerator<bool>? _job;
     private (string AccessId, Vector3 Point)? _current;
     private RuntimeBridge? _bridge;
-    private readonly record struct AuditContext(string Zone, object? Session, bool Exterior, bool Ready,ulong PresentationRevision);
+    // Ready stays the exact expression Context() used to store, but is derived
+    // from the parts, so Refresh() re-evaluates it without re-reading them.
+    private readonly record struct AuditContext(string Zone, object? Session, bool Exterior,
+        RuntimeBridge.PlayTimeBlock Blocks, bool Paused, ulong PresentationRevision)
+    {
+        public bool Ready => Exterior && Session is not null && !Paused
+            && (Blocks & (RuntimeBridge.PlayTimeBlock.Loading | RuntimeBridge.PlayTimeBlock.NotReady)) == 0;
+    }
     private AuditContext _context;
     private ulong _epoch;
     private ulong _readyAfterFrame;
@@ -38,9 +45,14 @@ public partial class AddressAccessVerifier : Node3D
             &&_world.HasMeta("activeExteriorAtmosphere")&&_world.GetMeta("activeExteriorAtmosphere").AsBool();
         var blocks=_bridge?.CapturePlayTimeBlocks()??RuntimeBridge.PlayTimeBlock.NotReady;
         var session=_bridge?.SessionIdentity;
-        return new(_world.ActiveZoneId,session,exterior,exterior&&session is not null&&!GetTree().Paused
-            &&(blocks&(RuntimeBridge.PlayTimeBlock.Loading|RuntimeBridge.PlayTimeBlock.NotReady))==0,_presentationRevision);
+        return new(_world.ActiveZoneId,session,exterior,blocks,GetTree().Paused,_presentationRevision);
     }
+    // This callback is fully synchronous (no await/yield/CallDeferred here) and
+    // every zone/exterior change bumps _presentationRevision from
+    // Act1ConnectedWorld.SetActiveLogicalZone, the sole caller of
+    // NotifyPresentationChanged, so refreshing these two fields matches Same().
+    private AuditContext Refresh(in AuditContext basis)=>
+        basis with { Paused=GetTree().Paused, PresentationRevision=_presentationRevision };
     private static bool Same(AuditContext a,AuditContext b)=>a.Zone==b.Zone&&a.Exterior==b.Exterior&&a.Ready==b.Ready
         &&a.PresentationRevision==b.PresentationRevision&&ReferenceEquals(a.Session,b.Session);
     private void CountSearchStep()
@@ -101,6 +113,12 @@ public partial class AddressAccessVerifier : Node3D
     public override void _PhysicsProcess(double delta)
     {
         if (!ObservePresentation()) return;
+        // One context snapshot for this tick's loop. The loop re-checks it through
+        // Refresh(tick) (paused flag + presentation revision), which is provably the
+        // same predicate: see the comment on Refresh. The post-loop check below keeps
+        // the full evaluation, so no exit path is relaxed. ObservePresentation and
+        // that post-loop check remain the only other full evaluations.
+        var tick = Context();
         var started = Time.GetTicksUsec();
         // One yield performs one bounded 8 cm body motion (including the six
         // tread rays when necessary), not a whole route or synchronous search.
@@ -115,7 +133,7 @@ public partial class AddressAccessVerifier : Node3D
                 _current??=_pending.Dequeue();var point=_current.Value;
                 _job = Search(point.AccessId, point.Point).GetEnumerator();ReportLifecycle("search-start");
             }
-            if(!Same(Context(),_context)){ObservePresentation();return;}
+            if(!Same(Refresh(tick),_context)){ObservePresentation();return;}
             try
             {
                 CountSearchStep();

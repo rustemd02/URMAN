@@ -67,7 +67,10 @@ public partial class FirstPersonController
             using var ray = PhysicsRayQueryParameters3D.Create(
                 new(at.X, from.Origin.Y + MaximumStepHeight + StepClearance, at.Z),
                 new(at.X, from.Origin.Y + .015f, at.Z), CollisionMask, _stepRayExclude);
-            var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
+            // IntersectRay() returns a fresh caller-owned Dictionary; the ray
+            // parameters are disposed above and the returned values are already
+            // read into locals below, so releasing it changes no tread sample.
+            using var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
             if (hit.Count == 0) { LastStepRejection = $"no tread support at {at}; feet {from.Origin}"; return false; }
             if (hit["normal"].AsVector3().Y < floorNormalY)
             { LastStepRejection = $"steep tread support {hit["normal"].AsVector3()} at {at}"; return false; }

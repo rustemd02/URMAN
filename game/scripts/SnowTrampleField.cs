@@ -149,9 +149,14 @@ public partial class SnowTrampleField : Node3D
     {
         height = 0;
         var origin = new Vector3(point.X, _player!.GlobalPosition.Y + .25f, point.Y);
-        var ray = PhysicsRayQueryParameters3D.Create(origin, origin - Vector3.Up * .65f, 1u);
-        ray.Exclude = new global::Godot.Collections.Array<Rid> { _player.GetRid() };
-        var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
+        // Caller-owned copies only: Create(), the exclude Array and
+        // IntersectRay() each hand out fresh ref-counted values, and the query
+        // already consumed the list, so releasing them changes no hit value.
+        using var ray = PhysicsRayQueryParameters3D.Create(origin, origin - Vector3.Up * .65f, 1u);
+        var exclude = new global::Godot.Collections.Array<Rid> { _player.GetRid() };
+        using var excludeOwner = (global::Godot.Collections.Array)exclude;
+        ray.Exclude = exclude;
+        using var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
         if (hit.Count == 0 || hit["collider"].AsGodotObject() is not Node body
             || body.GetMeta("collisionOwner", "").AsString() != "act1-exterior-terrain"
             || hit["normal"].AsVector3().Y < .7f) return false;
@@ -252,7 +257,10 @@ public partial class SnowTrampleField : Node3D
             Node = node; Original = original;
             for (var s = 0; s < original.GetSurfaceCount(); s++)
             {
-                var a = original.SurfaceGetArrays(s);
+                // SurfaceGetArrays builds a new Array on every call, and each
+                // As*Array() below already copied its Variant out of it, so the
+                // wrapper is ours to release. Surface values are unchanged.
+                using var a = original.SurfaceGetArrays(s);
                 var v = a[(int)Mesh.ArrayType.Vertex].AsVector3Array();
                 var indices = a[(int)Mesh.ArrayType.Index].AsInt32Array();
                 if (indices.Length == 0) indices = Enumerable.Range(0, v.Length).ToArray();
@@ -363,7 +371,10 @@ public partial class SnowTrampleField : Node3D
                         }
                     }
                 }
-                var arrays = new global::Godot.Collections.Array();
+                // Locally built arrays: AddSurfaceFromArrays copies every entry
+                // into the mesh's own buffers (surface_get_arrays rebuilds the
+                // Array from that data), so releasing this changes no mesh value.
+                using var arrays = new global::Godot.Collections.Array();
                 arrays.Resize((int)Mesh.ArrayType.Max);
                 arrays[(int)Mesh.ArrayType.Vertex] = vertices.ToArray();
                 arrays[(int)Mesh.ArrayType.Normal] = normals.ToArray();

@@ -112,7 +112,11 @@ public partial class FirstPersonController
         var bootSourceSkin = boot.GetSkinReference()?.GetSkin() ?? boot.Skin;
         var bootBind = BodyBind(bootSourceSkin, _bodySkeleton, thigh);
         var bootToSkeleton = thighRest * bootSourceSkin.GetBindPose(bootBind);
-        var vertices = boot.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array()
+        // SurfaceGetArrays() builds a new caller-owned Array; AsVector3Array()
+        // already copied the Variant out of it, so the returned boot profile is
+        // identical whether or not this wrapper is released after the read.
+        using var bootArrays = boot.Mesh.SurfaceGetArrays(0);
+        var vertices = bootArrays[(int)Mesh.ArrayType.Vertex].AsVector3Array()
             .Select(point => bootToSkeleton * point).ToArray();
         var bottom = vertices.Min(point => point.Y);
         var soles = vertices.Where(point => point.Y <= bottom + .0002f).Distinct().ToArray();
@@ -153,7 +157,9 @@ public partial class FirstPersonController
         var shaped = new ArrayMesh();
         for (var surface = 0; surface < coat.Mesh.GetSurfaceCount(); surface++)
         {
-            var arrays = coat.Mesh.SurfaceGetArrays(surface);
+            // Same as above: the surface arrays are read into managed copies and
+            // copied again by AddSurfaceFromArrays, so the wrapper is ours.
+            using var arrays = coat.Mesh.SurfaceGetArrays(surface);
             var points = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
             var bones = new int[points.Length * 4];
             var weights = new float[points.Length * 4];
@@ -177,7 +183,10 @@ public partial class FirstPersonController
         // coat. In first person those caps are visible. Retain its knee, calf and
         // ankle profiles, then join the two upper halves at a common crotch seam
         // and waistband. Both seam halves use Spine, independent of either step.
-        var arrays = trouser.Mesh.SurfaceGetArrays(0);
+        // As*Array() below copies each Variant out of the freshly built surface
+        // Array before this scope ends, so the retargeted trouser mesh and its
+        // skin are unchanged; only the temporary native Array is released.
+        using var arrays = trouser.Mesh.SurfaceGetArrays(0);
         var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array().Select(point => toSkeleton * point).ToArray();
         var normals = arrays[(int)Mesh.ArrayType.Normal].AsVector3Array();
         var indices = arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
@@ -327,7 +336,10 @@ public partial class FirstPersonController
         var at = _bodySkeleton.ToGlobal(foot);
         using var query = PhysicsRayQueryParameters3D.Create(at + Vector3.Up * .22f,
             at - Vector3.Up * .38f, CollisionMask, _bodyFloorExclude);
-        var hit = GetWorld3D().DirectSpaceState.IntersectRay(query);
+        // IntersectRay() hands out a fresh caller-owned Dictionary; the query is
+        // already disposed. Only the normal and position are read from it, so
+        // releasing it here cannot change a projected foot height.
+        using var hit = GetWorld3D().DirectSpaceState.IntersectRay(query);
         if (hit.Count > 0 && hit["normal"].AsVector3().Y > .70f)
             foot.Y = _bodySkeleton.ToLocal(hit["position"].AsVector3()).Y + .095f;
         return foot;

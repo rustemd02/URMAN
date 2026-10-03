@@ -18,6 +18,29 @@ public sealed class SettlementRoadGraph
     private readonly Dictionary<string, SettlementGraphEdge> _edges = new(StringComparer.Ordinal);
     private readonly HashSet<string> _blockedRoads = new(StringComparer.Ordinal);
     private readonly bool _measureRebuild = Environment.GetEnvironmentVariable("URMAN_ADDRESS_GRAPH_PERF") == "1";
+    // Cell-index storage is bounded so a pathological import cannot allocate an
+    // unbounded bucket table. A segment that would overrun the budget is not
+    // dropped: it is compared against every other segment in the candidate loop
+    // below, exactly like the former whole-build fallback but only for that
+    // segment. The candidate set therefore only grows, and the narrow phase and
+    // its pair order are unchanged.
+    private const long MaximumIndexMemberships = 65_536;
+    // Reused per segment by the topology phase; rebuilt from scratch by every
+    // publication, so no state can leak between rebuilds.
+    private readonly List<Cut> cutScratch = new();
+    private readonly HashSet<string> cutNodeScratch = new(StringComparer.Ordinal);
+    // Total order for Cut, reproducing the former
+    // OrderBy(T).ThenBy(Key, Ordinal) exactly: parameter, then the same ordinal
+    // key comparison, then insertion position. The last term is what keeps the
+    // unstable in-place sort equal to the stable pipeline when a segment holds
+    // two cuts with the same parameter and the same junction key.
+    private static readonly Comparison<Cut> CutOrder = static (a,b) =>
+    {
+        var byT=a.T.CompareTo(b.T);
+        if(byT!=0)return byT;
+        var byKey=string.CompareOrdinal(a.Key,b.Key);
+        return byKey!=0?byKey:a.Order.CompareTo(b.Order);
+    };
     public IReadOnlyDictionary<string, SettlementRoad> Roads => _roads;
     public IReadOnlyDictionary<string, SettlementGraphNode> Nodes => _nodes;
     public IReadOnlyDictionary<string, SettlementGraphEdge> Edges => _edges;
@@ -58,19 +81,25 @@ public sealed class SettlementRoadGraph
     {
         if (blocked) _blockedRoads.Add(roadId); else _blockedRoads.Remove(roadId);
     }
-    private sealed class Cut(SettlementPoint point, string key, double t)
+    private sealed class Cut(SettlementPoint point, string key, double t, int order)
     {
         public SettlementPoint Point = point;
         public string Key = key;
         public double T = t;
+        // Insertion position inside its segment. Two cuts may share both the
+        // parameter and the key (a collinear overlap whose endpoints fall into
+        // different junction groups), so the original pipeline's stable order is
+        // only reproducible with this tie-break.
+        public int Order = order;
         public string NodeId = "";
     }
     private sealed class Segment(SettlementRoad road, SettlementPoint a, SettlementPoint b, string key, string aKey, string bKey)
     {
         public SettlementRoad Road = road;
         public SettlementPoint A = a, B = b;
+        public readonly double DeltaX=b.X-a.X, DeltaZ=b.Z-a.Z;
         public string Key = key;
-        public List<Cut> Cuts = [new(a,aKey,0),new(b,bKey,1)];
+        public List<Cut> Cuts = [new(a,aKey,0,0),new(b,bKey,1,1)];
         public readonly SegmentBounds Bounds = BoundsFor(a,b);
     }
     private readonly record struct SegmentBounds(double MinX,double MaxX,double MinZ,double MaxZ,bool Cullable);
@@ -96,13 +125,17 @@ public sealed class SettlementRoadGraph
         // coordinates within 10 km and this determinant condition, rounding is
         // well below the retained 1e-5 pad. The old collinear branch uses clamped
         // projections, already covered by the padded bounds above.
-        var productA=(a.B.X-a.A.X)*(b.B.Z-b.A.Z);
-        var productB=(a.B.Z-a.A.Z)*(b.B.X-b.A.X);
+        return RetainDisjointPair(a,b);
+    }
+    private static bool RetainDisjointPair(Segment a,Segment b)
+    {
+        var productA=a.DeltaX*b.DeltaZ;
+        var productB=a.DeltaZ*b.DeltaX;
         var determinant=Math.Abs(productA-productB);
         return determinant>1e-9&&determinant<=.001*(Math.Abs(productA)+Math.Abs(productB));
     }
     public void Rebuild(IReadOnlyDictionary<string, SettlementStreet> streets)=>RebuildCore(streets,true);
-    // Same builder and narrow phase, with culling disabled only for equivalence
+    // Same builder and narrow phase, with candidate indices disabled for equivalence
     // checks. No second graph algorithm or alternative production data owner.
     internal void RebuildExhaustiveForDiagnostics(IReadOnlyDictionary<string, SettlementStreet> streets)=>RebuildCore(streets,false);
     private void RebuildCore(IReadOnlyDictionary<string, SettlementStreet> streets,bool useBroadphase)
@@ -132,55 +165,222 @@ public sealed class SettlementRoadGraph
                 if (points[i].DistanceXZ(points[i+1]) < .00001) continue;
                 var aKey = keys is not null ? keys[i] : road.Id + "/point/" + i;
                 var bKey = keys is not null ? keys[i+1] : road.Id + "/point/" + (i+1);
-                var segmentKey = road.Id + "/" + string.Join("/", new[] {aKey,bKey}.Order(StringComparer.Ordinal));
+                var segmentKey = road.Id + "/" + (string.CompareOrdinal(aKey,bKey)<=0 ? aKey+"/"+bKey : bKey+"/"+aKey);
                 segments.Add(new(road,points[i],points[i+1],segmentKey,aKey,bKey));
             }
         }
-        for (var i=0;i<segments.Count;i++) for(var j=i+1;j<segments.Count;j++)
+        var intersectionsStartedUsec = _measureRebuild ? global::Godot.Time.GetTicksUsec() : 0UL;
+        Dictionary<(int X,int Z),List<int>>? spatialCells=null,directionCells=null;
+        (int MinX,int MaxX,int MinZ,int MaxZ,int DirX,int DirZ,int OppositeX,int OppositeZ)[]? pairCells=null;
+        // Segments left out of the cell index because their padded AABB exceeds
+        // the storage budget. They are still tested against every other segment.
+        List<int>? unindexed=null;
+        bool[]? indexable=null;
+        if(useBroadphase)
         {
-            var a=segments[i]; var b=segments[j];
+            pairCells=new (int,int,int,int,int,int,int,int)[segments.Count];
+            indexable=new bool[segments.Count];
+            var cellsBySegment=new long[segments.Count];
+            long memberships=0;
+            var supported=true;
+            for(var i=0;i<segments.Count;i++)
+            {
+                var segment=segments[i];var bounds=segment.Bounds;
+                var norm=Math.Max(Math.Abs(segment.DeltaX),Math.Abs(segment.DeltaZ));
+                if(!bounds.Cullable||!double.IsFinite(bounds.MinX)||!double.IsFinite(bounds.MaxX)||
+                    !double.IsFinite(bounds.MinZ)||!double.IsFinite(bounds.MaxZ)||!double.IsFinite(norm)||norm<=0)
+                { supported=false;break; }
+                var dx=segment.DeltaX/norm;var dz=segment.DeltaZ/norm;
+                if(!double.IsFinite(dx)||!double.IsFinite(dz)) { supported=false;break; }
+                var cell=(MinX:(int)Math.Floor(bounds.MinX/8),MaxX:(int)Math.Floor(bounds.MaxX/8),
+                    MinZ:(int)Math.Floor(bounds.MinZ/8),MaxZ:(int)Math.Floor(bounds.MaxZ/8),
+                    DirX:(int)Math.Floor(dx*16),DirZ:(int)Math.Floor(dz*16),
+                    OppositeX:(int)Math.Floor(-dx*16),OppositeZ:(int)Math.Floor(-dz*16));
+                pairCells[i]=cell;
+                cellsBySegment[i]=(long)(cell.MaxX-cell.MinX+1)*(cell.MaxZ-cell.MinZ+1);
+                memberships+=cellsBySegment[i];
+            }
+            if(!supported) pairCells=null;
+            else
+            {
+                unindexed=[];
+                Array.Fill(indexable,true);
+                if(memberships>MaximumIndexMemberships)
+                {
+                    // Bound index storage without disabling the whole build: the
+                    // fewest, largest segments leave the cell index and are later
+                    // compared against every other segment. Demoting the largest
+                    // first keeps the many small segments indexed.
+                    var order=new int[segments.Count];
+                    for(var i=0;i<order.Length;i++)order[i]=i;
+                    Array.Sort(order,(x,y)=>cellsBySegment[y].CompareTo(cellsBySegment[x]));
+                    foreach(var i in order)
+                    {
+                        if(memberships<=MaximumIndexMemberships)break;
+                        indexable[i]=false;unindexed.Add(i);memberships-=cellsBySegment[i];
+                    }
+                }
+                spatialCells=[];directionCells=[];
+                for(var i=0;i<pairCells.Length;i++)
+                {
+                    if(!indexable[i]) continue;
+                    var cell=pairCells[i];
+                    for(var x=cell.MinX;x<=cell.MaxX;x++) for(var z=cell.MinZ;z<=cell.MaxZ;z++)
+                    {
+                        if(!spatialCells.TryGetValue((x,z),out var bucket))spatialCells[(x,z)]=bucket=[];
+                        bucket.Add(i);
+                    }
+                    if(!directionCells.TryGetValue((cell.DirX,cell.DirZ),out var directions))
+                        directionCells[(cell.DirX,cell.DirZ)]=directions=[];
+                    directions.Add(i);
+                }
+            }
+        }
+        if(pairCells is not null)
+        {
+            var marks=new int[segments.Count];
+            var candidates=new List<int>();
+            for(var i=0;i<segments.Count;i++)
+            {
+                candidates.Clear();var stamp=i+1;var cell=pairCells[i];
+                void Add(int j)
+                {
+                    if(j<=i||marks[j]==stamp)return;
+                    marks[j]=stamp;candidates.Add(j);
+                }
+                void Include(List<int> entries,bool directionOnly=false)
+                {
+                    foreach(var j in entries)
+                    {
+                        if(j<=i||marks[j]==stamp)continue;
+                        marks[j]=stamp;
+                        // Spatial candidates have already been included. For
+                        // directions alone retain exactly the numeric fallback,
+                        // avoiding sorted lists of disjoint parallel segments.
+                        if(directionOnly&&!RetainDisjointPair(segments[i],segments[j]))continue;
+                        candidates.Add(j);
+                    }
+                }
+                if(indexable![i])
+                {
+                    for(var x=cell.MinX;x<=cell.MaxX;x++) for(var z=cell.MinZ;z<=cell.MaxZ;z++)
+                        if(spatialCells!.TryGetValue((x,z),out var spatialBucket))Include(spatialBucket);
+                    // MayIntersect also retains disjoint, ill-conditioned pairs.
+                    // With max-component-normalized directions its determinant
+                    // condition implies distance <= .002 plus roundoff from v or
+                    // -v on the unit square. A 1/16 cell and its neighbours leave
+                    // a wide margin around that bound.
+                    for(var sign=0;sign<2;sign++)
+                    {
+                        var dirX=sign==0?cell.DirX:cell.OppositeX;
+                        var dirZ=sign==0?cell.DirZ:cell.OppositeZ;
+                        for(var x=dirX-1;x<=dirX+1;x++) for(var z=dirZ-1;z<=dirZ+1;z++)
+                            if(directionCells!.TryGetValue((x,z),out var directionBucket))Include(directionBucket,directionOnly:true);
+                    }
+                    // Segments left out of the index are compared against every
+                    // later segment, so add them here. The loop is empty unless
+                    // the build ran into the storage budget.
+                    foreach(var j in unindexed!) Add(j);
+                }
+                else
+                {
+                    // A demoted segment carries no cell entry: test it against
+                    // every later segment instead of a stale default cell.
+                    for(var j=i+1;j<segments.Count;j++) Add(j);
+                }
+                // Keep the original i/j order, including insertion order of cuts.
+                candidates.Sort();
+                if(_measureRebuild)broadphaseRejectedPairs+=segments.Count-i-1-candidates.Count;
+                foreach(var j in candidates)VisitPair(i,j);
+            }
+        }
+        else
+        {
+            for(var i=0;i<segments.Count;i++) for(var j=i+1;j<segments.Count;j++)VisitPair(i,j);
+        }
+        void VisitPair(int i,int j)
+        {
+            var a=segments[i];var b=segments[j];
             if(useBroadphase&&!MayIntersect(a,b))
             {
                 if(_measureRebuild)broadphaseRejectedPairs++;
-                continue;
+                return;
             }
-            string? junctionKey=null;
-            foreach(var (t,u) in Intersections(a.A,a.B,b.A,b.B))
-            {
-                var p=a.A.Lerp(a.B,t); var q=b.A.Lerp(b.B,u);
-                if (Math.Abs(p.Y-q.Y) > .5) continue; // Bridges at different levels do not connect.
-                // Non-intersecting pairs need no identity. Collinear contacts
-                // reuse exactly the same committed pair key and cut ordering.
-                if(_measureRebuild && junctionKey is null)acceptedPairs++;
-                junctionKey??="junction/" + string.Join("|",new[] {a.Key,b.Key}.Order(StringComparer.Ordinal));
-                a.Cuts.Add(new(p,junctionKey,t));
-                b.Cuts.Add(new(q,junctionKey,u));
-            }
+            var accepted=AddIntersections(a,b);
+            if(_measureRebuild&&accepted)acceptedPairs++;
         }
         // Merge only physically coincident junctions; never round a gap shut.
+        var groupingStartedUsec = _measureRebuild ? global::Godot.Time.GetTicksUsec() : 0UL;
         var groups = new List<List<Cut>>();
+        // Index only the original anchor: this proximity relation is not
+        // transitive. One-metre cells avoid tiny tolerance quotient rounding;
+        // extreme imports keep the original exhaustive candidate scan.
+        var groupCells = useBroadphase && segments.All(s=>s.Bounds.Cullable)
+            ? new Dictionary<(int X,int Z),List<int>>() : null;
         foreach(var cut in segments.SelectMany(s=>s.Cuts).OrderBy(c=>c.Key,StringComparer.Ordinal))
         {
-            var group=groups.FirstOrDefault(g=>g[0].Point.DistanceXZ(cut.Point)<.00001 && Math.Abs(g[0].Point.Y-cut.Point.Y)<.5);
-            if(group is null) groups.Add([cut]); else group.Add(cut);
+            List<Cut>? group=null;
+            (int X,int Z) cell=default;
+            if(groupCells is null)
+                group=groups.FirstOrDefault(g=>g[0].Point.DistanceXZ(cut.Point)<.00001 && Math.Abs(g[0].Point.Y-cut.Point.Y)<.5);
+            else
+            {
+                cell=((int)Math.Floor(cut.Point.X),(int)Math.Floor(cut.Point.Z));
+                var winner=int.MaxValue;
+                for(var x=cell.X-1;x<=cell.X+1;x++) for(var z=cell.Z-1;z<=cell.Z+1;z++)
+                {
+                    if(!groupCells.TryGetValue((x,z),out var candidates))continue;
+                    foreach(var index in candidates)
+                    {
+                        if(index>=winner)break; // Bucket entries retain creation order.
+                        var anchor=groups[index][0].Point;
+                        if(anchor.DistanceXZ(cut.Point)<.00001 && Math.Abs(anchor.Y-cut.Point.Y)<.5)
+                        { winner=index;break; }
+                    }
+                }
+                if(winner!=int.MaxValue)group=groups[winner];
+            }
+            if(group is null)
+            {
+                if(groupCells is not null)
+                {
+                    if(!groupCells.TryGetValue(cell,out var candidates))groupCells[cell]=candidates=[];
+                    candidates.Add(groups.Count);
+                }
+                groups.Add([cut]);
+            }
+            else group.Add(cut);
         }
+        var topologyStartedUsec = _measureRebuild ? global::Godot.Time.GetTicksUsec() : 0UL;
         foreach(var group in groups)
         {
-            var committedKey=group.Select(c=>c.Key).Where(k=>!k.StartsWith("junction/",StringComparison.Ordinal)).Order(StringComparer.Ordinal).FirstOrDefault()
-                ?? group.Select(c=>c.Key).Order(StringComparer.Ordinal).First();
+            // Members already follow the globally stable ordinal key order.
+            var committedKey=group[0].Key;
+            foreach(var cut in group)
+                if(!cut.Key.StartsWith("junction/",StringComparison.Ordinal)){committedKey=cut.Key;break;}
             var id=SettlementRegistry.StableId("ND",committedKey);
-            var point=group.OrderBy(c=>c.Key,StringComparer.Ordinal).First().Point;
+            var point=group[0].Point;
             _nodes[id]=new(id,point);
             foreach(var cut in group) cut.NodeId=id;
         }
         foreach(var s in segments)
         {
-            var cuts=s.Cuts.OrderBy(c=>c.T).ThenBy(c=>c.Key,StringComparer.Ordinal).GroupBy(c=>c.NodeId).Select(g=>g.First()).OrderBy(c=>c.T).ToArray();
-            for(var i=0;i<cuts.Length-1;i++)
+            // OrderBy(T).ThenBy(Key, Ordinal) is one sort on this composite key.
+            // The later OrderBy(T) in the former pipeline was a no-op: the
+            // sequence was already non-decreasing in (T, Key) and a stable sort
+            // by T preserves the order of equal-T elements. GroupBy(NodeId) plus
+            // First() is the first occurrence of each node id in that order,
+            // which an ordered dedupe reproduces exactly.
+            s.Cuts.Sort(CutOrder);
+            cutScratch.Clear();cutNodeScratch.Clear();
+            foreach(var cut in s.Cuts)
+                if(cutNodeScratch.Add(cut.NodeId))cutScratch.Add(cut);
+            for(var i=0;i<cutScratch.Count-1;i++)
             {
-                var a=cuts[i];var b=cuts[i+1];
+                var a=cutScratch[i];var b=cutScratch[i+1];
                 if(a.NodeId==b.NodeId || a.Point.DistanceXZ(b.Point)<.00001) continue;
-                var id=SettlementRegistry.StableId("ED",s.Road.Id+"|"+string.Join("|",new[]{a.NodeId,b.NodeId}.Order(StringComparer.Ordinal)));
+                var pairKey=string.CompareOrdinal(a.NodeId,b.NodeId)<=0 ? a.NodeId+"|"+b.NodeId : b.NodeId+"|"+a.NodeId;
+                var id=SettlementRegistry.StableId("ED",s.Road.Id+"|"+pairKey);
                 _edges[id]=new(id,a.NodeId,b.NodeId,s.Road.Id,s.Road.StreetId,a.Point.Distance(b.Point),s.Road.Width,s.Road.Surface,s.Road.Modes,s.Road.WinterBlocked,s.Road.GateKey);
             }
         }
@@ -193,27 +393,44 @@ public sealed class SettlementRoadGraph
             global::Godot.GD.Print(string.Create(CultureInfo.InvariantCulture,
                 $"address-graph-rebuild: ticks_us={finishedUsec} process_frame={(global::Godot.Engine.GetProcessFrames())} physics_frame={(global::Godot.Engine.GetPhysicsFrames())} "
                 + $"elapsed_us={finishedUsec-startedUsec} allocated_thread_bytes={allocatedBytes} roads={_roads.Count} segments={segments.Count} "
+                + $"segment_us={intersectionsStartedUsec-startedUsec} intersection_us={groupingStartedUsec-intersectionsStartedUsec} "
+                + $"group_us={topologyStartedUsec-groupingStartedUsec} topology_us={finishedUsec-topologyStartedUsec} group_index={(groupCells is null?0:1)} pair_index={(pairCells is null?0:1)} "
+                + $"unindexed_segments={(unindexed is null?0:unindexed.Count)} "
                 + $"pairs={(long)segments.Count*(segments.Count-1)/2} broadphase={(useBroadphase?1:0)} broadphase_rejected_pairs={broadphaseRejectedPairs} "
                 + $"accepted_pairs={acceptedPairs} nodes={_nodes.Count} edges={_edges.Count}"));
         }
     }
     private static int Compare(SettlementPoint a, SettlementPoint b) => a.X != b.X ? a.X.CompareTo(b.X) : a.Z.CompareTo(b.Z);
-    private static IEnumerable<(double T,double U)> Intersections(SettlementPoint a, SettlementPoint b, SettlementPoint c, SettlementPoint d)
+    private static bool AddIntersections(Segment a, Segment b)
     {
-        var rx=b.X-a.X;var rz=b.Z-a.Z;var sx=d.X-c.X;var sz=d.Z-c.Z;
-        var den=rx*sz-rz*sx;var qx=c.X-a.X;var qz=c.Z-a.Z;
+        string? junctionKey=null;
+        var rx=a.DeltaX;var rz=a.DeltaZ;var sx=b.DeltaX;var sz=b.DeltaZ;
+        var den=rx*sz-rz*sx;var qx=b.A.X-a.A.X;var qz=b.A.Z-a.A.Z;
         if(Math.Abs(den)>1e-9)
         {
             var t=(qx*sz-qz*sx)/den;var u=(qx*rz-qz*rx)/den;
-            if(t>=-1e-8 && t<=1+1e-8 && u>=-1e-8 && u<=1+1e-8) yield return (Math.Clamp(t,0,1),Math.Clamp(u,0,1));
-            yield break;
+            if(t>=-1e-8 && t<=1+1e-8 && u>=-1e-8 && u<=1+1e-8) Append(Math.Clamp(t,0,1),Math.Clamp(u,0,1));
+            return junctionKey is not null;
         }
-        if(Math.Abs(qx*rz-qz*rx)>1e-7) yield break;
+        if(Math.Abs(qx*rz-qz*rx)>1e-7) return false;
         // Collinear partial overlap must split at both endpoints.
-        foreach(var p in new[]{a,b,c,d})
+        for(var i=0;i<4;i++)
         {
-            var pa=Project(p,a,b);var pb=Project(p,c,d);
-            if(pa.Point.DistanceXZ(p)<.00001 && pb.Point.DistanceXZ(p)<.00001) yield return (pa.T,pb.T);
+            var p=i switch{0=>a.A,1=>a.B,2=>b.A,_=>b.B};
+            var pa=Project(p,a.A,a.B);var pb=Project(p,b.A,b.B);
+            if(pa.Point.DistanceXZ(p)<.00001 && pb.Point.DistanceXZ(p)<.00001) Append(pa.T,pb.T);
+        }
+        return junctionKey is not null;
+
+        void Append(double t,double u)
+        {
+            var p=a.A.Lerp(a.B,t);var q=b.A.Lerp(b.B,u);
+            if(Math.Abs(p.Y-q.Y)>.5)return; // Bridges at different levels do not connect.
+            // Direct calls keep the capture on the stack. Non-intersecting
+            // pairs allocate no iterator, endpoint array or junction identity.
+            junctionKey??="junction/" + (string.CompareOrdinal(a.Key,b.Key)<=0 ? a.Key+"|"+b.Key : b.Key+"|"+a.Key);
+            a.Cuts.Add(new(p,junctionKey,t,a.Cuts.Count));
+            b.Cuts.Add(new(q,junctionKey,u,b.Cuts.Count));
         }
     }
     public static (SettlementPoint Point,double T) Project(SettlementPoint p, SettlementPoint a, SettlementPoint b)
@@ -224,11 +441,30 @@ public sealed class SettlementRoadGraph
     }
     public (SettlementGraphEdge Edge, SettlementPoint Point, double Distance)? Nearest(SettlementPoint point, string? streetId=null, SettlementTravelMode mode=SettlementTravelMode.Foot, bool winter=true,Func<SettlementGraphEdge,bool>? filter=null)
     {
-        return _edges.Values.Where(e=>(streetId is null || e.StreetId==streetId) && Allowed(e,mode,winter) && (filter is null || filter(e)))
-            .Select(e=> { var projection=Project(point,_nodes[e.A].Position,_nodes[e.B].Position).Point; return (Edge:e,Point:projection,Distance:projection.DistanceXZ(point)); })
-            .OrderBy(r=>r.Distance).ThenBy(r=>r.Edge.Id,StringComparer.Ordinal).Select(r=>((SettlementGraphEdge Edge,SettlementPoint Point,double Distance)?)r).FirstOrDefault();
+        (SettlementGraphEdge Edge, SettlementPoint Point, double Distance)? nearest=null;
+        foreach(var edge in _edges.Values)
+        {
+            if((streetId is not null && edge.StreetId!=streetId) || !Allowed(edge,mode,winter) || (filter is not null && !filter(edge)))continue;
+            var projection=Project(point,_nodes[edge.A].Position,_nodes[edge.B].Position).Point;
+            var distance=projection.DistanceXZ(point);
+            // Match the existing distance/ordinal ordering, including NaN and
+            // exact ties, without materializing a sorted sequence per query.
+            var order=nearest is { } best ? distance.CompareTo(best.Distance) : -1;
+            if(order<0 || order==0 && string.CompareOrdinal(edge.Id,nearest!.Value.Edge.Id)<0)
+                nearest=(edge,projection,distance);
+        }
+        return nearest;
     }
-    public string? NodeAt(SettlementPoint point) => _nodes.Values.Where(n=>n.Position.DistanceXZ(point)<.001).OrderBy(n=>n.Id,StringComparer.Ordinal).FirstOrDefault()?.Id;
+    // The same predicate as OrderBy(Id, Ordinal).FirstOrDefault(), without the
+    // LINQ buffer: the ordinally smallest matching id does not depend on the
+    // dictionary's enumeration order.
+    public string? NodeAt(SettlementPoint point)
+    {
+        string? best=null;
+        foreach(var node in _nodes.Values)
+            if(node.Position.DistanceXZ(point)<.001&&(best is null||string.CompareOrdinal(node.Id,best)<0))best=node.Id;
+        return best;
+    }
     public bool Allowed(SettlementGraphEdge edge,SettlementTravelMode mode,bool winter) =>
         (edge.Modes&mode)!=0 && !_blockedRoads.Contains(edge.RoadId) && (!winter || !edge.WinterBlocked)
         && (edge.GateKey.Length==0 || GateIsOpen?.Invoke(edge.GateKey)==true);

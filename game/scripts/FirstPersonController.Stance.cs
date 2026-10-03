@@ -74,7 +74,13 @@ public partial class FirstPersonController
             Exclude = new global::Godot.Collections.Array<Rid> { GetRid() },
             Margin = .002f
         };
-        return GetWorld3D().DirectSpaceState.IntersectShape(query, 1).Count == 0;
+        // IntersectShape returns an owned native array. It used to be left to the
+        // finalizer on every probe, and the walk audit calls this thousands of
+        // times. The element dictionaries are never materialized for a Count
+        // check, so releasing the outer array covers the whole result.
+        var hits = GetWorld3D().DirectSpaceState.IntersectShape(query, 1);
+        using var hitsOwner = (global::Godot.Collections.Array)hits;
+        return hits.Count == 0;
     }
 
     private void SetCrouched(bool crouched)

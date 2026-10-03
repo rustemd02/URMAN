@@ -54,10 +54,21 @@ public sealed class SettlementRegistry
     public IReadOnlyDictionary<string, string> AddressAliases => _addressAliases;
     public IReadOnlyList<SettlementConstraint> Constraints => _constraints;
 
+    // Every graph publication re-derives the identifier of each node and edge.
+    // The identifier is a pure function of (prefix, sourceKey), so the hash is
+    // computed once per distinct key. The bound keeps a long editor session from
+    // growing the table without limit; clearing only recomputes the same values.
+    private static readonly Dictionary<(string Prefix, string SourceKey), string> StableIds = new();
+    private const int MaximumCachedStableIds = 65_536;
+
     public static string StableId(string prefix, string sourceKey)
     {
         if (string.IsNullOrWhiteSpace(sourceKey)) throw new ArgumentException("A committed source key is required.");
-        return prefix + "-" + Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(sourceKey)))[..16];
+        if (StableIds.TryGetValue((prefix, sourceKey), out var cached)) return cached;
+        var id = prefix + "-" + Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(sourceKey)))[..16];
+        if (StableIds.Count >= MaximumCachedStableIds) StableIds.Clear();
+        StableIds[(prefix, sourceKey)] = id;
+        return id;
     }
     public static string NormalizeNumber(string number)
     {

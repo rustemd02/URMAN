@@ -31,7 +31,9 @@ internal sealed class AddressWalkProbe : IDisposable
     internal AddressWalkProbe(Node3D world)
     {
         _space = world.GetWorld3D().DirectSpaceState;
-        var actors = world.GetTree().GetNodesInGroup("player_controller").OfType<CollisionObject3D>().ToArray();
+        var playerNodes = world.GetTree().GetNodesInGroup("player_controller");
+        using var playerNodesOwner = (global::Godot.Collections.Array)playerNodes;
+        var actors = playerNodes.OfType<CollisionObject3D>().ToArray();
         var player = actors.OfType<FirstPersonController>().FirstOrDefault()
             ?? throw new InvalidOperationException("Address motion audit requires the existing player body's dimensions.");
         _player = player;
@@ -66,7 +68,7 @@ internal sealed class AddressWalkProbe : IDisposable
     private bool Floor(Vector3 from, Vector3 to, out Vector3 point)
     {
         using var ray = PhysicsRayQueryParameters3D.Create(from, to, 3, _exclude);
-        var hit = _space.IntersectRay(ray);
+        using var hit = _space.IntersectRay(ray);
         point = hit.Count == 0 ? default : hit["position"].AsVector3();
         return hit.Count != 0 && hit["normal"].AsVector3().Y >= _floorNormalY;
     }
@@ -129,11 +131,18 @@ internal sealed class AddressWalkProbe : IDisposable
     private string Contacts(Vector3 feet)
     {
         _shape.Transform = new(Basis.Identity, feet + _bodyCentre);
-        return string.Join(" | ", _space.IntersectShape(_shape, 6).Select(hit =>
+        var hits = _space.IntersectShape(_shape, 6);
+        using var hitsOwner = (global::Godot.Collections.Array)hits;
+        var contacts = new System.Collections.Generic.List<string>(hits.Count);
+        foreach (var hit in hits)
         {
-            var owner = hit["collider"].AsGodotObject() as Node;
-            return (owner?.GetPath().ToString() ?? "unattached body") + " shape " + hit["shape"].AsInt32();
-        }));
+            using (hit)
+            {
+                var owner = hit["collider"].AsGodotObject() as Node;
+                contacts.Add((owner?.GetPath().ToString() ?? "unattached body") + " shape " + hit["shape"].AsInt32());
+            }
+        }
+        return string.Join(" | ", contacts);
     }
 
     /// <summary>At most 8 cm of ordinary walking, preserving actual support Y.
@@ -333,6 +342,6 @@ internal sealed class AddressWalkProbe : IDisposable
     {
         if (_body.IsValid) { PhysicsServer3D.FreeRid(_body); _body = default; }
         _motion.Dispose(); _shape.Dispose(); _obstacle.Dispose(); _projectedObstacle.Dispose(); _downObstacle.Dispose();
-        _sweep.Dispose(); _landing.Dispose(); _capsule.Dispose();
+        _sweep.Dispose(); _landing.Dispose(); _capsule.Dispose(); ((global::Godot.Collections.Array)_exclude).Dispose();
     }
 }
