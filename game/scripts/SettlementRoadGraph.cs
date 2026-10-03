@@ -41,6 +41,16 @@ public sealed class SettlementRoadGraph
         var byKey=string.CompareOrdinal(a.Key,b.Key);
         return byKey!=0?byKey:a.Order.CompareTo(b.Order);
     };
+    // The grouping phase consumed segments.SelectMany(s=>s.Cuts).OrderBy(c=>c.Key,
+    // StringComparer.Ordinal), which is a stable sort. Sorting the collected
+    // sequence with (key, then its position in that sequence) reproduces exactly
+    // the same permutation while replacing the iterator, buffer and key-array
+    // allocations of the LINQ pipeline.
+    private static readonly Comparison<(Cut Cut,int Order)> GroupOrder = static (left,right) =>
+    {
+        var byKey=string.CompareOrdinal(left.Cut.Key,right.Cut.Key);
+        return byKey!=0?byKey:left.Order.CompareTo(right.Order);
+    };
     public IReadOnlyDictionary<string, SettlementRoad> Roads => _roads;
     public IReadOnlyDictionary<string, SettlementGraphNode> Nodes => _nodes;
     public IReadOnlyDictionary<string, SettlementGraphEdge> Edges => _edges;
@@ -116,21 +126,26 @@ public sealed class SettlementRoadGraph
         return new(Math.BitDecrement(Math.Min(a.X,b.X)-padX),Math.BitIncrement(Math.Max(a.X,b.X)+padX),
             Math.BitDecrement(Math.Min(a.Z,b.Z)-padZ),Math.BitIncrement(Math.Max(a.Z,b.Z)+padZ),cullable);
     }
-    private static bool MayIntersect(Segment a,Segment b)
+    // The narrow phase tests tens of thousands of pairs, so its two predicates
+    // read packed arrays of exactly the values the Segment objects already hold
+    // (BoundsFor results and the endpoints' deltas). Copying a 40-byte bounds
+    // struct out of two scattered objects per pair was measurable in
+    // intersection_us; the arithmetic and therefore the decisions are unchanged.
+    private static long CellKey(int x,int z)=>((long)x<<32)|(uint)z;
+    private static bool MayIntersect(in SegmentBounds x,in SegmentBounds y,double ax,double az,double bx,double bz)
     {
-        var x=a.Bounds;var y=b.Bounds;
         if(!x.Cullable||!y.Cullable||!(x.MaxX<y.MinX||y.MaxX<x.MinX||x.MaxZ<y.MinZ||y.MaxZ<x.MinZ))return true;
         // Do not cull an ill-conditioned non-parallel pair: cancellation in the
         // old t/u division can dominate its geometric endpoint tolerance. With
         // coordinates within 10 km and this determinant condition, rounding is
         // well below the retained 1e-5 pad. The old collinear branch uses clamped
         // projections, already covered by the padded bounds above.
-        return RetainDisjointPair(a,b);
+        return RetainDisjointPair(ax,az,bx,bz);
     }
-    private static bool RetainDisjointPair(Segment a,Segment b)
+    private static bool RetainDisjointPair(double ax,double az,double bx,double bz)
     {
-        var productA=a.DeltaX*b.DeltaZ;
-        var productB=a.DeltaZ*b.DeltaX;
+        var productA=ax*bz;
+        var productB=az*bx;
         var determinant=Math.Abs(productA-productB);
         return determinant>1e-9&&determinant<=.001*(Math.Abs(productA)+Math.Abs(productB));
     }
@@ -169,8 +184,17 @@ public sealed class SettlementRoadGraph
                 segments.Add(new(road,points[i],points[i+1],segmentKey,aKey,bKey));
             }
         }
+        var bounds=new SegmentBounds[segments.Count];
+        var deltaX=new double[segments.Count];
+        var deltaZ=new double[segments.Count];
+        for(var i=0;i<segments.Count;i++)
+        {
+            bounds[i]=segments[i].Bounds;
+            deltaX[i]=segments[i].DeltaX;
+            deltaZ[i]=segments[i].DeltaZ;
+        }
         var intersectionsStartedUsec = _measureRebuild ? global::Godot.Time.GetTicksUsec() : 0UL;
-        Dictionary<(int X,int Z),List<int>>? spatialCells=null,directionCells=null;
+        Dictionary<long,List<int>>? spatialCells=null,directionCells=null;
         (int MinX,int MaxX,int MinZ,int MaxZ,int DirX,int DirZ,int OppositeX,int OppositeZ)[]? pairCells=null;
         // Segments left out of the cell index because their padded AABB exceeds
         // the storage budget. They are still tested against every other segment.
@@ -185,15 +209,14 @@ public sealed class SettlementRoadGraph
             var supported=true;
             for(var i=0;i<segments.Count;i++)
             {
-                var segment=segments[i];var bounds=segment.Bounds;
-                var norm=Math.Max(Math.Abs(segment.DeltaX),Math.Abs(segment.DeltaZ));
-                if(!bounds.Cullable||!double.IsFinite(bounds.MinX)||!double.IsFinite(bounds.MaxX)||
-                    !double.IsFinite(bounds.MinZ)||!double.IsFinite(bounds.MaxZ)||!double.IsFinite(norm)||norm<=0)
+                var cellBounds=bounds[i];var norm=Math.Max(Math.Abs(deltaX[i]),Math.Abs(deltaZ[i]));
+                if(!cellBounds.Cullable||!double.IsFinite(cellBounds.MinX)||!double.IsFinite(cellBounds.MaxX)||
+                    !double.IsFinite(cellBounds.MinZ)||!double.IsFinite(cellBounds.MaxZ)||!double.IsFinite(norm)||norm<=0)
                 { supported=false;break; }
-                var dx=segment.DeltaX/norm;var dz=segment.DeltaZ/norm;
+                var dx=deltaX[i]/norm;var dz=deltaZ[i]/norm;
                 if(!double.IsFinite(dx)||!double.IsFinite(dz)) { supported=false;break; }
-                var cell=(MinX:(int)Math.Floor(bounds.MinX/8),MaxX:(int)Math.Floor(bounds.MaxX/8),
-                    MinZ:(int)Math.Floor(bounds.MinZ/8),MaxZ:(int)Math.Floor(bounds.MaxZ/8),
+                var cell=(MinX:(int)Math.Floor(cellBounds.MinX/8),MaxX:(int)Math.Floor(cellBounds.MaxX/8),
+                    MinZ:(int)Math.Floor(cellBounds.MinZ/8),MaxZ:(int)Math.Floor(cellBounds.MaxZ/8),
                     DirX:(int)Math.Floor(dx*16),DirZ:(int)Math.Floor(dz*16),
                     OppositeX:(int)Math.Floor(-dx*16),OppositeZ:(int)Math.Floor(-dz*16));
                 pairCells[i]=cell;
@@ -227,11 +250,11 @@ public sealed class SettlementRoadGraph
                     var cell=pairCells[i];
                     for(var x=cell.MinX;x<=cell.MaxX;x++) for(var z=cell.MinZ;z<=cell.MaxZ;z++)
                     {
-                        if(!spatialCells.TryGetValue((x,z),out var bucket))spatialCells[(x,z)]=bucket=[];
+                        if(!spatialCells.TryGetValue(CellKey(x,z),out var bucket))spatialCells[CellKey(x,z)]=bucket=[];
                         bucket.Add(i);
                     }
-                    if(!directionCells.TryGetValue((cell.DirX,cell.DirZ),out var directions))
-                        directionCells[(cell.DirX,cell.DirZ)]=directions=[];
+                    if(!directionCells.TryGetValue(CellKey(cell.DirX,cell.DirZ),out var directions))
+                        directionCells[CellKey(cell.DirX,cell.DirZ)]=directions=[];
                     directions.Add(i);
                 }
             }
@@ -257,14 +280,14 @@ public sealed class SettlementRoadGraph
                         // Spatial candidates have already been included. For
                         // directions alone retain exactly the numeric fallback,
                         // avoiding sorted lists of disjoint parallel segments.
-                        if(directionOnly&&!RetainDisjointPair(segments[i],segments[j]))continue;
+                        if(directionOnly&&!RetainDisjointPair(deltaX[i],deltaZ[i],deltaX[j],deltaZ[j]))continue;
                         candidates.Add(j);
                     }
                 }
                 if(indexable![i])
                 {
                     for(var x=cell.MinX;x<=cell.MaxX;x++) for(var z=cell.MinZ;z<=cell.MaxZ;z++)
-                        if(spatialCells!.TryGetValue((x,z),out var spatialBucket))Include(spatialBucket);
+                        if(spatialCells!.TryGetValue(CellKey(x,z),out var spatialBucket))Include(spatialBucket);
                     // MayIntersect also retains disjoint, ill-conditioned pairs.
                     // With max-component-normalized directions its determinant
                     // condition implies distance <= .002 plus roundoff from v or
@@ -275,7 +298,7 @@ public sealed class SettlementRoadGraph
                         var dirX=sign==0?cell.DirX:cell.OppositeX;
                         var dirZ=sign==0?cell.DirZ:cell.OppositeZ;
                         for(var x=dirX-1;x<=dirX+1;x++) for(var z=dirZ-1;z<=dirZ+1;z++)
-                            if(directionCells!.TryGetValue((x,z),out var directionBucket))Include(directionBucket,directionOnly:true);
+                            if(directionCells!.TryGetValue(CellKey(x,z),out var directionBucket))Include(directionBucket,directionOnly:true);
                     }
                     // Segments left out of the index are compared against every
                     // later segment, so add them here. The loop is empty unless
@@ -301,7 +324,7 @@ public sealed class SettlementRoadGraph
         void VisitPair(int i,int j)
         {
             var a=segments[i];var b=segments[j];
-            if(useBroadphase&&!MayIntersect(a,b))
+            if(useBroadphase&&!MayIntersect(in bounds[i],in bounds[j],deltaX[i],deltaZ[i],deltaX[j],deltaZ[j]))
             {
                 if(_measureRebuild)broadphaseRejectedPairs++;
                 return;
@@ -315,9 +338,18 @@ public sealed class SettlementRoadGraph
         // Index only the original anchor: this proximity relation is not
         // transitive. One-metre cells avoid tiny tolerance quotient rounding;
         // extreme imports keep the original exhaustive candidate scan.
-        var groupCells = useBroadphase && segments.All(s=>s.Bounds.Cullable)
-            ? new Dictionary<(int X,int Z),List<int>>() : null;
-        foreach(var cut in segments.SelectMany(s=>s.Cuts).OrderBy(c=>c.Key,StringComparer.Ordinal))
+        var groupCullable=useBroadphase;
+        if(groupCullable) for(var i=0;i<bounds.Length;i++) if(!bounds[i].Cullable){groupCullable=false;break;}
+        var groupCells = groupCullable ? new Dictionary<long,List<int>>() : null;
+        // OrderBy(Key, Ordinal) is a stable sort, so equal keys keep the order of
+        // segments.SelectMany(s=>s.Cuts). The explicit comparator reproduces that
+        // permutation exactly (key, then the position in that sequence) without the
+        // iterator, buffer and key-array allocations of the LINQ pipeline.
+        var groupSequence=new List<(Cut Cut,int Order)>(segments.Count);
+        var groupPosition=0;
+        foreach(var segment in segments) foreach(var cut in segment.Cuts) groupSequence.Add((cut,groupPosition++));
+        groupSequence.Sort(GroupOrder);
+        foreach(var (cut,_) in groupSequence)
         {
             List<Cut>? group=null;
             (int X,int Z) cell=default;
@@ -329,7 +361,7 @@ public sealed class SettlementRoadGraph
                 var winner=int.MaxValue;
                 for(var x=cell.X-1;x<=cell.X+1;x++) for(var z=cell.Z-1;z<=cell.Z+1;z++)
                 {
-                    if(!groupCells.TryGetValue((x,z),out var candidates))continue;
+                    if(!groupCells.TryGetValue(CellKey(x,z),out var candidates))continue;
                     foreach(var index in candidates)
                     {
                         if(index>=winner)break; // Bucket entries retain creation order.
@@ -344,7 +376,7 @@ public sealed class SettlementRoadGraph
             {
                 if(groupCells is not null)
                 {
-                    if(!groupCells.TryGetValue(cell,out var candidates))groupCells[cell]=candidates=[];
+                    if(!groupCells.TryGetValue(CellKey(cell.X,cell.Z),out var candidates))groupCells[CellKey(cell.X,cell.Z)]=candidates=[];
                     candidates.Add(groups.Count);
                 }
                 groups.Add([cut]);
