@@ -13,10 +13,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import sys
 from pathlib import Path
 
 import bpy
+import bmesh
 
 
 SOURCE_SHA256 = "54c72a4d614f053dd4b3d4404076a361de6085ec6a34560e42a76d7e79d89830"
@@ -172,6 +174,105 @@ def make_lod(source: bpy.types.Object, name: str, ratio: float) -> bpy.types.Obj
     return result
 
 
+def weather_lower_branches(source: bpy.types.Object) -> int:
+    """Shorten bare hooks while retaining collars, trunk and the needle crown."""
+    mesh = source.data
+    original = [vertex.co.copy() for vertex in mesh.vertices]
+    uv = mesh.uv_layers.active
+    normal_keys = {}
+    for poly in mesh.polygons:
+        face_key = tuple(sorted(tuple(round(c, 6) for c in mesh.vertices[index].co) for index in poly.vertices))
+        for loop_index in poly.loop_indices:
+            loop = mesh.loops[loop_index]
+            key = (tuple(round(c, 6) for c in mesh.vertices[loop.vertex_index].co),
+                   tuple(round(c, 7) for c in uv.data[loop_index].uv), face_key)
+            normal_keys[key] = mesh.corner_normals[loop_index].vector.copy()
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    bm.verts.ensure_lookup_table()
+    original_vertices = list(bm.verts)
+    keys = {vertex.index: tuple(round(c, 6) for c in vertex.co) for vertex in mesh.vertices}
+    members, neighbors = {}, {}
+    # glTF splits hard normals/UV seams. Weld positions only for selection;
+    # never merge the source vertices or their material/UV channels.
+    for poly in mesh.polygons:
+        if mesh.materials[poly.material_index].name != "AB_bark":
+            continue
+        ring = [keys[index] for index in poly.vertices]
+        for index in poly.vertices:
+            members.setdefault(keys[index], set()).add(index)
+        for a, b in zip(ring, ring[1:] + ring[:1]):
+            neighbors.setdefault(a, set()).add(b)
+            neighbors.setdefault(b, set()).add(a)
+    needle_base = min(mesh.vertices[index].co.z for poly in mesh.polygons
+                      if mesh.materials[poly.material_index].name == "AB_needles" for index in poly.vertices)
+    remaining, branches = set(neighbors), 0
+    while remaining:
+        pending, component = [min(remaining)], set()
+        while pending:
+            key = pending.pop()
+            if key in component:
+                continue
+            component.add(key)
+            pending.extend(neighbors[key] - component)
+        remaining -= component
+        indices = {index for key in component for index in members[key]}
+        if max(original[index].z for index in indices) >= needle_base:
+            continue
+        anchor = min((original[index] for index in sorted(indices)), key=lambda v: math.hypot(v.x, v.y))
+        inner = math.hypot(anchor.x, anchor.y)
+        span = max(math.hypot(original[index].x, original[index].y) for index in indices) - inner
+        if span < .065:  # Existing small scars already have the right silhouette.
+            continue
+        phase = .5 + .5 * math.sin(anchor.z * 147 + math.atan2(anchor.y, anchor.x) * 2.3)
+        vertices = [original_vertices[index] for index in indices]
+        if phase < .62:
+            # A broken bough is cut, not squashed into a fat folded knot.
+            ends = [original[index] for index in indices
+                    if math.hypot(original[index].x, original[index].y) > inner + span * .8]
+            direction = sum((co - anchor for co in ends), anchor * 0) / len(ends)
+            direction.z = 0
+            direction.normalize()
+            cut = anchor + direction * (span * (.30 + .20 * phase))
+            bmesh.ops.remove_doubles(bm, verts=vertices, dist=1e-6)
+            vertices = {vertex for vertex in vertices if vertex.is_valid}
+            edges = {edge for vertex in vertices for edge in vertex.link_edges}
+            faces = {face for vertex in vertices for face in vertex.link_faces}
+            result = bmesh.ops.bisect_plane(bm, geom=[*vertices, *edges, *faces],
+                                          plane_co=cut, plane_no=direction, clear_outer=True, dist=1e-7)
+            boundary = [edge for edge in result["geom_cut"]
+                        if isinstance(edge, bmesh.types.BMEdge) and edge.is_boundary]
+            for face in bmesh.ops.holes_fill(bm, edges=boundary, sides=0)["faces"]:
+                face.material_index = 0
+                face.smooth = False
+        else:
+            # A vertical shear lowers the tips without folding/compressing the tube.
+            for index in indices:
+                co = original[index]
+                t = max(0.0, min(1.0, (math.hypot(co.x, co.y) - inner) / span))
+                w = max(0.0, min(1.0, (t - .12) / .63))
+                w = w * w * (3 - 2 * w)
+                original_vertices[index].co.z -= .035 * w * t
+        branches += 1
+    if branches != 10:
+        raise RuntimeError(f"expected ten long bare branches, found {branches}")
+    bmesh.ops.triangulate(bm, faces=[face for face in bm.faces if len(face.verts) > 3])
+    bm.to_mesh(mesh)
+    bm.free()
+    mesh.update()
+    uv = mesh.uv_layers.active
+    normals = [(0, 0, 0)] * len(mesh.loops)
+    for poly in mesh.polygons:
+        face_key = tuple(sorted(tuple(round(c, 6) for c in mesh.vertices[index].co) for index in poly.vertices))
+        for loop_index in poly.loop_indices:
+            loop = mesh.loops[loop_index]
+            key = (tuple(round(c, 6) for c in mesh.vertices[loop.vertex_index].co),
+                   tuple(round(c, 7) for c in uv.data[loop_index].uv), face_key)
+            normals[loop_index] = normal_keys.get(key, (0, 0, 0))
+    mesh.normals_split_custom_set(normals)
+    return branches
+
+
 def main() -> None:
     root = parse_root()
     source_path = root / "assets/source/quaternius/stylized_nature/Pine_3.gltf"
@@ -291,6 +392,7 @@ def main() -> None:
     if leaf_uv_signature(source) != source_leaf_uv:
         raise RuntimeError("normalized Pine_3 leaf UV contract changed")
 
+    edited_branches = weather_lower_branches(source)
     lod1 = make_lod(source, "WinterPine_LOD1", 0.5)
     lod2 = make_lod(source, "WinterPine_LOD2", 0.2)
     objects = (source, lod1, lod2)
@@ -334,6 +436,8 @@ def main() -> None:
         "leaf_triangles_lod1": material_triangles(lod1, "AB_needles"),
         "leaf_triangles_lod2": material_triangles(lod2, "AB_needles"),
         "leaf_lod_policy": "all LODs retain the original 462 AB_needles triangles and UV loops; bark-only decimation",
+        "lower_branch_edits": edited_branches,
+        "lower_branch_policy": "ten bare hooks below needles: six cut short scars, four longer downward limbs; collars/trunk/crown retained",
         "material_policy": "AB_bark opaque + AB_needles MASK .2 double-sided; Leaf_Pine_C embedded",
         "collision_policy": "none; existing Agent B terrain/road guards own traversal",
     }.items():

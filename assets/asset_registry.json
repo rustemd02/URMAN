@@ -2142,16 +2142,16 @@
       "generator": "tools/blender/prepare_winter_pine.py; Blender 4.5.12 LTS",
       "license": "CC0-1.0; Quaternius Stylized Nature MegaKit Standard derivative",
       "scale": 1.0,
-      "triangleBudget": 4964,
+      "triangleBudget": 4388,
       "textureBudget": 2048,
       "materials": [
         "AB_bark",
         "AB_needles"
       ],
-      "collision": "none; existing heightfield, road and roof guards",
-      "lod": "LOD0 4964 triangles 0–26m; LOD1 2713 triangles 24–64m; LOD2 1375 triangles 60m+; all tiers retain 462 alpha-masked leaf triangles and original UVs; normalized height 1m",
-      "status": "source/import/build and four native Kara views verified; overall forest art acceptance open",
-      "releaseDisposition": "include-in-act1-release; three authored Kara conifers",
+      "collision": "asset: none; existing AgentB exterior owner bakes rooted LOD0 stem faces for planted pines, with unchanged road/roof guards",
+      "lod": "LOD0 4388 triangles; LOD1 2425; LOD2 1247. Template fade bands 0–26m/24–64m/60m+; existing planted range scales by clamp(height/8,1,3). All tiers retain 462 alpha-masked leaf triangles and original UVs; bark-only decimation; normalized height 1m",
+      "status": "source/import and native High lower-branch pilot checked; one local LOD2 normal risk and overall forest art acceptance remain open",
+      "releaseDisposition": "include-in-act1-release; existing authored Kara conifers and western near woodland PlantFoliage stand",
       "originalSource": {
         "source": "assets/source/quaternius/stylized_nature/Pine_3.gltf",
         "sha256": "54c72a4d614f053dd4b3d4404076a361de6085ec6a34560e42a76d7e79d89830",
@@ -2159,8 +2159,8 @@
         "url": "https://quaternius.com/packs/stylizednaturemegakit.html",
         "licenseFile": "assets/source/quaternius/stylized_nature/License_Standard.txt"
       },
-      "sourceSha256": "87627996155f4456a281b8456e813166462a9a55eacae3e77a78fe1dac6886df",
-      "derivedSha256": "3a971bb018a9c2b9441ffccdc760bcceeede9794d1b64771774d1a1511c88164"
+      "sourceSha256": "61de815b35965dceddb54142e8dda19bdee6ac267c9b9c3897e8e78d136ac0e0",
+      "derivedSha256": "e285241a700197c9e1a21f8ae3030bb802550e5d3463ced47185499f8163512e"
     },
     {
       "id": "texture.winter.pine-alpha.v1",
