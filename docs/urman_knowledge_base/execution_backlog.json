@@ -18077,6 +18077,8 @@
     },
     {
       "id": "ACT1-TAMARA-FENCE",
+      "milestone": "M5",
+      "progress_2026_10_04": "Карточка была единственной без поля milestone (проверка 2026-10-04). Проставлен M5 — как у родственных задач ограды и деревенского благоустройства; исключение Тамары из текущей цели уже зафиксировано полями mvp_packet/delivery = AUTHOR-DEFERRED, поэтому содержание карточки не менялось.",
       "execution": {
         "kind": "work",
         "unit": "Необязательный мини-квест «Забор Тамары Геннадьевны»: ДТП у забора на обратной улице, катсцена с парнем с телефоном, поиск шести досок, починенный забор.",
@@ -23186,6 +23188,8 @@
       "tasks_citing_unknown_requirement_ids": 0,
       "coverage_md_ids_missing_from_requirements": 0,
       "status_vocabulary": "todo added to orchestrator_policy.statuses because review_2026_09_28.status_semantics defines it; the single \"done\" spelling normalised to \"completed\"",
+      "cross_document_checks": "TASKS.md names all 206 cards and invents none; act1_delivery_plan packets reference all 206 cards and no unknown ids; every milestone task id exists; all 12 blocked cards match implementation_blockers.md (11 through its register rows, LEN01.8 through its own declared dependencies) and the register now names those card ids as its own rule requires; resolved_product_decisions ids appear in decision_log.md; open_questions.md carries PD-R28-01.",
+      "fixed_in_this_audit": "ACT1-TAMARA-FENCE was the only card without a milestone field (now M5, its author-deferred exclusion unchanged); implementation_blockers.md now names the dependent card ids in the B-R28-02, B-R28-04 and B-R28-06 rows.",
       "evidence_reality_notes": "8 cards (FINISH-01/02/03/05, ACT1-ADDR-FENCE, AUDIO-001, STUDIO, GODOT-005) received a dated progress_2026_10_04 note because their evidence or scope named files that no longer exist: the external package cleaned on 2026-09-14, two cleaned address-world receipts, and three plan-only paths (content/audio/, studio/, act1_demo_handoff.md). The notes name the surviving paths and the reproduction route; no evidence entry was deleted or rewritten.",
       "stale_current_scope_paths_fixed": [
         "ACT1-RIVER-BRIDGE and ACT1-RIVER-BRIDGE/S3: game/scripts/Act1ConnectedWorld.RiverSteps.cs does not exist; the owners are Act1ConnectedWorld.Gorge.cs and Act1ConnectedWorld.OpeningBridge.cs",
