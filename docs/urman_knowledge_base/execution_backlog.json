@@ -3,6 +3,7 @@
   "kind": "urman.execution_backlog",
   "execution_protocol": "docs/tasktracker/06_small_model_execution_2026-09-22.md",
   "continuation_2026_09_16_expanded": {
+    "receipt_cleanup_2026_10_04": "Некоторые receipt'ы, на которые ссылаются исторические batch-записи ниже (например images-address-registry-14, address-world-16.json, address-world-19.json), были удалены при чистке пакета доказательств 2026-09-14. Записи сохранены как provenance и не переписываются; артефакты воспроизводимы командами eng/export-desktop-release.sh и eng/verify-desktop-artifacts.sh.",
     "native_batch_B52_B54_2026_09_17": {
       "evidence_cutoff": "2026-09-17T08:50:13.688441+00:00",
       "scope": "Completed B52–B54 integration/native receipts only. No B55 build/native result, new Release, full art/performance or human acceptance. Existing history and all task/milestone state remain unchanged.",
@@ -2733,7 +2734,7 @@
       "game/tests/ZoneFlowSmokeTest.cs",
       "game/tests/act1_first_person_corridor_smoke_test.tscn",
       "docs/urman_knowledge_base/art/first_person_corridor/README.md",
-      "docs/urman_knowledge_base/act1_demo_handoff.md",
+      "docs/production/URMAN_ACT_I_FINISHED_PRODUCT_HANDOVER_RU.md",
       "docs/urman_knowledge_base/performance/README.md",
       "./eng/verify-godot.sh"
     ],
@@ -5088,7 +5089,7 @@
         "game/scripts/InputBindingService.cs"
       ],
       "source_requirements": [
-        "docs/production/act1_expanded_rework_brief_2026-09-15.md",
+        "docs/tasktracker/00_rework_brief.md",
         "author/2026-09-16-cumulative-request"
       ],
       "deliverable": "§1: grounded-прыжок, быстрое перемещение, реальная капсула приседа, ноги/низ тела при взгляде вниз, коллизии и равные переназначаемые устройства ввода.",
@@ -5258,7 +5259,7 @@
         "game/content/urman.settlement.addresses.v1.json"
       ],
       "source_requirements": [
-        "docs/production/act1_expanded_rework_brief_2026-09-15.md",
+        "docs/tasktracker/00_rework_brief.md",
         "author/2026-09-16-cumulative-request"
       ],
       "deliverable": "§3 и полный пакет v3: импорт текущего мира, устойчивые building/parcel/address/access IDs, двуязычный каталог, существующие номера/суффиксы/угловой вход, фиктивный кадастр с уникальностью, единый граф, migration/rebuild/reorder/rename, Усал15/52≤40м, достижимые входы и реальные читаемые таблички. NPC→книжка→поиск→взаимодействие без GPS/автопути.",
@@ -5416,7 +5417,7 @@
         "game/scripts/RuntimeBridge.Notebook.cs"
       ],
       "source_requirements": [
-        "docs/production/act1_expanded_rework_brief_2026-09-15.md",
+        "docs/tasktracker/00_rework_brief.md",
         "author/2026-09-16-cumulative-request"
       ],
       "deliverable": "§4: люди, услышанные/прочитанные адреса, задачи, места, источники/наблюдения и личные заметки; удобное перечитывание, совместимый save/load, отсутствие преждевременных знаний и видимых целей на карте.",
@@ -5516,7 +5517,7 @@
         "content/modules/urman-oldpc"
       ],
       "source_requirements": [
-        "docs/production/act1_expanded_rework_brief_2026-09-15.md",
+        "docs/tasktracker/00_rework_brief.md",
         "author/2026-09-16-cumulative-request"
       ],
       "deliverable": "§§5–6: XP-подобные desktop/start/taskbar/clock/windows/focus/z-order/drag, папки/корзина/редакторы/browser/viewer; TatWiki и местная соцсеть с профилями, фото, постами, комментариями и внутренними ссылками. Авторские данные/старый OldPc, bounded compatibility и accessConditions остаются единственным владельцем знаний.",
@@ -6035,7 +6036,7 @@
         "game/scripts/Act1ConnectedWorld.Vehicles.cs"
       ],
       "source_requirements": [
-        "docs/production/act1_expanded_rework_brief_2026-09-15.md",
+        "docs/tasktracker/00_rework_brief.md",
         "author/2026-09-16-cumulative-request"
       ],
       "deliverable": "§§7–9: посадка/безопасный выход, запуск/движение/тормоза/свет/камеры, устойчивый баланс, лошадь/телега/реакции/связь, реальные интерьеры/формы/звуки, парковка и сохранения без обхода сюжетных границ. Контакты всего видимого объёма, удержанный ввод и altered-obstacle restore.",
@@ -6139,7 +6140,7 @@
         "game/content"
       ],
       "source_requirements": [
-        "docs/production/act1_expanded_rework_brief_2026-09-15.md",
+        "docs/tasktracker/00_rework_brief.md",
         "author/2026-09-16-cumulative-request"
       ],
       "deliverable": "§10: музыка и татарская/русская речь, погода, новости, объявления, поздравления/саламы/услуги/соседние авылы и уместные подсказки; управление/переходы/позиция/save. Подтверждённые права на тексты, музыку, исполнение и мастер.",
@@ -6215,7 +6216,7 @@
         "game/scripts/Act1ConnectedWorld.ArrivalStop.cs"
       ],
       "source_requirements": [
-        "docs/production/act1_expanded_rework_brief_2026-09-15.md",
+        "docs/tasktracker/00_rework_brief.md",
         "author/2026-09-16-cumulative-request",
         "docs/урман претензии.md",
         "docs/tasktracker/review_2026-09-28/01_prologue_narrative.md",
@@ -6418,7 +6419,7 @@
         "content/modules/urman-chapter1/village-life.json"
       ],
       "source_requirements": [
-        "docs/production/act1_expanded_rework_brief_2026-09-15.md",
+        "docs/tasktracker/00_rework_brief.md",
         "author/2026-09-16-cumulative-request"
       ],
       "deliverable": "§16: Разиля, товары/холодильник/прилавок/объявления/разговор; нужные товары на бабая, одна атомарная покупка+custody+запись, без денежной экономики/повторной выдачи послеload.",
@@ -6572,7 +6573,7 @@
         "content/modules/urman-chapter1/village-life.json"
       ],
       "source_requirements": [
-        "docs/production/act1_expanded_rework_brief_2026-09-15.md",
+        "docs/tasktracker/00_rework_brief.md",
         "author/2026-09-16-cumulative-request"
       ],
       "deliverable": "§§13–15,17–19: доступные цельные бытовые помещения, безопасная мечеть и обычный имам, печь/тепло/пар/конденсат/звук бани, школа закрыта из-за малого числа детей, кабинет/архив/зал/сцена/склад ДК, уважительные согласованные семейные записи. ФАП развивается у существующего владельца. Не открывать ActII/III.",
@@ -6651,7 +6652,7 @@
         "eng/run-m10-playtest-session.sh"
       ],
       "source_requirements": [
-        "docs/production/act1_expanded_rework_brief_2026-09-15.md",
+        "docs/tasktracker/00_rework_brief.md",
         "author/2026-09-16-cumulative-request"
       ],
       "deliverable": "Все23раздела расширенногоТЗ+полныйaddressv3+исходныйActI+EX00–14. Реализация→точнаясборка→доказательство→границы. СвежийReleaseactualDLL/PCK/binary/provenance,12s+60sforegroundperf включаятранспорт/новыекомнаты; первыйосновнойчеловеческийчас после измененияадресов/скорости. Ничего не исключается как 'следующаяигра'.",
@@ -11652,7 +11653,7 @@
       "progress_2026_09_20_lang": {
         "note": "2026-09-20: startingKnowledge в схеме+паке (12/12), TatarLanguageLevel в GameSettingsSnapshot с дефолтом none (старые settings.json и сейвы читаются, историческое поведение сохранено); verify-dotnet зелёный (Core 59, Content 14).",
         "evidence": [
-          "docs/production/act1_takeover_evidence_2026-09-20/../tasktracker_lang_2026-09-20.md"
+          "docs/production/act1_takeover_evidence_2026-09-20/tasktracker_lang_2026-09-20.md"
         ]
       },
       "delivery": {
@@ -11695,7 +11696,7 @@
       "progress_2026_09_20_lang": {
         "note": "2026-09-20: ObserveVocabularyTextAsync — автосбор гипотез с sourceId из документов, реплик диалога и документов ПК; лесенка unknown→guessed→confirmed ядра не даёт деградации; смок фиксирует source.",
         "evidence": [
-          "docs/production/act1_takeover_evidence_2026-09-20/../tasktracker_lang_2026-09-20.md"
+          "docs/production/act1_takeover_evidence_2026-09-20/tasktracker_lang_2026-09-20.md"
         ]
       },
       "delivery": {
@@ -11964,7 +11965,7 @@
       "progress_2026_09_20_lang": {
         "note": "2026-09-20: свойство + персистентность в UserSettingsStore/сейвах; сидирование none/some/fluent при новой игре (some проверено смоком, fluent реализован тем же механизмом); остался UI-ряд в настройках и различимый смок fluent.",
         "evidence": [
-          "docs/production/act1_takeover_evidence_2026-09-20/../tasktracker_lang_2026-09-20.md"
+          "docs/production/act1_takeover_evidence_2026-09-20/tasktracker_lang_2026-09-20.md"
         ]
       },
       "mvp_priority": 16,
@@ -12018,7 +12019,7 @@
       "progress_2026_09_20_lang": {
         "note": "2026-09-20: act1_vocabulary_cycle_smoke_test PASS — сид some → автосбор юл с источником → авторское подтверждение через физическую находку-указатель → проекция журнала (услышано/подтверждено) → save/load целостен.",
         "evidence": [
-          "docs/production/act1_takeover_evidence_2026-09-20/../tasktracker_lang_2026-09-20.md"
+          "docs/production/act1_takeover_evidence_2026-09-20/tasktracker_lang_2026-09-20.md"
         ]
       },
       "delivery": {
@@ -12058,7 +12059,7 @@
       "progress_2026_09_20_lang": {
         "note": "2026-09-20: 12/12 слов размечены startingKnowledge (family/everyday/literary/none); пакеты пересобраны eng/compile-game-content.sh; ContentCli validate зелёный; golden-фикстура и fingerprint паритет-теста обновлены на новый компилят.",
         "evidence": [
-          "docs/production/act1_takeover_evidence_2026-09-20/../tasktracker_lang_2026-09-20.md"
+          "docs/production/act1_takeover_evidence_2026-09-20/tasktracker_lang_2026-09-20.md"
         ]
       },
       "delivery": {
@@ -23190,6 +23191,7 @@
       "status_vocabulary": "todo added to orchestrator_policy.statuses because review_2026_09_28.status_semantics defines it; the single \"done\" spelling normalised to \"completed\"",
       "cross_document_checks": "TASKS.md names all 206 cards and invents none; act1_delivery_plan packets reference all 206 cards and no unknown ids; every milestone task id exists; all 12 blocked cards match implementation_blockers.md (11 through its register rows, LEN01.8 through its own declared dependencies) and the register now names those card ids as its own rule requires; resolved_product_decisions ids appear in decision_log.md; open_questions.md carries PD-R28-01.",
       "fixed_in_this_audit": "ACT1-TAMARA-FENCE was the only card without a milestone field (now M5, its author-deferred exclusion unchanged); implementation_blockers.md now names the dependent card ids in the B-R28-02, B-R28-04 and B-R28-06 rows.",
+      "queue_reference_paths": "2417 repo-path-like strings anywhere in the queue were checked. Twelve distinct targets were missing and six remain, all recorded as history rather than deleted: the cleaned historical batch receipts (images-address-registry-14, address-world-16/19.json and two images-address-world receipts) now carry a dated note in continuation_2026_09_16_expanded, and the four act1_demo_handoff.md references are covered by the dated note on GODOT-005 plus the retargeted current_scope evidence. Four file:line strings are informational: their files exist. Fixed here: five references used a malformed docs/production/act1_takeover_evidence_2026-09-20/../tasktracker_lang_2026-09-20.md and now name the file that sits in that directory; ten references pointed at docs/production/act1_expanded_rework_brief_2026-09-15.md, which never existed in git history, and now name docs/tasktracker/00_rework_brief.md, the rework brief whose §1-§23 scope is exactly the player/interaction/address/notebook/PC/transport/radio/building/village set those cards cite.",
       "knowledge_base_and_production_links": "All 209 tracked markdown files under docs/urman_knowledge_base/ and docs/production/ were scanned for link integrity and for task ids that do not exist in the queue. No document invents a task id. Broken links fell from 21 to 11, and every remaining one is a documented case rather than a silent dead end: 6 point at artifacts deleted with the cleaned evidence package and carry a dated note each, 2 are the historical decision_log.md references whose target file was never vendored (a dated trace note now names docs/tasktracker/02_village_rework_plan.md instead), 2 are the missing sibling json files of the miniature remediation proposal (noted), and 1 is the deliberate doc: syntax example. Repaired mechanically: 6 live navigation links in mindmap.md, weak_points.md and gameplay.md now point at the plan document that exists, and the texture provenance paths in art/texture_candidates_qa.md resolved one directory too deep. Paths ignored by .gitignore, including local evidence directories, are outside this audit and were left untouched.",
       "tracker_document_links": "All markdown links in docs/tasktracker/*.md now resolve except one deliberate syntax example in 03_oldpc_full_system.md ([текст](doc:id)). 27 links in 02_village_rework_plan.md pointed at the vendored research package without its ../research_shurale_package/ prefix and 4 used a doubled ../docs/ prefix; both classes were repaired. 01_production_tracker.md now states that 35 task ids it quotes belong to the retired tracker and are provenance, not queue ids.",
       "execution_steps": "527 steps across the unfinished cards, none with a duplicate id, and every one inherits a verification profile from its card's execution.verification (task-level, as the protocol places it).",
