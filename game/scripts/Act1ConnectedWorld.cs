@@ -9131,7 +9131,7 @@ public partial class Act1ConnectedWorld : Node3D
             var source = mesh.Mesh as ArrayMesh ?? throw new InvalidOperationException("Missing measured Zirat fence rail.");
             GD.Print($"act1-zirat-fence-source: owner={mesh.GetPath()} surfaces={source.GetSurfaceCount()}");
             if (source.GetSurfaceCount() != 1) throw new InvalidOperationException("The measured Zirat rail must retain its single surface.");
-            var arrays = source.SurfaceGetArrays(0);
+            using var arrays = source.SurfaceGetArrays(0);
             var rawPoints = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
             var normalValue = arrays[(int)Mesh.ArrayType.Normal];
             var rawNormals = normalValue.VariantType == Variant.Type.Nil ? Array.Empty<Vector3>() : normalValue.AsVector3Array();

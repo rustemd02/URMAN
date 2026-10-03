@@ -25,7 +25,7 @@ public partial class AgentBAct1ExteriorLayer
             for (var surfaceIndex = 0; surfaceIndex < original.GetSurfaceCount(); surfaceIndex++)
             {
                 using var sourceArrays = original.SurfaceGetArrays(surfaceIndex);
-        using var arrays = sourceArrays.Duplicate(true);
+                using var arrays = sourceArrays.Duplicate(true);
                 var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
                 for (var index = 0; index < vertices.Length; index++)
                 {
