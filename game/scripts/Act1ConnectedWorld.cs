@@ -1992,7 +1992,7 @@ public partial class Act1ConnectedWorld : Node3D
             ["URMAN_Plaster_Shadow"] = PainterlyMaterialLibrary.ForColor("66685f", "plaster"),
             ["URMAN_Wood_Dark"] = PainterlyMaterialLibrary.ForColor("605044", "wood"),
             ["URMAN_Wood_Weathered"] = PainterlyMaterialLibrary.ForColor("6f6353", "wood_facade"),
-            ["URMAN_Hero_Log"] = PainterlyMaterialLibrary.ForColor("594d40", "wood_log_uv"),
+            ["URMAN_Hero_Log"] = PainterlyMaterialLibrary.ForColor("b6a081", "wood_log_uv"),
             ["URMAN_Hero_LogEnd"] = PainterlyMaterialLibrary.ForColor("88745a", "wood_cut"),
             ["URMAN_Hero_Trim_Teal"] = PainterlyMaterialLibrary.ForColor("547e76", "wood_painted_trim"),
             ["URMAN_Hero_Trim_Ivory"] = PainterlyMaterialLibrary.ForColor("c8c5b1", "wood_painted_trim"),
