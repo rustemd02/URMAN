@@ -1444,8 +1444,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             {
                 // Near-house woodland has shoulder-high tangled regrowth;
                 // the same village shrubs remain low in gardens and verges.
-                horizontal *= woodlandRegrowth ? 1.4f : .38f;
-                vertical *= woodlandRegrowth ? Mathf.Lerp(.60f, .85f, DeterministicPhase(position, 61.3f)) : .35f;
+                horizontal *= woodlandRegrowth ? Mathf.Lerp(.85f, 1.6f, DeterministicPhase(position, 63.5f)) : .38f;
+                vertical *= woodlandRegrowth ? Mathf.Lerp(.42f, 1.0f, DeterministicPhase(position, 61.3f)) : .35f;
             }
             if (sourceVariant.StartsWith("Sedge_", StringComparison.Ordinal))
             {
@@ -2041,13 +2041,17 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             if (!source.StartsWith("Winter", StringComparison.Ordinal) || point.X > -44f || point.X < -62f || Mathf.Abs(point.Y) > 22f
                 || Mathf.Sin(point.X * .31f + point.Y * .17f) < -.2f
                 || InsideMosqueKeepOut(point)) continue;
+            var direction = DeterministicPhase(point, 57.7f) * Mathf.Tau;
+            var cluster = point + new Vector2(Mathf.Cos(direction), Mathf.Sin(direction)) * 1.3f;
             for (var i = 0; i < 4; i++)
             {
-                var angle = i * Mathf.Tau / 4f + DeterministicPhase(point, 57.7f) * Mathf.Tau;
-                var radius = Mathf.Lerp(1.4f, 2.4f, DeterministicPhase(point, 59f + i));
-                var shrub = point + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
+                // Overlap crowns on one side of the parent trunk instead of
+                // distributing four isolated miniature trees around its perimeter.
+                var angle = DeterministicPhase(point, 59f + i) * Mathf.Tau;
+                var radius = Mathf.Lerp(.35f, 1.0f, DeterministicPhase(point, 67f + i));
+                var shrub = cluster + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
                 if (InsideMosqueKeepOut(shrub)) continue;
-                TryPlant(shrub.X, shrub.Y, 2.6f, 1000f, 1.3f, "Shrub_1");
+                TryPlant(shrub.X, shrub.Y, 2.6f, 1000f, .6f, "Shrub_1");
             }
         }
 
