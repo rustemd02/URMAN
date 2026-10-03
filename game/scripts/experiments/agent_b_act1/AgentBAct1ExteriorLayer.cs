@@ -98,10 +98,15 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                         throw new InvalidOperationException("Pine material names must remain AB_bark and AB_needles after import.");
                     if (pine && imported!.ResourceName == "AB_needles")
                     {
+                        mesh.SurfaceSetName(surface, "foliage");
                         var alpha = imported.AlbedoTexture ?? throw new InvalidOperationException("Pine needles are missing their alpha texture.");
                         mesh.SurfaceSetMaterial(surface, PainterlyMaterialLibrary.ForCutout("455749", alpha, "foliage"));
                     }
-                    else mesh.SurfaceSetMaterial(surface, RegionalFoliageMaterial(variant, "bark", region));
+                    else
+                    {
+                        mesh.SurfaceSetName(surface, "bark");
+                        mesh.SurfaceSetMaterial(surface, RegionalFoliageMaterial(variant, "bark", region));
+                    }
                 }
                 _foliageMeshes[(names[lod], region)] = mesh;
             }
@@ -1280,6 +1285,15 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         (ArrayMesh Mesh, string[] Kinds, Vector3[] LowVertices) Geometry(string variant)
         {
             if (geometry.TryGetValue(variant, out var cached)) return cached;
+            if (variant is "WinterPine" or "WinterLightPine" or "WinterFarPine")
+            {
+                var mesh = FoliageMesh(variant, "kara");
+                cached = (mesh, Enumerable.Range(0, mesh.GetSurfaceCount()).Select(mesh.SurfaceGetName).ToArray(),
+                    Enumerable.Range(0, mesh.GetSurfaceCount()).SelectMany(surface =>
+                        mesh.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array()).ToArray());
+                geometry[variant] = cached;
+                return cached;
+            }
             if (!parts.TryGetValue(variant, out var sources))
                 throw new InvalidOperationException($"Missing winter foliage geometry: {variant}");
             var meshes = sources.SelectMany(EnumerateSelfAndDescendants<MeshInstance3D>).Distinct()
@@ -1335,6 +1349,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
         ArrayMesh RegionalMesh(string variant, string region)
         {
+            if (variant is "WinterPine" or "WinterLightPine" or "WinterFarPine") return FoliageMesh(variant, region);
             if (graded.TryGetValue((variant, region), out var cached)) return cached;
             var source = Geometry(variant);
             var result = (ArrayMesh)source.Mesh.Duplicate();
@@ -1388,6 +1403,14 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var depth = Mathf.Clamp((-position.Y - 8f) / 118f, 0, 1);
             var horizontal = Mathf.Lerp(1.04f, .90f, depth) * Mathf.Lerp(.92f, 1.08f, DeterministicPhase(position, 2.7f));
             var vertical = Mathf.Lerp(1.02f, .90f, depth) * Mathf.Lerp(.93f, 1.07f, DeterministicPhase(position, 4.9f));
+            if (variant == "WinterPine")
+            {
+                // The native pine is normalized to one metre. Scale the same
+                // rooted mesh into a stand rising behind the readable approach.
+                var height = Mathf.Lerp(13f, 21f, Mathf.InverseLerp(-40f, -62f, position.X));
+                horizontal *= height * .82f;
+                vertical *= height;
+            }
             if (variant.StartsWith("WinterSpruce_", StringComparison.Ordinal)
                 && position.X >= -90f && position.X <= -62f && Mathf.Abs(position.Y) <= 24f)
             {
@@ -1521,8 +1544,15 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     throw new InvalidOperationException($"Visible winter tree has no rooted stem geometry: {variant}");
                 // Bake the real yaw and non-uniform plant scale into these few
                 // stem faces. The physics shape itself keeps a unit basis.
+                var baked = faces.Select(vertex => basis * vertex).ToArray();
+                if (variant == "WinterPine")
+                    // Native pine vertices are normalized: select the physical
+                    // height band after scaling, retaining crossing triangles.
+                    baked = Enumerable.Range(0, baked.Length / 3)
+                        .Where(triangle => Enumerable.Range(0, 3).Any(corner => baked[triangle * 3 + corner].Y <= 2.6f))
+                        .SelectMany(triangle => Enumerable.Range(0, 3).Select(corner => baked[triangle * 3 + corner])).ToArray();
                 var shape = new ConcavePolygonShape3D();
-                shape.SetFaces(faces.Select(vertex => basis * vertex).ToArray());
+                shape.SetFaces(baked);
                 var collider = new CollisionShape3D
                 {
                     Name = $"PlantedStem_{tree.Name}", Shape = shape, Position = target
@@ -1970,8 +2000,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                         continue;
                     }
 
-                    // Snow-laden spruce belongs to the forest side only;
-                    // the village rim is bare deciduous winter woodland.
+                    // Keep the original random stream: species changes must not
+                    // move later roots, garden fixtures or boundary contacts.
                     var forestSide = point.Y <= -100f;
                     var variant = forestSide && rng.Randf() < 0.55f
                         ? "WinterSpruce_" + rng.RandiRange(1, 2)
@@ -1982,6 +2012,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                             3 => "WinterMaple_1",
                             _ => "WinterLinden_1"
                         };
+                    // The western woodland reaches the village as layered
+                    // mature crowns, with bare forks remaining between groves.
+                    // Reuse the imported pine's cutout needles and native LODs;
+                    // the kit's solid crown plates stay in the distant belt.
+                    if (point.X <= -40f && DeterministicPhase(point, 43.1f) < .72f)
+                        variant = "WinterPine";
                     generated.Add((point, variant));
                     if ((point.X <= -52f || point.X >= 140f || point.Y <= -130f)
                         && !InsideMosqueKeepOut(point) && DeterministicPhase(point, 31.7f) > .55f)
