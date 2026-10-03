@@ -24,7 +24,7 @@ public partial class Act1ConnectedWorld
     private void BuildShopUses()
     {
         if (_shopBatteryTarget is not null) throw new InvalidOperationException("Shop uses already exist.");
-        var carry = GetNode<CarryCoordinator>("CarryCoordinator");
+        var carry = _carryCoordinator ?? throw new InvalidOperationException("Carry coordinator must be constructed before shop affordances.");
         _shopSupplyLamp = carry.Items.Single(item => item.ItemId == "carry-lantern");
         _shopSupplyLight = _shopSupplyLamp.GetNode<OmniLight3D>("PortableLight");
         _shopSupplyBaseEnergy = _shopSupplyLight.LightEnergy;

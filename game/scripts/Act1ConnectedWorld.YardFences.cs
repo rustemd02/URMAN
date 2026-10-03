@@ -183,7 +183,7 @@ public partial class Act1ConnectedWorld
                 if (front && gateAt is { } opening && length > 5f)
                 {
                     var gate = a + dir * Mathf.Clamp(opening, 2f, length - 2f);
-                    BuildTimberStreetGate(root, body, gate, dir, -f, colour, variant, pickets);
+                    BuildTimberStreetGate(root, body, gate, dir, -f, colour, variant, pickets, lot.Id);
                 }
                 var run = new List<Vector2>();
                 void Flush()
@@ -221,6 +221,7 @@ public partial class Act1ConnectedWorld
             root.AddChild(new MeshInstance3D { Name = "FenceParts_" + parts[0] + "_" + parts[1], Mesh = tool.Commit(),
                 MaterialOverride = PainterlyMaterialLibrary.ForColor(parts[0], parts[1]) });
         }
+        MountTimberGateAddressPlates(root);
         GD.Print($"act1-yard-fences: lots={lots.Count} runs={runs} wickets={gates} retired={retired}");
     }
 
@@ -290,14 +291,16 @@ public partial class Act1ConnectedWorld
                         FencePart(parts, paint, new(.036f, .028f, .42f), new(basis * new Basis(Vector3.Right, sign * .65f), new(q.X, Mathf.Lerp(g0, g1, (k+.5f)/5f)+height-.16f, q.Y)));
                 }
             }
-            body.AddChild(new CollisionShape3D {
+            var contact=new CollisionShape3D {
                 Name = $"FenceBay_{body.GetChildCount()}", Shape = new BoxShape3D { Size = new(.14f, height, bay) },
-                Transform = new Transform3D(segBasis, new(mid.X, gm + height * .5f, mid.Y)) });
+                Transform = new Transform3D(segBasis, new(mid.X, gm + height * .5f, mid.Y)) };
+            contact.SetMeta("timberStyle",variant);contact.SetMeta("streetFence",street);
+            body.AddChild(contact);
         }
     }
 
     private static void BuildTimberStreetGate(Node3D root, StaticBody3D body, Vector2 centre, Vector2 along,
-        Vector2 inward, string colour, int variant, Dictionary<string, List<Transform3D>> parts)
+        Vector2 inward, string colour, int variant, Dictionary<string, List<Transform3D>> parts, string addressId)
     {
         var right = new Vector3(along.X, 0, along.Y);
         var back = new Vector3(inward.X, 0, inward.Y);
@@ -305,6 +308,9 @@ public partial class Act1ConnectedWorld
         var ground = AgentBAct1HeightField.CollisionGround(centre.X, centre.Y);
         var at = new Vector3(centre.X, ground, centre.Y);
         var paint = colour + "|wood_painted_trim";
+        var anchor=new Node3D {Name="TimberGate_"+root.GetChildCount(),Position=at};
+        anchor.SetMeta("clearWidth",3.26f);anchor.SetMeta("inward",back);anchor.SetMeta("along",right);anchor.SetMeta("addressId",addressId);anchor.SetMeta("timberStyle",variant);
+        root.AddChild(anchor);
         foreach (var sign in new[] { -1f, 1f })
         {
             var post = at + right * sign * 1.72f;

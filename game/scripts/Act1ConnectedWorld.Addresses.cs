@@ -235,6 +235,7 @@ public partial class Act1ConnectedWorld
             .ToDictionary(n=>n.GetMeta("address_id").AsString(),StringComparer.Ordinal);
         foreach(var sign in _addressSigns.ToArray())
         {
+            if(sign.HasMeta("timberGateMount"))continue;
             if(!sources.TryGetValue(sign.AddressId,out var source))continue;
             var surface=source.HasMeta("addressSignSurfaceName")?source.GetMeta("addressSignSurfaceName").AsString():null;
             if(AddressFacadeMount.Inspect(source,sign.GlobalPosition,sign.GlobalBasis.Z,this,surface).Supported)continue;

@@ -23,6 +23,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "game/content/world/act1_north_street_residents.world.v1.json"
+# Regeneration keeps the reviewed clothing/model choices for stable resident IDs.
+# Positions always come from the fresh physics survey, never an old pose.
+reviewed = {item["id"]: item["params"] for item in
+            (json.loads(OUT.read_text())["entities"] if OUT.exists() else [])}
 rng = random.Random(0x5245)  # "RE"
 
 ANIM = {
@@ -68,6 +72,17 @@ def person(slug, name, x, z, yaw, motion, scale, note, y=0.0, pool=None, speaker
             "schedule": [{"id": "day", "place": [round(x, 2), y, round(z, 2)], "yawDegrees": round(yaw, 1), "motion": ANIM[motion]}],
             **({"greeting": pool, "speaker": speaker, **({} if turn else {"turn": False})} if pool else {}),
         }})
+    params=entities[-1]["params"]
+    previous=reviewed.get(entities[-1]["id"], {})
+    if "residentAppearance" in previous:
+        for key in ("kitPrefix", "scale", "residentAppearance"):
+            if key in previous: params[key]=previous[key]
+        if motion=="sit":
+            params["position"][1]=previous["position"][1]
+            params["schedule"][0]["place"][1]=previous["position"][1]
+    else:
+        # New IDs receive an appropriate existing winter family; no distorted faces.
+        params["kitPrefix"]="Mansur" if speaker=="СТАРИК" else ("Gulsina" if speaker=="СОСЕДКА" else "PhoneGuy" if pool=="kid" else "Resident")
     count[motion] += 1
 
 

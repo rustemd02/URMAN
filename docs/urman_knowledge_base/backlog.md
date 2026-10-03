@@ -518,3 +518,8 @@ Windows EXE `4e0b621de75c53635bd034ea5bebb5890e05e2eee02d5b1dfd56941921e5869a`;
 read-only desktop receipt verification passes with manifest
 `d8014f498aa698d5d85bf02db6c3ca7d332bb2744260aad06810691583ec82a7`. These
 are structural package evidence only; target-host performance remains open.
+
+
+## 2026-10-02 — визуальное ревью W
+
+Новая реализация и свежая проверка уютной деревни ведутся в существующих ACT1-VILLAGE-LAYOUT/COMPOSITION/MOSQUE; новая очередь не создаётся. Полная карта причин/изменений — `../production/village_relayout_2026-10-02/audit.md`. Художественная приёмка и слышимый азан открыты.

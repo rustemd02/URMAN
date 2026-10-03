@@ -54,7 +54,7 @@ LOT_OVERRIDE = {"ADR-H016": {"z": 65.42, "w": 10.4},   # clear of the office por
                 "ADR-H049": {"z": -6.2}, "ADR-H032": {"z": -16.0}}
 # Old-layout road pieces lying on the new plots (the diagonal FAP branch is gone).
 RETIRE_EXTRA = {"village_day@fap-branch-crown-variant"}
-ROAD_WIDTH = 4.0
+ROAD_WIDTH = 3.5
 
 # Streets of the open part. Plan road name -> (address street, polyline as built). Main street and
 # the bridge road stay in code (AgentBAct1Layout.MainRoadAxis / FapBranchAxis + BridgeApproachAxis).
@@ -435,7 +435,7 @@ names = sorted(parcels)
 for i, a in enumerate(names):
     for b in names[i + 1:]:
         if overlap(parcels[a], parcels[b]): problems.append(f"parcels overlap: {a} {b}")
-bands = [("tukay", MAIN, 2.8), ("urman", BRIDGE_ROAD, 2.3)] + [(ROADS[n], pts, ROAD_WIDTH / 2) for n, pts in roads.items()]
+bands = [("tukay", MAIN, 2.25), ("urman", BRIDGE_ROAD, 1.9)] + [(ROADS[n], pts, ROAD_WIDTH / 2) for n, pts in roads.items()]
 for aid, poly in parcels.items():
     for street, pts, half in bands:
         for (ax, az), (bx, bz) in zip(pts, pts[1:]):

@@ -3159,6 +3159,13 @@
           "guarded runtime review"
         ],
         "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
+      },
+      "visual_rework_2026_10_02": {
+        "status": "implementation_in_progress",
+        "author_assignment": "W handed to Codex; Claude not editing",
+        "requirements": "docs/production/village_relayout_2026-10-02/audit.md",
+        "validation": "Fresh serial build/import, geometry/traversal and captures pending; historical PASS not reused",
+        "human_art_acceptance": "not-run"
       }
     },
     {
@@ -16096,6 +16103,13 @@
           "guarded runtime review"
         ],
         "commit_push": "explicitly authorized by author in current chat: regular commits/pushes of checked stages"
+      },
+      "visual_rework_2026_10_02": {
+        "status": "implementation_in_progress",
+        "author_assignment": "W handed to Codex; Claude not editing",
+        "requirements": "docs/production/village_relayout_2026-10-02/audit.md",
+        "validation": "Fresh serial build/import, geometry/traversal and captures pending; historical PASS not reused",
+        "human_art_acceptance": "not-run"
       }
     },
     {
@@ -20764,7 +20778,14 @@
         "packet": "A10"
       },
       "review_scope": "source-linked rework; historical evidence retained",
-      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя."
+      "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
+      "visual_rework_2026_10_02": {
+        "status": "implementation_in_progress",
+        "author_assignment": "W handed to Codex; Claude not editing",
+        "requirements": "docs/production/village_relayout_2026-10-02/audit.md",
+        "validation": "Fresh serial build/import, geometry/traversal and captures pending; historical PASS not reused",
+        "human_art_acceptance": "not-run"
+      }
     },
     {
       "id": "ACT1-BATHHOUSE",

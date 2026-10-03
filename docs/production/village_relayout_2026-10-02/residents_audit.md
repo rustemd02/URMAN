@@ -30,8 +30,9 @@
   общий character kit и его кэшированные материалы не меняются.
 - Корень персонажа содержит meta `residentAppearance`, `residentPresentationScale`,
   `residentPresentationPolicy`, доступные для native QA.
-- Старый `tools/world/generate_residents.py` создаёт однородных Resident и не знает новых полей;
-  его не запускать поверх этого документа без отдельного обновления генератора.
+- `tools/world/generate_residents.py` сохраняет проверенные kit/scale/residentAppearance по
+  стабильным ID; новые позиции берёт из свежей физической съёмки. Для новых ID выбирает
+  соответствующее существующее зимнее семейство. Свежая геометрия требует свежего spot-check.
 
 ## Выполненные проверки и границы
 

@@ -404,7 +404,7 @@ public partial class Act1ConnectedWorld : Node3D
         _dwellingThresholdPlacements = 0;
         _dwellingThresholdWorst = 0f;
         _dwellingThresholdWorstPlacement = string.Empty;
-        BuildAct1CoreWorldGreybox();
+        ProfileWorldBuildStep("core", BuildAct1CoreWorldGreybox);
         AlignFapClinicArchitecture();
         GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld")
             .ExcludeOccupiedRoomTerrain(_zoneInstances["house_old_pc"], new Vector2(
@@ -448,19 +448,19 @@ public partial class Act1ConnectedWorld : Node3D
         HideOverlappingStructures();
         RelocateOverlappingHouses();
         ComposeBabaiYard();
-        BuildAuthoredWorld();
-        ClearOpenPartOfLegacyPresentation();
+        ProfileWorldBuildStep("authored", BuildAuthoredWorld);
+        ProfileWorldBuildStep("clear-open", ClearOpenPartOfLegacyPresentation);
         // Relayout v3 stage 5: the babai household moves whole onto the main street.
-        RelocateBabaiHousehold();
+        ProfileWorldBuildStep("relocate-babai", RelocateBabaiHousehold);
         BindYardSnagWithHollows(GetNode<Node3D>("Act1CoreWorldGreybox"));
-        BuildCozyBabaiStorage();
+        ProfileWorldBuildStep("storage", BuildCozyBabaiStorage);
         BuildShopUses();
-        ClearGorgeOfLegacyPresentation();
-        BuildAddressRegistry();
+        ProfileWorldBuildStep("clear-gorge", ClearGorgeOfLegacyPresentation);
+        ProfileWorldBuildStep("addresses", BuildAddressRegistry);
         // Street faces of the yards: palisadnik, painted gates, board fences.
-        BuildStreetFrontages();
+        ProfileWorldBuildStep("frontages", BuildStreetFrontages);
         // One fence system along the real lot lines replaces every older yard fence.
-        RebuildYardFences();
+        ProfileWorldBuildStep("timber-fences", RebuildYardFences);
         // Tamara Gennadievna's breakable plot fence, boards and people.
         BuildTamaraFenceQuest();
         AddressRead += RememberReadAddress;
@@ -6056,8 +6056,17 @@ public partial class Act1ConnectedWorld : Node3D
         AddCoreFacetedMass(parent, "BabaiEbiHouseStreetMemoryMass", new(-30.0f, 2.1f, 8.2f), new(7.0f, 2.0f, 2.0f), "55615a");
     }
 
+    private static void ProfileWorldBuildStep(string stage,Action build)
+    {
+        if(OS.GetEnvironment("URMAN_WORLD_BUILD_PROFILE")!="1") {build();return;}
+        var elapsed=System.Diagnostics.Stopwatch.StartNew();
+        build();
+        GD.Print($"world-build-profile|{stage}|{elapsed.Elapsed.TotalSeconds.ToString("0.000",System.Globalization.CultureInfo.InvariantCulture)}s");
+    }
+
     private static void ApplyHeroWarmWindow(Node3D facade)
     {
+        if(facade.Name!="BabaiApproachDwellingFacade")return;
         var windows=FindDescendants<MeshInstance3D>(facade).Where(mesh=>mesh.Mesh is not null
             &&mesh.Name.ToString().Contains("Window",StringComparison.Ordinal)
             &&mesh.Name.ToString().Contains("Glass",StringComparison.Ordinal)).ToArray();
@@ -6072,7 +6081,11 @@ public partial class Act1ConnectedWorld : Node3D
                 EmissionEnabled=true,Emission=Color.FromHtml("ffce83"),EmissionEnergyMultiplier=1.35f,
                 Roughness=.42f,MetallicSpecular=.35f };
             var centre=pane.GlobalTransform*pane.Mesh!.GetAabb().GetCenter();
-            var outward=pane.GlobalBasis.Z;outward.Y=0;outward=outward.Normalized();
+            // Imported side/rear panes may bake orientation into their vertices.
+            // Use the glass's thin horizontal axis, not the parent node's +Z.
+            var glassBounds=pane.Mesh.GetAabb();
+            var localOutward=glassBounds.Size.X<glassBounds.Size.Z ? Vector3.Right : Vector3.Back;
+            var outward=pane.GlobalBasis*localOutward;outward.Y=0;outward=outward.Normalized();
             var relative=centre-facade.GlobalPosition;relative.Y=0;
             if(outward.Dot(relative)<0)outward=-outward;
             var light=new SpotLight3D {

@@ -9,14 +9,29 @@ namespace Urman.Godot.Tests;
 /// </summary>
 public partial class Act1TopDownCapture : Node
 {
+    public override void _Process(double delta)
+    {
+        if (GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true } pause)
+        { DisplayServer.WindowMoveToForeground(); pause.Resume(); }
+    }
+
     public override async void _Ready()
     {
+        ProcessMode=ProcessModeEnum.Always;
         try
         {
             var demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn").Instantiate<Act1DemoRoot>();
             AddChild(demo);
             for (var i = 0; i < 8; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             if (!await this.StartThroughMainMenuAsync(demo)) throw new InvalidOperationException("demo did not start");
+            // The production prologue owns the active camera until skipped/finished.
+            // Old screenshots silently captured that camera instead of the review point.
+            demo._Input(new InputEventAction { Action="ui_cancel", Pressed=true });
+            for(var frame=0;frame<900&&demo.PrologueActive;frame++)
+                await ToSignal(GetTree(),SceneTree.SignalName.PhysicsFrame);
+            if(demo.PrologueActive)throw new InvalidOperationException("review capture still in the prologue");
+            for(var frame=0;frame<15;frame++)await ToSignal(GetTree(),SceneTree.SignalName.PhysicsFrame);
+
             foreach (var layer in GetTree().Root.FindChildren("*", nameof(CanvasLayer), true, false).OfType<CanvasLayer>())
                 layer.Visible = false;
             if (OS.GetEnvironment("URMAN_INTERACTION_SURVEY") == "1")
@@ -35,8 +50,8 @@ public partial class Act1TopDownCapture : Node
             {
                 await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
                 Act1LayoutAudit.Dump(GetTree().Root, OS.GetEnvironment("URMAN_TOPDOWN_OUTPUT"));
-                GetTree().Quit(0);
-                return;
+                if (OS.GetEnvironment("URMAN_VIEWS").Length==0 && OS.GetEnvironment("URMAN_NODE_VIEWS").Length==0)
+                { GetTree().Quit(0); return; }
             }
             if (OS.GetEnvironment("URMAN_SHAPE_PROBE") is { Length: > 0 } shapeProbe)
             {
@@ -221,9 +236,6 @@ public partial class Act1TopDownCapture : Node
             {
                 // node|name:lx:ly:lz:tx:ty:tz;... — camera and target in a node's local space;
                 // the player stands at the camera so interiors light up as in play.
-                var parts0 = nodeViews.Split('|', 2);
-                var anchor = GetTree().Root.FindChild(parts0[0], true, false) as Node3D
-                    ?? throw new InvalidOperationException("no node " + parts0[0]);
                 var player = GetTree().GetFirstNodeInGroup("player_controller") as Node3D;
                 // The camera stands where the player's eyes are; hide the body it would see.
                 foreach (var visual in player?.FindChildren("*", nameof(VisualInstance3D), true, false).OfType<VisualInstance3D>() ?? [])
@@ -231,6 +243,12 @@ public partial class Act1TopDownCapture : Node
                 var eye = new Camera3D { Fov = 75f, Near = .03f, Far = 300f };
                 AddChild(eye);
                 eye.MakeCurrent();
+                // Multiple anchor groups share one ordinary-world startup.
+                foreach(var group in nodeViews.Split(";;",StringSplitOptions.RemoveEmptyEntries))
+                {
+                var parts0 = group.Split('|', 2);
+                var anchor = GetTree().Root.FindChild(parts0[0], true, false) as Node3D
+                    ?? throw new InvalidOperationException("no node " + parts0[0]);
                 foreach (var view in parts0[1].Split(';', StringSplitOptions.RemoveEmptyEntries))
                 {
                     var parts = view.Split(':');
@@ -241,14 +259,15 @@ public partial class Act1TopDownCapture : Node
                     eye.GlobalPosition = from;
                     eye.LookAt(anchor.ToGlobal(new Vector3(v[3], v[4], v[5])));
                     for (var i = 0; i < 25; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-                    for (var i = 0; i < 120; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                    for (var i = 0; i < 12; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
                     await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
                     using var frame = GetViewport().GetTexture().GetImage();
                     frame.SavePng(System.IO.Path.Combine(OS.GetEnvironment("URMAN_TOPDOWN_OUTPUT"), parts[0] + ".png"));
                 }
+                }
                 GD.Print("act1-topdown: node views done");
-                GetTree().Quit(0);
-                return;
+                if(OS.GetEnvironment("URMAN_VIEWS").Length==0)
+                { GetTree().Quit(0); return; }
             }
             if (OS.GetEnvironment("URMAN_VIEWS") is { Length: > 0 } views)
             {

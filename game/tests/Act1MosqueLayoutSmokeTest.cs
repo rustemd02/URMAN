@@ -9,8 +9,16 @@ public partial class Act1MosqueLayoutSmokeTest : Node
     private FirstPersonController _player = null!;
     private int _checks;
 
+    // Native macOS focus can arrive after startup. This affects only this diagnostic scene.
+    public override void _Process(double delta)
+    {
+        if (GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true } pause)
+        { DisplayServer.WindowMoveToForeground(); pause.Resume(); }
+    }
+
     public override async void _Ready()
     {
+        ProcessMode = ProcessModeEnum.Always;
         var exit = 1;
         try
         {
@@ -65,7 +73,15 @@ public partial class Act1MosqueLayoutSmokeTest : Node
             await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
             stalled = _player.GlobalPosition.DistanceTo(last) < .002f ? stalled + 1 : 0;
             last = _player.GlobalPosition;
-            if (stalled > 90) break;
+            if (stalled > 90)
+            {
+                using var collision = new KinematicCollision3D();
+                if (_player.TestMove(_player.GlobalTransform, direction.Normalized() * .20f, collision, .001f, false, 8))
+                    for (var contact = 0; contact < collision.GetCollisionCount(); contact++)
+                        GD.Print($"act1-mosque-blocker: collider={(collision.GetCollider(contact) as Node)?.GetPath()} point={collision.GetPosition(contact)} normal={collision.GetNormal(contact)} shape={collision.GetColliderShape(contact)} travel={collision.GetTravel()}");
+                GD.Print($"act1-mosque-controller: height={_player.BodyHeight} radius={_player.BodyRadius} modal={_player.ModalOpen} velocity={_player.Velocity} step={_player.LastStepRejection}; carry={(GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator)?.DescribeAim()}");
+                break;
+            }
         }
         Input.ActionRelease("move_forward");
         await Frames(8);

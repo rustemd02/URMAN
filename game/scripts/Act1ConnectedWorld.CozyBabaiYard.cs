@@ -34,8 +34,23 @@ public partial class Act1ConnectedWorld
             Piece("DoorJamb"+side,new(.10f,2.4f,.15f),new(side*.84f,1.25f,2.23f),"596b59");
         }
         Piece("DoorHead",new(1.78f,.25f,.16f),new(0,2.53f,2.22f),"596b59");
-        Piece("Roof",new(5.4f,.13f,4.8f),new(0,2.75f,0),"5f665b");
-        Piece("RoofSnow",new(5.3f,.05f,4.7f),new(0,2.84f,0),"e6edf1",false);
+        // A modest pitched barn roof: snow uses its own material, not white wood.
+        var pitch=Mathf.Atan2(.75f,2.7f);
+        var slopeLength=Mathf.Sqrt(2.7f*2.7f+.75f*.75f);
+        foreach(var side in new[]{-1f,1f})
+        {
+            var centre=new Vector3(side*1.35f,3.125f,0);
+            var rotation=new Vector3(0,0,-side*pitch);
+            var roof=RuralPropGeometry.Block(shed,"PitchedRoof"+side,new(slopeLength,.13f,4.8f),centre,
+                PainterlyMaterialLibrary.ForColor("5f665b","roof_metal"),.004f);
+            roof.Rotation=rotation;
+            body.AddChild(new CollisionShape3D {Name="RoofContact"+side,Position=centre,Rotation=rotation,
+                Shape=new BoxShape3D {Size=new(slopeLength,.13f,4.8f)}});
+            var snow=RuralPropGeometry.Block(shed,"RoofSnow"+side,new(slopeLength,.05f,4.7f),centre+Vector3.Up*.10f,
+                PainterlyMaterialLibrary.ForColor("e6edf1","snow_roof"),.008f);
+            snow.Rotation=rotation;
+        }
+        Piece("Ridge",new(.12f,.14f,4.85f),new(0,3.54f,0),"697960",false);
         // Open leaf lies beside the entrance, giving a full 1.58m standing doorway.
         Piece("OpenDoor",new(.10f,2.30f,.78f),new(-.87f,1.25f,2.65f),"697960");
         Piece("Handle",new(.055f,.16f,.06f),new(-.80f,1.25f,2.9f),"5b5c52",false);
@@ -84,6 +99,8 @@ public partial class Act1ConnectedWorld
             AddChild(carry);
         }
         BuildBabaiOuthouse(core,new(-19.25f,0,-9.3f));
+        RegisterAddressInheritedBuilding(shed,"act1/babai-storage-barn","ADR-BABAI","shed");
+        RegisterAddressInheritedBuilding(core.GetNode<Node3D>("BabaiMoonOuthouse"),"act1/babai-moon-outhouse","ADR-BABAI","outhouse");
         SetMeta("babaiStorageBuilt",true);
     }
 
