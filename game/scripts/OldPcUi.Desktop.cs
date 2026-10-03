@@ -32,6 +32,8 @@ public partial class OldPcUi
     private bool _desktopDirty;
     private double _desktopSaveDelay;
     private double _clockCheckpoint;
+    // Minute bucket currently shown by the taskbar clock; -1 forces the first write.
+    private int _clockMinute = -1;
     private object? _desktopSession;
     private GridContainer _shortcuts = null!;
     private VBoxContainer _startMenuBody = null!;
@@ -466,7 +468,17 @@ public partial class OldPcUi
         if (_screen is null || !_screen.Visible || _bridge is null) return;
         _desktop.ElapsedSeconds += delta;
         var clock = TimeSpan.FromMinutes(14 * 60 + 25) + TimeSpan.FromSeconds(_desktop.ElapsedSeconds);
-        _clock.Text = $"{clock.Hours:00}:{clock.Minutes:00}";
+        // The label shows hours and minutes only, so the formatted text is a
+        // function of the current minute. Formatting it every frame allocated one
+        // string per frame for a value that changes once a minute; the text is now
+        // built only when that minute changes. Label.set_text already ignores an
+        // identical string, so the visible result is unchanged.
+        var minute = (int)clock.TotalMinutes;
+        if (minute != _clockMinute)
+        {
+            _clockMinute = minute;
+            _clock.Text = $"{clock.Hours:00}:{clock.Minutes:00}";
+        }
         _clockCheckpoint += delta;
         if (_clockCheckpoint > 10) { _clockCheckpoint = 0; MarkDesktopChanged(); }
         if (_desktopDirty && (_desktopSaveDelay -= delta) <= 0) PersistDesktop();

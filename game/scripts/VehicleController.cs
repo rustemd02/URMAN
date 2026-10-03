@@ -41,6 +41,10 @@ public partial class VehicleController : CharacterBody3D
     // enumerators: index -> wheel plus its precomputed front-wheel flag.
     private Node3D[] _visualWheels = Array.Empty<Node3D>();
     private bool[] _visualFrontWheel = Array.Empty<bool>();
+    // The horse cart's authored driver figure, resolved once when the visual is
+    // built (it does not exist on the other vehicles) instead of per tick.
+    private Node3D? _cartDriverFigure;
+    private bool? _cartDriverVisible;
     private static readonly string[] ControlReleaseActions = {"interact","carry_use","carry_rotate","carry_place","crouch",
         "jump","move_forward","move_backward","move_left","move_right"};
 
@@ -98,6 +102,7 @@ public partial class VehicleController : CharacterBody3D
             _visualWheels[index] = _visual.Wheels[index];
             _visualFrontWheel[index] = _visual.FrontWheels.Contains(_visualWheels[index]);
         }
+        _cartDriverFigure = _visual.Root.GetNodeOrNull("CartDriver") as Node3D;
         BuildCompoundCollision();
         BuildSteeringCollision();
         BuildSupportTopology();
@@ -570,9 +575,14 @@ public partial class VehicleController : CharacterBody3D
 
     private void SyncCartDriverFigure()
     {
-        if (Definition.Kind == VehicleKind.HorseCart
-            && _visual.Root.GetNodeOrNull("CartDriver") is Node3D cartDriver)
-            cartDriver.Visible = Driver is not null;
+        // The authored driver figure is built once with the visual and is never
+        // replaced, so the name lookup is resolved once instead of every tick. The
+        // visible flag is compared like the other presentation writes here.
+        if (_cartDriverFigure is null) return;
+        var visible = Driver is not null;
+        if (_cartDriverVisible == visible) return;
+        _cartDriverVisible = visible;
+        _cartDriverFigure.Visible = visible;
     }
 
     private void Notice(string message){_notice=message;_noticeSeconds=2.5f;LastRefusal=message;}
