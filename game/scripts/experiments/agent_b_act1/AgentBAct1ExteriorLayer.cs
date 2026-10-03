@@ -1381,12 +1381,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         foreach (var (position, sourceVariant) in plan)
         {
             var smallShrub = sourceVariant.StartsWith("Shrub_", StringComparison.Ordinal);
+            var woodlandRegrowth = smallShrub && position.X <= -44f && position.X >= -64f && Mathf.Abs(position.Y) <= 24f;
             var groundCover = smallShrub || sourceVariant.StartsWith("Fern_", StringComparison.Ordinal)
                 || sourceVariant.StartsWith("Sedge_", StringComparison.Ordinal) || sourceVariant.StartsWith("GrassTuft_", StringComparison.Ordinal);
             var variant = sourceVariant.Replace("WinterLight", "Winter", StringComparison.Ordinal);
-            if (smallShrub) variant = "WinterBirdCherry_1";
+            if (smallShrub) variant = woodlandRegrowth ? "WinterSpruce_1" : "WinterBirdCherry_1";
             if (variant.StartsWith("Birch_", StringComparison.Ordinal)) variant = "WinterBirch_1";
-            if (variant.Contains("Spruce", StringComparison.Ordinal) || variant.StartsWith("Pine_", StringComparison.Ordinal))
+            if (!woodlandRegrowth && (variant.Contains("Spruce", StringComparison.Ordinal) || variant.StartsWith("Pine_", StringComparison.Ordinal)))
                 // Conifers are banned inside the residential core, where a fir in
                 // a kitchen garden reads as a Christmas decoration. Outside it the
                 // winter forest is the tall conifer mass that encloses the
@@ -1411,7 +1412,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 horizontal *= height * .82f;
                 vertical *= height;
             }
-            if (variant.StartsWith("WinterSpruce_", StringComparison.Ordinal)
+            if (!woodlandRegrowth && variant.StartsWith("WinterSpruce_", StringComparison.Ordinal)
                 && position.X >= -90f && position.X <= -62f && Mathf.Abs(position.Y) <= 24f)
             {
                 // House pilot: broad near crowns overlap taller trees behind them.
@@ -1439,7 +1440,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 horizontal *= variant == "WinterLinden_2" ? 1.65f : 1.35f;
                 vertical *= variant == "WinterMaple_1" ? 1.65f : 1.9f;
             }
-            if (smallShrub) { horizontal *= .38f; vertical *= .35f; }
+            if (smallShrub)
+            {
+                // Near-house woodland has shoulder-high tangled regrowth;
+                // the same village shrubs remain low in gardens and verges.
+                horizontal *= woodlandRegrowth ? 1.4f : .38f;
+                vertical *= woodlandRegrowth ? Mathf.Lerp(.60f, .85f, DeterministicPhase(position, 61.3f)) : .35f;
+            }
             if (sourceVariant.StartsWith("Sedge_", StringComparison.Ordinal))
             {
                 horizontal *= .62f;
@@ -2023,6 +2030,24 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                         && !InsideMosqueKeepOut(point) && DeterministicPhase(point, 31.7f) > .55f)
                         generated.Add((point + new Vector2(-.8f, 1.2f), "FallenBranch_2"));
                 }
+            }
+        }
+
+        // Pilot woodland: uneven patches of the existing winter regrowth close
+        // the park-like snow gaps beneath the tall crowns. Append without RNG
+        // calls so original roots and the later forest belt keep their positions.
+        foreach (var (point, source) in generated.ToArray())
+        {
+            if (!source.StartsWith("Winter", StringComparison.Ordinal) || point.X > -44f || point.X < -62f || Mathf.Abs(point.Y) > 22f
+                || Mathf.Sin(point.X * .31f + point.Y * .17f) < -.2f
+                || InsideMosqueKeepOut(point)) continue;
+            for (var i = 0; i < 4; i++)
+            {
+                var angle = i * Mathf.Tau / 4f + DeterministicPhase(point, 57.7f) * Mathf.Tau;
+                var radius = Mathf.Lerp(1.4f, 2.4f, DeterministicPhase(point, 59f + i));
+                var shrub = point + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
+                if (InsideMosqueKeepOut(shrub)) continue;
+                TryPlant(shrub.X, shrub.Y, 2.6f, 1000f, 1.3f, "Shrub_1");
             }
         }
 

@@ -737,20 +737,9 @@ public static class PainterlyMaterialLibrary
             "water" => 0.0f,
             _ => 0.90f
         });
-        // Phase 2: grounding darken near the dirt line + world-cell tint
-        // jitter that de-clones repeated houses/fences/trees.
-        material.SetShaderParameter("ground_darken", finishSurface switch
-        {
-            "bark_birch" or "bark_pine" => 0.25f,
-            "roof" or "roof_metal" => 0.0f,
-            "wood" or "wood_facade" or "wood_fence" => 0.16f,
-            "plaster" => 0.16f,
-            "wood_prop" => 0.10f,
-            "wood_furniture" or "wood_furniture_interior" => 0.0f,
-            "wood_bark" => 0.22f,
-            "stone" => 0.14f,
-            _ => 0.0f
-        });
+        // World Y is not height above support: lowered rooms and downhill
+        // facades otherwise receive arbitrary dirt. Existing shadows/SSAO own contact.
+        material.SetShaderParameter("ground_darken", 0f);
         var snowSparkle = finishSurface switch
         {
             "snow_ground" => 0.55f,
