@@ -178,6 +178,7 @@ def weather_lower_branches(source: bpy.types.Object) -> int:
     """Shorten bare hooks while retaining collars, trunk and the needle crown."""
     mesh = source.data
     original = [vertex.co.copy() for vertex in mesh.vertices]
+    deformed = {}
     uv = mesh.uv_layers.active
     normal_keys = {}
     for poly in mesh.polygons:
@@ -251,8 +252,15 @@ def weather_lower_branches(source: bpy.types.Object) -> int:
                 co = original[index]
                 t = max(0.0, min(1.0, (math.hypot(co.x, co.y) - inner) / span))
                 w = max(0.0, min(1.0, (t - .12) / .63))
+                dw = 6 * w * (1 - w) / .63
                 w = w * w * (3 - 2 * w)
                 original_vertices[index].co.z -= .035 * w * t
+                # glTF UV splits must retain their shared smooth normals.
+                # z'=z+f(r): inverse-transpose maps n to (nx-fx*nz, ny-fy*nz, nz).
+                slope = -.035 * (w + t * dw) / span
+                radius = math.hypot(co.x, co.y)
+                position = tuple(round(c, 6) for c in original_vertices[index].co)
+                deformed[position] = (keys[index], slope * co.x / radius, slope * co.y / radius)
         branches += 1
     if branches != 10:
         raise RuntimeError(f"expected ten long bare branches, found {branches}")
@@ -262,13 +270,21 @@ def weather_lower_branches(source: bpy.types.Object) -> int:
     mesh.update()
     uv = mesh.uv_layers.active
     normals = [(0, 0, 0)] * len(mesh.loops)
+    positions = [tuple(round(c, 6) for c in vertex.co) for vertex in mesh.vertices]
+    source_positions = [deformed.get(position, (position, 0, 0))[0] for position in positions]
     for poly in mesh.polygons:
-        face_key = tuple(sorted(tuple(round(c, 6) for c in mesh.vertices[index].co) for index in poly.vertices))
+        face_key = tuple(sorted(source_positions[index] for index in poly.vertices))
         for loop_index in poly.loop_indices:
             loop = mesh.loops[loop_index]
-            key = (tuple(round(c, 6) for c in mesh.vertices[loop.vertex_index].co),
+            key = (source_positions[loop.vertex_index],
                    tuple(round(c, 7) for c in uv.data[loop_index].uv), face_key)
-            normals[loop_index] = normal_keys.get(key, (0, 0, 0))
+            normal = normal_keys.get(key)
+            if normal is not None:
+                normal = normal.copy()
+                _, dx, dy = deformed.get(positions[loop.vertex_index], (None, 0, 0))
+                normal.x -= dx * normal.z
+                normal.y -= dy * normal.z
+                normals[loop_index] = normal.normalized()
     mesh.normals_split_custom_set(normals)
     return branches
 
