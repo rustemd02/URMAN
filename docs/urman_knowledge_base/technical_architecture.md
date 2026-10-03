@@ -725,10 +725,14 @@ Prompt/ray-слой намеренно не мемоизируются). Уде�
 
 Разбор исходников Godot 4.7-stable уточнил условие дешёвого теневого пути:
 `SceneShaderForwardClustered::ShaderData::uses_shared_shadow_material`
-(`scene_shader_forward_clustered.cpp:248`) = `(uses_fragment_time && uses_discard)
-|| (uses_vertex_time && uses_vertex)`. Общий shadow material (и позиционный
-`ArrayMesh.ShadowMesh` вместе с ним) доступен только материалу, вершинный шейдер
-которого не пишет VERTEX; полный painterly-шейдер пишет его всегда.
+(`scene_shader_forward_clustered.h:297-300`) требует непрозрачный back-culled
+материал, не пишущий VERTEX, без alpha clip/discard и `world_vertex_coords`.
+Общий shadow material (и позиционный `ArrayMesh.ShadowMesh` вместе с ним) доступен
+только такому материалу; полный painterly-шейдер пишет VERTEX всегда. Отдельный
+флаг `is_animated()` управляет лишь пометкой теней позиционных источников
+(`make_shadow_dirty`), и у rigid-материалов он становится false — это узкий
+остаточный риск: idle-анимация скелета на месте в радиусе omni/оконного спота
+может не обновлять силуэт своей тени до следующего изменения трансформа.
 
 Поэтому выбор `RigidPainterlyShader` в `PainterlyMaterialLibrary.ForColor` больше
 не ограничен списком 30 семейств, а определяется флагами, при которых блок

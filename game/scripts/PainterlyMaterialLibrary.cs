@@ -349,10 +349,24 @@ public static class PainterlyMaterialLibrary
     private static readonly Shader PainterlyShader = new() { Code = ShaderSource };
     private static readonly Shader RigidPainterlyShader = new()
     {
-        // Known opaque families never deform. Preserve their visible finish
-        // while allowing the renderer's existing shared shadow material path.
+        // Opaque materials whose deformation inputs are all inert preserve their
+        // visible finish without the VERTEX writes, which is what lets the
+        // renderer reach its shared shadow material.
         Code = ShaderSource.Replace(VertexDeformation, string.Empty, StringComparison.Ordinal)
     };
+
+    static PainterlyMaterialLibrary()
+    {
+        // ShaderSource is assembled as literal + "\n" + VertexDeformation + "\n" +
+        // literal, so the removal above is exact by construction. If a future edit
+        // breaks that seam, the replacement silently becomes a no-op and every
+        // deformation-capable material would keep the full shader - a lost
+        // optimization, never a wrong image. Report it instead of hiding it.
+        if (string.Equals(RigidPainterlyShader.Code, ShaderSource, StringComparison.Ordinal))
+            global::Godot.GD.PushWarning(
+                "PainterlyMaterialLibrary: the rigid shader no longer differs from the full one; "
+                + "the vertex deformation block was not removed.");
+    }
     private static readonly Shader TwoSidedPainterlyShader = new()
     {
         // Imported opaque sheets may explicitly expose both sides. Keep all
