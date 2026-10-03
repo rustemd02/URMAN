@@ -217,8 +217,10 @@ public partial class SnowTrampleField : Node3D
 
     private static IEnumerable<MeshInstance3D> Meshes(Node node)
     {
-        foreach (var child in node.GetChildren())
+        var count = node.GetChildCount();
+        for (var index = 0; index < count; index++)
         {
+            var child = node.GetChild(index);
             if (child is MeshInstance3D mesh) yield return mesh;
             foreach (var nested in Meshes(child)) yield return nested;
         }

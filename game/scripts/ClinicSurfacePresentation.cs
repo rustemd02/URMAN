@@ -215,8 +215,10 @@ public static class ClinicSurfacePresentation
 
     private static IEnumerable<Node> Descendants(Node node)
     {
-        foreach (var child in node.GetChildren())
+        var count = node.GetChildCount();
+        for (var index = 0; index < count; index++)
         {
+            var child = node.GetChild(index);
             yield return child;
             foreach (var nested in Descendants(child)) yield return nested;
         }

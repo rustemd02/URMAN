@@ -231,9 +231,10 @@ public partial class InteractionTarget : StaticBody3D
         // clobbering the routing pass with zero.
         var repeatAvailable = !available && PresentationRepeatAvailable?.Invoke() == true;
         CollisionLayer = _presentationEnabled && (available || repeatAvailable) ? _activeCollisionLayer : 0;
-        foreach (var child in GetChildren())
+        var children = GetChildCount();
+        for (var index = 0; index < children; index++)
         {
-            if (child is MeshInstance3D mesh)
+            if (GetChild(index) is MeshInstance3D mesh)
             {
                 mesh.Visible = available;
             }

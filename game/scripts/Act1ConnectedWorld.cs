@@ -5570,9 +5570,10 @@ public partial class Act1ConnectedWorld : Node3D
     private static void ClearExtractedSceneOwnership(Node node)
     {
         node.Owner = null;
-        foreach (var child in node.GetChildren())
+        var children = node.GetChildCount();
+        for (var index = 0; index < children; index++)
         {
-            ClearExtractedSceneOwnership(child);
+            ClearExtractedSceneOwnership(node.GetChild(index));
         }
     }
 
@@ -10082,8 +10083,10 @@ public partial class Act1ConnectedWorld : Node3D
             collisionShape.Disabled = true;
         }
 
-        foreach (var child in node.GetChildren())
+        var children = node.GetChildCount();
+        for (var index = 0; index < children; index++)
         {
+            var child = node.GetChild(index);
             if (GodotObject.IsInstanceValid(child)
                 && !IsProtectedLogicalGameplayNode(child))
             {
@@ -10243,8 +10246,17 @@ public partial class Act1ConnectedWorld : Node3D
 
     private static IEnumerable<T> FindDescendants<T>(Node root) where T : Node
     {
-        foreach (var child in root.GetChildren())
+        // GetChildren() allocated one Godot array per visited node, and those arrays
+        // are finalizable: the address registry walks the connected world once per
+        // manifest row, and the finalizer thread was the busiest thread of the world
+        // build. GetChildCount() plus GetChild(index) visits exactly the same children
+        // in the same order without the intermediate array. No caller mutates the
+        // walked subtree while iterating it, so the captured count stays valid; the
+        // same replacement was already accepted for the facade walk.
+        var count = root.GetChildCount();
+        for (var index = 0; index < count; index++)
         {
+            var child = root.GetChild(index);
             if (child is T match)
             {
                 yield return match;

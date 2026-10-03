@@ -405,8 +405,10 @@ public partial class RinatPresencePresentation : Node3D
 
     private static IEnumerable<Node> Descendants(Node parent)
     {
-        foreach (var child in parent.GetChildren())
+        var count = parent.GetChildCount();
+        for (var index = 0; index < count; index++)
         {
+            var child = parent.GetChild(index);
             yield return child;
             foreach (var descendant in Descendants(child)) yield return descendant;
         }
