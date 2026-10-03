@@ -1017,4 +1017,5 @@ public static class PainterlyMaterialLibrary
         Materials.Add(cacheKey, material);
         return material;
     }
+
 }

@@ -76,8 +76,11 @@ public static class GraphicsQuality
     {
         if (_probeOverridesResolved) return;
         _probeOverridesResolved = true;
+        // The probe is enabled by --urman-perf-probe or any --urman-perf-probe-*
+        // option (the room's runner passes --urman-perf-probe-mode=...), exactly the
+        // rule Act1DemoRoot uses to arm the probe.
         foreach (var argument in OS.GetCmdlineArgs())
-            if (string.Equals(argument, ProbeFlag, StringComparison.Ordinal)) { _probeOverridesActive = true; break; }
+            if (argument.StartsWith(ProbeFlag, StringComparison.Ordinal)) { _probeOverridesActive = true; break; }
         if (!_probeOverridesActive) return;
         _probeScale = ReadProbeFloat("URMAN_PERF_SCALE", 0f, 1f);
         _probeShadowDistance = ReadProbeFloat("URMAN_PERF_SHADOW_DISTANCE", 0f, 1000f);
