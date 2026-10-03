@@ -720,3 +720,24 @@ Prompt/ray-слой намеренно не мемоизируются). Уде�
 `System.Half` округляет к ближайшему чётному. Читается как кандидат с точным
 путём (дословный порт RGBAH-энкодера), не внедрялось. Цель M1 открыта; игровой
 эффект и FPS не измерены.
+
+### 2026-10-03 — четвёртый статический performance-этап
+
+Разбор исходников Godot 4.7-stable уточнил условие дешёвого теневого пути:
+`SceneShaderForwardClustered::ShaderData::uses_shared_shadow_material`
+(`scene_shader_forward_clustered.cpp:248`) = `(uses_fragment_time && uses_discard)
+|| (uses_vertex_time && uses_vertex)`. Общий shadow material (и позиционный
+`ArrayMesh.ShadowMesh` вместе с ним) доступен только материалу, вершинный шейдер
+которого не пишет VERTEX; полный painterly-шейдер пишет его всегда.
+
+Поэтому выбор `RigidPainterlyShader` в `PainterlyMaterialLibrary.ForColor` больше
+не ограничен списком 30 семейств, а определяется флагами, при которых блок
+деформации доказуемо инертен: `trample_ground_surface == false` (guard самой
+`snow_trample_at`), `has_snow_micro == false`, `wind_sway == 0`. Эти три флага
+пишутся только в самой фабрике, а `has_snow_micro` позже только опускается
+(`WithoutSnow`), так что инертный при создании материал остаётся инертным.
+Cutout/two-sided варианты используют другие шейдеры и не затрагиваются;
+snow-поверхности и семейства с ненулевым sway сохраняют полный шейдер.
+Вырезание блока побайтово точное по построению: `ShaderSource` собирается как
+конкатенация литералов с `VertexDeformation` между ними. Видимый результат не
+меняется; эффект на теневой проход не измерен (игра не запускалась).

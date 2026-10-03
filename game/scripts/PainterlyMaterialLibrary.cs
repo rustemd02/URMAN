@@ -960,23 +960,32 @@ public static class PainterlyMaterialLibrary
             }
         }
 
-        // Only this owner's known rigid families have immutable zero
-        // deformation flags. Snow, wind, cutout and unknown families retain
-        // the original shader, including when texture loads are suppressed.
-        var rigidSurface = surface is "wood" or "wood_log_uv" or "wood_facade"
-            or "wood_painted_blue" or "wood_painted_green" or "wood_painted_trim"
-            or "wood_floor_painted" or "wood_fence" or "wood_fence_vertical"
-            or "wood_fence_rail" or "wood_fence_uv" or "wood_furniture"
-            or "wood_furniture_interior" or "wood_prop" or "log_wall" or "wood_bark"
-            or "bark_pine" or "bark_birch_winter" or "wattle"
-            or "plaster" or "plaster_domestic" or "wall_institution" or "wallpaper"
-            or "stone" or "stone_foundation" or "iron" or "roof_metal" or "enamel"
-            or "plastic_abs" or "floor_institution";
-        if (rigidSurface && material.Shader == PainterlyShader
+        // The vertex deformation block is inert exactly when all three of its
+        // inputs are: snow_trample_at returns vec4(0) unless trample_ground_surface
+        // is set (its own guard), the microrelief branch requires has_snow_micro,
+        // and the wind branch requires wind_sway > 0. Removing a block that
+        // provably adds zero to VERTEX cannot change the visible result, and
+        // leaving VERTEX unwritten is what lets the renderer use its shared shadow
+        // material (uses_vertex_time && uses_vertex, see the engine's
+        // SceneShaderForwardClustered::ShaderData). The previous version restricted
+        // this to a hand-listed set of families; the flags themselves are the proof.
+        //
+        // Immutability of those flags: wind_sway and trample_ground_surface are
+        // written only here, and has_snow_micro is written here (true for snow
+        // surfaces only) and lowered to false by WithoutSnow. No code raises any of
+        // them on an existing material, so a material inert at creation stays inert.
+        //
+        // Exclusions that stay: cutout/two-sided/sheer variants use other shaders
+        // and never match PainterlyShader, so their alpha and culling contracts are
+        // untouched; snow surfaces keep the original variant because their
+        // microrelief and trample terms are live, and because a headless run that
+        // skips the micro texture must not change which variant is chosen.
+        var inertDeformation = !snowMaterial
+            && material.Shader == PainterlyShader
             && material.GetShaderParameter("wind_sway").AsSingle() == 0f
             && !material.GetShaderParameter("has_snow_micro").AsBool()
-            && !material.GetShaderParameter("trample_ground_surface").AsBool())
-            material.Shader = RigidPainterlyShader;
+            && !material.GetShaderParameter("trample_ground_surface").AsBool();
+        if (inertDeformation) material.Shader = RigidPainterlyShader;
 
         Materials.Add(cacheKey, material);
         return material;
