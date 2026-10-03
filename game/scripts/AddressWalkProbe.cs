@@ -24,12 +24,21 @@ internal sealed class AddressWalkProbe : IDisposable
     private readonly PhysicsTestMotionResult3D _landing = new();
     private readonly global::Godot.Collections.Array<Rid> _exclude = new();
     private Rid _body;
+    // Same-frame memo of the standing query; see Clear.
+    private readonly bool _memoizeSameFrameClear;
+    private ulong _clearFrame = ulong.MaxValue;
+    private bool _clearControlled;
+    private float _clearStanding;
+    private float _clearRadius;
+    private Vector3 _clearPose;
+    private bool _clearResult;
     internal string LastRejection { get; private set; } = string.Empty;
     internal string LastSupportProbe { get; private set; } = string.Empty;
     internal int StepsClimbed { get; private set; }
 
-    internal AddressWalkProbe(Node3D world)
+    internal AddressWalkProbe(Node3D world,bool memoizeSameFrameClear=false)
     {
+        _memoizeSameFrameClear=memoizeSameFrameClear;
         _space = world.GetWorld3D().DirectSpaceState;
         var playerNodes = world.GetTree().GetNodesInGroup("player_controller");
         using var playerNodesOwner = (global::Godot.Collections.Array)playerNodes;
@@ -56,7 +65,41 @@ internal sealed class AddressWalkProbe : IDisposable
     // capsule has just landed on its real support; querying that same contact
     // again as an inflated static overlap wrongly rejects ordinary floors.
     // The full capsule, swept motion, floor normals and step checks stay intact.
-    private bool Clear(Vector3 feet) => _player.CanStandAt(feet);
+    //
+    // Within one physics frame the audit walks several 8 cm steps without ever
+    // returning to the engine, so consecutive steps ask the same question about
+    // the same pose (a step's start pose is the previous step's verified landing).
+    // Nothing can move between those calls: the whole probe loop is synchronous
+    // inside one _PhysicsProcess, and CanFitAt has no side effects, so the answer
+    // for a bitwise-identical pose in the same frame is the same boolean. Reusing
+    // it removes one shape query per step; a different pose, a different frame or
+    // a NaN pose is still queried fresh.
+    private bool Clear(Vector3 feet)
+    {
+        // Opt-in: the address audit drives the probe with a fully synchronous loop
+        // inside one _PhysicsProcess, so no world state can change between two of
+        // its steps. Other drivers (the walk smoke tests) interleave their own
+        // frame waits and mutations, so they keep the unmemoised call and its
+        // bit-identical behaviour.
+        if (!_memoizeSameFrameClear) return _player.CanStandAt(feet);
+        var frame = Engine.GetPhysicsFrames();
+        // Everything the query reads belongs in the key: the capsule radius and
+        // standing height (CanStandAt asks CanFitAt for StandingBodyHeight and the
+        // query shape is keyed by radius) and VehicleControlled, on which CanFitAt
+        // switches the collision mask. The world, the exclusion set and the masks
+        // cannot change inside one tick for a caller that never returns to the
+        // engine, so the frame plus these three inputs is the whole key.
+        var standing = _player.StandingBodyHeight;
+        var radius = _player.BodyRadius;
+        var controlled = _player.VehicleControlled;
+        if (frame == _clearFrame && controlled == _clearControlled && standing == _clearStanding && radius == _clearRadius
+            && SameFeet(feet, _clearPose))
+            return _clearResult;
+        var result = _player.CanStandAt(feet);
+        _clearFrame = frame; _clearControlled = controlled; _clearStanding = standing; _clearRadius = radius;
+        _clearPose = feet; _clearResult = result;
+        return result;
+    }
 
     private bool Motion(Vector3 feet, Vector3 direction, PhysicsTestMotionResult3D result)
     {

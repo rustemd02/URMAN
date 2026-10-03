@@ -244,7 +244,10 @@ public partial class AddressAccessVerifier : Node3D
                 .OrderBy(p => p.DistanceXZ(Act1ConnectedWorld.AddressPoint(target))).First();
             suppliedStart = Act1ConnectedWorld.AddressVector(graphAnchor);
         }
-        using var body = new AddressWalkProbe(this);
+        // This driver never returns to the engine between probe steps (the loop
+        // below is synchronous), so the probe may reuse a standing query it already
+        // answered for the same pose in the same physics frame.
+        using var body = new AddressWalkProbe(this,memoizeSameFrameClear:true);
         void ReportSupport(string stage)
         {
             if (System.Environment.GetEnvironmentVariable("URMAN_ADDRESS_SUPPORT_DIAGNOSTICS") == "1")
