@@ -2523,8 +2523,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         _rain.InitialVelocityMin = active ? 11f : 6f;
         _rain.InitialVelocityMax = active ? 16f : 10f;
         _rain.Spread = active ? 12f : 18f;
-        _rain.EmissionBoxExtents = new Vector3(14f, 4f, 14f);
+        _rain.EmissionBoxExtents = new Vector3(12f, 3f, 12f);
         _rain.Amount = active ? 5200 : 4000;
+        ((ShaderMaterial)((QuadMesh)_rain.Mesh).Material).SetShaderParameter("snow_velocity",
+            _rain.Direction.Normalized() * ((_rain.InitialVelocityMin + _rain.InitialVelocityMax) * .5f));
         _rain.Restart();
     }
 
@@ -2535,9 +2537,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             Name = "AgentBSnow",
             Emitting = true,
             Amount = 4000,
-            Lifetime = 5.0,
+            // Keep the fixed particle budget around the view instead of spending
+            // most of a five-second flight below the terrain/downwind of the player.
+            Lifetime = 3.0,
             LocalCoords = false,
-            Preprocess = 5.0,
+            Preprocess = 3.0,
             Mesh = CreateSnowflakeMesh(),
             EmissionShape = CpuParticles3D.EmissionShapeEnum.Box,
             Gravity = new Vector3(0f, -0.32f, 0f),
@@ -2646,7 +2650,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         return ImageTexture.CreateFromImage(image);
     }
 
-    private static QuadMesh CreateSnowflakeMesh() => WinterParticleSurfaces.Snow(.044f, .58f, roomExclusion: true);
+    private static QuadMesh CreateSnowflakeMesh() => WinterParticleSurfaces.Snow(.026f, .50f, roomExclusion: true);
 
     private readonly List<(Node3D Owner, Vector3 Centre, Vector3 Half)> _weatherShelters = new();
     private int _windowWeatherShelter = -1;

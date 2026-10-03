@@ -32,30 +32,45 @@ public static class WinterParticleSurfaces
                 render_mode unshaded, cull_disabled;
                 uniform sampler2D snow_mask : source_color;
                 uniform vec4 snow_tint : source_color;
+                uniform vec3 snow_velocity = vec3(0.0);
+                uniform float flake_size = 0.044;
                 uniform bool shelter_enabled = false;
                 uniform mat4 shelter_from_world;
                 uniform vec3 shelter_centre;
                 uniform vec3 shelter_half;
                 varying float in_room;
+                varying float near_fade;
                 void vertex() {
                     vec3 local = (shelter_from_world * MODEL_MATRIX[3]).xyz - shelter_centre;
                     in_room = shelter_enabled && all(lessThan(abs(local), shelter_half)) ? 1.0 : 0.0;
-                    // Native billboard orientation, retaining the particle's random scale.
+                    // Project the existing world wind into the camera plane. A short
+                    // exposure stretches powder along its motion, never along screen Y.
+                    vec3 view_position = (VIEW_MATRIX * MODEL_MATRIX[3]).xyz;
+                    vec3 velocity = (VIEW_MATRIX * vec4(snow_velocity, 0.0)).xyz;
+                    vec2 wind = velocity.xy - view_position.xy * velocity.z / min(view_position.z, -0.6);
+                    float speed = length(wind);
+                    vec2 along = speed > 0.001 ? wind / speed : vec2(0.0, 1.0);
+                    vec2 across = vec2(along.y, -along.x);
                     mat4 facing = mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);
-                    facing[0].xyz *= length(MODEL_MATRIX[0].xyz);
-                    facing[1].xyz *= length(MODEL_MATRIX[1].xyz);
+                    facing[0].xyz = (INV_VIEW_MATRIX[0].xyz * across.x + INV_VIEW_MATRIX[1].xyz * across.y)
+                        * length(MODEL_MATRIX[0].xyz);
+                    facing[1].xyz = (INV_VIEW_MATRIX[0].xyz * along.x + INV_VIEW_MATRIX[1].xyz * along.y)
+                        // Bound the streak inside the occupied room's 0.15m shelter margin.
+                        * (length(MODEL_MATRIX[1].xyz) + min(speed * 0.012, 0.16) / flake_size);
                     facing[2].xyz *= length(MODEL_MATRIX[2].xyz);
+                    near_fade = smoothstep(0.6, 1.8, distance(MODEL_MATRIX[3].xyz, INV_VIEW_MATRIX[3].xyz));
                     MODELVIEW_MATRIX = VIEW_MATRIX * facing;
                 }
                 void fragment() {
                     if (in_room > 0.5) discard;
                     vec4 flake = texture(snow_mask, UV) * snow_tint * COLOR;
                     ALBEDO = flake.rgb;
-                    ALPHA = flake.a;
+                    ALPHA = flake.a * near_fade;
                 }
                 """ } };
             snow.SetShaderParameter("snow_mask", _mask);
             snow.SetShaderParameter("snow_tint", new Color(.93f, .95f, .98f, opacity));
+            snow.SetShaderParameter("flake_size", size);
             material = snow;
         }
         else material = new StandardMaterial3D
