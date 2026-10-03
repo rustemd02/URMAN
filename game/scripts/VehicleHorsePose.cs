@@ -18,7 +18,7 @@ public partial class VehicleHorsePose : Node3D
         internal required LegBinding Binding;
         internal Vector3 Sole, Normal = Vector3.Up, Start, End, EndNormal = Vector3.Up;
         internal float Swing, Duration = .20f, Error;
-        internal bool Moving, Grounded, Reachable;
+        internal bool Moving, Grounded, Reachable, SupportAtSole;
         internal string Collider = string.Empty, Rejection = "not projected";
         internal Rid GroundRid;
         internal Transform3D HoofPose;
@@ -26,6 +26,16 @@ public partial class VehicleHorsePose : Node3D
         // ground, so the visible cannon needs its own articulated frame.
         internal Transform3D KneePose;
         internal LegState Copy() => (LegState)MemberwiseClone();
+    }
+
+    // Same element order and content as _legs.Select(leg => leg.Copy()).ToArray():
+    // a fresh array per call, so plans never share a backing store, but no LINQ
+    // iterator or List inside ToArray.
+    private static LegState[] CopyLegs(IReadOnlyList<LegState> source)
+    {
+        var copy = new LegState[source.Count];
+        for (var index = 0; index < copy.Length; index++) copy[index] = source[index].Copy();
+        return copy;
     }
 
     internal sealed record PosePlan(Transform3D OwnerPose, Transform3D HorsePose,
@@ -48,6 +58,9 @@ public partial class VehicleHorsePose : Node3D
     public const float SoleHalfLength = .098f;
     public const int SoleSegments = 16;
     public const float MaximumSwingDuration = .28f;
+    // Straight, half and fully planted sole probes, in that order. Static and
+    // read-only: the loop only reads it, so no per-leg array is allocated.
+    private static readonly float[] StepProbeFractions = { 1f, .5f, 0f };
 
     public void Configure(Node3D horse, IReadOnlyList<LegBinding> legs, Node3D head)
     {
@@ -89,8 +102,10 @@ public partial class VehicleHorsePose : Node3D
         float steering, HorseDisposition disposition, bool rest = false)
     {
         if (_horse is null) throw new InvalidOperationException("Horse pose has no bindings.");
-        var horsePose = pose * owner.GlobalTransform.AffineInverse() * _horse.GlobalTransform;
-        var legs = _legs.Select(leg => leg.Copy()).ToArray();
+        var ownerPose = owner.GlobalTransform;
+        var horsePose = pose == ownerPose ? _horse.GlobalTransform
+            : pose * ownerPose.AffineInverse() * _horse.GlobalTransform;
+        var legs = CopyLegs(_legs);
         var dt = Math.Clamp(float.IsFinite(delta) ? delta : 0, 0, .10f);
         var distance = _initialized ? pose.Origin.DistanceTo(_previous.Origin) : 0;
         var rotation = _initialized ? pose.Basis.GetRotationQuaternion().AngleTo(_previous.Basis.GetRotationQuaternion()) : 0;
@@ -98,6 +113,7 @@ public partial class VehicleHorsePose : Node3D
             || rotation > .45f;
         var phaseValue = _phase; var replants = _replants; var stepsStarted = _stepsStarted;
         var excluded = new global::Godot.Collections.Array<Rid> { owner.GetRid(), owner.EntryTarget.GetRid() };
+        using var excludedOwner = (global::Godot.Collections.Array)excluded;
         if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player) excluded.Add(player.GetRid());
         using var ray = new PhysicsRayQueryParameters3D { CollisionMask = 3, Exclude = excluded };
         if (discontinuity)
@@ -133,6 +149,7 @@ public partial class VehicleHorsePose : Node3D
         var direction = -pose.Basis.Z * (speed < -.025f ? -1 : 1);
         foreach (var leg in legs)
         {
+            leg.SupportAtSole = false;
             var binding = leg.Binding;
             var wanted = horsePose * binding.RestSole;
             var sequence = binding.Hind ? (binding.Hip.Position.X < 0 ? 0 : 2) : (binding.Hip.Position.X < 0 ? 1 : 3);
@@ -143,7 +160,7 @@ public partial class VehicleHorsePose : Node3D
             if (!leg.Moving && moving && (phase < .20f && (behind > .025f || yawTravel > .0001f && drift > .045f) || overextended))
             {
                 var lead = Math.Clamp(Math.Abs(speed) * .09f, .08f, .28f);
-                foreach (var fraction in new[] { 1f, .5f, 0f })
+                foreach (var fraction in StepProbeFractions)
                 {
                     var candidate = wanted + direction * lead * fraction;
                     if (!Ground(owner, ray, horsePose.Basis, candidate, out var floor, out var normal,
@@ -181,6 +198,7 @@ public partial class VehicleHorsePose : Node3D
                 // never replaced by an invented plane or reported as grounded.
                 leg.Grounded = Ground(owner, ray, horsePose.Basis, leg.Sole, out var floor, out var normal,
                     out var collider, out var groundRid, out var reason);
+                leg.SupportAtSole = leg.Grounded && leg.Sole == floor;
                 if (leg.Grounded) { leg.Sole = floor; leg.Normal = normal; }
                 leg.Collider = collider; leg.GroundRid = groundRid; leg.Rejection = reason;
             }
@@ -193,13 +211,16 @@ public partial class VehicleHorsePose : Node3D
     internal void PublishPose(PosePlan plan)
     {
         if (_horse is null || _head is null) throw new InvalidOperationException("Horse pose has no bindings.");
-        _legs.Clear(); _legs.AddRange(plan.Legs.Select(leg => leg.Copy()));
+        _legs.Clear(); _legs.AddRange(CopyLegs(plan.Legs));
         _phase = plan.Phase; _replants = plan.Replants; _stepsStarted = plan.StepsStarted;
         _horizontalTravel = plan.HorizontalTravel; _verticalDelta = plan.VerticalDelta; _yawTravel = plan.YawTravel;
         foreach (var leg in _legs) Solve(leg, plan.HorsePose, true);
         var steering = plan.Steering; var disposition = plan.Disposition;
-        _head.RotationDegrees = _headRest + new Vector3(disposition >= HorseDisposition.Wary ? -7 : 0,
+        var headRotation = _headRest + new Vector3(disposition >= HorseDisposition.Wary ? -7 : 0,
             disposition == HorseDisposition.Refusing ? 14 : Mathf.RadToDeg(steering) * .3f, 0);
+        // Exact comparison only: assigning the same rotation is a no-op value
+        // write, so skipping it leaves the identical head transform.
+        if (_head.RotationDegrees != headRotation) _head.RotationDegrees = headRotation;
         UpdateReins();
         _previous = plan.OwnerPose; _initialized = true;
     }
@@ -207,7 +228,7 @@ public partial class VehicleHorsePose : Node3D
     internal PosePlan RebasePose(PosePlan plan, Transform3D ownerPose)
     {
         var horsePose = ownerPose * plan.OwnerPose.AffineInverse() * plan.HorsePose;
-        var legs = plan.Legs.Select(leg => leg.Copy()).ToArray();
+        var legs = CopyLegs(plan.Legs);
         foreach (var leg in legs) Solve(leg, horsePose, false);
         return plan with { OwnerPose = ownerPose, HorsePose = horsePose, Legs = legs };
     }
@@ -218,14 +239,33 @@ public partial class VehicleHorsePose : Node3D
         foreach (var leg in _legs) { leg.Grounded = false; leg.Rejection = reason; }
     }
 
-    internal PosePlan SettlePose(VehicleController owner, PosePlan plan)
+    internal PosePlan SettlePose(VehicleController owner, PosePlan plan, bool reuseFreshSupport = false)
     {
-        var legs = plan.Legs.Select(leg => leg.Copy()).ToArray();
+        var legs = CopyLegs(plan.Legs);
         var excluded = new global::Godot.Collections.Array<Rid> { owner.GetRid(), owner.EntryTarget.GetRid() };
+        using var excludedOwner = (global::Godot.Collections.Array)excluded;
         if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player) excluded.Add(player.GetRid());
         using var ray = new PhysicsRayQueryParameters3D { CollisionMask = 3, Exclude = excluded };
         foreach (var leg in legs)
         {
+            // SupportAtSole was set from this exact retained-sole ray in this
+            // same tick (the `leg.SupportAtSole = leg.Grounded && leg.Sole ==
+            // floor` line of PreparePose): it already returned floor ==
+            // leg.Sole together with the current Normal/Collider/GroundRid and
+            // an empty Rejection. Ground is deterministic for the same wanted,
+            // mask and exclusion set, so re-running it would repeat exactly
+            // those values; only the remaining writes of the grounded branch
+            // (Start/End/Swing/Moving/EndNormal) are needed here. Callers that
+            // pass a rebased plan must not enable this, because Ground's
+            // corner validation also depends on HorsePose.Basis.
+            if (reuseFreshSupport && !leg.Moving && leg.SupportAtSole)
+            {
+                leg.Start = leg.End = leg.Sole;
+                leg.EndNormal = leg.Normal;
+                leg.Swing = 0; leg.Moving = false;
+                Solve(leg, plan.HorsePose, false);
+                continue;
+            }
             leg.Grounded = Ground(owner, ray, plan.HorsePose.Basis, leg.Sole, out var floor, out var normal,
                 out var collider, out var groundRid, out var reason);
             if (leg.Grounded)
@@ -245,7 +285,7 @@ public partial class VehicleHorsePose : Node3D
         point = wanted; normal = Vector3.Up; collider = string.Empty; groundRid = default; rejection = string.Empty;
         var space = owner.GetWorld3D().DirectSpaceState;
         ray.From = wanted + Vector3.Up * .30f; ray.To = wanted - Vector3.Up * .35f;
-        var hit = space.IntersectRay(ray);
+        using var hit = space.IntersectRay(ray);
         if (hit.Count == 0) { rejection = "no ground below sole"; return false; }
         point = hit["position"].AsVector3(); normal = hit["normal"].AsVector3().Normalized();
         collider = (hit["collider"].AsGodotObject() as Node)?.GetPath().ToString() ?? "physics RID";
@@ -261,7 +301,7 @@ public partial class VehicleHorsePose : Node3D
             var x=Mathf.Cos(angle)*SoleHalfWidth;var z=Mathf.Sin(angle)*SoleHalfLength;
             var corner = point + basis.X * x + basis.Z * z;
             ray.From = corner + Vector3.Up * .16f; ray.To = corner - Vector3.Up * .20f;
-            var edge = space.IntersectRay(ray);
+            using var edge = space.IntersectRay(ray);
             if (edge.Count == 0 || edge["normal"].AsVector3().Y < .78f
                 || Math.Abs((edge["position"].AsVector3() - point).Dot(normal)) > .012f)
             {
@@ -302,11 +342,17 @@ public partial class VehicleHorsePose : Node3D
         leg.KneePose = new(BoneBasis(solvedAnkle - knee, horsePose.Basis.X), knee);
         if (apply)
         {
-            binding.Hip.GlobalBasis = BoneBasis(knee - hip, horsePose.Basis.X);
-            binding.Knee.Position = Vector3.Down * binding.UpperLength;
-            binding.Knee.GlobalBasis = leg.KneePose.Basis;
-            binding.Hoof.Position = Vector3.Down * binding.LowerLength;
-            binding.Hoof.GlobalBasis = leg.HoofPose.Basis;
+            // Exact comparisons only, in the original write order: assigning an
+            // already equal basis/position leaves the identical bone transform,
+            // so a skipped repeated write cannot change the visible skeleton.
+            var hipBasis = BoneBasis(knee - hip, horsePose.Basis.X);
+            if (binding.Hip.GlobalBasis != hipBasis) binding.Hip.GlobalBasis = hipBasis;
+            var kneeOffset = Vector3.Down * binding.UpperLength;
+            if (binding.Knee.Position != kneeOffset) binding.Knee.Position = kneeOffset;
+            if (binding.Knee.GlobalBasis != leg.KneePose.Basis) binding.Knee.GlobalBasis = leg.KneePose.Basis;
+            var hoofOffset = Vector3.Down * binding.LowerLength;
+            if (binding.Hoof.Position != hoofOffset) binding.Hoof.Position = hoofOffset;
+            if (binding.Hoof.GlobalBasis != leg.HoofPose.Basis) binding.Hoof.GlobalBasis = leg.HoofPose.Basis;
         }
         var actualSole = leg.HoofPose * (Vector3.Down * SoleDepth);
         leg.Error = actualSole.DistanceTo(leg.Sole);

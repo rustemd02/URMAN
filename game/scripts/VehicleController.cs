@@ -34,6 +34,15 @@ public partial class VehicleController : CharacterBody3D
     private bool _hasSavedYaw;
     private bool _collisionStopDiagnostics;
     private JsonObject? _firstCollisionStop;
+    // Writes driven only by player input are skipped while the value is unchanged.
+    private bool? _lampsVisible;
+    // The authored visual is built once and its wheel lists never change, so the
+    // per-tick wheel pass no longer walks IReadOnlyList through LINQ/boxed
+    // enumerators: index -> wheel plus its precomputed front-wheel flag.
+    private Node3D[] _visualWheels = Array.Empty<Node3D>();
+    private bool[] _visualFrontWheel = Array.Empty<bool>();
+    private static readonly string[] ControlReleaseActions = {"interact","carry_use","carry_rotate","carry_place","crouch",
+        "jump","move_forward","move_backward","move_left","move_right"};
 
     public VehicleDefinition Definition { get; private set; } = null!;
     public FirstPersonController? Driver { get; private set; }
@@ -82,6 +91,13 @@ public partial class VehicleController : CharacterBody3D
         FloorStopOnSlope = true; FloorConstantSpeed = true; MaxSlides = 4;
         _exitShape = new CapsuleShape3D { Radius = .35f, Height = 1.8f };
         _visual = VehicleVisualFactory.Build(definition); AddChild(_visual.Root);
+        _visualWheels = new Node3D[_visual.Wheels.Count];
+        _visualFrontWheel = new bool[_visualWheels.Length];
+        for (var index = 0; index < _visualWheels.Length; index++)
+        {
+            _visualWheels[index] = _visual.Wheels[index];
+            _visualFrontWheel[index] = _visual.FrontWheels.Contains(_visualWheels[index]);
+        }
         BuildCompoundCollision();
         BuildSteeringCollision();
         BuildSupportTopology();
@@ -221,11 +237,18 @@ public partial class VehicleController : CharacterBody3D
         }
         if (_controlsNeedRelease)
         {
-            var actions = new[]{"interact","carry_use","carry_rotate","carry_place","crouch","jump",
-                "move_forward","move_backward","move_left","move_right"};
-            if (actions.All(action => !InputMap.HasAction(action)
-                || (!Input.IsActionPressed(action) && !Input.IsActionJustPressed(action))))
-                _controlsNeedRelease = false;
+            // Same disjunction as All(!HasAction || (!Pressed && !JustPressed)):
+            // an available action that is held or pressed right now blocks the
+            // release, and HasAction still short-circuits before any input read.
+            var released = true;
+            for (var index = 0; index < ControlReleaseActions.Length; index++)
+            {
+                var action = ControlReleaseActions[index];
+                if (!InputMap.HasAction(action)) continue;
+                if (!Input.IsActionPressed(action) && !Input.IsActionJustPressed(action)) continue;
+                released = false; break;
+            }
+            if (released) _controlsNeedRelease = false;
             AttachDriver(); UpdateVisuals(dt); return;
         }
         if (Input.IsActionJustPressed("interact")) { TryExit(); if(Driver is null)return; }
@@ -489,8 +512,12 @@ public partial class VehicleController : CharacterBody3D
     private void UpdateVisuals(float delta)
     {
         ApplySteeringCollision();
-        foreach (var wheel in _visual.Wheels)            wheel.Rotation = new(_wheelPhase,_visual.FrontWheels.Contains(wheel)?RoadWheelYaw(_steering):0,0);
-        foreach (var lamp in _visual.Lamps) lamp.Visible = Headlights;
+        for (var index = 0; index < _visualWheels.Length; index++)
+            _visualWheels[index].Rotation = new(_wheelPhase,_visualFrontWheel[index]?RoadWheelYaw(_steering):0,0);
+        // Visually switching the lamps is a pure presentation write of the same
+        // boolean; the native set only happens when Headlights actually changes.
+        if(_lampsVisible!=Headlights)
+        { _lampsVisible=Headlights;foreach (var lamp in _visual.Lamps) lamp.Visible = Headlights; }
         if(_visual.SteeringWheel is {} steering)
             steering.RotationDegrees = new(VehicleVisualFactory.NivaSteeringTiltDegrees,0,-Mathf.RadToDeg(_steering)*2f);
         if(_visual.Charm is {} charm)SwingCharm(charm,delta);
@@ -499,10 +526,15 @@ public partial class VehicleController : CharacterBody3D
         if(_visual.EngineNeedle is {} engineNeedle)
             engineNeedle.RotationDegrees=new(0,0,130-(EngineRunning ? .9f+Math.Abs(Speed)*.28f : 0)/8*260);
         if(_visual.RadioDisplay is {} tuning)
-            tuning.Text=Radio?.Tuning??"— —";
+        {
+            var text=Radio?.Tuning??"— —";
+            // Same string value, so an unchanged tuning label is not rewritten.
+            if(tuning.Text!=text)tuning.Text=text;
+        }
         // Roll around the rider's support, with the handlebar/mirrors staying
         // inside the real one-metre hull even at the maximum permitted bank.
-        _visual.Root.Transform = MotorcycleLeanTransform();
+        var visualTransform = MotorcycleLeanTransform();
+        if (_visual.Root.Transform != visualTransform) _visual.Root.Transform = visualTransform;
         _visual.HorsePose?.UpdatePose(this,delta,Speed,_steering,HorseState);
         // Occupied-cart driver figure: visible exactly while this cart has a
         // driver, hidden otherwise. Presentation only, no physics or save role.

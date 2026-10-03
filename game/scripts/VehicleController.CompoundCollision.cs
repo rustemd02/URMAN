@@ -387,13 +387,18 @@ public partial class VehicleController
     private bool HoofEndpointClear(VehicleHorsePose.PosePlan frame, out JsonObject? contact, bool requireSupport = true)
     {
         contact = null;
+        var baseExcluded = PlacementExcluded();
+        using var baseExcludedOwner = (global::Godot.Collections.Array)baseExcluded;
         for (var index = 0; index < _hoofQueries.Count; index++)
         {
             var leg = frame.Legs[index];
+            var excluded = HoofExcluded(frame, index, baseExcluded);
+            using var excludedOwner = (global::Godot.Collections.Array)excluded;
             using var query = new PhysicsShapeQueryParameters3D { Shape = _hoofQueries[index].Shape,
                 Transform = leg.HoofPose, CollisionMask = CollisionMask, Margin = 0,
-                Exclude = HoofExcluded(frame, index, PlacementExcluded()) };
+                Exclude = excluded };
             var hits = GetWorld3D().DirectSpaceState.IntersectShape(query, 1);
+            using var hitsOwner = (global::Godot.Collections.Array)hits;
             if (hits.Count == 0)
             {
                 if (requireSupport && (!leg.Reachable || !leg.Moving && !leg.Grounded))
@@ -404,7 +409,8 @@ public partial class VehicleController
                 }
                 continue;
             }
-            contact = DescribePlacementContact(hits[0]);
+            using var hit = hits[0];
+            contact = DescribePlacementContact(hit);
             contact["vehicleShape"] = _hoofQueries[index].Name; contact["foot"] = index;
             contact["kind"] = "hoof-endpoint"; return false;
         }
@@ -412,12 +418,16 @@ public partial class VehicleController
         // the knee-frame cannon volume would clip through it.
         for (var index = 0; index < _lowerLegQueries.Count; index++)
         {
+            var excluded = LowerLegExcluded(frame, index, baseExcluded);
+            using var excludedOwner = (global::Godot.Collections.Array)excluded;
             using var query = new PhysicsShapeQueryParameters3D { Shape = _lowerLegQueries[index].Shape,
                 Transform = frame.Legs[index].KneePose, CollisionMask = CollisionMask, Margin = 0,
-                Exclude = LowerLegExcluded(frame, index, PlacementExcluded()) };
+                Exclude = excluded };
             var hits = GetWorld3D().DirectSpaceState.IntersectShape(query, 1);
+            using var hitsOwner = (global::Godot.Collections.Array)hits;
             if (hits.Count == 0) continue;
-            contact = DescribePlacementContact(hits[0]);
+            using var hit = hits[0];
+            contact = DescribePlacementContact(hit);
             contact["vehicleShape"] = _lowerLegQueries[index].Name; contact["foot"] = index;
             contact["kind"] = "lower-leg-endpoint"; return false;
         }
@@ -426,12 +436,18 @@ public partial class VehicleController
 
     private bool HoofSegmentClear(VehicleHorsePose.PosePlan from, VehicleHorsePose.PosePlan to, out JsonObject? contact)
     {
+        // Identical contact geometry has no swept path. Still validate the
+        // current endpoint against this tick's world and refreshed support.
+        if (from.Legs.Zip(to.Legs, (a, b) => a.HoofPose == b.HoofPose && a.KneePose == b.KneePose
+            && a.Sole == b.Sole && a.Normal == b.Normal && a.GroundRid == b.GroundRid).All(same => same))
+            return HoofEndpointClear(to, out contact);
         if (!HoofEndpointClear(from, out contact, requireSupport: false) || !HoofEndpointClear(to, out contact)) return false;
         var space = GetWorld3D().DirectSpaceState;
         if (!LowerLegSegmentClear(from, to, out contact)) return false;
         for (var index = 0; index < _hoofQueries.Count; index++)
         {
             var volume = _hoofQueries[index]; var a = from.Legs[index]; var b = to.Legs[index];
+            if (a.HoofPose == b.HoofPose) continue;
             var motion = b.HoofPose.Origin - a.HoofPose.Origin;
             var angle = a.HoofPose.Basis == b.HoofPose.Basis ? 0
                 : a.HoofPose.Basis.GetRotationQuaternion().AngleTo(b.HoofPose.Basis.GetRotationQuaternion());
@@ -440,14 +456,23 @@ public partial class VehicleController
             // radius bound supplements this query; it never shrinks body margin.
             var rotationBound = 2 * radius * Mathf.Sin(Math.Min(Mathf.Pi, angle) * .5f);
             var excluded = PlacementExcluded();
+            using var excludedOwner = (global::Godot.Collections.Array)excluded;
             var envelope = volume.Vertices.Select(point => a.HoofPose * point)
                 .SelectMany(point => new[] { point, point + motion }).ToArray();
-            foreach (var rid in new[] { a.GroundRid, b.GroundRid }.Distinct())
-                if (HoofSupportExclusionClear(rid, envelope, rotationBound) && !excluded.Contains(rid)) excluded.Add(rid);
+            // Same two-RID set, same first-occurrence order and the same
+            // HoofSupportExclusionClear/excluded.Contains guards as
+            // `new[] { a.GroundRid, b.GroundRid }.Distinct()`: the second RID is
+            // skipped only when it equals the first, exactly like Distinct().
+            if (HoofSupportExclusionClear(a.GroundRid, envelope, rotationBound) && !excluded.Contains(a.GroundRid))
+                excluded.Add(a.GroundRid);
+            if (b.GroundRid != a.GroundRid
+                && HoofSupportExclusionClear(b.GroundRid, envelope, rotationBound) && !excluded.Contains(b.GroundRid))
+                excluded.Add(b.GroundRid);
             using var query = new PhysicsShapeQueryParameters3D { Shape = volume.Shape, Transform = a.HoofPose,
                 Motion = motion, CollisionMask = CollisionMask, Margin = rotationBound, Exclude = excluded };
             // CastMotion ignores initial overlaps; check the rotational envelope first.
             var initial = space.IntersectShape(query, 1);
+            using var initialOwner = (global::Godot.Collections.Array)initial;
             var fractions = space.CastMotion(query);
             if (fractions.Length != 2 || fractions.Any(value => !float.IsFinite(value) || value < 0 || value > 1))
             {
@@ -459,12 +484,18 @@ public partial class VehicleController
             var fraction = initial.Count != 0 ? 0 : fractions[0];
             var identificationFraction = fractions.Length > 1 ? fractions[1] : fraction;
             query.Transform = new(a.HoofPose.Basis, a.HoofPose.Origin + motion * identificationFraction);
-            var rest = space.GetRestInfo(query);
-            contact = initial.Count != 0 ? DescribePlacementContact(initial[0]) : new JsonObject();
+            using var rest = space.GetRestInfo(query);
+            using var initialHit = initial.Count != 0 ? initial[0] : null;
+            contact = initialHit is not null ? DescribePlacementContact(initialHit) : new JsonObject();
             if (initial.Count == 0)
             {
                 var identified = space.IntersectShape(query, 1);
-                if (identified.Count != 0) contact = DescribePlacementContact(identified[0]);
+                using var identifiedOwner = (global::Godot.Collections.Array)identified;
+                if (identified.Count != 0)
+                {
+                    using var hit = identified[0];
+                    contact = DescribePlacementContact(hit);
+                }
             }
             contact["vehicleShape"] = volume.Name; contact["foot"] = index;
             contact["kind"] = "hoof-sweep"; contact["safeFraction"] = fraction;
@@ -494,18 +525,28 @@ public partial class VehicleController
         {
             var volume = _lowerLegQueries[index];
             var a = from.Legs[index].KneePose; var b = to.Legs[index].KneePose;
+            if (a == b) continue;
             var motion = b.Origin - a.Origin;
             var angle = a.Basis == b.Basis ? 0 : a.Basis.GetRotationQuaternion().AngleTo(b.Basis.GetRotationQuaternion());
             var radius = volume.Vertices.Max(point => point.Length());
             var rotationBound = 2 * radius * Mathf.Sin(Math.Min(Mathf.Pi, angle) * .5f);
-            var excluded = LowerLegExcluded(from, index, PlacementExcluded());
+            var baseExcluded = PlacementExcluded();
+            using var baseExcludedOwner = (global::Godot.Collections.Array)baseExcluded;
+            var excluded = LowerLegExcluded(from, index, baseExcluded);
+            using var excludedOwner = (global::Godot.Collections.Array)excluded;
             var envelope = volume.Vertices.Select(point => a * point)
                 .SelectMany(point => new[] { point, point + motion }).ToArray();
-            foreach (var rid in new[] { from.Legs[index].GroundRid, to.Legs[index].GroundRid }.Distinct())
-                if (HoofSupportExclusionClear(rid, envelope, rotationBound) && !excluded.Contains(rid)) excluded.Add(rid);
+            // Same as `new[] { from, to }.Distinct()`: same set, same
+            // first-occurrence order, second RID skipped only when equal.
+            if (HoofSupportExclusionClear(from.Legs[index].GroundRid, envelope, rotationBound)
+                && !excluded.Contains(from.Legs[index].GroundRid)) excluded.Add(from.Legs[index].GroundRid);
+            if (to.Legs[index].GroundRid != from.Legs[index].GroundRid
+                && HoofSupportExclusionClear(to.Legs[index].GroundRid, envelope, rotationBound)
+                && !excluded.Contains(to.Legs[index].GroundRid)) excluded.Add(to.Legs[index].GroundRid);
             using var query = new PhysicsShapeQueryParameters3D { Shape = volume.Shape, Transform = a,
                 Motion = motion, CollisionMask = CollisionMask, Margin = rotationBound, Exclude = excluded };
             var initial = space.IntersectShape(query, 1);
+            using var initialOwner = (global::Godot.Collections.Array)initial;
             var fractions = space.CastMotion(query);
             if (fractions.Length != 2 || fractions.Any(value => !float.IsFinite(value) || value < 0 || value > 1))
             {
@@ -517,11 +558,17 @@ public partial class VehicleController
             var fraction = initial.Count != 0 ? 0 : fractions[0];
             var identificationFraction = fractions.Length > 1 ? fractions[1] : fraction;
             query.Transform = new(a.Basis, a.Origin + motion * identificationFraction);
-            contact = initial.Count != 0 ? DescribePlacementContact(initial[0]) : new JsonObject();
+            using var initialHit = initial.Count != 0 ? initial[0] : null;
+            contact = initialHit is not null ? DescribePlacementContact(initialHit) : new JsonObject();
             if (initial.Count == 0)
             {
                 var identified = space.IntersectShape(query, 1);
-                if (identified.Count != 0) contact = DescribePlacementContact(identified[0]);
+                using var identifiedOwner = (global::Godot.Collections.Array)identified;
+                if (identified.Count != 0)
+                {
+                    using var hit = identified[0];
+                    contact = DescribePlacementContact(hit);
+                }
             }
             contact["vehicleShape"] = volume.Name; contact["foot"] = index;
             contact["kind"] = "lower-leg-sweep"; contact["safeFraction"] = fraction;
@@ -531,11 +578,21 @@ public partial class VehicleController
         return true;
     }
 
-    private VehicleHorsePose.PosePlan SupportedHorseFrame(VehicleHorsePose horse, VehicleHorsePose.PosePlan candidate)
+    private VehicleHorsePose.PosePlan SupportedHorseFrame(VehicleHorsePose horse, VehicleHorsePose.PosePlan candidate,
+        bool freshlyPrepared = false)
     {
+        // PreparePose already checked the full footprint this tick. Reuse it
+        // only if projection did not move any sole; rebased and swinging plans
+        // still need their separate clearance projection.
+        if (freshlyPrepared && candidate.Legs.All(leg => !leg.Moving && leg.Grounded && leg.SupportAtSole)) return candidate;
         // The same full oval support query checks the ground under an airborne
         // foot too; a swing may clear that surface but may not pass through it.
-        var support = horse.SettlePose(this, candidate);
+        // Legs PreparePose already proved planted at their own sole in this
+        // same tick skip only their repeated ray (identical state, see
+        // SettlePose); that reuse is limited to plans this tick's PreparePose
+        // produced, because a rebased plan re-runs the ray with another
+        // HorsePose.Basis and Ground's corner validation depends on it.
+        var support = horse.SettlePose(this, candidate, reuseFreshSupport: freshlyPrepared);
         for (var index = 0; index < candidate.Legs.Count; index++)
         {
             var leg = candidate.Legs[index]; var floor = support.Legs[index];
@@ -550,8 +607,8 @@ public partial class VehicleController
     {
         if (_visual.HorsePose is not {} horse || _hoofQueries.Count == 0) return 1;
         var start = _acceptedHorsePose ?? SupportedHorseFrame(horse,
-            horse.PreparePose(this, GlobalTransform, 0, 0, _steering, HorseState, rest: true));
-        var end = SupportedHorseFrame(horse, horse.PreparePose(this, target, dt, Speed, _steering, HorseState));
+            horse.PreparePose(this, GlobalTransform, 0, 0, _steering, HorseState, rest: true), freshlyPrepared: true);
+        var end = SupportedHorseFrame(horse, horse.PreparePose(this, target, dt, Speed, _steering, HorseState), freshlyPrepared: true);
         var travel = start.Legs.Zip(end.Legs, (a, b) => a.HoofPose.Origin.DistanceTo(b.HoofPose.Origin)).Max();
         var angle = start.Legs.Zip(end.Legs, (a, b) =>
             a.HoofPose.Basis.GetRotationQuaternion().AngleTo(b.HoofPose.Basis.GetRotationQuaternion())).Max();
@@ -561,7 +618,7 @@ public partial class VehicleController
         {
             var fraction = (float)step / steps;
             var pose = GlobalTransform.InterpolateWith(target, fraction);
-            var candidate = SupportedHorseFrame(horse, horse.PreparePose(this, pose, dt * fraction, Speed, _steering, HorseState));
+            var candidate = SupportedHorseFrame(horse, horse.PreparePose(this, pose, dt * fraction, Speed, _steering, HorseState), freshlyPrepared: true);
             if (!HoofSegmentClear(last, candidate, out var contact))
             {
                 _lastHoofContact = contact; CollisionStops++;
@@ -579,7 +636,7 @@ public partial class VehicleController
     internal void CommitHorsePose(VehicleHorsePose horse, VehicleHorsePose.PosePlan candidate)
     {
         var wanted = SupportedHorseFrame(horse, _pendingHorsePose is {} pending
-            ? horse.RebasePose(pending, GlobalTransform) : candidate);
+            ? horse.RebasePose(pending, GlobalTransform) : candidate, freshlyPrepared: _pendingHorsePose is null);
         _pendingHorsePose = null;
         var start = _acceptedHorsePose;
         JsonObject? contact;
@@ -631,7 +688,7 @@ public partial class VehicleController
         if (_horseProjectionFailure.Length == 0) return true;
         if (_visual.HorsePose is not {} horse || _rejectedHorsePose is not {} previous) return false;
         var candidate = SupportedHorseFrame(horse,
-            horse.PreparePose(this, GlobalTransform, 0, 0, _steering, HorseState, rest: true));
+            horse.PreparePose(this, GlobalTransform, 0, 0, _steering, HorseState, rest: true), freshlyPrepared: true);
         if (!HoofSegmentClear(previous, candidate, out _) || !ValidatePhysicalPlacement(out _)) return false;
         _rejectedHorsePose = null; _horseProjectionFailure = string.Empty;
         _acceptedHorsePose = candidate; horse.PublishPose(candidate);

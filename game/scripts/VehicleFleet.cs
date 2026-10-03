@@ -16,6 +16,8 @@ public partial class VehicleFleet : Node3D
     private Act1ConnectedWorld _world = null!;
     private RuntimeBridge? _bridge;
     private FirstPersonController? _player;
+    private PauseMenuUi? _pauseMenu;
+    private SettingsUi? _settingsUi;
     private object? _session;
     private bool _dirty;
     private bool _saving;
@@ -35,7 +37,16 @@ public partial class VehicleFleet : Node3D
     private Label _hint=null!;
     private CanvasLayer _hud=null!;
     public IReadOnlyList<VehicleController> Vehicles=>_vehicles;
-    public VehicleController? Occupied=>_vehicles.FirstOrDefault(vehicle=>vehicle.Driver is not null);
+    // Same first-match order as _vehicles.FirstOrDefault(vehicle=>vehicle.Driver is not null),
+    // without the LINQ enumerator allocation on every HUD read.
+    public VehicleController? Occupied
+    {
+        get
+        {
+            foreach(var vehicle in _vehicles)if(vehicle.Driver is not null)return vehicle;
+            return null;
+        }
+    }
     public bool Suspended { get; private set; }
     public string? ProjectionFailure=>_projectionFailure;
     public bool PlacementValidationDeferred=>_placementValidationDeferred;
@@ -97,17 +108,36 @@ public partial class VehicleFleet : Node3D
     public override void _PhysicsProcess(double delta)
     {
         AttachBridge();
-        _player=GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        // Cached tree lookups: each of these groups holds one authored node, so
+        // a valid node still inside the tree is what GetFirstNodeInGroup would
+        // return. The player body is rebuilt with the world on a session change,
+        // so validity and tree membership are rechecked every tick.
+        if(_player is null||!GodotObject.IsInstanceValid(_player)||!_player.IsInsideTree())
+            _player=GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        if(_pauseMenu is null||!GodotObject.IsInstanceValid(_pauseMenu)||!_pauseMenu.IsInsideTree())
+            _pauseMenu=GetTree().GetFirstNodeInGroup("pause_menu") as PauseMenuUi;
+        if(_settingsUi is null||!GodotObject.IsInstanceValid(_settingsUi)||!_settingsUi.IsInsideTree())
+            _settingsUi=GetTree().GetFirstNodeInGroup("settings_ui") as SettingsUi;
         if(_bridge?.ProjectionSessionIdentity is {} session&&!ReferenceEquals(_session,session))
             ProjectSession(session);
         else if(_projectionFrames>0&&--_projectionFrames==0)
             FinishSessionProjection();
-        var menu=GetTree().GetNodesInGroup("main_menu").OfType<MainMenuUi>().Any(item=>!item.IsDismissed);
+        // GetNodesInGroup allocated a native Array<Node> plus a LINQ iterator on
+        // every physics tick. One MainMenuUi is authored and Dismiss() queue-frees
+        // it, so an empty group or a live un-dismissed first node already decides
+        // this. The full enumeration remains as the fallback for the frame where
+        // a dismissed node is still in the tree or a non-menu node shares the
+        // group, preserving "at least one un-dismissed MainMenuUi".
+        Node? firstMenu=GetTree().GetFirstNodeInGroup("main_menu");
+        var menu=firstMenu is MainMenuUi{IsDismissed:false}
+            ||(firstMenu is not null&&firstMenu is not MainMenuUi{IsDismissed:false}
+                &&GetTree().GetNodesInGroup("main_menu").OfType<MainMenuUi>().Any(item=>!item.IsDismissed));
         var demo=_bridge?.GetParent()?.GetParent() as Act1DemoRoot;
         Suspended=_saving||_loading||_projectionFrames>0||_projectionFailure is not null||menu||demo?.DemoEnded==true
-            ||GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi{IsOpen:true}
-            ||GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi{IsOpen:true};
-        _hud.Visible=!Suspended&&Occupied is not null&&_player?.ModalOpen==false;
+            ||_pauseMenu is {IsOpen:true}
+            ||_settingsUi is {IsOpen:true};
+        var hudVisible=!Suspended&&Occupied is not null&&_player?.ModalOpen==false;
+        if(_hud.Visible!=hudVisible)_hud.Visible=hudVisible;
         if(_hud.Visible)
         {
             var scale=(float)(_player?.Accessibility.TextScale??1);

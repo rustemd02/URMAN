@@ -39,9 +39,15 @@ public partial class VehicleController
     {
         var lean=MotorcycleLeanTransform();
         foreach(var volume in _fixedVolumes)
-            volume.Node.Transform=volume.Leans?lean*volume.Bind:volume.Bind;
+        {
+            var transform=volume.Leans?lean*volume.Bind:volume.Bind;
+            if(volume.Node.Transform!=transform)volume.Node.Transform=transform;
+        }
         foreach(var wheel in _steeringVolumes)
-            wheel.Collider.Transform=lean*new Transform3D(Basis.FromEuler(new(0,RoadWheelYaw(_steering),0)),wheel.Centre);
+        {
+            var transform=lean*new Transform3D(Basis.FromEuler(new(0,RoadWheelYaw(_steering),0)),wheel.Centre);
+            if(wheel.Collider.Transform!=transform)wheel.Collider.Transform=transform;
+        }
     }
 
     private IEnumerable<(Shape3D Shape,Transform3D Transform,string Name)> CollisionVolumes(
@@ -67,16 +73,33 @@ public partial class VehicleController
     {
         var result=new global::Godot.Collections.Array<global::Godot.Collections.Dictionary>();
         using var query=new PhysicsShapeQueryParameters3D{CollisionMask=CollisionMask,Exclude=excluded,Margin=0};
+        // Hoisted frame: only a hoof/lower-leg volume can consume it, and for
+        // every other volume both ternary branches already evaluated to
+        // `excluded` (hoofIndex and lowerLegIndex are -1), so the per-volume
+        // call was computed and discarded. One call returns the same frame for
+        // all volumes of this tick: PreparePose only reads _legs/_previous/
+        // phase/replants/stepsStarted and the world (state is written only by
+        // PublishPose, which VolumeOverlaps never calls), DirectSpaceState is
+        // unchanged inside a tick, and the hoof/lower-leg names never collide
+        // with fixed or steering volume names. The remaining IntersectShape
+        // calls keep their exact per-volume order.
+        var horseFrame=includeChassis?HorseFrameForPose(pose):null;
         foreach(var volume in CollisionVolumes(pose,steering,includeChassis,leanRadians))
         {
             var hoofIndex=_hoofQueries.FindIndex(hoof=>hoof.Name==volume.Name);
             var lowerLegIndex=_lowerLegQueries.FindIndex(leg=>leg.Name==volume.Name);
-            query.Exclude=HorseFrameForPose(pose) is {} horse
+            query.Exclude=horseFrame is {} horse
                 ?hoofIndex>=0?HoofExcluded(horse,hoofIndex,excluded)
                     :lowerLegIndex>=0?LowerLegExcluded(horse,lowerLegIndex,excluded):excluded
                 :excluded;
             query.Shape=volume.Shape;query.Transform=volume.Transform;
-            foreach(var hit in GetWorld3D().DirectSpaceState.IntersectShape(query,maximum-result.Count))
+            // The native result array owns its Variant slots and is released
+            // here. The Dictionaries copied into `result` are reference
+            // counted and are read by the caller (DescribePlacementContact),
+            // so they stay alive after the outer array is freed.
+            var hits=GetWorld3D().DirectSpaceState.IntersectShape(query,maximum-result.Count);
+            using var hitsOwner=(global::Godot.Collections.Array)hits;
+            foreach(var hit in hits)
             {
                 hit["vehicleShape"]=volume.Name;result.Add(hit);
                 if(result.Count>=maximum)return result;
