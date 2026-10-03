@@ -475,10 +475,12 @@ public partial class Act1ConnectedWorld
         if (!use.Outside && PublicInteriorAt(player.GlobalPosition) != use.RoomId) return false;
         var camera = GetViewport().GetCamera3D();
         if (camera is null || camera.GlobalPosition.DistanceTo(use.Target.GlobalPosition) > 3.15f) return false;
-        var query = PhysicsRayQueryParameters3D.Create(camera.GlobalPosition, use.Target.GlobalPosition, 3);
-        query.Exclude = new global::Godot.Collections.Array<Rid> { player.GetRid() };
+        using var query = PhysicsRayQueryParameters3D.Create(camera.GlobalPosition, use.Target.GlobalPosition, 3);
+        var useExclude = new global::Godot.Collections.Array<Rid> { player.GetRid() };
+        using var useExcludeOwner = (global::Godot.Collections.Array)useExclude;
+        query.Exclude = useExclude;
         query.HitFromInside = true;
-        var hit = GetWorld3D().DirectSpaceState.IntersectRay(query);
+        using var hit = GetWorld3D().DirectSpaceState.IntersectRay(query);
         if (hit.Count == 0) return true;
         return hit.TryGetValue("collider", out var owner) && owner.AsGodotObject() is Node collider
             && use.SurfaceOwner is { } allowed && (collider == allowed || allowed.IsAncestorOf(collider));

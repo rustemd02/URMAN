@@ -133,10 +133,11 @@ public partial class DebugWorldGrid : Node3D
         _player ??= GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
         var camera = GetViewport().GetCamera3D();
         if (_player is null || camera is null) return;
+        var gridExclude = new global::Godot.Collections.Array<Rid> { _player.GetRid() };
+        using var gridExcludeOwner = (global::Godot.Collections.Array)gridExclude;
         using var ray = PhysicsRayQueryParameters3D.Create(camera.GlobalPosition,
-            camera.GlobalPosition - camera.GlobalBasis.Z * 80f, 7u,
-            new global::Godot.Collections.Array<Rid> { _player.GetRid() });
-        var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
+            camera.GlobalPosition - camera.GlobalBasis.Z * 80f, 7u, gridExclude);
+        using var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
         if (hit.Count == 0)
         {
             _targetHud.Text = "Цель не найдена   ·   F7 повторить";

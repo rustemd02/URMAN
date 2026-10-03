@@ -47,9 +47,11 @@ public partial class Act1ConnectedWorld
         { reason = "Сначала поставьте вещь и освободите руки."; return false; }
         var camera = GetViewport().GetCamera3D();
         if (camera is null || camera != player.GetNode<Camera3D>("Head/Camera3D") || _playerFootwearTarget is null) return false;
+        var footwearExclude = new global::Godot.Collections.Array<Rid> { player.GetRid() };
+        using var footwearExcludeOwner = (global::Godot.Collections.Array)footwearExclude;
         using var ray = PhysicsRayQueryParameters3D.Create(camera.GlobalPosition,
-            camera.GlobalPosition - camera.GlobalBasis.Z * 2.7f, 7, new global::Godot.Collections.Array<Rid> { player.GetRid() });
-        var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
+            camera.GlobalPosition - camera.GlobalBasis.Z * 2.7f, 7, footwearExclude);
+        using var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
         if (hit.Count == 0 || hit["collider"].AsGodotObject() != _playerFootwearTarget) return false;
         reason = string.Empty;
         return true;

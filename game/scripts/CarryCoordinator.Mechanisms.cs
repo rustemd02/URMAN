@@ -90,8 +90,10 @@ public partial class CarryCoordinator
             if (source.DistanceSquaredTo(point) > 6.25f) continue;
             nearby = true;
             using var ray = PhysicsRayQueryParameters3D.Create(source, point, 3u);
-            ray.Exclude = new global::Godot.Collections.Array<Rid> { lamp.GetRid(), _player!.GetRid() };
-            var hit = _camera.GetWorld3D().DirectSpaceState.IntersectRay(ray);
+            var lampExclude = new global::Godot.Collections.Array<Rid> { lamp.GetRid(), _player!.GetRid() };
+            using var lampExcludeOwner = (global::Godot.Collections.Array)lampExclude;
+            ray.Exclude = lampExclude;
+            using var hit = _camera.GetWorld3D().DirectSpaceState.IntersectRay(ray);
             if (hit.Count == 0 || hit["position"].AsVector3().DistanceTo(point) < .08f) return null;
         }
         return nearby
@@ -219,13 +221,13 @@ public partial class CarryCoordinator
         foreach (var z in new[] { -.44f, .44f })
         {
             var foot = desired + basis * new Vector3(prop.Size.X * x, 0, prop.Size.Z * z);
-            var support = Trace(foot + Vector3.Up * .20f, foot - Vector3.Up * .22f);
+            using var support = Trace(foot + Vector3.Up * .20f, foot - Vector3.Up * .22f);
             if (support.Count == 0 || support["normal"].AsVector3().Y < SlopeLimit) return false;
             heights.Add(support["position"].AsVector3().Y);
         }
         if (heights.Max() - heights.Min() > .025f) return false;
         feet.Y = heights.Max() + .008f;
-        var hit = Trace(_camera.GlobalPosition, feet + Vector3.Up * (prop.Height * .5f));
+        using var hit = Trace(_camera.GlobalPosition, feet + Vector3.Up * (prop.Height * .5f));
         if (hit.Count > 0 && hit["position"].AsVector3().DistanceTo(feet) > .12f)
         { reason = "Между рукой и опорой есть преграда"; return false; }
         // The full body rests 8mm above its verified support. The carried sweep

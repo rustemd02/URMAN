@@ -35,10 +35,12 @@ public static class PortableLight
     {
         var space = owner.GetWorld3D()?.DirectSpaceState;
         if (space is null) return false;
-        var ray = PhysicsRayQueryParameters3D.Create(lamp, point, Occluders);
+        using var ray = PhysicsRayQueryParameters3D.Create(lamp, point, Occluders);
         // The lamp's own body must not shadow its light.
-        ray.Exclude = new global::Godot.Collections.Array<Rid> { item.GetRid() };
-        var hit = space.IntersectRay(ray);
+        var lampExclude = new global::Godot.Collections.Array<Rid> { item.GetRid() };
+        using var lampExcludeOwner = (global::Godot.Collections.Array)lampExclude;
+        ray.Exclude = lampExclude;
+        using var hit = space.IntersectRay(ray);
         if (hit.Count == 0) return true;
         // A real wall between the lamp and the mark shadows it no matter how
         // close to the mark it stands. Only the mark's own near face may use

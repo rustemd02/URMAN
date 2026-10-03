@@ -1270,20 +1270,44 @@ Managed-профиль показал поток финализатора зан
 движковый массив `source.GetChildren()` в `RinatPresencePresentation` (сборка
 лампы).
 
-**Что осталось в этом классе (инвентарь для отдельного прохода).** Скан нашёл
-ещё около двадцати мест, где созданный на вызов объект Godot по-прежнему не
-освобождается, но все они событийные или диагностические, а не покадровые:
-`Act1ConnectedWorld.Bathhouse.cs:339`, `Act1ConnectedWorld.MosqueInterior.cs:540`,
-`Act1ConnectedWorld.MosqueSaveSupport.cs:37,47,63,70`,
-`Act1ConnectedWorld.PlayerFootwear.cs:52`, `Act1ConnectedWorld.PublicBuildings.cs:478`,
-`Act1ConnectedWorld.ShopUses.cs:187`, `CarryCoordinator.Mechanisms.cs:94`,
-`CarryCoordinator.Physics.cs:26,136,155,168,201,370`, `CarryCoordinator.cs:228,407`,
-`LadderTraversal3D.cs:212,217,224`, `PortableLight.cs:38,41`,
-`VehicleController.PlacementDiagnostics.cs:9,41,42`,
-`VehicleController.WheelCollision.cs:157` и `DebugWorldGrid.cs:139` (последний —
-только отладочный). Их стоит закрыть одним механическим проходом с независимым
-ревью, как это сделано для устойчивых мест выше; отдельного эффекта на кадр они не
-дают, потому что вызываются по взаимодействию, сохранению или отладочному запросу.
+**Второй проход закрыл и этот остаток — класс исчерпан по проекту.** Тем же
+приёмом переведены на владение ещё тринадцать файлов: `Act1ConnectedWorld.Bathhouse.cs`,
+`Act1ConnectedWorld.MosqueInterior.cs` (в том числе массив исключений и результат
+`IntersectShape` внутри цикла по шагам двери), `Act1ConnectedWorld.MosqueSaveSupport.cs`
+(пять мест: два массива исключений, два `IntersectRay`, результат `IntersectShape`
+на старте и в конце свипа), `Act1ConnectedWorld.PlayerFootwear.cs`,
+`Act1ConnectedWorld.PublicBuildings.cs` (там объект параметров не освобождался
+вообще), `Act1ConnectedWorld.ShopUses.cs`, `LadderTraversal3D.cs` (четыре места),
+`PortableLight.cs` (луч и массив исключений на каждую проверку видимости),
+`VehicleController.WheelCollision.cs`, `DebugWorldGrid.cs` и все места
+`CarryCoordinator`.
+
+Отдельная находка второго прохода — **межметодное владение**: локальный помощник
+`CarryCoordinator.Trace(...)` возвращает `Dictionary`, то есть владельцем становится
+вызывающий, и **все восемь вызовов** этот словарь не освобождали
+(`CarryCoordinator.cs:99,241,376,394,402`, `CarryCoordinator.Mechanisms.cs:224,230`,
+`CarryCoordinator.Physics.cs:360`). Часть из них — покадровые пути прицеливания при
+переносимом предмете, то есть это был постоянный поток словарей в финализатор.
+Теперь каждый вызов освобождает результат (`using var`), а сам `Trace` освобождает
+свой массив исключений, не затрагивая возвращаемый словарь: это разные объекты.
+
+Повторный скан по всему проекту после двух проходов даёт **ноль** мест, где
+созданный на вызов физический объект остаётся финализатору: единственные два
+совпадения — корректно владеемые кэшированные поля `AlsuStreetWalkPresentation._groundRay`
+(освобождается в `_ExitTree`) и `FirstPersonController._stanceProbeQuery`
+(освобождается в `ReleaseStanceProbes`), которые по построению не должны
+освобождаться на каждый вызов.
+
+**Статус проверки второго прохода.** Независимое ревью первого прохода было
+выполнено (APPROVE 8/8, см. выше), а для второго прохода делегирование в этой сессии
+недоступно (лимит глубины субагентов), поэтому он помечен как **проверенный только
+автором** и ждёт внешнего ревью — тем же порядком, каким второй исполнитель помечал
+свои правки. Самоотчёт автора: сборка 0 предупреждений / 0 ошибок; механическая
+сверка диффа показывает 50 добавленных освобождений, каждое — либо `using var owner =
+(global::Godot.Collections.Array)typed` для типизированных массивов, либо `using var`
+для `Dictionary`/параметров запроса/результата `Trace`; компилятор сам гарантирует
+правило типов (применение `using` к `Array<T>` не собирается — CS1674); чтения
+результатов проверены по каждому месту, включая `continue`/`return` и циклы.
 
 ### Тот же класс мусора в чтении мешей (`SurfaceGetArrays`)
 

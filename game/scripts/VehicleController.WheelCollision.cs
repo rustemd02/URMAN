@@ -155,7 +155,11 @@ public partial class VehicleController
     internal JsonObject DescribePhysicalVolumeContacts(Transform3D pose,float steering,float? leanRadians=null)
     {
         var hits=new JsonArray();
-        foreach(var hit in VolumeOverlaps(pose,steering,PlacementExcluded(),24,leanRadians:leanRadians))hits.Add(DescribePlacementContact(hit));
+        var volumeExclude=PlacementExcluded();
+        using var volumeExcludeOwner=(global::Godot.Collections.Array)volumeExclude;
+        var volumeHits=VolumeOverlaps(pose,steering,volumeExclude,24,leanRadians:leanRadians);
+        using var volumeHitsOwner=(global::Godot.Collections.Array)volumeHits;
+        foreach(var hit in volumeHits)hits.Add(DescribePlacementContact(hit));
         return new JsonObject{["origin"]=pose.Origin.ToString(),["steering"]=steering,
             ["leanRadians"]=leanRadians??_motorcycleLean,["contacts"]=hits};
     }

@@ -333,10 +333,13 @@ public partial class Act1ConnectedWorld
         if (camera is null || !_bathhouse.GetNode<MeshInstance3D>("BathStoveFirebox").IsVisibleInTree()
             || !_bathStoveTarget.IsAvailable()
             || camera.GlobalPosition.DistanceTo(_bathStoveTarget.GlobalPosition) > 2.7f) return false;
+        var stoveExclude = new global::Godot.Collections.Array<Rid> { player.GetRid() };
+        using var stoveExcludeOwner = (global::Godot.Collections.Array)stoveExclude;
         using var ray = PhysicsRayQueryParameters3D.Create(camera.GlobalPosition, _bathStoveTarget.GlobalPosition, 3,
-            new global::Godot.Collections.Array<Rid> { player.GetRid() });
+            stoveExclude);
         ray.HitFromInside = true;
-        if (GetWorld3D().DirectSpaceState.IntersectRay(ray).Count != 0) return false;
+        using var stoveHit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
+        if (stoveHit.Count != 0) return false;
         // This is a live action precondition, independent of the cached visual
         // projection. The kernel repeats the resource checks when it commits.
         var props = _runtimeBridge.SelectWorldProps();

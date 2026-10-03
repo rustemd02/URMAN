@@ -96,7 +96,7 @@ public partial class CarryCoordinator : Node
         if (!ReferenceEquals(_registeredSession, session)) ApplyWorldState();
         if (_registering || !ReferenceEquals(_registeredSession, session)) return false;
 
-        var hit = Trace(camera.GlobalPosition, camera.GlobalPosition - camera.GlobalBasis.Z * Reach, 7u);
+        using var hit = Trace(camera.GlobalPosition, camera.GlobalPosition - camera.GlobalBasis.Z * Reach, 7u);
         var target = hit.Count == 0 ? null : hit["collider"].AsGodotObject();
         if (_held is not null) UpdateHeld();
         if (_busy)
@@ -224,7 +224,12 @@ public partial class CarryCoordinator : Node
     private global::Godot.Collections.Dictionary Trace(Vector3 from, Vector3 to, uint mask = 3u)
     {
         using var ray = PhysicsRayQueryParameters3D.Create(from, to, mask);
-        if (_player is not null) ray.Exclude = new global::Godot.Collections.Array<Rid> { _player.GetRid() };
+        // The caller owns the returned dictionary; only the per-call exclusion array
+        // has to be released here (the parameters object holds its own reference).
+        var traceExclude = _player is not null
+            ? new global::Godot.Collections.Array<Rid> { _player.GetRid() } : null;
+        using var traceExcludeOwner = (global::Godot.Collections.Array?)traceExclude;
+        if (traceExclude is not null) ray.Exclude = traceExclude;
         return _camera!.GetWorld3D().DirectSpaceState.IntersectRay(ray);
     }
 
@@ -233,7 +238,7 @@ public partial class CarryCoordinator : Node
     internal string DescribeAim()
     {
         if (_camera is null) return "carry camera not attached";
-        var hit = Trace(_camera.GlobalPosition, _camera.GlobalPosition - _camera.GlobalBasis.Z * Reach, 7u);
+        using var hit = Trace(_camera.GlobalPosition, _camera.GlobalPosition - _camera.GlobalBasis.Z * Reach, 7u);
         var collider = hit.Count == 0 ? null : hit["collider"].AsGodotObject() as Node;
         var point = hit.Count == 0 ? Vector3.Zero : hit["position"].AsVector3();
         var shape = collider is CollisionObject3D body
@@ -368,7 +373,7 @@ public partial class CarryCoordinator : Node
         var forward = -_camera.GlobalBasis.Z;
         var horizontal = new Vector3(forward.X, 0, forward.Z).Normalized();
         var probe = origin + horizontal * Math.Max(1.15f, prop.HoldDistance);
-        var aimed = Trace(origin, origin + forward * Reach);
+        using var aimed = Trace(origin, origin + forward * Reach);
         if (aimed.Count > 0 && aimed["normal"].AsVector3().Y >= SlopeLimit
             && (aimed["position"].AsVector3() - _player.GlobalPosition).Length() > .7f)
             probe = aimed["position"].AsVector3() + Vector3.Up * .5f;
@@ -386,7 +391,7 @@ public partial class CarryCoordinator : Node
         foreach (var offset in feet)
         {
             var foot = point + basis * offset;
-            var support = Trace(new(foot.X, origin.Y + .3f, foot.Z), new(foot.X, origin.Y - 3f, foot.Z));
+            using var support = Trace(new(foot.X, origin.Y + .3f, foot.Z), new(foot.X, origin.Y - 3f, foot.Z));
             if (support.Count == 0 || support["normal"].AsVector3().Y < SlopeLimit) return false;
             var y = support["position"].AsVector3().Y;
             minY = Math.Min(minY, y); maxY = Math.Max(maxY, y);
@@ -394,7 +399,7 @@ public partial class CarryCoordinator : Node
         if (maxY - minY > .055f) { reason = "Край предмета останется без опоры"; return false; }
         point.Y = maxY + .006f;
         if (origin.DistanceTo(point) > Reach + .15f) { reason = "Слишком далеко"; return false; }
-        var visibility = Trace(origin, point + Vector3.Up * .035f);
+        using var visibility = Trace(origin, point + Vector3.Up * .035f);
         if (visibility.Count > 0 && visibility["position"].AsVector3().DistanceTo(point) > .10f)
         { reason = "Мешает преграда"; return false; }
         using var placementShape = new BoxShape3D { Size = prop.Size - new Vector3(.012f, .012f, .012f) };
@@ -404,7 +409,9 @@ public partial class CarryCoordinator : Node
             Transform = new(basis, point + Vector3.Up * prop.Height * .5f), CollisionMask = 3u,
             Exclude = new global::Godot.Collections.Array<Rid> { prop.GetRid() }, Margin = .002f
         };
-        if (_camera.GetWorld3D().DirectSpaceState.IntersectShape(query, 1).Count != 0)
+        var placementOverlap = _camera.GetWorld3D().DirectSpaceState.IntersectShape(query, 1);
+        using var placementOverlapOwner = (global::Godot.Collections.Array)placementOverlap;
+        if (placementOverlap.Count != 0)
         { reason = "Здесь не хватает места"; return false; }
         // A clear target and eye ray do not make the route wide enough for the
         // thing in our hands. Use the same full body sweep as carried motion;

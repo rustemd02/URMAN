@@ -13,17 +13,22 @@ public partial class CarryCoordinator
         var size = envelope ?? prop.Size;
         using var shape = new BoxShape3D { Size = size };
         var basis = Basis.FromEuler(new(0, Mathf.DegToRad(sweepYaw ?? yaw), 0));
+        var bodyExclude = includePlayer
+            ? new global::Godot.Collections.Array<Rid> { prop.GetRid() }
+            : new global::Godot.Collections.Array<Rid> { prop.GetRid(), _player.GetRid() };
+        using var bodyExcludeOwner = (global::Godot.Collections.Array)bodyExclude;
         using var query = new PhysicsShapeQueryParameters3D
         {
             Shape = shape,
             Transform = new(basis, feet + Vector3.Up * size.Y * .5f),
             CollisionMask = 3u,
             Margin = margin,
-            Exclude = includePlayer ? new global::Godot.Collections.Array<Rid> { prop.GetRid() }
-                : new global::Godot.Collections.Array<Rid> { prop.GetRid(), _player.GetRid() }
+            Exclude = bodyExclude
         };
         var space = _camera.GetWorld3D().DirectSpaceState;
-        if (space.IntersectShape(query, 1).Count > 0) return false;
+        var bodyOverlap = space.IntersectShape(query, 1);
+        using var bodyOverlapOwner = (global::Godot.Collections.Array)bodyOverlap;
+        if (bodyOverlap.Count > 0) return false;
         if (motion.LengthSquared() < .000001f) return true;
         query.Motion = motion;
         var fractions = space.CastMotion(query);
@@ -133,7 +138,9 @@ public partial class CarryCoordinator
             refusal = string.Empty;
             query.Transform = new(sourceBasis, start);
             query.Motion = Vector3.Zero;
-            if (space.IntersectShape(query, 1).Count != 0)
+            var segmentOverlap = space.IntersectShape(query, 1);
+            using var segmentOverlapOwner = (global::Godot.Collections.Array)segmentOverlap;
+            if (segmentOverlap.Count != 0)
             { refusal = "segment start overlaps " + Contacts(); return false; }
             var motion = end - start;
             if (motion.LengthSquared() < .000001f) return true;
@@ -152,7 +159,7 @@ public partial class CarryCoordinator
                 var contactFraction = Math.Min(1f, fractions[1] + .005f / motion.Length());
                 query.Transform = new(sourceBasis, start + motion * contactFraction);
                 query.Motion = Vector3.Zero;
-                var contact = space.GetRestInfo(query);
+                using var contact = space.GetRestInfo(query);
                 if (!terminalSource || remaining > .055f || contact.Count == 0 || contact["normal"].AsVector3().Y < SlopeLimit
                     || contact["point"].AsVector3().Y > sourceCentre.Y - prop.Height * .35f)
                 {
@@ -165,7 +172,9 @@ public partial class CarryCoordinator
             {
                 query.Transform = new(sourceBasis, end);
                 query.Motion = Vector3.Zero;
-                if (space.IntersectShape(query, 1).Count != 0)
+                var poseOverlap = space.IntersectShape(query, 1);
+                using var poseOverlapOwner = (global::Godot.Collections.Array)poseOverlap;
+                if (poseOverlap.Count != 0)
                 { refusal = "intermediate pose overlaps " + Contacts(); return false; }
             }
             return true;
@@ -198,7 +207,9 @@ public partial class CarryCoordinator
         {
             var basis = new Basis(from.Slerp(to, (float)step / steps));
             query.Transform = new(basis, heldFeet + basis * (Vector3.Up * prop.Height * .5f));
-            if (space.IntersectShape(query, 1).Count != 0)
+            var turnOverlap = space.IntersectShape(query, 1);
+            using var turnOverlapOwner = (global::Godot.Collections.Array)turnOverlap;
+            if (turnOverlap.Count != 0)
             { reason = $"turn {step}/{steps} overlaps {Contacts()}"; return false; }
         }
         return true;
@@ -346,7 +357,7 @@ public partial class CarryCoordinator
             var collision = _player.GetSlideCollision(i);
             if (collision.GetCollider() == support && collision.GetNormal().Y > .5f) return true;
         }
-        var underFeet = Trace(_player.GlobalPosition + Vector3.Up * .04f,
+        using var underFeet = Trace(_player.GlobalPosition + Vector3.Up * .04f,
             _player.GlobalPosition - Vector3.Up * .10f);
         if (underFeet.Count > 0 && underFeet["collider"].AsGodotObject() == support) return true;
         foreach (var item in _props)
@@ -359,15 +370,19 @@ public partial class CarryCoordinator
             // the inset excludes mere side contact with a neighbouring thing.
             using var footprint = new BoxShape3D
             { Size = new(Math.Max(.01f, item.Size.X - .014f), .087f, Math.Max(.01f, item.Size.Z - .014f)) };
+            var footprintExclude = new global::Godot.Collections.Array<Rid> { item.GetRid(), _player.GetRid() };
+            using var footprintExcludeOwner = (global::Godot.Collections.Array)footprintExclude;
             using var query = new PhysicsShapeQueryParameters3D
             {
                 Shape = footprint,
                 Transform = new(Basis.FromEuler(new(0, Mathf.DegToRad(item.YawDegrees), 0)),
                     item.GlobalPosition - Vector3.Up * .0475f),
                 CollisionMask = 3u, Margin = .001f,
-                Exclude = new global::Godot.Collections.Array<Rid> { item.GetRid(), _player.GetRid() }
+                Exclude = footprintExclude
             };
-            foreach (var hit in _camera.GetWorld3D().DirectSpaceState.IntersectShape(query, 32))
+            var supportHits = _camera.GetWorld3D().DirectSpaceState.IntersectShape(query, 32);
+            using var supportHitsOwner = (global::Godot.Collections.Array)supportHits;
+            foreach (var hit in supportHits)
                 if (hit["collider"].AsGodotObject() == support) return true;
         }
         return false;

@@ -202,26 +202,34 @@ public partial class LadderTraversal3D : Node3D
     {
         var capsule = (CapsuleShape3D)player.GetNode<CollisionShape3D>("CollisionShape3D").Shape;
         using var queryCapsule = new CapsuleShape3D { Radius = capsule.Radius, Height = capsule.Height - .015f };
+        var ladderExclude = new global::Godot.Collections.Array<Rid> { player.GetRid() };
+        using var ladderExcludeOwner = (global::Godot.Collections.Array)ladderExclude;
         using var query = new PhysicsShapeQueryParameters3D
         {
             Shape = queryCapsule, Transform = new(Basis.Identity, from + Vector3.Up * (capsule.Height * .5f + .01f)),
             Motion = to - from, CollisionMask = player.CollisionMask,
-            Exclude = new global::Godot.Collections.Array<Rid> { player.GetRid() }, Margin = .002f
+            Exclude = ladderExclude, Margin = .002f
         };
         var space = player.GetWorld3D().DirectSpaceState;
-        if (space.IntersectShape(query, 1).Count != 0) return false;
+        var startOverlap = space.IntersectShape(query, 1);
+        using var startOverlapOwner = (global::Godot.Collections.Array)startOverlap;
+        if (startOverlap.Count != 0) return false;
         var fractions = space.CastMotion(query);
         if (fractions.Length != 2 || fractions[0] < .999f) return false;
         query.Transform = new(Basis.Identity, to + Vector3.Up * (capsule.Height * .5f + .01f));
         query.Motion = Vector3.Zero;
-        return space.IntersectShape(query, 1).Count == 0;
+        var endOverlap = space.IntersectShape(query, 1);
+        using var endOverlapOwner = (global::Godot.Collections.Array)endOverlap;
+        return endOverlap.Count == 0;
     }
 
     private static bool HasSupport(FirstPersonController player, Vector3 feet)
     {
         using var ray = PhysicsRayQueryParameters3D.Create(feet + Vector3.Up * .09f, feet - Vector3.Up * .18f, player.CollisionMask);
-        ray.Exclude = new global::Godot.Collections.Array<Rid> { player.GetRid() };
-        var hit = player.GetWorld3D().DirectSpaceState.IntersectRay(ray);
+        var supportExclude = new global::Godot.Collections.Array<Rid> { player.GetRid() };
+        using var supportExcludeOwner = (global::Godot.Collections.Array)supportExclude;
+        ray.Exclude = supportExclude;
+        using var hit = player.GetWorld3D().DirectSpaceState.IntersectRay(ray);
         return hit.Count > 0 && hit["normal"].AsVector3().Y > .65f
             && Math.Abs(hit["position"].AsVector3().Y - feet.Y) < .13f;
     }

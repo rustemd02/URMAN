@@ -181,10 +181,12 @@ public partial class Act1ConnectedWorld
         else if (ActiveZoneId != "house_old_pc") return false;
         var camera = GetViewport().GetCamera3D();
         if (camera is null || camera.GlobalPosition.DistanceTo(target.GlobalPosition) > 2.7f) return false;
+        var shopExclude = new global::Godot.Collections.Array<Rid> { player.GetRid() };
+        using var shopExcludeOwner = (global::Godot.Collections.Array)shopExclude;
         using var query = PhysicsRayQueryParameters3D.Create(camera.GlobalPosition, target.GlobalPosition, 3,
-            new global::Godot.Collections.Array<Rid> { player.GetRid() });
+            shopExclude);
         query.HitFromInside = true;
-        var hit = GetWorld3D().DirectSpaceState.IntersectRay(query);
+        using var hit = GetWorld3D().DirectSpaceState.IntersectRay(query);
         return hit.Count == 0 || (battery && hit["collider"].AsGodotObject() == _shopSupplyLamp);
     }
 

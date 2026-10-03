@@ -527,8 +527,10 @@ public partial class Act1ConnectedWorld
         var count = Math.Max(1, Mathf.CeilToInt(Math.Abs(to - from) * door.Width / .018f));
         var size = new Vector3(.065f, door.Height - .012f, door.Width);
         using var shape = new BoxShape3D { Size = size };
+        var doorExclude = new global::Godot.Collections.Array<Rid> { door.Body.GetRid() };
+        using var doorExcludeOwner = (global::Godot.Collections.Array)doorExclude;
         using var query = new PhysicsShapeQueryParameters3D { Shape = shape, CollisionMask = 3,
-            Exclude = new global::Godot.Collections.Array<Rid> { door.Body.GetRid() }, Margin = .002f };
+            Exclude = doorExclude, Margin = .002f };
         var owner = door.Hinge.GetParent<Node3D>();
         var space = door.Hinge.GetWorld3D().DirectSpaceState;
         var held = (GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator)?.HeldItem;
@@ -538,6 +540,7 @@ public partial class Act1ConnectedWorld
             var hinge = owner.GlobalTransform * new Transform3D(new Basis(Vector3.Up, yaw), door.Hinge.Position);
             query.Transform = hinge * new Transform3D(Basis.Identity, new(0, (door.Height + .012f) * .5f, door.Width * .5f));
             var hits = space.IntersectShape(query, 1);
+            using var hitsOwner = (global::Godot.Collections.Array)hits;
             if (hits.Count != 0)
             {
                 if (recordProbe)
