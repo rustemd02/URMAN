@@ -150,7 +150,9 @@ public partial class RinatPresencePresentation : Node3D
             Vector3.Zero, 0f, "676b59", "metal", CarryableProp.ItemKind.Lantern);
         _lamp = new Node3D { Name = "RinatHandLamp" };
         _actor.AddChild(_lamp);
-        foreach (var child in source.GetChildren().ToArray())
+        var sourceChildren=source.GetChildren();
+        using var sourceChildrenOwner=(global::Godot.Collections.Array)sourceChildren;
+        foreach (var child in sourceChildren.ToArray())
         {
             if (child is not (MeshInstance3D or Light3D)) continue;
             source.RemoveChild(child);

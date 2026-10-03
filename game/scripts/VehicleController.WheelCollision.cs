@@ -121,6 +121,7 @@ public partial class VehicleController
             var candidate=_steering+distance*i/steps;
             var candidateLean=initialLean+leanDistance*i/steps;
             var contacts=VolumeOverlaps(GlobalTransform,candidate,excluded,1,includeChassis:false,leanRadians:candidateLean);
+            using var contactsOwner=(global::Godot.Collections.Array)contacts;
             if(contacts.Count!=0)
             {
                 _lastSteeringContact=DescribePlacementContact(contacts[0]);_lastRejectedSteering=candidate;

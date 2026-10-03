@@ -468,7 +468,9 @@ public partial class VehicleController : CharacterBody3D
         for(var i=1;i<=steps;i++)
         {
             var basis=GlobalBasis.Rotated(Vector3.Up,yaw*i/steps);
-            if(VolumeOverlaps(new(basis,GlobalPosition),_steering,excluded,1).Count>0)return false;
+            var rotationHits=VolumeOverlaps(new(basis,GlobalPosition),_steering,excluded,1);
+            using var rotationHitsOwner=(global::Godot.Collections.Array)rotationHits;
+            if(rotationHits.Count>0)return false;
         }
         return true;
     }

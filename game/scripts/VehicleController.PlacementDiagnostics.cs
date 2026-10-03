@@ -32,14 +32,18 @@ public partial class VehicleController
     {
         static JsonArray V(Vector3 value)=>new(value.X,value.Y,value.Z);
         var overlaps=new JsonArray();
-        foreach(var hit in PlacementOverlaps(pose,8))overlaps.Add(DescribePlacementContact(hit));
+        var placementOverlaps=PlacementOverlaps(pose,8);
+        using var placementOverlapsOwner=(global::Godot.Collections.Array)placementOverlaps;
+        foreach(var hit in placementOverlaps)overlaps.Add(DescribePlacementContact(hit));
         var supports=new JsonArray();
         foreach(var local in SupportPoints())
         {
             var bottom=pose*local;
             using var ray=PhysicsRayQueryParameters3D.Create(bottom+Vector3.Up*.24f,bottom-Vector3.Up*.42f,CollisionMask);
-            ray.Exclude=PlacementExcluded();
-            var hit=GetWorld3D().DirectSpaceState.IntersectRay(ray);
+            var probeExclude=PlacementExcluded();
+            using var probeExcludeOwner=(global::Godot.Collections.Array)probeExclude;
+            ray.Exclude=probeExclude;
+            using var hit=GetWorld3D().DirectSpaceState.IntersectRay(ray);
             var sample=new JsonObject{["bottom"]=V(bottom),["hit"]=hit.Count!=0};
             if(hit.Count!=0)
             {
