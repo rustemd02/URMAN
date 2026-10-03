@@ -13,6 +13,7 @@ public sealed class RuntimeKernel : IRuntimeKernel, IDisposable
     private readonly SemaphoreSlim _dispatchLock = new(1, 1);
     private readonly Dictionary<string, LedgerEntry> _ledger = new(StringComparer.Ordinal);
     private JsonObject _state;
+    private JsonElement? _selectedState;
     private List<ResourceClaim> _claims = [];
     private long _eventSequence;
     private bool _disposed;
@@ -106,7 +107,8 @@ public sealed class RuntimeKernel : IRuntimeKernel, IDisposable
         _dispatchLock.Wait();
         try
         {
-            return ToElement(_state);
+            // Immutable reads share one snapshot until a transaction commits.
+            return _selectedState ??= ToElement(_state);
         }
         finally
         {
@@ -222,6 +224,7 @@ public sealed class RuntimeKernel : IRuntimeKernel, IDisposable
         }
 
         _state = draftState;
+        _selectedState = null;
         _claims = draftClaims;
         _eventSequence = nextSequence;
         var value = plan.Value.ValueKind == JsonValueKind.Undefined ? JsonSerializer.SerializeToElement<object?>(null) : plan.Value.Clone();

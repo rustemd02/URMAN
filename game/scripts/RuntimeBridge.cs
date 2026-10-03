@@ -754,10 +754,12 @@ public partial class RuntimeBridge : Node
     public JsonElement SelectWorldProps()
     {
         var state = SelectRuntimeState();
-        var props = state.TryGetProperty(WorldPropsStateKey, out var existing)
-            ? JsonNode.Parse(existing.GetRawText())!.AsObject()
-            : new JsonObject();
-        return JsonSerializer.SerializeToElement(props);
+        if (!state.TryGetProperty(WorldPropsStateKey, out var props))
+            return JsonSerializer.SerializeToElement(new JsonObject());
+        if (props.ValueKind != JsonValueKind.Object)
+            throw new InvalidOperationException("World prop state must be a JSON object.");
+        // The kernel owns this immutable snapshot and refreshes it on commit.
+        return props;
     }
 
     public string? ActiveSceneId => _kernel?.SelectState().TryGetProperty("activeScene", out var activeScene) == true
