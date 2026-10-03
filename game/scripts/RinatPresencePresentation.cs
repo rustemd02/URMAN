@@ -91,6 +91,14 @@ public partial class RinatPresencePresentation : Node3D
         }
     }
 
+    // SurfaceGetArrays returns a caller-owned array and copies the whole surface into
+    // it; releasing it inside the projection keeps that copy out of the finalizer queue.
+    private static Vector3[] SurfaceVertices(Mesh mesh, int surface)
+    {
+        using var arrays = mesh.SurfaceGetArrays(surface);
+        return arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+    }
+
     private static RinatPresencePresentation Attach(Node3D host, Node3D actor)
     {
         var result = new RinatPresencePresentation { Name = "RinatPresencePresentation", _actor = actor };
@@ -678,7 +686,7 @@ public partial class RinatPresencePresentation : Node3D
             var bind = FindBind(sourceSkin, _skeleton, leg);
             var modelToSkeleton = legRest * sourceSkin.GetBindPose(bind);
             var vertices = Enumerable.Range(0, boot.Mesh.GetSurfaceCount()).SelectMany(surface =>
-                boot.Mesh.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
+                SurfaceVertices(boot.Mesh, surface))
                 .Select(vertex => modelToSkeleton * vertex).ToArray();
             var bottom = vertices.Min(vertex => vertex.Y);
             var corners = vertices.Where(vertex => vertex.Y <= bottom + .0002f).Distinct().ToArray();
@@ -724,7 +732,7 @@ public partial class RinatPresencePresentation : Node3D
             var skin = boot.GetSkinReference()?.GetSkin() ?? boot.Skin;
             var bindToFoot = skin.GetBindPose(FindBind(skin, _skeleton, foot));
             var vertices = Enumerable.Range(0, boot.Mesh.GetSurfaceCount()).SelectMany(surface =>
-                boot.Mesh.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
+                SurfaceVertices(boot.Mesh, surface))
                 .Select(vertex => bindToFoot * vertex).ToArray();
             var footRest = _skeleton.GetBoneGlobalRest(foot);
             var bottom = vertices.Min(vertex => (footRest * vertex).Y);

@@ -37,7 +37,7 @@ public partial class Act1ConnectedWorld
                 // The top 15 mm remain exactly authored underneath the trouser.
                 var cuffY = bounds.End.Y - .015f;
                 var snapshots = Enumerable.Range(0, source.GetSurfaceCount())
-                    .Select(surface => GD.VarToBytes(source.SurfaceGetArrays(surface))).ToArray();
+                    .Select(surface => SurfaceBytes(source, surface)).ToArray();
                 var shaped = CreateIndoorFootwearMesh(source);
                 staged.Add(new(mesh, source, shaped, skin, mesh.Skeleton, mesh.Transform, bounds, cuffY,
                     snapshots, mesh.VisibilityRangeBegin, mesh.VisibilityRangeEnd, mesh.VisibilityRangeBeginMargin,
@@ -69,6 +69,13 @@ public partial class Act1ConnectedWorld
         return DeriveMosqueSock(source, bounds, bounds.End.Y - .015f);
     }
 
+    // GD.VarToBytes copies the data; the caller-owned surface array is released here.
+    private static byte[] SurfaceBytes(Mesh mesh, int surface)
+    {
+        using var arrays = mesh.SurfaceGetArrays(surface);
+        return GD.VarToBytes(arrays);
+    }
+
     private static ArrayMesh DeriveMosqueSock(ArrayMesh source, Aabb bounds, float cuffY, bool shadow = false)
     {
         var result = new ArrayMesh { ResourceName = source.ResourceName + "_MosqueSock", CustomAabb = source.CustomAabb };
@@ -76,7 +83,7 @@ public partial class Act1ConnectedWorld
         {
             for (var surface = 0; surface < source.GetSurfaceCount(); surface++)
             {
-                var arrays = source.SurfaceGetArrays(surface);
+                using var arrays = source.SurfaceGetArrays(surface);
                 var before = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
                 var hasNormals = arrays[(int)Mesh.ArrayType.Normal].VariantType != Variant.Type.Nil;
                 var oldNormals = hasNormals ? arrays[(int)Mesh.ArrayType.Normal].AsVector3Array() : Array.Empty<Vector3>();

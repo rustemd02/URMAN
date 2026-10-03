@@ -41,7 +41,7 @@ public static partial class VehicleVisualFactory
             var importedCorners = 0;
             for (var surface = 0; surface < source.Mesh.GetSurfaceCount(); surface++)
             {
-                var arrays = source.Mesh.SurfaceGetArrays(surface);
+                using var arrays = source.Mesh.SurfaceGetArrays(surface);
                 var indices = arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
                 importedCorners += indices.Length > 0 ? indices.Length : arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array().Length;
             }

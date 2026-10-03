@@ -59,8 +59,19 @@ public partial class VehicleController
         var mesh = instance.Mesh ?? throw new InvalidOperationException("Vehicle mesh is missing.");
         var transform = LocalMeshTransform(instance);
         for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
-            foreach (var vertex in mesh.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
+        {
+            using var arrays = mesh.SurfaceGetArrays(surface);
+            foreach (var vertex in arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array())
                 yield return transform * vertex;
+        }
+    }
+
+    // SurfaceGetArrays returns a caller-owned array and copies the surface into it;
+    // releasing it here keeps the collision build from leaving those copies behind.
+    private static Vector3[] SurfaceVertices(Mesh mesh, int surface)
+    {
+        using var arrays = mesh.SurfaceGetArrays(surface);
+        return arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
     }
 
     private static Aabb Bounds(IEnumerable<Vector3> points, float padding = .00002f)
@@ -158,7 +169,7 @@ public partial class VehicleController
                 for (Node? cursor = mesh; cursor is not null && cursor != frame; cursor = cursor.GetParent())
                     if (cursor is Node3D spatial) toFrame = spatial.Transform * toFrame;
                 return Enumerable.Range(0, mesh.Mesh!.GetSurfaceCount())
-                    .SelectMany(surface => mesh.Mesh.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
+                    .SelectMany(surface => SurfaceVertices(mesh.Mesh!, surface))
                     .Select(point => toFrame * point).Distinct().ToArray();
             }
         }

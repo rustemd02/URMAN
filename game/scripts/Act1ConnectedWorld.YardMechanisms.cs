@@ -271,7 +271,7 @@ public partial class Act1ConnectedWorld
         var profileLength = Math.Max(1.6f, size.Z);
         var detail = AddVisualLandformSurface(parent, name, size.X, size.Y + .025f, profileLength,
             groundAnchor with { Y = 0 }, colour, "snow_ground", 0, conformToTerrain: true);
-        var arrays = ((ArrayMesh)detail.Mesh).SurfaceGetArrays(0);
+        using var arrays = ((ArrayMesh)detail.Mesh).SurfaceGetArrays(0);
         var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
         for (var index = 0; index < vertices.Length; index++)
         {

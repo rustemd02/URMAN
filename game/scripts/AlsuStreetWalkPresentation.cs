@@ -81,6 +81,14 @@ public partial class AlsuStreetWalkPresentation : Node3D
     public static AlsuStreetWalkPresentation? SessionOwner(SceneTree tree) =>
         tree.GetNodesInGroup(Group).OfType<AlsuStreetWalkPresentation>().FirstOrDefault(IsLiveOwner);
 
+    // SurfaceGetArrays returns a caller-owned array and copies the whole surface into
+    // it; releasing it inside the projection keeps that copy out of the finalizer queue.
+    private static Vector3[] SurfaceVertices(Mesh mesh, int surface)
+    {
+        using var arrays = mesh.SurfaceGetArrays(surface);
+        return arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+    }
+
     private static bool IsLiveOwner(AlsuStreetWalkPresentation walk)
     {
         if (!IsInstanceValid(walk) || !walk.IsInsideTree()) return false;
@@ -743,7 +751,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
             var bind = FindBind(skin, leg);
             var modelToSkeleton = rest * skin.GetBindPose(bind);
             var vertices = Enumerable.Range(0, boot.Mesh.GetSurfaceCount()).SelectMany(surface =>
-                boot.Mesh.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
+                SurfaceVertices(boot.Mesh, surface))
                 .Select(vertex => modelToSkeleton * vertex).ToArray();
             var bottom = vertices.Min(vertex => vertex.Y);
             var corners = vertices.Where(vertex => vertex.Y <= bottom + .0002f).Distinct().ToArray();
@@ -794,7 +802,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
             var skin = boot.GetSkinReference()?.GetSkin() ?? boot.Skin;
             var bindToFoot = skin.GetBindPose(FindBind(skin, foot));
             var vertices = Enumerable.Range(0, boot.Mesh.GetSurfaceCount()).SelectMany(surface =>
-                boot.Mesh.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
+                SurfaceVertices(boot.Mesh, surface))
                 .Select(vertex => bindToFoot * vertex).ToArray();
             var footRest = _skeleton.GetBoneGlobalRest(foot);
             var bottom = vertices.Min(vertex => (footRest * vertex).Y);

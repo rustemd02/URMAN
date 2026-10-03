@@ -104,7 +104,7 @@ public partial class Act1ConnectedWorld
         var bank = FindDescendants<MeshInstance3D>(kit).Single(mesh => mesh.Name == "BabaiYard_EastFenceSwale");
         if (bank.Mesh is not ArrayMesh original || original.GetSurfaceCount() != 1)
             throw new InvalidOperationException("The existing drain bank must retain its one authored surface.");
-        var arrays = original.SurfaceGetArrays(0);
+        using var arrays = original.SurfaceGetArrays(0);
         var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
         var normals = arrays[(int)Mesh.ArrayType.Normal].AsVector3Array();
         var uvValue = arrays[(int)Mesh.ArrayType.TexUV];

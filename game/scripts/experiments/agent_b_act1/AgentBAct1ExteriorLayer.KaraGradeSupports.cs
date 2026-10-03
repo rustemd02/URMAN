@@ -24,7 +24,8 @@ public partial class AgentBAct1ExteriorLayer
             var fitted = new ArrayMesh();
             for (var surfaceIndex = 0; surfaceIndex < original.GetSurfaceCount(); surfaceIndex++)
             {
-                var arrays = original.SurfaceGetArrays(surfaceIndex).Duplicate(true);
+                using var sourceArrays = original.SurfaceGetArrays(surfaceIndex);
+        using var arrays = sourceArrays.Duplicate(true);
                 var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
                 for (var index = 0; index < vertices.Length; index++)
                 {

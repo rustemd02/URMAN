@@ -132,7 +132,7 @@ public partial class Act1ConnectedWorld
         {
             for (var surface = 0; surface < source.GetSurfaceCount(); surface++)
             {
-                var arrays = source.SurfaceGetArrays(surface);
+                using var arrays = source.SurfaceGetArrays(surface);
                 arrays[(int)Mesh.ArrayType.Vertex] = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array().Select(point => point - anchor).ToArray();
                 // Static resting geometry keeps the original silhouette, UVs,
                 // normals, tangents and indices; only its unused skin is removed.

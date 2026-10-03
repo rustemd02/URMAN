@@ -395,7 +395,8 @@ public partial class Act1ConnectedWorld
         {
             var mesh=FindDescendants<MeshInstance3D>(this).FirstOrDefault(m=>m.Name==name && m.Mesh is ArrayMesh && m.IsVisibleInTree());
             if(mesh?.Mesh is not ArrayMesh array)continue;
-            var vertices=array.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+            using var plateArrays=array.SurfaceGetArrays(0);
+            var vertices=plateArrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
             if(vertices.Length<10 || vertices.Length%5!=0){_addressImportIssues.Add(new("PATH_MESH_FORMAT",name,"Expected existing five-column landform ribbon."));continue;}
             // Import the centre column of the actual rendered ribbon.
             var points=new List<SettlementPoint>();

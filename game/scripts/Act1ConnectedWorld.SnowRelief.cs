@@ -47,7 +47,7 @@ public partial class Act1ConnectedWorld
             var changed = false;
             for (var s = 0; s < source.GetSurfaceCount(); s++)
             {
-                var arrays = source.SurfaceGetArrays(s);
+                using var arrays = source.SurfaceGetArrays(s);
                 var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
                 var indices = arrays[(int)Mesh.ArrayType.Index].VariantType == Variant.Type.Nil
                     ? Enumerable.Range(0, vertices.Length).ToArray()

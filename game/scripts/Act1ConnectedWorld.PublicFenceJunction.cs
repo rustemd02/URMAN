@@ -50,8 +50,7 @@ public partial class Act1ConnectedWorld
             if (mesh.Mesh is not ArrayMesh source || !mesh.Name.ToString().StartsWith("FenceSegment_", StringComparison.Ordinal))
                 throw new InvalidOperationException("Unexpected mesh in the measured council fence: " + mesh.Name);
             var toBuilding = council.Building.GlobalTransform.AffineInverse() * mesh.GlobalTransform;
-            var allPoints = Enumerable.Range(0, source.GetSurfaceCount()).SelectMany(surface =>
-                source.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array()).ToArray();
+            var allPoints = Enumerable.Range(0, source.GetSurfaceCount()).SelectMany(surface => SurfaceVertices(source, surface)).ToArray();
             var distances = allPoints.Select(point => (toBuilding * point).Z - cutZ).ToArray();
             var sourceTriangles = FenceTriangleCount(source);
             var action = "retained";
@@ -97,7 +96,7 @@ public partial class Act1ConnectedWorld
         var count = 0;
         for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
         {
-            var arrays = mesh.SurfaceGetArrays(surface);
+            using var arrays = mesh.SurfaceGetArrays(surface);
             var indices = arrays[(int)Mesh.ArrayType.Index];
             count += (indices.VariantType == Variant.Type.Nil || indices.AsInt32Array().Length == 0
                 ? arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array().Length : indices.AsInt32Array().Length) / 3;
@@ -108,7 +107,7 @@ public partial class Act1ConnectedWorld
     private static (ArrayMesh Mesh, int CapTriangles) TrimCouncilFenceRail(ArrayMesh source,
         Transform3D toBuilding, float cutZ)
     {
-        var arrays = source.SurfaceGetArrays(0);
+        using var arrays = source.SurfaceGetArrays(0);
         var points = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
         var normalValue = arrays[(int)Mesh.ArrayType.Normal];
         var uvValue = arrays[(int)Mesh.ArrayType.TexUV];

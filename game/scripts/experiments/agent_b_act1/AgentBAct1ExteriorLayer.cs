@@ -188,7 +188,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             {
                 // Deadfall rests on two tapered broken branches. Their feet
                 // explain the raised trunk without turning it into a solid wall.
-                var points = source.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array()
+                using var sourceArrays = source.SurfaceGetArrays(0);
+                var points = sourceArrays[(int)Mesh.ArrayType.Vertex].AsVector3Array()
                     .Select(vertex => mesh.ToGlobal(vertex)).OrderBy(point => point.X).ToArray();
                 foreach (var t in new[] { .2f, .8f })
                 {
@@ -209,7 +210,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var reshaped = new ArrayMesh();
             for (var i = 0; i < source.GetSurfaceCount(); i++)
             {
-                var arrays = source.SurfaceGetArrays(i);
+                using var arrays = source.SurfaceGetArrays(i);
                 var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
                 var bounds = mesh.GlobalTransform * source.GetAabb();
                 var center = bounds.GetCenter();
@@ -393,7 +394,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             {
                 for (var index = 0; index < original.GetSurfaceCount(); index++)
                 {
-                    var arrays = original.SurfaceGetArrays(index).Duplicate(true);
+                    // Both the caller-owned source array and its duplicate must be
+                    // released; AddSurfaceFromArrays copies the data it is given.
+                    using var sourceArrays = original.SurfaceGetArrays(index);
+                    using var arrays = sourceArrays.Duplicate(true);
                     var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
                     var pathUv = name == "Road_HousePath" ? new Vector2[vertices.Length] : null;
                     var inCut = new bool[vertices.Length];
@@ -548,7 +552,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     internal static (ArrayMesh Mesh, int ChangedTriangles, int OutputVertices) ClipGroundFootprint(
         MeshInstance3D mesh, ArrayMesh original, Node3D room, Vector2 halfSize)
     {
-        var arrays = original.SurfaceGetArrays(0);
+        using var arrays = original.SurfaceGetArrays(0);
         var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
         var normals = arrays[(int)Mesh.ArrayType.Normal].AsVector3Array();
         var uvValue = arrays[(int)Mesh.ArrayType.TexUV];
@@ -651,7 +655,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var reshaped = new ArrayMesh();
             for (var s = 0; s < source.GetSurfaceCount(); s++)
             {
-                var attributes = source.SurfaceGetArrays(s).Duplicate(true);
+                using var sourceArrays = source.SurfaceGetArrays(s);
+                using var attributes = sourceArrays.Duplicate(true);
                 var points = attributes[(int)Mesh.ArrayType.Vertex].AsVector3Array();
                 for (var p = 0; p < points.Length; p++)
                 {
@@ -1301,7 +1306,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 var mesh = FoliageMesh(variant, "kara");
                 cached = (mesh, Enumerable.Range(0, mesh.GetSurfaceCount()).Select(mesh.SurfaceGetName).ToArray(),
                     Enumerable.Range(0, mesh.GetSurfaceCount()).SelectMany(surface =>
-                        mesh.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array()).ToArray());
+                        SurfaceVertices(mesh, surface)).ToArray());
                 geometry[variant] = cached;
                 return cached;
             }
@@ -1310,7 +1315,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var meshes = sources.SelectMany(EnumerateSelfAndDescendants<MeshInstance3D>).Distinct()
                 .Where(mesh => mesh.Mesh is ArrayMesh).ToArray();
             var sourceVertices = meshes.SelectMany(mesh => Enumerable.Range(0, mesh.Mesh!.GetSurfaceCount())
-                .SelectMany(surface => mesh.Mesh!.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
+                .SelectMany(surface => SurfaceVertices(mesh.Mesh!, surface))
                 .Select(vertex => ToLocal(mesh.ToGlobal(vertex)))).ToArray();
             Vector3 pivot;
             if (variant.StartsWith("Winter", StringComparison.Ordinal))
@@ -1571,7 +1576,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     var bark = Array.IndexOf(template.Kinds, "bark");
                     if (variant == "FallenBranch_2")
                     {
-                        var arrays = template.Mesh.SurfaceGetArrays(bark);
+                        using var arrays = template.Mesh.SurfaceGetArrays(bark);
                         var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
                         faces = arrays[(int)Mesh.ArrayType.Index].AsInt32Array().Select(index => vertices[index]).ToArray();
                     }
@@ -1640,10 +1645,19 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         kit.SetMeta("templateSourcePolicy", "source owner retained; template instances released after shared geometry extraction");
     }
 
+    // SurfaceGetArrays builds a new caller-owned Array on every call, and each call
+    // copies the whole surface into managed packed arrays. Releasing it here keeps the
+    // callers that only want the vertices from leaving that copy to the finalizer.
+    private static Vector3[] SurfaceVertices(Mesh mesh, int surface)
+    {
+        using var arrays = mesh.SurfaceGetArrays(surface);
+        return arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+    }
+
     private static Vector3[] RootedStemFaces(ArrayMesh mesh, int barkSurface)
     {
         if (barkSurface < 0) return Array.Empty<Vector3>();
-        var arrays = mesh.SurfaceGetArrays(barkSurface);
+        using var arrays = mesh.SurfaceGetArrays(barkSurface);
         var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
         var indices = arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
         if (indices.Length == 0) indices = Enumerable.Range(0, vertices.Length).ToArray();
@@ -1739,7 +1753,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
             for (var surface = 0; surface < sourceArrayMesh.GetSurfaceCount(); surface++)
             {
-                var vertices = sourceArrayMesh.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                var vertices = SurfaceVertices(sourceArrayMesh, surface);
                 foreach (var vertex in vertices)
                 {
                     worldVertices.Add(ToLocal(mesh.ToGlobal(vertex)));

@@ -3285,7 +3285,7 @@ public partial class Act1ConnectedWorld : Node3D
         var groundedPath = new ArrayMesh();
         for (var surface = 0; surface < sourcePath.GetSurfaceCount(); surface++)
         {
-            var arrays = sourcePath.SurfaceGetArrays(surface);
+            using var arrays = sourcePath.SurfaceGetArrays(surface);
             var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
             for (var vertex = 0; vertex < vertices.Length; vertex++)
             {
@@ -8217,9 +8217,7 @@ public partial class Act1ConnectedWorld : Node3D
         var roofs = AgentBAct1ExteriorLayer.BuildingRoofBounds(parent);
         var ridgeGeometry = FindDescendants<MeshInstance3D>(parent)
             .Where(mesh => mesh.Name == "RidgeSurface" && mesh.Mesh is not null)
-            .Select(mesh => (Vertices: mesh.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array()
-                .Select(vertex => mesh.ToGlobal(vertex)).ToArray(),
-                Indices: mesh.Mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Index].AsInt32Array())).ToArray();
+            .Select(mesh => RidgeSurface(mesh.Mesh, mesh)).ToArray();
         for (var index = 0; index < count; index++)
         {
             var x = (index - (count - 1) * .5f) * spacing + Mathf.Sin(index * 2.37f) * spacing * .44f;
@@ -9285,15 +9283,31 @@ public partial class Act1ConnectedWorld : Node3D
         return spans;
     }
 
+    // SurfaceGetArrays builds a new caller-owned Array and copies the whole surface;
+    // releasing it inside the projection keeps the build from leaving those copies to
+    // the finalizer. One call now supplies both the vertices and the indices.
+    private static (Vector3[] Vertices, int[] Indices) RidgeSurface(Mesh mesh, Node3D owner)
+    {
+        using var arrays = mesh.SurfaceGetArrays(0);
+        return (arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array().Select(vertex => owner.ToGlobal(vertex)).ToArray(),
+            arrays[(int)Mesh.ArrayType.Index].AsInt32Array());
+    }
+
+    private static Vector3[] SurfaceVertices(Mesh mesh, int surface)
+    {
+        using var arrays = mesh.SurfaceGetArrays(surface);
+        return arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+    }
+
     private static Vector3[] StandaloneFenceWorldVertices(MeshInstance3D mesh)
-        => Enumerable.Range(0, mesh.Mesh.GetSurfaceCount()).SelectMany(i =>
-            mesh.Mesh.SurfaceGetArrays(i)[(int)Mesh.ArrayType.Vertex].AsVector3Array()).Select(p => mesh.GlobalTransform * p).ToArray();
+        => Enumerable.Range(0, mesh.Mesh.GetSurfaceCount()).SelectMany(i => SurfaceVertices(mesh.Mesh, i))
+            .Select(p => mesh.GlobalTransform * p).ToArray();
 
     private static Plane StandaloneFenceWallPlane(MeshInstance3D wall, Vector3 outward)
     {
         var points = Enumerable.Range(0, wall.Mesh.GetSurfaceCount()).SelectMany(surface =>
         {
-            var arrays = wall.Mesh.SurfaceGetArrays(surface);
+            using var arrays = wall.Mesh.SurfaceGetArrays(surface);
             var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
             var value = arrays[(int)Mesh.ArrayType.Index];
             var indices = value.VariantType == Variant.Type.Nil ? Array.Empty<int>() : value.AsInt32Array();
@@ -9873,7 +9887,7 @@ public partial class Act1ConnectedWorld : Node3D
         support.Y = AgentBAct1HeightField.CollisionGround(support.X, support.Z) - .04f;
         shed.GlobalPosition = support;
         var wall = AddVisualBox(shed, "Wall", new(3.7f, 2.15f, 2.8f), new(0f, 1.08f, 0f), wallColor, "plaster");
-        var arrays = wall.Mesh.SurfaceGetArrays(0);
+        using var arrays = wall.Mesh.SurfaceGetArrays(0);
         var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
         for (var i = 0; i < vertices.Length; i++)
         {
@@ -9995,13 +10009,16 @@ public partial class Act1ConnectedWorld : Node3D
             tree.Scale = Vector3.One * scale;
             var blocksRoad = false;
             for (var surface = 0; surface < source.GetSurfaceCount() && !blocksRoad; surface++)
-            foreach (var vertex in source.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array())
             {
-                var point = tree.ToGlobal(vertex);
-                if (point.Y > AgentBAct1HeightField.CollisionGround(point.X, point.Z) + 2.5f) continue;
-                var road = AgentBAct1HeightField.RoadInfo(point.X, point.Z);
-                if (road.Distance - road.HalfWidth >= .1) continue;
-                blocksRoad = true; break;
+                using var surfaceArrays = source.SurfaceGetArrays(surface);
+                foreach (var vertex in surfaceArrays[(int)Mesh.ArrayType.Vertex].AsVector3Array())
+                {
+                    var point = tree.ToGlobal(vertex);
+                    if (point.Y > AgentBAct1HeightField.CollisionGround(point.X, point.Z) + 2.5f) continue;
+                    var road = AgentBAct1HeightField.RoadInfo(point.X, point.Z);
+                    if (road.Distance - road.HalfWidth >= .1) continue;
+                    blocksRoad = true; break;
+                }
             }
             if (blocksRoad) { tree.Visible = false; tree.SetMeta("roadEnvelopeSuppressed", true); continue; }
             var tiers = new[] { variant, variant.Replace("Winter", "WinterLight", StringComparison.Ordinal), variant.Replace("Winter", "WinterFar", StringComparison.Ordinal) };

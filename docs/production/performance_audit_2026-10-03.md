@@ -1285,6 +1285,38 @@ Managed-профиль показал поток финализатора зан
 ревью, как это сделано для устойчивых мест выше; отдельного эффекта на кадр они не
 дают, потому что вызываются по взаимодействию, сохранению или отладочному запросу.
 
+### Тот же класс мусора в чтении мешей (`SurfaceGetArrays`)
+
+`Mesh.SurfaceGetArrays(surface)` каждый раз строит **новый принадлежащий
+вызывающему** `Array` и копирует в него всю поверхность (вершины, нормали,
+касательные, UV, цвета, индексы). Скан нашёл **39 мест**, где этот массив
+оставался финализатору — почти все в сборке мира (`AgentBAct1ExteriorLayer` — 10,
+`Act1ConnectedWorld` — 7, `VehicleController.CompoundCollision`, `PublicFenceJunction`,
+`VehicleVisualFactory`, `MosqueClothing`, `SnowRelief`, `BoardCrossing`,
+`PublicBuildingShell`, `BabaiRelocation`, `YardMechanisms`, `PlayerFootwear`,
+`Addresses`, `KaraGradeSupports`), то есть это копии целых поверхностей, а не мелкие
+объекты. Там, где поверхность читается внутри проекции или LINQ, массив создавался
+внутри лямбды, поэтому освободить его на месте было нельзя.
+
+Внедрено: `using var arrays = …SurfaceGetArrays(…)` (неутипизированный
+`Godot.Collections.Array` реализует `IDisposable`), для `.Duplicate(true)` —
+владение и исходным массивом, и копией; для проекций добавлены маленькие
+приватные помощники `SurfaceVertices(Mesh,int)`, `SurfaceBytes(Mesh,int)` и
+`RidgeSurface(Mesh,Node3D)`, которые возвращают уже скопированные managed-данные и
+освобождают движковый массив у себя. В `RidgeSurface` заодно устранено двойное
+чтение одного и того же меша: раньше `SurfaceGetArrays(0)` вызывался отдельно для
+вершин и для индексов, то есть поверхность копировалась дважды на каждый меш.
+
+Почему это безопасно: в исходнике Godot 4.7-stable
+(`scene/resources/mesh.cpp`) `ArrayMesh::add_surface_from_arrays(PrimitiveType,
+const Array &p_arrays, …)` принимает массив **по константной ссылке**, только
+читает его через `mesh_create_surface_data_from_arrays` в
+`RenderingServerTypes::SurfaceData` и затем `add_surface(...)` сохраняет уже
+**скопированные** `vertex_data`/`index_data`; сам `Array` не удерживается. А
+`Mesh::surface_get_arrays` → `mesh_surface_get_arrays` возвращает новый массив, то
+есть владение у вызывающего. Ни одна пара значений, порядок вызовов, маски или
+ветки не менялись.
+
 ### Независимая проверка трёх правок второго исполнителя
 
 Коммиты `1ef6a246` (мемо проверки стойки внутри такта), `509b8e5c` (обход фасадов

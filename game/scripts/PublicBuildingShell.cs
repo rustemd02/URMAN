@@ -39,7 +39,7 @@ internal static class PublicBuildingShell
         var removedArea = 0f;
         for (var surfaceIndex = 0; surfaceIndex < source.GetSurfaceCount(); surfaceIndex++)
         {
-            var arrays = source.SurfaceGetArrays(surfaceIndex);
+            using var arrays = source.SurfaceGetArrays(surfaceIndex);
             var points = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
             var normals = arrays[(int)Mesh.ArrayType.Normal].AsVector3Array();
             var uvs = arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array();

@@ -345,7 +345,7 @@ public static partial class VehicleVisualFactory
             // Primitive meshes are indexed. Expand their triangles explicitly so
             // later authored fenders/rings cannot be omitted by a retained index
             // buffer. Every surface follows the same non-indexed vertex contract.
-            var arrays=source.SurfaceGetArrays(0);
+            using var arrays=source.SurfaceGetArrays(0);
             var vertices=arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
             var normals=arrays[(int)Mesh.ArrayType.Normal].AsVector3Array();
             var uvs=arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array();
@@ -400,7 +400,7 @@ public static partial class VehicleVisualFactory
             var corners=0;
             for(var surface=0;surface<mesh.GetSurfaceCount();surface++)
             {
-                var arrays=mesh.SurfaceGetArrays(surface);
+                using var arrays=mesh.SurfaceGetArrays(surface);
                 var indices=arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
                 corners+=indices.Length>0?indices.Length:arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array().Length;
             }
