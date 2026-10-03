@@ -2043,10 +2043,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // Pilot woodland: uneven patches of the existing winter regrowth close
         // the park-like snow gaps beneath the tall crowns. Append without RNG
         // calls so original roots and the later forest belt keep their positions.
-        foreach (var (point, source) in generated.ToArray())
+        // Existing groups keep their spacing priority; fill the formerly
+        // omitted groups afterward without moving roots or consuming RNG.
+        foreach (var (point, source) in generated.OrderBy(entry =>
+                     Mathf.Sin(entry.Item1.X * .31f + entry.Item1.Y * .17f) < -.2f).ToArray())
         {
             if (!source.StartsWith("Winter", StringComparison.Ordinal) || point.X > -44f || point.X < -62f || Mathf.Abs(point.Y) > 22f
-                || Mathf.Sin(point.X * .31f + point.Y * .17f) < -.2f
                 || InsideMosqueKeepOut(point)) continue;
             var direction = DeterministicPhase(point, 57.7f) * Mathf.Tau;
             var cluster = point + new Vector2(Mathf.Cos(direction), Mathf.Sin(direction)) * 1.3f;
