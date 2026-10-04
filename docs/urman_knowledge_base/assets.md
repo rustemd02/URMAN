@@ -7,7 +7,9 @@
 (milcahrawr 846688, без защищённого вещания), смех/гомон (craigsmith 482798), комнатный гомон
 (Breviceps 457043), дальний лай (Sadiquecat 737196) и зимняя серая ворона (Walking.With.Microphones
 556219) — все CC0, публичные HQ previews.
-Непрерывные слои `village_life_layer.wav` (112 с) и `village_dread_layer.wav` (120 с) сведены
+Восемь записей второй партии (топор, пила, калитка, кипящая еда, корова, детвора, шаги по снегу,
+гармонь-аккордеон) — Freesound CC0, проверены на фоновые шумы; гармонь документирована как
+аккордеон, не татарская тальянка. Непрерывные слои `village_life_layer.wav` (112 с) и `village_dread_layer.wav` (120 с) сведены
 `tools/audio/prepare_village_beds.py` из существующих записей проекта. Хеши, смещения, лицензии:
 `game/assets/audio/act1/sound_mood/credits.json`; границы и проверки —
 [отчёт](../production/sound_mood_2026-10-04.md). Человеческое прослушивание открыто.
