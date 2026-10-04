@@ -43,7 +43,26 @@ bryanpfeiffer — Children playing in the snow, 862595.
 Nox_Sound — Footsteps in snow, 613849.
 fchemotti — Accordion melody, 255223 (гармонь; запись аккордеона, не татарской тальянки).
 
-Азан: Viceskeeni2, «Adhan in Istanbul», Wikimedia Commons, CC0 1.0. Полевая запись уличного призыва к молитве; фрагмент подготовлен для игры. Запасные кандидаты не использованы.
+Двор, сарай и зимний лес (Freesound, CC0 1.0; подготовленные фрагменты HQ preview):
+craigsmith — Close Chicken Vocals, 479593 (куры в сарае рядом).
+JarredGibb — Cow - Moo (distant), 233145 (корова за стеной).
+craigsmith — Horse neigh, 437110 (лошадь в стойле).
+Breviceps — Gate squeak, 456814.
+msimmonsvoice — Snow off boots on porch, 719625 (валенки на крыльце).
+kyles — Stove kindling, 453472 (растопка печи).
+rwan0731 — 3 people laughing together, 399089 (тёплый смех в доме; заменил запись, читавшуюся как стадион).
+nielstii — raven x3, 346318; straget — magpie, 418110 (лесная кромка).
+lukabea — branch crack, 660471 (лесная кромка).
+Walking.With.Microphones — Eurasian Bullfinch, 556238; straget — great tit (winter), 418102 (зимние птицы у жилья).
+HECKFRICKER — Home Fridge Hum, 753297 (тихий гул у дома ночью).
+
+Старое ТВ, пластинки и татарская эстрада:
+Universal Newsreel (1956) и фильм «Royal Wedding» (1951) — public domain, приглушённые фрагменты для телевизора за стеной; помехи и щелчки ТВ — Freesound CC0 (Starscade 397311, OverlookHotelRecords 784207, Fission9 693863).
+Пластинка: kyles 637931 (шип), ProductionNow 443327 (патефон), CC0 1.0.
+Татарские ретро-песни (используются по указанию автора проекта; письменные разрешения правообладателей оформляются автором проекта, права принадлежат правообладателям):
+Ильхам Шакиров — «Иске кара урман», «Тыңларсыңмы»; Венера Ганеева — «Еллар чакыра»; Ренат Ибрагимов — «Татарское село»; Альфия Авзалова — «Күбәләк».
+
+Азан: Мухаммад Шариф, Казань, 16 апреля 2014 года. Запись с YouTube-канала «расамаха расул Abdullin»; используется по указанию автора проекта, письменное разрешение правообладателя оформляется автором проекта. Все права принадлежат правообладателю.
 
 Головы и волосы персонажей
 Quaternius — Universal Base Characters Standard, CC0 1.0.

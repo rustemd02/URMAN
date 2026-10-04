@@ -8,10 +8,10 @@
       "file": "res://assets/audio/act1/village_life/dog.wav",
       "outdoor": true,
       "dayOnly": false,
-      "radius": 18,
-      "volumeDb": -11,
-      "minWait": 70,
-      "maxWait": 160
+      "radius": 20,
+      "volumeDb": -10,
+      "minWait": 45,
+      "maxWait": 120
     },
     {
       "id": "home-music",
@@ -261,14 +261,14 @@
       "file": "res://assets/audio/act1/sound_mood/stove.wav",
       "outdoor": false,
       "dayOnly": false,
-      "radius": 9,
-      "volumeDb": -13,
-      "minWait": 35,
-      "maxWait": 100
+      "radius": 7,
+      "volumeDb": -15,
+      "minWait": 45,
+      "maxWait": 130
     },
     {
       "id": "tv-murmur",
-      "label": "Приглушённый телевизор за стеной",
+      "label": "Старые новости по телевизору за стеной",
       "file": "res://assets/audio/act1/sound_mood/tv.wav",
       "outdoor": false,
       "dayOnly": false,
@@ -386,6 +386,139 @@
       "volumeDb": -10,
       "minWait": 60,
       "maxWait": 150
+    },
+    {
+      "id": "barn-hens-close",
+      "label": "Куры кудахчут в сарае рядом",
+      "file": "res://assets/audio/act1/sound_mood/barn_hens.wav",
+      "outdoor": false,
+      "dayOnly": true,
+      "radius": 14,
+      "volumeDb": -13,
+      "minWait": 80,
+      "maxWait": 180
+    },
+    {
+      "id": "cow-behind-wall",
+      "label": "Корова мычит за стеной сарая",
+      "file": "res://assets/audio/act1/sound_mood/cow_distant.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 15,
+      "volumeDb": -16,
+      "minWait": 100,
+      "maxWait": 220
+    },
+    {
+      "id": "horse-stall",
+      "label": "Лошадь ржёт в стойле",
+      "file": "res://assets/audio/act1/sound_mood/horse.wav",
+      "outdoor": true,
+      "dayOnly": false,
+      "radius": 18,
+      "volumeDb": -12,
+      "minWait": 110,
+      "maxWait": 240
+    },
+    {
+      "id": "gate-squeak",
+      "label": "Скрипнула калитка",
+      "file": "res://assets/audio/act1/sound_mood/gate_squeak.wav",
+      "outdoor": true,
+      "dayOnly": false,
+      "radius": 12,
+      "volumeDb": -14,
+      "minWait": 40,
+      "maxWait": 110
+    },
+    {
+      "id": "valenki-porch",
+      "label": "Кто-то стряхивает валенки на крыльце",
+      "file": "res://assets/audio/act1/sound_mood/valenki.wav",
+      "outdoor": true,
+      "dayOnly": false,
+      "radius": 10,
+      "volumeDb": -11,
+      "minWait": 45,
+      "maxWait": 120
+    },
+    {
+      "id": "stove-kindling",
+      "label": "Растапливают печь",
+      "file": "res://assets/audio/act1/sound_mood/stove_kindling.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 9,
+      "volumeDb": -13,
+      "minWait": 120,
+      "maxWait": 260
+    },
+    {
+      "id": "house-hum-night",
+      "label": "Тихий гул у дома",
+      "file": "res://assets/audio/act1/sound_mood/house_hum.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 7,
+      "volumeDb": -16,
+      "minWait": 50,
+      "maxWait": 140,
+      "nightOnly": true
+    },
+    {
+      "id": "winter-bullfinch",
+      "label": "Снегири у жилья",
+      "file": "res://assets/audio/act1/sound_mood/bullfinch.wav",
+      "outdoor": true,
+      "dayOnly": true,
+      "radius": 18,
+      "volumeDb": -15,
+      "minWait": 55,
+      "maxWait": 140
+    },
+    {
+      "id": "winter-tit",
+      "label": "Синицы на кустах",
+      "file": "res://assets/audio/act1/sound_mood/tit.wav",
+      "outdoor": true,
+      "dayOnly": true,
+      "radius": 16,
+      "volumeDb": -15,
+      "minWait": 50,
+      "maxWait": 130
+    },
+    {
+      "id": "tv-movie",
+      "label": "Старое кино по телевизору",
+      "file": "res://assets/audio/act1/sound_mood/tv_movie.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 10,
+      "volumeDb": -18,
+      "minWait": 70,
+      "maxWait": 190
+    },
+    {
+      "id": "tv-static",
+      "label": "Шипение телевизора",
+      "file": "res://assets/audio/act1/sound_mood/tv_static.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 9,
+      "volumeDb": -19,
+      "minWait": 90,
+      "maxWait": 240
+    },
+    {
+      "id": "gramophone",
+      "label": "Играет пластинка",
+      "file": "res://assets/audio/act1/sound_mood/gramophone_music.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 18,
+      "volumeDb": -13,
+      "minWait": 80,
+      "maxWait": 200
     }
   ]
 }

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Deterministic ordinary-village sound-mood beds for VillageSoundMoodDirector.
 
-Writes ``village_dread_layer.wav`` (weather wind, low dread drone, sparse
-alternating owl calls) and, when the optional household one-shots are present,
+Writes ``village_dread_layer.wav`` (weather wind and sparse alternating owl
+calls; the low hum is a house-bound night motif in the event pool since
+2026-10-04) and, when the optional household one-shots are present,
 ``village_life_layer.wav`` (weather wind plus faint chatter / TV / stove /
 laughter / music / dog texture).  Layer gains are dB relative to that source's
 own RMS; the summed mix is normalized once to the bed RMS target with a 0.70
@@ -42,7 +43,10 @@ PEAK_CEILING = 0.70
 
 DREAD_DURATION = 120.0
 DREAD_WIND_DB = -9.0
-DREAD_DRONE_DB = -20.0
+# The low drone left the global dread bed on 2026-10-04 (author: the hum must
+# sit near houses, and its sound is replaced by a house-bound night motif).
+# The residual level keeps the script source list stable but is inaudible.
+DREAD_DRONE_DB = -48.0
 DREAD_OWL_DB = -16.0
 DREAD_TARGET_RMS = 0.035
 OWL_GAP_SECONDS = (14.0, 40.0)
@@ -51,12 +55,15 @@ OWL_TAIL_MARGIN = 6.0
 
 LIFE_DURATION = 112.0
 LIFE_WIND_DB = -12.0
-LIFE_CHATTER_DB = -14.0
-LIFE_TV_DB = -16.0
-LIFE_STOVE_DB = -15.0
-LIFE_LAUGHTER_DB = -17.0
-LIFE_MUSIC_DB = -19.0
-LIFE_DOG_DB = -18.0
+# Household specifics (TV, music, stove, laughter, dog) live in the house-bound
+# event pool now; the continuous bed keeps only a soft distant murmur so the
+# author no longer hears the same event everywhere.
+LIFE_CHATTER_DB = -16.0
+LIFE_TV_DB = -22.0
+LIFE_STOVE_DB = -20.0
+LIFE_LAUGHTER_DB = -22.0
+LIFE_MUSIC_DB = -25.0
+LIFE_DOG_DB = -24.0
 LIFE_TARGET_RMS = 0.03
 SHOT_TAIL_MARGIN = 2.0
 

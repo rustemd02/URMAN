@@ -41,8 +41,8 @@
         "rms": 0.03499893252398677,
         "loopBoundaryDelta": 0.00299072265625
       },
-      "volumeDb": -10,
-      "gainNote": "lowered from -3 to -10 dB on 2026-10-04 after the author reported the blizzard drowning the village; the 03.10 permanent-weather bed itself is unchanged"
+      "volumeDb": -14,
+      "gainNote": "-3 -> -10 (2026-10-04) -> -14 dB (author: blizzard quieter overall, 2026-10-04 evening)"
     },
     {
       "id": "ambient.house-room",
@@ -111,8 +111,8 @@
         "rms": 0.03499893252398677,
         "loopBoundaryDelta": 0.00299072265625
       },
-      "volumeDb": -10,
-      "gainNote": "lowered from -3 to -10 dB on 2026-10-04 after the author reported the blizzard drowning the village; the 03.10 permanent-weather bed itself is unchanged"
+      "volumeDb": -14,
+      "gainNote": "-3 -> -10 (2026-10-04) -> -14 dB (author: blizzard quieter overall, 2026-10-04 evening)"
     },
     {
       "id": "ambient.water-edge",
@@ -177,7 +177,8 @@
       "license": "CC0-1.0",
       "design": "Open remembrance space with restrained external forest wind; final listening, mix, loop and cultural review remain open.",
       "status": "technical-runtime-pass; recorded CC0 preview; listening/mix/cultural review open",
-      "volumeDb": -3
+      "volumeDb": -10,
+      "gainNote": "lowered with the village weather pass, 2026-10-04"
     },
     {
       "id": "ambient.village-arrival",
@@ -210,8 +211,8 @@
         "rms": 0.03499893252398677,
         "loopBoundaryDelta": 0.00299072265625
       },
-      "volumeDb": -10,
-      "gainNote": "lowered from -3 to -10 dB on 2026-10-04 after the author reported the blizzard drowning the village; the 03.10 permanent-weather bed itself is unchanged"
+      "volumeDb": -14,
+      "gainNote": "-3 -> -10 (2026-10-04) -> -14 dB (author: blizzard quieter overall, 2026-10-04 evening)"
     },
     {
       "id": "ambient.village-yard",
@@ -244,8 +245,8 @@
         "rms": 0.03499893252398677,
         "loopBoundaryDelta": 0.00299072265625
       },
-      "volumeDb": -10,
-      "gainNote": "lowered from -3 to -10 dB on 2026-10-04 after the author reported the blizzard drowning the village; the 03.10 permanent-weather bed itself is unchanged"
+      "volumeDb": -14,
+      "gainNote": "-3 -> -10 (2026-10-04) -> -14 dB (author: blizzard quieter overall, 2026-10-04 evening)"
     },
     {
       "id": "ambient.village-return",
@@ -278,8 +279,8 @@
         "rms": 0.03499893252398677,
         "loopBoundaryDelta": 0.00299072265625
       },
-      "volumeDb": -10,
-      "gainNote": "lowered from -3 to -10 dB on 2026-10-04 after the author reported the blizzard drowning the village; the 03.10 permanent-weather bed itself is unchanged"
+      "volumeDb": -14,
+      "gainNote": "-3 -> -10 (2026-10-04) -> -14 dB (author: blizzard quieter overall, 2026-10-04 evening)"
     }
   ]
 }
