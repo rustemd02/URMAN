@@ -12,6 +12,20 @@ namespace Urman.Godot;
 public partial class Act1ConnectedWorld
 {
     private bool _snowReliefClipped;
+    // Real interior volumes registered by hollow civic buildings. The plinth box
+    // below the floor cannot catch a drift that leans over the floor line and is
+    // visible inside the room; the vertical window below has the same shape as
+    // the solid-architecture boxes.
+    private readonly List<(Transform3D Inverse, Vector3 Half, Aabb Bounds)> _interiorSnowClippers = new();
+
+    /// <summary>Registers one real room volume: snow relief whose triangle centre
+    /// lies inside it (walls included) is dropped from the visible mesh. Called by
+    /// the square builders before the first frame, like every other solid owner.</summary>
+    private void ClipSnowInside(Node3D owner, Vector3 centre, Vector3 half)
+    {
+        var transform = owner.GlobalTransform * new Transform3D(Basis.Identity, centre);
+        _interiorSnowClippers.Add((transform.AffineInverse(), half, transform * new Aabb(-half, half * 2f)));
+    }
 
     private void ClipSnowReliefUnderStructures()
     {
@@ -28,6 +42,7 @@ public partial class Act1ConnectedWorld
             var transform = shape.GlobalTransform;
             boxes.Add((transform.AffineInverse(), box.Size * .5f, transform * new Aabb(-box.Size * .5f, box.Size)));
         }
+        boxes.AddRange(_interiorSnowClippers);
         int meshes = 0, dropped = 0;
         foreach (var mesh in FindDescendants<MeshInstance3D>(this).ToArray())
         {

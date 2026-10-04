@@ -25,7 +25,7 @@ public partial class Act1ConnectedWorld
             back.Add(new(x, .95f, 1.2f, 1.7f));
         }
         var side = new List<Opening> { new(3.4f, .95f, 1.15f, 1.5f), new(-1.6f, .95f, 1.15f, 1.5f), new(-4.4f, .95f, 1.15f, 1.5f) };
-        SWall(club, "FrontWall", new(0, 0, d * .5f - t * .5f), 0, w, h, t, outer, cream, trim, front);
+        var frontWall = SWall(club, "FrontWall", new(0, 0, d * .5f - t * .5f), 0, w, h, t, outer, cream, trim, front);
         SWall(club, "BackWall", new(0, 0, -d * .5f + t * .5f), 180, w, h, t, outer, cream, trim, back);
         SWall(club, "EastWall", new(w * .5f - t * .5f, 0, 0), 90, d - t * 2, h, t, outer, cream, trim, side);
         SWall(club, "WestWall", new(-w * .5f + t * .5f, 0, 0), -90, d - t * 2, h, t, outer, cream, trim, side);
@@ -38,7 +38,7 @@ public partial class Act1ConnectedWorld
 
         // ---- partitions ---------------------------------------------------------------------------
         // Foyer / hall wall: the double door and two side doors.
-        SWall(club, "FoyerWall", new(0, 0, foyerZ), 180, wingX * 2, h, .3f, cream, green, trim,
+        var foyerWall = SWall(club, "FoyerWall", new(0, 0, foyerZ), 180, wingX * 2, h, .3f, cream, green, trim,
             new List<Opening> { new(0, 0, 2.4f, 2.7f, Door: true), new(-3.8f, 0, 1.1f, 2.2f, Door: true), new(3.8f, 0, 1.1f, 2.2f, Door: true) });
         // Foyer wall pieces beyond the hall span (x beyond wings): solid.
         foreach (var s in new[] { -1f, 1f })
@@ -66,19 +66,23 @@ public partial class Act1ConnectedWorld
         // Keep both backstage passages clear of crates and equipment.
 
         // ---- lights ---------------------------------------------------------------------------------------
+        // Every real lamp plus the emissive chandelier shades is wired to the one
+        // entrance switch below; the switch owns no save state.
+        var lamps = new List<VisualInstance3D>();
         foreach (var (x, z, e) in new[] { (-2.8f, 0.6f, 1.6f), (2.8f, 0.6f, 1.6f), (0f, 2.6f, 1.4f) })
-            AddSquareLight(club, new(x, h - .45f, z), e, 11f, "ffe2b0");
-        AddSquareLight(club, new(0, 3.65f, -3.6f), 1.1f, 9f, "ffd9a0");
-        AddSquareLight(club, new(0, foyerH - .45f, 4.3f), 1.3f, 8f, "ffd9a0");
+            lamps.Add(AddSquareLight(club, new(x, h - .45f, z), e, 11f, "ffe2b0"));
+        lamps.Add(AddSquareLight(club, new(0, 3.65f, -3.6f), 1.1f, 9f, "ffd9a0"));
+        lamps.Add(AddSquareLight(club, new(0, foyerH - .45f, 4.3f), 1.3f, 8f, "ffd9a0"));
         foreach (var s in new[] { -1f, 1f })
         {
-            AddSquareLight(club, new(s * 6.3f, wingH - .35f, 3.4f), 1.1f, 6f, "ffd9a0");
-            AddSquareLight(club, new(s * 6.3f, wingH - .35f, -3.5f), .8f, 6f, "ffd0a0");
+            lamps.Add(AddSquareLight(club, new(s * 6.3f, wingH - .35f, 3.4f), 1.1f, 6f, "ffd9a0"));
+            lamps.Add(AddSquareLight(club, new(s * 6.3f, wingH - .35f, -3.5f), .8f, 6f, "ffd0a0"));
         }
 
         BuildClubFoyer(club, body, trim);
-        BuildClubHall(club, body, trim, h, deck, stageZ);
+        BuildClubHall(club, body, trim, h, deck, stageZ, lamps);
         BuildClubWings(club, body, trim);
+        BuildClubDoorSet(club, frontWall, foyerWall, lamps);
         club.SetMeta("interiorHalfSize",new Vector2(ix,iz));
         club.SetMeta("interiorCeiling",h);
         club.SetMeta("storeys",1);
@@ -115,7 +119,7 @@ public partial class Act1ConnectedWorld
             "Тот же Сабантуй, что и в альбоме сельсовета: люди у сцены, шест, дети в первом ряду. Кадр сняли с этого самого места.");
     }
 
-    private void BuildClubHall(Node3D club, StaticBody3D body, Material trim, float h, float deck, float stageZ)
+    private void BuildClubHall(Node3D club, StaticBody3D body, Material trim, float h, float deck, float stageZ, List<VisualInstance3D> lamps)
     {
         var wood = Mat("7d6548", "wood_furniture");
         var red = RuralPropMaterials.Surface("velvet");
@@ -189,7 +193,9 @@ public partial class Act1ConnectedWorld
         foreach (var (x, z) in new[] { (-2.8f, .6f), (2.8f, .6f), (0f, 2.6f) })
         {
             SBox(club, null, "ChandelierRod", new(.03f, .4f, .03f), new(x, h - .35f, z), Mat("2b2b2b", "metal"), shadow: false);
-            club.AddChild(new MeshInstance3D { Name = "Chandelier", Mesh = new TorusMesh { InnerRadius = .35f, OuterRadius = .42f }, Position = new(x, h - .6f, z), MaterialOverride = new StandardMaterial3D { AlbedoColor = new Color(1f, .9f, .6f), EmissionEnabled = true, Emission = new Color(1f, .8f, .5f), EmissionEnergyMultiplier = .6f } });
+            var chandelier = new MeshInstance3D { Name = "Chandelier", Mesh = new TorusMesh { InnerRadius = .35f, OuterRadius = .42f }, Position = new(x, h - .6f, z), MaterialOverride = new StandardMaterial3D { AlbedoColor = new Color(1f, .9f, .6f), EmissionEnabled = true, Emission = new Color(1f, .8f, .5f), EmissionEnergyMultiplier = .6f } };
+            club.AddChild(chandelier);
+            lamps.Add(chandelier);
         }
         // Radiators sit below the ordinary single-storey windows.
         foreach (var x in new[] { -6.0f, -2.8f, 2.8f, 6.0f })
@@ -254,5 +260,23 @@ public partial class Act1ConnectedWorld
         }
         SLabel(club, "КОСТЮМЕРНАЯ", new(-7.1f, 2.6f, 0.45f), 0, 24, new Color(.25f, .2f, .15f));
         SLabel(club, "ИНСТРУМЕНТЫ", new(7.1f, 2.6f, 0.45f), 0, 24, new Color(.25f, .2f, .15f));
+    }
+
+    // Doors the author asked for (2026-10-04): the entrance and the inner foyer
+    // doors, plus the presentation light switch by the entrance. The double
+    // entrance leaves open outward under the existing canopy, like the public
+    // building doors. The foyer doors open into the foyer: that side is empty
+    // for the full 95-degree swing, while a hall-side arc meets the first seat
+    // row (z 2.33 collision face) within 0.4 m.
+    private void BuildClubDoorSet(Node3D club, Node3D frontWall, Node3D foyerWall, List<VisualInstance3D> lamps)
+    {
+        SquareInteriorDoor(frontWall, "SquareClubEntranceL", "square/club/entrance-l", 0, 2.0f, 2.45f, .35f, 1, -1, .90f);
+        SquareInteriorDoor(frontWall, "SquareClubEntranceR", "square/club/entrance-r", 0, 2.0f, 2.45f, .35f, 1, 1, .90f);
+        SquareInteriorDoor(foyerWall, "SquareClubHallL", "square/club/hall-door-l", 0, 2.4f, 2.7f, .3f, -1, -1, 1.10f);
+        SquareInteriorDoor(foyerWall, "SquareClubHallR", "square/club/hall-door-r", 0, 2.4f, 2.7f, .3f, -1, 1, 1.10f);
+        SquareInteriorDoor(foyerWall, "SquareClubFoyerL", "square/club/foyer-door-l", -3.8f, 1.1f, 2.2f, .3f, -1, -1, .90f);
+        SquareInteriorDoor(foyerWall, "SquareClubFoyerR", "square/club/foyer-door-r", 3.8f, 1.1f, 2.2f, .3f, -1, 1, .90f);
+        SquareLightSwitch(club, "SquareClubLightSwitch", "club-light", new(1.45f, 1.42f, 5.6375f), lamps);
+        EnsureFacilityTick();
     }
 }

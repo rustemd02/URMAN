@@ -42,6 +42,15 @@ public partial class Act1ConnectedWorld
         SquareSign(club, new(0, 3.3f, 6.08f), "МӘДӘНИЯТ ЙОРТЫ\nДОМ КУЛЬТУРЫ", 54, new Color(.55f, .12f, .1f), plate: false);
         SquarePoster(club, new(-4.4f, 1.65f, 6.07f), "САБАНТУЙ");
 
+        // Relayout v3 stood these shells on the arrival composition's tree line
+        // and on terrain snow relief. Remove every tree whose root is inside a
+        // shell or on its entrance apron, and register the real room volumes so
+        // relief that leans above the floor line cannot rise through the floor.
+        SuppressSquareFoliage(school, 10f, 5.5f, 6.1f);
+        SuppressSquareFoliage(club, 8f, 6f, 6.6f);
+        ClipSnowInside(school, new Vector3(0, 1.7f, 0), new Vector3(10f, 1.7f, 6.1f));
+        ClipSnowInside(club, new Vector3(0, 2.1f, 0), new Vector3(8f, 2.1f, 6.6f));
+
         // Former sovkhoz office: two storeys, brick, a faded plaque.
         var office = SquareBuilding(square, "SovkhozOffice", new(11f, 52f), 14f, 9f, 3.2f, 2, brick, roofPitch: 22f);
         SquareWindows(office, 14f, 9f, 3.2f, 2, 5, trim, lit: index => index == 0);
@@ -199,6 +208,15 @@ public partial class Act1ConnectedWorld
             Box(frame, "Frame", new(windowWidth + .16f, windowHeight + .16f, .06f), Vector3.Zero, trim);
             var isBoarded = boarded?.Invoke(floor, index) == true;
             var isLit = side == 0 && floor == 0 && lit(index);
+            // The office and post are deliberately closed, non-enterable shells:
+            // their exterior glazing is the frosted `frost_window` surface (with
+            // one warm pane where lit), not a transparent interior window. The
+            // enterable school and club use the shared transparent SquareGlass.
+            frame.SetMeta("glazingPolicy", isBoarded
+                ? "boarded exterior window; closed building"
+                : isLit
+                    ? "frost_window glaze plus a warm emissive pane; closed building, exterior view only"
+                    : "frost_window glaze; closed building, exterior view only");
             Box(frame, "Glass", new(windowWidth, windowHeight, .07f), new(0, 0, .01f), isLit ? warm : glass);
             Box(frame, "Mullion", new(.06f, windowHeight, .08f), new(0, 0, .02f), trim);
             Box(frame, "Sill", new(windowWidth + .3f, .07f, .22f), new(0, -windowHeight * .5f - .06f, .08f), PainterlyMaterialLibrary.ForColor("e6ebef", "snow_roof"));
@@ -493,5 +511,34 @@ public partial class Act1ConnectedWorld
             for(var i=0;i<count;i++){V(i,-1);V(i,1);V(i+1,1);V(i,-1);V(i+1,1);V(i+1,-1);}
             s.Index();s.GenerateNormals();garden.AddChild(new MeshInstance3D { Name=building.Name+"ApproachPath",Mesh=s.Commit(),MaterialOverride=stone,CastShadow=GeometryInstance3D.ShadowCastingSetting.Off });
         }
+    }
+
+    // The school and club shells stand on the arrival composition's tree line:
+    // one tall birch root sat at the DK entrance and one linden root stood inside
+    // the school corridor, through the new floor. ReconcileBuildingFoliage owns
+    // planted trees under the roof and their stem contacts; this pass also covers
+    // authored trees and the entrance apron in front of the shell. Only roots
+    // inside the named rectangle are touched, so trees that belong to other
+    // places stay.
+    private void SuppressSquareFoliage(Node3D building, float halfWidth, float halfDepth, float entranceReach)
+    {
+        GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld").ReconcileBuildingFoliage(building);
+        var hidden = 0;
+        foreach (var tree in FindDescendants<Node3D>(this)
+            .Where(node => node.HasMeta("winterVariant") || node.HasMeta("plantPosition")).ToArray())
+        {
+            if (HasTrueMeta(tree, "connectedWorldHidden")) continue;
+            var local = building.ToLocal(tree.GlobalPosition);
+            if (Mathf.Abs(local.X) > halfWidth || local.Z < -halfDepth || local.Z > entranceReach) continue;
+            HidePresentationNode(tree);
+            tree.SetMeta("squareFoliageRemoval",
+                "relayout v3: the tree root stood inside the new civic building or on its entrance apron");
+            foreach (var shape in FindDescendants<CollisionShape3D>(this).Where(shape =>
+                shape.HasMeta("geometryOwner")
+                && shape.GetMeta("geometryOwner").AsString() == tree.GetPath().ToString()).ToArray())
+                shape.Disabled = true;
+            hidden++;
+        }
+        building.SetMeta("squareFoliageRemoved", hidden);
     }
 }

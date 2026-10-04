@@ -103,9 +103,11 @@ public partial class Act1ConnectedWorld
                         for (var plank = 0; plank < 3; plank++)
                             SBox(wall, null, $"Board{index}_{item.Sill:0.0}_{plank}", new(item.Width + .3f, .17f, .04f),
                                 new(cx, item.Sill + item.Height * (.2f + plank * .3f), thick * .5f + .06f), Mat("6e5a45", "wood"), new(0, 0, plank == 1 ? -8 : 5));
-                    if (item.Lit)
-                        SBox(wall, null, $"WarmPane{index}_{item.Sill:0.0}", new(item.Width - .1f, item.Height - .1f, .012f), new(cx, item.Sill + item.Height * .5f, thick * .5f - .03f),
-                            new StandardMaterial3D { AlbedoColor = new Color(1f, .78f, .45f), EmissionEnabled = true, Emission = new Color(1f, .7f, .4f), EmissionEnergyMultiplier = .7f }, shadow: false);
+                    // `Lit` marks a room whose own lamps are on; it must not place an
+                    // opaque emissive pane in the reveal (the old WarmPane made the lit
+                    // DK window read as a solid slab from inside). Every window keeps the
+                    // one shared transparent SquareGlass glaze; the real OmniLights in
+                    // the room supply the warm view from the street.
                 }
             }
             Seg($"Head{index}", column.X0, column.X1, y, height);
@@ -242,6 +244,66 @@ public partial class Act1ConnectedWorld
             if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player) return;
             if (sound is not null) UiFoley.PlayWorld(this, target.GlobalPosition, sound);
             player.NotifyTraversal(thought);
+        };
+    }
+
+    /// <summary>
+    /// A hinged leaf for a real SWall opening, built by the shared
+    /// <see cref="FacilityManualDoor"/> so hinge pins, handles, the 12 mm floor
+    /// gap, the full-leaf sweep and its 2 mm collision margin stay the same as
+    /// the mosque/bath/public doors. The wall's local +z is its outward face:
+    /// `swing` is +1 when the leaf opens outward and -1 when it opens into the
+    /// room. The pivot sits on the swing face beyond the DoorPost trim
+    /// ((thickness + .04) / 2 deep), offset by the leaf's 65 mm half-thickness
+    /// and the same 6 mm air those doors use, so the sweep never cuts its own
+    /// jamb. `hingeSide` is -1 for the left jamb and +1 for the right jamb;
+    /// `leafWidth` defaults to the clear opening less a 20 mm closing gap.
+    /// </summary>
+    private FacilityDoor SquareInteriorDoor(Node3D wall, string name, string key,
+        float openingX, float openingWidth, float openingHeight, float thickness,
+        float swing, float hingeSide, float leafWidth = 0f)
+    {
+        const float doorPost = .09f;
+        var clear = openingWidth - doorPost * 2f;
+        var width = leafWidth > 0f ? leafWidth : clear - .02f;
+        var hingeX = hingeSide < 0f
+            ? openingX - openingWidth * .5f + doorPost
+            : openingX + openingWidth * .5f - doorPost;
+        var hingeZ = swing * (thickness * .5f + .02f + .0325f + .006f);
+        var rest = hingeSide < 0f ? 90f : -90f;
+        return FacilityManualDoor(wall, name, key, new(hingeX, 0, hingeZ), width, openingHeight - .018f,
+            rest, (hingeSide < 0f ? -swing : swing) * 95f);
+    }
+
+    /// <summary>
+    /// A real wall switch beside the entrance, wired to the room's existing
+    /// lamps. Purely a presentation action: no world.props key, no journal and
+    /// no save state, so a new session always starts with the lights on. `at`
+    /// is the plate centre on the room face; the room lies toward -Z of the
+    /// plate (both square entrances face the interior this way).
+    /// </summary>
+    private void SquareLightSwitch(Node3D building, string name, string key, Vector3 at,
+        IReadOnlyList<VisualInstance3D> lamps)
+    {
+        SBox(building, null, name + "Plate", new(.10f, .13f, .025f), at, Mat("f2efe7", "plastic_abs"), shadow: false);
+        var lever = SBox(building, null, name + "Lever", new(.022f, .052f, .018f),
+            at + new Vector3(0, 0, -.0235f), Mat("d8d2c4", "plastic_abs"), shadow: false);
+        lever.Rotation = new(-.2f, 0, 0);
+        var on = true;
+        var target = FacilityTarget(name, "urman.chapter1:local/square/" + key, "Выключить свет", building,
+            at + new Vector3(0, 0, -.085f), new(.34f, .34f, .22f));
+        target.SetMeta("lightSwitchPolicy", "presentation-only room lamps; no save owner, no story state");
+        target.PresentationRepeatAvailable = () => FacilityExteriorActive;
+        target.PresentationRepeat = () =>
+        {
+            if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player) return;
+            on = !on;
+            foreach (var lamp in lamps)
+                if (GodotObject.IsInstanceValid(lamp)) lamp.Visible = on;
+            lever.Rotation = new(on ? -.2f : .2f, 0, 0);
+            target.Prompt = on ? "Выключить свет" : "Включить свет";
+            UiFoley.PlayWorld(this, target.GlobalPosition, "ui_click");
+            player.NotifyTraversal(on ? "Свет включён." : "Свет выключен.");
         };
     }
 }

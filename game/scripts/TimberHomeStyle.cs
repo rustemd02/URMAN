@@ -102,8 +102,14 @@ public static class TimberHomeStyle
                     var bounds=inv*walls[0].GlobalTransform*walls[0].GetAabb();
                     foreach(var m in walls.Skip(1))bounds=bounds.Merge(inv*m.GlobalTransform*m.GetAabb());
                     const float added=2.40f;
+                    // Match part tokens, never the variant tag: every VariantA mesh is
+                    // named "..._TimberGable_Dwelling_...", so a bare "Gable" substring
+                    // lifted the foundation, walls and windows of the whole main volume
+                    // 2.4 m and left the house standing with no ground floor (Tukay 4).
+                    // "Eave" (not "Eaves") is the real part name; RafterTail belongs to
+                    // the same lifted roof group.
                     foreach(var roof in source.Where(m=>!m.Name.ToString().Contains("Seni",StringComparison.Ordinal)
-                        &&new[]{"Roof","Gable","Verge","Eaves","Fascia","Gutter","Chimney","Ridge"}.Any(m.Name.ToString().Contains)))
+                        &&new[]{"Roof","BoardedGable","Verge","Eave","Gutter","Chimney","Ridge","RafterTail"}.Any(m.Name.ToString().Contains)))
                         roof.GlobalPosition+=Vector3.Up*added;
                     var w=bounds.Size.X;var d=bounds.Size.Z;var y=bounds.End.Y;
                     var centre=bounds.GetCenter();

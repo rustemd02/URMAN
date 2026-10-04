@@ -6,16 +6,25 @@ namespace Urman.Godot;
 /// subtraction checks openings; a foreground prism includes posts and annexes.
 /// The plate is a village house plate, 0.60 x 0.23 m (2026-09-24: the author
 /// found the former 1.18 m street-sign size too big), the same on every house,
-/// and hangs at one eye height beside the door so a row of plates reads level.</summary>
+/// and hangs beside the door at human reading height so a row of plates reads
+/// level (author 2026-10-04: no roof edges, plinths, fences or invented
+/// platforms; when the facade cannot carry the plate beside the entrance, the
+/// import records the failure instead of inventing a mount).</summary>
 internal static class AddressFacadeMount
 {
     internal const float HalfWidth=.30f, HalfHeight=.115f;
     internal const float RivetX=HalfWidth-.03f, RivetY=HalfHeight-.03f;
-    // Plate centre above the facade's own ground, and the tolerance around it.
-    // R063/R107 (review 2026-09-28): one uniform mount near the top edge of the
-    // door-side wall, under the eave, toward the corner - not a random centre.
-    // MountTop caps the target so tall public walls keep a readable plate.
-    internal const float MountHeight=1.9f, MountLow=1.6f, MountHigh=3.2f, MountTop=2.85f;
+    // Plate centre above the facade's own ground. This is a human reading band
+    // beside the entrance, not "under the eave": 1.5 m is the lowest comfortable
+    // letter line, 2.1 m the highest, 1.8 m the target. A wall shorter than the
+    // band yields no candidate, and the mount honestly fails.
+    internal const float MountHeight=1.8f, MountLow=1.5f, MountHigh=2.1f;
+    // The board may follow hewn-log courses and casing by at most this much, so
+    // it still reads as screwed to the wall - never a ledge, shelf, canopy or
+    // roof verge pushed out in front of it.
+    internal const float MaxCladdingProud=.09f;
+    // The plate offset in front of the drawn wall plane (2.1 cm).
+    internal const float MountOffset=.021f;
     internal const string FenceMountSuffix=" (parcel fence mount)";
     internal sealed record Triangle(Vector2 A,Vector2 B,Vector2 C);
     internal sealed record Coverage(bool Supported,double MissingArea,string Owner,string Reason,bool TimberCladding=false);
@@ -27,10 +36,20 @@ internal static class AddressFacadeMount
         public readonly List<Triangle> Triangles=[];
     }
 
+    private static readonly string[] NonWallParts =
+    [
+        "_Left_","_Right_","Plinth","Step","Stair","Bench","Shelf","Ledge","Platform","Fence","Gate",
+        "Rail","Beam","Post","Canopy","Awning","Rafter","Verge","Gutter","Sill","Downpipe","Splash",
+        "Trough","Spout","Towel","Ladder","Woodpile","Path","Sign"
+    ];
+
     public static bool Eligible(string name)
     {
-        if(new[]{"Roof","Snow","Window","Door","Foundation","Footing","Chimney","Interior","Rear","Back","SeniSide","_Left_","_Right_"}
+        if(new[]{"Roof","Snow","Window","Door","Foundation","Footing","Chimney","Interior","Rear","Back","SeniSide"}
             .Any(s=>name.Contains(s,StringComparison.Ordinal)))return false;
+        // Walls only: a plate screwed to a plinth, step, bench, fence, gate post
+        // or free-standing prop reads as a strange platform, not an address.
+        if(NonWallParts.Any(s=>name.Contains(s,StringComparison.Ordinal)))return false;
         return name.Contains("_Wall_",StringComparison.Ordinal)||name.Contains("_Body_",StringComparison.Ordinal)
             ||name.Contains("GableFace",StringComparison.Ordinal)||name.Contains("GablePanel",StringComparison.Ordinal)
             ||name.Contains("_Gable_",StringComparison.Ordinal)||name.Contains("BoardedGable",StringComparison.Ordinal)
@@ -40,18 +59,13 @@ internal static class AddressFacadeMount
     public static bool TryFind(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out Vector3 mountedOutward,out string owner,out string failure,string? explicitExteriorWall=null)
     {
         if(TryFindOnWalls(building,door,outward,world,out point,out mountedOutward,out owner,out failure,explicitExteriorWall))return true;
-        // Rural fallback: when the facade has no opening-free stretch beside
-        // the door (vent gable, fully pierced walls, small silhouette), the
-        // plate hangs on the street fence or gate post of the same parcel —
-        // exactly where Tatarstan villages put them. The plate keeps
-        // its real size; only the mount surface changes.
-        var fenceFailure=failure;
-        if(TryFindOnParcelFence(building,door,outward,world,out point,out owner,out var fenceRefusal))
-        {
-            mountedOutward=new Vector3(outward.X,0,outward.Z).Normalized();
-            return true;
-        }
-        failure=fenceFailure+"; fence fallback: "+fenceRefusal;
+        // No façade wall beside this door carries the plate at reading height.
+        // Parcel fences, gate posts, plinths and props are deliberately not a
+        // fallback (author 2026-10-04): a random rail or ledge reads as a strange
+        // platform. The import records SIGN_MOUNT_NOT_FOUND and keeps failing;
+        // only a household's own street gate (TryFindOnOwnYardFence, the
+        // documented gate-entrance exception) may carry the plate instead.
+        failure+="; no façade wall for the plate beside the door (fences and props are not facades)";
         return false;
     }
 
@@ -84,10 +98,10 @@ internal static class AddressFacadeMount
         var right=new Vector3(outward.Z,0,-outward.X);
         var planes=Planes(building,outward,right,explicitExteriorWall);
         // The plate hangs on the wall segment the door pierces (or its gate),
-        // high under the eave toward the facade corner, never centred above
-        // the entrance. No normative height is claimed (B-R28-03).
+        // beside the entrance at human reading height: the free rectangle
+        // nearest the door axis, target centre 1.8 m above the facade's own
+        // ground. No normative height is claimed (B-R28-03).
         var doorAlong=door.Dot(right);
-        var desired=new Vector2(doorAlong+.62f,Act1ConnectedWorld.AddressGround(door).Y+MountHeight);
         var candidates=new List<(float Score,Vector2 Center,Plane Plane)>();
         foreach(var plane in planes)
         {
@@ -114,7 +128,7 @@ internal static class AddressFacadeMount
             }
             if(ranges.Count==0)continue;
             foreach(var (rangeLo,rangeHi) in ranges)
-            foreach(var x in Samples(rangeLo,rangeHi,rangeHi-.15f,.08f))
+            foreach(var x in Samples(rangeLo,rangeHi,Math.Clamp(doorAlong,rangeLo,rangeHi),.08f))
             {
                 // A recessed annex entrance may lie several metres down the
                 // slope. Judge plate height against the facade's own ground.
@@ -122,15 +136,18 @@ internal static class AddressFacadeMount
                 var minY=Math.Max(vertices.Min(p=>p.Y)+HalfHeight+.025f,facadeGround+MountLow);
                 var maxY=Math.Min(vertices.Max(p=>p.Y)-HalfHeight-.025f,facadeGround+MountHigh);
                 if(minY>maxY)continue;
-                var topY=Math.Min(vertices.Max(p=>p.Y)-HalfHeight-.2f,facadeGround+MountTop);
-                var cornerX=rangeHi;
-                foreach(var y in Samples(minY,maxY,topY,.06f))
+                var targetY=Math.Clamp(facadeGround+MountHeight,minY,maxY);
+                foreach(var y in Samples(minY,maxY,targetY,.06f))
                 {
                     var center=new Vector2(x,y);
                     var fastCheck=BoardJoints(plane.Owner)?FastenerPoints(center):RequiredMountPoints(center);
                     if(!fastCheck.All(p=>plane.Triangles.Any(t=>Contains(t,p))))continue;
                     var orientationPenalty=oriented?4f:0f;
-                    var score=(x-cornerX)*(x-cornerX)*.35f+(y-topY)*(y-topY)*1.96f+Math.Abs(plane.Depth-door.Dot(outward))*.12f+orientationPenalty;
+                    // Prefer the legal spot closest to the door axis and closest
+                    // to the 1.8 m target; the wall plane itself must be the
+                    // door's own plane when possible.
+                    var score=(x-doorAlong)*(x-doorAlong)+(y-targetY)*(y-targetY)*1.6f
+                        +Math.Abs(plane.Depth-door.Dot(outward))*.12f+orientationPenalty;
                     candidates.Add((score,center,plane));
                 }
             }
@@ -146,9 +163,9 @@ internal static class AddressFacadeMount
         {
             var coverage=Cover(candidate.Plane.Triangles,candidate.Center,BoardJoints(candidate.Plane.Owner));
             if(!coverage.Supported){Refused(coverage.Reason+" at "+candidate.Plane.Owner);continue;}
-            var p=right*candidate.Center.X+Vector3.Up*candidate.Center.Y+outward*(candidate.Plane.Depth+.021f);
+            var p=right*candidate.Center.X+Vector3.Up*candidate.Center.Y+outward*(candidate.Plane.Depth+MountOffset);
             var mounted=ProudOfOwnCladding(building,p,outward,right);
-            if(mounted.Dot(outward)-candidate.Plane.Depth>.09f
+            if(mounted.Dot(outward)-candidate.Plane.Depth>MaxCladdingProud
                 &&!TimberFastenersSupported(building,mounted,outward,right))continue;
             // Check from the finished mount, not from behind its own cladding.
             if(Occluder(faces,mounted,outward,right) is { } occluder){Refused("Exterior view blocked by "+occluder);continue;}
@@ -258,9 +275,8 @@ internal static class AddressFacadeMount
         // the office and post. None is an interior room divider.
         // Explicit selection still checks actual faces,
         // openings, fasteners and every foreground obstruction. Default policy
-        // and the three-metre height limit are unchanged.
-        if(explicitExteriorWall is not null && explicitExteriorWall is not
-            ("DwellingFacade_Right_Wall_LOD0" or "DwellingFacade_SeniOuter_Wall_LOD0" or "Pier1Skin" or "Walls"))
+        // and the reading-height band are unchanged.
+        if(explicitExteriorWall is not null && !VerifiedExplicitWall(explicitExteriorWall))
             throw new ArgumentException("Unverified explicit exterior facade: "+explicitExteriorWall);
         var planes=new List<Plane>();
         foreach(var mesh in Descendants(building).OfType<MeshInstance3D>().Where(m=>m.IsVisibleInTree()&&m.Mesh is not null
@@ -278,35 +294,37 @@ internal static class AddressFacadeMount
         }
         return planes.GroupBy(p=>p.Owner,StringComparer.Ordinal).Select(g=>g.OrderByDescending(p=>p.Depth).First()).ToList();
     }
-    /// <summary>Parcel fence fallback: picket/rail planes and gate posts of
-    /// the same building parcel carry the plate when the facade cannot.
-    /// A fence picket field is slats with gaps, so only solid rails and
-    /// posts qualify — never the picket field itself.</summary>
-    private static bool TryFindOnParcelFence(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure)
-        =>TryFindOnParcelFence(building,door,outward,world,out point,out owner,out failure,ownMembersOnly:false);
-
+    // Explicit surface policy. The list is citation-explicit; the civic square
+    // generates its exterior wall skins as "Pier<n>Skin" (SWall indexes every
+    // pier), so the House of Culture's Pier4Skin is the same class of surface
+    // as the school's Pier1Skin and must not throw on import.
+    private static bool VerifiedExplicitWall(string name)
+    {
+        if(name is "DwellingFacade_Right_Wall_LOD0" or "DwellingFacade_SeniOuter_Wall_LOD0" or "Pier1Skin" or "Walls")return true;
+        if(!name.StartsWith("Pier",StringComparison.Ordinal)||!name.EndsWith("Skin",StringComparison.Ordinal))return false;
+        var digits=name.AsSpan(4,name.Length-8);
+        if(digits.Length==0)return false;
+        foreach(var c in digits)if(c<'0'||c>'9')return false;
+        return true;
+    }
     /// <summary>A yard whose street gate is the entrance carries its plate on that gate's own
     /// posts and rails, where a passer-by in the street can read it. Only members of this
-    /// household are considered, never a neighbour's fence.</summary>
+    /// household are considered, never a neighbour's fence, and the complete rectangle must
+    /// lie on one solid member's own street-facing face at reading height.</summary>
     internal static bool TryFindOnOwnYardFence(Node3D building,Vector3 gate,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure)
-        =>TryFindOnParcelFence(building,gate,outward,world,out point,out owner,out failure,ownMembersOnly:true);
-
-    private static bool TryFindOnParcelFence(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,bool ownMembersOnly)
     {
         point=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
         var right=new Vector3(outward.Z,0,-outward.X);
-        var parcelTop=building.GetParent();
         var pickets=new List<(MeshInstance3D Mesh,string Owner)>();
-        foreach(var scope in (ownMembersOnly?new[]{building}:new[]{building,parcelTop}).Where(n=>n is not null))
-            foreach(var mesh in Descendants(scope!).OfType<MeshInstance3D>().Where(m=>m.Mesh is not null&&m.IsVisibleInTree()))
-            {
-                var name=mesh.Name.ToString();
-                if(!(name.Contains("Fence",StringComparison.Ordinal)||name.Contains("Gate",StringComparison.Ordinal)
-                    ||name.Contains("Post",StringComparison.Ordinal)||name.Contains("Rail",StringComparison.Ordinal)))continue;
-                if(name.Contains("Glass",StringComparison.Ordinal)||name.Contains("Leaf",StringComparison.Ordinal))continue;
-                pickets.Add((mesh,mesh.GetPath().ToString()));
-            }
-        if(pickets.Count==0){failure="no fence, gate or post meshes on the parcel";return false;}
+        foreach(var mesh in Descendants(building).OfType<MeshInstance3D>().Where(m=>m.Mesh is not null&&m.IsVisibleInTree()))
+        {
+            var name=mesh.Name.ToString();
+            if(!(name.Contains("Fence",StringComparison.Ordinal)||name.Contains("Gate",StringComparison.Ordinal)
+                ||name.Contains("Post",StringComparison.Ordinal)||name.Contains("Rail",StringComparison.Ordinal)))continue;
+            if(name.Contains("Glass",StringComparison.Ordinal)||name.Contains("Leaf",StringComparison.Ordinal))continue;
+            pickets.Add((mesh,mesh.GetPath().ToString()));
+        }
+        if(pickets.Count==0){failure="no own fence, gate or post meshes";return false;}
         var rails=new List<(MeshInstance3D Mesh,Face[] Faces,string Owner)>();
         foreach(var (mesh,path) in pickets)
         {
@@ -321,36 +339,41 @@ internal static class AddressFacadeMount
             for(var i=0;i+2<raw.Length;i+=3)
             {
                 var a=mesh.GlobalTransform*raw[i];var b=mesh.GlobalTransform*raw[i+1];var c=mesh.GlobalTransform*raw[i+2];
-                if(Math.Abs((b-a).Cross(c-a).Normalized().Dot(outward))<.9f)continue;
+                // Near-vertical member faces only (|ny| below ~0.35): a sloped
+                // rail is not a plate board.
+                if(Math.Abs((b-a).Cross(c-a).Normalized().Dot(outward))<.94f)continue;
                 faces.Add(new(a,b,c,path));
             }
             if(faces.Count>0)rails.Add((mesh,faces.ToArray(),path));
         }
-        if(rails.Count==0){failure="fence members have no street-facing solid planes";return false;}
+        if(rails.Count==0){failure="own fence members have no street-facing solid planes";return false;}
         var candidates=new List<(float Score,Vector3 Point,string Owner)>();
         foreach(var (_,faces,path) in rails)
         {
-            var plane=faces[0];
-            var depth=new[]{plane.A,plane.B,plane.C}.Average(p=>p.Dot(outward));
+            // The plate belongs on the member's street-facing face, not on its
+            // back: pick the frontmost drawn plane of this solid member.
+            var depth=faces.Select(f=>new[]{f.A,f.B,f.C}.Average(p=>p.Dot(outward))).Max();
             var along=faces.SelectMany(f=>new[]{f.A,f.B,f.C}).ToArray();
             var minA=along.Min(p=>p.Dot(right));var maxA=along.Max(p=>p.Dot(right));
             var minY=along.Min(p=>p.Y);var maxY=along.Max(p=>p.Y);
             var groundY=Act1ConnectedWorld.AddressGround(new Vector3((minA+maxA)*.5f*right.X,0,(minA+maxA)*.5f*right.Z)+outward*depth).Y;
-            var wantY=Math.Max(minY+.25f,groundY+1.35f);
-            if(wantY+HalfHeight>Math.Min(maxY,groundY+2.2f))continue;
-            var memberTriangles=ownMembersOnly?MemberTriangles(faces,outward,right,depth):null;
-            foreach(var t in ownMembersOnly?new[]{.2f,.35f,.5f,.65f,.8f}:new[]{.25f,.5f,.75f})
+            // The gate board is read from the street: keep it in the same
+            // human band as the façade plate (never a fence-top shelf).
+            var wantY=Math.Max(minY+.25f,groundY+1.45f);
+            if(wantY+HalfHeight>Math.Min(maxY,groundY+MountHigh))continue;
+            var memberTriangles=MemberTriangles(faces,outward,right,depth);
+            foreach(var t in new[]{.2f,.35f,.5f,.65f,.8f})
             {
                 var a=minA+(maxA-minA)*t;
                 // A gate plate must lie wholly on the member's own face: no overhang past a post.
-                if(memberTriangles is not null&&!Cover(memberTriangles,new(a,wantY)).Supported)continue;
-                var p=right*a+Vector3.Up*wantY+outward*(depth+.021f);
-                var toDoor=new Vector2(p.X-door.X,p.Z-door.Z).Length();
-                if(toDoor>9f)continue;
-                candidates.Add((toDoor,p,path));
+                if(!Cover(memberTriangles,new(a,wantY)).Supported)continue;
+                var p=right*a+Vector3.Up*wantY+outward*(depth+MountOffset);
+                var toGate=new Vector2(p.X-gate.X,p.Z-gate.Z).Length();
+                if(toGate>9f)continue;
+                candidates.Add((toGate,p,path));
             }
         }
-        if(candidates.Count==0){failure="no fence rail/post rectangle near the doorway";return false;}
+        if(candidates.Count==0){failure="no own gate/rail rectangle at reading height";return false;}
         var bounds=Bounds(candidates.Select(c=>c.Point)).Grow(4.2f);
         var faces2=VisibleFaces(world,bounds);
         var refusals=new Dictionary<string,int>(StringComparer.Ordinal);
@@ -362,7 +385,7 @@ internal static class AddressFacadeMount
             }
             point=candidate.Point;owner=candidate.Owner+FenceMountSuffix;return true;
         }
-        failure="fence candidates occluded: "+string.Join("; ",refusals.OrderByDescending(r=>r.Value).Take(2).Select(r=>r.Key+" ("+r.Value+")"));
+        failure="own gate candidates occluded: "+string.Join("; ",refusals.OrderByDescending(r=>r.Value).Take(2).Select(r=>r.Key+" ("+r.Value+")"));
         return false;
     }
     private static List<Triangle> MemberTriangles(IEnumerable<Face> faces,Vector3 outward,Vector3 right,float depth)
@@ -406,10 +429,11 @@ internal static class AddressFacadeMount
     /// <summary>The house's own cladding in front of the wall plane (hewn log
     /// courses, casings) is presentation geometry the occluder ignores; a plate
     /// on the plane behind it would be buried. Move the plate onto the
-    /// frontmost cladding face within 0.3 m that overlaps its rectangle.</summary>
+    /// frontmost near-vertical cladding face, by at most MaxCladdingProud, that
+    /// overlaps its rectangle; sloped roofs, snow and canopies never carry it.</summary>
     private static Vector3 ProudOfOwnCladding(Node3D building,Vector3 point,Vector3 outward,Vector3 right)
     {
-        var depth=point.Dot(outward)-.021f;var front=depth;var cx=point.Dot(right);
+        var depth=point.Dot(outward)-MountOffset;var front=depth;var cx=point.Dot(right);
         foreach(var mesh in Descendants(building).OfType<MeshInstance3D>().Where(m=>m.Mesh is not null&&m.IsVisibleInTree()))
         {
             if(mesh.GetParent() is AddressSignVisualComponent)continue;
@@ -420,6 +444,12 @@ internal static class AddressFacadeMount
                 var hi=Math.Max(a.Dot(outward),Math.Max(b.Dot(outward),c.Dot(outward)));
                 if(hi<=front+.002f)continue;
                 if(Math.Max(a.Y,Math.Max(b.Y,c.Y))<point.Y-HalfHeight||Math.Min(a.Y,Math.Min(b.Y,c.Y))>point.Y+HalfHeight)continue;
+                // Only near-vertical faces (|n·outward| >= .94, |ny| below
+                // ~0.35) may carry the plate forward: a sloped roof verge, snow
+                // lip or canopy crossing the rectangle is not cladding, and
+                // following it would put the plate on a roof edge.
+                var normal=(b-a).Cross(c-a);
+                if(normal.LengthSquared()<.0000001f||Math.Abs(normal.Normalized().Dot(outward))<.94f)continue;
                 var ar=a.Dot(right);var br=b.Dot(right);var cr=c.Dot(right);
                 if(Math.Max(ar,Math.Max(br,cr))<cx-HalfWidth||Math.Min(ar,Math.Min(br,cr))>cx+HalfWidth)continue;
                 // A diagonal verge's bounds can overlap the plate while its
@@ -431,7 +461,7 @@ internal static class AddressFacadeMount
                 overlap=ClipDepth(overlap,Vector3.Up,point.Y+HalfHeight,false);
                 if(Area(overlap.Select(p=>new Vector2(p.Dot(right),p.Y)).ToList())<.00001)continue;
                 hi=overlap.Max(p=>p.Dot(outward));
-                if(hi<=front+.002f||hi>depth+.30f)continue;
+                if(hi<=front+.002f||hi>depth+MaxCladdingProud)continue;
                 front=hi;
             }
         }

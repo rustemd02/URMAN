@@ -16,11 +16,17 @@ public static class AudioSettingsService
     public const string AmbienceBus = "Ambience";
     public const string VoiceBus = "Voice";
     public const string SfxBus = "SFX";
+    /// <summary>
+    /// Street loudspeakers: the minaret adhan and the square PA. Carries a
+    /// reverb and a light distortion so the call reads as a real village
+    /// speaker across the rooftops (author request 2026-10-04).
+    /// </summary>
+    public const string LoudspeakerBus = "Loudspeaker";
 
     private const int CurrentVersion = 1;
     private const float MuteVolumeLinear = 0.001f;
 
-    private static readonly string[] RoutedBuses = [AmbienceBus, VoiceBus, SfxBus];
+    private static readonly string[] RoutedBuses = [AmbienceBus, VoiceBus, SfxBus, LoudspeakerBus];
     private static Dictionary<string, float>? _volumes;
 
     private static string FilePath => ProjectSettings.GlobalizePath("user://audio-settings.json");
@@ -46,6 +52,36 @@ public static class AudioSettingsService
         {
             ApplyToServer(busName, volume);
         }
+
+        EnsureLoudspeakerEffects();
+    }
+
+    private static bool _loudspeakerEffectsReady;
+
+    private static void EnsureLoudspeakerEffects()
+    {
+        var index = AudioServer.GetBusIndex(LoudspeakerBus);
+        if (index == -1 || _loudspeakerEffectsReady)
+        {
+            return;
+        }
+
+        AudioServer.AddBusEffect(index, new AudioEffectReverb
+        {
+            PredelayMsec = 55f,
+            RoomSize = .85f,
+            Damping = .45f,
+            Wet = .32f,
+            Dry = .95f,
+            Spread = 1f
+        });
+        AudioServer.AddBusEffect(index, new AudioEffectDistortion
+        {
+            Mode = AudioEffectDistortion.ModeEnum.Lofi,
+            Drive = .12f,
+            PostGain = 0f
+        });
+        _loudspeakerEffectsReady = true;
     }
 
     public static float GetVolume(string busName)
@@ -78,6 +114,7 @@ public static class AudioSettingsService
     private static Dictionary<string, float> DefaultVolumes() => new()
     {
         [MasterBus] = 1f,
+        [LoudspeakerBus] = 1f,
         [AmbienceBus] = 1f,
         [VoiceBus] = 1f,
         [SfxBus] = 1f

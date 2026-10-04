@@ -25,7 +25,7 @@ public partial class Act1ConnectedWorld
             front.Add(new(x, .9f, 1.15f, 1.5f, Lit: true));
         foreach (var x in new[] { -8f, -4.8f, -2f, 1.3f, 3.8f, 8f })
             back.Add(new(x, .9f, 1.15f, 1.5f));
-        SWall(school, "FrontWall", new(0, 0, d*.5f-t*.5f), 0, w, h, t, outer, cream, trim, front);
+        var frontWall = SWall(school, "FrontWall", new(0, 0, d*.5f-t*.5f), 0, w, h, t, outer, cream, trim, front);
         SWall(school, "BackWall", new(0, 0, -d*.5f+t*.5f), 180, w, h, t, outer, cream, trim, back);
         SWall(school, "EastWall", new(w*.5f-t*.5f, 0, 0), 90, d-t*2, h, t, outer, cream, trim,
             new List<Opening> { new(-3.9f, 1.1f, 1.0f, 1.4f), new(3.1f, 1.1f, 1.15f, 1.4f) });
@@ -33,21 +33,23 @@ public partial class Act1ConnectedWorld
             new List<Opening> { new(-1.5f, 1.1f, 1.15f, 1.4f) });
         CivicSurfaceLibrary.Floor(school, "GroundFloor", new(ix*2, iz*2), new(0,.002f,0));
         SBox(school, null, "SchoolCeiling", new(ix*2,.08f,iz*2), new(0,h-.04f,0), cream, shadow:false);
-        SWall(school, "CorridorWall0", new(0,0,corridorZ), 0, ix*2, h, .16f, mint, cream, trim,
+        var corridorWall = SWall(school, "CorridorWall0", new(0,0,corridorZ), 0, ix*2, h, .16f, mint, cream, trim,
             new List<Opening> { new(-7.8f,0,1.1f,2.2f,Door:true), new(-2.5f,0,1.1f,2.2f,Door:true),
                 new(2.5f,0,1.1f,2.2f,Door:true), new(6.4f,0,1.1f,2.2f,Door:true) });
         foreach (var x in new[] { -6.2f, -.5f, 5.2f })
             SWall(school,"RoomWall0_"+x,new(x,0,(-iz+corridorZ-.08f)*.5f),90,corridorZ-.08f+iz,h,.16f,
                 cream,cream,trim,new List<Opening>());
+        var lamps = new List<VisualInstance3D>();
         foreach (var x in new[] { -8f, -3.5f, 2.2f, 7.5f })
         {
-            SLight(school,new(x,h-.42f,-1.2f),.65f,5.5f);
-            SLight(school,new(x,h-.42f,4f),.55f,5f);
+            lamps.Add(SLight(school,new(x,h-.42f,-1.2f),.65f,5.5f));
+            lamps.Add(SLight(school,new(x,h-.42f,4f),.55f,5f));
         }
         foreach (var x in new[] { -8f, -4.8f, 1.3f, 8f })
             RuralPropModels.Radiator(school,"WindowRadiator0_"+x,new(x,.13f,-4.96f));
         BuildSchoolGround(school,body,cream,trim,corridorZ);
         BuildSchoolMuseum(school,body);
+        BuildSchoolDoorSet(school,frontWall,corridorWall,lamps);
         school.SetMeta("interior", "single-storey school; combined classes, staff tea corner and ground-floor museum");
     }
 
@@ -186,5 +188,34 @@ public partial class Act1ConnectedWorld
             "В витрине медали Сабантуя, вымпелы и значки. Дальше в ней пустое место: новые вещи сюда давно не приносили.");
         SquareLook(school,"SchoolUpperWindow","Выглянуть в окно",new(9.4f,1.9f,-3.1f),new(.4f,1.3f,1.4f),
             "За школьной оградой стоит тёмный лес — ровный, до самого неба. Ни одного огня.");
+    }
+
+    // Entrance and classroom doors (author 2026-10-04). The entrance is a real
+    // double door opening outward under the porch canopy; the school's closure
+    // announcement is pinned to the left leaf and swings with it. Classroom
+    // doors open into their rooms, where the swing reaches no desk, drawing or
+    // shelf; the corridor side keeps its hooks, bench and wall notices clear.
+    private void BuildSchoolDoorSet(Node3D school, Node3D frontWall, Node3D corridorWall, List<VisualInstance3D> lamps)
+    {
+        var entrance = SquareInteriorDoor(frontWall, "SquareSchoolEntranceL", "square/school/entrance-l", 0, 1.7f, 2.45f, .35f, 1, -1, .75f);
+        SquareInteriorDoor(frontWall, "SquareSchoolEntranceR", "square/school/entrance-r", 0, 1.7f, 2.45f, .35f, 1, 1, .75f);
+        // The sheet is physical and moves with its leaf; the single readable copy
+        // of this text stays the existing school-transport-notice document, so the
+        // paper opens nothing and adds no journal entry.
+        var notice = CivicSurfaceLibrary.Paper(entrance.Hinge, "SquareSchoolEntranceNotice", new(.24f, .32f),
+            new(-.036f, 1.5f, .40f), CivicSurfaceLibrary.Face("quest_papers_v2_atlas.png", 2, 2, 0), .003f);
+        notice.RotationDegrees = new(0, -90, 3.5f);
+        notice.SetMeta("readableText", "Для родителей. Занятия в нашей школе прекращены: детей осталось мало. Оставшихся школьников возят учиться в соседнее село.");
+        notice.SetMeta("physicalDocumentPolicy", "announcement pinned on the entrance leaf; the single readable document remains urman.chapter1:document/school-transport-notice");
+        foreach (var (x, name, key) in new[]
+        {
+            (-7.8f, "SquareSchoolStaffDoor", "square/school/staff"),
+            (-2.5f, "SquareSchoolClassADoor", "square/school/class-1-4"),
+            (2.5f, "SquareSchoolClassBDoor", "square/school/class-5-9"),
+            (6.4f, "SquareSchoolMuseumDoor", "square/school/museum")
+        })
+            SquareInteriorDoor(corridorWall, name, key, x, 1.1f, 2.2f, .16f, -1, -1, .90f);
+        SquareLightSwitch(school, "SquareSchoolLightSwitch", "school-light", new(1.3f, 1.42f, 5.1375f), lamps);
+        EnsureFacilityTick();
     }
 }
