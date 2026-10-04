@@ -6642,7 +6642,15 @@
         "mvp_priority": 60,
         "mvp_packet": "remaining-act1"
       },
-      "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance"
+      "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
+      "author_police_post_2026_10_04": {
+        "request": "Существующий far-police: приёмная с сидящим участковым в форме/фуражке за стеклом, коридор и давно пустой изолятор с мышью/картошкой; неподвижные Жигули УЧАСТКОВЫЙ; необязательное приветствие о скучной службе.",
+        "status": "implemented-native-verified-art-review-open",
+        "report": "docs/production/police_post_2026-10-04/report.md",
+        "canon": "Бытовой фоновый дежурный без имени; Ринат и его story state сохраняются. Внешний вид без дат реформы, канон зима2026.",
+        "asset_correction": "Author rejects procedural art; source licensed realistic car, furniture and props, preserve non-drivable УЧАСТКОВЫЙ and reception/holding-cell behavior. Prior captures are rejected prototype evidence.",
+        "verification_v8": "Native PASS 45; build/import passed; original userdata restored and verified. Eight licensed source models integrated. Current captures licensed-v8; human art/voice and measured FPS/RSS remain open."
+      }
     },
     {
       "id": "ACT1-TZ-ACCEPT",
@@ -15925,6 +15933,12 @@
     },
     {
       "id": "ACT1-VILLAGE-COMPOSITION",
+      "author_update_2026_10_04": {
+        "request": "Очистка жилых зимних участков: убрать случайные ветки/мох/осоку, обрезки и дубли старых оград; сохранить реальные заборы, рабочие предметы и находки.",
+        "research": "docs/production/village_repair_2026-10-04/references.md",
+        "verification": "docs/production/village_repair_2026-10-04/report.md",
+        "acceptance": "Автоматизация подтверждает только физику и проекцию; культурная и художественная приёмка человеком не проведена."
+      },
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
@@ -17684,6 +17698,18 @@
     },
     {
       "id": "ACT1-NPC.5",
+      "author_update_2026_10_04": {
+        "request": "33 явно фоновых жителя: ночь дома без обработки анимации; короткие дневные выходы группами хозяйства, переходы скрыты от близкого взгляда. Исправлен бессмысленный бесконечный ремонт. Сюжетные встречи и состояние сохранений имеют собственных владельцев.",
+        "research": "docs/production/village_repair_2026-10-04/references.md",
+        "verification": "docs/production/village_repair_2026-10-04/report.md",
+        "acceptance": "Автоматизация подтверждает только физику и проекцию; культурная и художественная приёмка человеком не проведена."
+      },
+      "household_life_2026_10_04": {
+        "request": "Все жилые окна основной части и 3 примера + 20 новых бытовых событий, bounded RAM",
+        "implementation": "VillageHouseholdDirector; shared glazing; 6 lights/4 voices/8 clips/2 MB PCM",
+        "evidence": "docs/production/village_life_2026-10-04.md",
+        "status": "implemented; guarded headless/native assertions PASS; bounded audio cache PASS; listening/art external/not-run; full-game RAM and shutdown warnings unresolved"
+      },
       "progress_2026_10_04": "2026-10-04: приёмка живой деревни частично обеспечена паспортом docs/production/village_relayout_2026-10-02/residents_audit.md (срез 2026-10-02), который сам отмечает открытость физической и художественной приёмки новой сборки. Человеческая оценка «живая деревня» остаётся not-run: она требует обычного прохода; старая приёмка на новую сборку не переносится. Разбор: docs/production/act1_npc_family_2026-10-04.md",
       "execution": {
         "kind": "work",
@@ -18303,7 +18329,6 @@
       "progress_2026_10_04": "[2026-10-04, веха] Карточка была единственной без поля milestone (проверка 2026-10-04). Проставлен M5 — как у родственных задач ограды и деревенского благоустройства; исключение Тамары из текущей цели уже зафиксировано полями mvp_packet/delivery = AUTHOR-DEFERRED, поэтому содержание карточки не менялось.\n\n[2026-10-04, статус] 2026-10-04: статус приведён в соответствие с полями самой карточки: review_scope = «author-deferred: не возобновлять», mvp_packet = AUTHOR-DEFERRED, а current_scope.out_of_scope прямо исключает необязательный квест/катсцену Тамары Геннадьевны (решение автора 2026-09-27). in_progress заменён на deferred; код забора, журнал и исторические доказательства (tamara_fence_smoke_test 49 проверок и другие) остаются и не удаляются. Работа не возобновляется.",
       "scope": ["game/scripts/Act1ConnectedWorld.TamaraFence.cs", "game/scripts/RuntimeBridge.TamaraFence.cs", "game/scripts/TamaraFenceQuest.cs", "game/scripts/TamaraFenceCutscene.cs"],
       "milestone": "M5",
-
       "execution": {
         "kind": "work",
         "unit": "Необязательный мини-квест «Забор Тамары Геннадьевны»: ДТП у забора на обратной улице, катсцена с парнем с телефоном, поиск шести досок, починенный забор.",
@@ -19449,9 +19474,14 @@
           "kind": "research",
           "path": "docs/urman_knowledge_base/gameplay.md",
           "result": "BOTW/TOTK first-party research and existing runtime owner mapping recorded; not a playtest; remaining architecture references stay open"
+        },
+        {
+          "date": "2026-10-04",
+          "kind": "verification",
+          "path": "docs/urman_knowledge_base/gameplay.md",
+          "result": "done_when chain re-checked; all five primary Nintendo sources fetched 2026-10-04 with HTTP 200 and matching titles"
         }
-      ,
-        {"date": "2026-10-04", "kind": "verification", "path": "docs/urman_knowledge_base/gameplay.md", "result": "done_when chain re-checked; all five primary Nintendo sources fetched 2026-10-04 with HTTP 200 and matching titles"}],
+      ],
       "deliverable": "Первичные основания BOTW/TOTK и адресные референсы для зависимых пакетов",
       "done_when": [
         "Исследование BOTW/TOTK записано в gameplay.md: источник → приём → достижимый перенос → ограничение → существующий владелец → проверка одного образца. Это выполненная исследовательская часть, не готовый геймплей.",
@@ -20696,6 +20726,12 @@
     },
     {
       "id": "ACT1-MOSQUE",
+      "author_update_2026_10_04": {
+        "request": "Деревянный корпус; сравнение пяти дополнительных деревень, простой тип Большая Елга/Мокша. Узкие физические винтовые ступени, фонарь с микрофоном, шатёр и полумесяц. Расширены зал и библиотека; тонкий ковёр и полный свободный ход створки.",
+        "research": "docs/production/village_repair_2026-10-04/references.md",
+        "verification": "docs/production/village_repair_2026-10-04/report.md",
+        "acceptance": "Автоматизация подтверждает только физику и проекцию; культурная и художественная приёмка человеком не проведена."
+      },
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Цельная уважительная татарская мечеть с обоснованным минаретом, входом и обжитым залом",
       "milestone": "M5",
@@ -21084,6 +21120,12 @@
     },
     {
       "id": "ACT1-ATMOSPHERE",
+      "household_life_2026_10_04": {
+        "request": "Все жилые окна основной части и 3 примера + 20 новых бытовых событий, bounded RAM",
+        "implementation": "VillageHouseholdDirector; shared glazing; 6 lights/4 voices/8 clips/2 MB PCM",
+        "evidence": "docs/production/village_life_2026-10-04.md",
+        "status": "implemented; guarded headless/native assertions PASS; bounded audio cache PASS; listening/art external/not-run; full-game RAM and shutdown warnings unresolved"
+      },
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Уютные помещения и давящая зимняя непогода снаружи",
       "milestone": "M5",

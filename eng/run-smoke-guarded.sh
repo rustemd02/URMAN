@@ -37,6 +37,10 @@ else
   # native window checks opt-in and let --headless select its own driver.
   DISPLAY_ARGS=""
 fi
+BACKGROUND_INPUT_ARGS=""
+if [ "${URMAN_SMOKE_BACKGROUND_INPUT:-0}" = "1" ]; then
+  BACKGROUND_INPUT_ARGS="--urman-smoke-background-input"
+fi
 shared_session=false
 if [ "${1:-}" = "--shared-session" ]; then
   shared_session=true
@@ -69,16 +73,17 @@ if [ "$shared_session" = true ]; then
     godot=$1
     display_args=$2
     headless_args=$3
-    shift 3
+    background_args=$4
+    shift 4
     for scene do
       case "$scene" in
         res://*) path=$scene ;;
         *) path="res://tests/$scene.tscn" ;;
       esac
       echo "run-smoke-guarded shared session: $path"
-      "$godot" $headless_args $display_args --path game "$path"
+      "$godot" $headless_args $display_args --path game "$path" $background_args
     done
-  ' shared-smoke "$GODOT" "$DISPLAY_ARGS" "$HEADLESS_ARGS" "$@"
+  ' shared-smoke "$GODOT" "$DISPLAY_ARGS" "$HEADLESS_ARGS" "$BACKGROUND_INPUT_ARGS" "$@"
   exit $?
 fi
 for scene in "$@"; do
@@ -87,7 +92,7 @@ for scene in "$@"; do
     *) path="res://tests/$scene.tscn" ;;
   esac
   echo "run-smoke-guarded: $path"
-  python3 "$GUARD" --clean --timeout "$SMOKE_TIMEOUT" "$GODOT" $HEADLESS_ARGS $DISPLAY_ARGS --path game "$path" || status=$?
+  python3 "$GUARD" --clean --timeout "$SMOKE_TIMEOUT" "$GODOT" $HEADLESS_ARGS $DISPLAY_ARGS --path game "$path" $BACKGROUND_INPUT_ARGS || status=$?
 done
 
 exit "$status"
