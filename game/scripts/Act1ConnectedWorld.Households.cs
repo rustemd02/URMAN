@@ -8,6 +8,8 @@ public partial class Act1ConnectedWorld
     private VillageSoundMoodDirector? _soundMood;
     private ForestEdgePresence? _forestEdge;
     private ClubGramophone? _gramophone;
+    private VillagePaSystem? _paSystem;
+    private WindowSilhouettes? _silhouettes;
     private VillageChimneySmoke? _chimneySmokeSystem;
     private void BuildVillageHouseholds()
     {
@@ -20,6 +22,10 @@ public partial class Act1ConnectedWorld
         AddChild(_forestEdge);_forestEdge.Initialize(this);
         _gramophone=new ClubGramophone {Name="ClubGramophone"};
         AddChild(_gramophone);_gramophone.Initialize(this);
+        _paSystem=new VillagePaSystem {Name="VillagePaSystem"};
+        AddChild(_paSystem);_paSystem.Initialize(this);
+        _silhouettes=new WindowSilhouettes {Name="WindowSilhouettes"};
+        AddChild(_silhouettes);_silhouettes.Initialize(this);
         _chimneySmokeSystem=new VillageChimneySmoke {Name="VillageChimneySmoke"};
         AddChild(_chimneySmokeSystem);
         // The authored village-life plumes already smoke their own two chimneys;
@@ -49,5 +55,7 @@ public partial class Act1ConnectedWorld
         var clubAudible=ActiveZoneId=="village_day" && !player.ModalOpen && _lifeCue?.IsPresenting!=true
             && !GetTree().Paused && !ArrivalFlyoverCameraActive();
         _gramophone?.Tick(delta,player.GlobalPosition,clubAudible);
+        _paSystem?.Tick(delta,player.GlobalPosition,clubAudible);
+        _silhouettes?.Tick(delta,camera?.GlobalPosition??player.GlobalPosition,audible);
     }
 }

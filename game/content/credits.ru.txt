@@ -91,3 +91,11 @@ Poly Haven, CC0 1.0: Metal Office Desk — Ulan Cabanilla; Painted Wooden Bench 
 Office Desk and Chair Set — gamekorp, CC0 1.0. Источник: https://opengameart.org/content/office-desk-and-chair-set
 Лицензия: https://creativecommons.org/publicdomain/zero/1.0/
 Подготовлены статические GLB и масштаб; фактуры авторов сохранены.
+
+Дух бани (мунча иясе)
+Freesound, CC0 1.0; подготовленные фрагменты общедоступного HQ preview.
+Лицензия: https://creativecommons.org/publicdomain/zero/1.0/
+D4XX — Deep Breath (Male), 567267 (дыхание существа: непрерывный слой и долгий выдох).
+RutgerMuller — Fast Wet Footsteps in Small Shower Cabin, 51148 (мокрый шаг, замедлен для тяжести).
+Rudmer_Rotteveel — Wood Creak Single V10, 506665 (скрип дерева).
+JustineOu — steam.WAV, 672248 (тихий пар под дыханием).

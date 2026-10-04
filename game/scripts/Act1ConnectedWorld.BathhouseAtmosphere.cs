@@ -162,9 +162,14 @@ public partial class Act1ConnectedWorld
         AddVisualBox(bath, "BathOfferingSoap", new(.07f, .028f, .045f), new(-1.52f, .036f, -1.72f), "d8c9a0", "paper");
         FacilityVessel(bath, "BathOfferingCup", new(-1.40f, .03f, -1.80f), .04f, .055f, "b9b3a3", true);
 
+        // Мунча иясе, redrawn (BathSpirit.cs): a tall, still silhouette in the
+        // washing-room corner behind the stove. The node builds here; the
+        // owner's presentation tick calls Initialize/Tick (ForestEdgePresence
+        // contract).
         var spirit = new BathSpirit { Name = "MunchaIyase", Position = new(-1.66f, 0, -2.02f), RotationDegrees = new(0, 38, 0) };
         bath.AddChild(spirit);
-        spirit.Build();
+        spirit.Initialize(bath);
+        _bathSpirit = spirit;
         // Indoors nothing carries settled snow on its top faces.
         foreach (var mesh in FindDescendants<MeshInstance3D>(bath))
             if (mesh.MaterialOverride is { } material) mesh.MaterialOverride = PainterlyMaterialLibrary.Sheltered(material);
@@ -190,77 +195,5 @@ public partial class Act1ConnectedWorld
             _bathSmoulderSmoke.Emitting = !burning && FacilityExteriorActive;
             _bathSmoulderSmoke.Visible = FacilityExteriorActive;
         }
-    }
-}
-
-/// <summary>
-/// Мунча иясе, the owner of the bathhouse: a small hunched shape with wet hair
-/// in the dark corner behind the stove. It is never shown plainly: only the
-/// eyes catch the light, it blinks, and it is gone when looked at straight or
-/// approached, coming back once the player looks away. Presentation only; no
-/// collision, no save state, no gameplay.
-/// </summary>
-public partial class BathSpirit : Node3D
-{
-    private Node3D _body = null!;
-    private MeshInstance3D[] _eyes = [];
-    private float _hiddenFor, _blinkIn = 3f, _blinkFor;
-
-    public void Build()
-    {
-        _body = new Node3D { Name = "Body" };
-        AddChild(_body);
-        var skin = new StandardMaterial3D { AlbedoColor = new Color("16130f"), Roughness = .35f, MetallicSpecular = .6f };
-        var hair = new StandardMaterial3D { AlbedoColor = new Color("0e0c0a"), Roughness = .25f, MetallicSpecular = .7f };
-        MeshInstance3D Part(string name, Mesh mesh, Vector3 at, Vector3 scale, Material material, Vector3 rotation = default)
-        {
-            var part = new MeshInstance3D { Name = name, Mesh = mesh, Position = at, Scale = scale, RotationDegrees = rotation, MaterialOverride = material };
-            part.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
-            _body.AddChild(part);
-            return part;
-        }
-        Part("Hunch", new SphereMesh { Radius = .2f, Height = .4f }, new(0, .34f, 0), new(1.1f, 1.05f, .9f), skin);
-        Part("Head", new SphereMesh { Radius = .11f, Height = .22f }, new(.06f, .62f, .06f), Vector3.One, skin);
-        for (var i = 0; i < 9; i++)
-        {
-            var a = -1.1f + i * .28f;
-            Part($"Hair{i}", new BoxMesh { Size = new(.018f, .42f, .012f) },
-                new(.06f + Mathf.Sin(a) * .09f, .47f, .06f + Mathf.Cos(a) * .07f - .03f), Vector3.One, hair, new(-8f + i, 0, Mathf.Sin(a) * 12f));
-        }
-        foreach (var side in new[] { -1f, 1f })
-            Part($"Arm{side}", new BoxMesh { Size = new(.035f, .42f, .035f) }, new(side * .15f, .22f, .12f), Vector3.One, skin, new(18, 0, side * 10));
-        var eyeGlow = new StandardMaterial3D
-        {
-            AlbedoColor = new Color("1d1f10"), EmissionEnabled = true, Emission = new Color("d8e07a"), EmissionEnergyMultiplier = 3.2f
-        };
-        _eyes = new[] { .035f, .085f }.Select(x => new MeshInstance3D
-        {
-            Name = "Eye" + x, Mesh = new SphereMesh { Radius = .017f, Height = .022f, RadialSegments = 8, Rings = 4 },
-            Position = new(x, .64f, .155f), MaterialOverride = eyeGlow, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
-        }).ToArray();
-        foreach (var eye in _eyes) AddChild(eye);
-        SetMeta("presentationOnly", true);
-        SetMeta("folklore", "мунча иясе: owner of the bathhouse, lives behind the stove (Proposal, mythology.md)");
-    }
-
-    public override void _Process(double delta)
-    {
-        if (_eyes.Length == 0) return;
-        var camera = GetViewport().GetCamera3D();
-        if (camera is null) return;
-        var eyes = GlobalTransform * new Vector3(.06f, .64f, .15f);
-        var toSpirit = eyes - camera.GlobalPosition;
-        var distance = toSpirit.Length();
-        var facing = -camera.GlobalBasis.Z;
-        var lookedAt = distance < 3.4f && facing.Dot(toSpirit / distance) > .975f;
-        var tooClose = distance < 1.3f;
-        if (lookedAt || tooClose || distance > 5.5f) _hiddenFor = 1.5f;
-        else _hiddenFor = Math.Max(0, _hiddenFor - (float)delta);
-        _blinkIn -= (float)delta;
-        if (_blinkIn <= 0) { _blinkFor = .14f; _blinkIn = 2.5f + (float)GD.RandRange(0, 4.5); }
-        _blinkFor = Math.Max(0, _blinkFor - (float)delta);
-        var present = _hiddenFor <= 0;
-        _body.Visible = present;
-        foreach (var eye in _eyes) eye.Visible = present && _blinkFor <= 0;
     }
 }

@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.act1_bath_spirit_sounds",
+  "generator": "tools/audio/prepare_bath_spirit_sounds.py",
+  "subject": "мунча иясе (bath spirit) presentation: continuous breath/steam bed and three cues",
+  "listening": "external/not-run",
+  "sourceManifest": {
+    "path": "/tmp/urman_bath_spirit_sources/manifest.json",
+    "sha256": "41940cac50daefba8ad18e4b35a780d41e3a43ef77f38d600793c646aa19ca53"
+  },
+  "gainPolicy": "min(0.13/rms, 0.65/peak), 20 ms (30 ms loop) edge fades, 24 kHz mono PCM16",
+  "licenseReading": [
+    {
+      "slot": "breath_deep",
+      "source": "https://freesound.org/people/D4XX/sounds/567267/",
+      "author": "D4XX",
+      "title": "Deep Breath (Male)",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "readFrom": "/tmp/urman_bath_spirit_sources/manifest.json slots.breath_deep"
+    },
+    {
+      "slot": "wet_steps",
+      "source": "https://freesound.org/people/RutgerMuller/sounds/51148/",
+      "author": "RutgerMuller",
+      "title": "Fast Wet Footsteps in Small Shower Cabin.wav",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "readFrom": "/tmp/urman_bath_spirit_sources/manifest.json slots.wet_steps"
+    },
+    {
+      "slot": "wood_creak",
+      "source": "https://freesound.org/people/Rudmer_Rotteveel/sounds/506665/",
+      "author": "Rudmer_Rotteveel",
+      "title": "Wood Creak Single V10",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "readFrom": "/tmp/urman_bath_spirit_sources/manifest.json slots.wood_creak"
+    },
+    {
+      "slot": "steam_hiss",
+      "source": "https://freesound.org/people/JustineOu/sounds/672248/",
+      "author": "JustineOu",
+      "title": "steam.WAV",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "readFrom": "/tmp/urman_bath_spirit_sources/manifest.json slots.steam_hiss"
+    }
+  ],
+  "clips": [
+    {
+      "file": "res://assets/audio/act1/bath_spirit/spirit_breath_loop.wav",
+      "id": "spirit_breath_loop",
+      "role": "continuous-bed",
+      "seconds": 4.59,
+      "pcmBytes": 220320,
+      "sha256": "af74af991e45411fa89d30abb96c3e7cb773a37fdfb1fcca4d543898365aaf44",
+      "slices": {
+        "breath": "0.030-4.620 s",
+        "steam": "26.000-31.500 s"
+      },
+      "sources": [
+        {
+          "slot": "breath_deep",
+          "sourcePage": "https://freesound.org/people/D4XX/sounds/567267/",
+          "directUrl": "https://cdn.freesound.org/previews/567/567267_887696-hq.mp3",
+          "author": "D4XX",
+          "title": "Deep Breath (Male)",
+          "license": "Creative Commons 0 (CC0 1.0)",
+          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+          "attributionRequired": false,
+          "sourceSha256": "e7938fe103928ee9f5867185450ddb00d831037961fa4f21cf6f90ddee7e8449",
+          "sourceDurationSeconds": 10.7688
+        },
+        {
+          "slot": "steam_hiss",
+          "sourcePage": "https://freesound.org/people/JustineOu/sounds/672248/",
+          "directUrl": "https://cdn.freesound.org/previews/672/672248_8823350-hq.mp3",
+          "author": "JustineOu",
+          "title": "steam.WAV",
+          "license": "Creative Commons 0 (CC0 1.0)",
+          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+          "attributionRequired": false,
+          "sourceSha256": "6f1e5518dd74a3ddb5a84f2f8b2cec0fef0872f8c6b45fc7017587fa54e5d179",
+          "sourceDurationSeconds": 33.3747
+        }
+      ],
+      "preparation": "breath slice scaled to RMS 0.120, steam slice to RMS 0.020 (about -16 dB under the breath), summed; gain min(0.13/rms, 0.65/peak) = 0.6722; 30 ms edge fades; 24 kHz mono PCM16"
+    },
+    {
+      "file": "res://assets/audio/act1/bath_spirit/spirit_exhale.wav",
+      "id": "spirit_exhale",
+      "role": "manifestation-cue",
+      "seconds": 1.8,
+      "pcmBytes": 86400,
+      "sha256": "6702975a85eea11264dcaff0a172c4aec435cb8b1bb24d4c08f2c6451b47b3e0",
+      "slices": {
+        "breath": "7.880-9.680 s"
+      },
+      "sources": [
+        {
+          "slot": "breath_deep",
+          "sourcePage": "https://freesound.org/people/D4XX/sounds/567267/",
+          "directUrl": "https://cdn.freesound.org/previews/567/567267_887696-hq.mp3",
+          "author": "D4XX",
+          "title": "Deep Breath (Male)",
+          "license": "Creative Commons 0 (CC0 1.0)",
+          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+          "attributionRequired": false,
+          "sourceSha256": "e7938fe103928ee9f5867185450ddb00d831037961fa4f21cf6f90ddee7e8449",
+          "sourceDurationSeconds": 10.7688
+        }
+      ],
+      "preparation": "closing long exhale slice; gain min(0.13/rms, 0.65/peak) = 1.1715; 20 ms edge fades; 24 kHz mono PCM16"
+    },
+    {
+      "file": "res://assets/audio/act1/bath_spirit/spirit_wet_step.wav",
+      "id": "spirit_wet_step",
+      "role": "manifestation-cue",
+      "seconds": 0.651167,
+      "pcmBytes": 31256,
+      "sha256": "076c4c1f6805acfb78969b9e7dfc8b239bed6ec2b667ef84cb19af41475919fa",
+      "slices": {
+        "wet_steps": "5.460-6.020 s"
+      },
+      "sources": [
+        {
+          "slot": "wet_steps",
+          "sourcePage": "https://freesound.org/people/RutgerMuller/sounds/51148/",
+          "directUrl": "https://cdn.freesound.org/previews/51/51148_179538-hq.mp3",
+          "author": "RutgerMuller",
+          "title": "Fast Wet Footsteps in Small Shower Cabin.wav",
+          "license": "Creative Commons 0 (CC0 1.0)",
+          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+          "attributionRequired": false,
+          "sourceSha256": "b745299500ad649ad390d81aa8fbc2a9e19c37a65b19dc0c697909b37840957b",
+          "sourceDurationSeconds": 15.2697
+        }
+      ],
+      "preparation": "single isolated step sliced, linear-interpolation slowdown to 0.86x for a heavier-than-human step; gain min(0.13/rms, 0.65/peak) = 1.2903; 20 ms edge fades; 24 kHz mono PCM16"
+    },
+    {
+      "file": "res://assets/audio/act1/bath_spirit/spirit_creak.wav",
+      "id": "spirit_creak",
+      "role": "manifestation-cue",
+      "seconds": 0.6,
+      "pcmBytes": 28800,
+      "sha256": "bbae594434cf92bba8e0d894c8d0c29cf1d0b4b4ab18e8994ba3fcc62ea92291",
+      "slices": {
+        "wood_creak": "0.020-0.620 s"
+      },
+      "sources": [
+        {
+          "slot": "wood_creak",
+          "sourcePage": "https://freesound.org/people/Rudmer_Rotteveel/sounds/506665/",
+          "directUrl": "https://cdn.freesound.org/previews/506/506665_4921277-hq.mp3",
+          "author": "Rudmer_Rotteveel",
+          "title": "Wood Creak Single V10",
+          "license": "Creative Commons 0 (CC0 1.0)",
+          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+          "attributionRequired": false,
+          "sourceSha256": "11975c80e5dcf3937eded1a4b31927061fb632d925e8118af4de3f6e96d51306",
+          "sourceDurationSeconds": 1.19147
+        }
+      ],
+      "preparation": "single dry creak, trimmed to its decay; gain min(0.13/rms, 0.65/peak) = 2.0177; 20 ms edge fades; 24 kHz mono PCM16"
+    }
+  ]
+}
