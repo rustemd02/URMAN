@@ -38,6 +38,7 @@
 | `laughter.wav` | 7,0 | `60b71aa8…60ecbd2e` | Freesound 482798 «Medium Group Talk and Cheer» | craigsmith | CC0 1.0 |
 | `chatter.wav` | 10,0 | `4bc4c770…35bcc1b3c7` | Freesound 457043 «Busy Room Ambience» | Breviceps | CC0 1.0 |
 | `dog_distant.wav` | 6,0 | `e185644e…f6800750b` | Freesound 737196 «Rural Distant Dog barks» | Sadiquecat | CC0 1.0 |
+| `crows.wav` | 8,0 | `91b531b2…a41bee47` | Freesound 556219 «Angry Hooded Crow (Corvus cornix)» — зимняя птица татарской деревни | Walking.With.Microphones | CC0 1.0 |
 | `village_life_layer.wav` | 112 | `64e0257e…c17cb07` | сведение: ветер CC0 bruno.auzet/670307 + перечисленные записи + `village_life/music.wav` (CC-BY-SA, производная) | проект/Sol-микс | см. `credits.json` |
 | `village_dread_layer.wav` | 120 | `9261d4a4…f53ef284b` | сведение: тот же ветер + project-original foley `dread_drone`, `owl_tawny`, `owl_eagle` | проект | CC0 + project-original |
 

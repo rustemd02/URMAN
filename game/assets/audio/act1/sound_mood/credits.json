@@ -114,6 +114,25 @@
       "attributionRequired": false,
       "preparation": "ffmpeg decode to 24 kHz mono PCM16; highest-energy 6 s around the busiest distant barking, 0.1 s start step; gain min(0.13/rms, 0.65/peak) = 2.1306; 20 ms edge fades",
       "description": "'Rural Distant Dog barks' - distant dog barks recorded in a rural area (Bouriège, Aude, France, 2024) with a Zoom H2n; soft, unobtrusive barking suitable as a cosy looping background bed."
+    },
+    {
+      "file": "res://assets/audio/act1/sound_mood/crows.wav",
+      "id": "crows",
+      "seconds": 8.0,
+      "pcmBytes": 384000,
+      "sha256": "91b531b237dcbe640c295838092b9e253d9cccda38420a26d7358c16a41bee47",
+      "source": "https://freesound.org/people/Walking.With.Microphones/sounds/556219/",
+      "directUrl": "https://cdn.freesound.org/previews/556/556219_4835746-hq.mp3",
+      "author": "Walking.With.Microphones",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceSha256": "c2c8787eda67f39e32c328092c9ed9cca473fc5f15ad6b128eec32cd5950f15e",
+      "startSeconds": 52.0,
+      "endSeconds": 60.0,
+      "sourceDurationSeconds": 91.222083,
+      "attributionRequired": false,
+      "preparation": "ffmpeg decode to 24 kHz mono PCM16; 8 s window at 52.0-60.0 s holding the four clearest isolated caws of the single angry bird, every call kept at least 0.75 s clear of the window edges; gain min(0.13/rms, 0.65/peak) = 0.7072; 20 ms edge fades",
+      "description": "'Angry Hooded Crow (Hoodie) (Corvus cornix)' - a single hooded crow (Corvus cornix) cawing and grumbling at the recordist, captured on a ZOOM SGH-6; four loud clear caws over a quiet field-recording floor."
     }
   ],
   "listening": "external/not-run",

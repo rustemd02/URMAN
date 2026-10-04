@@ -5,7 +5,8 @@
 подготовлена у якоря минарета через `Act1ConnectedWorld.TryPlayAdhan`; расписание намазов
 остаётся открытым хуком. One-shot банк: печка (Freesound D.jones 525253), приглушённый ТВ
 (milcahrawr 846688, без защищённого вещания), смех/гомон (craigsmith 482798), комнатный гомон
-(Breviceps 457043), дальний лай (Sadiquecat 737196) — все CC0, публичные HQ previews.
+(Breviceps 457043), дальний лай (Sadiquecat 737196) и зимняя серая ворона (Walking.With.Microphones
+556219) — все CC0, публичные HQ previews.
 Непрерывные слои `village_life_layer.wav` (112 с) и `village_dread_layer.wav` (120 с) сведены
 `tools/audio/prepare_village_beds.py` из существующих записей проекта. Хеши, смещения, лицензии:
 `game/assets/audio/act1/sound_mood/credits.json`; границы и проверки —
