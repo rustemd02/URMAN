@@ -12099,6 +12099,7 @@
     },
     {
       "id": "ACT1-QUEST-ADDR",
+      "progress_2026_10_04": "2026-10-04: направление разобрано по данным и коду: docs/production/act1_quest_address_audit_2026-10-04.md. Структурно маркеров нет по построению: табличка ставит мета notQuestMarker=true (AddressSignVisualComponent.cs:18), поиск по коду не находит questmarker/autopath, цели всех трёх квестов стартуют по knowledge.status, а «waypoint» в адресном коде — авторские точки подхода для физического верификатора (Addresses.cs:49), не навигация. Таблица «цель → источник адреса → маркер → вердикт» собрана: ADR-BABAI через записку мамы и правило «улица на табличке, затем номер», ADR-FAP через реплику про Наилю и «Урман = Лесная», ADR-MOSQUE через возврат к источнику, ADR-SHOP/SCHOOL/COUNCIL через бытовые реплики. В реестре 27 зданий с addressId и 10 улиц; шаблон {address:…} используется для шести адресов. Осталось: добровольные неадресные цели и evidence прохода на текущей сборке (прогон).",
       "execution": {
         "kind": "aggregate",
         "unit": "Не выдавать исполнителю целиком; выбрать одну незавершённую дочернюю задачу.",
@@ -12153,7 +12154,8 @@
         "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
         "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_quest_address_audit_2026-10-04.md"],
       "mvp_priority": 20,
       "mvp_packet": "A05",
       "delivery": {
@@ -12167,6 +12169,7 @@
     },
     {
       "id": "ACT1-QUEST-ADDR.1",
+      "progress_2026_10_04": "2026-10-04: таблица аудита собрана: docs/production/act1_quest_address_audit_2026-10-04.md — три обязательные цели (find-contradiction с ADR-BABAI через записку мамы, show-checked-message через документы/книжку, discuss-route-intent к кромке без адреса) плюс адресные подсказки ADR-FAP/MOSQUE/SHOP/SCHOOL/COUNCIL с указанием файла и строки контента; колонка «маркер/автопуть» = нет у всех. Реестр: 27 зданий с addressId, 10 улиц. Осталось: добровольные цели, не все из которых адресные.",
       "execution": {
         "kind": "work",
         "unit": "Одна квестовая цель.",
@@ -12217,7 +12220,8 @@
       "evidence": [
         "2026-09-22 черновик таблицы адресности (read-only рой): 14 целей, нарушений маркеров/автопути 0, все 6 адресуемых точек имеют источник+табличку; гипотезы (Алсу-встреча, дом Мансура/Рината, вывеска школы) — docs/production/act1_takeover_evidence_2026-09-16/act1_swarm_next_packets_2026-09-22.md §3.",
         "docs/production/tamara_mvp_2026-09-26/search-hint/address-source-audit.md"
-      ],
+      ,
+        "docs/production/act1_quest_address_audit_2026-10-04.md"],
       "mvp_priority": 20,
       "mvp_packet": "A05",
       "current_checkpoint": "2026-09-27 scoped Sol read-only follow-up: sources for Alsu return, Rinat at house, FAP and mosque precede the required visits; early contradiction objective is masked by JournalUi, optional school has address source. Earlier hypotheses not confirmed. See search-hint/address-source-audit.md. Not100% goal coverage or human navigation acceptance; retain in_progress.",
@@ -12232,6 +12236,7 @@
     },
     {
       "id": "ACT1-QUEST-ADDR.2",
+      "progress_2026_10_04": "2026-10-04: маркеров и автопути на обязательном пути нет, и это подтверждено структурно, а не на словах: табличка несёт notQuestMarker=true (AddressSignVisualComponent.cs:18); поиск по scripts не находит ни questmarker, ни autopath; цели квестов стартуют по knowledge.status, а не по близости; word «waypoint» встречается только как авторские точки подхода к физическому верификатору (Addresses.cs:49). Критерий «игрок не может потеряться намертво» опирается на то, что каждая обязательная цель имеет источник адреса — разобрано в таблице: docs/production/act1_quest_address_audit_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один marker/autopath из аудита .1.",
@@ -12278,7 +12283,8 @@
       "done_when": [
         "На обязательном пути нет маркеров/автопути; игрок не может «потеряться намертво» — источники адресов покрывают все цели."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_quest_address_audit_2026-10-04.md"],
       "mvp_priority": 20,
       "mvp_packet": "A05",
       "delivery": {
@@ -12292,6 +12298,7 @@
     },
     {
       "id": "ACT1-QUEST-ADDR.3",
+      "progress_2026_10_04": "2026-10-04: живой краткий адрес в реплике есть и он шаблонный: address-navigation.json использует {address:ADR-BABAI} и {address:ADR-FAP} внутри фраз («Сначала сверить название улицы на табличке у входа, затем номер дома»; «„Урман“ на табличке — это улица так называется, по-русски Лесная»), то есть первое объяснение связывает адрес с улицей и домом, а последующие реплики не повторяют инструкцию. Запись источника — адресный шаблон в контенте плюс реестр (27 зданий с addressId), физическая табличка — AddressSignVisualComponent. Проверка и таблица: docs/production/act1_quest_address_audit_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "N4: первый адрес, затем остальные реальные цели",
@@ -12352,7 +12359,8 @@
           "result": "29.09: Алсу один раз кратко объясняет «Урман» = Лесная и нумерацию; остальные адресные реплики (мечеть, дом бабая, школа/сельсовет, версии Алсу) больше не диктуют табличку/буквы/цифры. Все {address:*} сохранены.",
           "verified": "build-only"
         }
-      ],
+      ,
+        "docs/production/act1_quest_address_audit_2026-10-04.md"],
       "mvp_priority": 20,
       "mvp_packet": "A05",
       "delivery": {
@@ -12422,6 +12430,7 @@
     },
     {
       "id": "ACT1-QUEST-ADDR.4",
+      "progress_2026_10_04": "2026-10-04: механизм прохода существует: AddressAccessVerifier — «bounded read-only standing-body route audit against the real world; it neither moves the player nor opens doors or advances runtime progress» (AddressAccessVerifier.cs:8-10), то есть маршрут «источник адреса → поиск по табличкам» проверяется автоматизированно и не подсказывает игроку. Осталось ровно то, что требует критерий: evidence на текущей сборке — это прогон, и здесь он не заявляется. Разбор: docs/production/act1_quest_address_audit_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один обязательный адресный маршрут.",
@@ -12469,7 +12478,8 @@
       "done_when": [
         "Проход воспроизводим и автоматизирован; evidence зафиксирован на текущей сборке."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_quest_address_audit_2026-10-04.md"],
       "mvp_priority": 20,
       "mvp_packet": "A05",
       "delivery": {
@@ -23286,6 +23296,7 @@
       "ex_acceptance_ledger_2026_10_04": "ACT1-EX-ACCEPT received the 14-row §13 ledger as docs/production/act1_ex_acceptance_ledger_2026-10-04.md: every row names the §13 definition, the real runtime owners by file, real object or interaction IDs - including carry-lantern and the Bath* nodes, and saying plainly where no content interaction id exists instead of substituting one - the implementation path, the evidence, and statuses kept apart as contract / implemented / technically verified (historically, on earlier builds) / viewing and user observation as external not-run. Eleven capabilities are implemented and historically verified, EX02 and EX03 have a content decision left, EX04 and EX07 are partial. The ledger states the inspection commit and refuses to transfer packaged receipts.",
       "npc_family_2026_10_04": "NPC family audited from data and code: the living-village system exists and is data-driven - 33 npc entities in act1_north_street_residents.world.v1.json with characterId, appearance kit, position, scale, an appearance profile and a behaviour note, all 33 carrying a schedule, with the schedule vocabulary in AuthoredWorldDirector.Schedules.cs and appearance assembly in AuthoredWorldDirector.Residents.cs; the cast kits are reused across six families instead of one male model. The measurable gap is population: about 41 people (33 residents plus the eight named characters, with no double counting because kitPrefix is an appearance family) against the author's 60-70 figure, which is closed by adding data rather than code. Reactions are implemented for the named cast through state, and the residents' audit passport exists with its own note that physical and art acceptance are open. Report: docs/production/act1_npc_family_2026-10-04.md",
       "tech_review_2026_10_04": "Technical review family audited: the per-zone checklist draft exists with reproducible rows (404 lindens without bark collision, the BabaiFirewoodShelterPost B90 case, a crownless tree at (-33, 8.2), the mosque sash unsupported by about 0.027 m, the bathhouse second ascent with its B42->1c1a90c regression window, floating zirat kerbs, plus unevaluated seams and alpha sorting candidates); the D14 pit is recorded as an ambiguous coordinate of the same class the placement rule closes, with behavioural acceptance still requiring a run; the door/wall/roof/window producers live in the Blender kits and the code builders with measured door units; and 44 light nodes exist across eight files with the FacilityLamp pattern, while the public interiors' lamps enable no shadows at all (0 against 13 in the benchmark house), which is recorded as a real leak risk and a candidate rather than a proven defect. Report: docs/production/act1_tech_review_2026-10-04.md",
+      "quest_address_audit_2026_10_04": "Quest-address family audited: markers are absent by construction rather than by assertion - the address plate sets notQuestMarker=true, no questmarker or autopath appears in the scripts, all three quests' objectives start from knowledge.status conditions rather than proximity, and the only 'waypoint' uses are authored approach points handed to the physical verifier; the audit table maps each of the three mandatory goals to its address source (mama's note with ADR-BABAI and the street-then-number rule, documents and the notebook, and the edge goal that needs no address) plus the FAP, mosque, shop, school and council hints with file references; the registry holds 27 buildings with an addressId and 10 streets, and the {address:...} template is used for six of them. AddressAccessVerifier provides the automated, read-only route audit, while current-build evidence still needs a run. Report: docs/production/act1_quest_address_audit_2026-10-04.md",
       "village_layout_data_2026_10_04": "World layout data audit: 196 kit placements, 96 active and 100 retired, but only 10 of the retired ones record a reason, which is a traceability gap rather than a proven layout fault; the file also shows that the dwelling-variant count cannot be read from it (only five active dwellings), and that public buildings are not described there at all - their form comes from code builders plus the FAP kit. Report: docs/production/act1_village_layout_data_2026-10-04.md",
       "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 35 (REVIEW28-RESEARCH and LEN01.1).",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
