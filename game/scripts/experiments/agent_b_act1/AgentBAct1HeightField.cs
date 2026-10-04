@@ -30,6 +30,13 @@ public static class AgentBAct1HeightField
     // existing arrival houses (z 52-61) keep the ground they were placed on.
     public const float LegacyMaxZ = 104f;
 
+    // Grid size derived from the constants above. Ground queries recomputed these
+    // two values on every call - two subtractions, two divisions and two casts -
+    // and the field is queried per frame by every walking resident and player step,
+    // and in bulk while the world is built. As consts the compiler folds them.
+    public const int GridColumns = (int)((MaxX - MinX) / Step);
+    public const int GridRows = (int)((MaxZ - MinZ) / Step);
+
     private static readonly (double X, double Z, double RadiusX, double RadiusZ, double Rise)[] ForestShoulders =
     {
         (-8.0, -107.0, 5.5, 8.0, 1.1), (9.5, -113.0, 6.5, 9.0, 1.35),
@@ -541,8 +548,8 @@ public static class AgentBAct1HeightField
     /// <summary>Presentation support sampled from the unchanged traversal triangles.</summary>
     public static float CollisionGround(float x, float z)
     {
-        var columns = (int)((MaxX - MinX) / Step);
-        var rows = (int)((MaxZ - MinZ) / Step);
+        var columns = GridColumns;
+        var rows = GridRows;
         var column = (int)System.Math.Floor((x - MinX) / Step);
         var row = (int)System.Math.Floor((z - MinZ) / Step);
         var faces = CollisionFacesValue;
@@ -569,8 +576,8 @@ public static class AgentBAct1HeightField
 
     public static Vector3[] BuildTerrainFaces()
     {
-        var cols = (int)((MaxX - MinX) / Step) + 1;
-        var rows = (int)((MaxZ - MinZ) / Step) + 1;
+        var cols = GridColumns + 1;
+        var rows = GridRows + 1;
         var verts = new Vector3[rows * cols];
         for (var iy = 0; iy < rows; iy++)
         {
