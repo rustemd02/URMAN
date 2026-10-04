@@ -17,10 +17,19 @@ public partial class Act1ConnectedWorld
         stair.SetMeta("riseMetres", .16f);
         stair.SetMeta("goingMetres", .236f);
         stair.SetMeta("clearFlightWidth", 1.04f);
+        stair.SetMeta("entranceDoorClearanceTrim",
+            "treads 0-1 outer radius 1.20 -> 1.14 m (clear width .98 m there); mosque entrance leaf tip samples 1.1536/1.1861 m, full -95-degree arc clear with a real margin; entry tread, rails and anchors unchanged");
         stair.SetMeta("sameLaneVerticalClearance", 3.12f);
         stair.SetMeta("shaftDiameterMetres", 2.60f);
         const int count = 60, perTurn = 20;
         const float rise = .16f, inner = .16f, outer = 1.20f, walkingRadius = .82f;
+        // The mosque entrance leaf opens inward to -95 degrees; its full-shape
+        // sweep reaches stair radius 1.1536 m at the tip corner over tread0
+        // and 1.1861 m across the tread1 wedge. Only those two lowest helical
+        // treads are trimmed (1.20 -> 1.14), which leaves 13.6 mm / 46.1 mm of
+        // real surface clearance before the door test's 2 mm query margin.
+        // Entry tread, spiral rails, anchors and every walk meta stay intact.
+        const float entranceTreadOuter = 1.14f;
         var angle = Mathf.Tau / perTurn;
         var anchors = new global::Godot.Collections.Array<Vector3>();
         anchors.Add(stair.ToGlobal(new(-.70f, .035f, 1.70f)));
@@ -33,7 +42,8 @@ public partial class Act1ConnectedWorld
             var start = Mathf.Pi * .5f - i * angle;
             var end = start - angle;
             var top = (i + 1) * rise;
-            MinaretSectorSolid(stair, "MinaretTread" + i, inner, outer, start, end, top, .08f, "ac8e65", "wood_furniture");
+            var treadOuter = i < 2 ? entranceTreadOuter : outer;
+            MinaretSectorSolid(stair, "MinaretTread" + i, inner, treadOuter, start, end, top, .08f, "ac8e65", "wood_furniture");
             anchors.Add(stair.ToGlobal(new(Mathf.Cos((start + end) * .5f) * walkingRadius, top + .035f,
                 Mathf.Sin((start + end) * .5f) * walkingRadius)));
             // The continuous outer handrail follows the actual helix, with posts between treads.

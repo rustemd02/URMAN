@@ -10,7 +10,16 @@ public partial class Act1ConnectedWorld
     private void BuildCozyBabaiStorage()
     {
         var core=GetNode<Node3D>("Act1CoreWorldGreybox");
-        var x=-18.0f;var z=7.2f;
+        // Door-fix 2026-10-04: the relocated BabaiBathhouse stands at
+        // (-18.6, 8.7) (BabaiRelocation second offset). The store's old anchor
+        // (-18.0, 7.2) put its shell, floor slab and open leaf across the bath
+        // interior, its firewood cluster and the bath door's 105-sample
+        // outward sweep, so the door refused to open and the yard read as a
+        // timber pile around the banya. The same store, yaw and inventory move
+        // 7.0 m clear: bath shell 2.33 m, bath sweep 3.47 m, firewood 4.78 m,
+        // well rim 0.73 m, outhouse 14.3 m, house envelope 2.6 m
+        // (/tmp/urman_door_fix.md carries the arithmetic).
+        var x=-11.0f;var z=7.0f;
         var ground=AgentBAct1HeightField.CollisionGround(x,z);
         var shed=new Node3D {Name="BabaiStorageBarn",Position=new(x,ground,z),RotationDegrees=new(0,180,0)};
         core.AddChild(shed);
