@@ -193,7 +193,10 @@ public partial class AuthoredWorldDirector
             {
                 // Standing at a route point: face what the author chose.
                 run.WaitLeft -= delta;
-                player ??= GetTree().GetFirstNodeInGroup("player_controller") as Node3D;
+                // The player node is only needed when the waypoint asks to look at
+                // them; resolving it otherwise cost a group query every physics tick
+                // for every resident standing at a route point.
+                if (waypoint.LookAtPlayer) player ??= GetTree().GetFirstNodeInGroup("player_controller") as Node3D;
                 if ((waypoint.LookAtPlayer ? player?.GlobalPosition : waypoint.Look) is { } look) Face(root, look);
                 if (run.WaitLeft <= 0) Advance(run);
                 continue;
