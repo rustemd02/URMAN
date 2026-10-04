@@ -7,7 +7,7 @@ game/content/world/act1_north_street_residents.world.v1.json - an executor=gener
 of "npc" entities, each with a one-block schedule (place, facing, occupation).
 
 Ambient only: no dialogue, no knowledge, no quest state. People stand, talk in pairs,
-repair a fence, sit on a bench. Their positions were checked against physics bodies and
+visit their gate, sit on a bench. Their positions were checked against physics bodies and
 visible props; how they LOOK is not verified (no rendering in the cloud).
 
 usage: generate_residents.py <spot-check log> [<anchor log>]
@@ -32,7 +32,7 @@ rng = random.Random(0x5245)  # "RE"
 ANIM = {
     "idle": "urman.anim:idle-plain",
     "talk": "urman.anim:talk-plain",
-    "kneel": "urman.anim:work-kneel",
+    "kneel": "urman.anim:idle-plain",
     "sit": "urman.anim:sit",
     "torch": "urman.anim:idle",
 }
@@ -69,6 +69,8 @@ def person(slug, name, x, z, yaw, motion, scale, note, y=0.0, pool=None, speaker
         "params": {
             "characterId": f"resident-{slug}", "kitPrefix": "Resident", "position": [round(x, 2), y, round(z, 2)],
             "yawDegrees": round(yaw, 1), "scale": scale,
+            "ambientResidence": {"household": slug[:-2] if slug.endswith(("-a", "-b")) else slug,
+                                 "outsideSeconds": 70, "insideSeconds": 210, "night": "indoors"},
             "schedule": [{"id": "day", "place": [round(x, 2), y, round(z, 2)], "yawDegrees": round(yaw, 1), "motion": ANIM[motion]}],
             **({"greeting": pool, "speaker": speaker, **({} if turn else {"turn": False})} if pool else {}),
         }})
@@ -107,8 +109,8 @@ for index, slug in enumerate(sorted(houses)):
             continue
         plan = "idle"
     if plan == "kneel":
-        person(f"{slug}-a", f"Житель двора {slug} (чинит)", sx, sz, facing_street + rng.choice([-25, 0, 25]), "kneel", scale,
-               "Чинит калитку или доску у ворот.", pool="repair", speaker="СОСЕД")
+        person(f"{slug}-a", f"Житель двора {slug} (у ворот)", sx, sz, facing_street + rng.choice([-25, 0, 25]), "kneel", scale,
+               "Краткая дневная встреча у ворот.", pool="neighbor-m", speaker="СОСЕД")
         continue
     person(f"{slug}-a", f"Житель двора {slug}", sx, sz, facing_street + rng.choice([-30, -10, 10, 30]), "idle", scale,
            "Стоит во дворе, смотрит на улицу.", pool="neighbor-m" if index % 2 else "neighbor-f",

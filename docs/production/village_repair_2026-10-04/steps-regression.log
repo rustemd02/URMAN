@@ -1,0 +1,25 @@
+run-smoke-guarded: res://tests/first_person_step_smoke_test.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+first-person-step: explicit isolated fixture starts standing on its collision floor
+first-person-step: actual move_forward reaches Z=-1,7; at=(0, 5.500077, -1.7128787), step=, no placement/recovery
+first-person-step: ordinary input ascends .12/.13/.13/.12m risers and stands on the real deck
+first-person-step: actual move_backward reaches Z=1,1; at=(0, 5.00078, 1.123117), step=, no placement/recovery
+first-person-step: ordinary input descends the same steps to the real floor
+first-person-step: explicit isolated fixture starts standing on its collision floor
+first-person-step: a refused ascent does not use placement or world recovery
+first-person-step: a wall higher than the human step limit remains blocking
+first-person-step: explicit isolated fixture starts standing on its collision floor
+first-person-step: a refused ascent does not use placement or world recovery
+first-person-step: a 5cm-deep rung cannot replace a tread or trigger automatic ladder climbing
+first-person-step: explicit isolated fixture starts standing on its collision floor
+first-person-step: a refused ascent does not use placement or world recovery
+first-person-step: a low ceiling refuses the standing step without clipping or forced crouch
+first-person-step: actual move_forward reaches Z=-0,85; at=(8, 5.1600037, -0.8813192), step=, no placement/recovery
+first-person-step: the player's explicit crouch uses the smaller real capsule on the same step
+first-person-step: the same ceiling prevents standing inside it
+first-person-step: explicit isolated fixture starts standing on its collision floor
+first-person-step: a refused ascent does not use placement or world recovery
+first-person-step: a 55-degree surface cannot be climbed by repeatedly treating it as a stair
+first-person-step: PASS physical ascent/descent, high-wall refusal, ceiling/stance clearance and steep-slope refusal; FAP/art/playtest require separate evidence
+userdata guard: original files and permissions restored and verified

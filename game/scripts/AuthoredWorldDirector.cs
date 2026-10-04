@@ -18,7 +18,7 @@ namespace Urman.Godot;
 public partial class AuthoredWorldDirector : Node3D
 {
     private static readonly System.Text.RegularExpressions.Regex YardFenceMesh =
-        new(@"_Yard_(Post|\w*Rail|Gate|Picket|Fence|Paling|Board|Plank)", System.Text.RegularExpressions.RegexOptions.Compiled);
+        new(@"_Yard_(Post|\w*Rail|Gate|Picket|Fence|Paling|Board|Plank|Threshold|FoundationStone)", System.Text.RegularExpressions.RegexOptions.Compiled);
 
     public const string WorldDirectory = "res://content/world";
     public const string CatalogPath = "res://content/world/catalog.v1.json";
@@ -122,6 +122,7 @@ public partial class AuthoredWorldDirector : Node3D
     {
         // A state held back because the player stood where its collision
         // would appear is applied as soon as they step away (STATE05).
+        StepAmbientPresence(delta);
         StepGreetings(delta);
         StepRoutines((float)delta);
         // Same "is there at least one held-back state" test as the previous LINQ
@@ -148,6 +149,7 @@ public partial class AuthoredWorldDirector : Node3D
     public void PreviewRemove(string id)
     {
         _routines.Remove(id);
+        _ambientVisits.RemoveAll(visit => visit.Item.Id == id);
         if (!_objects.Remove(id, out var item)) return;
         item.Target?.QueueFree();
         item.Root.QueueFree();
@@ -184,6 +186,7 @@ public partial class AuthoredWorldDirector : Node3D
                 var characterId = parameters.GetProperty("characterId").GetString()!;
                 var character = GeneratedCharacterKitDressing.Attach(root, characterId, Text(parameters, "kitPrefix", "Resident"), Vector3.Zero);
                 ConfigureResidentPresentation(character, parameters);
+                RegisterAmbientVisit(item);
                 GeneratedCharacterKitDressing.PlayClip(character, Text(parameters, "clip", "Idle"));
                 RegisterRoutine(item, character);
                 if (parameters.TryGetProperty("talk", out var talk))
@@ -549,6 +552,7 @@ public partial class AuthoredWorldDirector : Node3D
         }
 
         ApplyRoutines();
+        ApplyAmbientPresence();
     }
 
     private bool OverlapsBody(AuthoredObject item, Vector3 position, Vector3 player)

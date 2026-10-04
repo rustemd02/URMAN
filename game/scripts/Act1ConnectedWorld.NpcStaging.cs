@@ -231,6 +231,7 @@ public partial class Act1ConnectedWorld
                 _conversationFacing[npc] = entry;
                 continue;
             }
+            if (!npc.IsVisibleInTree()) continue;
             var distance = npc.GlobalPosition.DistanceTo(playerPosition);
             if (!entry.Facing && distance <= 2.9f)
             {
@@ -297,4 +298,21 @@ public partial class Act1ConnectedWorld
         turn.TweenProperty(npc, "rotation:y", yaw, .48f);
         return turn;
     }
+    private void UpdateOrdinaryNpcNightPresence(bool night)
+    {
+        if (FindChild("Npc_alsu", true, false) is Node3D alsu)
+        {
+            alsu.Visible = !night;
+            alsu.SetMeta("nightPresence", night ? "indoors" : "daytime-street-route");
+        }
+        _alsuWalk?.SetZonePresentation(ActiveZoneId, FacilityExteriorActive && !night);
+        if (_rinatNpc is not null)
+            _rinatNpc.Visible = !night || _rinatStage is "forest" or "roadside" or "house";
+        // Rinat's authored roadside/forest meeting stays with UpdateAct1NpcStaging.
+        // Outdoor greetings must not come from an empty night street.
+        if (night)
+            foreach (var target in FindDescendants<InteractionTarget>(_zoneInstances["village_day"]))
+                if (target.Name == "AlsuNpc" || _rinatStage is null or "village" && target.Name == "RinatNpc") target.CollisionLayer = 0;
+    }
+
 }

@@ -58,6 +58,11 @@ public partial class Act1ConnectedWorld
         var complex = GetNode<Node3D>("Act1CoreWorldGreybox/VillageMosqueComplex");
         var plinth = complex.GetNode<MeshInstance3D>("MosquePlinth");
         var floor = plinth.Position + Vector3.Up * (((BoxMesh)plinth.Mesh).Size.Y * .5f + .03f);
+        // Expand westwards into the existing courtyard; preserve the entrance and floor origin.
+        var oldPlinth = (BoxMesh)plinth.Mesh;
+        plinth.Mesh = new BoxMesh { Size = oldPlinth.Size + new Vector3(1.4f, 0, 1.2f) };
+        plinth.Position += new Vector3(-.7f, 0, 0);
+        EnlargeMosqueShell(complex);
         ExtendMosquePlinthToTerrain(plinth);
         _mosqueRoom = new Node3D { Name = "MosqueInterior", Position = floor };
         complex.AddChild(_mosqueRoom);
@@ -72,40 +77,40 @@ public partial class Act1ConnectedWorld
             "MosqueAblutionTrough", "MosqueAblutionPost", "MosqueHallNorth", "MosqueHallSouth" })
             HidePresentationNode(complex.GetNode<Node3D>(name));
 
-        FacilitySolid(_mosqueRoom, "MosqueTimberFloor", new(10.45f, .06f, 7.95f), new(0, -.03f, 0), "ac8e65", "wood_furniture");
+        FacilitySolid(_mosqueRoom, "MosqueTimberFloor", new(11.85f, .06f, 9.15f), new(-.7f, -.03f, 0), "ac8e65", "wood_furniture");
         BuildMosqueDecoratedCeiling();
         for (var side = -1; side <= 1; side += 2)
         {
-            var z = side * 4.25f;
-            FacilitySolid(_mosqueRoom, $"MosqueWindowWall{side}Below", new(11, 1.8f, .55f), new(0, .37f, z), "c9c1a9", "plaster");
-            FacilitySolid(_mosqueRoom, $"MosqueWindowWall{side}Above", new(11, 2.05f, .55f), new(0, 3.675f, z), "c9c1a9", "plaster");
-            foreach (var (x, width) in new[] { (-4.4f, 2.2f), (0f, 3.8f), (4.4f, 2.2f) })
-                FacilitySolid(_mosqueRoom, $"MosqueWindowPier{side}_{x}", new(width, 1.38f, .55f), new(x, 1.96f, z), "c9c1a9", "plaster");
+            var z = side * 4.85f;
+            FacilitySolid(_mosqueRoom, $"MosqueWindowWall{side}Below", new(12.4f, 1.8f, .55f), new(-.7f, .37f, z), "c9c1a9", "wood_painted_trim");
+            FacilitySolid(_mosqueRoom, $"MosqueWindowWall{side}Above", new(12.4f, 2.05f, .55f), new(-.7f, 3.675f, z), "c9c1a9", "wood_painted_trim");
+            foreach (var (x, width) in new[] { (-5.1f, 3.6f), (0f, 3.8f), (4.4f, 2.2f) })
+                FacilitySolid(_mosqueRoom, $"MosqueWindowPier{side}_{x}", new(width, 1.38f, .55f), new(x, 1.96f, z), "c9c1a9", "wood_painted_trim");
             foreach (var x in new[] { -2.6f, 2.6f })
             {
                 FacilityWindow(_mosqueRoom, $"MosqueWindow{side}_{x}", new(x, 1.96f, z), new(1.4f, 1.38f));
-                FacilityRadiator(_mosqueRoom, $"MosqueRadiator{side}_{x}", new(x, .52f, side * 3.79f), side < 0 ? 0 : 180);
+                FacilityRadiator(_mosqueRoom, $"MosqueRadiator{side}_{x}", new(x, .52f, side * 4.39f), side < 0 ? 0 : 180);
             }
         }
         // A short vestibule leaves wet boots and washing facilities outside the prayer hall.
-        FacilitySolid(_mosqueRoom, "MosqueVestibuleNorth", new(.14f, 2.55f, 3.29f), new(2.10f, 1.275f, -2.365f), "b2a384", "wood_furniture");
-        FacilitySolid(_mosqueRoom, "MosqueVestibuleSouth", new(.14f, 2.55f, 3.29f), new(2.10f, 1.275f, 2.365f), "b2a384", "wood_furniture");
-        FacilitySolid(_mosqueRoom, "MosqueVestibuleLintel", new(.14f, .35f, 1.44f), new(2.10f, 2.375f, 0), "b2a384", "wood_furniture");
+        FacilitySolid(_mosqueRoom, "MosqueVestibuleNorth", new(.14f, 3.75f, 3.89f), new(2.40f, 1.875f, -2.665f), "b2a384", "wood_furniture");
+        FacilitySolid(_mosqueRoom, "MosqueVestibuleSouth", new(.14f, 3.75f, 3.89f), new(2.40f, 1.875f, 2.665f), "b2a384", "wood_furniture");
+        FacilitySolid(_mosqueRoom, "MosqueVestibuleLintel", new(.14f, 1.55f, 1.44f), new(2.40f, 2.975f, 0), "b2a384", "wood_furniture");
         FacilityBench(_mosqueRoom, "MosqueShoeBench", new(3.65f, 0, 2.90f), 1.90f, 0);
         for (var level = 0; level < 3; level++)
-            FacilitySolid(_mosqueRoom, "MosqueShoeShelf" + level, new(1.65f, .05f, .36f), new(3.65f, .13f + level * .24f, 3.60f), "74604a", "wood_furniture");
+            FacilitySolid(_mosqueRoom, "MosqueShoeShelf" + level, new(1.65f, .05f, .36f), new(3.65f, .13f + level * .24f, 4.20f), "74604a", "wood_furniture");
         foreach (var x in new[] { 2.86f, 4.44f })
-            FacilitySolid(_mosqueRoom, "MosqueShoeRackUpright" + x, new(.06f, .78f, .40f), new(x, .39f, 3.60f), "74604a", "wood_furniture");
+            FacilitySolid(_mosqueRoom, "MosqueShoeRackUpright" + x, new(.06f, .78f, .40f), new(x, .39f, 4.20f), "74604a", "wood_furniture");
         AddVisualBox(_mosqueRoom, "MosqueEntranceMat", new(2.7f, .012f, 1.35f), new(3.75f, .007f, 0), "5c635a", "fabric");
         // Mosque07: the old white lettering lay across the window aperture.
         // The existing solid south pier supports the whole notice, with its
-        // backing against the interior wall face at Z=3.975 (not the glass).
+        // backing against the interior wall face at Z=4.575 (not the glass).
         var courtesyBacking = AddVisualBox(_mosqueRoom, "MosqueEntranceCourtesyBacking", new(.90f, .32f, .012f),
-            new(4.15f, 1.60f, 3.969f), "74604a", "wood_furniture");
+            new(4.15f, 1.60f, 4.569f), "74604a", "wood_furniture");
         courtesyBacking.SetMeta("mountedSurface", _mosqueRoom.GetNode<MeshInstance3D>("MosqueWindowPier1_4_4").GetPath().ToString());
         AddVisualBox(_mosqueRoom, "MosqueEntranceCourtesyPaper", new(.84f, .26f, .001f),
-            new(4.15f, 1.60f, 3.9625f), "e5dec8", "paper");
-        FacilityLabel(_mosqueRoom, "MosqueEntranceCourtesy", "Пожалуйста,\nснимите обувь", new(4.15f, 1.60f, 3.9608f), 180, .0017f);
+            new(4.15f, 1.60f, 4.5625f), "e5dec8", "paper");
+        FacilityLabel(_mosqueRoom, "MosqueEntranceCourtesy", "Пожалуйста,\nснимите обувь", new(4.15f, 1.60f, 4.5608f), 180, .0017f);
         var courtesyText = _mosqueRoom.GetNode<Label3D>("MosqueEntranceCourtesy");
         courtesyText.Modulate = new Color("303b32");
         courtesyText.OutlineSize = 0;
@@ -113,11 +118,11 @@ public partial class Act1ConnectedWorld
         BuildMosqueWashCorner();
         var prayerCarpet = BuildMosquePrayerAndLibrary();
         var prayerCarpetTop = prayerCarpet.Position.Y + prayerCarpet.Mesh.GetAabb().End.Y;
-        FacilitySolid(_mosqueRoom, "MosqueHeatingCabinet", new(.52f, .76f, .30f), new(4.72f, 1.74f, 3.77f), "b4bbb0", "metal");
+        FacilitySolid(_mosqueRoom, "MosqueHeatingCabinet", new(.52f, .76f, .30f), new(4.72f, 1.74f, 4.37f), "b4bbb0", "metal");
         for (var i = 0; i < 5; i++)
-            AddVisualBox(_mosqueRoom, "MosqueHeatingVent" + i, new(.34f, .012f, .014f), new(4.72f, 1.53f + i * .046f, 3.61f), "5b6661", "metal");
-        FacilityRod(_mosqueRoom, "MosqueHeatSupply", new(4.65f, 1.36f, 3.79f), new(4.65f, .27f, 3.79f), .018f, "a3aaa8");
-        FacilityRod(_mosqueRoom, "MosqueHeatReturn", new(4.83f, 1.36f, 3.79f), new(4.83f, .12f, 3.79f), .018f, "a3aaa8");
+            AddVisualBox(_mosqueRoom, "MosqueHeatingVent" + i, new(.34f, .012f, .014f), new(4.72f, 1.53f + i * .046f, 4.21f), "5b6661", "metal");
+        FacilityRod(_mosqueRoom, "MosqueHeatSupply", new(4.65f, 1.36f, 4.39f), new(4.65f, .27f, 4.39f), .018f, "a3aaa8");
+        FacilityRod(_mosqueRoom, "MosqueHeatReturn", new(4.83f, 1.36f, 4.39f), new(4.83f, .12f, 4.39f), .018f, "a3aaa8");
         FacilityLamp(_mosqueRoom, "MosqueHallLamp", new(-1.10f, 2.90f, 0), "ffdfad", 1.20f, 7.5f);
         FacilityLamp(_mosqueRoom, "MosqueVestibuleLamp", new(3.63f, 2.56f, .15f), "ffdfa8", .68f, 4.2f);
 
@@ -134,7 +139,7 @@ public partial class Act1ConnectedWorld
         // Mosque02: the infill began exactly at the leaf's 2.20 m top, so the
         // real 2 mm full-shape margin stopped even the first opening sample.
         // Keep its upper seam at 3.07 m and give the leaf a 20 mm head gap.
-        FacilitySolid(_mosqueRoom, "MosqueDoorHeaderInfill", new(.55f, .85f, 1.70f), new(5.50f, 2.645f, 0), "c2bcab", "plaster");
+        FacilitySolid(_mosqueRoom, "MosqueDoorHeaderInfill", new(.55f, .85f, 1.70f), new(5.50f, 2.645f, 0), "c2bcab", "wood_painted_trim");
         var mosqueApproach = BuildMosqueEntrySteps(complex);
         GroundMosqueCourtyard(complex);
         ExcludeMosqueHallTerrain();
@@ -293,7 +298,7 @@ public partial class Act1ConnectedWorld
         if (_mosqueRoom is not null)
         {
             var p = _mosqueRoom.ToLocal(point);
-            if (p.X > -5.20f && p.X < 5.20f && Math.Abs(p.Z) < 3.97f && p.Y > -.25f && p.Y < 3.30f)
+            if (p.X > -6.60f && p.X < 5.20f && Math.Abs(p.Z) < 4.57f && p.Y > -.25f && p.Y < 3.74f)
                 return "mosque";
         }
         if (_bathhouse is not null)
@@ -302,6 +307,7 @@ public partial class Act1ConnectedWorld
             if (Math.Abs(p.X) < 1.89f && Math.Abs(p.Z) < 2.39f && p.Y > -.25f && p.Y < 2.55f)
                 return "bathhouse";
         }
+        if (InPolicePost(point)) return "police";
         return PublicInteriorAt(point);
     }
 

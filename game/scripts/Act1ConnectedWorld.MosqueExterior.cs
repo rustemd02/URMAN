@@ -23,12 +23,12 @@ public partial class Act1ConnectedWorld
         // interior's own window piers so every opening stays open.
         foreach (var side in new[] { -1f, 1f })
         {
-            var z = side * (4.25f + .29f);
+            var z = side * (4.85f + .29f);
             void Clad(string name, Vector3 size, Vector3 at) =>
                 AddVisualBox(room, name, size, at with { Z = z }, plank, "wood_painted_green");
-            Clad($"MosqueCladBelow{side}", new(11.1f, 1.8f, .03f), new(0, .37f, 0));
-            Clad($"MosqueCladAbove{side}", new(11.1f, 2.05f, .03f), new(0, 3.675f, 0));
-            foreach (var (x, width) in new[] { (-4.4f, 2.2f), (0f, 3.8f), (4.4f, 2.2f) })
+            Clad($"MosqueCladBelow{side}", new(12.5f, 1.8f, .03f), new(-.7f, .37f, 0));
+            Clad($"MosqueCladAbove{side}", new(12.5f, 2.05f, .03f), new(-.7f, 3.675f, 0));
+            foreach (var (x, width) in new[] { (-5.1f, 3.6f), (0f, 3.8f), (4.4f, 2.2f) })
                 Clad($"MosqueCladPier{side}_{x}", new(width, 1.38f, .03f), new(x, 1.96f, 0));
             // White window surrounds with a pointed-arch head of short boards.
             foreach (var x in new[] { -2.6f, 2.6f })
@@ -50,11 +50,11 @@ public partial class Act1ConnectedWorld
             }
         }
         // White corner boards and a frieze band under the eaves.
-        foreach (var x in new[] { -5.78f, 5.78f })
-        foreach (var z in new[] { -4.52f, 4.52f })
+        foreach (var x in new[] { -7.18f, 5.78f })
+        foreach (var z in new[] { -5.12f, 5.12f })
             AddVisualBox(complex, $"MosqueCornerBoard{x}_{z}", new(.22f, 5.0f, .22f), hallBase + new Vector3(x, 2.6f, z), trim, "wood_painted_trim");
-        foreach (var z in new[] { -4.56f, 4.56f })
-            AddVisualBox(complex, $"MosqueFrieze{z}", new(11.7f, .32f, .06f), hallBase + new Vector3(0, 5.0f, z), trim, "wood_painted_trim");
+        foreach (var z in new[] { -5.16f, 5.16f })
+            AddVisualBox(complex, $"MosqueFrieze{z}", new(13.1f, .32f, .06f), hallBase + new Vector3(-.7f, 5.0f, z), trim, "wood_painted_trim");
 
         // Gabled hall roof is meshed around the stair/minaret footprint, never across its stairwell.
         foreach (var name in new[] { "MosqueRoofWest", "MosqueRoofEast", "MosqueRoofGableSouth", "MosqueRoofGableNorth", "MosqueDome", "MosqueDomeSnow" })
@@ -66,7 +66,8 @@ public partial class Act1ConnectedWorld
         }
         BuildMosqueAccessibleMinaret();
         BuildMosqueRoofWithStairOpening();
-        complex.SetMeta("exteriorStyle", "painted timber, ivory window trim, shaped gables, accessible roof minaret; layout v4 2026-10-02");
+        BuildMosqueTimberJoints(complex);
+        complex.SetMeta("exteriorStyle", "painted timber, ivory window trim, shaped gables, accessible roof minaret; slim spiral lantern and spacious rooms 2026-10-04");
         complex.SetMeta("presentationOnly", false);
     }
 }

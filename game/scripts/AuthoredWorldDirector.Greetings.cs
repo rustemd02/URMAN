@@ -32,7 +32,7 @@ public partial class AuthoredWorldDirector
         var now = Time.GetTicksMsec();
         foreach (var item in _objects.Values)
         {
-            if (item.Kind != "npc" || !item.Root.Visible || !item.Params.TryGetProperty("greeting", out var poolValue)) continue;
+            if (item.Kind != "npc" || !item.Root.IsVisibleInTree() || !item.Params.TryGetProperty("greeting", out var poolValue)) continue;
             var pool = poolValue.GetString() ?? "";
             if (!_greetings.TryGetValue(item.Id, out var state)) _greetings[item.Id] = state = new GreetState { RestYaw = item.Root.RotationDegrees.Y };
             var distance = item.Root.GlobalPosition.DistanceTo(player.GlobalPosition);

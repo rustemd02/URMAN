@@ -42,6 +42,12 @@
           "coatColor": "48584c",
           "headwearColor": "4d443b",
           "accentColor": "685154"
+        },
+        "ambientResidence": {
+          "household": "e-n1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -81,14 +87,20 @@
           "coatColor": "5b4d42",
           "headwearColor": "686158",
           "accentColor": "655c47"
+        },
+        "ambientResidence": {
+          "household": "e-s1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
     {
       "id": "urman.world:act1/residents/m-e1-a",
       "kind": "npc",
-      "name": "Житель двора m-e1 (чинит)",
-      "note": "Чинит калитку или доску у ворот.",
+      "name": "Житель двора m-e1 (у ворот)",
+      "note": "Краткая дневная встреча у ворот; без бесконечного ремонта несуществующего предмета.",
       "params": {
         "characterId": "resident-m-e1-a",
         "kitPrefix": "PhoneGuy",
@@ -108,10 +120,10 @@
               -69.5
             ],
             "yawDegrees": -25.0,
-            "motion": "urman.anim:work-kneel"
+            "motion": "urman.anim:idle-plain"
           }
         ],
-        "greeting": "repair",
+        "greeting": "neighbor-m",
         "speaker": "СОСЕД",
         "residentAppearance": {
           "profile": "man in knit cap and short coat",
@@ -120,6 +132,12 @@
           "coatColor": "3f4f60",
           "headwearColor": "49494c",
           "accentColor": "435655"
+        },
+        "ambientResidence": {
+          "household": "m-e1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -159,6 +177,12 @@
           "coatColor": "685154",
           "headwearColor": "736356",
           "accentColor": "72574c"
+        },
+        "ambientResidence": {
+          "household": "m-e3",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -199,6 +223,12 @@
           "coatColor": "655c47",
           "headwearColor": "61484a",
           "accentColor": "565568"
+        },
+        "ambientResidence": {
+          "household": "m-e3b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -239,6 +269,12 @@
           "coatColor": "435655",
           "headwearColor": "535f5b",
           "accentColor": "48584c"
+        },
+        "ambientResidence": {
+          "household": "m-e3b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -278,14 +314,20 @@
           "coatColor": "72574c",
           "headwearColor": "4d443b",
           "accentColor": "5b4d42"
+        },
+        "ambientResidence": {
+          "household": "m-e4",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
     {
       "id": "urman.world:act1/residents/m-e4b-a",
       "kind": "npc",
-      "name": "Житель двора m-e4b (чинит)",
-      "note": "Чинит калитку или доску у ворот.",
+      "name": "Житель двора m-e4b (у ворот)",
+      "note": "Краткая дневная встреча у ворот; без бесконечного ремонта несуществующего предмета.",
       "params": {
         "characterId": "resident-m-e4b-a",
         "kitPrefix": "Rinat",
@@ -305,10 +347,10 @@
               -34.91
             ],
             "yawDegrees": -118.2,
-            "motion": "urman.anim:work-kneel"
+            "motion": "urman.anim:idle-plain"
           }
         ],
-        "greeting": "repair",
+        "greeting": "neighbor-m",
         "speaker": "СОСЕД",
         "residentAppearance": {
           "profile": "man in dark winter coat and ushanka",
@@ -317,6 +359,12 @@
           "coatColor": "565568",
           "headwearColor": "686158",
           "accentColor": "3f4f60"
+        },
+        "ambientResidence": {
+          "household": "m-e4b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -357,6 +405,12 @@
           "coatColor": "48584c",
           "headwearColor": "49494c",
           "accentColor": "685154"
+        },
+        "ambientResidence": {
+          "household": "m-e5",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -397,6 +451,12 @@
           "coatColor": "5b4d42",
           "headwearColor": "736356",
           "accentColor": "655c47"
+        },
+        "ambientResidence": {
+          "household": "m-e5",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -436,6 +496,12 @@
           "coatColor": "3f4f60",
           "headwearColor": "61484a",
           "accentColor": "435655"
+        },
+        "ambientResidence": {
+          "household": "m-w1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -475,6 +541,12 @@
           "coatColor": "685154",
           "headwearColor": "535f5b",
           "accentColor": "72574c"
+        },
+        "ambientResidence": {
+          "household": "m-w3",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -514,6 +586,12 @@
           "coatColor": "655c47",
           "headwearColor": "4d443b",
           "accentColor": "565568"
+        },
+        "ambientResidence": {
+          "household": "m-w4",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -554,6 +632,12 @@
           "coatColor": "435655",
           "headwearColor": "686158",
           "accentColor": "48584c"
+        },
+        "ambientResidence": {
+          "household": "m-w4b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -594,14 +678,20 @@
           "coatColor": "72574c",
           "headwearColor": "49494c",
           "accentColor": "5b4d42"
+        },
+        "ambientResidence": {
+          "household": "m-w4b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
     {
       "id": "urman.world:act1/residents/m-w5-a",
       "kind": "npc",
-      "name": "Житель двора m-w5 (чинит)",
-      "note": "Чинит калитку или доску у ворот.",
+      "name": "Житель двора m-w5 (у ворот)",
+      "note": "Краткая дневная встреча у ворот; без бесконечного ремонта несуществующего предмета.",
       "params": {
         "characterId": "resident-m-w5-a",
         "kitPrefix": "Resident",
@@ -621,10 +711,10 @@
               -49.64
             ],
             "yawDegrees": -93.2,
-            "motion": "urman.anim:work-kneel"
+            "motion": "urman.anim:idle-plain"
           }
         ],
-        "greeting": "repair",
+        "greeting": "neighbor-m",
         "speaker": "СОСЕД",
         "residentAppearance": {
           "profile": "man in quilted jacket and valenki",
@@ -633,6 +723,12 @@
           "coatColor": "565568",
           "headwearColor": "736356",
           "accentColor": "3f4f60"
+        },
+        "ambientResidence": {
+          "household": "m-w5",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -672,6 +768,12 @@
           "coatColor": "48584c",
           "headwearColor": "61484a",
           "accentColor": "685154"
+        },
+        "ambientResidence": {
+          "household": "n-e1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -712,6 +814,12 @@
           "coatColor": "5b4d42",
           "headwearColor": "535f5b",
           "accentColor": "655c47"
+        },
+        "ambientResidence": {
+          "household": "n-e1b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -752,6 +860,12 @@
           "coatColor": "3f4f60",
           "headwearColor": "4d443b",
           "accentColor": "435655"
+        },
+        "ambientResidence": {
+          "household": "n-e1b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -791,14 +905,20 @@
           "coatColor": "685154",
           "headwearColor": "686158",
           "accentColor": "72574c"
+        },
+        "ambientResidence": {
+          "household": "n-e2",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
     {
       "id": "urman.world:act1/residents/n-e2b-a",
       "kind": "npc",
-      "name": "Житель двора n-e2b (чинит)",
-      "note": "Чинит калитку или доску у ворот.",
+      "name": "Житель двора n-e2b (у ворот)",
+      "note": "Краткая дневная встреча у ворот; без бесконечного ремонта несуществующего предмета.",
       "params": {
         "characterId": "resident-n-e2b-a",
         "kitPrefix": "PhoneGuy",
@@ -818,10 +938,10 @@
               -13.8
             ],
             "yawDegrees": -110.2,
-            "motion": "urman.anim:work-kneel"
+            "motion": "urman.anim:idle-plain"
           }
         ],
-        "greeting": "repair",
+        "greeting": "neighbor-m",
         "speaker": "СОСЕД",
         "residentAppearance": {
           "profile": "man in knit cap and short coat",
@@ -830,6 +950,12 @@
           "coatColor": "655c47",
           "headwearColor": "49494c",
           "accentColor": "565568"
+        },
+        "ambientResidence": {
+          "household": "n-e2b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -870,6 +996,12 @@
           "coatColor": "435655",
           "headwearColor": "736356",
           "accentColor": "48584c"
+        },
+        "ambientResidence": {
+          "household": "n-e3",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -910,6 +1042,12 @@
           "coatColor": "72574c",
           "headwearColor": "61484a",
           "accentColor": "5b4d42"
+        },
+        "ambientResidence": {
+          "household": "n-e3",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -949,6 +1087,12 @@
           "coatColor": "565568",
           "headwearColor": "535f5b",
           "accentColor": "3f4f60"
+        },
+        "ambientResidence": {
+          "household": "w-n1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -988,6 +1132,12 @@
           "coatColor": "48584c",
           "headwearColor": "4d443b",
           "accentColor": "685154"
+        },
+        "ambientResidence": {
+          "household": "w-n2",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -1027,6 +1177,12 @@
           "coatColor": "5b4d42",
           "headwearColor": "686158",
           "accentColor": "655c47"
+        },
+        "ambientResidence": {
+          "household": "kid-1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -1066,6 +1222,12 @@
           "coatColor": "3f4f60",
           "headwearColor": "49494c",
           "accentColor": "435655"
+        },
+        "ambientResidence": {
+          "household": "kid-2",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -1105,6 +1267,12 @@
           "coatColor": "685154",
           "headwearColor": "736356",
           "accentColor": "72574c"
+        },
+        "ambientResidence": {
+          "household": "kid-3",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -1144,6 +1312,12 @@
           "coatColor": "655c47",
           "headwearColor": "61484a",
           "accentColor": "565568"
+        },
+        "ambientResidence": {
+          "household": "square-sq-board",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -1184,6 +1358,12 @@
           "coatColor": "435655",
           "headwearColor": "535f5b",
           "accentColor": "48584c"
+        },
+        "ambientResidence": {
+          "household": "square-well",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -1224,6 +1404,12 @@
           "coatColor": "72574c",
           "headwearColor": "4d443b",
           "accentColor": "5b4d42"
+        },
+        "ambientResidence": {
+          "household": "square-well",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -1264,6 +1450,12 @@
           "coatColor": "565568",
           "headwearColor": "686158",
           "accentColor": "3f4f60"
+        },
+        "ambientResidence": {
+          "household": "lookout-sitter",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     },
@@ -1304,6 +1496,12 @@
           "coatColor": "48584c",
           "headwearColor": "49494c",
           "accentColor": "685154"
+        },
+        "ambientResidence": {
+          "household": "sq1-sitter",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
         }
       }
     }

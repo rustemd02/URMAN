@@ -182,12 +182,15 @@ public partial class Act1ConnectedWorld
         for (var i = 0; i < beforeVisible.Length; i++)
             priorError = Math.Max(priorError, (toContact * beforeVisible[i]).DistanceTo(beforePhysical[i]));
         if (priorError > .0001f) throw new InvalidOperationException("Terrain owner transform mismatch before mosque cut: " + priorError);
-        var halfSize = new Vector2(5.50f, 4.25f); // Existing wall centre lines; the cut stays under those walls.
+        // Asymmetric west extension uses a centred cut frame, while the room origin/entrance stay stable.
+        var cutFrame = new Node3D { Name = "MosqueTerrainCutFrame", Position = new(-.7f, 0, 0) };
+        room.AddChild(cutFrame);
+        var halfSize = new Vector2(6.20f, 4.85f); // Existing wall centre lines; the cut stays under those walls.
         var apron = FindDescendants<MeshInstance3D>(exterior.GetNode<Node3D>("AgentB_TerrainRoadKit"))
             .Single(node => node.Name == "Apron_BabaiYard");
         var apronMesh = apron.Mesh;
         var apronTransform = apron.GlobalTransform;
-        var (result, changed, vertices) = AgentBAct1ExteriorLayer.ClipGroundFootprint(mesh, original, room, halfSize);
+        var (result, changed, vertices) = AgentBAct1ExteriorLayer.ClipGroundFootprint(mesh, original, cutFrame, halfSize);
         if (changed == 0) { result.Dispose(); throw new InvalidOperationException("Mosque terrain cut removed no intersecting ground."); }
         mesh.Mesh = result;
         var published = result.GetFaces();
@@ -197,7 +200,7 @@ public partial class Act1ConnectedWorld
         mesh.SetMeta("mosqueRoomTerrainCut", room.GetPath().ToString());
         contact.SetMeta("mosqueRoomTerrainCut", room.GetPath().ToString());
         room.SetMeta("mosqueTerrainCutHalfSize", halfSize);
-        MosqueTerrainCut = new(mesh, original, result, contact, mesh.GlobalTransform, room.GlobalTransform,
+        MosqueTerrainCut = new(mesh, original, result, contact, mesh.GlobalTransform, cutFrame.GlobalTransform,
             halfSize, changed, vertices, priorError, apron, apronMesh, apronTransform);
         GD.Print($"act1-mosque-terrain-cut: affectedTriangles={changed} publishedVertices={published.Length} physicsVertices={terrain.GetFaces().Length} sameOwner=true");
     }

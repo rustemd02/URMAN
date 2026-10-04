@@ -87,6 +87,7 @@ public partial class AuthoredWorldDirector
         run.Next = 0;
         run.Following = false;
         run.Status = $"занят: {owner}";
+        ApplyAmbientPresence();
         return true;
     }
 
@@ -171,7 +172,7 @@ public partial class AuthoredWorldDirector
         Node3D? player = null;
         foreach (var run in _routines.Values)
         {
-            if (run.Claim is not null) continue;
+            if (run.Claim is not null || !run.Item.Root.Visible) continue;
             if (run.NeedsPlan)
             {
                 run.NeedsPlan = false;

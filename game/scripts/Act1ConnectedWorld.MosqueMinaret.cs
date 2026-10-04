@@ -5,196 +5,193 @@ namespace Urman.Godot;
 
 public partial class Act1ConnectedWorld
 {
+    internal const float MinaretGalleryHeight = 9.60f;
+    private static readonly Vector3 MinaretCentre = new(3.83f, 0, -2.00f);
+
     private void BuildMosqueAccessibleMinaret()
     {
         var room = _mosqueRoom!;
-        var stair = new Node3D { Name = "MosqueMinaretAccess" };
+        var stair = new Node3D { Name = "MosqueMinaretAccess", Position = MinaretCentre };
         room.AddChild(stair);
-        stair.SetMeta("presentationRole", "real seven-flight minaret stair, guarded landings and azan gallery");
-        stair.SetMeta("riseMetres", .18f);
-        stair.SetMeta("goingMetres", .28f);
-        stair.SetMeta("clearFlightWidth", 1.0f);
-        stair.SetMeta("sameLaneVerticalClearance", 2.76f);
-        const int flights = 7, treads = 8;
-        const float rise = .18f, going = .28f;
-        const float north = -3.22f, south = -.98f;
+        stair.SetMeta("presentationRole", "timber octagonal roof minaret; narrow three-turn spiral; sheltered azanchi lantern");
+        stair.SetMeta("riseMetres", .16f);
+        stair.SetMeta("goingMetres", .236f);
+        stair.SetMeta("clearFlightWidth", 1.04f);
+        stair.SetMeta("sameLaneVerticalClearance", 3.12f);
+        stair.SetMeta("shaftDiameterMetres", 2.60f);
+        const int count = 60, perTurn = 20;
+        const float rise = .16f, inner = .16f, outer = 1.20f, walkingRadius = .82f;
+        var angle = Mathf.Tau / perTurn;
         var anchors = new global::Godot.Collections.Array<Vector3>();
-        anchors.Add(room.ToGlobal(new(3.18f, .035f, -.42f)));
-        for (var flight = 0; flight < flights; flight++)
+        anchors.Add(stair.ToGlobal(new(-.70f, .035f, 1.70f)));
+        // A broad first tread allows a normal turn from the vestibule into the
+        // fanned flight; it is timber and contact at the same 16cm rise.
+        MinaretSectorSolid(stair, "MinaretEntryTread", inner, outer, Mathf.DegToRad(126), Mathf.Pi * .5f, rise, rise, "ac8e65", "wood_furniture");
+        anchors.Add(stair.ToGlobal(new(-.212f, rise + .035f, .792f)));
+        for (var i = 0; i < count; i++)
         {
-            var northwards = flight % 2 == 0;
-            var x = northwards ? 3.16f : 4.48f;
-            var floor = flight * treads * rise;
-            for (var step = 0; step < treads; step++)
-            {
-                var z = northwards ? south - going * (step + .5f) : north + going * (step + .5f);
-                var top = floor + (step + 1) * rise;
-                FacilitySolid(stair, $"MinaretTread{flight}_{step}", new(1.0f, .12f, going + .002f), new(x, top - .06f, z), "ac8e65", "wood_furniture");
-                // Open stringer construction avoids opaque massive slabs in the stairwell.
-                foreach (var side in new[] { -.47f, .47f })
-                {
-                    AddVisualBox(stair, $"TreadNosing{flight}_{step}_{side}", new(.045f, .025f, going), new(x + side, top - .01f, z), "ddca91", "wood_furniture");
-                    if (step % 2 != 0) continue;
-                    FacilitySolid(stair, $"MinaretStairPost{flight}_{step}_{side}", new(.04f, .95f, .04f), new(x + side, top + .475f, z), "d5d0b7", "wood_furniture");
-                }
-            }
-            var startZ = northwards ? south - going * .5f : north + going * .5f;
-            var endZ = northwards ? north + going * .5f : south - going * .5f;
-            foreach (var side in new[] { -.47f, .47f })
-            {
-                MinaretContactRail(stair, $"MinaretFlightHandrail{flight}_{side}", new(x + side, floor + rise + .95f, startZ), new(x + side, floor + treads * rise + .95f, endZ));
-                MinaretContactRail(stair, $"MinaretStringer{flight}_{side}", new(x + side, floor + .04f, startZ), new(x + side, floor + treads * rise - .14f, endZ));
-            }
-            var landingZ = northwards ? -3.63f : -.57f;
-            var landingY = floor + treads * rise;
-            FacilitySolid(stair, "MinaretLanding" + flight, new(2.42f, .12f, .82f), new(3.82f, landingY - .06f, landingZ), "ac8e65", "wood_furniture");
-            var outerZ = northwards ? -4.04f : -.16f;
-            MinaretContactRail(stair, "MinaretLandingRail" + flight, new(2.63f, landingY + 1.02f, outerZ), new(5.02f, landingY + 1.02f, outerZ));
-            foreach (var postX in new[] { 2.65f, 3.82f, 5.0f })
-                FacilitySolid(stair, $"MinaretLandingPost{flight}_{postX}", new(.05f, 1.02f, .05f), new(postX, landingY + .51f, outerZ), "d5d0b7", "wood_furniture");
-            anchors.Add(room.ToGlobal(new(x, landingY + .035f, landingZ)));
-            if (flight + 1 < flights)
-                anchors.Add(room.ToGlobal(new(northwards ? 4.48f : 3.16f, landingY + .035f, landingZ)));
+            var start = Mathf.Pi * .5f - i * angle;
+            var end = start - angle;
+            var top = (i + 1) * rise;
+            MinaretSectorSolid(stair, "MinaretTread" + i, inner, outer, start, end, top, .08f, "ac8e65", "wood_furniture");
+            anchors.Add(stair.ToGlobal(new(Mathf.Cos((start + end) * .5f) * walkingRadius, top + .035f,
+                Mathf.Sin((start + end) * .5f) * walkingRadius)));
+            // The continuous outer handrail follows the actual helix, with posts between treads.
+            var a = new Vector3(Mathf.Cos(start) * 1.22f, top + .95f - rise * .5f, Mathf.Sin(start) * 1.22f);
+            var b = new Vector3(Mathf.Cos(end) * 1.22f, top + .95f + rise * .5f, Mathf.Sin(end) * 1.22f);
+            // The first two treads open to the vestibule: a rail across their
+            // outside edge would fence off the bottom entrance at chest height.
+            if (i >= 2) MinaretContactRail(stair, "SpiralHandrail" + i, a, b);
+            if (i >= 2 && i % 2 == 0)
+                FacilityRod(stair, "SpiralBaluster" + i, new(a.X, top, a.Z), a, .018f, "c4b18b");
         }
-        // Side walls enclose the staircase but preserve a 1.45 m entrance at the south bottom.
-        FacilitySolid(stair, "MinaretStairWestWall", new(.10f, 10.08f, 3.94f), new(2.50f, 5.04f, -2.10f), "729080", "wood_painted_green");
-        // East bottom opening preserves the stable entrance door's complete inward sweep.
-        FacilitySolid(stair, "MinaretStairEastNorthWall", new(.10f, 10.08f, 2.94f), new(5.14f, 5.04f, -2.60f), "729080", "wood_painted_green");
-        FacilitySolid(stair, "MinaretStairEastDoorHeader", new(.10f, 7.68f, 1.00f), new(5.14f, 6.24f, -.63f), "729080", "wood_painted_green");
-        // A genuine upper window pierces the north wall and lights the mid-stair landing.
-        FacilitySolid(stair, "MinaretStairNorthLowerWall", new(2.74f, 5.55f, .10f), new(3.82f, 2.775f, -4.07f), "729080", "wood_painted_green");
-        FacilitySolid(stair, "MinaretStairNorthWindowHeader", new(2.74f, 2.93f, .10f), new(3.82f, 8.615f, -4.07f), "729080", "wood_painted_green");
-        foreach (var x in new[] { 2.965f, 4.675f })
-            FacilitySolid(stair, "MinaretStairNorthWindowPier" + x, new(1.03f, 1.60f, .10f), new(x, 6.35f, -4.07f), "729080", "wood_painted_green");
-        FacilityWindow(stair, "MinaretNorthWindow", new(3.82f, 6.35f, -4.07f), new(.66f, 1.60f));
-        FacilitySolid(stair, "MinaretStairSouthUpperWall", new(2.74f, 5.73f, .10f), new(3.82f, 7.215f, -.13f), "729080", "wood_painted_green");
-        FacilityLabel(room, "MosqueMinaretAccessSign", "Минарет", new(2.22f, 2.64f, -.85f), 90, .0014f);
-        // Gallery wraps the tower above the last landing; its access opening stays unobstructed.
-        const float galleryY = flights * treads * rise;
-        var gallery = new Node3D { Name = "MosqueMinaretGallery", Position = new(3.82f, galleryY, -2.10f) };
+        // Structural centre mast matches the treads' inner edge; no invisible ramp or teleporter.
+        var mast = new MeshInstance3D { Name = "SpiralTimberMast", Position = new(0, 4.80f, 0),
+            Mesh = new CylinderMesh { TopRadius = inner, BottomRadius = inner, Height = MinaretGalleryHeight, RadialSegments = 12 },
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("80674c", "wood_furniture") };
+        stair.AddChild(mast);
+        var mastBody = new StaticBody3D { Name = "SpiralTimberMastBody", Position = mast.Position, CollisionLayer = 2, CollisionMask = 0 };
+        mastBody.SetMeta("collisionOwner", "act1-exterior-architecture");
+        mastBody.AddChild(new CollisionShape3D { Shape = new CylinderShape3D { Radius = inner, Height = MinaretGalleryHeight } });
+        stair.AddChild(mastBody); _facilityBodies.Add(mastBody);
+
+        // Eight slim timber facets. The two south facets start above the real bottom doorway.
+        for (var side = 0; side < 8; side++)
+        {
+            var mid = side * Mathf.Tau / 8 + Mathf.Pi / 8;
+            var bottom = side is 1 or 2 ? 2.25f : 0f;
+            var height = MinaretGalleryHeight - bottom;
+            FacilitySolid(stair, "TimberShaftFacet" + side, new(1.08f, height, .10f),
+                new(Mathf.Cos(mid) * 1.30f, bottom + height * .5f, Mathf.Sin(mid) * 1.30f), "729080", "wood_painted_green",
+                new(0, Mathf.Pi * .5f - mid, 0));
+            AddVisualBox(stair, "ShaftCornerTrim" + side, new(.065f, height, .065f),
+                new(Mathf.Cos(side * Mathf.Tau / 8) * 1.39f, bottom + height * .5f, Mathf.Sin(side * Mathf.Tau / 8) * 1.39f), "ece9df", "wood_painted_trim");
+        }
+        FacilityLabel(room, "MosqueMinaretAccessSign", "Минарет", new(3.83f, 2.55f, -.67f), 0, .0014f);
+        var gallery = new Node3D { Name = "MosqueMinaretGallery", Position = MinaretCentre + Vector3.Up * MinaretGalleryHeight };
         room.AddChild(gallery);
-        // The penultimate south turn is at Y8.64. A standing 1.8 m player extends
-        // through the gallery floor plane Y10.08, so the opening must include that
-        // whole landing/capsule envelope, not merely the final north-going flight.
-        // Inner opening X ±1.13, Z up to2.05 leaves >.12 m beyond a .35 m capsule.
-        const float halfGallery = 2.0f, innerX = 1.13f, innerSouth = 2.05f;
-        FacilitySolid(gallery, "GalleryNorthFloor", new(4.0f, .14f, .90f), new(0, -.07f, -1.88f), "b09a70", "wood_furniture");
-        FacilitySolid(gallery, "GallerySouthFloor", new(4.0f, .14f, .82f), new(0, -.07f, 2.46f), "b09a70", "wood_furniture");
-        foreach (var sign in new[] { -1f, 1f })
-            FacilitySolid(gallery, "GallerySideFloor" + sign, new(halfGallery - innerX, .14f, 3.60f),
-                new(sign * (halfGallery + innerX) * .5f, -.07f, .25f), "b09a70", "wood_furniture");
-        // Continue the north landing to the sheltered azan point.
-        FacilitySolid(gallery, "GalleryAccessPlatform", new(2.42f, .14f, .82f), new(0, -.07f, -1.53f), "b09a70", "wood_furniture");
-        foreach (var x in new[] { -1.975f, 1.975f })
+        // Quarter-circle arrival platform follows the last tread. Its underside is >2.3m
+        // above the preceding turn; the final rising half remains a true open stairwell.
+        for (var i = 0; i < 5; i++)
+            MinaretSectorSolid(gallery, "LanternLanding" + i, inner, outer, Mathf.Pi * .5f - i * angle,
+                Mathf.Pi * .5f - (i + 1) * angle, 0, .08f, "ac8e65", "wood_furniture");
+        gallery.SetMeta("openStairwell", "final rising half has no floor above the standing capsule");
+        for (var side = 0; side < 8; side++)
         {
-            MinaretContactRail(gallery, "GallerySideRail" + x, new(x, 1.05f, -2.30f), new(x, 1.05f, 2.90f));
-            for (var i = 0; i < 12; i++)
-                FacilitySolid(gallery, $"GallerySideBaluster{x}_{i}", new(.055f, 1.05f, .055f), new(x, .525f, -2.30f + i * 5.20f / 11), "e9e4d1", "wood_painted_trim");
+            var mid = side * Mathf.Tau / 8 + Mathf.Pi / 8;
+            var face = new Vector3(Mathf.Cos(mid) * 1.30f, 0, Mathf.Sin(mid) * 1.30f);
+            var yaw = Mathf.Pi * .5f - mid;
+            FacilitySolid(gallery, "LanternTimberApron" + side, new(1.08f, .82f, .10f), face + Vector3.Up * .41f,
+                "729080", "wood_painted_green", new(0, yaw, 0));
+            var frame = new Node3D { Name = "LanternWindowFrame" + side, Position = face, Rotation = new(0, yaw, 0) };
+            gallery.AddChild(frame);
+            FacilityWindow(frame, "LanternWindow", new(0, 1.46f, 0), new(.80f, 1.18f));
+            foreach (var x in new[] { -.48f, .48f })
+                FacilitySolid(frame, "LanternJamb" + x, new(.13f, 2.30f, .12f), new(x, 1.15f, 0), "ece9df", "wood_painted_trim");
+            FacilitySolid(frame, "LanternHeader", new(1.08f, .25f, .12f), new(0, 2.175f, 0), "ece9df", "wood_painted_trim");
         }
-        foreach (var z in new[] { -2.30f, 2.90f })
-        {
-            MinaretContactRail(gallery, "GalleryEndRail" + z, new(-1.975f, 1.05f, z), new(1.975f, 1.05f, z));
-            for (var i = 0; i < 10; i++)
-                FacilitySolid(gallery, $"GalleryEndBaluster{z}_{i}", new(.055f, 1.05f, .055f), new(-1.975f + i * 3.95f / 9, .525f, z), "e9e4d1", "wood_painted_trim");
-        }
-        // Continuous physical guards follow the enlarged real hole; no collider is hidden.
-        MinaretContactRail(gallery, "GalleryInnerEastRail", new(innerX, 1.05f, -1.10f), new(innerX, 1.05f, innerSouth));
-        MinaretContactRail(gallery, "GalleryInnerWestRail", new(-innerX, 1.05f, -1.10f), new(-innerX, 1.05f, innerSouth));
-        MinaretContactRail(gallery, "GalleryInnerSouthRail", new(-innerX, 1.05f, innerSouth), new(innerX, 1.05f, innerSouth));
-        foreach (var x in new[] { -innerX, innerX })
-            for (var i = 0; i < 15; i++)
-                FacilitySolid(gallery, $"GalleryInnerSideBaluster{x}_{i}", new(.04f, 1.05f, .04f), new(x, .525f, -1.10f + i * (innerSouth + 1.10f) / 14), "e9e4d1", "wood_painted_trim");
-        for (var i = 0; i < 11; i++)
-            FacilitySolid(gallery, "GalleryInnerSouthBaluster" + i, new(.04f, 1.05f, .04f), new(-innerX + i * innerX * 2 / 10, .525f, innerSouth), "e9e4d1", "wood_painted_trim");
-        gallery.SetMeta("openingHalfWidth", innerX);
-        gallery.SetMeta("openingSouthEdge", innerSouth);
-        gallery.SetMeta("penultimateLandingStandingClearance", "real floor/guard hole enlarged for Y8.64 turn plus1.8m standing capsule; gallery aisle widened with it");
-        _mosqueAdhanAnchor = new Node3D { Name = "MosqueAdhanAnchor", Position = new(.10f, 0, -1.88f), Rotation = new(0, Mathf.Atan2(MosqueLocalQibla.X, MosqueLocalQibla.Z), 0) };
+        _mosqueAdhanAnchor = new Node3D { Name = "MosqueAdhanAnchor", Position = new(.53f, 0, .53f),
+            Rotation = new(0, Mathf.Atan2(MosqueLocalQibla.X, MosqueLocalQibla.Z), 0) };
         gallery.AddChild(_mosqueAdhanAnchor);
-        _mosqueAdhanAnchor.SetMeta("scheduleStatus", "hook-ready; validated local prayer calendar and licensed human azan recording required");
+        _mosqueAdhanAnchor.SetMeta("scheduleStatus", "hook-ready; validated local calendar and licensed human azan recording required");
         _mosqueAdhanAnchor.SetMeta("audioPolicy", "no synthetic fallback; no unlicensed remote audio");
+        var mic = new Node3D { Name = "AzanMicrophone", Position = new(.88f, 0, .56f) };
+        gallery.AddChild(mic);
+        FacilityRod(mic, "Stand", new(0, .04f, 0), new(0, 1.35f, 0), .013f, "626967");
+        FacilityRod(mic, "Boom", new(0, 1.35f, 0), new(-.20f, 1.46f, 0), .011f, "626967");
+        DiscoveryCylinder(mic, "MicrophoneHead", .027f, .025f, .11f, new(-.20f, 1.50f, 0), "303936");
+        foreach (var a in new[] { 0f, Mathf.Tau / 3, Mathf.Tau * 2 / 3 })
+            FacilityRod(mic, "StandFoot" + a, new(0, .04f, 0), new(Mathf.Cos(a) * .18f, .02f, Mathf.Sin(a) * .18f), .009f, "626967");
+        FacilityRod(mic, "Cable", new(-.20f, 1.45f, .01f), new(0, .025f, .05f), .003f, "303936");
+        mic.SetMeta("purpose", "author-requested modern microphone at sheltered azanchi point; visual equipment only");
         stair.SetMeta("walkAnchors", anchors);
         stair.SetMeta("adhanPoint", _mosqueAdhanAnchor.GlobalPosition);
-        var canopyPosts = new[] { new Vector2(-1.975f, -1.1f), new(1.975f, -1.1f),
-            new(-1.975f, 1.1f), new(1.975f, 1.1f), new(-.75f, -2.30f), new(.75f, -2.30f),
-            new(-.75f, 2.90f), new(.75f, 2.90f) };
-        for (var i = 0; i < canopyPosts.Length; i++)
-            FacilitySolid(gallery, "GalleryCanopyColumn" + i, new(.12f, 2.18f, .12f),
-                new(canopyPosts[i].X, 1.09f, canopyPosts[i].Y), "e9e4d1", "wood_painted_trim");
-        // Tented octagonal cap and gold crescent form the small rural skyline.
-        var cap = new Node3D { Name = "MosqueMinaretCrown", Position = new(3.82f, galleryY + 2.18f, -1.83f) };
+        var cap = new Node3D { Name = "MosqueMinaretCrown", Position = MinaretCentre + Vector3.Up * (MinaretGalleryHeight + 2.30f) };
         room.AddChild(cap);
-        MinaretOctagonalPiece(cap, "OctagonalCornice", 2.0f, 2.0f, .20f, Vector3.Zero, "e9e4d1", "wood_painted_trim");
-        MinaretOctagonalPiece(cap, "TentedRoof", .07f, 1.9f, 2.75f, new(0, 1.4f, 0), "496e5b", "roof_metal");
-        FacilityRod(cap, "FinialRod", new(0, 2.75f, 0), new(0, 3.72f, 0), .025f, "c9b26a");
-        for (var i = 0; i < 12; i++)
+        MinaretOctagonalPiece(cap, "OctagonalCornice", 1.48f, 1.48f, .18f, Vector3.Zero, "ece9df", "wood_painted_trim");
+        MinaretOctagonalPiece(cap, "TentedRoof", .035f, 1.46f, 3.0f, new(0, 1.55f, 0), "496e5b", "roof_metal");
+        FacilityRod(cap, "FinialRod", new(0, 3.04f, 0), new(0, 3.65f, 0), .017f, "c9b26a");
+        for (var i = 0; i < 16; i++)
         {
-            var a0 = Mathf.DegToRad(-115 + i * 230f / 12); var a1 = Mathf.DegToRad(-115 + (i + 1) * 230f / 12);
-            FacilityRod(cap, "Crescent" + i, new(Mathf.Cos(a0) * .32f, 3.92f + Mathf.Sin(a0) * .32f, 0), new(Mathf.Cos(a1) * .32f, 3.92f + Mathf.Sin(a1) * .32f, 0), .036f, "c9b26a");
+            var a0 = Mathf.DegToRad(-115 + i * 230f / 16); var a1 = Mathf.DegToRad(-115 + (i + 1) * 230f / 16);
+            FacilityRod(cap, "Crescent" + i, new(Mathf.Cos(a0) * .25f, 3.83f + Mathf.Sin(a0) * .25f, 0),
+                new(Mathf.Cos(a1) * .25f, 3.83f + Mathf.Sin(a1) * .25f, 0), .027f, "c9b26a");
         }
-        FacilityLamp(stair, "MinaretStairLamp", new(3.82f, 3.0f, -2.1f), "ffe5bd", .30f, 3.5f);
-        FacilityLamp(stair, "MinaretUpperStairLamp", new(3.82f, 7.0f, -2.1f), "ffe5bd", .30f, 3.5f);
+        for (var i = 0; i < 3; i++) FacilityLamp(stair, "MinaretStairLamp" + i, new(0, 1.85f + i * 3.20f, 0), "ffe5bd", .22f, 2.20f);
+    }
+
+    private void MinaretSectorSolid(Node3D parent, string name, float inner, float outer,
+        float from, float to, float top, float thickness, string colour, string surface)
+    {
+        Vector3 P(float r, float a, float y) => new(Mathf.Cos(a) * r, y, Mathf.Sin(a) * r);
+        var points = new[] { P(inner, from, top), P(outer, from, top), P(outer, to, top), P(inner, to, top),
+            P(inner, from, top-thickness), P(outer, from, top-thickness), P(outer, to, top-thickness), P(inner, to, top-thickness) };
+        using var mesh = new SurfaceTool(); mesh.Begin(Mesh.PrimitiveType.Triangles);
+        foreach (var (a,b,c,d) in new[] { (3,2,1,0), (4,5,6,7), (0,1,5,4), (1,2,6,5), (2,3,7,6), (3,0,4,7) })
+        {
+            var normal = (points[c]-points[a]).Cross(points[b]-points[a]).Normalized();
+            foreach (var n in new[] { a,b,c,a,c,d }) { mesh.SetNormal(normal); mesh.SetUV(new(points[n].X, points[n].Z)); mesh.AddVertex(points[n]); }
+        }
+        parent.AddChild(new MeshInstance3D { Name = name, Mesh = mesh.Commit(), MaterialOverride = PainterlyMaterialLibrary.ForColor(colour, surface) });
+        var body = new StaticBody3D { Name = name + "Body", CollisionLayer = 2, CollisionMask = 0 };
+        body.SetMeta("collisionOwner", "act1-exterior-architecture");
+        body.AddChild(new CollisionShape3D { Name = "Contact", Shape = new ConvexPolygonShape3D { Points = points, Margin = .001f } });
+        parent.AddChild(body); _facilityBodies.Add(body);
     }
 
     private static void MinaretOctagonalPiece(Node3D parent, string name, float top, float bottom,
-        float height, Vector3 at, string colour, string surface)
-    {
-        parent.AddChild(new MeshInstance3D { Name = name, Position = at, Scale = new(1.2f, 1, 1.55f),
+        float height, Vector3 at, string colour, string surface) => parent.AddChild(new MeshInstance3D { Name = name, Position = at,
             Mesh = new CylinderMesh { TopRadius = top, BottomRadius = bottom, Height = height, RadialSegments = 8 },
             MaterialOverride = PainterlyMaterialLibrary.ForColor(colour, surface) });
-    }
 
     private void MinaretContactRail(Node3D parent, string name, Vector3 from, Vector3 to)
     {
         var delta = to - from;
-        var mesh = FacilitySolid(parent, name, new(.05f, .05f, delta.Length()), (from + to) * .5f, "d5d0b7", "wood_furniture",
+        FacilitySolid(parent, name, new(.04f, .04f, delta.Length()), (from + to) * .5f, "d5d0b7", "wood_furniture",
             new(-Mathf.Atan2(delta.Y, new Vector2(delta.X, delta.Z).Length()), Mathf.Atan2(delta.X, delta.Z), 0));
-        mesh.SetMeta("presentationRole", "continuous handrail with matching contact");
+    }
+
+    private void EnlargeMosqueShell(Node3D complex)
+    {
+        void Resize(string name, Vector3 sizeDelta, Vector3 move)
+        {
+            var mesh = complex.GetNode<MeshInstance3D>(name);
+            mesh.Mesh = new BoxMesh { Size = ((BoxMesh)mesh.Mesh).Size + sizeDelta }; mesh.Position += move;
+            var shape = complex.GetNode<CollisionShape3D>("MosqueCollisionProxy/" + name + "_Blocker");
+            shape.Shape = new BoxShape3D { Size = ((BoxShape3D)shape.Shape).Size + sizeDelta }; shape.Position += move;
+        }
+        Resize("MosqueHallWest", new(0, 0, 1.20f), new(-1.40f, 0, 0));
+        Resize("MosqueHallEastLeft", new(0, 0, .60f), new(0, 0, -.30f));
+        Resize("MosqueHallEastRight", new(0, 0, .60f), new(0, 0, .30f));
     }
 
     private void BuildMosqueRoofWithStairOpening()
     {
         var room = _mosqueRoom!;
-        const float eave = 4.67f, rise = 2.15f, half = 4.72f;
-        using var roof = new SurfaceTool();
-        roof.Begin(Mesh.PrimitiveType.Triangles);
-        // Each patch is a true pitched roof, split at the tower's rectangle.
+        const float eave = 4.67f, rise = 2.15f, half = 5.32f;
+        using var roof = new SurfaceTool(); roof.Begin(Mesh.PrimitiveType.Triangles);
         void Patch(float x0, float x1, float z0, float z1)
         {
             float Y(float z) => eave + rise * (1 - Math.Abs(z) / half);
-            var a = new Vector3(x0, Y(z0), z0); var b = new Vector3(x1, Y(z0), z0);
-            var c = new Vector3(x1, Y(z1), z1); var d = new Vector3(x0, Y(z1), z1);
-            var normal = (c - a).Cross(b - a).Normalized();
-            foreach (var p in new[] { a, b, c, a, c, d })
-            {
-                roof.SetNormal(normal); roof.SetUV(new(p.X * .3f, p.Z * .3f)); roof.AddVertex(p);
-            }
+            var a = new Vector3(x0,Y(z0),z0); var b = new Vector3(x1,Y(z0),z0);
+            var c = new Vector3(x1,Y(z1),z1); var d = new Vector3(x0,Y(z1),z1);
+            var normal = (c-a).Cross(b-a).Normalized();
+            foreach (var p in new[] {a,b,c,a,c,d}) { roof.SetNormal(normal); roof.SetUV(new(p.X*.3f,p.Z*.3f)); roof.AddVertex(p); }
         }
-        Patch(-6.0f, 2.45f, -half, 0); Patch(-6.0f, 2.45f, 0, half);
-        Patch(2.45f, 5.20f, -half, -4.12f); Patch(2.45f, 5.20f, -.08f, 0);
-        Patch(2.45f, 5.20f, 0, half); Patch(5.20f, 6.0f, -half, 0); Patch(5.20f, 6.0f, 0, half);
-        var mesh = new MeshInstance3D { Name = "MosqueGableRoofV4", Mesh = roof.Commit(),
-            MaterialOverride = PainterlyMaterialLibrary.ForColor("e6ebef", "snow_roof") };
+        Patch(-7.4f, 2.43f, -half, 0); Patch(-7.4f,2.43f,0,half);
+        Patch(2.43f,5.23f,-half,-3.40f); Patch(2.43f,5.23f,-.60f,0); Patch(2.43f,5.23f,0,half);
+        Patch(5.23f,6,-half,0); Patch(5.23f,6,0,half);
+        var mesh = new MeshInstance3D { Name = "MosqueGableRoofV4", Mesh = roof.Commit(), MaterialOverride = PainterlyMaterialLibrary.ForColor("e6ebef","snow_roof") };
         room.AddChild(mesh);
-        mesh.SetMeta("stairOpeningMin", new Vector2(2.45f, -4.12f));
-        mesh.SetMeta("stairOpeningMax", new Vector2(5.20f, -.08f));
-        foreach (var z in new[] { -half, half })
-            AddVisualBox(room, "MosqueRoofFascia" + z, new(12.05f, .20f, .15f), new(0, eave - .03f, z), "e9e4d1", "wood_painted_trim");
-        AddVisualBox(room, "MosqueRidgeCap", new(12.0f, .13f, .16f), new(0, eave + rise + .015f, 0), "496e5b", "roof_metal");
-        // Triangular end gables close the attic silhouette instead of leaving open roof ends.
-        foreach (var x in new[] { -5.82f, 5.82f })
+        mesh.SetMeta("stairOpeningMin",new Vector2(2.43f,-3.40f)); mesh.SetMeta("stairOpeningMax",new Vector2(5.23f,-.60f));
+        foreach (var z in new[] {-half,half}) AddVisualBox(room,"MosqueRoofFascia"+z,new(13.45f,.20f,.15f),new(-.7f,eave-.03f,z),"ece9df","wood_painted_trim");
+        AddVisualBox(room,"MosqueRidgeCap",new(13.4f,.13f,.16f),new(-.7f,eave+rise+.015f,0),"496e5b","roof_metal");
+        foreach (var x in new[] {-7.22f,5.82f})
         {
             using var gable = new SurfaceTool(); gable.Begin(Mesh.PrimitiveType.Triangles);
-            var footNear = new Vector3(x, eave, -half + .1f);
-            var ridge = new Vector3(x, eave + rise, 0);
-            var footFar = new Vector3(x, eave, half - .1f);
-            // Godot front faces are clockwise viewed from outside. Opposite gables
-            // therefore need opposite winding, including with the shared ShaderMaterial.
-            var vertices = x < 0 ? new[] { footNear, ridge, footFar } : new[] { footNear, footFar, ridge };
-            foreach (var p in vertices)
-            { gable.SetNormal(x < 0 ? Vector3.Left : Vector3.Right); gable.SetUV(new(p.Z * .25f, p.Y * .25f)); gable.AddVertex(p); }
-            var material = PainterlyMaterialLibrary.ForColor("729080", "wood_painted_green");
-            room.AddChild(new MeshInstance3D { Name = "MosqueTriangleGable" + x, Mesh = gable.Commit(), MaterialOverride = material });
+            var a = new Vector3(x,eave,-half+.1f); var b = new Vector3(x,eave+rise,0); var c = new Vector3(x,eave,half-.1f);
+            foreach (var p in x < 0 ? new[] {a,b,c} : new[] {a,c,b}) { gable.SetNormal(x<0?Vector3.Left:Vector3.Right); gable.SetUV(new(p.Z*.25f,p.Y*.25f)); gable.AddVertex(p); }
+            room.AddChild(new MeshInstance3D { Name = "MosqueTriangleGable"+x, Mesh = gable.Commit(), MaterialOverride = PainterlyMaterialLibrary.ForColor("729080","wood_painted_green") });
         }
     }
 }

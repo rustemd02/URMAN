@@ -19,16 +19,19 @@ public partial class Act1ConnectedWorld
     {
         var room = _mosqueRoom!;
         // Actual stair opening: no opaque ceiling across the climb into the roof minaret.
-        AddVisualBox(room, "MosqueCeiling", new(7.7f, .12f, 7.95f), new(-1.375f, 3.35f, 0), "e5dfc9", "plaster");
-        AddVisualBox(room, "MosqueVestibuleSouthCeiling", new(2.75f, .12f, 4.15f), new(3.85f, 3.35f, 1.9f), "e5dfc9", "plaster");
-        foreach (var z in new[] { -3.84f, 3.84f })
+        AddVisualBox(room, "MosqueCeiling", new(9.1f, .12f, 9.15f), new(-2.075f, 3.80f, 0), "e5dfc9", "wood_painted_trim");
+        AddVisualBox(room, "MosqueVestibuleSouthCeiling", new(2.75f, .12f, 4.20f), new(3.85f, 3.80f, 2.47f), "e5dfc9", "wood_painted_trim");
+        foreach (var x in new[] { -5.9f, -3.8f, -1.7f, .4f })
+            AddVisualBox(room, "MosqueCeilingTimberBeam" + x, new(.12f, .16f, 9.10f), new(x, 3.68f, 0), "946f45", "wood_furniture");
+        AddVisualBox(room, "MosqueVestibuleNorthCeiling", new(2.75f, .12f, 1.45f), new(3.85f, 3.80f, -3.85f), "e5dfc9", "wood_painted_trim");
+        foreach (var z in new[] { -4.44f, 4.44f })
         {
-            AddVisualBox(room, "MosqueCornice" + z, new(10.4f, .13f, .10f), new(0, 3.17f, z), "ddca91", "wood_furniture");
-            AddVisualBox(room, "MosqueDado" + z, new(10.4f, .12f, .035f), new(0, .98f, z), "688777", "wood_painted_green");
+            AddVisualBox(room, "MosqueCornice" + z, new(11.8f, .13f, .10f), new(-.7f, 3.62f, z), "ddca91", "wood_furniture");
+            AddVisualBox(room, "MosqueDado" + z, new(11.8f, .12f, .035f), new(-.7f, .98f, z), "688777", "wood_painted_green");
         }
-        AddVisualBox(room, "MosqueWestDado", new(.035f, .12f, 7.75f), new(-5.18f, .98f, 0), "688777", "wood_painted_green");
+        AddVisualBox(room, "MosqueWestDado", new(.035f, .12f, 8.95f), new(-6.58f, .98f, 0), "688777", "wood_painted_green");
         // A restrained pendant fixture, warm light and metal arms without invented sacred text.
-        var chandelier = new Node3D { Name = "MosqueChandelier", Position = new(-.5f, 2.9f, -.9f) };
+        var chandelier = new Node3D { Name = "MosqueChandelier", Position = new(-.5f, 3.35f, -.9f) };
         room.AddChild(chandelier);
         FacilityRod(chandelier, "Suspension", Vector3.Zero, new(0, .36f, 0), .018f, "b7a578");
         for (var i = 0; i < 6; i++)
@@ -61,12 +64,12 @@ public partial class Act1ConnectedWorld
         room.SetMeta("qiblaRegionalProxy", "Kazan 55.79N 49.12E; fictional village has no surveyed coordinate");
         room.SetMeta("qiblaBearingDegrees", MosqueQiblaBearingDegrees);
         room.SetMeta("qiblaWorldDirection", new Vector3(Mathf.Sin(Mathf.DegToRad(MosqueQiblaBearingDegrees)), 0, Mathf.Cos(Mathf.DegToRad(MosqueQiblaBearingDegrees))));
-        // Same stable node/contact and 16.5 mm top plane preserve save migration.
-        var carpet = FacilitySolid(room, "MosquePrayerCarpet", new(5.0f, .015f, 5.25f), new(-.65f, .009f, -.82f), "38655f", "fabric");
+        // A 2 mm textile lies below the door's 12 mm clearance and its 2 mm sweep margin. Stable support IDs remain.
+        var carpet = FacilitySolid(room, "MosquePrayerCarpet", new(5.3f, .002f, 6.05f), new(-.50f, .001f, -.95f), "38655f", "fabric");
         ApplyMosquePrayerCarpet(carpet);
         var qibla = MosqueLocalQibla.Normalized();
         var yaw = Mathf.Atan2(-qibla.X, -qibla.Z); // local -Z is the prayer face
-        var prayer = new Node3D { Name = "MosqueQiblaWall", Position = new(-.7f, 0, -3.54f), Rotation = new(0, yaw, 0) };
+        var prayer = new Node3D { Name = "MosqueQiblaWall", Position = new(-.7f, 0, -4.14f), Rotation = new(0, yaw, 0) };
         room.AddChild(prayer);
         prayer.SetMeta("qiblaBearingDegrees", MosqueQiblaBearingDegrees);
         // Mihrab recess with shaped arch; the whole assembly shares the qibla normal.
@@ -91,29 +94,31 @@ public partial class Act1ConnectedWorld
             FacilitySolid(minbar, "MinbarPost" + x, new(.055f, 1.10f, .055f), new(x, .97f, -.28f), "cfb97d", "wood_furniture");
             FacilityRod(minbar, "MinbarRail" + x, new(x, 1.50f, -.30f), new(x, .94f, 1.00f), .026f, "cfb97d");
         }
-        FacilityLabel(room, "MosqueQiblaNotice", "Кыйбла", new(1.30f, 2.43f, -3.97f), 0, .0015f);
+        FacilityLabel(room, "MosqueQiblaNotice", "Кыйбла", new(1.30f, 2.43f, -4.57f), 0, .0015f);
 
         // A separate west-side library. Its 1.1 m doorway leaves the prayer carpet and entrance route open.
-        FacilitySolid(room, "MosqueLibraryEastWall", new(.10f, 3.2f, 1.85f), new(-3.40f, 1.6f, 3.05f), "dedbc6", "plaster");
-        FacilitySolid(room, "MosqueLibraryEastJamb", new(.10f, 3.2f, .25f), new(-3.40f, 1.6f, 1.00f), "dedbc6", "plaster");
-        FacilitySolid(room, "MosqueLibraryLintel", new(.10f, 1.0f, 1.15f), new(-3.40f, 2.7f, 1.60f), "dedbc6", "plaster");
-        FacilitySolid(room, "MosqueLibraryNorthWall", new(1.79f, 3.2f, .10f), new(-4.295f, 1.6f, .82f), "dedbc6", "plaster");
+        FacilitySolid(room, "MosqueLibraryEastWall", new(.10f, 3.75f, 2.395f), new(-3.40f, 1.875f, 3.3775f), "dedbc6", "wood_painted_trim");
+        FacilitySolid(room, "MosqueLibraryEastJamb", new(.10f, 3.75f, .135f), new(-3.40f, 1.875f, .9375f), "dedbc6", "wood_painted_trim");
+        FacilitySolid(room, "MosqueLibraryLintel", new(.10f, 1.53f, 1.15f), new(-3.40f, 2.985f, 1.60f), "dedbc6", "wood_painted_trim");
+        FacilitySolid(room, "MosqueLibraryNorthWall", new(3.19f, 3.75f, .10f), new(-4.995f, 1.875f, .82f), "dedbc6", "wood_painted_trim");
         FacilityManualDoor(room, "MosqueLibrary", "mosque/library", new(-3.40f, 0, 1.05f), 1.10f, 2.17f, 0, 90);
         FacilityLabel(room, "MosqueLibrarySign", "Китапханә\nБиблиотека", new(-3.33f, 2.52f, 1.61f), 90, .0014f);
-        FacilitySolid(room, "MosqueBookcaseLeft", new(.08f, 1.65f, .39f), new(-5.05f, .825f, 3.63f), "80674c", "wood_furniture");
-        FacilitySolid(room, "MosqueBookcaseRight", new(.08f, 1.65f, .39f), new(-3.55f, .825f, 3.63f), "80674c", "wood_furniture");
+        FacilitySolid(room, "MosqueBookcaseLeft", new(.08f, 1.65f, .39f), new(-6.15f, .825f, 4.23f), "80674c", "wood_furniture");
+        FacilitySolid(room, "MosqueBookcaseRight", new(.08f, 1.65f, .39f), new(-4.65f, .825f, 4.23f), "80674c", "wood_furniture");
         for (var shelf = 0; shelf < 4; shelf++)
         {
-            FacilitySolid(room, "MosqueBookShelf" + shelf, new(1.60f, .055f, .40f), new(-4.30f, .10f + shelf * .49f, 3.63f), "80674c", "wood_furniture");
+            FacilitySolid(room, "MosqueBookShelf" + shelf, new(1.60f, .055f, .40f), new(-5.40f, .10f + shelf * .49f, 4.23f), "80674c", "wood_furniture");
             if (shelf == 3) continue;
             for (var book = 0; book < 8; book++)
-                AddMosqueShelfBook(room, $"MosqueBook{book}_{shelf}", new(.065f, .31f + book % 3 * .025f, .22f), new(-4.84f + book * .15f, .1275f + shelf * .49f, 3.63f), book % 2 == 0 ? "405d57" : "8f7960");
+                AddMosqueShelfBook(room, $"MosqueBook{book}_{shelf}", new(.065f, .31f + book % 3 * .025f, .22f), new(-5.94f + book * .15f, .1275f + shelf * .49f, 4.23f), book % 2 == 0 ? "405d57" : "8f7960");
         }
-        FacilityBench(room, "MosqueReadingBench", new(-4.31f, 0, 2.98f), 1.35f, 0);
-        FacilityTable(room, "MosqueImamDesk", new(-4.65f, 0, 1.55f), new(.74f, .74f, .80f));
-        AddVisualBox(room, "MosqueImamNotebook", new(.29f, .018f, .21f), new(-4.62f, .767f, 1.55f), "bbb297", "paper");
-        FacilityLamp(room, "MosqueLibraryLamp", new(-4.4f, 2.9f, 2.2f), "ffdfad", .45f, 3.0f);
+        FacilityBench(room, "MosqueReadingBench", new(-5.40f, 0, 3.58f), 1.35f, 0);
+        FacilityTable(room, "MosqueImamDesk", new(-6.05f, 0, 1.55f), new(.74f, .74f, .80f));
+        AddVisualBox(room, "MosqueImamNotebook", new(.29f, .018f, .21f), new(-6.02f, .767f, 1.55f), "bbb297", "paper");
+        FacilityLamp(room, "MosqueLibraryLamp", new(-5.1f, 3.35f, 2.5f), "ffdfad", .45f, 3.0f);
         BuildMosqueDonationBox();
+        room.SetMeta("libraryClearSizeMetres", new Vector2(3.14f, 3.70f));
+        room.SetMeta("hallClearHeightMetres", 3.74f);
         return carpet;
     }
 
