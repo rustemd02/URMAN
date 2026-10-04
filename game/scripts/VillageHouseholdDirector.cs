@@ -11,7 +11,7 @@ public partial class VillageHouseholdDirector : Node3D
     public const int VoiceBudget = 4;
     public const int ClipBudget = 8;
     public const int PcmBudget = 2_000_000;
-    public const int ExpectedMotifCount = 27;
+    public const int ExpectedMotifCount = 35;
     public const string CatalogPath = "res://content/world/act1_village_life.v1.json";
     private readonly List<Window> _windows = [];
     private readonly List<House> _houses = [];
@@ -198,8 +198,11 @@ public partial class VillageHouseholdDirector : Node3D
         var stream=GetClip(motif.File);
         if(stream is null) {house.Wait=30;return;}
         var voice=_voices[slot]; voice.Stream=stream;voice.GlobalPosition=motif.Outdoor?house.Outside:house.Inside;
-        voice.VolumeDb=motif.VolumeDb+(Mood-1f)*8f;voice.MaxDistance=motif.Radius;
-        voice.AttenuationFilterCutoffHz=motif.Outdoor?7000:1500;
+        // Indoor motifs sit 3 dB lower and roll off harder, so a sound behind a
+        // wall never reads louder than the same event in the open street.
+        voice.VolumeDb=motif.VolumeDb+(motif.Outdoor?0f:-3f)+(Mood-1f)*8f;voice.MaxDistance=motif.Radius;
+        voice.AttenuationFilterCutoffHz=motif.Outdoor?9000:1200;
+        voice.AttenuationFilterDb=motif.Outdoor?-6f:-20f;
         voice.PitchScale=_random.RandfRange(.97f,1.03f);
         voice.SetMeta("eventId",motif.Id);voice.SetMeta("house",house.Identity);
         _voiceHouses[slot]=houseIndex;voice.Play();EventsStarted++;

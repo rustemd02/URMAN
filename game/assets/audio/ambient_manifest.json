@@ -41,7 +41,8 @@
         "rms": 0.03499893252398677,
         "loopBoundaryDelta": 0.00299072265625
       },
-      "volumeDb": -3
+      "volumeDb": -10,
+      "gainNote": "lowered from -3 to -10 dB on 2026-10-04 after the author reported the blizzard drowning the village; the 03.10 permanent-weather bed itself is unchanged"
     },
     {
       "id": "ambient.house-room",
@@ -110,7 +111,8 @@
         "rms": 0.03499893252398677,
         "loopBoundaryDelta": 0.00299072265625
       },
-      "volumeDb": -3
+      "volumeDb": -10,
+      "gainNote": "lowered from -3 to -10 dB on 2026-10-04 after the author reported the blizzard drowning the village; the 03.10 permanent-weather bed itself is unchanged"
     },
     {
       "id": "ambient.water-edge",
@@ -208,7 +210,8 @@
         "rms": 0.03499893252398677,
         "loopBoundaryDelta": 0.00299072265625
       },
-      "volumeDb": -3
+      "volumeDb": -10,
+      "gainNote": "lowered from -3 to -10 dB on 2026-10-04 after the author reported the blizzard drowning the village; the 03.10 permanent-weather bed itself is unchanged"
     },
     {
       "id": "ambient.village-yard",
@@ -241,7 +244,8 @@
         "rms": 0.03499893252398677,
         "loopBoundaryDelta": 0.00299072265625
       },
-      "volumeDb": -3
+      "volumeDb": -10,
+      "gainNote": "lowered from -3 to -10 dB on 2026-10-04 after the author reported the blizzard drowning the village; the 03.10 permanent-weather bed itself is unchanged"
     },
     {
       "id": "ambient.village-return",
@@ -274,7 +278,8 @@
         "rms": 0.03499893252398677,
         "loopBoundaryDelta": 0.00299072265625
       },
-      "volumeDb": -3
+      "volumeDb": -10,
+      "gainNote": "lowered from -3 to -10 dB on 2026-10-04 after the author reported the blizzard drowning the village; the 03.10 permanent-weather bed itself is unchanged"
     }
   ]
 }

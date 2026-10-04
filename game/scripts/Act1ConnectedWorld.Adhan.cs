@@ -31,13 +31,20 @@ public partial class Act1ConnectedWorld
             {
                 Name = "MosqueAdhanPlayer",
                 Bus = AudioSettingsService.AmbienceBus,
-                VolumeDb = -6f,
-                MaxDistance = 240f,
-                UnitSize = 3f,
+                VolumeDb = -5f,
+                MaxDistance = 400f,
+                UnitSize = 28f,
                 AttenuationModel = AudioStreamPlayer3D.AttenuationModelEnum.InverseDistance,
                 AttenuationFilterDb = -3f
             };
             AddChild(_adhanPlayer);
+            // The call stops only at its natural end (expert brief 07); the
+            // focus then releases itself.
+            _adhanPlayer.Finished += () =>
+            {
+                SoundMood()?.SetAdhanFocus(false);
+                SetMeta("adhanState", "idle");
+            };
         }
 
         var stream = ResourceLoader.Load<AudioStream>(VillageSoundMoodDirector.AdhanPath);
@@ -50,6 +57,7 @@ public partial class Act1ConnectedWorld
         _adhanPlayer.Stream = stream;
         _adhanPlayer.GlobalPosition = point.Origin;
         _adhanPlayer.Play();
+        SoundMood()?.SetAdhanFocus(true);
         SetMeta("adhanState", "playing-licensed-recording");
         SetMeta("adhanSource", "mosque azanchi lantern point");
         GD.Print("mosque-adhan: licensed recorded adhan starts at the azanchi point; prayer calendar remains open");
@@ -64,6 +72,14 @@ public partial class Act1ConnectedWorld
         }
 
         _adhanPlayer.Stop();
+        SoundMood()?.SetAdhanFocus(false);
         SetMeta("adhanState", "idle");
     }
+
+    /// <summary>
+    /// The themed owner floors its dread layer while the call sounds, so the
+    /// adhan never sits under the creepy hum or owls (expert brief 07).
+    /// </summary>
+    private VillageSoundMoodDirector? SoundMood() =>
+        GetTree()?.GetFirstNodeInGroup("village_sound_mood") as VillageSoundMoodDirector;
 }

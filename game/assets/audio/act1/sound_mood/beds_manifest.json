@@ -82,9 +82,9 @@
       "file": "res://assets/audio/act1/sound_mood/village_life_layer.wav",
       "seconds": 112.0,
       "pcmBytes": 5376000,
-      "sha256": "64e0257edab3c6764ba975a14f4b8de688997ea70b14522967f8cdeebc17cb07",
+      "sha256": "6491e0454b89339c9a8cd5432105e19bc26c1c01771e0841378133bdd602ed2f",
       "seed": 20261004,
-      "rms": 0.013552093607548535,
+      "rms": 0.01355601742369499,
       "peak": 0.699981689453125,
       "loopBoundaryDelta": 0.0013427734375,
       "loop": "whole-file forward loop; the engine (VillageSoundMoodDirector.ConfigureLoop) sets LoopMode; the file is built with a 1 s equal-power tail-to-head crossfade join",
@@ -149,8 +149,8 @@
           "role": "distant dog bark",
           "offsetSeconds": 23.564,
           "gainDb": -18.0,
-          "license": "CC0-1.0 (Freesound qubodup/211607; see game/assets/audio/act1/village_life/credits.json)",
-          "sourceSha256": "f69dbd11d1c1dc9ee3a42fbf2ba7bd9dfaaa9c3995bb5bdef853cf9e0a08531f",
+          "license": "CC0-1.0 (Freesound TeTeNoise/518727; see game/assets/audio/act1/village_life/credits.json)",
+          "sourceSha256": "b3fcba61d4a1081ed17250a6607eed68d0373424ff7f6c6f3ece93c2f77a90a9",
           "note": "two distant barks"
         },
         {
@@ -158,8 +158,8 @@
           "role": "distant dog bark",
           "offsetSeconds": 96.775,
           "gainDb": -18.0,
-          "license": "CC0-1.0 (Freesound qubodup/211607; see game/assets/audio/act1/village_life/credits.json)",
-          "sourceSha256": "f69dbd11d1c1dc9ee3a42fbf2ba7bd9dfaaa9c3995bb5bdef853cf9e0a08531f",
+          "license": "CC0-1.0 (Freesound TeTeNoise/518727; see game/assets/audio/act1/village_life/credits.json)",
+          "sourceSha256": "b3fcba61d4a1081ed17250a6607eed68d0373424ff7f6c6f3ece93c2f77a90a9",
           "note": "two distant barks"
         },
         {

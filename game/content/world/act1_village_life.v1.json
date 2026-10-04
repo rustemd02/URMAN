@@ -8,10 +8,10 @@
       "file": "res://assets/audio/act1/village_life/dog.wav",
       "outdoor": true,
       "dayOnly": false,
-      "radius": 24,
-      "volumeDb": -8,
-      "minWait": 45,
-      "maxWait": 110
+      "radius": 18,
+      "volumeDb": -11,
+      "minWait": 70,
+      "maxWait": 160
     },
     {
       "id": "home-music",
@@ -240,9 +240,9 @@
       "outdoor": false,
       "dayOnly": true,
       "radius": 16,
-      "volumeDb": -12,
-      "minWait": 55,
-      "maxWait": 130
+      "volumeDb": -14,
+      "minWait": 75,
+      "maxWait": 170
     },
     {
       "id": "dog-chain",
@@ -298,6 +298,94 @@
       "volumeDb": -15,
       "minWait": 45,
       "maxWait": 140
+    },
+    {
+      "id": "axe-chopping",
+      "label": "Колют дрова во дворе",
+      "file": "res://assets/audio/act1/sound_mood/axe.wav",
+      "outdoor": true,
+      "dayOnly": true,
+      "radius": 20,
+      "volumeDb": -10,
+      "minWait": 35,
+      "maxWait": 100
+    },
+    {
+      "id": "saw-wood",
+      "label": "Пилят доску у сарая",
+      "file": "res://assets/audio/act1/sound_mood/saw.wav",
+      "outdoor": true,
+      "dayOnly": true,
+      "radius": 20,
+      "volumeDb": -12,
+      "minWait": 50,
+      "maxWait": 130
+    },
+    {
+      "id": "gate-swing",
+      "label": "Скрипнула и хлопнула калитка",
+      "file": "res://assets/audio/act1/sound_mood/gate.wav",
+      "outdoor": true,
+      "dayOnly": false,
+      "radius": 15,
+      "volumeDb": -12,
+      "minWait": 45,
+      "maxWait": 120
+    },
+    {
+      "id": "pot-simmer",
+      "label": "В доме варится еда",
+      "file": "res://assets/audio/act1/sound_mood/pot.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 13,
+      "volumeDb": -12,
+      "minWait": 45,
+      "maxWait": 120
+    },
+    {
+      "id": "cow-in-barn",
+      "label": "Корова мычит в закрытом сарае",
+      "file": "res://assets/audio/act1/sound_mood/cow.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 15,
+      "volumeDb": -15,
+      "minWait": 90,
+      "maxWait": 200
+    },
+    {
+      "id": "children-snow",
+      "label": "Детвора возится в снегу",
+      "file": "res://assets/audio/act1/sound_mood/children.wav",
+      "outdoor": true,
+      "dayOnly": true,
+      "radius": 19,
+      "volumeDb": -11,
+      "minWait": 70,
+      "maxWait": 170
+    },
+    {
+      "id": "snow-steps",
+      "label": "Кто-то идёт по снегу во дворе",
+      "file": "res://assets/audio/act1/sound_mood/boots_snow.wav",
+      "outdoor": true,
+      "dayOnly": false,
+      "radius": 12,
+      "volumeDb": -12,
+      "minWait": 30,
+      "maxWait": 90
+    },
+    {
+      "id": "garmon-home",
+      "label": "Гармонь играет в доме или в клубе",
+      "file": "res://assets/audio/act1/sound_mood/garmon.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 20,
+      "volumeDb": -10,
+      "minWait": 60,
+      "maxWait": 150
     }
   ]
 }

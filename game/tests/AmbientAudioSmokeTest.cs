@@ -108,7 +108,7 @@ public partial class AmbientAudioSmokeTest : Node
             return false;
         }
 
-        var expectedDb = stemId is "ambient.house-room" or "ambient.fap-institutional" ? -12f : -3f;
+        var expectedDb = ExpectedStemVolumeDb(stemId);
         if (DisplayServer.GetName() == "headless" && Math.Abs(player.VolumeDb - expectedDb) > .01f)
         {
             Fail($"Ambient shelter gain failed for {stemId}: {player.VolumeDb} instead of {expectedDb} dB.");
@@ -141,6 +141,35 @@ public partial class AmbientAudioSmokeTest : Node
 
         return true;
     }
+
+    private static readonly Dictionary<string, float> StemVolumes = LoadStemVolumes();
+
+    private static Dictionary<string, float> LoadStemVolumes()
+    {
+        // The manifest is the single source of truth for bed gain; a tuning
+        // pass must not require editing this test again.
+        var volumes = new Dictionary<string, float>(StringComparer.Ordinal);
+        var json = System.IO.File.ReadAllText(ProjectSettings.GlobalizePath("res://assets/audio/ambient_manifest.json"));
+        if (System.Text.Json.Nodes.JsonNode.Parse(json)?["stems"]?.AsArray() is not { } stems)
+        {
+            return volumes;
+        }
+
+        foreach (var stem in stems)
+        {
+            if (stem?["id"]?.GetValue<string>() is not { Length: > 0 } id)
+            {
+                continue;
+            }
+
+            volumes[id] = stem["volumeDb"] is { } value ? (float)value.GetValue<double>() : -12f;
+        }
+
+        return volumes;
+    }
+
+    private static float ExpectedStemVolumeDb(string stemId) =>
+        StemVolumes.TryGetValue(stemId, out var db) ? db : -12f;
 
     private void Fail(string message)
     {

@@ -79,7 +79,7 @@ MUSIC_LICENSE = (
     "see game/assets/audio/act1/village_life/credits.json; attribution required)"
 )
 DOG_LICENSE = (
-    "CC0-1.0 (Freesound qubodup/211607; "
+    "CC0-1.0 (Freesound TeTeNoise/518727; "
     "see game/assets/audio/act1/village_life/credits.json)"
 )
 

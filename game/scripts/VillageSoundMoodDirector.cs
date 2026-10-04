@@ -20,17 +20,21 @@ public partial class VillageSoundMoodDirector : Node
     public const float NightMood = .25f;
 
     private const float LayerFloorDb = -60f;
-    private const float VillageFullDb = -9f;
-    private const float DreadFullDb = -10f;
+    private const float VillageFullDb = -3f;
+    private const float DreadDayFullDb = -10f;
+    private const float NightVillageFullDb = -12f;
+    private const float NightDreadFullDb = -4f;
 
     private readonly AudioStreamPlayer?[] _layers = new AudioStreamPlayer?[2];
     private VillageHouseholdDirector? _households;
     private AmbientAudioDirector? _ambient;
     private bool _headless;
     private string _zone = string.Empty;
+    private bool _audible;
     private float _mood = DefaultMood;
     private bool _weatherEnabled = true;
     private bool _moodManual;
+    private bool _adhanFocus;
 
     public float Mood => _mood;
     public bool WeatherEnabled => _weatherEnabled;
@@ -120,6 +124,23 @@ public partial class VillageSoundMoodDirector : Node
         Ambient()?.SetBedEnabled(_weatherEnabled);
     }
 
+    /// <summary>
+    /// While a real adhan plays from the minaret, the dread layer yields (the
+    /// expert brief: the call must never sit under the creepy hum or owls).
+    /// The village life layer keeps its level.
+    /// </summary>
+    public void SetAdhanFocus(bool active)
+    {
+        if (_adhanFocus == active)
+        {
+            return;
+        }
+
+        _adhanFocus = active;
+        SetMeta("adhanFocus", _adhanFocus);
+        Apply();
+    }
+
     public void ToggleWeather() => SetWeatherEnabled(!_weatherEnabled);
 
     public void ResetToAuthoredMix()
@@ -136,17 +157,19 @@ public partial class VillageSoundMoodDirector : Node
         Apply();
     }
 
-    /// <summary>Reapplies the mix when the active zone changes.</summary>
+    /// <summary>Reapplies the mix when the active zone or audibility changes.</summary>
     public void Tick(double delta, string zoneId, bool audible)
     {
         var zoneChanged = !string.Equals(_zone, zoneId, StringComparison.Ordinal);
+        var audibilityChanged = _audible != audible;
         _zone = zoneId;
-        if (!zoneChanged)
+        _audible = audible;
+        if (!zoneChanged && !audibilityChanged)
         {
             return;
         }
 
-        if (!_moodManual)
+        if (!_moodManual && zoneChanged)
         {
             _mood = string.Equals(zoneId, "kara_urman_night", StringComparison.Ordinal) ? NightMood : DefaultMood;
             if (_households is not null)
@@ -170,22 +193,35 @@ public partial class VillageSoundMoodDirector : Node
 
     private void Apply()
     {
-        var audible = AudibleZone;
+        var audible = _audible && AudibleZone;
         var night = string.Equals(_zone, "kara_urman_night", StringComparison.Ordinal);
         var presence = Mathf.Clamp((_mood - .06f) / .84f, 0f, 1f);
-        var villageDb = Mathf.Lerp(LayerFloorDb, VillageFullDb, Mathf.Sqrt(presence));
-        var dreadDb = Mathf.Lerp(DreadFullDb, LayerFloorDb, Mathf.Pow(_mood, .7f));
+        var villageShape = Mathf.Sqrt(presence);
+        float villageDb;
+        float dreadDb;
         if (night)
         {
-            // At night the village stays indoors: the life layer recedes and
-            // the dread layer is a little closer, without becoming a stinger.
-            villageDb -= 6f;
-            dreadDb += 2f;
+            // Night: the village recedes indoors while the dread layer sits a
+            // little above the wind, so the empty street still reads as tense.
+            villageDb = Mathf.Lerp(LayerFloorDb, NightVillageFullDb, villageShape);
+            dreadDb = Mathf.Lerp(NightDreadFullDb, -12f, presence);
+        }
+        else
+        {
+            villageDb = Mathf.Lerp(LayerFloorDb, VillageFullDb, villageShape);
+            dreadDb = Mathf.Lerp(DreadDayFullDb, LayerFloorDb, presence);
         }
 
+        // Interiors, dialogue, the prologue and the debug panel's modal all
+        // silence the layers; the weather bed owns its own shelter routing.
         if (!audible)
         {
             villageDb = LayerFloorDb;
+            dreadDb = LayerFloorDb;
+        }
+
+        if (_adhanFocus)
+        {
             dreadDb = LayerFloorDb;
         }
 

@@ -23,7 +23,7 @@
       "laughter",
       "chatter"
     ],
-    "note": "these four clips are kept inside the runtime one-shot pool limits; adhan.wav (whole call) and dog_distant.wav (panel audition one-shot) are not pooled"
+    "note": "these four clips are kept inside the runtime one-shot pool limits; dog_distant.wav is a panel/bed audition one-shot and is not pooled"
   },
   "licenseReading": [
     {
@@ -77,16 +77,6 @@
   ],
   "clips": [
     {
-      "id": "adhan",
-      "file": "res://assets/audio/act1/sound_mood/adhan.wav",
-      "seconds": 49.994125,
-      "pcmBytes": 2399718,
-      "sha256": "fb20ebaa2f230a4fc8c17be0ecd24660ed0e0c07e8eaca388b36ea8464ce3731",
-      "sourceSha256": "c9f3097f449ebc0aae749c06dfa6113d1c30b4601c5142975c986b9f53f1fc44",
-      "startSeconds": 0.075375,
-      "sourceDurationSeconds": 50.0895
-    },
-    {
       "id": "stove",
       "file": "res://assets/audio/act1/sound_mood/stove.wav",
       "seconds": 10.0,
@@ -131,10 +121,12 @@
       "file": "res://assets/audio/act1/sound_mood/dog_distant.wav",
       "seconds": 6.0,
       "pcmBytes": 288000,
-      "sha256": "e185644ed5ce47a012ec99468304da71902216c7e23d78e0a3d6e8df6800750b",
-      "sourceSha256": "ac6f42372d3c54d03373f0e7006425db2ed67a7d098c512ec1a04f2e9ed456af",
-      "startSeconds": 5.2,
-      "sourceDurationSeconds": 18.985397
+      "sha256": "ee5a1dbe6d68cd095c0195d0da46cf084619a979384a97203886a65c76e6411a",
+      "sourceSha256": "af7c8e992ecdbb8aa6233e98d55331deb1ee7b38ee78c12ef9c70fa11d2163e0",
+      "startSeconds": 3.6,
+      "sourceDurationSeconds": 10.1129,
+      "source": "https://freesound.org/people/Kinoton/sounds/516904/",
+      "author": "Kinoton"
     }
   ]
 }

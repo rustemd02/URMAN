@@ -6,9 +6,10 @@ namespace Urman.Godot;
 /// Debug sound panel: auditions the authored village sound set (weather bed,
 /// sound-mood layers, household one-shots) and sweeps the mood scale without
 /// walking the whole settlement. It exists only while user://debug-zones.enabled
-/// is present, opens by typing the physical keys Z-V-U-K (zvuk), and pauses the
-/// tree so the mouse can reach its controls. Presentation only: no story, save
-/// or knowledge state is touched, and it never unpauses a pause menu's pause.
+/// is present, opens by typing the physical keys Z-V-U-K (zvuk), holds the
+/// player behind a modal and releases the cursor, but never pauses the tree so
+/// every audio player, tween and layer keeps sounding while the author tunes it.
+/// Presentation only: no story, save or knowledge state is touched.
 /// </summary>
 public partial class DebugSoundPanel : Control
 {
@@ -17,11 +18,20 @@ public partial class DebugSoundPanel : Control
     private static readonly (string Label, string Clip)[] OneShots =
     [
         ("Азан у минарета", VillageSoundMoodDirector.AdhanPath),
+        ("Азан (рядом)", VillageSoundMoodDirector.AdhanPath),
         ("Печка (треск)", ClipRoot + "sound_mood/stove.wav"),
         ("ТВ из-за стены", ClipRoot + "sound_mood/tv.wav"),
         ("Добрый смех", ClipRoot + "sound_mood/laughter.wav"),
         ("Гомон, разговор", ClipRoot + "sound_mood/chatter.wav"),
         ("Вороны зимой", ClipRoot + "sound_mood/crows.wav"),
+        ("Топор, дрова", ClipRoot + "sound_mood/axe.wav"),
+        ("Пила", ClipRoot + "sound_mood/saw.wav"),
+        ("Калитка", ClipRoot + "sound_mood/gate.wav"),
+        ("В доме варят", ClipRoot + "sound_mood/pot.wav"),
+        ("Корова в сарае", ClipRoot + "sound_mood/cow.wav"),
+        ("Детвора в снегу", ClipRoot + "sound_mood/children.wav"),
+        ("Шаги по снегу", ClipRoot + "sound_mood/boots_snow.wav"),
+        ("Гармонь", ClipRoot + "sound_mood/garmon.wav"),
         ("Собака", ClipRoot + "village_life/dog.wav"),
         ("Дальний лай", ClipRoot + "sound_mood/dog_distant.wav"),
         ("Тарелки", ClipRoot + "village_life/plates.wav"),
@@ -45,10 +55,11 @@ public partial class DebugSoundPanel : Control
     private VillageSoundMoodDirector? _mood;
     private Act1ConnectedWorld? _world;
     private VillageHouseholdDirector? _households;
+    private FirstPersonController? _player;
     private Input.MouseModeEnum _mouseModeBeforeOpen = Input.MouseModeEnum.Visible;
     private int _loadedOneShots;
     private int _cheatIndex;
-    private bool _treeWasPaused;
+    private bool _playerModalSet;
     private string _lastAction = string.Empty;
 
     public bool PanelOpen { get; private set; }
@@ -199,13 +210,13 @@ public partial class DebugSoundPanel : Control
         {
             var button = new Button
             {
-                Name = $"OneShot_{Path.GetFileNameWithoutExtension(clip)}",
+                Name = $"OneShot{_oneShotButtons.Count}_{Path.GetFileNameWithoutExtension(clip)}",
                 Text = label,
                 Disabled = !ResourceLoader.Exists(clip),
                 SizeFlagsHorizontal = SizeFlags.ExpandFill,
                 CustomMinimumSize = new Vector2(0, 34)
             };
-            button.Pressed += () => TriggerOneShot(clip);
+            button.Pressed += () => TriggerOneShot(label, clip);
             grid.AddChild(button);
             _oneShotButtons.Add(button);
             if (!button.Disabled) _loadedOneShots++;
@@ -237,10 +248,16 @@ public partial class DebugSoundPanel : Control
     private void OpenPanel()
     {
         if (PanelOpen) return;
-        _treeWasPaused = GetTree().Paused;
-        if (!_treeWasPaused) GetTree().Paused = true;
         _mouseModeBeforeOpen = Input.MouseMode;
         Input.MouseMode = Input.MouseModeEnum.Visible;
+        // The tree keeps running so the living-village layers, their tweens and
+        // every one-shot stay audible while the author tunes them. Only the
+        // player is held by a modal so nothing walks away under the panel.
+        if (!_playerModalSet && Player() is { ModalOpen: false } player)
+        {
+            _playerModalSet = true;
+            player.SetModalOpen(true);
+        }
         PanelOpen = true;
         Visible = true;
         SetMeta("debugSoundPanelOpen", true);
@@ -254,9 +271,13 @@ public partial class DebugSoundPanel : Control
         PanelOpen = false;
         Visible = false;
         SetMeta("debugSoundPanelOpen", false);
-        // Only release our own pause; a pause shell's pause stays untouched.
+        if (_playerModalSet && Player() is { } player)
+        {
+            player.SetModalOpen(false);
+        }
+
+        _playerModalSet = false;
         var pauseMenuOpen = GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true };
-        if (!_treeWasPaused && !pauseMenuOpen) GetTree().Paused = false;
         Input.MouseMode = pauseMenuOpen ? Input.MouseModeEnum.Visible : _mouseModeBeforeOpen;
     }
 
@@ -309,10 +330,10 @@ public partial class DebugSoundPanel : Control
                 + $" · Записей у кнопок: {_loadedOneShots}/{_oneShotButtons.Count}{suffix}";
     }
 
-    private void TriggerOneShot(string clip)
+    private void TriggerOneShot(string label, string clip)
     {
         var world = World();
-        if (world is not null && string.Equals(clip, VillageSoundMoodDirector.AdhanPath, StringComparison.Ordinal))
+        if (world is not null && string.Equals(label, "Азан у минарета", StringComparison.Ordinal))
         {
             if (world.TryPlayAdhan())
             {
@@ -360,6 +381,13 @@ public partial class DebugSoundPanel : Control
         if (_households is not null && IsInstanceValid(_households)) return _households;
         _households = World()?.GetNodeOrNull<VillageHouseholdDirector>("InhabitedVillage");
         return _households;
+    }
+
+    private FirstPersonController? Player()
+    {
+        if (_player is not null && IsInstanceValid(_player)) return _player;
+        _player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        return _player;
     }
 
     private static string WeatherLabel(bool enabled) => $"Буран/ветер — {(enabled ? "включён" : "выключен")}";

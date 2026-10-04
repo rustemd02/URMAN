@@ -12,6 +12,9 @@ public static class UiFoley
     private const string FoleyDir = "res://assets/audio/act1/foley";
     private const string WorldFoleyGroup = "world_foley";
     private static readonly System.Collections.Generic.Dictionary<string, AudioStream?> Cache = new();
+    private static readonly System.Collections.Generic.Dictionary<string, long> LastUse = new(System.StringComparer.Ordinal);
+    private const int CacheCapacity = 24;
+    private static long _useCounter;
 
     /// <summary>Creates and attaches an SFX-bus foley player for the host UI.</summary>
     public static AudioStreamPlayer Attach(Node host)
@@ -128,8 +131,19 @@ public static class UiFoley
     /// <summary>Test-only, like PainterlyMaterialLibrary.ClearCacheForHeadlessTests:
     /// the static stream cache would otherwise outlive the smoke scene and be
     /// reported as a resource still in use at exit.</summary>
-    public static void ClearCacheForHeadlessTests() => Cache.Clear();
+    public static void ClearCacheForHeadlessTests()
+    {
+        Cache.Clear();
+        LastUse.Clear();
+        _useCounter = 0;
+    }
 
+    /// <summary>
+    /// Bounded: foley one-shots are touched from many call sites and the set
+    /// keeps growing with new sounds, so the cache evicts its least recently
+    /// used entry instead of holding every sample for the session. A stream
+    /// that is still playing stays alive through its player's own reference.
+    /// </summary>
     private static AudioStream? LoadStream(string sample)
     {
         if (!Cache.TryGetValue(sample, out var stream))
@@ -137,8 +151,19 @@ public static class UiFoley
             var path = $"{FoleyDir}/{sample}.wav";
             stream = ResourceLoader.Exists(path) ? ResourceLoader.Load<AudioStream>(path) : null;
             Cache[sample] = stream;
+            if (Cache.Count > CacheCapacity)
+            {
+                var oldest = LastUse.Where(entry => entry.Key != sample)
+                    .OrderBy(entry => entry.Value).Select(entry => entry.Key).FirstOrDefault();
+                if (oldest is not null)
+                {
+                    Cache.Remove(oldest);
+                    LastUse.Remove(oldest);
+                }
+            }
         }
 
+        LastUse[sample] = ++_useCounter;
         return stream;
     }
 }

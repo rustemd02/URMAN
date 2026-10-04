@@ -27,7 +27,10 @@ public partial class Act1SoundMoodSmokeTest : Node
             var lifePlayer=mood.GetNode<AudioStreamPlayer>("VillageLifeLayer");
             Require(lifePlayer.Stream is AudioStreamWav{ LoopMode: AudioStreamWav.LoopModeEnum.Forward }&&lifePlayer.VolumeDb>-60f,
                 "life layer loops and is audible at the authored mood");
-            Require(mood.AdhanRecordingReady&&world.AdhanRecordingReady,"licensed adhan recording is present");
+            Require(!mood.AdhanRecordingReady && !world.AdhanRecordingReady,
+                "no adhan recording is shipped while the author awaits a licensed Tatar one");
+            Require(world.TryGetMosqueAdhanPoint(out _),"the minaret adhan hook anchor stays ready for a licensed recording");
+            Require(!world.TryPlayAdhan(),"the adhan hook refuses to play without a licensed recording");
             Require(Math.Abs(mood.Mood-VillageSoundMoodDirector.DefaultMood)<.001f&&Math.Abs(life.Mood-mood.Mood)<.001f,
                 "authored ordinary-village mood is shared with household events");
             mood.SetMood(1f);var cozyVillage=mood.VillageLayerDb;var cozyDread=mood.DreadLayerDb;
@@ -49,13 +52,11 @@ public partial class Act1SoundMoodSmokeTest : Node
             Require(!mood.WeatherEnabled&&!ambient.BedEnabled,"weather bed switches off");
             mood.SetWeatherEnabled(true);
             Require(mood.WeatherEnabled&&ambient.BedEnabled,"weather bed switches back on");
-            // The adhan plays from the real minaret anchor and stops cleanly.
-            Require(world.TryPlayAdhan(),"adhan starts at the mosque azanchi point");
-            var adhanPlayer=world.GetNode<AudioStreamPlayer3D>("MosqueAdhanPlayer");
-            Require(adhanPlayer.Stream is not null&&world.GetMeta("adhanState","").AsString()=="playing-licensed-recording",
-                "adhan stream and state are real");
-            world.StopAdhan();
-            Require(!world.AdhanPlaying,"adhan stops cleanly");
+            // Interiors, dialogue and the panel's modal floor the layers.
+            mood.Tick(.5,"village_day",false);
+            Require(mood.VillageLayerDb<=-59.5f&&mood.DreadLayerDb<=-59.5f,"muted context floors both mood layers");
+            mood.Tick(.5,"village_day",true);
+            Require(mood.VillageLayerDb>-59.5f,"audible context restores the life layer");
             Require(bridge.SelectRuntimeState().GetRawText()==state,"sound mood changes no knowledge or quest state");
             GD.Print($"act1-sound-mood: PASS villageDb={mood.VillageLayerDb:0.0} dreadDb={mood.DreadLayerDb:0.0} weather={mood.WeatherEnabled} adhanReady={mood.AdhanRecordingReady}; human listening not asserted");
             code=0;

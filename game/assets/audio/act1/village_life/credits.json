@@ -5,16 +5,16 @@
       "file": "res://assets/audio/act1/village_life/dog.wav",
       "seconds": 5.0,
       "pcmBytes": 240000,
-      "sha256": "f69dbd11d1c1dc9ee3a42fbf2ba7bd9dfaaa9c3995bb5bdef853cf9e0a08531f",
+      "sha256": "b3fcba61d4a1081ed17250a6607eed68d0373424ff7f6c6f3ece93c2f77a90a9",
       "id": "dog",
-      "source": "https://freesound.org/people/qubodup/sounds/211607/",
-      "author": "qubodup",
+      "source": "https://freesound.org/people/TeTeNoise/sounds/518727/",
+      "author": "TeTeNoise",
       "license": "CC0-1.0",
-      "sourcePreviewUrl": "https://cdn.freesound.org/previews/211/211607_71257-hq.mp3",
-      "sourcePreviewSha256": "050fc2cc1547b8289bf966fb29783bac56afb83b2b6ff3e8f2c342722fdad083",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/518/518727_8140496-hq.mp3",
+      "sourcePreviewSha256": "8a70ac82c76255e5bb7501fc36453d4ec9d5239aa7c08e1aafa96a0dce74eccf",
       "licensePageSha256": "6955bef8ae0a243483400c57db4a250e601d2e012425bee91db4e40017480812",
-      "startSeconds": 49.0,
-      "preparation": "public HQ preview; mono PCM16 24 kHz; contiguous slice; level and 20 ms fades"
+      "startSeconds": 36.74,
+      "preparation": "public HQ preview; mono PCM16 24 kHz; contiguous window; 20 ms fades; house gain policy. Replaced 2026-10-04: the previous qubodup \"Barking Aldi Dog\" recording carried urban/restaurant background."
     },
     {
       "file": "res://assets/audio/act1/village_life/plates.wav",
