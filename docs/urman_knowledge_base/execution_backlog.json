@@ -14643,6 +14643,7 @@
     },
     {
       "id": "ACT1-DEPTH",
+      "progress_2026_10_04": "2026-10-04: инвентаризация плоских заглушек собрана по двум независимым совокупностям: docs/production/act1_depth_family_2026-10-04.md. (1) Каталог мира catalog.v1.json — 177 объектов, у всех есть size/category/collision/kit/license, и НИ ОДИН не является плоским (минимальная ось ≥ 6 см): в каталоге нет плоскости, выдающей себя за объём. (2) Код сборки мира — 150 вызовов геометрии с осью тоньше 2.5 см, и по именам это поверхностные детали, а не имитации объёма: MosqueEntranceMat, MosqueEntranceCourtesyPaper, MosqueHeatingVent, HingeStrap, WhiteSignField/BusSilhouette/BusWindow, WallCalendarPage, MatchboxSleeve, RadioGrille, HallRunner, LogEnd. Остаток: 18 вызовов без строкового имени рядом — назначение по месту, file:line в отчёте. Функциональная мебель медпункта измерена (ReceptionCounter 1.78x0.90x0.68, RecordsDesk 3.20x0.76x1.00, WashUnit 0.575x0.665x0.88, TallStorage 1.34x2.52x0.60). Эталон сруба: у венцов HeroHouse исправлены UV, в variant_log развёртка по длине дуги и повтор 1 м (W01 текстурного инвентаря). Художественная приёмка кадром — not-run.",
       "execution": {
         "kind": "aggregate",
         "unit": "Не выдавать исполнителю целиком; выбрать одну незавершённую дочернюю задачу.",
@@ -14705,7 +14706,8 @@
         "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
         "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_depth_family_2026-10-04.md"],
       "mvp_priority": 22,
       "mvp_packet": "A10",
       "delivery": {
@@ -14719,6 +14721,7 @@
     },
     {
       "id": "ACT1-DEPTH.1",
+      "progress_2026_10_04": "2026-10-04: инвентаризация плоских заглушек собрана по двум независимым совокупностям: docs/production/act1_depth_family_2026-10-04.md. (1) Каталог мира catalog.v1.json — 177 объектов, у всех есть size/category/collision/kit/license, и НИ ОДИН не является плоским (минимальная ось ≥ 6 см): в каталоге нет плоскости, выдающей себя за объём. (2) Код сборки мира — 150 вызовов геометрии с осью тоньше 2.5 см, и по именам это поверхностные детали, а не имитации объёма: MosqueEntranceMat, MosqueEntranceCourtesyPaper, MosqueHeatingVent, HingeStrap, WhiteSignField/BusSilhouette/BusWindow, WallCalendarPage, MatchboxSleeve, RadioGrille, HallRunner, LogEnd. Остаток: 18 вызовов без строкового имени рядом — назначение по месту, file:line в отчёте. Функциональная мебель медпункта измерена (ReceptionCounter 1.78x0.90x0.68, RecordsDesk 3.20x0.76x1.00, WashUnit 0.575x0.665x0.88, TallStorage 1.34x2.52x0.60). Эталон сруба: у венцов HeroHouse исправлены UV, в variant_log развёртка по длине дуги и повтор 1 м (W01 текстурного инвентаря). Художественная приёмка кадром — not-run.",
       "execution": {
         "kind": "work",
         "unit": "Одна зона и её список плоских имитаций.",
@@ -14766,7 +14769,8 @@
       "done_when": [
         "Список полный по обязательному пути и основным интерьерам; у каждой строки — объект-замена."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_depth_family_2026-10-04.md"],
       "mvp_priority": 22,
       "mvp_packet": "A10",
       "delivery": {
@@ -14780,6 +14784,7 @@
     },
     {
       "id": "ACT1-DEPTH.2",
+      "progress_2026_10_04": "2026-10-04: инвентаризация плоских заглушек собрана по двум независимым совокупностям: docs/production/act1_depth_family_2026-10-04.md. (1) Каталог мира catalog.v1.json — 177 объектов, у всех есть size/category/collision/kit/license, и НИ ОДИН не является плоским (минимальная ось ≥ 6 см): в каталоге нет плоскости, выдающей себя за объём. (2) Код сборки мира — 150 вызовов геометрии с осью тоньше 2.5 см, и по именам это поверхностные детали, а не имитации объёма: MosqueEntranceMat, MosqueEntranceCourtesyPaper, MosqueHeatingVent, HingeStrap, WhiteSignField/BusSilhouette/BusWindow, WallCalendarPage, MatchboxSleeve, RadioGrille, HallRunner, LogEnd. Остаток: 18 вызовов без строкового имени рядом — назначение по месту, file:line в отчёте. Функциональная мебель медпункта измерена (ReceptionCounter 1.78x0.90x0.68, RecordsDesk 3.20x0.76x1.00, WashUnit 0.575x0.665x0.88, TallStorage 1.34x2.52x0.60). Эталон сруба: у венцов HeroHouse исправлены UV, в variant_log развёртка по длине дуги и повтор 1 м (W01 текстурного инвентаря). Художественная приёмка кадром — not-run.",
       "execution": {
         "kind": "work",
         "unit": "Один объект дома бабая из инвентаризации .1.",
@@ -14830,7 +14835,8 @@
         "Сохранены диван, цветочные обои, занавески, брус и резьба. Фото/еда/сервиз/полотенца имеют бытовое место; D14 стол/коробка/полотенце читаются; записка/нитки имеют смысл. Нет тесного склада из декора, проход проверен в обе стороны.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_depth_family_2026-10-04.md"],
       "mvp_priority": 22,
       "mvp_packet": "A10",
       "delivery": {
@@ -14904,6 +14910,7 @@
     },
     {
       "id": "ACT1-DEPTH.3",
+      "progress_2026_10_04": "2026-10-04: инвентаризация плоских заглушек собрана по двум независимым совокупностям: docs/production/act1_depth_family_2026-10-04.md. (1) Каталог мира catalog.v1.json — 177 объектов, у всех есть size/category/collision/kit/license, и НИ ОДИН не является плоским (минимальная ось ≥ 6 см): в каталоге нет плоскости, выдающей себя за объём. (2) Код сборки мира — 150 вызовов геометрии с осью тоньше 2.5 см, и по именам это поверхностные детали, а не имитации объёма: MosqueEntranceMat, MosqueEntranceCourtesyPaper, MosqueHeatingVent, HingeStrap, WhiteSignField/BusSilhouette/BusWindow, WallCalendarPage, MatchboxSleeve, RadioGrille, HallRunner, LogEnd. Остаток: 18 вызовов без строкового имени рядом — назначение по месту, file:line в отчёте. Функциональная мебель медпункта измерена (ReceptionCounter 1.78x0.90x0.68, RecordsDesk 3.20x0.76x1.00, WashUnit 0.575x0.665x0.88, TallStorage 1.34x2.52x0.60). Эталон сруба: у венцов HeroHouse исправлены UV, в variant_log развёртка по длине дуги и повтор 1 м (W01 текстурного инвентаря). Художественная приёмка кадром — not-run.",
       "execution": {
         "kind": "work",
         "unit": "I2: рабочая зона ФАПа",
@@ -14953,7 +14960,8 @@
         "Не лаборатория ужасов и не все функции в одной коробке; игрок находит приём/нужный источник, читает его без клиппинга и выходит. Палаты не добавлены без соответствующей роли учреждения.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_depth_family_2026-10-04.md"],
       "mvp_priority": 22,
       "mvp_packet": "A10",
       "delivery": {
@@ -15022,6 +15030,7 @@
     },
     {
       "id": "ACT1-DEPTH.4",
+      "progress_2026_10_04": "2026-10-04: инвентаризация плоских заглушек собрана по двум независимым совокупностям: docs/production/act1_depth_family_2026-10-04.md. (1) Каталог мира catalog.v1.json — 177 объектов, у всех есть size/category/collision/kit/license, и НИ ОДИН не является плоским (минимальная ось ≥ 6 см): в каталоге нет плоскости, выдающей себя за объём. (2) Код сборки мира — 150 вызовов геометрии с осью тоньше 2.5 см, и по именам это поверхностные детали, а не имитации объёма: MosqueEntranceMat, MosqueEntranceCourtesyPaper, MosqueHeatingVent, HingeStrap, WhiteSignField/BusSilhouette/BusWindow, WallCalendarPage, MatchboxSleeve, RadioGrille, HallRunner, LogEnd. Остаток: 18 вызовов без строкового имени рядом — назначение по месту, file:line в отчёте. Функциональная мебель медпункта измерена (ReceptionCounter 1.78x0.90x0.68, RecordsDesk 3.20x0.76x1.00, WashUnit 0.575x0.665x0.88, TallStorage 1.34x2.52x0.60). Эталон сруба: у венцов HeroHouse исправлены UV, в variant_log развёртка по длине дуги и повтор 1 м (W01 текстурного инвентаря). Художественная приёмка кадром — not-run.",
       "execution": {
         "kind": "work",
         "unit": "Один объект магазина из инвентаризации .1.",
@@ -15069,7 +15078,8 @@
       "done_when": [
         "Аналогично ACT1-DEPTH.2 для магазина."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_depth_family_2026-10-04.md"],
       "mvp_priority": 22,
       "mvp_packet": "A10",
       "delivery": {
@@ -15083,6 +15093,7 @@
     },
     {
       "id": "ACT1-DEPTH.5",
+      "progress_2026_10_04": "2026-10-04: инвентаризация плоских заглушек собрана по двум независимым совокупностям: docs/production/act1_depth_family_2026-10-04.md. (1) Каталог мира catalog.v1.json — 177 объектов, у всех есть size/category/collision/kit/license, и НИ ОДИН не является плоским (минимальная ось ≥ 6 см): в каталоге нет плоскости, выдающей себя за объём. (2) Код сборки мира — 150 вызовов геометрии с осью тоньше 2.5 см, и по именам это поверхностные детали, а не имитации объёма: MosqueEntranceMat, MosqueEntranceCourtesyPaper, MosqueHeatingVent, HingeStrap, WhiteSignField/BusSilhouette/BusWindow, WallCalendarPage, MatchboxSleeve, RadioGrille, HallRunner, LogEnd. Остаток: 18 вызовов без строкового имени рядом — назначение по месту, file:line в отчёте. Функциональная мебель медпункта измерена (ReceptionCounter 1.78x0.90x0.68, RecordsDesk 3.20x0.76x1.00, WashUnit 0.575x0.665x0.88, TallStorage 1.34x2.52x0.60). Эталон сруба: у венцов HeroHouse исправлены UV, в variant_log развёртка по длине дуги и повтор 1 м (W01 текстурного инвентаря). Художественная приёмка кадром — not-run.",
       "execution": {
         "kind": "work",
         "unit": "I3: школа или ДК за пакет",
@@ -15138,7 +15149,8 @@
           "kind": "code+capture+walk-probe",
           "result": "29.09: для новой школы и ДК на площади сделаны просторные помещения (коридор 2,2 м, классы 7,6×8 м, зал 10,4 м, проходы ≥1 м); существующие тесные school/council у прежних владельцев не переносились."
         }
-      ],
+      ,
+        "docs/production/act1_depth_family_2026-10-04.md"],
       "mvp_priority": 22,
       "mvp_packet": "A10",
       "delivery": {
@@ -15207,6 +15219,7 @@
     },
     {
       "id": "ACT1-DEPTH.6",
+      "progress_2026_10_04": "2026-10-04: инвентаризация плоских заглушек собрана по двум независимым совокупностям: docs/production/act1_depth_family_2026-10-04.md. (1) Каталог мира catalog.v1.json — 177 объектов, у всех есть size/category/collision/kit/license, и НИ ОДИН не является плоским (минимальная ось ≥ 6 см): в каталоге нет плоскости, выдающей себя за объём. (2) Код сборки мира — 150 вызовов геометрии с осью тоньше 2.5 см, и по именам это поверхностные детали, а не имитации объёма: MosqueEntranceMat, MosqueEntranceCourtesyPaper, MosqueHeatingVent, HingeStrap, WhiteSignField/BusSilhouette/BusWindow, WallCalendarPage, MatchboxSleeve, RadioGrille, HallRunner, LogEnd. Остаток: 18 вызовов без строкового имени рядом — назначение по месту, file:line в отчёте. Функциональная мебель медпункта измерена (ReceptionCounter 1.78x0.90x0.68, RecordsDesk 3.20x0.76x1.00, WashUnit 0.575x0.665x0.88, TallStorage 1.34x2.52x0.60). Эталон сруба: у венцов HeroHouse исправлены UV, в variant_log развёртка по длине дуги и повтор 1 м (W01 текстурного инвентаря). Художественная приёмка кадром — not-run.",
       "execution": {
         "kind": "rollup",
         "unit": "Приёмка результатов связанных карточек",
@@ -15240,7 +15253,8 @@
       "done_when": [
         "Связанные профильные карточки приняты по текущим ТЗ; новые игровые/художественные свидетельства относятся к поставляемой версии."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_depth_family_2026-10-04.md"],
       "mvp_priority": 22,
       "mvp_packet": "A10",
       "delivery": {
@@ -15287,6 +15301,7 @@
     },
     {
       "id": "ACT1-DEPTH.7",
+      "progress_2026_10_04": "2026-10-04: инвентаризация плоских заглушек собрана по двум независимым совокупностям: docs/production/act1_depth_family_2026-10-04.md. (1) Каталог мира catalog.v1.json — 177 объектов, у всех есть size/category/collision/kit/license, и НИ ОДИН не является плоским (минимальная ось ≥ 6 см): в каталоге нет плоскости, выдающей себя за объём. (2) Код сборки мира — 150 вызовов геометрии с осью тоньше 2.5 см, и по именам это поверхностные детали, а не имитации объёма: MosqueEntranceMat, MosqueEntranceCourtesyPaper, MosqueHeatingVent, HingeStrap, WhiteSignField/BusSilhouette/BusWindow, WallCalendarPage, MatchboxSleeve, RadioGrille, HallRunner, LogEnd. Остаток: 18 вызовов без строкового имени рядом — назначение по месту, file:line в отчёте. Функциональная мебель медпункта измерена (ReceptionCounter 1.78x0.90x0.68, RecordsDesk 3.20x0.76x1.00, WashUnit 0.575x0.665x0.88, TallStorage 1.34x2.52x0.60). Эталон сруба: у венцов HeroHouse исправлены UV, в variant_log развёртка по длине дуги и повтор 1 м (W01 текстурного инвентаря). Художественная приёмка кадром — not-run.",
       "execution": {
         "kind": "work",
         "unit": "Один объект улицы или двора из инвентаризации .1.",
@@ -15336,7 +15351,8 @@
         "I12камни имеют естественную опору/силуэт, дома используют работающий оконный/срубный набор; все замены сохраняют необходимые маршруты/ID. Не добавлять детали ради полигонов.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_depth_family_2026-10-04.md"],
       "mvp_priority": 22,
       "mvp_packet": "A10",
       "delivery": {
@@ -15405,6 +15421,7 @@
     },
     {
       "id": "ACT1-DEPTH.9",
+      "progress_2026_10_04": "2026-10-04: инвентаризация плоских заглушек собрана по двум независимым совокупностям: docs/production/act1_depth_family_2026-10-04.md. (1) Каталог мира catalog.v1.json — 177 объектов, у всех есть size/category/collision/kit/license, и НИ ОДИН не является плоским (минимальная ось ≥ 6 см): в каталоге нет плоскости, выдающей себя за объём. (2) Код сборки мира — 150 вызовов геометрии с осью тоньше 2.5 см, и по именам это поверхностные детали, а не имитации объёма: MosqueEntranceMat, MosqueEntranceCourtesyPaper, MosqueHeatingVent, HingeStrap, WhiteSignField/BusSilhouette/BusWindow, WallCalendarPage, MatchboxSleeve, RadioGrille, HallRunner, LogEnd. Остаток: 18 вызовов без строкового имени рядом — назначение по месту, file:line в отчёте. Функциональная мебель медпункта измерена (ReceptionCounter 1.78x0.90x0.68, RecordsDesk 3.20x0.76x1.00, WashUnit 0.575x0.665x0.88, TallStorage 1.34x2.52x0.60). Эталон сруба: у венцов HeroHouse исправлены UV, в variant_log развёртка по длине дуги и повтор 1 м (W01 текстурного инвентаря). Художественная приёмка кадром — not-run.",
       "execution": {
         "kind": "work",
         "unit": "Один эталонный дом бабая; за один пакет — одна конструктивная часть.",
@@ -15462,7 +15479,8 @@
         "docs/production/act1_takeover_evidence_2026-09-16/integrated-build-20260922-hero-srub-03.json",
         "docs/tasktracker/02_village_rework_plan.md",
         "docs/tasktracker/05_texture_production_2026-09-22.md"
-      ],
+      ,
+        "docs/production/act1_depth_family_2026-10-04.md"],
       "mvp_priority": 22,
       "mvp_packet": "A10",
       "delivery": {
@@ -15558,6 +15576,7 @@
     },
     {
       "id": "ACT1-DEPTH.10",
+      "progress_2026_10_04": "2026-10-04: инвентаризация плоских заглушек собрана по двум независимым совокупностям: docs/production/act1_depth_family_2026-10-04.md. (1) Каталог мира catalog.v1.json — 177 объектов, у всех есть size/category/collision/kit/license, и НИ ОДИН не является плоским (минимальная ось ≥ 6 см): в каталоге нет плоскости, выдающей себя за объём. (2) Код сборки мира — 150 вызовов геометрии с осью тоньше 2.5 см, и по именам это поверхностные детали, а не имитации объёма: MosqueEntranceMat, MosqueEntranceCourtesyPaper, MosqueHeatingVent, HingeStrap, WhiteSignField/BusSilhouette/BusWindow, WallCalendarPage, MatchboxSleeve, RadioGrille, HallRunner, LogEnd. Остаток: 18 вызовов без строкового имени рядом — назначение по месту, file:line в отчёте. Функциональная мебель медпункта измерена (ReceptionCounter 1.78x0.90x0.68, RecordsDesk 3.20x0.76x1.00, WashUnit 0.575x0.665x0.88, TallStorage 1.34x2.52x0.60). Эталон сруба: у венцов HeroHouse исправлены UV, в variant_log развёртка по длине дуги и повтор 1 м (W01 текстурного инвентаря). Художественная приёмка кадром — not-run.",
       "progress_2026_10_04": "2026-10-04: важное ограничение источника: по авторскому файлу планировки число вариантов семейства жилых домов НЕ выводится — там всего 5 активных жилых постановок (A 1, B 2, C 1 и один DwellingFacade_TimberPlaster), остальные 39 из 44 постановок жилых домов помечены retired при переносе раскладки 29.09. Измеренные ранее меши семейства: варианты A/B/C (VillageParcel_VariantA_TimberGable, VariantB_PlasterAnnex, VariantC_BanyaYard) с дверными узлами 1.92/2.02 м и сенями SeniEntry 1.92 м; выразительность и «фанерность» оцениваются по кадрам. Аудит данных: docs/production/act1_village_layout_data_2026-10-04.md",
       "execution": {
         "kind": "work",
@@ -15613,7 +15632,8 @@
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
       "evidence": [
-        "docs/production/act1_village_layout_data_2026-10-04.md"],
+        "docs/production/act1_village_layout_data_2026-10-04.md",
+        "docs/production/act1_depth_family_2026-10-04.md"],
       "mvp_priority": 22,
       "mvp_packet": "A10",
       "delivery": {
@@ -15692,6 +15712,7 @@
     },
     {
       "id": "ACT1-DEPTH.11",
+      "progress_2026_10_04": "2026-10-04: инвентаризация плоских заглушек собрана по двум независимым совокупностям: docs/production/act1_depth_family_2026-10-04.md. (1) Каталог мира catalog.v1.json — 177 объектов, у всех есть size/category/collision/kit/license, и НИ ОДИН не является плоским (минимальная ось ≥ 6 см): в каталоге нет плоскости, выдающей себя за объём. (2) Код сборки мира — 150 вызовов геометрии с осью тоньше 2.5 см, и по именам это поверхностные детали, а не имитации объёма: MosqueEntranceMat, MosqueEntranceCourtesyPaper, MosqueHeatingVent, HingeStrap, WhiteSignField/BusSilhouette/BusWindow, WallCalendarPage, MatchboxSleeve, RadioGrille, HallRunner, LogEnd. Остаток: 18 вызовов без строкового имени рядом — назначение по месту, file:line в отчёте. Функциональная мебель медпункта измерена (ReceptionCounter 1.78x0.90x0.68, RecordsDesk 3.20x0.76x1.00, WashUnit 0.575x0.665x0.88, TallStorage 1.34x2.52x0.60). Эталон сруба: у венцов HeroHouse исправлены UV, в variant_log развёртка по длине дуги и повтор 1 м (W01 текстурного инвентаря). Художественная приёмка кадром — not-run.",
       "execution": {
         "kind": "work",
         "unit": "Одно сравнение семейства домов; человеческий вердикт отдельный.",
@@ -15740,7 +15761,8 @@
         "Автор посмотрел актуальную игру или игровые кадры и подтвердил, что дома воспринимаются как стильные обжитые старые срубы, а не фанерные макеты; замечания устранены либо явно приняты. До реального просмотра человеческая приёмка external/not-run.",
         "Новые концепты, число PNG, source-gate, сборка и технические PASS сами по себе не закрывают эту задачу. Картинка меню остаётся референсом, а не подменой результата внутри игры."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_depth_family_2026-10-04.md"],
       "mvp_priority": 90,
       "mvp_packet": "A14",
       "delivery": {
@@ -15754,6 +15776,7 @@
     },
     {
       "id": "ACT1-DEPTH.12",
+      "progress_2026_10_04": "2026-10-04: инвентаризация плоских заглушек собрана по двум независимым совокупностям: docs/production/act1_depth_family_2026-10-04.md. (1) Каталог мира catalog.v1.json — 177 объектов, у всех есть size/category/collision/kit/license, и НИ ОДИН не является плоским (минимальная ось ≥ 6 см): в каталоге нет плоскости, выдающей себя за объём. (2) Код сборки мира — 150 вызовов геометрии с осью тоньше 2.5 см, и по именам это поверхностные детали, а не имитации объёма: MosqueEntranceMat, MosqueEntranceCourtesyPaper, MosqueHeatingVent, HingeStrap, WhiteSignField/BusSilhouette/BusWindow, WallCalendarPage, MatchboxSleeve, RadioGrille, HallRunner, LogEnd. Остаток: 18 вызовов без строкового имени рядом — назначение по месту, file:line в отчёте. Функциональная мебель медпункта измерена (ReceptionCounter 1.78x0.90x0.68, RecordsDesk 3.20x0.76x1.00, WashUnit 0.575x0.665x0.88, TallStorage 1.34x2.52x0.60). Эталон сруба: у венцов HeroHouse исправлены UV, в variant_log развёртка по длине дуги и повтор 1 м (W01 текстурного инвентаря). Художественная приёмка кадром — not-run.",
       "execution": {
         "kind": "work",
         "unit": "Один эталонный дом бабая; за один пакет — одно расхождение с вступительным изображением.",
@@ -15811,7 +15834,8 @@
       ],
       "evidence": [
         "2026-09-22/23 пакет 1 (расхождение №1 масса кровли): S1-список из 6 расхождений — docs/production/act1_takeover_evidence_2026-09-16/act1_depth12_roof_2026-09-22.md; вынос .36→.62, плита .09→.16, снег — закрытый монолит с перекатом через карниз (герой, участки нетронуты); ревью: Important (ширина вержера) и Minor (коньковый брус) исправлены; сборка integrated-build-20260922-depth12-roof-02 PASS348; 6 кадров depth12-roof-20260922-02 (3 вида × High/Low, standing, exit0, guard restored) против кадров .9 в house-log-hero-20260922-01. Контракт/интерьер/коллизии не тронуты. Открыто: авторский вердикт (внешний гейт), расхождения №2-№5. Следующий пакет — №2 пропорции сруба (нужен совместный вынос обналички)."
-      ],
+      ,
+        "docs/production/act1_depth_family_2026-10-04.md"],
       "mvp_priority": 22,
       "mvp_packet": "A10",
       "delivery": {
@@ -16006,6 +16030,7 @@
     },
     {
       "id": "ACT1-DEPTH.8",
+      "progress_2026_10_04": "2026-10-04: инвентаризация плоских заглушек собрана по двум независимым совокупностям: docs/production/act1_depth_family_2026-10-04.md. (1) Каталог мира catalog.v1.json — 177 объектов, у всех есть size/category/collision/kit/license, и НИ ОДИН не является плоским (минимальная ось ≥ 6 см): в каталоге нет плоскости, выдающей себя за объём. (2) Код сборки мира — 150 вызовов геометрии с осью тоньше 2.5 см, и по именам это поверхностные детали, а не имитации объёма: MosqueEntranceMat, MosqueEntranceCourtesyPaper, MosqueHeatingVent, HingeStrap, WhiteSignField/BusSilhouette/BusWindow, WallCalendarPage, MatchboxSleeve, RadioGrille, HallRunner, LogEnd. Остаток: 18 вызовов без строкового имени рядом — назначение по месту, file:line в отчёте. Функциональная мебель медпункта измерена (ReceptionCounter 1.78x0.90x0.68, RecordsDesk 3.20x0.76x1.00, WashUnit 0.575x0.665x0.88, TallStorage 1.34x2.52x0.60). Эталон сруба: у венцов HeroHouse исправлены UV, в variant_log развёртка по длине дуги и повтор 1 м (W01 текстурного инвентаря). Художественная приёмка кадром — not-run.",
       "execution": {
         "kind": "work",
         "unit": "Один объект из инвентаризации .1.",
@@ -16058,7 +16083,8 @@
       "done_when": [
         "На обязательном пути и в основных интерьерах нет плоских имитаций объёма; кадры зафиксированы."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_depth_family_2026-10-04.md"],
       "mvp_priority": 22,
       "mvp_packet": "A10",
       "delivery": {
@@ -23337,6 +23363,7 @@
       "cutscene_family_2026_10_04": "Cutscene family consolidated: the staging lives in four Act1DemoRoot.Prologue partials and uses only Godot built-ins (41 Tweens, 10 Camera3D, 2 LookAtModifier3D), so no separate cutscene engine exists, which is what CUTSCENE.1 asks; the intro chain matches the accepted script end to end with Mansur staged in the cabin and the teaser isolating narrative state; viewing, Esc skip and load before and after the night were confirmed on the 28.09 slice only, so fresh acceptance stays not-run; the language profile item is now closed by the language-layer audit, while the driver's hand grip, the full tour, manual pointing and the storm's artistic force remain open. Report: docs/production/act1_cutscene_family_2026-10-04.md",
       "character_family_2026_10_04": "Character family audited from the models and code: two kits exist, v1 with 18 Idle/Tension clips per character and v2 with 36 clips including Idle/Talk/Tension/Walk (Tamara included), with movement generated by generate_character_kit_v2.py and rights founded on the CC0 UniversalBaseCharacters_Standard pack plus project generators, credited in content/credits.ru.txt; the decisive finding is clip usage - Idle is played seven times but Walk, Talk and Tension once each, so the shared-rig mechanics exist while application to the named characters is partial, which is exactly CHAR.4's gap and agrees with the open R035; faces have dedicated eye textures with a normal map and clothing uses painterly cloth surface overrides, while convincing faces and the render review stay not-run. Report: docs/production/act1_character_family_2026-10-04.md",
       "ui_family_2026_10_04": "UI family audited: a single theme owns every surface (UrmanUiTheme.cs with named type variations, screens consuming it through AccessibilityPresentation.ApplyToControl and not building their own style boxes), colour and contrast tokens documented in ui_style_guide.md including the Accent #C42B32 with its high-contrast pair, all eleven UI code surfaces and six scenes present, and the single-focus requirement already closed by ACT1-UI.FOCUS. UI.1's status is stated by the guide itself: a proposal implemented in code and used by screens, with the author's art decision left as an external gate and no 2-3 variant pilot kept in the repository, so there is nothing to compare and that is said plainly. The notebook, dictionary and loading states are covered by their own documents, and the visual checks plus UI.7 stay not-run. Report: docs/production/act1_ui_family_2026-10-04.md",
+      "depth_family_2026_10_04": "Depth family inventory built from two independent sets: the world catalog's 177 entries all carry size, category, collision, kit and license, and none is flat (every minimum axis is at least 6 cm), so no flat object in the catalog imitates a volume; and the world-building code has 150 geometry calls with an axis thinner than 2.5 cm, whose names show surface details rather than volume imitations - entrance mats and papers, a heating vent, a hinge strap, sign fields and bus silhouette, a calendar page, a matchbox sleeve, a radio grille, a hall runner and a log end. Eighteen such calls carry no adjacent name literal and are left for the owner by file:line. Functional medical-station furniture was measured (reception counter, records desk, wash unit, tall storage), and the reference log house's UV and unwrap work is recorded in the texture inventory under W01. Form is verified; expressive volume still needs frames. Report: docs/production/act1_depth_family_2026-10-04.md",
       "village_layout_data_2026_10_04": "World layout data audit: 196 kit placements, 96 active and 100 retired, but only 10 of the retired ones record a reason, which is a traceability gap rather than a proven layout fault; the file also shows that the dwelling-variant count cannot be read from it (only five active dwellings), and that public buildings are not described there at all - their form comes from code builders plus the FAP kit. Report: docs/production/act1_village_layout_data_2026-10-04.md",
       "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 35 (REVIEW28-RESEARCH and LEN01.1).",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
