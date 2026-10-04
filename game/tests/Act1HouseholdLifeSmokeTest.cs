@@ -18,7 +18,7 @@ public partial class Act1HouseholdLifeSmokeTest : Node
             var bridge=(RuntimeBridge)GetTree().GetFirstNodeInGroup("runtime_bridge");
             var state=bridge.SelectRuntimeState().GetRawText();
             Require(life.HouseCount>=35 && life.WindowCount>=100,"actual open-part households and side/rear windows covered");
-            Require(life.MotifCount==23 && life.MotifIds.Distinct().Count()==23,"three requested motifs plus twenty additional events");
+            Require(life.MotifCount==VillageHouseholdDirector.ExpectedMotifCount && life.MotifIds.Distinct().Count()==VillageHouseholdDirector.ExpectedMotifCount,"three requested motifs plus the additional winter household events");
             var lights=life.GetChildren().OfType<SpotLight3D>().ToArray();
             Require(lights.Length==VillageHouseholdDirector.SpillBudget && lights.All(l=>l.ShadowEnabled && l.SpotRange<5),"finite shadowed spill pool, independent of window count");
             var panes=world.FindChildren("*",nameof(MeshInstance3D),true,false).OfType<MeshInstance3D>()
@@ -42,7 +42,7 @@ public partial class Act1HouseholdLifeSmokeTest : Node
                     Require(life.LoadedClipCount<=8 && life.LoadedPcmBytes<=2_000_000 && life.PlayingVoiceCount<=4 && life.VisibleSpillCount<=6,"runtime pool/cache budgets during village traversal");
                 }
             }
-            Require(life.EventsStarted>23 && peaks.Clips>1,"actual nearby events run and cache evicts as the route changes");
+            Require(life.EventsStarted>VillageHouseholdDirector.ExpectedMotifCount && peaks.Clips>1,"actual nearby events run and cache evicts as the route changes");
             foreach(var light in lights.Where(l=>l.Visible))
             {
                 var pane=GetNode<MeshInstance3D>(light.GetMeta("sourcePane").AsString());

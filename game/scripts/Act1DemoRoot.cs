@@ -254,6 +254,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         }
 
         DebugWorldGrid.AttachIfEnabled(this);
+        DebugSoundPanel.AttachIfEnabled(this);
 
         BuildMainMenu();
         if (_mainMenu?.NewGameButton is null)

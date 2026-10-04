@@ -93,7 +93,7 @@ public partial class Act1ConnectedWorld
         _mosqueAdhanAnchor = new Node3D { Name = "MosqueAdhanAnchor", Position = new(.53f, 0, .53f),
             Rotation = new(0, Mathf.Atan2(MosqueLocalQibla.X, MosqueLocalQibla.Z), 0) };
         gallery.AddChild(_mosqueAdhanAnchor);
-        _mosqueAdhanAnchor.SetMeta("scheduleStatus", "hook-ready; validated local calendar and licensed human azan recording required");
+        _mosqueAdhanAnchor.SetMeta("scheduleStatus", "licensed CC0 adhan recording installed 2026-10-04; validated local prayer calendar still open");
         _mosqueAdhanAnchor.SetMeta("audioPolicy", "no synthetic fallback; no unlicensed remote audio");
         var mic = new Node3D { Name = "AzanMicrophone", Position = new(.88f, 0, .56f) };
         gallery.AddChild(mic);

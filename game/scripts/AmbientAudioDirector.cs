@@ -23,6 +23,9 @@ public partial class AmbientAudioDirector : Node
     private readonly AudioStreamPlayer[] _players = new AudioStreamPlayer[2];
     private Tween? _crossfadeTween;
     private Tween? _voiceDuckTween;
+    private Tween? _bedToggleTween;
+    private float _activeStemVolumeDb = TargetVolumeDb;
+    private bool _bedEnabled = true;
     private bool _headless;
     private bool _lifecycleReady;
     private bool _voiceDuckActive;
@@ -46,6 +49,14 @@ public partial class AmbientAudioDirector : Node
     public double ConfiguredCrossfadeDurationSeconds => CrossfadeDurationSeconds;
 
     public bool VoiceDuckActive => _voiceDuckActive;
+
+    /// <summary>
+    /// Keeps the authored manifest gain while true. The debug sound panel can
+    /// switch the continuous bed (the blizzard/wind weather bed) off so local
+    /// village life is heard without it; switching back on restores the
+    /// authored stem volume.
+    /// </summary>
+    public bool BedEnabled => _bedEnabled;
 
     public override void _Ready()
     {
@@ -85,6 +96,7 @@ public partial class AmbientAudioDirector : Node
         _lifecycleReady = false;
         _crossfadeTween?.Kill();
         _voiceDuckTween?.Kill();
+        _bedToggleTween?.Kill();
         RemoveVoiceDuckEffect();
         foreach (var player in _players)
         {
@@ -151,6 +163,38 @@ public partial class AmbientAudioDirector : Node
     }
 
     /// <summary>
+    /// Switches the whole active continuous bed on or off (a fade to silence,
+    /// not a stop) so the debug sound panel can mute the blizzard bed without
+    /// losing its loop position. The manifest stem gain is never edited.
+    /// </summary>
+    public void SetBedEnabled(bool enabled)
+    {
+        if (_bedEnabled == enabled)
+        {
+            return;
+        }
+
+        _bedEnabled = enabled;
+        SetMeta("ambientBedEnabled", _bedEnabled);
+        var player = GetActivePlayer();
+        if (player is null || !IsUsablePlayer(player) || player.Stream is null)
+        {
+            return;
+        }
+
+        var target = _bedEnabled ? _activeStemVolumeDb : MutedVolumeDb;
+        _bedToggleTween?.Kill();
+        if (_headless || !player.Playing)
+        {
+            player.VolumeDb = target;
+            return;
+        }
+
+        _bedToggleTween = CreateTween();
+        _bedToggleTween.TweenProperty(player, "volume_db", target, CrossfadeDurationSeconds);
+    }
+
+    /// <summary>
     /// AUDIO-003: a logical zone may carry sub-zone beds keyed
     /// `zoneId@subKey` in the manifest (e.g. `village_day@from_house`); the
     /// plain zone bed remains the fallback when no sub-key matches.
@@ -193,13 +237,16 @@ public partial class AmbientAudioDirector : Node
         }
 
         _crossfadeTween?.Kill();
+        _bedToggleTween?.Kill();
         ReleaseInactivePlayers(incomingPlayer, activePlayer);
         incomingPlayer.Stop();
         incomingPlayer.Stream = null;
         incomingPlayer.Stream = stream;
+        _activeStemVolumeDb = stem.VolumeDb;
 
+        var audibleStemDb = _bedEnabled ? stem.VolumeDb : MutedVolumeDb;
         var canCrossfade = !_headless && activePlayer?.Playing == true && activePlayer != incomingPlayer;
-        incomingPlayer.VolumeDb = canCrossfade ? MutedVolumeDb : stem.VolumeDb;
+        incomingPlayer.VolumeDb = canCrossfade ? MutedVolumeDb : audibleStemDb;
         if (!_headless)
         {
             incomingPlayer.Play();
@@ -226,7 +273,7 @@ public partial class AmbientAudioDirector : Node
         _crossfadeTween = CreateTween();
         _crossfadeTween.SetParallel(true);
         _crossfadeTween.TweenProperty(activePlayer, "volume_db", MutedVolumeDb, CrossfadeDurationSeconds);
-        _crossfadeTween.TweenProperty(incomingPlayer, "volume_db", stem.VolumeDb, CrossfadeDurationSeconds);
+        _crossfadeTween.TweenProperty(incomingPlayer, "volume_db", audibleStemDb, CrossfadeDurationSeconds);
         _crossfadeTween.SetParallel(false);
         _crossfadeTween.TweenCallback(Callable.From(() => ReleasePlayer(activePlayer)));
     }

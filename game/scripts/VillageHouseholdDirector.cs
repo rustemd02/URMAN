@@ -11,6 +11,7 @@ public partial class VillageHouseholdDirector : Node3D
     public const int VoiceBudget = 4;
     public const int ClipBudget = 8;
     public const int PcmBudget = 2_000_000;
+    public const int ExpectedMotifCount = 27;
     public const string CatalogPath = "res://content/world/act1_village_life.v1.json";
     private readonly List<Window> _windows = [];
     private readonly List<House> _houses = [];
@@ -34,6 +35,14 @@ public partial class VillageHouseholdDirector : Node3D
     public int PlayingVoiceCount => _voices.Count(v => v is not null && v.Playing);
     public int VisibleSpillCount => _lights.Count(l => l is not null && l.Visible);
     public int EventsStarted { get; private set; }
+
+    /// <summary>
+    /// 1 = the authored ordinary living village; 0 = the village has gone
+    /// quiet and hostile (fewer, softer household events; the sound-mood
+    /// director raises its dread layer instead). Presentation only.
+    /// </summary>
+    public float Mood { get; set; } = 1f;
+
     public IReadOnlyList<string> MotifIds => _motifs.Select(m => m.Id).ToArray();
 
     public void Initialize(Node3D world)
@@ -43,7 +52,7 @@ public partial class VillageHouseholdDirector : Node3D
         var json = FileAccess.GetFileAsString(CatalogPath);
         _motifs = JsonSerializer.Deserialize<Catalog>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive=true })?.Events
             ?? throw new InvalidOperationException("Village household sound catalog missing");
-        if (_motifs.Length != 23 || _motifs.Select(m=>m.Id).Distinct().Count()!=23
+        if (_motifs.Length != ExpectedMotifCount || _motifs.Select(m=>m.Id).Distinct().Count()!=ExpectedMotifCount
             || _motifs.Any(m=>!ResourceLoader.Exists(m.File) || m.Radius is <6 or >25 || m.MinWait<20 || m.MaxWait<m.MinWait))
             throw new InvalidOperationException("Invalid household event/catalog budgets");
         var owners = new Dictionary<ulong, House>();
@@ -127,6 +136,9 @@ public partial class VillageHouseholdDirector : Node3D
         VillageWindowMaterials.SetNight(night);
         UpdateSpills(viewer,night);
         if(!audible) return;
+        // The deep-dread end of the sound-mood scale keeps the houses dark and
+        // silent; only the sound-mood layers carry the village then.
+        if(Mood<.15f) return;
         for(var slot=0;slot<VoiceBudget;slot++)
         {
             var index=_voiceHouses[slot];
@@ -186,12 +198,12 @@ public partial class VillageHouseholdDirector : Node3D
         var stream=GetClip(motif.File);
         if(stream is null) {house.Wait=30;return;}
         var voice=_voices[slot]; voice.Stream=stream;voice.GlobalPosition=motif.Outdoor?house.Outside:house.Inside;
-        voice.VolumeDb=motif.VolumeDb;voice.MaxDistance=motif.Radius;
+        voice.VolumeDb=motif.VolumeDb+(Mood-1f)*8f;voice.MaxDistance=motif.Radius;
         voice.AttenuationFilterCutoffHz=motif.Outdoor?7000:1500;
         voice.PitchScale=_random.RandfRange(.97f,1.03f);
         voice.SetMeta("eventId",motif.Id);voice.SetMeta("house",house.Identity);
         _voiceHouses[slot]=houseIndex;voice.Play();EventsStarted++;
-        house.Wait=_random.RandfRange(motif.MinWait,motif.MaxWait);
+        house.Wait=_random.RandfRange(motif.MinWait,motif.MaxWait)*(1f+(1f-Mood)*1.5f);
     }
 
     private AudioStream? GetClip(string path)
