@@ -12493,6 +12493,7 @@
     },
     {
       "id": "ACT1-UI",
+      "progress_2026_10_04": "2026-10-04: семейство UI разобрано по коду, стиль-гайду и сценам: docs/production/act1_ui_family_2026-10-04.md. Одна тема — UrmanUiTheme.cs (единственный владелец: экран не строит свои StyleBoxFlat и не задаёт цвет сам, а берёт тему через AccessibilityPresentation.ApplyToControl), именованные вариации типа UrmanTitle/Heading/Speaker/Hint/StatusHypothesis/StatusConfirmed/MenuButton/ChoiceButton/QuietButton/Plate, токены цвета и контраста в ui_style_guide.md (Accent #C42B32 «калина» с парой #D4000B). Поверхности существуют: MainMenuUi, PauseMenuUi, SettingsUi, JournalUi (+Notebook/Vocabulary), OldPcUi (+Apps/Chat/Desktop), DialogueUi, AudioCueUi, AccessibilityPresentation и шесть сцен ui/. Единый focus закрыт отдельной карточкой ACT1-UI.FOCUS (completed). Статус UI.1 назван самим гайдом: «Proposal (2026-09-25). Реализовано в коде и применяется экранами; художественное решение автора — внешний гейт, не выдан за принятое», а пилота из 2–3 вариантов в репозитории нет. Экранные состояния UI.4/UI.6/UI.LOADING разобраны отдельными документами (книжка, словарь с проверенными глифами, реальные состояния загрузки). Визуальные проверки UI.2/UI.3/UI.5/UI.7 и выбор UI.1 — прогон/авторский гейт, not-run.",
       "execution": {
         "kind": "rollup",
         "unit": "Приёмка результатов связанных карточек",
@@ -12525,7 +12526,8 @@
       "done_when": [
         "Связанные профильные карточки приняты по текущим ТЗ; новые игровые/художественные свидетельства относятся к поставляемой версии."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_ui_family_2026-10-04.md"],
       "mvp_priority": 17,
       "mvp_packet": "A12",
       "delivery": {
@@ -12583,6 +12585,7 @@
     },
     {
       "id": "ACT1-UI.1",
+      "progress_2026_10_04": "2026-10-04: семейство UI разобрано по коду, стиль-гайду и сценам: docs/production/act1_ui_family_2026-10-04.md. Одна тема — UrmanUiTheme.cs (единственный владелец: экран не строит свои StyleBoxFlat и не задаёт цвет сам, а берёт тему через AccessibilityPresentation.ApplyToControl), именованные вариации типа UrmanTitle/Heading/Speaker/Hint/StatusHypothesis/StatusConfirmed/MenuButton/ChoiceButton/QuietButton/Plate, токены цвета и контраста в ui_style_guide.md (Accent #C42B32 «калина» с парой #D4000B). Поверхности существуют: MainMenuUi, PauseMenuUi, SettingsUi, JournalUi (+Notebook/Vocabulary), OldPcUi (+Apps/Chat/Desktop), DialogueUi, AudioCueUi, AccessibilityPresentation и шесть сцен ui/. Единый focus закрыт отдельной карточкой ACT1-UI.FOCUS (completed). Статус UI.1 назван самим гайдом: «Proposal (2026-09-25). Реализовано в коде и применяется экранами; художественное решение автора — внешний гейт, не выдан за принятое», а пилота из 2–3 вариантов в репозитории нет. Экранные состояния UI.4/UI.6/UI.LOADING разобраны отдельными документами (книжка, словарь с проверенными глифами, реальные состояния загрузки). Визуальные проверки UI.2/UI.3/UI.5/UI.7 и выбор UI.1 — прогон/авторский гейт, not-run.",
       "execution": {
         "kind": "work",
         "unit": "U: варианты общей темы",
@@ -12635,7 +12638,8 @@
         "Авторский выбор записан; Persona не обязательный источник. Кириллица/татарский/масштаб текста/контраст/focus проверяются в эталоне; нет редизайна всех экранов до выбора.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_ui_family_2026-10-04.md"],
       "mvp_priority": 17,
       "mvp_packet": "A12",
       "delivery": {
@@ -12703,6 +12707,7 @@
     },
     {
       "id": "ACT1-UI.2",
+      "progress_2026_10_04": "2026-10-04: семейство UI разобрано по коду, стиль-гайду и сценам: docs/production/act1_ui_family_2026-10-04.md. Одна тема — UrmanUiTheme.cs (единственный владелец: экран не строит свои StyleBoxFlat и не задаёт цвет сам, а берёт тему через AccessibilityPresentation.ApplyToControl), именованные вариации типа UrmanTitle/Heading/Speaker/Hint/StatusHypothesis/StatusConfirmed/MenuButton/ChoiceButton/QuietButton/Plate, токены цвета и контраста в ui_style_guide.md (Accent #C42B32 «калина» с парой #D4000B). Поверхности существуют: MainMenuUi, PauseMenuUi, SettingsUi, JournalUi (+Notebook/Vocabulary), OldPcUi (+Apps/Chat/Desktop), DialogueUi, AudioCueUi, AccessibilityPresentation и шесть сцен ui/. Единый focus закрыт отдельной карточкой ACT1-UI.FOCUS (completed). Статус UI.1 назван самим гайдом: «Proposal (2026-09-25). Реализовано в коде и применяется экранами; художественное решение автора — внешний гейт, не выдан за принятое», а пилота из 2–3 вариантов в репозитории нет. Экранные состояния UI.4/UI.6/UI.LOADING разобраны отдельными документами (книжка, словарь с проверенными глифами, реальные состояния загрузки). Визуальные проверки UI.2/UI.3/UI.5/UI.7 и выбор UI.1 — прогон/авторский гейт, not-run.",
       "execution": {
         "kind": "work",
         "unit": "U2: Меню и настройки; один вид и его реальные состояния за единицу",
@@ -12758,7 +12763,8 @@
       ],
       "evidence": [
         "docs/production/tamara_mvp_2026-09-26/graphics-quality/README.md"
-      ],
+      ,
+        "docs/production/act1_ui_family_2026-10-04.md"],
       "mvp_priority": 17,
       "mvp_packet": "A12",
       "graphics_quality_2026_09_27": {
@@ -12833,6 +12839,7 @@
     },
     {
       "id": "ACT1-UI.3",
+      "progress_2026_10_04": "2026-10-04: семейство UI разобрано по коду, стиль-гайду и сценам: docs/production/act1_ui_family_2026-10-04.md. Одна тема — UrmanUiTheme.cs (единственный владелец: экран не строит свои StyleBoxFlat и не задаёт цвет сам, а берёт тему через AccessibilityPresentation.ApplyToControl), именованные вариации типа UrmanTitle/Heading/Speaker/Hint/StatusHypothesis/StatusConfirmed/MenuButton/ChoiceButton/QuietButton/Plate, токены цвета и контраста в ui_style_guide.md (Accent #C42B32 «калина» с парой #D4000B). Поверхности существуют: MainMenuUi, PauseMenuUi, SettingsUi, JournalUi (+Notebook/Vocabulary), OldPcUi (+Apps/Chat/Desktop), DialogueUi, AudioCueUi, AccessibilityPresentation и шесть сцен ui/. Единый focus закрыт отдельной карточкой ACT1-UI.FOCUS (completed). Статус UI.1 назван самим гайдом: «Proposal (2026-09-25). Реализовано в коде и применяется экранами; художественное решение автора — внешний гейт, не выдан за принятое», а пилота из 2–3 вариантов в репозитории нет. Экранные состояния UI.4/UI.6/UI.LOADING разобраны отдельными документами (книжка, словарь с проверенными глифами, реальные состояния загрузки). Визуальные проверки UI.2/UI.3/UI.5/UI.7 и выбор UI.1 — прогон/авторский гейт, not-run.",
       "execution": {
         "kind": "work",
         "unit": "U2: HUD и диалог; один вид и его реальные состояния за единицу",
@@ -12892,7 +12899,8 @@
         "docs/production/tamara_mvp_2026-09-26/scene-blends/README.md",
         "docs/production/tamara_mvp_2026-09-26/dialogue-size/README.md",
         "docs/production/mvp_tracker_2026-09-27/interaction-hint/receipt.json"
-      ],
+      ,
+        "docs/production/act1_ui_family_2026-10-04.md"],
       "mvp_priority": 17,
       "mvp_packet": "A12",
       "notes": " 2026-09-26 candidate choice-scroll change discarded: hypothesized overflow used720logical height but actual project has1920x1080 canvas scaled to1280x720 window. Six reachable authored choices at1.6 fit (scroll max=page451); dense maximum not proven. Production UI and exact test paths restored, ordinary dialogue-flow native exit0. No UI completion claimed.",
@@ -12994,6 +13002,7 @@
     },
     {
       "id": "ACT1-UI.4",
+      "ui_family_2026_10_04": "docs/production/act1_ui_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "U2: Книжка и журнал; один вид и его реальные состояния за единицу",
@@ -13053,7 +13062,8 @@
       "evidence": [
         "docs/production/tamara_mvp_2026-09-26/journal-close-hint/README.md",
         "docs/production/tamara_mvp_2026-09-26/binding-labels/README.md"
-      ],
+      ,
+        "docs/production/act1_ui_family_2026-10-04.md"],
       "mvp_priority": 17,
       "mvp_packet": "A12",
       "current_checkpoint": "2026-09-27 binding-labels: live journal keyboard/gamepad bindings, readable shared button/axis labels, document save hint tells close-first with actual U/LB. Current build+guarded binding-conflict smoke exit0;3native frames inspected, userdata restored. Old-PC archive/browser use shared corrected helper by source+compile, not fresh UI runs; physical controller/human full UI.4 open.",
@@ -13177,6 +13187,7 @@
     },
     {
       "id": "ACT1-UI.5",
+      "progress_2026_10_04": "2026-10-04: семейство UI разобрано по коду, стиль-гайду и сценам: docs/production/act1_ui_family_2026-10-04.md. Одна тема — UrmanUiTheme.cs (единственный владелец: экран не строит свои StyleBoxFlat и не задаёт цвет сам, а берёт тему через AccessibilityPresentation.ApplyToControl), именованные вариации типа UrmanTitle/Heading/Speaker/Hint/StatusHypothesis/StatusConfirmed/MenuButton/ChoiceButton/QuietButton/Plate, токены цвета и контраста в ui_style_guide.md (Accent #C42B32 «калина» с парой #D4000B). Поверхности существуют: MainMenuUi, PauseMenuUi, SettingsUi, JournalUi (+Notebook/Vocabulary), OldPcUi (+Apps/Chat/Desktop), DialogueUi, AudioCueUi, AccessibilityPresentation и шесть сцен ui/. Единый focus закрыт отдельной карточкой ACT1-UI.FOCUS (completed). Статус UI.1 назван самим гайдом: «Proposal (2026-09-25). Реализовано в коде и применяется экранами; художественное решение автора — внешний гейт, не выдан за принятое», а пилота из 2–3 вариантов в репозитории нет. Экранные состояния UI.4/UI.6/UI.LOADING разобраны отдельными документами (книжка, словарь с проверенными глифами, реальные состояния загрузки). Визуальные проверки UI.2/UI.3/UI.5/UI.7 и выбор UI.1 — прогон/авторский гейт, not-run.",
       "execution": {
         "kind": "work",
         "unit": "U2: Старый ПК; один вид и его реальные состояния за единицу",
@@ -13235,7 +13246,8 @@
       ],
       "evidence": [
         "docs/production/tamara_mvp_2026-09-26/oldpc-window-focus/"
-      ],
+      ,
+        "docs/production/act1_ui_family_2026-10-04.md"],
       "progress_2026_09_24": "2026-09-24: author asked for a Windows XP look with a Tatar feel: Luna taskbar/captions/windows, green 'пуск' with a tulip logo, two-column start menu with tulip ornament and 'Рәхим итегез', village wallpaper. Old PC smokes and UI readability PASS; native frames reviewed. Tatar labels pending native review.",
       "mvp_priority": 17,
       "mvp_packet": "A12",
@@ -13314,6 +13326,7 @@
     },
     {
       "id": "ACT1-UI.6",
+      "ui_family_2026_10_04": "docs/production/act1_ui_family_2026-10-04.md",
       "progress_2026_10_04": "2026-10-04: словарь разобран по коду, данным и шрифтам: docs/production/act1_dictionary_2026-10-04.md. В JournalUi.Vocabulary.cs: фильтр статуса «Все слова/Гипотезы/Подтверждено» (статусы из vocabulary.set-status, 6 интерактивов, реестр 12 слов), поиск по слову/значению/источнику, явное пустое состояние «По запросу и фильтру слов не найдено.», возврат Close/Escape. Глифы проверены фактически: cmap всех пяти PT Sans и PT Sans Narrow содержит ә ө ү җ ң һ и заглавные, пропусков нет. Реестр знания интерфейс только читает и не переписывает. Открыто: визуальная проверка списка в кадре и решение автора о дополнительном «действующем ответе» — not-run.",
       "execution": {
         "kind": "work",
@@ -13378,7 +13391,8 @@
       "evidence": [
         "docs/production/tamara_mvp_2026-09-26/vocabulary/source_receipt.json"
       ,
-        "docs/production/act1_dictionary_2026-10-04.md"],
+        "docs/production/act1_dictionary_2026-10-04.md",
+        "docs/production/act1_ui_family_2026-10-04.md"],
       "mvp_priority": 17,
       "mvp_packet": "A12",
       "current_checkpoint": "2026-09-26 technical delivery complete: J -> Words (2 actions), existing LearnedVocabulary sole source, term/meaning/source search, hypothesis/confirmed filters, actual authored source and long example. Guarded vocabulary6 PASS with current1280x720 160% high-contrast frame inspected, Esc/control return/save/load, empty query and fresh-session removal of old words. Fresh arrival canonically seeds урман as guessed; no artificial empty fixture. C#0 warnings/errors. Existing vocabulary-cycle test updated for replaced journal UI contract, no new suite. Source reader invoked through access-checked runtime; physical PC journey and new-player usability remain M10, not claimed here.",
@@ -13453,6 +13467,7 @@
     },
     {
       "id": "ACT1-UI.7",
+      "progress_2026_10_04": "2026-10-04: семейство UI разобрано по коду, стиль-гайду и сценам: docs/production/act1_ui_family_2026-10-04.md. Одна тема — UrmanUiTheme.cs (единственный владелец: экран не строит свои StyleBoxFlat и не задаёт цвет сам, а берёт тему через AccessibilityPresentation.ApplyToControl), именованные вариации типа UrmanTitle/Heading/Speaker/Hint/StatusHypothesis/StatusConfirmed/MenuButton/ChoiceButton/QuietButton/Plate, токены цвета и контраста в ui_style_guide.md (Accent #C42B32 «калина» с парой #D4000B). Поверхности существуют: MainMenuUi, PauseMenuUi, SettingsUi, JournalUi (+Notebook/Vocabulary), OldPcUi (+Apps/Chat/Desktop), DialogueUi, AudioCueUi, AccessibilityPresentation и шесть сцен ui/. Единый focus закрыт отдельной карточкой ACT1-UI.FOCUS (completed). Статус UI.1 назван самим гайдом: «Proposal (2026-09-25). Реализовано в коде и применяется экранами; художественное решение автора — внешний гейт, не выдан за принятое», а пилота из 2–3 вариантов в репозитории нет. Экранные состояния UI.4/UI.6/UI.LOADING разобраны отдельными документами (книжка, словарь с проверенными глифами, реальные состояния загрузки). Визуальные проверки UI.2/UI.3/UI.5/UI.7 и выбор UI.1 — прогон/авторский гейт, not-run.",
       "execution": {
         "kind": "work",
         "unit": "U2: Совокупная приёмка UI; один вид и его реальные состояния за единицу",
@@ -13510,7 +13525,8 @@
         "Все поверхности .2–.6, загрузка и переходы проверены в целевых разрешениях/масштабе текста с мышью/клавиатурой; приёмка не реализует заново сами экраны.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_ui_family_2026-10-04.md"],
       "mvp_priority": 17,
       "mvp_packet": "A12",
       "delivery": {
@@ -21242,7 +21258,8 @@
         "docs/urman_knowledge_base/gameplay.md"
       ],
       "evidence": [
-        "docs/production/act1_loading_states_2026-10-04.md"],
+        "docs/production/act1_loading_states_2026-10-04.md",
+        "docs/production/act1_ui_family_2026-10-04.md"],
       "deliverable": "Понятные реальные состояния загрузки без новой обязательной иллюстрации",
       "done_when": [
         "Вход, ожидание, завершение и ошибка загрузки не выглядят зависшей игрой; показывается реальное состояние без выдуманных процентов.",
@@ -23319,6 +23336,7 @@
       "quest_address_audit_2026_10_04": "Quest-address family audited: markers are absent by construction rather than by assertion - the address plate sets notQuestMarker=true, no questmarker or autopath appears in the scripts, all three quests' objectives start from knowledge.status conditions rather than proximity, and the only 'waypoint' uses are authored approach points handed to the physical verifier; the audit table maps each of the three mandatory goals to its address source (mama's note with ADR-BABAI and the street-then-number rule, documents and the notebook, and the edge goal that needs no address) plus the FAP, mosque, shop, school and council hints with file references; the registry holds 27 buildings with an addressId and 10 streets, and the {address:...} template is used for six of them. AddressAccessVerifier provides the automated, read-only route audit, while current-build evidence still needs a run. Report: docs/production/act1_quest_address_audit_2026-10-04.md",
       "cutscene_family_2026_10_04": "Cutscene family consolidated: the staging lives in four Act1DemoRoot.Prologue partials and uses only Godot built-ins (41 Tweens, 10 Camera3D, 2 LookAtModifier3D), so no separate cutscene engine exists, which is what CUTSCENE.1 asks; the intro chain matches the accepted script end to end with Mansur staged in the cabin and the teaser isolating narrative state; viewing, Esc skip and load before and after the night were confirmed on the 28.09 slice only, so fresh acceptance stays not-run; the language profile item is now closed by the language-layer audit, while the driver's hand grip, the full tour, manual pointing and the storm's artistic force remain open. Report: docs/production/act1_cutscene_family_2026-10-04.md",
       "character_family_2026_10_04": "Character family audited from the models and code: two kits exist, v1 with 18 Idle/Tension clips per character and v2 with 36 clips including Idle/Talk/Tension/Walk (Tamara included), with movement generated by generate_character_kit_v2.py and rights founded on the CC0 UniversalBaseCharacters_Standard pack plus project generators, credited in content/credits.ru.txt; the decisive finding is clip usage - Idle is played seven times but Walk, Talk and Tension once each, so the shared-rig mechanics exist while application to the named characters is partial, which is exactly CHAR.4's gap and agrees with the open R035; faces have dedicated eye textures with a normal map and clothing uses painterly cloth surface overrides, while convincing faces and the render review stay not-run. Report: docs/production/act1_character_family_2026-10-04.md",
+      "ui_family_2026_10_04": "UI family audited: a single theme owns every surface (UrmanUiTheme.cs with named type variations, screens consuming it through AccessibilityPresentation.ApplyToControl and not building their own style boxes), colour and contrast tokens documented in ui_style_guide.md including the Accent #C42B32 with its high-contrast pair, all eleven UI code surfaces and six scenes present, and the single-focus requirement already closed by ACT1-UI.FOCUS. UI.1's status is stated by the guide itself: a proposal implemented in code and used by screens, with the author's art decision left as an external gate and no 2-3 variant pilot kept in the repository, so there is nothing to compare and that is said plainly. The notebook, dictionary and loading states are covered by their own documents, and the visual checks plus UI.7 stay not-run. Report: docs/production/act1_ui_family_2026-10-04.md",
       "village_layout_data_2026_10_04": "World layout data audit: 196 kit placements, 96 active and 100 retired, but only 10 of the retired ones record a reason, which is a traceability gap rather than a proven layout fault; the file also shows that the dwelling-variant count cannot be read from it (only five active dwellings), and that public buildings are not described there at all - their form comes from code builders plus the FAP kit. Report: docs/production/act1_village_layout_data_2026-10-04.md",
       "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 35 (REVIEW28-RESEARCH and LEN01.1).",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
