@@ -23,6 +23,7 @@ public partial class Act1ConnectedWorld
     private InteractionTarget? _bathStoveTarget;
     private InteractionTarget? _bathWaterTarget;
     private InteractionTarget? _bathVentTarget;
+    private BathSpirit? _bathSpirit;
     private AudioStreamWav? _bathSteamSound;
     private bool _bathIgnitionPending;
     internal bool BathIgnitionInProgress => _bathIgnitionPending;
@@ -473,6 +474,15 @@ public partial class Act1ConnectedWorld
         if (_bathStoveTarget is not null) _bathStoveTarget.Prompt = burn ? "Проверить топку" : "Растопить печь сухим поленом";
         if (_bathWaterTarget is not null) _bathWaterTarget.Prompt = hot ? "Поддать воды на камни" : "Камни холодные — проверить печь";
         if (_bathVentTarget is not null) _bathVentTarget.Prompt = YardMechanism.Flag(_facilityProps, "bathhouse/vent", "open") ? "Закрыть отдушину" : "Открыть небольшую отдушину";
+        // Мунча иясе: presentation-only manifestation. The public
+        // Initialize/Tick contract stays open for the owner to re-wire; the
+        // spirit's own real-time step guard makes a second caller harmless.
+        if (_bathSpirit is not null
+            && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController spiritPlayer)
+        {
+            _bathSpirit.Tick(paused ? 0 : GetPhysicsProcessDeltaTime(),
+                spiritPlayer.GlobalPosition, FacilityExteriorActive && !paused);
+        }
     }
 
     private void PlayBathSteam()

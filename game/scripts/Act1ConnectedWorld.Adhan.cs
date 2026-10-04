@@ -30,7 +30,7 @@ public partial class Act1ConnectedWorld
             _adhanPlayer = new AudioStreamPlayer3D
             {
                 Name = "MosqueAdhanPlayer",
-                Bus = AudioSettingsService.AmbienceBus,
+                Bus = AudioSettingsService.LoudspeakerBus,
                 VolumeDb = -5f,
                 MaxDistance = 400f,
                 UnitSize = 28f,
