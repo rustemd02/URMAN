@@ -17732,6 +17732,8 @@
     },
     {
       "id": "ACT1-FOOTSTEP",
+      "progress_2026_10_04": "2026-10-04: симптом карточки («при уходе с основной дороги шаги лагают») связан с конкретным путём: это момент включения SnowTrampleField, чей RefineGround вызывается каждый физический тик при движении и копирует HashSet уточнённых треугольников для каждой поверхности на каждом вызове. Кандидат зафиксирован в аудите производительности (пункт 14) как отложенный — его правка питает пересборку меша, нужна проверка кадром. Доказанной причиной он здесь не объявляется, но совпадает с симптомом «только вне дороги». Отдельно подтверждённый источник рывков того же периода — публикация адресного графа (2 мс бюджет, O(N²) перебор пар, 7,4–11,6 МБ выделений при 446–682 segments). Разбор: docs/production/act1_audio_family_2026-10-04.md",
+      "audio_audit_2026_10_04": "docs/production/act1_audio_family_2026-10-04.md",
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "aggregate",
@@ -17797,6 +17799,8 @@
     },
     {
       "id": "ACT1-FOOTSTEP.1",
+      "progress_2026_10_04": "2026-10-04: воспроизведение лага и метрики требуют прогона — в этой среде их нет. Что уже даёт статика: симптом привязан к включению снежного поля (RefineGround каждый тик при движении, копия HashSet на поверхность), а отдельным подтверждённым источником рывков того же периода аудит называет публикацию адресного графа. Разбор: docs/production/act1_audio_family_2026-10-04.md",
+      "audio_audit_2026_10_04": "docs/production/act1_audio_family_2026-10-04.md",
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
@@ -17873,6 +17877,8 @@
     },
     {
       "id": "ACT1-FOOTSTEP.2",
+      "progress_2026_10_04": "2026-10-04: R033 подтверждён по коду: FootstepAudioController грузит семь наборов (snow_packed, snow_soft, interior_floor, wet_road и другие), выбирает поверхность по мета footstepSurface с зональным фолбэком (\"fap_clinic\" => \"interior_floor\") и правилом дороги (road.Distance < road.HalfWidth → snow_packed), то есть различие дороги/второстепенной/снега реализовано. Правка причины лага остаётся: первый адресный кандидат — снежное поле (см. FOOTSTEP), и он требует проверки кадром; прослушивание внешнее. Разбор: docs/production/act1_audio_family_2026-10-04.md",
+      "audio_audit_2026_10_04": "docs/production/act1_audio_family_2026-10-04.md",
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
@@ -21427,10 +21433,12 @@
     },
     {
       "id": "ACT1-AUDIO.MAP",
+      "progress_2026_10_04": "2026-10-04: карточка закрыта после независимой сверки. Карта — docs/urman_knowledge_base/audio/act1_sound_map.md, раздел «Карта событий по отзыву 28.09.2026»: столбцы ровно по карточке (отзыв → событие → владелец/вызов → сэмпл и способ → состояние), плюс зональная карта, окна тишины и раздел по прологу. Оба её утверждения сверены по коду: стук играет wood_tap (Addresses.cs:312-316, «knuckle tap, not a door swing»), а ложный door_creak у двери снят (при этом скрип калитки в BabaiYardSideGate.cs:133 оставлен и соответствует событию); «случайный успех» — позиционный ui_click у лампы ФАПа через PlayWorld (Exploration.cs:212), а не UI-звук у слушателя. Неизвестные, ложные и отсутствующие помечены явно (стук, огонь, обрушение, лесные спот-слои, дух бани — заявки на CC0/запись, используются честные ближайшие сэмплы), прослушивание карта сама оставляет открытым. Разбор: docs/production/act1_audio_family_2026-10-04.md",
+      "audio_audit_2026_10_04": "docs/production/act1_audio_family_2026-10-04.md",
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Карта существующих звуковых событий и среды",
       "milestone": "M5",
-      "status": "review",
+      "status": "completed",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -21504,6 +21512,8 @@
     },
     {
       "id": "ACT1-AUDIO.CUES",
+      "progress_2026_10_04": "2026-10-04: кодовая часть подтверждена независимо: R062 — стук звучит стуком (wood_tap, Addresses.cs:312-316), ложный door_creak у двери снят, скрип калитки оставлен осознанно; R060 — «случайный успех» оказался позиционным ui_click у лампы ФАПа (Exploration.cs:212), прочие кандидаты либо вне объёма (баннер Тамары), либо объяснимы (радио, звуки интерфейса на действие игрока). Осталось по done_when: проверка «повтор/загрузка не дублируют cue» и человеческое прослушивание — внешнее (в среде нет аудиовхода). Разбор: docs/production/act1_audio_family_2026-10-04.md",
+      "audio_audit_2026_10_04": "docs/production/act1_audio_family_2026-10-04.md",
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Ложный success и неправильный звук стука",
       "milestone": "M5",
@@ -23471,6 +23481,7 @@
       "perf_static_wins_4_2026_10_04": "2026-10-04: две аллокации в повторяющихся путях устранены (пункт 12 в docs/production/performance_audit_2026-10-03.md), сборка 0/0. (1) SettlementRegistry.NormalizeNumber строила массив из 11 пар символов-двойников внутри метода — на каждый вызов, а вызов на каждый ключ адреса и каждую авторскую строку при сборке; вынесено в static readonly с тем же составом и порядком. (2) CarryCoordinator.PlacementHint интерполировала текст каждый кадр, пока игрок смотрит на цель; дорогая часть уже была под мемо (TryPlacement не чаще 100 мс или при смене предмета/поворота/revision), а _placementPreviewValid/_placementPreviewReason присваиваются только внутри обновления (проверено поиском), поэтому готовый текст строится тогда же и переиспользуется; каждое обновление обнуляет кэш — поведение идентично. Наблюдение без правки: окружающий сборщик подсказки всё ещё склеивает строки на кадр, это меняет момент появления текста — нужно решение. Измеренный FPS не заявляется.",
       "perf_static_wins_5_2026_10_04": "2026-10-04: ещё две правки (пункты 13–14 в docs/production/performance_audit_2026-10-03.md), сборка 0/0. (1) InputBindingService.ActionHint вызывался из подсказки взаимодействия каждый кадр и на каждый вызов брал свежий нативный массив ActionGetEvents + LINQ + switch; теперь подсказки кэшируются по действию и типу устройства, инвалидация полная: все изменения карты ввода в репозитории — это пять вызовов ActionEraseEvent/ActionAddEvent в этом же файле, и все пять покрыты MarkBindingsChanged (4 вызова). (2) SnowTrampleField.RefineGround на каждом тике при ходьбе по снегу создавала List<string> и делала два нативных SetMeta, хотя они описывают пересборку, которой обычно не было; список теперь по первому использованию, записи — только при пересборке (метаданные сохраняют значения последней пересборки; единственный читатель — capture-тест, который их печатает). Отложенный кандидат: копирование HashSet уточнённых треугольников на каждый вызов — нужен кадр. Проверено как чистое: RecordPerformanceProbeFrame под флагом пробы, TryWalkUpStep на структурах и переиспользуемых query, ClampToAuthoredWorld без аллокаций. Измеренный FPS не заявляется.",
       "perf_static_wins_6_2026_10_04": "2026-10-04: ещё три правки (пункт 15 в docs/production/performance_audit_2026-10-03.md), сборка 0/0. (1) FindDescendants<T> (общий поиск по поддереву; адресный реестр проходит мир раз на строку манифеста) был рекурсивным итератором с yield — машина состояний на каждый посещённый узел, тысячи объектов на проход; теперь явный стек с тем же порядком pre-order DFS (один итератор и один стек на вызов). Эквивалентность доказана одноразовой проверкой вне репозитория: 5 форм деревьев × 20 случайных × 4 фильтра типа = 400 прогонов, идентичные последовательности и идентичные первые совпадения; проверка удалена. (2) TextIdsWithPrefix (на каждую попытку приветствия) делал фильтр+сортировку+массив по всем id, а ResolveVocabularySource строил массив ради проверки одного id; теперь кэш списка id и кэш по префиксу, проверка по существующему ordinal-набору. Кэши безопасны: репозиторий неизменяем после конструктора, RuntimeBridge создаёт новый на загрузку. (3) UpdateInteraction выделял массив из семи имён действий на кадр ожидания — стал static readonly. Измеренный FPS не заявляется; отдельно записан нерешённый кандидат: проход мира раз на строку манифеста требует индекса с учётом IsVisibleInTree, нужна проверка кадром.",
+      "audio_family_2026_10_04": "Audio family audited: the sound map already carries the review's event rows with exactly the columns ACT1-AUDIO.MAP asks for, and both of its code claims were verified independently - the knock plays wood_tap rather than door_creak while the gate keeps its legitimate creak, and the random success sound is a positional ui_click at the FAP lamp rather than a listener-side UI click - with unknowns, false and missing items marked and the missing recordings filed as CC0/recording requests. The card therefore moves from review to completed, taking completed cards from 36 to 37. The footstep symptom is tied to the snow trample field's per-tick HashSet copy, recorded as a deferred candidate rather than a proven cause, alongside the already-confirmed address-graph publication cost. Report: docs/production/act1_audio_family_2026-10-04.md",
       "final_verification_2026_10_04": "Final verification of the whole queue after the 2026-10-04 work, all ten checks passing: 206 unique task ids; no duplicate keys anywhere; every card has a non-empty scope list; every depends_on target exists; every card sits in exactly one delivery packet; all unfinished cards carry kind, unit, read_first, acceptance, verification and stop_if; every work card has steps; the audit's status counts match the file; every unfinished card links to evidence produced today through a dated note or a dedicated key; and every document path referenced from the queue exists on disk. Status distribution at this point: in_progress 128, completed 36, todo 27, blocked 12, review 2, deferred 1; 100 cards carry a dated note; the audit block holds 69 checks.",
       "remaining_cards_map_2026_10_04": "Remaining-queue map written as docs/production/act1_remaining_cards_map_2026-10-04.md and linked from the umbrella and covered cards: it points each umbrella at the document that already covers its subject, lists the twelve externally blocked cards with the shared reason that a person, another host, a signature or voice recordings are unavailable here, records what is deferred by scope (Studio and Acts II-V), and gives the remaining in-scope cards one line each on what is verifiable today and whether the next step needs frames, a run or an authorial decision. The map creates no second queue and replaces no acceptance.",
       "cross_reference_check_2026_10_04": "Cross-reference check over everything written on 2026-10-04: 91 cards carry a dated progress note, and every document path mentioned in those notes resolves to a card-level field - the evidence array or a dedicated dated key. 79 distinct references were checked and none was missing. The check exists because one card (ACT1-TRANSPORT) has eight nested evidence keys inside its progress and diagnosis fields, where a naive append lands in a nested array and silently fails to link; that case was found, fixed with a dedicated card-level key, and this sweep confirms no other card was affected.",
@@ -23497,7 +23508,7 @@
       "tasks": 206,
       "unfinished": 173,
       "completed": 33,
-      "status_counts": {"in_progress": 128, "completed": 36, "todo": 27, "blocked": 12, "review": 2, "deferred": 1},
+      "status_counts": {"in_progress": 128, "completed": 37, "todo": 27, "blocked": 12, "review": 1, "deferred": 1},
       "work_tasks": 159,
       "aggregate_tasks": 10,
       "rollup_tasks": 4,
