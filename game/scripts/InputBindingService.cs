@@ -27,6 +27,14 @@ public static class InputBindingService
 
     private static IReadOnlyList<InputBindingSnapshot>? _defaults;
 
+    // ActionHint runs every frame from the interaction prompt while a target is
+    // focused, and InputMap.ActionGetEvents hands out a fresh native array each call
+    // before a LINQ scan. The text depends only on the bound events, the device kind
+    // and the action, and every mutation of those events happens in this file, so the
+    // cache is dropped from each of those five call sites.
+    private static readonly Dictionary<(string Action, bool Gamepad), string> _hintCache = new();
+    private static void MarkBindingsChanged() => _hintCache.Clear();
+
     /// <summary>
     /// UIUX-008: capture the pristine project-default bindings once, before
     /// any rebind or saved-settings apply can mutate the input map.
@@ -38,6 +46,14 @@ public static class InputBindingService
         .ToArray();
 
     public static string ActionHint(string action, bool gamepad)
+    {
+        if (_hintCache.TryGetValue((action, gamepad), out var cached)) return cached;
+        var text = ComputeActionHint(action, gamepad);
+        _hintCache[(action, gamepad)] = text;
+        return text;
+    }
+
+    private static string ComputeActionHint(string action, bool gamepad)
     {
         if (!InputMap.HasAction(action)) return "[—]";
         var events = InputMap.ActionGetEvents(action);
@@ -133,6 +149,7 @@ public static class InputBindingService
         }
 
         InputMap.ActionAddEvent(action, new InputEventKey { PhysicalKeycode = physicalKeycode });
+        MarkBindingsChanged();
     }
 
     public static void RebindGamepad(string action, JoyButton button)
@@ -187,17 +204,24 @@ public static class InputBindingService
         {
             InputMap.ActionEraseEvent(action, inputEvent);
         }
+        MarkBindingsChanged();
     }
 
-    private static void AddGamepadButton(string action, JoyButton button) =>
+    private static void AddGamepadButton(string action, JoyButton button)
+    {
         InputMap.ActionAddEvent(action, new InputEventJoypadButton { ButtonIndex = button });
+        MarkBindingsChanged();
+    }
 
-    private static void AddGamepadAxis(string action, int axis, float sign) =>
+    private static void AddGamepadAxis(string action, int axis, float sign)
+    {
         InputMap.ActionAddEvent(action, new InputEventJoypadMotion
         {
             Axis = (JoyAxis)axis,
             AxisValue = sign
         });
+        MarkBindingsChanged();
+    }
 
     private static void RequireAction(string action)
     {
