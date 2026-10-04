@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "policy": "presentation only; attached to existing residential windows; no new narrative residents",
+  "events": [
+    {
+      "id": "dog-barks",
+      "label": "Собака лает за оградой",
+      "file": "res://assets/audio/act1/village_life/dog.wav",
+      "outdoor": true,
+      "dayOnly": false,
+      "radius": 24,
+      "volumeDb": -8,
+      "minWait": 45,
+      "maxWait": 110
+    },
+    {
+      "id": "home-music",
+      "label": "Тихая скрипичная музыка из домашнего радио",
+      "file": "res://assets/audio/act1/village_life/music.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 19,
+      "volumeDb": -10,
+      "minWait": 28,
+      "maxWait": 70
+    },
+    {
+      "id": "plates",
+      "label": "Тарелки складывают на кухне",
+      "file": "res://assets/audio/act1/village_life/plates.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 15,
+      "volumeDb": -12,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "cup-spoon",
+      "label": "Ложка касается чайной чашки",
+      "file": "res://assets/audio/act1/village_life/cutlery.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 12,
+      "volumeDb": -12,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "pour-tea",
+      "label": "Наливают чай",
+      "file": "res://assets/audio/act1/village_life/tea.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 12,
+      "volumeDb": -12,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "kettle",
+      "label": "Чайник закипает",
+      "file": "res://assets/audio/act1/village_life/kettle.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 14,
+      "volumeDb": -12,
+      "minWait": 60,
+      "maxWait": 140
+    },
+    {
+      "id": "chair",
+      "label": "Деревянный стул скрипит у стола",
+      "file": "res://assets/audio/act1/foley/parquet/creak_02.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 13,
+      "volumeDb": -12,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "indoor-steps",
+      "label": "Шаги в комнате",
+      "file": "res://assets/audio/act1/footsteps/step_interior_floor_01.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 12,
+      "volumeDb": -12,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "floorboard",
+      "label": "Скрип половицы",
+      "file": "res://assets/audio/act1/foley/parquet/creak_01.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 12,
+      "volumeDb": -12,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "door-hinge",
+      "label": "В доме открывают дверь",
+      "file": "res://assets/audio/act1/foley/door_creak.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 15,
+      "volumeDb": -12,
+      "minWait": 55,
+      "maxWait": 130
+    },
+    {
+      "id": "latch",
+      "label": "Щёлкает задвижка калитки",
+      "file": "res://assets/audio/act1/foley/metal_rattle.wav",
+      "outdoor": true,
+      "dayOnly": true,
+      "radius": 14,
+      "volumeDb": -12,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "wood-chop",
+      "label": "Короткий удар по дереву у сарая",
+      "file": "res://assets/audio/act1/foley/wood_tap.wav",
+      "outdoor": true,
+      "dayOnly": true,
+      "radius": 21,
+      "volumeDb": -8,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "stack-firewood",
+      "label": "Кладут полено в дровник",
+      "file": "res://assets/audio/act1/foley/hollow_board.wav",
+      "outdoor": true,
+      "dayOnly": true,
+      "radius": 19,
+      "volumeDb": -12,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "shovel-snow",
+      "label": "Лопатой расчищают снег во дворе",
+      "file": "res://assets/audio/act1/village_life/shovel.wav",
+      "outdoor": true,
+      "dayOnly": true,
+      "radius": 21,
+      "volumeDb": -12,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "sweep-porch",
+      "label": "Подметают крыльцо веником",
+      "file": "res://assets/audio/act1/village_life/broom.wav",
+      "outdoor": true,
+      "dayOnly": true,
+      "radius": 12,
+      "volumeDb": -12,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "bucket",
+      "label": "Звенит металлическая ручка ведра",
+      "file": "res://assets/audio/act1/foley/metal_rattle.wav",
+      "outdoor": true,
+      "dayOnly": true,
+      "radius": 13,
+      "volumeDb": -17,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "water-tap",
+      "label": "В кухне открывают воду",
+      "file": "res://assets/audio/act1/village_life/tap.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 13,
+      "volumeDb": -12,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "sewing-machine",
+      "label": "Строчит домашняя швейная машинка",
+      "file": "res://assets/audio/act1/village_life/sewing.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 14,
+      "volumeDb": -12,
+      "minWait": 40,
+      "maxWait": 105
+    },
+    {
+      "id": "wall-clock",
+      "label": "Тикают настенные часы у окна",
+      "file": "res://assets/audio/act1/village_life/clock.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 7,
+      "volumeDb": -17,
+      "minWait": 25,
+      "maxWait": 60
+    },
+    {
+      "id": "newspaper",
+      "label": "Перелистывают газету у окна",
+      "file": "res://assets/audio/act1/foley/paper_open.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 9,
+      "volumeDb": -10,
+      "minWait": 30,
+      "maxWait": 95
+    },
+    {
+      "id": "cat-meow",
+      "label": "Мяукает кошка у тёплых сеней",
+      "file": "res://assets/audio/act1/village_life/cat.wav",
+      "outdoor": true,
+      "dayOnly": false,
+      "radius": 17,
+      "volumeDb": -12,
+      "minWait": 65,
+      "maxWait": 135
+    },
+    {
+      "id": "hens-in-shed",
+      "label": "Куры кудахчут в закрытом зимнем сарае",
+      "file": "res://assets/audio/act1/village_life/hens.wav",
+      "outdoor": false,
+      "dayOnly": true,
+      "radius": 16,
+      "volumeDb": -12,
+      "minWait": 55,
+      "maxWait": 130
+    },
+    {
+      "id": "dog-chain",
+      "label": "Позвякивает цепочка во дворе",
+      "file": "res://assets/audio/act1/foley/metal_rattle.wav",
+      "outdoor": true,
+      "dayOnly": false,
+      "radius": 13,
+      "volumeDb": -15,
+      "minWait": 45,
+      "maxWait": 115
+    }
+  ]
+}

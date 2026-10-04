@@ -153,18 +153,17 @@ public partial class Act1VillageCozySmokeTest : Node
     {
         var facade=Named<Node3D>(_world,"BabaiApproachDwellingFacade");
         var panes=All<MeshInstance3D>(facade).Where(m=>m.HasMeta("lightingRole")).ToArray();
-        var spills=All<SpotLight3D>(facade).Where(l=>l.Name.ToString().StartsWith("WarmWindowSpill_",StringComparison.Ordinal)).ToArray();
-        Require(panes.Length>1 && panes.Length==facade.GetMeta("litWindowCount").AsInt32() && spills.Length==panes.Length,
-            "every Babai glazed window has its own actual warm spill source");
+        var life=_world.GetNode<VillageHouseholdDirector>("InhabitedVillage");
+        var spills=All<SpotLight3D>(life).ToArray();
+        Require(panes.Length>1 && panes.Length==facade.GetMeta("litWindowCount").AsInt32()
+            && spills.Length==VillageHouseholdDirector.SpillBudget,
+            "every Babai window glows with bounded shared real spill sources");
         foreach(var pane in panes)
         {
             Require(pane.MaterialOverride is ShaderMaterial shader && shader.Shader.Code.Contains("EMISSION",StringComparison.Ordinal),
                 pane.Name+": warm frosted window uses a real emissive material");
-            var light=spills.Single(l=>l.Name.ToString()=="WarmWindowSpill_"+pane.Name);
-            var centre=pane.GlobalTransform*pane.Mesh!.GetAabb().GetCenter();
-            Require(light.ShadowEnabled && light.SpotRange is >2f and <6f && light.LightEnergy>0f
-                && light.GlobalPosition.DistanceTo(centre)<.25f,
-                pane.Name+": finite shadowed source sits just outside the actual glass");
+            Require(pane.HasMeta("occupiedWindow") && spills.All(light=>light.ShadowEnabled && light.SpotRange is >2f and <6f),
+                pane.Name+": occupied glass and finite shadowed spill budget");
         }
     }
 

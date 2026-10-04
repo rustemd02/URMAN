@@ -123,34 +123,27 @@ public static class TimberHomeStyle
                 using var s=new SurfaceTool();s.Begin(Mesh.PrimitiveType.Triangles);
                 foreach(var t in pieces)AppendMetricBox(s,t);
                 s.Index();var bits=material.Split('|');
-                root.AddChild(new MeshInstance3D {Name="CarvedTimber_"+bits[0]+"_"+bits[1],Mesh=s.Commit(),
-                    MaterialOverride=PainterlyMaterialLibrary.ForColor(bits[0],bits[1])});
+                var mesh = new MeshInstance3D {Name="CarvedTimber_"+bits[0]+"_"+bits[1],Mesh=s.Commit(),
+                    MaterialOverride=bits[1]=="glass" ? VillageWindowMaterials.For(stableId) : PainterlyMaterialLibrary.ForColor(bits[0],bits[1])};
+                if(bits[1]=="glass") mesh.SetMeta("occupiedWindow",true);
+                root.AddChild(mesh);
             }
             root.SetMeta("householdStyle",variant);root.SetMeta("twoStorey",twoStorey);
         }
     }
 
-    // Both authored plots and the original neighbor parcels use these panes.
-    // No additional lights: important entrances retain their existing spill sources.
+    // All residential panes, including side/rear windows; never one material per house.
     public static void LightOccupiedWindows(Node3D dwelling, string stableId)
     {
         var panes=dwelling.FindChildren("*",nameof(MeshInstance3D),true,false).OfType<MeshInstance3D>()
-            .Where(m=>m.Mesh is not null && m.Name.ToString().Contains("_Street_Window",StringComparison.Ordinal)
+            .Where(m=>m.Mesh is not null && m.Name.ToString().Contains("Window",StringComparison.Ordinal)
                 && m.Name.ToString().Contains("_Glass",StringComparison.Ordinal))
             .OrderBy(m=>m.Name.ToString(),StringComparer.Ordinal).ToArray();
-        var seed=StableHash(stableId);
-        if(panes.Length==0 || seed%7==0)return;
-        var first=(int)(seed%(uint)panes.Length);
-        var warmGlass=new StandardMaterial3D {
-            AlbedoColor=Color.FromHtml("a99474"), EmissionEnabled=true,
-            Emission=Color.FromHtml("e2c79f"), EmissionEnergyMultiplier=.7f,
-            Roughness=.42f, MetallicSpecular=.35f,
-            DetailEnabled=true, DetailBlendMode=BaseMaterial3D.BlendModeEnum.Mix,
-            DetailAlbedo=ResourceLoader.Load<Texture2D>("res://assets/textures/painterly/frost_window_v1_albedo.png") };
+        var warmGlass=VillageWindowMaterials.For(stableId);
         for(var i=0;i<panes.Length;i++)
-            if(i==first || ((seed&1)==0 && i==(first+1)%panes.Length))
             {
                 panes[i].MaterialOverride=warmGlass;
+                panes[i].SetMeta("occupiedWindow",true);
                 panes[i].SetMeta("lightingRole","occupied residential window; surface glow without added lights");
             }
     }

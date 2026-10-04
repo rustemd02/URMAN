@@ -29,7 +29,9 @@ internal static class GodotSmokeCleanup
         UiFoley.ClearCacheForHeadlessTests();
         GeneratedCharacterKitDressing.ClearCacheForHeadlessTests();
         VehicleVisualFactory.ClearCacheForHeadlessTests();
+        PolicePostAssets.ClearCacheForTests();
         WinterParticleSurfaces.ClearCacheForHeadlessTests();
+        VillageWindowMaterials.ClearCacheForHeadlessTests();
         PainterlyMaterialLibrary.ClearCacheForHeadlessTests();
     }
 }

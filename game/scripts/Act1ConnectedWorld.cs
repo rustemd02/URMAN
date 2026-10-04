@@ -442,6 +442,7 @@ public partial class Act1ConnectedWorld : Node3D
         RestyleVillageMosque();
         BuildBathhouse();
         BuildPublicBuildings();
+        BuildPolicePost();
         BuildFapPlate();
         BuildPlateFaces();
         RepairStandaloneZiratFenceJunction();
@@ -461,6 +462,7 @@ public partial class Act1ConnectedWorld : Node3D
         ProfileWorldBuildStep("frontages", BuildStreetFrontages);
         // One fence system along the real lot lines replaces every older yard fence.
         ProfileWorldBuildStep("timber-fences", RebuildYardFences);
+        ComposeCleanVillageYards();
         // Tamara Gennadievna's breakable plot fence, boards and people.
         BuildTamaraFenceQuest();
         AddressRead += RememberReadAddress;
@@ -523,6 +525,7 @@ public partial class Act1ConnectedWorld : Node3D
         CallDeferred(nameof(SuppressLegacySignInteraction));
         // Final visibility includes the initial shutter pose and deferred trim.
         CallDeferred(nameof(ReconcileAddressSignsAfterFrontages));
+        CallDeferred(nameof(BuildVillageHouseholds));
         IsBuilt = true;
     }
 
@@ -657,9 +660,11 @@ public partial class Act1ConnectedWorld : Node3D
         }
 
         ActiveZoneId = zoneId;
+        AuthoredWorld?.SetAmbientNight(isKaraNight);
+        UpdateOrdinaryNpcNightPresence(isKaraNight);
         _carryCoordinator?.SetZonePresentation(zoneId, useExteriorAtmosphere);
         VehicleFleet?.SetZonePresentation(zoneId, useExteriorAtmosphere);
-        AlsuStreetWalkPresentation.SessionOwner(GetTree())?.SetZonePresentation(zoneId, useExteriorAtmosphere);
+        AlsuStreetWalkPresentation.SessionOwner(GetTree())?.SetZonePresentation(zoneId, useExteriorAtmosphere && !isKaraNight);
         SetMeta("activeZoneId", ActiveZoneId);
         SetMeta(
             "activeWorldEnvironmentCount",
@@ -760,6 +765,7 @@ public partial class Act1ConnectedWorld : Node3D
         UpdateAct1NpcStaging();
         UpdateAct1Discoveries();
         ApplyInteractionRouting();
+        UpdateOrdinaryNpcNightPresence(ActiveZoneId == "kara_urman_night");
         _carryCoordinator?.ApplyWorldState();
     }
 
@@ -775,6 +781,8 @@ public partial class Act1ConnectedWorld : Node3D
                 // re-applies the captured layer on every scene change, so a
                 // one-shot suppression is undone the next time the zone routes.
                 var enabled = !binding.Node.HasMeta("legacySignSuppression")
+                    && !(ActiveZoneId == "kara_urman_night" && (binding.Node.Name == "AlsuNpc"
+                        || _rinatStage is null or "village" && binding.Node.Name == "RinatNpc"))
                     && (isActiveZone || _runtimeBridge?.IsWorldInteraction(binding.Node.InteractionId) == true)
                     // Routing follows authored availability: a shut world gate
                     // must keep the target aimable, otherwise the player never
@@ -1522,6 +1530,7 @@ public partial class Act1ConnectedWorld : Node3D
         // First frame: every owner has placed its solids; trim relief that shows through them.
         if (!_snowReliefClipped) ClipSnowReliefUnderStructures();
         UpdatePhysicalInteriorPresentation();
+        UpdateVillageHouseholds(delta);
         WatchSuspensionBridge();
         if (_villageLife is null) return;
         _lifePlayer = LifePlayer();
@@ -6074,28 +6083,9 @@ public partial class Act1ConnectedWorld : Node3D
         {
             // Frost and curtains soften the warm room, while actual spot sources
             // cast the window's light onto sill, posts and snow outside.
-            pane.MaterialOverride=new StandardMaterial3D {
-                AlbedoColor=Color.FromHtml("d6b98a"),
-                DetailEnabled=true,DetailBlendMode=BaseMaterial3D.BlendModeEnum.Mix,
-                DetailAlbedo=ResourceLoader.Load<Texture2D>("res://assets/textures/painterly/frost_window_v1_albedo.png"),
-                EmissionEnabled=true,Emission=Color.FromHtml("ffce83"),EmissionEnergyMultiplier=1.35f,
-                Roughness=.42f,MetallicSpecular=.35f };
-            var centre=pane.GlobalTransform*pane.Mesh!.GetAabb().GetCenter();
-            // Imported side/rear panes may bake orientation into their vertices.
-            // Use the glass's thin horizontal axis, not the parent node's +Z.
-            var glassBounds=pane.Mesh.GetAabb();
-            var localOutward=glassBounds.Size.X<glassBounds.Size.Z ? Vector3.Right : Vector3.Back;
-            var outward=pane.GlobalBasis*localOutward;outward.Y=0;outward=outward.Normalized();
-            var relative=centre-facade.GlobalPosition;relative.Y=0;
-            if(outward.Dot(relative)<0)outward=-outward;
-            var light=new SpotLight3D {
-                Name="WarmWindowSpill_"+pane.Name,LightColor=Color.FromHtml("ffd6a0"),LightEnergy=1.25f,
-                SpotRange=5.2f,SpotAngle=67f,SpotAttenuation=1.4f,ShadowEnabled=true,
-                LightSize=.16f,ShadowBias=.04f };
-            facade.AddChild(light);light.GlobalPosition=centre+outward*.16f;
-            light.LookAt(light.GlobalPosition+outward+Vector3.Down*.18f);
-            light.SetMeta("lightingRole","occupied house window; warm local spill, real shadows");
-            pane.SetMeta("lightingRole","occupied house window with frosted warm emission");
+            pane.MaterialOverride=VillageWindowMaterials.For(facade.Name.ToString());
+            pane.SetMeta("occupiedWindow",true);
+            pane.SetMeta("lightingRole","occupied house window; shared warm curtains and frost");
         }
         facade.SetMeta("litWindowCount",windows.Length);
     }
