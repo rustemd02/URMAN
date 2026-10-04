@@ -17074,6 +17074,7 @@
     },
     {
       "id": "ACT1-NPC",
+      "progress_2026_10_04": "2026-10-04: семейство разобрано по данным и коду: docs/production/act1_npc_family_2026-10-04.md. Система жителей существует и работает из данных: game/content/world/act1_north_street_residents.world.v1.json — 33 сущности npc с characterId/kitPrefix/position/scale/профилем внешности и заметкой о занятии, у всех 33 есть расписание, а словарь расписания (schedule/when/time/stay/route/motion/speed/look/follow/at) живёт в AuthoredWorldDirector.Schedules.cs; внешность собирает AuthoredWorldDirector.Residents.cs. Киты переиспользованы: Gulsina 7, Alsu 7, PhoneGuy 7, Resident 6, Rinat 5, Mansur 1. Точный разрыв: население ≈41 (33 + именованный состав из 8 character/*), а уточнение автора 28.09 говорит о 60–70 — недобор закрывается данными, не кодом.",
       "execution": {
         "kind": "aggregate",
         "unit": "Не выдавать исполнителю целиком; выбрать одну незавершённую дочернюю задачу.",
@@ -17127,7 +17128,8 @@
         "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
         "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_npc_family_2026-10-04.md"],
       "mvp_priority": 34,
       "mvp_packet": "A07",
       "delivery": {
@@ -17141,6 +17143,7 @@
     },
     {
       "id": "ACT1-NPC.1",
+      "progress_2026_10_04": "2026-10-04: data-driven распорядок реализован: все 33 жителя в act1_north_street_residents.world.v1.json несут расписание, словарь расписания — AuthoredWorldDirector.Schedules.cs (364 строки: schedule/when/time/stay/route/motion/speed/look/follow/at). Подробности и общий разбор семьи: docs/production/act1_npc_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Распорядок одного существующего NPC.",
@@ -17186,7 +17189,8 @@
       "done_when": [
         "Сюжетные обязанности NPC (диалоги, квесты) не ломаются от routine; миграция сейвов чистая."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_npc_family_2026-10-04.md"],
       "mvp_priority": 34,
       "mvp_packet": "A07",
       "delivery": {
@@ -17200,6 +17204,7 @@
     },
     {
       "id": "ACT1-NPC.2",
+      "progress_2026_10_04": "2026-10-04: набор занятий и поз реализован: у всех 33 жителей есть текстовое занятие («Стоит во дворе, смотрит на улицу», «Чинит калитку или доску у ворот»), профиль residentAppearance задаёт масштаб/ширину/палитру, а расписание — stay/route/look/follow/motion для переходов. Разбор: docs/production/act1_npc_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одно из 6–8 занятий.",
@@ -17251,7 +17256,8 @@
         "Переходы занятие↔ходьба↔реакция не обрываются в манекен; жители не одинаковые копии/преграды, дети читаются по силуэту/занятию. Есть варианты на базе общего rig, бюджет сцены измеряется.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_npc_family_2026-10-04.md"],
       "mvp_priority": 34,
       "mvp_packet": "A07",
       "delivery": {
@@ -17319,6 +17325,7 @@
     },
     {
       "id": "ACT1-NPC.3",
+      "progress_2026_10_04": "2026-10-04: система новых жителей из данных готова (33 npc-сущности + data-driven внешность и расписание), но население недобирает: 33 жителя + 8 именованных персонажей ≈ 41 против 60–70 из уточнения автора 28.09. Пересечения с именованным составом нет (kitPrefix — семейство внешности, не человек), поэтому счёт честный. Закрывается добавлением жителей данными, без правки кода. Разбор: docs/production/act1_npc_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один новый фоновый житель из согласованного списка.",
@@ -17378,7 +17385,8 @@
           "result": "33 фоновых жителя северного квартала (generic-плот act1_north_street_residents, генератор tools/world/generate_residents.py): дворы, колодец и доска площади, трое детей, старик на обзорной лавочке; каждый проверен в движке (tests/Act1ResidentSpotCheck: блок распорядка на месте, занятие проиграно, точка свободна от физических тел и видимых предметов). Приветствия: 16 реплик, 7 пулов, четверо проверенных жителей здороваются.",
           "not_verified": "внешний вид и посадка на лавке не смотрелись; одно тело кита, различие масштабом; это не 60–70 жителей; жители позже перенесены локально в Заречье (e617148); татарские реплики — черновик для носителя"
         }
-      ],
+      ,
+        "docs/production/act1_npc_family_2026-10-04.md"],
       "mvp_priority": 34,
       "mvp_packet": "A07",
       "delivery": {
@@ -17448,6 +17456,7 @@
     },
     {
       "id": "ACT1-NPC.4",
+      "progress_2026_10_04": "2026-10-04: реакции на события и время реализованы у именованного состава состояниями (Ринат: _rinatStage/_rinatTension/_rinatAlerted; Гөлсинә: _gulsinaWarningHeard; Алсу: AlsuStreetWalkPresentation), время суток выражено зонами (kara_urman_night и др.). Для 33 жителей поведение ограничено расписанием и занятием; перенос реакций на них — авторское решение, а не отсутствующая механика. Разбор: docs/production/act1_npc_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один NPC × один допустимый сюжетный флаг/время суток.",
@@ -17494,7 +17503,8 @@
       "done_when": [
         "Реакции не спойлерят закрытый лор; ночью/после финала улица меняется заметно, но без новых сюжетных обещаний."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_npc_family_2026-10-04.md"],
       "mvp_priority": 34,
       "mvp_packet": "A07",
       "delivery": {
@@ -17508,6 +17518,7 @@
     },
     {
       "id": "ACT1-NPC.5",
+      "progress_2026_10_04": "2026-10-04: приёмка живой деревни частично обеспечена паспортом docs/production/village_relayout_2026-10-02/residents_audit.md (срез 2026-10-02), который сам отмечает открытость физической и художественной приёмки новой сборки. Человеческая оценка «живая деревня» остаётся not-run: она требует обычного прохода; старая приёмка на новую сборку не переносится. Разбор: docs/production/act1_npc_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один размещённый житель.",
@@ -17556,7 +17567,8 @@
       "done_when": [
         "Аудит всех жителей закрыт; smoke распределения по времени суток зелёный."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_npc_family_2026-10-04.md"],
       "mvp_priority": 34,
       "mvp_packet": "A07",
       "delivery": {
@@ -23262,6 +23274,7 @@
       "language_layer_2026_10_04": "Tatar language layer audited for the four open cards: the level is none/some/fluent, exposed as a settings row with three options and applied through SetTatarLanguageLevelAsync as a setting rather than narrative state, so a switch cannot reset progress; ResolveText substitutes {textId}.lvl-some/.lvl-fluent and the content has 26 such texts - 20 in one scene (prologue-ride-bark-*) and 6 in a repeated dialogue context - with all 26 genuinely different across the three levels and no identical wording; the Niva ride performs the in-game calibration; the tatwiki PC app and BuildGlobalSearch provide the search mechanism for LANG.APPLY, whose remaining decision is which word must be mandatory. Report: docs/production/act1_language_layer_2026-10-04.md",
       "ex_accept_completed_2026_10_04": "ACT1-EX-ACCEPT is completed: its done_when asked for the 14-row register with real IDs, runtime owners, implementation paths and separated statuses, which is exactly what the ledger delivers, including the rule that empty IDs and a generic frame folder cannot close a row. The capabilities themselves remain open in ACT1-EX01-EX14. Completed cards: 35 -> 36; status counts recomputed.",
       "ex_acceptance_ledger_2026_10_04": "ACT1-EX-ACCEPT received the 14-row §13 ledger as docs/production/act1_ex_acceptance_ledger_2026-10-04.md: every row names the §13 definition, the real runtime owners by file, real object or interaction IDs - including carry-lantern and the Bath* nodes, and saying plainly where no content interaction id exists instead of substituting one - the implementation path, the evidence, and statuses kept apart as contract / implemented / technically verified (historically, on earlier builds) / viewing and user observation as external not-run. Eleven capabilities are implemented and historically verified, EX02 and EX03 have a content decision left, EX04 and EX07 are partial. The ledger states the inspection commit and refuses to transfer packaged receipts.",
+      "npc_family_2026_10_04": "NPC family audited from data and code: the living-village system exists and is data-driven - 33 npc entities in act1_north_street_residents.world.v1.json with characterId, appearance kit, position, scale, an appearance profile and a behaviour note, all 33 carrying a schedule, with the schedule vocabulary in AuthoredWorldDirector.Schedules.cs and appearance assembly in AuthoredWorldDirector.Residents.cs; the cast kits are reused across six families instead of one male model. The measurable gap is population: about 41 people (33 residents plus the eight named characters, with no double counting because kitPrefix is an appearance family) against the author's 60-70 figure, which is closed by adding data rather than code. Reactions are implemented for the named cast through state, and the residents' audit passport exists with its own note that physical and art acceptance are open. Report: docs/production/act1_npc_family_2026-10-04.md",
       "village_layout_data_2026_10_04": "World layout data audit: 196 kit placements, 96 active and 100 retired, but only 10 of the retired ones record a reason, which is a traceability gap rather than a proven layout fault; the file also shows that the dwelling-variant count cannot be read from it (only five active dwellings), and that public buildings are not described there at all - their form comes from code builders plus the FAP kit. Report: docs/production/act1_village_layout_data_2026-10-04.md",
       "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 35 (REVIEW28-RESEARCH and LEN01.1).",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
