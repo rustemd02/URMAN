@@ -11,10 +11,11 @@ public partial class VillageHouseholdDirector : Node3D
     public const int VoiceBudget = 4;
     public const int ClipBudget = 8;
     public const int PcmBudget = 2_000_000;
-    public const int ExpectedMotifCount = 35;
+    public const int ExpectedMotifCount = 47;
     public const string CatalogPath = "res://content/world/act1_village_life.v1.json";
     private readonly List<Window> _windows = [];
     private readonly List<House> _houses = [];
+    private readonly HashSet<ulong> _inhabitedOwners = new();
     private readonly SpotLight3D[] _lights = new SpotLight3D[SpillBudget];
     private readonly AudioStreamPlayer3D[] _voices = new AudioStreamPlayer3D[VoiceBudget];
     private readonly int[] _voiceHouses = [-1,-1,-1,-1];
@@ -83,6 +84,7 @@ public partial class VillageHouseholdDirector : Node3D
             }
         }
         _houses.AddRange(owners.Values.OrderBy(h=>h.Identity,StringComparer.Ordinal));
+        foreach(var owner in owners.Keys)_inhabitedOwners.Add(owner);
         for (var i=0;i<_houses.Count;i++)
         {
             // Stable complete distribution, with runtime-random pauses. No reroll
@@ -114,7 +116,10 @@ public partial class VillageHouseholdDirector : Node3D
         GD.Print($"village-households: {HouseCount} homes, {WindowCount} warm panes, {MotifCount} events; budgets lights={SpillBudget}, voices={VoiceBudget}, clips={ClipBudget}, PCM={PcmBudget}");
     }
 
-    private static Node3D? ResidentialOwner(Node node)
+    /// <summary>The residential owner rule shared with the chimney smoke pool: a
+    /// visible pane or chimney binds only to a dwelling, a facade or a neighbour
+    /// facade, never to an outbuilding.</summary>
+    public static Node3D? ResidentialOwner(Node node)
     {
         for(var parent=node.GetParent();parent is Node3D p;parent=p.GetParent())
         {
@@ -126,6 +131,11 @@ public partial class VillageHouseholdDirector : Node3D
         }
         return null;
     }
+
+    /// <summary>True for the exact owner node the window pass counted as an
+    /// inhabited home. Chimney smoke uses this house list, so a chimney on a
+    /// building the director does not know as a home never smokes.</summary>
+    public bool IsInhabitedOwner(Node3D owner) => _inhabitedOwners.Contains(owner.GetInstanceId());
 
     public void Tick(double delta,Vector3 viewer,Vector3 listener,bool audible,bool night)
     {
@@ -151,7 +161,7 @@ public partial class VillageHouseholdDirector : Node3D
         for(var i=0;i<_houses.Count;i++)
         {
             var house=_houses[i]; var motif=_motifs[house.Motif];
-            if(!house.Owner.IsVisibleInTree() || night && motif.DayOnly) continue;
+            if(!house.Owner.IsVisibleInTree() || night && motif.DayOnly || !night && motif.NightOnly) continue;
             var position=motif.Outdoor ? house.Outside:house.Inside;
             var distance=position.DistanceSquaredTo(listener);
             if(distance>motif.Radius*motif.Radius) continue;
@@ -252,5 +262,5 @@ public partial class VillageHouseholdDirector : Node3D
         public AudioStream Stream=stream;public int Bytes=bytes;public long Access=access;
     }
     private sealed record Catalog(Motif[] Events);
-    private sealed record Motif(string Id,string Label,string File,bool Outdoor,bool DayOnly,float Radius,float VolumeDb,float MinWait,float MaxWait);
+    private sealed record Motif(string Id,string Label,string File,bool Outdoor,bool DayOnly,float Radius,float VolumeDb,float MinWait,float MaxWait,bool NightOnly=false);
 }

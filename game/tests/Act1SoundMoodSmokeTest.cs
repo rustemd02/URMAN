@@ -27,10 +27,13 @@ public partial class Act1SoundMoodSmokeTest : Node
             var lifePlayer=mood.GetNode<AudioStreamPlayer>("VillageLifeLayer");
             Require(lifePlayer.Stream is AudioStreamWav{ LoopMode: AudioStreamWav.LoopModeEnum.Forward }&&lifePlayer.VolumeDb>-60f,
                 "life layer loops and is audible at the authored mood");
-            Require(!mood.AdhanRecordingReady && !world.AdhanRecordingReady,
-                "no adhan recording is shipped while the author awaits a licensed Tatar one");
-            Require(world.TryGetMosqueAdhanPoint(out _),"the minaret adhan hook anchor stays ready for a licensed recording");
-            Require(!world.TryPlayAdhan(),"the adhan hook refuses to play without a licensed recording");
+            Require(mood.AdhanRecordingReady&&world.AdhanRecordingReady,"author-provided Kazan adhan recording is present");
+            Require(world.TryGetMosqueAdhanPoint(out _),"the minaret adhan anchor exists");
+            Require(world.TryPlayAdhan()&&mood.GetMeta("adhanFocus",false).AsBool(),
+                "adhan starts at the mosque azanchi point and floors the dread layer");
+            Require(world.GetMeta("adhanState","").AsString()=="playing-licensed-recording","adhan state is real");
+            world.StopAdhan();
+            Require(!world.AdhanPlaying&&!mood.GetMeta("adhanFocus",true).AsBool(),"adhan stops cleanly and releases the focus");
             Require(Math.Abs(mood.Mood-VillageSoundMoodDirector.DefaultMood)<.001f&&Math.Abs(life.Mood-mood.Mood)<.001f,
                 "authored ordinary-village mood is shared with household events");
             mood.SetMood(1f);var cozyVillage=mood.VillageLayerDb;var cozyDread=mood.DreadLayerDb;
