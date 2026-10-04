@@ -196,7 +196,7 @@ public partial class Act1ConnectedWorld
                         a + new Vector3(side * .7f, 0, 0), a + new Vector3(side * .78f, .95f, 0), .012f, "9c8a6a");
             }
         }
-        foreach (var child in _suspensionIntact.GetChildren().OfType<MeshInstance3D>().Where(m => m.Name.ToString().StartsWith("SuspensionHand")))
+        foreach (var child in _suspensionIntact.GetChildren().OfType<MeshInstance3D>().Where(m => m.Name.ToString().StartsWith("SuspensionHand", StringComparison.Ordinal)))
             child.MaterialOverride = rope;
 
         // After the collapse: two short ends hang from the posts, the rest is gone.
