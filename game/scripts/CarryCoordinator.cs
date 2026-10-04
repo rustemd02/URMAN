@@ -41,6 +41,11 @@ public partial class CarryCoordinator : Node
     private ulong _placementPreviewUntil;
     private bool _placementPreviewValid;
     private string _placementPreviewReason = string.Empty;
+    // The formatted placement hint for the current preview generation. The prompt
+    // is rebuilt every frame while the player looks at a target, and both branches
+    // interpolate the validity and reason; those only change when TryPlacement runs
+    // again, so the text is built at the same moment and reused until then.
+    private string? _placementPreviewHint;
 
     internal CarryableProp? HeldItem => _held;
     internal IReadOnlyList<CarryableProp> Items => _props;
@@ -216,8 +221,10 @@ public partial class CarryCoordinator : Node
             _placementPreviewYaw = _held.YawDegrees;
             _placementPreviewTransformRevision = _player.PresentationTransformRevision;
             _placementPreviewUntil = now + 100;
+            _placementPreviewHint = null;
         }
-        return _placementPreviewValid ? $"{Hint("carry_place")} поставить здесь"
+        return _placementPreviewHint ??= _placementPreviewValid
+            ? $"{Hint("carry_place")} поставить здесь"
             : $"{Hint("carry_place")} нельзя поставить: {_placementPreviewReason}";
     }
 

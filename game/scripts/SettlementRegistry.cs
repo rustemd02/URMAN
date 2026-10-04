@@ -39,6 +39,13 @@ public sealed class SettlementRegistry
     // Regex cache and its lock per call. Same patterns, same options (none).
     private static readonly Regex HouseNumberFormat = new(@"^\d+[А-ЯЁ]?(?:[/.-]\d+)?(?:К\d+)?$");
     private static readonly Regex LeadingZeros = new(@"^0+(?=\d)");
+    // Keyboard lookalikes accepted as aliases. The array used to be built inside
+    // NormalizeNumber on every call, which allocates it for each address key a
+    // lookup builds; the pairs and their order are unchanged.
+    private static readonly (char Latin, char Cyrillic)[] NumberAliases =
+    {
+        ('A','А'),('B','В'),('E','Е'),('K','К'),('M','М'),('H','Н'),('O','О'),('P','Р'),('C','С'),('T','Т'),('X','Х')
+    };
     // ResolveText runs on every line that reaches the player, so the address
     // template is compiled, like the validation patterns above.
     private static readonly Regex ParcelIdFormat = new(@"^URM-Q\d{2}-P\d{4}$");
@@ -86,7 +93,7 @@ public sealed class SettlementRegistry
         if (string.IsNullOrWhiteSpace(number)) throw new ArgumentException("House number cannot be empty.");
         var normalized = string.Concat(number.Normalize(NormalizationForm.FormKC).ToUpperInvariant().Where(c => !char.IsWhiteSpace(c)));
         // Explicitly accept common keyboard lookalikes as aliases, never as different houses.
-        foreach (var (latin, cyrillic) in new[] { ('A','А'),('B','В'),('E','Е'),('K','К'),('M','М'),('H','Н'),('O','О'),('P','Р'),('C','С'),('T','Т'),('X','Х') })
+        foreach (var (latin, cyrillic) in NumberAliases)
             normalized = normalized.Replace(latin, cyrillic);
         if (!HouseNumberFormat.IsMatch(normalized))
             throw new ArgumentException("Unsupported house number: " + number);
