@@ -8,6 +8,12 @@ namespace Urman.Godot;
 
 public partial class OldPcUi
 {
+    // Route slugs and local markdown links are built on every page render; the
+    // patterns are parsed and compiled once instead of through the static Regex
+    // cache and its lock per call. Same patterns, same options (none).
+    private static readonly Regex SlugUnsafe = new(@"[^\p{L}\p{N}]+", RegexOptions.Compiled);
+    private static readonly Regex LocalLink = new(@"\[([^\]]+)\]\((doc:[^\s)]+|home|tatwiki|yalkyn|village|mail)\)", RegexOptions.Compiled);
+
     private ItemList _fileList = null!;
     private ItemList _trashList = null!;
     private Label _folderLabel = null!;
@@ -504,7 +510,7 @@ public partial class OldPcUi
         var title = document.Title;
         var separator = title.IndexOf(':');
         if (separator >= 0) title = title[(separator + 1)..];
-        var page = Regex.Replace(title.Trim().ToLowerInvariant(), @"[^\p{L}\p{N}]+", "-").Trim('-');
+        var page = SlugUnsafe.Replace(title.Trim().ToLowerInvariant(), "-").Trim('-');
         return host + "/" + page;
     }
 
@@ -698,7 +704,7 @@ public partial class OldPcUi
         var plain = SourceExcerptSelection.FormatSourceText(markdown);
         var output = new StringBuilder();
         var offset = 0;
-        foreach (Match match in Regex.Matches(plain, @"\[([^\]]+)\]\((doc:[^\s)]+|home|tatwiki|yalkyn|village|mail)\)"))
+        foreach (Match match in LocalLink.Matches(plain))
         {
             output.Append(EscapeBbCode(plain[offset..match.Index]));
             var route = match.Groups[2].Value;

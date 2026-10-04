@@ -15,9 +15,15 @@ public static class AuthoredAddressText
     private const string ManifestPath = "res://content/urman.settlement.addresses.v1.json";
     private static Dictionary<string, string>? _formatted;
 
+    // Resolve runs on every line that reaches the player, so the pattern is parsed
+    // once and compiled instead of going through the static Regex cache and its lock
+    // on each call. Same pattern, same options (none), same replacement delegate.
+    private static readonly Regex AddressTemplate =
+        new(@"\{address:([^}]+)\}", RegexOptions.Compiled);
+
     public static string Resolve(string text) =>
         text.Contains("{address:", System.StringComparison.Ordinal)
-            ? Regex.Replace(text, @"\{address:([^}]+)\}", match => Format(match.Groups[1].Value))
+            ? AddressTemplate.Replace(text, match => Format(match.Groups[1].Value))
             : text;
 
     private static string Format(string addressId)

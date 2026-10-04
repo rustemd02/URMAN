@@ -5,6 +5,10 @@ namespace Urman.Godot;
 
 public partial class Act1ConnectedWorld
 {
+    // Poster markdown is split whenever the poster is rendered; the pattern is
+    // parsed once instead of through the static Regex cache and its lock per call.
+    private static readonly Regex PosterLines = new(@"\r?\n", RegexOptions.Compiled);
+
     private const string CouncilPosterDocument = "urman.chapter1:document/council-sabantuy-poster";
     private const string CouncilPosterAlbum = "urman.chapter1:document/council-photo-album";
 
@@ -108,7 +112,7 @@ public partial class Act1ConnectedWorld
         return lines.Take(3).Select(SourceExcerptSelection.FormatPlainSourceText).ToArray();
     }
 
-    private static string[] NonemptyPosterLines(string markdown) => Regex.Split(markdown, @"\r?\n")
+    private static string[] NonemptyPosterLines(string markdown) => PosterLines.Split(markdown)
         .Select(line => line.Trim()).Where(line => line.Length > 0).ToArray();
 
     private static Label3D PosterText(Node3D parent, string name, string text, float y, int fontSize,

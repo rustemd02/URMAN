@@ -6,6 +6,12 @@ namespace Urman.Godot;
 
 public partial class RuntimeBridge
 {
+    // Excerpts are normalized for every paragraph a reader selects; the patterns
+    // are parsed and compiled once instead of through the static Regex cache and
+    // its lock per call. Same patterns, same options (none).
+    private static readonly Regex ExcerptParagraphSplit = new(@"\r?\n\s*\r?\n", RegexOptions.Compiled);
+    private static readonly Regex ExcerptWhitespace = new(@"\s+", RegexOptions.Compiled);
+
     private const string ExcerptActionPrefix = "urman.chapter1:interaction/";
     private const string ExcerptKnowledgePrefix = "urman.chapter1:knowledge/";
     private sealed record ExcerptBinding(string DocumentId, string Action, string Knowledge, string ParagraphStart);
@@ -75,7 +81,7 @@ public partial class RuntimeBridge
         if (selection.Length == 0)
             return new(false, "Сначала выделите фрагмент в тексте документа.");
 
-        var paragraphs = Regex.Split(document.BodyMarkdown, @"\r?\n\s*\r?\n")
+        var paragraphs = ExcerptParagraphSplit.Split(document.BodyMarkdown)
             .Select(NormalizeExcerpt).Where(value => value.Length > 0).ToArray();
         var candidates = SourceExcerptBindings.Where(binding => binding.DocumentId == documentId).ToArray();
         var matched = candidates.FirstOrDefault(binding => paragraphs.Any(paragraph =>
@@ -144,7 +150,7 @@ public partial class RuntimeBridge
             && status.GetString() == "confirmed";
     }
 
-    internal static string NormalizeExcerpt(string text) => Regex.Replace(
-        SourceExcerptSelection.FormatPlainSourceText(text).Normalize(NormalizationForm.FormC), @"\s+", " ")
+    internal static string NormalizeExcerpt(string text) => ExcerptWhitespace.Replace(
+        SourceExcerptSelection.FormatPlainSourceText(text).Normalize(NormalizationForm.FormC), " ")
         .Trim().TrimEnd('.', '!', '?', '…').TrimEnd();
 }

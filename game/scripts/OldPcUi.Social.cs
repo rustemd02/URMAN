@@ -5,6 +5,13 @@ namespace Urman.Godot;
 
 public partial class OldPcUi
 {
+    // The social page splits and re-scans document markdown on every render; the
+    // patterns are parsed and compiled once instead of through the static Regex
+    // cache and its lock per call. Same patterns and same options as before.
+    private static readonly Regex SocialParagraphSplit = new(@"\r?\n\s*\r?\n", RegexOptions.Compiled);
+    private static readonly Regex SocialAuthorLine = new(@"^([\p{L}\p{M}][\p{L}\p{M} .’'-]{0,41}):\s*(.+)$",
+        RegexOptions.Singleline | RegexOptions.Compiled);
+
     private ScrollContainer _socialScroll = null!;
     private VBoxContainer _socialFeed = null!;
     internal bool SocialPageVisible => _socialScroll is not null && _socialScroll.IsVisibleInTree();
@@ -52,7 +59,7 @@ public partial class OldPcUi
         var profile = document.SearchTerms.Contains("view:profile");
         var section = "";
         var entryInSection = 0;
-        foreach (var block in Regex.Split(document.BodyMarkdown.Trim(), @"\r?\n\s*\r?\n"))
+        foreach (var block in SocialParagraphSplit.Split(document.BodyMarkdown.Trim()))
         {
             var text = block.Trim();
             if (text.Length == 0) continue;
@@ -84,7 +91,7 @@ public partial class OldPcUi
             // A source link contains a colon too. Only a human name/label can
             // introduce an author; keep a complete Markdown link for the shared
             // source-link renderer and its access conditions.
-            var author = Regex.Match(text, @"^([\p{L}\p{M}][\p{L}\p{M} .’'-]{0,41}):\s*(.+)$", RegexOptions.Singleline);
+            var author = SocialAuthorLine.Match(text);
             var isComment = section == "Комментарии" || author.Success && entryInSection > 0;
             var role = isComment ? "comment" : section.Length == 0 && profile ? "bio" : "post";
             var card = SocialPanel(role);

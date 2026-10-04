@@ -34,6 +34,17 @@ public sealed record SettlementMap(IReadOnlyList<SettlementGraphNode> Nodes, IRe
 /// </summary>
 public sealed class SettlementRegistry
 {
+    // Address numbers are validated and normalized for every authored row while the
+    // registry is built; the patterns are parsed once instead of through the static
+    // Regex cache and its lock per call. Same patterns, same options (none).
+    private static readonly Regex HouseNumberFormat = new(@"^\d+[А-ЯЁ]?(?:[/.-]\d+)?(?:К\d+)?$");
+    private static readonly Regex LeadingZeros = new(@"^0+(?=\d)");
+    // ResolveText runs on every line that reaches the player, so the address
+    // template is compiled, like the validation patterns above.
+    private static readonly Regex ParcelIdFormat = new(@"^URM-Q\d{2}-P\d{4}$");
+    private static readonly Regex AddressTemplate = new(@"\{address:([^}]+)\}", RegexOptions.Compiled);
+    private static readonly Regex HouseNumberPrefix = new(@"^\d+");
+
     public const string VillageName = "КАРА-УРМАН";
     public const string RegistryVersion = "act1-addresses-1";
     public static readonly string[] AllowedSuffixes = ["А","Б","В","Г","Д","Е","Ж","И","К","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Ч","Ш","Щ","Э","Ю","Я"];
@@ -77,9 +88,9 @@ public sealed class SettlementRegistry
         // Explicitly accept common keyboard lookalikes as aliases, never as different houses.
         foreach (var (latin, cyrillic) in new[] { ('A','А'),('B','В'),('E','Е'),('K','К'),('M','М'),('H','Н'),('O','О'),('P','Р'),('C','С'),('T','Т'),('X','Х') })
             normalized = normalized.Replace(latin, cyrillic);
-        if (!Regex.IsMatch(normalized, @"^\d+[А-ЯЁ]?(?:[/.-]\d+)?(?:К\d+)?$"))
+        if (!HouseNumberFormat.IsMatch(normalized))
             throw new ArgumentException("Unsupported house number: " + number);
-        return Regex.Replace(normalized, @"^0+(?=\d)", "");
+        return LeadingZeros.Replace(normalized, "");
     }
     private static string SearchKey(string streetId, string number) => streetId + ":" + NormalizeNumber(number);
     /// <summary>Reserve every committed authored number before importing visible
@@ -116,7 +127,7 @@ public sealed class SettlementRegistry
         if (prior is not null && (prior.SourceKey != building.SourceKey || prior.ParcelId != building.ParcelId || prior.AddressId != building.AddressId))
             throw new InvalidOperationException("Committed entity identity cannot change.");
         if (_buildings.Values.Any(b => b.SourceKey == building.SourceKey && b.BuildingId != building.BuildingId)) throw new InvalidOperationException("Duplicate source key.");
-        if (!Regex.IsMatch(parcel.GameCadastralId, @"^URM-Q\d{2}-P\d{4}$")) throw new InvalidOperationException("Invalid fictional parcel id.");
+        if (!ParcelIdFormat.IsMatch(parcel.GameCadastralId)) throw new InvalidOperationException("Invalid fictional parcel id.");
         if (_parcels.Values.Any(p => p.GameCadastralId == parcel.GameCadastralId && p.ParcelId != parcel.ParcelId))
             throw new InvalidOperationException("Duplicate fictional parcel id.");
         if (_parcels.TryGetValue(parcel.ParcelId, out var existingParcel) && (existingParcel.PrimaryBuildingId != parcel.PrimaryBuildingId
@@ -190,7 +201,7 @@ public sealed class SettlementRegistry
         var street = _streets[record.StreetId];
         return $"{street.Tatar} / {street.Russian}, {record.HouseNumber}";
     }
-    public string ResolveText(string text) => Regex.Replace(text, @"\{address:([^}]+)\}", match => FormatAddress(match.Groups[1].Value));
+    public string ResolveText(string text) => AddressTemplate.Replace(text, match => FormatAddress(match.Groups[1].Value));
     public void RenameStreet(string streetId, string tatar, string russian)
     {
         var old = _streets[streetId];
@@ -210,7 +221,7 @@ public sealed class SettlementRegistry
     public string InfillNumber(string streetId, string precedingNumber)
     {
         var number = NormalizeNumber(precedingNumber);
-        var baseNumber = Regex.Match(number, @"^\d+").Value;
+        var baseNumber = HouseNumberPrefix.Match(number).Value;
         var reserved = new HashSet<string>(StringComparer.Ordinal);
         foreach(var old in _addresses.Values.SelectMany(a=>a.History).Where(h=>h.StreetId==streetId))
             reserved.Add(NormalizeNumber(old.HouseNumber));
