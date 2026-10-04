@@ -19,6 +19,14 @@ public partial class AuthoredWorldDirector
 {
     private const float RouteProbeHeight = .9f;
     private const uint RouteProbeMask = 1u;
+
+    // Fallbacks for a schedule block that omits a field. Names live here so the
+    // cached parse and the old per-frame reads cannot drift apart.
+    private const float DefaultSpeed = 1.3f;
+    private const float DefaultFollowDistance = 2.5f;
+    private const float DefaultFollowLose = 30f;
+    private const string DefaultWalkMotion = "urman.anim:walk";
+    private const string DefaultIdleMotion = "urman.anim:idle";
     private readonly Dictionary<string, RoutineRun> _routines = new(StringComparer.Ordinal);
 
     /// <summary>A route point: where, how long to stand there, and what to look at while standing.</summary>
@@ -37,6 +45,16 @@ public partial class AuthoredWorldDirector
         public bool Following;
         public string? Claim;
         public string Status = "";
+
+        // Block scalars are parsed once when the block is chosen. Reading them per
+        // frame meant up to four JsonElement.TryGetProperty string lookups for each
+        // of the 33 residents on every physics tick; the block is authored content
+        // and read-only, so the values cannot change under a live run.
+        public float Speed = DefaultSpeed;
+        public float FollowDistance = DefaultFollowDistance;
+        public float FollowLose = DefaultFollowLose;
+        public string WalkMotion = DefaultWalkMotion;
+        public string IdleMotion = DefaultIdleMotion;
     }
 
     /// <summary>The routine block the character is in (null = no routine), and what happened on the way.</summary>
@@ -124,7 +142,27 @@ public partial class AuthoredWorldDirector
             }
 
             run.Block = next;
+            CacheBlockScalars(run, next);
             run.NeedsPlan = true; // routes are probed inside the physics step
+        }
+    }
+
+    /// <summary>
+    /// Reads the block's scalars and motion names once, when the block becomes
+    /// active, using exactly the fallbacks the per-frame reads used before.
+    /// </summary>
+    private static void CacheBlockScalars(RoutineRun run, JsonElement block)
+    {
+        var isObject = block.ValueKind == JsonValueKind.Object;
+        run.Speed = isObject && block.TryGetProperty("speed", out var speedValue) ? speedValue.GetSingle() : DefaultSpeed;
+        run.WalkMotion = Text(block, "walkMotion", DefaultWalkMotion);
+        run.IdleMotion = Text(block, "motion", DefaultIdleMotion);
+        run.FollowDistance = DefaultFollowDistance;
+        run.FollowLose = DefaultFollowLose;
+        if (isObject && block.TryGetProperty("follow", out var follow) && follow.ValueKind == JsonValueKind.Object)
+        {
+            if (follow.TryGetProperty("distance", out var distance)) run.FollowDistance = distance.GetSingle();
+            if (follow.TryGetProperty("loseMetres", out var lose)) run.FollowLose = lose.GetSingle();
         }
     }
 
@@ -140,7 +178,7 @@ public partial class AuthoredWorldDirector
                 Plan(run);
             }
 
-            var speed = run.Block.ValueKind == JsonValueKind.Object && run.Block.TryGetProperty("speed", out var speedValue) ? speedValue.GetSingle() : 1.3f;
+            var speed = run.Speed;
             if (run.Following)
             {
                 player ??= GetTree().GetFirstNodeInGroup("player_controller") as Node3D;
@@ -186,16 +224,15 @@ public partial class AuthoredWorldDirector
         }
 
         run.Status = "идёт";
-        AnimationCatalog.Play(run.Character, Text(run.Block, "walkMotion", "urman.anim:walk"));
+        AnimationCatalog.Play(run.Character, run.WalkMotion);
     }
 
     // Escort: keep near the player; a player who runs far away is waited for, never chased across the map.
     private void Follow(RoutineRun run, Node3D? player, float speed, float delta)
     {
         if (player is null) return;
-        var follow = run.Block.GetProperty("follow");
-        var distance = follow.TryGetProperty("distance", out var d) ? d.GetSingle() : 2.5f;
-        var lose = follow.TryGetProperty("loseMetres", out var l) ? l.GetSingle() : 30f;
+        var distance = run.FollowDistance;
+        var lose = run.FollowLose;
         var root = run.Item.Root;
         var gap = new Vector2(player.GlobalPosition.X - root.GlobalPosition.X, player.GlobalPosition.Z - root.GlobalPosition.Z).Length();
         if (gap > lose)
@@ -209,12 +246,12 @@ public partial class AuthoredWorldDirector
         if (gap <= distance)
         {
             Face(root, player.GlobalPosition);
-            if (run.Status != "рядом с игроком") AnimationCatalog.Play(run.Character, Text(run.Block, "motion", "urman.anim:idle"));
+            if (run.Status != "рядом с игроком") AnimationCatalog.Play(run.Character, run.IdleMotion);
             run.Status = "рядом с игроком";
             return;
         }
 
-        if (run.Status != "идёт за игроком") AnimationCatalog.Play(run.Character, Text(run.Block, "walkMotion", "urman.anim:walk"));
+        if (run.Status != "идёт за игроком") AnimationCatalog.Play(run.Character, run.WalkMotion);
         run.Status = "идёт за игроком";
         var target = player.GlobalPosition - (player.GlobalPosition - root.GlobalPosition).Normalized() * distance;
         MoveTowards(root, root.GetParent<Node3D>().ToLocal(target), speed * delta);
@@ -329,7 +366,7 @@ public partial class AuthoredWorldDirector
         run.WaitLeft = 0;
         var block = run.Block;
         if (faceBlock && block.TryGetProperty("yawDegrees", out var yaw)) run.Item.Root.RotationDegrees = new Vector3(0, yaw.GetSingle(), 0);
-        var motion = Text(block, "motion", "urman.anim:idle");
+        var motion = run.IdleMotion;
         var played = AnimationCatalog.Play(run.Character, motion);
         if (!run.Status.StartsWith("путь перекрыт", StringComparison.Ordinal)) run.Status = "на месте";
         if (!played.Played) run.Status += $"; занятие не проиграно: {played.Problem}";
