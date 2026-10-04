@@ -16056,6 +16056,7 @@
     },
     {
       "id": "ACT1-CHAR",
+      "progress_2026_10_04": "2026-10-04: семейство разобрано по моделям и коду: docs/production/act1_character_family_2026-10-04.md. Два кита: v1 (urman_character_kit.glb, 633/542, 18 клипов Idle+Tension по персонажам) и v2 (urman_character_kit_v2.glb, 799/196, 36 клипов Idle/Talk/Tension/Walk, включая Tamara), пути ScenePath/HumanScenePath в GeneratedCharacterKitDressing. Находка по применению: вызовы клипов Idle 7, Walk 1, Talk 1, Tension 1 — механика есть, применение к названным персонажам частичное. Лица: текстуры глаз с картой нормалей; материалы: painterly surface-override cloth/sheltered. Права: база CC0 (UniversalBaseCharacters_Standard) + генераторы проекта, перечень в content/credits.ru.txt. Человеческое рендер-ревью — not-run.",
       "execution": {
         "kind": "rollup",
         "unit": "Приёмка результатов связанных карточек",
@@ -16088,7 +16089,8 @@
       "done_when": [
         "Связанные профильные карточки приняты по текущим ТЗ; новые игровые/художественные свидетельства относятся к поставляемой версии."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_character_family_2026-10-04.md"],
       "progress_2026_09_24": "2026-09-24: the named cast (Mansur, Gulsina, Naila, Timur, Alsu, Rinat) is on the human kit v2: anchor measured from standing soles, sash closing the coat/skirt gap, looping clips, Alsu/Rinat walks on two-bone IK with pelvis drop, Rinat's lamp and stop gesture as held poses. act1_npc_presentation PASS and in verify-godot. Open: first-person body and the woodpile resident still first kit; art acceptance external.",
       "mvp_priority": 24,
       "mvp_packet": "A11",
@@ -16145,6 +16147,7 @@
     },
     {
       "id": "ACT1-CHAR.1",
+      "progress_2026_10_04": "2026-10-04: подходящая модель/rig/анимация есть: v1 urman_character_kit.glb (633 узла, 542 меша, 18 клипов Idle/Tension по персонажам) и v2 urman_character_kit_v2.glb (799/196, 36 клипов Idle/Talk/Tension/Walk, включая Tamara), движение — из tools/blender/generate_character_kit_v2.py. Права подтверждены: база UniversalBaseCharacters_Standard под CC0 (см. AGENTS.md), остальное сгенерировано проектом, перечень авторов и лицензий в content/credits.ru.txt и проверяется тестом меню. Осталось: выбор актуального кита и бюджет — решение владельца. Разбор: docs/production/act1_character_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "C04/A01: один rig/character pilot",
@@ -16197,7 +16200,8 @@
         "Совместимость/лицензия/масштаб/retarget на одном движении доказаны до замены всего каста; естественная пластика по умолчанию, uncanny только в намеренной сцене. Дорогая покупка не предполагается разрешённой.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_character_family_2026-10-04.md"],
       "mvp_priority": 24,
       "mvp_packet": "A11",
       "delivery": {
@@ -16264,6 +16268,7 @@
     },
     {
       "id": "ACT1-CHAR.2",
+      "progress_2026_10_04": "2026-10-04: по лицам подтверждено статически немного, но важно: в ките есть отдельные текстуры глаз, включая карту нормалей (urman_character_kit_T_Eye_Brown.png, ..._T_Eye_Normal.png), то есть глаза не «плоский кружок». Дополнение R28 («убедительные лица») — художественная оценка рендером вблизи и вдали, здесь она not-run и не подменяется. Разбор: docs/production/act1_character_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одна голова одного NPC.",
@@ -16315,7 +16320,8 @@
         "Нет случайных папах/рваной рубахи/галош в мечети, зимний силуэт и татарский контекст уместны; нет клиппинга в характерных позах. Точный образ подтверждён культурно где нужно; Тамара не входит в пакет.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_character_family_2026-10-04.md"],
       "mvp_priority": 24,
       "mvp_packet": "A11",
       "delivery": {
@@ -16384,6 +16390,7 @@
     },
     {
       "id": "ACT1-CHAR.3",
+      "progress_2026_10_04": "2026-10-04: материалы тела/одежды идут через painterly-библиотеку: одежда получает surface-override cloth с флагом sheltered (например AuthoredWorldDirector.Residents.cs:30), плюс отдельные карты глаз; у персонажа не одна заглушка на всё. Тревожная выразительность в зимнем свете вблизи и вдали — предмет рендер-ревью, not-run. Разбор: docs/production/act1_character_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один материал одного NPC.",
@@ -16433,7 +16440,8 @@
         "Нет случайных папах/рваной рубахи/галош в мечети, зимний силуэт и татарский контекст уместны; нет клиппинга в характерных позах. Точный образ подтверждён культурно где нужно; Тамара не входит в пакет.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_character_family_2026-10-04.md"],
       "mvp_priority": 24,
       "mvp_packet": "A11",
       "delivery": {
@@ -16499,6 +16507,7 @@
     },
     {
       "id": "ACT1-CHAR.4",
+      "progress_2026_10_04": "2026-10-04: клипы для походки и разговора существуют (v2: Idle/Talk/Tension/Walk, 36 клипов), но применяются неравномерно: по всем скриптам вызовы Idle 7, Walk 1, Talk 1, Tension 1. То есть стойка стоит у большинства, а ходьба и разговор — по одному месту. Это ровно разрыв из done_when: механика на общем rig есть, применение к названным персонажам — нет. Связанный открытый пункт R035 (походка Алсу и остальных проверяется в движении) согласуется с этой находкой. Разбор: docs/production/act1_character_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "C02: один rig и характерные переходы",
@@ -16550,7 +16559,8 @@
         "Нет зомби-качания и чрезмерной артикуляции; контакт стоп и скорость согласованы. Короткий воспроизводимый захват Алсу и эталонного NPC в движении; Тамара исключена.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_character_family_2026-10-04.md"],
       "mvp_priority": 24,
       "mvp_packet": "A11",
       "delivery": {
@@ -16619,6 +16629,7 @@
     },
     {
       "id": "ACT1-CHAR.5",
+      "progress_2026_10_04": "2026-10-04: приёмка по эталону не выполнялась и не подменяется: собраны только измеряемые факты (киты, клипы, вызовы, материалы, права). Сравнение каждого сюжетного NPC с эталоном в рендер-ревью вблизи и вдали остаётся not-run и требует движка. Разбор: docs/production/act1_character_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один NPC целиком.",
@@ -16667,7 +16678,8 @@
       "done_when": [
         "Каждый сюжетный NPC сравнён с эталоном; отклонения закрыты или осознанно приняты."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_character_family_2026-10-04.md"],
       "mvp_priority": 90,
       "mvp_packet": "A14",
       "delivery": {
@@ -23306,6 +23318,7 @@
       "tech_review_2026_10_04": "Technical review family audited: the per-zone checklist draft exists with reproducible rows (404 lindens without bark collision, the BabaiFirewoodShelterPost B90 case, a crownless tree at (-33, 8.2), the mosque sash unsupported by about 0.027 m, the bathhouse second ascent with its B42->1c1a90c regression window, floating zirat kerbs, plus unevaluated seams and alpha sorting candidates); the D14 pit is recorded as an ambiguous coordinate of the same class the placement rule closes, with behavioural acceptance still requiring a run; the door/wall/roof/window producers live in the Blender kits and the code builders with measured door units; and 44 light nodes exist across eight files with the FacilityLamp pattern, while the public interiors' lamps enable no shadows at all (0 against 13 in the benchmark house), which is recorded as a real leak risk and a candidate rather than a proven defect. Report: docs/production/act1_tech_review_2026-10-04.md",
       "quest_address_audit_2026_10_04": "Quest-address family audited: markers are absent by construction rather than by assertion - the address plate sets notQuestMarker=true, no questmarker or autopath appears in the scripts, all three quests' objectives start from knowledge.status conditions rather than proximity, and the only 'waypoint' uses are authored approach points handed to the physical verifier; the audit table maps each of the three mandatory goals to its address source (mama's note with ADR-BABAI and the street-then-number rule, documents and the notebook, and the edge goal that needs no address) plus the FAP, mosque, shop, school and council hints with file references; the registry holds 27 buildings with an addressId and 10 streets, and the {address:...} template is used for six of them. AddressAccessVerifier provides the automated, read-only route audit, while current-build evidence still needs a run. Report: docs/production/act1_quest_address_audit_2026-10-04.md",
       "cutscene_family_2026_10_04": "Cutscene family consolidated: the staging lives in four Act1DemoRoot.Prologue partials and uses only Godot built-ins (41 Tweens, 10 Camera3D, 2 LookAtModifier3D), so no separate cutscene engine exists, which is what CUTSCENE.1 asks; the intro chain matches the accepted script end to end with Mansur staged in the cabin and the teaser isolating narrative state; viewing, Esc skip and load before and after the night were confirmed on the 28.09 slice only, so fresh acceptance stays not-run; the language profile item is now closed by the language-layer audit, while the driver's hand grip, the full tour, manual pointing and the storm's artistic force remain open. Report: docs/production/act1_cutscene_family_2026-10-04.md",
+      "character_family_2026_10_04": "Character family audited from the models and code: two kits exist, v1 with 18 Idle/Tension clips per character and v2 with 36 clips including Idle/Talk/Tension/Walk (Tamara included), with movement generated by generate_character_kit_v2.py and rights founded on the CC0 UniversalBaseCharacters_Standard pack plus project generators, credited in content/credits.ru.txt; the decisive finding is clip usage - Idle is played seven times but Walk, Talk and Tension once each, so the shared-rig mechanics exist while application to the named characters is partial, which is exactly CHAR.4's gap and agrees with the open R035; faces have dedicated eye textures with a normal map and clothing uses painterly cloth surface overrides, while convincing faces and the render review stay not-run. Report: docs/production/act1_character_family_2026-10-04.md",
       "village_layout_data_2026_10_04": "World layout data audit: 196 kit placements, 96 active and 100 retired, but only 10 of the retired ones record a reason, which is a traceability gap rather than a proven layout fault; the file also shows that the dwelling-variant count cannot be read from it (only five active dwellings), and that public buildings are not described there at all - their form comes from code builders plus the FAP kit. Report: docs/production/act1_village_layout_data_2026-10-04.md",
       "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 35 (REVIEW28-RESEARCH and LEN01.1).",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
