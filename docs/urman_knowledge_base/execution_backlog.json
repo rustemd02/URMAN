@@ -3163,6 +3163,7 @@
     },
     {
       "id": "ACT1-TEXTURE",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "aggregate",
         "unit": "Не выдавать исполнителю целиком; выбрать одну незавершённую дочернюю задачу.",
@@ -3259,6 +3260,7 @@
     },
     {
       "id": "ACT1-TEXTURE.00",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Дополненный существующий инвентарь текстур для текущих и планируемых объектов",
       "progress_2026_09_22": "Полный реестр 132/132 на cd4e703: 31 reuse, 37 new, 5 edit, 59 conditional. Все карточки книги и групп очереди совпадают без дублей; для каждой указан реальный потребитель либо конкретно недостающие UV/маска/носитель/решение. 18 ранее подключённых результатов включены как reuse. Рекомендации reuse не закрывают source/visual/art; условные карточки остаются работой соответствующих групп. Проверены локальные ссылки и названные PNG: три отсутствующих файла явно отмечены как отсутствующие, не выданы за готовые.",
       "milestone": "M4",
@@ -3454,6 +3456,7 @@
     },
     {
       "id": "ACT1-TEXTURE.02",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "A03/A04: одна именованная карточка существующего инвентаря",
@@ -3667,6 +3670,7 @@
     },
     {
       "id": "ACT1-TEXTURE.03",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "A03/A07/A08: одна именованная карточка существующего инвентаря",
@@ -4202,6 +4206,7 @@
     },
     {
       "id": "ACT1-TEXTURE.07",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "A06: одна именованная карточка существующего инвентаря",
@@ -4379,6 +4384,7 @@
     },
     {
       "id": "ACT1-TEXTURE.08",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "U3/A02: одна именованная карточка существующего инвентаря",
@@ -4720,6 +4726,7 @@
     },
     {
       "id": "ACT1-TEXTURE.11",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "A02/C01: одна именованная карточка существующего инвентаря",
@@ -4896,6 +4903,7 @@
     },
     {
       "id": "ACT1-TEXTURE.12",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одна интегрированная карточка и один различающийся тип её потребителя.",
@@ -5142,6 +5150,7 @@
     },
     {
       "id": "ACT1-ADDR",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один address/building/access ID или одно правило реестра.",
@@ -5319,6 +5328,7 @@
     },
     {
       "id": "ACT1-NOTEBOOK",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один вид записи: человек, адрес, задача, место, источник или личная заметка.",
@@ -6192,6 +6202,7 @@
     },
     {
       "id": "ACT1-ARRIVAL",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "N1–N3: одна утверждённая версия пролога",
@@ -6473,6 +6484,7 @@
     },
     {
       "id": "ACT1-PUBLIC",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одно помещение: баня, мечеть, школа, сельсовет/ДК или семейный зират.",
@@ -11484,6 +11496,7 @@
     },
     {
       "id": "ACT1-ADDR-ACCESS",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один доступный адрес из исходного списка; H033 отдельно как намеренно недоступный дальний берег.",
@@ -11594,6 +11607,7 @@
     },
     {
       "id": "ACT1-LANG",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "aggregate",
         "unit": "Не выдавать исполнителю целиком; выбрать одну незавершённую дочернюю задачу.",
@@ -13020,6 +13034,7 @@
     },
     {
       "id": "ACT1-UI.4",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "ui_family_2026_10_04": "docs/production/act1_ui_family_2026-10-04.md",
       "execution": {
         "kind": "work",
@@ -13621,6 +13636,7 @@
     },
     {
       "id": "ACT1-MECH-AUDIT",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "aggregate",
         "unit": "Не выдавать исполнителю целиком; выбрать одну незавершённую дочернюю задачу.",
@@ -15866,6 +15882,7 @@
     },
     {
       "id": "ACT1-VILLAGE-COMPOSITION",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "W5/W12: один названный участок",
@@ -17681,6 +17698,7 @@
     },
     {
       "id": "ACT1-FOOTSTEP",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "aggregate",
         "unit": "Не выдавать исполнителю целиком; выбрать одну незавершённую дочернюю задачу.",
@@ -17745,6 +17763,7 @@
     },
     {
       "id": "ACT1-FOOTSTEP.1",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один маршрут дорога→снег/двор→дорога.",
@@ -17820,6 +17839,7 @@
     },
     {
       "id": "ACT1-FOOTSTEP.2",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одна доказанная причина из .1.",
@@ -17942,6 +17962,7 @@
     },
     {
       "id": "ACT1-LEGS",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "aggregate",
         "unit": "Не выдавать исполнителю целиком; выбрать одну незавершённую дочернюю задачу.",
@@ -18027,6 +18048,7 @@
     },
     {
       "id": "ACT1-LEGS.1",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "C03: взгляд вниз на ходьбе/беге/повороте/приседе",
@@ -18158,6 +18180,7 @@
     },
     {
       "id": "ACT1-LEGS.2",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один режим походки в кадровом ревью.",
@@ -19420,6 +19443,7 @@
     },
     {
       "id": "ACT1-NARRATIVE-SHOW",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Редакторская карта: видимые ремарки и лишние записки заменены действием, звуком, предметом либо содержательной репликой",
       "milestone": "M5",
       "status": "in_progress",
@@ -19499,6 +19523,7 @@
     },
     {
       "id": "ACT1-TUTORIAL",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Контекстное обучение адресам, сравнению и языку по мере нужды",
       "milestone": "M5",
       "status": "todo",
@@ -19569,6 +19594,7 @@
     },
     {
       "id": "ACT1-PROGRESSION-DOORS",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Установленные и исправленные причины отсутствия подсказки/входа на трёх названных дверях",
       "milestone": "M5",
       "status": "in_progress",
@@ -19895,6 +19921,7 @@
     },
     {
       "id": "ACT1-VILLAGE-BLOCKOUT",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Проходимая раскладка принятой деревни и пассажирский въезд",
       "milestone": "M5",
       "status": "in_progress",
@@ -20217,6 +20244,7 @@
     },
     {
       "id": "ACT1-RIVER-BRIDGE",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Целый мост при приезде, обрушение ночью, повреждённая переправа утром",
       "milestone": "M5",
       "status": "in_progress",
@@ -20302,6 +20330,7 @@
     },
     {
       "id": "ACT1-BOUNDARY",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Видимая естественная граница деревни/лесного эпизода с аварийной страховкой вне обычного пути",
       "milestone": "M5",
       "status": "in_progress",
@@ -20520,6 +20549,7 @@
     },
     {
       "id": "ACT1-INTERIOR.PLAN",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Раздельные основные интерьеры и физически согласованные малые дома",
       "milestone": "M5",
       "status": "in_progress",
@@ -20604,6 +20634,7 @@
     },
     {
       "id": "ACT1-MOSQUE",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Цельная уважительная татарская мечеть с обоснованным минаретом, входом и обжитым залом",
       "milestone": "M5",
       "status": "todo",
@@ -20689,6 +20720,7 @@
     },
     {
       "id": "ACT1-BATHHOUSE",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Уютная необязательная баня с приватным окном, парилкой и выразительным духом",
       "milestone": "M5",
       "status": "todo",
@@ -20764,6 +20796,7 @@
     },
     {
       "id": "ACT1-PUBLIC.POST",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Почтовое отделение с читаемым местом/назначением и минимальной бытовой ролью",
       "milestone": "M5",
       "status": "todo",
@@ -20833,6 +20866,7 @@
     },
     {
       "id": "ACT1-ART-DIRECTION",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Доказать достижимый стиль одним участком в действующем движке",
       "milestone": "M5",
       "status": "in_progress",
@@ -20981,6 +21015,7 @@
     },
     {
       "id": "ACT1-ATMOSPHERE",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Уютные помещения и давящая зимняя непогода снаружи",
       "milestone": "M5",
       "status": "in_progress",
@@ -21064,6 +21099,7 @@
     },
     {
       "id": "ACT1-MATERIAL.MOTION",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Исправленный источник скольжения материала относительно движущейся формы",
       "milestone": "M5",
       "status": "in_progress",
@@ -21355,6 +21391,7 @@
     },
     {
       "id": "ACT1-AUDIO.MAP",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Карта существующих звуковых событий и среды",
       "milestone": "M5",
       "status": "review",
@@ -21431,6 +21468,7 @@
     },
     {
       "id": "ACT1-AUDIO.CUES",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Ложный success и неправильный звук стука",
       "milestone": "M5",
       "status": "in_progress",
@@ -21573,6 +21611,7 @@
     },
     {
       "id": "ACT1-TRANSPORT.ROUTE",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Пассажирская экскурсия и полезный транспорт по доступным дорогам",
       "milestone": "M5",
       "status": "todo",
@@ -23383,6 +23422,7 @@
       "depth_family_2026_10_04": "Depth family inventory built from two independent sets: the world catalog's 177 entries all carry size, category, collision, kit and license, and none is flat (every minimum axis is at least 6 cm), so no flat object in the catalog imitates a volume; and the world-building code has 150 geometry calls with an axis thinner than 2.5 cm, whose names show surface details rather than volume imitations - entrance mats and papers, a heating vent, a hinge strap, sign fields and bus silhouette, a calendar page, a matchbox sleeve, a radio grille, a hall runner and a log end. Eighteen such calls carry no adjacent name literal and are left for the owner by file:line. Functional medical-station furniture was measured (reception counter, records desk, wash unit, tall storage), and the reference log house's UV and unwrap work is recorded in the texture inventory under W01. Form is verified; expressive volume still needs frames. Report: docs/production/act1_depth_family_2026-10-04.md",
       "len01_family_2026_10_04": "LEN01 family audited statically: no hidden K-counter exists in any form, so the mandatory path is not gated by a secret count; all six talk and greeting interactions carry empty effects while 71 of 156 interactions set knowledge, so conclusions come from comparisons, discoveries, observations and documents rather than from a greeting, with the 35 comparison rows only part of the chain; the content holds 60 documents (12 in the Act I module, 48 in the old-PC module) and 13 revise/excerpt/compare-reread rows with a knowledge-gated reread quest; a playtime audit exists and the forbidden padding methods are excluded by contract and absent from the data. Real timing and human judgement stay external, with LEN01.5 and LEN01.8 blocked. Report: docs/production/act1_len01_family_2026-10-04.md",
       "oldpc_family_2026_10_04": "Old-PC family audited: twelve shell files with their own XP-like theme and wallpaper, five apps with local-network addresses and real purposes, a dedicated search over documents, threads, notes and history, avatar glyphs until a portrait is approved, a tetris mini-game and a separate hint owner; and a document contract where the schema requires knowledgeRefs, accessConditions and openEffects, so knowledge, conditions and effect are mandatory, as the sampled debt book shows while carrying a real shop rule. Visual character and readability stay not-run. Report: docs/production/act1_oldpc_family_2026-10-04.md",
+      "remaining_cards_map_2026_10_04": "Remaining-queue map written as docs/production/act1_remaining_cards_map_2026-10-04.md and linked from the umbrella and covered cards: it points each umbrella at the document that already covers its subject, lists the twelve externally blocked cards with the shared reason that a person, another host, a signature or voice recordings are unavailable here, records what is deferred by scope (Studio and Acts II-V), and gives the remaining in-scope cards one line each on what is verifiable today and whether the next step needs frames, a run or an authorial decision. The map creates no second queue and replaces no acceptance.",
       "cross_reference_check_2026_10_04": "Cross-reference check over everything written on 2026-10-04: 91 cards carry a dated progress note, and every document path mentioned in those notes resolves to a card-level field - the evidence array or a dedicated dated key. 79 distinct references were checked and none was missing. The check exists because one card (ACT1-TRANSPORT) has eight nested evidence keys inside its progress and diagnosis fields, where a naive append lands in a nested array and silently fails to link; that case was found, fixed with a dedicated card-level key, and this sweep confirms no other card was affected.",
       "interactive_systems_2026_10_04": "Player, transport, radio and shop audited statically with current-build runs outstanding: jump/sprint/crouch/visible body all present in code; three vehicle definitions with distinct travel modes and a measured Niva cabin; a two-station radio dial with 12 segments, marked fictional, whose station file carries its own honest audioAcceptance and languageReview fields; and shop atomicity explicit as one kernel plan for item ownership and the debt-book row. Report: docs/production/act1_interactive_systems_2026-10-04.md",
       "village_layout_data_2026_10_04": "World layout data audit: 196 kit placements, 96 active and 100 retired, but only 10 of the retired ones record a reason, which is a traceability gap rather than a proven layout fault; the file also shows that the dwelling-variant count cannot be read from it (only five active dwellings), and that public buildings are not described there at all - their form comes from code builders plus the FAP kit. Report: docs/production/act1_village_layout_data_2026-10-04.md",
