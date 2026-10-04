@@ -10270,18 +10270,33 @@ public partial class Act1ConnectedWorld : Node3D
         // in the same order without the intermediate array. No caller mutates the
         // walked subtree while iterating it, so the captured count stays valid; the
         // same replacement was already accepted for the facade walk.
-        var count = root.GetChildCount();
-        for (var index = 0; index < count; index++)
+        //
+        // The recursion above that walk was itself a cost: a yield-based recursive
+        // iterator creates one compiler state machine per node the walk visits, so a
+        // full pass over the connected world allocated thousands of short-lived
+        // objects. An explicit stack visits the identical order - push children in
+        // reverse, then on each pop yield the node and push its children the same way,
+        // which is the same pre-order depth-first sequence the recursion produced - and
+        // keeps exactly one iterator plus one stack alive per call. Callers use
+        // FirstOrDefault/Single/Any, so matching the order exactly preserves their
+        // results, including which node wins a FirstOrDefault.
+        var stack = new Stack<Node>();
+        for (var index = root.GetChildCount() - 1; index >= 0; index--)
         {
-            var child = root.GetChild(index);
-            if (child is T match)
+            stack.Push(root.GetChild(index));
+        }
+
+        while (stack.Count > 0)
+        {
+            var node = stack.Pop();
+            if (node is T match)
             {
                 yield return match;
             }
 
-            foreach (var nested in FindDescendants<T>(child))
+            for (var index = node.GetChildCount() - 1; index >= 0; index--)
             {
-                yield return nested;
+                stack.Push(node.GetChild(index));
             }
         }
     }
