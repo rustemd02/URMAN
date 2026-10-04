@@ -297,7 +297,13 @@ public partial class SnowTrampleField : Node3D
     private void RefineGround(bool rebuild)
     {
         var triangleCount = 0;
-        var counts = new List<string>();
+        // Both diagnostics below describe a rebuild. RefineGround is called every
+        // physics tick while the player moves, so the list is created only when a
+        // ground is actually rebuilt and the two metadata writes - each a native
+        // SetMeta call - happen only then as well. The capture test that prints
+        // snowTrampleGeometry therefore keeps the last rebuild's value instead of
+        // seeing it cleared on the next non-rebuilding tick.
+        List<string>? counts = null;
         foreach (var ground in _ground)
         {
             var reselect = ground.RefreshBounds() || rebuild;
@@ -390,10 +396,14 @@ public partial class SnowTrampleField : Node3D
             ground.Node.Mesh = rebuilt;
             if (previous != ground.Original) previous?.Dispose();
             ground.Node.ExtraCullMargin = .06f;
+            counts ??= [];
             counts.Add($"{ground.Node.Name}:{triangleCount - previousCount}");
         }
-        SetMeta("snowTrampleRebuiltTriangles", triangleCount);
-        SetMeta("snowTrampleGeometry", string.Join(",", counts));
+        if (counts is not null)
+        {
+            SetMeta("snowTrampleRebuiltTriangles", triangleCount);
+            SetMeta("snowTrampleGeometry", string.Join(",", counts));
+        }
         _refinedStampTotal = _totalStamps;
     }
 
