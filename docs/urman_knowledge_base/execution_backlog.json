@@ -5002,6 +5002,7 @@
     },
     {
       "id": "ACT1-TEXTURE.13",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один компактный пакет кадров и замечания одного реального ревьюера.",
@@ -6638,6 +6639,7 @@
     },
     {
       "id": "ACT1-TZ-ACCEPT",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одна строка общей матрицы приёмки.",
@@ -6720,6 +6722,7 @@
     },
     {
       "id": "FINISH-09",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одна добровольная находка или один скрытый обход.",
@@ -6809,6 +6812,7 @@
     },
     {
       "id": "FINISH-08",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один внешний гейт.",
@@ -6888,6 +6892,7 @@
     },
     {
       "id": "FINISH-07",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "P: измеренная оптимизация и доставляемый кандидат",
@@ -7054,6 +7059,7 @@
     },
     {
       "id": "FINISH-06",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один пользовательский переход меню/сохранения.",
@@ -7324,6 +7330,7 @@
     },
     {
       "id": "FINISH-04",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одна обязательная сцена или один NPC.",
@@ -7852,6 +7859,7 @@
     },
     {
       "id": "GODOT-003",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одна ячейка существующей матрицы сцен/дистанций/FOV.",
@@ -8161,6 +8169,7 @@
     },
     {
       "id": "NARR-002",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один тематический пакет текстов и один реальный консультант.",
@@ -8304,6 +8313,7 @@
     },
     {
       "id": "ASSET-003",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один важный NPC, после снятия существующего блокера.",
@@ -8375,6 +8385,7 @@
     },
     {
       "id": "ASSET-004",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одна из существующих 12 зон актов II–V.",
@@ -8666,6 +8677,7 @@
     },
     {
       "id": "ASSET-009",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один из WellA/WoodpileA/GateA/OldPc hero details.",
@@ -8857,6 +8869,7 @@
     },
     {
       "id": "QA-001",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один сеанс нового игрока и один набор вопросов.",
@@ -8927,6 +8940,7 @@
     },
     {
       "id": "REL-001",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один целевой host × один preset × одна тяжёлая сцена.",
@@ -8995,6 +9009,7 @@
     },
     {
       "id": "REL-002",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один пакет для одной ОС.",
@@ -9072,6 +9087,7 @@
     },
     {
       "id": "REL-003",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один наблюдаемый акт полного прохождения, после release gates.",
@@ -9145,6 +9161,7 @@
     },
     {
       "id": "REL-004",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Сначала только перечень кандидатов на retirement; удаление — отдельное согласованное действие.",
@@ -9999,6 +10016,7 @@
     },
     {
       "id": "ACT1-EX00",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один переход общего состояния действия.",
@@ -10063,6 +10081,7 @@
     },
     {
       "id": "ACT1-EX01",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один из трёх классов переносимых вещей.",
@@ -10179,6 +10198,7 @@
     },
     {
       "id": "ACT1-EX02",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один из трёх эпизодов с двумя решениями.",
@@ -10257,6 +10277,7 @@
     },
     {
       "id": "ACT1-EX03",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один инструмент и одна его физическая цель.",
@@ -10339,6 +10360,7 @@
     },
     {
       "id": "ACT1-EX04",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одна из двух согласованных комбинаций.",
@@ -10407,6 +10429,7 @@
     },
     {
       "id": "ACT1-EX05",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "W10: снег на грунте и одном сугробе",
@@ -10587,6 +10610,7 @@
     },
     {
       "id": "ACT1-EX06",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одно из двух мест осмотра фонарём.",
@@ -10673,6 +10697,7 @@
     },
     {
       "id": "ACT1-EX07",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одна из двух бытовых реакций тепло/холод/материал.",
@@ -10779,6 +10804,7 @@
     },
     {
       "id": "ACT1-EX08",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один из трёх звуковых эпизодов.",
@@ -10848,6 +10874,7 @@
     },
     {
       "id": "ACT1-EX09",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одна лестница либо один низкий проход.",
@@ -10926,6 +10953,7 @@
     },
     {
       "id": "ACT1-EX10",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одно из трёх небольших мест.",
@@ -10997,6 +11025,7 @@
     },
     {
       "id": "ACT1-EX11",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одно из трёх наблюдений странности.",
@@ -11060,6 +11089,7 @@
     },
     {
       "id": "ACT1-EX12",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одно из двух сопоставлений изображения с местом.",
@@ -11123,6 +11153,7 @@
     },
     {
       "id": "ACT1-EX13",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Первый этап: один двор/служебный проход; затем вторая цепочка",
@@ -11207,6 +11238,7 @@
     },
     {
       "id": "ACT1-EX14",
+      "ex_ledger_2026_10_04": "docs/production/act1_ex_acceptance_ledger_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один устойчивый результат: проход, свет/звук или реакция жителя.",
@@ -13963,6 +13995,7 @@
     },
     {
       "id": "ACT1-MECH-AUDIT.3",
+      "mechanics_inventory_2026_10_04": "docs/production/act1_mechanics_inventory_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "M: одно повторяемое правило и два применимых объекта",
@@ -14093,6 +14126,7 @@
     },
     {
       "id": "ACT1-MECH-AUDIT.4",
+      "mechanics_inventory_2026_10_04": "docs/production/act1_mechanics_inventory_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "M: один подтверждённо лишний интерактив",
@@ -18885,6 +18919,7 @@
     },
     {
       "id": "STUDIO.P0",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "P0: кликабельный прототип пяти экранов и технические границы",
       "milestone": "M7",
       "status": "in_progress",
@@ -18943,6 +18978,7 @@
     },
     {
       "id": "STUDIO.P1",
+      "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "P1: один сквозной рабочий участок — карта и квест вместе",
       "milestone": "M7",
       "status": "in_progress",
