@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "policy": "presentation only; attached to existing residential windows; no new narrative residents",
+  "policy": "presentation only; attached to existing residential windows; no new narrative residents; winter household events include stove, TV, laughter and talk",
   "events": [
     {
       "id": "dog-barks",
@@ -254,6 +254,50 @@
       "volumeDb": -15,
       "minWait": 45,
       "maxWait": 115
+    },
+    {
+      "id": "stove-crackle",
+      "label": "Трещит печка в доме",
+      "file": "res://assets/audio/act1/sound_mood/stove.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 9,
+      "volumeDb": -13,
+      "minWait": 35,
+      "maxWait": 100
+    },
+    {
+      "id": "tv-murmur",
+      "label": "Приглушённый телевизор за стеной",
+      "file": "res://assets/audio/act1/sound_mood/tv.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 10,
+      "volumeDb": -17,
+      "minWait": 55,
+      "maxWait": 160
+    },
+    {
+      "id": "kind-laughter",
+      "label": "Добрый смех в доме",
+      "file": "res://assets/audio/act1/sound_mood/laughter.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 11,
+      "volumeDb": -14,
+      "minWait": 60,
+      "maxWait": 170
+    },
+    {
+      "id": "room-talk",
+      "label": "Негромкий разговор в доме",
+      "file": "res://assets/audio/act1/sound_mood/chatter.wav",
+      "outdoor": false,
+      "dayOnly": false,
+      "radius": 12,
+      "volumeDb": -15,
+      "minWait": 45,
+      "maxWait": 140
     }
   ]
 }

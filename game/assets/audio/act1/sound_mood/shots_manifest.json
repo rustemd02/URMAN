@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.act1_sound_mood_shots",
+  "generator": "tools/audio/prepare_sound_mood_shots.py",
+  "listening": "external/not-run",
+  "sourceManifest": {
+    "path": "/tmp/urman_sound_hunt/manifest.json",
+    "sha256": "4dfc1a7e00b0f3e067ddb5b90c9aed2a2db863285fb728e21c80e78ecdea6d5b"
+  },
+  "decode": {
+    "tool": "/opt/homebrew/bin/ffmpeg",
+    "version": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+    "command": "ffmpeg -y -v error [-ss <start>] -i <source> [-t <length>] -ac 1 -ar 24000 -acodec pcm_s16le -f wav <temp.wav>",
+    "note": "ffmpeg decodes and resamples each sha256-verified source into a temp 24 kHz mono PCM16 WAV (input seek for the TV mid-section window); Python wave/array then slice, gain, fade and author the final files",
+    "dyldFallbackLibraryPath": "/opt/homebrew/Cellar/x265/4.2/lib"
+  },
+  "poolGuard": {
+    "maxPcmBytes": 600000,
+    "maxSeconds": 12.0,
+    "clips": [
+      "stove",
+      "tv",
+      "laughter",
+      "chatter"
+    ],
+    "note": "these four clips are kept inside the runtime one-shot pool limits; adhan.wav (whole call) and dog_distant.wav (panel audition one-shot) are not pooled"
+  },
+  "licenseReading": [
+    {
+      "id": "adhan",
+      "license": "CC0 1.0 (public domain dedication)",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attributionRequired": false,
+      "source": "https://commons.wikimedia.org/wiki/File:Adhan_in_Istanbul.webm",
+      "readFrom": "/tmp/urman_sound_hunt/manifest.json slots.adhan.primary"
+    },
+    {
+      "id": "stove",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "attributionRequired": false,
+      "source": "https://freesound.org/people/D.jones/sounds/525253/",
+      "readFrom": "/tmp/urman_sound_hunt/manifest.json slots.stove_fire.primary"
+    },
+    {
+      "id": "tv",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "attributionRequired": false,
+      "source": "https://freesound.org/people/milcahrawr/sounds/846688/",
+      "readFrom": "/tmp/urman_sound_hunt/manifest.json slots.tv_murmur.primary"
+    },
+    {
+      "id": "laughter",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "attributionRequired": false,
+      "source": "https://freesound.org/people/craigsmith/sounds/482798/",
+      "readFrom": "/tmp/urman_sound_hunt/manifest.json slots.laughter.primary"
+    },
+    {
+      "id": "chatter",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "attributionRequired": false,
+      "source": "https://freesound.org/people/Breviceps/sounds/457043/",
+      "readFrom": "/tmp/urman_sound_hunt/manifest.json slots.chatter.primary"
+    },
+    {
+      "id": "dog_distant",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "attributionRequired": false,
+      "source": "https://freesound.org/people/Sadiquecat/sounds/737196/",
+      "readFrom": "/tmp/urman_sound_hunt/manifest.json slots.dog.primary"
+    }
+  ],
+  "clips": [
+    {
+      "id": "adhan",
+      "file": "res://assets/audio/act1/sound_mood/adhan.wav",
+      "seconds": 49.994125,
+      "pcmBytes": 2399718,
+      "sha256": "fb20ebaa2f230a4fc8c17be0ecd24660ed0e0c07e8eaca388b36ea8464ce3731",
+      "sourceSha256": "c9f3097f449ebc0aae749c06dfa6113d1c30b4601c5142975c986b9f53f1fc44",
+      "startSeconds": 0.075375,
+      "sourceDurationSeconds": 50.0895
+    },
+    {
+      "id": "stove",
+      "file": "res://assets/audio/act1/sound_mood/stove.wav",
+      "seconds": 10.0,
+      "pcmBytes": 480000,
+      "sha256": "2e4e282ea9f095bc94557fceb2992155b652d5c17fa516cb2484d492f26e1bcc",
+      "sourceSha256": "e4e8345a6f443bcb0e01e6622b9db311405332cfd8bd070bda881ab177f0b40b",
+      "startSeconds": 5.0,
+      "sourceDurationSeconds": 311.746667
+    },
+    {
+      "id": "tv",
+      "file": "res://assets/audio/act1/sound_mood/tv.wav",
+      "seconds": 10.0,
+      "pcmBytes": 480000,
+      "sha256": "1446c223d4d524f1e2f5c8e8882ba869fbd250ff2fec3dfb56cdaf6e5e76ad31",
+      "sourceSha256": "e87c8a81c858c40ca2fed5f516628328cd84561d5f760507d77ebb9e6cbe877a",
+      "startSeconds": 869.279399,
+      "sourceDurationSeconds": 1798.558798
+    },
+    {
+      "id": "laughter",
+      "file": "res://assets/audio/act1/sound_mood/laughter.wav",
+      "seconds": 7.0,
+      "pcmBytes": 336000,
+      "sha256": "60b71aa8b57564d2f66e87de27f7d8483effcff644cc0dbe136f119460ecbd2e",
+      "sourceSha256": "1e1661b18fec585755c0af999fc6e962fdd419336b558b83c99296ca48c28dee",
+      "startSeconds": 7.8,
+      "sourceDurationSeconds": 23.226625
+    },
+    {
+      "id": "chatter",
+      "file": "res://assets/audio/act1/sound_mood/chatter.wav",
+      "seconds": 10.0,
+      "pcmBytes": 480000,
+      "sha256": "4bc4c770a09b2d78eb201aee80ae37bb5c3a25bdd413039d7792c335bcc1b3c7",
+      "sourceSha256": "623eacd59fcfbceb7aa8dde58f8cd6f41eb33a8009dd255b42b20ec0273b6544",
+      "startSeconds": 3.7,
+      "sourceDurationSeconds": 15.708141
+    },
+    {
+      "id": "dog_distant",
+      "file": "res://assets/audio/act1/sound_mood/dog_distant.wav",
+      "seconds": 6.0,
+      "pcmBytes": 288000,
+      "sha256": "e185644ed5ce47a012ec99468304da71902216c7e23d78e0a3d6e8df6800750b",
+      "sourceSha256": "ac6f42372d3c54d03373f0e7006425db2ed67a7d098c512ec1a04f2e9ed456af",
+      "startSeconds": 5.2,
+      "sourceDurationSeconds": 18.985397
+    }
+  ]
+}

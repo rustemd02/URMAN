@@ -1,0 +1,302 @@
+{
+  "schemaVersion": 1,
+  "clips": [
+    {
+      "file": "res://assets/audio/act1/sound_mood/adhan.wav",
+      "id": "adhan",
+      "seconds": 49.994125,
+      "pcmBytes": 2399718,
+      "sha256": "fb20ebaa2f230a4fc8c17be0ecd24660ed0e0c07e8eaca388b36ea8464ce3731",
+      "source": "https://commons.wikimedia.org/wiki/File:Adhan_in_Istanbul.webm",
+      "directUrl": "https://upload.wikimedia.org/wikipedia/commons/transcoded/3/3d/Adhan_in_Istanbul.webm/Adhan_in_Istanbul.webm.240p.vp9.webm",
+      "author": "Viceskeeni2",
+      "license": "CC0 1.0 (public domain dedication)",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "sourceSha256": "c9f3097f449ebc0aae749c06dfa6113d1c30b4601c5142975c986b9f53f1fc44",
+      "startSeconds": 0.075375,
+      "endSeconds": 50.0695,
+      "sourceDurationSeconds": 50.0895,
+      "attributionRequired": false,
+      "preparation": "ffmpeg decode to 24 kHz mono PCM16; leading/trailing silence (amplitude below -46 dBFS) trimmed; whole call kept; gain min(0.13/rms, 0.65/peak) = 0.8851; 20 ms edge fades",
+      "description": "Field recording made in the streets of Istanbul (uploaded 2025-09-05) capturing the muadhin's amplified call to prayer, adhan, ringing over the city."
+    },
+    {
+      "file": "res://assets/audio/act1/sound_mood/stove.wav",
+      "id": "stove",
+      "seconds": 10.0,
+      "pcmBytes": 480000,
+      "sha256": "2e4e282ea9f095bc94557fceb2992155b652d5c17fa516cb2484d492f26e1bcc",
+      "source": "https://freesound.org/people/D.jones/sounds/525253/",
+      "directUrl": "https://cdn.freesound.org/previews/525/525253_11431915-hq.mp3",
+      "author": "D.jones",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceSha256": "e4e8345a6f443bcb0e01e6622b9db311405332cfd8bd070bda881ab177f0b40b",
+      "startSeconds": 5.0,
+      "endSeconds": 15.0,
+      "sourceDurationSeconds": 311.746667,
+      "attributionRequired": false,
+      "preparation": "ffmpeg decode to 24 kHz mono PCM16; highest second-weakest 0.5 s RMS block (ties: louder window), 0.5 s start step; gain min(0.13/rms, 0.65/peak) = 0.6500; 20 ms edge fades",
+      "description": "'04 Wood Fire, Inside Stove' - close-up recording of a wood fire crackling inside a small stove."
+    },
+    {
+      "file": "res://assets/audio/act1/sound_mood/tv.wav",
+      "id": "tv",
+      "seconds": 10.0,
+      "pcmBytes": 480000,
+      "sha256": "1446c223d4d524f1e2f5c8e8882ba869fbd250ff2fec3dfb56cdaf6e5e76ad31",
+      "source": "https://freesound.org/people/milcahrawr/sounds/846688/",
+      "directUrl": "https://cdn.freesound.org/previews/846/846688_11995365-hq.mp3",
+      "author": "milcahrawr",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceSha256": "e87c8a81c858c40ca2fed5f516628328cd84561d5f760507d77ebb9e6cbe877a",
+      "startSeconds": 869.279399,
+      "endSeconds": 879.279399,
+      "sourceDurationSeconds": 1798.558798,
+      "attributionRequired": false,
+      "preparation": "ffmpeg decode to 24 kHz mono PCM16; highest-RMS 10 s inside a 60 s window centred on the source midpoint (skip the first 60 s), 0.25 s start step; gain min(0.13/rms, 0.65/peak) = 0.7977; 20 ms edge fades",
+      "description": "'Muffled Variety Program' - a muffled, low-intelligibility TV/variety-program murmur meant as a background TV-in-the-next-room bed; uploader states it was made from 'King of Jazz' (1930), a public-domain film, so it contains no protected broadcast content."
+    },
+    {
+      "file": "res://assets/audio/act1/sound_mood/laughter.wav",
+      "id": "laughter",
+      "seconds": 7.0,
+      "pcmBytes": 336000,
+      "sha256": "60b71aa8b57564d2f66e87de27f7d8483effcff644cc0dbe136f119460ecbd2e",
+      "source": "https://freesound.org/people/craigsmith/sounds/482798/",
+      "directUrl": "https://cdn.freesound.org/previews/482/482798_2524442-hq.mp3",
+      "author": "craigsmith",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceSha256": "1e1661b18fec585755c0af999fc6e962fdd419336b558b83c99296ca48c28dee",
+      "startSeconds": 7.8,
+      "endSeconds": 14.8,
+      "sourceDurationSeconds": 23.226625,
+      "attributionRequired": false,
+      "preparation": "ffmpeg decode to 24 kHz mono PCM16; highest-energy 7 s around the liveliest group reaction, 0.1 s start step; gain min(0.13/rms, 0.65/peak) = 2.6796; 20 ms edge fades",
+      "description": "'R27-22-Medium Group Talk and Cheer' - a medium group of people happily chatting and laughing, occasionally reacting positively together; warm, casual group laughter."
+    },
+    {
+      "file": "res://assets/audio/act1/sound_mood/chatter.wav",
+      "id": "chatter",
+      "seconds": 10.0,
+      "pcmBytes": 480000,
+      "sha256": "4bc4c770a09b2d78eb201aee80ae37bb5c3a25bdd413039d7792c335bcc1b3c7",
+      "source": "https://freesound.org/people/Breviceps/sounds/457043/",
+      "directUrl": "https://cdn.freesound.org/previews/457/457043_9159316-hq.mp3",
+      "author": "Breviceps",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceSha256": "623eacd59fcfbceb7aa8dde58f8cd6f41eb33a8009dd255b42b20ec0273b6544",
+      "startSeconds": 3.7,
+      "endSeconds": 13.7,
+      "sourceDurationSeconds": 15.708141,
+      "attributionRequired": false,
+      "preparation": "ffmpeg decode to 24 kHz mono PCM16; highest-energy 10 s keeping 2 s clear of both source edges, 0.1 s start step; gain min(0.13/rms, 0.65/peak) = 6.8574; 20 ms edge fades",
+      "description": "'Busy Room Ambience / Small crowd / People talking in background' - non-intelligible people talking in a room, recorded with a Zoom H2n; short 15.7 s loopable room murmur."
+    },
+    {
+      "file": "res://assets/audio/act1/sound_mood/dog_distant.wav",
+      "id": "dog_distant",
+      "seconds": 6.0,
+      "pcmBytes": 288000,
+      "sha256": "e185644ed5ce47a012ec99468304da71902216c7e23d78e0a3d6e8df6800750b",
+      "source": "https://freesound.org/people/Sadiquecat/sounds/737196/",
+      "directUrl": "https://cdn.freesound.org/previews/737/737196_5287430-hq.mp3",
+      "author": "Sadiquecat",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceSha256": "ac6f42372d3c54d03373f0e7006425db2ed67a7d098c512ec1a04f2e9ed456af",
+      "startSeconds": 5.2,
+      "endSeconds": 11.2,
+      "sourceDurationSeconds": 18.985397,
+      "attributionRequired": false,
+      "preparation": "ffmpeg decode to 24 kHz mono PCM16; highest-energy 6 s around the busiest distant barking, 0.1 s start step; gain min(0.13/rms, 0.65/peak) = 2.1306; 20 ms edge fades",
+      "description": "'Rural Distant Dog barks' - distant dog barks recorded in a rural area (Bouriège, Aude, France, 2024) with a Zoom H2n; soft, unobtrusive barking suitable as a cosy looping background bed."
+    }
+  ],
+  "listening": "external/not-run",
+  "beds": [
+    {
+      "id": "village_dread_layer",
+      "file": "res://assets/audio/act1/sound_mood/village_dread_layer.wav",
+      "seconds": 120.0,
+      "pcmBytes": 5760000,
+      "sha256": "9261d4a40a05e6a7c51e6283109634b6a9561b1dfb870c8e7db2469f53ef284b",
+      "seed": 20261004,
+      "rms": 0.03499894585377583,
+      "peak": 0.253143310546875,
+      "loopBoundaryDelta": 0.003326416015625,
+      "loop": "whole-file forward loop; the engine (VillageSoundMoodDirector.ConfigureLoop) sets LoopMode; the file is built with a 1 s equal-power tail-to-head crossfade join",
+      "preparation": "24 kHz mono PCM16; weather wind -9 dB, dread drone -20 dB, 4-6 alternating owl calls -16 dB (first no earlier than 10 s, none in the last 6 s); each gain is dB relative to that source's own RMS; summed mix normalized once to RMS 0.035 with a 0.70 peak ceiling, then a 1 s equal-power loop join",
+      "sources": [
+        {
+          "path": "game/assets/audio/kara_urman_edge_ambience.wav",
+          "role": "weather base (January wind in pine trees)",
+          "offsetSeconds": 0.0,
+          "gainDb": -9.0,
+          "license": "CC0-1.0 (Freesound bruno.auzet/670307 January wind in pine trees; declared in game/assets/audio/ambient_manifest.json)",
+          "sourceSha256": "a11cbbe1fd2afcb60e22972012863c184a84d6cd5eaf040d4cae9a9d47c0fc87",
+          "note": "tiled seamlessly across the bed with 1 s equal-power crossfades"
+        },
+        {
+          "path": "game/assets/audio/act1/foley/forest/dread_drone.wav",
+          "role": "low dread drone",
+          "offsetSeconds": 0.0,
+          "gainDb": -20.0,
+          "license": "Project-original (procedural forest Foley from tools/audio/generate_prologue_forest_sounds.py; documented in docs/urman_knowledge_base/audio/act1_sound_map.md)",
+          "sourceSha256": "bac9e1b850a1bf35878c0ed2ce6e30708d54b741cbf1fd8590134e4549668f4f",
+          "note": "tiled seamlessly across the bed with 1 s equal-power crossfades"
+        },
+        {
+          "path": "game/assets/audio/act1/foley/forest/owl_tawny.wav",
+          "role": "sparse owl call",
+          "offsetSeconds": 10.325,
+          "gainDb": -16.0,
+          "license": "Project-original (procedural forest Foley from tools/audio/generate_prologue_forest_sounds.py; documented in docs/urman_knowledge_base/audio/act1_sound_map.md)",
+          "sourceSha256": "8941d733ccae72d1a3b858ba6cb9f829b8e357fb7c75b47fdd50cbe57bf887d2",
+          "note": "alternating owl_tawny / owl_eagle"
+        },
+        {
+          "path": "game/assets/audio/act1/foley/forest/owl_eagle.wav",
+          "role": "sparse owl call",
+          "offsetSeconds": 32.197,
+          "gainDb": -16.0,
+          "license": "Project-original (procedural forest Foley from tools/audio/generate_prologue_forest_sounds.py; documented in docs/urman_knowledge_base/audio/act1_sound_map.md)",
+          "sourceSha256": "79bf6404d6306a4da727fb72d37bedf49ebb3d770409c432ec91f44b7e814bbd",
+          "note": "alternating owl_tawny / owl_eagle"
+        },
+        {
+          "path": "game/assets/audio/act1/foley/forest/owl_tawny.wav",
+          "role": "sparse owl call",
+          "offsetSeconds": 53.332,
+          "gainDb": -16.0,
+          "license": "Project-original (procedural forest Foley from tools/audio/generate_prologue_forest_sounds.py; documented in docs/urman_knowledge_base/audio/act1_sound_map.md)",
+          "sourceSha256": "8941d733ccae72d1a3b858ba6cb9f829b8e357fb7c75b47fdd50cbe57bf887d2",
+          "note": "alternating owl_tawny / owl_eagle"
+        },
+        {
+          "path": "game/assets/audio/act1/foley/forest/owl_eagle.wav",
+          "role": "sparse owl call",
+          "offsetSeconds": 72.291,
+          "gainDb": -16.0,
+          "license": "Project-original (procedural forest Foley from tools/audio/generate_prologue_forest_sounds.py; documented in docs/urman_knowledge_base/audio/act1_sound_map.md)",
+          "sourceSha256": "79bf6404d6306a4da727fb72d37bedf49ebb3d770409c432ec91f44b7e814bbd",
+          "note": "alternating owl_tawny / owl_eagle"
+        }
+      ],
+      "notes": [
+        "no fox/wolf/moan: those remain story cues, not bed texture"
+      ]
+    },
+    {
+      "id": "village_life_layer",
+      "file": "res://assets/audio/act1/sound_mood/village_life_layer.wav",
+      "seconds": 112.0,
+      "pcmBytes": 5376000,
+      "sha256": "64e0257edab3c6764ba975a14f4b8de688997ea70b14522967f8cdeebc17cb07",
+      "seed": 20261004,
+      "rms": 0.013552093607548535,
+      "peak": 0.699981689453125,
+      "loopBoundaryDelta": 0.0013427734375,
+      "loop": "whole-file forward loop; the engine (VillageSoundMoodDirector.ConfigureLoop) sets LoopMode; the file is built with a 1 s equal-power tail-to-head crossfade join",
+      "preparation": "24 kHz mono PCM16; weather wind -12 dB; household one-shots at faint bed levels (chatter -14 dB x2-3 irregular tiles, TV murmur -16 dB x2, stove crackle -15 dB near the middle, laughter -17 dB, violin bed music -19 dB x1-2, distant dog barks -18 dB x2); each gain is dB relative to that source's own RMS; summed mix normalized once to RMS 0.03 with a 0.70 peak ceiling, then a 1 s equal-power loop join",
+      "sources": [
+        {
+          "path": "game/assets/audio/kara_urman_edge_ambience.wav",
+          "role": "weather base (January wind in pine trees)",
+          "offsetSeconds": 0.0,
+          "gainDb": -12.0,
+          "license": "CC0-1.0 (Freesound bruno.auzet/670307 January wind in pine trees; declared in game/assets/audio/ambient_manifest.json)",
+          "sourceSha256": "a11cbbe1fd2afcb60e22972012863c184a84d6cd5eaf040d4cae9a9d47c0fc87",
+          "note": "tiled seamlessly across the bed with 1 s equal-power crossfades"
+        },
+        {
+          "path": "game/assets/audio/act1/sound_mood/chatter.wav",
+          "role": "distant household talk",
+          "offsetSeconds": 9.542,
+          "gainDb": -14.0,
+          "license": "Creative Commons 0 (CC0 1.0) (https://freesound.org/people/Breviceps/sounds/457043/)",
+          "sourceSha256": "4bc4c770a09b2d78eb201aee80ae37bb5c3a25bdd413039d7792c335bcc1b3c7",
+          "note": "2-3 tiles with irregular gaps"
+        },
+        {
+          "path": "game/assets/audio/act1/sound_mood/chatter.wav",
+          "role": "distant household talk",
+          "offsetSeconds": 76.028,
+          "gainDb": -14.0,
+          "license": "Creative Commons 0 (CC0 1.0) (https://freesound.org/people/Breviceps/sounds/457043/)",
+          "sourceSha256": "4bc4c770a09b2d78eb201aee80ae37bb5c3a25bdd413039d7792c335bcc1b3c7",
+          "note": "2-3 tiles with irregular gaps"
+        },
+        {
+          "path": "game/assets/audio/act1/sound_mood/tv.wav",
+          "role": "TV murmur segment",
+          "offsetSeconds": 28.195,
+          "gainDb": -16.0,
+          "license": "Creative Commons 0 (CC0 1.0) (https://freesound.org/people/milcahrawr/sounds/846688/)",
+          "sourceSha256": "1446c223d4d524f1e2f5c8e8882ba869fbd250ff2fec3dfb56cdaf6e5e76ad31",
+          "note": "two short quiet segments"
+        },
+        {
+          "path": "game/assets/audio/act1/sound_mood/tv.wav",
+          "role": "TV murmur segment",
+          "offsetSeconds": 85.526,
+          "gainDb": -16.0,
+          "license": "Creative Commons 0 (CC0 1.0) (https://freesound.org/people/milcahrawr/sounds/846688/)",
+          "sourceSha256": "1446c223d4d524f1e2f5c8e8882ba869fbd250ff2fec3dfb56cdaf6e5e76ad31",
+          "note": "two short quiet segments"
+        },
+        {
+          "path": "game/assets/audio/act1/village_life/music.wav",
+          "role": "faint violin bed music",
+          "offsetSeconds": 57.808,
+          "gainDb": -19.0,
+          "license": "CC-BY-SA-4.0 (Aisa Hakimcan violin excerpt via res://assets/audio/act1/radio; see game/assets/audio/act1/village_life/credits.json; attribution required)",
+          "sourceSha256": "21dec46ca9a1592951a98d8b2f053191a7c069f6b26b9860872c0a11a7a41f5c",
+          "note": "one or two faint segments"
+        },
+        {
+          "path": "game/assets/audio/act1/village_life/dog.wav",
+          "role": "distant dog bark",
+          "offsetSeconds": 23.564,
+          "gainDb": -18.0,
+          "license": "CC0-1.0 (Freesound qubodup/211607; see game/assets/audio/act1/village_life/credits.json)",
+          "sourceSha256": "f69dbd11d1c1dc9ee3a42fbf2ba7bd9dfaaa9c3995bb5bdef853cf9e0a08531f",
+          "note": "two distant barks"
+        },
+        {
+          "path": "game/assets/audio/act1/village_life/dog.wav",
+          "role": "distant dog bark",
+          "offsetSeconds": 96.775,
+          "gainDb": -18.0,
+          "license": "CC0-1.0 (Freesound qubodup/211607; see game/assets/audio/act1/village_life/credits.json)",
+          "sourceSha256": "f69dbd11d1c1dc9ee3a42fbf2ba7bd9dfaaa9c3995bb5bdef853cf9e0a08531f",
+          "note": "two distant barks"
+        },
+        {
+          "path": "game/assets/audio/act1/sound_mood/stove.wav",
+          "role": "stove crackle",
+          "offsetSeconds": 54.249,
+          "gainDb": -15.0,
+          "license": "Creative Commons 0 (CC0 1.0) (https://freesound.org/people/D.jones/sounds/525253/)",
+          "sourceSha256": "2e4e282ea9f095bc94557fceb2992155b652d5c17fa516cb2484d492f26e1bcc",
+          "note": "one crackle near the middle"
+        },
+        {
+          "path": "game/assets/audio/act1/sound_mood/laughter.wav",
+          "role": "faint laughter",
+          "offsetSeconds": 35.106,
+          "gainDb": -17.0,
+          "license": "Creative Commons 0 (CC0 1.0) (https://freesound.org/people/craigsmith/sounds/482798/)",
+          "sourceSha256": "60b71aa8b57564d2f66e87de27f7d8483effcff644cc0dbe136f119460ecbd2e",
+          "note": "one quiet burst"
+        }
+      ]
+    }
+  ],
+  "bedGenerator": "tools/audio/prepare_village_beds.py",
+  "bedSeed": 20261004,
+  "note": "clips: household one-shots and the licensed adhan recording; beds: continuous village life and dread layers mixed from existing project recordings. All sources are CC0 or project-original; no synthetic voice or TTS."
+}
