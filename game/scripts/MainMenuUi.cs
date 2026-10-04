@@ -53,6 +53,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         ("village_day", "school", "Школа"),
         ("village_day", "council", "Сельсовет / ДК"),
         ("village_day", "mosque", "Мечеть"),
+        ("village_day", "police", "Участковый · Заречье"),
         ("village_day", "bathhouse", "Баня бабая"),
         ("fap_clinic", "waiting_room", "ФАП"),
         ("zirat_road", "village_side", "Зиратская дорога"),

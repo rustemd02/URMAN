@@ -38,3 +38,18 @@ Quaternius — Stylized Nature MegaKit Standard, CC0 1.0.
 
 Зимняя иллюстрация главного меню
 Создана для УРМАНА с помощью OpenAI ImageGen.
+
+Модели сельского участка
+VAZ-2106 — domhathair, CC BY 4.0.
+Источник: https://sketchfab.com/3d-models/a73b3cdeddd846209bf7c73d5f04d20f
+Old Rotary Phone — Nymchee, CC BY 4.0.
+Источник: https://sketchfab.com/3d-models/3e225cfd07624c45bf94efecaacf4b91
+Лицензия: https://creativecommons.org/licenses/by/4.0/
+Открытые копии предоставлены Objaverse, Allen Institute for AI: https://huggingface.co/datasets/allenai/objaverse (ODC-By 1.0 для набора).
+Для игры уменьшена геометрия, подготовлены масштаб и материалы; у автомобиля добавлены спущенное колесо и надписи, у телефона уменьшены текстуры.
+
+Poly Haven, CC0 1.0: Metal Office Desk — Ulan Cabanilla; Painted Wooden Bench и Painted Wooden Cabinet — Kirill Sannikov; Desk Lamp Arm 01 — Kuutti Siitonen, Yann Kervran.
+Источники: https://polyhaven.com/a/metal_office_desk, https://polyhaven.com/a/painted_wooden_bench, https://polyhaven.com/a/painted_wooden_cabinet, https://polyhaven.com/a/desk_lamp_arm_01
+Office Desk and Chair Set — gamekorp, CC0 1.0. Источник: https://opengameart.org/content/office-desk-and-chair-set
+Лицензия: https://creativecommons.org/publicdomain/zero/1.0/
+Подготовлены статические GLB и масштаб; фактуры авторов сохранены.

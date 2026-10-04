@@ -114,7 +114,7 @@ public partial class RuntimeBridge : Node
             blocks |= PlayTimeBlock.Pause;
         if (GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true })
             blocks |= PlayTimeBlock.Settings;
-        if (!DisplayServer.WindowIsFocused()) blocks |= PlayTimeBlock.Unfocused;
+        if (!DisplayServer.WindowIsFocused() && !ProtectedBackgroundInputReplay) blocks |= PlayTimeBlock.Unfocused;
         return blocks;
     }
 

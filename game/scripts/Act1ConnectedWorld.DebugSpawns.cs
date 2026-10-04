@@ -29,6 +29,13 @@ public partial class Act1ConnectedWorld
                 spawn = new(outside, YawTowards(archiveDoor - outside));
                 return true;
             }
+            if(spawnPointId=="police" && _policePost is not null)
+            {
+                var outside=_policePost.GetMeta("porchFoot").AsVector3();
+                outside.Y=Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(outside.X,outside.Z)+.035f;
+                spawn=new(outside,YawTowards(_policePost.ToGlobal(new Vector3(0,1,4.4f))-outside));
+                return true;
+            }
             // Shop, school annex and council: the measured spot outside their own
             // entrance, turned to face that entrance.
             var room = _publicBuildings.FirstOrDefault(building => building.Id == spawnPointId);

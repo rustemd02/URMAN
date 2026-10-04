@@ -1,0 +1,422 @@
+{
+  "date": "2026-10-04",
+  "consumer": "Act1ConnectedWorld police post; static car and office props",
+  "models": [
+    {
+      "runtime": "vaz2106_static.glb",
+      "title": "VAZ-2106",
+      "author": "domhathair",
+      "author_url": "https://sketchfab.com/domhathair",
+      "source": "https://sketchfab.com/3d-models/a73b3cdeddd846209bf7c73d5f04d20f",
+      "uid": "a73b3cdeddd846209bf7c73d5f04d20f",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "metadata_license": "by",
+      "download": "https://huggingface.co/datasets/allenai/objaverse/resolve/main/glbs/000-047/a73b3cdeddd846209bf7c73d5f04d20f.glb",
+      "repository_attribution": "Objaverse by Allen Institute for AI; https://huggingface.co/datasets/allenai/objaverse (ODC-By 1.0 dataset; individual object CC BY 4.0)",
+      "changes": "static geometry reduction; metre scale and ground pivot; original UV maps; car opaque material correction, roughness/metal settings, flat tyre; period-neutral door lettering added in game; phone textures reduced to 1K; grounded pivot centred on hull; settled snow skin follows actual roof geometry",
+      "source_sha256": "2086fef5fb43328b8c2859109da5f5af51f87893847a6de3ac5995e26058058f",
+      "runtime_sha256": "c6d9c6d0850506752f181710f18db7da0facc1dc1ea9e8402f549306c3de6d6b",
+      "runtime_bytes": 4734472,
+      "triangles": 47830,
+      "dimensions_metres": [
+        1.678,
+        1.5223,
+        4.18
+      ],
+      "material_count": 12,
+      "texture_sizes": [
+        [
+          256,
+          256
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          1024,
+          1024
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          256,
+          256
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ]
+      ]
+    },
+    {
+      "runtime": "rotary_phone.glb",
+      "title": "Old Rotary Phone",
+      "author": "Nymchee",
+      "author_url": "https://sketchfab.com/Nymchee",
+      "source": "https://sketchfab.com/3d-models/3e225cfd07624c45bf94efecaacf4b91",
+      "uid": "3e225cfd07624c45bf94efecaacf4b91",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "metadata_license": "by",
+      "download": "https://huggingface.co/datasets/allenai/objaverse/resolve/main/glbs/000-109/3e225cfd07624c45bf94efecaacf4b91.glb",
+      "repository_attribution": "Objaverse by Allen Institute for AI; https://huggingface.co/datasets/allenai/objaverse (ODC-By 1.0 dataset; individual object CC BY 4.0)",
+      "changes": "static geometry reduction; metre scale and ground pivot; original UV maps; car opaque material correction, roughness/metal settings, flat tyre; period-neutral door lettering added in game; phone textures reduced to 1K; dial oriented upward for desk placement, handset 24cm wide, textures 512",
+      "source_sha256": "1d07f7f33b490383d343418f426d66af6af0e7f549eb695035af3187be0f5851",
+      "runtime_sha256": "75c6b52f2f202df726ae89280ff13b012eea2db4c56380ea16e68169451c6d18",
+      "runtime_bytes": 1986300,
+      "triangles": 11525,
+      "dimensions_metres": [
+        0.425,
+        0.0919,
+        0.2012
+      ],
+      "material_count": 2,
+      "texture_sizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ]
+      ]
+    },
+    {
+      "runtime": "metal_office_desk.glb",
+      "title": "metal_office_desk",
+      "author": "Ulan Cabanilla",
+      "source": "https://polyhaven.com/a/metal_office_desk",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download_manifest": {
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/metal_office_desk/metal_office_desk_1k.gltf",
+        "md5": "723956efef6da35ad41494efa5c3b820",
+        "size": 13510,
+        "include": {
+          "textures/metal_office_desk_nor_gl_1k.jpg": {
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/metal_office_desk/metal_office_desk_nor_gl_1k.jpg",
+            "md5": "bcf6793df61d9b5f097f2b9518866c45",
+            "size": 170875
+          },
+          "textures/metal_office_desk_diff_1k.jpg": {
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/metal_office_desk/metal_office_desk_diff_1k.jpg",
+            "md5": "6a27263c95811fa902ddea6476d610e9",
+            "size": 470831
+          },
+          "textures/metal_office_desk_arm_1k.jpg": {
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/metal_office_desk/metal_office_desk_arm_1k.jpg",
+            "md5": "fb76b1e17f07592608d3f144fce4bfce",
+            "size": 721614
+          },
+          "metal_office_desk.bin": {
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/metal_office_desk/metal_office_desk.bin",
+            "md5": "96f258b9a64d36ca011f44de23da7c65",
+            "size": 229700
+          }
+        }
+      },
+      "changes": "original 1K PBR maps; static geometry and ground pivot; lamp geometry reduced and rig removed",
+      "source_sha256": "f07032a5ee89aacceebf10fd9fa192c22775ae81861cfb0bdb1594497179373c",
+      "runtime_sha256": "adb5756418d39693ea5e476f9b52ec5bae57b9daa31ec26fea9b2151744c8753",
+      "runtime_bytes": 777364,
+      "triangles": 6898,
+      "dimensions_metres": [
+        2.0,
+        0.7875,
+        0.9472
+      ],
+      "material_count": 1,
+      "texture_sizes": [
+        [
+          1024,
+          1024
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ]
+      ]
+    },
+    {
+      "runtime": "painted_wooden_bench.glb",
+      "title": "painted_wooden_bench",
+      "author": "Kirill Sannikov",
+      "source": "https://polyhaven.com/a/painted_wooden_bench",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download_manifest": {
+        "include": {
+          "textures/painted_wooden_bench_diff_1k.jpg": {
+            "size": 545216,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_bench/painted_wooden_bench_diff_1k.jpg",
+            "md5": "60c7d0f34f52b1003345d318e35f468d"
+          },
+          "textures/painted_wooden_bench_nor_gl_1k.jpg": {
+            "size": 830104,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_bench/painted_wooden_bench_nor_gl_1k.jpg",
+            "md5": "08b74bebcff262c14beae35a4f7b3405"
+          },
+          "textures/painted_wooden_bench_arm_1k.jpg": {
+            "size": 586040,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_bench/painted_wooden_bench_arm_1k.jpg",
+            "md5": "754ecc7f47b1e5d032e45e22334954f1"
+          },
+          "painted_wooden_bench.bin": {
+            "size": 25444,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/painted_wooden_bench/painted_wooden_bench.bin",
+            "md5": "ed331b50f955852f007313c1a75c2e2d"
+          }
+        },
+        "size": 2835,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/painted_wooden_bench/painted_wooden_bench_1k.gltf",
+        "md5": "784a49250144aa5299a93c1f3b6968d7"
+      },
+      "changes": "original 1K PBR maps; static geometry and ground pivot; lamp geometry reduced and rig removed",
+      "source_sha256": "2289ab82f3fe3045bf18f7b9541743d2c65b9f071cb34bbe424d2bc998f3e507",
+      "runtime_sha256": "c94a79c244e00639b7f08a6b92783e14b38aa8a085f7ae68cc876d76d39f5389",
+      "runtime_bytes": 115868,
+      "triangles": 630,
+      "dimensions_metres": [
+        1.1649,
+        0.8893,
+        0.4965
+      ],
+      "material_count": 1,
+      "texture_sizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ]
+      ]
+    },
+    {
+      "runtime": "painted_wooden_cabinet.glb",
+      "title": "painted_wooden_cabinet",
+      "author": "Kirill Sannikov",
+      "source": "https://polyhaven.com/a/painted_wooden_cabinet",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download_manifest": {
+        "include": {
+          "textures/painted_wooden_cabinet_diff_1k.jpg": {
+            "size": 688654,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_cabinet/painted_wooden_cabinet_diff_1k.jpg",
+            "md5": "cab7d6088249cb2687e0c79b2cdf62c5"
+          },
+          "textures/painted_wooden_cabinet_arm_1k.jpg": {
+            "size": 622122,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_cabinet/painted_wooden_cabinet_arm_1k.jpg",
+            "md5": "616ce8f1c545087c463b79e7bea952a6"
+          },
+          "textures/painted_wooden_cabinet_nor_gl_1k.jpg": {
+            "size": 463678,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_cabinet/painted_wooden_cabinet_nor_gl_1k.jpg",
+            "md5": "e39fdc39e2fce036fd7a904ea3862671"
+          },
+          "painted_wooden_cabinet.bin": {
+            "size": 78072,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/painted_wooden_cabinet/painted_wooden_cabinet.bin",
+            "md5": "c86f9e483a0da1d5a9f68b08099a4166"
+          }
+        },
+        "size": 9253,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/painted_wooden_cabinet/painted_wooden_cabinet_1k.gltf",
+        "md5": "43f7a37a61773dadbafd46ab51b97c9e"
+      },
+      "changes": "original 1K PBR maps; static geometry and ground pivot; lamp geometry reduced and rig removed",
+      "source_sha256": "ce04543cdb10e05fe9c2cc08e9c118b16c1c717a07bcbfac9b99859465c8d1ed",
+      "runtime_sha256": "909e6021c28efbeb4e4b9c8705c92a6f78cb529c8870e199bd7466c7f5be8702",
+      "runtime_bytes": 191676,
+      "triangles": 2227,
+      "dimensions_metres": [
+        1.1947,
+        1.1819,
+        0.6166
+      ],
+      "material_count": 1,
+      "texture_sizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ]
+      ]
+    },
+    {
+      "runtime": "desk_lamp_arm_01.glb",
+      "title": "desk_lamp_arm_01",
+      "author": "Kuutti Siitonen; Yann Kervran",
+      "source": "https://polyhaven.com/a/desk_lamp_arm_01",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download_manifest": {
+        "include": {
+          "textures/desk_lamp_arm_01_nor_gl_1k.jpg": {
+            "size": 651826,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/desk_lamp_arm_01/desk_lamp_arm_01_nor_gl_1k.jpg",
+            "md5": "5aabbfe920ea6726d5299be7d6224551"
+          },
+          "textures/desk_lamp_arm_01_arm_1k.jpg": {
+            "size": 780379,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/desk_lamp_arm_01/desk_lamp_arm_01_arm_1k.jpg",
+            "md5": "0b887af80f561216baa3da94d001d51a"
+          },
+          "textures/desk_lamp_arm_01_diff_1k.jpg": {
+            "size": 702522,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/desk_lamp_arm_01/desk_lamp_arm_01_diff_1k.jpg",
+            "md5": "a5c1bf5465da39ca6ca9039dd4e3fd66"
+          },
+          "desk_lamp_arm_01.bin": {
+            "size": 736804,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/desk_lamp_arm_01/desk_lamp_arm_01.bin",
+            "md5": "29ffa5bb6bee35b066e46073124fee1a"
+          }
+        },
+        "size": 4453,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/desk_lamp_arm_01/desk_lamp_arm_01_1k.gltf",
+        "md5": "29b204485d30e66ee3f183ef45bf4bb3"
+      },
+      "changes": "original 1K PBR maps; static geometry and ground pivot; lamp geometry reduced and rig removed",
+      "source_sha256": "2ac8389afc1519449a9cfdf7efd9fa36780a2177bb47ab58f7a7dda7d247dc8c",
+      "runtime_sha256": "8baa52fe7f455e594482c03f675a7fde71533a4d30dc36129aa2d63cf0ad6486",
+      "runtime_bytes": 450084,
+      "triangles": 7230,
+      "dimensions_metres": [
+        0.2022,
+        0.8927,
+        0.614
+      ],
+      "material_count": 2,
+      "texture_sizes": [
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          512,
+          512
+        ]
+      ]
+    },
+    {
+      "runtime": "office_chair.glb",
+      "title": "Office Desk and Chair Set: chair",
+      "author": "gamekorp",
+      "source": "https://opengameart.org/content/office-desk-and-chair-set",
+      "author_url": "http://www.gamekorp.com",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download": "https://opengameart.org/sites/default/files/OfficeSetcc0.zip",
+      "archive_sha256": "5e4b94b314728c9500ddee4fb667aea55270b41f3673a93c1c19423fcaa7bf97",
+      "changes": "inches to metres; original diffuse atlas and UVs, GLB conversion",
+      "source_sha256": "334feb858c504859fffa417f33d484f61ebc636d5824cdd5652f5d5aa130f58d",
+      "runtime_sha256": "b0d8c0a2050ef6e7eb327adbcdf5449a596ac380847778e3963887eb696ad8a1",
+      "runtime_bytes": 291524,
+      "triangles": 524,
+      "dimensions_metres": [
+        0.428,
+        1.0929,
+        0.4785
+      ],
+      "material_count": 1,
+      "texture_sizes": [
+        [
+          512,
+          512
+        ]
+      ]
+    },
+    {
+      "runtime": "office_dining_chair.glb",
+      "title": "Office Desk and Chair Set: dining_chair",
+      "author": "gamekorp",
+      "source": "https://opengameart.org/content/office-desk-and-chair-set",
+      "author_url": "http://www.gamekorp.com",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "download": "https://opengameart.org/sites/default/files/OfficeSetcc0.zip",
+      "archive_sha256": "5e4b94b314728c9500ddee4fb667aea55270b41f3673a93c1c19423fcaa7bf97",
+      "changes": "inches to metres; original diffuse atlas and UVs, GLB conversion",
+      "source_sha256": "b5620ea7c4aba30c3f4ed73ef9e37727def22d5817db22e5013ad478c4990e2f",
+      "runtime_sha256": "21387a1471ea98103ba65b4a8c593d829afae2157bd956e0a708880067425d0a",
+      "runtime_bytes": 193028,
+      "triangles": 132,
+      "dimensions_metres": [
+        0.4326,
+        1.1764,
+        0.5223
+      ],
+      "material_count": 1,
+      "texture_sizes": [
+        [
+          512,
+          512
+        ]
+      ]
+    }
+  ]
+}

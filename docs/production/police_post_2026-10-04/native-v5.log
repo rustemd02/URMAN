@@ -1,0 +1,108 @@
+run-smoke-guarded: res://tests/act1_police_post_smoke_test.tscn
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M1 (Apple7)
+
+act1-gorge: halfWidth=8 depth=9 bridge=suspension@(0,-97.0)
+village-chimney: /root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_ChimneyCap_LOD0 top=(-31.425797, 5.598152, -3.367765)
+village-chimney: /root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_ChimneyCap_LOD0 top=(13.285, 4.224752, 39.610004)
+act1-terrain-room-cut: room=/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=123318 publishedVertices=123318 physicsVertices=123318 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+act1-drain-bank-conform: mesh=/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-rear-gate: retired_meshes=15 disabled_shapes=15 bypass=/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/village-main-road/Act1BypassCollision
+act1-mosque-terrain-cut: affectedTriangles=84 publishedVertices=123306 physicsVertices=123306 sameOwner=true
+act1-shop-storefront: reskinned=75 gableSign=(8.815001, 2.7757518, 38.800003) entry=(12.295, 0.06675188, 41.950005)
+act1-school-bank-cut: the field bank does not meet the school footprint (relayout v3); no cut
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-terrain-room-cut: room=/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageRavine/RavineFarBank/FarBankPublic_police half=(5.79, 4.29) affectedTriangles=72 clippedVertices=123312 publishedVertices=123312 physicsVertices=123312 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=0 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-fap-plate: at=(25.390001, 1.8616334, -28.118002) outward=(0, 0, 1)
+act1-overlap-cleanup: hidden=4
+act1-overlap-cleanup: legacyRelocated=0 authoredOwners=12
+act1-yard-composition: hidden=28
+authored-world: 127 objects from res://content/world
+open-part-kept-near-interaction|/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/village-main-road/@Node3D@896/@MeshInstance3D@893@6.1,7.2
+open-part-kept-near-interaction|/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ConnectiveReturnCareBench/BenchLegLeft@-5.1,-39.1
+open-part-kept-near-interaction|/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ConnectiveReturnCareBench/BenchBackPostLeft@-5.0,-39.3
+open-part-kept-near-interaction|/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ConnectiveReturnCareBench/BenchBackRest@-4.3,-39.0
+open-part-kept-near-interaction|/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/village-main-road/RestBenchCollision/Seat@-5.0,-52.0
+open-part-kept-near-interaction|/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/village-main-road/RestBenchCollision/Back@-5.0,-52.3
+open-part-kept-near-interaction|/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/village-main-road/ConnectiveReturnCareBenchCollision/Back@-4.3,-39.0
+act1-open-part-clear: hiddenMeshes=793 disabledShapes=4 sunkInstances=93 keptNearInteraction=7
+act1-babai-foliage: owners=2 contacts=2
+act1-terrain-room-cut: room=/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=50 clippedVertices=123294 publishedVertices=123294 physicsVertices=123294 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=0 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-babai-relocation: moved=600 cleared=932 door=(-9.5,-1.88315) yaw+=25.28
+act1-gorge-clear: large mesh spans the gorge: /root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/BackdropGround box=(-420, -5.3091583, -420)..(420, 12.931662, 360)
+act1-gorge-clear: hidden=606 shapesDisabled=16 foliageInstances=234
+act1-street-frontage: rejected axis=39, footprint=2
+act1-street-frontage: houses=1 runs=3 gates=0 wickets=0 wood_tris=1996 hidden_old_fence_pieces=0
+act1-yard-fences: lots=85 runs=348 wickets=82 retired=477
+act1-clean-yards: removed=1817 owners=79; real fences, storage and interactions retained
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=13 shapes=232 carved_door_slabs=31 flat_slab_skipped=316 exact_architecture_surfaces=123 hidden_skipped=108 road_clearance_skipped=0
+act1-dwelling-threshold: placements=78 worst_analytic_vs_collision_delta=0.153m worst_placement=WestArrivalNearFacade
+act1-building-supports: supported foundations=16; maximum ground drop=1.888m; level entrances preserved
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=126550546018
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-window-surrounds: painted=952
+act1-legacy-sign: suppressed=1
+village-households: 86 homes, 777 warm panes, 23 events; budgets lights=6, voices=4, clips=8, PCM=2000000
+WARNING: Vehicle babay-niva placement rejected: the actual ChassisCollision intersects /root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision; shape=/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces index=0; chassisOrigin=(-1.3, -0.49108145, 17); recovered to physically checked parking.
+     at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:210)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (/Users/kadyrahunov/Projects/URMAN/game/scripts/VehicleFleet.cs:210)
+         [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (/Users/kadyrahunov/Projects/URMAN/game/scripts/VehicleFleet.cs:124)
+         [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+         [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+         [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/kadyrahunov/Projects/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:150)
+         [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+act1-snow-relief: clipped meshes=8 triangles=305 solids=668
+zone-loaded: village_day@arrival connected-world=126550546018
+WARNING: Vehicle babay-niva placement rejected: the actual ChassisCollision intersects /root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision; shape=/root/Act1PolicePostSmokeTest/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces index=0; chassisOrigin=(-1.3, -0.49108145, 17); recovered to physically checked parking.
+     at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:210)
+     C# backtrace (most recent call first):
+         [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+         [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (/Users/kadyrahunov/Projects/URMAN/game/scripts/VehicleFleet.cs:210)
+         [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (/Users/kadyrahunov/Projects/URMAN/game/scripts/VehicleFleet.cs:124)
+         [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+         [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+         [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/Users/kadyrahunov/Projects/URMAN/game/.godot/mono/temp/obj/Debug/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:150)
+         [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+SaveGameV3 new game session started; existing slots untouched.
+SaveGameV3 written to /Users/kadyrahunov/Library/Application Support/Godot/app_userdata/URMAN/savegames/checkpoint.savegame-v3.json
+act1-police-post: PASS 42 checks; optional background officer; human art/voice review external
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceSurfaceDataCacheE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceForwardClusteredE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+ERROR: 1 shaders of type SceneForwardClusteredShaderRD were never freed
+   at: ~ShaderRD (servers/rendering/renderer_rd/shader_rd.cpp:1236)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: 2 RIDs of type "UniformBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 13 RIDs of type "IndexArray" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 13 RIDs of type "IndexBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 6 RIDs of type "VertexBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 53 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 48 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+ERROR: 1 RID allocations of type 'N10RendererRD11MeshStorage4MeshE' were leaked at exit.
+ERROR: 2 RID allocations of type 'N10RendererRD15MaterialStorage8MaterialE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N10RendererRD15MaterialStorage6ShaderE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
+userdata guard: original files and permissions restored and verified

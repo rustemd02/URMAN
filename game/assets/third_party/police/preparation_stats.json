@@ -1,0 +1,238 @@
+{
+  "vaz2106_static": {
+    "source_sha256": "2086fef5fb43328b8c2859109da5f5af51f87893847a6de3ac5995e26058058f",
+    "runtime_sha256": "c6d9c6d0850506752f181710f18db7da0facc1dc1ea9e8402f549306c3de6d6b",
+    "runtime_bytes": 4734472,
+    "triangles": 47830,
+    "dimensions_metres": [
+      1.678,
+      1.5223,
+      4.18
+    ],
+    "material_count": 12,
+    "texture_sizes": [
+      [
+        256,
+        256
+      ],
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        512,
+        512
+      ],
+      [
+        256,
+        256
+      ],
+      [
+        256,
+        256
+      ],
+      [
+        256,
+        256
+      ],
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ]
+    ]
+  },
+  "metal_office_desk": {
+    "source_sha256": "f07032a5ee89aacceebf10fd9fa192c22775ae81861cfb0bdb1594497179373c",
+    "runtime_sha256": "adb5756418d39693ea5e476f9b52ec5bae57b9daa31ec26fea9b2151744c8753",
+    "runtime_bytes": 777364,
+    "triangles": 6898,
+    "dimensions_metres": [
+      2.0,
+      0.7875,
+      0.9472
+    ],
+    "material_count": 1,
+    "texture_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ]
+    ]
+  },
+  "painted_wooden_bench": {
+    "source_sha256": "2289ab82f3fe3045bf18f7b9541743d2c65b9f071cb34bbe424d2bc998f3e507",
+    "runtime_sha256": "c94a79c244e00639b7f08a6b92783e14b38aa8a085f7ae68cc876d76d39f5389",
+    "runtime_bytes": 115868,
+    "triangles": 630,
+    "dimensions_metres": [
+      1.1649,
+      0.8893,
+      0.4965
+    ],
+    "material_count": 1,
+    "texture_sizes": [
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ]
+    ]
+  },
+  "desk_lamp_arm_01": {
+    "source_sha256": "2ac8389afc1519449a9cfdf7efd9fa36780a2177bb47ab58f7a7dda7d247dc8c",
+    "runtime_sha256": "8baa52fe7f455e594482c03f675a7fde71533a4d30dc36129aa2d63cf0ad6486",
+    "runtime_bytes": 450084,
+    "triangles": 7230,
+    "dimensions_metres": [
+      0.2022,
+      0.8927,
+      0.614
+    ],
+    "material_count": 2,
+    "texture_sizes": [
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ]
+    ]
+  },
+  "painted_wooden_cabinet": {
+    "source_sha256": "ce04543cdb10e05fe9c2cc08e9c118b16c1c717a07bcbfac9b99859465c8d1ed",
+    "runtime_sha256": "909e6021c28efbeb4e4b9c8705c92a6f78cb529c8870e199bd7466c7f5be8702",
+    "runtime_bytes": 191676,
+    "triangles": 2227,
+    "dimensions_metres": [
+      1.1947,
+      1.1819,
+      0.6166
+    ],
+    "material_count": 1,
+    "texture_sizes": [
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ]
+    ]
+  },
+  "office_chair": {
+    "source_sha256": "334feb858c504859fffa417f33d484f61ebc636d5824cdd5652f5d5aa130f58d",
+    "runtime_sha256": "b0d8c0a2050ef6e7eb327adbcdf5449a596ac380847778e3963887eb696ad8a1",
+    "runtime_bytes": 291524,
+    "triangles": 524,
+    "dimensions_metres": [
+      0.428,
+      1.0929,
+      0.4785
+    ],
+    "material_count": 1,
+    "texture_sizes": [
+      [
+        512,
+        512
+      ]
+    ]
+  },
+  "office_dining_chair": {
+    "source_sha256": "b5620ea7c4aba30c3f4ed73ef9e37727def22d5817db22e5013ad478c4990e2f",
+    "runtime_sha256": "21387a1471ea98103ba65b4a8c593d829afae2157bd956e0a708880067425d0a",
+    "runtime_bytes": 193028,
+    "triangles": 132,
+    "dimensions_metres": [
+      0.4326,
+      1.1764,
+      0.5223
+    ],
+    "material_count": 1,
+    "texture_sizes": [
+      [
+        512,
+        512
+      ]
+    ]
+  },
+  "rotary_phone": {
+    "source_sha256": "1d07f7f33b490383d343418f426d66af6af0e7f549eb695035af3187be0f5851",
+    "runtime_sha256": "75c6b52f2f202df726ae89280ff13b012eea2db4c56380ea16e68169451c6d18",
+    "runtime_bytes": 1986300,
+    "triangles": 11525,
+    "dimensions_metres": [
+      0.425,
+      0.0919,
+      0.2012
+    ],
+    "material_count": 2,
+    "texture_sizes": [
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ],
+      [
+        512,
+        512
+      ]
+    ]
+  }
+}
