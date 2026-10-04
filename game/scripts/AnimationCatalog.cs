@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Godot;
 
@@ -25,6 +26,46 @@ public static class AnimationCatalog
     // Keeps the library scene's managed wrapper alive with its animations.
     private static Node? _libraryScene;
 
+    /// <summary>The character's kit AnimationPlayer and prefix, resolved once.</summary>
+    private sealed class KitPlayer
+    {
+        public AnimationPlayer Player = null!;
+        public string Prefix = "";
+    }
+
+    // A character's kit player and prefix never change, but resolving them means a
+    // recursive FindChildren over the whole character subtree (hundreds of nodes in
+    // the kit) plus a LINQ iterator, and Play/Compatibility are called on every
+    // motion change. Weak keys keep this free of leaks as characters are rebuilt.
+    private static readonly ConditionalWeakTable<Node3D, KitPlayer> _kitPlayers = new();
+
+    private static KitPlayer ResolveKitPlayer(Node3D character)
+    {
+        if (_kitPlayers.TryGetValue(character, out var cached) && IsCacheUsable(character, cached)) return cached;
+        var prefix = character.HasMeta("characterPrefix") ? character.GetMeta("characterPrefix").AsString() : "";
+        AnimationPlayer? found = null;
+        using var candidates = (global::Godot.Collections.Array)character.FindChildren("*", nameof(AnimationPlayer), true, false);
+        foreach (var candidate in candidates)
+        {
+            if (candidate.AsGodotObject() is AnimationPlayer player && player.HasAnimation($"{prefix}_Idle"))
+            {
+                found = player;
+                break;
+            }
+        }
+
+        var resolved = new KitPlayer { Player = found!, Prefix = prefix };
+        _kitPlayers.Remove(character);
+        if (found is not null) _kitPlayers.Add(character, resolved);
+        return resolved;
+    }
+
+    private static bool IsCacheUsable(Node3D character, KitPlayer cached) =>
+        cached.Player is not null
+        && GodotObject.IsInstanceValid(cached.Player)
+        && character.IsAncestorOf(cached.Player)
+        && cached.Player.HasAnimation($"{cached.Prefix}_Idle");
+
     public static IReadOnlyDictionary<string, JsonElement> Entries => _entries ??= Load(null);
 
     /// <summary>Studio preview: use edited catalogue data (null = reread the file).</summary>
@@ -41,9 +82,9 @@ public static class AnimationCatalog
         var source = p.GetProperty("source");
         var speed = p.TryGetProperty("speed", out var speedValue) ? speedValue.GetSingle() : 1f;
         var loop = p.TryGetProperty("loop", out var loopValue) && loopValue.GetBoolean();
-        var prefix = character.HasMeta("characterPrefix") ? character.GetMeta("characterPrefix").AsString() : "";
-        var player = character.FindChildren("*", nameof(AnimationPlayer), true, false).OfType<AnimationPlayer>()
-            .FirstOrDefault(candidate => candidate.HasAnimation($"{prefix}_Idle"));
+        var kit = ResolveKitPlayer(character);
+        var prefix = kit.Prefix;
+        var player = kit.Player;
         if (player is null)
         {
             return new(false, "", "У персонажа нет проигрывателя анимаций кита.");
@@ -130,9 +171,9 @@ public static class AnimationCatalog
     /// <summary>Whether a library clip fits the character's skeleton, without playing it.</summary>
     public static string Compatibility(Node3D character, string clip)
     {
-        var prefix = character.HasMeta("characterPrefix") ? character.GetMeta("characterPrefix").AsString() : "";
-        var player = character.FindChildren("*", nameof(AnimationPlayer), true, false).OfType<AnimationPlayer>()
-            .FirstOrDefault(candidate => candidate.HasAnimation($"{prefix}_Idle"));
+        var kit = ResolveKitPlayer(character);
+        var prefix = kit.Prefix;
+        var player = kit.Player;
         if (player is null || !TryClip(clip, out var animation)) return "нет данных";
         var skeleton = player.GetNode(player.RootNode).GetNodeOrNull<Skeleton3D>(SkeletonPath(player, prefix));
         if (skeleton is null) return "нет скелета";
