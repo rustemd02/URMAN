@@ -321,16 +321,34 @@ public sealed class CompiledCampaignRepository
     {
         if (languageLevel is "some" or "fluent")
         {
-            _textIdSet ??= _texts.Ids().ToHashSet(StringComparer.Ordinal);
             var variant = $"{textId}.lvl-{languageLevel}";
-            if (_textIdSet.Contains(variant)) return _texts.Resolve(variant, "ru").Text;
+            if (TextIdSet.Contains(variant)) return _texts.Resolve(variant, "ru").Text;
         }
         return _texts.Resolve(textId, "ru").Text;
     }
 
+    // ResolverCatalog.Ids(category) copies every id into a fresh array on each call,
+    // and the text set is authored content that does not change while a repository
+    // lives. The id list, its set and the prefix queries therefore each get one pass
+    // over it: TextIdsWithPrefix used to run a full filter, sort and array build on
+    // every resident greeting, and ResolveVocabularySource built a fresh array just
+    // to ask whether one id is present.
+    private IReadOnlyList<string>? _textIds;
+    private readonly Dictionary<string, IReadOnlyList<string>> _textIdsByPrefix = new(StringComparer.Ordinal);
+
+    private IReadOnlyList<string> TextIds => _textIds ??= _texts.Ids().ToArray();
+
+    private HashSet<string> TextIdSet => _textIdSet ??= TextIds.ToHashSet(StringComparer.Ordinal);
+
     /// <summary>Authored text ids that start with a prefix, in id order.</summary>
-    public IReadOnlyList<string> TextIdsWithPrefix(string prefix) =>
-        _texts.Ids().Where(id => id.StartsWith(prefix, StringComparison.Ordinal)).Order(StringComparer.Ordinal).ToArray();
+    public IReadOnlyList<string> TextIdsWithPrefix(string prefix)
+    {
+        if (_textIdsByPrefix.TryGetValue(prefix, out var cached)) return cached;
+        var ids = TextIds.Where(id => id.StartsWith(prefix, StringComparison.Ordinal))
+            .Order(StringComparer.Ordinal).ToArray();
+        _textIdsByPrefix[prefix] = ids;
+        return ids;
+    }
 
     /// <summary>
     /// Resolves only a source that is present in the compiled campaign. This is
@@ -342,7 +360,7 @@ public sealed class CompiledCampaignRepository
         if (string.IsNullOrWhiteSpace(sourceId)) return null;
         if (_documentsById.TryGetValue(sourceId, out var document))
             return new(sourceId, document.Title, document.BodyMarkdown);
-        if (_texts.Ids().Contains(sourceId, StringComparer.Ordinal))
+        if (TextIdSet.Contains(sourceId))
             return new(sourceId, "Реплика в разговоре", _texts.Resolve(sourceId, "ru").Text);
 
         var separator = sourceId.LastIndexOf(':');

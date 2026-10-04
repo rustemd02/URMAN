@@ -42,6 +42,10 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private bool _modalOpen;
     private bool _sessionTransition;
     private bool _worldInteractionNeedsRelease;
+    // The neutral-frame gate runs on consecutive frames after a modal closes, and it
+    // allocates the action list on each of them; the names are constants.
+    private static readonly string[] ReleaseRequiredActions =
+        { InteractionAction, "carry_use", "carry_place", "carry_rotate", "crouch", "jump", "sprint" };
     private bool _motionBlur;
     private bool _headBob;
     private string _graphicsPreset = GraphicsQuality.DefaultPreset();
@@ -542,7 +546,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         // so the closing press cannot also repair, pick up or enter a ladder.
         if (_worldInteractionNeedsRelease)
         {
-            var actions = new[] { InteractionAction, "carry_use", "carry_place", "carry_rotate", "crouch", "jump", "sprint" };
+            var actions = ReleaseRequiredActions;
             if (actions.All(action => !Input.IsActionPressed(action) && !Input.IsActionJustPressed(action)))
                 _worldInteractionNeedsRelease = false;
             SetInteractionPrompt(string.Empty);
