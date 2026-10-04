@@ -16681,6 +16681,7 @@
     },
     {
       "id": "ACT1-CUTSCENE",
+      "progress_2026_10_04": "2026-10-04: семейство сведено: docs/production/act1_cutscene_family_2026-10-04.md. Дочерние задачи опираются на действующие сцены и записи: постановка в четырёх частичных файлах Act1DemoRoot.Prologue* (Forest/NivaRide/Driver/RideRadio), внутри только встроенные средства Godot (Tween 41, Camera3D 10, LookAtModifier3D 2), receipts волны a02 существуют. Свежая приёмка относится к поставляемой версии и требует прогона: прежние свидетельства (срез 28.09) на текущую сборку не переносятся.",
       "execution": {
         "kind": "rollup",
         "unit": "Приёмка результатов связанных карточек",
@@ -16712,7 +16713,8 @@
       ],
       "evidence": [
         "docs/production/act1_opening_takeover_2026-09-28/README.md"
-      ],
+      ,
+        "docs/production/act1_cutscene_family_2026-10-04.md"],
       "mvp_priority": 12,
       "mvp_packet": "A02",
       "delivery": {
@@ -16765,6 +16767,7 @@
     },
     {
       "id": "ACT1-CUTSCENE.1",
+      "progress_2026_10_04": "2026-10-04: подтверждено, что нового катсценного движка нет: постановка живёт в Act1DemoRoot.PrologueForest.cs, PrologueNivaRide.cs, PrologueDriver.cs, PrologueRideRadio.cs и использует только встроенные средства Godot (Tween 41, Camera3D 10, LookAtModifier3D 2) плюс существующее состояние мира. Критерий «не строить новый движок, использовать действующие сцены/состояние» выполняется. Разбор: docs/production/act1_cutscene_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "N2: существующий постановочный контроллер",
@@ -16819,7 +16822,8 @@
       ],
       "evidence": [
         "docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/receipt.json"
-      ],
+      ,
+        "docs/production/act1_cutscene_family_2026-10-04.md"],
       "current_checkpoint": "2026-09-27: intro-specific JSON camera track/control candidate. Native normal/160% frames, reduced-motion path, skip and natural return were checked earlier; current-DLL guarded launch and cold main-menu runs exit0. Boot-menu replay uses a separate debug save store, returns to menu, leaves player save hashes unchanged; New Game returns to ordinary session and Continue loads directly without replay. A new save-schema seen bit was rejected because no behavior consumes it. No generic multi-scene player, authored sound, weak-host performance or human motion review; keep in_progress. See a02-intro-flyover/ and a02-intro-replay/receipts. The arrival zone already routes its recorded wind bed through the existing AmbientAudioDirector; no separate sound player was added. Listening and scene-specific mix are still open.",
       "mvp_priority": 12,
       "mvp_packet": "A02",
@@ -16894,6 +16898,7 @@
     },
     {
       "id": "ACT1-CUTSCENE.2",
+      "progress_2026_10_04": "2026-10-04: цепочка вступления реализована и совпадает с принятым сценарием: тизер → голос Мансура → переднее место Нивы → поездка через целый мост и деревню с калибровкой → чай/первые встречи → сон → ночное обрушение → утренняя новость; Мансур в салоне, дубль скрыт, во время тизера запрещены предметные действия/журнал/save-load. Исторические receipts a02 (intro-flyover, intro-smoke) существуют, но относятся к своей сборке; свежий прогон не заявляется. Разбор: docs/production/act1_cutscene_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "N1–N3: одна утверждённая версия пролога",
@@ -16956,7 +16961,8 @@
           "kind": "code+smoke",
           "result": "29.09 по отзыву автора: флешфорвард перенесён в отдельную локацию PrologueDeepForest (230 м старой просеки, 25–38 м деревья, следы, стук, варежка, поваленная ель, силуэт, избушка с гаснущим светом, огоньки глаз, поляна с оборванными следами, голос за спиной). Смок prologue-watch PASS: лес 71 с (был ~12 с). Художественная сила и страх — человеческая оценка открыта."
         }
-      ],
+      ,
+        "docs/production/act1_cutscene_family_2026-10-04.md"],
       "current_checkpoint": "2026-09-27: one camera-curve segment from above the current winter village to actual arrival spawn, with four current-DLL native frames including 160% text. Forest and settlement are visible without a centre card. No visible smoke established, no authored sound synchronization/listening, motion-art review, weak-hardware FPS or human acceptance; ACT1-CUTSCENE.2 remains in_progress. 2026-09-27: existing ambient.village-arrival bed is already selected for village_day@arrival. Existing two chimney emitters advance during the non-reduced-motion flyover after the VillageLife gate fix; native normal/reduced launch and three frames passed on exact local DLL. The plume is barely readable in the wide frame; synchronized sound, perceived motion, composition, weak-host FPS and human review remain open. See a02-intro-smoke/receipt.json.",
       "mvp_priority": 12,
       "mvp_packet": "A02",
@@ -17029,6 +17035,7 @@
     },
     {
       "id": "ACT1-CUTSCENE.3",
+      "progress_2026_10_04": "2026-10-04: по принятой записи обычный просмотр, skip через Esc, загрузка до/после ночи, отсутствие новых улик и возврат управления подтверждались нативной семейной проверкой на срезе 28.09; повторный просмотр возвращал в меню, клик «Новая игра» сцену не пропускал. Это свидетельства своей сборки, поэтому на текущей сборке пункт остаётся not-run, пока не будет прогона. Открытые художественные пункты (хват руля, полный тур, ручное наведение, сила метели) записаны отдельно; языковой профиль этим аудитом закрыт. Разбор: docs/production/act1_cutscene_family_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один сценарий старта/пропуска.",
@@ -17078,7 +17085,8 @@
         "Тизер гиперболизирует реальный будущий эпизод без обещания буквального повторения; не показывает существо целиком и не вводит бой. Финал Не отвечай сохраняется.",
         "Есть реальный проход и актуальные ключевые кадры/захват; компиляция не доказывает постановку, старые кадры не доказательство нового билда."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_cutscene_family_2026-10-04.md"],
       "mvp_priority": 12,
       "mvp_packet": "A02",
       "delivery": {
@@ -23297,6 +23305,7 @@
       "npc_family_2026_10_04": "NPC family audited from data and code: the living-village system exists and is data-driven - 33 npc entities in act1_north_street_residents.world.v1.json with characterId, appearance kit, position, scale, an appearance profile and a behaviour note, all 33 carrying a schedule, with the schedule vocabulary in AuthoredWorldDirector.Schedules.cs and appearance assembly in AuthoredWorldDirector.Residents.cs; the cast kits are reused across six families instead of one male model. The measurable gap is population: about 41 people (33 residents plus the eight named characters, with no double counting because kitPrefix is an appearance family) against the author's 60-70 figure, which is closed by adding data rather than code. Reactions are implemented for the named cast through state, and the residents' audit passport exists with its own note that physical and art acceptance are open. Report: docs/production/act1_npc_family_2026-10-04.md",
       "tech_review_2026_10_04": "Technical review family audited: the per-zone checklist draft exists with reproducible rows (404 lindens without bark collision, the BabaiFirewoodShelterPost B90 case, a crownless tree at (-33, 8.2), the mosque sash unsupported by about 0.027 m, the bathhouse second ascent with its B42->1c1a90c regression window, floating zirat kerbs, plus unevaluated seams and alpha sorting candidates); the D14 pit is recorded as an ambiguous coordinate of the same class the placement rule closes, with behavioural acceptance still requiring a run; the door/wall/roof/window producers live in the Blender kits and the code builders with measured door units; and 44 light nodes exist across eight files with the FacilityLamp pattern, while the public interiors' lamps enable no shadows at all (0 against 13 in the benchmark house), which is recorded as a real leak risk and a candidate rather than a proven defect. Report: docs/production/act1_tech_review_2026-10-04.md",
       "quest_address_audit_2026_10_04": "Quest-address family audited: markers are absent by construction rather than by assertion - the address plate sets notQuestMarker=true, no questmarker or autopath appears in the scripts, all three quests' objectives start from knowledge.status conditions rather than proximity, and the only 'waypoint' uses are authored approach points handed to the physical verifier; the audit table maps each of the three mandatory goals to its address source (mama's note with ADR-BABAI and the street-then-number rule, documents and the notebook, and the edge goal that needs no address) plus the FAP, mosque, shop, school and council hints with file references; the registry holds 27 buildings with an addressId and 10 streets, and the {address:...} template is used for six of them. AddressAccessVerifier provides the automated, read-only route audit, while current-build evidence still needs a run. Report: docs/production/act1_quest_address_audit_2026-10-04.md",
+      "cutscene_family_2026_10_04": "Cutscene family consolidated: the staging lives in four Act1DemoRoot.Prologue partials and uses only Godot built-ins (41 Tweens, 10 Camera3D, 2 LookAtModifier3D), so no separate cutscene engine exists, which is what CUTSCENE.1 asks; the intro chain matches the accepted script end to end with Mansur staged in the cabin and the teaser isolating narrative state; viewing, Esc skip and load before and after the night were confirmed on the 28.09 slice only, so fresh acceptance stays not-run; the language profile item is now closed by the language-layer audit, while the driver's hand grip, the full tour, manual pointing and the storm's artistic force remain open. Report: docs/production/act1_cutscene_family_2026-10-04.md",
       "village_layout_data_2026_10_04": "World layout data audit: 196 kit placements, 96 active and 100 retired, but only 10 of the retired ones record a reason, which is a traceability gap rather than a proven layout fault; the file also shows that the dwelling-variant count cannot be read from it (only five active dwellings), and that public buildings are not described there at all - their form comes from code builders plus the FAP kit. Report: docs/production/act1_village_layout_data_2026-10-04.md",
       "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 35 (REVIEW28-RESEARCH and LEN01.1).",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
