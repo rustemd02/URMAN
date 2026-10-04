@@ -14158,6 +14158,7 @@
     },
     {
       "id": "ACT1-TECH",
+      "progress_2026_10_04": "2026-10-04: техническое ревью сведено: docs/production/act1_tech_review_2026-10-04.md. Подтверждено статически: черновик чек-листа по зонам с местами и воспроизведением (стволы 404 лип без bark-коллизии, BabaiFirewoodShelterPost B90, дерево (−33, 8.2) без кроны/LOD, створка мечети без опоры Δ≈0.027 м, второй подъём бани и окно регрессии B42→1c1a90c, парящие плиты зирата; швы Apron_BabaiYard 11 треугольников, канава школы 20, стык ограды сельсовета 3 рейки); 44 источника света в 8 файлах и паттерн FacilityLamp; измерения дверных узлов. Требует кадра/прогона: покрытие всех зон, швы/мерцание, проход капсулы у D14, отсутствие просветов, протечка света. Наблюдение по TECH.4: у общественных ламп нет теней (0 shadow_enabled против 13 в доме-эталоне) — кандидат на протечку, не доказанный дефект.",
       "execution": {
         "kind": "aggregate",
         "unit": "Не выдавать исполнителю целиком; выбрать одну незавершённую дочернюю задачу.",
@@ -14210,7 +14211,8 @@
         "Результат интегрирован в основную игру и подтверждён проверкой на точной текущей сборке.",
         "Невыполненные внешние проверки остаются external/not-run; source-only и historical PASS не принимают результат."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_tech_review_2026-10-04.md"],
       "mvp_priority": 11,
       "mvp_packet": "A01",
       "delivery": {
@@ -14224,6 +14226,7 @@
     },
     {
       "id": "ACT1-TECH.1",
+      "progress_2026_10_04": "2026-10-04: черновик чек-листа по зонам существует и конкретен: act1_swarm_next_packets_2026-09-22.md §6 — подтверждённые коллизии (404 липы без bark-коллизии, BabaiFirewoodShelterPost B90, дерево (−33, 8.2) без кроны/LOD, створка мечети без опоры Δ≈0.027 м, второй подъём бани с окном регрессии B42→1c1a90c, парящие плиты обочины зирата), не оценённые швы (Apron_BabaiYard 11 треугольников, канава школы 20, стык ограды сельсовета 3 рейки), свет интерьеров с кандидатами утечки и alpha-объекты на сортировку. Осталось: покрытие всех зон обязательного пути и основных интерьеров + визуальные пункты. Разбор: docs/production/act1_tech_review_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одна зона обязательного пути.",
@@ -14272,7 +14275,8 @@
       "evidence": [
         "2026-09-22 черновик чек-листа по зонам (read-only рой): подтверждённые открытые коллизии (стволы 404 деревьев, BabaiFirewoodShelterPost B90, дерево -33/8.2, створка мечети, второй подъём бани, плиты обочины зирата), швы, свет-гипотезы, alpha-список — docs/production/act1_takeover_evidence_2026-09-16/act1_swarm_next_packets_2026-09-22.md §6.",
         "docs/production/tamara_mvp_2026-09-26/graphics-quality/README.md"
-      ],
+      ,
+        "docs/production/act1_tech_review_2026-10-04.md"],
       "mvp_priority": 11,
       "mvp_packet": "A01",
       "graphics_quality_2026_09_27": {
@@ -14294,6 +14298,7 @@
     },
     {
       "id": "ACT1-TECH.2",
+      "progress_2026_10_04": "2026-10-04: провал у D14 X29.8 Z2.6 в записях помечен как следствие неоднозначной координаты; это тот же класс, который закрывает правило посадки «вертикаль из террейна, а не из догадки» (act1_placement_rules_2026-10-04.md, пункт 3). Приёмка карточки поведенческая: реальная капсула проходит/останавливается по видимой геометрии, туда и обратно, и дефект нельзя скрывать recover/clamp или уменьшением капсулы — это проверяется прогоном, поэтому здесь ничего не объявлено исправленным. Разбор: docs/production/act1_tech_review_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "W6: воспроизведённый провал/застревание и соседний обратный путь",
@@ -14346,7 +14351,8 @@
       "evidence": [
         "docs/production/mvp_tracker_2026-09-27/alsu-route-receipt.json",
         "docs/production/a01_ex13_yard_2026-09-28/README.md"
-      ],
+      ,
+        "docs/production/act1_tech_review_2026-10-04.md"],
       "progress_2026_09_24": "2026-09-24: river ravine soft-lock fixed with plank steps on the village bank (five exits fitted to the bank profile); low forest bank at x~-41 closed with a visible windfall; act1_river_exit_smoke_test in verify-godot.",
       "current_checkpoint": "2026-09-27 A01: the apparent house-to-Alsu collision was a stale proof line through intended Frontage_26; guarded Alsu-only run exit0 without changing game collider. Historical Babai shelter-post B90 failure did not recur in the full boundary run after existing clear-path fixture selection. That run exited1 for a MainStreetForwardWestFacade arbitrary wall-face approach; a separate native ADR-H018 road-to-door/plate and return route passed 18/18 points each way without recovery/clamp. No actual door-path blocker reproduced; direct wall contact, general collision audit and human pathfinding remain open. See docs/production/mvp_tracker_2026-09-27/a01-h018/receipt.json.",
       "kara_grade_checkpoint_2026_09_27": "A10: two forest-edge Grade_Kara meshes now follow current terrain and carry exact independent surface contacts. C# build 0/0; protected FAP-path exit0/119; protected kara-side walk exit0/157.37m; native forest frame captured. Full architecture exit1/1005 at the already-open MainStreetForwardWestFacade face probe. Direct crest traversal, other Grade_* and human art acceptance remain open. Evidence: docs/production/mvp_tracker_2026-09-27/a10-kara-grade/README.md.",
@@ -14420,6 +14426,7 @@
     },
     {
       "id": "ACT1-TECH.3",
+      "progress_2026_10_04": "2026-10-04: производители дверей/стен/крыш/окон живут в авторских китах (assets/source/blender/act1/*.py, game/assets/models/act1/*.glb) и в код-сборщиках (StyleBenchmarkInteriorFactory.Rooms.cs, PublicBuildings.cs, Act1ConnectedWorld.*); дверные узлы измерены (жилой класс 1.92/2.02 м, баня 1.70/1.80 м — act1_house_scale_2026-10-04.md). Для семейства створок уже есть конкретная открытая строка: створка мечети без опоры на 0.90/1.55 м с измеренной дельтой ≈0.027 м; K13 (настоящая створка/окно вместо доски) относится к этому же семейству. Отсутствие просветов и z-fighting проверяется кадром. Разбор: docs/production/act1_tech_review_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "W6: одно семейство щелей/наложений",
@@ -14469,7 +14476,8 @@
         "Нет пустоты за щелью или z-fighting в названном семействе с разных расстояний и поворотов; K13 получает настоящую створку/окно, не подменённую доску. Фоновый дом имеет честную оболочку, не обязательный полный интерьер.",
         "Каждое связанное R-требование имеет результат/обоснованное принятое исключение; варианты не объявлены обязательными без решения. Техническое и человеческое доказательство разделены."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/production/act1_tech_review_2026-10-04.md"],
       "mvp_priority": 11,
       "mvp_packet": "A01",
       "delivery": {
@@ -14541,6 +14549,7 @@
     },
     {
       "id": "ACT1-TECH.4",
+      "progress_2026_10_04": "2026-10-04: локальные источники света есть: 44 узла OmniLight3D/SpotLight3D в 8 файлах, из них StyleBenchmarkZone.cs 12 (дом), MosqueInterior.cs 3, Act1ConnectedWorld.cs 2, Bathhouse.cs 2; паттерн FacilityLamp строит на комнату MainLamp у потолка (ffdfa9) и SeniLamp у входа (efcd91) — «направление и тепло» на комнату. Наблюдение по критерию «уличный свет не протекает внутрь»: в PublicBuildings.cs у ламп не включены тени (0 shadow_enabled против 13 в доме-эталоне), а лампа без теней светит сквозь стены, поэтому риск протечки реален; это кандидат, требующий кадра внутри и снаружи, а не доказанный дефект. Разбор: docs/production/act1_tech_review_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Одно основное помещение.",
@@ -14593,7 +14602,8 @@
       ],
       "evidence": [
         "2026-10-03 house-refuge pilot: actual house_old_pc debug session baseline, not an outdoor free camera placed inside. Existing StyleBenchmarkZone house environment now AgX, cool neutral ambient.40; existing warm lamp1.70 and RoomFill1.0 plus cold WindowFill.68, KitchenBulb less yellow1.0. Existing house environment reuses the current exterior Sky/fog color through ExteriorAtmosphere; native depth fog starts12m past the room diagonal, ends from current outdoor density, no second WorldEnvironment or profile manager. Main room ceiling reuses W05 painted wood; 3mm separation above ceiling prevents coplanar beam faces. Actual relocated roof reconciles planted-tree roots using existing ReconcileBuildingFoliage:2 complete LOD owners +2 exact geometryOwner stem contacts excluded. This fixes the visible birch through the living room/ceiling; moved facade is the anchor, no obsolete world coordinate. C# final build0errors/0warnings11.20s; diff check pass. Comparable protected Metal Forward+ High scale1 1280x720 FOV70 baseline/clear_refuge/painted_refuge at /Users/unterlantas/Documents/URMAN_visual_20261003_refuge/: less yellow kitchen, cold window background and much clearer main room. Initial baseline_paused_invalid rejected because pause overlay dimmed it; existing DevViewCapture now resumes after focus and logs actual zone/preset/scale/FOV/pause. One existing guarded native act1_boundary_architecture_smoke_test scope=house PASS105 checks,22.47m ordinary-controller scripted movement; native_house/ PNGs and architecture-receipt.json prove High1280x720 FOV75, clean ceiling and preserved contacts/window/room contract. HumanPlaytest=false; not an author beauty/comfort judgment. Userdata restored/verified. Existing exit resource leaks remain. Street-house-street ordinary doorway transition, Low/night and other interiors remain open; no current FPS benchmark or new test infrastructure."
-      ],
+      ,
+        "docs/production/act1_tech_review_2026-10-04.md"],
       "mvp_priority": 11,
       "mvp_packet": "A01",
       "delivery": {
@@ -23275,6 +23285,7 @@
       "ex_accept_completed_2026_10_04": "ACT1-EX-ACCEPT is completed: its done_when asked for the 14-row register with real IDs, runtime owners, implementation paths and separated statuses, which is exactly what the ledger delivers, including the rule that empty IDs and a generic frame folder cannot close a row. The capabilities themselves remain open in ACT1-EX01-EX14. Completed cards: 35 -> 36; status counts recomputed.",
       "ex_acceptance_ledger_2026_10_04": "ACT1-EX-ACCEPT received the 14-row §13 ledger as docs/production/act1_ex_acceptance_ledger_2026-10-04.md: every row names the §13 definition, the real runtime owners by file, real object or interaction IDs - including carry-lantern and the Bath* nodes, and saying plainly where no content interaction id exists instead of substituting one - the implementation path, the evidence, and statuses kept apart as contract / implemented / technically verified (historically, on earlier builds) / viewing and user observation as external not-run. Eleven capabilities are implemented and historically verified, EX02 and EX03 have a content decision left, EX04 and EX07 are partial. The ledger states the inspection commit and refuses to transfer packaged receipts.",
       "npc_family_2026_10_04": "NPC family audited from data and code: the living-village system exists and is data-driven - 33 npc entities in act1_north_street_residents.world.v1.json with characterId, appearance kit, position, scale, an appearance profile and a behaviour note, all 33 carrying a schedule, with the schedule vocabulary in AuthoredWorldDirector.Schedules.cs and appearance assembly in AuthoredWorldDirector.Residents.cs; the cast kits are reused across six families instead of one male model. The measurable gap is population: about 41 people (33 residents plus the eight named characters, with no double counting because kitPrefix is an appearance family) against the author's 60-70 figure, which is closed by adding data rather than code. Reactions are implemented for the named cast through state, and the residents' audit passport exists with its own note that physical and art acceptance are open. Report: docs/production/act1_npc_family_2026-10-04.md",
+      "tech_review_2026_10_04": "Technical review family audited: the per-zone checklist draft exists with reproducible rows (404 lindens without bark collision, the BabaiFirewoodShelterPost B90 case, a crownless tree at (-33, 8.2), the mosque sash unsupported by about 0.027 m, the bathhouse second ascent with its B42->1c1a90c regression window, floating zirat kerbs, plus unevaluated seams and alpha sorting candidates); the D14 pit is recorded as an ambiguous coordinate of the same class the placement rule closes, with behavioural acceptance still requiring a run; the door/wall/roof/window producers live in the Blender kits and the code builders with measured door units; and 44 light nodes exist across eight files with the FacilityLamp pattern, while the public interiors' lamps enable no shadows at all (0 against 13 in the benchmark house), which is recorded as a real leak risk and a candidate rather than a proven defect. Report: docs/production/act1_tech_review_2026-10-04.md",
       "village_layout_data_2026_10_04": "World layout data audit: 196 kit placements, 96 active and 100 retired, but only 10 of the retired ones record a reason, which is a traceability gap rather than a proven layout fault; the file also shows that the dwelling-variant count cannot be read from it (only five active dwellings), and that public buildings are not described there at all - their form comes from code builders plus the FAP kit. Report: docs/production/act1_village_layout_data_2026-10-04.md",
       "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 35 (REVIEW28-RESEARCH and LEN01.1).",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
