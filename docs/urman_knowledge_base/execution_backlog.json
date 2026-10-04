@@ -11770,6 +11770,7 @@
     },
     {
       "id": "ACT1-LANG.4",
+      "progress_2026_10_04": "2026-10-04: калибровка уровня в живом разговоре реализована и проверена: сцена поездки в Ниве показывает текущий уровень («Татарский в разговорах: … Это можно поменять в настройках», Act1DemoRoot.PrologueNivaRide.cs:235) и меняет его на месте (:470-479); уровень хранится как none/some/fluent (FirstPersonController.cs:50) и меняет сам текст (ResolveText → {textId}.lvl-some/.lvl-fluent, CompiledCampaignRepository.cs:316-325). В контенте 26 текстов с обоими вариантами, из них 20 — одна сцена prologue-ride-bark-* (замечания и вопросы бабая в поездке) и 6 — повторный контекст dialogue-*; все 26 различаются формулировкой по трём уровням. Аудит: docs/production/act1_language_layer_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "L1: одна короткая игровая калибровка",
@@ -11844,7 +11845,8 @@
           "result": "Разметка озвучки пролога tools/voice/gemini_tts/speech_markup.json (79 реплик: тон, темп, паузы, приоритет P0–P2, голос Айдара); генератор пересинтезирует изменившиеся тексты и вшивает паузы; найдена и исправлена ошибка: подстрочник в скобках озвучивался",
           "not_verified": "синтез — превью, не финальная запись; акцент не слушался"
         }
-      ],
+      ,
+        "docs/production/act1_language_layer_2026-10-04.md"],
       "mvp_priority": 16,
       "mvp_packet": "A04",
       "current_checkpoint": "2026-09-26: confirmed no existing calibration questions/state. In-world recollection proposal recorded in language_learning.md, author asked to choose recollections vs mother correspondence vs retain manual only. No implementation or acceptance claimed; other authorized MVP work continues.",
@@ -11919,6 +11921,7 @@
     },
     {
       "id": "ACT1-LANG.5",
+      "progress_2026_10_04": "2026-10-04: ручная смена уровня есть в настройках: SettingsUi.cs:417-434 строит строку TatarLanguageLevelRow с OptionButton («Не знаю», «Немного знаю», третий уровень), значение сохраняется в settings.TatarLanguageLevel и применяется через SetTatarLanguageLevelAsync. Уровень — настройка, а не состояние расследования, поэтому фабула, найденные источники и результат загадки не сбрасываются: критерий выполняется по построению. Он влияет на плотность/сложность текста (26 строк с вариантами) и на озвучку (PrologueVoice.PlayText с уровнем). Аудит: docs/production/act1_language_layer_2026-10-04.md",
       "execution": {
         "kind": "work",
         "unit": "Один из трёх ручных уровней и его приоритет над тестом.",
@@ -11978,7 +11981,8 @@
         "docs/production/tamara_mvp_2026-09-26/settings/",
         "docs/production/mvp_tracker_2026-09-27/language-cold/receipt.json",
         "docs/production/mvp_tracker_2026-09-27/a04-language-cold-current/receipt.json"
-      ],
+      ,
+        "docs/production/act1_language_layer_2026-10-04.md"],
       "progress_2026_09_20_lang": {
         "note": "2026-09-20: свойство + персистентность в UserSettingsStore/сейвах; сидирование none/some/fluent при новой игре (some проверено смоком, fluent реализован тем же механизмом); остался UI-ряд в настройках и различимый смок fluent.",
         "evidence": [
@@ -19604,6 +19608,7 @@
     },
     {
       "id": "ACT1-LANG.APPLY",
+      "progress_2026_10_04": "2026-10-04: техническая часть содержательной задачи есть: приложение tatwiki («TatWiki · Татарвики», OldPcUi.Apps.cs:502,611,628), сцены evidence-tatarwiki-boundary/reread (Act1DemoRoot.cs:1695-1702) и самостоятельный ввод — BuildGlobalSearch() (OldPcUi.Apps.cs:56) с пустым состоянием. Открыто авторское решение: какое именно татарское слово обязано давать результат расследования (ранняя пара контекстов + один поздний ключ) и как показан проход «контекст → книжка → ввод/поиск → результат → применение». Механика готова, содержательный выбор — за автором. Аудит: docs/production/act1_language_layer_2026-10-04.md",
       "title": "Решить содержательную задачу через татарское слово в поиске ПК/Татарвики",
       "milestone": "M5",
       "status": "in_progress",
@@ -19631,7 +19636,8 @@
           "result": "Поиск ПК (OldPcUi.Search.cs): FoldSearchText — регистр, лишние пробелы, ё/е и ә/ө/ү/җ/ң/һ ↔ кириллица; ступенчатая помощь при промахе: варианты → указание на книжку → прямая ссылка. Знание по-прежнему только при чтении документа. Смок old_pc_search дополнен, НЕ ЗАПУЩЕН. Задача с конкретным словом/результатом ещё не выстроена.",
           "verified": "build-only"
         }
-      ],
+      ,
+        "docs/production/act1_language_layer_2026-10-04.md"],
       "deliverable": "Решить содержательную задачу через татарское слово в поиске ПК/Татарвики",
       "done_when": [
         "Последовательность: понятный контекст слова → возможность вспомнить в книжке → самостоятельный ввод/поиск → полезный результат → применение в мире/расследовании. Это не тест выбора перевода.",
@@ -19687,6 +19693,7 @@
     },
     {
       "id": "ACT1-LANG.ADAPT",
+      "progress_2026_10_04": "2026-10-04: критерий «фактическая разница трёх уровней, а не одинаковый текст с подсказками» выполнен в контенте и проверен: 26 текстов имеют варианты .lvl-some/.lvl-fluent, базовый есть у всех 26, и все 26 различаются формулировкой по трём уровням (одинаковых нет). Сцены ровно по единице карточки: 20 строк одной сцены (prologue-ride-bark-*) и 6 строк повторного контекста (dialogue-*). Пример: Гөлсинә — базовая смешанная фраза, some с русской основой и переводом, fluent полным татарским без подсказки. Человеческая оценка уместности остаётся not-run. Аудит: docs/production/act1_language_layer_2026-10-04.md",
       "title": "Три авторских варианта доли и сложности татарского при одной истории",
       "milestone": "M5",
       "status": "in_progress",
@@ -19718,7 +19725,8 @@
           "result": "Экскурсия бабая по деревне: 11 реплик × 3 уровня татарского, среднее 104 знака (было 200–250); исправлены Разилә, калька «уйлап бетердеңме», канцелярит, «аерым»→«сәер»; русский подстрочник больше не уходит в озвучку. Разбор: docs/production/act1_prologue_dialogue_review_2026-09-29.md",
           "not_verified": "татарский не проверен носителем (OQ-LANG-PROLOGUE)"
         }
-      ],
+      ,
+        "docs/production/act1_language_layer_2026-10-04.md"],
       "deliverable": "Три авторских варианта доли и сложности татарского при одной истории",
       "done_when": [
         "На одной сцене показана фактическая разница плотности и сложности для трёх уровней; одинаковый текст с разными подсказками не достаточен.",
@@ -23248,6 +23256,7 @@
       "json_integrity_2026_10_04": "JSON integrity across the repository, checked with an object_pairs_hook: of 951 tracked .json files, **0 contain duplicate keys** and only three fail a strict parse, each for a benign, verified reason. Two are evidence logs whose first token is the game's log prefix before the JSON payload - act1_takeover_evidence_2026-09-20/footstep-lag/probe-before-fix.json and probe-after-fix.json - and both payloads were decoded successfully here (ticks 1500, on_road samples 557 / steps 57), so the evidence itself is intact and only the extension reads as pure JSON. The third is tsconfig.json, a JSONC config for the retired web runtime, which legitimately carries comments. No other tracked JSON file has a strict-parse or duplicate-key problem.",
       "scope_and_status_2026_10_04": "Two queue defects fixed: ACT1-TAMARA-FENCE was in_progress although its own review_scope says author-deferred, its mvp_packet says AUTHOR-DEFERRED and current_scope.out_of_scope excludes the Tamara quest by the author's 2026-09-27 decision, so it is now deferred with its code and historical evidence intact; LEN01.5 had an empty scope list and now names docs/production/ as the place its human session report lands, keeping the blocked status. After both fixes every task has a non-empty scope list. status_counts was recomputed. ACT1-TAMARA-FENCE was also the only object in the queue with a duplicate key - two progress_2026_10_04 notes where the later shadowed the earlier - so both are merged into one note; its null scope now names its four implementation files. A duplicate-key scan of the whole queue reports no other occurrence.",
       "execution_block_invariant_2026_10_04": "Refined execution-block invariant, verified against the file: all 171 unfinished cards have kind, unit, read_first, acceptance, verification and stop_if; all 152 work cards have non-empty steps; 10 of 15 aggregates have steps and the five that do not are the STUDIO.P2-P6 umbrellas; the four rollups have no steps by design. Any future check must exempt aggregates and rollups rather than demand steps from every card. One structural observation: ACT1-DEPTH.6 is a rollup with no card declaring it as parent_id, so its relation to the mosque and bathhouse cards runs through the delivery plan rather than parent_id - recorded, not changed.",
+      "language_layer_2026_10_04": "Tatar language layer audited for the four open cards: the level is none/some/fluent, exposed as a settings row with three options and applied through SetTatarLanguageLevelAsync as a setting rather than narrative state, so a switch cannot reset progress; ResolveText substitutes {textId}.lvl-some/.lvl-fluent and the content has 26 such texts - 20 in one scene (prologue-ride-bark-*) and 6 in a repeated dialogue context - with all 26 genuinely different across the three levels and no identical wording; the Niva ride performs the in-game calibration; the tatwiki PC app and BuildGlobalSearch provide the search mechanism for LANG.APPLY, whose remaining decision is which word must be mandatory. Report: docs/production/act1_language_layer_2026-10-04.md",
       "village_layout_data_2026_10_04": "World layout data audit: 196 kit placements, 96 active and 100 retired, but only 10 of the retired ones record a reason, which is a traceability gap rather than a proven layout fault; the file also shows that the dwelling-variant count cannot be read from it (only five active dwellings), and that public buildings are not described there at all - their form comes from code builders plus the FAP kit. Report: docs/production/act1_village_layout_data_2026-10-04.md",
       "card_completions_2026_10_04": "REVIEW28-RESEARCH moved from todo to completed: its done_when chain is satisfied in gameplay.md (sources [N1]-[N5], transfer, limit, existing owners and the sample acceptance) and all five primary Nintendo sources were fetched on 2026-10-04 with HTTP 200 and matching titles; its second clause defers the remaining address references to the packet that needs them. REVIEW28-PLAN, already completed, gained an independent verification evidence entry from this audit. Completed cards: 33 -> 35 (REVIEW28-RESEARCH and LEN01.1).",
       "ownership_labels": "43 of the 206 cards still carry a historical lane label in active_owner (root/expanded-act1, claude/studio-2026-09-27, root/exploration_runtime and others) while the queue's own review_2026_09_28.status_semantics says active_owner is null during this stage, and orchestrator_policy.claim_rule forbids taking a card that has an active owner. The author retired the lane-ownership rules on 2026-10-03, so orchestrator_policy now records that those labels are historical provenance rather than live claims and that an unowned card is taken by the ordinary depends_on and product-gate rules. The labels were not cleared silently.",
