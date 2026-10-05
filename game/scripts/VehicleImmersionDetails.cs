@@ -316,15 +316,29 @@ public partial class VehicleImmersionDetails : Node3D
         return (_rng & 0xFFFFFFu) / 16777215f;
     }
 
+    /// <summary>
+    /// Attaches a presentation child to the vehicle visual. The node is often
+    /// built while the visual root is still setting up its own children (the
+    /// factory runs inside that window), where a direct AddChild is refused by
+    /// the engine; inside the tree the attach is deferred to the next idle
+    /// frame, outside it stays direct.
+    /// </summary>
+    private void Attach(Node child)
+    {
+        if (_visual is null || !GodotObject.IsInstanceValid(_visual)) return;
+        if (_visual.IsInsideTree()) _visual.CallDeferred(Node.MethodName.AddChild, child);
+        else _visual.AddChild(child);
+    }
+
     private void BuildVapor()
     {
         if (_visual is null) return;
         _vaporIdle = VaporEmitter("ExhaustVaporIdle", 10, 1.7f, .75f, .11f);
         _vaporIdle.Position = ExhaustTip;
-        _visual.AddChild(_vaporIdle);
+        Attach(_vaporIdle);
         _vaporCold = VaporEmitter("ExhaustVaporCold", 12, 1.15f, 1.15f, .16f);
         _vaporCold.Position = ExhaustTip;
-        _visual.AddChild(_vaporCold);
+        Attach(_vaporCold);
     }
 
     private static CpuParticles3D VaporEmitter(string name, int amount, float lifetime, float scale, float opacity)
@@ -376,7 +390,7 @@ public partial class VehicleImmersionDetails : Node3D
             Position = new Vector3(0f, 1.72f, .62f),
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
         };
-        _visual.AddChild(_roofSnow);
+        Attach(_roofSnow);
     }
 
     private void BuildFootSnow()
@@ -399,7 +413,7 @@ public partial class VehicleImmersionDetails : Node3D
             Scale = FootSnowBase,
             Visible = false
         };
-        _visual.AddChild(_footSnow);
+        Attach(_footSnow);
     }
 
     private void BuildDash()
@@ -418,7 +432,7 @@ public partial class VehicleImmersionDetails : Node3D
             Position = new Vector3(-.509f, 1.024f, -.402f),
             Visible = false
         };
-        _visual.AddChild(_brakeLamp);
+        Attach(_brakeLamp);
 
         var glowMaterial = new StandardMaterial3D
         {
@@ -432,7 +446,7 @@ public partial class VehicleImmersionDetails : Node3D
             GaugeGlow("SpeedometerGlow", new Vector3(-.52f, 1.102f, -.384f), glowMaterial),
             GaugeGlow("TachometerGlow", new Vector3(-.36f, 1.102f, -.384f), glowMaterial)
         };
-        for (var index = 0; index < _gaugeGlows.Length; index++) _visual.AddChild(_gaugeGlows[index]);
+        for (var index = 0; index < _gaugeGlows.Length; index++) Attach(_gaugeGlows[index]);
     }
 
     private static MeshInstance3D GaugeGlow(string name, Vector3 position, Material material)
@@ -470,7 +484,7 @@ public partial class VehicleImmersionDetails : Node3D
             Autoplay = false,
             Position = new Vector3(-.45f, .42f, 1.35f)
         };
-        _visual.AddChild(_tickAudio);
+        Attach(_tickAudio);
     }
 
     private static Vector2[][] BuildTickBuffers()

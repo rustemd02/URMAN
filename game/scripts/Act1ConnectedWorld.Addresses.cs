@@ -432,8 +432,10 @@ public partial class Act1ConnectedWorld
             gorgeNear.Add(new(x,0,GorgeNearRim(x)));gorgeFar.Add(new(x,0,GorgeFarRim(x)));
         }
         gorgeFar.Reverse();
-        registry.AddConstraint(new("water/gorge-west","water",[..gorgeNear.Where(p=>p.X<SuspensionBridgeX),..gorgeFar.Where(p=>p.X<SuspensionBridgeX)],SettlementTravelMode.All));
-        registry.AddConstraint(new("water/gorge-east","water",[..gorgeNear.Where(p=>p.X>SuspensionBridgeX),..gorgeFar.Where(p=>p.X>SuspensionBridgeX)],SettlementTravelMode.All));
+        IReadOnlyList<SettlementPoint> gorgeWest=[..gorgeNear.Where(p=>p.X<SuspensionBridgeX),..gorgeFar.Where(p=>p.X<SuspensionBridgeX)];
+        IReadOnlyList<SettlementPoint> gorgeEast=[..gorgeNear.Where(p=>p.X>SuspensionBridgeX),..gorgeFar.Where(p=>p.X>SuspensionBridgeX)];
+        registry.AddConstraint(new("water/gorge-west","water",gorgeWest,SettlementTravelMode.All));
+        registry.AddConstraint(new("water/gorge-east","water",gorgeEast,SettlementTravelMode.All));
         var ravineWest=new List<SettlementPoint>();var ravineEast=new List<SettlementPoint>();
         for(var z=-92f;z<=AgentBAct1HeightField.MaxZ;z+=4f)
         {
@@ -442,14 +444,56 @@ public partial class Act1ConnectedWorld
             ravineEast.Add(new(centre+AgentBAct1HeightField.RavineHalfWidth,0,z));
         }
         ravineEast.Reverse();
-        registry.AddConstraint(new("water/ravine","water",[..ravineWest,..ravineEast],SettlementTravelMode.All));
+        IReadOnlyList<SettlementPoint> ravine=[..ravineWest,..ravineEast];
+        registry.AddConstraint(new("water/ravine","water",ravine,SettlementTravelMode.All));
         var min=AgentBAct1ExteriorLayer.ForestRingInnerMin;var max=AgentBAct1ExteriorLayer.ForestRingInnerMax;
         registry.AddConstraint(new("forest-ring","forest-edge",[new(min.X,0,min.Y),new(max.X,0,min.Y),new(max.X,0,max.Y),new(min.X,0,max.Y)],SettlementTravelMode.Car|SettlementTravelMode.Motorcycle));
+        RegisterCarTravelPolicy(registry,gorgeWest,gorgeEast,ravine);
+    }
+    /// <summary>Car drivable envelope (author 2026-10-05: the car may use the
+     /// shoulders and the yards, not only the carriageway). The verge width is
+     /// 2.6 m: the largest gap from a carriageway edge to a real lot's front
+     /// line is 2.36 m (ADR-H030, Tukay), so the band reaches every fenced
+     /// parcel and its open gate; the only larger gaps belong to the two
+     /// nominal kit plots with no visible building (3.10 m / 3.75 m). The
+     /// gorge/ravine water and the forest ring still refuse, and the bridge
+     /// mouth between the two gorge polygons is blocked for cars although the
+     /// foot decks stay out of it.</summary>
+    private void RegisterCarTravelPolicy(SettlementRegistry registry,IReadOnlyList<SettlementPoint> gorgeWest,IReadOnlyList<SettlementPoint> gorgeEast,IReadOnlyList<SettlementPoint> ravine)
+    {
+        var yards=new List<CarDriveLot>();
+        foreach(var lot in YardLots())
+            yards.Add(new(lot.Centre.X,lot.Centre.Y,lot.Yaw,lot.Size.X*.5f,lot.Size.Y*.5f));
+        // The relocated babai yard is the open yard on the walk chain; its own
+        // fences, gate, bath and workshop stay the physical stops. Bounds mirror
+        // BabaiRelocation.OutsideNewYard (forward = x-DoorX, side = -(z-DoorZ)).
+        yards.Add(new(
+            BabaiRelocation.DoorX+(BabaiRelocation.YardBack+BabaiRelocation.YardFront)*.5f,
+            BabaiRelocation.DoorZ-(BabaiRelocation.YardSideMin+BabaiRelocation.YardSideMax)*.5f,
+            0f,(BabaiRelocation.YardFront-BabaiRelocation.YardBack)*.5f,
+            (BabaiRelocation.YardSideMax-BabaiRelocation.YardSideMin)*.5f));
+        // The two gorge polygons leave the suspension-bridge strip open so a
+        // walking body can cross; a car must not use that mouth. Close it for
+        // the car policy: x spans the excluded strip, z spans near to far rim.
+        IReadOnlyList<SettlementPoint> bridgeMouth=
+        [
+            new(-4.0f,0,GorgeNearRim(-4.0f)),new(2.5f,0,GorgeNearRim(2.5f)),
+            new(2.5f,0,GorgeFarRim(2.5f)),new(-4.0f,0,GorgeFarRim(-4.0f))
+        ];
+        var min=AgentBAct1ExteriorLayer.ForestRingInnerMin;var max=AgentBAct1ExteriorLayer.ForestRingInnerMax;
+        registry.Graph.SetCarTravelPolicy(new(2.6,new CarBox(min.X,min.Y,max.X,max.Y),yards,[gorgeWest,gorgeEast,bridgeMouth,ravine]));
     }
     public bool CanVehicleTraverse(Vector3 from,Vector3 to,SettlementTravelMode mode,out string reason)
     {
         if(AddressRegistry is null){reason="Дорога ещё загружается.";return false;}
         return AddressRegistry.Graph.CanTraverse(AddressPoint(from),AddressPoint(to),mode,out reason);
+    }
+    /// <summary>Packed carriageway only, for surface-family queries. The car's
+     /// verge and yard envelope is open snow, so it must not read as road.</summary>
+    public bool OnVehicleCarriageway(Vector3 from,Vector3 to,SettlementTravelMode mode)
+    {
+        if(AddressRegistry is null)return false;
+        return AddressRegistry.Graph.OnCarriageway(AddressPoint(from),AddressPoint(to),mode);
     }
     public void RefreshAddressSigns(){foreach(var sign in _addressSigns)if(GodotObject.IsInstanceValid(sign))sign.RefreshLabels();}
     internal void CommitAddressAccess(string accessId,Vector3[]? path,string failure,SettlementPoint? graphAnchor=null)

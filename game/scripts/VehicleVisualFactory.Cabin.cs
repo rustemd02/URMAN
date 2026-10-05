@@ -452,8 +452,18 @@ public static partial class VehicleVisualFactory
                 MetallicSpecular = .2f
             }
         };
-        tell.SetMeta("expectedTriangleCorners", 36);
-        tell.SetMeta("manualTriangleCorners", 36);
+        // The validator recomputes the corner count from the mesh arrays; a
+        // hand-written constant drifts whenever a primitive's tessellation
+        // changes, so measure the primitive we actually built.
+        var tellCorners = 0;
+        for (var surface = 0; surface < tell.Mesh.GetSurfaceCount(); surface++)
+        {
+            using var arrays = tell.Mesh.SurfaceGetArrays(surface);
+            var indices = arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
+            tellCorners += indices.Length > 0 ? indices.Length : arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array().Length;
+        }
+        tell.Mesh.SetMeta("expectedTriangleCorners", tellCorners);
+        tell.Mesh.SetMeta("manualTriangleCorners", tellCorners);
         tell.SetMeta("presentationOwnership",
             "presentation-only; overlay on the authored blue NivaCab_Tell3 dash lamp");
         tell.Visible = false;

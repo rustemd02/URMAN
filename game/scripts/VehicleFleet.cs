@@ -356,10 +356,11 @@ public partial class VehicleFleet : Node3D
     }
 
     /// <summary>
-    /// Surface family for the Niva tyre model: the packed/cleared road graph is
-    /// Road, open snow off it is Snow, and a cached ice/water surface that
-    /// touches the ground at the sample is Ice. Pure query; no save, zone or
-    /// story state is involved.
+    /// Surface family for the Niva tyre model: the packed/cleared carriageway is
+    /// Road, open snow off it is Snow (the car's shoulder and yard envelope from
+    /// the 2026-10-05 decision is open snow, not packed road), and a cached
+    /// ice/water surface that touches the ground at the sample is Ice. Pure
+    /// query; no save, zone or story state is involved.
     /// </summary>
     public VehicleSurfaceKind SurfaceAt(Vector3 position, Vector3 forward)
     {
@@ -368,7 +369,7 @@ public partial class VehicleFleet : Node3D
         var direction = new Vector3(forward.X, 0f, forward.Z);
         if (direction.LengthSquared() < .0001f) direction = new Vector3(0, 0, -1);
         var probe = position + direction.Normalized() * .75f;
-        return _world.CanVehicleTraverse(position, probe, SettlementTravelMode.Car, out _)
+        return _world.OnVehicleCarriageway(position, probe, SettlementTravelMode.Car)
             ? VehicleSurfaceKind.Road : VehicleSurfaceKind.Snow;
     }
 

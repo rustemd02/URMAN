@@ -9,6 +9,34 @@ public sealed record SettlementGraphNode(string Id, SettlementPoint Position);
 public sealed record SettlementGraphEdge(string Id, string A, string B, string RoadId, string StreetId, double Length, double Width, string Surface, SettlementTravelMode Modes, bool WinterBlocked, string GateKey);
 public sealed record SettlementRoad(string Id, string StreetId, IReadOnlyList<SettlementPoint> Points, double Width, string Surface, SettlementTravelMode Modes, bool WinterBlocked = false, string GateKey = "", IReadOnlyList<string>? PointKeys = null);
 
+/// <summary>One authored plot the car may drive inside. The rectangle has the
+ /// same frame as the yard-lot data the fences are built from: <c>HalfX</c>
+ /// lies along the lot's side, <c>HalfZ</c> along its street-facing forward
+ /// axis (yaw 0 means HalfX along world X, HalfZ along world Z).</summary>
+public readonly record struct CarDriveLot(double CentreX, double CentreZ, double YawDegrees, double HalfX, double HalfZ);
+
+/// <summary>An axis-aligned box in world X/Z.</summary>
+public readonly record struct CarBox(double MinX, double MinZ, double MaxX, double MaxZ)
+{
+    public bool Contains(double x, double z) => x >= MinX && x <= MaxX && z >= MinZ && z <= MaxZ;
+}
+
+/// <summary>Authored car-only drive policy of the settlement (decision
+ /// 2026-10-05: the car may use shoulders, verges and open yards, while the
+ /// settlement boundary and the water cuts still refuse).
+ /// <para><c>VergeWidth</c>: metres beyond the carriageway half-width the car
+ /// centre may reach on every car road (shoulder + verge band).</para>
+ /// <para><c>Boundary</c>: keep-inside box of the authored settlement envelope
+ /// (the forest ring's inner bounds). A null boundary never refuses on bounds.</para>
+ /// <para><c>Yards</c>: authored lot rectangles (open part, far bank, the
+ /// relocated babai yard) the car may enter; their fences, gates, houses and
+ /// props stay the physical hard stops.</para>
+ /// <para><c>BlockedAreas</c>: water polygons (gorge west/east, the bridge
+ /// mouth between them, the ravine cut) that refuse the car inside them.</para>
+ /// The policy applies to <see cref="SettlementTravelMode.Car"/> only; every
+ /// other mode keeps the original carriageway corridor rule.</summary>
+public sealed record CarTravelPolicy(double VergeWidth, CarBox? Boundary, IReadOnlyList<CarDriveLot> Yards, IReadOnlyList<IReadOnlyList<SettlementPoint>> BlockedAreas);
+
 /// <summary>One imported graph for the notebook, access audit and travel policy.
  /// It never teleports the player, changes terrain, or draws a quest route.</summary>
 public sealed class SettlementRoadGraph
@@ -17,6 +45,14 @@ public sealed class SettlementRoadGraph
     private readonly Dictionary<string, SettlementGraphNode> _nodes = new(StringComparer.Ordinal);
     private readonly Dictionary<string, SettlementGraphEdge> _edges = new(StringComparer.Ordinal);
     private readonly HashSet<string> _blockedRoads = new(StringComparer.Ordinal);
+    // Car-only drive policy (see CarTravelPolicy). Written only by
+    // SetCarTravelPolicy; the yard cell index and blocked boxes are built there
+    // once, so a per-tick CanTraverse is a plain bucket lookup and a short
+    // rectangle/polygon test with no allocation.
+    private CarTravelPolicy? _carPolicy;
+    private Dictionary<long,List<int>>? _carYardCells;
+    private (double MinX,double MinZ,double MaxX,double MaxZ)[] _carBlockedBounds=Array.Empty<(double MinX,double MinZ,double MaxX,double MaxZ)>();
+    private const double CarYardCellSize=4;
     private readonly bool _measureRebuild = Environment.GetEnvironmentVariable("URMAN_ADDRESS_GRAPH_PERF") == "1";
     // Cell-index storage is bounded so a pathological import cannot allocate an
     // unbounded bucket table. A segment that would overrun the budget is not
@@ -102,6 +138,47 @@ public sealed class SettlementRoadGraph
     public void SetRoadBlocked(string roadId, bool blocked)
     {
         if (blocked) _blockedRoads.Add(roadId); else _blockedRoads.Remove(roadId);
+    }
+    /// <summary>Install the authored car drive policy. Replaces any previous
+    /// policy and rebuilds the yard cell index and the blocked-polygon bounds
+    /// in one pass; callers must not mutate the lists afterwards.</summary>
+    public void SetCarTravelPolicy(CarTravelPolicy policy)
+    {
+        var cells=new Dictionary<long,List<int>>();
+        for(var index=0;index<policy.Yards.Count;index++)
+        {
+            var lot=policy.Yards[index];
+            var yaw=lot.YawDegrees*Math.PI/180.0;
+            var sin=Math.Abs(Math.Sin(yaw));var cos=Math.Abs(Math.Cos(yaw));
+            // World-axis extents of the rotated rectangle.
+            var extentX=sin*lot.HalfZ+cos*lot.HalfX;
+            var extentZ=cos*lot.HalfZ+sin*lot.HalfX;
+            var minX=(int)Math.Floor((lot.CentreX-extentX)/CarYardCellSize);
+            var maxX=(int)Math.Floor((lot.CentreX+extentX)/CarYardCellSize);
+            var minZ=(int)Math.Floor((lot.CentreZ-extentZ)/CarYardCellSize);
+            var maxZ=(int)Math.Floor((lot.CentreZ+extentZ)/CarYardCellSize);
+            for(var x=minX;x<=maxX;x++)for(var z=minZ;z<=maxZ;z++)
+            {
+                var key=CellKey(x,z);
+                if(!cells.TryGetValue(key,out var bucket))cells[key]=bucket=[];
+                bucket.Add(index);
+            }
+        }
+        _carPolicy=policy;_carYardCells=cells;
+        var bounds=new (double MinX,double MinZ,double MaxX,double MaxZ)[policy.BlockedAreas.Count];
+        for(var index=0;index<bounds.Length;index++)
+        {
+            var polygon=policy.BlockedAreas[index];
+            var minX=double.MaxValue;var minZ=double.MaxValue;var maxX=double.MinValue;var maxZ=double.MinValue;
+            for(var point=0;point<polygon.Count;point++)
+            {
+                var p=polygon[point];
+                if(p.X<minX)minX=p.X;if(p.X>maxX)maxX=p.X;
+                if(p.Z<minZ)minZ=p.Z;if(p.Z>maxZ)maxZ=p.Z;
+            }
+            bounds[index]=(minX,minZ,maxX,maxZ);
+        }
+        _carBlockedBounds=bounds;
     }
     private sealed class Cut(SettlementPoint point, string key, double t, int order)
     {
@@ -571,17 +648,84 @@ public sealed class SettlementRoadGraph
     }
     public bool CanTraverse(SettlementPoint from, SettlementPoint to, SettlementTravelMode mode,out string reason,bool winter=true)
     {
-        var radius=mode switch{SettlementTravelMode.Car=>.92,SettlementTravelMode.HorseCart=>.95,SettlementTravelMode.Motorcycle=>.50,_=>.32};
+        var radius=TraversalRadius(mode);
+        var carPolicy=mode==SettlementTravelMode.Car?_carPolicy:null;
         var count=Math.Max(1,(int)Math.Ceiling(from.DistanceXZ(to)/.3));
         for(var i=0;i<=count;i++)
         {
             var point=from.Lerp(to,(double)i/count);
             var road=Nearest(point,mode:mode,winter:winter);
-            if(road is null || road.Value.Distance+radius>road.Value.Edge.Width*.5+.10)
+            var onRoad=road is { } candidate && candidate.Distance+radius<=candidate.Edge.Width*.5+.10;
+            if(!onRoad && (carPolicy is null || !CarPolicyAllows(point,road)))
             {reason="Здесь нет подходящей дороги.";return false;}
-            if(Math.Abs(point.Y-road.Value.Point.Y)>2.5)
+            if(road is { } level && Math.Abs(point.Y-level.Point.Y)>2.5)
             {reason="Этот проезд находится на другом уровне.";return false;}
         }
         reason="";return true;
+    }
+    /// <summary>The packed carriageway corridor alone, the former distance rule.
+     /// The tyre model reads this for its Road surface family: the car's new
+     /// verge and yard envelope is open snow and keeps the snow grip.</summary>
+    public bool OnCarriageway(SettlementPoint from,SettlementPoint to,SettlementTravelMode mode,bool winter=true)
+    {
+        var radius=TraversalRadius(mode);
+        var count=Math.Max(1,(int)Math.Ceiling(from.DistanceXZ(to)/.3));
+        for(var i=0;i<=count;i++)
+        {
+            var point=from.Lerp(to,(double)i/count);
+            var road=Nearest(point,mode:mode,winter:winter);
+            if(road is null||road.Value.Distance+radius>road.Value.Edge.Width*.5+.10)return false;
+        }
+        return true;
+    }
+    private static double TraversalRadius(SettlementTravelMode mode)=>mode switch{SettlementTravelMode.Car=>.92,SettlementTravelMode.HorseCart=>.95,SettlementTravelMode.Motorcycle=>.50,_=>.32};
+    /// <summary>Car envelope test: inside the authored settlement boundary, not
+     /// in a blocked water polygon, and either within the carriageway + verge
+     /// band of the nearest car road or inside an authored yard. The nearest
+     /// road is the one CanTraverse already computed for the same sample.</summary>
+    private bool CarPolicyAllows(in SettlementPoint point,(SettlementGraphEdge Edge,SettlementPoint Point,double Distance)? nearest)
+    {
+        var policy=_carPolicy!;
+        if(policy.Boundary is { } boundary && !boundary.Contains(point.X,point.Z))return false;
+        if(CarBlocked(point,policy))return false;
+        if(nearest is { } road && road.Distance<=road.Edge.Width*.5+policy.VergeWidth)return true;
+        return CarYardContains(point,policy);
+    }
+    private bool CarYardContains(in SettlementPoint point,CarTravelPolicy policy)
+    {
+        var cells=_carYardCells;
+        if(cells is null)return false;
+        var key=CellKey((int)Math.Floor(point.X/CarYardCellSize),(int)Math.Floor(point.Z/CarYardCellSize));
+        if(!cells.TryGetValue(key,out var indices))return false;
+        foreach(var index in indices)
+        {
+            var lot=policy.Yards[index];
+            var yaw=lot.YawDegrees*Math.PI/180.0;
+            var fx=Math.Sin(yaw);var fz=Math.Cos(yaw);
+            var dx=point.X-lot.CentreX;var dz=point.Z-lot.CentreZ;
+            if(Math.Abs(dx*fz-dz*fx)<=lot.HalfX && Math.Abs(dx*fx+dz*fz)<=lot.HalfZ)return true;
+        }
+        return false;
+    }
+    private bool CarBlocked(in SettlementPoint point,CarTravelPolicy policy)
+    {
+        var bounds=_carBlockedBounds;
+        for(var index=0;index<bounds.Length;index++)
+        {
+            var box=bounds[index];
+            if(point.X<box.MinX||point.X>box.MaxX||point.Z<box.MinZ||point.Z>box.MaxZ)continue;
+            if(InsidePolygon(policy.BlockedAreas[index],point))return true;
+        }
+        return false;
+    }
+    private static bool InsidePolygon(IReadOnlyList<SettlementPoint> polygon,in SettlementPoint point)
+    {
+        var inside=false;
+        for(int i=0,j=polygon.Count-1;i<polygon.Count;j=i++)
+        {
+            var a=polygon[i];var b=polygon[j];
+            if((a.Z>point.Z)!=(b.Z>point.Z)&&point.X<(b.X-a.X)*(point.Z-a.Z)/(b.Z-a.Z)+a.X)inside=!inside;
+        }
+        return inside;
     }
 }
