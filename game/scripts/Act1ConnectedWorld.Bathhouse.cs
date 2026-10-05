@@ -70,14 +70,24 @@ public partial class Act1ConnectedWorld
         FacilitySolid(_bathhouse, "BathEastWallBack", new(.20f, 2.60f, 3.48f), new(2, 1.30f, -.76f), "3a2e24", "wood");
         FacilitySolid(_bathhouse, "BathEastWallFront", new(.20f, 2.60f, .27f), new(2, 1.30f, 2.365f), "3a2e24", "wood");
         FacilitySolid(_bathhouse, "BathEastDoorLintel", new(.20f, .48f, 1.25f), new(2, 2.36f, 1.605f), "3a2e24", "wood");
-        FacilitySolid(_bathhouse, "BathRearBelowWindow", new(4, 1.225f, .20f), new(0, .6125f, -2.5f), "3a2e24", "wood");
-        FacilitySolid(_bathhouse, "BathRearAboveWindowLow", new(4, .05f, .20f), new(0, 1.90f, -2.5f), "3a2e24", "wood");
+        // Banya-window pass (author 2026-10-04: the banya window must be higher
+        // and smaller). The former 0.75 x 0.65 m pane sat at X .275..1.025,
+        // Y 1.225..1.875; the new pane is 0.55 x 0.45 m at X .375..0.925,
+        // Y 1.50..1.95 (sill +0.275 m, head +0.075 m, area -49%). The vent
+        // opening (X -1.46..-1.14, Y 1.925..2.165) and its slider/frames stay
+        // put, so the band between them is rebuilt around the narrower pane.
+        FacilitySolid(_bathhouse, "BathRearBelowWindow", new(4, 1.50f, .20f), new(0, .75f, -2.5f), "3a2e24", "wood");
         FacilitySolid(_bathhouse, "BathRearAboveWindowHigh", new(4, .435f, .20f), new(0, 2.3825f, -2.5f), "3a2e24", "wood");
         FacilitySolid(_bathhouse, "BathVentWallLeft", new(.54f, .24f, .20f), new(-1.73f, 2.045f, -2.5f), "3a2e24", "wood");
-        FacilitySolid(_bathhouse, "BathVentWallRight", new(3.14f, .24f, .20f), new(.43f, 2.045f, -2.5f), "3a2e24", "wood");
-        FacilitySolid(_bathhouse, "BathRearWindowLeft", new(2.275f, .65f, .20f), new(-.8625f, 1.55f, -2.5f), "3a2e24", "wood");
-        FacilitySolid(_bathhouse, "BathRearWindowRight", new(.975f, .65f, .20f), new(1.5125f, 1.55f, -2.5f), "3a2e24", "wood");
-        FacilityWindow(_bathhouse, "BathWindow", new(.65f, 1.55f, -2.49f), new(.75f, .65f));
+        // Vent band, between the vent opening and the window's new left edge.
+        FacilitySolid(_bathhouse, "BathVentWallRight", new(1.515f, .24f, .20f), new(-.3825f, 2.045f, -2.5f), "3a2e24", "wood");
+        // Middle band (Y 1.50..1.925) split by the aperture.
+        FacilitySolid(_bathhouse, "BathRearWindowLeft", new(2.375f, .425f, .20f), new(-.8125f, 1.7125f, -2.5f), "3a2e24", "wood");
+        // Right of the aperture the wall runs from the new sill to the top band.
+        FacilitySolid(_bathhouse, "BathRearWindowRight", new(1.075f, .665f, .20f), new(1.4625f, 1.8325f, -2.5f), "3a2e24", "wood");
+        // The 0.075 m strip above the new head, inside the upper band.
+        FacilitySolid(_bathhouse, "BathRearWindowHeader", new(.55f, .215f, .20f), new(.65f, 2.0575f, -2.5f), "3a2e24", "wood");
+        FacilityWindow(_bathhouse, "BathWindow", new(.65f, 1.725f, -2.49f), new(.55f, .45f));
         // The narrow board courses follow the real walls and stop at openings.
         for (var course = 1; course < 13; course++)
         {
@@ -153,7 +163,7 @@ public partial class Act1ConnectedWorld
         AddVisualBox(_bathhouse, "BathTankLid", new(.60f, .035f, .54f), new(.04f, .79f, 2.07f), "747e78", "metal");
         FacilityRod(_bathhouse, "BathTankTap", new(-.26f, .16f, 2.07f), new(-.43f, .16f, 1.93f), .018f, "969f95");
         FacilityTarget("BathCondensationRead", BathhouseObservationInteraction, "Рассмотреть запотевшее стекло", _bathhouse,
-            new(.65f, 1.55f, -2.465f), new(.67f, .59f, .04f));
+            new(.65f, 1.725f, -2.465f), new(.53f, .42f, .04f));
         EnsureFacilityTick();
     }
 
@@ -267,13 +277,15 @@ public partial class Act1ConnectedWorld
         var bath = _bathhouse!;
         _bathCondensation = new Node3D { Name = "BathCondensation", Visible = false };
         bath.AddChild(_bathCondensation);
-        var glassFilm = AddVisualBox(_bathCondensation, "WindowMoisture", new(.68f, .59f, .003f), new(.65f, 1.55f, -2.477f), "c5d1cb", "glass");
+        var glassFilm = AddVisualBox(_bathCondensation, "WindowMoisture", new(.50f, .38f, .003f), new(.65f, 1.725f, -2.477f), "c5d1cb", "glass");
         glassFilm.MaterialOverride = new StandardMaterial3D { Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
             AlbedoColor = new Color(.71f, .77f, .74f, .26f), Roughness = .32f, CullMode = BaseMaterial3D.CullModeEnum.Disabled };
         for (var drop = 0; drop < 26; drop++)
         {
-            var x = .34f + (drop * .137f) % .62f;
-            var y = 1.29f + (drop * .191f) % .53f;
+            // Condensation stays inside the new 0.55 x 0.45 m pane and clear
+            // of its frame rails (sill rail top 1.5325, head rail bottom 1.9175).
+            var x = .42f + (drop * .137f) % .46f;
+            var y = 1.55f + (drop * .191f) % .32f;
             var streak = AddVisualBox(_bathCondensation, "CondensationTrail" + drop, new(.005f, .017f + drop % 4 * .014f, .003f), new(x, y, -2.473f), "a6bdb5", "glass");
             streak.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
         }

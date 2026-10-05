@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 namespace Urman.Godot;
@@ -127,6 +128,25 @@ public partial class Act1ConnectedWorld
 
         pa.ConfigureSquareSpeakers(club.ToGlobal(VillagePaHornAMouth), club.ToGlobal(VillagePaHornBMouth));
         pa.ConfigureClubSpeaker(club.ToGlobal(VillagePaClubSpeakerAt));
+
+        // The PA owner is created by the deferred household step, so this fixture
+        // pass runs after Act1ConnectedWorld's one-time registration loop
+        // (Act1ConnectedWorld.cs, the FindDescendants<InteractionTarget> pass).
+        // Unregistered, these two targets stay invisible to the interaction ray:
+        // InteractionTarget._Ready evaluates availability while
+        // PresentationRepeatAvailable is still null (it is attached by PaTarget's
+        // caller) and zeroes the live layer, and the routing pass never visits a
+        // target it does not know. Joining the zone table here lets
+        // ApplyInteractionRouting re-apply the authored ray layer exactly like
+        // the square's FacilityTargets: layer 4 in village_day, 0 in interiors.
+        if (zone is not null && _interactionsByZone.TryGetValue("village_day", out var bindings))
+        {
+            _interactionsByZone["village_day"] = bindings
+                .Append(new InteractionBinding(switchTarget, switchTarget.ActiveCollisionLayer, switchTarget.CollisionMask))
+                .Append(new InteractionBinding(radioTarget, radioTarget.ActiveCollisionLayer, radioTarget.CollisionMask))
+                .ToArray();
+            ApplyInteractionRouting();
+        }
     }
 
     // The prompt always names the current mode, as requested; interacting

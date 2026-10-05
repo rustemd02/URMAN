@@ -105,12 +105,68 @@ public partial class Act1ConnectedWorld
                 if(mechanism.Action is YardMechanism.Operation.RestBoard or YardMechanism.Operation.DetachHook)
                     mechanism.RestYaw+=180f;
             }
+            TidyBanyaYardAndBuriedAxe(core,carry);
             AddChild(carry);
         }
         BuildBabaiOuthouse(core,new(-19.25f,0,-9.3f));
         RegisterAddressInheritedBuilding(shed,"act1/babai-storage-barn","ADR-BABAI","shed");
         RegisterAddressInheritedBuilding(core.GetNode<Node3D>("BabaiMoonOuthouse"),"act1/babai-moon-outhouse","ADR-BABAI","outhouse");
         SetMeta("babaiStorageBuilt",true);
+    }
+
+    /// <summary>
+    /// Banya-yard pass (author 2026-10-04: «около бани очень много мусора лежит»).
+    /// The storage barn moved away earlier the same day; what still read as debris
+    /// at the banya was a pre-relayout picket run that travelled with the bath and
+    /// grazed its rear-west shell, plus the EX05 buried-axe drift that sat on the
+    /// door's exit line while its axe item stayed 8.7 m away inside the barn.
+    /// The stranded run is retired like every other leftover kit fence; the whole
+    /// drift/handle/axe group moves to the woodpile's outer end, clear of the door
+    /// band and of the stair landing. All ids, targets and interactions survive.
+    /// </summary>
+    private void TidyBanyaYardAndBuriedAxe(Node3D core,CarryCoordinator carry)
+    {
+        // 1. The authored west-yard-boundary run was within the relocation's
+        // 4.6 m bath-cluster radius, so it travelled with the bath and now crosses
+        // the bath's rear-west shell while bounding nothing in the new yard.
+        var stranded=core.GetNodeOrNull<Node3D>("Act1AuthoredExteriorKitPresentation/BabaiYardAuthoredFence");
+        if(stranded is not null)
+        {
+            if(FindDescendants<InteractionTarget>(stranded).Any())
+                throw new InvalidOperationException("The stranded yard fence carries gameplay and must not be retired.");
+            HidePresentationNode(stranded);
+            stranded.SetMeta("suppressionReason",
+                "banya yard 2026-10-04: pre-relayout west-boundary picket run (9.99 m, yaw 0 at -16.135,11.027), carried with the bath and crossing its rear-west shell; no boundary counterpart in the relayout v3 yard");
+            SetMeta("banyaYardStrandedFenceRetired",true);
+        }
+        // 2. EX05 drift + handle + axe. The drift sat at bath-local (3.57,1.35),
+        // 0.47 m off the stair landing and inside the door's Z band; the axe item
+        // itself only took the rigid relocation move and stayed inside the
+        // storage barn. Move the whole group to the woodpile's outer end:
+        // bath-local (4.75,1.10) = +1.18 m local X, -0.25 m local Z.
+        if(_bathhouse is null)return;
+        var drift=core.GetNodeOrNull<Node3D>("ToolSnowPileWood");
+        var handle=core.GetNodeOrNull<Node3D>("BuriedAxeHandleTip");
+        var shift=_bathhouse.GlobalBasis.X.Normalized()*1.18f-_bathhouse.GlobalBasis.Z.Normalized()*.25f;
+        void Shift(Node3D? node)
+        {
+            if(node is null)return;
+            var before=node.GlobalPosition;
+            var after=before+shift;
+            after.Y=before.Y+(AgentBAct1HeightField.CollisionGround(after.X,after.Z)
+                -AgentBAct1HeightField.CollisionGround(before.X,before.Z));
+            node.GlobalPosition=after;
+            node.SetMeta("banyaYardTidy","moved to the woodpile's outer end, clear of the banya door band and stair landing; same target and save id");
+        }
+        Shift(drift);
+        Shift(handle);
+        var axe=carry.Items.FirstOrDefault(item=>item.ItemId=="carry-axe");
+        if(drift is not null&&axe is not null)
+        {
+            axe.Position=drift.GlobalPosition with { Y=axe.Position.Y };
+            SeatAuthoredCarryOnSurface(axe,0f);
+            axe.SetMeta("banyaYardTidy","reunited with its authored drift by the woodpile; the rigid-only storage move had left it inside the storage barn");
+        }
     }
 
     private static void BuildBabaiOuthouse(Node3D core,Vector3 at)
