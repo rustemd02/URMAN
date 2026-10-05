@@ -13,7 +13,7 @@ public enum VehicleSurfaceKind { Road, Snow, Ice }
 public sealed class VehicleMechanicsProfile
 {
     public float Mass { get; init; } = 1285f;
-    public float MaxTorque { get; init; } = 116f;
+    public float MaxTorque { get; init; } = 124f;
     public float IdleRpm { get; init; } = 800f;
     public float MaxRpm { get; init; } = 4200f;
     public float EngineInertia { get; init; } = .4f;
@@ -30,11 +30,11 @@ public sealed class VehicleMechanicsProfile
     public float FrontalArea { get; init; } = 2.2f;
     public float RollingResistance { get; init; } = .02f;
     public float PeakGrip { get; init; } = .9f;
-    public float SnowGrip { get; init; } = .62f;
+    public float SnowGrip { get; init; } = .46f;
     public float IceGrip { get; init; } = .3f;
     public float BrakeBias { get; init; } = .58f;
     /// <summary>Flat (rpm, torque multiplier) pairs, ascending rpm.</summary>
-    public float[] TorqueCurve { get; init; } = { 800, .45f, 1400, .72f, 2400, .98f, 3200, 1f, 3800, .9f, 4200, .72f };
+    public float[] TorqueCurve { get; init; } = { 800, .58f, 1400, .82f, 2400, 1f, 3200, 1f, 3800, .92f, 4200, .74f };
 }
 
 /// <summary>
@@ -54,6 +54,13 @@ public sealed class VehicleMechanicsProfile
 ///                                        friction ellipse (combined slip)
 ///   coefficient_of_friction table     -> PeakGrip/SnowGrip/IceGrip per surface
 ///
+/// Two snow-mobility behaviours are layered on the adaptation (2026-10-05):
+/// a braked axle is statically held at rest (UpdateAxleSpin) so low-speed
+/// braking keeps full force, and a near-stop low-gear torque assist
+/// (LaunchAssist) multiplies engine torque briefly so a driver can spin the
+/// wheels and rock a car out of a snowdrift. The assist only scales torque:
+/// it never adds motion or teleports the chassis.
+///
 /// The chassis itself stays the authored CharacterBody3D: this class only
 /// produces the planar velocity and yaw the controller already knows how to
 /// drive through MoveAndSlide, zone gates and collision checks. Axle spin is
@@ -72,6 +79,26 @@ public sealed class VehicleMechanics
     private const float YawDamping = .9f;
     private const float HandbrakeHoldSpeed = .6f;
     private const float PedalCreep = .15f;
+    // Snow/getting-out-of-a-drift tuning (2026-10-05). The near-stop assist is
+    // a low-gear torque multiplication (clutch/torque-converter-like): it only
+    // scales engine torque while the car is nearly stopped under deliberate
+    // pedal. It never moves the chassis by itself and it never teleports.
+    private const float LaunchAssistSpeed = 1.4f;
+    private const float LaunchAssistPedal = .25f;
+    private const float LaunchAssistBoost = .42f;
+    private const float LaunchAssistCharge = .5f;
+    private const float LaunchAssistDecay = .3f;
+    // Rolling resistance fades in with speed instead of switching on at a
+    // crawl, so creeping out of deep snow is not taxed by highway drag.
+    private const float CreepResistanceShare = .4f;
+    private const float ResistanceFullSpeed = 2.5f;
+    // Parking brake: above this speed the rear-only handbrake slide is kept;
+    // below it the front share joins so the authored parking stop stays firm.
+    private const float ParkingFrontShareSpeed = 6f;
+    private const float ParkingFrontShare = .62f;
+    // Speed-limit overflow damper, softened from .8: the drivetrain is already
+    // cut above the limit, so this is only a settle, not a fake wall.
+    private const float OverLimitDragFactor = .45f;
 
     private readonly VehicleMechanicsProfile _profile;
     private readonly float _wheelBase;
@@ -94,6 +121,7 @@ public sealed class VehicleMechanics
     private float _slipAngle;
     private float _tractionLoss;
     private float _longitudinalLoadTransfer;
+    private float _launchAssist;
     private bool _serviceBraking;
     private bool _driveEngaged;
 
@@ -121,6 +149,8 @@ public sealed class VehicleMechanics
     public float TractionLoss => _tractionLoss;
     public bool ServiceBraking => _serviceBraking;
     public bool DriveEngaged => _driveEngaged;
+    /// <summary>0..1 near-stop launch-assist level (diagnostic read-out).</summary>
+    public float LaunchAssist => _launchAssist;
     public float MaxRpm => _profile.MaxRpm;
 
     public string GearLabel => _gear switch { 0 => "нейтраль", < 0 => "задний ход", _ => _gear + " передача" };
@@ -131,6 +161,7 @@ public sealed class VehicleMechanics
         _frontSpin = _rearSpin = 0;
         _forwardSpeed = _lateralSpeed = _yawRate = 0; YawDelta = 0;
         _slipRatio = _slipAngle = _tractionLoss = _longitudinalLoadTransfer = 0;
+        _launchAssist = 0;
         _serviceBraking = false; _driveEngaged = false;
     }
 
@@ -142,12 +173,24 @@ public sealed class VehicleMechanics
         _frontSpin = _rearSpin = 0;
     }
 
+    /// <summary>
+    /// Zero the planar momentum but keep the axle spin. Used when the chassis is
+    /// held by a drift/gate or a travel refusal: the wheels may keep spinning
+    /// against it (honest feedback for getting unstuck), while the car itself
+    /// never moves. Parked and placement paths keep using Block().
+    /// </summary>
+    public void BlockMotion()
+    {
+        _forwardSpeed = _lateralSpeed = _yawRate = 0; YawDelta = 0;
+        _slipRatio = _slipAngle = _tractionLoss = 0;
+    }
+
     /// <summary>Idle update for parked/suspended frames (no position change).</summary>
     public void Idle(bool engineRunning, float dt)
     {
         dt = Math.Clamp(dt, .0005f, .05f);
         _throttle = MoveTowards(_throttle, 0, dt * 4f);
-        _driveEngaged = false; _serviceBraking = false;
+        _driveEngaged = false; _serviceBraking = false; _launchAssist = 0;
         var target = engineRunning ? _profile.IdleRpm : 0f;
         _rpm = MoveTowards(_rpm, target, dt * 2500f);
         _frontSpin = _rearSpin = 0; _slipRatio = _slipAngle = _tractionLoss = 0;
@@ -176,6 +219,13 @@ public sealed class VehicleMechanics
         _throttle = MoveTowards(_throttle, throttle, dt * 5f);
         _shiftCooldown = Math.Max(0, _shiftCooldown - dt);
 
+        // Brake intent is needed before the torque hand-off below: the
+        // near-stop launch assist must not fight a service brake. GEVP
+        // Brake.max_torque / max_handbrake_torque selection comes later.
+        _serviceBraking = serviceBrake
+            || (!parkingBrake && throttle < -.1f && _forwardSpeed > .4f)
+            || (!parkingBrake && throttle > .1f && _forwardSpeed < -.4f);
+
         var speedAbs = Math.Abs(_forwardSpeed);
         var nearRest = speedAbs < .55f && Math.Abs(_lateralSpeed) < .55f;
         // Shifts follow the ideal (rolling) wheel speed rather than the
@@ -192,6 +242,15 @@ public sealed class VehicleMechanics
             // must engage the direction, like the kinematic model did.
             if (throttle < -.05f && nearRest && _gear >= 0) StartShift(-1);
             else if (throttle > .05f && _forwardSpeed > -.4f && _gear <= 0) StartShift(1);
+            else if (throttle > .1f && _gear > 1 && speedAbs < .5f)
+            {
+                // A car stopped in a high gear must be able to pick first; the
+                // rolling branch below never downshifts at rest, so a snow
+                // launch in third would crawl and read as stuck.
+                _gear = 1;
+                _shiftTimer = Math.Max(.1f, _profile.ShiftTime);
+                _shiftCooldown = _profile.ShiftTime + .05f;
+            }
             else if (_gear > 0 && speedAbs > .5f)
             {
                 if (idealGearRpm > _profile.ShiftUpRpm && _gear < _profile.ForwardGears.Length) StartShift(1);
@@ -226,8 +285,10 @@ public sealed class VehicleMechanics
             // Launch slip (GEVP need_clutch below idle): the engine revs toward
             // the pedal target while the clutch slips, so a standing start
             // pulls with real torque instead of idling against the drivetrain.
+            // The ramp is quick enough that a cold idle does not bog the first
+            // half-second of a snow launch.
             var target = _profile.IdleRpm + Math.Max(0, trip) * (_profile.MaxRpm - _profile.IdleRpm) * .75f;
-            _rpm = MoveTowards(_rpm, target, dt * 2600f);
+            _rpm = MoveTowards(_rpm, target, dt * 3600f);
         }
         else
         {
@@ -245,6 +306,18 @@ public sealed class VehicleMechanics
         var pedal = Math.Max(0, trip);
         if (pedal > 0) pedal = PedalCreep + (1f - PedalCreep) * pedal;
         var engineTorque = pedal * _profile.MaxTorque * torqueFactor * limiter;
+        // Honest near-stop launch assist (snow/drift breakaway): a short
+        // low-gear torque multiplication that charges only while the car is
+        // nearly stopped under deliberate pedal and discharges once it moves.
+        // It scales engine torque only - it never moves the chassis by itself.
+        var assistCondition = engineRunning && !clutchIn && !parkingBrake && !_serviceBraking
+            && speedAbs < LaunchAssistSpeed && Math.Abs(_throttle) >= LaunchAssistPedal;
+        _launchAssist = assistCondition
+            ? Math.Min(1f, _launchAssist + dt / LaunchAssistCharge)
+            : Math.Max(0f, _launchAssist - dt / LaunchAssistDecay);
+        engineTorque *= 1f + LaunchAssistBoost * _launchAssist;
+        // Engine braking replaces the drive torque outright (never amplified
+        // by a still-decaying assist).
         if (_throttle <= .02f && !clutchIn && speedAbs > .5f)
             engineTorque = -_profile.EngineBrakingTorque;
         var wheelDrive = clutchIn ? 0f : engineTorque * totalRatio * DriveEfficiency;
@@ -252,9 +325,6 @@ public sealed class VehicleMechanics
         if (_forwardSpeed < -reverseLimit && wheelDrive < 0) wheelDrive = 0;
 
         // ---- Brakes (GEVP Brake.max_torque / max_handbrake_torque) --------
-        _serviceBraking = serviceBrake
-            || (!parkingBrake && throttle < -.1f && _forwardSpeed > .4f)
-            || (!parkingBrake && throttle > .1f && _forwardSpeed < -.4f);
         var brakeTorqueFront = 0f;
         var brakeTorqueRear = 0f;
         if (_serviceBraking)
@@ -265,13 +335,15 @@ public sealed class VehicleMechanics
         }
         if (parkingBrake)
         {
-            // GEVP marks the rear axle as the handbrake axle. Above walking
-            // speed the handbrake stays rear-only, so the rear slides and the
-            // front keeps steering; a slow front share keeps the authored
-            // parking hold (and its stop) firm.
+            // GEVP marks the rear axle as the handbrake axle. Above the shared
+            // threshold the handbrake stays rear-only, so the rear slides and
+            // the front keeps steering; below it the firmer front share joins
+            // so the authored parking hold (and its stop) stays decisive even
+            // with the livelier snow-launch torque.
             var total = _profile.Mass * 9f * _wheelRadius;
             brakeTorqueRear = Math.Max(brakeTorqueRear, total * .8f);
-            if (speedAbs < 3f) brakeTorqueFront = Math.Max(brakeTorqueFront, total * .5f);
+            if (speedAbs < ParkingFrontShareSpeed)
+                brakeTorqueFront = Math.Max(brakeTorqueFront, total * ParkingFrontShare);
         }
 
         // ---- Axle loads with longitudinal transfer ------------------------
@@ -319,9 +391,15 @@ public sealed class VehicleMechanics
         // ---- Rigid planar body on the kinematic chassis --------------------
         var drag = .5f * AirDensity * _profile.DragCoefficient * _profile.FrontalArea
             * _forwardSpeed * speedAbs;
-        var rolling = speedAbs > .1f ? _profile.RollingResistance * staticLoad * Math.Sign(_forwardSpeed) : 0;
-        if (_forwardSpeed > forwardLimit) drag += surfaceGrip * mass * .8f;
-        if (_forwardSpeed < -reverseLimit) drag -= surfaceGrip * mass * .8f;
+        // Rolling resistance fades in from a creep share instead of switching on
+        // at a walking pace; deep-snow breakaway keeps pushing against the
+        // drivetrain, not against a highway rolling figure.
+        var rollingMagnitude = _profile.RollingResistance * staticLoad
+            * (CreepResistanceShare + (1f - CreepResistanceShare)
+                * Math.Clamp(speedAbs / ResistanceFullSpeed, 0, 1));
+        var rolling = speedAbs > .1f ? rollingMagnitude * Math.Sign(_forwardSpeed) : 0;
+        if (_forwardSpeed > forwardLimit) drag += surfaceGrip * mass * OverLimitDragFactor;
+        if (_forwardSpeed < -reverseLimit) drag -= surfaceGrip * mass * OverLimitDragFactor;
         var longitudinalForce = frontLongitudinal + rearLongitudinal - drag - rolling;
         var lateralForce = frontLateral + rearLateral;
         var yawMoment = -frontArm * frontLateral + rearArm * rearLateral;
@@ -402,11 +480,24 @@ public sealed class VehicleMechanics
         var inertia = 2.6f + .02f * Math.Min(400f, totalRatio * totalRatio);
         var reaction = longitudinalForce * _wheelRadius;
         var net = driveTorque - reaction;
-        if (brakeTorque > 0 && Math.Abs(spin) > .01f) net -= brakeTorque * Math.Sign(spin);
+        if (brakeTorque > 0)
+        {
+            // A braked axle is statically held while stopped: tire drag alone
+            // cannot spin a braked wheel up. Without this the low-speed axle
+            // alternated between locked and rolling, halving its braking force
+            // and letting a stopped car creep through its own parking brake.
+            if (Math.Abs(spin) < .01f)
+            {
+                if (Math.Abs(net) <= brakeTorque) return;
+                net -= brakeTorque * Math.Sign(net);
+                spin = Math.Clamp(spin + net / (inertia + damping * dt) * dt, -300f, 300f);
+                return;
+            }
+            net -= brakeTorque * Math.Sign(spin);
+        }
         var next = spin + net / (inertia + damping * dt) * dt;
         if (brakeTorque > 0 && spin != 0 && Math.Sign(next) != Math.Sign(spin)
             && brakeTorque > Math.Abs(driveTorque - reaction)) next = 0;
-        if (brakeTorque > 0 && Math.Abs(next) < .6f && Math.Abs(_forwardSpeed) > .2f) next = 0;
         spin = Math.Clamp(next, -300f, 300f);
     }
 

@@ -55,6 +55,16 @@ public partial class VehicleController : CharacterBody3D
     public bool EngineRunning { get; private set; }
     public bool ParkingBrake { get; private set; } = true;
     public bool Headlights { get; private set; }
+    /// <summary>
+    /// High-beam toggle state. Presentation only: the visual lane drives the
+    /// actual light nodes (energy/range/angle). Requires Headlights to matter.
+    /// </summary>
+    public bool HighBeams { get; private set; }
+    /// <summary>
+    /// Windscreen wiper toggle state. Presentation only, no physics effect; the
+    /// visual lane owns the wiper meshes and the windscreen snow.
+    /// </summary>
+    public bool Wipers { get; private set; }
     public float Speed { get; private set; }
     public float TotalTravelMetres { get; private set; }
     public HorseDisposition HorseState { get; private set; }
@@ -152,7 +162,8 @@ public partial class VehicleController : CharacterBody3D
         RotationDegrees = new(0, Definition.YawDegrees, 0);
         RememberSavedYaw(Definition.YawDegrees);
         Velocity = Vector3.Zero; Speed = 0; EngineRunning = false; ParkingBrake = true;
-        Headlights = false; TotalTravelMetres = 0; HorseState = HorseDisposition.Calm;
+        Headlights = false; HighBeams = false; Wipers = false;
+        TotalTravelMetres = 0; HorseState = HorseDisposition.Calm;
         _steering = _pitch = _lookYaw = _engineWarmup = _wheelPhase = _motorcycleLean = 0;
         _mechanics?.Reset();
         _acceptedHorsePose = _pendingHorsePose = null;
@@ -278,6 +289,12 @@ public partial class VehicleController : CharacterBody3D
         }
         if (Input.IsActionJustPressed("carry_rotate") && Definition.Kind != VehicleKind.HorseCart)
         { Headlights = !Headlights; _fleet.MarkDirty(); }
+        if (InputMap.HasAction("vehicle_high_beam") && Input.IsActionJustPressed("vehicle_high_beam")
+            && Definition.Kind != VehicleKind.HorseCart)
+        { HighBeams = !HighBeams; _fleet.MarkDirty(); }
+        if (InputMap.HasAction("vehicle_wipers") && Input.IsActionJustPressed("vehicle_wipers")
+            && Definition.Kind != VehicleKind.HorseCart)
+        { Wipers = !Wipers; _fleet.MarkDirty(); }
         if (Input.IsActionJustPressed("carry_place") && Radio is not null)
         { Radio.SetEnabled(!Radio.Enabled); _fleet.MarkDirty(); }
         if (Input.IsActionJustPressed("radio_station") && Radio is not null && Radio.NextStation())
@@ -349,7 +366,7 @@ public partial class VehicleController : CharacterBody3D
         }
         if (!decision.Allowed)
         {
-            Speed = 0; lateral = 0; yaw = 0; _mechanics?.Block(); LastRefusal = decision.Reason;
+            Speed = 0; lateral = 0; yaw = 0; _mechanics?.BlockMotion(); LastRefusal = decision.Reason;
             if (Math.Abs(throttle) > .05f) Notice(decision.Reason);
         }
         else LastRefusal = string.Empty;
@@ -362,7 +379,7 @@ public partial class VehicleController : CharacterBody3D
         var finalDecision = _fleet.EvaluateTravel(this, previous,
             previous + new Vector3(forward.X,0,forward.Z) * Speed * dt);
         if(!finalDecision.Allowed && (Math.Abs(Speed)>.001f||Math.Abs(lateral)>.001f))
-        { Speed=0;lateral=0;_mechanics?.Block();Notice(finalDecision.Reason); }
+        { Speed=0;lateral=0;_mechanics?.BlockMotion();Notice(finalDecision.Reason); }
         var vertical = IsOnFloor() ? -.15f : Velocity.Y - 21.6f * dt;
         var planar = _mechanics is not null
             ? GlobalBasis.X * lateral - GlobalBasis.Z * Speed
@@ -392,7 +409,7 @@ public partial class VehicleController : CharacterBody3D
                 }
                 HardStop?.Invoke(this, Math.Abs(Speed), collider);
             }
-            Speed = 0; lateral = 0; _mechanics?.Block(); CollisionStops++;
+            Speed = 0; lateral = 0; _mechanics?.BlockMotion(); CollisionStops++;
         }
         if (hoofFraction < 1) Speed = 0;
         // MarkDirty only sets a flag; VehicleFleet retains its two-second commit
@@ -660,7 +677,8 @@ public partial class VehicleController : CharacterBody3D
                 +H("move_left")+"/"+H("move_right")+(horse?" направить":" поворот")
             +"\n"+H("carry_use")+" "+engine+" · "+H("jump")+(horse?" придержать · ":" тормоз · ")
                 +H("crouch")+" "+parking+" · "+H("interact")+" выйти"
-            +(Definition.Kind!=VehicleKind.HorseCart?" · "+H("carry_rotate")+" фары":"")
+            +(Definition.Kind!=VehicleKind.HorseCart?" · "+H("carry_rotate")+" фары · "
+                +H("vehicle_high_beam")+" дальний · "+H("vehicle_wipers")+" дворники":"")
             +(Radio is null?"":"\n"+H("carry_place")+" радио · "+(Radio.Enabled?Radio.Display:"выключено")
                 +(Radio.StationCount>1?" · "+H("radio_station")+" канал":""));
     }
@@ -676,7 +694,8 @@ public partial class VehicleController : CharacterBody3D
         JsonArray V(Vector3 vector)=>new(vector.X,vector.Y,vector.Z);
         return new JsonObject { ["propId"]=Definition.StateId,["version"]=1,["position"]=V(GlobalPosition),
             ["yawDegrees"]=CaptureYawDegrees(),["engineRunning"]=EngineRunning,["parkingBrake"]=ParkingBrake,
-            ["headlights"]=Headlights,["travelMetres"]=TotalTravelMetres,["radio"]=Radio?.Capture(),
+            ["headlights"]=Headlights,["highBeams"]=HighBeams,["wipers"]=Wipers,
+            ["travelMetres"]=TotalTravelMetres,["radio"]=Radio?.Capture(),
             ["steeringRadians"]=_steering,["leanRadians"]=_motorcycleLean };
     }
 
@@ -724,6 +743,10 @@ public partial class VehicleController : CharacterBody3D
         EngineRunning=record.TryGetProperty("engineRunning",out var engine)&&engine.ValueKind==JsonValueKind.True;
         ParkingBrake=!record.TryGetProperty("parkingBrake",out var park)||park.ValueKind!=JsonValueKind.False;
         Headlights=record.TryGetProperty("headlights",out var lights)&&lights.ValueKind==JsonValueKind.True;
+        // Version-1 records written before the lamp/wiper toggles simply leave
+        // both off; the optional reads keep every existing save loadable.
+        HighBeams=record.TryGetProperty("highBeams",out var high)&&high.ValueKind==JsonValueKind.True;
+        Wipers=record.TryGetProperty("wipers",out var wipers)&&wipers.ValueKind==JsonValueKind.True;
         TotalTravelMetres=record.TryGetProperty("travelMetres",out var metres)&&metres.TryGetSingle(out var value)&&float.IsFinite(value)?Math.Max(0,value):0;
         Radio?.Restore(record.TryGetProperty("radio",out var radio)&&radio.ValueKind==JsonValueKind.Object?radio:null);
         _controlsNeedRelease=true;UpdateVisuals(0);return true;
