@@ -92,16 +92,32 @@ public partial class Act1ConnectedWorld
                 FacilityRadiator(_mosqueRoom, $"MosqueRadiator{side}_{x}", new(x, .52f, side * 4.39f), side < 0 ? 0 : 180);
             }
         }
-        // A short vestibule leaves wet boots and washing facilities outside the prayer hall.
-        FacilitySolid(_mosqueRoom, "MosqueVestibuleNorth", new(.14f, 3.75f, 3.89f), new(2.40f, 1.875f, -2.665f), "b2a384", "wood_furniture");
-        FacilitySolid(_mosqueRoom, "MosqueVestibuleSouth", new(.14f, 3.75f, 3.89f), new(2.40f, 1.875f, 2.665f), "b2a384", "wood_furniture");
-        FacilitySolid(_mosqueRoom, "MosqueVestibuleLintel", new(.14f, 1.55f, 1.44f), new(2.40f, 2.975f, 0), "b2a384", "wood_furniture");
+        // Author repair 2026-10-04: the previous 3.89 m vestibule returns ran
+        // from the 1.44 m doorway to both window walls. They split the hall in
+        // two, crossed the +2.6 m window aperture by 3.5 cm and passed through
+        // the minaret base corner trim and the sadaqah box. Keep the vestibule
+        // separation as two 0.98 m returns that stop 2.87 m short of the window
+        // walls, 7.6 cm clear of the minaret shaft and 2.6 m clear of the
+        // radiators; tops meet the ceiling plane at 3.74 instead of embedding
+        // 1 cm. Doorway, leaf, lintel and collision stay the same primitives.
+        FacilitySolid(_mosqueRoom, "MosqueVestibuleNorth", new(.14f, 3.74f, .98f), new(2.40f, 1.87f, -1.21f), "b2a384", "wood_furniture");
+        FacilitySolid(_mosqueRoom, "MosqueVestibuleSouth", new(.14f, 3.74f, .98f), new(2.40f, 1.87f, 1.21f), "b2a384", "wood_furniture");
+        FacilitySolid(_mosqueRoom, "MosqueVestibuleLintel", new(.14f, 1.54f, 1.44f), new(2.40f, 2.97f, 0), "b2a384", "wood_furniture");
+        _mosqueRoom.SetMeta("vestibulePartition",
+            "two 0.98 m returns at X2.40 flanking the unchanged 1.44 m doorway; full-depth 3.89 m partition removed 2026-10-04");
         FacilityBench(_mosqueRoom, "MosqueShoeBench", new(3.65f, 0, 2.90f), 1.90f, 0);
+        // Author repair 2026-10-04: the rack sat at X3.65 where the S-E
+        // radiator rails (reaching X3.085) and column channels (X3.010) crossed
+        // the left upright and the shelf boards pierced both posts. The rack
+        // now stands east of the radiator, plank ends are housed 5 mm into the
+        // posts, and the 0.34 m depth clears the heating risers at Z4.372.
         for (var level = 0; level < 3; level++)
-            FacilitySolid(_mosqueRoom, "MosqueShoeShelf" + level, new(1.65f, .05f, .36f), new(3.65f, .13f + level * .24f, 4.20f), "74604a", "wood_furniture");
-        foreach (var x in new[] { 2.86f, 4.44f })
+            FacilitySolid(_mosqueRoom, "MosqueShoeShelf" + level, new(1.53f, .05f, .34f), new(3.95f, .13f + level * .24f, 4.19f), "74604a", "wood_furniture");
+        foreach (var x in new[] { 3.16f, 4.74f })
             FacilitySolid(_mosqueRoom, "MosqueShoeRackUpright" + x, new(.06f, .78f, .40f), new(x, .39f, 4.20f), "74604a", "wood_furniture");
-        AddVisualBox(_mosqueRoom, "MosqueEntranceMat", new(2.7f, .012f, 1.35f), new(3.75f, .007f, 0), "5c635a", "fabric");
+        _mosqueRoom.SetMeta("shoeRackRepair",
+            "rack moved 0.30 m to +X (uprights X3.16/X4.74, shelf span 3.185..4.715); S-E radiator and heating risers clear");
+        AddVisualBox(_mosqueRoom, "MosqueEntranceMat", new(2.63f, .008f, 1.35f), new(3.785f, .004f, 0), "5c635a", "fabric");
         // Mosque07: the old white lettering lay across the window aperture.
         // The existing solid south pier supports the whole notice, with its
         // backing against the interior wall face at Z=4.575 (not the glass).
@@ -117,12 +133,28 @@ public partial class Act1ConnectedWorld
         BuildPlayerFootwearPlace();
         BuildMosqueWashCorner();
         var prayerCarpet = BuildMosquePrayerAndLibrary();
+        BuildMosqueSanctuaryQuran();
         var prayerCarpetTop = prayerCarpet.Position.Y + prayerCarpet.Mesh.GetAabb().End.Y;
-        FacilitySolid(_mosqueRoom, "MosqueHeatingCabinet", new(.52f, .76f, .30f), new(4.72f, 1.74f, 4.37f), "b4bbb0", "metal");
+        // Author repair 2026-10-04: the sadaqah box was authored at X2.48 and
+        // the 2.40 vestibule partition ran through its lid, pedestal and side
+        // panels (14 cm). Seat the same node against the return's east face
+        // (X2.47); size, children, state and label stay untouched.
+        var donationBox = _mosqueRoom.GetNode<Node3D>("MosqueDonationBox");
+        if (donationBox.Position.IsEqualApprox(new Vector3(2.48f, 0, 1.56f)))
+        {
+            donationBox.Position = new(2.73f, 0, 1.56f);
+            donationBox.SetMeta("interiorRepair",
+                "seated against the vestibule return east face X2.47; previous X2.48 was bisected by the partition");
+        }
+        // Author repair 2026-10-04: the wall-hung boiler floated 5.5 cm off
+        // the window wall and its risers hung 16.7 cm away. Seat the same
+        // cabinet flush (back face Z4.570, a 5 mm reveal to the wall face
+        // Z4.575) and keep the risers under it, 4.7 cm off the wall.
+        FacilitySolid(_mosqueRoom, "MosqueHeatingCabinet", new(.52f, .76f, .30f), new(4.72f, 1.74f, 4.42f), "b4bbb0", "metal");
         for (var i = 0; i < 5; i++)
-            AddVisualBox(_mosqueRoom, "MosqueHeatingVent" + i, new(.34f, .012f, .014f), new(4.72f, 1.53f + i * .046f, 4.21f), "5b6661", "metal");
-        FacilityRod(_mosqueRoom, "MosqueHeatSupply", new(4.65f, 1.36f, 4.39f), new(4.65f, .27f, 4.39f), .018f, "a3aaa8");
-        FacilityRod(_mosqueRoom, "MosqueHeatReturn", new(4.83f, 1.36f, 4.39f), new(4.83f, .12f, 4.39f), .018f, "a3aaa8");
+            AddVisualBox(_mosqueRoom, "MosqueHeatingVent" + i, new(.34f, .012f, .014f), new(4.72f, 1.53f + i * .046f, 4.268f), "5b6661", "metal");
+        FacilityRod(_mosqueRoom, "MosqueHeatSupply", new(4.65f, 1.36f, 4.51f), new(4.65f, .27f, 4.51f), .018f, "a3aaa8");
+        FacilityRod(_mosqueRoom, "MosqueHeatReturn", new(4.83f, 1.36f, 4.51f), new(4.83f, .12f, 4.51f), .018f, "a3aaa8");
         FacilityLamp(_mosqueRoom, "MosqueHallLamp", new(-1.10f, 2.90f, 0), "ffdfad", 1.20f, 7.5f);
         FacilityLamp(_mosqueRoom, "MosqueVestibuleLamp", new(3.63f, 2.56f, .15f), "ffdfa8", .68f, 4.2f);
 

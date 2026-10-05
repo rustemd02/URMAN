@@ -57,6 +57,12 @@ public partial class Act1ConnectedWorld
             item.Node.SetMeta("mosqueFootwear", "indoor-sock-derived-v1");
         }
         _mosqueFootwear.AddRange(staged);
+        // The same one existing actor also receives the sober mosque garment
+        // (Act1ConnectedWorld.MosqueImamDress.cs). It only recolours the kit
+        // cloth, re-derives the authored cap and adds one collar primitive;
+        // the soles above, the rig, the anchor and the interaction stay owned
+        // by their existing code.
+        ConfigureMosqueImamDress(timur);
     }
 
     // Shared geometry only: state remains with world.props, while each actor

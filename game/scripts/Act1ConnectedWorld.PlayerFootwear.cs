@@ -101,8 +101,11 @@ public partial class Act1ConnectedWorld
                     var bounds = original.Boots.GetAabb();
                     var anchor = new Vector3(bounds.GetCenter().X, bounds.Position.Y, bounds.GetCenter().Z);
                     var mesh = BuildStoredPlayerBoot(original.Boots, anchor);
+                    // The rack moved 0.30 m east with the shelf plane at Z4.19;
+                    // the pair rests on the lower board top (Y.155) so the
+                    // existing shelf ray proof resolves MosqueShoeShelf0Body.
                     pair.Add(new MeshInstance3D { Name = foot == 0 ? "AidarBootLeftOnShelf" : "AidarBootRightOnShelf",
-                        Mesh = mesh, MaterialOverride = original.BootMaterial, Position = new(3.54f + foot * .22f, .155f, 3.60f),
+                        Mesh = mesh, MaterialOverride = original.BootMaterial, Position = new(3.84f + foot * .22f, .155f, 4.19f),
                         RotationDegrees = new(0, 180, 0) });
                 }
             }

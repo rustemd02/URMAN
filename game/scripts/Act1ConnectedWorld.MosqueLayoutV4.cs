@@ -9,6 +9,9 @@ public partial class Act1ConnectedWorld
     // Fictional Kara-Urman uses Kazan as a regional proxy, not a claimed real village location.
     // Initial great-circle bearing: atan2(sin Δλ cos φ2,
     // cos φ1 sin φ2 − sin φ1 cos φ2 cos Δλ), Kazan 55.79/49.12 → Kaaba 21.4225/39.8262.
+    // MosqueOrientation.cs yaws the whole complex onto this bearing before the
+    // interior is built, so this world vector resolves to room-local (0, 0, -1):
+    // the mihrab, the minbar, the imam and the carpet rows all share one clean axis.
     internal const float MosqueQiblaBearingDegrees = 195.1725f;
     private Vector3 MosqueLocalQibla => _mosqueRoom!.GlobalBasis.Inverse() *
         new Vector3(Mathf.Sin(Mathf.DegToRad(MosqueQiblaBearingDegrees)), 0,
@@ -63,12 +66,23 @@ public partial class Act1ConnectedWorld
         room.SetMeta("worldEast", Vector3.Right);
         room.SetMeta("qiblaRegionalProxy", "Kazan 55.79N 49.12E; fictional village has no surveyed coordinate");
         room.SetMeta("qiblaBearingDegrees", MosqueQiblaBearingDegrees);
-        room.SetMeta("qiblaWorldDirection", new Vector3(Mathf.Sin(Mathf.DegToRad(MosqueQiblaBearingDegrees)), 0, Mathf.Cos(Mathf.DegToRad(MosqueQiblaBearingDegrees))));
-        // A 2 mm textile lies below the door's 12 mm clearance and its 2 mm sweep margin. Stable support IDs remain.
-        var carpet = FacilitySolid(room, "MosquePrayerCarpet", new(5.3f, .002f, 6.05f), new(-.50f, .001f, -.95f), "38655f", "fabric");
-        ApplyMosquePrayerCarpet(carpet);
-        var qibla = MosqueLocalQibla.Normalized();
-        var yaw = Mathf.Atan2(-qibla.X, -qibla.Z); // local -Z is the prayer face
+        // The complex was already yawed onto the qibla (MosqueOrientation.cs),
+        // so the true world direction is the room basis applied to the local
+        // qibla vector. Room-local it resolves to (0, 0, -1): the wall, the
+        // niche, the minbar, the imam and the carpet rows share one clean axis.
+        var qiblaLocal = MosqueLocalQibla.Normalized();
+        room.SetMeta("qiblaWorldDirection", (room.GlobalBasis * qiblaLocal).Normalized());
+        room.SetMeta("qiblaLocalDirection", qiblaLocal);
+        room.SetMeta("carpetRowAxisLocal", qiblaLocal);
+        // Carpet lane (MosqueCarpets.cs): this replaces the old 5.3 x 6.05 m rug
+        // with the straight wall-to-wall field. The node name, the 2 mm support
+        // contact and the legacy-save consumers stay identical; the mat rows
+        // follow the qibla lane, which the complex yaw has made room-axis aligned.
+        var carpet = BuildMosquePrayerMatField(room);
+        // After the complex yaw this yaw is 0: the mihrab assembly is flush with
+        // the real building wall instead of a 15.1725-degree insert inside a
+        // straight shell.
+        var yaw = Mathf.Atan2(-qiblaLocal.X, -qiblaLocal.Z); // local -Z is the prayer face
         var prayer = new Node3D { Name = "MosqueQiblaWall", Position = new(-.7f, 0, -4.14f), Rotation = new(0, yaw, 0) };
         room.AddChild(prayer);
         prayer.SetMeta("qiblaBearingDegrees", MosqueQiblaBearingDegrees);
@@ -120,39 +134,6 @@ public partial class Act1ConnectedWorld
         room.SetMeta("libraryClearSizeMetres", new Vector2(3.14f, 3.70f));
         room.SetMeta("hallClearHeightMetres", 3.74f);
         return carpet;
-    }
-
-    private void ApplyMosquePrayerCarpet(MeshInstance3D carpet)
-    {
-        const string path = "res://assets/textures/civic/mosque_prayer_carpet_v2_albedo.png";
-        // Explicit consumer UVs keep floral/arch heads pointing toward Mecca, independent of the building rotation.
-        var surface = new SurfaceTool();
-        surface.Begin(Mesh.PrimitiveType.Triangles);
-        var box = (BoxMesh)carpet.Mesh;
-        var left = -box.Size.X * .5f; var right = -left;
-        var near = -box.Size.Z * .5f; var far = -near;
-        var top = box.Size.Y * .5f + .0004f;
-        var q = MosqueLocalQibla.Normalized(); var u = new Vector3(-q.Z, 0, q.X);
-        var a = new Vector3(left, top, near); var b = new Vector3(right, top, near);
-        var c = new Vector3(right, top, far); var d = new Vector3(left, top, far);
-        foreach (var p in new[] { a, b, c, a, c, d })
-        {
-            surface.SetNormal(Vector3.Up);
-            // Image upward means decreasing V in texture coordinates.
-            surface.SetUV(new Vector2(p.Dot(u) / 1.8f, -p.Dot(q) / 2.2f));
-            surface.AddVertex(p);
-        }
-        var textile = new StandardMaterial3D { AlbedoColor = Colors.White, Roughness = .97f,
-            TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmapsAnisotropic,
-            CullMode = BaseMaterial3D.CullModeEnum.Disabled };
-        if (ResourceLoader.Exists(path)) textile.AlbedoTexture = GD.Load<Texture2D>(path);
-        else { textile.AlbedoColor = new Color("38655f"); GD.PushWarning("Mosque prayer carpet texture awaits asset import: " + path); }
-        var topMesh = new MeshInstance3D { Name = "MosquePatternedCarpetSurface", Mesh = surface.Commit(), MaterialOverride = textile };
-        carpet.AddChild(topMesh);
-        surface.Dispose();
-        carpet.SetMeta("textureConsumer", path);
-        carpet.SetMeta("textureTileMetres", new Vector2(1.8f, 2.2f));
-        carpet.SetMeta("textureUpDirection", q);
     }
 
     private void BuildMosqueDonationBox()

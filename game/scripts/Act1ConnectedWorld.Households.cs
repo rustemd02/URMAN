@@ -10,6 +10,7 @@ public partial class Act1ConnectedWorld
     private ClubGramophone? _gramophone;
     private VillagePaSystem? _paSystem;
     private WindowSilhouettes? _silhouettes;
+    private MosqueSanctuary? _mosqueSanctuary;
     private VillageChimneySmoke? _chimneySmokeSystem;
     private void BuildVillageHouseholds()
     {
@@ -26,6 +27,8 @@ public partial class Act1ConnectedWorld
         AddChild(_paSystem);_paSystem.Initialize(this);
         _silhouettes=new WindowSilhouettes {Name="WindowSilhouettes"};
         AddChild(_silhouettes);_silhouettes.Initialize(this);
+        _mosqueSanctuary=new MosqueSanctuary {Name="MosqueSanctuary"};
+        AddChild(_mosqueSanctuary);_mosqueSanctuary.Initialize(this);
         _chimneySmokeSystem=new VillageChimneySmoke {Name="VillageChimneySmoke"};
         AddChild(_chimneySmokeSystem);
         // The authored village-life plumes already smoke their own two chimneys;
@@ -57,5 +60,6 @@ public partial class Act1ConnectedWorld
         _gramophone?.Tick(delta,player.GlobalPosition,clubAudible);
         _paSystem?.Tick(delta,player.GlobalPosition,clubAudible);
         _silhouettes?.Tick(delta,camera?.GlobalPosition??player.GlobalPosition,audible);
+        _mosqueSanctuary?.Tick(delta,player.GlobalPosition,FacilityInteriorAt(player.GlobalPosition)=="mosque");
     }
 }

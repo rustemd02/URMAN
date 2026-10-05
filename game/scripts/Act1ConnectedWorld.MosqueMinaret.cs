@@ -13,7 +13,8 @@ public partial class Act1ConnectedWorld
         var room = _mosqueRoom!;
         var stair = new Node3D { Name = "MosqueMinaretAccess", Position = MinaretCentre };
         room.AddChild(stair);
-        stair.SetMeta("presentationRole", "timber octagonal roof minaret; narrow three-turn spiral; sheltered azanchi lantern");
+        stair.SetMeta("presentationRole",
+            "plank-clad octagonal village minaret after the Bolshaya Elga / Moksha published type: framed timber shaft, open railed azanchi lantern with its own skirt roof, slender sheet-metal tent and crescent; no glazed belfry, no white church trim");
         stair.SetMeta("riseMetres", .16f);
         stair.SetMeta("goingMetres", .236f);
         stair.SetMeta("clearFlightWidth", 1.04f);
@@ -21,6 +22,11 @@ public partial class Act1ConnectedWorld
             "treads 0-1 outer radius 1.20 -> 1.14 m (clear width .98 m there); mosque entrance leaf tip samples 1.1536/1.1861 m, full -95-degree arc clear with a real margin; entry tread, rails and anchors unchanged");
         stair.SetMeta("sameLaneVerticalClearance", 3.12f);
         stair.SetMeta("shaftDiameterMetres", 2.60f);
+        stair.SetMeta("shaftAcrossFlatsMetres", 2.40f);
+        stair.SetMeta("stairPolicy",
+            "riser .16 m within the .22 m controller allowance (FirstPersonController.MaximumStepHeight); walking-radius going .258 m; same-lane headroom 3.12 m above the 1.8 m capsule; handrail and baluster line stays at r=1.22 m; no ramp or teleporter");
+        stair.SetMeta("lanternType",
+            "open azanchi arcade: .92 m parapet, timber balusters and corner posts, own skirt roof, drum, 2.00 m tent base and crescent");
         const int count = 60, perTurn = 20;
         const float rise = .16f, inner = .16f, outer = 1.20f, walkingRadius = .82f;
         // The mosque entrance leaf opens inward to -95 degrees; its full-shape
@@ -66,6 +72,8 @@ public partial class Act1ConnectedWorld
         stair.AddChild(mastBody); _facilityBodies.Add(mastBody);
 
         // Eight slim timber facets. The two south facets start above the real bottom doorway.
+        // Vertical face battens and corner boards carry the plank framing up the
+        // shaft; the previous church-like white quoins are gone.
         for (var side = 0; side < 8; side++)
         {
             var mid = side * Mathf.Tau / 8 + Mathf.Pi / 8;
@@ -74,8 +82,39 @@ public partial class Act1ConnectedWorld
             FacilitySolid(stair, "TimberShaftFacet" + side, new(1.08f, height, .10f),
                 new(Mathf.Cos(mid) * 1.30f, bottom + height * .5f, Mathf.Sin(mid) * 1.30f), "729080", "wood_painted_green",
                 new(0, Mathf.Pi * .5f - mid, 0));
-            AddVisualBox(stair, "ShaftCornerTrim" + side, new(.065f, height, .065f),
-                new(Mathf.Cos(side * Mathf.Tau / 8) * 1.39f, bottom + height * .5f, Mathf.Sin(side * Mathf.Tau / 8) * 1.39f), "ece9df", "wood_painted_trim");
+            for (var batten = 0; batten < 2; batten++)
+            {
+                var offset = (batten * 2 - 1) * .26f;
+                var tangent = new Vector3(Mathf.Sin(mid), 0, -Mathf.Cos(mid)) * offset;
+                AddVisualBox(stair, "ShaftFaceBatten" + side + "_" + batten, new(.05f, height, .06f),
+                    new Vector3(Mathf.Cos(mid) * 1.35f, bottom + height * .5f, Mathf.Sin(mid) * 1.35f) + tangent,
+                    "80674c", "wood_furniture", Mathf.RadToDeg(Mathf.Pi * .5f - mid));
+            }
+            var corner = side * Mathf.Tau / 8;
+            AddVisualBox(stair, "ShaftCornerBatten" + side, new(.09f, height, .09f),
+                new(Mathf.Cos(corner) * 1.44f, bottom + height * .5f, Mathf.Sin(corner) * 1.44f),
+                "80674c", "wood_furniture", Mathf.RadToDeg(Mathf.Pi * .5f - corner));
+        }
+        // Two horizontal hoops frame the shaft stages of the reference type.
+        for (var band = 0; band < 2; band++)
+        {
+            var y = band == 0 ? 6.15f : 8.82f;
+            for (var side = 0; side < 8; side++)
+            {
+                var mid = side * Mathf.Tau / 8 + Mathf.Pi / 8;
+                AddVisualBox(stair, "ShaftHoop" + band + "_" + side, new(1.14f, .09f, .10f),
+                    new(Mathf.Cos(mid) * 1.33f, y, Mathf.Sin(mid) * 1.33f), "80674c", "wood_furniture",
+                    Mathf.RadToDeg(Mathf.Pi * .5f - mid));
+            }
+        }
+        // Two small slit lights above the roof for the stair lane.
+        for (var slit = 0; slit < 2; slit++)
+        {
+            var side = slit == 0 ? 0 : 4;
+            var mid = side * Mathf.Tau / 8 + Mathf.Pi / 8;
+            AddVisualBox(stair, "ShaftSlit" + slit, new(.10f, .44f, .05f),
+                new(Mathf.Cos(mid) * 1.34f, 7.50f, Mathf.Sin(mid) * 1.34f), "2f3a33", "wood_furniture",
+                Mathf.RadToDeg(Mathf.Pi * .5f - mid));
         }
         FacilityLabel(room, "MosqueMinaretAccessSign", "Минарет", new(3.83f, 2.55f, -.67f), 0, .0014f);
         var gallery = new Node3D { Name = "MosqueMinaretGallery", Position = MinaretCentre + Vector3.Up * MinaretGalleryHeight };
@@ -86,19 +125,51 @@ public partial class Act1ConnectedWorld
             MinaretSectorSolid(gallery, "LanternLanding" + i, inner, outer, Mathf.Pi * .5f - i * angle,
                 Mathf.Pi * .5f - (i + 1) * angle, 0, .08f, "ac8e65", "wood_furniture");
         gallery.SetMeta("openStairwell", "final rising half has no floor above the standing capsule");
+        // Open azanchi arcade: solid parapet, pale timber cap rail, balusters,
+        // corner posts and a header ring. No glass and no white window frames,
+        // so the lantern reads as a village minaret lantern, not a belfry.
         for (var side = 0; side < 8; side++)
         {
             var mid = side * Mathf.Tau / 8 + Mathf.Pi / 8;
             var face = new Vector3(Mathf.Cos(mid) * 1.30f, 0, Mathf.Sin(mid) * 1.30f);
             var yaw = Mathf.Pi * .5f - mid;
-            FacilitySolid(gallery, "LanternTimberApron" + side, new(1.08f, .82f, .10f), face + Vector3.Up * .41f,
+            var yawDegrees = Mathf.RadToDeg(yaw);
+            FacilitySolid(gallery, "LanternTimberApron" + side, new(1.08f, .92f, .10f), face + Vector3.Up * .46f,
                 "729080", "wood_painted_green", new(0, yaw, 0));
-            var frame = new Node3D { Name = "LanternWindowFrame" + side, Position = face, Rotation = new(0, yaw, 0) };
-            gallery.AddChild(frame);
-            FacilityWindow(frame, "LanternWindow", new(0, 1.46f, 0), new(.80f, 1.18f));
-            foreach (var x in new[] { -.48f, .48f })
-                FacilitySolid(frame, "LanternJamb" + x, new(.13f, 2.30f, .12f), new(x, 1.15f, 0), "ece9df", "wood_painted_trim");
-            FacilitySolid(frame, "LanternHeader", new(1.08f, .25f, .12f), new(0, 2.175f, 0), "ece9df", "wood_painted_trim");
+            AddVisualBox(gallery, "LanternCapRail" + side, new(1.12f, .07f, .13f), face + Vector3.Up * .955f,
+                "d5d0b7", "wood_furniture", yawDegrees);
+            AddVisualBox(gallery, "LanternHeaderRing" + side, new(1.14f, .13f, .12f), face + Vector3.Up * 2.28f,
+                "80674c", "wood_furniture", yawDegrees);
+            for (var baluster = 0; baluster < 3; baluster++)
+            {
+                var tangent = new Vector3(Mathf.Sin(mid), 0, -Mathf.Cos(mid)) * ((baluster - 1) * .27f);
+                var at = face + tangent;
+                FacilityRod(gallery, "LanternBaluster" + side + "_" + baluster,
+                    at + Vector3.Up * .95f, at + Vector3.Up * 2.26f, .016f, "c4b18b");
+            }
+        }
+        for (var corner = 0; corner < 8; corner++)
+        {
+            var cornerAngle = corner * Mathf.Tau / 8;
+            // The octagon's panel corners project to r~1.41; the post caps that
+            // edge so it reads as a corner board instead of a recessed stick.
+            AddVisualBox(gallery, "LanternCornerPost" + corner, new(.10f, 1.36f, .10f),
+                new(Mathf.Cos(cornerAngle) * 1.36f, 1.60f, Mathf.Sin(cornerAngle) * 1.36f),
+                "80674c", "wood_furniture", Mathf.RadToDeg(Mathf.Pi * .5f - cornerAngle));
+        }
+        // The lantern's own small skirt roof, then an inset drum and the long
+        // straight tent — the published Bolshaya Elga / Moksha silhouette.
+        MinaretOctagonalPiece(gallery, "LanternSkirtRoof", 1.04f, 1.58f, .30f, new(0, 2.49f, 0), "496e5b", "roof_metal");
+        MinaretOctagonalPiece(gallery, "LanternDrum", .96f, .96f, .34f, new(0, 2.81f, 0), "729080", "wood_painted_green");
+        MinaretOctagonalPiece(gallery, "TentedRoof", .035f, 1.00f, 3.20f, new(0, 4.58f, 0), "496e5b", "roof_metal");
+        FacilityRod(gallery, "FinialRod", new(0, 6.13f, 0), new(0, 6.69f, 0), .017f, "c9b26a");
+        DiscoveryCylinder(gallery, "FinialBead0", .052f, .052f, .055f, new(0, 6.21f, 0), "c9b26a");
+        DiscoveryCylinder(gallery, "FinialBead1", .036f, .036f, .05f, new(0, 6.30f, 0), "c9b26a");
+        for (var i = 0; i < 16; i++)
+        {
+            var a0 = Mathf.DegToRad(-100f + i * 200f / 16); var a1 = Mathf.DegToRad(-100f + (i + 1) * 200f / 16);
+            FacilityRod(gallery, "Crescent" + i, new(Mathf.Cos(a0) * .32f, 6.93f + Mathf.Sin(a0) * .32f, 0),
+                new(Mathf.Cos(a1) * .32f, 6.93f + Mathf.Sin(a1) * .32f, 0), .023f, "c9b26a");
         }
         _mosqueAdhanAnchor = new Node3D { Name = "MosqueAdhanAnchor", Position = new(.53f, 0, .53f),
             Rotation = new(0, Mathf.Atan2(MosqueLocalQibla.X, MosqueLocalQibla.Z), 0) };
@@ -113,20 +184,9 @@ public partial class Act1ConnectedWorld
         foreach (var a in new[] { 0f, Mathf.Tau / 3, Mathf.Tau * 2 / 3 })
             FacilityRod(mic, "StandFoot" + a, new(0, .04f, 0), new(Mathf.Cos(a) * .18f, .02f, Mathf.Sin(a) * .18f), .009f, "626967");
         FacilityRod(mic, "Cable", new(-.20f, 1.45f, .01f), new(0, .025f, .05f), .003f, "303936");
-        mic.SetMeta("purpose", "author-requested modern microphone at sheltered azanchi point; visual equipment only");
+        mic.SetMeta("purpose", "author-requested modern microphone at the railed azanchi lantern under its skirt roof; visual equipment only");
         stair.SetMeta("walkAnchors", anchors);
         stair.SetMeta("adhanPoint", _mosqueAdhanAnchor.GlobalPosition);
-        var cap = new Node3D { Name = "MosqueMinaretCrown", Position = MinaretCentre + Vector3.Up * (MinaretGalleryHeight + 2.30f) };
-        room.AddChild(cap);
-        MinaretOctagonalPiece(cap, "OctagonalCornice", 1.48f, 1.48f, .18f, Vector3.Zero, "ece9df", "wood_painted_trim");
-        MinaretOctagonalPiece(cap, "TentedRoof", .035f, 1.46f, 3.0f, new(0, 1.55f, 0), "496e5b", "roof_metal");
-        FacilityRod(cap, "FinialRod", new(0, 3.04f, 0), new(0, 3.65f, 0), .017f, "c9b26a");
-        for (var i = 0; i < 16; i++)
-        {
-            var a0 = Mathf.DegToRad(-115 + i * 230f / 16); var a1 = Mathf.DegToRad(-115 + (i + 1) * 230f / 16);
-            FacilityRod(cap, "Crescent" + i, new(Mathf.Cos(a0) * .25f, 3.83f + Mathf.Sin(a0) * .25f, 0),
-                new(Mathf.Cos(a1) * .25f, 3.83f + Mathf.Sin(a1) * .25f, 0), .027f, "c9b26a");
-        }
         for (var i = 0; i < 3; i++) FacilityLamp(stair, "MinaretStairLamp" + i, new(0, 1.85f + i * 3.20f, 0), "ffe5bd", .22f, 2.20f);
     }
 

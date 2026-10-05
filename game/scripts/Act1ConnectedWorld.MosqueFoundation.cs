@@ -9,13 +9,21 @@ public partial class Act1ConnectedWorld
 {
     /// <summary>Extend the existing plinth down to its actual terrain. The old
     /// top, footprint, material and node remain; the normal late contact rebuild
-    /// consumes this mesh. No other mosque, stair or courtyard geometry moves.</summary>
+    /// consumes this mesh. No other mosque, stair or courtyard geometry moves —
+    /// except the one deliberate qibla yaw of the whole complex, applied here
+    /// before anything is sampled or built (see MosqueOrientation.cs).</summary>
     private void ExtendMosquePlinthToTerrain(MeshInstance3D plinth)
     {
         if (plinth.Mesh is not BoxMesh original || plinth.GetParent() is not Node3D parent)
             throw new InvalidOperationException("The mosque foundation requires its existing box plinth owner.");
         if (plinth.HasMeta("foundationTerrainSupportRepair"))
             throw new InvalidOperationException("The mosque foundation was already repaired in this world.");
+        // Single rigid yaw of the complex onto the true qibla bearing. This is
+        // the earliest owned hook: it runs before the plinth is compared with
+        // the terrain, before the room is created by the caller and before the
+        // doors, stairs, minaret, address plate anchor and approach path are
+        // built, so all of them share the yawed transform.
+        RotateMosqueComplexToQibla(parent);
         var transform = plinth.GlobalTransform;
         if (transform.Basis.Y.Normalized().Dot(Vector3.Up) < .99999f
             || Math.Abs(transform.Basis.X.Y) > .00001f || Math.Abs(transform.Basis.Z.Y) > .00001f)
