@@ -3109,10 +3109,13 @@ public partial class Act1ConnectedWorld : Node3D
             "open; neutral non-inscribed marker geometry requires cultural, religious and local-context review");
         presentation.SetMeta(
             "placementPolicy",
-            "continuous authored threshold: wet road contact/path edge -> right-side fence and open gate -> low marker group -> birch/shrub forest transition; distant village masses keep the return depth; route center remains open");
+            "relocated continuous threshold (2026-10-05): road contact/path edge stays on the zīrat road; the low fence, open gate, marker rows and grade path stand in the vacant field behind the last western kitchen gardens, entered from the road; distant village masses keep the return depth");
+        presentation.SetMeta(
+            "relocation",
+            "family zīrat moved from the road-east strip (x≈6.6, z −70…−88) to the garden-edge plot at x −22.4…−9.1, z −74…−88 (Act1WorldLayout.ZiratPlotLayout); road, ditch, culvert and route trace tag unchanged");
         presentation.SetMeta(
             "thresholdLayout",
-            "roadAnchor=(0,0,-1.5); path=(4.2,0,-4.2); markerLow=(6.2,0,-5.2); markerFar=(6.8,0,-9.2); boundary=(6.7,0,-8); birch=(7.8,0,-22)");
+            "roadAnchor=(0,0,-1.5) unchanged; gateFence=(-9.06,0,-81) yaw90; path=(-9.45,0,-81) yaw90; marker rows recomposed in the plot; birch windbreak=(-31.5,0,-81) yaw270");
         ziratZone.AddChild(presentation);
 
         var packed = ResourceLoader.Load<PackedScene>(ZiratRoadsideKitScenePath)
@@ -3229,15 +3232,12 @@ public partial class Act1ConnectedWorld : Node3D
             "zirat_road@culvert-edge",
             ZiratRoadsideKitScenePath);
 
-        // The authored boundary runs along the right side of the route. Its
-        // lateral placement keeps the fence/gate out of the first-person road
-        // window; the gate is an open presentation cue, never a blocker.
-        // Keep the central 4.2 m route clear while bringing the existing
-        // authored threshold into the forward/right camera rays. With the
-        // kit's local fence axis rotated 90 degrees, this anchor makes the
-        // fence a side boundary spanning roughly z -70..-86 rather than a
-        // distant strip at the Kara connector.
-        var boundaryAnchor = origin + new Vector3(6.7f, 0f, -8.0f);
+        // Relocated family zīrat (author, 2026-10-05): the picket fence with the
+        // open gate is now the road-facing east side of the garden-edge plot.
+        // The kit fence axis is rotated 90 degrees, so it spans roughly
+        // z -74..-88 at x -9.06 with the gate centred on the approach path.
+        var boundaryAnchor = ZiratPlotLayout.GateFenceAnchor;
+        boundaryAnchor.Y = (float)AgentBAct1HeightField.CollisionGround(boundaryAnchor.X, boundaryAnchor.Z) - .02f;
         AttachAct1ExteriorKitComponent(
             presentation,
             components[4].Root!,
@@ -3257,8 +3257,11 @@ public partial class Act1ConnectedWorld : Node3D
             "zirat_road@lateral-open-gate",
             ZiratRoadsideKitScenePath);
 
-        var markerAnchor = origin + new Vector3(6.2f, 0f, -5.2f);
-        AttachAct1ExteriorKitComponent(
+        // The marker rows are recomposed inside the plot from the authored kit
+        // stones: the family pair keeps the exact path-relative reading offsets,
+        // the remaining stones move to two quiet rows. See ComposeRelocatedZiratStones.
+        var markerAnchor = ZiratPlotLayout.LowMarkerAnchor;
+        var lowMarkerPlacement = AttachAct1ExteriorKitComponent(
             presentation,
             components[6].Root!,
             "ZiratAuthoredMarkerGroupLow",
@@ -3267,21 +3270,22 @@ public partial class Act1ConnectedWorld : Node3D
             Vector3.One * 0.92f,
             "zirat_road@quiet-marker-group-near",
             ZiratRoadsideKitScenePath);
-        AttachAct1ExteriorKitComponent(
+        var farMarkerPlacement = AttachAct1ExteriorKitComponent(
             presentation,
             components[7].Root!,
             "ZiratAuthoredMarkerGroupFar",
-            origin + new Vector3(6.8f, 0f, -9.2f),
+            ZiratPlotLayout.FarMarkerAnchor,
             0f,
             Vector3.One * 0.92f,
             "zirat_road@quiet-marker-group-far",
             ZiratRoadsideKitScenePath);
+        ComposeRelocatedZiratStones(lowMarkerPlacement, farMarkerPlacement);
         var pathPlacement = AttachAct1ExteriorKitComponent(
             presentation,
             components[8].Root!,
             "ZiratAuthoredPathEdge",
-            origin + new Vector3(4.2f, 0f, -4.2f),
-            0f,
+            ZiratPlotLayout.PathAnchor,
+            90f,
             Vector3.One * 0.96f,
             "zirat_road@side-path-edge",
             ZiratRoadsideKitScenePath);
@@ -3315,12 +3319,17 @@ public partial class Act1ConnectedWorld : Node3D
         }
         pathRibbon.Mesh = groundedPath;
 
+        // The birch/shrub transition becomes the cemetery's west windbreak
+        // belt, standing just outside the low west fence (yaw 270 keeps its
+        // long axis north-south along the plot's back).
+        var birchAnchor = ZiratPlotLayout.BirchWindbreakAnchor;
+        birchAnchor.Y = (float)AgentBAct1HeightField.CollisionGround(birchAnchor.X, birchAnchor.Z) - .04f;
         AttachAct1ExteriorKitComponent(
             presentation,
             components[9].Root!,
             "ZiratAuthoredBirchShrubTransition",
-            origin + new Vector3(7.8f, 0f, -22.0f),
-            0f,
+            birchAnchor,
+            270f,
             Vector3.One * 0.94f,
             "zirat_road@birch-forest-transition",
             ZiratRoadsideKitScenePath);
@@ -6269,9 +6278,14 @@ public partial class Act1ConnectedWorld : Node3D
 
         var origin = placement.Origin;
         AddCoreRouteEnvelope(parent, "ZiratRoadEnvelope", new(0f, 0.02f, -53.5f), new(0f, 0.02f, -89.5f), 4.2f, "5d624f", "46534c", 3.7f);
-        AddVisualLandformSegment(parent, "ZiratWestMemoryBank", new(-7.2f, 0f, -54.0f), new(-8.5f, 0f, -88.8f), 1.4f, 0.18f, "53604e", "earth", 0.02f);
+        // The west memory bank used to run the full zīrat stretch. The relocated
+        // cemetery now opens onto the road at its gate and approach path, so the
+        // bank keeps the village-side run and a short stub before the forest,
+        // leaving a clear threshold where the path leaves the road.
+        AddVisualLandformSegment(parent, "ZiratWestMemoryBank", new(-7.2f, 0f, -54.0f), new(-8.0f, 0f, -79.2f), 1.4f, 0.18f, "53604e", "earth", 0.02f);
+        AddVisualLandformSegment(parent, "ZiratWestMemoryBankSouth", new(-8.2f, 0f, -81.6f), new(-8.5f, 0f, -88.8f), 1.4f, 0.18f, "53604e", "earth", 0.02f);
         AddVisualLandformSegment(parent, "ZiratEastMemoryBank", new(7.4f, 0f, -54.5f), new(8.8f, 0f, -88.5f), 1.35f, 0.16f, "4f5a4b", "earth", 0.02f);
-        AddVisualParcelPatch(parent, "ZiratWestWetParcel", new(-8.4f, 0.06f, -70.0f), new(7.0f, 0.18f, 18.0f), "4f5a4b", -4f);
+        AddVisualParcelPatch(parent, "ZiratWestWetParcel", new(-8.4f, 0.06f, -66.5f), new(7.0f, 0.18f, 11.0f), "4f5a4b", -4f);
         AddVisualParcelPatch(parent, "ZiratEastWetParcel", new(8.6f, 0.06f, -74.0f), new(7.4f, 0.16f, 20.0f), "53604f", 6f);
         AddVisualFenceRun(parent, "ZiratOuterWestBoundary", new(-11.5f, 0f, -55.0f), new(-11.5f, 0f, -84.0f));
         AddVisualFenceRun(parent, "ZiratOuterEastBoundary", new(11.5f, 0f, -55.0f), new(11.5f, 0f, -84.0f));

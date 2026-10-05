@@ -209,4 +209,50 @@ public partial class Act1ConnectedWorld
         }
         return float.IsFinite(nearest);
     }
+
+    /// <summary>
+    /// Recomposes the relocated zīrat stones inside the garden-edge plot. The
+    /// first two stones of the low group are the inscribed family pair: they
+    /// keep the kit's path-relative reading offsets (the reading target is
+    /// built from their final transforms), only seated on the real terrain.
+    /// Every other stone is laid out in two quiet rows running west from the
+    /// path, so the cemetery reads as an ordered plot rather than the old
+    /// roadside cluster.
+    /// </summary>
+    private static void ComposeRelocatedZiratStones(Node3D lowMarkerPlacement, Node3D farMarkerPlacement)
+    {
+        foreach (var placement in new[] { lowMarkerPlacement, farMarkerPlacement })
+        {
+            var p = placement.GlobalPosition;
+            placement.GlobalPosition = new Vector3(p.X, (float)AgentBAct1HeightField.CollisionGround(p.X, p.Z) - .02f, p.Z);
+        }
+
+        var lowStones = lowMarkerPlacement.FindChildren("*Marker_*", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().OrderBy(stone => stone.Name.ToString(), StringComparer.Ordinal).ToArray();
+        var farStones = farMarkerPlacement.FindChildren("*Marker_*", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().OrderBy(stone => stone.Name.ToString(), StringComparer.Ordinal).ToArray();
+
+        var family = lowStones.Take(2).ToArray();
+        var quiet = lowStones.Skip(2).Concat(farStones).ToArray();
+        var columns = Mathf.Max(1, (int)Mathf.Ceil(quiet.Length / 2f));
+        for (var index = 0; index < quiet.Length; index++)
+        {
+            var row = index % 2;
+            var column = index / 2;
+            var x = Mathf.Lerp(-13.6f, -20.6f, columns == 1 ? 0f : column / (float)(columns - 1));
+            var z = row == 0 ? -78.4f : -83.6f;
+            var y = (float)AgentBAct1HeightField.CollisionGround(x, z) - .03f;
+            quiet[index].GlobalPosition = new Vector3(x, y, z);
+        }
+
+        foreach (var stone in family)
+        {
+            var p = stone.GlobalPosition;
+            stone.GlobalPosition = new Vector3(p.X, (float)AgentBAct1HeightField.CollisionGround(p.X, p.Z) - .03f, p.Z);
+        }
+
+        lowMarkerPlacement.SetMeta("ziratRelocatedStones", $"family={family.Length} quiet={quiet.Length} rows=2 plot=x[-22.4..-9.2] z[-74..-88]");
+        GD.Print($"zirat-relocation: family stones={family.Length} quiet stones={quiet.Length} rows=2");
+    }
+
 }
