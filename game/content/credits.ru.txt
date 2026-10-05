@@ -99,3 +99,19 @@ D4XX — Deep Breath (Male), 567267 (дыхание существа: непре
 RutgerMuller — Fast Wet Footsteps in Small Shower Cabin, 51148 (мокрый шаг, замедлен для тяжести).
 Rudmer_Rotteveel — Wood Creak Single V10, 506665 (скрип дерева).
 JustineOu — steam.WAV, 672248 (тихий пар под дыханием).
+
+Подвесной мост над оврагом
+Freesound, CC0 1.0; подготовленные фрагменты общедоступного HQ preview.
+Лицензия: https://creativecommons.org/publicdomain/zero/1.0/
+Rmutt — Mooring Rope.wav, 145721 (скрип натянутого каната: зацикленный слой качания и тяжести моста).
+Roxis_Boy — Chain Rattling - 1, 401622 (железный треск поручней при раскачке).
+Скрип досок под шагами — существующие записи проекта: game/assets/audio/act1/foley/parquet/creak_00.wav, creak_01.wav, creak_02.wav.
+
+Старая баня бабая (внутренняя атмосфера) · 2026-10-04
+Freesound, CC0 1.0; подготовленные фрагменты общедоступного HQ preview.
+Лицензия: https://creativecommons.org/publicdomain/zero/1.0/
+JustineOu — steam.WAV, 672248 (ровное шипение пара: комнатный слой и короткий клуб пара у двери).
+Rudmer_Rotteveel — Wood Creak Single V10, 506665 (сухие скрипы дерева в комнатном слое).
+Squidems — Water drops drip, 709949 (капли с деревянной кадки: зацикленный слой).
+AardsReal — Pouring Water Short Free, 842163 (короткий плеск, когда Айдар зачерпывает воду ковшом).
+Треск печи в комнатном слое — банковская запись stove.wav (D.jones 525253, уже в титрах выше); на растопку переиспользована банковская запись stove_kindling.wav (kyles 453472, уже в титрах выше).

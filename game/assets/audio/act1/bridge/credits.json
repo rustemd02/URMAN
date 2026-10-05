@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.act1_bridge_sounds",
+  "generator": "tools/audio/prepare_bridge_sounds.py",
+  "subject": "suspension bridge over the Kara-Urman gorge: sway/groan loop and hand-rope metal rattle; plank creaks are the existing parquet/creak_00..02.wav",
+  "listening": "external/not-run",
+  "sourceManifest": {
+    "path": "/tmp/urman_bridge_sources/manifest.json",
+    "sha256": "3db5aef2c5bd65fcc04f638c74a7209b1ee0418abf894b63de144e5c7d99ade5"
+  },
+  "gainPolicy": "min(0.13/rms, 0.65/peak), 20 ms edge fades (loop: 0.5 s crossfade seam, no fades), 24 kHz mono PCM16",
+  "licenseReading": [
+    {
+      "slot": "groan",
+      "source": "https://freesound.org/people/Rmutt/sounds/145721/",
+      "author": "Rmutt",
+      "title": "Mooring Rope.wav",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "readFrom": "served Freesound page fetched 2026-10-04; recorded in /tmp/urman_bridge_sources/manifest.json slots.groan.primary"
+    },
+    {
+      "slot": "rattle",
+      "source": "https://freesound.org/people/Roxis_Boy/sounds/401622/",
+      "author": "Roxis_Boy",
+      "title": "Chain Rattling - 1",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "readFrom": "served Freesound page fetched 2026-10-04; recorded in /tmp/urman_bridge_sources/manifest.json slots.rattle.primary"
+    }
+  ],
+  "clips": [
+    {
+      "file": "res://assets/audio/act1/bridge/bridge_groan_loop.wav",
+      "id": "bridge_groan_loop",
+      "role": "sway-groan loop",
+      "seconds": 7.0,
+      "pcmBytes": 336000,
+      "sha256": "215a0af5da1543702ab0a66b908952c892838f8c834fd7f84eb76fcb85a54707",
+      "source": "https://freesound.org/people/Rmutt/sounds/145721/",
+      "directUrl": "https://cdn.freesound.org/previews/145/145721_981371-hq.mp3",
+      "author": "Rmutt",
+      "title": "Mooring Rope.wav",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceSha256": "d39da21ae76711d201ed98af48c8f5bddc5164b9abbf2380d6c07ef33f948032",
+      "startSeconds": 36.1,
+      "endSeconds": 43.1,
+      "sourceDurationSeconds": 69.295,
+      "preparation": "ffmpeg decode to 24 kHz mono PCM16; slice 36.100-43.100 s; 0.500 s loop crossfade (no edge fades); gain min(0.13/rms, 0.65/peak) = 0.7667",
+      "description": "Sound of a large, long, mooring rope fastened to a large cleat, holding a ferry boat at a dock on San Francisco Bay. Recorded with a Sony MZ-RH1 Mini disc and unmodified Panasonic WM-61 electret condenser microphone capsules."
+    },
+    {
+      "file": "res://assets/audio/act1/bridge/bridge_rope_rattle.wav",
+      "id": "bridge_rope_rattle",
+      "role": "handrope metal rattle one-shot",
+      "seconds": 0.5,
+      "pcmBytes": 24000,
+      "sha256": "366997a75ca8cb97bd4cce4654533128c2983b0b2b481a705072f87a0f23e857",
+      "source": "https://freesound.org/people/Roxis_Boy/sounds/401622/",
+      "directUrl": "https://cdn.freesound.org/previews/401/401622_7516983-hq.mp3",
+      "author": "Roxis_Boy",
+      "title": "Chain Rattling - 1",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceSha256": "9b829f5333f7f2abc09e68226a802a7303370d18b345c0eeb18874f9fce96571",
+      "startSeconds": 6.18,
+      "endSeconds": 6.68,
+      "sourceDurationSeconds": 9.67271,
+      "preparation": "ffmpeg decode to 24 kHz mono PCM16; slice 6.180-6.680 s; 20 ms edge fades; gain min(0.13/rms, 0.65/peak) = 4.5164",
+      "description": "SFX - Chains being rattled outside, variation in the intensity of the rattling. Recorded outside using a Zoom H6 Recorder."
+    }
+  ]
+}

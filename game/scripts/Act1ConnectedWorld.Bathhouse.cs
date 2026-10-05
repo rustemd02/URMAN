@@ -24,6 +24,7 @@ public partial class Act1ConnectedWorld
     private InteractionTarget? _bathWaterTarget;
     private InteractionTarget? _bathVentTarget;
     private BathSpirit? _bathSpirit;
+    private BathhouseSteamAtmosphere? _bathSteamAtmosphere;
     private AudioStreamWav? _bathSteamSound;
     private bool _bathIgnitionPending;
     internal bool BathIgnitionInProgress => _bathIgnitionPending;
@@ -132,11 +133,21 @@ public partial class Act1ConnectedWorld
         BuildBathStove();
         BuildBathCondensation();
         BuildBathAtmosphere();
+        // The old-banya atmosphere owner: steam, local haze, lamp flicker and
+        // the three-voice sound bed. It exposes Initialize(Node3D world) and
+        // Tick(delta, playerPosition, audible) so the presentation wiring can
+        // be moved without touching the bath state owners.
+        _bathSteamAtmosphere = new BathhouseSteamAtmosphere { Name = "BathhouseSteamAtmosphere" };
+        _bathhouse.AddChild(_bathSteamAtmosphere);
+        _bathSteamAtmosphere.Initialize(_bathhouse);
 
         _bathStoveTarget = BathLocalTarget("BathStoveUse", "stove", "Растопить печь сухим поленом", new(-1.37f, .57f, -.51f), new(.58f, .38f, .12f), FireBathStove);
         _bathWaterTarget = BathLocalTarget("BathSteamUse", "water", "Поддать воды на камни", new(-1.34f, 1.06f, -1.03f), new(.74f, .18f, .68f), PourBathWater);
         _bathVentTarget = BathLocalTarget("BathVentUse", "vent", "Открыть небольшую отдушину", new(-1.30f, 2.045f, -2.365f), new(.34f, .26f, .06f), ToggleBathVent);
         BathLocalTarget("BathBucketFillUse", "bucket", "Долить воды из бачка", new(-.82f, .49f, 1.91f), new(.50f, .27f, .49f), RefillBathWater);
+        // Presentation-only look-target at the wet-room oak tub: a wooden
+        // ladle scoop plays the water cue and prose, no world state changes.
+        BathLocalTarget("BathWaterScoopUse", "scoop", "Зачерпнуть воды", new(1.62f, .62f, -.08f), new(.62f, .34f, .62f), ScoopBathWater);
         // The visible covered water tank makes a refill finite and physically legible.
         FacilitySolid(_bathhouse, "BathCoveredWaterTank", new(.55f, .77f, .50f), new(.04f, .385f, 2.07f), "8b9590", "metal");
         AddVisualBox(_bathhouse, "BathTankLid", new(.60f, .035f, .54f), new(.04f, .79f, 2.07f), "747e78", "metal");
@@ -387,6 +398,9 @@ public partial class Act1ConnectedWorld
             RefreshFacilityState();
             RecordBathIgnitionResult(usePurchased ? "committed-purchased-matches" : "committed-family-matches");
             UiFoley.PlayWorld(this, _bathhouse!.ToGlobal(new(-1.33f, .57f, -.72f)), "wood_tap");
+            // Reuse the bank stove_kindling.wav under the ordinary ignition
+            // tap: the crackle starts where the wood actually caught.
+            _bathSteamAtmosphere?.PlayStoveKindling();
             player?.NotifyTraversal(usePurchased
                 ? "Полено занялось. Купленный коробок оставлен на полке; можно поддать воды на камни."
                 : "Полено занялось от спичек с полки. Можно поддать немного воды на камни.");
@@ -414,6 +428,20 @@ public partial class Act1ConnectedWorld
             new JsonObject { ["propId"] = BathSteamKey, ["until"] = now + (YardMechanism.Flag(_facilityProps, "bathhouse/vent", "open") ? 5 : 14), ["condensed"] = true } },
             "Вода зашипела на камнях. Стекло покрылось мелкими каплями; рядом отозвалась деревянная обшивка.",
             _bathhouse!.ToGlobal(new(-1.33f, 1.03f, -1.09f)), "hollow_board")) PlayBathSteam();
+    }
+
+    /// <summary>
+    /// Presentation-only scoop at the oak tub: splash cue and prose, no ladle
+    /// count, no save write. The existing bucket/tank/vent interactions and
+    /// their state keep their own owners.
+    /// </summary>
+    private Task ScoopBathWater()
+    {
+        if (!BathPlayerInside()) return Task.CompletedTask;
+        _bathSteamAtmosphere?.PlayWaterScoop();
+        (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)
+            ?.NotifyTraversal("Ковш зачерпнул холодной воды. По дереву кадки снова побежали капли, и пар шевельнулся над камнями.");
+        return Task.CompletedTask;
     }
 
     private async Task RefillBathWater()
@@ -471,6 +499,15 @@ public partial class Act1ConnectedWorld
         if (_bathSteam is not null) { _bathSteam.Emitting = steam && FacilityExteriorActive && !paused; _bathSteam.Visible = FacilityExteriorActive; _bathSteam.SpeedScale = paused ? 0 : 1; }
         if (_bathSmoke is not null) { _bathSmoke.Emitting = burn && FacilityExteriorActive && !paused; _bathSmoke.Visible = FacilityExteriorActive; _bathSmoke.SpeedScale = paused ? 0 : 1; }
         TickBathAtmosphere(burn && !paused, GetProcessDeltaTime());
+        if (_bathSteamAtmosphere is not null)
+        {
+            _bathSteamAtmosphere.Steamy = steam;
+            _bathSteamAtmosphere.FireBurning = burn;
+            var bathPlayer = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+            _bathSteamAtmosphere.Tick(GetProcessDeltaTime(),
+                bathPlayer?.GlobalPosition ?? _bathhouse.GlobalPosition,
+                FacilityExteriorActive && !paused && bathPlayer is not null);
+        }
         if (_bathStoveTarget is not null) _bathStoveTarget.Prompt = burn ? "Проверить топку" : "Растопить печь сухим поленом";
         if (_bathWaterTarget is not null) _bathWaterTarget.Prompt = hot ? "Поддать воды на камни" : "Камни холодные — проверить печь";
         if (_bathVentTarget is not null) _bathVentTarget.Prompt = YardMechanism.Flag(_facilityProps, "bathhouse/vent", "open") ? "Закрыть отдушину" : "Открыть небольшую отдушину";

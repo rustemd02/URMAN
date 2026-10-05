@@ -17,12 +17,18 @@ public partial class Act1ConnectedWorld
 {
     internal const string SuspensionBridgeStateId = "act1/suspension-bridge";
     internal const float SuspensionBridgeX = 0f;
+    /// <summary>Deck and collision strip are cut into this many rigid sections that
+    /// <see cref="SuspensionBridgeDynamics"/> moves as one; both stay glued together.</summary>
+    internal const int SuspensionDeckSections = 14;
     private Node3D? _suspensionIntact;
     private Node3D? _suspensionBroken;
     private StaticBody3D? _suspensionDeckBody;
     private StaticBody3D? _suspensionGapBlocker;
     private bool _suspensionVisitedFar;
     private bool _suspensionCollapsing;
+    private int _suspensionDeckPlanks;
+    private int _suspensionPatchBoards;
+    private SuspensionBridgeDynamics? _suspensionDynamics;
     private readonly Dictionary<Node3D, Transform3D> _suspensionRest = new();
 
     internal static float GorgeCentreZ(float x) => (float)AgentBAct1HeightField.RiverMeander(x);
@@ -120,10 +126,28 @@ public partial class Act1ConnectedWorld
         }
         BuildSuspensionBridge(gorge);
         GD.Print($"act1-gorge: halfWidth={AgentBAct1HeightField.GorgeHalfWidth} depth={AgentBAct1HeightField.GorgeDepth} bridge=suspension@({SuspensionBridgeX},{GorgeCentreZ(SuspensionBridgeX):0.0})");
+        GD.Print($"act1-gorge-bridge: planks={_suspensionDeckPlanks} patchBoards={_suspensionPatchBoards} apronBoards=10 sections={SuspensionDeckSections} deckHoles=0");
     }
 
     private static float SuspensionDeckHeight(float t, float nearY, float farY) =>
         Mathf.Lerp(nearY, farY, t) - .75f * Mathf.Sin(Mathf.Pi * t);
+
+    /// <summary>A board or beam that follows the deck slope (AddVisualBox has no pitch).</summary>
+    private static MeshInstance3D AddTiltedBoard(Node3D parent, string name, Vector3 size, Vector3 position,
+        Vector3 rotation, string colour, string surface)
+    {
+        var mesh = new MeshInstance3D
+        {
+            Name = name,
+            Position = position,
+            Rotation = rotation,
+            Mesh = RuralPropGeometry.Box(size),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor(colour, surface)
+        };
+        mesh.SetMeta("visualOnly", true);
+        parent.AddChild(mesh);
+        return mesh;
+    }
 
     private void BuildSuspensionBridge(Node3D gorge)
     {
@@ -144,31 +168,60 @@ public partial class Act1ConnectedWorld
             foreach (var side in new[] { -1f, 1f })
                 AddVisualBox(root, $"SuspensionPost_{end}_{(side < 0 ? "w" : "e")}", new(.24f, 2.0f, .24f), new(x + side * .95f, y + .9f, z), "574d3d", "wood",
                     rollDegrees: side * 3f);
+        // Anchor furniture: a sill beam sits under the deck end (its top at the board
+        // underside), rope ties run from the post heads to the hand-rope eyes and knee
+        // braces reach into the first boards. They close the notch between the towers
+        // and the deck and stay on the rims if the span falls.
+        foreach (var (z, y, end, inward) in new[] { (nearZ, nearY, "near", -1f), (farZ, farY, "far", 1f) })
+        {
+            AddVisualBox(root, $"SuspensionAnchorSill_{end}", new(2.4f, .18f, .34f), new(x, y - .12f, z), "4a3d30", "wood");
+            foreach (var side in new[] { -1f, 1f })
+            {
+                AddRavineLog(root, $"SuspensionAnchorTie_{end}_{(side < 0 ? "w" : "e")}",
+                    new Vector3(x + side * .95f, y + 1.58f, z), new Vector3(x + side * .78f, y + .98f, z), .045f, "9c8a6a");
+                AddRavineLog(root, $"SuspensionAnchorBrace_{end}_{(side < 0 ? "w" : "e")}",
+                    new Vector3(x + side * .95f, y + .60f, z), new Vector3(x + side * .55f, y + .01f, z + inward * .55f), .07f, "574d3d");
+            }
+        }
 
         _suspensionIntact = new Node3D { Name = "SuspensionBridgeIntact" };
         root.AddChild(_suspensionIntact);
         _suspensionDeckBody = new StaticBody3D { Name = "SuspensionDeckBody", CollisionLayer = 1, CollisionMask = 0 };
         _suspensionDeckBody.SetMeta("footstepSurface", "wood");
+        _suspensionDeckBody.SetMeta("collisionContract",
+            "one continuous strip: 14 animated section boxes overlapping 0.14 m, two static apron ramps overlapping the rims by 0.35 m");
         _suspensionIntact.AddChild(_suspensionDeckBody);
         var length = nearZ - farZ;
-        var planks = Mathf.CeilToInt(length / .36f);
+        var spacing = .36f;
+        var planks = Mathf.CeilToInt(length / spacing);
+        var patches = 0;
         for (var i = 0; i < planks; i++)
         {
             var t = (i + .5f) / planks;
             var z = Mathf.Lerp(nearZ, farZ, t);
             var y = SuspensionDeckHeight(t, nearY, farY);
-            // A few planks are missing or loose: it is held together by habit.
-            if (i % 11 == 7) continue;
             var loose = i % 7 == 3;
-            var plank = new MeshInstance3D
+            var patch = i % 11 == 7;   // reads as a replaced board, not as a hole
+            if (patch) patches++;
+            _suspensionIntact.AddChild(new MeshInstance3D
             {
-                Name = $"SuspensionPlank_{i:00}", Position = new Vector3(x + (loose ? .12f : 0f), y, z),
-                RotationDegrees = new Vector3(0, loose ? 9f : (i % 3 - 1) * 2f, loose ? 4f : 0f),
-                Mesh = new BoxMesh { Size = new Vector3(1.4f, .06f, .3f) }, MaterialOverride = i % 4 == 0 ? old : wood
-            };
-            _suspensionIntact.AddChild(plank);
+                Name = patch ? $"SuspensionPatch_{i:00}" : $"SuspensionPlank_{i:00}",
+                Position = new Vector3(x + (loose ? .10f : 0f), patch ? y - .012f : y, z),
+                RotationDegrees = new Vector3(0, loose ? 6f : (i % 3 - 1) * 2f, loose ? 2f : 0f),
+                // 0.38 m deep on a 0.36 m rhythm: neighbouring boards overlap, so the
+                // walking surface never shows a slit to the gorge or to the sky.
+                Mesh = new BoxMesh { Size = new Vector3(1.4f, .06f, .38f) },
+                MaterialOverride = patch || i % 4 == 0 ? old : wood
+            });
+            if (!patch) continue;
+            // The repair board is narrower and pinned by two cross battens: it keeps
+            // the "held together by habit" reading while staying fully walkable.
+            AddVisualBox(_suspensionIntact, $"SuspensionBatten_{i:00}_a", new(1.42f, .045f, .13f),
+                new(x, y + .012f, z - .17f), "3f3428", "wood", yawDegrees: 3f * Mathf.Sin(i));
+            AddVisualBox(_suspensionIntact, $"SuspensionBatten_{i:00}_b", new(1.42f, .045f, .13f),
+                new(x, y + .012f, z + .17f), "3f3428", "wood", yawDegrees: -3f * Mathf.Cos(i));
         }
-        const int segments = 14;
+        const int segments = SuspensionDeckSections;
         for (var i = 0; i < segments; i++)
         {
             float T(int k) => k / (float)segments;
@@ -176,10 +229,18 @@ public partial class Act1ConnectedWorld
             var b = new Vector3(x, SuspensionDeckHeight(T(i + 1), nearY, farY), Mathf.Lerp(nearZ, farZ, T(i + 1)));
             var mid = (a + b) * .5f;
             var tilt = Mathf.Atan2(b.Y - a.Y, a.Z - b.Z);
+            var span = a.DistanceTo(b) + .14f;   // moving boxes overlap, so the strip never opens
+            // Three stringers under the boards: the visible structure that carries the
+            // deck and fills what used to read as holes between slats.
+            foreach (var stringer in new[] { -.62f, 0f, .62f })
+                AddTiltedBoard(_suspensionIntact,
+                    $"SuspensionStringer_{i:00}_{(stringer < 0 ? "w" : stringer > 0 ? "e" : "c")}",
+                    new Vector3(.13f, .09f, span), mid - Vector3.Up * .072f + new Vector3(stringer, 0f, 0f),
+                    new Vector3(tilt, 0, 0), "4a3d30", "wood");
             _suspensionDeckBody.AddChild(new CollisionShape3D
             {
                 Name = $"SuspensionDeckShape_{i:00}", Position = mid - Vector3.Up * .03f, Rotation = new Vector3(tilt, 0, 0),
-                Shape = new BoxShape3D { Size = new Vector3(1.4f, .08f, a.DistanceTo(b) + .04f) }
+                Shape = new BoxShape3D { Size = new Vector3(1.4f, .08f, span) }
             });
             foreach (var side in new[] { -1f, 1f })
             {
@@ -189,7 +250,7 @@ public partial class Act1ConnectedWorld
                 _suspensionDeckBody.AddChild(new CollisionShape3D
                 {
                     Name = $"SuspensionRopeWall_{(side < 0 ? "w" : "e")}_{i:00}", Position = mid + new Vector3(side * .8f, .5f, 0),
-                    Rotation = new Vector3(tilt, 0, 0), Shape = new BoxShape3D { Size = new Vector3(.08f, 1.0f, a.DistanceTo(b) + .04f) }
+                    Rotation = new Vector3(tilt, 0, 0), Shape = new BoxShape3D { Size = new Vector3(.08f, 1.0f, span) }
                 });
                 if (i % 2 == 0)
                     AddRavineLog(_suspensionIntact, $"SuspensionHanger_{(side < 0 ? "w" : "e")}_{i:00}",
@@ -198,6 +259,43 @@ public partial class Act1ConnectedWorld
         }
         foreach (var child in _suspensionIntact.GetChildren().OfType<MeshInstance3D>().Where(m => m.Name.ToString().StartsWith("SuspensionHand", StringComparison.Ordinal)))
             child.MaterialOverride = rope;
+
+        // The ends: five boards per rim on a ramp from the deck line down to the real
+        // ground, a sleeper on the ground under the outermost board and a collision
+        // ramp that reaches 0.35 m under the first/last moving deck box. The old code
+        // stopped the boards 3 cm inside each rim and the first slat holes showed there.
+        const float apronLength = 1.5f;
+        const int apronBoards = 5;
+        foreach (var (rimZ, endY, end, sign) in new[] { (nearZ, nearY, "near", 1f), (farZ, farY, "far", -1f) })
+        {
+            var outerZ = rimZ + sign * apronLength;
+            var outerY = (float)AgentBAct1HeightField.CollisionGround(x, outerZ) + .03f;
+            var rimPoint = new Vector3(x, endY, rimZ);
+            var outerPoint = new Vector3(x, outerY, outerZ);
+            var a = rimPoint.Z > outerPoint.Z ? rimPoint : outerPoint;
+            var b = rimPoint.Z > outerPoint.Z ? outerPoint : rimPoint;
+            var rampTilt = Mathf.Atan2(b.Y - a.Y, a.Z - b.Z);
+            for (var k = 1; k <= apronBoards; k++)
+            {
+                var f = Mathf.Lerp(.07f, .95f, (k - 1) / (float)(apronBoards - 1));
+                AddTiltedBoard(_suspensionIntact, $"SuspensionApronBoard_{end}_{k}",
+                    new Vector3(1.4f, .06f, .38f), new Vector3(x, Mathf.Lerp(endY, outerY, f), Mathf.Lerp(rimZ, outerZ, f)),
+                    new Vector3(rampTilt, 0, 0), k % 2 == 0 ? "5c4a38" : "4a3d30", "wood");
+            }
+            AddVisualBox(_suspensionIntact, $"SuspensionApronSleeper_{end}", new(1.62f, .16f, .26f),
+                new(x, outerY - .09f, outerZ + sign * .10f), "4a3d30", "wood", yawDegrees: sign * 3f);
+            var from = rimPoint + new Vector3(0, 0, -sign * .35f);   // under the first moving box
+            var to = outerPoint + new Vector3(0, 0, sign * .15f);    // over the rim
+            var rampA = from.Z > to.Z ? from : to;
+            var rampB = from.Z > to.Z ? to : from;
+            var rampMid = (rampA + rampB) * .5f;
+            _suspensionDeckBody.AddChild(new CollisionShape3D
+            {
+                Name = $"SuspensionApronShape_{end}", Position = rampMid - Vector3.Up * .03f,
+                Rotation = new Vector3(Mathf.Atan2(rampB.Y - rampA.Y, rampA.Z - rampB.Z), 0, 0),
+                Shape = new BoxShape3D { Size = new Vector3(1.5f, .08f, rampA.DistanceTo(rampB) + .10f) }
+            });
+        }
 
         // After the collapse: two short ends hang from the posts, the rest is gone.
         _suspensionBroken = new Node3D { Name = "SuspensionBridgeBroken", Visible = false };
@@ -219,7 +317,39 @@ public partial class Act1ConnectedWorld
             });
         }
         foreach (var part in _suspensionIntact.GetChildren().OfType<Node3D>()) _suspensionRest[part] = part.Transform;
+        _suspensionDeckPlanks = planks;
+        _suspensionPatchBoards = patches;
         root.SetMeta("deckPlanks", planks);
+        root.SetMeta("deckPatchBoards", patches);
+        root.SetMeta("deckApronBoards", apronBoards * 2);
+        root.SetMeta("deckSections", segments);
+        root.SetMeta("deckHoles", 0);
+        root.SetMeta("swayContract", "SuspensionBridgeDynamics moves visuals and collision together; owner calls Tick");
+        // The dynamics pre-collects every animated node (planks, repairs, stringers,
+        // ropes, hangers, deck/rope-wall collision shapes) and its three audio voices.
+        // Initialize is idempotent; the owner only has to wire Tick.
+        _suspensionDynamics = new SuspensionBridgeDynamics();
+        _suspensionDynamics.Initialize(this);
+    }
+
+    /// <summary>The bridge dynamics created with the bridge; its Tick is wired by the owner.</summary>
+    internal SuspensionBridgeDynamics? SuspensionDynamics => _suspensionDynamics;
+
+    /// <summary>
+    /// Optional one-line driver for the owner's presentation tick: resolves the cached
+    /// player, tests the deck span and calls <see cref="SuspensionBridgeDynamics.Tick"/>.
+    /// Cheap: the player node is cached and only re-resolved after a zone rebuild, and
+    /// the dynamics puts itself to sleep beyond 84 m. Either call this, or call
+    /// SuspensionDynamics.Tick with the owner's own position/on-deck pair.
+    /// </summary>
+    internal void TickSuspensionDynamics(double delta)
+    {
+        if (_suspensionDynamics is not { IsReady: true } dynamics) return;
+        if (LifePlayer() is not { } player) return;
+        var at = player.GlobalPosition;
+        var onDeck = Mathf.Abs(at.X - SuspensionBridgeX) < 1.2f
+            && at.Z < GorgeNearRim(at.X) && at.Z > GorgeFarRim(at.X);
+        dynamics.Tick(delta, at, onDeck);
     }
 
     /// <summary>Applies the saved state: intact (walkable) or broken (gone, collision off).</summary>

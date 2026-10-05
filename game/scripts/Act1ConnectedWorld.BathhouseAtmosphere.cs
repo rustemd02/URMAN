@@ -162,10 +162,13 @@ public partial class Act1ConnectedWorld
         AddVisualBox(bath, "BathOfferingSoap", new(.07f, .028f, .045f), new(-1.52f, .036f, -1.72f), "d8c9a0", "paper");
         FacilityVessel(bath, "BathOfferingCup", new(-1.40f, .03f, -1.80f), .04f, .055f, "b9b3a3", true);
 
+        BuildBathVibeProps();
+
         // Мунча иясе, redrawn (BathSpirit.cs): a tall, still silhouette in the
         // washing-room corner behind the stove. The node builds here; the
         // owner's presentation tick calls Initialize/Tick (ForestEdgePresence
-        // contract).
+        // contract). The vibe props above stay clear of its corner and the
+        // local haze quads never cover it (BathhouseSteamAtmosphere).
         var spirit = new BathSpirit { Name = "MunchaIyase", Position = new(-1.66f, 0, -2.02f), RotationDegrees = new(0, 38, 0) };
         bath.AddChild(spirit);
         spirit.Initialize(bath);
@@ -174,6 +177,114 @@ public partial class Act1ConnectedWorld
         foreach (var mesh in FindDescendants<MeshInstance3D>(bath))
             if (mesh.MaterialOverride is { } material) mesh.MaterialOverride = PainterlyMaterialLibrary.Sheltered(material);
         bath.SetMeta("bathAtmosphere", "dark old boards, stone kamenka with glowing draught holes, whisks, polok, мунча иясе behind the stove; presentation only");
+    }
+
+    /// <summary>
+    /// What sells the smell of an old steam bath: two soaked birch whisks
+    /// (веники) hanging on the partition, a wooden ladle left in the oak tub,
+    /// a full bucket of cold water by the stove, soap on a small shelf above
+    /// the basin, a birch-bark туес on the bench, damp lower boards and a thin
+    /// wet sheen on the wet-room floor. All primitives and existing painterly
+    /// material families — no imagegen, no new textures. Presentation only; the
+    /// only new contact is the bucket rest the changing-room bucket already
+    /// uses, so the walking shapes stay the same.
+    /// </summary>
+    private void BuildBathVibeProps()
+    {
+        var bath = _bathhouse!;
+        // Two soaked whisks, head down on the wet face of the partition.
+        foreach (var (x, y, tilt, shade) in new[]
+                 {
+                     (-1.52f, 2.02f, -7f, "4a4a22"),
+                     (-1.22f, 1.96f, 6f, "54562a"),
+                 })
+        {
+            FacilityRod(bath, $"BathSoakedWhiskStem{x:0.00}", new(x, y, .245f), new(x, y - .34f, .245f), .017f, "6b5537");
+            var twigs = new MeshInstance3D
+            {
+                Name = $"BathSoakedWhiskTwigs{x:0.00}",
+                Mesh = new CylinderMesh { TopRadius = .028f, BottomRadius = .095f, Height = .44f, RadialSegments = 9, Rings = 2 },
+                Position = new(x, y - .58f, .245f), RotationDegrees = new(tilt, 0, 0), Scale = new(1f, 1f, .6f),
+                MaterialOverride = PainterlyMaterialLibrary.ForColor(shade, "foliage", sheltered: true)
+            };
+            bath.AddChild(twigs);
+            for (var leaf = 0; leaf < 3; leaf++)
+            {
+                var a = leaf * 2.1f + (x < -1.4f ? 0f : 1f);
+                var clump = new MeshInstance3D
+                {
+                    Name = $"BathSoakedWhiskLeaf{x:0.00}_{leaf}",
+                    Mesh = new SphereMesh { Radius = .05f, Height = .08f, RadialSegments = 6, Rings = 3 },
+                    Position = new(x + Mathf.Cos(a) * .065f, y - .62f - leaf % 2 * .07f, .245f + Mathf.Sin(a) * .04f),
+                    MaterialOverride = PainterlyMaterialLibrary.ForColor(leaf % 2 == 0 ? shade : "5d6030", "foliage", sheltered: true)
+                };
+                bath.AddChild(clump);
+            }
+            FacilityRod(bath, $"BathSoakedWhiskTie{x:0.00}", new(x - .03f, y - .34f, .245f), new(x + .03f, y - .34f, .245f), .024f, "8a2020");
+        }
+        // Wooden ladle resting in the existing oak tub (rim at y .455).
+        var ladleBowl = new MeshInstance3D
+        {
+            Name = "BathTubLadleBowl",
+            Mesh = new CylinderMesh { TopRadius = .075f, BottomRadius = .055f, Height = .075f, RadialSegments = 12, CapTop = false, CapBottom = true },
+            Position = new(1.52f, .42f, -.02f), RotationDegrees = new(14f, 0, -8f),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("a1723f", "wood_prop", sheltered: true)
+        };
+        bath.AddChild(ladleBowl);
+        FacilityRod(bath, "BathTubLadleHandle", new(1.50f, .47f, -.02f), new(1.24f, .60f, .12f), .015f, "8a6236");
+        // A full bucket of cold water stands by the stove.
+        FacilityVessel(bath, "BathStoveWaterBucket", new(-.92f, .30f, -.16f), .22f, .40f, "8f9895", true);
+        FacilityRod(bath, "BathStoveBucketHandleLeft", new(-1.135f, .11f, -.16f), new(-1.06f, .34f, -.16f), .009f, "696f65");
+        FacilityRod(bath, "BathStoveBucketHandleTop", new(-1.06f, .34f, -.16f), new(-.78f, .34f, -.16f), .009f, "696f65");
+        FacilityRod(bath, "BathStoveBucketHandleRight", new(-.78f, .34f, -.16f), new(-.705f, .11f, -.16f), .009f, "696f65");
+        FacilitySolid(bath, "BathStoveWaterBucketRest", new(.55f, .085f, .50f), new(-.92f, .045f, -.16f), "45372a", "wood_furniture");
+        // Soap and a small dish on a shelf above the wash basin.
+        FacilitySolid(bath, "BathSoapShelf", new(.30f, .025f, .17f), new(1.76f, 1.02f, -1.62f), "4d3b2a", "wood_furniture");
+        foreach (var z in new[] { -1.71f, -1.53f })
+            AddVisualBox(bath, $"BathSoapShelfBracket{z:0.00}", new(.05f, .14f, .025f), new(1.865f, .94f, z), "3a2c20", "wood");
+        AddVisualBox(bath, "BathSoapDish", new(.13f, .014f, .085f), new(1.76f, 1.040f, -1.62f), "b7b3a6", "paper");
+        AddVisualBox(bath, "BathSoapBar", new(.085f, .028f, .055f), new(1.76f, 1.062f, -1.62f), "ddd0ae", "paper");
+        // Birch-bark туес (box) on the changing bench (seat top y .4825).
+        var tues = new MeshInstance3D
+        {
+            Name = "BathBirchBarkBox",
+            Mesh = new CylinderMesh { TopRadius = .085f, BottomRadius = .075f, Height = .13f, RadialSegments = 12 },
+            Position = new(-1.39f, .55f, 1.62f),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("d9d5c6", "bark_birch", sheltered: true)
+        };
+        bath.AddChild(tues);
+        var lid = new MeshInstance3D
+        {
+            Name = "BathBirchBarkBoxLid",
+            Mesh = new CylinderMesh { TopRadius = .092f, BottomRadius = .092f, Height = .018f, RadialSegments = 12 },
+            Position = new(-1.39f, .624f, 1.62f),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("cfcaba", "bark_birch", sheltered: true)
+        };
+        bath.AddChild(lid);
+        FacilityRod(bath, "BathBirchBarkBoxHandle", new(-1.45f, .636f, 1.62f), new(-1.33f, .636f, 1.62f), .012f, "8a6b45");
+        // Damp lower boards: darker and glossier than the dry upper courses
+        // (the wood family already carries the higher wet grade and gloss).
+        AddVisualBox(bath, "BathDampBoardsRear", new(3.78f, .80f, .02f), new(0f, .42f, -2.389f), "2a211a", "wood");
+        AddVisualBox(bath, "BathDampBoardsEast", new(.02f, .80f, 2.46f), new(1.884f, .42f, -1.18f), "2a211a", "wood");
+        AddVisualBox(bath, "BathDampBoardsWetPartition", new(1.84f, .78f, .02f), new(-.98f, .40f, .272f), "2a211a", "wood");
+        AddVisualBox(bath, "BathDampBoardsWetPartitionRight", new(.70f, .78f, .02f), new(1.52f, .40f, .272f), "2a211a", "wood");
+        // Thin wet sheen on the wet-room walking floor; two triangles.
+        var sheen = new MeshInstance3D
+        {
+            Name = "BathWetFloorSheen",
+            Mesh = new PlaneMesh { Size = new(1.8f, 1.7f) },
+            Position = new(.86f, .0045f, -.80f),
+            MaterialOverride = new StandardMaterial3D
+            {
+                AlbedoColor = new Color(.40f, .46f, .45f, .10f),
+                Roughness = .30f,
+                Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
+                CullMode = BaseMaterial3D.CullModeEnum.Disabled
+            },
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        };
+        sheen.SetMeta("visualOnly", true);
+        bath.AddChild(sheen);
     }
 
     /// <summary>Stove glow: embers always smoulder; a lit fire flickers bright and smokes hard.</summary>

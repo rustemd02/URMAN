@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.act1_banya_sounds",
+  "generator": "tools/audio/prepare_banya_sounds.py",
+  "subject": "old-banya interior atmosphere: room bed, drip loop, water scoop and steam burst",
+  "listening": "external/not-run",
+  "sourceManifest": {
+    "path": "/tmp/urman_banya_sources/manifest.json",
+    "sha256": "1f033c5d5f354fa4ef5c0de585956676a8695098b356260dd03cb4211822f6a8"
+  },
+  "bankSource": {
+    "path": "game/assets/audio/act1/sound_mood/credits.json",
+    "clip": "stove",
+    "note": "the already-prepared D.jones 525253 CC0 fire clip is the bed's crackle layer"
+  },
+  "gainPolicy": "min(0.13/rms, 0.65/peak), 20 ms (30 ms loop) edge fades, 24 kHz mono PCM16",
+  "runtime": {
+    "voiceBudget": 3,
+    "voices": [
+      "banya_room_loop (loop)",
+      "drip_loop (loop)",
+      "water_scoop / steam_burst / bank stove_kindling (one-shots)"
+    ]
+  },
+  "licenseReading": [
+    {
+      "slot": "steam_hiss",
+      "source": "https://freesound.org/people/JustineOu/sounds/672248/",
+      "author": "JustineOu",
+      "title": "steam.WAV",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "readFrom": "/tmp/urman_banya_sources/manifest.json slots.steam_hiss"
+    },
+    {
+      "slot": "wood_creak",
+      "source": "https://freesound.org/people/Rudmer_Rotteveel/sounds/506665/",
+      "author": "Rudmer_Rotteveel",
+      "title": "Wood Creak Single V10",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "readFrom": "/tmp/urman_banya_sources/manifest.json slots.wood_creak"
+    },
+    {
+      "slot": "drip",
+      "source": "https://freesound.org/people/Squidems/sounds/709949/",
+      "author": "Squidems",
+      "title": "Water drops drip",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "readFrom": "/tmp/urman_banya_sources/manifest.json slots.drip"
+    },
+    {
+      "slot": "pour",
+      "source": "https://freesound.org/people/AardsReal/sounds/842163/",
+      "author": "AardsReal",
+      "title": "Pouring Water Short Free",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "readFrom": "/tmp/urman_banya_sources/manifest.json slots.pour"
+    },
+    {
+      "slot": "bank_stove",
+      "source": "https://freesound.org/people/D.jones/sounds/525253/",
+      "author": "D.jones",
+      "title": "04 Wood Fire, Inside Stove",
+      "license": "Creative Commons 0 (CC0 1.0)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "readFrom": "game/assets/audio/act1/sound_mood/credits.json"
+    }
+  ],
+  "clips": [
+    {
+      "file": "res://assets/audio/act1/banya/banya_room_loop.wav",
+      "id": "banya_room_loop",
+      "role": "interior-bed",
+      "seconds": 5.0,
+      "pcmBytes": 240000,
+      "sha256": "8f710456ed33c9b5ccb29cfefafbb504ea6d8eba385de2c240c57ee6def64b67",
+      "loop": true,
+      "slices": {
+        "steam": "26.000-31.500 s",
+        "creaks": [
+          "0.020-0.620 s at 1.400 s x0.70",
+          "0.020-0.620 s at 3.600 s x0.50"
+        ],
+        "crackle": "bank clip 2.000-7.500 s"
+      },
+      "sources": [
+        {
+          "slot": "steam_hiss",
+          "sourcePage": "https://freesound.org/people/JustineOu/sounds/672248/",
+          "directUrl": "https://cdn.freesound.org/previews/672/672248_8823350-hq.mp3",
+          "author": "JustineOu",
+          "title": "steam.WAV",
+          "license": "Creative Commons 0 (CC0 1.0)",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "attributionRequired": false,
+          "sourceSha256": "6f1e5518dd74a3ddb5a84f2f8b2cec0fef0872f8c6b45fc7017587fa54e5d179",
+          "sourceDurationSeconds": 33.374667
+        },
+        {
+          "slot": "wood_creak",
+          "sourcePage": "https://freesound.org/people/Rudmer_Rotteveel/sounds/506665/",
+          "directUrl": "https://cdn.freesound.org/previews/506/506665_4921277-hq.mp3",
+          "author": "Rudmer_Rotteveel",
+          "title": "Wood Creak Single V10",
+          "license": "Creative Commons 0 (CC0 1.0)",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "attributionRequired": false,
+          "sourceSha256": "11975c80e5dcf3937eded1a4b31927061fb632d925e8118af4de3f6e96d51306",
+          "sourceDurationSeconds": 1.191474
+        },
+        {
+          "slot": "bank_stove",
+          "sourcePage": "https://freesound.org/people/D.jones/sounds/525253/",
+          "author": "D.jones",
+          "title": "04 Wood Fire, Inside Stove (already-prepared bank clip)",
+          "license": "Creative Commons 0 (CC0 1.0)",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "attributionRequired": false,
+          "sourceSha256": "2e4e282ea9f095bc94557fceb2992155b652d5c17fa516cb2484d492f26e1bcc",
+          "bankFile": "res://assets/audio/act1/sound_mood/stove.wav",
+          "creditsSource": "game/assets/audio/act1/sound_mood/credits.json"
+        }
+      ],
+      "preparation": "steam slice scaled to RMS 0.040 and crossfade-seam looped to 5.0 s; bank crackle scaled to RMS 0.028 and seam looped; both summed; creaks scaled to RMS 0.050 and placed at 1.40 s (x0.70) and 3.60 s (x0.50)gain min(0.13/rms, 0.65/peak) = 0.6500; 30 ms edge fades; 24 kHz mono PCM16"
+    },
+    {
+      "file": "res://assets/audio/act1/banya/drip_loop.wav",
+      "id": "drip_loop",
+      "role": "interior-drip-loop",
+      "seconds": 4.45,
+      "pcmBytes": 213600,
+      "sha256": "2071e5a23c51fcf9f18fd9577e9b6a71c2d4d8d15b3646a0c56dc1c679c184b5",
+      "loop": true,
+      "slices": {
+        "drip": "2.550-7.000 s"
+      },
+      "sources": [
+        {
+          "slot": "drip",
+          "sourcePage": "https://freesound.org/people/Squidems/sounds/709949/",
+          "directUrl": "https://cdn.freesound.org/previews/709/709949_3199363-hq.mp3",
+          "author": "Squidems",
+          "title": "Water drops drip",
+          "license": "Creative Commons 0 (CC0 1.0)",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "attributionRequired": false,
+          "sourceSha256": "4784c262d2f679ccf8afa9d7825e2936673f42e4237b309e27437d6e54baa394",
+          "sourceDurationSeconds": 25.665329
+        }
+      ],
+      "preparation": "drops slice scaled to RMS 0.080; both loop ends sit in the source's own silence; 30 ms loop edge fadesgain min(0.13/rms, 0.65/peak) = 0.6500; 30 ms edge fades; 24 kHz mono PCM16"
+    },
+    {
+      "file": "res://assets/audio/act1/banya/water_scoop.wav",
+      "id": "water_scoop",
+      "role": "interaction-cue",
+      "seconds": 0.77,
+      "pcmBytes": 36960,
+      "sha256": "7fec207d0c6dca9561daeece39c682ac1625bd4e7710ccde7169e256f28949f5",
+      "loop": false,
+      "slices": {
+        "pour": "0.150-0.920 s"
+      },
+      "sources": [
+        {
+          "slot": "pour",
+          "sourcePage": "https://freesound.org/people/AardsReal/sounds/842163/",
+          "directUrl": "https://cdn.freesound.org/previews/842/842163_13307919-hq.mp3",
+          "author": "AardsReal",
+          "title": "Pouring Water Short Free",
+          "license": "Creative Commons 0 (CC0 1.0)",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "attributionRequired": false,
+          "sourceSha256": "10b39e9476bada3a8152011d3e127988156d6f770ce0bad8bee0ad5018ae6039",
+          "sourceDurationSeconds": 1.033288
+        }
+      ],
+      "preparation": "short pour/scoop slice; gain min(0.13/rms, 0.65/peak) = 1.9773; 20 ms edge fades; 24 kHz mono PCM16"
+    },
+    {
+      "file": "res://assets/audio/act1/banya/steam_burst.wav",
+      "id": "steam_burst",
+      "role": "door-and-entry-cue",
+      "seconds": 1.6,
+      "pcmBytes": 76800,
+      "sha256": "5204969947717297919db4a52dd3bff273ccde7faae9c4aa3295e5f992bac74f",
+      "loop": false,
+      "slices": {
+        "steam": "26.000-27.600 s"
+      },
+      "sources": [
+        {
+          "slot": "steam_hiss",
+          "sourcePage": "https://freesound.org/people/JustineOu/sounds/672248/",
+          "directUrl": "https://cdn.freesound.org/previews/672/672248_8823350-hq.mp3",
+          "author": "JustineOu",
+          "title": "steam.WAV",
+          "license": "Creative Commons 0 (CC0 1.0)",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "attributionRequired": false,
+          "sourceSha256": "6f1e5518dd74a3ddb5a84f2f8b2cec0fef0872f8c6b45fc7017587fa54e5d179",
+          "sourceDurationSeconds": 33.374667
+        }
+      ],
+      "preparation": "steady hiss slice with a 50 ms attack and exp(-2.2) decay envelopegain min(0.13/rms, 0.65/peak) = 23.0262; 20 ms edge fades; 24 kHz mono PCM16"
+    }
+  ]
+}

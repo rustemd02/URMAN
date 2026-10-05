@@ -1532,6 +1532,7 @@ public partial class Act1ConnectedWorld : Node3D
         UpdatePhysicalInteriorPresentation();
         UpdateVillageHouseholds(delta);
         WatchSuspensionBridge();
+        TickSuspensionDynamics(delta);
         if (_villageLife is null) return;
         _lifePlayer = LifePlayer();
         _lifeCue ??= GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
