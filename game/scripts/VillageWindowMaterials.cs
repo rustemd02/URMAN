@@ -37,7 +37,7 @@ public static class VillageWindowMaterials
         string[] colors = ["ffd09a", "edc79b", "ffdaa8", "e8d3af", "f4c58b", "f7d6aa", "ecc9a3", "ffd5a0"];
         material.SetShaderParameter("room_color", Color.FromHtml(colors[index]));
         material.SetShaderParameter("curtain_phase", index * 0.83f);
-        material.SetShaderParameter("lamp_energy", _night ? 1.12f : 0.72f);
+        material.SetShaderParameter("lamp_energy", _night ? 1.20f : 0.72f);
         material.SetShaderParameter("frost_map", ResourceLoader.Load<Texture2D>("res://assets/textures/painterly/frost_window_v1_albedo.png"));
         return Materials[index] = material;
     }
@@ -47,7 +47,7 @@ public static class VillageWindowMaterials
         if (_night == night) return;
         _night = night;
         foreach (var material in Materials)
-            material?.SetShaderParameter("lamp_energy", night ? 1.12f : 0.72f);
+            material?.SetShaderParameter("lamp_energy", night ? 1.20f : 0.72f);
     }
 
     // Called only after the scene is freed. Production shares this fixed cache

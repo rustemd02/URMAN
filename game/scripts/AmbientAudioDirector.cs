@@ -36,6 +36,18 @@ public partial class AmbientAudioDirector : Node
     private string _requestedZone = string.Empty;
     private string? _requestedSubKey;
 
+    /// <summary>
+    /// The weather bed breathes: a slow two-sine gain drift with rare shallow
+    /// dips so the blizzard stops sounding like a static loop (Widows Bay vibe
+    /// brief, item 12). Applied only to the active bed player, never to the
+    /// village or household players on the same bus.
+    /// </summary>
+    private double _breathTime;
+    private double _nextDipAt = 25d;
+    private double _dipStart = double.MinValue;
+    private double _dipLength;
+    private readonly RandomNumberGenerator _breathRandom = new();
+
     public string CurrentZoneId { get; private set; } = string.Empty;
 
     public string CurrentStemId { get; private set; } = string.Empty;
@@ -61,6 +73,7 @@ public partial class AmbientAudioDirector : Node
     public override void _Ready()
     {
         AddToGroup("ambient_audio");
+        _breathRandom.Randomize();
         _headless = string.Equals(DisplayServer.GetName(), "headless", StringComparison.Ordinal);
         for (var index = 0; index < _players.Length; index++)
         {
@@ -113,6 +126,55 @@ public partial class AmbientAudioDirector : Node
         CurrentZoneId = string.Empty;
         CurrentStemId = string.Empty;
         CurrentStreamPath = string.Empty;
+    }
+
+    public override void _Process(double delta)
+    {
+        if (_headless || !_lifecycleReady)
+        {
+            return;
+        }
+
+        var player = GetActivePlayer();
+        if (player is null || !IsUsablePlayer(player) || player.Stream is null || !player.Playing)
+        {
+            return;
+        }
+
+        // Never fight an authored fade: crossfades and the panel's on/off
+        // toggle own the volume while they run.
+        if (_crossfadeTween?.IsValid() == true || _bedToggleTween?.IsValid() == true)
+        {
+            return;
+        }
+
+        _breathTime += delta;
+        var baseDb = _bedEnabled ? _activeStemVolumeDb : MutedVolumeDb;
+        if (baseDb <= MutedVolumeDb + 1f)
+        {
+            player.VolumeDb = baseDb;
+            return;
+        }
+
+        var breath = 1.5f * Mathf.Sin((float)(_breathTime * Mathf.Tau / 28d))
+            + 0.7f * Mathf.Sin((float)(_breathTime * Mathf.Tau / 9.5d));
+
+        if (_breathTime >= _nextDipAt)
+        {
+            _dipStart = _breathTime;
+            _dipLength = 2.0 + _breathRandom.Randf();
+            _nextDipAt = _breathTime + 25d + _breathRandom.Randf() * 20d;
+        }
+
+        var dip = 0f;
+        var age = _breathTime - _dipStart;
+        if (age >= 0d && age <= _dipLength)
+        {
+            var half = (float)(_dipLength * .5d);
+            dip = -3f * Mathf.Max(0f, 1f - Mathf.Abs((float)age - half) / Mathf.Max(.01f, half));
+        }
+
+        player.VolumeDb = baseDb + breath + dip;
     }
 
     public void StopForEnding()

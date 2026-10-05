@@ -23,11 +23,11 @@
           "skyContribution": 0
         },
         "fog": {
-          "color": "44566b",
-          "density": 0.032,
+          "color": "4b5f76",
+          "density": 0.03,
           "height": 1.0,
           "heightDensity": 0.008,
-          "aerialPerspective": 0.55,
+          "aerialPerspective": 0.65,
           "skyAffect": 0.6,
           "sunScatter": 0.025
         },
@@ -38,8 +38,8 @@
         },
         "sky": {
           "top": "263346",
-          "horizon": "4b6074",
-          "groundHorizon": "3f5062",
+          "horizon": "556b80",
+          "groundHorizon": "485a6d",
           "groundBottom": "263346",
           "sunAngleMax": 0,
           "sunCurve": 0.12,
@@ -52,7 +52,7 @@
         },
         "sun": {
           "color": "c6d4e2",
-          "energy": 0.55,
+          "energy": 0.48,
           "shadowOpacity": 0.18,
           "rotation": [
             -16,

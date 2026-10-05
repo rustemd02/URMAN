@@ -95,7 +95,7 @@ public partial class VillageHouseholdDirector : Node3D
         for(var i=0;i<SpillBudget;i++)
         {
             var light=new SpotLight3D {Name=$"WindowSpill{i}",Visible=false,LightColor=Color.FromHtml("ffd3a1"),
-                LightEnergy=.75f,SpotRange=4.4f,SpotAngle=65f,SpotAttenuation=1.6f,
+                LightEnergy=.75f,SpotRange=4.9f,SpotAngle=65f,SpotAttenuation=1.6f,
                 ShadowEnabled=true,LightSize=.12f,ShadowBias=.035f};
             light.SetMeta("lightingRole","bounded nearest residential window spill");
             AddChild(light); _lights[i]=light;
@@ -196,7 +196,7 @@ public partial class VillageHouseholdDirector : Node3D
             var w=_windows[index]; light.GlobalPosition=w.Centre+w.Normal*.13f;
             light.LookAt(light.GlobalPosition+w.Normal+Vector3.Down*.22f);
             // Fade distant spill before the material-only handoff; no global glow.
-            light.LightEnergy=(night?1.15f:.72f)*(1-Mathf.SmoothStep(12,18,Mathf.Sqrt(_distances[slot])));
+            light.LightEnergy=(night?1.25f:.78f)*(1-Mathf.SmoothStep(12,18,Mathf.Sqrt(_distances[slot])));
             light.Visible=true;
             if(_boundWindows[slot]!=index) {light.SetMeta("sourcePane",w.Path);_boundWindows[slot]=index;}
         }
