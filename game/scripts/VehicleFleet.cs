@@ -159,6 +159,7 @@ public partial class VehicleFleet : Node3D
         foreach(var vehicle in _vehicles)
         { vehicle.Radio?.SetPaused(true);vehicle.ResetAuthored(); }
         _session=session;_dirty=false;_commitDelay=0;_pending=Task.FromResult(true);
+        _lowFrictionBound=false;_lowFrictionOwners.Clear();_lowFrictionBounds.Clear();
         var props=_bridge!.SelectWorldProps();
         foreach(var vehicle in _vehicles)
             if(props.TryGetProperty(vehicle.Definition.StateId,out var record)&&!vehicle.Restore(record))
@@ -352,6 +353,80 @@ public partial class VehicleFleet : Node3D
         if(_bridge?.CurrentZoneId!="kara_urman_night")return HorseDisposition.Calm;
         return position.Z < -116 ? HorseDisposition.Refusing : position.Z < -110 ? HorseDisposition.Slowing
             : position.Z < -98 ? HorseDisposition.Wary : HorseDisposition.Calm;
+    }
+
+    /// <summary>
+    /// Surface family for the Niva tyre model: the packed/cleared road graph is
+    /// Road, open snow off it is Snow, and a cached ice/water surface that
+    /// touches the ground at the sample is Ice. Pure query; no save, zone or
+    /// story state is involved.
+    /// </summary>
+    public VehicleSurfaceKind SurfaceAt(Vector3 position, Vector3 forward)
+    {
+        if (OnLowFrictionSurface(position)) return VehicleSurfaceKind.Ice;
+        if (_world is null) return VehicleSurfaceKind.Road;
+        var direction = new Vector3(forward.X, 0f, forward.Z);
+        if (direction.LengthSquared() < .0001f) direction = new Vector3(0, 0, -1);
+        var probe = position + direction.Normalized() * .75f;
+        return _world.CanVehicleTraverse(position, probe, SettlementTravelMode.Car, out _)
+            ? VehicleSurfaceKind.Road : VehicleSurfaceKind.Snow;
+    }
+
+    // Ice and open water meshes already carry PainterlyMaterialLibrary's
+    // "snowTrampleBlocked" material meta (the same contract the snow-rut lane
+    // reads). They never move, so their world AABBs are cached once per
+    // session; visibility is rechecked per candidate to respect zone
+    // presentation. Frozen puddles are the one low-friction surface a vehicle
+    // can actually reach, since the gorge/ravine water graph rejects driving.
+    private readonly List<MeshInstance3D> _lowFrictionOwners = new();
+    private readonly List<Aabb> _lowFrictionBounds = new();
+    private bool _lowFrictionBound;
+
+    private bool OnLowFrictionSurface(Vector3 position)
+    {
+        if (!_lowFrictionBound) BindLowFrictionSurfaces();
+        if (_lowFrictionOwners.Count == 0) return false;
+        var support = float.NaN;
+        for (var index = 0; index < _lowFrictionOwners.Count; index++)
+        {
+            var mesh = _lowFrictionOwners[index];
+            if (!GodotObject.IsInstanceValid(mesh)) { _lowFrictionBound = false; return false; }
+            var box = _lowFrictionBounds[index];
+            if (position.X < box.Position.X || position.X > box.End.X
+                || position.Z < box.Position.Z || position.Z > box.End.Z) continue;
+            if (!mesh.IsVisibleInTree()) continue;
+            if (float.IsNaN(support)) support = AgentBAct1HeightField.CollisionGround(position.X, position.Z);
+            if (box.End.Y >= support - .03f && box.Position.Y < support + .4f) return true;
+        }
+        return false;
+    }
+
+    private void BindLowFrictionSurfaces()
+    {
+        _lowFrictionBound = true;
+        _lowFrictionOwners.Clear(); _lowFrictionBounds.Clear();
+        foreach (var mesh in Meshes(GetTree().Root))
+        {
+            if (mesh.Mesh is null || !mesh.IsVisibleInTree()) continue;
+            for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
+            {
+                if (mesh.GetActiveMaterial(surface)?.GetMeta("snowTrampleBlocked", false).AsBool() != true) continue;
+                _lowFrictionOwners.Add(mesh); _lowFrictionBounds.Add(mesh.GlobalTransform * mesh.GetAabb());
+                break;
+            }
+            if (_lowFrictionOwners.Count >= 96) break;
+        }
+    }
+
+    private static IEnumerable<MeshInstance3D> Meshes(Node node)
+    {
+        var count = node.GetChildCount();
+        for (var index = 0; index < count; index++)
+        {
+            var child = node.GetChild(index);
+            if (child is MeshInstance3D mesh) yield return mesh;
+            foreach (var nested in Meshes(child)) yield return nested;
+        }
     }
 
     public bool IsWithinTerrain(Vector3 position)=>float.IsFinite(position.X)&&float.IsFinite(position.Y)&&float.IsFinite(position.Z)

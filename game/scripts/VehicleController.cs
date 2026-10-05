@@ -17,6 +17,7 @@ public partial class VehicleController : CharacterBody3D
     private Node3D _look = null!;
     private InteractionTarget _entry = null!;
     private VehicleMechanicalAudio _mechanical = null!;
+    private VehicleMechanics? _mechanics;
     private float _steering;
     private float _wheelPhase;
     private float _pitch;
@@ -121,6 +122,11 @@ public partial class VehicleController : CharacterBody3D
         _entry.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = new(.22f, .76f, .78f) } });
         AddChild(_entry);
         _mechanical = new VehicleMechanicalAudio { Name = "MechanicalAudio" }; AddChild(_mechanical);
+        // The Niva gets the real drivetrain (vendored GEVP-derived model); the
+        // other authored vehicles keep their existing kinematic character.
+        if (definition.Kind == VehicleKind.Niva && definition.Mechanics is { } mechanics)
+            _mechanics = new VehicleMechanics(mechanics, definition.WheelBase, definition.HullSize.X,
+                definition.WheelRadius, definition.MaxForwardSpeed, definition.ReverseSpeed);
         if (definition.HasRadio)
         {
             Radio = new VehicleRadioPlayer { Name = "Radio" }; AddChild(Radio);
@@ -148,6 +154,7 @@ public partial class VehicleController : CharacterBody3D
         Velocity = Vector3.Zero; Speed = 0; EngineRunning = false; ParkingBrake = true;
         Headlights = false; TotalTravelMetres = 0; HorseState = HorseDisposition.Calm;
         _steering = _pitch = _lookYaw = _engineWarmup = _wheelPhase = _motorcycleLean = 0;
+        _mechanics?.Reset();
         _acceptedHorsePose = _pendingHorsePose = null;
         _rejectedHorsePose = null; _horseProjectionFailure = string.Empty;
         LastRefusal = string.Empty; _noticeSeconds = 0;
@@ -179,7 +186,7 @@ public partial class VehicleController : CharacterBody3D
         if (!TryFindSafeExit(out var feet))
         { Notice("Рядом негде встать. Переставьте транспорт."); return false; }
         // An empty vehicle is parked; the ignition and radio retain their actual state.
-        ParkingBrake = true; Speed = 0; Velocity = Vector3.Zero;
+        ParkingBrake = true; Speed = 0; Velocity = Vector3.Zero; _mechanics?.Block();
         Driver = null;
         SyncCartDriverFigure();
         player.ApplyZoneSpawn(feet, RotationDegrees.Y);
@@ -200,6 +207,7 @@ public partial class VehicleController : CharacterBody3D
         if (_entry is not null) _entry.CollisionLayer = _entry.ActiveCollisionLayer;
         Speed = 0; Velocity = Vector3.Zero;
         _mechanical?.ResetForSession();
+        _mechanics?.Reset();
     }
 
     public override void _UnhandledInput(InputEvent inputEvent)
@@ -225,6 +233,7 @@ public partial class VehicleController : CharacterBody3D
                 && Driver is { ModalOpen: false } && Input.IsActionJustPressed("interact")) TryExit();
             _controlsNeedRelease = true;
             _mechanical.SetState(Definition.Kind, EngineRunning, 0, 0, true);
+            _mechanics?.Idle(EngineRunning, dt);
             return;
         }
         if (Driver is not { } player)
@@ -232,12 +241,14 @@ public partial class VehicleController : CharacterBody3D
             // Parked pose belongs to the snapshot; no drift or uncontrolled animal motion.
             Velocity = Vector3.Zero;
             _mechanical.SetState(Definition.Kind, EngineRunning, 0, 0, false);
+            _mechanics?.Idle(EngineRunning, dt);
             UpdateVisuals(dt); return;
         }
         if (player.ModalOpen)
         {
             Speed = 0; Velocity = Vector3.Zero; _controlsNeedRelease = true;
             _mechanical.SetState(Definition.Kind, EngineRunning, 0, 0, true);
+            _mechanics?.Idle(EngineRunning, dt);
             return;
         }
         if (_controlsNeedRelease)
@@ -254,6 +265,7 @@ public partial class VehicleController : CharacterBody3D
                 released = false; break;
             }
             if (released) _controlsNeedRelease = false;
+            _mechanics?.Idle(EngineRunning, dt);
             AttachDriver(); UpdateVisuals(dt); return;
         }
         if (Input.IsActionJustPressed("interact")) { TryExit(); if(Driver is null)return; }
@@ -303,24 +315,44 @@ public partial class VehicleController : CharacterBody3D
         if (HorseState == HorseDisposition.Slowing) factor = Math.Min(factor, .45f);
         if (HorseState == HorseDisposition.Refusing && throttle > 0 && -GlobalBasis.Z.Z < 0)
             decision = new(false,"Лошадь упёрлась. Можно отъехать назад или развернуться.");
-        var enabled = EngineRunning && _engineWarmup <= 0 && !ParkingBrake && !footBrake;
-        var desired = enabled ? throttle * (throttle < 0 ? Definition.ReverseSpeed : Definition.MaxForwardSpeed) * factor : 0;
-        // Opposite throttle is a brake until stopped; reversing never flips velocity instantaneously.
-        var braking = footBrake || ParkingBrake || (Math.Sign(throttle) != Math.Sign(Speed) && Math.Abs(Speed) > .25f);
-        if (braking) desired = 0;
-        Speed = Mathf.MoveToward(Speed, desired, (braking ? Definition.BrakeDeceleration
-            : Math.Abs(throttle) < .03f || !enabled ? 1.5f : Definition.Acceleration) * dt);
+        var running = EngineRunning && _engineWarmup <= 0;
+        var enabled = running && !ParkingBrake && !footBrake;
         var previousSteering=_steering;
         var previousLean=_motorcycleLean;
-        _steering = ConstrainSteering(Mathf.MoveToward(_steering, steeringInput * Mathf.DegToRad(Definition.SteeringDegrees), dt * 1.6f));
-        ApplySteeringCollision();
+        float lateral=0;float yaw;float desired;bool braking;
+        if (_mechanics is not null)
+        {
+            // Niva: the vendored drivetrain/tyre model (game/addons/gevp,
+            // adapted in VehicleMechanics) produces the planar velocity and
+            // yaw; parking, zone gates and collision stops stay unchanged.
+            _steering = ConstrainSteering(Mathf.MoveToward(_steering, steeringInput * Mathf.DegToRad(Definition.SteeringDegrees), dt * 1.6f));
+            ApplySteeringCollision();
+            _mechanics.Step(dt, throttle, _steering, footBrake, ParkingBrake, running,
+                factor, _fleet.SurfaceAt(previous, -GlobalBasis.Z));
+            Speed = _mechanics.ForwardSpeed;
+            lateral = _mechanics.LateralSpeed;
+            yaw = _mechanics.YawDelta;
+            braking = footBrake || ParkingBrake || _mechanics.ServiceBraking;
+            desired = Speed;
+        }
+        else
+        {
+            desired = enabled ? throttle * (throttle < 0 ? Definition.ReverseSpeed : Definition.MaxForwardSpeed) * factor : 0;
+            // Opposite throttle is a brake until stopped; reversing never flips velocity instantaneously.
+            braking = footBrake || ParkingBrake || (Math.Sign(throttle) != Math.Sign(Speed) && Math.Abs(Speed) > .25f);
+            if (braking) desired = 0;
+            Speed = Mathf.MoveToward(Speed, desired, (braking ? Definition.BrakeDeceleration
+                : Math.Abs(throttle) < .03f || !enabled ? 1.5f : Definition.Acceleration) * dt);
+            _steering = ConstrainSteering(Mathf.MoveToward(_steering, steeringInput * Mathf.DegToRad(Definition.SteeringDegrees), dt * 1.6f));
+            ApplySteeringCollision();
+            yaw = -Speed / Definition.WheelBase * Mathf.Tan(_steering) * dt;
+        }
         if (!decision.Allowed)
         {
-            Speed = 0; LastRefusal = decision.Reason;
+            Speed = 0; lateral = 0; yaw = 0; _mechanics?.Block(); LastRefusal = decision.Reason;
             if (Math.Abs(throttle) > .05f) Notice(decision.Reason);
         }
         else LastRefusal = string.Empty;
-        var yaw = -Speed / Definition.WheelBase * Mathf.Tan(_steering) * dt;
         if (Math.Abs(yaw) <= .00001f || !CanRotate(yaw)) yaw = 0;
         var requestedPose = new Transform3D(new Basis(Vector3.Up, yaw) * GlobalBasis, GlobalPosition);
         requestedPose.Origin -= requestedPose.Basis.Z * Speed * dt;
@@ -329,14 +361,19 @@ public partial class VehicleController : CharacterBody3D
         var forward = -GlobalBasis.Z;
         var finalDecision = _fleet.EvaluateTravel(this, previous,
             previous + new Vector3(forward.X,0,forward.Z) * Speed * dt);
-        if(!finalDecision.Allowed && Math.Abs(Speed)>.001f)
-        { Speed=0;Notice(finalDecision.Reason); }
+        if(!finalDecision.Allowed && (Math.Abs(Speed)>.001f||Math.Abs(lateral)>.001f))
+        { Speed=0;lateral=0;_mechanics?.Block();Notice(finalDecision.Reason); }
         var vertical = IsOnFloor() ? -.15f : Velocity.Y - 21.6f * dt;
-        Velocity = new(forward.X * Speed * hoofFraction, vertical, forward.Z * Speed * hoofFraction);
+        var planar = _mechanics is not null
+            ? GlobalBasis.X * lateral - GlobalBasis.Z * Speed
+            : forward * (Speed * hoofFraction);
+        Velocity = new(planar.X, vertical, planar.Z);
         var diagnosticRequestedVelocity = _collisionStopDiagnostics ? Velocity : default;
         MoveAndSlide();
         var actual = new Vector2(GlobalPosition.X-previous.X, GlobalPosition.Z-previous.Z).Length();
-        TotalTravelMetres += actual; _wheelPhase -= Math.Sign(Speed)*actual/Definition.WheelRadius;
+        TotalTravelMetres += actual;
+        if (_mechanics is not null) _wheelPhase -= _mechanics.WheelSpin * dt;
+        else _wheelPhase -= Math.Sign(Speed)*actual/Definition.WheelRadius;
         if (IsOnWall() && actual < Math.Abs(Speed)*dt*.50f)
         {
             // Observe the same MoveAndSlide result before zeroing its commanded
@@ -355,7 +392,7 @@ public partial class VehicleController : CharacterBody3D
                 }
                 HardStop?.Invoke(this, Math.Abs(Speed), collider);
             }
-            Speed = 0; CollisionStops++;
+            Speed = 0; lateral = 0; _mechanics?.Block(); CollisionStops++;
         }
         if (hoofFraction < 1) Speed = 0;
         // MarkDirty only sets a flag; VehicleFleet retains its two-second commit
@@ -542,7 +579,12 @@ public partial class VehicleController : CharacterBody3D
         if(_visual.SpeedNeedle is {} speedNeedle)
             speedNeedle.RotationDegrees=new(0,0,130-Mathf.Clamp(Math.Abs(Speed)*3.6f/(Definition.Kind==VehicleKind.Niva?160:120),0,1)*260);
         if(_visual.EngineNeedle is {} engineNeedle)
-            engineNeedle.RotationDegrees=new(0,0,130-(EngineRunning ? .9f+Math.Abs(Speed)*.28f : 0)/8*260);
+        {
+            var engineLoad=_mechanics is not null
+                ? Mathf.Clamp(_mechanics.Rpm/_mechanics.MaxRpm,0,1)
+                : (EngineRunning ? .9f+Math.Abs(Speed)*.28f : 0)/8;
+            engineNeedle.RotationDegrees=new(0,0,130-engineLoad*260);
+        }
         if(_visual.RadioDisplay is {} tuning)
         {
             var text=Radio?.Tuning??"— —";
@@ -609,7 +651,8 @@ public partial class VehicleController : CharacterBody3D
         var state=Definition.Kind==VehicleKind.HorseCart
             ? HorseState switch {HorseDisposition.Wary=>"Лошадь насторожилась",HorseDisposition.Slowing=>"Лошадь сбавляет шаг",
                 HorseDisposition.Refusing=>"Лошадь отказывается идти вперёд",_=>"Лошадь спокойна"}
-            : $"{Math.Abs(Speed)*3.6f:0} км/ч · {(EngineRunning?"двигатель работает":"двигатель выключен")}";
+            : $"{Math.Abs(Speed)*3.6f:0} км/ч · {(EngineRunning?"двигатель работает":"двигатель выключен")}"
+                +(EngineRunning&&_mechanics is not null?" · "+_mechanics.GearLabel:string.Empty);
         var horse=Definition.Kind==VehicleKind.HorseCart;
         var parking=horse?"тормоз телеги":"стояночный тормоз";
         return Definition.DisplayName+" · "+state+(ParkingBrake?" · "+parking:"")
@@ -675,6 +718,7 @@ public partial class VehicleController : CharacterBody3D
         GlobalPosition=position;RotationDegrees=new(0,yaw,0);Speed=0;Velocity=Vector3.Zero;
         RememberSavedYaw(yaw);
         _steering=steering;_motorcycleLean=lean;
+        _mechanics?.Reset();
         _acceptedHorsePose = _pendingHorsePose = null;
         _rejectedHorsePose = null; _horseProjectionFailure = string.Empty;
         EngineRunning=record.TryGetProperty("engineRunning",out var engine)&&engine.ValueKind==JsonValueKind.True;
@@ -693,7 +737,7 @@ public partial class VehicleController : CharacterBody3D
         if (available && !TryRepairHorseProjection()) { available = false; reason = _horseProjectionFailure; }
         PlacementAvailable=available;PlacementFailure=available?string.Empty:reason;
         SetMeta("placementAvailable",available);SetMeta("placementFailure",PlacementFailure);
-        if(!available){Speed=0;Velocity=Vector3.Zero;_controlsNeedRelease=true;}
+        if(!available){Speed=0;Velocity=Vector3.Zero;_mechanics?.Block();_controlsNeedRelease=true;}
     }
 
     private bool ValidatePhysicalPlacement(Transform3D pose,out string reason,float? steering=null,float? lean=null)

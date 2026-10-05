@@ -12,6 +12,9 @@ public static partial class VehicleVisualFactory
     public sealed record Visual(Node3D Root, IReadOnlyList<Node3D> Wheels, IReadOnlyList<Node3D> FrontWheels,
         IReadOnlyList<Node3D> HorseLegs, Node3D? HorseHead, Node3D? SteeringWheel, IReadOnlyList<SpotLight3D> Lamps,
         Node3D? SpeedNeedle=null, Node3D? EngineNeedle=null, Label3D? RadioDisplay=null, VehicleHorsePose? HorsePose=null,
+        // The Niva is built with Charm:null on purpose: VehicleMirrorCharm
+        // (VehicleVisualFactory.MirrorCharm.cs) drives the authored charm
+        // itself, so VehicleController.SwingCharm must keep skipping it.
         Node3D? Charm=null);
 
     public static Visual Build(VehicleDefinition definition)
@@ -46,17 +49,26 @@ public static partial class VehicleVisualFactory
         var steering = new Node3D { Name="SteeringWheel", Position=new(-.40f,1.10f,-.16f), RotationDegrees=new(NivaSteeringTiltDegrees,0,0) };
         root.AddChild(steering);
         NivaModelPart(steering,"NivaSteering","SteeringRim");
-        // Shamail and tasbih hang under the rear-view mirror and swing freely.
-        var charm = new Node3D { Name="MirrorCharm", Position=new(.07f,1.548f,-.35f), Scale=Vector3.One*.82f };
+        // Shamail and tasbih hang under the rear-view mirror. VehicleMirrorCharm
+        // (VehicleVisualFactory.MirrorCharm.cs) is a self-driven, measured damped
+        // pendulum; it is deliberately NOT handed back as Visual.Charm, which
+        // disables the legacy VehicleController.SwingCharm clamp-and-ring from
+        // this side without editing the physics lane's controller file. Do not
+        // re-attach it there; the pendulum owns its own state and limits.
+        var charm = new VehicleMirrorCharm { Name="MirrorCharm", Position=new(.07f,1.548f,-.35f), Scale=Vector3.One*.82f };
         root.AddChild(charm);
         NivaModelPart(charm,"NivaCharm","MirrorCharmMesh");
         NivaPlate(root,"FrontPlate",new(0,.63f,-2.0800f),180f);
         NivaPlate(root,"RearPlate",new(0,.80f,1.877f),0f);
-        var wheels = new List<Node3D>(); var front=new List<Node3D>();
+        var wheels = new List<Node3D>(); var front=new List<Node3D>(); var rear=new List<Node3D>();
         foreach(var x in new[]{-.78f,.78f}) foreach(var z in new[]{-1.18f,1.10f})
-        {var wheel=NivaWheel(root,new(x,.345f,z)); wheels.Add(wheel);if(z<0)front.Add(wheel);}
+        {var wheel=NivaWheel(root,new(x,.345f,z)); wheels.Add(wheel);if(z<0)front.Add(wheel);else rear.Add(wheel);}
+        // Two continuous pressed-snow ruts behind the rear wheels. The decal
+        // skips the packed carriageway, ice and water, interiors and bridge
+        // decks (VehicleSnowTracks.cs owns the budget and exclusion contract).
+        root.AddChild(new VehicleSnowTracks { Name="VehicleSnowTracks", TrackedWheels=rear.ToArray(), WheelRadius=.345f });
         var lamps=Headlights(root,new[]{new Vector3(-.60f,1.01f,-2.04f),new Vector3(.60f,1.01f,-2.04f)});
-        return new(root,wheels,front,Array.Empty<Node3D>(),null,steering,lamps,speed,revs,radioDisplay,Charm:charm);
+        return new(root,wheels,front,Array.Empty<Node3D>(),null,steering,lamps,speed,revs,radioDisplay,Charm:null);
     }
 
     /// <summary>Russian plate of a Tatarstan car: series, number and region 116.</summary>

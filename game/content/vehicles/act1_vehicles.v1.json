@@ -34,7 +34,31 @@
         0.12
       ],
       "wheelRadius": 0.345,
-      "hasRadio": true
+      "hasRadio": true,
+      "mechanics": {
+        "mass": 1285,
+        "maxTorque": 116,
+        "idleRpm": 800,
+        "maxRpm": 4200,
+        "engineInertia": 0.4,
+        "engineBrakingTorque": 14,
+        "forwardGears": [3.67, 2.1, 1.36, 1.0, 0.82],
+        "reverseGear": 3.53,
+        "finalDrive": 3.9,
+        "shiftTime": 0.2,
+        "shiftUpRpm": 2200,
+        "shiftDownRpm": 1200,
+        "frontTorqueSplit": 0.5,
+        "frontWeightDistribution": 0.52,
+        "dragCoefficient": 0.52,
+        "frontalArea": 2.2,
+        "rollingResistance": 0.02,
+        "peakGrip": 0.9,
+        "snowGrip": 0.62,
+        "iceGrip": 0.3,
+        "brakeBias": 0.58,
+        "torqueCurve": [800, 0.45, 1400, 0.72, 2400, 0.98, 3200, 1.0, 3800, 0.9, 4200, 0.72]
+      }
     },
     {
       "id": "village-motorcycle",

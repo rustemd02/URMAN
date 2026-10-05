@@ -297,6 +297,29 @@ public partial class VehicleController
         var basis = Basis.FromEuler(new(0, Mathf.DegToRad(Definition.YawDegrees), 0));
         var spawn = Definition.Spawn;
         var originY = AppliedSupportGroups(0, 0).Max(group => ground(spawn + basis * group.Point) - group.Point.Y) + .025f;
+        // The Niva's chassis box is its only ground-facing body volume, but the
+        // four authored support rays sit inside its footprint (.36/.38 of the
+        // hull). The verge rise under the remaining side and end overhangs was
+        // not sampled, so the authored babay-niva start kept the rear-left box
+        // corner 16 mm inside the terrain and every session opened with a
+        // parking recovery. Clear the actual box bottom face, not only the four
+        // inboard rays, so the ordinary authored parking is physically valid.
+        if (Definition.Kind == VehicleKind.Niva)
+        {
+            foreach (var volume in _fixedVolumes)
+            {
+                if (volume.Node.Name != "ChassisCollision" || volume.Node.Shape is not BoxShape3D chassis) continue;
+                var half = chassis.Size * .5f;
+                const int across = 10, along = 20;
+                for (var ix = 0; ix <= across; ix++)
+                for (var iz = 0; iz <= along; iz++)
+                {
+                    var point = volume.Bind.Origin + new Vector3(
+                        half.X * (2f * ix / across - 1f), -half.Y, half.Z * (2f * iz / along - 1f));
+                    originY = Math.Max(originY, ground(spawn + basis * point) - point.Y + .025f);
+                }
+            }
+        }
         Definition = Definition with { Spawn = new(spawn.X, originY, spawn.Z) };
     }
 
