@@ -48,6 +48,19 @@ def fingerprint(root: Path) -> dict[str, tuple[int, str]]:
     return result
 
 
+def rename_userdata(source: Path, destination: Path) -> None:
+    """Windows may briefly retain a directory handle after taskkill completes."""
+    deadline = time.monotonic() + 5.0
+    while True:
+        try:
+            source.rename(destination)
+            return
+        except PermissionError:
+            if sys.platform != "win32" or time.monotonic() >= deadline:
+                raise
+            time.sleep(0.1)
+
+
 def default_userdata() -> Path:
     if sys.platform == "win32":
         if not os.environ.get("APPDATA"):
@@ -147,7 +160,7 @@ def main() -> int:
         previous = {sig: signal.signal(sig, interrupt) for sig in signals}
         try:
             if existed:
-                userdata.rename(original)
+                rename_userdata(userdata, original)
                 original_moved = True
             if args.clean or not existed:
                 userdata.mkdir(mode=0o700)
@@ -189,9 +202,9 @@ def main() -> int:
             try:
                 if original_moved or not existed:
                     if userdata.exists() or userdata.is_symlink():
-                        userdata.rename(backup / "test-userdata")
+                        rename_userdata(userdata, backup / "test-userdata")
                     if original_moved:
-                        original.rename(userdata)
+                        rename_userdata(original, userdata)
                 after = fingerprint(userdata) if userdata.exists() else None
                 if after != before:
                     raise RuntimeError(f"userdata verification failed; preserved recovery directory: {backup}")

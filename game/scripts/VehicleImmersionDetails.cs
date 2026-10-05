@@ -72,7 +72,8 @@ public partial class VehicleImmersionDetails : Node3D
         SetMeta("savePolicy", "session-only detail state; never serialized");
         SetProcess(false);
         if (_vehicle is null) LocateVehicle();
-        if (_vehicle is not null && !_initialized) Initialize(VisualRoot(), _vehicle);
+        // The visual parent is still adding children during _Ready. Build the
+        // sibling presentation nodes on the existing first physics tick below.
     }
 
     public override void _ExitTree()

@@ -111,9 +111,33 @@ public partial class Act1DemoRoot
             if (_pauseMenu?.IsOpen == true) _pauseMenu.Resume();
             for (var frame = 0; frame < 150; frame++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
-            GetViewport().GetTexture().GetImage().SavePng($"{dir}/{name}.png");
+            using (var image = GetViewport().GetTexture().GetImage())
+            {
+                if (image.SavePng($"{dir}/{name}.png") != Error.Ok)
+                {
+                    GD.PushError($"View capture could not save '{name}'.");
+                    GetTree().Quit(1);
+                    return;
+                }
+            }
             GD.Print($"view-capture: {name} camera={GetViewport().GetCamera3D()?.Name} at={camera.GlobalPosition} zone={_main.ConnectedWorld?.ActiveZoneId} preset={GraphicsQuality.Preset} scale={GetViewport().Scaling3DScale} fov={camera.Fov} focus={DisplayServer.WindowIsFocused()} pause={_pauseMenu?.IsOpen} drawCalls={Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)} frameMs={GetProcessDeltaTime()*1000:0.0}");
         }
-        GetTree().Quit();
+        var tree = GetTree();
+        await Tests.GodotSmokeCleanup.ReleaseAsync(this);
+        QuitAfterViewCaptureAsync(tree);
+    }
+
+    private static async void QuitAfterViewCaptureAsync(SceneTree tree)
+    {
+        // Let the capture state machine release its scene references before
+        // collecting C# resource wrappers and flushing deferred render frees.
+        await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+        System.GC.Collect();
+        System.GC.WaitForPendingFinalizers();
+        for (var frame = 0; frame < 3; frame++)
+            await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+        Node.PrintOrphanNodes();
+        GD.Print("view-capture: scene/resource cleanup completed");
+        tree.Quit();
     }
 }

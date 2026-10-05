@@ -183,6 +183,17 @@ public static class AnimationCatalog
         return missing == 0 ? "совместим" : $"не хватает костей: {missing} из {bones.Length}";
     }
 
+    // The detached library scene owns native mesh/animation resources. Release
+    // it only after a test scene has finished, alongside the other test caches.
+    internal static void ClearCacheForTests()
+    {
+        _kitPlayers.Clear();
+        _library?.Clear();
+        _library = null;
+        if (GodotObject.IsInstanceValid(_libraryScene)) _libraryScene!.Free();
+        _libraryScene = null;
+    }
+
     public static IReadOnlyCollection<string> LibraryClips => Library().Keys;
 
     // Godot's importer strips a "_Loop" suffix from clip names and marks the

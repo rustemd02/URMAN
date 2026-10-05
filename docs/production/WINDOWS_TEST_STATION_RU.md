@@ -1,302 +1,263 @@
-# Windows-станция для разработки и проверки УРМАНА
+# УРМАН: разработка где удобно, игровые проверки на Windows
 
-Подготовлено 2 октября 2026 года. Из этого чата Windows-ПК пока не подключён:
-скрипты подготовлены, фактический запуск на его GPU ещё не проверен.
+Схема: текущий checkout Mac/Linux/Codex Cloud → `eng/remote-check.py` → приватный
+Tailscale HTTPS → Windows worker → существующий `run-windows-check.ps1` →
+`protected_run.py` → Godot → receipt, логи и игровые PNG. Перенос чата не нужен.
+Разработка остаётся в текущем checkout. Запрос «запусти поиграть» выполняется
+локально на том компьютере, где пользователь его дал. Обычный статический анализ
+и узкая C#-компиляция могут выполняться локально. Не запускать движок после каждой
+правки по привычке; отдельный запрет игровых проверок сохраняет силу.
 
-## Какую схему выбрать
+## Настроенная станция
 
-Минимум для твоей задачи: **вести разработку в чате на домашнем Windows-ПК,
-а управлять этим чатом с ноутбука через Remote**. Windows хранит рабочие файлы,
-компилирует C#, запускает Godot на своей видеокарте и возвращает логи/кадры.
-Ноутбук показывает чат. В такой схеме отдельная служба запуска игр не требуется.
+- Checkout: `C:\Users\ruste\Documents\GitHub\URMAN` (приоритетное поручение автора).
+- HTTPS: `https://unterpc.tail9423b1.ts.net`, порт 443, только tailnet.
+- Worker слушает только `127.0.0.1:8765`; публичный Funnel-маршрут не используется.
+- Данные: `%LOCALAPPDATA%\URMAN-STATION`, вне Git. Конфигурация и три отдельные
+  авторизации: `station-config.json`, `owner.token`, `second-developer.token`,
+  `cloud.token`. Значения не включать в diff, логи, инструкции или результаты.
+- Закреплённые версии: `global.json`, `eng/toolchain.json`, `game/Urman.Game.csproj`.
+  На Windows устанавливаются Windows-бинарники, на Mac — Mac-бинарники.
+- Blender не нужен для выполнения готовых GLB. Станционный `game/override.cfg`
+  отключает Blender-import; его SHA256 записывается отдельно в receipt.
 
-```text
-Ноутбук: сообщения, просмотр результатов
-                  │ штатный Remote
-                  ▼
-Windows-ПК: Codex → рабочий каталог URMAN → сборка → Godot → логи и кадры
-```
-
-Remote официально поддерживает Windows-хосты; управление с другого настольного
-устройства зависит от доступности функции в твоём приложении/аккаунте.
-[Документация OpenAI](https://learn.chatgpt.com/docs/remote-connections).
-
-Codex Cloud существует. Само по себе создание Cloud-задачи не подключает домашний
-GPU. Для разделения «код в Cloud, запуск на Windows» нужно отдельно доставлять
-точный код и команды на станцию и возвращать результаты. Это следующий этап,
-описанный ниже. Для первого рабочего запуска рекомендован Remote.
-
-## 1. Подготовить Windows
-
-1. Используй Windows 11 x64 с актуальным драйвером NVIDIA/AMD/Intel от производителя.
-   Этот установщик рассчитан на x64, Windows ARM сюда не входит.
-2. Заведи отдельного обычного пользователя, например `urman-test`, и войди в него.
-   Codex и Godot запускай в его обычной сессии; постоянно работать администратором не нужно.
-3. Оставь подключённым монитор. Если хочется обойтись без монитора, сначала докажи
-   работоспособность с ним, потом проверь HDMI/DisplayPort-заглушку отдельно.
-4. В параметрах питания отключи сон при питании от сети. Экран можно выключать,
-   но для управления мышью/клавиатурой сессия должна оставаться разблокированной.
-   [Требование Windows Computer Use](https://learn.chatgpt.com/docs/remote-connections#choose-what-to-connect).
-5. Не рассчитывай на WSL/Docker для проверки Windows-окна и Windows-GPU-пути.
-   Все команды ниже выполняются в **нативном Windows PowerShell**.
-
-В обычном PowerShell установи Git и Python:
-
-```powershell
-winget install --exact --id Git.Git --source winget
-winget install --exact --id Python.Python.3.13 --source winget
-```
-
-Закрой PowerShell и открой заново, чтобы обновился PATH:
-
-```powershell
-git --version
-python --version
-```
-
-Если `python` открывает Microsoft Store, отключи псевдоним `python.exe` в
-«Параметры → Приложения → Дополнительные параметры приложений → Псевдонимы выполнения»
-и проверь установленный Python. Скриптам нужен Python 3.12 или новее.
-
-## 2. Получить проект и подготовленные скрипты
-
-Рекомендуемый каталог — `C:\URMAN`, вне OneDrive. Это основной checkout на самой
-станции; рабочие деревья/worktree не создаются.
-
-```powershell
-git clone https://github.com/rustemd02/URMAN.git C:\URMAN
-Set-Location C:\URMAN
-git status --short
-git log -1 --oneline
-```
-
-Если репозиторий приватный, при клонировании войди в свой GitHub обычным способом.
-Пароль/токен не вставляй в URL и не отправляй в чат. Если `C:\URMAN` уже есть,
-клонировать поверх него нельзя: проверь ветку и состояние существующего checkout.
-
-**Эти новые скрипты пока находятся в рабочем дереве ноутбука, без commit/push.**
-Поэтому одного `git clone` недостаточно. Передай подготовленный
-`build/windows-station-kit.zip` на Windows, распакуй, например, в
-`C:\Users\urman-test\Downloads\windows-station-kit` и установи его файлы:
-
-```powershell
-$kit = "$env:USERPROFILE\Downloads\windows-station-kit"
-Copy-Item "$kit\eng\setup-windows-station.ps1" C:\URMAN\eng\
-Copy-Item "$kit\eng\run-windows-check.ps1" C:\URMAN\eng\
-Copy-Item "$kit\eng\protected_run.py" C:\URMAN\eng\
-Copy-Item "$kit\docs\production\WINDOWS_TEST_STATION_RU.md" C:\URMAN\docs\production\
-```
-
-Пакет предназначен для **нового, свободного от чужих правок checkout**. Если на
-Windows уже меняли эти файлы, сначала сравни изменения; не перезаписывай их.
-AGENTS.md комплект не изменяет. Настройки работы агента передай стартовым промптом
-из раздела 6.
-
-Клонирование получает только опубликованные коммиты. Незакоммиченные изменения
-игры на ноутбуке в него не попадут. Начни с проверки явно выбранного коммита;
-при переносе текущей разработки отдельно согласуй её полезный diff с владельцами
-дорожек. Не используй две машины как независимых писателей одной и той же дорожки.
-
-## 3. Установить закреплённые инструменты
-
-В `C:\URMAN`:
+Установка зависимостей: Python 3.12+ и Git for Windows; затем в checkout:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File eng/setup-windows-station.ps1
 ```
 
-Скрипт устанавливает инструменты **только внутри `.tools/` проекта**:
+В текущем PowerShell нужен PATH с установленным Python 3.12+, а не старым 3.10.
+Runner также принимает явный `-Python`. Сборка, обновление content packs и импорт
+сериализуются общим станционным lock. Windows выполняет те же две компиляции
+campaign через существующий ContentCli и `package-document-images.py`, что Mac.
+Ошибочная компиляция не допускает запуска старой DLL.
 
-- .NET SDK из `global.json` — на момент подготовки `10.0.302`;
-- Windows-версию Godot .NET из `eng/toolchain.json` — `4.7.1.stable.mono.official.a13da4feb`;
-- перед распаковкой Godot проверяет SHA512 по официальному файлу релиза;
-- проверяет версии; игру не запускает.
+На этой Windows установлен интернет-прокси `127.0.0.1:10809`, который не достигает
+tailnet. Для **локальной диагностики этой станции** в текущем PowerShell задавать
+`$env:NO_PROXY='unterpc.tail9423b1.ts.net'` и
+`$env:URMAN_STATION_CONFIG="$env:LOCALAPPDATA\URMAN-STATION\client.json"`.
+Это проверенное исключение одного назначения, без изменения глобальных настроек.
+В Cloud это исключение не переносить: там требуется штатный HTTPS_PROXY.
 
-В `game/` есть авторский `.blend` рядом с уже готовым `.glb`. Чтобы холодный импорт
-не требовал Blender, установщик создаёт **локальный** `game/override.cfg` с
-`filesystem/import/blender/enabled=false` и исключает этот файл через `.git/info/exclude`.
-Существующий другой override он не перезаписывает. `project.godot` и модель не меняются.
-Когда нужно редактировать/импортировать сам `.blend`, установи Blender и удали этот
-локальный override; для проверки готовых GLB это не требуется.
-[Godot: override настроек](https://docs.godotengine.org/en/stable/classes/class_projectsettings.html),
-[импорт Blender](https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/available_formats.html).
+## Особенность текущего Windows-checkout
 
-Используется официальный [установщик .NET](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script).
-Обычный Godot без .NET для этого C#-проекта не подходит.
-[Godot: требования для C#](https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_basics.html).
+В main есть путь `.commandcode/taste/--prefers-communication-in-russian.-confidence:-0.95/taste.md`,
+который нельзя создать в Windows из-за двоеточия. Только в этом checkout включён
+Git sparse checkout, исключающий `.commandcode`; runtime-файлы присутствуют.
+Исключение не передаётся на Mac и не меняет репозиторий. Git 2.37 потребовал
+однократный `-c core.protectNTFS=false` при начальном checkout исключённого пути;
+постоянная защита Git/Windows не отключена. Последующий обычный `git pull --ff-only`
+проверен. Не отключать sparse checkout на Windows до исправления пути владельцем.
+Это shallow checkout main; для сборки и source snapshot история не нужна.
 
-Visual Studio, Blender, экспортные шаблоны и Node.js для первого запуска готовых
-игровых ассетов не требуются. Установи их позже, если конкретная задача требует
-редактирования Blender-исходников, пересборки контента или экспорта релиза.
+## Desktop-сессия и автозапуск
 
-## 4. Подключить Windows-хост к чату на ноутбуке
-
-Установи актуальное настольное приложение ChatGPT с Codex / Codex на Windows из
-официального канала OpenAI. Войди в тот же аккаунт и workspace, что на ноутбуке.
-Названия пунктов зависят от версии приложения; здесь приведён текущий путь из документации.
-
-1. На Windows: **Settings → Connections → Control this Mac or PC → Set up/Add**.
-   Заверши проверку аккаунта и разреши доступ этому хосту.
-2. На ноутбуке: **Settings → Connections → Control other devices**.
-   Выполни предложенную приложением процедуру сопряжения с Windows-ПК.
-   Не публикуй QR-код или код сопряжения.
-3. На Windows добавь проект `C:\URMAN` и назови хост понятно, например `URMAN-Windows`.
-4. На ноутбуке выбери **этот хост и его проект** для нового чата. В месте выполнения
-   должен быть Windows-ПК. Старый локальный чат сам не переезжает.
-5. Для настоящих действий мышью/клавиатурой включи Computer Use на Windows.
-   Для существующих smoke-сцен и встроенного захвата это не обязательное условие.
-
-Полный актуальный порядок сопряжения:
-[Remote connections](https://learn.chatgpt.com/docs/remote-connections#pick-up-work-from-another-device).
-Remote использует защищённый relay; открывать порт Godot/app-server в интернет не нужно.
-
-**Не используй Handoff:** он создаёт/использует worktree, а правила этого проекта
-его запрещают без отдельного поручения. Новый чат открывай в основном Windows-checkout.
-
-Если **Control other devices** отсутствует, настольное управление может быть ещё
-не доступно твоему аккаунту. Проверь обновление обоих приложений. Временный вариант —
-сопрячь телефон через QR на Windows и управляй Windows-чатом из мобильного Codex/Remote;
-либо открой само приложение Windows через привычный удалённый рабочий стол.
-Не считай наличие SSH эквивалентом доступного интерактивного рабочего стола.
-
-Для минимальной схемы Tailscale, SSH и отдельный MCP не нужны.
-
-## 5. Доказать, что станция работает
-
-Первую проверку выполняй на Windows в вошедшей пользовательской сессии:
+Исполнитель работает под вошедшим пользователем в интерактивной Session 1, через
+Task Scheduler: **URMAN Windows Test Worker**, logon trigger, Interactive,
+Limited. Пароль Windows не сохраняется, автологин не включается. После перезагрузки
+войти в Windows; для native/capture оставить доступный дисплей и разблокированную
+сессию. Служба Tailscale обеспечивает сеть, но GUI worker не является службой SYSTEM.
+`doctor` проверяет desktop, инструменты, recovery marker и занятую станцию;
+health сам по себе не доказывает успешный GPU-прогон.
 
 ```powershell
-Set-Location C:\URMAN
-powershell -NoProfile -ExecutionPolicy Bypass -File eng/run-windows-check.ps1 -Mode smoke -Scene res://tests/act1_main_menu_smoke_test.tscn
+# Зарегистрировать/запустить (конфигурация уже должна существовать вне Git):
+powershell -NoProfile -ExecutionPolicy Bypass -File eng/manage-windows-worker.ps1 -Action install
+# Запустить существующее задание:
+powershell -NoProfile -ExecutionPolicy Bypass -File eng/manage-windows-worker.ps1 -Action start
+# Остановить после завершения активного задания:
+powershell -NoProfile -ExecutionPolicy Bypass -File eng/manage-windows-worker.ps1 -Action stop
+# Остановить и отключить автозапуск:
+powershell -NoProfile -ExecutionPolicy Bypass -File eng/manage-windows-worker.ps1 -Action disable
+# Отключить частный HTTPS-прокси:
+& 'C:\Program Files\Tailscale\tailscale.exe' serve --https=443 off
 ```
 
-Это один существующий smoke, а не весь набор тестов. Он собирает проект, импортирует
-ассеты и открывает игровое окно на Windows. Каждый Godot-процесс проходит через guard.
-Если smoke выявит текущий дефект игры, станция не должна скрывать его.
+Не завершать worker/guard принудительно во время задания. При аварии marker
+`%APPDATA%\Godot\app_userdata\.URMAN.protected-run.lock` сохраняет пути recovery.
+Следующая проверка блокируется. Не стирать marker и recovery-каталог ради запуска:
+сначала проверить отсутствие Godot, восстановить оригинал по marker и подтвердить
+его файлы. Guard проверяет содержимое и восстановление переименованием; Windows
+ACL отдельно не сравнивает. Незавершённые задания после перезапуска получают FAIL.
 
-Другие команды:
+При первом импорте чистого снимка Godot пытается загрузить custom font ещё до
+его импорта. Runner временно снимает назначение `gui/theme/custom_font` **только
+в изолированной копии project.godot на время импорта**, затем восстанавливает
+исходные байты и сверяет SHA256 с manifest до native-запуска. Во время этого
+bootstrap импорт также выполняется последовательно (`editor/import/use_multiple_threads=false`):
+наблюдалось падение Windows Godot при импорте TTF (0xc0000005), соответствующее
+[известным font import races](https://github.com/godotengine/godot/issues/111039).
+Это локальный обход для импорта, не изменение runtime-настроек/версии движка. Сам шрифт
+импортируется и используется игрой. Этот отдельный bootstrap отражён в receipt.
+Editor import не читает override.cfg; authoring .blend отсутствуют в runtime
+снимке, поэтому Blender-import не нужен. Основной checkout не меняется.
 
-```powershell
-# Только C#-сборка, без запуска Godot:
-powershell -NoProfile -ExecutionPolicy Bypass -File eng/run-windows-check.ps1 -Mode build
+## Точный снимок и протокол
 
-# Сборка и импорт ресурсов, без игрового окна:
-powershell -NoProfile -ExecutionPolicy Bypass -File eng/run-windows-check.ps1 -Mode prepare
+Клиент берёт текущее содержимое tracked и новых неигнорируемых runtime-файлов в
+`game`, `content`, `src-dotnet`, `tools-dotnet`, `eng`, а также корневые конфигурации.
+Удалённые файлы отсутствуют. Это включает незакоммиченные C# и GLB; push не нужен.
+Authoring `.blend`, исторические docs/evidence, legacy browser public/assets,
+`.git`, `.tools`, `.godot`, bin/obj, node_modules, graphify, caches, старые кадры,
+`.env` и ключи не передаются. Runtime Godot не зависит от legacy web/public или
+authoring source/audio. При добавлении новой внешней runtime-зависимости расширить
+явный список корней клиента, а не выдавать неполный снимок за проверенный.
 
-# Игра в отдельной чистой сессии, до 15 минут; штатно закрой окно до дедлайна:
-powershell -NoProfile -ExecutionPolicy Bypass -File eng/run-windows-check.ps1 -Mode play -TimeoutSeconds 900
+Manifest содержит repository identity, реальный base commit, dirty paths, перечень
+и SHA256 файлов. Snapshot ID — SHA256 canonical manifest. Клиент повторно сверяет
+файлы и Git-state после упаковки и отказывает при изменениях. Windows проверяет
+ZIP-paths, размеры, состав и каждый хеш до запуска; source распаковывается в
+`runs/<job-id>/source`, без фиктивного `.git` и без изменения основного checkout.
 
-# Одна логическая проверка без окна (всё равно выполняется на Windows):
-powershell -NoProfile -ExecutionPolicy Bypass -File eng/run-windows-check.ps1 -Mode smoke -Scene res://tests/act1_main_menu_smoke_test.tscn -Headless
+Исполняемые станционные runner/guard/remote_common должны совпадать со снимком
+по исходному тексту (допускаются только различия Git LF/CRLF). Если разработчик
+меняет эти файлы, сначала обновить станцию; старый runner не выдаёт PASS за новый.
+Receipt содержит byte SHA256 обеих сторон и SHA256 кода запущенного worker.
+
+Все HTTP-операции требуют Bearer token. Принимаются только структурированные
+smoke/capture задания; произвольного shell нет. Код допускается только от доверенных
+авторизованных разработчиков, не из посторонних PR/fork. Один pipeline одновременно.
+Повтор того же `job_id` с теми же параметрами возвращает существующее задание;
+конкурентный запрос получает HTTP 409 и ID активного задания. Изменённый запрос
+с прежним ID отклоняется. Не создавать новый ID для повтора потерянного ответа.
+
+API: GET `/health`, POST `/snapshots` (ZIP с manifest), POST `/jobs` (JSON),
+GET `/jobs/<id>`, GET `/jobs/<id>/result`. Timeout игры 1–300 секунд; build/content
+имеют отдельные deadlines. Потеря клиентского подключения не отменяет задание.
+Дедлайн ожидания клиента ограничен; позже доступны status/fetch.
+
+Результат: `receipt.json`, `stdout.log`, `stderr.log`, отдельные build/import/game
+логи, `engine-errors.log`, `frames/*.png` для capture. Receipt связывает станцию,
+снимок/base commit/diff, версии, SHA256 DLL, сцену, native/headless, время, exit,
+ошибки и подтверждение guard. Для стандартного smoke проверяется completion marker player-settings-smoke;
+exit 0 с engine errors не принимается.
+Это техническая проверка, не художественная приёмка и не человеческий плейтест.
+
+Штатный DevViewCapture проверяет запись PNG, освобождает Image и завершает
+сцену через существующий GodotSmokeCleanup. C# backtrace выявил ошибку в
+VehicleImmersionDetails: sibling presentation nodes создавались из _Ready,
+пока visual parent был занят. Инициализация перенесена на уже существующий первый
+physics tick. Это устраняет неуспешные add_child и оставшиеся без владельца
+render resources. Сохранения, story, collision и управление не меняются.
+
+Штатный DevViewCapture проверяет запись PNG, освобождает Image и завершает
+сцену через существующий GodotSmokeCleanup. C# backtrace выявил ошибку в
+VehicleImmersionDetails: sibling presentation nodes создавались из _Ready,
+пока visual parent был занят. Инициализация перенесена на уже существующий первый
+physics tick. Это устраняет неуспешные add_child и оставшиеся без владельца
+render resources. Сохранения, story, collision и управление не меняются.
+
+Capture-корутина возвращает scene references до финализации C# resource wrappers;
+после GC и нескольких render frames выполняется quit. Это только завершение
+DevViewCapture, не изменение normal play.
+
+Штатный DevViewCapture проверяет запись PNG, освобождает Image и завершает
+сцену через существующий GodotSmokeCleanup. C# backtrace выявил ошибку в
+VehicleImmersionDetails: sibling presentation nodes создавались из _Ready,
+пока visual parent был занят. Инициализация перенесена на уже существующий первый
+physics tick. Это устраняет неуспешные add_child и оставшиеся без владельца
+render resources. Сохранения, story, collision и управление не меняются.
+
+## Оба Mac: одинаковый клиент, личные авторизации
+
+1. Установить [Tailscale для macOS](https://tailscale.com/download/mac), подключиться.
+   Владелец использует свой аккаунт. Второй разработчик использует свой аккаунт:
+   владелец через Machines → Windows node → Share даёт ему только этот узел.
+   В access rules разрешить нужным идентичностям доступ к Windows TCP 443;
+   не выдавать другому разработчику личный аккаунт владельца.
+   Для владельца tailnet: в Access controls → Grants добавить разрешение с
+   destination `100.75.184.88` и IP permission `tcp:443`; sources — конкретный
+   пользователь владельца, принятый участник/идентичность второго разработчика
+   и выделенный Cloud tag. Не копировать глобальное `*:*`. Для node sharing
+   использовать только Windows node и проверить effective rules после принятия.
+   Не удалять существующие правила других сервисов автоматически. Пока Mac и
+   Cloud не подключены, их фактические идентичности и доступ не проверены.
+2. Получить опубликованные изменения в своём checkout: `git status --short`,
+   затем `git pull --ff-only origin main`. При локальных изменениях/расхождении истории
+   сначала безопасно объединить работу; не reset/clean/stash чужую работу.
+   Краткая памятка агента: [README_WINDOWS_WORKER_FOR_AGENTS.md](README_WINDOWS_WORKER_FOR_AGENTS.md).
+   Если используется переданный отдельно инфраструктурный patch, сначала
+   `git status --short`, затем `git apply --check /path/windows-station.patch`,
+   затем `git apply /path/windows-station.patch`. Если check не прошёл, сохранить
+   свой diff и объединить изменения вручную; не reset/stash чужую работу.
+   Изменение Windows-копии AGENTS.md не действует на Mac/Cloud до передачи.
+3. Владелец передаёт через менеджер паролей/другой защищённый канал `owner.token`
+   на свой Mac и `second-developer.token` второму разработчику. Не через Git или чат.
+   Сохранить каждый личный токен в `~/.config/urman-station/token` с `chmod 600`.
+   Рядом создать `client.json` (без самого секрета):
+
+```json
+{"url":"https://unterpc.tail9423b1.ts.net","token_file":"~/.config/urman-station/token"}
 ```
 
-Кадры снимаются существующим `DevViewCapture`:
+Из checkout с Python 3.12+:
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File eng/run-windows-check.ps1 -Mode capture -ViewPoints 'имя:x,y,z>tx,ty,tz'
+```sh
+python3 eng/remote-check.py doctor
+# Только если игровая проверка нужна и разрешена текущим поручением:
+python3 eng/remote-check.py smoke --scene res://tests/player_settings_smoke_test.tscn --timeout 300
+python3 eng/remote-check.py capture --points 'station:Ground@-14,3,15>Ground@0,2,0' --timeout 300
+python3 eng/remote-check.py status --job-id <полученный-id>
+python3 eng/remote-check.py fetch --job-id <полученный-id>
 ```
 
-Последняя строка — **формат**, не готовая камера: агент должен получить реальную
-точку из актуальной сцены. Поддерживаются существующие привязки вида `ИмяУзла@x,y,z`.
-Не копируй устаревшие мировые координаты: дорожка W сейчас меняет раскладку.
+Логи и PNG скачиваются в `.codex-captures/remote/<job-id>` либо `--output <папка>`.
+Агент читает receipt и логи файловыми инструментами и открывает PNG своим image viewer.
+При сетевой ошибке запуск остаётся not-run: локального Godot fallback нет.
+Локальная игра сохраняет прежние команды `eng/run-act1-demo.sh` / safe launcher
+и существующий контракт сохранений; их чтение здесь не является Mac-прогоном.
 
-Результаты каждого вызова: `.codex-captures\windows\<дата-ид>\` — `build.log`,
-`import.log`, `game.log`, `receipt.json`; для capture также `frames\*.png`.
-Receipt содержит Windows-хост, Git-коммит, грязные пути, режим, время и результат.
-Также записаны версии SDK/Godot и SHA256 локального override, если он существует.
-Логи с `ERROR:`/`SCRIPT ERROR:` блокируют PASS даже при exit 0; намеренные engine-side
-отказы нужно разобрать отдельно, а не автоматически игнорировать.
+## Codex Cloud
 
-Сохранения `%APPDATA%\Godot\app_userdata\URMAN` временно убираются из пути ребёнка,
-а затем возвращаются переименованием и проверкой содержимого. Все режимы используют
-чистую временную сессию: её прогресс не сохраняется после проверки. Windows ACL
-отдельно не сравниваются. Незавершённое восстановление блокирует следующий запуск.
+Настройка по актуальным [Cloud environments](https://learn.chatgpt.com/docs/environments/cloud-environments):
+Settings → Codex Cloud → Environments → нужное environment → Edit.
+В Advanced → VPN → Add выбрать Tailscale, внести auth key с **Reusable + Ephemeral**;
+ключ создать в tailnet под выделенной Cloud-идентичностью/tag с доступом только к
+станции TCP 443. Auth key не записывать в Git. Save и Publish/Republish.
 
-Критерий готовности: из удалённого Windows-чата выполнен один успешный native smoke,
-в логе видны реальный GPU/рендерер и подтверждение guard, receipt указывает Windows-хост,
-а ноутбук не открывал игру. Headless-проверка этого критерия не заменяет.
+В Environment variables задать `URMAN_STATION_URL=https://unterpc.tail9423b1.ts.net`.
+В Network secrets → Manage: Key `URMAN_STATION_TOKEN`, Value — содержимое отдельного
+`cloud.token`, Allowed domains — только `unterpc.tail9423b1.ts.net` (HTTPS 443).
+В network policy разрешить этот hostname; не менять глобальные permissions на
+unrestricted. Клиент использует HTTPS_PROXY и стандартную проверку сертификата.
 
-## 6. Что говорить агенту после настройки
+В новом задании после Republish выполнить `python3 eng/remote-check.py doctor`.
+Из того же текущего checkout отправить нужный smoke/capture: упаковка включает
+незакоммиченные изменения. Старое Cloud-задание не подтверждает новое environment.
+Network secret передаётся через proxy placeholder и доступен для HTTPS в task phase;
+его не надо сохранять в файл или заменять setup-only secret.
 
-Один раз отправь в новом **Windows-чате**:
+[Legacy Cloud](https://learn.chatgpt.com/docs/environments/cloud-environment) удаляет
+secrets до agent phase. Если интерфейс аккаунта не содержит VPN/Network secrets,
+не считать такой environment настроенным и не сохранять setup-secret в repo/cache
+для обхода ограничения. Конкретная альтернатива: скачать изменённые исходники из
+Cloud в текущий Mac-checkout, применить с проверкой diff и отправить их тем же
+клиентом с Mac. Приватный worker сохраняется; публикация наружу не требуется.
 
-```text
-Ты работаешь над УРМАНОМ на выделенной Windows-станции, основной checkout C:\URMAN.
-Прочитай AGENTS.md и docs/production/parallel_lanes_2026-10-01.md.
-Разработка и игровые проверки выполняются здесь; ноутбук — только управление чатом.
-Соблюдай владельцев дорожек. Не используй worktree/Handoff. Не запускай игру на ноутбуке.
-Для одной необходимой проверки используй eng/run-windows-check.ps1 с выбранной сценой.
-Одновременно только один владелец сборки/импорта/запуска. Не запускай весь набор по умолчанию.
-Результат подтверждай receipt и логами; художественную оценку и человеческий плейтест
-не объявляй выполненными по одному техническому запуску. Commit/push — только в пределах
-действующего явно разрешённого поручения; настройка станции сама их не разрешает.
-Продолжай задачу: <описание задачи и моя дорожка>.
-```
+Cloud HTTP-доступ возвращает задания/логи/встроенные игровые кадры. Он не даёт
+Cloud Computer Use доступ к рабочему столу Windows. Доступность VPN в конкретном
+аккаунте и Mac→Windows/Cloud→Windows проверяются только реальными doctor/job.
 
-Дальше достаточно: «Продолжай вождение; проверь нужную сцену на Windows».
-Ключевое условие — чат остаётся на Windows-хосте. Фраза в локальном чате не создаёт
-подключение и не синхронизирует две копии проекта сама по себе.
+Стандартный smoke — короткая существующая `player_settings_smoke_test.tscn`
+(настройки контроллера, клавиатура/gamepad, capture/rebind/restore), без полного
+набора меню/сохранений. На этой станции расширенная main-menu сцена не успела
+завершиться за 300 секунд и осталась FAIL, её нельзя считать проверенной.
+Первоначальная остановка выявила кратковременный Windows directory-handle race:
+existing guard теперь повторяет переименование максимум 5 секунд, только при
+Windows PermissionError. Mac-ветка и контракт сохранений не меняются. При
+исчерпании ожидания guard сохраняет recovery и worker блокирует новые задания.
+Состояние той остановки восстановлено: оригинальный userdata отсутствовал;
+тестовый каталог сохранён отдельно, игровой профиль не создан восстановлением.
 
-Если работа ещё ведётся локально другим агентом, отправь ему:
+## Приёмка этой установки
 
-```text
-Не запускай игру, smoke-сцены или игровые захваты на ноутбуке, включая headless.
-Продолжай независимые правки и проверки без запуска игры. Игровые проверки — только
-на Windows-станции. Пока она не подключена, помечай их not-run без локального fallback.
-```
+Фактические результаты находятся в переданном отчёте и receipt конкретных заданий.
+В приёмке допускаются одна короткая native-проверка и один необходимый capture.
+Windows-client подтверждает протокол и Windows-путь; он не подтверждает соединение
+с двух Mac или Cloud. Секретов в patch/результатах нет. Commit/push не выполняются
+без отдельного поручения автора.
 
-Уже работающему агенту нужно явно передать это сообщение; существующий процесс
-сам по себе не переключается на Windows.
+Сетевые команды сверены с [Tailscale Serve](https://tailscale.com/docs/reference/tailscale-cli/serve).
 
-## 7. Если нужна именно разработка в Codex Cloud
-
-Это отдельная двухмашинная схема:
-
-```text
-Codex Cloud: код → выбранный commit/артефакт → Windows-worker → результаты → агент
-```
-
-Для опубликованных изменений пригоден GitHub Actions self-hosted Windows runner,
-который запускается **в вошедшей пользовательской сессии, не как служба**, получает
-точный commit, вызывает тот же `run-windows-check.ps1` и публикует артефакты проверки.
-Нужны права на repository/runner, токен регистрации, настройка workflow и отдельное
-правило допуска заданий. Нельзя исполнять непроверенные PR из чужих fork на домашнем ПК.
-Незакоммиченный Cloud-diff в такой схеме сначала нужно доставить; обычный runner его
-не получит из воздуха. Это ещё не настроено, и текущий комплект этого не обещает.
-
-Без GitHub можно связать агент и станцию через приватный SSH/VPN и интерактивную
-задачу Windows Task Scheduler. Просто запуск `.exe` через SSH не доказывает работу
-в нужном desktop-сеансе. Нужны передача исходников, сериализация задания и возврат
-логов — поэтому это сложнее первого варианта.
-
-OpenAI также описывает [self-hosted environments для Agents API](https://developers.openai.com/api/docs/guides/agents-api/environments/self-hosted).
-Это API-интеграция с собственной программой и отдельным биллингом; не кнопка привязки
-домашнего GPU к существующему Codex Cloud-чату. Для текущей задачи её не строим.
-[Cloud environments](https://learn.chatgpt.com/docs/environments/cloud-environments).
-
-## 8. Типовые проблемы
-
-| Симптом | Что сделать |
-|---|---|
-| Хост исчезает | Проверить питание, сон, сеть и запущенное приложение Windows |
-| Окно не доступно агенту | Войти в Windows, разблокировать сессию, включить Computer Use |
-| Через SSH нет нормального окна | Запускать через Windows-приложение Remote в пользовательском desktop-сеансе |
-| Godot не находит .NET | Использовать wrapper; обычный `Godot.exe` не устанавливает проектный DOTNET_ROOT |
-| Не совпадает SDK/версия | Повторить setup из актуального checkout; не брать случайный latest Godot |
-| GPU/драйвер не подходит | Сохранить `game.log`, обновить драйвер; Compatibility не доказывает Forward+ |
-| `userdata recovery is pending` | Не удалять marker/backup. Остановить проверку и восстановить данные по записанным путям |
-| Windows не даёт переименовать saves | Закрыть Godot и программы, удерживающие файлы; не обходить guard |
-| Второй запуск не получил lock | Дождаться текущего запуска; не удалять файл блокировки |
-| Сборка падает | Разбирать конкретную ошибку актуального checkout; не переносить старый PASS |
-
-## Что проверено при подготовке
-
-Игра на ноутбуке не запускалась. Windows-ветка guard и реальный GPU-прогон требуют
-Windows-хоста. Текущий комплект — подготовленная конфигурация и инструкции, а не
-заявление, что удалённый ПК уже подключён и прошёл проверку.
-
-Пройдены: разбор обоих скриптов штатным PowerShell-парсером, отказ на чужой ОС,
-компиляция Python и проверка guard на временном каталоге — чистый запуск, ошибка
-ребёнка, тайм-аут, конкурентный отказ, SIGTERM и незавершённое восстановление.
-Исходные байты и режимы файлов во всех проверяемых завершениях сохранены.
-Это проверка механизма на доступном хосте; Windows lock/ACL/process-tree ею не доказаны.
+Тестовая очистка освобождает также detached library scene AnimationCatalog (ual1_standard.glb): диагностика orphan nodes обнаружила её сохранение после capture. Освобождение выполняет существующий GodotSmokeCleanup после закрытия сцены; обычная игра сохраняет кэш.

@@ -951,3 +951,12 @@ managed-данные (в `RidgeSurface` заодно убрано двойное
 `yield`-итератора освобождает на каждой итерации (проверено харнессом). Ревью нашло
 один пропущенный сайт (`Act1ConnectedWorld.cs:9134`), он исправлен; итоговый скан —
 40 вызовов `SurfaceGetArrays`, 0 без освобождения.
+
+
+## Windows test station — 2026-10-05
+
+Development stays in the current checkout. Automatic game checks use eng/remote-check.py, an exact SHA256 source snapshot, private Tailscale HTTPS, and one interactive Windows worker reusing run-windows-check.ps1 and protected_run.py. ContentCli refreshes both campaign packs before the fresh C# build and guarded import. Receipts bind results to the snapshot, generated content and DLL; local play keeps the existing launchers/save contract. Setup and connection authority: docs/production/WINDOWS_TEST_STATION_RU.md.
+
+Capture checks/disposes the saved Image and uses the existing GodotSmokeCleanup before quit. VehicleImmersionDetails builds sibling presentation nodes on its existing first physics tick instead of the parent-blocked _Ready; Windows guard retries transient PermissionError renames for at most five seconds. Both changes address failures observed during station acceptance; normal local play remains unchanged.
+
+Тестовая очистка освобождает также detached library scene AnimationCatalog (ual1_standard.glb): диагностика orphan nodes обнаружила её сохранение после capture. Освобождение выполняет существующий GodotSmokeCleanup после закрытия сцены; обычная игра сохраняет кэш.

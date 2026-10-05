@@ -26,6 +26,7 @@ internal static class GodotSmokeCleanup
             await tree.ToSignal(tree.CreateTimer(.15, processAlways: true, ignoreTimeScale: true), SceneTreeTimer.SignalName.Timeout);
         }
 
+        AnimationCatalog.ClearCacheForTests();
         UiFoley.ClearCacheForHeadlessTests();
         GeneratedCharacterKitDressing.ClearCacheForHeadlessTests();
         VehicleVisualFactory.ClearCacheForHeadlessTests();

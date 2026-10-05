@@ -31,6 +31,7 @@ try {
     if (-not (Test-Path $godot)) {
         $archive = "$downloads/$archiveName"
         $sums = (Invoke-WebRequest -UseBasicParsing "$release/SHA512-SUMS.txt").Content
+        if ($sums -is [byte[]]) { $sums = [Text.Encoding]::UTF8.GetString($sums) }
         $line = @($sums -split "`n" | Where-Object { $_.Trim().EndsWith("  $archiveName") })
         if ($line.Count -ne 1) { throw 'Godot release checksum is missing or ambiguous.' }
         $expected = ($line[0].Trim() -split '\s+')[0]
