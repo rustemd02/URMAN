@@ -460,6 +460,11 @@ public partial class Act1ConnectedWorld : Node3D
         ProfileWorldBuildStep("addresses", BuildAddressRegistry);
         // Street faces of the yards: palisadnik, painted gates, board fences.
         ProfileWorldBuildStep("frontages", BuildStreetFrontages);
+        // Snow banks flank the street shoulder; built after the address
+        // registry and the frontages so every addressed door walk and gate
+        // approach breaks the shoulder (audit 2026-10-05, F1/F2) and the
+        // street face the banks frame is already final.
+        ProfileWorldBuildStep("snow-banks", () => AddMainStreetSnowBanks(GetNode<Node3D>("Act1CoreWorldGreybox")));
         // One fence system along the real lot lines replaces every older yard fence.
         ProfileWorldBuildStep("timber-fences", RebuildYardFences);
         ComposeCleanVillageYards();
@@ -1169,7 +1174,6 @@ public partial class Act1ConnectedWorld : Node3D
         AddDistantRidge(core, "BackdropFarRidgeNorth",
             new Vector3(-40f, (float)AgentBAct1HeightField.Ground(-40f, -260f), -260f), 250f, 10f, 110f, 0f);
         AddBackdropGround(core);
-        AddMainStreetSnowBanks(core);
 
         // The first connected-world pass used generic SphereMesh "faceted
         // masses" as horizon placeholders. In a first-person frame these
@@ -7563,6 +7567,23 @@ public partial class Act1ConnectedWorld : Node3D
         };
         mesh.SetMeta("visualOnly", true);
         mesh.SetMeta("terrainRole", "visual-only low-poly crown surface; no traversal ownership");
+        if (trodden && conformToTerrain)
+        {
+            // The snow banks keep their footprint off a trodden approach:
+            // record the real centre column of the built ribbon (in world
+            // space) on the mesh, so AddMainStreetSnowBanks derives its
+            // breaks from the actual geometry, not from coordinates.
+            var centre = new System.Text.StringBuilder();
+            for (var zIndex = 0; zIndex < lengthSections; zIndex++)
+            {
+                var world = worldTransform * vertices[zIndex * crossSections + crossSections / 2];
+                if (centre.Length > 0) centre.Append('|');
+                centre.Append(world.X.ToString("0.###", CultureInfo.InvariantCulture)).Append(',')
+                    .Append(world.Z.ToString("0.###", CultureInfo.InvariantCulture));
+            }
+            mesh.SetMeta("bankApproachCentre", centre.ToString());
+            mesh.SetMeta("bankApproachHalfWidth", width * .5f * 1.25f);
+        }
         parent.AddChild(mesh);
         return mesh;
     }
@@ -7878,6 +7899,16 @@ public partial class Act1ConnectedWorld : Node3D
         well.SetMeta("culturalRole", "Tatar village well with lever; no text, no ornament");
         parent.AddChild(well);
 
+        // Vertical is taken from the real traversable terrain, not from the
+        // authored Y=0: both live wells otherwise hang or sink by tens of
+        // centimetres (audit 2026-10-05, A1/B1). The roots are seated after
+        // parenting so the world anchor is the authored X/Z; the babai yard
+        // moves as one rigid body together with its own ground, so a seat
+        // taken here keeps its contact after the relocation.
+        var wellGround = well.GlobalPosition;
+        wellGround.Y = AgentBAct1HeightField.CollisionGround(wellGround.X, wellGround.Z) - .04f;
+        well.GlobalPosition = wellGround;
+
         // Stone head with a snow cap.
         AddVisualBox(well, "WellHead", new(1.15f, 0.62f, 1.05f), new(0f, 0.31f, 0f), "6f695c", "stone");
         AddVisualBox(well, "WellSnowCap", new(1.22f, 0.09f, 1.12f), new(0f, 0.66f, 0f), "eef2f6", "snow_ground");
@@ -7904,6 +7935,14 @@ public partial class Act1ConnectedWorld : Node3D
         fence.SetMeta("visualOnly", true);
         fence.SetMeta("presentationRole", "woven wattle (плетень) boundary");
         parent.AddChild(fence);
+
+        // Same terrain seat as the sweep well: the stakes and rails keep their
+        // authored offsets, only the run root drops to CollisionGround
+        // (audit 2026-10-05, A2/B2). Survivors of the rigid babai relocation
+        // keep the contact with the relocated ground.
+        var fenceGround = fence.GlobalPosition;
+        fenceGround.Y = AgentBAct1HeightField.CollisionGround(fenceGround.X, fenceGround.Z) - .04f;
+        fence.GlobalPosition = fenceGround;
 
         const float bay = 0.75f;
         for (var index = 0; index <= bays; index++)
@@ -8371,32 +8410,14 @@ public partial class Act1ConnectedWorld : Node3D
     }
 
     /// <summary>
-    /// Winter yard props: a haystack and a second wattle run, plus painted
-    /// village trim accents (shutters/frames in muted blue-green).
-    /// </summary>
-    private static void AddSnowBank(Node3D parent, string name, Vector3 anchor, Vector3 to,
-        float width, float height, float yawJitter)
-    {
-        var curve = new Curve3D { BakeInterval = .2f };
-        curve.AddPoint(new Vector3(anchor.X, 0f, anchor.Z));
-        var middle = (anchor + to) * .5f;
-        middle.X += Mathf.Sin(yawJitter) * .12f;
-        middle.Y = 0f;
-        curve.AddPoint(middle);
-        curve.AddPoint(new Vector3(to.X, 0f, to.Z));
-        var mesh = AddVisualLandformSurface(parent, name, width, height,
-            curve.GetBakedLength(), Vector3.Zero, "e8edf0", "snow_ground", 0f, true, curve);
-        mesh.SetMeta("snowBankHeight", height);
-        mesh.SetMeta("presentationOnly", true);
-        mesh.SetMeta("collisionOwner", "none");
-    }
-
-    /// <summary>
     /// Lays unplowed snow banks along the main street by walking the road
     /// centre line (found by sampling RoadInfo) and offsetting to both
-    /// shoulders. Presentation only; the cleared lane stays walkable.
+    /// shoulders. Presentation only; the cleared lane stays walkable. The
+    /// shoulders also stay clear of every authored approach: the address
+    /// registry's door walks, every addressed yard gate and every visible
+    /// trodden ribbon (which records its centre column when built).
     /// </summary>
-    private static void AddMainStreetSnowBanks(Node3D parent)
+    private void AddMainStreetSnowBanks(Node3D parent)
     {
         var root = new Node3D { Name = "MainStreetSnowBanks" };
         root.SetMeta("presentationOnly", true);
@@ -8406,6 +8427,32 @@ public partial class Act1ConnectedWorld : Node3D
         root.SetMeta("interactionOwner", "none");
         root.SetMeta("presentationRole", "unplowed snow banks flanking the cleared village street");
         parent.AddChild(root);
+
+        // Approaches the shoulder must not bury: the addressed door walks
+        // (the same registry access lines the street frontages keep open)
+        // and the walk out of every addressed yard gate.
+        var approachLines = CollectBankApproachLines();
+        // Trodden ribbons register their real centre column when they are
+        // built; hidden ones are no longer part of the frame and do not
+        // break the ploughed ridge.
+        var troddenCorridors = new List<(Vector2 A, Vector2 B, float Half)>();
+        foreach (var path in FindDescendants<MeshInstance3D>(parent))
+        {
+            if (!path.IsVisibleInTree() || !path.HasMeta("bankApproachCentre")) continue;
+            var points = ParseBankApproachCentre(path.GetMeta("bankApproachCentre").AsString());
+            var half = path.GetMeta("bankApproachHalfWidth").AsSingle();
+            for (var index = 1; index < points.Count; index++)
+                troddenCorridors.Add((points[index - 1], points[index], half));
+        }
+        bool Blocked(float x, float z)
+        {
+            var p = new Vector2(x, z);
+            foreach (var (a, b) in approachLines)
+                if (SegmentDistance(p, a, b) < BankApproachClearance) return true;
+            foreach (var (a, b, half) in troddenCorridors)
+                if (SegmentDistance(p, a, b) < half + BankApproachClearance) return true;
+            return false;
+        }
 
         // Each shoulder gets continuous plowed runs, sampled every metre, broken only where a
         // gate, lane or the footbridge needs the shoulder clear; short stubs are dropped.
@@ -8449,21 +8496,124 @@ public partial class Act1ConnectedWorld : Node3D
                 if (bestClearance > 1.2f) { Flush(side); continue; } // between roads: no bank here
                 var wobble = Mathf.Sin(z * 0.45f + side) * 0.2f;
                 var bankX = bestX + side * (halfWidth + .95f + wobble);
+                // The zirat stretch of the authored walk chain runs along the
+                // west shoulder. Keep the ploughed ridge, but bend it west so
+                // the walking line stays on clear ground instead of being
+                // buried (audit 2026-10-05, third finding); the transition
+                // ramps over the last half metre so the ridge has no zigzag.
+                // Where the walk chain crosses the shoulder diagonally instead
+                // (the return-street detour), the bank breaks like any other
+                // crossed approach rather than following the walk.
+                var walkCrossing = false;
+                if (side < 0 && AuthoredWalkLineX(z, out var walkAlongBank) is { } walkX)
+                {
+                    var walkOverlap = Mathf.Clamp((1.6f - Mathf.Abs(walkX - bankX)) / .6f, 0f, 1f);
+                    if (walkOverlap > 0f && walkAlongBank)
+                        bankX = Mathf.Lerp(bankX, Mathf.Min(bankX, walkX - BankApproachClearance), walkOverlap);
+                    walkCrossing = walkOverlap > 0f && !walkAlongBank;
+                }
                 var atBank = AgentBAct1HeightField.RoadInfo(bankX, z);
                 // House/FAP approaches cross the bank, and the maintained footbridge has its
                 // real aperture: keep those clear.
                 if (atBank.Distance - atBank.HalfWidth <= .7f
                     || (side > 0 && Mathf.Abs(z - ZiratCulvertZ) < 1.4f)) { Flush(side); continue; }
+                if (walkCrossing || Blocked(bankX, z)) { Flush(side); continue; }
                 runs[side].Add(new Vector3(bankX, 0f, z));
             }
         }
         Flush(-1f);
         Flush(1f);
         // The relocated babai yard occupies the old west drift. Its street
-        // shoulder is already covered by the approach-aware runs above.
-        AddSnowBank(root, "UnplowedEast", new(6.1f, 0f, 14f), new(6.8f, 0f, -12f),
-            3.1f, .38f, 2.3f);
+        // shoulder is covered by the approach-aware runs above; the former
+        // UnplowedEast ridge duplicated this shoulder inside the eastern
+        // yards (bench, porch, firewood; audit 2026-10-05, F1/F3) and is
+        // deliberately not rebuilt: StreetBankE is the east shoulder.
+    }
 
+    /// <summary>Bank footprint (about 1.1 m with the vertex jitter) plus a
+    /// walking margin: approaches and the authored walk line must stay at
+    /// least this far outside the sampled bank centre line.</summary>
+    private const float BankApproachClearance = 1.5f;
+
+    /// <summary>Addressed door walks from the settlement registry plus the
+    /// walk from every addressed yard gate out to its nearest street link,
+    /// derived from the same access data the street frontages use.</summary>
+    private List<(Vector2 A, Vector2 B)> CollectBankApproachLines()
+    {
+        var lines = new List<(Vector2 A, Vector2 B)>();
+        if (AddressRegistry is not { } registry) return lines;
+        foreach (var access in registry.AccessPoints.Values)
+        {
+            if (registry.Graph.Nearest(access.Position) is not { } link) continue;
+            lines.Add((new((float)access.Position.X, (float)access.Position.Z), new((float)link.Point.X, (float)link.Point.Z)));
+        }
+        foreach (var gate in FindDescendants<Node3D>(this).Where(node => node.IsVisibleInTree()
+            && node.Name.ToString().Contains("Gate", StringComparison.Ordinal)
+            && !node.GetParent().Name.ToString().Contains("Gate", StringComparison.Ordinal)))
+        {
+            if (!IsAddressedParcelGate(gate)) continue;
+            var at = gate.GlobalPosition;
+            if (registry.Graph.Nearest(AddressPoint(AddressGround(new Vector3(at.X, 0f, at.Z)))) is not { } link) continue;
+            lines.Add((new(at.X, at.Z), new((float)link.Point.X, (float)link.Point.Z)));
+        }
+        return lines;
+    }
+
+    /// <summary>A gate is addressed when its authored parcel carries the
+    /// address registry binding (address_id / building_id on the parcel's
+    /// facade placement).</summary>
+    private static bool IsAddressedParcelGate(Node3D gate)
+    {
+        for (var parcel = gate.GetParent(); parcel is not null; parcel = parcel.GetParent())
+        {
+            if (parcel.HasMeta("logicalAnchor"))
+                return FindDescendants<Node>(parcel).Any(node =>
+                    node.HasMeta("address_id") || node.HasMeta("building_id"));
+            if (parcel.GetParent() is null) break;
+        }
+        return false;
+    }
+
+    /// <summary>Parses the trodden ribbon centre column recorded by
+    /// AddVisualLandformSurface ("x,z|x,z|...").</summary>
+    private static List<Vector2> ParseBankApproachCentre(string encoded)
+    {
+        var points = new List<Vector2>();
+        foreach (var pair in encoded.Split('|', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var comma = pair.IndexOf(',');
+            if (comma <= 0) continue;
+            if (float.TryParse(pair[..comma], NumberStyles.Float, CultureInfo.InvariantCulture, out var x)
+                && float.TryParse(pair[(comma + 1)..], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
+                points.Add(new Vector2(x, z));
+        }
+        return points;
+    }
+
+    /// <summary>X of the authored walk chain (AgentBAct1Layout.WalkChain) at
+    /// a given z, when a leg crosses it; the east-most crossing if several
+    /// do. <paramref name="alongBank"/> tells whether that leg runs along the
+    /// shoulder (|dz| >= |dx|), which the west bank bends around, or crosses
+    /// it, which the bank breaks for. Used to keep the west bank off the
+    /// walking line.</summary>
+    private static float? AuthoredWalkLineX(float z, out bool alongBank)
+    {
+        float? result = null;
+        alongBank = false;
+        var chain = AgentBAct1Layout.WalkChain;
+        for (var index = 1; index < chain.Count; index++)
+        {
+            var a = chain[index - 1];
+            var b = chain[index];
+            if (Mathf.Abs(b.Y - a.Y) < .01f || (a.Y - z) * (b.Y - z) > 0f) continue;
+            var x = Mathf.Lerp(a.X, b.X, (z - a.Y) / (b.Y - a.Y));
+            if (result is null || x > result)
+            {
+                result = x;
+                alongBank = Mathf.Abs(b.Y - a.Y) >= Mathf.Abs(b.X - a.X);
+            }
+        }
+        return result;
     }
 
     private static void AddVisualHaystack(Node3D parent, string name, Vector3 anchor, float scale, float yawDegrees)
@@ -8563,6 +8713,14 @@ public partial class Act1ConnectedWorld : Node3D
         landmark.SetMeta("visualOnly", true);
         landmark.SetMeta("landmarkRole", "village street orientation board; not a quest marker");
         parent.AddChild(landmark);
+
+        // The pointer posts stand on the terrain, not on the authored Y=0:
+        // the live ФАП sign otherwise floats half a metre above the snow
+        // (audit 2026-10-05, F1), same self-seat as AddVisualGate and
+        // AddVisualWoodpile.
+        var landmarkGround = landmark.GlobalPosition;
+        landmarkGround.Y = AgentBAct1HeightField.CollisionGround(landmarkGround.X, landmarkGround.Z) - .04f;
+        landmark.GlobalPosition = landmarkGround;
 
         AddVisualBox(landmark, "PostLeft", new(0.14f, 1.95f, 0.14f), new(-1.08f, 0.98f, 0f), "594a39", "wood_fence");
         AddVisualBox(landmark, "PostRight", new(0.14f, 1.72f, 0.14f), new(1.08f, 0.86f, 0f), "594a39", "wood_fence");
