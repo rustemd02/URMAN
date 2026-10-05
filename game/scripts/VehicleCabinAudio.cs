@@ -238,7 +238,13 @@ public partial class VehicleCabinAudio : Node3D
             if (radio.GetChild(index) is not AudioStreamPlayer3D speaker) continue;
             if (!speaker.Name.ToString().StartsWith("RadioSpeaker", StringComparison.Ordinal)) continue;
             if (speaker.Bus != AudioSettingsService.AmbienceBus) continue;
+            // A bus change must never move the needle: keep the exact playback
+            // position and playing state across the swap (the radio smoke
+            // asserts the delivered audio follows its saved segment).
+            var position = speaker.GetPlaybackPosition();
+            var playing = speaker.Playing;
             speaker.Bus = CabinBus;
+            if (playing && position > .0001d) speaker.Seek(position);
             _movedRadioSpeakers.Add(speaker);
         }
     }
@@ -249,7 +255,10 @@ public partial class VehicleCabinAudio : Node3D
         {
             if (GodotObject.IsInstanceValid(speaker) && speaker.Bus == CabinBus)
             {
+                var position = speaker.GetPlaybackPosition();
+                var playing = speaker.Playing;
                 speaker.Bus = AudioSettingsService.AmbienceBus;
+                if (playing && position > .0001d) speaker.Seek(position);
             }
         }
 
