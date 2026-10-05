@@ -60,6 +60,13 @@ public static partial class VehicleVisualFactory
         NivaModelPart(charm,"NivaCharm","MirrorCharmMesh");
         NivaPlate(root,"FrontPlate",new(0,.63f,-2.0800f),180f);
         NivaPlate(root,"RearPlate",new(0,.80f,1.877f),0f);
+        // Cabin presentation (windscreen snow, live wipers, high-beam dash tell)
+        // and the cabin audio mix are self-driven presentation nodes: they read
+        // the controller's public state, own no physics or save data and are
+        // restored/removed exactly on exit (VehicleVisualFactory.Cabin.cs,
+        // VehicleCabinAudio.cs).
+        root.AddChild(new VehicleNivaCabin { Name="CabinPresentation" });
+        root.AddChild(new VehicleCabinAudio { Name="CabinAudio" });
         var wheels = new List<Node3D>(); var front=new List<Node3D>(); var rear=new List<Node3D>();
         foreach(var x in new[]{-.78f,.78f}) foreach(var z in new[]{-1.18f,1.10f})
         {var wheel=NivaWheel(root,new(x,.345f,z)); wheels.Add(wheel);if(z<0)front.Add(wheel);else rear.Add(wheel);}
@@ -67,6 +74,9 @@ public static partial class VehicleVisualFactory
         // skips the packed carriageway, ice and water, interiors and bridge
         // decks (VehicleSnowTracks.cs owns the budget and exclusion contract).
         root.AddChild(new VehicleSnowTracks { Name="VehicleSnowTracks", TrackedWheels=rear.ToArray(), WheelRadius=.345f });
+        // Five small immersion details (VehicleImmersionDetails.cs): session-only
+        // presentation that reads the controller's public state and self-ticks.
+        root.AddChild(new VehicleImmersionDetails { Name="ImmersionDetails" });
         var lamps=Headlights(root,new[]{new Vector3(-.60f,1.01f,-2.04f),new Vector3(.60f,1.01f,-2.04f)});
         return new(root,wheels,front,Array.Empty<Node3D>(),null,steering,lamps,speed,revs,radioDisplay,Charm:null);
     }
