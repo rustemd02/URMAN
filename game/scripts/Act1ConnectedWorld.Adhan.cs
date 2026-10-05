@@ -8,6 +8,12 @@ namespace Urman.Godot;
 /// credits and game credits); nothing plays on a timer until a validated local
 /// prayer calendar exists, so the minaret keeps its honest hook. The debug
 /// sound panel, and any future calendar, call <see cref="TryPlayAdhan"/>.
+///
+/// Bus exclusivity (2026-10-05): while the call sounds the square PA yields
+/// through its public hold (VillagePaSystem.HoldForAdhan), so the Loudspeaker
+/// bus never carries a record under the call; the hold is released from the
+/// Finished handler and from <see cref="StopAdhan"/>. The call itself is never
+/// suppressed by the PA.
 /// </summary>
 public partial class Act1ConnectedWorld
 {
@@ -43,6 +49,7 @@ public partial class Act1ConnectedWorld
             _adhanPlayer.Finished += () =>
             {
                 SoundMood()?.SetAdhanFocus(false);
+                Pa()?.HoldForAdhan(false);
                 SetMeta("adhanState", "idle");
             };
         }
@@ -57,6 +64,9 @@ public partial class Act1ConnectedWorld
         _adhanPlayer.Stream = stream;
         _adhanPlayer.GlobalPosition = point.Origin;
         _adhanPlayer.Play();
+        // The PA yields at once (no frame of overlap); it never changes its
+        // switch mode and resumes only after Finished or StopAdhan releases.
+        Pa()?.HoldForAdhan(true);
         SoundMood()?.SetAdhanFocus(true);
         SetMeta("adhanState", "playing-licensed-recording");
         SetMeta("adhanSource", "mosque azanchi lantern point");
@@ -73,6 +83,7 @@ public partial class Act1ConnectedWorld
 
         _adhanPlayer.Stop();
         SoundMood()?.SetAdhanFocus(false);
+        Pa()?.HoldForAdhan(false);
         SetMeta("adhanState", "idle");
     }
 
@@ -82,4 +93,12 @@ public partial class Act1ConnectedWorld
     /// </summary>
     private VillageSoundMoodDirector? SoundMood() =>
         GetTree()?.GetFirstNodeInGroup("village_sound_mood") as VillageSoundMoodDirector;
+
+    /// <summary>
+    /// The square PA owner (group "village_pa": the same public node handle the
+    /// debug panel uses). The call tells it to yield the Loudspeaker bus, and
+    /// the release paths resume it; no PA record ever plays over the adhan.
+    /// </summary>
+    private VillagePaSystem? Pa() =>
+        GetTree()?.GetFirstNodeInGroup("village_pa") as VillagePaSystem;
 }

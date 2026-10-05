@@ -41,11 +41,19 @@ public partial class Act1ConnectedWorld
     {
         if(_households is null || LifePlayer() is not { } player)return;
         var camera=GetViewport().GetCamera3D();
-        var audible=ActiveZoneId=="village_day" && _physicalInterior.Length==0 && !player.ModalOpen
+        var contextAudible=_physicalInterior.Length==0 && !player.ModalOpen
             && _lifeCue?.IsPresenting!=true && !GetTree().Paused && !ArrivalFlyoverCameraActive();
-        _households.Tick(delta,camera?.GlobalPosition??player.GlobalPosition,player.GlobalPosition,audible,
-            ActiveZoneId=="kara_urman_night");
-        _soundMood?.Tick(delta,ActiveZoneId,audible);
+        // The Kara night zone is the authored night state of the same village,
+        // so it gets its own audible path instead of the director going fully
+        // silent there: night-only motifs and the VillageSoundMoodDirector
+        // night levels become reachable, while interiors, the mosque, dialogue,
+        // pause and the flyover still cut both zones. The day zone keeps
+        // night=false, so dayOnly filtering stays honest.
+        var dayAudible=ActiveZoneId=="village_day" && contextAudible;
+        var night=ActiveZoneId=="kara_urman_night";
+        var villageAudible=dayAudible || (night && contextAudible);
+        _households.Tick(delta,camera?.GlobalPosition??player.GlobalPosition,player.GlobalPosition,villageAudible,night);
+        _soundMood?.Tick(delta,ActiveZoneId,villageAudible);
         // Smoke follows the zone gate, not the audio gate: it stays alive during
         // dialogue and the arrival flyover, and freezes under reduced motion
         // exactly like the authored village-life plumes already do.
@@ -58,8 +66,11 @@ public partial class Act1ConnectedWorld
         var clubAudible=ActiveZoneId=="village_day" && !player.ModalOpen && _lifeCue?.IsPresenting!=true
             && !GetTree().Paused && !ArrivalFlyoverCameraActive();
         _gramophone?.Tick(delta,player.GlobalPosition,clubAudible);
-        _paSystem?.Tick(delta,player.GlobalPosition,clubAudible);
-        _silhouettes?.Tick(delta,camera?.GlobalPosition??player.GlobalPosition,audible);
+        // Indoors goes to the PA separately: the square horns must stop in the
+        // mosque/bath/school while the club's own speakers stay an indoor
+        // exception (VillagePaSystem.Tick decides by mode).
+        _paSystem?.Tick(delta,player.GlobalPosition,clubAudible,_physicalInterior.Length>0);
+        _silhouettes?.Tick(delta,camera?.GlobalPosition??player.GlobalPosition,dayAudible);
         _mosqueSanctuary?.Tick(delta,player.GlobalPosition,FacilityInteriorAt(player.GlobalPosition)=="mosque");
     }
 }

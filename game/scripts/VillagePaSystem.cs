@@ -82,6 +82,7 @@ public partial class VillagePaSystem : Node3D
     private bool _gramophoneResolved;
     private bool _gramophoneMuted;
     private bool _wasPlaying;
+    private bool _adhanHold;
     private string _currentSong = string.Empty;
     private string _publishedMode = string.Empty;
     private string _publishedSong = string.Empty;
@@ -149,10 +150,15 @@ public partial class VillagePaSystem : Node3D
 
     /// <summary>
     /// One frame of the PA. <paramref name="audible"/> is the ordinary audio
-    /// gate supplied by the owner (zone, modal, flyover); it never changes the
-    /// switch mode, only whether sound is rendered now.
+    /// gate supplied by the owner (zone, modal, flyover); <paramref name="indoors"/>
+    /// is the world's physical-interior flag (<c>_physicalInterior.Length &gt; 0</c>).
+    /// Neither changes the switch mode, only whether sound is rendered now:
+    /// the square horns stop inside any physical interior (the club's own
+    /// speakers remain the indoor exception, as designed), and both modes hold
+    /// while the adhan sounds (<see cref="HoldForAdhan"/>) so the call never
+    /// shares the Loudspeaker bus with a record.
     /// </summary>
-    public void Tick(double delta, Vector3 listener, bool audible)
+    public void Tick(double delta, Vector3 listener, bool audible, bool indoors)
     {
         if (!_initialized)
         {
@@ -166,6 +172,16 @@ public partial class VillagePaSystem : Node3D
         if (Mode == PaMode.Off)
         {
             StopPlayback();
+            return;
+        }
+
+        if (AdhanYields() || (indoors && Mode == PaMode.Square))
+        {
+            if (StopPlayback())
+            {
+                _nextSongAt = _now + ResumeDelaySeconds;
+            }
+
             return;
         }
 
@@ -241,6 +257,41 @@ public partial class VillagePaSystem : Node3D
         PublishState(force: true);
         return Mode;
     }
+
+    /// <summary>
+    /// Mutual exclusion with the licensed adhan (expert brief 07: the call must
+    /// never sit under anything). While held, the PA stops its record without
+    /// changing <see cref="Mode"/> and does not start the next song; the club
+    /// gramophone is muted through the same guard the switch uses. The adhan
+    /// owner calls this with true when a validated call starts and false from
+    /// its Finished handler and StopAdhan; the call itself always wins, the PA
+    /// only yields and resumes after the release. AdhanPlaying is also read
+    /// live, so a caller that forgets the hold cannot overlap either.
+    /// </summary>
+    public void HoldForAdhan(bool hold)
+    {
+        if (!_initialized || _adhanHold == hold)
+        {
+            return;
+        }
+
+        _adhanHold = hold;
+        SetMeta("paAdhanHold", _adhanHold);
+        if (_adhanHold)
+        {
+            if (StopPlayback())
+            {
+                _nextSongAt = _now + ResumeDelaySeconds;
+            }
+        }
+
+        KeepGramophoneSilent();
+    }
+
+    /// <summary>True while the adhan owns the Loudspeaker bus.</summary>
+    private bool AdhanYields() =>
+        _adhanHold
+        || (_world is Act1ConnectedWorld connected && IsInstanceValid(connected) && connected.AdhanPlaying);
 
     /// <summary>Fixture pass from the world: the two horn mouth positions.</summary>
     internal void ConfigureSquareSpeakers(Vector3 hornA, Vector3 hornB)
@@ -451,24 +502,26 @@ public partial class VillagePaSystem : Node3D
     }
 
     // The club gramophone and the PA are two owners of the same village sound.
-    // While the PA is switched on (either mode) the gramophone is muted through
-    // the public VolumeDb of its two voices, and the original levels are
-    // restored when the switch returns to off. Deliberately not Stop(): the
-    // gramophone's own Tick would restart a record every frame while its
-    // schedule is in the past, which would stutter instead of silencing.
+    // While the PA is switched on (either mode), or while the adhan holds the
+    // bus (the record must not sit under the call even with the switch off),
+    // the gramophone is muted through the public VolumeDb of its two voices,
+    // and the original levels are restored afterwards. Deliberately not
+    // Stop(): the gramophone's own Tick would restart a record every frame
+    // while its schedule is in the past, which would stutter instead of
+    // silencing.
     private void KeepGramophoneSilent()
     {
-        if (Mode != PaMode.Off && !_gramophoneResolved)
+        var mute = Mode != PaMode.Off || AdhanYields();
+        if (mute && !_gramophoneResolved)
         {
             ResolveGramophone();
         }
 
-        if (_gramophoneVoices.Count == 0 || _gramophoneMuted == (Mode != PaMode.Off))
+        if (_gramophoneVoices.Count == 0 || _gramophoneMuted == mute)
         {
             return;
         }
 
-        var mute = Mode != PaMode.Off;
         foreach (var (voice, originalDb) in _gramophoneVoices)
         {
             if (IsInstanceValid(voice))

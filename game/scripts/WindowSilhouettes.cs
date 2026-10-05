@@ -3,11 +3,19 @@ using Godot;
 namespace Urman.Godot;
 
 /// <summary>
-/// Presentation-only occupancy behind the inhabited residential glass: a bounded
-/// pool of dark silhouette quads placed just inside the pane, visible through the
-/// existing warm window material. It is a sibling of the window-spill pool and
-/// the chimney-smoke pool: fixed slot count, nearest-window selection at 4 Hz,
-/// nothing per-house, and an ordinary frame touches only PoolBudget nodes.
+/// Presentation-only occupancy on the inhabited residential glass: a bounded
+/// pool of dark silhouette quads placed on the exterior face of the pane. It is
+/// a sibling of the window-spill pool and the chimney-smoke pool: fixed slot
+/// count, nearest-window selection at 4 Hz, nothing per-house, and an ordinary
+/// frame touches only PoolBudget nodes.
+///
+/// Glass side (2026-10-05): the warm window shader writes only ALBEDO/EMISSION/
+/// ROUGHNESS/SPECULAR and declares no blend mode (VillageWindowMaterials), so
+/// the pane is fully opaque and a quad behind it renders zero pixels. The
+/// occupant therefore sits <see cref="ExteriorLiftMeters"/> beyond the pane
+/// centre along the outward normal plus the authored inset: in front of the
+/// glass, occluded normally by scene geometry, reading as a dark figure or
+/// shadow on the lit window at night and a faint impression by day.
 ///
 /// The household director keeps its window list private, so windows are
 /// rediscovered with the director's exact rule (visible mesh, "Window"+"Glass"
@@ -35,6 +43,9 @@ public partial class WindowSilhouettes : Node3D
     public const float SelectionInterval = .25f;
     public const float NightSelectionDistance = 24f;
     public const float DaySelectionDistance = 16f;
+    /// <summary>Extra gap beyond the pane centre so the quad clears the glass
+    /// surface and never z-fights with it (the authored inset adds 4-6 cm).</summary>
+    public const float ExteriorLiftMeters = .012f;
     // A window is only unbound beyond the selection distance, which is past the
     // fade end; a dropped occupant is already fully faded out at that range.
     private const float NightFadeBegin = 11f, NightFadeEnd = 22f;
@@ -146,7 +157,7 @@ public partial class WindowSilhouettes : Node3D
                 Name = $"WindowSilhouette{slot}", Visible = false, Transparency = 1f,
                 CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
             };
-            node.SetMeta("lightingRole", "presentation-only occupant silhouette behind inhabited glass");
+            node.SetMeta("lightingRole", "presentation-only occupant silhouette on the exterior face of inhabited glass");
             AddChild(node);
             _slots[slot] = node;
             _slotWindow[slot] = -1;
@@ -156,6 +167,9 @@ public partial class WindowSilhouettes : Node3D
         SetMeta("windowSilhouetteBudget", PoolBudget);
         SetMeta("windowSilhouetteVariants", VariantCount);
         SetMeta("windowSilhouetteWindows", _windows.Length);
+        SetMeta(
+            "windowSilhouetteSurfaceOffset",
+            $"exterior; pane centre + normal * (inset + {ExteriorLiftMeters:0.###} m)");
         SetMeta("presentationOnly", true);
         GD.Print($"village-window-silhouettes: windows={WindowCount} pool={PoolBudget} variants={VariantCount}");
     }
@@ -241,7 +255,8 @@ public partial class WindowSilhouettes : Node3D
         var width = window.Width * VariantWidth[window.Variant];
         var height = window.Height * VariantHeight[window.Variant];
         var right = Vector3.Up.Cross(window.Normal).Normalized();
-        var origin = window.Centre - window.Normal * window.Inset;
+        // Exterior face, not behind the opaque glass: see ExteriorLiftMeters.
+        var origin = window.Centre + window.Normal * (window.Inset + ExteriorLiftMeters);
         // Variants with a floor line sit on the bottom of the glass (a figure at
         // the curtain, a silhouette above a table, a cat on the sill, a lamp).
         if (VariantOnSill[window.Variant]) origin += Vector3.Up * ((height - window.Height) * .5f);
