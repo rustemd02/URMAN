@@ -7,6 +7,7 @@ public partial class Act1ConnectedWorld
 {
     private Node3D? _collapsedOpeningBridge;
     private StaticBody3D? _intactOpeningBridge;
+    private StaticBody3D? _collapsedOpeningApproach;
     private CollisionShape3D? _openingBridgeTrestle;
     private Node3D? _openingFallingSpan;
     private Vector3 _openingSpanRestPosition;
@@ -110,15 +111,56 @@ public partial class Act1ConnectedWorld
         foreach (var part in _intactOpeningBridge.GetChildren().OfType<MeshInstance3D>()
             .Where(part => MathF.Abs(part.Position.X - cx) < 5.6f).ToArray())
             part.Reparent(_openingFallingSpan, keepGlobalTransform: true);
+
+        // The state swap happens between bodies, never by muting one layer: the
+        // intact deck above is gated as a whole, and the visible collapsed boards
+        // (Ravine.cs) get their own physical surface, so the approach stays
+        // walkable before AND after FirstNightPassed. Contact tops sit 0.02 m
+        // under the visible board top (boards are 0.06 m thick), which keeps the
+        // widest entry lip at the lane seam ~0.21 m: inside the 0.22 m step the
+        // controller climbs, while the feet still read on the boards.
+        var westDeck = AgentBAct1HeightField.CollisionGround(cx - 5.6f, RavineBridgeZ) + .34f;
+        var eastDeck = AgentBAct1HeightField.CollisionGround(cx + 5.6f, RavineBridgeZ) + .34f;
+        _collapsedOpeningApproach = new StaticBody3D
+            { Name = "RavineBridgeCollapsedApproach", CollisionLayer = 0, CollisionMask = 0 };
+        _collapsedOpeningApproach.SetMeta("stateOwner", "RuntimeBridge/world.props/act1/opening");
+        ravine.AddChild(_collapsedOpeningApproach);
+        // Board runs of the collapsed model: land end ±8 m, broken edge -2.3/+3.1 m,
+        // each board 0.26 m wide, so the physical run covers the visible extent.
+        foreach (var (from, to, deck, end) in new[]
+                 { (-8.15f, -2.45f, westDeck, "West"), (3.25f, 8.15f, eastDeck, "East") })
+        {
+            var a = new Vector3(cx + from, deck - .02f, RavineBridgeZ);
+            var b = new Vector3(cx + to, deck - .02f, RavineBridgeZ);
+            _collapsedOpeningApproach.AddChild(new CollisionShape3D
+            {
+                Name = $"CollapsedDeckContact{end}",
+                Position = (a + b) * .5f - Vector3.Up * .08f,
+                Shape = new BoxShape3D { Size = new(a.DistanceTo(b), .16f, 3.2f) }
+            });
+            // The broken model keeps its handrail on both sides; same boxes as the
+            // intact rails, laid on the flat deck line.
+            foreach (var z in new[] { -1.55f, 1.55f })
+                _collapsedOpeningApproach.AddChild(new CollisionShape3D
+                {
+                    Name = $"CollapsedRailContact{end}_{z}",
+                    Position = (a + b) * .5f + new Vector3(0, .53f, z),
+                    Shape = new BoxShape3D { Size = new(a.DistanceTo(b), 1.05f, .12f) }
+                });
+        }
     }
 
     private void UpdateOpeningBridge()
     {
-        if (_intactOpeningBridge is null || _collapsedOpeningBridge is null || _openingBridgeTrestle is null) return;
+        if (_intactOpeningBridge is null || _collapsedOpeningBridge is null || _collapsedOpeningApproach is null
+            || _openingBridgeTrestle is null) return;
         var broken = _runtimeBridge?.FirstNightPassed ?? true;
         var outdoors = ActiveZoneId is "village_day" or "zirat_road" or "kara_urman_night";
         _intactOpeningBridge.Visible = !broken;
         _intactOpeningBridge.CollisionLayer = !broken && outdoors ? 2u : 0u;
+        // The collapsed boards keep real physics on the approach (behind the
+        // trestle on the near bank), independently of the fallen span.
+        _collapsedOpeningApproach.CollisionLayer = broken && outdoors ? 2u : 0u;
         _collapsedOpeningBridge.Visible = broken;
         _openingBridgeTrestle.SetDeferred(CollisionShape3D.PropertyName.Disabled, !broken || !outdoors);
     }

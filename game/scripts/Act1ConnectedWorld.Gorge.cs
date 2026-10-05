@@ -100,7 +100,14 @@ public partial class Act1ConnectedWorld
             }
         }
         // Rim fences keep the edge readable and keep a walker out of the cut. Both rims
-        // leave a gap only where the bridge lands; the ravine mouth closes the east end.
+        // leave a gap only where the bridge deck actually passes: the rope-wall
+        // collision sits at ±0.8 m, so the fence is clipped at the deck edge and tied
+        // into it with a short return leg. Skipping the whole 4 m segment (the old
+        // behaviour) left a ~4.0 m hole in the fence — a ~1.1 m open strip on each side
+        // of the 1.4 m deck where a walker could step around the bridge and fall in.
+        const float deckHalfWidth = .8f;
+        var nearDeckZ = GorgeNearRim(SuspensionBridgeX) + .8f;   // first deck section
+        var farDeckZ = GorgeFarRim(SuspensionBridgeX) - .8f;
         var fence = new StaticBody3D { Name = "GorgeRimFenceBody", CollisionLayer = 2, CollisionMask = 0 };
         fence.SetMeta("collisionOwner", "gorge-rim-fence");
         gorge.AddChild(fence);
@@ -111,14 +118,39 @@ public partial class Act1ConnectedWorld
             for (var x = start; x < AgentBAct1HeightField.MaxX - 2f; x += 4f)
             {
                 var x1 = Mathf.Min(x + 4f, AgentBAct1HeightField.MaxX - 2f);
-                if (Mathf.Max(x, x1) > SuspensionBridgeX - 1.6f && Mathf.Min(x, x1) < SuspensionBridgeX + 1.6f) continue;
-                var a = new Vector3(x, 0, (near ? GorgeNearRim(x) : GorgeFarRim(x)) + offset);
-                var b = new Vector3(x1, 0, (near ? GorgeNearRim(x1) : GorgeFarRim(x1)) + offset);
-                AddVisualFenceRun(gorge, $"GorgeRimFence_{(near ? "near" : "far")}_{x:0}", a, b, false);
+                // Run pieces outside the deck gap; a run fully inside it yields none.
+                foreach (var (from, to, suffix) in ClipSuspensionFenceGap(x, x1, deckHalfWidth))
+                {
+                    var a = new Vector3(from, 0, (near ? GorgeNearRim(from) : GorgeFarRim(from)) + offset);
+                    var b = new Vector3(to, 0, (near ? GorgeNearRim(to) : GorgeFarRim(to)) + offset);
+                    var end = near ? "near" : "far";
+                    AddVisualFenceRun(gorge, $"GorgeRimFence_{end}_{x:0}{suffix}", a, b, false);
+                    var mid = (a + b) * .5f; mid.Y = AgentBAct1HeightField.CollisionGround(mid.X, mid.Z) + .6f;
+                    fence.AddChild(new CollisionShape3D
+                    {
+                        Name = $"GorgeRimFenceShape_{end}_{x:0}{suffix}", Position = mid,
+                        Rotation = new Vector3(0, Mathf.Atan2(b.X - a.X, b.Z - a.Z), 0),
+                        Shape = new BoxShape3D { Size = new Vector3(.18f, 1.2f, a.DistanceTo(b) + .1f) }
+                    });
+                }
+            }
+            // Return legs close the corner between the fence line and the bridge:
+            // each runs in Z at x = ±0.8 from the fence line to 0.3 m past the deck
+            // end, overlapping the first rope-wall box, and reads as village fencing
+            // joined to the bridge anchor posts.
+            for (var side = -1; side <= 1; side += 2)
+            {
+                var x = SuspensionBridgeX + side * deckHalfWidth;
+                var fenceZ = (near ? GorgeNearRim(x) : GorgeFarRim(x)) + offset;
+                var deckZ = near ? nearDeckZ - .3f : farDeckZ + .3f;
+                var a = new Vector3(x, 0, fenceZ);
+                var b = new Vector3(x, 0, deckZ);
+                var end = near ? "near" : "far";
+                AddVisualFenceRun(gorge, $"GorgeRimFenceReturn_{end}_{(side < 0 ? "w" : "e")}", a, b, false);
                 var mid = (a + b) * .5f; mid.Y = AgentBAct1HeightField.CollisionGround(mid.X, mid.Z) + .6f;
                 fence.AddChild(new CollisionShape3D
                 {
-                    Name = $"GorgeRimFenceShape_{(near ? "near" : "far")}_{x:0}", Position = mid,
+                    Name = $"GorgeRimFenceReturnShape_{end}_{(side < 0 ? "w" : "e")}", Position = mid,
                     Rotation = new Vector3(0, Mathf.Atan2(b.X - a.X, b.Z - a.Z), 0),
                     Shape = new BoxShape3D { Size = new Vector3(.18f, 1.2f, a.DistanceTo(b) + .1f) }
                 });
@@ -127,6 +159,29 @@ public partial class Act1ConnectedWorld
         BuildSuspensionBridge(gorge);
         GD.Print($"act1-gorge: halfWidth={AgentBAct1HeightField.GorgeHalfWidth} depth={AgentBAct1HeightField.GorgeDepth} bridge=suspension@({SuspensionBridgeX},{GorgeCentreZ(SuspensionBridgeX):0.0})");
         GD.Print($"act1-gorge-bridge: planks={_suspensionDeckPlanks} patchBoards={_suspensionPatchBoards} apronBoards=10 sections={SuspensionDeckSections} deckHoles=0");
+    }
+
+    /// <summary>
+    /// Splits one rim-fence run around the suspension-deck opening
+    /// (SuspensionBridgeX ± <paramref name="halfWidth"/>). Runs that do not reach
+    /// the opening are returned whole with no suffix; a run that straddles it is
+    /// returned as its outside pieces, so the fence ends flush with the deck
+    /// instead of leaving the whole 4 m segment open. A run fully inside the
+    /// opening yields nothing.
+    /// </summary>
+    private static IEnumerable<(float From, float To, string Suffix)> ClipSuspensionFenceGap(
+        float from, float to, float halfWidth)
+    {
+        var gapMin = SuspensionBridgeX - halfWidth;
+        var gapMax = SuspensionBridgeX + halfWidth;
+        if (to <= gapMin || from >= gapMax)
+        {
+            yield return (from, to, string.Empty);
+            yield break;
+        }
+        var split = from < gapMin && to > gapMax;
+        if (from < gapMin) yield return (from, gapMin, split ? "_w" : string.Empty);
+        if (to > gapMax) yield return (gapMax, to, split ? "_e" : string.Empty);
     }
 
     private static float SuspensionDeckHeight(float t, float nearY, float farY) =>
