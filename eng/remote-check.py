@@ -30,17 +30,28 @@ def settings():
         token=Path(c['token_file']).expanduser().read_text(encoding='utf-8-sig').strip()
     if not token:
         raise ValueError('configure URMAN_STATION_TOKEN or a personal token_file outside Git')
-    return url,token
+    # Some Macs run the Tailscale daemon without root (userspace networking): there is no
+    # system tunnel and no MagicDNS, so only the daemon's loopback HTTP proxy can resolve
+    # and reach the tailnet. Take that proxy from the same out-of-Git config and keep it
+    # loopback-only, so the bearer token never travels through a remote proxy.
+    proxy=os.environ.get('URMAN_STATION_PROXY',c.get('proxy','')).strip()
+    if proxy and not re.fullmatch(r'https?://(?:127\.0\.0\.1|localhost|\[::1\])(?::\d{1,5})?/?',proxy):
+        raise ValueError('station proxy must be a loopback HTTP URL')
+    return url,token,proxy
 
 class Client:
     def __init__(self):
-        self.url,self.token=settings()
+        self.url,self.token,self.proxy=settings()
         # urllib honors HTTPS_PROXY, HTTP_PROXY and platform proxy configuration.
         # Keep normal certificate verification and prohibit credential redirects.
         class NoRedirect(urllib.request.HTTPRedirectHandler):
             def redirect_request(self,*args,**kwargs):
                 raise ValueError('station redirect refused')
-        self.opener=urllib.request.build_opener(NoRedirect())
+        handlers=[NoRedirect()]
+        if self.proxy:
+            # An explicit proxy replaces the environment-derived ProxyHandler.
+            handlers.append(urllib.request.ProxyHandler({'http':self.proxy,'https':self.proxy}))
+        self.opener=urllib.request.build_opener(*handlers)
 
     def request(self,path,data=None,raw=False):
         headers={'Authorization':'Bearer '+self.token}

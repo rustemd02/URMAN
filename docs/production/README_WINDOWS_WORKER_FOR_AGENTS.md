@@ -14,17 +14,44 @@
 {"url":"https://unterpc.tail9423b1.ts.net","token_file":"~/.config/urman-station/token"}
 ```
 
+### Если имя станции не разрешается
+
+Симптом: `curl: (6) Could not resolve host: unterpc.tail9423b1.ts.net`, и то же самое
+у любого инструмента (не только внутри sandbox). Причина не в правах и не в токене:
+на этом Mac служба Tailscale работает без системного туннеля (CLI в режиме userspace,
+без root), поэтому MagicDNS не прописан и системного имени `*.ts.net` нет. Ходить к
+станции в таком режиме можно только через локальный прокси демона. Добавь его в тот же
+`client.json` — клиент сам подставит прокси, никаких переменных окружения не нужно:
+
+```json
+{"url":"https://unterpc.tail9423b1.ts.net","token_file":"~/.config/urman-station/token","proxy":"http://127.0.0.1:1055"}
+```
+
+Принимается только loopback-адрес (иначе клиент откажет: токен не должен идти через
+чужой прокси). Переменные `HTTPS_PROXY`/`URMAN_STATION_PROXY` продолжают работать.
+Штатный способ без прокси — обычное приложение Tailscale с системным туннелем.
+
 Из корня репозитория:
 
 ```sh
-python3 eng/remote-check.py doctor
+python3.12 eng/remote-check.py doctor
 # Выполняй только нужную и разрешённую поручением проверку:
-python3 eng/remote-check.py smoke --timeout 300
-python3 eng/remote-check.py capture --points 'station:Ground@-14,3,15>Ground@0,2,0' --timeout 300
+python3.12 eng/remote-check.py smoke --timeout 300
+python3.12 eng/remote-check.py capture --points 'station:Ground@-14,3,15>Ground@0,2,0' --timeout 300
 # Если связь прервалась, используй уже напечатанный ID, не создавай второй запуск:
-python3 eng/remote-check.py status --job-id <id>
-python3 eng/remote-check.py fetch --job-id <id>
+python3.12 eng/remote-check.py status --job-id <id>
+python3.12 eng/remote-check.py fetch --job-id <id>
 ```
+
+### Если `CERTIFICATE_VERIFY_FAILED`
+
+Клиент проверяет сертификат станции обычным образом, поэтому нужен Python с рабочим
+набором корневых сертификатов. На этом Mac так работает `python3.12` из Homebrew
+(использует `/opt/homebrew/etc/openssl@3/cert.pem`). Интерпретатор python.org
+(например `/Library/Frameworks/Python.framework/Versions/3.11/bin/python3`) падает с
+`unable to get local issuer certificate`: у него нет связки сертификатов, пока не
+запущен `/Applications/Python 3.11/Install Certificates.command`. Это не проблема
+станции, токена или сети — только интерпретатора.
 
 Результаты: `.codex-captures/remote/<id>/` (или `--output <папка>`).
 Принимай результат по `receipt.json`, журналам и PNG: статус PASS, точный snapshot,
