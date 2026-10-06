@@ -333,6 +333,12 @@ sharing требует чтения импортированного резул�
 Начать с VariantA: 28 домов, **1008 → 252** активных экземпляра. Это один
 масштабируемый пакет всей деревни, а не исправление единственного окна.
 
+Статическая проверка GLB для исходных 36 деталей VariantA: у каждой local scale
+(1,1,1), одна primitive surface и 48 POSITION vertices. Четыре детали дают
+192 исходные вершины, ниже лимита pilot 4096. Это снимает сомнение в размере
+самого пакета, но не доказывает native eligibility: Godot import может добавить
+LOD и изменить представление buffers/shadow mesh. Эти проверки не обходить.
+
 1. Расширить существующий `Act1ConnectedWorld.WindowBatching.cs`, не создавать
    универсальный batch framework. Добавить точный whitelist
    `VariantA_TimberGable_Dwelling_*Window*_Jamb/Rail`; прежние четыре допустимых
@@ -370,8 +376,9 @@ sharing требует чтения импортированного резул�
    `local_floor_texture=false`; unsupported группу оставить оригинальной
    с диагностической причиной, не ослаблять checks ради числа accepted.
 6. Переиспользовать объединённый ресурс по исходным mesh RID, относительным
-   transforms и конечному material. Уникальный mesh на каждый дом уничтожит
-   существующее sharing. Копировать все поддерживаемые attributes, нормали,
+   transforms и конечному material. Эти поля уже есть в `WindowBatchMeshKey`
+   и `WindowBatchPartKey`: использовать существующие типы. Уникальный mesh
+   на каждый дом уничтожит существующее sharing. Копировать все поддерживаемые attributes, нормали,
    tangents, UV/colors и исходную shadow geometry средствами нынешнего pilot.
 7. Скрывать originals только после успешного readback и публикации replacement.
    Их имена и collision owners сохраняются. Поэтому общее число scene nodes
