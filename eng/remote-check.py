@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Send the current checkout to the private Windows station; never launch locally."""
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -14,7 +15,8 @@ import urllib.parse
 import urllib.request
 import uuid
 import zipfile
-from remote_common import canonical, digest, make_snapshot
+from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candidates,
+                           digest, git, source_state)
 
 def settings():
     path=Path(os.environ.get('URMAN_STATION_CONFIG',str(Path.home()/'.config/urman-station/client.json')))
@@ -38,6 +40,80 @@ def settings():
     if proxy and not re.fullmatch(r'https?://(?:127\.0\.0\.1|localhost|\[::1\])(?::\d{1,5})?/?',proxy):
         raise ValueError('station proxy must be a loopback HTTP URL')
     return url,token,proxy
+
+def build_manifest(root):
+    """Hash every file the station would receive, without building the archive first."""
+    root=Path(root).resolve()
+    origin=git(root,'remote','get-url','origin').decode().strip()
+    if origin not in (REPOSITORY,'git@github.com:rustemd02/URMAN.git','ssh://git@github.com:rustemd02/URMAN.git'):
+        raise ValueError('unexpected repository origin')
+    before=source_state(root)
+    names=candidates(root)
+    manifest={'schema':1,'repository':REPOSITORY,**before,'files':{}}
+    total=0
+    for name in names:
+        h=hashlib.sha256(); size=0
+        with (root/name).open('rb') as src:
+            for chunk in iter(lambda: src.read(1024**2), b''):
+                h.update(chunk); size+=len(chunk)
+        total+=size
+        if total>MAX_SOURCE:
+            raise ValueError('snapshot exceeds source limit')
+        manifest['files'][name]={'sha256':h.hexdigest(),'bytes':size}
+    if names!=candidates(root) or before!=source_state(root):
+        raise ValueError('checkout changed during packaging; retry after edits stop')
+    manifest['snapshot_id']=hashlib.sha256(canonical(manifest)).hexdigest()
+    return manifest
+
+def write_archive(root, manifest, archive):
+    """Write the archive for an already hashed manifest; every byte is verified again."""
+    root=Path(root).resolve()
+    with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=1) as z:
+        for name,meta in manifest['files'].items():
+            h=hashlib.sha256(); size=0
+            with (root/name).open('rb') as src, z.open(name,'w',force_zip64=True) as dest:
+                for chunk in iter(lambda: src.read(1024**2), b''):
+                    dest.write(chunk); h.update(chunk); size+=len(chunk)
+            if size!=meta['bytes'] or h.hexdigest()!=meta['sha256']:
+                raise ValueError('file changed during packaging: '+name)
+        z.writestr('snapshot-manifest.json', canonical(manifest))
+    if archive.stat().st_size>MAX_ARCHIVE:
+        raise ValueError('snapshot exceeds upload limit')
+
+def publish_snapshot(client, root, manifest, log=print):
+    """Send only the files the station lacks; fall back to the whole archive for a
+    station that does not support incremental snapshots yet."""
+    try:
+        plan=client.request('/snapshots/plan',manifest)
+    except urllib.error.HTTPError as error:
+        if error.code not in (404,405):
+            raise
+        plan=None
+    if plan is None:
+        with tempfile.TemporaryDirectory(prefix='urman-snapshot-') as tmp:
+            archive=Path(tmp)/'source.zip'
+            write_archive(root,manifest,archive)
+            log(f'Full snapshot: this station has no incremental support, sending '
+                f'{archive.stat().st_size/1024**2:.1f} MB')
+            with archive.open('rb') as stream:
+                accepted=client.request('/snapshots',stream)
+        if accepted['snapshot_id']!=manifest['snapshot_id'] or not accepted['hashes_verified']:
+            raise ValueError('snapshot acknowledgement mismatch')
+        return
+    if plan.get('snapshot_id')!=manifest['snapshot_id']:
+        raise ValueError('snapshot acknowledgement mismatch')
+    names={meta['sha256']:name for name,meta in manifest['files'].items()}
+    missing=[sha for sha in plan.get('missing',[]) if sha in names]
+    sent=sum(manifest['files'][names[sha]]['bytes'] for sha in missing)
+    log(f'Incremental snapshot: station already has {len(manifest["files"])-len(missing)} '
+        f'of {len(manifest["files"])} files, sending {len(missing)} ({sent/1024**2:.1f} MB)')
+    for index,sha in enumerate(missing,1):
+        name=names[sha]; size=manifest['files'][name]['bytes']
+        log(f'  [{index}/{len(missing)}] {name} ({size/1024**2:.2f} MB)')
+        with (Path(root)/name).open('rb') as stream:
+            stored=client.request('/blobs/'+sha,stream)
+        if stored.get('sha256')!=sha:
+            raise ValueError('blob acknowledgement mismatch')
 
 class Client:
     def __init__(self):
@@ -106,18 +182,16 @@ def main():
     health=c.request('/health')
     if not health['ready']:
         raise ValueError('station not ready: '+json.dumps(health))
-    with tempfile.TemporaryDirectory(prefix='urman-snapshot-') as tmp:
-        archive=Path(tmp)/'source.zip';manifest=make_snapshot(args.root,archive)
-        with archive.open('rb') as stream:
-            accepted=c.request('/snapshots',stream)
-        if accepted['snapshot_id']!=manifest['snapshot_id'] or not accepted['hashes_verified']:
-            raise ValueError('snapshot acknowledgement mismatch')
+    # Hash the checkout, then let the station say which files it still lacks; only
+    # those are uploaded, so a rebuild after a code change costs kilobytes, not the
+    # whole tree. The identity is printed before POST: a lost reply is recovered with
+    # status/fetch on this job_id instead of a second run.
+    manifest=build_manifest(args.root)
+    publish_snapshot(c,args.root,manifest)
     jid=args.job_id or uuid.uuid4().hex
     spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':args.command,
           'scene':'res://scenes/act1_demo.tscn' if args.command=='capture' else args.scene,
           'timeout':args.timeout,'headless':args.headless,'points':args.points or ''}
-    # Print the identity before POST: if its reply is lost, status/fetch can
-    # recover this exact job instead of accidentally creating a second run.
     print('Job:',jid,'Snapshot:',manifest['snapshot_id'],flush=True)
     try:
         result=c.request('/jobs',spec)

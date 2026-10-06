@@ -1,6 +1,7 @@
 """Private, single-job URMAN worker. Start in an interactive user session."""
 import argparse
 import ctypes
+import hashlib
 import hmac
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
@@ -15,7 +16,66 @@ import threading
 import time
 import zipfile
 
-from remote_common import MAX_ARCHIVE, canonical, digest, unpack_snapshot, verify_source
+from remote_common import (MAX_ARCHIVE, canonical, digest, unpack_snapshot,
+                           validate_manifest, verify_source)
+
+# Incremental snapshots: the station keeps one blob per distinct file content, so a
+# new build sends only the files that actually changed instead of the whole tree.
+MAX_BLOB = 512 * 1024**2
+KEEP_MANIFESTS = 50
+
+def blob_path(blobs, sha):
+    return blobs / sha[:2] / sha
+
+def store_blob(blobs, sha, stream, size):
+    """Store one content-addressed file. The path is its hash, so no name can escape."""
+    if not re.fullmatch('[a-f0-9]{64}', sha) or not 0 < size <= MAX_BLOB:
+        raise ValueError('invalid blob')
+    target = blob_path(blobs, sha)
+    if target.is_file() and target.stat().st_size == size:
+        return False
+    target.parent.mkdir(parents=True, exist_ok=True)
+    partial = target.with_name(target.name + '.part')
+    h = hashlib.sha256(); written = 0
+    with partial.open('wb') as out:
+        while written < size:
+            chunk = stream.read(min(1024**2, size - written))
+            if not chunk:
+                raise ValueError('incomplete blob upload')
+            out.write(chunk); h.update(chunk); written += len(chunk)
+    if h.hexdigest() != sha:
+        partial.unlink(missing_ok=True)
+        raise ValueError('blob hash mismatch')
+    partial.replace(target)
+    return True
+
+def seed_blobs_from_zip(archive, blobs):
+    """Reuse an already uploaded snapshot so an empty blob store is not paid for twice."""
+    stored = 0
+    with zipfile.ZipFile(archive) as z:
+        manifest = json.loads(z.read('snapshot-manifest.json'))
+        validate_manifest(manifest)
+        for name, meta in manifest['files'].items():
+            if store_blob(blobs, meta['sha256'], z.open(name), meta['bytes']):
+                stored += 1
+    return stored
+
+def materialize_from_blobs(source, manifest, blobs):
+    """Rebuild an exact source tree from cached blobs; every file hash is checked again."""
+    validate_manifest(manifest)
+    for name, meta in manifest['files'].items():
+        src = blob_path(blobs, meta['sha256'])
+        if not src.is_file() or src.stat().st_size != meta['bytes']:
+            raise ValueError('missing blob for ' + name)
+        dest = source / name; dest.parent.mkdir(parents=True, exist_ok=True)
+        h = hashlib.sha256(); size = 0
+        with src.open('rb') as incoming, dest.open('wb') as outgoing:
+            for chunk in iter(lambda: incoming.read(1024**2), b''):
+                outgoing.write(chunk); h.update(chunk); size += len(chunk)
+        if size != meta['bytes'] or h.hexdigest() != meta['sha256']:
+            raise ValueError('blob content mismatch: ' + name)
+    (source / 'snapshot-manifest.json').write_bytes(canonical(manifest))
+    return manifest
 
 def write_json(path, value):
     tmp = path.with_suffix('.tmp')
@@ -41,6 +101,9 @@ class Station:
         self.lock = threading.Lock(); self.busy = None
         self.snapshots = self.data / 'snapshots'; self.snapshots.mkdir(exist_ok=True)
         self.jobs = self.data / 'runs'; self.jobs.mkdir(exist_ok=True)
+        self.blobs = self.data / 'blobs'; self.blobs.mkdir(exist_ok=True)
+        self.manifests = self.data / 'manifests'; self.manifests.mkdir(exist_ok=True)
+        self.seeded = False
         # One worker instance per account, including startup/restart races.
         import msvcrt
         self.instance = (self.data / 'worker.lock').open('a+b')
@@ -51,6 +114,35 @@ class Station:
             if value['status'] == 'RUNNING':
                 value.update(status='FAIL', error='Worker restarted during job; inspect recovery marker and processes')
                 write_json(status, value)
+
+    def manifest_for(self, sid):
+        path = self.manifests / (sid + '.json')
+        return json.loads(path.read_text(encoding='utf-8-sig')) if path.is_file() else None
+
+    def blob_usage(self):
+        files = 0; total = 0
+        for path in self.blobs.glob('*/*'):
+            if path.is_file():
+                files += 1; total += path.stat().st_size
+        return {'files': files, 'megabytes': round(total / 1024**2, 1)}
+
+    def seed_from_latest_snapshot(self):
+        """Once: fill the blob store from the newest cached snapshot, so the first
+        incremental run sends only what changed instead of the whole tree again."""
+        self.seeded = True
+        archives = sorted(self.snapshots.glob('*.zip'), key=lambda p: p.stat().st_mtime, reverse=True)
+        if not archives:
+            return 0
+        try:
+            return seed_blobs_from_zip(archives[0], self.blobs)
+        except (ValueError, OSError, KeyError, zipfile.BadZipFile) as error:
+            print('blob seed skipped:', error, file=sys.stderr)
+            return 0
+
+    def prune_manifests(self):
+        extra = sorted(self.manifests.glob('*.json'), key=lambda p: p.stat().st_mtime, reverse=True)
+        for path in extra[KEEP_MANIFESTS:]:
+            path.unlink(missing_ok=True)
 
     def recovery(self):
         marker = Path(os.environ['APPDATA']) / 'Godot/app_userdata/.URMAN.protected-run.lock'
@@ -85,6 +177,7 @@ class Station:
                 'userdata_recovery_pending': pending, 'orphan_game_process': bool(orphaned),
                 'busy_job': self.busy, 'godot': pins['godot']['version'],
                 'sdk': json.loads((self.repo/'global.json').read_text(encoding='utf-8-sig'))['sdk']['version'],
+                'blob_store': self.blob_usage(),
                 'gpu_acceptance': self.config.get('gpu_acceptance', 'not-run')}
 
     def submit(self, spec):
@@ -94,8 +187,17 @@ class Station:
         if not re.fullmatch('[a-zA-Z0-9_-]{8,64}', jid):
             raise ValueError('invalid job_id')
         sid = spec.get('snapshot_id', '')
-        if not re.fullmatch('[a-f0-9]{64}', sid) or not (self.snapshots / (sid+'.zip')).is_file():
+        if not re.fullmatch('[a-f0-9]{64}', sid):
             raise ValueError('unknown snapshot')
+        if not (self.snapshots / (sid + '.zip')).is_file():
+            # Incremental snapshot: the manifest plus every referenced blob must be here.
+            manifest = self.manifest_for(sid)
+            if manifest is None:
+                raise ValueError('unknown snapshot')
+            missing = [meta['sha256'] for meta in manifest['files'].values()
+                       if not blob_path(self.blobs, meta['sha256']).is_file()]
+            if missing:
+                raise ValueError(f'snapshot blobs incomplete ({len(missing)} missing); re-run the client')
         if spec.get('mode') not in ('smoke', 'capture'):
             raise ValueError('unsupported mode')
         if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= 300:
@@ -139,7 +241,11 @@ class Station:
         started = time.monotonic()
         try:
             source = path/'source'; source.mkdir()
-            manifest = unpack_snapshot(self.snapshots/(spec['snapshot_id']+'.zip'), source)
+            archive = self.snapshots / (spec['snapshot_id'] + '.zip')
+            if archive.is_file():
+                manifest = unpack_snapshot(archive, source)
+            else:
+                manifest = materialize_from_blobs(source, self.manifest_for(spec['snapshot_id']), self.blobs)
             verify_source(source, manifest)
             if not (source/'game'/spec['scene'][6:]).is_file():
                 raise ValueError('scene does not exist in snapshot')
@@ -264,6 +370,25 @@ class Handler(BaseHTTPRequestHandler):
                                 raise ValueError('insufficient free station disk')
                             archive.replace(target)
                     return self.respond(200,{'snapshot_id':sid,'hashes_verified':True,'files':len(manifest['files'])})
+            blob = re.fullmatch(r'/blobs/([a-f0-9]{64})', self.path)
+            if blob:
+                if shutil.disk_usage(station.data).free < size + 10*1024**3:
+                    raise ValueError('insufficient free station disk')
+                with station.lock:
+                    stored = store_blob(station.blobs, blob[1], self.rfile, size)
+                return self.respond(200,{'sha256':blob[1],'stored':stored})
+            if self.path == '/snapshots/plan':
+                manifest = json.loads(self.rfile.read(size))
+                sid = validate_manifest(manifest)
+                if not station.seeded:
+                    station.seed_from_latest_snapshot()
+                with station.lock:
+                    (station.manifests/(sid+'.json')).write_bytes(canonical(manifest))
+                    station.prune_manifests()
+                missing = sorted({meta['sha256'] for meta in manifest['files'].values()
+                                  if not blob_path(station.blobs, meta['sha256']).is_file()})
+                return self.respond(200,{'snapshot_id':sid,'known':not missing,
+                                         'missing':missing,'files':len(manifest['files'])})
             if self.path == '/jobs' and size <= 16384:
                 code, value = station.submit(json.loads(self.rfile.read(size)))
                 return self.respond(code,value)
