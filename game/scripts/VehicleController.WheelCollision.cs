@@ -88,10 +88,15 @@ public partial class VehicleController
         {
             var hoofIndex=_hoofQueries.FindIndex(hoof=>hoof.Name==volume.Name);
             var lowerLegIndex=_lowerLegQueries.FindIndex(leg=>leg.Name==volume.Name);
-            query.Exclude=horseFrame is {} horse
+            var volumeExcluded=horseFrame is {} horse
                 ?hoofIndex>=0?HoofExcluded(horse,hoofIndex,excluded)
                     :lowerLegIndex>=0?LowerLegExcluded(horse,lowerLegIndex,excluded):excluded
                 :excluded;
+            // Only the hoof/leg helpers create a new array; the base exclusions
+            // belong to the caller and must survive every volume in this query.
+            using var volumeExcludedOwner=ReferenceEquals(volumeExcluded,excluded)
+                ?null:(global::Godot.Collections.Array)volumeExcluded;
+            query.Exclude=volumeExcluded;
             query.Shape=volume.Shape;query.Transform=volume.Transform;
             // The native result array owns its Variant slots and is released
             // here. The Dictionaries copied into `result` are reference
@@ -116,6 +121,7 @@ public partial class VehicleController
         var leanDistance=RequestedMotorcycleLean(requested)-initialLean;
         var steps=Math.Max(1,(int)Math.Ceiling(Math.Max(Math.Abs(distance),Math.Abs(leanDistance))/Mathf.DegToRad(.25f)));
         var accepted=_steering;var acceptedLean=initialLean;var excluded=Excluded();
+        using var excludedOwner=(global::Godot.Collections.Array)excluded;
         for(var i=1;i<=steps;i++)
         {
             var candidate=_steering+distance*i/steps;

@@ -781,6 +781,7 @@ public partial class VehicleController : CharacterBody3D
         if(horseFrame is not null && !HoofEndpointClear(horseFrame,out var hoofContact))
         { reason="the actual articulated hoof pose is blocked or unsupported: "+hoofContact?.ToJsonString();return false; }
         var overlaps=PlacementOverlaps(pose,1,steering,lean);
+        using var overlapsOwner=(global::Godot.Collections.Array)overlaps;
         if(overlaps.Count>0)
         {
             var contact=DescribePlacementContact(overlaps[0]);

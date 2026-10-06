@@ -1,5 +1,13 @@
 # Godot performance evidence
 
+## Статический аудит 7 октября 2026
+
+[Текущий отчёт](../../production/performance_audit_2026-10-07.md): закрыты
+пропуски освобождения временных массивов физических запросов транспорта.
+C#-компиляция прошла; игра не запускалась, FPS не измерен. Целевые 50–60 FPS
+на базовом M1 / High не подтверждены. Исторические замеры ниже относятся
+только к указанным в них версиям.
+
 The current baseline is measured on the local Apple M4 Pro with Godot 4.7.1
 .NET, Metal 4.0, Forward+, 1920×1080 and 2× MSAA. The test renders the three
 mandatory style scenes in real Godot viewports after a warm-up and records

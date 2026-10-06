@@ -6,7 +6,11 @@ namespace Urman.Godot;
 public partial class VehicleController
 {
     private global::Godot.Collections.Array<global::Godot.Collections.Dictionary> PlacementOverlaps(Transform3D pose,int maximum,float? steering=null,float? lean=null)
-        =>VolumeOverlaps(pose,steering??_steering,PlacementExcluded(),maximum,leanRadians:lean);
+    {
+        var excluded=PlacementExcluded();
+        using var excludedOwner=(global::Godot.Collections.Array)excluded;
+        return VolumeOverlaps(pose,steering??_steering,excluded,maximum,leanRadians:lean);
+    }
 
     private static JsonObject DescribePlacementContact(global::Godot.Collections.Dictionary hit)
     {
