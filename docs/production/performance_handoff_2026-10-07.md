@@ -259,12 +259,23 @@ directional shadows, локальные источники света. Умен�
 PackedScene для многочисленных участков. Нормализация ресурса действует на все
 такие размещения; runtime byte scan при каждом запуске не нужен.
 
-**План будущего изменения:**
+**Обязательная развилка перед реализацией:** в действующем `.glb.import` уже
+включено `array_mesh/deduplicate_surfaces=true`; `mesh_library/use_node_names_as_mesh_names=false`,
+`_subresources={}`, custom import script отсутствует. Одни GLB entries не доказывают,
+что импортёр оставил отдельные Mesh RID. Локальная GodotSharp XML документирует
+`ImporterMesh.MergeImporterMeshes(..., deduplicateSurfaces)` для явного merge,
+но это не объясняет scene-import sharing. Нельзя подменять один контракт другим.
+
+После разрешения запуска снять actual Mesh RID sharing импортированного
+PackedScene. Если эквивалентные меши уже используют общий ресурс, normalizer
+ради FPS не нужен. При подтверждённых лишних resources — следующий план:
 
 1. В существующем генераторе
    `assets/source/blender/act1/urman_village_exterior_kit.py`, после GLB export
-   (около 3370), выполнять детерминированную нормализацию mesh references.
-   Не добавлять runtime manager и не создавать отдельный экспортный workflow.
+   внутри `save_kit`, непосредственно после `bpy.ops.export_scene.gltf` (3370),
+   выполнять детерминированную нормализацию mesh references. Этим методом
+   экспортируются full, hero-house и hero-yard-shed; сохранить все три варианта.
+   Не добавлять runtime manager и отдельный экспортный workflow.
 2. Ключ: все attributes, точные accessor bytes с componentType/type/count,
    layout/normalized, indices, primitive order/mode/material, weights,
    morph targets, extensions/extras. Не объединять по POSITION или имени.
@@ -273,16 +284,32 @@ PackedScene для многочисленных участков. Нормали
 3. Сначала построить полный old→canonical mapping. Оставить node names,
    hierarchy, transforms и node extras; переназначить только `node.mesh`,
    затем согласованно перенумеровать ссылки при удалении повторных entries.
-   Материалы, включая `KHR_materials_specular`, сохранять.
+   В первом шаге менять только `meshes` и `nodes[].mesh`: BIN, accessors,
+   bufferViews, materials и textures оставить прежними. Удаление осиротевших
+   binary ranges — отдельная необязательная оптимизация размера, не условие
+   sharing. Неизвестные extensions со ссылками на mesh indices требуют отказа
+   от объединения затронутой группы. Материалы, включая `KHR_materials_specular`,
+   сохранять по исходному index, не только похожему имени.
 4. Проверить consumers имён. В прочитанном production-коде материал выбирается
    через `Material.ResourceName`, геометрические детали — через `Node.Name`;
    ветвлений по `Mesh.ResourceName` кита не найдено. Диагностическое имя mesh
    изменится — это явно записать. Перед реализацией повторить поиск, включая
-   настройки subresources в `.glb.import`; не ломать per-resource overrides.
+   настройки subresources в `.glb.import` и importer suffix rules; отличие
+   mesh name нельзя автоматически считать только косметическим. Прямых
+   внешних ссылок `urman_village_exterior_kit.glb::...` в просмотренном коде
+   не найдено, но этот результат нужно сверить с актуальным content.
 5. Статически сравнить сценовый граф до/после: для каждого исходного node его
    primitive data/materials и transform должны остаться теми же. Штатный Godot
    import выполнять только после отдельного разрешения. Проверить сохранность
    импортированных LOD/shadow mesh и actual resource sharing, затем render census.
+
+Готового общего normalizer в просмотренных инструментах нет.
+`docs/urman_knowledge_base/art/worker2_hero_runtime_20260915/verify_glb_preservation.py`
+можно использовать как пример чтения GLB, но его проверка неполна для этого шага:
+она сопоставляет по node name, материал сравнивает по имени, часть HeroYardShed
+исключает. Не объявлять PASS этого скрипта доказательством полной эквивалентности.
+Существующие специализированные `write_glb` в генераторах chakchak/chayan дают
+пример stdlib JSON/BIN packing; новая GLB-библиотека для такого шага не нужна.
 
 590 — число копий внутри исходного файла, **не** число видимых draws и не
 обещанный выигрыш. Импортёр уже мог частично разделять ресурсы; текущая степень
@@ -309,28 +336,36 @@ sharing требует чтения импортированного резул�
    suffix брать из `WindowSurroundStem`. Каждый набор должен содержать ровно
    четыре разные детали под одним parent. Стекло, recess/backing, двери, крыши,
    двор и воротные детали не включать.
-2. Точка интеграции — `Act1ConnectedWorld.AuthoredWorld.cs:BuildAuthoredWorld`,
-   после `RegradeAct1DaylightKitMaterials(AuthoredWorld)` и завершения всех
-   потребителей исходных имён/геометрии. Проверить дальнейшие dressing/relocation
-   calls перед выбором окончательного места; преждевременно скрытые originals
-   не должны выпасть из builder, который фильтрует Visible.
-3. Сохранять **эффективный материал поверхности**, не перекрашивать под старый
-   пилот. Regrade задаёт surface override, тогда как нынешний pilot требует
-   MaterialOverride. Для новой группы проверять одинаковый `GetActiveMaterial(0)`,
-   отсутствие конфликтующих override/overlay/NextPass и назначать тот же resource
-   merged surface. Не заменять материал на белую краску старого пилота.
-4. Конкретные текущие материалы: VariantA после parcel tint —
-   `ForColor("93a4a9", "wood")`; B/C — `ForColor("6f6353", "wood_facade")`.
-   Они используют `RigidPainterlyShader`: local_wood_texture/local_floor_texture,
-   has_snow_micro/trample_ground_surface выключены, wind_sway=0. Фактура читает
-   world_position/world_normal, поэтому объединение не обязано менять её
-   проекцию. Это статический вывод из `RegradeAct1DaylightKitMaterials`,
-   его таблицы `parcelTints` и `PainterlyMaterialLibrary`, не runtime readback.
-5. Сохранить guards deformation, skin, instance uniforms, LOD, render settings,
-   transparency и original shadow mesh. Дополнить отказом при
-   `local_floor_texture=true`: старому узкому пилоту такая проверка не требовалась.
-   Unsupported группу пропускать с причиной, не ослаблять checks до получения
-   желаемого числа accepted.
+2. Точка интеграции — **конец `BuildVillageHouseholds()`**, после
+   `_chimneySmokeSystem.Initialize(...)` в `Act1ConnectedWorld.Households.cs:39`.
+   Это последний явно поставленный deferred build этап (`Act1ConnectedWorld.cs:533`).
+   Вызвать один проход существующего механизма по `AuthoredWorld`, с общим
+   cache и признаком завершения. Вставка сразу после Regrade преждевременна:
+   дальше ещё relocation, clear-gorge по центрам отдельных видимых meshes,
+   адреса/frontages, снег, ограды, коллизии и начальная zone visibility;
+   затем deferred suppressions, core-пилот и сверка табличек.
+3. Сохранять **итоговый MaterialOverride**, не перекрашивать под старый пилот.
+   Полная цепочка такова: у всех 79 parcels `collision="surfaces"`, поэтому
+   `AuthoredWorldDirector.BuildCollision` вызывает `TimberHomeStyle.DressParcel`.
+   Он присваивает Jamb/Rail `ForColor(paint, "wood_painted_trim")`, выбирая один
+   из пяти цветов по stableId. Поздний Regrade меняет surface overrides, но
+   они не заменяют действующий MaterialOverride.
+4. Брать фактический `GetActiveMaterial(0)` каждого окна; все четыре детали
+   должны иметь тот же MaterialOverride и effective material. Пять вариантов
+   paint — разные material RID и разные ключи cache. Никакого ослабления
+   MaterialOverride guard для этих parcels не требуется. Проверенные флаги
+   painted_trim: local_wood_texture/local_floor_texture, has_snow_micro и
+   trample_ground_surface выключены, wind_sway=0; shader rigid, проекция фактуры
+   мировая. Прежнее описание wood/wood_facade было ошибкой неполного анализа:
+   оно учитывало только Regrade, пропустив более приоритетный DressParcel override.
+5. Сохранить guards deformation, skin, instance uniforms, render settings,
+   transparency и original shadow mesh. Readback сейчас допускает только
+   single-surface triangles без skin/blend/custom channels и imported LOD,
+   текущий формат и ≤4096 vertices, включая merged result. Compressed shadow
+   читается только в поддержанной little-endian UNORM16 схеме со stride8 и
+   ushort indices. Не генерировать заменяющий shadow proxy. Проверить также
+   `local_floor_texture=false`; unsupported группу оставить оригинальной
+   с диагностической причиной, не ослаблять checks ради числа accepted.
 6. Переиспользовать объединённый ресурс по исходным mesh RID, относительным
    transforms и конечному material. Уникальный mesh на каждый дом уничтожит
    существующее sharing. Копировать все поддерживаемые attributes, нормали,
@@ -344,6 +379,27 @@ sharing требует чтения импортированного резул�
    края окон, блики и тени. Если A дал выигрыш без ухудшения, расширить на B/C.
    Автоинстансинг может уже снимать часть submissions; арифметику instances нельзя
    переносить на draws или FPS.
+
+Первый scope включает только исходные direct meshes соответствующего Dwelling.
+Не включать `TatarCarpentry` или добавленный верхний этаж по широкому совпадению
+слова Window. Группировать `(фактический parent, WindowSurroundStem)`, сохранить
+ordinal-порядок деталей и inherited visibility; принимать только полностью
+видимые группы после suppressions.
+
+Два важных geometry consumers до позднего вызова —
+`ClearGorgeOfLegacyPresentation` (проверяет центр каждого mesh) и
+`ReconcileAddressSignsAfterFrontages` (заново читает видимые поверхности).
+`ClipSnowReliefUnderStructures` первого `_Process` отбирает только
+snow_ground/snow_trampled с нужными metadata, поэтому обвязку не затрагивает;
+его physics boxes остаются прежними. Без запуска не утверждается полный порядок
+всех engine callbacks; относительно снегового прохода этот порядок несущественен.
+
+**Пакеты A и B проверять раздельно.** Дедупликация меняет mesh RID, от которых
+зависит ключ существующего batching cache и автоматическое инстансирование.
+После A исходные детали могут объединяться рендером лучше, чем до него;
+у B остаются более крупные геометрические ключи. Выигрыши не складываются
+арифметически. Сначала сравнить baseline с одним пакетом, затем — добавление
+второго к принятому состоянию. Пропускать пакет, который не приносит пользы.
 
 Граница culling — **одно окно**, а не весь лес или квартал. Исторический лесной
 batch дал 108→95 FPS и p95 9,9→13 мс. Точный размер прежних ячеек не зафиксирован
@@ -1799,8 +1855,8 @@ C#-сборку. Запрет игровых запусков сохраняет
 ## 19. Очередь продолжения статического аудита
 
 1. Продолжать общесценовый разбор G01: подготовить точную границу пакета
-   оконных групп VariantA, порядок после всех geometry consumers и изменения
-   существующего pilot для эффективного surface material. Не переходить
+   оконных групп VariantA и расширение существующего pilot с сохранением
+   пяти итоговых MaterialOverride. Поздняя точка вызова уточнена в пакете B. Не переходить
    обратно к поиску единичных allocations как главной работе.
 2. Для офлайновой дедупликации кита уточнить генератор/export, настройки
    импортированных subresources и все consumers mesh identity. Сохранить
