@@ -320,10 +320,17 @@ public partial class VehicleCabinAudio : Node3D
         const int laps = 4;
         var fanCoefficient = 1f - Mathf.Exp(-Mathf.Tau * 1500f / BedRate);
         var bodyCoefficient = 1f - Mathf.Exp(-Mathf.Tau * 260f / BedRate);
-        var peak = MeasureBedPeak(frames, laps, fanCoefficient, bodyCoefficient);
+        var samples = new float[frames];
+        var peak = GenerateBedSamples(samples, laps, fanCoefficient, bodyCoefficient);
         var gain = peak > .0001f ? .58f / peak : 0f;
         var data = new byte[frames * 2];
-        WriteBedSamples(frames, laps, fanCoefficient, bodyCoefficient, gain, data);
+        for (var index = 0; index < frames; index++)
+        {
+            var value = Mathf.Clamp(samples[index] * gain, -.98f, .98f);
+            var sample = (short)Math.Round(value * 32000f);
+            data[index * 2] = (byte)(sample & 0xff);
+            data[index * 2 + 1] = (byte)((sample >> 8) & 0xff);
+        }
         return new AudioStreamWav
         {
             Data = data,
@@ -336,7 +343,7 @@ public partial class VehicleCabinAudio : Node3D
         };
     }
 
-    private static float MeasureBedPeak(int frames, int laps, float fanCoefficient, float bodyCoefficient)
+    private static float GenerateBedSamples(float[] samples, int laps, float fanCoefficient, float bodyCoefficient)
     {
         var random = new System.Random(0x5A1A);
         var fan = 0f;
@@ -344,40 +351,21 @@ public partial class VehicleCabinAudio : Node3D
         var peak = 0f;
         for (var lap = 0; lap < laps; lap++)
         {
-            for (var index = 0; index < frames; index++)
+            for (var index = 0; index < samples.Length; index++)
             {
                 var white = (float)(random.NextDouble() * 2.0 - 1.0);
                 fan += fanCoefficient * (white - fan);
                 body += bodyCoefficient * (white - body);
                 if (lap != laps - 1) continue;
-                var magnitude = Mathf.Abs(BedSample(fan, body, index));
+                // Retain the exact final-lap samples while measuring their peak;
+                // encoding then needs no second replay of the RNG and filters.
+                samples[index] = BedSample(fan, body, index);
+                var magnitude = Mathf.Abs(samples[index]);
                 if (magnitude > peak) peak = magnitude;
             }
         }
 
         return peak;
-    }
-
-    private static void WriteBedSamples(int frames, int laps, float fanCoefficient, float bodyCoefficient,
-        float gain, byte[] data)
-    {
-        var random = new System.Random(0x5A1A);
-        var fan = 0f;
-        var body = 0f;
-        for (var lap = 0; lap < laps; lap++)
-        {
-            for (var index = 0; index < frames; index++)
-            {
-                var white = (float)(random.NextDouble() * 2.0 - 1.0);
-                fan += fanCoefficient * (white - fan);
-                body += bodyCoefficient * (white - body);
-                if (lap != laps - 1) continue;
-                var value = Mathf.Clamp(BedSample(fan, body, index) * gain, -.98f, .98f);
-                var sample = (short)Math.Round(value * 32000f);
-                data[index * 2] = (byte)(sample & 0xff);
-                data[index * 2 + 1] = (byte)((sample >> 8) & 0xff);
-            }
-        }
     }
 
     private static float BedSample(float fan, float body, int index)

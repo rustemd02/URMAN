@@ -44,6 +44,7 @@ public sealed class SettlementRoadGraph
     private readonly Dictionary<string, SettlementRoad> _roads = new(StringComparer.Ordinal);
     private readonly Dictionary<string, SettlementGraphNode> _nodes = new(StringComparer.Ordinal);
     private readonly Dictionary<string, SettlementGraphEdge> _edges = new(StringComparer.Ordinal);
+    private SettlementGraphEdge[]? _vehicleNearestEdges;
     private readonly HashSet<string> _blockedRoads = new(StringComparer.Ordinal);
     // Car-only drive policy (see CarTravelPolicy). Written only by
     // SetCarTravelPolicy; the yard cell index and blocked boxes are built there
@@ -248,6 +249,7 @@ public sealed class SettlementRoadGraph
         var allocatedBefore = _measureRebuild ? GC.GetAllocatedBytesForCurrentThread() : 0L;
         long acceptedPairs = 0,broadphaseRejectedPairs=0;
         _nodes.Clear(); _edges.Clear();
+        _vehicleNearestEdges=null;
         var segments = new List<Segment>();
         foreach (var road in _roads.Values.OrderBy(r => r.Id, StringComparer.Ordinal))
         {
@@ -572,9 +574,21 @@ public sealed class SettlementRoadGraph
     public (SettlementGraphEdge Edge, SettlementPoint Point, double Distance)? Nearest(SettlementPoint point, string? streetId=null, SettlementTravelMode mode=SettlementTravelMode.Foot, bool winter=true,Func<SettlementGraphEdge,bool>? filter=null)
     {
         (SettlementGraphEdge Edge, SettlementPoint Point, double Distance)? nearest=null;
-        foreach(var edge in _edges.Values)
+        if(mode is SettlementTravelMode.Car or SettlementTravelMode.Motorcycle or SettlementTravelMode.HorseCart)
         {
-            if((streetId is not null && edge.StreetId!=streetId) || !Allowed(edge,mode,winter) || (filter is not null && !filter(edge)))continue;
+            // Only immutable mode membership is cached. Rebuild invalidates it;
+            // blocked roads, winter and gates still run through Allowed below.
+            // Combined/unknown modes retain the original exhaustive path.
+            _vehicleNearestEdges??=_edges.Values.Where(static edge=>
+                (edge.Modes&(SettlementTravelMode.Car|SettlementTravelMode.Motorcycle|SettlementTravelMode.HorseCart))!=0).ToArray();
+            foreach(var edge in _vehicleNearestEdges) Consider(edge);
+        }
+        else foreach(var edge in _edges.Values) Consider(edge);
+        return nearest;
+
+        void Consider(SettlementGraphEdge edge)
+        {
+            if((streetId is not null && edge.StreetId!=streetId) || !Allowed(edge,mode,winter) || (filter is not null && !filter(edge)))return;
             var projection=Project(point,_nodes[edge.A].Position,_nodes[edge.B].Position).Point;
             var distance=projection.DistanceXZ(point);
             // Match the existing distance/ordinal ordering, including NaN and
@@ -583,7 +597,6 @@ public sealed class SettlementRoadGraph
             if(order<0 || order==0 && string.CompareOrdinal(edge.Id,nearest!.Value.Edge.Id)<0)
                 nearest=(edge,projection,distance);
         }
-        return nearest;
     }
     // The same predicate as OrderBy(Id, Ordinal).FirstOrDefault(), without the
     // LINQ buffer: the ordinally smallest matching id does not depend on the
