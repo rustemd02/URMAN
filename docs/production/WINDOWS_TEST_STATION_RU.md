@@ -8,12 +8,24 @@ Tailscale HTTPS → Windows worker → существующий `run-windows-che
 и узкая C#-компиляция могут выполняться локально. Не запускать движок после каждой
 правки по привычке — выбирай минимальную необходимую проверку.
 
-Игровые проверки разрешены поручением автора от 07.10.2026. Когда checkout и есть
-станция (узел `UnterPC`, `C:\Users\ruste\Documents\GitHub\URMAN`), прогон выполняется
-напрямую на этой машине: `eng\run-windows-check.ps1 -Mode build|smoke|capture|play`
-с тем же guard `eng/protected_run.py`; Tailscale, токен и `remote-check.py` при этом
-не нужны. Удалённый маршрут остаётся для случаев, когда разработка ведётся с другого
-компьютера, а пользователь просит потестировать на этом стенде.
+Игровые проверки разрешены поручением автора от 07.10.2026. Когда работа ведётся на
+самой станции (узел `UnterPC`, `C:\Users\ruste\Documents\GitHub\URMAN`), применяется
+тот же протокол, только через loopback: в текущем PowerShell задать исключение из
+раздела «Настроенная станция» (абзац про локальную диагностику этой станции) и
+выполнить `python eng\remote-check.py doctor`, затем `smoke` или `capture`.
+Проверено 08.10.2026: `smoke res://tests/player_settings_smoke_test.tscn` → PASS на
+коммите `d4c76a0`, job `1cdae6f24c0c47bdaccbe1811972cb78`, native Vulkan GTX 970,
+161 с, `engine-errors.log` пуст, `userdataRestored: true`.
+
+Запускать `eng\run-windows-check.ps1` напрямую из основного checkout нельзя, кроме
+`-Mode build`: runner считает FAIL любую строку `ERROR:` в журнале импорта, а в
+checkout есть авторинговый `game/assets/models/props/milk_bottle/karaurman_milk_bottle_v1.blend`
+(headless-импорт не задаёт путь Blender; в станционный снимок `.blend` не попадают —
+`eng/remote_common.py`), и обход cold-font применяется только изолированному снимку с
+`-Provenance`. Неудачный прогон оставлен как история: receipt
+`.codex-captures/windows/20261008-003103-54b4b331` (все сборки exit 0, падение на
+гейте импорта). Исправлять это удалением `.blend`, отключением sparse checkout или
+ослаблением гейта запрещено. Интерактивный `play` станционным клиентом не поддерживается.
 
 ## Настроенная станция
 
@@ -276,8 +288,8 @@ python3 eng/remote-check.py fetch --job-id <полученный-id>
 Логи и PNG скачиваются в `.codex-captures/remote/<job-id>` либо `--output <папка>`.
 Агент читает receipt и логи файловыми инструментами и открывает PNG своим image viewer.
 При сетевой ошибке запуск с другой машины остаётся not-run: автоматического локального
-Godot fallback на чужом компьютере нет. На самой Windows-станции прогон выполняется
-напрямую через `eng\run-windows-check.ps1` (см. начало документа).
+Godot fallback на чужом компьютере нет. На самой Windows-станции прогон выполняет та
+же станция через loopback-вызов `eng/remote-check.py` (см. начало документа).
 Локальная игра сохраняет прежние команды `eng/run-act1-demo.sh` / safe launcher
 и существующий контракт сохранений; их чтение здесь не является Mac-прогоном.
 

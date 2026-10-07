@@ -105,9 +105,14 @@ python3.12 eng/remote-check.py fetch --job-id <id>
 автоматического локального Godot fallback на чужом компьютере нет. Явную просьбу
 пользователя «запусти поиграть» выполняй локально существующим безопасным launcher.
 Игровые запуски разрешены поручением автора от 07.10.2026. На самой станции
-(`UnterPC`, этот Windows-checkout) обычный путь — прямой прогон без Tailscale:
-`eng\run-windows-check.ps1 -Mode build|smoke|capture|play`; `remote-check.py` нужен
-только для проверок, заказанных с другого компьютера.
+(`UnterPC`, этот Windows-checkout) путь тот же — `eng\remote-check.py`, только через
+loopback: задай `NO_PROXY` и `URMAN_STATION_CONFIG` из раздела «Настроенная станция»
+в `WINDOWS_TEST_STATION_RU.md`, далее `doctor` и нужная проверка. Проверено 08.10.2026:
+smoke `player_settings_smoke_test.tscn` → PASS на `d4c76a0`, job
+`1cdae6f24c0c47bdaccbe1811972cb78`. Прямой `eng\run-windows-check.ps1` из основного
+checkout годен только на `-Mode build`; с импортом он даёт FAIL (авторинговый `.blend`
+и cold-font обход, который применяется лишь изолированному снимку) — не «чинить» его
+удалением `.blend` или ослаблением гейта.
 
 Windows-приёмка выполнена: короткий native smoke и PNG 1920×1080 на GTX 970.
 Соединения с Mac, вторым Mac и Cloud пока не проверены. Windows должен быть включён,

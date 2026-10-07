@@ -5998,3 +5998,28 @@ H032/H034/H045/H046, прослушивание.
 в `AGENTS.md`, `../production/WINDOWS_TEST_STATION_RU.md` и
 `../production/README_WINDOWS_WORKER_FOR_AGENTS.md`. Защита пользовательских данных,
 минимальная необходимая проверка и привязка результата к receipt без изменений.
+
+
+## 2026-10-08 — локальный прогон на станции: проверенный путь и откат неверной строки
+
+Поручение автора разрешило игровые проверки, и первый же сведённый текст (`d4c76a0`)
+утверждал, что на самой станции достаточно запустить `eng\run-windows-check.ps1` из
+основного checkout. Проверка этой же строки её опровергла: smoke из checkout упал на
+гейте импорта (receipt `.codex-captures/windows/20261008-003103-54b4b331`, все шаги
+сборки — с exit 0). Runner считает FAIL любую строку `ERROR:` в журнале, а в checkout
+лежит авторинговый `game/assets/models/props/milk_bottle/karaurman_milk_bottle_v1.blend`,
+который headless-импорт не может обработать без пути Blender; в станционный снимок
+`.blend` не входят (`eng/remote_common.py`), и обход cold-font применяется только
+изолированному снимку с `-Provenance`. Отдельно: `override.cfg` с отключённым
+Blender-import редакторский импорт не читает, поэтому он этот случай не спасает.
+
+Принятый путь: на станции игровые проверки выполняет та же станция через loopback —
+исключение `NO_PROXY`/`URMAN_STATION_CONFIG` из раздела «Настроенная станция» и
+`eng/remote-check.py doctor|smoke|capture`. Проверено 08.10.2026: smoke
+`res://tests/player_settings_smoke_test.tscn` → PASS на коммите `d4c76a0`, job
+`1cdae6f24c0c47bdaccbe1811972cb78`, native Vulkan GTX 970, 161 с, пустой
+`engine-errors.log`, `userdataRestored: true`. Из checkout напрямую остаётся только
+`-Mode build`. Интерактивный `play` станционным протоколом не поддерживается (клиент
+знает `doctor|smoke|capture|status|fetch`), а прямой runner в этом режиме не проверен —
+это открытый вопрос автора, а не повод придумывать команду. Удалять `.blend`,
+отключать sparse checkout или ослаблять импортный гейт запрещено.
