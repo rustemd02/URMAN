@@ -169,6 +169,8 @@ def main():
     p.add_argument('--root',type=Path,default=Path(__file__).resolve().parent.parent)
     p.add_argument('--job-id');p.add_argument('--scene',default='res://tests/player_settings_smoke_test.tscn')
     p.add_argument('--points');p.add_argument('--timeout',type=int,default=300)
+    p.add_argument('--phase',help='capture only: authored atmosphere profile id (URMAN_ATMOSPHERE_PHASE)')
+    p.add_argument('--fov',help="capture only: 'player' (player camera FOV) or a number; default control views use 70")
     p.add_argument('--headless',action='store_true');p.add_argument('--wait',type=int,default=1200)
     p.add_argument('--output',type=Path);p.add_argument('--submit-only',action='store_true')
     args=p.parse_args();c=Client()
@@ -192,6 +194,11 @@ def main():
     spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':args.command,
           'scene':'res://scenes/act1_demo.tscn' if args.command=='capture' else args.scene,
           'timeout':args.timeout,'headless':args.headless,'points':args.points or ''}
+    if args.phase:
+        # Optional field: a station worker that predates it rejects the job loudly.
+        spec['phase']=args.phase
+    if args.fov:
+        spec['fov']=args.fov
     print('Job:',jid,'Snapshot:',manifest['snapshot_id'],flush=True)
     try:
         result=c.request('/jobs',spec)

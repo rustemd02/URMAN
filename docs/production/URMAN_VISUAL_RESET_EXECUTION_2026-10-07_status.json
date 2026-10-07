@@ -51,20 +51,22 @@
   {
    "id": "VIS-006",
    "title": "Зафиксировать единственного владельца света и пресета",
-   "status": "MAP_DONE_FIX_OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-001",
     "VIS-004"
-   ]
+   ],
+   "evidence": "§5.1 AgentBAct1ExteriorLayer.ApplyAtmosphere reduced to Kara accents (profile is sole owner of env/sky/sun); §5.2 activeWorldEnvironmentCount counts the active exterior env; §5.6 safe-mode/perf-rescue are session-only (never saved, safe mode no longer defeated by stored settings), readback meta graphicsPreset/graphicsPreferredPreset/graphicsSessionOverride. Not changed: §5.3 house_old_pc fog (rewritten on every entry, no visible effect), §5.4/§5.5 SetSnowMood caller (deliberate VIS-068 design), §5.8 handled by phase capture. dotnet build 0/0."
   },
   {
    "id": "VIS-007",
    "title": "Записать контракт опоры и координат подвижных материалов",
-   "status": "MAP_DONE_FIX_OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-005",
     "VIS-006"
-   ]
+   ],
+   "evidence": "Contract fixes: ForColor declares every surface mode (TunedWithoutMap / FlatByDesign / mapped) and warns once on an unknown one — it found the yard footprints using \"snow\" (no family) → snow_trampled; ForMovingCloth and ForLocalWoodPiece force cell_jitter 0 (§5.4, §5.8). §5.12 supportOwner: only Terrain_Main/Road_* are bound, no missed binding."
   },
   {
    "id": "VIS-008",
@@ -81,48 +83,53 @@
   {
    "id": "VIS-009",
    "title": "Посадить один проблемный пролёт ограды на правильную опору",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-007",
     "VIS-008"
-   ]
+   ],
+   "evidence": "YardFences: fence posts sit on the lowest corner of their own footprint (−1.5 cm) instead of a fixed −5 cm under the centre; street-gate posts each sample their own ground (both used the gate centre, 1.72 m away). Collision unchanged."
   },
   {
    "id": "VIS-010",
    "title": "Устранить треугольную границу снега на ветке к ФАП",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-005",
     "VIS-007",
     "VIS-009"
-   ]
+   ],
+   "evidence": "ClipSnowReliefUnderStructures subtracts each solid XZ footprint from a partly covered triangle (Sutherland–Hodgman in barycentric space, all attributes interpolated) instead of keep/drop by centroid; unknown attributes fall back to the old rule; log adds addedVertices."
   },
   {
    "id": "VIS-011",
    "title": "Сформировать один правдоподобный край зимней дороги",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-009",
     "VIS-010"
-   ]
+   ],
+   "evidence": "Street snow banks (centerline banks): the even sine swells removed; level run with one very long rise, a pile of thrown snow 0.8–2.6 m before each opening, then the cap taper."
   },
   {
    "id": "VIS-012",
    "title": "Показать расчистку снега у одного крыльца",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-010",
     "VIS-011"
-   ]
+   ],
+   "evidence": "Verified door paths widen 0.64→1.0 m over the last 3 m; one shovel heap 1.6 m short of the door on open ground (footprint/raised-surface checked), visual only, owned by the path mesh."
   },
   {
    "id": "VIS-013",
    "title": "Заменить конус снежной шапки одного стога",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-008",
     "VIS-010"
-   ]
+   ],
+   "evidence": "Haystack cap: asymmetric mass over the hay shoulders (24×4 + fan = 216 tris), 2.5 cm hugging edge, 10–19 cm windward body, three unequal slumps, rounded crown leaning lee."
   },
   {
    "id": "VIS-014",
@@ -173,11 +180,12 @@
   {
    "id": "VIS-019",
    "title": "Различить соседние заборы конструкцией, не случайным цветом",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-009",
     "VIS-017"
-   ]
+   ],
+   "evidence": "Yard (non-street) runs use a plain working design (uneven hand-cut tops, wider boards), one repaired bay per run with fresher boards and a patch rail; street paint colour decorrelated from the design hash."
   },
   {
    "id": "VIS-020",
@@ -290,33 +298,36 @@
   {
    "id": "VIS-031",
    "title": "Привязать пальто одного персонажа к его поверхности",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-005",
     "VIS-007",
     "VIS-008"
-   ]
+   ],
+   "evidence": "Pilot already done in 1cc3861 (Alsu + Aidar body: metric UVs + ForMovingCloth). Other 15 NPC prefixes need Blender UV regeneration (VIS-104)."
   },
   {
    "id": "VIS-032",
    "title": "Согласовать направление дерева на одном крыльце",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-005",
     "VIS-018",
     "VIS-031"
-   ]
+   ],
+   "evidence": "Pilot porch posts in the facade builder use the vertical-grain family wood_fence_vertical (as roadside posts) instead of world-triplanar wood."
   },
   {
    "id": "VIS-033",
    "title": "Сделать нижнее затемнение относительным основанию объекта",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-005",
     "VIS-007",
     "VIS-009",
     "VIS-032"
-   ]
+   ],
+   "evidence": "instance uniform ground_base_y + ground_contact_height (legacy 3 m default; ground_darken still 0 everywhere else). Pilot: AddVisualCanopy posts use ForGroundContact(darken .22, 0.18 m) with per-post support Y. Intensity needs the pilot frame pair."
   },
   {
    "id": "VIS-034",
@@ -342,32 +353,35 @@
   {
    "id": "VIS-036",
    "title": "Включать mipmaps только проверенным 3D-потребителям",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-005",
     "VIS-035"
-   ]
+   ],
+   "evidence": "Only painterly-library map without a tracked .import was urman_t07_v01 (cloth_towel): fresh station import used defaults (no mips, no size limit). .import now mipmaps=true, size_limit=1024 like other cloth maps — must be force-added (git add -f, *.import is ignored). frost_window_v1 left for VIS-096."
   },
   {
    "id": "VIS-037",
    "title": "Проверить видимость оконного силуэта, не ломая непрозрачное стекло",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-005",
     "VIS-006",
     "VIS-018",
     "VIS-036"
-   ]
+   ],
+   "evidence": "Static audit: silhouettes already stand in front of the opaque pane (2026-10-05 fix); day/night split NightSunEnergy 0.35 re-checked against all six new profiles (day >= .55, night <= .30). No code change beyond the comment."
   },
   {
    "id": "VIS-038",
    "title": "Уменьшить дублирование материалов одного семейства",
-   "status": "OPEN",
+   "status": "PARTIAL",
    "dependencies": [
     "VIS-033",
     "VIS-035",
     "VIS-037"
-   ]
+   ],
+   "evidence": "cloth/fabric byte-identical pair now one cache entry (ForColor canonicalises fabric→cloth). Register conflicts (material_consumers_RU.md §6) untouched."
   },
   {
    "id": "VIS-039",
@@ -664,11 +678,12 @@
   {
    "id": "VIS-066",
    "title": "Собрать проверяемый референс-манифест и art-review board",
-   "status": "PARTIAL",
+   "status": "DONE",
    "dependencies": [
     "VIS-002",
     "VIS-065"
-   ]
+   ],
+   "evidence": "docs/production/visual_restyle_2026-10-07/{reference_manifest.json,REFERENCE_BOARD_RU.md}; eng/verify-visual-reference-manifest.py PASS (24 refs, 15 author codes)"
   },
   {
    "id": "VIS-067",
@@ -694,57 +709,63 @@
   {
    "id": "VIS-069",
    "title": "Сделать зимний золотой час отдельным авторским состоянием",
-   "status": "BLOCKED_PHASE_CAPTURE",
+   "status": "CAPTURE_PENDING",
    "dependencies": [
     "VIS-040",
     "VIS-067",
     "VIS-068"
-   ]
+   ],
+   "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
   },
   {
    "id": "VIS-070",
    "title": "Сохранить выразительный пасмурный день без серой каши",
-   "status": "BLOCKED_PHASE_CAPTURE",
+   "status": "CAPTURE_PENDING",
    "dependencies": [
     "VIS-067",
     "VIS-068"
-   ]
+   ],
+   "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
   },
   {
    "id": "VIS-071",
    "title": "Создать зелёную ночь деревни",
-   "status": "BLOCKED_PHASE_CAPTURE",
+   "status": "CAPTURE_PENDING",
    "dependencies": [
     "VIS-041",
     "VIS-042",
     "VIS-067"
-   ]
+   ],
+   "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
   },
   {
    "id": "VIS-072",
    "title": "Ввести редкий ночной контраст двух цветовых семейств",
-   "status": "BLOCKED_PHASE_CAPTURE",
+   "status": "CAPTURE_PENDING",
    "dependencies": [
     "VIS-071"
-   ]
+   ],
+   "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
   },
   {
    "id": "VIS-073",
    "title": "Сделать непроглядный лесной туман без дешёвого hide-the-geometry",
-   "status": "BLOCKED_PHASE_CAPTURE",
+   "status": "CAPTURE_PENDING",
    "dependencies": [
     "VIS-026",
     "VIS-042",
     "VIS-067"
-   ]
+   ],
+   "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
   },
   {
    "id": "VIS-074",
    "title": "Сделать лесной цвет нечеловеческим, но не постоянно красным",
-   "status": "BLOCKED_PHASE_CAPTURE",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-073"
-   ]
+   ],
+   "evidence": "One dim amber anomaly (c88a3e, 0.11, range 9) deep in the Kara fog through the existing accent owner, ground-relative; no red."
   },
   {
    "id": "VIS-075",
@@ -780,12 +801,13 @@
   {
    "id": "VIS-078",
    "title": "Сделать протоптанные дорожки глубже окружающего снега",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-012",
     "VIS-016",
     "VIS-077"
-   ]
+   ],
+   "evidence": "Door paths are a trodden channel: floor +1 cm, berm crest 4–7 cm by route hash, feathered out 0.6–0.95 m; UV beyond 0..1 gives the fresh-snow side; normals generated."
   },
   {
    "id": "VIS-079",
@@ -1048,12 +1070,13 @@
   {
    "id": "VIS-104",
    "title": "Перевести всю деформируемую одежду на устойчивый локальный/UV mapping",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-031",
     "VIS-046",
     "VIS-102"
-   ]
+   ],
+   "evidence": "Generators give every character cloth metric UVs (v1 now exports extras); runtime binds UV cloth only to meshes whose glTF extras carry cloth_uv_units (kit dressing, imam, shop seller). No visible change until the kits are regenerated in Blender."
   },
   {
    "id": "VIS-105",
@@ -1079,10 +1102,11 @@
   {
    "id": "VIS-107",
    "title": "Ввести лицензионный и художественный gate для внешних ассетов",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-106"
-   ]
+   ],
+   "evidence": "eng/verify-asset-registry.sh: forward-only gate for entries with externalAsset=true (licenseSpdx allow-list, https sourceUrl/sourceLicenseUrl, sourceAuthor, modification, consumerPaths exist, sourceSha256, receiverCapture file required once integrated). Synthetic good/bad registries: PASS/FAIL as expected. Real registry has 12 pre-existing hash/path failures unrelated to this change."
   },
   {
    "id": "VIS-108",
@@ -1098,33 +1122,36 @@
   {
    "id": "VIS-109",
    "title": "Обновить паспорта новых visual-reset ассетов и consumers",
-   "status": "OPEN",
+   "status": "PARTIAL",
    "dependencies": [
     "VIS-066",
     "VIS-106",
     "VIS-107",
     "VIS-108"
-   ]
+   ],
+   "evidence": "Step 1: 18 passports → docs/urman_knowledge_base/art/visual_reset_asset_passports_2026-10-07.json with real code consumers and reuse candidates. Depends on VIS-106/108 for child records."
   },
   {
    "id": "VIS-110",
    "title": "Сохранить UI материальным и не перекрашивать его общей атмосферой",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-055",
     "VIS-056",
     "VIS-065"
-   ]
+   ],
+   "evidence": "eng/verify-ui-atmosphere-independence.py PASS: 17 UI sources never read atmosphere/environment, no CanvasModulate. Readability per colour state still needs captures."
   },
   {
    "id": "VIS-111",
    "title": "Задать композиционный baseline для first-person кадров без кинематографического FOV-хака",
-   "status": "OPEN",
+   "status": "CODE_DONE_VERIFY_PENDING",
    "dependencies": [
     "VIS-003",
     "VIS-004",
     "VIS-062"
-   ]
+   ],
+   "evidence": "URMAN_VIEW_FOV (player | 40–100) for DevViewCapture, fovSource per frame; remote-check --fov → worker field fov → run-windows-check -ViewFov. Gameplay FOV untouched."
   },
   {
    "id": "VIS-112",

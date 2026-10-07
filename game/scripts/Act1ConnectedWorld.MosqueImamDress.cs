@@ -62,9 +62,17 @@ public partial class Act1ConnectedWorld
             {
                 // Sober city-imam suit tones replace the near-military green
                 // wool overcoat and the black trousers of the generic kit.
-                Piece($"TimurHazrat_Coat_LOD{lod}").MaterialOverride = coatCloth;
-                Piece($"TimurHazrat_CoatSkirt_LOD{lod}").MaterialOverride = coatCloth;
-                Piece($"TimurHazrat_Trousers_LOD{lod}").MaterialOverride = trouserCloth;
+                // VIS-104: skinned garment pieces take UV-bound cloth once the kit
+                // carries metric UVs; the derived cap and shirt stay rigid world cloth.
+                foreach (var garment in new[] { "Coat", "CoatSkirt" })
+                {
+                    var piece = Piece($"TimurHazrat_{garment}_LOD{lod}");
+                    piece.MaterialOverride = GeneratedCharacterKitDressing.HasMetricClothUv(piece)
+                        ? GeneratedCharacterKitDressing.ClothFor(piece, "363d47") : coatCloth;
+                }
+                var trousers = Piece($"TimurHazrat_Trousers_LOD{lod}");
+                trousers.MaterialOverride = GeneratedCharacterKitDressing.HasMetricClothUv(trousers)
+                    ? GeneratedCharacterKitDressing.ClothFor(trousers, "2d3136") : trouserCloth;
                 // The wrapped sash reads as a generic fantasy robe belt and
                 // disappears under the buttoned garment.
                 var sash = Piece($"TimurHazrat_Sash_LOD{lod}");

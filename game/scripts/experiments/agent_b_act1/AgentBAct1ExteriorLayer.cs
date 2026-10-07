@@ -249,6 +249,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     public global::Godot.Environment? ExteriorAtmosphere => _environmentResource;
 
+    /// <summary>True while the exterior WorldEnvironment holds its resource (the one active outdoor environment).</summary>
+    public bool ExteriorEnvironmentActive => _environment?.Environment is not null;
+
     /// <summary>
     /// Routes the single global exterior atmosphere owner. Interior logical
     /// zones keep their authored WorldEnvironment; the Agent B exterior
@@ -267,7 +270,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         _windowSnowView = windowSnowView;
         if (enabled)
         {
-            ApplyAtmosphere(night);
+            ApplyKaraAccents(night);
         }
 
         if (_sun is not null)
@@ -2655,7 +2658,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 {
                     ("KaraThresholdBounce", new Vector3(-4.2f, 1.35f, -96.0f), "71898d", 0.070f, 16.0f),
                     ("KaraRootBounce", new Vector3(4.4f, 1.55f, -104.0f), "667f82", 0.055f, 14.0f),
-                    ("KaraGestureBounce", new Vector3(-2.8f, 1.80f, -117.0f), "71847c", 0.045f, 13.0f)
+                    ("KaraGestureBounce", new Vector3(-2.8f, 1.80f, -117.0f), "71847c", 0.045f, 13.0f),
+                    // VIS-074 / H2-2: the forest's one anomaly family. A dim amber that
+                    // belongs to nothing, deep enough that the 0.045 fog leaves only a
+                    // smear between trunks; never red, never near the path.
+                    ("KaraDeepAmberAnomaly", new Vector3(6.5f, 2.10f, -134.0f), "c88a3e", 0.11f, 9.0f)
                 })
         {
             var light = new OmniLight3D
@@ -2672,12 +2679,18 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             light.SetMeta("visualOnly", true);
             light.SetMeta("landmarkRole", "kara-night-value-separation");
             light.SetMeta("baseEnergy", energy);
+            if (name == "KaraDeepAmberAnomaly")
+            {
+                // Height is above its own ground, so the glow is never buried in a rise.
+                light.Position = position with { Y = (float)AgentBAct1HeightField.Ground(position.X, position.Z) + position.Y };
+                light.SetMeta("landmarkRole", "kara-night-anomaly-amber");
+            }
             root.AddChild(light);
             _karaAccentLights.Add(light);
         }
 
         SetMeta("karaAccentLightCount", _karaAccentLights.Count);
-        SetMeta("karaAccentLightPolicy", "restrained cool bounce cues are visible only for exterior Kara presentation; no point-light hotspots");
+        SetMeta("karaAccentLightPolicy", "restrained cool bounce cues plus one dim deep amber anomaly (VIS-074), visible only for exterior Kara presentation; no point-light hotspots, no red");
     }
 
     /// <summary>
@@ -2832,58 +2845,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
     }
 
-    private void ApplyAtmosphere(bool night)
+    // VIS-006 §5.1: environment, sky and sun values are owned by the authored
+    // atmosphere profile (Act1ConnectedWorld.TuneConnectedAct1Atmosphere), which
+    // runs right after this on every zone switch and wrote every property this
+    // method used to write. Only the Kara accent lights, which the profile does
+    // not touch, are still set here.
+    private void ApplyKaraAccents(bool night)
     {
-        if (_environment?.Environment is not { } env)
-        {
-            return;
-        }
-
-        if (night)
-        {
-            env.AmbientLightSource = global::Godot.Environment.AmbientSource.Color;
-            env.AmbientLightColor = Color.FromHtml("718b92");
-            env.AmbientLightEnergy = 0.94f;
-            env.FogLightColor = Color.FromHtml("506a72");
-            env.FogDensity = 0.0048f;
-            env.FogHeightDensity = 0.075f;
-            env.FogAerialPerspective = 0.58f;
-            env.FogSkyAffect = 0.20f;
-            env.FogSunScatter = 0.10f;
-            env.TonemapExposure = 1.06f;
-        }
-        else
-        {
-            env.AmbientLightSource = global::Godot.Environment.AmbientSource.Sky;
-            env.AmbientLightEnergy = 0.80f;
-            env.FogLightColor = Color.FromHtml("5f7477");
-            env.FogDensity = 0.0034f;
-            env.FogHeight = 1.0f;
-            env.FogHeightDensity = 0.048f;
-            env.FogAerialPerspective = 0.54f;
-            env.FogSkyAffect = 0.18f;
-            env.FogSunScatter = 0.10f;
-            env.TonemapExposure = 0.98f;
-        }
-        if (env.Sky?.SkyMaterial is ProceduralSkyMaterial procedural)
-        {
-            procedural.SkyTopColor = Color.FromHtml(night ? "162a35" : "3b5662");
-            procedural.SkyHorizonColor = Color.FromHtml(night ? "506a72" : "80999a");
-            procedural.GroundHorizonColor = Color.FromHtml(night ? "3c5558" : "5b726f");
-            procedural.GroundBottomColor = Color.FromHtml(night ? "132021" : "1a2729");
-        }
-
-        if (_sun is not null)
-        {
-            _sun.LightColor = Color.FromHtml(night ? "7f96a0" : "c7d3d1");
-            _sun.LightEnergy = night ? 0.86f : 1.04f;
-            _sun.ShadowOpacity = night ? 0.20f : 0.30f;
-            _sun.RotationDegrees = night
-                ? new Vector3(-52f, -28f, 0f)
-                : new Vector3(-48f, 32f, 0f);
-            _sun.ShadowEnabled = true;
-        }
-
         foreach (var light in _karaAccentLights)
         {
             var baseEnergy = light.GetMeta("baseEnergy").AsSingle();

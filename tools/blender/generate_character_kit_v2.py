@@ -1004,7 +1004,8 @@ def idle_sole_height(arm: bpy.types.Object, boots: list[bpy.types.Object]) -> fl
 def finish_character(prefix: str, arm: bpy.types.Object, parts: list[bpy.types.Object]) -> int:
     """LOD1 copies, the ground anchor and export-time cleanup for one character."""
     lod1 = 0
-    if prefix == "Alsu":
+    # VIS-104: every person, not only Alsu (see generate_character_kit.py).
+    if prefix in PEOPLE:
         for part in parts:
             if any(len(mat.name.split("__", 1)[0]) == 6 and "__" in mat.name
                    and mat.name.split("__", 1)[1] not in {"skin_textured", "hair"}

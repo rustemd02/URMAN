@@ -87,6 +87,33 @@ public partial class Act1DemoRoot
                 return;
             }
         }
+        // VIS-111: control views keep FOV 70 for before/after comparability, but a
+        // capture can also take the player's own camera FOV (gameplay baseline 75 or
+        // the player's setting) or an explicit value; the source is written per frame.
+        var viewFov = 70f;
+        var viewFovSource = "control-view-default";
+        var fovSpec = System.Environment.GetEnvironmentVariable("URMAN_VIEW_FOV");
+        if (!string.IsNullOrEmpty(fovSpec))
+        {
+            if (fovSpec == "player")
+            {
+                viewFov = (float)_player!.CaptureSettings().FieldOfView;
+                viewFovSource = "player-camera";
+            }
+            else if (float.TryParse(fovSpec, System.Globalization.NumberStyles.Float,
+                         System.Globalization.CultureInfo.InvariantCulture, out var explicitFov)
+                     && explicitFov is >= 40f and <= 100f)
+            {
+                viewFov = explicitFov;
+                viewFovSource = "explicit";
+            }
+            else
+            {
+                GD.PushError($"View capture refused: URMAN_VIEW_FOV='{fovSpec}' is neither 'player' nor a number in 40..100.");
+                GetTree().Quit(1);
+                return;
+            }
+        }
         // A frame is evidence only when its subject is known, so every point is bound
         // before the first PNG; an unknown or doubled owner stops the run instead of
         // silently becoming world space.
@@ -120,7 +147,8 @@ public partial class Act1DemoRoot
         _mainMenu?.Dismiss();
         _mainMenu = null;
         _player!.SetModalOpen(true);
-        var camera = new Camera3D { Name = "DevViewCamera", Fov = 70f, Far = GetViewport().GetCamera3D()?.Far ?? 160f };
+        var camera = new Camera3D { Name = "DevViewCamera", Fov = viewFov, Far = GetViewport().GetCamera3D()?.Far ?? 160f };
+        camera.SetMeta("fovSource", viewFovSource);
         _main!.AddChild(camera);
         camera.MakeCurrent();
         var frames = new JsonArray();
@@ -265,6 +293,7 @@ public partial class Act1DemoRoot
             ["cameraOwnerZone"] = ViewText(ViewOwnerZone(point.CameraOwner)),
             ["targetOwnerZone"] = ViewText(ViewOwnerZone(point.TargetOwner)),
             ["fov"] = ViewNumber(camera.Fov),
+            ["fovSource"] = ViewText(camera.GetMeta("fovSource", "").AsString()),
             ["near"] = ViewNumber(camera.Near),
             ["far"] = ViewNumber(camera.Far),
             ["viewportWidth"] = ViewNumber(viewport.GetVisibleRect().Size.X),

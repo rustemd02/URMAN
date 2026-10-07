@@ -175,7 +175,9 @@ public partial class Act1ConnectedWorld
                 && registry.AccessPoints.TryGetValue(address.AccessId, out var access))
                 gateAt = (new Vector2((float)access.Position.X, (float)access.Position.Z) - (lot.Centre + f * hd - s * hw)).Dot(s);
             var variant = (int)(TimberHomeStyle.StableHash(lot.Id) % 5);
-            var colour = streetColours[(int)(TimberHomeStyle.StableHash(lot.Id) % (uint)streetColours.Length)];
+            // VIS-019: colour came from the same hash as the design, so the design
+            // predicted the paint; draw it from independent bits.
+            var colour = streetColours[(int)((TimberHomeStyle.StableHash(lot.Id) >> 8) % (uint)streetColours.Length)];
             foreach (var (a, b, kind) in edges)
             {
                 var length = a.DistanceTo(b);
@@ -193,7 +195,8 @@ public partial class Act1ConnectedWorld
                         // Any edge that faces a street (a corner lot's side) gets the street pickets.
                         var mid = run[run.Count / 2];
                         var (rd, rh) = AgentBAct1HeightField.RoadInfo(mid.X, mid.Y);
-                        BuildFenceRun(root, body, run, kind == "front" || rd - rh < 3.2, colour, pickets, variant);
+                        BuildFenceRun(root, body, run, kind == "front" || rd - rh < 3.2, colour, pickets, variant,
+                            TimberHomeStyle.StableHash($"{lot.Id}:{kind}:{runs}"));
                         runs++;
                     }
                     run.Clear();
@@ -225,6 +228,19 @@ public partial class Act1ConnectedWorld
         GD.Print($"act1-yard-fences: lots={lots.Count} runs={runs} wickets={gates} retired={retired}");
     }
 
+    /// <summary>Lowest terrain under a post footprint (centre and four corners) — the visible support.</summary>
+    private static float SupportBase(Vector2 centre, Basis basis, float halfX, float halfZ)
+    {
+        var lowest = AgentBAct1HeightField.CollisionGround(centre.X, centre.Y);
+        foreach (var sx in new[] { -1f, 1f })
+        foreach (var sz in new[] { -1f, 1f })
+        {
+            var corner = basis * new Vector3(sx * halfX, 0f, sz * halfZ);
+            lowest = Mathf.Min(lowest, AgentBAct1HeightField.CollisionGround(centre.X + corner.X, centre.Y + corner.Z));
+        }
+        return lowest;
+    }
+
     private static void FencePart(Dictionary<string, List<Transform3D>> parts, string material, Vector3 size, Transform3D at)
     {
         if (!parts.TryGetValue("box:" + material, out var list)) parts["box:" + material] = list = [];
@@ -234,8 +250,13 @@ public partial class Act1ConnectedWorld
     // Five real carpentry designs, with daylight between boards on every boundary.
     // No solid sheet pretending to be wood; the metric UV follows each individual piece.
     private static void BuildFenceRun(Node3D root, StaticBody3D body, List<Vector2> run, bool street, string colour,
-        Dictionary<string, List<Transform3D>> parts, int variant)
+        Dictionary<string, List<Transform3D>> parts, int variant, uint seed)
     {
+        // VIS-019: a yard boundary is a working fence, not a copy of the owner's
+        // street palisadnik: plain weathered boards (design 5) with uneven tops,
+        // and one bay that was repaired with fresher boards and a patch rail.
+        if (!street) variant = 5;
+        var repairBay = -1;
         var a = run[0]; var b = run[^1];
         var length = a.DistanceTo(b);
         if (length < .8f) return;
@@ -244,12 +265,18 @@ public partial class Act1ConnectedWorld
         var height = street ? 1.10f + variant * .045f : 1.38f;
         var bays = Mathf.Max(1, Mathf.CeilToInt(length / 2.35f));
         var bay = length / bays;
+        if (!street && bays >= 2) repairBay = (int)(seed % (uint)bays);
         var paint = street ? colour + "|wood_painted_trim" : "9b886b|wood_fence";
         for (var i = 0; i <= bays; i++)
         {
             var p = a + dir * (i * bay);
             var g = AgentBAct1HeightField.CollisionGround(p.X, p.Y);
-            FencePart(parts, paint, new(.12f, height + .16f, .12f), new(basis, new(p.X, g + height * .5f + .03f, p.Y)));
+            // VIS-009: the foot follows the lowest corner of the post's own footprint
+            // (sunk 1.5 cm) instead of a fixed 5 cm below its centre sample, so a
+            // post on a cross-slope neither floats at one corner nor sinks deep.
+            var postTop = g + height + .11f;
+            var postBase = SupportBase(p, basis, .06f, .06f) - .015f;
+            FencePart(parts, paint, new(.12f, postTop - postBase, .12f), new(basis, new(p.X, (postTop + postBase) * .5f, p.Y)));
             FencePart(parts, "e6dfc6|wood_painted_trim", new(.16f, .045f, .16f), new(basis, new(p.X, g + height + .125f, p.Y)));
         }
         for (var i = 0; i < bays; i++)
@@ -262,7 +289,7 @@ public partial class Act1ConnectedWorld
             var segBasis = basis * new Basis(Vector3.Right, -Mathf.Atan2(g1 - g0, bay));
             foreach (var y in new[] { .27f, height - .23f })
                 FencePart(parts, paint, new(.045f, .075f, bay), new(segBasis, new(mid.X, gm + y, mid.Y)));
-            var spacing = variant == 3 ? .30f : variant == 4 ? .22f : .17f;
+            var spacing = variant == 3 ? .30f : variant == 4 ? .22f : variant == 5 ? .13f : .17f;
             var count = Mathf.Max(1, Mathf.FloorToInt(bay / spacing));
             for (var k = 0; k < count; k++)
             {
@@ -272,15 +299,28 @@ public partial class Act1ConnectedWorld
                     1 => height - .16f * Mathf.Sin(t * Mathf.Pi), // scalloped palisadnik
                     2 => height - (k % 2 == 0 ? 0 : .16f),       // staggered slats
                     3 => height - .15f,
+                    // Hand-cut boards: three deterministic lengths, never a smooth curve.
+                    5 => height - ((k * 7 + (int)(seed % 5)) % 3) * .025f,
                     _ => height };
-                var width = variant == 3 ? .055f : .095f;
-                FencePart(parts, paint, new(.034f, top - .09f, width), new(basis, new(q.X, g + (top + .09f) * .5f, q.Y)));
+                var width = variant == 3 ? .055f : variant == 5 ? .11f : .095f;
+                var repaired = i == repairBay && k >= count / 3 && k < count / 3 + 4;
+                FencePart(parts, repaired ? "b9ab8e|wood_fence" : paint, new(.034f, top - .09f, width),
+                    new(basis, new(q.X, g + (top + .09f) * .5f, q.Y)));
                 if (variant == 0 || variant == 2)
                     FencePart(parts, paint, new(.035f, .068f, .068f),
                         new(basis * new Basis(Vector3.Right, Mathf.Pi / 4), new(q.X, g + top, q.Y)));
             }
             if (variant == 3 || variant == 4)
                 FencePart(parts, "e3d6b8|wood_painted_trim", new(.055f, .06f, bay), new(segBasis, new(mid.X, gm + height, mid.Y)));
+            if (i == repairBay)
+            {
+                // The patch rail is nailed across the replaced boards on the yard side.
+                var patchT = (count / 3 + 2f) / count;
+                var patch = p0.Lerp(p1, patchT);
+                var side = basis * new Vector3(.033f, 0f, 0f);
+                FencePart(parts, "b9ab8e|wood_fence", new(.03f, .09f, .62f),
+                    new(segBasis, new(patch.X + side.X, Mathf.Lerp(g0, g1, patchT) + height * .55f, patch.Y + side.Z)));
+            }
             if (variant == 4)
             {
                 // Open diagonal lattice across the upper part of each bay.
@@ -314,7 +354,11 @@ public partial class Act1ConnectedWorld
         foreach (var sign in new[] { -1f, 1f })
         {
             var post = at + right * sign * 1.72f;
-            FencePart(parts, paint, new(.17f, 2.4f, .17f), new(basis, post + Vector3.Up * 1.2f));
+            // VIS-009: each gate post stands on its own ground. Both used the
+            // centre sample, so on a slope one post hung 1.72 m away from it.
+            var postBase = SupportBase(new Vector2(post.X, post.Z), basis, .085f, .085f) - .015f;
+            var postTop = ground + 2.4f;
+            FencePart(parts, paint, new(.17f, postTop - postBase, .17f), new(basis, new(post.X, (postTop + postBase) * .5f, post.Z)));
             FencePart(parts, "eadcc0|wood_painted_trim", new(.23f, .055f, .23f), new(basis, post + Vector3.Up * 2.42f));
             // Leaves folded 90 degrees into the yard: the street access stays fully open.
             var leaf = post + back * .65f;

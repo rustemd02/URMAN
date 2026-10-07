@@ -59,15 +59,17 @@ JSON-схемы для atmosphere-profile в `content/schemas/` нет; `Urman.C
 
 ## Съёмка на станции (Windows, через `eng/remote-check.py`)
 
-Съёмка требует запуска движка — по текущему маршруту только на станции, не локально. Для каждого capture-only состояния задать профиль до запуска и включить дамп:
+Съёмка требует запуска движка — только на станции, не локально. Профиль задаётся полем
+задания `phase` (итерация 02): клиент `--phase <id>` → worker проверяет id
+(`[a-z0-9-]{1,48}`, только `capture`) → `run-windows-check.ps1 -AtmospherePhase` ставит
+`URMAN_ATMOSPHERE_PHASE` только на время игры и пишет `atmospherePhase` в receipt.
+Каждый кадр уже несёт фактически применённый профиль (`unifiedAtmosphereProfile` в
+сайдкаре VIS-004). Неизвестный id → `GD.PushError` → раннер видит `ERROR:` и задание FAIL.
 
 ```bash
-URMAN_ATMOSPHERE_PHASE=overcast-day        URMAN_ATMOSPHERE_DUMP=out/atm_overcast.json  # smoke-сцены P06/P09/P11
-URMAN_ATMOSPHERE_PHASE=golden-hour         URMAN_ATMOSPHERE_DUMP=out/atm_golden.json    # P01/P17/P19 A/B
-URMAN_ATMOSPHERE_PHASE=village-green-night URMAN_ATMOSPHERE_DUMP=out/atm_green.json     # ночные фикс-view P01/P06/P17
-URMAN_ATMOSPHERE_PHASE=village-winter-frost  # морозное утро (он же дефолт деревни)
-URMAN_ATMOSPHERE_PHASE=zirat-winter-muted    # сумерки (дефолт zirat_road)
-URMAN_ATMOSPHERE_PHASE=kara-winter-night-edge# лесная ночь (дефолт kara_urman_night), VIS-073/074
+python3 eng/remote-check.py capture --phase overcast-day --points "<C1..C8 из checkpoints.json>"
 ```
 
-`appliedProfile`/`identity`/`snow*` в dump-файле подтверждают, какой профиль реально применён к кадру. Неизвестный id не роняет игру и не подменяется — в логе `GD.PushError` с перечнем допустимых значений, атмосфера не меняется.
+Фазы и наборы точек — `URMAN_VISUAL_RESET_EXECUTION_2026-10-07_checkpoints.json`, поле `phaseCaptures`.
+Пока станция не обновлена до этих файлов, worker отклонит поле `phase` (`unknown job field`) или
+снимок (`station execution infrastructure differs`) — это громкий отказ, не тихий кадр дефолтной фазы.

@@ -29,8 +29,9 @@ namespace Urman.Godot;
 /// the per-instance GeometryInstance3D.Transparency fade, and a window only
 /// leaves selection beyond the fade end, so occupants never pop in or out.
 ///
-/// Day/night: the authored AgentBSun energy (AtmosphereProfiles: 0.55 for the
-/// day and zirat profiles, 0.22 for the Kara night) selects a fainter, shorter
+/// Day/night: the authored AgentBSun energy (atmosphere.v1.json, 2026-10-07 colour
+/// script: frost 1.12, overcast 0.72, golden 1.60, zirat 0.55; village green night
+/// 0.30, Kara night 0.16 — VIS-037 re-checked the split) selects a fainter, shorter
 /// day pool or the full night pool. SetNight is an optional explicit override;
 /// without it the sun is read live, so a scene without the connected world still
 /// works in the subtle day mode.
@@ -55,7 +56,7 @@ public partial class WindowSilhouettes : Node3D
     // window keeps its slot unless a challenger is clearly closer, which stops
     // churn along the boundary between two rows of houses.
     private const float IncumbentFactor = .72f;
-    // AtmosphereProfiles authors day/zirat sun energy 0.55 and Kara night 0.22.
+    // Every authored day state is >= 0.55 and both night states are <= 0.30.
     private const float NightSunEnergy = .35f;
 
     private static readonly float[] VariantWidth = [.85f, .92f, .85f, .62f, .85f];

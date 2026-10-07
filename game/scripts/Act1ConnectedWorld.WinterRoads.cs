@@ -38,21 +38,42 @@ public partial class Act1ConnectedWorld
             }
             using var surface = new SurfaceTool(); surface.Begin(Mesh.PrimitiveType.Triangles);
             var walked = 0f; var triangles = 0;
+            // VIS-078: the path is a trodden channel, not a decal on the snow. Its floor
+            // stays 1 cm over the ground; the snow kicked out of it forms a soft berm
+            // either side (crest 4–7 cm, by route, so no two door paths are stamped
+            // alike) that feathers back into the untouched snow 0.6–0.95 m out.
+            var crest = .04f + .03f * (TimberHomeStyle.StableHash(id) % 100) / 100f;
+            float Rise(float lateral) => Mathf.Abs(lateral) switch
+            {
+                < .75f => .010f + .004f * Mathf.Abs(lateral),
+                < 1.2f => .035f,
+                < 1.7f => crest,
+                _ => -.004f
+            };
+            var routeLength = 0f;
+            for (var segment = 0; segment < path.Length - 1; segment++)
+                routeLength += new Vector2(path[segment + 1].X - path[segment].X, path[segment + 1].Z - path[segment].Z).Length();
             for (var segment = 0; segment < path.Length - 1; segment++)
             {
                 var a = path[segment]; var b = path[segment + 1];
                 var flat = new Vector2(b.X - a.X, b.Z - a.Z);
                 if (flat.LengthSquared() < .0001f) continue;
-                var side = new Vector3(flat.Y, 0, -flat.X).Normalized() * .32f;
+                var across = new Vector3(flat.Y, 0, -flat.X).Normalized();
                 var count = Mathf.Max(1, Mathf.CeilToInt(flat.Length() / .45f));
+                var segmentStart = walked;
+                var segmentLength = flat.Length();
                 Vector3 Point(float t, float lateral)
                 {
-                    var p = a.Lerp(b, t) + side * lateral;
-                    return new(p.X, AgentBAct1HeightField.CollisionGround(p.X, p.Z) + .014f, p.Z);
+                    // VIS-012: the last metres before the door are shovelled to a
+                    // 1 m working width; the street end stays a 0.64 m trodden line.
+                    var along = segmentStart + segmentLength * t;
+                    var halfWidth = Mathf.Lerp(.32f, .50f, Mathf.SmoothStep(routeLength - 3f, routeLength - 1f, along));
+                    var p = a.Lerp(b, t) + across * halfWidth * lateral;
+                    return new(p.X, AgentBAct1HeightField.CollisionGround(p.X, p.Z) + Rise(lateral), p.Z);
                 }
                 void Vertex(float t, float lateral)
                 {
-                    surface.SetNormal(Vector3.Up);
+                    // UV.x beyond 0..1 is the material's fresh-snow side (soft_path_edges).
                     surface.SetUV(new((lateral + 1) * .5f, walked + flat.Length() * t));
                     surface.SetColor(Colors.White); surface.AddVertex(ToLocal(Point(t, lateral)));
                 }
@@ -64,12 +85,17 @@ public partial class Act1ConnectedWorld
                     // Do not paint a terrain strip over a raised porch, tread,
                     // interior floor or bridge which owns its own surface.
                     if (Mathf.Abs(centre.Y - .035f - ground) > .12f) continue;
-                    Vertex(t0, -1); Vertex(t1, 1); Vertex(t1, -1);
-                    Vertex(t0, -1); Vertex(t0, 1); Vertex(t1, 1); triangles += 2;
+                    for (var band = 0; band < Laterals.Length - 1; band++)
+                    {
+                        var l0 = Laterals[band]; var l1 = Laterals[band + 1];
+                        Vertex(t0, l0); Vertex(t1, l1); Vertex(t1, l0);
+                        Vertex(t0, l0); Vertex(t0, l1); Vertex(t1, l1); triangles += 2;
+                    }
                 }
                 walked += flat.Length();
             }
             if (triangles == 0) continue;
+            surface.GenerateNormals();
             surface.Index();
             var mesh = new MeshInstance3D { Name = "WinterPath_" + id, Mesh = surface.Commit(),
                 MaterialOverride = PainterlyMaterialLibrary.ForPath("c9cdcd"),
@@ -77,7 +103,71 @@ public partial class Act1ConnectedWorld
             mesh.SetMeta("accessId", id); mesh.SetMeta("routeRevision", revision);
             mesh.SetMeta("routeOwner", "AddressAccessVerifier + SettlementGraph");
             AddChild(mesh); _winterAccessMeshes.Add(id, mesh);
+            // The heap is conformed through global transforms, so the path is in the tree first.
+            AddShovelHeap(mesh, id, path, routeLength);
         }
+    }
+
+    /// <summary>
+    /// VIS-012: the snow thrown off the cleared door end lies in one heap beside the
+    /// path, 1.6 m short of the door, on whichever side is open ground (not a
+    /// building footprint, not a porch or deck). Visual only; it never blocks.
+    /// </summary>
+    // Cross-section samples in half-widths: floor, channel wall, berm crest, feathered edge.
+    private static readonly float[] Laterals = [-1.9f, -1.45f, -1f, -.5f, 0f, .5f, 1f, 1.45f, 1.9f];
+
+    private void AddShovelHeap(Node3D pathMesh, string accessId, Vector3[] path, float routeLength)
+    {
+        if (routeLength < 3.5f) return;
+        var target = routeLength - 1.6f;
+        var walked = 0f;
+        for (var segment = 0; segment < path.Length - 1; segment++)
+        {
+            var a = path[segment]; var b = path[segment + 1];
+            var flat = new Vector2(b.X - a.X, b.Z - a.Z);
+            var length = flat.Length();
+            if (length < .01f || walked + length < target) { walked += length; continue; }
+            var at = a.Lerp(b, (target - walked) / length);
+            var across = new Vector2(flat.Y, -flat.X) / length;
+            var footprints = AddressRegistry?.Buildings.Values
+                .Where(building => building.Footprint.Count >= 3)
+                .Select(building => building.Footprint.Select(q => new Vector2((float)q.X, (float)q.Z)).ToArray())
+                .ToArray() ?? [];
+            // Prefer a side by the access id so neighbouring houses do not all
+            // throw their snow the same way; fall back to the other side.
+            var first = TimberHomeStyle.StableHash(accessId) % 2 == 0 ? 1f : -1f;
+            foreach (var sign in new[] { first, -first })
+            {
+                var centre = new Vector2(at.X, at.Z) + across * sign * 1.0f;
+                var ground = AgentBAct1HeightField.CollisionGround(centre.X, centre.Y);
+                var pathGround = AgentBAct1HeightField.CollisionGround(at.X, at.Z);
+                if (Mathf.Abs(ground - pathGround) > .12f || Mathf.Abs(at.Y - .035f - pathGround) > .12f) continue;
+                var clear = true;
+                foreach (var offset in new[] { 0f, -.6f, .6f })
+                {
+                    var probe = centre + across * sign * .45f + new Vector2(flat.X, flat.Y) / length * offset;
+                    if (footprints.Any(polygon => PointInPolygon(polygon, probe))) { clear = false; break; }
+                }
+                if (!clear) continue;
+                // Near-round footprint: the detail is conformed to the terrain in its
+                // own frame, so it is not rotated afterwards.
+                var heap = AddYardSnowDetail(pathMesh, "ShovelHeap", new(.85f, .26f, .95f),
+                    new Vector3(centre.X, ground, centre.Y), "e4eaee");
+                heap.SetMeta("presentationRole", "snow thrown off the shovelled door end of this access path");
+                return;
+            }
+            return;
+        }
+    }
+
+    private static bool PointInPolygon(Vector2[] polygon, Vector2 point)
+    {
+        var inside = false;
+        for (int i = 0, j = polygon.Length - 1; i < polygon.Length; j = i++)
+            if ((polygon[i].Y > point.Y) != (polygon[j].Y > point.Y)
+                && point.X < (polygon[j].X - polygon[i].X) * (point.Y - polygon[i].Y) / (polygon[j].Y - polygon[i].Y + 1e-6f) + polygon[i].X)
+                inside = !inside;
+        return inside;
     }
 
     private static void BuildNorthWinterRoads(Node3D core)

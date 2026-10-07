@@ -355,13 +355,29 @@ public static class GeneratedCharacterKitDressing
             : "cloth";
         // Living characters do not carry the roof/furniture snow blanket on
         // shoulders and boots. Reuse the existing no-deposit material variant.
-        mesh.MaterialOverride = prefix == "CouncilWitness" && surface == "cloth"
+        mesh.MaterialOverride = surface == "cloth" && (prefix == "CouncilWitness" || HasMetricClothUv(mesh))
             ? PainterlyMaterialLibrary.ForMovingCloth(color)
             : PainterlyMaterialLibrary.ForColor(color, surface, sheltered: true);
         mesh.SetMeta("painterlyMaterial", surface.Length == 0 ? "shader" : surface);
     }
 
     private static readonly Dictionary<string, Material> HumanMaterials = new(StringComparer.Ordinal);
+
+    /// <summary>
+    /// VIS-104: the generators mark cloth that has metric rest UVs with the
+    /// "cloth_uv_units" property (glTF node extras). Only such meshes may take the
+    /// UV-bound cloth material; without the mark the UVs are not metric and the
+    /// world-space projection stays, so an unregenerated kit looks as before.
+    /// </summary>
+    internal static bool HasMetricClothUv(MeshInstance3D mesh) =>
+        mesh.HasMeta("extras") && mesh.GetMeta("extras").VariantType == Variant.Type.Dictionary
+        && mesh.GetMeta("extras").AsGodotDictionary().ContainsKey("cloth_uv_units");
+
+    /// <summary>Cloth for an address-specific recolour of a skinned NPC piece (mosque imam, shop seller).</summary>
+    internal static Material ClothFor(MeshInstance3D mesh, string htmlColor) =>
+        HasMetricClothUv(mesh)
+            ? PainterlyMaterialLibrary.ForMovingCloth(htmlColor)
+            : PainterlyMaterialLibrary.ForColor(htmlColor, "cloth", sheltered: true);
 
     /// <summary>
     /// Human kit materials are named "&lt;hex&gt;__&lt;surface&gt;": clothing and hair
@@ -374,14 +390,15 @@ public static class GeneratedCharacterKitDressing
         {
             var authored = mesh.Mesh.SurfaceGetMaterial(surface);
             var name = authored?.ResourceName ?? string.Empty;
-            var key = $"{name}|{sheltered}|{prefix == "Alsu"}";
+            var uvCloth = prefix == "Alsu" || HasMetricClothUv(mesh);
+            var key = $"{name}|{sheltered}|{uvCloth}";
             if (!HumanMaterials.TryGetValue(key, out var material))
             {
                 var parts = name.Split("__", 2);
                 if (parts.Length == 2 && parts[0].Length == 6 && parts[1] != "skin_textured")
                 {
                     var surfaceKind = parts[1] is "hair" ? string.Empty : "cloth";
-                    material = prefix == "Alsu" && surfaceKind == "cloth"
+                    material = uvCloth && surfaceKind == "cloth"
                         ? PainterlyMaterialLibrary.ForMovingCloth(parts[0])
                         : PainterlyMaterialLibrary.ForColor(parts[0], surfaceKind, sheltered: true);
                 }

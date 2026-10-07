@@ -74,6 +74,11 @@ public static class PainterlyMaterialLibrary
         // large-value macro breakup that keeps long walls/fields from
         // reading as one flat pour.
         uniform float ground_darken = 0.0;
+        // VIS-033: the contact band is measured from each instance's own support
+        // height (set per instance, so one shared material serves every post),
+        // not from world Y = 0. The 3 m default keeps the legacy curve.
+        instance uniform float ground_base_y = 0.0;
+        uniform float ground_contact_height = 3.0;
         uniform float cell_jitter = 0.0;
         // Phase 7 life: gentle vertex sway for foliage/grass materials.
         // Global switch honors the reduced-motion accessibility contract.
@@ -248,7 +253,7 @@ public static class PainterlyMaterialLibrary
             // Grounding: darken the first metres above the ground line so
             // facades/fences sit into the dirt instead of floating on it.
             float ground_line = 1.0 - ground_darken
-                * (1.0 - clamp(world_position.y / 3.0, 0.0, 1.0));
+                * (1.0 - clamp((world_position.y - ground_base_y) / ground_contact_height, 0.0, 1.0));
             wet_factor = clamp(wet_grade * (0.74 + 0.26 * upward), 0.0, 1.0);
             ALBEDO = mix(painted_shadow, painted_color, wash)
                 * macro_pigment
@@ -702,9 +707,32 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("authored_uv_texture", true);
         material.SetShaderParameter("bound_uv_pigment", true);
         material.SetShaderParameter("ground_darken", 0f);
+        // VIS-007 §5.8: cell_tint is quantised on a 6 m world grid; on a walking
+        // body it would step through tints. Deforming cloth never takes it.
+        material.SetShaderParameter("cell_jitter", 0f);
         Materials[key] = material;
         return material;
     }
+
+    /// <summary>
+    /// VIS-033 pilot: a static upright whose foot darkens over the first
+    /// <paramref name="contactHeight"/> metres above its own support. Pair it with
+    /// <see cref="SetGroundContact"/> on each instance; the material stays shared.
+    /// </summary>
+    public static ShaderMaterial ForGroundContact(string htmlColor, string surface, float darken = .22f, float contactHeight = .18f)
+    {
+        var key = FormattableString.Invariant($"ground-contact:{surface}:{htmlColor}:{darken:R}:{contactHeight:R}");
+        if (Materials.TryGetValue(key, out var existing)) return existing;
+        var material = (ShaderMaterial)ForColor(htmlColor, surface).Duplicate();
+        material.SetShaderParameter("ground_darken", darken);
+        material.SetShaderParameter("ground_contact_height", contactHeight);
+        Materials[key] = material;
+        return material;
+    }
+
+    /// <summary>World height of the surface this instance stands on (per-instance, no material copy).</summary>
+    public static void SetGroundContact(GeometryInstance3D instance, float supportWorldY) =>
+        instance.SetInstanceShaderParameter("ground_base_y", supportWorldY);
 
     public static ShaderMaterial ForLocalWoodPiece(string htmlColor, Vector3 pieceOffset)
     {
@@ -720,6 +748,9 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("local_wood_offset", pieceOffset);
         material.SetShaderParameter("texture_scale", new Vector2(.55f, .30f));
         material.SetShaderParameter("snow_coverage", .14f);
+        // VIS-007 §5.4: a carried board must not change tint when it crosses a
+        // 6 m world cell (mode E: movable rigid-local piece).
+        material.SetShaderParameter("cell_jitter", 0f);
         Materials[cacheKey] = material;
         return material;
     }
@@ -768,12 +799,41 @@ public static class PainterlyMaterialLibrary
         return material;
     }
 
+    // VIS-007 step 3: every surface name is an explicit mode choice. Families with
+    // a map are listed in SurfaceTextures; these are tuned without a map, and these
+    // are semantic labels that deliberately take the flat painterly default (other
+    // owners such as the police post remap them). Anything else is a typo or a new
+    // branch that skipped the choice: it still renders, but loudly.
+    private static readonly HashSet<string> TunedWithoutMap = new(StringComparer.Ordinal)
+    {
+        "bark_birch", "enamel", "grass", "grass_tuft", "iron", "leaf_birch", "ornament_trim",
+        "roof", "roof_metal", "water", "wood_carved", "wood_cut"
+    };
+    private static readonly HashSet<string> FlatByDesign = new(StringComparer.Ordinal)
+    {
+        "ceramic", "glass", "leather", "metal", "painted", "paper", "rubber"
+    };
+    private static readonly HashSet<string> ReportedUnknownSurfaces = new(StringComparer.Ordinal);
+
     public static Material ForColor(string htmlColor, string surface = "", bool sheltered = false)
     {
+        // VIS-038: "fabric" and "cloth" wrote byte-identical parameters (same map,
+        // scale, brush, finish and snow); one cache entry serves both names.
+        if (surface == "fabric") surface = "cloth";
         var cacheKey = $"{surface}:{htmlColor}:{(sheltered ? "sheltered" : "exposed")}";
         if (Materials.TryGetValue(cacheKey, out var existing))
         {
             return existing;
+        }
+
+        if (surface.Length > 0
+            && !SurfaceTextures.ContainsKey(surface)
+            && !TunedWithoutMap.Contains(surface)
+            && !FlatByDesign.Contains(surface)
+            && ReportedUnknownSurfaces.Add(surface))
+        {
+            global::Godot.GD.PushWarning(
+                $"PainterlyMaterialLibrary: surface '{surface}' has no declared mode; it gets the flat world-space default.");
         }
 
         var color = Color.FromHtml(htmlColor);

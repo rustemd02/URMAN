@@ -1384,9 +1384,13 @@ def main() -> None:
     for index, (prefix, coat, accent, has_hat, has_beard) in enumerate(CHARACTERS):
         create_character(prefix, coat, accent, has_hat, has_beard, index * 2.4, materials, head_templates)
 
+    # VIS-104: every character's cloth gets metric rest UVs, not only the player's
+    # body (CouncilWitness). The "cloth_uv_units" property travels as glTF node
+    # extras; the runtime binds UV cloth only to meshes that carry it.
+    prefixes = tuple(prefix + "_" for prefix, *_rest in CHARACTERS)
     for obj in bpy.context.scene.objects:
-        if obj.type == "MESH" and obj.name.startswith("CouncilWitness_") and not any(
-                part in obj.name for part in ("Hand", "Head", "Hair", "Face", "Ear", "Neck")):
+        if obj.type == "MESH" and obj.name.startswith(prefixes) and not any(
+                part in obj.name for part in ("Hand", "Head", "Hair", "Face", "Ear", "Neck", "Eye", "Brow", "Beard")):
             metric_cloth_uv(obj)
     lod_count = generate_lod1_variants()
     rigs = [add_animation_rig(prefix, index * 2.4) for index, (prefix, *_rest) in enumerate(CHARACTERS)]
@@ -1420,6 +1424,7 @@ def main() -> None:
         export_animation_mode="ACTIONS",
         export_nla_strips=False,
         export_force_sampling=True,
+        export_extras=True,
     )
     print(f"URMAN character kit: {blend_path}")
     print(f"URMAN character kit: {glb_path}")

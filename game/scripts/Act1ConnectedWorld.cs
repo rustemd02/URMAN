@@ -671,9 +671,13 @@ public partial class Act1ConnectedWorld : Node3D
         VehicleFleet?.SetZonePresentation(zoneId, useExteriorAtmosphere);
         AlsuStreetWalkPresentation.SessionOwner(GetTree())?.SetZonePresentation(zoneId, useExteriorAtmosphere && !isKaraNight);
         SetMeta("activeZoneId", ActiveZoneId);
+        // VIS-006 §5.2: outdoors the single active environment is the exterior
+        // layer's, so count it instead of reporting 0 for the zone-owned ones.
         SetMeta(
             "activeWorldEnvironmentCount",
-            useExteriorAtmosphere ? 0 : _environmentsByZone[zoneId].Count);
+            useExteriorAtmosphere
+                ? (exteriorLayer?.ExteriorEnvironmentActive == true ? 1 : 0)
+                : _environmentsByZone[zoneId].Count);
         SetMeta("activeExteriorAtmosphere", useExteriorAtmosphere);
         GetNodeOrNull<AddressAccessVerifier>("AddressAccessVerification")?.NotifyPresentationChanged();
         SetMeta(
@@ -1283,7 +1287,7 @@ public partial class Act1ConnectedWorld : Node3D
                 var print = AddVisualBox(trail, $"Print{i}_{foot}",
                     new(0.13f, 0.016f, 0.26f),
                     new(x + (foot == 0 ? offset : -offset), ground + 0.003f, z + (foot == 0 ? 0.10f : -0.10f)),
-                    "aebec9", "snow", yawDegrees: -58f);
+                    "aebec9", "snow_trampled", yawDegrees: -58f);
                 print.Mesh = new SphereMesh { Radius = .13f, Height = .012f, RadialSegments = 10, Rings = 2 };
                 print.Scale = new Vector3(.55f, 1f, 1f);
             }
@@ -7497,9 +7501,22 @@ public partial class Act1ConnectedWorld : Node3D
                     // Clods: broad swells every few metres, shovel-sized lumps across the crest.
                     var lumps = .74f + .3f * Mathf.Sin(z * .7f + phase) * Mathf.Sin(z * .29f + phase * 1.7f)
                         + .16f * Mathf.Sin(z * 2.1f + xIndex * 1.3f + phase) * Mathf.Sin(z * 1.37f - xIndex * .7f);
-                    var plateau = Mathf.Min(1f, rounded * 1.35f);
-                    vertices[vertexIndex].X *= .88f + .2f * Mathf.Sin(z * .5f + phase) * Mathf.Sin(z * .23f)
+                    var widthScale = .88f + .2f * Mathf.Sin(z * .5f + phase) * Mathf.Sin(z * .23f)
                         + .05f * Mathf.Sin(z * 1.9f + xIndex);
+                    if (centerline is not null)
+                    {
+                        // VIS-011: a plowed street bank is level along its length; the
+                        // even sine swells read as an engineered profile. It changes only
+                        // where people cleared an opening: the snow thrown out of a gate
+                        // or lane piles up just before each run end, then the cap tapers.
+                        // One very long, non-repeating rise keeps a 50 m run from being a ruler.
+                        var thrown = Mathf.Exp(-Mathf.Pow((fromEnd - 1.6f) / .9f, 2f));
+                        lumps = .84f + .32f * thrown + .05f * Mathf.Sin(z * .11f + phase)
+                            + .025f * Mathf.Sin(z * 2.3f + xIndex * 1.7f + phase) * (1f - .6f * thrown);
+                        widthScale = .92f + .16f * thrown + .04f * Mathf.Sin(z * .13f + phase * 1.3f);
+                    }
+                    var plateau = Mathf.Min(1f, rounded * 1.35f);
+                    vertices[vertexIndex].X *= widthScale;
                     vertices[vertexIndex].Y = -.025f + cap * plateau * height * Mathf.Max(.35f, lumps);
                 }
                 else if (trodden)
@@ -7798,8 +7815,11 @@ public partial class Act1ConnectedWorld : Node3D
         {
             AddVisualBox(facade, "Porch", new(2.55f, 0.16f, 1.08f), new(doorX, 0.14f, frontZ + 0.40f), "6a4d38", "wood");
             AddVisualBox(facade, "PorchRoof", new(3.0f, 0.14f, 1.0f), new(doorX, 2.18f, frontZ + 0.48f), roofColor, "wood", rollDegrees: 6f);
-            AddVisualBox(facade, "PorchPostLeft", new(0.11f, 1.95f, 0.11f), new(doorX - 1.05f, 1.08f, frontZ + 0.78f), trimColor, "wood");
-            AddVisualBox(facade, "PorchPostRight", new(0.11f, 1.95f, 0.11f), new(doorX + 1.05f, 1.08f, frontZ + 0.78f), trimColor, "wood");
+            // VIS-032: the posts take the existing vertical-grain family (object-local
+            // projection, as the roadside fence posts), so the grain runs up the post
+            // instead of across it from the world-triplanar "wood" projection.
+            AddVisualBox(facade, "PorchPostLeft", new(0.11f, 1.95f, 0.11f), new(doorX - 1.05f, 1.08f, frontZ + 0.78f), trimColor, "wood_fence_vertical");
+            AddVisualBox(facade, "PorchPostRight", new(0.11f, 1.95f, 0.11f), new(doorX + 1.05f, 1.08f, frontZ + 0.78f), trimColor, "wood_fence_vertical");
         }
 
         return facade;
@@ -7836,8 +7856,12 @@ public partial class Act1ConnectedWorld : Node3D
             world.Y = AgentBAct1HeightField.CollisionGround(world.X, world.Z) - .04f;
             var bottom = canopy.ToLocal(world).Y;
             var top = 2.08f + Mathf.Tan(Mathf.DegToRad(5)) * x - .08f;
-            AddVisualBox(canopy, "Post", new(.12f, top - bottom, .12f),
+            var post = AddVisualBox(canopy, "Post", new(.12f, top - bottom, .12f),
                 new(x, (top + bottom) * .5f, z), postColor, "wood_fence");
+            // VIS-033 pilot: the foot darkens from this post's own ground, so a
+            // post further up the slope does not darken along its whole height.
+            post.MaterialOverride = PainterlyMaterialLibrary.ForGroundContact(postColor, "wood_fence");
+            PainterlyMaterialLibrary.SetGroundContact(post, world.Y + .04f);
         }
 
         AddVisualBox(canopy, "Roof", new(width + 0.30f, 0.18f, depth + 0.32f), new(0f, 2.08f, 0f), roofColor, "wood", rollDegrees: 5f);
@@ -8705,13 +8729,90 @@ public partial class Act1ConnectedWorld : Node3D
             surface.GenerateNormals();
             return surface.Commit();
         }
+        (float Height, float Radius)[] hayProfile =
+            [(0f, 1.30f), (.60f, 1.27f), (1.28f, 1.08f), (1.90f, .76f), (2.34f, .34f), (2.58f, .035f)];
+        // VIS-013: the cap was the hay's own top rings scaled up, a regular white
+        // cone. It is now one asymmetric mass laid over the hay shoulders: thin at
+        // its edge so it sits on the straw, thicker on the windward side, with
+        // three unequal tongues slumping down the shoulder. 24×4 quads + apex fan
+        // = 216 triangles.
+        ArrayMesh SnowCap()
+        {
+            const int capSegments = 24;
+            const int capRings = 5;
+            float HayRadius(float h)
+            {
+                for (var i = 0; i < hayProfile.Length - 1; i++)
+                {
+                    var (h0, r0) = hayProfile[i];
+                    var (h1, r1) = hayProfile[i + 1];
+                    if (h <= h1) return Mathf.Lerp(r0, r1, Mathf.Clamp((h - h0) / (h1 - h0), 0f, 1f));
+                }
+                return hayProfile[^1].Radius;
+            }
+            float Bump(float angle, float centre, float width)
+            {
+                var d = Mathf.Wrap(angle - centre, -Mathf.Pi, Mathf.Pi);
+                return Mathf.Exp(-d * d / (width * width));
+            }
+            using var surface = new SurfaceTool();
+            surface.Begin(Mesh.PrimitiveType.Triangles);
+            var points = new Vector3[capRings, capSegments];
+            const float apexHeight = 2.58f;
+            for (var index = 0; index < capSegments; index++)
+            {
+                var angle = Mathf.Tau * index / capSegments;
+                var irregularity = 1f + .035f * Mathf.Sin(angle * 3f + .7f) + .022f * Mathf.Cos(angle * 5f);
+                // Unequal slumps; no regular ring edge.
+                var edgeHeight = 1.90f - .24f * Bump(angle, .9f, .38f) - .13f * Bump(angle, 2.75f, .30f)
+                    - .18f * Bump(angle, 4.65f, .45f) + .05f * Mathf.Sin(angle * 2f + 1.3f);
+                var windward = .5f + .5f * Mathf.Cos(angle - 1.2f);
+                for (var ring = 0; ring < capRings; ring++)
+                {
+                    var t = ring / (capRings - 1f);
+                    var h = Mathf.Lerp(edgeHeight, apexHeight, Mathf.Pow(t, .85f));
+                    // .025 m at the hugging edge, 0.10–0.19 m once on the shoulder.
+                    var depth = Mathf.Lerp(.025f, .10f + .09f * windward, Mathf.SmoothStep(0f, .38f, t));
+                    // The last ring is a rounded crown over the pole, not a point.
+                    var radius = ring == capRings - 1 ? .17f * irregularity : HayRadius(h) * irregularity + depth;
+                    var y = ring == capRings - 1 ? apexHeight + .10f : h + depth * Mathf.SmoothStep(.4f, 1f, t);
+                    points[ring, index] = new Vector3(Mathf.Cos(angle) * radius, y,
+                        Mathf.Sin(angle) * radius * .84f);
+                }
+            }
+            // The crown leans a little to the lee instead of peaking on the axis.
+            var apex = new Vector3(-.05f, apexHeight + .17f, .03f);
+            void CapVertex(Vector3 point, float u)
+            {
+                surface.SetUV(new Vector2(u, point.Y * .75f));
+                surface.AddVertex(point);
+            }
+            for (var ring = 0; ring < capRings - 1; ring++)
+            for (var index = 0; index < capSegments; index++)
+            {
+                var next = (index + 1) % capSegments;
+                var u = index / (float)capSegments * 3f;
+                var v = (index + 1) / (float)capSegments * 3f;
+                CapVertex(points[ring, index], u); CapVertex(points[ring, next], v); CapVertex(points[ring + 1, index], u);
+                CapVertex(points[ring, next], v); CapVertex(points[ring + 1, next], v); CapVertex(points[ring + 1, index], u);
+            }
+            for (var index = 0; index < capSegments; index++)
+            {
+                var next = (index + 1) % capSegments;
+                CapVertex(apex, .5f);
+                CapVertex(points[capRings - 1, index], 0f);
+                CapVertex(points[capRings - 1, next], 1f);
+            }
+            surface.GenerateNormals();
+            return surface.Commit();
+        }
         var hayMaterial = PainterlyMaterialLibrary.ForColor("9b978c", "hay_fibers", sheltered: true);
         var hay = new MeshInstance3D { Name = "HayPackedBody",
-            Mesh = Profile([(0f, 1.30f), (.60f, 1.27f), (1.28f, 1.08f), (1.90f, .76f), (2.34f, .34f), (2.58f, .035f)], true),
+            Mesh = Profile(hayProfile, true),
             MaterialOverride = hayMaterial };
         stack.AddChild(hay);
         var snow = new MeshInstance3D { Name = "HaySnowCap",
-            Mesh = Profile([(1.91f, .79f), (2.37f, .36f), (2.62f, .038f)], false),
+            Mesh = SnowCap(),
             MaterialOverride = PainterlyMaterialLibrary.ForColor("e8edf1", "snow_ground") };
         stack.AddChild(snow);
         var pole = AddVisualBox(stack, "HayPole", new(.10f, 2.85f, .10f), new(0, 1.40f, 0), "6b5b46", "wood");
