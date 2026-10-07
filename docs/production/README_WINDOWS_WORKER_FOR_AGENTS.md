@@ -45,6 +45,21 @@ station already has N of M files, sending K`. Станция хранит по �
 чужой прокси). Переменные `HTTPS_PROXY`/`URMAN_STATION_PROXY` продолжают работать.
 Штатный способ без прокси — обычное приложение Tailscale с системным туннелем.
 
+### Если `tailscale status` говорит «failed to connect to local tailscaled»
+
+Симптом: `dial unix /var/run/tailscaled.socket: connect: no such file or directory`.
+Это **не** значит, что сеть или станция недоступны: демон запущен пользовательским
+агентом и слушает нестандартный сокет, потому что без root путь
+`/var/run/tailscaled.socket` создать нельзя. Список узлов смотри так:
+
+```sh
+tailscale --socket="$HOME/.config/urman-station/tailscaled.sock" status
+```
+
+Для проверок станции сокет не нужен вовсе: `eng/remote-check.py` ходит через прокси из
+`client.json`. Поэтому вывод «доступа к Windows нет» по одной только этой ошибке
+неверен — сначала выполни `doctor` и смотри его `ready`.
+
 Из корня репозитория:
 
 ```sh
