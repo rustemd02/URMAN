@@ -23,6 +23,11 @@ from remote_common import (MAX_ARCHIVE, canonical, digest, unpack_snapshot,
 # new build sends only the files that actually changed instead of the whole tree.
 MAX_BLOB = 512 * 1024**2
 KEEP_MANIFESTS = 50
+KEEP_ARCHIVES = 1        # the newest archive is what an empty blob store is seeded from
+BLOB_GRACE = 24 * 3600   # content a client may still be uploading is not collected
+
+def tree_bytes(root):
+    return sum(p.stat().st_size for p in root.rglob('*') if p.is_file())
 
 def blob_path(blobs, sha):
     return blobs / sha[:2] / sha
@@ -144,6 +149,44 @@ class Station:
         for path in extra[KEEP_MANIFESTS:]:
             path.unlink(missing_ok=True)
 
+    def reclaim(self, used_snapshot):
+        """Free what the station can rebuild by itself: unpacked source trees, superseded
+        archives, interrupted uploads and blobs no stored manifest references. Receipts,
+        logs, frames and result.zip stay, so finished checks remain auditable."""
+        freed = 0
+        # Only this job runs at a time, so every leftover source tree here is already finished.
+        for source in self.jobs.glob('*/source'):
+            if source.is_dir():
+                freed += tree_bytes(source)
+                shutil.rmtree(source, ignore_errors=True)
+        cutoff = time.time() - BLOB_GRACE
+        live = set()
+        for manifest in self.manifests.glob('*.json'):
+            try:
+                live |= {meta['sha256'] for meta in
+                         json.loads(manifest.read_text(encoding='utf-8-sig'))['files'].values()}
+            except (ValueError, KeyError, OSError):
+                continue
+        archives = sorted(self.snapshots.glob('*.zip'), key=lambda p: p.stat().st_mtime, reverse=True)
+        for path in archives[KEEP_ARCHIVES:]:
+            if path.stem == used_snapshot or path.stat().st_mtime > cutoff:
+                continue
+            freed += path.stat().st_size
+            path.unlink(missing_ok=True)
+        for path in self.blobs.glob('*/*'):
+            if not path.is_file() or path.stat().st_mtime > cutoff:
+                continue
+            if path.suffix != '.part' and path.name in live:
+                continue
+            freed += path.stat().st_size
+            path.unlink(missing_ok=True)
+        return freed
+
+    def disk(self):
+        use = shutil.disk_usage(self.data)
+        return {'path': str(self.data), 'free_gb': round(use.free / 1024**3, 1),
+                'total_gb': round(use.total / 1024**3, 1)}
+
     def recovery(self):
         marker = Path(os.environ['APPDATA']) / 'Godot/app_userdata/.URMAN.protected-run.lock'
         if not marker.exists():
@@ -177,7 +220,7 @@ class Station:
                 'userdata_recovery_pending': pending, 'orphan_game_process': bool(orphaned),
                 'busy_job': self.busy, 'godot': pins['godot']['version'],
                 'sdk': json.loads((self.repo/'global.json').read_text(encoding='utf-8-sig'))['sdk']['version'],
-                'blob_store': self.blob_usage(),
+                'blob_store': self.blob_usage(), 'disk': self.disk(),
                 'gpu_acceptance': self.config.get('gpu_acceptance', 'not-run')}
 
     def submit(self, spec):
@@ -304,8 +347,14 @@ class Station:
                     if f.is_file() and not f.is_symlink():
                         archive.write(f,f.relative_to(output).as_posix())
             status['result_sha256'] = digest(path/'result.zip')
-            write_json(path/'status.json',status)
             with self.lock:
+                # Reclaim the disk the next job can rebuild for itself, and never turn a
+                # finished check into a failure because a file was still held open.
+                try:
+                    status['station_freed_bytes'] = self.reclaim(spec['snapshot_id'])
+                except OSError as error:
+                    print('station reclaim failed:', error, file=sys.stderr)
+                write_json(path/'status.json',status)
                 self.busy = None
 
 class Handler(BaseHTTPRequestHandler):
