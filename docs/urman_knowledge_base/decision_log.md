@@ -5981,3 +5981,20 @@ H032/H034/H045/H046, прослушивание.
 Приёмка выявила cold-import custom-font ошибку, Windows threaded font-import crash, кратковременную блокировку каталога userdata после timeout и ошибку sibling add_child в VehicleImmersionDetails._Ready, оставлявшую render resources без владельца при capture. Исправлены только станционный import bootstrap с восстановлением исходного project.godot, bounded rename retry в существующем guard и существующий DevViewCapture через штатный cleanup; инициализация presentation-only деталей машины перенесена на уже существующий первый physics tick. Набор тестов не расширяется; ошибочные попытки остаются FAIL в отчёте.
 
 Тестовая очистка освобождает также detached library scene AnimationCatalog (ual1_standard.glb): диагностика orphan nodes обнаружила её сохранение после capture. Освобождение выполняет существующий GodotSmokeCleanup после закрытия сцены; обычная игра сохраняет кэш.
+
+
+## 2026-10-08 — игровые запуски: локальный прогон на самой Windows-станции
+
+Поручение автора от 07.10.2026 сняло общую паузу игровых запусков от 03.10.2026, но
+авторизующий коммит `627dcfd` тронул только `AGENTS.md`, из-за чего в станционных
+документах остались прежние формулировки «отдельный запрет игровых проверок
+сохраняется». Уточнение автора 08.10.2026: тестировать локально на этом компьютере
+можно; удалённый маршрут через `eng/remote-check.py` применяется, когда разработка
+ведётся с другой машины и пользователь просит потестировать на стенде.
+
+Сведённое правило: на станции (`UnterPC`, `C:\Users\ruste\Documents\GitHub\URMAN`)
+прогон идёт напрямую через `eng\run-windows-check.ps1` под прежним guard
+`eng/protected_run.py`, без Tailscale и токена. Формулировки приведены в соответствие
+в `AGENTS.md`, `../production/WINDOWS_TEST_STATION_RU.md` и
+`../production/README_WINDOWS_WORKER_FOR_AGENTS.md`. Защита пользовательских данных,
+минимальная необходимая проверка и привязка результата к receipt без изменений.
