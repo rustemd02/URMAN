@@ -1,0 +1,5219 @@
+{
+ "task": "VIS-005",
+ "title": "Карта реальных потребителей painterly-материалов (Акт I)",
+ "snapshot": {
+  "date": "2026-10-07",
+  "git_head": "612f9bc4",
+  "note": "Рабочее дерево на момент разбора было грязным и правилось параллельно (PainterlyMaterialLibrary.cs, Act1ConnectedWorld.cs, AtmosphereProfiles.cs, AtmosphereDump.cs). Номера строк соответствуют снятому срезу; устойчивая навигация — по имени семейства, метода и ключа словаря."
+ },
+ "source_files_scanned": [
+  "game/scripts/PainterlyMaterialLibrary.cs",
+  "game/scripts/experiments/agent_b_act1/AgentBKitMaterials.cs",
+  "game/scripts/Act1ConnectedWorld.cs",
+  "game/scripts/Act1ConnectedWorld.*.cs",
+  "game/scripts/StyleBenchmarkZone.cs",
+  "game/scripts/StyleBenchmarkInteriorFactory.cs",
+  "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+  "game/scripts/GeneratedCharacterKitDressing.cs",
+  "game/scripts/GeneratedModularKitDressing.cs",
+  "game/scripts/FullGameZone.cs",
+  "game/scripts/VillageWindowMaterials.cs",
+  "game/scripts/PrologueDeepForest.cs",
+  "game/scripts/PrologueApproachRoad.cs",
+  "game/scripts/PainterlyEnvironmentDetails.cs",
+  "game/scripts/CarryableProp.Geometry.cs",
+  "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+  "game/scripts/ClinicSurfacePresentation.cs",
+  "game/scripts/BathSpirit.cs",
+  "game/scripts/TimberHomeStyle.cs"
+ ],
+ "material_registries": [
+  {
+   "name": "PainterlyMaterialLibrary.SurfaceTextures",
+   "file": "game/scripts/PainterlyMaterialLibrary.cs",
+   "line": 386,
+   "entries": 41,
+   "role": "surface family -> albedo PNG + texture_scale"
+  },
+  {
+   "name": "PainterlyMaterialLibrary.WinterTextures",
+   "file": "game/scripts/PainterlyMaterialLibrary.cs",
+   "line": 464,
+   "entries": 10,
+   "role": "зимние семейства; подключаются только если PNG существует (строка 1010-1021)"
+  },
+  {
+   "name": "AgentBKitMaterials.Map",
+   "file": "game/scripts/experiments/agent_b_act1/AgentBKitMaterials.cs",
+   "line": 14,
+   "entries": 40,
+   "role": "AB_* имя материала GLB -> (цвет, surface, emission)"
+  },
+  {
+   "name": "RegradeAct1DaylightKitMaterials",
+   "file": "game/scripts/Act1ConnectedWorld.cs",
+   "line": 2045,
+   "role": "вторая карта AB_*/URMAN_*/Fap*/WetRoad* -> painterly; применяется последней (SetSurfaceOverrideMaterial, строка 2323)"
+  },
+  {
+   "name": "RegradeKaraEdgeMaterials",
+   "file": "game/scripts/Act1ConnectedWorld.cs",
+   "line": 3693,
+   "role": "третья карта по ResourceName"
+  },
+  {
+   "name": "RebindWetVillageRoadMaterials",
+   "file": "game/scripts/Act1ConnectedWorld.cs",
+   "line": 3736,
+   "role": "четвёртая карта по ResourceName"
+  },
+  {
+   "name": "StyleBenchmarkZone.RegradeAuthoredKitMaterials",
+   "file": "game/scripts/StyleBenchmarkZone.cs",
+   "line": 1358,
+   "role": "пятая карта; три варианта (zirat/fap/день), строки 1362/1390/1422"
+  },
+  {
+   "name": "GeneratedCharacterKitDressing.ApplyPainterlyMaterial",
+   "file": "game/scripts/GeneratedCharacterKitDressing.cs",
+   "line": 252,
+   "role": "палитры персонажей -> surface \"cloth\" или \"\""
+  },
+  {
+   "name": "GeneratedCharacterKitDressing.ApplyHumanMaterials",
+   "file": "game/scripts/GeneratedCharacterKitDressing.cs",
+   "line": 371,
+   "role": "human-v2: \"<hex>__<surface>\" -> cloth/\"\""
+  },
+  {
+   "name": "VillageWindowMaterials.For",
+   "file": "game/scripts/VillageWindowMaterials.cs",
+   "line": 32,
+   "role": "8 общих оконных ресурсов, отдельный шейдер"
+  }
+ ],
+ "duplicate_texture_reuse": {
+  "res://assets/textures/painterly/old_fabric_v3_albedo.png": [
+   "cloth",
+   "fabric",
+   "fabric_pattern"
+  ],
+  "res://assets/textures/painterly/damp_earth_v3_albedo.png": [
+   "earth",
+   "wet_road"
+  ],
+  "res://assets/textures/painterly/hay_fibers_v1_albedo.png": [
+   "hay_bundle",
+   "hay_fibers"
+  ],
+  "res://assets/textures/painterly/damp_earth_v5_albedo.png": [
+   "terrain",
+   "wet_ground"
+  ],
+  "res://assets/textures/painterly/urman_w01_v01_basecolor.png": [
+   "wood_facade",
+   "wood_log_uv"
+  ],
+  "res://assets/textures/painterly/urman_w02_v02_basecolor.png": [
+   "wood_fence_rail",
+   "wood_fence_uv",
+   "wood_fence_vertical"
+  ],
+  "res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png": [
+   "wood_furniture",
+   "wood_prop"
+  ]
+ },
+ "families": {
+  "bark_birch": {
+   "family": "bark_birch",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "bark_birch",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.3,
+   "authored_snow_sparkle": 0.22,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2146
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2183
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2184
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3704
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1377
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1400
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1401
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1431
+    }
+   ],
+   "callsite_count": 11,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2146
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2183
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2184
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3704
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1377
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1400
+    }
+   ],
+   "direct_factory_count": 10
+  },
+  "bark_birch_winter": {
+   "family": "bark_birch_winter",
+   "table": "WinterTextures",
+   "table_line": 464,
+   "albedo_source": "res://assets/textures/painterly/urman_f01_v03_basecolor.png",
+   "uv_scale": [
+    1.3333,
+    0.6667
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "bark_birch_winter",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": true,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.3,
+   "authored_snow_sparkle": 0.22,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+     "line": 1724
+    }
+   ],
+   "callsite_count": 1,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "bark_pine": {
+   "family": "bark_pine",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_f02_v02_basecolor.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "bark_pine",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": true,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.3,
+   "authored_snow_sparkle": 0.22,
+   "authored_cell_jitter": 0.2,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2168
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3699
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1426
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+     "line": 202
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+     "line": 207
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+     "line": 1724
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBKitMaterials.cs",
+     "line": 29
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBKitMaterials.cs",
+     "line": 30
+    }
+   ],
+   "callsite_count": 11,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2168
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3699
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1426
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+     "line": 202
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+     "line": 207
+    },
+    {
+     "file": "game/scripts/PrologueDeepForest.cs",
+     "line": 318
+    }
+   ],
+   "direct_factory_count": 7
+  },
+  "carpet": {
+   "family": "carpet",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/carpet_palas_v1_albedo.png",
+   "uv_scale": [
+    0.25,
+    0.4
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "carpet",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 148
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 171
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 201
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 214
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 215
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 318
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 296
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 297
+    }
+   ],
+   "callsite_count": 12,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "cloth": {
+   "family": "cloth",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/old_fabric_v3_albedo.png",
+   "uv_scale": [
+    2.0,
+    2.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "cloth",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.3,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+     "line": 230
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs",
+     "line": 96
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs",
+     "line": 100
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs",
+     "line": 101
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs",
+     "line": 104
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs",
+     "line": 108
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueBooks.cs",
+     "line": 108
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Officer.cs",
+     "line": 25
+    }
+   ],
+   "callsite_count": 46,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueBooks.cs",
+     "line": 108
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Officer.cs",
+     "line": 25
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueClothing.cs",
+     "line": 52
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueCarpets.cs",
+     "line": 270
+    },
+    {
+     "file": "game/scripts/GeneratedCharacterKitDressing.cs",
+     "line": 400
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PublicBuildings.cs",
+     "line": 304
+    }
+   ],
+   "direct_factory_count": 11
+  },
+  "cloth_clinic": {
+   "family": "cloth_clinic",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_t10_v02_basecolor.png",
+   "uv_scale": [
+    2.0,
+    2.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "cloth_clinic",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.3,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1479
+    }
+   ],
+   "callsite_count": 1,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1479
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "cloth_curtain": {
+   "family": "cloth_curtain",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_t04_v01_basecolor.png",
+   "uv_scale": [
+    2.0,
+    2.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "cloth",
+   "anchor_space_albedo": "UV",
+   "anchor_space_pigment": "UV (bound_uv_pigment)",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": true,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.3,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.cs",
+     "line": 253
+    }
+   ],
+   "callsite_count": 1,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.cs",
+     "line": 253
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "cloth_table": {
+   "family": "cloth_table",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_t01_v02_basecolor.png",
+   "uv_scale": [
+    2.0,
+    2.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "cloth",
+   "anchor_space_albedo": "UV",
+   "anchor_space_pigment": "UV (bound_uv_pigment)",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": true,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.3,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [],
+   "callsite_count": 0,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "cloth_towel": {
+   "family": "cloth_towel",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_t07_v01_basecolor.png",
+   "uv_scale": [
+    2.0,
+    2.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "cloth",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.3,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueLayoutV4.cs",
+     "line": 58
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 382
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 155
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 240
+    },
+    {
+     "file": "game/scripts/ClinicSurfacePresentation.cs",
+     "line": 91
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
+     "line": 128
+    }
+   ],
+   "callsite_count": 6,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/ClinicSurfacePresentation.cs",
+     "line": 91
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "earth": {
+   "family": "earth",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/damp_earth_v3_albedo.png",
+   "uv_scale": [
+    0.55,
+    1.1
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "earth",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.1,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 977
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 997
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3697
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3744
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3745
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3746
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 4626
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 5743
+    }
+   ],
+   "callsite_count": 108,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3697
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3744
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3745
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3746
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1365
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1366
+    }
+   ],
+   "direct_factory_count": 14
+  },
+  "enamel": {
+   "family": "enamel",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "enamel",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.035
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 117
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 127
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 149
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 181
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 209
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 229
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 230
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 232
+    }
+   ],
+   "callsite_count": 14,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "fabric": {
+   "family": "fabric",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/old_fabric_v3_albedo.png",
+   "uv_scale": [
+    2.0,
+    2.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "fabric",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.3,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2300
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7946
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 120
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 379
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 386
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 387
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 388
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.YardMechanisms.cs",
+     "line": 39
+    }
+   ],
+   "callsite_count": 47,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2300
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.Gorge.cs",
+     "line": 216
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.OptionalDiscoveries.cs",
+     "line": 220
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.OptionalDiscoveries.cs",
+     "line": 231
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueCarpets.cs",
+     "line": 65
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.QuietCareDiscoveries.cs",
+     "line": 281
+    }
+   ],
+   "direct_factory_count": 13
+  },
+  "fabric_pattern": {
+   "family": "fabric_pattern",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/old_fabric_v3_albedo.png",
+   "uv_scale": [
+    2.6,
+    2.6
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "fabric_pattern",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": true,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.3,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 153
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 197
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 198
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 213
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 325
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 326
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 328
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 332
+    }
+   ],
+   "callsite_count": 8,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "fabric_upholstery": {
+   "family": "fabric_upholstery",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_t08_v01_basecolor.png",
+   "uv_scale": [
+    2.0,
+    2.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "fabric_upholstery",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.3,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 152
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 163
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 174
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 196
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 200
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 324
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 327
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 342
+    }
+   ],
+   "callsite_count": 12,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "floor_institution": {
+   "family": "floor_institution",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_b04_v01_basecolor.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "floor_institution",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1462
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.cs",
+     "line": 24
+    }
+   ],
+   "callsite_count": 2,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "foliage": {
+   "family": "foliage",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/pine_foliage_v2_albedo.png",
+   "uv_scale": [
+    1.4,
+    1.4
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "foliage",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.05,
+    "leaf_transmission": 0.45,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.34,
+   "authored_snow_sparkle": 0.2,
+   "authored_cell_jitter": 0.15,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2148
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2185
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2186
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3702
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3703
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3706
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3710
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3711
+    }
+   ],
+   "callsite_count": 54,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2148
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2185
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2186
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3702
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3703
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3706
+    }
+   ],
+   "direct_factory_count": 37
+  },
+  "frost_window": {
+   "family": "frost_window",
+   "table": "WinterTextures",
+   "table_line": 464,
+   "albedo_source": "res://assets/textures/painterly/frost_window_v1_albedo.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "frost_window",
+   "anchor_space_albedo": "UV",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": true,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
+     "line": 192
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.FarBank.cs",
+     "line": 98
+    }
+   ],
+   "callsite_count": 2,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
+     "line": 192
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "glass": {
+   "family": "glass",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "glass",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 6080
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 6081
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 6762
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 6798
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 6822
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7749
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7769
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7792
+    }
+   ],
+   "callsite_count": 38,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.YardMechanisms.cs",
+     "line": 410
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "grass": {
+   "family": "grass",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "grass",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.72,
+   "authored_snow_sparkle": 0.35,
+   "authored_cell_jitter": 0.2,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2142
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2178
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3760
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3761
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3762
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3763
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7630
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8797
+    }
+   ],
+   "callsite_count": 14,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2142
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2178
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3760
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3761
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3762
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3763
+    }
+   ],
+   "direct_factory_count": 8
+  },
+  "grass_tuft": {
+   "family": "grass_tuft",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "grass_tuft",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.12,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.72,
+   "authored_snow_sparkle": 0.35,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [],
+   "callsite_count": 0,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "hay_bundle": {
+   "family": "hay_bundle",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/hay_fibers_v1_albedo.png",
+   "uv_scale": [
+    1.4,
+    1.4
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "hay_bundle",
+   "anchor_space_albedo": "object-local triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": true,
+    "local_wood_texture": true,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2312
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2313
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 158
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 337
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 338
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 339
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 344
+    }
+   ],
+   "callsite_count": 7,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2312
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "hay_fibers": {
+   "family": "hay_fibers",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/hay_fibers_v1_albedo.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "hay_fibers",
+   "anchor_space_albedo": "UV",
+   "anchor_space_pigment": "UV (bound_uv_pigment)",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": true,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8708
+    }
+   ],
+   "callsite_count": 1,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8708
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "ice": {
+   "family": "ice",
+   "table": "WinterTextures",
+   "table_line": 464,
+   "albedo_source": "res://assets/textures/painterly/ice_patch_v1_albedo.png",
+   "uv_scale": [
+    1.4,
+    1.4
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "ice",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": true,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.22,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2121
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2141
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2166
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2179
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7937
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.BoardCrossing.cs",
+     "line": 52
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.BoardCrossing.cs",
+     "line": 52
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.BoardCrossing.cs",
+     "line": 370
+    }
+   ],
+   "callsite_count": 11,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2121
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2141
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2166
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2179
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.Ravine.cs",
+     "line": 60
+    }
+   ],
+   "direct_factory_count": 5
+  },
+  "iron": {
+   "family": "iron",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "iron",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.65,
+    "finish_grain": 0.1
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2169
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2285
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 118
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 119
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 120
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 129
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 233
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 234
+    }
+   ],
+   "callsite_count": 23,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2169
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2285
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.CulvertVerandaDiscoveries.cs",
+     "line": 140
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.CulvertVerandaDiscoveries.cs",
+     "line": 173
+    }
+   ],
+   "direct_factory_count": 4
+  },
+  "leaf_birch": {
+   "family": "leaf_birch",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "leaf_birch",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.07,
+    "leaf_transmission": 0.45,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.34,
+   "authored_snow_sparkle": 0.2,
+   "authored_cell_jitter": 0.15,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2147
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3705
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1378
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1432
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBKitMaterials.cs",
+     "line": 32
+    }
+   ],
+   "callsite_count": 5,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2147
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3705
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1378
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1432
+    }
+   ],
+   "direct_factory_count": 4
+  },
+  "leather": {
+   "family": "leather",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "leather",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/VehicleVisualFactory.RoadVehicles.cs",
+     "line": 172
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Officer.cs",
+     "line": 27
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Officer.cs",
+     "line": 39
+    },
+    {
+     "file": "game/scripts/VehicleVisualFactory.Horse.cs",
+     "line": 41
+    },
+    {
+     "file": "game/scripts/VehicleVisualFactory.Horse.cs",
+     "line": 42
+    },
+    {
+     "file": "game/scripts/VehicleVisualFactory.Horse.cs",
+     "line": 47
+    },
+    {
+     "file": "game/scripts/VehicleVisualFactory.Horse.cs",
+     "line": 53
+    },
+    {
+     "file": "game/scripts/VehicleVisualFactory.Horse.cs",
+     "line": 55
+    }
+   ],
+   "callsite_count": 21,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Officer.cs",
+     "line": 27
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "log_wall": {
+   "family": "log_wall",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/log_wall_v1_albedo.png",
+   "uv_scale": [
+    0.9,
+    0.9
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "log_wall",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": true,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2055
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBKitMaterials.cs",
+     "line": 42
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 258
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 265
+    },
+    {
+     "file": "game/scripts/PrologueDeepForest.cs",
+     "line": 439
+    }
+   ],
+   "callsite_count": 5,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2055
+    },
+    {
+     "file": "game/scripts/PrologueDeepForest.cs",
+     "line": 439
+    }
+   ],
+   "direct_factory_count": 2
+  },
+  "metal": {
+   "family": "metal",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "metal",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 1244
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 1248
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 1322
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7862
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7879
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 153
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 155
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 268
+    }
+   ],
+   "callsite_count": 203,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7879
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 522
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 742
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.YardMechanisms.cs",
+     "line": 406
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.FapPlate.cs",
+     "line": 51
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.ShopSign.cs",
+     "line": 72
+    }
+   ],
+   "direct_factory_count": 14
+  },
+  "ornament_trim": {
+   "family": "ornament_trim",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "ornament_trim",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [],
+   "callsite_count": 0,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "painted": {
+   "family": "painted",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "painted",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.LanternDetails.cs",
+     "line": 71
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.LanternDetails.cs",
+     "line": 74
+    },
+    {
+     "file": "game/scripts/CarryableProp.Geometry.cs",
+     "line": 126
+    }
+   ],
+   "callsite_count": 3,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/CarryableProp.Geometry.cs",
+     "line": 126
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "paper": {
+   "family": "paper",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "paper",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 128
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.ArrivalStop.cs",
+     "line": 38
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.ShopGoods.cs",
+     "line": 15
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.ShopGoods.cs",
+     "line": 23
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.ShopGoods.cs",
+     "line": 37
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.ShopGoods.cs",
+     "line": 60
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.ShopGoods.cs",
+     "line": 61
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.ShopGoods.cs",
+     "line": 69
+    }
+   ],
+   "callsite_count": 42,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.ShopGoods.cs",
+     "line": 109
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueBooks.cs",
+     "line": 109
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueBooks.cs",
+     "line": 110
+    }
+   ],
+   "direct_factory_count": 3
+  },
+  "plaster": {
+   "family": "plaster",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/aged_plaster_v3_albedo.png",
+   "uv_scale": [
+    1.5,
+    1.15
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "plaster",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.42,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.3,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2052
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2053
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2076
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2077
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2078
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2092
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2093
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2097
+    }
+   ],
+   "callsite_count": 97,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2052
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2053
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2076
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2077
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2078
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2092
+    }
+   ],
+   "direct_factory_count": 22
+  },
+  "plaster_domestic": {
+   "family": "plaster_domestic",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_b01_v01_basecolor.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wall_institution",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.42,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Materials.cs",
+     "line": 19
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 75
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 76
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 77
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 78
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 81
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 85
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.cs",
+     "line": 129
+    }
+   ],
+   "callsite_count": 8,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Materials.cs",
+     "line": 19
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "plastic_abs": {
+   "family": "plastic_abs",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_m05_v01_basecolor.png",
+   "uv_scale": [
+    2.0,
+    2.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "plastic_abs",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+     "line": 135
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+     "line": 288
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+     "line": 290
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 154
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 346
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 306
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 308
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 310
+    }
+   ],
+   "callsite_count": 15,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "roof": {
+   "family": "roof",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "roof",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.88,
+   "authored_snow_sparkle": 0.45,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2060
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2087
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2088
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2151
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBKitMaterials.cs",
+     "line": 46
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 235
+    }
+   ],
+   "callsite_count": 6,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2060
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2087
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2088
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2151
+    }
+   ],
+   "direct_factory_count": 4
+  },
+  "roof_metal": {
+   "family": "roof_metal",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "roof_metal",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.88,
+   "authored_snow_sparkle": 0.45,
+   "authored_cell_jitter": 0.3,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2058
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2059
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2095
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2096
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8119
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8192
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8194
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8202
+    }
+   ],
+   "callsite_count": 19,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2058
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2059
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2095
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2096
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8202
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1404
+    }
+   ],
+   "direct_factory_count": 9
+  },
+  "rowan_berries": {
+   "family": "rowan_berries",
+   "table": "WinterTextures",
+   "table_line": 464,
+   "albedo_source": "res://assets/textures/painterly/rowan_berries_v1_albedo.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": false,
+   "finish_surface_alias": "rowan_berries",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.34,
+   "authored_snow_sparkle": 0.2,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+     "line": 1719
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBKitMaterials.cs",
+     "line": 50
+    }
+   ],
+   "callsite_count": 2,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+     "line": 1719
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "snow_grass": {
+   "family": "snow_grass",
+   "table": "WinterTextures",
+   "table_line": 464,
+   "albedo_source": "res://assets/textures/painterly/snow_grass_peek_v1_albedo.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "snow_grass",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": true,
+    "trample_ground_surface": true,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.35,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2126
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2127
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2128
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2143
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2173
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3708
+    }
+   ],
+   "callsite_count": 6,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2126
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2127
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2128
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2143
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2173
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3708
+    }
+   ],
+   "direct_factory_count": 6
+  },
+  "snow_ground": {
+   "family": "snow_ground",
+   "table": "WinterTextures",
+   "table_line": 464,
+   "albedo_source": "res://assets/textures/painterly/urman_s01_v01_basecolor.png",
+   "uv_scale": [
+    0.5,
+    0.5
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "snow_ground",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": true,
+    "trample_ground_surface": true,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.55,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2122
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2123
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2124
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2125
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2132
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2134
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2135
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2136
+    }
+   ],
+   "callsite_count": 44,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2122
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2123
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2124
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2125
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2132
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2134
+    }
+   ],
+   "direct_factory_count": 17
+  },
+  "snow_road": {
+   "family": "snow_road",
+   "table": "WinterTextures",
+   "table_line": 464,
+   "albedo_source": "res://assets/textures/painterly/urman_s02_v02_basecolor.png",
+   "uv_scale": [
+    0.5,
+    0.5
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "snow_road",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": true,
+    "snow_material": true,
+    "trample_ground_surface": true,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.3,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2133
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2139
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.WinterRoads.cs",
+     "line": 147
+    },
+    {
+     "file": "game/scripts/PrologueApproachRoad.cs",
+     "line": 89
+    }
+   ],
+   "callsite_count": 4,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2133
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2139
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.WinterRoads.cs",
+     "line": 147
+    }
+   ],
+   "direct_factory_count": 3
+  },
+  "snow_roof": {
+   "family": "snow_roof",
+   "table": "WinterTextures",
+   "table_line": 464,
+   "albedo_source": "res://assets/textures/painterly/snow_roof_v1_albedo.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "snow_roof",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": true,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.65,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+     "line": 100
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2085
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7844
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8276
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Roof.cs",
+     "line": 18
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+     "line": 1718
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.CozyBabaiYard.cs",
+     "line": 59
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.CozyBabaiYard.cs",
+     "line": 186
+    }
+   ],
+   "callsite_count": 19,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2085
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8276
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+     "line": 1718
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.CozyBabaiYard.cs",
+     "line": 59
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
+     "line": 149
+    },
+    {
+     "file": "game/scripts/PrologueDeepForest.cs",
+     "line": 472
+    }
+   ],
+   "direct_factory_count": 6
+  },
+  "snow_trampled": {
+   "family": "snow_trampled",
+   "table": "WinterTextures",
+   "table_line": 464,
+   "albedo_source": "res://assets/textures/painterly/snow_trampled_v1_albedo.png",
+   "uv_scale": [
+    1.6,
+    1.6
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "snow_trampled",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": true,
+    "trample_ground_surface": true,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.18,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2119
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2120
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2138
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2140
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3945
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 4263
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 6397
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7131
+    }
+   ],
+   "callsite_count": 30,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2119
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2120
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2138
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2140
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.BoardCrossing.cs",
+     "line": 400
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
+     "line": 390
+    }
+   ],
+   "direct_factory_count": 7
+  },
+  "stone": {
+   "family": "stone",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/mossy_stone_v3_albedo.png",
+   "uv_scale": [
+    1.5,
+    1.5
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "stone",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.5,
+   "authored_snow_sparkle": 0.3,
+   "authored_cell_jitter": 0.2,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2089
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2090
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2091
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2099
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2105
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2106
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2149
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2174
+    }
+   ],
+   "callsite_count": 67,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2089
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2090
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2091
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2099
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2105
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2106
+    }
+   ],
+   "direct_factory_count": 31
+  },
+  "stone_foundation": {
+   "family": "stone_foundation",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_b07_v02_basecolor.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "stone",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.5,
+   "authored_snow_sparkle": 0.3,
+   "authored_cell_jitter": 0.2,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2098
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PublicBuildings.cs",
+     "line": 256
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PublicBuildings.cs",
+     "line": 258
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
+     "line": 123
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
+     "line": 278
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
+     "line": 300
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.FarBank.cs",
+     "line": 90
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.FarBank.cs",
+     "line": 104
+    }
+   ],
+   "callsite_count": 9,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2098
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
+     "line": 278
+    }
+   ],
+   "direct_factory_count": 2
+  },
+  "terrain": {
+   "family": "terrain",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/damp_earth_v5_albedo.png",
+   "uv_scale": [
+    1.3,
+    2.6
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "terrain",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": true,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.2,
+   "runtime_owner_callsites": [],
+   "callsite_count": 0,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "wall_institution": {
+   "family": "wall_institution",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_b03_v01_basecolor.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wall_institution",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.42,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Materials.cs",
+     "line": 34
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 737
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 738
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 739
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 740
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1462
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+     "line": 13
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+     "line": 14
+    }
+   ],
+   "callsite_count": 10,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.PolicePost.Materials.cs",
+     "line": 34
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "wallpaper": {
+   "family": "wallpaper",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/wallpaper_old_v1_albedo.png",
+   "uv_scale": [
+    1.1,
+    -1.1
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wallpaper",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": true,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 83
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 262
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 263
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.cs",
+     "line": 129
+    }
+   ],
+   "callsite_count": 4,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "water": {
+   "family": "water",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "water",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2157
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3752
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3753
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3754
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1419
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.Ravine.cs",
+     "line": 61
+    },
+    {
+     "file": "game/scripts/FullGameZone.cs",
+     "line": 43
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.Addresses.cs",
+     "line": 437
+    }
+   ],
+   "callsite_count": 12,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2157
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3752
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3753
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3754
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1419
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.Ravine.cs",
+     "line": 61
+    }
+   ],
+   "direct_factory_count": 6
+  },
+  "wattle": {
+   "family": "wattle",
+   "table": "WinterTextures",
+   "table_line": 464,
+   "albedo_source": "res://assets/textures/painterly/wattle_weave_v1_albedo.png",
+   "uv_scale": [
+    0.9,
+    0.9
+   ],
+   "albedo_texture_present_on_disk": false,
+   "finish_surface_alias": "wattle",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [],
+   "callsite_count": 0,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "wet_ground": {
+   "family": "wet_ground",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/damp_earth_v5_albedo.png",
+   "uv_scale": [
+    1.0,
+    2.1
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wet_ground",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3747
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3748
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3749
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1369
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1371
+    }
+   ],
+   "callsite_count": 5,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3747
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3748
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3749
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1369
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1371
+    }
+   ],
+   "direct_factory_count": 5
+  },
+  "wet_road": {
+   "family": "wet_road",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/damp_earth_v3_albedo.png",
+   "uv_scale": [
+    0.55,
+    1.1
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wet_road",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": true,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/FootstepAudioController.cs",
+     "line": 46
+    }
+   ],
+   "callsite_count": 1,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "wood": {
+   "family": "wood",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/weathered_wood_boards_v4_albedo.png",
+   "uv_scale": [
+    0.65,
+    0.65
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.45,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+     "line": 105
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 1237
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 1242
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 1246
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 1254
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 1305
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2054
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2056
+    }
+   ],
+   "callsite_count": 389,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2054
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2056
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2079
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2094
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2100
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2101
+    }
+   ],
+   "direct_factory_count": 43
+  },
+  "wood_bark": {
+   "family": "wood_bark",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/bark_pine_v1_albedo.png",
+   "uv_scale": [
+    1.05,
+    1.05
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_bark",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.2,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3707
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3712
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 6868
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 6887
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7898
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7899
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7900
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 9678
+    }
+   ],
+   "callsite_count": 21,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3707
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3712
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 6887
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 9678
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1376
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1385
+    }
+   ],
+   "direct_factory_count": 11
+  },
+  "wood_carved": {
+   "family": "wood_carved",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "wood_carved",
+   "anchor_space_albedo": "world-space procedural only (no albedo texture)",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.55,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3920
+    }
+   ],
+   "callsite_count": 1,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3920
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "wood_cut": {
+   "family": "wood_cut",
+   "table": null,
+   "table_line": null,
+   "albedo_source": null,
+   "uv_scale": null,
+   "albedo_texture_present_on_disk": null,
+   "finish_surface_alias": "wood_cut",
+   "anchor_space_albedo": "UV",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": null,
+   "mipmaps": "n/a",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": true,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2082
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2167
+    }
+   ],
+   "callsite_count": 2,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2082
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2167
+    }
+   ],
+   "direct_factory_count": 2
+  },
+  "wood_facade": {
+   "family": "wood_facade",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_w01_v01_basecolor.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_facade",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": true,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.45,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.35,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2080
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2086
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2283
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7721
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8749
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 237
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 238
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 239
+    }
+   ],
+   "callsite_count": 10,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2080
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2086
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2283
+    }
+   ],
+   "direct_factory_count": 3
+  },
+  "wood_fence": {
+   "family": "wood_fence",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/weathered_wood_boards_v2_albedo.png",
+   "uv_scale": [
+    0.8,
+    0.8
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_fence",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.62,
+   "authored_snow_sparkle": 0.3,
+   "authored_cell_jitter": 0.28,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2057
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2177
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3765
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7840
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7973
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7981
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8005
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8009
+    }
+   ],
+   "callsite_count": 18,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2057
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2177
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 3765
+    },
+    {
+     "file": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+     "line": 1133
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.CozyBabaiYard.cs",
+     "line": 30
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.CozyBabaiYard.cs",
+     "line": 179
+    }
+   ],
+   "direct_factory_count": 6
+  },
+  "wood_fence_rail": {
+   "family": "wood_fence_rail",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_w02_v02_basecolor.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_fence",
+   "anchor_space_albedo": "object-local triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": true,
+    "local_wood_texture": false,
+    "local_floor_texture": true,
+    "local_fence_rail": true,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.62,
+   "authored_snow_sparkle": 0.3,
+   "authored_cell_jitter": 0.28,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.RearYardGate.cs",
+     "line": 113
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.BabaiYardSideGate.cs",
+     "line": 338
+    }
+   ],
+   "callsite_count": 2,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "wood_fence_uv": {
+   "family": "wood_fence_uv",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_w02_v02_basecolor.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_fence",
+   "anchor_space_albedo": "UV",
+   "anchor_space_pigment": "UV (bound_uv_pigment)",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": true,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.62,
+   "authored_snow_sparkle": 0.3,
+   "authored_cell_jitter": 0.28,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 9626
+    }
+   ],
+   "callsite_count": 1,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 9626
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "wood_fence_vertical": {
+   "family": "wood_fence_vertical",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_w02_v02_basecolor.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_fence",
+   "anchor_space_albedo": "object-local triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": true,
+    "local_wood_texture": false,
+    "local_floor_texture": true,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.62,
+   "authored_snow_sparkle": 0.3,
+   "authored_cell_jitter": 0.28,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 9651
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 9663
+    }
+   ],
+   "callsite_count": 2,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "wood_floor_painted": {
+   "family": "wood_floor_painted",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_w09_v01_basecolor.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_furniture_interior",
+   "anchor_space_albedo": "object-local triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": true,
+    "local_wood_texture": false,
+    "local_floor_texture": true,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 68
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 102
+    },
+    {
+     "file": "game/scripts/GeneratedModularKitDressing.cs",
+     "line": 254
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.cs",
+     "line": 58
+    }
+   ],
+   "callsite_count": 4,
+   "direct_factory_calls": [],
+   "direct_factory_count": 0
+  },
+  "wood_furniture": {
+   "family": "wood_furniture",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png",
+   "uv_scale": [
+    0.95,
+    0.95
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_furniture",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+     "line": 216
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 80
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 103
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 104
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 105
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 115
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 117
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 125
+    }
+   ],
+   "callsite_count": 135,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.FapExploration.cs",
+     "line": 408
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.CulvertVerandaDiscoveries.cs",
+     "line": 222
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.CouncilPoster.cs",
+     "line": 42
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueMinaret.cs",
+     "line": 67
+    },
+    {
+     "file": "game/scripts/BathSpirit.cs",
+     "line": 128
+    }
+   ],
+   "direct_factory_count": 5
+  },
+  "wood_furniture_interior": {
+   "family": "wood_furniture_interior",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_w08_v01_basecolor.png",
+   "uv_scale": [
+    1.3333,
+    1.3333
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_furniture_interior",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "n/a",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.0,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.0,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1398
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 113
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 116
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 132
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 135
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 146
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 172
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 180
+    }
+   ],
+   "callsite_count": 25,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/StyleBenchmarkZone.cs",
+     "line": 1398
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "wood_log_uv": {
+   "family": "wood_log_uv",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_w01_v01_basecolor.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_facade",
+   "anchor_space_albedo": "UV",
+   "anchor_space_pigment": "UV (bound_uv_pigment)",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": true,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.45,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.35,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2081
+    }
+   ],
+   "callsite_count": 1,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2081
+    }
+   ],
+   "direct_factory_count": 1
+  },
+  "wood_painted_blue": {
+   "family": "wood_painted_blue",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_w03_v01_basecolor.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_facade",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": true,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.45,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.35,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2260
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2267
+    },
+    {
+     "file": "game/scripts/PrologueApproachRoad.cs",
+     "line": 200
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.ShopStorefront.cs",
+     "line": 27
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.ShopStorefront.cs",
+     "line": 53
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.ShopStorefront.cs",
+     "line": 55
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
+     "line": 61
+    }
+   ],
+   "callsite_count": 7,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/PrologueApproachRoad.cs",
+     "line": 200
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.ShopStorefront.cs",
+     "line": 27
+    }
+   ],
+   "direct_factory_count": 2
+  },
+  "wood_painted_green": {
+   "family": "wood_painted_green",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_w04_v02_basecolor.png",
+   "uv_scale": [
+    1.0,
+    1.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_facade",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": true,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.45,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.35,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2261
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2268
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueLayoutV4.cs",
+     "line": 33
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueLayoutV4.cs",
+     "line": 35
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueLayoutV4.cs",
+     "line": 90
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueTimber.cs",
+     "line": 56
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueExterior.cs",
+     "line": 15
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueExterior.cs",
+     "line": 28
+    }
+   ],
+   "callsite_count": 12,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueTimber.cs",
+     "line": 56
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueExterior.cs",
+     "line": 15
+    }
+   ],
+   "direct_factory_count": 2
+  },
+  "wood_painted_trim": {
+   "family": "wood_painted_trim",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/urman_w05_v02_basecolor.png",
+   "uv_scale": [
+    2.0,
+    2.0
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_facade",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": true,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.45,
+   "authored_snow_sparkle": 0.0,
+   "authored_cell_jitter": 0.35,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+     "line": 101
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2083
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2084
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 10549
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 85
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 86
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 88
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+     "line": 174
+    }
+   ],
+   "callsite_count": 33,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2083
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 2084
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 10549
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.WindowBatching.cs",
+     "line": 15
+    },
+    {
+     "file": "game/scripts/TimberHomeStyle.cs",
+     "line": 60
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
+     "line": 27
+    }
+   ],
+   "direct_factory_count": 7
+  },
+  "wood_prop": {
+   "family": "wood_prop",
+   "table": "SurfaceTextures",
+   "table_line": 386,
+   "albedo_source": "res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png",
+   "uv_scale": [
+    0.9,
+    0.9
+   ],
+   "albedo_texture_present_on_disk": true,
+   "finish_surface_alias": "wood_prop",
+   "anchor_space_albedo": "world-space triplanar",
+   "anchor_space_pigment": "world_position",
+   "anchor_space_snow_blanket": "world_normal.y + world_position.xz",
+   "uv_scale_line": "PainterlyMaterialLibrary.cs:945/956 (texture_scale stamp)",
+   "mipmaps": "shader sampler filter_linear_mipmap_anisotropic — PainterlyMaterialLibrary.cs:48",
+   "shader_flags": {
+    "upright_texture": false,
+    "local_wood_texture": false,
+    "local_floor_texture": false,
+    "local_fence_rail": false,
+    "authored_uv_texture": false,
+    "edge_frost": false,
+    "cut_wood_end": false,
+    "vertex_pigment": false,
+    "snow_material": false,
+    "trample_ground_surface": false,
+    "wind_sway": 0.0,
+    "leaf_transmission": 0.0,
+    "metallic_value": 0.0,
+    "finish_grain": 0.0
+   },
+   "authored_snow_coverage": 0.55,
+   "authored_snow_sparkle": 0.3,
+   "authored_cell_jitter": 0.15,
+   "runtime_owner_callsites": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7943
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 7945
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8042
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8047
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8049
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8055
+    },
+    {
+     "file": "game/scripts/Act1ConnectedWorld.cs",
+     "line": 8062
+    },
+    {
+     "file": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+     "line": 114
+    }
+   ],
+   "callsite_count": 27,
+   "direct_factory_calls": [
+    {
+     "file": "game/scripts/Act1ConnectedWorld.BathhouseAtmosphere.cs",
+     "line": 231
+    },
+    {
+     "file": "game/scripts/BathSpirit.cs",
+     "line": 129
+    },
+    {
+     "file": "game/scripts/BathSpirit.cs",
+     "line": 130
+    }
+   ],
+   "direct_factory_count": 3
+  }
+ },
+ "summary": {
+  "family_count": 68,
+  "families_with_albedo_texture": 51,
+  "families_without_albedo_texture": [
+   "bark_birch",
+   "enamel",
+   "glass",
+   "grass",
+   "grass_tuft",
+   "iron",
+   "leaf_birch",
+   "leather",
+   "metal",
+   "ornament_trim",
+   "painted",
+   "paper",
+   "roof",
+   "roof_metal",
+   "water",
+   "wood_carved",
+   "wood_cut"
+  ],
+  "families_with_zero_callsite": [
+   "cloth_table",
+   "grass_tuft",
+   "ornament_trim",
+   "terrain",
+   "wattle"
+  ],
+  "albedo_png_missing_on_disk": [
+   "rowan_berries",
+   "wattle"
+  ],
+  "consumer_lookup": "литерал \"family\" по game/scripts+game/studio (кроме PML) = верхняя граница; direct_factory_calls = только прямые вызовы PainterlyMaterialLibrary.For*/Sheltered/PreserveSourceCulling",
+  "families_with_zero_direct_factory": [
+   "bark_birch_winter",
+   "carpet",
+   "cloth_table",
+   "enamel",
+   "fabric_pattern",
+   "fabric_upholstery",
+   "floor_institution",
+   "grass_tuft",
+   "ornament_trim",
+   "plastic_abs",
+   "terrain",
+   "wallpaper",
+   "wattle",
+   "wet_road",
+   "wood_fence_rail",
+   "wood_fence_vertical",
+   "wood_floor_painted"
+  ],
+  "albedo_pngs_shared_by_multiple_families": 7
+ }
+}

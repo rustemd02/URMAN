@@ -1,0 +1,1418 @@
+[
+  {
+    "category": "01_world_exterior",
+    "index": 1,
+    "file": "screenshots/01_world_exterior/001_route_12_frames_act1.jpg",
+    "source": "docs/production/urman_visual_review_pack/01_current_world_panoramas.png",
+    "note": "12 кадров полного маршрута Акта I (приезд, улицы, двор, ФАП, зират, ночная кромка). Общее впечатление от мира.",
+    "bytes": 922404
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 2,
+    "file": "screenshots/01_world_exterior/002_annotated_problems.jpg",
+    "source": "docs/production/urman_visual_review_pack/02_problem_annotations.png",
+    "note": "Те же кадры с подписями проблем: дорога-полотно без колеи, плоский снег, «палочные» кроны, пустой горизонт.",
+    "bytes": 765703
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 3,
+    "file": "screenshots/01_world_exterior/003_progress_baseline_to_winter.jpg",
+    "source": "docs/production/urman_visual_review_pack/05_progress_baseline_to_winter.png",
+    "note": "Стартовый летний вид против текущего зимнего: что уже сделано и что осталось сырым.",
+    "bytes": 665333
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 4,
+    "file": "screenshots/01_world_exterior/004_progress_density_boundaries.jpg",
+    "source": "docs/production/urman_visual_review_pack/06_progress_density_and_boundaries.png",
+    "note": "Плотность растительности и границы деревни было/стало; невидимая стена вместо опушки.",
+    "bytes": 705429
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 5,
+    "file": "screenshots/01_world_exterior/005_progress_snow_and_trees.jpg",
+    "source": "docs/production/urman_visual_review_pack/07_progress_snow_and_trees.png",
+    "note": "Снег и деревья v1→v2: «палки» вместо деревьев, снег как белое полотно.",
+    "bytes": 828594
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 6,
+    "file": "screenshots/01_world_exterior/006_progress_road_snow_trees.jpg",
+    "source": "docs/production/urman_visual_review_pack/08_progress_road_snow_trees.png",
+    "note": "Последняя правка дороги, сугробов, веток. Деревья стояли на дороге.",
+    "bytes": 880877
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 7,
+    "file": "screenshots/01_world_exterior/007_main_street_dolly_strip.jpg",
+    "source": "docs/production/urman_visual_review_pack/22_main_street_dolly_strip.png",
+    "note": "Проезд камеры по главной улице, 3 кадра. Оценивать ритм застройки и глубину улицы.",
+    "bytes": 175951
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 8,
+    "file": "screenshots/01_world_exterior/008_village_life_cat_walk_strip.jpg",
+    "source": "docs/production/urman_visual_review_pack/23_village_life_cat_walk_strip.png",
+    "note": "Живое событие деревни (кот идёт через двор), 4 кадра. Единственный пример «жизни» мира.",
+    "bytes": 378351
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 9,
+    "file": "screenshots/01_world_exterior/009_babai_street.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/babai_street.png",
+    "note": "Улица у дома бабая.",
+    "bytes": 285869
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 10,
+    "file": "screenshots/01_world_exterior/010_babai_yard.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/babai_yard.png",
+    "note": "Двор бабая и әби.",
+    "bytes": 249736
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 11,
+    "file": "screenshots/01_world_exterior/011_babai_air.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/babai_air.png",
+    "note": "Двор бабая сверху: композиция участка.",
+    "bytes": 295597
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 12,
+    "file": "screenshots/01_world_exterior/012_farbank_aerial.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/farbank_aerial.png",
+    "note": "Дальний берег сверху: план деревни.",
+    "bytes": 283065
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 13,
+    "file": "screenshots/01_world_exterior/013_farbank_street.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/farbank_street.png",
+    "note": "Улица дальнего берега.",
+    "bytes": 159484
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 14,
+    "file": "screenshots/01_world_exterior/014_farbank_lane.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/farbank_lane.png",
+    "note": "Переулок дальнего берега.",
+    "bytes": 208788
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 15,
+    "file": "screenshots/01_world_exterior/015_farbank_police.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/farbank_police.png",
+    "note": "Полицейский участок и окружение.",
+    "bytes": 151223
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 16,
+    "file": "screenshots/01_world_exterior/016_gorge_bridge.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/gorge_bridge.png",
+    "note": "Мост через овраг.",
+    "bytes": 311553
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 17,
+    "file": "screenshots/01_world_exterior/017_gorge_inside.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/gorge_inside.png",
+    "note": "Внутри оврага.",
+    "bytes": 136804
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 18,
+    "file": "screenshots/01_world_exterior/018_ravine_bridge.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/ravine_bridge.png",
+    "note": "Мост через промоину.",
+    "bytes": 206179
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 19,
+    "file": "screenshots/01_world_exterior/019_mosque_front.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/mosque_front.png",
+    "note": "Мечеть с улицы.",
+    "bytes": 286424
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 20,
+    "file": "screenshots/01_world_exterior/020_mosque_air.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/mosque_air.png",
+    "note": "Мечеть сверху: минарет, двор, окружение.",
+    "bytes": 319464
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 21,
+    "file": "screenshots/01_world_exterior/021_snow_culvert.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/snow_culvert.png",
+    "note": "Снежный надув у трубы.",
+    "bytes": 251954
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 22,
+    "file": "screenshots/01_world_exterior/022_snow_far_street.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/snow_far_street.png",
+    "note": "Дальняя заснеженная улица.",
+    "bytes": 138302
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 23,
+    "file": "screenshots/01_world_exterior/023_snow_street_south.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/captures/snow_street_south.png",
+    "note": "Южная улица: снег, колея, обочины.",
+    "bytes": 225927
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 24,
+    "file": "screenshots/01_world_exterior/024_layout_scheme.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/scheme.png",
+    "note": "Схема перепланировки деревни: где что стоит.",
+    "bytes": 337883
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 25,
+    "file": "screenshots/01_world_exterior/025_layout_audit.jpg",
+    "source": "docs/production/village_relayout_2026-10-01/audit/audit-2026-10-02.png",
+    "note": "Аудит планировки: топология улиц и участков.",
+    "bytes": 193804
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 26,
+    "file": "screenshots/01_world_exterior/026_rejected_layout_paused.jpg",
+    "source": "docs/production/village_relayout_2026-10-02/evidence/rejected-paused-captures/main_street.png",
+    "note": "Отклонённый/остановленный вариант: главная улица.",
+    "bytes": 100383
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 27,
+    "file": "screenshots/01_world_exterior/027_rejected_capka_east.jpg",
+    "source": "docs/production/village_relayout_2026-10-02/evidence/rejected-paused-captures/capka_east.png",
+    "note": "Отклонённый/остановленный вариант: восток деревни.",
+    "bytes": 106127
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 28,
+    "file": "screenshots/01_world_exterior/028_life_day_high.jpg",
+    "source": "docs/production/village_life_2026-10-04/day_high.png",
+    "note": "Дневная жизнь деревни, высокий ракурс.",
+    "bytes": 196097
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 29,
+    "file": "screenshots/01_world_exterior/029_life_day_low.jpg",
+    "source": "docs/production/village_life_2026-10-04/day_low.png",
+    "note": "Дневная жизнь деревни, низкий ракурс (как видит игрок).",
+    "bytes": 215292
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 30,
+    "file": "screenshots/01_world_exterior/030_life_night_high.jpg",
+    "source": "docs/production/village_life_2026-10-04/night_high.png",
+    "note": "Ночная деревня: свет в окнах, фонари, читаемость силуэтов.",
+    "bytes": 170508
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 31,
+    "file": "screenshots/01_world_exterior/031_police_exterior.jpg",
+    "source": "docs/production/police_post_2026-10-04/licensed-v8/exterior.png",
+    "note": "Участковый пункт: последний лицензированный набор, общий вид.",
+    "bytes": 104904
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 32,
+    "file": "screenshots/01_world_exterior/032_police_zhiguli.jpg",
+    "source": "docs/production/police_post_2026-10-04/licensed-v8/zhiguli.png",
+    "note": "Машина ВАЗ у участка (лицензированная модель).",
+    "bytes": 120766
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 33,
+    "file": "screenshots/01_world_exterior/033_police_zhiguli_front.jpg",
+    "source": "docs/production/police_post_2026-10-04/licensed-v8/zhiguli-front.png",
+    "note": "ВАЗ спереди: материалы, стёкла, шины.",
+    "bytes": 136380
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 34,
+    "file": "screenshots/01_world_exterior/034_repair_day_yard_west.jpg",
+    "source": "docs/production/village_repair_2026-10-04/day-yard-west.png",
+    "note": "Двор днём после ремонта.",
+    "bytes": 178606
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 35,
+    "file": "screenshots/01_world_exterior/035_repair_day_yard_east.jpg",
+    "source": "docs/production/village_repair_2026-10-04/day-yard-east.png",
+    "note": "Двор днём после ремонта, другой ракурс.",
+    "bytes": 163060
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 36,
+    "file": "screenshots/01_world_exterior/036_repair_night_yard.jpg",
+    "source": "docs/production/village_repair_2026-10-04/night-yard.png",
+    "note": "Двор ночью: освещение и тени.",
+    "bytes": 132851
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 37,
+    "file": "screenshots/01_world_exterior/037_repair_minaret_lantern.jpg",
+    "source": "docs/production/village_repair_2026-10-04/minaret-lantern.png",
+    "note": "Фонарь на минарете.",
+    "bytes": 130142
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 38,
+    "file": "screenshots/01_world_exterior/038_repair_mosque_exterior.jpg",
+    "source": "docs/production/village_repair_2026-10-04/mosque-exterior.png",
+    "note": "Мечеть снаружи после ремонта.",
+    "bytes": 151142
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 39,
+    "file": "screenshots/01_world_exterior/039_intro_flyover_village.jpg",
+    "source": "docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/02_village_large.png",
+    "note": "Вступительный облёт: деревня целиком.",
+    "bytes": 305153
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 40,
+    "file": "screenshots/01_world_exterior/040_intro_flyover_departure.jpg",
+    "source": "docs/production/mvp_tracker_2026-09-27/a02-intro-flyover/01_departure.png",
+    "note": "Вступление: отъезд из города.",
+    "bytes": 233361
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 41,
+    "file": "screenshots/01_world_exterior/041_kara_forest_left.jpg",
+    "source": "docs/production/mvp_tracker_2026-09-27/a10-kara-grade/kara_forest_left.png",
+    "note": "Кромка леса у Кара-Урмана.",
+    "bytes": 195037
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 42,
+    "file": "screenshots/01_world_exterior/042_mosque_edge_after.jpg",
+    "source": "docs/production/mvp_tracker_2026-09-27/a10-west-mosque-edge/after_contact.png",
+    "note": "Западная кромка у мечети, после правки.",
+    "bytes": 119529
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 43,
+    "file": "screenshots/01_world_exterior/043_remote_arrival_forward.jpg",
+    "source": ".codex-captures/remote/45201e074d8d4f018634217c368165b7/frames/arrival_forward.png",
+    "note": "Кадр удалённого прогона: приезд, вид вперёд.",
+    "bytes": 268442
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 44,
+    "file": "screenshots/01_world_exterior/044_remote_arrival_depth.jpg",
+    "source": ".codex-captures/remote/45201e074d8d4f018634217c368165b7/frames/arrival_depth.png",
+    "note": "Кадр удалённого прогона: приезд, глубина.",
+    "bytes": 280369
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 45,
+    "file": "screenshots/01_world_exterior/045_remote_street_forward.jpg",
+    "source": ".codex-captures/remote/45201e074d8d4f018634217c368165b7/frames/street_forward.png",
+    "note": "Кадр удалённого прогона: улица вперёд.",
+    "bytes": 298867
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 46,
+    "file": "screenshots/01_world_exterior/046_remote_street_back.jpg",
+    "source": ".codex-captures/remote/45201e074d8d4f018634217c368165b7/frames/street_back.png",
+    "note": "Кадр удалённого прогона: улица назад.",
+    "bytes": 273556
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 47,
+    "file": "screenshots/01_world_exterior/047_remote_street_right.jpg",
+    "source": ".codex-captures/remote/45201e074d8d4f018634217c368165b7/frames/street_right.png",
+    "note": "Кадр удалённого прогона: улица вбок.",
+    "bytes": 275462
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 48,
+    "file": "screenshots/01_world_exterior/048_remote_fap_forward.jpg",
+    "source": ".codex-captures/remote/45201e074d8d4f018634217c368165b7/frames/fap_forward.png",
+    "note": "Кадр удалённого прогона: ФАП вперёд.",
+    "bytes": 293702
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 49,
+    "file": "screenshots/01_world_exterior/049_remote_fap_back.jpg",
+    "source": ".codex-captures/remote/45201e074d8d4f018634217c368165b7/frames/fap_back.png",
+    "note": "Кадр удалённого прогона: ФАП назад.",
+    "bytes": 290410
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 50,
+    "file": "screenshots/01_world_exterior/050_remote_return_depth.jpg",
+    "source": ".codex-captures/remote/45201e074d8d4f018634217c368165b7/frames/return_depth.png",
+    "note": "Кадр удалённого прогона: обратный путь.",
+    "bytes": 296888
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 51,
+    "file": "screenshots/01_world_exterior/051_roadside_shoulder.jpg",
+    "source": ".codex-captures/worker2-roadside-before-20260915/zirat_roadside_shoulder.png",
+    "note": "Обочина зиратской дороги до правки.",
+    "bytes": 184392
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 52,
+    "file": "screenshots/01_world_exterior/052_roadside_footbridge.jpg",
+    "source": ".codex-captures/worker2-roadside-before-20260915/zirat_outer_footbridge.png",
+    "note": "Пешеходный мостик у зирата до правки.",
+    "bytes": 186675
+  },
+  {
+    "category": "01_world_exterior",
+    "index": 53,
+    "file": "screenshots/01_world_exterior/053_roadside_culvert.jpg",
+    "source": ".codex-captures/worker2-roadside-before-20260915/zirat_stone_culvert.png",
+    "note": "Каменная труба у зирата до правки.",
+    "bytes": 242673
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 1,
+    "file": "screenshots/02_materials_snow_trees/001_style_targets_accepted.jpg",
+    "source": "docs/production/urman_visual_review_pack/10_style_targets.png",
+    "note": "Принятые в проекте референсы стиля (painterly low-poly). Целевое направление.",
+    "bytes": 188803
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 2,
+    "file": "screenshots/02_materials_snow_trees/002_ref_atmosphere_target.jpg",
+    "source": "docs/urman_knowledge_base/art/style_refs/painterly_low_poly_atmosphere_target.png",
+    "note": "Референс атмосферы.",
+    "bytes": 443518
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 3,
+    "file": "screenshots/02_materials_snow_trees/003_ref_geometry_target.jpg",
+    "source": "docs/urman_knowledge_base/art/style_refs/painterly_low_poly_geometry_target.png",
+    "note": "Референс геометрии/силуэтов.",
+    "bytes": 367369
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 4,
+    "file": "screenshots/02_materials_snow_trees/004_trees_before_after.jpg",
+    "source": "docs/production/urman_visual_review_pack/16_winter_trees_before_after.png",
+    "note": "Три породы зимних деревьев до/после: было «рогатая палка».",
+    "bytes": 685868
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 5,
+    "file": "screenshots/02_materials_snow_trees/005_spruce_boughs_after.jpg",
+    "source": "docs/production/urman_visual_review_pack/17_spruce_boughs_before_after.png",
+    "note": "Ель до/после: слоёный конус из плоских ярусов.",
+    "bytes": 498428
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 6,
+    "file": "screenshots/02_materials_snow_trees/006_window_surrounds_after.jpg",
+    "source": "docs/production/urman_visual_review_pack/15_window_surrounds_before_after.png",
+    "note": "Наличники до/после: окна как тёмные прорези.",
+    "bytes": 359176
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 7,
+    "file": "screenshots/02_materials_snow_trees/007_snow_albedo_set.jpg",
+    "source": "docs/production/urman_visual_review_pack/03_snow_albedo_set.png",
+    "note": "6 сгенерированных альбедо снега/льда: в текстуре снег есть, в кадре — нет.",
+    "bytes": 72000
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 8,
+    "file": "screenshots/02_materials_snow_trees/008_trample_trail.jpg",
+    "source": "docs/production/urman_visual_review_pack/04_trample_trail_before_after.png",
+    "note": "След игрока: проминание снега слишком деликатное.",
+    "bytes": 28073
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 9,
+    "file": "screenshots/02_materials_snow_trees/009_fap_floor_after.jpg",
+    "source": "docs/production/urman_visual_review_pack/18_fap_floor_before_after.png",
+    "note": "Пол ФАПа до/после привязки текстуры.",
+    "bytes": 252726
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 10,
+    "file": "screenshots/02_materials_snow_trees/010_material_swatches.jpg",
+    "source": "docs/urman_knowledge_base/art/texture_candidate_frames/godot_material_swatches_texture_candidates_1080p.png",
+    "note": "Свотчи материалов: как текстуры выглядят в движке.",
+    "bytes": 544910
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 11,
+    "file": "screenshots/02_materials_snow_trees/011_day_street_tex_v4.jpg",
+    "source": "docs/urman_knowledge_base/art/texture_candidate_frames/v4/godot_day_street_texture_candidates_1080p.png",
+    "note": "Кандидаты текстур улицы, v4.",
+    "bytes": 213912
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 12,
+    "file": "screenshots/02_materials_snow_trees/012_day_street_tex_v6_motion.jpg",
+    "source": "docs/urman_knowledge_base/art/texture_candidate_motion_sweep_v6/godot_day_street_texture_v6_motion_sweep_1080p.png",
+    "note": "Тот же материал в движении: швы, тайлинг, мыло.",
+    "bytes": 352042
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 13,
+    "file": "screenshots/02_materials_snow_trees/013_wetness_0_40.jpg",
+    "source": "docs/urman_knowledge_base/art/wetness_candidate_matrix_v2/godot_day_street_wetness_roughness_0_40_1080p.png",
+    "note": "Матрица влажности, roughness 0.40.",
+    "bytes": 222196
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 14,
+    "file": "screenshots/02_materials_snow_trees/014_wetness_0_60.jpg",
+    "source": "docs/urman_knowledge_base/art/wetness_candidate_matrix_v2/godot_day_street_wetness_roughness_0_60_1080p.png",
+    "note": "Матрица влажности, roughness 0.60.",
+    "bytes": 222225
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 15,
+    "file": "screenshots/02_materials_snow_trees/015_style_calib_baseline.jpg",
+    "source": "docs/urman_knowledge_base/art/style_calibration_candidate/godot_day_street_baseline_1080p.png",
+    "note": "Калибровка стиля: базовая картинка.",
+    "bytes": 222205
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 16,
+    "file": "screenshots/02_materials_snow_trees/016_style_calib_candidate.jpg",
+    "source": "docs/urman_knowledge_base/art/style_calibration_candidate/godot_day_street_candidate_1080p.png",
+    "note": "Калибровка стиля: предлагавшаяся правка.",
+    "bytes": 219455
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 17,
+    "file": "screenshots/02_materials_snow_trees/017_style_temporal_day.jpg",
+    "source": "docs/urman_knowledge_base/art/style_temporal_sweep/godot_day_street_temporal_sweep_1080p.png",
+    "note": "Временной свип: мерцание и стабильность картинки.",
+    "bytes": 231901
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 18,
+    "file": "screenshots/02_materials_snow_trees/018_style_frame_day_street.jpg",
+    "source": "docs/urman_knowledge_base/art/style_frames/godot_day_street_1080p.png",
+    "note": "Опорный кадр улицы днём.",
+    "bytes": 360191
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 19,
+    "file": "screenshots/02_materials_snow_trees/019_style_frame_edge.jpg",
+    "source": "docs/urman_knowledge_base/art/style_frames/godot_kara_urman_edge_1080p.png",
+    "note": "Опорный кадр кромки Кара-Урмана.",
+    "bytes": 368467
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 20,
+    "file": "screenshots/02_materials_snow_trees/020_style_frame_house_interior.jpg",
+    "source": "docs/urman_knowledge_base/art/style_frames/godot_house_old_pc_1080p.png",
+    "note": "Опорный кадр дома со старым ПК.",
+    "bytes": 416548
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 21,
+    "file": "screenshots/02_materials_snow_trees/021_puddle_silhouette.jpg",
+    "source": "docs/urman_knowledge_base/art/puddle_silhouette_candidate/godot_day_street_puddle_silhouette_diagnostic_1080p.png",
+    "note": "Диагностика лужи/силуэта на снегу.",
+    "bytes": 314125
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 22,
+    "file": "screenshots/02_materials_snow_trees/022_oldpc_close_front.jpg",
+    "source": "docs/urman_knowledge_base/art/oldpc_hero_detail_candidate/godot_oldpc_close_front_1080p.png",
+    "note": "Старый ПК крупным планом, спереди.",
+    "bytes": 238511
+  },
+  {
+    "category": "02_materials_snow_trees",
+    "index": 23,
+    "file": "screenshots/02_materials_snow_trees/023_oldpc_close_side.jpg",
+    "source": "docs/urman_knowledge_base/art/oldpc_hero_detail_candidate/godot_oldpc_close_side_1080p.png",
+    "note": "Старый ПК крупным планом, сбоку.",
+    "bytes": 208644
+  },
+  {
+    "category": "03_interiors",
+    "index": 1,
+    "file": "screenshots/03_interiors/001_interiors_montage.jpg",
+    "source": "docs/production/urman_visual_review_pack/12_act1_interiors_1080p.png",
+    "note": "Четыре интерьера (дом бабая, ФАП, старый ПК, архив): обжитость и свет.",
+    "bytes": 471929
+  },
+  {
+    "category": "03_interiors",
+    "index": 2,
+    "file": "screenshots/03_interiors/002_police_reception.jpg",
+    "source": "docs/production/police_post_2026-10-04/licensed-v8/reception.png",
+    "note": "Участок: приёмная, стойка, персонаж.",
+    "bytes": 148081
+  },
+  {
+    "category": "03_interiors",
+    "index": 3,
+    "file": "screenshots/03_interiors/003_police_cell.jpg",
+    "source": "docs/production/police_post_2026-10-04/licensed-v8/cell.png",
+    "note": "Участок: камера.",
+    "bytes": 141366
+  },
+  {
+    "category": "03_interiors",
+    "index": 4,
+    "file": "screenshots/03_interiors/004_police_corridor.jpg",
+    "source": "docs/production/police_post_2026-10-04/licensed-v8/corridor.png",
+    "note": "Участок: коридор.",
+    "bytes": 137061
+  },
+  {
+    "category": "03_interiors",
+    "index": 5,
+    "file": "screenshots/03_interiors/005_police_mouse.jpg",
+    "source": "docs/production/police_post_2026-10-04/licensed-v8/mouse.png",
+    "note": "Участок: мелкий реквизит (мышь) — уровень детализации.",
+    "bytes": 93151
+  },
+  {
+    "category": "03_interiors",
+    "index": 6,
+    "file": "screenshots/03_interiors/006_mosque_hall.jpg",
+    "source": "docs/production/village_repair_2026-10-04/mosque-hall.png",
+    "note": "Молельный зал мечети.",
+    "bytes": 247831
+  },
+  {
+    "category": "03_interiors",
+    "index": 7,
+    "file": "screenshots/03_interiors/007_mosque_library.jpg",
+    "source": "docs/production/village_repair_2026-10-04/mosque-library.png",
+    "note": "Библиотека при мечети.",
+    "bytes": 94582
+  },
+  {
+    "category": "03_interiors",
+    "index": 8,
+    "file": "screenshots/03_interiors/008_mosque_spiral.jpg",
+    "source": "docs/production/village_repair_2026-10-04/mosque-spiral.png",
+    "note": "Винтовая лестница минарета.",
+    "bytes": 113559
+  },
+  {
+    "category": "03_interiors",
+    "index": 9,
+    "file": "screenshots/03_interiors/009_library_open.jpg",
+    "source": "docs/production/village_repair_2026-10-04/library-open.png",
+    "note": "Открытая книга/документ крупно.",
+    "bytes": 92284
+  },
+  {
+    "category": "03_interiors",
+    "index": 10,
+    "file": "screenshots/03_interiors/010_club_hall_stage.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/captures/club_hall_stage.png",
+    "note": "ДК: зал и сцена.",
+    "bytes": 229704
+  },
+  {
+    "category": "03_interiors",
+    "index": 11,
+    "file": "screenshots/03_interiors/011_club_parquet_close.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/captures/club_parquet_close.png",
+    "note": "ДК: паркет крупно — качество материала пола.",
+    "bytes": 276191
+  },
+  {
+    "category": "03_interiors",
+    "index": 12,
+    "file": "screenshots/03_interiors/012_school_corridor.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/captures/school_corridor.png",
+    "note": "Школа: коридор.",
+    "bytes": 158894
+  },
+  {
+    "category": "03_interiors",
+    "index": 13,
+    "file": "screenshots/03_interiors/013_school_room.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/captures/school_room.png",
+    "note": "Школа: класс.",
+    "bytes": 167696
+  },
+  {
+    "category": "03_interiors",
+    "index": 14,
+    "file": "screenshots/03_interiors/014_visual_rework_hall_chairs.jpg",
+    "source": "docs/production/visual_rework_2026-09-29/captures/hall_chairs.png",
+    "note": "ДК: стулья в зале до правки.",
+    "bytes": 207243
+  },
+  {
+    "category": "03_interiors",
+    "index": 15,
+    "file": "screenshots/03_interiors/015_visual_rework_school_desks.jpg",
+    "source": "docs/production/visual_rework_2026-09-29/captures/school_desks.png",
+    "note": "Школа: парты до правки.",
+    "bytes": 196331
+  },
+  {
+    "category": "03_interiors",
+    "index": 16,
+    "file": "screenshots/03_interiors/016_fap_waiting_aisle.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/texture-clinic-20260922-02/fap_furniture_waiting_aisle.png",
+    "note": "ФАП: мебель в коридоре ожидания.",
+    "bytes": 109662
+  },
+  {
+    "category": "03_interiors",
+    "index": 17,
+    "file": "screenshots/03_interiors/017_fap_mirror_front.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/texture-clinic-20260922-02/fap_mirror_front.png",
+    "note": "ФАП: зеркало (отражения/roughness).",
+    "bytes": 103404
+  },
+  {
+    "category": "03_interiors",
+    "index": 18,
+    "file": "screenshots/03_interiors/018_fap_wash_basin.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/texture-clinic-20260922-02/fap_wash_basin_close.png",
+    "note": "ФАП: раковина крупно.",
+    "bytes": 102073
+  },
+  {
+    "category": "03_interiors",
+    "index": 19,
+    "file": "screenshots/03_interiors/019_fap_window_left.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/texture-clinic-20260922-02/fap_window_left.png",
+    "note": "ФАП: окно — наличники, стекло, свет.",
+    "bytes": 113576
+  },
+  {
+    "category": "03_interiors",
+    "index": 20,
+    "file": "screenshots/03_interiors/020_fap_entry_approach.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/texture-clinic-20260922-02/fap_aligned_entry_approach.png",
+    "note": "ФАП: подход ко входу.",
+    "bytes": 160291
+  },
+  {
+    "category": "03_interiors",
+    "index": 21,
+    "file": "screenshots/03_interiors/021_hero_house_entry.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/texture-home-finish-20260922-01/hero_house_entry.png",
+    "note": "Дом бабая: вход изнутри.",
+    "bytes": 156043
+  },
+  {
+    "category": "03_interiors",
+    "index": 22,
+    "file": "screenshots/03_interiors/022_hero_house_wall_front.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/texture-home-finish-20260922-01/hero_house_wall_front.png",
+    "note": "Дом бабая: передняя стена — бревно, швы, текстура.",
+    "bytes": 151728
+  },
+  {
+    "category": "03_interiors",
+    "index": 23,
+    "file": "screenshots/03_interiors/023_hero_house_photo_corner.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/texture-home-finish-20260922-01/hero_house_photo_corner.png",
+    "note": "Дом бабая: фото-угол (обжитость).",
+    "bytes": 175964
+  },
+  {
+    "category": "03_interiors",
+    "index": 24,
+    "file": "screenshots/03_interiors/024_hero_house_stove_support.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/texture-home-finish-20260922-01/hero_house_stove_support.png",
+    "note": "Дом бабая: печь.",
+    "bytes": 131062
+  },
+  {
+    "category": "03_interiors",
+    "index": 25,
+    "file": "screenshots/03_interiors/025_hero_house_window_close.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/texture-home-finish-20260922-01/hero_house_window_close.png",
+    "note": "Дом бабая: окно крупно.",
+    "bytes": 159575
+  },
+  {
+    "category": "03_interiors",
+    "index": 26,
+    "file": "screenshots/03_interiors/026_mosque_vestibule.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-mosque-continuous-01/09_mosque_vestibule.png",
+    "note": "Мечеть: вестибюль.",
+    "bytes": 164845
+  },
+  {
+    "category": "03_interiors",
+    "index": 27,
+    "file": "screenshots/03_interiors/027_mosque_hall_timur.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-mosque-continuous-01/09_mosque_hall_timur.png",
+    "note": "Мечеть: зал, Тимур хәзрәт.",
+    "bytes": 164954
+  },
+  {
+    "category": "03_interiors",
+    "index": 28,
+    "file": "screenshots/03_interiors/028_mosque_west_hall.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-mosque-continuous-01/09b_mosque_west_hall.png",
+    "note": "Мечеть: западный зал.",
+    "bytes": 154827
+  },
+  {
+    "category": "03_interiors",
+    "index": 29,
+    "file": "screenshots/03_interiors/029_mosque_courtyard_gate.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-mosque-continuous-01/08c_mosque_courtyard_gate.png",
+    "note": "Мечеть: ворота двора.",
+    "bytes": 194837
+  },
+  {
+    "category": "03_interiors",
+    "index": 30,
+    "file": "screenshots/03_interiors/030_school_office.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-public-buildings-08/school_03_office.png",
+    "note": "Школа: кабинет.",
+    "bytes": 121355
+  },
+  {
+    "category": "03_interiors",
+    "index": 31,
+    "file": "screenshots/03_interiors/031_school_classroom_photo.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-public-buildings-08/school_04_classroom_photo.png",
+    "note": "Школа: класс с фото-документом.",
+    "bytes": 145568
+  },
+  {
+    "category": "03_interiors",
+    "index": 32,
+    "file": "screenshots/03_interiors/032_council_archive_album.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-public-buildings-08/council_04_archive_album.png",
+    "note": "Сельсовет: архивный альбом.",
+    "bytes": 137752
+  },
+  {
+    "category": "03_interiors",
+    "index": 33,
+    "file": "screenshots/03_interiors/033_bath_stove_steam.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-facilities-11/03_bath_stove_and_steam.png",
+    "note": "Баня: печь и пар.",
+    "bytes": 118772
+  },
+  {
+    "category": "03_interiors",
+    "index": 34,
+    "file": "screenshots/03_interiors/034_bath_dry_rack.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-facilities-11/06_bath_empty_dry_rack.png",
+    "note": "Баня: пустая сушилка — «пустая плоскость».",
+    "bytes": 98548
+  },
+  {
+    "category": "03_interiors",
+    "index": 35,
+    "file": "screenshots/03_interiors/035_carry_log_yard.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-carry-24/01_log_and_yard.png",
+    "note": "Двор, бревно, взаимодействие с предметом.",
+    "bytes": 148126
+  },
+  {
+    "category": "03_interiors",
+    "index": 36,
+    "file": "screenshots/03_interiors/036_carry_snow_before.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-carry-24/03_snow_before.png",
+    "note": "Снег до расчистки.",
+    "bytes": 160604
+  },
+  {
+    "category": "03_interiors",
+    "index": 37,
+    "file": "screenshots/03_interiors/037_carry_snow_cleared.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-carry-24/04_snow_cleared.png",
+    "note": "Снег после расчистки.",
+    "bytes": 152052
+  },
+  {
+    "category": "03_interiors",
+    "index": 38,
+    "file": "screenshots/03_interiors/038_carry_uncovered_axe.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-carry-24/05_uncovered_axe.png",
+    "note": "Найденный топор крупно.",
+    "bytes": 159700
+  },
+  {
+    "category": "04_characters",
+    "index": 1,
+    "file": "screenshots/04_characters/001_cast_closeups.jpg",
+    "source": "docs/production/urman_visual_review_pack/11_act1_cast_closeups_1080p.png",
+    "note": "Шесть персонажей крупным планом: читаемость лиц, возраст, «манекенность».",
+    "bytes": 296713
+  },
+  {
+    "category": "04_characters",
+    "index": 2,
+    "file": "screenshots/04_characters/002_cast_motion_phases.jpg",
+    "source": "docs/production/urman_visual_review_pack/14_act1_cast_motion_phases.png",
+    "note": "По три фазы движения каждого персонажа: поза, силуэт в ходьбе.",
+    "bytes": 542485
+  },
+  {
+    "category": "04_characters",
+    "index": 3,
+    "file": "screenshots/04_characters/003_npc_idle_phases.jpg",
+    "source": "docs/production/urman_visual_review_pack/20_npc_idle_motion_phases.png",
+    "note": "Покачивание NPC: две фазы.",
+    "bytes": 319259
+  },
+  {
+    "category": "04_characters",
+    "index": 4,
+    "file": "screenshots/04_characters/004_npc_clip_after_skin.jpg",
+    "source": "docs/production/urman_visual_review_pack/21_npc_clip_motion_after_skin.png",
+    "note": "Idle-клип после перехода на скин.",
+    "bytes": 330215
+  },
+  {
+    "category": "04_characters",
+    "index": 5,
+    "file": "screenshots/04_characters/005_cast_after_skin.jpg",
+    "source": "docs/production/urman_visual_review_pack/24_cast_after_skin.png",
+    "note": "Все шесть NPC после скина: целостность частей тела.",
+    "bytes": 363464
+  },
+  {
+    "category": "04_characters",
+    "index": 6,
+    "file": "screenshots/04_characters/006_hands_before_after.jpg",
+    "source": "docs/production/urman_visual_review_pack/13_act1_hands_before_after.png",
+    "note": "Кисти рук до/после сужения — «рукавицы».",
+    "bytes": 296430
+  },
+  {
+    "category": "04_characters",
+    "index": 7,
+    "file": "screenshots/04_characters/007_police_officer.jpg",
+    "source": "docs/production/police_post_2026-10-04/licensed-v8/officer.png",
+    "note": "Участковый крупно: форма, лицо, руки.",
+    "bytes": 139204
+  },
+  {
+    "category": "04_characters",
+    "index": 8,
+    "file": "screenshots/04_characters/008_player_standing_look_down.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-20/player-movement/01_standing_look_down.png",
+    "note": "Игрок: взгляд вниз стоя.",
+    "bytes": 61985
+  },
+  {
+    "category": "04_characters",
+    "index": 9,
+    "file": "screenshots/04_characters/009_player_walking_lower_body.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-20/player-movement/02_walking_lower_body.png",
+    "note": "Игрок: ноги в ходьбе.",
+    "bytes": 62983
+  },
+  {
+    "category": "04_characters",
+    "index": 10,
+    "file": "screenshots/04_characters/010_player_crouched.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-20/player-movement/03_crouched_look_down.png",
+    "note": "Игрок: присед, взгляд вниз.",
+    "bytes": 62938
+  },
+  {
+    "category": "04_characters",
+    "index": 11,
+    "file": "screenshots/04_characters/011_gait_00.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-20/gait/gait_00_tick000.png",
+    "note": "Цикл ходьбы, кадр 0.",
+    "bytes": 53010
+  },
+  {
+    "category": "04_characters",
+    "index": 12,
+    "file": "screenshots/04_characters/012_gait_04.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-20/gait/gait_04_tick024.png",
+    "note": "Цикл ходьбы, кадр 24.",
+    "bytes": 59521
+  },
+  {
+    "category": "04_characters",
+    "index": 13,
+    "file": "screenshots/04_characters/013_gait_08.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-20/gait/gait_08_tick048.png",
+    "note": "Цикл ходьбы, кадр 48.",
+    "bytes": 72555
+  },
+  {
+    "category": "04_characters",
+    "index": 14,
+    "file": "screenshots/04_characters/014_gait_12.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-20/gait/gait_12_tick072.png",
+    "note": "Цикл ходьбы, кадр 72.",
+    "bytes": 100090
+  },
+  {
+    "category": "04_characters",
+    "index": 15,
+    "file": "screenshots/04_characters/015_alsu_invitation.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-alsu-walk-08/alsu_invitation.png",
+    "note": "Алсу: приглашение, поза и лицо.",
+    "bytes": 220392
+  },
+  {
+    "category": "04_characters",
+    "index": 16,
+    "file": "screenshots/04_characters/016_alsu_step.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-alsu-walk-08/alsu_actual_supported_step.png",
+    "note": "Алсу: шаг по двору.",
+    "bytes": 191929
+  },
+  {
+    "category": "04_characters",
+    "index": 17,
+    "file": "screenshots/04_characters/017_alsu_yard_turn.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-alsu-walk-08/alsu_yard_turn_clear_06.png",
+    "note": "Алсу: поворот во дворе.",
+    "bytes": 281296
+  },
+  {
+    "category": "04_characters",
+    "index": 18,
+    "file": "screenshots/04_characters/018_alsu_waiting.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-alsu-walk-08/alsu_waiting_after_departure.png",
+    "note": "Алсу: ожидание после ухода.",
+    "bytes": 215374
+  },
+  {
+    "category": "04_characters",
+    "index": 19,
+    "file": "screenshots/04_characters/019_intro_handoff.jpg",
+    "source": "docs/production/mvp_tracker_2026-09-27/a02-intro-smoke/03_handoff.png",
+    "note": "Передача управления после вступления: первый вид от игрока.",
+    "bytes": 217689
+  },
+  {
+    "category": "05_ui",
+    "index": 1,
+    "file": "screenshots/05_ui/001_ui_screens_montage.jpg",
+    "source": "docs/production/urman_visual_review_pack/09_ui_screens.png",
+    "note": "Интерфейс: журнал, старый ПК, документ, диалог, настройки — стиль «архив/бумага».",
+    "bytes": 414666
+  },
+  {
+    "category": "05_ui",
+    "index": 2,
+    "file": "screenshots/05_ui/002_ui_720p_large_text.jpg",
+    "source": "docs/production/urman_visual_review_pack/19_ui_720p_large_text.png",
+    "note": "UI при 720p с крупным шрифтом: читаемость.",
+    "bytes": 300770
+  },
+  {
+    "category": "05_ui",
+    "index": 3,
+    "file": "screenshots/05_ui/003_pc_desktop.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-oldpc-desktop-06/01_desktop.png",
+    "note": "Старый ПК: рабочий стол.",
+    "bytes": 93768
+  },
+  {
+    "category": "05_ui",
+    "index": 4,
+    "file": "screenshots/05_ui/004_pc_start_menu.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-oldpc-desktop-06/01b_start_menu.png",
+    "note": "Старый ПК: меню Пуск.",
+    "bytes": 117751
+  },
+  {
+    "category": "05_ui",
+    "index": 5,
+    "file": "screenshots/05_ui/005_pc_tatwiki.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-oldpc-desktop-06/02_tatwiki.png",
+    "note": "Старый ПК: статья TatWiki.",
+    "bytes": 193867
+  },
+  {
+    "category": "05_ui",
+    "index": 6,
+    "file": "screenshots/05_ui/006_pc_yalkyn.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-oldpc-desktop-06/03_yalkyn.png",
+    "note": "Старый ПК: мессенджер Ялкын.",
+    "bytes": 157190
+  },
+  {
+    "category": "05_ui",
+    "index": 7,
+    "file": "screenshots/05_ui/007_pc_yalkyn_replies.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-oldpc-desktop-06/03b_yalkyn_replies.png",
+    "note": "Ялкын: ветка ответов.",
+    "bytes": 162036
+  },
+  {
+    "category": "05_ui",
+    "index": 8,
+    "file": "screenshots/05_ui/008_pc_file_manager.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-oldpc-desktop-06/04a_file_manager.png",
+    "note": "Старый ПК: файловый менеджер.",
+    "bytes": 94857
+  },
+  {
+    "category": "05_ui",
+    "index": 9,
+    "file": "screenshots/05_ui/009_pc_writer_windows.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-oldpc-desktop-06/04_writer_and_windows.png",
+    "note": "Старый ПК: несколько окон.",
+    "bytes": 100719
+  },
+  {
+    "category": "05_ui",
+    "index": 10,
+    "file": "screenshots/05_ui/010_journal_photo_overview.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-len01-13/len01_arrival_photo_journal_1920x1080_overview.png",
+    "note": "Журнал: фото-разворот, общий вид.",
+    "bytes": 157793
+  },
+  {
+    "category": "05_ui",
+    "index": 11,
+    "file": "screenshots/05_ui/011_journal_photo_detail.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-len01-13/len01_arrival_photo_journal_1920x1080_detail.png",
+    "note": "Журнал: фото-разворот, деталь.",
+    "bytes": 309445
+  },
+  {
+    "category": "05_ui",
+    "index": 12,
+    "file": "screenshots/05_ui/012_journal_edge_sketch.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-len01-13/len01_edge_sketch_journal_1920x1080_overview.png",
+    "note": "Журнал: набросок кромки леса.",
+    "bytes": 187756
+  },
+  {
+    "category": "05_ui",
+    "index": 13,
+    "file": "screenshots/05_ui/013_notebook_draft.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-notebook-shop-11/01_notebook_newer_draft.png",
+    "note": "Блокнот: черновик записи.",
+    "bytes": 83147
+  },
+  {
+    "category": "05_ui",
+    "index": 14,
+    "file": "screenshots/05_ui/014_shop_purchases.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-notebook-shop-11/02_shop_purchases.png",
+    "note": "Магазин: покупки.",
+    "bytes": 96133
+  },
+  {
+    "category": "05_ui",
+    "index": 15,
+    "file": "screenshots/05_ui/015_mosque_notebook.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-mosque-continuous-01/09a_mosque_observation_notebook.png",
+    "note": "Запись наблюдения в мечети.",
+    "bytes": 85974
+  },
+  {
+    "category": "05_ui",
+    "index": 16,
+    "file": "screenshots/05_ui/016_bath_notebook.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-facilities-11/04b_bath_observation_notebook.png",
+    "note": "Запись наблюдения в бане.",
+    "bytes": 80233
+  },
+  {
+    "category": "05_ui",
+    "index": 17,
+    "file": "screenshots/05_ui/017_manual_read_notebook.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-address-world-08/05_manual_read_notebook.png",
+    "note": "Ручное чтение (ноутбук/журнал).",
+    "bytes": 77500
+  },
+  {
+    "category": "06_night_forest_atmosphere",
+    "index": 1,
+    "file": "screenshots/06_night_forest_atmosphere/001_forest_walk.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/prologue_watch/forest_walk.png",
+    "note": "Ночной лес: туман, деревья, глубина.",
+    "bytes": 100125
+  },
+  {
+    "category": "06_night_forest_atmosphere",
+    "index": 2,
+    "file": "screenshots/06_night_forest_atmosphere/002_niva_handover.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/prologue_watch/niva_handover.png",
+    "note": "Ночная передача у Нивы.",
+    "bytes": 15487
+  },
+  {
+    "category": "06_night_forest_atmosphere",
+    "index": 3,
+    "file": "screenshots/06_night_forest_atmosphere/003_peripheral_presence.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/prologue_watch/peripheral_presence.png",
+    "note": "Периферийное присутствие в лесу (хоррор-момент).",
+    "bytes": 112279
+  },
+  {
+    "category": "06_night_forest_atmosphere",
+    "index": 4,
+    "file": "screenshots/06_night_forest_atmosphere/004_square_eye.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/captures/square_eye.png",
+    "note": "Площадь с высоты глаз.",
+    "bytes": 159887
+  },
+  {
+    "category": "06_night_forest_atmosphere",
+    "index": 5,
+    "file": "screenshots/06_night_forest_atmosphere/005_square_high.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/captures/square_high.png",
+    "note": "Площадь сверху: композиция центра деревни.",
+    "bytes": 201779
+  },
+  {
+    "category": "06_night_forest_atmosphere",
+    "index": 6,
+    "file": "screenshots/06_night_forest_atmosphere/006_new_layout.jpg",
+    "source": "docs/production/visual_rework_2026-09-29/captures/new_layout.png",
+    "note": "Новая планировка: общий вид.",
+    "bytes": 257653
+  },
+  {
+    "category": "06_night_forest_atmosphere",
+    "index": 7,
+    "file": "screenshots/06_night_forest_atmosphere/007_old_layout.jpg",
+    "source": "docs/production/visual_rework_2026-09-29/captures/old_layout.png",
+    "note": "Старая планировка: с чем сравнивать.",
+    "bytes": 331570
+  },
+  {
+    "category": "06_night_forest_atmosphere",
+    "index": 8,
+    "file": "screenshots/06_night_forest_atmosphere/008_north_street.jpg",
+    "source": "docs/production/visual_rework_2026-09-29/captures/north_street.png",
+    "note": "Северная улица.",
+    "bytes": 247007
+  },
+  {
+    "category": "06_night_forest_atmosphere",
+    "index": 9,
+    "file": "screenshots/06_night_forest_atmosphere/009_yard_approach.jpg",
+    "source": "docs/production/a01_ex13_yard_2026-09-28/frames_yard_after/yard-approach--19-0.png",
+    "note": "Подход к двору EX13 после правки.",
+    "bytes": 261503
+  },
+  {
+    "category": "06_night_forest_atmosphere",
+    "index": 10,
+    "file": "screenshots/06_night_forest_atmosphere/010_yard_board_approach.jpg",
+    "source": "docs/production/a01_ex13_yard_2026-09-28/frames_yard_after/yard-board-approach.png",
+    "note": "Подход к доске ворот (обход).",
+    "bytes": 200025
+  },
+  {
+    "category": "06_night_forest_atmosphere",
+    "index": 11,
+    "file": "screenshots/06_night_forest_atmosphere/011_rear_house_gap.jpg",
+    "source": "docs/production/a01_ex13_yard_2026-09-28/frames_ex13_chain/rear-house-gap--24,3--2,85.png",
+    "note": "Щель за домом: как читается проход.",
+    "bytes": 97385
+  },
+  {
+    "category": "06_night_forest_atmosphere",
+    "index": 12,
+    "file": "screenshots/06_night_forest_atmosphere/012_neighbour_doors.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-address-standalone-access-05/14_ArrivalReverseEastDomesticShed_door_support_neighbours.png",
+    "note": "Сарай и соседние двери: детализация бытовых построек.",
+    "bytes": 433659
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 1,
+    "file": "screenshots/07_vehicle_cutscene/001_car_front_left.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/ride_capture/car_front_left.png",
+    "note": "Машина спереди-слева в поездке.",
+    "bytes": 114418
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 2,
+    "file": "screenshots/07_vehicle_cutscene/002_car_side_driver_window.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/ride_capture/car_side_driver_window.png",
+    "note": "Вид сбоку через окно водителя.",
+    "bytes": 129329
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 3,
+    "file": "screenshots/07_vehicle_cutscene/003_car_top_cabin.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/ride_capture/car_top_cabin.png",
+    "note": "Салон сверху: материалы, швы.",
+    "bytes": 122010
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 4,
+    "file": "screenshots/07_vehicle_cutscene/004_car_rear_over_seats.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/ride_capture/car_rear_over_seats.png",
+    "note": "Салон сзади через сиденья.",
+    "bytes": 140035
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 5,
+    "file": "screenshots/07_vehicle_cutscene/005_cabin_forward.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/ride_capture/cabin_forward.png",
+    "note": "Вид вперёд из салона (как в игре).",
+    "bytes": 145832
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 6,
+    "file": "screenshots/07_vehicle_cutscene/006_cabin_driver_close.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/ride_capture/cabin_driver_close.png",
+    "note": "Водитель крупно (руки, лицо).",
+    "bytes": 167279
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 7,
+    "file": "screenshots/07_vehicle_cutscene/007_cabin_driver_wide.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/ride_capture/cabin_driver_wide.png",
+    "note": "Водитель общим планом.",
+    "bytes": 165110
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 8,
+    "file": "screenshots/07_vehicle_cutscene/008_ride_shake_a.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/ride_capture/shake_a.png",
+    "note": "Тряска камеры, фаза A.",
+    "bytes": 169639
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 9,
+    "file": "screenshots/07_vehicle_cutscene/009_ride_shake_b.jpg",
+    "source": "docs/production/visual_rework_2026-09-30/ride_capture/shake_b.png",
+    "note": "Тряска камеры, фаза B.",
+    "bytes": 173221
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 10,
+    "file": "screenshots/07_vehicle_cutscene/010_niva_outside.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-vehicle-08/babay-niva-outside.png",
+    "note": "Нива бабая снаружи.",
+    "bytes": 143487
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 11,
+    "file": "screenshots/07_vehicle_cutscene/011_niva_full_side.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-vehicle-08/babay-niva-full-side.png",
+    "note": "Нива в профиль: пропорции и колёса.",
+    "bytes": 181360
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 12,
+    "file": "screenshots/07_vehicle_cutscene/012_niva_driver.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-vehicle-08/babay-niva-driver.png",
+    "note": "Бабай за рулём.",
+    "bytes": 209342
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 13,
+    "file": "screenshots/07_vehicle_cutscene/013_niva_wheel_moving.jpg",
+    "source": "docs/production/act1_takeover_evidence_2026-09-16/images-vehicle-08/niva-wheel-moving-contact.png",
+    "note": "Колесо Нивы в движении: контакт с землёй.",
+    "bytes": 134809
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 14,
+    "file": "screenshots/07_vehicle_cutscene/014_motorcycle_fap.jpg",
+    "source": "docs/production/mvp_tracker_2026-09-27/a09-motorcycle-rear-exit/motorcycle-fap-1080.png",
+    "note": "Мотоцикл у ФАП, 1080p.",
+    "bytes": 437946
+  },
+  {
+    "category": "07_vehicle_cutscene",
+    "index": 15,
+    "file": "screenshots/07_vehicle_cutscene/015_niva_babay_720.jpg",
+    "source": "docs/production/mvp_tracker_2026-09-27/a09-motorcycle-rear-exit/niva-babay-720.png",
+    "note": "Нива у дома бабая.",
+    "bytes": 211908
+  }
+]

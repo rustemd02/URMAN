@@ -4,166 +4,361 @@
   "id": "urman.world:atmosphere",
   "name": "Свет, небо и туман Акта I",
   "executor": "atmosphere",
-  "note": "Профили освещения улицы. Раньше задавались в Act1ConnectedWorld.TuneConnectedAct1Atmosphere; теперь код выбирает профиль по зоне и применяет эти значения. Цвета — HTML без #.",
+  "note": "Профили освещения улицы. Раньше задавались в Act1ConnectedWorld.TuneConnectedAct1Atmosphere; теперь код выбирает профиль по зоне и применяет эти значения. Цвета — HTML без #. VIS-067: авторский цвет-script Акта I — минимум шесть состояний (морозное утро, пасмурный день, золотой зимний час, сумерки, зелёная ночь деревни, нечеловеческая лесная ночь). Цвет делается только солнцем/небом/fog/ambient/ответом снега в существующем Environment: без LUT, full-screen tint, adjustments, glow и объёмного тумана. Необязательные блоки: 'snow' { color, coverage, sparkle, tintStrength } (VIS-068/070, отклик снега по W1/W3 — снег читается голубым/розоватым/персиковым/сиреневым, но остаётся снегом) и 'identity' — короткое имя авторского состояния. Профиль без этих блоков сохраняет прежний нейтральный вид. Зоны задают дефолт обычного игрального пути; состояния без зоны (overcast-day, golden-hour, village-green-night) берутся на станции через URMAN_ATMOSPHERE_PHASE.",
   "entities": [
     {
       "id": "urman.world:atmosphere/village-winter-frost",
       "kind": "atmosphere-profile",
-      "name": "Деревня · вьюжные сумерки",
+      "name": "Деревня · морозное утро",
       "params": {
         "profile": "village-winter-frost",
+        "identity": "Морозное утро",
         "zones": [
           "village_day",
           "house_old_pc",
           "fap_clinic"
         ],
         "ambient": {
-          "energy": 0.85,
-          "color": "7d90b1",
+          "energy": 0.92,
+          "color": "9fb4d6",
           "skyContribution": 0
         },
         "fog": {
-          "color": "4b5f76",
-          "density": 0.03,
+          "color": "b6c6da",
+          "density": 0.016,
           "height": 1.0,
-          "heightDensity": 0.008,
-          "aerialPerspective": 0.65,
-          "skyAffect": 0.6,
-          "sunScatter": 0.025
+          "heightDensity": 0.006,
+          "aerialPerspective": 0.7,
+          "skyAffect": 0.7,
+          "sunScatter": 0.03
         },
-        "exposure": 1.0,
+        "exposure": 1.06,
         "ssao": {
-          "intensity": 0.75,
+          "intensity": 0.78,
           "radius": 0.4
         },
         "sky": {
-          "top": "263346",
-          "horizon": "556b80",
-          "groundHorizon": "485a6d",
-          "groundBottom": "263346",
-          "sunAngleMax": 0,
+          "top": "2f5f9e",
+          "horizon": "d7e6f2",
+          "groundHorizon": "b9cadd",
+          "groundBottom": "2d4b6e",
+          "sunAngleMax": 1.4,
           "sunCurve": 0.12,
           "cover": [
-            0.29,
-            0.38,
-            0.5,
-            0.86
+            0.16,
+            0.22,
+            0.32,
+            0.55
           ]
         },
         "sun": {
-          "color": "c6d4e2",
-          "energy": 0.48,
-          "shadowOpacity": 0.18,
+          "color": "fff1d8",
+          "energy": 1.12,
+          "shadowOpacity": 0.4,
           "rotation": [
-            -16,
-            18
+            -14,
+            26
           ]
+        },
+        "snow": {
+          "color": "c2ceff",
+          "coverage": 1.0,
+          "sparkle": 1.2,
+          "tintStrength": 0.5
+        }
+      }
+    },
+    {
+      "id": "urman.world:atmosphere/overcast-day",
+      "kind": "atmosphere-profile",
+      "name": "Деревня · пасмурный день",
+      "params": {
+        "profile": "overcast-day",
+        "identity": "Пасмурный день",
+        "zones": [],
+        "ambient": {
+          "energy": 1.05,
+          "color": "7f93b3",
+          "skyContribution": 0
+        },
+        "fog": {
+          "color": "8796a8",
+          "density": 0.028,
+          "height": 1.0,
+          "heightDensity": 0.006,
+          "aerialPerspective": 0.6,
+          "skyAffect": 0.85,
+          "sunScatter": 0.02
+        },
+        "exposure": 1.0,
+        "ssao": {
+          "intensity": 0.9,
+          "radius": 0.4
+        },
+        "sky": {
+          "top": "48596f",
+          "horizon": "a4b4c6",
+          "groundHorizon": "7b8ca0",
+          "groundBottom": "3a4a5e",
+          "sunAngleMax": 0,
+          "sunCurve": 0.08,
+          "cover": [
+            0.5,
+            0.6,
+            0.7,
+            0.85
+          ]
+        },
+        "sun": {
+          "color": "cbd8e8",
+          "energy": 0.72,
+          "shadowOpacity": 0.12,
+          "rotation": [
+            -34,
+            16
+          ]
+        },
+        "snow": {
+          "color": "cfd9e8",
+          "coverage": 1.0,
+          "sparkle": 0.45,
+          "tintStrength": 0.32
+        }
+      }
+    },
+    {
+      "id": "urman.world:atmosphere/golden-hour",
+      "kind": "atmosphere-profile",
+      "name": "Деревня · золотой зимний час",
+      "params": {
+        "profile": "golden-hour",
+        "identity": "Золотой зимний час",
+        "zones": [],
+        "ambient": {
+          "energy": 0.8,
+          "color": "6f83b4",
+          "skyContribution": 0
+        },
+        "fog": {
+          "color": "d99a63",
+          "density": 0.02,
+          "height": 1.0,
+          "heightDensity": 0.004,
+          "aerialPerspective": 0.9,
+          "skyAffect": 0.5,
+          "sunScatter": 0.08
+        },
+        "exposure": 1.02,
+        "ssao": {
+          "intensity": 0.8,
+          "radius": 0.4
+        },
+        "sky": {
+          "top": "2f4c86",
+          "horizon": "ff9a4a",
+          "groundHorizon": "e08a52",
+          "groundBottom": "3a3f6a",
+          "sunAngleMax": 4.0,
+          "sunCurve": 0.2,
+          "cover": [
+            0.2,
+            0.28,
+            0.4,
+            0.6
+          ]
+        },
+        "sun": {
+          "color": "ffb066",
+          "energy": 1.6,
+          "shadowOpacity": 0.5,
+          "rotation": [
+            -12,
+            40
+          ]
+        },
+        "snow": {
+          "color": "ffcaa0",
+          "coverage": 1.0,
+          "sparkle": 0.9,
+          "tintStrength": 0.6
         }
       }
     },
     {
       "id": "urman.world:atmosphere/zirat-winter-muted",
       "kind": "atmosphere-profile",
-      "name": "Зиратская дорога · вьюжные сумерки",
+      "name": "Зиратская дорога · сумерки",
       "params": {
         "profile": "zirat-winter-muted",
+        "identity": "Сумерки",
         "zones": [
           "zirat_road"
         ],
         "ambient": {
-          "energy": 0.36,
-          "color": "7d90b1",
+          "energy": 0.5,
+          "color": "5c6fa2",
           "skyContribution": 0
         },
         "fog": {
-          "color": "44566b",
-          "density": 0.032,
+          "color": "4a5478",
+          "density": 0.026,
           "height": 1.0,
-          "heightDensity": 0.008,
-          "aerialPerspective": 0.55,
-          "skyAffect": 0.6,
-          "sunScatter": 0.025
+          "heightDensity": 0.006,
+          "aerialPerspective": 0.6,
+          "skyAffect": 0.7,
+          "sunScatter": 0.02
         },
-        "exposure": 1.0,
+        "exposure": 0.98,
         "ssao": {
-          "intensity": 0.75,
+          "intensity": 0.82,
           "radius": 0.4
         },
         "sky": {
-          "top": "263346",
-          "horizon": "4b6074",
-          "groundHorizon": "3f5062",
-          "groundBottom": "263346",
+          "top": "1c2447",
+          "horizon": "8a5a7a",
+          "groundHorizon": "5a4566",
+          "groundBottom": "141a30",
           "sunAngleMax": 0,
           "sunCurve": 0.12,
           "cover": [
-            0.29,
-            0.38,
-            0.5,
-            0.86
+            0.24,
+            0.3,
+            0.4,
+            0.7
           ]
         },
         "sun": {
-          "color": "c6d4e2",
+          "color": "b48ab0",
           "energy": 0.55,
-          "shadowOpacity": 0.45,
+          "shadowOpacity": 0.4,
           "rotation": [
-            -16,
-            18
+            -22,
+            -35
           ]
+        },
+        "snow": {
+          "color": "a9b3e0",
+          "coverage": 1.0,
+          "sparkle": 0.5,
+          "tintStrength": 0.45
+        }
+      }
+    },
+    {
+      "id": "urman.world:atmosphere/village-green-night",
+      "kind": "atmosphere-profile",
+      "name": "Деревня · зелёная ночь",
+      "params": {
+        "profile": "village-green-night",
+        "identity": "Зелёная ночь деревни",
+        "zones": [],
+        "ambient": {
+          "energy": 0.42,
+          "color": "2f7d5c",
+          "skyContribution": 0
+        },
+        "fog": {
+          "color": "1f6b4f",
+          "density": 0.02,
+          "height": 1.0,
+          "heightDensity": 0.008,
+          "aerialPerspective": 0.6,
+          "skyAffect": 0.7,
+          "sunScatter": 0.01
+        },
+        "exposure": 0.9,
+        "ssao": {
+          "intensity": 0.8,
+          "radius": 0.4
+        },
+        "sky": {
+          "top": "0a2a24",
+          "horizon": "1f7d5a",
+          "groundHorizon": "165a42",
+          "groundBottom": "04140f",
+          "sunAngleMax": 0,
+          "sunCurve": 0.12,
+          "cover": [
+            0.2,
+            0.26,
+            0.34,
+            0.6
+          ]
+        },
+        "sun": {
+          "color": "5fd6a0",
+          "energy": 0.3,
+          "shadowOpacity": 0.5,
+          "rotation": [
+            -48,
+            20
+          ]
+        },
+        "snow": {
+          "color": "b8f0d6",
+          "coverage": 1.0,
+          "sparkle": 0.7,
+          "tintStrength": 0.55
         }
       }
     },
     {
       "id": "urman.world:atmosphere/kara-winter-night-edge",
       "kind": "atmosphere-profile",
-      "name": "Кромка Кара-Урмана · ночь",
+      "name": "Кромка Кара-Урмана · нечеловеческая лесная ночь",
       "params": {
         "profile": "kara-winter-night-edge",
+        "identity": "Нечеловеческая лесная ночь",
         "zones": [
           "kara_urman_night"
         ],
         "ambient": {
-          "energy": 0.28,
-          "color": "72899f",
+          "energy": 0.22,
+          "color": "3f6f6a",
           "skyContribution": 0
         },
         "fog": {
-          "color": "354955",
-          "density": 0.026,
+          "color": "274b48",
+          "density": 0.045,
           "height": 1.0,
-          "heightDensity": 0.008,
-          "aerialPerspective": 0.55,
+          "heightDensity": 0.018,
+          "aerialPerspective": 0.5,
           "skyAffect": 0.6,
-          "sunScatter": 0.025
+          "sunScatter": 0.0
         },
-        "exposure": 0.92,
+        "exposure": 0.85,
         "ssao": {
-          "intensity": 0.75,
+          "intensity": 0.88,
           "radius": 0.4
         },
         "sky": {
-          "top": "1b2836",
-          "horizon": "3c4c60",
-          "groundHorizon": "2c3a4a",
-          "groundBottom": "141d28",
+          "top": "0b1f24",
+          "horizon": "1f4540",
+          "groundHorizon": "173633",
+          "groundBottom": "08161a",
           "sunAngleMax": 0,
           "sunCurve": 0.12,
           "cover": [
-            0.24,
-            0.32,
-            0.41,
-            0.75
+            0.1,
+            0.14,
+            0.2,
+            0.4
           ]
         },
         "sun": {
-          "color": "9fb6d4",
-          "energy": 0.22,
-          "shadowOpacity": 0.52,
+          "color": "6fa0a0",
+          "energy": 0.16,
+          "shadowOpacity": 0.55,
           "rotation": [
             -52,
             -28
           ]
+        },
+        "snow": {
+          "color": "8fb0ad",
+          "coverage": 0.8,
+          "sparkle": 0.3,
+          "tintStrength": 0.55
         }
       }
     }

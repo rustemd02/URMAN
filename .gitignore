@@ -116,3 +116,14 @@ incoming/
 api_key*.txt
 *gemini_api_key*
 tools/voice/**/.venv/
+
+# Visual reset 2026-10-07: the author's audit pack stays local. The ZIP/PDF/DOCX
+# duplicate the same images, and the baseline screenshot folders are 49 MB of JPG
+# deliverables; the repo keeps the indexes, research notes and the station frames.
+docs/URMAN_VISUAL_RESET_2026-10-07/*.zip
+docs/URMAN_VISUAL_RESET_2026-10-07/*.pdf
+docs/URMAN_VISUAL_RESET_2026-10-07/*.docx
+docs/URMAN_VISUAL_RESET_2026-10-07/references/
+docs/production/ai_visual_reset_2026-10-07/*.zip
+docs/production/ai_visual_reset_2026-10-07/screenshots/
+docs/production/ai_visual_reset_2026-10-07/screenshots_extra/

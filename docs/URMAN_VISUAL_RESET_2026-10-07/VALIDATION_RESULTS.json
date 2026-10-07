@@ -1,0 +1,23 @@
+{
+  "structural_status": "PASS",
+  "task_count": 118,
+  "legacy_tasks": 64,
+  "new_tasks": 54,
+  "mandatory_task_field_gaps": 0,
+  "bad_dependencies": 0,
+  "author_requirements": 40,
+  "asset_passports": 18,
+  "reference_records": 24,
+  "exact_local_reference_images": 1,
+  "drive_reference_board_images": 16,
+  "baseline_images": 58,
+  "drive_sync": "PASS",
+  "runtime": "NOT_RUN",
+  "art_acceptance": "OPEN",
+  "repo_modified": false,
+  "commit": "69012da7029bb24c99826aa889b2b40fae875ef4",
+  "missing_required_files": [],
+  "reference_board_pdf": "URMAN_VISUAL_REFERENCE_BOARD.pdf",
+  "reference_board_pdf_pages": 9,
+  "reference_board_images": 16
+}

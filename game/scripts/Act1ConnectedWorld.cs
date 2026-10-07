@@ -1768,8 +1768,26 @@ public partial class Act1ConnectedWorld : Node3D
         }
 
         // The values live in authored data (URMAN Studio): this only picks the
-        // profile for the zone and applies it.
-        var profileId = StudioPreviewProfile ?? (karaNight ? "kara-winter-night-edge" : zirat ? "zirat-winter-muted" : "village-winter-frost");
+        // profile for the zone and applies it. A zone resolves to exactly one
+        // profile, so ordinary play is unchanged. URMAN_ATMOSPHERE_PHASE is a
+        // capture-station override for the VIS-067 colour script (VIS-069/070/071
+        // states that no zone owns by default); an unknown id fails loudly instead
+        // of silently falling back, per VIS-003's refuse-don't-guess principle.
+        var zoneProfileId = karaNight ? "kara-winter-night-edge" : zirat ? "zirat-winter-muted" : "village-winter-frost";
+        var phaseOverride = System.Environment.GetEnvironmentVariable("URMAN_ATMOSPHERE_PHASE");
+        if (!string.IsNullOrWhiteSpace(phaseOverride))
+        {
+            if (!AtmosphereProfiles.Has(phaseOverride))
+            {
+                global::Godot.GD.PushError(
+                    $"URMAN_ATMOSPHERE_PHASE='{phaseOverride}' is not an authored atmosphere profile; "
+                    + "the Act I atmosphere is left untouched. Known profiles: "
+                    + string.Join(", ", AtmosphereProfiles.Ids) + ".");
+                return;
+            }
+            zoneProfileId = phaseOverride;
+        }
+        var profileId = StudioPreviewProfile ?? zoneProfileId;
         var profile = AtmosphereProfiles.Get(profileId);
         environment.AmbientLightEnergy = profile.AmbientEnergy;
         environment.AmbientLightSource = global::Godot.Environment.AmbientSource.Color;
@@ -1818,10 +1836,14 @@ public partial class Act1ConnectedWorld : Node3D
             sun.RotationDegrees = profile.SunRotation;
             GraphicsQuality.ConfigureSun(sun);
         }
-        core.SetMeta("unifiedAtmosphereProfile", karaNight
-            ? "kara-winter-night-edge"
-            : zirat ? "zirat-winter-muted" : "village-winter-frost");
-        AtmosphereDump.Write((string)core.GetMeta("unifiedAtmosphereProfile"), environment, sun);
+        // The authored snow/ground colour response rides the existing painterly
+        // material owner (STYLE RECIPE W1/W3, VIS-068/070): it tints the snow that
+        // is already there, adding no geometry, light owner or post-process.
+        PainterlyMaterialLibrary.SetSnowMood(
+            profile.SnowColor, profile.SnowCoverage, profile.SnowSparkle, profile.SnowTintStrength);
+        core.SetMeta("unifiedAtmosphereProfile", profileId);
+        core.SetMeta("unifiedAtmosphereIdentity", profile.Identity);
+        AtmosphereDump.Write(profileId, environment, sun, profile);
     }
 
     /// <summary>

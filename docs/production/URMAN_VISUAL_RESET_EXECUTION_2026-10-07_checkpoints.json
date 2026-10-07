@@ -1,0 +1,23 @@
+{
+ "schemaVersion": 1,
+ "id": "urman.visual-checkpoints.v1",
+ "purpose": "VIS-004/VIS-061: закреплённый набор сравнительных камер визуального рестайла. Один снимок на пару before/after.",
+ "host": "Windows-станция через eng/remote-check.py capture",
+ "scene": "res://scenes/act1_demo.tscn",
+ "resolution": "1920x1080",
+ "qualityPreset": "medium",
+ "fov": 70,
+ "zone": "village_day",
+ "points": [
+  {"id": "C1_arrival_street", "spec": "Ground@0,1.7,12>Ground@0,1.6,-30", "subject": "ось улицы от приезда: дома, заборы, дорога, остановка, NPC"},
+  {"id": "C2_hero_house", "spec": "Ground@-14,1.7,4>Ground@-30,1.8,-6", "subject": "фасад hero-дома: оконные ниши, наличники, карниз"},
+  {"id": "C3_fence_close", "spec": "Ground@-8,1.4,-6>Ground@-14,1.0,-10", "subject": "ближний пролёт ограды: опора, толщина доски, контакт со снегом"},
+  {"id": "C4_fap_branch", "spec": "Ground@10,1.7,-10>Ground@30,1.8,-28", "subject": "фасад ФАП и ветка дороги: общественное здание, край снега на ветке"},
+  {"id": "C5_forest_edge", "spec": "Ground@0,1.7,-40>Ground@0,2.0,-80", "subject": "лес с улицы: глубина, туман, материал дерева"},
+  {"id": "C6_dk_square", "spec": "Ground@6,1.7,-55>Ground@-10,2.0,-70", "subject": "дальняя площадь/ДК: дальние планы"},
+  {"id": "C7_trail_junction", "spec": "Ground@2,1.5,-20>Ground@18,1.4,-34", "subject": "узел протоптанных троп: глубина следов, непрерывность дороги"},
+  {"id": "C8_sky_silhouette", "spec": "Ground@0,1.7,-8>Ground@-40,6.0,-40", "subject": "небо и верхние силуэты: колористика неба, читаемость крон"}
+ ],
+ "phasesNotYetCapturable": ["overcast-day", "golden-hour", "village-green-night"],
+ "note": "Съёмка фаз требует, чтобы манифест чекпоинтов нёс собственный атмосферный профиль; подключается итерацией 02."
+}

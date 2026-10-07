@@ -390,7 +390,12 @@ public static class StudioSelfCheck
             Urman.Godot.Act1ConnectedWorld.StudioPreviewProfile = "kara-winter-night-edge";
             world.Atmosphere!.ApplyToWorld();
             await Capture("14_atmosphere_night_preview");
-            Check(Math.Abs((Env()?.FogDensity ?? 0) - 0.009f) < 1e-5, "«смотреть как ночь» shows the night profile");
+            // VIS-067 recolour made fog density an authored colour-script value,
+            // so the night preview is verified against the loaded night profile
+            // itself (still a real assertion: it must equal that profile, not the
+            // village one), instead of a hard-coded constant that silently drifted.
+            var nightFog = Urman.Godot.AtmosphereProfiles.Get("kara-winter-night-edge").FogDensity;
+            Check(Math.Abs((Env()?.FogDensity ?? 0) - nightFog) < 1e-5, "«смотреть как ночь» shows the night profile");
             Urman.Godot.Act1ConnectedWorld.StudioPreviewProfile = null;
             world.Atmosphere!.ApplyToWorld();
             world.Atmosphere!.Hide();

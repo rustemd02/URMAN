@@ -487,6 +487,17 @@ public static class PainterlyMaterialLibrary
     private static Vector2 _boundTrampleOrigin;
     private static float _boundTrampleExtent;
     private static int _boundTrampleMaterialCount = -1;
+    // VIS-067/068 per-atmosphere snow response. Each cached material carries a
+    // family-specific snow_coverage/snow_sparkle stamped by ForColor; the profile
+    // colour script must modulate those authored values, never flatten them
+    // (W3: flat snow is an anti-example). The base is captured the first time the
+    // material is seen, so re-applying a profile recomputes from source instead of
+    // compounding. Keyed weakly by the material instance the cache already owns.
+    private static readonly System.Collections.Generic.Dictionary<ShaderMaterial, (float Coverage, float Sparkle)> _snowBase = [];
+    private static Color? _snowMoodColor;
+    private static float _snowMoodCoverage = 1f;
+    private static float _snowMoodSparkle = 1f;
+    private static int _snowMoodMaterialCount = -1;
 
     public static bool LowQualityMaterials => _lowQualityMaterials;
 
@@ -547,6 +558,52 @@ public static class PainterlyMaterialLibrary
     }
 
     /// <summary>
+    /// VIS-067/068/070: the snow/ground colour response of an atmosphere profile.
+    /// STYLE RECIPE W1 lets the snow read blue, pinkish, peach or lilac with the
+    /// light state, but it must stay believable snow — never flat white, never a
+    /// pure overexposed white (W3, design_style §снег). The authored <paramref
+    /// name="tint"/> is blended toward the shader's own neutral snow albedo by
+    /// <paramref name="tintStrength"/> (0 keeps the pre-colour-script look exactly),
+    /// while <paramref name="coverageScale"/> and <paramref name="sparkleScale"/>
+    /// modulate each family's authored coverage/sparkle rather than overriding them,
+    /// so roof, fence and trodden-path structure survives. Presentation only, fully
+    /// additive: no new geometry, texture, light owner or post-process.
+    /// </summary>
+    public static void SetSnowMood(Color tint, float coverageScale, float sparkleScale, float tintStrength)
+    {
+        // The neutral baseline lives in the shader (vec4 0.93,0.95,0.97). Repeated
+        // zone crossings re-derive the effective colour from source instead of
+        // stacking tints, so an authored state can be left as cleanly as it entered.
+        var strength = (float)System.Math.Clamp(tintStrength, 0f, 1f);
+        var effective = AtmosphereProfile.NeutralSnowColor.Lerp(tint, strength);
+        var coverage = (float)System.Math.Clamp(coverageScale, 0f, 1f);
+        var sparkle = (float)System.Math.Clamp(sparkleScale, 0f, 1f);
+        // Skip the full cache walk only when nothing changed and no material was
+        // added since the last broadcast (the same guard SetSnowTrample uses).
+        if (_snowMoodMaterialCount == Materials.Count
+            && _snowMoodColor.HasValue && _snowMoodColor.Value == effective
+            && _snowMoodCoverage == coverage && _snowMoodSparkle == sparkle) return;
+        foreach (var material in Materials.Values)
+        {
+            if (!_snowBase.TryGetValue(material, out var base_))
+            {
+                base_ = (material.GetShaderParameter("snow_coverage").AsSingle(),
+                         material.GetShaderParameter("snow_sparkle").AsSingle());
+                _snowBase[material] = base_;
+            }
+            material.SetShaderParameter("snow_color", effective);
+            // A sheltered surface baked at coverage 0 stays snowless; multiplying its
+            // own base preserves the family distinction the shader already encodes.
+            material.SetShaderParameter("snow_coverage", base_.Coverage * coverage);
+            material.SetShaderParameter("snow_sparkle", base_.Sparkle * sparkle);
+        }
+        _snowMoodColor = effective;
+        _snowMoodCoverage = coverage;
+        _snowMoodSparkle = sparkle;
+        _snowMoodMaterialCount = Materials.Count;
+    }
+
+    /// <summary>
     /// Collision-only headless tests can skip image-backed surface textures;
     /// visual scene and capture paths leave this disabled.
     /// </summary>
@@ -575,6 +632,12 @@ public static class PainterlyMaterialLibrary
         Materials.Clear();
         _boundTrampleMask = null;
         _boundTrampleMaterialCount = -1;
+        // The snow-response memo walks the same cache: with the materials gone,
+        // the captured per-family base and the last broadcast have to go too, so
+        // the next atmosphere profile re-derives from the recreated cache.
+        _snowBase.Clear();
+        _snowMoodColor = null;
+        _snowMoodMaterialCount = -1;
         // W4/P2: the cache is gone, so the wind memo is dropped too; the next
         // SetWindMotion re-broadcasts into the recreated cache while new
         // materials already inherit _windMotion from ForColor.

@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Godot;
 
 namespace Urman.Godot;
@@ -53,15 +55,28 @@ public partial class Act1DemoRoot
         GetTree().Quit();
     }
 
+    private static readonly JsonSerializerOptions ViewJsonOptions = new() { WriteIndented = true };
+
+    private sealed record ViewSideResult(string Space, Node3D? Owner, Vector3 World);
+
+    private sealed record ViewPoint(
+        string Name,
+        string Spec,
+        string CameraSpace,
+        Node3D? CameraOwner,
+        Vector3 CameraWorld,
+        string TargetSpace,
+        Node3D? TargetOwner,
+        Vector3 TargetWorld);
+
     private async void DevViewCaptureBoot()
     {
         var dir = System.Environment.GetEnvironmentVariable("URMAN_VIEW_CAPTURE");
         var points = System.Environment.GetEnvironmentVariable("URMAN_VIEW_POINTS");
         if (string.IsNullOrEmpty(dir) || string.IsNullOrEmpty(points)) return;
-        System.IO.Directory.CreateDirectory(dir);
+        var zone = System.Environment.GetEnvironmentVariable("URMAN_VIEW_ZONE");
         for (var frame = 0; frame < 900 && !(MainMenuVisible && _main is not null && _player is not null); frame++)
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        var zone = System.Environment.GetEnvironmentVariable("URMAN_VIEW_ZONE");
         if (!string.IsNullOrEmpty(zone))
         {
             if (System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") != "1"
@@ -72,39 +87,53 @@ public partial class Act1DemoRoot
                 return;
             }
         }
+        // A frame is evidence only when its subject is known, so every point is bound
+        // before the first PNG; an unknown or doubled owner stops the run instead of
+        // silently becoming world space.
+        var plan = new List<ViewPoint>();
+        foreach (var entry in points.Split(';', StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (ResolveViewPoint(entry, out var point) is { } failure)
+            {
+                GD.PushError($"View capture refused: {failure} Point '{entry}' wrote no frame.");
+                GetTree().Quit(1);
+                return;
+            }
+            plan.Add(point!);
+        }
+        if (plan.Count == 0)
+        {
+            GD.PushError("View capture refused: URMAN_VIEW_POINTS contained no point entries.");
+            GetTree().Quit(1);
+            return;
+        }
+        try
+        {
+            System.IO.Directory.CreateDirectory(dir);
+        }
+        catch (System.Exception error)
+        {
+            GD.PushError($"View capture refused: output directory '{dir}' is not usable: {error.Message}.");
+            GetTree().Quit(1);
+            return;
+        }
         _mainMenu?.Dismiss();
         _mainMenu = null;
         _player!.SetModalOpen(true);
         var camera = new Camera3D { Name = "DevViewCamera", Fov = 70f, Far = GetViewport().GetCamera3D()?.Far ?? 160f };
         _main!.AddChild(camera);
         camera.MakeCurrent();
-        foreach (var entry in points.Split(';', StringSplitOptions.RemoveEmptyEntries))
+        var frames = new JsonArray();
+        foreach (var point in plan)
         {
-            var name = entry[..entry.IndexOf(':')];
-            var parts = entry[(entry.IndexOf(':') + 1)..].Split('>');
-            static Vector3 V(string text)
+            if (!string.IsNullOrEmpty(zone) && _main!.ConnectedWorld?.ActiveZoneId != zone)
             {
-                var n = text.Split(',').Select(value => float.Parse(value, System.Globalization.CultureInfo.InvariantCulture)).ToArray();
-                return new Vector3(n[0], n[1], n[2]);
+                GD.PushError($"View capture refused: presented zone '{_main.ConnectedWorld?.ActiveZoneId}' differs from requested '{zone}'. Point '{point.Name}' wrote no frame.");
+                GetTree().Quit(1);
+                return;
             }
-            // "Building@x,y,z" points are in that building's local space (front = +Z).
-            Vector3 P(string text)
-            {
-                var at = text.IndexOf('@');
-                if (at < 0) return V(text);
-                if (text[..at] == "Ground")
-                {
-                    var point = V(text[(at + 1)..]);
-                    point.Y += Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(point.X, point.Z);
-                    return point;
-                }
-                var node = _main!.FindChild(text[..at], true, false) as Node3D;
-                return node is null ? V(text[(at + 1)..]) : node.ToGlobal(V(text[(at + 1)..]));
-            }
-            var owner = parts[0].Contains('@') ? parts[0][..parts[0].IndexOf('@')] : (parts[1].Contains('@') ? parts[1][..parts[1].IndexOf('@')] : "");
-            var lookText = parts[1].Contains('@') || owner.Length == 0 ? parts[1] : owner + "@" + parts[1];
-            camera.GlobalPosition = P(parts[0]);
-            camera.LookAt(P(lookText), Vector3.Up);
+            camera.GlobalPosition = point.CameraWorld;
+            camera.LookAt(point.TargetWorld, Vector3.Up);
             DisplayServer.WindowMoveToForeground();
             camera.MakeCurrent();
             for (var frame = 0; frame < 20; frame++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -113,19 +142,230 @@ public partial class Act1DemoRoot
             await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
             using (var image = GetViewport().GetTexture().GetImage())
             {
-                if (image.SavePng($"{dir}/{name}.png") != Error.Ok)
+                if (image.SavePng($"{dir}/{point.Name}.png") != Error.Ok)
                 {
-                    GD.PushError($"View capture could not save '{name}'.");
+                    GD.PushError($"View capture could not save '{point.Name}'.");
                     GetTree().Quit(1);
                     return;
                 }
             }
-            GD.Print($"view-capture: {name} camera={GetViewport().GetCamera3D()?.Name} at={camera.GlobalPosition} zone={_main.ConnectedWorld?.ActiveZoneId} preset={GraphicsQuality.Preset} scale={GetViewport().Scaling3DScale} fov={camera.Fov} focus={DisplayServer.WindowIsFocused()} pause={_pauseMenu?.IsOpen} drawCalls={Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)} frameMs={GetProcessDeltaTime()*1000:0.0}");
+            var metadata = ViewFrameMetadata(point, camera, zone);
+            var payload = metadata.ToJsonString(ViewJsonOptions);
+            frames.Add(JsonNode.Parse(payload)!);
+            if (WriteViewJson($"{dir}/{point.Name}.json", payload) is { } sidecarError)
+            {
+                GD.PushError($"View capture refused: {sidecarError} Frame '{point.Name}' is not comparable evidence.");
+                GetTree().Quit(1);
+                return;
+            }
+            GD.Print($"view-capture: {point.Name} camera={GetViewport().GetCamera3D()?.Name} at={camera.GlobalPosition} zone={_main.ConnectedWorld?.ActiveZoneId} preset={GraphicsQuality.Preset} scale={GetViewport().Scaling3DScale} fov={camera.Fov} focus={DisplayServer.WindowIsFocused()} pause={_pauseMenu?.IsOpen} drawCalls={Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)} frameMs={GetProcessDeltaTime()*1000:0.0}");
+        }
+        var summary = new JsonObject
+        {
+            ["engineVersion"] = ViewProbe(() => Engine.GetVersionInfo()["string"].AsString()),
+            ["os"] = ViewProbe(() => OS.GetName()),
+            ["osVersion"] = ViewProbe(() => System.Environment.OSVersion.ToString()),
+            ["requestedZoneId"] = ViewText(zone),
+            ["pointCount"] = ViewNumber(frames.Count),
+            ["frames"] = frames
+        };
+        if (WriteViewJson($"{dir}/_capture-summary.json", summary.ToJsonString(ViewJsonOptions)) is { } summaryError)
+        {
+            GD.PushError($"View capture refused: {summaryError}");
+            GetTree().Quit(1);
+            return;
         }
         var tree = GetTree();
         await Tests.GodotSmokeCleanup.ReleaseAsync(this);
         QuitAfterViewCaptureAsync(tree);
     }
+
+    // Null means the point is bound to a real subject; any other value is the refusal reason.
+    private string? ResolveViewPoint(string entry, out ViewPoint? point)
+    {
+        point = null;
+        var separator = entry.IndexOf(':');
+        if (separator < 0) return "the entry has no ':' between the frame name and the coordinates.";
+        var name = entry[..separator];
+        if (!ViewFileNameSafe(name)) return $"'{name}' is not a safe frame name of 1..48 [A-Za-z0-9_-].";
+        var sides = entry[(separator + 1)..].Split('>');
+        if (sides.Length != 2) return "the entry needs exactly one '>' between camera and target.";
+        var cameraOwner = sides[0].Contains('@') ? sides[0][..sides[0].IndexOf('@')] : "";
+        var targetText = sides[1].Contains('@') || cameraOwner.Length == 0 ? sides[1] : cameraOwner + "@" + sides[1];
+        if (ViewSide(sides[0], out var camera) is { } cameraFailure) return cameraFailure;
+        if (ViewSide(targetText, out var target) is { } targetFailure) return targetFailure;
+        if ((camera!.World - target!.World).LengthSquared() < 1e-4f)
+            return "camera and target coincide, so the frame would have no subject.";
+        point = new ViewPoint(name, entry, camera.Space, camera.Owner, camera.World, target.Space, target.Owner, target.World);
+        return null;
+    }
+
+    // "Building@x,y,z" points are in that building's local space (front = +Z) and must bind
+    // to exactly one Node3D; bare coordinates stay the only world-space form.
+    private string? ViewSide(string text, out ViewSideResult? result)
+    {
+        result = null;
+        var at = text.IndexOf('@');
+        var owner = at < 0 ? "" : text[..at];
+        if (!ViewVector(at < 0 ? text : text[(at + 1)..], out var local))
+            return $"'{text}' is not three finite comma-separated numbers.";
+        if (owner.Length == 0)
+        {
+            result = new ViewSideResult("world", null, local);
+            return null;
+        }
+        if (owner == "Ground")
+        {
+            var grounded = new Vector3(local.X, local.Y + Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(local.X, local.Z), local.Z);
+            result = new ViewSideResult("ground", null, grounded);
+            return null;
+        }
+        var matches = _main!.FindChildren(owner, "", true, false).OfType<Node3D>().ToArray();
+        if (matches.Length == 0)
+            return $"no Node3D named '{owner}' exists under Main, and world-space fallback would frame a different subject.";
+        if (matches.Length > 1)
+            return $"'{owner}' binds to {matches.Length} nodes ({string.Join(", ", matches.Select(node => node.GetPath().ToString()))}); the owner must be unique.";
+        var node = matches[0];
+        result = new ViewSideResult($"node:{node.GetPath()}", node, node.ToGlobal(local));
+        return null;
+    }
+
+    // Zone instances carry their logical id; an owner outside them belongs to the shared
+    // exterior and frames a street view rather than another zone's presentation.
+    private static string? ViewOwnerZone(Node3D? node)
+    {
+        for (var ancestor = node?.GetParent(); ancestor is not null; ancestor = ancestor.GetParent())
+            if (ViewMeta(ancestor, "logicalZoneId") is { } zoneId)
+                return zoneId;
+        return null;
+    }
+
+    private JsonObject ViewFrameMetadata(ViewPoint point, Camera3D camera, string? requestedZone)
+    {
+        var viewport = GetViewport();
+        var world = _main!.ConnectedWorld;
+        var environmentNode = ViewFrameEnvironmentNode();
+        var environment = environmentNode?.Environment;
+        // The storm toggle has one caller (the first-night cutscene), so the running flag
+        // is the only runtime authority for blizzard state; snow is read off its emitter.
+        var snow = world?.GetNodeOrNull<CpuParticles3D>("Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBSnow");
+        return new JsonObject
+        {
+            ["point"] = ViewText(point.Name),
+            ["spec"] = ViewText(point.Spec),
+            ["cameraName"] = ViewText(camera.Name.ToString()),
+            ["cameraPath"] = ViewText(camera.GetPath().ToString()),
+            ["cameraPosition"] = ViewVector(camera.GlobalPosition),
+            ["cameraTarget"] = ViewVector(point.TargetWorld),
+            ["cameraForward"] = ViewVector(camera.GlobalTransform.Basis.Z * -1f),
+            ["cameraSpace"] = ViewText(point.CameraSpace),
+            ["targetSpace"] = ViewText(point.TargetSpace),
+            ["cameraOwnerPath"] = ViewText(point.CameraOwner?.GetPath().ToString()),
+            ["targetOwnerPath"] = ViewText(point.TargetOwner?.GetPath().ToString()),
+            ["cameraOwnerZone"] = ViewText(ViewOwnerZone(point.CameraOwner)),
+            ["targetOwnerZone"] = ViewText(ViewOwnerZone(point.TargetOwner)),
+            ["fov"] = ViewNumber(camera.Fov),
+            ["near"] = ViewNumber(camera.Near),
+            ["far"] = ViewNumber(camera.Far),
+            ["viewportWidth"] = ViewNumber(viewport.GetVisibleRect().Size.X),
+            ["viewportHeight"] = ViewNumber(viewport.GetVisibleRect().Size.Y),
+            ["scaling3DScale"] = ViewNumber(viewport.Scaling3DScale),
+            ["scaling3DMode"] = ViewText(viewport.Scaling3DMode.ToString()),
+            ["graphicsPreset"] = ViewText(GraphicsQuality.Preset),
+            ["activeZoneId"] = ViewText(world?.ActiveZoneId),
+            ["requestedZoneId"] = ViewText(requestedZone),
+            ["atmosphereProfile"] = ViewText(ViewMeta(world?.GetNodeOrNull<Node3D>("Act1CoreWorldGreybox"), "unifiedAtmosphereProfile")),
+            ["atmosphereOwner"] = ViewText(ViewMeta(world, "activeAtmosphereOwner")),
+            ["studioPreviewProfile"] = ViewText(Act1ConnectedWorld.StudioPreviewProfile),
+            ["environmentPath"] = ViewText(environmentNode?.GetPath().ToString()),
+            ["tonemapMode"] = ViewText(environment?.TonemapMode.ToString()),
+            ["fogColor"] = ViewText(environment?.FogLightColor.ToHtml()),
+            ["fogDensity"] = ViewNumber(environment?.FogDensity),
+            ["snowActive"] = ViewFlag(snow is null ? null : snow.Emitting && snow.Visible),
+            ["snowAmount"] = ViewNumber(snow?.Amount),
+            ["blizzardActive"] = ViewFlag(_firstNightRunning),
+            ["drawCalls"] = ViewNumber(Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)),
+            ["capturedUnixSeconds"] = ViewNumber(System.DateTimeOffset.UtcNow.ToUnixTimeSeconds())
+        };
+    }
+
+    // Main.SwitchZone leaves exactly one WorldEnvironment resource in place, so the zone
+    // placement decides which one rather than a guess from tree order.
+    private WorldEnvironment? ViewFrameEnvironmentNode()
+    {
+        var world = _main?.ConnectedWorld;
+        var exterior = world?.GetNodeOrNull<WorldEnvironment>("Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBEnvironment");
+        if (world?.ActiveZoneId is not { } zone
+            || !Act1WorldLayout.TryGetPlacement(zone, out var placement)
+            || !placement.Interior)
+            return exterior;
+        var zoneNode = world.GetChildren()
+            .FirstOrDefault(child => child is Node3D && ViewMeta(child, "logicalZoneId") == zone);
+        var indoor = zoneNode?.FindChildren("*", "WorldEnvironment", true, false)
+            .OfType<WorldEnvironment>()
+            .FirstOrDefault(candidate => candidate.Environment is not null);
+        return indoor ?? exterior;
+    }
+
+    private string? WriteViewJson(string path, string json)
+    {
+        try
+        {
+            System.IO.File.WriteAllText(path, json);
+            return null;
+        }
+        catch (System.Exception error)
+        {
+            return $"could not write '{path}': {error.Message}.";
+        }
+    }
+
+    private static bool ViewFileNameSafe(string name) =>
+        name.Length is > 0 and <= 48 && name.All(character => char.IsAsciiLetterOrDigit(character) || character is '-' or '_');
+
+    private static bool ViewVector(string text, out Vector3 vector)
+    {
+        vector = Vector3.Zero;
+        var values = text.Split(',').Select(value =>
+            float.TryParse(value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var parsed)
+                && float.IsFinite(parsed) ? parsed : float.NaN).ToArray();
+        if (values.Length != 3 || values.Any(float.IsNaN)) return false;
+        vector = new Vector3(values[0], values[1], values[2]);
+        return true;
+    }
+
+    private static string? ViewMeta(Node? node, string key) =>
+        node is not null && node.HasMeta(key) ? node.GetMeta(key).AsString() : null;
+
+    private static JsonNode? ViewText(string? value) =>
+        string.IsNullOrEmpty(value) ? null : JsonValue.Create(value);
+
+    private static JsonNode? ViewFlag(bool? value) =>
+        value is null ? null : JsonValue.Create(value.Value);
+
+    private static JsonNode? ViewNumber(double? value) =>
+        value is { } number && double.IsFinite(number)
+            ? JsonNode.Parse(number.ToString("0.######", System.Globalization.CultureInfo.InvariantCulture))
+            : null;
+
+    private static JsonNode? ViewProbe(System.Func<string> read)
+    {
+        try
+        {
+            return ViewText(read());
+        }
+        catch (System.Exception)
+        {
+            return null;
+        }
+    }
+
+    private static JsonObject ViewVector(Vector3 value) => new()
+    {
+        ["x"] = ViewNumber(value.X),
+        ["y"] = ViewNumber(value.Y),
+        ["z"] = ViewNumber(value.Z)
+    };
 
     private static async void QuitAfterViewCaptureAsync(SceneTree tree)
     {
