@@ -4,6 +4,8 @@ param(
     [ValidateRange(1, 86400)][int]$TimeoutSeconds = 300,
     [switch]$Headless,
     [string]$ViewPoints,
+    [ValidatePattern('^$|^[a-z0-9-]{1,48}$')][string]$AtmospherePhase,
+    [ValidatePattern('^$|^player$|^\d{2,3}(\.\d+)?$')][string]$ViewFov,
     [string]$Root = (Split-Path $PSScriptRoot -Parent),
     [string]$ToolsRoot,
     [string]$Provenance,
@@ -24,6 +26,8 @@ if (-not $Scene) { $Scene = 'res://scenes/act1_demo.tscn' }
 if ($Scene -notmatch '^res://[\w/.-]+\.tscn$' -or $Scene.Contains('..') -or
     -not (Test-Path (Join-Path "$Root/game" $Scene.Substring(6)))) { throw 'Invalid or missing scene.' }
 if ($Mode -eq 'capture' -and (-not $ViewPoints -or $Headless)) { throw 'Capture requires -ViewPoints and a native window.' }
+if ($AtmospherePhase -and $Mode -ne 'capture') { throw 'An atmosphere phase only applies to a capture.' }
+if ($ViewFov -and $Mode -ne 'capture') { throw 'A view FOV only applies to a capture.' }
 if ($Mode -eq 'play' -and $Headless) { throw 'Play requires a native window.' }
 $manifest = Get-Content "$Root/eng/toolchain.json" -Raw | ConvertFrom-Json
 $version = $manifest.godot.version -replace '\.stable.*$', ''
@@ -65,8 +69,10 @@ function Invoke-Logged([string]$Name, [string]$Exe, [string[]]$Arguments, [int]$
 Push-Location $Root
 $savedCapture = $env:URMAN_VIEW_CAPTURE
 $savedPoints = $env:URMAN_VIEW_POINTS
+$savedPhase = $env:URMAN_ATMOSPHERE_PHASE
+$savedFov = $env:URMAN_VIEW_FOV
 try {
-    Remove-Item Env:URMAN_VIEW_CAPTURE, Env:URMAN_VIEW_POINTS -ErrorAction SilentlyContinue
+    Remove-Item Env:URMAN_VIEW_CAPTURE, Env:URMAN_VIEW_POINTS, Env:URMAN_ATMOSPHERE_PHASE, Env:URMAN_VIEW_FOV -ErrorAction SilentlyContinue
     if ($Provenance) {
         & $Python -c "import sys,json; from pathlib import Path; sys.path.insert(0,sys.argv[1]); from remote_common import verify_source; verify_source(Path(sys.argv[2]),json.loads(Path(sys.argv[3]).read_text(encoding='utf-8-sig')))" "$ToolsRoot/eng" $Root $Provenance
         if ($LASTEXITCODE -ne 0) { throw 'Snapshot provenance/hash verification failed.' }
@@ -122,6 +128,10 @@ try {
         if ($Mode -eq 'capture') {
             $env:URMAN_VIEW_CAPTURE = "$output/frames"
             $env:URMAN_VIEW_POINTS = $ViewPoints
+            # VIS-067 colour states no zone owns by default; the game refuses an unknown id.
+            if ($AtmospherePhase) { $env:URMAN_ATMOSPHERE_PHASE = $AtmospherePhase; $receipt.atmospherePhase = $AtmospherePhase }
+            # VIS-111: 'player' = the player's camera FOV; default control views stay at 70.
+            if ($ViewFov) { $env:URMAN_VIEW_FOV = $ViewFov; $receipt.viewFov = $ViewFov }
         }
         $arguments += $Scene
         if ($Mode -eq 'smoke') { $arguments += '--urman-smoke-background-input' }
@@ -160,6 +170,8 @@ try {
     $receipt | ConvertTo-Json -Depth 5 | Set-Content "$output/receipt.json" -Encoding UTF8
     $env:URMAN_VIEW_CAPTURE = $savedCapture
     $env:URMAN_VIEW_POINTS = $savedPoints
+    $env:URMAN_ATMOSPHERE_PHASE = $savedPhase
+    $env:URMAN_VIEW_FOV = $savedFov
     Pop-Location
     $runLock.Dispose()
 }
