@@ -49,6 +49,11 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private bool _motionBlur;
     private bool _headBob;
     private string _graphicsPreset = GraphicsQuality.DefaultPreset();
+    // VIS-006 §5.6: the preset the player chose (or the adapter default) is the only
+    // value that persists. Safe mode and the startup performance rescue lower the
+    // effective preset for this session only and never reach UserSettingsStore.
+    private string _preferredGraphicsPreset = GraphicsQuality.DefaultPreset();
+    private string? _sessionGraphicsOverride;
     private string _inputDevice = "keyboard-mouse";
     /// <summary>ACT1-LANG.5: chosen starting Tatar knowledge level (none/some/fluent).</summary>
     public string TatarLanguageLevel
@@ -84,6 +89,9 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     public string InteractionHint => FormatInteractionHint();
 
     public string GraphicsPreset => _graphicsPreset;
+
+    /// <summary>"safe-mode" or "performance-rescue" while a session-only preset is active; otherwise null.</summary>
+    public string? SessionGraphicsOverride => _sessionGraphicsOverride;
 
     public bool HeadBobEnabled => _headBob && !_accessibility.ReducedMotion;
 
@@ -170,6 +178,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         }
 
         _graphicsPreset = "low";
+        _sessionGraphicsOverride ??= "performance-rescue";
         ApplyGraphicsPreset();
         return true;
     }
@@ -203,16 +212,24 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         _gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity").AsDouble();
         _camera.Fov = 75;
         Input.MouseMode = Input.MouseModeEnum.Captured;
-        if (OS.GetCmdlineArgs().Contains("--urman-safe-mode", StringComparer.Ordinal))
+        var safeMode = OS.GetCmdlineArgs().Contains("--urman-safe-mode", StringComparer.Ordinal);
+        if (!safeMode)
         {
-            _graphicsPreset = "low";
+            ApplyGraphicsPreset();
         }
-        ApplyGraphicsPreset();
         // UIUX-007: user preferences survive cold launches independently of
         // any story save slot.
         if (UserSettingsStore.TryLoad() is { } storedSettings)
         {
             ApplySettings(storedSettings);
+        }
+        // Safe mode is applied after stored preferences so a saved "high" cannot
+        // defeat it, and it stays session-only so it never overwrites them.
+        if (safeMode)
+        {
+            _graphicsPreset = "low";
+            _sessionGraphicsOverride = "safe-mode";
+            ApplyGraphicsPreset();
         }
         AccessibilityPresentation.ApplyToTree(GetTree(), _accessibility);
     }
@@ -288,7 +305,16 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         MouseSensitivity = (float)settings.MouseSensitivity;
         _motionBlur = settings.MotionBlur;
         _headBob = settings.HeadBob;
-        _graphicsPreset = settings.GraphicsPreset;
+        // Settings echo the effective preset back (CaptureSettings shows what is
+        // running). An unchanged echo keeps a session-only override; picking any
+        // other preset is an explicit player choice and ends it.
+        if (_sessionGraphicsOverride is null
+            || !string.Equals(settings.GraphicsPreset, _graphicsPreset, StringComparison.Ordinal))
+        {
+            _sessionGraphicsOverride = null;
+            _preferredGraphicsPreset = settings.GraphicsPreset;
+            _graphicsPreset = settings.GraphicsPreset;
+        }
         _inputDevice = settings.InputDevice;
         // ACT1-LANG.5: this is a profile choice only. RuntimeBridge reads it
         // while creating the next New Game; applying settings never reseeds
@@ -301,7 +327,11 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         AccessibilityPresentation.ApplyToTree(GetTree(), _accessibility);
         // UIUX-007: the latest applied preferences persist for the next cold
         // launch, independent of any story save slot.
-        UserSettingsStore.Save(settings with { TatarLanguageLevel = tatarLanguageLevel });
+        UserSettingsStore.Save(settings with
+        {
+            TatarLanguageLevel = tatarLanguageLevel,
+            GraphicsPreset = _preferredGraphicsPreset
+        });
     }
 
     private static string NormalizeTatarLanguageLevel(string? value) => value?.Trim().ToLowerInvariant() switch
@@ -530,6 +560,11 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     {
         PainterlyMaterialLibrary.SetGraphicsPreset(_graphicsPreset);
         GraphicsQuality.Apply(GetViewport(), _graphicsPreset);
+        // Readback for capture receipts: a frame taken under a session override is
+        // not a frame of the player's chosen preset.
+        SetMeta("graphicsPreset", _graphicsPreset);
+        SetMeta("graphicsPreferredPreset", _preferredGraphicsPreset);
+        SetMeta("graphicsSessionOverride", _sessionGraphicsOverride ?? string.Empty);
     }
 
     private void UpdateInteraction()

@@ -114,6 +114,18 @@ public partial class FirstPersonController
         var actualRise = Math.Max(0, GlobalPosition.Y - from.Origin.Y);
         _stepEyeDrop = Math.Min(MaximumStepHeight, _stepEyeDrop + actualRise);
         _head.Position -= Vector3.Up * actualRise;
+        // VIS-047: the carried thing is re-seated from the eye every frame, and the
+        // eye is deliberately kept level through a riser (line above). Recorded so
+        // the P20 carry pair can prove the log travelled with the body and not
+        // against it. No motion parameter changes here: the card forbids touching
+        // head-bob without a separate reason, and there is none.
+        if (_carryCoordinator?.HeldItem is { } carried)
+        {
+            carried.SetMeta("carryStepRiseMetres", actualRise);
+            carried.SetMeta("carryStepEyeKeptLevelMetres", actualRise);
+            carried.SetMeta("carryStepReducedMotion", ReducedMotion);
+            carried.SetMeta("carryStepItemId", carried.ItemId);
+        }
         StepsClimbed++;
         LastStepRejection = string.Empty;
         return true;

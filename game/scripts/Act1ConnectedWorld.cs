@@ -650,7 +650,6 @@ public partial class Act1ConnectedWorld : Node3D
             }
         }
         var isKaraNight = string.Equals(zoneId, "kara_urman_night", StringComparison.Ordinal);
-        var isZirat = string.Equals(zoneId, "zirat_road", StringComparison.Ordinal);
         exteriorLayer?.SetExteriorPresentationEnabled(
             useExteriorAtmosphere,
             isKaraNight, windowSnowView: zoneId == "house_old_pc");
@@ -661,7 +660,10 @@ public partial class Act1ConnectedWorld : Node3D
             // collision remain owned separately from this exterior scenery.
             coreWorld.Visible = useExteriorAtmosphere || zoneId is "house_old_pc" or "fap_clinic";
             SetAuthoredKitCollisionEnabled(useExteriorAtmosphere, zoneId);
-            TuneConnectedAct1Atmosphere(coreWorld, useExteriorAtmosphere, isKaraNight, isZirat);
+            // VIS-040/042: the zone-to-state choice is authored data now
+            // (atmosphere.v1.json 'zones'), so a state cannot be reached by a
+            // hard-coded expression the data no longer describes.
+            TuneConnectedAct1Atmosphere(coreWorld, useExteriorAtmosphere, zoneId, isKaraNight);
         }
 
         ActiveZoneId = zoneId;
@@ -671,9 +673,13 @@ public partial class Act1ConnectedWorld : Node3D
         VehicleFleet?.SetZonePresentation(zoneId, useExteriorAtmosphere);
         AlsuStreetWalkPresentation.SessionOwner(GetTree())?.SetZonePresentation(zoneId, useExteriorAtmosphere && !isKaraNight);
         SetMeta("activeZoneId", ActiveZoneId);
+        // VIS-006 §5.2: outdoors the single active environment is the exterior
+        // layer's, so count it instead of reporting 0 for the zone-owned ones.
         SetMeta(
             "activeWorldEnvironmentCount",
-            useExteriorAtmosphere ? 0 : _environmentsByZone[zoneId].Count);
+            useExteriorAtmosphere
+                ? (exteriorLayer?.ExteriorEnvironmentActive == true ? 1 : 0)
+                : _environmentsByZone[zoneId].Count);
         SetMeta("activeExteriorAtmosphere", useExteriorAtmosphere);
         GetNodeOrNull<AddressAccessVerifier>("AddressAccessVerification")?.NotifyPresentationChanged();
         SetMeta(
@@ -1283,7 +1289,7 @@ public partial class Act1ConnectedWorld : Node3D
                 var print = AddVisualBox(trail, $"Print{i}_{foot}",
                     new(0.13f, 0.016f, 0.26f),
                     new(x + (foot == 0 ? offset : -offset), ground + 0.003f, z + (foot == 0 ? 0.10f : -0.10f)),
-                    "aebec9", "snow", yawDegrees: -58f);
+                    "aebec9", "snow_trampled", yawDegrees: -58f);
                 print.Mesh = new SphereMesh { Radius = .13f, Height = .012f, RadialSegments = 10, Rings = 2 };
                 print.Scale = new Vector3(.55f, 1f, 1f);
             }
@@ -1745,14 +1751,14 @@ public partial class Act1ConnectedWorld : Node3D
         var core = GetNodeOrNull<Node3D>("Act1CoreWorldGreybox");
         if (core is null) return;
         var zone = string.IsNullOrEmpty(ActiveZoneId) ? "village_day" : ActiveZoneId;
-        TuneConnectedAct1Atmosphere(core, true, zone == "kara_urman_night", zone == "zirat_road");
+        TuneConnectedAct1Atmosphere(core, true, zone, zone == "kara_urman_night");
     }
 
     private static void TuneConnectedAct1Atmosphere(
         Node3D core,
         bool enabled,
-        bool karaNight,
-        bool zirat)
+        string zoneId,
+        bool night)
     {
         if (!enabled)
         {
@@ -1768,12 +1774,25 @@ public partial class Act1ConnectedWorld : Node3D
         }
 
         // The values live in authored data (URMAN Studio): this only picks the
-        // profile for the zone and applies it. A zone resolves to exactly one
-        // profile, so ordinary play is unchanged. URMAN_ATMOSPHERE_PHASE is a
+        // profile for the zone and applies it. VIS-040/042 moved the choice
+        // itself into atmosphere.v1.json ('zones' claims, with an optional
+        // '@night'/'@day' suffix), so the code can no longer name a state the
+        // data does not declare, and a phase-only state such as the golden hour
+        // cannot become the ordinary look of a zone. URMAN_ATMOSPHERE_PHASE is a
         // capture-station override for the VIS-067 colour script (VIS-069/070/071
         // states that no zone owns by default); an unknown id fails loudly instead
         // of silently falling back, per VIS-003's refuse-don't-guess principle.
-        var zoneProfileId = karaNight ? "kara-winter-night-edge" : zirat ? "zirat-winter-muted" : "village-winter-frost";
+        var selectorSource = "zone";
+        var zoneProfileId = AtmosphereProfiles.ResolveZoneProfileId(zoneId, night);
+        if (zoneProfileId is null)
+        {
+            global::Godot.GD.PushError(
+                $"No authored atmosphere profile claims zone '{zoneId}{(night ? "@night" : string.Empty)}' "
+                + $"in {AtmosphereProfiles.Path}; the Act I atmosphere is left untouched. Known profiles: "
+                + string.Join(", ", AtmosphereProfiles.Ids) + ".");
+            core.SetMeta("unifiedAtmosphereProfile", "unclaimed:" + zoneId);
+            return;
+        }
         var phaseOverride = System.Environment.GetEnvironmentVariable("URMAN_ATMOSPHERE_PHASE");
         if (!string.IsNullOrWhiteSpace(phaseOverride))
         {
@@ -1786,8 +1805,10 @@ public partial class Act1ConnectedWorld : Node3D
                 return;
             }
             zoneProfileId = phaseOverride;
+            selectorSource = "capturePhaseOverride";
         }
         var profileId = StudioPreviewProfile ?? zoneProfileId;
+        if (StudioPreviewProfile is not null) selectorSource = "studioPreview";
         var profile = AtmosphereProfiles.Get(profileId);
         environment.AmbientLightEnergy = profile.AmbientEnergy;
         environment.AmbientLightSource = global::Godot.Environment.AmbientSource.Color;
@@ -1841,9 +1862,45 @@ public partial class Act1ConnectedWorld : Node3D
         // is already there, adding no geometry, light owner or post-process.
         PainterlyMaterialLibrary.SetSnowMood(
             profile.SnowColor, profile.SnowCoverage, profile.SnowSparkle, profile.SnowTintStrength);
+        // VIS-043: the airborne flakes take the same authored blend as the ground,
+        // so a green night or a golden hour cannot be broken by neutral-white
+        // powder in front of the camera. This writes a parameter on the material
+        // the existing weather owner already owns; no emitter is created here.
+        WinterParticleSurfaces.SetAirborneSnowTint(profile.EffectiveSnowColor);
+        // The presentation systems that must agree with the sky (chimney drift)
+        // read the applied profile from the data loader instead of inventing a
+        // second selector or a second wind constant.
+        AtmosphereProfiles.MarkApplied(profileId, profile);
+
+        // VIS-042: "a pure black frame is a STOP". Checked on the authored values
+        // at apply time, so a night state that cannot carry three spatial planes
+        // is reported instead of shipped as a dark rectangle.
+        var luminance = profile.NearPlaneLuminance;
+        var blackFrameRisk = luminance < AtmosphereProfile.BlackFrameLuminanceFloor;
+        if (blackFrameRisk)
+        {
+            global::Godot.GD.PushWarning(
+                $"atmosphere: profile '{profileId}' estimates near-plane luminance {luminance:0.000}, "
+                + $"below the {AtmosphereProfile.BlackFrameLuminanceFloor:0.000} readability floor (VIS-042); "
+                + "raise ambient/key or lower fog density before judging the frame.");
+        }
+
         core.SetMeta("unifiedAtmosphereProfile", profileId);
         core.SetMeta("unifiedAtmosphereIdentity", profile.Identity);
-        AtmosphereDump.Write(profileId, environment, sun, profile);
+        core.SetMeta("unifiedAtmosphereSelectorSource", selectorSource);
+        core.SetMeta("unifiedAtmosphereZone", zoneId);
+        core.SetMeta("unifiedAtmospherePhaseOnly", profile.PhaseOnly);
+        core.SetMeta("unifiedAtmosphereWind", $"{profile.WindDirection.X:0.###},{profile.WindDirection.Y:0.###}");
+        core.SetMeta("unifiedAtmosphereWindSpeed", profile.WindSpeed);
+        core.SetMeta("unifiedAtmosphereBlizzardSpeed", profile.BlizzardSpeed);
+        core.SetMeta("unifiedAtmosphereFlakeBudget", profile.FlakeBudget);
+        core.SetMeta("unifiedAtmosphereBlizzardFlakeBudget", profile.BlizzardFlakeBudget);
+        core.SetMeta("unifiedAtmosphereSnowTint", profile.EffectiveSnowColor.ToHtml());
+        core.SetMeta("unifiedAtmospherePlumeColor", profile.SmokeColor.ToHtml());
+        core.SetMeta("unifiedAtmospherePlumeOpacity", profile.SmokeOpacity);
+        core.SetMeta("atmosphereNearPlaneLuminance", luminance);
+        core.SetMeta("atmosphereBlackFrameRisk", blackFrameRisk);
+        AtmosphereDump.Write(profileId, environment, sun, profile, selectorSource, luminance, blackFrameRisk);
     }
 
     /// <summary>
@@ -2176,7 +2233,13 @@ public partial class Act1ConnectedWorld : Node3D
             ["AB_road_kara"] = PainterlyMaterialLibrary.ForColor("b9c4ce", "snow_trampled"),
             ["AB_water_dark"] = PainterlyMaterialLibrary.ForColor("2c3740", "ice"),
             ["AB_grass"] = PainterlyMaterialLibrary.ForColor("827a65", "grass"),
-            ["AB_grass_dry"] = PainterlyMaterialLibrary.ForColor("d5d9d2", "snow_grass"),
+            // VIS-028: the dry-stem family keeps a dry value on the 'grass'
+            // family instead of being regraded into a snow surface. A stem that
+            // is whitened like the mass around it cannot explain the transition
+            // to untouched snow at all, and SetSnowMood then re-tints it again on
+            // every state change. The tone is the muted humus-straw grey the
+            // yard-verge blades already use, so nothing reads as a green lawn.
+            ["AB_grass_dry"] = PainterlyMaterialLibrary.ForColor("8b816d", "grass"),
             // Shared imported birch/shrub surfaces must use the same
             // painterly grade as the connected Kara edge, not raw PBR.
             ["BirchBark"] = PainterlyMaterialLibrary.ForColor("68705a", "bark_birch"),
@@ -3433,7 +3496,160 @@ public partial class Act1ConnectedWorld : Node3D
             "ZiratMemoryField/ZiratCoreMarkerGrouping",
             "authored low/far marker groups replace the overlapping core marker presentation");
 
+        AuditZiratCulturalContract(presentation, lowMarkerPlacement, farMarkerPlacement);
+
         importedRoot.QueueFree();
+    }
+
+    /// <summary>
+    /// VIS-022: the zīrat is measured, not assumed. The card's cultural contract is
+    /// "fence roughly up to 1 m, one cleaned path, no crosses / figures / photos /
+    /// wreaths / candles / pseudo-script / prayer decor, entry and path readable,
+    /// and the grave axis confirmed by a person" — so this pass reads the numbers
+    /// off the geometry that is actually mounted and writes them into the
+    /// presentation node, where the capture metadata and the debug viewpoints can
+    /// carry them into a frame a human can judge.
+    /// It never treats the cemetery as a horror prop: nothing here darkens, reddens
+    /// or hides the plot, and the mystic accent of Act I stays in the forest
+    /// (VIS-042 checks that separation). A forbidden element or an over-tall
+    /// boundary is reported out loud and left for its owner to fix; the axis
+    /// deviation is only measured, because the project's qibla parameter
+    /// (see <see cref="MosqueQiblaBearingDegrees"/> — 195.1725°, this project's own
+    /// value, not a geographic constant) still needs the author's and a speaker's
+    /// confirmation. Coordinates of interactions and events are not touched.
+    /// </summary>
+    private static void AuditZiratCulturalContract(
+        Node3D presentation,
+        Node3D lowMarkerPlacement,
+        Node3D farMarkerPlacement)
+    {
+        // Only the elements the cultural contract names as forbidden. Flowers and
+        // plain low stones are NOT on that list and must not be flagged.
+        string[] forbiddenTokens =
+        [
+            "Cross", "Crucifix", "Wreath", "Candle", "Taper", "Portrait", "Photo",
+            "Figure", "Statue", "Sculpture", "Relief", "Mihrab", "Minaret", "PrayerNiche"
+        ];
+        // The audit runs while the kit is being mounted, so a node still marked
+        // visible here is a node the player can actually see; anything already
+        // hidden by an owner is excluded instead of measured as a duplicate.
+        static bool Shown(Node3D node)
+            => node.Visible && (!node.IsInsideTree() || node.IsVisibleInTree());
+        var flagged = new List<string>();
+        foreach (var node in FindDescendants<Node3D>(presentation))
+        {
+            if (!Shown(node) || node is not MeshInstance3D) continue;
+            var name = node.Name.ToString();
+            foreach (var token in forbiddenTokens)
+            {
+                if (name.Contains(token, StringComparison.OrdinalIgnoreCase)) flagged.Add($"{node.GetPath()}:{token}");
+            }
+        }
+        if (flagged.Count > 0)
+        {
+            GD.PushError(
+                $"VIS-022 zirat cultural contract: {flagged.Count} forbidden element(s) in the cemetery: "
+                + string.Join(" | ", flagged));
+        }
+
+        // Fence and gate: the top of the visible mesh above the real ground the
+        // player walks on, per sampled post.
+        float TopAboveGround(Node3D? owner)
+        {
+            if (owner is null) return float.NaN;
+            var top = float.NegativeInfinity;
+            var seen = 0;
+            foreach (var mesh in FindDescendants<MeshInstance3D>(owner))
+            {
+                if (!Shown(mesh) || mesh.Mesh is null) continue;
+                var bounds = mesh.GlobalTransform * mesh.Mesh.GetAabb();
+                var foot = bounds.GetCenter();
+                var ground = (float)AgentBAct1HeightField.CollisionGround(foot.X, foot.Z);
+                top = MathF.Max(top, bounds.End.Y - ground);
+                seen++;
+            }
+            return seen == 0 ? float.NaN : top;
+        }
+        var fenceTop = TopAboveGround(presentation.GetNodeOrNull<Node3D>("ZiratAuthoredBoundaryFence"));
+        var gateTop = TopAboveGround(presentation.GetNodeOrNull<Node3D>("ZiratAuthoredOpenGate"));
+        const float ContractBoundaryTopMetres = 1.0f;
+        const float ContractToleranceMetres = 0.05f;
+        if (!float.IsNaN(fenceTop)
+            && fenceTop > ContractBoundaryTopMetres + ContractToleranceMetres)
+        {
+            GD.PushError(
+                $"VIS-022 zirat cultural contract: the boundary fence reads {fenceTop:0.00} m above the walking "
+                + "surface, over the ~1 m contract; the fence owner must lower it before the frame is judged.");
+        }
+
+        // Exactly one cleaned path may read through the plot.
+        var pathRibbons = FindDescendants<MeshInstance3D>(presentation).Count(mesh =>
+            Shown(mesh) && mesh.Name.ToString().Contains("PathRibbon", StringComparison.Ordinal));
+
+        // Grave axis: the principal direction of the stones that are actually
+        // mounted, folded to a 0..180 compass bearing (world -Z is north, +X east).
+        var stones = new List<Vector2>();
+        foreach (var group in new[] { lowMarkerPlacement, farMarkerPlacement })
+        {
+            foreach (var mesh in FindDescendants<MeshInstance3D>(group))
+            {
+                if (!Shown(mesh)) continue;
+                var name = mesh.Name.ToString();
+                if (!name.Contains("Marker_", StringComparison.Ordinal)
+                    && !name.Contains("Companion_", StringComparison.Ordinal)) continue;
+                var at = mesh.GlobalPosition;
+                stones.Add(new Vector2(at.X, at.Z));
+            }
+        }
+        var stoneCount = stones.Count;
+        var axisBearing = float.NaN;
+        var rowSpacing = float.NaN;
+        if (stoneCount >= 3)
+        {
+            var meanX = stones.Sum(p => p.X) / stoneCount;
+            var meanZ = stones.Sum(p => p.Y) / stoneCount;
+            var cxx = 0f; var czz = 0f; var cxz = 0f;
+            foreach (var p in stones)
+            {
+                var dx = p.X - meanX;
+                var dz = p.Y - meanZ;
+                cxx += dx * dx; czz += dz * dz; cxz += dx * dz;
+            }
+            var theta = 0.5f * MathF.Atan2(2f * cxz, cxx - czz);
+            var axis = new Vector2(MathF.Cos(theta), MathF.Sin(theta));
+            axisBearing = ((Mathf.RadToDeg(Mathf.Atan2(axis.X, -axis.Y)) % 180f) + 180f) % 180f;
+            rowSpacing = MathF.Sqrt(MathF.Max(cxx, czz) / stoneCount);
+        }
+        // The project's own qibla parameter says graves should sit across that
+        // line; the deviation is reported, not silently corrected (VIS-022 asks a
+        // person to confirm the axis first).
+        var expectedAxis = (MosqueQiblaBearingDegrees + 90f) % 180f;
+        var rawDelta = float.IsNaN(axisBearing) ? float.NaN : MathF.Abs(axisBearing - expectedAxis) % 180f;
+        var axisDeviation = float.IsNaN(rawDelta) ? rawDelta : MathF.Min(rawDelta, 180f - rawDelta);
+        if (stoneCount > 0 && axisDeviation > 2f)
+        {
+            GD.PushWarning(
+                $"VIS-022 zirat grave axis: measured {axisBearing:0.0}°, the project qibla parameter "
+                + $"{MosqueQiblaBearingDegrees:0.####}° puts the row axis at {expectedAxis:0.0}° "
+                + $"=> {axisDeviation:0.0}° to be confirmed by the author and a cultural consultant "
+                + "(measured only: nothing was rotated).");
+        }
+
+        presentation.SetMeta("ziratCulturalAuditForbiddenElements", flagged.Count);
+        presentation.SetMeta("ziratCulturalAuditFenceTopMetres", float.IsNaN(fenceTop) ? "unmeasured" : fenceTop.ToString("0.000", CultureInfo.InvariantCulture));
+        presentation.SetMeta("ziratCulturalAuditGateTopMetres", float.IsNaN(gateTop) ? "unmeasured" : gateTop.ToString("0.000", CultureInfo.InvariantCulture));
+        presentation.SetMeta("ziratCulturalAuditCleanedPaths", pathRibbons);
+        presentation.SetMeta("ziratCulturalAuditVisibleStones", stoneCount);
+        presentation.SetMeta("ziratCulturalAuditAuthoredStones", ZiratPlotLayout.RelocatedStones.Length);
+        presentation.SetMeta("ziratCulturalAuditGraveAxisBearingDegrees", float.IsNaN(axisBearing) ? "unmeasured" : axisBearing.ToString("0.00", CultureInfo.InvariantCulture));
+        presentation.SetMeta("ziratCulturalAuditExpectedAxisDegrees", expectedAxis.ToString("0.00", CultureInfo.InvariantCulture));
+        presentation.SetMeta("ziratCulturalAuditAxisDeviationDegrees", float.IsNaN(axisDeviation) ? "unmeasured" : axisDeviation.ToString("0.00", CultureInfo.InvariantCulture));
+        presentation.SetMeta("ziratCulturalAuditSpreadMetres", float.IsNaN(rowSpacing) ? "unmeasured" : rowSpacing.ToString("0.00", CultureInfo.InvariantCulture));
+        presentation.SetMeta("ziratCulturalAuditHumanGateOpen", true);
+        GD.Print(
+            $"zirat-cultural-audit: forbidden={flagged.Count} fenceTop={fenceTop:0.00}m gateTop={gateTop:0.00}m "
+            + $"paths={pathRibbons} stones={stoneCount}/{ZiratPlotLayout.RelocatedStones.Length} "
+            + $"axis={axisBearing:0.0}° expected={expectedAxis:0.0}° delta={axisDeviation:0.0}°");
     }
 
     private static void BuildAct1KaraForestEdgeKit(Node3D core)
@@ -5795,23 +6011,20 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualTree(parent, "ArrivalReverseHorizonConiferEast", new(19.5f, 0f, 66.0f), 11.2f, VegetationStyle.Conifer, "30483f");
         AddVisualTree(parent, "ArrivalReverseHorizonBroadleafFarEast", new(31.0f, 0f, 63.0f), 8.8f, VegetationStyle.Broadleaf, "48553f");
 
-        // Uncut growth follows road shoulders and rear fences, not doorways.
+        // VIS-028: uncut stems follow the shoulders as groups, not as a lattice.
+        // The old pass planted a clump every 0.68 m along four strips (up to 44
+        // slots each), which is exactly the shimmering grid the card rejects at
+        // 10 m. Three groups per 30 m of verge now carry 3–5 stems each.
         foreach (var stripX in new[] { -7.2f, 7.4f, -26.4f, 27.2f })
         {
-            for (var index = 0; index < 44; index++)
-            {
-                var z = 14f + index * 0.68f;
-                var phase = VegetationHash(new Vector3(stripX, 0f, z), 71f);
-                if (Mathf.Sin(z * 0.45f + stripX) < -0.40f || phase < 0.12f)
-                {
-                    continue;
-                }
-                var anchor = parent.ToGlobal(new Vector3(stripX + (phase - 0.5f) * 2.8f,
-                    0f, z + phase * 0.4f));
-                anchor.Y = (float)AgentBAct1HeightField.Ground(anchor.X, anchor.Z) + 0.015f;
-                AddVisualGrassClump(parent, $"ArrivalUncutVerge{stripX}_{index}",
-                    parent.ToLocal(anchor), 0.6f + phase * 0.4f, phase < 0.3f ? "70785c" : "5c7353");
-            }
+            AddUncutVergeGroups(
+                parent,
+                $"ArrivalUncutVerge{stripX:0}",
+                new Vector3(stripX, 0f, 29f),
+                new Vector3(0f, 0f, 1f),
+                new Vector3(1f, 0f, 0f),
+                3,
+                1.1f);
         }
 
     }
@@ -5925,37 +6138,28 @@ public partial class Act1ConnectedWorld : Node3D
         // Uncut verge growth follows the same shoulder pattern as the
         // arrival road: muted tufts along the road edge with breathing gaps,
         // kept clear of the two parcel gates and the FAP branch apron.
+        // VIS-028: same grouping on the main street. The three keep-out windows are
+        // the ones the old per-metre pass already protected — the FAP branch apron
+        // and both parcel gate approaches — and are now tested per stem instead of
+        // per slot, so a group that would sit in an approach simply does not plant.
         foreach (var stripX in new[] { -4.3f, 4.3f })
         {
-            for (var index = 0; index < 30; index++)
-            {
-                var z = 5.5f - index * 0.78f;
-                var phase = VegetationHash(new Vector3(stripX, 0f, z), 71f);
-                if (Mathf.Sin(z * 0.45f + stripX) < -0.35f || phase < 0.14f)
+            AddUncutVergeGroups(
+                parent,
+                $"MainStreetUncutVerge{stripX:0}",
+                new Vector3(stripX, 0f, -6.35f),
+                new Vector3(0f, 0f, -1f),
+                new Vector3(1f, 0f, 0f),
+                3,
+                0.9f,
+                at =>
                 {
-                    continue;
-                }
-                if (stripX > 0f && z < -6.5f && z > -13.5f)
-                {
-                    // FAP branch apron and its parcel edge stay clear.
-                    continue;
-                }
-                if (stripX < 0f && Mathf.Abs(z - 3.5f) < 1.1f)
-                {
-                    // West parcel gate approach stays open.
-                    continue;
-                }
-                if (stripX > 0f && Mathf.Abs(z - 2.8f) < 1.1f)
-                {
-                    // East parcel gate approach stays open.
-                    continue;
-                }
-                var anchor = parent.ToGlobal(new Vector3(stripX + (phase - 0.5f) * 1.6f,
-                    0f, z + phase * 0.4f));
-                anchor.Y = (float)AgentBAct1HeightField.Ground(anchor.X, anchor.Z) + 0.015f;
-                AddVisualGrassClump(parent, $"MainStreetUncutVerge{stripX}_{index}",
-                    parent.ToLocal(anchor), 0.6f + phase * 0.4f, phase < 0.3f ? "70785c" : "5c7353");
-            }
+                    var z = at.Z;
+                    if (stripX > 0f && z < -6.5f && z > -13.5f) return false;   // FAP branch apron
+                    if (stripX < 0f && Mathf.Abs(z - 3.5f) < 1.1f) return false;  // west parcel gate
+                    if (stripX > 0f && Mathf.Abs(z - 2.8f) < 1.1f) return false;  // east parcel gate
+                    return true;
+                });
         }
 
     }
@@ -7283,7 +7487,34 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualTree(parent, "HouseYardMidBirch", origin + side * 13.0f - front * 8.0f, 7.1f, VegetationStyle.Birch, "596047");
         AddVisualShrub(parent, "HouseYardShrubWest", origin + side * -5.3f + front * 4.5f, 0.74f, "596047");
         AddVisualShrub(parent, "HouseYardShrubEast", origin + side * 5.8f - front * 2.7f, 0.66f, "48553f");
-        AddVisualGrassClump(parent, "HouseYardGrassWest", origin + side * -4.2f + front * 1.8f, 0.72f, "68705a");
+        // VIS-028 pilot plot: the west yard edge. This is the one place the card
+        // asks to be decided as real unburied/functional ground rather than as
+        // decoration — the strip between the back fence (side -10) and the woodpile
+        // / tool-canopy line (side -4.9 / -5.8), where the snow is trodden flat
+        // along the wall and stays open all winter. Four groups inside a 10×3 m
+        // plot (the card's 3–5 groups per 10×10 m), 3–5 stems per group, none of
+        // them in the gate passage, the canopy foot or the woodpile.
+        AddUncutVergeGroups(
+            parent,
+            "HouseYardWestEdgeStems",
+            origin + side * -7.0f + front * 0.2f,
+            front,
+            side,
+            4,
+            0.8f,
+            at =>
+            {
+                // Everything below is in the yard's own (side, front) frame, the
+                // same frame the sheds, the gate and the woodpile are placed in.
+                var delta = at - origin;
+                var sx = delta.Dot(side);
+                var fz = delta.Dot(front);
+                bool Near(float px, float pz, float radius)
+                    => new Vector2(sx - px, fz - pz).Length() < radius;
+                return !Near(-1.0f, 5.7f, 1.8f)   // the west gate passage
+                    && !Near(-4.9f, -2.5f, 1.3f)  // the woodpile
+                    && !Near(-5.8f, 3.2f, 1.7f);  // the tool canopy foot
+            });
         AddVisualGrassClump(parent, "HouseYardGrassEast", origin + side * 4.6f + front * 2.2f, 0.60f, "596047");
         AddVisualStoneCluster(parent, "HouseYardStoneWest", origin + side * -6.2f - front * 3.6f, 0.72f, "777669");
         AddVisualStoneCluster(parent, "HouseYardStoneEast", origin + side * 6.0f - front * 3.0f, 0.58f, "6d6c62");
@@ -7540,9 +7771,22 @@ public partial class Act1ConnectedWorld : Node3D
                     // Clods: broad swells every few metres, shovel-sized lumps across the crest.
                     var lumps = .74f + .3f * Mathf.Sin(z * .7f + phase) * Mathf.Sin(z * .29f + phase * 1.7f)
                         + .16f * Mathf.Sin(z * 2.1f + xIndex * 1.3f + phase) * Mathf.Sin(z * 1.37f - xIndex * .7f);
+                    var widthScale = .88f + .2f * Mathf.Sin(z * .5f + phase) * Mathf.Sin(z * .23f)
+                        + .05f * Mathf.Sin(z * 1.9f + xIndex);
+                    if (centerline is not null)
+                    {
+                        // VIS-011: a plowed street bank is level along its length; the
+                        // even sine swells read as an engineered profile. It changes only
+                        // where people cleared an opening: the snow thrown out of a gate
+                        // or lane piles up just before each run end, then the cap tapers.
+                        // One very long, non-repeating rise keeps a 50 m run from being a ruler.
+                        var thrown = Mathf.Exp(-Mathf.Pow((fromEnd - 1.6f) / .9f, 2f));
+                        lumps = .84f + .32f * thrown + .05f * Mathf.Sin(z * .11f + phase)
+                            + .025f * Mathf.Sin(z * 2.3f + xIndex * 1.7f + phase) * (1f - .6f * thrown);
+                        widthScale = .92f + .16f * thrown + .04f * Mathf.Sin(z * .13f + phase * 1.3f);
+                    }
                     var plateau = Mathf.Min(1f, rounded * 1.35f);
-                    vertices[vertexIndex].X *= .88f + .2f * Mathf.Sin(z * .5f + phase) * Mathf.Sin(z * .23f)
-                        + .05f * Mathf.Sin(z * 1.9f + xIndex) + .16f * (caught - 1f);
+                    vertices[vertexIndex].X *= widthScale + .16f * (caught - 1f);
                     vertices[vertexIndex].Y = -.025f + cap * plateau * height * caught * Mathf.Max(.35f, lumps);
                 }
                 else if (trodden)
@@ -7846,8 +8090,11 @@ public partial class Act1ConnectedWorld : Node3D
         {
             AddVisualBox(facade, "Porch", new(2.55f, 0.16f, 1.08f), new(doorX, 0.14f, frontZ + 0.40f), "6a4d38", "wood");
             AddVisualBox(facade, "PorchRoof", new(3.0f, 0.14f, 1.0f), new(doorX, 2.18f, frontZ + 0.48f), roofColor, "wood", rollDegrees: 6f);
-            AddVisualBox(facade, "PorchPostLeft", new(0.11f, 1.95f, 0.11f), new(doorX - 1.05f, 1.08f, frontZ + 0.78f), trimColor, "wood");
-            AddVisualBox(facade, "PorchPostRight", new(0.11f, 1.95f, 0.11f), new(doorX + 1.05f, 1.08f, frontZ + 0.78f), trimColor, "wood");
+            // VIS-032: the posts take the existing vertical-grain family (object-local
+            // projection, as the roadside fence posts), so the grain runs up the post
+            // instead of across it from the world-triplanar "wood" projection.
+            AddVisualBox(facade, "PorchPostLeft", new(0.11f, 1.95f, 0.11f), new(doorX - 1.05f, 1.08f, frontZ + 0.78f), trimColor, "wood_fence_vertical");
+            AddVisualBox(facade, "PorchPostRight", new(0.11f, 1.95f, 0.11f), new(doorX + 1.05f, 1.08f, frontZ + 0.78f), trimColor, "wood_fence_vertical");
         }
 
         return facade;
@@ -7884,8 +8131,12 @@ public partial class Act1ConnectedWorld : Node3D
             world.Y = AgentBAct1HeightField.CollisionGround(world.X, world.Z) - .04f;
             var bottom = canopy.ToLocal(world).Y;
             var top = 2.08f + Mathf.Tan(Mathf.DegToRad(5)) * x - .08f;
-            AddVisualBox(canopy, "Post", new(.12f, top - bottom, .12f),
+            var post = AddVisualBox(canopy, "Post", new(.12f, top - bottom, .12f),
                 new(x, (top + bottom) * .5f, z), postColor, "wood_fence");
+            // VIS-033 pilot: the foot darkens from this post's own ground, so a
+            // post further up the slope does not darken along its whole height.
+            post.MaterialOverride = PainterlyMaterialLibrary.ForGroundContact(postColor, "wood_fence");
+            PainterlyMaterialLibrary.SetGroundContact(post, world.Y + .04f);
         }
 
         AddVisualBox(canopy, "Roof", new(width + 0.30f, 0.18f, depth + 0.32f), new(0f, 2.08f, 0f), roofColor, "wood", rollDegrees: 5f);
@@ -8903,13 +9154,90 @@ public partial class Act1ConnectedWorld : Node3D
             surface.GenerateNormals();
             return surface.Commit();
         }
+        (float Height, float Radius)[] hayProfile =
+            [(0f, 1.30f), (.60f, 1.27f), (1.28f, 1.08f), (1.90f, .76f), (2.34f, .34f), (2.58f, .035f)];
+        // VIS-013: the cap was the hay's own top rings scaled up, a regular white
+        // cone. It is now one asymmetric mass laid over the hay shoulders: thin at
+        // its edge so it sits on the straw, thicker on the windward side, with
+        // three unequal tongues slumping down the shoulder. 24×4 quads + apex fan
+        // = 216 triangles.
+        ArrayMesh SnowCap()
+        {
+            const int capSegments = 24;
+            const int capRings = 5;
+            float HayRadius(float h)
+            {
+                for (var i = 0; i < hayProfile.Length - 1; i++)
+                {
+                    var (h0, r0) = hayProfile[i];
+                    var (h1, r1) = hayProfile[i + 1];
+                    if (h <= h1) return Mathf.Lerp(r0, r1, Mathf.Clamp((h - h0) / (h1 - h0), 0f, 1f));
+                }
+                return hayProfile[^1].Radius;
+            }
+            float Bump(float angle, float centre, float width)
+            {
+                var d = Mathf.Wrap(angle - centre, -Mathf.Pi, Mathf.Pi);
+                return Mathf.Exp(-d * d / (width * width));
+            }
+            using var surface = new SurfaceTool();
+            surface.Begin(Mesh.PrimitiveType.Triangles);
+            var points = new Vector3[capRings, capSegments];
+            const float apexHeight = 2.58f;
+            for (var index = 0; index < capSegments; index++)
+            {
+                var angle = Mathf.Tau * index / capSegments;
+                var irregularity = 1f + .035f * Mathf.Sin(angle * 3f + .7f) + .022f * Mathf.Cos(angle * 5f);
+                // Unequal slumps; no regular ring edge.
+                var edgeHeight = 1.90f - .24f * Bump(angle, .9f, .38f) - .13f * Bump(angle, 2.75f, .30f)
+                    - .18f * Bump(angle, 4.65f, .45f) + .05f * Mathf.Sin(angle * 2f + 1.3f);
+                var windward = .5f + .5f * Mathf.Cos(angle - 1.2f);
+                for (var ring = 0; ring < capRings; ring++)
+                {
+                    var t = ring / (capRings - 1f);
+                    var h = Mathf.Lerp(edgeHeight, apexHeight, Mathf.Pow(t, .85f));
+                    // .025 m at the hugging edge, 0.10–0.19 m once on the shoulder.
+                    var depth = Mathf.Lerp(.025f, .10f + .09f * windward, Mathf.SmoothStep(0f, .38f, t));
+                    // The last ring is a rounded crown over the pole, not a point.
+                    var radius = ring == capRings - 1 ? .17f * irregularity : HayRadius(h) * irregularity + depth;
+                    var y = ring == capRings - 1 ? apexHeight + .10f : h + depth * Mathf.SmoothStep(.4f, 1f, t);
+                    points[ring, index] = new Vector3(Mathf.Cos(angle) * radius, y,
+                        Mathf.Sin(angle) * radius * .84f);
+                }
+            }
+            // The crown leans a little to the lee instead of peaking on the axis.
+            var apex = new Vector3(-.05f, apexHeight + .17f, .03f);
+            void CapVertex(Vector3 point, float u)
+            {
+                surface.SetUV(new Vector2(u, point.Y * .75f));
+                surface.AddVertex(point);
+            }
+            for (var ring = 0; ring < capRings - 1; ring++)
+            for (var index = 0; index < capSegments; index++)
+            {
+                var next = (index + 1) % capSegments;
+                var u = index / (float)capSegments * 3f;
+                var v = (index + 1) / (float)capSegments * 3f;
+                CapVertex(points[ring, index], u); CapVertex(points[ring, next], v); CapVertex(points[ring + 1, index], u);
+                CapVertex(points[ring, next], v); CapVertex(points[ring + 1, next], v); CapVertex(points[ring + 1, index], u);
+            }
+            for (var index = 0; index < capSegments; index++)
+            {
+                var next = (index + 1) % capSegments;
+                CapVertex(apex, .5f);
+                CapVertex(points[capRings - 1, index], 0f);
+                CapVertex(points[capRings - 1, next], 1f);
+            }
+            surface.GenerateNormals();
+            return surface.Commit();
+        }
         var hayMaterial = PainterlyMaterialLibrary.ForColor("9b978c", "hay_fibers", sheltered: true);
         var hay = new MeshInstance3D { Name = "HayPackedBody",
-            Mesh = Profile([(0f, 1.30f), (.60f, 1.27f), (1.28f, 1.08f), (1.90f, .76f), (2.34f, .34f), (2.58f, .035f)], true),
+            Mesh = Profile(hayProfile, true),
             MaterialOverride = hayMaterial };
         stack.AddChild(hay);
         var snow = new MeshInstance3D { Name = "HaySnowCap",
-            Mesh = Profile([(1.91f, .79f), (2.37f, .36f), (2.62f, .038f)], false),
+            Mesh = SnowCap(),
             MaterialOverride = PainterlyMaterialLibrary.ForColor("e8edf1", "snow_ground") };
         stack.AddChild(snow);
         var pole = AddVisualBox(stack, "HayPole", new(.10f, 2.85f, .10f), new(0, 1.40f, 0), "6b5b46", "wood");
@@ -8962,6 +9290,59 @@ public partial class Act1ConnectedWorld : Node3D
         landmark.AddChild(label);
     }
 
+    /// <summary>
+    /// VIS-028: dry stems as groups, never as a lattice. One call plants
+    /// <paramref name="groups"/> clumps inside a plot of about ten metres along
+    /// <paramref name="along"/> around <paramref name="centre"/>: each group holds
+    /// 3–5 stems inside <paramref name="groupRadius"/>, the group centres are
+    /// jittered by up to half a stride so two verges never share a rhythm, and the
+    /// whole group is pushed across the line by up to 0.7 m. A candidate the
+    /// passage owner forbids (<paramref name="keepOut"/>, tested in the parent's
+    /// own coordinates, exactly like the planting offsets) is simply not planted, so
+    /// stems only ever appear where the surface really stays unburied or trodden.
+    /// Returns the number of clumps actually built.
+    /// Deterministic: every value comes from VegetationHash, so two runs match.
+    /// </summary>
+    private static int AddUncutVergeGroups(
+        Node3D parent,
+        string name,
+        Vector3 centre,
+        Vector3 along,
+        Vector3 across,
+        int groups,
+        float groupRadius,
+        Func<Vector3, bool>? keepOut = null)
+    {
+        // Groups spread over the ~10 m plot: the stride is the plot length divided
+        // by the gaps between groups, so four groups sit 3.3 m apart, three 5 m.
+        var stride = groups > 1 ? 10f / (groups - 1) : 0f;
+        var planted = 0;
+        for (var group = 0; group < groups; group++)
+        {
+            var groupPhase = VegetationHash(
+                new Vector3(centre.X + group * .31f, centre.Y, centre.Z - group * .17f), 91f);
+            var groupCentre = centre
+                + along * ((group - (groups - 1) * .5f) * stride + (groupPhase - .5f) * stride * .52f)
+                + across * (groupPhase - .5f) * 1.4f;
+            var stems = 3 + (int)(groupPhase * 2.99f);
+            for (var stem = 0; stem < stems; stem++)
+            {
+                var phase = VegetationHash(
+                    new Vector3(groupCentre.X + stem * .29f, 0f, groupCentre.Z - stem * .41f), 71f);
+                var at = groupCentre
+                    + along * (phase - .5f) * groupRadius
+                    + across * ((stem - (stems - 1) * .5f) * groupRadius * .38f + (phase - .5f) * groupRadius * .3f);
+                if (keepOut is not null && !keepOut(at)) continue;
+                AddVisualGrassClump(parent, $"{name}_G{group}_{stem}", at,
+                    0.55f + phase * .35f, phase < .3f ? "70785c" : "5c7353");
+                planted++;
+            }
+        }
+        parent.SetMeta(name + "StemGroups", groups);
+        parent.SetMeta(name + "StemClumps", planted);
+        return planted;
+    }
+
     private static void AddVisualGrassClump(Node3D parent, string name, Vector3 origin, float size, string color)
     {
         var world = parent.ToGlobal(origin);
@@ -8970,16 +9351,31 @@ public partial class Act1ConnectedWorld : Node3D
         grass.SetMeta("visualOnly", true);
         grass.SetMeta("vegetationStyle", "low-poly-grass-tuft");
         parent.AddChild(grass);
+        // VIS-028: a stem must have a base. The collar is the small patch of
+        // humus the blade ring actually grows out of, so a clump reads as one
+        // unburied spot in the snow mass instead of a fan floating above it, and
+        // it gives the contact shading something darker than white to sit on.
+        AddVisualBox(grass, "RootCollar", new(size * 0.26f, 0.05f, size * 0.26f), new(0f, 0.025f, 0f), "4a4238", "earth");
         var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
-        for (var index = 0; index < 24; index++)
+        // VIS-028: 13 blades instead of 24. The clump still reads full at the
+        // 10 m distance the card checks, and the removed duplicates pay for the
+        // visible stems the groups add, so the total instance count goes down.
+        const int bladesPerClump = 13;
+        var tallestTip = 0f;
+        for (var index = 0; index < bladesPerClump; index++)
         {
             var phase = VegetationHash(origin, 73f + index);
             var angle = index * 2.399963f + phase;
             var outward = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
             var across = new Vector3(-outward.Z, 0f, outward.X);
-            var root = outward * (Mathf.Sqrt(index / 24f) * size * 0.30f);
-            var height = size * (0.30f + phase * 0.30f);
+            var root = outward * (Mathf.Sqrt(index / (float)bladesPerClump) * size * 0.30f);
+            // VIS-028: the blade tops are measured against the surrounding snow
+            // mass, not the bare collision ground: a stem that stays under the
+            // drift line reads as a buried duplicate, so the shortest allowed tip
+            // is 0.18 m above the collar, which is the thinnest village drift.
+            var height = Mathf.Max(size * (0.30f + phase * 0.30f), 0.18f);
+            tallestTip = Mathf.Max(tallestTip, height);
             var middle = root + Vector3.Up * height * 0.65f + outward * size * 0.09f;
             var tip = root + Vector3.Up * height + outward * size * (0.16f + phase * 0.14f);
             var points = new[] { root - across * size * 0.008f, root + across * size * 0.008f,
@@ -8992,7 +9388,13 @@ public partial class Act1ConnectedWorld : Node3D
         }
         surface.GenerateNormals();
         grass.AddChild(new MeshInstance3D { Name = "BentGrassBlades", Mesh = surface.Commit(),
+            // VIS-028: dry stems stay on the 'grass' family, not on 'snow_grass'.
+            // SetSnowMood only re-tints the snow families, so a stem keeps its own
+            // dry value while the mass around it takes the state's colour — which
+            // is what makes the transition to untouched snow readable at all.
             MaterialOverride = PainterlyMaterialLibrary.ForColor("8b816d", "grass") });
+        grass.SetMeta("stemBlades", bladesPerClump);
+        grass.SetMeta("stemTopAboveCollarMetres", tallestTip);
     }
 
     private static void AddVisualStoneCluster(Node3D parent, string name, Vector3 origin, float size, string color, bool organic = false)

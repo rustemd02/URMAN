@@ -59,6 +59,27 @@ public static class CivicSurfaceLibrary
         return material;
     }
 
+    /// <summary>VIS-094: a public facade identified by its function, not by a random
+    /// tint. The painterly owner keeps the paint, the macro wavelength, the base
+    /// soiling and the repair mask; this library only names the building role so the
+    /// civic builder call sites stay readable. A sheltered (interior) call never takes
+    /// the soiling, and signage stays on <see cref="Face"/>, so a board is never
+    /// dimmed by a wall finish.</summary>
+    public static Material PublicFacade(string role, string tint, bool sheltered = false) =>
+        PainterlyMaterialLibrary.ForCivicSurface(tint, role, sheltered);
+
+    /// <summary>VIS-080/038: the one call a canopy, porch or room owner needs. It
+    /// lowers the per-instance snow shelter on every mesh under <paramref name="root"/>
+    /// instead of copying a material per protected object. 1 = no settled snow.</summary>
+    public static void SetSnowShelter(Node3D root, float shelter = 1f)
+    {
+        // GeometryInstance3D also matches MeshInstance3D and MultiMeshInstance3D, so one
+        // walk covers every painted surface under the owner.
+        foreach (var instance in root.FindChildren("*", nameof(GeometryInstance3D), true, false)
+                     .OfType<GeometryInstance3D>())
+            PainterlyMaterialLibrary.SetSnowShelter(instance, shelter);
+    }
+
     public static StandardMaterial3D Parquet()
     {
         const string key = "parquet";

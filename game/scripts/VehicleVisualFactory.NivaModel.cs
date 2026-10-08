@@ -16,6 +16,8 @@ public static partial class VehicleVisualFactory
     {
         _nivaModel = null;
         ModelMaterials.Clear();
+        // VIS-105 glass/snow finishes live in the same retained-material cache.
+        FinishCache.Clear();
     }
 
     /// <summary>
@@ -76,62 +78,26 @@ public static partial class VehicleVisualFactory
     private static Material ModelMaterial(string authoredName)
     {
         if (ModelMaterials.TryGetValue(authoredName, out var cached)) return cached;
+        // The generator authors every finish as "<6 hex>__<surface>"
+        // (tools/blender/generate_niva.py); anything else is a hand-renamed slot
+        // that would silently take the old 808080 default grey. VIS-105 forbids a
+        // default grey on transport, so it is a build-time error instead.
         var parts = authoredName.Split("__", 2);
-        var color = parts.Length == 2 && parts[0].Length == 6 ? parts[0] : "808080";
-        var surface = parts.Length == 2 ? parts[1] : "metal";
-        Material material = surface switch
-        {
-            "glass" => new StandardMaterial3D
-            {
-                AlbedoColor = new(.48f, .58f, .55f, .22f), Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
-                Roughness = .18f, MetallicSpecular = .55f, CullMode = BaseMaterial3D.CullModeEnum.Disabled
-            },
-            // Chrome reads as bright, slightly reflective trim against the painterly body.
-            "chrome" => new StandardMaterial3D
-            {
-                AlbedoColor = Color.FromHtml(color), Metallic = .85f, Roughness = .28f, MetallicSpecular = .7f
-            },
-            // Lamp lenses and the radio's LCD glow faintly so they read as glass/light, not paint.
-            "lamp" => new StandardMaterial3D
-            {
-                AlbedoColor = Color.FromHtml(color), Roughness = .2f, EmissionEnabled = true,
-                Emission = Color.FromHtml(color), EmissionEnergyMultiplier = .15f
-            },
-            "lcd" => new StandardMaterial3D
-            {
-                AlbedoColor = Color.FromHtml(color), Roughness = .3f, EmissionEnabled = true,
-                Emission = new Color(.18f, .26f, .12f), EmissionEnergyMultiplier = .6f
-            },
-            // Factory metallic enamel under a lacquer coat: the flake gives the
-            // panels a soft sheen, the clear coat the sharp sky highlight.
-            // The vertex colour is the road grime baked by the generator.
-            "paint" => new StandardMaterial3D
-            {
-                AlbedoColor = Color.FromHtml(color), Metallic = .62f, Roughness = .34f, MetallicSpecular = .6f,
-                ClearcoatEnabled = true, Clearcoat = .9f, ClearcoatRoughness = .12f, VertexColorUseAsAlbedo = true
-            },
-            "plastic" => Grain(color, 420f, .05f, .25f, .74f, .35f, vertexColor: true),
-            "snow" => new StandardMaterial3D { AlbedoColor = Color.FromHtml(color), Roughness = .88f, MetallicSpecular = .25f },
-            "sheepskin" => Grain(color, 55f, .22f, 1.4f, 1f, .15f, fuzz: 1f),
-            "wool" => Grain(color, 160f, .12f, .8f, .98f, .15f, fuzz: .6f),
-            "gold" => new StandardMaterial3D { AlbedoColor = Color.FromHtml(color), Metallic = 1f, Roughness = .3f },
-            "enamel" => new StandardMaterial3D
-            {
-                AlbedoColor = Color.FromHtml(color), Roughness = .2f, ClearcoatEnabled = true, Clearcoat = 1f, ClearcoatRoughness = .05f
-            },
-            "wood_polished" => new StandardMaterial3D
-            {
-                AlbedoColor = Color.FromHtml(color), Roughness = .35f, ClearcoatEnabled = true, Clearcoat = .6f
-            },
-            "leather" => Grain(color, 380f, .08f, .45f, .6f, .4f),
-            "carpet" => Grain(color, 650f, .14f, .9f, .97f, .15f, fuzz: .3f),
-            "headliner" => Grain(color, 900f, .04f, .5f, .95f, .2f),
-            "cloth" => Grain(color, 700f, .1f, .6f, .96f, .15f),
-            "vinyl" => Grain(color, 260f, .06f, .45f, .78f, .3f),
-            "rubber" => Grain(color, 500f, .06f, .3f, .9f, .25f),
-            _ => PainterlyMaterialLibrary.ForColor(color, surface, sheltered: true)
-        };
+        if (parts.Length != 2 || parts[1].Length == 0 || !IsHex6(parts[0]))
+            throw new InvalidDataException(
+                $"Niva finish '{authoredName}' is not authored as <hex6>__<surface>; "
+                + "fix the generator material name rather than letting the model take a fallback.");
+        var material = ForFinish(parts[0], parts[1]);
         ModelMaterials[authoredName] = material;
         return material;
     }
+
+    /// <summary>
+    /// Six hex digits, the exact form tools/blender/generate_niva.py writes into a
+    /// material name. Spelled out instead of a framework helper because this target
+    /// exposes no Uri.IsHexDigits, and a silently accepted name is the default-grey
+    /// panel VIS-105 forbids on transport.
+    /// </summary>
+    private static bool IsHex6(string value)
+        => value.Length == 6 && value.All(c => "0123456789abcdefABCDEF".IndexOf(c) >= 0);
 }

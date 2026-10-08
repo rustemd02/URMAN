@@ -150,6 +150,93 @@ public static class RuralPropGeometry
         var mesh=s.Commit();mesh.ResourceName="Rural_"+name+"_MetricUV";Cache[key]=mesh;return mesh;
     }
 
+    /// <summary>VIS-014: the carrying points a member model actually stands on,
+    /// measured from the bottom of each support member instead of from the model
+    /// root. A four legged sawhorse reports four world points; hidden members and
+    /// rotated plates report none, because neither carries anything.</summary>
+    public static List<Vector3> SupportFeet(Node3D model, params string[] nameContains)
+    {
+        var feet = new List<Vector3>();
+        foreach (var part in SupportMembers(model, nameContains))
+        {
+            var box = part.GlobalTransform * part.GetAabb();
+            var centre = box.GetCenter();
+            feet.Add(new Vector3(centre.X, box.Position.Y, centre.Z));
+        }
+        return feet;
+    }
+
+    /// <summary>VIS-014: the visible rectangular support members of a model
+    /// (legs, posts, stools). Straight members only: a leaning or rotated piece
+    /// is not a foot, and seating it by its axis-aligned box would be a guess.</summary>
+    public static List<MeshInstance3D> SupportMembers(Node3D model, params string[] nameContains)
+    {
+        var found = new List<MeshInstance3D>();
+        foreach (var part in FindMembers(model))
+        {
+            var name = part.Name.ToString();
+            var isSupport = false;
+            foreach (var token in nameContains)
+                if (name.Contains(token, StringComparison.Ordinal)) { isSupport = true; break; }
+            if (!isSupport) continue;
+            if (Mathf.Abs(part.RotationDegrees.X) > .01f || Mathf.Abs(part.RotationDegrees.Z) > .01f) continue;
+            found.Add(part);
+        }
+        return found;
+    }
+
+    private static IEnumerable<MeshInstance3D> FindMembers(Node3D model)
+    {
+        foreach (var child in model.GetChildren())
+        {
+            if (child is MeshInstance3D mesh && mesh.Mesh is not null && mesh.IsVisibleInTree()) yield return mesh;
+            if (child is Node3D branch)
+                foreach (var nested in FindMembers(branch)) yield return nested;
+        }
+    }
+
+    /// <summary>VIS-014: seats one rectangular support member so its foot rests on
+    /// the surface that actually carries it (a plank deck, a threshold, a shelf),
+    /// keeping its top exactly where its load expects it. A member that pierced the
+    /// deck is trimmed — the buried part is duplicate support, the deck itself
+    /// carries the load — and a member that floated is let down to it. The matching
+    /// box contact follows the corrected member. Returns the signed deviation that
+    /// was corrected (positive = closed air gap in metres, negative = buried depth
+    /// removed); zero when the member already sat within the tolerance, and zero
+    /// without any change when the piece is not a centred rectangular member.</summary>
+    public static float SeatSupportFoot(MeshInstance3D part, float supportY, float clearance, float tolerance,
+        HashSet<ulong>? editedShapes = null)
+    {
+        if (part.Mesh is null) return 0f;
+        var before = part.GlobalTransform * part.GetAabb();
+        var deviation = before.Position.Y - supportY;
+        if (Mathf.Abs(deviation) <= tolerance) return 0f;
+        // The origin has to be the member's own centre: that is what makes the
+        // scale-and-reseat arithmetic below exact instead of approximate.
+        var worldCentre = part.ToGlobal(part.GetAabb().GetCenter());
+        if (Mathf.Abs(worldCentre.Y - part.GlobalPosition.Y) > .004f) return 0f;
+        var oldHeight = before.Size.Y;
+        var foot = supportY + clearance;
+        var height = before.End.Y - foot;
+        if (height < .03f || oldHeight < .03f) return 0f;
+        var scale = height / oldHeight;
+        part.Scale = new Vector3(part.Scale.X, part.Scale.Y * scale, part.Scale.Z);
+        part.GlobalPosition = new Vector3(part.GlobalPosition.X, foot + height * .5f, part.GlobalPosition.Z);
+        foreach (var body in part.GetChildren().OfType<CollisionObject3D>())
+        foreach (var shape in body.GetChildren().OfType<CollisionShape3D>())
+        {
+            if (shape.Shape is not BoxShape3D box) continue;
+            var key = (ulong)shape.Shape.GetRid().Id;
+            // A shared convex resource is reused across instances (AttachMemberContacts);
+            // editing it once per pass keeps every other user of that shape intact.
+            if (editedShapes is not null && !editedShapes.Add(key)) continue;
+            box.Size = new Vector3(box.Size.X, box.Size.Y * scale, box.Size.Z);
+        }
+        part.SetMeta("supportSeatPolicy", "foot on the surface that carries it, top unchanged, contact follows the member");
+        part.SetMeta("supportSeatDeviationM", deviation);
+        return deviation;
+    }
+
     public static Mesh DrapedCloth(float width,float depth,float drop)
     {
         var key=$"cloth:{width}:{depth}:{drop}";if(Cache.TryGetValue(key,out var saved))return saved;

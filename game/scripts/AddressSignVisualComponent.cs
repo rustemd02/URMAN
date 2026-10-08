@@ -18,16 +18,33 @@ public partial class AddressSignVisualComponent : Node3D
         SetMeta("notQuestMarker",true);
         var frame=new StandardMaterial3D{AlbedoColor=Color.FromHtml("a3a091"),Metallic=.4f,Roughness=.78f};
         var enamel=new StandardMaterial3D{AlbedoColor=Color.FromHtml("293b43"),Metallic=.12f,Roughness=.65f};
+        // VIS-020: the back of a village plate is part of the object. A pressed
+        // enamel blank is a folded shell with bolt nuts on its back, not an empty
+        // dark plane, so a plate seen from the yard or from the side still reads
+        // as a mounted thing. Sizes are millimetres of real sheet metal.
+        var backMetal=new StandardMaterial3D{AlbedoColor=Color.FromHtml("6e6a60"),Metallic=.45f,Roughness=.72f};
         // Sizes follow AddressFacadeMount's plate: 0.60 x 0.23 m.
         var w=AddressFacadeMount.HalfWidth*2f; var h=AddressFacadeMount.HalfHeight*2f;
         AddChild(new MeshInstance3D{Name="FoldedMetalRim",Mesh=new BoxMesh{Size=new(w,h,.024f)},MaterialOverride=frame});
         AddChild(new MeshInstance3D{Name="EnamelFace",Position=new(0,0,.014f),Mesh=new BoxMesh{Size=new(w-.02f,h-.02f,.008f)},MaterialOverride=enamel});
+        // Back plate bedded 3 mm into the rim (never flush with its back face,
+        // which would be a coplanar pair): the folded shell's second wall.
+        AddChild(new MeshInstance3D{Name="FoldedMetalBack",Position=new(0,0,-.013f),
+            Mesh=new BoxMesh{Size=new(w-.05f,h-.05f,.006f)},MaterialOverride=backMetal});
+        foreach(var x in new[]{-AddressFacadeMount.RivetX,AddressFacadeMount.RivetX})
+        foreach(var y in new[]{-AddressFacadeMount.RivetY,AddressFacadeMount.RivetY})
+        {
+            AddChild(new MeshInstance3D{Name="Rivet",Position=new(x,y,.024f),Mesh=new SphereMesh{Radius=.008f,Height=.016f,RadialSegments=6,Rings=3},MaterialOverride=frame});
+            // The bolt head that holds the rivet from behind: four real fasteners,
+            // visible from the yard side instead of a bare sheet.
+            AddChild(new MeshInstance3D{Name="BoltNut",Position=new(x,y,-.019f),
+                Mesh=new BoxMesh{Size=new(.022f,.022f,.012f)},MaterialOverride=backMetal});
+        }
+        SetMeta("plateAssemblyDepthMm",36f);
+        SetMeta("plateBackConstruction","folded metal blank, back plate and four bolt nuts");
         _tatar=Line("TatarStreet",new(-.09f,.042f,.02f),34);
         _russian=Line("RussianStreet",new(-.09f,-.036f,.02f),30);
         _number=Line("HouseNumber",new(.215f,0,.021f),65);
-        foreach(var x in new[]{-AddressFacadeMount.RivetX,AddressFacadeMount.RivetX})
-        foreach(var y in new[]{-AddressFacadeMount.RivetY,AddressFacadeMount.RivetY})
-            AddChild(new MeshInstance3D{Name="Rivet",Position=new(x,y,.024f),Mesh=new SphereMesh{Radius=.008f,Height=.016f,RadialSegments=6,Rings=3},MaterialOverride=frame});
         RefreshLabels();
     }
     private Label3D Line(string name,Vector3 position,int fontSize)

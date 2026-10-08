@@ -761,6 +761,11 @@ public partial class VehicleController : CharacterBody3D
         PlacementAvailable=available;PlacementFailure=available?string.Empty:reason;
         SetMeta("placementAvailable",available);SetMeta("placementFailure",PlacementFailure);
         if(!available){Speed=0;Velocity=Vector3.Zero;_mechanics?.Block();_controlsNeedRelease=true;}
+        // VIS-049: an empty body whose placement just became valid is settled onto
+        // the surface it stands on. The authored clearance that protects the first
+        // physics projection is not a resting pose, and a parked vehicle is never
+        // moved by MoveAndSlide, so without this the wheels stay visibly hovering.
+        else TrySettleOntoSupport(out _, out _, out _);
     }
 
     private bool ValidatePhysicalPlacement(Transform3D pose,out string reason,float? steering=null,float? lean=null)

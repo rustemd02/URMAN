@@ -25,6 +25,9 @@ public partial class VehicleSmokeTest : Node
         var wheelsOnly=System.Environment.GetEnvironmentVariable("URMAN_VEHICLE_WHEELS_ONLY")=="1";
         var mouseOnly=System.Environment.GetEnvironmentVariable("URMAN_VEHICLE_MOUSE_ONLY")=="1";
         var compoundOnly=System.Environment.GetEnvironmentVariable("URMAN_VEHICLE_COMPOUND_ONLY")=="1";
+        // VIS-049/050/105 narrow path: contact, harness, ruts and transport
+        // finishes on the three live vehicles, no save or obstacle fixtures.
+        var contactOnly=System.Environment.GetEnvironmentVariable("URMAN_VEHICLE_CONTACT_ONLY")=="1";
         try
         {
             _directory=System.Environment.GetEnvironmentVariable("URMAN_VEHICLE_OUTPUT")??string.Empty;
@@ -61,6 +64,15 @@ public partial class VehicleSmokeTest : Node
                     parked.Definition.Id+" starts at its authored grounded position");
                 Require(parked.PlacementAvailable&&parked.ValidatePhysicalPlacement(out _),
                     parked.Definition.Id+" initial chassis and actual support are valid");
+                // VIS-049/VIS-105: the same fresh fleet also proves its static
+                // contact and that no transport surface fell back to a default.
+                CheckStaticContactGeometry(parked,"authored-rest");
+                CheckVehicleMaterialLanguage(parked);
+            }
+            if(contactOnly)
+            {
+                Require(!mouseOnly&&!wheelsOnly&&!compoundOnly,"one explicit narrow vehicle proof is selected");
+                await RunContactAndFinishProof();exit=0;return;
             }
             if(AddressReadabilityOnly)
             {
@@ -151,6 +163,10 @@ public partial class VehicleSmokeTest : Node
                 await Press("crouch");await Frames(35);
                 Require(Math.Abs(vehicle.Speed)<.01f&&vehicle.ParkingBrake,"parking brake stops "+vehicle.Definition.Id);
                 if(vehicle.Definition.Kind==VehicleKind.HorseCart)await CheckHorseRest(vehicle);
+                // VIS-049: a stopped vehicle is the pose the player next sees, so
+                // its contact is measured again here and its wheels must be still.
+                CheckStaticContactGeometry(vehicle,"after-parking-stop");
+                await CheckParkedWheelsDoNotSpin(vehicle);
                 await ReverseAndIgnition(vehicle);
                 await PauseResumeHeldInput(vehicle);
                 await Capture(vehicle.Definition.Id+"-driver");

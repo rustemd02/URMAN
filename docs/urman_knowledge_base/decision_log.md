@@ -5993,3 +5993,45 @@ H032/H034/H045/H046, прослушивание.
 Приёмка выявила cold-import custom-font ошибку, Windows threaded font-import crash, кратковременную блокировку каталога userdata после timeout и ошибку sibling add_child в VehicleImmersionDetails._Ready, оставлявшую render resources без владельца при capture. Исправлены только станционный import bootstrap с восстановлением исходного project.godot, bounded rename retry в существующем guard и существующий DevViewCapture через штатный cleanup; инициализация presentation-only деталей машины перенесена на уже существующий первый physics tick. Набор тестов не расширяется; ошибочные попытки остаются FAIL в отчёте.
 
 Тестовая очистка освобождает также detached library scene AnimationCatalog (ual1_standard.glb): диагностика orphan nodes обнаружила её сохранение после capture. Освобождение выполняет существующий GodotSmokeCleanup после закрытия сцены; обычная игра сохраняет кэш.
+
+
+## 2026-10-08 — игровые запуски: локальный прогон на самой Windows-станции
+
+Поручение автора от 07.10.2026 сняло общую паузу игровых запусков от 03.10.2026, но
+авторизующий коммит `627dcfd` тронул только `AGENTS.md`, из-за чего в станционных
+документах остались прежние формулировки «отдельный запрет игровых проверок
+сохраняется». Уточнение автора 08.10.2026: тестировать локально на этом компьютере
+можно; удалённый маршрут через `eng/remote-check.py` применяется, когда разработка
+ведётся с другой машины и пользователь просит потестировать на стенде.
+
+Сведённое правило: на станции (`UnterPC`, `C:\Users\ruste\Documents\GitHub\URMAN`)
+прогон идёт напрямую через `eng\run-windows-check.ps1` под прежним guard
+`eng/protected_run.py`, без Tailscale и токена. Формулировки приведены в соответствие
+в `AGENTS.md`, `../production/WINDOWS_TEST_STATION_RU.md` и
+`../production/README_WINDOWS_WORKER_FOR_AGENTS.md`. Защита пользовательских данных,
+минимальная необходимая проверка и привязка результата к receipt без изменений.
+
+
+## 2026-10-08 — локальный прогон на станции: проверенный путь и откат неверной строки
+
+Поручение автора разрешило игровые проверки, и первый же сведённый текст (`d4c76a0`)
+утверждал, что на самой станции достаточно запустить `eng\run-windows-check.ps1` из
+основного checkout. Проверка этой же строки её опровергла: smoke из checkout упал на
+гейте импорта (receipt `.codex-captures/windows/20261008-003103-54b4b331`, все шаги
+сборки — с exit 0). Runner считает FAIL любую строку `ERROR:` в журнале, а в checkout
+лежит авторинговый `game/assets/models/props/milk_bottle/karaurman_milk_bottle_v1.blend`,
+который headless-импорт не может обработать без пути Blender; в станционный снимок
+`.blend` не входят (`eng/remote_common.py`), и обход cold-font применяется только
+изолированному снимку с `-Provenance`. Отдельно: `override.cfg` с отключённым
+Blender-import редакторский импорт не читает, поэтому он этот случай не спасает.
+
+Принятый путь: на станции игровые проверки выполняет та же станция через loopback —
+исключение `NO_PROXY`/`URMAN_STATION_CONFIG` из раздела «Настроенная станция» и
+`eng/remote-check.py doctor|smoke|capture`. Проверено 08.10.2026: smoke
+`res://tests/player_settings_smoke_test.tscn` → PASS на коммите `d4c76a0`, job
+`1cdae6f24c0c47bdaccbe1811972cb78`, native Vulkan GTX 970, 161 с, пустой
+`engine-errors.log`, `userdataRestored: true`. Из checkout напрямую остаётся только
+`-Mode build`. Интерактивный `play` станционным протоколом не поддерживается (клиент
+знает `doctor|smoke|capture|status|fetch`), а прямой runner в этом режиме не проверен —
+это открытый вопрос автора, а не повод придумывать команду. Удалять `.blend`,
+отключать sparse checkout или ослаблять импортный гейт запрещено.

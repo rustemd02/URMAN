@@ -360,6 +360,36 @@ public static class AgentBAct1HeightField
             -LaneDepth(width) * lane + BankRise(width) * crest * (1.0 - lane));
     }
 
+    /// <summary>
+    /// VIS-077/079: how far a point stands outside the packed carriageway it is nearest to,
+    /// in metres. Snow relief is planted from this number rather than from a per-object
+    /// distance, so a verge, a bank and a drift all respect the same road edge.
+    /// </summary>
+    public static double RoadVergeClearance(float x, float z)
+    {
+        var info = RoadInfo(x, z);
+        return info.Distance - info.HalfWidth;
+    }
+
+    /// <summary>VIS-077: the ground gradient (rise per metre) over a short reach, sampled
+    /// from the traversal surface itself. Relief that needs a flat base — a drift, a
+    /// trodden channel, a shovel heap — is planted only where this stays small, instead of
+    /// being buried or floated by a fixed offset.</summary>
+    public static float GroundSlope(float x, float z, float reach = .8f)
+    {
+        var here = CollisionGround(x, z);
+        var east = CollisionGround(ClampToGridX(x + reach), z);
+        var north = CollisionGround(x, ClampToGridZ(z + reach));
+        return Mathf.Max(Mathf.Abs(east - here), Mathf.Abs(north - here)) / reach;
+    }
+
+    /// <summary>VIS-015/077: the two cuts the village ends in — the southern gorge and the
+    /// ravine that splits it. Their channel value is non-zero only inside the cut.</summary>
+    public static bool InsideGorgeOrRavine(float x, float z) => RiverChannel(x, z) != 0.0 || RavineChannel(x, z) != 0.0;
+
+    private static float ClampToGridX(float x) => System.Math.Clamp(x, MinX + 1f, MaxX - 1f);
+    private static float ClampToGridZ(float z) => System.Math.Clamp(z, MinZ + 1f, MaxZ - 1f);
+
     private static Vector2 ClosestRoadPoint(float x, float z)
     {
         var p = new Vector2(x,z); var best = float.MaxValue; var result=p;

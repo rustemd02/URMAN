@@ -224,7 +224,7 @@ class Station:
                 'gpu_acceptance': self.config.get('gpu_acceptance', 'not-run')}
 
     def submit(self, spec):
-        if set(spec) - {'job_id','snapshot_id','mode','scene','timeout','headless','points'}:
+        if set(spec) - {'job_id','snapshot_id','mode','scene','timeout','headless','points','phase','fov'}:
             raise ValueError('unknown job field')
         jid = spec.get('job_id', '')
         if not re.fullmatch('[a-zA-Z0-9_-]{8,64}', jid):
@@ -262,6 +262,12 @@ class Station:
             raise ValueError('invalid capture points')
         if spec['mode'] == 'capture' and not points:
             raise ValueError('capture points required')
+        phase = spec.get('phase', '')
+        if not isinstance(phase, str) or (phase and (spec['mode'] != 'capture' or not re.fullmatch('[a-z0-9-]{1,48}', phase))):
+            raise ValueError('invalid atmosphere phase')
+        fov = spec.get('fov', '')
+        if not isinstance(fov, str) or (fov and (spec['mode'] != 'capture' or not re.fullmatch(r'player|\d{2,3}(?:\.\d+)?', fov))):
+            raise ValueError('invalid view fov')
         with self.lock:
             path = self.jobs / jid
             if path.exists():
@@ -313,6 +319,10 @@ class Station:
                 command += ['-Headless']
             if spec.get('points'):
                 command += ['-ViewPoints', spec['points']]
+            if spec.get('phase'):
+                command += ['-AtmospherePhase', spec['phase']]
+            if spec.get('fov'):
+                command += ['-ViewFov', spec['fov']]
             with (output/'stdout.log').open('wb') as out, (output/'stderr.log').open('wb') as err:
                 p = subprocess.Popen(command,stdout=out,stderr=err,creationflags=subprocess.CREATE_NO_WINDOW)
                 # Runner bounds build/content/import/game separately. This outer emergency

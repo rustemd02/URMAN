@@ -61,6 +61,42 @@ HERO_CASING_INSET = -(HERO_CASING_OUTER + HERO_CASING_BACK) / 2.0
 PARCEL_CASING_INSET = -0.025
 PARCEL_CASING_DEPTH = 0.070
 
+# VIS-017 / VIS-086 / VIS-087 — one metric window-niche module, measured from the
+# wall face the player actually sees (the hero's hewn courses stand HERO_LOG_BULGE
+# in front of the pierced shell, so depth had to be re-based on the visible face).
+# Before this module the hero's glass plane sat 0.29 m behind its own visible log
+# face, so the opening read as a painted slot instead of a niche, and its dark
+# backing plate was authored exactly coplanar with the back of the glass (both at
+# inset 0.1875): every pane fought for depth and the reveal had no readable floor.
+# Now the glass sits WINDOW_NICHE_DEPTH behind the visible wall face and the
+# backing plate is a separate surface with a real air gap behind it, still inside
+# the 0.20 m wall thickness.
+WINDOW_NICHE_DEPTH = 0.120
+WINDOW_GLASS_THICKNESS = 0.035
+WINDOW_BACKING_THICKNESS = 0.020
+WINDOW_BACKING_GAP = 0.030
+
+# VIS-018: a 4 mm chamfer on the casing edges that catch the low winter sun.
+# The card asks for 2-5 mm on visible wooden edges, not on every member, so the
+# chamfer is applied to the hero's joinery only; parcels keep their reviewed 8 mm.
+HERO_EDGE_CHAMFER = 0.004
+# VIS-018: relief carvings bite into their carrier board instead of hovering on a
+# sub-millimetre air gap (the kokoshnik rosette used to float 0.5 mm off the crest
+# front, which is a z-fighting surface pair, not a nailed-on carving).
+HERO_RELIEF_BED = 0.006
+# VIS-017 / VIS-086: the stone plinth facing stands 10 mm past the hewn-log face,
+# so water off the wall and the eaves drops clear of the timber and the first
+# course visibly bears on stone. The wall base 0.246 m is the portal contract and
+# does not move with this.
+HERO_PLINTH_PROUD = HERO_LOG_BULGE + 0.010
+HERO_PLINTH_THICKNESS = 0.190
+HERO_PLINTH_TOP_ABOVE_WALL_BASE = 0.020
+HERO_PLINTH_CLEARANCE_FROM_STEP = 0.050
+# VIS-090: secondary construction cues on one hero facade. Bounded on purpose —
+# the card asks for 3-7 cues that each own a function, not a scatter of props.
+HERO_CONSTRUCTION_CUE_FAMILIES = ("GutterBracket", "DownpipeClamp", "ServiceDrop",
+                                  "SillRepair", "PortalHeader")
+
 # These are source-side preview colors only. Runtime maps the slots to the
 # authored W01/W05/WoodCut/SnowRoof material families.
 HERO_SOURCE_MATERIALS = {
@@ -2117,6 +2153,19 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
     hero_joinery = HERO_TRIM_TEAL_MATERIAL if hero_layout else trim
     hero_sill = HERO_TRIM_IVORY_MATERIAL if hero_layout else trim
     wall_finish = HERO_LOG_MATERIAL if hero_layout else wall_material
+    # VIS-017: every window depth in this builder is measured from the wall face
+    # the player sees, not from the structural shell plane. For the hero that face
+    # is the hewn-log front, HERO_LOG_BULGE in front of the shell (negative inset);
+    # a parcel's pierced shell is its own visible face (inset 0).
+    visible_face_inset = -HERO_LOG_BULGE if hero_layout else 0.0
+    trim_chamfer = HERO_EDGE_CHAMFER if hero_layout else 0.008
+
+    def relief_inset(carrier_inset, carrier_thickness, relief_thickness, bed=HERO_RELIEF_BED):
+        """VIS-018: centre inset of a carved relief board whose back bites `bed`
+        into the street face of its carrier. The relief then stands proud of the
+        carrier by its own thickness minus the bed and shares no plane with it."""
+        return carrier_inset - carrier_thickness / 2.0 - relief_thickness / 2.0 + bed
+
 
     def box(suffix, center, size, mat=trim, chamfer=0.008):
         return variant_box(f"{prefix}_{suffix}_LOD0", parent, center, size,
@@ -2130,8 +2179,13 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         return variant_log(f"{prefix}_{suffix}_LOD0", parent, center, length, thickness, height,
                            (mat,), root_name, "rural dwelling hewn log course", axis=axis)
 
-    def wall(suffix, origin, tangent, length, holes, top=eave, finish=None):
+    def wall(suffix, origin, tangent, length, holes, top=eave, finish=None, face=None):
         finish = wall_finish if finish is None else finish
+        # VIS-017: `face` is the inset of this wall's own visible outer surface.
+        # The hero's four main walls carry hewn courses in front of the shell, the
+        # enclosed seni does not, so the niche depth is measured per wall. (Named
+        # `wall_face` because `face_inset` already means the casing plane below.)
+        wall_face = visible_face_inset if face is None else face
         # Front orientation is tangent +X, outward -Y; rotating the basis also
         # rotates wall thickness, frame, glass and sill as one architectural unit.
         tx, ty = tangent
@@ -2160,8 +2214,9 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         mesh_object(f"{prefix}_{suffix}_Wall_LOD0", parent, vertices, faces,
                     (finish,), role="continuous pierced wall and 20cm deep reveals", component_root=root_name)
 
-        def local_box(name, u, inset, z, sx, sy, sz, mat):
-            obj = box(name, point(u, inset, z), (sx, sy, sz), mat)
+        def local_box(name, u, inset, z, sx, sy, sz, mat, chamfer=None):
+            obj = box(name, point(u, inset, z), (sx, sy, sz), mat,
+                      chamfer=trim_chamfer if chamfer is None else chamfer)
             obj.rotation_euler.z = math.atan2(ty, tx)
             return obj
         def local_profile(name, u, inset, z, outline, thickness, mat):
@@ -2188,9 +2243,24 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
             tag = f"{suffix}_{kind}{i}"
             x, z, w, h = (x0+x1)/2, (z0+z1)/2, x1-x0, z1-z0
             if kind != "Portal":
-                local_box(tag+"_Recess", x, .21, z, w, .045, h, "URMAN_Wood_Dark")
-                panel = local_box(tag+"_Glass" if kind == "Window" else tag+"_Leaf", x, .17, z,
-                          w-.10, .035, h-.10, "URMAN_Window_DimGlass" if kind == "Window" else "URMAN_Wood_WetShadow")
+                # VIS-017/VIS-087 niche module. The glass plane sits
+                # WINDOW_NICHE_DEPTH behind the visible wall face; the dark
+                # backing plate is a separate surface WINDOW_BACKING_GAP behind
+                # the glass and stays inside the wall thickness. The old pair
+                # (glass back and plate front, both at inset 0.1875) was exactly
+                # coplanar, so the whole pane z-fought and the reveal read flat.
+                glass_inset = (wall_face + WINDOW_NICHE_DEPTH
+                               + WINDOW_GLASS_THICKNESS / 2.0)
+                backing_inset = (glass_inset + WINDOW_GLASS_THICKNESS / 2.0
+                                 + WINDOW_BACKING_GAP + WINDOW_BACKING_THICKNESS / 2.0)
+                # The wall shell is 0.20 m deep (the same inset the reveal quads
+                # use below). The backing plate is clamped inside it so it can
+                # never poke through the inner face and make a new surface pair.
+                backing_inset = min(backing_inset, .20 - WINDOW_BACKING_THICKNESS / 2.0 - .005)
+                local_box(tag+"_Recess", x, backing_inset, z, w, WINDOW_BACKING_THICKNESS, h,
+                          "URMAN_Wood_Dark", chamfer=.003)
+                panel = local_box(tag+"_Glass" if kind == "Window" else tag+"_Leaf", x, glass_inset, z,
+                          w-.10, WINDOW_GLASS_THICKNESS, h-.10, "URMAN_Window_DimGlass" if kind == "Window" else "URMAN_Wood_WetShadow")
                 if kind == "Window":
                     uv = panel.data.uv_layers.new(name="UVMap")
                     for face in panel.data.polygons:
@@ -2207,9 +2277,21 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                 # opening; the former transom bar and tapered headboard crown
                 # read as a timber lattice at street distance, so both are
                 # retired. Concept target: solid wall, quiet dark opening.
-                local_box(tag+"_Mullion", x, .12, z, .045, .06, h-.07, hero_joinery)
+                # VIS-087: the mullion is the sash's own member, so it is centred
+                # in the glass plane and stands 2 cm clear of the glass on both
+                # faces instead of floating in front of it.
+                local_box(tag+"_Mullion", x, glass_inset, z, .045,
+                          WINDOW_GLASS_THICKNESS + .045, h-.07, hero_joinery)
                 local_box(tag+"_Sill", x, -.09, z0-.08, w+.25, .30, .075, hero_sill)
                 if hero_layout:
+                    # VIS-091: the sill ends in a drip board, so water leaves the
+                    # sill clear of the wall face and the sill's front edge stops
+                    # being a bare 75 mm slab end. Bedded 10 mm into the sill.
+                    sill_bottom = z0 - .08 - .075 / 2.0
+                    local_box(tag+"_SillDrip", x, -.21, sill_bottom - .0075, w + .18, .05,
+                              .035, hero_sill, chamfer=.004)
+                if hero_layout:
+
                     # ACT1-DEPTH.12 package 3: the carved nalichnik of the menu
                     # reference, in bold shapes that still read at street
                     # distance: a kokoshnik crest over the window with a
@@ -2221,13 +2303,20 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                     local_profile(tag + "_Kokoshnik", x, face_inset, z1 + .085, crest, .045, hero_joinery)
                     rosette = [(math.cos(k * math.tau / 10) * (.075 if k % 2 == 0 else .045),
                                 math.sin(k * math.tau / 10) * (.075 if k % 2 == 0 else .045)) for k in range(10)]
-                    local_profile(tag + "_KokoshnikRosette", x, face_inset - .03, z1 + .085 + .2, rosette, .016, hero_sill)
+                    # VIS-018: every relief carving is bedded into its carrier
+                    # (relief_inset), never left on a sub-millimetre air gap. The
+                    # rosette and the drops used to float 0.5 mm off the crest
+                    # front, which is a coplanar surface pair, not a carving.
+                    local_profile(tag + "_KokoshnikRosette", x, relief_inset(face_inset, .045, .016),
+                                  z1 + .085 + .2, rosette, .016, hero_sill)
                     for side in (-1, 1):
                         drop = [(0, .05), (.03, 0), (0, -.06), (-.03, 0)]
-                        local_profile(tag + f"_KokoshnikDrop{side}", x + side * hw * .6, face_inset - .03, z1 + .085 + .08,
+                        local_profile(tag + f"_KokoshnikDrop{side}", x + side * hw * .6,
+                                      relief_inset(face_inset, .045, .016), z1 + .085 + .08,
                                       drop, .016, hero_sill)
                         ear = [(-.05, -.05), (.05, -.05), (.05, .05), (-.05, .05)]
-                        local_profile(tag + f"_Ear{side}", x + side * (w / 2 + .035), face_inset - .02, z1 + .035, ear, .02, hero_sill)
+                        local_profile(tag + f"_Ear{side}", x + side * (w / 2 + .035),
+                                      relief_inset(face_inset, .045, .02), z1 + .035, ear, .02, hero_sill)
                     tw = w / 2 + .14
                     towel = [(tw, 0)]
                     for k in range(1, 25):
@@ -2237,7 +2326,11 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                     towel.append((-tw, 0))
                     local_profile(tag + "_Towel", x, face_inset, z0 - .125, towel, .04, hero_joinery)
                     diamond = [(0, .045), (.05, 0), (0, -.045), (-.05, 0)]
-                    local_profile(tag + "_TowelDiamond", x, face_inset - .028, z0 - .125 - .1, diamond, .016, hero_sill)
+                    # The rhombus used to sit with its back face exactly on the
+                    # towel board's front face (both at face_inset - 0.02): a
+                    # coplanar pair, not a bedded carving (VIS-018).
+                    local_profile(tag + "_TowelDiamond", x, relief_inset(face_inset, .04, .016),
+                                  z0 - .125 - .1, diamond, .016, hero_sill)
             elif kind == "Door":
                 local_box(tag+"_Handle", x+w*.30, .08, z, .045, .07, .16, "URMAN_Metal_Dulled")
 
@@ -2382,6 +2475,26 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                         role="continuous perimeter support beneath hero room walls; clear timber floor inside")
         foundation_ring("Foundation", .06, 0, wall_base, "URMAN_Stone_Mossy")
         foundation_ring("FootingCap", .09, wall_base - .015, wall_base + .055, "URMAN_Stone_LightFace")
+        # VIS-017 / VIS-086: the plinth is a construction, not a colour band.
+        # The stone facing stands HERO_PLINTH_PROUD (130 mm) in front of the
+        # shell plane, i.e. 10 mm past the hewn-log face, so water off the wall
+        # and the loaded eaves drops clear of the timber and the first log course
+        # visibly bears on stone. Its top edge (wall_base + 20 mm) is the drip.
+        # The facing is split around the portal and clears the porch deck and the
+        # street step by HERO_PLINTH_CLEARANCE_FROM_STEP, so the doorway, the
+        # step and the portal contract are untouched.
+        p_out, p_deep = half + HERO_PLINTH_PROUD, HERO_PLINTH_THICKNESS
+        near, far = front - HERO_PLINTH_PROUD, front - HERO_PLINTH_PROUD + p_deep
+        rear_near, rear_far = back + HERO_PLINTH_PROUD - p_deep, back + HERO_PLINTH_PROUD
+        gap = .65 + HERO_PLINTH_CLEARANCE_FROM_STEP
+        prism_from_rectangles(
+            f"{prefix}_PlinthFacing_LOD0", parent, root_name,
+            [(-p_out, door_x - gap, near, far), (door_x + gap, p_out, near, far),
+             (-p_out, -p_out + p_deep, far, rear_near), (p_out - p_deep, p_out, far, rear_near),
+             (-p_out, p_out, rear_near, rear_far)],
+            .05, wall_base + HERO_PLINTH_TOP_ABOVE_WALL_BASE, "URMAN_Stone_Mossy",
+            "stone plinth facing proud of the hewn-log face, split around the portal")
+
     else:
         box("Foundation", (0,(front+back)/2,wall_base/2), (width+.06,depth+.06,wall_base), "URMAN_Stone_Mossy")
         box("FootingCap", (0,(front+back)/2,wall_base+.02), (width+.09,depth+.09,.07), "URMAN_Stone_LightFace")
@@ -2533,8 +2646,39 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                      eave-(.24 if hero_layout else .19)),
                     (.11,depth+2*roof_overhang,.13),("URMAN_Wood_WetShadow",),root_name,
                     "eaves trough", [0,1]+[0]*8, chamfer=.03)
-    box("Downpipe",(half+.06,front-.02,eave/2+.05),(.09,.09,eave-.50),"URMAN_Metal_Dulled")
-    box("DownpipeSplash",(half+.15,front-.06,.08),(.34,.34,.16),"URMAN_Stone_Mossy")
+    if hero_layout:
+        # VIS-090 cue 1: the trough is carried by brackets, not by glue. Each
+        # bracket is a 45 x 35 mm strap from the wall plate to under the trough
+        # with a 140 mm vertical toe on the wall, at a 1.12 m step between the
+        # rafter tails, so the gutter line reads as a fixed construction.
+        bracket_parts = []
+        y = front - roof_overhang + .30
+        while y < back + roof_overhang - .30:
+            for side in (-1, 1):
+                inner = side * (half - .02)
+                outer = side * (half + roof_overhang + .08)
+                bracket_parts.append((((inner + outer) / 2.0, y, eave - .19), (.72, .045, .035)))
+                bracket_parts.append(((inner, y, eave - .115), (.045, .045, .14)))
+            y += 1.12
+        boxes_from_sizes(f"{prefix}_GutterBracket_LOD0", parent, root_name, bracket_parts,
+                         "URMAN_Metal_Dulled", "gutter brackets fixing the trough to the wall plate")
+    else:
+        box("Downpipe",(half+.06,front-.02,eave/2+.05),(.09,.09,eave-.50),"URMAN_Metal_Dulled")
+        box("DownpipeSplash",(half+.15,front-.06,.08),(.34,.34,.16),"URMAN_Stone_Mossy")
+    if hero_layout:
+        # VIS-090 cue 2 and VIS-091: the pipe is the other half of the trough
+        # node. It stands on the trough's own axis (not on the wall corner, where
+        # nothing shed into it), is fixed at three clamped points and lands on its
+        # splash stone outside the plinth facing.
+        pipe_x, pipe_y = half + roof_overhang + .035, front - roof_overhang + .16
+        pipe_bottom, pipe_top = .12, eave - .275
+        box("GutterDownpipe", (pipe_x, pipe_y, (pipe_bottom + pipe_top) / 2.0),
+            (.09, .09, pipe_top - pipe_bottom), "URMAN_Metal_Dulled")
+        box("GutterDownpipeSplash", (pipe_x, pipe_y, .08), (.34, .34, .16), "URMAN_Stone_Mossy")
+        boxes_from_sizes(f"{prefix}_DownpipeClamp_LOD0", parent, root_name,
+                         [((pipe_x, pipe_y, z), (.135, .135, .05)) for z in (.75, 1.55, 2.35)],
+                         "URMAN_Metal_Dulled", "downpipe clamps at three fixing points")
+
     # Prod-ready phase 6 silhouette: a dark ridge beam caps the roofline and
     # a masonry chimney (on most dwellings, not all) breaks the roof plane
     # and catches the low sun. Presentation-only geometry, same materials.
@@ -2544,6 +2688,32 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         box("RidgeBeam",(0,(front+back)/2,ridge+.10),(.13,depth+.72,.11))
     else:
         box("RidgeBeam",(0,(front+back)/2,ridge+.17),(.13,depth+.72,.11))
+    def chimney_flashing(tag, cx, cy, sw, sd, seat_z):
+        """VIS-091: a flue meets the roof through one constructive node. A collar
+        hugging the stack across the penetration line, an apron pitched up the
+        slope and a snow dam on the downhill side, each bedded into the settled
+        mass, so no stack stands on the roofline without contact and the joint
+        never reads as a box pasted onto a plane. `seat_z` is the surface the
+        stack emerges through (the loaded snow plane in winter)."""
+        pitch = math.atan((ridge - eave) / half)
+        up = 1.0 if cx < 0 else -1.0          # x sign of the uphill direction
+        theta = pitch if cx > 0 else -pitch
+        parts = [((cx, cy, seat_z), (sw + .10, sd + .10, .16)),
+                 ((cx + up * (sw / 2.0 + .15), cy, seat_z + .15 * math.sin(pitch)),
+                  (.30, sd + .16, .03)),
+                 ((cx - up * (sw / 2.0 + .06), cy, seat_z + .045), (.14, sd + .12, .05))]
+        boxes_from_sizes(f"{prefix}_{tag}_LOD0", parent, root_name, parts,
+                         "URMAN_Metal_Dulled",
+                         "chimney junction: collar on the penetration, apron up the slope, snow dam below",
+                         rotations=[0.0, theta, 0.0])
+
+    def snow_surface_z(x):
+        """Height of the settled snow plane above the roof at component x. The
+        roof/snow junction for flashing and ladders is measured on it, not on the
+        slate, because in winter the stack emerges through the mass."""
+        slope = (ridge + .12 - eave) / (half + roof_overhang)
+        return ridge + .12 - abs(x) * slope + .22
+
     if "VariantA" not in parent.name:
         chimney_z0 = eave + .55
         chimney_z1 = ridge + .85
@@ -2551,14 +2721,16 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
             (.52,.44,chimney_z1-chimney_z0),"URMAN_Stone_Mossy")
         box("ChimneyCap",(-width*.22,(front+back)/2,chimney_z1+.055),
             (.68,.60,.11),"URMAN_Roof_MossTone")
+        chimney_flashing("ChimneyFlashing", -width * .22, (front + back) / 2, .52, .44,
+                         snow_surface_z(-width * .22))
     # Side seni: subordinate enclosed entry volume, a full human-height door,
     # and a sloping roof meeting the main side below its eave.
     outer=half+1.50
     entry_y=back-2.55
     sx=(half+outer)/2
-    wall("SeniEntry",(sx,entry_y),(1,0),1.50,[(-.47,.47,.30,2.32,"Door")],2.48,trim)
-    wall("SeniOuter",(outer,(entry_y+back)/2),(0,1),2.55,[(-.45,.35,1.04,2.10,"Window")],2.48,trim)
-    wall("SeniRear",(sx,back),(-1,0),1.50,[],2.48,trim)
+    wall("SeniEntry",(sx,entry_y),(1,0),1.50,[(-.47,.47,.30,2.32,"Door")],2.48,trim,face=0.0)
+    wall("SeniOuter",(outer,(entry_y+back)/2),(0,1),2.55,[(-.45,.35,1.04,2.10,"Window")],2.48,trim,face=0.0)
+    wall("SeniRear",(sx,back),(-1,0),1.50,[],2.48,trim,face=0.0)
     for label,y in (("Front",entry_y),("Rear",back)):
         mesh_object(f"{prefix}_Seni{label}RoofInfill_LOD0",parent,
                     [(half,y,2.48),(outer,y,2.48),(outer,y,2.51),(half,y,2.737)],
@@ -2590,12 +2762,81 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         box("ChimneyStack",(chimney_x,chimney_y,(roof_at_flue-.15+ridge+.35)/2),
             (.46,.51,ridge+.50-roof_at_flue),"URMAN_Plaster_Shadow")
         box("ChimneyCap",(chimney_x,chimney_y,ridge+.40),(.56,.61,.10),"URMAN_Roof_WetSlate")
+        # VIS-091: the stove flue is the one the household actually burns, so its
+        # penetration is the node the player sees from the yard and the street.
+        chimney_flashing("StoveFlueFlashing", chimney_x, chimney_y, .46, .51,
+                         snow_surface_z(chimney_x))
+        # VIS-090 cues 3-5: three more secondary construction members on the hero
+        # street face, each with a function and none of them ornament.
+        #   3 a service drop: bracket board, porcelain knob, cable stub to a meter
+        #     box beside the porch, all standing 3 cm off the visible log face.
+        #   4 one repaired sill board on the second front window.
+        #   5 a header board tying the two door casings over the portal.
+        drop_x = door_x + 1.34
+        boxes_from_sizes(f"{prefix}_ServiceDrop_LOD0", parent, root_name, [
+            ((drop_x, front - .07, 2.30), (.10, .14, .10)),          # bracket, bedded in the courses
+            ((drop_x, front - .15, 2.38), (.07, .07, .09)),          # knob seat on the bracket
+            ((drop_x, front - .11, 2.06), (.05, .05, .62)),          # drop tube to the meter
+            ((drop_x, front - .11, 1.72), (.26, .10, .34)),          # meter box
+        ], "URMAN_Metal_Dulled", "service drop: bracket, drop tube and meter box")
+        boxes_from_sizes(f"{prefix}_ServiceDropInsulator_LOD0", parent, root_name, [
+            ((drop_x, front - .15, 2.44), (.075, .075, .05)),
+        ], HERO_TRIM_IVORY_MATERIAL, "porcelain insulator cap on the service bracket")
+        repair_x = HERO_HOUSE_CONTRACT["front_window_room_x"][1] + .30
+        boxes_from_sizes(f"{prefix}_SillRepair_LOD0", parent, root_name, [
+            ((repair_x, front - .20, wall_base + .74 - .10), (.24, .06, .03)),
+        ], HERO_TRIM_TEAL_MATERIAL, "repaired sill board, screwed over the sill edge")
+        box("PortalHeader", (door_x, front - HERO_LOG_BULGE + .045, wall_base + 2.34),
+            (1.70, .19, .05), hero_joinery, chamfer=HERO_EDGE_CHAMFER)
     else:
         box("ChimneyStack",(.90,back-1.45,ridge-.05),(.46,.51,1.30),"URMAN_Plaster_Shadow")
         box("ChimneyCap",(.90,back-1.45,ridge+.63),(.56,.61,.10),"URMAN_Roof_WetSlate")
+        chimney_flashing("StoveFlueFlashing", .90, back - 1.45, .46, .51, snow_surface_z(.90))
     parent["geometry_pass"] = "v6 pierced wall architecture; street gable and side seni"
     parent["eave_height_m"] = eave
     parent["door_clear_height_m"] = 2.02
+
+
+def prism_from_rectangles(name, parent, root_name, rectangles, bottom, top, material_name, role):
+    """One mesh carrying several axis-aligned bands, each given as a plan
+    rectangle (left, right, near, far). VIS-017's plinth facing and the hero's
+    construction hardware use this so one construction family stays one
+    instance instead of a dozen separate objects."""
+    vertices, faces, indices = [], [], []
+    for left, right, near, far in rectangles:
+        offset = len(vertices)
+        vertices += [(x, y, z) for z in (bottom, top)
+                     for x, y in ((left, near), (right, near), (right, far), (left, far))]
+        faces += [tuple(offset + i for i in face) for face in
+                  ((3, 2, 1, 0), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7))]
+        indices += [0] * 6
+    return mesh_object(name, parent, vertices, faces, (material_name,), indices,
+                       component_root=root_name, role=role)
+
+
+def boxes_from_sizes(name, parent, root_name, parts, material_name, role, rotations=None):
+    """One mesh carrying solid members given as (centre, size) boxes, optionally
+    pitched about the Y axis (flashing laid on a roof slope). Members are
+    deliberately thick in at least one axis (VIS-090: hardware must catch light,
+    not read as a decal), and each box is closed so the family has real edges."""
+    vertices, faces, indices = [], [], []
+    angles = [0.0] * len(parts) if rotations is None else list(rotations)
+    for (centre, size), pitch in zip(parts, angles):
+        cx, cy, cz = centre
+        sx, sy, sz = size
+        cosine, sine = math.cos(pitch), math.sin(pitch)
+        offset = len(vertices)
+        corners = []
+        for dx, dy, dz in ((-1, -1, -1), (1, -1, -1), (1, 1, -1), (-1, 1, -1),
+                           (-1, -1, 1), (1, -1, 1), (1, 1, 1), (-1, 1, 1)):
+            lx, ly, lz = dx * sx / 2.0, dy * sy / 2.0, dz * sz / 2.0
+            corners.append((cx + lx * cosine + lz * sine, cy + ly, cz - lx * sine + lz * cosine))
+        vertices += corners
+        faces += [tuple(offset + i for i in f) for f in
+                  ((3, 2, 1, 0), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7))]
+        indices += [0] * 6
+    return mesh_object(name, parent, vertices, faces, (material_name,), indices,
+                       component_root=root_name, role=role)
 
 
 def _hero_prism(name, parent, root_name, outline, plane, thickness, material_name, role):
@@ -2811,6 +3052,31 @@ def validate_hero_house(root: bpy.types.Object) -> None:
         origin = wall.matrix_local.inverted() @ Vector((-1.1644, -1.8, height))
         if wall.ray_cast(origin, Vector((0, 1, 0)), distance=1.0)[0]:
             raise RuntimeError(f"Hero wall closes its doorway at height {height}")
+    # VIS-017: the new plinth facing must keep the portal and the step free. A
+    # ray along the doorway axis may not hit the stone at any walking height.
+    plinth = bpy.data.objects.get("HeroHouse_PlinthFacing_LOD0")
+    if plinth is None:
+        raise RuntimeError("Hero plinth facing is missing")
+    for height in (.10, .20, .26):
+        if plinth.ray_cast(Vector((HERO_HOUSE_CONTRACT["room_door_x"], -1.8, height)),
+                           Vector((0, 1, 0)), distance=1.0)[0]:
+            raise RuntimeError(f"Hero plinth facing closes the portal at height {height}")
+    # VIS-018 / VIS-087: glass and its dark backing are two separate surfaces.
+    # The authored pair used to be exactly coplanar (both at inset 0.1875), which
+    # is a per-pixel coin toss in the engine, not a window niche.
+    glass = bpy.data.objects["HeroHouse_Street_Window1_Glass_LOD0"]
+    recess = bpy.data.objects["HeroHouse_Street_Window1_Recess_LOD0"]
+    glass_y = min((glass.matrix_local @ v.co).y for v in glass.data.vertices)
+    recess_y = min((recess.matrix_local @ v.co).y for v in recess.data.vertices)
+    if abs(recess_y - glass_y) < .020:
+        raise RuntimeError(f"Hero glass and backing plate are not separated: {glass_y:.4f} / {recess_y:.4f}")
+    # VIS-090: rare secondary construction cues, bounded by the card at 3-7 per
+    # hero facade. Each family is one mesh, so the count is checkable statically.
+    cues = sum(1 for family in HERO_CONSTRUCTION_CUE_FAMILIES
+               if any(obj.name.startswith(f"HeroHouse_{family}") for obj in meshes))
+    if not 3 <= cues <= len(HERO_CONSTRUCTION_CUE_FAMILIES):
+        raise RuntimeError(f"Hero construction cues out of the accepted band: {cues}")
+    hero["heroConstructionCues"] = cues
     geometry = [(obj.name, [list(round(value, 6) for value in obj.matrix_local @ vertex.co)
                             for vertex in obj.data.vertices]) for obj in meshes]
     fingerprint = hashlib.sha256(json.dumps({"contract": HERO_HOUSE_CONTRACT, "geometry": geometry},

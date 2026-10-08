@@ -7,6 +7,12 @@ public static partial class VehicleVisualFactory
     // Original metre-scale geometry, observed against the actual B29 frames.
     // The public CC previews are shape references only; no downloaded model
     // archive, rig or texture is represented here as an installed asset.
+    //
+    // VIS-105: a panel that is painted bodywork now says "paint", and only real
+    // steel says "metal". Both files used to fold painted wings, the tank and the
+    // mudguards into the shared matte metal family, which is the asset-pack read
+    // the reset removes (texture inventory M08: never recolour bare metal or the
+    // motorcycle globally — separate the two families instead).
     private readonly record struct CoachSection(float Z, float HalfWidth, float Bottom, float Top, float Bevel);
 
     private static void BuildNivaExterior(Batch body, string paint)
@@ -17,33 +23,33 @@ public static partial class VehicleVisualFactory
         AddArch(side, 1.10f, .405f, .345f);
         side.AddRange(new Vector2[] { new(1.84f,.43f),new(1.84f,1.09f),
             new(.85f,1.10f),new(-.70f,1.13f),new(-1.88f,1.075f) });
-        body.ShapedPlate(side,-.811f,.031f,paint,"metal");
-        body.ShapedPlate(side,.811f,.031f,paint,"metal");
+        body.ShapedPlate(side,-.811f,.031f,paint,"paint");
+        body.ShapedPlate(side,.811f,.031f,paint,"paint");
         body.Box(new(1.50f,.07f,3.35f),new(0,.455f,0),"292e2a","metal");
         // A closed pressed bonnet joins both wings and the scuttle. Its edges
         // have thickness and a small bevel rather than daylight below a plane.
         body.CoachLoft(new CoachSection[] {
             new(-1.90f,.785f,1.017f,1.082f,.018f),
             new(-1.78f,.791f,1.025f,1.107f,.024f),
-            new(-.715f,.790f,1.065f,1.128f,.016f) },paint,"metal");
+            new(-.715f,.790f,1.065f,1.128f,.016f) },paint,"paint");
         body.CoachLoft(new CoachSection[] {
             new(-.315f,.718f,1.634f,1.673f,.016f),
             new(-.250f,.753f,1.637f,1.694f,.018f),
             new(1.470f,.753f,1.637f,1.694f,.018f),
-            new(1.550f,.714f,1.634f,1.673f,.016f) },paint,"metal");
+            new(1.550f,.714f,1.634f,1.673f,.016f) },paint,"paint");
         foreach(var sign in new[]{-1f,1f})
         {
             // Flat structural pillars, not round bars. The B pillar closes
             // both window edges and the C pillar meets the hatch surround.
             Vector3 P(float z,float y)=>new(sign*Mathf.Lerp(.802f,.738f,(y-1.13f)/.51f),y,z);
             body.ClosedPanel(P(-.72f,1.13f),P(-.655f,1.13f),P(-.230f,1.641f),P(-.300f,1.641f),
-                Vector3.Right*sign,paint,"metal");
+                Vector3.Right*sign,paint,"paint");
             body.ClosedPanel(P(.462f,1.13f),P(.557f,1.13f),P(.557f,1.641f),P(.462f,1.641f),
-                Vector3.Right*sign,paint,"metal");
+                Vector3.Right*sign,paint,"paint");
             body.ShapedPlate(new Vector2[]{new(1.323f,1.642f),new(1.550f,1.642f),
-                new(1.848f,1.086f),new(1.575f,1.086f)},sign*.773f,.052f,paint,"metal");
+                new(1.848f,1.086f),new(1.575f,1.086f)},sign*.773f,.052f,paint,"paint");
             body.Beam(new(sign*.748f,1.651f,-.26f),new(sign*.748f,1.651f,1.46f),.010f,"8a9382","metal");
-            body.Box(new(.042f,.047f,2.30f),new(sign*.801f,1.119f,.480f),paint,"metal");
+            body.Box(new(.042f,.047f,2.30f),new(sign*.801f,1.119f,.480f),paint,"paint");
             body.Box(new(.024f,.014f,2.24f),new(sign*.828f,1.150f,.480f),"a4ac9d","metal");
             body.Box(new(.021f,.026f,1.13f),new(sign*.835f,.706f,-.075f),"303a32","rubber");
             body.Box(new(.020f,.39f,.009f),new(sign*.832f,.899f,.492f),"243229","metal");
@@ -70,11 +76,11 @@ public static partial class VehicleVisualFactory
         }
         body.Beam(new(-.735f,1.64f,-.29f),new(.735f,1.64f,-.29f),.009f,"202922","rubber");
         body.Beam(new(-.778f,1.138f,-.70f),new(.778f,1.138f,-.70f),.008f,"202922","rubber");
-        body.Box(new(1.56f,.61f,.055f),new(0,.785f,1.811f),paint,"metal");
+        body.Box(new(1.56f,.61f,.055f),new(0,.785f,1.811f),paint,"paint");
         body.Panel(new(-.732f,1.143f,1.807f),new(-.687f,1.616f,1.535f),
             new(.687f,1.616f,1.535f),new(.732f,1.143f,1.807f),Vector3.Back,"83988c","glass");
-        body.Beam(new(-.69f,1.622f,1.54f),new(.69f,1.622f,1.54f),.013f,paint,"metal");
-        body.Box(new(1.45f,.043f,.055f),new(0,1.115f,1.794f),paint,"metal");
+        body.Beam(new(-.69f,1.622f,1.54f),new(.69f,1.622f,1.54f),.013f,paint,"paint");
+        body.Box(new(1.45f,.043f,.055f),new(0,1.115f,1.794f),paint,"paint");
         body.Box(new(.17f,.025f,.028f),new(0,1.035f,1.852f),"a5ac9f","metal");
         body.Box(new(.47f,.12f,.021f),new(0,.777f,1.848f),"d5d7c7","metal");
         foreach(var x in new[]{-.682f,.682f})
@@ -96,11 +102,11 @@ public static partial class VehicleVisualFactory
         foreach(var sign in new[]{-1f,1f})
             body.Panel(new(sign*.792f,.818f,-1.941f),new(sign*.827f,.818f,-1.880f),
                 new(sign*.827f,1.075f,-1.880f),new(sign*.792f,1.109f,-1.941f),
-                new(sign,0,-1),paint,"metal");
+                new(sign,0,-1),paint,"paint");
         body.Panel(new(-.792f,1.109f,-1.941f),new(.792f,1.109f,-1.941f),
-            new(.785f,1.082f,-1.900f),new(-.785f,1.082f,-1.900f),Vector3.Up,paint,"metal");
-        body.Box(new(1.57f,.11f,.078f),new(0,.769f,-1.876f),paint,"metal");
-        body.Box(new(1.57f,.085f,.065f),new(0,.631f,-1.864f),paint,"metal");
+            new(.785f,1.082f,-1.900f),new(-.785f,1.082f,-1.900f),Vector3.Up,paint,"paint");
+        body.Box(new(1.57f,.11f,.078f),new(0,.769f,-1.876f),paint,"paint");
+        body.Box(new(1.57f,.085f,.065f),new(0,.631f,-1.864f),paint,"paint");
         body.Box(new(.47f,.12f,.024f),new(0,.715f,-1.936f),"dadccd","metal");
         foreach(var z in new[]{-1.974f,1.936f})
         {
@@ -123,7 +129,7 @@ public static partial class VehicleVisualFactory
             b.Beam(new(x,.42f,.23f),new(x,.34f,.68f),.027f,"333c34","metal");
         }
         b.Loft(new[]{S(.89f,-.525f,.035f,.055f),S(.936f,-.43f,.155f,.129f),
-            S(.954f,-.22f,.211f,.162f),S(.928f,.02f,.190f,.131f),S(.886f,.145f,.060f,.046f)},paint,"metal",20,Vector3.Up);
+            S(.954f,-.22f,.211f,.162f),S(.928f,.02f,.190f,.131f),S(.886f,.145f,.060f,.046f)},paint,"paint",20,Vector3.Up);
         b.Cylinder(.041f,.021f,new(0,1.121f,-.21f),"aab0a3","metal");
         foreach(var sign in new[]{-1f,1f})
             b.Sphere(new(.012f,.046f,.116f),new(sign*.200f,.943f,-.13f),"3d3d31","rubber",new(0,sign*8,0));
@@ -142,9 +148,9 @@ public static partial class VehicleVisualFactory
             b.Beam(new(sign*.27f,.285f,.40f),new(sign*.27f,.287f,.85f),.050f,"999f90","metal");
             b.Beam(new(sign*.125f,.61f,.02f),new(sign*.13f,.79f,.08f),.032f,"5c6758","metal");
             b.Beam(new(sign*.15f,.343f,.68f),new(sign*.15f,.87f,.48f),.030f,"969f91","metal");
-            b.Beam(new(sign*.15f,.65f,.56f),new(sign*.15f,.865f,.48f),.043f,paint,"metal");
+            b.Beam(new(sign*.15f,.65f,.56f),new(sign*.15f,.865f,.48f),.043f,paint,"paint");
             b.Beam(new(sign*.15f,.34f,-.76f),new(sign*.15f,.80f,-.59f),.031f,"b0b8a8","metal");
-            b.Beam(new(sign*.15f,.80f,-.59f),new(sign*.15f,1.119f,-.47f),.038f,paint,"metal");
+            b.Beam(new(sign*.15f,.80f,-.59f),new(sign*.15f,1.119f,-.47f),.038f,paint,"paint");
             b.Beam(new(sign*.12f,.81f,-.575f),new(sign*.10f,.77f,-.735f),.015f,"8f9a89","metal");
             // Each handlebar riser overlaps the existing fork and bar end.
             b.Beam(steeringBridge+Vector3.Right*(sign*.15f),new(sign*.13f,1.166f,-.46f),.020f,"b0b8a8","metal");
@@ -284,7 +290,7 @@ public static partial class VehicleVisualFactory
 
         public void PressedWheelArch(float sign,float z,string paint)
         {
-            var skin=Get(paint,"metal");var lining=Get("222a23","rubber");
+            var skin=Get(paint,"paint");var lining=Get("222a23","rubber");
             Vector3 P(float x,float radius,float angle)=>new(sign*x,.345f+Mathf.Sin(angle)*radius,z+Mathf.Cos(angle)*radius);
             for(var i=0;i<24;i++)
             {
@@ -298,7 +304,7 @@ public static partial class VehicleVisualFactory
 
         public void LampSurround(Vector3 centre,Vector2 half,float aperture,string paint)
         {
-            var skin=Get(paint,"metal");var dark=Get("283128","rubber");
+            var skin=Get(paint,"paint");var dark=Get("283128","rubber");
             Vector3 Inner(float angle,float depth=0)=>centre+new Vector3(Mathf.Cos(angle)*aperture,Mathf.Sin(angle)*aperture,depth);
             Vector3 Outer(float angle)
             {

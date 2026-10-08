@@ -277,10 +277,95 @@ public partial class CarryCoordinator : Node
         _heldPoseItem = _held.ItemId;
         if (TryHeldPose(_held, Vector3.Zero, _held.YawDegrees, out var pose))
         {
-            _held.HoldAt(pose);
+            _held.HoldAt(SeatGripAgainstBody(_held, pose));
             _heldOwnerFeetAtPose = _player.GlobalPosition;
             _heldPoseValid = true;
         }
+    }
+
+    // VIS-047: one everyday action, one thing — the firewood log from the woodpile.
+    // The accepted physics pose says where the item is allowed to be; this says where
+    // it reads as *held by the body*. The item slides back along the line of sight
+    // until its own surface touches the front of the winter coat, and stops there.
+    // Nothing is pushed through the body, the camera or a door, and no interaction
+    // identity, custody record or placement rule is touched: the same node the
+    // accepted pose already owns simply gets its visual hold point.
+    private const float GripCameraClearance = .22f;
+    private const float MaxGripSeatMetres = .55f;
+    private static readonly float[] GripSeatSteps = [1f, .5f, .25f, 0f];
+    private float _gripSeatMetres;
+    private string _gripSeatItem = string.Empty;
+
+    private Vector3 SeatGripAgainstBody(CarryableProp prop, Vector3 pose)
+    {
+        if (_player is null || _camera is null) return pose;
+        var forward = -_camera.GlobalBasis.Z;
+        var facing = new Vector3(forward.X, 0f, forward.Z);
+        if (facing.LengthSquared() < .000001f || !_player.TryGetCarryGrip(facing, out var grip))
+        {
+            ReportGrip(prop, 0f, 0f, "no-body-envelope");
+            return pose;
+        }
+
+        facing = facing.Normalized();
+        if (_gripSeatItem != prop.ItemId)
+        {
+            _gripSeatItem = prop.ItemId;
+            _gripSeatMetres = 0f;
+        }
+
+        // The prop's own footprint along the sight line, from its authored yaw: a
+        // board held lengthways has to come much closer than a crate held square.
+        var basis = Basis.FromEuler(new(0, Mathf.DegToRad(prop.YawDegrees), 0));
+        var extent = prop.Size.X * .5f * Math.Abs(basis.X.Dot(facing))
+            + prop.Size.Z * .5f * Math.Abs(basis.Z.Dot(facing));
+        var gap = (pose - grip.CoatFront).Dot(facing) - extent;
+        if (gap <= AccessibilityPresentation.CarryGripContactTolerance)
+        {
+            _gripSeatMetres = 0f;
+            ReportGrip(prop, gap, gap, "already-touching");
+            return pose;
+        }
+
+        var wanted = Mathf.Min(gap - AccessibilityPresentation.CarryGripContactTolerance, MaxGripSeatMetres);
+        // Ordinary walking bobs the eye, so the grip settles over a few frames; the
+        // reduced-motion camera is already steady and the seat is placed at once and
+        // then held, instead of creeping toward the coat every tick.
+        var settle = AccessibilityPresentation.CarryGripSettleSeconds(_player.ReducedMotion);
+        var seat = settle <= 0f
+            ? wanted
+            : Mathf.MoveToward(_gripSeatMetres, wanted, wanted / settle * (float)GetProcessDeltaTime());
+        // A doorway in front of the chest is a real blocker: back the seat off in
+        // bounded steps rather than burying the log in it, and never below contact.
+        foreach (var fraction in GripSeatSteps)
+        {
+            var candidate = seat * fraction;
+            var seated = pose - facing * candidate;
+            var centre = seated + Vector3.Up * prop.Height * .5f;
+            if (_camera.GlobalPosition.DistanceTo(centre) - extent < GripCameraClearance) continue;
+            if (candidate > 0f && !ClearVolume(prop, seated, prop.YawDegrees)) continue;
+            _gripSeatMetres = candidate;
+            ReportGrip(prop, gap, gap - candidate, candidate <= 0f ? "refused-blocked" : "seated");
+            return seated;
+        }
+
+        _gripSeatMetres = 0f;
+        ReportGrip(prop, gap, gap, "no-clear-seat");
+        return pose;
+    }
+
+    /// <summary>
+    /// VIS-047: the card's acceptance is a measurement, so the numbers travel with the
+    /// item and a capture or a receipt can read them without a second code path.
+    /// </summary>
+    private void ReportGrip(CarryableProp prop, float gap, float seatedGap, string status)
+    {
+        prop.SetMeta("carryGripGapMetres", gap);
+        prop.SetMeta("carryGripSeatedGapMetres", Math.Max(0f, seatedGap));
+        prop.SetMeta("carryGripSeatMetres", _gripSeatMetres);
+        prop.SetMeta("carryGripContactToleranceMetres", AccessibilityPresentation.CarryGripContactTolerance);
+        prop.SetMeta("carryGripReducedMotion", _player?.ReducedMotion == true);
+        prop.SetMeta("carryGripStatus", status);
     }
 
     private Task<bool> TakeAsync(CarryableProp prop) => CommitAsync(async () =>
@@ -509,7 +594,7 @@ public partial class CarryCoordinator : Node
         else if (_held is not null && _heldPoseValid && previousHeldId == _held.ItemId
             && previousHeldPosition is { } heldPosition) _held.HoldAt(heldPosition);
         ApplyZonePresentation();
-        if (_held is null) { _heldPoseItem = null; _heldPoseValid = false; }
+        if (_held is null) { _heldPoseItem = null; _heldPoseValid = false; _gripSeatItem = string.Empty; _gripSeatMetres = 0f; }
         UpdateHeld();
     }
 

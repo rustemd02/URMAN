@@ -29,6 +29,21 @@ public static class AgentBKitMaterials
         ["AB_bark"] = ("5f4f3e", "bark_pine", 0f),
         ["AB_bark_dark"] = ("493c30", "bark_pine", 0f),
         ["AB_bark_birch"] = ("c8c2b2", "bark_birch", 0f),
+        // VIS-082 bark standard. Each species bark keeps its own slot in the
+        // authored kit so the material contract names what the eye reads; the
+        // painterly family is the one the library already owns, because a new
+        // surface key needs its own map first (requested in
+        // docs/urman_knowledge_base/art/asset_requests/TREES.md). Every colour
+        // here is a cold grey-brown: no red-brown baseline anywhere in the
+        // forest register (style recipe §8, "красный forest baseline").
+        ["AB_bark_pine"] = ("4d4239", "bark_pine", 0f),
+        ["AB_bark_linden"] = ("55534a", "wood_bark", 0f),
+        ["AB_bark_rowan"] = ("6b6257", "wood_bark", 0f),
+        ["AB_bark_willow"] = ("484a46", "wood_bark", 0f),
+        ["AB_bark_old"] = ("3d3a36", "wood_bark", 0f),
+        // VIS-025/VIS-084 needles: the dirty teal the Kara profile already
+        // grades conifers to, so the fir mass stays cold at any hour.
+        ["AB_needles_spruce"] = ("394c50", "foliage", 0f),
         ["AB_foliage_birch"] = ("75834e", "leaf_birch", 0f),
         ["AB_foliage_pine"] = ("3c4f3c", "foliage", 0f),
         ["AB_foliage_spruce"] = ("425043", "foliage", 0f),

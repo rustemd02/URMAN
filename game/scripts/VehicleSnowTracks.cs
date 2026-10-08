@@ -24,9 +24,18 @@ namespace Urman.Godot;
 ///   stamps    at most one per tracked wheel per physics frame, one per 0.42 m;
 ///   per tick  4 CollisionGround samples per stamp (pure maths, no physics
 ///             queries), a handful of struct writes; zero managed allocations;
-///   per frame <=2 stamps (<=8 height samples) at any speed, 0 when parked;
+///   per frame <=2 stamps (<=8 height samples) at any speed, 0 when parked, and
+///             at most one short space-ray query per stamped wheel (VIS-016: the
+///             rut may not be drawn through a fence, a wall or a stack);
 ///   eviction  ring buffer; distance fade has already hidden a quad long
 ///             before its slot is reused, so nothing ever pops.
+///
+/// VIS-050: the print centre is the midpoint of the segment the tracked tyre
+/// itself travelled, and the print width is that tyre's own roadTyreWidth plus
+/// the squeezed shoulder. Both come from the wheel node's metadata, so there is
+/// no second number that can drift away from the vehicle. DescribeTracks() reports
+/// the lateral error and the rear separation of prints against the rear tyres;
+/// the budget, the sample count and the stamp rate are exactly what they were.
 ///
 /// Exclusion contract: a stamp needs the wheel on the exterior terrain surface
 /// (CollisionGround under the wheel hub within GroundTolerance and no ice/water
@@ -39,8 +48,13 @@ public partial class VehicleSnowTracks : Node3D
 {
     public const int QuadBudget = 512;
     private const float StationSpacing = .42f;
-    // .19 m tyre + snow squeezed out under the shoulder of the tread.
-    private const float RutWidth = .28f;
+    // VIS-050: the pressed snow is the tyre plus what the shoulder squeezes out,
+    // so the width is derived from each tracked wheel's own roadTyreWidth meta
+    // instead of a second constant that the factory has to remember to keep in
+    // step. .09 m is the squeezed shoulder on one side of a .19 m tyre, which is
+    // what the previous fixed .28 m rut measured; the silhouette does not change.
+    private const float SqueezedShoulder = .045f;
+    private const float DefaultTyreWidth = .19f;
     // Above the snow microrelief (+-4 mm) and the trample ridge (+12 mm); low
     // enough not to read as a floating ribbon.
     private const float SurfaceOffset = .018f;
@@ -69,12 +83,29 @@ public partial class VehicleSnowTracks : Node3D
     private int _cursor;
     private int _segments;
     private float _metres;
+    private int _rejectedByObstruction;
     private Vector3 _aabbOrigin = new(float.NaN, 0f, 0f);
     private Vector3 _fadeOrigin = new(float.NaN, 0f, 0f);
+    // VIS-050 measurement: one stamp centre per tracked wheel plus the tyre
+    // geometry that produced it, so the rut-versus-wheel relationship is a number
+    // the smoke and the capture receipt can read instead of an opinion.
+    private float[] _radius = Array.Empty<float>();
+    private float[] _rutWidth = Array.Empty<float>();
+    private float[] _tyreWidth = Array.Empty<float>();
+    private Vector2[] _stampCentre = Array.Empty<Vector2>();
+    private bool[] _hasStamp = Array.Empty<bool>();
+    private int[] _stamps = Array.Empty<int>();
 
     /// <summary>Rear wheels whose ground contact leaves the two ruts; set by the factory.</summary>
     public Node3D[] TrackedWheels { get; set; } = Array.Empty<Node3D>();
+    /// <summary>
+    /// Fallback contact radius for a tracked wheel that carries no
+    /// <c>roadTyreRadius</c> metadata. The wheel itself is the source of truth:
+    /// a second constant here is what let the rut and the tyre drift apart.
+    /// </summary>
     public float WheelRadius { get; set; } = .345f;
+    /// <summary>Centre error the contract allows between a rut and its tyre.</summary>
+    public const float CentreErrorLimitMetres = .02f;
 
     public override void _Ready()
     {
@@ -90,10 +121,34 @@ public partial class VehicleSnowTracks : Node3D
         SetMeta("vehicleTrackMeters", 0f);
         SetMeta("vehicleTrackStationSpacingMetres", StationSpacing);
         SetMeta("vehicleTrackFadeMetres", $"{FadeNear}-{FadeFar}");
+        SetMeta("vehicleTrackRejectedObstruction", 0);
         _last = new Vector2[TrackedWheels.Length];
         _hasLast = new bool[TrackedWheels.Length];
         _lastOffRoad = new bool[TrackedWheels.Length];
         _travelled = new float[TrackedWheels.Length];
+        _radius = new float[TrackedWheels.Length];
+        _rutWidth = new float[TrackedWheels.Length];
+        _tyreWidth = new float[TrackedWheels.Length];
+        _stampCentre = new Vector2[TrackedWheels.Length];
+        _hasStamp = new bool[TrackedWheels.Length];
+        _stamps = new int[TrackedWheels.Length];
+        // VIS-050 step 1: the geometry of the rut comes from the wheel that makes
+        // it. A tracked wheel publishes its own tyre through the same metadata the
+        // collision hull reads (VehicleController.WheelCollision), so the stamp can
+        // no longer disagree with the tyre it is supposed to be the print of.
+        for (var index = 0; index < TrackedWheels.Length; index++)
+        {
+            var wheel = TrackedWheels[index];
+            _radius[index] = wheel is { } node && node.HasMeta("roadTyreRadius")
+                ? node.GetMeta("roadTyreRadius").AsSingle() : WheelRadius;
+            _tyreWidth[index] = wheel is { } typed && typed.HasMeta("roadTyreWidth")
+                ? typed.GetMeta("roadTyreWidth").AsSingle() : DefaultTyreWidth;
+            _rutWidth[index] = _tyreWidth[index] + 2f * SqueezedShoulder;
+            SetMeta("vehicleTrackTyre" + index, FormattableString.Invariant(
+                $"{wheel?.Name}:{_radius[index]:F4}:{_tyreWidth[index]:F4}:{_rutWidth[index]:F4}"));
+        }
+        SetMeta("vehicleTrackWidthSource", "tracked wheel roadTyreWidth metadata");
+        SetMeta("vehicleTrackCentreErrorLimitMetres", CentreErrorLimitMetres);
         var quad = new PlaneMesh { Size = Vector2.One, Orientation = PlaneMesh.OrientationEnum.Y };
         _material = new ShaderMaterial { Shader = new Shader { Code = RutShader } };
         _material.SetShaderParameter("fade_near", FadeNear);
@@ -162,7 +217,7 @@ public partial class VehicleSnowTracks : Node3D
     {
         if (length < .06f || length > MaximumFrameTravel) return false;
         if (!WithinTerrain(here) || !WithinTerrain(previous)) return false;
-        var hubHeight = wheelWorld.Y - WheelRadius;
+        var hubHeight = wheelWorld.Y - _radius[index];
         var support = (float)AgentBAct1HeightField.CollisionGround(here.X, here.Y);
         if (Mathf.Abs(hubHeight - support) > GroundTolerance) return false;
         var previousSupport = (float)AgentBAct1HeightField.CollisionGround(previous.X, previous.Y);
@@ -173,28 +228,121 @@ public partial class VehicleSnowTracks : Node3D
         // decal at its verge instead of bridging the packed lane.
         if (!offRoad || !_lastOffRoad[index]) { _lastOffRoad[index] = offRoad; return false; }
         if (BlockedByIce(here)) return false;
-        var side = new Vector2(-direction.Y, direction.X) * (RutWidth * .5f);
+        // VIS-016: the pressed pair is only drawn where the wheel actually travelled. The
+        // straight segment between two physics frames can cut the corner of a fence, a wall
+        // or a stack; a rut that crosses one of those claims a drive that never happened, so
+        // the stamp is dropped and the chain restarts on the next station.
+        if (SnowTrackObstruction.CrossesSolid(GetWorld3D(), previous, here, hubHeight,
+                _vehicle?.GetRid().Id ?? 0UL))
+        {
+            _rejectedByObstruction++;
+            SetMeta("vehicleTrackRejectedObstruction", _rejectedByObstruction);
+            return false;
+        }
+        // VIS-050: the stamp is placed at the tyre's own contact line, and its
+        // width is that tyre plus the squeezed shoulder. `rutWidth` comes from the
+        // wheel metadata bound in _Ready, never from a second constant.
+        var rutWidth = _rutWidth[index];
+        var side = new Vector2(-direction.Y, direction.X) * (rutWidth * .5f);
         var left = (float)AgentBAct1HeightField.CollisionGround(here.X + side.X, here.Y + side.Y);
         var right = (float)AgentBAct1HeightField.CollisionGround(here.X - side.X, here.Y - side.Y);
         var along = Mathf.Atan2(support - previousSupport, length);
-        var roll = Mathf.Atan2(right - left, RutWidth);
+        var roll = Mathf.Atan2(right - left, rutWidth);
         var basis = new Basis(Vector3.Up, Mathf.Atan2(direction.X, direction.Y));
         basis = basis.Rotated(basis.X, -along);
         basis = basis.Rotated(basis.Z, roll);
         var midpoint = (previous + here) * .5f;
-        var transform = new Transform3D(basis.Scaled(new Vector3(RutWidth, 1f, length)),
+        var transform = new Transform3D(basis.Scaled(new Vector3(rutWidth, 1f, length)),
             new Vector3(midpoint.X, (support + previousSupport) * .5f + SurfaceOffset, midpoint.Y));
         var slot = _cursor;
         _cursor = (_cursor + 1) % QuadBudget;
         _multimesh.SetInstanceTransform(slot, transform);
         var tint = .97f + .03f * Mathf.Sin(_metres * 2.3f + index);
         _multimesh.SetInstanceColor(slot, new Color(tint, tint, tint, 1f));
+        // VIS-050: keep the centre of the last print of every tracked wheel. The
+        // rut is stamped at the midpoint of the segment the tyre itself travelled,
+        // so this is the pair of numbers the contract is actually about: the print
+        // centre and the contact centre must not drift apart laterally.
+        _stampCentre[index] = midpoint;
+        _hasStamp[index] = true;
+        _stamps[index]++;
         _segments = Math.Min(_segments + 1, QuadBudget);
         _metres += length;
         UpdateWindow();
         SetMeta("vehicleTrackSegments", _segments);
         SetMeta("vehicleTrackMeters", _metres);
         return true;
+    }
+
+    /// <summary>
+    /// VIS-050 measurement of the rut-versus-tyre relationship in the live scene:
+    /// where each tracked wheel's contact is, where its last pressed print is, the
+    /// lateral error between the two, and the rear track read both ways. Straight
+    /// and turning drives use the same numbers, so the historical 1.43/2.21 m
+    /// mismatch claim can be confirmed or dismissed from the runtime instead of
+    /// from the report. Read-only; it queries nothing and allocates only the record
+    /// a diagnostics caller asked for.
+    /// </summary>
+    public global::Godot.Collections.Dictionary DescribeTracks()
+    {
+        var wheels = new global::Godot.Collections.Array();
+        Vector2? first = null;
+        Vector2? second = null;
+        for (var index = 0; index < TrackedWheels.Length; index++)
+        {
+            if (TrackedWheels[index] is not { } wheel || !GodotObject.IsInstanceValid(wheel)) continue;
+            var contact = wheel.GlobalPosition;
+            var here = new Vector2(contact.X, contact.Z);
+            var row = new global::Godot.Collections.Dictionary
+            {
+                ["name"] = wheel.Name.ToString(),
+                ["tyreRadiusMetres"] = _radius.Length > index ? _radius[index] : WheelRadius,
+                ["tyreWidthMetres"] = _tyreWidth.Length > index ? _tyreWidth[index] : DefaultTyreWidth,
+                ["rutWidthMetres"] = _rutWidth.Length > index ? _rutWidth[index] : DefaultTyreWidth + 2 * SqueezedShoulder,
+                ["contact"] = new Vector3(here.X, contact.Y, here.Y).ToString(),
+                ["stamps"] = _stamps.Length > index ? _stamps[index] : 0
+            };
+            if (_hasStamp.Length > index && _hasStamp[index])
+            {
+                var stamp = _stampCentre[index];
+                row["lastPrintCentre"] = new Vector3(stamp.X, contact.Y, stamp.Y).ToString();
+                // Perpendicular to the vehicle's own side axis: the lag along the
+                // path is a station property, the lateral part is the defect.
+                var side = _vehicle?.GlobalBasis.X ?? Vector3.Right;
+                var delta = new Vector2(stamp.X - here.X, stamp.Y - here.Y);
+                row["lateralErrorMetres"] = Mathf.Abs(delta.X * side.X + delta.Y * side.Z);
+                row["alongErrorMetres"] = Mathf.Abs(delta.X * -(_vehicle?.GlobalBasis.Z.X ?? 0f)
+                    + delta.Y * -(_vehicle?.GlobalBasis.Z.Z ?? 0f));
+                if (first is null) first = stamp; else if (second is null) second = stamp;
+            }
+            wheels.Add(row);
+        }
+        var result = new global::Godot.Collections.Dictionary
+        {
+            ["schema"] = "urman.vehicle_snow_tracks.v1",
+            ["budgetQuads"] = QuadBudget,
+            ["stationSpacingMetres"] = StationSpacing,
+            ["segments"] = _segments,
+            ["metres"] = _metres,
+            ["rejectedByObstruction"] = _rejectedByObstruction,
+            ["centreErrorLimitMetres"] = CentreErrorLimitMetres,
+            ["widthSource"] = "tracked wheel roadTyreWidth metadata",
+            ["wheels"] = wheels
+        };
+        if (first is { } left && second is { } right)
+        {
+            result["rearPrintSeparationMetres"] = left.DistanceTo(right);
+            if (TrackedWheels.Length >= 2
+                && TrackedWheels[0] is { } a && TrackedWheels[1] is { } b
+                && GodotObject.IsInstanceValid(a) && GodotObject.IsInstanceValid(b))
+            {
+                var pa = a.GlobalPosition; var pb = b.GlobalPosition;
+                var separation = new Vector2(pa.X - pb.X, pa.Z - pb.Z).Length();
+                result["rearTyreSeparationMetres"] = separation;
+                result["separationErrorMetres"] = Mathf.Abs(separation - left.DistanceTo(right));
+            }
+        }
+        return result;
     }
 
     /// <summary>Ice and open water are already built surfaces, not loose snow.</summary>
@@ -261,6 +409,8 @@ public partial class VehicleSnowTracks : Node3D
     {
         for (var index = 0; index < _hasLast.Length; index++)
         { _hasLast[index] = false; _lastOffRoad[index] = false; _travelled[index] = 0f; }
+        for (var index = 0; index < _hasStamp.Length; index++)
+        { _hasStamp[index] = false; _stampCentre[index] = Vector2.Zero; _stamps[index] = 0; }
         _cursor = 0;
         _segments = 0;
         _metres = 0f;

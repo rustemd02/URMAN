@@ -235,6 +235,19 @@ public partial class Act1ConnectedWorld
                 AddRavineLog(bridge, $"Bridge{label}Handrail_{railZ:0.0}",
                     new Vector3(landX, deck + .98f, railZ), new Vector3(railEnd, deck + .9f, railZ * 1.04f), .05f, "6b5a45");
             }
+            // VIS-015: the joint where this deck end lands on the bank. The boards run on a
+            // flat line 34 cm over the crib ground while the bank rises away from the lip, so
+            // the abutment met the snowfield in a technical step. One conformed snow bearing —
+            // medium edge, capped at 12 cm, spanning only the crib-to-land run — closes it to
+            // the measured gap and keeps the ravine itself open: nothing here is stuffed into
+            // the cut, so what is under the span stays depth rather than a new white block.
+            // It is parented to the ravine, not to the deck: the bank stays whether the middle
+            // span stands (the intact opening bridge) or has fallen (this node is hidden then).
+            // The bearing arguments are XZ points, so the unit vector across this deck — which
+            // runs along X at a fixed Z — is the world Z axis, i.e. (0,1) in that convention.
+            AddDeckLandBearing(ravine, $"Bridge{label}LandBearing",
+                new Vector2(cx + cribX, z), new Vector2(cx + landX, z), new Vector2(0f, 1f),
+                deck - .01f, deck - .01f, 1.6f);
         }
 
         // The fallen middle: stringers hang from the near end to the bed, one

@@ -29,8 +29,9 @@ namespace Urman.Godot;
 /// the per-instance GeometryInstance3D.Transparency fade, and a window only
 /// leaves selection beyond the fade end, so occupants never pop in or out.
 ///
-/// Day/night: the authored AgentBSun energy (AtmosphereProfiles: 0.55 for the
-/// day and zirat profiles, 0.22 for the Kara night) selects a fainter, shorter
+/// Day/night: the authored AgentBSun energy (atmosphere.v1.json, 2026-10-07 colour
+/// script: frost 1.12, overcast 0.72, golden 1.60, zirat 0.55; village green night
+/// 0.30, Kara night 0.16 — VIS-037 re-checked the split) selects a fainter, shorter
 /// day pool or the full night pool. SetNight is an optional explicit override;
 /// without it the sun is read live, so a scene without the connected world still
 /// works in the subtle day mode.
@@ -44,8 +45,14 @@ public partial class WindowSilhouettes : Node3D
     public const float NightSelectionDistance = 24f;
     public const float DaySelectionDistance = 16f;
     /// <summary>Extra gap beyond the pane centre so the quad clears the glass
-    /// surface and never z-fights with it (the authored inset adds 4-6 cm).</summary>
+    /// surface and never z-fights with it. The kit's window module puts the glass
+    /// 120 mm behind the visible wall face and its backing plate 20-65 mm behind
+    /// the glass (VIS-087), so a figure may stand at most 72 mm in front of the
+    /// glass and still be inside the niche; <see cref="MaxNicheOffset"/> is that
+    /// bound plus the safety margin, so a future, shallower niche cannot push an
+    /// occupant out through the wall face.</summary>
     public const float ExteriorLiftMeters = .012f;
+    public const float MaxNicheOffset = .085f;
     // A window is only unbound beyond the selection distance, which is past the
     // fade end; a dropped occupant is already fully faded out at that range.
     private const float NightFadeBegin = 11f, NightFadeEnd = 22f;
@@ -55,7 +62,7 @@ public partial class WindowSilhouettes : Node3D
     // window keeps its slot unless a challenger is clearly closer, which stops
     // churn along the boundary between two rows of houses.
     private const float IncumbentFactor = .72f;
-    // AtmosphereProfiles authors day/zirat sun energy 0.55 and Kara night 0.22.
+    // Every authored day state is >= 0.55 and both night states are <= 0.30.
     private const float NightSunEnergy = .35f;
 
     private static readonly float[] VariantWidth = [.85f, .92f, .85f, .62f, .85f];
@@ -131,7 +138,8 @@ public partial class WindowSilhouettes : Node3D
                 pane, centre, normal, width, height,
                 (int)(hash % VariantCount),
                 .72f + (hash % 977) / 977f * .28f,
-                .04f + hash % 3 * .01f,
+                // Stays inside the measured window niche: see MaxNicheOffset.
+                Math.Min(.04f + hash % 3 * .01f, MaxNicheOffset - ExteriorLiftMeters),
                 (hash % 733) / 733f,
                 .05f + (hash % 53) / 530f,
                 pane.GetPath().ToString()));

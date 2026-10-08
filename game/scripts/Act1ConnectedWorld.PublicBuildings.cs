@@ -301,9 +301,9 @@ public partial class Act1ConnectedWorld
             var name = mesh.Name.ToString();
             if (name.Contains("_Body_", StringComparison.Ordinal) || name.Contains("_Sleeve", StringComparison.Ordinal)
                 || name.Contains("_Coat", StringComparison.Ordinal))
-                mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("4f615e", "cloth", sheltered: true);
+                mesh.MaterialOverride = GeneratedCharacterKitDressing.ClothFor(mesh, "4f615e");
             if (name.Contains("Apron", StringComparison.Ordinal))
-                mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("b8a78a", "cloth", sheltered: true);
+                mesh.MaterialOverride = GeneratedCharacterKitDressing.ClothFor(mesh, "b8a78a");
         }
         GeneratedCharacterKitDressing.GroundSolesOnAnchor(seller);
         var actorContact = new StaticBody3D { Name = "RazilyaContact", Position = new(0, .82f, 1.47f), CollisionLayer = 2, CollisionMask = 0 };

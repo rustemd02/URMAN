@@ -1,0 +1,204 @@
+B01 zones=atmos,capture,char,material,misc,mosque,trees,yard n=7
+   ids: VIS-008 VIS-064 VIS-019 VIS-026 VIS-031 VIS-040 VIS-021
+   files: eng/build-act1-review-packet.sh, game/content/world/atmosphere.v1.json, game/scripts/Act1ConnectedWorld.MosqueExterior.cs, game/scripts/Act1ConnectedWorld.MosqueFoundation.cs, game/scripts/Act1ConnectedWorld.MosqueTimber.cs, game/scripts/Act1ConnectedWorld.YardComposition.cs, game/scripts/Act1ConnectedWorld.YardFences.cs, game/scripts/Act1ConnectedWorld.cs, game/scripts/GeneratedCharacterKitDressing.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs, game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs
+B02 zones=atmos,capture,clinic,material,misc,mosque,yard n=6
+   ids: VIS-109 VIS-107 VIS-024 VIS-068 VIS-023 VIS-053
+   files: eng/verify-asset-registry.sh, game/content/world/atmosphere.v1.json, game/scripts/Act1ConnectedWorld.FapExploration.cs, game/scripts/Act1ConnectedWorld.FapPlate.cs, game/scripts/Act1ConnectedWorld.Households.cs, game/scripts/Act1ConnectedWorld.MosqueCarpets.cs, game/scripts/Act1ConnectedWorld.MosqueInterior.cs, game/scripts/Act1ConnectedWorld.MosqueTimber.cs, game/scripts/Act1ConnectedWorld.YardComposition.cs, game/scripts/ClinicSurfacePresentation.cs, game/scripts/PainterlyMaterialLibrary.cs
+B03 zones=atmos,capture,material,misc,mosque,snow,timber,yard n=5
+   ids: VIS-106 VIS-003 VIS-051 VIS-018 VIS-100
+   files: eng/remote-check.py, game/assets/third_party/, game/scripts/Act1ConnectedWorld.Mosque*.cs, game/scripts/Act1ConnectedWorld.MosqueInterior.cs, game/scripts/Act1ConnectedWorld.StreetFrontage.cs, game/scripts/Act1ConnectedWorld.cs, game/scripts/Act1DemoRoot.DevViewCapture.cs, game/scripts/MosqueSanctuary.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/RuralPropModels.cs, game/scripts/TimberHomeStyle.cs
+B04 zones=atmos,capture,char,material,misc,mosque,timber,trees,ui,yard n=5
+   ids: VIS-030 VIS-045 VIS-059 VIS-032 VIS-055
+   files: game/assets/generated/urman_character_kit_v2.glb, game/scripts/Act1ConnectedWorld.Households.cs, game/scripts/Act1ConnectedWorld.MosqueTimber.cs, game/scripts/Act1ConnectedWorld.cs, game/scripts/Act1DemoRoot.RenderDiagnostics.cs, game/scripts/GeneratedCharacterKitDressing.cs, game/scripts/JournalUi.Notebook.cs, game/scripts/JournalUi.Vocabulary.cs, game/scripts/JournalUi.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/TimberHomeStyle.cs, game/scripts/UrmanUiTheme.cs, game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs
+B05 zones=atmos,capture,misc,snow,trees,ui,yard n=5
+   ids: VIS-069 VIS-076 VIS-004 VIS-012 VIS-110
+   files: eng/build-act1-review-packet.sh, game/content/world/atmosphere.v1.json, game/scripts/Act1ConnectedWorld.SnowRelief.cs, game/scripts/Act1ConnectedWorld.WinterRoads.cs, game/scripts/Act1ConnectedWorld.YardComposition.cs, game/scripts/Act1ConnectedWorld.cs, game/scripts/Act1DemoRoot.DevViewCapture.cs, game/scripts/Act1DemoRoot.RenderDiagnostics.cs, game/scripts/DocumentUi.cs, game/scripts/JournalUi*.cs, game/scripts/OldPcUi*.cs, game/scripts/UrmanUiTheme.cs, game/scripts/WinterParticleSurfaces.cs, game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs
+B06 zones=atmos,capture,material,misc,snow,trees,ui,yard n=4
+   ids: VIS-070 VIS-083 VIS-016 VIS-057
+   files: assets/source/blender/, game/content/world/atmosphere.v1.json, game/scripts/Act1ConnectedWorld.Households.cs, game/scripts/Act1DemoRoot.DevViewCapture.cs, game/scripts/DialogueUi.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/SnowTrampleField.cs, game/scripts/UrmanUiTheme.cs, game/scripts/VehicleSnowTracks.cs, game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs
+B07 zones=atmos,capture,material,misc,timber,trees,yard n=4
+   ids: VIS-072 VIS-084 VIS-013 VIS-020
+   files: game/assets/models/act1/urman_winter_pine.glb, game/content/world/atmosphere.v1.json, game/scripts/Act1ConnectedWorld.TimberGatePlates.cs, game/scripts/Act1ConnectedWorld.cs, game/scripts/Act1DemoRoot.DevViewCapture.cs, game/scripts/AddressFacadeMount.cs, game/scripts/AddressSignVisualComponent.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/RuralPropGeometry.cs, game/scripts/RuralPropModels.cs, game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs
+B08 zones=atmos,material,misc,snow,yard n=3
+   ids: VIS-074 VIS-088 VIS-034
+   files: assets/source/blender/act1/ + generator .py, game/content/world/atmosphere.v1.json, game/scripts/Act1ConnectedWorld.WinterRoads.cs, game/scripts/Act1ConnectedWorld.YardFences.cs, game/scripts/Act1ConnectedWorld.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/SnowTrampleField.cs
+B09 zones=atmos,misc,snow n=2
+   ids: VIS-090 VIS-010
+   files: assets/source/blender/act1/urman_village_exterior_kit.blend, game/scripts/Act1ConnectedWorld*.cs, game/scripts/Act1ConnectedWorld.SnowRelief.cs, game/scripts/Act1ConnectedWorld.WinterRoads.cs, game/scripts/Act1ConnectedWorld.cs
+B10 zones=atmos,misc,snow,timber n=2
+   ids: VIS-091 VIS-017
+   files: assets/source/blender/act1/*.blend, game/scripts/Act1ConnectedWorld*.cs, game/scripts/Act1ConnectedWorld.StreetFrontage.cs, game/scripts/Act1ConnectedWorld.cs, game/scripts/TimberHomeStyle.cs
+B11 zones=atmos,material,misc,trees n=2
+   ids: VIS-092 VIS-027
+   files: game/assets/textures/, game/scripts/GeneratedModularKitDressing.cs, game/scripts/GraphicsQuality.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs
+B12 zones=atmos,capture,material,misc,trees n=2
+   ids: VIS-093 VIS-029
+   files: game/assets/textures/painterly/, game/scripts/Act1DemoRoot.PerformanceCapture.cs, game/scripts/GraphicsQuality.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs
+B13 zones=atmos,char,material,misc,yard n=2
+   ids: VIS-102 VIS-035
+   files: assets/source/blender/urman_character_kit_v2.blend, game/scripts/Act1ConnectedWorld.cs, game/scripts/GeneratedCharacterKitDressing.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/RuralPropMaterials.cs
+B14 zones=atmos,capture,misc,snow n=2
+   ids: VIS-011 VIS-039
+   files: game/content/world/atmosphere.v1.json, game/scripts/Act1ConnectedWorld.StreetFrontage.cs, game/scripts/Act1ConnectedWorld.WinterRoads.cs, game/scripts/Act1ConnectedWorld.cs, game/scripts/Act1DemoRoot.RenderDiagnostics.cs, game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs
+B15 zones=atmos,material,misc,snow,trees,yard n=3
+   ids: VIS-014 VIS-042 VIS-078
+   files: game/content/world/atmosphere.v1.json, game/scripts/Act1ConnectedWorld.WinterRoads.cs, game/scripts/Act1ConnectedWorld.YardComposition.cs, game/scripts/Act1ConnectedWorld.cs, game/scripts/ForestEdgePresence.cs, game/scripts/KitPlacementTakeover.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/RuralPropModels.cs, game/scripts/SnowTrampleField.cs
+B16 zones=atmos,capture,misc n=2
+   ids: VIS-015 VIS-063
+   files: eng/remote-check.py, game/scripts/Act1ConnectedWorld.Gorge.cs, game/scripts/Act1ConnectedWorld.Ravine.cs, game/scripts/Act1DemoRoot.PerformanceCapture.cs, game/scripts/GraphicsQuality.cs, game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs
+B17 zones=atmos,misc n=1
+   ids: VIS-022
+   files: game/content/world/atmosphere.v1.json, game/scripts/Act1ConnectedWorld.DebugSpawns.cs, game/scripts/Act1ConnectedWorld.cs
+B18 zones=atmos,misc,snow,trees n=2
+   ids: VIS-025 VIS-079
+   files: game/scripts/Act1ConnectedWorld.SnowRelief.cs, game/scripts/Act1ConnectedWorld.WinterRoads.cs, game/scripts/Act1ConnectedWorld.cs, game/scripts/GeneratedModularKitDressing.cs, game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs, game/scripts/experiments/agent_b_act1/AgentBKitMaterials.cs
+B19 zones=atmos,capture,misc,snow,trees n=2
+   ids: VIS-028 VIS-006
+   files: game/content/world/atmosphere.v1.json, game/scripts/Act1ConnectedWorld.WinterRoads.cs, game/scripts/Act1ConnectedWorld.cs, game/scripts/Act1DemoRoot.RenderDiagnostics.cs, game/scripts/GraphicsQuality.cs, game/scripts/WinterParticleSurfaces.cs, game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs
+B20 zones=atmos,material,misc,snow,trees n=2
+   ids: VIS-033 VIS-073
+   files: game/content/world/atmosphere.v1.json, game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs, game/scripts/Act1ConnectedWorld.cs, game/scripts/KitPlacementTakeover.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs
+B21 zones=atmos,capture,material,misc,trees n=2
+   ids: VIS-036 VIS-085
+   files: eng/verify-painterly-textures.sh, game/assets/textures/painterly/, game/scripts/GraphicsQuality.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs, game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs
+B22 zones=misc n=1
+   ids: VIS-037
+   files: game/scripts/Act1ConnectedWorld.WindowBatching.cs, game/scripts/VillageWindowMaterials.cs, game/scripts/WindowSilhouettes.cs
+B23 zones=capture,material,misc n=1
+   ids: VIS-038
+   files: game/scripts/Act1DemoRoot.RenderDiagnostics.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/VillageWindowMaterials.cs
+B24 zones=misc,yard n=1
+   ids: VIS-041
+   files: game/scripts/Act1ConnectedWorld.Households.cs, game/scripts/VillageHouseholdDirector.cs, game/scripts/VillageWindowMaterials.cs
+B25 zones=char,misc n=1
+   ids: VIS-044
+   files: game/assets/generated/urman_character_kit.glb, game/assets/generated/urman_character_kit_v2.glb, game/scripts/GeneratedCharacterKitDressing.cs
+B26 zones=capture,char,misc n=1
+   ids: VIS-048
+   files: game/scripts/Act1DemoRoot.PerformanceCapture.cs, game/scripts/AnimationCatalog.cs, game/scripts/GeneratedCharacterKitDressing.cs
+B27 zones=misc,snow n=1
+   ids: VIS-050
+   files: game/scripts/VehicleController.WheelCollision.cs, game/scripts/VehicleSnowTracks.cs, game/scripts/VehicleVisualFactory.cs
+B28 zones=capture,interior,misc n=1
+   ids: VIS-054
+   files: game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs, game/scripts/Act1DemoRoot.PerformanceCapture.cs, game/scripts/CivicSurfaceLibrary.cs
+B29 zones=capture,misc n=1
+   ids: VIS-060
+   files: game/scripts/Act1ConnectedWorld.WindowBatching.cs, game/scripts/Act1DemoRoot.PerformanceCapture.cs, game/scripts/VillageWindowMaterials.cs
+B30 zones=atmos,misc n=1
+   ids: VIS-071
+   files: game/content/world/atmosphere.v1.json, game/scripts/VillageHouseholdDirector.cs, game/scripts/VillageWindowMaterials.cs
+B31 zones=misc,trees n=1
+   ids: VIS-075
+   files: assets/source/blender/urman_winter_dead_tree.blend, game/assets/models/act1/urman_winter_dead_tree.glb, game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs
+B32 zones=misc,snow n=1
+   ids: VIS-077
+   files: game/scripts/Act1ConnectedWorld.SnowRelief.cs, game/scripts/Act1ConnectedWorld.WinterRoads.cs, game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs
+B33 zones=material,misc n=1
+   ids: VIS-080
+   files: assets/source/blender/act1/*.blend, game/scripts/Act1ConnectedWorld*.cs, game/scripts/PainterlyMaterialLibrary.cs
+B34 zones=capture,material,misc n=1
+   ids: VIS-081
+   files: eng/verify-painterly-textures.sh, game/assets/textures/painterly/, game/scripts/PainterlyMaterialLibrary.cs
+B35 zones=material,misc n=1
+   ids: VIS-082
+   files: assets/source/blender/urman_winter_dead_tree.blend, game/assets/models/act1/urman_winter_dead_tree.glb, game/scripts/PainterlyMaterialLibrary.cs
+B36 zones=misc,timber n=1
+   ids: VIS-086
+   files: assets/source/blender/act1/urman_village_exterior_kit.blend, game/assets/models/act1/urman_village_exterior_kit.glb, game/scripts/TimberHomeStyle.cs
+B37 zones=misc n=1
+   ids: VIS-087
+   files: assets/source/blender/act1/urman_village_exterior_kit.blend, game/scripts/Act1ConnectedWorld.WindowBatching.cs, game/scripts/VillageWindowMaterials.cs
+B38 zones=misc,yard n=1
+   ids: VIS-089
+   files: assets/source/blender/act1/, game/scripts/Act1ConnectedWorld.YardFences.cs, game/scripts/YardMechanism.cs
+B39 zones=material,misc n=1
+   ids: VIS-094
+   files: game/assets/textures/, game/scripts/CivicSurfaceLibrary.cs, game/scripts/PainterlyMaterialLibrary.cs
+B40 zones=material,misc,yard n=1
+   ids: VIS-095
+   files: game/assets/textures/realism_*, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/RuralPropMaterials.cs
+B41 zones=misc n=1
+   ids: VIS-096
+   files: game/assets/textures/painterly/frost_window_v1_albedo.png, game/scripts/VillageHouseholdDirector.cs, game/scripts/VillageWindowMaterials.cs
+B42 zones=interior,misc,ui n=1
+   ids: VIS-097
+   files: game/scripts/Act1ConnectedWorld.*Interior*.cs, game/scripts/StyleBenchmarkZone.cs, game/scripts/UrmanUiTheme.cs
+B43 zones=misc,timber n=1
+   ids: VIS-098
+   files: game/scripts/ArrivalPersonalProps.cs, game/scripts/StyleBenchmarkZone.cs, game/scripts/TimberHomeStyle.cs
+B44 zones=clinic,misc n=1
+   ids: VIS-099
+   files: game/scripts/Act1ConnectedWorld.FapExploration.cs, game/scripts/ClinicSurfacePresentation.cs, game/scripts/StyleBenchmarkZone.cs
+B45 zones=interior,misc n=1
+   ids: VIS-101
+   files: game/scripts/Act1ConnectedWorld.SovkhozSquare.cs, game/scripts/Act1ConnectedWorld.SquareInteriors*.cs, game/scripts/CivicSurfaceLibrary.cs
+B46 zones=char,misc n=1
+   ids: VIS-103
+   files: assets/source/blender/characters/*.blend, assets/source/blender/urman_character_kit_v2.blend, game/scripts/GeneratedCharacterKitDressing.cs
+B47 zones=char,material,misc n=1
+   ids: VIS-104
+   files: assets/source/blender/urman_character_kit_v2.blend, game/scripts/GeneratedCharacterKitDressing.cs, game/scripts/PainterlyMaterialLibrary.cs
+B48 zones=capture,misc n=1
+   ids: VIS-108
+   files: assets/source/blender/act1/*.py, eng/rebuild-assets.sh, eng/toolchain.json
+B49 zones=capture,misc n=1
+   ids: VIS-111
+   files: game/scenes/player/first_person_player.tscn, game/scripts/Act1DemoRoot.DevViewCapture.cs, game/scripts/FirstPersonController.cs
+B50 zones=capture,misc n=1
+   ids: VIS-118
+   files: eng/remote-check.py, eng/verify-painterly-textures.sh, execution backlog
+B51 zones=char,material,misc n=1
+   ids: VIS-007
+   files: game/scripts/GeneratedCharacterKitDressing.cs, game/scripts/KitPlacementTakeover.cs, game/scripts/PainterlyMaterialLibrary.cs, game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs
+B52 zones=misc,snow,yard n=1
+   ids: VIS-009
+   files: game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs, game/scripts/Act1ConnectedWorld.YardFences.cs, game/scripts/KitPlacementTakeover.cs, game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs
+B53 zones=atmos,capture,misc n=1
+   ids: VIS-043
+   files: game/content/world/atmosphere.v1.json, game/scripts/Act1DemoRoot.RenderDiagnostics.cs, game/scripts/VillageChimneySmoke.cs, game/scripts/WinterParticleSurfaces.cs
+B54 zones=misc n=1
+   ids: VIS-046
+   files: game/scripts/AlsuStreetWalkPresentation.cs, game/scripts/AnimationCatalog.cs, game/scripts/RinatFootPlacementModifier.cs, game/scripts/RinatPresencePresentation.cs
+B55 zones=misc n=1
+   ids: VIS-047
+   files: game/scripts/AccessibilityPresentation.cs, game/scripts/CarryCoordinator.cs, game/scripts/FirstPersonController.Body.cs, game/scripts/FirstPersonController.Steps.cs
+B56 zones=atmos,char,misc n=1
+   ids: VIS-049
+   files: game/scripts/Act1ConnectedWorld.cs, game/scripts/GeneratedCharacterKitDressing.cs, game/scripts/VehicleController.WheelCollision.cs, game/scripts/VehicleImmersionDetails.cs
+B57 zones=clinic,misc,ui n=1
+   ids: VIS-052
+   files: game/scripts/Act1ConnectedWorld.FapExploration.cs, game/scripts/ClinicSurfacePresentation.cs, game/scripts/DocumentImageReader.cs, game/scripts/DocumentUi.cs
+B58 zones=misc,ui,yard n=1
+   ids: VIS-056
+   files: game/scripts/OldPcUi.Desktop.cs, game/scripts/OldPcUi.XpTheme.cs, game/scripts/OldPcXpChrome.cs, game/scripts/RuralPropModels.cs
+B59 zones=misc,ui n=1
+   ids: VIS-058
+   files: game/scripts/Act1ConnectedWorld.ImageDiscoveries.cs, game/scripts/DocumentImageReader.cs, game/scripts/DocumentUi.cs, game/scripts/JournalUi.cs
+B60 zones=capture,misc n=1
+   ids: VIS-061
+   files: eng/build-act1-review-packet.sh, eng/capture-act1-full-route-core-world.sh, game/scripts/Act1DemoRoot.DevViewCapture.cs, game/tests/act1_full_route_core_world_capture.tscn
+B61 zones=capture,misc n=1
+   ids: VIS-062
+   files: eng/capture-style-motion-sweep.sh, game/scripts/AccessibilityPresentation.cs, game/scripts/FirstPersonController.Body.cs, game/scripts/FirstPersonController.Steps.cs
+B62 zones=misc n=1
+   ids: VIS-105
+   files: assets/source/blender/urman_niva.blend, game/assets/generated/urman_niva.glb, game/assets/third_party/police/vehicle assets, game/scripts/VehicleVisualFactory*.cs
+B63 zones=atmos,misc,trees n=1
+   ids: VIS-113
+   files: AgentBFoliagePlan.cs, atmosphere.v1.json, game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs, tree assets
+B64 zones=atmos,misc n=1
+   ids: VIS-114
+   files: VillageHouseholdDirector.cs, VillageWindowMaterials.cs, atmosphere.v1.json, relevant parcel assets
+B65 zones=data,misc n=1
+   ids: VIS-115
+   files: AgentB foliage, assets/source/blender/act1/, game/content/world/*.json, game/scripts/Act1ConnectedWorld*.cs
+B66 zones=capture,misc n=1
+   ids: VIS-117
+   files: eng/build-act1-review-packet.sh, eng/capture-act1-full-route-core-world.sh, eng/remote-check.py, game/tests/Act1FullRouteCoreWorldCapture.cs
+B67 zones=atmos,material,misc n=1
+   ids: VIS-112
+   files: Blender kits, PainterlyMaterialLibrary, atmosphere.v1.json, game/scripts/Act1ConnectedWorld*.cs, relevant world JSON
+B68 zones=char,interior,misc,ui n=1
+   ids: VIS-116
+   files: Act1ConnectedWorld.*Interior*.cs, GeneratedCharacterKitDressing.cs, UrmanUiTheme.cs, VehicleVisualFactory*.cs, game/scripts/StyleBenchmarkZone.cs

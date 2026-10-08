@@ -303,3 +303,55 @@ Consumer `MosquePatternedCarpetSurface`, `res://assets/textures/civic/mosque_pra
 Паспорт с CC BY/CC0, автором, URL, размерами, числом треугольников, исходными/производными SHA-256 и изменениями: `game/assets/third_party/police/manifest.json`; ресурсные размеры — `preparation_stats.json`. Кузов 1024, малые автомобильные карты 256–512, мебель/телефон преимущественно 512. Импорт Godot извлекает именованные изображения рядом с GLB; UV авторов сохранены. Культурно неподходящий современный шкаф не интегрирован. Приёмка и кадры — `docs/production/police_post_2026-10-04/report.md`; оценка человеческого реализма отделена от автоматизированных проверок.
 
 Отделка участка переиспользует B01 побелку, B03 институциональную краску и B04 линолеум. Новые текстуры для стен не создавались. Нижняя окраска/плинтусы объединены в две партии MultiMesh; скрытая прежняя сплошная оболочка в них не входит.
+
+**07.10.2026, visual reset (VIS-109, шаг 1):** 18 паспортов семейств AS-01…AS-18 пакета `docs/URMAN_VISUAL_RESET_2026-10-07/` перенесены в [visual_reset_asset_passports_2026-10-07.json](visual_reset_asset_passports_2026-10-07.json) с реальными файлами-потребителями и кандидатами на переиспользование. Новые файлы не созданы; скачанный ассет проходит гейт `externalAsset` в `eng/verify-asset-registry.sh` (VIS-107). `urman_t07_v01_basecolor.png` (`cloth_towel`) — единственная подключённая painterly-карта без отслеживаемого `.import`; теперь `.import` с mipmaps и `size_limit 1024`, как у остальных тканей (VIS-036).
+
+
+## 08.10.2026 — материалный отклик (VIS-092…095/080/081/034/035/038), новых PNG не заводилось
+
+Срез: visual reset, исполнительский пакет «материалы». Полный список значений и HANDOFF —
+[ledger_MAT.md](../../production/visual_restyle_2026-10-07/ledger_MAT.md);
+заявки на response-слои (normal/roughness/wear) — [asset_requests/MAT.md](asset_requests/MAT.md).
+Ниже — только то, что обязан знать реестр потребителей.
+
+1. **Response-слои привязаны условно.** `PainterlyMaterialLibrary.FamilyResponses`
+   (36 семейств) и `RuralPropMaterials.Finishes` (17 finishes) объявляют слоты
+   `detail_normal_map` / `detail_roughness_map` / `wear_mask_map` и
+   `NormalTexture` / `MetallicRoughnessTexture`. Файла нет → семейство остаётся на
+   процедурном отклике и сегодняшней картинке; файл появился → подхватывается без правки
+   кода. Поэтому отсутствие PNG в этом реестре не является блокировкой вида.
+2. **Пересмотрены метрические повторы** (затрагивает паспортные «масштаб/UV» строки):
+   `wallpaper` 1.1 → 0.55 (тайл 0.91 → 1.82 м, строка T12), `wood_furniture_interior`
+   1/0.75 → 1/1.2 (0.75 → 1.2 м, строка W08), `wood` 0.65 → 0.50, `wood_fence`
+   0.80 → 0.55 (1.25 → 1.82 м, строка W02 остаётся metered-UV и не тронута),
+   `plaster` (1.5, 1.15) → (0.70, 0.55), `wall_institution` 1.0 → 0.55 (строка B03).
+   Таблица `CATALOG_EXPECTED` в `eng/verify-painterly-textures.sh` синхронизирована.
+   Ни одна авторская UV-развёртка (hay_fibers, cloth_table, cloth_curtain, wood_log_uv,
+   wood_fence_uv/rail/vertical, snow_*) не менялась.
+3. **Подключение существующих кандидатов перепроверено, ничего не подключено
+   молча:** `roof_slate_v1_albedo.png` отвергнут по строке B09 (просмотр: целые листы,
+   стыки, мох, тени — не material-only), вместо него заказан normal `roof_sheet_v1`
+   (MAT-R01); `roof_metal_v2`, `bark_birch_v1/v2`, `leaf_birch_v1/v2`, `grass_verge_v1/v2`,
+   `wood_carved_gate_v1`, `ornament_trim_v1`, `snow_fresh_v1/v2`, `snow_road_v1` —
+   остаются неподключёнными: их карточки (VIS-082…084, VIS-090) и художественная приёмка
+   не закрыты, а response-часть этих семейств уже покрыта числами в `FamilyResponses`.
+   Запрет VIS-005 «сначала сверить со списком §5.4» соблюдён: новых albedo не генерилось.
+4. **Износ и «мороз» перестали быть декором:** `wear_bottom_gain` измеряется от
+   собственного основания экземпляра (instance uniform `ground_base_y`, VIS-033),
+   `wear_end_grain` привязан к годовым кольцам `wood_cut`, `frost_roughness` действует
+   только на вверх смотрящие грани и забирает specular; civic-soiling (`base_grime`)
+   потолком 0.45 и только для не-sheltered стен. Для интерьеров и навесов нужен
+   вызов `SetSnowShelter`/`CivicSurfaceLibrary.SetSnowShelter` (HANDOFF H-1).
+5. **Metallic-политика проверена гейтом:** `--contract` падает, если dielectric-семейство
+   (`metal`, `enamel`, `steel`, `vehicle_paint`, краски RuralProp) объявит metallic > 0.
+   Разрешённыеметаллические исключения: `iron` 0.78, `zinc_sheet` 0.90, `vehicle_bare_metal` 0.85,
+   `vehicle_trim_metal` 1.0, RuralProp `metal`/`zinc`/`brass` = 1.
+6. **Снег:** период микрополя объявлен явно (0.40…1.10 тайла/м по состояниям), амплитуда
+   осталась ±0.002 м и закрепляется гейтом; `sparkle` стал view-dependent (grazing);
+   новая albedo для снега не заказана — единственная заявка `snow_trampled_v2_albedo.png`
+   как `edit` строки S03 (MAT-S01).
+7. **Инфраструктура:** `eng/verify-painterly-textures.sh --contract` — новый
+   статический режим (пути ↔ MAT.md, metallic-политика, мёртвые response-строки,
+   амплитуда снега, нижняя граница повтора). Попутно исправлено: на станции `python3`
+   — Store-заглушка (теперь кандидаты проверяются), а отчёт падал на cp1251 из-за
+   символа «×» (stdout закреплён в UTF-8).

@@ -4,6 +4,46 @@ namespace Urman.Godot;
 
 public static class RuralPropModels
 {
+    /// <summary>VIS-051: the metric body this furniture family is built to, so the
+    /// talking group can be tied to a real seated person instead of to a camera.
+    /// Seat height, table crown, the reach of a resting hand and the height of a
+    /// seated face above the same floor.</summary>
+    public const float SeatCrownMetres = .457f;
+    public const float TableCrownMetres = .765f;
+    public const float HandReachMetres = .62f;
+    public const float FaceAboveSeatMetres = .58f;
+    public const float HandAboveSeatMetres = .20f;
+
+    /// <summary>VIS-051: the resting place of a cup or a lamp for a person seated at
+    /// <paramref name="seated"/> (a point on the room floor), on the table crown,
+    /// inside the arc a resting hand actually reaches. Nothing is placed further than
+    /// the forearm, so the thing reads as used rather than as studio dressing.</summary>
+    public static Vector3 HandRestPoint(Vector3 seated,float yawDegrees,float forward=.45f,float side=0f)
+    {
+        var yaw=Mathf.DegToRad(yawDegrees);
+        var dir=new Vector3(Mathf.Sin(yaw),0f,Mathf.Cos(yaw));
+        var across=new Vector3(dir.Z,0f,-dir.X);
+        var reach=Mathf.Clamp(forward,.10f,HandReachMetres);
+        return seated+Vector3.Up*TableCrownMetres+dir*reach+across*Mathf.Clamp(side,-.35f,.35f);
+    }
+
+    /// <summary>VIS-051: does this piece actually cover the seated person's face from
+    /// the guest's eye line? Only a real overlap along that line counts; a thing that
+    /// merely sits behind the person is background, not an obstacle.</summary>
+    public static bool CoversFace(Vector3 face,Vector3 eyeLineEnd,Aabb piece,float tolerance=.02f)
+    {
+        var to=eyeLineEnd-face;
+        var length=to.Length();
+        if(length<.01f)return false;
+        to/=length;
+        var centre=piece.GetCenter();
+        var closest=(centre-face).Dot(to);
+        if(closest<0f||closest>length)return false;
+        var hit=face+to*closest;
+        return Mathf.Abs(hit.X-centre.X)<piece.Size.X*.5f+tolerance
+            &&Mathf.Abs(hit.Y-centre.Y)<piece.Size.Y*.5f+tolerance
+            &&Mathf.Abs(hit.Z-centre.Z)<piece.Size.Z*.5f+tolerance;
+    }
     private static Material M(string kind,string tint="ffffff")=>RuralPropMaterials.Surface(kind,tint);
     private static Node3D Root(Node3D parent,string name,Vector3 at,float yaw=0)
     {
@@ -54,7 +94,7 @@ public static class RuralPropModels
         var r=Root(parent,name,at);var wood=M("wood");
         RuralPropGeometry.Block(r,"Seat",new(.32f,.038f,.32f),new(0,.443f,0),wood,.018f);
         foreach(var x in new[]{-.12f,.12f})foreach(var z in new[]{-.12f,.12f})
-            RuralPropGeometry.Tube(r,"TurnedLeg",new(x*1.15f,.01f,z*1.15f),new(x,.425f,z),.023f,wood);
+            RuralPropGeometry.Tube(r,"TurnedLeg",new(x*1.15f,0f,z*1.15f),new(x,.425f,z),.023f,wood);
         foreach(var x in new[]{-.13f,.13f})RuralPropGeometry.Tube(r,"SideStretcher",new(x,.18f,-.13f),new(x,.18f,.13f),.012f,wood);
         foreach(var z in new[]{-.13f,.13f})RuralPropGeometry.Tube(r,"CrossStretcher",new(-.13f,.15f,z),new(.13f,.15f,z),.012f,wood);
         return r;
@@ -66,11 +106,13 @@ public static class RuralPropModels
         if(backrest) foreach(var y in new[]{.68f,.85f})RuralPropGeometry.Block(r,"BackPlank",new(width,.13f,.033f),new(0,y,-.24f),wood,.008f,new(-8,0,0));
         foreach(var x in new[]{-width*.36f,width*.36f})
         {
-            RuralPropGeometry.Tube(r,"FrontLeg",new(x,.02f,.20f),new(x,.44f,.14f),.023f,steel);
-            RuralPropGeometry.Tube(r,"RearLeg",new(x,.02f,-.26f),new(x,backrest ? .93f : .44f,-.26f),.023f,steel);
+            // The tube feet are housed into their own foot plate instead of ending
+            // in the air above it, and the plate lies flat on the floor it carries.
+            RuralPropGeometry.Tube(r,"FrontLeg",new(x,.010f,.20f),new(x,.44f,.14f),.023f,steel);
+            RuralPropGeometry.Tube(r,"RearLeg",new(x,.010f,-.26f),new(x,backrest ? .93f : .44f,-.26f),.023f,steel);
             RuralPropGeometry.Tube(r,"SeatSupport",new(x,.42f,-.26f),new(x,.42f,.20f),.024f,steel);
             RuralPropGeometry.Tube(r,"Brace",new(x,.12f,-.25f),new(x,.40f,.16f),.014f,steel);
-            foreach(var z in new[]{-.25f,.20f})RuralPropGeometry.Block(r,"FootPlate",new(.12f,.012f,.10f),new(x,.01f,z),steel,.003f);
+            foreach(var z in new[]{-.25f,.20f})RuralPropGeometry.Block(r,"FootPlate",new(.12f,.012f,.10f),new(x,.006f,z),steel,.003f);
         }
         return r;
     }
@@ -97,7 +139,7 @@ public static class RuralPropModels
     public static Node3D Cup(Node3D parent,string name,Vector3 at)
     {
         var r=Root(parent,name,at);var ceramic=M("ceramic","ede7d9");
-        RuralPropGeometry.Part(r,"HollowCup",RuralPropGeometry.Lathe("tea-cup",[new(0,.002f),new(.034f,.002f),new(.040f,.008f),new(.045f,.068f),new(.044f,.074f),new(.041f,.074f),new(.037f,.013f),new(0,.013f)]),Vector3.Zero,ceramic);
+        RuralPropGeometry.Part(r,"HollowCup",RuralPropGeometry.Lathe("tea-cup",[new(0,0f),new(.034f,0f),new(.040f,.008f),new(.045f,.068f),new(.044f,.074f),new(.041f,.074f),new(.037f,.013f),new(0,.013f)]),Vector3.Zero,ceramic);
         var handle=new Vector3[17];for(var i=0;i<handle.Length;i++){var a=-Mathf.Pi*.5f+i/(float)(handle.Length-1)*Mathf.Pi;handle[i]=new(.042f+Mathf.Cos(a)*.029f,.041f+Mathf.Sin(a)*.025f,0);}
         for(var i=0;i<handle.Length-1;i++)RuralPropGeometry.Tube(r,"Handle",handle[i],handle[i+1],.005f,ceramic,12);
         return r;

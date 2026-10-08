@@ -12,8 +12,28 @@ public partial class SnowTrampleField : Node3D
     private const float WindowExtent = 24f;
     private const float StampSpacing = .55f;
     private const float FootLateralOffset = .09f;
+    // VIS-016: the impression is scaled from the shoe, not from a raster constant. Aidar is
+    // a 19–20-year-old town dweller in an EU 43 last: 0.28 m sole, 0.11 m wide. The snow
+    // squeezed out around the sole adds 12 mm, which is the size the field has been drawing
+    // at (half-length .15, half-width .07), so nothing changes on screen — only the source
+    // of the number, which is what the card asks for.
+    private const float FootLength = .28f;
+    private const float FootWidth = .11f;
+    private const float SnowSqueeze = .012f;
+    private const float PrintHalfLength = FootLength * .5f + SnowSqueeze;
+    private const float PrintHalfWidth = FootWidth * .5f + SnowSqueeze * 1.5f;
+    /// <summary>Raster reach of one stamp: 1.45 half-lengths, the band the ridge and the
+    /// feathered rim of the print need.</summary>
+    private const float PrintReach = PrintHalfLength * 1.45f;
+    /// <summary>A step counts as walking on the trodden domestic lane when it lies inside a
+    /// published access corridor: the snow there is already compacted by the same gate, the
+    /// same threshold and the same woodpile, so it packs instead of printing fresh.</summary>
+    private const float PackedCorridorMargin = .15f;
     private const int HighResolution = 1024;
     private const int LowResolution = 512;
+    /// <summary>Impressions held in the presentation window. Existing budget, unchanged by
+    /// VIS-016 and only measured.</summary>
+    private const int WindowStampLimit = 512;
     // A stamp refresh must never cost a dropped frame: huge terrain triangles
     // stop subdividing at this cell count; centimetre detail lives in the mask.
     private const int MaximumDivisions = 20;
@@ -33,6 +53,13 @@ public partial class SnowTrampleField : Node3D
     private int _refinedStampTotal;
     private bool _enabled = true;
     private bool _surfacesBound;
+    private bool _hasSupportReference;
+    private float _referenceSupport;
+    private int _rejectedByHeight;
+    private int _rejectedByObstruction;
+    private int _packedCorridorStamps;
+    private int _windowStampPeak;
+    private ulong _sceneIdentity;
     private CpuParticles3D? _puffs;
     private FirstPersonController? _player;
 
@@ -62,6 +89,25 @@ public partial class SnowTrampleField : Node3D
         if (_enabled != enabled) ResetStep();
         _enabled = enabled;
         if (_puffs is not null) _puffs.Emitting = false;
+        // VIS-016: the field follows the state of the scene it is presented in. Indoors,
+        // during a cutscene or wherever the winter surface is switched off, no print from
+        // the yard may stay lit under the player when snow presentation comes back.
+        if (!enabled) ClearImpressions();
+    }
+
+    /// <summary>Session reset: every impression, its counters and the mask go back to empty.
+    /// No persistent system is introduced — the field stays session-only by contract.</summary>
+    private void ClearImpressions()
+    {
+        if (_stamps.Count == 0) { ResetStep(); return; }
+        if (_mask is null || _texture is null) { _stamps.Clear(); ResetStep(); return; }
+        _stamps.Clear();
+        _pendingRefineStamps = 0;
+        _hasSupportReference = false;
+        ResetStep();
+        Redraw(true);
+        SetMeta("snowTrampleStampCount", _totalStamps);
+        SetMeta("snowTrampleWindowStamps", 0);
     }
 
     private void ResetStep() { _lastPosition = null; _stepDistance = 0f; }
@@ -85,6 +131,10 @@ public partial class SnowTrampleField : Node3D
         }
         var position = new Vector2(_player.GlobalPosition.X, _player.GlobalPosition.Z);
         if (!_player.IsOnFloor() || _player.ModalOpen || _player.VehicleControlled) { ResetStep(); return; }
+        // VIS-016: a scene swap is a scene reset. The prints belong to the yard the player
+        // walked, not to whatever is presented after a cutscene or a zone rebuild.
+        var sceneIdentity = GetTree().CurrentScene?.GetInstanceId() ?? 0UL;
+        if (sceneIdentity != _sceneIdentity) { _sceneIdentity = sceneIdentity; ClearImpressions(); }
         if (_lastPosition is not Vector2 previous) { _lastPosition = position; return; }
         _lastPosition = position;
         var movement = position - previous;
@@ -98,10 +148,34 @@ public partial class SnowTrampleField : Node3D
         var direction = movement / distance;
         var foot = position + new Vector2(-direction.Y, direction.X) * (_footSide * FootLateralOffset);
         if (!TrySnowSupport(foot, out var support)) { ResetStep(); return; }
+        // VIS-016, height: K02 already refuses to read a trample field from a surface more
+        // than 0.12 m away, so a print written there would only flicker or float. The step is
+        // dropped and the reference re-based, which lets a real stair or porch change level
+        // without inventing an impression on the way up.
+        if (_hasSupportReference && !SnowTrackObstruction.SupportMatches(support, _referenceSupport))
+        {
+            _rejectedByHeight++;
+            SetMeta("snowTrampleRejectedHeight", _rejectedByHeight);
+            _referenceSupport = support;
+            return;
+        }
+        _referenceSupport = support;
+        _hasSupportReference = true;
+        // VIS-016, obstruction: the foot and the previous foot can straddle the corner of a
+        // fence, a wall or a stack between two frames. Nothing is drawn through an object.
+        if (SnowTrackObstruction.CrossesSolid(GetWorld3D(), previous, foot, _player.GlobalPosition.Y,
+                _player.GetRid().Id))
+        {
+            _rejectedByObstruction++;
+            SetMeta("snowTrampleRejectedObstruction", _rejectedByObstruction);
+            return;
+        }
         _footSide = -_footSide;
         if (!_surfacesBound) BindSurfaces();
         var road = AgentBAct1HeightField.RoadInfo(foot.X, foot.Y);
-        var packed = road.Distance < road.HalfWidth;
+        var corridor = SnowReliefStandard.CorridorClearance(foot);
+        var packed = road.Distance < road.HalfWidth || corridor < PackedCorridorMargin;
+        if (packed) _packedCorridorStamps++;
         var strength = .85f + .08f * Mathf.Sin(_totalStamps * 1.71f);
         _stamps.Add((foot, Mathf.Atan2(direction.Y, direction.X), strength, support, packed ? .010f : .035f));
         _totalStamps++;
@@ -115,10 +189,17 @@ public partial class SnowTrampleField : Node3D
         rebuild |= _stamps.RemoveAll(stamp => Mathf.Abs(stamp.Position.X - _windowCentre.X) > half
             || Mathf.Abs(stamp.Position.Y - _windowCentre.Y) > half) > 0;
         // ponytail: at most 512 recent impressions in the 24 m presentation window.
-        if (_stamps.Count > 512)
+        // VIS-016 measures that limit instead of raising it: the peak is what the window
+        // really holds while the player walks, and the budget never grows silently.
+        if (_stamps.Count > WindowStampLimit)
         {
-            _stamps.RemoveRange(0, _stamps.Count - 512);
+            _stamps.RemoveRange(0, _stamps.Count - WindowStampLimit);
             rebuild = true;
+        }
+        if (_stamps.Count > _windowStampPeak)
+        {
+            _windowStampPeak = _stamps.Count;
+            SetMeta("snowTrampleWindowStampPeak", _windowStampPeak);
         }
         var started = System.Diagnostics.Stopwatch.GetTimestamp();
         Redraw(rebuild);
@@ -134,6 +215,8 @@ public partial class SnowTrampleField : Node3D
         SetMeta("snowTrampleUpdateMs", System.Diagnostics.Stopwatch.GetElapsedTime(started).TotalMilliseconds);
         SetMeta("snowTrampleWindowCentre", _windowCentre);
         SetMeta("snowTrampleStampCount", _totalStamps);
+        SetMeta("snowTrampleWindowStamps", _stamps.Count);
+        SetMeta("snowTramplePackedCorridorStamps", _packedCorridorStamps);
         SetMeta("snowTrampleLastFootSide", -_footSide);
         SetMeta("snowTrampleLastPosition", foot);
         SetMeta("snowTrampleLastRotation", Mathf.Atan2(direction.Y, direction.X));
@@ -186,15 +269,15 @@ public partial class SnowTrampleField : Node3D
         {
             var stamp = _stamps[index];
             var centre = (stamp.Position - origin) / pixel;
-            var radius = Mathf.CeilToInt(.22f / pixel);
+            var radius = Mathf.CeilToInt(PrintReach / pixel);
             var cosine = Mathf.Cos(stamp.Rotation);
             var sine = Mathf.Sin(stamp.Rotation);
             for (var y = Mathf.Max(0, (int)centre.Y - radius); y <= Mathf.Min(size - 1, (int)centre.Y + radius); y++)
             for (var x = Mathf.Max(0, (int)centre.X - radius); x <= Mathf.Min(size - 1, (int)centre.X + radius); x++)
             {
                 var offset = (new Vector2(x + .5f, y + .5f) - centre) * pixel;
-                var along = (offset.X * cosine + offset.Y * sine) / .15f;
-                var across = (-offset.X * sine + offset.Y * cosine) / .07f;
+                var along = (offset.X * cosine + offset.Y * sine) / PrintHalfLength;
+                var across = (-offset.X * sine + offset.Y * cosine) / PrintHalfWidth;
                 var edge = Mathf.Pow(Mathf.Pow(Mathf.Abs(along), 4) + Mathf.Pow(Mathf.Abs(across), 4), .25f);
                 if (edge >= 1.35f) continue;
                 var sole = 1f - Mathf.SmoothStep(.7f, 1f, edge);

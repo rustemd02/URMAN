@@ -11,12 +11,23 @@ public static partial class VehicleVisualFactory
     private static LoftSection S(float y,float z,float width,float depth,float x=0)
         =>new(new(x,y,z),new(width,depth));
 
+    /// <summary>
+    /// VIS-049: the single authored point where a shaft tip meets its leather tug
+    /// ring. The cart's shaft beam and the horse's harness ring are two separate
+    /// batches, so both are built from this one number instead of each writing the
+    /// same coordinates by hand; if they ever diverge the animal is hitched to
+    /// nothing. Recorded as metadata on both roots and checked at runtime.
+    /// </summary>
+    internal static Vector3 ShaftTip(float side) => new(side * .456f, .85f, -2.05f);
+
     private static (IReadOnlyList<Node3D> Legs,Node3D Head,VehicleHorsePose Pose) BuildHorse(Node3D root)
     {
         const string coat="685342";
         var horse=new Node3D{Name="Horse"};root.AddChild(horse);
         horse.SetMeta("anatomySource","UMN Extension/conformation-of-the-horse; original authored mesh profiles");
         horse.SetMeta("physicsOwner","parent VehicleController; articulated legs are presentation only");
+        horse.SetMeta("tugRingLeft",ShaftTip(-1f));
+        horse.SetMeta("tugRingRight",ShaftTip(1f));
         var body=new Batch(horse,"HorseBody");
         // One contoured barrel joins the rounded croup to the deep shoulder;
         // no exposed stack of separate ellipsoids at the chest and hindquarters.
@@ -49,7 +60,8 @@ public static partial class VehicleVisualFactory
             for(var i=0;i<20;i++)
             {
                 var a=Mathf.Tau*i/20;var b=Mathf.Tau*(i+1)/20;
-                Vector3 Tug(float angle)=>new(side*.456f+Mathf.Cos(angle)*.072f,.85f+Mathf.Sin(angle)*.072f,-2.05f);
+                var tip=ShaftTip(side);
+                Vector3 Tug(float angle)=>new(tip.X+Mathf.Cos(angle)*.072f,tip.Y+Mathf.Sin(angle)*.072f,tip.Z);
                 body.Beam(Tug(a),Tug(b),.012f,"44392a","leather");
             }
             body.Beam(new(side*.19f,1.66f,-1.81f),new(side*.34f,1.51f,-1.81f),.022f,"44392a","leather");
