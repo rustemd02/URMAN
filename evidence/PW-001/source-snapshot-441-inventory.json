@@ -1,0 +1,123 @@
+{
+  "schema": "urman.pw001.source_snapshot_patch.v1",
+  "job_id": "441d83b0a1714e7d815e8c96673e6fd8",
+  "snapshot_id": "64ed22b96b7e4ad87d361edbe6a7931c674f078e5efcb5e4ff5cdef6dc8964e3",
+  "base_commit": "d1f693e693132a76a8aa95b68e1bab538c2ae9cd",
+  "receipt_path": "evidence/PW-001/receipt.json",
+  "receipt_sha256": "89192421a37cdbf5f5e5ba5bc934fdaedb7203fff46cb21dbb13a2e33a4c0fbf",
+  "manifest_files_total": 1819,
+  "runtime_and_agents_manifest_paths": 1517,
+  "scope": "manifest paths under game/ and any AGENTS.md; exact 441 bytes compared with base commit",
+  "patch_path": "evidence/PW-001/source-snapshot-441.patch",
+  "patch_sha256": "240bef60ccce8c1e0e7d775dae3d7103fcf70235d10575cce4474a234262d824",
+  "patch_bytes": 46772,
+  "patch_file_count": 11,
+  "patch_files": [
+    {
+      "path": "game/content/world/act1_village_kit.world.v1.json",
+      "status": "modified",
+      "snapshot_sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d",
+      "snapshot_bytes": 133658,
+      "base_sha1": "2512f2315f0bcc73c5f7f824be65dd0ff806a975"
+    },
+    {
+      "path": "game/project.godot",
+      "status": "modified",
+      "snapshot_sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4",
+      "snapshot_bytes": 11531,
+      "base_sha1": "bb6f23fe00fad21d608bb7c0c40a91624486affe"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+      "status": "modified",
+      "snapshot_sha256": "34af6bff9d97036206e48f25d99238f7d0b3fa6afe1d24e6d6de9e09c69deddc",
+      "snapshot_bytes": 48284,
+      "base_sha1": "a8707f26a3f4709fe6e37ec5ba8317142e01334f"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.YardFences.cs",
+      "status": "modified",
+      "snapshot_sha256": "641337026a86b4d65c4c377b04ef42a9eeb2a2dc59f20278f64950fb1af77a8a",
+      "snapshot_bytes": 47416,
+      "base_sha1": "d7b78fedda4cfd1e902e542a81ea85df9c5910c3"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.cs",
+      "status": "modified",
+      "snapshot_sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f",
+      "snapshot_bytes": 627814,
+      "base_sha1": "e73f2939de4a40001292d31d4d0e8014b577cff8"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "status": "modified",
+      "snapshot_sha256": "c91ff0723a7ca8e69f81e528086512302cbca8e3e38254fa868c38b7b2f1a676",
+      "snapshot_bytes": 30679,
+      "base_sha1": "178fce9c9c76286cfa4a408171de72c0f08ef9c1"
+    },
+    {
+      "path": "game/scripts/AddressFacadeMount.cs",
+      "status": "modified",
+      "snapshot_sha256": "8f3c10daa8737ecf62475f6b22ca7738b8d8ad0ede8bcb6669b3d6c12f5bf9bf",
+      "snapshot_bytes": 43010,
+      "base_sha1": "1721f43a8d71b518d2b4724d4186aac378f58e71"
+    },
+    {
+      "path": "game/scripts/PainterlyMaterialLibrary.cs",
+      "status": "modified",
+      "snapshot_sha256": "ae7ff767f9b58d76650011e23e45bac8e1ec69540fe4f78dcc36ca12ccdff578",
+      "snapshot_bytes": 120594,
+      "base_sha1": "cbc71c3d9b01db4777aecbce23ae7162352519d7"
+    },
+    {
+      "path": "game/scripts/VillageWindowMaterials.cs",
+      "status": "modified",
+      "snapshot_sha256": "03593eafe99ee21954d78077ad35fde4326fdfd802b474fbe7271009d8531c42",
+      "snapshot_bytes": 7363,
+      "base_sha1": "db28370a380c27d159d3d2bfc25f1b9c964c56ce"
+    },
+    {
+      "path": "game/scripts/experiments/agent_b_act1/AgentBWindStreaks.cs",
+      "status": "modified",
+      "snapshot_sha256": "eb46159ff059ff27d89f178ee043b01e4027126ccf35cb40e5a5fb844c900534",
+      "snapshot_bytes": 22259,
+      "base_sha1": "4cffb46aed36a3c34e40542b41654a894a483d1f"
+    },
+    {
+      "path": "game/tests/Act1FootstepLagProbe.cs",
+      "status": "modified",
+      "snapshot_sha256": "809ed19fd3401d6d3d69ff188aee38984963dd1ab9f3d26e6509dfce200f39dd",
+      "snapshot_bytes": 22518,
+      "base_sha1": "d8dee72a80367b55383f04a9cce2bca4f6578ba8"
+    }
+  ],
+  "exact_recovered_snapshot_files": [
+    {
+      "path": "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+      "bytes": 48284,
+      "sha256": "34af6bff9d97036206e48f25d99238f7d0b3fa6afe1d24e6d6de9e09c69deddc",
+      "method": "base d1f693 plus literal 441 block; retained only after exact receipt byte-count and SHA-256 match"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.Addresses.cs",
+      "bytes": 42375,
+      "sha256": "cd0c2e919fe72ee65e4b3891a6857a48b22a25f9a7dc190af56d7a2048280671",
+      "method": "base d1f693 bytes; exact receipt byte-count and SHA-256 match"
+    }
+  ],
+  "intentionally_excluded": [
+    {
+      "path": "game/assets/models/props/milk_bottle/karaurman_milk_bottle_v1.blend",
+      "reason": "The station source candidate filter in eng/remote_common.py explicitly excludes .blend authoring files; the runtime GLB is the execution source."
+    }
+  ],
+  "verification": {
+    "all_receipt_manifest_files_reconciled": true,
+    "receipt_file_count": 1819,
+    "runtime_and_agents_path_count": 1517,
+    "isolated_git_apply_check": "PASS",
+    "post_apply_changed_file_hashes_match_receipt": "11/11",
+    "scope_check": "PASS: patch contains only game/** runtime/content paths",
+    "git_diff_check": "PASS"
+  }
+}

@@ -1,5 +1,17 @@
 # Decision Log
 
+## 2026-10-08 — PW-002: активный мандат вместо конкурирующих исторических ограничений
+
+**Основание:** живой запрос на исполнение единой очереди, мандат PW-1.0 документ 01, уже принятый контракт сведения. **Действие:** уточнение существующего решения/канона, не новая архитектура и не факт выполненной сюжетной миграции.
+
+**Прежняя проблема:** верхняя оговорка нового объёма сосуществовала с `Hard Canon` винтовки Марата, обязательных обвала/cliffhanger/разрушения пакта и пяти актов на 6–8 часов. Августовское решение всё ещё называлось Accepted. Это позволяло будущему исполнителю восстановить отвергнутую причинность.
+
+**Решение:** AUTHOR_FIXED A01–A10 перечислены в активном каноне и AGENTS; рабочая постановка книги/мира/эпилога отдельно помечена PRODUCTION_DEFAULT. Старые несовместимые формулировки сохраняются под историческими заголовками, августовские scope/art decisions явно superseded в соответствующей части. Два регистра заменяют единую степень стилизации, встречи внутри разрешены полностью, фотомиры не обязаны превращаться в угрозу. Ресурсные права, ислам/фольклор, guards и полезный diff сохраняются. Полная реализация продолжается по зависимостям; авторское одобрение не выдумывается.
+
+**Последствия и baseline:** обновлены только AGENTS/canon/этот журнал и evidence карточки. Runtime узлы/сцены/сейвы не менялись; существующий compiled campaign ещё старый, и PW-003 обязан изменить authoring source, а PW-004/005 — механики/состояния. Никакого второго источника runtime-истины это решение не создаёт. Откат документального блока возможен обратным diff; пользовательские saves и исходные пакеты сохранены.
+
+**Проверка:** соответствие A01–A10/документу 01, права оригинальной обложки/копий/референсов, исторические supersession markers, JSON и diff. Для этой карточки документов сцена/кадры/аудио неприменимы; Windows baseline PW-001 хранится отдельно и не доказывает новый сюжет. Авторская приёмка PENDING.
+
 ## 2026-10-08 — единый трекер готовой игры и двух новых пакетов
 
 **Основание:** прямой запрос автора привести tasktracker в порядок, включить все требования Visual Reset/PhotoWorlds и правило для следующих крупных пакетов. Это поручение на документы; вложенные launch prompts не являются командой начать игровую реализацию/commit/push.
@@ -663,7 +675,7 @@ Linked files: `gameplay.md`, `design_style.md`, `assets.md`, `technical_architec
 
 ## 2026-08-10 — Accept Painterly Low-Poly 3D and the Godot/C# production stack
 
-Status: Accepted
+Status: Partially superseded for art direction by PW-1.0: two registers replace one mandatory Painterly Low-Poly register. Godot/C# ownership, data protection and compatible production boundaries remain; this is not a stack migration.
 
 Context: The first-person target required a reproducible engine and art pipeline. Three visual tests separated primitive PS1 minimalism, production-safe polished low-poly and a more expensive painterly treatment. The intended result combines the geometry budget of the second direction with the light, fog and handmade material accents of the third.
 
@@ -681,7 +693,7 @@ Linked files: `design_style.md`, `technical_architecture.md`, `assets.md`, `game
 
 ## 2026-08-10 — Fix the full-game scope and canonical tragic ending
 
-Status: Accepted
+Status: Superseded for «За краем снимка» by the 2026-10-08 integration contract and PW-002 authority sync. Compatible controls, cultural/language gates and archived lore remain; the five-act duration and pact-destruction ending are historical.
 
 Context: The knowledge base contained a five-act outline but treated the final choice as unresolved and described the complete game only as a future possibility. Full 3D production needs one release scope and one narrative target before acts 2–5 receive expensive scenes and assets.
 

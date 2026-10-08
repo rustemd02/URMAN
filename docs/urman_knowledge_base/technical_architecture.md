@@ -960,3 +960,52 @@ Development stays in the current checkout. Automatic game checks use eng/remote-
 Capture checks/disposes the saved Image and uses the existing GodotSmokeCleanup before quit. VehicleImmersionDetails builds sibling presentation nodes on its existing first physics tick instead of the parent-blocked _Ready; Windows guard retries transient PermissionError renames for at most five seconds. Both changes address failures observed during station acceptance; normal local play remains unchanged.
 
 Тестовая очистка освобождает также detached library scene AnimationCatalog (ual1_standard.glb): диагностика orphan nodes обнаружила её сохранение после capture. Освобождение выполняет существующий GodotSmokeCleanup после закрытия сцены; обычная игра сохраняет кэш.
+
+
+## Windows baseline: восстановление исполнения материалов — 2026-10-08
+
+Защищённый native capture PW-001 (`ae59d933fe394be597135bf7998c94a3`, snapshot
+`c1e132b9152848cf495eb5a4084028ceac804d9e95aea1b0b72f2f763bb3c2f2`)
+дошёл до кадров, но завершился FAIL: ошибки компиляции шейдеров оставили мир
+серым. Это диагностический срез, а не подтверждение художественной готовности.
+
+В существующем `PainterlyMaterialLibrary` исправлены sampler hint
+`hint_default_white` и передача authored UV из `fragment()` в helper явным
+аргументом. Все производные варианты используют тот же источник шейдера.
+`VillageWindowMaterials` передаёт frost normal через `NORMAL_MAP` в tangent
+space и `NORMAL_MAP_DEPTH=ice`; смешение tangent normal с view-space `NORMAL`
+и несуществующий `NORMAL_ROUGHNESS` удалены. Авторский диапазон roughness
+0.42–0.83 сохранён. Контракт пространств сверён с
+[Godot 4.7 spatial shader reference](https://docs.godotengine.org/en/4.7/tutorials/shaders/shader_reference/spatial_shader.html).
+До нового native receipt и просмотра кадров эти правки не считаются проверенным
+восстановлением материалов; C# compilation не компилирует shader source.
+
+
+Следующий native срез `d624619b297f48d0bd2f06bb59b96d8f`
+(`a39d980ced05b3ab859122249a8b84ff99589c3d8a6d834330732dd466796a95`)
+не содержит прежних shader parse/metadata/curve ошибок, но не дал ни одного
+кадра: буфер instance uniforms исчерпан, журнал переполнен повторными ошибками.
+Зират измерен 1.03 м, mosque mount найден; визуальная приёмка ещё не выполнена.
+На Windows подтверждён Vulkan Forward+, GTX 970.
+
+Godot 4.7 резервирует 16 uniform slots на instance, даже если shader объявляет
+только три instance-параметра. Default 65 536 slots допускает около 4 096
+таких мешей. Для текущего плотного мира установлен явный project budget
+1 048 576 slots (65 536 instances до расхода глобальных параметров, 16 MiB
+GPU storage buffer). Это сохраняет общие материалы и существующие
+индивидуальные pigment/shelter/support параметры, а не клонирует материал
+на каждую доску и не отключает проверки. Число actual mesh candidates
+фиксируется диагностикой следующего capture; отсутствие overflow и кадры
+нужны для подтверждения бюджета, будущие фотомиры этим ещё не проверены.
+Источники: [ProjectSettings 4.7](https://docs.godotengine.org/en/4.7/classes/class_projectsettings.html#class-projectsettings-property-rendering-limits-global-shader-variables-buffer-size),
+[renderer RD allocation](https://github.com/godotengine/godot/blob/4.7-stable/servers/rendering/renderer_rd/storage_rd/material_storage.cpp#L1887).
+
+Чистый native baseline `441d83b0a1714e7d815e8c96673e6fd8`
+(`64ed22b96b7e4ad87d361edbe6a7931c674f078e5efcb5e4ff5cdef6dc8964e3`)
+подтвердил восстановление shader compilation и отсутствие overflow: native exit 0,
+пустой engine-errors.log, три кадра с материалами, userdata restored/verified.
+Census: 63 109 мешей, 54 781 shader-instance candidates, budget 1 048 576 slots;
+запас текущего среза — примерно 10.7 тысяч candidate meshes, не гарантия будущих
+фотомиров. Root принял воспроизводимую базу PW-001, не общий арт/performance PASS.
+Табличка мечети на этом снимке не видна; её subsequent ADDR fix проверяется отдельно.
+Точный base-plus-runtime patch и ограничения — `../../evidence/PW-001/`.

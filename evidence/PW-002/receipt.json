@@ -1,0 +1,33 @@
+{
+  "kind": "document-authority-review",
+  "task_id": "PW-002",
+  "reviewed_at": "2026-10-08T20:19:27.662063+00:00",
+  "base_commit": "d1f693e693132a76a8aa95b68e1bab538c2ae9cd",
+  "saved_diff": "evidence/PW-002/authority-sync.patch",
+  "diff_sha256": "04bfbc3af9665f864c86922bdb91af3d83aa2ba49be43b02e5ff45d041c3812f",
+  "source_files": {
+    "AGENTS.md": "47f8907fdcac68bf5dc373ffc2342684afb66c12950a31ced823c0f85f2e020f",
+    "docs/urman_knowledge_base/canon.md": "40afa051138f1b193924a3b499cc3a39dbcf3d77e7bac307c8ce8e7a69cef6db",
+    "docs/urman_knowledge_base/decision_log.md": "3ae7396b9112ade9b4985926f2f8f82040982233399aaff1af48796364682566"
+  },
+  "checks": {
+    "A01_A10": "PASS",
+    "author_default_resource_rights_separated": "PASS",
+    "historical_scope_art_supersession": "PASS",
+    "cultural_and_userdata_guards": "PASS",
+    "referenced_authority_links": "PASS",
+    "json_and_diff_check": "PASS"
+  },
+  "scene": null,
+  "profile": null,
+  "frames": [],
+  "runtime_evidence": "NOT_APPLICABLE_DOCUMENT_TASK",
+  "runtime_changes": "None; existing compiled campaign remains old. PW-003 owns source graph implementation.",
+  "baseline_reference": "evidence/PW-001/receipt.json",
+  "root_acceptance": "ACCEPTED_DOCUMENT_SCOPE",
+  "author_acceptance": "PENDING",
+  "limitations": [
+    "Does not prove finished game, new narrative graph, art or human review.",
+    "No resource license inferred from tool availability; asset/culture/language gates remain independent."
+  ]
+}

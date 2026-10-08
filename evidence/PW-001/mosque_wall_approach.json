@@ -1,0 +1,52 @@
+{
+  "point": "mosque_wall_approach",
+  "spec": "mosque_wall_approach:MosqueInterior@7.8,1.685,-0.25\u003EMosqueInterior@5.789,1.55,-1.5",
+  "cameraName": "DevViewCamera",
+  "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+  "cameraPosition": {
+    "x": -28.800289,
+    "y": 2.402207,
+    "z": 23.496986
+  },
+  "cameraTarget": {
+    "x": -31.068346,
+    "y": 2.267208,
+    "z": 22.816891
+  },
+  "cameraForward": {
+    "x": -0.956311,
+    "y": -0.056922,
+    "z": -0.286758
+  },
+  "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior",
+  "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior",
+  "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior",
+  "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior",
+  "cameraOwnerZone": null,
+  "targetOwnerZone": null,
+  "fov": 70,
+  "fovSource": "control-view-default",
+  "near": 0.05,
+  "far": 160,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "scaling3DScale": 0.9,
+  "scaling3DMode": "Bilinear",
+  "graphicsPreset": "medium",
+  "activeZoneId": "village_day",
+  "requestedZoneId": null,
+  "checkpointSubject": null,
+  "requestedProfile": null,
+  "atmosphereProfile": "village-winter-frost",
+  "atmosphereOwner": "AgentBExteriorWorld",
+  "studioPreviewProfile": null,
+  "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBEnvironment",
+  "tonemapMode": "Agx",
+  "fogColor": "c2d0e0ff",
+  "fogDensity": 0.012,
+  "snowActive": true,
+  "snowAmount": 4000,
+  "blizzardActive": false,
+  "drawCalls": 13227,
+  "capturedUnixSeconds": 1791489371
+}

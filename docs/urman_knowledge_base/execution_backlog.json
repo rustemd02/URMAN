@@ -2795,7 +2795,23 @@
       "station": "eng/remote-check.py; one active runtime operator; exact source snapshot; protected userdata",
       "closure": "Full done_when and applicable source clauses; root visual review; external human/culture/language/audio/host gates retained",
       "initial_head": "c2a43feed9b45f61b02e4ec982e63b9b6f11c893",
-      "initial_worktree": "clean"
+      "initial_worktree": "clean",
+      "checkpoint": {
+        "at": "2026-10-08T19:53:21.362087+00:00",
+        "current_head": "d1f693e6",
+        "git_result": "initial authorization/continuation contract committed and pushed main",
+        "active_slices": [
+          "PW-001: native renders three frames but FAIL shader/metadata/geometry errors; 221-image historical inventory verified separately",
+          "ACT1-ADDR.MOUNT: wall solver must prove visible mosque entrance and readable plate on retry",
+          "ACT1-HOUSE-SCALE: H019 source scale correction, exact nearest-house AABBs checked; K15 identity remains unresolved",
+          "ACT1-FOOTSTEP.1: existing probe chronology/contiguous-route instrumentation; no causal verdict yet"
+        ],
+        "station_job": "441d83b0a1714e7d815e8c96673e6fd8",
+        "root_next": "Await3-frame native capture with explicit1048576 uniform-slot budget and actualmesh census; inspect full PNG and clean log. Then remaining5 house/zirat views and existing native footstep route; PW002 read-only preparation while PW001 remains open.",
+        "limitation": "d624 native timed out with zero PNGs: instanceuniform buffer exhaustion, fullrawlog416.8MB ignored. Prior shader/curve/metadata errors absent; fence1.03m and mosque mountavailable are partialsource/runtime evidence, not visual acceptance. Fulladdressworld harness output binding not supported by stockstation, review remains open.",
+        "station_snapshot": "64ed22b96b7e4ad87d361edbe6a7931c674f078e5efcb5e4ff5cdef6dc8964e3",
+        "joint_compile": "PASS after existing capture census instrumentation, 0 warnings/errors"
+      }
     }
   },
   "milestones": [
@@ -21377,6 +21393,8 @@
     {
       "id": "ACT1-FOOTSTEP.1",
       "progress_2026_10_04": "2026-10-04: воспроизведение лага и метрики требуют прогона — в этой среде их нет. Что уже даёт статика: симптом привязан к включению снежного поля (RefineGround каждый тик при движении, копия HashSet на поверхность), а отдельным подтверждённым источником рывков того же периода аудит называет публикацию адресного графа. Разбор: docs/production/act1_audio_family_2026-10-04.md",
+      "progress_2026_10_08": "2026-10-08: роль исполнителя — footstep_diagnosis. Статический аудит не подтвердил причину off-road лага; исторические интервалы были смешаны после фильтрации несмежных road/off-road кадров. В существующем Act1FootstepLagProbe.cs добавлена data-only инструментализация непрерывных сегментов, wall-clock/frame/GC, фактических step triggers и доступного playback state, снежных timing только при stamp delta и маршрута road→snow→road через штатные move_forward/look_left. Совместная узкая C#-сборка прошла (exit 0, 0 warnings/errors) для frozen snapshot a39d980ced05b3ab859122249a8b84ff99589c3d8a6d834330732dd466796a95; native Windows runtime и human listening ещё не выполнены, причина не установлена. Отчёт: docs/production/act1_footstep_diagnosis_2026-10-08.md",
+      "execution_phase_2026_10_08": "Root снял code hold после PW-001 capture и разрешил bounded instrumentation существующего Act1FootstepLagProbe.cs. Изменение реализовано только в этой пробе: сводки по непрерывным сегментам, монотонное время кадров, process/physics/GC, свежая поверхность на событиях шага и доступное playback состояние, stamp delta без повторения stale snow timing, outbound/return road маршрут без телепорта. Совместный narrow C# compile прошёл для frozen snapshot a39d980ced05b3ab859122249a8b84ff99589c3d8a6d834330732dd466796a95. Native station smoke выполнять после отдельной готовности root; source заморожен для baseline capture. Новый test/scene/framework, QA assertions и production cadence не добавлялись.",
       "audio_audit_2026_10_04": "docs/production/act1_audio_family_2026-10-04.md",
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
@@ -21414,7 +21432,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "/root/legs_motion",
       "owner": "finished-act1",
       "parent_id": "ACT1-FOOTSTEP",
       "depends_on": [],
@@ -21433,7 +21451,8 @@
       ],
       "evidence": [
         "docs/production/act1_takeover_evidence_2026-09-20/footstep-lag/README.md",
-        "docs/production/mvp_tracker_2026-09-27/footsteps/receipt.json"
+        "docs/production/mvp_tracker_2026-09-27/footsteps/receipt.json",
+        "docs/production/act1_footstep_diagnosis_2026-10-08.md"
       ],
       "mvp_priority": 11,
       "mvp_packet": "LEGACY-COMPAT",
@@ -21447,7 +21466,7 @@
           "game/scripts/FirstPersonController.Steps.cs"
         ]
       },
-      "current_checkpoint": "2026-09-27: обнаружена уже интегрированная правка 48797e1b от 20 сентября (каденс по кадрам и более дешёвый снег). Текущий guarded headless lag probe exit0: 57 шагов на дороге / 86 вне, медиана 10 физических тиков в обоих случаях, пик snow CPU вне дороги 13.26ms. Это не доказательство отсутствия слышимых заиканий; группировка разрывных участков и отсутствие voice/GC trace ограничивают старый probe. Новый production-дефект не подтверждён; повторный фикс не выполнялся.",
+      "current_checkpoint": "2026-10-08: диагностический probe прошёл совместную C#-сборку на frozen snapshot a39d980ced05b3ab859122249a8b84ff99589c3d8a6d834330732dd466796a95 (exit 0, 0 warnings/errors), но свежий native маршрут ещё не запущен. Старые candidate причины не подтверждены; код не меняет production cadence и не делает PASS/диагноз. Profile должен дать непрерывные сегменты road outbound, offroad outbound/return и road return с измеренными переходами; frame/render wall time, process/physics, GC, step trigger/playback и surface evidence; snow timing считывается только при росте stamp count. До runtime receipt и анализа причины остаётся неизвестной, карточка in_progress, ACT1-FOOTSTEP.2 не начиналась.",
       "delivery": {
         "packet": "LEGACY-COMPAT"
       },
@@ -21735,9 +21754,9 @@
       },
       "title": "Ноги Айдара синхронизированы с фактическим движением",
       "milestone": "M5",
-      "status": "in_progress",
+      "status": "blocked",
       "complexity": "medium",
-      "active_owner": "legs_motion",
+      "active_owner": null,
       "owner": "finished-act1",
       "parent_id": "ACT1-LEGS",
       "depends_on": [],
@@ -21764,7 +21783,7 @@
       ],
       "mvp_priority": 24,
       "mvp_packet": "LEGACY-COMPAT",
-      "notes": "2026-09-26: shallow backward diagonal gait cancellation reproduced native (ankle Z range0.000085m), fixed in current Body owner by separating signed direction and magnitude (range0.186040m). Existing movement scenario exit0/73 checks, build0/0; no new suite/fixture. Wall-stop / turning acceptance remains open; human gait review not run. 2026-09-26 turn packet: world ankle plants, alternating0.20s pivot step above25deg, existing floor projection shared with locomotion and hip reach adjustment. Native160 exit0: wall-stop +90deg mouse turn; each sampled pose has a supported sole, continuously grounded sole drift<4mm. Source hashes and 30/60/90/settled frames curated. Human continuous gait/uneven ground/fast pivots remain open; Sol read-only review no confirmed finding.",
+      "notes": "2026-09-26: shallow backward diagonal gait cancellation reproduced native (ankle Z range0.000085m), fixed in current Body owner by separating signed direction and magnitude (range0.186040m). Existing movement scenario exit0/73 checks, build0/0; no new suite/fixture. Wall-stop / turning acceptance remains open; human gait review not run. 2026-09-26 turn packet: world ankle plants, alternating0.20s pivot step above25deg, existing floor projection shared with locomotion and hip reach adjustment. Native160 exit0: wall-stop +90deg mouse turn; each sampled pose has a supported sole, continuously grounded sole drift<4mm. Source hashes and 30/60/90/settled frames curated. Human continuous gait/uneven ground/fast pivots remain open; Sol read-only review no confirmed finding. 2026-10-08: read-only caller/source audit found gait phase derives from actual post-MoveAndSlide displacement and no reproducible code defect to patch; no source changes made. Existing captures/receipts are historical and their Body hashes do not match the current source. Fresh dynamic Windows proof is blocked while station is owned by pw001_baseline; standard remote-check has no scene env/argument passthrough for the existing capture branch. Next: after station release, root to arrange existing dynamic capture path and visually inspect walk/run/turn/crouch/stop before closure.",
       "body_weights_2026_09_27": {
         "status": "implemented_and_narrowly_verified",
         "change": "Normalize height before Godot SmoothStep(0,1,t) in coat/knee weight generation; original functions used from/to as GLSL thresholds.",
@@ -21772,7 +21791,7 @@
         "evidence": "docs/production/tamara_mvp_2026-09-26/body-weights",
         "limits": "Automated/static frames, not human continuous gait acceptance. That run exposed intermediate west-shoulder horse placement regression, resolved and separately checked by final west-shoulder native; DLL hashes retained separately."
       },
-      "current_checkpoint": "2026-09-27 body-weights: corrected two SmoothStep weight formulas, C#0/native movement166 exit0;4frames reviewed. See body_weights_2026_09_27 for evidence and separate west-shoulder integration correction. Human continuous gait/uneven-ground acceptance remains open.",
+      "current_checkpoint": "2026-10-08: source audit found no proven runtime defect, so no game code changed. Fresh dynamic proof is unavailable while pw001_baseline owns Windows; remote-check cannot activate the scene's env-gated captures. Current-source animation capture and root visual acceptance remain required; keep open.",
       "delivery": {
         "packet": "LEGACY-COMPAT"
       },
@@ -24094,9 +24113,9 @@
       "progress_2026_10_04": "2026-10-04: габариты измерены по исходным мешам китов (glTF POSITION min/max × масштаб узла): docs/production/act1_house_scale_2026-10-04.md. Капсула игрока radius 0.35 / height 1.80, присед 1.08. Жилой класс подтверждает масштаб: полотна 1.92, коробки 2.02, светлый проём ≈1.90 (~10 см запаса), сени SeniEntry 1.92, светлая высота HeroHouse 2.60, внутренние двери 2.05. Измеримое исключение — баня: коробка 1.80 равна капсуле, светлый проём с перекладиной и порогом ≈1.68, то есть на 12 см ниже стоящего игрока; её тело тоже самое низкое (1.84 против 2.10–2.62). Варианты (поднять только дверной узел бани до 1.92/2.02 либо признать присед штатным входом) оставлены решению владельца — карточка запрещает объявлять варианты обязательными без решения. Прогоном осталось проверить коллизию/посадку и то, не перекрывает ли порог проём в собранной сцене; игра не запускалась.",
       "title": "Согласованные физические габариты дверей, этажей и домов по источнику mesh и instance",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "/root/address_mount",
       "owner": "unassigned",
       "depends_on": [],
       "scope": [
@@ -24172,7 +24191,8 @@
       },
       "visual_asset_passport_ids": [
         "AS-01"
-      ]
+      ],
+      "progress_2026_10_08": "2026-10-08: verified active consumer is MainStreetEastNeighborFacade bound to BLD-H019/ADR-H019; it owns the address/knock and side-window discovery, so the earlier far-view-only hypothesis is withdrawn. The actual GLB facade opening is 1.30×2.25 m; prior instance scale [0.70,0.74,0.70] reduced it to 1.665 m, below the 1.80 m standing capsule. Only this placement was restored to [1,1,1]. Transformed source AABB: H019 X 23.365…32.130, Z 70.460…77.550; nearest H015 parcel starts at X 32.948 (0.818 m gap), and its runtime-grown outbuilding after the existing 0.3 m parcel inset clamp starts at X 33.165 (1.035 m gap). H014 parcel ends X 17.324; H009 parcel starts Z 90.000; neither overlaps. Source, UV/material/LOD/rights and exact Windows capture points are documented in docs/production/act1_house_scale_2026-10-04.md. This is static geometry evidence only; Windows close/approach/door capture and root visual acceptance remain pending. No K15-to-instance mapping was found, so this does not close all of R030; status remains in_progress. 2026-10-08 R030/K15 source lookup: the complaint at docs/урман претензии.md:19 contains text only; the 221-frame index (177 main + 44 route moments) has no K15 complaint frame, and SOURCES_AND_LIMITATIONS says only the P1 user frame is locally available. General layout images and B32 numeric H-ID proposal images do not prove a K15-to-instance mapping; do not infer H019 or H015 from the number. Identity remains unknown, so H019 is a separate metric slice and does not close R030. Keep status in_progress and active_owner /root/address_mount (working role: house_scale); awaiting real Windows capture/root visual review for H019, with K15 source/crosswalk unresolved. 2026-10-08 ground-contact source audit: imported GLB subtree `DwellingFacade_TimberPlaster` transformed POSITION AABB has minY=0.0 m (foundation and `DwellingFacade_StreetStep_LOD0`; step spans 0.0..0.20 m). For H019 at (27.75,0,74), final `AddAct1AuthoredExteriorParcel` ground placement sets the dwelling root to `AgentBAct1HeightField.Ground(27.75,74)+0.03`; therefore source lower world AABB is exactly +0.03 m above that analytic ground. The earlier groundingReferenceXZ offset in `KitPlacementTakeover.ApplyAuthored` is superseded by that final placement for this village-kit dwelling. Numeric ground/collision-triangle difference, visible threshold contact, and root visual acceptance remain pending; status stays in_progress and `К15 → instance` identity remains unknown."
     },
     {
       "id": "ACT1-FENCE-KIT",
@@ -24510,20 +24530,23 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": "address_mount",
+      "active_owner": "/root/address_mount",
       "owner": "unassigned",
       "depends_on": [],
       "scope": [
         "game/scripts/AddressFacadeMount.cs",
         "game/scripts/AddressSignVisualComponent.cs",
-        "game/scripts/Act1ConnectedWorld.Addresses.cs"
+        "game/scripts/Act1ConnectedWorld.Addresses.cs",
+        "game/scripts/Act1ConnectedWorld.MosqueInterior.cs"
       ],
       "source_requirements": [
         "docs/урман претензии.md",
         "docs/tasktracker/review_2026-09-28/03_world_geometry.md"
       ],
       "evidence": [
-        "docs/production/act1_address_mount_rules_2026-10-04.md"
+        "docs/production/act1_address_mount_rules_2026-10-04.md",
+        "game/scripts/AddressFacadeMount.cs",
+        "game/scripts/Act1ConnectedWorld.MosqueInterior.cs"
       ],
       "deliverable": "Раздельные правила для уличного указателя и номерной таблички, крепёж и чтение с подхода.",
       "done_when": [
@@ -24585,7 +24608,8 @@
         "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
         "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
-      }
+      },
+      "progress_2026_10_08": "R107 source fix: Act1ConnectedWorld.MosqueInterior.cs resolves the real post-yaw MosqueEntranceDoor orientation and calls shared AddressFacadeMount.TryFind constrained to the already selected clear wall MosqueHallEastLeft. The whitelist admits that exact authored wall; support, full plate contour, fasteners and exterior sightline use the same validator as other facades. The chosen point and normal feed the common address importer and agree with deferred AlignMosqueAddressPlateToQibla; failure records SIGN_MOUNT_NOT_FOUND and suppresses the plate. MainStreetSign remains a distinct post-mounted discovery; AddressPlate remains registry-backed. R063: direct author override in commit 6d0bd60f94740f67b8cf267bff1f8cd3d15bd7eb sets the readable wall band to 1.5–2.1 m (target 1.8), removes generic fences/ledges/plinths, and makes no normative-height claim; the evidence doc marks the earlier 04.10 snapshot historical. Verification: pinned SDK 10.0.302 `dotnet build game/Urman.Game.csproj --no-restore --verbosity minimal` PASS, 0 warnings/errors; `git diff --check` PASS; JSON parses. Windows runtime/human visual acceptance pending PW-001 station release. Planned Windows capture (unrun, act1_demo / village_day): use address_world_smoke_test.tscn with URMAN_ADDRESS_SCOPE=crowded-addresses and IDs ADR-MOSQUE,ADR-BABAI to check current registry geometry and ordinary route-to-readpoint; mosque frontal camera is live ADR-MOSQUE `GlobalPosition + GlobalBasis.Z*4 + Up*.30` (68°/4 m CaptureHouse framing), and the three-quarter/approach frame uses the ordinary player camera at the last authored approach point `_mosqueRoom.ToGlobal(7.80,0.035,-0.25)` aimed at the plate. Keep a separate route-to-readpoint player-camera frame from the harness. ADR-BABAI is the household reference, using the existing CaptureHouse transform `sign + sign.GlobalBasis.Z*4 + Up*.30`. MainStreetSign is separate: live DiscoveryMainStreetSign at local (-2.05, signGround, 5.8), Board local (0,1.68,0.16), yaw -4°; frame front from board +Z and reverse after the existing main-street-sign-reverse discovery rotates it to 176°. Use live node transforms for the qibla yaw and discovery state. Do not close before root reviews current frames and approach readability. 2026-10-08 full address-world harness output/pinning blocker: `AddressWorldSmokeTest` requires an existing empty absolute `URMAN_ADDRESS_OUTPUT`; stock `remote-check.py smoke --scene ...` exposes no env field and worker schema has no env injection. The runner creates `$Output` but wires it only to view capture in capture mode; the worker archives only that `$Output`, so arbitrary temp output is not evidence. Station instructions require runner/guard/remote_common source parity and structured jobs provide no shell to update runner. No temp/env/schema workaround or assertion change is in scope. Full harness evidence remains blocked; status review, active_owner null, and PNG/root visual review remains separate. 2026-10-08 mosque exterior-face defect confirmed: protected capture 441d83b0 wrote no readable plaque; game.log reports solver point (-31.547897,1.9921966,23.283672). Relative to captured MosqueInterior transform (yaw +15.1725 degrees, floor Y 0.717208), this is local (5.204,1.275,-1.166), about 0.021 m behind the inner MosqueHallEastLeft face at X=5.225 (outer face X=5.775). `TryAddressDoor` finds the visible MosqueEntranceLeaf, but its door-center-versus-complex-origin heuristic flips the leaf basis: the door is 1.46 m west of complex origin although its authored +X side is exterior. The solver can then use the inner wall face; deferred qibla alignment rotates the plate without moving its point. Reopened for a bounded MosqueInterior caller fix: use `complex.GlobalBasis * Vector3.Right` as exterior normal, preserve the real door center, and fail closed if shared solver returns an inward-facing/inner-plane candidate. Human visual acceptance and complete address harness remain open; Windows will not be launched by this owner. 2026-10-08 bounded mosque patch implemented in `Act1ConnectedWorld.MosqueInterior.cs`: the live MosqueEntranceLeaf center is kept while explicit EastLeft exterior normal is passed into the shared solver; result must lie >5 mm beyond the selected wall’s computed outer AABB face and face outward (dot >= .999), otherwise the plate is suppressed and SIGN_MOUNT_NOT_FOUND is recorded. The visible-door/exterior-normal/solver result are logged. Static `git diff --check` passes; receipt 441 remains the negative baseline (source SHA 34af6bff9d97036206e48f25d99238f7d0b3fa6afe1d24e6d6de9e09c69deddc). Pinned SDK 10.0.302 narrow `dotnet build game/Urman.Game.csproj --no-restore --verbosity minimal` PASS (0 warnings/errors); the same exterior-face validator now guards the frontage reconciliation retry, and it confirms EastLeft local +X aligns with `complex.GlobalBasis * Vector3.Right`. Windows visual/readability acceptance remains pending; full address-world harness is separately blocked by station runner’s lack of env/output-dir binding."
     },
     {
       "id": "ACT1-PUBLIC.FACADES",
@@ -26333,8 +26357,8 @@
       "id": "PW-001",
       "title": "Зафиксировать актуальный checkout и базовый проход",
       "milestone": "PW-M0",
-      "status": "in_progress",
-      "active_owner": "pw001_baseline",
+      "status": "completed",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -26355,7 +26379,62 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-001/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "runtime-baseline-failure",
+          "path": ".codex-captures/remote/add1a48fe35245adbb02ed1b8d5c53db/baseline-initial-receipt.json",
+          "result": "Protected Windows capture on base commit c2a43feed9b45f61b02e4ec982e63b9b6f11c893, snapshot 866d7e171966b11b0baaa7f70919b598bb9533ccc43f1e25d0e3e18136aa9d10. Godot 4.7.1 / SDK 10.0.302; build, content, document-image and import steps exited 0. Native startup threw NullReferenceException in AgentBWindStreaks.ClearAll; watchdog stopped game at 300 s, so no PNG was written. User data recovery is clear and original files were restored/verified. Full failed logs/result.zip and initial receipt/request are preserved under ignored .codex-captures/remote/add1a48fe35245adbb02ed1b8d5c53db."
+        },
+        {
+          "date": "2026-10-08",
+          "kind": "root-cause-fix-in-progress",
+          "path": "game/scripts/experiments/agent_b_act1/AgentBWindStreaks.cs",
+          "result": "BuildPool now stores each created MeshInstance3D in _lines, fixing the canonical null pool entries read by Refresh and ClearAll. One-line change; diff check passed. In the fresh Windows capture, the prior WindStreaks startup exception no longer appeared and all three frames were produced; acceptance remains open because the runtime receipt failed on other logged errors."
+        },
+        {
+          "date": "2026-10-08",
+          "kind": "runtime-baseline-capture-failure",
+          "path": "evidence/PW-001/receipt.json",
+          "result": "Protected Windows capture job ae59d933fe394be597135bf7998c94a3 on base commit d1f693e693132a76a8aa95b68e1bab538c2ae9cd, snapshot c1e132b9152848cf495eb5a4084028ceac804d9e95aea1b0b72f2f763bb3c2f2; Godot 4.7.1.stable.mono.official.a13da4feb / SDK 10.0.302, scene res://scenes/act1_demo.tscn. Build, content builds, document-images and import exited 0; runtime reached normal village rendering and wrote 3 PNGs at 1920x1080, profile village-winter-frost, 0.9 scaling, medium preset: current_station.png plus two static MosqueHallEastLeft wall views. Receipt is FAIL: Painterly response_uv helper references unknown UV; VillageWindowMaterials references unknown NORMAL_ROUGHNESS; invalid generated metadata identifiers; VIS-022 fence-height and VIS-088 board-gap contracts emitted errors; Godot also logged a zero target vector and repeated zero-length intervals. The earlier hint_white/blend_mix errors and AgentBWindStreaks startup NullReferenceException are absent. Userdata guard logged original files restored and verified. Raw logs/result.zip remain ignored at .codex-captures/remote/ae59d933fe394be597135bf7998c94a3; review images/contact sheet are evidence/PW-001/current_station.png, mosque_wall_front.png, mosque_wall_approach.png and current_baseline_contact.png. Static views do not prove player movement or route completion; root visual review and remaining runtime fixes are pending."
+        },
+        {
+          "date": "2026-10-08",
+          "kind": "bounded-runtime-source-fix-in-progress",
+          "path": "game/scripts/Act1ConnectedWorld.cs",
+          "result": "Traced the six invalid identifiers to AddUncutVergeGroups metadata names for ArrivalUncutVerge-7/-26 and MainStreetUncutVerge-4; only metadata keys normalize '-' to '_', preserving scene node names and values. Traced target-vector/19 zero-interval engine errors to LayRouteSnowDrifts.Flush and AddVisualLandformSurface Curve3D sampling: each inclusive route leg can duplicate its shared endpoint in the same run. Applied adjacent-point deduplication at 1 mm, skip below two unique points, and a finite positive baked-length guard before mesh sampling. VIS-022 source correction: raw GLB fence AABB top 1.20 m, last runtime audit measured 1.13 m at Y scale .96; .88 Y scale projects about 1.03–1.04 m while preserving XZ footprint and shared anchor. `KitPlacementTakeover.Apply` takes actual scale from the authored plot; canonical fence record now also has Y=.88, while the gate stays .96 because VIS-022 caps only the boundary fence and AS-04 asks for a plausible gate form without a height cap. Narrow C# build passed on SDK 10.0.302 with 0 warnings/errors, and `git diff --check -- game/scripts/Act1ConnectedWorld.cs` passes. Joint capture confirms fenceTop=1.03 m; remaining capture blocker is shader-instance uniform buffer overflow. PW-001 remains runtime FAIL and author acceptance PENDING; no full route or human visual pass claimed."
+        },
+        {
+          "date": "2026-10-08",
+          "kind": "runtime-baseline-capture-timeout",
+          "path": ".codex-captures/remote/d624619b297f48d0bd2f06bb59b96d8f/receipt.json",
+          "result": "Protected Windows capture job d624619b297f48d0bd2f06bb59b96d8f, snapshot a39d980ced05b3ab859122249a8b84ff99589c3d8a6d834330732dd466796a95, Godot 4.7.1.stable.mono.official.a13da4feb / SDK 10.0.302. Build, content, chapter/fullgame, document-images and import all exited 0; native game exited 124 at the 300 s guard (562.67 s job elapsed). No PNG or camera metadata was written. Runtime reached `authored-world: 127 objects`; zirat audit measured fenceTop=1.03 m, gateTop=1.48 m, one path, 13/13 stones; mosque-address-mount was available. Previous metadata, target-vector, Curve3D interval and shader syntax errors are absent. New repeated engine errors: 80,938 `Too many instances using shader instance variables` plus 40,788 `global_shader_uniforms.instance_buffer_pos...Returning -1`; the 416.8 MB game.log and 12.4 MB engine-errors.log stay ignored under this job directory rather than being committed. Userdata guard reports originals restored by rename/verified; recovery pending=false. Root is investigating the uniform-buffer failure; no second capture started."
+        },
+        {
+          "date": "2026-10-08",
+          "kind": "shader-instance-budget-probe-prepared",
+          "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+          "result": "Added one capture-startup census after the main scene/zone is ready: instantiated MeshInstance3D count, mesh candidates with an active ShaderMaterial declaring `instance uniform`, and ProjectSettings rendering/limits/global_shader_variables/buffer_size. Uses existing FindChildren; no new helper, assertion or gate. Narrow C# build passed on pinned SDK 10.0.302 with 0 warnings/errors after root's explicit buffer setting change. Actual census and runtime result await the next protected Windows capture; PW-001 remains FAIL/open."
+        },
+        {
+          "date": "2026-10-08",
+          "kind": "runtime-baseline-capture-pass",
+          "path": "evidence/PW-001/receipt.json",
+          "result": "Protected Windows capture job 441d83b0a1714e7d815e8c96673e6fd8, snapshot 64ed22b96b7e4ad87d361edbe6a7931c674f078e5efcb5e4ff5cdef6dc8964e3, base commit d1f693e693132a76a8aa95b68e1bab538c2ae9cd, Godot 4.7.1.stable.mono.official.a13da4feb / SDK 10.0.302, native res://scenes/act1_demo.tscn, profile village-winter-frost. Build, content, chapter/fullgame, document-images and import exited 0; native exited 0 in 343.71 s; engine-errors.log is empty and userdataRestored=true. Final game.log records shader-instance-budget: meshes=63109 candidates=54781 bufferSize=1048576; all 3 frames (station, Mosque wall front, Mosque approach) and cleanup completed. Receipt, request, frame PNGs/metadata, contact page, small game.log and empty engine-errors.log are preserved in evidence/PW-001; the prior ae59d933 FAIL capture is preserved under history/ae59d933fe394be597135bf7998c94a3. Root reviewed the original frames/contact and accepted this as a reproducible baseline, while noting the plaque is not clearly shown and remains a separate unresolved visual issue. This proves a clean baseline launch/capture only, not normal player movement, full route, whole-game art acceptance, or author/human acceptance; author_acceptance remains PENDING."
+        },
+        {
+          "date": "2026-10-08",
+          "kind": "snapshot-source-patch-incomplete",
+          "path": "evidence/PW-001/receipt.json",
+          "result": "Read-only verification compared all 1,819 receipt.source.files entries with the current worktree. Every path matches the 441 snapshot except game/scripts/Act1ConnectedWorld.MosqueInterior.cs: receipt SHA-256 34af6bff9d97036206e48f25d99238f7d0b3fa6afe1d24e6d6de9e09c69deddc (48,284 bytes), live post-capture ADDR-fix SHA-256 7252fb324b6c158277de13da499628b35cfba744115654b5e92851c096424e8f (50,283 bytes). AGENTS.md matches its receipt SHA. The captured source text is unavailable in repository evidence and the documented station API has no source/blob GET endpoint; only job artifacts can be fetched. No reconstructed diff is claimed and the live file is preserved. Exact base-plus-patch evidence remains incomplete until the sealed old bytes are recovered or the orchestrator records an explicit disposition; PW-001 remains in_progress."
+        },
+        {
+          "date": "2026-10-08",
+          "kind": "runtime-baseline-source-patch-verified",
+          "path": "evidence/PW-001/source-snapshot-441.patch",
+          "result": "Exact source delta for protected capture 441d83b0a1714e7d815e8c96673e6fd8 is preserved against base d1f693e693132a76a8aa95b68e1bab538c2ae9cd. Patch SHA-256 240bef60ccce8c1e0e7d775dae3d7103fcf70235d10575cce4474a234262d824; 11 changed game/ runtime-content paths. source-snapshot-441-inventory.json binds patch and receipt; all 1,819 snapshot manifest entries reconcile. The old MosqueInterior source reconstructed only in evidence from the base plus the 441 block and accepted solely after exact receipt match (48,284 bytes, SHA-256 34af6bff9d97036206e48f25d99238f7d0b3fa6afe1d24e6d6de9e09c69deddc); Addresses.cs snapshot bytes are identical to base d1f693. Isolated git apply --check and application passed; all 11 patched files matched receipt byte counts and SHA-256. Root accepted the contact/full frames as a reproducible baseline. Human author acceptance remains PENDING; plaque readability, ordinary player movement, full route, and whole-game art/style acceptance are not claimed."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-001",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -26368,7 +26447,7 @@
         "REPO01",
         "REPO02"
       ],
-      "runtime_evidence": "NOT_RUN",
+      "runtime_evidence": "PASS",
       "author_acceptance": "PENDING",
       "mvp_priority": 10,
       "mvp_packet": "PW0",
@@ -26417,7 +26496,7 @@
       "id": "PW-002",
       "title": "Внести авторское разрешение на фундаментальную переработку",
       "milestone": "PW-M0",
-      "status": "todo",
+      "status": "completed",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -26441,7 +26520,19 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-002/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "authority-sync-start",
+          "result": "Dependency PW-001 completed with exact Windows source snapshot and root-reviewed baseline. Root is updating active author/default/resource-rights distinctions and supersession markers; runtime narrative implementation remains PW-003, not claimed by this document task."
+        },
+        {
+          "date": "2026-10-08",
+          "kind": "authority-sync-document-pass",
+          "path": "evidence/PW-002/receipt.json",
+          "result": "Root accepted complete document scope against PW-1.0 document 01 and applicable VIS-001. A01–A10, author/default/resource rights, two art registers, historical plot/scope/art supersession and retained culture/userdata guards are explicit in AGENTS/canon/decision log. Saved diff and source SHA identify this review. One-off content/link readback, JSON parse and git diff --check PASS. Runtime scene/profile/frames not applicable to this document task; no new story implementation or author approval claimed. PW-003 is now dependency-ready."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-002",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
