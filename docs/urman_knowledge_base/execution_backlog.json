@@ -2706,7 +2706,7 @@
       "Studio как условие выпуска игры",
       "Автоматическое удаление web runtime или пользовательских saves"
     ],
-    "execution_this_request": "Документальное сведение. Игровая реализация, запуск, commit/push не выполнены и не назначены приложенным launch prompt."
+    "execution_this_request": "Живое вечернее поручение автора 08.10.2026: выполнять dependency-ready очередь до 10:00 09.10 Europe/Moscow; native GPT-6 Luna / Max, Windows-проверки через remote-check.py, личная визуальная приёмка root, commit/push проверенных задач/блоков в main. Полный done_when и внешние гейты сохраняются."
   },
   "role": "Машиночитаемая очередь исполнения. Она не заменяет goal, канон, decision log, архитектуру или evidence.",
   "authority": {
@@ -2786,6 +2786,16 @@
       "selection": "campaign_delivery_plan.selection",
       "ownership": "Перед выдачей сверить реальные активные процессы/владельцев; документальная миграция не разрешает перехват чужих файлов.",
       "execution_request": "В этой сессии только документы; новое implementation поручение выбирает задачу из единой очереди."
+    },
+    "active_session_2026_10_08_evening": {
+      "authority": "Прямое поручение пользователя в текущем чате 08.10.2026 вечером",
+      "deadline": "2026-10-09T10:00:00+03:00",
+      "subagents": "native luna_fast: GPT-6 Luna / Max; root orchestration/integration/visual acceptance",
+      "git": "commit/push verified task blocks to main explicitly authorized",
+      "station": "eng/remote-check.py; one active runtime operator; exact source snapshot; protected userdata",
+      "closure": "Full done_when and applicable source clauses; root visual review; external human/culture/language/audio/host gates retained",
+      "initial_head": "c2a43feed9b45f61b02e4ec982e63b9b6f11c893",
+      "initial_worktree": "clean"
     }
   },
   "milestones": [
@@ -21727,7 +21737,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "legs_motion",
       "owner": "finished-act1",
       "parent_id": "ACT1-LEGS",
       "depends_on": [],
@@ -24498,9 +24508,9 @@
       "progress_2026_10_04": "2026-10-04: правила крепления сведены из кода и данных: docs/production/act1_address_mount_rules_2026-10-04.md. R063: два разных типа — номерная табличка AddressPlate 0.60x0.23 с четырьмя заклёпками внутри полотна, крепление у верхнего края фасада в полосе facadeGround+1.6…+3.2, верх <= min(верх фасада-0.135, +2.85), зазор HalfWidth+0.10 от двери, проверка всего контура и заклёпок, перебор четырёх направлений с oriented для боковых стен, фолбэк на забор участка/двора; уличный указатель — отдельный объект-находка MainStreetSign со столбом 0.11x1.80 у главной улицы и поворачиваемой обратной стороной, не на фасаде. R107: адрес мечети (ADR-MOSQUE, номер 23А, primaryDoor MosqueEntranceDoor) идёт тем же импортом и тем же правилом, отдельной ветки нет. Норматив высоты не утверждается (первичного источника нет, B-R28-03); явная политика signSurface существует, но данных с ней нет (0 вхождений). Читаемость с улицы — визуальная проверка, not-run.",
       "title": "Раздельные правила для уличного указателя и номерной таблички, крепёж и чтение с подхода",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "address_mount",
       "owner": "unassigned",
       "depends_on": [],
       "scope": [
@@ -26323,8 +26333,8 @@
       "id": "PW-001",
       "title": "Зафиксировать актуальный checkout и базовый проход",
       "milestone": "PW-M0",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "pw001_baseline",
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
