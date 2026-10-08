@@ -1,0 +1,287 @@
+{
+  "package": "URMAN_PHOTOWORLDS_SPEC_2026-10-08",
+  "spec_version": "PW-1.0",
+  "file_count_excluding_manifest": 56,
+  "files": [
+    {
+      "path": "00_START_HERE_RU.md",
+      "size_bytes": 10873,
+      "sha256": "02978cfdeec4c4e650d6b61d17d3da7df699183f3d463a76db9c981082796978"
+    },
+    {
+      "path": "AUTHOR_REQUIREMENTS_COVERAGE_RU.md",
+      "size_bytes": 2105,
+      "sha256": "cad2bc94b56d9a5a638650b3e590c6e52e68cd283a4e8f6086ea79c671e062b2"
+    },
+    {
+      "path": "DELIVERY_QA.json",
+      "size_bytes": 586,
+      "sha256": "91560fc0c8f1697dd8909f9116fee64d41e5c2496daf286f26b65d2a5fe7860e"
+    },
+    {
+      "path": "DRIVE_LOCATIONS_RU.md",
+      "size_bytes": 757,
+      "sha256": "ba7f4b762630d0fed522022654dac1d8d09b31c10c92d33ab0c5a2dccf4d1abf"
+    },
+    {
+      "path": "URMAN_PHOTOWORLDS_FULL_SPEC_RU.html",
+      "size_bytes": 712929,
+      "sha256": "1c46148aa214b605cec71ef66a51bc8b2294703afd235ee77ae5f64c4df85baa"
+    },
+    {
+      "path": "URMAN_PHOTOWORLDS_FULL_SPEC_RU.md",
+      "size_bytes": 618968,
+      "sha256": "ab4207b933750cf87d0a16be87e365e0c1f173d6bcad724236bb85301f0e49be"
+    },
+    {
+      "path": "URMAN_PHOTOWORLDS_FULL_SPEC_RU.pdf",
+      "size_bytes": 3265046,
+      "sha256": "ae4aa8c350cd1c0e66736f5782c35f101f07881fc605c1528cbec1527ab2024a"
+    },
+    {
+      "path": "VALIDATION_REPORT.json",
+      "size_bytes": 9535,
+      "sha256": "515d470438f1aaf0e558aa79c694c2ed2efa0963491bcc050f4b44b63fd6d11b"
+    },
+    {
+      "path": "VALIDATION_REPORT_RU.md",
+      "size_bytes": 5178,
+      "sha256": "20172b00f8150535ab87efe61ae9d8d1246555a4b21778269b77a53c156be270"
+    },
+    {
+      "path": "data/README_RU.md",
+      "size_bytes": 2071,
+      "sha256": "5f00c0921c1a35fa6511b9ae811a2c866dba16ddc110fe3299a59f72e8504aa2"
+    },
+    {
+      "path": "data/assets.spec.json",
+      "size_bytes": 46592,
+      "sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1"
+    },
+    {
+      "path": "data/author_coverage.json",
+      "size_bytes": 3958,
+      "sha256": "0160e642afbd4f4a9b15d915483a5f4bad0f12c97d2b16492cb492da14421978"
+    },
+    {
+      "path": "data/campaign.spec.json",
+      "size_bytes": 3220,
+      "sha256": "5d2346082e4fb7b92b94e33e2e121d56158500b5dcf4ed7ba1ca14f4b9132594"
+    },
+    {
+      "path": "data/dialogues.spec.json",
+      "size_bytes": 31588,
+      "sha256": "e275ea3a0aa60769e4e3ab96118d3fda9aaa96d7dd5c398d055ed23ff9d3b1f8"
+    },
+    {
+      "path": "data/legacy_118_migration.json",
+      "size_bytes": 238888,
+      "sha256": "7f24626403ddd71d999616a03565bb917176a8746e90888cd02dfc8560dbd8d9"
+    },
+    {
+      "path": "data/photos.spec.json",
+      "size_bytes": 12703,
+      "sha256": "6127fe5180785ac303d4372b4537c38d253c255e88dc04a5d8c821e4a01bc2cc"
+    },
+    {
+      "path": "data/references.json",
+      "size_bytes": 16076,
+      "sha256": "47cac5a276bdaabb1900259a2669f1c83ee58445863425f90494dd966bd2e6bb"
+    },
+    {
+      "path": "data/tasks.spec.json",
+      "size_bytes": 164592,
+      "sha256": "c1328d0f2985a79f37f22e0910c9038b9a8aaf67b2760d9d2973a9d9da2ee94a"
+    },
+    {
+      "path": "data/worlds.spec.json",
+      "size_bytes": 48909,
+      "sha256": "d1e870648629b901a0b962e8798671e634a21b7787a94b89325151fafa306353"
+    },
+    {
+      "path": "diagrams/README_RU.md",
+      "size_bytes": 837,
+      "sha256": "63f7bf44baf892a79f092e63c5fb974a9171e8d60255e6d4e79fb0b098f3e127"
+    },
+    {
+      "path": "diagrams/W01_graph.svg",
+      "size_bytes": 4794,
+      "sha256": "48c1ffc6d3ed34ea2be2473c153df730292008494e181c5877b4d0b986f25176"
+    },
+    {
+      "path": "diagrams/W02_graph.svg",
+      "size_bytes": 4154,
+      "sha256": "4c74799ea6304fac192757ff93873e4250c71b4399c3a66a541fc7e0c386ef4d"
+    },
+    {
+      "path": "diagrams/W03_graph.svg",
+      "size_bytes": 4291,
+      "sha256": "b5a5d4a9d1152a4c2cd7e2227400ffeb69ce96720c43725bb2a07eb6f7b572e5"
+    },
+    {
+      "path": "diagrams/W04_graph.svg",
+      "size_bytes": 4318,
+      "sha256": "7f99ee98f8786186f0a11363f26997deb9abe47b1d4ea161e7c826b5f8323757"
+    },
+    {
+      "path": "diagrams/W05_graph.svg",
+      "size_bytes": 4026,
+      "sha256": "24721546a20e26d0cd59db0bc0b4eb45f8f81ecedb5360b9ef422240bb0e490e"
+    },
+    {
+      "path": "docs/01_AUTHORITY_AND_CANON_RU.md",
+      "size_bytes": 14948,
+      "sha256": "ea8e2fe80eb526e602b2751e8deac379ed731872491237d13a86ae7eb7baa10c"
+    },
+    {
+      "path": "docs/02_NARRATIVE_BIBLE_RU.md",
+      "size_bytes": 22948,
+      "sha256": "29498fc5cbcd27304dd325d0186704551ce222061d67b8605b921c63102de871"
+    },
+    {
+      "path": "docs/03_BOOK_AND_PHOTOS_RU.md",
+      "size_bytes": 19261,
+      "sha256": "add68c4ce164903a58d276d979495f6d2de7b51a06bc310c8b2c1cae646a07e9"
+    },
+    {
+      "path": "docs/04_ART_DIRECTION_RU.md",
+      "size_bytes": 18714,
+      "sha256": "6b63eeee85cd94661fdb894adf879ed18bcca79e7a3fbb3a43b02dfb1c50194c"
+    },
+    {
+      "path": "docs/05_RENDER_AND_ASSET_PIPELINE_RU.md",
+      "size_bytes": 16114,
+      "sha256": "266c2e03b91a473ea0558f2c55384dd02bec5afad5e74cd8348cd3c0eaf28c9a"
+    },
+    {
+      "path": "docs/06_RUNTIME_ARCHITECTURE_RU.md",
+      "size_bytes": 14231,
+      "sha256": "b2c499bc14191c4fb5737dcc73be226c2be2569743262f26ce9f8bf375747827"
+    },
+    {
+      "path": "docs/07_SAVE_LOAD_FAILURES_RU.md",
+      "size_bytes": 16106,
+      "sha256": "26a35d6d9c94f3375cb99153abe31df5b737bb20c1be0d369b8e18168d30910b"
+    },
+    {
+      "path": "docs/08_VILLAGE_INTEGRATION_RU.md",
+      "size_bytes": 16956,
+      "sha256": "c99439f3b66336d49466dded48a6e488bebfa821e811b16940728b9c69e24cc6"
+    },
+    {
+      "path": "docs/09_AUDIO_LANGUAGE_ACCESSIBILITY_RU.md",
+      "size_bytes": 11689,
+      "sha256": "2f7ccc50dfb35173b12a3d3670e5b7a497b872f5323c2b835bdf7bfade265303"
+    },
+    {
+      "path": "docs/10_ASSET_PASSPORTS_RU.md",
+      "size_bytes": 65263,
+      "sha256": "f6e7841ef4a68bb02f749560b9c8dc196dfc2d567b9cc8979e97b6458ae4fa62"
+    },
+    {
+      "path": "docs/11_TASKS_RU.md",
+      "size_bytes": 206258,
+      "sha256": "7a15db936fe84cc50c89788d687ffaf7d58931131ff38ddde81bf57c50705f0c"
+    },
+    {
+      "path": "docs/12_QA_RU.md",
+      "size_bytes": 17217,
+      "sha256": "394c913b4f2cb5d02c0dfba6cb9fd836aded95cbcec34839be33c01e999584c4"
+    },
+    {
+      "path": "docs/13_LEGACY_118_MIGRATION_RU.md",
+      "size_bytes": 33178,
+      "sha256": "6dd8bbf66474c9fcb1e83b1e5765f8be6c86ba94e645cb82a280cb41e378d545"
+    },
+    {
+      "path": "docs/14_SOURCES_AND_REFERENCES_RU.md",
+      "size_bytes": 20031,
+      "sha256": "f0a23e4e49760b9e9830bcc67d586b6a0e05fdc39642766c5e88d3ed21faaa9d"
+    },
+    {
+      "path": "docs/15_DIALOGUES_RU.md",
+      "size_bytes": 19223,
+      "sha256": "13b4d15d8f9f93aad81287751a043cbebb652ad1e5065a435084192dcd4e79b0"
+    },
+    {
+      "path": "docs/16_AGENT_DELIVERY_RU.md",
+      "size_bytes": 12268,
+      "sha256": "88df90cc0c28ae98ff17495f578f4541f03a14ec8c0c305c76de9e1ea0855c4b"
+    },
+    {
+      "path": "legacy/READ_HISTORY_NOT_NEW_MANDATE_RU.md",
+      "size_bytes": 807,
+      "sha256": "44e0345343a08d280f75da046b2dc04bb21f2bfc404ec63718246c01b7c63c61"
+    },
+    {
+      "path": "legacy/URMAN_VISUAL_RESET_PACKAGE.zip",
+      "size_bytes": 24327954,
+      "sha256": "eef934309e45d12616613e46d0f8a5a9f8ce9845e7cc0119706585d0110a77db"
+    },
+    {
+      "path": "levels/W01_Лес_за_спиной_RU.md",
+      "size_bytes": 15175,
+      "sha256": "044332371204d18f8564028132a7d363fd85eb3232440f48d3b8eb6eb5baef1d"
+    },
+    {
+      "path": "levels/W02_Мостки_RU.md",
+      "size_bytes": 16024,
+      "sha256": "e409ae562027750c7b739e2afb2cbc6499aa2b8c0aea028ceb0869a19ebb50ed"
+    },
+    {
+      "path": "levels/W03_Дом_на_просвет_RU.md",
+      "size_bytes": 15166,
+      "sha256": "8bbe0d954d3cc66a7f67abfdb7a8e39c3cb3d248ce4c121276eaac7d16ee7668"
+    },
+    {
+      "path": "levels/W04_Общий_кадр_RU.md",
+      "size_bytes": 15955,
+      "sha256": "7920937e3bf455b573aff2c78c52183929544f16c4b6c40021714ea9e3d307e6"
+    },
+    {
+      "path": "levels/W05_Тёплое_подполье_RU.md",
+      "size_bytes": 13926,
+      "sha256": "6d287b3327e744678532f9796e48d8030f6041ea20c17399adab60808fd88590"
+    },
+    {
+      "path": "references/ART_Aminov_SuAnasy_1978_reference.jpeg",
+      "size_bytes": 67964,
+      "sha256": "db1d44724bf4068f6982c006065d3a97dabe7fd072442cfc2c0ee0b84c56673a"
+    },
+    {
+      "path": "references/ART_Fatkhutdinov_SuAnasy_1995_1997_reference.jpeg",
+      "size_bytes": 47977,
+      "sha256": "481647537e63d6ff6a811a3cb075a6e9b53c371326a7814b92630119d9f5c6d7"
+    },
+    {
+      "path": "references/ART_Karamyshev_SuAnasy_1985_reference.jpeg",
+      "size_bytes": 65095,
+      "sha256": "67f75214cde4fa222fb415e38d7bdc930929ba01e5feca68dbaca1ed41ac2a2e"
+    },
+    {
+      "path": "references/ART_REFERENCE_SHEETS_RU.pdf",
+      "size_bytes": 231353,
+      "sha256": "3b7cc82251c5fae49c787d60e7867971617b074ff9e2ad33546ab073fa02a54b"
+    },
+    {
+      "path": "references/P1_user_selected_painterly.png",
+      "size_bytes": 3116695,
+      "sha256": "1d38dae75672be057a0c999ec6049f7f679b5e09f29bfa31670f8cdce2da6171"
+    },
+    {
+      "path": "tooling/README_RU.md",
+      "size_bytes": 1260,
+      "sha256": "d2c5097f2e37b533e0a823d20ede5e4014a589aac8484de7486f1e51abb9baba"
+    },
+    {
+      "path": "tooling/build_reading_copy.py",
+      "size_bytes": 11142,
+      "sha256": "1d7a9209c47cf2003d37bbb9caba655a21097edfc4c62a5be61a201df8eb3e10"
+    },
+    {
+      "path": "tooling/validate_spec.py",
+      "size_bytes": 13226,
+      "sha256": "027b69c6ddf939d6f382a42801bea20005ddef3cefeae53d8263be98d088068c"
+    }
+  ]
+}

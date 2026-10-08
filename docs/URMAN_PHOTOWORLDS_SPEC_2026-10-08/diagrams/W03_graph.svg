@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="620" viewBox="0 0 1080 620">
+<rect width="1080" height="620" fill="#faf8f2"/>
+<text x="35" y="44" font-family="DejaVu Sans,sans-serif" font-size="24" fill="#173e36">W03 · Дом на просвет</text>
+<text x="35" y="75" font-family="DejaVu Sans,sans-serif" font-size="14" fill="#5d655f">Проектная схема связей. Не масштабная карта существующей деревни.</text>
+<line x1="90" y1="285" x2="260" y2="285" stroke="#aab4ab" stroke-width="3" />
+<line x1="260" y1="285" x2="430" y2="140" stroke="#aab4ab" stroke-width="3" />
+<line x1="260" y1="285" x2="430" y2="430" stroke="#aab4ab" stroke-width="3" />
+<line x1="430" y1="140" x2="640" y2="140" stroke="#aab4ab" stroke-width="3" stroke-dasharray="9 7"/>
+<line x1="640" y1="140" x2="810" y2="220" stroke="#aab4ab" stroke-width="3" />
+<line x1="430" y1="430" x2="620" y2="430" stroke="#aab4ab" stroke-width="3" stroke-dasharray="9 7"/>
+<line x1="620" y1="430" x2="800" y2="430" stroke="#aab4ab" stroke-width="3" />
+<line x1="800" y1="430" x2="810" y2="220" stroke="#aab4ab" stroke-width="3" />
+<line x1="810" y1="220" x2="970" y2="220" stroke="#aab4ab" stroke-width="3" />
+<circle cx="90" cy="285" r="26" fill="#ffffff" stroke="#244e43" stroke-width="2"/>
+<text x="90" y="291" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-weight="bold" font-size="15" fill="#173e36">H00</text>
+<text x="90" y="245" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#173e36">ВХОД</text>
+<circle cx="260" cy="285" r="26" fill="#ffffff" stroke="#244e43" stroke-width="2"/>
+<text x="260" y="291" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-weight="bold" font-size="15" fill="#173e36">H01</text>
+<circle cx="430" cy="140" r="26" fill="#ffffff" stroke="#244e43" stroke-width="2"/>
+<text x="430" y="146" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-weight="bold" font-size="15" fill="#173e36">H02</text>
+<circle cx="430" cy="430" r="26" fill="#ffffff" stroke="#244e43" stroke-width="2"/>
+<text x="430" y="436" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-weight="bold" font-size="15" fill="#173e36">H03</text>
+<circle cx="640" cy="140" r="26" fill="#dbe6d7" stroke="#244e43" stroke-width="2"/>
+<text x="640" y="146" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-weight="bold" font-size="15" fill="#173e36">H04</text>
+<circle cx="620" cy="430" r="26" fill="#dbe6d7" stroke="#244e43" stroke-width="2"/>
+<text x="620" y="436" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-weight="bold" font-size="15" fill="#173e36">H05</text>
+<circle cx="800" cy="430" r="26" fill="#ffffff" stroke="#244e43" stroke-width="2"/>
+<text x="800" y="436" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-weight="bold" font-size="15" fill="#173e36">H06</text>
+<circle cx="810" cy="220" r="26" fill="#dbe6d7" stroke="#244e43" stroke-width="2"/>
+<text x="810" y="226" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-weight="bold" font-size="15" fill="#173e36">H07</text>
+<circle cx="970" cy="220" r="26" fill="#ffffff" stroke="#244e43" stroke-width="2"/>
+<text x="970" y="226" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-weight="bold" font-size="15" fill="#173e36">H08</text>
+<text x="970" y="180" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-size="13" fill="#173e36">ВЫХОД</text>
+<line x1="35" y1="542" x2="95" y2="542" stroke="#aab4ab" stroke-width="3"/>
+<text x="110" y="547" font-family="DejaVu Sans,sans-serif" font-size="14" fill="#4d5c52">Пешая связь в обе стороны</text>
+<line x1="440" y1="542" x2="500" y2="542" stroke="#aab4ab" stroke-width="3" stroke-dasharray="9 7"/>
+<text x="515" y="547" font-family="DejaVu Sans,sans-serif" font-size="14" fill="#4d5c52">Авторская пространственная связь</text>
+<circle cx="49" cy="580" r="10" fill="#dbe6d7" stroke="#244e43"/>
+<text x="70" y="585" font-family="DejaVu Sans,sans-serif" font-size="14" fill="#4d5c52">Место притяжения. Названия, координаты и действия узлов — в паспорте уровня.</text>
+</svg>

@@ -1,0 +1,782 @@
+{
+  "version": 1,
+  "dialogues": [
+    {
+      "id": "D00",
+      "title": "Выход из пролога",
+      "trigger": "prologue_finish_or_skip",
+      "staging": "Нива, устойчивое пассажирское состояние",
+      "lines": [
+        {
+          "id": "D00.01",
+          "speaker": "mansur",
+          "text_ru": "Айдар. Приехали. Книгу только не урони.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D00.02",
+          "speaker": "aidar",
+          "text_ru": "Я её открывал?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D00.03",
+          "speaker": "mansur",
+          "text_ru": "На колени положил. Пойдём, әби уже в окно смотрит.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D01",
+      "title": "Книга на домашнем столе",
+      "trigger": "first_home_book_interaction",
+      "staging": "Разговор без лишения управления после посадки/чая",
+      "lines": [
+        {
+          "id": "D01.01",
+          "speaker": "golsina",
+          "text_ru": "Эту стопку рядом положи. Я всё собиралась фотографии разобрать.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D01.02",
+          "speaker": "aidar",
+          "text_ru": "А почему они в Тукае?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D01.03",
+          "speaker": "golsina",
+          "text_ru": "Книжку часто открывали. Что хотелось сохранить, туда и клали.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D01.04",
+          "speaker": "aidar",
+          "text_ru": "Тут разным почерком.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D01.05",
+          "speaker": "golsina",
+          "text_ru": "Не один человек жил. Марат последние листы добавлял.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D01.06",
+          "speaker": "aidar",
+          "text_ru": "Можно я посмотрю?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D01.07",
+          "speaker": "golsina",
+          "text_ru": "Смотри. Только подписывай, что узнал. Потом опять некому будет объяснить.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D02",
+      "title": "Разрешение взять речной снимок",
+      "trigger": "book_received_and_water_not_acquired",
+      "staging": "Дом, семейный конверт",
+      "lines": [
+        {
+          "id": "D02.01",
+          "speaker": "golsina",
+          "text_ru": "Эту можешь себе оставить. Есть второй отпечаток.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D02.02",
+          "speaker": "aidar",
+          "text_ru": "Это наши мостки?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D02.03",
+          "speaker": "golsina",
+          "text_ru": "Старые. Теперь от них только сваи.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D02.04",
+          "speaker": "aidar",
+          "text_ru": "Откуда туда спускались?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D02.05",
+          "speaker": "golsina",
+          "text_ru": "Я с той стороны ходила. Но берег уже совсем другой.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D03",
+      "title": "Узнавание лесной фотографии",
+      "trigger": "P-FOREST_inspected_after_prologue",
+      "staging": "Книга, отдельная короткая реакция",
+      "lines": [
+        {
+          "id": "D03.01",
+          "speaker": "aidar",
+          "text_ru": "Эти три дерева… Я уже стоял возле них.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D03.02",
+          "speaker": "aidar",
+          "text_ru": "Но вот того прохода здесь не видно.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D03S",
+      "title": "Вариант после пропуска пролога",
+      "trigger": "P-FOREST_inspected_and_prologue_skipped",
+      "staging": "Не выдаёт неувиденные игроком детали",
+      "lines": [
+        {
+          "id": "D03S.01",
+          "speaker": "aidar",
+          "text_ru": "Вот эта страница была открыта в машине.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D03S.02",
+          "speaker": "aidar",
+          "text_ru": "Кто-нибудь должен помнить, где это снимали.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D04",
+      "title": "Школьная копия",
+      "trigger": "school_album_requested",
+      "staging": "Сотрудница школы — рабочая новая роль, не тайный хранитель",
+      "lines": [
+        {
+          "id": "D04.01",
+          "speaker": "school_staff",
+          "text_ru": "Альбом можно посмотреть здесь. Страницы не вынимай, они уже держатся кое-как.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D04.02",
+          "speaker": "aidar",
+          "text_ru": "Мне бы понять, с какой стороны леса стояли.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D04.03",
+          "speaker": "school_staff",
+          "text_ru": "На соседнем кадре видно. Смотри, перекладина та же.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D04.04",
+          "speaker": "aidar",
+          "text_ru": "Можно копию?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D04.05",
+          "speaker": "school_staff",
+          "text_ru": "Сделаю. Оригинал пусть здесь остаётся.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D05",
+      "title": "Опушка перед первым входом",
+      "trigger": "forest_context_known_at_anchor",
+      "staging": "Пешком у книги, игрок сам подтверждает вход",
+      "lines": [
+        {
+          "id": "D05.01",
+          "speaker": "aidar",
+          "text_ru": "Берёза, перекладина… Отсюда снимали.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D05.02",
+          "speaker": "aidar",
+          "text_ru": "А смотрят они все не на фотографа.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D06",
+      "title": "Первая встреча с Шурале",
+      "trigger": "F14_first_encounter",
+      "staging": "Сначала жест и предмет, затем доступная короткая речь",
+      "lines": [
+        {
+          "id": "D06.01",
+          "speaker": "shurale",
+          "text_ru": "Не тяни. Ремень под корнем.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D06.02",
+          "speaker": "aidar",
+          "text_ru": "Я хотел пройти.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D06.03",
+          "speaker": "shurale",
+          "text_ru": "Вижу. Сначала отцепи.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D06.04",
+          "speaker": "aidar",
+          "text_ru": "Это твоя сумка?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D06.05",
+          "speaker": "shurale",
+          "text_ru": "Нет. Потому и мешает.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D07",
+      "title": "После предметного действия в лесу",
+      "trigger": "forest_encounter_resolved_first",
+      "staging": "Одна реакция, затем персонаж занят своим",
+      "lines": [
+        {
+          "id": "D07.01",
+          "speaker": "shurale",
+          "text_ru": "Теперь свободно.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D07.02",
+          "speaker": "aidar",
+          "text_ru": "На фотографии тебя нет.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D07.03",
+          "speaker": "shurale",
+          "text_ru": "Так снимали не меня.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D07R",
+      "title": "Повторное посещение леса",
+      "trigger": "W01_completed_revisit_first_speech",
+      "staging": "Не повторять каждые полминуты",
+      "lines": [
+        {
+          "id": "D07R.01",
+          "speaker": "aidar",
+          "text_ru": "Я ненадолго.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D07R.02",
+          "speaker": "shurale",
+          "text_ru": "Тут место есть.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D08",
+      "title": "Отражение мостков",
+      "trigger": "water_reflection_relation_seen",
+      "staging": "Внутренняя запись, не обязательный вслух-монолог",
+      "lines": [
+        {
+          "id": "D08.01",
+          "speaker": "aidar",
+          "text_ru": "В воде виден ещё один ряд стоек. С берега его закрывает камыш.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D09",
+      "title": "Старый подход",
+      "trigger": "water_old_approach_seen",
+      "staging": "Короткая запись после реального осмотра",
+      "lines": [
+        {
+          "id": "D09.01",
+          "speaker": "aidar",
+          "text_ru": "Настил подходил с этой стороны. Зимой надо посмотреть, остались ли опоры.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D10",
+      "title": "Ответ Су анасы",
+      "trigger": "water_encounter_resolved_first",
+      "staging": "Без обязательной речи существа; доступная описательная подпись",
+      "lines": [
+        {
+          "id": "D10.01",
+          "speaker": "audio_description",
+          "text_ru": "Фигура у воды отступает от настила. В отражении расходятся три медленные полосы.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D10.02",
+          "speaker": "aidar",
+          "text_ru": "Я только посмотрел. Положил обратно.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D11",
+      "title": "Первое возвращение домой",
+      "trigger": "any_main_complete_and_not_first_world_home_talk",
+      "staging": "Открывает возможность получить P-HOUSE, не объявляет всё сном",
+      "lines": [
+        {
+          "id": "D11.01",
+          "speaker": "golsina",
+          "text_ru": "Замёрз? Чай ещё тёплый.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D11.02",
+          "speaker": "aidar",
+          "text_ru": "Там совсем по-другому выглядело.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D11.03",
+          "speaker": "golsina",
+          "text_ru": "На старом снимке?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D11.04",
+          "speaker": "aidar",
+          "text_ru": "Не только на снимке.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D11.05",
+          "speaker": "golsina",
+          "text_ru": "Расскажешь. А эту тоже посмотри — наш двор. Тут я хотя бы точно помню.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D12",
+      "title": "Внешняя проверка свай",
+      "trigger": "outside_bank_conditions_met",
+      "staging": "Зимний берег, без выхода на опасный лёд",
+      "lines": [
+        {
+          "id": "D12.01",
+          "speaker": "aidar",
+          "text_ru": "Три опоры. И крайняя под углом — как на старой схеме.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D12.02",
+          "speaker": "aidar",
+          "text_ru": "Подход действительно был оттуда.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D13",
+      "title": "Два дверных вида",
+      "trigger": "house_two_views_seen",
+      "staging": "Запись после двух осмотров",
+      "lines": [
+        {
+          "id": "D13.01",
+          "speaker": "aidar",
+          "text_ru": "Стул и яблоня те же. Но через эту дверь я смотрю с другой стороны дома.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D14",
+      "title": "Позиция фотографа",
+      "trigger": "house_camera_position_seen",
+      "staging": "Не называет автора без внешнего подтверждения",
+      "lines": [
+        {
+          "id": "D14.01",
+          "speaker": "aidar",
+          "text_ru": "Кто-то стоял здесь, за окном. И всех передвинул, чтобы они поместились.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D14.02",
+          "speaker": "aidar",
+          "text_ru": "А сам в кадр не попал.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D15",
+      "title": "Подтверждение Гөлсинә",
+      "trigger": "house_camera_position_seen_and_S-PHOTOGRAPHER.back_read",
+      "staging": "Настоящий дом, разговор с живым человеком",
+      "lines": [
+        {
+          "id": "D15.01",
+          "speaker": "aidar",
+          "text_ru": "Ты снимала этот двор? Тут на обороте твоё имя.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D15.02",
+          "speaker": "golsina",
+          "text_ru": "Я. Отошла к забору, а всё равно тесно было.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D15.03",
+          "speaker": "aidar",
+          "text_ru": "Из-за окна ставню открывали?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D15.04",
+          "speaker": "golsina",
+          "text_ru": "Чтобы свет не заслоняла. А ткань я потом так и забыла убрать.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D15.05",
+          "speaker": "aidar",
+          "text_ru": "Тебя самой ни на одном из этих кадров нет.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D15.06",
+          "speaker": "golsina",
+          "text_ru": "Кто-то же должен был нажать.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D15E",
+      "title": "Ранний просмотр оборота",
+      "trigger": "S-PHOTOGRAPHER.back_read_and_not_house_camera_position_seen",
+      "staging": "Знание имени допустимо, итоговое сопоставление ещё не выдано",
+      "lines": [
+        {
+          "id": "D15E.01",
+          "speaker": "golsina",
+          "text_ru": "Да, это я снимала. Только с какого места — сама на снимке не увижу.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D15E.02",
+          "speaker": "aidar",
+          "text_ru": "Посмотрю, что осталось во дворе.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D16",
+      "title": "Семейный файл Марата",
+      "trigger": "S-PRINT_opened_on_pc",
+      "staging": "Не предсмертная записка и не послание всеведущего мертвеца",
+      "lines": [
+        {
+          "id": "D16.01",
+          "speaker": "aidar",
+          "text_ru": "Он даже папку не переименовал. Только подпись начал.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D16.02",
+          "speaker": "aidar",
+          "text_ru": "Ладно. Напишу, что сам увидел.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D17",
+      "title": "Договорённость с Алсу",
+      "trigger": "before_W04_and_alsu_available",
+      "staging": "Встреча по обычному поводу, не телепортация после финала",
+      "lines": [
+        {
+          "id": "D17.01",
+          "speaker": "alsu",
+          "text_ru": "Я потом через луг пойду. Ты опять к фотографиям?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D17.02",
+          "speaker": "aidar",
+          "text_ru": "Хочу один вид сравнить. Теперь знаю, где стоять.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D17.03",
+          "speaker": "alsu",
+          "text_ru": "Тогда там и встретимся. Покажешь.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D18",
+      "title": "Общий горизонт",
+      "trigger": "common_horizon_seen",
+      "staging": "Можно читать молча; не блокировать обзор монологом",
+      "lines": [
+        {
+          "id": "D18.01",
+          "speaker": "aidar",
+          "text_ru": "Лес, берег, дом. Всё рядом. Просто ни в один снимок целиком не вошло.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D19",
+      "title": "Помета у общего вида",
+      "trigger": "common_note_finished",
+      "staging": "Запись Айдара; не цитата Тукая",
+      "lines": [
+        {
+          "id": "D19.01",
+          "speaker": "aidar",
+          "text_ru": "Это не весь вид.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D20",
+      "title": "Перед листом",
+      "trigger": "W04_completed_and_alsu_meeting_agreed",
+      "staging": "Снаружи, книга закрыта, Алсу у доступного якоря",
+      "lines": [
+        {
+          "id": "D20.01",
+          "speaker": "alsu",
+          "text_ru": "Ну, где смотреть?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D20.02",
+          "speaker": "aidar",
+          "text_ru": "Сначала отсюда. Видишь ту ветку?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D21",
+      "title": "После невозможного события",
+      "trigger": "outside_leaf_witnessed_first",
+      "staging": "Не говорить, если событие ещё не было увидено",
+      "lines": [
+        {
+          "id": "D21.01",
+          "speaker": "alsu",
+          "text_ru": "Он сейчас вырос?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D21.02",
+          "speaker": "aidar",
+          "text_ru": "Ты тоже видела?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D21.03",
+          "speaker": "alsu",
+          "text_ru": "Я про это и спрашиваю.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D22",
+      "title": "Домашний эпилог",
+      "trigger": "outside_leaf_witnessed_and_home_return",
+      "staging": "Без лекции об устройстве магии",
+      "lines": [
+        {
+          "id": "D22.01",
+          "speaker": "golsina",
+          "text_ru": "Нашёл, как подписать?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D22.02",
+          "speaker": "aidar",
+          "text_ru": "Некоторые. Остальные ещё спрошу.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D22.03",
+          "speaker": "golsina",
+          "text_ru": "Тогда не убирай далеко.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D22.04",
+          "speaker": "aidar",
+          "text_ru": "Подождите. Я вас сниму.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D22.05",
+          "speaker": "mansur",
+          "text_ru": "А кружку убрать?",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D22.06",
+          "speaker": "aidar",
+          "text_ru": "Не надо. Так и сидите.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D23",
+      "title": "Бичура — предметный ответ",
+      "trigger": "cellar_response_seen",
+      "staging": "Существо не обязано говорить человеческой речью",
+      "lines": [
+        {
+          "id": "D23.01",
+          "speaker": "audio_description",
+          "text_ru": "Маленькая фигура переносит соседнюю вещь ближе к краю полки и освобождает нишу.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D23.02",
+          "speaker": "aidar",
+          "text_ru": "Значит, я тут не один порядок навожу.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D24",
+      "title": "Обычная катушка после W05",
+      "trigger": "cellar_niche_seen_and_spool_found_now",
+      "staging": "Рабочая семейная мелочь, не магическая награда",
+      "lines": [
+        {
+          "id": "D24.01",
+          "speaker": "aidar",
+          "text_ru": "Она и правда под этой полкой была.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        },
+        {
+          "id": "D24.02",
+          "speaker": "golsina",
+          "text_ru": "Наконец-то. Я другую уже достала.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    },
+    {
+      "id": "D24E",
+      "title": "Катушка найдена заранее",
+      "trigger": "spool_found_before_W05",
+      "staging": "Не создаёт второй экземпляр позднее",
+      "lines": [
+        {
+          "id": "D24E.01",
+          "speaker": "golsina",
+          "text_ru": "Вот куда закатилась. Положи на стол, пожалуйста.",
+          "tt_status": "NOT_TRANSLATED_REVIEW_REQUIRED"
+        }
+      ],
+      "replay_policy": "first_only; separately specified revisit variant",
+      "grants_progress": "Only associated runtime action/quest conditions; text display alone grants nothing"
+    }
+  ],
+  "status": "original_Russian_working_script_not_voice_recording"
+}

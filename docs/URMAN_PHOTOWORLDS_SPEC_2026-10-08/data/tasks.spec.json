@@ -1,0 +1,3726 @@
+{
+  "version": 1,
+  "count": 100,
+  "tasks": [
+    {
+      "id": "PW-001",
+      "title": "Зафиксировать актуальный checkout и базовый проход",
+      "phase": 0,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "AGENTS.md",
+        "game/project.godot",
+        "docs/urman_knowledge_base/execution_backlog.json"
+      ],
+      "steps": [
+        "Прочитать действующие инструкции и изменения после исследованного SHA; записать реальный HEAD, engine build и .NET.",
+        "Проверить dirty diff и активные задания станции; сохранить чужую работу, не использовать reset/clean/stash.",
+        "Выполнить доступный штатный защищённый build/launch baseline, отдельно отметить инфраструктурные отказы."
+      ],
+      "acceptance": [
+        "Исходный срез и ограничения воспроизводимы.",
+        "Ни один исторический PASS не приписан новой сборке."
+      ],
+      "depends_on": [],
+      "asset_ids": [],
+      "reference_ids": [
+        "REPO01",
+        "REPO02"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-001/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-002",
+      "title": "Внести авторское разрешение на фундаментальную переработку",
+      "phase": 0,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "AGENTS.md",
+        "docs/urman_knowledge_base/canon.md",
+        "docs/urman_knowledge_base/decision_log.md"
+      ],
+      "steps": [
+        "Перенести A01–A10 и приоритет нового поручения.",
+        "Заменить правило обязательного единого уровня стилизации, прежние лимиты сюжета и запрет полного reveal внутри фотографий.",
+        "Сохранить защиту пользовательских данных, религиозного слоя и недеструктивную работу."
+      ],
+      "acceptance": [
+        "Codex не обязан остановиться после прототипа.",
+        "Документ различает авторский запрос, производственные defaults и реальные права внешних ресурсов."
+      ],
+      "depends_on": [
+        "PW-001"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ",
+        "REPO02",
+        "REPO03"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-002/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-003",
+      "title": "Перестроить сюжетный граф кампании «За краем снимка»",
+      "phase": 0,
+      "owner": "narrative",
+      "priority": "P0",
+      "effort": "L",
+      "files": [
+        "docs/urman_knowledge_base/canon.md",
+        "docs/urman_knowledge_base/gameplay.md",
+        "content authoring sources",
+        "game/scripts/CompiledCampaignRepository.cs"
+      ],
+      "steps": [
+        "Найти исходный, не compiled-only, формат кампании.",
+        "Внести завершённую арку из документа 02 с двумя свободными первыми направлениями и содержательными условиями W04.",
+        "Архивировать обязательность винтовки/самоубийственного похода Марата, обрушения моста и уничтожения пакта для этой арки; удалить несогласованные promises из активных целей."
+      ],
+      "acceptance": [
+        "У новой кампании начало, развитие, завершение и свободное возвращение.",
+        "Причина смерти Марата не объявлена решённой и не остаётся обязательным невыполнимым заданием."
+      ],
+      "depends_on": [
+        "PW-002"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-003/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-004",
+      "title": "Разобрать судьбу существующих EX и бытовых механик",
+      "phase": 0,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "docs/urman_knowledge_base/execution_backlog.json",
+        "docs/production/act1_acceptance_matrix_2026-09-14.md",
+        "game/scripts/Act1ConnectedWorld*.cs"
+      ],
+      "steps": [
+        "Перечислить все актуальные EX00–EX14 и уже реализованные действия.",
+        "Для каждого дать keep/rewrite/optional/retire с преемником и причиной.",
+        "Не включать Тамару/все покупки/все слова в обязательные условия фотокниги."
+      ],
+      "acceptance": [
+        "legacy_feature_disposition.json покрывает каждый прежний активный ID.",
+        "Полезная реализация не исчезла без решения."
+      ],
+      "depends_on": [
+        "PW-001",
+        "PW-003"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-004/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-005",
+      "title": "Определить версию состояния новой кампании",
+      "phase": 0,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "L",
+      "files": [
+        "runtime state contracts",
+        "game/scripts/RuntimeBridge.cs",
+        "persistence owner"
+      ],
+      "steps": [
+        "Создать namespace photoworlds-v1 и схему состояния из документов 06–07.",
+        "Разделить приобретение, монтаж, посещение, действия, завершение и внешние доказательства.",
+        "Сохранить отдельную идентичность старых слотов и настройки."
+      ],
+      "acceptance": [
+        "Новый save не затирает старый.",
+        "Контракт имеет version и явные migrations, а не набор глобальных bool в UI."
+      ],
+      "depends_on": [
+        "PW-001",
+        "PW-003"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-005/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-006",
+      "title": "Расширить единый kernel командами фотокниги",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "L",
+      "files": [
+        "game/scripts/RuntimeBridge*.cs",
+        "game/scripts/QuestRuntimeCoordinator.cs",
+        "new PhotoWorldCommandHandler.cs"
+      ],
+      "steps": [
+        "Встроить команды pw1.* в существующий runtime pipeline.",
+        "Проверять entitlement, occurrence ID, session, prerequisites и типизированные отказы.",
+        "Знания/награды выдавать через reducer, а не сигнал видимого объекта."
+      ],
+      "acceptance": [
+        "Повтор occurrence ID не выдаёт результат дважды.",
+        "Недоступное действие отвергается одинаково через UI и debug-команду."
+      ],
+      "depends_on": [
+        "PW-005"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REPO04",
+        "REPO05"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-006/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-007",
+      "title": "Создать строгий каталог фото, миров и разворотов",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "new PhotoWorldCatalog.cs",
+        "content authoring schema",
+        "data/worlds.spec.json",
+        "data/photos.spec.json"
+      ],
+      "steps": [
+        "Адаптировать эти spec JSON в реальный формат контента.",
+        "Проверять уникальность ID, ссылки, необходимые ресурсы, безопасные точки и обязательные поля.",
+        "Создать editor/CLI validation с понятной ошибкой конкретного ID."
+      ],
+      "acceptance": [
+        "Каталог содержит 5 миров и 13 фотографий без битых ссылок.",
+        "Удаление required world/resource не маскируется default-пустышкой."
+      ],
+      "depends_on": [
+        "PW-005",
+        "PW-006"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-007/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-008",
+      "title": "Разделить впечатление и доказанное знание",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "game/scripts/RuntimeBridge.Notebook.cs",
+        "new EvidenceProjection.cs",
+        "quest conditions"
+      ],
+      "steps": [
+        "Добавить provenance категорий и ссылки на фото/место/диалог.",
+        "Хранить E-BANK-OUTSIDE и E-PHOTOGRAPHER-OUTSIDE отдельно от внутренних наблюдений.",
+        "Позволить раннюю находку документов без выдачи позднего вывода."
+      ],
+      "acceptance": [
+        "Прохождение W02 само не подтверждает наружные сваи.",
+        "UI объясняет источник знания и не выдумывает знание Айдара."
+      ],
+      "depends_on": [
+        "PW-006",
+        "PW-007"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-008/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-009",
+      "title": "Создать реестр семантических якорей и safe nodes",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "new PhotoAnchorResolver.cs",
+        "game/scripts/Act1WorldLayout.cs",
+        "world scene tags"
+      ],
+      "steps": [
+        "Описать 7 якорей и локальные safe nodes W01–W05.",
+        "Проверять ровно один world owner, опору и свободную капсулу.",
+        "Добавить диагностику отсутствующего/дублированного якоря без спавна в нуле."
+      ],
+      "acceptance": [
+        "Дублированный якорь ловится валидатором.",
+        "Fallback всегда именованный и проверенный."
+      ],
+      "depends_on": [
+        "PW-007"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-009/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-010",
+      "title": "Свести новый стиль с прежним visual reset",
+      "phase": 0,
+      "owner": "art",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "docs/urman_knowledge_base/design_style.md",
+        "docs/production/visual plans",
+        "legacy migration"
+      ],
+      "steps": [
+        "Применить документ 04: наружная материальная живописность и внутренний более смелый язык.",
+        "Перенести все 118 старых задач через таблицу 13 без второго независимого backlog.",
+        "Снять обязательный страшный лес в каждом виде и бессрочный art-lock freeze, сохранить UV/контакт/производительность."
+      ],
+      "acceptance": [
+        "Каждый VIS-ID имеет disposition и PW-преемника.",
+        "Нет двух противоречивых активных художественных контрактов."
+      ],
+      "depends_on": [
+        "PW-002",
+        "PW-004"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-010/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-011",
+      "title": "Импортировать эту очередь в действующий backlog",
+      "phase": 0,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "docs/urman_knowledge_base/execution_backlog.json",
+        "docs/production/acceptance matrix"
+      ],
+      "steps": [
+        "Сохранить стабильные PW-ID, зависимости, обязанности и открытые статусы.",
+        "Прежние карточки пометить связями, а не копировать их как второй набор задач к исполнению.",
+        "Назначить интегратора и независимые художественные дорожки; сборки/импорт/запуски сериализовать."
+      ],
+      "acceptance": [
+        "100 новых PW-карточек доступны единой очередью.",
+        "Рабочий агент видит блокеры конкретного ресурса, а не общий запрет продолжать."
+      ],
+      "depends_on": [
+        "PW-010"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-011/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-012",
+      "title": "Ввести session generation и отмену переходов",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "game/scripts/RuntimeBridge.cs",
+        "new PhotoWorldCoordinator.cs"
+      ],
+      "steps": [
+        "Отслеживать session identity, visit ID и cancellation generation.",
+        "New Game/Load/Menu отменяют callback старой сцены.",
+        "Освобождать modal/input/audio locks в finally даже при ошибках."
+      ],
+      "acceptance": [
+        "Загрузка другой игры во время входа не меняет новый слот.",
+        "После отказа управление и меню остаются работоспособными."
+      ],
+      "depends_on": [
+        "PW-006"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-012/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-013",
+      "title": "Реализовать приобретение и разрешённое копирование фото",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "game/scripts/InteractionTarget.cs",
+        "new photo interaction adapter",
+        "kernel commands"
+      ],
+      "steps": [
+        "Привязать способы P/S acquisition к источникам и ownership.",
+        "Оригиналы школьного/сельского альбома остаются на месте, выдаётся копия.",
+        "Сделать повторную команду безопасной и сохранить результат до удаления видимого loose-print."
+      ],
+      "acceptance": [
+        "13 типов источников корректно различаются.",
+        "Нет украденного оригинала там, где сценарий обещал копию."
+      ],
+      "depends_on": [
+        "PW-006",
+        "PW-007"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-013/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-014",
+      "title": "Реализовать фронт, оборот и читаемую транскрипцию",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "game/scripts/DocumentUi.cs",
+        "game/scripts/DocumentImageReader.cs",
+        "photo UI"
+      ],
+      "steps": [
+        "Показать две стороны и подпись происхождения.",
+        "Переворот одной командой, масштабирование и текстовая транскрипция.",
+        "Просмотр отмечает только действительно открытый контент; смена языка не выдаёт знания повторно."
+      ],
+      "acceptance": [
+        "Фотографию можно прочитать при 720p без pixel hunting.",
+        "Back-read-флаг не выдаётся за просмотр thumbnail."
+      ],
+      "depends_on": [
+        "PW-008",
+        "PW-013"
+      ],
+      "asset_ids": [
+        "A-PHOTOSET",
+        "A-BOOK-UI"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-014/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-015",
+      "title": "Реализовать вклейку и её сохранение",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "JournalUi book projection",
+        "new PhotoBookProjection.cs"
+      ],
+      "steps": [
+        "Единый PhotoId на физической и UI-версии.",
+        "Подтверждение монтажа или альтернативный drag; неподходящая страница объяснена без потери фото.",
+        "Прерывание анимации и повторный ввод не создают дубликат."
+      ],
+      "acceptance": [
+        "Монтаж 0.8–1.3 с, reducedmotion≤0.2 с.",
+        "После save/load кадр находится на том же развороте."
+      ],
+      "depends_on": [
+        "PW-006",
+        "PW-014"
+      ],
+      "asset_ids": [
+        "A-BOOK",
+        "A-BOOK-UI"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-015/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-016",
+      "title": "Переработать журнал в семейную книгу без потери функций",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "L",
+      "files": [
+        "game/scripts/JournalUi.cs",
+        "JournalUi.Notebook.cs",
+        "JournalUi.Vocabulary.cs",
+        "UrmanUiTheme.cs"
+      ],
+      "steps": [
+        "Добавить развороты/оглавление/сопоставление фото в существующий UI owner.",
+        "Сохранить карты, адреса, людей, словарь, личные заметки.",
+        "Не создавать второй журнал со своей истиной о прогрессе."
+      ],
+      "acceptance": [
+        "Все старые полезные функции доступны.",
+        "Фотомиры не открывают клетки наружной карты."
+      ],
+      "depends_on": [
+        "PW-008",
+        "PW-015"
+      ],
+      "asset_ids": [
+        "A-BOOK-UI",
+        "A-BOOK-ICONS"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-016/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-017",
+      "title": "Произвести физическую книгу и хват от первого лица",
+      "phase": 2,
+      "owner": "art",
+      "priority": "P0",
+      "effort": "L",
+      "files": [
+        "assets/source/blender/photoworlds",
+        "game/scripts/FirstPersonController*.cs",
+        "book presentation"
+      ],
+      "steps": [
+        "Создать A-BOOK и A-BOOK-HANDS по паспортам.",
+        "Привязать страницы и анимации к тем же PageId, что UI.",
+        "Проверить открытие/переворот/монтаж в движении и при разных FOV без принудительного сужения камеры."
+      ],
+      "acceptance": [
+        "Толщина/корешок/хват видны, нет плоской карточки вместо книги.",
+        "Руки и тело не дублируются, UTF-тексты редактируемы."
+      ],
+      "depends_on": [
+        "PW-015",
+        "PW-016"
+      ],
+      "asset_ids": [
+        "A-BOOK",
+        "A-BOOK-HANDS"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-017/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-018",
+      "title": "Согласовать ввод, фокус и modal ownership",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "InputBindingService.cs",
+        "FirstPersonController.cs",
+        "JournalUi.cs",
+        "PauseMenuUi.cs"
+      ],
+      "steps": [
+        "Использовать действие журнала, а не конфликтующую вторую клавишу.",
+        "Обеспечить keyboard/mouse/controller focus.",
+        "Вход запрещён при чужом modal/в машине; причина ясна, выйти и положить предмет можно штатно."
+      ],
+      "acceptance": [
+        "Книга, пауза и диалог не захватывают друг у друга мышь.",
+        "Нельзя совершить две пространственные операции одновременно."
+      ],
+      "depends_on": [
+        "PW-012",
+        "PW-016"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-018/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-019",
+      "title": "Реализовать условия первого сознательного входа",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "PhotoAnchorResolver.cs",
+        "PhotoWorldCoordinator.cs",
+        "book UI conditions"
+      ],
+      "steps": [
+        "Проверять приобретённость, монтаж, осмысленный контекст, 6 м радиус и безопасную стойку.",
+        "Ориентация только мягкая, не пиксельное совмещение.",
+        "Читать книгу можно везде, входить только при выполнении условий; показать конкретное недостающее условие."
+      ],
+      "acceptance": [
+        "Случайное открытие книги не телепортирует.",
+        "Вне якоря есть чтение без ложной кнопки входа."
+      ],
+      "depends_on": [
+        "PW-009",
+        "PW-015",
+        "PW-018"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-019/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-020",
+      "title": "Реализовать prepare и возвратный билет",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "PhotoReturnTicket.cs",
+        "PhotoWorldCoordinator.cs",
+        "persistence owner"
+      ],
+      "steps": [
+        "Сохранить полный семантический ReturnTicket из 06 до загрузки нового мира.",
+        "Сохранить placed carryable IDs, часы, профиль, оригинальный safe node.",
+        "Отказ сохранения отменяет вход до потери исходной сцены."
+      ],
+      "acceptance": [
+        "До commit существует подтверждённая точка возврата.",
+        "Ссылки Node/GodotObject не сериализуются как save."
+      ],
+      "depends_on": [
+        "PW-005",
+        "PW-012",
+        "PW-019"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-020/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-021",
+      "title": "Загрузить фотомир без блокирующей сцены на main loop",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "L",
+      "files": [
+        "PhotoWorldCoordinator.cs",
+        "resource loading owner"
+      ],
+      "steps": [
+        "Использовать request/status/get по поддерживаемой engine API; не вызывать blocking get до готовности.",
+        "SceneTree/physics создавать на главном потоке.",
+        "После 5 с показать честную загрузку/отмену до commit; не изображать готовность красивым fade."
+      ],
+      "acceptance": [
+        "Cancel возвращает управление во внешнем мире.",
+        "Loading failure указывает ресурс; фоновые потоки не меняют physics server."
+      ],
+      "depends_on": [
+        "PW-020"
+      ],
+      "asset_ids": [
+        "A-TRANSITION"
+      ],
+      "reference_ids": [
+        "TECH01",
+        "TECH02"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-021/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-022",
+      "title": "Проверить spawn и завершить commit",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "PhotoWorldSceneRoot.cs",
+        "PhotoWorldCoordinator.cs",
+        "FirstPersonController"
+      ],
+      "steps": [
+        "Дождаться регистрации collision и свободной капсулы в safe node.",
+        "Применить world profile, domain audio и корректные шаги.",
+        "Только после kernel commit выдать управление и исключить вторую активную сцену-владельца."
+      ],
+      "acceptance": [
+        "Нельзя провалиться через ещё не импортированный пол.",
+        "Ровно один активный игрок и один Environment на gameplayviewport."
+      ],
+      "depends_on": [
+        "PW-009",
+        "PW-021"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "TECH03"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-022/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-023",
+      "title": "Вернуться из любой нормальной точки мира",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "PhotoWorldCoordinator.cs",
+        "book exit UI",
+        "village restore owner"
+      ],
+      "steps": [
+        "Обеспечить досрочный выход книгой и авторский выход уровня.",
+        "Ограничить лишь короткий атомарный участок≤2 с, без таймера угрозы.",
+        "Применить дельты/билет, collision fallback, восстановить runtime до выдачи управления."
+      ],
+      "acceptance": [
+        "Незавершённая глава сохраняет выполненные действия.",
+        "Не создаются новые NPC/машины вместо прежних экземпляров."
+      ],
+      "depends_on": [
+        "PW-022"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-023/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-024",
+      "title": "Сохранение и загрузка внутри фотомира",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "RuntimeBridge save/load",
+        "photoworld checkpoint projection"
+      ],
+      "steps": [
+        "Сохранить world ID/safe node/дельты/visit state через основной persistence.",
+        "Во время transition поставить save в очередь до устойчивого состояния.",
+        "Восстановить waypoint с сохранением прогресса, не только красивый фон."
+      ],
+      "acceptance": [
+        "Загрузка до и после каждого действия восстанавливает согласованную сцену.",
+        "Глава не сбрасывается и не завершается просто фактом загрузки."
+      ],
+      "depends_on": [
+        "PW-005",
+        "PW-023"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-024/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-025",
+      "title": "Сделать миграции safe nodes и защиту старых слотов",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "persistence migrations",
+        "campaign metadata",
+        "main menu"
+      ],
+      "steps": [
+        "Старая кампания остаётся отдельной, без автоматического переноса plotflags.",
+        "Добавить version/node remap для изменений новой геометрии.",
+        "Показать понятный unknown-version/recovery flow без удаления файлов."
+      ],
+      "acceptance": [
+        "Изменение арта не требует New Game.",
+        "Повреждённая запись не затирает последнюю целую резервную копию."
+      ],
+      "depends_on": [
+        "PW-024"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-025/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-026",
+      "title": "Приостановить внешние часы и бытовые процессы на время визита",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "VillageHouseholdDirector.cs",
+        "AuthoredWorldDirector.Schedules.cs",
+        "runtime time owner"
+      ],
+      "steps": [
+        "Сохранить часы и остановить внешний сюжетный счётчик при входе.",
+        "Не симулировать скрытые потери предметов/неудачу квестов во время созерцания.",
+        "Восстановить источник расписания, не перезапускать всех NPC с утренней позы."
+      ],
+      "acceptance": [
+        "Десять минут в W02 не пропускают деревенский диалог.",
+        "Пауза не продвигает сюжетные таймеры."
+      ],
+      "depends_on": [
+        "PW-020",
+        "PW-023"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-026/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-027",
+      "title": "Разрешить спокойные повторные посещения",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "book UI",
+        "PhotoWorldCoordinator",
+        "chapter states"
+      ],
+      "steps": [
+        "Завершённые миры доступны с домашнего стола, новые впервые только с места.",
+        "Вход из дома возвращает домой, не даёт произвольного fasttravel.",
+        "Повтор использует устойчивые события/позы, не повторяет выдачу знаний."
+      ],
+      "acceptance": [
+        "После финала все открытые миры доступны.",
+        "Нельзя фармить лист/квестовый предмет повторным выходом."
+      ],
+      "depends_on": [
+        "PW-023",
+        "PW-026"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-027/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-028",
+      "title": "Сделать необязательные запросные подсказки",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "JournalUi",
+        "world interaction prompts",
+        "hint projection"
+      ],
+      "steps": [
+        "Создать три уровня подсказки: человеческий вопрос, область поиска, конкретное действие.",
+        "Не раскрывать вывод до осмотра и не торопить игрока повторной речью.",
+        "Добавить визуальный и текстовый эквивалент обязательных слуховых и языковых подсказок."
+      ],
+      "acceptance": [
+        "Пять минут неподвижности не вызывают наказание или окрик.",
+        "Последний уровень снимает технический тупик, но не завершает главу автоматически."
+      ],
+      "depends_on": [
+        "PW-008",
+        "PW-016"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-028/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-029",
+      "title": "Сохранять предметные действия и пространственные связи",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "new photoworld interaction/state adapters",
+        "QuestRuntimeCoordinator.cs"
+      ],
+      "steps": [
+        "Назначить ветке, ставне, ткани и коробке стабильные action ID и устойчивые позы.",
+        "Выбрать одного владельца движения каждого предмета: анимацию либо физику.",
+        "Восстанавливать положение и состояние пространственных переходов после загрузки."
+      ],
+      "acceptance": [
+        "Позиции предметов соответствуют сохранённым действиям.",
+        "Повторное пересечение триггера не выдаёт награду."
+      ],
+      "depends_on": [
+        "PW-006",
+        "PW-024"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-029/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-030",
+      "title": "Создать изолированные fixtures и capture harness",
+      "phase": 1,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "game/tests/photoworlds",
+        "eng protected station scripts"
+      ],
+      "steps": [
+        "Создать тестовые сцены входа в каждый мир через реальный runtime либо явно помеченное тестовое состояние.",
+        "Изолировать тестовые слоты от обычной новой игры.",
+        "Сохранять параметры камеры, seed, commit, профиль и путь сцены для каждого захвата."
+      ],
+      "acceptance": [
+        "Отладка не даёт скрытый прогресс обычному игроку.",
+        "Перемещение в тестовую точку не объявляется прохождением."
+      ],
+      "depends_on": [
+        "PW-007",
+        "PW-024"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-030/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-031",
+      "title": "Зафиксировать colorscript и значения профилей",
+      "phase": 2,
+      "owner": "art",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "AtmosphereProfiles.cs",
+        "game/content/world/atmosphere.v1.json",
+        "new world profiles"
+      ],
+      "steps": [
+        "Ввести отдельные профили Village и W01–W05 через единого владельца атмосферы.",
+        "Использовать свотчи документа 04 как отношения цветов с корректным цветовым пространством.",
+        "Проверить свет, тени, доминирующее пятно и глубину на шести контрольных видах каждого мира."
+      ],
+      "acceptance": [
+        "Миры различаются, но принадлежат одной художественной системе.",
+        "Наружная деревня не перекрашивается при изменении внутреннего профиля."
+      ],
+      "depends_on": [
+        "PW-010",
+        "PW-022"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "ART01",
+        "ART02",
+        "TECH03"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-031/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-032",
+      "title": "Исправить привязку мазка к движущимся поверхностям",
+      "phase": 2,
+      "owner": "render",
+      "priority": "P0",
+      "effort": "L",
+      "files": [
+        "PainterlyMaterialLibrary.cs",
+        "GeneratedCharacterKitDressing.cs",
+        "book and creature materials"
+      ],
+      "steps": [
+        "Разделить мировые, локальные и UV-выборки; деформируемые меши используют устойчивую UV-привязку.",
+        "Удалить случайный новый seed на каждом кадре и экранную бумажную сетку.",
+        "Проверить книгу, рукава, дверь, существ и ветви при перемещении и повороте."
+      ],
+      "acceptance": [
+        "Фактура остаётся на поверхности, а не скользит по объекту.",
+        "Ветер и тени согласованы с реальной деформацией."
+      ],
+      "depends_on": [
+        "PW-010"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "TECH04"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-032/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-033",
+      "title": "Настроить воспроизводимый Blender→GLB цикл",
+      "phase": 2,
+      "owner": "tools",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "assets/source/blender/photoworlds",
+        "eng asset tooling",
+        "asset registry"
+      ],
+      "steps": [
+        "Зафиксировать метры, трансформы, опорные точки, имена слотов, UV и экспорт.",
+        "Хранить исходники, seed и настройки импорта; явно определить владельца коллизий.",
+        "Добавить проверку ресурсов без потребителя и происхождения."
+      ],
+      "acceptance": [
+        "Каждый новый GLB воспроизводимо выпускается из исходника.",
+        "Нет абсолютных путей к файлам на компьютере художника."
+      ],
+      "depends_on": [
+        "PW-007",
+        "PW-010"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "TECH04"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-033/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-034",
+      "title": "Произвести общие материалы и растительные формы",
+      "phase": 2,
+      "owner": "art",
+      "priority": "P0",
+      "effort": "L",
+      "files": [
+        "PainterlyMaterialLibrary.cs",
+        "photoworld asset kit",
+        "Blender source"
+      ],
+      "steps": [
+        "Создать спокойные семейства коры, краски, ткани, бумаги, земли и нужные карточки листвы.",
+        "Разделить силуэт, крупные пятна и мелкую фактуру; не подменять форму шумом.",
+        "Выпустить LOD и поля вокруг альфа-маски, сделать все ближние стороны деревьев объёмными."
+      ],
+      "acceptance": [
+        "Кора, ткань и земля различимы без названия материала.",
+        "Не создаются сотни уникальных текстур одинаковых досок."
+      ],
+      "depends_on": [
+        "PW-032",
+        "PW-033"
+      ],
+      "asset_ids": [
+        "A-FOREST-KIT",
+        "A-FOREST-GROUND",
+        "A-HOUSE-GARDEN"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-034/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-035",
+      "title": "Реализовать ограниченный отражённый вид W02",
+      "phase": 2,
+      "owner": "render",
+      "priority": "P0",
+      "effort": "L",
+      "files": [
+        "new water reflection presentation",
+        "GraphicsQuality.cs",
+        "W02scene"
+      ],
+      "steps": [
+        "Построить одну ограниченную отражённую сцену с маской воды, без рекурсивного рендера.",
+        "Сохранить три стойки и линию подхода на Low через упрощённую геометрию.",
+        "Отключать ненужный дополнительный viewport и измерить его стоимость."
+      ],
+      "acceptance": [
+        "Обязательная подсказка существует без SSR и остаётся читаемой в движении.",
+        "Нет неограниченного второго рендера всей деревни."
+      ],
+      "depends_on": [
+        "PW-022",
+        "PW-031",
+        "PW-033"
+      ],
+      "asset_ids": [
+        "A-WATER-REFLECTION",
+        "A-WATER-SURFACE"
+      ],
+      "reference_ids": [
+        "TECH03",
+        "TECH05"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-035/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-036",
+      "title": "Реализовать конечные обратимые пространственные связи",
+      "phase": 2,
+      "owner": "render",
+      "priority": "P0",
+      "effort": "L",
+      "files": [
+        "new authored spatial-link adapter",
+        "W01/W03scene graphs"
+      ],
+      "steps": [
+        "Описать матрицы входа и выхода, обратное преобразование и условия видимости/коллизии.",
+        "Сохранять направление взгляда и движение без изменения FOV или наклона камеры.",
+        "Проверить каждый шов в двух направлениях, при остановке на пороге и после загрузки."
+      ],
+      "acceptance": [
+        "Нет случайных телепортов при отводе взгляда.",
+        "У каждой связи есть безопасный обратный путь."
+      ],
+      "depends_on": [
+        "PW-009",
+        "PW-022",
+        "PW-029"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-036/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-037",
+      "title": "Настроить LOD, batching и culling без разрушения стиля",
+      "phase": 2,
+      "owner": "render",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "GraphicsQuality.cs",
+        "photoworld mesh instances",
+        "asset imports"
+      ],
+      "steps": [
+        "Разбить окружение на разумные пространственные группы с общими материалами и LOD.",
+        "Не объединять весь лес в один объект, который невозможно эффективно отсекать.",
+        "Сохранить критические силуэты, пол и смысловые подсказки на каждом профиле."
+      ],
+      "acceptance": [
+        "Количество реальных отрисовок измерено, а не оценено по числу узлов GLB.",
+        "Low не удаляет смысл уровня."
+      ],
+      "depends_on": [
+        "PW-033",
+        "PW-034"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-037/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-038",
+      "title": "Ограничить память и срок жизни миров",
+      "phase": 2,
+      "owner": "performance",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "PhotoWorldCoordinator.cs",
+        "resource caches",
+        "Godot cleanup"
+      ],
+      "steps": [
+        "Разделить общие ресурсы и экземпляры сцен.",
+        "Освобождать ненужные ссылки, подписки и копии материалов после выхода.",
+        "Проверить 20 циклов посещений и категории удержанных ресурсов после прогрева."
+      ],
+      "acceptance": [
+        "Нет монотонного роста числа загруженных полных миров.",
+        "Отчёт корректно учитывает объединённую память M1."
+      ],
+      "depends_on": [
+        "PW-023",
+        "PW-027",
+        "PW-037"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-038/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-039",
+      "title": "Встроить звуковые домены и переходы",
+      "phase": 2,
+      "owner": "audio",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "AmbientAudioDirector.cs",
+        "VillageSoundMoodDirector.cs",
+        "AudioSettingsService.cs"
+      ],
+      "steps": [
+        "Встроить единый аудиодомен Village/PhotoWorld с восстановлением логического снимка состояния.",
+        "Кроссфейд убирает снег и деревенскую радиосеть из летнего мира.",
+        "Пауза, громкость, речь и доступные описания звуков следуют пользовательским настройкам."
+      ],
+      "acceptance": [
+        "Возврат восстанавливает правильную деревенскую среду.",
+        "Нет дублированных эмиттеров и одинакового тревожного гула во всех мирах."
+      ],
+      "depends_on": [
+        "PW-022",
+        "PW-026"
+      ],
+      "asset_ids": [
+        "A-UI-FOLEY"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-039/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-040",
+      "title": "Выпустить все 13 согласованных изображений",
+      "phase": 2,
+      "owner": "art",
+      "priority": "P0",
+      "effort": "L",
+      "files": [
+        "asset photo sources",
+        "DocumentImageReader.cs",
+        "photo catalog"
+      ],
+      "steps": [
+        "Поставить камеры и три узнаваемые опоры каждой портальной фотографии до её финальной отрисовки.",
+        "Произвести 13 фронтов, 13 оборотов, миниатюры и транскрипции.",
+        "Разделить игровой вымышленный документ, разрешённую копию и проходной снимок."
+      ],
+      "acceptance": [
+        "Все ссылки на представления фотографии действительны.",
+        "Каждый проходной снимок узнаётся по геометрии, а не только по подписи."
+      ],
+      "depends_on": [
+        "PW-007",
+        "PW-033",
+        "PW-045",
+        "PW-050",
+        "PW-055",
+        "PW-060",
+        "PW-065"
+      ],
+      "asset_ids": [
+        "A-PHOTOSET"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-040/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-041",
+      "title": "Набрать текст книги и короткие реплики",
+      "phase": 2,
+      "owner": "narrative",
+      "priority": "P0",
+      "effort": "M",
+      "files": [
+        "localization sources",
+        "dialogue authoring sources",
+        "UrmanUiTheme.cs"
+      ],
+      "steps": [
+        "Внести рабочие реплики документа 15 и оригинальные подписи в исходный формат контента.",
+        "Не выдумывать цитаты Тукая; проверить конкретное издание и перевод перед включением.",
+        "Сделать полную русскую текстовую версию, независимо от готовности перевода и озвучки."
+      ],
+      "acceptance": [
+        "Критические строки редактируются отдельно от изображения.",
+        "Отсутствующая запись голоса не блокирует прохождение."
+      ],
+      "depends_on": [
+        "PW-003",
+        "PW-008"
+      ],
+      "asset_ids": [
+        "A-BOOK-UI"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-041/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-042",
+      "title": "Сделать физическую печать из ПК",
+      "phase": 2,
+      "owner": "integration",
+      "priority": "P0",
+      "effort": "L",
+      "files": [
+        "OldPcUi.Apps.cs",
+        "OldPcUi.Search.cs",
+        "new printer interaction"
+      ],
+      "steps": [
+        "Произвести принтер и подключить условие разрешённого семейного файла.",
+        "Реализовать печать P-COMMON после подготовки подписи на ПК.",
+        "Сохранить результат печати и исключить повторную выдачу нового сюжетного ID."
+      ],
+      "acceptance": [
+        "У цифрового действия есть видимый бумажный результат.",
+        "Лист появляется в правильном лотке и не исчезает после загрузки."
+      ],
+      "depends_on": [
+        "PW-013",
+        "PW-029",
+        "PW-033"
+      ],
+      "asset_ids": [
+        "A-PRINTER"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-042/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-043",
+      "title": "Перенести пролог внутрь W01",
+      "phase": 3,
+      "owner": "narrative",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "Act1DemoRoot.PrologueForest.cs",
+        "Act1DemoRoot.PrologueNivaRide.cs",
+        "W01scene"
+      ],
+      "steps": [
+        "Реализовать F00–F03 и однократную связь с книгой в Ниве.",
+        "Перенести состояние ветки и существенные наблюдения в общий W01.",
+        "Пропуск сохраняет необходимый контекст, но не выдаёт необязательные открытия; основной вход F10 продолжает историю."
+      ],
+      "acceptance": [
+        "Вступление содержит управление и осмысленное действие, а не обязательную погоню.",
+        "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу."
+      ],
+      "depends_on": [
+        "PW-003",
+        "PW-022",
+        "PW-029",
+        "PW-041",
+        "PW-045"
+      ],
+      "asset_ids": [
+        "A-BRANCH",
+        "A-BOOK"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-043/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-044",
+      "title": "Удержать красоту наружной деревни после разделения",
+      "phase": 3,
+      "owner": "art",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "Act1ConnectedWorld*.cs",
+        "atmosphere profiles",
+        "village material owners"
+      ],
+      "steps": [
+        "Применить сохраняемые исправления снега, домов, заборов и контакта из миграции 118 задач.",
+        "Не оставить серый прототип деревни рядом с законченными фотомирами.",
+        "Проверить день, зелёную ночь, дом, ПК и реальные места возвращения."
+      ],
+      "acceptance": [
+        "Деревня материальна и обжита, а не выглядит меню порталов.",
+        "Новые миры не маскируют технические регрессии."
+      ],
+      "depends_on": [
+        "PW-010",
+        "PW-031",
+        "PW-032",
+        "PW-034"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-044/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-045",
+      "title": "W01: произвести и собрать всю проходимую геометрию «Лес за спиной»",
+      "phase": 3,
+      "owner": "world_art",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "new scenes/photoworlds/W01",
+        "assets/source/blender/photoworlds",
+        "levels/W01"
+      ],
+      "steps": [
+        "Собрать узлы F00, F01, F02, F03, F10, F11, F12, F13, F14, F15, F16 и все связи из level-паспорта.",
+        "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.",
+        "Авторить три linger-точки F11, F14, F15 с полноценным обратным обзором."
+      ],
+      "acceptance": [
+        "Основной маршрут и обратный ход физически проходимы.",
+        "Нет финальных кубов/плоских карточек в зоне досягаемости."
+      ],
+      "depends_on": [
+        "PW-031",
+        "PW-033",
+        "PW-034"
+      ],
+      "asset_ids": [
+        "A-FOREST-KIT",
+        "A-HERO-ROOT",
+        "A-FOREST-GROUND",
+        "A-BRANCH",
+        "A-BAG",
+        "A-FOREST-SKY"
+      ],
+      "reference_ids": [
+        "ART01",
+        "ART02"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-045/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-046",
+      "title": "W01: действия за рамкой и состояние ветки",
+      "phase": 3,
+      "owner": "gameplay",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "W01 scene/controller",
+        "photoworld quest content"
+      ],
+      "steps": [
+        "Реализовать четыре действия F11/F01/F13/F14 через основной reducer.",
+        "Согласовать состояние прологовой ветки, основной вход и корневой поворот.",
+        "Завершение не требует повторного прохождения F00–F03."
+      ],
+      "acceptance": [
+        "Нельзя получить встречу простой выдачей скрытого флага.",
+        "После возврата сохраняются правильное положение ветки и один набор знаний."
+      ],
+      "depends_on": [
+        "PW-045",
+        "PW-029",
+        "PW-036",
+        "PW-043"
+      ],
+      "asset_ids": [
+        "A-BRANCH",
+        "A-BAG"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-046/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-047",
+      "title": "W01: произвести, оживить и поставить Шурале",
+      "phase": 3,
+      "owner": "character_art",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "assets/source/blender/photoworlds",
+        "W01 scene",
+        "AnimationCatalog.cs"
+      ],
+      "steps": [
+        "Произвести Шурале с ригом и семью клипами.",
+        "Поставить его работу на корне, первый взгляд, короткий разговор и освобождение прохода.",
+        "Исправить контакт, пальцы, веса и фактуру на настоящем движении."
+      ],
+      "acceptance": [
+        "У персонажа есть самостоятельное поведение до и после действия игрока.",
+        "Нет полосы босса, оленьего черепа и копии чужого маскота."
+      ],
+      "depends_on": [
+        "PW-045",
+        "PW-046",
+        "PW-032",
+        "PW-041"
+      ],
+      "asset_ids": [
+        "A-SHURALE"
+      ],
+      "reference_ids": [
+        "ART01",
+        "ART02"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-047/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-048",
+      "title": "W01: закончить звуковую и световую постановку",
+      "phase": 3,
+      "owner": "audio",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "W01 profiles",
+        "AmbientAudioDirector.cs",
+        "audio assets"
+      ],
+      "steps": [
+        "Создать слои A-FOREST-AUDIO по паспорту и разместить настоящие пространственные источники.",
+        "Прослушать пять минут в каждой точке созерцания без нагнетания и повторных призывов уйти.",
+        "Свести переход Village ↔ W01, встречу и спокойную среду."
+      ],
+      "acceptance": [
+        "Нет заметного короткого повторяющегося цикла.",
+        "Не протекают чужая погода, радиосеть и обработка интерфейса."
+      ],
+      "depends_on": [
+        "PW-045",
+        "PW-047",
+        "PW-031",
+        "PW-039"
+      ],
+      "asset_ids": [
+        "A-FOREST-AUDIO"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-048/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-049",
+      "title": "W01: принять обычный маршрут, изображения и повторное посещение",
+      "phase": 4,
+      "owner": "qa",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "game/tests/photoworlds/W01",
+        "evidence/W01"
+      ],
+      "steps": [
+        "Пройти от F10 до F16 обычным управлением, затем проверить обратный маршрут и досрочный выход.",
+        "Проверить обязательные флаги, сохранение, загрузку и повторное посещение; снять шесть контрольных видов и движение.",
+        "Согласовать финальный P-FOREST с тремя геометрическими опорами."
+      ],
+      "acceptance": [
+        "Глава имеет проходимое завершение и не содержит пустых обязательных интеракций.",
+        "Самостоятельный художественный review отделён от человеческой приёмки."
+      ],
+      "depends_on": [
+        "PW-045",
+        "PW-046",
+        "PW-047",
+        "PW-048",
+        "PW-027",
+        "PW-030",
+        "PW-040"
+      ],
+      "asset_ids": [
+        "A-BOOK",
+        "A-PHOTOSET",
+        "A-FOREST-KIT",
+        "A-HERO-ROOT",
+        "A-FOREST-GROUND",
+        "A-BRANCH",
+        "A-BAG",
+        "A-SHURALE",
+        "A-FOREST-SKY",
+        "A-FOREST-AUDIO"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-049/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-050",
+      "title": "W02: произвести и собрать всю проходимую геометрию «Мостки»",
+      "phase": 3,
+      "owner": "world_art",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "new scenes/photoworlds/W02",
+        "assets/source/blender/photoworlds",
+        "levels/W02"
+      ],
+      "steps": [
+        "Собрать узлы R00, R01, R02, R03, R04, R05, R06, R07, R08 и все связи из level-паспорта.",
+        "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.",
+        "Авторить три linger-точки R02, R06, R07 с полноценным обратным обзором."
+      ],
+      "acceptance": [
+        "Основной маршрут и обратный ход физически проходимы.",
+        "Нет финальных кубов/плоских карточек в зоне досягаемости."
+      ],
+      "depends_on": [
+        "PW-031",
+        "PW-033",
+        "PW-034"
+      ],
+      "asset_ids": [
+        "A-WATER-PIER",
+        "A-WATER-BANK",
+        "A-REEDS",
+        "A-WATER-SURFACE",
+        "A-WATER-REFLECTION",
+        "A-WATER-SKY"
+      ],
+      "reference_ids": [
+        "ART01",
+        "ART02"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-050/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-051",
+      "title": "W02: связать отражение с настоящим подходом",
+      "phase": 3,
+      "owner": "gameplay",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "W02 scene/controller",
+        "photoworld quest content"
+      ],
+      "steps": [
+        "Реализовать наблюдение R03, отведение камыша R04 и осмотр R05.",
+        "Отражение указывает отношение объектов, затем игрок видит и проходит настоящий настил.",
+        "Сохранить смысл на Low, без звука и без точного угла взгляда."
+      ],
+      "acceptance": [
+        "Нет невидимого пола и магического разрешения идти по воде.",
+        "Внутреннее наблюдение не является внешним подтверждением."
+      ],
+      "depends_on": [
+        "PW-050",
+        "PW-029",
+        "PW-035"
+      ],
+      "asset_ids": [
+        "A-WATER-REFLECTION",
+        "A-REEDS"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-051/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-052",
+      "title": "W02: произвести и поставить Су анасы",
+      "phase": 3,
+      "owner": "character_art",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "assets/source/blender/photoworlds",
+        "W02 scene",
+        "AnimationCatalog.cs"
+      ],
+      "steps": [
+        "Произвести оригинальную фигуру Су анасы с шестью клипами.",
+        "Поставить самостоятельное движение у воды и ответ на конкретное предметное действие.",
+        "Не требовать кражи гребня или обязательной погони."
+      ],
+      "acceptance": [
+        "Фигура читается в движении без светящейся маски.",
+        "Встреча проходится без звука и озвучки."
+      ],
+      "depends_on": [
+        "PW-050",
+        "PW-051",
+        "PW-032",
+        "PW-041"
+      ],
+      "asset_ids": [
+        "A-SU-ANASY"
+      ],
+      "reference_ids": [
+        "ART01",
+        "ART02"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-052/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-053",
+      "title": "W02: закончить звуковую и световую постановку",
+      "phase": 3,
+      "owner": "audio",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "W02 profiles",
+        "AmbientAudioDirector.cs",
+        "audio assets"
+      ],
+      "steps": [
+        "Создать слои A-WATER-AUDIO по паспорту и разместить настоящие пространственные источники.",
+        "Прослушать пять минут в каждой точке созерцания без нагнетания и повторных призывов уйти.",
+        "Свести переход Village ↔ W02, встречу и спокойную среду."
+      ],
+      "acceptance": [
+        "Нет заметного короткого повторяющегося цикла.",
+        "Не протекают чужая погода, радиосеть и обработка интерфейса."
+      ],
+      "depends_on": [
+        "PW-050",
+        "PW-052",
+        "PW-031",
+        "PW-039"
+      ],
+      "asset_ids": [
+        "A-WATER-AUDIO"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-053/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-054",
+      "title": "W02: принять обычный маршрут, изображения и повторное посещение",
+      "phase": 4,
+      "owner": "qa",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "game/tests/photoworlds/W02",
+        "evidence/W02"
+      ],
+      "steps": [
+        "Пройти от R00 до R08 обычным управлением, затем проверить обратный маршрут и досрочный выход.",
+        "Проверить обязательные флаги, сохранение, загрузку и повторное посещение; снять шесть контрольных видов и движение.",
+        "Согласовать финальный P-WATER с тремя геометрическими опорами."
+      ],
+      "acceptance": [
+        "Глава имеет проходимое завершение и не содержит пустых обязательных интеракций.",
+        "Самостоятельный художественный review отделён от человеческой приёмки."
+      ],
+      "depends_on": [
+        "PW-050",
+        "PW-051",
+        "PW-052",
+        "PW-053",
+        "PW-027",
+        "PW-030",
+        "PW-040"
+      ],
+      "asset_ids": [
+        "A-BOOK",
+        "A-PHOTOSET",
+        "A-WATER-PIER",
+        "A-WATER-BANK",
+        "A-REEDS",
+        "A-SU-ANASY",
+        "A-WATER-SURFACE",
+        "A-WATER-REFLECTION",
+        "A-WATER-SKY",
+        "A-WATER-AUDIO"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-054/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-055",
+      "title": "W03: произвести и собрать всю проходимую геометрию «Дом на просвет»",
+      "phase": 3,
+      "owner": "world_art",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "new scenes/photoworlds/W03",
+        "assets/source/blender/photoworlds",
+        "levels/W03"
+      ],
+      "steps": [
+        "Собрать узлы H00, H01, H02, H03, H04, H05, H06, H07, H08 и все связи из level-паспорта.",
+        "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.",
+        "Авторить три linger-точки H04, H05, H07 с полноценным обратным обзором."
+      ],
+      "acceptance": [
+        "Основной маршрут и обратный ход физически проходимы.",
+        "Нет финальных кубов/плоских карточек в зоне досягаемости."
+      ],
+      "depends_on": [
+        "PW-031",
+        "PW-033",
+        "PW-034"
+      ],
+      "asset_ids": [
+        "A-HOUSE-KIT",
+        "A-HOUSE-GARDEN",
+        "A-SHUTTER",
+        "A-CLOTH",
+        "A-CAMERA-STRAP",
+        "A-HOUSE-PROPS",
+        "A-HUMAN-ECHO",
+        "A-HOUSE-SKY"
+      ],
+      "reference_ids": [
+        "ART01",
+        "ART02"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-055/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-056",
+      "title": "W03: реализовать два вида одного двора",
+      "phase": 3,
+      "owner": "gameplay",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "W03 scene/controller",
+        "photoworld quest content"
+      ],
+      "steps": [
+        "Связать H02/H03 с двумя согласованными секторами двора через пространственный адаптер.",
+        "Яблоня и стул узнаются с обеих сторон; проёмы и параллакс полноценны.",
+        "Проверить возврат через обе двери и восстановление после загрузки."
+      ],
+      "acceptance": [
+        "Невозможность осмысленна, а не является парой несвязанных картинок.",
+        "Шов не меняет поле зрения и наклон камеры."
+      ],
+      "depends_on": [
+        "PW-055",
+        "PW-029",
+        "PW-036"
+      ],
+      "asset_ids": [
+        "A-HOUSE-KIT",
+        "A-HOUSE-GARDEN"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-056/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-057",
+      "title": "W03: бытовые действия и позиция фотографа",
+      "phase": 3,
+      "owner": "character_art",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "assets/source/blender/photoworlds",
+        "W03 scene",
+        "AnimationCatalog.cs"
+      ],
+      "steps": [
+        "Реализовать ставню, ткань, позицию H05 и рамку H06.",
+        "Поставить шесть предметов натюрморта и при необходимости человеческие следы.",
+        "Исключить обязательное появление существа в этой главе."
+      ],
+      "acceptance": [
+        "Положение фотографа выясняется пространственным исследованием.",
+        "Авторство Гөлсинә подтверждается только снаружи по обороту и разговору."
+      ],
+      "depends_on": [
+        "PW-055",
+        "PW-056",
+        "PW-032",
+        "PW-041"
+      ],
+      "asset_ids": [
+        "A-SHUTTER",
+        "A-CLOTH",
+        "A-CAMERA-STRAP",
+        "A-HOUSE-PROPS",
+        "A-HUMAN-ECHO"
+      ],
+      "reference_ids": [
+        "ART01",
+        "ART02"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-057/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-058",
+      "title": "W03: закончить звуковую и световую постановку",
+      "phase": 3,
+      "owner": "audio",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "W03 profiles",
+        "AmbientAudioDirector.cs",
+        "audio assets"
+      ],
+      "steps": [
+        "Создать слои A-HOUSE-AUDIO по паспорту и разместить настоящие пространственные источники.",
+        "Прослушать пять минут в каждой точке созерцания без нагнетания и повторных призывов уйти.",
+        "Свести переход Village ↔ W03, встречу и спокойную среду."
+      ],
+      "acceptance": [
+        "Нет заметного короткого повторяющегося цикла.",
+        "Не протекают чужая погода, радиосеть и обработка интерфейса."
+      ],
+      "depends_on": [
+        "PW-055",
+        "PW-057",
+        "PW-031",
+        "PW-039"
+      ],
+      "asset_ids": [
+        "A-HOUSE-AUDIO"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-058/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-059",
+      "title": "W03: принять обычный маршрут, изображения и повторное посещение",
+      "phase": 4,
+      "owner": "qa",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "game/tests/photoworlds/W03",
+        "evidence/W03"
+      ],
+      "steps": [
+        "Пройти от H00 до H08 обычным управлением, затем проверить обратный маршрут и досрочный выход.",
+        "Проверить обязательные флаги, сохранение, загрузку и повторное посещение; снять шесть контрольных видов и движение.",
+        "Согласовать финальный P-HOUSE с тремя геометрическими опорами."
+      ],
+      "acceptance": [
+        "Глава имеет проходимое завершение и не содержит пустых обязательных интеракций.",
+        "Самостоятельный художественный review отделён от человеческой приёмки."
+      ],
+      "depends_on": [
+        "PW-055",
+        "PW-056",
+        "PW-057",
+        "PW-058",
+        "PW-027",
+        "PW-030",
+        "PW-040"
+      ],
+      "asset_ids": [
+        "A-BOOK",
+        "A-PHOTOSET",
+        "A-HOUSE-KIT",
+        "A-HOUSE-GARDEN",
+        "A-SHUTTER",
+        "A-CLOTH",
+        "A-CAMERA-STRAP",
+        "A-HOUSE-PROPS",
+        "A-HUMAN-ECHO",
+        "A-HOUSE-SKY",
+        "A-HOUSE-AUDIO"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-059/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-060",
+      "title": "W04: произвести и собрать всю проходимую геометрию «Общий кадр»",
+      "phase": 3,
+      "owner": "world_art",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "new scenes/photoworlds/W04",
+        "assets/source/blender/photoworlds",
+        "levels/W04"
+      ],
+      "steps": [
+        "Собрать узлы C00, C01, C02, C03, C04, C05, C06, C07, C08 и все связи из level-паспорта.",
+        "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.",
+        "Авторить три linger-точки C01, C05, C06 с полноценным обратным обзором."
+      ],
+      "acceptance": [
+        "Основной маршрут и обратный ход физически проходимы.",
+        "Нет финальных кубов/плоских карточек в зоне досягаемости."
+      ],
+      "depends_on": [
+        "PW-031",
+        "PW-033",
+        "PW-034"
+      ],
+      "asset_ids": [
+        "A-COMMON-LANDSCAPE",
+        "A-COMMON-FRAMES",
+        "A-CLOTH",
+        "A-COMMON-DISTANT",
+        "A-COMMON-SKY",
+        "A-FINAL-LEAF",
+        "A-FINAL-BRANCH"
+      ],
+      "reference_ids": [
+        "ART01",
+        "ART02"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-060/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-061",
+      "title": "W04: условия входа и четыре содержательных действия",
+      "phase": 3,
+      "owner": "gameplay",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "W04 scene/controller",
+        "photoworld quest content"
+      ],
+      "steps": [
+        "Проверять три основные главы, два внешних подтверждения и подпись/распечатку.",
+        "Реализовать три вида C01–C03, снятие ткани C04, площадку C05 и помету C07.",
+        "Не добавлять W05 в скрытые предпосылки."
+      ],
+      "acceptance": [
+        "Финал не открывается от одного факта владения красивой картинкой.",
+        "Завершение не требует драки или уничтожения книги."
+      ],
+      "depends_on": [
+        "PW-060",
+        "PW-029",
+        "PW-042",
+        "PW-008"
+      ],
+      "asset_ids": [
+        "A-CLOTH",
+        "A-COMMON-FRAMES"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-061/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-062",
+      "title": "W04: собрать непрерывный горизонт и спокойную кульминацию",
+      "phase": 3,
+      "owner": "character_art",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "assets/source/blender/photoworlds",
+        "W04 scene",
+        "AnimationCatalog.cs"
+      ],
+      "steps": [
+        "Построить единый дальний пейзаж за тремя ближними обрамлениями.",
+        "С C05 должен читаться цельный вид без радуги эффектов и слепящего свечения.",
+        "Дальний Шурале допустим только как необязательная деталь, не лекция."
+      ],
+      "acceptance": [
+        "Виды C01/C02/C03/C05 геометрически согласованы.",
+        "Во всех трёх точках созерцания интересно оставаться без катсцены."
+      ],
+      "depends_on": [
+        "PW-060",
+        "PW-061",
+        "PW-032",
+        "PW-041"
+      ],
+      "asset_ids": [
+        "A-COMMON-DISTANT",
+        "A-COMMON-SKY"
+      ],
+      "reference_ids": [
+        "ART01",
+        "ART02"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-062/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-063",
+      "title": "W04: закончить звуковую и световую постановку",
+      "phase": 3,
+      "owner": "audio",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "W04 profiles",
+        "AmbientAudioDirector.cs",
+        "audio assets"
+      ],
+      "steps": [
+        "Создать слои A-COMMON-AUDIO по паспорту и разместить настоящие пространственные источники.",
+        "Прослушать пять минут в каждой точке созерцания без нагнетания и повторных призывов уйти.",
+        "Свести переход Village ↔ W04, встречу и спокойную среду."
+      ],
+      "acceptance": [
+        "Нет заметного короткого повторяющегося цикла.",
+        "Не протекают чужая погода, радиосеть и обработка интерфейса."
+      ],
+      "depends_on": [
+        "PW-060",
+        "PW-062",
+        "PW-031",
+        "PW-039"
+      ],
+      "asset_ids": [
+        "A-COMMON-AUDIO"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-063/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-064",
+      "title": "W04: принять обычный маршрут, изображения и повторное посещение",
+      "phase": 4,
+      "owner": "qa",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "game/tests/photoworlds/W04",
+        "evidence/W04"
+      ],
+      "steps": [
+        "Пройти от C00 до C08 обычным управлением, затем проверить обратный маршрут и досрочный выход.",
+        "Проверить обязательные флаги, сохранение, загрузку и повторное посещение; снять шесть контрольных видов и движение.",
+        "Согласовать финальный P-COMMON с тремя геометрическими опорами."
+      ],
+      "acceptance": [
+        "Глава имеет проходимое завершение и не содержит пустых обязательных интеракций.",
+        "Самостоятельный художественный review отделён от человеческой приёмки."
+      ],
+      "depends_on": [
+        "PW-060",
+        "PW-061",
+        "PW-062",
+        "PW-063",
+        "PW-027",
+        "PW-030",
+        "PW-040"
+      ],
+      "asset_ids": [
+        "A-BOOK",
+        "A-PHOTOSET",
+        "A-COMMON-LANDSCAPE",
+        "A-COMMON-FRAMES",
+        "A-CLOTH",
+        "A-COMMON-DISTANT",
+        "A-COMMON-SKY",
+        "A-COMMON-AUDIO",
+        "A-FINAL-LEAF",
+        "A-FINAL-BRANCH"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-064/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-065",
+      "title": "W05: произвести и собрать всю проходимую геометрию «Тёплое подполье»",
+      "phase": 3,
+      "owner": "world_art",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "new scenes/photoworlds/W05",
+        "assets/source/blender/photoworlds",
+        "levels/W05"
+      ],
+      "steps": [
+        "Собрать узлы B00, B01, B02, B03, B04, B05, B06, B07 и все связи из level-паспорта.",
+        "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.",
+        "Авторить три linger-точки B01, B05, B06 с полноценным обратным обзором."
+      ],
+      "acceptance": [
+        "Основной маршрут и обратный ход физически проходимы.",
+        "Нет финальных кубов/плоских карточек в зоне досягаемости."
+      ],
+      "depends_on": [
+        "PW-031",
+        "PW-033",
+        "PW-034"
+      ],
+      "asset_ids": [
+        "A-CELLAR-KIT",
+        "A-CELLAR-PROPS",
+        "A-CELLAR-LIGHT",
+        "A-SPOOL"
+      ],
+      "reference_ids": [
+        "ART01",
+        "ART02"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-065/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-066",
+      "title": "W05: произвести и оживить Бичуру",
+      "phase": 3,
+      "owner": "gameplay",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "W05 scene/controller",
+        "photoworld quest content"
+      ],
+      "steps": [
+        "Произвести оригинальный домашний образ Бичуры и шесть клипов.",
+        "Поставить видимый перенос предмета по авторскому маршруту с контактом рук и опор.",
+        "Не переносить BathSpirit и банные правила в семейную кладовую."
+      ],
+      "acceptance": [
+        "Персонаж не является неподвижной куклой или магазинным питомцем.",
+        "Деформация рига подтверждена отдельной проверкой поз."
+      ],
+      "depends_on": [
+        "PW-065",
+        "PW-029"
+      ],
+      "asset_ids": [
+        "A-BICHURA"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-066/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-067",
+      "title": "W05: порядок вещей и необязательное внешнее открытие",
+      "phase": 3,
+      "owner": "character_art",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "assets/source/blender/photoworlds",
+        "W05 scene",
+        "AnimationCatalog.cs"
+      ],
+      "steps": [
+        "Реализовать осмотр следов, возврат коробки, ответ существа и нишу.",
+        "Сохранить устойчивую расстановку предметов.",
+        "Реальная катушка существует с начала игры; ранняя находка не блокирует эпизод."
+      ],
+      "acceptance": [
+        "W05 завершается полноценно, но не требуется для финала.",
+        "Нет авторского подношения, выданного за обязательный народный обряд."
+      ],
+      "depends_on": [
+        "PW-065",
+        "PW-066",
+        "PW-032",
+        "PW-041"
+      ],
+      "asset_ids": [
+        "A-CELLAR-PROPS",
+        "A-SPOOL"
+      ],
+      "reference_ids": [
+        "ART01",
+        "ART02"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-067/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-068",
+      "title": "W05: закончить звуковую и световую постановку",
+      "phase": 3,
+      "owner": "audio",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "W05 profiles",
+        "AmbientAudioDirector.cs",
+        "audio assets"
+      ],
+      "steps": [
+        "Создать слои A-CELLAR-AUDIO по паспорту и разместить настоящие пространственные источники.",
+        "Прослушать пять минут в каждой точке созерцания без нагнетания и повторных призывов уйти.",
+        "Свести переход Village ↔ W05, встречу и спокойную среду."
+      ],
+      "acceptance": [
+        "Нет заметного короткого повторяющегося цикла.",
+        "Не протекают чужая погода, радиосеть и обработка интерфейса."
+      ],
+      "depends_on": [
+        "PW-065",
+        "PW-067",
+        "PW-031",
+        "PW-039"
+      ],
+      "asset_ids": [
+        "A-CELLAR-AUDIO"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-068/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-069",
+      "title": "W05: принять обычный маршрут, изображения и повторное посещение",
+      "phase": 4,
+      "owner": "qa",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "game/tests/photoworlds/W05",
+        "evidence/W05"
+      ],
+      "steps": [
+        "Пройти от B00 до B07 обычным управлением, затем проверить обратный маршрут и досрочный выход.",
+        "Проверить обязательные флаги, сохранение, загрузку и повторное посещение; снять шесть контрольных видов и движение.",
+        "Согласовать финальный P-CELLAR с тремя геометрическими опорами."
+      ],
+      "acceptance": [
+        "Глава имеет проходимое завершение и не содержит пустых обязательных интеракций.",
+        "Самостоятельный художественный review отделён от человеческой приёмки."
+      ],
+      "depends_on": [
+        "PW-065",
+        "PW-066",
+        "PW-067",
+        "PW-068",
+        "PW-027",
+        "PW-030",
+        "PW-040"
+      ],
+      "asset_ids": [
+        "A-BOOK",
+        "A-PHOTOSET",
+        "A-CELLAR-KIT",
+        "A-CELLAR-PROPS",
+        "A-BICHURA",
+        "A-CELLAR-LIGHT",
+        "A-CELLAR-AUDIO",
+        "A-SPOOL"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-069/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-070",
+      "title": "Разместить и проверить семь деревенских якорей",
+      "phase": 3,
+      "owner": "integration",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "Act1WorldLayout.cs",
+        "Act1ConnectedWorld*.cs",
+        "PhotoAnchorResolver.cs"
+      ],
+      "steps": [
+        "Назначить фактические места из документа 08 по текущей геометрии деревни.",
+        "Проверить подход с трёх сторон, высоту опоры, безопасный выход и соседние адресные маршруты.",
+        "Выпустить runtime_anchor_map.json с NodePath, transform и кадром, а не принимать проектные координаты уровней за координаты деревни."
+      ],
+      "acceptance": [
+        "Все семь семантических якорей уникальны.",
+        "Нет портальных колец, триггеров в могилах, на молитвенном ковре или на опасном льду."
+      ],
+      "depends_on": [
+        "PW-009",
+        "PW-044"
+      ],
+      "asset_ids": [
+        "A-VILLAGE-ANCHORS"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-070/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-071",
+      "title": "Поставить находки и копии в реальные места деревни",
+      "phase": 3,
+      "owner": "integration",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "Act1ConnectedWorld.ImageDiscoveries.cs",
+        "family/school/council interactions",
+        "photo catalog"
+      ],
+      "steps": [
+        "Разместить все источники P/S из 13 паспортов; P-FOREST уже в книге.",
+        "Согласовать разрешение владельца и выдачу копии.",
+        "Необязательные фото не прятать в критический путь и не раскладывать случайно на дороге."
+      ],
+      "acceptance": [
+        "Каждый снимок имеет источник и доступный способ получения.",
+        "Нельзя потерять единственный сюжетный экземпляр из-за пропуска разговора."
+      ],
+      "depends_on": [
+        "PW-013",
+        "PW-040",
+        "PW-070"
+      ],
+      "asset_ids": [
+        "A-PHOTOSET"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-071/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-072",
+      "title": "Сделать школьный контекст лесной фотографии",
+      "phase": 3,
+      "owner": "integration",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "school interaction/dialogue sources",
+        "OldPc/archive content if applicable"
+      ],
+      "steps": [
+        "Связать S-SCHOOL с конкретными людьми/стороной съёмки P-FOREST.",
+        "Сохранить оригинал альбома и выдать разрешённую копию.",
+        "Разрешить получить контекст до или после подробного осмотра семейного снимка."
+      ],
+      "acceptance": [
+        "Первый вход W01 имеет понятную причину.",
+        "Школа не становится экспозицией секретного общества."
+      ],
+      "depends_on": [
+        "PW-003",
+        "PW-008",
+        "PW-041",
+        "PW-071"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-072/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-073",
+      "title": "Сделать внешнюю проверку старого речного подхода",
+      "phase": 3,
+      "owner": "integration",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "council archive content",
+        "river interaction",
+        "quest evidence conditions"
+      ],
+      "steps": [
+        "Согласовать S-BANK с зимними сваями и R05.",
+        "E-BANK-OUTSIDE требует внутреннего наблюдения, документа и физического осмотра места.",
+        "Сваи видны заранее; смысл не выдаётся автоматически при загрузке мира."
+      ],
+      "acceptance": [
+        "Можно закончить W02 первым или вторым.",
+        "Финальный флаг не появляется из чтения картинки в инвентаре без посещения берега."
+      ],
+      "depends_on": [
+        "PW-008",
+        "PW-054",
+        "PW-070",
+        "PW-071"
+      ],
+      "asset_ids": [
+        "A-OUTSIDE-EVIDENCE"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-073/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-074",
+      "title": "Сделать подтверждение авторства семейного снимка",
+      "phase": 3,
+      "owner": "integration",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "Golsina dialogue content",
+        "S-PHOTOGRAPHER interaction",
+        "quest evidence conditions"
+      ],
+      "steps": [
+        "Связать позицию H05 с оборотом S-PHOTOGRAPHER.",
+        "После осмотра и короткого разговора Гөлсинә подтверждает, что снимала она.",
+        "Написать варианты реплики для ранней находки и позднего сопоставления."
+      ],
+      "acceptance": [
+        "E-PHOTOGRAPHER-OUTSIDE получается только из двух разных источников.",
+        "Әби не объясняет всё устройство книги."
+      ],
+      "depends_on": [
+        "PW-008",
+        "PW-041",
+        "PW-059",
+        "PW-071"
+      ],
+      "asset_ids": [
+        "A-OUTSIDE-EVIDENCE"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-074/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-075",
+      "title": "Сделать поиск файла и собственную подпись на ПК",
+      "phase": 3,
+      "owner": "integration",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "OldPcUi.Search.cs",
+        "OldPcUi.Apps.cs",
+        "OldPcUi.Hints.cs",
+        "localization"
+      ],
+      "steps": [
+        "По S-PRINT найти локальный семейный файл Марата.",
+        "Дать осмысленный ввод/выбор проверенного поискового слова и составление собственной подписи; русский путь и словарь равноправны.",
+        "Сохранить черновик, связать готовую подпись с реальной печатью P-COMMON."
+      ],
+      "acceptance": [
+        "Нет внешнего аккаунта/API и требований к неизвестной раскладке.",
+        "W04 проверяет подготовленность подписи, а не просто число полученных фото."
+      ],
+      "depends_on": [
+        "PW-016",
+        "PW-041",
+        "PW-042",
+        "PW-071"
+      ],
+      "asset_ids": [
+        "A-PRINTER"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-075/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-076",
+      "title": "Поставить Алсу перед финальным внешним событием",
+      "phase": 3,
+      "owner": "integration",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "AlsuStreetWalkPresentation.cs",
+        "runtime dialogue sources",
+        "village schedule"
+      ],
+      "steps": [
+        "Заранее договориться о встрече у PW_COMMON_ENTRY по обычной человеческой причине.",
+        "После W04 вывести Алсу по доступному маршруту или из корректного устойчивого состояния, не вырвать из другого взаимодействия.",
+        "Убедиться, что игрок и Алсу могут одновременно видеть нужную ветку."
+      ],
+      "acceptance": [
+        "Нет внезапного спавна внутри камеры и дублированной Алсу.",
+        "Её реакция не описывает событие, которого игрок ещё не видел."
+      ],
+      "depends_on": [
+        "PW-026",
+        "PW-041",
+        "PW-064",
+        "PW-070"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-076/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-077",
+      "title": "Реализовать единственный летний лист снаружи",
+      "phase": 3,
+      "owner": "integration",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "new authored outside event",
+        "village tree presentation",
+        "kernel one-shot flags"
+      ],
+      "steps": [
+        "Поставить A-FINAL-BRANCH и A-FINAL-LEAF.",
+        "При закрытой книге и допустимом обзоре один лист появляется на голой ветке и падает на снег; Алсу замечает это.",
+        "Сохранить завершение и конечное положение; при отвлечении дождаться возможности увидеть без реального дедлайна."
+      ],
+      "acceptance": [
+        "Это один устойчивый внешний факт, не фарм предметов.",
+        "Save/load и 20 повторных посещений не создают второй лист."
+      ],
+      "depends_on": [
+        "PW-029",
+        "PW-033",
+        "PW-076"
+      ],
+      "asset_ids": [
+        "A-FINAL-LEAF",
+        "A-FINAL-BRANCH"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-077/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-078",
+      "title": "Закончить домашний эпилог и открыть свободное возвращение",
+      "phase": 3,
+      "owner": "integration",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "campaign epilogue",
+        "family dialogues",
+        "book UI"
+      ],
+      "steps": [
+        "После внешнего события вернуть обычный домашний ритм и короткий разговор.",
+        "Айдар делает S-NOW, оставаясь за камерой; нет обязательного селфи.",
+        "Закрыть активные цели арки и оставить деревню/открытые миры доступными."
+      ],
+      "acceptance": [
+        "У истории есть настоящий конец без пустого обещания «акт 2 потом».",
+        "W05 остаётся доступен и не требуется для завершения."
+      ],
+      "depends_on": [
+        "PW-003",
+        "PW-027",
+        "PW-040",
+        "PW-041",
+        "PW-077"
+      ],
+      "asset_ids": [
+        "A-PHOTOSET"
+      ],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-078/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-079",
+      "title": "Переподключить бытовые механики к новой кампании",
+      "phase": 3,
+      "owner": "integration",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "Act1ConnectedWorld*.cs",
+        "vehicle/shop/carry/bath/mosque owners"
+      ],
+      "steps": [
+        "По таблице прежних функций сохранить или обоснованно переработать каждую действующую возможность.",
+        "Переходы не сбрасывают покупки, положение переносимых вещей, транспорт и адреса.",
+        "Не превращать баню, зират и мечеть в обязательные портальные станции.",
+        "Проверить реестр прежних автоматических присутствий: в новой кампании оставить только бытовые события и явно назначенные R0–R5; не отключать общие сервисы целиком."
+      ],
+      "acceptance": [
+        "Бытовые механики проходят актуальные регрессионные тесты.",
+        "Изменённые EX имеют новые проверяемые сценарии."
+      ],
+      "depends_on": [
+        "PW-004",
+        "PW-023",
+        "PW-044",
+        "PW-070"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-079/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-080",
+      "title": "Провести языковой проход и нормализовать имена",
+      "phase": 4,
+      "owner": "narrative",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "localization",
+        "dialogue sources",
+        "book captions",
+        "PC terms"
+      ],
+      "steps": [
+        "Проверить Айдар, Мансур, Гөлсинә, Алсу и топоним Кара-Урман во всех новых текстах.",
+        "Проверить реальные татарские буквы и сохранить русскую функциональную альтернативу.",
+        "Отметить отдельно перевод, произношение и культурный review, не выдавая самопроверку модели за носителя языка."
+      ],
+      "acceptance": [
+        "Нет псевдоцитат Тукая и критического текста внутри нерегулируемого изображения.",
+        "Все текстовые задачи проходятся при выключенном VO."
+      ],
+      "depends_on": [
+        "PW-041",
+        "PW-072",
+        "PW-073",
+        "PW-074",
+        "PW-075",
+        "PW-078"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-080/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-081",
+      "title": "Проверить весь путь с клавиатурой и контроллером",
+      "phase": 4,
+      "owner": "qa",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "InputBindingService.cs",
+        "all book/UI actions",
+        "player controller"
+      ],
+      "steps": [
+        "Пройти получение, осмотр, вклейку, поиск, вход, выход и эпилог каждым поддерживаемым способом ввода.",
+        "Проверить потерю фокуса/Alt+Tab/переход мышь↔контроллер на открытой книге.",
+        "Исправить ловушки фокуса и скрытые действия без подписи."
+      ],
+      "acceptance": [
+        "Ни одно обязательное действие не требует drag-only или точного клика по краю страницы.",
+        "Переназначенные клавиши отображаются в подсказках."
+      ],
+      "depends_on": [
+        "PW-018",
+        "PW-078"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-081/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-082",
+      "title": "Проверить комфорт и доступность фотомиров",
+      "phase": 4,
+      "owner": "qa",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "accessibility settings",
+        "world cues",
+        "book UI"
+      ],
+      "steps": [
+        "Reduced motion пройти пролог, монтаж и все переходы.",
+        "Без звука пройти W02 и W05; при нарушенном различении цветов прочитать обязательные формы.",
+        "По 5 минут постоять в 15linger-точках без давления/смерти/напоминания уйти."
+      ],
+      "acceptance": [
+        "Доступность сохраняет художественную задачу, а не выключает весь мир.",
+        "Отдельный список фактически проверенных режимов."
+      ],
+      "depends_on": [
+        "PW-028",
+        "PW-049",
+        "PW-054",
+        "PW-059",
+        "PW-064",
+        "PW-069",
+        "PW-081"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-082/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-083",
+      "title": "Проверить границы сезонов, света и эффектов",
+      "phase": 4,
+      "owner": "render",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "AtmosphereProfiles.cs",
+        "footstep/weather/particles owners",
+        "GraphicsQuality.cs"
+      ],
+      "steps": [
+        "Сделать переходы день/ночь деревни↔каждый мир.",
+        "Проверить шаги, следы, снежные частицы, дыхание, локальные источники, экспозицию и sky.",
+        "Исключить изменение shared material экземплярами другого домена."
+      ],
+      "acceptance": [
+        "W02 не содержит зимнюю метель, а наружный снег не становится летней травой.",
+        "В каждом gameplayviewport ровно один действующий профиль."
+      ],
+      "depends_on": [
+        "PW-031",
+        "PW-044",
+        "PW-049",
+        "PW-054",
+        "PW-059",
+        "PW-064",
+        "PW-069"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-083/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-084",
+      "title": "Провести полноценный слуховой проход",
+      "phase": 4,
+      "owner": "audio",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "audio registry",
+        "world cue scenes",
+        "audio settings"
+      ],
+      "steps": [
+        "Прослушать пять миров, встречи, книгу, печать и возвращения.",
+        "Проверить швы, громкость, позиционирование, частоту повторов, тишину и паузу.",
+        "Для недоступной записи/прав оставить локальный VO/music blocker без ложного статуса финальной озвучки."
+      ],
+      "acceptance": [
+        "Есть реальные результаты прослушивания либо честный NOT_RUN.",
+        "Отсутствуют религиозные записи в хоррор-слое и неподтверждённые лицензии."
+      ],
+      "depends_on": [
+        "PW-039",
+        "PW-048",
+        "PW-053",
+        "PW-058",
+        "PW-063",
+        "PW-068",
+        "PW-078"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-084/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-085",
+      "title": "Прогнать матрицу двадцати сбоев сохранений и переходов",
+      "phase": 4,
+      "owner": "qa",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "photoworld persistence tests",
+        "protected test slots"
+      ],
+      "steps": [
+        "Автоматизировать случаи документа 07 с точками отказа prepare/load/commit/return.",
+        "Проверить повтор occurrence ID и late callback.",
+        "Сохранить логи состояния до/после и восстановленные реальные сцены."
+      ],
+      "acceptance": [
+        "Каждая строка матрицы имеет результат на текущем SHA.",
+        "Нет пользовательских файлов, изменённых тестом."
+      ],
+      "depends_on": [
+        "PW-012",
+        "PW-020",
+        "PW-021",
+        "PW-023",
+        "PW-024",
+        "PW-025",
+        "PW-078"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-085/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-086",
+      "title": "Проверить двадцать циклов посещений и сохранённые последствия",
+      "phase": 4,
+      "owner": "performance",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "PhotoWorldCoordinator.cs",
+        "memory/scene census",
+        "world deltas"
+      ],
+      "steps": [
+        "Повторить вход/выход W01, W02, W03, W04, W05 с сохранением/загрузкой.",
+        "Сопоставить число сцен/эмиттеров/подписок и удержанных ресурсов после прогрева.",
+        "Проверить уникальность листа, фото, NPC и наград."
+      ],
+      "acceptance": [
+        "Нет монотонной утечки и повторных одноразовых событий.",
+        "Отчёт отделяет shared cache от случайно удержанных экземпляров."
+      ],
+      "depends_on": [
+        "PW-038",
+        "PW-069",
+        "PW-077",
+        "PW-085"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-086/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-087",
+      "title": "Пройти оба порядка первых глав и ранние находки",
+      "phase": 4,
+      "owner": "qa",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "campaign flow tests",
+        "book evidence conditions"
+      ],
+      "steps": [
+        "Маршрут W01→W02→W03 и W02→W03→W01 до финала.",
+        "Получить S-SCHOOL/S-BANK/S-PHOTOGRAPHER до внутренних наблюдений.",
+        "Завершить арку без W05 и затем пройти W05; отдельно пройти его до финала."
+      ],
+      "acceptance": [
+        "Ни один разрешённый порядок не создаёт softlock или спойлерный диалог.",
+        "W04 открывается только по полному набору осмысленных условий."
+      ],
+      "depends_on": [
+        "PW-049",
+        "PW-054",
+        "PW-059",
+        "PW-064",
+        "PW-069",
+        "PW-073",
+        "PW-074",
+        "PW-075",
+        "PW-078"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-087/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-088",
+      "title": "Пройти геометрию, обратные стороны и interaction targets",
+      "phase": 4,
+      "owner": "qa",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "world collision tests",
+        "FirstPersonController",
+        "interaction adapter"
+      ],
+      "steps": [
+        "Капсулой пройти все основные связи, повороты, лестницы/площадки и exits.",
+        "Осмотреть бок/оборот дверей, мостков, корней, рамок и NPC.",
+        "Проверить 0.15–0.25 м удобный interaction forgiveness с line-of-sight без клика через стену."
+      ],
+      "acceptance": [
+        "Нет провалов/прозрачных стен/невидимого обязательного пола.",
+        "Прохождение не требует угадывать точку размером с пиксель."
+      ],
+      "depends_on": [
+        "PW-049",
+        "PW-054",
+        "PW-059",
+        "PW-064",
+        "PW-069",
+        "PW-070"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-088/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-089",
+      "title": "Устранить мерцание и скольжение в движении",
+      "phase": 4,
+      "owner": "render",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "shader/material/texture imports",
+        "motion capture harness"
+      ],
+      "steps": [
+        "На каждом F1/F3 снять боковое движение и поворот.",
+        "Изолированно проверить skinned-существа, рукава, книгу и ветви.",
+        "Исправить mipmaps, UV scale, alpha edges, contrast и фазу ветра, а не размыть весь экран."
+      ],
+      "acceptance": [
+        "Реальные ролики показывают устойчивый мазок.",
+        "Статичные красивые PNG не подменяют temporal review."
+      ],
+      "depends_on": [
+        "PW-032",
+        "PW-049",
+        "PW-054",
+        "PW-059",
+        "PW-064",
+        "PW-069",
+        "PW-083"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-089/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-090",
+      "title": "Измерить производительность на целевом устройстве",
+      "phase": 4,
+      "owner": "performance",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "Act1DemoRoot.RenderDiagnostics.cs",
+        "GraphicsQuality.cs",
+        "protected station benchmark"
+      ],
+      "steps": [
+        "Зафиксировать устройство, ОС, backend, resolution, preset и прогрев.",
+        "Измерить frame time median/p95/p99 отдельно от loading, сравнить baseline и worst-case каждого мира.",
+        "Цель 50–60FPS на базовом M1High остаётся целью, Windows capture не доказывает M1."
+      ],
+      "acceptance": [
+        "Есть реальные замеры либо M1_NOT_RUN с открытым блокером.",
+        "Оптимизация не скрывает существенные объекты и не меняет High молча."
+      ],
+      "depends_on": [
+        "PW-037",
+        "PW-038",
+        "PW-083",
+        "PW-089"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-090/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-091",
+      "title": "Проверить книгу при 720p, 1080p, 16:10 и крупном тексте",
+      "phase": 4,
+      "owner": "qa",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "UrmanUiTheme.cs",
+        "JournalUi",
+        "DocumentUi",
+        "photo captions"
+      ],
+      "steps": [
+        "Проверить 200%текст, переполнение, скролл и focus в каждой странице.",
+        "Убедиться, что типографика не затемнена мировым постэффектом.",
+        "Оборот, происхождение, условия входа и кнопка выхода читаются без обязательного zoom."
+      ],
+      "acceptance": [
+        "Нет обрезанных татарских глифов и критического текста.",
+        "Все обязательные строки доступны в транскрипции."
+      ],
+      "depends_on": [
+        "PW-016",
+        "PW-017",
+        "PW-080",
+        "PW-081"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-091/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-092",
+      "title": "Провести культурный review без выдуманного канона",
+      "phase": 4,
+      "owner": "cultural",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "narrative/art sources",
+        "creature passports",
+        "source register"
+      ],
+      "steps": [
+        "Проверить разделение фольклорного источника и авторских правил встреч.",
+        "Сверить бытовую среду, религиозные границы, Су анасы/Шурале/Бичуру и текстовые формулировки.",
+        "Составить точечный список вопросов специалисту; человеческое подтверждение оставить PENDING до реального review."
+      ],
+      "acceptance": [
+        "Никакой авторский action не объявлен народным обрядом.",
+        "Недоступность специалиста не заменена утверждением «всё проверено носителем»."
+      ],
+      "depends_on": [
+        "PW-047",
+        "PW-052",
+        "PW-057",
+        "PW-066",
+        "PW-080"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "ART01",
+        "ART02",
+        "FOL01",
+        "FOL02",
+        "FOL03"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-092/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-093",
+      "title": "Закрыть происхождение и права каждого runtime-ресурса",
+      "phase": 4,
+      "owner": "production",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "asset registry",
+        "licenses",
+        "runtime resource dependencies"
+      ],
+      "steps": [
+        "Сопоставить фактические файлы со всеми 48 семействами и 13 фото.",
+        "У каждого внешнего источника проверить разрешение конкретного использования, оригиналы и переводы.",
+        "Удалить из runtime нелицензированные reference-only изображения и временные font-copy пакеты."
+      ],
+      "acceptance": [
+        "Reference URL не считается лицензией игрового ассета.",
+        "Нет ресурса с неизвестным происхождением, скрытого под generated."
+      ],
+      "depends_on": [
+        "PW-040",
+        "PW-069",
+        "PW-078"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-093/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-094",
+      "title": "Пройти кампанию обычным пользовательским маршрутом",
+      "phase": 4,
+      "owner": "qa",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "ordinary New Game",
+        "campaign runtime",
+        "capture/playtest notes"
+      ],
+      "steps": [
+        "Новая игра без debugflags до S-NOW и свободного возврата.",
+        "Записать реальные проблемы темпа, потери цели и желание задержаться; не измерять интерес количеством PASS.",
+        "Проверить альтернативный порядок и необязательные ответвления без обязательного процента коллекции."
+      ],
+      "acceptance": [
+        "Есть законченное прохождение реальной сборки, либо честный NOT_RUN.",
+        "Агентский walkthrough отдельно от playtest настоящего автора/пользователя."
+      ],
+      "depends_on": [
+        "PW-078",
+        "PW-082",
+        "PW-085",
+        "PW-087",
+        "PW-088",
+        "PW-091"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-094/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-095",
+      "title": "Собрать самостоятельный релизный кандидат",
+      "phase": 5,
+      "owner": "release",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "eng/export-desktop-release.sh",
+        "release packaging",
+        "content registry"
+      ],
+      "steps": [
+        "Экспортировать рабочую сборку с нужными runtime-ресурсами и лицензиями.",
+        "Проверить запуск вне редактора, New Game, книга, первый вход, Load и эпилог из тестового checkpoint.",
+        "Исключить авторинговые исходники/секреты/дебаг-сейвы из пользовательского пакета."
+      ],
+      "acceptance": [
+        "Сборка запускается без Blender, сети и рабочего checkout.",
+        "Ресурсы находятся по относительным res://путям."
+      ],
+      "depends_on": [
+        "PW-090",
+        "PW-093",
+        "PW-094"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-095/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-096",
+      "title": "Прогнать согласованный регрессионный набор деревни",
+      "phase": 5,
+      "owner": "qa",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "existing smoke tests",
+        "updated acceptance matrix",
+        "station runner"
+      ],
+      "steps": [
+        "Запустить актуальные address/carry/vehicle/shop/notebook/UI/house/mosque проверки.",
+        "Изменённые сценарные тесты обновить под новый контракт, не вырезать assertions ради зелёного результата.",
+        "Отделить ожидаемо retired старый сюжет от технической регрессии."
+      ],
+      "acceptance": [
+        "Нет скрытого ухудшения старых работающих механик.",
+        "Каждый удалённый тест имеет объяснение и проверку преемника."
+      ],
+      "depends_on": [
+        "PW-079",
+        "PW-085",
+        "PW-095"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-096/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-097",
+      "title": "Удалить противоречивые активные инструкции и мёртвые входы",
+      "phase": 5,
+      "owner": "integration",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "AGENTS.md",
+        "canon/gameplay/design_style",
+        "active quest content",
+        "launch flow"
+      ],
+      "steps": [
+        "Сверить все действующие ТЗ и главные точки входа.",
+        "Отключить старый пролог/финал только в новой кампании, сохранить исторические документы с пометкой.",
+        "Удалить активные ссылки на незапущенные порталы и дублирующих owners.",
+        "Убрать вызовы конфликтующих старых хоррор-триггеров из нового сюжетного графа; сохранить их историческую реализацию без самопроизвольного запуска."
+      ],
+      "acceptance": [
+        "Новая игра не стартует случайно в старой сцене.",
+        "История решений сохранена, но не конкурирует с текущим заданием."
+      ],
+      "depends_on": [
+        "PW-002",
+        "PW-003",
+        "PW-096"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-097/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-098",
+      "title": "Собрать доказательный handover реализации",
+      "phase": 5,
+      "owner": "production",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "docs/production/photoworlds_delivery",
+        "execution_backlog",
+        "asset registry"
+      ],
+      "steps": [
+        "Для каждого PW-ID приложить commit/файлы/проверки/кадры/остатки.",
+        "Приложить 5 наборов F0–F5, видео, сохранения тестов, фактические anchor map и performance receipts.",
+        "Статусы generated/imported/integrated/reviewed разделены."
+      ],
+      "acceptance": [
+        "Нельзя закрыть задачу одним текстовым описанием.",
+        "Отчёт позволяет другому агенту воспроизвести любой ключевой результат."
+      ],
+      "depends_on": [
+        "PW-095",
+        "PW-096",
+        "PW-097"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-098/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-099",
+      "title": "Отделить самостоятельную приёмку от авторской",
+      "phase": 5,
+      "owner": "art",
+      "priority": "P1",
+      "effort": "M",
+      "files": [
+        "art rubric",
+        "culture/language sheets",
+        "review package"
+      ],
+      "steps": [
+        "Оценить все 8 художественных осей по 0–4 с кадрами и движением.",
+        "Вручную составить 5 коротких проверочных маршрутов и спорные места для автора.",
+        "При отсутствии человеческого просмотра оставить AUTHOR_PENDING; не остановить всю работу после первого такого флага."
+      ],
+      "acceptance": [
+        "Самопроверка не выдана за восторг пользователя.",
+        "Есть полный рабочий продукт для review, не набор концептов."
+      ],
+      "depends_on": [
+        "PW-092",
+        "PW-098"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-099/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    },
+    {
+      "id": "PW-100",
+      "title": "Закрыть всю новую концепцию, а не только первый пилот",
+      "phase": 5,
+      "owner": "integration",
+      "priority": "P1",
+      "effort": "L",
+      "files": [
+        "single execution backlog",
+        "release candidate",
+        "final delivery"
+      ],
+      "steps": [
+        "Проверить полную готовность: пять миров, тринадцать фото, книга, пролог, последствия в обе стороны, эпилог, сохранения, новые ассеты и полноценная деревня.",
+        "Устранить локально доступные незавершённости и честно перечислить внешние blockers.",
+        "Отдать сборку/документы/реестры, не обещать недоказанное соответствие референсу по счётчику задач."
+      ],
+      "acceptance": [
+        "Нет пустого обязательного мира/неимпортированного главного существа/мёртвого финала.",
+        "Все 100 PW имеют честный статус, а не массовый PASS по факту написания кода."
+      ],
+      "depends_on": [
+        "PW-098",
+        "PW-099"
+      ],
+      "asset_ids": [],
+      "reference_ids": [
+        "REQ"
+      ],
+      "status": "OPEN",
+      "runtime_evidence": "NOT_RUN",
+      "author_acceptance": "PENDING",
+      "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-100/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
+    }
+  ]
+}
