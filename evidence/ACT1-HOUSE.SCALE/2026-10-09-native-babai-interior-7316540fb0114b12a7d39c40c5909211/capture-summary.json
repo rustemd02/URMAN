@@ -1,0 +1,65 @@
+{
+  "job_id": "7316540fb0114b12a7d39c40c5909211",
+  "snapshot_id": "cce551b187b11d4e9b5cb372cfae956cd256777fd61df252e1ead97728beba67",
+  "status": "PASS",
+  "result_sha256": "fefa3c7172e195c226617decc9839a7625164174dbc51db56dd355bb64395e39",
+  "requested_zone_id": "house_old_pc",
+  "checkpoint_manifest": "res://content/world/visual_checkpoints.v1.json",
+  "checkpoint_rows": 20,
+  "point_count": 2,
+  "frames": [
+    {
+      "point": "babai_entry_door",
+      "png_sha256": "15a293ead0a095b8358eaffd7633b35fee1fbc6af00223068cfed618fdfb8e81",
+      "sidecar_sha256": "e0030f6ebd54385420d7c14bed11a909a0978839da15b8544818ba1949e950d6",
+      "camera_position": {
+        "x": -11.570504,
+        "y": 1.544152,
+        "z": -1.885556
+      },
+      "camera_target": {
+        "x": -9.670504,
+        "y": 1.244152,
+        "z": -1.885547
+      },
+      "fov": 70,
+      "fov_source": "explicit",
+      "requested_zone_id": "house_old_pc",
+      "active_zone_id": "house_old_pc",
+      "atmosphere_profile": "village-winter-frost",
+      "atmosphere_owner": "logical-zone/house_old_pc"
+    },
+    {
+      "point": "babai_room_overview",
+      "png_sha256": "08d5d443ca5b891e41f8304a2287d38f1dee73d1f1927aac2cf8307f6e23b9fa",
+      "sidecar_sha256": "29a2cb8534d0f61cf7bf3864117578929ae6e07276029090ec76208a26abfbed",
+      "camera_position": {
+        "x": -11.070504,
+        "y": 1.594152,
+        "z": -1.885554
+      },
+      "camera_target": {
+        "x": -15.52049,
+        "y": 1.294152,
+        "z": -4.705575
+      },
+      "fov": 70,
+      "fov_source": "explicit",
+      "requested_zone_id": "house_old_pc",
+      "active_zone_id": "house_old_pc",
+      "atmosphere_profile": "village-winter-frost",
+      "atmosphere_owner": "logical-zone/house_old_pc"
+    }
+  ],
+  "userdata_restored": true,
+  "doctor": {
+    "host": "UNTERPC",
+    "ready": true,
+    "busy_job": null,
+    "orphan_game_process": false,
+    "userdata_recovery_pending": false,
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "sdk": "10.0.302"
+  },
+  "captured_source_file_count": 27
+}

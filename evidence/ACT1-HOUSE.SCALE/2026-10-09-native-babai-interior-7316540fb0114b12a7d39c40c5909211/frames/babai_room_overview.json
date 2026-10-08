@@ -1,0 +1,52 @@
+{
+  "point": "babai_room_overview",
+  "spec": "babai_room_overview:BabaiApproachDwellingFacade@-1.162,1.846,-0.484\u003EBabaiApproachDwellingFacade@1.658,1.546,-4.934",
+  "cameraName": "DevViewCamera",
+  "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+  "cameraPosition": {
+    "x": -11.070504,
+    "y": 1.594152,
+    "z": -1.885554
+  },
+  "cameraTarget": {
+    "x": -15.52049,
+    "y": 1.294152,
+    "z": -4.705575
+  },
+  "cameraForward": {
+    "x": -0.843307,
+    "y": -0.056852,
+    "z": -0.534416
+  },
+  "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "cameraOwnerZone": null,
+  "targetOwnerZone": null,
+  "fov": 70,
+  "fovSource": "explicit",
+  "near": 0.05,
+  "far": 160,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "scaling3DScale": 0.7,
+  "scaling3DMode": "Fsr",
+  "graphicsPreset": "low",
+  "activeZoneId": "house_old_pc",
+  "requestedZoneId": "house_old_pc",
+  "checkpointSubject": "ACT1-DEPTH.9: \u0434\u0438\u0430\u0433\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0439 \u043E\u0431\u0437\u043E\u0440 \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u044E\u0449\u0435\u0439 \u043A\u043E\u043C\u043D\u0430\u0442\u044B \u043E\u0442 \u0432\u0445\u043E\u0434\u0430: \u043C\u0435\u0431\u0435\u043B\u044C, \u0431\u044B\u0442\u043E\u0432\u044B\u0435 \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u044B \u0438 \u043F\u0440\u043E\u0445\u043E\u0434\u044B; \u0434\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u0430\u044F \u0442\u043E\u0447\u043A\u0430, \u043F\u0440\u043E\u0444\u0438\u043B\u044C \u0437\u043E\u043D\u044B.",
+  "requestedProfile": null,
+  "atmosphereProfile": "village-winter-frost",
+  "atmosphereOwner": "logical-zone/house_old_pc",
+  "studioPreviewProfile": null,
+  "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/WorldEnvironment",
+  "tonemapMode": "Agx",
+  "fogColor": "c2d0e0ff",
+  "fogDensity": 0.93,
+  "snowActive": true,
+  "snowAmount": 4000,
+  "blizzardActive": false,
+  "drawCalls": 5068,
+  "capturedUnixSeconds": 1791503466
+}
