@@ -18,6 +18,8 @@
   {"id": "C7_trail_junction", "spec": "Ground@2,1.5,-20>Ground@18,1.4,-34", "subject": "узел протоптанных троп: глубина следов, непрерывность дороги"},
   {"id": "C8_sky_silhouette", "spec": "Ground@0,1.7,-8>Ground@-40,6.0,-40", "subject": "небо и верхние силуэты: колористика неба, читаемость крон"}
  ],
- "phasesNotYetCapturable": ["overcast-day", "golden-hour", "village-green-night"],
- "note": "Съёмка фаз требует, чтобы манифест чекпоинтов нёс собственный атмосферный профиль; подключается итерацией 02."
+ "phasesCapturableViaManifest": ["village-winter-frost", "overcast-day", "golden-hour", "zirat-winter-muted", "village-green-night", "kara-winter-night-edge"],
+ "manifest": "game/content/world/visual_checkpoints.v1.json",
+ "captureCommands": "docs/production/URMAN_VISUAL_RESET_EXECUTION_2026-10-07_captures.md",
+ "note": "Съёмка фаз подключена итерацией 02: репозиторный манифест чекпоинтов несёт собственный атмосферный профиль на кадр, транспорт станции (URMAN_VIEW_POINTS) не изменён. Пакеты A/B/C покрывают шесть авторских состояний; сами кадры ещё не сняты — station not-run."
 }

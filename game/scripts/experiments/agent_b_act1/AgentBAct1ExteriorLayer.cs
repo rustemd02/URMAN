@@ -389,6 +389,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 surface.GenerateNormals();
                 surface.Commit(result);
                 result.SurfaceSetMaterial(0, original.SurfaceGetMaterial(0));
+                // The recessed lane is a property of the shared field, not of this
+                // mesh, and the traversal triangles below come from the very same
+                // call. Record the numbers the ground was cut with where a capture
+                // can read them instead of re-deriving them (VIS-077 proof).
+                mesh.SetMeta("snowLaneProfile", System.FormattableString.Invariant(
+                    $"owner=AgentBAct1HeightField.RoadProfile depth={AgentBAct1HeightField.LaneDepthFootTrack}..{AgentBAct1HeightField.LaneDepthCarriageway} bank={AgentBAct1HeightField.BankRiseFootTrack}..{AgentBAct1HeightField.BankRiseCarriageway} reach={AgentBAct1HeightField.LaneInfluence}"));
             }
             else
             {

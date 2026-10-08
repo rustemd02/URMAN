@@ -256,22 +256,108 @@ public static class AgentBAct1HeightField
     /// <summary>(distance to nearest road axis, half width of that axis).</summary>
     public static (double Distance, double HalfWidth) RoadInfo(float x, float z)
     {
-        double best = double.MaxValue;
-        double width = 3.0;
+        var (distance, halfWidth, _) = RoadProfile(x, z);
+        return (distance, halfWidth);
+    }
+
+    // ---- The travelled lane cut into the snow mass (VIS-077/VIS-079, W2) ----
+    //
+    // The style recipe makes a recessed lane a requirement (W2) and flat snow an
+    // explicit anti-example (W3), so the lane is not painted on the field: it is
+    // cut into it, and the snow that was displaced stands back up on both sides.
+    // The cut lives in the same analytic function the traversal triangles come
+    // from, so the driven surface, the collider and every conforming road ribbon
+    // are one and the same surface - there is no second mesh to clip against the
+    // first, which is what produced the triangular seam VIS-010 reports.
+    //
+    // The base mesh is a <see cref="Step"/> = 2 m grid, so every element of the
+    // profile is deliberately wider than one cell: a narrower wall would be
+    // aliased away by the grid and would read as a facet edge instead of a bank.
+    // Measured from the axis of the nearest segment, for a carriageway of half
+    // width hw (hw 2.25 m, the main street):
+    //
+    //   |d| <= 0.80 hw        flat packed floor, LaneDepthCarriageway below the
+    //                         untouched mass                       (d 0 -> -0.17)
+    //   0.80 hw .. hw + 0.95  the wall out of the trough, ~11 deg   (d 2 -> -0.15)
+    //   hw + 1.45             crest of the windward bank            (d 4 -> +0.17)
+    //   hw + 1.45 .. hw + 5.2 the bank settles back into the mass   (d 6 ->  0)
+    //
+    // Both parts are smoothstep, so the field is C1 across a cell. The wheel ruts
+    // themselves are narrower than the grid and are deliberately left to the
+    // trample layer (VehicleSnowTracks presses them into the same mask the
+    // shader displaces with), not faked by a sub-cell feature here.
+    public const double LaneDepthFootTrack = 0.07;
+    public const double LaneDepthCarriageway = 0.17;
+    public const double BankRiseFootTrack = 0.02;
+    public const double BankRiseCarriageway = 0.20;
+    /// <summary>How far the lane's own relief can reach from an axis; the widest
+    /// profile settles back to the natural field inside this reach.</summary>
+    public const double LaneInfluence = 5.3;
+
+    /// <summary>0 for a trodden foot track, 1 for a driven carriageway.</summary>
+    private static double LaneClass(double halfWidth)
+        => System.Math.Clamp((halfWidth - 0.8) / 1.5, 0.0, 1.0);
+
+    /// <summary>Depth of the cut: 7 cm of packed track to 17 cm of driven lane.</summary>
+    public static double LaneDepth(double halfWidth)
+        => LaneDepthFootTrack + (LaneDepthCarriageway - LaneDepthFootTrack) * LaneClass(halfWidth);
+
+    /// <summary>Height the displaced snow stands above the untouched mass.</summary>
+    public static double BankRise(double halfWidth)
+        => BankRiseFootTrack + (BankRiseCarriageway - BankRiseFootTrack) * LaneClass(halfWidth);
+
+    private static double FloorEdge(double halfWidth) => halfWidth * 0.80;
+    private static double WallTop(double halfWidth) => halfWidth + 0.55 + 0.40 * LaneClass(halfWidth);
+    private static double CrestEdge(double halfWidth) => halfWidth + 1.05 + 0.40 * LaneClass(halfWidth);
+    private static double SettleEdge(double halfWidth) => CrestEdge(halfWidth) + 1.05 + 0.45 * LaneClass(halfWidth);
+
+    private static double Smooth(double from, double to, double value)
+    {
+        var t = System.Math.Clamp((value - from) / (to - from), 0.0, 1.0);
+        return t * t * (3.0 - 2.0 * t);
+    }
+
+    /// <summary>1 on the floor of a lane, 0 outside its wall.</summary>
+    private static double LaneOccupancy(double distance, double halfWidth)
+        => 1.0 - Smooth(FloorEdge(halfWidth), WallTop(halfWidth), distance);
+
+    /// <summary>1 on the crest of the bank a lane threw out, 0 inside and beyond.</summary>
+    private static double CrestOccupancy(double distance, double halfWidth)
+        => Smooth(FloorEdge(halfWidth), CrestEdge(halfWidth), distance)
+            * (1.0 - Smooth(CrestEdge(halfWidth), SettleEdge(halfWidth), distance));
+
+    /// <summary>
+    /// Snow relief of the travelled surface: the distance to the nearest axis,
+    /// that axis's half width, and the signed offset to add to the natural
+    /// ground - negative inside the lane, positive on its windward bank.
+    /// </summary>
+    public static (double Distance, double HalfWidth, double Relief) RoadProfile(float x, float z)
+    {
+        double best = double.MaxValue, width = 3.0, crest = 0.0, lane = 0.0;
         foreach (var (points, halfWidth) in RoadAxes)
         {
             for (var i = 0; i < points.Length - 1; i++)
             {
                 var d = DistanceToSegment(x, z, points[i].X, points[i].Z,
                     points[i + 1].X, points[i + 1].Z);
+                // The trough is the deepest influence over every route meeting
+                // here, so two lanes that cross cut one recess, never two.
+                var occupancy = LaneOccupancy(d, halfWidth);
+                if (occupancy > lane) lane = occupancy;
                 if (d < best)
                 {
                     best = d;
                     width = halfWidth;
+                    crest = CrestOccupancy(d, halfWidth);
                 }
             }
         }
-        return (best, width);
+        if (best == double.MaxValue) return (best, width, 0.0);
+        // The bank belongs to the nearest route but never stands inside a lane:
+        // that is what cuts the crest away where a route crosses another, so an
+        // intersection stays one recessed surface instead of a wall across it.
+        return (best, width,
+            -LaneDepth(width) * lane + BankRise(width) * crest * (1.0 - lane));
     }
 
     private static Vector2 ClosestRoadPoint(float x, float z)
@@ -482,7 +568,7 @@ public static class AgentBAct1HeightField
         {
             var outside = pad.Outside(x, z);
             if (outside >= pad.Feather) continue;
-            if (double.IsNaN(pad.Target)) pad.Target = GeneratedGroundWithoutHouseholdPads(pad.AnchorX, pad.AnchorZ);
+            if (double.IsNaN(pad.Target)) pad.Target = FieldSurface(pad.AnchorX, pad.AnchorZ, withLaneRelief: false);
             var blend = 1 - Mathf.SmoothStep(0, pad.Feather, outside);
             // The plot feather must not raise a ramp through the carriageway.
             // The real parcel stays level; its exterior blend ends at the verge.
@@ -497,9 +583,19 @@ public static class AgentBAct1HeightField
     }
 
     private static double GeneratedGroundWithoutHouseholdPads(float x, float z)
+        => FieldSurface(x, z, withLaneRelief: true);
+
+    /// <summary>
+    /// The generated field without the household pads. <paramref name="withLaneRelief"/>
+    /// is off when a pad reads the street grade it has to match: a level yard is the
+    /// mass the lane is cut into, so it must keep the field height and not inherit
+    /// the trough that belongs to the carriageway.
+    /// </summary>
+    private static double FieldSurface(float x, float z, bool withLaneRelief)
     {
         var baseHeight = Terrain(x, z);
-        var (distance, halfWidth) = RoadInfo(x, z);
+        var (distance, halfWidth, relief) = RoadProfile(x, z);
+        if (!withLaneRelief) relief = 0.0;
         var channel = System.Math.Min(RiverChannel(x, z), RavineChannel(x, z));
         if (channel != 0.0)
         {
@@ -513,7 +609,7 @@ public static class AgentBAct1HeightField
         var shoulder = z > 194f ? 4.0 : 3.0;
         if (distance >= gradedWidth + shoulder)
         {
-            return baseHeight;
+            return baseHeight + relief;
         }
         // Cut the northern loop into the foot of the forest hill rather than
         // sending the inhabited street up its steep shoulder. This is the
@@ -527,12 +623,15 @@ public static class AgentBAct1HeightField
             var foot = Terrain(roadCentre.X, Mathf.Min(roadCentre.Y, 204f)) - .02 - distance * .012;
             crown += (foot - crown) * Mathf.SmoothStep(194f, 208f, z);
         }
+        // The lane profile is applied after the roadside blend, which only owns
+        // the old 2 cm crown flattening; damping the trough with it would halve
+        // the crest of every bank and leave the lane reading as a painted stripe.
         if (distance <= gradedWidth)
         {
-            return crown;
+            return crown + relief;
         }
         var blend = 1.0 - (distance - gradedWidth) / shoulder;
-        return baseHeight * (1.0 - blend) + crown * blend;
+        return baseHeight * (1.0 - blend) + crown * blend + relief;
     }
 
     /// <summary>Ground with the same grid jitter as the authored mesh, so the collider hugs the visual terrain.</summary>
