@@ -1,0 +1,24 @@
+{
+  "kind": "read_only_source_geometry_audit",
+  "author": "/root/pw001_baseline",
+  "root_review": "/root",
+  "native_job": "9b3f2961f21647f39a2bc8ee772e99a7",
+  "source_glb_sha256": "f3570f9d0ebfc37e3066bc4d39c6b3e90755ba2cbf75c38a57232aedb08c7b9e",
+  "facts": [
+    "Camera positions20.75,1.670632,85 and27.75,1.670632,86 are outsideH019 roof bounds by9.34/10.34m inZ. Aiming at internalhousecenter doesnot meancamerainside.",
+    "Actual roof/snow vertices projectinside FOV70 frustum; simple cropping insufficient explanation.",
+    "Static sampled double-sided triangle rays againstH019 and fourneighborowners give ownfrontgable/wall/verge/snow asleadingblockers. No neighbor owner wasfirstblocker inthese samples.",
+    "Right greenplane correspondsgeometrically toH015 BanyaYard, notBackdropGround. BothcameraXZ areinsideheightfield, outsideBackdropGround strips.",
+    "Approximate source CollisionGround sample has~1.93/~1.76m camera clearance; anchor Groundvalue agreeswithsource-derived native placement+.03m."
+  ],
+  "limits": [
+    "Static source samples are not engine z-buffer, no unmodeled/dynamic worldowners included.",
+    "Ground is source-derived approximate, notfresh runtimegroundtelemetry.",
+    "Material/lighting and actualwholegeometrysilhouette require pairednativecomparison."
+  ],
+  "negative_hypotheses": [
+    "Importedcullpreservationappliedinbaffreadback but originalsunchanged/rejected; globaltrialremoved, originalPublic09conditionrestored.",
+    "GeneratedmainroofLOD distance listempty; mainroofgeneratedLOD cannotexplainwholedefect alone."
+  ],
+  "next_unit": "Protectedcapturepaired h019_graded_roof_overview / h019_source_roof_overview withsamecamera andsource-materialonly2roof3surfaces, plusHeroHouse porchcomparison."
+}

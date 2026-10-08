@@ -57,3 +57,198 @@
 Связано с `ACT1-HOUSE-SCALE` (`review_spec`: W4 — эталон К15, затем класс жилых домов) и с
 жалобой R-раздела на «маленький дом»; техническое измерение (метры из исходного меша)
 отделено от человеческой приёмки (удобно ли входить), которая остаётся `not-run`.
+
+## Дополнение 2026-10-08 — активный фасад H019
+
+Это отдельная проверенная единица жилого класса, но не подтверждённая расшифровка
+исторического `К15`: в данных нет связи «К15 → instance». Уникальный активный источник
+`MainStreetEastNeighborFacade` связан в `game/content/urman.settlement.addresses.v1.json`
+с `BLD-H019` / `ADR-H019`; `Act1ConnectedWorld` создаёт для него адресный контакт и
+`BuildMainStreetSideWindowDiscovery` вычисляет цель от видимых стекла и подоконника.
+Обе цели берут уже трансформированные узлы фасада, поэтому не требуют отдельной
+перестановки после изменения масштаба.
+
+В `game/content/world/act1_village_kit.world.v1.json` только instance
+`village_day@main-street-east-facade` (H019, позиция `[27.75, 0, 74]`) восстановлен с
+`[0.70, 0.74, 0.70]` до исходного `[1, 1, 1]`. По GLB и его узловым transform-ам фасад
+имеет габарит `8.765 × 5.33 × 7.09 м`; отверстие у закрытого уличного полотна
+`DwellingFacade_StreetDoorClosed_LOD0` — `1.30 × 2.25 м`, само полотно — примерно
+`1.22 × 2.17 м`. При прежней вертикальной шкале отверстие было `1.665 м`, ниже
+стоячей капсулы проекта (`height=1.80 м`); в исходном масштабе остаётся `0.45 м`
+геометрического запаса по высоте. Полотно остаётся закрытым фасадным мешем: это
+не доказательство входа внутрь дома или работы открываемой створки.
+
+Проверка соседнего ground-plane AABB учитывает фактические GLB bounds, catalog origin,
+instance position/yaw/scale и clamp, который `AuthoredWorldDirector.BuildCollision`
+применяет к растущим домам/сараям parcel-ов:
+
+| Объект | AABB X, Z (м) | Ближайший промежуток до H019 |
+|---|---|---:|
+| H019, новый масштаб | X `23.365…32.130`; Z `70.460…77.550` | — |
+| H015, whole parcel, текущий `.721` | X `32.948…42.545`; Z `68.926…78.003` | `0.818 м` по X |
+| H015 outbuilding после source-scale `.9` и inset-clamp | X `33.165…37.395`; Z `69.439…71.968` | `1.035 м` по X |
+| H014, whole parcel с текущими yaw/scale | X `6.000…17.324`; Z `70.700…81.052` | `6.041 м` по X |
+| H009, whole parcel с текущими yaw/scale | X `22.952…32.556`; Z `90.000…100.506` | `12.450 м` по Z |
+
+Это расчёт по импортированным исходным мешам и runtime placement rules, не кадр и не
+движковая проверка визуальных касаний. Никакие остальные дома или мировой масштаб не
+менялись. У двери H019 центр mesh в локальных координатах владельца — примерно
+`(-2.21, 1.425, 2.75)`; `Act1DemoRoot.DevViewCapture` принимает local points с лицевой
+стороной `+Z`, имя owner уникально. Для следующего station capture передать:
+
+```text
+h019_approach:MainStreetEastNeighborFacade@-1.80,1.65,9.50>MainStreetEastNeighborFacade@-2.21,1.425,2.75
+h019_front:MainStreetEastNeighborFacade@-2.21,1.62,5.40>MainStreetEastNeighborFacade@-2.21,1.425,2.75
+h019_door:MainStreetEastNeighborFacade@-4.40,1.62,5.20>MainStreetEastNeighborFacade@-2.21,1.425,2.75
+```
+
+### Посадка основания H019 по Y
+
+Проверен исходный GLB subtree `DwellingFacade_TimberPlaster` с применёнными glTF
+node transforms: нижний Y AABB равен `0.0 м`; его достигают фундамент и
+`DwellingFacade_StreetStep_LOD0`. Сам шаг занимает Y `0.0…0.20 м`, нижняя кромка
+портальной перекладины — `0.2175 м`, а полотно двери начинается с `0.34 м` в local
+пространстве фасада. При H019 scale `[1,1,1]` и yaw `0°` нижняя мировая граница поэтому
+равна Y root placement.
+
+`KitPlacementTakeover.ApplyAuthored` сначала вычисляет высоту через сохранённый
+`groundingReferenceXZ=[9.8,-10.5]`, однако после него
+`AttachAct1AuthoredExteriorParcel` для жилого объекта `VillageExteriorKitScenePath`
+повторно устанавливает root Y в `AgentBAct1HeightField.Ground(27.75,74)+0.03`.
+Итоговый источник истины для видимого основания H019 — этот последний ground placement:
+`worldAABB.minY - Ground(27.75,74) = +0.03 м`. Численная высота `Ground(27.75,74)` и
+отклонение от треугольного `CollisionGround` в этой статической проверке не вычислялись;
+движковая посадка/контакт порога и видимый шов шага остаются предметом Windows-кадра.
+
+AS-01 lineage for this consumer: Blender source
+`assets/source/blender/act1/urman_village_exterior_kit.blend`, generator
+`assets/source/blender/act1/urman_village_exterior_kit.py`, imported GLB
+`game/assets/models/act1/urman_village_exterior_kit.glb`; manifest says 1 Blender unit =
+1 metre, 17 basic materials, no image textures required, and only authored LOD0 meshes.
+The GLB has `TEXCOORD_0` on 8/125 H019 primitives; there are no image-texture consumers
+in this facade. `assets/asset_registry.json` records `Project-original`, scale `1.0`,
+and zero texture budget. Current visual confirmation, close first-person contact and
+root's acceptance remain pending; the historical `К15` identity and family-wide R030
+coverage also remain open.
+
+## Дополнение 2026-10-08 — источник К15/R030
+
+Проверка исходной жалобы не дала доказуемой привязки исторической ячейки `К15` к
+текущему экземпляру дома. В `docs/урман претензии.md:19` жалоба записана только
+текстом; встроенного изображения или пути к кадру там нет. Индекс текущего пакета
+`docs/URMAN_VISUAL_RESET_2026-10-07/SCREENSHOT_COVERAGE_221_RU.md` описывает 177
+основных кадров и 44 route moments; его полный исходный индекс
+`docs/production/ai_visual_reset_2026-10-07/attachments/APPENDIX_E_screenshot_index_RU.md`
+не содержит записи `К15`/`K15` или кадра «микродомика». Ограничение пакета прямо
+зафиксировано в `docs/URMAN_VISUAL_RESET_2026-10-07/SOURCES_AND_LIMITATIONS_RU.md`:
+точный локальный пользовательский кадр есть только для P1, остальные изображения
+не подменяют исходные. Общие схема и аудит планировки
+(`docs/production/village_relayout_2026-10-01/captures/scheme.png` и
+`docs/production/village_relayout_2026-10-01/audit/audit-2026-10-02.png`) не являются
+исходным кадром жалобы и не дают явного crosswalk `К15 → instance`.
+
+Схемы `docs/production/act1_takeover_evidence_2026-09-16/address-miniature-remediation-review-03.png`
+и `...review-04.png` относятся к отдельному предложению B32 с числовыми H-ID и
+компактными домами; их `H019` не устанавливает тождество с ячейкой `К15`. Нельзя
+выводить соответствие ни по совпадению цифр (`К15`/`H015`), ни по позиции без
+исторической карты или первичного кадра. Поэтому восстановление масштаба активного
+`H019` остаётся самостоятельным метрическим исправлением; оно не закрывает
+исторический эталон К15 и не подтверждает полное покрытие R030. Для продолжения
+нужен исходный complaint frame либо авторитетная таблица соответствия старой сетки
+текущим instances. До этого результат по K15 — **identity unknown**; статус карточки
+остаётся `in_progress`, ожидание реального Windows runtime/визуальной проверки
+отдельного среза H019 остаётся открытым.
+
+## Дополнение 2026-10-09 — первоначальная гипотеза двухсторонности крыши H019
+
+**Статус после b4c: причина не подтверждена.** Root просмотрел оба исходных кадра
+`h019_approach/front`: крыша и фронтон остаются срезанными, результат практически не
+отличается от 9344; изменение culling не принято как работающий визуальный фикс.
+Ниже сохранена история гипотезы и её пересмотр, а не установленная причина.
+
+Четырёхточечный Windows-срез `evidence/ACT1-ADDR.MOUNT/2026-10-09-native-fourpoint-9344bdc73876454ba61c639b6cf22f8b/frames/`
+показывает срезанную верхнюю часть фасада H019 и соседних домов. Sidecar
+`h019_approach.json` исключает обычную невидимость и неверный масштаб как причину
+этого кадра: `DwellingFacade_Roof_LOD0` и `DwellingFacade_RoofSnow_LOD0` видимы
+в дереве, находятся на render layer 1, не имеют visibility-range ограничения и
+имеют ожидаемые world AABB (верх крыши `Y=4.740632`, снега `Y=4.910777`). Камера
+смотрит с `Y=1.620632`, ниже нижней границы крыши `Y=2.780632`. Активные материалы
+у мешей — созданные runtime `ShaderMaterial`, а не исходный импортированный материал.
+
+Первоначальный аудит предположил, что ориентация поверхности и потеря culling-контракта
+объясняют пропажу крыши. `doubleSided: true` в glTF и winding одной поверхности сами
+по себе не показывают, какой материал реально видит renderer. Узкая правка
+regrade-пути применяет `PreserveSourceCulling(material, source)` для каждого
+перекрашенного импортированного surface, если исходный `BaseMaterial3D` сообщает
+`CullMode.Disabled`; helper ставит существующий opaque shader-вариант с
+`cull_disabled`. В b4c кадр после этой правки остался визуально отклонённым, поэтому
+считать её достаточной причиной или принятым исправлением нельзя.
+
+У двухстороннего варианта возможны дополнительные фрагменты и стоимость теневого
+прохода; влияние не измерено. Сам `doubleSided: true` не подтверждает, что runtime
+base material имеет `CullMode.Disabled`, что helper создал вариант или что именно
+culling вызвал пропажу силуэта.
+
+### Проверка цепочки источника и импорта — 2026-10-09
+
+Точный H019 — `MainStreetEastNeighborFacade` / `BLD-H019` / `ADR-H019`, а его
+компонент — общий `DwellingFacade_TimberPlaster` из
+`res://assets/models/act1/urman_village_exterior_kit.glb`. Это не отдельный
+`HeroHouse_TimberPlaster` дома `house_old_pc`; оба семейства создаёт один Blender-builder,
+но их runtime roots и компоненты различаются. Кодовый scale `.70,.74,.70` при сборке
+H019 — fallback proposal; `KitPlacementTakeover.ApplyAuthored` применяет authored
+plot scale `[1,1,1]`, соответствующий текущему `act1_village_kit.world.v1.json` и
+runtime census AABB. У H019 источник содержит
+`DwellingFacade_Roof_LOD0` с двумя material surfaces и `DwellingFacade_RoofSnow_LOD0`
+с одним surface. GLB назначает этим поверхностям `URMAN_Roof_WetSlate`,
+`URMAN_Wood_WetShadow`, `URMAN_Hero_RoofSnow`; в raw glTF у всех трёх материалов
+`doubleSided: true`.
+
+`BuildAct1AuthoredExteriorKit` присоединяет H019 до общего
+`ApplyAct1DaylightPresentationPass`; затем `RegradeAct1DaylightKitMaterials` находит
+surface по исходному `ResourceName`, создаёт grade для всех трёх названий выше и
+передаёт исходный материал в `PreserveSourceCulling` перед `SetSurfaceOverrideMaterial`.
+В последующей сборке нет второго назначения материала/меша этим крышам; `SetSnowMood`
+при вызове меняет параметры закэшированных материалов, не назначая другой материал.
+Эти факты сужают поиск, но
+без runtime readback не исключают, что base cull не распознан либо активен другой
+материал.
+
+Отдельный остающийся кандидат — внутренние LOD, созданные импортёром Godot:
+`game/assets/models/act1/urman_village_exterior_kit.glb.import` включает
+`meshes/generate_lods=true`, тогда как Blender generator и raw GLB именуют только
+`*_LOD0` узлы. Предыдущая census проверяла обычные `VisibilityRange*`, но не число
+сгенерированных LOD уровней и их пороги; имена узлов и AABB не доказывают, какой
+внутренний уровень использовал renderer. Существующий способ прочитать уровни уже
+есть в `Act1DemoRoot.RenderDiagnostics.cs`: `ImporterMesh.FromMesh`,
+`GetSurfaceLodCount` / `GetSurfaceLodSize`, вместе с `MeshInstance3D.LodBias`.
+
+В DevViewCapture добавлен узкий readback исходного BaseMaterial/CullMode и активного
+override/shader (`sourceCullingPreserved`, `cull_disabled`, наличие vertex writes).
+Следующий шаг — сопоставить эти значения с LOD-порогами и расстоянием для того же
+H019 runtime capture; затем root повторно принимает оригинальные кадры. До этого
+причина остаётся неизвестной, корректировка не признана visual fix, а HOUSE-SCALE
+остаётся открыта: нужны принятые H019 roof/gable кадры, контакт/коллизия, паспорт
+семейства и остальные критерии карточки. Идентичность `К15` по-прежнему неизвестна.
+
+### Фактический итог roof-material A/B — 2026-10-09, 02:14 МСК
+
+Строки выше о глобальном `PreserveSourceCulling` описывают отвергнутую попытку.
+После отрицательных b4c/baff кадров этот пробный общий вызов удалён; сохранён
+прежний узкий контракт `*_SeniRearRoofInfill_LOD0`. Нового принятого roof fix нет.
+
+В Windows job `515ce530e1e642b9bbe404ca1577ade7` два H019 кадра сняты с одинаковой
+камерой/FOV/профилем/viewport. В protected capture только две крыши/три поверхности
+временно переключены с grade на фактический imported `StandardMaterial3D`, затем
+возвращены точные прежние overrides. Sidecar подтверждает активные типы материалов.
+В обоих оригиналах отсутствует читаемый силуэт крыши/верхнего тела дома: замена
+материала не устраняет дефект. Реальные timestamps отличаются на 11 секунд, снег
+между кадрами движется. Это не доказательство конкретного геометрического или
+renderer-багa; следующий поиск должен установить фактический runtime blocker.
+
+Полный источник, receipts, исходные PNG, sidecars и личная оценка root:
+`evidence/ACT1-HOUSE.SCALE/2026-10-09-native-house-h019-ab-515ce530e1e642b9bbe404ca1577ade7/`.
+Runtime receipt PASS, engine-errors пуст, предупреждения сохранены и пользовательские
+данные восстановлены. Художественная оценка H019 — REJECTED. Для дома бабая форма
+читается, но новая площадка крыльца закрыта калиткой на close-view: её визуальная
+приёмка и обычный физический проход остаются открыты.

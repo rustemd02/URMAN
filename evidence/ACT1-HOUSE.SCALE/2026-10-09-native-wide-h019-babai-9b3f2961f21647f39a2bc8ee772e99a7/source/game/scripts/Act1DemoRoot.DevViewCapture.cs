@@ -215,34 +215,6 @@ public partial class Act1DemoRoot
                 }
                 phaseApplied = point.Profile is not null;
             }
-            // This capture-only comparison changes two H019 roof overrides in
-            // memory; ordinary gameplay and the imported GLB remain untouched.
-            var sourceRoofOverrides = new List<(MeshInstance3D Mesh, int Surface, Material? Painted)>();
-            if (point.Name.StartsWith("h019_source_", StringComparison.Ordinal))
-            {
-                if (System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") != "1"
-                    || point.CameraOwner?.Name != "MainStreetEastNeighborFacade")
-                {
-                    GD.PushError("H019 source-material comparison requires a protected run and its exact facade camera owner.");
-                    GetTree().Quit(1);
-                    return;
-                }
-                var roofs = point.CameraOwner.FindChildren("*", nameof(MeshInstance3D), true, false)
-                    .OfType<MeshInstance3D>().Where(mesh => mesh.Name == "DwellingFacade_Roof_LOD0" || mesh.Name == "DwellingFacade_RoofSnow_LOD0").ToArray();
-                if (roofs.Length != 2 || roofs.Any(mesh => mesh.Mesh is null || mesh.MaterialOverride is not null
-                    || Enumerable.Range(0, mesh.Mesh.GetSurfaceCount()).Any(surface => mesh.GetSurfaceOverrideMaterial(surface) is null)))
-                {
-                    GD.PushError("H019 source-material comparison requires exactly two roof meshes with surface overrides only.");
-                    GetTree().Quit(1);
-                    return;
-                }
-                foreach (var roof in roofs)
-                    for (var surface = 0; surface < roof.Mesh!.GetSurfaceCount(); surface++)
-                    {
-                        sourceRoofOverrides.Add((roof, surface, roof.GetSurfaceOverrideMaterial(surface)));
-                        roof.SetSurfaceOverrideMaterial(surface, null);
-                    }
-            }
             camera.GlobalPosition = point.CameraWorld;
             camera.LookAt(point.TargetWorld, Vector3.Up);
             DisplayServer.WindowMoveToForeground();
@@ -261,10 +233,6 @@ public partial class Act1DemoRoot
                 }
             }
             var metadata = ViewFrameMetadata(point, camera, zone);
-            foreach (var saved in sourceRoofOverrides)
-                saved.Mesh.SetSurfaceOverrideMaterial(saved.Surface, saved.Painted);
-            if (point.Name.StartsWith("h019_", StringComparison.Ordinal))
-                metadata["h019MaterialMode"] = ViewText(sourceRoofOverrides.Count == 0 ? "graded-runtime" : "imported-source-roof-only");
             var payload = metadata.ToJsonString(ViewJsonOptions);
             frames.Add(JsonNode.Parse(payload)!);
             if (WriteViewJson($"{dir}/{point.Name}.json", payload) is { } sidecarError)

@@ -1,0 +1,163 @@
+{
+  "job_id": "b4c77e61a0394fc38926c8da3ed21105",
+  "snapshot_id": "76a7aa1051096130604ac6bf74555b9aa021477272aad0fe53df79d88c24a181",
+  "source_commit": "e0095b0d7d197760521c8113278795a57e8377a8",
+  "source_act1connectedworld_sha256": "b35a5e71a8aabe129bff7fe9d833303ff2496f68faf6f82b08e3ed44fcd5509a",
+  "source_act1connectedworld_bytes": 627645,
+  "compiled_fullgame_sha256": "c1afa18be60a451d7a2a5295d8be72cba7211579c415f51e75ca2f56ae209052",
+  "raw_result_zip_sha256": "eeef7f4ef9d67a10b874a342b1b7ea761901c2ac9bf943d52da5ded8c149c35a",
+  "status": "PASS",
+  "mode": "capture",
+  "scene": "res://scenes/act1_demo.tscn",
+  "headless": false,
+  "worker_elapsed_seconds": 357.359,
+  "snapshot_hashes_verified": true,
+  "userdata_restored": true,
+  "point_count": 2,
+  "frames": {
+    "h019_approach": {
+      "png_sha256": "c46dc11619c2ab74ab0b461111a70ae660bee4f3586a290618b606b9d1390e83",
+      "png_bytes": 1093694,
+      "sidecar_sha256": "93299d84d89fc64cf203499b8f810506d5744ee629e41af9d996918f22df5ec3",
+      "sidecar_bytes": 13175
+    },
+    "h019_front": {
+      "png_sha256": "c2c5073afffa3f472bdde753d63dbf01fc4c07791a82d542720661ea6cf3842e",
+      "png_bytes": 1134705,
+      "sidecar_sha256": "bf6f4ea6687c6340d7988b9df1c08cf1130147ab501896549788e9dc0fc9f45b",
+      "sidecar_bytes": 13167
+    }
+  },
+  "h019RoofCensus": [
+    {
+      "name": "DwellingFacade_Roof_LOD0",
+      "matchCount": 1,
+      "instances": [
+        {
+          "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Roof_LOD0",
+          "visible": true,
+          "visibleInTree": true,
+          "renderLayers": 1,
+          "castShadow": "On",
+          "visibilityRangeBegin": 0,
+          "visibilityRangeEnd": 0,
+          "aabbOriginY": 2.780632,
+          "aabbEndY": 4.740632
+        }
+      ]
+    },
+    {
+      "name": "DwellingFacade_RoofSnow_LOD0",
+      "matchCount": 1,
+      "instances": [
+        {
+          "path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_RoofSnow_LOD0",
+          "visible": true,
+          "visibleInTree": true,
+          "renderLayers": 1,
+          "castShadow": "On",
+          "visibilityRangeBegin": 0,
+          "visibilityRangeEnd": 0,
+          "aabbOriginY": 2.765372,
+          "aabbEndY": 4.910777
+        }
+      ]
+    }
+  ],
+  "files": {
+    ".gitattributes": {
+      "bytes": 104,
+      "sha256": "fa8238e66523faebce6371da8740d6958db8f135c1d8364d21a362fe2916964a"
+    },
+    ".gitignore": {
+      "bytes": 40,
+      "sha256": "8963d3278036afa593a45874035b13d3c6d848cfdc2f5c149b40dbaebb4566d8"
+    },
+    "Act1ConnectedWorld.cs": {
+      "bytes": 627645,
+      "sha256": "b35a5e71a8aabe129bff7fe9d833303ff2496f68faf6f82b08e3ed44fcd5509a"
+    },
+    "build.log": {
+      "bytes": 152,
+      "sha256": "a98d9b5673359ac3829edae0bdd8bd399bc011fabf2605220b605157ffffb314"
+    },
+    "capture-summary.json": {
+      "bytes": 29791,
+      "sha256": "2289d1ef388845101b975f92942effa319499aac044a9575f6b73894700ddf5c"
+    },
+    "content-build.log": {
+      "bytes": 152,
+      "sha256": "ed943e3ee51da2456661c569be4a33d02c64ce67b346bb4770527b050c4eb0c0"
+    },
+    "content-urman.chapter1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "content-urman.fullgame.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "document-images.log": {
+      "bytes": 746,
+      "sha256": "289eef9ee894eafa4670c358f750e2698dbe96884546cb6f0c2425af09987b52"
+    },
+    "engine-errors.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "game.log": {
+      "bytes": 92592,
+      "sha256": "69fcbfdc8aa2425a65fffc1e2dc1061d8f64a67030de8a75e45112f6ee91d75d"
+    },
+    "h019_approach.json": {
+      "bytes": 13175,
+      "sha256": "93299d84d89fc64cf203499b8f810506d5744ee629e41af9d996918f22df5ec3"
+    },
+    "h019_approach.png": {
+      "bytes": 1093694,
+      "sha256": "c46dc11619c2ab74ab0b461111a70ae660bee4f3586a290618b606b9d1390e83"
+    },
+    "h019_front.json": {
+      "bytes": 13167,
+      "sha256": "bf6f4ea6687c6340d7988b9df1c08cf1130147ab501896549788e9dc0fc9f45b"
+    },
+    "h019_front.png": {
+      "bytes": 1134705,
+      "sha256": "c2c5073afffa3f472bdde753d63dbf01fc4c07791a82d542720661ea6cf3842e"
+    },
+    "import.log": {
+      "bytes": 140540,
+      "sha256": "5571c3d82278734683a9cc3159c3dcccf3e6d120d9ad9110158ea4a958484347"
+    },
+    "receipt.json": {
+      "bytes": 554738,
+      "sha256": "3f38cd4fe9fd7294686c76161793bd00235215f36ec46afa03668b5c0b5a0cb9"
+    },
+    "request.json": {
+      "bytes": 430,
+      "sha256": "9ce09b23e64eaf5c2a956bd379a254f9cd41d2e687b29cf9596c65fa5db697cf"
+    },
+    "stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.log": {
+      "bytes": 234295,
+      "sha256": "f731e3f5814550ec0e4a740543c86d77b92947d71caf3197e44ed64a411f5a27"
+    },
+    "README.md": {
+      "bytes": 1528,
+      "sha256": "6aae320010423edbfdb65af62803a90449ee3bad0687f7a479207f55602f35ed"
+    },
+    "root_review.json": {
+      "bytes": 628,
+      "sha256": "731dfad3522f1e9ed5a57a06c2951396d1aa0ddc93f7a1eca4972d7e14db0af5"
+    }
+  },
+  "visual_review": {
+    "reviewed_utc": "2026-10-08T22:08:44Z",
+    "reviewer": "root",
+    "visual_acceptance": "REJECTED",
+    "finding": "Roof silhouette remains rejected and unchanged; the source-culling fix is not accepted as effective."
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "snapshot_id": "5ecf819639a6fc03306f2f51b8ff2247dad5ca445a242490899fb99e14a1cfc3",
+  "files": [
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 40245,
+      "sha256": "6812883f31b2e17c97b3fb44670911bf2d8c90a4df4a0fdc84c005211178740a",
+      "included_in_remote_snapshot": true,
+      "remote_sha256": "6812883f31b2e17c97b3fb44670911bf2d8c90a4df4a0fdc84c005211178740a"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.cs",
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f",
+      "included_in_remote_snapshot": true,
+      "remote_sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f"
+    },
+    {
+      "path": "game/content/world/act1_village_kit.world.v1.json",
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d",
+      "included_in_remote_snapshot": true,
+      "remote_sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d"
+    },
+    {
+      "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "bytes": 3069900,
+      "sha256": "3d61163f9b592df5ec3895811b20c59874a94c9b0628b538ab43898823c8deb2",
+      "included_in_remote_snapshot": true,
+      "remote_sha256": "3d61163f9b592df5ec3895811b20c59874a94c9b0628b538ab43898823c8deb2"
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
+      "bytes": 187238,
+      "sha256": "51791739c01e317b3ad795ae0e2814d234c59217e467ded4b77769b991b1bfd4",
+      "included_in_remote_snapshot": false,
+      "remote_sha256": null
+    },
+    {
+      "path": "assets/asset_registry.json",
+      "bytes": 234515,
+      "sha256": "f96f2f2f5ed9319509afaca61690f1ef6c1ce19d43fc7f69196ee4bce55cfd99",
+      "included_in_remote_snapshot": false,
+      "remote_sha256": null
+    },
+    {
+      "path": "game/tests/FullGameFlowSmokeTest.cs",
+      "bytes": 34166,
+      "sha256": "1ba7e3214baf58a77488ad55f4f55b33c0d5e457d569d627b6fd5625573d5750",
+      "included_in_remote_snapshot": true,
+      "remote_sha256": "1ba7e3214baf58a77488ad55f4f55b33c0d5e457d569d627b6fd5625573d5750"
+    }
+  ]
+}

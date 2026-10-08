@@ -1,0 +1,234 @@
+{
+  "job_id": "baff9704fb8a40a4abb3562302afdc90",
+  "snapshot_id": "334c0b6b4588a0e195dcd1992faa275cc39d3d190c9c9fef96a94e1f90b6dbe8",
+  "source_commit": "c01128ba543d2cf830cc25ffea1d580ca644cfd6",
+  "raw_result_zip_sha256": "0dd8a180e38857722d771451270537006dc38836164c691164c8a1f07982d02c",
+  "status": "PASS",
+  "mode": "capture",
+  "scene": "res://scenes/act1_demo.tscn",
+  "headless": false,
+  "game_exit_code": 0,
+  "worker_elapsed_seconds": 379.235,
+  "snapshot_hashes_verified": true,
+  "userdata_restored": true,
+  "engine_error_line_count": 0,
+  "visual_review": "PENDING",
+  "frames": {
+    "h019_approach": {
+      "png_sha256": "49d9ae945a4a7e697e4c468dedd04c2e29d8733b5c93fd8f6b18fe496793592d",
+      "png_bytes": 1104723,
+      "sidecar_sha256": "50ea9aa75f62f7c916448d5240eb987507599571e56d19d62da4d9f89eb3c8fd",
+      "sidecar_bytes": 14393
+    },
+    "h019_front": {
+      "png_sha256": "2a4eae60a962ab550adc0b203b5c5329d681241454608a51fc74a4308e78915d",
+      "png_bytes": 1132811,
+      "sidecar_sha256": "458b235419a712cd8658aeffb74543d861218bbcdf0a8bba684df8be10c23422",
+      "sidecar_bytes": 14385
+    }
+  },
+  "h019RoofCullLodCensus": [
+    {
+      "frame": "h019_approach",
+      "mesh": "DwellingFacade_Roof_LOD0",
+      "match_count": 1,
+      "instance_visible": true,
+      "visible_in_tree": true,
+      "lod_bias": 1,
+      "surfaces": [
+        {
+          "material": "URMAN_Roof_WetSlate",
+          "meshMaterialCullMode": "Disabled",
+          "activeSourceCullingPreserved": true,
+          "activeShaderCullDisabled": true,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null,
+          "generatedLodDistances": []
+        },
+        {
+          "material": "URMAN_Wood_WetShadow",
+          "meshMaterialCullMode": "Disabled",
+          "activeSourceCullingPreserved": true,
+          "activeShaderCullDisabled": true,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null,
+          "generatedLodDistances": []
+        }
+      ]
+    },
+    {
+      "frame": "h019_approach",
+      "mesh": "DwellingFacade_RoofSnow_LOD0",
+      "match_count": 1,
+      "instance_visible": true,
+      "visible_in_tree": true,
+      "lod_bias": 1,
+      "surfaces": [
+        {
+          "material": "URMAN_Hero_RoofSnow",
+          "meshMaterialCullMode": "Disabled",
+          "activeSourceCullingPreserved": true,
+          "activeShaderCullDisabled": true,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null,
+          "generatedLodDistances": [
+            0.094068,
+            0.531597,
+            1.861159
+          ]
+        }
+      ]
+    },
+    {
+      "frame": "h019_front",
+      "mesh": "DwellingFacade_Roof_LOD0",
+      "match_count": 1,
+      "instance_visible": true,
+      "visible_in_tree": true,
+      "lod_bias": 1,
+      "surfaces": [
+        {
+          "material": "URMAN_Roof_WetSlate",
+          "meshMaterialCullMode": "Disabled",
+          "activeSourceCullingPreserved": true,
+          "activeShaderCullDisabled": true,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null,
+          "generatedLodDistances": []
+        },
+        {
+          "material": "URMAN_Wood_WetShadow",
+          "meshMaterialCullMode": "Disabled",
+          "activeSourceCullingPreserved": true,
+          "activeShaderCullDisabled": true,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null,
+          "generatedLodDistances": []
+        }
+      ]
+    },
+    {
+      "frame": "h019_front",
+      "mesh": "DwellingFacade_RoofSnow_LOD0",
+      "match_count": 1,
+      "instance_visible": true,
+      "visible_in_tree": true,
+      "lod_bias": 1,
+      "surfaces": [
+        {
+          "material": "URMAN_Hero_RoofSnow",
+          "meshMaterialCullMode": "Disabled",
+          "activeSourceCullingPreserved": true,
+          "activeShaderCullDisabled": true,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null,
+          "generatedLodDistances": [
+            0.094068,
+            0.531597,
+            1.861159
+          ]
+        }
+      ]
+    }
+  ],
+  "source_sha256": {
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs": {
+      "sha256": "d3a2e6252196c56033b0fc87823ee2088596519ca8eac2fcc2267c1ea9f34996",
+      "bytes": 38006
+    },
+    "game/scripts/Act1ConnectedWorld.cs": {
+      "sha256": "b35a5e71a8aabe129bff7fe9d833303ff2496f68faf6f82b08e3ed44fcd5509a",
+      "bytes": 627645
+    }
+  },
+  "files": {
+    ".gitattributes": {
+      "bytes": 104,
+      "sha256": "fa8238e66523faebce6371da8740d6958db8f135c1d8364d21a362fe2916964a"
+    },
+    ".gitignore": {
+      "bytes": 40,
+      "sha256": "8963d3278036afa593a45874035b13d3c6d848cfdc2f5c149b40dbaebb4566d8"
+    },
+    "Act1ConnectedWorld.cs": {
+      "bytes": 627645,
+      "sha256": "b35a5e71a8aabe129bff7fe9d833303ff2496f68faf6f82b08e3ed44fcd5509a"
+    },
+    "Act1DemoRoot.DevViewCapture.cs": {
+      "bytes": 38006,
+      "sha256": "d3a2e6252196c56033b0fc87823ee2088596519ca8eac2fcc2267c1ea9f34996"
+    },
+    "README.md": {
+      "bytes": 1403,
+      "sha256": "672b0115a9a3250f4611a1ed2bcaca7e72feaf2623054df1f364ddf05e00c048"
+    },
+    "build.log": {
+      "bytes": 152,
+      "sha256": "ae878ce278f7172aab48afb39bc383c3a41e1f4c02a57302d53333674753f231"
+    },
+    "capture-summary.json": {
+      "bytes": 32435,
+      "sha256": "99ea02b4ac771f1ff544b6942a43fe0f876ff15c0cb10f23798b38d27ff81ce0"
+    },
+    "content-build.log": {
+      "bytes": 152,
+      "sha256": "4866ea8c4c4a59427762519778d972a18f5de63f2b1bcc2a3949f7b67b606c76"
+    },
+    "content-urman.chapter1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "content-urman.fullgame.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "document-images.log": {
+      "bytes": 746,
+      "sha256": "289eef9ee894eafa4670c358f750e2698dbe96884546cb6f0c2425af09987b52"
+    },
+    "engine-errors.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "game.log": {
+      "bytes": 92592,
+      "sha256": "48603196dda4f49ae4a9b7db1a4548bc63df79ae973057f2c211f59531a244bb"
+    },
+    "h019_approach.json": {
+      "bytes": 14393,
+      "sha256": "50ea9aa75f62f7c916448d5240eb987507599571e56d19d62da4d9f89eb3c8fd"
+    },
+    "h019_approach.png": {
+      "bytes": 1104723,
+      "sha256": "49d9ae945a4a7e697e4c468dedd04c2e29d8733b5c93fd8f6b18fe496793592d"
+    },
+    "h019_front.json": {
+      "bytes": 14385,
+      "sha256": "458b235419a712cd8658aeffb74543d861218bbcdf0a8bba684df8be10c23422"
+    },
+    "h019_front.png": {
+      "bytes": 1132811,
+      "sha256": "2a4eae60a962ab550adc0b203b5c5329d681241454608a51fc74a4308e78915d"
+    },
+    "import.log": {
+      "bytes": 140540,
+      "sha256": "5571c3d82278734683a9cc3159c3dcccf3e6d120d9ad9110158ea4a958484347"
+    },
+    "receipt.json": {
+      "bytes": 529646,
+      "sha256": "2fbeb695b1b20f21cc21d6b3b56f0e15f842ad628db3e05ea8728f88cd4747a2"
+    },
+    "request.json": {
+      "bytes": 430,
+      "sha256": "2ece54851f3e93cf88e7ab67fe312dba96ffc372638b709d0b07b08de65b71b9"
+    },
+    "stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.log": {
+      "bytes": 234295,
+      "sha256": "eefca6a395552db35a378ed55540ceaf19a778840b57d3bdafefc7b5e4500e3f"
+    }
+  }
+}

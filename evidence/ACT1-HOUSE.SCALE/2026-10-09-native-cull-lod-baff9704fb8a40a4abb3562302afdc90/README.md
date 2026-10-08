@@ -1,0 +1,7 @@
+# H019 roof Cull/LOD native readback — 2026-10-09
+
+- Job `baff9704fb8a40a4abb3562302afdc90`, snapshot `334c0b6b4588a0e195dcd1992faa275cc39d3d190c9c9fef96a94e1f90b6dbe8`; station protocol `PASS`. Native non-headless views `res://scenes/act1_demo.tscn`; worker elapsed 379.235 s. Userdata restored and source snapshot hashes verified.
+- Root source SHA: `Act1ConnectedWorld.cs` b35a5e71a8aabe129bff7fe9d833303ff2496f68faf6f82b08e3ed44fcd5509a; capture diagnostic SHA: `Act1DemoRoot.DevViewCapture.cs` d3a2e6252196c56033b0fc87823ee2088596519ca8eac2fcc2267c1ea9f34996.
+- Both frame sidecars census exactly one visible H019 root and a visible instance of each target roof mesh. The new surface metadata reports `meshMaterialCullMode=Disabled`, `activeSourceCullingPreserved=true`, `activeShaderCullDisabled=true`, and `activeShaderHasWindVertexWrites=true`; the snow roof lists LOD distances `[0.094068, 0.531597, 1.861159]`. Exact values for both frames are in `manifest.json` and the unmodified sidecars. `activeShaderPath` is null.
+- Engine errors: none. Original PNGs, sidecars, receipt and logs are preserved. Root visual review is pending; census/protocol PASS does not accept the roof silhouette.
+- Redundant `result.zip` SHA-256 `0dd8a180e38857722d771451270537006dc38836164c691164c8a1f07982d02c` remains in ignored `.codex-captures/remote/baff9704fb8a40a4abb3562302afdc90/` and is not copied here.

@@ -1,0 +1,41 @@
+{
+  "reviewer": "/root",
+  "reviewed_at_utc": "2026-10-08T23:14:39Z",
+  "job_id": "515ce530e1e642b9bbe404ca1577ade7",
+  "source_snapshot": "5ecf819639a6fc03306f2f51b8ff2247dad5ca445a242490899fb99e14a1cfc3",
+  "originals_reviewed": {
+    "babai_shape_front": {
+      "png_sha256": "af27f64089f64689f0f20f63ed5c02412105a6dda009ab39e7b221adafe88d63",
+      "sidecar_sha256": "bd2cd1dcae875672c14a6111bfff716717ed0ac00343b87bcd19a27263fd2601"
+    },
+    "babai_shape_oblique": {
+      "png_sha256": "b295f784c6e95532617258c7654ef1df3a6f8c1ec849148e4ea86ad99f7c5493",
+      "sidecar_sha256": "6f5e804bb608a8530ff15effa9636591454a519b71c46e3920ff994c495c1a24"
+    },
+    "babai_porch_detail": {
+      "png_sha256": "8b64061ed2495983f88efe4f3eaad7407eb355854e0d59b0f8ed0cab2d044067",
+      "sidecar_sha256": "9188135312ff1d2a12d7d9a6d7ac6af9be060bef8b9dd7a7cd845c09361de2ce"
+    },
+    "h019_graded_roof_overview": {
+      "png_sha256": "e6093a5e12784df43b95e483a1422aa377a521a99fab4f5a831dad3f22fded3b",
+      "sidecar_sha256": "9f61bf3788e674438a3029630cf0b276873508a7e6e677c32a226d3ecf7e6a1a"
+    },
+    "h019_source_roof_overview": {
+      "png_sha256": "1a807f8cfad67c51ac58a72224bbdc5d83ef56a1ceecabf410b10d35f2062899",
+      "sidecar_sha256": "22e814d89fa6d05a790d43873840dc91bde05502242d8692fbcd71b675033e87"
+    }
+  },
+  "babai": {
+    "whole_form": "BASELINE_READABLE: gable silhouette, roof snow, log construction, teal/ivory carving remain legible in oblique view; frontal view partly obstructed by adjacent wall/NPC",
+    "porch_footprint": "NOT_ACCEPTED: gate obscures deck front and post bases in detail frame; need unobstructed owner-relative close view and ordinary physical approach",
+    "parent_task": "ACT1-DEPTH.9 remains in_progress; interior, physical access, reference parity, budget and author acceptance not complete",
+    "surrounding_style": "Faceted snow piles, sparse surface detail and flat neighboring construction remain visible; no whole-scene style acceptance"
+  },
+  "h019": {
+    "style": "REJECTED: roof/upper body does not form a readable dwelling silhouette in either paired frame",
+    "material_comparison": "Actual active materials change from graded ShaderMaterial to imported StandardMaterial3D for both roof meshes; the missing roof appearance persists. Roof material replacement is not sufficient to resolve the defect. No blanket renderer/geometry cause asserted.",
+    "conditions": "Camera/profile/FOV/environment/viewport match; timestamps differ by 11 seconds; snowfall differs naturally",
+    "next": "Investigate actual render geometry/occluders and source/runtime transforms, do not repeat culling or palette trials"
+  },
+  "runtime_protocol": "receipt PASS, empty engine-errors.log, warnings retained, user data restored; does not imply art PASS"
+}

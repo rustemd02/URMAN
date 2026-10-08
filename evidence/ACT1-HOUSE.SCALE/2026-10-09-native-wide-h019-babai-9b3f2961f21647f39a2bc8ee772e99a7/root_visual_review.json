@@ -1,0 +1,36 @@
+{
+  "reviewer": "/root",
+  "job_id": "9b3f2961f21647f39a2bc8ee772e99a7",
+  "snapshot_id": "67f554453879c49cb1ccd9bf684bc6f976239a083907492f866806f2ad09b1dd",
+  "viewed_original_pngs": {
+    "babai_shape_front.png": "c87a209b0dedafce9a648027585257ba0d404f484001957c721794abce8e81ea",
+    "babai_shape_oblique.png": "dd27b535bec202e676bdba84eb678fb54036e45becddb80fb8f3bcd331ae766a",
+    "h019_roof_overview.png": "0f0671830644734cd15d7ee561ed0d86bf55e3d21b1df96c4808149d725b8386",
+    "h019_silhouette.png": "e7402f3ed931b2f7c9e73f81bfa6ce5a38fdd99bfa3609ed1e711db78570fb09"
+  },
+  "babai": {
+    "decision": "ACCEPT_BASELINE_FORM_ONLY; DEPTH9 remains OPEN",
+    "observations": [
+      "Front and oblique show the whole timber house, continuous gable, main roof planes, projecting log ends and carved trim.",
+      "Snow-covered roof, wall and fenestration have readable separate masses.",
+      "Street-side porch platform is narrow relative to its canopy post bases; owner source measurement confirms platform ends short of supports.",
+      "Frontal frame is partly obstructed by a nearby wall; both include residents. These are fixed diagnostics, not ordinary traversal."
+    ],
+    "next_slice": "Extend existing porch deck to its own support footprint; preserve roof pitch, portal and interior alignment. Fresh source-bound runtime review required."
+  },
+  "h019": {
+    "decision": "REJECT_WHOLE_HOUSE_VISUAL",
+    "observations": [
+      "Wider/higher aim still shows isolated front windows/portal against oversized teal floor/wall masses and sky without readable main roof silhouette.",
+      "Failure persists after imported double-sided material preservation; cannot claim that culling trial repaired appearance.",
+      "Camera/nearby volume intersection and transformation must be checked before another geometry/material change."
+    ],
+    "next_slice": "Read exact global camera/owner bounds and classify occlusion/framing versus renderer; no automatic shader/LOD acceptance."
+  },
+  "not_proven": [
+    "Ordinary player approaches, physical access and reverse traversal.",
+    "High/Low consistency or movement stability.",
+    "Whole DEPTH9/AS01/AS02/AS13 acceptance, interior/art/human gates.",
+    "H019 roof defect root cause."
+  ]
+}
