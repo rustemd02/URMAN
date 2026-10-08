@@ -1,4 +1,5 @@
 using Godot;
+using Urman.Experiments.AgentBAct1;
 
 namespace Urman.Godot;
 
@@ -31,6 +32,14 @@ public partial class Act1ConnectedWorld
     {
         if (_snowReliefClipped) return;
         _snowReliefClipped = true;
+        // VIS-077/079, in this order and only once: publish the one exclusion set
+        // (RoadInfo + access lines + solids + footprints), lay the large-mass tier while the
+        // clipper can still trim it against the buildings, then break and reprofile the
+        // street banks so no required approach is buried. Only after that does the relief
+        // clip run, so every new mesh obeys the same rule as the authored ones.
+        PublishSnowExclusions();
+        BuildWinterSnowMass();
+        ReworkStreetSnowBanks();
         var boxes = new List<(Transform3D Inverse, Vector3 Half, Aabb Bounds)>();
         foreach (var shape in FindDescendants<CollisionShape3D>(this))
         {
@@ -123,6 +132,83 @@ public partial class Act1ConnectedWorld
             meshes++;
         }
         GD.Print($"act1-snow-relief: clipped meshes={meshes} triangles={dropped} solids={boxes.Count} addedVertices={SnowSurfaceSplitter.AddedVertices}");
+        // VIS-077: the static half of the acceptance — the relief that stands in the world
+        // right now, counted in authored elevation bands, without a texture in sight.
+        SummarizeSnowElevation();
+    }
+
+    /// <summary>
+    /// VIS-077: samples the rise above the collision ground of every snow-relief mesh and
+    /// reports how many 12 cm elevation levels actually exist. The card asks for at least
+    /// two levels besides the shader's micro displacement; a flat white world scores one.
+    /// </summary>
+    private void SummarizeSnowElevation()
+    {
+        var rises = new List<float>();
+        var meshes = 0;
+        const int stride = 8;
+        const int sampleBudget = 40_000;
+        foreach (var mesh in FindDescendants<MeshInstance3D>(this).ToArray())
+        {
+            if (mesh.Mesh is not ArrayMesh source || !IsSnowRelief(mesh)) continue;
+            meshes++;
+            for (var s = 0; s < source.GetSurfaceCount(); s++)
+            {
+                using var arrays = source.SurfaceGetArrays(s);
+                var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                // Every eighth vertex, under a hard sample budget: enough to bucket a rise,
+                // bounded so a first-frame diagnostic can never turn into a stall.
+                for (var i = 0; i < vertices.Length && rises.Count < sampleBudget; i += stride)
+                {
+                    var world = mesh.ToGlobal(vertices[i]);
+                    rises.Add(world.Y - AgentBAct1HeightField.CollisionGround(world.X, world.Z));
+                }
+                if (rises.Count >= sampleBudget) break;
+            }
+            if (rises.Count >= sampleBudget) break;
+        }
+        var levels = SnowReliefStandard.ElevationLevelCount(rises);
+        var minimum = rises.Count == 0 ? 0f : rises.Min();
+        var maximum = rises.Count == 0 ? 0f : rises.Max();
+        SetMeta("snowReliefMeshes", meshes);
+        SetMeta("snowReliefElevationLevels", levels);
+        SetMeta("snowReliefElevationBand", SnowReliefStandard.ElevationBand);
+        SetMeta("snowReliefRiseRange", $"{minimum:0.###}-{maximum:0.###}");
+        GD.Print($"act1-snow-elevation: meshes={meshes} levels={levels} band={SnowReliefStandard.ElevationBand:0.###} " +
+                 $"riseMin={minimum:0.###} riseMax={maximum:0.###}");
+    }
+
+    /// <summary>
+    /// Per-vertex normals of a row-major grid relief: both face normals of every quad are
+    /// handed to their corners and normalised at the end. A feathered aperture has degenerate
+    /// faces, so a zero-length accumulation falls back to the up direction instead of a NaN
+    /// normal, and every normal is turned upward regardless of the authored winding.
+    /// </summary>
+    private static Vector3[] GridNormals(Vector3[] vertices, int stations, int columns)
+    {
+        var accumulated = new Vector3[vertices.Length];
+        for (var s = 0; s + 1 < stations; s++)
+        for (var c = 0; c + 1 < columns; c++)
+        {
+            var topLeft = s * columns + c;
+            var topRight = topLeft + 1;
+            var bottomLeft = (s + 1) * columns + c;
+            var bottomRight = bottomLeft + 1;
+            var first = (vertices[topRight] - vertices[topLeft]).Cross(vertices[bottomLeft] - vertices[topLeft]);
+            var second = (vertices[bottomRight] - vertices[bottomLeft]).Cross(vertices[topRight] - vertices[bottomLeft]);
+            accumulated[topLeft] += first;
+            accumulated[topRight] += first + second;
+            accumulated[bottomLeft] += first + second;
+            accumulated[bottomRight] += second;
+        }
+        var result = new Vector3[vertices.Length];
+        for (var i = 0; i < result.Length; i++)
+        {
+            var n = accumulated[i];
+            if (n.Y < 0f) n = -n;
+            result[i] = n.LengthSquared() > 1e-8f ? n.Normalized() : Vector3.Up;
+        }
+        return result;
     }
 
     private static bool IsSnowRelief(MeshInstance3D mesh)
@@ -135,6 +221,150 @@ public partial class Act1ConnectedWorld
         if (surface is not ("snow_ground" or "snow_trampled")) return false;
         return mesh.HasMeta("snowBankHeight") || mesh.HasMeta("terrainRole")
             || mesh.GetParent()?.Name.ToString() == "URMAN_AgentB_TerrainRoadKit";
+    }
+
+    // VIS-079. The authored cross-section columns of a snow bank, copied from the landform
+    // builder so the rework reads the same nine samples it was built with: the negative side
+    // is the cut face toward the carriageway, the positive side faces the field.
+    private static readonly float[] BankProfileColumns = [-.5f, -.38f, -.26f, -.12f, 0f, .12f, .26f, .38f, .5f];
+    /// <summary>How close a required corridor must come to a bank's centre before the bank
+    /// gives way. Half the authored bank footprint, so the relief body itself is what clears.</summary>
+    private const float BankApertureClearance = .55f;
+    /// <summary>Length over which a bank feathers down to the snowfield before an opening.</summary>
+    private const float BankApertureTaper = 1.6f;
+    /// <summary>Height of the snow thrown out of an opening, piled just beside the gap.</summary>
+    private const float BankThrownHeight = .10f;
+    /// <summary>Distance from the aperture edge at which the thrown heap sits.</summary>
+    private const float BankThrownReach = 1.0f;
+
+    /// <summary>
+    /// VIS-079: rebuilds every authored street bank from the published exclusion set instead
+    /// of from coordinates. A bank now (a) feathers to zero across <see cref="BankApertureTaper"/>
+    /// metres wherever a required access corridor crosses it, so a gate, a lane, a footbridge
+    /// or a door walk is never buried, (b) carries the snow thrown out of that opening as a
+    /// readable heap just beside the gap, and (c) loses the last of the procedural-wall look:
+    /// the field side slumps, the road side keeps a steeper cut face with a lip, and the crest
+    /// swells from a position hash rather than a sine. Geometry only — no material, no collider.
+    /// </summary>
+    private void ReworkStreetSnowBanks()
+    {
+        var reworked = 0; var apertures = 0; var residualCrossings = 0; var unparsed = 0;
+        foreach (var mesh in FindDescendants<MeshInstance3D>(this).ToArray())
+        {
+            if (!mesh.Name.ToString().StartsWith("StreetBank", StringComparison.Ordinal)) continue;
+            if (mesh.Mesh is not ArrayMesh source || source.GetSurfaceCount() == 0 || !IsSnowRelief(mesh)) continue;
+            // One shaping per bank. The pass is re-entered when a route is verified after
+            // the first frame; a bank that has already been read is left as it stands, so
+            // the thrown heaps and the slump never compound into a wall of noise.
+            if (mesh.HasMeta("streetBankReworked")) continue;
+            using var arrays = source.SurfaceGetArrays(0);
+            var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+            var columns = BankProfileColumns.Length;
+            // The authored bank is a row-major grid of nine cross-section samples per station
+            // and it keeps its index buffer. A de-indexed or differently sectioned mesh is
+            // counted and left alone rather than guessed at, because a wrong grouping here
+            // would twist the shoulder instead of shaping it.
+            if (arrays[(int)Mesh.ArrayType.Index].VariantType == Variant.Type.Nil) { unparsed++; continue; }
+            if (vertices.Length == 0 || vertices.Length % columns != 0) { unparsed++; continue; }
+            var stations = vertices.Length / columns;
+            if (stations < 3) continue;
+
+            var centres = new Vector2[stations];
+            var arc = new float[stations];
+            for (var s = 0; s < stations; s++)
+            {
+                var world = mesh.ToGlobal(vertices[s * columns + columns / 2]);
+                centres[s] = new Vector2(world.X, world.Z);
+                if (s > 0) arc[s] = arc[s - 1] + centres[s].DistanceTo(centres[s - 1]);
+            }
+            var aperture = new bool[stations];
+            for (var s = 0; s < stations; s++)
+                aperture[s] = SnowReliefStandard.CorridorClearance(centres[s]) < BankApertureClearance;
+
+            // Arc distance to the nearest aperture station, from both directions.
+            var reach = BankApertureTaper + arc[^1] + 1f;
+            var forward = new float[stations];
+            var backward = new float[stations];
+            for (var s = 0; s < stations; s++)
+                forward[s] = aperture[s] ? 0f : (s == 0 ? reach : forward[s - 1] + arc[s] - arc[s - 1]);
+            for (var s = stations - 1; s >= 0; s--)
+                backward[s] = aperture[s] ? 0f : (s == stations - 1 ? reach : backward[s + 1] + arc[s + 1] - arc[s]);
+
+            var weight = new float[stations];
+            var thrown = new float[stations];
+            for (var s = 0; s < stations; s++)
+            {
+                var nearest = Mathf.Min(forward[s], backward[s]);
+                weight[s] = Mathf.SmoothStep(0f, BankApertureTaper, nearest);
+                // One heap per aperture edge: a Gaussian ridge centred BankThrownReach metres
+                // from the gap, so the opening reads as worked rather than as a boolean hole.
+                thrown[s] = nearest < 3f
+                    ? BankThrownHeight * Mathf.Exp(-Mathf.Pow((nearest - BankThrownReach) / .7f, 2f)) * weight[s]
+                    : 0f;
+            }
+            var meshApertures = 0;
+            for (var s = 1; s < stations; s++) if (aperture[s] && !aperture[s - 1]) meshApertures++;
+            if (aperture[0]) meshApertures++;
+            apertures += meshApertures;
+
+            var maxRise = 0f;
+            for (var s = 0; s < stations; s++)
+            {
+                var taper = weight[s];
+                // Non-repeating crest swell from the position hash: metre-long rhythm,
+                // never the same shape twice along a 50 m shoulder.
+                var clump = 1f + .16f * (float)(AgentBAct1HeightField.ValueNoise(
+                    centres[s].X * .53 + 3.1, centres[s].Y * .47 - 1.7) - .5) * 2f;
+                for (var c = 0; c < columns; c++)
+                {
+                    var index = s * columns + c;
+                    var world = mesh.ToGlobal(vertices[index]);
+                    var ground = AgentBAct1HeightField.CollisionGround(world.X, world.Z);
+                    var rise = world.Y - ground;
+                    var profile = BankProfileColumns[c];
+                    var weather = 1f - .26f * Mathf.SmoothStep(.10f, .50f, profile);
+                    var lip = .05f * Mathf.Exp(-Mathf.Pow((profile + .30f) / .11f, 2f));
+                    var crest = Mathf.Exp(-Mathf.Pow(profile / .22f, 2f));
+                    var next = Mathf.Max(rise * taper * weather * clump + (lip + thrown[s] * crest) * taper, -.02f);
+                    maxRise = Mathf.Max(maxRise, next);
+                    vertices[index] = mesh.ToLocal(new Vector3(world.X, ground + next, world.Z));
+                    if (aperture[s] && next > .06f) residualCrossings++;
+                }
+            }
+
+            arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+            // Normals are re-derived on the known grid (face normals accumulated per vertex)
+            // instead of asking SurfaceTool for them: the authored relief arrives indexed and
+            // with a normal array already set, where generate_normals() refuses to run. This
+            // way the new slump and the thrown heaps are actually shaded, the index buffer
+            // stays as it was and no vertex is duplicated.
+            var normals = GridNormals(vertices, stations, columns);
+            arrays[(int)Mesh.ArrayType.Normal] = normals;
+            // The material is taken before the swap: the old ArrayMesh goes out of use here,
+            // and the new one must be owned by the node, not by a disposed local.
+            var reliefMaterial = source.SurfaceGetMaterial(0);
+            var reprofiled = new ArrayMesh();
+            reprofiled.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+            // A surface belongs to the mesh resource, not to the instance: the material is put
+            // on the reprofiled ArrayMesh before that mesh is published to the node, exactly
+            // as the clipped relief above does.
+            if (reliefMaterial is not null) reprofiled.SurfaceSetMaterial(0, reliefMaterial);
+            mesh.Mesh = reprofiled;
+            mesh.SetMeta("streetBankReworked", true);
+            mesh.SetMeta("snowTier", SnowReliefStandard.TierMass);
+            mesh.SetMeta("snowBankApertures", meshApertures);
+            mesh.SetMeta("snowBankReworkedHeight", maxRise);
+            mesh.SetMeta("snowBankExclusionOwner", nameof(SnowReliefStandard));
+            if (aperture[0] || aperture[^1]) mesh.SetMeta("snowBankEndsInCorridor", true);
+            reworked++;
+        }
+        SetMeta("streetBanksReworked", reworked);
+        SetMeta("streetBankApertures", apertures);
+        SetMeta("streetBankCorridorCrossings", residualCrossings);
+        GD.Print($"act1-street-banks: reworked={reworked} apertures={apertures} " +
+                 $"corridorCrossings={residualCrossings} unparsed={unparsed} " +
+                 $"corridors={SnowReliefStandard.CorridorCount} solids={SnowReliefStandard.SolidCount} " +
+                 $"footprints={SnowReliefStandard.FootprintCount}");
     }
 }
 

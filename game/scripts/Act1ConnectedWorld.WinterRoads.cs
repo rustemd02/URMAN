@@ -35,6 +35,10 @@ public partial class Act1ConnectedWorld
             {
                 if (previous.GetMeta("routeRevision").AsString() == revision) continue;
                 previous.QueueFree(); _winterAccessMeshes.Remove(id);
+                // A re-committed route no longer owns the corridor it published; the next
+                // lines publish the new one, so snow relief is never held clear of a path
+                // that no longer exists.
+                SnowReliefStandard.RetireCorridors($"winterPath:{id}#");
             }
             using var surface = new SurfaceTool(); surface.Begin(Mesh.PrimitiveType.Triangles);
             var walked = 0f; var triangles = 0;
@@ -102,6 +106,14 @@ public partial class Act1ConnectedWorld
                 CastShadow = GeometryInstance3D.ShadowCastingSetting.Off };
             mesh.SetMeta("accessId", id); mesh.SetMeta("routeRevision", revision);
             mesh.SetMeta("routeOwner", "AddressAccessVerifier + SettlementGraph");
+            // VIS-077: this ribbon is the medium-edge tier of the snow standard — a trodden
+            // floor 1 cm over the ground with a 4–7 cm berm, never a flat decal.
+            mesh.SetMeta("snowTier", SnowReliefStandard.TierEdge);
+            // VIS-079/016: the route is now also a required corridor, so the street banks and
+            // the new drifts keep this exact line clear, and SnowTrampleField reads a print
+            // inside it as compacted snow rather than as a fresh step.
+            if (SnowReliefStandard.PublishPolyline($"winterPath:{id}", path, WinterRouteCorridorHalf) > 0
+                && _snowReliefClipped) ReworkStreetSnowBanks();
             AddChild(mesh); _winterAccessMeshes.Add(id, mesh);
             // The heap is conformed through global transforms, so the path is in the tree first.
             AddShovelHeap(mesh, id, path, routeLength);

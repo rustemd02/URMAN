@@ -14,6 +14,16 @@ public static partial class VehicleVisualFactory
         root.SetMeta("assetSource","https://sketchfab.com/3d-models/a73b3cdeddd846209bf7c73d5f04d20f");
         var model=PolicePostAssets.Attach(root,"vaz2106_static","LicensedVAZ2106",Vector3.Zero);
         model.SetMeta("flatTyre",true);
+        // VIS-105: the imported photo-PBR slots are rebinded onto the same URMAN
+        // families as the Niva (paint / steel / rubber / glass / settled snow).
+        // Geometry, UV, metre scale, the flattened tyre and the CC BY attribution
+        // are untouched; the source mesh resource is never edited, only the
+        // instance's surface overrides.
+        var unmapped=new System.Collections.Generic.List<string>();
+        RebindThirdPartyVehicleMaterials(model,"4c5d4c",unmapped);
+        if(unmapped.Count>0)
+            GD.PushWarning("District Zhiguli keeps unnormalised source materials: "+string.Join(", ",unmapped));
+        root.SetMeta("materialNormalization","imported slots rebinded to URMAN vehicle families (VIS-105)");
         // Period-neutral lettering; the imported UV maps remain on every original part.
         foreach(var sign in new[]{-1f,1f})
         {

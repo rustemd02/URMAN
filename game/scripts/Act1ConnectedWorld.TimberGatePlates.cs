@@ -34,6 +34,14 @@ public partial class Act1ConnectedWorld
             var outward=-gate.GetMeta("inward").AsVector3();
             var along=gate.GetMeta("along").AsVector3();
             var centre=gate.GlobalPosition+along*1.72f+Vector3.Up*1.47f+outward*.13f;
+            // VIS-018/VIS-020 contact: the plate's own rim box spans -0.012..+0.012
+            // along its local Z, and the support board's street face is at -0.012.
+            // Centring the plate on the same point made those two faces exactly
+            // coplanar, which is a per-pixel coin toss at grazing angles - the
+            // "black sliver behind the plate" read. The plate is now bedded 3 mm
+            // into the board (the card's maximum mounting gap), so the assembly is
+            // one construction and the fasteners land in material.
+            var plateCentre=centre-outward*.003f;
             var backing=new Node3D {Name="AddressPlateBacking",Position=fences.ToLocal(centre)};
             fences.AddChild(backing);backing.GlobalBasis=new Basis(Vector3.Up,Mathf.Atan2(outward.X,outward.Z));
             // The painted support's street face meets the plate's back face:
@@ -43,9 +51,14 @@ public partial class Act1ConnectedWorld
             // the side with the fasteners apparently floating (audit A3).
             RuralPropGeometry.Block(backing,"PaintedSupport",new(1.22f,.46f,.045f),new(0,0,-.0345f),
                 PainterlyMaterialLibrary.ForColor("ded7bd","wood_painted_trim"),.007f);
-            sign.GlobalPosition=centre;sign.GlobalBasis=backing.GlobalBasis;
+            sign.GlobalPosition=plateCentre;sign.GlobalBasis=backing.GlobalBasis;
             sign.SetMeta("timberGateMount",gate.GetPath().ToString());
             sign.SetMeta("addressSignSupport",backing.GetPath().ToString());
+            // VIS-020 evidence: the mount is recorded on the plate itself, so a
+            // capture receipt can name the object instead of guessing it.
+            sign.SetMeta("addressPlateMountMm",Math.Round(outward.Dot(plateCentre-backing.GlobalPosition)*1000f));
+            sign.SetMeta("addressPlateSupportThicknessMm",45f);
+            sign.SetMeta("addressPlateBackPlane","painted support board, bedded 3 mm");
         }
     }
 }

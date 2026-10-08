@@ -334,9 +334,12 @@ public partial class Act1ConnectedWorld
         if (OS.GetEnvironment("URMAN_FRONTAGE_DEBUG") == "1")
             foreach (var run in runs)
                 GD.Print(System.FormattableString.Invariant($"frontage-run|{run.Kind}|{run.A.X:0.0},{run.A.Z:0.0}|{run.B.X:0.0},{run.B.Z:0.0}"));
-        // Merge everything into three meshes: wood (vertex coloured), snow, and collision.
+        // Merge everything into a few meshes: wood (vertex coloured), snow, iron
+        // hardware and collision. VIS-090: gate hardware is its own material so a
+        // hinge strap answers the low sun as metal, not as another painted plank.
         var wood = new FrontageMesh();
         var snow = new FrontageMesh();
+        var metal = new FrontageMesh();
         var body = new StaticBody3D { Name = "StreetFrontageCollision", CollisionLayer = 1u, CollisionMask = 0u };
         body.SetMeta("collisionOwner", "street-frontage");
         var snowColour = new Color("eef2f6");
@@ -404,7 +407,7 @@ public partial class Act1ConnectedWorld
             });
         }
         foreach (var (start, end, streetward, paintIndex) in gates)
-            AddFrontageGate(wood, snow, body, start, end, streetward, paintIndex);
+            AddFrontageGate(wood, snow, metal, body, start, end, streetward, paintIndex);
         foreach (var (start, end, yardward, paintIndex) in wickets)
             AddFrontageWicket(wood, snow, start, end, yardward, paintIndex);
 
@@ -418,6 +421,13 @@ public partial class Act1ConnectedWorld
             Name = "FrontageSnow", CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
             Mesh = snow.Commit(new StandardMaterial3D { AlbedoColor = snowColour, VertexColorUseAsAlbedo = true, Roughness = .9f })
         });
+        // VIS-090: gate hardware is committed as its own mesh so the straps answer
+        // light as iron (dulled metal response), not as another painted board.
+        frontage.AddChild(new MeshInstance3D
+        {
+            Name = "FrontageIron",
+            Mesh = metal.Commit(PainterlyMaterialLibrary.ForColor("494540", "iron"))
+        });
         frontage.AddChild(body);
         var hidden = HideFencesUnderFrontage(runs, gates.Select(g => (g.Start, g.End)).ToList());
         SetMeta("streetFrontageHouses", built);
@@ -426,7 +436,7 @@ public partial class Act1ConnectedWorld
         SetMeta("streetFrontageWickets", wickets.Count);
         SetMeta("streetFrontageHiddenFencePieces", hidden);
         GD.Print("act1-street-frontage: rejected " + string.Join(", ", reasons.OrderByDescending(r => r.Value).Select(r => $"{r.Key}={r.Value}")));
-        GD.Print($"act1-street-frontage: houses={built} runs={runs.Count} gates={gates.Count} wickets={wickets.Count} wood_tris={wood.Triangles} hidden_old_fence_pieces={hidden}");
+        GD.Print($"act1-street-frontage: houses={built} runs={runs.Count} gates={gates.Count} wickets={wickets.Count} wood_tris={wood.Triangles} iron_tris={metal.Triangles} hidden_old_fence_pieces={hidden}");
     }
 
     /// <summary>
@@ -434,8 +444,8 @@ public partial class Act1ConnectedWorld
     /// roof, a frieze with a rising sun over them, rhombs on the leaves, and an
     /// open wicket beside them. Collision covers the leaves; the wicket is open.
     /// </summary>
-    private static void AddFrontageGate(FrontageMesh wood, FrontageMesh snow, StaticBody3D body,
-        Vector3 start, Vector3 end, Vector3 streetward, int paintIndex)
+    private static void AddFrontageGate(FrontageMesh wood, FrontageMesh snow, FrontageMesh metal,
+        StaticBody3D body, Vector3 start, Vector3 end, Vector3 streetward, int paintIndex)
     {
         var flat = new Vector3(end.X - start.X, 0, end.Z - start.Z);
         var total = flat.Length();
@@ -474,6 +484,18 @@ public partial class Act1ConnectedWorld
             wood.Bar(centre + v, centre + a, .035f, streetward, trim);
             wood.Bar(centre + a, centre - v, .035f, streetward, trim);
         }
+        // VIS-090: hardware that explains how the leaves hang. Two 50 x 8 mm
+        // strap hinges per leaf edge at 0.42 m and 1.58 m, bedded 17 mm into the
+        // 45 mm plank (never standing off it on an invisible mount), a latch bar
+        // over the meeting stile and a keep. Four to six members per gate, real
+        // section, so a low sun finds a secondary rhythm on the street line.
+        var iron = new Color("494540");
+        foreach (var s in new[] { .1f, gate - .1f })
+            foreach (var y in new[] { .42f, 1.58f })
+                metal.Bar(P(s, y) + streetward * .02f,
+                    P(s + (s < mid ? .55f : -.55f), y) + streetward * .02f, .05f, streetward, iron);
+        metal.Bar(P(mid, .82f) + streetward * .03f, P(mid, 1.38f) + streetward * .03f, .045f, streetward, iron);
+        metal.Box(P(mid + .14f, 1.06f) + streetward * .03f, along * .03f, up * .05f, streetward * .035f, iron);
         // Frieze with the rising sun, and the gable roof over gate and wicket.
         wood.Box(P(mid, 2.35f) + streetward * .01f, along * mid, up * .28f, streetward * .03f, paint.Darkened(.1f));
         var sunCentre = P(mid, 2.1f) + streetward * .05f;

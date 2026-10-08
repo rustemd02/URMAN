@@ -105,13 +105,18 @@ public static partial class VehicleVisualFactory
     private static Visual Cart(Node3D root)
     {
         var cart=new Batch(root,"CartAndHarness");
+        // VIS-049: the shaft tips are the same authored points the harness tug
+        // rings are built around, recorded on the root so the runtime can prove
+        // the animal is actually hitched to the cart.
+        root.SetMeta("shaftTipLeft",ShaftTip(-1f));
+        root.SetMeta("shaftTipRight",ShaftTip(1f));
         // Floor boards, rails, metal brackets and shafts share one stable body.
         for(var i=0;i<7;i++)cart.Box(new(.155f,.065f,2.1f),new(-.51f+i*.17f,.69f,1.18f),"6f6148","wood");
         foreach(var x in new[]{-.60f,.60f})
         {
             for(var i=0;i<3;i++)cart.Box(new(.045f,.115f,2.12f),new(x,.89f+i*.15f,1.18f),"76674c","wood");
             foreach(var z in new[]{.18f,1.18f,2.18f})cart.Box(new(.075f,.68f,.075f),new(x,.93f,z),"514a39","wood");
-            cart.Beam(new(x,.59f,1.28f),new(x*.76f,.85f,-2.05f),.060f,"786447","wood");
+            cart.Beam(new(x,.59f,1.28f),ShaftTip(Mathf.Sign(x)),.060f,"786447","wood");
         }
         for(var i=0;i<3;i++)cart.Box(new(1.18f,.115f,.045f),new(0,.89f+i*.15f,2.22f),"716247","wood");
         cart.Box(new(1.15f,.10f,.30f),new(0,1.02f,.31f),"807056","wood");
@@ -262,11 +267,19 @@ public static partial class VehicleVisualFactory
         {
             var key=color+"|"+surface;
             if(_surfaces.TryGetValue(key,out var found))return found.Tool;
-            Material material=surface=="glass"
-                ? new StandardMaterial3D{AlbedoColor=new(.48f,.58f,.55f,.22f),Transparency=BaseMaterial3D.TransparencyEnum.Alpha,
-                    Roughness=.18f,MetallicSpecular=.55f,CullMode=BaseMaterial3D.CullModeEnum.Disabled}
-                : surface is "horse_coat" or "vinyl" or "leather" or "hoof" or "dial"
-                    ?TrimMaterial(color,surface):PainterlyMaterialLibrary.ForColor(color,surface,sheltered:true);
+            // VIS-105: the six transport finishes resolve through one contract
+            // (VehicleVisualFactory.Materials.cs), so a procedural cart, the
+            // motorcycle and the Blender Niva answer light identically. Animal
+            // coat, hide, vinyl, hoof and instrument dial keep their own
+            // restrained finish; wood and cloth stay village families.
+            Material material=surface is "horse_coat" or "vinyl" or "leather" or "hoof" or "dial"
+                ?TrimMaterial(color,surface)
+                : surface switch
+                {
+                    "paint" or "metal" or "chrome" or "rubber" or "plastic" or "glass"
+                        => ForFinish(color,surface),
+                    _ => PainterlyMaterialLibrary.ForColor(color,surface,sheltered:true)
+                };
             var st=new SurfaceTool();st.Begin(Mesh.PrimitiveType.Triangles);st.SetMaterial(material);
             _surfaces.Add(key,(st,material));return st;
         }

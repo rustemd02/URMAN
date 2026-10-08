@@ -12,10 +12,68 @@ public static class WinterParticleSurfaces
     // StandardMaterial3D are immutable after creation (no caller writes Size,
     // Material or a shader parameter on them), so they are reused per
     // (size, opacity). The room-exclusion ShaderMaterial is deliberately NOT
-    // cached: AgentBAct1ExteriorLayer writes per-emitter uniforms into it.
+    // cached: AgentBAct1ExteriorLayer writes per-emitter uniforms into it. It is
+    // however remembered in _airborneMaterials, so an applied atmosphere state can
+    // re-assert the powder tint (VIS-043) without the light layer owning the
+    // material itself.
     private static Shader? _roomExclusionShader;
     private static readonly Dictionary<(float Size, float Opacity), QuadMesh> _openSnowMeshes = new();
     private static Gradient? _fade;
+
+    /// <summary>
+    /// VIS-043: the authored colour of falling powder for the applied atmosphere
+    /// state. The neutral value is today's constant, so nothing changes until a
+    /// profile pushes a tint. Only the room-exclusion (world-space streaked)
+    /// airborne material is tracked: the ground puffs and wheel spray keep their
+    /// own neutral value, so the prologue and the vehicle are untouched.
+    /// </summary>
+    public static Color AirborneSnowTint { get; private set; } = new(.93f, .95f, .98f);
+
+    /// <summary>Live room-exclusion materials this factory handed out. The village
+    /// weather owner creates exactly one, so the cap is headroom, not a policy; a
+    /// dead wrapper is pruned before anything is refused.</summary>
+    private static readonly List<ShaderMaterial> _airborneMaterials = new();
+    private const int AirborneMaterialLimit = 8;
+
+    /// <summary>
+    /// Re-tints every live airborne snow material, preserving each material's own
+    /// alpha (the opacity the emitter was built with). Called by the single
+    /// atmosphere writer next to PainterlyMaterialLibrary.SetSnowMood, so the
+    /// powder in front of the camera and the snow on the ground cannot state two
+    /// different weathers. No emitter, material or uniform is created here.
+    /// </summary>
+    public static void SetAirborneSnowTint(Color tint)
+    {
+        if (tint == AirborneSnowTint) return;
+        AirborneSnowTint = tint;
+        for (var index = _airborneMaterials.Count - 1; index >= 0; index--)
+        {
+            var material = _airborneMaterials[index];
+            if (!GodotObject.IsInstanceValid(material))
+            {
+                _airborneMaterials.RemoveAt(index);
+                continue;
+            }
+            var current = (Color)material.GetShaderParameter("snow_tint");
+            material.SetShaderParameter("snow_tint", new Color(tint.R, tint.G, tint.B, current.A));
+        }
+    }
+
+    private static void TrackAirborneMaterial(ShaderMaterial material)
+    {
+        _airborneMaterials.RemoveAll(candidate => !GodotObject.IsInstanceValid(candidate));
+        // Already tracked through another cache entry: never grow the list for one
+        // material, the tint write would simply repeat.
+        if (_airborneMaterials.Contains(material)) return;
+        if (_airborneMaterials.Count >= AirborneMaterialLimit)
+        {
+            global::Godot.GD.PushWarning(
+                $"WinterParticleSurfaces: airborne snow material cap {AirborneMaterialLimit} reached; "
+                + "a new emitter will keep the neutral tint until an old one is freed.");
+            return;
+        }
+        _airborneMaterials.Add(material);
+    }
     public static QuadMesh Snow(float size, float opacity, bool roomExclusion = false)
     {
         if (_mask is null)
@@ -82,8 +140,13 @@ public static class WinterParticleSurfaces
                 """ };
             var snow = new ShaderMaterial { Shader = _roomExclusionShader };
             snow.SetShaderParameter("snow_mask", _mask);
-            snow.SetShaderParameter("snow_tint", new Color(.93f, .95f, .98f, opacity));
+            // The tint starts at the neutral constant and is re-asserted whenever an
+            // atmosphere state changes (SetAirborneSnowTint), so an emitter built
+            // before the first zone switch still matches the applied profile.
+            snow.SetShaderParameter("snow_tint", new Color(
+                AirborneSnowTint.R, AirborneSnowTint.G, AirborneSnowTint.B, opacity));
             snow.SetShaderParameter("flake_size", size);
+            TrackAirborneMaterial(snow);
             return new QuadMesh { Size = new(size, size), Material = snow };
         }
         // Identical property values for identical parameters, returned once and
@@ -142,6 +205,11 @@ public static class WinterParticleSurfaces
             mesh.Dispose();
         }
         _openSnowMeshes.Clear();
+        // The tracked room-exclusion materials belong to the emitter that was just
+        // freed; drop the list and return the tint to the neutral constant so the
+        // next scene starts from the same state as the first one.
+        _airborneMaterials.Clear();
+        AirborneSnowTint = new Color(.93f, .95f, .98f);
         _roomExclusionShader?.Dispose();
         _roomExclusionShader = null;
         _fade?.Dispose();

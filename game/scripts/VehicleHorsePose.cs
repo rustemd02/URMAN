@@ -389,6 +389,47 @@ public partial class VehicleHorsePose : Node3D
         }
     }
 
+    /// <summary>
+    /// VIS-049 harness continuity: every live rein is a scaled unit cylinder whose
+    /// local Y is the whole span, so its two visible ends are recoverable from its
+    /// own global transform. Compared against the two anchors it is supposed to
+    /// connect — the withers point the cart's static driving line ends at, and the
+    /// bit on the head — this is the measurement of "no gap and no sliding in the
+    /// harness", taken from the nodes that are actually drawn rather than from a
+    /// picture of the animal. Read-only.
+    /// </summary>
+    public JsonObject CaptureHarnessProof()
+    {
+        var reins = new JsonArray();
+        for (var index = 0; index < _reins.Length; index++)
+        {
+            if (_reins[index] is not { } rein || !rein.IsInsideTree()) continue;
+            var transform = rein.GlobalTransform;
+            var half = transform.Basis.Y * .5f;
+            var start = transform.Origin - half;
+            var end = transform.Origin + half;
+            var wantedFrom = _horse!.ToGlobal(_reinFrom[index]);
+            var wantedTo = _head!.ToGlobal(_reinTo[index]);
+            reins.Add(new JsonObject
+            {
+                ["name"] = rein.Name.ToString(),
+                ["visibleStart"] = Point(start), ["visibleEnd"] = Point(end),
+                ["withersAnchor"] = Point(wantedFrom), ["bitAnchor"] = Point(wantedTo),
+                ["startErrorMetres"] = start.DistanceTo(wantedFrom),
+                ["endErrorMetres"] = end.DistanceTo(wantedTo),
+                ["spanMetres"] = wantedFrom.DistanceTo(wantedTo)
+            });
+        }
+        var shaft = _horse?.GetMeta("shaftTipAttach") ?? default(Variant);
+        return new JsonObject
+        {
+            ["reins"] = reins,
+            ["shaftTipAttach"] = shaft.VariantType == Variant.Type.Nil ? null : Point(shaft.AsVector3()),
+            ["scope"] = "actual drawn rein endpoints against their authored anchors; "
+                + "no physics, no harness art acceptance"
+        };
+    }
+
     public JsonObject CaptureSupportProof()
     {
         var feet = new JsonArray();

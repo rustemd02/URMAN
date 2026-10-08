@@ -31,6 +31,7 @@ public partial class VillageChimneySmoke : Node3D
     private readonly float[] _distances = new float[EmitterBudget];
     private int[] _boundSlot = [];
     private Chimney[] _chimneys = [];
+    private StandardMaterial3D? _plumeMaterial;
     private double _tick = SelectionInterval;
     private int _emitterCount;
     private bool _present;
@@ -49,6 +50,22 @@ public partial class VillageChimneySmoke : Node3D
             Top = top; Owner = owner; Path = path;
         }
     }
+
+    // VIS-043: the plume must not contradict the falling snow. The wind truth is
+    // the authored 'weather' block of the applied atmosphere profile, which is a
+    // transcription of the existing weather owner's own emitter constants
+    // (AgentBAct1ExteriorLayer: direction (-1, -.28, .22), 6–10 / 11–16 m/s).
+    // This system reads it; it never writes to the snow emitter and is not a
+    // second weather or atmosphere owner. Today's plume leaned to +X while the
+    // powder travelled to -X, which is exactly the contradiction the card rejects.
+    private const float PlumeBendPerWindUnit = .02f;
+    private const float PlumeInitialLeaning = .20f;
+    private const float ReferenceWindSpeed = 8f;
+    private string _windProfileId = string.Empty;
+    private Vector2 _windDirection = AtmosphereProfiles.AuthoredWindDirection;
+    private float _windSpeed = AtmosphereProfiles.AuthoredWindSpeed;
+    private Color _plumeColor = AtmosphereProfiles.DefaultSmokeColor;
+    private float _plumeOpacity = AtmosphereProfiles.DefaultSmokeOpacity;
 
     /// <summary>
     /// Discovers real chimney tops once. <paramref name="existingSmokeRoot"/>
@@ -111,6 +128,9 @@ public partial class VillageChimneySmoke : Node3D
         SetMeta("chimneySmokeChimneys", _chimneys.Length);
         SetMeta("chimneySmokeEmitters", 0);
         SetMeta("chimneySmokeParticles", 0);
+        // The plume starts in the weather the atmosphere owner already applied, so
+        // a jump straight into the night edge never shows a daytime drift.
+        ApplyAtmosphereState();
         _present = true;
         Select(initialViewer);
         GD.Print($"village-chimney-smoke: chimneys={ChimneyCount} emitters={EmitterCount} particles={EmitterCount * ParticlesPerEmitter}");
@@ -132,11 +152,13 @@ public partial class VillageChimneySmoke : Node3D
         };
         var material = new StandardMaterial3D
         {
-            AlbedoColor = new Color(.50f, .52f, .54f, .36f), AlbedoTexture = radial,
+            AlbedoColor = new Color(_plumeColor.R, _plumeColor.G, _plumeColor.B, _plumeOpacity),
+            AlbedoTexture = radial,
             VertexColorUseAsAlbedo = true, Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
             BillboardMode = BaseMaterial3D.BillboardModeEnum.Enabled,
             CullMode = BaseMaterial3D.CullModeEnum.Disabled, Roughness = 1f
         };
+        _plumeMaterial = material;
         var quad = new QuadMesh { Size = Vector2.One, Material = material };
         var scale = new Curve();
         scale.AddPoint(new Vector2(0f, .20f));
@@ -146,6 +168,7 @@ public partial class VillageChimneySmoke : Node3D
             Offsets = [0f, .15f, .65f, 1f],
             Colors = [new Color(1f, 1f, 1f, 0f), Colors.White, new Color(1f, 1f, 1f, .55f), new Color(1f, 1f, 1f, 0f)]
         };
+        var (initialDirection, initialGravity) = PlumeTrajectory(_windDirection, _windSpeed);
         for (var slot = 0; slot < EmitterBudget; slot++)
         {
             var emitter = new CpuParticles3D
@@ -153,8 +176,8 @@ public partial class VillageChimneySmoke : Node3D
                 Name = $"ChimneySmoke{slot}", Emitting = false,
                 Amount = ParticlesPerEmitter, Lifetime = 6.5, Preprocess = 4, LifetimeRandomness = .35f,
                 LocalCoords = false, Mesh = quad,
-                Direction = new Vector3(.20f, 1f, .10f), Spread = 8f,
-                Gravity = new Vector3(.08f, .04f, .045f),
+                Direction = initialDirection, Spread = 8f,
+                Gravity = initialGravity,
                 InitialVelocityMin = .45f, InitialVelocityMax = .65f,
                 ScaleAmountMin = .8f, ScaleAmountMax = 1.1f, ScaleAmountCurve = scale,
                 ColorRamp = ramp, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
@@ -162,6 +185,57 @@ public partial class VillageChimneySmoke : Node3D
             AddChild(emitter);
             _emitters[slot] = emitter;
         }
+    }
+
+    /// <summary>
+    /// The plume trajectory for a wind state: it leaves the chimney almost
+    /// vertically with a small downwind lean, then the same horizontal component
+    /// keeps bending it downwind, scaled by the wind speed. Both vectors stay
+    /// within the previous magnitude, so the plume height and spread are
+    /// unchanged; only its leaning side follows the powder (VIS-043).
+    /// </summary>
+    private static (Vector3 Direction, Vector3 Gravity) PlumeTrajectory(Vector2 wind, float speed)
+    {
+        var bend = Mathf.Min(speed / ReferenceWindSpeed, 2f) * PlumeBendPerWindUnit * speed;
+        var lean = PlumeInitialLeaning * Mathf.Min(speed / ReferenceWindSpeed, 1.5f);
+        return (
+            new Vector3(wind.X * lean, 1f, wind.Y * lean),
+            new Vector3(wind.X * bend, .04f, wind.Y * bend));
+    }
+
+    /// <summary>
+    /// Re-reads the applied atmosphere state once per call and re-asserts the
+    /// plume only when it actually changed: the profile is written by the single
+    /// atmosphere owner on a zone switch, so an ordinary frame costs one string
+    /// comparison and nothing is allocated.
+    /// </summary>
+    private void ApplyAtmosphereState()
+    {
+        var profile = AtmosphereProfiles.Applied;
+        var profileId = AtmosphereProfiles.AppliedProfileId;
+        if (profile is null) return;
+        if (string.Equals(profileId, _windProfileId, StringComparison.Ordinal)
+            && profile.WindDirection == _windDirection && profile.WindSpeed == _windSpeed
+            && profile.SmokeColor == _plumeColor && profile.SmokeOpacity == _plumeOpacity) return;
+        _windProfileId = profileId;
+        _windDirection = profile.WindDirection;
+        _windSpeed = profile.WindSpeed;
+        _plumeColor = profile.SmokeColor;
+        _plumeOpacity = profile.SmokeOpacity;
+        if (_plumeMaterial is not null)
+            _plumeMaterial.AlbedoColor = new Color(_plumeColor.R, _plumeColor.G, _plumeColor.B, _plumeOpacity);
+        var (direction, gravity) = PlumeTrajectory(_windDirection, _windSpeed);
+        for (var slot = 0; slot < EmitterBudget; slot++)
+        {
+            var emitter = _emitters[slot];
+            if (emitter is null) continue;
+            if (emitter.Direction != direction) emitter.Direction = direction;
+            if (emitter.Gravity != gravity) emitter.Gravity = gravity;
+        }
+        SetMeta("chimneySmokeWind", $"{_windDirection.X:0.###},{_windDirection.Y:0.###}");
+        SetMeta("chimneySmokeWindSpeed", _windSpeed);
+        SetMeta("chimneySmokePlumeColor", _plumeColor.ToHtml());
+        SetMeta("chimneySmokeProfile", _windProfileId);
     }
 
     /// <summary>
@@ -238,6 +312,9 @@ public partial class VillageChimneySmoke : Node3D
             return;
         }
         if (!_animating) { _animating = true; SetSpeedScale(1f); }
+        // Cheap: one string comparison plus four value comparisons against the last
+        // applied state. Only a real atmosphere change walks the fourteen emitters.
+        ApplyAtmosphereState();
         _tick += delta;
         if (_tick < SelectionInterval) return;
         _tick = 0;

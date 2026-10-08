@@ -26,6 +26,18 @@ public partial class YardMechanism : StaticBody3D
     public string SoundSample { get; set; } = string.Empty;
     public string SoundCaption { get; set; } = string.Empty;
     public SoundCause CueCause { get; set; }
+    /// <summary>VIS-089: a gate or wicket is an entrance, not a puzzle — it stays
+    /// usable after it has been opened once, and its world cue keeps sounding.
+    /// Every mechanism written before this flag exists keeps the old one-shot
+    /// behaviour, because the default is false.</summary>
+    public bool Repeatable { get; set; }
+    /// <summary>VIS-089: the hinge a bound leaf turns about. When it is set, the
+    /// leaf's own motion is authored around this node instead of a pixel jiggle.</summary>
+    public Node3D? Hinge { get; private set; }
+    public float LeafOpenDegrees { get; private set; }
+    public float LeafClosedDegrees { get; private set; }
+    public float LeafWidthMetres { get; private set; }
+    public float ClearPassageMetres { get; private set; }
     internal int EmittedCueCount { get; private set; }
     public Node3D? MovingPart { get; set; }
     private MeshInstance3D _surface = null!;
@@ -34,6 +46,7 @@ public partial class YardMechanism : StaticBody3D
     private ulong _nextSound;
     private ulong _pulseUntil;
     private float _restRotation;
+    private float _hingeRestYawDegrees;
     private Vector3 _authoredPartRotation;
     private FirstPersonController? _player;
 
@@ -86,9 +99,39 @@ public partial class YardMechanism : StaticBody3D
     {
         _enabled = enabled;
         CollisionLayer = enabled && !(Solved && Action == Operation.Thaw) ? 4u : 0u;
-        if (!enabled && MovingPart is not null)
+        if (!enabled && MovingPart is not null && Hinge is null)
             MovingPart.Rotation = MovingPart.Rotation with { Z = _restRotation };
     }
+
+    /// <summary>VIS-089: binds an existing hinged leaf to this affordance. The hinge
+    /// keeps its authored world pose, so a fence that moved between builds still
+    /// swings where its timber actually is; the leaf's collision is its own child and
+    /// travels with it, which is what makes the opening a real passage.</summary>
+    public void BindLeaf(Node3D hinge, float openDegrees, float closedDegrees, float leafWidth, float clearPassage)
+    {
+        Hinge = hinge;
+        MovingPart = hinge;
+        LeafOpenDegrees = openDegrees;
+        LeafClosedDegrees = closedDegrees;
+        LeafWidthMetres = leafWidth;
+        ClearPassageMetres = clearPassage;
+        _hingeRestYawDegrees = hinge.RotationDegrees.Y;
+        SetMeta("wicketHingeOwner", StateKey);
+        hinge.SetMeta("mechanismOwner", StateKey);
+        SetMeta("wicketClearPassageM", clearPassage);
+        SetMeta("wicketLeafWidthM", leafWidth);
+    }
+
+    /// <summary>VIS-089: turns the bound leaf by <paramref name="degrees"/> away from
+    /// its authored rest, about the hinge's own axis. Nothing is teleported and no
+    /// gameplay trigger changes: this is the physical half of a gate.</summary>
+    public void SwingLeaf(float degrees)
+    {
+        if (Hinge is not { } hinge) return;
+        hinge.RotationDegrees = hinge.RotationDegrees with { Y = _hingeRestYawDegrees + degrees };
+    }
+
+    public void SetLeafOpen(bool open) => SwingLeaf(open ? 0f : LeafClosedDegrees);
 
     public override void _PhysicsProcess(double delta)
     {
@@ -100,7 +143,9 @@ public partial class YardMechanism : StaticBody3D
 
     public override void _Process(double delta)
     {
-        if (!_enabled || Solved || CueCause == SoundCause.None || string.IsNullOrEmpty(SoundSample)) return;
+        // A repeatable entrance never stops being part of the world once it has
+        // been used; every other mechanism keeps its previous one-shot silence.
+        if (!_enabled || (Solved && !Repeatable) || CueCause == SoundCause.None || string.IsNullOrEmpty(SoundSample)) return;
         var player = ResolvePlayer();
         if (player is not { ModalOpen: false }
             || player.GlobalPosition.DistanceSquaredTo(GlobalPosition) > 121f) return;
@@ -117,7 +162,7 @@ public partial class YardMechanism : StaticBody3D
             UiFoley.PlayWorld(this, GlobalPosition, SoundSample);
             EmittedCueCount++;
         }
-        if (MovingPart is not null)
+        if (MovingPart is not null && Hinge is null)
         {
             var z = _restRotation + (now < _pulseUntil && !player.ReducedMotion ? Mathf.Sin(now * .035f) * .018f : 0);
             // Re-assigning an identical Z leaves the node in the same pose, so only a

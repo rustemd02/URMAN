@@ -788,7 +788,7 @@ def _winter_trunk_centerline(height, lean_x, lean_y, seed, offset=(0.0, 0.0), co
     return points
 
 
-def _assert_winter_variant(prefix, objects, tier):
+def _assert_winter_variant(prefix, objects, tier, limits=None):
     assert len(objects) <= 3, f"{prefix}: too many mesh objects"
     assert any(obj.name == f"{prefix}_Trunk" for obj in objects), prefix
     triangle_count = 0
@@ -796,7 +796,10 @@ def _assert_winter_variant(prefix, objects, tier):
         assert obj.name.startswith(prefix + "_"), obj.name
         assert obj.data.materials and obj.data.materials[0].name in {
             "AB_bark", "AB_bark_birch", "AB_bark_dark", "AB_snow",
-            "AB_foliage_rowan", "AB_foliage_spruce"
+            "AB_foliage_rowan", "AB_foliage_spruce",
+            # VIS-082/075: readable bark per species and one old-growth bark.
+            "AB_bark_old", "AB_bark_linden", "AB_bark_willow", "AB_bark_rowan",
+            "AB_bark_pine", "AB_needles_spruce"
         }, obj.name
         for vertex in obj.data.vertices:
             assert all(math.isfinite(value) for value in vertex.co), (prefix, obj.name)
@@ -805,10 +808,28 @@ def _assert_winter_variant(prefix, objects, tier):
     trunk = next(obj for obj in objects if obj.name == f"{prefix}_Trunk")
     min_z = min(vertex.co.z for vertex in trunk.data.vertices)
     assert -1e-5 <= min_z <= 1e-5, (prefix, min_z)
-    limits = {"near": (2000, 6000), "light": (600, 1500), "far": (100, 400)}
+    # The shared Agent B winter budget. A bare old-growth giant legitimately
+    # carries less geometry than a needle crown, so that family passes its own
+    # documented band rather than being padded with filler triangles.
+    limits = limits or {"near": (2000, 6000), "light": (600, 1500), "far": (100, 400)}
     low, high = limits[tier]
     assert low <= triangle_count <= high, (prefix, tier, triangle_count)
     print(f"AGENTB_WINTER_VARIANT {prefix} tier={tier} triangles={triangle_count} objects={len(objects)}")
+
+
+def _avoid_repeated_angle(angle, taken, minimum=0.55):
+    """Nudge a new primary off the azimuth of a limb already placed on the stem.
+
+    VIS-082: a repeating Y-fork was the second half of the "radial stick"
+    reading. Two primaries of one stem never come closer than `minimum` rad, so
+    walking round the trunk never presents the same silhouette twice.
+    """
+    for _ in range(6):
+        if all(abs((angle - other + math.pi) % math.tau - math.pi) >= minimum
+               for other in taken):
+            break
+        angle += minimum * 1.13
+    return angle
 
 
 def _winter_habit_records(species, index, height, spread, branches,
@@ -827,6 +848,28 @@ def _winter_habit_records(species, index, height, spread, branches,
         "Birch": 0.90, "Linden": 1.30, "Maple": 1.20,
         "Rowan": 0.85, "BirdCherry": 0.95, "Willow": 1.05,
     }.get(species, 1.0)
+    # VIS-082/VIS-083: one authored habit per species and silhouette variant.
+    # `phase` rotates the whole primary system, `first`/`span` set where on the
+    # bole the limbs attach, `crowd` is how many primaries the species carries,
+    # and `fork` marks the branch that continues the trunk as a co-dominant
+    # stem instead of ending as a limb. Three genuinely different habits at
+    # hero distance (slender ascending birch, broad low-forked linden, dense
+    # small-crowned rowan, drooping willow, forked variant 3) is the acceptance
+    # criterion; a shared Y with random scale is not.
+    habit = {
+        "Birch": {"phase": 0.35, "first": 0.36, "span": 0.54, "crowd": 5, "fork": None},
+        "Linden": {"phase": 2.55, "first": 0.26, "span": 0.40, "crowd": 6, "fork": 1},
+        "Maple": {"phase": 4.30, "first": 0.30, "span": 0.42, "crowd": 5, "fork": 2},
+        "Rowan": {"phase": 5.55, "first": 0.44, "span": 0.50, "crowd": 6, "fork": None},
+        "Willow": {"phase": 1.45, "first": 0.30, "span": 0.34, "crowd": 5, "fork": None},
+        "BirdCherry": {"phase": 3.35, "first": 0.40, "span": 0.46, "crowd": 2, "fork": None},
+    }.get(species, {"phase": seed_offset * 0.11, "first": 0.34, "span": 0.50,
+                    "crowd": 5, "fork": None})
+    variant_phase = (index - 1) * 0.83
+    if species != "BirdCherry":
+        habit = dict(habit)
+        habit["crowd"] = max(3, habit["crowd"] - (1 if index == 2 else 0))
+        habit["first"] += 0.05 * ((index - 1) % 3)
     if species == "BirdCherry":
         stem_specs = (
             ((0.00, 0.00), 1.00, 0.00, 0.00),
@@ -846,7 +889,11 @@ def _winter_habit_records(species, index, height, spread, branches,
         trunk_points = _winter_trunk_centerline(
             stem_height, lean_x, lean_y, seed_offset + stem_index * 7.3,
             offset=offset, count=6)
+        # VIS-082: a bole with a readable root flare and an even taper. The old
+        # schedule ended at a needle tip, so the trunk read as a cone and every
+        # fork looked glued on.
         trunk_radii = [stem_height * caliper * (0.0135 - 0.0113 * t)
+                       * (1.0 + 0.42 * (1.0 - t) ** 2) * (1.0 + 0.16 * t ** 3)
                        for t in (i / 5.0 for i in range(6))]
         stems.append((trunk_points, trunk_radii, stem_index))
 
@@ -856,20 +903,28 @@ def _winter_habit_records(species, index, height, spread, branches,
             primary_count = 5
         else:
             primary_count = 5
+        primary_count = habit["crowd"]
         if species in ("Linden", "Maple"):
             levels = tuple(0.28 + 0.20 * i / max(primary_count - 1, 1)
                            for i in range(primary_count))
         else:
-            levels = tuple(0.34 + 0.56 * i / max(primary_count - 1, 1)
+            levels = tuple(habit["first"] + habit["span"] * i / max(primary_count - 1, 1)
                            for i in range(primary_count))
+        taken_angles = []
         for branch_index, level in enumerate(levels):
             branch_rng = random.Random(ab.stable_hash(
                 f"{habit_key}:primary:{stem_index}:{branch_index}"))
             # Uneven azimuths are intentional: these are fork paths, not a
-            # radial bottlebrush repeated around the trunk.
+            # radial bottlebrush repeated around the trunk. The golden step plus
+            # the per-habit phase and the anti-repeat guard are what stop the
+            # limb ladder reading as one repeated Y.
             angle = (seed_offset * 0.17 + stem_index * 1.91
-                     + branch_index * 1.23
-                     + branch_rng.uniform(-0.43, 0.43))
+                     + habit["phase"] + variant_phase
+                     + branch_index * 2.39996
+                     + branch_rng.uniform(-0.30, 0.30)
+                     + 0.42 * level)
+            angle = _avoid_repeated_angle(angle, taken_angles)
+            taken_angles.append(angle)
             if species in ("Linden", "Maple"):
                 length_factor = 0.60 - 0.08 * level
                 rise_factor = 1.00 - 0.12 * level
@@ -914,11 +969,27 @@ def _winter_habit_records(species, index, height, spread, branches,
                     origin + radial * length + Vector((0.0, 0.0, rise)),
                 ]
             primary_r1 = stem_height * caliper * (0.0074 - 0.0029 * level)
+            taper = (1.0, 0.80, 0.62, 0.44, 0.28)
+            if habit["fork"] is not None and branch_index == habit["fork"]:
+                # VIS-082 co-dominant fork: the limb keeps a real share of the
+                # bole's caliper and climbs to the crown apex, so the tree reads
+                # as two load-bearing stems out of one crotch instead of a post
+                # with five equal arms.
+                climb = stem_height * (1.0 - level) * 0.94
+                branch_points = [
+                    origin,
+                    origin + radial * climb * 0.10 + Vector((0.0, 0.0, climb * 0.34)),
+                    origin + radial * climb * 0.17 + Vector((0.0, 0.0, climb * 0.63)),
+                    origin + radial * climb * 0.23 + Vector((bend, 0.0, climb * 0.86)),
+                    origin + radial * climb * 0.29 + Vector((0.0, 0.0, climb)),
+                ]
+                length = max(length, climb * 0.62)
+                primary_r1 *= 1.55
+                taper = (1.0, 0.92, 0.82, 0.70, 0.56)
             # Keep the outer taper continuous instead of collapsing the last
             # station to a needle, which is what turned every limb into a
             # smooth horn with a single sharp point.
-            primary_radii = [primary_r1 * factor
-                             for factor in (1.0, 0.80, 0.62, 0.44, 0.28)]
+            primary_radii = [primary_r1 * factor for factor in taper]
             primaries.append((branch_points, primary_radii, level, stem_index,
                               branch_index, angle, length, primary_r1))
     return stems, primaries
@@ -987,18 +1058,37 @@ def winter_tree_variant(species, index, height, spread=1.0, branches=18,
             _bare_branch(f"{prefix}_Secondary{stem_index}_{branch_index}_{secondary_index}",
                          wood_vertices, wood_faces, secondary_points,
                          secondary_radii, segments=branch_sides)
-            # The near tier carries the fine winter haze, light keeps two
-            # shoots per secondary so the 24-64 m band still reads as a tree
-            # instead of a fork, and far stays at trunk plus one step. The
-            # three-stemmed bird cherry spends its light-tier budget on stems
-            # rather than shoots, so it keeps one per secondary.
-            fine_count = (0 if tier == "far"
-                          else (1 if species == "BirdCherry" else 2) if tier == "light"
-                          else max(3, min(5, twigs)))
+            # The near tier carries the fine winter haze, light keeps a share of
+            # it so the 24-64 m band still reads as a tree instead of a fork,
+            # and far stays at trunk plus one step. The three-stemmed bird cherry
+            # spends its light-tier budget on stems rather than shoots.
+            #
+            # VIS-082: third-order wood is *rare*, not everywhere. The per-primary
+            # twig budget is numerically unchanged, but it now concentrates on
+            # one seeded secondary per primary - the single tuft real trees
+            # actually build - while the remaining secondaries end as bare spur
+            # wood. Repeating the same spray on every secondary was what made
+            # each variant read as one feather duster scaled up.
+            per_secondary = (0 if tier == "far"
+                             else (1 if species == "BirdCherry" else 2) if tier == "light"
+                             else max(3, min(5, twigs)))
+            fine_budget = per_secondary * secondary_count
+            bearing_index = (ab.stable_hash(
+                f"{habit_key}:bearing:{stem_index}:{branch_index}")
+                % secondary_count) if secondary_count else 0
+            if fine_budget == 0 or not secondary_count:
+                fine_count = 0
+            elif secondary_index == bearing_index:
+                fine_count = max(2, fine_budget - (secondary_count - 1))
+            else:
+                fine_count = 1
             for twig_index in range(fine_count):
                 twig_rng = random.Random(ab.stable_hash(
                     f"{habit_key}:fine:{stem_index}:{branch_index}:{secondary_index}:{twig_index}"))
-                twig_along = 0.30 + twig_index * 0.16 + twig_rng.uniform(-0.035, 0.035)
+                # The clustered tuft spreads its shoots over the outer part of
+                # one secondary instead of running past its tip.
+                twig_step = 0.58 / max(1, fine_count - 1) if fine_count > 1 else 0.0
+                twig_along = 0.32 + twig_index * twig_step + twig_rng.uniform(-0.035, 0.035)
                 twig_origin = _point_on_polyline(secondary_points, twig_along)
                 twig_tangent = (_point_on_polyline(secondary_points, min(1.0, twig_along + 0.08))
                                 - _point_on_polyline(secondary_points, max(0.0, twig_along - 0.08))).normalized()
@@ -1023,8 +1113,13 @@ def winter_tree_variant(species, index, height, spread=1.0, branches=18,
                                   _point_on_polyline(twig_points, 0.90),
                                   max(0.018, height * 0.008))
 
+    # VIS-082: snow accents only on suitable upper surfaces. A limb that is
+    # already descending at its mid-span cannot carry a mantle, so drooping
+    # willow and bird-cherry tips stay bare wood and the white reads as
+    # accumulated weight on the crown's topside.
     candidates = [record for record in primary_records
-                  if record[2] >= 0.58 or record[0][-1].z >= height * 0.58]
+                  if (record[2] >= 0.58 or record[0][-1].z >= height * 0.58)
+                  and record[0][min(2, len(record[0]) - 1)].z >= record[0][0].z]
     cap_count = min(len(candidates), 4 if tier == "near" else 3 if tier == "light" else 1)
     for cap_index, (points, radii, _level, _stem, _branch, _angle, _length, _r1) in enumerate(candidates[:cap_count]):
         _append_snow_cap(snow_vertices, snow_faces, points,
@@ -1047,6 +1142,95 @@ def winter_tree_variant(species, index, height, spread=1.0, branches=18,
     _smooth_winter_surfaces(objects, tier)
     _assert_winter_variant(prefix, objects, tier)
     return objects
+
+
+def _spruce_mass_plan(index, level_count, tier):
+    """Group the fir's whorl ladder into 3-5 irregular crown masses (VIS-025).
+
+    R025 read as one flat disc repeated up a single axis: every whorl sat at an
+    even fraction of the trunk and shared one radial three-way angle step
+    (`level * 1.17 + branch * tau/3`). A real spruce builds its needles in
+    heavy, uneven masses with clear trunk between them.
+
+    This schedule keeps the number of emitted boughs exactly as it was, so the
+    triangle budget asserted by `_assert_winter_variant` and every LOD tier is
+    unchanged. It only moves where a bough attaches, how far it reaches and
+    which way it faces:
+
+      * masses get uneven level counts and uneven vertical extents, so two
+        whorls can sit almost on top of each other while the next band is open;
+      * a fixed share of the crown height is reserved as inter-mass gaps, and
+        the last bough of a mass shortens, which is what makes the просвет
+        readable instead of leaving an empty pole;
+      * every mass owns its own azimuth base and the levels inside it step by
+        the golden angle, so no two masses share one radial twist;
+      * the longest bough of a mass is chosen by the seed instead of always
+        being the lowest level, which is what flattened the crown into saucers;
+      * the snow cap rides the mass's dominant bough, so the mantle supports
+        the mass instead of ringing every level;
+      * the far tier runs at 45 percent modulation, so the distance silhouette
+        stays one simple fir.
+    """
+    strength = 1.0 if tier != "far" else .45
+    rng = random.Random(ab.stable_hash(f"spruce-masses:{index}:{tier}"))
+    mass_count = min(max(3, 3 + (index - 1) % 3), max(3, level_count // 3))
+    # Uneven masses: some carry five whorls, some carry two.
+    weights = [rng.uniform(.55, 1.55) for _ in range(mass_count)]
+    total_weight = sum(weights)
+    counts = []
+    used = 0
+    for position, weight in enumerate(weights):
+        if position == mass_count - 1:
+            counts.append(max(1, level_count - used))
+        else:
+            share = max(1, int(round(level_count * weight / total_weight)))
+            share = min(share, max(1, level_count - used - (mass_count - position - 1)))
+            counts.append(share)
+            used += counts[-1]
+    counts[-1] = max(1, level_count - sum(counts[:-1]))
+    # Vertical extents follow the level counts with a flattening exponent, and
+    # a fixed gap share between the masses.
+    gap = (.035 + .03 * rng.random()) * strength
+    usable = 1.0 - gap * (mass_count - 1)
+    extents = [(count / level_count) ** .85 for count in counts]
+    extent_total = sum(extents) or 1.0
+    extents = [extent / extent_total * usable for extent in extents]
+    starts, walked = [], 0.0
+    for extent in extents:
+        starts.append(walked)
+        walked += extent + gap
+    plan, mass_of = {}, []
+    level = 0
+    for mass, count in enumerate(counts):
+        angle_base = rng.uniform(0.0, math.tau)
+        reach = rng.uniform(.82, 1.12) * (1.0 + .10 * strength * (mass % 2))
+        dominant = rng.random() if count > 1 else .5
+        cap_fraction = mass_count - 1 - mass
+        for local in range(count):
+            if level >= level_count:
+                break
+            u = local / (count - 1) if count > 1 else .5
+            slot = {
+                "fraction": starts[mass] + extents[mass] * u
+                            + rng.uniform(-.012, .012) * strength,
+                "angle": angle_base + local * 2.39996
+                         + rng.uniform(-.16, .16) * strength,
+                "reach": reach * (.72 + .48 * math.exp(
+                    -((u - dominant) ** 2) / (2 * .17 ** 2))),
+                "cap": abs(u - dominant) < .34 and local % 2 == 0,
+                "cap_rank": cap_fraction,
+            }
+            # The final bough of a mass gives way to the gap above it.
+            if local == count - 1 and mass < mass_count - 1:
+                slot["reach"] *= (.62 + .16 * (1.0 - strength))
+            plan[level] = slot
+            mass_of.append(mass)
+            level += 1
+    for level in range(level, level_count):
+        plan[level] = {"fraction": 1.0, "angle": rng.uniform(0.0, math.tau),
+                       "reach": .9, "cap": False, "cap_rank": 0}
+        mass_of.append(mass_count - 1)
+    return plan, mass_of
 
 
 def winter_spruce_variant(index, height, tier="near"):
@@ -1117,6 +1301,21 @@ def winter_spruce_variant(index, height, tier="near"):
     # already at its budget ceiling. A tall forest spruce keeps the full radial
     # crown in every tier, because a two-branch far tier is exactly what leaves
     # a pole silhouette on the skyline.
+    cap_limit = (5 if tall else 4) if tier == "near" else 3 if tier == "light" else 1
+    # VIS-025: the crown is read as masses, so the snow mantle is spent on the
+    # dominant bough of the upper masses first, not on the first level that
+    # happens to cross an arbitrary height fraction.
+    mass_plan, _masses = _spruce_mass_plan(index, level_count, tier)
+    cap_levels = set()
+    for level in reversed(range(level_count)):
+        if len(cap_levels) >= cap_limit:
+            break
+        if mass_plan[level]["cap"]:
+            cap_levels.add(level)
+    if not cap_levels:
+        # Every crown keeps at least one supported snow mantle on its top mass,
+        # whatever the seeded dominant position turned out to be.
+        cap_levels.add(level_count - 1)
     branches = (0, 2) if tier == "far" and not tall else (0, 1, 2)
     if height > 10.0:
         # The tallest dominants trade bough smoothness for whorl count: at this
@@ -1127,22 +1326,26 @@ def winter_spruce_variant(index, height, tier="near"):
     else:
         stations = 6 if tier == "near" else 3
         sides = 6 if tier == "near" else 5 if tier == "light" else 3
-    cap_limit = (5 if tall else 4) if tier == "near" else 3 if tier == "light" else 1
     caps = 0
     for level in levels:
         for branch in branches:
             if tier == "far" and level >= last_level - 1 and branch != 0:
                 continue
             rng = random.Random(ab.stable_hash(f"spruce:{index}:{level}:{branch}"))
-            angle = level * 1.17 + branch * math.tau / 3 + rng.uniform(-.22, .22)
+            slot = mass_plan[level]
+            # Mass-local heading plus the bough's own three-way offset. The
+            # offsets are uneven, because an exact tau/3 with one shared twist
+            # is what turned every level into the same visible saucer.
+            angle = slot["angle"] + branch * (2.09 + .34 * ((index + branch) % 3))
             # Mature trees carry a heavy upper canopy over visible trunks.
             # The same crown base and whorl count at every LOD keep this habit;
             # young firs and the smaller transition stand retain their shape.
             spread = rng.uniform(.78, 1.08) if tall else rng.uniform(.62, 1.1)
+            spread *= slot["reach"]
             length = height * bough_ratio * (1.0 - level / level_count) ** .65 * spread
             first_whorl = crown_base if tall else .22
             whorl_span = 1.0 - crown_base if tall else .74
-            whorl_height = height * (first_whorl + whorl_span * level / last_level
+            whorl_height = height * (first_whorl + whorl_span * slot["fraction"]
                                       + rng.uniform(-.022, .022))
             # Every bough stays rooted on the trunk's actual crooked axis.
             centre = _point_on_polyline(trunk_points, whorl_height / height)
@@ -1227,7 +1430,7 @@ def winter_spruce_variant(index, height, tier="near"):
                     _append_polyline_tube(vertices, faces, spray_points,
                                           [spray_length * r for r in (.11, .17, .10, .008)],
                                           sides=5, flatten=.76)
-            if level >= level_count * 0.33 and caps < cap_limit and branch == 0:
+            if level in cap_levels and caps < cap_limit and branch == 0:
                 # The cap is embedded in the actual upper needle bough,
                 # following the same drooping path rather than its old level.
                 radius = (length * .15 if tall and tier != "far" else
@@ -1256,6 +1459,162 @@ def winter_spruce_variant(index, height, tier="near"):
     for polygon in needles.data.polygons:
         polygon.use_smooth = tall or tier != "far"
     _assert_winter_variant(prefix, objects, tier)
+    return objects
+
+
+def winter_old_branch_variant(index, height, tier="near"):
+    """VIS-075 (H3-1): five rare old-growth silhouettes with long, wrong limbs.
+
+    The author selected exactly one property from Darkwood: a few long,
+    unpleasant branches that break the normal rhythm of the wood. Everything
+    else about the reference (giant roots, a forest that behaves like one
+    organism, faces in the bark, hypertrophied scale) is out of contract, so
+    this family stays a *botanically plausible* old broadleaf:
+
+      * a heavy, real bole - root flare, taper, a broken or split crown, the
+        same load-bearing axis at every LOD;
+      * 3-5 primaries that reach far past the species norm at uneven heights
+        and uneven headings, one of them sweeping low and sideways (the beat
+        that breaks the rhythm), none of them a mirrored twin;
+      * second order only where a real tree would rebuild wood, third order
+        only as a single small tuft;
+      * snow only on the topside of limbs that could physically carry it.
+
+    Heights stay in the 11-17 m band of an old linden or birch at the wood
+    edge; nothing here is scaled up into fantasy. Placement is capped by
+    AgentBFoliagePlan at about ten percent of the near forest hero slots.
+    """
+    prefix = f"Winter{'' if tier == 'near' else tier.capitalize()}OldBranch_{index}"
+    rng = random.Random(ab.stable_hash(f"oldbranch:{index}"))
+    lean_x = rng.uniform(-0.07, 0.07) + (0.05 if index % 2 else -0.04)
+    lean_y = rng.uniform(-0.05, 0.05)
+    trunk_points = _winter_trunk_centerline(
+        height, lean_x, lean_y, seed=37.0 * index, count=7)
+    # Old-growth caliper with a real root flare and a broken top: the crown ends
+    # because the leader failed, not because the generator ran out of levels.
+    collapse = (1.0, 1.0, 0.96, 0.86, 0.72, 0.55, 0.30)
+    flare = (1.55, 1.34, 1.06, 0.86, 0.66, 0.44, 0.26)
+    trunk_radii = [height * 0.030 * flare[i] * collapse[i] for i in range(7)]
+    wood_vertices, wood_faces = [], []
+    _bare_branch(f"{prefix}_Trunk", wood_vertices, wood_faces, trunk_points,
+                 trunk_radii,
+                 segments=8 if tier == "near" else 6 if tier == "light" else 4)
+
+    # Long, uneven reach limbs. The schedule is authored per variant, so the
+    # five silhouettes differ in where they break the rhythm; a random loop
+    # would produce five copies of one idea.
+    limb_schedule = {
+        1: ((0.34, 1.42, -0.30, 0.24), (0.52, 1.16, 0.62, 0.10),
+            (0.69, 0.92, 2.31, -0.18), (0.83, 0.58, 4.02, 0.34)),
+        2: ((0.28, 1.66, -0.12, -0.42), (0.47, 0.86, 1.72, 0.18),
+            (0.62, 1.28, 3.30, -0.10), (0.76, 1.02, 4.90, 0.28),
+            (0.88, 0.54, 0.62, 0.06)),
+        3: ((0.38, 1.28, 2.96, -0.34), (0.55, 1.52, 0.84, 0.22),
+            (0.72, 0.74, 4.42, -0.12), (0.86, 0.62, 2.10, 0.30)),
+        4: ((0.31, 1.72, -0.55, -0.30), (0.49, 1.04, 1.48, 0.20),
+            (0.64, 1.38, 3.62, -0.22), (0.79, 0.86, 5.20, 0.16),
+            (0.90, 0.48, 0.30, 0.34)),
+        5: ((0.36, 1.34, 1.12, -0.26), (0.53, 1.62, 3.86, 0.18),
+            (0.70, 0.94, 5.44, -0.30), (0.84, 0.66, 2.48, 0.26)),
+    }.get(index, ((0.35, 1.30, 0.4, 0.1), (0.55, 1.10, 2.6, -0.2),
+                  (0.75, 0.80, 4.6, 0.25)))
+    if tier == "far":
+        limb_schedule = limb_schedule[:4]
+    elif tier == "light":
+        limb_schedule = limb_schedule[:max(3, len(limb_schedule) - 1)]
+
+    primaries = []
+    for limb_index, (level, reach, azimuth, dip) in enumerate(limb_schedule):
+        origin = _point_on_polyline(trunk_points, level)
+        direction = Vector((math.cos(azimuth), math.sin(azimuth), 0.0))
+        length = height * reach * 0.36
+        # A long limb cannot stay straight: it lifts out of the bole, then
+        # hangs under its own weight, then breaks. The kink is what makes the
+        # silhouette read as old wood rather than as a swept antenna.
+        tip_dip = dip - (0.34 + 0.12 * reach)
+        points = [
+            origin,
+            origin + direction * length * 0.26 + Vector((0.0, 0.0, length * 0.16)),
+            origin + direction * length * 0.55 + Vector((0.0, 0.0, length * 0.10)),
+            origin + direction * length * 0.80 + Vector((0.0, 0.0, length * tip_dip * 0.28)),
+            origin + direction * length + Vector((0.0, 0.0, length * tip_dip * 0.52)),
+        ]
+        if tier == "far":
+            points = [points[0], points[2], points[4]]
+        base = height * 0.017 * (1.25 - 0.55 * level)
+        radii = [base * factor for factor in
+                 ((1.0, 0.74, 0.54, 0.36, 0.18) if tier == "near"
+                  else (1.0, 0.70, 0.50, 0.34, 0.16) if tier == "light"
+                  else (1.0, 0.62, 0.28))]
+        _bare_branch(f"{prefix}_Limb{limb_index}", wood_vertices, wood_faces,
+                     points, radii,
+                     segments=7 if tier == "near" else 5 if tier == "light" else 4)
+        primaries.append((points, radii, level, limb_index))
+
+        # Second order only on the older half of each long limb, and only two
+        # per limb: sparse rebuilt wood, not a feathered spray.
+        if tier == "far":
+            continue
+        for shoot in range(2 if tier == "near" else 1):
+            along = 0.46 + shoot * 0.26
+            shoot_origin = _point_on_polyline(points, along)
+            tangent = (_point_on_polyline(points, min(1.0, along + 0.10))
+                       - _point_on_polyline(points, max(0.0, along - 0.10))).normalized()
+            side_angle = azimuth + (1.15 if shoot % 2 else -1.02) + rng.uniform(-0.22, 0.22)
+            side = Vector((math.cos(side_angle), math.sin(side_angle), 0.0))
+            shoot_length = length * (0.30 - 0.06 * shoot)
+            shoot_points = [
+                shoot_origin,
+                shoot_origin + (tangent * 0.20 + side * 0.80) * shoot_length * 0.42
+                + Vector((0.0, 0.0, shoot_length * 0.16)),
+                shoot_origin + (tangent * 0.08 + side * 0.92) * shoot_length * 0.78
+                + Vector((0.0, 0.0, -shoot_length * 0.10)),
+                shoot_origin + side * shoot_length + Vector((0.0, 0.0, -shoot_length * 0.42)),
+            ]
+            shoot_radius = radii[min(2, len(radii) - 1)] * 0.52
+            _bare_branch(f"{prefix}_Shoot{limb_index}_{shoot}", wood_vertices,
+                         wood_faces, shoot_points,
+                         [shoot_radius * factor
+                          for factor in (1.0, 0.66, 0.40, 0.20)],
+                         segments=5 if tier == "near" else 4)
+            # Third order: one small tuft per tree, on the first limb only.
+            if tier == "near" and limb_index == 0 and shoot == 0:
+                for twig_index in range(3):
+                    twig_origin = _point_on_polyline(shoot_points, 0.55 + twig_index * 0.14)
+                    twig_angle = side_angle + (twig_index - 1) * 0.74
+                    twig_direction = Vector((math.cos(twig_angle), math.sin(twig_angle),
+                                             0.24 - 0.20 * twig_index))
+                    twig_length = shoot_length * 0.38
+                    _bare_branch(f"{prefix}_Tuft{twig_index}", wood_vertices, wood_faces,
+                                 [twig_origin,
+                                  twig_origin + twig_direction * twig_length * 0.4,
+                                  twig_origin + twig_direction * twig_length],
+                                 [shoot_radius * factor for factor in (0.55, 0.30, 0.12)],
+                                 segments=4)
+
+    # Snow only where an old limb can carry it: the upper side of the two
+    # highest primaries, never the low sweeping limb.
+    snow_vertices, snow_faces = [], []
+    caps = [record for record in primaries if record[2] >= 0.50]
+    for cap_index, (points, radii, _level, _limb) in enumerate(
+            caps[:4 if tier == "near" else 3 if tier == "light" else 1]):
+        _append_snow_cap(snow_vertices, snow_faces, points,
+                         radii[min(2, len(radii) - 1)],
+                         max(0.05, height * (0.020 if tier == "near" else 0.014)),
+                         cap_index + index)
+
+    objects = []
+    trunk = ab.mesh_from_pydata(f"{prefix}_Trunk", wood_vertices, wood_faces)
+    ab.assign_material(trunk, "AB_bark_old")
+    objects.append(trunk)
+    if snow_faces:
+        snow = ab.mesh_from_pydata(f"{prefix}_Snow", snow_vertices, snow_faces)
+        ab.assign_material(snow, "AB_snow")
+        objects.append(snow)
+    _smooth_winter_surfaces(objects, tier)
+    _assert_winter_variant(prefix, objects, tier,
+                           limits={"near": (1100, 6000), "light": (360, 1500),
+                                   "far": (70, 400)})
     return objects
 
 
@@ -1296,18 +1655,28 @@ def main() -> None:
     variants.append(("Stump_0", None))
     # Winter deciduous library (Act I season lock, decision_log 2026-09-10):
     # bare branch skeletons with snow, no leaf crowns.
+    #
+    # VIS-083: four village/forest families, each with three authored silhouette
+    # variants (a Tatar street yard is birch and rowan, an old yard is a broad
+    # linden or a willow by the water, the wood edge is the tall narrow birch).
+    # VIS-082 gives every species its own readable bark slot. Birch/Linden/Rowan/
+    # Willow variant 3 is a genuinely different habit, not variant 1 scaled.
     for spec in (
         # species, index, height, spread, branches, twigs, berries, bark, droop, seed
         ("Birch", 1, 6.2, 1.05, 20, 4, False, "AB_bark_birch", 0.55, 11.0),
         ("Birch", 2, 7.4, 0.95, 22, 4, False, "AB_bark_birch", 0.48, 23.0),
-        ("Linden", 1, 6.8, 0.86, 20, 4, False, "AB_bark", 0.14, 31.0),
-        ("Linden", 2, 5.6, 1.35, 18, 4, False, "AB_bark", 0.12, 43.0),
+        ("Birch", 3, 8.6, 0.78, 21, 4, False, "AB_bark_birch", 0.30, 17.0),
+        ("Linden", 1, 6.8, 0.86, 20, 4, False, "AB_bark_linden", 0.14, 31.0),
+        ("Linden", 2, 5.6, 1.35, 18, 4, False, "AB_bark_linden", 0.12, 43.0),
+        ("Linden", 3, 9.4, 1.05, 19, 4, False, "AB_bark_linden", 0.08, 37.0),
         ("Maple", 1, 6.0, 1.15, 19, 4, False, "AB_bark", 0.18, 53.0),
-        ("Rowan", 1, 4.6, 1.20, 17, 4, True, "AB_bark", 0.24, 61.0),
-        ("Rowan", 2, 5.4, 1.10, 18, 4, True, "AB_bark", 0.22, 71.0),
+        ("Rowan", 1, 4.6, 1.20, 17, 4, True, "AB_bark_rowan", 0.24, 61.0),
+        ("Rowan", 2, 5.4, 1.10, 18, 4, True, "AB_bark_rowan", 0.22, 71.0),
+        ("Rowan", 3, 5.9, 0.96, 16, 4, True, "AB_bark_rowan", 0.34, 67.0),
         ("BirdCherry", 1, 2.6, 1.30, 18, 4, True, "AB_bark_dark", 0.46, 83.0),
-        ("Willow", 1, 4.2, 1.45, 20, 4, False, "AB_bark", 0.85, 97.0),
-        ("Willow", 2, 5.0, 1.40, 21, 4, False, "AB_bark", 0.78, 103.0),
+        ("Willow", 1, 4.2, 1.45, 20, 4, False, "AB_bark_willow", 0.85, 97.0),
+        ("Willow", 2, 5.0, 1.40, 21, 4, False, "AB_bark_willow", 0.78, 103.0),
+        ("Willow", 3, 5.8, 1.22, 19, 4, False, "AB_bark_willow", 0.94, 109.0),
     ):
         species, idx, h, spread, br, tw, berry, bark, droop, seed = spec
         objects.extend(winter_tree_variant(species, idx, h, spread, br, tw, berry,
@@ -1318,14 +1687,18 @@ def main() -> None:
     for spec in (
         ("Birch", 1, 6.2, 1.05, 20, 1, False, "AB_bark_birch", 0.55, 11.0),
         ("Birch", 2, 7.4, 0.95, 22, 1, False, "AB_bark_birch", 0.48, 23.0),
-        ("Linden", 1, 6.8, 0.86, 20, 1, False, "AB_bark", 0.14, 31.0),
-        ("Linden", 2, 5.6, 1.35, 18, 1, False, "AB_bark", 0.12, 43.0),
+        ("Birch", 3, 8.6, 0.78, 21, 1, False, "AB_bark_birch", 0.30, 17.0),
+        ("Linden", 1, 6.8, 0.86, 20, 1, False, "AB_bark_linden", 0.14, 31.0),
+        ("Linden", 2, 5.6, 1.35, 18, 1, False, "AB_bark_linden", 0.12, 43.0),
+        ("Linden", 3, 9.4, 1.05, 19, 1, False, "AB_bark_linden", 0.08, 37.0),
         ("Maple", 1, 6.0, 1.15, 19, 1, False, "AB_bark", 0.18, 53.0),
-        ("Rowan", 1, 4.6, 1.20, 17, 1, True, "AB_bark", 0.24, 61.0),
-        ("Rowan", 2, 5.4, 1.10, 18, 1, True, "AB_bark", 0.22, 71.0),
+        ("Rowan", 1, 4.6, 1.20, 17, 1, True, "AB_bark_rowan", 0.24, 61.0),
+        ("Rowan", 2, 5.4, 1.10, 18, 1, True, "AB_bark_rowan", 0.22, 71.0),
+        ("Rowan", 3, 5.9, 0.96, 16, 1, True, "AB_bark_rowan", 0.34, 67.0),
         ("BirdCherry", 1, 2.6, 1.30, 18, 1, True, "AB_bark_dark", 0.46, 83.0),
-        ("Willow", 1, 4.2, 1.45, 20, 1, False, "AB_bark", 0.85, 97.0),
-        ("Willow", 2, 5.0, 1.40, 21, 1, False, "AB_bark", 0.78, 103.0),
+        ("Willow", 1, 4.2, 1.45, 20, 1, False, "AB_bark_willow", 0.85, 97.0),
+        ("Willow", 2, 5.0, 1.40, 21, 1, False, "AB_bark_willow", 0.78, 103.0),
+        ("Willow", 3, 5.8, 1.22, 19, 1, False, "AB_bark_willow", 0.94, 109.0),
     ):
         species, idx, h, spread, br, tw, berry, bark, droop, seed = spec
         light_objects = winter_tree_variant(species, idx, h, spread, br, tw, berry,
@@ -1339,14 +1712,18 @@ def main() -> None:
     for spec in (
         ("Birch", 1, 6.2, 1.05, 20, 0, False, "AB_bark_birch", 0.55, 11.0),
         ("Birch", 2, 7.4, 0.95, 22, 0, False, "AB_bark_birch", 0.48, 23.0),
-        ("Linden", 1, 6.8, 0.86, 20, 0, False, "AB_bark", 0.14, 31.0),
-        ("Linden", 2, 5.6, 1.35, 18, 0, False, "AB_bark", 0.12, 43.0),
+        ("Birch", 3, 8.6, 0.78, 21, 0, False, "AB_bark_birch", 0.30, 17.0),
+        ("Linden", 1, 6.8, 0.86, 20, 0, False, "AB_bark_linden", 0.14, 31.0),
+        ("Linden", 2, 5.6, 1.35, 18, 0, False, "AB_bark_linden", 0.12, 43.0),
+        ("Linden", 3, 9.4, 1.05, 19, 0, False, "AB_bark_linden", 0.08, 37.0),
         ("Maple", 1, 6.0, 1.15, 19, 0, False, "AB_bark", 0.18, 53.0),
-        ("Rowan", 1, 4.6, 1.20, 17, 0, True, "AB_bark", 0.24, 61.0),
-        ("Rowan", 2, 5.4, 1.10, 18, 0, True, "AB_bark", 0.22, 71.0),
+        ("Rowan", 1, 4.6, 1.20, 17, 0, True, "AB_bark_rowan", 0.24, 61.0),
+        ("Rowan", 2, 5.4, 1.10, 18, 0, True, "AB_bark_rowan", 0.22, 71.0),
+        ("Rowan", 3, 5.9, 0.96, 16, 0, True, "AB_bark_rowan", 0.34, 67.0),
         ("BirdCherry", 1, 2.6, 1.30, 18, 0, True, "AB_bark_dark", 0.46, 83.0),
-        ("Willow", 1, 4.2, 1.45, 20, 0, False, "AB_bark", 0.85, 97.0),
-        ("Willow", 2, 5.0, 1.40, 21, 0, False, "AB_bark", 0.78, 103.0),
+        ("Willow", 1, 4.2, 1.45, 20, 0, False, "AB_bark_willow", 0.85, 97.0),
+        ("Willow", 2, 5.0, 1.40, 21, 0, False, "AB_bark_willow", 0.78, 103.0),
+        ("Willow", 3, 5.8, 1.22, 19, 0, False, "AB_bark_willow", 0.94, 109.0),
     ):
         species, idx, h, spread, br, tw, berry, bark, droop, seed = spec
         far_objects = winter_tree_variant(species, idx, h, spread, br, tw, berry,
@@ -1370,6 +1747,22 @@ def main() -> None:
     for spec in spruce_specs:
         objects.extend(winter_spruce_variant(*spec, tier="far"))
         variants.append((f"WinterFarSpruce_{spec[0]}", None))
+
+    # VIS-075 (H3-1): the rare old-growth family with long, unsettling limbs.
+    # Five authored silhouettes plus their matching light/far tiers, so one
+    # rooted habit survives the LOD switch (VIS-027). This family is never
+    # auto-scattered: AgentBFoliagePlan places each instance by hand and keeps
+    # the budget at roughly one tree per ten near forest hero slots.
+    old_branch_specs = ((1, 12.6), (2, 15.4), (3, 11.2), (4, 16.8), (5, 13.8))
+    for spec in old_branch_specs:
+        objects.extend(winter_old_branch_variant(*spec, tier="near"))
+        variants.append((f"WinterOldBranch_{spec[0]}", None))
+    for spec in old_branch_specs:
+        objects.extend(winter_old_branch_variant(*spec, tier="light"))
+        variants.append((f"WinterLightOldBranch_{spec[0]}", None))
+    for spec in old_branch_specs:
+        objects.extend(winter_old_branch_variant(*spec, tier="far"))
+        variants.append((f"WinterFarOldBranch_{spec[0]}", None))
 
     # Lay variants on a 12 m grid; Godot composer locates each by name.
     bpy.context.view_layer.update()

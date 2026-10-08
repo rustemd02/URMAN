@@ -52,6 +52,16 @@ PALETTE: dict[str, tuple[str, float]] = {
     "AB_bark": ("5f4f3e", 0.95),
     "AB_bark_dark": ("493c30", 0.95),
     "AB_bark_birch": ("c8c2b2", 0.90),
+    # VIS-082 bark standard: one readable bark per species plus old growth. The
+    # winter register keeps these cold grey-browns; no red-brown baseline is
+    # allowed anywhere in the forest (style recipe §8), and the deep forest
+    # needles use the dirty teal the Kara profile already grades to.
+    "AB_bark_linden": ("55534a", 0.95),
+    "AB_bark_rowan": ("6b6257", 0.94),
+    "AB_bark_willow": ("484a46", 0.95),
+    "AB_bark_old": ("3d3a36", 0.96),
+    "AB_bark_pine": ("4d4239", 0.95),
+    "AB_needles_spruce": ("394c50", 0.94),
     "AB_foliage_birch": ("75834e", 0.95),
     "AB_foliage_pine": ("3c4f3c", 0.95),
     "AB_foliage_spruce": ("425043", 0.95),

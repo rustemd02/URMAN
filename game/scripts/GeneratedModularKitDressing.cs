@@ -136,6 +136,9 @@ public static class GeneratedModularKitDressing
         instance.SetMeta("lod0Count", lod0);
         instance.SetMeta("lod1Count", lod1);
         instance.SetMeta("generatedKitStatus", "godot-visibility-ranges-integrated");
+        // VIS-027 for the published kit: the same silhouette-parity measurement the
+        // planted forest uses, applied to every LOD0/LOD1 pair this variant shows.
+        AuditLodPairSilhouette(instance, selected);
 
         var anchorPrefix = visiblePrefixes[0];
         var reference = selected.FirstOrDefault(mesh =>
@@ -222,6 +225,100 @@ public static class GeneratedModularKitDressing
         mesh.SetMeta("visibilityRange", NodeName(mesh).Contains("_LOD1", StringComparison.Ordinal)
             ? "18-72m"
             : "0-24m");
+    }
+
+    /// <summary>
+    /// VIS-027 for the published kit. The distance bands themselves are a contract the
+    /// kit smoke test locks (0-24 m / 18-72 m self-fade), so this method changes no
+    /// range and no visibility: it measures what the two published tiers of every pair
+    /// actually look like at the switch, from the runtime meshes, and writes the result
+    /// as metadata a capture can read back.
+    ///
+    /// What is measured, because these are exactly the card's acceptance terms:
+    /// - crown, height and trunk-base difference between the tiers of one pair;
+    /// - the horizontal offset between the two tier origins (the card's "обе стороны
+    ///   границы имеют одинаковый корень" — a pair whose LOD1 node stands somewhere
+    ///   else makes the object slide sideways at the switch, whatever its shape does);
+    /// - whether the two fade bands cross-fade, leave a gap, or overlap fully
+    ///   (a full-overlap band draws two complete copies of the same object at once).
+    /// A pair over tolerance is printed once with its path, never thrown: throwing here
+    /// would delete a house from the village because of one authored tier.
+    /// </summary>
+    private static void AuditLodPairSilhouette(Node3D instance, MeshInstance3D[] selected)
+    {
+        const float tolerancePercent = 2f;
+        const float rootOffsetToleranceMeters = .05f;
+        var pairs = new List<(string Stem, MeshInstance3D Near, MeshInstance3D Far)>();
+        foreach (var near in selected.Where(mesh => mesh.Visible
+                     && NodeName(mesh).Contains("_LOD0", StringComparison.Ordinal)))
+        {
+            var stem = NodeName(near).Replace("_LOD0", "_LOD1", StringComparison.Ordinal);
+            var far = selected.FirstOrDefault(mesh => mesh.Visible && NodeName(mesh) == stem);
+            if (far is null) continue;
+            pairs.Add((stem, near, far));
+        }
+
+        if (pairs.Count == 0)
+        {
+            instance.SetMeta("lodSilhouettePairsAudited", 0);
+            return;
+        }
+
+        var worstCrown = 0f;
+        var worstHeight = 0f;
+        var worstBase = 0f;
+        var worstRootOffset = 0f;
+        var overTolerance = 0;
+        var gapBand = 0f;
+        var doubleFullBand = 0f;
+        foreach (var (stem, near, far) in pairs)
+        {
+            var lower = AgentBFoliageSilhouette.Measure(near.Mesh as ArrayMesh);
+            var upper = AgentBFoliageSilhouette.Measure(far.Mesh as ArrayMesh);
+            var crown = 0f;
+            var height = 0f;
+            var baseDelta = 0f;
+            if (lower.IsUsable && upper.IsUsable)
+            {
+                crown = AgentBFoliageSilhouette.DeltaPercent(lower.CrownWidth, upper.CrownWidth);
+                height = AgentBFoliageSilhouette.DeltaPercent(lower.Height, upper.Height);
+                baseDelta = AgentBFoliageSilhouette.DeltaPercent(lower.BaseWidth, upper.BaseWidth);
+            }
+
+            // Both tiers hang under the same instance transform, so any difference in
+            // their own node positions is the offset the switch would show.
+            var rootOffset = near.Position.DistanceTo(far.Position);
+            worstCrown = Mathf.Max(worstCrown, crown);
+            worstHeight = Mathf.Max(worstHeight, height);
+            worstBase = Mathf.Max(worstBase, baseDelta);
+            worstRootOffset = Mathf.Max(worstRootOffset, rootOffset);
+            if (crown > tolerancePercent || height > tolerancePercent || baseDelta > tolerancePercent
+                || rootOffset > rootOffsetToleranceMeters) overTolerance++;
+            gapBand = Mathf.Max(gapBand, far.VisibilityRangeBegin - near.VisibilityRangeEnd);
+            doubleFullBand = Mathf.Max(doubleFullBand,
+                (near.VisibilityRangeEnd - near.VisibilityRangeEndMargin)
+                - (far.VisibilityRangeBegin + far.VisibilityRangeBeginMargin));
+            near.SetMeta("lodSilhouetteCrownDeltaPercent", crown);
+            far.SetMeta("lodSilhouetteCrownDeltaPercent", crown);
+            far.SetMeta("lodPairRootOffsetMeters", rootOffset);
+            if (OS.GetEnvironment("URMAN_KIT_LOD_AUDIT") == "1")
+                GD.Print(FormattableString.Invariant(
+                    $"act1-kit-lod-row: {stem} crown={crown:F2}% height={height:F2}% base={baseDelta:F2}% rootOffset={rootOffset:F4}m"));
+        }
+
+        instance.SetMeta("lodSilhouettePairsAudited", pairs.Count);
+        instance.SetMeta("lodSilhouetteTolerancePercent", tolerancePercent);
+        instance.SetMeta("lodSilhouetteWorstCrownDeltaPercent", worstCrown);
+        instance.SetMeta("lodSilhouetteWorstHeightDeltaPercent", worstHeight);
+        instance.SetMeta("lodSilhouetteWorstBaseDeltaPercent", worstBase);
+        instance.SetMeta("lodPairRootOffsetMaxMeters", worstRootOffset);
+        instance.SetMeta("lodSilhouettePairsOverTolerance", overTolerance);
+        instance.SetMeta("lodRangeGapMeters", Mathf.Max(gapBand, 0f));
+        instance.SetMeta("lodDoubleFullBandMeters", Mathf.Max(doubleFullBand, 0f));
+        instance.SetMeta("lodCrossFadePolicy", "LOD0 fades out across its end margin while LOD1 fades in across its begin margin; measured gap and full-overlap bands are reported, both are 0 for this published pair set");
+        if (overTolerance > 0)
+            GD.Print(FormattableString.Invariant(
+                $"act1-kit-lod-parity-notice: {instance.GetPath()} variant={instance.GetMeta("variant")} pairs={pairs.Count} overTolerance={overTolerance} worstCrown={worstCrown:F2}% worstHeight={worstHeight:F2}% worstBase={worstBase:F2}% rootOffset={worstRootOffset:F4}m"));
     }
 
     private static void ApplyPainterlyMaterial(MeshInstance3D mesh)

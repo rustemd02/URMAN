@@ -65,7 +65,25 @@ public partial class AlsuStreetWalkPresentation : Node3D
     private bool _turningStep;
     private bool _humanRig;
     private bool _walkingClip;
+    // VIS-046: weight, not pixels. Three things the walk owner keeps for itself:
+    // how far the pelvis shifts onto the planted leg, the clip tempo that matches
+    // her real footfalls, and the measured slide of a boot that must not move.
+    private const float WeightDropMetres = .018f;
+    private const float WeightLateralMetres = .020f;
+    private const float WeightEasePerSecond = 5f;
+    internal const float SupportSoleSlideBudgetMetres = .020f;
+    private float _weightDrop;
+    private float _weightLateral;
+    private Vector3 _weightDirection;
+    private float _gaitCycleSeconds;
+    private float _motionScale = 1f;
+    private float _maxSupportSoleSlide = -1f;
+    private Vector3[] _plantedSoleSamples = [];
     private sealed record Foot(int Leg, int Ankle, Transform3D LegRest, Vector3 SoleLocal);
+
+    private float _weightTargetDrop;
+    private float _weightTargetLateral;
+    private Vector3 _weightTargetDirection;
 
     public Node3D Actor => _actor;
     public InteractionTarget Target => _target;
@@ -145,6 +163,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
         if (!ReferenceEquals(_session, _bridge.SessionIdentity)) ReadRuntimeState();
         SynchronizeTarget();
         GroundStandingFeet();
+        EaseWeightTransfer((float)delta);
         if (_session is null || _player is null) return;
         if (_exteriorEnabled && _physicalValidationPending && _bridge.SessionIdentity is not null
             && ProjectionBarrierReady())
@@ -215,7 +234,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
         if (_arrived || (!_requested && _stepping))
         {
             _stepping = false;
-            _feetModifier.ClearPoses();
+            ReleaseSupportedFeet();
         }
         _checkpoint = checkpoint;
         SetMeta("walkCheckpoint", _checkpoint);
@@ -287,7 +306,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
             _requireMatchingSupportHeight = _session is not null;
             _validationAfterPhysicsFrame = Engine.GetPhysicsFrames() + 2;
             _stepping = false;
-            _feetModifier.ClearPoses();
+            ReleaseSupportedFeet();
             _stepSound.Stop();
             SetPhysicalContact(false);
             SetMeta("physicalSupportValidation", "pending exterior physics");
@@ -401,7 +420,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
         _stepping = false;
         _committing = false;
         SessionWalkedMetres = travel;
-        _feetModifier.ClearPoses();
+        ReleaseSupportedFeet();
         _stepSound.Stop();
         _actor.GlobalPosition = position;
         _actor.GlobalRotation = new(0,yaw,0);
@@ -480,7 +499,13 @@ public partial class AlsuStreetWalkPresentation : Node3D
             physicsFrame = Engine.GetPhysicsFrames(), validationAfterPhysicsFrame = _validationAfterPhysicsFrame,
             fleetPending = ProjectionFleet()?.PlacementValidationDeferred,
             actor = _actor.GlobalPosition.ToString(), player = _player?.GlobalPosition.ToString(),
-            walkedMetres = SessionWalkedMetres, blocked = GetMeta("walkBlockedOwner", "none").AsString()
+            walkedMetres = SessionWalkedMetres, blocked = GetMeta("walkBlockedOwner", "none").AsString(),
+            // VIS-046 evidence, kept beside the eligibility numbers the proof already reads.
+            maxSupportSoleSlideMetres = _maxSupportSoleSlide,
+            supportSoleSlideBudgetMetres = SupportSoleSlideBudgetMetres,
+            walkCadenceScale = _motionScale,
+            weightDropMetres = _weightDrop,
+            weightLateralMetres = _weightLateral
         });
     }
 
@@ -572,6 +597,10 @@ public partial class AlsuStreetWalkPresentation : Node3D
         _landingSoles = _initialSoles.Select(sole => _stepEnd + turn * (sole - _stepStart)).ToArray();
         _stepT = 0;
         _stepping = true;
+        // VIS-046: the stride just chosen is the tempo the clip has to follow, and
+        // the boot that will hold the body is sampled so its slide can be measured.
+        SyncGaitCadence(_turningStep ? .42f : .28f);
+        CapturePlantedSoleSamples();
         return true;
     }
 
@@ -634,6 +663,17 @@ public partial class AlsuStreetWalkPresentation : Node3D
             _feetModifier.SetWorldPose(foot.Leg, hip);
             _feetModifier.SetWorldPose(foot.Ankle, pose);
         }
+        // VIS-046: over the planted boot, in the middle of the stride, where the
+        // body actually is when one leg carries it. A turning step puts both feet
+        // down, so it has no single-support cue to invent.
+        var planted = 1 - _swing;
+        var towardsPlanted = solePositions[planted] - at;
+        _weightTargetDirection = new Vector3(towardsPlanted.X, 0f, towardsPlanted.Z);
+        var singleSupport = Mathf.Sin(Mathf.Pi * t);
+        _weightTargetDrop = _turningStep ? 0f : WeightDropMetres * singleSupport;
+        _weightTargetLateral = _turningStep ? 0f : WeightLateralMetres * singleSupport;
+        ApplyWeightTransfer(delta);
+        MeasureSupportSoleSlide();
         SetMeta("actualWalkedMetres", SessionWalkedMetres);
         if (_stepT < 1) return;
         _stepping = false;
@@ -838,6 +878,83 @@ public partial class AlsuStreetWalkPresentation : Node3D
         if (!_humanRig || _walkingClip == walking) return;
         _walkingClip = walking;
         GeneratedCharacterKitDressing.PlayClip(_actor, walking ? "Walk" : "Idle");
+        if (walking) return;
+        // VIS-046: standing is not a slowed-down walk. The clip returns to its
+        // authored tempo and the weight cue decays through EaseWeightTransfer, so
+        // neither the start nor the stop changes her body height in one jump.
+        AnimationCatalog.ResetMotionScale(_actor);
+        _motionScale = 1f;
+        _gaitCycleSeconds = 0f;
+        _weightTargetDrop = 0f;
+        _weightTargetLateral = 0f;
+    }
+
+    /// <summary>
+    /// VIS-046: her boots are placed by this owner, so the clip only carries arms,
+    /// spine and head. Left at the library tempo it steps to a rhythm that has
+    /// nothing to do with her real footfalls, which is the mannequin tell the card
+    /// is about. One walk loop holds a full two-foot cycle.
+    /// </summary>
+    private void SyncGaitCadence(float footfallSeconds)
+    {
+        if (!_humanRig || footfallSeconds <= .001f) return;
+        if (_gaitCycleSeconds <= 0f
+            && !AnimationCatalog.TrySetMotionScale(_actor, 1, out _, out _gaitCycleSeconds)) return;
+        if (_gaitCycleSeconds <= 0f) return;
+        var scale = _gaitCycleSeconds * .5f / footfallSeconds;
+        if (AnimationCatalog.TrySetMotionScale(_actor, scale, out var applied, out _)) _motionScale = applied;
+        SetMeta("alsuWalkCadenceScale", _motionScale);
+        SetMeta("alsuWalkFootfallSeconds", footfallSeconds);
+        SetMeta("alsuWalkClipCycleSeconds", _gaitCycleSeconds);
+    }
+
+    private void EaseWeightTransfer(float delta)
+    {
+        if (!_humanRig || _stepping || delta <= 0f) return;
+        // While stepping AdvanceStep owns the cue; here it relaxes to nothing.
+        _weightTargetDrop = 0f;
+        _weightTargetLateral = 0f;
+        ApplyWeightTransfer(delta);
+    }
+
+    private void ApplyWeightTransfer(float delta)
+    {
+        if (_feetModifier is null || !IsInstanceValid(_feetModifier)) return;
+        var rate = delta * WeightEasePerSecond;
+        _weightDrop = Mathf.MoveToward(_weightDrop, _weightTargetDrop, rate);
+        _weightLateral = Mathf.MoveToward(_weightLateral, _weightTargetLateral, rate);
+        if (_weightTargetLateral > 0f && _weightTargetDirection.LengthSquared() > .000001f)
+            _weightDirection = _weightTargetDirection;
+        _feetModifier.SetWeightShift(_weightDrop, _weightDirection, _weightLateral);
+        if (Engine.GetPhysicsFrames() % 10 != 0) return;
+        SetMeta("walkWeightDropMetres", _weightDrop);
+        SetMeta("walkWeightLateralMetres", _weightLateral);
+    }
+
+    private void CapturePlantedSoleSamples()
+    {
+        if (_feetModifier is null || !IsInstanceValid(_feetModifier)) return;
+        _plantedSoleSamples = _feet
+            .Select(foot => _feetModifier.AppliedWorldPose(foot.Ankle) * foot.SoleLocal)
+            .ToArray();
+    }
+
+    /// <summary>
+    /// VIS-046 asks for a number, not an impression: how far the boot that must be
+    /// glued to the snow actually travelled between two applied poses. Read from the
+    /// modifier's last applied pose — what the renderer really skinned with.
+    /// </summary>
+    private void MeasureSupportSoleSlide()
+    {
+        if (_feetModifier is null || !IsInstanceValid(_feetModifier)
+            || _plantedSoleSamples.Length != _feet.Count) return;
+        var planted = 1 - _swing;
+        var now = _feetModifier.AppliedWorldPose(_feet[planted].Ankle) * _feet[planted].SoleLocal;
+        var slide = now.DistanceTo(_plantedSoleSamples[planted]);
+        if (slide > _maxSupportSoleSlide) _maxSupportSoleSlide = slide;
+        _plantedSoleSamples[planted] = now;
+        SetMeta("alsuMaxSupportSoleSlideMetres", _maxSupportSoleSlide);
+        SetMeta("alsuSupportSoleSlideBudgetMetres", SupportSoleSlideBudgetMetres);
     }
 
     private int FindBind(Skin skin, int bone)
@@ -850,10 +967,25 @@ public partial class AlsuStreetWalkPresentation : Node3D
         throw new InvalidOperationException("Alsu boot skin does not bind its actual visible leg.");
     }
 
+    // A released stance is also a released weight cue: the modifier forgets the feet
+    // and the shift together, and this owner drops its own easing values with it, so
+    // a load or a zone change cannot leave her pelvis leaning at last frame's angle.
+    private void ReleaseSupportedFeet()
+    {
+        if (_feetModifier is not null && IsInstanceValid(_feetModifier)) _feetModifier.ClearPoses();
+        _weightDrop = 0f;
+        _weightLateral = 0f;
+        _weightTargetDrop = 0f;
+        _weightTargetLateral = 0f;
+        _weightDirection = Vector3.Zero;
+        _weightTargetDirection = Vector3.Zero;
+        _plantedSoleSamples = [];
+    }
+
     public override void _ExitTree()
     {
         if (_bridge is not null && IsInstanceValid(_bridge)) _bridge.RuntimeStateChanged -= ReadRuntimeState;
-        if (_feetModifier is not null && IsInstanceValid(_feetModifier)) _feetModifier.ClearPoses();
+        ReleaseSupportedFeet();
         if (_stepSound is not null && IsInstanceValid(_stepSound)) { _stepSound.Stop(); _stepSound.Stream = null; }
         // The one retained ray query is a C#-owned RefCounted; release it last, after
         // every probe in this node has stopped, exactly like FirstPersonController.Steps.

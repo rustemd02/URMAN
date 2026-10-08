@@ -1,1253 +1,1253 @@
 {
- "schemaVersion": 1,
- "updated": "2026-10-07",
- "iteration": "01",
- "baseCommit": "612f9bc4",
- "evidence": {
-  "before": ".codex-captures/visual_reset/iteration_01_before",
-  "stationJob": "ed55c557b586417699818b7f4e3ff2ed"
- },
- "tasks": [
-  {
-   "id": "VIS-001",
-   "title": "Закрепить срез и ограничения исполнения",
-   "status": "DONE",
-   "dependencies": []
-  },
-  {
-   "id": "VIS-002",
-   "title": "Разделить актуальные кадры, историю и референсы",
-   "status": "DONE",
-   "dependencies": [
-    "VIS-001"
-   ]
-  },
-  {
-   "id": "VIS-003",
-   "title": "Сделать ошибочный адрес камеры явным отказом",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-001",
-    "VIS-002"
-   ]
-  },
-  {
-   "id": "VIS-004",
-   "title": "Закрепить одинаковые условия сравнительного кадра",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-003"
-   ]
-  },
-  {
-   "id": "VIS-005",
-   "title": "Построить карту реальных потребителей материалов",
-   "status": "DONE",
-   "dependencies": [
-    "VIS-001",
-    "VIS-004"
-   ]
-  },
-  {
-   "id": "VIS-006",
-   "title": "Зафиксировать единственного владельца света и пресета",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-001",
-    "VIS-004"
-   ],
-   "evidence": "§5.1 AgentBAct1ExteriorLayer.ApplyAtmosphere reduced to Kara accents (profile is sole owner of env/sky/sun); §5.2 activeWorldEnvironmentCount counts the active exterior env; §5.6 safe-mode/perf-rescue are session-only (never saved, safe mode no longer defeated by stored settings), readback meta graphicsPreset/graphicsPreferredPreset/graphicsSessionOverride. Not changed: §5.3 house_old_pc fog (rewritten on every entry, no visible effect), §5.4/§5.5 SetSnowMood caller (deliberate VIS-068 design), §5.8 handled by phase capture. dotnet build 0/0."
-  },
-  {
-   "id": "VIS-007",
-   "title": "Записать контракт опоры и координат подвижных материалов",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-005",
-    "VIS-006"
-   ],
-   "evidence": "Contract fixes: ForColor declares every surface mode (TunedWithoutMap / FlatByDesign / mapped) and warns once on an unknown one — it found the yard footprints using \"snow\" (no family) → snow_trampled; ForMovingCloth and ForLocalWoodPiece force cell_jitter 0 (§5.4, §5.8). §5.12 supportOwner: only Terrain_Main/Road_* are bound, no missed binding."
-  },
-  {
-   "id": "VIS-008",
-   "title": "Утвердить паспорт одного пилота вместо глобального рестайлинга",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-002",
-    "VIS-004",
-    "VIS-005",
-    "VIS-006",
-    "VIS-007"
-   ]
-  },
-  {
-   "id": "VIS-009",
-   "title": "Посадить один проблемный пролёт ограды на правильную опору",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-007",
-    "VIS-008"
-   ],
-   "evidence": "YardFences: fence posts sit on the lowest corner of their own footprint (−1.5 cm) instead of a fixed −5 cm under the centre; street-gate posts each sample their own ground (both used the gate centre, 1.72 m away). Collision unchanged."
-  },
-  {
-   "id": "VIS-010",
-   "title": "Устранить треугольную границу снега на ветке к ФАП",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-005",
-    "VIS-007",
-    "VIS-009"
-   ],
-   "evidence": "ClipSnowReliefUnderStructures subtracts each solid XZ footprint from a partly covered triangle (Sutherland–Hodgman in barycentric space, all attributes interpolated) instead of keep/drop by centroid; unknown attributes fall back to the old rule; log adds addedVertices."
-  },
-  {
-   "id": "VIS-011",
-   "title": "Сформировать один правдоподобный край зимней дороги",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-009",
-    "VIS-010"
-   ],
-   "evidence": "Street snow banks (centerline banks): the even sine swells removed; level run with one very long rise, a pile of thrown snow 0.8–2.6 m before each opening, then the cap taper."
-  },
-  {
-   "id": "VIS-012",
-   "title": "Показать расчистку снега у одного крыльца",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-010",
-    "VIS-011"
-   ],
-   "evidence": "Verified door paths widen 0.64→1.0 m over the last 3 m; one shovel heap 1.6 m short of the door on open ground (footprint/raised-surface checked), visual only, owned by the path mesh."
-  },
-  {
-   "id": "VIS-013",
-   "title": "Заменить конус снежной шапки одного стога",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-008",
-    "VIS-010"
-   ],
-   "evidence": "Haystack cap: asymmetric mass over the hay shoulders (24×4 + fan = 216 tris), 2.5 cm hugging edge, 10–19 cm windward body, three unequal slumps, rounded crown leaning lee."
-  },
-  {
-   "id": "VIS-014",
-   "title": "Исправить один предметный контакт на настиле",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-009",
-    "VIS-012"
-   ]
-  },
-  {
-   "id": "VIS-015",
-   "title": "Довести один переход мост–берег без новой географии",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-009",
-    "VIS-011"
-   ]
-  },
-  {
-   "id": "VIS-016",
-   "title": "Связать существующие следы с одним бытовым маршрутом",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-011",
-    "VIS-012",
-    "VIS-014"
-   ]
-  },
-  {
-   "id": "VIS-017",
-   "title": "Согласовать крупные пропорции одного hero-дома",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-008",
-    "VIS-009",
-    "VIS-012"
-   ]
-  },
-  {
-   "id": "VIS-018",
-   "title": "Посадить наличник и карниз на фасад",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-017"
-   ]
-  },
-  {
-   "id": "VIS-019",
-   "title": "Различить соседние заборы конструкцией, не случайным цветом",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-009",
-    "VIS-017"
-   ],
-   "evidence": "Yard (non-street) runs use a plain working design (uneven hand-cut tops, wider boards), one repaired bay per run with fresher boards and a patch rail; street paint colour decorrelated from the design hash."
-  },
-  {
-   "id": "VIS-020",
-   "title": "Устранить доминирующую оборотную плоскость у выхода",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-003",
-    "VIS-004",
-    "VIS-017"
-   ]
-  },
-  {
-   "id": "VIS-021",
-   "title": "Проверить один конструктивный узел мечети",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-009",
-    "VIS-017",
-    "VIS-020"
-   ]
-  },
-  {
-   "id": "VIS-022",
-   "title": "Верифицировать культурно корректную геометрию зирата",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-004",
-    "VIS-009",
-    "VIS-021"
-   ]
-  },
-  {
-   "id": "VIS-023",
-   "title": "Довести фасад ФАП как конкретного работающего учреждения",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-010",
-    "VIS-011",
-    "VIS-020"
-   ]
-  },
-  {
-   "id": "VIS-024",
-   "title": "Закрепить биографию одного двора через две группы",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-012",
-    "VIS-014",
-    "VIS-016",
-    "VIS-019"
-   ]
-  },
-  {
-   "id": "VIS-025",
-   "title": "Довести силуэт одной близкой ели",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-008",
-    "VIS-017"
-   ]
-  },
-  {
-   "id": "VIS-026",
-   "title": "Разорвать стену леса в одном обязательном виде",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-011",
-    "VIS-025"
-   ]
-  },
-  {
-   "id": "VIS-027",
-   "title": "Сохранить силуэт дерева на переходе LOD",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-025",
-    "VIS-026"
-   ]
-  },
-  {
-   "id": "VIS-028",
-   "title": "Согласовать редкую сухую растительность со снегом",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-010",
-    "VIS-012",
-    "VIS-026"
-   ]
-  },
-  {
-   "id": "VIS-029",
-   "title": "Ограничить вклад растительности в один тяжёлый вид",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-026",
-    "VIS-027",
-    "VIS-028"
-   ]
-  },
-  {
-   "id": "VIS-030",
-   "title": "Проверить границы отсечения одной ячейки растений",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-025",
-    "VIS-027",
-    "VIS-029"
-   ]
-  },
-  {
-   "id": "VIS-031",
-   "title": "Привязать пальто одного персонажа к его поверхности",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-005",
-    "VIS-007",
-    "VIS-008"
-   ],
-   "evidence": "Pilot already done in 1cc3861 (Alsu + Aidar body: metric UVs + ForMovingCloth). Other 15 NPC prefixes need Blender UV regeneration (VIS-104)."
-  },
-  {
-   "id": "VIS-032",
-   "title": "Согласовать направление дерева на одном крыльце",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-005",
-    "VIS-018",
-    "VIS-031"
-   ],
-   "evidence": "Pilot porch posts in the facade builder use the vertical-grain family wood_fence_vertical (as roadside posts) instead of world-triplanar wood."
-  },
-  {
-   "id": "VIS-033",
-   "title": "Сделать нижнее затемнение относительным основанию объекта",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-005",
-    "VIS-007",
-    "VIS-009",
-    "VIS-032"
-   ],
-   "evidence": "instance uniform ground_base_y + ground_contact_height (legacy 3 m default; ground_darken still 0 everywhere else). Pilot: AddVisualCanopy posts use ForGroundContact(darken .22, 0.18 m) with per-post support Y. Intensity needs the pilot frame pair."
-  },
-  {
-   "id": "VIS-034",
-   "title": "Настроить существующий снег после исправления формы",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-010",
-    "VIS-011",
-    "VIS-016",
-    "VIS-033"
-   ]
-  },
-  {
-   "id": "VIS-035",
-   "title": "Свести масштаб двух соседних материалов в доме",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-008",
-    "VIS-031",
-    "VIS-032"
-   ]
-  },
-  {
-   "id": "VIS-036",
-   "title": "Включать mipmaps только проверенным 3D-потребителям",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-005",
-    "VIS-035"
-   ],
-   "evidence": "Only painterly-library map without a tracked .import was urman_t07_v01 (cloth_towel): fresh station import used defaults (no mips, no size limit). .import now mipmaps=true, size_limit=1024 like other cloth maps — must be force-added (git add -f, *.import is ignored). frost_window_v1 left for VIS-096."
-  },
-  {
-   "id": "VIS-037",
-   "title": "Проверить видимость оконного силуэта, не ломая непрозрачное стекло",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-005",
-    "VIS-006",
-    "VIS-018",
-    "VIS-036"
-   ],
-   "evidence": "Static audit: silhouettes already stand in front of the opaque pane (2026-10-05 fix); day/night split NightSunEnergy 0.35 re-checked against all six new profiles (day >= .55, night <= .30). No code change beyond the comment."
-  },
-  {
-   "id": "VIS-038",
-   "title": "Уменьшить дублирование материалов одного семейства",
-   "status": "PARTIAL",
-   "dependencies": [
-    "VIS-033",
-    "VIS-035",
-    "VIS-037"
-   ],
-   "evidence": "cloth/fabric byte-identical pair now one cache entry (ForColor canonicalises fabric→cloth). Register conflicts (material_consumers_RU.md §6) untouched."
-  },
-  {
-   "id": "VIS-039",
-   "title": "Отделить дефект света от дефекта формы в пилоте",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-006",
-    "VIS-017",
-    "VIS-025",
-    "VIS-034",
-    "VIS-035"
-   ]
-  },
-  {
-   "id": "VIS-040",
-   "title": "Свести дневной key/fill одного уличного профиля",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-039"
-   ]
-  },
-  {
-   "id": "VIS-041",
-   "title": "Согласовать существующее тёплое окно с интерьером",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-037",
-    "VIS-040"
-   ]
-  },
-  {
-   "id": "VIS-042",
-   "title": "Сохранить глубину ночной кромки без сплошной черноты",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-026",
-    "VIS-040",
-    "VIS-041"
-   ]
-  },
-  {
-   "id": "VIS-043",
-   "title": "Проверить один погодный переход на постоянной точке",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-004",
-    "VIS-040",
-    "VIS-042"
-   ]
-  },
-  {
-   "id": "VIS-044",
-   "title": "Довести голову одного основного собеседника",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-008",
-    "VIS-031",
-    "VIS-035",
-    "VIS-040"
-   ]
-  },
-  {
-   "id": "VIS-045",
-   "title": "Придать воротнику и плечам одного NPC человеческую посадку",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-031",
-    "VIS-044"
-   ]
-  },
-  {
-   "id": "VIS-046",
-   "title": "Проверить вес одной походки, а не изменение пикселей",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-044",
-    "VIS-045"
-   ]
-  },
-  {
-   "id": "VIS-047",
-   "title": "Проверить контакт рук и тела в одном бытовом действии",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-007",
-    "VIS-012",
-    "VIS-046"
-   ]
-  },
-  {
-   "id": "VIS-048",
-   "title": "Снизить ненужную анимационную работу одного дальнего NPC",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-027",
-    "VIS-038",
-    "VIS-046"
-   ]
-  },
-  {
-   "id": "VIS-049",
-   "title": "Проверить контакт лошади с дорогой и телегой",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-011",
-    "VIS-016",
-    "VIS-046"
-   ]
-  },
-  {
-   "id": "VIS-050",
-   "title": "Согласовать снеговую колею с колёсами одной Нивы",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-007",
-    "VIS-011",
-    "VIS-016"
-   ]
-  },
-  {
-   "id": "VIS-051",
-   "title": "Довести домашнюю предметную группу, сохранив человека главным",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-035",
-    "VIS-041",
-    "VIS-044",
-    "VIS-047"
-   ]
-  },
-  {
-   "id": "VIS-052",
-   "title": "Превратить один документ ФАП в читаемую бумагу в мире",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-005",
-    "VIS-023",
-    "VIS-035",
-    "VIS-036"
-   ]
-  },
-  {
-   "id": "VIS-053",
-   "title": "Довести входной переход мечети без заполнения зала",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-021",
-    "VIS-032",
-    "VIS-040"
-   ]
-  },
-  {
-   "id": "VIS-054",
-   "title": "Довести один вид ДК без роста геометрической нагрузки",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-017",
-    "VIS-035",
-    "VIS-038",
-    "VIS-040"
-   ]
-  },
-  {
-   "id": "VIS-055",
-   "title": "Привести журнал к одному бумажному владельцу",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-008",
-    "VIS-036",
-    "VIS-052"
-   ]
-  },
-  {
-   "id": "VIS-056",
-   "title": "Сохранить цифровой характер XP и связать его с монитором",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-005",
-    "VIS-036",
-    "VIS-051"
-   ]
-  },
-  {
-   "id": "VIS-057",
-   "title": "Проверить один диалог на читаемость и кадрирование",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-004",
-    "VIS-044",
-    "VIS-045",
-    "VIS-055"
-   ]
-  },
-  {
-   "id": "VIS-058",
-   "title": "Связать одну фотографию/запись с её физическим носителем",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-052",
-    "VIS-055",
-    "VIS-057"
-   ]
-  },
-  {
-   "id": "VIS-059",
-   "title": "Принять связность одного пилотного перехода улица–дом",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-024",
-    "VIS-034",
-    "VIS-040",
-    "VIS-041",
-    "VIS-044",
-    "VIS-051",
-    "VIS-055",
-    "VIS-057",
-    "VIS-058"
-   ]
-  },
-  {
-   "id": "VIS-060",
-   "title": "Проверить одну оптимизацию окон на равной картинке",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-030",
-    "VIS-037",
-    "VIS-038",
-    "VIS-059"
-   ]
-  },
-  {
-   "id": "VIS-061",
-   "title": "Сделать маршрутный пакет доказательным",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-003",
-    "VIS-004",
-    "VIS-020",
-    "VIS-052",
-    "VIS-053",
-    "VIS-057",
-    "VIS-059"
-   ]
-  },
-  {
-   "id": "VIS-062",
-   "title": "Проверить один маршрут движения с настройками доступности",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-027",
-    "VIS-031",
-    "VIS-046",
-    "VIS-047",
-    "VIS-059",
-    "VIS-061"
-   ]
-  },
-  {
-   "id": "VIS-063",
-   "title": "Измерить frame-time p95 на целевом устройстве",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-001",
-    "VIS-006",
-    "VIS-029",
-    "VIS-048",
-    "VIS-054",
-    "VIS-060",
-    "VIS-061",
-    "VIS-062"
-   ]
-  },
-  {
-   "id": "VIS-064",
-   "title": "Принять качество человеком и закрыть только доказанные карточки",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-022",
-    "VIS-059",
-    "VIS-061",
-    "VIS-062",
-    "VIS-063"
-   ]
-  },
-  {
-   "id": "VIS-065",
-   "title": "Зафиксировать новый визуальный контракт и отменить видимый low-poly как цель",
-   "status": "DONE",
-   "dependencies": [
-    "VIS-001",
-    "VIS-002"
-   ]
-  },
-  {
-   "id": "VIS-066",
-   "title": "Собрать проверяемый референс-манифест и art-review board",
-   "status": "DONE",
-   "dependencies": [
-    "VIS-002",
-    "VIS-065"
-   ],
-   "evidence": "docs/production/visual_restyle_2026-10-07/{reference_manifest.json,REFERENCE_BOARD_RU.md}; eng/verify-visual-reference-manifest.py PASS (24 refs, 15 author codes)"
-  },
-  {
-   "id": "VIS-067",
-   "title": "Создать color-script Акта I по сюжетным состояниям",
-   "status": "AUTHORED_HUMAN_GATE_OPEN",
-   "dependencies": [
-    "VIS-006",
-    "VIS-039",
-    "VIS-065",
-    "VIS-066"
-   ]
-  },
-  {
-   "id": "VIS-068",
-   "title": "Настроить зимнюю дневную палитру с цветным снегом",
-   "status": "CAPTURE_PENDING",
-   "dependencies": [
-    "VIS-034",
-    "VIS-040",
-    "VIS-067"
-   ]
-  },
-  {
-   "id": "VIS-069",
-   "title": "Сделать зимний золотой час отдельным авторским состоянием",
-   "status": "CAPTURE_PENDING",
-   "dependencies": [
-    "VIS-040",
-    "VIS-067",
-    "VIS-068"
-   ],
-   "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
-  },
-  {
-   "id": "VIS-070",
-   "title": "Сохранить выразительный пасмурный день без серой каши",
-   "status": "CAPTURE_PENDING",
-   "dependencies": [
-    "VIS-067",
-    "VIS-068"
-   ],
-   "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
-  },
-  {
-   "id": "VIS-071",
-   "title": "Создать зелёную ночь деревни",
-   "status": "CAPTURE_PENDING",
-   "dependencies": [
-    "VIS-041",
-    "VIS-042",
-    "VIS-067"
-   ],
-   "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
-  },
-  {
-   "id": "VIS-072",
-   "title": "Ввести редкий ночной контраст двух цветовых семейств",
-   "status": "CAPTURE_PENDING",
-   "dependencies": [
-    "VIS-071"
-   ],
-   "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
-  },
-  {
-   "id": "VIS-073",
-   "title": "Сделать непроглядный лесной туман без дешёвого hide-the-geometry",
-   "status": "CAPTURE_PENDING",
-   "dependencies": [
-    "VIS-026",
-    "VIS-042",
-    "VIS-067"
-   ],
-   "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
-  },
-  {
-   "id": "VIS-074",
-   "title": "Сделать лесной цвет нечеловеческим, но не постоянно красным",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-073"
-   ],
-   "evidence": "One dim amber anomaly (c88a3e, 0.11, range 9) deep in the Kara fog through the existing accent owner, ground-relative; no red."
-  },
-  {
-   "id": "VIS-075",
-   "title": "Произвести редкое семейство тревожных ветвей по H3-1",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-025",
-    "VIS-027",
-    "VIS-073"
-   ]
-  },
-  {
-   "id": "VIS-076",
-   "title": "Сделать графические линии ветра как редкую world-space абстракцию",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-043",
-    "VIS-067"
-   ]
-  },
-  {
-   "id": "VIS-077",
-   "title": "Установить новый геометрический стандарт снега",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-007",
-    "VIS-010",
-    "VIS-011",
-    "VIS-012",
-    "VIS-034"
-   ]
-  },
-  {
-   "id": "VIS-078",
-   "title": "Сделать протоптанные дорожки глубже окружающего снега",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-012",
-    "VIS-016",
-    "VIS-077"
-   ],
-   "evidence": "Door paths are a trodden channel: floor +1 cm, berm crest 4–7 cm by route hash, feathered out 0.6–0.95 m; UV beyond 0..1 gives the fresh-snow side; normals generated."
-  },
-  {
-   "id": "VIS-079",
-   "title": "Перестроить снежные валы по проездам, калиткам и канавам",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-011",
-    "VIS-015",
-    "VIS-077"
-   ]
-  },
-  {
-   "id": "VIS-080",
-   "title": "Добавить правдоподобный снег на крыши и горизонтальные детали",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-021",
-    "VIS-077"
-   ]
-  },
-  {
-   "id": "VIS-081",
-   "title": "Перенастроить snow material под новую форму, не наоборот",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-005",
-    "VIS-034",
-    "VIS-077",
-    "VIS-078"
-   ]
-  },
-  {
-   "id": "VIS-082",
-   "title": "Создать стандарт коры и ветвления зимних деревьев",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-025",
-    "VIS-027"
-   ]
-  },
-  {
-   "id": "VIS-083",
-   "title": "Пересобрать лиственные семейства деревни и леса",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-027",
-    "VIS-028",
-    "VIS-075",
-    "VIS-082"
-   ]
-  },
-  {
-   "id": "VIS-084",
-   "title": "Ограничить хвойные и довести их только там, где они нужны",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-026",
-    "VIS-082",
-    "VIS-083"
-   ]
-  },
-  {
-   "id": "VIS-085",
-   "title": "Собрать страшную лесную плотность без стены повторов и без потери FPS",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-029",
-    "VIS-030",
-    "VIS-073",
-    "VIS-075",
-    "VIS-083"
-   ]
-  },
-  {
-   "id": "VIS-086",
-   "title": "Ввести стандарт конструктивно правдоподобного татарского дома",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-017",
-    "VIS-018",
-    "VIS-065"
-   ]
-  },
-  {
-   "id": "VIS-087",
-   "title": "Пересобрать оконные ниши и наличники как геометрию",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-018",
-    "VIS-037",
-    "VIS-060",
-    "VIS-086"
-   ]
-  },
-  {
-   "id": "VIS-088",
-   "title": "Сделать генератор правдоподобных деревенских заборов",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-009",
-    "VIS-019",
-    "VIS-024",
-    "VIS-086"
-   ]
-  },
-  {
-   "id": "VIS-089",
-   "title": "Сделать модульные калитки и ворота с реальной механикой",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-019",
-    "VIS-078",
-    "VIS-088"
-   ]
-  },
-  {
-   "id": "VIS-090",
-   "title": "Добавить редкие конструктивные детали деревни, которые ловят свет",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-024",
-    "VIS-086"
-   ]
-  },
-  {
-   "id": "VIS-091",
-   "title": "Пересобрать кровли, карнизы, трубы и стыки как один конструктивный язык",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-080",
-    "VIS-086"
-   ]
-  },
-  {
-   "id": "VIS-092",
-   "title": "Расширить материалную систему до painterly material response без asset-pack PBR",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-005",
-    "VIS-035",
-    "VIS-038",
-    "VIS-065"
-   ]
-  },
-  {
-   "id": "VIS-093",
-   "title": "Сделать единое семейство старого дерева с историей использования",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-032",
-    "VIS-035",
-    "VIS-092"
-   ]
-  },
-  {
-   "id": "VIS-094",
-   "title": "Сделать штукатурку общественных зданий художественной, но материальной",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-023",
-    "VIS-054",
-    "VIS-092"
-   ]
-  },
-  {
-   "id": "VIS-095",
-   "title": "Нормализовать металл: кровли, трубы, транспорт, эмаль",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-092"
-   ]
-  },
-  {
-   "id": "VIS-096",
-   "title": "Пересобрать морозное окно как материальный и световой узел",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-037",
-    "VIS-041",
-    "VIS-071",
-    "VIS-087",
-    "VIS-092"
-   ]
-  },
-  {
-   "id": "VIS-097",
-   "title": "Сохранить текущий интерьерный реализм и изменить только свет/цвет где это улучшает",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-035",
-    "VIS-051",
-    "VIS-052",
-    "VIS-053",
-    "VIS-054",
-    "VIS-065"
-   ]
-  },
-  {
-   "id": "VIS-098",
-   "title": "Довести hero house interior без смены его художественного регистра",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-051",
-    "VIS-097"
-   ]
-  },
-  {
-   "id": "VIS-099",
-   "title": "Довести ФАП как умеренно реалистичный советский медицинский интерьер",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-023",
-    "VIS-052",
-    "VIS-097"
-   ]
-  },
-  {
-   "id": "VIS-100",
-   "title": "Довести мечеть без переноса хоррорного лесного языка",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-021",
-    "VIS-053",
-    "VIS-097"
-   ]
-  },
-  {
-   "id": "VIS-101",
-   "title": "Довести школу/ДК/сельсовет через функцию и цвет, не через новый общий стиль",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-054",
-    "VIS-094",
-    "VIS-097"
-   ]
-  },
-  {
-   "id": "VIS-102",
-   "title": "Нормализовать персонажей под мягкий материальный стиль LiS2-подобного диапазона",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-031",
-    "VIS-044",
-    "VIS-045",
-    "VIS-046",
-    "VIS-047",
-    "VIS-065"
-   ]
-  },
-  {
-   "id": "VIS-103",
-   "title": "Довести головы hero NPC формой и светом, а не текстурной детализацией",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-044",
-    "VIS-045",
-    "VIS-102"
-   ]
-  },
-  {
-   "id": "VIS-104",
-   "title": "Перевести всю деформируемую одежду на устойчивый локальный/UV mapping",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-031",
-    "VIS-046",
-    "VIS-102"
-   ],
-   "evidence": "Generators give every character cloth metric UVs (v1 now exports extras); runtime binds UV cloth only to meshes whose glTF extras carry cloth_uv_units (kit dressing, imam, shop seller). No visible change until the kits are regenerated in Blender."
-  },
-  {
-   "id": "VIS-105",
-   "title": "Нормализовать транспорт под новый материалный язык",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-049",
-    "VIS-050",
-    "VIS-092",
-    "VIS-095"
-   ]
-  },
-  {
-   "id": "VIS-106",
-   "title": "Создать pipeline нормализации скачиваемых prop-ассетов",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-005",
-    "VIS-065",
-    "VIS-092"
-   ]
-  },
-  {
-   "id": "VIS-107",
-   "title": "Ввести лицензионный и художественный gate для внешних ассетов",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-106"
-   ],
-   "evidence": "eng/verify-asset-registry.sh: forward-only gate for entries with externalAsset=true (licenseSpdx allow-list, https sourceUrl/sourceLicenseUrl, sourceAuthor, modification, consumerPaths exist, sourceSha256, receiverCapture file required once integrated). Synthetic good/bad registries: PASS/FAIL as expected. Real registry has 12 pre-existing hash/path failures unrelated to this change."
-  },
-  {
-   "id": "VIS-108",
-   "title": "Сделать Blender-пайплайн генерации модулей детерминированным и AI-friendly",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-086",
-    "VIS-088",
-    "VIS-089",
-    "VIS-106"
-   ]
-  },
-  {
-   "id": "VIS-109",
-   "title": "Обновить паспорта новых visual-reset ассетов и consumers",
-   "status": "PARTIAL",
-   "dependencies": [
-    "VIS-066",
-    "VIS-106",
-    "VIS-107",
-    "VIS-108"
-   ],
-   "evidence": "Step 1: 18 passports → docs/urman_knowledge_base/art/visual_reset_asset_passports_2026-10-07.json with real code consumers and reuse candidates. Depends on VIS-106/108 for child records."
-  },
-  {
-   "id": "VIS-110",
-   "title": "Сохранить UI материальным и не перекрашивать его общей атмосферой",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-055",
-    "VIS-056",
-    "VIS-065"
-   ],
-   "evidence": "eng/verify-ui-atmosphere-independence.py PASS: 17 UI sources never read atmosphere/environment, no CanvasModulate. Readability per colour state still needs captures."
-  },
-  {
-   "id": "VIS-111",
-   "title": "Задать композиционный baseline для first-person кадров без кинематографического FOV-хака",
-   "status": "CODE_DONE_VERIFY_PENDING",
-   "dependencies": [
-    "VIS-003",
-    "VIS-004",
-    "VIS-062"
-   ],
-   "evidence": "URMAN_VIEW_FOV (player | 40–100) for DevViewCapture, fovSource per frame; remote-check --fov → worker field fov → run-windows-check -ViewFov. Gameplay FOV untouched."
-  },
-  {
-   "id": "VIS-112",
-   "title": "Собрать эталонный участок деревни улица→калитка→двор→дом",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-059",
-    "VIS-068",
-    "VIS-069",
-    "VIS-071",
-    "VIS-077",
-    "VIS-078",
-    "VIS-083",
-    "VIS-086",
-    "VIS-087",
-    "VIS-088",
-    "VIS-089",
-    "VIS-090",
-    "VIS-093",
-    "VIS-096",
-    "VIS-102"
-   ]
-  },
-  {
-   "id": "VIS-113",
-   "title": "Собрать эталон леса: материальный, непроглядный, хтонически пугающий",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-073",
-    "VIS-074",
-    "VIS-075",
-    "VIS-076",
-    "VIS-082",
-    "VIS-083",
-    "VIS-085"
-   ]
-  },
-  {
-   "id": "VIS-114",
-   "title": "Собрать эталон зелёной ночи деревни и chromatic contrast",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-071",
-    "VIS-072",
-    "VIS-096",
-    "VIS-112"
-   ]
-  },
-  {
-   "id": "VIS-115",
-   "title": "Распространить принятый Visual Standard на весь наружный Акт I",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-112",
-    "VIS-113",
-    "VIS-114",
-    "VIS-061"
-   ]
-  },
-  {
-   "id": "VIS-116",
-   "title": "Распространить стандарт на интерьеры, персонажей, транспорт и UI без стилистического выравнивания в кашу",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-097",
-    "VIS-098",
-    "VIS-099",
-    "VIS-100",
-    "VIS-101",
-    "VIS-102",
-    "VIS-103",
-    "VIS-104",
-    "VIS-105",
-    "VIS-110",
-    "VIS-115"
-   ]
-  },
-  {
-   "id": "VIS-117",
-   "title": "Провести полный визуальный маршрутный gate нового стиля",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-061",
-    "VIS-115",
-    "VIS-116"
-   ]
-  },
-  {
-   "id": "VIS-118",
-   "title": "Финальная арт-, культурная и performance-приёмка visual reset",
-   "status": "OPEN",
-   "dependencies": [
-    "VIS-063",
-    "VIS-064",
-    "VIS-117"
-   ]
-  }
- ]
+  "schemaVersion": 1,
+  "updated": "2026-10-08",
+  "iteration": "04",
+  "baseCommit": "612f9bc4",
+  "evidence": {
+    "before": ".codex-captures/visual_reset/iteration_01_before",
+    "stationJob": "ed55c557b586417699818b7f4e3ff2ed"
+  },
+  "tasks": [
+    {
+      "id": "VIS-001",
+      "title": "Закрепить срез и ограничения исполнения",
+      "status": "DONE",
+      "dependencies": []
+    },
+    {
+      "id": "VIS-002",
+      "title": "Разделить актуальные кадры, историю и референсы",
+      "status": "DONE",
+      "dependencies": [
+        "VIS-001"
+      ]
+    },
+    {
+      "id": "VIS-003",
+      "title": "Сделать ошибочный адрес камеры явным отказом",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-001",
+        "VIS-002"
+      ]
+    },
+    {
+      "id": "VIS-004",
+      "title": "Закрепить одинаковые условия сравнительного кадра",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-003"
+      ]
+    },
+    {
+      "id": "VIS-005",
+      "title": "Построить карту реальных потребителей материалов",
+      "status": "DONE",
+      "dependencies": [
+        "VIS-001",
+        "VIS-004"
+      ]
+    },
+    {
+      "id": "VIS-006",
+      "title": "Зафиксировать единственного владельца света и пресета",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-001",
+        "VIS-004"
+      ],
+      "evidence": "§5.1 AgentBAct1ExteriorLayer.ApplyAtmosphere reduced to Kara accents (profile is sole owner of env/sky/sun); §5.2 activeWorldEnvironmentCount counts the active exterior env; §5.6 safe-mode/perf-rescue are session-only (never saved, safe mode no longer defeated by stored settings), readback meta graphicsPreset/graphicsPreferredPreset/graphicsSessionOverride. Not changed: §5.3 house_old_pc fog (rewritten on every entry, no visible effect), §5.4/§5.5 SetSnowMood caller (deliberate VIS-068 design), §5.8 handled by phase capture. dotnet build 0/0."
+    },
+    {
+      "id": "VIS-007",
+      "title": "Записать контракт опоры и координат подвижных материалов",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-005",
+        "VIS-006"
+      ],
+      "evidence": "Contract fixes: ForColor declares every surface mode (TunedWithoutMap / FlatByDesign / mapped) and warns once on an unknown one — it found the yard footprints using \"snow\" (no family) → snow_trampled; ForMovingCloth and ForLocalWoodPiece force cell_jitter 0 (§5.4, §5.8). §5.12 supportOwner: only Terrain_Main/Road_* are bound, no missed binding."
+    },
+    {
+      "id": "VIS-008",
+      "title": "Утвердить паспорт одного пилота вместо глобального рестайлинга",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-002",
+        "VIS-004",
+        "VIS-005",
+        "VIS-006",
+        "VIS-007"
+      ]
+    },
+    {
+      "id": "VIS-009",
+      "title": "Посадить один проблемный пролёт ограды на правильную опору",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-007",
+        "VIS-008"
+      ],
+      "evidence": "YardFences: fence posts sit on the lowest corner of their own footprint (−1.5 cm) instead of a fixed −5 cm under the centre; street-gate posts each sample their own ground (both used the gate centre, 1.72 m away). Collision unchanged."
+    },
+    {
+      "id": "VIS-010",
+      "title": "Устранить треугольную границу снега на ветке к ФАП",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-005",
+        "VIS-007",
+        "VIS-009"
+      ],
+      "evidence": "ClipSnowReliefUnderStructures subtracts each solid XZ footprint from a partly covered triangle (Sutherland–Hodgman in barycentric space, all attributes interpolated) instead of keep/drop by centroid; unknown attributes fall back to the old rule; log adds addedVertices."
+    },
+    {
+      "id": "VIS-011",
+      "title": "Сформировать один правдоподобный край зимней дороги",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-009",
+        "VIS-010"
+      ],
+      "evidence": "Street snow banks (centerline banks): the even sine swells removed; level run with one very long rise, a pile of thrown snow 0.8–2.6 m before each opening, then the cap taper."
+    },
+    {
+      "id": "VIS-012",
+      "title": "Показать расчистку снега у одного крыльца",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-010",
+        "VIS-011"
+      ],
+      "evidence": "Verified door paths widen 0.64→1.0 m over the last 3 m; one shovel heap 1.6 m short of the door on open ground (footprint/raised-surface checked), visual only, owned by the path mesh."
+    },
+    {
+      "id": "VIS-013",
+      "title": "Заменить конус снежной шапки одного стога",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-008",
+        "VIS-010"
+      ],
+      "evidence": "Haystack cap: asymmetric mass over the hay shoulders (24×4 + fan = 216 tris), 2.5 cm hugging edge, 10–19 cm windward body, three unequal slumps, rounded crown leaning lee."
+    },
+    {
+      "id": "VIS-014",
+      "title": "Исправить один предметный контакт на настиле",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-009",
+        "VIS-012"
+      ]
+    },
+    {
+      "id": "VIS-015",
+      "title": "Довести один переход мост–берег без новой географии",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-009",
+        "VIS-011"
+      ]
+    },
+    {
+      "id": "VIS-016",
+      "title": "Связать существующие следы с одним бытовым маршрутом",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-011",
+        "VIS-012",
+        "VIS-014"
+      ]
+    },
+    {
+      "id": "VIS-017",
+      "title": "Согласовать крупные пропорции одного hero-дома",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-008",
+        "VIS-009",
+        "VIS-012"
+      ]
+    },
+    {
+      "id": "VIS-018",
+      "title": "Посадить наличник и карниз на фасад",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-017"
+      ]
+    },
+    {
+      "id": "VIS-019",
+      "title": "Различить соседние заборы конструкцией, не случайным цветом",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-009",
+        "VIS-017"
+      ],
+      "evidence": "Yard (non-street) runs use a plain working design (uneven hand-cut tops, wider boards), one repaired bay per run with fresher boards and a patch rail; street paint colour decorrelated from the design hash."
+    },
+    {
+      "id": "VIS-020",
+      "title": "Устранить доминирующую оборотную плоскость у выхода",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-003",
+        "VIS-004",
+        "VIS-017"
+      ]
+    },
+    {
+      "id": "VIS-021",
+      "title": "Проверить один конструктивный узел мечети",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-009",
+        "VIS-017",
+        "VIS-020"
+      ]
+    },
+    {
+      "id": "VIS-022",
+      "title": "Верифицировать культурно корректную геометрию зирата",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-004",
+        "VIS-009",
+        "VIS-021"
+      ]
+    },
+    {
+      "id": "VIS-023",
+      "title": "Довести фасад ФАП как конкретного работающего учреждения",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-010",
+        "VIS-011",
+        "VIS-020"
+      ]
+    },
+    {
+      "id": "VIS-024",
+      "title": "Закрепить биографию одного двора через две группы",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-012",
+        "VIS-014",
+        "VIS-016",
+        "VIS-019"
+      ]
+    },
+    {
+      "id": "VIS-025",
+      "title": "Довести силуэт одной близкой ели",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-008",
+        "VIS-017"
+      ]
+    },
+    {
+      "id": "VIS-026",
+      "title": "Разорвать стену леса в одном обязательном виде",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-011",
+        "VIS-025"
+      ]
+    },
+    {
+      "id": "VIS-027",
+      "title": "Сохранить силуэт дерева на переходе LOD",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-025",
+        "VIS-026"
+      ]
+    },
+    {
+      "id": "VIS-028",
+      "title": "Согласовать редкую сухую растительность со снегом",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-010",
+        "VIS-012",
+        "VIS-026"
+      ]
+    },
+    {
+      "id": "VIS-029",
+      "title": "Ограничить вклад растительности в один тяжёлый вид",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-026",
+        "VIS-027",
+        "VIS-028"
+      ]
+    },
+    {
+      "id": "VIS-030",
+      "title": "Проверить границы отсечения одной ячейки растений",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-025",
+        "VIS-027",
+        "VIS-029"
+      ]
+    },
+    {
+      "id": "VIS-031",
+      "title": "Привязать пальто одного персонажа к его поверхности",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-005",
+        "VIS-007",
+        "VIS-008"
+      ],
+      "evidence": "Pilot already done in 1cc3861 (Alsu + Aidar body: metric UVs + ForMovingCloth). Other 15 NPC prefixes need Blender UV regeneration (VIS-104)."
+    },
+    {
+      "id": "VIS-032",
+      "title": "Согласовать направление дерева на одном крыльце",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-005",
+        "VIS-018",
+        "VIS-031"
+      ],
+      "evidence": "Pilot porch posts in the facade builder use the vertical-grain family wood_fence_vertical (as roadside posts) instead of world-triplanar wood."
+    },
+    {
+      "id": "VIS-033",
+      "title": "Сделать нижнее затемнение относительным основанию объекта",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-005",
+        "VIS-007",
+        "VIS-009",
+        "VIS-032"
+      ],
+      "evidence": "instance uniform ground_base_y + ground_contact_height (legacy 3 m default; ground_darken still 0 everywhere else). Pilot: AddVisualCanopy posts use ForGroundContact(darken .22, 0.18 m) with per-post support Y. Intensity needs the pilot frame pair."
+    },
+    {
+      "id": "VIS-034",
+      "title": "Настроить существующий снег после исправления формы",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-010",
+        "VIS-011",
+        "VIS-016",
+        "VIS-033"
+      ]
+    },
+    {
+      "id": "VIS-035",
+      "title": "Свести масштаб двух соседних материалов в доме",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-008",
+        "VIS-031",
+        "VIS-032"
+      ]
+    },
+    {
+      "id": "VIS-036",
+      "title": "Включать mipmaps только проверенным 3D-потребителям",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-005",
+        "VIS-035"
+      ],
+      "evidence": "Only painterly-library map without a tracked .import was urman_t07_v01 (cloth_towel): fresh station import used defaults (no mips, no size limit). .import now mipmaps=true, size_limit=1024 like other cloth maps — must be force-added (git add -f, *.import is ignored). frost_window_v1 left for VIS-096."
+    },
+    {
+      "id": "VIS-037",
+      "title": "Проверить видимость оконного силуэта, не ломая непрозрачное стекло",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-005",
+        "VIS-006",
+        "VIS-018",
+        "VIS-036"
+      ],
+      "evidence": "Static audit: silhouettes already stand in front of the opaque pane (2026-10-05 fix); day/night split NightSunEnergy 0.35 re-checked against all six new profiles (day >= .55, night <= .30). No code change beyond the comment."
+    },
+    {
+      "id": "VIS-038",
+      "title": "Уменьшить дублирование материалов одного семейства",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-033",
+        "VIS-035",
+        "VIS-037"
+      ],
+      "evidence": "cloth/fabric byte-identical pair now one cache entry (ForColor canonicalises fabric→cloth). Register conflicts (material_consumers_RU.md §6) untouched."
+    },
+    {
+      "id": "VIS-039",
+      "title": "Отделить дефект света от дефекта формы в пилоте",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-006",
+        "VIS-017",
+        "VIS-025",
+        "VIS-034",
+        "VIS-035"
+      ]
+    },
+    {
+      "id": "VIS-040",
+      "title": "Свести дневной key/fill одного уличного профиля",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-039"
+      ]
+    },
+    {
+      "id": "VIS-041",
+      "title": "Согласовать существующее тёплое окно с интерьером",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-037",
+        "VIS-040"
+      ]
+    },
+    {
+      "id": "VIS-042",
+      "title": "Сохранить глубину ночной кромки без сплошной черноты",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-026",
+        "VIS-040",
+        "VIS-041"
+      ]
+    },
+    {
+      "id": "VIS-043",
+      "title": "Проверить один погодный переход на постоянной точке",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-004",
+        "VIS-040",
+        "VIS-042"
+      ]
+    },
+    {
+      "id": "VIS-044",
+      "title": "Довести голову одного основного собеседника",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-008",
+        "VIS-031",
+        "VIS-035",
+        "VIS-040"
+      ]
+    },
+    {
+      "id": "VIS-045",
+      "title": "Придать воротнику и плечам одного NPC человеческую посадку",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-031",
+        "VIS-044"
+      ]
+    },
+    {
+      "id": "VIS-046",
+      "title": "Проверить вес одной походки, а не изменение пикселей",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-044",
+        "VIS-045"
+      ]
+    },
+    {
+      "id": "VIS-047",
+      "title": "Проверить контакт рук и тела в одном бытовом действии",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-007",
+        "VIS-012",
+        "VIS-046"
+      ]
+    },
+    {
+      "id": "VIS-048",
+      "title": "Снизить ненужную анимационную работу одного дальнего NPC",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-027",
+        "VIS-038",
+        "VIS-046"
+      ]
+    },
+    {
+      "id": "VIS-049",
+      "title": "Проверить контакт лошади с дорогой и телегой",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-011",
+        "VIS-016",
+        "VIS-046"
+      ]
+    },
+    {
+      "id": "VIS-050",
+      "title": "Согласовать снеговую колею с колёсами одной Нивы",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-007",
+        "VIS-011",
+        "VIS-016"
+      ]
+    },
+    {
+      "id": "VIS-051",
+      "title": "Довести домашнюю предметную группу, сохранив человека главным",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-035",
+        "VIS-041",
+        "VIS-044",
+        "VIS-047"
+      ]
+    },
+    {
+      "id": "VIS-052",
+      "title": "Превратить один документ ФАП в читаемую бумагу в мире",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-005",
+        "VIS-023",
+        "VIS-035",
+        "VIS-036"
+      ]
+    },
+    {
+      "id": "VIS-053",
+      "title": "Довести входной переход мечети без заполнения зала",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-021",
+        "VIS-032",
+        "VIS-040"
+      ]
+    },
+    {
+      "id": "VIS-054",
+      "title": "Довести один вид ДК без роста геометрической нагрузки",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-017",
+        "VIS-035",
+        "VIS-038",
+        "VIS-040"
+      ]
+    },
+    {
+      "id": "VIS-055",
+      "title": "Привести журнал к одному бумажному владельцу",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-008",
+        "VIS-036",
+        "VIS-052"
+      ]
+    },
+    {
+      "id": "VIS-056",
+      "title": "Сохранить цифровой характер XP и связать его с монитором",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-005",
+        "VIS-036",
+        "VIS-051"
+      ]
+    },
+    {
+      "id": "VIS-057",
+      "title": "Проверить один диалог на читаемость и кадрирование",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-004",
+        "VIS-044",
+        "VIS-045",
+        "VIS-055"
+      ]
+    },
+    {
+      "id": "VIS-058",
+      "title": "Связать одну фотографию/запись с её физическим носителем",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-052",
+        "VIS-055",
+        "VIS-057"
+      ]
+    },
+    {
+      "id": "VIS-059",
+      "title": "Принять связность одного пилотного перехода улица–дом",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-024",
+        "VIS-034",
+        "VIS-040",
+        "VIS-041",
+        "VIS-044",
+        "VIS-051",
+        "VIS-055",
+        "VIS-057",
+        "VIS-058"
+      ]
+    },
+    {
+      "id": "VIS-060",
+      "title": "Проверить одну оптимизацию окон на равной картинке",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-030",
+        "VIS-037",
+        "VIS-038",
+        "VIS-059"
+      ]
+    },
+    {
+      "id": "VIS-061",
+      "title": "Сделать маршрутный пакет доказательным",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-003",
+        "VIS-004",
+        "VIS-020",
+        "VIS-052",
+        "VIS-053",
+        "VIS-057",
+        "VIS-059"
+      ]
+    },
+    {
+      "id": "VIS-062",
+      "title": "Проверить один маршрут движения с настройками доступности",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-027",
+        "VIS-031",
+        "VIS-046",
+        "VIS-047",
+        "VIS-059",
+        "VIS-061"
+      ]
+    },
+    {
+      "id": "VIS-063",
+      "title": "Измерить frame-time p95 на целевом устройстве",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-001",
+        "VIS-006",
+        "VIS-029",
+        "VIS-048",
+        "VIS-054",
+        "VIS-060",
+        "VIS-061",
+        "VIS-062"
+      ]
+    },
+    {
+      "id": "VIS-064",
+      "title": "Принять качество человеком и закрыть только доказанные карточки",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-022",
+        "VIS-059",
+        "VIS-061",
+        "VIS-062",
+        "VIS-063"
+      ]
+    },
+    {
+      "id": "VIS-065",
+      "title": "Зафиксировать новый визуальный контракт и отменить видимый low-poly как цель",
+      "status": "DONE",
+      "dependencies": [
+        "VIS-001",
+        "VIS-002"
+      ]
+    },
+    {
+      "id": "VIS-066",
+      "title": "Собрать проверяемый референс-манифест и art-review board",
+      "status": "DONE",
+      "dependencies": [
+        "VIS-002",
+        "VIS-065"
+      ],
+      "evidence": "docs/production/visual_restyle_2026-10-07/{reference_manifest.json,REFERENCE_BOARD_RU.md}; eng/verify-visual-reference-manifest.py PASS (24 refs, 15 author codes)"
+    },
+    {
+      "id": "VIS-067",
+      "title": "Создать color-script Акта I по сюжетным состояниям",
+      "status": "AUTHORED_HUMAN_GATE_OPEN",
+      "dependencies": [
+        "VIS-006",
+        "VIS-039",
+        "VIS-065",
+        "VIS-066"
+      ]
+    },
+    {
+      "id": "VIS-068",
+      "title": "Настроить зимнюю дневную палитру с цветным снегом",
+      "status": "CAPTURE_PENDING",
+      "dependencies": [
+        "VIS-034",
+        "VIS-040",
+        "VIS-067"
+      ]
+    },
+    {
+      "id": "VIS-069",
+      "title": "Сделать зимний золотой час отдельным авторским состоянием",
+      "status": "CAPTURE_PENDING",
+      "dependencies": [
+        "VIS-040",
+        "VIS-067",
+        "VIS-068"
+      ],
+      "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
+    },
+    {
+      "id": "VIS-070",
+      "title": "Сохранить выразительный пасмурный день без серой каши",
+      "status": "CAPTURE_PENDING",
+      "dependencies": [
+        "VIS-067",
+        "VIS-068"
+      ],
+      "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
+    },
+    {
+      "id": "VIS-071",
+      "title": "Создать зелёную ночь деревни",
+      "status": "CAPTURE_PENDING",
+      "dependencies": [
+        "VIS-041",
+        "VIS-042",
+        "VIS-067"
+      ],
+      "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
+    },
+    {
+      "id": "VIS-072",
+      "title": "Ввести редкий ночной контраст двух цветовых семейств",
+      "status": "CAPTURE_PENDING",
+      "dependencies": [
+        "VIS-071"
+      ],
+      "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
+    },
+    {
+      "id": "VIS-073",
+      "title": "Сделать непроглядный лесной туман без дешёвого hide-the-geometry",
+      "status": "CAPTURE_PENDING",
+      "dependencies": [
+        "VIS-026",
+        "VIS-042",
+        "VIS-067"
+      ],
+      "evidence": "Phase capture plumbing: remote-check.py --phase → worker field phase → run-windows-check.ps1 -AtmospherePhase. Station must be updated to this commit."
+    },
+    {
+      "id": "VIS-074",
+      "title": "Сделать лесной цвет нечеловеческим, но не постоянно красным",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-073"
+      ],
+      "evidence": "One dim amber anomaly (c88a3e, 0.11, range 9) deep in the Kara fog through the existing accent owner, ground-relative; no red."
+    },
+    {
+      "id": "VIS-075",
+      "title": "Произвести редкое семейство тревожных ветвей по H3-1",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-025",
+        "VIS-027",
+        "VIS-073"
+      ]
+    },
+    {
+      "id": "VIS-076",
+      "title": "Сделать графические линии ветра как редкую world-space абстракцию",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-043",
+        "VIS-067"
+      ]
+    },
+    {
+      "id": "VIS-077",
+      "title": "Установить новый геометрический стандарт снега",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-007",
+        "VIS-010",
+        "VIS-011",
+        "VIS-012",
+        "VIS-034"
+      ]
+    },
+    {
+      "id": "VIS-078",
+      "title": "Сделать протоптанные дорожки глубже окружающего снега",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-012",
+        "VIS-016",
+        "VIS-077"
+      ],
+      "evidence": "Door paths are a trodden channel: floor +1 cm, berm crest 4–7 cm by route hash, feathered out 0.6–0.95 m; UV beyond 0..1 gives the fresh-snow side; normals generated."
+    },
+    {
+      "id": "VIS-079",
+      "title": "Перестроить снежные валы по проездам, калиткам и канавам",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-011",
+        "VIS-015",
+        "VIS-077"
+      ]
+    },
+    {
+      "id": "VIS-080",
+      "title": "Добавить правдоподобный снег на крыши и горизонтальные детали",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-021",
+        "VIS-077"
+      ]
+    },
+    {
+      "id": "VIS-081",
+      "title": "Перенастроить snow material под новую форму, не наоборот",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-005",
+        "VIS-034",
+        "VIS-077",
+        "VIS-078"
+      ]
+    },
+    {
+      "id": "VIS-082",
+      "title": "Создать стандарт коры и ветвления зимних деревьев",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-025",
+        "VIS-027"
+      ]
+    },
+    {
+      "id": "VIS-083",
+      "title": "Пересобрать лиственные семейства деревни и леса",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-027",
+        "VIS-028",
+        "VIS-075",
+        "VIS-082"
+      ]
+    },
+    {
+      "id": "VIS-084",
+      "title": "Ограничить хвойные и довести их только там, где они нужны",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-026",
+        "VIS-082",
+        "VIS-083"
+      ]
+    },
+    {
+      "id": "VIS-085",
+      "title": "Собрать страшную лесную плотность без стены повторов и без потери FPS",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-029",
+        "VIS-030",
+        "VIS-073",
+        "VIS-075",
+        "VIS-083"
+      ]
+    },
+    {
+      "id": "VIS-086",
+      "title": "Ввести стандарт конструктивно правдоподобного татарского дома",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-017",
+        "VIS-018",
+        "VIS-065"
+      ]
+    },
+    {
+      "id": "VIS-087",
+      "title": "Пересобрать оконные ниши и наличники как геометрию",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-018",
+        "VIS-037",
+        "VIS-060",
+        "VIS-086"
+      ]
+    },
+    {
+      "id": "VIS-088",
+      "title": "Сделать генератор правдоподобных деревенских заборов",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-009",
+        "VIS-019",
+        "VIS-024",
+        "VIS-086"
+      ]
+    },
+    {
+      "id": "VIS-089",
+      "title": "Сделать модульные калитки и ворота с реальной механикой",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-019",
+        "VIS-078",
+        "VIS-088"
+      ]
+    },
+    {
+      "id": "VIS-090",
+      "title": "Добавить редкие конструктивные детали деревни, которые ловят свет",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-024",
+        "VIS-086"
+      ]
+    },
+    {
+      "id": "VIS-091",
+      "title": "Пересобрать кровли, карнизы, трубы и стыки как один конструктивный язык",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-080",
+        "VIS-086"
+      ]
+    },
+    {
+      "id": "VIS-092",
+      "title": "Расширить материалную систему до painterly material response без asset-pack PBR",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-005",
+        "VIS-035",
+        "VIS-038",
+        "VIS-065"
+      ]
+    },
+    {
+      "id": "VIS-093",
+      "title": "Сделать единое семейство старого дерева с историей использования",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-032",
+        "VIS-035",
+        "VIS-092"
+      ]
+    },
+    {
+      "id": "VIS-094",
+      "title": "Сделать штукатурку общественных зданий художественной, но материальной",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-023",
+        "VIS-054",
+        "VIS-092"
+      ]
+    },
+    {
+      "id": "VIS-095",
+      "title": "Нормализовать металл: кровли, трубы, транспорт, эмаль",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-092"
+      ]
+    },
+    {
+      "id": "VIS-096",
+      "title": "Пересобрать морозное окно как материальный и световой узел",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-037",
+        "VIS-041",
+        "VIS-071",
+        "VIS-087",
+        "VIS-092"
+      ]
+    },
+    {
+      "id": "VIS-097",
+      "title": "Сохранить текущий интерьерный реализм и изменить только свет/цвет где это улучшает",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-035",
+        "VIS-051",
+        "VIS-052",
+        "VIS-053",
+        "VIS-054",
+        "VIS-065"
+      ]
+    },
+    {
+      "id": "VIS-098",
+      "title": "Довести hero house interior без смены его художественного регистра",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-051",
+        "VIS-097"
+      ]
+    },
+    {
+      "id": "VIS-099",
+      "title": "Довести ФАП как умеренно реалистичный советский медицинский интерьер",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-023",
+        "VIS-052",
+        "VIS-097"
+      ]
+    },
+    {
+      "id": "VIS-100",
+      "title": "Довести мечеть без переноса хоррорного лесного языка",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-021",
+        "VIS-053",
+        "VIS-097"
+      ]
+    },
+    {
+      "id": "VIS-101",
+      "title": "Довести школу/ДК/сельсовет через функцию и цвет, не через новый общий стиль",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-054",
+        "VIS-094",
+        "VIS-097"
+      ]
+    },
+    {
+      "id": "VIS-102",
+      "title": "Нормализовать персонажей под мягкий материальный стиль LiS2-подобного диапазона",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-031",
+        "VIS-044",
+        "VIS-045",
+        "VIS-046",
+        "VIS-047",
+        "VIS-065"
+      ]
+    },
+    {
+      "id": "VIS-103",
+      "title": "Довести головы hero NPC формой и светом, а не текстурной детализацией",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-044",
+        "VIS-045",
+        "VIS-102"
+      ]
+    },
+    {
+      "id": "VIS-104",
+      "title": "Перевести всю деформируемую одежду на устойчивый локальный/UV mapping",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-031",
+        "VIS-046",
+        "VIS-102"
+      ],
+      "evidence": "Generators give every character cloth metric UVs (v1 now exports extras); runtime binds UV cloth only to meshes whose glTF extras carry cloth_uv_units (kit dressing, imam, shop seller). No visible change until the kits are regenerated in Blender."
+    },
+    {
+      "id": "VIS-105",
+      "title": "Нормализовать транспорт под новый материалный язык",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-049",
+        "VIS-050",
+        "VIS-092",
+        "VIS-095"
+      ]
+    },
+    {
+      "id": "VIS-106",
+      "title": "Создать pipeline нормализации скачиваемых prop-ассетов",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-005",
+        "VIS-065",
+        "VIS-092"
+      ]
+    },
+    {
+      "id": "VIS-107",
+      "title": "Ввести лицензионный и художественный gate для внешних ассетов",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-106"
+      ],
+      "evidence": "eng/verify-asset-registry.sh: forward-only gate for entries with externalAsset=true (licenseSpdx allow-list, https sourceUrl/sourceLicenseUrl, sourceAuthor, modification, consumerPaths exist, sourceSha256, receiverCapture file required once integrated). Synthetic good/bad registries: PASS/FAIL as expected. Real registry has 12 pre-existing hash/path failures unrelated to this change."
+    },
+    {
+      "id": "VIS-108",
+      "title": "Сделать Blender-пайплайн генерации модулей детерминированным и AI-friendly",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-086",
+        "VIS-088",
+        "VIS-089",
+        "VIS-106"
+      ]
+    },
+    {
+      "id": "VIS-109",
+      "title": "Обновить паспорта новых visual-reset ассетов и consumers",
+      "status": "PARTIAL",
+      "dependencies": [
+        "VIS-066",
+        "VIS-106",
+        "VIS-107",
+        "VIS-108"
+      ],
+      "evidence": "Step 1: 18 passports → docs/urman_knowledge_base/art/visual_reset_asset_passports_2026-10-07.json with real code consumers and reuse candidates. Depends on VIS-106/108 for child records."
+    },
+    {
+      "id": "VIS-110",
+      "title": "Сохранить UI материальным и не перекрашивать его общей атмосферой",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-055",
+        "VIS-056",
+        "VIS-065"
+      ],
+      "evidence": "eng/verify-ui-atmosphere-independence.py PASS: 17 UI sources never read atmosphere/environment, no CanvasModulate. Readability per colour state still needs captures."
+    },
+    {
+      "id": "VIS-111",
+      "title": "Задать композиционный baseline для first-person кадров без кинематографического FOV-хака",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-003",
+        "VIS-004",
+        "VIS-062"
+      ],
+      "evidence": "URMAN_VIEW_FOV (player | 40–100) for DevViewCapture, fovSource per frame; remote-check --fov → worker field fov → run-windows-check -ViewFov. Gameplay FOV untouched."
+    },
+    {
+      "id": "VIS-112",
+      "title": "Собрать эталонный участок деревни улица→калитка→двор→дом",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-059",
+        "VIS-068",
+        "VIS-069",
+        "VIS-071",
+        "VIS-077",
+        "VIS-078",
+        "VIS-083",
+        "VIS-086",
+        "VIS-087",
+        "VIS-088",
+        "VIS-089",
+        "VIS-090",
+        "VIS-093",
+        "VIS-096",
+        "VIS-102"
+      ]
+    },
+    {
+      "id": "VIS-113",
+      "title": "Собрать эталон леса: материальный, непроглядный, хтонически пугающий",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-073",
+        "VIS-074",
+        "VIS-075",
+        "VIS-076",
+        "VIS-082",
+        "VIS-083",
+        "VIS-085"
+      ]
+    },
+    {
+      "id": "VIS-114",
+      "title": "Собрать эталон зелёной ночи деревни и chromatic contrast",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-071",
+        "VIS-072",
+        "VIS-096",
+        "VIS-112"
+      ]
+    },
+    {
+      "id": "VIS-115",
+      "title": "Распространить принятый Visual Standard на весь наружный Акт I",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-112",
+        "VIS-113",
+        "VIS-114",
+        "VIS-061"
+      ]
+    },
+    {
+      "id": "VIS-116",
+      "title": "Распространить стандарт на интерьеры, персонажей, транспорт и UI без стилистического выравнивания в кашу",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-097",
+        "VIS-098",
+        "VIS-099",
+        "VIS-100",
+        "VIS-101",
+        "VIS-102",
+        "VIS-103",
+        "VIS-104",
+        "VIS-105",
+        "VIS-110",
+        "VIS-115"
+      ]
+    },
+    {
+      "id": "VIS-117",
+      "title": "Провести полный визуальный маршрутный gate нового стиля",
+      "status": "OPEN",
+      "dependencies": [
+        "VIS-061",
+        "VIS-115",
+        "VIS-116"
+      ]
+    },
+    {
+      "id": "VIS-118",
+      "title": "Финальная арт-, культурная и performance-приёмка visual reset",
+      "status": "CODE_DONE_VERIFY_PENDING",
+      "dependencies": [
+        "VIS-063",
+        "VIS-064",
+        "VIS-117"
+      ]
+    }
+  ]
 }

@@ -105,6 +105,7 @@ public partial class VehicleNivaCabin : Node3D
     private static readonly StringName SnowAmountParam = "snow_amount";
     private static readonly StringName WipeAreaParam = "wipe_area";
     private static readonly StringName WipeProgressParam = "wipe_progress";
+    private static readonly StringName SnowMoodParam = "snow_mood";
 
     private VehicleController? _controller;
     private VehicleFleet? _fleet;
@@ -131,6 +132,9 @@ public partial class VehicleNivaCabin : Node3D
     private float _progressApplied = -1f;
     private float _surfaceTimer;
     private float _surfaceFactor = 1f;
+    private readonly List<StandardMaterial3D> _bodySnow = new();
+    private readonly List<Color> _bodySnowBase = new();
+    private Vector3 _appliedSnowMood = new(float.NaN, 0f, 0f);
 
     public override void _Ready()
     {
@@ -159,7 +163,9 @@ public partial class VehicleNivaCabin : Node3D
         SetMeta("highBeamsBound", VehicleCabinState.HighBeamsBound);
         SetMeta("wipersBound", VehicleCabinState.WipersBound);
         SetMeta("cabinActionsMapped", VehicleCabinState.ActionsMapped);
+        BindVehicleSnow();
         ApplySnowUniforms(force: true);
+        ApplySnowMood();
         ApplyHighBeamLook(false);
     }
 
@@ -230,7 +236,69 @@ public partial class VehicleNivaCabin : Node3D
         }
 
         ApplySnowUniforms(force: false);
+        ApplySnowMood();
         UpdateHighBeams(controller);
+    }
+
+    /// <summary>
+    /// VIS-105: the snow the model itself carries (sill shelves, the gutter line)
+    /// is collected once so the current atmosphere state can reach it. Presentation
+    /// only: the materials are the vehicle's own surface overrides, no geometry,
+    /// no collision and no save state changes hands here.
+    /// </summary>
+    private void BindVehicleSnow()
+    {
+        _bodySnow.Clear();
+        _bodySnowBase.Clear();
+        if (GetParent() is not { } visual) return;
+        foreach (var node in visual.FindChildren("*", "MeshInstance3D", true, false))
+        {
+            if (node is not MeshInstance3D instance) continue;
+            // Surface count belongs to the Mesh resource, the active material to the
+            // instance: the vehicle's own snow is a surface override, so reading the
+            // instance is the only way to see the finish the renderer actually uses.
+            if (instance.Mesh is not { } mesh) continue;
+            for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
+            {
+                if (instance.GetActiveMaterial(surface) is not StandardMaterial3D solid) continue;
+                if (solid.GetMeta("vehicleFinish", string.Empty).AsString() != "snow") continue;
+                var baseHex = solid.GetMeta("vehicleSnowBaseColor", string.Empty).AsString();
+                _bodySnow.Add(solid);
+                _bodySnowBase.Add(baseHex.Length == 6 ? Color.FromHtml(baseHex) : solid.AlbedoColor);
+            }
+        }
+        SetMeta("vehicleSnowSurfaces", _bodySnow.Count);
+    }
+
+    /// <summary>
+    /// One ratio per channel against the library's neutral snow, so the windscreen
+    /// layer and the model's settled snow answer the same authored light state as
+    /// the village snow (STYLE RECIPE W1). A profile without a snow block leaves
+    /// the ratio at one and changes nothing.
+    /// </summary>
+    private void ApplySnowMood()
+    {
+        var ratio = Vector3.One;
+        if (AtmosphereProfiles.Applied is { } profile)
+        {
+            var effective = profile.EffectiveSnowColor;
+            var neutral = AtmosphereProfile.NeutralSnowColor;
+            ratio = new Vector3(
+                Mathf.Clamp(effective.R / Mathf.Max(neutral.R, .0001f), .5f, 1.5f),
+                Mathf.Clamp(effective.G / Mathf.Max(neutral.G, .0001f), .5f, 1.5f),
+                Mathf.Clamp(effective.B / Mathf.Max(neutral.B, .0001f), .5f, 1.5f));
+        }
+        // Vector3 carries no IsNaN member: the sentinel is the NaN X the field is
+        // initialised with, which is exactly what float.IsNaN reads.
+        if (!float.IsNaN(_appliedSnowMood.X) && _appliedSnowMood.DistanceSquaredTo(ratio) < 1e-8f) return;
+        _appliedSnowMood = ratio;
+        _snowMaterial?.SetShaderParameter(SnowMoodParam, ratio);
+        for (var index = 0; index < _bodySnow.Count; index++)
+        {
+            var base_ = _bodySnowBase[index];
+            _bodySnow[index].AlbedoColor = new Color(base_.R * ratio.X, base_.G * ratio.Y,
+                base_.B * ratio.Z, base_.A);
+        }
     }
 
     private void AccumulateSnow(VehicleController controller, float dt)
@@ -524,6 +592,11 @@ render_mode cull_disabled, blend_mix, diffuse_burley;
 uniform float snow_amount : hint_range(0.0, 1.0) = 0.0;
 uniform float wipe_area : hint_range(0.0, 1.0) = 0.0;
 uniform float wipe_progress : hint_range(0.0, 1.0) = 0.0;
+// VIS-105: the snow on the glass answers the same authored light state as the
+// village snow (PainterlyMaterialLibrary.SetSnowMood). It is a ratio against the
+// library's neutral snow, so a profile that declares no snow block multiplies by
+// vec3(1.0) and the layer keeps the exact colour it had before this existed.
+uniform vec3 snow_mood = vec3(1.0);
 
 const float SWEEP = __SWEEP__;
 const float X_SPAN = __X_SPAN__;
@@ -588,7 +661,7 @@ void fragment() {
                   * smoothstep(0.0, 0.05, UV.y) * (1.0 - smoothstep(0.95, 1.0, UV.y));
     float density = snow_amount * (0.55 + 0.65 * grain) * mix(0.62, 1.0, drift) * borders;
     density = clamp(density, 0.0, __MAX_ALPHA__) * (1.0 - cleared);
-    ALBEDO = vec3(0.90, 0.93, 0.97);
+    ALBEDO = vec3(0.90, 0.93, 0.97) * snow_mood;
     ROUGHNESS = 0.93;
     SPECULAR = 0.08;
     ALPHA = density;

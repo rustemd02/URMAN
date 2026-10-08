@@ -168,6 +168,48 @@ public static class AnimationCatalog
         return new(true, key, "");
     }
 
+    /// <summary>
+    /// VIS-046: the owner that already moves the character keeps the ownership of
+    /// position; this only retimes the motion that is currently playing, so the
+    /// library clip and the real footfalls share one cadence instead of the body
+    /// sliding under an unrelated tempo. Returns false when there is no motion to
+    /// retime (nothing is playing, or the mixer belongs to a caller that stopped it).
+    /// </summary>
+    public static bool TrySetMotionScale(Node3D character, double scale,
+        out float appliedScale, out float cycleSeconds)
+    {
+        appliedScale = 1f;
+        cycleSeconds = 0f;
+        var kit = ResolveKitPlayer(character);
+        var player = kit.Player;
+        if (player is null) return false;
+        var clip = player.GetCurrentAnimation().ToString();
+        if (clip.Length == 0 || !player.HasAnimation(clip)) return false;
+        var animation = player.GetAnimation(clip);
+        cycleSeconds = (float)animation.Length;
+        if (cycleSeconds <= 0f) return false;
+        appliedScale = (float)Mathf.Clamp((float)scale, MinMotionScale, MaxMotionScale);
+        player.SpeedScale = appliedScale;
+        character.SetMeta("animationMotionScale", appliedScale);
+        character.SetMeta("animationMotionCycleSeconds", cycleSeconds);
+        character.SetMeta("animationMotionClip", clip);
+        return true;
+    }
+
+    /// <summary>VIS-046: restore the catalogue's authored tempo when the motion ends.</summary>
+    public static void ResetMotionScale(Node3D character)
+    {
+        var kit = ResolveKitPlayer(character);
+        if (kit.Player is null) return;
+        kit.Player.SpeedScale = 1f;
+        character.SetMeta("animationMotionScale", 1f);
+    }
+
+    // A walk clip retimed past these bounds stops reading as a person: below the
+    // floor the legs run through molasses, above it the clip turns into a shuffle.
+    private const float MinMotionScale = .70f;
+    private const float MaxMotionScale = 1.35f;
+
     /// <summary>Whether a library clip fits the character's skeleton, without playing it.</summary>
     public static string Compatibility(Node3D character, string clip)
     {

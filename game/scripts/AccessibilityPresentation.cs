@@ -17,6 +17,20 @@ public static class AccessibilityPresentation
 {
     public const string TargetGroup = "accessibility_target";
 
+    /// <summary>
+    /// VIS-047: how fast a seated carry grip may follow the body, in seconds of
+    /// easing. Ordinary walking bobs the camera, so the grip settles over a few
+    /// frames instead of snapping against the coat every tick. In the reduced-motion
+    /// mode the camera is already steady, so the grip is placed at once and held:
+    /// easing there would make the log creep toward the body frame by frame and the
+    /// carried pose would never come to rest. The eased mode never moves the item
+    /// more than one frame's travel, so a step or a doorway cannot lurch it.
+    /// </summary>
+    public static float CarryGripSettleSeconds(bool reducedMotion) => reducedMotion ? 0f : .12f;
+
+    /// <summary>VIS-047: the gap a held thing must close to read as held, in metres.</summary>
+    public const float CarryGripContactTolerance = .010f;
+
     public static void ApplyToTree(SceneTree tree, AccessibilitySettingsSnapshot settings)
     {
         foreach (var node in tree.GetNodesInGroup(TargetGroup))

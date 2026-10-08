@@ -25,6 +25,7 @@ public partial class Act1ConnectedWorld
             .GroupBy(mesh => (Parent: mesh.GetParent(), Stem: WindowSurroundStem(mesh.Name.ToString())!))
             .ToArray();
         var batches = 0; var sourceTriangles = 0; var shadowTriangles = 0;
+        var maxFootprintGrowth = 0f;
         foreach (var group in groups)
         {
             var members = group.OrderBy(mesh => mesh.Name.ToString(), StringComparer.Ordinal).ToArray();
@@ -82,8 +83,34 @@ public partial class Act1ConnectedWorld
                     throw new WindowBatchRefusal("publication-changed-source-or-parent-pose");
                 var sourcePaths = members.Select(member => member.GetPath().ToString()).ToArray();
                 var sourceIds = members.Select(member => member.GetInstanceId()).ToArray();
+                // VIS-060: a batch may only ever cover the culling footprint of the
+                // pieces it replaces. If the merged mesh reached past the union of
+                // its four sources, the window would be culled as one larger box
+                // and panes would start vanishing at the frame edge - the exact
+                // failure this card is gated on, so it is refused here rather than
+                // discovered in a capture. The merged geometry is a concatenation in
+                // the same parent space, so a real growth is always a defect.
+                var union = ParentSpaceBox(parent, members[0]);
+                foreach (var member in members.Skip(1)) union = union.Merge(ParentSpaceBox(parent, member));
+                var footprint = published.GetAabb();
+                var growth = Math.Max(Math.Max(
+                        footprint.End.X - union.Position.X - union.Size.X,
+                        union.Position.X - footprint.Position.X),
+                    Math.Max(Math.Max(footprint.End.Y - union.Position.Y - union.Size.Y,
+                        union.Position.Y - footprint.Position.Y),
+                        Math.Max(footprint.End.Z - union.Position.Z - union.Size.Z,
+                            union.Position.Z - footprint.Position.Z)));
+                if (!float.IsFinite(growth) || growth > .001f)
+                    throw new WindowBatchRefusal("batched-culling-footprint-grew", new
+                    {
+                        sourceUnion = union.ToString(), published = footprint.ToString(),
+                        growthMillimetres = growth * 1000f, window = group.Key.Stem
+                    });
+                maxFootprintGrowth = Math.Max(maxFootprintGrowth, growth * 1000f);
                 batch.SetMeta("windowSurroundPaint", "b8b9b4");
                 batch.SetMeta("windowBatchPilot", true);
+                batch.SetMeta("windowBatchCullingFootprint", union.ToString());
+                batch.SetMeta("windowBatchCullingGrowthMillimetres", growth * 1000f);
                 batch.SetMeta("windowBatchSourcePaths", sourcePaths);
                 batch.SetMeta("windowBatchSourceInstanceIds", string.Join("|", sourceIds));
                 batch.SetMeta("windowBatchOriginalMeshRids", string.Join("|", originals.Select(mesh => mesh.GetRid().Id)));
@@ -100,7 +127,10 @@ public partial class Act1ConnectedWorld
                     publishedShadowFormat = (long)shadow.SurfaceGetFormat(0),
                     importedLods = 0, shadowSource = "original ShadowMesh arrays; no generated proxy",
                     shadowReads = shadowInputs.Select(input => input.ReadMethod).ToArray(),
-                    culling = "one window AABB; four original pieces keep their triangle order and channels"
+                    culling = "one window AABB; four original pieces keep their triangle order and channels",
+                    cullingUnionOfSources = union.ToString(), publishedCullingBounds = footprint.ToString(),
+                    cullingGrowthMillimetres = growth * 1000f,
+                    surroundInstancesBefore = members.Length, surroundInstancesAfter = 1
                 }));
                 merged.TryAdd(key, (published, shadow));
                 ownsUnpublishedResources = false;
@@ -141,6 +171,10 @@ public partial class Act1ConnectedWorld
         {
             scope = "opt-in exact four-part windows; not performance acceptance", groups = groups.Length,
             batches, hiddenOriginals = batches * 4, sourceTriangles, shadowTriangles,
+            surroundInstancesBefore = batches * 4, surroundInstancesAfter = batches,
+            maximumCullingGrowthMillimetres = maxFootprintGrowth,
+            pilotEnvironmentVariable = "URMAN_WINDOW_BATCH_PILOT",
+            pilotActive = System.Environment.GetEnvironmentVariable("URMAN_WINDOW_BATCH_PILOT") == "1",
             importedResourceCount = cache.Count, publishedSharedMeshes = merged.Count, skipped, refusalExamples,
             originalPackedShadowResources = cache.Values.Count(value => value.ReadMethod == "original-shadow-unorm16-buffer"),
             packedShadowReadExamples = cache.Values.Where(value => value.PackedShadowRead is not null)
@@ -148,6 +182,11 @@ public partial class Act1ConnectedWorld
             unchangedCollisionOwners = true
         }));
     }
+
+    /// <summary>A member's world bounds expressed in the batch parent's own space:
+    /// the space the merged mesh and therefore its culling AABB live in.</summary>
+    private static Aabb ParentSpaceBox(Node3D parent, MeshInstance3D member)
+        => parent.GlobalTransform.AffineInverse() * (member.GlobalTransform * member.GetAabb());
 
     private static string? WindowSurroundStem(string name)
     {

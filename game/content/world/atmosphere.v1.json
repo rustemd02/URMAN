@@ -4,7 +4,7 @@
   "id": "urman.world:atmosphere",
   "name": "Свет, небо и туман Акта I",
   "executor": "atmosphere",
-  "note": "Профили освещения улицы. Раньше задавались в Act1ConnectedWorld.TuneConnectedAct1Atmosphere; теперь код выбирает профиль по зоне и применяет эти значения. Цвета — HTML без #. VIS-067: авторский цвет-script Акта I — минимум шесть состояний (морозное утро, пасмурный день, золотой зимний час, сумерки, зелёная ночь деревни, нечеловеческая лесная ночь). Цвет делается только солнцем/небом/fog/ambient/ответом снега в существующем Environment: без LUT, full-screen tint, adjustments, glow и объёмного тумана. Необязательные блоки: 'snow' { color, coverage, sparkle, tintStrength } (VIS-068/070, отклик снега по W1/W3 — снег читается голубым/розоватым/персиковым/сиреневым, но остаётся снегом) и 'identity' — короткое имя авторского состояния. Профиль без этих блоков сохраняет прежний нейтральный вид. Зоны задают дефолт обычного игрального пути; состояния без зоны (overcast-day, golden-hour, village-green-night) берутся на станции через URMAN_ATMOSPHERE_PHASE.",
+  "note": "Профили освещения улицы. Раньше задавались в Act1ConnectedWorld.TuneConnectedAct1Atmosphere; теперь код выбирает профиль по зоне и применяет эти значения. Цвета — HTML без #. VIS-067: авторский color-script Акта I — минимум шесть состояний (морозное утро, пасмурный день, золотой зимний час, сумерки, зелёная ночь деревни, нечеловеческая лесная ночь). Цвет делается только солнцем/небом/fog/ambient/ответом снега и локального света в существующем Environment: без LUT, full-screen tint, adjustments, glow и объёмного тумана. Необязательные блоки: 'snow' { color, coverage, sparkle, tintStrength } (VIS-068/070, отклик снега по W1/W3 — снег читается голубым/розоватым/персиковым/сиреневым, но остаётся снегом); 'identity' — короткое имя авторского состояния; 'zones' — единственный селектор состояния (VIS-040/042): 'zoneId' либо 'zoneId@night'/'zoneId@day', суффикс важнее голой записи, пустой список = состояние только для съёмки через URMAN_ATMOSPHERE_PHASE (поэтому золотой час не может стать постоянным фильтром); 'weather' { direction[x,z], speed, blizzardSpeed, flakes, blizzardFlakes, streak } — авторская перепись констант существующего weather owner (он остаётся единственным писателем частиц), из которой читают направление дыма и тонировка падающего снега (VIS-043); 'plume' { color, opacity } — отклик дыма из труб по состоянию (VIS-043/072). Профиль без 'snow'/'weather'/'plume' сохраняет прежний вид; поля опциональны, обратная совместимость сохранена. Числа дневного профиля сведены по VIS-040 (key 0.82 / fill 0.62, exposure фиксирован 1.0), ночного лесного — по VIS-042 (три плана: ambient 0.28, sun 0.22, fog 0.026 с нижним слоем height 2.6 / heightDensity 0.05, exposure 0.92 = baseline K01). Зиратская дорога (VIS-022) сознательно мягче ночных состояний: сумерки, без красного, без плотного тумана, мечеть и зират не хорроризируются.",
   "entities": [
     {
       "id": "urman.world:atmosphere/village-winter-frost",
@@ -19,52 +19,67 @@
           "fap_clinic"
         ],
         "ambient": {
-          "energy": 0.92,
-          "color": "9fb4d6",
+          "energy": 0.62,
+          "color": "8ea8cf",
           "skyContribution": 0
         },
         "fog": {
-          "color": "b6c6da",
-          "density": 0.016,
-          "height": 1.0,
-          "heightDensity": 0.006,
-          "aerialPerspective": 0.7,
-          "skyAffect": 0.7,
-          "sunScatter": 0.03
+          "color": "c2d0e0",
+          "density": 0.012,
+          "height": 1.2,
+          "heightDensity": 0.005,
+          "aerialPerspective": 0.62,
+          "skyAffect": 0.72,
+          "sunScatter": 0.04
         },
-        "exposure": 1.06,
+        "exposure": 1.0,
         "ssao": {
-          "intensity": 0.78,
+          "intensity": 0.72,
           "radius": 0.4
         },
         "sky": {
-          "top": "2f5f9e",
-          "horizon": "d7e6f2",
-          "groundHorizon": "b9cadd",
-          "groundBottom": "2d4b6e",
+          "top": "35689f",
+          "horizon": "dbe9f4",
+          "groundHorizon": "bfd0e2",
+          "groundBottom": "31517a",
           "sunAngleMax": 1.4,
           "sunCurve": 0.12,
           "cover": [
-            0.16,
-            0.22,
-            0.32,
-            0.55
+            0.14,
+            0.2,
+            0.3,
+            0.5
           ]
         },
         "sun": {
-          "color": "fff1d8",
-          "energy": 1.12,
-          "shadowOpacity": 0.4,
+          "color": "fff0d6",
+          "energy": 0.82,
+          "shadowOpacity": 0.46,
           "rotation": [
-            -14,
-            26
+            -16,
+            28
           ]
         },
         "snow": {
-          "color": "c2ceff",
+          "color": "c4d2ff",
           "coverage": 1.0,
-          "sparkle": 1.2,
-          "tintStrength": 0.5
+          "sparkle": 1.15,
+          "tintStrength": 0.42
+        },
+        "weather": {
+          "direction": [
+            -1.0,
+            0.22
+          ],
+          "speed": 8.0,
+          "blizzardSpeed": 13.5,
+          "flakes": 4000,
+          "blizzardFlakes": 5200,
+          "streak": 0.012
+        },
+        "plume": {
+          "color": "cdd6de",
+          "opacity": 0.34
         }
       }
     },
@@ -123,6 +138,21 @@
           "coverage": 1.0,
           "sparkle": 0.45,
           "tintStrength": 0.32
+        },
+        "weather": {
+          "direction": [
+            -1.0,
+            0.22
+          ],
+          "speed": 8.0,
+          "blizzardSpeed": 13.5,
+          "flakes": 4000,
+          "blizzardFlakes": 5200,
+          "streak": 0.012
+        },
+        "plume": {
+          "color": "c2c9d0",
+          "opacity": 0.3
         }
       }
     },
@@ -181,6 +211,21 @@
           "coverage": 1.0,
           "sparkle": 0.9,
           "tintStrength": 0.6
+        },
+        "weather": {
+          "direction": [
+            -1.0,
+            0.22
+          ],
+          "speed": 8.0,
+          "blizzardSpeed": 13.5,
+          "flakes": 4000,
+          "blizzardFlakes": 5200,
+          "streak": 0.012
+        },
+        "plume": {
+          "color": "e8c9a8",
+          "opacity": 0.34
         }
       }
     },
@@ -195,52 +240,67 @@
           "zirat_road"
         ],
         "ambient": {
-          "energy": 0.5,
-          "color": "5c6fa2",
+          "energy": 0.62,
+          "color": "6d7fae",
           "skyContribution": 0
         },
         "fog": {
-          "color": "4a5478",
-          "density": 0.026,
-          "height": 1.0,
+          "color": "5a6480",
+          "density": 0.018,
+          "height": 1.4,
           "heightDensity": 0.006,
-          "aerialPerspective": 0.6,
+          "aerialPerspective": 0.55,
           "skyAffect": 0.7,
           "sunScatter": 0.02
         },
-        "exposure": 0.98,
+        "exposure": 1.0,
         "ssao": {
-          "intensity": 0.82,
+          "intensity": 0.72,
           "radius": 0.4
         },
         "sky": {
-          "top": "1c2447",
-          "horizon": "8a5a7a",
-          "groundHorizon": "5a4566",
-          "groundBottom": "141a30",
+          "top": "242f56",
+          "horizon": "9d7a90",
+          "groundHorizon": "645572",
+          "groundBottom": "1c2338",
           "sunAngleMax": 0,
           "sunCurve": 0.12,
           "cover": [
-            0.24,
-            0.3,
-            0.4,
-            0.7
+            0.2,
+            0.26,
+            0.34,
+            0.55
           ]
         },
         "sun": {
-          "color": "b48ab0",
-          "energy": 0.55,
-          "shadowOpacity": 0.4,
+          "color": "c9a3b4",
+          "energy": 0.62,
+          "shadowOpacity": 0.34,
           "rotation": [
-            -22,
-            -35
+            -20,
+            -45
           ]
         },
         "snow": {
-          "color": "a9b3e0",
+          "color": "aeb8e2",
           "coverage": 1.0,
           "sparkle": 0.5,
-          "tintStrength": 0.45
+          "tintStrength": 0.4
+        },
+        "weather": {
+          "direction": [
+            -1.0,
+            0.22
+          ],
+          "speed": 8.0,
+          "blizzardSpeed": 13.5,
+          "flakes": 4000,
+          "blizzardFlakes": 5200,
+          "streak": 0.012
+        },
+        "plume": {
+          "color": "aeb4c4",
+          "opacity": 0.3
         }
       }
     },
@@ -251,7 +311,9 @@
       "params": {
         "profile": "village-green-night",
         "identity": "Зелёная ночь деревни",
-        "zones": [],
+        "zones": [
+          "village_day@night"
+        ],
         "ambient": {
           "energy": 0.42,
           "color": "2f7d5c",
@@ -259,23 +321,23 @@
         },
         "fog": {
           "color": "1f6b4f",
-          "density": 0.02,
-          "height": 1.0,
-          "heightDensity": 0.008,
-          "aerialPerspective": 0.6,
+          "density": 0.016,
+          "height": 2.2,
+          "heightDensity": 0.03,
+          "aerialPerspective": 0.55,
           "skyAffect": 0.7,
           "sunScatter": 0.01
         },
-        "exposure": 0.9,
+        "exposure": 0.95,
         "ssao": {
-          "intensity": 0.8,
+          "intensity": 0.74,
           "radius": 0.4
         },
         "sky": {
           "top": "0a2a24",
-          "horizon": "1f7d5a",
+          "horizon": "2c8a62",
           "groundHorizon": "165a42",
-          "groundBottom": "04140f",
+          "groundBottom": "061812",
           "sunAngleMax": 0,
           "sunCurve": 0.12,
           "cover": [
@@ -286,12 +348,12 @@
           ]
         },
         "sun": {
-          "color": "5fd6a0",
-          "energy": 0.3,
+          "color": "ffb877",
+          "energy": 0.34,
           "shadowOpacity": 0.5,
           "rotation": [
-            -48,
-            20
+            -40,
+            18
           ]
         },
         "snow": {
@@ -299,6 +361,21 @@
           "coverage": 1.0,
           "sparkle": 0.7,
           "tintStrength": 0.55
+        },
+        "weather": {
+          "direction": [
+            -1.0,
+            0.22
+          ],
+          "speed": 8.0,
+          "blizzardSpeed": 13.5,
+          "flakes": 4000,
+          "blizzardFlakes": 5200,
+          "streak": 0.012
+        },
+        "plume": {
+          "color": "9db3a8",
+          "opacity": 0.4
         }
       }
     },
@@ -313,52 +390,67 @@
           "kara_urman_night"
         ],
         "ambient": {
-          "energy": 0.22,
-          "color": "3f6f6a",
+          "energy": 0.28,
+          "color": "43706b",
           "skyContribution": 0
         },
         "fog": {
-          "color": "274b48",
-          "density": 0.045,
-          "height": 1.0,
-          "heightDensity": 0.018,
-          "aerialPerspective": 0.5,
-          "skyAffect": 0.6,
+          "color": "2f5b55",
+          "density": 0.026,
+          "height": 2.6,
+          "heightDensity": 0.05,
+          "aerialPerspective": 0.45,
+          "skyAffect": 0.62,
           "sunScatter": 0.0
         },
-        "exposure": 0.85,
+        "exposure": 0.92,
         "ssao": {
-          "intensity": 0.88,
+          "intensity": 0.8,
           "radius": 0.4
         },
         "sky": {
-          "top": "0b1f24",
-          "horizon": "1f4540",
-          "groundHorizon": "173633",
-          "groundBottom": "08161a",
+          "top": "0c2226",
+          "horizon": "2a5450",
+          "groundHorizon": "1c3b39",
+          "groundBottom": "0a1a1e",
           "sunAngleMax": 0,
           "sunCurve": 0.12,
           "cover": [
             0.1,
             0.14,
             0.2,
-            0.4
+            0.34
           ]
         },
         "sun": {
-          "color": "6fa0a0",
-          "energy": 0.16,
-          "shadowOpacity": 0.55,
+          "color": "9fd0cc",
+          "energy": 0.22,
+          "shadowOpacity": 0.5,
           "rotation": [
             -52,
             -28
           ]
         },
         "snow": {
-          "color": "8fb0ad",
-          "coverage": 0.8,
-          "sparkle": 0.3,
-          "tintStrength": 0.55
+          "color": "93b6b0",
+          "coverage": 0.85,
+          "sparkle": 0.35,
+          "tintStrength": 0.5
+        },
+        "weather": {
+          "direction": [
+            -1.0,
+            0.22
+          ],
+          "speed": 8.0,
+          "blizzardSpeed": 13.5,
+          "flakes": 4000,
+          "blizzardFlakes": 5200,
+          "streak": 0.02
+        },
+        "plume": {
+          "color": "6f8a86",
+          "opacity": 0.26
         }
       }
     }

@@ -1,0 +1,336 @@
+VIS-003 [CODE] Сделать ошибочный адрес камеры явным отказом
+    F: `game/scripts/Act1DemoRoot.DevViewCapture.cs`; `eng/remote-check.py`.
+    D: VIS-001, VIS-002 | M — эффект/усилие: высокий.
+VIS-004 [CODE] Закрепить одинаковые условия сравнительного кадра
+    F: `game/scripts/Act1DemoRoot.DevViewCapture.cs`; `game/scripts/Act1DemoRoot.RenderDiagnostics.cs`; `eng/build-act1-review-packet.sh`.
+    D: VIS-003 | M — эффект/усилие: высокий.
+VIS-006 [CODE] Зафиксировать единственного владельца света и пресета
+    F: `game/scripts/Act1ConnectedWorld.cs`; `game/scripts/GraphicsQuality.cs`; `game/content/world/atmosphere.v1.json`; `game/scripts/Act1DemoRoot.RenderDiagnostics.cs`.
+    D: VIS-001, VIS-004 | S — эффект/усилие: высокий.
+VIS-007 [CODE] Записать контракт опоры и координат подвижных материалов
+    F: `game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs`; `game/scripts/KitPlacementTakeover.cs`; `game/scripts/PainterlyMaterialLibrary.cs`; `game/scripts/GeneratedCharacterKitDressing.cs`.
+    D: VIS-005, VIS-006 | M — эффект/усилие: высокий.
+VIS-008 [OPEN] Утвердить паспорт одного пилота вместо глобального рестайлин
+    F: `docs/production/URMAN_VISUAL_ART_DIRECTION_PLAN_RU.md`; `docs/urman_knowledge_base/art/act1_h2_hero_house_passport_2026-09-14.md`; `docs/urman_knowledge_base/execution_backlog.json`.
+    D: VIS-002, VIS-004, VIS-005, VIS-006, VIS-007 | S — эффект/усилие: высокий.
+VIS-009 [CODE] Посадить один проблемный пролёт ограды на правильную опору
+    F: `game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs`; `game/scripts/Act1ConnectedWorld.YardFences.cs`; `game/scripts/KitPlacementTakeover.cs`; `game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs`.
+    D: VIS-007, VIS-008 | M — эффект/усилие: высокий.
+VIS-010 [CODE] Устранить треугольную границу снега на ветке к ФАП
+    F: `game/scripts/Act1ConnectedWorld.SnowRelief.cs`; `game/scripts/Act1ConnectedWorld.WinterRoads.cs`; `game/scripts/Act1ConnectedWorld.cs`.
+    D: VIS-005, VIS-007, VIS-009 | L — эффект/усилие: высокий.
+VIS-011 [CODE] Сформировать один правдоподобный край зимней дороги
+    F: `game/scripts/Act1ConnectedWorld.WinterRoads.cs`; `game/scripts/Act1ConnectedWorld.StreetFrontage.cs`; `game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs`.
+    D: VIS-009, VIS-010 | M — эффект/усилие: высокий.
+VIS-012 [CODE] Показать расчистку снега у одного крыльца
+    F: `game/scripts/Act1ConnectedWorld.WinterRoads.cs`; `game/scripts/Act1ConnectedWorld.SnowRelief.cs`; `game/scripts/Act1ConnectedWorld.YardComposition.cs`.
+    D: VIS-010, VIS-011 | M — эффект/усилие: высокий.
+VIS-013 [CODE] Заменить конус снежной шапки одного стога
+    F: `game/scripts/RuralPropModels.cs`; `game/scripts/RuralPropGeometry.cs`; `game/scripts/PainterlyMaterialLibrary.cs`.
+    D: VIS-008, VIS-010 | M — эффект/усилие: высокий.
+VIS-014 [OPEN] Исправить один предметный контакт на настиле
+    F: `game/scripts/Act1ConnectedWorld.YardComposition.cs`; `game/scripts/RuralPropModels.cs`; `game/scripts/KitPlacementTakeover.cs`.
+    D: VIS-009, VIS-012 | S — эффект/усилие: высокий.
+VIS-015 [OPEN] Довести один переход мост–берег без новой географии
+    F: `game/scripts/Act1ConnectedWorld.Gorge.cs`; `game/scripts/Act1ConnectedWorld.Ravine.cs`; `game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs`.
+    D: VIS-009, VIS-011 | M — эффект/усилие: высокий.
+VIS-016 [OPEN] Связать существующие следы с одним бытовым маршрутом
+    F: `game/scripts/SnowTrampleField.cs`; `game/scripts/VehicleSnowTracks.cs`; `game/scripts/Act1ConnectedWorld.Households.cs`.
+    D: VIS-011, VIS-012, VIS-014 | M — эффект/усилие: высокий.
+VIS-017 [OPEN] Согласовать крупные пропорции одного hero-дома
+    F: `game/scripts/TimberHomeStyle.cs`; `game/scripts/Act1ConnectedWorld.StreetFrontage.cs`; `game/scripts/Act1ConnectedWorld.cs`.
+    D: VIS-008, VIS-009, VIS-012 | L — эффект/усилие: высокий.
+VIS-018 [OPEN] Посадить наличник и карниз на фасад
+    F: `game/scripts/TimberHomeStyle.cs`; `game/scripts/Act1ConnectedWorld.StreetFrontage.cs`; `game/scripts/PainterlyMaterialLibrary.cs`.
+    D: VIS-017 | M — эффект/усилие: высокий.
+VIS-019 [CODE] Различить соседние заборы конструкцией, не случайным цветом
+    F: `game/scripts/Act1ConnectedWorld.YardFences.cs`; `game/scripts/Act1ConnectedWorld.YardComposition.cs`.
+    D: VIS-009, VIS-017 | M — эффект/усилие: высокий.
+VIS-020 [OPEN] Устранить доминирующую оборотную плоскость у выхода
+    F: `game/scripts/AddressSignVisualComponent.cs`; `game/scripts/AddressFacadeMount.cs`; `game/scripts/Act1ConnectedWorld.TimberGatePlates.cs`; `game/scripts/Act1DemoRoot.DevViewCapture.cs`.
+    D: VIS-003, VIS-004, VIS-017 | M — эффект/усилие: высокий.
+VIS-021 [OPEN] Проверить один конструктивный узел мечети
+    F: `game/scripts/Act1ConnectedWorld.MosqueExterior.cs`; `game/scripts/Act1ConnectedWorld.MosqueFoundation.cs`; `game/scripts/Act1ConnectedWorld.MosqueTimber.cs`.
+    D: VIS-009, VIS-017, VIS-020 | M — эффект/усилие: высокий.
+VIS-022 [OPEN] Верифицировать культурно корректную геометрию зирата
+    F: `game/scripts/Act1ConnectedWorld.cs`; `game/scripts/Act1ConnectedWorld.DebugSpawns.cs`; `game/content/world/atmosphere.v1.json`.
+    D: VIS-004, VIS-009, VIS-021 | M — эффект/усилие: высокий.
+VIS-023 [OPEN] Довести фасад ФАП как конкретного работающего учреждения
+    F: `game/scripts/Act1ConnectedWorld.FapPlate.cs`; `game/scripts/Act1ConnectedWorld.FapExploration.cs`; `game/scripts/ClinicSurfacePresentation.cs`.
+    D: VIS-010, VIS-011, VIS-020 | M — эффект/усилие: высокий.
+VIS-024 [OPEN] Закрепить биографию одного двора через две группы
+    F: `game/scripts/Act1ConnectedWorld.YardComposition.cs`; `game/scripts/Act1ConnectedWorld.Households.cs`; `docs/urman_knowledge_base/art/act1_h1_h4_yard_biography_passport_2026-09-15.md`.
+    D: VIS-012, VIS-014, VIS-016, VIS-019 | M — эффект/усилие: высокий.
+VIS-025 [OPEN] Довести силуэт одной близкой ели
+    F: `game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs`; `game/scripts/experiments/agent_b_act1/AgentBKitMaterials.cs`; `game/scripts/GeneratedModularKitDressing.cs`.
+    D: VIS-008, VIS-017 | L — эффект/усилие: высокий.
+VIS-026 [OPEN] Разорвать стену леса в одном обязательном виде
+    F: `game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs`; `game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`.
+    D: VIS-011, VIS-025 | M — эффект/усилие: высокий.
+VIS-027 [OPEN] Сохранить силуэт дерева на переходе LOD
+    F: `game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`; `game/scripts/GeneratedModularKitDressing.cs`; `game/scripts/GraphicsQuality.cs`.
+    D: VIS-025, VIS-026 | M — эффект/усилие: высокий.
+VIS-028 [OPEN] Согласовать редкую сухую растительность со снегом
+    F: `game/scripts/WinterParticleSurfaces.cs`; `game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs`; `game/scripts/Act1ConnectedWorld.WinterRoads.cs`.
+    D: VIS-010, VIS-012, VIS-026 | S — эффект/усилие: высокий.
+VIS-029 [OPEN] Ограничить вклад растительности в один тяжёлый вид
+    F: `game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`; `game/scripts/Act1DemoRoot.PerformanceCapture.cs`; `game/scripts/GraphicsQuality.cs`.
+    D: VIS-026, VIS-027, VIS-028 | M — эффект/усилие: высокий.
+VIS-030 [OPEN] Проверить границы отсечения одной ячейки растений
+    F: `game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`; `game/scripts/Act1DemoRoot.RenderDiagnostics.cs`.
+    D: VIS-025, VIS-027, VIS-029 | M — эффект/усилие: высокий.
+VIS-031 [CODE] Привязать пальто одного персонажа к его поверхности
+    F: `game/scripts/GeneratedCharacterKitDressing.cs`; `game/scripts/PainterlyMaterialLibrary.cs`.
+    D: VIS-005, VIS-007, VIS-008 | M — эффект/усилие: высокий.
+VIS-032 [CODE] Согласовать направление дерева на одном крыльце
+    F: `game/scripts/PainterlyMaterialLibrary.cs`; `game/scripts/TimberHomeStyle.cs`; `game/scripts/Act1ConnectedWorld.MosqueTimber.cs`.
+    D: VIS-005, VIS-018, VIS-031 | S — эффект/усилие: высокий.
+VIS-033 [CODE] Сделать нижнее затемнение относительным основанию объекта
+    F: `game/scripts/PainterlyMaterialLibrary.cs`; `game/scripts/KitPlacementTakeover.cs`; `game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs`.
+    D: VIS-005, VIS-007, VIS-009, VIS-032 | M — эффект/усилие: высокий.
+VIS-034 [OPEN] Настроить существующий снег после исправления формы
+    F: `game/scripts/PainterlyMaterialLibrary.cs`; `game/scripts/SnowTrampleField.cs`; `game/scripts/Act1ConnectedWorld.WinterRoads.cs`.
+    D: VIS-010, VIS-011, VIS-016, VIS-033 | M — эффект/усилие: высокий.
+VIS-035 [OPEN] Свести масштаб двух соседних материалов в доме
+    F: `game/scripts/PainterlyMaterialLibrary.cs`; `game/scripts/RuralPropMaterials.cs`; `game/scripts/Act1ConnectedWorld.cs`.
+    D: VIS-008, VIS-031, VIS-032 | M — эффект/усилие: высокий.
+VIS-036 [CODE] Включать mipmaps только проверенным 3D-потребителям
+    F: `game/assets/textures/painterly/`; `game/scripts/PainterlyMaterialLibrary.cs`; `eng/verify-painterly-textures.sh`.
+    D: VIS-005, VIS-035 | S — эффект/усилие: высокий.
+VIS-037 [CODE] Проверить видимость оконного силуэта, не ломая непрозрачное 
+    F: `game/scripts/VillageWindowMaterials.cs`; `game/scripts/WindowSilhouettes.cs`; `game/scripts/Act1ConnectedWorld.WindowBatching.cs`.
+    D: VIS-005, VIS-006, VIS-018, VIS-036 | M — эффект/усилие: высокий.
+VIS-038 [PART] Уменьшить дублирование материалов одного семейства
+    F: `game/scripts/PainterlyMaterialLibrary.cs`; `game/scripts/VillageWindowMaterials.cs`; `game/scripts/Act1DemoRoot.RenderDiagnostics.cs`.
+    D: VIS-033, VIS-035, VIS-037 | M — эффект/усилие: высокий.
+VIS-039 [OPEN] Отделить дефект света от дефекта формы в пилоте
+    F: `game/content/world/atmosphere.v1.json`; `game/scripts/Act1ConnectedWorld.cs`; `game/scripts/Act1DemoRoot.RenderDiagnostics.cs`.
+    D: VIS-006, VIS-017, VIS-025, VIS-034, VIS-035 | S — эффект/усилие: высокий.
+VIS-040 [OPEN] Свести дневной key/fill одного уличного профиля
+    F: `game/content/world/atmosphere.v1.json`; `game/scripts/Act1ConnectedWorld.cs`.
+    D: VIS-039 | M — эффект/усилие: высокий.
+VIS-041 [OPEN] Согласовать существующее тёплое окно с интерьером
+    F: `game/scripts/VillageWindowMaterials.cs`; `game/scripts/VillageHouseholdDirector.cs`; `game/scripts/Act1ConnectedWorld.Households.cs`.
+    D: VIS-037, VIS-040 | M — эффект/усилие: высокий.
+VIS-042 [OPEN] Сохранить глубину ночной кромки без сплошной черноты
+    F: `game/content/world/atmosphere.v1.json`; `game/scripts/ForestEdgePresence.cs`; `game/scripts/Act1ConnectedWorld.cs`.
+    D: VIS-026, VIS-040, VIS-041 | M — эффект/усилие: высокий.
+VIS-043 [OPEN] Проверить один погодный переход на постоянной точке
+    F: `game/scripts/WinterParticleSurfaces.cs`; `game/scripts/VillageChimneySmoke.cs`; `game/scripts/Act1DemoRoot.RenderDiagnostics.cs`; `game/content/world/atmosphere.v1.json`.
+    D: VIS-004, VIS-040, VIS-042 | M — эффект/усилие: высокий.
+VIS-044 [OPEN] Довести голову одного основного собеседника
+    F: `game/scripts/GeneratedCharacterKitDressing.cs`; `game/assets/generated/urman_character_kit.glb`; `game/assets/generated/urman_character_kit_v2.glb`.
+    D: VIS-008, VIS-031, VIS-035, VIS-040 | L — эффект/усилие: высокий.
+VIS-045 [OPEN] Придать воротнику и плечам одного NPC человеческую посадку
+    F: `game/scripts/GeneratedCharacterKitDressing.cs`; `game/assets/generated/urman_character_kit_v2.glb`.
+    D: VIS-031, VIS-044 | M — эффект/усилие: высокий.
+VIS-046 [OPEN] Проверить вес одной походки, а не изменение пикселей
+    F: `game/scripts/AlsuStreetWalkPresentation.cs`; `game/scripts/RinatPresencePresentation.cs`; `game/scripts/RinatFootPlacementModifier.cs`; `game/scripts/AnimationCatalog.cs`.
+    D: VIS-044, VIS-045 | L — эффект/усилие: высокий.
+VIS-047 [OPEN] Проверить контакт рук и тела в одном бытовом действии
+    F: `game/scripts/FirstPersonController.Body.cs`; `game/scripts/FirstPersonController.Steps.cs`; `game/scripts/CarryCoordinator.cs`; `game/scripts/AccessibilityPresentation.cs`.
+    D: VIS-007, VIS-012, VIS-046 | M — эффект/усилие: высокий.
+VIS-048 [OPEN] Снизить ненужную анимационную работу одного дальнего NPC
+    F: `game/scripts/GeneratedCharacterKitDressing.cs`; `game/scripts/AnimationCatalog.cs`; `game/scripts/Act1DemoRoot.PerformanceCapture.cs`.
+    D: VIS-027, VIS-038, VIS-046 | M — эффект/усилие: высокий.
+VIS-049 [OPEN] Проверить контакт лошади с дорогой и телегой
+    F: `game/scripts/VehicleImmersionDetails.cs`; `game/scripts/VehicleController.WheelCollision.cs`; `game/scripts/GeneratedCharacterKitDressing.cs`; `game/scripts/Act1ConnectedWorld.cs`.
+    D: VIS-011, VIS-016, VIS-046 | M — эффект/усилие: высокий.
+VIS-050 [OPEN] Согласовать снеговую колею с колёсами одной Нивы
+    F: `game/scripts/VehicleSnowTracks.cs`; `game/scripts/VehicleController.WheelCollision.cs`; `game/scripts/VehicleVisualFactory.cs`.
+    D: VIS-007, VIS-011, VIS-016 | M — эффект/усилие: высокий.
+VIS-051 [OPEN] Довести домашнюю предметную группу, сохранив человека главны
+    F: `game/scripts/Act1ConnectedWorld.cs`; `game/scripts/RuralPropModels.cs`; `docs/urman_knowledge_base/art/act1_i2_interior_use_passport_2026-09-15.md`.
+    D: VIS-035, VIS-041, VIS-044, VIS-047 | M — эффект/усилие: высокий.
+VIS-052 [OPEN] Превратить один документ ФАП в читаемую бумагу в мире
+    F: `game/scripts/Act1ConnectedWorld.FapExploration.cs`; `game/scripts/DocumentUi.cs`; `game/scripts/DocumentImageReader.cs`; `game/scripts/ClinicSurfacePresentation.cs`.
+    D: VIS-005, VIS-023, VIS-035, VIS-036 | M — эффект/усилие: высокий.
+VIS-053 [OPEN] Довести входной переход мечети без заполнения зала
+    F: `game/scripts/Act1ConnectedWorld.MosqueInterior.cs`; `game/scripts/Act1ConnectedWorld.MosqueCarpets.cs`; `game/scripts/Act1ConnectedWorld.MosqueTimber.cs`.
+    D: VIS-021, VIS-032, VIS-040 | M — эффект/усилие: высокий.
+VIS-054 [OPEN] Довести один вид ДК без роста геометрической нагрузки
+    F: `game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs`; `game/scripts/CivicSurfaceLibrary.cs`; `game/scripts/Act1DemoRoot.PerformanceCapture.cs`.
+    D: VIS-017, VIS-035, VIS-038, VIS-040 | M — эффект/усилие: высокий.
+VIS-055 [OPEN] Привести журнал к одному бумажному владельцу
+    F: `game/scripts/JournalUi.cs`; `game/scripts/JournalUi.Notebook.cs`; `game/scripts/JournalUi.Vocabulary.cs`; `game/scripts/UrmanUiTheme.cs`.
+    D: VIS-008, VIS-036, VIS-052 | L — эффект/усилие: высокий.
+VIS-056 [OPEN] Сохранить цифровой характер XP и связать его с монитором
+    F: `game/scripts/OldPcXpChrome.cs`; `game/scripts/OldPcUi.XpTheme.cs`; `game/scripts/OldPcUi.Desktop.cs`; `game/scripts/RuralPropModels.cs`.
+    D: VIS-005, VIS-036, VIS-051 | S — эффект/усилие: высокий.
+VIS-057 [OPEN] Проверить один диалог на читаемость и кадрирование
+    F: `game/scripts/DialogueUi.cs`; `game/scripts/UrmanUiTheme.cs`; `game/scripts/Act1DemoRoot.DevViewCapture.cs`.
+    D: VIS-004, VIS-044, VIS-045, VIS-055 | M — эффект/усилие: высокий.
+VIS-058 [OPEN] Связать одну фотографию/запись с её физическим носителем
+    F: `game/scripts/DocumentUi.cs`; `game/scripts/DocumentImageReader.cs`; `game/scripts/Act1ConnectedWorld.ImageDiscoveries.cs`; `game/scripts/JournalUi.cs`.
+    D: VIS-052, VIS-055, VIS-057 | M — эффект/усилие: высокий.
+VIS-059 [OPEN] Принять связность одного пилотного перехода улица–дом
+    F: `game/scripts/Act1ConnectedWorld.cs`; `game/scripts/Act1ConnectedWorld.Households.cs`; `docs/production/URMAN_VISUAL_ART_DIRECTION_PLAN_RU.md`.
+    D: VIS-024, VIS-034, VIS-040, VIS-041, VIS-044, VIS-051, VIS-055, VIS-057, VIS-058 | M — эффект/усилие: высокий.
+VIS-060 [OPEN] Проверить одну оптимизацию окон на равной картинке
+    F: `game/scripts/Act1ConnectedWorld.WindowBatching.cs`; `game/scripts/VillageWindowMaterials.cs`; `game/scripts/Act1DemoRoot.PerformanceCapture.cs`; `docs/production/performance_handoff_2026-10-07.md`.
+    D: VIS-030, VIS-037, VIS-038, VIS-059 | M — эффект/усилие: высокий.
+VIS-061 [OPEN] Сделать маршрутный пакет доказательным
+    F: `eng/capture-act1-full-route-core-world.sh`; `game/scripts/Act1DemoRoot.DevViewCapture.cs`; `eng/build-act1-review-packet.sh`; `game/tests/act1_full_route_core_world_capture.tscn`.
+    D: VIS-003, VIS-004, VIS-020, VIS-052, VIS-053, VIS-057, VIS-059 | M — эффект/усилие: высокий.
+VIS-062 [OPEN] Проверить один маршрут движения с настройками доступности
+    F: `game/scripts/AccessibilityPresentation.cs`; `game/scripts/FirstPersonController.Body.cs`; `game/scripts/FirstPersonController.Steps.cs`; `eng/capture-style-motion-sweep.sh`.
+    D: VIS-027, VIS-031, VIS-046, VIS-047, VIS-059, VIS-061 | M — эффект/усилие: высокий.
+VIS-063 [OPEN] Измерить frame-time p95 на целевом устройстве
+    F: `game/scripts/Act1DemoRoot.PerformanceCapture.cs`; `game/scripts/GraphicsQuality.cs`; `eng/remote-check.py`; `docs/production/performance_handoff_2026-10-07.md`.
+    D: VIS-001, VIS-006, VIS-029, VIS-048, VIS-054, VIS-060, VIS-061, VIS-062 | M — эффект/усилие: высокий.
+VIS-064 [OPEN] Принять качество человеком и закрыть только доказанные карто
+    F: `docs/production/URMAN_VISUAL_ART_DIRECTION_PLAN_RU.md`; `docs/urman_knowledge_base/execution_backlog.json`; `eng/build-act1-review-packet.sh`.
+    D: VIS-022, VIS-059, VIS-061, VIS-062, VIS-063 | S — эффект/усилие: высокий.
+VIS-068 [CAPT] Настроить зимнюю дневную палитру с цветным снегом
+    F: `game/content/world/atmosphere.v1.json`; `game/scripts/PainterlyMaterialLibrary.cs`
+    D: VIS-034, VIS-040, VIS-067 | S / высокий
+VIS-069 [CAPT] Сделать зимний золотой час отдельным авторским состоянием
+    F: `game/content/world/atmosphere.v1.json`; `game/scripts/Act1ConnectedWorld.cs`
+    D: VIS-040, VIS-067, VIS-068 | M / высокий
+VIS-070 [CAPT] Сохранить выразительный пасмурный день без серой каши
+    F: `game/content/world/atmosphere.v1.json`; `game/scripts/PainterlyMaterialLibrary.cs`
+    D: VIS-067, VIS-068 | S / высокий
+VIS-071 [CAPT] Создать зелёную ночь деревни
+    F: `game/content/world/atmosphere.v1.json`; `game/scripts/VillageWindowMaterials.cs`; `game/scripts/VillageHouseholdDirector.cs`
+    D: VIS-041, VIS-042, VIS-067 | M / очень высокий
+VIS-072 [CAPT] Ввести редкий ночной контраст двух цветовых семейств
+    F: `game/content/world/atmosphere.v1.json`; `game/scripts/Act1ConnectedWorld.cs`
+    D: VIS-071 | S / высокий
+VIS-073 [CAPT] Сделать непроглядный лесной туман без дешёвого hide-the-geom
+    F: `game/content/world/atmosphere.v1.json`; `game/scripts/Act1ConnectedWorld.cs`; `game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`
+    D: VIS-026, VIS-042, VIS-067 | M / очень высокий
+VIS-074 [CODE] Сделать лесной цвет нечеловеческим, но не постоянно красным
+    F: `game/content/world/atmosphere.v1.json`; `game/scripts/Act1ConnectedWorld.cs`
+    D: VIS-073 | S / высокий
+VIS-075 [OPEN] Произвести редкое семейство тревожных ветвей по H3-1
+    F: `assets/source/blender/urman_winter_dead_tree.blend`; `game/assets/models/act1/urman_winter_dead_tree.glb`; `game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs`
+    D: VIS-025, VIS-027, VIS-073 | L / высокий
+VIS-076 [OPEN] Сделать графические линии ветра как редкую world-space абстр
+    F: `game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`; `game/scripts/WinterParticleSurfaces.cs`; `game/assets/generated/ (if needed)`
+    D: VIS-043, VIS-067 | M / средне-высокий
+VIS-077 [OPEN] Установить новый геометрический стандарт снега
+    F: `game/scripts/Act1ConnectedWorld.SnowRelief.cs`; `game/scripts/Act1ConnectedWorld.WinterRoads.cs`; `game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs`
+    D: VIS-007, VIS-010, VIS-011, VIS-012, VIS-034 | L / очень высокий
+VIS-078 [CODE] Сделать протоптанные дорожки глубже окружающего снега
+    F: `game/scripts/PainterlyMaterialLibrary.cs`; `game/scripts/SnowTrampleField.cs`; `game/scripts/Act1ConnectedWorld.WinterRoads.cs`
+    D: VIS-012, VIS-016, VIS-077 | M / очень высокий
+VIS-079 [OPEN] Перестроить снежные валы по проездам, калиткам и канавам
+    F: `game/scripts/Act1ConnectedWorld.cs`; `game/scripts/Act1ConnectedWorld.SnowRelief.cs`; `game/scripts/Act1ConnectedWorld.WinterRoads.cs`
+    D: VIS-011, VIS-015, VIS-077 | L / очень высокий
+VIS-080 [OPEN] Добавить правдоподобный снег на крыши и горизонтальные детал
+    F: `game/scripts/Act1ConnectedWorld*.cs`; `assets/source/blender/act1/*.blend`; `game/scripts/PainterlyMaterialLibrary.cs`
+    D: VIS-021, VIS-077 | M / высокий
+VIS-081 [OPEN] Перенастроить snow material под новую форму, не наоборот
+    F: `game/scripts/PainterlyMaterialLibrary.cs`; `game/assets/textures/painterly/`; `eng/verify-painterly-textures.sh`
+    D: VIS-005, VIS-034, VIS-077, VIS-078 | M / высокий
+VIS-082 [OPEN] Создать стандарт коры и ветвления зимних деревьев
+    F: `assets/source/blender/urman_winter_dead_tree.blend`; `game/assets/models/act1/urman_winter_dead_tree.glb`; `game/scripts/PainterlyMaterialLibrary.cs`
+    D: VIS-025, VIS-027 | L / высокий
+VIS-083 [OPEN] Пересобрать лиственные семейства деревни и леса
+    F: `assets/source/blender/`; `game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs`
+    D: VIS-027, VIS-028, VIS-075, VIS-082 | XL / высокий
+VIS-084 [OPEN] Ограничить хвойные и довести их только там, где они нужны
+    F: `game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs`; `game/assets/models/act1/urman_winter_pine.glb`
+    D: VIS-026, VIS-082, VIS-083 | M / высокий
+VIS-085 [OPEN] Собрать страшную лесную плотность без стены повторов и без п
+    F: `game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`; `game/scripts/experiments/agent_b_act1/AgentBFoliagePlan.cs`; `game/scripts/GraphicsQuality.cs`
+    D: VIS-029, VIS-030, VIS-073, VIS-075, VIS-083 | L / очень высокий
+VIS-086 [OPEN] Ввести стандарт конструктивно правдоподобного татарского дом
+    F: `assets/source/blender/act1/urman_village_exterior_kit.blend`; `game/assets/models/act1/urman_village_exterior_kit.glb`; `game/scripts/TimberHomeStyle.cs`
+    D: VIS-017, VIS-018, VIS-065 | XL / очень высокий
+VIS-087 [OPEN] Пересобрать оконные ниши и наличники как геометрию
+    F: `assets/source/blender/act1/urman_village_exterior_kit.blend`; `game/scripts/VillageWindowMaterials.cs`; `game/scripts/Act1ConnectedWorld.WindowBatching.cs`
+    D: VIS-018, VIS-037, VIS-060, VIS-086 | L / высокий
+VIS-088 [OPEN] Сделать генератор правдоподобных деревенских заборов
+    F: `assets/source/blender/act1/ + generator .py`; `game/scripts/Act1ConnectedWorld.YardFences.cs`
+    D: VIS-009, VIS-019, VIS-024, VIS-086 | L / очень высокий
+VIS-089 [OPEN] Сделать модульные калитки и ворота с реальной механикой
+    F: `assets/source/blender/act1/`; `game/scripts/Act1ConnectedWorld.YardFences.cs`; `game/scripts/YardMechanism.cs`
+    D: VIS-019, VIS-078, VIS-088 | M / высокий
+VIS-090 [OPEN] Добавить редкие конструктивные детали деревни, которые ловят
+    F: `game/scripts/Act1ConnectedWorld*.cs`; `assets/source/blender/act1/urman_village_exterior_kit.blend`
+    D: VIS-024, VIS-086 | M / средне-высокий
+VIS-091 [OPEN] Пересобрать кровли, карнизы, трубы и стыки как один конструк
+    F: `assets/source/blender/act1/*.blend`; `game/scripts/Act1ConnectedWorld*.cs`
+    D: VIS-080, VIS-086 | L / высокий
+VIS-092 [OPEN] Расширить материалную систему до painterly material response
+    F: `game/scripts/PainterlyMaterialLibrary.cs`; `game/assets/textures/`; `docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md`
+    D: VIS-005, VIS-035, VIS-038, VIS-065 | L / очень высокий
+VIS-093 [OPEN] Сделать единое семейство старого дерева с историей использов
+    F: `game/assets/textures/painterly/`; `game/scripts/PainterlyMaterialLibrary.cs`
+    D: VIS-032, VIS-035, VIS-092 | M / высокий
+VIS-094 [OPEN] Сделать штукатурку общественных зданий художественной, но ма
+    F: `game/assets/textures/`; `game/scripts/CivicSurfaceLibrary.cs`; `game/scripts/PainterlyMaterialLibrary.cs`
+    D: VIS-023, VIS-054, VIS-092 | M / высокий
+VIS-095 [OPEN] Нормализовать металл: кровли, трубы, транспорт, эмаль
+    F: `game/scripts/PainterlyMaterialLibrary.cs`; `game/scripts/RuralPropMaterials.cs`; `game/assets/textures/realism_*`
+    D: VIS-092 | M / средний
+VIS-096 [OPEN] Пересобрать морозное окно как материальный и световой узел
+    F: `game/scripts/VillageWindowMaterials.cs`; `game/scripts/VillageHouseholdDirector.cs`; `game/assets/textures/painterly/frost_window_v1_albedo.png`
+    D: VIS-037, VIS-041, VIS-071, VIS-087, VIS-092 | M / высокий
+VIS-097 [OPEN] Сохранить текущий интерьерный реализм и изменить только свет
+    F: `game/scripts/StyleBenchmarkZone.cs`; `game/scripts/UrmanUiTheme.cs`; `game/scripts/Act1ConnectedWorld.*Interior*.cs`
+    D: VIS-035, VIS-051, VIS-052, VIS-053, VIS-054, VIS-065 | S / очень высокий
+VIS-098 [OPEN] Довести hero house interior без смены его художественного ре
+    F: `game/scripts/StyleBenchmarkZone.cs`; `game/scripts/TimberHomeStyle.cs`; `game/scripts/ArrivalPersonalProps.cs`
+    D: VIS-051, VIS-097 | M / высокий
+VIS-099 [OPEN] Довести ФАП как умеренно реалистичный советский медицинский 
+    F: `game/scripts/StyleBenchmarkZone.cs`; `game/scripts/Act1ConnectedWorld.FapExploration.cs`; `game/scripts/ClinicSurfacePresentation.cs`
+    D: VIS-023, VIS-052, VIS-097 | M / высокий
+VIS-100 [OPEN] Довести мечеть без переноса хоррорного лесного языка
+    F: `game/scripts/Act1ConnectedWorld.MosqueInterior.cs`; `game/scripts/Act1ConnectedWorld.Mosque*.cs`; `game/scripts/MosqueSanctuary.cs`
+    D: L,  , /,  , в, ы, с, о, к, и, й | Культурная ошибка.
+VIS-101 [OPEN] Довести школу/ДК/сельсовет через функцию и цвет, не через но
+    F: `game/scripts/Act1ConnectedWorld.SquareInteriors*.cs`; `game/scripts/Act1ConnectedWorld.SovkhozSquare.cs`; `game/scripts/CivicSurfaceLibrary.cs`
+    D: VIS-054, VIS-094, VIS-097 | L / высокий
+VIS-102 [OPEN] Нормализовать персонажей под мягкий материальный стиль LiS2-
+    F: `game/scripts/GeneratedCharacterKitDressing.cs`; `assets/source/blender/urman_character_kit_v2.blend`
+    D: VIS-031, VIS-044, VIS-045, VIS-046, VIS-047, VIS-065 | L / высокий
+VIS-103 [OPEN] Довести головы hero NPC формой и светом, а не текстурной дет
+    F: `assets/source/blender/urman_character_kit_v2.blend`; `assets/source/blender/characters/*.blend`; `game/scripts/GeneratedCharacterKitDressing.cs`
+    D: VIS-044, VIS-045, VIS-102 | L / высокий
+VIS-104 [CODE] Перевести всю деформируемую одежду на устойчивый локальный/U
+    F: `game/scripts/PainterlyMaterialLibrary.cs`; `game/scripts/GeneratedCharacterKitDressing.cs`; `assets/source/blender/urman_character_kit_v2.blend`
+    D: VIS-031, VIS-046, VIS-102 | M / очень высокий
+VIS-105 [OPEN] Нормализовать транспорт под новый материалный язык
+    F: `game/scripts/VehicleVisualFactory*.cs`; `assets/source/blender/urman_niva.blend`; `game/assets/generated/urman_niva.glb`; `game/assets/third_party/police/vehicle assets`
+    D: VIS-049, VIS-050, VIS-092, VIS-095 | L / высокий
+VIS-106 [OPEN] Создать pipeline нормализации скачиваемых prop-ассетов
+    F: `docs/urman_knowledge_base/art/asset_ingest_visual_contract.md (new)`; `tools/ or assets/source/blender/import_normalize.py (new helper)`; `game/assets/third_party/`
+    D: M,  , /,  , о, ч, е, н, ь,  , в, ы, с, о, к, и, й | Лицензии/скрытые dependencies.
+VIS-107 [CODE] Ввести лицензионный и художественный gate для внешних ассето
+    F: `docs/urman_knowledge_base/art/asset_registry.*`; `eng/verify-asset-registry.sh`
+    D: VIS-106 | S / высокий
+VIS-108 [OPEN] Сделать Blender-пайплайн генерации модулей детерминированным
+    F: `assets/source/blender/act1/*.py`; `eng/rebuild-assets.sh`; `eng/toolchain.json`
+    D: VIS-086, VIS-088, VIS-089, VIS-106 | L / очень высокий
+VIS-109 [PART] Обновить паспорта новых visual-reset ассетов и consumers
+    F: `docs/urman_knowledge_base/art/primitive_surface_requests_*.json`; `docs/urman_knowledge_base/art/texture_runtime_inventory_*.md`
+    D: VIS-066, VIS-106, VIS-107, VIS-108 | S / высокий
+VIS-110 [CODE] Сохранить UI материальным и не перекрашивать его общей атмос
+    F: `game/scripts/UrmanUiTheme.cs`; `game/scripts/DocumentUi.cs`; `game/scripts/JournalUi*.cs`; `game/scripts/OldPcUi*.cs`
+    D: VIS-055, VIS-056, VIS-065 | S / высокий
+VIS-111 [CODE] Задать композиционный baseline для first-person кадров без к
+    F: `game/scenes/player/first_person_player.tscn`; `game/scripts/FirstPersonController.cs`; `game/scripts/Act1DemoRoot.DevViewCapture.cs`
+    D: VIS-003, VIS-004, VIS-062 | M / высокий
+VIS-112 [OPEN] Собрать эталонный участок деревни улица→калитка→двор→дом
+    F: `game/scripts/Act1ConnectedWorld*.cs`; `relevant world JSON`; `Blender kits`; `PainterlyMaterialLibrary`; `atmosphere.v1.json`
+    D: VIS-059, VIS-068, VIS-069, VIS-071, VIS-077, VIS-078, VIS-083, VIS-086, VIS-087, VIS-088,  | XL / максимальный
+VIS-113 [OPEN] Собрать эталон леса: материальный, непроглядный, хтонически 
+    F: `game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs`; `AgentBFoliagePlan.cs`; `atmosphere.v1.json`; `tree assets`
+    D: VIS-073, VIS-074, VIS-075, VIS-076, VIS-082, VIS-083, VIS-085 | XL / максимальный
+VIS-114 [OPEN] Собрать эталон зелёной ночи деревни и chromatic contrast
+    F: `atmosphere.v1.json`; `VillageWindowMaterials.cs`; `VillageHouseholdDirector.cs`; `relevant parcel assets`
+    D: VIS-071, VIS-072, VIS-096, VIS-112 | M / максимальный
+VIS-115 [OPEN] Распространить принятый Visual Standard на весь наружный Акт
+    F: `game/scripts/Act1ConnectedWorld*.cs`; `game/content/world/*.json`; `assets/source/blender/act1/`; `AgentB foliage`
+    D: VIS-112, VIS-113, VIS-114, VIS-061 | XL / максимальный
+VIS-116 [OPEN] Распространить стандарт на интерьеры, персонажей, транспорт 
+    F: `game/scripts/StyleBenchmarkZone.cs`; `Act1ConnectedWorld.*Interior*.cs`; `GeneratedCharacterKitDressing.cs`; `VehicleVisualFactory*.cs`; `UrmanUiTheme.cs`
+    D: VIS-097, VIS-098, VIS-099, VIS-100, VIS-101, VIS-102, VIS-103, VIS-104, VIS-105, VIS-110,  | XL / высокий
+VIS-117 [OPEN] Провести полный визуальный маршрутный gate нового стиля
+    F: `eng/capture-act1-full-route-core-world.sh`; `game/tests/Act1FullRouteCoreWorldCapture.cs`; `eng/build-act1-review-packet.sh`; `eng/remote-check.py`
+    D: VIS-061, VIS-115, VIS-116 | L / максимальный
+VIS-118 [OPEN] Финальная арт-, культурная и performance-приёмка visual rese
+    F: `docs/production/performance_handoff_2026-10-07.md`; `eng/remote-check.py`; `eng/verify-painterly-textures.sh`; `execution backlog`
+    D: VIS-063, VIS-064, VIS-117 | L / максимальный

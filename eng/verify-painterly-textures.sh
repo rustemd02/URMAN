@@ -9,6 +9,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DEFAULT_DIR="$ROOT_DIR/game/assets/textures/painterly"
 REPORT_PATH=""
 ALLOW_MISSING=0
+CONTRACT=0
 MAX_MEAN_SEAM="0.120000"
 MAX_MAX_SEAM="0.400000"
 MAX_CLIP_FRACTION="0.020000"
@@ -25,6 +26,9 @@ Legacy sources remain 1024 square; catalogue masters may be 512–2048 square RG
 With no paths, candidates are discovered under game/assets/textures/painterly.
 
 Options:
+  --contract                 Static material-contract mode (VIS-035/038/081/092/
+                             093/094/095): reads the C# material owners and the
+                             asset-request document instead of decoding pixels.
   --dir DIR                  Discover candidates in DIR.
   --report FILE              Also write the markdown result to FILE.
   --allow-missing            Return success when no candidates exist (OPEN).
@@ -56,6 +60,10 @@ while (($# > 0)); do
             ;;
         --allow-missing)
             ALLOW_MISSING=1
+            shift
+            ;;
+        --contract)
+            CONTRACT=1
             shift
             ;;
         --max-mean-seam|--max-max-seam|--max-clip-fraction|--max-high-sat|--max-mean-sat)
@@ -90,7 +98,7 @@ while (($# > 0)); do
     esac
 done
 
-if ((${#INPUT_PATHS[@]} == 0)); then
+if ((${#INPUT_PATHS[@]} == 0)) && [[ "$CONTRACT" != "1" ]]; then
     if [[ -d "$DISCOVERY_DIR" ]]; then
         while IFS= read -r candidate; do
             INPUT_PATHS+=("$candidate")
@@ -98,7 +106,242 @@ if ((${#INPUT_PATHS[@]} == 0)); then
     fi
 fi
 
-PYTHON_BIN="${PYTHON_BIN:-python3}"
+# Resolve a working interpreter. On a Windows station `python3` may be the Store
+# execution alias, which never runs the gate, so each candidate is probed instead of
+# trusted.
+PYTHON_OK=0
+if [[ -n "${PYTHON_BIN:-}" ]]; then
+    if "$PYTHON_BIN" -c "import sys; raise SystemExit(0 if sys.version_info>=(3,8) else 1)" >/dev/null 2>&1; then
+        PYTHON_OK=1
+    else
+        echo "PYTHON_BIN=$PYTHON_BIN is not a usable Python 3 interpreter" >&2
+    fi
+else
+    for probe in python3 python py; do
+        if command -v "$probe" >/dev/null 2>&1 \
+            && "$probe" -c "import sys; raise SystemExit(0 if sys.version_info>=(3,8) else 1)" >/dev/null 2>&1; then
+            PYTHON_BIN="$probe"
+            PYTHON_OK=1
+            break
+        fi
+    done
+fi
+if [[ "$PYTHON_OK" != "1" ]]; then
+    echo "eng/verify-painterly-textures.sh: no usable Python 3 found (tried \$PYTHON_BIN, python3, python, py)." >&2
+    echo "This gate does not run on the game host; install Python 3 or set PYTHON_BIN." >&2
+    exit 127
+fi
+
+if [[ "$CONTRACT" == "1" ]]; then
+    set +e
+    "$PYTHON_BIN" - "$ROOT_DIR" "$REPORT_PATH" <<'CONTRACT_PY'
+"""VIS-035/038/081/092/093/094/095 static material-contract gate.
+
+This reads the material owners as source, so it runs before Godot, before import and
+before any capture. Every check is a written project rule, not a taste judgement:
+
+1. declared texture paths resolve on disk or are registered as production requests;
+2. metal policy: no dielectric coating carries metallic > 0, and only the physically
+   exposed metal families are allowed metallic at all (VIS-095);
+3. no dead response row: a family that declares a drawn map must give it an effect
+   (VIS-092 sampler discipline);
+4. the snow micro vertex amplitude stays at the measured +/-0.002 m, so a material
+   tweak can never silently become a substitute for snow geometry (VIS-034/081);
+5. triplanar wood/plaster families keep an explicit repeat of at least 1 m per tile
+   so a 10 m run does not read as a grid (VIS-035/093/094).
+
+It does not prove any visible result; that stays with the paired frames.
+"""
+import re
+import sys
+from pathlib import Path
+
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
+root = Path(sys.argv[1]).resolve()
+report_path = sys.argv[2]
+textures = root / "game" / "assets" / "textures"
+requests_doc = root / "docs" / "urman_knowledge_base" / "art" / "asset_requests" / "MAT.md"
+pml_path = root / "game" / "scripts" / "PainterlyMaterialLibrary.cs"
+rural_path = root / "game" / "scripts" / "RuralPropMaterials.cs"
+
+issues = []
+notes = []
+rows = []
+
+pml = pml_path.read_text(encoding="utf-8")
+rural = rural_path.read_text(encoding="utf-8")
+requests_text = requests_doc.read_text(encoding="utf-8") if requests_doc.exists() else ""
+requests_names = set(re.findall(r"([A-Za-z0-9_]+\.png)", requests_text))
+
+# ── 1. every declared res:// path is on disk or registered as a request ───────────
+declared = set()
+for res_path in re.findall(r'"(res://assets/textures/[^"]+)"', pml + rural):
+    # Skip a path built by interpolation ("...{textureName}.png") and the bare folder
+    # constant: neither names a file this gate can resolve.
+    if "{" in res_path or res_path.endswith("/"):
+        continue
+    declared.add(res_path)
+# RuralProp and PML build some paths by joining a root constant with a file name.
+response_root = ""
+m = re.search(r'const string ResponseRoot = "res://assets/textures/([^"]+)"', pml)
+if m:
+    response_root = m.group(1).rstrip("/")
+for name in re.findall(r'ResponseRoot \+ "([^"]+)"', pml):
+    declared.add("res://assets/textures/" + response_root + "/" + name)
+rural_dirs = {"realism_20260929": "realism_20260929"}
+for name in re.findall(r'\["([a-z_]+)"\] = new\("([^"]+)"', rural):
+    folder, file_name = name[1].split("/", 1) if "/" in name[1] else ("painterly", name[1])
+    declared.add("res://assets/textures/" + folder + "/" + file_name)
+
+bound = missing_registered = unexplained = 0
+for res_path in sorted(declared):
+    relative = res_path.replace("res://assets/textures/", "")
+    on_disk = (textures / relative).exists()
+    file_name = Path(relative).name
+    if on_disk:
+        bound += 1
+    elif file_name in requests_names:
+        missing_registered += 1
+    else:
+        unexplained += 1
+        issues.append(f"declared texture is neither on disk nor registered in MAT.md: {res_path}")
+rows.append(f"declared texture paths: {bound} on disk, {missing_registered} registered as pending requests, {unexplained} unexplained")
+
+# ── 2. metal policy ───────────────────────────────────────────────────────────────
+metallic_block = re.search(r'SetShaderParameter\("metallic_value", surface switch\s*\{(.*?)\}\);', pml, re.S)
+if not metallic_block:
+    issues.append("could not find the metallic_value switch in PainterlyMaterialLibrary")
+else:
+    arms = dict(re.findall(r'"([a-z_0-9]+)" => ([0-9.]+)f', metallic_block.group(1)))
+    dielectric_names = ("metal", "enamel", "steel", "vehicle_paint", "plastic", "plastic_abs",
+                        "rubber", "vehicle_rubber", "carpet", "cloth", "wood", "plaster")
+    for family, value in arms.items():
+        if family in dielectric_names and float(value) > 0:
+            issues.append(f"VIS-095: dielectric family '{family}' declares metallic {value}")
+    allowed_metal = {"iron", "zinc_sheet", "vehicle_bare_metal", "vehicle_trim_metal"}
+    for family, value in arms.items():
+        if float(value) > 0 and family not in allowed_metal:
+            issues.append(f"VIS-095: unexpected metallic {value} on family '{family}'")
+    notes.append("painterly metallic arms: " + ", ".join(f"{k}={v}" for k, v in sorted(arms.items())))
+
+rural_arms = dict(re.findall(r'\["([a-z_]+)"\] = new\("[^"]+", (?:[0-9.]+f), (?:[0-9.]+f), ([0-9.]+f|1f),', rural))
+coatings = {"wood", "plywood", "steel", "enamel", "laminate", "cloth", "upholstery", "velvet",
+            "curtain", "plastic", "rubber", "ceramic", "earthenware", "concrete"}
+for family, value in rural_arms.items():
+    numeric = 1.0 if value == "1f" else float(value.rstrip("f"))
+    if family in coatings and numeric > 0:
+        issues.append(f"VIS-095: RuralProp coating '{family}' has metallic {numeric}")
+rows.append(f"RuralProp metallic values read for {len(rural_arms)} finishes")
+
+# ── 3. no dead response row ───────────────────────────────────────────────────────
+response_body = re.search(r'FamilyResponses = new\(StringComparer\.Ordinal\)\s*\{(.*?)\n    \};', pml, re.S)
+if not response_body:
+    issues.append("could not find the FamilyResponses table")
+else:
+    entries = re.findall(r'\["([a-z_0-9]+)"\] = new\(\) \{(.*?)\},', response_body.group(1), re.S)
+    dead = 0
+    for family, body in entries:
+        relief = re.search(r'Relief = [0-9.]+f', body)
+        maps = re.findall(r'(?:NormalMap|RoughnessMap|WearMap) = ResponseRoot \+ "([^"]+)"', body)
+        if not maps and not relief:
+            dead += 1
+            issues.append(f"VIS-092: family '{family}' has a response row with neither relief nor a drawn map")
+        for drawn in maps:
+            if drawn not in requests_names and not (textures / "response" / drawn).exists():
+                issues.append(f"VIS-092: drawn map '{drawn}' is bound by '{family}' but not registered in MAT.md")
+    if not entries:
+        issues.append("VIS-092: FamilyResponses table parsed empty; the gate itself needs fixing")
+    rows.append(f"FamilyResponses rows: {len(entries)}, dead rows: {dead}")
+
+# ── 4. snow micro amplitude stays sub-centimetre ──────────────────────────────────
+if "* 0.004 * snow_relief_scale" not in pml:
+    issues.append("VIS-034: the snow micro vertex term no longer matches the measured +/-0.002 m amplitude")
+else:
+    rows.append("snow micro relief amplitude held at 0.004 * (r-0.5) = +/-0.002 m [K02]")
+
+# ── 5. explicit repeat for the families this wave re-tiled ───────────────────────
+# Two floors, not one blended claim:
+#  * WAVE_FLOOR: the wood/plaster families VIS-035/093/094 deliberately re-tiled must
+#    keep at least one metre per repeat, so a 10 m run cannot read as a grid.
+#  * GLOBAL_FLOOR: every other triplanar family may not repeat faster than ~0.35 m.
+#    Their authored values belong to other cards (cloth, carpet, foliage, snow), so the
+#    gate does not silently re-tile them; it only refuses an accidental micro-tile.
+# Metric-UV families (unit scale is their UV contract) and narrow mouldings are exempt.
+wave_families = {"wood", "wood_fence", "wood_facade", "wood_prop", "wood_furniture",
+                 "wood_furniture_interior", "log_wall", "plaster", "plaster_domestic",
+                 "wall_institution", "wallpaper"}
+tile_floor_exempt = {"wood_painted_trim", "wood_log_uv", "wood_fence_uv", "wood_fence_vertical",
+                     "wood_fence_rail", "cloth_table", "cloth_curtain", "hay_fibers", "hay_bundle"}
+surface_table = re.search(r'SurfaceTextures = new\(StringComparer\.Ordinal\)\s*\{(.*?)\n    \};', pml, re.S)
+if not surface_table:
+    issues.append("could not find the SurfaceTextures table")
+else:
+    checked = 0
+    for line in surface_table.group(1).splitlines():
+        entry = re.search(r'\["([a-z_0-9]+)"\] = \("res://[^"]+", (.*)\),\s*$', line)
+        if not entry:
+            continue
+        family, expression = entry.group(1), entry.group(2)
+        inner = re.search(r'new Vector2\(([^)]*)\)', expression)
+        if inner is None:
+            numbers = []              # Vector2.One
+            body = ""
+        else:
+            body = inner.group(1)
+            numbers = [float(value) for value in re.findall(r"-?\d*\.?\d+", body)]
+        if not numbers:
+            value = 1.0
+        elif len(numbers) >= 2 and re.search(r"\d\s*/\s*\d", body):
+            value = numbers[0] / numbers[1]  # 1f / 1.2f
+        else:
+            value = numbers[0]
+        if value <= 0 or family in tile_floor_exempt:
+            continue
+        checked += 1
+        tile = 1.0 / value
+        floor_value = 0.999 if family in wave_families else 0.34
+        if tile < floor_value:
+            label = "VIS-035/093/094" if family in wave_families else "VIS-092"
+            issues.append(f"{label}: triplanar family '{family}' repeats every {tile:.2f} m "
+                          f"(< {floor_value:.2f} m floor)")
+    rows.append(f"triplanar repeat checked for {checked} families "
+                f"({len(wave_families)} re-tiled by this wave at >= 1 m, the rest at >= 0.35 m)")
+
+status = "PASS" if not issues else "OPEN"
+lines = [
+    "# Painterly material contract verification",
+    "",
+    f"- Status: **{status}**",
+    f"- Mode: static source contract (no engine, no import, no capture).",
+    "",
+]
+lines += [f"- {row}" for row in rows]
+if notes:
+    lines += ["", "## Notes"] + [f"- {note}" for note in notes]
+if issues:
+    lines += ["", "## Issues"] + [f"- {issue}" for issue in issues]
+else:
+    lines += ["", "No contract violation found. Visible acceptance still requires the paired frames.", ""]
+
+report = "\n".join(lines) + "\n"
+print(report, end="")
+if report_path:
+    destination = Path(report_path)
+    if not destination.is_absolute():
+        destination = Path.cwd() / destination
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(report, encoding="utf-8")
+
+raise SystemExit(0 if status == "PASS" else 2)
+CONTRACT_PY
+    PY_STATUS=$?
+    set -e
+    exit "$PY_STATUS"
+fi
 
 PY_ARGS=(
     "$ROOT_DIR"
@@ -125,6 +368,15 @@ import struct
 import sys
 import zlib
 from pathlib import Path
+
+# The report contains U+00D7 and Cyrillic headings. On a Windows console the default
+# cp1251 stdout raises UnicodeEncodeError after the gate has already decoded every
+# candidate, so the stream is pinned to UTF-8 with replacement instead of trusting the
+# locale. (The contract block below does the same.)
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
 
 
 root = Path(sys.argv[1]).resolve()
@@ -153,7 +405,9 @@ CATALOG_EXPECTED = {
     "urman_w05_v02_basecolor.png": ("wood_painted_trim", 2.0, 2.0),
     "urman_b07_v02_basecolor.png": ("stone_foundation", 1.0, 1.0),
     "urman_w02_v02_basecolor.png": ("wood_fence_vertical / wood_fence_rail / wood_fence_uv", 1.0, 1.0),
-    "wallpaper_old_v1_albedo.png": ("wallpaper (T12 reuse)", 1.1, -1.1),
+    # VIS-035: the wallpaper repeat doubled in the material owner (0.91 m -> 1.82 m per
+    # tile) so the ornament stops reading as a grid across a 5 m wall.
+    "wallpaper_old_v1_albedo.png": ("wallpaper (T12 reuse)", 0.55, -0.55),
     "urman_t04_v01_basecolor.png": ("cloth_curtain", 2.0, 2.0),
     "urman_b01_v01_basecolor.png": ("plaster_domestic", 1.0, 1.0),
     "urman_t01_v02_basecolor.png": ("cloth_table", 2.0, 2.0),
@@ -165,12 +419,15 @@ CATALOG_EXPECTED = {
     "urman_w03_v01_basecolor.png": ("wood_painted_blue", 1.0, 1.0),
     "urman_w04_v02_basecolor.png": ("wood_painted_green", 1.0, 1.0),
     "urman_w09_v01_basecolor.png": ("wood_floor_painted", 1.0, 1.0),
-    "urman_b03_v01_basecolor.png": ("wall_institution", 1.0, 1.0),
+    # VIS-094: civic plaster tile raised from 1.0 m to 1.8 m per repeat.
+    "urman_b03_v01_basecolor.png": ("wall_institution", 0.55, 0.55),
     "urman_b04_v01_basecolor.png": ("floor_institution", 1.0, 1.0),
     "urman_m05_v01_basecolor.png": ("plastic_abs", 2.0, 2.0),
     "urman_t10_v02_basecolor.png": ("cloth_clinic", 2.0, 2.0),
     "urman_t08_v01_basecolor.png": ("fabric_upholstery", 2.0, 2.0),
-    "urman_w08_v01_basecolor.png": ("wood_furniture_interior", 1.0 / 0.75, 1.0 / 0.75),
+    # VIS-035: the hero-room table moved from a 0.75 m to a 1.2 m tile so the pair
+    # table/wallpaper reads at one scale instead of two competing ones.
+    "urman_w08_v01_basecolor.png": ("wood_furniture_interior", 1.0 / 1.2, 1.0 / 1.2),
 }
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 

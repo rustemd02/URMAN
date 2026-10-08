@@ -583,6 +583,290 @@ LEGS_LOWER = {"calf_l", "calf_r"}
 FEET = {"foot_l", "foot_r", "ball_l", "ball_r", "ball_leaf_l", "ball_leaf_r"}
 
 
+# VIS-044 / VIS-103: the faces a conversation camera actually holds at 1–2 m.
+# Every entry is authored for that one person (age, sex and individuality must stay
+# distinguishable without a UI label), and every number is centimetres: the target is
+# a readable skull, not pores. The same magnitudes are deliberately small because the
+# rig skin and the existing facial attachments must survive the pass untouched.
+#   eye_recess  how far the eyeballs sit back into the sockets (kills the glass balls)
+#   eye_scale   eyeball diameter, 1 is the CC0 superhero value
+#   brow_lift   the brow ridge the light has to catch in three-quarter
+#   cheek       lower-cheek fullness; the flattened superhero cheek is the mannequin tell
+#   jaw         mandible definition, read as a line, not as a chisel
+#   nose        bridge and tip projection, the strongest silhouette cue at 1 m
+#   ear_set     ears set back from the skull instead of fins
+HERO_HEADS = {
+    "Mansur": dict(eye_recess=.005, eye_scale=.93, brow_lift=.005, cheek=.09, jaw=.06,
+                   nose=.007, ear_set=.004, skin_normal=.40),
+    "Gulsina": dict(eye_recess=.004, eye_scale=.95, brow_lift=.003, cheek=.12, jaw=.04,
+                    nose=.005, ear_set=.003, skin_normal=.40),
+    "TimurHazrat": dict(eye_recess=.005, eye_scale=.94, brow_lift=.004, cheek=.07, jaw=.05,
+                        nose=.006, ear_set=.003, skin_normal=.40),
+}
+
+# VIS-045: the one garment whose collar and shoulders are tailored in this patch.
+SHOULDER_FIT_PREFIXES = {"Mansur"}
+# Cloth may never end up inside the body it is wearing, and a coat that had to be
+# pulled more than this out of the skin is not a tailoring case but a source problem.
+ClothMinimumGap = .006
+ClothPenetrationAlarm = .030
+
+
+def hero_head_form(body: bpy.types.Object, eyes: bpy.types.Object | None, spec: dict) -> None:
+    """Mid-forms of one hero face: skull, brows, cheeks, jaw, nose, ears, eye seating.
+
+    Written the way soften_tamara is written — continuous Gaussians over the head's
+    own bounds, in the body's own space with -Y forward — so the existing deform
+    groups, the eye/brow attachments and the hair fit are not re-bound by this pass.
+    """
+    group = body.vertex_groups["Head"].index
+    head = [v for v in body.data.vertices if any(g.group == group and g.weight > .5 for g in v.groups)]
+    if not head:
+        raise ValueError("hero head pass: the body has no Head-owned vertices")
+    bottom = min(v.co.z for v in head)
+    top = max(v.co.z for v in head)
+    span = top - bottom
+    if span < .15:
+        raise ValueError(f"hero head pass: head bounds are not a head ({span:.3f} m)")
+
+    def height(z):
+        return (z - bottom) / span
+
+    for v in body.data.vertices:
+        weight = next((g.weight for g in v.groups if g.group == group), 0)
+        if weight <= 0:
+            continue
+        x, y, z = v.co
+        h = height(z)
+        front = min(1, max(0, (-y - .030) / .060))
+        # Cheeks: fullness below the cheekbone, the way a middle-aged villager's is.
+        cheek = math.exp(-((abs(x) - .075) / .045) ** 2 - ((h - .32) / .17) ** 2)
+        v.co.x += math.copysign(spec["cheek"] * cheek * weight * .6, x)
+        v.co.y -= spec["cheek"] * cheek * weight * front * .35
+        # Jaw: a readable mandible, slightly back, at the angle of the jaw.
+        jaw = math.exp(-((abs(x) - .083) / .035) ** 2 - ((h - .16) / .10) ** 2)
+        v.co.x += math.copysign(spec["jaw"] * jaw * weight * .5, x)
+        v.co.y += spec["jaw"] * jaw * weight * .5
+        # Brow ridge: the band the light has to catch in a three-quarter frame.
+        brow = math.exp(-((h - .56) / .045) ** 2) * min(1, max(0, (-y - .020) / .050))
+        v.co.z += spec["brow_lift"] * brow * weight
+        v.co.y -= spec["brow_lift"] * brow * weight * .5
+        # Nose: bridge and tip. At a metre this is the strongest single cue there is.
+        nose = math.exp(-(x / .016) ** 2) * math.exp(-((h - .44) / .10) ** 2) * front
+        v.co.y -= spec["nose"] * nose * weight
+        # Ears: set back against the skull instead of standing out as fins.
+        ear = math.exp(-((abs(x) - .092) / .018) ** 2) * math.exp(-((h - .50) / .10) ** 2)
+        v.co.y += spec["ear_set"] * ear * weight
+
+    if eyes is not None:
+        # The CC0 eyeballs are spheres on the surface of the face. Sitting them back
+        # into the sockets (and slightly smaller) is what stops them reading as glued
+        # beads; the iris texture and the eye material are not touched here.
+        centres = {}
+        for side in (-1, 1):
+            own = [v.co for v in eyes.data.vertices if math.copysign(1, v.co.x) == side]
+            if not own:
+                continue
+            centres[side] = Vector((sum(p.x for p in own) / len(own),
+                                    sum(p.y for p in own) / len(own),
+                                    sum(p.z for p in own) / len(own)))
+        for v in eyes.data.vertices:
+            side = math.copysign(1, v.co.x)
+            if side not in centres:
+                continue
+            v.co = centres[side] + (v.co - centres[side]) * spec["eye_scale"]
+            v.co.y += spec["eye_recess"]
+
+    triangles = len(body.data.polygons)
+    print(f"character-kit-v2: hero head pass triangles body={triangles} "
+          f"head_span={span:.3f} eye_recess={spec['eye_recess']:.3f}")
+
+
+def tailor_neck_and_shoulders(coat: bpy.types.Object, arm: bpy.types.Object,
+                              body: bpy.types.Object) -> None:
+    """VIS-045: a coat cut from bone-owned regions and inflated evenly becomes a shell.
+
+    Three things happen here and nothing else: the collar stops climbing toward the
+    jaw and sits at the base of the neck, the shoulder loses its padded rectangle and
+    takes three broad folds from the armhole, and no cloth vertex is allowed to finish
+    inside the body it is wearing. The last one is measured, printed and reported.
+    """
+    neck = arm.matrix_world @ arm.data.bones["neck_01"].head_local
+    shoulder = min(arm.matrix_world @ arm.data.bones[f"clavicle_{side}"].head_local for side in ("l", "r"))
+    pts = [body.matrix_world @ v.co for v in body.data.vertices]
+    neck_band = [p for p in pts if abs(p.z - neck.z) < .02 and abs(p.x - neck.x) < .10]
+    if len(neck_band) < 8:
+        raise ValueError("VIS-045: the body has no measurable neck band")
+    neck_radius = max(math.hypot(p.x - neck.x, p.y - neck.y) for p in neck_band)
+
+    bm = bmesh.new()
+    bm.from_mesh(coat.data)
+    world = coat.matrix_world
+    to_local = world.inverted()
+    moved_down = 0
+    for v in bm.verts:
+        p = world @ v.co
+        # 1. The neckline. Anything that rises above the base of the neck close to the
+        #    axis is drawn down and in, so the throat, the collarbone line and the
+        #    shoulders read as a person under a coat instead of a box under a lid.
+        radial = Vector((p.x - neck.x, p.y - neck.y, 0))
+        distance = radial.length
+        if p.z > neck.z - .005 and distance < neck_radius * 2.2:
+            climb = min(1.0, (p.z - (neck.z - .005)) / .075)
+            inside = min(1.0, max(0.0, 1 - distance / (neck_radius * 2.2)))
+            p.z -= climb * .030 * inside
+            pin = 1 - .28 * climb * inside
+            p.x = neck.x + radial.x * pin
+            p.y = neck.y + radial.y * pin
+            v.co = to_local @ p
+            moved_down += 1
+        # 2. The shoulder cap: the inflated rectangle is taken off the top of the
+        #    deltoid, where a real coat hangs from the body rather than around it.
+        over_shoulder = (p.z > shoulder.z + .005 and p.z < shoulder.z + .075
+                         and abs(p.x - shoulder.x) > .045)
+        if over_shoulder:
+            v.co = to_local @ (p - v.normal * .012)
+    bm.normal_update()
+    assert moved_down > 0, "VIS-045: the collar found nothing to lower; the neckline cut moved away"
+
+    # 3. Three broad folds leaving the armhole. Authored from the shoulder joint, so
+    #    they sit where a loaded sleeve actually creases — not random surface noise.
+    for side in ("l", "r"):
+        joint = arm.matrix_world @ arm.data.bones[f"upperarm_{side}"].head_local
+        axis = (arm.matrix_world @ arm.data.bones[f"upperarm_{side}"].tail_local - joint).normalized()
+        square = axis.orthogonal()
+        across = axis.cross(square)
+        for v in bm.verts:
+            offset = (world @ v.co) - joint
+            if not (.055 < offset.length < .145 and abs(offset.normalized().dot(axis)) < .55):
+                continue
+            depth = .006 * math.sin(3 * math.atan2(offset.dot(square), offset.dot(across)))
+            v.co = to_local @ ((world @ v.co) + v.normal * depth)
+    bm.to_mesh(coat.data)
+    bm.free()
+    coat.data.update()
+
+    # 4. Zero penetration is a construction, not a hope. Every coat vertex that ended
+    #    up inside the body is pushed back out to the cloth gap, and the worst depth
+    #    corrected this way is reported as the number the card asks for.
+    depsgraph = bpy.context.evaluated_depsgraph_get()
+    body_tree = BVHTree.FromObject(body.evaluated_get(depsgraph), depsgraph)
+    evaluated = [world @ v.co for v in coat.data.vertices]
+    worst = 0.0
+    corrected = 0
+    for index, point in enumerate(evaluated):
+        nearest, normal, _, _ = body_tree.find_nearest(point, .20)
+        if nearest is None or normal is None:
+            continue
+        signed = (point - nearest).dot(normal)
+        if signed >= ClothMinimumGap:
+            continue
+        worst = max(worst, -signed)
+        corrected += 1
+        coat.data.vertices[index].co = to_local @ (nearest + normal * ClothMinimumGap)
+    if corrected:
+        coat.data.update()
+    print(f"character-kit-v2: VIS-045 {coat.name} neckline verts lowered={moved_down} "
+          f"penetrations corrected={corrected} max={worst * 1000:.1f} mm")
+    if worst > ClothPenetrationAlarm:
+        raise ValueError(
+            f"VIS-045: {coat.name} needed {worst * 1000:.1f} mm of cloth pulled out of the body "
+            f"(alarm above {ClothPenetrationAlarm * 1000:.0f} mm); the coat offset is wrong, not the tailor")
+
+
+def measure_head_turn_clearance(arm: bpy.types.Object, body: bpy.types.Object,
+                                coat: bpy.types.Object, prefix: str) -> None:
+    """VIS-045 step 3, measured in the turn the shipped clips actually use.
+
+    The chin is sampled against the collar through every frame of Idle, Tension and
+    Talk — the poses the dialogue camera really plays — instead of being promised from
+    a still bind pose. A negative clearance the tailoring did not remove is a failure
+    of this pass, so it stops the build with the number and the frame.
+    """
+    neck = arm.matrix_world @ arm.data.bones["neck_01"].head_local
+    collar = [coat.matrix_world @ v.co for v in coat.data.vertices]
+    collar = [p for p in collar if abs(p.x - neck.x) < .16 and abs(p.y - neck.y) < .16
+              and p.z < neck.z + .02]
+    if not collar:
+        raise ValueError("VIS-045: no collar band left to measure the head turn against")
+    collar_top = max(p.z for p in collar)
+    depsgraph = bpy.context.evaluated_depsgraph_get()
+    previous = arm.animation_data.action
+    tracks = list(arm.animation_data.nla_tracks)
+    muted = [t.mute for t in tracks]
+    # Exactly the way idle_sole_height reads a shipped clip: every NLA strip muted, the
+    # one action under test evaluated alone. Otherwise all four clips land on the pose
+    # at once and the measurement is of nothing.
+    for track in tracks:
+        track.mute = True
+    worst = math.inf
+    worst_frame = -1
+    yaw_range = 0.0
+    group = body.vertex_groups["Head"].index
+
+    def chin_point():
+        bpy.context.view_layer.update()
+        evaluated = body.evaluated_get(depsgraph)
+        mesh = evaluated.to_mesh()
+        found = None
+        for vertex in mesh.vertices:
+            if not any(g.group == group and g.weight > .5 for g in vertex.groups):
+                continue
+            point = evaluated.matrix_world @ vertex.co
+            if found is None or point.z < found.z:
+                found = point
+        evaluated.to_mesh_clear()
+        return found
+
+    # The rest facing is measured from the shipped head's own chin, not from a bone
+    # axis: what the camera sees is the surface, and it has to agree in every clip.
+    bpy.context.scene.frame_set(1)
+    rest_chin = chin_point()
+    if rest_chin is None:
+        raise ValueError("VIS-045: the head has no vertices to measure")
+    rest_forward = Vector((rest_chin.x - neck.x, rest_chin.y - neck.y, 0))
+    if rest_forward.length < .001:
+        raise ValueError("VIS-045: the head's chin sits on the neck axis; nothing to aim by")
+    rest_forward.normalize()
+    try:
+        for clip in ("Idle", "Tension", "Talk"):
+            action = bpy.data.actions.get(f"{prefix}_{clip}")
+            if action is None:
+                continue
+            arm.animation_data.action = action
+            if getattr(action, "slots", None) and len(action.slots):
+                arm.animation_data.action_slot = action.slots[0]
+            start, end = (int(f) for f in action.frame_range)
+            for frame in range(start, end + 1, max(1, (end - start) // 12)):
+                bpy.context.scene.frame_set(frame)
+                chin = chin_point()
+                if chin is None:
+                    continue
+                forward = Vector((chin.x - neck.x, chin.y - neck.y, 0))
+                if forward.length > .001:
+                    cosine = max(-1.0, min(1.0, forward.normalized().dot(rest_forward)))
+                    yaw_range = max(yaw_range, math.degrees(math.acos(cosine)))
+                clearance = chin.z - collar_top
+                if clearance < worst:
+                    worst = clearance
+                    worst_frame = frame
+    finally:
+        arm.animation_data.action = previous
+        if previous is not None and len(previous.slots):
+            arm.animation_data.action_slot = previous.slots[0]
+        for track, mute in zip(tracks, muted):
+            track.mute = mute
+        bpy.context.scene.frame_set(1)
+    if worst == math.inf:
+        raise ValueError(f"VIS-045: {prefix} has no Idle/Tension/Talk clip to measure the turn in")
+    print(f"character-kit-v2: VIS-045 {prefix} head turn range={yaw_range:.0f}° "
+          f"min chin above collar={worst * 1000:.1f} mm at frame {worst_frame}")
+    if worst < -.005:
+        raise ValueError(
+            f"VIS-045: {prefix}'s chin enters the collar by {-worst * 1000:.1f} mm at frame "
+            f"{worst_frame}; the neckline is still too high")
+
+
 def soften_tamara(body, brows, eyes, hair):
     """Tamara-only lower face, relaxed brow and broad short-hair waves."""
     group=body.vertex_groups['Head'].index
@@ -723,6 +1007,10 @@ def dress(prefix: str, spec: dict, arm: bpy.types.Object, body: bpy.types.Object
     sash_material = flat_material(spec.get("sash", "2e2924"), "cloth")
     parts.append(fitted_sash(coat, f"{prefix}_Sash_LOD0", waist, sash_material) if prefix == "Tamara"
                  else sash(body, arm, f"{prefix}_Sash_LOD0", waist, sash_material))
+    # VIS-045: one garment in this patch — the pilot's coat gets a real neckline, a
+    # shoulder that hangs and three folds at the armhole. Measured, never promised.
+    if prefix in SHOULDER_FIT_PREFIXES:
+        tailor_neck_and_shoulders(coat, arm, body)
     # Trousers only show below the coat; their hidden upper part bulged
     # through the hem when a relaxed knee came forward.
     trousers = garment(body, arm, f"{prefix}_Trousers_LOD0", LEGS_UPPER | LEGS_LOWER, .014,
@@ -1078,6 +1366,11 @@ def main() -> None:
     names = [n for n in PEOPLE if not args.only or n in args.only.split(",")]
     for index, prefix in enumerate(names):
         spec = PEOPLE[prefix]
+        # VIS-102/VIS-103: a hero close-up carries its skull detail in the form, so the
+        # scan normal map of the source head is authored down here as well as capped at
+        # runtime; the two agree instead of one silently overriding the other.
+        if prefix in HERO_HEADS:
+            spec.setdefault("skin_normal", HERO_HEADS[prefix]["skin_normal"])
         objs = import_gltf(bodies / f"Superhero_{spec['body']}_FullBody.gltf")
         arm = next(o for o in objs if o.type == "ARMATURE")
         body = max((o for o in objs if o.type == "MESH" and o.parent == arm and o.name not in ("Eyes", "Eyebrows")
@@ -1143,10 +1436,20 @@ def main() -> None:
                     vertex.co.z += spec["hair_lift"] * crown
         if prefix == "Tamara":
             soften_tamara(body, brows, eyes, hair)
+        # VIS-044 / VIS-103: skull, brows, cheeks, jaw, nose, ears and the seating of
+        # the eyes for the faces the dialogue camera actually holds. Before the clothes
+        # are cut, so the collar and the hair keep fitting the head they were made for.
+        if prefix in HERO_HEADS:
+            hero_head_form(body, eyes, HERO_HEADS[prefix])
         rigged += dress(prefix, spec, arm, body)
         if prefix == "Tamara":
             fit_tamara_head(Path(args.root), arm, body, rigged)
         assign_clips(prefix, arm, actions)
+        # VIS-045 step 3: the tailored collar is checked against the head turn the
+        # shipped clips really play, not against a still bind pose.
+        if prefix in SHOULDER_FIT_PREFIXES:
+            coat = next(part for part in rigged if part.name == f"{prefix}_Coat_LOD0")
+            measure_head_turn_clearance(arm, body, coat, prefix)
         arm.location.x = index * 1.2
         lod1 = finish_character(prefix, arm, rigged)
         print(f"character-kit-v2: {prefix} parts={len(rigged)} lod1={lod1}")

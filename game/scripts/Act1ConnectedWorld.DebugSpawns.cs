@@ -60,6 +60,31 @@ public partial class Act1ConnectedWorld
             return true;
         }
 
+        // VIS-022: the two zīrat viewpoints the cultural check asks for — the
+        // road-side entry (P15) and the grave row read from the cleaned path
+        // (P15b). Both are taken from the owners that already place the approach
+        // and the reading point, so moving the plot moves the viewpoints with it
+        // and no second coordinate table is introduced.
+        if (zoneId == "zirat_road")
+        {
+            if (spawnPointId == "zirat-entry")
+            {
+                var roadEnd = ZiratPlotLayout.ApproachAxis[0];
+                var gate = ZiratPlotLayout.GateFenceAnchor;
+                var stand = AddressGround(new Vector3(roadEnd.X, 0f, roadEnd.Y));
+                spawn = new(stand, YawTowards(gate - stand));
+                return true;
+            }
+            if (spawnPointId == "zirat-grave-row")
+            {
+                if (ZiratFamilyTarget is null || ZiratFamilyReadingPoint == default) return false;
+                var read = ZiratFamilyReadingPoint;
+                spawn = new(read, YawTowards(ZiratFamilyTarget.GlobalPosition - read));
+                return true;
+            }
+            return false;
+        }
+
         if ((zoneId, spawnPointId) is not ("kara_urman_night", "forest-approach")) return false;
         if (FindChild("KaraForestApproachEndpoint", true, false) is not Node3D endpoint
             || !Act1WorldLayout.TryGetWorldSpawn(zoneId, "village_path", out var villagePath))

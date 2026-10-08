@@ -15,6 +15,39 @@ public static class GraphicsQuality
     public static string Preset { get; private set; } = "medium";
     public static bool Low => Preset == "low";
 
+    // VIS-029 readback of the raster/LOD/shadow budget the last Apply() published.
+    // These are copies of values Apply already computes: no new writer, no preset
+    // number changed, nothing here can alter a frame. The defaults mirror the
+    // "medium" tuple so a snapshot taken before any Apply still describes the
+    // declared startup contract instead of zeros. A before/after pair on the station
+    // must show the same string on both sides, otherwise the two runs measured
+    // different budgets and the comparison is void (the card forbids comparing
+    // presets against each other).
+    private static float _meshLodThreshold = 1.5f;
+    private static int _directionalShadowAtlas = 4096;
+    private static int _positionalShadowAtlas = 2048;
+    private static float _presetShadowDistance = 80f;
+    private static float _scaling3DScale = .9f;
+    private static string _msaa = "Msaa2X";
+    private static string _shadowFilter = "SoftLow";
+
+    /// <summary>Coarse mesh LOD threshold currently in force for the gameplay viewport.</summary>
+    public static float MeshLodThreshold => _meshLodThreshold;
+
+    /// <summary>
+    /// One machine-readable line describing the cost budget of the current frame.
+    /// Called from measurement sites only (foliage census, receipts); it never
+    /// applies anything. The line is assembled from invariant fragments because
+    /// joining interpolated strings with <c>+</c> yields a plain string, which does
+    /// not bind to <c>FormattableString.Invariant</c> and would print the numbers
+    /// in the current culture.
+    /// </summary>
+    public static string BudgetSnapshot() => string.Concat(
+        System.FormattableString.Invariant($"preset={Preset},lod_threshold={_meshLodThreshold:F2},scale={_scaling3DScale:F2},msaa={_msaa},"),
+        System.FormattableString.Invariant($"shadow_filter={_shadowFilter},directional_shadow_distance={_presetShadowDistance:F0},"),
+        System.FormattableString.Invariant($"directional_shadow_atlas={_directionalShadowAtlas},positional_shadow_atlas={_positionalShadowAtlas},"),
+        System.FormattableString.Invariant($"ssao_gate={(Low ? "off" : "authored")},probe={ProbeOverrideSummary()}"));
+
     /// <summary>
     /// Apple silicon's unified-memory GPU reports IntegratedGpu; that does not
     /// make it a low-end adapter. Other integrated and software GPUs retain low.
@@ -52,8 +85,18 @@ public static class GraphicsQuality
         };
         RenderingServer.DirectionalSoftShadowFilterSetQuality(filter);
         RenderingServer.PositionalSoftShadowFilterSetQuality(filter);
-        // Probe-only single-factor A/B: see ApplyProbeOverrides.
+        // VIS-029 readback: record what this Apply call published. The values are
+        // already computed here; storing them adds no writer and changes no preset
+        // number. BudgetSnapshot is taken after the probe scale override below so it
+        // describes the frame the engine really draws, not only the preset name.
+        _meshLodThreshold = lodThreshold;
+        _positionalShadowAtlas = positionalAtlas;
+        _directionalShadowAtlas = atlas;
+        _shadowFilter = filter.ToString();
+        _msaa = msaa.ToString();
+        _presetShadowDistance = Preset switch { "low" => 45f, "high" => 120f, _ => 80f };
         if (ProbeScaleOverride() is { } probeScale) viewport.Scaling3DScale = probeScale;
+        _scaling3DScale = viewport.Scaling3DScale;
         if (viewport.World3D?.Environment is { } environment) ConfigureEnvironment(environment);
         foreach (var sun in viewport.GetTree().Root.FindChildren("*", nameof(DirectionalLight3D), true, false).OfType<DirectionalLight3D>())
             ConfigureSun(sun);

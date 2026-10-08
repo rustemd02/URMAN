@@ -198,6 +198,68 @@ internal static class AddressFacadeMount
     internal static bool StructuralTimber(string name)=>name.Contains("_Street_Log",StringComparison.Ordinal)
         ||name.Contains("_Street_Portal",StringComparison.Ordinal)&&name.Contains("_Jamb",StringComparison.Ordinal);
 
+    /// <summary>VIS-020, identification step. Names the geometry that actually
+    /// covers a view from a point looking along a direction, largest first: owner
+    /// path, class, world size, distance, screen fraction, the sign of its own
+    /// face normal against the view ray (negative = the face the camera is
+    /// looking at is the authored front; positive = we are looking at its back)
+    /// and whether its material draws both sides. A dominating dark plane can
+    /// therefore be tied to a node before anything is changed, instead of being
+    /// guessed from a frame. Read-only, allocates nothing per frame and touches no
+    /// geometry; it walks one bounded neighbourhood, so call it from a capture
+    /// point, not every tick.</summary>
+    internal static string DominantSurfaces(Node3D world,Vector3 from,Vector3 direction,float fovDegrees,
+        int viewportWidth,int viewportHeight,float radius=12f,int top=8)
+    {
+        var forward=direction.Normalized();
+        if(!forward.IsFinite()||viewportWidth<1||viewportHeight<1||radius<=0f)return "[]";
+        var up=Vector3.Up.Cross(forward);
+        up=up.LengthSquared()<1e-6f?Vector3.Right:up.Normalized();
+        var right=up.Cross(forward).Normalized();
+        var tanV=(float)Math.Tan(Mathf.DegToRad(fovDegrees)*.5f);
+        var tanH=tanV*viewportWidth/Math.Max(viewportHeight,1);
+        var box=new Aabb(from-Vector3.One*radius,Vector3.One*radius*2f);
+        var rows=new Dictionary<string,(double Fraction,int Triangles,int BackFacing,int CullOff,Vector3 Size,float Distance,string Node)>();
+        foreach(var face in VisibleFaces(world,box))
+        {
+            var points=new[]{face.A,face.B,face.C};
+            var screen=new Vector2[3];var near=false;
+            for(var i=0;i<3;i++)
+            {
+                var d=points[i]-from;
+                var z=d.Dot(forward);
+                if(z<.05f){near=true;break;}
+                screen[i]=new Vector2(d.Dot(right)/(z*tanH)*.5f*viewportWidth,d.Dot(up)/(z*tanV)*.5f*viewportHeight);
+            }
+            if(near)continue;
+            var area=Math.Abs(Cross(screen[1]-screen[0],screen[2]-screen[0]))*.5;
+            if(area<=1.0)continue;
+            var centre=(face.A+face.B+face.C)/3f;
+            var normal=(face.B-face.A).Cross(face.C-face.A);
+            if(normal.LengthSquared()<1e-12f)continue;
+            var signed=normal.Dot(centre-from);
+            var owner=face.Owner;
+            var node=world.GetNodeOrNull<MeshInstance3D>(owner);
+            if(node is null)continue;
+            var bounds=node.GlobalTransform*node.GetAabb();
+            var cull=node.GetActiveMaterial(0) is StandardMaterial3D standard
+                &&standard.CullMode==BaseMaterial3D.CullModeEnum.Disabled;
+            if(!rows.TryGetValue(owner,out var row))
+                row=(0,0,0,0,bounds.Size,(centre-from).Length(),node.Name.ToString());
+            rows[owner]=(row.Fraction+area/(viewportWidth*(double)viewportHeight),row.Triangles+1,
+                row.BackFacing+(signed>0?1:0),row.CullOff+(cull?1:0),row.Size,row.Distance,row.Node);
+        }
+        return "["+string.Join(",",rows.OrderByDescending(r=>r.Value.Fraction).Take(top).Select(r=>
+            "{\"owner\":\""+r.Key.Replace("\\","\\\\").Replace("\"","\\\"")+"\",\"node\":\""+r.Value.Node
+            +"\",\"screenFraction\":"+r.Value.Fraction.ToString("0.0000",System.Globalization.CultureInfo.InvariantCulture)
+            +",\"triangles\":"+r.Value.Triangles+",\"backFacingTriangles\":"+r.Value.BackFacing
+            +",\"cullDisabledTriangles\":"+r.Value.CullOff
+            +",\"worldSizeMetres\":["+r.Value.Size.X.ToString("0.00",System.Globalization.CultureInfo.InvariantCulture)
+            +","+r.Value.Size.Y.ToString("0.00",System.Globalization.CultureInfo.InvariantCulture)
+            +","+r.Value.Size.Z.ToString("0.00",System.Globalization.CultureInfo.InvariantCulture)+"]"
+            +",\"distanceMetres\":"+r.Value.Distance.ToString("0.0",System.Globalization.CultureInfo.InvariantCulture)+"}"))+"]";
+    }
+
     // A rigid sign bridges the grooves of a log wall, but every rivet must
     // actually meet timber. The complete backing wall still owns the outline
     // and opening checks; window trim, snow and loose props cannot support it.

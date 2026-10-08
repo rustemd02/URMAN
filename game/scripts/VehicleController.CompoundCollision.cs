@@ -339,6 +339,85 @@ public partial class VehicleController
         throw new InvalidOperationException("Unknown compound shape " + shape.GetClass());
     }
 
+    /// <summary>
+    /// VIS-049: how far the vehicle's own rigid support points stand above the
+    /// surface they are resting on, measured with the same rays the placement check
+    /// uses. The articulated hooves are excluded on purpose — the ground IK plants
+    /// them on the floor every tick, so they report a zero gap even while the cart
+    /// body and its wheels hover, and that is precisely the defect this measures.
+    /// Returns NaN when no rigid support point found coherent ground.
+    /// </summary>
+    private float RigidSupportGap(Transform3D pose)
+    {
+        var exclude = PlacementExcluded();
+        using var excludeOwner = (global::Godot.Collections.Array)exclude;
+        var smallest = float.PositiveInfinity;
+        var found = false;
+        foreach (var (group, point) in AppliedSupportGroups())
+        {
+            if (group.Name.Contains("hoof", StringComparison.Ordinal)) continue;
+            var bottom = pose * point;
+            using var ray = PhysicsRayQueryParameters3D.Create(bottom + Vector3.Up * .24f,
+                bottom - Vector3.Up * .42f, CollisionMask);
+            ray.Exclude = exclude;
+            using var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
+            if (hit.Count == 0 || hit["normal"].AsVector3().Y < Mathf.Cos(FloorMaxAngle)) continue;
+            found = true;
+            smallest = Math.Min(smallest, bottom.Y - hit["position"].AsVector3().Y);
+        }
+        return found ? smallest : float.NaN;
+    }
+
+    /// <summary>
+    /// VIS-049/VIS-105 static contact. The authored grounding keeps a 25 mm
+    /// clearance so the very first physics projection cannot start inside the
+    /// terrain, and a parked body is never moved by MoveAndSlide: the clearance is
+    /// what the player sees. A wooden cart wheel or a winter tyre that hangs 25 mm
+    /// (the Niva: 37 mm, because its hull bottom also sits 12 mm under its own
+    /// contact line) above the snow reads as a floating prop, so the rest pose is
+    /// settled down onto the surface it stands on, to the engine's own SafeMargin —
+    /// exactly the relationship a driven-and-stopped vehicle already has.
+    ///
+    /// Nothing is forced: every candidate pose has to pass the untouched
+    /// ValidatePhysicalPlacement (chassis, tyres, hooves, road graph and terrain
+    /// included), the largest accepted drop is tried first and the body keeps its
+    /// previous pose if none is accepted. The authored parking is mirrored the same
+    /// way GroundAuthoredSpawn mirrors it, so a fresh session starts settled and
+    /// "starts at its authored grounded position" stays true. Runs at most four
+    /// placement validations, only when a placement becomes available and the body
+    /// is empty — never per frame.
+    /// </summary>
+    internal bool TrySettleOntoSupport(out float gapBefore, out float gapAfter, out float appliedDrop)
+    {
+        gapBefore = gapAfter = appliedDrop = float.NaN;
+        if (!IsInsideTree() || !PlacementAvailable || Driver is not null) return false;
+        gapBefore = RigidSupportGap(GlobalTransform);
+        if (float.IsNaN(gapBefore)) return false;
+        var wanted = gapBefore - SafeMargin;
+        // Only a small contact settle. A large difference means the vehicle is not
+        // standing on this surface at all, and parking recovery owns that case.
+        if (wanted < .002f || wanted > .12f) { gapAfter = gapBefore; return false; }
+        var atAuthoredParking = Definition.Spawn.DistanceSquaredTo(GlobalPosition) < .0001f
+            && Mathf.IsEqualApprox(RotationDegrees.Y, Definition.YawDegrees);
+        for (var step = 4; step >= 1; step--)
+        {
+            var drop = wanted * step / 4f;
+            var candidate = GlobalTransform;
+            candidate.Origin -= Vector3.Up * drop;
+            if (!ValidatePhysicalPlacement(candidate, out _)) continue;
+            GlobalTransform = candidate;
+            appliedDrop = drop;
+            gapAfter = RigidSupportGap(GlobalTransform);
+            if (atAuthoredParking) Definition = Definition with { Spawn = GlobalPosition };
+            UpdateVisuals(0);
+            SetMeta("staticContactSettle", FormattableString.Invariant(
+                $"{gapBefore:F4}->{gapAfter:F4}m dropped {drop:F4}m to SafeMargin {SafeMargin:F3}m"));
+            return true;
+        }
+        gapAfter = gapBefore;
+        return false;
+    }
+
     private VehicleHorsePose.PosePlan? HorseFrameForPose(Transform3D pose)
     {
         if (_hoofQueries.Count == 0 || !IsInsideTree() || _visual.HorsePose is not {} horse) return null;

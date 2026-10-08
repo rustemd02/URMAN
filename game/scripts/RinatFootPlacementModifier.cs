@@ -49,15 +49,58 @@ public partial class RinatFootPlacementModifier : SkeletonModifier3D
         _wantedWorld.Clear();
         _appliedWorld.Clear();
         _appliedSkeleton.Clear();
+        ClearWeightShift();
         RequestedRevision++;
         AppliedRevision = RequestedRevision;
     }
+
+    /// <summary>
+    /// VIS-046: the body's own weight transfer, in the one place that already owns
+    /// this skeleton's legs. When a person steps, the pelvis moves over the planted
+    /// leg and sinks a little on the single-support part of the stride; without it a
+    /// statically correct model keeps walking like a mannequin. Both numbers are
+    /// centimetres, eased by the caller, and applied at the pelvis only, so the
+    /// actor's world position, its support validation and every interaction anchor
+    /// stay exactly where their owners put them.
+    /// </summary>
+    internal void SetWeightShift(float dropMetres, Vector3 worldTowardsPlanted, float lateralMetres)
+    {
+        var wanted = new Vector3(worldTowardsPlanted.X, 0f, worldTowardsPlanted.Z);
+        if (wanted.LengthSquared() > .000001f) wanted = wanted.Normalized();
+        else wanted = Vector3.Zero;
+        _weightDrop = Mathf.Max(0f, dropMetres);
+        _weightLateral = Mathf.Max(0f, lateralMetres);
+        _weightDirection = wanted;
+        if (_weightDrop > 0f || _weightLateral > 0f) Active = true;
+        RequestedRevision++;
+    }
+
+    internal void ClearWeightShift()
+    {
+        _weightDrop = 0f;
+        _weightLateral = 0f;
+        _weightDirection = Vector3.Zero;
+    }
+
+    /// <summary>The shift actually applied on the last modification pass.</summary>
+    internal (float Drop, float Lateral) AppliedWeightShift => (_appliedWeightDrop, _appliedWeightLateral);
+
+    private float _weightDrop;
+    private float _weightLateral;
+    private Vector3 _weightDirection;
+    private float _appliedWeightDrop;
+    private float _appliedWeightLateral;
 
     public override void _ProcessModificationWithDelta(double delta)
     {
         var skeleton = GetSkeleton();
         if (skeleton is null) return;
         var inverse = skeleton.GlobalTransform.AffineInverse();
+        // The weight shift moves the pelvis first: every leg below it is solved
+        // afterwards against the shifted hip, so the planted boot stays exactly on
+        // the support point its owner asked for. Doing it in the other order would
+        // drag a planted foot through the snow.
+        ShiftWeightOntoPlantedLeg(skeleton, inverse);
         // Parent leg precedes its ankle. SetBonePose receives parent-relative
         // transforms, and Influence remains 1; Skeleton3D owns its blending.
         LowerPelvisToReach(skeleton, inverse);
@@ -76,8 +119,47 @@ public partial class RinatFootPlacementModifier : SkeletonModifier3D
             _appliedWorld[bone] = skeleton.GlobalTransform * skeleton.GetBoneGlobalPose(bone);
             _appliedSkeleton[bone] = skeleton.GetBoneGlobalPose(bone);
         }
+        ShiftWeightOntoPlantedLeg(skeleton, inverse);
         AppliedRevision = RequestedRevision;
     }
+
+    // Applied before the leg solve so the legs answer the shifted hip; the planted
+    // boot keeps the support point its owner asked for.
+    private void ShiftWeightOntoPlantedLeg(Skeleton3D skeleton, Transform3D inverse)
+    {
+        _appliedWeightDrop = 0f;
+        _appliedWeightLateral = 0f;
+        if (_weightDrop <= 0f && _weightLateral <= 0f) return;
+        var pelvis = -1;
+        foreach (var chain in _chains.Values)
+        {
+            var parent = skeleton.GetBoneParent(chain.Thigh);
+            if (parent < 0) continue;
+            pelvis = parent;
+            break;
+        }
+        if (pelvis < 0) return;
+        var drop = Mathf.Min(_weightDrop, MaxWeightDropMetres);
+        var distance = Mathf.Min(_weightLateral, MaxWeightLateralMetres);
+        // Godot 4's C# Basis rotates a direction through the multiplication
+        // operator; there is no Xform() member on it.
+        var lateral = distance > 0f && _weightDirection.LengthSquared() > .000001f
+            ? (inverse.Basis * _weightDirection) * distance
+            : Vector3.Zero;
+        var shift = lateral + Vector3.Up * -drop;
+        if (shift.LengthSquared() < .00000001f) return;
+        var pose = skeleton.GetBoneGlobalPose(pelvis);
+        pose.Origin += shift;
+        SetGlobal(skeleton, pelvis, pose);
+        _appliedSkeleton[pelvis] = skeleton.GetBoneGlobalPose(pelvis);
+        _appliedWeightDrop = drop;
+        _appliedWeightLateral = lateral.Length();
+    }
+
+    // A villager in a coat shifts a couple of centimetres, not a dance move; past
+    // this the cue reads as a bug rather than as weight.
+    private const float MaxWeightDropMetres = .030f;
+    private const float MaxWeightLateralMetres = .030f;
 
     /// <summary>
     /// Skeleton-space global poses as last applied for skinning, for every bone

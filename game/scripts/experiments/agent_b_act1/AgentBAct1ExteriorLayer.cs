@@ -26,6 +26,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private global::Godot.Environment? _environmentResource;
     private DirectionalLight3D? _sun;
     private CpuParticles3D? _rain;
+    private AgentBWindStreaks? _windStreaks;
     private bool _sheltered;
     private bool _windowSnowView;
     private SnowTrampleField? _snowTrample;
@@ -243,6 +244,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         BuildEnvironment();
         BuildKaraAccentLights();
         BuildSnow();
+        BuildWindStreaks();
         _snowTrample = new SnowTrampleField { Name = "AgentBSnowTrample" };
         AddChild(_snowTrample);
     }
@@ -283,6 +285,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         InvalidateSnowPresentationParameters();
         UpdateSnowPresentation(GetViewport()?.GetCamera3D()?.GlobalPosition ?? GlobalPosition);
         _snowTrample?.SetEnabled(enabled && !_sheltered);
+        // VIS-076: the streak layer shares the weather gate exactly — an interior or a
+        // sheltered spot has no moving air drawn in it, and switching the exterior
+        // presentation off is the feature's own disable test.
+        _windStreaks?.SetPresentationEnabled(enabled && !_sheltered);
 
         foreach (var light in _karaAccentLights)
         {
@@ -293,6 +299,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         SetMeta("exteriorMood", night ? "kara-night" : "rainy-day");
         SetMeta("exteriorNight", night);
         SetMeta("activeAtmosphereOwner", enabled ? "AgentBExteriorWorld" : "logical-zone");
+        if (_windStreaks is { } streaks) SetMeta("windStreakState", streaks.DescribeWindStreaks());
     }
 
     public void SetSheltered(bool sheltered)
@@ -301,6 +308,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         InvalidateSnowPresentationParameters();
         UpdateSnowPresentation(GetViewport()?.GetCamera3D()?.GlobalPosition ?? GlobalPosition);
         _snowTrample?.SetEnabled(_exteriorPresentationEnabled && !sheltered);
+        _windStreaks?.SetPresentationEnabled(_exteriorPresentationEnabled && !sheltered);
         SetMeta("physicalSheltered", sheltered);
     }
 
@@ -1559,6 +1567,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 else
                 {
                     var instance = new MeshInstance3D { Name = $"{variant}_LOD{lod}", Mesh = mesh };
+                    // VIS-029: the far tier only ever exists beyond its own begin
+                    // distance, and on every authored profile that is inside fog the
+                    // shadow of that trunk cannot be read. The near silhouette the
+                    // author judges is untouched: tiers 0 and 1 keep casting, and the
+                    // switch distances are the ones the parity audit measures.
+                    if (hasLods && SuppressFarTierShadow(lod))
+                        instance.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
                     tree!.AddChild(instance);
                     ConfigureFoliageRange(instance, hasLods ? lod : -1, false,
                         template.Mesh.GetAabb().Size.Y * vertical);
@@ -1632,6 +1647,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                      "WinterFarBirch_1", "WinterFarLinden_1", "WinterFarBirdCherry_1",
                      "WinterSpruce_1", "WinterLightSpruce_1", "WinterFarSpruce_1" })
             RegionalMesh(variant, region);
+        // VIS-027/029/030: silhouette parity across every authored tier switch, the
+        // measured culling volume of every plant cell and the structural census of
+        // this layer. Runs after every mesh and instance exists, so it reads what the
+        // frame will actually contain.
+        AuditFoliageLodAndCullingBounds(plants);
         SetMeta("roadEnvelopeSuppressedFoliageEntryCount", suppressed);
         SetMeta("plantedVariantCount", parts.Count);
         SetMeta("plannedFoliageEntryCount", plan.Count);
@@ -1703,12 +1723,25 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     {
         // The same distance cannot serve a sapling and a thirty-metre canopy.
         // Use projected-size parity while preserving matching LOD fade bands.
-        var rangeScale = groundCover ? 1f : Mathf.Clamp(treeHeight / 8f, 1f, 3f);
+        //
+        // VIS-027/VIS-029: the band widths and their overlap stay exactly as they
+        // were — every tier still hands over to the next inside a cross-fade, so the
+        // switch is a fade and not a pop, and the crossover moves with the tree's
+        // own height. Only the ceiling of the multiplier is bounded now, because the
+        // old 3x let a full-detail crown keep its near tier out to 78 m, past the
+        // fog line of every authored profile. The bands below are multiplied by the
+        // same factor for all three tiers, which is what keeps the parity gate
+        // meaningful: a tier swap cannot be hidden by moving only one band. The
+        // crossover itself is verified per plant in AuditFoliageLodAndCullingBounds,
+        // where all three instances of one tree are visible at once.
+        var rangeScale = groundCover ? 1f : Mathf.Clamp(treeHeight / 8f, 1f, LodRangeScaleCeiling);
         instance.VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self;
         instance.VisibilityRangeBegin = rangeScale * (lod switch { 1 => 24, 2 => 60, _ => 0 });
         instance.VisibilityRangeBeginMargin = rangeScale * (lod switch { 1 => 2, 2 => 4, _ => 0 });
         instance.VisibilityRangeEnd = rangeScale * (lod switch { 0 => 26, 1 => 64, _ => groundCover ? 85 : 0 });
         instance.VisibilityRangeEndMargin = rangeScale * (lod switch { 0 => 2, 1 => 4, _ => groundCover ? 5 : 0 });
+        instance.SetMeta("visibilityRangeTier", lod);
+        instance.SetMeta("visibilityRangeScale", rangeScale);
     }
 
     private static Material RegionalFoliageMaterial(string variant, string kind, string region)
@@ -1796,6 +1829,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     /// </summary>
     private List<(Vector2 Position, string Variant)> BuildDensifiedPlan()
     {
+        // VIS-085 evidence list: rebuilt with the plan, never carried over from a
+        // previous world instance.
+        _forestRingTrees.Clear();
+        _outerRowUnderstorySkipped = 0;
         var baseEntries = new List<(Vector2, string)>();
         var generated = new List<(Vector2, string)>();
         var rng = new RandomNumberGenerator { Seed = 20260910 };
@@ -2135,15 +2172,26 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var beltStep = row < 4 ? 4.0f : 3.4f;
             var rowMin = ringOuterMin + new Vector2(inset, inset);
             var rowMax = ringOuterMax - new Vector2(inset, inset);
+            // VIS-085: the belt is emitted on a fixed step, so even with its ±1.2 m
+            // jitter the trunk interval keeps one dominant period the eye counts as
+            // a wall. BreakRowPeriod moves each stem along its own row only — the
+            // row's normal position, and therefore the closure of the skyline, is
+            // untouched — and it is a pure function of the point, so no RNG value is
+            // consumed and every later root, garden fixture and boundary contact
+            // keeps its authored place.
             for (var x = rowMin.X; x <= rowMax.X; x += beltStep)
             {
-                EmitBelt(generated, rng, new Vector2(x + rng.RandfRange(-1.2f, 1.2f), rowMin.Y), row, beltRows);
-                EmitBelt(generated, rng, new Vector2(x + rng.RandfRange(-1.2f, 1.2f), rowMax.Y), row, beltRows);
+                var southStem = new Vector2(x + rng.RandfRange(-1.2f, 1.2f), rowMin.Y);
+                EmitBelt(generated, rng, BreakRowPeriod(southStem, row, 0), row, beltRows, southStem, 0);
+                var northStem = new Vector2(x + rng.RandfRange(-1.2f, 1.2f), rowMax.Y);
+                EmitBelt(generated, rng, BreakRowPeriod(northStem, row, 0), row, beltRows, northStem, 1);
             }
             for (var z = rowMin.Y + beltStep; z <= rowMax.Y - beltStep; z += beltStep)
             {
-                EmitBelt(generated, rng, new Vector2(rowMin.X, z + rng.RandfRange(-1.2f, 1.2f)), row, beltRows);
-                EmitBelt(generated, rng, new Vector2(rowMax.X, z + rng.RandfRange(-1.2f, 1.2f)), row, beltRows);
+                var westStem = new Vector2(rowMin.X, z + rng.RandfRange(-1.2f, 1.2f));
+                EmitBelt(generated, rng, BreakRowPeriod(westStem, row, 1), row, beltRows, westStem, 2);
+                var eastStem = new Vector2(rowMax.X, z + rng.RandfRange(-1.2f, 1.2f));
+                EmitBelt(generated, rng, BreakRowPeriod(eastStem, row, 1), row, beltRows, eastStem, 3);
             }
         }
 
@@ -2168,7 +2216,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     continue;
                 }
 
-                EmitBelt(generated, rng, candidate, 3, beltRows);
+                // The arrival closure keeps its authored composition: its keep-outs
+                // are evaluated on this exact point, so it is deliberately not run
+                // through BreakRowPeriod. Its own sine stagger already breaks the
+                // interval; VIS-085 measures that band separately (edge 4).
+                EmitBelt(generated, rng, candidate, row: 3, rowCount: beltRows, jittered: candidate, edge: 4);
             }
         }
 
@@ -2361,6 +2413,15 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     /// </summary>
     private static (Vector2 InnerMin, Vector2 InnerMax, Vector2 OuterMin, Vector2 OuterMax)? _forestRingBand;
 
+    /// <summary>
+    /// VIS-085: every ring trunk this build planted, with both its pre-break and
+    /// post-break position and the row/edge it belongs to. The rhythm audit needs the
+    /// pair because "no repeating trunk interval in the first 20 m" is only
+    /// falsifiable against the placement it replaced, and one run has to carry both
+    /// numbers. Presentation data only: nothing reads it back into the world.
+    /// </summary>
+    private readonly List<(Vector2 Jittered, Vector2 Planted, string Variant, int Row, int Edge)> _forestRingTrees = new();
+
     /// <summary>Inner settlement envelope of the Act I forest ring, world X/Z.</summary>
     internal static readonly Vector2 ForestRingInnerMin = new(-62f, -128f);
 
@@ -2400,12 +2461,14 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     /// </summary>
     private readonly List<Vector2> _forestBoundarySegments = new();
 
-    private static void EmitBelt(
+    private void EmitBelt(
         List<(Vector2, string)> planned,
         RandomNumberGenerator rng,
         Vector2 position,
         int row,
-        int rowCount)
+        int rowCount,
+        Vector2 jittered,
+        int edge)
     {
         if (InsideMosqueKeepOut(position))
         {
@@ -2459,6 +2522,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
 
         planned.Add((position, variant));
+        _forestRingTrees.Add((jittered, position, variant, row, edge));
 
         var undergrowth = rng.Randf() switch
         {
@@ -2467,7 +2531,15 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             < 0.8f => "Shrub_1",
             _ => "GrassTuft_1"
         };
-        planned.Add((position + new Vector2(rng.RandfRange(-1.6f, 1.6f), rng.RandfRange(-1.6f, 1.6f)), undergrowth));
+        var undergrowthPoint = position + new Vector2(rng.RandfRange(-1.6f, 1.6f), rng.RandfRange(-1.6f, 1.6f));
+        // VIS-029/085: every rng call still happens, only the entry is dropped. If
+        // the draws were skipped as well, every later root, garden fixture and
+        // boundary contact in this build would move, which the plan explicitly
+        // forbids. The outer two rows are seen only as skyline behind the tall
+        // trunks, so their 0-2 m understory is the layer that carries cost and
+        // carries no read.
+        if (!SuppressOuterRowUnderstory(row, rowCount)) planned.Add((undergrowthPoint, undergrowth));
+        else _outerRowUnderstorySkipped++;
         // Every ring row gets a second understory plant. The wall has to read
         // from the ground up: between the tall trunks the eye must meet needles
         // and snow rather than the open field behind.
@@ -2478,7 +2550,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             < 0.8f => "Fern_0",
             _ => "Sedge_2"
         };
-        planned.Add((position + new Vector2(rng.RandfRange(-2.4f, 2.4f), rng.RandfRange(-2.4f, 2.4f)), filler));
+        var fillerPoint = position + new Vector2(rng.RandfRange(-2.4f, 2.4f), rng.RandfRange(-2.4f, 2.4f));
+        if (!SuppressOuterRowUnderstory(row, rowCount)) planned.Add((fillerPoint, filler));
+        else _outerRowUnderstorySkipped++;
     }
 
     private static bool HasMeshInSubtree(Node node) =>
@@ -2637,6 +2711,52 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // pushed snow uniforms without retaining a reference to the material itself.
         InvalidateSnowPresentationParameters();
     }
+
+    private void BuildWindStreaks()
+    {
+        // VIS-076 (V4): the rare world-space abstraction of moving air. It is built
+        // next to the snow emitter because it reads that emitter's own wind, so the
+        // opening blizzard and the ordinary drift move the ribbons the same way they
+        // move the flakes, and a second weather state can never appear.
+        _windStreaks = new AgentBWindStreaks(() => ExteriorWindVector) { Name = "AgentBWindStreaks" };
+        _windStreaks.SetMeta("presentationOwner", nameof(Act1ConnectedWorld));
+        AddChild(_windStreaks);
+        _windStreaks.BuildPool();
+        _windStreaks.SetPresentationEnabled(_exteriorPresentationEnabled && !_sheltered);
+        _windStreaks.SetRegionMode(IsForestRimRegion(new Vector2(GlobalPosition.X, GlobalPosition.Z)));
+        SetMeta("windStreakOwner", _windStreaks.Name);
+        SetMeta("windStreakPolicy", AgentBWindStreaks.WindStreakMode switch
+        {
+            "off" => "session-disabled (disable test), the frame equals the pre-feature frame",
+            "on" => "session-forced for a capture run; never set by an ordinary launch",
+            _ => "auto: exterior presentation, wind above the gate, reduced motion respected"
+        });
+        SetMeta("windStreakBudget", "pool 16, village cap 8, forest-rim cap 16, lifetime 0.6-2.0 s");
+    }
+
+    /// <summary>
+    /// The world's wind, published by the single weather owner: the same direction and
+    /// mean speed the snow emitter integrates and the same vector <c>SetOpeningBlizzard</c>
+    /// pushes into the flake shader as <c>snow_velocity</c>. Read-only for everyone else.
+    /// </summary>
+    internal Vector3 ExteriorWindVector
+    {
+        get
+        {
+            if (_rain is not { } snow) return Vector3.Zero;
+            var direction = snow.Direction;
+            if (direction == Vector3.Zero) return Vector3.Zero;
+            var mean = (snow.InitialVelocityMin + snow.InitialVelocityMax) * .5f;
+            return direction.Normalized() * mean * (snow.Emitting ? 1f : 0f);
+        }
+    }
+
+    /// <summary>
+    /// Same region predicate PlantFoliage uses to grade a plant as Kara rim rather than
+    /// village: kept here so the wind register and the plant register cannot diverge.
+    /// </summary>
+    internal static bool IsForestRimRegion(Vector2 worldXZ) =>
+        worldXZ.X <= -40f || worldXZ.X >= 134f || worldXZ.Y <= -128f;
 
     private void BuildKaraAccentLights()
     {
@@ -2842,6 +2962,17 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             UpdateSnowPresentation(focus);
             // Spawn upwind; world-space flakes keep their trajectory as the player turns.
             _rain.GlobalPosition = focus + new Vector3(10f, 2f, -2f);
+        }
+
+        if (_windStreaks is not null)
+        {
+            // VIS-076: the register follows the viewer's own region, so the same gust
+            // is delicate over the village and stranger at the Kara rim; the tint is
+            // read from the atmosphere owner's fog colour, never written there.
+            _windStreaks.SetRegionMode(IsForestRimRegion(new Vector2(focus.X, focus.Z)));
+            if (_environmentResource is { } atmosphere && atmosphere.FogEnabled)
+                _windStreaks.SetWorldTint(atmosphere.FogLightColor, "exterior-fog");
+            _windStreaks.Refresh(focus, delta);
         }
     }
 

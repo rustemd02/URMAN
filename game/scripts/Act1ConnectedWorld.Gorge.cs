@@ -17,6 +17,10 @@ public partial class Act1ConnectedWorld
 {
     internal const string SuspensionBridgeStateId = "act1/suspension-bridge";
     internal const float SuspensionBridgeX = 0f;
+    /// <summary>VIS-015: the vertical gap a bank-to-deck joint is closed to, in metres.
+    /// The card's own target; measured per bearing and printed as
+    /// <c>act1-bridge-joint … gapAfter</c>, never assumed.</summary>
+    internal const float RimJointTargetGap = .01f;
     /// <summary>Deck and collision strip are cut into this many rigid sections that
     /// <see cref="SuspensionBridgeDynamics"/> moves as one; both stay glued together.</summary>
     internal const int SuspensionDeckSections = 14;
@@ -244,7 +248,8 @@ public partial class Act1ConnectedWorld
         _suspensionDeckBody = new StaticBody3D { Name = "SuspensionDeckBody", CollisionLayer = 1, CollisionMask = 0 };
         _suspensionDeckBody.SetMeta("footstepSurface", "wood");
         _suspensionDeckBody.SetMeta("collisionContract",
-            "one continuous strip: 14 animated section boxes overlapping 0.14 m, two static apron ramps overlapping the rims by 0.35 m");
+            "one continuous strip: 14 animated section boxes overlapping 0.14 m, two static apron ramps overlapping the rims by 0.35 m; " +
+            "every box is 0.10 m thick and set so its top equals the 0.06 m plank top (VIS-015)");
         _suspensionIntact.AddChild(_suspensionDeckBody);
         var length = nearZ - farZ;
         var spacing = .36f;
@@ -294,8 +299,12 @@ public partial class Act1ConnectedWorld
                     new Vector3(tilt, 0, 0), "4a3d30", "wood");
             _suspensionDeckBody.AddChild(new CollisionShape3D
             {
-                Name = $"SuspensionDeckShape_{i:00}", Position = mid - Vector3.Up * .03f, Rotation = new Vector3(tilt, 0, 0),
-                Shape = new BoxShape3D { Size = new Vector3(1.4f, .08f, span) }
+                Name = $"SuspensionDeckShape_{i:00}", Position = mid - Vector3.Up * .02f, Rotation = new Vector3(tilt, 0, 0),
+                // VIS-015: the strip is 10 cm thick and centred 2 cm under the deck line, so
+                // its top is exactly the top of the 6 cm boards (mid + 3 cm). The old 8 cm box
+                // centred 3 cm under the line walked 2 cm inside the planks: the feet sank into
+                // the very surface the eye was told to step on, which reads as a broken joint.
+                Shape = new BoxShape3D { Size = new Vector3(1.4f, .10f, span) }
             });
             foreach (var side in new[] { -1f, 1f })
             {
@@ -339,6 +348,16 @@ public partial class Act1ConnectedWorld
             }
             AddVisualBox(_suspensionIntact, $"SuspensionApronSleeper_{end}", new(1.62f, .16f, .26f),
                 new(x, outerY - .09f, outerZ + sign * .10f), "4a3d30", "wood", yawDegrees: sign * 3f);
+            // VIS-015: the joint between the bank and the deck. The boards carry the walker,
+            // but their straight line leaves a slot of 9 cm at the rim and closes to nothing
+            // at the outer end; seen from the street that slot is the technical step the card
+            // is about. One conformed snow bearing — edge tier, never more than 12 cm — fills
+            // it from under the boards and feathers to the real ground at both ends, so the
+            // gorge keeps its depth and the walk onto the planks is continuous. It hangs off
+            // the bridge root, not off the span: the bank stays when the deck falls, and the
+            // dynamics never collects it (its prefixes are planks, ropes and deck shapes).
+            AddDeckLandBearing(root, $"SuspensionRimBearing_{end}",
+                new Vector2(x, rimZ), new Vector2(x, outerZ), Vector2.Right, endY, outerY, .95f);
             var from = rimPoint + new Vector3(0, 0, -sign * .35f);   // under the first moving box
             var to = outerPoint + new Vector3(0, 0, sign * .15f);    // over the rim
             var rampA = from.Z > to.Z ? from : to;
@@ -346,9 +365,10 @@ public partial class Act1ConnectedWorld
             var rampMid = (rampA + rampB) * .5f;
             _suspensionDeckBody.AddChild(new CollisionShape3D
             {
-                Name = $"SuspensionApronShape_{end}", Position = rampMid - Vector3.Up * .03f,
+                Name = $"SuspensionApronShape_{end}", Position = rampMid - Vector3.Up * .02f,
                 Rotation = new Vector3(Mathf.Atan2(rampB.Y - rampA.Y, rampA.Z - rampB.Z), 0, 0),
-                Shape = new BoxShape3D { Size = new Vector3(1.5f, .08f, rampA.DistanceTo(rampB) + .10f) }
+                // VIS-015: same top as the apron boards it carries (see SuspensionDeckShape).
+                Shape = new BoxShape3D { Size = new Vector3(1.5f, .10f, rampA.DistanceTo(rampB) + .10f) }
             });
         }
 
@@ -380,11 +400,108 @@ public partial class Act1ConnectedWorld
         root.SetMeta("deckSections", segments);
         root.SetMeta("deckHoles", 0);
         root.SetMeta("swayContract", "SuspensionBridgeDynamics moves visuals and collision together; owner calls Tick");
+        // VIS-015: the collision strip must agree with the planks the eye sees. A section box
+        // is a chord of the sagging deck curve, so the walking surface and the board top differ
+        // by the sag across one section — measured here instead of assumed, and reported.
+        var deckSurfaceError = 0f;
+        for (var i = 0; i < planks; i++)
+        {
+            var t = (i + .5f) / planks;
+            var section = Mathf.Min(segments - 1, (int)(t * segments));
+            var chord = (SuspensionDeckHeight(section / (float)segments, nearY, farY)
+                + SuspensionDeckHeight((section + 1) / (float)segments, nearY, farY)) * .5f;
+            deckSurfaceError = Mathf.Max(deckSurfaceError, Mathf.Abs(chord - SuspensionDeckHeight(t, nearY, farY)));
+        }
+        GD.Print($"act1-gorge-joint: deckCollisionTopError={deckSurfaceError:0.####} planks={planks} " +
+                 $"sections={segments} apronBoards={apronBoards * 2}");
+
         // The dynamics pre-collects every animated node (planks, repairs, stringers,
         // ropes, hangers, deck/rope-wall collision shapes) and its three audio voices.
         // Initialize is idempotent; the owner only has to wire Tick.
         _suspensionDynamics = new SuspensionBridgeDynamics();
         _suspensionDynamics.Initialize(this);
+    }
+
+    /// <summary>
+    /// VIS-015: the snow bearing that closes one bridge-to-bank joint, for either bridge.
+    /// Five lateral samples × nine stations along the deck's landward run, every vertex seated
+    /// on the real collision ground and rising only as far as the straight underside of the
+    /// boards allows, minus the joint gap. Where the bank already reaches the boards the crest
+    /// is zero, so the ribbon never becomes a white block stuffed under a span and never
+    /// reaches into a cut: it spans exactly the apron it is given. Presentation only — the
+    /// walkable surface stays the planks and their collision strip.
+    /// <paramref name="rim"/> and <paramref name="outer"/> are XZ points at the deck end and at
+    /// the landward end of its approach; <paramref name="lateral"/> is the unit vector across
+    /// the deck; the deck heights are its walking tops.
+    /// </summary>
+    private static MeshInstance3D AddDeckLandBearing(Node3D parent, string name, Vector2 rim, Vector2 outer,
+        Vector2 lateral, float rimDeckY, float outerDeckY, float halfWidth,
+        float jointGap = RimJointTargetGap, float crestCap = SnowReliefStandard.EdgeHeightMax)
+    {
+        const int stations = 9;
+        const int columns = 5;
+        var points = new Vector3[stations, columns];
+        var crestMax = 0f;
+        var jointRemaining = 0f;
+        var jointSlot = 0f;
+        for (var s = 0; s < stations; s++)
+        {
+            var t = s / (float)(stations - 1);              // 0 at the deck end, 1 landward
+            var centre = rim.Lerp(outer, t);
+            var underside = Mathf.Lerp(rimDeckY, outerDeckY, t) - .03f;
+            for (var c = 0; c < columns; c++)
+            {
+                var offset = (c / (float)(columns - 1) * 2 - 1) * halfWidth;
+                var px = centre.X + lateral.X * offset;
+                var pz = centre.Y + lateral.Y * offset;
+                var ground = AgentBAct1HeightField.CollisionGround(px, pz);
+                var crest = Mathf.Clamp(underside - ground - jointGap, 0f, crestCap)
+                    * (1f - .35f * Mathf.Pow(Mathf.Abs(offset) / halfWidth, 2f));
+                crestMax = Mathf.Max(crestMax, crest);
+                points[s, c] = new Vector3(px, ground + crest, pz);
+                // The walking line is what the joint is measured on: the open slot before the
+                // bearing, and what of it is left after, must both be reported honestly.
+                if (c != columns / 2) continue;
+                if (t < .01f) jointSlot = underside - ground;
+                else if (crest > 0f) jointRemaining = Mathf.Max(jointRemaining, underside - ground - crest);
+            }
+        }
+        using var tool = new SurfaceTool();
+        tool.Begin(Mesh.PrimitiveType.Triangles);
+        void Vertex(int s, int c)
+        {
+            var p = points[s, c];
+            tool.SetUV(new Vector2(p.X * .25f, p.Z * .25f));
+            tool.AddVertex(parent.ToLocal(p));
+        }
+        for (var s = 0; s < stations - 1; s++)
+        for (var c = 0; c < columns - 1; c++)
+        {
+            // Both windings: the bearing is read from the bank and from under the deck edge.
+            Vertex(s, c); Vertex(s, c + 1); Vertex(s + 1, c);
+            Vertex(s, c + 1); Vertex(s + 1, c + 1); Vertex(s + 1, c);
+        }
+        tool.GenerateNormals();
+        var bearing = new MeshInstance3D
+        {
+            Name = name,
+            Mesh = tool.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("e4eaee", "snow_ground"),
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        };
+        bearing.SetMeta("visualOnly", true);
+        bearing.SetMeta("presentationOnly", true);
+        bearing.SetMeta("collisionOwner", "none");
+        bearing.SetMeta("snowTier", SnowReliefStandard.TierEdge);
+        bearing.SetMeta("snowBankHeight", crestMax);
+        bearing.SetMeta("bridgeJointSlotBefore", jointSlot);
+        bearing.SetMeta("bridgeJointGapAfter", jointRemaining);
+        bearing.SetMeta("presentationRole",
+            "VIS-015 snow bearing closing the bank-to-deck joint of a bridge approach");
+        parent.AddChild(bearing);
+        GD.Print($"act1-bridge-joint: name={name} slotBefore={jointSlot:0.###} crestMax={crestMax:0.###} " +
+                 $"gapAfter={jointRemaining:0.####} target={jointGap:0.###} cap={crestCap:0.###}");
+        return bearing;
     }
 
     /// <summary>The bridge dynamics created with the bridge; its Tick is wired by the owner.</summary>

@@ -12,6 +12,7 @@ public partial class FirstPersonController
     private Vector3 _bodySpineRest;
     private int _bodyUpperCoat;
     private Transform3D _bodyUpperCoatRest;
+    private MeshInstance3D? _bodyCoatMesh;
     private Vector3 _bodyPreviousFeet;
     private float _bodyGait;
     private float _bodyStride;
@@ -142,6 +143,7 @@ public partial class FirstPersonController
 
     private void PrepareBodyCoat(MeshInstance3D coat)
     {
+        _bodyCoatMesh = coat;
         // Preserve the real chest/waist/shoulder surface. Cutting across its
         // waist exposes the technical tops of the legs; closing that cut makes
         // a disk. The upper garment instead folds with the crouched torso.
@@ -281,6 +283,37 @@ public partial class FirstPersonController
                 ordered[(index + ordered.Length - 1) % ordered.Length], ordered[(index + 2) % ordered.Length], weight);
         }
         throw new InvalidOperationException("Source trouser ring does not enclose its profile centre.");
+    }
+
+    /// <summary>
+    /// VIS-047: the carried thing must be held by this body, not hover in front of
+    /// the camera. The grip envelope is measured from the coat that is actually
+    /// skinned and drawn here — its own surface extreme along the direction the
+    /// player is looking — so a heavier coat moves the grip with it instead of
+    /// leaving the item at a hard-coded distance. Presentation only: no collision,
+    /// no custody and no interaction identity is created or moved by this query.
+    /// </summary>
+    internal readonly record struct CarryGrip(Vector3 Chest, Vector3 CoatFront);
+
+    internal bool TryGetCarryGrip(Vector3 facingHorizontal, out CarryGrip grip)
+    {
+        grip = default;
+        if (_bodyCoatMesh is not { } coat || !IsInstanceValid(coat) || coat.IsQueuedForDeletion()) return false;
+        if (_visibleBody is null || !IsInstanceValid(_visibleBody) || VehicleControlled) return false;
+        if (facingHorizontal.LengthSquared() < .000001f) return false;
+        var facing = facingHorizontal.Normalized();
+        var chest = _bodySkeleton.GlobalTransform
+            * _bodySkeleton.GetBoneGlobalPose(_bodyUpperCoat).Origin;
+        var bounds = coat.GetAabb();
+        var front = float.NegativeInfinity;
+        for (var index = 0; index < 8; index++)
+        {
+            var corner = coat.ToGlobal(bounds.GetEndpoint(index)) - chest;
+            front = Math.Max(front, corner.Dot(facing));
+        }
+        if (!float.IsFinite(front)) return false;
+        grip = new CarryGrip(chest, chest + facing * Math.Max(front, 0f));
+        return true;
     }
 
     private void ResetVisibleBodyMotion()
