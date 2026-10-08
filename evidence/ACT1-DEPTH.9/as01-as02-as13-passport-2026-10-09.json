@@ -167,28 +167,32 @@
       "id": "AS-13",
       "passport": "docs/URMAN_VISUAL_RESET_2026-10-07/ASSET_PASSPORTS_RU.md#AS-13",
       "texture": {
-      "asset_registry_id": null,
-      "registration_status": "No matching frost_window_v1_albedo entry was found in assets/asset_registry.json; the file is present and referenced by current PML/window shader source.",
+        "asset_registry_id": "texture.painterly.d07.v01",
+        "registration_status": "Registered as the existing D07 raster asset under assets/asset_registry.json. This metadata records the frost map only; it does not complete the broader AS-13 family or its art gates.",
         "path": "game/assets/textures/painterly/frost_window_v1_albedo.png",
         "sha256": "9b9362881cb5913f10117118524132f95d7d5cff5cc830fe832afee17194cdda",
+        "source_sha256": "9b9362881cb5913f10117118524132f95d7d5cff5cc830fe832afee17194cdda",
+        "source_bytes": 1665242,
         "dimensions": [1024, 1536],
         "channels": "RGBA",
         "alpha": "historical Pillow passport reports 71.8427% fully transparent pixels; central transparent RGB does not darken the pane because current window shader reads frost alpha",
-        "import": "mipmaps disabled; process/size_limit=0",
+        "import": "mipmaps disabled; process/size_limit=0; compress/mode=0; alpha channel remap=3",
+        "uv": "One complete pane [0,1]×[0,1], non-tiling. HeroHouse source computes UV from local pane X/Z; decoded current GLB UV accessors span [0,1] on both axes for all eight HeroHouse Glass nodes.",
         "origin": "OpenAI ImageGen built-in, one transparent-background generation; exact selected source /Users/unterlantas/.codex/generated_images/01a0fb4c-c25d-76a2-ad2a-3549dd8ceef4/exec-ea2e44f8-6e24-467f-9b38-50c646bb31bc.png; source and repository PNG SHA-256 match byte-for-byte",
         "rights": "Project-generated; source is not a copied third-party photo or reference image"
       },
       "exterior_consumer": {
         "source": "game/scripts/Act1ConnectedWorld.cs:6354-6368; game/scripts/VillageWindowMaterials.cs",
-        "target": "The eight Glass meshes on BabaiApproachDwellingFacade receive VillageWindowMaterials.For(facade.Name).",
-        "behavior": "UV-based frost map/alpha and per-house UV variation; shader derives room color, day/night lamp emission, frost roughness/specular. Optional frost normal file is absent and guarded off."
+        "target": "Eight HeroHouse Glass meshes (Left_Window0; Rear_Window0-1; Right_Window0; SeniOuter_Window0; Street_Window1-3) receive VillageWindowMaterials.For(facade.Name) on BabaiApproachDwellingFacade.",
+        "behavior": "The shader samples frost alpha with per-house UV variation and derives room color, day/night lamp emission, frost roughness/specular. Source and current GLB UVs cover [0,1] per pane. Optional frost normal file is absent and guarded off.",
+        "additional_pml_consumers": "PainterlyMaterialLibrary.WinterTextures[frost_window] binds the same PNG to the alpha-aware edge_frost surface; current call sites are Act1ConnectedWorld.FarBank.cs:98 and Act1ConnectedWorld.SovkhozSquare.cs:192."
       },
       "interior_consumer": {
         "main_room": "Seven procedural panes from StyleBenchmarkInteriorFactory.BuildWindow use a different procedural edge-frost shader; it does not sample frost_window_v1_albedo.png or VillageWindowMaterials.",
         "wing": "StyleBenchmarkInteriorFactory.Rooms.FrostWindow uses a flat opaque FrostPane because the wing has no exterior; it also does not sample the AS-13 PNG.",
         "open_scope": "Decide at visual review whether the AS-13 family contract is satisfied by the exterior lamp/frost shader plus the distinct interior window treatment, or whether a shared map should be deliberately reused inside. Do not count current source as proof of the latter."
       },
-      "acceptance": "Source-level hookup is confirmed; current after-porch native window frame, interior view-through, night spill and human art acceptance are not verified by this passport."
+      "acceptance": "Source hookup, texture registration and HeroHouse UV range are confirmed; current after-porch native window frame, interior view-through, night spill and human art acceptance are not verified by this passport."
     }
   ],
   "current_native_and_human_gates": {
@@ -232,7 +236,7 @@
     },
     {
       "path": "assets/asset_registry.json:AS-13 frost PNG",
-      "finding": "No matching asset_registry entry is present for frost_window_v1_albedo.png, although the image, import sidecar, PML path and VillageWindowMaterials shader hookup exist. This passport records the actual file/consumer without inventing an ID."
+      "finding": "The D07 raster is now registered as texture.painterly.d07.v01. This links the existing image, exact source/derived hash, import sidecar, current consumers and actual HeroHouse UV range; it records only the raster asset, not completion or visual acceptance of AS-13."
     },
     {
       "path": "docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md:D07",
@@ -247,7 +251,8 @@
     "registry_metadata_updated": [
       "assets/asset_registry.json: urman.act1.village_exterior_kit lod counts only; triangleBudget remains unchanged at 36761",
       "assets/asset_registry.json: texture.painterly.w01.v01 materialOwner",
-      "assets/asset_registry.json: texture.painterly.w05.v02 materialOwner"
+      "assets/asset_registry.json: texture.painterly.w05.v02 materialOwner",
+      "assets/asset_registry.json: texture.painterly.d07.v01 registers the existing frost raster and source/provenance; AS-13 visual gates remain open"
     ],
     "task_completion": false
   }
