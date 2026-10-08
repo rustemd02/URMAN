@@ -1,0 +1,2389 @@
+{
+  "schema_version": 1,
+  "kind": "urman.pw003.source_scope_receipt",
+  "recorded_on": "2026-10-09",
+  "status": "OPEN",
+  "source": {
+    "campaign": "content/campaigns/urman.fullgame/campaign.json",
+    "module_definitions": "content/modules/urman-fullgame/definitions.json",
+    "photo_world_state_owner": "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
+    "photo_world_state_sha256_after_fix": "d14e9d8eb00f0a48fae460c71481a71213a4c77c5092a203c3e7e1854f9c978f",
+    "compiled_pack": "game/content/urman.fullgame.compiled.v1.json",
+    "compiled_pack_sha256": "c1afa18be60a451d7a2a5295d8be72cba7211579c415f51e75ca2f56ae209052",
+    "campaign_fingerprint": "cb4d3653461511e859a3be9fd08738faf534798803aebae30908498d6a2e6a93",
+    "photo_world_namespace": "photoworlds-v1",
+    "entrypoint": "urman.fullgame:scene/pw-prologue",
+    "canonical_role_bindings": {
+      "aidar": "urman.chapter1:character/aidar",
+      "alsu": "urman.chapter1:character/alsu",
+      "gulsina": "urman.chapter1:character/gulsina",
+      "marat": "urman.chapter1:character/marat"
+    },
+    "book_giver": "urman.chapter1:character/gulsina",
+    "selected_quests": [
+      "urman.fullgame:quest/pw-w01",
+      "urman.fullgame:quest/pw-w02",
+      "urman.fullgame:quest/pw-w03",
+      "urman.fullgame:quest/pw-w04",
+      "urman.fullgame:quest/pw-w05"
+    ]
+  },
+  "failure_458_preserved": {
+    "attempt_receipt": "evidence/PW-003/native_20261009_458f620f2e1d44f2b8e0e66a9e2929c2/receipt.json",
+    "actual_directory": "evidence/PW-003/native_20261009_458f620f2e1d44f2b8e0e66a9a2929c2",
+    "job_id": "458f620f2e1d44f2b8e0e66a9e2929c2",
+    "snapshot_id": "2d6f2d32d0dc03a11c9f7dd847c3a33d8bb09a050b15e82c9aa288962208ce8a",
+    "failed_step": "pw-prologue-photo-source",
+    "log": "evidence/PW-003/native_20261009_458f620f2e1d44f2b8e0e66a9e2929c2/game.log",
+    "failure": "PreflightError: The given key was not present in the dictionary.",
+    "root_cause": "CatalogEntry(JsonObject, ...) serialized world.catalog only, then delegated to the JsonElement overload, which expects the whole world and reads its catalog member. The same broken overload serves photo, fact, and evidence definition lookups.",
+    "minimal_fix": "Serialize the complete JsonObject world before delegating to CatalogEntry(JsonElement, ...). No interaction guard, reducer rule, or error gate was bypassed.",
+    "native_retry": "Original 458 failure evidence remains unchanged. Follow-up e72 failed on stale OldPcUi smoke node paths; the selector correction then passed native semantic job 442857b2d5bc4056931f0203ba1852ca."
+  },
+  "verification_after_fix": {
+    "game_build": "PASS: game/Urman.Game.csproj, no warnings or errors.",
+    "content_cli_build": "PASS: tools-dotnet/Urman.ContentCli/Urman.ContentCli.csproj, no warnings or errors.",
+    "fullgame_content_compile": "PASS: compiled only urman.fullgame; exit 0.",
+    "same_interaction_local_reproduction": {
+      "entry": "Committed",
+      "direct_effect_plan": "ok; one event",
+      "kernel_dispatch": "Committed"
+    },
+    "native_flow_and_visual_acceptance": "PASS native semantic flow in job 442857b2d5bc4056931f0203ba1852ca; actual caption authoring window frame reviewed and accepted only within that bounded scope. Ordinary keyboard/user route, physical anchors/worlds, printer/search consumer, actual runtime profile/color and human/art/culture/language acceptance remain NOT_RUN in their assigned successor gates."
+  },
+  "story_coverage": [
+    {
+      "clause": "B00",
+      "semantic_producers": [
+        "urman.fullgame:scene/pw-prologue onEnter -> beat/pw-b00-prologue available",
+        "urman.fullgame:interaction/pw-prologue-branch-move -> prologue branch fact, completion, then scene/pw-niva-arrival",
+        "urman.fullgame:interaction/pw-prologue-skip -> completion without bonus branch fact, then scene/pw-niva-arrival"
+      ],
+      "physical_status": "The authored branch/forest presentation is not a built W01 world; PW-043 and W01 producers/acceptance remain open."
+    },
+    {
+      "clause": "B01",
+      "semantic_producers": [
+        "scene/pw-niva-arrival onEnter -> beat/pw-b01-niva-arrival available",
+        "interaction/pw-niva-stop -> beat complete, then scene/pw-home",
+        "interaction/pw-arrival-tea-talk -> dialogue/pw-arrival-tea; choice stay-for-tea completes beat/pw-b01-warm-arrival"
+      ],
+      "physical_status": "Semantic stop and tea are authored; Niva vehicle/stop presentation is still PW-043."
+    },
+    {
+      "clause": "B02",
+      "semantic_producers": [
+        "interaction/pw-book-handoff requires both B01 beats and performs photoworlds.book.receive",
+        "interaction/pw-school-copy-source and interaction/pw-school-copy-permission record the school source, permission, and S-SCHOOL acquisition/back reading; the school source adds contextKnown to the already-mounted P-FOREST print"
+      ],
+      "physical_status": "Book and page geometry/presentation remain downstream art/runtime work; see canonical book mapping below."
+    },
+    {
+      "clause": "B03a / B03b",
+      "semantic_producers": [
+        "B03a/W02: dialogue/pw-water-place choice records home_water_place_told; P-WATER source/permission/mount interactions; scene/pw-river and quest/pw-w02 require mounted/back-read P-WATER and complete on three authored water facts.",
+        "B03b/W01: S-SCHOOL source/permission plus mounted P-FOREST gate scene/pw-forest; quest/pw-w01 completes on group, photographer, and Shurale facts.",
+        "Both completed routes return to scene/pw-home; either order is allowed."
+      ],
+      "physical_status": "W01/W02 geometry, movement, inhabitants, lighting/audio, ordinary routes and re-entry remain PW-045–PW-054."
+    },
+    {
+      "clause": "B04",
+      "semantic_producers": [
+        "scene/pw-bank-approach holds archive/bank source interactions and the photographer source/permission interactions.",
+        "interaction/pw-verify-bank-evidence and interaction/pw-verify-photographer-evidence use the typed evidence reducer; interaction/pw-connect-outside-notes requires both E-BANK-OUTSIDE and E-PHOTOGRAPHER-OUTSIDE."
+      ],
+      "physical_status": "Independent source provenance is represented in the typed reducer; physical source search, scene access and ordinary-world consumers remain PW-075/PW-094."
+    },
+    {
+      "clause": "B05",
+      "semantic_producers": [
+        "interaction/pw-first-world-home-talk -> dialogue/pw-first-world-home; fact first_world_home_talk.",
+        "scene/pw-house and quest/pw-w03 require either W01 or W02 complete, the home-talk fact, mounted/back-read P-HOUSE, then shutter, two-view comparison, and camera-position facts."
+      ],
+      "physical_status": "W03 two-frame world and accessible physical transition remain PW-055–PW-059."
+    },
+    {
+      "clause": "B06",
+      "semantic_producers": [
+        "interaction/pw-common-file-source records the file source under authored prerequisites.",
+        "interaction/pw-common-file-permission -> dialogue/pw-common-file-permission; choice accept-copy performs typed acquisition for P-COMMON with Gulsina permission.",
+        "Existing Old PC producer accepts actual player text for the acquired permissioned P-COMMON file before print/mount.",
+        "interaction/pw-print-common-photo mounts P-COMMON on PAGE-COMMON after caption.prepared; the mounted representation uses the same PhotoId but separate PageId."
+      ],
+      "physical_status": "Functional ordinary-PC search/printer/world integration and visible caption-screen native frame were NOT_RUN after the 458 failure; physical consumer remains PW-075/PW-094."
+    },
+    {
+      "clause": "B07",
+      "semantic_producers": [
+        "scene/pw-common and quest/pw-w04 require completed W01/W02/W03, both typed outside evidence records, actual P-COMMON caption, and mounted P-COMMON.",
+        "W04 completes on authored shared-relationship and common-horizon facts plus the same evidence/caption/mount predicates."
+      ],
+      "physical_status": "W04 geometry, ordinary route and acceptance remain PW-060–PW-064."
+    },
+    {
+      "clause": "B08",
+      "semantic_producers": [
+        "interaction/pw-witness-summer-leaf records outside_leaf_witnessed after W04.",
+        "interaction/pw-alsu-leaf-talk -> dialogue/pw-alsu-leaf; choice agree-to-return records alsu_meeting_agreed.",
+        "scene/pw-epilogue requires completed W04 and both facts; interaction/pw-take-now-photo acquires/mounts S-NOW and finishes the epilogue.",
+        "dialogue/pw-home-epilogue records the Marat-death question as still open."
+      ],
+      "physical_status": "The final return/tea/world composition and ordinary route remain PW-094/PW-098 and applicable art/audio gates."
+    },
+    {
+      "clause": "BO1",
+      "semantic_producers": [
+        "scene/pw-home exposes optional scene/pw-cellar; P-CELLAR/S-HAND and quest/pw-w05 require cellar facts to complete.",
+        "W05 is in selected quest definitions but absent from W04 and finale prerequisites; the smoke routes include a no-W05 completion route."
+      ],
+      "physical_status": "W05 world, optional route, art/audio and acceptance remain PW-065–PW-069."
+    }
+  ],
+  "photo_catalog_roles": [
+    {
+      "photoId": "P-FOREST",
+      "pageId": "PAGE-FOREST",
+      "role": "Pre-existing family-book forest print, initially acquired and mounted; prologue image.",
+      "sourceId": "urman.fullgame:interaction/pw-prologue-photo-source",
+      "permissionId": "urman.fullgame:interaction/pw-book-handoff"
+    },
+    {
+      "photoId": "P-WATER",
+      "pageId": "PAGE-WATER",
+      "role": "Family-envelope print for W02; context comes from the ordinary water-place conversation.",
+      "sourceId": "urman.fullgame:interaction/pw-water-photo-source",
+      "permissionId": "urman.fullgame:interaction/pw-water-photo-permission"
+    },
+    {
+      "photoId": "P-HOUSE",
+      "pageId": "PAGE-HOUSE",
+      "role": "Family-yard print for W03; context comes from the first-world home conversation.",
+      "sourceId": "urman.fullgame:interaction/pw-house-photo-source",
+      "permissionId": "urman.fullgame:interaction/pw-house-photo-permission"
+    },
+    {
+      "photoId": "P-COMMON",
+      "pageId": "PAGE-COMMON",
+      "role": "Permissioned digital Marat file; player caption is prepared before the distinct paper mount.",
+      "sourceId": "urman.fullgame:interaction/pw-common-file-source",
+      "permissionId": "urman.fullgame:interaction/pw-common-file-permission",
+      "sourceAuthorId": "urman.chapter1:character/marat"
+    },
+    {
+      "photoId": "P-CELLAR",
+      "pageId": "PAGE-CELLAR",
+      "role": "Family-box print for optional W05; context from the family photo-box source.",
+      "sourceId": "urman.fullgame:interaction/pw-cellar-photo-source",
+      "permissionId": "urman.fullgame:interaction/pw-cellar-photo-permission"
+    },
+    {
+      "photoId": "S-SCHOOL",
+      "pageId": "PAGE-SCHOOL",
+      "role": "School-album copy; contextual source for the forest image and W01 access.",
+      "sourceId": "urman.fullgame:interaction/pw-school-copy-source",
+      "permissionId": "urman.fullgame:interaction/pw-school-copy-permission"
+    },
+    {
+      "photoId": "S-BANK",
+      "pageId": "PAGE-BANK",
+      "role": "Archive-map copy for independently sourced outside evidence.",
+      "sourceId": "urman.fullgame:interaction/pw-bank-copy-source",
+      "permissionId": "urman.fullgame:interaction/pw-bank-copy-permission"
+    },
+    {
+      "photoId": "S-PHOTOGRAPHER",
+      "pageId": "PAGE-PHOTOGRAPHER",
+      "role": "Gulsina family-album copy for photographer authorship and outside evidence.",
+      "sourceId": "urman.fullgame:interaction/pw-photographer-photo-source",
+      "permissionId": "urman.fullgame:interaction/pw-photographer-photo-permission"
+    },
+    {
+      "photoId": "S-GARDEN",
+      "pageId": "PAGE-GARDEN",
+      "role": "Voluntary neighbor copy; independent household context.",
+      "sourceId": "urman.fullgame:interaction/pw-garden-photo-source",
+      "permissionId": "urman.fullgame:interaction/pw-garden-photo-permission"
+    },
+    {
+      "photoId": "S-PRINT",
+      "pageId": "PAGE-PRINT",
+      "role": "Family PC contact-sheet copy.",
+      "sourceId": "urman.fullgame:interaction/pw-contact-sheet-source",
+      "permissionId": "urman.fullgame:interaction/pw-contact-sheet-permission"
+    },
+    {
+      "photoId": "S-MARAT",
+      "pageId": "PAGE-MARAT",
+      "role": "Family-authorized Marat copy with distinct authored provenance.",
+      "sourceId": "urman.fullgame:interaction/pw-marat-photo-source",
+      "permissionId": "urman.fullgame:interaction/pw-marat-photo-permission",
+      "sourceAuthorId": "urman.chapter1:character/marat"
+    },
+    {
+      "photoId": "S-HAND",
+      "pageId": "PAGE-HAND",
+      "role": "Family photo-box copy used by optional W05.",
+      "sourceId": "urman.fullgame:interaction/pw-family-box-source",
+      "permissionId": "urman.fullgame:interaction/pw-family-box-permission"
+    },
+    {
+      "photoId": "S-NOW",
+      "pageId": "PAGE-NOW",
+      "role": "Player-created epilogue photo after the shared summer-leaf witness.",
+      "sourceId": "urman.fullgame:interaction/pw-take-now-photo",
+      "permissionId": "urman.fullgame:interaction/pw-take-now-photo",
+      "sourceAuthorId": "urman.chapter1:character/aidar"
+    }
+  ],
+  "canonical_family_book_mapping": {
+    "implementationId": "BOOK-FAMILY-PHOTOGRAPH-ALBUM",
+    "canonicalMeaning": "The family-held literary book by Tukay described in the PhotoWorlds authority/book contract, with inserted photographs; preserve literary pages/inserts and the original cover, with no protected edition.",
+    "caveat": "The implementation ID is not permission to turn the canonical family Tukay book into an ordinary photo album. Physical book model/page art is not accepted by this semantic state receipt."
+  },
+  "profile_activation_crosswalk": {
+    "current_selector_contract": "The current engine selector resolves an authored atmosphere profile from the actual zoneId plus actual day/night flag. The campaign scene schema has entryAnchorId but no profile/environment field, and no narrative command selects one. The crosswalk below records required source registers only; profile IDs for W01-W05 and scene-to-zone activation remain PW-031/PW-022 work.",
+    "current_profiles": [
+      {
+        "authoredProfileId": "village-winter-frost",
+        "zoneClaims": [
+          "village_day",
+          "house_old_pc",
+          "fap_clinic"
+        ],
+        "intendedGraphContext": "Ordinary village winter/default register when a scene is physically mapped to village_day or house_old_pc; this is a source key, not a binding.",
+        "engine_state": "Profile source exists; new campaign scene-to-zone consumer/transition is NOT_RUN."
+      },
+      {
+        "authoredProfileId": "village-green-night",
+        "zoneClaims": [
+          "village_day@night"
+        ],
+        "intendedGraphContext": "Existing green-night village selector only when actual zone/day-night reports village_day@night; not a story clock or mandatory B08 beat.",
+        "engine_state": "Profile source exists; new campaign scene-to-zone consumer/transition is NOT_RUN."
+      },
+      {
+        "authoredProfileId": "zirat-winter-muted",
+        "zoneClaims": [
+          "zirat_road"
+        ],
+        "intendedGraphContext": "Existing Zirat road only; no PW scene is bound to it by source.",
+        "engine_state": "Profile source exists; no PW graph binding."
+      }
+    ],
+    "photoworld_profile_keys": [
+      {
+        "world": "W01",
+        "graphContext": "B00/prologue and scene/pw-forest; quest/pw-w01",
+        "requiredProfileKey": "A distinct W01 forest profile per spec 04; exact runtime profile ID is not authored yet.",
+        "ownerTask": "PW-031",
+        "consumerTask": "PW-022",
+        "engineState": "NOT_RUN"
+      },
+      {
+        "world": "W02",
+        "graphContext": "B03a and scene/pw-river; quest/pw-w02",
+        "requiredProfileKey": "A distinct W02 water profile per spec 04; exact runtime profile ID is not authored yet.",
+        "ownerTask": "PW-031",
+        "consumerTask": "PW-022",
+        "engineState": "NOT_RUN"
+      },
+      {
+        "world": "W03",
+        "graphContext": "B05 and scene/pw-house; quest/pw-w03",
+        "requiredProfileKey": "A distinct W03 house profile per spec 04; exact runtime profile ID is not authored yet.",
+        "ownerTask": "PW-031",
+        "consumerTask": "PW-022",
+        "engineState": "NOT_RUN"
+      },
+      {
+        "world": "W04",
+        "graphContext": "B07 and scene/pw-common; quest/pw-w04",
+        "requiredProfileKey": "A distinct W04 shared-frame profile per spec 04; exact runtime profile ID is not authored yet.",
+        "ownerTask": "PW-031",
+        "consumerTask": "PW-022",
+        "engineState": "NOT_RUN"
+      },
+      {
+        "world": "W05",
+        "graphContext": "BO1 and scene/pw-cellar; quest/pw-w05",
+        "requiredProfileKey": "A distinct W05 warm-underhouse profile per spec 04; exact runtime profile ID is not authored yet.",
+        "ownerTask": "PW-031",
+        "consumerTask": "PW-022",
+        "engineState": "NOT_RUN"
+      }
+    ],
+    "unbound_contexts": [
+      "All ten PW scenes are listed with their real current graph entry/exit producers below. Their required register does not imply engine activation.",
+      "scene/pw-bank-approach and scene/pw-epilogue have no semantic entryAnchorId. Source 08 requires these beats to remain in the ordinary village world (including the safe winter old-piles evidence location); their exact physical zone and time are deliberately left unresolved.",
+      "scene/pw-niva-arrival also has no semantic entryAnchorId; source 08 identifies one-time PW_PROLOGUE_ROAD Niva context, but no physical binding is authored here.",
+      "No scene mandates green night. The existing village_day@night profile may be used only when actual runtime zone/time state selects it; no time-of-day is inferred."
+    ],
+    "scope_note": "This is a source crosswalk, not an implemented profile router or visual PASS. PW-031 owns authored colorscript/profile keys; PW-022 owns runtime spawn/profile application. VIS-015 physical village/return gates remain PW-044/PW-070; VIS-067 engine/color/capture gates remain PW-031.",
+    "scene_register_crosswalk": [
+      {
+        "sceneId": "urman.fullgame:scene/pw-prologue",
+        "narrativeClauses": [
+          "B00"
+        ],
+        "entryProducers": [
+          {
+            "producer": "campaign.entrypoint",
+            "targetSceneId": "urman.fullgame:scene/pw-prologue",
+            "sourceId": "campaign.json"
+          }
+        ],
+        "entryConditions": [],
+        "onEnterEffects": [
+          {
+            "op": "photoworlds.prologue.enter"
+          },
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b00-prologue",
+            "state": "available"
+          }
+        ],
+        "exitProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-prologue-branch-move",
+            "targetSceneId": "urman.fullgame:scene/pw-niva-arrival",
+            "guardConditions": [],
+            "effectsBeforeTransition": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "prologue_branch_moved",
+                "sourceId": "urman.fullgame:interaction/pw-prologue-branch-move"
+              },
+              {
+                "op": "photoworlds.prologue.complete"
+              },
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b00-prologue",
+                "state": "completed"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-prologue-skip",
+            "targetSceneId": "urman.fullgame:scene/pw-niva-arrival",
+            "guardConditions": [],
+            "effectsBeforeTransition": [
+              {
+                "op": "photoworlds.prologue.complete"
+              },
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b00-prologue",
+                "state": "completed"
+              }
+            ]
+          }
+        ],
+        "dialogueProducers": [],
+        "stateProgressProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-prologue-photo-source",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "prologue_photo_recognized",
+                "sourceId": "urman.fullgame:interaction/pw-prologue-photo-source"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-prologue-branch-move",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "prologue_branch_moved",
+                "sourceId": "urman.fullgame:interaction/pw-prologue-branch-move"
+              },
+              {
+                "op": "photoworlds.prologue.complete"
+              },
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b00-prologue",
+                "state": "completed"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-prologue-skip",
+            "effects": [
+              {
+                "op": "photoworlds.prologue.complete"
+              },
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b00-prologue",
+                "state": "completed"
+              }
+            ]
+          }
+        ],
+        "questEntryIds": [],
+        "questCompletionProducers": [],
+        "semanticEntryAnchorId": null,
+        "requiredPhysicalContext": "docs/08 names PW_PROLOGUE_ROAD as the one-time Niva pass/forest link; no current binding from this semantic prologue scene to that anchor. PW-043 owns the presentation/world transfer.",
+        "requiredRegister": "W01 forest/photo-world register.",
+        "requiredProfileKey": "W01 (planned designation only; no runtime profile ID exists yet)",
+        "profileAuthoringOwner": "PW-031",
+        "profileRuntimeConsumer": "PW-022",
+        "currentEngineBinding": "NOT_AUTHORED"
+      },
+      {
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "narrativeClauses": [
+          "B01",
+          "B02",
+          "B03a",
+          "B03b",
+          "B05",
+          "B06",
+          "BO1"
+        ],
+        "entryProducers": [
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-forest",
+            "interactionId": "urman.fullgame:interaction/pw-forest-return",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w01",
+                "status": "completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          },
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-river",
+            "interactionId": "urman.fullgame:interaction/pw-water-return",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w02",
+                "status": "completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          },
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-house",
+            "interactionId": "urman.fullgame:interaction/pw-house-return",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w03",
+                "status": "completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          },
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-cellar",
+            "interactionId": "urman.fullgame:interaction/pw-cellar-return",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w05",
+                "status": "completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          },
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-bank-approach",
+            "interactionId": "urman.fullgame:interaction/pw-bank-return",
+            "guardConditions": [],
+            "effectsBeforeTransition": []
+          },
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-epilogue",
+            "interactionId": "urman.fullgame:interaction/pw-epilogue-return-home",
+            "guardConditions": [
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "S-NOW",
+                "state": "acquired"
+              }
+            ],
+            "effectsBeforeTransition": []
+          },
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-niva-arrival",
+            "interactionId": "urman.fullgame:interaction/pw-niva-stop",
+            "guardConditions": [
+              {
+                "op": "beat.state",
+                "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
+                "state": "available"
+              }
+            ],
+            "effectsBeforeTransition": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
+                "state": "completed"
+              }
+            ]
+          }
+        ],
+        "entryConditions": [],
+        "onEnterEffects": [],
+        "exitProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-enter-forest",
+            "targetSceneId": "urman.fullgame:scene/pw-forest",
+            "guardConditions": [
+              {
+                "op": "photoworlds.book.received"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-FOREST",
+                "state": "mounted"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "S-SCHOOL",
+                "state": "acquired"
+              },
+              {
+                "op": "photoworlds.prologue.completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-enter-river",
+            "targetSceneId": "urman.fullgame:scene/pw-river",
+            "guardConditions": [
+              {
+                "op": "photoworlds.book.received"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-WATER",
+                "state": "mounted"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-WATER",
+                "state": "back-read"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "home_water_place_told"
+              },
+              {
+                "op": "photoworlds.prologue.completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-enter-house",
+            "targetSceneId": "urman.fullgame:scene/pw-house",
+            "guardConditions": [
+              {
+                "op": "any",
+                "conditions": [
+                  {
+                    "op": "quest.status",
+                    "questId": "urman.fullgame:quest/pw-w01",
+                    "status": "completed"
+                  },
+                  {
+                    "op": "quest.status",
+                    "questId": "urman.fullgame:quest/pw-w02",
+                    "status": "completed"
+                  }
+                ]
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "first_world_home_talk"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-HOUSE",
+                "state": "mounted"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-HOUSE",
+                "state": "back-read"
+              }
+            ],
+            "effectsBeforeTransition": []
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-enter-bank-approach",
+            "targetSceneId": "urman.fullgame:scene/pw-bank-approach",
+            "guardConditions": [
+              {
+                "op": "photoworlds.book.received"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w02",
+                "status": "completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-enter-cellar",
+            "targetSceneId": "urman.fullgame:scene/pw-cellar",
+            "guardConditions": [
+              {
+                "op": "photoworlds.book.received"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-CELLAR",
+                "state": "mounted"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "S-HAND",
+                "state": "acquired"
+              }
+            ],
+            "effectsBeforeTransition": []
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-enter-common",
+            "targetSceneId": "urman.fullgame:scene/pw-common",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w01",
+                "status": "completed"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w02",
+                "status": "completed"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w03",
+                "status": "completed"
+              },
+              {
+                "op": "photoworlds.evidence.confirmed",
+                "evidenceId": "E-BANK-OUTSIDE"
+              },
+              {
+                "op": "photoworlds.evidence.confirmed",
+                "evidenceId": "E-PHOTOGRAPHER-OUTSIDE"
+              },
+              {
+                "op": "photoworlds.caption.prepared",
+                "photoId": "P-COMMON",
+                "sourceAuthorId": "urman.chapter1:character/marat"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-COMMON",
+                "state": "mounted"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "dialogueProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-arrival-tea-talk",
+            "targetDialogueId": "urman.fullgame:dialogue/pw-arrival-tea",
+            "guardConditions": [
+              {
+                "op": "beat.state",
+                "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
+                "state": "completed"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-water-place-talk",
+            "targetDialogueId": "urman.fullgame:dialogue/pw-water-place",
+            "guardConditions": [
+              {
+                "op": "photoworlds.book.received"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-first-world-home-talk",
+            "targetDialogueId": "urman.fullgame:dialogue/pw-first-world-home",
+            "guardConditions": [
+              {
+                "op": "any",
+                "conditions": [
+                  {
+                    "op": "quest.status",
+                    "questId": "urman.fullgame:quest/pw-w01",
+                    "status": "completed"
+                  },
+                  {
+                    "op": "quest.status",
+                    "questId": "urman.fullgame:quest/pw-w02",
+                    "status": "completed"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-gulsina-author-talk",
+            "targetDialogueId": "urman.fullgame:dialogue/pw-gulsina-author",
+            "guardConditions": [
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "S-PHOTOGRAPHER",
+                "state": "back-read"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "house_camera_position_seen"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-common-file-permission",
+            "targetDialogueId": "urman.fullgame:dialogue/pw-common-file-permission",
+            "guardConditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "common_marat_file_found"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w01",
+                "status": "completed"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w02",
+                "status": "completed"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w03",
+                "status": "completed"
+              },
+              {
+                "op": "photoworlds.evidence.confirmed",
+                "evidenceId": "E-BANK-OUTSIDE"
+              },
+              {
+                "op": "photoworlds.evidence.confirmed",
+                "evidenceId": "E-PHOTOGRAPHER-OUTSIDE"
+              }
+            ]
+          }
+        ],
+        "stateProgressProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-book-handoff",
+            "effects": [
+              {
+                "op": "photoworlds.book.receive",
+                "sourceId": "urman.fullgame:interaction/pw-book-handoff",
+                "giverId": "urman.chapter1:character/gulsina"
+              },
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b02-family-book",
+                "state": "completed"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-school-copy-source",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "school_copy_identified",
+                "sourceId": "urman.fullgame:interaction/pw-school-copy-source"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-school-copy-permission",
+            "effects": [
+              {
+                "op": "photoworlds.photo.acquire",
+                "photoId": "S-SCHOOL",
+                "sourceId": "urman.fullgame:interaction/pw-school-copy-source",
+                "permissionId": "urman.fullgame:interaction/pw-school-copy-permission"
+              },
+              {
+                "op": "photoworlds.photo.back-read",
+                "photoId": "S-SCHOOL"
+              },
+              {
+                "op": "photoworlds.photo.back-read",
+                "photoId": "P-FOREST"
+              },
+              {
+                "op": "photoworlds.photo.context-known",
+                "photoId": "P-FOREST",
+                "sourceId": "urman.fullgame:interaction/pw-school-copy-source"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-water-photo-source",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "water_photo_found",
+                "sourceId": "urman.fullgame:interaction/pw-water-photo-source"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-water-photo-permission",
+            "effects": [
+              {
+                "op": "photoworlds.photo.acquire",
+                "photoId": "P-WATER",
+                "sourceId": "urman.fullgame:interaction/pw-water-photo-source",
+                "permissionId": "urman.fullgame:interaction/pw-water-photo-permission"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-mount-water-photo",
+            "effects": [
+              {
+                "op": "photoworlds.photo.mount",
+                "photoId": "P-WATER",
+                "pageId": "PAGE-WATER"
+              },
+              {
+                "op": "photoworlds.photo.back-read",
+                "photoId": "P-WATER"
+              },
+              {
+                "op": "photoworlds.photo.context-known",
+                "photoId": "P-WATER",
+                "sourceId": "urman.fullgame:interaction/pw-water-place-talk"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-house-photo-source",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "house_print_found",
+                "sourceId": "urman.fullgame:interaction/pw-house-photo-source"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-house-photo-permission",
+            "effects": [
+              {
+                "op": "photoworlds.photo.acquire",
+                "photoId": "P-HOUSE",
+                "sourceId": "urman.fullgame:interaction/pw-house-photo-source",
+                "permissionId": "urman.fullgame:interaction/pw-house-photo-permission"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-mount-house-photo",
+            "effects": [
+              {
+                "op": "photoworlds.photo.mount",
+                "photoId": "P-HOUSE",
+                "pageId": "PAGE-HOUSE"
+              },
+              {
+                "op": "photoworlds.photo.back-read",
+                "photoId": "P-HOUSE"
+              },
+              {
+                "op": "photoworlds.photo.context-known",
+                "photoId": "P-HOUSE",
+                "sourceId": "urman.fullgame:interaction/pw-first-world-home-talk"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-contact-sheet-source",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "contact_sheet_found",
+                "sourceId": "urman.fullgame:interaction/pw-contact-sheet-source"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-contact-sheet-permission",
+            "effects": [
+              {
+                "op": "photoworlds.photo.acquire",
+                "photoId": "S-PRINT",
+                "sourceId": "urman.fullgame:interaction/pw-contact-sheet-source",
+                "permissionId": "urman.fullgame:interaction/pw-contact-sheet-permission"
+              },
+              {
+                "op": "photoworlds.photo.back-read",
+                "photoId": "S-PRINT"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-marat-photo-source",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "marat_photo_found",
+                "sourceId": "urman.fullgame:interaction/pw-marat-photo-source"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-marat-photo-permission",
+            "effects": [
+              {
+                "op": "photoworlds.photo.acquire",
+                "photoId": "S-MARAT",
+                "sourceId": "urman.fullgame:interaction/pw-marat-photo-source",
+                "permissionId": "urman.fullgame:interaction/pw-marat-photo-permission"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-garden-photo-source",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "garden_photo_offered",
+                "sourceId": "urman.fullgame:interaction/pw-garden-photo-source"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-garden-photo-permission",
+            "effects": [
+              {
+                "op": "photoworlds.photo.acquire",
+                "photoId": "S-GARDEN",
+                "sourceId": "urman.fullgame:interaction/pw-garden-photo-source",
+                "permissionId": "urman.fullgame:interaction/pw-garden-photo-permission"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-photographer-photo-source",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "photographer_copy_found",
+                "sourceId": "urman.fullgame:interaction/pw-photographer-photo-source"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-photographer-photo-permission",
+            "effects": [
+              {
+                "op": "photoworlds.photo.acquire",
+                "photoId": "S-PHOTOGRAPHER",
+                "sourceId": "urman.fullgame:interaction/pw-photographer-photo-source",
+                "permissionId": "urman.fullgame:interaction/pw-photographer-photo-permission"
+              },
+              {
+                "op": "photoworlds.photo.back-read",
+                "photoId": "S-PHOTOGRAPHER"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-verify-photographer-evidence",
+            "effects": [
+              {
+                "op": "photoworlds.evidence.verify",
+                "evidenceId": "E-PHOTOGRAPHER-OUTSIDE"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-connect-outside-notes",
+            "effects": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b04-outside-confirmation",
+                "state": "completed"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-common-file-source",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "common_marat_file_found",
+                "sourceId": "urman.fullgame:interaction/pw-common-file-source"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-print-common-photo",
+            "effects": [
+              {
+                "op": "photoworlds.photo.mount",
+                "photoId": "P-COMMON",
+                "pageId": "PAGE-COMMON"
+              },
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b06-authored-caption-and-print",
+                "state": "completed"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-family-box-source",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "family_box_opened",
+                "sourceId": "urman.fullgame:interaction/pw-family-box-source"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-family-box-permission",
+            "effects": [
+              {
+                "op": "photoworlds.photo.acquire",
+                "photoId": "S-HAND",
+                "sourceId": "urman.fullgame:interaction/pw-family-box-source",
+                "permissionId": "urman.fullgame:interaction/pw-family-box-permission"
+              },
+              {
+                "op": "photoworlds.photo.back-read",
+                "photoId": "S-HAND"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-cellar-photo-source",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "cellar_photo_found",
+                "sourceId": "urman.fullgame:interaction/pw-cellar-photo-source"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-cellar-photo-permission",
+            "effects": [
+              {
+                "op": "photoworlds.photo.acquire",
+                "photoId": "P-CELLAR",
+                "sourceId": "urman.fullgame:interaction/pw-cellar-photo-source",
+                "permissionId": "urman.fullgame:interaction/pw-cellar-photo-permission"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-mount-cellar-photo",
+            "effects": [
+              {
+                "op": "photoworlds.photo.mount",
+                "photoId": "P-CELLAR",
+                "pageId": "PAGE-CELLAR"
+              },
+              {
+                "op": "photoworlds.photo.back-read",
+                "photoId": "P-CELLAR"
+              },
+              {
+                "op": "photoworlds.photo.context-known",
+                "photoId": "P-CELLAR",
+                "sourceId": "urman.fullgame:interaction/pw-family-box-source"
+              }
+            ]
+          }
+        ],
+        "questEntryIds": [],
+        "questCompletionProducers": [],
+        "semanticEntryAnchorId": "PW_HOME_TABLE",
+        "requiredPhysicalContext": "Household table/photo corner and ordinary home activity per docs/08 §§1-3.",
+        "requiredRegister": "Ordinary village household/photo-PC hub.",
+        "requiredProfileKey": "If the table is bound to existing house_old_pc, current profile village-winter-frost claims that zone. If an outdoor village_day segment is used, village-winter-frost is the bare/default claim and village-green-night wins only when actual day/night selector says night. No story clock is authored.",
+        "profileAuthoringOwner": "PW-031",
+        "profileRuntimeConsumer": "PW-022",
+        "currentEngineBinding": "NOT_AUTHORED"
+      },
+      {
+        "sceneId": "urman.fullgame:scene/pw-forest",
+        "narrativeClauses": [
+          "B03b"
+        ],
+        "entryProducers": [
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-home",
+            "interactionId": "urman.fullgame:interaction/pw-enter-forest",
+            "guardConditions": [
+              {
+                "op": "photoworlds.book.received"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-FOREST",
+                "state": "mounted"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "S-SCHOOL",
+                "state": "acquired"
+              },
+              {
+                "op": "photoworlds.prologue.completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "entryConditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-FOREST",
+            "state": "mounted"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "S-SCHOOL",
+            "state": "acquired"
+          },
+          {
+            "op": "photoworlds.prologue.completed"
+          }
+        ],
+        "onEnterEffects": [],
+        "exitProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-forest-return",
+            "targetSceneId": "urman.fullgame:scene/pw-home",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w01",
+                "status": "completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "dialogueProducers": [],
+        "stateProgressProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-forest-group",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "forest_group_seen",
+                "sourceId": "urman.fullgame:interaction/pw-forest-group"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-forest-photographer",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "forest_photographer_found",
+                "sourceId": "urman.fullgame:interaction/pw-forest-photographer"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-forest-shurale",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "forest_shurale_listened",
+                "sourceId": "urman.fullgame:interaction/pw-forest-shurale"
+              }
+            ]
+          }
+        ],
+        "questEntryIds": [
+          "urman.fullgame:quest/pw-w01"
+        ],
+        "questCompletionProducers": [
+          {
+            "questId": "urman.fullgame:quest/pw-w01",
+            "completionProducerIds": [
+              "urman.fullgame:interaction/pw-forest-group",
+              "urman.fullgame:interaction/pw-forest-photographer",
+              "urman.fullgame:interaction/pw-forest-shurale"
+            ]
+          }
+        ],
+        "semanticEntryAnchorId": "PW_FOREST_ENTRY",
+        "requiredPhysicalContext": "Recognizable forest edge behind village homes per docs/08 §2.",
+        "requiredRegister": "W01 forest/photo-world register.",
+        "requiredProfileKey": "W01 (planned designation only; no runtime profile ID exists yet)",
+        "profileAuthoringOwner": "PW-031",
+        "profileRuntimeConsumer": "PW-022",
+        "currentEngineBinding": "NOT_AUTHORED"
+      },
+      {
+        "sceneId": "urman.fullgame:scene/pw-river",
+        "narrativeClauses": [
+          "B03a"
+        ],
+        "entryProducers": [
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-home",
+            "interactionId": "urman.fullgame:interaction/pw-enter-river",
+            "guardConditions": [
+              {
+                "op": "photoworlds.book.received"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-WATER",
+                "state": "mounted"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-WATER",
+                "state": "back-read"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "home_water_place_told"
+              },
+              {
+                "op": "photoworlds.prologue.completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "entryConditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-WATER",
+            "state": "mounted"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-WATER",
+            "state": "back-read"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "home_water_place_told"
+          },
+          {
+            "op": "photoworlds.prologue.completed"
+          }
+        ],
+        "onEnterEffects": [],
+        "exitProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-water-return",
+            "targetSceneId": "urman.fullgame:scene/pw-home",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w02",
+                "status": "completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "dialogueProducers": [],
+        "stateProgressProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-water-old-approach",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "water_old_approach_seen",
+                "sourceId": "urman.fullgame:interaction/pw-water-old-approach"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-water-bypass",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "water_safe_bypass_opened",
+                "sourceId": "urman.fullgame:interaction/pw-water-bypass"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-water-damp-print",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "water_damp_print",
+                "sourceId": "urman.fullgame:interaction/pw-water-damp-print"
+              }
+            ]
+          }
+        ],
+        "questEntryIds": [
+          "urman.fullgame:quest/pw-w02"
+        ],
+        "questCompletionProducers": [
+          {
+            "questId": "urman.fullgame:quest/pw-w02",
+            "completionProducerIds": [
+              "urman.fullgame:interaction/pw-water-bypass",
+              "urman.fullgame:interaction/pw-water-damp-print",
+              "urman.fullgame:interaction/pw-water-old-approach"
+            ]
+          }
+        ],
+        "semanticEntryAnchorId": "PW_RIVER_ENTRY",
+        "requiredPhysicalContext": "Safe winter approach to the existing river/ravine route, with old piles visible, per docs/08 §2.",
+        "requiredRegister": "W02 water/boardwalk photo-world register.",
+        "requiredProfileKey": "W02 (planned designation only; no runtime profile ID exists yet)",
+        "profileAuthoringOwner": "PW-031",
+        "profileRuntimeConsumer": "PW-022",
+        "currentEngineBinding": "NOT_AUTHORED"
+      },
+      {
+        "sceneId": "urman.fullgame:scene/pw-house",
+        "narrativeClauses": [
+          "B05"
+        ],
+        "entryProducers": [
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-home",
+            "interactionId": "urman.fullgame:interaction/pw-enter-house",
+            "guardConditions": [
+              {
+                "op": "any",
+                "conditions": [
+                  {
+                    "op": "quest.status",
+                    "questId": "urman.fullgame:quest/pw-w01",
+                    "status": "completed"
+                  },
+                  {
+                    "op": "quest.status",
+                    "questId": "urman.fullgame:quest/pw-w02",
+                    "status": "completed"
+                  }
+                ]
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "first_world_home_talk"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-HOUSE",
+                "state": "mounted"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-HOUSE",
+                "state": "back-read"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "entryConditions": [
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w01",
+                "status": "completed"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w02",
+                "status": "completed"
+              }
+            ]
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "first_world_home_talk"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-HOUSE",
+            "state": "mounted"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-HOUSE",
+            "state": "back-read"
+          }
+        ],
+        "onEnterEffects": [],
+        "exitProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-house-return",
+            "targetSceneId": "urman.fullgame:scene/pw-home",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w03",
+                "status": "completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "dialogueProducers": [],
+        "stateProgressProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-house-shutter",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "house_shutter_adjusted",
+                "sourceId": "urman.fullgame:interaction/pw-house-shutter"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-house-two-views",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "house_two_views_compared",
+                "sourceId": "urman.fullgame:interaction/pw-house-two-views"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-house-camera-position",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "house_camera_position_seen",
+                "sourceId": "urman.fullgame:interaction/pw-house-camera-position"
+              }
+            ]
+          }
+        ],
+        "questEntryIds": [
+          "urman.fullgame:quest/pw-w03"
+        ],
+        "questCompletionProducers": [
+          {
+            "questId": "urman.fullgame:quest/pw-w03",
+            "completionProducerIds": [
+              "urman.fullgame:interaction/pw-house-camera-position",
+              "urman.fullgame:interaction/pw-house-shutter",
+              "urman.fullgame:interaction/pw-house-two-views"
+            ]
+          }
+        ],
+        "semanticEntryAnchorId": "PW_HOME_PHOTO_ENTRY",
+        "requiredPhysicalContext": "Exterior family-home yard/window of the former photographer, not a random private window, per docs/08 §2.",
+        "requiredRegister": "W03 family-house/photo-world register.",
+        "requiredProfileKey": "W03 (planned designation only; no runtime profile ID exists yet)",
+        "profileAuthoringOwner": "PW-031",
+        "profileRuntimeConsumer": "PW-022",
+        "currentEngineBinding": "NOT_AUTHORED"
+      },
+      {
+        "sceneId": "urman.fullgame:scene/pw-common",
+        "narrativeClauses": [
+          "B07"
+        ],
+        "entryProducers": [
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-home",
+            "interactionId": "urman.fullgame:interaction/pw-enter-common",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w01",
+                "status": "completed"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w02",
+                "status": "completed"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w03",
+                "status": "completed"
+              },
+              {
+                "op": "photoworlds.evidence.confirmed",
+                "evidenceId": "E-BANK-OUTSIDE"
+              },
+              {
+                "op": "photoworlds.evidence.confirmed",
+                "evidenceId": "E-PHOTOGRAPHER-OUTSIDE"
+              },
+              {
+                "op": "photoworlds.caption.prepared",
+                "photoId": "P-COMMON",
+                "sourceAuthorId": "urman.chapter1:character/marat"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-COMMON",
+                "state": "mounted"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "entryConditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w01",
+            "status": "completed"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w02",
+            "status": "completed"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w03",
+            "status": "completed"
+          },
+          {
+            "op": "photoworlds.evidence.confirmed",
+            "evidenceId": "E-BANK-OUTSIDE"
+          },
+          {
+            "op": "photoworlds.evidence.confirmed",
+            "evidenceId": "E-PHOTOGRAPHER-OUTSIDE"
+          },
+          {
+            "op": "photoworlds.caption.prepared",
+            "photoId": "P-COMMON",
+            "sourceAuthorId": "urman.chapter1:character/marat"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-COMMON",
+            "state": "mounted"
+          }
+        ],
+        "onEnterEffects": [],
+        "exitProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-common-return",
+            "targetSceneId": "urman.fullgame:scene/pw-bank-approach",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w04",
+                "status": "completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "dialogueProducers": [],
+        "stateProgressProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-common-three-places",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "common_relationships_connected",
+                "sourceId": "urman.fullgame:interaction/pw-common-three-places"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-common-horizon",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "common_horizon_uncovered",
+                "sourceId": "urman.fullgame:interaction/pw-common-horizon"
+              }
+            ]
+          }
+        ],
+        "questEntryIds": [
+          "urman.fullgame:quest/pw-w04"
+        ],
+        "questCompletionProducers": [
+          {
+            "questId": "urman.fullgame:quest/pw-w04",
+            "completionProducerIds": [
+              "urman.fullgame:interaction/pw-common-horizon",
+              "urman.fullgame:interaction/pw-common-three-places"
+            ]
+          }
+        ],
+        "semanticEntryAnchorId": "PW_COMMON_ENTRY",
+        "requiredPhysicalContext": "Village-accessible common meadow/river approach that reads forest, bank and village together and carries the final leaf, per docs/08 §2.",
+        "requiredRegister": "W04 shared-frame/common-horizon photo-world register.",
+        "requiredProfileKey": "W04 (planned designation only; no runtime profile ID exists yet)",
+        "profileAuthoringOwner": "PW-031",
+        "profileRuntimeConsumer": "PW-022",
+        "currentEngineBinding": "NOT_AUTHORED"
+      },
+      {
+        "sceneId": "urman.fullgame:scene/pw-cellar",
+        "narrativeClauses": [
+          "BO1"
+        ],
+        "entryProducers": [
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-home",
+            "interactionId": "urman.fullgame:interaction/pw-enter-cellar",
+            "guardConditions": [
+              {
+                "op": "photoworlds.book.received"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-CELLAR",
+                "state": "mounted"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "S-HAND",
+                "state": "acquired"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "entryConditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-CELLAR",
+            "state": "mounted"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "S-HAND",
+            "state": "acquired"
+          }
+        ],
+        "onEnterEffects": [],
+        "exitProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-cellar-return",
+            "targetSceneId": "urman.fullgame:scene/pw-home",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w05",
+                "status": "completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "dialogueProducers": [],
+        "stateProgressProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-cellar-order",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "cellar_household_order_seen",
+                "sourceId": "urman.fullgame:interaction/pw-cellar-order"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-cellar-object",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "cellar_shared_object_found",
+                "sourceId": "urman.fullgame:interaction/pw-cellar-object"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-cellar-response",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "cellar_bichura_answered",
+                "sourceId": "urman.fullgame:interaction/pw-cellar-response"
+              }
+            ]
+          }
+        ],
+        "questEntryIds": [
+          "urman.fullgame:quest/pw-w05"
+        ],
+        "questCompletionProducers": [
+          {
+            "questId": "urman.fullgame:quest/pw-w05",
+            "completionProducerIds": [
+              "urman.fullgame:interaction/pw-cellar-object",
+              "urman.fullgame:interaction/pw-cellar-order",
+              "urman.fullgame:interaction/pw-cellar-response"
+            ]
+          }
+        ],
+        "semanticEntryAnchorId": "PW_CELLAR_ENTRY",
+        "requiredPhysicalContext": "Dry home entry/storage room, not a bathhouse or mosque, per docs/08 §2.",
+        "requiredRegister": "W05 warm-underhouse/photo-world register; optional to the finale.",
+        "requiredProfileKey": "W05 (planned designation only; no runtime profile ID exists yet)",
+        "profileAuthoringOwner": "PW-031",
+        "profileRuntimeConsumer": "PW-022",
+        "currentEngineBinding": "NOT_AUTHORED"
+      },
+      {
+        "sceneId": "urman.fullgame:scene/pw-bank-approach",
+        "narrativeClauses": [
+          "B04",
+          "B08"
+        ],
+        "entryProducers": [
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-home",
+            "interactionId": "urman.fullgame:interaction/pw-enter-bank-approach",
+            "guardConditions": [
+              {
+                "op": "photoworlds.book.received"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w02",
+                "status": "completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          },
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-common",
+            "interactionId": "urman.fullgame:interaction/pw-common-return",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w04",
+                "status": "completed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "entryConditions": [
+          {
+            "op": "photoworlds.book.received"
+          }
+        ],
+        "onEnterEffects": [],
+        "exitProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-bank-return",
+            "targetSceneId": "urman.fullgame:scene/pw-home",
+            "guardConditions": [],
+            "effectsBeforeTransition": []
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-bank-to-epilogue",
+            "targetSceneId": "urman.fullgame:scene/pw-epilogue",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w04",
+                "status": "completed"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "outside_leaf_witnessed"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "alsu_meeting_agreed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "dialogueProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-alsu-leaf-talk",
+            "targetDialogueId": "urman.fullgame:dialogue/pw-alsu-leaf",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w04",
+                "status": "completed"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "outside_leaf_witnessed"
+              }
+            ]
+          }
+        ],
+        "stateProgressProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-bank-copy-source",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "bank_copy_found",
+                "sourceId": "urman.fullgame:interaction/pw-bank-copy-source"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-bank-copy-permission",
+            "effects": [
+              {
+                "op": "photoworlds.photo.acquire",
+                "photoId": "S-BANK",
+                "sourceId": "urman.fullgame:interaction/pw-bank-copy-source",
+                "permissionId": "urman.fullgame:interaction/pw-bank-copy-permission"
+              },
+              {
+                "op": "photoworlds.photo.back-read",
+                "photoId": "S-BANK"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-winter-piles-inspected",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "winter_piles_inspected",
+                "sourceId": "urman.fullgame:interaction/pw-winter-piles-inspected"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-verify-bank-evidence",
+            "effects": [
+              {
+                "op": "photoworlds.evidence.verify",
+                "evidenceId": "E-BANK-OUTSIDE"
+              }
+            ]
+          },
+          {
+            "interactionId": "urman.fullgame:interaction/pw-witness-summer-leaf",
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "outside_leaf_witnessed",
+                "sourceId": "urman.fullgame:interaction/pw-witness-summer-leaf"
+              }
+            ]
+          }
+        ],
+        "questEntryIds": [],
+        "questCompletionProducers": [],
+        "semanticEntryAnchorId": null,
+        "requiredPhysicalContext": "Ordinary village integrations remain material and reachable; E-BANK evidence requires the safe winter platform/old bridge piles described in docs/08 §4. No scene-to-place mapping is currently authored.",
+        "requiredRegister": "Ordinary village winter/outdoor world with a safe physical evidence point; this is not a photospace and the story does not specify a time-of-day.",
+        "requiredProfileKey": "No PW-specific key. After a real zone binding, use that zone’s existing actual day/night selector. village-winter-frost is available for zone claims village_day/house_old_pc/fap_clinic; village-green-night is available only for village_day@night. Do not infer zirat_road from the word “bank”.",
+        "profileAuthoringOwner": "PW-031",
+        "profileRuntimeConsumer": "PW-022",
+        "currentEngineBinding": "NOT_AUTHORED"
+      },
+      {
+        "sceneId": "urman.fullgame:scene/pw-epilogue",
+        "narrativeClauses": [
+          "B08"
+        ],
+        "entryProducers": [
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-bank-approach",
+            "interactionId": "urman.fullgame:interaction/pw-bank-to-epilogue",
+            "guardConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w04",
+                "status": "completed"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "outside_leaf_witnessed"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "alsu_meeting_agreed"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "entryConditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w04",
+            "status": "completed"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "outside_leaf_witnessed"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "alsu_meeting_agreed"
+          }
+        ],
+        "onEnterEffects": [],
+        "exitProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-epilogue-return-home",
+            "targetSceneId": "urman.fullgame:scene/pw-home",
+            "guardConditions": [
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "S-NOW",
+                "state": "acquired"
+              }
+            ],
+            "effectsBeforeTransition": []
+          }
+        ],
+        "dialogueProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-home-epilogue-talk",
+            "targetDialogueId": "urman.fullgame:dialogue/pw-home-epilogue",
+            "guardConditions": [
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "S-NOW",
+                "state": "acquired"
+              }
+            ]
+          }
+        ],
+        "stateProgressProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-take-now-photo",
+            "effects": [
+              {
+                "op": "photoworlds.photo.acquire",
+                "photoId": "S-NOW",
+                "sourceId": "urman.fullgame:interaction/pw-take-now-photo",
+                "permissionId": "urman.fullgame:interaction/pw-take-now-photo"
+              },
+              {
+                "op": "photoworlds.photo.mount",
+                "photoId": "S-NOW",
+                "pageId": "PAGE-NOW"
+              },
+              {
+                "op": "photoworlds.epilogue.finish"
+              },
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b08-home-epilogue",
+                "state": "completed"
+              }
+            ]
+          }
+        ],
+        "questEntryIds": [],
+        "questCompletionProducers": [],
+        "semanticEntryAnchorId": null,
+        "requiredPhysicalContext": "B08 returns to ordinary village life/tea after the shared leaf; no physical location/time mapping is authored.",
+        "requiredRegister": "Ordinary village return/continuation and family presence, per docs/08 §§1,3; no authored time-of-day or mandatory green-night clock.",
+        "requiredProfileKey": "No PW-specific key. After a real zone binding, resolve the actual zone plus day/night state: village-winter-frost is the existing default claim for village_day and house_old_pc; village-green-night only claims village_day@night. Neither is selected by this graph.",
+        "profileAuthoringOwner": "PW-031",
+        "profileRuntimeConsumer": "PW-022",
+        "currentEngineBinding": "NOT_AUTHORED"
+      },
+      {
+        "sceneId": "urman.fullgame:scene/pw-niva-arrival",
+        "narrativeClauses": [
+          "B01"
+        ],
+        "entryProducers": [
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-prologue",
+            "interactionId": "urman.fullgame:interaction/pw-prologue-branch-move",
+            "guardConditions": [],
+            "effectsBeforeTransition": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "prologue_branch_moved",
+                "sourceId": "urman.fullgame:interaction/pw-prologue-branch-move"
+              },
+              {
+                "op": "photoworlds.prologue.complete"
+              },
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b00-prologue",
+                "state": "completed"
+              }
+            ]
+          },
+          {
+            "sourceSceneId": "urman.fullgame:scene/pw-prologue",
+            "interactionId": "urman.fullgame:interaction/pw-prologue-skip",
+            "guardConditions": [],
+            "effectsBeforeTransition": [
+              {
+                "op": "photoworlds.prologue.complete"
+              },
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b00-prologue",
+                "state": "completed"
+              }
+            ]
+          }
+        ],
+        "entryConditions": [],
+        "onEnterEffects": [
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
+            "state": "available"
+          }
+        ],
+        "exitProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-niva-stop",
+            "targetSceneId": "urman.fullgame:scene/pw-home",
+            "guardConditions": [
+              {
+                "op": "beat.state",
+                "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
+                "state": "available"
+              }
+            ],
+            "effectsBeforeTransition": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
+                "state": "completed"
+              }
+            ]
+          }
+        ],
+        "dialogueProducers": [],
+        "stateProgressProducers": [
+          {
+            "interactionId": "urman.fullgame:interaction/pw-niva-stop",
+            "effects": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
+                "state": "completed"
+              }
+            ]
+          }
+        ],
+        "questEntryIds": [],
+        "questCompletionProducers": [],
+        "semanticEntryAnchorId": null,
+        "requiredPhysicalContext": "One-time Niva/road presentation uses PW_PROLOGUE_ROAD from docs/08; its physical consumer is PW-043.",
+        "requiredRegister": "Ordinary winter village arrival; do not force an un-authored time-of-day.",
+        "requiredProfileKey": "Select from the actual physical zone and day/night state after binding. Current village default village-winter-frost claims village_day; village-green-night claims village_day@night. Neither is activated by this graph.",
+        "profileAuthoringOwner": "PW-031",
+        "profileRuntimeConsumer": "PW-022",
+        "currentEngineBinding": "NOT_AUTHORED"
+      }
+    ],
+    "source_contracts": [
+      "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/02_NARRATIVE_BIBLE_RU.md §§4-8 (B00-B08/BO1 narrative stages).",
+      "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/04_ART_DIRECTION_RU.md §4 (village day, green night, and W01-W05 register identities).",
+      "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/08_VILLAGE_INTEGRATION_RU.md §§1-4 (ordinary village, anchors, route, safe outside-evidence place).",
+      "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md PW-022 and PW-031 (profile application and authored profile keys)."
+    ]
+  },
+  "remaining_acceptance": {
+    "semantic_native_retry": "PASS: 442857b2d5bc4056931f0203ba1852ca; source and frame hashes are in native_semantic_pass_442857b2d5bc4056931f0203ba1852ca. Card is in review; physical/profile/full visual successors remain open.",
+    "photo_file_search_and_printer": [
+      "PW-075"
+    ],
+    "Niva_physical_presentation_and_prologue_world_transfer": [
+      "PW-043"
+    ],
+    "W01_physical_world": [
+      "PW-045",
+      "PW-046",
+      "PW-047",
+      "PW-048",
+      "PW-049"
+    ],
+    "W02_physical_world": [
+      "PW-050",
+      "PW-051",
+      "PW-052",
+      "PW-053",
+      "PW-054"
+    ],
+    "W03_physical_world": [
+      "PW-055",
+      "PW-056",
+      "PW-057",
+      "PW-058",
+      "PW-059"
+    ],
+    "W04_physical_world": [
+      "PW-060",
+      "PW-061",
+      "PW-062",
+      "PW-063",
+      "PW-064"
+    ],
+    "W05_optional_physical_world": [
+      "PW-065",
+      "PW-066",
+      "PW-067",
+      "PW-068",
+      "PW-069"
+    ],
+    "profile_keys_and_runtime_application": [
+      "PW-022",
+      "PW-031"
+    ],
+    "ordinary_campaign_walk_and_handover": [
+      "PW-094",
+      "PW-098"
+    ],
+    "full_visual_migration_acceptance": "VIS-015 retains PW-044/PW-070 physical gates; VIS-067 engine/color/capture acceptance remains PW-031. None is claimed complete here.",
+    "VIS015_bridge_and_approaches": [
+      "PW-044",
+      "PW-070"
+    ],
+    "VIS067_profiles_and_runtime_captures": [
+      "PW-022",
+      "PW-031"
+    ],
+    "full_campaign_Q_routes_and_handover": [
+      "PW-087",
+      "PW-094",
+      "PW-098",
+      "PW-100",
+      "REL-003"
+    ],
+    "PC_file_search_printer_and_Niva_physical_transfer": [
+      "PW-043",
+      "PW-075"
+    ],
+    "physical_worlds_W01_to_W05": [
+      "PW-045",
+      "PW-046",
+      "PW-047",
+      "PW-048",
+      "PW-049",
+      "PW-050",
+      "PW-051",
+      "PW-052",
+      "PW-053",
+      "PW-054",
+      "PW-055",
+      "PW-056",
+      "PW-057",
+      "PW-058",
+      "PW-059",
+      "PW-060",
+      "PW-061",
+      "PW-062",
+      "PW-063",
+      "PW-064",
+      "PW-065",
+      "PW-066",
+      "PW-067",
+      "PW-068",
+      "PW-069"
+    ]
+  },
+  "root_source_review": {
+    "reviewed_utc": "2026-10-08T21:53:53+00:00",
+    "reviewer": "/root",
+    "result": "PASS bounded source crosswalk; subsequent native semantic flow PASS and bounded caption-frame decision ACCEPTED. Physical/profile/full-game acceptance remains explicitly delegated below.",
+    "verified": "All10 authored PWscene IDs exactly covered; scene entryConditions,onEnter and declared entryAnchorId match authoring source; allscene requiredregisters nonempty. Shared CatalogEntry uses whole-world object; local exact dispatch was verified separately by implementer. Follow-up native PASS and bounded UI decision are in native_semantic_pass_442857b2d5bc4056931f0203ba1852ca and root_visual_review.json.",
+    "scope_limits": "No ordinary player route, engine profile binding, world geometry, printer/file search, complete art/human/culture/audio acceptance inferred. Required downstream gates retained by explicit distributed ownership in contract07."
+  },
+  "native_ui_selector_followup_e72": {
+    "attempt_receipt": "evidence/PW-003/native_20261009_e72c7f4c669e47c6afcd72aa6074b655/receipt.json",
+    "job_id": "e72c7f4c669e47c6afcd72aa6074b655",
+    "snapshot_id": "d786f7f08d80c2ceb791b9bf253085cd98d666f5ec6a6e7850c63415d50e5770",
+    "status": "FAIL; preserved immutable station attempt",
+    "failed_paths": [
+      "Screen/App_notepad/Content/Text",
+      "Screen/App_notepad/Content/PreparePhotoCaption"
+    ],
+    "observed_failure": "Godot could not resolve both OldPcUi selectors; the subsequent NullReferenceException stopped the smoke before any caption UI PNG was emitted. Build/content/import passed; game exit code 1.",
+    "diagnosis": "OldPcUi widgets are present. CreateDesktopWindow creates App_notepad/Layout/Content and BuildEditor adds Text and PreparePhotoCaption under Content; the smoke path omitted Layout.",
+    "source_fix": {
+      "file": "game/tests/FullGameFlowSmokeTest.cs",
+      "paths": [
+        "Screen/App_notepad/Layout/Content/Text",
+        "Screen/App_notepad/Layout/Content/PreparePhotoCaption"
+      ],
+      "preserved_checks": "Actual visible TextEdit and Button checks, caption action dispatch, and FramePostDraw PNG readback/assertions remain enabled."
+    },
+    "local_verification": "The corrected selectors passed the narrow game compile and subsequent native semantic job 442857b2d5bc4056931f0203ba1852ca. The original e72 FAIL remains preserved; no control/visibility/frame assertion was bypassed.",
+    "next": "No further PW-003 semantic source retry is pending; full ordinary/physical route and owner-specific style checks remain under their successor tasks.",
+    "visual_acceptance": "NOT_RUN; e72 emitted no PNG and the selector fix has not yet been captured."
+  },
+  "native_semantic_pass_442857b2d5bc4056931f0203ba1852ca": {
+    "attempt_receipt": "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/receipt.json",
+    "manifest": "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/manifest.json",
+    "job_id": "442857b2d5bc4056931f0203ba1852ca",
+    "snapshot_id": "544949b1c3623ac71630158f8de68f0823d6c4dda8c7592257f8ad8c409b3bad",
+    "source_commit": "a58f1080978697a6041afb75a678d4dd99710de8",
+    "station": "UNTERPC",
+    "scene": "res://tests/full_game_flow_smoke_test.tscn",
+    "status": "PASS",
+    "game_exit_code": 0,
+    "step_exit_codes": {
+      "build": 0,
+      "content-build": 0,
+      "content-urman.chapter1": 0,
+      "content-urman.fullgame": 0,
+      "document-images": 0,
+      "game": 0,
+      "import": 0
+    },
+    "userdata_restored": true,
+    "engine_errors": {
+      "path": "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/engine-errors.log",
+      "line_count": 0,
+      "sha256_empty_file": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source_hashes_verified": {
+      "game/tests/FullGameFlowSmokeTest.cs": "e8467d283bc65121a4ad7c322f65205d48d3710d90b2732d46fd6a37957306e7",
+      "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs": "d14e9d8eb00f0a48fae460c71481a71213a4c77c5092a203c3e7e1854f9c978f",
+      "game/content/urman.fullgame.compiled.v1.json": "c1afa18be60a451d7a2a5295d8be72cba7211579c415f51e75ca2f56ae209052"
+    },
+    "native_game_log_sha256": "24cdd6c241023a4130a5ef00a57a7a09ac7867f3575ea26a40325149bf8b7708",
+    "result_zip_sha256": "8850cea8d975e31ea709408024c5c75ea75b4db4b3d8c35812a2341391658fb7",
+    "caption_ui_frame": {
+      "path": "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/caption-file-authoring-before-print.png",
+      "sha256": "13b67c3d5d2bd6fc826f1457749e874db9a346239a62becd79f6215e63f4ff43",
+      "dimensions": [
+        1886,
+        1061
+      ],
+      "sidecar": "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/caption_ui_frame.json",
+      "root_review": "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/root_visual_review.json",
+      "root_decision": "ACCEPTED_BOUNDED_CAPTION_AUTHORING_SCREEN"
+    },
+    "semantic_summary": "PASS both scripted semantic routes, prologue/skip, B01 Niva/home tea, W01/W02 either order, W03, independent evidence, Old PC caption-before-print, W04, W05 optional, death question open, epilogue and return/revisit.",
+    "known_limits": [
+      "Smoke explicitly reports PHYSICAL NOT_RUN for ordinary route, PC file/search/printer consumers and handover/anchors/art.",
+      "Root visual review accepts only the caption-authoring screen; scripted text entry/button activation is not ordinary human input.",
+      "No actual runtime profile binding/color captures, full desktop/app review, physical-world, author, cultural, language or audio acceptance is inferred."
+    ]
+  },
+  "root_native_visual_review_442857b2d5bc4056931f0203ba1852ca": {
+    "review": "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/root_visual_review.json",
+    "reviewer": "/root",
+    "frame": "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/caption-file-authoring-before-print.png",
+    "frame_sha256": "13b67c3d5d2bd6fc826f1457749e874db9a346239a62becd79f6215e63f4ff43",
+    "decision": "ACCEPTED_BOUNDED_CAPTION_AUTHORING_SCREEN",
+    "archive_hashes_verified": 20,
+    "observed": "Foreground Notepad text, prerequisite explanation and caption button are readable and within bounds; existing XP window style is consistent.",
+    "limits": "No ordinary human input, full desktop/apps, all resolutions, physical campaign, profile, author/human/culture/language gates accepted."
+  },
+  "done_when_audit_2026_10_09": {
+    "recommendation": "READY_FOR_ROOT_REVIEW; no automatic task closure.",
+    "items": [
+      {
+        "clause": 1,
+        "result": "PASS-authored-semantic-graph",
+        "basis": "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/game.log reports start, development, ending, return and revisit across both scripted routes.",
+        "limit": "Physical traversal is assigned downstream."
+      },
+      {
+        "clause": 2,
+        "result": "PASS",
+        "basis": "The native flow preserves the Marat-death question as an explicit open point and initializes only the five selected W01–W05 quests; old mandatory murder/bridge-collapse finales are not active route gates."
+      },
+      {
+        "clause": 3,
+        "result": "PASS-PW003-narrative-part",
+        "basis": "Authored active graph reaches its ending without bridge-collapse lock.",
+        "downstream": [
+          "PW-044",
+          "PW-070"
+        ]
+      },
+      {
+        "clause": 4,
+        "result": "PASS-authored-register-crosswalk",
+        "basis": "All 10 PW scenes have required-register keys plus source-derived producers/guards in profile_activation_crosswalk.scene_register_crosswalk.",
+        "downstream": [
+          "PW-022",
+          "PW-031"
+        ]
+      },
+      {
+        "clause": 5,
+        "result": "PASS-only-for-PW003-applicable-source-clauses",
+        "basis": "Family Tukay-book meaning is preserved; death remains unresolved; one canonical ending and optional W05 are authored. Full photo-world walking, creature/art production, and style are not claimed.",
+        "downstream": [
+          "PW-031",
+          "PW-043",
+          "PW-044",
+          "PW-045–PW-069",
+          "PW-070"
+        ]
+      },
+      {
+        "clause": 6,
+        "result": "PASS-authored-B00-to-BO1-graph",
+        "basis": "Story coverage map and native route checks cover B00–B08/BO1, both early-world orders, W04 predicates, optional W05, and return/revisit.",
+        "downstream": [
+          "PW-043",
+          "PW-045–PW-069",
+          "PW-075",
+          "PW-087",
+          "PW-094",
+          "PW-098"
+        ]
+      },
+      {
+        "clause": 7,
+        "result": "PASS-for-PW003-semantic-source-scope",
+        "basis": "Existing full-game native smoke PASS; exact source/pack hashes recorded. This is scripted semantic dispatch, not proof of ordinary controls/physical routes.",
+        "downstream": [
+          "PW-075",
+          "PW-087",
+          "PW-094",
+          "PW-098",
+          "REL-003"
+        ]
+      }
+    ],
+    "remaining_task_local_gate": "No further implementation or semantic-native gate is identified within PW-003 narrative/source scope after committed contract 07 distribution. Root must accept this audit and integrate the verified evidence; the separate author_acceptance field remains PENDING. Ordinary physical routes, actual engine profile consumers and whole-game human/art acceptance remain successor/final gates."
+  }
+}

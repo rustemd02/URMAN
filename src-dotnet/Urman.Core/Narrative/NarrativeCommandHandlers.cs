@@ -13,6 +13,7 @@ public static class NarrativeCommandHandlers
     public const string DialogueChoose = "dialogue.choose";
     public const string QuestSetStage = "quest.set-stage";
     public const string ContentApply = "content.apply";
+    public const string PhotoWorldCaptionPrepare = "photoworlds.caption.prepare";
 
     public static Dictionary<string, RuntimeCommandHandler> Create() => new(StringComparer.Ordinal)
     {
@@ -22,7 +23,8 @@ public static class NarrativeCommandHandlers
         [JournalRecord] = HandleJournalRecord,
         [DialogueChoose] = HandleDialogueChoose,
         [QuestSetStage] = HandleQuestSetStage,
-        [ContentApply] = HandleContentApply
+        [ContentApply] = HandleContentApply,
+        [PhotoWorldCaptionPrepare] = HandlePhotoWorldCaptionPrepare
     };
 
     private static CommandPlan HandleSceneEnter(GameCommand command, RuntimeCommandContext context)
@@ -167,6 +169,20 @@ public static class NarrativeCommandHandlers
         }
 
         return new(plannedEffects, plannedEvents, Value: plan.ProjectedState);
+    }
+
+    private static CommandPlan HandlePhotoWorldCaptionPrepare(GameCommand command, RuntimeCommandContext context)
+    {
+        var photoId = RequiredString(command.Payload, "photoId");
+        var captionText = RequiredString(command.Payload, "captionText");
+        var preparedById = ContentIdFrom(command.Payload, "preparedById");
+        var namespaceState = PhotoWorldState.PrepareCaption(context.State, photoId, captionText, preparedById);
+        var caption = namespaceState.GetProperty("captions").GetProperty(photoId);
+        var sourceAuthorId = caption.GetProperty("sourceAuthorId").GetString()!;
+        return new(
+            Effects: [new(StateEffectOperation.Set, "photoworlds", namespaceState)],
+            Events: [new("photoworlds.caption.prepared", JsonSerializer.SerializeToElement(new { photoId, preparedById, sourceAuthorId }))],
+            Value: namespaceState);
     }
 
     private static CommandPlan PlanSet(string key, JsonElement value, string eventType, object payload) => new(

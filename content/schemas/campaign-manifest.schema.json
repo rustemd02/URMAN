@@ -16,12 +16,98 @@
       "additionalProperties": { "$ref": "common.schema.json#/$defs/ContentId" }
     },
     "capabilityRequirements": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/CapabilityRequirement" } },
+    "activeQuestIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
     "narrativeOrder": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
     "invariants": { "type": "array", "items": { "$ref": "common.schema.json#/$defs/NarrativeInvariant" } },
-    "transitionOverrides": { "type": "array", "items": { "$ref": "#/$defs/TransitionOverride" } }
+    "transitionOverrides": { "type": "array", "items": { "$ref": "#/$defs/TransitionOverride" } },
+    "photoBook": { "$ref": "#/$defs/PhotoBook" }
   },
   "additionalProperties": false,
   "$defs": {
+    "PhotoBook": {
+      "type": "object",
+      "required": ["schemaVersion", "namespaceId", "playerId", "book", "photos", "facts", "evidence", "requiredAnchors"],
+      "properties": {
+        "schemaVersion": { "type": "integer", "const": 1 },
+        "namespaceId": { "type": "string", "const": "photoworlds-v1" },
+        "playerId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "book": {
+          "type": "object",
+          "required": ["id", "handoffSourceId", "giverId"],
+          "properties": {
+            "id": { "type": "string", "pattern": "^BOOK-[A-Z0-9-]+$" },
+            "handoffSourceId": { "$ref": "common.schema.json#/$defs/ContentId" },
+            "giverId": { "$ref": "common.schema.json#/$defs/ContentId" }
+          },
+          "additionalProperties": false
+        },
+        "photos": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "pageId", "sourceId", "permissionId", "provenanceKind", "contextSourceIds", "captionable", "requiresBookHandoff"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^(P|S)-[A-Z0-9-]+$" },
+              "pageId": { "type": "string", "pattern": "^PAGE-[A-Z0-9-]+$" },
+              "sourceId": { "$ref": "common.schema.json#/$defs/ContentId" },
+              "permissionId": { "$ref": "common.schema.json#/$defs/ContentId" },
+              "sourceAuthorId": { "$ref": "common.schema.json#/$defs/ContentId" },
+              "provenanceKind": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+              "contextSourceIds": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+              "captionable": { "type": "boolean" },
+              "requiresBookHandoff": { "type": "boolean" },
+              "initial": {
+                "type": "object",
+                "properties": { "acquired": { "type": "boolean" }, "mounted": { "type": "boolean" } },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "facts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "provenanceKind", "sourceIds"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+              "provenanceKind": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+              "sourceIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } }
+            },
+            "additionalProperties": false
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "minimumDistinctSources", "constituents"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^E-[A-Z0-9-]+$" },
+              "minimumDistinctSources": { "type": "integer", "minimum": 2 },
+              "constituents": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "object",
+                  "required": ["kind", "id"],
+                  "properties": {
+                    "kind": { "enum": ["fact", "photo-acquired", "photo-back-read"] },
+                    "id": { "type": "string", "minLength": 1 }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "requiredAnchors": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^PW_[A-Z0-9_]+$" } }
+      },
+      "additionalProperties": false
+    },
     "TransitionOverride": {
       "type": "object",
       "required": ["sourceSceneId", "id", "labelTextId", "conditions", "effects"],

@@ -240,6 +240,7 @@ public partial class OldPcUi
         if (id == "vocabulary") RefreshVocabulary();
         if (id == "tetris") _tetris.Resume();
         if (id is "notepad" or "writer") RestoreEditor(id == "writer");
+        RefreshPhotoCaptionAction();
         if (id == "browser" && (!wasOpen || _browserHistoryAddress is null))
             ShowBrowserAddress(CurrentBrowserAddress(), false, restoreOnly: true);
         LayoutWindow(window);
@@ -376,6 +377,13 @@ public partial class OldPcUi
         _desktop.Windows.Remove(window.State);
         if (_focusedWindow == id) _focusedWindow = _desktop.ActiveWindowId = null;
         if (id == "browser") { _browserVersion++; _browserExcerpts.Clear(); }
+        if (id == "notepad")
+        {
+            _photoCaptionRequestVersion++;
+            _photoCaptionPending = false;
+            _photoCaptionRequestSession = null;
+            RefreshPhotoCaptionAction();
+        }
         FocusActiveDesktopWindow();
         MarkDesktopChanged();
     }

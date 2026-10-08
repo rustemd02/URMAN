@@ -8,6 +8,7 @@
     "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
     "id": { "$ref": "common.schema.json#/$defs/ContentId" },
     "sceneType": { "enum": ["static", "scripted", "route", "presentation", "capability"] },
+    "entryAnchorId": { "type": "string", "pattern": "^PW_[A-Z0-9_]+$" },
     "title": { "$ref": "common.schema.json#/$defs/LocalizedText" },
     "assetRefs": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
     "textRefs": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },

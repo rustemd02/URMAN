@@ -1309,7 +1309,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                     || bridge.IsPlayerSlotAvailable(RuntimeBridge.CheckpointSlot));
             if (IsInstanceValid(menu) && !menu.IsDismissed)
             {
-                menu.SetContinueAvailable(candidate is not null, candidate?.Description, existingSavePresent);
+                menu.SetContinueAvailable(candidate is not null, candidate?.Description, existingSavePresent,
+                    bridge?.HasIncompatiblePhotoWorldSaves == true);
                 if (bridge?.NeedsPhysicalRecovery == true) menu.ShowStatus(LoadPlacementFailureStatus);
                 if (menu.NewGameButton is { } newGame) { newGame.Disabled = false; newGame.GrabFocus(); }
             }

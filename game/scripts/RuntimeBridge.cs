@@ -40,6 +40,7 @@ public partial class RuntimeBridge : Node
     private DeterministicScheduler _scheduler = new();
     private AtomicSaveGameStore? _saveStore;
     private AtomicSaveGameStore? _debugSaveStore;
+    private AtomicSaveGameStore? _incompatiblePhotoWorldSaveStore;
     public bool IsDebugSession { get; private set; }
     private AtomicSaveGameStore? SessionSaveStore => IsDebugSession ? _debugSaveStore : _saveStore;
     private CompiledCampaignRepository _content = null!;
@@ -80,8 +81,21 @@ public partial class RuntimeBridge : Node
         AddToGroup("runtime_bridge");
         _content = CompiledCampaignRepository.Load(CampaignResourcePath);
         _questCoordinator = new QuestRuntimeCoordinator(_content);
-        _saveStore = new AtomicSaveGameStore(ProjectSettings.GlobalizePath("user://savegames"));
-        _debugSaveStore = new AtomicSaveGameStore(ProjectSettings.GlobalizePath("user://debug-savegames"));
+        var playerSaveRoot = ProjectSettings.GlobalizePath("user://savegames");
+        var debugSaveRoot = ProjectSettings.GlobalizePath("user://debug-savegames");
+        var existingPlayerStore = new AtomicSaveGameStore(playerSaveRoot);
+        var existingDebugStore = new AtomicSaveGameStore(debugSaveRoot);
+        if (_content.PhotoWorldNamespaceId == PhotoWorldState.NamespaceId)
+        {
+            _incompatiblePhotoWorldSaveStore = existingPlayerStore;
+            _saveStore = new AtomicSaveGameStore(Path.Combine(playerSaveRoot, PhotoWorldState.NamespaceId));
+            _debugSaveStore = new AtomicSaveGameStore(Path.Combine(debugSaveRoot, PhotoWorldState.NamespaceId));
+        }
+        else
+        {
+            _saveStore = existingPlayerStore;
+            _debugSaveStore = existingDebugStore;
+        }
         CreateNewSession();
         _ = InitializeEntrypointAsync();
         CallDeferred(nameof(AttachAudioCueUi));
@@ -228,6 +242,18 @@ public partial class RuntimeBridge : Node
     // Main-menu Continue always describes the player's game, including after
     // returning from a debug visit. Pause/F9 use the current session's store.
     public bool IsPlayerSlotAvailable(string slot) => StoreHasSlot(_saveStore, slot);
+
+    /// <summary>Old campaign slots remain in their original directory and are
+    /// explicitly disclosed by the main menu when a PhotoWorlds campaign runs.</summary>
+    public bool HasIncompatiblePhotoWorldSaves => _incompatiblePhotoWorldSaveStore is not null
+        && (StoreHasSlot(_incompatiblePhotoWorldSaveStore, "quick")
+            || StoreHasSlot(_incompatiblePhotoWorldSaveStore, CheckpointSlot));
+
+    public bool IsPhotoWorldsCampaign => _content.HasPhotoWorlds;
+
+    public bool CanPreparePhotoWorldCaption(string photoId) =>
+        _kernel is not null && _content.HasPhotoWorlds
+        && PhotoWorldState.CanPrepareCaption(_kernel.SelectState(), photoId);
 
     private static bool StoreHasSlot(AtomicSaveGameStore? store, string slot) =>
         store is not null && (File.Exists(store.SlotPath(slot)) || File.Exists(store.BackupPath(slot)));
@@ -936,7 +962,7 @@ public partial class RuntimeBridge : Node
         }
 
         var result = new List<ResolvedObjectiveEntry>();
-        foreach (var quest in _content.Quests)
+        foreach (var quest in _content.RuntimeQuests)
         {
             if (!quests.TryGetProperty(quest.Id, out var instance)
                 || instance.ValueKind != JsonValueKind.Object
@@ -1393,6 +1419,41 @@ public partial class RuntimeBridge : Node
             GD.Print($"[{gameEvent.Sequence}] {gameEvent.Type}: {interaction.Id}");
         }
 
+        return true;
+    }
+
+    /// <summary>
+    /// Semantic-only dispatch for the existing fullgame flow smoke. It runs the
+    /// same authored ownership, condition, effect and scene reducer as gameplay,
+    /// while deliberately making no claim about a physical anchor or range check.
+    /// </summary>
+    internal async Task<bool> DispatchSemanticInteractionForSmokeAsync(string interactionId)
+    {
+        if (!_content.HasPhotoWorlds || !_content.TryGetInteraction(interactionId, out var interaction)) return false;
+        return await DispatchCompiledInteractionAsync(interaction);
+    }
+
+    /// <summary>Commits the actual player-entered caption through the existing
+    /// narrative kernel; source authorship is resolved from the authored print.</summary>
+    public async Task<bool> PreparePhotoWorldCaptionAsync(string photoId, string captionText)
+    {
+        var session = SessionIdentity;
+        if (!_content.HasPhotoWorlds || session is null || _loadingSlot || _loadPreparing) return false;
+        var preparedById = _content.PhotoWorldCatalog.GetProperty("playerId").GetString()
+            ?? throw new InvalidDataException("PhotoWorlds catalog has no player character ID.");
+        var command = new GameCommand(
+            $"photoworlds-caption:{Interlocked.Increment(ref _interactionSequence):D8}",
+            NarrativeCommandHandlers.PhotoWorldCaptionPrepare,
+            JsonSerializer.SerializeToElement(new { photoId, captionText, preparedById }));
+        var result = await session.DispatchAsync(command);
+        if (!ReferenceEquals(session, SessionIdentity)) return false;
+        if (result.Status != CommandStatus.Committed)
+        {
+            GD.PushWarning($"PhotoWorlds caption rejected: {result.Error?.Code} {result.Error?.Message}");
+            return false;
+        }
+        await ReconcileQuestsAsync();
+        QueueRuntimeStateChanged();
         return true;
     }
 

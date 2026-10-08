@@ -292,8 +292,8 @@ public partial class FullGameFlowSmokeTest : Node
         bridge.OpenOldPcUi();
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         ui!.NewPersonalFile(rich: false);
-        var editor = ui.GetNode<TextEdit>("Screen/App_notepad/Layout/Content/Text");
-        var prepare = ui.GetNode<Button>("Screen/App_notepad/Layout/Content/PreparePhotoCaption");
+        var editor = ui.GetNode<TextEdit>("Screen/App_notepad/Content/Text");
+        var prepare = ui.GetNode<Button>("Screen/App_notepad/Content/PreparePhotoCaption");
         editor.Text = text;
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         Require(ui.GetNode<Control>("Screen").Visible

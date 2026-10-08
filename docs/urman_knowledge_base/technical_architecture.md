@@ -4,7 +4,38 @@ Target stack, accepted 2026-08-10: **Godot 4.7.1 .NET, C# и .NET 10 LTS**. Prod
 
 Engine-neutral остаются narrative kernel, portable content, compiler contracts и save data. Они не зависят от Godot nodes, scene paths, physics implementation или rendering API. Godot — единственный production owner представления, input, audio и world scenes.
 
-## Current delivery boundary — Act 1 demo
+## Действующий delivery contract — PhotoWorlds, 08.10.2026
+
+Релизная цель — полная кампания «За краем снимка» по
+`../tasktracker/07_full_game_integration_2026-10-08.md`, а не только прежний demo.
+Наличие `act1_demo.tscn` в текущем project entrypoint описывает фактический старый запуск,
+не ограничивает новый объём и не доказывает, что переключение уже выполнено.
+
+Исходные владельцы нового графа — `content/campaigns/urman.fullgame/campaign.json` и
+`content/modules/urman-fullgame/`; результат компиляции потребляет существующий
+`CompiledCampaignRepository`. `narrativeOrder` служит индексом для инструмента симуляции;
+исполняемый переход принадлежит interaction/dialogue, его conditions/effects и target scene.
+Манифест выбирает активные quests новой арки: прежние определения могут сохраняться для
+истории и совместимых потребителей, но не должны выдавать отменённые обязательные цели.
+
+Контракт реализации PW-003 помещает `photoworlds` в существующий kernel snapshot с
+`namespaceId=photoworlds-v1` и `schemaVersion=1`. Каталог задаёт отдельные PhotoId/PageId,
+источник и разрешение; получение, монтаж, чтение оборота и контекст не сводятся к одному bool.
+Внешнее подтверждение требует предметных составляющих и независимых источников; посещение
+фотомира само его не выдаёт. Подпись хранит фактический текст игрока и авторство исходного
+снимка. UI лишь отправляет команду; отдельного UI-хранилища сюжетного прогресса нет.
+
+Новая кампания использует `photoworlds-v1`-подкаталог через прежний `AtomicSaveGameStore`
+и `RuntimeBridge`; legacy quick/checkpoint primary/backup остаются в исходном каталоге.
+Это явная граница несовместимости, не автоматическая миграция старых pact-флагов.
+Сам по себе этот контракт не доказывает сохранность при runtime: фактические результаты,
+compiled namespace, scene/profile и hashes записывает карточка PW-003.
+
+Семантический сценарий проверяет переходы и источники состояния; физические якоря,
+проходимость, пять произведённых миров и художественная приёмка требуют соответствующих
+PW-карточек и свежего REL-003. Декларация `entryAnchorId` не является сохранённым `in_range`.
+
+## Историческая граница поставки — Act 1 demo
 
 Текущий delivery target — не полный five-act migration, а отдельная
 проверяемая Godot-сборка первого акта. `res://scenes/act1_demo.tscn` оборачивает

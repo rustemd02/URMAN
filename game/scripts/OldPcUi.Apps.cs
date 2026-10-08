@@ -21,6 +21,11 @@ public partial class OldPcUi
     private readonly Dictionary<string, TextEdit> _editors = new(StringComparer.Ordinal);
     private readonly Dictionary<string, LineEdit> _editorNames = new(StringComparer.Ordinal);
     private readonly Dictionary<string, Label> _editorStatuses = new(StringComparer.Ordinal);
+    private Button? _photoCaptionButton;
+    private Label? _photoCaptionHint;
+    private bool _photoCaptionPending;
+    private long _photoCaptionRequestVersion;
+    private object? _photoCaptionRequestSession;
     private RichTextLabel _writerPreview = null!;
     private LineEdit _browserAddress = null!;
     private RichTextLabel _browserReader = null!;
@@ -322,6 +327,18 @@ public partial class OldPcUi
             ContextMenuEnabled = true, ScrollFitContentWidth = false };
         _editors[app] = edit;
         body.AddChild(edit);
+        if (!rich)
+        {
+            _photoCaptionHint = new Label
+            {
+                Name = "PhotoCaptionHint",
+                Visible = false,
+                AutowrapMode = TextServer.AutowrapMode.WordSmart
+            };
+            body.AddChild(_photoCaptionHint);
+            _photoCaptionButton = DesktopButton(body, "PreparePhotoCaption", "Составить подпись", PreparePhotoCaptionFromNote);
+            _photoCaptionButton.Visible = false;
+        }
         if (rich)
         {
             _writerPreview = new RichTextLabel { Name = "Page", BbcodeEnabled = true, Visible = false,
@@ -332,6 +349,7 @@ public partial class OldPcUi
         _editorStatuses[app] = new Label { Name = "Status", Text = "Личная заметка Айдара; архивные источники остаются отдельными.",
             AutowrapMode = TextServer.AutowrapMode.WordSmart };
         body.AddChild(_editorStatuses[app]);
+        RefreshPhotoCaptionAction();
         edit.TextChanged += () => UpdatePersonalFile(rich);
         _editorNames[app].TextChanged += _ => UpdatePersonalFile(rich);
         edit.GuiInput += input =>
@@ -400,6 +418,80 @@ public partial class OldPcUi
         if (rich) _writerPreview.Text = text;
         MarkDesktopChanged();
     }
+
+    private void RefreshPhotoCaptionAction()
+    {
+        if (_photoCaptionButton is null || _photoCaptionHint is null) return;
+        if (_photoCaptionPending && !ReferenceEquals(_photoCaptionRequestSession, _bridge?.SessionIdentity))
+        {
+            _photoCaptionPending = false;
+            _photoCaptionRequestSession = null;
+            _photoCaptionRequestVersion++;
+        }
+        var isPhotoWorlds = _bridge?.IsPhotoWorldsCampaign == true;
+        _photoCaptionButton.Visible = isPhotoWorlds;
+        _photoCaptionHint.Visible = isPhotoWorlds;
+        if (!isPhotoWorlds) return;
+
+        var ready = _bridge!.CanPreparePhotoWorldCaption("P-COMMON");
+        _photoCaptionButton.Disabled = _photoCaptionPending || !ready || !_editors["notepad"].Editable;
+        _photoCaptionHint.Text = ready
+            ? "Разрешённый файл Марата найден. Составь собственную подпись; бумажный отпечаток можно будет напечатать отдельно."
+            : "Подпись откроется после получения разрешённого файла Марата.";
+    }
+
+    private async void PreparePhotoCaptionFromNote()
+    {
+        if (_bridge is not { } bridge || _photoCaptionButton is null) return;
+        var caption = _editors["notepad"].Text;
+        if (string.IsNullOrWhiteSpace(caption) || caption.Length > 280)
+        {
+            _editorStatuses["notepad"].Text = "Введите подпись длиной от 1 до 280 знаков.";
+            return;
+        }
+
+        UpdatePersonalFile(rich: false);
+        PersistDesktop();
+        var session = bridge.SessionIdentity;
+        var version = ++_photoCaptionRequestVersion;
+        _photoCaptionRequestSession = session;
+        _photoCaptionPending = true;
+        _photoCaptionButton.Disabled = true;
+        RefreshPhotoCaptionAction();
+        bool prepared;
+        try
+        {
+            prepared = await bridge.PreparePhotoWorldCaptionAsync("P-COMMON", caption);
+        }
+        catch (Exception error)
+        {
+            if (!IsCurrentPhotoCaptionRequest(bridge, session, version)) return;
+            _photoCaptionPending = false;
+            _photoCaptionRequestSession = null;
+            _editorStatuses["notepad"].Text = "Не удалось сохранить подпись. Текст остался в заметке — попробуй ещё раз.";
+            GD.PushWarning("PhotoWorlds caption submission failed: " + error.Message);
+            RefreshPhotoCaptionAction();
+            return;
+        }
+
+        if (!IsCurrentPhotoCaptionRequest(bridge, session, version)) return;
+        _photoCaptionPending = false;
+        _photoCaptionRequestSession = null;
+        if (!prepared)
+        {
+            _editorStatuses["notepad"].Text = "Подпись не принята. Проверь, что копия получена, и попробуй снова.";
+            RefreshPhotoCaptionAction();
+            return;
+        }
+
+        _editorStatuses["notepad"].Text = "Подпись сохранена отдельно от исходного файла Марата. Её можно напечатать позднее.";
+        RefreshPhotoCaptionAction();
+    }
+
+    private bool IsCurrentPhotoCaptionRequest(RuntimeBridge bridge, object? session, long version) =>
+        IsInsideTree() && _screen.Visible && _bridge == bridge && _photoCaptionRequestVersion == version
+        && _windows.TryGetValue("notepad", out var window) && window.Open
+        && ReferenceEquals(session, bridge.SessionIdentity);
 
     private void FormatSelection(string open, string? close = null)
     {

@@ -147,6 +147,13 @@ public sealed partial class ContentCompiler
             return new(null, diagnostics);
         }
 
+        ValidateActiveQuestIds(root, campaignPath, campaign, registries["quests"], diagnostics);
+        ValidatePhotoWorldCatalog(root, campaignPath, campaign, registries, diagnostics);
+        if (diagnostics.Count > 0)
+        {
+            return new(null, diagnostics);
+        }
+
         ApplyTransitionOverrides(root, campaignPath, campaign, registries, diagnostics);
         if (diagnostics.Count > 0)
         {
@@ -300,6 +307,16 @@ public sealed partial class ContentCompiler
             ["invariants"] = new JsonArray(invariants)
         };
 
+        if (campaign["photoBook"] is JsonObject photoBook)
+        {
+            result["photoBook"] = photoBook.DeepClone();
+        }
+
+        if (campaign["activeQuestIds"] is JsonArray activeQuestIds)
+        {
+            result["activeQuestIds"] = activeQuestIds.DeepClone();
+        }
+
         if (campaign["transitionOverrides"] is JsonArray transitionOverrides)
         {
             result["transitionOverrides"] = new JsonArray(
@@ -312,6 +329,148 @@ public sealed partial class ContentCompiler
         }
 
         return result;
+    }
+
+    private static void ValidateActiveQuestIds(
+        string root,
+        string campaignPath,
+        JsonObject campaign,
+        IReadOnlyDictionary<string, JsonObject> quests,
+        ICollection<ContentDiagnostic> diagnostics)
+    {
+        if (campaign["activeQuestIds"] is not JsonArray activeQuestIds) return;
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        for (var index = 0; index < activeQuestIds.Count; index++)
+        {
+            var questId = activeQuestIds[index]?.GetValue<string>();
+            if (string.IsNullOrWhiteSpace(questId)) continue;
+            if (!seen.Add(questId))
+            {
+                diagnostics.Add(new("DuplicateActiveQuest", Relative(root, campaignPath), $"/activeQuestIds/{index}", $"Active quest ID {questId} appears more than once."));
+            }
+            if (!quests.ContainsKey(questId))
+            {
+                diagnostics.Add(new("UnknownActiveQuest", Relative(root, campaignPath), $"/activeQuestIds/{index}", $"Active quest {questId} is not present in the selected modules."));
+            }
+        }
+    }
+
+    private static void ValidatePhotoWorldCatalog(
+        string root,
+        string campaignPath,
+        JsonObject campaign,
+        IReadOnlyDictionary<string, Dictionary<string, JsonObject>> registries,
+        ICollection<ContentDiagnostic> diagnostics)
+    {
+        if (campaign["photoBook"] is not JsonObject catalog) return;
+        var pointer = "/photoBook";
+        var allIds = registries.Values.SelectMany(registry => registry.Keys).ToHashSet(StringComparer.Ordinal);
+        foreach (var scene in registries["scenes"].Values)
+            foreach (var interaction in scene["interactions"] as JsonArray ?? [])
+                if (interaction?["id"] is JsonValue interactionId && interactionId.TryGetValue<string>(out var id))
+                    allIds.Add(id);
+        var photoSources = new Dictionary<string, string>(StringComparer.Ordinal);
+        var factSources = new Dictionary<string, string[]>(StringComparer.Ordinal);
+        var photos = catalog["photos"] as JsonArray ?? [];
+        var facts = catalog["facts"] as JsonArray ?? [];
+        var evidence = catalog["evidence"] as JsonArray ?? [];
+
+        void RequireReference(JsonNode? node, string field, string category = "")
+        {
+            var id = node?.GetValue<string>();
+            if (string.IsNullOrWhiteSpace(id)) return;
+            var valid = category == "character"
+                ? registries["characters"].ContainsKey(id)
+                : allIds.Contains(id);
+            if (!valid)
+                diagnostics.Add(new("UnknownPhotoWorldReference", Relative(root, campaignPath), $"{pointer}/{field}",
+                    $"PhotoWorlds {field} references unknown content ID {id}."));
+        }
+
+        if (catalog["book"] is JsonObject book)
+        {
+            RequireReference(book["handoffSourceId"], "book/handoffSourceId");
+            RequireReference(book["giverId"], "book/giverId", "character");
+        }
+
+        for (var index = 0; index < photos.Count; index++)
+        {
+            if (photos[index] is not JsonObject photo) continue;
+            var id = photo["id"]?.GetValue<string>();
+            if (string.IsNullOrWhiteSpace(id)) continue;
+            var sourceId = photo["sourceId"]?.GetValue<string>();
+            if (!string.IsNullOrWhiteSpace(sourceId)) photoSources[id] = sourceId;
+            RequireReference(photo["sourceId"], $"photos/{index}/sourceId");
+            RequireReference(photo["permissionId"], $"photos/{index}/permissionId");
+            if (photo["sourceAuthorId"] is { } author)
+                RequireReference(author, $"photos/{index}/sourceAuthorId", "character");
+            if (photo["contextSourceIds"] is JsonArray contextSources)
+                for (var sourceIndex = 0; sourceIndex < contextSources.Count; sourceIndex++)
+                    RequireReference(contextSources[sourceIndex], $"photos/{index}/contextSourceIds/{sourceIndex}");
+        }
+
+        for (var index = 0; index < facts.Count; index++)
+        {
+            if (facts[index] is not JsonObject fact) continue;
+            var id = fact["id"]?.GetValue<string>();
+            if (string.IsNullOrWhiteSpace(id)) continue;
+            var sources = (fact["sourceIds"] as JsonArray ?? [])
+                .Select(node => node?.GetValue<string>())
+                .Where(value => !string.IsNullOrWhiteSpace(value))
+                .Select(value => value!)
+                .ToArray();
+            factSources[id] = sources;
+            for (var sourceIndex = 0; sourceIndex < (fact["sourceIds"] as JsonArray ?? []).Count; sourceIndex++)
+                RequireReference(fact["sourceIds"]![sourceIndex], $"facts/{index}/sourceIds/{sourceIndex}");
+        }
+
+        for (var index = 0; index < evidence.Count; index++)
+        {
+            if (evidence[index] is not JsonObject item) continue;
+            var evidenceId = item["id"]?.GetValue<string>() ?? $"#{index}";
+            var constituents = item["constituents"] as JsonArray ?? [];
+            var candidateSources = new List<string[]>();
+            for (var constituentIndex = 0; constituentIndex < constituents.Count; constituentIndex++)
+            {
+                if (constituents[constituentIndex] is not JsonObject constituent) continue;
+                var kind = constituent["kind"]?.GetValue<string>();
+                var id = constituent["id"]?.GetValue<string>();
+                string[] sources = [];
+                if (kind == "fact" && id is not null)
+                {
+                    if (factSources.TryGetValue(id, out var factCandidates))
+                        sources = factCandidates;
+                    else
+                        diagnostics.Add(new("UnknownPhotoWorldFact", Relative(root, campaignPath), $"{pointer}/evidence/{index}/constituents/{constituentIndex}",
+                            $"Evidence {evidenceId} references unknown fact {id}."));
+                }
+                else if ((kind is "photo-acquired" or "photo-back-read") && id is not null)
+                {
+                    if (!photoSources.TryGetValue(id, out var source))
+                        diagnostics.Add(new("UnknownPhotoWorldPhoto", Relative(root, campaignPath), $"{pointer}/evidence/{index}/constituents/{constituentIndex}",
+                            $"Evidence {evidenceId} references unknown PhotoId {id}."));
+                    else sources = [source];
+                }
+
+                candidateSources.Add(sources);
+            }
+
+            if (candidateSources.Count == 0 || !HasDistinctSourceAssignment(candidateSources, 0, new HashSet<string>(StringComparer.Ordinal)))
+                diagnostics.Add(new("UnprovablePhotoWorldEvidence", Relative(root, campaignPath), $"{pointer}/evidence/{index}",
+                    $"Evidence {evidenceId} cannot assign a distinct authored source to each typed constituent."));
+        }
+    }
+
+    private static bool HasDistinctSourceAssignment(IReadOnlyList<string[]> candidates, int index, HashSet<string> used)
+    {
+        if (index == candidates.Count) return true;
+        foreach (var source in candidates[index])
+        {
+            if (!used.Add(source)) continue;
+            if (HasDistinctSourceAssignment(candidates, index + 1, used)) return true;
+            used.Remove(source);
+        }
+        return false;
     }
 
     private static void ApplyTransitionOverrides(

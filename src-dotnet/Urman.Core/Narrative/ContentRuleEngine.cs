@@ -33,6 +33,7 @@ public static class ContentRuleEngine
             "npc.state" => NpcStateEquals(condition, state),
             "beat.state" => BeatStateEquals(condition, state),
             "location.is" => LocationEquals(condition, state),
+            _ when PhotoWorldState.IsConditionOperation(operation) => PhotoWorldState.EvaluateCondition(condition, state),
             _ => throw new ArgumentException($"Unknown content condition operation {operation}.")
         };
     }
@@ -93,6 +94,12 @@ public static class ContentRuleEngine
                 RecordJournal(staged, plannedEffects, events, effect);
                 break;
             default:
+                if (PhotoWorldState.IsEffectOperation(operation))
+                {
+                    PhotoWorldState.ApplyEffect(effect, staged, events);
+                    Commit(staged, plannedEffects, "photoworlds", staged["photoworlds"]!);
+                    break;
+                }
                 throw new ArgumentException($"Unknown content effect operation {operation}.");
         }
     }

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "urman.fullgame",
   "exactVersion": "1.0.0",
-  "entrypoint": "urman.chapter1:scene/arrival_vehicle_dusk",
+  "entrypoint": "urman.fullgame:scene/pw-prologue",
   "modules": [
     {
       "moduleId": "urman.core",
@@ -38,86 +38,484 @@
       "exactVersion": "1.0.0"
     }
   ],
-  "transitionOverrides": [
-    {
-      "sourceSceneId": "urman.chapter1:scene/forest",
-      "id": "urman.fullgame:interaction/chapter1-forest-to-act2-house",
-      "labelTextId": "urman.chapter1:text/continue",
-      "conditions": [
-        {
-          "op": "knowledge.status",
-          "knowledgeId": "urman.chapter1:knowledge/clue_do_not_answer_rule",
-          "status": "confirmed"
-        }
-      ],
-      "effects": [],
-      "targetSceneId": "urman.fullgame:scene/act2-house"
-    }
-  ],
+  "transitionOverrides": [],
   "narrativeOrder": [
-    "urman.chapter1:scene/arrival_vehicle_dusk",
-    "urman.chapter1:scene/house",
-    "urman.chapter1:scene/crossroad_signs_inspect",
-    "urman.chapter1:scene/fap_waiting_room_day",
-    "urman.chapter1:scene/fap_pressure_document_desk",
-    "urman.chapter1:scene/evidence-official-death",
-    "urman.chapter1:scene/evidence-internal-register",
-    "urman.chapter1:dialogue/rinat_internal_register",
-    "urman.chapter1:scene/evidence-saved-message",
-    "urman.chapter1:scene/evidence-tatarwiki-boundary",
-    "urman.chapter1:scene/evidence-tatarwiki-reread",
-    "urman.chapter1:scene/evidence-edge-sketch",
-    "urman.chapter1:scene/zirat-road",
-    "urman.chapter1:scene/forest-approach",
-    "urman.chapter1:scene/forest",
-    "urman.chapter1:beat/cliffhanger-hard-cut",
-    "urman.chapter1:knowledge/clue_do_not_answer_rule",
-    "urman.fullgame:scene/act2-house",
-    "urman.fullgame:dialogue/alsu-confession",
-    "urman.fullgame:scene/act2-river",
-    "urman.fullgame:scene/act2-mosque",
-    "urman.fullgame:dialogue/timur-counsel",
-    "urman.fullgame:scene/act2-council",
-    "urman.fullgame:dialogue/council-voice",
-    "urman.fullgame:quest/act2-double-ledger",
-    "urman.fullgame:scene/act3-archive",
-    "urman.fullgame:dialogue/naila-record",
-    "urman.fullgame:scene/act3-soviet",
-    "urman.fullgame:document/baranov-1967",
-    "urman.fullgame:scene/act3-suanasy",
-    "urman.fullgame:dialogue/suanasy",
-    "urman.fullgame:quest/act3-water-debt",
-    "urman.fullgame:scene/act4-tukay",
-    "urman.fullgame:document/tukai-1913",
-    "urman.fullgame:dialogue/tukay",
-    "urman.fullgame:scene/act4-1552",
-    "urman.fullgame:document/kazan-1552",
-    "urman.fullgame:scene/act4-pact",
-    "urman.fullgame:document/pact-ledger",
-    "urman.fullgame:dialogue/pact-keeper",
-    "urman.fullgame:quest/act4-inherited-roles",
-    "urman.fullgame:scene/act5-boundary",
-    "urman.fullgame:dialogue/aidar-final",
-    "urman.fullgame:knowledge/act5_protection_lost",
-    "urman.fullgame:scene/act5-epilogue",
-    "urman.fullgame:quest/act5-break-pact",
-    "urman.fullgame:knowledge/act5_truth_price"
+    "urman.fullgame:scene/pw-prologue",
+    "urman.fullgame:scene/pw-niva-arrival",
+    "urman.fullgame:scene/pw-home",
+    "urman.fullgame:scene/pw-forest",
+    "urman.fullgame:scene/pw-river",
+    "urman.fullgame:scene/pw-house",
+    "urman.fullgame:scene/pw-bank-approach",
+    "urman.fullgame:scene/pw-common",
+    "urman.fullgame:scene/pw-cellar",
+    "urman.fullgame:scene/pw-epilogue",
+    "urman.fullgame:dialogue/pw-arrival-tea",
+    "urman.fullgame:dialogue/pw-water-place",
+    "urman.fullgame:dialogue/pw-first-world-home",
+    "urman.fullgame:dialogue/pw-gulsina-author",
+    "urman.fullgame:dialogue/pw-common-file-permission",
+    "urman.fullgame:dialogue/pw-alsu-leaf",
+    "urman.fullgame:dialogue/pw-home-epilogue",
+    "urman.fullgame:quest/pw-w01",
+    "urman.fullgame:quest/pw-w02",
+    "urman.fullgame:quest/pw-w03",
+    "urman.fullgame:quest/pw-w04",
+    "urman.fullgame:quest/pw-w05",
+    "urman.fullgame:knowledge/pw-marat-death-question-remains-open"
   ],
   "invariants": [
     {
-      "id": "urman.fullgame:invariant/tragic-ending-reachable",
-      "description": "The canonical tragic epilogue remains reachable from the full-game entrypoint.",
+      "id": "urman.fullgame:invariant/photo-worlds-epilogue-reachable",
+      "description": "The authored PhotoWorlds route can reach the home epilogue after its typed finale gates.",
       "severity": "error",
       "kind": "required-reachable",
-      "targetId": "urman.fullgame:scene/act5-epilogue"
-    },
-    {
-      "id": "urman.fullgame:invariant/protection-after-pact",
-      "description": "The loss of protection is revealed only after Aidar commits to breaking the unjust pact.",
-      "severity": "error",
-      "kind": "reveal-not-before",
-      "subjectId": "urman.fullgame:knowledge/act5_protection_lost",
-      "afterId": "urman.fullgame:dialogue/aidar-final"
+      "targetId": "urman.fullgame:scene/pw-epilogue"
     }
-  ]
+  ],
+  "activeQuestIds": [
+    "urman.fullgame:quest/pw-w01",
+    "urman.fullgame:quest/pw-w02",
+    "urman.fullgame:quest/pw-w03",
+    "urman.fullgame:quest/pw-w04",
+    "urman.fullgame:quest/pw-w05"
+  ],
+  "photoBook": {
+    "schemaVersion": 1,
+    "namespaceId": "photoworlds-v1",
+    "playerId": "urman.chapter1:character/aidar",
+    "book": {
+      "id": "BOOK-FAMILY-PHOTOGRAPH-ALBUM",
+      "handoffSourceId": "urman.fullgame:interaction/pw-book-handoff",
+      "giverId": "urman.chapter1:character/gulsina"
+    },
+    "photos": [
+      {
+        "id": "P-FOREST",
+        "pageId": "PAGE-FOREST",
+        "sourceId": "urman.fullgame:interaction/pw-prologue-photo-source",
+        "permissionId": "urman.fullgame:interaction/pw-book-handoff",
+        "provenanceKind": "family-book-print",
+        "contextSourceIds": [
+          "urman.fullgame:interaction/pw-school-copy-source"
+        ],
+        "captionable": false,
+        "requiresBookHandoff": true,
+        "initial": {
+          "acquired": true,
+          "mounted": true
+        }
+      },
+      {
+        "id": "P-WATER",
+        "pageId": "PAGE-WATER",
+        "sourceId": "urman.fullgame:interaction/pw-water-photo-source",
+        "permissionId": "urman.fullgame:interaction/pw-water-photo-permission",
+        "provenanceKind": "family-envelope-print",
+        "contextSourceIds": [
+          "urman.fullgame:interaction/pw-water-place-talk"
+        ],
+        "captionable": false,
+        "requiresBookHandoff": true
+      },
+      {
+        "id": "P-HOUSE",
+        "pageId": "PAGE-HOUSE",
+        "sourceId": "urman.fullgame:interaction/pw-house-photo-source",
+        "permissionId": "urman.fullgame:interaction/pw-house-photo-permission",
+        "provenanceKind": "family-yard-print",
+        "contextSourceIds": [
+          "urman.fullgame:interaction/pw-first-world-home-talk"
+        ],
+        "captionable": false,
+        "requiresBookHandoff": true
+      },
+      {
+        "id": "P-COMMON",
+        "pageId": "PAGE-COMMON",
+        "sourceId": "urman.fullgame:interaction/pw-common-file-source",
+        "permissionId": "urman.fullgame:interaction/pw-common-file-permission",
+        "sourceAuthorId": "urman.chapter1:character/marat",
+        "provenanceKind": "authorized-marat-file",
+        "contextSourceIds": [],
+        "captionable": true,
+        "requiresBookHandoff": true
+      },
+      {
+        "id": "P-CELLAR",
+        "pageId": "PAGE-CELLAR",
+        "sourceId": "urman.fullgame:interaction/pw-cellar-photo-source",
+        "permissionId": "urman.fullgame:interaction/pw-cellar-photo-permission",
+        "provenanceKind": "family-box-print",
+        "contextSourceIds": [
+          "urman.fullgame:interaction/pw-family-box-source"
+        ],
+        "captionable": false,
+        "requiresBookHandoff": true
+      },
+      {
+        "id": "S-SCHOOL",
+        "pageId": "PAGE-SCHOOL",
+        "sourceId": "urman.fullgame:interaction/pw-school-copy-source",
+        "permissionId": "urman.fullgame:interaction/pw-school-copy-permission",
+        "provenanceKind": "school-album-copy",
+        "contextSourceIds": [],
+        "captionable": false,
+        "requiresBookHandoff": true
+      },
+      {
+        "id": "S-BANK",
+        "pageId": "PAGE-BANK",
+        "sourceId": "urman.fullgame:interaction/pw-bank-copy-source",
+        "permissionId": "urman.fullgame:interaction/pw-bank-copy-permission",
+        "provenanceKind": "archive-map-copy",
+        "contextSourceIds": [],
+        "captionable": false,
+        "requiresBookHandoff": true
+      },
+      {
+        "id": "S-PHOTOGRAPHER",
+        "pageId": "PAGE-PHOTOGRAPHER",
+        "sourceId": "urman.fullgame:interaction/pw-photographer-photo-source",
+        "permissionId": "urman.fullgame:interaction/pw-photographer-photo-permission",
+        "provenanceKind": "gulsina-family-album-copy",
+        "contextSourceIds": [],
+        "captionable": false,
+        "requiresBookHandoff": true
+      },
+      {
+        "id": "S-GARDEN",
+        "pageId": "PAGE-GARDEN",
+        "sourceId": "urman.fullgame:interaction/pw-garden-photo-source",
+        "permissionId": "urman.fullgame:interaction/pw-garden-photo-permission",
+        "provenanceKind": "neighbor-voluntary-copy",
+        "contextSourceIds": [],
+        "captionable": false,
+        "requiresBookHandoff": true
+      },
+      {
+        "id": "S-PRINT",
+        "pageId": "PAGE-PRINT",
+        "sourceId": "urman.fullgame:interaction/pw-contact-sheet-source",
+        "permissionId": "urman.fullgame:interaction/pw-contact-sheet-permission",
+        "provenanceKind": "family-pc-contact-sheet",
+        "contextSourceIds": [],
+        "captionable": false,
+        "requiresBookHandoff": true
+      },
+      {
+        "id": "S-MARAT",
+        "pageId": "PAGE-MARAT",
+        "sourceId": "urman.fullgame:interaction/pw-marat-photo-source",
+        "permissionId": "urman.fullgame:interaction/pw-marat-photo-permission",
+        "sourceAuthorId": "urman.chapter1:character/marat",
+        "provenanceKind": "family-authorized-copy",
+        "contextSourceIds": [],
+        "captionable": false,
+        "requiresBookHandoff": true
+      },
+      {
+        "id": "S-HAND",
+        "pageId": "PAGE-HAND",
+        "sourceId": "urman.fullgame:interaction/pw-family-box-source",
+        "permissionId": "urman.fullgame:interaction/pw-family-box-permission",
+        "provenanceKind": "family-photo-box-copy",
+        "contextSourceIds": [],
+        "captionable": false,
+        "requiresBookHandoff": true
+      },
+      {
+        "id": "S-NOW",
+        "pageId": "PAGE-NOW",
+        "sourceId": "urman.fullgame:interaction/pw-take-now-photo",
+        "permissionId": "urman.fullgame:interaction/pw-take-now-photo",
+        "sourceAuthorId": "urman.chapter1:character/aidar",
+        "provenanceKind": "player-created-epilogue-photo",
+        "contextSourceIds": [
+          "urman.fullgame:interaction/pw-witness-summer-leaf"
+        ],
+        "captionable": false,
+        "requiresBookHandoff": true
+      }
+    ],
+    "facts": [
+      {
+        "id": "prologue_photo_recognized",
+        "provenanceKind": "direct-photo-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-prologue-photo-source"
+        ]
+      },
+      {
+        "id": "prologue_branch_moved",
+        "provenanceKind": "direct-player-action",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-prologue-branch-move"
+        ]
+      },
+      {
+        "id": "school_copy_identified",
+        "provenanceKind": "source-reading",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-school-copy-source"
+        ]
+      },
+      {
+        "id": "home_water_place_told",
+        "provenanceKind": "family-conversation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-water-place-talk"
+        ]
+      },
+      {
+        "id": "water_photo_found",
+        "provenanceKind": "source-reading",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-water-photo-source"
+        ]
+      },
+      {
+        "id": "first_world_home_talk",
+        "provenanceKind": "family-conversation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-first-world-home-talk"
+        ]
+      },
+      {
+        "id": "house_print_found",
+        "provenanceKind": "source-reading",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-house-photo-source"
+        ]
+      },
+      {
+        "id": "contact_sheet_found",
+        "provenanceKind": "source-reading",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-contact-sheet-source"
+        ]
+      },
+      {
+        "id": "marat_photo_found",
+        "provenanceKind": "source-reading",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-marat-photo-source"
+        ]
+      },
+      {
+        "id": "garden_photo_offered",
+        "provenanceKind": "neighbor-consent",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-garden-photo-source"
+        ]
+      },
+      {
+        "id": "photographer_copy_found",
+        "provenanceKind": "source-reading",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-photographer-photo-source"
+        ]
+      },
+      {
+        "id": "golsina_author_conversation",
+        "provenanceKind": "family-authorship-confirmation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-gulsina-author-talk"
+        ]
+      },
+      {
+        "id": "forest_group_seen",
+        "provenanceKind": "direct-world-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-forest-group"
+        ]
+      },
+      {
+        "id": "forest_photographer_found",
+        "provenanceKind": "spatial-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-forest-photographer"
+        ]
+      },
+      {
+        "id": "forest_shurale_listened",
+        "provenanceKind": "character-conversation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-forest-shurale"
+        ]
+      },
+      {
+        "id": "water_old_approach_seen",
+        "provenanceKind": "independent-place-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-water-old-approach"
+        ]
+      },
+      {
+        "id": "water_safe_bypass_opened",
+        "provenanceKind": "direct-player-action",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-water-bypass"
+        ]
+      },
+      {
+        "id": "water_damp_print",
+        "provenanceKind": "one-shot-return-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-water-damp-print"
+        ]
+      },
+      {
+        "id": "house_shutter_adjusted",
+        "provenanceKind": "direct-player-action",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-house-shutter"
+        ]
+      },
+      {
+        "id": "house_two_views_compared",
+        "provenanceKind": "spatial-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-house-two-views"
+        ]
+      },
+      {
+        "id": "house_camera_position_seen",
+        "provenanceKind": "independent-spatial-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-house-camera-position"
+        ]
+      },
+      {
+        "id": "bank_copy_found",
+        "provenanceKind": "archive-source-reading",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-bank-copy-source"
+        ]
+      },
+      {
+        "id": "winter_piles_inspected",
+        "provenanceKind": "independent-place-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-winter-piles-inspected"
+        ]
+      },
+      {
+        "id": "common_marat_file_found",
+        "provenanceKind": "family-pc-source-reading",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-common-file-source"
+        ]
+      },
+      {
+        "id": "common_relationships_connected",
+        "provenanceKind": "direct-world-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-common-three-places"
+        ]
+      },
+      {
+        "id": "common_horizon_uncovered",
+        "provenanceKind": "direct-player-action",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-common-horizon"
+        ]
+      },
+      {
+        "id": "outside_leaf_witnessed",
+        "provenanceKind": "one-shot-shared-world-event",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-witness-summer-leaf"
+        ]
+      },
+      {
+        "id": "alsu_meeting_agreed",
+        "provenanceKind": "shared-witness-conversation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-alsu-leaf-talk"
+        ]
+      },
+      {
+        "id": "family_box_opened",
+        "provenanceKind": "permissioned-source-reading",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-family-box-source"
+        ]
+      },
+      {
+        "id": "cellar_photo_found",
+        "provenanceKind": "source-reading",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-cellar-photo-source"
+        ]
+      },
+      {
+        "id": "cellar_household_order_seen",
+        "provenanceKind": "direct-world-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-cellar-order"
+        ]
+      },
+      {
+        "id": "cellar_shared_object_found",
+        "provenanceKind": "household-object-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-cellar-object"
+        ]
+      },
+      {
+        "id": "cellar_bichura_answered",
+        "provenanceKind": "character-response",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-cellar-response"
+        ]
+      }
+    ],
+    "evidence": [
+      {
+        "id": "E-BANK-OUTSIDE",
+        "minimumDistinctSources": 3,
+        "constituents": [
+          {
+            "kind": "fact",
+            "id": "water_old_approach_seen"
+          },
+          {
+            "kind": "photo-acquired",
+            "id": "S-BANK"
+          },
+          {
+            "kind": "fact",
+            "id": "winter_piles_inspected"
+          }
+        ]
+      },
+      {
+        "id": "E-PHOTOGRAPHER-OUTSIDE",
+        "minimumDistinctSources": 3,
+        "constituents": [
+          {
+            "kind": "fact",
+            "id": "house_camera_position_seen"
+          },
+          {
+            "kind": "photo-back-read",
+            "id": "S-PHOTOGRAPHER"
+          },
+          {
+            "kind": "fact",
+            "id": "golsina_author_conversation"
+          }
+        ]
+      }
+    ],
+    "requiredAnchors": [
+      "PW_HOME_TABLE",
+      "PW_FOREST_ENTRY",
+      "PW_RIVER_ENTRY",
+      "PW_HOME_PHOTO_ENTRY",
+      "PW_COMMON_ENTRY",
+      "PW_CELLAR_ENTRY"
+    ]
+  }
 }

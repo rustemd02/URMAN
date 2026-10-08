@@ -95,6 +95,7 @@ public sealed record CompiledInteractionContent(
 
 public sealed record CompiledSceneContent(
     string Id,
+    string? EntryAnchorId,
     JsonElement EntryConditions,
     JsonElement OnEnter,
     JsonElement OnExit,
@@ -169,6 +170,7 @@ public sealed class CompiledCampaignRepository
     private readonly IReadOnlyDictionary<string, CompiledChatContent> _chatsById;
 
     private readonly IReadOnlyDictionary<string, CompiledQuestContent> _questsById;
+    private readonly IReadOnlyList<CompiledQuestContent> _runtimeQuests;
     private readonly IReadOnlyDictionary<string, JournalSourceContent> _journalSourcesById;
     private readonly TextResolver _texts;
     private readonly AudioResolver _audio;
@@ -190,7 +192,9 @@ public sealed class CompiledCampaignRepository
         AudioResolver audio,
         IReadOnlyDictionary<string, string> knowledgeInitialStatuses,
         IReadOnlyDictionary<string, string> vocabularyInitialStatuses,
-        IReadOnlyList<VocabularyEntryContent> vocabularyEntries)
+        IReadOnlyList<VocabularyEntryContent> vocabularyEntries,
+        JsonElement photoWorldCatalog = default,
+        IReadOnlyList<string>? activeQuestIds = null)
     {
         CampaignFingerprint = fingerprint;
         Entrypoint = entrypoint;
@@ -199,6 +203,8 @@ public sealed class CompiledCampaignRepository
         OldPcDocuments = oldPcDocuments;
         _oldPcById = oldPcDocuments.ToDictionary(document => document.Id, StringComparer.Ordinal);
         _scenesById = scenes.ToDictionary(scene => scene.Id, StringComparer.Ordinal);
+        PhotoWorldCatalog = photoWorldCatalog;
+        if (HasPhotoWorlds) ValidatePhotoWorldAnchors(PhotoWorldCatalog, scenes);
         _interactionsById = scenes.SelectMany(scene => scene.Interactions).ToDictionary(interaction => interaction.Id, StringComparer.Ordinal);
         _dialoguesById = dialogues.ToDictionary(dialogue => dialogue.Id, StringComparer.Ordinal);
         Chats = chats;
@@ -216,6 +222,19 @@ public sealed class CompiledCampaignRepository
             }
         }
         _questsById = quests.ToDictionary(quest => quest.Id, StringComparer.Ordinal);
+        if (activeQuestIds is null)
+        {
+            _runtimeQuests = _questsById.Values.OrderBy(quest => quest.Id, StringComparer.Ordinal).ToArray();
+        }
+        else
+        {
+            if (activeQuestIds.Count == 0 || activeQuestIds.Distinct(StringComparer.Ordinal).Count() != activeQuestIds.Count)
+                throw new InvalidDataException("The compiled activeQuestIds list must be non-empty and unique.");
+            _runtimeQuests = activeQuestIds.Select(id => _questsById.TryGetValue(id, out var quest)
+                    ? quest
+                    : throw new InvalidDataException($"Compiled campaign selects unknown active quest {id}."))
+                .ToArray();
+        }
         _journalSourcesById = journalSources.ToDictionary(source => source.Id, StringComparer.Ordinal);
         _texts = texts;
         _audio = audio;
@@ -256,6 +275,14 @@ public sealed class CompiledCampaignRepository
     public string CampaignFingerprint { get; }
 
     public string Entrypoint { get; }
+
+    public JsonElement PhotoWorldCatalog { get; }
+
+    public bool HasPhotoWorlds => PhotoWorldCatalog.ValueKind == JsonValueKind.Object;
+
+    public string? PhotoWorldNamespaceId => HasPhotoWorlds
+        ? PhotoWorldCatalog.GetProperty("namespaceId").GetString()
+        : null;
 
     public IReadOnlyList<OldPcDocumentContent> OldPcDocuments { get; }
 
@@ -306,6 +333,10 @@ public sealed class CompiledCampaignRepository
     public IReadOnlyList<CompiledQuestContent> Quests => _questsById.Values
         .OrderBy(quest => quest.Id, StringComparer.Ordinal)
         .ToArray();
+
+    /// <summary>Quest definitions active in this campaign; legacy packs without
+    /// an explicit selection retain the previous all-quests behavior.</summary>
+    public IReadOnlyList<CompiledQuestContent> RuntimeQuests => _runtimeQuests;
 
     public string ResolveText(string textId) => _texts.Resolve(textId, "ru").Text;
 
@@ -398,6 +429,8 @@ public sealed class CompiledCampaignRepository
     public JsonElement CreateInitialNarrativeState()
     {
         var state = JsonNode.Parse(NarrativeState.CreateInitial().GetRawText())!.AsObject();
+        if (HasPhotoWorlds)
+            state["photoworlds"] = JsonNode.Parse(PhotoWorldState.CreateInitial(PhotoWorldCatalog).GetRawText());
         var knowledge = state["knowledge"]!.AsObject();
         foreach (var (id, status) in _knowledgeInitialStatuses)
         {
@@ -413,7 +446,7 @@ public sealed class CompiledCampaignRepository
         state["interactionCount"] = 0;
         state["lastInteraction"] = null;
         var quests = state["quests"]!.AsObject();
-        foreach (var quest in Quests)
+        foreach (var quest in RuntimeQuests)
         {
             var currentState = JsonSerializer.SerializeToElement(state);
             var run = QuestLifecycleReducer.CreateRun(
@@ -508,6 +541,12 @@ public sealed class CompiledCampaignRepository
             .Select(quest => new CompiledQuestContent(quest.GetProperty("id").GetString()!, quest.Clone()))
             .OrderBy(quest => quest.Id, StringComparer.Ordinal)
             .ToArray();
+        var campaign = root.GetProperty("campaign");
+        var photoWorldCatalog = campaign.TryGetProperty("photoBook", out var photoBook) ? photoBook.Clone() : default;
+        IReadOnlyList<string>? activeQuestIds = campaign.TryGetProperty("activeQuestIds", out var activeQuests)
+            ? activeQuests.EnumerateArray().Select(item => item.GetString()
+                ?? throw new InvalidDataException("A compiled activeQuestIds item must be a content ID.")).ToArray()
+            : null;
         var journalSources = documentRegistry.Select(document => ReadJournalDocument(document, assets, texts))
             .Concat(knowledgeRegistry.Select(ReadJournalKnowledge))
             .OrderBy(source => source.Id, StringComparer.Ordinal)
@@ -527,7 +566,9 @@ public sealed class CompiledCampaignRepository
             audio,
             knowledge,
             vocabulary,
-            vocabularyEntries);
+            vocabularyEntries,
+            photoWorldCatalog,
+            activeQuestIds);
     }
 
     private static CompiledDocumentContent ReadDocument(JsonElement document, AssetResolver assets, TextResolver texts) => new(
@@ -586,6 +627,7 @@ public sealed class CompiledCampaignRepository
 
     private static CompiledSceneContent ReadScene(JsonElement scene) => new(
         scene.GetProperty("id").GetString()!,
+        scene.TryGetProperty("entryAnchorId", out var entryAnchor) ? entryAnchor.GetString() : null,
         scene.GetProperty("entryConditions").Clone(),
         scene.GetProperty("onEnter").Clone(),
         scene.GetProperty("onExit").Clone(),
@@ -604,6 +646,16 @@ public sealed class CompiledCampaignRepository
             interaction.TryGetProperty("worldLocations", out var locations)
                 ? locations.EnumerateArray().Select(location => location.GetString()!).ToArray() : null,
             interaction.TryGetProperty("targetJournalEntryId", out var journalEntry) ? journalEntry.GetString() : null)).ToArray());
+
+    private static void ValidatePhotoWorldAnchors(JsonElement catalog, IReadOnlyList<CompiledSceneContent> scenes)
+    {
+        var bindings = scenes.Where(scene => scene.EntryAnchorId is not null)
+            .GroupBy(scene => scene.EntryAnchorId!, StringComparer.Ordinal)
+            .ToDictionary(group => group.Key, group => group.ToArray(), StringComparer.Ordinal);
+        foreach (var anchor in catalog.GetProperty("requiredAnchors").EnumerateArray().Select(item => item.GetString()!))
+            if (!bindings.TryGetValue(anchor, out var owners) || owners.Length != 1)
+                throw new InvalidDataException($"PhotoWorlds semantic anchor {anchor} must bind exactly one compiled scene.");
+    }
 
     private static CompiledChatContent ReadChat(JsonElement chat)
     {
