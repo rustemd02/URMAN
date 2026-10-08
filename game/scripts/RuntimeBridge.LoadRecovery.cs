@@ -26,10 +26,13 @@ public partial class RuntimeBridge
         _loadingTimeSampleUsec = Time.GetTicksUsec();
         player.SetSessionTransition(true);
         PlayTimeBoundary?.Invoke("load-start");
+        var loadingScreen = LoadingScreenUi.Show(this, "Возвращение в деревню", "Подготавливаем новый путь");
         try
         {
             // The new session's normal initialization is allowed to dispatch;
             // the menu and transition gate continue to own the player's input.
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             NeedsPhysicalRecovery = false;
             await CreateFreshSessionAsync(debugSession, player);
             _loadingSlot = true;
@@ -64,6 +67,7 @@ public partial class RuntimeBridge
         }
         finally
         {
+            loadingScreen.Hide();
             SampleLoadingTime();
             _loadingSlot = false;
             _loadPreparing = false;

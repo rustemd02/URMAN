@@ -1,0 +1,60 @@
+{
+  "places": [
+    {
+      "addressId": "ADR-BABAI",
+      "title": "Дом бабая и әби",
+      "subtitle": "Кара-Урман · место, где меня ждут"
+    },
+    {
+      "addressId": "ADR-FAP",
+      "title": "Фельдшерский пункт",
+      "subtitle": "Кара-Урман"
+    },
+    {
+      "addressId": "ADR-MOSQUE",
+      "title": "Мечеть",
+      "subtitle": "Кара-Урман"
+    },
+    {
+      "addressId": "ADR-SHOP",
+      "title": "Деревенский магазин",
+      "subtitle": "Кара-Урман · у Разили"
+    },
+    {
+      "addressId": "ADR-SQUARE-SCHOOL",
+      "title": "Деревенская школа",
+      "subtitle": "Кара-Урман"
+    },
+    {
+      "addressId": "ADR-SQUARE-DK",
+      "title": "Дом культуры",
+      "subtitle": "Деревенская площадь"
+    }
+  ],
+  "zones": [
+    {
+      "zoneId": "house_old_pc",
+      "title": "Дом бабая и әби",
+      "subtitle": "Тепло родного дома",
+      "key": "ADR-BABAI"
+    },
+    {
+      "zoneId": "fap_clinic",
+      "title": "Фельдшерский пункт",
+      "subtitle": "Кара-Урман",
+      "key": "ADR-FAP"
+    },
+    {
+      "zoneId": "zirat_road",
+      "title": "Зиратская дорога",
+      "subtitle": "На окраине деревни",
+      "key": "zirat-road"
+    },
+    {
+      "zoneId": "kara_urman_night",
+      "title": "У кромки леса",
+      "subtitle": "Кара-Урман",
+      "key": "forest-edge"
+    }
+  ]
+}

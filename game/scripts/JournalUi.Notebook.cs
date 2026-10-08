@@ -12,6 +12,7 @@ public partial class JournalUi
     private TextEdit _notesText = null!;
     private Label _notesStatus = null!;
     private Button _notesSave = null!;
+    private VBoxContainer _inventoryPage = null!, _inventoryItems = null!;
     private object? _notesSession;
     private bool _notesDirty;
     private bool _notesLoading;
@@ -36,12 +37,12 @@ public partial class JournalUi
         layout.MoveChild(_notebookSection, _readerArea.GetIndex());
         _notebookSection.ItemSelected += _ => { ActiveEntryId = null; Refresh(); };
         _tabs.SetTabTitle(2, "Дела и слова");
-        _tabs.AddTab("Схема");
+        _tabs.AddTab("Карта " + InputBindingService.ActionHint("map", false));
         _tabs.AddTab("Мои заметки");
         _mapPage = new VBoxContainer { Name = "VillageMap", Visible = false,
             SizeFlagsVertical = Control.SizeFlags.ExpandFill };
         layout.AddChild(_mapPage);
-        _mapPage.AddChild(new Label { Text = "Дома, которые я нашёл по табличкам. Услышанные адреса — в разделе «Адреса»; приметы можно уточнить у жителей.",
+        _mapPage.AddChild(new Label { Text = "Я дорисовываю улицы, когда прохожу по деревне. Прочитанные адресные таблички подписывают дома.",
             AutowrapMode = TextServer.AutowrapMode.WordSmart });
         _map = new SettlementMapControl { Name = "Map", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
             SizeFlagsVertical = Control.SizeFlags.ExpandFill };
@@ -89,6 +90,59 @@ public partial class JournalUi
         };
     }
 
+    private void BuildInventoryUi()
+    {
+        var layout = GetNode<VBoxContainer>("Screen/Book/Layout");
+        _tabs.AddTab("Инвентарь " + InputBindingService.ActionHint("inventory", false));
+        _inventoryPage = new VBoxContainer { Name = "Inventory", Visible = false,
+            SizeFlagsVertical = Control.SizeFlags.ExpandFill };
+        layout.AddChild(_inventoryPage);
+        _inventoryPage.AddChild(new Label { Text = "При себе и в руках", FocusMode = Control.FocusModeEnum.All });
+        _inventoryPage.AddChild(new Label { Text = "Вещи, которые я взял с собой.",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart });
+        _inventoryItems = new VBoxContainer { Name = "Items", SizeFlagsVertical = Control.SizeFlags.ExpandFill };
+        _inventoryPage.AddChild(_inventoryItems);
+        _tabs.TabChanged += index =>
+        {
+            _inventoryPage.Visible = index == 6;
+            if (_screen.Visible && index == 6) RefreshInventoryPage();
+        };
+    }
+
+    private void RefreshQuickAccessLabels()
+    {
+        _tabs.SetTabTitle(3, "Карта " + InputBindingService.ActionHint("map", false));
+        _tabs.SetTabTitle(6, "Инвентарь " + InputBindingService.ActionHint("inventory", false));
+    }
+
+    private void RefreshInventoryPage()
+    {
+        foreach (var child in _inventoryItems.GetChildren()) child.QueueFree();
+        if (_bridge is not { } bridge) return;
+        var gamepad = FindPlayer()?.CurrentInputDevice == "gamepad";
+        void Row(string text) => _inventoryItems.AddChild(new Label
+        {
+            Text = text,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            CustomMinimumSize = new Vector2(0, 32)
+        });
+
+        if (GetTree().GetFirstNodeInGroup("carry_coordinator") is CarryCoordinator { HeldItem: { } held })
+        {
+            Row("В руках · " + held.PromptName);
+            var actions = $"Поставить {InputBindingService.ActionHint("carry_place", gamepad)} · повернуть {InputBindingService.ActionHint("carry_rotate", gamepad)}";
+            if (held.Kind == CarryableProp.ItemKind.Lantern)
+                actions += " · фонарь " + InputBindingService.ActionHint("carry_use", gamepad);
+            Row(actions);
+        }
+        else Row("Руки свободны");
+
+        foreach (var item in bridge.ShopLedger().Where(item => item.InPocket))
+            Row("В кармане · " + item.Title);
+
+        if (_inventoryItems.GetChildCount() == 0) Row("Пока ничего нет при себе.");
+    }
+
     private IReadOnlyList<ResolvedJournalEntry> NotebookProjection()
     {
         return _notebookSection.Selected switch
@@ -110,7 +164,9 @@ public partial class JournalUi
         // RestoreSession creates a temporary kernel during physical projection.
         // Neither it nor a failed projection owns the player's open draft.
         if (_notesLoadInProgress || bridge.SessionIdentity is null) return;
-        if (bridge.NotebookSettlement is { } registry) _map.Bind(registry, bridge.LocatedAddressIds());
+        if (bridge.NotebookSettlement is { } registry)
+            _map.Bind(registry, bridge.LocatedAddressIds(), bridge.ExploredMapCells(), bridge.SessionIdentity);
+        RefreshInventoryPage();
         var sessionChanged = !ReferenceEquals(_notesSession, bridge.SessionIdentity);
         if (sessionChanged)
         {

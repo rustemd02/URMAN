@@ -9,7 +9,11 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
 {
     private SettlementRegistry? _registry;
     private SettlementMap? _map;
+    private object? _sessionIdentity;
     private string[] _located = [];
+    private readonly HashSet<Vector2I> _exploredCells = [];
+    private readonly HashSet<Vector2I> _pendingExplorationCells = [];
+    private ulong _explorationRetryAfterMsec;
     private float _textScale = 1;
     private float _screenScale = 1;
     private bool _highContrast;
@@ -27,7 +31,7 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
     private readonly HashSet<string> _drawnStreetLabels = new(StringComparer.Ordinal);
     private readonly Dictionary<string, Vector2> _drawnStreetAnchors = new(StringComparer.Ordinal);
     public int DisplayedAddressCount { get; private set; }
-    public bool EmptyPageVisible => DisplayedAddressCount == 0;
+    public bool EmptyPageVisible => DisplayedAddressCount == 0 && _exploredCells.Count == 0;
     internal float ViewZoom => _zoom;
     internal Vector2 ViewCenter => _center;
     internal IReadOnlyList<(string AddressId, Rect2 Bounds)> DrawnAddressLabels => _drawnLabels;
@@ -46,7 +50,7 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         AddChild(_layout);
         _heading = new Label { Text = "Кара-Урман — схема улиц" };
         _layout.AddChild(_heading);
-        _empty = new Label { Text = "Пока ни один дом не отмечен.\n\nПрочитай адресную табличку у найденного дома — его номер появится на этой странице.",
+        _empty = new Label { Text = "Пока ничего не отмечено. Пройдись по деревне — улицы появятся здесь, а прочитанные таблички подпишут дома.",
             AutowrapMode = TextServer.AutowrapMode.WordSmart, SizeFlagsVertical = SizeFlags.ExpandFill };
         _layout.AddChild(_empty);
         _toolbar = new HBoxContainer { Name = "Tools" };
@@ -60,8 +64,8 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         }
         _zoomOut = Tool("ZoomOut", "−", "Уменьшить масштаб", () => ZoomAt(1 / 1.35f, _canvas.Size * .5f));
         _zoomIn = Tool("ZoomIn", "+", "Увеличить масштаб", () => ZoomAt(1.35f, _canvas.Size * .5f));
-        _fit = Tool("Fit", "Все найденные", "Показать найденные дома (Home)", ResetView);
-        _hint = new Label { Text = "Перетаскивание/стрелки — сдвиг\nКолесо/+− — масштаб · Home — все дома",
+        _fit = Tool("Fit", "Вся карта", "Показать всё, что уже дорисовано (Home)", ResetView);
+        _hint = new Label { Text = "Перетаскивание/стрелки — сдвиг\nКолесо/+− — масштаб · Home — вся карта",
             AutowrapMode = TextServer.AutowrapMode.WordSmart, SizeFlagsHorizontal = SizeFlags.ExpandFill };
         _toolbar.AddChild(_hint);
         _canvas = new Control { Name = "Sketch", ClipContents = true, FocusMode = FocusModeEnum.All,
@@ -72,7 +76,7 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         _canvas.Resized += () => _canvas.QueueRedraw();
         _canvas.VisibilityChanged += () => { _dragging = false; _canvas.QueueRedraw(); };
         _layout.AddChild(_canvas);
-        _legend = new Label { Text = "Контуры — найденные дома · кружок — вход или ворота",
+        _legend = new Label { Text = "Линии — пройденные улицы · контуры — увиденные дома · подписи — прочитанные адреса",
             AutowrapMode = TextServer.AutowrapMode.WordSmart };
         _layout.AddChild(_legend);
         Resized += ResizeLayout;
@@ -81,16 +85,63 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         RefreshControls();
     }
 
-    public void Bind(SettlementRegistry registry, IEnumerable<string> locatedAddressIds)
+    public void Bind(SettlementRegistry registry, IEnumerable<string> locatedAddressIds,
+        IEnumerable<Vector2I>? exploredCells = null, object? sessionIdentity = null)
     {
         var located = locatedAddressIds.Select(registry.CanonicalAddressId).Where(id => id is not null)
             .Cast<string>().Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
-        var changed = !ReferenceEquals(_registry, registry) || !_located.SequenceEqual(located);
+        var explored = new HashSet<Vector2I>(exploredCells ?? []);
+        foreach (var id in located)
+            if (registry.Addresses.TryGetValue(id, out var address)
+                && registry.Buildings.TryGetValue(address.BuildingId, out var building))
+                explored.Add(RuntimeBridge.MapExplorationCell(new Vector3((float)building.Position.X, 0, (float)building.Position.Z)));
+        var changed = !ReferenceEquals(_registry, registry) || !ReferenceEquals(_sessionIdentity, sessionIdentity)
+            || !_located.SequenceEqual(located) || !_exploredCells.SetEquals(explored);
         _registry = registry;
+        _sessionIdentity = sessionIdentity;
         _located = located;
+        _exploredCells.Clear();
+        _exploredCells.UnionWith(explored);
         _map = registry.MapForKnownAddresses(located);
         DisplayedAddressCount = located.Length;
-        if (changed) { _fitBounds = FitKnownArea(_map); _center = _fitBounds.GetCenter(); _zoom = 1; _dragging = false; }
+        if (changed) { _fitBounds = FitKnownArea(); _center = _fitBounds.GetCenter(); _zoom = 1; _dragging = false; }
+        RefreshControls();
+    }
+
+    internal void TrackExploration()
+    {
+        var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        if (bridge?.SessionIdentity is { } session && bridge.NotebookSettlement is { } registry
+            && (!ReferenceEquals(_registry, registry) || !ReferenceEquals(_sessionIdentity, session)))
+            Bind(registry, bridge.LocatedAddressIds(), bridge.ExploredMapCells(), session);
+        if (bridge?.SessionIdentity is not { } activeSession || !ReferenceEquals(_sessionIdentity, activeSession)
+            || _registry is null || bridge.CurrentZoneId is not ("village_day" or "zirat_road" or "kara_urman_night")
+            || bridge.CapturePlayTimeBlocks() != RuntimeBridge.PlayTimeBlock.None
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player || player.ModalOpen)
+            return;
+        var cell = RuntimeBridge.MapExplorationCell(player.GlobalPosition);
+        if (_exploredCells.Contains(cell) || _pendingExplorationCells.Contains(cell)
+            || Time.GetTicksMsec() < _explorationRetryAfterMsec) return;
+        _pendingExplorationCells.Add(cell);
+        _ = RememberExplorationCellAsync(bridge, activeSession, cell);
+    }
+
+    private async Task RememberExplorationCellAsync(RuntimeBridge bridge, object session, Vector2I cell)
+    {
+        var remembered = false;
+        try { remembered = await bridge.RememberMapExplorationCellAsync(cell); }
+        catch (Exception exception) { GD.PushWarning("Map exploration could not be saved: " + exception.Message); }
+        finally { _pendingExplorationCells.Remove(cell); }
+        if (!remembered || !ReferenceEquals(_sessionIdentity, session)
+            || !ReferenceEquals(bridge.SessionIdentity, session))
+        {
+            _explorationRetryAfterMsec = Time.GetTicksMsec() + 2000;
+            return;
+        }
+        if (!_exploredCells.Add(cell)) return;
+        _fitBounds = FitKnownArea();
+        _center = _fitBounds.GetCenter();
+        _zoom = 1;
         RefreshControls();
     }
 
@@ -179,7 +230,9 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
     {
         if (_layout is null) return;
         _empty.Visible = EmptyPageVisible;
-        _toolbar.Visible = _canvas.Visible = _legend.Visible = !EmptyPageVisible;
+        _empty.SizeFlagsVertical = _exploredCells.Count > 0 ? SizeFlags.ShrinkBegin : SizeFlags.ExpandFill;
+        _heading.Text = "Кара-Урман — моя карта";
+        _toolbar.Visible = _canvas.Visible = _legend.Visible = _exploredCells.Count > 0 || !EmptyPageVisible;
         _zoomOut.Disabled = _zoom <= .6501f;
         _zoomIn.Disabled = _zoom >= 5.999f;
         QueueRedraw();
@@ -189,34 +242,60 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
     private Color Paper() => _highContrast ? Color.FromHtml("fff7dc") : Color.FromHtml("e5d9bc");
     public override void _Draw() => DrawRect(new Rect2(Vector2.Zero, Size), Paper());
     private static Vector2 Xz(SettlementPoint p) => new((float)p.X, (float)p.Z);
-    private bool IsPrimary(SettlementBuilding b) => b.AddressId is not null && _registry!.Addresses[b.AddressId].BuildingId == b.BuildingId;
+    private bool IsPrimary(SettlementBuilding b) => b.AddressId is not null
+        && _registry!.Addresses.TryGetValue(b.AddressId, out var address) && address.BuildingId == b.BuildingId;
 
-    private Rect2 FitKnownArea(SettlementMap map)
+    private Rect2 FitKnownArea()
     {
-        var points = map.Buildings.SelectMany(b => b.Footprint.Count > 0 ? b.Footprint : new[] { b.Position })
-            .Concat(map.AccessPoints.Select(a => a.Position)).Select(Xz).ToList();
-        var nodes = map.Nodes.ToDictionary(n => n.Id);
-        // Include the nearest real road as context, without drawing a new link
-        // between the road and the building or consulting a computed route.
-        foreach (var building in map.Buildings.Where(IsPrimary))
+        var points = new List<Vector2>();
+        if (_registry is null) return new(-10, -10, 20, 20);
+        foreach (var edge in _registry.Graph.Edges.Values.Where(IsDrawableRoad))
         {
-            var p = Xz(building.Position);
-            var distance = float.PositiveInfinity;
-            var nearest = p;
-            foreach (var edge in map.Edges)
-            {
-                if (!nodes.TryGetValue(edge.A, out var a) || !nodes.TryGetValue(edge.B, out var b)) continue;
-                var start = Xz(a.Position); var delta = Xz(b.Position) - start;
-                var candidate = start + delta * Mathf.Clamp(delta.LengthSquared() > .000001f ? (p - start).Dot(delta) / delta.LengthSquared() : 0, 0, 1);
-                if (p.DistanceSquaredTo(candidate) < distance) { distance = p.DistanceSquaredTo(candidate); nearest = candidate; }
-            }
-            points.Add(nearest);
+            if (!_registry.Graph.Nodes.TryGetValue(edge.A, out var a)
+                || !_registry.Graph.Nodes.TryGetValue(edge.B, out var b)) continue;
+            points.AddRange(ExploredSegments(a.Position, b.Position)
+                .SelectMany(segment => new[] { segment.Start, segment.End }));
         }
+        points.AddRange(_registry.Buildings.Values.Where(IsExplored).SelectMany(building =>
+            building.Footprint.Count > 0 ? building.Footprint.Select(Xz) : new[] { Xz(building.Position) }));
+        points.AddRange(_registry.AccessPoints.Values.Where(access => IsExplored(access.Position)).Select(access => Xz(access.Position)));
         if (points.Count == 0) return new(-10, -10, 20, 20);
         var min = new Vector2(points.Min(p => p.X), points.Min(p => p.Y));
         var max = new Vector2(points.Max(p => p.X), points.Max(p => p.Y));
         return new Rect2(min, max - min).Grow(12);
     }
+
+    private static bool IsDrawableRoad(SettlementGraphEdge edge) =>
+        !edge.RoadId.StartsWith("route/", StringComparison.Ordinal)
+        && !edge.RoadId.StartsWith("access/", StringComparison.Ordinal);
+
+    private IEnumerable<(Vector2 Start, Vector2 End)> ExploredSegments(SettlementPoint from, SettlementPoint to)
+    {
+        var start = Xz(from);
+        var end = Xz(to);
+        var size = RuntimeBridge.MapExplorationCellSize;
+        var minX = Mathf.FloorToInt(Math.Min(start.X, end.X) / size);
+        var maxX = Mathf.FloorToInt(Math.Max(start.X, end.X) / size);
+        var minY = Mathf.FloorToInt(Math.Min(start.Y, end.Y) / size);
+        var maxY = Mathf.FloorToInt(Math.Max(start.Y, end.Y) / size);
+        for (var y = minY; y <= maxY; y++)
+        for (var x = minX; x <= maxX; x++)
+        {
+            if (!_exploredCells.Contains(new Vector2I(x, y))) continue;
+            var corner = new Vector2(x * size, y * size);
+            var cellBounds = new Rect2(corner, Vector2.One * size);
+            var clippedStart = start;
+            var clippedEnd = end;
+            if (ClipSegment(cellBounds, ref clippedStart, ref clippedEnd)
+                && clippedStart.DistanceSquaredTo(clippedEnd) > .0001f)
+                yield return (clippedStart, clippedEnd);
+        }
+    }
+
+    private bool IsExplored(SettlementBuilding building) => IsExplored(building.Position);
+
+    private bool IsExplored(SettlementPoint position) => _exploredCells.Contains(
+        RuntimeBridge.MapExplorationCell(new Vector3((float)position.X, 0, (float)position.Z)));
     private float PixelsPerMetre => Math.Max(.001f, Math.Min(_canvas.Size.X / Math.Max(1, _fitBounds.Size.X), _canvas.Size.Y / Math.Max(1, _fitBounds.Size.Y)) * _zoom);
     private Vector2 Screen(SettlementPoint p) => (Xz(p) - _center) * PixelsPerMetre + _canvas.Size * .5f;
     private void ResetView() { _center = _fitBounds.GetCenter(); _zoom = 1; RefreshControls(); }
@@ -254,6 +333,8 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         }
     }
 
+    public void FocusSketch() => _canvas.GrabFocus();
+
     private void DrawSketch()
     {
         _drawnLabels.Clear(); _drawnRoads.Clear(); _drawnStreetLabels.Clear(); _drawnStreetAnchors.Clear();
@@ -262,18 +343,22 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         var text = DrawingFontSize;
         var viewport = new Rect2(Vector2.Zero, _canvas.Size);
         _canvas.DrawRect(viewport, ink.Lightened(.25f), false, 1);
-        var nodes = map.Nodes.ToDictionary(n => n.Id);
-        foreach (var edge in map.Edges)
+        var nodes = _registry.Graph.Nodes;
+        foreach (var edge in _registry.Graph.Edges.Values.Where(IsDrawableRoad))
         {
             if (!nodes.TryGetValue(edge.A, out var a) || !nodes.TryGetValue(edge.B, out var b)) continue;
-            var p = Screen(a.Position); var q = Screen(b.Position);
-            if (!ClipSegment(viewport.Grow(-1), ref p, ref q)) continue;
-            _drawnRoads.Add(edge.RoadId);
-            var width = edge.Modes.HasFlag(SettlementTravelMode.Car) ? Mathf.Clamp((float)edge.Width * PixelsPerMetre * .34f, 3, 12) : 2;
-            _canvas.DrawLine(p, q, _highContrast ? Color.FromHtml("77736a") : Color.FromHtml("ada085"), width, true);
-            _canvas.DrawLine(p, q, ink.Lightened(.32f), 1, true);
+            foreach (var segment in ExploredSegments(a.Position, b.Position))
+            {
+                var p = (segment.Start - _center) * PixelsPerMetre + _canvas.Size * .5f;
+                var q = (segment.End - _center) * PixelsPerMetre + _canvas.Size * .5f;
+                if (!ClipSegment(viewport.Grow(-1), ref p, ref q)) continue;
+                _drawnRoads.Add(edge.RoadId);
+                var width = edge.Modes.HasFlag(SettlementTravelMode.Car) ? Mathf.Clamp((float)edge.Width * PixelsPerMetre * .34f, 3, 12) : 2;
+                _canvas.DrawLine(p, q, _highContrast ? Color.FromHtml("77736a") : Color.FromHtml("ada085"), width, true);
+                _canvas.DrawLine(p, q, ink.Lightened(.32f), 1, true);
+            }
         }
-        foreach (var building in map.Buildings)
+        foreach (var building in _registry.Buildings.Values.Where(IsExplored))
         {
             var polygon = building.Footprint.Select(Screen).ToArray();
             if (polygon.Length >= 3)
@@ -283,7 +368,7 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
             }
             else _canvas.DrawCircle(Screen(building.Position), 4, ink);
         }
-        foreach (var access in map.AccessPoints)
+        foreach (var access in _registry.AccessPoints.Values.Where(access => IsExplored(access.Position)))
         {
             var p = Screen(access.Position);
             _canvas.DrawCircle(p, 5 * _textScale, paper);
@@ -293,6 +378,7 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
             new(0, _canvas.Size.Y - 32 * _textScale, 125 * _textScale, 32 * _textScale) };
         foreach (var building in map.Buildings.Where(IsPrimary))
         {
+            if (!IsExplored(building.Position)) continue;
             var p = Screen(building.Position);
             if (!viewport.Grow(-2).HasPoint(p)) continue;
             var address = _registry.Addresses[building.AddressId!];
@@ -308,6 +394,8 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         // from a context edge's internal StreetId or the global street catalog.
         foreach (var street in map.KnownStreets)
         {
+            if (!map.Buildings.Any(building => IsPrimary(building) && IsExplored(building.Position)
+                && _registry.Addresses[building.AddressId!].StreetId == street.Id)) continue;
             var anchor = StreetLabelAnchor(map, street.Id);
             if (anchor is null) continue;
             var point = (anchor.Value - _center) * PixelsPerMetre + _canvas.Size * .5f;
@@ -334,9 +422,9 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
 
     private Vector2? StreetLabelAnchor(SettlementMap map, string streetId)
     {
-        // Access validation splits graph edges. The imported road polyline is
-        // the stable geometry behind those edges, so its label must not depend
-        // on which split happens to be the longest after loading a save.
+        // Access validation splits graph edges. Use imported street geometry,
+        // clipped to explored cells, so the label stays on a drawn road and a
+        // known name never reveals the rest of an unvisited street.
         var known = map.Buildings.Where(b => IsPrimary(b) && _registry!.Addresses[b.AddressId!].StreetId == streetId)
             .OrderBy(b => b.BuildingId, StringComparer.Ordinal).Select(b => Xz(b.Position)).ToArray();
         if (known.Length == 0) return null;
@@ -349,14 +437,16 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         for (var i = 1; i < road.Points.Count; i++)
         {
             var a = road.Points[i - 1]; var b = road.Points[i];
-            // Canonical endpoint order also keeps arithmetic independent of a
-            // reversed input polyline, without changing the street direction.
-            if (a.X > b.X || a.X == b.X && a.Z > b.Z) (a, b) = (b, a);
-            var dx = b.X - a.X; var dz = b.Z - a.Z; var squared = dx * dx + dz * dz;
-            if (squared < .00000001) continue;
-            var t = Math.Clamp(((reference.X - a.X) * dx + (reference.Y - a.Z) * dz) / squared, 0, 1);
-            var point = new Vector2((float)(a.X + dx * t), (float)(a.Z + dz * t));
-            candidates.Add((reference.DistanceSquaredTo(point), road.Id, point));
+            foreach (var segment in ExploredSegments(new SettlementPoint(a.X, 0, a.Z),
+                new SettlementPoint(b.X, 0, b.Z)))
+            {
+                var delta = segment.End - segment.Start;
+                var squared = delta.LengthSquared();
+                if (squared < .00000001f) continue;
+                var t = Math.Clamp((reference - segment.Start).Dot(delta) / squared, 0, 1);
+                var point = segment.Start + delta * t;
+                candidates.Add((reference.DistanceSquaredTo(point), road.Id, point));
+            }
         }
         if (candidates.Count == 0) return null;
         return candidates.OrderBy(candidate => candidate.Distance).ThenBy(candidate => candidate.RoadId, StringComparer.Ordinal)

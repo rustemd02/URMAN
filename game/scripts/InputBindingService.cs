@@ -20,6 +20,8 @@ public static class InputBindingService
         "carry_use",
         "radio_station",
         "journal",
+        "inventory",
+        "map",
         "pause",
         "quick_save",
         "quick_load"

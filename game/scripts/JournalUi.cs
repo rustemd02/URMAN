@@ -76,6 +76,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         BuildComparisonUi();
         BuildNotebookUi();
         BuildVocabularyUi();
+        BuildInventoryUi();
         _close.Pressed += Close;
         _entries.ItemSelected += SelectEntry;
         GetViewport().SizeChanged += RefitToViewport;
@@ -98,7 +99,17 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public override void _UnhandledInput(InputEvent inputEvent)
     {
-        if (inputEvent.IsActionPressed("journal"))
+        if (inputEvent.IsActionPressed("inventory"))
+        {
+            ToggleQuickAccessPage(6);
+            GetViewport().SetInputAsHandled();
+        }
+        else if (inputEvent.IsActionPressed("map"))
+        {
+            ToggleQuickAccessPage(3);
+            GetViewport().SetInputAsHandled();
+        }
+        else if (inputEvent.IsActionPressed("journal"))
         {
             if (_screen.Visible)
             {
@@ -119,9 +130,15 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         }
     }
 
+    public override void _Process(double delta)
+    {
+        if (!_screen.Visible) _map.TrackExploration();
+    }
+
     public void Open(RuntimeBridge bridge, string? selectedEntryId = null)
     {
         RefreshCloseHint();
+        RefreshQuickAccessLabels();
         if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
         _bridge = bridge;
         _bridge.RuntimeStateChanged += OnRuntimeStateChanged;
@@ -464,9 +481,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void FocusCurrentPage()
     {
-        if (_tabs.CurrentTab == 5) _wordSearch.GrabFocus();
+        if (_tabs.CurrentTab == 6) _inventoryPage.GetChild<Label>(0).GrabFocus();
+        else if (_tabs.CurrentTab == 5) _wordSearch.GrabFocus();
         else if (_tabs.CurrentTab == 4) _notesText.GrabFocus();
-        else if (_tabs.CurrentTab == 3) _tabs.GrabFocus();
+        else if (_tabs.CurrentTab == 3) _map.FocusSketch();
         else if (_tabs.CurrentTab == 1) _sourcePickers[0].GrabFocus();
         else if (_tabs.CurrentTab == 2)
         {
@@ -634,6 +652,20 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     private void SetPlayerModal(bool open)
     {
         FindPlayer()?.SetModalOpen(open);
+    }
+
+    private void ToggleQuickAccessPage(int tab)
+    {
+        if (_screen.Visible)
+        {
+            if (_tabs.CurrentTab == tab) Close();
+            else { _tabs.CurrentTab = tab; FocusCurrentPage(); }
+            return;
+        }
+        if (FindPlayer() is not { ModalOpen: false }
+            || GetTree().GetFirstNodeInGroup("runtime_bridge") is not RuntimeBridge bridge) return;
+        _tabs.CurrentTab = tab;
+        Open(bridge);
     }
 
     private void RefitToViewport()
