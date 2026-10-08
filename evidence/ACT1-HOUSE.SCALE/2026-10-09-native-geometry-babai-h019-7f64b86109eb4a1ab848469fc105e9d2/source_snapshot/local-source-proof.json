@@ -1,0 +1,94 @@
+{
+  "files": [
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 44335,
+      "sha256": "ec8ab1e1551d737d603e10ba7647cd43dacc418b045ff0abf5eb24e0d31b3d0f"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs.uid",
+      "bytes": 20,
+      "sha256": "595556a93b01ff9f42967d230e53fc7457778d72d6aa10b8182a7407cdcc44cd"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.cs",
+      "bytes": 96068,
+      "sha256": "3403c196273291ef4d4825687a134a08451154eb1db5f5fa88660c44a13d3349"
+    },
+    {
+      "path": "game/content/world/visual_checkpoints.v1.json",
+      "bytes": 12355,
+      "sha256": "38679443e698a484502124e8397128ee8e28c1bd9e01a5b18366635e0fcfd12a"
+    },
+    {
+      "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "bytes": 3069900,
+      "sha256": "3d61163f9b592df5ec3895811b20c59874a94c9b0628b538ab43898823c8deb2"
+    },
+    {
+      "path": "game/assets/models/act1/urman_village_exterior_kit_manifest.md",
+      "bytes": 10720,
+      "sha256": "56b331cb122201bdab68c0987d9cc3f9f0869d8a9b515561f7c18046503b6f6d"
+    },
+    {
+      "path": "game/content/world/act1_village_kit.world.v1.json",
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d"
+    },
+    {
+      "path": "game/scenes/act1_demo.tscn",
+      "bytes": 189,
+      "sha256": "0c00cb3d6a7078ea75b9a003e7efd8d2bb8a0528fd28f737ecc66cb59ae81fa6"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.cs",
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.cs.uid",
+      "bytes": 19,
+      "sha256": "9aad9fb3e214e4e07443d6d3c08c6d6a7477e50772f735405e7f729fb0f35f28"
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
+      "bytes": 187238,
+      "sha256": "51791739c01e317b3ad795ae0e2814d234c59217e467ded4b77769b991b1bfd4"
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "bytes": 12562672,
+      "sha256": "c08019b60194c346e6428df7abf8e3f404d4c73ce0fe030283a7ec989fe90338"
+    },
+    {
+      "path": "assets/asset_registry.json",
+      "bytes": 234790,
+      "sha256": "08a2d1ae29897d1ee6846f0ee3cfaa590fa17a6eb8c24cffb901f562a99e1543"
+    },
+    {
+      "path": "game/tests/FullGameFlowSmokeTest.cs",
+      "bytes": 40884,
+      "sha256": "18b3c034a45a85d726ed5eb2ed2fc6f29ddf924ba3e94a9f7064eb5b462c18b5"
+    },
+    {
+      "path": "game/project.godot",
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4"
+    },
+    {
+      "path": "eng/protected_run.py",
+      "bytes": 10394,
+      "sha256": "9ce2a1a6440fa5153abb5080d647a5a556a94f7e07faa2e4fd298f5af577a042"
+    },
+    {
+      "path": "eng/remote_common.py",
+      "bytes": 8589,
+      "sha256": "b13fe11d836a95fb32a06c9cf7654927d1eb508973326aae5b38621feba1406a"
+    },
+    {
+      "path": "eng/run-windows-check.ps1",
+      "bytes": 12477,
+      "sha256": "1853e63f9207a0994f078e863b1be97002971c4c641d8e3264679c2a0af9b7ca"
+    }
+  ]
+}

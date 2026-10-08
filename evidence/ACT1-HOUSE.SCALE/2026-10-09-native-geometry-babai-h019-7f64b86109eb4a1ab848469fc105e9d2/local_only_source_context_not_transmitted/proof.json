@@ -1,0 +1,23 @@
+{
+  "note": "These exact local files were present in pre-submit checkout but absent from the captured station manifest. They are not claimed as inputs to this runtime capture.",
+  "files": [
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
+      "bytes": 187238,
+      "sha256": "51791739c01e317b3ad795ae0e2814d234c59217e467ded4b77769b991b1bfd4",
+      "status": "not-in-station-snapshot"
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "bytes": 12562672,
+      "sha256": "c08019b60194c346e6428df7abf8e3f404d4c73ce0fe030283a7ec989fe90338",
+      "status": "not-in-station-snapshot"
+    },
+    {
+      "path": "assets/asset_registry.json",
+      "bytes": 234790,
+      "sha256": "08a2d1ae29897d1ee6846f0ee3cfaa590fa17a6eb8c24cffb901f562a99e1543",
+      "status": "not-in-station-snapshot"
+    }
+  ]
+}
