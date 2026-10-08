@@ -409,3 +409,25 @@ AUTHORED_HUMAN_GATE_OPEN 1 / OPEN 29`. Понижение `DONE` не прово
 Станционный захват C1…C8 (loopback-протокол из `AGENTS.md`) — чтобы получить первую честную
 пару «до/после» этой сборки и по кадрам решать, что в картинке ещё не дотягивает до эталона.
 
+
+## Итерация 06 (попытка станционного захвата) — 2026-10-08
+
+Захват C1…C8 на коммит `d36eda1` отправлен по loopback-протоколу станции.
+
+- Первая отправка отклонена станцией: `timeout` допускается только `1..300` секунд
+  (передано 840). Повторено с `--timeout 290` — job `da1d33126eed4ee885da6a883aad5cda`,
+  snapshot `9263a5552b45…`, `Remote check: FAIL`, кадров нет.
+- Причина FAIL — не этот пакет. `receipt.dirtyPaths` показывает, что в снимок попали
+  незавершённые правки параллельной сессии (ланты CULTURE/UI/ENG), и именно они не
+  компилируются: `Act1ConnectedWorld.FapExploration.cs:54-55` (CS0103 — вызов
+  `GroundFapClinicFurnishings`/`AuditFapEntranceAccents`, которых ещё нет),
+  `Act1ConnectedWorld.FapPlate.cs:158` и `ClinicSurfacePresentation.cs:298`
+  (CS1503 — `string` вместо `FormattableString`, `Material` вместо `ShaderMaterial`),
+  `OldPcUi.Desktop.cs:436` (CS0165 — `start` без значения). Тот же набор ошибок
+  воспроизводится локально (`/tmp/build4.log`, 6 ошибок).
+- Коммит `d36eda1` до этих правок собирался чисто: 0 предупреждений, 0 ошибок,
+  `ContentCli validate` OK, `verify-visual-reference-manifest.py` PASS,
+  `verify-ui-atmosphere-independence.py` PASS.
+- Вывод: ни одна визуальная карточка по-прежнему не закрыта — пары before/after этой
+  сборки нет. Захват нужно повторить после того, как дерево станет зелёным; ни один
+  статус `CODE_DONE_VERIFY_PENDING` заранее не повышается.
