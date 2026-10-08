@@ -73,6 +73,7 @@ public partial class RuntimeBridge : Node
     /// cached availability should be refreshed on the main thread.
     /// </summary>
     public event Action? RuntimeStateChanged;
+    internal event Action<bool?>? SaveFeedback;
 
     public override void _Ready()
     {
@@ -84,6 +85,7 @@ public partial class RuntimeBridge : Node
         CreateNewSession();
         _ = InitializeEntrypointAsync();
         CallDeferred(nameof(AttachAudioCueUi));
+        CallDeferred(nameof(AttachExplorationFeedback));
     }
 
     public override void _Process(double delta)
@@ -160,6 +162,8 @@ public partial class RuntimeBridge : Node
         _ = await SaveSlotAsync("quick");
     }
 
+    private void AttachExplorationFeedback() => AddChild(new ExplorationFeedbackUi { Name = "ExplorationFeedback" });
+
     public async Task<bool> SaveSlotAsync(string slot)
     {
         // Capture the store with this session before awaiting disk I/O. A menu
@@ -177,6 +181,8 @@ public partial class RuntimeBridge : Node
             return false;
         }
 
+        var saved = false;
+        SaveFeedback?.Invoke(null);
         try
         {
             var session = _kernel;
@@ -191,6 +197,7 @@ public partial class RuntimeBridge : Node
             if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
             var save = CaptureSessionSave(player);
             await store.SaveAsync(slot, save);
+            saved = true;
             GD.Print($"SaveGameV3 written to {store.SlotPath(slot)}");
             return true;
         }
@@ -199,6 +206,7 @@ public partial class RuntimeBridge : Node
             GD.PushError($"SaveGameV3 write failed: {exception.Message}");
             return false;
         }
+        finally { SaveFeedback?.Invoke(saved); }
     }
 
     private SaveGameV3 CaptureSessionSave(FirstPersonController player)
@@ -287,7 +295,24 @@ public partial class RuntimeBridge : Node
         }
 
         if (NeedsPhysicalRecovery) return await StartRecoverySessionAsync(debugSession, player);
-        return await CreateFreshSessionAsync(debugSession, player);
+        _loadPreparing = true;
+        _loadingTimeSampleUsec = Time.GetTicksUsec();
+        player.SetSessionTransition(true);
+        PlayTimeBoundary?.Invoke("load-start");
+        var loadingScreen = LoadingScreenUi.Show(this, "Возвращение в деревню", "Начинаем новую историю");
+        try
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            return await CreateFreshSessionAsync(debugSession, player);
+        }
+        finally
+        {
+            loadingScreen.Hide();
+            SampleLoadingTime();
+            _loadPreparing = false;
+            player.SetSessionTransition(NeedsPhysicalRecovery);
+        }
     }
 
     private async Task<bool> CreateFreshSessionAsync(bool debugSession, FirstPersonController player)
@@ -351,8 +376,11 @@ public partial class RuntimeBridge : Node
         var audio = GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
         var wasPaused = audio?.IsPaused ?? false;
         audio?.SetPaused(true);
+        var loadingScreen = LoadingScreenUi.Show(this, "Загрузка сохранения", "Возвращаемся в Кара-Урман");
         try
         {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             var result = await store.LoadAsync(slot, _content.CampaignFingerprint);
             // Preserve the live physical owners through the same snapshot used
             // by SaveSlotAsync. This rollback is in memory and never writes a slot.
@@ -413,6 +441,7 @@ public partial class RuntimeBridge : Node
         }
         finally
         {
+            loadingScreen.Hide();
             // A short async load may begin and end between two process frames.
             // Subtract that measured interval from the next accrual as well.
             SampleLoadingTime();

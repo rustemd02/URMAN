@@ -1,0 +1,159 @@
+{
+  "kind": "authoring_spec_not_runtime_content",
+  "version": 1,
+  "campaign_id": "photoworlds-v1",
+  "title": "За краем снимка",
+  "initial_state": {
+    "book_received": false,
+    "photos": {
+      "P-FOREST": {
+        "acquired": true,
+        "mounted": true,
+        "context_known": false
+      }
+    },
+    "prologue_pending": true
+  },
+  "outside_evidence": [
+    "E-BANK-OUTSIDE",
+    "E-PHOTOGRAPHER-OUTSIDE"
+  ],
+  "chapter_rules": {
+    "W01": {
+      "all": [
+        "book_received",
+        "P-FOREST.mounted",
+        "S-SCHOOL.acquired",
+        "PW_FOREST_ENTRY.in_range"
+      ]
+    },
+    "W02": {
+      "all": [
+        "book_received",
+        "P-WATER.mounted",
+        "water_back_read",
+        "home_water_place_told",
+        "PW_RIVER_ENTRY.in_range"
+      ]
+    },
+    "W03": {
+      "all": [
+        {
+          "any": [
+            "W01.completed",
+            "W02.completed"
+          ]
+        },
+        "first_world_home_talk",
+        "P-HOUSE.mounted",
+        "house_photo_back_read",
+        "PW_HOME_PHOTO_ENTRY.in_range"
+      ]
+    },
+    "W04": {
+      "all": [
+        "W01.completed",
+        "W02.completed",
+        "W03.completed",
+        "E-BANK-OUTSIDE.confirmed",
+        "E-PHOTOGRAPHER-OUTSIDE.confirmed",
+        "common_caption_prepared",
+        "P-COMMON.mounted",
+        "PW_COMMON_ENTRY.in_range"
+      ]
+    },
+    "W05": {
+      "all": [
+        "book_received",
+        "P-CELLAR.mounted",
+        "S-HAND.acquired",
+        "PW_CELLAR_ENTRY.in_range"
+      ]
+    }
+  },
+  "evidence_rules": {
+    "E-BANK-OUTSIDE": {
+      "all": [
+        "water_old_approach_seen",
+        "S-BANK.acquired",
+        "winter_piles_inspected"
+      ]
+    },
+    "E-PHOTOGRAPHER-OUTSIDE": {
+      "all": [
+        "house_camera_position_seen",
+        "S-PHOTOGRAPHER.back_read",
+        "golsina_author_conversation"
+      ]
+    }
+  },
+  "finale_rule": {
+    "all": [
+      "W04.completed",
+      "alsu_meeting_agreed",
+      "outside_leaf_witnessed",
+      "epilogue_photo_taken"
+    ]
+  },
+  "optional_worlds": [
+    "W05"
+  ],
+  "main_worlds": [
+    "W01",
+    "W02",
+    "W03",
+    "W04"
+  ],
+  "supported_orders": [
+    [
+      "W01",
+      "W02",
+      "W03",
+      "W04"
+    ],
+    [
+      "W02",
+      "W03",
+      "W01",
+      "W04"
+    ],
+    [
+      "W02",
+      "W01",
+      "W03",
+      "W04"
+    ],
+    [
+      "W01",
+      "W03",
+      "W02",
+      "W04"
+    ]
+  ],
+  "one_shot_events": [
+    "prologue_entry",
+    "water_damp_print",
+    "outside_leaf_witnessed",
+    "epilogue_photo_taken"
+  ],
+  "prologue": {
+    "world_id": "W01",
+    "nodes": [
+      "F00",
+      "F01",
+      "F02",
+      "F03"
+    ],
+    "kind": "scripted_one_off_exception",
+    "return_mode": "niva_arrival_checkpoint",
+    "skip": "Preserve essential context only; branch remains movable if not moved; no optional bonus facts."
+  },
+  "revisit": {
+    "completed_worlds_from": "PW_HOME_TABLE",
+    "return_to": "PW_HOME_TABLE",
+    "new_worlds_still_require_anchor": true
+  },
+  "world_clock": "freeze_village_during_visits",
+  "anti_padding": "No mandatory collection percentage, waiting, language exam or idle penalty",
+  "runtime_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,396 @@
+{
+  "kind": "SPECIFICATION_VALIDATION_NOT_GAME_QA",
+  "version": 1,
+  "result": "PASS",
+  "checks_count": 77,
+  "runtime_execution": "NOT_RUN",
+  "human_art_review": "NOT_PERFORMED",
+  "scope": "References, counts, graph consistency, abstract unlock ordering and historical coverage only.",
+  "checks": [
+    {
+      "name": "worlds: count and unique IDs",
+      "status": "PASS",
+      "details": "5"
+    },
+    {
+      "name": "photos: count and unique IDs",
+      "status": "PASS",
+      "details": "13"
+    },
+    {
+      "name": "assets: count and unique IDs",
+      "status": "PASS",
+      "details": "48"
+    },
+    {
+      "name": "tasks: count and unique IDs",
+      "status": "PASS",
+      "details": "100"
+    },
+    {
+      "name": "migration: count and unique IDs",
+      "status": "PASS",
+      "details": "118"
+    },
+    {
+      "name": "references: count and unique IDs",
+      "status": "PASS",
+      "details": "24"
+    },
+    {
+      "name": "dialogues: count and unique IDs",
+      "status": "PASS",
+      "details": "29"
+    },
+    {
+      "name": "coverage: count and unique IDs",
+      "status": "PASS",
+      "details": "10"
+    },
+    {
+      "name": "Every task dependency exists",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Task DAG is acyclic",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Tasks have actionable steps and acceptance",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "All task asset/reference links resolve",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "All asset families have at least one producing/integrating task",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "No fabricated implementation status",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Five passage photos and eight supporting photos",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "One passage photo per world",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W01: valid local graph",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W01: finite positions",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W01: main spawn can reach action nodes and exit",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W01: exactly three reachable linger nodes",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W01: completion flags are supplied by actions",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W01: assets exist",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W01: six required capture views",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W02: valid local graph",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W02: finite positions",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W02: main spawn can reach action nodes and exit",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W02: exactly three reachable linger nodes",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W02: completion flags are supplied by actions",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W02: assets exist",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W02: six required capture views",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W03: valid local graph",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W03: finite positions",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W03: main spawn can reach action nodes and exit",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W03: exactly three reachable linger nodes",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W03: completion flags are supplied by actions",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W03: assets exist",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W03: six required capture views",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W04: valid local graph",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W04: finite positions",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W04: main spawn can reach action nodes and exit",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W04: exactly three reachable linger nodes",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W04: completion flags are supplied by actions",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W04: assets exist",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W04: six required capture views",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W05: valid local graph",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W05: finite positions",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W05: main spawn can reach action nodes and exit",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W05: exactly three reachable linger nodes",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W05: completion flags are supplied by actions",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W05: assets exist",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W05: six required capture views",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Thirty distinct capture IDs",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Every historical VIS task maps to current PW tasks",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "All author requirements have valid task coverage",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Eighty-one unique non-empty dialogue lines",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Tatar translation is not falsely marked reviewed",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W05 remains optional for player but present in production",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Final chapter requires both outside evidence chains",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Abstract chapter order W01 → W02 → W03 → W04",
+      "status": "PASS",
+      "details": "Content/anchor prerequisites are supplied as an abstract fixture; not an end-to-end game test."
+    },
+    {
+      "name": "Abstract chapter order W02 → W03 → W01 → W04",
+      "status": "PASS",
+      "details": "Content/anchor prerequisites are supplied as an abstract fixture; not an end-to-end game test."
+    },
+    {
+      "name": "Abstract chapter order W02 → W01 → W03 → W04",
+      "status": "PASS",
+      "details": "Content/anchor prerequisites are supplied as an abstract fixture; not an end-to-end game test."
+    },
+    {
+      "name": "Abstract chapter order W01 → W03 → W02 → W04",
+      "status": "PASS",
+      "details": "Content/anchor prerequisites are supplied as an abstract fixture; not an end-to-end game test."
+    },
+    {
+      "name": "W04 cannot unlock without river evidence",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "W04 cannot unlock without family evidence",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Sixteen specification chapters",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Five detailed level passports",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Coverage document paths exist",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Local reference LEGACY01",
+      "status": "PASS",
+      "details": "legacy/URMAN_VISUAL_RESET_PACKAGE.zip"
+    },
+    {
+      "name": "Local reference REF-AMINOV",
+      "status": "PASS",
+      "details": "references/ART_Aminov_SuAnasy_1978_reference.jpeg"
+    },
+    {
+      "name": "Local reference REF-KARAMYSHEV",
+      "status": "PASS",
+      "details": "references/ART_Karamyshev_SuAnasy_1985_reference.jpeg"
+    },
+    {
+      "name": "Local reference REF-FATKHUTDINOV",
+      "status": "PASS",
+      "details": "references/ART_Fatkhutdinov_SuAnasy_1995_1997_reference.jpeg"
+    },
+    {
+      "name": "Local reference REF-P1",
+      "status": "PASS",
+      "details": "references/P1_user_selected_painterly.png"
+    },
+    {
+      "name": "No redistributable font files in package or historical ZIP",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Readable task cards match registry IDs",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Negative self-test: cyclic dependency",
+      "status": "PASS",
+      "details": "Damaged copy rejected; source unchanged."
+    },
+    {
+      "name": "Negative self-test: missing asset",
+      "status": "PASS",
+      "details": "Damaged copy rejected; source unchanged."
+    },
+    {
+      "name": "Negative self-test: optional chapter made mandatory",
+      "status": "PASS",
+      "details": "Damaged copy rejected; source unchanged."
+    }
+  ]
+}

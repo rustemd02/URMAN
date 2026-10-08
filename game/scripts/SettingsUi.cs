@@ -44,6 +44,8 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         ["jump"] = "Прыжок",
         ["sprint"] = "Бежать",
         ["journal"] = "Журнал",
+        ["inventory"] = "Инвентарь",
+        ["map"] = "Карта",
         ["pause"] = "Меню",
         ["quick_save"] = "Быстрое сохранение",
         ["quick_load"] = "Быстрая загрузка",

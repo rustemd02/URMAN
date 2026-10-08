@@ -1926,6 +1926,42 @@ public partial class Act1ConnectedWorld : Node3D
     }
 
     /// <summary>
+    /// Capture stations only: one authored atmosphere profile per frame, so the VIS-069…074
+    /// states that no zone owns by default can be photographed through the existing
+    /// URMAN_VIEW_POINTS transport. It rides the same Studio preview owner as the interactive
+    /// slider, re-applies the existing tune for this connected world and confirms the profile
+    /// from the same meta the frame sidecar reports. An unknown id, or a profile that did not
+    /// reach the world, returns false instead of silently falling back (VIS-003 rule); null
+    /// releases the override so the next frame keeps its zone default.
+    /// </summary>
+    public bool ApplyCapturePhase(string? profileId)
+    {
+        if (profileId is not null && !AtmosphereProfiles.Has(profileId))
+        {
+            global::Godot.GD.PushError(
+                $"Capture atmosphere profile '{profileId}' is not an authored atmosphere profile; "
+                + "the Act I atmosphere is left untouched. Known profiles: "
+                + string.Join(", ", AtmosphereProfiles.Ids) + ".");
+            return false;
+        }
+
+        StudioPreviewProfile = profileId;
+        RefreshAtmosphereForStudio();
+        var core = GetNodeOrNull<Node3D>("Act1CoreWorldGreybox");
+        var applied = core is not null && core.HasMeta("unifiedAtmosphereProfile")
+            ? core.GetMeta("unifiedAtmosphereProfile").AsString()
+            : null;
+        if (profileId is not null && applied != profileId)
+        {
+            global::Godot.GD.PushError(
+                $"Capture atmosphere profile '{profileId}' did not reach the outdoor environment"
+                + (applied is null ? " (no profile has been applied)." : $" (world reports '{applied}')."));
+            return false;
+        }
+        return true;
+    }
+
+    /// <summary>
     /// Final presentation-only cleanup after every authored kit is mounted.
     /// Retire only the proven foreground trees and duplicate zīrat boundary
     /// dressing; the remaining core foliage closes the Kara and lateral
@@ -7709,7 +7745,8 @@ public partial class Act1ConnectedWorld : Node3D
         string surface,
         float yawDegrees,
         bool conformToTerrain = false,
-        Curve3D? centerline = null)
+        Curve3D? centerline = null,
+        System.Func<float, float>? crestAlongRun = null)
     {
         var snowBank = surface == "snow_ground";
         var trodden = surface == "snow_trampled";
@@ -7729,6 +7766,12 @@ public partial class Act1ConnectedWorld : Node3D
             var zT = zIndex / (float)(lengthSections - 1);
             var z = Mathf.Lerp(-length * 0.5f, length * 0.5f, zT);
             var endFade = 0.88f + 0.08f * Mathf.Sin(zT * Mathf.Pi);
+            // Where the drift has caught on something the crest stands higher and
+            // spreads; in the open it settles back towards the untouched mass. The
+            // catchment depends on the position along the run only, so it is read
+            // once per length section, not once per vertex.
+            var caught = !snowBank || crestAlongRun is null
+                ? 1f : Mathf.Clamp(crestAlongRun(zT * length), .6f, 1.8f);
             for (var xIndex = 0; xIndex < crossSections; xIndex++)
             {
                 var profile = xProfile[xIndex];
@@ -7766,18 +7809,23 @@ public partial class Act1ConnectedWorld : Node3D
                         widthScale = .92f + .16f * thrown + .04f * Mathf.Sin(z * .13f + phase * 1.3f);
                     }
                     var plateau = Mathf.Min(1f, rounded * 1.35f);
-                    vertices[vertexIndex].X *= widthScale;
-                    vertices[vertexIndex].Y = -.025f + cap * plateau * height * Mathf.Max(.35f, lumps);
+                    vertices[vertexIndex].X *= widthScale + .16f * (caught - 1f);
+                    vertices[vertexIndex].Y = -.025f + cap * plateau * height * caught * Mathf.Max(.35f, lumps);
                 }
                 else if (trodden)
                 {
-                    // Trodden snow sits a little below the drift on either side: a nearly level
-                    // floor with a low, soft lip of displaced snow toward the edges.
+                    // A walked route is a channel, not a colour change. The shared
+                    // height field cuts the lane into the mass (RoadProfile), so the
+                    // ribbon only carries the medium edge: a nearly level packed
+                    // floor a few millimetres clear of that cut, the lip of snow the
+                    // feet pushed out of it, and a soft ragged merge back into the
+                    // untouched surface so no ribbon edge reads as a decal.
                     var across = Mathf.Abs(profile) * 2f;
-                    var lip = .035f * Mathf.SmoothStep(.35f, .75f, across) * (1f - Mathf.SmoothStep(.78f, 1f, across))
-                        * (.8f + .2f * Mathf.Sin(z * .55f + Mathf.Sign(profile) * 1.7f + phase));
+                    var lip = Mathf.Max(.055f, height * 2.2f)
+                        * Mathf.SmoothStep(.42f, .80f, across) * (1f - Mathf.SmoothStep(.90f, 1f, across))
+                        * (.82f + .18f * Mathf.Sin(z * .55f + Mathf.Sign(profile) * 1.7f + phase));
                     vertices[vertexIndex].X *= 1.25f;
-                    vertices[vertexIndex].Y = height * .4f + lip;
+                    vertices[vertexIndex].Y = .006f + lip;
                 }
                 if (centerline is not null)
                 {
@@ -8707,12 +8755,23 @@ public partial class Act1ConnectedWorld : Node3D
     }
 
     /// <summary>
-    /// Lays unplowed snow banks along the main street by walking the road
-    /// centre line (found by sampling RoadInfo) and offsetting to both
-    /// shoulders. Presentation only; the cleared lane stays walkable. The
-    /// shoulders also stay clear of every authored approach: the address
-    /// registry's door walks, every addressed yard gate and every visible
-    /// trodden ribbon (which records its centre column when built).
+    /// Lays the unplowed snow the village leaves where it drives and walks.
+    ///
+    /// The large form is already owned by the shared height field:
+    /// <see cref="AgentBAct1HeightField.RoadProfile"/> cuts the travelled lane into
+    /// the snow mass and stands the displaced snow back up on both sides of it, and
+    /// the traversal triangles are built from that same function, so the recess a
+    /// player walks into is the recess he sees. This pass adds the medium edge on
+    /// top of that mass: a shovelled, irregular crest that grows where something
+    /// catches the snow - a fence line and each of its posts, the two flanks of a
+    /// wicket or gate, a house or outbuilding foundation, the outer ditch, a bridge
+    /// abutment - and that is cut away wherever a route, a door walk or the
+    /// footbridge crosses, so every required approach stays open.
+    ///
+    /// One continuous strip per route side carries all of the catchment families, so
+    /// the number of drifts follows the routes instead of the number of fences, and
+    /// the batched fence geometry and the gate openings are left exactly as built.
+    /// Presentation only; the cleared lane and the physical bank stay walkable.
     /// </summary>
     private void AddMainStreetSnowBanks(Node3D parent)
     {
@@ -8765,81 +8824,220 @@ public partial class Act1ConnectedWorld : Node3D
             return NearFootprint(p);
         }
 
-        // Each shoulder gets continuous plowed runs, sampled every metre, broken only where a
-        // gate, lane or the footbridge needs the shoulder clear; short stubs are dropped.
+        var catchments = CollectSnowCatchments();
+        foreach (var (name, axis, halfWidth) in SnowDriftRoutes())
+            LayRouteSnowDrifts(root, name, axis, halfWidth, Blocked, catchments);
+        // The relocated babai yard occupies the old west drift. Its street
+        // shoulder is covered by the approach-aware runs above; the former
+        // UnplowedEast ridge duplicated this shoulder inside the eastern
+        // yards (bench, porch, firewood; audit 2026-10-05, F1/F3) and is
+        // deliberately not rebuilt: the east shoulder drift is the one.
+    }
+
+    /// <summary>The routes whose shoulders carry a shovelled drift, with the half
+    /// widths the shared field cuts them at. The plot streets of the far bank and of
+    /// the open part keep the mass and the recessed lane the height field gives
+    /// them, and get no strip of their own: the drift strips follow the routes a
+    /// hero frame actually looks down, not the whole street plan.</summary>
+    private static (string Name, Vector2[] Axis, float HalfWidth)[] SnowDriftRoutes() =>
+    [
+        ("Main", AgentBAct1Layout.MainRoadAxis, 2.25f),
+        ("Fap", AgentBAct1Layout.FapBranchAxis, 1.90f),
+        ("Bridge", AgentBAct1Layout.BridgeApproachAxis, 2.30f),
+        ("House", AgentBAct1Layout.HousePathAxis, 1.40f),
+        ("Zirat", AgentBAct1Layout.ZiratRoadAxis, 1.90f),
+        ("Kara", AgentBAct1Layout.KaraRoadAxis, 1.75f),
+        ("Plaza", AgentBAct1Layout.PlazaWalkAxis, 1.20f),
+        ("PlazaDrive", AgentBAct1Layout.PlazaDriveAxis, 2.00f),
+        ("Mosque", AgentBAct1Layout.MosqueWalkAxis, 0.80f),
+    ];
+
+    /// <summary>Walks one route at metre spacing, keeps both shoulders on the crest
+    /// line the height field raises beside the lane, and commits every unbroken run
+    /// as a single drift whose crest is set by whatever stands in its way.</summary>
+    private void LayRouteSnowDrifts(Node3D root, string routeName, Vector2[] axis, float halfWidth,
+        System.Func<float, float, bool> blocked, List<SnowCatchment> catchments)
+    {
+        var crestLine = halfWidth + 1.35f;
+        var height = .22f + .08f * System.Math.Clamp(halfWidth / 2.3f, .45f, 1f);
+        var northSouth = System.Math.Abs(axis[^1].Y - axis[0].Y) >= System.Math.Abs(axis[^1].X - axis[0].X);
         var runs = new Dictionary<float, List<Vector3>> { [-1f] = [], [1f] = [] };
+        var faces = new Dictionary<float, string> { [-1f] = "W", [1f] = "E" };
+
         void Flush(float side)
         {
             var run = runs[side];
             if (run.Count >= 4)
             {
-                var height = .3f + .08f * Mathf.Sin(run[0].Z * .31f + side);
-                var name = $"StreetBank{(side > 0 ? "E" : "W")}_{Mathf.RoundToInt(run[0].Z)}";
                 var curve = new Curve3D { BakeInterval = .2f };
                 // Point the run so its steeper cut face (the bank's -X side) is toward the road.
                 foreach (var point in side > 0 ? Enumerable.Reverse(run) : run) curve.AddPoint(point);
-                var mesh = AddVisualLandformSurface(root, name, 1.8f, height, curve.GetBakedLength(),
-                    Vector3.Zero, "e8edf0", "snow_ground", 0f, true, curve);
+                var length = curve.GetBakedLength();
+                var mesh = AddVisualLandformSurface(root,
+                    $"StreetBank{routeName}{faces[side]}_{Mathf.RoundToInt(run[0].Z)}",
+                    1.9f, height, length, Vector3.Zero, "e8edf0", "snow_ground", 0f, true, curve,
+                    distance => SnowDriftAccumulation(catchments,
+                        curve.SampleBaked(Mathf.Min(length, distance))));
                 mesh.SetMeta("snowBankHeight", height);
                 mesh.SetMeta("snowScale", "large"); // VIS-077 tier: snow mass
+                mesh.SetMeta("snowBankRoute", routeName);
+                mesh.SetMeta("snowBankCrestLine", crestLine);
                 mesh.SetMeta("presentationOnly", true);
                 mesh.SetMeta("collisionOwner", "none");
             }
             run.Clear();
         }
-        for (var z = 16f; z >= -84f; z -= 1f)
+
+        for (var segment = 0; segment + 1 < axis.Length; segment++)
         {
-            var bestX = 0f;
-            var bestClearance = float.MaxValue;
-            var halfWidth = 3.0f;
-            for (var x = -12f; x <= 12f; x += 0.25f)
+            var a = axis[segment];
+            var leg = axis[segment + 1] - a;
+            var length = leg.Length();
+            if (length < .05f) continue;
+            var dir = leg / length;
+            var normal = new Vector2(dir.Y, -dir.X);
+            var steps = Mathf.Max(1, Mathf.CeilToInt(length));
+            for (var step = 0; step <= steps; step++)
             {
-                var info = AgentBAct1HeightField.RoadInfo(x, z);
-                var clearance = (float)(info.Distance - info.HalfWidth);
-                if (clearance < bestClearance)
+                var centre = a + dir * (length * step / steps);
+                foreach (var side in new[] { -1f, 1f })
                 {
-                    bestClearance = clearance;
-                    bestX = x;
-                    halfWidth = (float)info.HalfWidth;
+                    // The crest line is not a survey line: it wanders by nine
+                    // centimetres on the terrain's own aperiodic field.
+                    var reach = crestLine - .09f + .18f * (float)AgentBAct1HeightField.ValueNoise(
+                        centre.X * .07f + 3.1f * side, centre.Y * .07f + 1.7f);
+                    var at = centre + normal * (side * reach);
+                    // The authored walk chain shares the shoulder: where it runs
+                    // along the route the drift bends away from the walking line
+                    // instead of burying it; where it crosses, the drift breaks
+                    // like any other crossed approach (audit 2026-10-05, third
+                    // finding). East-west routes only ever meet it diagonally, so
+                    // for them it is always a crossing.
+                    var walkCrossing = false;
+                    if (AuthoredWalkLineX(at.Y, out var walkAlongBank) is { } walkX)
+                    {
+                        var overlap = Mathf.Clamp((1.6f - Mathf.Abs(walkX - at.X)) / .6f, 0f, 1f);
+                        if (overlap > 0f && walkAlongBank && northSouth)
+                            at = new Vector2(Mathf.Lerp(at.X,
+                                walkX + (at.X >= centre.X ? 1f : -1f) * BankApproachClearance, overlap), at.Y);
+                        walkCrossing = overlap > 0f && (!walkAlongBank || !northSouth);
+                    }
+                    // Another carriageway reaches here, or this is the inside of one:
+                    // the drift stops, so a junction or an opening stays clear.
+                    var nearest = AgentBAct1HeightField.RoadInfo(at.X, at.Y);
+                    if (nearest.Distance - nearest.HalfWidth <= .7f
+                        // Nothing lies across the gorge or the ravine, and the
+                        // maintained footbridge keeps its real aperture.
+                        || AgentBAct1HeightField.RiverChannel(at.X, at.Y) != 0
+                        || AgentBAct1HeightField.RavineChannel(at.X, at.Y) != 0
+                        || (Mathf.Abs(at.Y - ZiratCulvertZ) < 1.4f && at.X > centre.X)
+                        || walkCrossing || blocked(at.X, at.Y))
+                    {
+                        Flush(side);
+                        continue;
+                    }
+                    if (runs[side].Count == 0)
+                        faces[side] = System.Math.Abs(at.X - centre.X) >= System.Math.Abs(at.Y - centre.Y)
+                            ? at.X >= centre.X ? "E" : "W"
+                            : at.Y >= centre.Y ? "N" : "S";
+                    runs[side].Add(new Vector3(at.X, 0f, at.Y));
                 }
-            }
-            foreach (var side in new[] { -1f, 1f })
-            {
-                if (bestClearance > 1.2f) { Flush(side); continue; } // between roads: no bank here
-                var wobble = Mathf.Sin(z * 0.45f + side) * 0.2f;
-                var bankX = bestX + side * (halfWidth + .95f + wobble);
-                // The zirat stretch of the authored walk chain runs along the
-                // west shoulder. Keep the ploughed ridge, but bend it west so
-                // the walking line stays on clear ground instead of being
-                // buried (audit 2026-10-05, third finding); the transition
-                // ramps over the last half metre so the ridge has no zigzag.
-                // Where the walk chain crosses the shoulder diagonally instead
-                // (the return-street detour), the bank breaks like any other
-                // crossed approach rather than following the walk.
-                var walkCrossing = false;
-                if (side < 0 && AuthoredWalkLineX(z, out var walkAlongBank) is { } walkX)
-                {
-                    var walkOverlap = Mathf.Clamp((1.6f - Mathf.Abs(walkX - bankX)) / .6f, 0f, 1f);
-                    if (walkOverlap > 0f && walkAlongBank)
-                        bankX = Mathf.Lerp(bankX, Mathf.Min(bankX, walkX - BankApproachClearance), walkOverlap);
-                    walkCrossing = walkOverlap > 0f && !walkAlongBank;
-                }
-                var atBank = AgentBAct1HeightField.RoadInfo(bankX, z);
-                // House/FAP approaches cross the bank, and the maintained footbridge has its
-                // real aperture: keep those clear.
-                if (atBank.Distance - atBank.HalfWidth <= .7f
-                    || (side > 0 && Mathf.Abs(z - ZiratCulvertZ) < 1.4f)) { Flush(side); continue; }
-                if (walkCrossing || Blocked(bankX, z)) { Flush(side); continue; }
-                runs[side].Add(new Vector3(bankX, 0f, z));
             }
         }
         Flush(-1f);
         Flush(1f);
-        // The relocated babai yard occupies the old west drift. Its street
-        // shoulder is covered by the approach-aware runs above; the former
-        // UnplowedEast ridge duplicated this shoulder inside the eastern
-        // yards (bench, porch, firewood; audit 2026-10-05, F1/F3) and is
-        // deliberately not rebuilt: StreetBankE is the east shoulder.
+    }
+
+    /// <summary>One thing that stands in the way of blown and shovelled snow, with
+    /// how much of it it catches and the spacing of the posts along it.</summary>
+    private readonly record struct SnowCatchment(Vector2 A, Vector2 B, float Weight, float PostSpacing);
+
+    // The pitch and the aperture the yard fence builder itself uses, so the snow
+    // answers to the fence that will be built rather than to a second set of numbers.
+    private const float FencePostSpacing = 2.35f;
+    private const float GateOpeningHalfWidth = 1.8f;
+    private const float SnowCatchmentReach = 3.2f;
+
+    /// <summary>Every fence line, foundation edge, ditch and abutment the drifts
+    /// can catch on, read from the same authored data their builders use.</summary>
+    private List<SnowCatchment> CollectSnowCatchments()
+    {
+        var catchments = new List<SnowCatchment>();
+        // Fence lines: the street edge of every yard, split at its own wicket, so
+        // the two flanks of an opening pile up and the opening itself stays clear.
+        foreach (var lot in YardLots())
+        {
+            if (lot.Kind == "keep") continue;
+            var facing = new Vector2(Mathf.Sin(Mathf.DegToRad(lot.Yaw)), Mathf.Cos(Mathf.DegToRad(lot.Yaw)));
+            var along = new Vector2(facing.Y, -facing.X);
+            var front = lot.Centre + facing * (lot.Size.Y * .5f);
+            var a = front - along * (lot.Size.X * .5f);
+            var b = front + along * (lot.Size.X * .5f);
+            var opening = -1f;
+            if (AddressRegistry is { } registry && registry.Addresses.TryGetValue(lot.Id, out var address)
+                && registry.AccessPoints.TryGetValue(address.AccessId, out var access))
+                opening = (new Vector2((float)access.Position.X, (float)access.Position.Z) - a).Dot(along);
+            if (opening < 0f || lot.Size.X <= 5f)
+            {
+                catchments.Add(new(a, b, 1f, FencePostSpacing));
+                continue;
+            }
+            var at = Mathf.Clamp(opening, 2f, lot.Size.X - 2f);
+            catchments.Add(new(a, a + along * Mathf.Max(0f, at - GateOpeningHalfWidth), 1f, FencePostSpacing));
+            catchments.Add(new(a + along * Mathf.Min(lot.Size.X, at + GateOpeningHalfWidth), b, 1f, FencePostSpacing));
+        }
+        // Houses, outbuildings and the public buildings, as their own footprints.
+        if (AddressRegistry is { } reg)
+        {
+            foreach (var building in reg.Buildings.Values)
+            {
+                if (building.Footprint.Count < 3) continue;
+                for (var i = 0; i < building.Footprint.Count; i++)
+                {
+                    var p = FootprintPoint(building.Footprint[i]);
+                    var q = FootprintPoint(building.Footprint[(i + 1) % building.Footprint.Count]);
+                    if (p.DistanceSquaredTo(q) < 1.44f) continue;
+                    catchments.Add(new(p, q, .8f, 0f));
+                }
+            }
+        }
+        // The outer ditch east of the zirat road and the abutment the FAP service
+        // route runs into: the two places where a route meets a structure.
+        catchments.Add(new(new Vector2(3.65f, ZiratCulvertZ - 3.4f), new Vector2(3.65f, ZiratCulvertZ + 3.4f), .9f, 0f));
+        var bridgeEnd = AgentBAct1Layout.BridgeApproachAxis[^1];
+        catchments.Add(new(new Vector2(bridgeEnd.X, bridgeEnd.Y - 1.7f), new Vector2(bridgeEnd.X, bridgeEnd.Y + 1.7f), .9f, 0f));
+        return catchments;
+    }
+
+    private static Vector2 FootprintPoint(SettlementPoint point) => new((float)point.X, (float)point.Z);
+
+    /// <summary>How much snow a spot on the shoulder has caught: about 1 on an open
+    /// verge, up to the clamp in <see cref="AddVisualLandformSurface"/> where a
+    /// fence, a foundation or a ditch stands in the way. Posts and gate flanks are
+    /// resolved along the catchment they belong to, so the crest swells at every
+    /// post and thickens at the sides of an opening; the long variation is the
+    /// terrain's own noise, so the drifts agree with the ground they stand on
+    /// instead of marching along it.</summary>
+    private static float SnowDriftAccumulation(List<SnowCatchment> catchments, Vector3 at)
+    {
+        var p = new Vector2(at.X, at.Z);
+        var caught = 0f;
+        foreach (var edge in catchments)
+        {
+            var distance = SegmentDistance(p, edge.A, edge.B);
+            if (distance > SnowCatchmentReach) continue;
+            var near = 1f - Mathf.SmoothStep(.25f, SnowCatchmentReach, distance);
+            caught += edge.Weight * near;
+            if (edge.PostSpacing <= .05f) continue;
+            var run = edge.B - edge.A;
+            if (run.LengthSquared() < .0001f) continue;
+            var along = (p - edge.A).Dot(run.Normalized());
+            var bay = Mathf.Floor(along / edge.PostSpacing) * edge.PostSpacing;
+            caught += .18f * near * (.5f + .5f * Mathf.Cos(Mathf.Tau
+                * (along - bay) / edge.PostSpacing));
+        }
+        var swell = (float)AgentBAct1HeightField.ValueNoise(at.X * .055f + 11f, at.Z * .055f - 4f);
+        return .80f + .30f * swell + caught;
     }
 
     /// <summary>Bank footprint (about 1.1 m with the vertex jitter) plus a

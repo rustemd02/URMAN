@@ -50,7 +50,17 @@
    "subject": "небо и верхние силуэты: колористика неба, читаемость крон"
   }
  ],
- "note": "Фаза задаётся `eng/remote-check.py capture --phase <id>` (итерация 02). Станция должна быть обновлена до коммита с полем `phase`.",
+ "phasesCapturableViaManifest": [
+  "village-winter-frost",
+  "overcast-day",
+  "golden-hour",
+  "zirat-winter-muted",
+  "village-green-night",
+  "kara-winter-night-edge"
+ ],
+ "manifest": "game/content/world/visual_checkpoints.v1.json",
+ "captureCommands": "docs/production/URMAN_VISUAL_RESET_EXECUTION_2026-10-07_captures.md",
+ "note": "Фазы доступны через --phase и через репозиторный манифест с профилем на кадр. Станция требует согласованной версии runner; кадры ещё не сняты — station not-run.",
  "phaseCaptures": [
   {
    "phase": "village-winter-frost",

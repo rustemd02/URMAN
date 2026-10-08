@@ -1,5 +1,7 @@
 # Backlog
 
+**Единый вход с 08.10.2026:** [tasktracker](../tasktracker/README.md), [все 306 ID](../tasktracker/TASKS.md), [полная игра/покрытие Visual Reset и PhotoWorlds](../tasktracker/07_full_game_integration_2026-10-08.md). Статусы только в [execution_backlog.json](execution_backlog.json). Этот документ — исторический/тематический индекс; goal_key `urman-photoworlds-finished-game`, итоговая приёмка REL-003. Прежние Act I launch prompts, 60 минут и 6–8-часовой маршрут ниже не задают вторую активную кампанию.
+
 **Актуальный разбор требований — 28 сентября 2026:** [полный пакет](../tasktracker/review_2026-09-28/README.md),
 [покрытие каждой претензии](../tasktracker/review_2026-09-28/coverage.md), единственная очередь — `execution_backlog.json`.
 Нынешний этап документальный, дальнейший игровой запуск остаётся на авторской паузе. Предыдущие срезы ниже — история;

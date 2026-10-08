@@ -101,8 +101,16 @@ public partial class Main : Node3D
         var session = bridge?.SessionIdentity;
         if (bridge is null || session is null) return false;
         _zoneSwitchBusy = true;
+        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        LoadingScreenUi? loading = null;
         try
         {
+            player?.SetSessionTransition(true);
+            if (DisplayServer.GetName() != "headless")
+            {
+                loading = LoadingScreenUi.Show(this, "Смена локации", "Готовим новое место в деревне");
+                await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+            }
             if (_connectedWorld is null && AlsuStreetWalkPresentation.SessionOwner(GetTree()) is { } companion
                 && !await companion.FlushForSaveAsync()) return false;
             if (!IsInsideTree() || IsQueuedForDeletion() || !ReferenceEquals(session, bridge.SessionIdentity))
@@ -110,7 +118,13 @@ public partial class Main : Node3D
             SwitchZone(zoneId, spawnPointId);
             return bridge.CurrentZoneId == zoneId && bridge.CurrentSpawnPointId == spawnPointId;
         }
-        finally { _zoneSwitchBusy = false; }
+        finally
+        {
+            if (loading is { } screen && GodotObject.IsInstanceValid(screen)) screen.Hide();
+            if (player is { } controller && GodotObject.IsInstanceValid(controller))
+                controller.SetSessionTransition(bridge.NeedsPhysicalRecovery);
+            _zoneSwitchBusy = false;
+        }
     }
 
     public void SwitchZone(string zoneId, string spawnPointId)

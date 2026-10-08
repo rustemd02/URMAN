@@ -1,13 +1,82 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Godot;
+using Urman.Core.Runtime;
 
 namespace Urman.Godot;
 
 public partial class RuntimeBridge
 {
+    public const float MapExplorationCellSize = 18f;
+    private const string MapExplorationPrefix = "notebook/map/explored/";
+    private const int MaximumMapCell = 4096;
+    private int _mapCheckpointRevision;
+
     public SettlementRegistry? NotebookSettlement =>
         (GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld)?.AddressRegistry;
+
+    public static Vector2I MapExplorationCell(Vector3 position) => new(
+        Mathf.FloorToInt(position.X / MapExplorationCellSize),
+        Mathf.FloorToInt(position.Z / MapExplorationCellSize));
+
+    public IReadOnlyList<Vector2I> ExploredMapCells()
+    {
+        if (_kernel is null) return [];
+        var cells = new HashSet<Vector2I>();
+        foreach (var prop in SelectWorldProps().EnumerateObject())
+        {
+            if (!prop.Name.StartsWith(MapExplorationPrefix, StringComparison.Ordinal)
+                || prop.Value.ValueKind != JsonValueKind.Object
+                || !prop.Value.TryGetProperty("explored", out var explored)
+                || explored.ValueKind != JsonValueKind.True) continue;
+            var key = prop.Name.AsSpan(MapExplorationPrefix.Length);
+            var separator = key.IndexOf('/');
+            if (separator <= 0 || separator == key.Length - 1
+                || !int.TryParse(key[..separator], NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var x)
+                || !int.TryParse(key[(separator + 1)..], NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var z)
+                || Math.Abs((long)x) > MaximumMapCell || Math.Abs((long)z) > MaximumMapCell) continue;
+            cells.Add(new Vector2I(x, z));
+        }
+        return cells.OrderBy(cell => cell.X).ThenBy(cell => cell.Y).ToArray();
+    }
+
+    public async Task<bool> RememberMapExplorationCellAsync(Vector2I cell)
+    {
+        if (_kernel is null || Math.Abs((long)cell.X) > MaximumMapCell || Math.Abs((long)cell.Y) > MaximumMapCell
+            || CurrentZoneId is not ("village_day" or "zirat_road" or "kara_urman_night")
+            || CapturePlayTimeBlocks() != PlayTimeBlock.None
+            || FindPlayer() is not { ModalOpen: false } player
+            || MapExplorationCell(player.GlobalPosition) != cell)
+            return false;
+        var propId = MapExplorationPrefix + cell.X.ToString(CultureInfo.InvariantCulture)
+            + "/" + cell.Y.ToString(CultureInfo.InvariantCulture);
+        var props = SelectWorldProps();
+        if (props.TryGetProperty(propId, out var prior) && prior.ValueKind == JsonValueKind.Object
+            && prior.TryGetProperty("explored", out var explored) && explored.ValueKind == JsonValueKind.True)
+            return true;
+        var session = _kernel;
+        if (!await DispatchWorldPropsAsync(new JsonArray(new JsonObject
+            { ["propId"] = propId, ["explored"] = true })) || !ReferenceEquals(session, _kernel)) return false;
+        QueueMapExplorationCheckpoint(session);
+        return true;
+    }
+
+    private void QueueMapExplorationCheckpoint(RuntimeKernel session)
+    {
+        var revision = ++_mapCheckpointRevision;
+        _ = SaveMapExplorationCheckpointAsync(session, revision);
+    }
+
+    private async Task SaveMapExplorationCheckpointAsync(RuntimeKernel session, int revision)
+    {
+        await ToSignal(GetTree().CreateTimer(5f), SceneTreeTimer.SignalName.Timeout);
+        if (revision != _mapCheckpointRevision || !ReferenceEquals(session, SessionIdentity)
+            || CurrentZoneId is not ("village_day" or "zirat_road" or "kara_urman_night")
+            || CapturePlayTimeBlocks() != PlayTimeBlock.None
+            || FindPlayer() is not { ModalOpen: false }) return;
+        await SaveCheckpointAsync(force: true);
+    }
 
     public IReadOnlyList<string> KnownAddressIds()
     {
@@ -67,7 +136,7 @@ public partial class RuntimeBridge
             ("arrival", "Остановка", ["discovery-arrival-"]),
             ("babai-yard", "Двор бабая", ["discovery-babai-yard-"]),
             ("babai-house", "Дом бабая и әби", ["discovery-house-"]),
-            ("streets", "Улицы Кырлая", ["discovery-main-street-", "discovery-connective-street-"]),
+            ("streets", "Улицы Кара-Урмана", ["discovery-main-street-", "discovery-connective-street-"]),
             ("outbuildings", "Сараи и настил", ["discovery-shed-", "discovery-underdeck-"]),
             ("fap", "ФАП", ["discovery-fap-"]),
             ("zirat-road", "Зиратская дорога", ["discovery-zirat-"]),

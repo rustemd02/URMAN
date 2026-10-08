@@ -1,0 +1,216 @@
+{
+  "access_date": "2026-10-08",
+  "references": [
+    {
+      "id": "REQ",
+      "title": "Прямые сообщения автора 08.10.2026",
+      "url": null,
+      "status": "PROVIDED_CONVERSATION",
+      "use": "Концепция, эмоциональный приоритет, место размещения ТЗ, разрешение фундаментальных изменений и полного внедрения.",
+      "not_use": "Новые названия глав и реплики не выдавать за дословное утверждение автора."
+    },
+    {
+      "id": "REPO01",
+      "title": "Проверенный main: 9869808…",
+      "url": "https://github.com/rustemd02/URMAN/commit/986980814d78d280070283519f9539f24e4539fb",
+      "status": "CONNECTOR_READ",
+      "use": "Фиксация среза 08.10.2026; не проверяет будущий HEAD и незакоммиченный diff.",
+      "not_use": "Не распространять служебные сетевые/SSH-параметры из последнего коммита как часть арт-задания."
+    },
+    {
+      "id": "REPO02",
+      "title": "AGENTS.md, адресное чтение",
+      "url": "https://github.com/rustemd02/URMAN/blob/986980814d78d280070283519f9539f24e4539fb/AGENTS.md",
+      "status": "CONNECTOR_READ",
+      "use": "Безопасные игровые запуски и приоритет актуальных распоряжений.",
+      "not_use": "Не переносить противоречивые старые разрешения push между запусками."
+    },
+    {
+      "id": "REPO03",
+      "title": "Канон текущего среза",
+      "url": "https://github.com/rustemd02/URMAN/blob/986980814d78d280070283519f9539f24e4539fb/docs/urman_knowledge_base/canon.md",
+      "status": "CONNECTOR_READ",
+      "use": "Имена, текущая исходная сюжетная структура и конкретные заменяемые положения.",
+      "not_use": "Старый финал и причина смерти Марата не автоматически действуют в новой арке."
+    },
+    {
+      "id": "REPO04",
+      "title": "RuntimeBridge.Notebook.cs",
+      "url": "https://github.com/rustemd02/URMAN/blob/986980814d78d280070283519f9539f24e4539fb/game/scripts/RuntimeBridge.Notebook.cs",
+      "status": "CONNECTOR_READ",
+      "use": "Единый kernel, world props, карта, адреса и личные записи.",
+      "not_use": "Нельзя добавлять координаты фотомиров в исследованные клетки деревни."
+    },
+    {
+      "id": "REPO05",
+      "title": "QuestRuntimeCoordinator.cs",
+      "url": "https://github.com/rustemd02/URMAN/blob/986980814d78d280070283519f9539f24e4539fb/game/scripts/QuestRuntimeCoordinator.cs",
+      "status": "CONNECTOR_READ",
+      "use": "Командный pipeline и reducer для квестовых состояний.",
+      "not_use": "Не выставлять второй набор прогресса внутри UI."
+    },
+    {
+      "id": "REPO06",
+      "title": "game/project.godot",
+      "url": "https://github.com/rustemd02/URMAN/blob/986980814d78d280070283519f9539f24e4539fb/game/project.godot",
+      "status": "CONNECTOR_READ",
+      "use": "В файле config/features указаны4.7иC#, main_scene — act1_demo.tscn.",
+      "not_use": "Это не подтверждение установленной сборки движка на устройстве пользователя."
+    },
+    {
+      "id": "LEGACY01",
+      "title": "Прежний visual reset и приложения A–F",
+      "url": "https://drive.google.com/drive/folders/1BJp8bGe6dT4eXlYKSq3ODEn_LIDo-g2d",
+      "status": "DOWNLOADED_LOCAL_ARCHIVE",
+      "local_file": "legacy/URMAN_VISUAL_RESET_PACKAGE.zip",
+      "use": "118задач,221кадр, выбранное изображениеP1, исходные замечания и историческая карта файлов.",
+      "not_use": "Старые пилотные/сюжетные ограничения и PASS не переносить на новую кампанию."
+    },
+    {
+      "id": "ART01",
+      "title": "«Сказочные миры Файзрахмана Аминова», музейная подборка",
+      "url": "https://100tatarstan.100tatarstan.ru/news/novosti/skazochnye-miry-fayzrakhmana-aminova",
+      "status": "WEB_TEXT_READ",
+      "use": "Связь сказочной графики с произведениями Тукая и конкретным бытом; ритм природных форм — художественный ориентир.",
+      "not_use": "Не копировать картину целиком и не называть наш3Dпайплайн методом художника."
+    },
+    {
+      "id": "ART02",
+      "title": "А. А. Миннебаева. Иконография Су анасы в искусстве Татарстана XX–XXI вв. Артикульт,2025,№3",
+      "url": "https://articult.rsuh.ru/articult-59-3-2025/articult-59-3-2025-minnebaeva.php",
+      "doi": "10.28995/2227-6165-2025-3-53-77",
+      "status": "WEB_TEXT_READ_AND_REFERENCE_IMAGES_EMBEDDED",
+      "use": "Рис.9 Аминов, рис.12 Карамышев, рис.19 Фатхутдинов; разнообразие трактовок образа.",
+      "not_use": "Одна авторская трактовка не обязательный этнографический канон и не лицензия на игровой контент."
+    },
+    {
+      "id": "ART03",
+      "title": "Ахсан Саримович Фатхутдинов, Татарская энциклопедия",
+      "url": "https://tatarica.org/ru/razdely/kultura/iskusstvo/izobrazitelnoe-iskusstvo-i-dpi/personalii/fathutdinov-ahsan-sarimovich",
+      "status": "PRIMARY_ENCYCLOPEDIA_SEARCH_TEXT",
+      "use": "Авторство и художественный контекст; взаимодействие резного обрамления с изображением как ориентир.",
+      "not_use": "Не превращать все татарские дома в орнаментальные алтари."
+    },
+    {
+      "id": "FOL01",
+      "title": "Су анасы. Татарская энциклопедия, Ф. И. Урманчеев",
+      "url": "https://tatarica.org/ru/razdely/narody/tatary/verovaniya-i-mifologiya/mifologicheskie-personazhi/su-anasy",
+      "status": "PRIMARY_ENCYCLOPEDIA_READ",
+      "use": "Связь с водной средой и литературно-фольклорный контекст.",
+      "not_use": "Наше спокойное взаимодействие с дощечкой не является народным ритуалом."
+    },
+    {
+      "id": "FOL02",
+      "title": "Шурале. Татарская энциклопедия, Ф. И. Урманчеев",
+      "url": "https://tatarica.org/ru/razdely/narody/tatary/verovaniya-i-mifologiya/mifologicheskie-personazhi/shurale",
+      "status": "PRIMARY_ENCYCLOPEDIA_SEARCH_TEXT",
+      "use": "Лесной дух, варианты облика и возможность множества шурале; у источника есть опасные сюжеты.",
+      "not_use": "Наша ненасильственная встреча не означает, что весь фольклор описывает безопасного доброго помощника."
+    },
+    {
+      "id": "FOL03",
+      "title": "Бичура: словарная проверка термина",
+      "url": "https://speak.tatar/en/dict/tat-tat/bichura/",
+      "status": "DICTIONARY_SECONDARY_CHECK_REQUIRES_SPECIALIST",
+      "use": "Рабочая связь термина с домашним присутствием.",
+      "not_use": "Недостаточно для утверждения точных обрядов/внешности. W05явно авторский; специалист нужен для культурного review."
+    },
+    {
+      "id": "TECH01",
+      "title": "Godot: Background loading",
+      "url": "https://docs.godotengine.org/en/stable/tutorials/io/background_loading.html",
+      "status": "OFFICIAL_DOCUMENTATION_READ",
+      "use": "Запрос/проверка/получение ресурса; раннее blocking get не является асинхронной загрузкой.",
+      "not_use": "Проверить API установленной версии перед внедрением."
+    },
+    {
+      "id": "TECH02",
+      "title": "Godot: Thread-safe APIs",
+      "url": "https://docs.godotengine.org/en/stable/tutorials/performance/thread_safe_apis.html",
+      "status": "OFFICIAL_DOCUMENTATION_READ",
+      "use": "Границы безопасной работы потоков и SceneTree.",
+      "not_use": "Не менять физику и дерево сцены произвольным worker thread."
+    },
+    {
+      "id": "TECH03",
+      "title": "Godot: WorldEnvironment",
+      "url": "https://docs.godotengine.org/en/stable/classes/class_worldenvironment.html",
+      "status": "OFFICIAL_DOCUMENTATION_READ",
+      "use": "Владение окружением конкретного World3D/viewport.",
+      "not_use": "Независимый reflection World3D не считать вторым конфликтующим owner основного мира."
+    },
+    {
+      "id": "TECH04",
+      "title": "Godot: Importing3Dscenes",
+      "url": "https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/index.html",
+      "status": "OFFICIAL_DOCUMENTATION_READ",
+      "use": "Редактируемые исходники, GLB и воспроизводимая интеграция.",
+      "not_use": "Импортированный файл не означает назначенный материал и доказанную анимацию."
+    },
+    {
+      "id": "TECH05",
+      "title": "Godot:3Drenderinglimitations",
+      "url": "https://docs.godotengine.org/en/stable/tutorials/3d/3d_rendering_limitations.html",
+      "status": "OFFICIAL_DOCUMENTATION_READ",
+      "use": "Ограничения прозрачности и экранных эффектов учитываются в профилях качества.",
+      "not_use": "Не строить обязательный игровой путь на недоступном отражении."
+    },
+    {
+      "id": "TWEET01",
+      "title": "Пользовательский скриншот и ссылка на демонстрацию",
+      "url": "https://x.com/gruberbuilds/status/2108013423401353577?s=20",
+      "status": "SCREENSHOT_TEXT_ONLY_DEMO_NOT_RUN",
+      "use": "Концепция присутствия внутри живописного изображения.",
+      "not_use": "Рендер, движущиеся сцены и заявления об устройстве/модели генерации не проверены; не обещать автоматическое image-to-level."
+    },
+    {
+      "id": "REF-AMINOV",
+      "title": "Файзрахман Аминов · Су анасы ·1978",
+      "url": "https://articult.rsuh.ru/upload/articult/journal_content/059/image/Minnebaeva/09.jpg",
+      "source_id": "ART02",
+      "status": "LOCAL_REFERENCE_REPRODUCTION_VERIFIED",
+      "local_file": "references/ART_Aminov_SuAnasy_1978_reference.jpeg",
+      "sha256": "db1d44724bf4068f6982c006065d3a97dabe7fd072442cfc2c0ee0b84c56673a",
+      "retrieval": "Вставка публичного изображения в созданный Google Doc, экспорт PDF, извлечение встроенной репродукции. Возможна ресэмплизация провайдером; это не заявление о получении оригинального музейного скана.",
+      "use": "Природные формы связываются ритмом и цветом, но отдельные предметы остаются узнаваемыми.",
+      "consumer": "W01растительные массы; W02берег; общий авторский язык. Не переносить наготу/эпизод кражи в нашу постановку.",
+      "not_use": "REFERENCE ONLY. Не использовать как runtime-текстуру без отдельно установленного права."
+    },
+    {
+      "id": "REF-KARAMYSHEV",
+      "title": "Владимир Карамышев · Су анасы ·1985",
+      "url": "https://articult.rsuh.ru/upload/articult/journal_content/059/image/Minnebaeva/12.jpg",
+      "source_id": "ART02",
+      "status": "LOCAL_REFERENCE_REPRODUCTION_VERIFIED",
+      "local_file": "references/ART_Karamyshev_SuAnasy_1985_reference.jpeg",
+      "sha256": "67f75214cde4fa222fb415e38d7bdc930929ba01e5feca68dbaca1ed41ac2a2e",
+      "retrieval": "Вставка публичного изображения в созданный Google Doc, экспорт PDF, извлечение встроенной репродукции. Возможна ресэмплизация провайдером; это не заявление о получении оригинального музейного скана.",
+      "use": "Текучие контуры связывают водную фигуру и окружающую среду.",
+      "consumer": "W02силуэт/волосы/ткань/вода. Не копировать лицо, композицию и костюм покадрово.",
+      "not_use": "REFERENCE ONLY. Не использовать как runtime-текстуру без отдельно установленного права."
+    },
+    {
+      "id": "REF-FATKHUTDINOV",
+      "title": "Ахсан Фатхутдинов · Су анасы ·1995–1997",
+      "url": "https://articult.rsuh.ru/upload/articult/journal_content/059/image/Minnebaeva/19.jpg",
+      "source_id": "ART02",
+      "status": "LOCAL_REFERENCE_REPRODUCTION_VERIFIED",
+      "local_file": "references/ART_Fatkhutdinov_SuAnasy_1995_1997_reference.jpeg",
+      "sha256": "481647537e63d6ff6a811a3cb075a6e9b53c371326a7814b92630119d9f5c6d7",
+      "retrieval": "Вставка публичного изображения в созданный Google Doc, экспорт PDF, извлечение встроенной репродукции. Возможна ресэмплизация провайдером; это не заявление о получении оригинального музейного скана.",
+      "use": "Граница изображения выражена как материальное обрамление, связанное с его содержанием.",
+      "consumer": "W03проёмы; W04обрамления. Не превращать игру в музей картин на стендах.",
+      "not_use": "REFERENCE ONLY. Не использовать как runtime-текстуру без отдельно установленного права."
+    },
+    {
+      "id": "REF-P1",
+      "title": "Ранее выбранное автором изображениеP1",
+      "url": null,
+      "status": "LOCAL_USER_REFERENCE",
+      "local_file": "references/P1_user_selected_painterly.png",
+      "sha256": "1d38dae75672be057a0c999ec6049f7f679b5e09f29bfa31670f8cdce2da6171",
+      "use": "Контракт красоты наружной деревни, не точный эталон новых миров.",
+      "not_use": "Не считать новым render capture или обещанием автоматического совпадения."
+    }
+  ]
+}

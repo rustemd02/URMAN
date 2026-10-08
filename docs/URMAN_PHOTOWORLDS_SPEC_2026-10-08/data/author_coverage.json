@@ -1,0 +1,173 @@
+{
+  "requirements": [
+    {
+      "id": "A01",
+      "meaning": "Ходить внутри изображения и выходить за границу кадра",
+      "tasks": [
+        "PW-007",
+        "PW-022",
+        "PW-036",
+        "PW-045",
+        "PW-050",
+        "PW-055",
+        "PW-060",
+        "PW-065",
+        "PW-089"
+      ],
+      "documents": [
+        "docs/02_NARRATIVE_BIBLE_RU.md",
+        "levels/"
+      ]
+    },
+    {
+      "id": "A02",
+      "meaning": "Семейная книга Тукая, находки и физические вклейки",
+      "tasks": [
+        "PW-013",
+        "PW-014",
+        "PW-015",
+        "PW-016",
+        "PW-017",
+        "PW-040",
+        "PW-071"
+      ],
+      "documents": [
+        "docs/03_BOOK_AND_PHOTOS_RU.md",
+        "docs/10_ASSET_PASSPORTS_RU.md"
+      ]
+    },
+    {
+      "id": "A03",
+      "meaning": "Другой красивый и культурно конкретный стиль внутри",
+      "tasks": [
+        "PW-010",
+        "PW-031",
+        "PW-032",
+        "PW-034",
+        "PW-045",
+        "PW-050",
+        "PW-055",
+        "PW-060",
+        "PW-065",
+        "PW-099"
+      ],
+      "documents": [
+        "docs/04_ART_DIRECTION_RU.md",
+        "docs/14_SOURCES_AND_REFERENCES_RU.md"
+      ]
+    },
+    {
+      "id": "A04",
+      "meaning": "Полноценные встречи с фольклором",
+      "tasks": [
+        "PW-047",
+        "PW-052",
+        "PW-066",
+        "PW-092"
+      ],
+      "documents": [
+        "docs/02_NARRATIVE_BIBLE_RU.md",
+        "levels/"
+      ]
+    },
+    {
+      "id": "A05",
+      "meaning": "Пролог в одном из фотомиров",
+      "tasks": [
+        "PW-003",
+        "PW-029",
+        "PW-043",
+        "PW-049",
+        "PW-085"
+      ],
+      "documents": [
+        "docs/07_SAVE_LOAD_FAILURES_RU.md",
+        "levels/"
+      ]
+    },
+    {
+      "id": "A06",
+      "meaning": "Внешняя деревня преимущественно обычная и живая",
+      "tasks": [
+        "PW-003",
+        "PW-044",
+        "PW-070",
+        "PW-079",
+        "PW-096"
+      ],
+      "documents": [
+        "docs/08_VILLAGE_INTEGRATION_RU.md"
+      ]
+    },
+    {
+      "id": "A07",
+      "meaning": "Намёки и подтверждения реальности происходящего",
+      "tasks": [
+        "PW-008",
+        "PW-073",
+        "PW-074",
+        "PW-076",
+        "PW-077",
+        "PW-078"
+      ],
+      "documents": [
+        "docs/02_NARRATIVE_BIBLE_RU.md",
+        "docs/08_VILLAGE_INTEGRATION_RU.md"
+      ]
+    },
+    {
+      "id": "A08",
+      "meaning": "Завораживает; хочется задержаться несмотря на странность",
+      "tasks": [
+        "PW-027",
+        "PW-028",
+        "PW-031",
+        "PW-048",
+        "PW-053",
+        "PW-058",
+        "PW-063",
+        "PW-068",
+        "PW-082",
+        "PW-099"
+      ],
+      "documents": [
+        "docs/04_ART_DIRECTION_RU.md",
+        "docs/09_AUDIO_LANGUAGE_ACCESSIBILITY_RU.md",
+        "docs/12_QA_RU.md"
+      ]
+    },
+    {
+      "id": "A09",
+      "meaning": "Разрешены фундаментальные изменения ранней альфы",
+      "tasks": [
+        "PW-002",
+        "PW-003",
+        "PW-004",
+        "PW-010",
+        "PW-097"
+      ],
+      "documents": [
+        "docs/01_AUTHORITY_AND_CANON_RU.md",
+        "docs/16_AGENT_DELIVERY_RU.md"
+      ]
+    },
+    {
+      "id": "A10",
+      "meaning": "Полное внедрение, не остановка после пилота",
+      "tasks": [
+        "PW-011",
+        "PW-069",
+        "PW-078",
+        "PW-094",
+        "PW-095",
+        "PW-098",
+        "PW-100"
+      ],
+      "documents": [
+        "00_START_HERE_RU.md",
+        "docs/11_TASKS_RU.md",
+        "docs/16_AGENT_DELIVERY_RU.md"
+      ]
+    }
+  ]
+}

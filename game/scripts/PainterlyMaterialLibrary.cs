@@ -1423,7 +1423,13 @@ public static class PainterlyMaterialLibrary
 
     /// <summary>A trodden snow path: the trampled-snow material with a soft, ragged edge into
     /// fresh snow (needs ribbon UVs, x across 0..1). Packed snow is only a shade darker and
-    /// bluer than fresh, never a grey strip, so the caller's tone is pulled toward it.</summary>
+    /// bluer than fresh, never a grey strip, so the caller's tone is pulled toward it.
+    /// VIS-078/VIS-081: the depth of the route is now geometry - the shared height field
+    /// cuts the lane into the mass and the ribbon carries the lip of displaced snow - so the
+    /// finish only has to say "packed, walked, older than the powder beside it". It therefore
+    /// loses most of the powder sparkle and its micro relief, and answers the sky with a
+    /// smoother, denser highlight than snow_ground, instead of standing in for a shape it no
+    /// longer owns.</summary>
     public static Material ForPath(string htmlColor)
     {
         var cacheKey = $"path:{htmlColor}";
@@ -1432,6 +1438,11 @@ public static class PainterlyMaterialLibrary
         var material = (ShaderMaterial)ForColor(tone.ToHtml(false), "snow_trampled").Duplicate();
         material.SetMeta("surface", "snow_trampled");
         material.SetShaderParameter("soft_path_edges", true);
+        material.SetShaderParameter("snow_sparkle", .10f);
+        material.SetShaderParameter("snow_relief_scale", .45f);
+        material.SetShaderParameter("snow_roughness_range", new Vector2(.62f, .80f));
+        material.SetShaderParameter("roughness_value", .72f);
+        material.SetShaderParameter("specular_value", .34f);
         Materials.Add(cacheKey, material);
         return material;
     }

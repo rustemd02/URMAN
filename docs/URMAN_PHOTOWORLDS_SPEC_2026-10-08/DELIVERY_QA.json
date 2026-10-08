@@ -1,0 +1,18 @@
+{
+  "spec_version": "PW-1.0",
+  "date": "2026-10-08",
+  "pdf_pages": 239,
+  "pdf_text_outside_page_count": 0,
+  "google_doc_import_verified_all_100_task_titles": true,
+  "google_doc_import_verified_all_118_legacy_ids": true,
+  "google_doc_import_verified_final_validation_row": true,
+  "game_code_changed": false,
+  "game_launched": false,
+  "new_game_assets_generated": false,
+  "image_references_included": 4,
+  "local_spec_validator": {
+    "result": "PASS",
+    "checks": 77
+  },
+  "scope_note": "Source integrity and reading-copy checks only; not engine or artistic acceptance."
+}

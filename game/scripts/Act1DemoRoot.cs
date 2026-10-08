@@ -189,8 +189,23 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         DevViewCaptureBoot();
         DevWalkProbeBoot();
         DevQuickStartBoot();
+        _ = InitializeDemoWithLoadingScreenAsync();
+    }
+
+    private async Task InitializeDemoWithLoadingScreenAsync()
+    {
+        LoadingScreenUi? loading = null;
         try
         {
+            if (DisplayServer.GetName() == "headless")
+            {
+                InitializeDemo();
+                return;
+            }
+
+            loading = LoadingScreenUi.Show(this, "Кара-Урман", "Подготавливаем деревню и первую встречу");
+            await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+            if (!IsInsideTree()) return;
             InitializeDemo();
         }
         catch (Exception exception)
@@ -210,6 +225,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             }
 
             GetTree().Quit(1);
+        }
+        finally
+        {
+            if (loading is { } screen && GodotObject.IsInstanceValid(screen)) screen.Hide();
         }
     }
 
