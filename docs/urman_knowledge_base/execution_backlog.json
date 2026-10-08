@@ -18981,8 +18981,8 @@
         ],
         "next_unit": {
           "result": "Дом бабая: один цельный внешний вид по выбранным референсам, с сохранением связанных интерьерных требований.",
-          "action": "Сверить существующий source/mesh с точными положительными референсами. Выбрать основные расхождения конструкции/силуэта; исправить их в общем исходнике, затем согласовать материал, снег и ближайший двор. Не начинать с нового PNG при неверной форме.",
-          "verification": "Те же улица/косой вид/проём на Windows и движение у угла; привязка source→runtime→кадр и список оставшихся расхождений. Это этап .9, полная приёмка по done_when.",
+          "action": "Импортировать новый HeroHouse GLB и снять на Windows те же фронтальный и косой кадры. Root проверяет, что настил визуально соединяет существующие опоры; затем обычным вводом проверить подход к порогу и обход угла. Крышу и интерьерные размеры не менять без нового кадра/причины; после этой конструктивной части выполнить оставшийся done_when.",
+          "verification": "Новый protected Windows import/capture с оригинальными PNG и sidecars; визуальная оценка root и обычное движение у входа/угла. Отдельно завершить интерьерные требования, паспорта AS-01/AS-02/AS-13 и полный done_when. Экспортёр не означает приёмку; статус оставить in_progress до оставшихся доказательств.",
           "source": "author/2026-10-09-tracker-throughput"
         }
       },
@@ -19019,7 +19019,8 @@
         "docs/production/act1_takeover_evidence_2026-09-16/integrated-build-20260922-hero-srub-03.json",
         "docs/tasktracker/02_village_rework_plan.md",
         "docs/tasktracker/05_texture_production_2026-09-22.md",
-        "docs/production/act1_depth_family_2026-10-04.md"
+        "docs/production/act1_depth_family_2026-10-04.md",
+        "evidence/ACT1-DEPTH.9/porch-footprint-export-2026-10-09.json"
       ],
       "mvp_priority": 22,
       "mvp_packet": "LEGACY-COMPAT",
@@ -19126,7 +19127,7 @@
         "AS-02",
         "AS-13"
       ],
-      "progress_2026_10_09": "\n2026-10-09: claimed bounded ACT1-DEPTH.9 source/construction unit. Starting exact-reference and source→runtime-consumer discovery for the HeroHouse/Babai house only; no generic H019, common grading/census, PW005 source, export, build, or runtime capture. Next: inspect selected P1 reference, positive menu-house image, full card/review clauses, exact existing Blender producer and HeroHouse consumer; then identify one largest measurable form mismatch and report the owned source slice before changing geometry."
+      "progress_2026_10_09": "\n2026-10-09: claimed bounded ACT1-DEPTH.9 source/construction unit. Starting exact-reference and source→runtime-consumer discovery for the HeroHouse/Babai house only; no generic H019, common grading/census, PW005 source, export, build, or runtime capture. Next: inspect selected P1 reference, positive menu-house image, full card/review clauses, exact existing Blender producer and HeroHouse consumer; then identify one largest measurable form mismatch and report the owned source slice before changing geometry.\n2026-10-09: Windows native baseline job 9b3f2961f21647f39a2bc8ee772e99a7 связывает фронтальный и косой кадры с BabaiApproachDwellingFacade; это статические control views, не доказательство обычного прохода. Сверка с меню/P1 и source показала, что крыльцо узкое: настил 1.36×0.70 м не доходил до существующих оснований стоек 18 см на 11 см по бокам и 10 см по глубине. После root review исправлен только ACT1-DEPTH.9 porch footprint: настил теперь вычисляется по footprint оснований (1.94×0.98 м), 7 швов следуют ширине, два 8 см bearers соединяют стену с существующими основаниями ниже настила; зазор цоколя выведен как footprint+5 см. Крыша, стойки, проём, порог, стены и интерьерный contract не менялись. Pinned Blender 4.5.12 `--component-only hero-house` завершился exit 0 с `hero-house-pass` (665 meshes; contract сохранён; fingerprint e120e31c46989ba2484328a60203ec41416ba901bc5929e64b9a3e796d34ff63); source/GLB hashes и asset registry синхронизированы. Одноразовые проверки контакта/проёма, non-HeroHouse GLB signatures (854 unchanged), узкий asset registry verifier, JSON parse и `git diff --check` прошли. Evidence: evidence/ACT1-DEPTH.9/porch-footprint-export-2026-10-09.json. Остаются новая защищённая Windows capture/import этой геометрии, приёмка root по оригинальным PNG, ordinary player approach/обход угла, интерьерные требования и AS-01/02/13; карточка остаётся open."
     },
     {
       "id": "ACT1-DEPTH.10",
@@ -27565,7 +27566,9 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-005/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-005/receipt.json"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-005",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -27625,7 +27628,7 @@
       },
       "phase": 0,
       "effort": "L",
-      "progress_2026_10_08": "2026-10-09 claimed by /root/address_mount. Scope: versioned PhotoWorld snapshot contract and explicit migration/rejection policy in the existing PhotoWorldState/Core persistence boundary, RuntimeBridge/save-menu consumers, plus technical_architecture evidence. Reuse the existing kernel and AtomicSaveGameStore; preserve legacy slots/settings/notes; no second save owner/service. Current phase is READ/PLAN ONLY until the sealed H019 capture completes and root releases runtime edits. PW-020/PW-024/PW-025 future transaction/recovery/migration implementation stays explicitly outside this card."
+      "progress_2026_10_08": "2026-10-09 implementation and clause-audit checkpoint by /root/address_mount. PW-005 source slice now defines PhotoWorldState schema 2 in the existing RuntimeKernel snapshot, explicit schema 1→2 migration that preserves supported narrative provenance and leaves unrecorded physical state null/empty, strict pre-projection validation, and RuntimeBridge isolation under user://savegames/photoworlds-v1 (debug equivalent); old quick/checkpoint identities are detected and disclosed, while settings and notes retain their existing owners. The receipt evidence/PW-005/receipt.json records the docs06/07/11 clause audit, trust boundaries, source hashes, known limits and exact native acceptance contract. The focused game project build passed with 0 warnings and 0 errors (13.73s); diff check passed. Next verification is the existing Windows scene res://tests/full_game_flow_smoke_test.tscn via eng/remote-check.py smoke --scene res://tests/full_game_flow_smoke_test.tscn. It must exercise the v1 migration and unknown-version rejection, campaign namespace/identity, both semantic route orders, and report the existing fullgame-flow-smoke SEMANTIC PASS line. This smoke does not save/restore files or compare old-slot bytes, and cannot prove physical visit recovery, settings/notes byte preservation, interruption handling, or fingerprint compatibility. Native run and author acceptance remain pending; PW-020/PW-024/PW-025/PW-007 physical/runtime consumer gates remain separate. Card stays in_progress."
     },
     {
       "id": "PW-006",
@@ -27970,7 +27973,7 @@
       "id": "PW-010",
       "title": "Свести новый стиль с прежним visual reset",
       "milestone": "PW-M0",
-      "status": "todo",
+      "status": "completed",
       "active_owner": null,
       "owner": "art",
       "priority": "P0",
@@ -28000,7 +28003,11 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-010/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-010/receipt.json",
+        "docs/production/visual_restyle_2026-10-07/reference_manifest.json",
+        "docs/production/visual_restyle_2026-10-07/REFERENCE_BOARD_RU.md"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-010",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -28069,7 +28076,9 @@
         "AS-18"
       ],
       "phase": 0,
-      "effort": "M"
+      "effort": "M",
+      "progress_2026_10_09": "Root claimed dependency-ready style reconciliation after PW002/PW004. Existing 118-row visual migration and reference board are reused. Exact P1 availability/path and contradictory active/historical art-contract wording are being checked. VIS065/066 and AS18 actual consumers/evidence remain full acceptance, not completion by copied headings.\nRoot completed contract reconciliation: 118VIS map matches authoritative table, historical conflicting style/freeze constraints explicitly scoped, exact P1 path/hash and local-only status repaired. VIS065/066 original steps met; AS18 existing board/capture pipeline reuse accepted with explicit consumer/format/UV-scale-material-LOD applicability/rights/evidence. Whole runtime art/human gates remain open.",
+      "self_acceptance_2026_10_09": "PASS_STYLE_CONTRACT_RECONCILIATION; not a produced-scene art acceptance."
     },
     {
       "id": "PW-011",

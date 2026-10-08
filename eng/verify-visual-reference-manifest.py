@@ -6,6 +6,7 @@ negative references are marked anti_example; an entry without a stored image say
 and carries a source link or an explicit no_image marker (never a lookalike substitute).
 Touches no engine, no network.
 """
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -14,7 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PATH = ROOT / "docs/production/visual_restyle_2026-10-07/reference_manifest.json"
 SELECTED = ["P1", "W1", "W2", "V1", "V2", "V4", "I1", "N1", "N2",
             "H2-1", "H2-2", "H2-3", "H3-1", "H4-2", "H4-3"]
-AVAILABILITY = {"missing_locally_in_repo", "link_only", "no_image", "in_repo"}
+AVAILABILITY = {"missing_locally_in_repo", "link_only", "no_image", "in_repo", "local_checkout_only"}
 
 errors = []
 m = json.loads(PATH.read_text(encoding="utf-8"))
@@ -37,10 +38,12 @@ for rid, r in refs.items():
         errors.append(f"{rid}: bad local_availability {r['local_availability']!r}")
     if r["local_availability"] == "link_only" and not r.get("source"):
         errors.append(f"{rid}: link_only requires a source link")
-    if r["local_availability"] == "in_repo":
+    if r["local_availability"] in {"in_repo", "local_checkout_only"}:
         f = ROOT / (r.get("local_file") or "")
         if not f.is_file():
-            errors.append(f"{rid}: in_repo file not found")
+            errors.append(f"{rid}: declared local file not found")
+        elif not r.get("sha256") or hashlib.sha256(f.read_bytes()).hexdigest() != r["sha256"]:
+            errors.append(f"{rid}: exact local image SHA256 missing or mismatched")
 if errors:
     print("FAIL")
     for e in errors:

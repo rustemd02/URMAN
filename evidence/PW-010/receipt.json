@@ -1,0 +1,93 @@
+{
+  "task_id": "PW-010",
+  "reviewer": "/root",
+  "source_commit": "ede9cad2c50300ea46604761e07daf8cc1ea0ee2",
+  "self_acceptance": "PASS_STYLE_CONTRACT_RECONCILIATION",
+  "author_acceptance": "PENDING",
+  "runtime_art_acceptance": "NOT_CLAIMED; actual production/regression/human gates remain open",
+  "coverage": {
+    "visual_ids": 118,
+    "reference_codes": 24,
+    "author_selected_codes": 15
+  },
+  "checks": [
+    "All118 original VIS IDs retain disposition/reason and existing PW successors; table07 matches.",
+    "VIS008 pilot limitation explicitly superseded without removing staged evidence/cost constraints.",
+    "VIS065 active style differs by register; visible low-poly is not target; old master-plan/bible limits marked historical, compatible UV/contact/performance retained.",
+    "VIS066 existing board and manifest retained, targets/additional/negative references separate; exactP1 path/hash fixed and missing exact frames not replaced.",
+    "Modified active-contract links resolve; git diff --check PASS."
+  ],
+  "clause_audit": {
+    "03_book_photos": "Physical paper/backs/readable page-bound lettering preserved; no screen-fixed grain/illustration substituted for runtime book.",
+    "04_art_direction": "Two related registers, material foreground, construction before detail, per-world expressive laws, reference-right limits; F0–F5/motion/rubric remain producing-task gates.",
+    "06_runtime": "One active light/profile and runtime owner remains; this document does not create second renderer/material/state store.",
+    "11_PW010": "Existing118 map reused; missing contradictions/path availability repaired; pilot freeze removed while performance/contact retained.",
+    "13_migration": "118 uniqueVIS rows exactly match original tasks and canonical successors. No duplicate task queue.",
+    "14_sources": "Exact reference/source status and no production-art rights inference; local P1 SHA matches."
+  },
+  "asset_passport": {
+    "id": "AS-18",
+    "disposition": "REUSE_EXISTING_REFERENCE_AND_CAPTURE_TOOLS",
+    "reviewer": "/root",
+    "consumers": [
+      "PW-010",
+      "PW-033",
+      "PW-093",
+      "PW-098",
+      "PW-099",
+      "REL-003"
+    ],
+    "source": [
+      "docs/production/visual_restyle_2026-10-07/reference_manifest.json",
+      "docs/production/visual_restyle_2026-10-07/REFERENCE_BOARD_RU.md",
+      "eng/verify-visual-reference-manifest.py",
+      "eng/remote-check.py",
+      "eng/protected_run.py",
+      "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "game/tests/StyleMotionSweepCapture.cs",
+      "game/tests/StyleTemporalComfortCapture.cs",
+      "game/tests/Act1BoundaryArchitectureSmokeTest.cs"
+    ],
+    "reference_image": {
+      "path": "docs/URMAN_VISUAL_RESET_2026-10-07/references/P1_user_selected_painterly.png",
+      "sha256": "1d38dae75672be057a0c999ec6049f7f679b5e09f29bfa31670f8cdce2da6171",
+      "width": 2048,
+      "height": 1152,
+      "availability": "local_checkout_only; ignored/untracked; recover exact package bytes in another checkout",
+      "rights": "Study reference only; production artwork rights not established."
+    },
+    "format": "JSON reference registry, Markdown board, repository scripts/C# capture tools, original PNG/sidecar/log proof",
+    "UV": "Not a runtime mesh/texture; UV not applicable. Production mesh UV acceptance is retained by producing AS/A families.",
+    "scale": "Reference dimensions recorded; captures retain actual viewport dimensions/FOV/transforms, not normalized illustration scale.",
+    "material_LOD": "Not production art; mesh material/LOD not applicable to board or scripts. Diagnostics retain actual runtime material/LOD data.",
+    "provenance": "Existing repository-authored code reused; contemporary art/screenshot references are not licensed as production textures.",
+    "current_verification": [
+      "Existing reference-manifest verifier PASS:24 codes,15 author-selected targets, exact local P1 hash.",
+      "Native job9b3f2961f21647f39a2bc8ee772e99a7 supplies original fixed-camera PNGs/sidecars/transforms/profile/material-LOD census and userdata restoration; root review records both accepted baseline and rejected H019."
+    ],
+    "native_evidence": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-wide-h019-babai-9b3f2961f21647f39a2bc8ee772e99a7/root_visual_review.json",
+    "retained_checks": "Existing motion/contact-sheet and boundary/grounding owners reused; whole-campaign histogram/tiling/grounding, motion and human/culture/style reviews remain PW093/PW098/PW099/REL003. This passport does not convert historical measurements into current PASS."
+  },
+  "source_hashes": {
+    "docs/urman_knowledge_base/design_style.md": "bc1cf7a134e6a0b491e41e0b736e59a052e1f2e3c226f35189eb2eb4aaede5fa",
+    "docs/production/URMAN_VISUAL_ART_DIRECTION_PLAN_RU.md": "d77f6de6d190dea772e64b69b52b2c9af4276d1f5a6df7eb278aefea521ed958",
+    "docs/production/URMAN_PROD_READY_VISUAL_PLAN_RU.md": "0b999aa057130a2e986742f57eda145b6679a2f39b51115688a253450d6765f1",
+    "docs/urman_knowledge_base/art/act1_visual_reference_bible_2026-08-17.md": "0f171d0f5d9aa942a7a539fa8916019a6a41fb2aaebfe6be5907aa4194ddef70",
+    "docs/urman_knowledge_base/canon.md": "40afa051138f1b193924a3b499cc3a39dbcf3d77e7bac307c8ce8e7a69cef6db",
+    "docs/production/visual_restyle_2026-10-07/reference_manifest.json": "a2fb5433d599c764ed7d4fd6fe51b7aca624fb1cca2ea9ef8eb8c2146619ab2c",
+    "docs/production/visual_restyle_2026-10-07/REFERENCE_BOARD_RU.md": "65130ce7042c7678209663306c2c1255b735aa24e516968f64f8ae027e9e99b4",
+    "eng/verify-visual-reference-manifest.py": "43e03d62d642ed82f46d85bb2f9df5c5210c11f16275d3c30c645367b0dc656b",
+    "eng/remote-check.py": "653ea473ed7761b0b4a55980a18b463b59acfd452849a78c07a16aaa4936abe5",
+    "eng/protected_run.py": "9ce2a1a6440fa5153abb5080d647a5a556a94f7e07faa2e4fd298f5af577a042",
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs": "d3a2e6252196c56033b0fc87823ee2088596519ca8eac2fcc2267c1ea9f34996",
+    "game/tests/StyleMotionSweepCapture.cs": "17bacd03edf759626a323ab818a643437f9f72498f69e80c2ba4cb59e914abbb",
+    "game/tests/StyleTemporalComfortCapture.cs": "29f1da15523a4861bc929ee9ca0128c35de0b77a704b23f30c6077b801ab74c9",
+    "game/tests/Act1BoundaryArchitectureSmokeTest.cs": "4aec187f27a63c3afb5c1693f4256abef72fa4c9cc44a4fd2bcf2a432267a9cf"
+  },
+  "remaining_gates": [
+    "Actual produced village and all5 worlds visual/running acceptance.",
+    "Other exact author-frame bytes remain unavailable; link-only status explicit.",
+    "P1 local reference is untracked; shipping/playable assets have separate rights gates.",
+    "PW093/PW098/PW099/REL003 regression, full visual evidence and author acceptance."
+  ]
+}
