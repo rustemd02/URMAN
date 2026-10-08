@@ -1,0 +1,258 @@
+{
+ "animations": [],
+ "defaultScene": 0,
+ "file": "urman_winter_dead_tree.glb",
+ "generator": "Khronos glTF Blender I/O v4.5.51",
+ "materials": [
+  "AB_bark"
+ ],
+ "meshes": [
+  {
+   "name": "tree.001",
+   "primitives": [
+    {
+     "attributes": [
+      "COLOR_0",
+      "COLOR_1",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "AB_bark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.1891978234052658,
+       0.9999052286148071,
+       0.22954320907592773
+      ],
+      "min": [
+       -0.2897182106971741,
+       -0.0009128856472671032,
+       -0.25501522421836853
+      ]
+     },
+     "triangles": 2901,
+     "vertices": 5668
+    }
+   ]
+  },
+  {
+   "name": "tree.002",
+   "primitives": [
+    {
+     "attributes": [
+      "COLOR_0",
+      "COLOR_1",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "AB_bark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.1891113817691803,
+       0.9999052286148071,
+       0.22954320907592773
+      ],
+      "min": [
+       -0.2897182106971741,
+       -0.0027584033086895943,
+       -0.25383028388023376
+      ]
+     },
+     "triangles": 1160,
+     "vertices": 2734
+    }
+   ]
+  },
+  {
+   "name": "tree.019",
+   "primitives": [
+    {
+     "attributes": [
+      "COLOR_0",
+      "COLOR_1",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "AB_bark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.19125981628894806,
+       1,
+       0.22916191816329956
+      ],
+      "min": [
+       -0.2897182106971741,
+       0,
+       -0.25501522421836853
+      ]
+     },
+     "triangles": 5802,
+     "vertices": 8986
+    }
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "children": [
+    0,
+    1,
+    2
+   ],
+   "index": 3,
+   "name": "URMAN_WinterDeadTree",
+   "parent": null,
+   "parentIndex": null,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 0,
+   "mesh": "tree.019",
+   "name": "WinterDeadTree_LOD0",
+   "parent": "URMAN_WinterDeadTree",
+   "parentIndex": 3,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 1,
+   "mesh": "tree.001",
+   "name": "WinterDeadTree_LOD1",
+   "parent": "URMAN_WinterDeadTree",
+   "parentIndex": 3,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 2,
+   "mesh": "tree.002",
+   "name": "WinterDeadTree_LOD2",
+   "parent": "URMAN_WinterDeadTree",
+   "parentIndex": 3,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  }
+ ],
+ "scenes": [
+  {
+   "name": "Scene",
+   "nodes": [
+    3
+   ]
+  }
+ ],
+ "schema": "urman.glb_structure_receipt.v2",
+ "skins": 0,
+ "totals": {
+  "materials": 1,
+  "meshes": 3,
+  "nodes": 4,
+  "triangles": 9863
+ }
+}

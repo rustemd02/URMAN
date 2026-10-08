@@ -105,6 +105,7 @@ public partial class Act1ConnectedWorld
                 MaterialOverride = PainterlyMaterialLibrary.ForPath("c9cdcd"),
                 CastShadow = GeometryInstance3D.ShadowCastingSetting.Off };
             mesh.SetMeta("accessId", id); mesh.SetMeta("routeRevision", revision);
+            mesh.SetMeta("snowScale", "medium"); // VIS-077 tier: trodden channel with berms
             mesh.SetMeta("routeOwner", "AddressAccessVerifier + SettlementGraph");
             // VIS-077: this ribbon is the medium-edge tier of the snow standard — a trodden
             // floor 1 cm over the ground with a 4–7 cm berm, never a flat decal.

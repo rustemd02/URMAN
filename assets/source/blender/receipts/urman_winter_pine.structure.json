@@ -1,0 +1,334 @@
+{
+ "animations": [],
+ "defaultScene": 0,
+ "file": "urman_winter_pine.glb",
+ "generator": "Khronos glTF Blender I/O v4.5.51",
+ "materials": [
+  "AB_bark",
+  "AB_needles"
+ ],
+ "meshes": [
+  {
+   "name": "tree.002",
+   "primitives": [
+    {
+     "attributes": [
+      "COLOR_0",
+      "COLOR_1",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "AB_bark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.0956374928355217,
+       0.9785066246986389,
+       0.04908064380288124
+      ],
+      "min": [
+       -0.12827666103839874,
+       -0.00012037280248478055,
+       -0.16700291633605957
+      ]
+     },
+     "triangles": 1963,
+     "vertices": 3767
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "COLOR_1",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "AB_needles",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.20259976387023926,
+       1,
+       0.2304408997297287
+      ],
+      "min": [
+       -0.28594157099723816,
+       0.46301206946372986,
+       -0.3101024031639099
+      ]
+     },
+     "triangles": 462,
+     "vertices": 865
+    }
+   ]
+  },
+  {
+   "name": "tree.004",
+   "primitives": [
+    {
+     "attributes": [
+      "COLOR_0",
+      "COLOR_1",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "AB_bark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.09558779746294022,
+       0.9480957388877869,
+       0.0496581569314003
+      ],
+      "min": [
+       -0.12827666103839874,
+       -0.0016044030198827386,
+       -0.16678036749362946
+      ]
+     },
+     "triangles": 785,
+     "vertices": 1783
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "COLOR_1",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "AB_needles",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.20259976387023926,
+       1,
+       0.2304408997297287
+      ],
+      "min": [
+       -0.28594157099723816,
+       0.46301206946372986,
+       -0.3101024031639099
+      ]
+     },
+     "triangles": 462,
+     "vertices": 865
+    }
+   ]
+  },
+  {
+   "name": "tree.030",
+   "primitives": [
+    {
+     "attributes": [
+      "COLOR_0",
+      "COLOR_1",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "AB_bark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.09563431888818741,
+       0.9785066246986389,
+       0.049217455089092255
+      ],
+      "min": [
+       -0.12827666103839874,
+       0,
+       -0.16678036749362946
+      ]
+     },
+     "triangles": 3926,
+     "vertices": 5678
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "COLOR_1",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "AB_needles",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.20259976387023926,
+       1,
+       0.2304408997297287
+      ],
+      "min": [
+       -0.28594157099723816,
+       0.46301206946372986,
+       -0.3101024031639099
+      ]
+     },
+     "triangles": 462,
+     "vertices": 856
+    }
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "children": [
+    0,
+    1,
+    2
+   ],
+   "index": 3,
+   "name": "URMAN_WinterPine",
+   "parent": null,
+   "parentIndex": null,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 0,
+   "mesh": "tree.030",
+   "name": "WinterPine_LOD0",
+   "parent": "URMAN_WinterPine",
+   "parentIndex": 3,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 1,
+   "mesh": "tree.002",
+   "name": "WinterPine_LOD1",
+   "parent": "URMAN_WinterPine",
+   "parentIndex": 3,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 2,
+   "mesh": "tree.004",
+   "name": "WinterPine_LOD2",
+   "parent": "URMAN_WinterPine",
+   "parentIndex": 3,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  }
+ ],
+ "scenes": [
+  {
+   "name": "Scene",
+   "nodes": [
+    3
+   ]
+  }
+ ],
+ "schema": "urman.glb_structure_receipt.v2",
+ "skins": 0,
+ "totals": {
+  "materials": 2,
+  "meshes": 3,
+  "nodes": 4,
+  "triangles": 8060
+ }
+}

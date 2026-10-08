@@ -58,7 +58,7 @@ public partial class Act1ConnectedWorld
             {
                 AlbedoTexture = GD.Load<Texture2D>("res://assets/textures/act1/shop_sign_ashamlyklar_v1.png"),
                 Uv1Scale = new(.991f, .742f, 1f), Uv1Offset = new(.004f, .131f, 0f),
-                Roughness = .82f, Metallic = .15f, TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmapsAnisotropic
+                Roughness = .82f, Metallic = 0f, TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmapsAnisotropic
             }
         };
         sign.AddChild(face);

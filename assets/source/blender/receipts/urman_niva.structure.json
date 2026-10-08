@@ -1,0 +1,1795 @@
+{
+ "animations": [],
+ "defaultScene": 0,
+ "file": "urman_niva.glb",
+ "generator": "Khronos glTF Blender I/O v4.5.51",
+ "materials": [
+  "141614__rubber",
+  "1b1d1b__plastic",
+  "1d201d__metal",
+  "1d2b1f__lcd",
+  "1e1712__leather",
+  "1f2320__rubber",
+  "1f5b3a__cloth",
+  "1f5b3a__enamel",
+  "262826__plastic",
+  "2a2b28__cloth",
+  "2c4d7a__lamp",
+  "2e332e__metal",
+  "2f6b36__lamp",
+  "302f2b__vinyl",
+  "33312d__carpet",
+  "3a3833__vinyl",
+  "3b2a1f__leather",
+  "485648__paint",
+  "4c5d4c__paint",
+  "596c59__paint",
+  "5a5046__cloth",
+  "5b5f57__metal",
+  "6b3f22__wood_polished",
+  "7a2a24__lamp",
+  "7b3a2d__wool",
+  "83988c__glass",
+  "8a2020__cloth",
+  "8a6d24__lamp",
+  "8f948c__metal",
+  "9a8562__sheepskin",
+  "9aa8a2__glass",
+  "a0a39b__chrome",
+  "a12b22__lamp",
+  "b23a3a__cloth",
+  "bfb9a8__vinyl",
+  "c9c3b3__headliner",
+  "c9cdc6__chrome",
+  "d6ae4a__gold",
+  "d9912f__lamp",
+  "d9c9a3__wool",
+  "e6ecea__lamp",
+  "e9ece4__lamp",
+  "eef2f6__snow",
+  "efe9d8__cloth"
+ ],
+ "meshes": [
+  {
+   "name": "NivaBody",
+   "primitives": [
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "1b1d1b__plastic",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.050000034272670746,
+       0.20355649292469025,
+       2.943000078201294
+      ],
+      "min": [
+       -1.4500000476837158,
+       -0.4949999451637268,
+       -1.0350000858306885
+      ]
+     },
+     "triangles": 1232,
+     "vertices": 2448
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "596c59__paint",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.15000003576278687,
+       0.6330000162124634,
+       2.9119999408721924
+      ],
+      "min": [
+       -1.5499999523162842,
+       -0.6579999327659607,
+       -0.9350000619888306
+      ]
+     },
+     "triangles": 8464,
+     "vertices": 11290
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "262826__plastic",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.21550001204013824,
+       0.2250000685453415,
+       3.0299999713897705
+      ],
+      "min": [
+       -1.6155000925064087,
+       -0.6049999594688416,
+       -1.0300002098083496
+      ]
+     },
+     "triangles": 2648,
+     "vertices": 5328
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "141614__rubber",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.09000003337860107,
+       0.21733476221561432,
+       2.880772352218628
+      ],
+      "min": [
+       -1.4900000095367432,
+       -1.059999942779541,
+       -0.7850000262260437
+      ]
+     },
+     "triangles": 1200,
+     "vertices": 2208
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "d9912f__lamp",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.12400002777576447,
+       -0.06499996036291122,
+       2.93399977684021
+      ],
+      "min": [
+       -1.5240000486373901,
+       -0.2949999272823334,
+       -0.9550000429153442
+      ]
+     },
+     "triangles": 648,
+     "vertices": 1296
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "1f2320__rubber",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.1210000291466713,
+       0.5840001702308655,
+       2.859999895095825
+      ],
+      "min": [
+       -1.5210000276565552,
+       -0.5999999046325684,
+       -0.8819999694824219
+      ]
+     },
+     "triangles": 1668,
+     "vertices": 3336
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "2e332e__metal",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.06999999284744263,
+       0.7109966278076172,
+       2.9583983421325684
+      ],
+      "min": [
+       -1.4700000286102295,
+       -0.8049999475479126,
+       -1.0099999904632568
+      ]
+     },
+     "triangles": 684,
+     "vertices": 941
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "1d201d__metal",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.05250002443790436,
+       0.6800001263618469,
+       3.1599998474121094
+      ],
+      "min": [
+       -1.4524999856948853,
+       -0.8499999046325684,
+       -0.24000000953674316
+      ]
+     },
+     "triangles": 1276,
+     "vertices": 2460
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "485648__paint",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.0599999874830246,
+       0.6000001430511475,
+       2.5799999237060547
+      ],
+      "min": [
+       -1.459999918937683,
+       0.5839998722076416,
+       0.7499998807907104
+      ]
+     },
+     "triangles": 216,
+     "vertices": 432
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "eef2f6__snow",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -0.010482430458068848,
+       0.670742392539978,
+       2.889758586883545
+      ],
+      "min": [
+       -1.3895175457000732,
+       0.039109669625759125,
+       0.09042215347290039
+      ]
+     },
+     "triangles": 5184,
+     "vertices": 10368
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "83988c__glass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.09054720401763916,
+       0.571792483329773,
+       2.858645439147949
+      ],
+      "min": [
+       -1.4905471801757812,
+       0.05820763111114502,
+       0.3575943112373352
+      ]
+     },
+     "triangles": 72,
+     "vertices": 144
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "c9cdc6__chrome",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.13599999248981476,
+       -0.013999976217746735,
+       2.9200000762939453
+      ],
+      "min": [
+       -1.5360000133514404,
+       -0.22899992763996124,
+       -0.9719999432563782
+      ]
+     },
+     "triangles": 1488,
+     "vertices": 2768
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "9aa8a2__glass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.20100000500679016,
+       0.21500006318092346,
+       0.6544999480247498
+      ],
+      "min": [
+       -1.6009999513626099,
+       0.135000079870224,
+       0.5394999384880066
+      ]
+     },
+     "triangles": 24,
+     "vertices": 48
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "4c5d4c__paint",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.12400003522634506,
+       -0.05499996244907379,
+       2.565000057220459
+      ],
+      "min": [
+       0.11200002580881119,
+       -0.14499996602535248,
+       2.4749999046325684
+      ]
+     },
+     "triangles": 76,
+     "vertices": 120
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "e6ecea__lamp",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -0.06099998205900192,
+       -0.05599992722272873,
+       -0.9520001411437988
+      ],
+      "min": [
+       -1.3389999866485596,
+       -0.2139999270439148,
+       -0.9720001220703125
+      ]
+     },
+     "triangles": 952,
+     "vertices": 1600
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "8f948c__metal",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -0.4399999976158142,
+       -0.20399993658065796,
+       2.925999879837036
+      ],
+      "min": [
+       -0.9599999785423279,
+       -0.4859999418258667,
+       -1.0355000495910645
+      ]
+     },
+     "triangles": 216,
+     "vertices": 384
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "a12b22__lamp",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.0350000336766243,
+       -0.14999991655349731,
+       2.93399977684021
+      ],
+      "min": [
+       -1.4350000619888306,
+       -0.25999993085861206,
+       2.9139997959136963
+      ]
+     },
+     "triangles": 216,
+     "vertices": 432
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "e9ece4__lamp",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.0350000336766243,
+       -0.2749999463558197,
+       2.93399977684021
+      ],
+      "min": [
+       -1.4350000619888306,
+       -0.3349999487400055,
+       2.9139997959136963
+      ]
+     },
+     "triangles": 216,
+     "vertices": 432
+    },
+    {
+     "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "a0a39b__chrome",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -0.675000011920929,
+       -0.43499991297721863,
+       3.1549999713897705
+      ],
+      "min": [
+       -0.7249999642372131,
+       -0.4849999248981476,
+       3.1049997806549072
+      ]
+     },
+     "triangles": 188,
+     "vertices": 352
+    }
+   ]
+  },
+  {
+   "name": "NivaCharm",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "6b3f22__wood_polished",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.034565072506666183,
+       0.004800000227987766,
+       0.004565071780234575
+      ],
+      "min": [
+       -0.004565071780234575,
+       -0.17599999904632568,
+       -0.0245650727301836
+      ]
+     },
+     "triangles": 2156,
+     "vertices": 4824
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "8a2020__cloth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.006151351146399975,
+       0.012071246281266212,
+       -0.0008356936741620302
+      ],
+      "min": [
+       -0.020151350647211075,
+       -0.19306199252605438,
+       -0.005164171569049358
+      ]
+     },
+     "triangles": 64,
+     "vertices": 66
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "d6ae4a__gold",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.03199075162410736,
+       -0.18900001049041748,
+       4.656612873077393e-10
+      ],
+      "min": [
+       -0.04599999636411667,
+       -0.2800000011920929,
+       -0.008000001311302185
+      ]
+     },
+     "triangles": 1452,
+     "vertices": 1957
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "1f5b3a__enamel",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.027000002562999725,
+       -0.19900000095367432,
+       -0.0019999975338578224
+      ],
+      "min": [
+       -0.04100000113248825,
+       -0.2670000195503235,
+       -0.006000002846121788
+      ]
+     },
+     "triangles": 156,
+     "vertices": 240
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "1f5b3a__cloth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -0.000346506480127573,
+       -0.27895987033843994,
+       0.002574463142082095
+      ],
+      "min": [
+       -0.013174431398510933,
+       -0.3180401921272278,
+       -0.01057446375489235
+      ]
+     },
+     "triangles": 756,
+     "vertices": 1512
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "2a2b28__cloth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.019555240869522095,
+       -0.17796193063259125,
+       -0.005547684151679277
+      ],
+      "min": [
+       0.011155065149068832,
+       -0.21303807199001312,
+       -0.014452316798269749
+      ]
+     },
+     "triangles": 540,
+     "vertices": 1080
+    }
+   ]
+  },
+  {
+   "name": "NivaInterior",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "302f2b__vinyl",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.5139999389648438,
+       0.5549447536468506,
+       1.4213653802871704
+      ],
+      "min": [
+       -0.029999999329447746,
+       -0.3400000333786011,
+       -0.48000001907348633
+      ]
+     },
+     "triangles": 2992,
+     "vertices": 6000
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "262826__plastic",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.5119999647140503,
+       0.7129999399185181,
+       0.375
+      ],
+      "min": [
+       -0.02799999713897705,
+       -0.1300000101327896,
+       -0.7649999856948853
+      ]
+     },
+     "triangles": 1500,
+     "vertices": 3000
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "1b1d1b__plastic",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.5186573266983032,
+       0.7114800810813904,
+       0.3858800530433655
+      ],
+      "min": [
+       -0.03465739265084267,
+       -0.3069593012332916,
+       -0.5899999737739563
+      ]
+     },
+     "triangles": 3228,
+     "vertices": 6164
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "2f6b36__lamp",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.2849999964237213,
+       0.10850003361701965,
+       -0.4625000059604645
+      ],
+      "min": [
+       0.1809999793767929,
+       0.09950003027915955,
+       -0.46550002694129944
+      ]
+     },
+     "triangles": 24,
+     "vertices": 48
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "8a6d24__lamp",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.30799999833106995,
+       0.10850003361701965,
+       -0.4625000059604645
+      ],
+      "min": [
+       0.20399998128414154,
+       0.09950003027915955,
+       -0.46550002694129944
+      ]
+     },
+     "triangles": 24,
+     "vertices": 48
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "7a2a24__lamp",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.23899997770786285,
+       0.10850003361701965,
+       -0.4625000059604645
+      ],
+      "min": [
+       0.22699998319149017,
+       0.09950003027915955,
+       -0.46550002694129944
+      ]
+     },
+     "triangles": 12,
+     "vertices": 24
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "2c4d7a__lamp",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.2619999945163727,
+       0.10850003361701965,
+       -0.4625000059604645
+      ],
+      "min": [
+       0.2499999850988388,
+       0.09950003027915955,
+       -0.46550002694129944
+      ]
+     },
+     "triangles": 12,
+     "vertices": 24
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "a0a39b__chrome",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.5069999694824219,
+       0.40071582794189453,
+       0.5046530961990356
+      ],
+      "min": [
+       -0.023000013083219528,
+       -0.18300001323223114,
+       -0.5799999833106995
+      ]
+     },
+     "triangles": 1452,
+     "vertices": 2808
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "efe9d8__cloth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.3078182935714722,
+       0.6963297128677368,
+       -0.28996944427490234
+      ],
+      "min": [
+       0.28199997544288635,
+       0.1839999258518219,
+       -0.739068865776062
+      ]
+     },
+     "triangles": 120,
+     "vertices": 216
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "b23a3a__cloth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.2865242958068848,
+       0.18929998576641083,
+       -0.5919448733329773
+      ],
+      "min": [
+       1.0374755859375,
+       0.18769998848438263,
+       -0.7300550937652588
+      ]
+     },
+     "triangles": 60,
+     "vertices": 120
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "c9cdc6__chrome",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.4150192439556122,
+       0.06249995529651642,
+       -0.40880000591278076
+      ],
+      "min": [
+       0.38896074891090393,
+       0.006960749626159668,
+       -0.41350001096725464
+      ]
+     },
+     "triangles": 308,
+     "vertices": 347
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "2e332e__metal",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.4919999837875366,
+       0.6249999403953552,
+       0.4449999928474426
+      ],
+      "min": [
+       -0.008000025525689125,
+       -0.42000001668930054,
+       -0.6654777526855469
+      ]
+     },
+     "triangles": 972,
+     "vertices": 1944
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "1f2320__rubber",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.3519999980926514,
+       -0.25665906071662903,
+       0.8459999561309814
+      ],
+      "min": [
+       0.13199998438358307,
+       -0.4099999964237213,
+       -0.6783076524734497
+      ]
+     },
+     "triangles": 780,
+     "vertices": 1560
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "33312d__carpet",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.8919999599456787,
+       -0.2900000214576721,
+       0.60999995470047
+      ],
+      "min": [
+       0.5920000076293945,
+       -0.4300000071525574,
+       -0.6899999976158142
+      ]
+     },
+     "triangles": 300,
+     "vertices": 600
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "141614__rubber",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.3819999694824219,
+       -0.24000002443790436,
+       0.8899999856948853
+      ],
+      "min": [
+       0.10199998319149017,
+       -0.4190000295639038,
+       -0.7200000286102295
+      ]
+     },
+     "triangles": 2436,
+     "vertices": 4816
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "1d201d__metal",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.3619999885559082,
+       -0.05934587121009827,
+       0.28999999165534973
+      ],
+      "min": [
+       0.12199997901916504,
+       -0.39000001549720764,
+       -0.25595468282699585
+      ]
+     },
+     "triangles": 540,
+     "vertices": 1080
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "9a8562__sheepskin",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.5631399750709534,
+       0.25279200077056885,
+       0.4359458088874817
+      ],
+      "min": [
+       0.11912696063518524,
+       -0.21312308311462402,
+       -0.1732778549194336
+      ]
+     },
+     "triangles": 6144,
+     "vertices": 12288
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "5a5046__cloth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.50600004196167,
+       0.27985048294067383,
+       1.2400000095367432
+      ],
+      "min": [
+       -0.021999994292855263,
+       -0.2030000239610672,
+       -0.5299999713897705
+      ]
+     },
+     "triangles": 540,
+     "vertices": 1032
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "7b3a2d__wool",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.2666571140289307,
+       -0.0949999988079071,
+       1.2335914373397827
+      ],
+      "min": [
+       0.81734299659729,
+       -0.16499999165534973,
+       0.8864086866378784
+      ]
+     },
+     "triangles": 188,
+     "vertices": 384
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "d9c9a3__wool",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.2524319887161255,
+       -0.09399999678134918,
+       1.1980853080749512
+      ],
+      "min": [
+       0.8315681219100952,
+       -0.16599999368190765,
+       0.9219147562980652
+      ]
+     },
+     "triangles": 324,
+     "vertices": 576
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "3a3833__vinyl",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.5239999294281006,
+       0.6988516449928284,
+       1.6400001049041748
+      ],
+      "min": [
+       -0.040000028908252716,
+       -0.3400000333786011,
+       -0.6699999570846558
+      ]
+     },
+     "triangles": 444,
+     "vertices": 888
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "2a2b28__cloth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.4856626987457275,
+       0.6014887690544128,
+       0.4336766004562378
+      ],
+      "min": [
+       -0.0016627907752990723,
+       -0.22110050916671753,
+       0.23657089471817017
+      ]
+     },
+     "triangles": 64,
+     "vertices": 66
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "c9c3b3__headliner",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.472000002861023,
+       0.722000002861023,
+       1.475000023841858
+      ],
+      "min": [
+       0.011999964714050293,
+       0.7100000381469727,
+       -0.36500000953674316
+      ]
+     },
+     "triangles": 108,
+     "vertices": 192
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "bfb9a8__vinyl",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.2519999742507935,
+       0.7103468775749207,
+       -0.2800161838531494
+      ],
+      "min": [
+       0.2319999635219574,
+       0.6936530470848083,
+       -0.3799838423728943
+      ]
+     },
+     "triangles": 216,
+     "vertices": 432
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "9aa8a2__glass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.8194999694824219,
+       0.6770237684249878,
+       -0.39687031507492065
+      ],
+      "min": [
+       0.6644999980926514,
+       0.6389760971069336,
+       -0.40512967109680176
+      ]
+     },
+     "triangles": 12,
+     "vertices": 24
+    }
+   ]
+  },
+  {
+   "name": "NivaRadio",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "1f2320__rubber",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.04100000113248825,
+       0.018999958410859108,
+       0.01320001669228077
+      ],
+      "min": [
+       -0.13699999451637268,
+       -0.03100004233419895,
+       -0.006799974944442511
+      ]
+     },
+     "triangles": 1596,
+     "vertices": 3064
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "141614__rubber",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.0429999977350235,
+       0.020999958738684654,
+       0.002400023862719536
+      ],
+      "min": [
+       -0.13899999856948853,
+       -0.03300004452466965,
+       -0.03579999506473541
+      ]
+     },
+     "triangles": 120,
+     "vertices": 240
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "a0a39b__chrome",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.04500000178813934,
+       0.02299995720386505,
+       0.014700008556246758
+      ],
+      "min": [
+       -0.14100000262260437,
+       -0.035000041127204895,
+       -0.0077999792993068695
+      ]
+     },
+     "triangles": 336,
+     "vertices": 624
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "1d2b1f__lcd",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -0.012000001966953278,
+       0.014499994926154613,
+       0.001200009835883975
+      ],
+      "min": [
+       -0.08399999886751175,
+       -0.0045000044628977776,
+       -0.001799990190193057
+      ]
+     },
+     "triangles": 12,
+     "vertices": 24
+    }
+   ]
+  },
+  {
+   "name": "NivaSteering",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "c9cdc6__chrome",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.013000000268220901,
+       0.008999999612569809,
+       0.001500000013038516
+      ],
+      "min": [
+       -0.013000000268220901,
+       -0.008999999612569809,
+       -0.001500000013038516
+      ]
+     },
+     "triangles": 108,
+     "vertices": 216
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "3b2a1f__leather",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.20472362637519836,
+       0.22274136543273926,
+       0.003500005230307579
+      ],
+      "min": [
+       -0.20474137365818024,
+       -0.18674138188362122,
+       -0.027500003576278687
+      ]
+     },
+     "triangles": 1296,
+     "vertices": 735
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "1e1712__leather",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.18014685809612274,
+       0.1981455385684967,
+       -0.0021751243621110916
+      ],
+      "min": [
+       -0.18014009296894073,
+       -0.16220185160636902,
+       -0.021824989467859268
+      ]
+     },
+     "triangles": 2884,
+     "vertices": 1813
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "262826__plastic",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.18173281848430634,
+       0.042500000447034836,
+       0.0028809234499931335
+      ],
+      "min": [
+       -0.18173281848430634,
+       -0.042500000447034836,
+       -0.05250000208616257
+      ]
+     },
+     "triangles": 404,
+     "vertices": 816
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+     ],
+     "material": "1b1d1b__plastic",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.05000000074505806,
+       0.035999998450279236,
+       -0.0010000001639127731
+      ],
+      "min": [
+       -0.05000000074505806,
+       -0.032499998807907104,
+       -0.10199999809265137
+      ]
+     },
+     "triangles": 168,
+     "vertices": 312
+    }
+   ]
+  },
+  {
+   "name": "NivaWheel",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "8f948c__metal",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.15000000596046448,
+       0.21400000154972076,
+       0.21400007605552673
+      ],
+      "min": [
+       -0.030000004917383194,
+       -0.2140001654624939,
+       -0.21400025486946106
+      ]
+     },
+     "triangles": 1496,
+     "vertices": 2576
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "1f2320__rubber",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.15489999949932098,
+       0.3425000011920929,
+       0.3425000011920929
+      ],
+      "min": [
+       -0.0348999984562397,
+       -0.3425000011920929,
+       -0.3425000011920929
+      ]
+     },
+     "triangles": 1960,
+     "vertices": 3744
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "c9cdc6__chrome",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.1469999998807907,
+       0.07800000160932541,
+       0.07800000160932541
+      ],
+      "min": [
+       -0.027000004425644875,
+       -0.07800000160932541,
+       -0.07800000160932541
+      ]
+     },
+     "triangles": 888,
+     "vertices": 1680
+    },
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "5b5f57__metal",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.13099999725818634,
+       0.10362297296524048,
+       0.10799017548561096
+      ],
+      "min": [
+       -0.011000001803040504,
+       -0.10276541113853455,
+       -0.09009130299091339
+      ]
+     },
+     "triangles": 280,
+     "vertices": 480
+    }
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "children": [],
+   "extras": {
+    "urman_provenance": "project-original procedural VAZ-2121 proportions; tools/blender/generate_niva.py",
+    "urman_triangle_corners": 80004
+   },
+   "index": 0,
+   "mesh": "NivaBody",
+   "name": "NivaBody",
+   "parent": null,
+   "parentIndex": null,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0.699999988079071
+    ],
+    [
+     0,
+     1,
+     0,
+     1.059999942779541
+    ],
+    [
+     0,
+     0,
+     1,
+     -1.0499999523162842
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "extras": {
+    "urman_provenance": "project-original procedural VAZ-2121 proportions; tools/blender/generate_niva.py",
+    "urman_triangle_corners": 15372
+   },
+   "index": 5,
+   "mesh": "NivaCharm",
+   "name": "NivaCharm",
+   "parent": null,
+   "parentIndex": null,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0.007000000216066837
+    ],
+    [
+     0,
+     1,
+     0,
+     -0.012000000104308128
+    ],
+    [
+     0,
+     0,
+     1,
+     0.004000000189989805
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "extras": {
+    "urman_provenance": "project-original procedural VAZ-2121 proportions; tools/blender/generate_niva.py",
+    "urman_triangle_corners": 68400
+   },
+   "index": 3,
+   "mesh": "NivaInterior",
+   "name": "NivaInterior",
+   "parent": null,
+   "parentIndex": null,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -0.7419999837875366
+    ],
+    [
+     0,
+     1,
+     0,
+     0.9200000166893005
+    ],
+    [
+     0,
+     0,
+     1,
+     0.05999999865889549
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "extras": {
+    "urman_provenance": "project-original procedural VAZ-2121 proportions; tools/blender/generate_niva.py",
+    "urman_triangle_corners": 6192
+   },
+   "index": 2,
+   "mesh": "NivaRadio",
+   "name": "NivaRadio",
+   "parent": null,
+   "parentIndex": null,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0.14800000190734863
+    ],
+    [
+     0,
+     1,
+     0,
+     1.003000020980835
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.365200012922287
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "extras": {
+    "urman_provenance": "project-original procedural VAZ-2121 proportions; tools/blender/generate_niva.py",
+    "urman_triangle_corners": 14580
+   },
+   "index": 4,
+   "mesh": "NivaSteering",
+   "name": "NivaSteering",
+   "parent": null,
+   "parentIndex": null,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     -0.017999999225139618
+    ],
+    [
+     0,
+     0,
+     1,
+     0.012000000104308128
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "extras": {
+    "urman_provenance": "project-original procedural VAZ-2121 proportions; tools/blender/generate_niva.py",
+    "urman_triangle_corners": 13872
+   },
+   "index": 1,
+   "mesh": "NivaWheel",
+   "name": "NivaWheel",
+   "parent": null,
+   "parentIndex": null,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -0.05999999865889549
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  }
+ ],
+ "scenes": [
+  {
+   "name": "Scene",
+   "nodes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  }
+ ],
+ "schema": "urman.glb_structure_receipt.v2",
+ "skins": 0,
+ "totals": {
+  "materials": 44,
+  "meshes": 6,
+  "nodes": 6,
+  "triangles": 66140
+ }
+}

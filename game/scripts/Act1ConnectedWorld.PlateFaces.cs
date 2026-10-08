@@ -55,7 +55,7 @@ public partial class Act1ConnectedWorld
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
             MaterialOverride = new StandardMaterial3D
             {
-                AlbedoTexture = texture, Roughness = .72f, Metallic = .08f,
+                AlbedoTexture = texture, Roughness = .72f, Metallic = 0f, // VIS-095: painted plate
                 Uv1Scale = new(uvScale.X, uvScale.Y, 1f), Uv1Offset = new(uvOffset.X, uvOffset.Y, 0f),
                 TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmapsAnisotropic
             }

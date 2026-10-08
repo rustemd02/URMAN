@@ -114,6 +114,15 @@ public partial class Act1DemoRoot
                 return;
             }
         }
+        // VIS-039: optional diagnostic decomposition for "light vs form" pairs —
+        // neutral grey albedo and/or no fog. Capture-only; written into each frame.
+        var diagnostic = System.Environment.GetEnvironmentVariable("URMAN_DIAGNOSTIC_VIEW") ?? "";
+        if (diagnostic is not ("" or "neutral" or "no-fog" or "neutral-no-fog"))
+        {
+            GD.PushError($"View capture refused: URMAN_DIAGNOSTIC_VIEW='{diagnostic}' is not neutral, no-fog or neutral-no-fog.");
+            GetTree().Quit(1);
+            return;
+        }
         // A frame is evidence only when its subject is known, so every point is bound
         // before the first PNG; an unknown or doubled owner stops the run instead of
         // silently becoming world space.
@@ -149,6 +158,8 @@ public partial class Act1DemoRoot
         _player!.SetModalOpen(true);
         var camera = new Camera3D { Name = "DevViewCamera", Fov = viewFov, Far = GetViewport().GetCamera3D()?.Far ?? 160f };
         camera.SetMeta("fovSource", viewFovSource);
+        camera.SetMeta("diagnosticView", diagnostic);
+        if (diagnostic.Contains("neutral", StringComparison.Ordinal)) PainterlyMaterialLibrary.SetDiagnosticNeutral(true);
         _main!.AddChild(camera);
         camera.MakeCurrent();
         var frames = new JsonArray();
@@ -159,6 +170,12 @@ public partial class Act1DemoRoot
                 GD.PushError($"View capture refused: presented zone '{_main.ConnectedWorld?.ActiveZoneId}' differs from requested '{zone}'. Point '{point.Name}' wrote no frame.");
                 GetTree().Quit(1);
                 return;
+            }
+            // Zone switches re-apply the profile, so fog is cleared per point.
+            if (diagnostic.Contains("no-fog", StringComparison.Ordinal) && GetViewport().World3D?.Environment is { } diagnosticEnvironment)
+            {
+                diagnosticEnvironment.FogEnabled = false;
+                diagnosticEnvironment.VolumetricFogEnabled = false;
             }
             camera.GlobalPosition = point.CameraWorld;
             camera.LookAt(point.TargetWorld, Vector3.Up);
@@ -279,6 +296,9 @@ public partial class Act1DemoRoot
         var snow = world?.GetNodeOrNull<CpuParticles3D>("Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBSnow");
         return new JsonObject
         {
+            ["metadataVersion"] = ViewNumber(2),
+            ["engineVersion"] = ViewProbe(() => Engine.GetVersionInfo()["string"].AsString()),
+            ["os"] = ViewProbe(() => OS.GetName()),
             ["point"] = ViewText(point.Name),
             ["spec"] = ViewText(point.Spec),
             ["cameraName"] = ViewText(camera.Name.ToString()),
@@ -294,6 +314,8 @@ public partial class Act1DemoRoot
             ["targetOwnerZone"] = ViewText(ViewOwnerZone(point.TargetOwner)),
             ["fov"] = ViewNumber(camera.Fov),
             ["fovSource"] = ViewText(camera.GetMeta("fovSource", "").AsString()),
+            ["diagnosticView"] = ViewText(camera.GetMeta("diagnosticView", "").AsString()),
+            ["diagnosticNeutralScope"] = ViewText(PainterlyMaterialLibrary.DiagnosticNeutral ? "painterly-library" : null),
             ["near"] = ViewNumber(camera.Near),
             ["far"] = ViewNumber(camera.Far),
             ["viewportWidth"] = ViewNumber(viewport.GetVisibleRect().Size.X),
@@ -308,6 +330,8 @@ public partial class Act1DemoRoot
             ["studioPreviewProfile"] = ViewText(Act1ConnectedWorld.StudioPreviewProfile),
             ["environmentPath"] = ViewText(environmentNode?.GetPath().ToString()),
             ["tonemapMode"] = ViewText(environment?.TonemapMode.ToString()),
+            ["fogEnabled"] = ViewFlag(environment?.FogEnabled),
+            ["volumetricFogEnabled"] = ViewFlag(environment?.VolumetricFogEnabled),
             ["fogColor"] = ViewText(environment?.FogLightColor.ToHtml()),
             ["fogDensity"] = ViewNumber(environment?.FogDensity),
             ["snowActive"] = ViewFlag(snow is null ? null : snow.Emitting && snow.Visible),

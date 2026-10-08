@@ -297,6 +297,7 @@ public partial class Act1ConnectedWorld
         normals.CreateFrom(resized, 0);
         normals.GenerateNormals();
         detail.Mesh = normals.Commit();
+        detail.SetMeta("snowScale", "medium"); // VIS-077 tier: edge of a household use
         detail.SetMeta("terrainRole", swept ? "ground-conformed shallow shovel trace; visual only"
             : "ground-conformed household snow mound; visual only");
         // ToolSnowPileWood still owns only its existing interaction ray target.

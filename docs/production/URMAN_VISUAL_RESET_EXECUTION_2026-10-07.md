@@ -2,7 +2,7 @@
 
 Очередь задач — `docs/URMAN_VISUAL_RESET_2026-10-07/URMAN_VISUAL_RESTYLE_TASKS_RU.md`
 (VIS-001…VIS-118). Этот файл — рабочий журнал: что сделано, чем доказано, что открыто.
-Машинная копия статусов — `visual_reset_status_2026-10-07.json`.
+Машинная копия статусов — `URMAN_VISUAL_RESET_EXECUTION_2026-10-07_status.json`.
 
 Правила доказательства (из `VERIFICATION_PROTOCOL_RU.md`): кадр закрывает задачу только
 если есть пара before/after на одинаковых camera/FOV/resolution/зоне/профиле, метаданные
@@ -431,3 +431,71 @@ AUTHORED_HUMAN_GATE_OPEN 1 / OPEN 29`. Понижение `DONE` не прово
 - Вывод: ни одна визуальная карточка по-прежнему не закрыта — пары before/after этой
   сборки нет. Захват нужно повторить после того, как дерево станет зелёным; ни один
   статус `CODE_DONE_VERIFY_PENDING` заранее не повышается.
+
+## Итерация 07 (статическая, без прогонов, локально до синхронизации) — 2026-10-08
+
+| VIS | Тип | Что сделано |
+|---|---|---|
+| 050 | аудит | Static: rut centres = rear hub XZ (pivots ±.78/+1.10), width .28 vs tyre .19; rear wheels do not steer, so turning ruts follow contact. No coordinate mismatch to fix; frame pair needed. |
+| 079 | код | Snow banks now built after the lot-line fences (they broke at retired frontage gates); TimberGate anchors (addressId) join the approach lines; one exclusion also keeps banks 1.0 m from every registered building footprint. |
+| 016 | аудит | Static: prints need the exterior-terrain collider with normal.y>=.7 (no roofs, stacks, decks), the player cannot pass a fence, shader height window .12 m, session-only reset, stamp .30x.14 m boot. No change; the yard trail now uses snow_trampled (VIS-007). |
+| 015 | код | Ravine bridge ends: deck ran level to the land end and stood proud of / sank into the bank; now a sill log on the ground, stringers and boards ramp from the crib down to it, posts and handrail follow. |
+| 077 | код | Three-tier snow standard docs/production/visual_restyle_2026-10-07/snow_standard_RU.md with real owners; snowScale meta (large: street banks; medium: door paths, yard snow details) so a capture can count tiers per view. |
+| 030 | код | Plant MultiMesh cells get ExtraCullMargin = 1.17 x wind_sway x tallest instance (the wind shader moves crowns up to ~1 m beyond the mesh AABB); value in meta windCullMargin. |
+| 084 | код | Conifer ban extended from the old core box (x±58, z<=46) to every authored house lot +1.5 m (north street to z 143, far bank x 63–124); the west-rim WinterPine inside a lot becomes a linden. Boundary thicket behind back fences keeps its spruce. |
+| 026 | код | Kara rim (x -30..30, z -150..-124): two near-layer openings (x -12, +9; 6 m) push their trees 11 m deeper — same count, same random stream, thicker far layer behind each gap. |
+| 075 | код | New UncannyBranches: 4 deterministic procedural limb variants (2–3 crooked limbs 3.4–5.6 m, rooted 0.10 m, 1 cm tip, one twig, no hands/roots); attached only to the Kara closure dead tree (KaraClosureMidBroadleafWest), metre space, visibility 62 m. |
+| 089 | код | Timber street gate leaves get a Z brace from the low hinge to the high free corner, two iron strap hinges and a pull ring on the face toward the opening (outside the rail face); collision, opening width (3.26 m) and addresses unchanged. |
+| 088 | код | Yard fence families by run: plain boards (5) or a simple three-pole rail (6, жерди, one newer pole in the repaired bay); old runs lean along their line (2.5°, rarely 6°, never per board) about each part's own ground; collision stays upright. |
+| 095 | код | Metallic is physical: bare "iron" 1.0 (age stays in roughness .74) instead of 0.65; new dielectric family painted_metal (roughness .58) for the painted bread tin, toilet pipe and attic bed frame. RuralPropMaterials already binary (painted steel 0, zinc/brass 1). |
+| 076 | код | New WindLines: 12 world-space ribbons sharing two meshes and one unshaded material (instance uniforms for phase/alpha); follows the snow wind of the single weather owner; calm 3 faint lines with rests, blizzard 12, Kara night curled ribbon; off under reduced motion and in the window view. |
+| 029 | код | Ground-cover MultiMesh cells: grass, fern and sedge cells and every ground-cover cell past LOD0 (>24 m) no longer cast shadows; near shrubs keep contact shadows. Instance count, materials and High preset unchanged. |
+| 096 | код | Frost window: frost_map sampled with mipmaps + anisotropy and the tracked .import now generates mips; night glow falls off toward the frame and side curtains dim it (UV-symmetric), so the pane is a lit room, not a glowing rectangle; day lamp 0.45 (was 0.72) so the day pane reads as glass and frost. |
+| 041 | код | Household window spill follows its pane: day energy keeps the window's day/night ratio (0.47, was 0.78), night unchanged 1.25; spill budget 6 unchanged. |
+| 108 | код | tools/blender/glb_structure_receipt.py (pure-Python GLB JSON reader: sorted nodes/meshes/slots/triangles/extras/animations) with receipts for all 13 generated/act1 GLBs in assets/source/blender/receipts and --check mode; rebuild-assets.sh rewrites receipts so a rebuild is a JSON diff; eng/verify-blender-determinism.py PASS (24 generator scripts, no unseeded randomness). |
+| 106 | код | docs/urman_knowledge_base/art/asset_ingest_visual_contract.md (12-field ingest contract) + tools/asset_generation/check_prop_ingest.py (provenance/scale/pivot/UV/slots/lights/cameras/animations/triangles/rebind). First run: police props have no asset_registry records; desk lamp 7230 tris over the 6000 budget. |
+| 105 | код | Niva paint is a dielectric enamel (metallic 0.62→0, roughness .34→.46, aged lacquer .24) so the car shares the village roughness range; chrome metallic 1; no default-grey fallback for the Niva (all 44 slots carry hex|surface, receipt checked). Painted shop sign, address-sign frame/enamel and plate faces also metallic 0 (VIS-095). |
+| 080 | код | AddRoofSnowCap: the settled-snow cap pattern of the distant houses and the bathhouse (roof shape +14 cm, eaves 3 cm shorter, snow_roof, own fascia = visible thickness) now on the small village facades, the core gabled houses and every far-bank building. |
+| 094 | код | Painterly shader: second broad wash (macro_frequency .18 ≈ 5.5 m, macro_strength) enabled only for plaster/wall_institution; every other family unchanged. |
+| 092 | код | Painterly material response without new maps: per-family roughness_from_albedo modulates roughness by the albedo already sampled (wood .18, plaster .12, stone .16, bare iron .26; snow/cloth/glass 0) — no new sampler, no ORM. |
+| 027 | аудит | LOD ranges in ConfigureFoliageRange are consistent crossfades (LOD0 end 26±2 / LOD1 begin 24±2; LOD1 end 64±4 / LOD2 begin 60±4, scaled by tree height); new uncanny limbs end at 62 m with fade. Pop/shadow split needs a motion capture. |
+| 062 | аудит | Reduced motion reaches every new motion owner of this pass: wind sway (SetWindMotion), snow puffs, WindLines (off), Tamara cutscene, bridge dynamics. Route recording in two modes needs the station. |
+| 060 | аудит | Window batching pilot is gated by URMAN_WINDOW_BATCH_PILOT=1 and off in ordinary play, as the card requires; A/B CPU/p95/image comparison needs the station. |
+| 039 | код | Capture diagnostic decomposition: URMAN_DIAGNOSTIC_VIEW = neutral | no-fog | neutral-no-fog (neutral grey painterly albedo via diagnostic_neutral, fog off per point), written per frame; remote-check --diagnostic → worker field → -DiagnosticView. Never active in play. |
+
+Станцию обновить до этого коммита (поля `phase`, `fov`, `diagnostic`). `dotnet build` 0/0; шейдеры и сцены не запускались.
+
+## Итерация 05 — продолжение передачи Клода, 2026-10-07
+
+Исходный HEAD — `c22785e`; 26 пунктов итерации 04 найдены в грязном рабочем
+дереве и сохранены. Переданная переписка требует продолжать без прогонов и
+тестов, с C#-компиляцией для проверки кода. Ни станция, ни Godot, ни Blender,
+ни тесты/функциональные гейты в этом продолжении не запускались; commit/push
+не выполнены. Прежнее разрешение съёмок в итерации 01 не перенесено сюда.
+
+Выполнено статическое ревью правок итерации 04 и исправления:
+
+| VIS | Продолжение |
+|---|---|
+| 004 | Новый `eng/compare-visual-captures.py` сравнивает sidecar пары: камера, координаты, FOV, разрешение/scale/preset, зона, движок/ОС, погода/туман. Пропущенные поля и неизвестные обязательные значения отклоняются. Только атмосферные поля можно явно исключить с причиной; камера не исключается. Схема кадра v2 добавляет engine/OS, fog flags и scope серого режима. Сам инструмент не запускался; он не проверяет качество, позы, весь свет и snapshot receipts. |
+| 030 | Запас отсечения берётся из реального `wind_sway` материалов и преобразованного basis вектора смещения X/Z. Прежняя оценка по Y scale и имени растения давала неверный запас при неравномерном масштабе. |
+| 039 | Серый ALBEDO применяется в конце fragment: Low/frost, снежное покрытие, vertex color и следы раньше обходили или перезаписывали его. Диагностический флаг сбрасывается при очистке кэша, no-fog выключает оба вида тумана. В metadata явно `painterly-library`: окна, Нива и другие отдельные материалы этим режимом не нейтрализуются. |
+| 075 | Метровый basis сучьев теперь действительно компенсирует неравномерный scale дерева перед yaw. Новый кэш мешей включён в существующий teardown; RNG построения освобождается после использования. |
+| 076 | Поиск игрока закэширован; начало метели не ждёт оставшиеся 1,5–5 с паузы спокойных слотов. |
+| 096 | Обратный `smoothstep(1,.8,x)` заменён на `1-smoothstep(.8,1,x)`: результат обратных границ не определён. |
+| 106 | Проверка GLB теперь учитывает default-scene иерархию/TRS/matrix и экземпляры; проверяет UV counts, назначенные уникальные слоты, strips/fans и корректные значения привязок. Провенанс проверяет реальные поля и хеши выбранного файла. Повреждённая/пустая/неподдерживаемая деформируемая геометрия отклоняется. |
+| 108 | Общий GLB reader проверяет заголовок/длины чанков; квитанция v2 добавляет transform/scene/индексы/bounds/mode. RNG-гейт переведён на AST (алиасы, многострочные вызовы, None seeds) и подключён **до** генераторов в rebuild-assets. Это статическая эвристика, не доказательство стабильности произвольного seed. |
+
+**Уточнение статусов:** VIS-106/108 переведены в PARTIAL. Checklist ещё не
+нормализует и не перепривязывает GLB; первый принятый проп и A/B отсутствуют.
+13 старых квитанций v1 не заменены выдуманными v2: их переснятие и повторный
+детерминированный экспорт отложены до разрешённого запуска инструментов.
+Остальные затронутые карточки остаются CODE DONE / VERIFY PENDING.
+
+Проверки этого продолжения: итоговая `.tools/dotnet/dotnet build
+game/Urman.Game.csproj --no-restore` — 0 ошибок / 0 предупреждений;
+разбор синтаксиса шести Python-файлов и status JSON, `git diff --check` без замечаний.
+Main новых инструментов не выполнялись. Компиляция не проверяет
+Godot-шейдеры. `graphify query` недоступен (`command not found`); граф не обновлён.
+Количество этих исправлений не объявляется ещё 25 закрытыми художественными
+задачами. VIS-048 оставлена открытой: карточка требует замер до оптимизации.

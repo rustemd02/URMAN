@@ -1414,13 +1414,18 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var variant = sourceVariant.Replace("WinterLight", "Winter", StringComparison.Ordinal);
             if (smallShrub) variant = woodlandRegrowth ? "WinterSpruce_1" : "WinterBirdCherry_1";
             if (variant.StartsWith("Birch_", StringComparison.Ordinal)) variant = "WinterBirch_1";
+            // VIS-084: a tall pine standing in a yard of the newer parcels is the same
+            // Christmas-tree read the core ban exists for. Only the lot itself (+1.5 m)
+            // counts, so the boundary thicket behind the back fences keeps its spruce.
+            if (variant == "WinterPine" && IsInsideResidentialLot(position, 1.5f))
+                variant = "WinterLinden_1";
             if (!woodlandRegrowth && (variant.Contains("Spruce", StringComparison.Ordinal) || variant.StartsWith("Pine_", StringComparison.Ordinal)))
                 // Conifers are banned inside the residential core, where a fir in
                 // a kitchen garden reads as a Christmas decoration. Outside it the
                 // winter forest is the tall conifer mass that encloses the
                 // village, and rewriting those spruces to bare lindens would leave
                 // the skyline open again.
-                variant = position.Y <= -86f || !IsInsideSettlementCore(position)
+                variant = position.Y <= -86f || !IsInsideSettlementCore(position) && !IsInsideResidentialLot(position, 1.5f)
                     ? variant.StartsWith("WinterSpruce_", StringComparison.Ordinal) ? variant : "WinterSpruce_1"
                     : "WinterLinden_1";
             var template = Geometry(variant);
@@ -1636,6 +1641,29 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 multi.SetInstanceTransform(index, transform);
             }
             var group = new MultiMeshInstance3D { Name = $"{key.Variant}_Cell{key.Cell.X}_{key.Cell.Y}", Position = origin, Multimesh = multi };
+            // VIS-030: the cell is culled as one AABB built from the instances, but the
+            // wind shader moves vertices by up to |gust| (<=1) x wind_sway x height,
+            // 1.17x that with the z component. Cover that real reach, measured from the
+            // tallest instance in this cell, instead of an arbitrary large box.
+            var meshTop = Mathf.Max(0f, multi.Mesh.GetAabb().End.Y);
+            var sway = 0f;
+            for (var surfaceIndex = 0; surfaceIndex < multi.Mesh.GetSurfaceCount(); surfaceIndex++)
+                if (multi.Mesh.SurfaceGetMaterial(surfaceIndex) is ShaderMaterial material)
+                    sway = Mathf.Max(sway, material.GetShaderParameter("wind_sway").AsSingle());
+            // The shader displaces local X/Z, then the instance basis scales and
+            // rotates that vector. Y scale is unrelated to that reach on tilted,
+            // non-uniformly scaled plants. Read the material rather than guess by name.
+            var displacement = new Vector3(meshTop * sway, 0f, meshTop * sway * .6f);
+            group.ExtraCullMargin = transforms.Max(transform => (transform.Basis * displacement).Length());
+            group.SetMeta("windCullMargin", group.ExtraCullMargin);
+            // VIS-029: knee-high grass, fern and sedge add shadow-pass work without a
+            // readable shadow, and so does every ground-cover cell past its first LOD
+            // (> 24 m). Near shrubs keep their contact shadow.
+            var lowCover = key.Variant.Contains("Grass", StringComparison.Ordinal)
+                || key.Variant.Contains("Fern", StringComparison.Ordinal)
+                || key.Variant.Contains("Sedge", StringComparison.Ordinal);
+            if (lowCover || key.Lod >= 1)
+                group.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
             plants.AddChild(group);
             group.SetMeta("presentationOnly", true);
             group.SetMeta("plantVariant", key.Variant);
@@ -2086,6 +2114,14 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     }
 
                     var point = new Vector2(x + rng.RandfRange(-1.6f, 1.6f), z + rng.RandfRange(-1.6f, 1.6f));
+                    // VIS-026: the rim behind Kara read as one even wall from the
+                    // street. Two near-layer openings (x -12 and +9, 6 m wide) push
+                    // their trees 11 m deeper instead of deleting them: the count and
+                    // the random stream stay, the far layer thickens behind each gap,
+                    // and the opening shows depth, not the edge of the map.
+                    if (x0 == -30f && point.Y > -136f
+                        && (Mathf.Abs(point.X + 12f) < 3f || Mathf.Abs(point.X - 9f) < 3f))
+                        point.Y -= 11f;
                     var roadInfo = AgentBAct1HeightField.RoadInfo(point.X, point.Y);
                     if ((float)(roadInfo.Distance - roadInfo.HalfWidth) < 2.0f)
                     {
@@ -2452,6 +2488,27 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private static bool IsInsideSettlementCore(Vector2 point) =>
         point.X > SettlementCoreMin.X && point.X < SettlementCoreMax.X
         && point.Y > SettlementCoreMin.Y && point.Y < SettlementCoreMax.Y;
+
+    private static IReadOnlyList<global::Urman.Godot.Act1ConnectedWorld.YardLot>? _residentialLots;
+
+    /// <summary>
+    /// VIS-084: the core box predates the north street (lots to z 143) and the far
+    /// bank (x 63–124). A point within <paramref name="grow"/> metres of any authored
+    /// house lot is residential too, wherever it lies.
+    /// </summary>
+    private static bool IsInsideResidentialLot(Vector2 point, float grow)
+    {
+        _residentialLots ??= global::Urman.Godot.Act1ConnectedWorld.YardLots();
+        foreach (var lot in _residentialLots)
+        {
+            var forward = new Vector2(Mathf.Sin(Mathf.DegToRad(lot.Yaw)), Mathf.Cos(Mathf.DegToRad(lot.Yaw)));
+            var side = new Vector2(forward.Y, -forward.X);
+            var offset = point - lot.Centre;
+            if (Mathf.Abs(offset.Dot(side)) <= lot.Size.X * .5f + grow
+                && Mathf.Abs(offset.Dot(forward)) <= lot.Size.Y * .5f + grow) return true;
+        }
+        return false;
+    }
 
     /// <summary>
     /// Positions of the boundary thicket planted on the settlement envelope.

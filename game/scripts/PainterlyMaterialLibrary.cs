@@ -80,6 +80,9 @@ public static class PainterlyMaterialLibrary
         instance uniform float ground_base_y = 0.0;
         uniform float ground_contact_height = 3.0;
         uniform float cell_jitter = 0.0;
+        // VIS-039 capture diagnostics only (URMAN_DIAGNOSTIC_VIEW): 1 = neutral grey
+        // albedo so form and light can be judged without pigment. Never set in play.
+        uniform float diagnostic_neutral = 0.0;
         // Phase 7 life: gentle vertex sway for foliage/grass materials.
         // Global switch honors the reduced-motion accessibility contract.
         uniform float wind_sway = 0.0;
@@ -570,6 +573,9 @@ public static class PainterlyMaterialLibrary
                 ALBEDO *= mix(vec3(1.0), vec3(0.905, 0.930, 0.985), packed);
                 ROUGHNESS = mix(ROUGHNESS, clamp(0.79, snow_roughness_range.x, snow_roughness_range.y), packed);
             }
+            // Diagnostics must be last: Low, frost, vertex pigment, roof snow
+            // and path/trample washes otherwise bypass or repaint the neutral view.
+            ALBEDO = mix(ALBEDO, vec3(0.55), diagnostic_neutral);
             BACKLIGHT = ALBEDO * leaf_transmission;
         }
         """;
@@ -950,6 +956,16 @@ public static class PainterlyMaterialLibrary
         _boundTrampleMaterialCount = Materials.Count;
     }
 
+    /// <summary>VIS-039: capture-only neutral albedo switch for every cached painterly material.</summary>
+    public static void SetDiagnosticNeutral(bool neutral)
+    {
+        _diagnosticNeutral = neutral;
+        foreach (var material in Materials.Values)
+            material.SetShaderParameter("diagnostic_neutral", neutral ? 1f : 0f);
+    }
+    private static bool _diagnosticNeutral;
+    internal static bool DiagnosticNeutral => _diagnosticNeutral;
+
     public static void SetWindMotion(bool enabled)
     {
         // W4/P2: FirstPersonController pushes the setting whenever preferences
@@ -1051,6 +1067,7 @@ public static class PainterlyMaterialLibrary
     public static void ClearCacheForHeadlessTests()
     {
         Materials.Clear();
+        _diagnosticNeutral = false;
         _boundTrampleMask = null;
         _boundTrampleMaterialCount = -1;
         // The snow-response memo walks the same cache: with the materials gone,
@@ -1882,6 +1899,7 @@ public static class PainterlyMaterialLibrary
             && !material.GetShaderParameter("trample_ground_surface").AsBool();
         if (inertDeformation) material.Shader = RigidPainterlyShader;
 
+        material.SetShaderParameter("diagnostic_neutral", _diagnosticNeutral ? 1f : 0f);
         Materials.Add(cacheKey, material);
         return material;
     }

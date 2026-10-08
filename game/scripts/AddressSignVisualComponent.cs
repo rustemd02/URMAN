@@ -16,13 +16,13 @@ public partial class AddressSignVisualComponent : Node3D
         SetMeta("address_id",addressId);
         SetMeta("textSource","SettlementRegistry");
         SetMeta("notQuestMarker",true);
-        var frame=new StandardMaterial3D{AlbedoColor=Color.FromHtml("a3a091"),Metallic=.4f,Roughness=.78f};
-        var enamel=new StandardMaterial3D{AlbedoColor=Color.FromHtml("293b43"),Metallic=.12f,Roughness=.65f};
+        var frame=new StandardMaterial3D{AlbedoColor=Color.FromHtml("a3a091"),Metallic=0f,Roughness=.78f}; // VIS-095: painted frame, dielectric
+        var enamel=new StandardMaterial3D{AlbedoColor=Color.FromHtml("293b43"),Metallic=0f,Roughness=.65f};
         // VIS-020: the back of a village plate is part of the object. A pressed
         // enamel blank is a folded shell with bolt nuts on its back, not an empty
         // dark plane, so a plate seen from the yard or from the side still reads
         // as a mounted thing. Sizes are millimetres of real sheet metal.
-        var backMetal=new StandardMaterial3D{AlbedoColor=Color.FromHtml("6e6a60"),Metallic=.45f,Roughness=.72f};
+        var backMetal=new StandardMaterial3D{AlbedoColor=Color.FromHtml("6e6a60"),Metallic=0f,Roughness=.72f}; // VIS-095: enamelled sheet, dielectric
         // Sizes follow AddressFacadeMount's plate: 0.60 x 0.23 m.
         var w=AddressFacadeMount.HalfWidth*2f; var h=AddressFacadeMount.HalfHeight*2f;
         AddChild(new MeshInstance3D{Name="FoldedMetalRim",Mesh=new BoxMesh{Size=new(w,h,.024f)},MaterialOverride=frame});

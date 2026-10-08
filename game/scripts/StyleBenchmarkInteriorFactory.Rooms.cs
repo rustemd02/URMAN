@@ -126,7 +126,7 @@ public static partial class StyleBenchmarkInteriorFactory
             Jar(root, $"KitchenJarLow{i}", new(-4.8f + i * .24f, 1.57f, -3.36f), i % 2 == 0 ? "a33b30" : "c49a3b");
             Cylinder(root, $"KitchenPlate{i}", .11f, .015f, new(-4.8f + i * .24f, 2.13f, -3.42f), "d9d3c2", "enamel", false, new(90, 0, 0));
         }
-        Prop(root, "KitchenBreadTin", new(.34f, .22f, .24f), new(-2.3f, 1.99f, -3.36f), "bfb59a", "iron");
+        Prop(root, "KitchenBreadTin", new(.34f, .22f, .24f), new(-2.3f, 1.99f, -3.36f), "bfb59a", "painted"); // VIS-095: painted sheet, dielectric
         // Dining table by the west window with a washed cotton cloth, four stools and tea things.
         var table = new Vector3(-3.85f, 0, -.6f);
         Block(root, "KitchenTableTop", new(1.3f, .05f, .86f), table + new Vector3(0, .74f, 0), "6b4e36", "wood_furniture_interior");
@@ -230,7 +230,7 @@ public static partial class StyleBenchmarkInteriorFactory
         Cylinder(root, "ToiletBowlRim", .21f, .08f, bowl + new Vector3(0, .38f, -.04f), "e8e7e0", "enamel", false);
         Cylinder(root, "ToiletSeat", .20f, .025f, bowl + new Vector3(0, .43f, -.04f), "7a5a3e", "wood_furniture_interior", false);
         Prop(root, "ToiletCistern", new(.42f, .24f, .18f), new(4.2f, 1.9f, 3.35f), "d8d6cd", "enamel");
-        Prop(root, "ToiletPipe", new(.04f, 1.4f, .04f), new(4.2f, 1.15f, 3.4f), "807b70", "iron");
+        Prop(root, "ToiletPipe", new(.04f, 1.4f, .04f), new(4.2f, 1.15f, 3.4f), "807b70", "painted"); // VIS-095: painted sheet, dielectric
         Prop(root, "ToiletChain", new(.008f, .55f, .008f), new(4.36f, 1.55f, 3.3f), "9a958a", "iron");
         Cylinder(root, "ToiletChainPull", .02f, .07f, new(4.36f, 1.25f, 3.3f), "d8d6cd", "enamel", false);
         // Wall-mounted washstand and towel.
@@ -320,7 +320,7 @@ public static partial class StyleBenchmarkInteriorFactory
         Prop(root, "AtticChimneyWhitewash", new(.62f, .7f, .62f), new(-2.6f, y0 + .35f, -.4f), "cfc6b3", "plaster");
         // Aidar's bed under the east gable window: iron frame, mattress, quilt, pillow.
         FrostWindow(root, "AtticWindowEast", new(5.0f, y0 + 1.45f, 0), -90, .7f, .9f, curtains: false);
-        Block(root, "AtticBedFrame", new(2.0f, .3f, 1.0f), new(3.85f, y0 + .15f, 0), "3e3a34", "iron");
+        Block(root, "AtticBedFrame", new(2.0f, .3f, 1.0f), new(3.85f, y0 + .15f, 0), "3e3a34", "painted"); // VIS-095: painted frame, dielectric
         Prop(root, "AtticMattress", new(1.94f, .16f, .94f), new(3.85f, y0 + .38f, 0), "cfc7b0", "fabric_upholstery");
         Prop(root, "AtticQuilt", new(1.3f, .10f, .96f), new(3.4f, y0 + .5f, 0), "5f7480", "fabric_pattern");
         Prop(root, "AtticQuiltPatch", new(.3f, .012f, .3f), new(3.4f, y0 + .56f, .2f), "b98d4a", "fabric_pattern");

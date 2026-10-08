@@ -20,7 +20,7 @@ public static class VillageWindowMaterials
     private const string ShaderSource = """
         shader_type spatial;
         render_mode diffuse_burley, specular_schlick_ggx;
-        uniform sampler2D frost_map : source_color;
+        uniform sampler2D frost_map : source_color, filter_linear_mipmap_anisotropic; // VIS-096: mips for distance
         uniform sampler2D frost_normal : hint_normal;
         uniform bool frost_normal_used = false;
         uniform vec4 room_color : source_color;

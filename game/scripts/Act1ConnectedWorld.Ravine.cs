@@ -207,9 +207,22 @@ public partial class Act1ConnectedWorld
             // Stringers: land end on the bank, open end past the lip.
             var landX = side * 8.0f;
             var openX = side < 0 ? -2.3f : 3.1f;
+            // VIS-015: the deck used to stay level all the way to the land end, so
+            // it stood proud of (or sank into) the bank with a hard step. The land
+            // end now rests on a sill log on its own ground and the deck runs down
+            // to it from the crib; past the crib it is level as before.
+            var landDeck = Ground(landX) + .26f;
+            float DeckAt(float x) => Mathf.Lerp(landDeck, deck,
+                Mathf.Clamp((x - landX) / (cribX - landX), 0f, 1f));
+            AddRavineLog(bridge, $"Bridge{label}Sill", new Vector3(landX, Ground(landX) + .05f, -1.5f),
+                new Vector3(landX, Ground(landX) + .05f, 1.5f), .12f, "4b3d30");
             foreach (var stringerZ in new[] { -1.1f, 0f, 1.1f })
+            {
                 AddRavineLog(bridge, $"Bridge{label}Stringer_{stringerZ:0.0}",
-                    new Vector3(landX, deck - .2f, stringerZ), new Vector3(openX, deck - .2f, stringerZ), .13f, "4f4032");
+                    new Vector3(landX, landDeck - .2f, stringerZ), new Vector3(cribX, deck - .2f, stringerZ), .13f, "4f4032");
+                AddRavineLog(bridge, $"Bridge{label}StringerSpan_{stringerZ:0.0}",
+                    new Vector3(cribX, deck - .2f, stringerZ), new Vector3(openX, deck - .2f, stringerZ), .13f, "4f4032");
+            }
             // Deck boards, thinning toward the broken edge.
             var board = 0;
             for (var x = landX; side < 0 ? x < openX - .1f : x > openX + .1f; x -= side * .3f, board++)
@@ -218,7 +231,7 @@ public partial class Act1ConnectedWorld
                 if (nearEdge && board % 3 == 1) continue;
                 var length = nearEdge ? 1.6f + .6f * Mathf.Sin(board * 2.3f) : 3.0f;
                 AddVisualBox(bridge, $"Bridge{label}Board_{board}", new Vector3(.26f, .06f, length),
-                    new Vector3(x, deck - .04f, nearEdge ? .5f * Mathf.Sin(board * 1.7f) : 0f),
+                    new Vector3(x, DeckAt(x) - .04f, nearEdge ? .5f * Mathf.Sin(board * 1.7f) : 0f),
                     board % 4 == 0 ? "6b5a45" : "5f4f3d", "wood", yawDegrees: nearEdge ? 4f * Mathf.Sin(board) : 0f);
             }
             // Railing on both sides; the last post by the break leans out.
@@ -229,11 +242,13 @@ public partial class Act1ConnectedWorld
                 {
                     var last = Math.Abs(x - openX) < 1.45f;
                     AddVisualBox(bridge, $"Bridge{label}RailPost_{railZ:0.0}_{postIndex}", new Vector3(.12f, 1.05f, .12f),
-                        new Vector3(x, deck + .5f, railZ), "5b4a3a", "wood", rollDegrees: last ? side * 14f : 0f);
+                        new Vector3(x, DeckAt(x) + .5f, railZ), "5b4a3a", "wood", rollDegrees: last ? side * 14f : 0f);
                 }
                 var railEnd = openX + side * .9f;
                 AddRavineLog(bridge, $"Bridge{label}Handrail_{railZ:0.0}",
-                    new Vector3(landX, deck + .98f, railZ), new Vector3(railEnd, deck + .9f, railZ * 1.04f), .05f, "6b5a45");
+                    new Vector3(landX, landDeck + .98f, railZ), new Vector3(cribX, deck + .96f, railZ), .05f, "6b5a45");
+                AddRavineLog(bridge, $"Bridge{label}HandrailSpan_{railZ:0.0}",
+                    new Vector3(cribX, deck + .96f, railZ), new Vector3(railEnd, deck + .9f, railZ * 1.04f), .05f, "6b5a45");
             }
             // VIS-015: the joint where this deck end lands on the bank. The boards run on a
             // flat line 34 cm over the crib ground while the bank rises away from the lip, so

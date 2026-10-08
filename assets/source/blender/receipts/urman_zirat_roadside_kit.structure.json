@@ -1,0 +1,10884 @@
+{
+ "animations": [],
+ "defaultScene": 0,
+ "file": "urman_zirat_roadside_kit.glb",
+ "generator": "Khronos glTF Blender I/O v4.5.51",
+ "materials": [
+  "BirchBark",
+  "BirchLeaves",
+  "DampEarth",
+  "DampEarthDark",
+  "DistantFence",
+  "DistantFoliage",
+  "DistantRoof",
+  "DistantWall",
+  "DitchGrass",
+  "DitchWater",
+  "LeafLitter",
+  "MossGreen",
+  "MossyStone",
+  "PathDirt",
+  "QuietStone",
+  "RoadGrass",
+  "ShrubGreen",
+  "WeatheredWood",
+  "WeatheredWoodDark",
+  "WetSheen",
+  "ZiratGrass"
+ ],
+ "meshes": [
+  {
+   "name": "CulvertStoneCluster_Mouth_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DitchWater",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       2.259999990463257,
+       0.3400000035762787,
+       0.47999998927116394
+      ],
+      "min": [
+       0.27000001072883606,
+       0,
+       -0.2800000011920929
+      ]
+     },
+     "triangles": 20,
+     "vertices": 38
+    }
+   ]
+  },
+  {
+   "name": "CulvertStoneCluster_Stone_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "MossyStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3400000035762787,
+       0.30000001192092896,
+       0.4099999964237213
+      ],
+      "min": [
+       -0.3400000035762787,
+       0,
+       -0.4099999964237213
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "CulvertStoneCluster_Stone_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "MossyStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.28999999165534973,
+       0.23999999463558197,
+       0.3499999940395355
+      ],
+      "min": [
+       -0.28999999165534973,
+       0,
+       -0.3499999940395355
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "CulvertStoneCluster_Stone_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "MossGreen",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.36000001430511475,
+       0.3400000035762787,
+       0.3799999952316284
+      ],
+      "min": [
+       -0.36000001430511475,
+       0,
+       -0.3799999952316284
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "CulvertStoneCluster_Stone_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "MossyStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3100000023841858,
+       0.2800000011920929,
+       0.3700000047683716
+      ],
+      "min": [
+       -0.3100000023841858,
+       0,
+       -0.3700000047683716
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "CulvertStoneCluster_Stone_04_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "MossGreen",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.27000001072883606,
+       0.23000000417232513,
+       0.33000001311302185
+      ],
+      "min": [
+       -0.27000001072883606,
+       0,
+       -0.33000001311302185
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "CulvertStoneCluster_WingLeft_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "MossyStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.47999998927116394,
+       0.2800000011920929,
+       0.6899999976158142
+      ],
+      "min": [
+       -0.47999998927116394,
+       0,
+       -0.6899999976158142
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "CulvertStoneCluster_WingRight_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "MossGreen",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.4099999964237213,
+       0.25,
+       0.550000011920929
+      ],
+      "min": [
+       -0.4099999964237213,
+       0,
+       -0.550000011920929
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "RoadsideDitch_Bank_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.27000001072883606,
+       0.10999999940395355,
+       0.4099999964237213
+      ],
+      "min": [
+       -0.27000001072883606,
+       0,
+       -0.4099999964237213
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "RoadsideDitch_Bank_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.23000000417232513,
+       0.09000000357627869,
+       0.3499999940395355
+      ],
+      "min": [
+       -0.23000000417232513,
+       0,
+       -0.3499999940395355
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "RoadsideDitch_Bank_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.30000001192092896,
+       0.12999999523162842,
+       0.4399999976158142
+      ],
+      "min": [
+       -0.30000001192092896,
+       0,
+       -0.4399999976158142
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "RoadsideDitch_Bank_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.23999999463558197,
+       0.10000000149011612,
+       0.3700000047683716
+      ],
+      "min": [
+       -0.23999999463558197,
+       0,
+       -0.3700000047683716
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "RoadsideDitch_Bank_04_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.2800000011920929,
+       0.11999999731779099,
+       0.38999998569488525
+      ],
+      "min": [
+       -0.28519999980926514,
+       0,
+       -0.38999998569488525
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "RoadsideDitch_Relief_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.7599999904632568,
+       0.15000000596046448,
+       8
+      ],
+      "min": [
+       -0.30000001192092896,
+       0,
+       -8
+      ]
+     },
+     "triangles": 44,
+     "vertices": 80
+    }
+   ]
+  },
+  {
+   "name": "RoadsideDitch_Sedge_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DitchGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3160000145435333,
+       0.3799999952316284,
+       0.010239999741315842
+      ],
+      "min": [
+       -0.27852800488471985,
+       0,
+       -0.010239999741315842
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "RoadsideDitch_Sedge_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DitchGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3310000002384186,
+       0.44999998807907104,
+       0.011839999817311764
+      ],
+      "min": [
+       -0.29704800248146057,
+       0,
+       -0.011839999817311764
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "RoadsideDitch_Sedge_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DitchGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3160000145435333,
+       0.5199999809265137,
+       0.010239999741315842
+      ],
+      "min": [
+       -0.27852800488471985,
+       0,
+       -0.010239999741315842
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "RoadsideDitch_Sedge_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DitchGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3310000002384186,
+       0.3799999952316284,
+       0.011839999817311764
+      ],
+      "min": [
+       -0.29704800248146057,
+       0,
+       -0.011839999817311764
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "RoadsideDitch_Sedge_04_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DitchGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3160000145435333,
+       0.44999998807907104,
+       0.010239999741315842
+      ],
+      "min": [
+       -0.27852800488471985,
+       0,
+       -0.010239999741315842
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "RoadsideDitch_Water_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DitchWater",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.1799999475479126,
+       0.029999999329447746,
+       7.960000038146973
+      ],
+      "min": [
+       0.12999999523162842,
+       0,
+       -8.039999961853027
+      ]
+     },
+     "triangles": 44,
+     "vertices": 80
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Left_Contact_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3100000023841858,
+       0.11999999731779099,
+       0.36000001430511475
+      ],
+      "min": [
+       -0.3100000023841858,
+       0,
+       -0.36000001430511475
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Left_Contact_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.23999999463558197,
+       0.09000000357627869,
+       0.33000001311302185
+      ],
+      "min": [
+       -0.23999999463558197,
+       0,
+       -0.33000001311302185
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Left_Contact_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.2800000011920929,
+       0.12999999523162842,
+       0.4000000059604645
+      ],
+      "min": [
+       -0.2800000011920929,
+       0,
+       -0.4000000059604645
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Left_Contact_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.2199999988079071,
+       0.10000000149011612,
+       0.3100000023841858
+      ],
+      "min": [
+       -0.2303999960422516,
+       0,
+       -0.3100000023841858
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Left_Grass_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "RoadGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3100000023841858,
+       0.23999999463558197,
+       0.009600000455975533
+      ],
+      "min": [
+       -0.27112001180648804,
+       0,
+       -0.009600000455975533
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Left_Grass_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "RoadGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.32199999690055847,
+       0.2800000011920929,
+       0.010879999957978725
+      ],
+      "min": [
+       -0.28593599796295166,
+       0,
+       -0.010879999957978725
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Left_Grass_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "RoadGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3100000023841858,
+       0.3199999928474426,
+       0.009600000455975533
+      ],
+      "min": [
+       -0.27112001180648804,
+       0,
+       -0.009600000455975533
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Left_Grass_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "RoadGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.32199999690055847,
+       0.23999999463558197,
+       0.010879999957978725
+      ],
+      "min": [
+       -0.28593599796295166,
+       0,
+       -0.010879999957978725
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Left_Relief_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -1.2699999809265137,
+       0.1599999964237213,
+       8.100000381469727
+      ],
+      "min": [
+       -3.9000000953674316,
+       0,
+       -8.199999809265137
+      ]
+     },
+     "triangles": 44,
+     "vertices": 80
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Left_RoadBand_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WetSheen",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -1.6200000047683716,
+       0.0560000017285347,
+       8.100000381469727
+      ],
+      "min": [
+       -2.819999933242798,
+       0,
+       -8.199999809265137
+      ]
+     },
+     "triangles": 44,
+     "vertices": 80
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Left_WetEdge_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WetSheen",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -2.3299999237060547,
+       0.04500000178813934,
+       7.920000076293945
+      ],
+      "min": [
+       -3.299999952316284,
+       0,
+       -8.380000114440918
+      ]
+     },
+     "triangles": 44,
+     "vertices": 80
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Right_Contact_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3100000023841858,
+       0.11999999731779099,
+       0.36000001430511475
+      ],
+      "min": [
+       -0.3100000023841858,
+       0,
+       -0.36000001430511475
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Right_Contact_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.23999999463558197,
+       0.09000000357627869,
+       0.33000001311302185
+      ],
+      "min": [
+       -0.23999999463558197,
+       0,
+       -0.33000001311302185
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Right_Contact_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.2800000011920929,
+       0.12999999523162842,
+       0.4000000059604645
+      ],
+      "min": [
+       -0.2800000011920929,
+       0,
+       -0.4000000059604645
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Right_Contact_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.2303999960422516,
+       0.10000000149011612,
+       0.3100000023841858
+      ],
+      "min": [
+       -0.2199999988079071,
+       0,
+       -0.3100000023841858
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Right_Grass_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "RoadGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3100000023841858,
+       0.23999999463558197,
+       0.009600000455975533
+      ],
+      "min": [
+       -0.27112001180648804,
+       0,
+       -0.009600000455975533
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Right_Grass_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "RoadGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.32199999690055847,
+       0.2800000011920929,
+       0.010879999957978725
+      ],
+      "min": [
+       -0.28593599796295166,
+       0,
+       -0.010879999957978725
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Right_Grass_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "RoadGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3100000023841858,
+       0.3199999928474426,
+       0.009600000455975533
+      ],
+      "min": [
+       -0.27112001180648804,
+       0,
+       -0.009600000455975533
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Right_Grass_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "RoadGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.32199999690055847,
+       0.23999999463558197,
+       0.010879999957978725
+      ],
+      "min": [
+       -0.28593599796295166,
+       0,
+       -0.010879999957978725
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Right_Relief_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       3.9000000953674316,
+       0.1599999964237213,
+       8.100000381469727
+      ],
+      "min": [
+       1.2699999809265137,
+       0,
+       -8.199999809265137
+      ]
+     },
+     "triangles": 44,
+     "vertices": 80
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Right_RoadBand_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WetSheen",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       2.819999933242798,
+       0.0560000017285347,
+       8.100000381469727
+      ],
+      "min": [
+       1.6200000047683716,
+       0,
+       -8.199999809265137
+      ]
+     },
+     "triangles": 44,
+     "vertices": 80
+    }
+   ]
+  },
+  {
+   "name": "WetRoadShoulder_Right_WetEdge_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WetSheen",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       3.299999952316284,
+       0.04500000178813934,
+       7.920000076293945
+      ],
+      "min": [
+       2.3299999237060547,
+       0,
+       -8.380000114440918
+      ]
+     },
+     "triangles": 44,
+     "vertices": 80
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_Branch_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchBark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -0.9079200029373169,
+       2.9487199783325195,
+       -0.07624924182891846
+      ],
+      "min": [
+       -2.286975860595703,
+       1.1581599712371826,
+       -1.4232020378112793
+      ]
+     },
+     "triangles": 224,
+     "vertices": 420
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_Branch_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchBark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.075788140296936,
+       3.6621198654174805,
+       -2.1022706031799316
+      ],
+      "min": [
+       -0.3239028751850128,
+       1.4383599758148193,
+       -3.4848268032073975
+      ]
+     },
+     "triangles": 224,
+     "vertices": 420
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_Branch_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchBark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       3.3018569946289062,
+       2.6823840141296387,
+       -4.124112129211426
+      ],
+      "min": [
+       1.8122973442077637,
+       1.0535519123077393,
+       -5.435152053833008
+      ]
+     },
+     "triangles": 224,
+     "vertices": 420
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_ContactLobe_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "ShrubGreen",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.6499999761581421,
+       0.3400000035762787,
+       0.4099999964237213
+      ],
+      "min": [
+       -0.6500000953674316,
+       0,
+       -0.4099999666213989
+      ]
+     },
+     "triangles": 480,
+     "vertices": 1440
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_ContactLobe_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "ShrubGreen",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.7400000095367432,
+       0.3400000035762787,
+       0.46000003814697266
+      ],
+      "min": [
+       -0.7400000095367432,
+       0,
+       -0.46000003814697266
+      ]
+     },
+     "triangles": 480,
+     "vertices": 1440
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_ContactLobe_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "ShrubGreen",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.8299999237060547,
+       0.3400000035762787,
+       0.5100002288818359
+      ],
+      "min": [
+       -0.8299999237060547,
+       0,
+       -0.5100002288818359
+      ]
+     },
+     "triangles": 480,
+     "vertices": 1440
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_MidCanopy_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchLeaves",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.9723999500274658,
+       0.495999813079834,
+       0.7400001883506775
+      ],
+      "min": [
+       -0.6876001358032227,
+       -1.1780000925064087,
+       -0.6999998092651367
+      ]
+     },
+     "triangles": 960,
+     "vertices": 2880
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_MidCanopy_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchLeaves",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.7763998508453369,
+       0.557999849319458,
+       0.7599995732307434
+      ],
+      "min": [
+       -0.7036001682281494,
+       -0.9919999837875366,
+       -0.5800004005432129
+      ]
+     },
+     "triangles": 960,
+     "vertices": 2880
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_MidCanopy_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchLeaves",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.9248000383377075,
+       0.6159999370574951,
+       0.7399997711181641
+      ],
+      "min": [
+       -0.7351999878883362,
+       -1.4630000591278076,
+       -0.7000002861022949
+      ]
+     },
+     "triangles": 960,
+     "vertices": 2880
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_MidCanopy_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchLeaves",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.512799859046936,
+       0.6929998397827148,
+       0.7600002288818359
+      ],
+      "min": [
+       -0.9672001600265503,
+       -1.2319998741149902,
+       -0.5799999237060547
+      ]
+     },
+     "triangles": 960,
+     "vertices": 2880
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_MidCanopy_04_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchLeaves",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.9927999973297119,
+       0.451200008392334,
+       0.7399997711181641
+      ],
+      "min": [
+       -0.6672000885009766,
+       -1.0715999603271484,
+       -0.7000002861022949
+      ]
+     },
+     "triangles": 960,
+     "vertices": 2880
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_MidCanopy_05_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchLeaves",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.8207998275756836,
+       0.5076000690460205,
+       0.7600002288818359
+      ],
+      "min": [
+       -0.6592001914978027,
+       -0.902400016784668,
+       -0.5799999237060547
+      ]
+     },
+     "triangles": 960,
+     "vertices": 2880
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_MidTrunk_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchBark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.17968988418579102,
+       3.0999999046325684,
+       0.07409775257110596
+      ],
+      "min": [
+       -0.06700026988983154,
+       0,
+       -0.10406190156936646
+      ]
+     },
+     "triangles": 56,
+     "vertices": 108
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_MidTrunk_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchBark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.07099992036819458,
+       3.8499999046325684,
+       0.07673096656799316
+      ],
+      "min": [
+       -0.2049700766801834,
+       0,
+       -0.10430383682250977
+      ]
+     },
+     "triangles": 56,
+     "vertices": 108
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_MidTrunk_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchBark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.2552504539489746,
+       2.819999933242798,
+       0.07936286926269531
+      ],
+      "min": [
+       -0.07499957084655762,
+       0,
+       -0.10454750061035156
+      ]
+     },
+     "triangles": 56,
+     "vertices": 108
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_WindbreakBranch_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchBark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -1.7105488777160645,
+       3.976016044616699,
+       -6.145105361938477
+      ],
+      "min": [
+       -3.5370686054229736,
+       1.5616480112075806,
+       -7.683343410491943
+      ]
+     },
+     "triangles": 224,
+     "vertices": 420
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_WindbreakBranch_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchBark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       3.9525949954986572,
+       3.4433438777923584,
+       -7.017502307891846
+      ],
+      "min": [
+       2.4093236923217773,
+       1.3524320125579834,
+       -8.704054832458496
+      ]
+     },
+     "triangles": 224,
+     "vertices": 420
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_WindbreakCanopy_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchLeaves",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.28000009059906,
+       1.8392000198364258,
+       1.119999885559082
+      ],
+      "min": [
+       -1.2799999713897705,
+       -1.4212000370025635,
+       -0.9200000762939453
+      ]
+     },
+     "triangles": 1280,
+     "vertices": 3840
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_WindbreakCanopy_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "ShrubGreen",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.2799997329711914,
+       1.5927999019622803,
+       1.1200003623962402
+      ],
+      "min": [
+       -1.2800003290176392,
+       -1.2308000326156616,
+       -0.9199991226196289
+      ]
+     },
+     "triangles": 1280,
+     "vertices": 3840
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_WindbreakContact_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "ShrubGreen",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.6200001239776611,
+       0.24000000953674316,
+       0.40000009536743164
+      ],
+      "min": [
+       -0.6200001239776611,
+       0,
+       -0.40000009536743164
+      ]
+     },
+     "triangles": 480,
+     "vertices": 1440
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_WindbreakContact_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "ShrubGreen",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.559999942779541,
+       0.24000000953674316,
+       0.40000009536743164
+      ],
+      "min": [
+       -0.559999942779541,
+       0,
+       -0.39999961853027344
+      ]
+     },
+     "triangles": 480,
+     "vertices": 1440
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_WindbreakTrunk_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchBark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -2.3740501403808594,
+       4.179999828338623,
+       -6.69405460357666
+      ],
+      "min": [
+       -2.765000104904175,
+       0.019999999552965164,
+       -6.885152816772461
+      ]
+     },
+     "triangles": 56,
+     "vertices": 108
+    }
+   ]
+  },
+  {
+   "name": "ZiratBirchShrubMass_WindbreakTrunk_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "BirchBark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       3.444999933242798,
+       3.619999885559082,
+       -7.834054470062256
+      ],
+      "min": [
+       3.1040499210357666,
+       0.019999999552965164,
+       -8.025153160095215
+      ]
+     },
+     "triangles": 56,
+     "vertices": 108
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Berm_East_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       7.800000190734863,
+       0.10999999940395355,
+       -0.019999999552965164
+      ],
+      "min": [
+       2.0399999618530273,
+       0,
+       -0.30000001192092896
+      ]
+     },
+     "triangles": 28,
+     "vertices": 54
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Berm_West_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -2.059999942779541,
+       0.11999999731779099,
+       0.2199999988079071
+      ],
+      "min": [
+       -7.789999961853027,
+       0,
+       -0.1599999964237213
+      ]
+     },
+     "triangles": 28,
+     "vertices": 52
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_BrokenBrace_East_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWoodDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       6.958485126495361,
+       1.0711796283721924,
+       0.000499088317155838
+      ],
+      "min": [
+       3.2886171340942383,
+       0.18184787034988403,
+       -0.125099316239357
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_BrokenBrace_West_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWoodDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -3.2697465419769287,
+       1.1014549732208252,
+       0.06599093228578568
+      ],
+      "min": [
+       -6.913754463195801,
+       0.14438965916633606,
+       -0.10919323563575745
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Deadwood_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWoodDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.7300000190734863,
+       0.1599999964237213,
+       0.15000000596046448
+      ],
+      "min": [
+       -0.7300000190734863,
+       0,
+       -0.15000000596046448
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Deadwood_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWoodDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.6100000143051147,
+       0.18000000715255737,
+       0.12999999523162842
+      ],
+      "min": [
+       -0.6100000143051147,
+       0,
+       -0.12999999523162842
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_GroundContact_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.7749999761581421,
+       0.12999999523162842,
+       0.18000000715255737
+      ],
+      "min": [
+       -0.7749999761581421,
+       0,
+       -0.18000000715255737
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_GroundContact_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.7149999737739563,
+       0.15000000596046448,
+       0.18000000715255737
+      ],
+      "min": [
+       -0.7149999737739563,
+       0,
+       -0.18000000715255737
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Picket_East_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.09359999746084213,
+       0.9399999976158142,
+       0.07999999821186066
+      ],
+      "min": [
+       -0.09480000287294388,
+       0,
+       -0.07680000364780426
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Picket_East_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.13207200169563293,
+       1.1200000047683716,
+       0.07999999821186066
+      ],
+      "min": [
+       -0.09000000357627869,
+       0,
+       -0.07680000364780426
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Picket_East_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.09359999746084213,
+       1,
+       0.07999999821186066
+      ],
+      "min": [
+       -0.10379999876022339,
+       0,
+       -0.08297599852085114
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Picket_East_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.1273919939994812,
+       1.2000000476837158,
+       0.07999999821186066
+      ],
+      "min": [
+       -0.09000000357627869,
+       0,
+       -0.07680000364780426
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Picket_East_04_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.09359999746084213,
+       0.8999999761581421,
+       0.07999999821186066
+      ],
+      "min": [
+       -0.09929999709129333,
+       0,
+       -0.07680000364780426
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Picket_East_05_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.13675199449062347,
+       1.059999942779541,
+       0.07999999821186066
+      ],
+      "min": [
+       -0.09000000357627869,
+       0,
+       -0.08297599852085114
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Picket_West_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.0973920002579689,
+       0.9399999976158142,
+       0.07999999821186066
+      ],
+      "min": [
+       -0.09000000357627869,
+       0,
+       -0.07680000364780426
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Picket_West_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.09359999746084213,
+       1.1200000047683716,
+       0.07999999821186066
+      ],
+      "min": [
+       -0.12929999828338623,
+       0,
+       -0.07680000364780426
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Picket_West_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.10675200074911118,
+       1,
+       0.07999999821186066
+      ],
+      "min": [
+       -0.09000000357627869,
+       0,
+       -0.08297599852085114
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Picket_West_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.09359999746084213,
+       1.2000000476837158,
+       0.07999999821186066
+      ],
+      "min": [
+       -0.12479999661445618,
+       0,
+       -0.07680000364780426
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Picket_West_04_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.10207200050354004,
+       0.8999999761581421,
+       0.07999999821186066
+      ],
+      "min": [
+       -0.09000000357627869,
+       0,
+       -0.07680000364780426
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_Picket_West_05_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.09359999746084213,
+       1.059999942779541,
+       0.07999999821186066
+      ],
+      "min": [
+       -0.13379999995231628,
+       0,
+       -0.08297599852085114
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_RailLower_East_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWoodDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       7.0209736824035645,
+       0.489053338766098,
+       0.06049109250307083
+      ],
+      "min": [
+       2.358693838119507,
+       0.32761135697364807,
+       -0.12509335577487946
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_RailLower_West_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWoodDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -2.35901141166687,
+       0.4890531897544861,
+       0.06049081310629845
+      ],
+      "min": [
+       -6.9513258934021,
+       0.3276115655899048,
+       -0.12509314715862274
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_RailUpper_East_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       7.020961284637451,
+       0.8755017518997192,
+       0.05499190092086792
+      ],
+      "min": [
+       2.358710527420044,
+       0.7123756408691406,
+       -0.1209939569234848
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratBoundaryFence_RailUpper_West_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -2.3590240478515625,
+       0.8755016326904297,
+       0.05499165132641792
+      ],
+      "min": [
+       -6.951308727264404,
+       0.712375819683075,
+       -0.12099377810955048
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_FarCanopy_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFoliage",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.5499999523162842,
+       1.4199999570846558,
+       0.8600000143051147
+      ],
+      "min": [
+       -1.5499999523162842,
+       0,
+       -0.8600000143051147
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_FarCanopy_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFoliage",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.2999999523162842,
+       1.1799999475479126,
+       0.7749999761581421
+      ],
+      "min": [
+       -1.2999999523162842,
+       0,
+       -0.7749999761581421
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_FarCanopy_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFoliage",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.399999976158142,
+       1.340000033378601,
+       0.8100000023841858
+      ],
+      "min": [
+       -1.399999976158142,
+       0,
+       -0.8100000023841858
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_FarCanopy_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFoliage",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.5,
+       1.5199999809265137,
+       0.8700000047683716
+      ],
+      "min": [
+       -1.5,
+       0,
+       -0.8700000047683716
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_FarCanopy_04_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFoliage",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.2000000476837158,
+       1.100000023841858,
+       0.7400000095367432
+      ],
+      "min": [
+       -1.2000000476837158,
+       0,
+       -0.7400000095367432
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_FarCanopy_05_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFoliage",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.7000000476837158,
+       1.2799999713897705,
+       0.8999999761581421
+      ],
+      "min": [
+       -1.7000000476837158,
+       0,
+       -0.8999999761581421
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_FarFencePost_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFence",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.07867199927568436,
+       0.5600000023841858,
+       0.05999999865889549
+      ],
+      "min": [
+       -0.05999999865889549,
+       0,
+       -0.0575999990105629
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_FarFencePost_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFence",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.06239999830722809,
+       0.6200000047683716,
+       0.05999999865889549
+      ],
+      "min": [
+       -0.07680000364780426,
+       0,
+       -0.0575999990105629
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_FarFencePost_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFence",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.07867199927568436,
+       0.6800000071525574,
+       0.05999999865889549
+      ],
+      "min": [
+       -0.05999999865889549,
+       0,
+       -0.0575999990105629
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_FarFencePost_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFence",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.06239999830722809,
+       0.5600000023841858,
+       0.05999999865889549
+      ],
+      "min": [
+       -0.07680000364780426,
+       0,
+       -0.0575999990105629
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_FarFencePost_04_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFence",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.07867199927568436,
+       0.6200000047683716,
+       0.05999999865889549
+      ],
+      "min": [
+       -0.05999999865889549,
+       0,
+       -0.0575999990105629
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_FarFencePost_05_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFence",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.06239999830722809,
+       0.6800000071525574,
+       0.05999999865889549
+      ],
+      "min": [
+       -0.07680000364780426,
+       0,
+       -0.0575999990105629
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_FarFence_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFence",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       8.400508880615234,
+       0.4248547852039337,
+       -9.161505699157715
+      ],
+      "min": [
+       -8.500683784484863,
+       0.30665823817253113,
+       -9.528695106506348
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_ForegroundBank_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFoliage",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.399999976158142,
+       0.14399999380111694,
+       0.6200000047683716
+      ],
+      "min": [
+       -1.399999976158142,
+       0,
+       -0.6200000047683716
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_ForegroundBank_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFoliage",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.2999999523162842,
+       0.1103999987244606,
+       0.5699999928474426
+      ],
+      "min": [
+       -1.2999999523162842,
+       0,
+       -0.5699999928474426
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_ForegroundBank_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantFoliage",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.4500000476837158,
+       0.15039999783039093,
+       0.6399999856948853
+      ],
+      "min": [
+       -1.4500000476837158,
+       0,
+       -0.6399999856948853
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_House_00_Body_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantWall",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.25,
+       1.1799999475479126,
+       1.399999976158142
+      ],
+      "min": [
+       -1.25,
+       0,
+       -1.399999976158142
+      ]
+     },
+     "triangles": 12,
+     "vertices": 24
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_House_00_Roof_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantRoof",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.5499999523162842,
+       0.6800000071525574,
+       1.5679999589920044
+      ],
+      "min": [
+       -1.5499999523162842,
+       0,
+       -1.5679999589920044
+      ]
+     },
+     "triangles": 8,
+     "vertices": 18
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_House_01_Body_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantWall",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.4500000476837158,
+       1.3799999952316284,
+       1.7000000476837158
+      ],
+      "min": [
+       -1.4500000476837158,
+       0,
+       -1.7000000476837158
+      ]
+     },
+     "triangles": 12,
+     "vertices": 24
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_House_01_Roof_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantRoof",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.7979999780654907,
+       0.8199999928474426,
+       1.9040000438690186
+      ],
+      "min": [
+       -1.7979999780654907,
+       0,
+       -1.9040000438690186
+      ]
+     },
+     "triangles": 8,
+     "vertices": 18
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_House_02_Body_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantWall",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.100000023841858,
+       1.0399999618530273,
+       1.25
+      ],
+      "min": [
+       -1.100000023841858,
+       0,
+       -1.25
+      ]
+     },
+     "triangles": 12,
+     "vertices": 24
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_House_02_Roof_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantRoof",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.3639999628067017,
+       0.5799999833106995,
+       1.399999976158142
+      ],
+      "min": [
+       -1.3639999628067017,
+       0,
+       -1.399999976158142
+      ]
+     },
+     "triangles": 8,
+     "vertices": 18
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_House_03_Body_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantWall",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.5,
+       1.4199999570846558,
+       1.75
+      ],
+      "min": [
+       -1.5,
+       0,
+       -1.75
+      ]
+     },
+     "triangles": 12,
+     "vertices": 24
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_House_03_Roof_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantRoof",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.8600000143051147,
+       0.7599999904632568,
+       1.9600000381469727
+      ],
+      "min": [
+       -1.8600000143051147,
+       0,
+       -1.9600000381469727
+      ]
+     },
+     "triangles": 8,
+     "vertices": 18
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_House_04_Body_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantWall",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.2000000476837158,
+       1.159999966621399,
+       1.4500000476837158
+      ],
+      "min": [
+       -1.2000000476837158,
+       0,
+       -1.4500000476837158
+      ]
+     },
+     "triangles": 12,
+     "vertices": 24
+    }
+   ]
+  },
+  {
+   "name": "ZiratDistantVillageMass_House_04_Roof_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DistantRoof",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.4880000352859497,
+       0.8799999952316284,
+       1.6239999532699585
+      ],
+      "min": [
+       -1.4880000352859497,
+       0,
+       -1.6239999532699585
+      ]
+     },
+     "triangles": 8,
+     "vertices": 18
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_Companion_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "QuietStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.13232000172138214,
+       0.2207999974489212,
+       0.0949999988079071
+      ],
+      "min": [
+       -0.11999999731779099,
+       0,
+       -0.09120000153779984
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_Companion_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "QuietStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.13519999384880066,
+       0.25920000672340393,
+       0.10000000149011612
+      ],
+      "min": [
+       -0.14180000126361847,
+       0,
+       -0.09600000083446503
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_LeafLitter_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "LeafLitter",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.28999999165534973,
+       0.04500000178813934,
+       0.20499999821186066
+      ],
+      "min": [
+       -0.28999999165534973,
+       0,
+       -0.20499999821186066
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_LeafLitter_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "LeafLitter",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.25,
+       0.04500000178813934,
+       0.1850000023841858
+      ],
+      "min": [
+       -0.25,
+       0,
+       -0.1850000023841858
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_LeafLitter_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "LeafLitter",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.30000001192092896,
+       0.04500000178813934,
+       0.20999999344348907
+      ],
+      "min": [
+       -0.30000001192092896,
+       0,
+       -0.20999999344348907
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_LeafLitter_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "LeafLitter",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.25,
+       0.04500000178813934,
+       0.1850000023841858
+      ],
+      "min": [
+       -0.25,
+       0,
+       -0.1850000023841858
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_Marker_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "QuietStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.21784000098705292,
+       0.30720001459121704,
+       0.13500000536441803
+      ],
+      "min": [
+       -0.1899999976158142,
+       0,
+       -0.12960000336170197
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_Marker_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "QuietStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.15600000321865082,
+       0.23999999463558197,
+       0.11500000208616257
+      ],
+      "min": [
+       -0.17100000381469727,
+       0,
+       -0.12377600371837616
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_Marker_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "QuietStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.20800000429153442,
+       0.3456000089645386,
+       0.14000000059604645
+      ],
+      "min": [
+       -0.21199999749660492,
+       0,
+       -0.13439999520778656
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_Marker_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "QuietStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.17351999878883362,
+       0.2687999904155731,
+       0.11580000072717667
+      ],
+      "min": [
+       -0.15000000596046448,
+       0,
+       -0.1103999987244606
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_Mound_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3100000023841858,
+       0.10000000149011612,
+       0.23499999940395355
+      ],
+      "min": [
+       -0.3100000023841858,
+       0,
+       -0.23499999940395355
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_Mound_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.27000001072883606,
+       0.10000000149011612,
+       0.2150000035762787
+      ],
+      "min": [
+       -0.27000001072883606,
+       0,
+       -0.2150000035762787
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_Mound_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3199999928474426,
+       0.10000000149011612,
+       0.23999999463558197
+      ],
+      "min": [
+       -0.3199999928474426,
+       0,
+       -0.23999999463558197
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Far_Mound_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.27000001072883606,
+       0.10000000149011612,
+       0.2150000035762787
+      ],
+      "min": [
+       -0.27000001072883606,
+       0,
+       -0.2150000035762787
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_Companion_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "QuietStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.17679999768733978,
+       0.4032000005245209,
+       0.14000000059604645
+      ],
+      "min": [
+       -0.17960000038146973,
+       0,
+       -0.1382720023393631
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_Companion_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "QuietStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.20203199982643127,
+       0.4607999920845032,
+       0.15000000596046448
+      ],
+      "min": [
+       -0.1899999976158142,
+       0,
+       -0.14399999380111694
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_LeafLitter_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "LeafLitter",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.4300000071525574,
+       0.05999999865889549,
+       0.3100000023841858
+      ],
+      "min": [
+       -0.4300000071525574,
+       0,
+       -0.3100000023841858
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_LeafLitter_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "LeafLitter",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3799999952316284,
+       0.05999999865889549,
+       0.2800000011920929
+      ],
+      "min": [
+       -0.3799999952316284,
+       0,
+       -0.2800000011920929
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_LeafLitter_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "LeafLitter",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.46000000834465027,
+       0.05999999865889549,
+       0.32499998807907104
+      ],
+      "min": [
+       -0.46000000834465027,
+       0,
+       -0.32499998807907104
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_LeafLitter_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "LeafLitter",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.38999998569488525,
+       0.05999999865889549,
+       0.2849999964237213
+      ],
+      "min": [
+       -0.38999998569488525,
+       0,
+       -0.2849999964237213
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_LeafLitter_04_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "LeafLitter",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.41999998688697815,
+       0.05999999865889549,
+       0.30000001192092896
+      ],
+      "min": [
+       -0.41999998688697815,
+       0,
+       -0.30000001192092896
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_Marker_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "QuietStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3004319965839386,
+       0.7103999853134155,
+       0.20000000298023224
+      ],
+      "min": [
+       -0.2800000011920929,
+       0,
+       -0.19200000166893005
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_Marker_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "QuietStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.23919999599456787,
+       0.5568000078201294,
+       0.17000000178813934
+      ],
+      "min": [
+       -0.2515999972820282,
+       0,
+       -0.18014399707317352
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_Marker_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "QuietStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3224000036716461,
+       0.7871999740600586,
+       0.2150000035762787
+      ],
+      "min": [
+       -0.3142000138759613,
+       0,
+       -0.20640000700950623
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_Marker_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "QuietStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.28464001417160034,
+       0.6144000291824341,
+       0.1875
+      ],
+      "min": [
+       -0.23999999463558197,
+       0,
+       -0.1679999977350235
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_Marker_04_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "QuietStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.2808000147342682,
+       0.671999990940094,
+       0.1899999976158142
+      ],
+      "min": [
+       -0.28760001063346863,
+       0,
+       -0.20051200687885284
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_Mound_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.4699999988079071,
+       0.15000000596046448,
+       0.3499999940395355
+      ],
+      "min": [
+       -0.4699999988079071,
+       0,
+       -0.3499999940395355
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_Mound_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.41999998688697815,
+       0.15000000596046448,
+       0.3199999928474426
+      ],
+      "min": [
+       -0.41999998688697815,
+       0,
+       -0.3199999928474426
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_Mound_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.5,
+       0.15000000596046448,
+       0.36500000953674316
+      ],
+      "min": [
+       -0.5,
+       0,
+       -0.36500000953674316
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_Mound_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.4300000071525574,
+       0.15000000596046448,
+       0.32499998807907104
+      ],
+      "min": [
+       -0.4300000071525574,
+       0,
+       -0.32499998807907104
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratMarkerGroup_Low_Mound_04_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarth",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.46000000834465027,
+       0.15000000596046448,
+       0.3400000035762787
+      ],
+      "min": [
+       -0.46000000834465027,
+       0,
+       -0.3400000035762787
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_FootStone_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "MossyStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3499999940395355,
+       0.18000000715255737,
+       0.3100000023841858
+      ],
+      "min": [
+       -0.3499999940395355,
+       0,
+       -0.3100000023841858
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_FootStone_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "MossyStone",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3499999940395355,
+       0.18000000715255737,
+       0.3100000023841858
+      ],
+      "min": [
+       -0.3499999940395355,
+       0,
+       -0.3100000023841858
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_Leaf_00_LowerRail_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -1.518433690071106,
+       0.275503545999527,
+       -0.05496033653616905
+      ],
+      "min": [
+       -2.7435312271118164,
+       0.17237326502799988,
+       -0.9535750150680542
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_Leaf_00_Picket_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -1.761199951171875,
+       1.0499999523162842,
+       -0.2403896301984787
+      ],
+      "min": [
+       -1.853600025177002,
+       0.07999999821186066,
+       -0.3204103708267212
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_Leaf_00_Picket_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -2.1122000217437744,
+       0.949999988079071,
+       -0.4863896667957306
+      ],
+      "min": [
+       -2.2046000957489014,
+       0.07999999821186066,
+       -0.5664104223251343
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_Leaf_00_Picket_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -2.4631998538970947,
+       0.8500000238418579,
+       -0.7323896288871765
+      ],
+      "min": [
+       -2.5555999279022217,
+       0.07999999821186066,
+       -0.8124104142189026
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_Leaf_00_UpperRail_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWoodDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       -1.5209590196609497,
+       0.8638037443161011,
+       -0.058563511818647385
+      ],
+      "min": [
+       -2.7416486740112305,
+       0.7473462820053101,
+       -0.9508890509605408
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_Leaf_01_LowerRail_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       2.7435312271118164,
+       0.275503545999527,
+       -0.05496033653616905
+      ],
+      "min": [
+       1.518433690071106,
+       0.17237326502799988,
+       -0.9535750150680542
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_Leaf_01_Picket_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       1.853600025177002,
+       1.0499999523162842,
+       -0.2403896301984787
+      ],
+      "min": [
+       1.761199951171875,
+       0.07999999821186066,
+       -0.3204103708267212
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_Leaf_01_Picket_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       2.2046000957489014,
+       0.949999988079071,
+       -0.4863896667957306
+      ],
+      "min": [
+       2.1122000217437744,
+       0.07999999821186066,
+       -0.5664104223251343
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_Leaf_01_Picket_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWood",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       2.5555999279022217,
+       0.8500000238418579,
+       -0.7323896288871765
+      ],
+      "min": [
+       2.4631998538970947,
+       0.07999999821186066,
+       -0.8124104142189026
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_Leaf_01_UpperRail_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWoodDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       2.7416486740112305,
+       0.8638037443161011,
+       -0.058563511818647385
+      ],
+      "min": [
+       1.5209590196609497,
+       0.7473462820053101,
+       -0.9508890509605408
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_Post_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWoodDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.15600000321865082,
+       1.5800000429153442,
+       0.14000000059604645
+      ],
+      "min": [
+       -0.15000000596046448,
+       0,
+       -0.13439999520778656
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratOpenGate_Post_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "WeatheredWoodDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.15600000321865082,
+       1.5800000429153442,
+       0.14000000059604645
+      ],
+      "min": [
+       -0.15000000596046448,
+       0,
+       -0.13439999520778656
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratPathEdge_EdgeGrass_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "ZiratGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3160000145435333,
+       0.3400000035762787,
+       0.010239999741315842
+      ],
+      "min": [
+       -0.27852800488471985,
+       0,
+       -0.010239999741315842
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "ZiratPathEdge_EdgeGrass_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "ZiratGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.328000009059906,
+       0.4000000059604645,
+       0.01152000017464161
+      ],
+      "min": [
+       -0.29334399104118347,
+       0,
+       -0.01152000017464161
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "ZiratPathEdge_EdgeGrass_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "ZiratGrass",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.3100000023841858,
+       0.30000001192092896,
+       0.009600000455975533
+      ],
+      "min": [
+       -0.27112001180648804,
+       0,
+       -0.009600000455975533
+      ]
+     },
+     "triangles": 6,
+     "vertices": 12
+    }
+   ]
+  },
+  {
+   "name": "ZiratPathEdge_GradeMass_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.5400000214576721,
+       0.09399999678134918,
+       0.7099999785423279
+      ],
+      "min": [
+       -0.5400000214576721,
+       0,
+       -0.7099999785423279
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratPathEdge_GradeMass_01_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.5099999904632568,
+       0.1103999987244606,
+       0.7200000286102295
+      ],
+      "min": [
+       -0.5099999904632568,
+       0,
+       -0.7200000286102295
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratPathEdge_GradeMass_02_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.47999998927116394,
+       0.08460000157356262,
+       0.6700000166893005
+      ],
+      "min": [
+       -0.47999998927116394,
+       0,
+       -0.6700000166893005
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratPathEdge_GradeMass_03_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "DampEarthDark",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.5199999809265137,
+       0.10339999943971634,
+       0.6499999761581421
+      ],
+      "min": [
+       -0.5199999809265137,
+       0,
+       -0.6499999761581421
+      ]
+     },
+     "triangles": 20,
+     "vertices": 36
+    }
+   ]
+  },
+  {
+   "name": "ZiratPathEdge_PathRibbon_00_LOD0Mesh",
+   "primitives": [
+    {
+     "attributes": [
+      "NORMAL",
+      "POSITION"
+     ],
+     "material": "PathDirt",
+     "mode": 4,
+     "positionBounds": {
+      "max": [
+       0.8399999737739563,
+       0.05999999865889549,
+       -0.05000000074505806
+      ],
+      "min": [
+       -0.8799999952316284,
+       0,
+       -8
+      ]
+     },
+     "triangles": 36,
+     "vertices": 66
+    }
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "children": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "index": 8,
+   "name": "CulvertStoneCluster",
+   "parent": "URMAN_ZiratRoadsideKit",
+   "parentIndex": 179,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.549999952316284
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 0,
+   "mesh": "CulvertStoneCluster_Mouth_00_LOD0Mesh",
+   "name": "CulvertStoneCluster_Mouth_00_LOD0",
+   "parent": "CulvertStoneCluster",
+   "parentIndex": 8,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 1,
+   "mesh": "CulvertStoneCluster_Stone_00_LOD0Mesh",
+   "name": "CulvertStoneCluster_Stone_00_LOD0",
+   "parent": "CulvertStoneCluster",
+   "parentIndex": 8,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0.18000006675720215
+    ],
+    [
+     0,
+     1,
+     0,
+     0.07999999821186066
+    ],
+    [
+     0,
+     0,
+     1,
+     0.6600000262260437
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 2,
+   "mesh": "CulvertStoneCluster_Stone_01_LOD0Mesh",
+   "name": "CulvertStoneCluster_Stone_01_LOD0",
+   "parent": "CulvertStoneCluster",
+   "parentIndex": 8,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0.8199999332427979
+    ],
+    [
+     0,
+     1,
+     0,
+     0.07999999821186066
+    ],
+    [
+     0,
+     0,
+     1,
+     0.7799999713897705
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 3,
+   "mesh": "CulvertStoneCluster_Stone_02_LOD0Mesh",
+   "name": "CulvertStoneCluster_Stone_02_LOD0",
+   "parent": "CulvertStoneCluster",
+   "parentIndex": 8,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.4600002765655518
+    ],
+    [
+     0,
+     1,
+     0,
+     0.07999999821186066
+    ],
+    [
+     0,
+     0,
+     1,
+     0.6200000047683716
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 4,
+   "mesh": "CulvertStoneCluster_Stone_03_LOD0Mesh",
+   "name": "CulvertStoneCluster_Stone_03_LOD0",
+   "parent": "CulvertStoneCluster",
+   "parentIndex": 8,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.120000123977661
+    ],
+    [
+     0,
+     1,
+     0,
+     0.07999999821186066
+    ],
+    [
+     0,
+     0,
+     1,
+     0.30000001192092896
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 5,
+   "mesh": "CulvertStoneCluster_Stone_04_LOD0Mesh",
+   "name": "CulvertStoneCluster_Stone_04_LOD0",
+   "parent": "CulvertStoneCluster",
+   "parentIndex": 8,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.4200003147125244
+    ],
+    [
+     0,
+     1,
+     0,
+     0.07999999821186066
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.23999999463558197
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 6,
+   "mesh": "CulvertStoneCluster_WingLeft_LOD0Mesh",
+   "name": "CulvertStoneCluster_WingLeft_LOD0",
+   "parent": "CulvertStoneCluster",
+   "parentIndex": 8,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -0.09999990463256836
+    ],
+    [
+     0,
+     1,
+     0,
+     0.07000000029802322
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.07999999821186066
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 7,
+   "mesh": "CulvertStoneCluster_WingRight_LOD0Mesh",
+   "name": "CulvertStoneCluster_WingRight_LOD0",
+   "parent": "CulvertStoneCluster",
+   "parentIndex": 8,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.5400002002716064
+    ],
+    [
+     0,
+     1,
+     0,
+     0.05999999865889549
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.25999999046325684
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+   ],
+   "index": 21,
+   "name": "RoadsideDitch",
+   "parent": "URMAN_ZiratRoadsideKit",
+   "parentIndex": 179,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.549999952316284
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 9,
+   "mesh": "RoadsideDitch_Bank_00_LOD0Mesh",
+   "name": "RoadsideDitch_Bank_00_LOD0",
+   "parent": "RoadsideDitch",
+   "parentIndex": 21,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.3799998760223389
+    ],
+    [
+     0,
+     1,
+     0,
+     0.05000000074505806
+    ],
+    [
+     0,
+     0,
+     1,
+     6.199999809265137
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 10,
+   "mesh": "RoadsideDitch_Bank_01_LOD0Mesh",
+   "name": "RoadsideDitch_Bank_01_LOD0",
+   "parent": "RoadsideDitch",
+   "parentIndex": 21,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.5199997425079346
+    ],
+    [
+     0,
+     1,
+     0,
+     0.05000000074505806
+    ],
+    [
+     0,
+     0,
+     1,
+     3.4000000953674316
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 11,
+   "mesh": "RoadsideDitch_Bank_02_LOD0Mesh",
+   "name": "RoadsideDitch_Bank_02_LOD0",
+   "parent": "RoadsideDitch",
+   "parentIndex": 21,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.3599998950958252
+    ],
+    [
+     0,
+     1,
+     0,
+     0.05000000074505806
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.20000000298023224
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 12,
+   "mesh": "RoadsideDitch_Bank_03_LOD0Mesh",
+   "name": "RoadsideDitch_Bank_03_LOD0",
+   "parent": "RoadsideDitch",
+   "parentIndex": 21,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.6600000858306885
+    ],
+    [
+     0,
+     1,
+     0,
+     0.05000000074505806
+    ],
+    [
+     0,
+     0,
+     1,
+     -3.700000047683716
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 13,
+   "mesh": "RoadsideDitch_Bank_04_LOD0Mesh",
+   "name": "RoadsideDitch_Bank_04_LOD0",
+   "parent": "RoadsideDitch",
+   "parentIndex": 21,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.500000238418579
+    ],
+    [
+     0,
+     1,
+     0,
+     0.05000000074505806
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.599999904632568
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 14,
+   "mesh": "RoadsideDitch_Relief_00_LOD0Mesh",
+   "name": "RoadsideDitch_Relief_00_LOD0",
+   "parent": "RoadsideDitch",
+   "parentIndex": 21,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 15,
+   "mesh": "RoadsideDitch_Sedge_00_LOD0Mesh",
+   "name": "RoadsideDitch_Sedge_00_LOD0",
+   "parent": "RoadsideDitch",
+   "parentIndex": 21,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.6000001430511475
+    ],
+    [
+     0,
+     1,
+     0,
+     0.029999999329447746
+    ],
+    [
+     0,
+     0,
+     1,
+     6.019999980926514
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 16,
+   "mesh": "RoadsideDitch_Sedge_01_LOD0Mesh",
+   "name": "RoadsideDitch_Sedge_01_LOD0",
+   "parent": "RoadsideDitch",
+   "parentIndex": 21,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.7400000095367432
+    ],
+    [
+     0,
+     1,
+     0,
+     0.029999999329447746
+    ],
+    [
+     0,
+     0,
+     1,
+     3.2200000286102295
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 17,
+   "mesh": "RoadsideDitch_Sedge_02_LOD0Mesh",
+   "name": "RoadsideDitch_Sedge_02_LOD0",
+   "parent": "RoadsideDitch",
+   "parentIndex": 21,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.5800001621246338
+    ],
+    [
+     0,
+     1,
+     0,
+     0.029999999329447746
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.3799999952316284
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 18,
+   "mesh": "RoadsideDitch_Sedge_03_LOD0Mesh",
+   "name": "RoadsideDitch_Sedge_03_LOD0",
+   "parent": "RoadsideDitch",
+   "parentIndex": 21,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.8799998760223389
+    ],
+    [
+     0,
+     1,
+     0,
+     0.029999999329447746
+    ],
+    [
+     0,
+     0,
+     1,
+     -3.880000114440918
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 19,
+   "mesh": "RoadsideDitch_Sedge_04_LOD0Mesh",
+   "name": "RoadsideDitch_Sedge_04_LOD0",
+   "parent": "RoadsideDitch",
+   "parentIndex": 21,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.7200000286102295
+    ],
+    [
+     0,
+     1,
+     0,
+     0.029999999329447746
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.78000020980835
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 20,
+   "mesh": "RoadsideDitch_Water_00_LOD0Mesh",
+   "name": "RoadsideDitch_Water_00_LOD0",
+   "parent": "RoadsideDitch",
+   "parentIndex": 21,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [
+    8,
+    21,
+    33,
+    45,
+    69,
+    94,
+    121,
+    136,
+    154,
+    169,
+    178
+   ],
+   "index": 179,
+   "name": "URMAN_ZiratRoadsideKit",
+   "parent": null,
+   "parentIndex": null,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32
+   ],
+   "index": 33,
+   "name": "WetRoadShoulder_Left",
+   "parent": "URMAN_ZiratRoadsideKit",
+   "parentIndex": 179,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.75
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 22,
+   "mesh": "WetRoadShoulder_Left_Contact_00_LOD0Mesh",
+   "name": "WetRoadShoulder_Left_Contact_00_LOD0",
+   "parent": "WetRoadShoulder_Left",
+   "parentIndex": 33,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.5199999809265137
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03999999910593033
+    ],
+    [
+     0,
+     0,
+     1,
+     6.300000190734863
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 23,
+   "mesh": "WetRoadShoulder_Left_Contact_01_LOD0Mesh",
+   "name": "WetRoadShoulder_Left_Contact_01_LOD0",
+   "parent": "WetRoadShoulder_Left",
+   "parentIndex": 33,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.6599998474121094
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03999999910593033
+    ],
+    [
+     0,
+     0,
+     1,
+     2.0999999046325684
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 24,
+   "mesh": "WetRoadShoulder_Left_Contact_02_LOD0Mesh",
+   "name": "WetRoadShoulder_Left_Contact_02_LOD0",
+   "parent": "WetRoadShoulder_Left",
+   "parentIndex": 33,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.4800000190734863
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03999999910593033
+    ],
+    [
+     0,
+     0,
+     1,
+     -2
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 25,
+   "mesh": "WetRoadShoulder_Left_Contact_03_LOD0Mesh",
+   "name": "WetRoadShoulder_Left_Contact_03_LOD0",
+   "parent": "WetRoadShoulder_Left",
+   "parentIndex": 33,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.7200002670288086
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03999999910593033
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.099999904632568
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 26,
+   "mesh": "WetRoadShoulder_Left_Grass_00_LOD0Mesh",
+   "name": "WetRoadShoulder_Left_Grass_00_LOD0",
+   "parent": "WetRoadShoulder_Left",
+   "parentIndex": 33,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.859999656677246
+    ],
+    [
+     0,
+     1,
+     0,
+     0.019999999552965164
+    ],
+    [
+     0,
+     0,
+     1,
+     6.019999980926514
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 27,
+   "mesh": "WetRoadShoulder_Left_Grass_01_LOD0Mesh",
+   "name": "WetRoadShoulder_Left_Grass_01_LOD0",
+   "parent": "WetRoadShoulder_Left",
+   "parentIndex": 33,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.940000057220459
+    ],
+    [
+     0,
+     1,
+     0,
+     0.019999999552965164
+    ],
+    [
+     0,
+     0,
+     1,
+     1.8200000524520874
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 28,
+   "mesh": "WetRoadShoulder_Left_Grass_02_LOD0Mesh",
+   "name": "WetRoadShoulder_Left_Grass_02_LOD0",
+   "parent": "WetRoadShoulder_Left",
+   "parentIndex": 33,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.859999656677246
+    ],
+    [
+     0,
+     1,
+     0,
+     0.019999999552965164
+    ],
+    [
+     0,
+     0,
+     1,
+     -2.2799999713897705
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 29,
+   "mesh": "WetRoadShoulder_Left_Grass_03_LOD0Mesh",
+   "name": "WetRoadShoulder_Left_Grass_03_LOD0",
+   "parent": "WetRoadShoulder_Left",
+   "parentIndex": 33,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.940000057220459
+    ],
+    [
+     0,
+     1,
+     0,
+     0.019999999552965164
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.380000114440918
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 30,
+   "mesh": "WetRoadShoulder_Left_Relief_00_LOD0Mesh",
+   "name": "WetRoadShoulder_Left_Relief_00_LOD0",
+   "parent": "WetRoadShoulder_Left",
+   "parentIndex": 33,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 31,
+   "mesh": "WetRoadShoulder_Left_RoadBand_LOD0Mesh",
+   "name": "WetRoadShoulder_Left_RoadBand_LOD0",
+   "parent": "WetRoadShoulder_Left",
+   "parentIndex": 33,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 32,
+   "mesh": "WetRoadShoulder_Left_WetEdge_00_LOD0Mesh",
+   "name": "WetRoadShoulder_Left_WetEdge_00_LOD0",
+   "parent": "WetRoadShoulder_Left",
+   "parentIndex": 33,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44
+   ],
+   "index": 45,
+   "name": "WetRoadShoulder_Right",
+   "parent": "URMAN_ZiratRoadsideKit",
+   "parentIndex": 179,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.75
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 34,
+   "mesh": "WetRoadShoulder_Right_Contact_00_LOD0Mesh",
+   "name": "WetRoadShoulder_Right_Contact_00_LOD0",
+   "parent": "WetRoadShoulder_Right",
+   "parentIndex": 45,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.5199999809265137
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03999999910593033
+    ],
+    [
+     0,
+     0,
+     1,
+     6.300000190734863
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 35,
+   "mesh": "WetRoadShoulder_Right_Contact_01_LOD0Mesh",
+   "name": "WetRoadShoulder_Right_Contact_01_LOD0",
+   "parent": "WetRoadShoulder_Right",
+   "parentIndex": 45,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.6599998474121094
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03999999910593033
+    ],
+    [
+     0,
+     0,
+     1,
+     2.0999999046325684
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 36,
+   "mesh": "WetRoadShoulder_Right_Contact_02_LOD0Mesh",
+   "name": "WetRoadShoulder_Right_Contact_02_LOD0",
+   "parent": "WetRoadShoulder_Right",
+   "parentIndex": 45,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.4800000190734863
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03999999910593033
+    ],
+    [
+     0,
+     0,
+     1,
+     -2
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 37,
+   "mesh": "WetRoadShoulder_Right_Contact_03_LOD0Mesh",
+   "name": "WetRoadShoulder_Right_Contact_03_LOD0",
+   "parent": "WetRoadShoulder_Right",
+   "parentIndex": 45,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.7200002670288086
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03999999910593033
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.099999904632568
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 38,
+   "mesh": "WetRoadShoulder_Right_Grass_00_LOD0Mesh",
+   "name": "WetRoadShoulder_Right_Grass_00_LOD0",
+   "parent": "WetRoadShoulder_Right",
+   "parentIndex": 45,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.859999656677246
+    ],
+    [
+     0,
+     1,
+     0,
+     0.019999999552965164
+    ],
+    [
+     0,
+     0,
+     1,
+     6.019999980926514
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 39,
+   "mesh": "WetRoadShoulder_Right_Grass_01_LOD0Mesh",
+   "name": "WetRoadShoulder_Right_Grass_01_LOD0",
+   "parent": "WetRoadShoulder_Right",
+   "parentIndex": 45,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.940000057220459
+    ],
+    [
+     0,
+     1,
+     0,
+     0.019999999552965164
+    ],
+    [
+     0,
+     0,
+     1,
+     1.8200000524520874
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 40,
+   "mesh": "WetRoadShoulder_Right_Grass_02_LOD0Mesh",
+   "name": "WetRoadShoulder_Right_Grass_02_LOD0",
+   "parent": "WetRoadShoulder_Right",
+   "parentIndex": 45,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.859999656677246
+    ],
+    [
+     0,
+     1,
+     0,
+     0.019999999552965164
+    ],
+    [
+     0,
+     0,
+     1,
+     -2.2799999713897705
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 41,
+   "mesh": "WetRoadShoulder_Right_Grass_03_LOD0Mesh",
+   "name": "WetRoadShoulder_Right_Grass_03_LOD0",
+   "parent": "WetRoadShoulder_Right",
+   "parentIndex": 45,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.940000057220459
+    ],
+    [
+     0,
+     1,
+     0,
+     0.019999999552965164
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.380000114440918
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 42,
+   "mesh": "WetRoadShoulder_Right_Relief_00_LOD0Mesh",
+   "name": "WetRoadShoulder_Right_Relief_00_LOD0",
+   "parent": "WetRoadShoulder_Right",
+   "parentIndex": 45,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 43,
+   "mesh": "WetRoadShoulder_Right_RoadBand_LOD0Mesh",
+   "name": "WetRoadShoulder_Right_RoadBand_LOD0",
+   "parent": "WetRoadShoulder_Right",
+   "parentIndex": 45,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 44,
+   "mesh": "WetRoadShoulder_Right_WetEdge_00_LOD0Mesh",
+   "name": "WetRoadShoulder_Right_WetEdge_00_LOD0",
+   "parent": "WetRoadShoulder_Right",
+   "parentIndex": 45,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68
+   ],
+   "index": 69,
+   "name": "ZiratBirchShrubMass",
+   "parent": "URMAN_ZiratRoadsideKit",
+   "parentIndex": 179,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     5.849999904632568
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -8.149999618530273
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 46,
+   "mesh": "ZiratBirchShrubMass_Branch_00_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_Branch_00_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 47,
+   "mesh": "ZiratBirchShrubMass_Branch_01_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_Branch_01_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 48,
+   "mesh": "ZiratBirchShrubMass_Branch_02_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_Branch_02_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 49,
+   "mesh": "ZiratBirchShrubMass_ContactLobe_00_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_ContactLobe_00_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -1.799999713897705
+    ],
+    [
+     0,
+     1,
+     0,
+     0.05000000074505806
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.8599996566772461
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 50,
+   "mesh": "ZiratBirchShrubMass_ContactLobe_01_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_ContactLobe_01_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0.3400001525878906
+    ],
+    [
+     0,
+     1,
+     0,
+     0.05000000074505806
+    ],
+    [
+     0,
+     0,
+     1,
+     -2.8000001907348633
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 51,
+   "mesh": "ZiratBirchShrubMass_ContactLobe_02_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_ContactLobe_02_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.4599995613098145
+    ],
+    [
+     0,
+     1,
+     0,
+     0.05000000074505806
+    ],
+    [
+     0,
+     0,
+     1,
+     -4.800000190734863
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 52,
+   "mesh": "ZiratBirchShrubMass_MidCanopy_00_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_MidCanopy_00_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.012399911880493
+    ],
+    [
+     0,
+     1,
+     0,
+     2.2320001125335693
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.8000001907348633
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 53,
+   "mesh": "ZiratBirchShrubMass_MidCanopy_01_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_MidCanopy_01_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -1.4963998794555664
+    ],
+    [
+     0,
+     1,
+     0,
+     2.9140000343322754
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.9399995803833008
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 54,
+   "mesh": "ZiratBirchShrubMass_MidCanopy_02_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_MidCanopy_02_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0.1751999855041504
+    ],
+    [
+     0,
+     1,
+     0,
+     2.7720000743865967
+    ],
+    [
+     0,
+     0,
+     1,
+     -2.739999771118164
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 55,
+   "mesh": "ZiratBirchShrubMass_MidCanopy_03_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_MidCanopy_03_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0.6072001457214355
+    ],
+    [
+     0,
+     1,
+     0,
+     3.61899995803833
+    ],
+    [
+     0,
+     0,
+     1,
+     -2.880000114440918
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 56,
+   "mesh": "ZiratBirchShrubMass_MidCanopy_04_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_MidCanopy_04_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.2272000312805176
+    ],
+    [
+     0,
+     1,
+     0,
+     2.030400037765503
+    ],
+    [
+     0,
+     0,
+     1,
+     -4.739999771118164
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 57,
+   "mesh": "ZiratBirchShrubMass_MidCanopy_05_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_MidCanopy_05_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.7792000770568848
+    ],
+    [
+     0,
+     1,
+     0,
+     2.6507999897003174
+    ],
+    [
+     0,
+     0,
+     1,
+     -4.880000114440918
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 58,
+   "mesh": "ZiratBirchShrubMass_MidTrunk_00_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_MidTrunk_00_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -1.7199997901916504
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.7799997329711914
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 59,
+   "mesh": "ZiratBirchShrubMass_MidTrunk_01_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_MidTrunk_01_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0.4200000762939453
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -2.7200002670288086
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 60,
+   "mesh": "ZiratBirchShrubMass_MidTrunk_02_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_MidTrunk_02_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.539999485015869
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -4.719999313354492
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 61,
+   "mesh": "ZiratBirchShrubMass_WindbreakBranch_00_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_WindbreakBranch_00_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 62,
+   "mesh": "ZiratBirchShrubMass_WindbreakBranch_01_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_WindbreakBranch_01_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 63,
+   "mesh": "ZiratBirchShrubMass_WindbreakCanopy_00_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_WindbreakCanopy_00_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.440000057220459
+    ],
+    [
+     0,
+     1,
+     0,
+     2.842400074005127
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.880000114440918
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 64,
+   "mesh": "ZiratBirchShrubMass_WindbreakCanopy_01_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_WindbreakCanopy_01_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.1600003242492676
+    ],
+    [
+     0,
+     1,
+     0,
+     2.4616000652313232
+    ],
+    [
+     0,
+     0,
+     1,
+     -8.020000457763672
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 65,
+   "mesh": "ZiratBirchShrubMass_WindbreakContact_00_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_WindbreakContact_00_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.7200000286102295
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03999999910593033
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.8600006103515625
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 66,
+   "mesh": "ZiratBirchShrubMass_WindbreakContact_01_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_WindbreakContact_01_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.320000171661377
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03999999910593033
+    ],
+    [
+     0,
+     0,
+     1,
+     -8
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 67,
+   "mesh": "ZiratBirchShrubMass_WindbreakTrunk_00_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_WindbreakTrunk_00_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 68,
+   "mesh": "ZiratBirchShrubMass_WindbreakTrunk_01_LOD0Mesh",
+   "name": "ZiratBirchShrubMass_WindbreakTrunk_01_LOD0",
+   "parent": "ZiratBirchShrubMass",
+   "parentIndex": 69,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93
+   ],
+   "index": 94,
+   "name": "ZiratBoundaryFence",
+   "parent": "URMAN_ZiratRoadsideKit",
+   "parentIndex": 179,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -8.149999618530273
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 70,
+   "mesh": "ZiratBoundaryFence_Berm_East_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Berm_East_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 71,
+   "mesh": "ZiratBoundaryFence_Berm_West_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Berm_West_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 72,
+   "mesh": "ZiratBoundaryFence_BrokenBrace_East_LOD0Mesh",
+   "name": "ZiratBoundaryFence_BrokenBrace_East_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 73,
+   "mesh": "ZiratBoundaryFence_BrokenBrace_West_LOD0Mesh",
+   "name": "ZiratBoundaryFence_BrokenBrace_West_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 74,
+   "mesh": "ZiratBoundaryFence_Deadwood_00_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Deadwood_00_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     0.990215996336651,
+     -0.0,
+     -0.13954311707611744,
+     -5.650000095367432
+    ],
+    [
+     0.0,
+     1,
+     -0.0,
+     0.03999999910593033
+    ],
+    [
+     0.13954311707611744,
+     0.0,
+     0.990215996336651,
+     -0.3400001525878906
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 75,
+   "mesh": "ZiratBoundaryFence_Deadwood_01_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Deadwood_01_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     0.9928086362317385,
+     0.0,
+     0.11971220364474622,
+     5.349999904632568
+    ],
+    [
+     0.0,
+     1,
+     0.0,
+     0.03999999910593033
+    ],
+    [
+     -0.11971220364474622,
+     0.0,
+     0.9928086362317385,
+     -0.4200000762939453
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 76,
+   "mesh": "ZiratBoundaryFence_GroundContact_00_LOD0Mesh",
+   "name": "ZiratBoundaryFence_GroundContact_00_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -4.900000095367432
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03999999910593033
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.10000038146972656
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 77,
+   "mesh": "ZiratBoundaryFence_GroundContact_01_LOD0Mesh",
+   "name": "ZiratBoundaryFence_GroundContact_01_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     4.900000095367432
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03999999910593033
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.10000038146972656
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 78,
+   "mesh": "ZiratBoundaryFence_Picket_East_00_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Picket_East_00_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.359999895095825
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0.06000041961669922
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 79,
+   "mesh": "ZiratBoundaryFence_Picket_East_01_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Picket_East_01_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.299999952316284
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 80,
+   "mesh": "ZiratBoundaryFence_Picket_East_02_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Picket_East_02_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     4.179999828338623
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.06000041961669922
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 81,
+   "mesh": "ZiratBoundaryFence_Picket_East_03_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Picket_East_03_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     5.260000228881836
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0.06000041961669922
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 82,
+   "mesh": "ZiratBoundaryFence_Picket_East_04_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Picket_East_04_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     6.159999847412109
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 83,
+   "mesh": "ZiratBoundaryFence_Picket_East_05_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Picket_East_05_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     7.019999980926514
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.06000041961669922
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 84,
+   "mesh": "ZiratBoundaryFence_Picket_West_00_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Picket_West_00_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -6.949999809265137
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0.06000041961669922
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 85,
+   "mesh": "ZiratBoundaryFence_Picket_West_01_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Picket_West_01_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -6.179999828338623
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 86,
+   "mesh": "ZiratBoundaryFence_Picket_West_02_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Picket_West_02_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -5.320000171661377
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.06000041961669922
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 87,
+   "mesh": "ZiratBoundaryFence_Picket_West_03_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Picket_West_03_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -4.380000114440918
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0.06000041961669922
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 88,
+   "mesh": "ZiratBoundaryFence_Picket_West_04_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Picket_West_04_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.359999895095825
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 89,
+   "mesh": "ZiratBoundaryFence_Picket_West_05_LOD0Mesh",
+   "name": "ZiratBoundaryFence_Picket_West_05_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.359999895095825
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -0.06000041961669922
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 90,
+   "mesh": "ZiratBoundaryFence_RailLower_East_LOD0Mesh",
+   "name": "ZiratBoundaryFence_RailLower_East_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 91,
+   "mesh": "ZiratBoundaryFence_RailLower_West_LOD0Mesh",
+   "name": "ZiratBoundaryFence_RailLower_West_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 92,
+   "mesh": "ZiratBoundaryFence_RailUpper_East_LOD0Mesh",
+   "name": "ZiratBoundaryFence_RailUpper_East_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 93,
+   "mesh": "ZiratBoundaryFence_RailUpper_West_LOD0Mesh",
+   "name": "ZiratBoundaryFence_RailUpper_West_LOD0",
+   "parent": "ZiratBoundaryFence",
+   "parentIndex": 94,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120
+   ],
+   "index": 121,
+   "name": "ZiratDistantVillageMass",
+   "parent": "URMAN_ZiratRoadsideKit",
+   "parentIndex": 179,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -8.149999618530273
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 95,
+   "mesh": "ZiratDistantVillageMass_FarCanopy_00_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_FarCanopy_00_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -8
+    ],
+    [
+     0,
+     1,
+     0,
+     0.25999999046325684
+    ],
+    [
+     0,
+     0,
+     1,
+     -10
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 96,
+   "mesh": "ZiratDistantVillageMass_FarCanopy_01_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_FarCanopy_01_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -5.199999809265137
+    ],
+    [
+     0,
+     1,
+     0,
+     0.3100000023841858
+    ],
+    [
+     0,
+     0,
+     1,
+     -14.899999618530273
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 97,
+   "mesh": "ZiratDistantVillageMass_FarCanopy_02_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_FarCanopy_02_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1
+    ],
+    [
+     0,
+     1,
+     0,
+     0.25999999046325684
+    ],
+    [
+     0,
+     0,
+     1,
+     -14.19999885559082
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 98,
+   "mesh": "ZiratDistantVillageMass_FarCanopy_03_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_FarCanopy_03_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     5.099999904632568
+    ],
+    [
+     0,
+     1,
+     0,
+     0.3100000023841858
+    ],
+    [
+     0,
+     0,
+     1,
+     -11
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 99,
+   "mesh": "ZiratDistantVillageMass_FarCanopy_04_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_FarCanopy_04_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     8
+    ],
+    [
+     0,
+     1,
+     0,
+     0.25999999046325684
+    ],
+    [
+     0,
+     0,
+     1,
+     -17.399999618530273
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 100,
+   "mesh": "ZiratDistantVillageMass_FarCanopy_05_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_FarCanopy_05_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -1.7999999523162842
+    ],
+    [
+     0,
+     1,
+     0,
+     0.3100000023841858
+    ],
+    [
+     0,
+     0,
+     1,
+     -17
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 102,
+   "mesh": "ZiratDistantVillageMass_FarFencePost_00_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_FarFencePost_00_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -8.100000381469727
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -9.319999694824219
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 103,
+   "mesh": "ZiratDistantVillageMass_FarFencePost_01_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_FarFencePost_01_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -5
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -9.35999870300293
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 104,
+   "mesh": "ZiratDistantVillageMass_FarFencePost_02_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_FarFencePost_02_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -1.600000023841858
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -9.319999694824219
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 105,
+   "mesh": "ZiratDistantVillageMass_FarFencePost_03_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_FarFencePost_03_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -9.35999870300293
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 106,
+   "mesh": "ZiratDistantVillageMass_FarFencePost_04_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_FarFencePost_04_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     5.099999904632568
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -9.319999694824219
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 107,
+   "mesh": "ZiratDistantVillageMass_FarFencePost_05_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_FarFencePost_05_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     8
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -9.35999870300293
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 101,
+   "mesh": "ZiratDistantVillageMass_FarFence_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_FarFence_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 108,
+   "mesh": "ZiratDistantVillageMass_ForegroundBank_00_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_ForegroundBank_00_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -7.400000095367432
+    ],
+    [
+     0,
+     1,
+     0,
+     0.05000000074505806
+    ],
+    [
+     0,
+     0,
+     1,
+     -10.19999885559082
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 109,
+   "mesh": "ZiratDistantVillageMass_ForegroundBank_01_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_ForegroundBank_01_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -1.399999976158142
+    ],
+    [
+     0,
+     1,
+     0,
+     0.05000000074505806
+    ],
+    [
+     0,
+     0,
+     1,
+     -13.80000114440918
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 110,
+   "mesh": "ZiratDistantVillageMass_ForegroundBank_02_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_ForegroundBank_02_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     5.800000190734863
+    ],
+    [
+     0,
+     1,
+     0,
+     0.05000000074505806
+    ],
+    [
+     0,
+     0,
+     1,
+     -15.399999618530273
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 111,
+   "mesh": "ZiratDistantVillageMass_House_00_Body_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_House_00_Body_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -7
+    ],
+    [
+     0,
+     1,
+     0,
+     0.1599999964237213
+    ],
+    [
+     0,
+     0,
+     1,
+     -10.80000114440918
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 112,
+   "mesh": "ZiratDistantVillageMass_House_00_Roof_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_House_00_Roof_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -7
+    ],
+    [
+     0,
+     1,
+     0,
+     1.340000033378601
+    ],
+    [
+     0,
+     0,
+     1,
+     -10.80000114440918
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 113,
+   "mesh": "ZiratDistantVillageMass_House_01_Body_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_House_01_Body_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.9000000953674316
+    ],
+    [
+     0,
+     1,
+     0,
+     0.20000000298023224
+    ],
+    [
+     0,
+     0,
+     1,
+     -12.600000381469727
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 114,
+   "mesh": "ZiratDistantVillageMass_House_01_Roof_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_House_01_Roof_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.9000000953674316
+    ],
+    [
+     0,
+     1,
+     0,
+     1.5800000429153442
+    ],
+    [
+     0,
+     0,
+     1,
+     -12.600000381469727
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 115,
+   "mesh": "ZiratDistantVillageMass_House_02_Body_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_House_02_Body_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0.20000000298023224
+    ],
+    [
+     0,
+     1,
+     0,
+     0.1599999964237213
+    ],
+    [
+     0,
+     0,
+     1,
+     -11.600000381469727
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 116,
+   "mesh": "ZiratDistantVillageMass_House_02_Roof_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_House_02_Roof_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0.20000000298023224
+    ],
+    [
+     0,
+     1,
+     0,
+     1.2000000476837158
+    ],
+    [
+     0,
+     0,
+     1,
+     -11.600000381469727
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 117,
+   "mesh": "ZiratDistantVillageMass_House_03_Body_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_House_03_Body_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.799999952316284
+    ],
+    [
+     0,
+     1,
+     0,
+     0.20000000298023224
+    ],
+    [
+     0,
+     0,
+     1,
+     -13.19999885559082
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 118,
+   "mesh": "ZiratDistantVillageMass_House_03_Roof_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_House_03_Roof_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.799999952316284
+    ],
+    [
+     0,
+     1,
+     0,
+     1.6200000047683716
+    ],
+    [
+     0,
+     0,
+     1,
+     -13.19999885559082
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 119,
+   "mesh": "ZiratDistantVillageMass_House_04_Body_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_House_04_Body_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     6.699999809265137
+    ],
+    [
+     0,
+     1,
+     0,
+     0.1599999964237213
+    ],
+    [
+     0,
+     0,
+     1,
+     -15.80000114440918
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 120,
+   "mesh": "ZiratDistantVillageMass_House_04_Roof_LOD0Mesh",
+   "name": "ZiratDistantVillageMass_House_04_Roof_LOD0",
+   "parent": "ZiratDistantVillageMass",
+   "parentIndex": 121,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     6.699999809265137
+    ],
+    [
+     0,
+     1,
+     0,
+     1.3200000524520874
+    ],
+    [
+     0,
+     0,
+     1,
+     -15.80000114440918
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    128,
+    129,
+    130,
+    131,
+    132,
+    133,
+    134,
+    135
+   ],
+   "index": 136,
+   "name": "ZiratMarkerGroup_Far",
+   "parent": "URMAN_ZiratRoadsideKit",
+   "parentIndex": 179,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -8.149999618530273
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 122,
+   "mesh": "ZiratMarkerGroup_Far_Companion_00_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_Companion_00_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.5799999237060547
+    ],
+    [
+     0,
+     1,
+     0,
+     0.07000000029802322
+    ],
+    [
+     0,
+     0,
+     1,
+     -8.35999870300293
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 123,
+   "mesh": "ZiratMarkerGroup_Far_Companion_01_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_Companion_01_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.859999895095825
+    ],
+    [
+     0,
+     1,
+     0,
+     0.07000000029802322
+    ],
+    [
+     0,
+     0,
+     1,
+     -8.780000686645508
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 124,
+   "mesh": "ZiratMarkerGroup_Far_LeafLitter_00_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_LeafLitter_00_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.0399999618530273
+    ],
+    [
+     0,
+     1,
+     0,
+     0.04500000178813934
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.5
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 125,
+   "mesh": "ZiratMarkerGroup_Far_LeafLitter_01_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_LeafLitter_01_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.259999990463257
+    ],
+    [
+     0,
+     1,
+     0,
+     0.04500000178813934
+    ],
+    [
+     0,
+     0,
+     1,
+     -7.3600006103515625
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 126,
+   "mesh": "ZiratMarkerGroup_Far_LeafLitter_02_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_LeafLitter_02_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.680000066757202
+    ],
+    [
+     0,
+     1,
+     0,
+     0.04500000178813934
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.780000686645508
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 127,
+   "mesh": "ZiratMarkerGroup_Far_LeafLitter_03_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_LeafLitter_03_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.4000000953674316
+    ],
+    [
+     0,
+     1,
+     0,
+     0.04500000178813934
+    ],
+    [
+     0,
+     0,
+     1,
+     -7.6399993896484375
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 128,
+   "mesh": "ZiratMarkerGroup_Far_Marker_00_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_Marker_00_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.0199999809265137
+    ],
+    [
+     0,
+     1,
+     0,
+     0.10000000149011612
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.479999542236328
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 129,
+   "mesh": "ZiratMarkerGroup_Far_Marker_01_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_Marker_01_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.240000009536743
+    ],
+    [
+     0,
+     1,
+     0,
+     0.10000000149011612
+    ],
+    [
+     0,
+     0,
+     1,
+     -7.340000152587891
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 130,
+   "mesh": "ZiratMarkerGroup_Far_Marker_02_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_Marker_02_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.700000047683716
+    ],
+    [
+     0,
+     1,
+     0,
+     0.10000000149011612
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.760000228881836
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 131,
+   "mesh": "ZiratMarkerGroup_Far_Marker_03_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_Marker_03_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.4200000762939453
+    ],
+    [
+     0,
+     1,
+     0,
+     0.10000000149011612
+    ],
+    [
+     0,
+     0,
+     1,
+     -7.619999885559082
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 132,
+   "mesh": "ZiratMarkerGroup_Far_Mound_00_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_Mound_00_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.0199999809265137
+    ],
+    [
+     0,
+     1,
+     0,
+     0.02800000086426735
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.479999542236328
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 133,
+   "mesh": "ZiratMarkerGroup_Far_Mound_01_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_Mound_01_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.240000009536743
+    ],
+    [
+     0,
+     1,
+     0,
+     0.02800000086426735
+    ],
+    [
+     0,
+     0,
+     1,
+     -7.340000152587891
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 134,
+   "mesh": "ZiratMarkerGroup_Far_Mound_02_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_Mound_02_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.700000047683716
+    ],
+    [
+     0,
+     1,
+     0,
+     0.02800000086426735
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.760000228881836
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 135,
+   "mesh": "ZiratMarkerGroup_Far_Mound_03_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Far_Mound_03_LOD0",
+   "parent": "ZiratMarkerGroup_Far",
+   "parentIndex": 136,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.4200000762939453
+    ],
+    [
+     0,
+     1,
+     0,
+     0.02800000086426735
+    ],
+    [
+     0,
+     0,
+     1,
+     -7.619999885559082
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [
+    137,
+    138,
+    139,
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152,
+    153
+   ],
+   "index": 154,
+   "name": "ZiratMarkerGroup_Low",
+   "parent": "URMAN_ZiratRoadsideKit",
+   "parentIndex": 179,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -8.149999618530273
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 137,
+   "mesh": "ZiratMarkerGroup_Low_Companion_00_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_Companion_00_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -3.5399999618530273
+    ],
+    [
+     0,
+     1,
+     0,
+     0.10000000149011612
+    ],
+    [
+     0,
+     0,
+     1,
+     -3.559999465942383
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 138,
+   "mesh": "ZiratMarkerGroup_Low_Companion_01_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_Companion_01_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.7799999713897705
+    ],
+    [
+     0,
+     1,
+     0,
+     0.10000000149011612
+    ],
+    [
+     0,
+     0,
+     1,
+     -4.239999771118164
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 139,
+   "mesh": "ZiratMarkerGroup_Low_LeafLitter_00_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_LeafLitter_00_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.740000009536743
+    ],
+    [
+     0,
+     1,
+     0,
+     0.06499999761581421
+    ],
+    [
+     0,
+     0,
+     1,
+     -1.5799999237060547
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 140,
+   "mesh": "ZiratMarkerGroup_Low_LeafLitter_01_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_LeafLitter_01_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.0399999618530273
+    ],
+    [
+     0,
+     1,
+     0,
+     0.06499999761581421
+    ],
+    [
+     0,
+     0,
+     1,
+     -2.6599998474121094
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 141,
+   "mesh": "ZiratMarkerGroup_Low_LeafLitter_02_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_LeafLitter_02_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.619999885559082
+    ],
+    [
+     0,
+     1,
+     0,
+     0.06499999761581421
+    ],
+    [
+     0,
+     0,
+     1,
+     -1.8199996948242188
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 142,
+   "mesh": "ZiratMarkerGroup_Low_LeafLitter_03_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_LeafLitter_03_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.359999895095825
+    ],
+    [
+     0,
+     1,
+     0,
+     0.06499999761581421
+    ],
+    [
+     0,
+     0,
+     1,
+     -3.119999885559082
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 143,
+   "mesh": "ZiratMarkerGroup_Low_LeafLitter_04_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_LeafLitter_04_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.4600000381469727
+    ],
+    [
+     0,
+     1,
+     0,
+     0.06499999761581421
+    ],
+    [
+     0,
+     0,
+     1,
+     -5.260000228881836
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 144,
+   "mesh": "ZiratMarkerGroup_Low_Marker_00_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_Marker_00_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.819999933242798
+    ],
+    [
+     0,
+     1,
+     0,
+     0.15000000596046448
+    ],
+    [
+     0,
+     0,
+     1,
+     -1.619999885559082
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 145,
+   "mesh": "ZiratMarkerGroup_Low_Marker_01_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_Marker_01_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.119999885559082
+    ],
+    [
+     0,
+     1,
+     0,
+     0.15000000596046448
+    ],
+    [
+     0,
+     0,
+     1,
+     -2.6999998092651367
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 146,
+   "mesh": "ZiratMarkerGroup_Low_Marker_02_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_Marker_02_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.5399999618530273
+    ],
+    [
+     0,
+     1,
+     0,
+     0.15000000596046448
+    ],
+    [
+     0,
+     0,
+     1,
+     -1.859999656677246
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 147,
+   "mesh": "ZiratMarkerGroup_Low_Marker_03_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_Marker_03_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.2799999713897705
+    ],
+    [
+     0,
+     1,
+     0,
+     0.15000000596046448
+    ],
+    [
+     0,
+     0,
+     1,
+     -3.1599998474121094
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 148,
+   "mesh": "ZiratMarkerGroup_Low_Marker_04_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_Marker_04_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.5399999618530273
+    ],
+    [
+     0,
+     1,
+     0,
+     0.15000000596046448
+    ],
+    [
+     0,
+     0,
+     1,
+     -5.300000190734863
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 149,
+   "mesh": "ZiratMarkerGroup_Low_Mound_00_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_Mound_00_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.819999933242798
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03500000014901161
+    ],
+    [
+     0,
+     0,
+     1,
+     -1.619999885559082
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 150,
+   "mesh": "ZiratMarkerGroup_Low_Mound_01_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_Mound_01_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.119999885559082
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03500000014901161
+    ],
+    [
+     0,
+     0,
+     1,
+     -2.6999998092651367
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 151,
+   "mesh": "ZiratMarkerGroup_Low_Mound_02_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_Mound_02_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     2.5399999618530273
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03500000014901161
+    ],
+    [
+     0,
+     0,
+     1,
+     -1.859999656677246
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 152,
+   "mesh": "ZiratMarkerGroup_Low_Mound_03_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_Mound_03_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     3.2799999713897705
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03500000014901161
+    ],
+    [
+     0,
+     0,
+     1,
+     -3.1599998474121094
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 153,
+   "mesh": "ZiratMarkerGroup_Low_Mound_04_LOD0Mesh",
+   "name": "ZiratMarkerGroup_Low_Mound_04_LOD0",
+   "parent": "ZiratMarkerGroup_Low",
+   "parentIndex": 154,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -2.5399999618530273
+    ],
+    [
+     0,
+     1,
+     0,
+     0.03500000014901161
+    ],
+    [
+     0,
+     0,
+     1,
+     -5.300000190734863
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [
+    155,
+    156,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    164,
+    165,
+    166,
+    167,
+    168
+   ],
+   "index": 169,
+   "name": "ZiratOpenGate",
+   "parent": "URMAN_ZiratRoadsideKit",
+   "parentIndex": 179,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -8.149999618530273
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 155,
+   "mesh": "ZiratOpenGate_FootStone_00_LOD0Mesh",
+   "name": "ZiratOpenGate_FootStone_00_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -1.5499999523162842
+    ],
+    [
+     0,
+     1,
+     0,
+     0.10000000149011612
+    ],
+    [
+     0,
+     0,
+     1,
+     0.020000457763671875
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 156,
+   "mesh": "ZiratOpenGate_FootStone_01_LOD0Mesh",
+   "name": "ZiratOpenGate_FootStone_01_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.5499999523162842
+    ],
+    [
+     0,
+     1,
+     0,
+     0.10000000149011612
+    ],
+    [
+     0,
+     0,
+     1,
+     0.020000457763671875
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 157,
+   "mesh": "ZiratOpenGate_Leaf_00_LowerRail_LOD0Mesh",
+   "name": "ZiratOpenGate_Leaf_00_LowerRail_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 158,
+   "mesh": "ZiratOpenGate_Leaf_00_Picket_00_LOD0Mesh",
+   "name": "ZiratOpenGate_Leaf_00_Picket_00_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 159,
+   "mesh": "ZiratOpenGate_Leaf_00_Picket_01_LOD0Mesh",
+   "name": "ZiratOpenGate_Leaf_00_Picket_01_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 160,
+   "mesh": "ZiratOpenGate_Leaf_00_Picket_02_LOD0Mesh",
+   "name": "ZiratOpenGate_Leaf_00_Picket_02_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 161,
+   "mesh": "ZiratOpenGate_Leaf_00_UpperRail_LOD0Mesh",
+   "name": "ZiratOpenGate_Leaf_00_UpperRail_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 162,
+   "mesh": "ZiratOpenGate_Leaf_01_LowerRail_LOD0Mesh",
+   "name": "ZiratOpenGate_Leaf_01_LowerRail_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 163,
+   "mesh": "ZiratOpenGate_Leaf_01_Picket_00_LOD0Mesh",
+   "name": "ZiratOpenGate_Leaf_01_Picket_00_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 164,
+   "mesh": "ZiratOpenGate_Leaf_01_Picket_01_LOD0Mesh",
+   "name": "ZiratOpenGate_Leaf_01_Picket_01_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 165,
+   "mesh": "ZiratOpenGate_Leaf_01_Picket_02_LOD0Mesh",
+   "name": "ZiratOpenGate_Leaf_01_Picket_02_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 166,
+   "mesh": "ZiratOpenGate_Leaf_01_UpperRail_LOD0Mesh",
+   "name": "ZiratOpenGate_Leaf_01_UpperRail_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 167,
+   "mesh": "ZiratOpenGate_Post_00_LOD0Mesh",
+   "name": "ZiratOpenGate_Post_00_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -1.5499999523162842
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 168,
+   "mesh": "ZiratOpenGate_Post_01_LOD0Mesh",
+   "name": "ZiratOpenGate_Post_01_LOD0",
+   "parent": "ZiratOpenGate",
+   "parentIndex": 169,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.5499999523162842
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [
+    170,
+    171,
+    172,
+    173,
+    174,
+    175,
+    176,
+    177
+   ],
+   "index": 178,
+   "name": "ZiratPathEdge",
+   "parent": "URMAN_ZiratRoadsideKit",
+   "parentIndex": 179,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -8.149999618530273
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 170,
+   "mesh": "ZiratPathEdge_EdgeGrass_00_LOD0Mesh",
+   "name": "ZiratPathEdge_EdgeGrass_00_LOD0",
+   "parent": "ZiratPathEdge",
+   "parentIndex": 178,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -0.8799999952316284
+    ],
+    [
+     0,
+     1,
+     0,
+     0.019999999552965164
+    ],
+    [
+     0,
+     0,
+     1,
+     -1.619999885559082
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 171,
+   "mesh": "ZiratPathEdge_EdgeGrass_01_LOD0Mesh",
+   "name": "ZiratPathEdge_EdgeGrass_01_LOD0",
+   "parent": "ZiratPathEdge",
+   "parentIndex": 178,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0.8600000143051147
+    ],
+    [
+     0,
+     1,
+     0,
+     0.019999999552965164
+    ],
+    [
+     0,
+     0,
+     1,
+     -4.719999313354492
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 172,
+   "mesh": "ZiratPathEdge_EdgeGrass_02_LOD0Mesh",
+   "name": "ZiratPathEdge_EdgeGrass_02_LOD0",
+   "parent": "ZiratPathEdge",
+   "parentIndex": 178,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -0.7799999713897705
+    ],
+    [
+     0,
+     1,
+     0,
+     0.019999999552965164
+    ],
+    [
+     0,
+     0,
+     1,
+     -7.149999618530273
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 173,
+   "mesh": "ZiratPathEdge_GradeMass_00_LOD0Mesh",
+   "name": "ZiratPathEdge_GradeMass_00_LOD0",
+   "parent": "ZiratPathEdge",
+   "parentIndex": 178,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -1.559999942779541
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -1
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 174,
+   "mesh": "ZiratPathEdge_GradeMass_01_LOD0Mesh",
+   "name": "ZiratPathEdge_GradeMass_01_LOD0",
+   "parent": "ZiratPathEdge",
+   "parentIndex": 178,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.559999942779541
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -2.7200002670288086
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 175,
+   "mesh": "ZiratPathEdge_GradeMass_02_LOD0Mesh",
+   "name": "ZiratPathEdge_GradeMass_02_LOD0",
+   "parent": "ZiratPathEdge",
+   "parentIndex": 178,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     -1.5199999809265137
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -4.550000190734863
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 176,
+   "mesh": "ZiratPathEdge_GradeMass_03_LOD0Mesh",
+   "name": "ZiratPathEdge_GradeMass_03_LOD0",
+   "parent": "ZiratPathEdge",
+   "parentIndex": 178,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     1.5800000429153442
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     -6.550000190734863
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "children": [],
+   "index": 177,
+   "mesh": "ZiratPathEdge_PathRibbon_00_LOD0Mesh",
+   "name": "ZiratPathEdge_PathRibbon_00_LOD0",
+   "parent": "ZiratPathEdge",
+   "parentIndex": 178,
+   "transform": [
+    [
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1
+    ]
+   ]
+  }
+ ],
+ "scenes": [
+  {
+   "name": "Scene",
+   "nodes": [
+    179
+   ]
+  }
+ ],
+ "schema": "urman.glb_structure_receipt.v2",
+ "skins": 0,
+ "totals": {
+  "materials": 21,
+  "meshes": 168,
+  "nodes": 180,
+  "triangles": 14920
+ }
+}

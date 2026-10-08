@@ -460,14 +460,15 @@ public partial class Act1ConnectedWorld : Node3D
         ProfileWorldBuildStep("addresses", BuildAddressRegistry);
         // Street faces of the yards: palisadnik, painted gates, board fences.
         ProfileWorldBuildStep("frontages", BuildStreetFrontages);
-        // Snow banks flank the street shoulder; built after the address
-        // registry and the frontages so every addressed door walk and gate
-        // approach breaks the shoulder (audit 2026-10-05, F1/F2) and the
-        // street face the banks frame is already final.
-        ProfileWorldBuildStep("snow-banks", () => AddMainStreetSnowBanks(GetNode<Node3D>("Act1CoreWorldGreybox")));
         // One fence system along the real lot lines replaces every older yard fence.
         ProfileWorldBuildStep("timber-fences", RebuildYardFences);
         ComposeCleanVillageYards();
+        // Snow banks flank the street shoulder; built after the address
+        // registry and the final yard fences so every addressed door walk and
+        // the gates that actually stand break the shoulder (audit 2026-10-05,
+        // F1/F2; VIS-079). Built before the fences, they broke at the retired
+        // frontage gates instead.
+        ProfileWorldBuildStep("snow-banks", () => AddMainStreetSnowBanks(GetNode<Node3D>("Act1CoreWorldGreybox")));
         // Tamara Gennadievna's breakable plot fence, boards and people.
         BuildTamaraFenceQuest();
         AddressRead += RememberReadAddress;
@@ -6955,6 +6956,7 @@ public partial class Act1ConnectedWorld : Node3D
         else
         {
             AddVisualPitchedRoof(building, "CoreGabledRoof", footprint.X, footprint.Z, wallHeight, 0.92f, 0.24f, roofColor);
+            AddRoofSnowCap(building, "CoreGabledRoofSnow", footprint.X, footprint.Z, wallHeight, 0.92f, 0.24f);
         }
 
         var frontZ = footprint.Z * 0.5f + 0.08f;
@@ -7984,6 +7986,7 @@ public partial class Act1ConnectedWorld : Node3D
         else
         {
             AddVisualPitchedRoof(facade, "GabledRoof", footprint.X, footprint.Z, wallHeight, 0.82f, 0.22f, roofColor);
+            AddRoofSnowCap(facade, "GabledRoofSnow", footprint.X, footprint.Z, wallHeight, 0.82f, 0.22f);
         }
 
         var frontZ = footprint.Z * 0.5f + 0.05f;
@@ -8717,6 +8720,20 @@ public partial class Act1ConnectedWorld : Node3D
             for (var index = 1; index < points.Count; index++)
                 troddenCorridors.Add((points[index - 1], points[index], half));
         }
+        // VIS-079: one exclusion for the shoulder — door/gate approaches, trodden
+        // ribbons and every registered building footprint (kept a bank half-width plus .1 m away),
+        // so a bank never runs into a house corner or a porch on the street line.
+        var footprints = AddressRegistry?.Buildings.Values
+            .Where(building => building.Footprint.Count >= 3)
+            .Select(building => building.Footprint.Select(q => new Vector2((float)q.X, (float)q.Z)).ToArray())
+            .ToArray() ?? [];
+        bool NearFootprint(Vector2 p) => footprints.Any(polygon =>
+        {
+            if (PointInPolygon(polygon, p)) return true;
+            for (int i = 0, j = polygon.Length - 1; i < polygon.Length; j = i++)
+                if (SegmentDistance(p, polygon[j], polygon[i]) < 1.0f) return true; // bank half-width .9 m + .1 m
+            return false;
+        });
         bool Blocked(float x, float z)
         {
             var p = new Vector2(x, z);
@@ -8724,7 +8741,7 @@ public partial class Act1ConnectedWorld : Node3D
                 if (SegmentDistance(p, a, b) < BankApproachClearance) return true;
             foreach (var (a, b, half) in troddenCorridors)
                 if (SegmentDistance(p, a, b) < half + BankApproachClearance) return true;
-            return false;
+            return NearFootprint(p);
         }
 
         // Each shoulder gets continuous plowed runs, sampled every metre, broken only where a
@@ -8743,6 +8760,7 @@ public partial class Act1ConnectedWorld : Node3D
                 var mesh = AddVisualLandformSurface(root, name, 1.8f, height, curve.GetBakedLength(),
                     Vector3.Zero, "e8edf0", "snow_ground", 0f, true, curve);
                 mesh.SetMeta("snowBankHeight", height);
+                mesh.SetMeta("snowScale", "large"); // VIS-077 tier: snow mass
                 mesh.SetMeta("presentationOnly", true);
                 mesh.SetMeta("collisionOwner", "none");
             }
@@ -8824,7 +8842,8 @@ public partial class Act1ConnectedWorld : Node3D
             && node.Name.ToString().Contains("Gate", StringComparison.Ordinal)
             && !node.GetParent().Name.ToString().Contains("Gate", StringComparison.Ordinal)))
         {
-            if (!IsAddressedParcelGate(gate)) continue;
+            // Timber street gates of the lot-line fences carry their address directly.
+            if (!gate.HasMeta("addressId") && !IsAddressedParcelGate(gate)) continue;
             var at = gate.GlobalPosition;
             if (registry.Graph.Nearest(AddressPoint(AddressGround(new Vector3(at.X, 0f, at.Z)))) is not { } link) continue;
             lines.Add((new(at.X, at.Z), new((float)link.Point.X, (float)link.Point.Z)));
@@ -10754,6 +10773,22 @@ public partial class Act1ConnectedWorld : Node3D
         mesh.SetMeta("visualOnly", true);
         parent.AddChild(mesh);
         return mesh;
+    }
+
+    /// <summary>
+    /// VIS-080: settled snow on a pitched roof is its own mass with a visible edge,
+    /// not a white texture — the same cap the distant houses and the bathhouse
+    /// already use: the roof shape 14 cm higher, 3 cm shorter at the eaves, so its
+    /// fascia shows the snow's thickness.
+    /// </summary>
+    private static MeshInstance3D AddRoofSnowCap(Node3D parent, string name, float width, float depth,
+        float wallHeight, float ridgeRise, float overhang)
+    {
+        var cap = AddVisualPitchedRoof(parent, name, width, depth, wallHeight + .14f, ridgeRise, overhang - .03f, "e8edf0");
+        cap.MaterialOverride = PainterlyMaterialLibrary.ForColor("e8edf0", "snow_roof");
+        cap.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
+        cap.SetMeta("snowScale", "medium");
+        return cap;
     }
 
     private static MeshInstance3D AddVisualPitchedRoof(

@@ -90,6 +90,7 @@ public partial class Act1ConnectedWorld
         AddVisualBox(building, "Plinth", new(width + .3f, plinth, depth + .3f), new(0, -plinth * .5f, 0), "7d786f", "stone_foundation");
         AddVisualBox(building, "Walls", new(width, height, depth), new(0, height * .5f, 0), wall, spec.Id == "far-forestry" ? "wood" : "plaster");
         AddVisualPitchedRoof(building, "Roof", width, depth, height, Mathf.Min(width, depth) * .28f, .45f, roofColour);
+        AddRoofSnowCap(building, "RoofSnow", width, depth, height, Mathf.Min(width, depth) * .28f, .45f);
         var front = depth * .5f;
         // Windows on the front, either side of the door; the door faces the street (+Z).
         foreach (var x in new[] { -width * .3f, width * .3f })
