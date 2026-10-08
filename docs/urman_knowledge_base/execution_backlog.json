@@ -12356,12 +12356,35 @@
       },
       "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
       "integration_2026_10_08": {
-        "disposition": "KEEP",
+        "id": "ACT1-EX00",
+        "disposition": "REWRITE",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-005",
+          "PW-006",
+          "PW-018",
+          "PW-023",
+          "PW-024",
+          "PW-025",
+          "PW-029",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Общий контракт расширяется тем же kernel/save/custody owner. Обычные ввод, повтор, устойчивость и происхождение остаются обязательными.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX00",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/InteractionTarget.cs",
+          "game/scripts/RuntimeBridge.cs",
+          "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
+          "src-dotnet/Urman.Core/World/CustodyStore.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       }
     },
     {
@@ -12486,12 +12509,37 @@
       },
       "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
       "integration_2026_10_08": {
+        "id": "ACT1-EX01",
         "disposition": "KEEP",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-023",
+          "PW-029",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Сохраняются реальные перенос/постановка/обратимость и позиции вещей; посещение мира не теряет предмет и не создаёт второго custody/collision owner.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX01",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/CarryCoordinator.cs",
+          "game/scripts/CarryableProp.cs",
+          "game/scripts/Act1ConnectedWorld.YardMechanisms.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [
+          "carry-log",
+          "carry-crate",
+          "carry-bucket",
+          "carry-gap-crate",
+          "carry-hook",
+          "carry-tool-pole",
+          "carry-tool-shovel"
+        ],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       }
     },
     {
@@ -12578,12 +12626,33 @@
       },
       "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
       "integration_2026_10_08": {
-        "disposition": "KEEP",
+        "id": "ACT1-EX02",
+        "disposition": "OPTIONAL",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-044",
+          "PW-070",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Несколько полезных решений и обходы сохраняются. OPTIONAL означает необязательный путь игрока, не снятие производственной приёмки EX02.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX02",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/Act1ConnectedWorld.BypassDiscoveries.cs",
+          "game/scripts/Act1ConnectedWorld.YardMechanisms.cs"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/discover-connective-street-shed-bypass",
+          "urman.chapter1:interaction/discover-zirat-outer-culvert-crossing",
+          "urman.chapter1:interaction/discover-babai-yard-loose-side-gate-board",
+          "urman.chapter1:interaction/inspect-photo-gate-repair"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       }
     },
     {
@@ -12674,12 +12743,32 @@
       },
       "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
       "integration_2026_10_08": {
+        "id": "ACT1-EX03",
         "disposition": "KEEP",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Многоцелевые инструменты и разные полезные применения сохраняются. toolId pole/shovel не равны propId carry-tool-pole/carry-tool-shovel; вторые применения ещё требуют предъявления.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX03",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/YardTool.cs",
+          "game/scripts/Act1ConnectedWorld.YardMechanisms.cs",
+          "game/scripts/CarryCoordinator.Mechanisms.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [
+          "carry-tool-pole",
+          "carry-tool-shovel",
+          "carry-hook",
+          "hook-rest"
+        ],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       }
     },
     {
@@ -12756,12 +12845,32 @@
       },
       "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
       "integration_2026_10_08": {
-        "disposition": "KEEP",
+        "id": "ACT1-EX04",
+        "disposition": "OPTIONAL",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-029",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Шест/крючок и обратный разбор сохранены. Два полезных сочетания из исходного контракта не отменены: второе не доказано, остаётся EX04/PW079. Все рецепты не gate книги.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX04",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/CarryableProp.cs",
+          "game/scripts/CarryCoordinator.Mechanisms.cs",
+          "game/scripts/Act1ConnectedWorld.YardMechanisms.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [
+          "carry-tool-pole",
+          "carry-hook",
+          "hook-rest"
+        ],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       }
     },
     {
@@ -12951,12 +13060,33 @@
       "review_scope": "source-linked rework; historical evidence retained",
       "ownership_rule": "Scope — предполагаемые существующие владельцы. Перед выдачей одного unit подтвердить call path и назначить точный поднабор файлов; shared-файл только одному исполнителю. Новые assets только внутри установленного источника/реестра выбранного потребителя.",
       "integration_2026_10_08": {
-        "disposition": "KEEP",
+        "id": "ACT1-EX05",
+        "disposition": "REWRITE",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-032",
+          "PW-034",
+          "PW-044",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Объём/опора/следы и устойчивая расчистка сохранены, согласуются с новыми местами и визуальным контрактом. Сеансовые следы не подменяют сохранённое открытие.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX05",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/SnowTrampleField.cs",
+          "game/scripts/Act1ConnectedWorld.YardMechanisms.cs",
+          "game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/discover-kara-warm-window-clearing",
+          "urman.chapter1:interaction/view-first-snow-photo"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "6f58fc244c73610184327805403ba1ab5ef5bb774f8191d48d68f61429b1d633"
       },
       "visual_asset_passport_ids": [
         "AS-08"
@@ -13054,12 +13184,32 @@
       },
       "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
       "integration_2026_10_08": {
-        "disposition": "KEEP",
+        "id": "ACT1-EX06",
+        "disposition": "OPTIONAL",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-023",
+          "PW-029",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Переносной свет сохраняется полезным бытом. Покупка фонаря/все покупки не gate книги; позиция, владение и свет проверяются при визите/возврате.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX06",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/CarryableProp.cs",
+          "game/scripts/CarryableProp.Geometry.cs",
+          "game/scripts/Act1ConnectedWorld.ShopUses.cs",
+          "game/scripts/PortableLight.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [
+          "carry-lantern"
+        ],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       }
     },
     {
@@ -13174,12 +13324,28 @@
       },
       "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
       "integration_2026_10_08": {
-        "disposition": "KEEP",
+        "id": "ACT1-EX07",
+        "disposition": "OPTIONAL",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-044",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Баня/тепло/вода/температура остаются самостоятельным бытом, не порталом/этапом книги. BathSpirit не переименовывается в Бичуру; непредъявленная реакция EX07 остаётся открытой.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX07",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
+          "game/scripts/Act1ConnectedWorld.BathhouseAtmosphere.cs",
+          "game/scripts/RuntimeBridge.Bathhouse.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       }
     },
     {
@@ -13257,12 +13423,36 @@
       },
       "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
       "integration_2026_10_08": {
-        "disposition": "KEEP",
+        "id": "ACT1-EX08",
+        "disposition": "REWRITE",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-039",
+          "PW-048",
+          "PW-053",
+          "PW-058",
+          "PW-063",
+          "PW-068",
+          "PW-079",
+          "PW-084",
+          "PW-096"
+        ],
+        "reason": "Причинный бытовой звук, разные полезные ситуации и доступный эквивалент сохраняются, согласуются с новой аркой. Список эпизодов не gate книги; event/Playing не доказывает слышимость.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX08",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/AmbientAudioDirector.cs",
+          "game/scripts/FootstepAudioController.cs",
+          "game/scripts/AudioCueUi.cs"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/observe-rinat-roadside"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       }
     },
     {
@@ -13349,12 +13539,30 @@
       },
       "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
       "integration_2026_10_08": {
+        "id": "ACT1-EX09",
         "disposition": "KEEP",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-044",
+          "PW-070",
+          "PW-079",
+          "PW-088",
+          "PW-096"
+        ],
+        "reason": "Общая человеческая вертикальность/подходы сохраняются. Старые примеры лестниц и обходов не квестовый замок книги; обычный контакт/проход/возврат остаются в приёмке.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX09",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/FirstPersonController.Traversal.cs",
+          "game/scripts/FirstPersonController.Steps.cs",
+          "game/scripts/AddressWalkProbe.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       }
     },
     {
@@ -13434,12 +13642,33 @@
         "docs/urman_knowledge_base/gameplay.md"
       ],
       "integration_2026_10_08": {
-        "disposition": "KEEP",
+        "id": "ACT1-EX10",
+        "disposition": "OPTIONAL",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-044",
+          "PW-070",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Малые места, причина частного входа и локальная полезная награда сохраняются. Общественные/семейные здания доступны по своим контрактам; все секреты не gate финала.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX10",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/Act1ConnectedWorld.InteriorPresentation.cs",
+          "content/modules/urman-chapter1/exploration-small-spaces.json"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/discover-shed-loft-roofline",
+          "urman.chapter1:interaction/discover-underdeck-rattle",
+          "urman.chapter1:interaction/discover-fap-service-cabinet",
+          "urman.chapter1:interaction/mark-underdeck-quiet"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "cba6410a5228a3f6ba106a57e07c2bd20e9d3126bc7ae291798587488d963417"
       }
     },
     {
@@ -13511,12 +13740,39 @@
       },
       "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
       "integration_2026_10_08": {
-        "disposition": "KEEP",
+        "id": "ACT1-EX11",
+        "disposition": "REWRITE",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-008",
+          "PW-009",
+          "PW-071",
+          "PW-073",
+          "PW-074",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Наблюдение/догадка/проверка сохраняются с происхождением и evidence-моделью. Замеченная странность не автоматическое подтверждение; разные содержательные наблюдения остаются EX11, не список галочек книги.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX11",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/Act1ConnectedWorld.ImageDiscoveries.cs",
+          "content/modules/urman-chapter1/exploration-observation-checks.json"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/observe-well-tie",
+          "urman.chapter1:interaction/observe-bench-plank",
+          "urman.chapter1:interaction/observe-branch-profile",
+          "urman.chapter1:interaction/observe-photo-facade-windows",
+          "urman.chapter1:interaction/observe-photo-yard",
+          "urman.chapter1:interaction/observe-rinat-roadside",
+          "urman.chapter1:interaction/observe-sketch-landmarks"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       }
     },
     {
@@ -13588,12 +13844,39 @@
       },
       "review_scope": "carry-forward: существующий объём сохранён; совместимые критерии действуют, historical evidence не fresh acceptance",
       "integration_2026_10_08": {
-        "disposition": "KEEP",
+        "id": "ACT1-EX12",
+        "disposition": "REWRITE",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-007",
+          "PW-008",
+          "PW-013",
+          "PW-014",
+          "PW-016",
+          "PW-071",
+          "PW-074",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Поиск места и осмысленного отличия сохраняется; PhotoId/PageId/оборот/контекст расширяют consumer. Старый clue не выдаёт подтверждение/монтаж новой фотографии.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX12",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/Act1ConnectedWorld.ImageDiscoveries.cs",
+          "game/scripts/Act1ConnectedWorld.Exploration.cs"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/compare-photo-yard",
+          "urman.chapter1:interaction/compare-photo-neighbor",
+          "urman.chapter1:interaction/compare-sketch-place",
+          "urman.chapter1:interaction/compare-sketch-minaret",
+          "urman.chapter1:interaction/discover-house-interior-photo-back"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       }
     },
     {
@@ -13686,12 +13969,40 @@
       ],
       "progress_2026_09_28": "First sample realised on the existing house->yard->street stretch: service-gap drift cue -> shovel pickup through ordinary input -> aimed clearing -> physical barrier removed -> passage walked both ways (47.51m CharacterBody in URMAN_DISCOVERY_ROUTE_ONLY=rear-house), next possibility (buried axe handle at the woodpile) covered by the full carry smoke (329 checks PASS). gameplay.md records the realised chain. Human interest remains not-run. Second chain with a different context still open on this card.",
       "integration_2026_10_08": {
-        "disposition": "KEEP",
+        "id": "ACT1-EX13",
+        "disposition": "REWRITE",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-003",
+          "PW-008",
+          "PW-009",
+          "PW-019",
+          "PW-027",
+          "PW-028",
+          "PW-071",
+          "PW-073",
+          "PW-074",
+          "PW-079",
+          "PW-087",
+          "PW-094"
+        ],
+        "reason": "Две разные цепочки заметил→путь→действие→полезный результат→возврат сохраняются по текущему EX13 done_when. Новая арка меняет контекст/вывод, не превращает секреты в обязательную прокачку.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX13",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/Act1ConnectedWorld.InvestigationRevisits.cs",
+          "game/scripts/Act1ConnectedWorld.ExteriorDiscoveries.cs",
+          "game/scripts/Act1ConnectedWorld.Exploration.cs",
+          "game/scripts/RuntimeBridge.cs"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/boundary-source-to-reread"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "202840094179b4595875f7a1156bf6a76362cc9fe9471fbe9a596b8beb06f1fe"
       }
     },
     {
@@ -13820,12 +14131,36 @@
         "docs/urman_knowledge_base/gameplay.md"
       ],
       "integration_2026_10_08": {
+        "id": "ACT1-EX14",
         "disposition": "KEEP",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-005",
+          "PW-006",
+          "PW-023",
+          "PW-024",
+          "PW-025",
+          "PW-026",
+          "PW-029",
+          "PW-079",
+          "PW-085",
+          "PW-096"
+        ],
+        "reason": "Устойчивый результат, позиции/владение/знания и повтор без наград сохраняются. PhotoWorlds расширяет тот же snapshot; отдельный EX-store не создаётся, старые данные не мигрируют в сюжет молча.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX14",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/RuntimeBridge.cs",
+          "game/scripts/RuntimeBridge.LoadRecovery.cs",
+          "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
+          "src-dotnet/Urman.Core/World/CustodyStore.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "4cc7b0f3cfcbefd5fa6381593a545b5412858e09990560f22e7ecd40518ed939"
       }
     },
     {
@@ -18655,7 +18990,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "/root/legs_motion",
       "owner": "art/architecture",
       "depends_on": [],
       "scope": [
@@ -18790,7 +19125,8 @@
         "AS-01",
         "AS-02",
         "AS-13"
-      ]
+      ],
+      "progress_2026_10_09": "\n2026-10-09: claimed bounded ACT1-DEPTH.9 source/construction unit. Starting exact-reference and source→runtime-consumer discovery for the HeroHouse/Babai house only; no generic H019, common grading/census, PW005 source, export, build, or runtime capture. Next: inspect selected P1 reference, positive menu-house image, full card/review clauses, exact existing Blender producer and HeroHouse consumer; then identify one largest measurable form mismatch and report the owned source slice before changing geometry."
     },
     {
       "id": "ACT1-DEPTH.10",
@@ -21483,7 +21819,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": "/root/legs_motion",
+      "active_owner": null,
       "owner": "finished-act1",
       "parent_id": "ACT1-FOOTSTEP",
       "depends_on": [],
@@ -21514,7 +21850,12 @@
         "docs/production/mvp_tracker_2026-09-27/footsteps/native_2026-10-09_753a9cc00fff49fcb36a717340929108/README.md",
         "docs/production/mvp_tracker_2026-09-27/footsteps/native_2026-10-09_753a9cc00fff49fcb36a717340929108/probe-profile.json",
         "docs/production/mvp_tracker_2026-09-27/footsteps/native_2026-10-09_753a9cc00fff49fcb36a717340929108/receipt.json",
-        "docs/production/mvp_tracker_2026-09-27/footsteps/native_2026-10-09_753a9cc00fff49fcb36a717340929108/manifest.json"
+        "docs/production/mvp_tracker_2026-09-27/footsteps/native_2026-10-09_753a9cc00fff49fcb36a717340929108/manifest.json",
+        "docs/production/mvp_tracker_2026-09-27/footsteps/native_2026-10-09_bb23b8302bce473e9f95696a58247ac3/README.md",
+        "docs/production/mvp_tracker_2026-09-27/footsteps/native_2026-10-09_bb23b8302bce473e9f95696a58247ac3/probe-profile.json",
+        "docs/production/mvp_tracker_2026-09-27/footsteps/native_2026-10-09_bb23b8302bce473e9f95696a58247ac3/probe-summary.json",
+        "docs/production/mvp_tracker_2026-09-27/footsteps/native_2026-10-09_bb23b8302bce473e9f95696a58247ac3/receipt.json",
+        "docs/production/mvp_tracker_2026-09-27/footsteps/native_2026-10-09_bb23b8302bce473e9f95696a58247ac3/manifest.json"
       ],
       "mvp_priority": 11,
       "mvp_packet": "LEGACY-COMPAT",
@@ -21528,7 +21869,7 @@
           "game/scripts/FirstPersonController.Steps.cs"
         ]
       },
-      "current_checkpoint": "753a9cc00fff49fcb36a717340929108 remains the latest protected native PASS and does not establish why the scripted actor stalled. Root-approved motion/contact diagnostics are now added to the existing Act1FootstepLagProbe.cs only (source SHA-256 04eb16406f09f72f695f7be2072d41cdae221a9cace90b32beea44ddc51aa6b1); not compiled or captured yet. Await root's narrow joint compile and a fresh protected native same-route run; no audio/cadence fix or task closure until cause is supported by those data. Diagnosis report: docs/production/act1_footstep_diagnosis_2026-10-08.md.",
+      "current_checkpoint": "Probe04 (`bb23b8302bce473e9f95696a58247ac3`, source SHA-256 `04eb16406f09f72f695f7be2072d41cdae221a9cace90b32beea44ddc51aa6b1`) has a protected native PASS and complete route. It confirms that the 3.127 s same-road step interval contained only 0.5294 m of actual path, with 51/55 near-stationary frames while move_forward remained held; reset-gate counters were zero. Terrain contact normals are near-up and do not prove a blocking wall. Off-road cadence gap was not reproduced. The immediate footstep trigger gap is accounted for by insufficient actual travel, but the reason the actor stalled is unknown; no production fix or audible acceptance is justified. Card remains in_progress, active owner released; .2 not started. Evidence/report: `docs/production/mvp_tracker_2026-09-27/footsteps/native_2026-10-09_bb23b8302bce473e9f95696a58247ac3/probe-profile.json` and `docs/production/act1_footstep_diagnosis_2026-10-08.md`.",
       "delivery": {
         "packet": "LEGACY-COMPAT"
       },
@@ -21545,7 +21886,7 @@
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
         "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
       },
-      "progress_2026_10_09": "2026-10-09 protected native retry `753a9cc00fff49fcb36a717340929108` PASS, exact archived probe SHA `ab7913a41f6bbee67f6108c639f3e5a108c70d9b8c3f442db9226796cd91e3dd`: 260 frames/13,277.610 ms, route complete, 33 road-band/16 off-road requests. Longest same-segment interval was road outbound f53→f108, 3,031.122 ms; 55 frame samples contained only 0.529384 m XZ path (0.486508 m chord), with 51 frames under the controller’s actual 0.0001 m stillness threshold and all reset gates zero. Requested Velocity≈3.4 is not actual position change. The 0.55 m displacement accumulator plus retained modulo remainder explains the trigger at the end; the gap is accounted for by near-stationarity, not several metres of missing footfalls. Off-road same-segment intervals were 6 samples 129.542–182.624 ms outbound and 7 samples 146.759–197.694 ms return; no off-road gap over 200 ms in this capture. A 1,930.654 ms turn-crossing interval is marked cross-segment and occurs during intentional forward-input release. Hitches: f68 191.118 ms and f71 200.382 ms with GC deltas, f86 physics monitor 146.360 ms; event f108 snow update/redraw/mesh 3.0051/3.0002/0.0034 ms. This profile does not confirm off-road-specific cadence lag; it does not establish why the scripted actor stopped or prove audible onset/human listening. No production audio/cadence fix. Report: docs/production/act1_footstep_diagnosis_2026-10-08.md. Status remains in_progress; `.2` not started.\n2026-10-09 root-approved bounded diagnosis follow-up is implemented only in the existing Act1FootstepLagProbe.cs: sampled move/look action strengths and vectors, facing/world direction, post-physics velocity, ModalDiagnostic and existing intro/crouch/sprint/carry/step/clamp state, plus GetSlideCollisionCount and up to 8 latest collider path/normal/travel/remainder contacts on stationary, hitch/GC and step-event samples. Same-segment long-gap frame traces retain their array shape and are capped at the last 240 samples; interval contact summaries dedupe repeated reads by physics frame/path/rounded normal. No production controller/audio change, new API, scene, fixture, assertion or test suite. Source SHA-256 04eb16406f09f72f695f7be2072d41cdae221a9cace90b32beea44ddc51aa6b1. This delta is not yet compiled or run; actor-stall cause remains unknown and done_when is not met. Next: root-coordinated narrow compile, then the station owner's same-route protected native capture and causal review."
+      "progress_2026_10_09": "2026-10-09 protected native retry `753a9cc00fff49fcb36a717340929108` PASS, exact archived probe SHA `ab7913a41f6bbee67f6108c639f3e5a108c70d9b8c3f442db9226796cd91e3dd`: 260 frames/13,277.610 ms, route complete, 33 road-band/16 off-road requests. Longest same-segment interval was road outbound f53→f108, 3,031.122 ms; 55 frame samples contained only 0.529384 m XZ path (0.486508 m chord), with 51 frames under the controller’s actual 0.0001 m stillness threshold and all reset gates zero. Requested Velocity≈3.4 is not actual position change. The 0.55 m displacement accumulator plus retained modulo remainder explains the trigger at the end; the gap is accounted for by near-stationarity, not several metres of missing footfalls. Off-road same-segment intervals were 6 samples 129.542–182.624 ms outbound and 7 samples 146.759–197.694 ms return; no off-road gap over 200 ms in this capture. A 1,930.654 ms turn-crossing interval is marked cross-segment and occurs during intentional forward-input release. Hitches: f68 191.118 ms and f71 200.382 ms with GC deltas, f86 physics monitor 146.360 ms; event f108 snow update/redraw/mesh 3.0051/3.0002/0.0034 ms. This profile does not confirm off-road-specific cadence lag; it does not establish why the scripted actor stopped or prove audible onset/human listening. No production audio/cadence fix. Report: docs/production/act1_footstep_diagnosis_2026-10-08.md. Status remains in_progress; `.2` not started.\n2026-10-09 root-approved bounded diagnosis follow-up is implemented only in the existing Act1FootstepLagProbe.cs: sampled move/look action strengths and vectors, facing/world direction, post-physics velocity, ModalDiagnostic and existing intro/crouch/sprint/carry/step/clamp state, plus GetSlideCollisionCount and up to 8 latest collider path/normal/travel/remainder contacts on stationary, hitch/GC and step-event samples. Same-segment long-gap frame traces retain their array shape and are capped at the last 240 samples; interval contact summaries dedupe repeated reads by physics frame/path/rounded normal. No production controller/audio change, new API, scene, fixture, assertion or test suite. Source SHA-256 04eb16406f09f72f695f7be2072d41cdae221a9cace90b32beea44ddc51aa6b1. This delta is not yet compiled or run; actor-stall cause remains unknown and done_when is not met. Next: root-coordinated narrow compile, then the station owner's same-route protected native capture and causal review.\n2026-10-09 probe04 protected Windows native PASS, route/data complete: 258 frames/13,280.715 ms, 37 road-band + 15 off-road requests, interval 0.55 m. Longest same-segment interval remains road outbound / packed_band / snow_packed f53→f108: 3,127.288 ms, 55 frame samples, XZ path 0.529426858 m (chord 0.46502447 m), 51/55 frames below the controller's 0.0001 m displacement threshold. All 55 retained move_forward=1; six reset-gate counters are zero. Contact summary observes AgentB_TerrainCollision on 55 physics frames with one grouped near-up normal (0.0224, 0.9997, 0.0072), which does not establish a blocking wall or causal collision. Off-road same-segment intervals were 7 outbound samples, median 165.884 ms/max 207.653 ms and 6 return samples, median 147.422 ms/max 210.361 ms; no separate off-road cadence lag reproduced. Road snow update/mesh p95/max 16.7003/24.7411 and 14.5895/23.8775 ms; off-road outbound maxima 8.2733/7.3751 ms. Broad frame/GC delays exist but do not identify the actor-stall mechanism. This data accounts for the long step interval by insufficient distance to reach the 0.55 m threshold; why the actor barely moved with input held remains unknown. No production audio/cadence change, human listening, audible-onset or active-voice-count claim; ACT1-FOOTSTEP.2 not started and done_when not met. Native profile/receipt/manifest: `docs/production/mvp_tracker_2026-09-27/footsteps/native_2026-10-09_bb23b8302bce473e9f95696a58247ac3/`. Diagnosis: `docs/production/act1_footstep_diagnosis_2026-10-08.md`."
     },
     {
       "id": "ACT1-FOOTSTEP.2",
@@ -26942,7 +27283,7 @@
       "id": "PW-004",
       "title": "Разобрать судьбу существующих EX и бытовых механик",
       "milestone": "PW-M0",
-      "status": "todo",
+      "status": "completed",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -26967,7 +27308,10 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-004/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-004/legacy_feature_disposition.json",
+        "evidence/PW-004/receipt.json"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-004",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -27026,14 +27370,178 @@
         }
       },
       "phase": 0,
-      "effort": "M"
+      "effort": "M",
+      "progress_2026_10_09": "Root claimed dependency-ready PW004 after completed PW001/PW003. Luna read-only prep supplies exact fifteen EX producer IDs. Scope: extend canonical requirements_integration_2026_10_08.legacy_disposition, cover all 206 existing legacy card IDs in a derived disposition export without statuses, detail EX00–14 and ordinary household systems/current source consumers. Preserve retained task-local production acceptance; optional player route is not optional production or feature deletion. Current bindings/regression remain PW079/PW096. No new backlog, removed feature, canceled acceptance quota or historical runtime PASS is inferred.\nSource stage: all 206 legacy IDs retain their existing task/acceptance owner. EX00–14 now have individual dispositions, actual producer paths/interaction or prop IDs, reasons and successor checks. OPTIONAL only changes player route; original done_when retained. All 133 former chapter1 interaction IDs remain in the current compiled campaign. Ordinary binding/regression is PW079/PW096, not historical PASS.\nRoot accepted complete documentary map: original criteria retained; source paths and IDs resolve; task graph acyclic. No runtime or visual game acceptance claimed.",
+      "legacy_system_disposition_2026_10_09": {
+        "addresses_map": {
+          "disposition": "KEEP",
+          "source_consumers": [
+            "game/scripts/RuntimeBridge.Notebook.cs",
+            "game/scripts/JournalUi.Notebook.cs",
+            "game/scripts/Act1ConnectedWorld.Addresses.cs"
+          ],
+          "successor_tasks": [
+            "PW-070",
+            "PW-079",
+            "PW-096"
+          ],
+          "constraint": "Real plaques/addresses and explored map remain; PhotoWorld local coordinates cannot mark village cells.",
+          "production_obligation": "Retained existing task acceptance; optional player route does not delete the produced feature."
+        },
+        "gates_carry_clearance": {
+          "disposition": "KEEP",
+          "source_consumers": [
+            "game/scripts/CarryCoordinator.cs",
+            "game/scripts/Act1ConnectedWorld.YardMechanisms.cs"
+          ],
+          "successor_tasks": [
+            "PW-023",
+            "PW-029",
+            "PW-079",
+            "PW-096"
+          ],
+          "constraint": "One collision/custody owner; preserve useful access, placement and ownership across save/visit/return.",
+          "production_obligation": "Retained existing task acceptance; optional player route does not delete the produced feature."
+        },
+        "pc_notes_language": {
+          "disposition": "EXTEND",
+          "source_consumers": [
+            "game/scripts/OldPcUi.cs",
+            "game/scripts/OldPcUi.Apps.cs",
+            "game/scripts/RuntimeBridge.Notebook.cs"
+          ],
+          "successor_tasks": [
+            "PW-017",
+            "PW-078",
+            "PW-079",
+            "PW-096"
+          ],
+          "constraint": "Personal notes/input retained; permitted file→actual caption→separate print/mount. Russian path before TT-review.",
+          "production_obligation": "Retained existing task acceptance; optional player route does not delete the produced feature."
+        },
+        "shop": {
+          "disposition": "KEEP",
+          "source_consumers": [
+            "game/scripts/Act1ConnectedWorld.ShopUses.cs"
+          ],
+          "successor_tasks": [
+            "PW-079",
+            "PW-096"
+          ],
+          "constraint": "Purchases remain; all shopping is not a book gate.",
+          "production_obligation": "Retained existing task acceptance; optional player route does not delete the produced feature."
+        },
+        "transport": {
+          "disposition": "KEEP",
+          "source_consumers": [
+            "game/scripts/VehicleFleet.cs"
+          ],
+          "successor_tasks": [
+            "PW-043",
+            "PW-079",
+            "PW-096"
+          ],
+          "constraint": "Existing Niva/horse/cart retained; ordinary book entry pedestrian except explicit prologue; no vehicle reset after visit.",
+          "production_obligation": "Retained existing task acceptance; optional player route does not delete the produced feature."
+        },
+        "bathhouse": {
+          "disposition": "OPTIONAL",
+          "source_consumers": [
+            "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
+            "game/scripts/Act1ConnectedWorld.BathhouseAtmosphere.cs"
+          ],
+          "successor_tasks": [
+            "PW-079",
+            "PW-096"
+          ],
+          "constraint": "Independent ordinary place; no book gate/portal or BathSpirit identity substitution.",
+          "production_obligation": "Retained existing task acceptance; optional player route does not delete the produced feature."
+        },
+        "mosque_timur": {
+          "disposition": "KEEP",
+          "source_consumers": [
+            "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+            "game/scripts/Act1ConnectedWorld.MosqueClothing.cs"
+          ],
+          "successor_tasks": [
+            "PW-076",
+            "PW-079",
+            "PW-096"
+          ],
+          "constraint": "Shoes/light/sound/respectful conversation retained; no magic key/horror overlay.",
+          "production_obligation": "Retained existing task acceptance; optional player route does not delete the produced feature."
+        },
+        "zirat": {
+          "disposition": "KEEP",
+          "source_consumers": [
+            "game/scripts/Act1ConnectedWorld.cs"
+          ],
+          "successor_tasks": [
+            "PW-044",
+            "PW-079",
+            "PW-096"
+          ],
+          "constraint": "Quiet memory place; no magical grave photos/desecration reward/portal.",
+          "production_obligation": "Retained existing task acceptance; optional player route does not delete the produced feature."
+        },
+        "tamara": {
+          "disposition": "OPTIONAL",
+          "source_consumers": [
+            "game/scripts/Act1ConnectedWorld.TamaraFence.cs",
+            "game/scripts/TamaraFenceQuest.cs"
+          ],
+          "successor_tasks": [
+            "PW-079",
+            "PW-096"
+          ],
+          "constraint": "Existing human comedy quest retained, no book prerequisite or mystery-keeper replacement.",
+          "production_obligation": "Retained existing task acceptance; optional player route does not delete the produced feature."
+        },
+        "public_buildings_npc": {
+          "disposition": "KEEP",
+          "source_consumers": [
+            "game/scripts/Act1ConnectedWorld.InteriorPresentation.cs"
+          ],
+          "successor_tasks": [
+            "PW-072",
+            "PW-076",
+            "PW-079",
+            "PW-096"
+          ],
+          "constraint": "Distinct public/family uses, access/furniture/UI/routines retained; source presence is not current runtime availability.",
+          "production_obligation": "Retained existing task acceptance; optional player route does not delete the produced feature."
+        },
+        "old_manifestations": {
+          "disposition": "REWRITE",
+          "source_consumers": [
+            "game/scripts/ForestEdgePresence.cs",
+            "game/scripts/Act1ConnectedWorld.WatchingForms.cs",
+            "game/scripts/ProloguePresence.cs",
+            "game/scripts/Act1DemoRoot.FirstNight.cs",
+            "game/scripts/Act1ConnectedWorld.OpeningBridge.cs",
+            "game/scripts/BathSpirit.cs"
+          ],
+          "successor_tasks": [
+            "PW-031",
+            "PW-043",
+            "PW-079",
+            "PW-084",
+            "PW-094",
+            "PW-096",
+            "PW-098"
+          ],
+          "constraint": "Separate ordinary lighting, residents and sound from old automatic horror causes. In the new campaign conflicting collapse/night/presence triggers must be suppressed or bound to authored R0–R5; retain historical sources. BathSpirit is not W05 Bichura. Source inventory is not proof of disabled live triggers.",
+          "production_obligation": "PW-098 owns the live trigger register and removal; PW-004 only records disposition and consumers."
+        }
+      },
+      "self_acceptance_2026_10_09": "PASS_DOCUMENTARY_DISPOSITION; all task-local clauses met; successor runtime/human gates remain open."
     },
     {
       "id": "PW-005",
       "title": "Определить версию состояния новой кампании",
       "milestone": "PW-M0",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "/root/address_mount",
       "owner": "integration",
       "priority": "P0",
       "complexity": "complex",
@@ -27116,7 +27624,8 @@
         }
       },
       "phase": 0,
-      "effort": "L"
+      "effort": "L",
+      "progress_2026_10_08": "2026-10-09 claimed by /root/address_mount. Scope: versioned PhotoWorld snapshot contract and explicit migration/rejection policy in the existing PhotoWorldState/Core persistence boundary, RuntimeBridge/save-menu consumers, plus technical_architecture evidence. Reuse the existing kernel and AtomicSaveGameStore; preserve legacy slots/settings/notes; no second save owner/service. Current phase is READ/PLAN ONLY until the sealed H019 capture completes and root releases runtime edits. PW-020/PW-024/PW-025 future transaction/recovery/migration implementation stays explicitly outside this card."
     },
     {
       "id": "PW-006",
@@ -42270,138 +42779,458 @@
       },
       {
         "id": "ACT1-EX00",
-        "disposition": "KEEP",
+        "disposition": "REWRITE",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-005",
+          "PW-006",
+          "PW-018",
+          "PW-023",
+          "PW-024",
+          "PW-025",
+          "PW-029",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Общий контракт расширяется тем же kernel/save/custody owner. Обычные ввод, повтор, устойчивость и происхождение остаются обязательными.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX00",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/InteractionTarget.cs",
+          "game/scripts/RuntimeBridge.cs",
+          "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
+          "src-dotnet/Urman.Core/World/CustodyStore.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       },
       {
         "id": "ACT1-EX01",
         "disposition": "KEEP",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-023",
+          "PW-029",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Сохраняются реальные перенос/постановка/обратимость и позиции вещей; посещение мира не теряет предмет и не создаёт второго custody/collision owner.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX01",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/CarryCoordinator.cs",
+          "game/scripts/CarryableProp.cs",
+          "game/scripts/Act1ConnectedWorld.YardMechanisms.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [
+          "carry-log",
+          "carry-crate",
+          "carry-bucket",
+          "carry-gap-crate",
+          "carry-hook",
+          "carry-tool-pole",
+          "carry-tool-shovel"
+        ],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       },
       {
         "id": "ACT1-EX02",
-        "disposition": "KEEP",
+        "disposition": "OPTIONAL",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-044",
+          "PW-070",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Несколько полезных решений и обходы сохраняются. OPTIONAL означает необязательный путь игрока, не снятие производственной приёмки EX02.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX02",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/Act1ConnectedWorld.BypassDiscoveries.cs",
+          "game/scripts/Act1ConnectedWorld.YardMechanisms.cs"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/discover-connective-street-shed-bypass",
+          "urman.chapter1:interaction/discover-zirat-outer-culvert-crossing",
+          "urman.chapter1:interaction/discover-babai-yard-loose-side-gate-board",
+          "urman.chapter1:interaction/inspect-photo-gate-repair"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       },
       {
         "id": "ACT1-EX03",
         "disposition": "KEEP",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Многоцелевые инструменты и разные полезные применения сохраняются. toolId pole/shovel не равны propId carry-tool-pole/carry-tool-shovel; вторые применения ещё требуют предъявления.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX03",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/YardTool.cs",
+          "game/scripts/Act1ConnectedWorld.YardMechanisms.cs",
+          "game/scripts/CarryCoordinator.Mechanisms.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [
+          "carry-tool-pole",
+          "carry-tool-shovel",
+          "carry-hook",
+          "hook-rest"
+        ],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       },
       {
         "id": "ACT1-EX04",
-        "disposition": "KEEP",
+        "disposition": "OPTIONAL",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-029",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Шест/крючок и обратный разбор сохранены. Два полезных сочетания из исходного контракта не отменены: второе не доказано, остаётся EX04/PW079. Все рецепты не gate книги.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX04",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/CarryableProp.cs",
+          "game/scripts/CarryCoordinator.Mechanisms.cs",
+          "game/scripts/Act1ConnectedWorld.YardMechanisms.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [
+          "carry-tool-pole",
+          "carry-hook",
+          "hook-rest"
+        ],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       },
       {
         "id": "ACT1-EX05",
-        "disposition": "KEEP",
+        "disposition": "REWRITE",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-032",
+          "PW-034",
+          "PW-044",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Объём/опора/следы и устойчивая расчистка сохранены, согласуются с новыми местами и визуальным контрактом. Сеансовые следы не подменяют сохранённое открытие.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX05",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/SnowTrampleField.cs",
+          "game/scripts/Act1ConnectedWorld.YardMechanisms.cs",
+          "game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/discover-kara-warm-window-clearing",
+          "urman.chapter1:interaction/view-first-snow-photo"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "6f58fc244c73610184327805403ba1ab5ef5bb774f8191d48d68f61429b1d633"
       },
       {
         "id": "ACT1-EX06",
-        "disposition": "KEEP",
+        "disposition": "OPTIONAL",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-023",
+          "PW-029",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Переносной свет сохраняется полезным бытом. Покупка фонаря/все покупки не gate книги; позиция, владение и свет проверяются при визите/возврате.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX06",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/CarryableProp.cs",
+          "game/scripts/CarryableProp.Geometry.cs",
+          "game/scripts/Act1ConnectedWorld.ShopUses.cs",
+          "game/scripts/PortableLight.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [
+          "carry-lantern"
+        ],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       },
       {
         "id": "ACT1-EX07",
-        "disposition": "KEEP",
+        "disposition": "OPTIONAL",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-044",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Баня/тепло/вода/температура остаются самостоятельным бытом, не порталом/этапом книги. BathSpirit не переименовывается в Бичуру; непредъявленная реакция EX07 остаётся открытой.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX07",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
+          "game/scripts/Act1ConnectedWorld.BathhouseAtmosphere.cs",
+          "game/scripts/RuntimeBridge.Bathhouse.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       },
       {
         "id": "ACT1-EX08",
-        "disposition": "KEEP",
+        "disposition": "REWRITE",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-039",
+          "PW-048",
+          "PW-053",
+          "PW-058",
+          "PW-063",
+          "PW-068",
+          "PW-079",
+          "PW-084",
+          "PW-096"
+        ],
+        "reason": "Причинный бытовой звук, разные полезные ситуации и доступный эквивалент сохраняются, согласуются с новой аркой. Список эпизодов не gate книги; event/Playing не доказывает слышимость.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX08",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/AmbientAudioDirector.cs",
+          "game/scripts/FootstepAudioController.cs",
+          "game/scripts/AudioCueUi.cs"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/observe-rinat-roadside"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       },
       {
         "id": "ACT1-EX09",
         "disposition": "KEEP",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-044",
+          "PW-070",
+          "PW-079",
+          "PW-088",
+          "PW-096"
+        ],
+        "reason": "Общая человеческая вертикальность/подходы сохраняются. Старые примеры лестниц и обходов не квестовый замок книги; обычный контакт/проход/возврат остаются в приёмке.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX09",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/FirstPersonController.Traversal.cs",
+          "game/scripts/FirstPersonController.Steps.cs",
+          "game/scripts/AddressWalkProbe.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       },
       {
         "id": "ACT1-EX10",
-        "disposition": "KEEP",
+        "disposition": "OPTIONAL",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-044",
+          "PW-070",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Малые места, причина частного входа и локальная полезная награда сохраняются. Общественные/семейные здания доступны по своим контрактам; все секреты не gate финала.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX10",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/Act1ConnectedWorld.InteriorPresentation.cs",
+          "content/modules/urman-chapter1/exploration-small-spaces.json"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/discover-shed-loft-roofline",
+          "urman.chapter1:interaction/discover-underdeck-rattle",
+          "urman.chapter1:interaction/discover-fap-service-cabinet",
+          "urman.chapter1:interaction/mark-underdeck-quiet"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "cba6410a5228a3f6ba106a57e07c2bd20e9d3126bc7ae291798587488d963417"
       },
       {
         "id": "ACT1-EX11",
-        "disposition": "KEEP",
+        "disposition": "REWRITE",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-008",
+          "PW-009",
+          "PW-071",
+          "PW-073",
+          "PW-074",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Наблюдение/догадка/проверка сохраняются с происхождением и evidence-моделью. Замеченная странность не автоматическое подтверждение; разные содержательные наблюдения остаются EX11, не список галочек книги.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX11",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/Act1ConnectedWorld.ImageDiscoveries.cs",
+          "content/modules/urman-chapter1/exploration-observation-checks.json"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/observe-well-tie",
+          "urman.chapter1:interaction/observe-bench-plank",
+          "urman.chapter1:interaction/observe-branch-profile",
+          "urman.chapter1:interaction/observe-photo-facade-windows",
+          "urman.chapter1:interaction/observe-photo-yard",
+          "urman.chapter1:interaction/observe-rinat-roadside",
+          "urman.chapter1:interaction/observe-sketch-landmarks"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       },
       {
         "id": "ACT1-EX12",
-        "disposition": "KEEP",
+        "disposition": "REWRITE",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-007",
+          "PW-008",
+          "PW-013",
+          "PW-014",
+          "PW-016",
+          "PW-071",
+          "PW-074",
+          "PW-079",
+          "PW-096"
+        ],
+        "reason": "Поиск места и осмысленного отличия сохраняется; PhotoId/PageId/оборот/контекст расширяют consumer. Старый clue не выдаёт подтверждение/монтаж новой фотографии.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX12",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/Act1ConnectedWorld.ImageDiscoveries.cs",
+          "game/scripts/Act1ConnectedWorld.Exploration.cs"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/compare-photo-yard",
+          "urman.chapter1:interaction/compare-photo-neighbor",
+          "urman.chapter1:interaction/compare-sketch-place",
+          "urman.chapter1:interaction/compare-sketch-minaret",
+          "urman.chapter1:interaction/discover-house-interior-photo-back"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "1df9b0e52fca2284dc473a90e21797757b0712a8a893a916a8427ee628b5616b"
       },
       {
         "id": "ACT1-EX13",
-        "disposition": "KEEP",
+        "disposition": "REWRITE",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-003",
+          "PW-008",
+          "PW-009",
+          "PW-019",
+          "PW-027",
+          "PW-028",
+          "PW-071",
+          "PW-073",
+          "PW-074",
+          "PW-079",
+          "PW-087",
+          "PW-094"
+        ],
+        "reason": "Две разные цепочки заметил→путь→действие→полезный результат→возврат сохраняются по текущему EX13 done_when. Новая арка меняет контекст/вывод, не превращает секреты в обязательную прокачку.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX13",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/Act1ConnectedWorld.InvestigationRevisits.cs",
+          "game/scripts/Act1ConnectedWorld.ExteriorDiscoveries.cs",
+          "game/scripts/Act1ConnectedWorld.Exploration.cs",
+          "game/scripts/RuntimeBridge.cs"
+        ],
+        "authored_interaction_ids": [
+          "urman.chapter1:interaction/boundary-source-to-reread"
+        ],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "202840094179b4595875f7a1156bf6a76362cc9fe9471fbe9a596b8beb06f1fe"
       },
       {
         "id": "ACT1-EX14",
         "disposition": "KEEP",
         "release_role": "required",
-        "successor_tasks": [],
-        "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
+        "successor_tasks": [
+          "PW-005",
+          "PW-006",
+          "PW-023",
+          "PW-024",
+          "PW-025",
+          "PW-026",
+          "PW-029",
+          "PW-079",
+          "PW-085",
+          "PW-096"
+        ],
+        "reason": "Устойчивый результат, позиции/владение/знания и повтор без наград сохраняются. PhotoWorlds расширяет тот же snapshot; отдельный EX-store не создаётся, старые данные не мигрируют в сюжет молча.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "retained_acceptance_owner": "ACT1-EX14",
+        "player_book_role": "optional player route; compatible production acceptance remains required",
+        "source_consumers": [
+          "game/scripts/RuntimeBridge.cs",
+          "game/scripts/RuntimeBridge.LoadRecovery.cs",
+          "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
+          "src-dotnet/Urman.Core/World/CustodyStore.cs"
+        ],
+        "authored_interaction_ids": [],
+        "runtime_object_ids": [],
+        "new_campaign_binding": "Source retained; ordinary physical binding and preservation regression remain PW-079/PW-096, not verified by this map.",
+        "retained_done_when_sha256": "4cc7b0f3cfcbefd5fa6381593a545b5412858e09990560f22e7ecd40518ed939"
       },
       {
         "id": "ACT1-EX-ACCEPT",
