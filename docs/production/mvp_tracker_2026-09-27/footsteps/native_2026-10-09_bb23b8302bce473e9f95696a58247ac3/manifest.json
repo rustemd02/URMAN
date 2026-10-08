@@ -1,0 +1,118 @@
+{
+  "job_id": "bb23b8302bce473e9f95696a58247ac3",
+  "snapshot_id": "293220b83178739b4f9ed2392ae99fa432b892243abae8f092b563721a743665",
+  "source_commit": "a58f1080978697a6041afb75a678d4dd99710de8",
+  "raw_result_zip_sha256": "acf818a0ab34e4222a05587a20fc0cea5263dcaf665b33295970796b21f6ed8d",
+  "status": "PASS",
+  "mode": "smoke",
+  "scene": "res://tests/act1_footstep_lag_probe.tscn",
+  "headless": false,
+  "game_exit_code": 0,
+  "worker_elapsed_seconds": 331.641,
+  "snapshot_hashes_verified": true,
+  "userdata_restored": true,
+  "engine_error_line_count": 0,
+  "probe_profile": {
+    "result": "data_complete",
+    "route_complete": true,
+    "route_steps": {
+      "road_band": 37,
+      "offroad": 15
+    },
+    "elapsed_ms": 13280.715,
+    "frame_count": 258,
+    "step_interval_m": 0.55,
+    "preset": "medium",
+    "display_driver": "Windows",
+    "adapter": "NVIDIA GeForce GTX 970"
+  },
+  "diagnosis": "not_asserted",
+  "source_sha256": {
+    "game/tests/Act1FootstepLagProbe.cs": {
+      "sha256": "04eb16406f09f72f695f7be2072d41cdae221a9cace90b32beea44ddc51aa6b1",
+      "bytes": 38223
+    },
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs": {
+      "sha256": "d3a2e6252196c56033b0fc87823ee2088596519ca8eac2fcc2267c1ea9f34996",
+      "bytes": 38006
+    }
+  },
+  "files": {
+    ".gitattributes": {
+      "bytes": 104,
+      "sha256": "fa8238e66523faebce6371da8740d6958db8f135c1d8364d21a362fe2916964a"
+    },
+    ".gitignore": {
+      "bytes": 40,
+      "sha256": "8963d3278036afa593a45874035b13d3c6d848cfdc2f5c149b40dbaebb4566d8"
+    },
+    "Act1DemoRoot.DevViewCapture.cs": {
+      "bytes": 38006,
+      "sha256": "d3a2e6252196c56033b0fc87823ee2088596519ca8eac2fcc2267c1ea9f34996"
+    },
+    "Act1FootstepLagProbe.cs": {
+      "bytes": 38223,
+      "sha256": "04eb16406f09f72f695f7be2072d41cdae221a9cace90b32beea44ddc51aa6b1"
+    },
+    "README.md": {
+      "bytes": 1415,
+      "sha256": "51913351da2d10b9acd6b10672f4824c46d8b25cec33863010bb63c62a7e36a5"
+    },
+    "build.log": {
+      "bytes": 152,
+      "sha256": "c5d271c44d753fe34f08b41b575e7b52c7dd481e2b286b56257693cc8e943d57"
+    },
+    "content-build.log": {
+      "bytes": 152,
+      "sha256": "c618278fdd851504c89decab3a37129bb6fa0f0a94ad6a14a465edca24057799"
+    },
+    "content-urman.chapter1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "content-urman.fullgame.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "document-images.log": {
+      "bytes": 746,
+      "sha256": "289eef9ee894eafa4670c358f750e2698dbe96884546cb6f0c2425af09987b52"
+    },
+    "engine-errors.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "game.log": {
+      "bytes": 480954,
+      "sha256": "355bf38ca0baaa23f2407275e2746b8ef846b7dd14070512b5af066c0a2fdd75"
+    },
+    "import.log": {
+      "bytes": 140540,
+      "sha256": "5571c3d82278734683a9cc3159c3dcccf3e6d120d9ad9110158ea4a958484347"
+    },
+    "probe-profile.json": {
+      "bytes": 382067,
+      "sha256": "cc0d2c19f9a442b3e5e85baf1acb6993acc72fa797a349c10ec448643e58691e"
+    },
+    "probe-summary.json": {
+      "bytes": 101891,
+      "sha256": "1c5ee45be148cfe8f4f268984a4a91b5a46c3d8095853b29e9b99b97839ef44e"
+    },
+    "receipt.json": {
+      "bytes": 533431,
+      "sha256": "daf1731a9b510cd24e70bf1edff38d7f151a8d9574b52a7461bd7cd39004f801"
+    },
+    "request.json": {
+      "bytes": 235,
+      "sha256": "f091b5e18a93c5c0a2a837cbf8815c27fee9845c42b66c710445ce15e5705a8d"
+    },
+    "stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.log": {
+      "bytes": 622657,
+      "sha256": "cf7ad7651e5f5a8586c8c1843f1bb58311d9dd006e79d3ce3e187a71e2fd9201"
+    }
+  }
+}
