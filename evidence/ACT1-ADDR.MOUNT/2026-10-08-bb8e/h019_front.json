@@ -1,0 +1,52 @@
+{
+  "point": "h019_front",
+  "spec": "h019_front:MainStreetEastNeighborFacade@-2.21,1.62,5.40\u003EMainStreetEastNeighborFacade@-2.21,1.425,2.75",
+  "cameraName": "DevViewCamera",
+  "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+  "cameraPosition": {
+    "x": 25.540001,
+    "y": 1.590632,
+    "z": 79.400002
+  },
+  "cameraTarget": {
+    "x": 25.540001,
+    "y": 1.395632,
+    "z": 76.75
+  },
+  "cameraForward": {
+    "x": -0,
+    "y": -0.073386,
+    "z": -0.997304
+  },
+  "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade",
+  "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade",
+  "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade",
+  "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade",
+  "cameraOwnerZone": null,
+  "targetOwnerZone": null,
+  "fov": 70,
+  "fovSource": "control-view-default",
+  "near": 0.05,
+  "far": 160,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "scaling3DScale": 0.9,
+  "scaling3DMode": "Bilinear",
+  "graphicsPreset": "medium",
+  "activeZoneId": "village_day",
+  "requestedZoneId": null,
+  "checkpointSubject": null,
+  "requestedProfile": null,
+  "atmosphereProfile": "village-winter-frost",
+  "atmosphereOwner": "AgentBExteriorWorld",
+  "studioPreviewProfile": null,
+  "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBEnvironment",
+  "tonemapMode": "Agx",
+  "fogColor": "c2d0e0ff",
+  "fogDensity": 0.012,
+  "snowActive": true,
+  "snowAmount": 4000,
+  "blizzardActive": false,
+  "drawCalls": 29302,
+  "capturedUnixSeconds": 1791491183
+}

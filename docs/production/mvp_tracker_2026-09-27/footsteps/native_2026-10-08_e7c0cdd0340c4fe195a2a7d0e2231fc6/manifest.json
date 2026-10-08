@@ -1,0 +1,65 @@
+{
+  "job_id": "e7c0cdd0340c4fe195a2a7d0e2231fc6",
+  "snapshot_id": "0014a78480b0e0a6e1ba06361e344b3e0292510a3c82836af16f13f2781bb3fb",
+  "result_status": "PASS",
+  "probe_source_sha256": "1e7f80ad73596c8c3a8bbbfe66f7bf4e650ee92eed716a85b9d253a206b3ab55",
+  "raw_result_zip_sha256": "8bca9237dd3f9ea5e3bc3bff772f5a0c16e16e6f98723f57ea22492b31dfb1b4",
+  "files": {
+    "README.md": {
+      "bytes": 914,
+      "sha256": "2326f316d0cb3eb2b3d93dec721ee73fb705b4c739cce10dd035ed7ff18c1c73"
+    },
+    "build.log": {
+      "bytes": 152,
+      "sha256": "1cc523b8d5916b0a5b5bb25bead23733e126cdb8e7c99b2ca1a657b17016cec1"
+    },
+    "content-build.log": {
+      "bytes": 152,
+      "sha256": "2591e15e44e11116f87a5fcf4b1d15b435f5bd1774a91fad75223928ef08011a"
+    },
+    "content-urman.chapter1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "content-urman.fullgame.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "document-images.log": {
+      "bytes": 746,
+      "sha256": "289eef9ee894eafa4670c358f750e2698dbe96884546cb6f0c2425af09987b52"
+    },
+    "engine-errors.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "game.log": {
+      "bytes": 136565,
+      "sha256": "77fbaffe51ebbd80a79a489d204127fc847c0c0df55c41f780032ca6589d6dda"
+    },
+    "import.log": {
+      "bytes": 140540,
+      "sha256": "5571c3d82278734683a9cc3159c3dcccf3e6d120d9ad9110158ea4a958484347"
+    },
+    "probe-profile.json": {
+      "bytes": 56039,
+      "sha256": "89f0c4c5c80a617a9bdf0df3e2f5b13acdccf62584f58f9fc05b6a06946b6bd4"
+    },
+    "receipt.json": {
+      "bytes": 528283,
+      "sha256": "5ef79bb632f590d044eae5a488e9064f65a3b0ad6c32d50a48f41ebe4f8fd313"
+    },
+    "request.json": {
+      "bytes": 235,
+      "sha256": "7660f40178e5a9a1f7b466fa1743e0c379c7b625371480c43e524bd89561eb51"
+    },
+    "stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.log": {
+      "bytes": 278268,
+      "sha256": "c164b972df3f4c98398a84347fd82805cf3f3ad937eb9cb785b50717bddce3fa"
+    }
+  }
+}

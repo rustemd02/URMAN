@@ -249,6 +249,16 @@ public partial class Act1ConnectedWorld
                 sign.QueueFree();
                 continue;
             }
+            if(sign.AddressId=="ADR-MOSQUE"&&surface=="MosqueHallEastLeft"
+                &&!IsMosqueAddressMountOnExteriorFace(source,point,outward,out var exteriorFailure))
+            {
+                _addressImportIssues.Add(new("SIGN_MOUNT_OCCLUDED",sign.AddressId,exteriorFailure));
+                source.SetMeta("addressSignMountAvailable",false);
+                source.SetMeta("addressSignMountFailure",exteriorFailure);
+                _addressSigns.Remove(sign);
+                sign.QueueFree();
+                continue;
+            }
             sign.GlobalPosition=point;
             sign.GlobalBasis=new Basis(Vector3.Up,Mathf.Atan2(outward.X,outward.Z));
             source.SetMeta("addressSignMountOwner",owner);

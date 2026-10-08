@@ -1,0 +1,4 @@
+# Keep station artifact bytes unchanged.
+* -text
+*.json whitespace=cr-at-eol
+*.log whitespace=cr-at-eol

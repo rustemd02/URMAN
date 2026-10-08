@@ -101,6 +101,19 @@ public partial class Act1DemoRoot
                 return;
             }
         }
+        var meshInstances = GetTree().Root.FindChildren("*", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().Where(mesh => mesh.Mesh is not null).ToArray();
+        var shaderInstanceCandidates = meshInstances.Count(mesh =>
+        {
+            for (var surface = 0; surface < mesh.Mesh!.GetSurfaceCount(); surface++)
+                if (mesh.GetActiveMaterial(surface) is ShaderMaterial { Shader: { } shader }
+                    && shader.Code.Contains("instance uniform", StringComparison.Ordinal))
+                    return true;
+            return false;
+        });
+        var shaderInstanceBufferSize = ProjectSettings
+            .GetSetting("rendering/limits/global_shader_variables/buffer_size").AsInt64();
+        GD.Print($"shader-instance-budget: meshes={meshInstances.Length} candidates={shaderInstanceCandidates} bufferSize={shaderInstanceBufferSize}");
         // VIS-111: control views keep FOV 70 for before/after comparability, but a
         // capture can also take the player's own camera FOV (gameplay baseline 75 or
         // the player's setting) or an explicit value; the source is written per frame.
@@ -421,7 +434,7 @@ public partial class Act1DemoRoot
         // The storm toggle has one caller (the first-night cutscene), so the running flag
         // is the only runtime authority for blizzard state; snow is read off its emitter.
         var snow = world?.GetNodeOrNull<CpuParticles3D>("Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBSnow");
-        return new JsonObject
+        var metadata = new JsonObject
         {
             ["point"] = ViewText(point.Name),
             ["spec"] = ViewText(point.Spec),
@@ -465,7 +478,121 @@ public partial class Act1DemoRoot
             ["drawCalls"] = ViewNumber(Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)),
             ["capturedUnixSeconds"] = ViewNumber(System.DateTimeOffset.UtcNow.ToUnixTimeSeconds())
         };
+        if (point.Name.StartsWith("h019_", StringComparison.Ordinal))
+            metadata["h019RoofCensus"] = BuildH019RoofCensus(camera);
+        return metadata;
     }
+
+    private JsonObject BuildH019RoofCensus(Camera3D camera)
+    {
+        const string H019RootName = "MainStreetEastNeighborFacade";
+        var roots = _main?.FindChildren("*", nameof(Node3D), true, false)
+            .OfType<Node3D>().Where(node => node.Name == H019RootName).ToArray() ?? Array.Empty<Node3D>();
+        var root = roots.Length == 1 ? roots[0] : null;
+        var targetRows = new JsonArray();
+        foreach (var targetName in new[] { "DwellingFacade_Roof_LOD0", "DwellingFacade_RoofSnow_LOD0" })
+        {
+            var matches = root?.FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>().Where(mesh => mesh.Name == targetName).ToArray()
+                ?? Array.Empty<MeshInstance3D>();
+            var instances = new JsonArray();
+            foreach (var mesh in matches)
+                instances.Add(H019RoofMeshMetadata(mesh));
+            targetRows.Add(new JsonObject
+            {
+                ["expectedName"] = ViewText(targetName),
+                ["matchCount"] = ViewNumber(matches.Length),
+                ["instances"] = instances
+            });
+        }
+
+        var rootPaths = new JsonArray();
+        foreach (var node in roots) rootPaths.Add(ViewText(node.GetPath().ToString()));
+        return new JsonObject
+        {
+            ["subject"] = ViewText("ADR-H019"),
+            ["rootNodeName"] = ViewText(H019RootName),
+            ["rootMatchCount"] = ViewNumber(roots.Length),
+            ["rootPaths"] = rootPaths,
+            ["rootVisible"] = ViewFlag(root?.Visible),
+            ["rootVisibleInTree"] = ViewFlag(root?.IsVisibleInTree()),
+            ["rootLocalTransform"] = root is null ? null : ViewTransform(root.Transform),
+            ["rootGlobalTransform"] = root is null ? null : ViewTransform(root.GlobalTransform),
+            ["cameraCullMask"] = ViewNumber(camera.CullMask),
+            ["targetMeshes"] = targetRows
+        };
+    }
+
+    private static JsonObject H019RoofMeshMetadata(MeshInstance3D mesh)
+    {
+        var sourceMesh = mesh.Mesh!;
+        var sourceAabb = sourceMesh.GetAabb();
+        var globalAabb = mesh.GlobalTransform * sourceAabb;
+        var surfaces = new JsonArray();
+        for (var surface = 0; surface < sourceMesh.GetSurfaceCount(); surface++)
+        {
+            var baseMaterial = sourceMesh.SurfaceGetMaterial(surface);
+            var overrideMaterial = mesh.GetSurfaceOverrideMaterial(surface);
+            var activeMaterial = mesh.GetActiveMaterial(surface);
+            surfaces.Add(new JsonObject
+            {
+                ["index"] = ViewNumber(surface),
+                ["meshMaterialName"] = ViewText(baseMaterial?.ResourceName),
+                ["meshMaterialPath"] = ViewText(baseMaterial?.ResourcePath),
+                ["surfaceOverrideName"] = ViewText(overrideMaterial?.ResourceName),
+                ["surfaceOverridePath"] = ViewText(overrideMaterial?.ResourcePath),
+                ["activeMaterialType"] = ViewText(activeMaterial?.GetClass().ToString()),
+                ["activeMaterialName"] = ViewText(activeMaterial?.ResourceName),
+                ["activeMaterialPath"] = ViewText(activeMaterial?.ResourcePath),
+                ["activeShaderPath"] = activeMaterial is ShaderMaterial shaderMaterial
+                    ? ViewText(shaderMaterial.Shader?.ResourcePath)
+                    : null
+            });
+        }
+
+        var sceneOwner = mesh.Owner as Node3D;
+        var parent = mesh.GetParent() as Node3D;
+        return new JsonObject
+        {
+            ["nodePath"] = ViewText(mesh.GetPath().ToString()),
+            ["instanceVisible"] = ViewFlag(mesh.Visible),
+            ["visibleInTree"] = ViewFlag(mesh.IsVisibleInTree()),
+            ["renderLayers"] = ViewNumber(mesh.Layers),
+            ["castShadow"] = ViewText(mesh.CastShadow.ToString()),
+            ["visibilityRangeBegin"] = ViewNumber(mesh.VisibilityRangeBegin),
+            ["visibilityRangeEnd"] = ViewNumber(mesh.VisibilityRangeEnd),
+            ["meshResourceName"] = ViewText(sourceMesh.ResourceName),
+            ["meshResourcePath"] = ViewText(sourceMesh.ResourcePath),
+            ["meshLocalAabb"] = ViewAabb(sourceAabb),
+            ["meshGlobalAabb"] = ViewAabb(globalAabb),
+            ["nodeLocalTransform"] = ViewTransform(mesh.Transform),
+            ["nodeGlobalTransform"] = ViewTransform(mesh.GlobalTransform),
+            ["materialAssignmentOwnerPath"] = ViewText(mesh.GetPath().ToString()),
+            ["sceneOwnerPath"] = ViewText(mesh.Owner?.GetPath().ToString()),
+            ["sceneOwnerLocalTransform"] = sceneOwner is null ? null : ViewTransform(sceneOwner.Transform),
+            ["sceneOwnerGlobalTransform"] = sceneOwner is null ? null : ViewTransform(sceneOwner.GlobalTransform),
+            ["parentPath"] = ViewText(parent?.GetPath().ToString()),
+            ["parentGlobalTransform"] = parent is null ? null : ViewTransform(parent.GlobalTransform),
+            ["materialOverrideName"] = ViewText(mesh.MaterialOverride?.ResourceName),
+            ["materialOverridePath"] = ViewText(mesh.MaterialOverride?.ResourcePath),
+            ["surfaces"] = surfaces
+        };
+    }
+
+    private static JsonObject ViewAabb(Aabb bounds) => new()
+    {
+        ["position"] = ViewVector(bounds.Position),
+        ["size"] = ViewVector(bounds.Size),
+        ["end"] = ViewVector(bounds.End)
+    };
+
+    private static JsonObject ViewTransform(Transform3D transform) => new()
+    {
+        ["origin"] = ViewVector(transform.Origin),
+        ["basisX"] = ViewVector(transform.Basis.X),
+        ["basisY"] = ViewVector(transform.Basis.Y),
+        ["basisZ"] = ViewVector(transform.Basis.Z)
+    };
 
     // Main.SwitchZone leaves exactly one WorldEnvironment resource in place, so the zone
     // placement decides which one rather than a guess from tree order.

@@ -14,11 +14,12 @@ internal static class AddressFacadeMount
 {
     internal const float HalfWidth=.30f, HalfHeight=.115f;
     internal const float RivetX=HalfWidth-.03f, RivetY=HalfHeight-.03f;
-    // Plate centre above the facade's own ground. This is a human reading band
+    // Plate centre above the facade's ground or its explicit raised entrance floor. This is a human reading band
     // beside the entrance, not "under the eave": 1.5 m is the lowest comfortable
     // letter line, 2.1 m the highest, 1.8 m the target. A wall shorter than the
     // band yields no candidate, and the mount honestly fails.
     internal const float MountHeight=1.8f, MountLow=1.5f, MountHigh=2.1f;
+    internal const string ReadingFloorMeta="addressSignReadingFloor";
     // The board may follow hewn-log courses and casing by at most this much, so
     // it still reads as screwed to the wall - never a ledge, shelf, canopy or
     // roof verge pushed out in front of it.
@@ -130,9 +131,10 @@ internal static class AddressFacadeMount
             foreach(var (rangeLo,rangeHi) in ranges)
             foreach(var x in Samples(rangeLo,rangeHi,Math.Clamp(doorAlong,rangeLo,rangeHi),.08f))
             {
-                // A recessed annex entrance may lie several metres down the
-                // slope. Judge plate height against the facade's own ground.
-                var facadeGround=Act1ConnectedWorld.AddressGround(right*x+outward*plane.Depth).Y;
+                // A raised entrance is read from its real landing; other facades use their own terrain.
+                var facadeGround=building.HasMeta(ReadingFloorMeta)
+                    ? building.ToGlobal(building.GetMeta(ReadingFloorMeta).AsVector3()).Y
+                    : Act1ConnectedWorld.AddressGround(right*x+outward*plane.Depth).Y;
                 var minY=Math.Max(vertices.Min(p=>p.Y)+HalfHeight+.025f,facadeGround+MountLow);
                 var maxY=Math.Min(vertices.Max(p=>p.Y)-HalfHeight-.025f,facadeGround+MountHigh);
                 if(minY>maxY)continue;
@@ -356,13 +358,11 @@ internal static class AddressFacadeMount
         }
         return planes.GroupBy(p=>p.Owner,StringComparer.Ordinal).Select(g=>g.OrderByDescending(p=>p.Depth).First()).ToList();
     }
-    // Explicit surface policy. The list is citation-explicit; the civic square
-    // generates its exterior wall skins as "Pier<n>Skin" (SWall indexes every
-    // pier), so the House of Culture's Pier4Skin is the same class of surface
-    // as the school's Pier1Skin and must not throw on import.
+    // Explicit surface policy. The civic square generates exterior "Pier<n>Skin"
+    // walls; MosqueHallEastLeft is the authored, sightline-cleared qibla-yawed wall.
     private static bool VerifiedExplicitWall(string name)
     {
-        if(name is "DwellingFacade_Right_Wall_LOD0" or "DwellingFacade_SeniOuter_Wall_LOD0" or "Pier1Skin" or "Walls")return true;
+        if(name is "DwellingFacade_Right_Wall_LOD0" or "DwellingFacade_SeniOuter_Wall_LOD0" or "MosqueHallEastLeft" or "Pier1Skin" or "Walls")return true;
         if(!name.StartsWith("Pier",StringComparison.Ordinal)||!name.EndsWith("Skin",StringComparison.Ordinal))return false;
         var digits=name.AsSpan(4,name.Length-8);
         if(digits.Length==0)return false;

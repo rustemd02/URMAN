@@ -1,0 +1,64 @@
+{
+  "job_id": "2cf68876477348b5a2ed2157ba415b77",
+  "snapshot_id": "4ba26b9d23ff8cacd45db0a5e513758b36f9c8080436e7fd069e5ab7f91df3c3",
+  "source_probe_sha256": "1e7f80ad73596c8c3a8bbbfe66f7bf4e650ee92eed716a85b9d253a206b3ab55",
+  "raw_result_zip_sha256": "1450e929229c2f83dab3a0a25f0799711fb9d0b91ef8db34c781ab6e22e32434",
+  "files": {
+    "README.md": {
+      "bytes": 997,
+      "sha256": "08ac9a009562ba9562654cb32cf765b5f351ccd92ecda208888df70e4689093c"
+    },
+    "build.log": {
+      "bytes": 152,
+      "sha256": "895d2de42b311eda4449b08c4007b81b9b39effbcebb866f5a5bb12138b4c790"
+    },
+    "content-build.log": {
+      "bytes": 152,
+      "sha256": "64e4d781290bac52c85e4ea84f193ab529b5dad21a5ac22403c781f93521c352"
+    },
+    "content-urman.chapter1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "content-urman.fullgame.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "document-images.log": {
+      "bytes": 746,
+      "sha256": "289eef9ee894eafa4670c358f750e2698dbe96884546cb6f0c2425af09987b52"
+    },
+    "engine-errors.log": {
+      "bytes": 144,
+      "sha256": "f66b89162108356a50433459cef581f27ed62c1520337bdb87e8a3ab77f12137"
+    },
+    "game.log": {
+      "bytes": 138911,
+      "sha256": "4ffcb8b2f00ecc1208063fe63ffe4e37cf63f5a674bfa40eaca19518288942e2"
+    },
+    "import.log": {
+      "bytes": 140540,
+      "sha256": "5571c3d82278734683a9cc3159c3dcccf3e6d120d9ad9110158ea4a958484347"
+    },
+    "probe-profile.json": {
+      "bytes": 56590,
+      "sha256": "3b86e953b68c89adf4ccf76a343806eb20e7e79fbc6b165a3d9e4cd7797f732d"
+    },
+    "receipt.json": {
+      "bytes": 518186,
+      "sha256": "2a3dff308bc7aba24ec7774b3c4c5715f5fe7775dc3b99c135d26fef953faa5d"
+    },
+    "request.json": {
+      "bytes": 235,
+      "sha256": "4e546f0a8d61ca6a910b24dfccbdbe775108aab1b14262bab4bf80b6250c40d8"
+    },
+    "stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.log": {
+      "bytes": 280680,
+      "sha256": "67315812c7065aa8c11d2a2a6a54ea8e717f96c4853749a59cc77745e29aede2"
+    }
+  }
+}

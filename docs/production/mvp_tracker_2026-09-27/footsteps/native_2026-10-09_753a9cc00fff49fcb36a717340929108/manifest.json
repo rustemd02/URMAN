@@ -1,0 +1,100 @@
+{
+  "job_id": "753a9cc00fff49fcb36a717340929108",
+  "snapshot_id": "217d717334db6b2411c23f4d7460c754d23287da667e2a039e937400baa51c0a",
+  "source_commit": "e0095b0d7d197760521c8113278795a57e8377a8",
+  "source_probe_sha256": "ab7913a41f6bbee67f6108c639f3e5a108c70d9b8c3f442db9226796cd91e3dd",
+  "source_probe_bytes": 29993,
+  "raw_result_zip_sha256": "9860bd0726bc90601ea0dfdcbbf68857168da73f7889b476353bfc818224c235",
+  "status": "PASS",
+  "mode": "smoke",
+  "headless": false,
+  "scene": "res://tests/act1_footstep_lag_probe.tscn",
+  "station": "UNTERPC",
+  "worker_elapsed_seconds": 356.985,
+  "profile": {
+    "result": "data_complete",
+    "route_complete": true,
+    "route_steps": {
+      "road_band": 33,
+      "offroad": 16
+    },
+    "elapsed_ms": 13277.61,
+    "frame_count": 260,
+    "step_interval_m": 0.55,
+    "preset": "medium",
+    "display_driver": "Windows",
+    "adapter": "NVIDIA GeForce GTX 970"
+  },
+  "userdata_restored": true,
+  "snapshot_hashes_verified": true,
+  "files": {
+    ".gitattributes": {
+      "bytes": 104,
+      "sha256": "fa8238e66523faebce6371da8740d6958db8f135c1d8364d21a362fe2916964a"
+    },
+    ".gitignore": {
+      "bytes": 40,
+      "sha256": "8963d3278036afa593a45874035b13d3c6d848cfdc2f5c149b40dbaebb4566d8"
+    },
+    "Act1FootstepLagProbe.cs": {
+      "bytes": 29993,
+      "sha256": "ab7913a41f6bbee67f6108c639f3e5a108c70d9b8c3f442db9226796cd91e3dd"
+    },
+    "README.md": {
+      "bytes": 1261,
+      "sha256": "96d88a8973f17cfac69611ed208966a190be3c441c04376085fda4f47d8ebb1a"
+    },
+    "build.log": {
+      "bytes": 152,
+      "sha256": "f08973e0779beb369a0768306f7c9c8cd7dd57d8873ea51ba6ed7d36f27da0f4"
+    },
+    "content-build.log": {
+      "bytes": 152,
+      "sha256": "8d0766ac252935bda9a76926dd133d303e134ba8b9a99002a5dd90c20d8144c3"
+    },
+    "content-urman.chapter1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "content-urman.fullgame.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "document-images.log": {
+      "bytes": 746,
+      "sha256": "289eef9ee894eafa4670c358f750e2698dbe96884546cb6f0c2425af09987b52"
+    },
+    "engine-errors.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "game.log": {
+      "bytes": 203102,
+      "sha256": "c4835e9592fa1abd9f32b15f02dd1823a61bf0c34275746e4e6e9eae9a79e864"
+    },
+    "import.log": {
+      "bytes": 140540,
+      "sha256": "5571c3d82278734683a9cc3159c3dcccf3e6d120d9ad9110158ea4a958484347"
+    },
+    "probe-profile.json": {
+      "bytes": 104215,
+      "sha256": "c599f38f4cba8e8ad92922f03fae0caad98bb4e48f7287706ee3cacc6d8c28fa"
+    },
+    "receipt.json": {
+      "bytes": 543616,
+      "sha256": "2057b954fa438f87413487de6474e66cdee69c1c1780bff77ea75367a299c49a"
+    },
+    "request.json": {
+      "bytes": 235,
+      "sha256": "388843116812ef880ec19d35aae69d3b08393476c59518578ee079c57e951339"
+    },
+    "stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.log": {
+      "bytes": 344805,
+      "sha256": "41441669914ee3bf55ddda03e5aaf57078f27e1b17237ba181585a1859adea2d"
+    }
+  }
+}
