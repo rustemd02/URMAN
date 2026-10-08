@@ -162,7 +162,7 @@ public partial class StyleBenchmarkZone : Node3D
             TonemapMode = houseInterior ? global::Godot.Environment.ToneMapper.Agx : global::Godot.Environment.ToneMapper.Filmic,
             TonemapExposure = night ? 1.02f : fapInterior ? 1.04f : zirat ? 0.96f : 0.98f
         };
-        GraphicsQuality.ConfigureEnvironment(environment, authoredSsao: interior);
+        GraphicsQuality.ConfigureEnvironment(environment, authoredSsao: interior, interiorGi: interior);
         AddChild(new WorldEnvironment { Environment = environment, Name = "WorldEnvironment" });
 
         if (!interior)
@@ -556,7 +556,9 @@ public partial class StyleBenchmarkZone : Node3D
             LightColor = Color.FromHtml("f0d5ae"),
             LightEnergy = 1.70f,
             OmniRange = 4.75f,
-            ShadowEnabled = true
+            ShadowEnabled = true,
+            // P2: a lampshade is not a point; its size softens the penumbra.
+            LightSize = .12f
         };
         AddChild(lamp);
 
@@ -602,7 +604,8 @@ public partial class StyleBenchmarkZone : Node3D
             LightColor = Color.FromHtml("c2a375"),
             LightEnergy = 0.72f,
             OmniRange = 2.9f,
-            ShadowEnabled = true
+            ShadowEnabled = true,
+            LightSize = .08f
         });
     }
 
@@ -1440,6 +1443,10 @@ public partial class StyleBenchmarkZone : Node3D
             };
 
         var rebound = 0;
+        // P2 / VIS-099: the painted dado is measured from the clinic floor's top. The kit
+        // is not in the tree yet, so floor height and per-wall datum are set deferred.
+        var fapDadoWalls = new List<MeshInstance3D>();
+        var fapFloors = new List<MeshInstance3D>();
         foreach (var mesh in Descendants(presentation).OfType<MeshInstance3D>())
         {
             if (mesh.Mesh is null)
@@ -1457,9 +1464,15 @@ public partial class StyleBenchmarkZone : Node3D
                     || meshName.StartsWith("FapInteriorWallPanel_", StringComparison.Ordinal)
                     || fapFloor || fapCeiling))
             {
-                var wall = PainterlyMaterialLibrary.ForColor(
-                    fapFloor ? "797d77" : fapCeiling ? "b5b4a4" : "7b8d86",
-                    fapFloor ? "floor_institution" : fapCeiling ? string.Empty : "wall_institution", sheltered: true);
+                var dadoWall = !fapFloor && !fapCeiling;
+                if (fapFloor) fapFloors.Add(mesh);
+                // Walls: whitewash above, the clinic's grey-green as oil paint to 1.5 m.
+                var wall = dadoWall
+                    ? PainterlyMaterialLibrary.ForDadoWall("c8cabd", "6f8a84", 1.5f)
+                    : PainterlyMaterialLibrary.ForColor(
+                        fapFloor ? "797d77" : fapCeiling ? "b5b4a4" : "7b8d86",
+                        fapFloor ? "floor_institution" : fapCeiling ? string.Empty : "wall_institution", sheltered: true);
+                if (dadoWall) fapDadoWalls.Add(mesh);
                 for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
                 {
                     mesh.SetSurfaceOverrideMaterial(surface, wall);
@@ -1494,6 +1507,20 @@ public partial class StyleBenchmarkZone : Node3D
                     ? "FAP cool institutional wall/floor separation with restrained timber, metal and paper value accents"
                     : "Kara damp earth/leaf litter/understory remapped to painterly wet palette");
         presentation.SetMeta("materialGradeReboundCount", rebound);
+        if (fapDadoWalls.Count > 0)
+        {
+            Callable.From(() =>
+            {
+                var top = float.NaN;
+                foreach (var floor in fapFloors)
+                    if (GodotObject.IsInstanceValid(floor) && floor.IsInsideTree())
+                        top = float.IsNaN(top) ? (floor.GlobalTransform * floor.GetAabb()).End.Y
+                            : Mathf.Max(top, (floor.GlobalTransform * floor.GetAabb()).End.Y);
+                if (float.IsNaN(top)) return;
+                foreach (var wall in fapDadoWalls)
+                    if (GodotObject.IsInstanceValid(wall)) PainterlyMaterialLibrary.SetGroundContact(wall, top);
+            }).CallDeferred();
+        }
         return rebound;
     }
 
@@ -1549,7 +1576,9 @@ public partial class StyleBenchmarkZone : Node3D
             ("WetRoadShoulder_Right", "ZiratWetRoadShoulderRight", new(0f, 0f, -1.5f), 0f, Vector3.One * 1.05f, "zirat-benchmark@wet-shoulder-right"),
             ("RoadsideDitch", "ZiratRoadsideDitch", new(0f, 0f, -1.1f), 0f, Vector3.One, "zirat-benchmark@roadside-drainage"),
             ("CulvertStoneCluster", "ZiratCulvertStoneCluster", new(0f, 0f, -3.5f), 0f, Vector3.One, "zirat-benchmark@culvert-edge"),
-            ("ZiratBoundaryFence", "ZiratAuthoredBoundaryFence", new(6.7f, 0f, -15.0f), 90f, Vector3.One * 0.96f, "zirat-benchmark@lateral-boundary-fence"),
+            // VIS-022: a cemetery boundary reads at about one metre; the kit fence measured 1.13 m at
+            // scale 0.96, so only its height is brought down (0.85 / 0.96 ≈ 0.885 -> ~1.0 m).
+            ("ZiratBoundaryFence", "ZiratAuthoredBoundaryFence", new(6.7f, 0f, -15.0f), 90f, new Vector3(0.96f, 0.85f, 0.96f), "zirat-benchmark@lateral-boundary-fence"),
             ("ZiratOpenGate", "ZiratAuthoredOpenGate", new(6.7f, 0f, -15.0f), 90f, Vector3.One * 0.96f, "zirat-benchmark@lateral-open-gate"),
             ("ZiratMarkerGroup_Low", "ZiratAuthoredMarkerGroupLow", new(6.2f, 0f, -9.0f), 0f, Vector3.One * 0.92f, "zirat-benchmark@quiet-marker-group-near"),
             ("ZiratMarkerGroup_Far", "ZiratAuthoredMarkerGroupFar", new(6.5f, 0f, -10.0f), 0f, Vector3.One * 0.92f, "zirat-benchmark@quiet-marker-group-far"),

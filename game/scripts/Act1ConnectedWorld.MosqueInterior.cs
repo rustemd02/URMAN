@@ -78,6 +78,9 @@ public partial class Act1ConnectedWorld
             HidePresentationNode(complex.GetNode<Node3D>(name));
 
         FacilitySolid(_mosqueRoom, "MosqueTimberFloor", new(11.85f, .06f, 9.15f), new(-.7f, -.03f, 0), "ac8e65", "wood_furniture");
+        // P2 / VIS-100: light only — the hall's own warm light on its timber floor and
+        // painted walls; no change to the arrangement under cultural review.
+        InteriorReflectionProbes.Add(_mosqueRoom, "MosqueHallReflectionProbe", new(-.7f, 1.87f, 0), new(11.85f, 3.74f, 9.15f), .7f);
         BuildMosqueDecoratedCeiling();
         for (var side = -1; side <= 1; side += 2)
         {
@@ -720,7 +723,9 @@ public partial class Act1ConnectedWorld
     private void FacilityLamp(Node3D parent, string name, Vector3 at, string color, float energy, float range)
     {
         var light = new OmniLight3D { Name = name, Position = at, LightColor = Color.FromHtml(color), LightEnergy = energy,
-            OmniRange = range, ShadowEnabled = true, ShadowBias = .03f };
+            OmniRange = range, ShadowEnabled = true, ShadowBias = .03f,
+            // P2: the shade diameter (0.34 m) softens the facility lamp's shadow edge.
+            LightSize = .17f };
         parent.AddChild(light);
         _facilityLights.Add(light);
         DiscoveryCylinder(parent, name + "Shade", .17f, .22f, .10f, at + Vector3.Up * .08f, "d5cbb1");

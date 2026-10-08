@@ -35,6 +35,78 @@ public static class RuralPropGeometry
         model.SetMeta("contactPolicy", "actual furniture members; shared convex shapes; no filled leg-space box");
     }
 
+    // Families whose look depends on a 0..1 face UV or an authored layout keep BoxMesh UVs.
+    private static readonly HashSet<string> UvBoundSurfaces = new(StringComparer.Ordinal)
+    {
+        "frost_window", "wood_cut", "hay_fibers", "cloth_table", "cloth_curtain", "wood_fence_uv", "wood_log_uv", "glass"
+    };
+
+    /// <summary>
+    /// P2 / VIS-086/098: interior boxes get a small 45° chamfer so every edge catches a
+    /// highlight instead of reading as a razor-cut primitive. Thin members (< 3 cm),
+    /// UV-bound families and glass keep the plain BoxMesh. One chamfer ring: 44 triangles.
+    /// </summary>
+    public static Mesh InteriorBox(Vector3 size, string surface = "")
+    {
+        var thinnest = Mathf.Min(size.X, Mathf.Min(size.Y, size.Z));
+        if (thinnest < .03f || UvBoundSurfaces.Contains(surface)) return Box(size);
+        return ChamferBox(size, Mathf.Clamp(thinnest * .12f, .003f, .015f));
+    }
+
+    public static ArrayMesh ChamferBox(Vector3 size, float chamfer)
+    {
+        var key = $"chamfer:{size}:{chamfer}";
+        if (Cache.TryGetValue(key, out var saved)) return saved;
+        var h = size * .5f;
+        chamfer = Mathf.Min(chamfer, Mathf.Min(h.X, Mathf.Min(h.Y, h.Z)) * .9f);
+        // Three points per corner, one on each face that meets there.
+        Vector3 OnX(int x, int y, int z) => new(x * h.X, y * (h.Y - chamfer), z * (h.Z - chamfer));
+        Vector3 OnY(int x, int y, int z) => new(x * (h.X - chamfer), y * h.Y, z * (h.Z - chamfer));
+        Vector3 OnZ(int x, int y, int z) => new(x * (h.X - chamfer), y * (h.Y - chamfer), z * h.Z);
+        using var tool = new SurfaceTool();
+        tool.Begin(Mesh.PrimitiveType.Triangles);
+        void Triangle(Vector3 a, Vector3 b, Vector3 c, Vector3 outward)
+        {
+            // Godot front faces are clockwise seen from outside.
+            if ((b - a).Cross(c - a).Dot(outward) > 0f) (b, c) = (c, b);
+            foreach (var point in new[] { a, b, c })
+            {
+                tool.SetNormal(outward);
+                var axis = outward.Abs();
+                tool.SetUV(axis.X >= axis.Y && axis.X >= axis.Z ? new Vector2(point.Z, point.Y)
+                    : axis.Y >= axis.Z ? new Vector2(point.X, point.Z) : new Vector2(point.X, point.Y));
+                tool.AddVertex(point);
+            }
+        }
+        void Quad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Vector3 outward)
+        {
+            Triangle(a, b, c, outward);
+            Triangle(a, c, d, outward);
+        }
+        foreach (var sign in new[] { -1, 1 })
+        {
+            Quad(OnX(sign, -1, -1), OnX(sign, 1, -1), OnX(sign, 1, 1), OnX(sign, -1, 1), new Vector3(sign, 0, 0));
+            Quad(OnY(-1, sign, -1), OnY(1, sign, -1), OnY(1, sign, 1), OnY(-1, sign, 1), new Vector3(0, sign, 0));
+            Quad(OnZ(-1, -1, sign), OnZ(1, -1, sign), OnZ(1, 1, sign), OnZ(-1, 1, sign), new Vector3(0, 0, sign));
+        }
+        foreach (var a in new[] { -1, 1 })
+        foreach (var b in new[] { -1, 1 })
+        {
+            // Edge strips along Z (between X and Y faces), along Y (X/Z) and along X (Y/Z).
+            Quad(OnX(a, b, -1), OnX(a, b, 1), OnY(a, b, 1), OnY(a, b, -1), new Vector3(a, b, 0).Normalized());
+            Quad(OnX(a, -1, b), OnX(a, 1, b), OnZ(a, 1, b), OnZ(a, -1, b), new Vector3(a, 0, b).Normalized());
+            Quad(OnY(-1, a, b), OnY(1, a, b), OnZ(1, a, b), OnZ(-1, a, b), new Vector3(0, a, b).Normalized());
+        }
+        foreach (var x in new[] { -1, 1 })
+        foreach (var y in new[] { -1, 1 })
+        foreach (var z in new[] { -1, 1 })
+            Triangle(OnX(x, y, z), OnY(x, y, z), OnZ(x, y, z), new Vector3(x, y, z).Normalized());
+        var mesh = tool.Commit();
+        mesh.ResourceName = "Rural_ChamferBox";
+        Cache[key] = mesh;
+        return mesh;
+    }
+
     public static ArrayMesh BevelBox(Vector3 size, float radius = .008f)
     {
         radius = Mathf.Min(radius, Mathf.Min(size.X, Mathf.Min(size.Y,size.Z))*.48f);

@@ -55,8 +55,9 @@ public static partial class StyleBenchmarkInteriorFactory
     {
         room.SetMeta("heroHouseContract", ContractVersion);
         room.SetMeta("heroHouseClearDimensions", new Vector3(ClearWidth, CeilingHeight, ClearDepth));
-        Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "777068", "wood_floor_painted");
-        Block(room, "Ceiling", new(8.4f, .16f, 7.4f), new(0, 2.68f, 0), "c4bda9", "wood_painted_trim");
+        Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "777068", "wood_floor_planked");
+        // P2 / VIS-098: painted board ceiling (the same laid-board pattern as the floor).
+        Block(room, "Ceiling", new(8.4f, .16f, 7.4f), new(0, 2.68f, 0), "c4bda9", "wood_floor_planked");
 
         Wall(room, "FrontWall", 4.2f, 3.6f, false,
             [new(DoorX, DoorWidth, 0, DoorHeight),
@@ -73,6 +74,9 @@ public static partial class StyleBenchmarkInteriorFactory
             Block(room, "CeilingBeam" + (x < 0 ? "Left" : "Right"), new(.20f, .18f, 7f),
                 new(x, 2.693f, 0), "493629", "wood", collision: false);
         foreach (var window in Windows) BuildWindow(room, window);
+        AddRoomTrim(room);
+        InteriorReflectionProbes.Add(room, "HeroRoomReflectionProbe", new(0, CeilingHeight * .5f, 0),
+            new(ClearWidth, CeilingHeight, ClearDepth));
 
         // A closed interior leaf is physical even while the route target is
         // unavailable. The thin ray target sits on its room-facing side.
@@ -94,6 +98,51 @@ public static partial class StyleBenchmarkInteriorFactory
         foreach (var z in new[] { -2.90f, -2.10f })
             Block(room, "FamilyPhotoShelfBracket" + (z < -2.5f ? "Rear" : "Front"),
                 new(.44f, .14f, .065f), new(-3.77f, .96f, z), "493629", "wood", false);
+    }
+
+    /// <summary>
+    /// P2 / VIS-098: the joints of a lived-in Tatar room are finished, not raw: a painted
+    /// skirting board along the floor (broken at the entry door) and a two-step wooden
+    /// cornice under the ceiling. Side runs stop at the front/back runs' depth so no two
+    /// faces are coplanar at the corners. Visual only; collision and openings unchanged.
+    /// </summary>
+    private static void AddRoomTrim(Node3D room)
+    {
+        var halfX = ClearWidth * .5f;
+        var halfZ = ClearDepth * .5f;
+        const float skirtHeight = .10f, skirtDepth = .022f;
+        const string skirtColor = "5d4a38";
+        const string corniceColor = "b8ae98";
+        var doorLeft = DoorX - DoorWidth * .5f - .05f;
+        var doorRight = DoorX + DoorWidth * .5f + .05f;
+        void Run(string name, float fromX, float toX, float z, float y, float height, float depth, string color)
+        {
+            if (toX - fromX < .05f) return;
+            Block(room, name, new(toX - fromX, height, depth), new((fromX + toX) * .5f, y, z - Math.Sign(z) * depth * .5f),
+                color, "wood_painted_trim", collision: false);
+        }
+        void SideRun(string name, float x, float y, float height, float depth, float inset, string color) =>
+            Block(room, name, new(depth, height, ClearDepth - inset * 2f), new(x - Math.Sign(x) * depth * .5f, y, 0),
+                color, "wood_painted_trim", collision: false);
+
+        // Skirting: front wall is broken at the door; the other three run through.
+        Run("SkirtingFrontLeft", -halfX, doorLeft, halfZ, skirtHeight * .5f, skirtHeight, skirtDepth, skirtColor);
+        Run("SkirtingFrontRight", doorRight, halfX, halfZ, skirtHeight * .5f, skirtHeight, skirtDepth, skirtColor);
+        Run("SkirtingBack", -halfX, halfX, -halfZ, skirtHeight * .5f, skirtHeight, skirtDepth, skirtColor);
+        foreach (var x in new[] { -halfX, halfX })
+            SideRun(x < 0 ? "SkirtingLeft" : "SkirtingRight", x, skirtHeight * .5f, skirtHeight, skirtDepth, skirtDepth, skirtColor);
+
+        // Cornice: a deeper upper step and a smaller lower step, so the ceiling line
+        // reads as a moulding with a shadow under it rather than a hard crease.
+        foreach (var (step, height, depth) in new[] { ("Upper", .032f, .085f), ("Lower", .05f, .045f) })
+        {
+            var y = step == "Upper" ? CeilingHeight - height * .5f : CeilingHeight - .032f - height * .5f;
+            Run("Cornice" + step + "Front", -halfX, halfX, halfZ, y, height, depth, corniceColor);
+            Run("Cornice" + step + "Back", -halfX, halfX, -halfZ, y, height, depth, corniceColor);
+            foreach (var x in new[] { -halfX, halfX })
+                SideRun("Cornice" + step + (x < 0 ? "Left" : "Right"), x, y, height, depth, .085f, corniceColor);
+        }
+        room.SetMeta("roomTrim", "skirting 0.10 m, two-step cornice 0.082 m (VIS-098)");
     }
 
     private readonly record struct Opening(float Center, float Width, float Bottom, float Top);
@@ -170,6 +219,23 @@ public static partial class StyleBenchmarkInteriorFactory
         }
         Block(root, "Mullion", new(.045f, height, .055f), new(0, 0, .16f), "5d4a38", "wood", false);
         Block(root, "SillBoard", new(1.24f, .065f, .30f), new(0, -height * .5f - .035f, .16f), "765842", "wood", false);
+        // P2 / VIS-087/098: the opening is framed on the wall, not cut into it. Flat
+        // casing boards sit on the plaster beside the projecting jambs, a slightly
+        // proud head board with a small cap carries the line across, and an apron
+        // closes the wall under the sill. Painted like the frame; visual only.
+        const float casingWidth = .08f, casingThickness = .022f;
+        var wallFace = WallThickness * .5f + InteriorFinishThickness;
+        var casingZ = wallFace + casingThickness * .5f;
+        var jambOuter = WindowWidth * .5f + .075f;
+        var casingTop = height * .5f + .07f;
+        foreach (var sign in new[] { -1f, 1f })
+            Block(root, sign < 0 ? "CasingLeft" : "CasingRight", new(casingWidth, height + .14f + .02f, casingThickness),
+                new(sign * (jambOuter + casingWidth * .5f), .01f, casingZ), "718078", "wood", false);
+        var headWidth = (jambOuter + casingWidth) * 2f + .04f;
+        Block(root, "CasingHead", new(headWidth, .10f, casingThickness), new(0, casingTop + .05f, casingZ), "718078", "wood", false);
+        Block(root, "CasingHeadCap", new(headWidth + .04f, .022f, .045f), new(0, casingTop + .111f, wallFace + .0225f), "6a776f", "wood", false);
+        var sillBottom = -height * .5f - .035f - .0325f;
+        Block(root, "SillApron", new(1.12f, .085f, casingThickness), new(0, sillBottom - .0425f, casingZ), "718078", "wood", false);
         // Two fabrics have different optical roles and real folds. Both hang
         // from the rod; neither is a painted rectangle against the window.
         var rod = new MeshInstance3D { Name = "CurtainRod", Position = new(0, .82f, .28f),
@@ -418,8 +484,10 @@ public static partial class StyleBenchmarkInteriorFactory
     {
         var body = new StaticBody3D { Name = name, Position = at, CollisionLayer = collision ? 1u : 0u, CollisionMask = 0 };
         body.SetMeta("collisionOwner", collision ? "house-interior-architecture" : "none");
-        var mesh = new MeshInstance3D { Name = "Visible", Mesh = RuralPropGeometry.Box(size),
-            MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface, sheltered: true) };
+        var mesh = new MeshInstance3D { Name = "Visible", Mesh = RuralPropGeometry.InteriorBox(size, surface),
+            MaterialOverride = surface == "wood_floor_planked"
+                ? PainterlyMaterialLibrary.ForPlankedFloor(color)
+                : PainterlyMaterialLibrary.ForColor(color, surface, sheltered: true) };
         body.AddChild(mesh);
         if (collision) body.AddChild(new CollisionShape3D { Name = "Contact", Shape = new BoxShape3D { Size = size } });
         parent.AddChild(body);

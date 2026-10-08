@@ -83,6 +83,11 @@ public static class PainterlyMaterialLibrary
         // VIS-039 capture diagnostics only (URMAN_DIAGNOSTIC_VIEW): 1 = neutral grey
         // albedo so form and light can be judged without pigment. Never set in play.
         uniform float diagnostic_neutral = 0.0;
+        uniform float floor_board_width = 0.0;
+        uniform float dado_height = 0.0;
+        uniform float cloth_sheen = 0.0;
+        uniform vec4 dado_color : source_color = vec4(0.44, 0.56, 0.54, 1.0);
+        uniform float floor_board_length = 2.6;
         // Phase 7 life: gentle vertex sway for foliage/grass materials.
         // Global switch honors the reduced-motion accessibility contract.
         uniform float wind_sway = 0.0;
@@ -123,7 +128,7 @@ public static class PainterlyMaterialLibrary
         uniform sampler2D detail_normal_map : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
         uniform float detail_normal_scale = 0.0;
         uniform bool has_detail_roughness = false;
-        uniform sampler2D detail_roughness_map : hint_white, filter_linear, repeat_enable;
+        uniform sampler2D detail_roughness_map : hint_default_white, filter_linear, repeat_enable;
         uniform float detail_roughness_delta = 0.0;
         uniform bool has_wear_mask = false;
         uniform sampler2D wear_mask_map : hint_default_black, filter_linear, repeat_enable;
@@ -213,8 +218,8 @@ public static class PainterlyMaterialLibrary
         // drift out of register with the painted grain. Blending three planes for
         // sub-centimetre detail would triple the sampler cost at the exact axis
         // where the family's own construction says which face the eye reads.
-        vec2 response_uv(vec3 position, vec3 normal) {
-            if (authored_uv_texture) return UV * detail_scale;
+        vec2 response_uv(vec3 position, vec3 normal, vec2 surface_uv) {
+            if (authored_uv_texture) return surface_uv * detail_scale;
             vec3 axis = abs(normal);
             if (axis.y >= max(axis.x, axis.z)) return position.xz * detail_scale;
             if (axis.x >= axis.z) return (upright_texture ? position.zy : position.yz) * detail_scale;
@@ -342,6 +347,24 @@ public static class PainterlyMaterialLibrary
                 ring *= 1.0 - smoothstep(0.65, 1.5, fwidth(length(grain) * 33.0));
                 painted_color *= 1.0 - ring * 0.22;
             }
+            // P2 / VIS-098: a solid floor slab reads as laid boards — seams between
+            // boards, staggered end joints, a small per-board tone shift. Seams are
+            // widened to at least ~1.5 px (fwidth) and fade out before they alias.
+            if (floor_board_width > 0.0) {
+                vec2 fp = local_floor_texture ? local_wood_position.xz : world_position.xz;
+                float row = floor(fp.x / floor_board_width);
+                float along = fp.y + fract(sin(row * 12.9898) * 43758.5453) * floor_board_length;
+                float column = floor(along / floor_board_length);
+                float u = fract(fp.x / floor_board_width);
+                float v = fract(along / floor_board_length);
+                float du = max(fwidth(fp.x / floor_board_width) * 1.5, 0.012);
+                float dv = max(fwidth(along / floor_board_length) * 1.5, 0.0025);
+                float seam = max(1.0 - smoothstep(0.0, du, min(u, 1.0 - u)),
+                    1.0 - smoothstep(0.0, dv, min(v, 1.0 - v)));
+                seam *= 1.0 - smoothstep(0.25, 0.6, fwidth(fp.x / floor_board_width));
+                float board_tone = 0.93 + 0.14 * fract(sin(dot(vec2(row, column), vec2(127.1, 311.7))) * 43758.5453);
+                painted_color *= board_tone * mix(1.0, 0.6, seam);
+            }
             vec3 painted_shadow = has_albedo_texture || cut_wood_end ? painted_color * 0.86 : shadow_color.rgb * instance_pigment_mul;
             float edge_wash = 0.95 + 0.05 * clamp(dot(normalize(world_normal), vec3(0.0, 1.0, 0.0)), 0.0, 1.0);
             float macro_pigment = clamp(
@@ -368,7 +391,26 @@ public static class PainterlyMaterialLibrary
                 * upward
                 * edge_wash
                 * mix(vec3(1.0), vec3(0.90, 0.95, 0.98), wet_factor);
+            // P2 / VIS-099: the two-tone institutional wall — oil-painted dado below,
+            // whitewash above, a thin dark line where the brush stopped. Height is
+            // measured from the instance's own floor (ground_base_y), so one shared
+            // material serves every wall piece of the room.
+            float dado_h = world_position.y - ground_base_y;
+            bool dado_lower = dado_height > 0.0 && dado_h < dado_height;
+            if (dado_height > 0.0) {
+                vec3 dado_tone = dado_color.rgb / max(base_color.rgb, vec3(0.05));
+                ALBEDO = mix(ALBEDO, ALBEDO * dado_tone, dado_lower ? 1.0 : 0.0);
+                float dado_line = 1.0 - smoothstep(0.0, max(fwidth(dado_h) * 1.5, 0.01), abs(dado_h - dado_height));
+                ALBEDO *= mix(1.0, 0.58, dado_line);
+            }
             ROUGHNESS = clamp(roughness_value - wet_factor * 0.26, 0.05, 1.0);
+            if (dado_lower) ROUGHNESS = clamp(ROUGHNESS * 0.68, 0.05, 1.0);
+            // P2 / VIS-102/116: woven cloth brightens softly at grazing angles (coats,
+            // upholstery, curtains, rugs), so fabric reads as fabric, not painted plastic.
+            if (cloth_sheen > 0.0) {
+                RIM = cloth_sheen;
+                RIM_TINT = 0.55;
+            }
             SPECULAR = clamp(specular_value + wet_factor * 0.22, 0.0, 1.0);
             METALLIC = metallic_value;
             }
@@ -396,7 +438,7 @@ public static class PainterlyMaterialLibrary
                     ? local_wood_position : world_position;
                 vec3 response_normal = normalize((local_wood_texture || local_floor_texture)
                     ? local_wood_normal : world_normal);
-                vec2 detail_sample_uv = response_uv(response_position, response_normal);
+                vec2 detail_sample_uv = response_uv(response_position, response_normal, UV);
                 float response_detail = response_detail_fade(detail_sample_uv);
                 // 1. Micro relief. Anisotropic by construction: the frequency pair is
                 // authored per family, so boards stretch along the grain and plaster
@@ -956,6 +998,38 @@ public static class PainterlyMaterialLibrary
         _boundTrampleMaterialCount = Materials.Count;
     }
 
+    /// <summary>
+    /// P2 / VIS-098: the painted-floor family laid as boards (0.19 m wide, 2.6 m long,
+    /// staggered). Only for solid floor slabs; modelled floorboards keep the plain family.
+    /// </summary>
+    public static ShaderMaterial ForPlankedFloor(string htmlColor)
+    {
+        var key = $"planked-floor:{htmlColor}";
+        if (Materials.TryGetValue(key, out var existing)) return existing;
+        var material = (ShaderMaterial)ForColor(htmlColor, "wood_floor_painted", sheltered: true).Duplicate();
+        material.SetShaderParameter("floor_board_width", .19f);
+        material.SetShaderParameter("floor_board_length", 2.6f);
+        Materials[key] = material;
+        return material;
+    }
+
+    /// <summary>
+    /// P2 / VIS-099: an institutional wall painted in two tones. The upper colour is the
+    /// family base (whitewash); below <paramref name="height"/> metres above the floor the
+    /// oil paint takes over. Pair with <see cref="SetGroundContact"/> to give each wall
+    /// piece its floor height.
+    /// </summary>
+    public static ShaderMaterial ForDadoWall(string upperColor, string lowerColor, float height = 1.5f)
+    {
+        var key = FormattableString.Invariant($"dado-wall:{upperColor}:{lowerColor}:{height:R}");
+        if (Materials.TryGetValue(key, out var existing)) return existing;
+        var material = (ShaderMaterial)ForColor(upperColor, "wall_institution", sheltered: true).Duplicate();
+        material.SetShaderParameter("dado_height", height);
+        material.SetShaderParameter("dado_color", Color.FromHtml(lowerColor));
+        Materials[key] = material;
+        return material;
+    }
+
     /// <summary>VIS-039: capture-only neutral albedo switch for every cached painterly material.</summary>
     public static void SetDiagnosticNeutral(bool neutral)
     {
@@ -1362,6 +1436,13 @@ public static class PainterlyMaterialLibrary
         return material;
     }
 
+    private static float ClothSheen(string finishSurface) => finishSurface switch
+    {
+        "cloth" or "fabric" or "fabric_upholstery" or "cloth_clinic" or "cloth_towel" or "fabric_pattern" => .22f,
+        "carpet" => .16f,
+        _ => 0f
+    };
+
     // VIS-007 step 3: every surface name is an explicit mode choice. Families with
     // a map are listed in SurfaceTextures; these are tuned without a map, and these
     // are semantic labels that deliberately take the flat painterly default (other
@@ -1643,6 +1724,7 @@ public static class PainterlyMaterialLibrary
         // permutation, so a bundle or a carried board caps along its own top face.
         // The xzy rail permutation moves length into Y and stays on the world band.
         material.SetShaderParameter("snow_follows_local_normal", surface is "hay_bundle" or "hay_fibers");
+        material.SetShaderParameter("cloth_sheen", ClothSheen(finishSurface));
         material.SetShaderParameter("cell_jitter", finishSurface switch
         {
             "grass" => 0.20f,

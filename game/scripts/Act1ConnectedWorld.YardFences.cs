@@ -101,7 +101,7 @@ public partial class Act1ConnectedWorld
     private static readonly FenceDesign YardBoundaryDesign = new()
     {
         Id = "yard-boundary-board", Style = 5, Height = 1.38f, BoardThickness = .034f, BoardWidth = .11f,
-        BoardSpacing = .13f, BayLength = 2.35f, PostSection = .12f, RailThickness = .045f, RailDepth = .075f,
+        BoardSpacing = .16f, BayLength = 2.35f, PostSection = .12f, RailThickness = .045f, RailDepth = .075f,
         LowerRailHeight = .27f, UpperRailDrop = .23f, LeanDegrees = 1f, SettledLeanDegrees = 6f,
         RepairBay = true, Surface = "wood_fence"
     };

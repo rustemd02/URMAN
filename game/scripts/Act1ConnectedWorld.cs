@@ -664,7 +664,7 @@ public partial class Act1ConnectedWorld : Node3D
             // VIS-040/042: the zone-to-state choice is authored data now
             // (atmosphere.v1.json 'zones'), so a state cannot be reached by a
             // hard-coded expression the data no longer describes.
-            TuneConnectedAct1Atmosphere(coreWorld, useExteriorAtmosphere, zoneId, isKaraNight);
+            TuneConnectedAct1Atmosphere(coreWorld, useExteriorAtmosphere, zoneId, isKaraNight, _physicalInterior.Length > 0);
         }
 
         ActiveZoneId = zoneId;
@@ -1752,14 +1752,23 @@ public partial class Act1ConnectedWorld : Node3D
         var core = GetNodeOrNull<Node3D>("Act1CoreWorldGreybox");
         if (core is null) return;
         var zone = string.IsNullOrEmpty(ActiveZoneId) ? "village_day" : ActiveZoneId;
-        TuneConnectedAct1Atmosphere(core, true, zone, zone == "kara_urman_night");
+        TuneConnectedAct1Atmosphere(core, true, zone, zone == "kara_urman_night", _physicalInterior.Length > 0);
+    }
+
+    /// <summary>P2 / VIS-097: re-grade the single outdoor environment when the player walks into or out of a building.</summary>
+    private void RefreshIndoorAtmosphereGrade()
+    {
+        if (GetNodeOrNull<Node3D>("Act1CoreWorldGreybox") is not { } core || string.IsNullOrEmpty(ActiveZoneId)) return;
+        if (!Act1WorldLayout.TryGetPlacement(ActiveZoneId, out var placement) || placement.Interior) return;
+        TuneConnectedAct1Atmosphere(core, true, ActiveZoneId, ActiveZoneId == "kara_urman_night", _physicalInterior.Length > 0);
     }
 
     private static void TuneConnectedAct1Atmosphere(
         Node3D core,
         bool enabled,
         string zoneId,
-        bool night)
+        bool night,
+        bool indoor = false)
     {
         if (!enabled)
         {
@@ -1824,6 +1833,18 @@ public partial class Act1ConnectedWorld : Node3D
         environment.FogSunScatter = profile.FogSunScatter;
         environment.TonemapMode = global::Godot.Environment.ToneMapper.Agx;
         environment.TonemapExposure = profile.Exposure;
+        if (indoor)
+        {
+            // P2 / VIS-097: inside a walk-in building of the exterior zone (club,
+            // school, mosque, police post, shop, bathhouse) the room air is clear,
+            // the flat sky ambient steps back so the room's own lamps and the
+            // bounced light lead, and the eye opens a little as it does indoors.
+            // Same single owner and the same profile; only these three are graded.
+            environment.FogDensity = profile.FogDensity * .15f;
+            environment.AmbientLightEnergy = profile.AmbientEnergy * .55f;
+            environment.TonemapExposure = profile.Exposure + .1f;
+        }
+        core.SetMeta("unifiedAtmosphereIndoorGrade", indoor);
 
         // Contact shading stays local; broad halos and full-frame grading
         // are unnecessary after the snow/foliage geometry pass.
@@ -9159,8 +9180,8 @@ public partial class Act1ConnectedWorld : Node3D
                 planted++;
             }
         }
-        parent.SetMeta(name + "StemGroups", groups);
-        parent.SetMeta(name + "StemClumps", planted);
+        parent.SetMeta(name.Replace("-", "_") + "StemGroups", groups); // meta keys are identifiers
+        parent.SetMeta(name.Replace("-", "_") + "StemClumps", planted);
         return planted;
     }
 

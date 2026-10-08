@@ -13,6 +13,8 @@ namespace Urman.Godot;
 public static class GraphicsQuality
 {
     public static string Preset { get; private set; } = "medium";
+    /// <summary>Interior lamps whose soft shadows follow the preset (on for high only).</summary>
+    public const string SoftShadowLampGroup = "urman_soft_shadow_lamp";
     public static bool Low => Preset == "low";
 
     // VIS-029 readback of the raster/LOD/shadow budget the last Apply() published.
@@ -100,6 +102,9 @@ public static class GraphicsQuality
         if (viewport.World3D?.Environment is { } environment) ConfigureEnvironment(environment);
         foreach (var sun in viewport.GetTree().Root.FindChildren("*", nameof(DirectionalLight3D), true, false).OfType<DirectionalLight3D>())
             ConfigureSun(sun);
+        // P2: soft lamp shadows in the walk-in rooms cost cube shadow maps, so only high pays.
+        foreach (var lamp in viewport.GetTree().GetNodesInGroup(SoftShadowLampGroup).OfType<Light3D>())
+            lamp.ShadowEnabled = Preset == "high";
     }
 
     // Optional, explicitly requested A/B knobs for the existing performance probe.
@@ -169,17 +174,87 @@ public static class GraphicsQuality
     }
 
     /// <summary>Environment effects the preset may switch off; called again whenever a zone rebuilds its environment.</summary>
-    public static void ConfigureEnvironment(global::Godot.Environment environment, bool? authoredSsao = null)
+    /// <param name="authoredSsao">The owner's SSAO intent; passing it also records the owner's ambient energy.</param>
+    /// <param name="interiorGi">True for a closed room: SDFGI uses fine, short cascades and no sky light.</param>
+    public static void ConfigureEnvironment(global::Godot.Environment environment, bool? authoredSsao = null, bool? interiorGi = null)
     {
         // Remember the scene's intent, not the result of the previous preset.
         const string key = "graphicsAuthoredSsao";
         var enabled = authoredSsao ?? environment.GetMeta(key, environment.SsaoEnabled).AsBool();
         environment.SetMeta(key, enabled);
         environment.SsaoEnabled = enabled && !Low;
+
+        // P2 / VIS-097/115/116: the frame looked flat because no light bounced at all.
+        // The owner writes its values first and then calls here with authoredSsao, so
+        // that call records the authored ambient; preset changes reuse the record and
+        // never compound the scale.
+        const string ambientKey = "graphicsAuthoredAmbient";
+        if (authoredSsao is not null || !environment.HasMeta(ambientKey))
+            environment.SetMeta(ambientKey, environment.AmbientLightEnergy);
+        var authoredAmbient = environment.GetMeta(ambientKey).AsSingle();
+        const string scopeKey = "graphicsInteriorGi";
+        var interior = interiorGi ?? environment.GetMeta(scopeKey, false).AsBool();
+        environment.SetMeta(scopeKey, interior);
+
+        // Screen-space indirect light: soft colour bounce and contact warmth from
+        // lit walls, floors and snow. Medium and high; low keeps its budget.
+        environment.SsilEnabled = !Low;
+        environment.SsilRadius = Preset == "high" ? 5f : 3f;
+        environment.SsilIntensity = Preset == "high" ? 1.15f : 0.95f;
+        environment.SsilSharpness = 0.98f;
+        environment.SsilNormalRejection = 1f;
+
+        // Signed-distance GI on high only: real multi-bounce light in rooms and off
+        // the snow. With GI carrying the fill, the flat ambient floor is lowered so
+        // the scene does not simply get brighter; shadows gain colour, not grey.
+        var sdfgi = Preset == "high";
+        environment.SdfgiEnabled = sdfgi;
+        if (sdfgi)
+        {
+            environment.SdfgiUseOcclusion = true;
+            environment.SdfgiReadSkyLight = !interior;
+            environment.SdfgiBounceFeedback = interior ? 0.45f : 0.3f; // docs: > 0.5 risks a feedback loop
+            environment.SdfgiCascades = interior ? 2 : 4;
+            environment.SdfgiMinCellSize = interior ? 0.08f : 0.2f;
+            environment.SdfgiEnergy = 1f;
+            environment.SdfgiNormalBias = 1.1f;
+            environment.SdfgiProbeBias = 1.1f;
+        }
+        environment.AmbientLightEnergy = authoredAmbient * (sdfgi ? 0.6f : 1f);
+
+        // P2: a restrained bloom on high only, so lit windows and lamps bleed a little
+        // into the night. The HDR threshold sits above any diffuse surface, so only
+        // emissive glass and lamp discs bloom; the owner's own glow switch is still
+        // honoured for every other preset (Glow stays off on medium and low).
+        var glow = Preset == "high";
+        environment.GlowEnabled = glow;
+        if (glow)
+        {
+            environment.GlowIntensity = 0.55f;
+            environment.GlowStrength = 0.85f;
+            environment.GlowBloom = 0f;
+            environment.GlowHdrThreshold = 1.15f;
+            environment.GlowHdrScale = 1.5f;
+            environment.GlowBlendMode = global::Godot.Environment.GlowBlendModeEnum.Softlight;
+        }
+
+        // Screen-space reflections: varnished parquet and glass in closed rooms on high.
+        environment.SsrEnabled = Preset == "high" && interior;
+        if (environment.SsrEnabled)
+        {
+            environment.SsrMaxSteps = 48;
+            environment.SsrFadeIn = 0.15f;
+            environment.SsrFadeOut = 2f;
+            environment.SsrDepthTolerance = 0.2f;
+        }
     }
 
     public static void ConfigureSun(DirectionalLight3D sun)
     {
+        // P2: soft penumbrae instead of razor shadow edges. The angular size of the
+        // winter sun disc widens the PCSS blur with distance from the caster (real
+        // sun ≈ 0.53°; a hazy winter sky spreads it). Low keeps hard shadows.
+        sun.LightAngularDistance = Preset switch { "high" => 1.6f, "low" => 0f, _ => 0.9f };
         if (!sun.ShadowEnabled) return;
         sun.DirectionalShadowMode = Low ? DirectionalLight3D.ShadowMode.Parallel2Splits : DirectionalLight3D.ShadowMode.Parallel4Splits;
         sun.DirectionalShadowMaxDistance = Preset switch { "low" => 45f, "high" => 120f, _ => 80f };

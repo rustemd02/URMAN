@@ -30,6 +30,7 @@ public partial class Act1ConnectedWorld
         _physicalAmbience ??= GetTree().GetFirstNodeInGroup("ambient_audio") as AmbientAudioDirector;
         _physicalWeather.SetSheltered(interior.Length > 0);
         _physicalAmbience?.SetPhysicalShelter(interior.Length > 0);
+        RefreshIndoorAtmosphereGrade();
         SetMeta("physicalInterior", interior);
     }
 }

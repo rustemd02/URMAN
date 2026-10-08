@@ -65,7 +65,7 @@ public static partial class StyleBenchmarkInteriorFactory
 
     private static void BuildWingShell(Node3D wing)
     {
-        Block(wing, "WingFloor", new(10.4f, .2f, 7.4f), new(0, -.1f, 0), "706252", "wood_floor_painted");
+        Block(wing, "WingFloor", new(10.4f, .2f, 7.4f), new(0, -.1f, 0), "706252", "wood_floor_planked");
         // Ceiling slab of the ground floor / attic floor, cut around the stair hole.
         Slab(wing, "SlabWest", -5.2f, HoleWest, -3.7f, 3.7f);
         Slab(wing, "SlabNorth", HoleWest, 5.2f, -3.7f, HoleNorth);
@@ -76,6 +76,7 @@ public static partial class StyleBenchmarkInteriorFactory
         WallRun(wing, "WingWallSouth", true, 3.6f, -5.2f, 5.2f, WingCeiling, .2f, [], "b3a78d", "plaster_domestic");
         WallRun(wing, "WingWallWest", false, -5.1f, -3.5f, 3.5f, WingCeiling, .2f, [], "b3a78d", "plaster_domestic");
         WallRun(wing, "WingWallEast", false, 5.1f, -3.5f, 3.5f, WingCeiling, .2f, [], "b3a78d", "plaster_domestic");
+        AddPerimeterTrim(wing, "Wing", 5.0f, 3.5f, WingCeiling);
         // Partitions: kitchen | hall+bedroom, hall | bedroom, hall | toilet.
         WallRun(wing, "PartitionKitchen", false, -1.5f, -3.5f, 3.5f, WingCeiling, .12f,
             [new(1.4f, 1.1f, 0, InnerDoorHeight)], "a99e86", "plaster_domestic");
@@ -94,12 +95,39 @@ public static partial class StyleBenchmarkInteriorFactory
         toiletLeaf.RotationDegrees = new(0, -50, 0);
     }
 
+    /// <summary>
+    /// P2 / VIS-098: skirting and a two-step cornice along an unbroken rectangular
+    /// perimeter (inner faces at ±halfX, ±halfZ). Partitions that meet the outer walls
+    /// simply hide the run where they cross it. Visual only.
+    /// </summary>
+    private static void AddPerimeterTrim(Node3D room, string prefix, float halfX, float halfZ, float ceiling)
+    {
+        void Long(string name, float z, float y, float height, float depth, string color) =>
+            Block(room, prefix + name, new(halfX * 2f, height, depth), new(0, y, z - Math.Sign(z) * depth * .5f),
+                color, "wood_painted_trim", collision: false);
+        void Short(string name, float x, float y, float height, float depth, float inset, string color) =>
+            Block(room, prefix + name, new(depth, height, halfZ * 2f - inset * 2f), new(x - Math.Sign(x) * depth * .5f, y, 0),
+                color, "wood_painted_trim", collision: false);
+        foreach (var z in new[] { -halfZ, halfZ })
+            Long(z < 0 ? "SkirtingNorth" : "SkirtingSouth", z, .05f, .10f, .022f, "5d4a38");
+        foreach (var x in new[] { -halfX, halfX })
+            Short(x < 0 ? "SkirtingWest" : "SkirtingEast", x, .05f, .10f, .022f, .022f, "5d4a38");
+        foreach (var (step, height, depth, y) in new[] { ("Upper", .032f, .085f, ceiling - .016f), ("Lower", .05f, .045f, ceiling - .057f) })
+        {
+            foreach (var z in new[] { -halfZ, halfZ })
+                Long("Cornice" + step + (z < 0 ? "North" : "South"), z, y, height, depth, "b8ae98");
+            foreach (var x in new[] { -halfX, halfX })
+                Short("Cornice" + step + (x < 0 ? "West" : "East"), x, y, height, depth, .085f, "b8ae98");
+        }
+    }
+
     private static void Slab(Node3D wing, string name, float x0, float x1, float z0, float z1)
     {
         var size = new Vector3(x1 - x0, .2f, z1 - z0);
         var center = new Vector3((x0 + x1) * .5f, WingCeiling + .1f, (z0 + z1) * .5f);
-        Block(wing, name, size, center, "8f7f68", "wood");
-        Prop(wing, name + "Boards", new(size.X, .02f, size.Z), center + new Vector3(0, .11f, 0), "7d6c55", "wood_floor_painted");
+        // P2 / VIS-098: the wing ceiling and the attic floor above it read as laid boards.
+        Block(wing, name, size, center, "8f7f68", "wood_floor_planked");
+        Prop(wing, name + "Boards", new(size.X, .02f, size.Z), center + new Vector3(0, .11f, 0), "7d6c55", "wood_floor_planked");
     }
 
     // ------------------------------------------------------------ kitchen

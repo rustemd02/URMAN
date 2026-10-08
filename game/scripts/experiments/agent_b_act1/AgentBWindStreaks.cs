@@ -258,6 +258,7 @@ public partial class AgentBWindStreaks : Node3D
             line.SetMeta("visualOnly", true);
             line.SetMeta("featureId", "VIS-076");
             AddChild(line);
+            _lines[index] = line;
             // Staggered first rest so the first allowed frame does not light all
             // available ribbons at once; a burst is precisely the pop the envelope
             // elsewhere is designed to avoid.

@@ -283,22 +283,32 @@ public static class GeneratedCharacterKitDressing
     /// <summary>
     /// VIS-102: one soft material response for every face the game shows, so no
     /// character reads as an asset-pack plastic mannequin and none reads as a skin
-    /// scan. Matte diffuse, no specular lobe, and — the part that actually removes
+    /// scan. Soft diffuse with skin scattering and only a broad faint specular, and — the part that actually removes
     /// the photoreal smell — the authored normal map is held down to a third of its
     /// strength. Pores are not the target; the skull's form and the light are
     /// (VIS-044, VIS-103), so the face must survive a grayscale close-up.
     /// </summary>
-    private const float SkinRoughness = 1f;
+    private const float SkinRoughness = .74f;
     private const float SkinScanDetailCeiling = .35f;
 
     internal static StandardMaterial3D SoftSkinResponse(StandardMaterial3D source, string prefix)
     {
         var face = (StandardMaterial3D)source.Duplicate();
-        face.DiffuseMode = BaseMaterial3D.DiffuseModeEnum.Toon;
-        face.SpecularMode = BaseMaterial3D.SpecularModeEnum.Disabled;
+        // P2 / VIS-102/103: a soft, living face rather than a banded toon mask. Burley
+        // diffuse turns the light smoothly over brow, cheek and jaw; screen-space
+        // skin scattering warms the terminator and softens the shadow side; a faint
+        // broad specular and rim keep the head readable against any wall.
+        face.DiffuseMode = BaseMaterial3D.DiffuseModeEnum.Burley;
+        face.SpecularMode = BaseMaterial3D.SpecularModeEnum.SchlickGgx;
         face.Roughness = SkinRoughness;
-        face.MetallicSpecular = 0f;
+        face.MetallicSpecular = .16f;
         face.Metallic = 0f;
+        face.SubsurfScatterEnabled = true;
+        face.SubsurfScatterSkinMode = true;
+        face.SubsurfScatterStrength = .32f;
+        face.RimEnabled = true;
+        face.Rim = .12f;
+        face.RimTint = .6f;
         // A full-strength scan normal makes the CC0 head answer light with pores
         // instead of with brow, nose, cheek and jaw. Cap it, keep the map.
         // Godot 4 calls the normal map's strength `normal_scale` (BaseMaterial3D.NormalScale).

@@ -5,6 +5,20 @@
  "rule": "A reference supplies only the listed property. None is a production asset; none is copied literally. Entries with role=anti_example must never be shown as a target.",
  "references": [
   {
+   "id": "P2",
+   "title": "Gallery render — author's quality target (2026-10-08)",
+   "status": "author_selected_quality_target",
+   "role": "target_property",
+   "author_selected_code": true,
+   "use": "Уровень исполнения: мягкий непрямой свет, отражённый тёплый свет, проработанные карнизы/панели/паркет, скошенные кромки, матовые читаемые фигуры, глубина через проём.",
+   "do_not_use": "Музейный сеттинг, красные стены, картины, мебель; интерьерный вид для деревни.",
+   "source": null,
+   "local_file": "docs/URMAN_VISUAL_RESET_2026-10-07/references/approved/P2_author_gallery_quality_target.webp",
+   "sha256": "2c8b05ee02de8339be3bae989e3ad5225da6a48a10788c70d7f0cca9ae83b111",
+   "local_availability": "missing_locally_in_repo",
+   "availability_note": "The exact author frame is kept in docs/URMAN_VISUAL_RESET_2026-10-07/references/approved/ on the author's machine; references/ is gitignored, so it is not committed. Ask the author for the frame."
+  },
+  {
    "id": "P1",
    "title": "SEASON-like painterly architectural rendering — exact user-provided frame",
    "status": "author_selected",

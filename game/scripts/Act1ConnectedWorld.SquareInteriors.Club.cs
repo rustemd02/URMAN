@@ -30,6 +30,9 @@ public partial class Act1ConnectedWorld
         SWall(club, "EastWall", new(w * .5f - t * .5f, 0, 0), 90, d - t * 2, h, t, outer, cream, trim, side);
         SWall(club, "WestWall", new(-w * .5f + t * .5f, 0, 0), -90, d - t * 2, h, t, outer, cream, trim, side);
         CivicSurfaceLibrary.Floor(club,"ClubFloor",new(ix*2,iz*2),new(0,.002f,0));
+        InteriorReflectionProbes.Add(club, "ClubReflectionProbe", new(0, h * .5f, 0), new(ix * 2, h, iz * 2));
+        // Hall and foyer share the 4.2 m / 3.4 m ceilings; trim the hall's two long walls and the back wall.
+        AddHallTrim(club, "ClubHall", ix, iz, h, front: false);
 
         SBox(club, null, "HallCeiling", new(wingX * 2 - .1f, .08f, foyerZ + iz), new(0, h - .04f, (foyerZ - iz) * .5f), Mat("f1ead6", "plaster"), shadow: false);
         SBox(club, null, "FoyerCeiling", new(ix * 2, .08f, iz - foyerZ), new(0, foyerH - .04f, (foyerZ + iz) * .5f), cream, shadow: false);
@@ -205,6 +208,23 @@ public partial class Act1ConnectedWorld
         foreach (var sideSign in new[] { -1f, 1f })
             SBox(club, stage, "ProsceniumPost" + sideSign, new(.26f,h-deck,.24f),
                 new(sideSign*4.55f,(h+deck)*.5f,stageZ-.1f),wood);
+        // P2 / VIS-054/101: the portal is joinery, not two posts under a beam. Each post
+        // stands on a base and carries a capital; a stepped architrave frames the
+        // opening; a thin gilt bead runs under the beam; the deck edge has a nosing.
+        var cream = Mat("efe3c8", "plaster");
+        var gilt = Mat("c4a46a", "wood_painted_trim");
+        var beamBottom = h - .6f;
+        foreach (var sideSign in new[] { -1f, 1f })
+        {
+            var x = sideSign * 4.55f;
+            SBox(club, null, "ProsceniumBase" + sideSign, new(.36f, .22f, .34f), new(x, deck + .11f, stageZ - .1f), wood);
+            SBox(club, null, "ProsceniumCapital" + sideSign, new(.36f, .14f, .34f), new(x, beamBottom - .07f, stageZ - .1f), cream);
+            SBox(club, null, "ProsceniumArchitraveSide" + sideSign, new(.07f, beamBottom - deck - .14f, .30f),
+                new(sideSign * 4.385f, (beamBottom + deck) * .5f, stageZ - .1f), cream, shadow: false);
+        }
+        SBox(club, null, "ProsceniumArchitraveHead", new(8.84f, .07f, .30f), new(0, beamBottom - .035f, stageZ - .1f), cream, shadow: false);
+        SBox(club, null, "ProsceniumGiltBead", new(9.5f, .025f, .03f), new(0, beamBottom + .0125f, stageZ + .055f), gilt, shadow: false);
+        SBox(club, null, "StageNosing", new(9.6f, .05f, .09f), new(0, deck - .025f, stageZ + .045f), Mat("5d3a2f", "wood_furniture"), shadow: false);
         // Stage inscriptions are generated visual carriers with exact existing inspection semantics.
         CivicSurfaceLibrary.FramedFace(club,"StageMakerPlaque",new(-4.55f,deck+.9f,stageZ+.05f),0,new(.58f,.27f),CivicSurfaceLibrary.Face("notices_v2_atlas.png",2,4,5));
         // Stage inspections.

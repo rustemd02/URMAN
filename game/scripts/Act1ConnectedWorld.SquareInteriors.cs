@@ -27,7 +27,7 @@ public partial class Act1ConnectedWorld
     {
         var mesh = new MeshInstance3D
         {
-            Name = name, Mesh = RuralPropGeometry.Box(size), Position = at, MaterialOverride = material,
+            Name = name, Mesh = RuralPropGeometry.InteriorBox(size, material.GetMeta("surface", "").AsString()), Position = at, MaterialOverride = material,
             RotationDegrees = rotation ?? Vector3.Zero,
             CastShadow = shadow ? GeometryInstance3D.ShadowCastingSetting.On : GeometryInstance3D.ShadowCastingSetting.Off
         };
@@ -124,12 +124,46 @@ public partial class Act1ConnectedWorld
         SBox(building, body, name, size, at, material);
     }
 
+    /// <summary>
+    /// P2 / VIS-101: skirting and a two-step cornice along the inside of a civic hall, so the
+    /// floor and ceiling lines are finished joinery. The run is split around openings by the
+    /// caller passing only unbroken sides; visual only, no collision.
+    /// </summary>
+    private static void AddHallTrim(Node3D room, string prefix, float halfX, float halfZ, float ceiling,
+        bool front = true, bool back = true, bool left = true, bool right = true)
+    {
+        var skirt = Mat("6b5645", "wood_painted_trim");
+        var cornice = Mat("efe8d5", "plaster");
+        void Long(string name, float z, float y, float height, float depth, Material material)
+        {
+            SBox(room, null, prefix + name, new(halfX * 2f, height, depth), new(0, y, z - Math.Sign(z) * depth * .5f), material, shadow: false);
+        }
+        void Short(string name, float x, float y, float height, float depth, float inset, Material material)
+        {
+            SBox(room, null, prefix + name, new(depth, height, halfZ * 2f - inset * 2f), new(x - Math.Sign(x) * depth * .5f, y, 0), material, shadow: false);
+        }
+        if (front) Long("SkirtFront", halfZ, .07f, .14f, .03f, skirt);
+        if (back) Long("SkirtBack", -halfZ, .07f, .14f, .03f, skirt);
+        if (left) Short("SkirtLeft", -halfX, .07f, .14f, .03f, .03f, skirt);
+        if (right) Short("SkirtRight", halfX, .07f, .14f, .03f, .03f, skirt);
+        foreach (var (step, height, depth, y) in new[] { ("Upper", .05f, .12f, ceiling - .025f), ("Lower", .07f, .07f, ceiling - .085f) })
+        {
+            if (front) Long("Cornice" + step + "Front", halfZ, y, height, depth, cornice);
+            if (back) Long("Cornice" + step + "Back", -halfZ, y, height, depth, cornice);
+            if (left) Short("Cornice" + step + "Left", -halfX, y, height, depth, .12f, cornice);
+            if (right) Short("Cornice" + step + "Right", halfX, y, height, depth, .12f, cornice);
+        }
+    }
+
     private static OmniLight3D SLight(Node3D parent, Vector3 at, float energy = 1.1f, float range = 8f, string color = "ffd9a0") =>
         AddSquareLight(parent, at, energy, range, color);
 
     private static OmniLight3D AddSquareLight(Node3D parent, Vector3 at, float energy, float range, string color)
     {
-        var light = new OmniLight3D { Name = "RoomLamp", Position = at, LightColor = Color.FromHtml(color), LightEnergy = energy, OmniRange = range, ShadowEnabled = false };
+        var light = new OmniLight3D { Name = "RoomLamp", Position = at, LightColor = Color.FromHtml(color), LightEnergy = energy, OmniRange = range,
+            ShadowEnabled = GraphicsQuality.Preset == "high", LightSize = .25f };
+        // P2: room lamps cast soft furniture shadows on high (GraphicsQuality.Apply toggles the group).
+        light.AddToGroup(GraphicsQuality.SoftShadowLampGroup);
         parent.AddChild(light);
         // A visible fitting so the light has a source.
         SBox(parent, null, "LampFitting", new(.42f, .07f, .42f), at + Vector3.Up * .12f, Mat("f0ead6", "plastic_abs"), shadow: false);

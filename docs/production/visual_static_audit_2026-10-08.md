@@ -1,0 +1,108 @@
+# Механический статический аудит визуального reset
+
+Инвентаризация без правок: каждая проверка выводит список нарушений. Пустой список — проверка пройдена.
+
+- **1 JSON parses (visual artefacts)** — PASS; 21 files
+- **2 Python compiles (tools, eng)** — PASS; 68 files
+- **3 No conflict markers left** — PASS
+- **4 Task ids are VIS-001..VIS-118, each once** — PASS; 118 tasks
+- **5 Status values in the allowed set** — PASS
+- **6 Non-OPEN tasks have evidence** — FLAG (41)
+    - VIS-001
+    - VIS-002
+    - VIS-003
+    - VIS-004
+    - VIS-005
+    - VIS-014
+    - VIS-017
+    - VIS-018
+    - VIS-020
+    - VIS-022
+    - VIS-024
+    - VIS-025
+    - VIS-028
+    - VIS-034
+    - VIS-035
+    - VIS-040
+    - VIS-042
+    - VIS-043
+    - VIS-044
+    - VIS-045
+    - VIS-046
+    - VIS-047
+    - VIS-048
+    - VIS-051
+    - VIS-063
+    - …ещё 16
+- **7 VIS ids cited in code exist** — PASS
+- **8 Painterly imports have mipmaps on** — FLAG (28)
+    - game/assets/textures/painterly/fabric_chit_v1_albedo.png.import
+    - game/assets/textures/painterly/grass_verge_v1_albedo.png.import
+    - game/assets/textures/painterly/damp_earth_albedo.png.import
+    - game/assets/textures/painterly/snow_fresh_v2_albedo.png.import
+    - game/assets/textures/painterly/aged_plaster_v2_albedo.png.import
+    - game/assets/textures/painterly/mossy_stone_v2_albedo.png.import
+    - game/assets/textures/painterly/weathered_wood_boards_v5_albedo.png.import
+    - game/assets/textures/painterly/ornament_trim_v1_albedo.png.import
+    - game/assets/textures/painterly/leaf_birch_v2_albedo.png.import
+    - game/assets/textures/painterly/wallpaper_old_v2_albedo.png.import
+    - game/assets/textures/painterly/weathered_wood_boards_v6_albedo.png.import
+    - game/assets/textures/painterly/leaf_birch_v1_albedo.png.import
+    - game/assets/textures/painterly/roof_shingle_v3_albedo.png.import
+    - game/assets/textures/painterly/grass_verge_v2_albedo.png.import
+    - game/assets/textures/painterly/ice_patch_v2_albedo.png.import
+    - game/assets/textures/painterly/log_wall_v2_albedo.png.import
+    - game/assets/textures/painterly/weathered_wood_boards_albedo.png.import
+    - game/assets/textures/painterly/old_fabric_v2_albedo.png.import
+    - game/assets/textures/painterly/pine_foliage_v3_albedo.png.import
+    - game/assets/textures/painterly/damp_earth_v2_albedo.png.import
+    - game/assets/textures/painterly/bark_birch_v1_albedo.png.import
+    - game/assets/textures/painterly/damp_earth_v6_albedo.png.import
+    - game/assets/textures/painterly/roof_slate_v1_albedo.png.import
+    - game/assets/textures/painterly/roof_metal_v2_albedo.png.import
+    - game/assets/textures/painterly/pine_foliage_albedo.png.import
+    - …ещё 3
+- **9 Painterly textures referenced by the library exist** — FLAG (2); 42 references
+    - assets/textures/painterly/rowan_berries_v1_albedo.png
+    - assets/textures/painterly/wattle_weave_v1_albedo.png
+- **10 Checkpoint phases exist as atmosphere profiles** — PASS; 5 phases, 6 profiles
+- **11 Checkpoint points unique with a spec** — PASS; 8 points
+- **12 Station capture flags consistent (client, worker, runner)** — PASS
+- **13 Relative links in visual docs resolve** — PASS; 14 documents
+- **14 Every GLB has a structure receipt** — FLAG (17); 30 GLB files, 13 receipts
+    - game/assets/animations/ual1_standard.glb
+    - game/assets/third_party/police/rotary_phone.glb
+    - game/assets/third_party/police/metal_office_desk.glb
+    - game/assets/third_party/police/desk_lamp_arm_01.glb
+    - game/assets/third_party/police/office_dining_chair.glb
+    - game/assets/third_party/police/office_chair.glb
+    - game/assets/third_party/police/painted_wooden_bench.glb
+    - game/assets/third_party/police/vaz2106_static.glb
+    - game/assets/third_party/police/painted_wooden_cabinet.glb
+    - game/assets/models/agent_b_act1/agentb_terrain_road_kit.glb
+    - game/assets/models/agent_b_act1/agentb_village_buildings_kit.glb
+    - game/assets/models/agent_b_act1/agentb_zirat_kit.glb
+    - game/assets/models/agent_b_act1/agentb_foliage_kit.glb
+    - game/assets/models/agent_b_act1/agentb_kara_edge_kit.glb
+    - game/assets/models/props/chayan_magazine_animated_v1.glb
+    - game/assets/models/props/milk_bottle/karaurman_milk_bottle_v1.glb
+    - game/assets/models/props/chakchak/karaurman_chakchak_box_v1.glb
+- **15 Structure receipts match current GLB files** — PASS
+- **16 Registry derived files exist** — PASS; 164 records
+- **17 Third-party GLBs are in the asset registry** — FLAG (8); 8 police GLBs
+    - game/assets/third_party/police/rotary_phone.glb
+    - game/assets/third_party/police/metal_office_desk.glb
+    - game/assets/third_party/police/desk_lamp_arm_01.glb
+    - game/assets/third_party/police/office_dining_chair.glb
+    - game/assets/third_party/police/office_chair.glb
+    - game/assets/third_party/police/painted_wooden_bench.glb
+    - game/assets/third_party/police/vaz2106_static.glb
+    - game/assets/third_party/police/painted_wooden_cabinet.glb
+- **18 Blender generators are deterministic (static)** — PASS
+- **19 TODO/FIXME added since 747cb4d6** — PASS; 0 lines
+- **20 Files named in visual docs exist** — FLAG (3); 66 references, 44 untracked files
+    - assets/source/blender/agent_b_foliage.py
+    - docs/urman_knowledge_base/art/asset_requests/HOUSE.md
+    - docs/urman_knowledge_base/art/asset_requests/SNOW.md
+
+Итого: 14 PASS, 6 FLAG из 20.

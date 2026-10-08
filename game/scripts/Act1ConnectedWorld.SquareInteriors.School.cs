@@ -19,6 +19,8 @@ public partial class Act1ConnectedWorld
         school.SetMeta("interiorHalfSize", new Vector2(ix, iz));
         school.SetMeta("interiorCeiling", h);
         school.SetMeta("storeys", 1);
+        InteriorReflectionProbes.Add(school, "SchoolReflectionProbe", new(0, h * .5f, 0), new(ix * 2, h, iz * 2));
+        AddHallTrim(school, "SchoolHall", ix, iz, h, front: false);
         var front = new List<Opening> { new(0, 0, 1.7f, 2.45f, Door: true) };
         var back = new List<Opening>();
         foreach (var x in new[] { -8f, -5f, -2.5f, 2.5f, 5f, 8f })
