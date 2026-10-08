@@ -254,6 +254,7 @@ public partial class AgentBWindStreaks : Node3D
                 // budget VIS-029 is trying to lower.
                 CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
             };
+            _lines[index] = line;
             line.SetMeta("presentationOnly", true);
             line.SetMeta("visualOnly", true);
             line.SetMeta("featureId", "VIS-076");

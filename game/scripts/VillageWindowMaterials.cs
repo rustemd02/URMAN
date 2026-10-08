@@ -55,8 +55,8 @@ public static class VillageWindowMaterials
                 // perturbation applies only where frost actually sits, so the clear
                 // part of the glass keeps the flat specular of the authored pane.
                 vec3 fn = texture(frost_normal, fuv).xyz * 2.0 - 1.0;
-                NORMAL = blend_mix(NORMAL, normalize(vec3(fn.xy * 0.55, max(fn.z, 0.25))), ice);
-                NORMAL_ROUGHNESS = 1.0 - ice * 0.45;
+                NORMAL_MAP = normalize(vec3(fn.xy * 0.55, max(fn.z, 0.25))) * 0.5 + 0.5;
+                NORMAL_MAP_DEPTH = ice;
             }
         }
         """;

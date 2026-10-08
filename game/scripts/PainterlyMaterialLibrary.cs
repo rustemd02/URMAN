@@ -120,7 +120,7 @@ public static class PainterlyMaterialLibrary
         uniform sampler2D detail_normal_map : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
         uniform float detail_normal_scale = 0.0;
         uniform bool has_detail_roughness = false;
-        uniform sampler2D detail_roughness_map : hint_white, filter_linear, repeat_enable;
+        uniform sampler2D detail_roughness_map : hint_default_white, filter_linear, repeat_enable;
         uniform float detail_roughness_delta = 0.0;
         uniform bool has_wear_mask = false;
         uniform sampler2D wear_mask_map : hint_default_black, filter_linear, repeat_enable;
@@ -210,8 +210,8 @@ public static class PainterlyMaterialLibrary
         // drift out of register with the painted grain. Blending three planes for
         // sub-centimetre detail would triple the sampler cost at the exact axis
         // where the family's own construction says which face the eye reads.
-        vec2 response_uv(vec3 position, vec3 normal) {
-            if (authored_uv_texture) return UV * detail_scale;
+        vec2 response_uv(vec3 position, vec3 normal, vec2 authored_uv) {
+            if (authored_uv_texture) return authored_uv * detail_scale;
             vec3 axis = abs(normal);
             if (axis.y >= max(axis.x, axis.z)) return position.xz * detail_scale;
             if (axis.x >= axis.z) return (upright_texture ? position.zy : position.yz) * detail_scale;
@@ -393,7 +393,7 @@ public static class PainterlyMaterialLibrary
                     ? local_wood_position : world_position;
                 vec3 response_normal = normalize((local_wood_texture || local_floor_texture)
                     ? local_wood_normal : world_normal);
-                vec2 detail_sample_uv = response_uv(response_position, response_normal);
+                vec2 detail_sample_uv = response_uv(response_position, response_normal, UV);
                 float response_detail = response_detail_fade(detail_sample_uv);
                 // 1. Micro relief. Anisotropic by construction: the frequency pair is
                 // authored per family, so boards stretch along the grain and plaster
