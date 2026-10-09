@@ -130,7 +130,9 @@ public static class TimberHomeStyle
     public static void DressParcel(Node3D visual, string stableId)
     {
         var seed=StableHash(stableId); var variant=(int)(seed%5);
-        string[] paints=["6e9680","6993a2","b6aa83","977765","82946d"];
+        // Casing paint after the 09.10 photo references T1-T3: white, faded sky
+        // blue, shop green, warm white, village blue.
+        string[] paints=["e4e0d4","9fbccd","6f9a74","e9e3d4","86aac2"];
         var paint=paints[variant];
         foreach(var dwelling in visual.FindChildren("*","Node3D",true,false).OfType<Node3D>()
             .Where(n=>n.Name.ToString().EndsWith("_Dwelling",StringComparison.Ordinal)).ToArray())

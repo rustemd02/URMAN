@@ -2161,17 +2161,21 @@ public partial class Act1ConnectedWorld : Node3D
     {
         var grade = new Dictionary<string, Material>(StringComparer.Ordinal)
         {
+            // 09.10 author photo references T1-T3 (Tatarstan village facades):
+            // weathered grey-brown logs with dark seams, white and faded-blue
+            // carved casings, red-brown painted iron roofs. Hue/value only here;
+            // the property list lives in REFERENCES_RU.md (T1-T4).
             // Lift broad building planes one value step so the rainy-day
             // directional light keeps facade silhouettes readable without
             // turning the village into a bright generic asset pack.
             ["AB_plaster"] = PainterlyMaterialLibrary.ForColor("92958a", "plaster"),
             ["AB_plaster_faded"] = PainterlyMaterialLibrary.ForColor("858b80", "plaster"),
             ["AB_timber"] = PainterlyMaterialLibrary.ForColor("806a50", "wood"),
-            ["AB_log_wall"] = PainterlyMaterialLibrary.ForColor("967d5e", "log_wall"),
+            ["AB_log_wall"] = PainterlyMaterialLibrary.ForColor("7d6a55", "log_wall"),
             ["AB_timber_dark"] = PainterlyMaterialLibrary.ForColor("695541", "wood"),
             ["AB_fade_paint"] = PainterlyMaterialLibrary.ForColor("92816b", "wood_fence"),
-            ["AB_roof_iron"] = PainterlyMaterialLibrary.ForColor("76807a", "roof_metal"),
-            ["AB_roof_iron_dark"] = PainterlyMaterialLibrary.ForColor("687069", "roof_metal"),
+            ["AB_roof_iron"] = PainterlyMaterialLibrary.ForColor("7c4c40", "roof_metal"),
+            ["AB_roof_iron_dark"] = PainterlyMaterialLibrary.ForColor("5f4338", "roof_metal"),
             ["AB_roof_shingle"] = PainterlyMaterialLibrary.ForColor("695b4e", "roof"),
             ["AB_window_warm"] = new StandardMaterial3D
             {
@@ -2193,10 +2197,10 @@ public partial class Act1ConnectedWorld : Node3D
             ["URMAN_Plaster_Shadow"] = PainterlyMaterialLibrary.ForColor("66685f", "plaster"),
             ["URMAN_Wood_Dark"] = PainterlyMaterialLibrary.ForColor("605044", "wood"),
             ["URMAN_Wood_Weathered"] = PainterlyMaterialLibrary.ForColor("6f6353", "wood_facade"),
-            ["URMAN_Hero_Log"] = PainterlyMaterialLibrary.ForColor("b6a081", "wood_log_uv"),
-            ["URMAN_Hero_LogEnd"] = PainterlyMaterialLibrary.ForColor("88745a", "wood_cut"),
-            ["URMAN_Hero_Trim_Teal"] = PainterlyMaterialLibrary.ForColor("547e76", "wood_painted_trim"),
-            ["URMAN_Hero_Trim_Ivory"] = PainterlyMaterialLibrary.ForColor("c8c5b1", "wood_painted_trim"),
+            ["URMAN_Hero_Log"] = PainterlyMaterialLibrary.ForColor("8b7763", "wood_log_uv"),
+            ["URMAN_Hero_LogEnd"] = PainterlyMaterialLibrary.ForColor("7a6650", "wood_cut"),
+            ["URMAN_Hero_Trim_Teal"] = PainterlyMaterialLibrary.ForColor("8fb0c4", "wood_painted_trim"),
+            ["URMAN_Hero_Trim_Ivory"] = PainterlyMaterialLibrary.ForColor("e6e2d6", "wood_painted_trim"),
             ["URMAN_Hero_RoofSnow"] = PainterlyMaterialLibrary.ForColor("e8edf0", "snow_roof"),
             ["URMAN_Wood_WetShadow"] = PainterlyMaterialLibrary.ForColor("554e40", "wood_facade"),
             ["URMAN_Roof_WetSlate"] = PainterlyMaterialLibrary.ForColor("626b66", "roof"),

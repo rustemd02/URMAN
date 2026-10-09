@@ -89,20 +89,29 @@ public partial class Act1ConnectedWorld
         leafPivot.SetMeta("presentationOnly", true);
         gate.AddChild(leafPivot);
         _babaiYardSideGatePivot = leafPivot;
-        AddVisualBox(
-            leafPivot,
-            "LooseBoard",
-            new(.12f, 1.06f, 1.38f),
-            new(0f, .53f, .69f),
-            "70543e",
-            "wood");
-        AddVisualBox(
-            leafPivot,
-            "LooseBoardBrace",
-            new(.08f, .08f, 1.14f),
-            new(-.07f, .64f, .69f),
-            "8a6b50",
-            "wood");
+        // A village board leaf, not a slab: five weathered uprights with drying
+        // gaps and uneven sawn tops, held by two battens and a Z-brace on the
+        // yard side (ACT1-DEPTH.10 / P2: construction reads at a glance). Same
+        // 1.38 m span, hinge line and collision volume as before.
+        string[] boardTones = ["6f5440", "7a5d45", "65503d", "735842", "6a523e"];
+        float[] boardTops = [1.08f, 1.04f, 1.09f, 1.02f, 1.06f];
+        for (var board = 0; board < boardTones.Length; board++)
+        {
+            var top = boardTops[board];
+            AddVisualBox(
+                leafPivot,
+                $"LooseBoardPlank{board}",
+                new(.03f, top - .04f, .255f),
+                new(0f, .04f + (top - .04f) * .5f, .1275f + board * .2813f),
+                boardTones[board],
+                "wood");
+        }
+        foreach (var (name, height) in new[] { ("LooseBoardBattenLow", .24f), ("LooseBoardBattenHigh", .84f) })
+            AddVisualBox(leafPivot, name, new(.035f, .09f, 1.30f), new(-.032f, height, .69f), "8a6b50", "wood");
+        // Rise .60 m over a 1.12 m run between the battens: the brace climbs
+        // away from the hinge, as a carpenter sets it.
+        var brace = AddVisualBox(leafPivot, "LooseBoardBrace", new(.03f, .08f, 1.27f), new(-.032f, .54f, .69f), "7d6249", "wood");
+        brace.RotationDegrees = new Vector3(-Mathf.RadToDeg(Mathf.Atan2(.60f, 1.12f)), 0f, 0f);
         DiscoveryCylinder(
             gate,
             "LooseBoardHingePin",

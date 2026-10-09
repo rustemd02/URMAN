@@ -314,6 +314,54 @@
       "profile": "village-winter-frost",
       "zoneId": "village_day",
       "subject": "ACT1-TRANSPORT.CABIN: authored front-passenger eye toward the actual parked controller handbrake; static state/pose only, no toggle or ordinary camera-turn proof."
+    },
+    {
+      "id": "C1_street_high",
+      "graphicsPreset": "high",
+      "spec": "Ground@0,1.7,12>Ground@0,1.6,-30",
+      "subject": "PW-044/P2: тот же ракурс C1_arrival_street на High — SDFGI/SSR/свечение и мягкие тени, сравнение с medium-кадром 09.10; без художественного PASS."
+    },
+    {
+      "id": "C2_house_high",
+      "graphicsPreset": "high",
+      "spec": "Ground@-14,1.7,4>Ground@-30,1.8,-6",
+      "subject": "PW-044/P2: тот же ракурс C2_hero_house на High — SDFGI/SSR/свечение и мягкие тени, сравнение с medium-кадром 09.10; без художественного PASS."
+    },
+    {
+      "id": "C3_fence_high",
+      "graphicsPreset": "high",
+      "spec": "Ground@-8,1.4,-6>Ground@-14,1.0,-10",
+      "subject": "PW-044/P2: тот же ракурс C3_fence_close на High — SDFGI/SSR/свечение и мягкие тени, сравнение с medium-кадром 09.10; без художественного PASS."
+    },
+    {
+      "id": "C4_fap_high",
+      "graphicsPreset": "high",
+      "spec": "Ground@10,1.7,-10>Ground@30,1.8,-28",
+      "subject": "PW-044/P2: тот же ракурс C4_fap_branch на High — SDFGI/SSR/свечение и мягкие тени, сравнение с medium-кадром 09.10; без художественного PASS."
+    },
+    {
+      "id": "C1_crisp",
+      "profile": "village-winter-crisp",
+      "spec": "Ground@0,1.7,12>Ground@0,1.6,-30",
+      "subject": "P2 кандидат света: ракурс C1_arrival_street под профилем village-winter-crisp (сильнее солнце, плотнее тени, меньше дымки) — сравнение с профилем зоны."
+    },
+    {
+      "id": "C2_crisp",
+      "profile": "village-winter-crisp",
+      "spec": "Ground@-14,1.7,4>Ground@-30,1.8,-6",
+      "subject": "P2 кандидат света: ракурс C2_hero_house под профилем village-winter-crisp (сильнее солнце, плотнее тени, меньше дымки) — сравнение с профилем зоны."
+    },
+    {
+      "id": "C4_crisp",
+      "profile": "village-winter-crisp",
+      "spec": "Ground@10,1.7,-10>Ground@30,1.8,-28",
+      "subject": "P2 кандидат света: ракурс C4_fap_branch под профилем village-winter-crisp (сильнее солнце, плотнее тени, меньше дымки) — сравнение с профилем зоны."
+    },
+    {
+      "id": "babai_front_crisp",
+      "profile": "village-winter-crisp",
+      "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
+      "subject": "P2 кандидат света: ракурс babai_shape_front под профилем village-winter-crisp (сильнее солнце, плотнее тени, меньше дымки) — сравнение с профилем зоны."
     }
   ],
   "batches": [

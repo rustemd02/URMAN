@@ -84,6 +84,79 @@
       }
     },
     {
+      "id": "urman.world:atmosphere/village-winter-crisp",
+      "kind": "atmosphere-profile",
+      "name": "Деревня · ясный мороз (кандидат P2)",
+      "params": {
+        "profile": "village-winter-crisp",
+        "identity": "Ясный мороз — кандидат замены морозного утра",
+        "zones": [],
+        "ambient": {
+          "energy": 0.44,
+          "color": "9fb6da",
+          "skyContribution": 0
+        },
+        "fog": {
+          "color": "c2d0e0",
+          "density": 0.0055,
+          "height": 1.2,
+          "heightDensity": 0.004,
+          "aerialPerspective": 0.4,
+          "skyAffect": 0.55,
+          "sunScatter": 0.06
+        },
+        "exposure": 0.92,
+        "ssao": {
+          "intensity": 1.0,
+          "radius": 0.6
+        },
+        "sky": {
+          "top": "35689f",
+          "horizon": "dbe9f4",
+          "groundHorizon": "bfd0e2",
+          "groundBottom": "31517a",
+          "sunAngleMax": 1.4,
+          "sunCurve": 0.12,
+          "cover": [
+            0.14,
+            0.2,
+            0.3,
+            0.5
+          ]
+        },
+        "sun": {
+          "color": "fff0da",
+          "energy": 1.85,
+          "shadowOpacity": 0.86,
+          "rotation": [
+            -16,
+            28
+          ]
+        },
+        "snow": {
+          "color": "c4d2ff",
+          "coverage": 1.0,
+          "sparkle": 1.15,
+          "tintStrength": 0.5
+        },
+        "weather": {
+          "direction": [
+            -1.0,
+            0.22
+          ],
+          "speed": 8.0,
+          "blizzardSpeed": 13.5,
+          "flakes": 4000,
+          "blizzardFlakes": 5200,
+          "streak": 0.012
+        },
+        "plume": {
+          "color": "cdd6de",
+          "opacity": 0.34
+        }
+      }
+    },
+    {
       "id": "urman.world:atmosphere/overcast-day",
       "kind": "atmosphere-profile",
       "name": "Деревня · пасмурный день",

@@ -32,6 +32,15 @@ public partial class FirstPersonController
         _bodySkeleton.GlobalTransform * _bodySkeleton.GetBoneGlobalPose(leg.Ankle)
         * (leg.AnkleRest.AffineInverse() * leg.Sole)).ToArray();
 
+    // A free capture camera looks at the street from beside the parked player; the
+    // first-person body exists only for the player's own camera and would otherwise
+    // stand in the middle of the frame as a headless figure.
+    internal void SetCaptureBodyHidden(bool hidden)
+    {
+        if (_visibleBody is not null && IsInstanceValid(_visibleBody) && !VehicleControlled)
+            _visibleBody.Visible = !hidden;
+    }
+
     private void InitializeVisibleBody()
     {
         // Reuse the project's shaped winter trousers, boots and coat surfaces.

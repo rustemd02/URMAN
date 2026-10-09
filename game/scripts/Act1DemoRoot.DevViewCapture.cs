@@ -237,6 +237,9 @@ public partial class Act1DemoRoot
         camera.SetMeta("fovSource", viewFovSource);
         camera.SetMeta("diagnosticView", diagnostic);
         if (diagnostic.Contains("neutral", StringComparison.Ordinal)) PainterlyMaterialLibrary.SetDiagnosticNeutral(true);
+        var showPlayer = System.Environment.GetEnvironmentVariable("URMAN_VIEW_SHOW_PLAYER") == "1";
+        _player.SetCaptureBodyHidden(!showPlayer);
+        camera.SetMeta("playerBodyHidden", !showPlayer);
         _main!.AddChild(camera);
         camera.MakeCurrent();
         var frames = new JsonArray();
@@ -646,6 +649,7 @@ public partial class Act1DemoRoot
             ["fov"] = ViewNumber(camera.Fov),
             ["fovSource"] = ViewText(camera.GetMeta("fovSource", "").AsString()),
             ["diagnosticView"] = ViewText(camera.GetMeta("diagnosticView", "").AsString()),
+            ["playerBodyHidden"] = ViewFlag(camera.GetMeta("playerBodyHidden", false).AsBool()),
             ["diagnosticNeutralScope"] = ViewText(PainterlyMaterialLibrary.DiagnosticNeutral ? "painterly-library" : null),
             ["near"] = ViewNumber(camera.Near),
             ["far"] = ViewNumber(camera.Far),
