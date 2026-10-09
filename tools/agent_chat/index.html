@@ -252,9 +252,22 @@ function moscowNow() {
   return `${p.day}.${p.month} ${p.hour}:${p.minute}`;
 }
 async function staticState(since) {
-  const res = await fetch(STATIC_SRC + "?t=" + Math.floor(Date.now() / 20000), { cache: "no-store" });
-  if (!res.ok) throw new Error("GitHub ответил " + res.status);
-  const d = parseMd(await res.text());
+  // API GitHub отдаёт свежий файл сразу (raw.githubusercontent кэшируется до ~5 минут); ETag-перепроверка не тратит лимит.
+  // Если лимит исчерпан или API недоступен — читаем raw.
+  let text = null;
+  const m = /^https:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.+)$/.exec(STATIC_SRC);
+  if (m) {
+    try {
+      const res = await fetch(`https://api.github.com/repos/${m[1]}/${m[2]}/contents/${m[4]}?ref=${m[3]}`, { headers: { Accept: "application/vnd.github.raw+json" }, cache: "no-cache" });
+      if (res.ok) text = await res.text();
+    } catch { /* ниже запасной путь */ }
+  }
+  if (text === null) {
+    const res = await fetch(STATIC_SRC + "?t=" + Math.floor(Date.now() / 20000), { cache: "no-store" });
+    if (!res.ok) throw new Error("GitHub ответил " + res.status);
+    text = await res.text();
+  }
+  const d = parseMd(text);
   return { total: d.messages.length, messages: d.messages.filter((m) => m.id > since), pinned: d.pinned,
     participants: [...new Set(d.messages.map((m) => m.name))], online: [], now: moscowNow() };
 }
