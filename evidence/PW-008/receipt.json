@@ -1,0 +1,392 @@
+{
+  "task_id": "PW-008",
+  "checkpoint": "source projection and affected-module compile",
+  "date": "2026-10-09",
+  "result": "PARTIAL_SOURCE_VERIFIED",
+  "runtime_evidence": "NOT_RUN",
+  "author_acceptance": "PENDING",
+  "scope": [
+    "game/scripts/RuntimeBridge.Notebook.cs",
+    "game/scripts/JournalUi.Notebook.cs"
+  ],
+  "projection_contract": {
+    "page": "existing Journal observations page (section 5)",
+    "authority": "read-only projection of saved PhotoWorlds facts and separately saved confirmed evidence; no new mutable state/reducer/tab",
+    "fact_count": 33,
+    "source_reference_count": 33,
+    "distinct_source_ids": 33,
+    "resolved_interaction_and_label_count": 33,
+    "inside_photo_world_source_count": 14,
+    "outside_photo_world_source_count": 19,
+    "classification_basis": "Only the five authored PhotoWorld world anchors classify as inside a PhotoWorld. PW_HOME_TABLE and PW_PROLOGUE_ROAD are not one of the five photographed worlds; bank-approach has no PhotoWorld anchor.",
+    "evidence_definition_ids": [
+      "E-BANK-OUTSIDE",
+      "E-PHOTOGRAPHER-OUTSIDE"
+    ],
+    "source_rows": [
+      {
+        "factId": "prologue_photo_recognized",
+        "provenanceKind": "direct-photo-observation",
+        "sourceId": "urman.fullgame:interaction/pw-prologue-photo-source",
+        "sceneId": "urman.fullgame:scene/pw-prologue",
+        "entryAnchorId": "PW_PROLOGUE_ROAD",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-prologue-photo-source",
+        "labelResolved": true
+      },
+      {
+        "factId": "prologue_branch_moved",
+        "provenanceKind": "direct-player-action",
+        "sourceId": "urman.fullgame:interaction/pw-prologue-branch-move",
+        "sceneId": "urman.fullgame:scene/pw-prologue",
+        "entryAnchorId": "PW_PROLOGUE_ROAD",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-prologue-branch-move",
+        "labelResolved": true
+      },
+      {
+        "factId": "school_copy_identified",
+        "provenanceKind": "source-reading",
+        "sourceId": "urman.fullgame:interaction/pw-school-copy-source",
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "entryAnchorId": "PW_HOME_TABLE",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-school-copy-source",
+        "labelResolved": true
+      },
+      {
+        "factId": "home_water_place_told",
+        "provenanceKind": "family-conversation",
+        "sourceId": "urman.fullgame:interaction/pw-water-place-talk",
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "entryAnchorId": "PW_HOME_TABLE",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-water-place-talk",
+        "labelResolved": true
+      },
+      {
+        "factId": "water_photo_found",
+        "provenanceKind": "source-reading",
+        "sourceId": "urman.fullgame:interaction/pw-water-photo-source",
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "entryAnchorId": "PW_HOME_TABLE",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-water-photo-source",
+        "labelResolved": true
+      },
+      {
+        "factId": "first_world_home_talk",
+        "provenanceKind": "family-conversation",
+        "sourceId": "urman.fullgame:interaction/pw-first-world-home-talk",
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "entryAnchorId": "PW_HOME_TABLE",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-first-world-home-talk",
+        "labelResolved": true
+      },
+      {
+        "factId": "house_print_found",
+        "provenanceKind": "source-reading",
+        "sourceId": "urman.fullgame:interaction/pw-house-photo-source",
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "entryAnchorId": "PW_HOME_TABLE",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-house-photo-source",
+        "labelResolved": true
+      },
+      {
+        "factId": "contact_sheet_found",
+        "provenanceKind": "source-reading",
+        "sourceId": "urman.fullgame:interaction/pw-contact-sheet-source",
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "entryAnchorId": "PW_HOME_TABLE",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-contact-sheet-source",
+        "labelResolved": true
+      },
+      {
+        "factId": "marat_photo_found",
+        "provenanceKind": "source-reading",
+        "sourceId": "urman.fullgame:interaction/pw-marat-photo-source",
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "entryAnchorId": "PW_HOME_TABLE",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-marat-photo-source",
+        "labelResolved": true
+      },
+      {
+        "factId": "garden_photo_offered",
+        "provenanceKind": "neighbor-consent",
+        "sourceId": "urman.fullgame:interaction/pw-garden-photo-source",
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "entryAnchorId": "PW_HOME_TABLE",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-garden-photo-source",
+        "labelResolved": true
+      },
+      {
+        "factId": "photographer_copy_found",
+        "provenanceKind": "source-reading",
+        "sourceId": "urman.fullgame:interaction/pw-photographer-photo-source",
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "entryAnchorId": "PW_HOME_TABLE",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-photographer-photo-source",
+        "labelResolved": true
+      },
+      {
+        "factId": "golsina_author_conversation",
+        "provenanceKind": "family-authorship-confirmation",
+        "sourceId": "urman.fullgame:interaction/pw-gulsina-author-talk",
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "entryAnchorId": "PW_HOME_TABLE",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-gulsina-author-talk",
+        "labelResolved": true
+      },
+      {
+        "factId": "forest_group_seen",
+        "provenanceKind": "direct-world-observation",
+        "sourceId": "urman.fullgame:interaction/pw-forest-group",
+        "sceneId": "urman.fullgame:scene/pw-forest",
+        "entryAnchorId": "PW_FOREST_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-group",
+        "labelResolved": true
+      },
+      {
+        "factId": "forest_photographer_found",
+        "provenanceKind": "spatial-observation",
+        "sourceId": "urman.fullgame:interaction/pw-forest-photographer",
+        "sceneId": "urman.fullgame:scene/pw-forest",
+        "entryAnchorId": "PW_FOREST_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-photographer",
+        "labelResolved": true
+      },
+      {
+        "factId": "forest_shurale_listened",
+        "provenanceKind": "character-conversation",
+        "sourceId": "urman.fullgame:interaction/pw-forest-shurale",
+        "sceneId": "urman.fullgame:scene/pw-forest",
+        "entryAnchorId": "PW_FOREST_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-shurale",
+        "labelResolved": true
+      },
+      {
+        "factId": "water_old_approach_seen",
+        "provenanceKind": "independent-place-observation",
+        "sourceId": "urman.fullgame:interaction/pw-water-old-approach",
+        "sceneId": "urman.fullgame:scene/pw-river",
+        "entryAnchorId": "PW_RIVER_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-water-old-approach",
+        "labelResolved": true
+      },
+      {
+        "factId": "water_safe_bypass_opened",
+        "provenanceKind": "direct-player-action",
+        "sourceId": "urman.fullgame:interaction/pw-water-bypass",
+        "sceneId": "urman.fullgame:scene/pw-river",
+        "entryAnchorId": "PW_RIVER_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-water-bypass",
+        "labelResolved": true
+      },
+      {
+        "factId": "water_damp_print",
+        "provenanceKind": "one-shot-return-observation",
+        "sourceId": "urman.fullgame:interaction/pw-water-damp-print",
+        "sceneId": "urman.fullgame:scene/pw-river",
+        "entryAnchorId": "PW_RIVER_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-water-damp-print",
+        "labelResolved": true
+      },
+      {
+        "factId": "house_shutter_adjusted",
+        "provenanceKind": "direct-player-action",
+        "sourceId": "urman.fullgame:interaction/pw-house-shutter",
+        "sceneId": "urman.fullgame:scene/pw-house",
+        "entryAnchorId": "PW_HOME_PHOTO_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-house-shutter",
+        "labelResolved": true
+      },
+      {
+        "factId": "house_two_views_compared",
+        "provenanceKind": "spatial-observation",
+        "sourceId": "urman.fullgame:interaction/pw-house-two-views",
+        "sceneId": "urman.fullgame:scene/pw-house",
+        "entryAnchorId": "PW_HOME_PHOTO_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-house-two-views",
+        "labelResolved": true
+      },
+      {
+        "factId": "house_camera_position_seen",
+        "provenanceKind": "independent-spatial-observation",
+        "sourceId": "urman.fullgame:interaction/pw-house-camera-position",
+        "sceneId": "urman.fullgame:scene/pw-house",
+        "entryAnchorId": "PW_HOME_PHOTO_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-house-camera-position",
+        "labelResolved": true
+      },
+      {
+        "factId": "bank_copy_found",
+        "provenanceKind": "archive-source-reading",
+        "sourceId": "urman.fullgame:interaction/pw-bank-copy-source",
+        "sceneId": "urman.fullgame:scene/pw-bank-approach",
+        "entryAnchorId": null,
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-bank-copy-source",
+        "labelResolved": true
+      },
+      {
+        "factId": "winter_piles_inspected",
+        "provenanceKind": "independent-place-observation",
+        "sourceId": "urman.fullgame:interaction/pw-winter-piles-inspected",
+        "sceneId": "urman.fullgame:scene/pw-bank-approach",
+        "entryAnchorId": null,
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-winter-piles-inspected",
+        "labelResolved": true
+      },
+      {
+        "factId": "common_marat_file_found",
+        "provenanceKind": "family-pc-source-reading",
+        "sourceId": "urman.fullgame:interaction/pw-common-file-source",
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "entryAnchorId": "PW_HOME_TABLE",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-common-file-source",
+        "labelResolved": true
+      },
+      {
+        "factId": "common_relationships_connected",
+        "provenanceKind": "direct-world-observation",
+        "sourceId": "urman.fullgame:interaction/pw-common-three-places",
+        "sceneId": "urman.fullgame:scene/pw-common",
+        "entryAnchorId": "PW_COMMON_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-common-three-places",
+        "labelResolved": true
+      },
+      {
+        "factId": "common_horizon_uncovered",
+        "provenanceKind": "direct-player-action",
+        "sourceId": "urman.fullgame:interaction/pw-common-horizon",
+        "sceneId": "urman.fullgame:scene/pw-common",
+        "entryAnchorId": "PW_COMMON_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-common-horizon",
+        "labelResolved": true
+      },
+      {
+        "factId": "outside_leaf_witnessed",
+        "provenanceKind": "one-shot-shared-world-event",
+        "sourceId": "urman.fullgame:interaction/pw-witness-summer-leaf",
+        "sceneId": "urman.fullgame:scene/pw-bank-approach",
+        "entryAnchorId": null,
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-witness-summer-leaf",
+        "labelResolved": true
+      },
+      {
+        "factId": "alsu_meeting_agreed",
+        "provenanceKind": "shared-witness-conversation",
+        "sourceId": "urman.fullgame:interaction/pw-alsu-leaf-talk",
+        "sceneId": "urman.fullgame:scene/pw-bank-approach",
+        "entryAnchorId": null,
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-alsu-leaf-talk",
+        "labelResolved": true
+      },
+      {
+        "factId": "family_box_opened",
+        "provenanceKind": "permissioned-source-reading",
+        "sourceId": "urman.fullgame:interaction/pw-family-box-source",
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "entryAnchorId": "PW_HOME_TABLE",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-family-box-source",
+        "labelResolved": true
+      },
+      {
+        "factId": "cellar_photo_found",
+        "provenanceKind": "source-reading",
+        "sourceId": "urman.fullgame:interaction/pw-cellar-photo-source",
+        "sceneId": "urman.fullgame:scene/pw-home",
+        "entryAnchorId": "PW_HOME_TABLE",
+        "origin": "outside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-cellar-photo-source",
+        "labelResolved": true
+      },
+      {
+        "factId": "cellar_household_order_seen",
+        "provenanceKind": "direct-world-observation",
+        "sourceId": "urman.fullgame:interaction/pw-cellar-order",
+        "sceneId": "urman.fullgame:scene/pw-cellar",
+        "entryAnchorId": "PW_CELLAR_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-cellar-order",
+        "labelResolved": true
+      },
+      {
+        "factId": "cellar_shared_object_found",
+        "provenanceKind": "household-object-observation",
+        "sourceId": "urman.fullgame:interaction/pw-cellar-object",
+        "sceneId": "urman.fullgame:scene/pw-cellar",
+        "entryAnchorId": "PW_CELLAR_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-cellar-object",
+        "labelResolved": true
+      },
+      {
+        "factId": "cellar_bichura_answered",
+        "provenanceKind": "character-response",
+        "sourceId": "urman.fullgame:interaction/pw-cellar-response",
+        "sceneId": "urman.fullgame:scene/pw-cellar",
+        "entryAnchorId": "PW_CELLAR_ENTRY",
+        "origin": "inside-photo-world",
+        "labelTextId": "urman.fullgame:text/pw-label-cellar-response",
+        "labelResolved": true
+      }
+    ],
+    "visible_text_rules": [
+      "Every resolved source shows an inside/outside origin prefix; unresolved scene origin is neutral.",
+      "Categories describe the authored provenance; pre-confirmation fact cards do not claim independent confirmation.",
+      "Only separately persisted records with status confirmed produce evidence cards, with their saved constituents listed.",
+      "Unknown source/category uses neutral wording; internal IDs are not rendered as visible titles.",
+      "Conversation labels do not describe folklore characters as ordinary people."
+    ]
+  },
+  "source_hashes_sha256": {
+    "game/scripts/RuntimeBridge.Notebook.cs": "cb1e52a76d3199f6538e637933e691d9203e4576584ba038b0d96b03b65f57d2",
+    "game/scripts/JournalUi.Notebook.cs": "d7f468361281ac6ace54a3ce4d36d16b62dcfe99fb0933e4f18d1f23547ffedb",
+    "game/.godot/mono/temp/bin/Debug/Urman.Game.dll": "e56822d9d061df2a9e2d7b584c3c0dd0631eff1b34762fbcbc56714394773e9a",
+    "game/content/urman.fullgame.compiled.v1.json": "91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad"
+  },
+  "verification": {
+    "command": "source eng/dotnet-env.sh && .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity quiet -nodeReuse:false -m:1",
+    "compile_exit_code": 0,
+    "warnings": 0,
+    "errors": 0,
+    "duration_seconds": 13.68,
+    "diff_check": "PASS: git diff --check -- game/scripts/RuntimeBridge.Notebook.cs game/scripts/JournalUi.Notebook.cs",
+    "new_tests_or_scenes": "NONE",
+    "native_windows_ui": "NOT_RUN"
+  },
+  "review": {
+    "root_bounded_source_review": "PASS",
+    "review_notes": "Universal inside/outside/unknown origin labels were approved; the outside leaf source is authored in pw-bank-approach; inside-world classification uses the five world anchors, not the additional home/prologue anchors. Mythic character speech is labelled as heard dialogue/response, and independent confirmation is shown only from saved confirmed evidence.",
+    "full_task_acceptance": "PENDING"
+  },
+  "remaining_gates": [
+    "Protected Windows run of the existing full-game route must visibly inspect the observations page and exact Russian wording/layout; no native UI screenshot or visual review is claimed here.",
+    "Exercise the live distinction between W02 impression and outside evidence confirmation in the applicable existing full-game flow.",
+    "Complete the remaining PW-008 clauses and human/visual acceptance; this source compile alone does not close the card."
+  ]
+}

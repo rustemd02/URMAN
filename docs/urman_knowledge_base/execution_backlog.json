@@ -28005,8 +28005,8 @@
       "id": "PW-008",
       "title": "Разделить впечатление и доказанное знание",
       "milestone": "PW-M1",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "/root/address_mount",
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -28031,7 +28031,9 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-008/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-008/receipt.json"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-008",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -28085,7 +28087,8 @@
         "stop_if": "Конкретный ресурс/станция/человеческая проверка недоступны — записать локальный blocker и продолжить независимые карточки; не ослаблять критерии."
       },
       "phase": 1,
-      "effort": "M"
+      "effort": "M",
+      "progress_2026_10_09": "Начат read-only UI-срез PW-008 после High ACK: PhotoWorldState уже хранит typed facts и confirmed outside evidence раздельно; существующий RuntimeBridge.JournalEntries/JournalUi не проецирует photoworlds namespace. Реализация ограничена read-only source/provenance projection в существующую страницу «Наблюдения»; без нового state/reducer/tab. Full-game flow semantic native и визуальная приёмка новой страницы ещё не выполнялись.\n\nSource-projection checkpoint: added a read-only projection to the existing «Наблюдения» page in RuntimeBridge.Notebook.cs and JournalUi.Notebook.cs. The compiled full-game catalog statically resolves 33/33 fact-source references and authored labels; 14 sources originate in the five PhotoWorld anchors and 19 outside them (home/prologue/bank-approach are not photographed worlds). Saved impressions remain distinct from separately persisted `confirmed` evidence. Affected-module compile passed with 0 warnings/errors (13.68 s), and `git diff --check` passed. Exact hashes, full source/scene/anchor mapping and remaining gates are in evidence/PW-008/receipt.json. Native Windows UI/layout and the W02-versus-outside live interaction remain NOT_RUN; PW-008 stays in progress."
     },
     {
       "id": "PW-009",

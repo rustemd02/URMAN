@@ -187,6 +187,212 @@ public partial class RuntimeBridge
         }).ToArray();
     }
 
+    /// <summary>
+    /// Projects saved PhotoWorlds provenance into the existing observations
+    /// page. The kernel remains the only owner of facts and confirmed evidence.
+    /// </summary>
+    public IReadOnlyList<ResolvedJournalEntry> PhotoWorldKnowledgeEntries()
+    {
+        if (_kernel is null || !_content.HasPhotoWorlds) return [];
+        var state = _kernel.SelectState();
+        if (!state.TryGetProperty("photoworlds", out var photoWorlds)
+            || photoWorlds.ValueKind != JsonValueKind.Object
+            || !photoWorlds.TryGetProperty("facts", out var facts)
+            || facts.ValueKind != JsonValueKind.Object)
+            return [];
+
+        // One card per actual source. A source that contributed more than one
+        // saved fact keeps its authored title and shows each saved provenance
+        // category without exposing internal fact/source IDs.
+        var sourceEntries = new Dictionary<string, (string Title, HashSet<string> Categories)>(StringComparer.Ordinal);
+        foreach (var fact in facts.EnumerateObject())
+        {
+            if (fact.Value.ValueKind != JsonValueKind.Object
+                || !fact.Value.TryGetProperty("sources", out var savedSources)
+                || savedSources.ValueKind != JsonValueKind.Array)
+                continue;
+
+            foreach (var savedSource in savedSources.EnumerateArray())
+            {
+                if (savedSource.ValueKind != JsonValueKind.Object
+                    || !savedSource.TryGetProperty("sourceId", out var sourceIdValue)
+                    || sourceIdValue.ValueKind != JsonValueKind.String
+                    || string.IsNullOrWhiteSpace(sourceIdValue.GetString()))
+                    continue;
+
+                var sourceId = sourceIdValue.GetString()!;
+                var source = DescribePhotoWorldSource(sourceId);
+                var category = source.IsResolved
+                    && savedSource.TryGetProperty("provenanceKind", out var provenanceValue)
+                    && provenanceValue.ValueKind == JsonValueKind.String
+                    ? PhotoWorldSourceCategory(provenanceValue.GetString()!, source.IsInsidePhotoWorld,
+                        source.IsOriginResolved)
+                    : "Источник знания не указан";
+
+                if (sourceEntries.TryGetValue(sourceId, out var existing))
+                    existing.Categories.Add(category);
+                else
+                    sourceEntries.Add(sourceId, (source.Title, new HashSet<string>(StringComparer.Ordinal) { category }));
+            }
+        }
+
+        var entries = sourceEntries
+            .OrderBy(pair => pair.Value.Title, StringComparer.CurrentCulture)
+            .ThenBy(pair => pair.Key, StringComparer.Ordinal)
+            .Select(pair => new ResolvedJournalEntry(
+                "notebook/photoworlds/source/" + pair.Key,
+                pair.Key,
+                pair.Value.Title,
+                "Происхождение: " + string.Join("; ", pair.Value.Categories.OrderBy(category => category, StringComparer.CurrentCulture)) + ".",
+                pair.Value.Title))
+            .ToList();
+
+        // Only the kernel's separately persisted confirmed status is shown.
+        // Facts from inside a PhotoWorld never create or imply these cards.
+        if (!photoWorlds.TryGetProperty("evidence", out var evidence)
+            || evidence.ValueKind != JsonValueKind.Object)
+            return entries;
+
+        foreach (var evidenceRecord in evidence.EnumerateObject().OrderBy(item => item.Name, StringComparer.Ordinal))
+        {
+            if (evidenceRecord.Value.ValueKind != JsonValueKind.Object
+                || !evidenceRecord.Value.TryGetProperty("status", out var status)
+                || status.ValueKind != JsonValueKind.String
+                || status.GetString() != "confirmed"
+                || !evidenceRecord.Value.TryGetProperty("constituents", out var constituents)
+                || constituents.ValueKind != JsonValueKind.Array)
+                continue;
+
+            var sourceLines = new List<string>();
+            string? photoSourceTitle = null;
+            foreach (var constituent in constituents.EnumerateArray())
+            {
+                if (constituent.ValueKind != JsonValueKind.Object
+                    || !constituent.TryGetProperty("kind", out var kindValue)
+                    || kindValue.ValueKind != JsonValueKind.String
+                    || !constituent.TryGetProperty("sourceId", out var sourceIdValue)
+                    || sourceIdValue.ValueKind != JsonValueKind.String
+                    || string.IsNullOrWhiteSpace(sourceIdValue.GetString()))
+                    continue;
+
+                var kind = kindValue.GetString()!;
+                var source = DescribePhotoWorldSource(sourceIdValue.GetString()!);
+                var provenanceKind = constituent.TryGetProperty("provenanceKind", out var provenanceValue)
+                    && provenanceValue.ValueKind == JsonValueKind.String
+                    ? provenanceValue.GetString()!
+                    : string.Empty;
+                var category = source.IsResolved
+                    ? PhotoWorldConstituentCategory(kind, provenanceKind, source.IsInsidePhotoWorld,
+                        source.IsOriginResolved)
+                    : "Источник знания не указан";
+                sourceLines.Add(category + " — " + source.Title);
+                if (photoSourceTitle is null && (kind is "photo-acquired" or "photo-back-read"))
+                    photoSourceTitle = source.Title;
+            }
+
+            if (sourceLines.Count == 0) continue;
+            var entryId = "notebook/photoworlds/evidence/" + evidenceRecord.Name;
+            entries.Add(new ResolvedJournalEntry(
+                entryId,
+                entryId,
+                photoSourceTitle is null ? "Подтверждение из независимых источников" : "Независимая сверка · " + photoSourceTitle,
+                "Сохранённое подтверждение опирается на отдельные источники:\n\n• " + string.Join("\n• ", sourceLines),
+                "Независимые источники",
+                Status: "confirmed"));
+        }
+
+        return entries;
+    }
+
+    private (string Title, bool IsResolved, bool IsInsidePhotoWorld, bool IsOriginResolved)
+        DescribePhotoWorldSource(string sourceId)
+    {
+        if (!_content.TryGetInteraction(sourceId, out var interaction))
+            return ("Источник не подписан", false, false, false);
+
+        string title;
+        try
+        {
+            title = ResolveText(interaction.LabelTextId).Trim();
+        }
+        catch (Exception exception) when (exception is KeyNotFoundException or InvalidOperationException or ArgumentException)
+        {
+            return ("Источник не подписан", false, false, false);
+        }
+
+        if (string.IsNullOrWhiteSpace(title))
+            return ("Источник не подписан", false, false, false);
+
+        var insidePhotoWorld = false;
+        var originResolved = false;
+        if (_content.PhotoWorldDefinitions is { } catalog)
+        {
+            try
+            {
+                var scene = _content.RequireScene(interaction.SourceSceneId);
+                originResolved = true;
+                insidePhotoWorld = scene.EntryAnchorId is { } anchor
+                    && catalog.Worlds.Any(world => StringComparer.Ordinal.Equals(world.AnchorId, anchor));
+            }
+            catch (KeyNotFoundException)
+            {
+                // A missing scene cannot establish an inside/outside category.
+            }
+        }
+
+        return (title, true, insidePhotoWorld, originResolved);
+    }
+
+    private static string PhotoWorldSourceCategory(
+        string provenanceKind,
+        bool insidePhotoWorld,
+        bool originResolved)
+    {
+        var description = provenanceKind switch
+        {
+            "family-conversation" or "character-conversation" => "Услышано в разговоре",
+            "character-response" => "Услышан ответ персонажа",
+            "family-authorship-confirmation" => "Авторство уточнено в разговоре",
+            "shared-witness-conversation" => "Услышано от свидетеля",
+            "neighbor-consent" => "Получено согласие участника",
+            "source-reading" or "archive-source-reading" or "permissioned-source-reading"
+                or "family-pc-source-reading" => "Прочитано в источнике",
+            "direct-photo-observation" => "Рассмотрена фотография",
+            "one-shot-shared-world-event" => "Наблюдалось отдельное событие",
+            "independent-place-observation" => "Осмотрено место",
+            "independent-spatial-observation" => "Осмотрено место съёмки",
+            "direct-player-action" or "direct-world-observation" or "spatial-observation"
+                or "one-shot-return-observation" or "household-object-observation" => "Наблюдение или действие",
+            _ => null
+        };
+        return description is null
+            ? "Категория источника не указана"
+            : PhotoWorldOriginLabel(description, insidePhotoWorld, originResolved);
+    }
+
+    private static string PhotoWorldConstituentCategory(
+        string kind,
+        string provenanceKind,
+        bool insidePhotoWorld,
+        bool originResolved)
+    {
+        if (kind == "fact") return PhotoWorldSourceCategory(provenanceKind, insidePhotoWorld, originResolved);
+        var description = kind switch
+        {
+            "photo-acquired" => "Фотография получена из разрешённого источника",
+            "photo-back-read" => "Прочитан оборот фотографии",
+            _ => null
+        };
+        return description is null
+            ? "Категория источника не указана"
+            : PhotoWorldOriginLabel(description, insidePhotoWorld, originResolved);
+    }
+
+    private static string PhotoWorldOriginLabel(string description, bool insidePhotoWorld, bool originResolved) =>
+        originResolved
+            ? (insidePhotoWorld ? "Внутри снимка · " : "Вне снимка · ") + description
+            : "Место источника не установлено · " + description;
+
     private async Task RememberDialogueSpeakerAsync(string dialogueId, CompiledDialogueNodeContent node)
     {
         if (_kernel is null || node.SpeakerRole is "aidar" or "narrator" or "") return;
