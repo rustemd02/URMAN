@@ -27088,7 +27088,7 @@
       "id": "PW-010",
       "title": "Свести новый стиль с прежним visual reset",
       "milestone": "PW-M0",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "art",
       "priority": "P0",
@@ -27118,7 +27118,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-010/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-066 — манифест референсов. Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-010",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -27181,7 +27188,13 @@
         "AS-18"
       ],
       "phase": 0,
-      "effort": "M"
+      "effort": "M",
+      "progress_2026_10_08": {
+        "done": "VIS-066 — манифест референсов",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-011",
@@ -28865,7 +28878,7 @@
       "id": "PW-030",
       "title": "Создать изолированные fixtures и capture harness",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -28888,7 +28901,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-030/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-111 — FOV съёмки. Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-030",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -28945,13 +28965,19 @@
         "stop_if": "Конкретный ресурс/станция/человеческая проверка недоступны — записать локальный blocker и продолжить независимые карточки; не ослаблять критерии."
       },
       "phase": 1,
-      "effort": "M"
+      "effort": "M",
+      "progress_2026_10_08": {
+        "done": "VIS-111 — FOV съёмки",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-031",
       "title": "Зафиксировать colorscript и значения профилей",
       "milestone": "PW-M2",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "art",
       "priority": "P0",
@@ -28982,7 +29008,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-031/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-006 — свет/пресет: один владелец, session-only safe mode/rescue; VIS-039 — диагностический режим съёмки; VIS-074 — янтарный отсвет в лесу; VIS-096 — mipmaps окна; VIS-110 — UI не зависит от атмосферы. Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-031",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -29066,13 +29099,19 @@
         "AS-15"
       ],
       "phase": 2,
-      "effort": "M"
+      "effort": "M",
+      "progress_2026_10_08": {
+        "done": "VIS-006 — свет/пресет: один владелец, session-only safe mode/rescue; VIS-039 — диагностический режим съёмки; VIS-074 — янтарный отсвет в лесу; VIS-096 — mipmaps окна; VIS-110 — UI не зависит от атмосферы",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-032",
       "title": "Исправить привязку мазка к движущимся поверхностям",
       "milestone": "PW-M2",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "render",
       "priority": "P0",
@@ -29099,7 +29138,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-032/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-007 — контракт режимов поверхности ForColor; VIS-032 — волокно стоек крыльца; VIS-033 — затемнение от собственной опоры; VIS-036 — mipmaps полотенца; VIS-092 — отклик материалов; VIS-095 — диэлектрическая краска; VIS-102 — мягкие лица; VIS-103 — мягкие лица; VIS-104 — UV одежды в генераторах (нужна перегенерация). Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-032",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -29171,13 +29217,19 @@
         "AS-16"
       ],
       "phase": 2,
-      "effort": "L"
+      "effort": "L",
+      "progress_2026_10_08": {
+        "done": "VIS-007 — контракт режимов поверхности ForColor; VIS-032 — волокно стоек крыльца; VIS-033 — затемнение от собственной опоры; VIS-036 — mipmaps полотенца; VIS-092 — отклик материалов; VIS-095 — диэлектрическая краска; VIS-102 — мягкие лица; VIS-103 — мягкие лица; VIS-104 — UV одежды в генераторах (нужна перегенерация)",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-033",
       "title": "Настроить воспроизводимый Blender→GLB цикл",
       "milestone": "PW-M2",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "tools",
       "priority": "P0",
@@ -29206,7 +29258,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-033/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-038 — cloth=fabric; VIS-066 — манифест референсов; VIS-106 — контракт приёма ассетов; VIS-108 — квитанции GLB; VIS-109 — паспорта ассетов. Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-033",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -29271,13 +29330,19 @@
         "AS-18"
       ],
       "phase": 2,
-      "effort": "M"
+      "effort": "M",
+      "progress_2026_10_08": {
+        "done": "VIS-038 — cloth=fabric; VIS-066 — манифест референсов; VIS-106 — контракт приёма ассетов; VIS-108 — квитанции GLB; VIS-109 — паспорта ассетов",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-034",
       "title": "Произвести общие материалы и растительные формы",
       "milestone": "PW-M2",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "art",
       "priority": "P0",
@@ -29309,7 +29374,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-034/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-026 — просветы в лесной кромке; VIS-032 — волокно стоек крыльца; VIS-033 — затемнение от собственной опоры; VIS-039 — диагностический режим съёмки; VIS-084 — запрет хвойных по участкам; VIS-092 — отклик материалов; VIS-095 — диэлектрическая краска. Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-034",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -29393,7 +29465,13 @@
         "AS-12"
       ],
       "phase": 2,
-      "effort": "L"
+      "effort": "L",
+      "progress_2026_10_08": {
+        "done": "VIS-026 — просветы в лесной кромке; VIS-032 — волокно стоек крыльца; VIS-033 — затемнение от собственной опоры; VIS-039 — диагностический режим съёмки; VIS-084 — запрет хвойных по участкам; VIS-092 — отклик материалов; VIS-095 — диэлектрическая краска",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-035",
@@ -29568,7 +29646,7 @@
       "id": "PW-037",
       "title": "Настроить LOD, batching и culling без разрушения стиля",
       "milestone": "PW-M2",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "render",
       "priority": "P0",
@@ -29593,7 +29671,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-037/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-029 — тени растений; VIS-030 — cull-margin растений; VIS-038 — cloth=fabric. Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-037",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -29654,7 +29739,13 @@
         "stop_if": "Конкретный ресурс/станция/человеческая проверка недоступны — записать локальный blocker и продолжить независимые карточки; не ослаблять критерии."
       },
       "phase": 2,
-      "effort": "M"
+      "effort": "M",
+      "progress_2026_10_08": {
+        "done": "VIS-029 — тени растений; VIS-030 — cull-margin растений; VIS-038 — cloth=fabric",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-038",
@@ -30201,7 +30292,7 @@
       "id": "PW-044",
       "title": "Удержать красоту наружной деревни после разделения",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "art",
       "priority": "P1",
@@ -30244,7 +30335,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-044/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-009 — опора столбов (затем заменено upstream); VIS-010 — обрезка снега по линии стены; VIS-011 — уличные валы без синус-гребёнки; VIS-012 — расчистка у порога и отвал; VIS-013 — шапка стога; VIS-015 — сопряжение моста с берегом; VIS-026 — просветы в лесной кромке; VIS-032 — волокно стоек крыльца; VIS-077 — стандарт снега в 3 уровня; VIS-078 — желоб дорожки; VIS-079 — валы после заборов; VIS-080 — снежные шапки крыш; VIS-084 — запрет хвойных по участкам; VIS-086 — фаски/плинтус/карниз/наличники; VIS-087 — наличники окон изнутри; VIS-095 — диэлектрическая краска; VIS-096 — mipmaps окна; VIS-097 — свет интерьеров (GI/SSIL/зона); VIS-098 — интерьер главной комнаты; VIS-099 — стены ФАП; VIS-101 — ДК и школа: карниз, портал, стены; VIS-102 — мягкие лица; VIS-103 — мягкие лица. Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-044",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -30377,7 +30475,13 @@
         "AS-17"
       ],
       "phase": 3,
-      "effort": "L"
+      "effort": "L",
+      "progress_2026_10_08": {
+        "done": "VIS-009 — опора столбов (затем заменено upstream); VIS-010 — обрезка снега по линии стены; VIS-011 — уличные валы без синус-гребёнки; VIS-012 — расчистка у порога и отвал; VIS-013 — шапка стога; VIS-015 — сопряжение моста с берегом; VIS-026 — просветы в лесной кромке; VIS-032 — волокно стоек крыльца; VIS-077 — стандарт снега в 3 уровня; VIS-078 — желоб дорожки; VIS-079 — валы после заборов; VIS-080 — снежные шапки крыш; VIS-084 — запрет хвойных по участкам; VIS-086 — фаски/плинтус/карниз/наличники; VIS-087 — наличники окон изнутри; VIS-095 — диэлектрическая краска; VIS-096 — mipmaps окна; VIS-097 — свет интерьеров (GI/SSIL/зона); VIS-098 — интерьер главной комнаты; VIS-099 — стены ФАП; VIS-101 — ДК и школа: карниз, портал, стены; VIS-102 — мягкие лица; VIS-103 — мягкие лица",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-045",
@@ -31330,7 +31434,7 @@
       "id": "PW-055",
       "title": "W03: произвести и собрать всю проходимую геометрию «Дом на просвет»",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "world_art",
       "priority": "P1",
@@ -31360,7 +31464,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-055/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-086 — фаски/плинтус/карниз/наличники; VIS-087 — наличники окон изнутри; VIS-096 — mipmaps окна; VIS-097 — свет интерьеров (GI/SSIL/зона); VIS-098 — интерьер главной комнаты. Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-055",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -31443,7 +31554,13 @@
         "AS-13"
       ],
       "phase": 3,
-      "effort": "L"
+      "effort": "L",
+      "progress_2026_10_08": {
+        "done": "VIS-086 — фаски/плинтус/карниз/наличники; VIS-087 — наличники окон изнутри; VIS-096 — mipmaps окна; VIS-097 — свет интерьеров (GI/SSIL/зона); VIS-098 — интерьер главной комнаты",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-056",
@@ -32734,7 +32851,7 @@
       "id": "PW-070",
       "title": "Разместить и проверить семь деревенских якорей",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P1",
@@ -32761,7 +32878,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-070/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-009 — опора столбов (затем заменено upstream); VIS-011 — уличные валы без синус-гребёнки; VIS-015 — сопряжение моста с берегом; VIS-079 — валы после заборов. Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-070",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -32828,7 +32952,13 @@
         "AS-08"
       ],
       "phase": 3,
-      "effort": "L"
+      "effort": "L",
+      "progress_2026_10_08": {
+        "done": "VIS-009 — опора столбов (затем заменено upstream); VIS-011 — уличные валы без синус-гребёнки; VIS-015 — сопряжение моста с берегом; VIS-079 — валы после заборов",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-071",
@@ -34397,7 +34527,7 @@
       "id": "PW-088",
       "title": "Пройти геометрию, обратные стороны и interaction targets",
       "milestone": "PW-M4",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "qa",
       "priority": "P1",
@@ -34430,7 +34560,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-088/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-009 — опора столбов (затем заменено upstream); VIS-010 — обрезка снега по линии стены; VIS-077 — стандарт снега в 3 уровня; VIS-079 — валы после заборов; VIS-080 — снежные шапки крыш; VIS-087 — наличники окон изнутри. Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-088",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -34505,13 +34642,19 @@
         "AS-08"
       ],
       "phase": 4,
-      "effort": "L"
+      "effort": "L",
+      "progress_2026_10_08": {
+        "done": "VIS-009 — опора столбов (затем заменено upstream); VIS-010 — обрезка снега по линии стены; VIS-077 — стандарт снега в 3 уровня; VIS-079 — валы после заборов; VIS-080 — снежные шапки крыш; VIS-087 — наличники окон изнутри",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-089",
       "title": "Устранить мерцание и скольжение в движении",
       "milestone": "PW-M4",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "render",
       "priority": "P1",
@@ -34546,7 +34689,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-089/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-036 — mipmaps полотенца; VIS-039 — диагностический режим съёмки; VIS-104 — UV одежды в генераторах (нужна перегенерация); VIS-111 — FOV съёмки. Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-089",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -34618,13 +34768,19 @@
         "AS-18"
       ],
       "phase": 4,
-      "effort": "L"
+      "effort": "L",
+      "progress_2026_10_08": {
+        "done": "VIS-036 — mipmaps полотенца; VIS-039 — диагностический режим съёмки; VIS-104 — UV одежды в генераторах (нужна перегенерация); VIS-111 — FOV съёмки",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-090",
       "title": "Измерить производительность на целевом устройстве",
       "milestone": "PW-M4",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "performance",
       "priority": "P1",
@@ -34653,7 +34809,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-090/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-029 — тени растений; VIS-030 — cull-margin растений. Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-090",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -34717,7 +34880,13 @@
         "AS-18"
       ],
       "phase": 4,
-      "effort": "L"
+      "effort": "L",
+      "progress_2026_10_08": {
+        "done": "VIS-029 — тени растений; VIS-030 — cull-margin растений",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-091",
@@ -34928,7 +35097,7 @@
       "id": "PW-093",
       "title": "Закрыть происхождение и права каждого runtime-ресурса",
       "milestone": "PW-M4",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "production",
       "priority": "P1",
@@ -34958,7 +35127,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-093/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-08",
+          "kind": "code_static",
+          "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
+          "result": "Статическая реализация (коммиты 3090eb1e, 29f70dab, a9835009; dotnet build 0/0): VIS-066 — манифест референсов; VIS-106 — контракт приёма ассетов; VIS-107 — гейт лицензий внешних ассетов; VIS-109 — паспорта ассетов. Runtime NOT_RUN для станции; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-093",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -35022,7 +35198,13 @@
         "AS-18"
       ],
       "phase": 4,
-      "effort": "M"
+      "effort": "M",
+      "progress_2026_10_08": {
+        "done": "VIS-066 — манифест референсов; VIS-106 — контракт приёма ассетов; VIS-107 — гейт лицензий внешних ассетов; VIS-109 — паспорта ассетов",
+        "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
+        "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
+        "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      }
     },
     {
       "id": "PW-094",

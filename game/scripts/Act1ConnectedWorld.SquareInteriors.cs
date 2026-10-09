@@ -57,7 +57,15 @@ public partial class Act1ConnectedWorld
         {
             if (x1 - x0 < .01f || y1 - y0 < .01f) return;
             var cx = (x0 + x1) * .5f; var cy = (y0 + y1) * .5f;
-            SBox(wall, null, tag + "Core", new(x1 - x0, y1 - y0, thick - skin), new(cx, cy, -skin * .5f), inner);
+            var core = SBox(wall, null, tag + "Core", new(x1 - x0, y1 - y0, thick - skin), new(cx, cy, -skin * .5f), inner);
+            // P2 / VIS-101: a two-tone wall measures its painted dado from this room's floor.
+            // The building is not in the tree yet, so the floor height is set deferred.
+            if (inner is ShaderMaterial { } toned && toned.GetShaderParameter("dado_height").AsSingle() > 0f)
+                Callable.From(() =>
+                {
+                    if (GodotObject.IsInstanceValid(core) && core.IsInsideTree() && GodotObject.IsInstanceValid(wall) && wall.IsInsideTree())
+                        PainterlyMaterialLibrary.SetGroundContact(core, wall.GlobalPosition.Y);
+                }).CallDeferred();
             SBox(wall, null, tag + "Skin", new(x1 - x0, y1 - y0, skin), new(cx, cy, thick * .5f - skin * .5f), outer);
             body.AddChild(new CollisionShape3D { Name = tag + "Shape", Position = new(cx, cy, 0), Shape = new BoxShape3D { Size = new(x1 - x0, y1 - y0, thick) } });
         }

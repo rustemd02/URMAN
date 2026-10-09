@@ -11,6 +11,7 @@ public partial class Act1ConnectedWorld
         const float w = 16f, d = 12f, h = 4.2f, t = .35f, wingH = 3.4f, foyerH = 3.4f;
         var ix = w * .5f - t; var iz = d * .5f - t;
         var cream = Mat("e6dfd1", "wall_institution");
+        var wallDado = PainterlyMaterialLibrary.ForDadoWall("e6dfd1", "8fa896", 1.4f);
         var green = Mat("708b75", "wall_institution");
         club.SetMeta("footstepSurface", "herringbone_parquet"); club.SetMeta("woodCreak", true);
         var body = SBody(club, "ClubFurnitureBody");
@@ -25,10 +26,10 @@ public partial class Act1ConnectedWorld
             back.Add(new(x, .95f, 1.2f, 1.7f));
         }
         var side = new List<Opening> { new(3.4f, .95f, 1.15f, 1.5f), new(-1.6f, .95f, 1.15f, 1.5f), new(-4.4f, .95f, 1.15f, 1.5f) };
-        var frontWall = SWall(club, "FrontWall", new(0, 0, d * .5f - t * .5f), 0, w, h, t, outer, cream, trim, front);
-        SWall(club, "BackWall", new(0, 0, -d * .5f + t * .5f), 180, w, h, t, outer, cream, trim, back);
-        SWall(club, "EastWall", new(w * .5f - t * .5f, 0, 0), 90, d - t * 2, h, t, outer, cream, trim, side);
-        SWall(club, "WestWall", new(-w * .5f + t * .5f, 0, 0), -90, d - t * 2, h, t, outer, cream, trim, side);
+        var frontWall = SWall(club, "FrontWall", new(0, 0, d * .5f - t * .5f), 0, w, h, t, outer, wallDado, trim, front);
+        SWall(club, "BackWall", new(0, 0, -d * .5f + t * .5f), 180, w, h, t, outer, wallDado, trim, back);
+        SWall(club, "EastWall", new(w * .5f - t * .5f, 0, 0), 90, d - t * 2, h, t, outer, wallDado, trim, side);
+        SWall(club, "WestWall", new(-w * .5f + t * .5f, 0, 0), -90, d - t * 2, h, t, outer, wallDado, trim, side);
         CivicSurfaceLibrary.Floor(club,"ClubFloor",new(ix*2,iz*2),new(0,.002f,0));
         InteriorReflectionProbes.Add(club, "ClubReflectionProbe", new(0, h * .5f, 0), new(ix * 2, h, iz * 2));
         // Hall and foyer share the 4.2 m / 3.4 m ceilings; trim the hall's two long walls and the back wall.

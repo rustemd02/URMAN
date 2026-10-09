@@ -12,6 +12,7 @@ public partial class Act1ConnectedWorld
         const float w = 20f, d = 11f, h = 3.4f, t = .35f, corridorZ = 2.9f;
         var ix = w * .5f - t; var iz = d * .5f - t;
         var cream = Mat("e4dfd1", "wall_institution");
+        var wallDado = PainterlyMaterialLibrary.ForDadoWall("e4dfd1", "93aa9d", 1.4f);
         var mint = Mat("a6b4a4", "wall_institution");
         var body = SBody(school, "SchoolFurnitureBody");
         school.SetMeta("footstepSurface", "herringbone_parquet");
@@ -27,11 +28,11 @@ public partial class Act1ConnectedWorld
             front.Add(new(x, .9f, 1.15f, 1.5f, Lit: true));
         foreach (var x in new[] { -8f, -4.8f, -2f, 1.3f, 3.8f, 8f })
             back.Add(new(x, .9f, 1.15f, 1.5f));
-        var frontWall = SWall(school, "FrontWall", new(0, 0, d*.5f-t*.5f), 0, w, h, t, outer, cream, trim, front);
-        SWall(school, "BackWall", new(0, 0, -d*.5f+t*.5f), 180, w, h, t, outer, cream, trim, back);
-        SWall(school, "EastWall", new(w*.5f-t*.5f, 0, 0), 90, d-t*2, h, t, outer, cream, trim,
+        var frontWall = SWall(school, "FrontWall", new(0, 0, d*.5f-t*.5f), 0, w, h, t, outer, wallDado, trim, front);
+        SWall(school, "BackWall", new(0, 0, -d*.5f+t*.5f), 180, w, h, t, outer, wallDado, trim, back);
+        SWall(school, "EastWall", new(w*.5f-t*.5f, 0, 0), 90, d-t*2, h, t, outer, wallDado, trim,
             new List<Opening> { new(-3.9f, 1.1f, 1.0f, 1.4f), new(3.1f, 1.1f, 1.15f, 1.4f) });
-        SWall(school, "WestWall", new(-w*.5f+t*.5f, 0, 0), -90, d-t*2, h, t, outer, cream, trim,
+        SWall(school, "WestWall", new(-w*.5f+t*.5f, 0, 0), -90, d-t*2, h, t, outer, wallDado, trim,
             new List<Opening> { new(-1.5f, 1.1f, 1.15f, 1.4f) });
         CivicSurfaceLibrary.Floor(school, "GroundFloor", new(ix*2, iz*2), new(0,.002f,0));
         SBox(school, null, "SchoolCeiling", new(ix*2,.08f,iz*2), new(0,h-.04f,0), cream, shadow:false);
