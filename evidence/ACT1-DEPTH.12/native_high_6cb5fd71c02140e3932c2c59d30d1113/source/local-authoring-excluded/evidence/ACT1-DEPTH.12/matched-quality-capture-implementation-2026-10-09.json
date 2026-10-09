@@ -1,0 +1,49 @@
+{
+  "taskId": "ACT1-DEPTH.12",
+  "slice": "Protected native matched High/Low capture contract for the existing Babai facade views",
+  "recordedUtc": "2026-10-09T03:24:14Z",
+  "status": "implementation-narrow-compile-pass-native-high-low-pending",
+  "changedFiles": [
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+    "game/scripts/Act1DemoRoot.cs",
+    "game/content/world/visual_checkpoints.v1.json"
+  ],
+  "checkpointPairs": [
+    {
+      "highId": "babai_shape_front_high",
+      "lowId": "babai_shape_front_low",
+      "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5"
+    },
+    {
+      "highId": "babai_shape_oblique_high",
+      "lowId": "babai_shape_oblique_low",
+      "spec": "BabaiApproachDwellingFacade@-9,1.7,13>BabaiApproachDwellingFacade@0,2.7,0"
+    },
+    {
+      "highId": "babai_porch_side_clear_high",
+      "lowId": "babai_porch_side_clear_low",
+      "spec": "BabaiApproachDwellingFacade@-2.4226,1.7,3.3005>BabaiApproachDwellingFacade@-1.1644,0.215,2.036"
+    }
+  ],
+  "captureBatches": {
+    "highPoints": "babai_shape_front_high:BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5;babai_shape_oblique_high:BabaiApproachDwellingFacade@-9,1.7,13>BabaiApproachDwellingFacade@0,2.7,0;babai_porch_side_clear_high:BabaiApproachDwellingFacade@-2.4226,1.7,3.3005>BabaiApproachDwellingFacade@-1.1644,0.215,2.036",
+    "lowPoints": "babai_shape_front_low:BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5;babai_shape_oblique_low:BabaiApproachDwellingFacade@-9,1.7,13>BabaiApproachDwellingFacade@0,2.7,0;babai_porch_side_clear_low:BabaiApproachDwellingFacade@-2.4226,1.7,3.3005>BabaiApproachDwellingFacade@-1.1644,0.215,2.036"
+  },
+  "runtimeContract": {
+    "presetApplication": "Selected manifest rows must all be bound to the same exact spec and the same high or low value. The request is honored only for URMAN_PROTECTED_RUN=1 and is applied once through FirstPersonController.ApplySettings before the startup performance guard is armed.",
+    "rescue": "The existing performance rescue is preserved. No preset is re-applied after startup; the sidecar records requested/effective/player/preferred/session-override state and GraphicsQuality.BudgetSnapshot(). graphicsComparable is true only when player ApplySettings readback succeeded, no session override is active, and both player and renderer effective presets still equal the request.",
+    "ordinaryLaunch": "No graphicsPreset rows are read as a request unless the existing view-capture transport supplies both URMAN_VIEW_CAPTURE and URMAN_VIEW_POINTS. The global qualityPreset field remains descriptive and is not authoritative runtime input."
+  },
+  "verification": {
+    "manifestJson": "PASS; 36 unique checkpoint IDs, six new rows, three high/low pairs with exact matching camera specs.",
+    "gitDiffCheck": "PASS for the two C# files and visual checkpoint manifest.",
+    "compile": "PASS: . eng/dotnet-env.sh && .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity quiet -nodeReuse:false -m:1; 0 warnings, 0 errors, 11.84s.",
+    "nativeCapture": "NOT RUN for these new High/Low rows. The unrelated protected baseline job is terminal PASS; paired High and Low jobs remain pending."
+  },
+  "sourceSha256": {
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs": "4fff298b185dc4674b6938f81d0c0e647f2b37919da0415309d8fbc1088537f6",
+    "game/scripts/Act1DemoRoot.cs": "ddd7ab1a867a25c00aba183bbf2ed6ca81d309ba248ecb7663b1e456b8e795f1",
+    "game/content/world/visual_checkpoints.v1.json": "eb29f3f1c8511ecaa5698ac94bd907ebe55fa7067a999f97c5518b58b555076c"
+  },
+  "remaining": "Await narrow C# compile, then two separate protected native jobs. Confirm each sidecar reports the requested effective preset and graphicsComparable=true for every frame; if rescue changes High to Low, the pair is not comparable. ACT1-DEPTH.12 remains open for image review, same-view comparison, and author acceptance."
+}

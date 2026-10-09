@@ -19536,7 +19536,11 @@
       "evidence": [
         "2026-09-22/23 пакет 1 (расхождение №1 масса кровли): S1-список из 6 расхождений — docs/production/act1_takeover_evidence_2026-09-16/act1_depth12_roof_2026-09-22.md; вынос .36→.62, плита .09→.16, снег — закрытый монолит с перекатом через карниз (герой, участки нетронуты); ревью: Important (ширина вержера) и Minor (коньковый брус) исправлены; сборка integrated-build-20260922-depth12-roof-02 PASS348; 6 кадров depth12-roof-20260922-02 (3 вида × High/Low, standing, exit0, guard restored) против кадров .9 в house-log-hero-20260922-01. Контракт/интерьер/коллизии не тронуты. Открыто: авторский вердикт (внешний гейт), расхождения №2-№5. Следующий пакет — №2 пропорции сруба (нужен совместный вынос обналички).",
         "docs/production/act1_depth_family_2026-10-04.md",
-        "evidence/ACT1-DEPTH.12/selected-reference-path-2026-10-09.json"
+        "evidence/ACT1-DEPTH.12/selected-reference-path-2026-10-09.json",
+        "evidence/ACT1-DEPTH.12/matched-quality-capture-implementation-2026-10-09.json",
+        "evidence/ACT1-DEPTH.12/native_matched_pair_110630c7c71ecd00282e14295e2d139a49b7b080dbbe077f6bbf16d94b800c0d/root-review.json",
+        "evidence/ACT1-DEPTH.12/native_high_6cb5fd71c02140e3932c2c59d30d1113/receipt.json",
+        "evidence/ACT1-DEPTH.12/native_low_e982732a68f14c84ab3b27bc232fb349/receipt.json"
       ],
       "mvp_priority": 22,
       "mvp_packet": "LEGACY-COMPAT",
@@ -19563,6 +19567,16 @@
         "verification": "JSON parse + обе ссылки/хеш + git diff --check",
         "remaining": "Сопоставление текущего дома, те же камеры High/Low и авторский вердикт; ACT1-DEPTH.10 не начинать.",
         "next_step": "Принять либо отклонить текущие Windows-кадры corner-material unit; затем matched reference comparison."
+      },
+      "progress_2026_10_09_matched_quality_capture": {
+        "unit": "Protected native matched High/Low checkpoint capture contract",
+        "status": "native_capture_contract_verified_style_open",
+        "result": "Added strict manifest-bound high/low selection for protected captures, applied once through FirstPersonController.ApplySettings before the startup performance guard, preserving the existing rescue. Sidecars record requested/effective/player/preferred/session-override state and GraphicsQuality.BudgetSnapshot(); comparability requires successful apply readback, no session override, and matching player/renderer effective preset. Six manifest rows define three exact-spec front/oblique/porch-side pairs.",
+        "verification": "PASS: High 6cb5fd71c02140e3932c2c59d30d1113 and Low e982732a68f14c84ab3b27bc232fb349 share snapshot 110630c7c71ecd00282e14295e2d139a49b7b080dbbe077f6bbf16d94b800c0d (all 1825 source paths identical). All three pairs have matching camera/target/owner/FOV70/zone/atmosphere; requested and effective presets match, ApplySettings succeeded, session override null, graphicsComparable true. Scale High 1.0 / Low 0.7. Both userdata restored; doctor ready.",
+        "evidence": "evidence/ACT1-DEPTH.12/matched-quality-capture-implementation-2026-10-09.json",
+        "remaining": "Quality capture mechanism and pair comparability accepted after root viewed all six original PNGs. Whole house style remains open: Low loses cut-end rings and porch deck grain; High still has coarse facade/trim/character forms. Ordinary motion/playthrough, current reference comparison and author acceptance remain open; ACT1-DEPTH.10 does not start. PNG1886x1061 vs sidecar viewport1920x1080 discrepancy retained.",
+        "next_step": "Correct bounded Low wood material identity and remaining facade/interior style gaps; retain exact matched capture workflow and obtain author acceptance before DEPTH.10.",
+        "native_review": "evidence/ACT1-DEPTH.12/native_matched_pair_110630c7c71ecd00282e14295e2d139a49b7b080dbbe077f6bbf16d94b800c0d/root-review.json"
       }
     },
     {

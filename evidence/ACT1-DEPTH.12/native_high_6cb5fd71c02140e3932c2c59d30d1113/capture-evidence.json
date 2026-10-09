@@ -1,0 +1,144 @@
+{
+  "capture_mode": "protected native Windows capture",
+  "job_id": "6cb5fd71c02140e3932c2c59d30d1113",
+  "snapshot_id": "110630c7c71ecd00282e14295e2d139a49b7b080dbbe077f6bbf16d94b800c0d",
+  "base_commit": "e1d8c991fdc84b9103c73ce832fab41912f0fd26",
+  "candidate_file_count": 1825,
+  "full_source_manifest_sha256": "b28e85cde571b05984a15f2fa7fb1273819074441c93a0f8346b6e463b8e96b9",
+  "full_source_manifest_matches_receipt": true,
+  "station_status": "PASS",
+  "exit_code": 0,
+  "runner_exit_code": 0,
+  "game_exit_code": 0,
+  "userdata_restored": true,
+  "snapshot_hashes_verified": true,
+  "engine": "4.7.1.stable.mono.official.a13da4feb",
+  "dotnet_sdk": "10.0.302",
+  "renderer": [
+    "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+  ],
+  "human_playtest": "not run",
+  "visual_acceptance": "pending root review",
+  "frames": [
+    {
+      "id": "babai_porch_side_clear_high",
+      "sidecar": "babai_porch_side_clear_high.json",
+      "png": "babai_porch_side_clear_high.png",
+      "png_bytes": 1504803,
+      "png_sha256": "a0f7becd3ce4fd5b91793d3ec628a0e71dfe1f202adc49c7edb144968fdff6c4",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar_viewport": [
+        1920,
+        1080
+      ],
+      "cameraPosition": {
+        "x": -7.286011,
+        "y": 1.448152,
+        "z": -0.624935
+      },
+      "cameraTarget": {
+        "x": -8.550505,
+        "y": -0.036848,
+        "z": -1.883141
+      },
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "graphicsPreset": "high",
+      "graphicsRequestedPreset": "high",
+      "graphicsEffectivePreset": "high",
+      "graphicsSessionOverride": null,
+      "graphicsPresetApplyStatus": "applied-through-player-settings",
+      "graphicsComparable": true,
+      "scaling3DScale": 1,
+      "graphicsBudget": "preset=high,lod_threshold=1.00,scale=1.00,msaa=Msaa4X,shadow_filter=SoftMedium,directional_shadow_distance=120,directional_shadow_atlas=4096,positional_shadow_atlas=4096,ssao_gate=authored,probe=none",
+      "drawCalls": 32142
+    },
+    {
+      "id": "babai_shape_front_high",
+      "sidecar": "babai_shape_front_high.json",
+      "png": "babai_shape_front_high.png",
+      "png_bytes": 1363504,
+      "png_sha256": "171e51b94bf2e0966800da509ee3df2c2cc96d8389e3b506b5aa63e7cc4c4576",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar_viewport": [
+        1920,
+        1080
+      ],
+      "cameraPosition": {
+        "x": 3.413501,
+        "y": 1.448152,
+        "z": -3.047482
+      },
+      "cameraTarget": {
+        "x": -11.086498,
+        "y": 2.748152,
+        "z": -3.047554
+      },
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "graphicsPreset": "high",
+      "graphicsRequestedPreset": "high",
+      "graphicsEffectivePreset": "high",
+      "graphicsSessionOverride": null,
+      "graphicsPresetApplyStatus": "applied-through-player-settings",
+      "graphicsComparable": true,
+      "scaling3DScale": 1,
+      "graphicsBudget": "preset=high,lod_threshold=1.00,scale=1.00,msaa=Msaa4X,shadow_filter=SoftMedium,directional_shadow_distance=120,directional_shadow_atlas=4096,positional_shadow_atlas=4096,ssao_gate=authored,probe=none",
+      "drawCalls": 22354
+    },
+    {
+      "id": "babai_shape_oblique_high",
+      "sidecar": "babai_shape_oblique_high.json",
+      "png": "babai_shape_oblique_high.png",
+      "png_bytes": 1350631,
+      "png_sha256": "28d53fd825657e7f6edb988ac1f4ec264d6fdfcd1a46bed98d0e017bcf58c852",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar_viewport": [
+        1920,
+        1080
+      ],
+      "cameraPosition": {
+        "x": 2.413456,
+        "y": 1.448152,
+        "z": 5.952512
+      },
+      "cameraTarget": {
+        "x": -10.586498,
+        "y": 2.448152,
+        "z": -3.047551
+      },
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "graphicsPreset": "high",
+      "graphicsRequestedPreset": "high",
+      "graphicsEffectivePreset": "high",
+      "graphicsSessionOverride": null,
+      "graphicsPresetApplyStatus": "applied-through-player-settings",
+      "graphicsComparable": true,
+      "scaling3DScale": 1,
+      "graphicsBudget": "preset=high,lod_threshold=1.00,scale=1.00,msaa=Msaa4X,shadow_filter=SoftMedium,directional_shadow_distance=120,directional_shadow_atlas=4096,positional_shadow_atlas=4096,ssao_gate=authored,probe=none",
+      "drawCalls": 29669
+    }
+  ]
+}

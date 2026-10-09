@@ -12,8 +12,8 @@
   "zone": "village_day",
   "grammar": {
     "path": "res://content/world/visual_checkpoints.v1.json",
-    "pointFields": "id — имя кадра из URMAN_VIEW_POINTS (1..48, [A-Za-z0-9_-]); spec — та же грамматика, что и запись транспорта, но без 'имя:' (камера>цель); profile — id профиля из content/world/atmosphere.v1.json, необязательный; subject — что в кадре и зачем; zoneId — необязательная известная зона Main, загружаемая через действующий protected debug zone path до разрешения владельцев камеры. Все точки задания должны иметь одну привязку зоны; несовместимые или смешанные zone-bound/unbound точки отвергаются до PNG. Без zoneId сохраняется прежний путь.",
-    "rule": "Кадр, чей id есть в манифесте с 'profile', снимается ровно под этим профилем. Кадр без строки в манифесте keeps the zone/default profile — поведение до этой итерации не меняется. Строка с известным id, но чужим 'profile' — полный отказ съёмки до первого PNG (GD.PushError + Quit(1), принцип VIS-003: не угадывать). Id из манифеста с другими координатами, чем просит задание, — тоже отказ: кадр не должен фотографировать другой предмет под меткой состояния.",
+    "pointFields": "id — имя кадра из URMAN_VIEW_POINTS (1..48, [A-Za-z0-9_-]); spec — та же грамматика, что и запись транспорта, но без 'имя:' (камера>цель); profile — id профиля из content/world/atmosphere.v1.json, необязательный; subject — что в кадре и зачем; zoneId — необязательная известная зона Main, загружаемая через действующий protected debug zone path до разрешения владельцев камеры. graphicsPreset — необязательное точное значение 'high' или 'low' только для парного native quality capture. Все точки задания должны иметь одну привязку зоны; несовместимые или смешанные zone-bound/unbound точки отвергаются до PNG. Без zoneId сохраняется прежний путь.",
+    "rule": "Кадр, чей id есть в манифесте с 'profile', снимается ровно под этим профилем. Кадр без строки в манифесте keeps the zone/default profile — поведение до этой итерации не меняется. Строка с известным id, но чужим 'profile' — полный отказ съёмки до первого PNG (GD.PushError + Quit(1), принцип VIS-003: не угадывать). Id из манифеста с другими координатами, чем просит задание, — тоже отказ: кадр не должен фотографировать другой предмет под меткой состояния. Для graphicsPreset все точки одного задания должны быть явно привязаны к одинаковому значению и точному spec; смешение high/low, строки без graphicsPreset или неописанных точек отклоняется. Запрос применяется только в protected native capture через текущий Player.ApplySettings до startup performance guard; поздний performance rescue не отменяется, а несовпадающий effective readback помечается incomparable. Верхнее qualityPreset остаётся описательной legacy-меткой и не выбирает фактический runtime preset.",
     "stationLimits": "Станция принимает не больше 8 записей и не больше 1000 символов в --points (eng/windows_station_worker.py:218), поэтому состояния покрываются списком batches, а не одним заданием.",
     "priority": "Приоритет профиля в рантайме: манифест кадра (через StudioPreviewProfile) → URMAN_ATMOSPHERE_PHASE → профиль зоны."
   },
@@ -219,6 +219,42 @@
       "id": "babai_shape_front",
       "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
       "subject": "ACT1-DEPTH.9: точная общая камера предыдущего native6dc5; фасад после исправления material ownership угловых выпусков, без полной художественной приёмки."
+    },
+    {
+      "id": "babai_shape_front_high",
+      "graphicsPreset": "high",
+      "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
+      "subject": "ACT1-DEPTH.12: matched High frame of the existing 6dc5 Babai facade camera; compare only with babai_shape_front_low when both sidecars confirm effective high/low."
+    },
+    {
+      "id": "babai_shape_front_low",
+      "graphicsPreset": "low",
+      "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
+      "subject": "ACT1-DEPTH.12: matched Low frame of the existing 6dc5 Babai facade camera; compare only with babai_shape_front_high when both sidecars confirm effective high/low."
+    },
+    {
+      "id": "babai_shape_oblique_high",
+      "graphicsPreset": "high",
+      "spec": "BabaiApproachDwellingFacade@-9,1.7,13>BabaiApproachDwellingFacade@0,2.7,0",
+      "subject": "ACT1-DEPTH.12: matched High frame of the existing Babai oblique facade camera; compare only with babai_shape_oblique_low when both sidecars confirm effective high/low."
+    },
+    {
+      "id": "babai_shape_oblique_low",
+      "graphicsPreset": "low",
+      "spec": "BabaiApproachDwellingFacade@-9,1.7,13>BabaiApproachDwellingFacade@0,2.7,0",
+      "subject": "ACT1-DEPTH.12: matched Low frame of the existing Babai oblique facade camera; compare only with babai_shape_oblique_high when both sidecars confirm effective high/low."
+    },
+    {
+      "id": "babai_porch_side_clear_high",
+      "graphicsPreset": "high",
+      "spec": "BabaiApproachDwellingFacade@-2.4226,1.7,3.3005>BabaiApproachDwellingFacade@-1.1644,0.215,2.036",
+      "subject": "ACT1-DEPTH.12: matched High frame of the existing clear porch-side camera; compare only with babai_porch_side_clear_low when both sidecars confirm effective high/low."
+    },
+    {
+      "id": "babai_porch_side_clear_low",
+      "graphicsPreset": "low",
+      "spec": "BabaiApproachDwellingFacade@-2.4226,1.7,3.3005>BabaiApproachDwellingFacade@-1.1644,0.215,2.036",
+      "subject": "ACT1-DEPTH.12: matched Low frame of the existing clear porch-side camera; compare only with babai_porch_side_clear_high when both sidecars confirm effective high/low."
     }
   ],
   "batches": [

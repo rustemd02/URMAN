@@ -1,0 +1,182 @@
+{
+  "highJob": "6cb5fd71c02140e3932c2c59d30d1113",
+  "lowJob": "e982732a68f14c84ab3b27bc232fb349",
+  "snapshotId": "110630c7c71ecd00282e14295e2d139a49b7b080dbbe077f6bbf16d94b800c0d",
+  "baseCommit": "e1d8c991fdc84b9103c73ce832fab41912f0fd26",
+  "candidateFileCount": 1825,
+  "fullManifestByteModelEqual": true,
+  "fullManifestPathOrHashDiffCount": 0,
+  "dirtyPathsEqual": true,
+  "selectedStationRuntimeFiles": 30,
+  "selectedStationRuntimeHashesEqual": true,
+  "stationPayloadMissingBlobsForLow": 0,
+  "localOnlyExcludedCopiesHigh": 5,
+  "localOnlyExcludedCopiesLow": 5,
+  "localOnlyExcludedDifferences": [],
+  "rendererHigh": [
+    "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+  ],
+  "rendererLow": [
+    "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+  ],
+  "godotHigh": "4.7.1.stable.mono.official.a13da4feb",
+  "godotLow": "4.7.1.stable.mono.official.a13da4feb",
+  "dotnetHigh": "10.0.302",
+  "dotnetLow": "10.0.302",
+  "matchedFrames": [
+    {
+      "checkpoint": "babai_shape_front",
+      "high_id": "babai_shape_front_high",
+      "low_id": "babai_shape_front_low",
+      "same_camera_environment_fields": {
+        "cameraPosition": true,
+        "cameraTarget": true,
+        "cameraForward": true,
+        "cameraOwnerPath": true,
+        "targetOwnerPath": true,
+        "activeZoneId": true,
+        "requestedZoneId": true,
+        "atmosphereProfile": true,
+        "fov": true,
+        "viewportWidth": true,
+        "viewportHeight": true
+      },
+      "activeZoneId": "village_day",
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "sidecarViewport": [
+        1920,
+        1080
+      ],
+      "pngIHDRHigh": [
+        1886,
+        1061
+      ],
+      "pngIHDRLow": [
+        1886,
+        1061
+      ],
+      "high": {
+        "requested": "high",
+        "effective": "high",
+        "applyStatus": "applied-through-player-settings",
+        "sessionOverride": null,
+        "graphicsComparable": true,
+        "scale": 1,
+        "budget": "preset=high,lod_threshold=1.00,scale=1.00,msaa=Msaa4X,shadow_filter=SoftMedium,directional_shadow_distance=120,directional_shadow_atlas=4096,positional_shadow_atlas=4096,ssao_gate=authored,probe=none"
+      },
+      "low": {
+        "requested": "low",
+        "effective": "low",
+        "applyStatus": "applied-through-player-settings",
+        "sessionOverride": null,
+        "graphicsComparable": true,
+        "scale": 0.7,
+        "budget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none"
+      }
+    },
+    {
+      "checkpoint": "babai_shape_oblique",
+      "high_id": "babai_shape_oblique_high",
+      "low_id": "babai_shape_oblique_low",
+      "same_camera_environment_fields": {
+        "cameraPosition": true,
+        "cameraTarget": true,
+        "cameraForward": true,
+        "cameraOwnerPath": true,
+        "targetOwnerPath": true,
+        "activeZoneId": true,
+        "requestedZoneId": true,
+        "atmosphereProfile": true,
+        "fov": true,
+        "viewportWidth": true,
+        "viewportHeight": true
+      },
+      "activeZoneId": "village_day",
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "sidecarViewport": [
+        1920,
+        1080
+      ],
+      "pngIHDRHigh": [
+        1886,
+        1061
+      ],
+      "pngIHDRLow": [
+        1886,
+        1061
+      ],
+      "high": {
+        "requested": "high",
+        "effective": "high",
+        "applyStatus": "applied-through-player-settings",
+        "sessionOverride": null,
+        "graphicsComparable": true,
+        "scale": 1,
+        "budget": "preset=high,lod_threshold=1.00,scale=1.00,msaa=Msaa4X,shadow_filter=SoftMedium,directional_shadow_distance=120,directional_shadow_atlas=4096,positional_shadow_atlas=4096,ssao_gate=authored,probe=none"
+      },
+      "low": {
+        "requested": "low",
+        "effective": "low",
+        "applyStatus": "applied-through-player-settings",
+        "sessionOverride": null,
+        "graphicsComparable": true,
+        "scale": 0.7,
+        "budget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none"
+      }
+    },
+    {
+      "checkpoint": "babai_porch_side_clear",
+      "high_id": "babai_porch_side_clear_high",
+      "low_id": "babai_porch_side_clear_low",
+      "same_camera_environment_fields": {
+        "cameraPosition": true,
+        "cameraTarget": true,
+        "cameraForward": true,
+        "cameraOwnerPath": true,
+        "targetOwnerPath": true,
+        "activeZoneId": true,
+        "requestedZoneId": true,
+        "atmosphereProfile": true,
+        "fov": true,
+        "viewportWidth": true,
+        "viewportHeight": true
+      },
+      "activeZoneId": "village_day",
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "sidecarViewport": [
+        1920,
+        1080
+      ],
+      "pngIHDRHigh": [
+        1886,
+        1061
+      ],
+      "pngIHDRLow": [
+        1886,
+        1061
+      ],
+      "high": {
+        "requested": "high",
+        "effective": "high",
+        "applyStatus": "applied-through-player-settings",
+        "sessionOverride": null,
+        "graphicsComparable": true,
+        "scale": 1,
+        "budget": "preset=high,lod_threshold=1.00,scale=1.00,msaa=Msaa4X,shadow_filter=SoftMedium,directional_shadow_distance=120,directional_shadow_atlas=4096,positional_shadow_atlas=4096,ssao_gate=authored,probe=none"
+      },
+      "low": {
+        "requested": "low",
+        "effective": "low",
+        "applyStatus": "applied-through-player-settings",
+        "sessionOverride": null,
+        "graphicsComparable": true,
+        "scale": 0.7,
+        "budget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none"
+      }
+    }
+  ],
+  "acceptance": "Native High and Low captures and preset readbacks are valid. High capture quality was root-accepted; Low visual review is pending. No pixel identity, full-house style acceptance, or ordinary gameplay traversal is claimed."
+}
