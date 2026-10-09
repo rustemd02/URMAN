@@ -27162,8 +27162,8 @@
       "id": "PW-003",
       "title": "Перестроить сюжетный граф кампании «За краем снимка»",
       "milestone": "PW-M0",
-      "status": "completed",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "/root/address_mount",
       "owner": "narrative",
       "priority": "P0",
       "complexity": "complex",
@@ -27224,7 +27224,8 @@
           "path": "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/README.md",
           "result": "PASS native non-headless full-game semantic smoke. Job 442857b2d5bc4056931f0203ba1852ca; snapshot 544949b1c3623ac71630158f8de68f0823d6c4dda8c7592257f8ad8c409b3bad; source commit a58f1080978697a6041afb75a678d4dd99710de8; game/build/content/import/document-image steps exit 0; no engine error lines; userdata restored. Source SHA256: FullGameFlowSmokeTest e8467d283bc65121a4ad7c322f65205d48d3710d90b2732d46fd6a37957306e7; PhotoWorldState d14e9d8eb00f0a48fae460c71481a71213a4c77c5092a203c3e7e1854f9c978f; compiled pack c1afa18be60a451d7a2a5295d8be72cba7211579c415f51e75ca2f56ae209052. Caption PNG 13b67c3d5d2bd6fc826f1457749e874db9a346239a62becd79f6215e63f4ff43 (1886x1061); root accepted only the bounded caption-authoring frame.",
           "verified": "Native log explicitly reports PHYSICAL NOT_RUN. It covers semantic A/B routes, blockers, B01, typed evidence, caption-before-print, W04, optional W05, unresolved death and return/revisit. It does not prove ordinary input, full desktop/app usability, physical world/anchors/printer or runtime profile/style acceptance."
-        }
+        },
+        "evidence/PW-003/chapter-completion-contract-audit-2026-10-09.json"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-003",
       "source_requirements": [
@@ -27386,6 +27387,14 @@
         "remaining_task_local_gate": "No additional implementation or semantic-native gate is identified within the PW-003 graph boundary in committed contract 07. Root must accept/integrate the verified block; the independent author-acceptance field remains PENDING. Actual profiles, physical/ordinary routes and full visual acceptance remain assigned to successors, not claimed here.",
         "root_decision": "Root compared the 7 clauses, source scene/register crosswalk and exact native 442857 result, verified all 20 archive hashes and current test/state/pack copies, and inspected the original caption screen. All task-local narrative/source/semantic criteria are met under contract07. This completion does not close successors, physical worlds/profile/ordinary-route gates or author_acceptance=PENDING.",
         "root_visual_review": "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/root_visual_review.json"
+      },
+      "progress_2026_10_09_reopened_world_contract": {
+        "reason": "Confirmed canonical worlds.spec.required actions missing from current W01–W05 completion conditions; current fact IDs are exact, not aliases.",
+        "previousStatus": "completed",
+        "historicalEvidence": "All existing PW003 receipts/PASS links retained. They cover the previous logical graph; no new physical/full source-contract PASS is claimed.",
+        "disposition": "KEEP supplementary high-level narrative facts; EXTEND exact canonical facts/producers; REWRITE world completion conditions preserving start/caption/mount/outside-evidence gates and optionalW05.",
+        "evidence": "evidence/PW-003/chapter-completion-contract-audit-2026-10-09.json",
+        "next_step": "Review minimal authored correction and required producer boundaries before implementing; do not hide missing actions behind chapter command."
       }
     },
     {
