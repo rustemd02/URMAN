@@ -427,5 +427,102 @@
   "compiledArtifacts": {
     "game/content/urman.fullgame.compiled.v1.json": "34901b60910bf6c8703547be3a883a424fb278331fa56d314852c212d5b1c31b",
     "campaignFingerprint": "08a59e82c672d3f14b308bf8b45932a15637f945bcb89d9bd67518e0969d61f3"
+  },
+  "chapter_complete_contract_audit": {
+    "recordedAt": "2026-10-09",
+    "contract": {
+      "source": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/06_RUNTIME_ARCHITECTURE_RU.md#5",
+      "command": "pw1.chapter.complete",
+      "precondition": "All semantic chapter conditions are satisfied.",
+      "effect": "Complete once and queue external consequences.",
+      "repeatRule": "Repeated command must not give a second item or dialogue; final external scene is a separate event."
+    },
+    "verifiedExistingCompletionChain": {
+      "conditionCommit": "PhotoWorld content actions use RuntimeBridge.DispatchContentApplyAsync; it captures the expected RuntimeKernel session, dispatches authored conditions/effects, then verifies the same session and calls ReconcileQuestsAsync(session) after commit.",
+      "consumer": "RuntimeBridge.ReconcileQuestsAsync -> QuestRuntimeCoordinator.ReconcileAsync (game/scripts/RuntimeBridge.cs:1865-1891; game/scripts/QuestRuntimeCoordinator.cs:90-157).",
+      "allObjectiveBehavior": "ReconcileAsync traverses every compiled active quest and allows sum(objective counts)+1 passes; each pass refreshes, checks active status and completionConditions, then dispatches an eligible objective with QuestLifecycleReducer.ObjectiveOccurrenceId. It does not impose a one-objective contract. The currently compiled W01-W05 each happen to author one main objective.",
+      "reducer": "QuestLifecycleReducer rechecks every objective completionConditions, applies authored objective effects, honors objective/stage composition and transitions, and sets quest status completed only when the final stage completes (src-dotnet/Urman.Core/Quests/QuestLifecycleReducer.cs:251-330).",
+      "atomicityAndReplay": "Each quest/objective lifecycle dispatch is a RuntimeKernel transaction with occurrence-ledger duplicate protection. The chapter-level reconcile loop spans multiple lifecycle dispatches; it is not one atomic chapter transaction.",
+      "existingAutomaticPathImplication": "When real canonical facts are committed, this existing coordinator/reducer chain already completes eligible objectives. A chapter command that only calls the same reconcile would add no new behavior and is rejected as a no-op alias."
+    },
+    "currentCorrectedPack": {
+      "path": "game/content/urman.fullgame.compiled.v1.json",
+      "sha256": "91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad",
+      "campaignFingerprint": "aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6",
+      "campaignId": "urman.fullgame",
+      "exactVersion": "1.0.0",
+      "photoWorldNamespace": "photoworlds-v1",
+      "activeQuestIds": [
+        "urman.fullgame:quest/pw-w01",
+        "urman.fullgame:quest/pw-w02",
+        "urman.fullgame:quest/pw-w03",
+        "urman.fullgame:quest/pw-w04",
+        "urman.fullgame:quest/pw-w05"
+      ],
+      "canonicalCompletionFacts": 19,
+      "sourceCorrectionEvidence": "evidence/PW-003/canonical-world-completion-source-correction-2026-10-09.json"
+    },
+    "producerStatus": {
+      "requiredCanonicalFacts": 19,
+      "missingProducerFactCount": 17,
+      "missingProducerFactIds": [
+        "forest_camera_back_seen",
+        "forest_beyond_frame_seen",
+        "forest_encounter_resolved",
+        "water_reflection_relation_seen",
+        "water_reed_opened",
+        "water_encounter_resolved",
+        "house_shutter_opened",
+        "house_two_views_seen",
+        "house_frame_seen",
+        "common_three_relations_seen",
+        "common_view_uncovered",
+        "common_horizon_seen",
+        "common_note_finished",
+        "cellar_household_pattern_seen",
+        "cellar_box_returned",
+        "cellar_response_seen",
+        "cellar_niche_seen"
+      ],
+      "otherRequiredFacts": {
+        "water_old_approach_seen": "Authored semantic interaction exists; physical validation NOT_IMPLEMENTED.",
+        "house_camera_position_seen": "Authored semantic interaction exists; physical validation NOT_IMPLEMENTED."
+      },
+      "overallPhysicalProducerStatus": "NOT_IMPLEMENTED for all 19 required actions; authored labels/listen aliases do not count as producers."
+    },
+    "missingChapterCompleteContractOwners": {
+      "explicitBinding": "PhotoWorldCatalog defines world, photo, anchor, nodes and required resources, but no authored world/chapter-to-quest binding. activeQuestIds only selects quests; it does not bind a world to a quest.",
+      "sessionAndCampaignAuthority": "The general RuntimeBridge.DispatchQuestLifecycleAsync directly dispatches questId/lifecycleType without a captured-session recheck or PhotoWorld namespace/campaign/version validation. The existing PhotoWorld content path does have those session and identity checks; a chapter endpoint must preserve them.",
+      "durableExternalConsequenceQueue": "Quest success effects are applied inside the quest lifecycle transaction. RuntimeKernel records emitted events in the occurrence result and increments EventSequence, but no pending/acknowledged external-consequence queue or chapter-completion consumer exists. RuntimeBridge.PresentRuntimeEvents currently consumes runtime.audio.requested only.",
+      "realReturnConsumer": "No implemented physical visit loader/return consumer currently delivers external consequences on return; safe-node/visit lifecycle commands remain unimplemented."
+    },
+    "decision": "Do not add pw1.chapter.complete as a reconcile alias, caller-asserted success flag, or event-only pseudo-queue. The specified command needs an authored world/quest binding and a durable consequence owner with a real consumer before it can be a meaningful atomic operation.",
+    "nextProductionStep": "Implement actual producers for the 19 authored canonical completion facts (17 currently absent; the other two still lack physical validation). Then define the world/quest binding and persisted consequence-delivery contract at the existing PhotoWorld/kernel owner together with the real visit/return consumer; only then add a chapter-complete adapter that validates campaign/session identity and reuses the existing reducer.",
+    "verification": {
+      "method": "Read-only source and contract inspection; no files outside this receipt and the PW-006 progress field were changed.",
+      "inspectedSources": [
+        "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/06_RUNTIME_ARCHITECTURE_RU.md",
+        "game/scripts/QuestRuntimeCoordinator.cs",
+        "game/scripts/RuntimeBridge.cs",
+        "src-dotnet/Urman.Core/Quests/QuestLifecycleReducer.cs",
+        "src-dotnet/Urman.Core/Narrative/PhotoWorldCommandHandler.cs",
+        "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
+        "src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs",
+        "content/modules/urman-fullgame/definitions.json"
+      ],
+      "buildTestsAndStation": "NOT_RUN by scope."
+    },
+    "packHistory": {
+      "priorHomeBookCompile": {
+        "sha256": "34901b60910bf6c8703547be3a883a424fb278331fa56d314852c212d5b1c31b",
+        "campaignFingerprint": "08a59e82c672d3f14b308bf8b45932a15637f945bcb89d9bd67518e0969d61f3",
+        "classification": "Historical pre-canonical-completion correction; unchanged in the existing home-book verification record."
+      },
+      "currentCanonicalCompletionCompile": {
+        "sha256": "91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad",
+        "campaignFingerprint": "aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6",
+        "classification": "Current corrected urman.fullgame pack; the pack hash and fingerprint above were verified against the compiled file during this audit."
+      }
+    }
   }
 }

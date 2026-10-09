@@ -388,5 +388,36 @@
     "Protected Windows run of the existing full-game route must visibly inspect the observations page and exact Russian wording/layout; no native UI screenshot or visual review is claimed here.",
     "Exercise the live distinction between W02 impression and outside evidence confirmation in the applicable existing full-game flow.",
     "Complete the remaining PW-008 clauses and human/visual acceptance; this source compile alone does not close the card."
-  ]
+  ],
+  "exact_ui_capture_path_audit": {
+    "date": "2026-10-09",
+    "result": "NO_CURRENT_EXACT_UI_CAPTURE_PATH",
+    "native_windows_ui": "NOT_RUN",
+    "stock_checkpoint_capture": {
+      "entrypoint": "eng/remote-check.py capture --points ...",
+      "implementation": "game/scripts/Act1DemoRoot.DevViewCapture.cs:95-147,224-230,283-313",
+      "behavior": "Loads authored camera checkpoints, may enter a debug zone, opens a modal and saves viewport PNG/sidecar; it does not open JournalUi or select the Observations section.",
+      "limitation": "A debug-zone camera capture cannot establish ordinary saved player progress or render its notebook page."
+    },
+    "nearest_existing_full_game_flow": {
+      "entrypoint": "game/tests/full_game_flow_smoke_test.tscn -> game/tests/FullGameFlowSmokeTest.cs",
+      "loads": "res://scenes/full_game.tscn (FullGameFlowSmokeTest.cs:49-52)",
+      "observations_ui": "JournalUi is in group journal_ui (JournalUi.cs:56-64); public Open(RuntimeBridge) is at JournalUi.cs:138-158; section index 5 is Наблюдения and combines the source projection with PhotoWorldKnowledgeEntries (JournalUi.Notebook.cs:33-38,146-157).",
+      "projection_entry_ids_for_required_distinction": [
+        "notebook/photoworlds/source/urman.fullgame:interaction/pw-water-old-approach",
+        "notebook/photoworlds/evidence/E-BANK-OUTSIDE"
+      ],
+      "entry_id_status": "Derived from the existing source/evidence projection contract; neither row has been observed in a native UI capture.",
+      "canonical_route_blocker": "Current FullGameFlow is blocked by canonical conditions before reaching the bank segment; do not count its authored call sequence as a produced W02-plus-outside-evidence state.",
+      "interaction_mode": "InteractAsync uses DispatchSemanticInteractionForSmokeAsync (FullGameFlowSmokeTest.cs:372-378; RuntimeBridge.cs:1460+), which explicitly does not prove physical anchors/ranges.",
+      "persistence_coverage": "Its existing SaveSlotAsync/LoadSlotAsync round trip occurs in the initial campaign state before route progress (FullGameFlowSmokeTest.cs:488-615); it does not persist and restore W02 plus confirmed outside evidence.",
+      "existing_native_ui_frame": "The current viewport PNG helper captures only the Old PC caption app (FullGameFlowSmokeTest.cs:332-359), not the notebook."
+    },
+    "other_notebook_smoke": {
+      "entrypoint": "game/tests/Act1NotebookShopSmokeTest.cs:1122-1134",
+      "limitation": "Captures a notebook page in act1_demo, which has no PhotoWorlds saved facts/evidence projection."
+    },
+    "decision": "Do not extend a smoke test or add a test contract as part of this audit. A future separately authorized slice must first resolve the canonical FullGameFlow blocker; stock capture cannot substitute for saved-state UI evidence. Keep the ordinary physical route and human visual review separate.",
+    "implementation_files_changed": []
+  }
 }
