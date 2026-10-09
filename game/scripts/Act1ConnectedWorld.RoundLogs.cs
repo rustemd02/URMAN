@@ -48,19 +48,7 @@ public partial class Act1ConnectedWorld
             mesh.SetMeta("roundedLogCourse", "ACT1-DEPTH.9/T2: chamfered kit course rebuilt as an elliptical log in the same bounds");
             rounded++;
         }
-        // The wall slab behind the courses carries the log material too and shows
-        // through every seam as a dark band. Real seams are packed with tow and
-        // moss (пакля, photo T2): a warm light grey, so the slab gets that finish.
-        var chinked = 0;
-        foreach (var slab in FindDescendants<MeshInstance3D>(root))
-        {
-            var name = slab.Name.ToString();
-            if (!name.StartsWith("HeroHouse_", StringComparison.Ordinal) || !name.Contains("_Wall_LOD", StringComparison.Ordinal)) continue;
-            if (slab.Mesh?.GetSurfaceCount() is not > 0 || slab.Mesh.SurfaceGetMaterial(0)?.ResourceName != HeroLogMaterial) continue;
-            slab.MaterialOverride = PainterlyMaterialLibrary.ForColor("a29579", "plaster");
-            chinked++;
-        }
-        if (rounded > 0) GD.Print($"act1-round-logs: rounded={rounded} sourceMeshes={RoundedLogCache.Count} chinkedSlabs={chinked}");
+        if (rounded > 0) GD.Print($"act1-round-logs: rounded={rounded} sourceMeshes={RoundedLogCache.Count}");
         return rounded;
     }
 
@@ -84,7 +72,7 @@ public partial class Act1ConnectedWorld
 
         // Courses sit 0.28 m apart with 0.26 m bodies; a slightly taller ellipse
         // lets neighbours meet in a narrow chinked seam instead of a dark slot.
-        var ry = height * .5f * 1.30f;
+        var ry = height * .5f * 1.12f;
         var rd = depth * .5f;
         var half = length * .5f;
         Vector3 Point(float along, float d, float y) => alongX

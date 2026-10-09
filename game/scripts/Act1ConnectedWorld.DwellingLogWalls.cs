@@ -27,7 +27,7 @@ public partial class Act1ConnectedWorld
     private const float WallLogOverhang = .18f;
     private const int WallLogSegments = 14;
     private static readonly string[] MainWallSides = ["_Street_Wall_", "_Rear_Wall_", "_Left_Wall_", "_Right_Wall_"];
-    private static readonly string[] SkippedWallOwners = ["HeroHouse", "HeroYardShed", "OutbuildingShed", "_Shed_", "Banya"];
+    private static readonly string[] SkippedWallOwners = ["HeroYardShed", "OutbuildingShed", "_Shed_", "Banya"];
 
     private static int BuildDwellingLogWalls(Node3D root)
     {
@@ -40,7 +40,10 @@ public partial class Act1ConnectedWorld
             if (!name.Contains("_Wall_LOD0", StringComparison.Ordinal) || wall.HasMeta("logCrownBuilt")) continue;
             if (SkippedWallOwners.Any(owner => name.Contains(owner, StringComparison.Ordinal))) continue;
             if (!wall.Visible || wall.Mesh is not ArrayMesh mesh || mesh.GetSurfaceCount() != 1) continue;
-            if (mesh.SurfaceGetMaterial(0)?.ResourceName != "URMAN_Wood_Weathered") continue;
+            // The hero house (ACT1-DEPTH.9) stands on slabs that carry the log texture
+            // itself; its thin course pieces only showed as dark rods along the wall.
+            var hero = name.StartsWith("HeroHouse_", StringComparison.Ordinal);
+            if (mesh.SurfaceGetMaterial(0)?.ResourceName != (hero ? "URMAN_Hero_Log" : "URMAN_Wood_Weathered")) continue;
             if (wall.GetParent() is not Node3D parent) continue;
             // Public buildings borrow dwelling facades but must read as their own
             // type (ACT1-PUBLIC.FACADES): shop, school and council/DK stay unlogged.
@@ -88,7 +91,8 @@ public partial class Act1ConnectedWorld
                 openings.Add(local);
             }
 
-            var main = MainWallSides.Any(side => name.Contains(side, StringComparison.Ordinal));
+            // The hero house keeps its own notched corner ends, so its crown stops at the corners.
+            var main = !hero && MainWallSides.Any(side => name.Contains(side, StringComparison.Ordinal));
             var sideWall = name.Contains("_Left_Wall_", StringComparison.Ordinal) || name.Contains("_Right_Wall_", StringComparison.Ordinal);
             var surface = new SurfaceTool();
             surface.Begin(Mesh.PrimitiveType.Triangles);
@@ -114,7 +118,17 @@ public partial class Act1ConnectedWorld
                 }
             }
             if (logs == 0) continue;
-            surface.SetMaterial(PainterlyMaterialLibrary.ForColor("85715c", "wood_log_uv"));
+            surface.SetMaterial(PainterlyMaterialLibrary.ForColor(hero ? "8b7763" : "85715c", "wood_log_uv"));
+            if (hero)
+            {
+                // The old slender courses of this side would poke through as rods.
+                var sideLogs = sidePrefix + "Log_";
+                foreach (var oldCourse in houseParts.Where(m => m.Name.ToString().StartsWith(sideLogs, StringComparison.Ordinal)))
+                {
+                    oldCourse.Visible = false;
+                    oldCourse.SetMeta("suppressionReason", "hero wall crown replaces the slender course (ACT1-DEPTH.9/T2)");
+                }
+            }
             var crown = new MeshInstance3D
             {
                 Name = name.Replace("_Wall_LOD0", "_LogCrown"),

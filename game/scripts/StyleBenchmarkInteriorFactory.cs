@@ -55,7 +55,7 @@ public static partial class StyleBenchmarkInteriorFactory
     {
         room.SetMeta("heroHouseContract", ContractVersion);
         room.SetMeta("heroHouseClearDimensions", new Vector3(ClearWidth, CeilingHeight, ClearDepth));
-        Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "9a5a36", "wood_floor_planked");
+        Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "7a4634", "wood_floor_planked");
         // P2 / VIS-098: whitewashed plaster ceiling, warm off-white so the lamp light bounces.
         Block(room, "Ceiling", new(8.4f, .16f, 7.4f), new(0, 2.68f, 0), "e6e0d2", "plaster_domestic");
 

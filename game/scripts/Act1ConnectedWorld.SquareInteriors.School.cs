@@ -11,9 +11,10 @@ public partial class Act1ConnectedWorld
     {
         const float w = 20f, d = 11f, h = 3.4f, t = .35f, corridorZ = 2.9f;
         var ix = w * .5f - t; var iz = d * .5f - t;
-        var cream = Mat("e4dfd1", "wall_institution");
-        var wallDado = PainterlyMaterialLibrary.ForDadoWall("e4dfd1", "93aa9d", 1.4f);
-        var mint = Mat("a6b4a4", "wall_institution");
+        // P2: warm cream over Soviet school green; the corridor takes a taller green band.
+        var cream = Mat("ebe2c8", "wall_institution");
+        var wallDado = PainterlyMaterialLibrary.ForDadoWall("ebe2c8", "759a80", 1.4f);
+        var mint = PainterlyMaterialLibrary.ForDadoWall("e3e5c9", "6c8f78", 1.5f);
         var body = SBody(school, "SchoolFurnitureBody");
         school.SetMeta("footstepSurface", "herringbone_parquet");
         school.SetMeta("woodCreak", true);
@@ -34,19 +35,27 @@ public partial class Act1ConnectedWorld
             new List<Opening> { new(-3.9f, 1.1f, 1.0f, 1.4f), new(3.1f, 1.1f, 1.15f, 1.4f) });
         SWall(school, "WestWall", new(-w*.5f+t*.5f, 0, 0), -90, d-t*2, h, t, outer, wallDado, trim,
             new List<Opening> { new(-1.5f, 1.1f, 1.15f, 1.4f) });
-        CivicSurfaceLibrary.Floor(school, "GroundFloor", new(ix*2, iz*2), new(0,.002f,0));
+        // Painted red-brown floor boards: the same textured planking, tinted.
+        var floorPaint = (StandardMaterial3D)CivicSurfaceLibrary.Parquet().Duplicate();
+        floorPaint.AlbedoColor = new Color(1f, .66f, .52f);
+        CivicSurfaceLibrary.Floor(school, "GroundFloor", new(ix*2, iz*2), new(0,.002f,0)).MaterialOverride = floorPaint;
         SBox(school, null, "SchoolCeiling", new(ix*2,.08f,iz*2), new(0,h-.04f,0), cream, shadow:false);
-        var corridorWall = SWall(school, "CorridorWall0", new(0,0,corridorZ), 0, ix*2, h, .16f, mint, cream, trim,
+        var corridorWall = SWall(school, "CorridorWall0", new(0,0,corridorZ), 0, ix*2, h, .16f, mint, wallDado, trim,
             new List<Opening> { new(-7.8f,0,1.1f,2.2f,Door:true), new(-2.5f,0,1.1f,2.2f,Door:true),
                 new(2.5f,0,1.1f,2.2f,Door:true), new(6.4f,0,1.1f,2.2f,Door:true) });
+        ToneWallSkins(corridorWall);   // the corridor face is the skin
+        // Moulding line on the corridor dado top, split around the four class doors (visual only).
+        var rail = Mat("efe6cc", "wood_painted_trim");
+        foreach (var (x0, x1) in new[] { (-9.6f, -8.4f), (-7.2f, -3.1f), (-1.9f, 1.9f), (3.1f, 5.8f), (7.0f, 9.6f) })
+            SBox(school, null, $"CorridorDadoRail{x0}", new(x1 - x0, .06f, .04f), new((x0 + x1) * .5f, 1.53f, corridorZ + .10f), rail, shadow: false);
         foreach (var x in new[] { -6.2f, -.5f, 5.2f })
-            SWall(school,"RoomWall0_"+x,new(x,0,(-iz+corridorZ-.08f)*.5f),90,corridorZ-.08f+iz,h,.16f,
-                cream,cream,trim,new List<Opening>());
+            ToneWallSkins(SWall(school,"RoomWall0_"+x,new(x,0,(-iz+corridorZ-.08f)*.5f),90,corridorZ-.08f+iz,h,.16f,
+                wallDado,wallDado,trim,new List<Opening>()));
         var lamps = new List<VisualInstance3D>();
         foreach (var x in new[] { -8f, -3.5f, 2.2f, 7.5f })
         {
-            lamps.Add(SLight(school,new(x,h-.42f,-1.2f),.65f,5.5f));
-            lamps.Add(SLight(school,new(x,h-.42f,4f),.55f,5f));
+            lamps.Add(SLight(school,new(x,h-.42f,-1.2f),.72f,5.5f,"ffcf9a"));
+            lamps.Add(SLight(school,new(x,h-.42f,4f),.6f,5f,"ffcf9a"));
         }
         foreach (var x in new[] { -8f, -4.8f, 1.3f, 8f })
             RuralPropModels.Radiator(school,"WindowRadiator0_"+x,new(x,.13f,-4.96f));
@@ -143,6 +152,11 @@ public partial class Act1ConnectedWorld
             Uv1Scale = new(1,.5f,1), Uv1Offset = new(0,title == "1–4 класс" ? 0 : .5f,0) };
         boardMaterial.SetMeta("surfaceUVContract", "one full unique bitmap on actual 3.1 x 1.1 m face; no repeated writing or painted frame");
         RuralPropGeometry.Part(school, "Chalkboard_" + title, new QuadMesh { Size = new(3.1f, 1.1f) }, new(boardX + .048f, 1.55f, -1), boardMaterial, new(0, 90, 0));
+        // Varnished casing: top ledge and two side stiles stand proud of the slate so the board has depth.
+        var casing = RuralPropMaterials.Surface("wood", "e0b27c");
+        RuralPropGeometry.Block(school, "BoardLedge_" + title, new(.10f, .045f, 3.42f), new(boardX + .05f, 2.2f, -1.0f), casing, .008f);
+        foreach (var zs in new[] { -1f, 1f })
+            RuralPropGeometry.Block(school, $"BoardStile_{title}_{zs}", new(.06f, 1.25f, .11f), new(boardX + .05f, 1.55f, -1.0f + zs * 1.6f), casing, .006f);
         var tray = RuralPropMaterials.Surface("metal");
         RuralPropGeometry.Block(school, "ChalkTrayBase_" + title, new(.14f, .012f, 3f), new(boardX + .075f, .96f, -1), tray, .004f);
         RuralPropGeometry.Block(school, "ChalkTrayLip_" + title, new(.012f, .035f, 3f), new(boardX + .14f, .973f, -1), tray, .004f);

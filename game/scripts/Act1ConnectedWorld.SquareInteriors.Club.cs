@@ -10,9 +10,9 @@ public partial class Act1ConnectedWorld
     {
         const float w = 16f, d = 12f, h = 4.2f, t = .35f, wingH = 3.4f, foyerH = 3.4f;
         var ix = w * .5f - t; var iz = d * .5f - t;
-        var cream = Mat("e6dfd1", "wall_institution");
-        var wallDado = PainterlyMaterialLibrary.ForDadoWall("e6dfd1", "8fa896", 1.4f);
-        var green = Mat("708b75", "wall_institution");
+        // P2: warm cream upper wall over a darker terracotta-taupe dado band (Soviet two-tone hall).
+        var cream = Mat("efe3c9", "wall_institution");
+        var wallDado = PainterlyMaterialLibrary.ForDadoWall("efe0c3", "9a7c62", 1.4f);
         club.SetMeta("footstepSurface", "herringbone_parquet"); club.SetMeta("woodCreak", true);
         var body = SBody(club, "ClubFurnitureBody");
         const float foyerZ = 2.85f, stageZ = -1.45f, wingX = 4.8f, deck = .6f;
@@ -30,7 +30,10 @@ public partial class Act1ConnectedWorld
         SWall(club, "BackWall", new(0, 0, -d * .5f + t * .5f), 180, w, h, t, outer, wallDado, trim, back);
         SWall(club, "EastWall", new(w * .5f - t * .5f, 0, 0), 90, d - t * 2, h, t, outer, wallDado, trim, side);
         SWall(club, "WestWall", new(-w * .5f + t * .5f, 0, 0), -90, d - t * 2, h, t, outer, wallDado, trim, side);
-        CivicSurfaceLibrary.Floor(club,"ClubFloor",new(ix*2,iz*2),new(0,.002f,0));
+        // Same herringbone oak, warmed toward honey-brown so the lamps' bounce reads on it.
+        var clubParquet = (StandardMaterial3D)CivicSurfaceLibrary.Parquet().Duplicate();
+        clubParquet.AlbedoColor = new Color(1f, .84f, .68f);
+        CivicSurfaceLibrary.Floor(club,"ClubFloor",new(ix*2,iz*2),new(0,.002f,0)).MaterialOverride = clubParquet;
         InteriorReflectionProbes.Add(club, "ClubReflectionProbe", new(0, h * .5f, 0), new(ix * 2, h, iz * 2));
         // Hall and foyer share the 4.2 m / 3.4 m ceilings; trim the hall's two long walls and the back wall.
         AddHallTrim(club, "ClubHall", ix, iz, h, front: false);
@@ -42,18 +45,23 @@ public partial class Act1ConnectedWorld
 
         // ---- partitions ---------------------------------------------------------------------------
         // Foyer / hall wall: the double door and two side doors.
-        var foyerWall = SWall(club, "FoyerWall", new(0, 0, foyerZ), 180, wingX * 2, h, .3f, cream, green, trim,
+        var foyerWall = SWall(club, "FoyerWall", new(0, 0, foyerZ), 180, wingX * 2, h, .3f, wallDado, wallDado, trim,
             new List<Opening> { new(0, 0, 2.4f, 2.7f, Door: true), new(-3.8f, 0, 1.1f, 2.2f, Door: true), new(3.8f, 0, 1.1f, 2.2f, Door: true) });
+        ToneWallSkins(foyerWall);   // its hall-side skin carries the same dado
+        // Moulding line on the dado top, split around the three doors (visual only).
+        foreach (var rx in new[] { -2.25f, 2.25f })
+            SBox(club, null, "HallDadoRailFoyer" + rx, new(1.9f, .06f, .04f), new(rx, 1.41f, foyerZ - .17f), Mat("f1e7cf", "wood_painted_trim"), shadow: false);
         // Foyer wall pieces beyond the hall span (x beyond wings): solid.
         foreach (var s in new[] { -1f, 1f })
         {
             SWall(club, "FoyerWing", new(s * (ix + wingX) * .5f, 0, foyerZ), 180, ix - wingX, foyerH, .3f, cream, cream, trim, new List<Opening>());
-            var wingWall = SWall(club, "WingWall", new(s * wingX, 0, 0), s > 0 ? 90 : -90, iz * 2, h, .3f, cream, cream, trim, new List<Opening>
+            var wingWall = SWall(club, "WingWall", new(s * wingX, 0, 0), s > 0 ? 90 : -90, iz * 2, h, .3f, cream, wallDado, trim, new List<Opening>
             {
                 new(s > 0 ? -4.3f : 4.3f, 0, 1.0f, 2.2f, Door: true),     // foyer → wing front room (costume west / instruments east)
                 new(s > 0 ? -1.6f : 1.6f, 0, 1.0f, 2.2f, Door: true),      // hall → same room
                 new(s > 0 ? 3.6f : -3.6f, deck, 1.0f, 2.2f, Door: true)    // stage → backstage
             });
+            SBox(club, null, "HallDadoRail" + s, new(.04f, .06f, 2.55f), new(s * (wingX - .17f), 1.41f, -.175f), Mat("f1e7cf", "wood_painted_trim"), shadow: false);
             SBox(club, null, "WingCross", new(ix - wingX, wingH, .16f), new(s * (ix + wingX) * .5f, wingH * .5f, 0), cream);
             // Stage-side platform reached by backstage stairs.
             var stair = SBody(club, "BackstageStairBody");
@@ -74,8 +82,8 @@ public partial class Act1ConnectedWorld
         // entrance switch below; the switch owns no save state.
         var lamps = new List<VisualInstance3D>();
         foreach (var (x, z, e) in new[] { (-2.8f, 0.6f, 1.6f), (2.8f, 0.6f, 1.6f), (0f, 2.6f, 1.4f) })
-            lamps.Add(AddSquareLight(club, new(x, h - .45f, z), e, 11f, "ffe2b0"));
-        lamps.Add(AddSquareLight(club, new(0, 3.65f, -3.6f), 1.1f, 9f, "ffd9a0"));
+            lamps.Add(AddSquareLight(club, new(x, h - .45f, z), e * .95f, 11f, "ffcf9a"));
+        lamps.Add(AddSquareLight(club, new(0, 3.65f, -3.6f), 1.1f, 9f, "ffcf9a"));
         lamps.Add(AddSquareLight(club, new(0, foyerH - .45f, 4.3f), 1.3f, 8f, "ffd9a0"));
         foreach (var s in new[] { -1f, 1f })
         {
@@ -91,6 +99,19 @@ public partial class Act1ConnectedWorld
         club.SetMeta("interiorCeiling",h);
         club.SetMeta("storeys",1);
         club.SetMeta("interior", "single-storey village club; 48 seats, low stage and two working wings");
+    }
+
+    // A wall whose room-facing side is the *skin* (SWall only measures the dado on the core)
+    // needs its skin meshes anchored to the floor too. Same deferred call SWall makes.
+    private static void ToneWallSkins(Node3D wall)
+    {
+        foreach (var child in wall.GetChildren())
+            if (child is MeshInstance3D skin && skin.Name.ToString().EndsWith("Skin", StringComparison.Ordinal))
+                Callable.From(() =>
+                {
+                    if (GodotObject.IsInstanceValid(skin) && skin.IsInsideTree() && GodotObject.IsInstanceValid(wall) && wall.IsInsideTree())
+                        PainterlyMaterialLibrary.SetGroundContact(skin, wall.GlobalPosition.Y);
+                }).CallDeferred();
     }
 
     private void BuildClubFoyer(Node3D club, StaticBody3D body, Material trim)
@@ -126,7 +147,7 @@ public partial class Act1ConnectedWorld
     private void BuildClubHall(Node3D club, StaticBody3D body, Material trim, float h, float deck, float stageZ, List<VisualInstance3D> lamps)
     {
         var wood = Mat("7d6548", "wood_furniture");
-        var red = RuralPropMaterials.Surface("velvet");
+        var red = RuralPropMaterials.Surface("velvet", "f2a79a");   // deeper, warmer burgundy velvet
         var stage = SBody(club, "StageBody");
         stage.SetMeta("footstepSurface","herringbone_parquet");
         SBox(club, stage, "StageDeck", new(9.5f, deck, 4.2f), new(0, deck * .5f, stageZ - 2.1f), wood);
@@ -142,6 +163,11 @@ public partial class Act1ConnectedWorld
             SBox(club, null, "CurtainRail" + s, new(1.65f, .045f, .045f),
                 new(s * 3.95f, deck + 2.91f, stageZ - .35f), Mat("494a47", "metal"), shadow: false);
         }
+        // Pleated valance closes the top of the opening; a gilt fringe line finishes its hem.
+        SCurtain(club, "StageValance", new(0, h - .87f, stageZ - .12f), 8.8f, .36f, red);
+        SBox(club, null, "StageValanceFringe", new(8.8f, .03f, .03f), new(0, h - 1.06f, stageZ - .06f), Mat("c4a46a", "wood_painted_trim"), shadow: false);
+        // Red aisle runner between the two seat blocks.
+        SBox(club, null, "ClubAisleRunner", new(.7f, .012f, 3.9f), new(0, .008f, .6f), Mat("7a2a2c", "fabric"), shadow: false);
         CivicSurfaceLibrary.HangingTextile(club,"HandpaintedStageBackdrop",new(9.3f,2.325f),new(0,deck+1.7f,-5.50f),CivicSurfaceLibrary.Face("craft_details_v1_atlas.png",2,4,1,.97f));
         SLabel(club, "САБАНТУЙ", new(0, deck + 2.55f, -5.47f), 0, 90, new Color(.7f, .15f, .1f));
         SPicture(club, "StageTukay", new(0, 3.25f, stageZ + .1f), 0, new(.6f, .8f), null, "6b5a4a", null);
@@ -194,12 +220,19 @@ public partial class Act1ConnectedWorld
         club.SetMeta("hallSeats", 48);
 
         // Chandeliers.
+        var drumShade = new StandardMaterial3D { AlbedoColor = new Color("f3dfb8"), Roughness = .55f,
+            EmissionEnabled = true, Emission = new Color("ffcf9a"), EmissionEnergyMultiplier = .75f };
         foreach (var (x, z) in new[] { (-2.8f, .6f), (2.8f, .6f), (0f, 2.6f) })
         {
             SBox(club, null, "ChandelierRod", new(.03f, .4f, .03f), new(x, h - .35f, z), Mat("2b2b2b", "metal"), shadow: false);
             var chandelier = new MeshInstance3D { Name = "Chandelier", Mesh = new TorusMesh { InnerRadius = .35f, OuterRadius = .42f }, Position = new(x, h - .6f, z), MaterialOverride = new StandardMaterial3D { AlbedoColor = new Color(1f, .9f, .6f), EmissionEnabled = true, Emission = new Color(1f, .8f, .5f), EmissionEnergyMultiplier = .6f } };
             club.AddChild(chandelier);
             lamps.Add(chandelier);
+            // Opal drum shade inside the ring: the visible fitting of the lamp above it.
+            var drum = new MeshInstance3D { Name = "HallDrumShade", Mesh = new CylinderMesh { TopRadius = .2f, BottomRadius = .3f, Height = .24f, RadialSegments = 20 },
+                Position = new(x, h - .62f, z), MaterialOverride = drumShade, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off };
+            club.AddChild(drum);
+            lamps.Add(drum);
         }
         // Radiators sit below the ordinary single-storey windows.
         foreach (var x in new[] { -6.0f, -2.8f, 2.8f, 6.0f })
