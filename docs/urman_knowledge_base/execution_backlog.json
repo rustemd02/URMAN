@@ -24690,14 +24690,15 @@
         "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
       },
       "progress_2026_10_09": "2026-10-09: added protected-only per-mesh residual metadata in game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs. The unchanged lower-ring + pairwise-midpoint support set and existing Min(groundY - Y) - 0.015 m shift are reused; after that exact shift, metadata records signed meshY-groundY min/max, support count, and applied shift only when URMAN_PROTECTED_RUN=1. Existing terrain function, selected meshes, geometry/colliders, and ordinary-run behavior remain unchanged by inspection. git diff --check PASS. No compile or Windows capture run by this agent; protected residual measurement is pending root sidecar readback and capture. Receipt: evidence/ACT1-PLACEMENT-RULES/zirat-roadside-grounding-residuals-2026-10-09.json (source SHA-256 8c32c189b4a4d5583334dde204285520176414c5f42369c397e5c4951933bf1e). Source slice handed off to root; active_owner released while the card remains in_progress for compile and native residual review.",
-      "next_step": "inspect current render terrain/path and grounding tolerance; diagnose animation error separately, then targeted repeat.",
+      "next_step": "Fix DistantWorkState.Tick getter ordering: skip animation-position/current-clip getters while governor-gated; check IsPlaying before active-state reads and preserve externally stopped mixer ownership. Then affected-module compile and targeted Zirat capture; independently correct evidenced path/snow geometry/grounding tolerance before art acceptance.",
       "progress_2026_10_09_root_native_review": {
         "stage": "Corrected existing native capture source compiled; awaiting protected Windows images/readback",
         "compile": "PASS0/0 12.73s",
         "prior_zirat_job": "348405bbfb954e34a4f5e8767296a541 FAIL/124, missing entry spawn, zero PNG; preserved",
         "full_done_when": "OPEN"
       },
-      "progress_2026_10_09_final_handover": "Windows Zirat3 captured both owner-corrected original frames and residuals:34 meshes×21 samples,clearance -0.183550..-0.015000m. Style REJECTED; runner FAIL52 AnimationPlayer errors despite game exit0. No full surface fit/tolerance acceptance. Root review/evidence retained. Next inspect current render terrain/path and grounding tolerance; diagnose animation error separately, then targeted repeat."
+      "progress_2026_10_09_final_handover": "Windows Zirat3 captured both owner-corrected original frames and residuals:34 meshes×21 samples,clearance -0.183550..-0.015000m. Style REJECTED; runner FAIL52 AnimationPlayer errors despite game exit0. No full surface fit/tolerance acceptance. Root review/evidence retained. Next inspect current render terrain/path and grounding tolerance; diagnose animation error separately, then targeted repeat.",
+      "progress_2026_10_09_animation_blocker": "Read-only Luna6Max diagnosis independently matched current source: all26 detailed Zirat3 game.log stacks call get_current_animation_position → DistantWorkState.Tick line651. Governor stops its mixer beyond52m at665–675, but subsequent250ms ticks read CurrentAnimationPosition before checking _gated. Engine-errors.log has52 bare errors, not52 distinct proven faults. Missing clip is not the demonstrated cause. Source fix NOT_IMPLEMENTED; guarded-state getter ordering is the next bounded technical slice, followed by affected-module compile and the same targeted native scene."
     },
     {
       "id": "ACT1-HOUSE-SCALE",
