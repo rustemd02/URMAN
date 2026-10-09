@@ -1,0 +1,13 @@
+{
+  "reviewer": "/root",
+  "date": "2026-10-09",
+  "originals_viewed": [
+    "frames/babai_room_overview.png",
+    "frames/babai_rug_detail.png"
+  ],
+  "result": "BOUNDED_RUG_BANDS_ACCEPTED_WHOLE_INTERIOR_OPEN",
+  "accepted": "Both thin colored rug bands are visibly above the field in overview/detail. Source selection and shared placement preserve existing carpet consumer and material; root accepts this bounded selection/height/placement unit.",
+  "remaining": "Whole interior style remains unaccepted: large dark stove/trim, orange field/floor surface balance and character finishing. No ordinary entry/exit/collision or human art acceptance.",
+  "actual_material": "carpet_palas_v1_albedo 1024x1024 ShaderMaterial, has_albedo_texture=true, texture_scale(.25,.4), strength~.88, low_quality=true. Low branch samples texture; no missing-texture defect demonstrated.",
+  "native_job": "1f7651002b4d4b05abb4a62dbad53339"
+}

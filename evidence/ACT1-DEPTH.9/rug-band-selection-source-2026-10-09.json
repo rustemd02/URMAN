@@ -1,0 +1,283 @@
+{
+  "kind": "source-placement-review",
+  "task_id": "ACT1-DEPTH.9",
+  "date": "2026-10-09",
+  "status": "bounded-rug-source-placement-and-native-visibility-accepted",
+  "source_files": {
+    "factory": {
+      "path": "game/scripts/StyleBenchmarkInteriorFactory.cs",
+      "sha256": "e3ec8a1ed9913e2b1a2213e0765e5c300c8b3a56dcd7a9bb5ef0b5229ff46f60",
+      "change": "Select RugBandA/B and place Field plus both bands with one existing shared group transform; no Factory geometry, material, UV or collision change."
+    },
+    "generated_glb": {
+      "path": "game/assets/generated/urman_modular_kit.glb",
+      "sha256": "71a5323757ddddff4eff08aafa0ad8da39ebc3b05cd1ba8e2a10cdc694de78f4"
+    },
+    "carpet_texture": {
+      "path": "game/assets/textures/painterly/carpet_palas_v1_albedo.png",
+      "sha256": "d9d48b174b6c8e02bf618cae40ae7248b9562bbb42d7ce7ef471c06b0a55721a",
+      "result": "Retained. Root reviewed the raster as containing geometric ornament and woven fibers; no swap to blank fabric."
+    },
+    "generator": {
+      "path": "tools/blender/generate_modular_environment.py",
+      "sha256": "5dfef6388206ecb15afd5ecdeae757387994da748657a466c49b153fef4dd56a",
+      "change": "Only the two band boxes: size (4.05, 0.002, 0.16), Y center 0.0845, bevel 0.0005 m. X/Z, z anchors, surface/color source and palette mapping unchanged."
+    },
+    "modular_blend": {
+      "path": "assets/source/blender/urman_modular_kit.blend",
+      "sha256": "ecf32cbd25645cd1f628eee91de22a2ee9e729484a649caefae33fdb08f07596"
+    }
+  },
+  "source_observations": {
+    "selection_and_placement": "AttachFurniture selects RugField and RugBandA/B. All three retain the shared source group origin (-1.35, 0.07, 0.45) → destination (-0.4, 0.017, 0.50), translation (+0.95, -0.053, +0.05); authored relative X/Z offsets are unchanged.",
+    "material_ownership": "Existing GeneratedModularKitDressing cases assign carpet to Field/BandA/B; PainterlyMaterialLibrary maps carpet to carpet_palas_v1_albedo.png at (0.25, 0.40), with texture_strength 0.88. No custom material or color mapping added.",
+    "generator_note": "BandA/B were 32 mm thick, centered at Y=.04, with 12 mm bevel, entirely under the opaque field. Approved source fix changes only these bands to 2 mm thickness, center Y=.0845 and 0.5 mm bevel; the generator comment’s broad-band intent is now visible in the exported source geometry."
+  },
+  "lod0_authored_local_bounds_m": {
+    "field": {
+      "dimensions": [
+        4.05,
+        0.025,
+        2.4
+      ],
+      "old_origin": [
+        -1.35,
+        0.07,
+        0.45
+      ],
+      "new_origin": [
+        -0.4,
+        0.017,
+        0.5
+      ],
+      "new_aabb_min": [
+        -2.425,
+        0.0045,
+        -0.7
+      ],
+      "new_aabb_max": [
+        1.625,
+        0.0295,
+        1.7
+      ]
+    },
+    "band_a": {
+      "dimensions": [
+        4.05,
+        0.032,
+        0.16
+      ],
+      "old_origin": [
+        -1.35,
+        0.04,
+        0.1
+      ],
+      "new_origin": [
+        -0.4,
+        -0.013,
+        0.15
+      ],
+      "old_aabb_min": [
+        -3.375,
+        0.024,
+        0.02
+      ],
+      "old_aabb_max": [
+        0.675,
+        0.056,
+        0.18
+      ],
+      "new_aabb_min": [
+        -2.425,
+        -0.029,
+        0.07
+      ],
+      "new_aabb_max": [
+        1.625,
+        0.003,
+        0.23
+      ]
+    },
+    "band_b": {
+      "dimensions": [
+        4.05,
+        0.032,
+        0.16
+      ],
+      "old_origin": [
+        -1.35,
+        0.04,
+        0.77
+      ],
+      "new_origin": [
+        -0.4,
+        -0.013,
+        0.82
+      ],
+      "old_aabb_min": [
+        -3.375,
+        0.024,
+        0.69
+      ],
+      "old_aabb_max": [
+        0.675,
+        0.056,
+        0.85
+      ],
+      "new_aabb_min": [
+        -2.425,
+        -0.029,
+        0.74
+      ],
+      "new_aabb_max": [
+        1.625,
+        0.003,
+        0.9
+      ]
+    }
+  },
+  "limits": [
+    "Native Windows1f7651002b4d4b05abb4a62dbad53339 subsequently imported/rendered this exact GLB and active materials. Root original overview/detail accept bounded bands selection/height/placement; whole rug/interior style remains open.",
+    "Do not claim the rug reads stylistically accepted or that the whole house is accepted. Root previously rejected the whole interior; full DEPTH.9 done_when, ordinary entry/exit traversal, domestic arrangement, D14 decision, author-reference comparison and human gate remain open.",
+    "The full modular generator rewrote the shared .blend and GLB because no component-only option exists. Exact non-rug payload/material comparisons found no collateral mesh changes. No asset budgets or unrelated registry fields were changed.",
+    "Palas remains the required culturally/surface-appropriate texture. Band source surfaces and current runtime carpet color variants were preserved."
+  ],
+  "export": {
+    "command": ".tools/blender/Blender.app/Contents/MacOS/Blender --background --python tools/blender/generate_modular_environment.py -- --root \"$PWD\"",
+    "mode": "full modular-environment generation; generator has no component-only option; character generator and full asset wrapper were not run",
+    "blender": "4.5.12 LTS",
+    "exit_code": 0,
+    "elapsed_seconds_real": 4.02,
+    "log_ignored": ".codex-captures/legs-motion-preexport/export.log",
+    "preserved_preexport_ignored_dir": ".codex-captures/legs-motion-preexport/",
+    "output_sha256": {
+      "generator": "5dfef6388206ecb15afd5ecdeae757387994da748657a466c49b153fef4dd56a",
+      "blend": "ecf32cbd25645cd1f628eee91de22a2ee9e729484a649caefae33fdb08f07596",
+      "glb": "71a5323757ddddff4eff08aafa0ad8da39ebc3b05cd1ba8e2a10cdc694de78f4"
+    }
+  },
+  "geometry_comparison": {
+    "before": {
+      "glb_sha256": "b02fd575ccb3ae1630c5998bb41e8bf20ae8476175a5bfc43ae877c689bd553e",
+      "bytes": 1393428,
+      "nodes": 304,
+      "mesh_defs": 304,
+      "accessors": 961,
+      "materials": 17,
+      "primitives": 304,
+      "triangles": 16250,
+      "lod0_nodes": 151,
+      "lod1_nodes": 151
+    },
+    "after": {
+      "glb_sha256": "71a5323757ddddff4eff08aafa0ad8da39ebc3b05cd1ba8e2a10cdc694de78f4",
+      "bytes": 1393704,
+      "nodes": 304,
+      "mesh_defs": 304,
+      "accessors": 962,
+      "materials": 17,
+      "primitives": 304,
+      "triangles": 16250,
+      "lod0_nodes": 151,
+      "lod1_nodes": 151
+    },
+    "non_rug": {
+      "mesh_nodes": 298,
+      "raw_vertex_index_payload_sha256_before": "f3317e827c203fbf31a1d5d442bc3e04cfa9c86126d4b6856f1ad6f46ece64ad",
+      "raw_vertex_index_payload_sha256_after": "f3317e827c203fbf31a1d5d442bc3e04cfa9c86126d4b6856f1ad6f46ece64ad",
+      "changed_node_records": 0,
+      "added_node_records": 0,
+      "removed_node_records": 0,
+      "material_definitions_identical": true,
+      "method": "canonical per-mesh node transforms/hierarchy, mesh and primitive attributes, accessor schemas and SHA-256 of each raw vertex/index accessor payload; sorted by node name"
+    },
+    "rug": {
+      "field": "unchanged",
+      "changed_bands": [
+        "HouseInterior_RugBandA_LOD0",
+        "HouseInterior_RugBandA_LOD1",
+        "HouseInterior_RugBandB_LOD0",
+        "HouseInterior_RugBandB_LOD1"
+      ],
+      "lod0_triangles_each": 44,
+      "lod1_triangles_each": 22
+    },
+    "ignored_comparison_artifact": ".codex-captures/legs-motion-preexport/non-rug-full-payload-comparison.json"
+  },
+  "exported_runtime_bounds_m": {
+    "shared_factory_translation": [
+      0.95,
+      -0.053,
+      0.05
+    ],
+    "field_y_bounds": [
+      0.0045,
+      0.0295
+    ],
+    "band_a": {
+      "center": [
+        -0.4,
+        0.0315,
+        0.15
+      ],
+      "aabb_min": [
+        -2.425,
+        0.0305,
+        0.07
+      ],
+      "aabb_max": [
+        1.625,
+        0.0325,
+        0.23
+      ]
+    },
+    "band_b": {
+      "center": [
+        -0.4,
+        0.0315,
+        0.82
+      ],
+      "aabb_min": [
+        -2.425,
+        0.0305,
+        0.74
+      ],
+      "aabb_max": [
+        1.625,
+        0.0325,
+        0.9
+      ]
+    },
+    "vertical_gap_above_field_m": 0.001,
+    "material_source": "GLB material slots remain original OldFabric/WeatheredWood; Factory runtime overrides retain existing three carpet/palas palette cases; no new texture/material owner or collision."
+  },
+  "asset_registry_sync": {
+    "changed_fields_only": [
+      "sourceSha256",
+      "derivedSha256"
+    ],
+    "source_sha256": "ecf32cbd25645cd1f628eee91de22a2ee9e729484a649caefae33fdb08f07596",
+    "derived_sha256": "71a5323757ddddff4eff08aafa0ad8da39ebc3b05cd1ba8e2a10cdc694de78f4",
+    "rows": [
+      "env.house.a",
+      "env.fence.a",
+      "env.road.dirt.straight",
+      "env.vegetation.pine.a",
+      "prop.furniture.table.a",
+      "prop.oldpc.crt",
+      "env.well.a",
+      "env.woodpile.a",
+      "env.gate.a"
+    ],
+    "verification": "Existing eng/verify-asset-registry.sh ran against a temporary filtered registry containing these exact nine rows only: PASS assets=9 derived=9 explicit_sources=9 external=0. No full-registry preflight; budgets and all other row fields preserved."
+  },
+  "verification": {
+    "generator": "Pinned Blender 4.5.12 direct generator invocation exit 0; no traceback; deterministic LOD output reports 151 LOD1 variants.",
+    "non_rug_preservation": "All 298 non-rug mesh node names, transforms/hierarchy, mesh/primitive/accessor semantics and raw vertex/index payload hashes are identical; all 17 material definitions identical.",
+    "registry": "Target-only existing validator PASS across exact nine registry owners; full asset preflight not run.",
+    "git_diff_check": "PASS final scoped staged diff check",
+    "native": "PASS all step/game exit0, engine-errors empty, userdataRestored=true; original-PNG review linked below"
+  },
+  "root_native_review": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-rug-1f7651002b4d4b05abb4a62dbad53339/root_visual_review.json",
+  "whole_task_closed": false
+}

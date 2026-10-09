@@ -1,0 +1,923 @@
+{
+  "job_id": "1f7651002b4d4b05abb4a62dbad53339",
+  "snapshot_id": "9ed4c749dd9fc316275ef70e72161cad0e64e6794b7735f8d16fecf54c45cac2",
+  "base_commit": "2effc8c51e6f2ec840795369097f9bbb7de7da64",
+  "status": "PASS",
+  "scene": "res://scenes/act1_demo.tscn",
+  "mode": "capture",
+  "host": "UNTERPC",
+  "godot": "4.7.1.stable.mono.official.a13da4feb",
+  "sdk": "10.0.302",
+  "renderer": [
+    "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+  ],
+  "started": "2026-10-09T00:23:44.5432522Z",
+  "finished": "2026-10-09T00:29:21.0156465Z",
+  "elapsedSeconds": 336.461383,
+  "worker_elapsed_seconds": 367.703,
+  "request": {
+    "fov": "70",
+    "headless": false,
+    "job_id": "1f7651002b4d4b05abb4a62dbad53339",
+    "mode": "capture",
+    "points": "babai_room_overview:BabaiApproachDwellingFacade@-1.162,1.846,-0.484>BabaiApproachDwellingFacade@1.658,1.546,-4.934;babai_rug_detail:BabaiApproachDwellingFacade@1.258,1.896,-0.034>BabaiApproachDwellingFacade@1.258,0.276,-2.134",
+    "scene": "res://scenes/act1_demo.tscn",
+    "snapshot_id": "9ed4c749dd9fc316275ef70e72161cad0e64e6794b7735f8d16fecf54c45cac2",
+    "timeout": 300
+  },
+  "steps": {
+    "build": {
+      "exitCode": 0
+    },
+    "content-build": {
+      "exitCode": 0
+    },
+    "content-urman.chapter1": {
+      "exitCode": 0
+    },
+    "content-urman.fullgame": {
+      "exitCode": 0
+    },
+    "document-images": {
+      "exitCode": 0
+    },
+    "game": {
+      "exitCode": 0
+    },
+    "import": {
+      "exitCode": 0
+    }
+  },
+  "exitCode": 0,
+  "gameExitCode": 0,
+  "engineErrorsBytes": 0,
+  "guard": {
+    "userdataRestored": true,
+    "snapshotHashesVerified": true,
+    "projectRestoredSha256": "D63B2F54388E8B0D06C6EFB350DD7E0B9F43264AC967696749535BEB57D757C4",
+    "stationOverrideSha256": "8E3CE7B7850D04A0473AAA18EA8014EDF3F9971AE040C76A1BECC5DB0221F78C"
+  },
+  "postRunDoctor": {
+    "blob_store": {
+      "files": 3561,
+      "megabytes": 514.0
+    },
+    "busy_job": null,
+    "desktop": {
+      "input_desktop": true,
+      "interactive": true,
+      "session_id": 1
+    },
+    "disk": {
+      "free_gb": 370.7,
+      "path": "D:\\URMAN-STATION\\data",
+      "total_gb": 2794.4
+    },
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "gpu_acceptance": "verified",
+    "host": "UNTERPC",
+    "orphan_game_process": false,
+    "ready": true,
+    "sdk": "10.0.302",
+    "tools": true,
+    "userdata_recovery_pending": false
+  },
+  "resultZip": {
+    "bytes": 4180165,
+    "sha256": "16603e9a53b1ea6539d85d7a4fdb1a43e9cc0a7f2a38529dd2043a635a439746"
+  },
+  "frames": [
+    {
+      "point": "babai_room_overview",
+      "spec": "babai_room_overview:BabaiApproachDwellingFacade@-1.162,1.846,-0.484>BabaiApproachDwellingFacade@1.658,1.546,-4.934",
+      "cameraPosition": {
+        "x": -11.070504,
+        "y": 1.594152,
+        "z": -1.885554
+      },
+      "cameraTarget": {
+        "x": -15.52049,
+        "y": 1.294152,
+        "z": -4.705575
+      },
+      "cameraForward": {
+        "x": -0.843307,
+        "y": -0.056852,
+        "z": -0.534416
+      },
+      "fov": 70,
+      "fovSource": "explicit",
+      "requestedZoneId": "house_old_pc",
+      "activeZoneId": "house_old_pc",
+      "atmosphereProfile": "village-winter-frost",
+      "atmosphereOwner": "logical-zone/house_old_pc",
+      "ownerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "rugMaterials": [
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_RugField_LOD0",
+          "visible": true,
+          "visibleInTree": true,
+          "worldAabb": {
+            "position": {
+              "x": -13.920502,
+              "y": -0.001348,
+              "z": -6.330567
+            },
+            "size": {
+              "x": 2.400021,
+              "y": 0.025,
+              "z": 4.050011
+            },
+            "end": {
+              "x": -11.520481,
+              "y": 0.023652,
+              "z": -2.280556
+            }
+          },
+          "activeMaterialType": "ShaderMaterial",
+          "materialOverride": "ShaderMaterial",
+          "shaderParameters": {
+            "has_albedo_texture": "true",
+            "texture_scale": "(0.25, 0.4)",
+            "texture_strength": "0.87999999523163",
+            "authored_uv_texture": "false",
+            "bound_uv_pigment": null,
+            "local_wood_texture": "false",
+            "local_floor_texture": "false",
+            "low_quality": "true",
+            "albedoTexturePath": "res://assets/textures/painterly/carpet_palas_v1_albedo.png",
+            "albedoTextureWidth": 1024,
+            "albedoTextureHeight": 1024
+          }
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_RugBandA_LOD0",
+          "visible": true,
+          "visibleInTree": true,
+          "worldAabb": {
+            "position": {
+              "x": -13.150502,
+              "y": 0.024652,
+              "z": -6.330564
+            },
+            "size": {
+              "x": 0.160021,
+              "y": 0.002,
+              "z": 4.05
+            },
+            "end": {
+              "x": -12.990481,
+              "y": 0.026652,
+              "z": -2.280564
+            }
+          },
+          "activeMaterialType": "ShaderMaterial",
+          "materialOverride": "ShaderMaterial",
+          "shaderParameters": {
+            "has_albedo_texture": "true",
+            "texture_scale": "(0.25, 0.4)",
+            "texture_strength": "0.87999999523163",
+            "authored_uv_texture": "false",
+            "bound_uv_pigment": "false",
+            "local_wood_texture": "false",
+            "local_floor_texture": "false",
+            "low_quality": "true",
+            "albedoTexturePath": "res://assets/textures/painterly/carpet_palas_v1_albedo.png",
+            "albedoTextureWidth": 1024,
+            "albedoTextureHeight": 1024
+          }
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_RugBandB_LOD0",
+          "visible": true,
+          "visibleInTree": true,
+          "worldAabb": {
+            "position": {
+              "x": -12.480502,
+              "y": 0.024652,
+              "z": -6.330561
+            },
+            "size": {
+              "x": 0.160021,
+              "y": 0.002,
+              "z": 4.050001
+            },
+            "end": {
+              "x": -12.320481,
+              "y": 0.026652,
+              "z": -2.28056
+            }
+          },
+          "activeMaterialType": "ShaderMaterial",
+          "materialOverride": "ShaderMaterial",
+          "shaderParameters": {
+            "has_albedo_texture": "true",
+            "texture_scale": "(0.25, 0.4)",
+            "texture_strength": "0.87999999523163",
+            "authored_uv_texture": "false",
+            "bound_uv_pigment": null,
+            "local_wood_texture": "false",
+            "local_floor_texture": "false",
+            "low_quality": "true",
+            "albedoTexturePath": "res://assets/textures/painterly/carpet_palas_v1_albedo.png",
+            "albedoTextureWidth": 1024,
+            "albedoTextureHeight": 1024
+          }
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_RugField_LOD1",
+          "visible": true,
+          "visibleInTree": true,
+          "worldAabb": {
+            "position": {
+              "x": -13.920502,
+              "y": -0.001348,
+              "z": -6.330567
+            },
+            "size": {
+              "x": 2.399056,
+              "y": 0.025,
+              "z": 4.050011
+            },
+            "end": {
+              "x": -11.521445,
+              "y": 0.023652,
+              "z": -2.280556
+            }
+          },
+          "activeMaterialType": "ShaderMaterial",
+          "materialOverride": "ShaderMaterial",
+          "shaderParameters": {
+            "has_albedo_texture": "true",
+            "texture_scale": "(0.25, 0.4)",
+            "texture_strength": "0.87999999523163",
+            "authored_uv_texture": "false",
+            "bound_uv_pigment": null,
+            "local_wood_texture": "false",
+            "local_floor_texture": "false",
+            "low_quality": "true",
+            "albedoTexturePath": "res://assets/textures/painterly/carpet_palas_v1_albedo.png",
+            "albedoTextureWidth": 1024,
+            "albedoTextureHeight": 1024
+          }
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_RugBandA_LOD1",
+          "visible": true,
+          "visibleInTree": true,
+          "worldAabb": {
+            "position": {
+              "x": -13.150369,
+              "y": 0.024652,
+              "z": -6.330564
+            },
+            "size": {
+              "x": 0.159754,
+              "y": 0.002,
+              "z": 4.049809
+            },
+            "end": {
+              "x": -12.990615,
+              "y": 0.026652,
+              "z": -2.280756
+            }
+          },
+          "activeMaterialType": "ShaderMaterial",
+          "materialOverride": "ShaderMaterial",
+          "shaderParameters": {
+            "has_albedo_texture": "true",
+            "texture_scale": "(0.25, 0.4)",
+            "texture_strength": "0.87999999523163",
+            "authored_uv_texture": "false",
+            "bound_uv_pigment": "false",
+            "local_wood_texture": "false",
+            "local_floor_texture": "false",
+            "low_quality": "true",
+            "albedoTexturePath": "res://assets/textures/painterly/carpet_palas_v1_albedo.png",
+            "albedoTextureWidth": 1024,
+            "albedoTextureHeight": 1024
+          }
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_RugBandB_LOD1",
+          "visible": true,
+          "visibleInTree": true,
+          "worldAabb": {
+            "position": {
+              "x": -12.480369,
+              "y": 0.024652,
+              "z": -6.330561
+            },
+            "size": {
+              "x": 0.159754,
+              "y": 0.002,
+              "z": 4.049809
+            },
+            "end": {
+              "x": -12.320615,
+              "y": 0.026652,
+              "z": -2.280753
+            }
+          },
+          "activeMaterialType": "ShaderMaterial",
+          "materialOverride": "ShaderMaterial",
+          "shaderParameters": {
+            "has_albedo_texture": "true",
+            "texture_scale": "(0.25, 0.4)",
+            "texture_strength": "0.87999999523163",
+            "authored_uv_texture": "false",
+            "bound_uv_pigment": null,
+            "local_wood_texture": "false",
+            "local_floor_texture": "false",
+            "low_quality": "true",
+            "albedoTexturePath": "res://assets/textures/painterly/carpet_palas_v1_albedo.png",
+            "albedoTextureWidth": 1024,
+            "albedoTextureHeight": 1024
+          }
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedOldPcAct1/HouseInterior_RugField_LOD0",
+          "visible": false,
+          "visibleInTree": false,
+          "worldAabb": {
+            "position": {
+              "x": -12.637978,
+              "y": 0.513027,
+              "z": -9.05931
+            },
+            "size": {
+              "x": 1.080009,
+              "y": 0.01125,
+              "z": 1.822506
+            },
+            "end": {
+              "x": -11.557968,
+              "y": 0.524277,
+              "z": -7.236804
+            }
+          },
+          "activeMaterialType": "StandardMaterial3D",
+          "materialOverride": null,
+          "shaderParameters": {}
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedOldPcAct1/HouseInterior_RugBandA_LOD0",
+          "visible": false,
+          "visibleInTree": false,
+          "worldAabb": {
+            "position": {
+              "x": -12.291477,
+              "y": 0.524727,
+              "z": -9.059308
+            },
+            "size": {
+              "x": 0.07201,
+              "y": 0.0009,
+              "z": 1.8225
+            },
+            "end": {
+              "x": -12.219467,
+              "y": 0.525627,
+              "z": -7.236808
+            }
+          },
+          "activeMaterialType": "StandardMaterial3D",
+          "materialOverride": null,
+          "shaderParameters": {}
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedOldPcAct1/HouseInterior_RugBandB_LOD0",
+          "visible": false,
+          "visibleInTree": false,
+          "worldAabb": {
+            "position": {
+              "x": -11.989978,
+              "y": 0.524727,
+              "z": -9.059306
+            },
+            "size": {
+              "x": 0.07201,
+              "y": 0.0009,
+              "z": 1.8225
+            },
+            "end": {
+              "x": -11.917968,
+              "y": 0.525627,
+              "z": -7.236806
+            }
+          },
+          "activeMaterialType": "StandardMaterial3D",
+          "materialOverride": null,
+          "shaderParameters": {}
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedOldPcAct1/HouseInterior_RugField_LOD1",
+          "visible": false,
+          "visibleInTree": false,
+          "worldAabb": {
+            "position": {
+              "x": -12.637978,
+              "y": 0.513027,
+              "z": -9.05931
+            },
+            "size": {
+              "x": 1.079576,
+              "y": 0.01125,
+              "z": 1.822506
+            },
+            "end": {
+              "x": -11.558402,
+              "y": 0.524277,
+              "z": -7.236804
+            }
+          },
+          "activeMaterialType": "StandardMaterial3D",
+          "materialOverride": null,
+          "shaderParameters": {}
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedOldPcAct1/HouseInterior_RugBandA_LOD1",
+          "visible": false,
+          "visibleInTree": false,
+          "worldAabb": {
+            "position": {
+              "x": -12.291417,
+              "y": 0.524727,
+              "z": -9.059308
+            },
+            "size": {
+              "x": 0.07189,
+              "y": 0.0009,
+              "z": 1.822413
+            },
+            "end": {
+              "x": -12.219527,
+              "y": 0.525627,
+              "z": -7.236895
+            }
+          },
+          "activeMaterialType": "StandardMaterial3D",
+          "materialOverride": null,
+          "shaderParameters": {}
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedOldPcAct1/HouseInterior_RugBandB_LOD1",
+          "visible": false,
+          "visibleInTree": false,
+          "worldAabb": {
+            "position": {
+              "x": -11.989918,
+              "y": 0.524727,
+              "z": -9.059306
+            },
+            "size": {
+              "x": 0.07189,
+              "y": 0.0009,
+              "z": 1.822413
+            },
+            "end": {
+              "x": -11.918028,
+              "y": 0.525627,
+              "z": -7.236893
+            }
+          },
+          "activeMaterialType": "StandardMaterial3D",
+          "materialOverride": null,
+          "shaderParameters": {}
+        }
+      ]
+    },
+    {
+      "point": "babai_rug_detail",
+      "spec": "babai_rug_detail:BabaiApproachDwellingFacade@1.258,1.896,-0.034>BabaiApproachDwellingFacade@1.258,0.276,-2.134",
+      "cameraPosition": {
+        "x": -10.620492,
+        "y": 1.644152,
+        "z": -4.305551
+      },
+      "cameraTarget": {
+        "x": -12.720491,
+        "y": 0.024152,
+        "z": -4.305562
+      },
+      "cameraForward": {
+        "x": -0.791782,
+        "y": -0.610804,
+        "z": -4e-06
+      },
+      "fov": 70,
+      "fovSource": "explicit",
+      "requestedZoneId": "house_old_pc",
+      "activeZoneId": "house_old_pc",
+      "atmosphereProfile": "village-winter-frost",
+      "atmosphereOwner": "logical-zone/house_old_pc",
+      "ownerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "rugMaterials": [
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_RugField_LOD0",
+          "visible": true,
+          "visibleInTree": true,
+          "worldAabb": {
+            "position": {
+              "x": -13.920502,
+              "y": -0.001348,
+              "z": -6.330567
+            },
+            "size": {
+              "x": 2.400021,
+              "y": 0.025,
+              "z": 4.050011
+            },
+            "end": {
+              "x": -11.520481,
+              "y": 0.023652,
+              "z": -2.280556
+            }
+          },
+          "activeMaterialType": "ShaderMaterial",
+          "materialOverride": "ShaderMaterial",
+          "shaderParameters": {
+            "has_albedo_texture": "true",
+            "texture_scale": "(0.25, 0.4)",
+            "texture_strength": "0.87999999523163",
+            "authored_uv_texture": "false",
+            "bound_uv_pigment": null,
+            "local_wood_texture": "false",
+            "local_floor_texture": "false",
+            "low_quality": "true",
+            "albedoTexturePath": "res://assets/textures/painterly/carpet_palas_v1_albedo.png",
+            "albedoTextureWidth": 1024,
+            "albedoTextureHeight": 1024
+          }
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_RugBandA_LOD0",
+          "visible": true,
+          "visibleInTree": true,
+          "worldAabb": {
+            "position": {
+              "x": -13.150502,
+              "y": 0.024652,
+              "z": -6.330564
+            },
+            "size": {
+              "x": 0.160021,
+              "y": 0.002,
+              "z": 4.05
+            },
+            "end": {
+              "x": -12.990481,
+              "y": 0.026652,
+              "z": -2.280564
+            }
+          },
+          "activeMaterialType": "ShaderMaterial",
+          "materialOverride": "ShaderMaterial",
+          "shaderParameters": {
+            "has_albedo_texture": "true",
+            "texture_scale": "(0.25, 0.4)",
+            "texture_strength": "0.87999999523163",
+            "authored_uv_texture": "false",
+            "bound_uv_pigment": "false",
+            "local_wood_texture": "false",
+            "local_floor_texture": "false",
+            "low_quality": "true",
+            "albedoTexturePath": "res://assets/textures/painterly/carpet_palas_v1_albedo.png",
+            "albedoTextureWidth": 1024,
+            "albedoTextureHeight": 1024
+          }
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_RugBandB_LOD0",
+          "visible": true,
+          "visibleInTree": true,
+          "worldAabb": {
+            "position": {
+              "x": -12.480502,
+              "y": 0.024652,
+              "z": -6.330561
+            },
+            "size": {
+              "x": 0.160021,
+              "y": 0.002,
+              "z": 4.050001
+            },
+            "end": {
+              "x": -12.320481,
+              "y": 0.026652,
+              "z": -2.28056
+            }
+          },
+          "activeMaterialType": "ShaderMaterial",
+          "materialOverride": "ShaderMaterial",
+          "shaderParameters": {
+            "has_albedo_texture": "true",
+            "texture_scale": "(0.25, 0.4)",
+            "texture_strength": "0.87999999523163",
+            "authored_uv_texture": "false",
+            "bound_uv_pigment": null,
+            "local_wood_texture": "false",
+            "local_floor_texture": "false",
+            "low_quality": "true",
+            "albedoTexturePath": "res://assets/textures/painterly/carpet_palas_v1_albedo.png",
+            "albedoTextureWidth": 1024,
+            "albedoTextureHeight": 1024
+          }
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_RugField_LOD1",
+          "visible": true,
+          "visibleInTree": true,
+          "worldAabb": {
+            "position": {
+              "x": -13.920502,
+              "y": -0.001348,
+              "z": -6.330567
+            },
+            "size": {
+              "x": 2.399056,
+              "y": 0.025,
+              "z": 4.050011
+            },
+            "end": {
+              "x": -11.521445,
+              "y": 0.023652,
+              "z": -2.280556
+            }
+          },
+          "activeMaterialType": "ShaderMaterial",
+          "materialOverride": "ShaderMaterial",
+          "shaderParameters": {
+            "has_albedo_texture": "true",
+            "texture_scale": "(0.25, 0.4)",
+            "texture_strength": "0.87999999523163",
+            "authored_uv_texture": "false",
+            "bound_uv_pigment": null,
+            "local_wood_texture": "false",
+            "local_floor_texture": "false",
+            "low_quality": "true",
+            "albedoTexturePath": "res://assets/textures/painterly/carpet_palas_v1_albedo.png",
+            "albedoTextureWidth": 1024,
+            "albedoTextureHeight": 1024
+          }
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_RugBandA_LOD1",
+          "visible": true,
+          "visibleInTree": true,
+          "worldAabb": {
+            "position": {
+              "x": -13.150369,
+              "y": 0.024652,
+              "z": -6.330564
+            },
+            "size": {
+              "x": 0.159754,
+              "y": 0.002,
+              "z": 4.049809
+            },
+            "end": {
+              "x": -12.990615,
+              "y": 0.026652,
+              "z": -2.280756
+            }
+          },
+          "activeMaterialType": "ShaderMaterial",
+          "materialOverride": "ShaderMaterial",
+          "shaderParameters": {
+            "has_albedo_texture": "true",
+            "texture_scale": "(0.25, 0.4)",
+            "texture_strength": "0.87999999523163",
+            "authored_uv_texture": "false",
+            "bound_uv_pigment": "false",
+            "local_wood_texture": "false",
+            "local_floor_texture": "false",
+            "low_quality": "true",
+            "albedoTexturePath": "res://assets/textures/painterly/carpet_palas_v1_albedo.png",
+            "albedoTextureWidth": 1024,
+            "albedoTextureHeight": 1024
+          }
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_RugBandB_LOD1",
+          "visible": true,
+          "visibleInTree": true,
+          "worldAabb": {
+            "position": {
+              "x": -12.480369,
+              "y": 0.024652,
+              "z": -6.330561
+            },
+            "size": {
+              "x": 0.159754,
+              "y": 0.002,
+              "z": 4.049809
+            },
+            "end": {
+              "x": -12.320615,
+              "y": 0.026652,
+              "z": -2.280753
+            }
+          },
+          "activeMaterialType": "ShaderMaterial",
+          "materialOverride": "ShaderMaterial",
+          "shaderParameters": {
+            "has_albedo_texture": "true",
+            "texture_scale": "(0.25, 0.4)",
+            "texture_strength": "0.87999999523163",
+            "authored_uv_texture": "false",
+            "bound_uv_pigment": null,
+            "local_wood_texture": "false",
+            "local_floor_texture": "false",
+            "low_quality": "true",
+            "albedoTexturePath": "res://assets/textures/painterly/carpet_palas_v1_albedo.png",
+            "albedoTextureWidth": 1024,
+            "albedoTextureHeight": 1024
+          }
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedOldPcAct1/HouseInterior_RugField_LOD0",
+          "visible": false,
+          "visibleInTree": false,
+          "worldAabb": {
+            "position": {
+              "x": -12.637978,
+              "y": 0.513027,
+              "z": -9.05931
+            },
+            "size": {
+              "x": 1.080009,
+              "y": 0.01125,
+              "z": 1.822506
+            },
+            "end": {
+              "x": -11.557968,
+              "y": 0.524277,
+              "z": -7.236804
+            }
+          },
+          "activeMaterialType": "StandardMaterial3D",
+          "materialOverride": null,
+          "shaderParameters": {}
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedOldPcAct1/HouseInterior_RugBandA_LOD0",
+          "visible": false,
+          "visibleInTree": false,
+          "worldAabb": {
+            "position": {
+              "x": -12.291477,
+              "y": 0.524727,
+              "z": -9.059308
+            },
+            "size": {
+              "x": 0.07201,
+              "y": 0.0009,
+              "z": 1.8225
+            },
+            "end": {
+              "x": -12.219467,
+              "y": 0.525627,
+              "z": -7.236808
+            }
+          },
+          "activeMaterialType": "StandardMaterial3D",
+          "materialOverride": null,
+          "shaderParameters": {}
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedOldPcAct1/HouseInterior_RugBandB_LOD0",
+          "visible": false,
+          "visibleInTree": false,
+          "worldAabb": {
+            "position": {
+              "x": -11.989978,
+              "y": 0.524727,
+              "z": -9.059306
+            },
+            "size": {
+              "x": 0.07201,
+              "y": 0.0009,
+              "z": 1.8225
+            },
+            "end": {
+              "x": -11.917968,
+              "y": 0.525627,
+              "z": -7.236806
+            }
+          },
+          "activeMaterialType": "StandardMaterial3D",
+          "materialOverride": null,
+          "shaderParameters": {}
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedOldPcAct1/HouseInterior_RugField_LOD1",
+          "visible": false,
+          "visibleInTree": false,
+          "worldAabb": {
+            "position": {
+              "x": -12.637978,
+              "y": 0.513027,
+              "z": -9.05931
+            },
+            "size": {
+              "x": 1.079576,
+              "y": 0.01125,
+              "z": 1.822506
+            },
+            "end": {
+              "x": -11.558402,
+              "y": 0.524277,
+              "z": -7.236804
+            }
+          },
+          "activeMaterialType": "StandardMaterial3D",
+          "materialOverride": null,
+          "shaderParameters": {}
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedOldPcAct1/HouseInterior_RugBandA_LOD1",
+          "visible": false,
+          "visibleInTree": false,
+          "worldAabb": {
+            "position": {
+              "x": -12.291417,
+              "y": 0.524727,
+              "z": -9.059308
+            },
+            "size": {
+              "x": 0.07189,
+              "y": 0.0009,
+              "z": 1.822413
+            },
+            "end": {
+              "x": -12.219527,
+              "y": 0.525627,
+              "z": -7.236895
+            }
+          },
+          "activeMaterialType": "StandardMaterial3D",
+          "materialOverride": null,
+          "shaderParameters": {}
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedOldPcAct1/HouseInterior_RugBandB_LOD1",
+          "visible": false,
+          "visibleInTree": false,
+          "worldAabb": {
+            "position": {
+              "x": -11.989918,
+              "y": 0.524727,
+              "z": -9.059306
+            },
+            "size": {
+              "x": 0.07189,
+              "y": 0.0009,
+              "z": 1.822413
+            },
+            "end": {
+              "x": -11.918028,
+              "y": 0.525627,
+              "z": -7.236893
+            }
+          },
+          "activeMaterialType": "StandardMaterial3D",
+          "materialOverride": null,
+          "shaderParameters": {}
+        }
+      ]
+    }
+  ],
+  "frameFiles": {
+    "babai_room_overview.png": {
+      "bytes": 1773787,
+      "sha256": "dbea37a48b8cb5f36fe106aa83f3fe16a6dc30c05457207aa6dcdd2cb760d0e1"
+    },
+    "babai_room_overview.json": {
+      "bytes": 13859,
+      "sha256": "2deb36e61b409bdc8474c45c9f91c6ff9c0143a666501a1fc271e0146df58955"
+    },
+    "babai_rug_detail.png": {
+      "bytes": 2162211,
+      "sha256": "1d048c2b17e3714868d5b8957de0941c96e5820b57f3108e471e0b5fc807cc50"
+    },
+    "babai_rug_detail.json": {
+      "bytes": 13536,
+      "sha256": "ce8accb1e8385575a7981ea244823ddbe73de1c8fa8348096ab7af9b541105f6"
+    }
+  },
+  "sourceCopyCount": 13,
+  "registryRows": [
+    "env.house.a",
+    "env.fence.a",
+    "env.road.dirt.straight",
+    "env.vegetation.pine.a",
+    "prop.furniture.table.a",
+    "prop.oldpc.crt",
+    "env.well.a",
+    "env.woodpile.a",
+    "env.gate.a"
+  ],
+  "humanPlaytest": "not-run",
+  "visualAcceptance": "pending root review; diagnostic capture only"
+}
