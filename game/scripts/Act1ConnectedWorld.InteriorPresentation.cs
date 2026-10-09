@@ -23,7 +23,12 @@ public partial class Act1ConnectedWorld
         // was disposed. This pass runs before the cache line in _Process, so the
         // first frame still fills the cache here and no query is repeated after it.
         if (!IsBuilt || LifePlayer() is not { } player) return;
-        var interior = FacilityInteriorAt(player.GlobalPosition);
+        // A protected view capture flies its own camera into rooms while the player
+        // stays parked outside; shelter follows that camera so a frame of the mosque
+        // hall is not snowed on (station capture 10.10, mosque_hall).
+        var viewer = GetViewport().GetCamera3D() is { } camera && camera.Name == "DevViewCamera"
+            ? camera.GlobalPosition : player.GlobalPosition;
+        var interior = FacilityInteriorAt(viewer);
         if (interior == _physicalInterior) return;
         _physicalInterior = interior;
         _physicalWeather ??= GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld");

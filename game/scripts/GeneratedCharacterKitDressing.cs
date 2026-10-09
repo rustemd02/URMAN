@@ -640,7 +640,7 @@ public static class GeneratedCharacterKitDressing
             // Godot 4's mixer exposes the playing clip's cursor as
             // AnimationPlayer.CurrentAnimationPosition (there is no playback_position
             // member on the C# AnimationPlayer).
-            _lastPosition = player.CurrentAnimationPosition;
+            _lastPosition = string.IsNullOrEmpty(player.CurrentAnimation) ? 0d : player.CurrentAnimationPosition;
         }
 
         internal void Tick()
@@ -658,6 +658,9 @@ public static class GeneratedCharacterKitDressing
                 return;
             }
 
+            // A mixer with no current clip was stopped by its owner (zirat station
+            // run 10.10 logged 26 engine errors reading its cursor); their stop wins.
+            if (string.IsNullOrEmpty(_player.CurrentAnimation)) { _disarmed = true; Report(); return; }
             var position = _player.CurrentAnimationPosition;
             var advanced = position - _lastPosition;
             _lastPosition = position;

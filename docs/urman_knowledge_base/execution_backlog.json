@@ -18021,7 +18021,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "claude/visual-reset-2026-10-09",
       "owner": "finished-act1",
       "depends_on": [
         "ACT1-TECH.1"
@@ -18063,6 +18063,20 @@
         "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
         "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+      },
+      "progress_2026_10_10": {
+        "graphics_goal_run": {
+          "done": [
+            "Дом бабая: тёплый ambient d2b08a, SSAO 1.2, абажур с тёплой лампой, крашеный пол, побелённый потолок (до/после)",
+            "ДК и школа: тёплая двухтонная покраска, лампы; снег больше не падает внутрь в кадрах съёмки"
+          ],
+          "evidence": "evidence/PW-044/babai-room-warm-2026-10-10; evidence/PW-044/civic-interiors-2026-10-10",
+          "remaining": [
+            "ФАП (кадр в работе)",
+            "High/SDFGI интерьеров не снят"
+          ],
+          "next": "кадр ФАП и High-пара комнаты"
+        }
       }
     },
     {
@@ -18990,7 +19004,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "claude/visual-reset-2026-10-09",
       "owner": "art/architecture",
       "depends_on": [],
       "scope": [
@@ -19263,7 +19277,21 @@
         "root_review": "evidence/ACT1-DEPTH.9/native_cupboard_low_uv_3ff130d3b7cb4d4aaaf335f6114f1856/root-review.json",
         "next_step": "Read-only geometric replan after two ruled-out/failed material hypotheses; no further blind edits."
       },
-      "progress_2026_10_09_final_handover": "Cupboard topology/read-only image-line audit recorded in existing export receipt; visible seam cause still UNKNOWN. UV hypothesis rejected/reverted, requested High rescued Low. Full house/interior/reference/ordinary movement/human acceptance OPEN. Next evidence-based seam diagnosis; no further blind material edits."
+      "progress_2026_10_09_final_handover": "Cupboard topology/read-only image-line audit recorded in existing export receipt; visible seam cause still UNKNOWN. UV hypothesis rejected/reverted, requested High rescued Low. Full house/interior/reference/ordinary movement/human acceptance OPEN. Next evidence-based seam diagnosis; no further blind material edits.",
+      "progress_2026_10_10": {
+        "graphics_goal_run": {
+          "done": [
+            "Главный дом: стены-плиты HeroHouse_*_Wall получили круглые венцы (Act1ConnectedWorld.DwellingLogWalls.cs), тонкие курсы скрыты; 101 отдельный венец скруглён (RoundLogs.cs)",
+            "Палитра по фото автора T2: тёмные выветренные брёвна, голубые/белые наличники"
+          ],
+          "evidence": "evidence/PW-044/hero-crown-public-2026-10-10",
+          "remaining": [
+            "авторская художественная приёмка",
+            "движение/обход дома"
+          ],
+          "next": "кадр движения вокруг дома и сравнение с T2 рядом"
+        }
+      }
     },
     {
       "id": "ACT1-DEPTH.10",
@@ -19309,9 +19337,9 @@
       },
       "title": "Распространить срубную архитектуру на жилые дома Акта I",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "complex",
-      "active_owner": null,
+      "active_owner": "claude/visual-reset-2026-10-09",
       "owner": "art/architecture",
       "depends_on": [
         "ACT1-DEPTH.12"
@@ -19423,7 +19451,24 @@
       },
       "visual_asset_passport_ids": [
         "AS-01"
-      ]
+      ],
+      "progress_2026_10_10": {
+        "graphics_goal_run": {
+          "done": [
+            "Сруб на всех видимых жилых стенах вариантов кита (450 стен, ~7300 брёвен), проёмы вырезаны, углы с выпусками",
+            "Дощатые створки калиток кита/зирата/заднего двора/ФАП",
+            "Кровли — красно-ржавое железо, ~45% штакетника крашено по T1",
+            "Мягкие тропы и сугробы (17 колонн, сглаживание)"
+          ],
+          "evidence": "evidence/PW-044/street-log-walls-2026-10-09; evidence/PW-044/public-shop-walls-snow-2026-10-10",
+          "remaining": [
+            "часть домов обшита доской — брёвна видны только торцами на углах (решение автора: оставить или обшивку снять)",
+            "резные подзоры на вариантах",
+            "человеческая приёмка"
+          ],
+          "next": "авторский взгляд на кадры улицы"
+        }
+      }
     },
     {
       "id": "ACT1-DEPTH.11",
@@ -25303,9 +25348,9 @@
       "progress_2026_10_04": "2026-10-04: R072 проверен по источникам: в авторском файле планировки общественные здания не описаны вовсе (school/council/club/shop не встречаются), их форму задаёт код — BuildClosedSchool, BuildCouncilClub, BuildVillageShop, а ФАП приходит из отдельного кита (urman_fap_clinic_kit.glb; измеренный Fap_Body 9.02 × 2.54 × 9.48 м заметно крупнее жилых домов 4.4–6.2 м). То есть отличимость «архитектурой, а не только вывеской» опирается на разные сборщики/кит и поддерживается, а внешний вид «заметная школа, выразительный ДК, узнаваемый ФАП, сине-белый магазин» требует кадров и остаётся not-run. Аудит: docs/production/act1_village_layout_data_2026-10-04.md",
       "title": "Различимая сельская школа, ДК, ФАП и сине-белый магазин",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "claude/visual-reset-2026-10-09",
       "owner": "unassigned",
       "depends_on": [],
       "scope": [
@@ -25390,7 +25435,21 @@
       "visual_asset_passport_ids": [
         "AS-02",
         "AS-11"
-      ]
+      ],
+      "progress_2026_10_10": {
+        "graphics_goal_run": {
+          "done": [
+            "Магазин — бело-синий павильон в профлисте с козырьком (ShopCladding.cs), вывеска АШАМЛЫКЛАР сохранена",
+            "Общественные фасады исключены из сруба"
+          ],
+          "evidence": "evidence/PW-044/public-shop-walls-snow-2026-10-10",
+          "remaining": [
+            "школа/ДК как отдельные типы зданий снаружи — пристройки остаются малыми домами",
+            "проход и повороты в движке"
+          ],
+          "next": "фасад ДК на площади (HouseOfCulture) — кадр снаружи"
+        }
+      }
     },
     {
       "id": "ACT1-INTERIOR.PLAN",
@@ -30211,7 +30270,7 @@
       "title": "Зафиксировать colorscript и значения профилей",
       "milestone": "PW-M2",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "claude/visual-reset-2026-10-09",
       "owner": "art",
       "priority": "P0",
       "complexity": "medium",
@@ -30349,6 +30408,21 @@
         "capture": "evidence/PW-044/visual-capture-2026-10-09",
         "blocker": null,
         "note": "Станция работает (PASS). Причиной отказов на Mac была моя версия run-windows-check.ps1, запушенная в origin (хеш 213c656e…), а не станция; версия возвращена к станционной."
+      },
+      "progress_2026_10_10": {
+        "graphics_goal_run": {
+          "done": [
+            "village-winter-crisp на village_day (солнце 1.85, тени 0.86, дымка меньше, экспозиция 0.85) — сравнение кадров",
+            "зират: солнце 1.05/тени 0.72; golden-hour тени 0.8",
+            "помещения: тёплый ambient и SSAO"
+          ],
+          "evidence": "evidence/PW-044/light-crisp-vs-frost-2026-10-09; evidence/PW-044/civic-interiors-2026-10-10",
+          "remaining": [
+            "ночные состояния не пересняты",
+            "авторская приёмка colorscript"
+          ],
+          "next": "кадры шести состояний на C1 после изменений"
+        }
       }
     },
     {
@@ -30922,7 +30996,7 @@
       "title": "Настроить LOD, batching и culling без разрушения стиля",
       "milestone": "PW-M2",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "claude/visual-reset-2026-10-09",
       "owner": "render",
       "priority": "P0",
       "complexity": "medium",
@@ -31020,6 +31094,20 @@
         "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08–09.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
         "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
         "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      },
+      "progress_2026_10_10": {
+        "graphics_goal_run": {
+          "done": [
+            "Гистограмма отрисовки в сайдкаре съёмки (renderHistogram, topByName)",
+            "Тени выключены у ~11.4k мелких деталей домов и 319 табличек: draw calls C1 25 892→18 038, C2 20 673→15 427"
+          ],
+          "evidence": "evidence/PW-044/hero-crown-public-2026-10-10/r9_C1_render_histogram.json",
+          "remaining": [
+            "ели: MultiMesh ранее отменён измерением; LOD/visibility range для дальних домов",
+            "парные Low/High замеры FPS"
+          ],
+          "next": "benchmark Low/High на станции"
+        }
       }
     },
     {

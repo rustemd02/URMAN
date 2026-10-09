@@ -392,6 +392,27 @@
       "id": "council_view",
       "spec": "EastStreetHorizonFacade@-6,1.7,13>EastStreetHorizonFacade@0,2.6,0",
       "subject": "ACT1-PUBLIC.FACADES: сельсовет/ДК (EastStreetHorizonFacade)."
+    },
+    {
+      "id": "club_hall",
+      "spec": "HouseOfCulture@0,1.6,2.5>HouseOfCulture@0,2.3,-5.5",
+      "subject": "P2 интерьер: зал ДК от задних рядов к сцене."
+    },
+    {
+      "id": "school_class",
+      "spec": "OldSchool@-1.2,1.6,-1.0>OldSchool@-6.03,1.55,-1.0",
+      "subject": "P2 интерьер: класс старой школы, вид на доску."
+    },
+    {
+      "id": "mosque_hall",
+      "spec": "MosqueInterior@1.8,1.6,-0.2>MosqueInterior@-0.7,1.4,-4.2",
+      "subject": "P2 интерьер: молитвенный зал от входа к михрабу; уважительный кадр, без художественного PASS."
+    },
+    {
+      "id": "fap_room",
+      "spec": "FapInteriorSet@4.0,1.6,4.6>FapInteriorSet@-3.94,1.0,-1.7",
+      "subject": "P2 интерьер: процедурная ФАП.",
+      "zoneId": "fap_clinic"
     }
   ],
   "batches": [
