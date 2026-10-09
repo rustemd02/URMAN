@@ -1841,8 +1841,13 @@ public partial class Act1ConnectedWorld : Node3D
             // bounced light lead, and the eye opens a little as it does indoors.
             // Same single owner and the same profile; only these three are graded.
             environment.FogDensity = profile.FogDensity * .15f;
-            environment.AmbientLightEnergy = profile.AmbientEnergy * .55f;
-            environment.TonemapExposure = profile.Exposure + .1f;
+            // P2 (09.10): a lived-in room is lit by warm bounce off wood, paint and
+            // the stove, not by the cold sky; the halved sky-blue ambient left the
+            // Babai room grey. Keep a third of the sky tint so windows still read
+            // as daylight, lean the rest to warm timber, and let SSAO set corners.
+            environment.AmbientLightColor = profile.AmbientColor.Lerp(new Color("d9b38a"), .65f);
+            environment.AmbientLightEnergy = profile.AmbientEnergy * .80f;
+            environment.TonemapExposure = profile.Exposure + .15f;
         }
         core.SetMeta("unifiedAtmosphereIndoorGrade", indoor);
 
@@ -1850,7 +1855,7 @@ public partial class Act1ConnectedWorld : Node3D
         // are unnecessary after the snow/foliage geometry pass.
         environment.GlowEnabled = false;
         environment.SsaoEnabled = true;
-        environment.SsaoIntensity = profile.SsaoIntensity;
+        environment.SsaoIntensity = indoor ? Mathf.Max(profile.SsaoIntensity, 1.3f) : profile.SsaoIntensity;
         environment.SsaoRadius = profile.SsaoRadius;
         environment.AdjustmentEnabled = false;
         environment.AdjustmentBrightness = 1f;
@@ -2164,6 +2169,7 @@ public partial class Act1ConnectedWorld : Node3D
         RoundHeroLogCourses(core);
         ReboardKitGateLeaves(core);
         BuildDwellingLogWalls(core);
+        TrimHouseJoineryShadows(core);
         var grade = new Dictionary<string, Material>(StringComparer.Ordinal)
         {
             // 09.10 author photo references T1-T3 (Tatarstan village facades):

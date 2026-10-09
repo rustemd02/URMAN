@@ -250,6 +250,7 @@ public partial class Act1ConnectedWorld
     {
         var reworked = 0; var apertures = 0; var residualCrossings = 0; var unparsed = 0;
         var bankVerticesBefore = 0; var bankVerticesAfter = 0;
+        SnowRefineSkips.Clear();
         foreach (var mesh in FindDescendants<MeshInstance3D>(this).ToArray())
         {
             if (!mesh.Name.ToString().StartsWith("StreetBank", StringComparison.Ordinal)) continue;
@@ -339,10 +340,14 @@ public partial class Act1ConnectedWorld
             var noRaise = new bool[stations];
             for (var s = 0; s < stations; s++) noRaise[s] = aperture[s] || weight[s] < .999f;
             global::Godot.Collections.Array? softArrays = null;
-            if (CanRefineSnowGrid(arrays) && RefineSnowGrid(mesh, vertices,
-                    arrays[(int)Mesh.ArrayType.TexUV].VariantType == Variant.Type.Nil
-                        ? null : arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array(),
-                    stations, columns, noRaise, out var softVertices, out var softUvs, out var softColumns, out var softRise))
+            Vector3[] softVertices = []; Vector2[]? softUvs = null; var softColumns = columns; var softRise = 0f;
+            var blocker = SnowGridBlocker(arrays, vertices.Length, columns);
+            if (blocker is null && !RefineSnowGrid(mesh, vertices,
+                    SnowArrayLength(arrays[(int)Mesh.ArrayType.TexUV]) == 0 ? null : arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array(),
+                    stations, columns, noRaise, out softVertices, out softUvs, out softColumns, out softRise))
+                blocker = "refine";
+            if (blocker is not null) NoteSnowRefineSkip(blocker);
+            if (blocker is null)
             {
                 softArrays = BuildSnowGridArrays(softVertices, softUvs, stations, softColumns);
                 bankVerticesBefore += vertices.Length;
@@ -386,18 +391,50 @@ public partial class Act1ConnectedWorld
                  $"corridorCrossings={residualCrossings} unparsed={unparsed} " +
                  $"corridors={SnowReliefStandard.CorridorCount} solids={SnowReliefStandard.SolidCount} " +
                  $"footprints={SnowReliefStandard.FootprintCount} " +
-                 $"vertices={bankVerticesBefore}->{bankVerticesAfter}");
+                 $"vertices={bankVerticesBefore}->{bankVerticesAfter} refineSkipped={SnowRefineSkipSummary()}");
     }
 
-    /// <summary>A grid the refiner may rebuild: it carries only vertex, normal, uv and index
-    /// data, so nothing it cannot interpolate is dropped.</summary>
-    private static bool CanRefineSnowGrid(global::Godot.Collections.Array arrays)
+    /// <summary>Why a relief grid was not refined, counted per reason and printed by the
+    /// street-bank and snow-mass lines (refineSkipped=reason:count,...).</summary>
+    private static readonly Dictionary<string, int> SnowRefineSkips = new();
+
+    private static string SnowRefineSkipSummary() => SnowRefineSkips.Count == 0
+        ? "none" : string.Join(",", SnowRefineSkips.OrderBy(pair => pair.Key).Select(pair => $"{pair.Key}:{pair.Value}"));
+
+    private static void NoteSnowRefineSkip(string reason) =>
+        SnowRefineSkips[reason] = SnowRefineSkips.TryGetValue(reason, out var n) ? n + 1 : 1;
+
+    /// <summary>Number of elements in a packed array variant; 0 for nil or an empty array.</summary>
+    private static int SnowArrayLength(Variant v) => v.VariantType switch
     {
-        foreach (var type in new[] { Mesh.ArrayType.Tangent, Mesh.ArrayType.Color, Mesh.ArrayType.TexUV2,
-                     Mesh.ArrayType.Bones, Mesh.ArrayType.Weights, Mesh.ArrayType.Custom0, Mesh.ArrayType.Custom1,
-                     Mesh.ArrayType.Custom2, Mesh.ArrayType.Custom3 })
-            if (arrays[(int)type].VariantType != Variant.Type.Nil) return false;
-        return true;
+        Variant.Type.PackedVector3Array => v.AsVector3Array().Length,
+        Variant.Type.PackedVector2Array => v.AsVector2Array().Length,
+        Variant.Type.PackedFloat32Array => v.AsFloat32Array().Length,
+        Variant.Type.PackedFloat64Array => v.AsFloat64Array().Length,
+        Variant.Type.PackedInt32Array => v.AsInt32Array().Length,
+        Variant.Type.PackedColorArray => v.AsColorArray().Length,
+        Variant.Type.PackedByteArray => v.AsByteArray().Length,
+        Variant.Type.Nil => 0,
+        _ => 1
+    };
+
+    /// <summary>
+    /// Null when the grid can be rebuilt from vertex, normal, uv and index alone; otherwise the
+    /// name of the attribute that blocks it. Authored tangents are not blocking: the snow surfaces
+    /// use no normal map, so the rebuilt mesh simply omits the (stale) tangent array.
+    /// </summary>
+    private static string? SnowGridBlocker(global::Godot.Collections.Array arrays, int vertexCount, int columns)
+    {
+        foreach (var (type, name) in new[] { (Mesh.ArrayType.Color, "color"), (Mesh.ArrayType.TexUV2, "uv2"),
+                     (Mesh.ArrayType.Bones, "bones"), (Mesh.ArrayType.Weights, "weights"),
+                     (Mesh.ArrayType.Custom0, "custom0"), (Mesh.ArrayType.Custom1, "custom1"),
+                     (Mesh.ArrayType.Custom2, "custom2"), (Mesh.ArrayType.Custom3, "custom3") })
+            if (SnowArrayLength(arrays[(int)type]) > 0) return name;
+        if (SnowArrayLength(arrays[(int)Mesh.ArrayType.Index]) == 0) return "noindex";
+        if (vertexCount == 0 || vertexCount % columns != 0 || vertexCount / columns < 3) return "grid";
+        var uv = SnowArrayLength(arrays[(int)Mesh.ArrayType.TexUV]);
+        if (uv != 0 && uv != vertexCount) return "uvcount";
+        return null;
     }
 
     /// <summary>Cross-section passes of the [1 2 1] rise filter (edge columns pinned).</summary>

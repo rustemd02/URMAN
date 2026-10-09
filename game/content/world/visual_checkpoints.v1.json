@@ -372,6 +372,26 @@
       "id": "street_left_close",
       "spec": "Ground@-4,1.7,-14>Ground@-12,1.6,-20",
       "subject": "ACT1-DEPTH.10: левая сторона улицы вблизи — срубные стены вариантов кита и дворы."
+    },
+    {
+      "id": "shop_view_west",
+      "spec": "WestReturnMidFacade@-6,1.7,12>WestReturnMidFacade@0,2.2,0",
+      "subject": "ACT1-PUBLIC.FACADES: магазин (WestReturnMidFacade) — сине-белый павильон в профлисте по T3, вывеска, козырёк."
+    },
+    {
+      "id": "shop_view_east",
+      "spec": "Ground@17,1.7,31>Ground@10,1.8,38.8",
+      "subject": "ACT1-PUBLIC.FACADES: магазин с другой стороны улицы."
+    },
+    {
+      "id": "school_view",
+      "spec": "EastReturnMidFacade@-6,1.7,13>EastReturnMidFacade@0,2.6,0",
+      "subject": "ACT1-PUBLIC.FACADES: школа (EastReturnMidFacade) — должна читаться отдельным типом здания."
+    },
+    {
+      "id": "council_view",
+      "spec": "EastStreetHorizonFacade@-6,1.7,13>EastStreetHorizonFacade@0,2.6,0",
+      "subject": "ACT1-PUBLIC.FACADES: сельсовет/ДК (EastStreetHorizonFacade)."
     }
   ],
   "batches": [

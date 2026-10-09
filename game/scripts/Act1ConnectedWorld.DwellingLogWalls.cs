@@ -33,6 +33,7 @@ public partial class Act1ConnectedWorld
     {
         var walls = 0;
         var pieces = 0;
+        var ownerless = 0;
         foreach (var wall in FindDescendants<MeshInstance3D>(root).ToArray())
         {
             var name = wall.Name.ToString();
@@ -41,6 +42,9 @@ public partial class Act1ConnectedWorld
             if (!wall.Visible || wall.Mesh is not ArrayMesh mesh || mesh.GetSurfaceCount() != 1) continue;
             if (mesh.SurfaceGetMaterial(0)?.ResourceName != "URMAN_Wood_Weathered") continue;
             if (wall.GetParent() is not Node3D parent) continue;
+            // Public buildings borrow dwelling facades but must read as their own
+            // type (ACT1-PUBLIC.FACADES): shop, school and council/DK stay unlogged.
+            if (IsPublicFacadeWall(wall)) continue;
             wall.SetMeta("logCrownBuilt", true);
 
             var points = mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array();
@@ -53,7 +57,12 @@ public partial class Act1ConnectedWorld
             if (thickness is < .08f or > .4f || size.Y < 1.2f || Mathf.Max(size.X, size.Z) < 1.0f) continue;
 
             // Outward: away from the dwelling's own centre, measured in the wall's space.
-            var dwelling = parent.FindChildren("*", nameof(MeshInstance3D), false, false).OfType<MeshInstance3D>()
+            // The house is the nearest "*_Dwelling"/"*Facade" ancestor: kit meshes can each sit
+            // in their own node, so the direct parent alone does not know where "inside" is.
+            var owner = DwellingOwner(wall);
+            if (owner is null) { ownerless++; owner = parent; }
+            var houseParts = owner.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>().ToArray();
+            var dwelling = houseParts
                 .Where(m => m.Name.ToString().Contains("_Wall_LOD0", StringComparison.Ordinal))
                 .Select(m => m.GlobalTransform * m.GetAabb().GetCenter()).ToArray();
             var houseCentre = dwelling.Length > 0 ? dwelling.Aggregate(Vector3.Zero, (a, b) => a + b) / dwelling.Length : parent.GlobalPosition;
@@ -66,7 +75,7 @@ public partial class Act1ConnectedWorld
             // Openings on this side: every recess/door/glass of the same side prefix.
             var sidePrefix = name[..name.IndexOf("Wall_LOD0", StringComparison.Ordinal)];
             var openings = new List<Aabb>();
-            foreach (var part in parent.FindChildren("*", nameof(MeshInstance3D), false, false).OfType<MeshInstance3D>())
+            foreach (var part in houseParts)
             {
                 var partName = part.Name.ToString();
                 if (!partName.StartsWith(sidePrefix, StringComparison.Ordinal) || partName == name || part.Mesh is null) continue;
@@ -100,7 +109,7 @@ public partial class Act1ConnectedWorld
                 foreach (var (from, to) in SubtractSpans(start, end, cuts))
                 {
                     if (to - from < .2f) continue;
-                    AppendWallLog(surface, alongX, from, to, centreY, depthCentre, course * .56f, WallLogDepth * .5f);
+                    AppendWallLog(surface, alongX, from, to, centreY, depthCentre, course * .64f, WallLogDepth * .5f);
                     logs++;
                 }
             }
@@ -122,15 +131,36 @@ public partial class Act1ConnectedWorld
             pieces += logs;
 
             if (!main) continue;
-            foreach (var post in parent.FindChildren("*", nameof(MeshInstance3D), false, false).OfType<MeshInstance3D>()
+            foreach (var post in houseParts
                 .Where(m => m.Name.ToString().StartsWith(sidePrefix[..sidePrefix.LastIndexOf('_', sidePrefix.Length - 2)] + "_Corner_", StringComparison.Ordinal)))
             {
                 post.Visible = false;
                 post.SetMeta("suppressionReason", "crossing log ends replace the plain corner post (ACT1-DEPTH.10/T2)");
             }
         }
-        if (walls > 0) GD.Print($"act1-dwelling-log-walls: walls={walls} logs={pieces}");
+        if (walls > 0) GD.Print($"act1-dwelling-log-walls: walls={walls} logs={pieces} ownerless={ownerless}");
         return walls;
+    }
+
+    private static Node3D? DwellingOwner(Node wall)
+    {
+        for (var node = wall.GetParent(); node is not null; node = node.GetParent())
+        {
+            var name = node.Name.ToString();
+            if (node is Node3D owner && (name.EndsWith("_Dwelling", StringComparison.Ordinal)
+                || name.EndsWith("Facade", StringComparison.Ordinal) || name.Contains("_Dwelling_", StringComparison.Ordinal)))
+                return owner;
+        }
+        return null;
+    }
+
+    private static readonly string[] PublicFacadeOwners = ["WestReturnMidFacade", "EastReturnMidFacade", "EastStreetHorizonFacade"];
+
+    private static bool IsPublicFacadeWall(Node wall)
+    {
+        for (var node = wall.GetParent(); node is not null; node = node.GetParent())
+            if (PublicFacadeOwners.Contains(node.Name.ToString())) return true;
+        return false;
     }
 
     private static IEnumerable<(float From, float To)> SubtractSpans(float a, float b, List<(float From, float To)> cuts)

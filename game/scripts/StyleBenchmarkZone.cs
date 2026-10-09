@@ -143,16 +143,18 @@ public partial class StyleBenchmarkZone : Node3D
             // into one blue-black mass at first-person distance.
             AmbientLightColor = night
                 ? Color.FromHtml("748a91")
-                : houseInterior ? Color.FromHtml("a6b4c8")
+                // P2 (09.10): warm bounce off painted boards, wallpaper and the stove,
+                // not the cold sky; the windows keep the daylight contrast.
+                : houseInterior ? Color.FromHtml("d2b08a")
                 : fapInterior ? Color.FromHtml("879397")
                 : zirat ? Color.FromHtml("99a6a2")
                 : Color.FromHtml("a5b0ab"),
             // Keep the clinic's cold institutional base restrained so the
             // window and document pools can establish the room's depth.
-            AmbientLightEnergy = night ? 0.82f : houseInterior ? 0.40f : fapInterior ? 0.48f : zirat ? 0.72f : 0.78f,
+            AmbientLightEnergy = night ? 0.82f : houseInterior ? 0.46f : fapInterior ? 0.48f : zirat ? 0.72f : 0.78f,
             SsaoEnabled = interior,
-            SsaoIntensity = 0.55f,
-            SsaoRadius = 0.30f,
+            SsaoIntensity = houseInterior ? 1.2f : 0.55f,
+            SsaoRadius = houseInterior ? 0.7f : 0.30f,
             FogEnabled = !interior,
             FogLightColor = night
                 ? Color.FromHtml("4d626a")
@@ -164,7 +166,7 @@ public partial class StyleBenchmarkZone : Node3D
             FogSkyAffect = night ? 0.28f : 0.25f,
             FogSunScatter = night ? 0.08f : 0.06f,
             TonemapMode = houseInterior ? global::Godot.Environment.ToneMapper.Agx : global::Godot.Environment.ToneMapper.Filmic,
-            TonemapExposure = night ? 1.02f : fapInterior ? 1.04f : zirat ? 0.96f : 0.98f
+            TonemapExposure = night ? 1.02f : houseInterior ? 1.06f : fapInterior ? 1.04f : zirat ? 0.96f : 0.98f
         };
         GraphicsQuality.ConfigureEnvironment(environment, authoredSsao: interior, interiorGi: interior);
         AddChild(new WorldEnvironment { Environment = environment, Name = "WorldEnvironment" });

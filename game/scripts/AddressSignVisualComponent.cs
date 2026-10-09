@@ -45,6 +45,14 @@ public partial class AddressSignVisualComponent : Node3D
         _tatar=Line("TatarStreet",new(-.09f,.042f,.02f),34);
         _russian=Line("RussianStreet",new(-.09f,-.036f,.02f),30);
         _number=Line("HouseNumber",new(.215f,0,.021f),65);
+        // Small plates are not worth a shadow pass in every cascade (render histogram 09.10: 319 casters).
+        // Meshes at or above 0.8 m in their largest dimension keep their shadow; labels are text and always small.
+        foreach(var child in GetChildren())
+        {
+            if(child is not GeometryInstance3D part)continue;
+            if(part is MeshInstance3D{Mesh: { } mesh}){var s=mesh.GetAabb().Size;if(Mathf.Max(s.X,Mathf.Max(s.Y,s.Z))>=.8f)continue;}
+            part.CastShadow=GeometryInstance3D.ShadowCastingSetting.Off;
+        }
         RefreshLabels();
     }
     private Label3D Line(string name,Vector3 position,int fontSize)

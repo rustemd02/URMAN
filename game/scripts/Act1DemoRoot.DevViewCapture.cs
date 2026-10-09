@@ -686,6 +686,7 @@ public partial class Act1DemoRoot
             ["snowAmount"] = ViewNumber(snow?.Amount),
             ["blizzardActive"] = ViewFlag(_firstNightRunning),
             ["drawCalls"] = ViewNumber(Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)),
+            ["renderHistogram"] = BuildRenderHistogram(camera),
             ["capturedUnixSeconds"] = ViewNumber(System.DateTimeOffset.UtcNow.ToUnixTimeSeconds())
         };
         if (point.Name.StartsWith("h019_", StringComparison.Ordinal))
@@ -1175,6 +1176,200 @@ public partial class Act1DemoRoot
         && !string.IsNullOrEmpty(value.GetString())
             ? value.GetString()
             : null;
+
+    private sealed class RenderHistogramBucket
+    {
+        public int Instances;
+        public long Cost;
+        public long ShadowCost;
+    }
+
+    private sealed class RenderHistogramState
+    {
+        public readonly Dictionary<string, RenderHistogramBucket> ByPath = new();
+        public readonly Dictionary<string, RenderHistogramBucket> ByName = new();
+        public readonly RenderHistogramBucket Totals = new();
+        public readonly RenderHistogramBucket SmallCasters = new();
+    }
+
+    // Diagnostic: which owners put the most surfaces into this view. Single pass over the
+    // visible 3D tree, frustum + visibility-range culled by world AABB, grouped by a
+    // collapsed node-path family. Failure is reported in-band and never breaks the capture.
+    private JsonNode BuildRenderHistogram(Camera3D camera)
+    {
+        try
+        {
+            var root = GetTree().Root;
+            var planes = new Plane[camera.GetFrustum().Count];
+            for (var i = 0; i < planes.Length; i++)
+                planes[i] = camera.GetFrustum()[i];
+            var camPos = camera.GlobalPosition;
+            var far = camera.Far;
+            var state = new RenderHistogramState();
+            RenderHistogramWalk(root, root, camPos, far, planes, state);
+            return new JsonObject
+            {
+                ["groups"] = ViewNumber(state.ByPath.Count),
+                ["top"] = RenderHistogramRows(state.ByPath, 30),
+                ["topByName"] = RenderHistogramRows(state.ByName, 40),
+                ["totals"] = new JsonObject
+                {
+                    ["instances"] = ViewNumber(state.Totals.Instances),
+                    ["cost"] = ViewNumber(state.Totals.Cost),
+                    ["shadowCost"] = ViewNumber(state.Totals.ShadowCost),
+                    // Shadow casters whose world AABB (per instance for MultiMesh) is under 0.5 m.
+                    ["castsShadowSmall"] = new JsonObject
+                    {
+                        ["instances"] = ViewNumber(state.SmallCasters.Instances),
+                        ["cost"] = ViewNumber(state.SmallCasters.Cost),
+                        ["shadowCost"] = ViewNumber(state.SmallCasters.ShadowCost)
+                    }
+                }
+            };
+        }
+        catch (System.Exception exception)
+        {
+            return new JsonObject { ["error"] = ViewText(exception.Message) };
+        }
+    }
+
+    private static JsonArray RenderHistogramRows(Dictionary<string, RenderHistogramBucket> groups, int take)
+    {
+        var rows = new JsonArray();
+        foreach (var pair in groups.OrderByDescending(item => item.Value.Cost).Take(take))
+            rows.Add(new JsonObject
+            {
+                ["owner"] = ViewText(pair.Key),
+                ["instances"] = ViewNumber(pair.Value.Instances),
+                ["cost"] = ViewNumber(pair.Value.Cost),
+                ["shadowCost"] = ViewNumber(pair.Value.ShadowCost)
+            });
+        return rows;
+    }
+
+    private static void RenderHistogramAdd(Dictionary<string, RenderHistogramBucket> groups, string key,
+        long instances, long cost, long shadow)
+    {
+        if (!groups.TryGetValue(key, out var bucket))
+            groups[key] = bucket = new RenderHistogramBucket();
+        bucket.Instances += (int)instances;
+        bucket.Cost += cost;
+        bucket.ShadowCost += shadow;
+    }
+
+    private static void RenderHistogramWalk(Node node, Node root, Vector3 camPos, float far, Plane[] planes,
+        RenderHistogramState state)
+    {
+        // A hidden Node3D hides its whole subtree, so this equals IsVisibleInTree() for descendants.
+        if (node is Node3D node3D && !node3D.Visible)
+            return;
+        if (node is SubViewport)
+            return;
+        if (node is GeometryInstance3D geometry)
+        {
+            int surfaces;
+            long instances = 1;
+            Aabb local;
+            Aabb unit = default;
+            if (geometry is MeshInstance3D meshInstance)
+            {
+                surfaces = meshInstance.Mesh?.GetSurfaceCount() ?? 0;
+                local = meshInstance.GetAabb();
+                unit = local;
+            }
+            else if (geometry is MultiMeshInstance3D multiInstance && multiInstance.Multimesh is { } multi)
+            {
+                surfaces = multi.Mesh?.GetSurfaceCount() ?? 0;
+                instances = multi.VisibleInstanceCount < 0 ? multi.InstanceCount : multi.VisibleInstanceCount;
+                local = multiInstance.GetAabb();
+                unit = multi.Mesh?.GetAabb() ?? default;
+            }
+            else
+            {
+                surfaces = 0;
+                local = default;
+            }
+            if (surfaces > 0 && instances > 0)
+            {
+                var world = geometry.GlobalTransform * local;
+                var visible = true;
+                foreach (var plane in planes)
+                {
+                    // Outward-facing frustum planes: reject when even the AABB corner furthest
+                    // along the normal is still outside.
+                    var corner = new Vector3(
+                        plane.Normal.X >= 0f ? world.End.X : world.Position.X,
+                        plane.Normal.Y >= 0f ? world.End.Y : world.Position.Y,
+                        plane.Normal.Z >= 0f ? world.End.Z : world.Position.Z);
+                    if (plane.DistanceTo(corner) > 0f)
+                    {
+                        visible = false;
+                        break;
+                    }
+                }
+                if (visible)
+                {
+                    var distance = camPos.DistanceTo(world.GetCenter());
+                    if (distance > far
+                        || (geometry.VisibilityRangeEnd > 0f && distance > geometry.VisibilityRangeEnd)
+                        || (geometry.VisibilityRangeBegin > 0f && distance < geometry.VisibilityRangeBegin))
+                        visible = false;
+                }
+                if (visible)
+                {
+                    var cost = surfaces * instances;
+                    var shadow = geometry.CastShadow != GeometryInstance3D.ShadowCastingSetting.Off ? cost : 0;
+                    RenderHistogramAdd(state.ByPath, RenderHistogramOwnerKey(root.GetPathTo(node).ToString()),
+                        instances, cost, shadow);
+                    RenderHistogramAdd(state.ByName, RenderHistogramNameKey(node.Name.ToString()),
+                        instances, cost, shadow);
+                    state.Totals.Instances += (int)instances;
+                    state.Totals.Cost += cost;
+                    state.Totals.ShadowCost += shadow;
+                    if (shadow > 0)
+                    {
+                        var size = (geometry.GlobalTransform * unit).Size;
+                        if (System.Math.Max(size.X, System.Math.Max(size.Y, size.Z)) < 0.5f)
+                        {
+                            state.SmallCasters.Instances += (int)instances;
+                            state.SmallCasters.Cost += cost;
+                            state.SmallCasters.ShadowCost += shadow;
+                        }
+                    }
+                }
+            }
+        }
+        var count = node.GetChildCount();
+        for (var i = 0; i < count; i++)
+            RenderHistogramWalk(node.GetChild(i), root, camPos, far, planes, state);
+    }
+
+    private static string RenderHistogramNameKey(string name)
+    {
+        // "@Node3D@314" -> "@Node3D"; other names lose a trailing _LODn, any "@..." tail and all digits.
+        var original = name;
+        var lod = name.LastIndexOf("_LOD", System.StringComparison.Ordinal);
+        if (lod > 0 && name.AsSpan(lod + 4).IndexOfAnyExceptInRange('0', '9') < 0)
+            name = name.Substring(0, lod);
+        var at = name.IndexOf('@', 1 < name.Length ? 1 : 0);
+        if (at > 0)
+            name = name.Substring(0, at);
+        var cleaned = new string(name.Where(c => c is < '0' or > '9').ToArray()).TrimEnd('@');
+        return cleaned.Length > 0 ? cleaned : original;
+    }
+
+    private static string RenderHistogramOwnerKey(string path)
+    {
+        var segments = path.Split('/');
+        var take = System.Math.Min(9, segments.Length);
+        var parts = new string[take];
+        for (var i = 0; i < take; i++)
+        {
+            var trimmed = segments[i].TrimEnd('0', '1', '2', '3', '4', '5', '6', '7', '8', '9').TrimEnd('@');
+            parts[i] = trimmed.Length > 0 ? trimmed : segments[i];
+        }
+        return string.Join('/', parts);
+    }
 
     private static JsonNode? ViewText(string? value) =>
         string.IsNullOrEmpty(value) ? null : JsonValue.Create(value);

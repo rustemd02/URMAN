@@ -6,7 +6,8 @@ namespace Urman.Godot;
 
 /// <summary>
 /// The village shop uses its existing pitched roof and three real street
-/// windows as a small blue-and-white rural pavilion. The kit shell, doors,
+/// windows as a small blue-and-white rural pavilion, clad in profiled sheet with
+/// blue trims and a door canopy (ShopCladding.cs, photo reference T3). The kit shell, doors,
 /// interior, collision and address remain the owners of the usable building.
 /// </summary>
 public partial class Act1ConnectedWorld
@@ -50,9 +51,9 @@ public partial class Act1ConnectedWorld
         // These narrow bands tie the three real glazed bays together without
         // covering the wall or changing any window opening.
         AddVisualBox(storefront, "WindowHeadBand", new(halfWidth * 2, .10f, .035f),
-            new(centreX, wallTop - .06f, front + .018f), "426f99", "wood_painted_blue");
+            new(centreX, wallTop - .06f, front + .062f), "426f99", "wood_painted_blue");
         AddVisualBox(storefront, "WindowSillBand", new(halfWidth * 2, .11f, .04f),
-            new(centreX, .72f * scale, front + .018f), "426f99", "wood_painted_blue");
+            new(centreX, .72f * scale, front + .062f), "426f99", "wood_painted_blue");
 
         // The existing timber-backed sign hangs on the solid boarded gable,
         // below the roof slopes and above the street windows.
@@ -63,7 +64,9 @@ public partial class Act1ConnectedWorld
         var hoursBasis = hours.GlobalBasis;
         hours.Reparent(storefront);
         hours.GlobalBasis = hoursBasis;
-        hours.Position = new(centreX + halfWidth - .55f, 1.55f, front + .012f);
+        // The street wall now carries 2.5 cm ribs and trims, so the plate sits on them.
+        hours.Position = new(centreX + halfWidth - .55f, 1.55f, front + .075f);
+        CladShopFacade(shop, storefront);
 
         // The dwelling parcel's front yard fence and gate stood across the shop's
         // approach from the street: a shop's front is open to the road.

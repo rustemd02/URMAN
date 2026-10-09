@@ -65,7 +65,7 @@ public static partial class StyleBenchmarkInteriorFactory
 
     private static void BuildWingShell(Node3D wing)
     {
-        Block(wing, "WingFloor", new(10.4f, .2f, 7.4f), new(0, -.1f, 0), "706252", "wood_floor_planked");
+        Block(wing, "WingFloor", new(10.4f, .2f, 7.4f), new(0, -.1f, 0), "8e5030", "wood_floor_planked");
         // Ceiling slab of the ground floor / attic floor, cut around the stair hole.
         Slab(wing, "SlabWest", -5.2f, HoleWest, -3.7f, 3.7f);
         Slab(wing, "SlabNorth", HoleWest, 5.2f, -3.7f, HoleNorth);

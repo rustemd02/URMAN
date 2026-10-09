@@ -111,6 +111,7 @@ public partial class Act1ConnectedWorld
     {
         if (_snowMassBuilt) return;
         _snowMassBuilt = true;
+        SnowRefineSkips.Clear();
         var root = new Node3D { Name = "WinterSnowMass" };
         root.SetMeta("presentationOnly", true);
         root.SetMeta("visualOnly", true);
@@ -132,7 +133,7 @@ public partial class Act1ConnectedWorld
             $"{SnowReliefStandard.MassHeightMin:0.###}-{SnowReliefStandard.MassHeightMax:0.###}");
         GD.Print($"act1-snow-mass: drifts={_snowMassDrifts} vertices={_snowMassVertices} " +
                  $"band={SnowReliefStandard.ElevationBand:0.###} heightMin={SnowReliefStandard.MassHeightMin:0.###} " +
-                 $"heightMax={SnowReliefStandard.MassHeightMax:0.###}");
+                 $"heightMax={SnowReliefStandard.MassHeightMax:0.###} refineSkipped={SnowRefineSkipSummary()}");
     }
 
     private static bool TrySnowMassSite(float x, float z, out double noise)
@@ -206,16 +207,20 @@ public partial class Act1ConnectedWorld
     private static void SoftenSnowDrift(MeshInstance3D mesh)
     {
         const int authoredColumns = 9;
-        if (mesh.Mesh is not ArrayMesh source || source.GetSurfaceCount() == 0) return;
+        if (mesh.Mesh is not ArrayMesh source || source.GetSurfaceCount() == 0) { NoteSnowRefineSkip("nomesh"); return; }
         using var arrays = source.SurfaceGetArrays(0);
         var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
-        if (arrays[(int)Mesh.ArrayType.Index].VariantType == Variant.Type.Nil || !CanRefineSnowGrid(arrays)) return;
-        if (vertices.Length == 0 || vertices.Length % authoredColumns != 0) return;
+        var blocker = SnowGridBlocker(arrays, vertices.Length, authoredColumns);
+        if (blocker is not null) { NoteSnowRefineSkip(blocker); return; }
         var stations = vertices.Length / authoredColumns;
-        var uvs = arrays[(int)Mesh.ArrayType.TexUV].VariantType == Variant.Type.Nil
+        var uvs = SnowArrayLength(arrays[(int)Mesh.ArrayType.TexUV]) == 0
             ? null : arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array();
         if (!RefineSnowGrid(mesh, vertices, uvs, stations, authoredColumns, null,
-                out var softVertices, out var softUvs, out var softColumns, out _)) return;
+                out var softVertices, out var softUvs, out var softColumns, out _))
+        {
+            NoteSnowRefineSkip("refine");
+            return;
+        }
         var material = source.SurfaceGetMaterial(0);
         var soft = new ArrayMesh();
         soft.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles,

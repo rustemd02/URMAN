@@ -55,9 +55,9 @@ public static partial class StyleBenchmarkInteriorFactory
     {
         room.SetMeta("heroHouseContract", ContractVersion);
         room.SetMeta("heroHouseClearDimensions", new Vector3(ClearWidth, CeilingHeight, ClearDepth));
-        Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "777068", "wood_floor_planked");
-        // P2 / VIS-098: painted board ceiling (the same laid-board pattern as the floor).
-        Block(room, "Ceiling", new(8.4f, .16f, 7.4f), new(0, 2.68f, 0), "c4bda9", "wood_floor_planked");
+        Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "9a5a36", "wood_floor_planked");
+        // P2 / VIS-098: whitewashed plaster ceiling, warm off-white so the lamp light bounces.
+        Block(room, "Ceiling", new(8.4f, .16f, 7.4f), new(0, 2.68f, 0), "e6e0d2", "plaster_domestic");
 
         Wall(room, "FrontWall", 4.2f, 3.6f, false,
             [new(DoorX, DoorWidth, 0, DoorHeight),
@@ -92,6 +92,7 @@ public static partial class StyleBenchmarkInteriorFactory
 
         AttachFurniture(room);
         BuildHouseRooms(room);
+        AddCeilingLamp(room);
         // The photograph can turn over on this shallow shelf without rotating
         // through a wall. Its frame bottom rests on the shelf at 1.11m.
         Block(room, "FamilyPhotoShelf", new(.72f, .08f, 1.10f), new(-3.63f, 1.07f, -2.50f), "765842", "wood");
@@ -145,6 +146,31 @@ public static partial class StyleBenchmarkInteriorFactory
         room.SetMeta("roomTrim", "skirting 0.10 m, two-step cornice 0.082 m (VIS-098)");
     }
 
+    /// <summary>
+    /// P2: a fabric lampshade (абажур) on a cord over the room, with a soft warm point light.
+    /// Shadows follow the existing GraphicsQuality soft-lamp convention (high preset only).
+    /// </summary>
+    private static void AddCeilingLamp(Node3D room)
+    {
+        var at = new Vector3(0, 2.05f, -1.30f);
+        room.AddChild(new MeshInstance3D { Name = "CeilingLampCord", Position = new(at.X, 2.42f, at.Z),
+            Mesh = new CylinderMesh { TopRadius = .008f, BottomRadius = .008f, Height = .36f, RadialSegments = 6 },
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("2c2620", "wood_prop", sheltered: true),
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off });
+        room.AddChild(new MeshInstance3D { Name = "CeilingLampShade", Position = new(at.X, at.Y + .06f, at.Z),
+            Mesh = new CylinderMesh { TopRadius = .07f, BottomRadius = .26f, Height = .26f, RadialSegments = 16,
+                CapTop = false, CapBottom = false },
+            MaterialOverride = new StandardMaterial3D { AlbedoColor = Color.FromHtml("c98b4a"),
+                Roughness = .95f, CullMode = BaseMaterial3D.CullModeEnum.Disabled,
+                EmissionEnabled = true, Emission = Color.FromHtml("e0a060"), EmissionEnergyMultiplier = .45f },
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off });
+        var light = new OmniLight3D { Name = "CeilingLampLight", Position = at, LightColor = Color.FromHtml("ffc58a"),
+            LightEnergy = 1.9f, OmniRange = 6.5f, LightSize = .15f,
+            ShadowEnabled = GraphicsQuality.Preset == "high" };
+        light.AddToGroup(GraphicsQuality.SoftShadowLampGroup);
+        room.AddChild(light);
+    }
+
     private readonly record struct Opening(float Center, float Width, float Bottom, float Top);
 
     private static void Wall(Node3D room, string name, float halfLength, float at, bool sideWall, Opening[] openings)
@@ -174,7 +200,7 @@ public static partial class StyleBenchmarkInteriorFactory
             // the other wallpaper panels and the metal stove's own materials.
             var stoveWall = name == "LeftWall" && suffix == "Pier0";
             var segment = Block(room, name + suffix, size, center,
-                stoveWall ? "b3ad9c" : sideWall ? "786b5a" : "827461",
+                stoveWall ? "bdb6a2" : sideWall ? "917f64" : "9a8767",
                 stoveWall ? "plaster_domestic" : "wallpaper");
             var lining = segment.GetNode<MeshInstance3D>("Visible");
             // The exterior shell already has faces at both structural datums.
