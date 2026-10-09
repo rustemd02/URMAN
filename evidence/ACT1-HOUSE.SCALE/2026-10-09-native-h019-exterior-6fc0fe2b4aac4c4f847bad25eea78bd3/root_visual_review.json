@@ -1,0 +1,12 @@
+{
+  "reviewer": "/root",
+  "date": "2026-10-09",
+  "originals_viewed": [
+    "frames/h019_geometry_approach.png",
+    "frames/h019_geometry_shoulder.png"
+  ],
+  "result": "ACCEPTED_BOUNDED_GEOMETRY_FIX",
+  "finding": "Roof and boarded front gable of H019 are visibly restored in both original native frames. Combined pre-fix H014 nearest-face rays, source size-ownership defect and post-fix originals establish correction of the observed obstruction. H014 added-storey silhouette is no longer oversized across this view.",
+  "native_job": "6fc0fe2b4aac4c4f847bad25eea78bd3",
+  "scope_limit": "No whole-house/family style acceptance, collision/door clearance, ordinary capsule route or performance acceptance. Palette/surface detail and neighborhood silhouette still require reference comparison. Shader GPU compilation is verified by empty engine errors and rendering; carried-object motion is not measured."
+}

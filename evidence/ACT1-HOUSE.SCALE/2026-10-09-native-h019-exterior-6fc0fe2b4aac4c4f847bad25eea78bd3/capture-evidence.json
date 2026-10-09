@@ -1,0 +1,715 @@
+{
+  "job_id": "6fc0fe2b4aac4c4f847bad25eea78bd3",
+  "snapshot_id": "29659a2c0b03a5fd1240c64afde5bb5d81e06d24e54a46b252f878b8f9c305bb",
+  "base_commit": "2effc8c51e6f2ec840795369097f9bbb7de7da64",
+  "status": "PASS",
+  "mode": "capture",
+  "scene": "res://scenes/act1_demo.tscn",
+  "host": "UNTERPC",
+  "godot": "4.7.1.stable.mono.official.a13da4feb",
+  "sdk": "10.0.302",
+  "renderer": [
+    "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+  ],
+  "started": "2026-10-09T00:11:54.7541849Z",
+  "finished": "2026-10-09T00:17:42.9740891Z",
+  "elapsedSeconds": 348.2068709,
+  "worker_elapsed_seconds": 354.828,
+  "requested": {
+    "fov": "70",
+    "headless": false,
+    "job_id": "6fc0fe2b4aac4c4f847bad25eea78bd3",
+    "mode": "capture",
+    "points": "h019_geometry_approach:MainStreetEastNeighborFacade@0.0,1.7,12.0>MainStreetEastNeighborFacade@0.0,3.4,-1.7;h019_geometry_shoulder:MainStreetEastNeighborFacade@-7.0,1.7,7.0>MainStreetEastNeighborFacade@0.0,3.3,-1.7",
+    "scene": "res://scenes/act1_demo.tscn",
+    "snapshot_id": "29659a2c0b03a5fd1240c64afde5bb5d81e06d24e54a46b252f878b8f9c305bb",
+    "timeout": 300
+  },
+  "steps": {
+    "build": {
+      "exitCode": 0
+    },
+    "content-build": {
+      "exitCode": 0
+    },
+    "content-urman.chapter1": {
+      "exitCode": 0
+    },
+    "content-urman.fullgame": {
+      "exitCode": 0
+    },
+    "document-images": {
+      "exitCode": 0
+    },
+    "game": {
+      "exitCode": 0
+    },
+    "import": {
+      "exitCode": 0
+    }
+  },
+  "exitCode": 0,
+  "gameExitCode": 0,
+  "engineErrorsBytes": 0,
+  "guard": {
+    "userdataRestored": true,
+    "projectRestoredSha256": "D63B2F54388E8B0D06C6EFB350DD7E0B9F43264AC967696749535BEB57D757C4",
+    "stationOverrideSha256": "8E3CE7B7850D04A0473AAA18EA8014EDF3F9971AE040C76A1BECC5DB0221F78C",
+    "snapshotHashesVerified": true
+  },
+  "postRunDoctor": {
+    "blob_store": {
+      "files": 3561,
+      "megabytes": 514.0
+    },
+    "busy_job": null,
+    "desktop": {
+      "input_desktop": true,
+      "interactive": true,
+      "session_id": 1
+    },
+    "disk": {
+      "free_gb": 370.7,
+      "path": "D:\\URMAN-STATION\\data",
+      "total_gb": 2794.4
+    },
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "gpu_acceptance": "verified",
+    "host": "UNTERPC",
+    "orphan_game_process": false,
+    "ready": true,
+    "sdk": "10.0.302",
+    "tools": true,
+    "userdata_recovery_pending": false
+  },
+  "resultZip": {
+    "path": "result.zip",
+    "bytes": 2779109,
+    "sha256": "681712daa6603c7dfa6651774459379e4b579d01a23e5c992a0c451bb2461d46"
+  },
+  "frames": [
+    {
+      "point": "h019_geometry_approach",
+      "spec": "h019_geometry_approach:MainStreetEastNeighborFacade@0.0,1.7,12.0>MainStreetEastNeighborFacade@0.0,3.4,-1.7",
+      "cameraPosition": {
+        "x": 27.75,
+        "y": 1.670632,
+        "z": 86
+      },
+      "cameraTarget": {
+        "x": 27.75,
+        "y": 3.370632,
+        "z": 72.300003
+      },
+      "cameraForward": {
+        "x": 0,
+        "y": 0.123143,
+        "z": -0.992389
+      },
+      "fov": 70,
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "atmosphereOwner": "AgentBExteriorWorld",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade",
+      "rootMatchCount": 1,
+      "rootVisible": true,
+      "rootVisibleInTree": true,
+      "rootGlobalTransform": {
+        "origin": {
+          "x": 27.75,
+          "y": -0.029368,
+          "z": 74
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "cameraCullMask": 1048575,
+      "materialMode": "graded-runtime",
+      "targetMeshes": [
+        {
+          "name": "DwellingFacade_Roof_LOD0",
+          "matchCount": 1,
+          "visible": true,
+          "globalAabb": {
+            "position": {
+              "x": 24.290001,
+              "y": 2.780632,
+              "z": 68.940002
+            },
+            "size": {
+              "x": 6.919998,
+              "y": 1.96,
+              "z": 6.720001
+            },
+            "end": {
+              "x": 31.209999,
+              "y": 4.740632,
+              "z": 75.660004
+            }
+          },
+          "surfaces": [
+            {
+              "index": 0,
+              "generatedLodDistances": [],
+              "meshMaterialName": "URMAN_Roof_WetSlate",
+              "meshMaterialCullMode": "Disabled",
+              "activeMaterialType": "ShaderMaterial",
+              "activeMaterialName": null,
+              "activeMaterialCullMode": null,
+              "surfaceOverrideName": null,
+              "surfaceOverridePath": null
+            },
+            {
+              "index": 1,
+              "generatedLodDistances": [],
+              "meshMaterialName": "URMAN_Wood_WetShadow",
+              "meshMaterialCullMode": "Disabled",
+              "activeMaterialType": "ShaderMaterial",
+              "activeMaterialName": null,
+              "activeMaterialCullMode": null,
+              "surfaceOverrideName": null,
+              "surfaceOverridePath": null
+            }
+          ]
+        },
+        {
+          "name": "DwellingFacade_RoofSnow_LOD0",
+          "matchCount": 1,
+          "visible": true,
+          "globalAabb": {
+            "position": {
+              "x": 24.16,
+              "y": 2.765372,
+              "z": 68.940002
+            },
+            "size": {
+              "x": 7.18,
+              "y": 2.145404,
+              "z": 6.720001
+            },
+            "end": {
+              "x": 31.34,
+              "y": 4.910777,
+              "z": 75.660004
+            }
+          },
+          "surfaces": [
+            {
+              "index": 0,
+              "generatedLodDistances": [
+                0.094068,
+                0.531597,
+                1.861159
+              ],
+              "meshMaterialName": "URMAN_Hero_RoofSnow",
+              "meshMaterialCullMode": "Disabled",
+              "activeMaterialType": "ShaderMaterial",
+              "activeMaterialName": null,
+              "activeMaterialCullMode": null,
+              "surfaceOverrideName": null,
+              "surfaceOverridePath": null
+            }
+          ]
+        },
+        {
+          "name": "DwellingFacade_Front_BoardedGable_LOD0",
+          "matchCount": 1,
+          "visible": true,
+          "globalAabb": {
+            "position": {
+              "x": 24.653999,
+              "y": 2.830632,
+              "z": 75.300003
+            },
+            "size": {
+              "x": 6.192001,
+              "y": 1.787742,
+              "z": 8e-06
+            },
+            "end": {
+              "x": 30.846001,
+              "y": 4.618374,
+              "z": 75.300011
+            }
+          },
+          "surfaces": [
+            {
+              "index": 0,
+              "generatedLodDistances": [
+                0.559268,
+                1.739423
+              ],
+              "meshMaterialName": "URMAN_Wood_Weathered",
+              "meshMaterialCullMode": "Disabled",
+              "activeMaterialType": "ShaderMaterial",
+              "activeMaterialName": null,
+              "activeMaterialCullMode": null,
+              "surfaceOverrideName": null,
+              "surfaceOverridePath": null
+            }
+          ]
+        },
+        {
+          "name": "DwellingFacade_Street_Wall_LOD0",
+          "matchCount": 1,
+          "visible": true,
+          "globalAabb": {
+            "position": {
+              "x": 24.65,
+              "y": 0.270632,
+              "z": 75.099998
+            },
+            "size": {
+              "x": 6.200001,
+              "y": 2.6,
+              "z": 0.200005
+            },
+            "end": {
+              "x": 30.85,
+              "y": 2.870632,
+              "z": 75.300003
+            }
+          },
+          "surfaces": [
+            {
+              "index": 0,
+              "generatedLodDistances": [],
+              "meshMaterialName": "URMAN_Plaster_Ochre",
+              "meshMaterialCullMode": "Disabled",
+              "activeMaterialType": "ShaderMaterial",
+              "activeMaterialName": null,
+              "activeMaterialCullMode": null,
+              "surfaceOverrideName": null,
+              "surfaceOverridePath": null
+            }
+          ]
+        }
+      ],
+      "liveGeometryRays": [
+        {
+          "from": {
+            "x": 27.75,
+            "y": 1.670632,
+            "z": 86
+          },
+          "target": {
+            "x": 27.75,
+            "y": 4.070632,
+            "z": 72.300003
+          },
+          "broadPhaseCandidates": 26,
+          "trianglesChecked": 436202,
+          "nearestSourceFaceCandidates": []
+        },
+        {
+          "from": {
+            "x": 27.75,
+            "y": 1.670632,
+            "z": 86
+          },
+          "target": {
+            "x": 25.75,
+            "y": 3.570632,
+            "z": 72.300003
+          },
+          "broadPhaseCandidates": 25,
+          "trianglesChecked": 436174,
+          "nearestSourceFaceCandidates": [
+            {
+              "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_BoardedGable_LOD0",
+              "distance": 10.914761,
+              "point": {
+                "x": 26.187956,
+                "y": 3.154574,
+                "z": 75.300003
+              },
+              "sourceMesh": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_k7aga"
+            },
+            {
+              "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Roof_LOD0",
+              "distance": 13.970741,
+              "point": {
+                "x": 25.750605,
+                "y": 3.570057,
+                "z": 72.304153
+              },
+              "sourceMesh": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_14yt6"
+            }
+          ]
+        },
+        {
+          "from": {
+            "x": 27.75,
+            "y": 1.670632,
+            "z": 86
+          },
+          "target": {
+            "x": 29.75,
+            "y": 3.570632,
+            "z": 72.300003
+          },
+          "broadPhaseCandidates": 25,
+          "trianglesChecked": 436174,
+          "nearestSourceFaceCandidates": [
+            {
+              "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_BoardedGable_LOD0",
+              "distance": 10.914761,
+              "point": {
+                "x": 29.312044,
+                "y": 3.154574,
+                "z": 75.300003
+              },
+              "sourceMesh": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_k7aga"
+            },
+            {
+              "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Roof_LOD0",
+              "distance": 13.970531,
+              "point": {
+                "x": 29.749365,
+                "y": 3.570028,
+                "z": 72.304359
+              },
+              "sourceMesh": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_14yt6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "point": "h019_geometry_shoulder",
+      "spec": "h019_geometry_shoulder:MainStreetEastNeighborFacade@-7.0,1.7,7.0>MainStreetEastNeighborFacade@0.0,3.3,-1.7",
+      "cameraPosition": {
+        "x": 20.75,
+        "y": 1.670632,
+        "z": 81
+      },
+      "cameraTarget": {
+        "x": 27.75,
+        "y": 3.270632,
+        "z": 72.300003
+      },
+      "cameraForward": {
+        "x": 0.620539,
+        "y": 0.141838,
+        "z": -0.771241
+      },
+      "fov": 70,
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "atmosphereOwner": "AgentBExteriorWorld",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade",
+      "rootMatchCount": 1,
+      "rootVisible": true,
+      "rootVisibleInTree": true,
+      "rootGlobalTransform": {
+        "origin": {
+          "x": 27.75,
+          "y": -0.029368,
+          "z": 74
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "cameraCullMask": 1048575,
+      "materialMode": "graded-runtime",
+      "targetMeshes": [
+        {
+          "name": "DwellingFacade_Roof_LOD0",
+          "matchCount": 1,
+          "visible": true,
+          "globalAabb": {
+            "position": {
+              "x": 24.290001,
+              "y": 2.780632,
+              "z": 68.940002
+            },
+            "size": {
+              "x": 6.919998,
+              "y": 1.96,
+              "z": 6.720001
+            },
+            "end": {
+              "x": 31.209999,
+              "y": 4.740632,
+              "z": 75.660004
+            }
+          },
+          "surfaces": [
+            {
+              "index": 0,
+              "generatedLodDistances": [],
+              "meshMaterialName": "URMAN_Roof_WetSlate",
+              "meshMaterialCullMode": "Disabled",
+              "activeMaterialType": "ShaderMaterial",
+              "activeMaterialName": null,
+              "activeMaterialCullMode": null,
+              "surfaceOverrideName": null,
+              "surfaceOverridePath": null
+            },
+            {
+              "index": 1,
+              "generatedLodDistances": [],
+              "meshMaterialName": "URMAN_Wood_WetShadow",
+              "meshMaterialCullMode": "Disabled",
+              "activeMaterialType": "ShaderMaterial",
+              "activeMaterialName": null,
+              "activeMaterialCullMode": null,
+              "surfaceOverrideName": null,
+              "surfaceOverridePath": null
+            }
+          ]
+        },
+        {
+          "name": "DwellingFacade_RoofSnow_LOD0",
+          "matchCount": 1,
+          "visible": true,
+          "globalAabb": {
+            "position": {
+              "x": 24.16,
+              "y": 2.765372,
+              "z": 68.940002
+            },
+            "size": {
+              "x": 7.18,
+              "y": 2.145404,
+              "z": 6.720001
+            },
+            "end": {
+              "x": 31.34,
+              "y": 4.910777,
+              "z": 75.660004
+            }
+          },
+          "surfaces": [
+            {
+              "index": 0,
+              "generatedLodDistances": [
+                0.094068,
+                0.531597,
+                1.861159
+              ],
+              "meshMaterialName": "URMAN_Hero_RoofSnow",
+              "meshMaterialCullMode": "Disabled",
+              "activeMaterialType": "ShaderMaterial",
+              "activeMaterialName": null,
+              "activeMaterialCullMode": null,
+              "surfaceOverrideName": null,
+              "surfaceOverridePath": null
+            }
+          ]
+        },
+        {
+          "name": "DwellingFacade_Front_BoardedGable_LOD0",
+          "matchCount": 1,
+          "visible": true,
+          "globalAabb": {
+            "position": {
+              "x": 24.653999,
+              "y": 2.830632,
+              "z": 75.300003
+            },
+            "size": {
+              "x": 6.192001,
+              "y": 1.787742,
+              "z": 8e-06
+            },
+            "end": {
+              "x": 30.846001,
+              "y": 4.618374,
+              "z": 75.300011
+            }
+          },
+          "surfaces": [
+            {
+              "index": 0,
+              "generatedLodDistances": [
+                0.559268,
+                1.739423
+              ],
+              "meshMaterialName": "URMAN_Wood_Weathered",
+              "meshMaterialCullMode": "Disabled",
+              "activeMaterialType": "ShaderMaterial",
+              "activeMaterialName": null,
+              "activeMaterialCullMode": null,
+              "surfaceOverrideName": null,
+              "surfaceOverridePath": null
+            }
+          ]
+        },
+        {
+          "name": "DwellingFacade_Street_Wall_LOD0",
+          "matchCount": 1,
+          "visible": true,
+          "globalAabb": {
+            "position": {
+              "x": 24.65,
+              "y": 0.270632,
+              "z": 75.099998
+            },
+            "size": {
+              "x": 6.200001,
+              "y": 2.6,
+              "z": 0.200005
+            },
+            "end": {
+              "x": 30.85,
+              "y": 2.870632,
+              "z": 75.300003
+            }
+          },
+          "surfaces": [
+            {
+              "index": 0,
+              "generatedLodDistances": [],
+              "meshMaterialName": "URMAN_Plaster_Ochre",
+              "meshMaterialCullMode": "Disabled",
+              "activeMaterialType": "ShaderMaterial",
+              "activeMaterialName": null,
+              "activeMaterialCullMode": null,
+              "surfaceOverrideName": null,
+              "surfaceOverridePath": null
+            }
+          ]
+        }
+      ],
+      "liveGeometryRays": [
+        {
+          "from": {
+            "x": 20.75,
+            "y": 1.670632,
+            "z": 81
+          },
+          "target": {
+            "x": 27.75,
+            "y": 4.070632,
+            "z": 72.300003
+          },
+          "broadPhaseCandidates": 25,
+          "trianglesChecked": 436174,
+          "nearestSourceFaceCandidates": [
+            {
+              "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Front_BoardedGable_LOD0",
+              "distance": 7.483029,
+              "point": {
+                "x": 25.336205,
+                "y": 3.243045,
+                "z": 75.300003
+              },
+              "sourceMesh": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_k7aga"
+            }
+          ]
+        },
+        {
+          "from": {
+            "x": 20.75,
+            "y": 1.670632,
+            "z": 81
+          },
+          "target": {
+            "x": 25.75,
+            "y": 3.570632,
+            "z": 72.300003
+          },
+          "broadPhaseCandidates": 23,
+          "trianglesChecked": 436090,
+          "nearestSourceFaceCandidates": [
+            {
+              "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_RoofSnow_LOD0",
+              "distance": 7.105072,
+              "point": {
+                "x": 24.228535,
+                "y": 2.992475,
+                "z": 74.94735
+              },
+              "sourceMesh": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_cei78"
+            },
+            {
+              "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Roof_LOD0",
+              "distance": 9.078712,
+              "point": {
+                "x": 25.194801,
+                "y": 3.359656,
+                "z": 73.266052
+              },
+              "sourceMesh": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_14yt6"
+            }
+          ]
+        },
+        {
+          "from": {
+            "x": 20.75,
+            "y": 1.670632,
+            "z": 81
+          },
+          "target": {
+            "x": 29.75,
+            "y": 3.570632,
+            "z": 72.300003
+          },
+          "broadPhaseCandidates": 25,
+          "trianglesChecked": 436174,
+          "nearestSourceFaceCandidates": [
+            {
+              "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade/DwellingFacade_TimberPlaster/DwellingFacade_Roof_LOD0",
+              "distance": 12.659185,
+              "point": {
+                "x": 29.748737,
+                "y": 3.570366,
+                "z": 72.301224
+              },
+              "sourceMesh": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_14yt6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "frameHashes": {
+    "h019_geometry_approach.png": {
+      "bytes": 1161453,
+      "sha256": "173eef9c9539bfbacbfc3e090d6b253e60449db83ff14b3e178f35162c4b6645"
+    },
+    "h019_geometry_approach.json": {
+      "bytes": 27954,
+      "sha256": "7e7b348048f0d072eb72a0d31e2a09382f9ebbf0d0fb271f6a4dcacae4ed06af"
+    },
+    "h019_geometry_shoulder.png": {
+      "bytes": 1371892,
+      "sha256": "8f53b09dc5087273bbb3c26eb4e89afd35a10a7bc1bfd32a46f954853b2861f3"
+    },
+    "h019_geometry_shoulder.json": {
+      "bytes": 27955,
+      "sha256": "5cc43a961c49f847c76ded6746c652392c4c72301f8c12efb16d5289f33777d3"
+    }
+  },
+  "humanPlaytest": "not-run",
+  "visualAcceptance": "pending root review; capture is diagnostic evidence"
+}

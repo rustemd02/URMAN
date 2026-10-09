@@ -1,0 +1,47 @@
+{
+  "job_id": "6fc0fe2b4aac4c4f847bad25eea78bd3",
+  "captured_at_utc": "2026-10-09T00:11:30.081251+00:00",
+  "head": "2effc8c51e6f2ec840795369097f9bbb7de7da64",
+  "files": [
+    {
+      "path": "game/scripts/TimberHomeStyle.cs",
+      "bytes": 21682,
+      "sha256": "c17c26af64262f61773b11e3b970d1a33eef6ef9cbdfdadb25284c727ace7391"
+    },
+    {
+      "path": "game/scripts/PainterlyMaterialLibrary.cs",
+      "bytes": 120744,
+      "sha256": "bd2230fb6c2c45cc5db92e0f9a47ff4f669425edcce68b7bbcd34085543afe0f"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 46691,
+      "sha256": "3d99892376614f06bc1b5fa9e090871fd53b18839c673c3c52447b66fdd826c0"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.cs",
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f"
+    },
+    {
+      "path": "game/content/world/act1_village_kit.world.v1.json",
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d"
+    },
+    {
+      "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "bytes": 3069900,
+      "sha256": "3d61163f9b592df5ec3895811b20c59874a94c9b0628b538ab43898823c8deb2"
+    },
+    {
+      "path": "assets/asset_registry.json",
+      "bytes": 236918,
+      "sha256": "230ed21df443c54ea423e3f2cbd9d3c1c99aebe66115ac5cdb1d9285e1a93664"
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
+      "bytes": 187238,
+      "sha256": "51791739c01e317b3ad795ae0e2814d234c59217e467ded4b77769b991b1bfd4"
+    }
+  ]
+}

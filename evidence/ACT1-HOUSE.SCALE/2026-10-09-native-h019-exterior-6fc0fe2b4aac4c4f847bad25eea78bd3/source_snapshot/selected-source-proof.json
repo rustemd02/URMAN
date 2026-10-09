@@ -1,0 +1,130 @@
+{
+  "job_id": "6fc0fe2b4aac4c4f847bad25eea78bd3",
+  "snapshot_id": "29659a2c0b03a5fd1240c64afde5bb5d81e06d24e54a46b252f878b8f9c305bb",
+  "base_commit": "2effc8c51e6f2ec840795369097f9bbb7de7da64",
+  "sealed_before_submit_utc": "2026-10-09T00:11:30.081251+00:00",
+  "selected_files": [
+    {
+      "path": "game/scripts/TimberHomeStyle.cs",
+      "bytes": 21682,
+      "sha256": "c17c26af64262f61773b11e3b970d1a33eef6ef9cbdfdadb25284c727ace7391",
+      "copied": true,
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true
+    },
+    {
+      "path": "game/scripts/PainterlyMaterialLibrary.cs",
+      "bytes": 120744,
+      "sha256": "bd2230fb6c2c45cc5db92e0f9a47ff4f669425edcce68b7bbcd34085543afe0f",
+      "copied": true,
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 46691,
+      "sha256": "3d99892376614f06bc1b5fa9e090871fd53b18839c673c3c52447b66fdd826c0",
+      "copied": true,
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.cs",
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f",
+      "copied": true,
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true
+    },
+    {
+      "path": "game/content/world/act1_village_kit.world.v1.json",
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d",
+      "copied": true,
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true
+    },
+    {
+      "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "bytes": 3069900,
+      "sha256": "3d61163f9b592df5ec3895811b20c59874a94c9b0628b538ab43898823c8deb2",
+      "copied": true,
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true
+    },
+    {
+      "path": "assets/asset_registry.json",
+      "bytes": 236918,
+      "sha256": "230ed21df443c54ea423e3f2cbd9d3c1c99aebe66115ac5cdb1d9285e1a93664",
+      "copied": true,
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": false
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
+      "bytes": 187238,
+      "sha256": "51791739c01e317b3ad795ae0e2814d234c59217e467ded4b77769b991b1bfd4",
+      "copied": true,
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": false
+    },
+    {
+      "path": "eng/protected_run.py",
+      "bytes": 10394,
+      "sha256": "9ce2a1a6440fa5153abb5080d647a5a556a94f7e07faa2e4fd298f5af577a042",
+      "copied": true,
+      "preSubmitProofMatch": false,
+      "receiptManifestMatch": true
+    },
+    {
+      "path": "eng/remote_common.py",
+      "bytes": 8589,
+      "sha256": "b13fe11d836a95fb32a06c9cf7654927d1eb508973326aae5b38621feba1406a",
+      "copied": true,
+      "preSubmitProofMatch": false,
+      "receiptManifestMatch": true
+    },
+    {
+      "path": "eng/run-windows-check.ps1",
+      "bytes": 12477,
+      "sha256": "1853e63f9207a0994f078e863b1be97002971c4c641d8e3264679c2a0af9b7ca",
+      "copied": true,
+      "preSubmitProofMatch": false,
+      "receiptManifestMatch": true
+    },
+    {
+      "path": "game/project.godot",
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4",
+      "copied": true,
+      "preSubmitProofMatch": false,
+      "receiptManifestMatch": true
+    },
+    {
+      "path": "game/scenes/act1_demo.tscn",
+      "bytes": 189,
+      "sha256": "0c00cb3d6a7078ea75b9a003e7efd8d2bb8a0528fd28f737ecc66cb59ae81fa6",
+      "copied": true,
+      "preSubmitProofMatch": false,
+      "receiptManifestMatch": true
+    },
+    {
+      "path": "game/content/world/visual_checkpoints.v1.json",
+      "bytes": 12671,
+      "sha256": "ee5d723807842e47110a21ddda6857f84c360efad5b14fe1bc62a7cb44b1ae7e",
+      "copied": true,
+      "preSubmitProofMatch": false,
+      "receiptManifestMatch": true
+    },
+    {
+      "path": "game/assets/models/act1/urman_village_exterior_kit_manifest.md",
+      "bytes": 10720,
+      "sha256": "56b331cb122201bdab68c0987d9cc3f9f0869d8a9b515561f7c18046503b6f6d",
+      "copied": true,
+      "preSubmitProofMatch": false,
+      "receiptManifestMatch": true
+    }
+  ],
+  "source_manifest_file_count": 1820,
+  "source_manifest_note": "Selected source copies were copied only after exact byte/hash comparison with pre-submit proof or receipt snapshot manifest. For selected pre-submit files absent from receipt snapshot.files (asset registry and Blender generator), the pre-submit proof hash is retained and the current byte copy matched it at archive time."
+}
