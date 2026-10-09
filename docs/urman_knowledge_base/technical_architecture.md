@@ -1112,3 +1112,7 @@ SaveSlot сохранял Y=0 до проверки опоры, затем physi
 требует готового post-save владельца и точного saved↔after совпадения; для уже
 готовой позы также сохраняет before↔saved равенство. Causal archive и ограничение
 временного окна — `../../evidence/PW005/save-readiness-cause-02fedfa.json`.
+
+### PhotoWorld typed command slice — 2026-10-09
+
+`PhotoWorldCommandHandler` maps authored PhotoWorld narrative effects to typed `pw1.*` commands through one canonical operation table. Mixed effects remain one `pw1.interaction.apply` transaction. The existing ContentApply planner, PhotoWorldState reducer and RuntimeKernel occurrence ledger own mutation; Bridge captures and validates session identity across asynchronous dispatch/reconciliation. Windows semantic fullflow and duplicate-occurrence rejection passed (`evidence/PW-006/receipt.json`). Visit/world physical command producers remain unfinished: compiled logical anchor IDs and last spawn pose do not prove a physical safe origin, range or readiness. The runtime catalog/anchor owners must supply real bindings before successful prepare/commit; no synthetic ticket is accepted as physical proof.

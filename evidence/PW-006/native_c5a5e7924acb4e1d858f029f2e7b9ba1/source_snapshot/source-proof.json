@@ -1,0 +1,99 @@
+{
+  "job_id": "c5a5e7924acb4e1d858f029f2e7b9ba1",
+  "captured_at_utc": "2026-10-09T00:56:06.673684+00:00",
+  "head": "f2380e63bd5eabcb27ebdd9e5d8ef103f009560b",
+  "selected_files": [
+    {
+      "path": "src-dotnet/Urman.Core/Narrative/PhotoWorldCommandHandler.cs",
+      "bytes": 8505,
+      "sha256": "41cb0950577548145bfb50e061fa54c7028f530bafd0109d0c0af718abf4252b",
+      "taskReceiptHashMatch": true
+    },
+    {
+      "path": "src-dotnet/Urman.Core/Narrative/NarrativeCommandHandlers.cs",
+      "bytes": 10759,
+      "sha256": "08a7414d825ec606425b9c83f9980115deb0e8509c889686fc46ad753da4f2b2",
+      "taskReceiptHashMatch": true
+    },
+    {
+      "path": "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
+      "bytes": 63251,
+      "sha256": "a21e94a8178a528b6e237712b8ff27f1548c83412829932f039ef3b5ea8d308d",
+      "taskReceiptHashMatch": true
+    },
+    {
+      "path": "src-dotnet/Urman.Core/Narrative/ContentRuleEngine.cs",
+      "bytes": 13722,
+      "sha256": "8711108e0911d96e244c6640a08d300500b9f27224f300f81375c8bc52f20fbf",
+      "taskReceiptHashMatch": true
+    },
+    {
+      "path": "src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs",
+      "bytes": 14360,
+      "sha256": "db255cda9626f7b0b7f1c344c0df592b0609bfe34348d35ef0e2723379f8f6fc",
+      "taskReceiptHashMatch": true
+    },
+    {
+      "path": "game/scripts/RuntimeBridge.cs",
+      "bytes": 93070,
+      "sha256": "dfcc8bc046ee9de25b2c4b8adbc92df0c30020154b300bb2f177f5e7f3636c90",
+      "taskReceiptHashMatch": true
+    },
+    {
+      "path": "game/tests/FullGameFlowSmokeTest.cs",
+      "bytes": 42543,
+      "sha256": "9450536fc9b0edda60a1c2762f1933dd0520ece0589ec120b33b075f68f107cc",
+      "taskReceiptHashMatch": true
+    },
+    {
+      "path": "game/tests/full_game_flow_smoke_test.tscn",
+      "bytes": 199,
+      "sha256": "afb29d28aa4ccb56a9a993e8d02ca65b45404c62c628e1bcc32b84ac324f8d7f",
+      "taskReceiptHashMatch": false
+    },
+    {
+      "path": "game/content/urman.fullgame.compiled.v1.json",
+      "bytes": 2115931,
+      "sha256": "c1afa18be60a451d7a2a5295d8be72cba7211579c415f51e75ca2f56ae209052",
+      "taskReceiptHashMatch": false
+    },
+    {
+      "path": "evidence/PW-006/receipt.json",
+      "bytes": 4521,
+      "sha256": "9066e3243ee7506ac5655e698cb3eb089f6074c7a71434f281774412a7e6c47b",
+      "taskReceiptHashMatch": false
+    }
+  ],
+  "task_receipt_source_hashes": {
+    "src-dotnet/Urman.Core/Narrative/PhotoWorldCommandHandler.cs": "41cb0950577548145bfb50e061fa54c7028f530bafd0109d0c0af718abf4252b",
+    "src-dotnet/Urman.Core/Narrative/NarrativeCommandHandlers.cs": "08a7414d825ec606425b9c83f9980115deb0e8509c889686fc46ad753da4f2b2",
+    "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs": "a21e94a8178a528b6e237712b8ff27f1548c83412829932f039ef3b5ea8d308d",
+    "src-dotnet/Urman.Core/Narrative/ContentRuleEngine.cs": "8711108e0911d96e244c6640a08d300500b9f27224f300f81375c8bc52f20fbf",
+    "src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs": "db255cda9626f7b0b7f1c344c0df592b0609bfe34348d35ef0e2723379f8f6fc",
+    "game/scripts/RuntimeBridge.cs": "dfcc8bc046ee9de25b2c4b8adbc92df0c30020154b300bb2f177f5e7f3636c90",
+    "game/tests/FullGameFlowSmokeTest.cs": "9450536fc9b0edda60a1c2762f1933dd0520ece0589ec120b33b075f68f107cc"
+  },
+  "scene_sha256": "afb29d28aa4ccb56a9a993e8d02ca65b45404c62c628e1bcc32b84ac324f8d7f",
+  "compiled_campaign_sha256": "c1afa18be60a451d7a2a5295d8be72cba7211579c415f51e75ca2f56ae209052",
+  "runtime_points": null,
+  "request": {
+    "mode": "smoke",
+    "scene": "res://tests/full_game_flow_smoke_test.tscn",
+    "timeout": 300,
+    "headless": false,
+    "environmentOverrides": []
+  },
+  "dirty_paths_at_seal": [
+    " M docs/production/act1_fence_kit_2026-10-04.md",
+    " M docs/urman_knowledge_base/execution_backlog.json",
+    " M game/content/world/act1_village_kit.world.v1.json",
+    " M game/scripts/Act1ConnectedWorld.YardFences.cs",
+    " M game/scripts/Act1ConnectedWorld.cs",
+    " M game/scripts/RuntimeBridge.cs",
+    " M game/tests/FullGameFlowSmokeTest.cs",
+    " M src-dotnet/Urman.Core/Narrative/NarrativeCommandHandlers.cs",
+    "?? evidence/PW-006/",
+    "?? src-dotnet/Urman.Core/Narrative/PhotoWorldCommandHandler.cs"
+  ],
+  "scope": "Existing FullGameFlowSmokeTest only; semantic PhotoWorld flow/duplicate occurrence. No ordinary physical route assertion."
+}

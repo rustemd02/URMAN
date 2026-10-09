@@ -27705,7 +27705,7 @@
       "id": "PW-006",
       "title": "Расширить единый kernel командами фотокниги",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -27728,7 +27728,10 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-006/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-006/receipt.json",
+        "evidence/PW-006/native_c5a5e7924acb4e1d858f029f2e7b9ba1/README.md"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-006",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -27781,7 +27784,8 @@
         "stop_if": "Конкретный ресурс/станция/человеческая проверка недоступны — записать локальный blocker и продолжить независимые карточки; не ослаблять критерии."
       },
       "phase": 1,
-      "effort": "L"
+      "effort": "L",
+      "progress_2026_10_09": "Typed authored narrative commands use one canonical operation map, existing ContentApply/PhotoWorldState/RuntimeKernel transaction and ledger, with campaign identity/authored precondition validation and session-safe Bridge dispatch. Existing fullflow duplicate occurrence rejects with unchanged state. Narrow compile PASS0/0 14.79s; protected Windows native c5a5e792 PASS on sealed snapshot0b53fa3c, userdata restored/doctorREADY. Root accepts this bounded semantic slice. Full visit.prepare/commit/return/abort, world.observe/action and chapter contract/real authority producers remain open. Logical scene anchor is not a physical safe-node binding; no fabricated ReturnTicket, range or readiness. Incremental PW007 catalog work may consume this accepted typed/snapshot input but does not remove PW006 dependency or close the card."
     },
     {
       "id": "PW-007",
