@@ -105,7 +105,7 @@ AGENTB_OUT=. blender --background --python assets/source/blender/agent_b_act1/ag
 
 ## 3. VIS-075 — редкое семейство тревожных ветвей (H3-1): `CODE_DONE_VERIFY_PENDING`
 
-Файлы: `assets/source/blender/agent_b_foliage.py` (новая функция + регистрация),
+Файлы: `assets/source/blender/agent_b_act1/agent_b_foliage.py` (новая функция + регистрация),
 `AgentBFoliagePlan.cs` (размещение), HANDOFF-1 (`VariantKey`),
 пересборка `agentb_foliage_kit.glb`.
 

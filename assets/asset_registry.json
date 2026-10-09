@@ -3985,6 +3985,168 @@
       "derivedSha256": "a7d5d8961dbbc23f6cf28f2d26fa30b70f57e5765a33eb48baac549f61230453",
       "sourceSha256": "a7d5d8961dbbc23f6cf28f2d26fa30b70f57e5765a33eb48baac549f61230453",
       "derived_note": "Godot imports the byte-identical ImageGen PNG; UV crop/repeat is runtime-owned"
+    },
+    {
+      "id": "model.police.vaz2106_static.v1",
+      "generator": "Runtime GLB prepared from the third-party download as recorded in game/assets/third_party/police/manifest.json (date 2026-10-04); preparation steps are listed under modification",
+      "license": "CC BY 4.0",
+      "licenseSpdx": "CC-BY-4.0",
+      "externalAsset": true,
+      "sourceUrl": "https://sketchfab.com/3d-models/a73b3cdeddd846209bf7c73d5f04d20f",
+      "sourceLicenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceAuthor": "domhathair",
+      "modification": "static geometry reduction; metre scale and ground pivot; original UV maps; car opaque material correction, roughness/metal settings, flat tyre; period-neutral door lettering added in game; phone textures reduced to 1K; grounded pivot centred on hull; settled snow skin follows actual roof geometry",
+      "consumerPaths": [
+        "game/scripts/VehicleVisualFactory.DistrictZhiguli.cs",
+        "game/scripts/PolicePostAssets.cs"
+      ],
+      "sourceSha256": "2086fef5fb43328b8c2859109da5f5af51f87893847a6de3ac5995e26058058f",
+      "derived": "game/assets/third_party/police/vaz2106_static.glb",
+      "derivedSha256": "c6d9c6d0850506752f181710f18db7da0facc1dc1ea9e8402f549306c3de6d6b",
+      "integrated": false,
+      "receiverCapture": "PENDING"
+    },
+    {
+      "id": "model.police.rotary_phone.v1",
+      "generator": "Runtime GLB prepared from the third-party download as recorded in game/assets/third_party/police/manifest.json (date 2026-10-04); preparation steps are listed under modification",
+      "license": "CC BY 4.0",
+      "licenseSpdx": "CC-BY-4.0",
+      "externalAsset": true,
+      "sourceUrl": "https://sketchfab.com/3d-models/3e225cfd07624c45bf94efecaacf4b91",
+      "sourceLicenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceAuthor": "Nymchee",
+      "modification": "static geometry reduction; metre scale and ground pivot; original UV maps; car opaque material correction, roughness/metal settings, flat tyre; period-neutral door lettering added in game; phone textures reduced to 1K; dial oriented upward for desk placement, handset 24cm wide, textures 512",
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs",
+        "game/scripts/PolicePostAssets.cs"
+      ],
+      "sourceSha256": "1d07f7f33b490383d343418f426d66af6af0e7f549eb695035af3187be0f5851",
+      "derived": "game/assets/third_party/police/rotary_phone.glb",
+      "derivedSha256": "75c6b52f2f202df726ae89280ff13b012eea2db4c56380ea16e68169451c6d18",
+      "integrated": false,
+      "receiverCapture": "PENDING"
+    },
+    {
+      "id": "model.police.metal_office_desk.v1",
+      "generator": "Runtime GLB prepared from the third-party download as recorded in game/assets/third_party/police/manifest.json (date 2026-10-04); preparation steps are listed under modification",
+      "license": "CC0 1.0",
+      "licenseSpdx": "CC0-1.0",
+      "externalAsset": true,
+      "sourceUrl": "https://polyhaven.com/a/metal_office_desk",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceAuthor": "Ulan Cabanilla",
+      "modification": "original 1K PBR maps; static geometry and ground pivot; lamp geometry reduced and rig removed",
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs",
+        "game/scripts/PolicePostAssets.cs"
+      ],
+      "sourceSha256": "f07032a5ee89aacceebf10fd9fa192c22775ae81861cfb0bdb1594497179373c",
+      "derived": "game/assets/third_party/police/metal_office_desk.glb",
+      "derivedSha256": "adb5756418d39693ea5e476f9b52ec5bae57b9daa31ec26fea9b2151744c8753",
+      "integrated": false,
+      "receiverCapture": "PENDING"
+    },
+    {
+      "id": "model.police.painted_wooden_bench.v1",
+      "generator": "Runtime GLB prepared from the third-party download as recorded in game/assets/third_party/police/manifest.json (date 2026-10-04); preparation steps are listed under modification",
+      "license": "CC0 1.0",
+      "licenseSpdx": "CC0-1.0",
+      "externalAsset": true,
+      "sourceUrl": "https://polyhaven.com/a/painted_wooden_bench",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceAuthor": "Kirill Sannikov",
+      "modification": "original 1K PBR maps; static geometry and ground pivot; lamp geometry reduced and rig removed",
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.PolicePost.cs",
+        "game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs",
+        "game/scripts/PolicePostAssets.cs"
+      ],
+      "sourceSha256": "2289ab82f3fe3045bf18f7b9541743d2c65b9f071cb34bbe424d2bc998f3e507",
+      "derived": "game/assets/third_party/police/painted_wooden_bench.glb",
+      "derivedSha256": "c94a79c244e00639b7f08a6b92783e14b38aa8a085f7ae68cc876d76d39f5389",
+      "integrated": false,
+      "receiverCapture": "PENDING"
+    },
+    {
+      "id": "model.police.painted_wooden_cabinet.v1",
+      "generator": "Runtime GLB prepared from the third-party download as recorded in game/assets/third_party/police/manifest.json (date 2026-10-04); preparation steps are listed under modification",
+      "license": "CC0 1.0",
+      "licenseSpdx": "CC0-1.0",
+      "externalAsset": true,
+      "sourceUrl": "https://polyhaven.com/a/painted_wooden_cabinet",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceAuthor": "Kirill Sannikov",
+      "modification": "original 1K PBR maps; static geometry and ground pivot; lamp geometry reduced and rig removed",
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs",
+        "game/scripts/PolicePostAssets.cs"
+      ],
+      "sourceSha256": "ce04543cdb10e05fe9c2cc08e9c118b16c1c717a07bcbfac9b99859465c8d1ed",
+      "derived": "game/assets/third_party/police/painted_wooden_cabinet.glb",
+      "derivedSha256": "909e6021c28efbeb4e4b9c8705c92a6f78cb529c8870e199bd7466c7f5be8702",
+      "integrated": false,
+      "receiverCapture": "PENDING"
+    },
+    {
+      "id": "model.police.desk_lamp_arm_01.v1",
+      "generator": "Runtime GLB prepared from the third-party download as recorded in game/assets/third_party/police/manifest.json (date 2026-10-04); preparation steps are listed under modification",
+      "license": "CC0 1.0",
+      "licenseSpdx": "CC0-1.0",
+      "externalAsset": true,
+      "sourceUrl": "https://polyhaven.com/a/desk_lamp_arm_01",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceAuthor": "Kuutti Siitonen; Yann Kervran",
+      "modification": "original 1K PBR maps; static geometry and ground pivot; lamp geometry reduced and rig removed",
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs",
+        "game/scripts/PolicePostAssets.cs"
+      ],
+      "sourceSha256": "2ac8389afc1519449a9cfdf7efd9fa36780a2177bb47ab58f7a7dda7d247dc8c",
+      "derived": "game/assets/third_party/police/desk_lamp_arm_01.glb",
+      "derivedSha256": "8baa52fe7f455e594482c03f675a7fde71533a4d30dc36129aa2d63cf0ad6486",
+      "integrated": false,
+      "receiverCapture": "PENDING"
+    },
+    {
+      "id": "model.police.office_chair.v1",
+      "generator": "Runtime GLB prepared from the third-party download as recorded in game/assets/third_party/police/manifest.json (date 2026-10-04); preparation steps are listed under modification",
+      "license": "CC0 1.0",
+      "licenseSpdx": "CC0-1.0",
+      "externalAsset": true,
+      "sourceUrl": "https://opengameart.org/content/office-desk-and-chair-set",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceAuthor": "gamekorp",
+      "modification": "inches to metres; original diffuse atlas and UVs, GLB conversion",
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs",
+        "game/scripts/Act1ConnectedWorld.PolicePost.Officer.cs",
+        "game/scripts/PolicePostAssets.cs"
+      ],
+      "sourceSha256": "5e4b94b314728c9500ddee4fb667aea55270b41f3673a93c1c19423fcaa7bf97",
+      "derived": "game/assets/third_party/police/office_chair.glb",
+      "derivedSha256": "b0d8c0a2050ef6e7eb327adbcdf5449a596ac380847778e3963887eb696ad8a1",
+      "integrated": false,
+      "receiverCapture": "PENDING"
+    },
+    {
+      "id": "model.police.office_dining_chair.v1",
+      "generator": "Runtime GLB prepared from the third-party download as recorded in game/assets/third_party/police/manifest.json (date 2026-10-04); preparation steps are listed under modification",
+      "license": "CC0 1.0",
+      "licenseSpdx": "CC0-1.0",
+      "externalAsset": true,
+      "sourceUrl": "https://opengameart.org/content/office-desk-and-chair-set",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceAuthor": "gamekorp",
+      "modification": "inches to metres; original diffuse atlas and UVs, GLB conversion",
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs",
+        "game/scripts/PolicePostAssets.cs"
+      ],
+      "sourceSha256": "5e4b94b314728c9500ddee4fb667aea55270b41f3673a93c1c19423fcaa7bf97",
+      "derived": "game/assets/third_party/police/office_dining_chair.glb",
+      "derivedSha256": "21387a1471ea98103ba65b4a8c593d829afae2157bd956e0a708880067425d0a",
+      "integrated": false,
+      "receiverCapture": "PENDING"
     }
   ]
 }
