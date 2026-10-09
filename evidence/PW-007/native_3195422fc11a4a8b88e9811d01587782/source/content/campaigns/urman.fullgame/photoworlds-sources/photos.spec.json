@@ -1,0 +1,356 @@
+{
+  "version": 1,
+  "photos": [
+    {
+      "id": "P-FOREST",
+      "title": "Люди у леса",
+      "kind": "passage",
+      "world_id": "W01",
+      "source": "Семейный экземпляр книги; вклеен до начала игры",
+      "grant_rule": "book_received",
+      "context_key": "S-SCHOOL",
+      "notes": "Прочитать подпись группы и узнать сторону съёмки по школьной копии.",
+      "front_brief": "Группа у трёх стволов, раздвоенная берёза, низкая перекладина; все смотрят чуть в сторону. Никакого видимого монстра.",
+      "back_text_ru": "У леса. Перед отъездом.",
+      "representations": [
+        "print_front",
+        "print_back",
+        "book_thumbnail",
+        "accessible_transcription"
+      ],
+      "output_size_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "status": "SPECIFIED_NOT_PRODUCED"
+    },
+    {
+      "id": "P-WATER",
+      "title": "Дети у мостков",
+      "kind": "passage",
+      "world_id": "W02",
+      "source": "Разрешённый семейный конверт на домашнем столе",
+      "grant_rule": "book_received",
+      "context_key": "water_back_read",
+      "notes": "Осмотреть оборот и услышать бытовое название места от әби.",
+      "front_brief": "Летние мостки, сколотый столб и диагональная доска, дети второстепенно, неизвестный берег за кадром.",
+      "back_text_ru": "У старых мостков.",
+      "representations": [
+        "print_front",
+        "print_back",
+        "book_thumbnail",
+        "accessible_transcription"
+      ],
+      "output_size_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "status": "SPECIFIED_NOT_PRODUCED"
+    },
+    {
+      "id": "P-HOUSE",
+      "title": "Двор со ставней",
+      "kind": "passage",
+      "world_id": "W03",
+      "source": "Гөлсинә передаёт после разговора о первом посещении",
+      "grant_rule": "any_main_world_complete_and_home_talk",
+      "context_key": "house_photo_back_read",
+      "notes": "Оборот и узнавание собственного двора.",
+      "front_brief": "Синие крашеные детали, ставня, яблоня и стул; фотографа нет.",
+      "back_text_ru": "Во дворе. Ставня опять заедала.",
+      "representations": [
+        "print_front",
+        "print_back",
+        "book_thumbnail",
+        "accessible_transcription"
+      ],
+      "output_size_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "status": "SPECIFIED_NOT_PRODUCED"
+    },
+    {
+      "id": "P-COMMON",
+      "title": "Незаконченный вид",
+      "kind": "passage",
+      "world_id": "W04",
+      "source": "Авторизованная распечатка семейного файла Марата",
+      "grant_rule": "pc_common_printed",
+      "context_key": "common_caption_prepared",
+      "notes": "Подготовить собственную подпись на ПК; требуются основные завершения и внешние подтверждения.",
+      "front_brief": "Периферийный вид через проём на лес, берег, дальний дом. Он не выглядит туристической открыткой.",
+      "back_text_ru": "Черновик. Подпись не закончена.",
+      "representations": [
+        "print_front",
+        "print_back",
+        "book_thumbnail",
+        "accessible_transcription"
+      ],
+      "output_size_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "status": "SPECIFIED_NOT_PRODUCED"
+    },
+    {
+      "id": "P-CELLAR",
+      "title": "Домашние полки",
+      "kind": "passage",
+      "world_id": "W05",
+      "source": "Семейная коробка снимков, разрешённая для просмотра",
+      "grant_rule": "book_received",
+      "context_key": "S-HAND",
+      "notes": "Сопоставить снимок с домашней фотографией рук.",
+      "front_brief": "Сухие сени, две полки, след круга на столе, коробка с отбитым углом.",
+      "back_text_ru": "Перед уборкой.",
+      "representations": [
+        "print_front",
+        "print_back",
+        "book_thumbnail",
+        "accessible_transcription"
+      ],
+      "output_size_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "status": "SPECIFIED_NOT_PRODUCED"
+    },
+    {
+      "id": "S-SCHOOL",
+      "title": "Копия школьного альбома",
+      "kind": "support",
+      "world_id": null,
+      "source": "Разрешённая копия, оригинал остаётся в школьном альбоме",
+      "grant_rule": "book_received",
+      "context_key": null,
+      "notes": "Можно получить до осмотра P-FOREST.",
+      "front_brief": "Контактный отпечаток с теми же людьми и узнаваемой стороной стволов; без новой географии.",
+      "back_text_ru": "Копия из школьного альбома.",
+      "representations": [
+        "print_front",
+        "print_back",
+        "book_thumbnail",
+        "accessible_transcription"
+      ],
+      "output_size_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "status": "SPECIFIED_NOT_PRODUCED"
+    },
+    {
+      "id": "S-BANK",
+      "title": "Старая схема подхода",
+      "kind": "support",
+      "world_id": null,
+      "source": "Копия из сельсовета/местного архива",
+      "grant_rule": "book_received",
+      "context_key": null,
+      "notes": "Не является официальной современной картой реального Татарстана.",
+      "front_brief": "Фото свай и простой от руки план берега; латеральная связь с R05.",
+      "back_text_ru": "Старый подход к мосткам.",
+      "representations": [
+        "print_front",
+        "print_back",
+        "book_thumbnail",
+        "accessible_transcription"
+      ],
+      "output_size_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "status": "SPECIFIED_NOT_PRODUCED"
+    },
+    {
+      "id": "S-PHOTOGRAPHER",
+      "title": "Оборот контактного отпечатка",
+      "kind": "support",
+      "world_id": null,
+      "source": "Семейный альбом у Гөлсинә",
+      "grant_rule": "book_received",
+      "context_key": null,
+      "notes": "Заранее видно, окончательное толкование после W03.",
+      "front_brief": "Тот же двор с отличным от P-HOUSE кадрированием; на обороте аккуратная бытовая подпись.",
+      "back_text_ru": "Снимала Гөлсинә.",
+      "representations": [
+        "print_front",
+        "print_back",
+        "book_thumbnail",
+        "accessible_transcription"
+      ],
+      "output_size_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "status": "SPECIFIED_NOT_PRODUCED"
+    },
+    {
+      "id": "S-GARDEN",
+      "title": "Соседский сад",
+      "kind": "support",
+      "world_id": null,
+      "source": "Сосед добровольно отдаёт дубликат",
+      "grant_rule": "book_received",
+      "context_key": null,
+      "notes": "Необязательная история, не блокирует W03.",
+      "front_brief": "Обычный сад с предметными следами заботы, без портального свечения.",
+      "back_text_ru": "Сад после работы.",
+      "representations": [
+        "print_front",
+        "print_back",
+        "book_thumbnail",
+        "accessible_transcription"
+      ],
+      "output_size_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "status": "SPECIFIED_NOT_PRODUCED"
+    },
+    {
+      "id": "S-PRINT",
+      "title": "Контактный лист файлов",
+      "kind": "support",
+      "world_id": null,
+      "source": "Семейный ПК, локальная сохранённая папка",
+      "grant_rule": "book_received",
+      "context_key": null,
+      "notes": "Даёт контекст имени файла, не скачивается с живого интернет-сервиса.",
+      "front_brief": "Миниатюры реальных игровых вымышленных фото, понятная локальная папка и имя файла.",
+      "back_text_ru": "Семейная папка. Копия.",
+      "representations": [
+        "print_front",
+        "print_back",
+        "book_thumbnail",
+        "accessible_transcription"
+      ],
+      "output_size_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "status": "SPECIFIED_NOT_PRODUCED"
+    },
+    {
+      "id": "S-MARAT",
+      "title": "Обычный день Марата",
+      "kind": "support",
+      "world_id": null,
+      "source": "Семья разрешает сохранить копию",
+      "grant_rule": "book_received",
+      "context_key": null,
+      "notes": "Не обещает разгадать смерть в этой арке.",
+      "front_brief": "Друг за обычным делом; никаких нарисованных подсказок убийцы или винтовки.",
+      "back_text_ru": "Обычный день.",
+      "representations": [
+        "print_front",
+        "print_back",
+        "book_thumbnail",
+        "accessible_transcription"
+      ],
+      "output_size_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "status": "SPECIFIED_NOT_PRODUCED"
+    },
+    {
+      "id": "S-HAND",
+      "title": "Руки за столом",
+      "kind": "support",
+      "world_id": null,
+      "source": "Семейная фото-коробка",
+      "grant_rule": "book_received",
+      "context_key": null,
+      "notes": "След круга и коробка связывают P-CELLAR с домом.",
+      "front_brief": "Руки взрослого за домашним столом, та же коробка; не портрет реального человека.",
+      "back_text_ru": "На столе всё должно помещаться.",
+      "representations": [
+        "print_front",
+        "print_back",
+        "book_thumbnail",
+        "accessible_transcription"
+      ],
+      "output_size_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "status": "SPECIFIED_NOT_PRODUCED"
+    },
+    {
+      "id": "S-NOW",
+      "title": "Новый снимок Айдара",
+      "kind": "epilogue",
+      "world_id": null,
+      "source": "Айдар делает снимок в финальном домашнем эпизоде",
+      "grant_rule": "epilogue_photo_taken",
+      "context_key": null,
+      "notes": "Не портал и не условие процента коллекции.",
+      "front_brief": "Живые близкие у домашнего стола, видно продолжение обжитого места; Айдар за камерой, не обязательное селфи.",
+      "back_text_ru": "Сегодня. Снимал Айдар.",
+      "representations": [
+        "print_front",
+        "print_back",
+        "book_thumbnail",
+        "accessible_transcription"
+      ],
+      "output_size_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "status": "SPECIFIED_NOT_PRODUCED"
+    }
+  ]
+}

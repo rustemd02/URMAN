@@ -27791,7 +27791,7 @@
       "id": "PW-007",
       "title": "Создать строгий каталог фото, миров и разворотов",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -27801,10 +27801,14 @@
         "PW-006"
       ],
       "scope": [
-        "new PhotoWorldCatalog.cs",
-        "content authoring schema",
-        "data/worlds.spec.json",
-        "data/photos.spec.json"
+        "campaign-manifest and compiled PhotoBook catalog schema",
+        "content/campaigns/urman.fullgame/campaign.json PhotoWorlds authored descriptors",
+        "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
+        "src-dotnet/Urman.Content/Compilation/ContentCompiler.cs compiler-only source validation",
+        "game/scripts/CompiledCampaignRepository.cs typed catalog parsing and logical anchor validation",
+        "evidence/PW-007/receipt.json",
+        "content/modules/urman-fullgame/definitions.json existing prologue scene entryAnchorId",
+        "game/content/urman.fullgame.compiled.v1.json generated fullgame pack"
       ],
       "deliverable": "Создать строгий каталог фото, миров и разворотов",
       "done_when": [
@@ -27812,12 +27816,18 @@
         "Удаление required world/resource не маскируется default-пустышкой.",
         "Соблюдены относящиеся к этой карточке подробные clauses docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/03_BOOK_AND_PHOTOS_RU.md; сокращённый список acceptance не отменяет инженерные/художественные/игровые ограничения документа.",
         "Соблюдены относящиеся к этой карточке подробные clauses docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/06_RUNTIME_ARCHITECTURE_RU.md; сокращённый список acceptance не отменяет инженерные/художественные/игровые ограничения документа.",
-        "Соблюдены относящиеся к этой карточке подробные clauses docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md; сокращённый список acceptance не отменяет инженерные/художественные/игровые ограничения документа."
+        "Соблюдены относящиеся к этой карточке подробные clauses docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md; сокращённый список acceptance не отменяет инженерные/художественные/игровые ограничения документа.",
+        "Для urman.fullgame отсутствие PhotoBook отклоняется схемой/компилятором и runtime repository; legacy campaign без PhotoBook сохраняет совместимость, заглушка не подставляется.",
+        "Семь logical PhotoWorlds v1 anchors, включая PW_PROLOGUE_ROAD существующего пролога, имеют ровно одного authored scene owner; это не подтверждает физическое размещение или безопасный spawn."
       ],
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-007/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-007/receipt.json",
+        "evidence/PW-007/native_3195422fc11a4a8b88e9811d01587782",
+        "evidence/PW-007/native_3195422fc11a4a8b88e9811d01587782/root-review.json"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-007",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -27830,7 +27840,7 @@
       "reference_ids": [
         "REQ"
       ],
-      "runtime_evidence": "NOT_RUN",
+      "runtime_evidence": "PASS logical catalog load only; PHYSICAL NOT_RUN",
       "author_acceptance": "PENDING",
       "mvp_priority": 20,
       "mvp_packet": "PW1",
@@ -27867,10 +27877,15 @@
         ],
         "acceptance": "Все done_when, исходная карточка PW и применимые VIS-критерии; текущая сборка и отдельный human gate.",
         "verification": "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-007/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог.",
-        "stop_if": "Конкретный ресурс/станция/человеческая проверка недоступны — записать локальный blocker и продолжить независимые карточки; не ослаблять критерии."
+        "stop_if": "Конкретный ресурс/станция/человеческая проверка недоступны — записать локальный blocker и продолжить независимые карточки; не ослаблять критерии.",
+        "progress": [
+          "Claimed by /root/address_mount. Implemented the typed immutable 5-world/13-photo catalog; explicit content-subtree copies of the photos/worlds/assets v1 specs are validated by ContentCLI without runtime docs lookup; resource IDs are checked against requirements only, not availability. The fullgame catalog is required at schema/compiler/repository boundaries. All seven required logical anchors, including PW_PROLOGUE_ROAD on the existing prologue scene, must have exactly one authored scene owner. Game and ContentCLI narrow builds plus exact fullgame content compile pass; compiled pack SHA is recorded in evidence/PW-007/receipt.json. Native repository-load verification remains NOT_RUN; physical safe-spawn/collision, world readiness, resource production, and book/art acceptance remain downstream gates."
+        ]
       },
       "phase": 1,
-      "effort": "M"
+      "effort": "M",
+      "progress_2026_10_09_native": "Windows job3195422fc11a4a8b88e9811d01587782, snapshot04824ea5ac58cbfc6976bf0b9987fc963b71835e01572ff302e3880f51a7459e: final pack89f8a53f, 13photos/5worlds/7logicalanchors; existing FullGameFlowSmokeTest explicitly loads full_game.tscn, native semantic PASS, 0engine errors, userdataRestored. Root and independent Luna audit accept own logical catalog slice. Status remains in_progress because required PW-006 is open; no physical/art/resource-production claim.",
+      "next_step": "Завершить producer-backed команды PW-006; затем пересмотреть полное закрытие PW-007 с сохранением PENDING авторской приёмки. Логический каталог принят как явный вход следующего ограниченного среза, зависимости не сняты."
     },
     {
       "id": "PW-008",
