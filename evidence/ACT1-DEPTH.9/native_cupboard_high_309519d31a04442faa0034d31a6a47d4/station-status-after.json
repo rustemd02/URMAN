@@ -1,0 +1,10 @@
+{
+  "exit_code": 0,
+  "finished": "2026-10-09T05:25:48.6663894Z",
+  "job_id": "309519d31a04442faa0034d31a6a47d4",
+  "result_sha256": "e90e66a7e37676a4823dc587ce1a07b2000fe5ccde37ff5089fe7197eea46c13",
+  "snapshot_id": "87c7d2aec0b98099d60d636000406ae4a2c5d6a65a0efb39aae95610fb32a0e4",
+  "started": "2026-10-09T05:20:00.9704560Z",
+  "station_freed_bytes": 838713782,
+  "status": "PASS"
+}

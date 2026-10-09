@@ -749,6 +749,25 @@ public partial class Act1DemoRoot
             }
             metadata["cornerLogMaterials"] = rows;
         }
+        if (point.Name.StartsWith("babai_cupboard_", StringComparison.Ordinal)
+            && System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") == "1")
+        {
+            var rows = new JsonArray();
+            foreach (var mesh in _main!.FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree() && mesh.Mesh is not null
+                    && mesh.Name.ToString().StartsWith("HouseInterior_Cupboard", StringComparison.Ordinal)))
+            {
+                var row = H019RoofMeshMetadata(mesh);
+                if (mesh.GetActiveMaterial(0) is ShaderMaterial shader)
+                {
+                    row["authoredUvTexture"] = shader.GetShaderParameter("authored_uv_texture").AsBool();
+                    row["boundUvPigment"] = shader.GetShaderParameter("bound_uv_pigment").AsBool();
+                    row["lowQuality"] = shader.GetShaderParameter("low_quality").AsBool();
+                }
+                rows.Add(row);
+            }
+            metadata["cupboardMaterialCensus"] = rows;
+        }
         return metadata;
     }
 

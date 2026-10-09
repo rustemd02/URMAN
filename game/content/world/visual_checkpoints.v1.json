@@ -267,6 +267,34 @@
       "spec": "BabaiApproachDwellingFacade@6.55,1.8,3>BabaiApproachDwellingFacade@5.908,1.42,1.3",
       "subject": "ACT1-DEPTH.12: фактический Low торцевых колец после ограниченной shader-правки; точный прежний ракурс babai_corner_right.",
       "graphicsPreset": "low"
+    },
+    {
+      "id": "babai_room_overview_low",
+      "zoneId": "house_old_pc",
+      "spec": "BabaiApproachDwellingFacade@-1.162,1.846,-0.484>BabaiApproachDwellingFacade@1.658,1.546,-4.934",
+      "subject": "ACT1-DEPTH.9: прежний точный обзор комнаты на фактическом Low после одной правки дверцы/ручки шкафа, без доказательства обычного прохода.",
+      "graphicsPreset": "low"
+    },
+    {
+      "id": "babai_cupboard_detail_low",
+      "graphicsPreset": "low",
+      "zoneId": "house_old_pc",
+      "spec": "BabaiApproachDwellingFacade@3.458,1.826,-5.434>BabaiApproachDwellingFacade@4.788,1.496,-5.034",
+      "subject": "ACT1-DEPTH.9: крупный статичный вид филёнки и утопленной ручки действующего шкафа; камера выведена из текущих transform/RoomOffset, вне габарита корпуса, обычный маршрут не подтверждён."
+    },
+    {
+      "id": "babai_room_overview_high",
+      "zoneId": "house_old_pc",
+      "spec": "BabaiApproachDwellingFacade@-1.162,1.846,-0.484>BabaiApproachDwellingFacade@1.658,1.546,-4.934",
+      "subject": "ACT1-DEPTH.9: тот же точный статичный ракурс на High для причинного сравнения пунктирных швов дверной рамы; не доказывает обычный маршрут или готовый интерьер.",
+      "graphicsPreset": "high"
+    },
+    {
+      "id": "babai_cupboard_detail_high",
+      "graphicsPreset": "high",
+      "zoneId": "house_old_pc",
+      "spec": "BabaiApproachDwellingFacade@3.458,1.826,-5.434>BabaiApproachDwellingFacade@4.788,1.496,-5.034",
+      "subject": "ACT1-DEPTH.9: тот же точный статичный ракурс на High для причинного сравнения пунктирных швов дверной рамы; не доказывает обычный маршрут или готовый интерьер."
     }
   ],
   "batches": [

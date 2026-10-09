@@ -1,0 +1,10 @@
+{
+  "exit_code": 0,
+  "finished": 1791521557.0832539,
+  "job_id": "d4d00080f37449b8a574a1de7f2ab6aa",
+  "result_sha256": "f1564981d26fa97bb9c660053ee1fc2379101ffb2eae4157fbe4dfe37f6f478f",
+  "snapshot_id": "f5501cd114cce146aeaffaa933b122a930d8cd424935e075720bc7fa79ef844e",
+  "started": 1791521188.071393,
+  "station_freed_bytes": 838987168,
+  "status": "PASS"
+}

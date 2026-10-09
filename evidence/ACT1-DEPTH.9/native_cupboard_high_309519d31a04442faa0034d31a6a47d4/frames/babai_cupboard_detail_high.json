@@ -1,0 +1,1150 @@
+{
+  "point": "babai_cupboard_detail_high",
+  "spec": "babai_cupboard_detail_high:BabaiApproachDwellingFacade@3.458,1.826,-5.434\u003EBabaiApproachDwellingFacade@4.788,1.496,-5.034",
+  "cameraName": "DevViewCamera",
+  "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+  "cameraPosition": {
+    "x": -16.020481,
+    "y": 1.574152,
+    "z": -6.505578
+  },
+  "cameraTarget": {
+    "x": -15.620474,
+    "y": 1.244152,
+    "z": -7.835576
+  },
+  "cameraForward": {
+    "x": 0.280212,
+    "y": -0.231171,
+    "z": -0.931687
+  },
+  "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "cameraOwnerZone": null,
+  "targetOwnerZone": null,
+  "fov": 70,
+  "fovSource": "explicit",
+  "near": 0.05,
+  "far": 160,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "scaling3DScale": 0.7,
+  "scaling3DMode": "Fsr",
+  "graphicsPreset": "low",
+  "graphicsRequestedPreset": "high",
+  "graphicsEffectivePreset": "low",
+  "playerGraphicsPreset": "low",
+  "graphicsPreferredPreset": "high",
+  "graphicsSessionOverride": "performance-rescue",
+  "graphicsPresetApplyStatus": "applied-through-player-settings",
+  "graphicsComparable": false,
+  "graphicsBudget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none",
+  "activeZoneId": "house_old_pc",
+  "requestedZoneId": "house_old_pc",
+  "checkpointSubject": "ACT1-DEPTH.9: \u0442\u043E\u0442 \u0436\u0435 \u0442\u043E\u0447\u043D\u044B\u0439 \u0441\u0442\u0430\u0442\u0438\u0447\u043D\u044B\u0439 \u0440\u0430\u043A\u0443\u0440\u0441 \u043D\u0430 High \u0434\u043B\u044F \u043F\u0440\u0438\u0447\u0438\u043D\u043D\u043E\u0433\u043E \u0441\u0440\u0430\u0432\u043D\u0435\u043D\u0438\u044F \u043F\u0443\u043D\u043A\u0442\u0438\u0440\u043D\u044B\u0445 \u0448\u0432\u043E\u0432 \u0434\u0432\u0435\u0440\u043D\u043E\u0439 \u0440\u0430\u043C\u044B; \u043D\u0435 \u0434\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442 \u043E\u0431\u044B\u0447\u043D\u044B\u0439 \u043C\u0430\u0440\u0448\u0440\u0443\u0442 \u0438\u043B\u0438 \u0433\u043E\u0442\u043E\u0432\u044B\u0439 \u0438\u043D\u0442\u0435\u0440\u044C\u0435\u0440.",
+  "requestedProfile": null,
+  "atmosphereProfile": "village-winter-frost",
+  "atmosphereOwner": "logical-zone/house_old_pc",
+  "studioPreviewProfile": null,
+  "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/WorldEnvironment",
+  "tonemapMode": "Agx",
+  "fogColor": "c2d0e0ff",
+  "fogDensity": 0.93,
+  "snowActive": true,
+  "snowAmount": 4000,
+  "blizzardActive": false,
+  "drawCalls": 5906,
+  "capturedUnixSeconds": 1791523545,
+  "cupboardMaterialCensus": [
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_CupboardBody_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 24,
+      "meshResourceName": "urman_modular_kit_HouseInterior_CupboardBody_LOD0Mesh",
+      "meshResourcePath": "res://assets/generated/urman_modular_kit.glb::ArrayMesh_3y46p",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.787503,
+          "y": -1.21,
+          "z": -0.408637
+        },
+        "size": {
+          "x": 1.575005,
+          "y": 2.42,
+          "z": 0.817274
+        },
+        "end": {
+          "x": 0.787503,
+          "y": 1.21,
+          "z": 0.408637
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -16.407976,
+          "y": -0.005848,
+          "z": -8.634217
+        },
+        "size": {
+          "x": 1.575008,
+          "y": 2.42,
+          "z": 0.817281
+        },
+        "end": {
+          "x": -14.832968,
+          "y": 2.414152,
+          "z": -7.816936
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.52,
+          "y": 1.21,
+          "z": -2.4
+        },
+        "basisX": {
+          "x": -0,
+          "y": 0,
+          "z": 1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": -1,
+          "y": 0,
+          "z": -0
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -15.620472,
+          "y": 1.204152,
+          "z": -8.225576
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": -0.000005,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_CupboardBody_LOD0",
+      "sceneOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1",
+      "sceneOwnerLocalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "sceneOwnerGlobalTransform": {
+        "origin": {
+          "x": -13.22049,
+          "y": -0.005848,
+          "z": -4.705564
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": -13.22049,
+          "y": -0.005848,
+          "z": -4.705564
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "WeatheredWood",
+          "meshMaterialPath": "res://assets/generated/urman_modular_kit.glb::StandardMaterial3D_ol4b7",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": false,
+          "activeShaderPath": null
+        }
+      ]
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_CupboardDoor_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 24,
+      "meshResourceName": "urman_modular_kit_CupboardDoorCompositeTempMesh",
+      "meshResourcePath": "res://assets/generated/urman_modular_kit.glb::ArrayMesh_742ev",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.58,
+          "y": -1.06,
+          "z": -0.035
+        },
+        "size": {
+          "x": 1.16,
+          "y": 2.12,
+          "z": 0.07
+        },
+        "end": {
+          "x": 0.58,
+          "y": 1.06,
+          "z": 0.035
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -16.200474,
+          "y": 0.154152,
+          "z": -7.870578
+        },
+        "size": {
+          "x": 1.16,
+          "y": 2.12,
+          "z": 0.070005
+        },
+        "end": {
+          "x": -15.040474,
+          "y": 2.274152,
+          "z": -7.800572
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.129999,
+          "y": 1.22,
+          "z": -2.4
+        },
+        "basisX": {
+          "x": -0,
+          "y": 0,
+          "z": 1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": -1,
+          "y": 0,
+          "z": -0
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -15.620474,
+          "y": 1.214152,
+          "z": -7.835575
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": -0.000005,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_CupboardDoor_LOD0",
+      "sceneOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1",
+      "sceneOwnerLocalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "sceneOwnerGlobalTransform": {
+        "origin": {
+          "x": -13.22049,
+          "y": -0.005848,
+          "z": -4.705564
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": -13.22049,
+          "y": -0.005848,
+          "z": -4.705564
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DarkWood",
+          "meshMaterialPath": "res://assets/generated/urman_modular_kit.glb::StandardMaterial3D_lhjmn",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": false,
+          "activeShaderPath": null
+        }
+      ]
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_CupboardPull_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 24,
+      "meshResourceName": "urman_modular_kit_HouseInterior_CupboardPull_LOD0Mesh",
+      "meshResourcePath": "res://assets/generated/urman_modular_kit.glb::ArrayMesh_7hknl",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.015,
+          "y": -0.055,
+          "z": -0.008
+        },
+        "size": {
+          "x": 0.03,
+          "y": 0.11,
+          "z": 0.016
+        },
+        "end": {
+          "x": 0.015,
+          "y": 0.055,
+          "z": 0.008
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -15.255473,
+          "y": 1.159152,
+          "z": -7.816575
+        },
+        "size": {
+          "x": 0.030001,
+          "y": 0.11,
+          "z": 0.016
+        },
+        "end": {
+          "x": -15.225472,
+          "y": 1.269152,
+          "z": -7.800575
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.103001,
+          "y": 1.22,
+          "z": -2.019999
+        },
+        "basisX": {
+          "x": -0,
+          "y": 0,
+          "z": 1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": -1,
+          "y": 0,
+          "z": -0
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -15.240473,
+          "y": 1.214152,
+          "z": -7.808575
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": -0.000005,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_CupboardPull_LOD0",
+      "sceneOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1",
+      "sceneOwnerLocalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "sceneOwnerGlobalTransform": {
+        "origin": {
+          "x": -13.22049,
+          "y": -0.005848,
+          "z": -4.705564
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": -13.22049,
+          "y": -0.005848,
+          "z": -4.705564
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DarkWood",
+          "meshMaterialPath": "res://assets/generated/urman_modular_kit.glb::StandardMaterial3D_lhjmn",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": false,
+          "activeShaderPath": null
+        }
+      ]
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_CupboardBody_LOD1",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 18,
+      "visibilityRangeEnd": 72,
+      "meshResourceName": "urman_modular_kit_HouseInterior_CupboardBody_LOD0Mesh_001",
+      "meshResourcePath": "res://assets/generated/urman_modular_kit.glb::ArrayMesh_76h3j",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.773243,
+          "y": -1.21,
+          "z": -0.408637
+        },
+        "size": {
+          "x": 1.546486,
+          "y": 2.402158,
+          "z": 0.817274
+        },
+        "end": {
+          "x": 0.773243,
+          "y": 1.192158,
+          "z": 0.408637
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -16.393717,
+          "y": -0.005848,
+          "z": -8.634217
+        },
+        "size": {
+          "x": 1.54649,
+          "y": 2.402158,
+          "z": 0.817281
+        },
+        "end": {
+          "x": -14.847227,
+          "y": 2.39631,
+          "z": -7.816936
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.52,
+          "y": 1.21,
+          "z": -2.4
+        },
+        "basisX": {
+          "x": -0,
+          "y": 0,
+          "z": 1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": -1,
+          "y": 0,
+          "z": -0
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -15.620472,
+          "y": 1.204152,
+          "z": -8.225576
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": -0.000005,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_CupboardBody_LOD1",
+      "sceneOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1",
+      "sceneOwnerLocalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "sceneOwnerGlobalTransform": {
+        "origin": {
+          "x": -13.22049,
+          "y": -0.005848,
+          "z": -4.705564
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": -13.22049,
+          "y": -0.005848,
+          "z": -4.705564
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "WeatheredWood",
+          "meshMaterialPath": "res://assets/generated/urman_modular_kit.glb::StandardMaterial3D_ol4b7",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": false,
+          "activeShaderPath": null
+        }
+      ]
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_CupboardDoor_LOD1",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 18,
+      "visibilityRangeEnd": 72,
+      "meshResourceName": "urman_modular_kit_CupboardDoorCompositeTempMesh_001",
+      "meshResourcePath": "res://assets/generated/urman_modular_kit.glb::ArrayMesh_chh7f",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.58,
+          "y": -1.058125,
+          "z": -0.035
+        },
+        "size": {
+          "x": 1.16,
+          "y": 2.116249,
+          "z": 0.07
+        },
+        "end": {
+          "x": 0.58,
+          "y": 1.058125,
+          "z": 0.035
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -16.200474,
+          "y": 0.156028,
+          "z": -7.870578
+        },
+        "size": {
+          "x": 1.16,
+          "y": 2.116249,
+          "z": 0.070005
+        },
+        "end": {
+          "x": -15.040474,
+          "y": 2.272277,
+          "z": -7.800572
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.129999,
+          "y": 1.22,
+          "z": -2.4
+        },
+        "basisX": {
+          "x": -0,
+          "y": 0,
+          "z": 1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": -1,
+          "y": 0,
+          "z": -0
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -15.620474,
+          "y": 1.214152,
+          "z": -7.835575
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": -0.000005,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_CupboardDoor_LOD1",
+      "sceneOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1",
+      "sceneOwnerLocalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "sceneOwnerGlobalTransform": {
+        "origin": {
+          "x": -13.22049,
+          "y": -0.005848,
+          "z": -4.705564
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": -13.22049,
+          "y": -0.005848,
+          "z": -4.705564
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [
+            1.143274
+          ],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DarkWood",
+          "meshMaterialPath": "res://assets/generated/urman_modular_kit.glb::StandardMaterial3D_lhjmn",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": false,
+          "activeShaderPath": null
+        }
+      ]
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_CupboardPull_LOD1",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 18,
+      "visibilityRangeEnd": 72,
+      "meshResourceName": "urman_modular_kit_HouseInterior_CupboardPull_LOD0Mesh_001",
+      "meshResourcePath": "res://assets/generated/urman_modular_kit.glb::ArrayMesh_7b8rn",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.014577,
+          "y": -0.055632,
+          "z": -0.008
+        },
+        "size": {
+          "x": 0.030209,
+          "y": 0.111263,
+          "z": 0.016
+        },
+        "end": {
+          "x": 0.015632,
+          "y": 0.055632,
+          "z": 0.008
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -15.25505,
+          "y": 1.158521,
+          "z": -7.816575
+        },
+        "size": {
+          "x": 0.030209,
+          "y": 0.111263,
+          "z": 0.016
+        },
+        "end": {
+          "x": -15.224841,
+          "y": 1.269784,
+          "z": -7.800575
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.103001,
+          "y": 1.22,
+          "z": -2.019999
+        },
+        "basisX": {
+          "x": -0,
+          "y": 0,
+          "z": 1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": -1,
+          "y": 0,
+          "z": -0
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -15.240473,
+          "y": 1.214152,
+          "z": -7.808575
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": -0.000005,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1/HouseInterior_CupboardPull_LOD1",
+      "sceneOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1",
+      "sceneOwnerLocalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "sceneOwnerGlobalTransform": {
+        "origin": {
+          "x": -13.22049,
+          "y": -0.005848,
+          "z": -4.705564
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedHouseInteriorAct1",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": -13.22049,
+          "y": -0.005848,
+          "z": -4.705564
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DarkWood",
+          "meshMaterialPath": "res://assets/generated/urman_modular_kit.glb::StandardMaterial3D_lhjmn",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": false,
+          "activeShaderPath": null
+        }
+      ]
+    }
+  ]
+}

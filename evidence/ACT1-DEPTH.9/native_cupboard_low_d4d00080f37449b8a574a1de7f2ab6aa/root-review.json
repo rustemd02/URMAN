@@ -1,0 +1,13 @@
+{
+  "reviewer": "/root",
+  "originals_reviewed_utc": "2026-10-09T04:53:19Z",
+  "archive_integrity": "Independent SHA256, size, exact file set PASS",
+  "scope": "One cupboard door/pull static scene at fixed cameras; not whole-house acceptance",
+  "visual_acceptance": "PENDING_VERTICAL_SEAM_CAUSE",
+  "observation": "Door frame, recessed panel and pull readable, but pale dotted vertical seam lines remain in close frame.",
+  "full_task_completed": false,
+  "ordinary_player_interaction": "NOT_RUN",
+  "requested_preset": "low",
+  "effective_preset": "low",
+  "override": "none"
+}
