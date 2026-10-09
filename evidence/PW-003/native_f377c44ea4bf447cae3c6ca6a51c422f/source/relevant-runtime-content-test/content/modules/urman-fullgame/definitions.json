@@ -1,0 +1,5513 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/scene-act2-house",
+    "value": {
+      "default": "The house that remembers",
+      "translations": {
+        "ru": "Дом, который помнит"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/scene-act2-river",
+    "value": {
+      "default": "The river keeps two names",
+      "translations": {
+        "ru": "Река с двумя именами"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/scene-act2-mosque",
+    "value": {
+      "default": "A courtyard without an answer",
+      "translations": {
+        "ru": "Двор без готового ответа"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/scene-act2-council",
+    "value": {
+      "default": "The village has two ledgers",
+      "translations": {
+        "ru": "У деревни две книги"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/scene-act3-archive",
+    "value": {
+      "default": "The archive after the silence",
+      "translations": {
+        "ru": "Архив после молчания"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/scene-act3-soviet",
+    "value": {
+      "default": "Baranov's 1967 folder",
+      "translations": {
+        "ru": "Папка Баранова, 1967"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/scene-act3-suanasy",
+    "value": {
+      "default": "Water remembers the debt",
+      "translations": {
+        "ru": "Вода помнит долг"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/scene-act4-tukay",
+    "value": {
+      "default": "A poem left open",
+      "translations": {
+        "ru": "Открытая тетрадь Тукая"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/scene-act4-1552",
+    "value": {
+      "default": "The year the border moved",
+      "translations": {
+        "ru": "Год, когда граница сдвинулась"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/scene-act4-pact",
+    "value": {
+      "default": "The pact ledger",
+      "translations": {
+        "ru": "Книга пакта"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/scene-act5-boundary",
+    "value": {
+      "default": "The last boundary",
+      "translations": {
+        "ru": "Последняя граница"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/scene-act5-epilogue",
+    "value": {
+      "default": "After the protection",
+      "translations": {
+        "ru": "После защиты"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/dialogue-alsu-confession",
+    "value": {
+      "default": "Alsu admits the village has always kept two versions of the same day.",
+      "translations": {
+        "ru": "Алсу признаётся: у деревни всегда было две версии одного и того же дня."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/dialogue-timur-counsel",
+    "value": {
+      "default": "Timur says faith is not a license to hide an injustice.",
+      "translations": {
+        "ru": "Тимур говорит: вера не даёт права прятать несправедливость."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/dialogue-naila-record",
+    "value": {
+      "default": "Naila remembers the missing page in Baranov's file.",
+      "translations": {
+        "ru": "Наиля помнит страницу, которой не хватает в папке Баранова."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/dialogue-council-voice",
+    "value": {
+      "default": "The council calls the pact protection, but never says who pays for it.",
+      "translations": {
+        "ru": "На сходе пакт называют защитой, но никто не говорит, кто за неё платит."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/dialogue-suanasy",
+    "value": {
+      "default": "The voice from the water asks for the name the village erased.",
+      "translations": {
+        "ru": "Голос из воды просит назвать имя, которое деревня стёрла."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/dialogue-tukay",
+    "value": {
+      "default": "The old notebook treats Tatar words as instructions for care, not charms.",
+      "translations": {
+        "ru": "Старая тетрадь объясняет татарские слова как правила заботы, а не заклинания."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/dialogue-pact-keeper",
+    "value": {
+      "default": "The keeper says every inherited role can be refused, but refusal has a price.",
+      "translations": {
+        "ru": "Хранитель говорит: от любой наследственной роли можно отказаться, но отказ имеет цену."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/dialogue-aidar-final",
+    "value": {
+      "default": "Aidar chooses to break the pact without pretending the village will be safe tomorrow.",
+      "translations": {
+        "ru": "Айдар решает разрушить пакт, не делая вид, что завтра деревне будет безопасно."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/quest-act2-title",
+    "value": {
+      "default": "Find the village's second ledger",
+      "translations": {
+        "ru": "Найти вторую книгу деревни"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/objective-act2",
+    "value": {
+      "default": "Compare the family story with the practical rule at the river.",
+      "translations": {
+        "ru": "Сопоставить семейную версию с практическим правилом у реки."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/quest-act3-title",
+    "value": {
+      "default": "Follow Marat's warning into the archive",
+      "translations": {
+        "ru": "Проследить предупреждение Марата в архиве"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/objective-act3",
+    "value": {
+      "default": "Recover Baranov's missing page and name the water debt.",
+      "translations": {
+        "ru": "Найти пропавшую страницу Баранова и назвать долг воды."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/quest-act4-title",
+    "value": {
+      "default": "Read the inherited roles",
+      "translations": {
+        "ru": "Прочитать наследственные роли"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/objective-act4",
+    "value": {
+      "default": "Read 1913 and 1552 without turning history into a legend.",
+      "translations": {
+        "ru": "Прочитать 1913 и 1552 годы, не превращая историю в легенду."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/quest-act5-title",
+    "value": {
+      "default": "Break the unjust protection",
+      "translations": {
+        "ru": "Разрушить несправедливую защиту"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/objective-act5",
+    "value": {
+      "default": "Speak the truth, release the pact, and stay for the cost.",
+      "translations": {
+        "ru": "Сказать правду, отпустить пакт и остаться ради цены."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/vocab-amanat",
+    "value": {
+      "default": "Amanat — a trust carried for someone else.",
+      "translations": {
+        "ru": "Аманат — доверенное кому-то обязательство."
+      }
+    },
+    "purpose": "document"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/vocab-su-anasy",
+    "value": {
+      "default": "Su Anasy — the water guardian in the village's remembered stories.",
+      "translations": {
+        "ru": "Су Анасы — хранительница воды в памяти деревни."
+      }
+    },
+    "purpose": "document"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/vocab-vasiyat",
+    "value": {
+      "default": "Vasiyat — a testament, not a command to repeat harm.",
+      "translations": {
+        "ru": "Васыять — завещание, а не приказ повторять вред."
+      }
+    },
+    "purpose": "document"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/vocab-boranov",
+    "value": {
+      "default": "Baranov — the surname on the Soviet report.",
+      "translations": {
+        "ru": "Баранов — фамилия в советском отчёте."
+      }
+    },
+    "purpose": "document"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:vocabulary/tt_amanat",
+    "term": "amanat",
+    "language": "tt",
+    "meaning": {
+      "default": "Trust carried for another person",
+      "translations": {
+        "ru": "Доверенное обязательство",
+        "tt": "Аманат — ышанып тапшырылган бурыч"
+      }
+    },
+    "initialStatus": "unknown",
+    "rereadTargets": [
+      "urman.fullgame:document/pact-ledger"
+    ],
+    "applicationTargets": [
+      "urman.fullgame:scene/act4-pact",
+      "urman.fullgame:scene/act5-boundary"
+    ],
+    "consultantReview": {
+      "status": "pending",
+      "reviewer": null,
+      "notes": "Check religious and family-law nuance with a Tatar-speaking consultant before content lock."
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:vocabulary/tt_su_anasy",
+    "term": "su anasy",
+    "language": "tt",
+    "meaning": {
+      "default": "Water guardian",
+      "translations": {
+        "ru": "Хранительница воды",
+        "tt": "Су Анасы — су сакчысы"
+      }
+    },
+    "initialStatus": "unknown",
+    "rereadTargets": [
+      "urman.fullgame:document/baranov-1967"
+    ],
+    "applicationTargets": [
+      "urman.fullgame:scene/act3-suanasy"
+    ],
+    "consultantReview": {
+      "status": "pending",
+      "reviewer": null,
+      "notes": "Check folklore terminology and avoid reducing the being to a monster."
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:vocabulary/tt_vasiyat",
+    "term": "vasiyat",
+    "language": "tt",
+    "meaning": {
+      "default": "Testament",
+      "translations": {
+        "ru": "Завещание",
+        "tt": "Васыять — васыять"
+      }
+    },
+    "initialStatus": "unknown",
+    "rereadTargets": [
+      "urman.fullgame:document/tukai-1913"
+    ],
+    "applicationTargets": [
+      "urman.fullgame:scene/act4-tukay"
+    ],
+    "consultantReview": {
+      "status": "pending",
+      "reviewer": null,
+      "notes": "Verify spelling and register for the 1913 archival layer."
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:vocabulary/tt_boranov",
+    "term": "Baranov",
+    "language": "tt",
+    "meaning": {
+      "default": "The surname in the report",
+      "translations": {
+        "ru": "Фамилия в отчёте",
+        "tt": "Хисаптагы фамилия"
+      }
+    },
+    "initialStatus": "unknown",
+    "rereadTargets": [
+      "urman.fullgame:document/baranov-1967"
+    ],
+    "applicationTargets": [
+      "urman.fullgame:scene/act3-soviet"
+    ],
+    "consultantReview": {
+      "status": "pending",
+      "reviewer": null,
+      "notes": "Confirm transliteration only; do not imply a Tatar lexical meaning."
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/act2_village_double_system",
+    "kind": "clue",
+    "title": {
+      "default": "The village keeps two versions",
+      "translations": {
+        "ru": "Деревня хранит две версии"
+      }
+    },
+    "summary": {
+      "default": "The public story and the practical rule are both maintained on purpose.",
+      "translations": {
+        "ru": "Публичную историю и практическое правило поддерживают намеренно."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:scene/act2-house",
+      "urman.fullgame:dialogue/alsu-confession"
+    ],
+    "reveals": [
+      "urman.fullgame:knowledge/act2_alsu_knows_pact"
+    ],
+    "contradicts": [],
+    "unlocks": [
+      "urman.fullgame:quest/act2-double-ledger"
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/act2_alsu_knows_pact",
+    "kind": "clue",
+    "title": {
+      "default": "Alsu knows the practical rule",
+      "translations": {
+        "ru": "Алсу знает практическое правило"
+      }
+    },
+    "summary": {
+      "default": "Alsu is not an oracle; she knows where people stop walking and why.",
+      "translations": {
+        "ru": "Алсу не пророчица: она знает, где люди перестают идти и почему."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:scene/act2-river"
+    ],
+    "reveals": [],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/act2_practical_pact_proof",
+    "kind": "fact",
+    "title": {
+      "default": "The pact has a practical cost",
+      "translations": {
+        "ru": "У пакта есть практическая цена"
+      }
+    },
+    "summary": {
+      "default": "A marked place and a missing name show that the pact changes daily choices.",
+      "translations": {
+        "ru": "Отмеченное место и стёртое имя показывают, что пакт меняет повседневные решения."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:scene/act2-mosque",
+      "urman.fullgame:scene/act2-council"
+    ],
+    "reveals": [
+      "urman.fullgame:knowledge/act3_baranov_1967"
+    ],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/act3_baranov_1967",
+    "kind": "contradiction",
+    "title": {
+      "default": "Baranov's 1967 report",
+      "translations": {
+        "ru": "Отчёт Баранова 1967 года"
+      }
+    },
+    "summary": {
+      "default": "The Soviet report describes a negotiated boundary while the public file calls it an accident.",
+      "translations": {
+        "ru": "Советский отчёт описывает договорную границу, а публичное дело называет всё несчастным случаем."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:scene/act3-archive",
+      "urman.fullgame:document/baranov-1967"
+    ],
+    "reveals": [
+      "urman.fullgame:knowledge/act3_su_anasy_debt"
+    ],
+    "contradicts": [
+      "urman.chapter1:knowledge/clue_marat_official_death_version"
+    ],
+    "unlocks": [
+      "urman.fullgame:quest/act3-water-debt"
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/act3_su_anasy_debt",
+    "kind": "clue",
+    "title": {
+      "default": "Su Anasy was owed a name",
+      "translations": {
+        "ru": "Су Анасы ждали имя"
+      }
+    },
+    "summary": {
+      "default": "The report records a promise to the water, not a monster to defeat.",
+      "translations": {
+        "ru": "В отчёте записано обещание воде, а не описание врага, которого нужно победить."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:scene/act3-suanasy",
+      "urman.fullgame:document/baranov-1967"
+    ],
+    "reveals": [
+      "urman.fullgame:knowledge/act4_inherited_roles"
+    ],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/act3_marat_warning",
+    "kind": "fact",
+    "title": {
+      "default": "Marat found the warning before Aidar",
+      "translations": {
+        "ru": "Марат нашёл предупреждение раньше Айдара"
+      }
+    },
+    "summary": {
+      "default": "The saved message was a request to stop repeating an old bargain.",
+      "translations": {
+        "ru": "Сохранённое сообщение просило не повторять старую сделку."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:scene/act3-soviet"
+    ],
+    "reveals": [],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/act4_tukay_1913",
+    "kind": "fact",
+    "title": {
+      "default": "The 1913 notebook names care",
+      "translations": {
+        "ru": "Тетрадь 1913 года говорит о заботе"
+      }
+    },
+    "summary": {
+      "default": "Tukay's layer preserves a vocabulary of responsibility rather than a spell book.",
+      "translations": {
+        "ru": "Слой Тукая сохраняет язык ответственности, а не книгу заклинаний."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:scene/act4-tukay",
+      "urman.fullgame:document/tukai-1913"
+    ],
+    "reveals": [
+      "urman.fullgame:knowledge/act4_kazan_1552"
+    ],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/act4_kazan_1552",
+    "kind": "fact",
+    "title": {
+      "default": "The 1552 loss was inherited as silence",
+      "translations": {
+        "ru": "Потерю 1552 года унаследовали как молчание"
+      }
+    },
+    "summary": {
+      "default": "The old wound explains the pact's fear, not its justice.",
+      "translations": {
+        "ru": "Старая рана объясняет страх пакта, но не делает его справедливым."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:scene/act4-1552",
+      "urman.fullgame:document/kazan-1552"
+    ],
+    "reveals": [
+      "urman.fullgame:knowledge/act4_pact_origin"
+    ],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/act4_inherited_roles",
+    "kind": "clue",
+    "title": {
+      "default": "Roles were inherited, not chosen",
+      "translations": {
+        "ru": "Роли наследовали, а не выбирали"
+      }
+    },
+    "summary": {
+      "default": "Keeper, witness and payment were assigned to families across generations.",
+      "translations": {
+        "ru": "Хранителя, свидетеля и того, кто платит, назначали семьям из поколения в поколение."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:scene/act3-suanasy",
+      "urman.fullgame:scene/act4-tukay"
+    ],
+    "reveals": [],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/act4_pact_origin",
+    "kind": "contradiction",
+    "title": {
+      "default": "The pact began as an unjust bargain",
+      "translations": {
+        "ru": "Пакт начался с несправедливой сделки"
+      }
+    },
+    "summary": {
+      "default": "Protection was purchased with a silence no child could consent to.",
+      "translations": {
+        "ru": "Защиту купили молчанием, на которое ни один ребёнок не мог согласиться."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:scene/act4-pact",
+      "urman.fullgame:document/pact-ledger"
+    ],
+    "reveals": [
+      "urman.fullgame:knowledge/act5_pact_unjust"
+    ],
+    "contradicts": [],
+    "unlocks": [
+      "urman.fullgame:quest/act4-inherited-roles"
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/act5_pact_unjust",
+    "kind": "clue",
+    "title": {
+      "default": "The protection is unjust",
+      "translations": {
+        "ru": "Защита несправедлива"
+      }
+    },
+    "summary": {
+      "default": "A safe village built on inherited silence is not a safe village.",
+      "translations": {
+        "ru": "Деревня, защищённая наследственным молчанием, не становится от этого безопасной."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:scene/act5-boundary",
+      "urman.fullgame:dialogue/pact-keeper"
+    ],
+    "reveals": [
+      "urman.fullgame:knowledge/act5_protection_lost"
+    ],
+    "contradicts": [],
+    "unlocks": [
+      "urman.fullgame:quest/act5-break-pact"
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/act5_protection_lost",
+    "kind": "fact",
+    "title": {
+      "default": "Protection will be lost",
+      "translations": {
+        "ru": "Защита будет потеряна"
+      }
+    },
+    "summary": {
+      "default": "Breaking the pact does not defeat the forest; it removes the old shield.",
+      "translations": {
+        "ru": "Разрушение пакта не побеждает лес — оно снимает старый щит."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:scene/act5-boundary",
+      "urman.fullgame:scene/act5-epilogue"
+    ],
+    "reveals": [
+      "urman.fullgame:knowledge/act5_truth_price"
+    ],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/act5_truth_price",
+    "kind": "fact",
+    "title": {
+      "default": "The future is dangerous but honest",
+      "translations": {
+        "ru": "Будущее опасно, но честно"
+      }
+    },
+    "summary": {
+      "default": "The village must answer for its choices without inherited protection.",
+      "translations": {
+        "ru": "Деревне придётся отвечать за свои решения без наследственной защиты."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:scene/act5-epilogue",
+      "urman.fullgame:dialogue/aidar-final"
+    ],
+    "reveals": [],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/act2-house",
+    "sceneType": "static",
+    "title": {
+      "default": "The house that remembers",
+      "translations": {
+        "ru": "Дом, который помнит"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/scene-act2-house"
+    ],
+    "entryConditions": [],
+    "onEnter": [
+      {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.fullgame:knowledge/act2_village_double_system",
+        "status": "confirmed"
+      }
+    ],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/act2-house-to-river",
+        "labelTextId": "urman.chapter1:text/continue",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/act2-river"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/act2-river",
+    "sceneType": "route",
+    "title": {
+      "default": "The river keeps two names",
+      "translations": {
+        "ru": "Река с двумя именами"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/scene-act2-river"
+    ],
+    "entryConditions": [],
+    "onEnter": [
+      {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.fullgame:knowledge/act2_alsu_knows_pact",
+        "status": "hypothesis"
+      }
+    ],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/act2-river-to-mosque",
+        "labelTextId": "urman.chapter1:text/continue",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/act2-mosque"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/act2-mosque",
+    "sceneType": "static",
+    "title": {
+      "default": "A courtyard without an answer",
+      "translations": {
+        "ru": "Двор без готового ответа"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/scene-act2-mosque"
+    ],
+    "entryConditions": [],
+    "onEnter": [],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/act2-timur",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/timur-counsel"
+      },
+      {
+        "id": "urman.fullgame:interaction/act2-mosque-to-council",
+        "labelTextId": "urman.chapter1:text/continue",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/act2-council"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/act2-council",
+    "sceneType": "scripted",
+    "title": {
+      "default": "The village has two ledgers",
+      "translations": {
+        "ru": "У деревни две книги"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/scene-act2-council"
+    ],
+    "entryConditions": [],
+    "onEnter": [
+      {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.fullgame:knowledge/act2_practical_pact_proof",
+        "status": "confirmed"
+      }
+    ],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/act2-alsu",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/alsu-confession"
+      },
+      {
+        "id": "urman.fullgame:interaction/act2-council-voice",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/council-voice"
+      },
+      {
+        "id": "urman.fullgame:interaction/act2-council-to-archive",
+        "labelTextId": "urman.chapter1:text/continue",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/act3-archive"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/act3-archive",
+    "sceneType": "capability",
+    "title": {
+      "default": "The archive after the silence",
+      "translations": {
+        "ru": "Архив после молчания"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/scene-act3-archive"
+    ],
+    "entryConditions": [],
+    "onEnter": [
+      {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.fullgame:knowledge/act3_baranov_1967",
+        "status": "hypothesis"
+      }
+    ],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/act3-naila",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/naila-record"
+      },
+      {
+        "id": "urman.fullgame:interaction/act3-archive-to-soviet",
+        "labelTextId": "urman.chapter1:text/continue",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/act3-soviet"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/act3-soviet",
+    "sceneType": "presentation",
+    "title": {
+      "default": "Baranov's 1967 folder",
+      "translations": {
+        "ru": "Папка Баранова, 1967"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/scene-act3-soviet"
+    ],
+    "entryConditions": [],
+    "onEnter": [
+      {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.fullgame:knowledge/act3_baranov_1967",
+        "status": "confirmed"
+      },
+      {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.fullgame:knowledge/act3_marat_warning",
+        "status": "confirmed"
+      }
+    ],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/act3-soviet-document",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDocumentId": "urman.fullgame:document/baranov-1967"
+      },
+      {
+        "id": "urman.fullgame:interaction/act3-soviet-to-water",
+        "labelTextId": "urman.chapter1:text/continue",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/act3-suanasy"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/act3-suanasy",
+    "sceneType": "scripted",
+    "title": {
+      "default": "Water remembers the debt",
+      "translations": {
+        "ru": "Вода помнит долг"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/scene-act3-suanasy"
+    ],
+    "entryConditions": [],
+    "onEnter": [
+      {
+        "op": "vocabulary.set-status",
+        "vocabularyId": "urman.fullgame:vocabulary/tt_su_anasy",
+        "status": "confirmed"
+      },
+      {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.fullgame:knowledge/act3_su_anasy_debt",
+        "status": "confirmed"
+      }
+    ],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/act3-water-voice",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/suanasy"
+      },
+      {
+        "id": "urman.fullgame:interaction/act3-water-to-tukay",
+        "labelTextId": "urman.chapter1:text/continue",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/act4-tukay"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/act4-tukay",
+    "sceneType": "presentation",
+    "title": {
+      "default": "A poem left open",
+      "translations": {
+        "ru": "Открытая тетрадь Тукая"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/scene-act4-tukay"
+    ],
+    "entryConditions": [],
+    "onEnter": [
+      {
+        "op": "vocabulary.set-status",
+        "vocabularyId": "urman.fullgame:vocabulary/tt_vasiyat",
+        "status": "confirmed"
+      },
+      {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.fullgame:knowledge/act4_tukay_1913",
+        "status": "confirmed"
+      }
+    ],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/act4-tukay-voice",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/tukay"
+      },
+      {
+        "id": "urman.fullgame:interaction/act4-tukay-document",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDocumentId": "urman.fullgame:document/tukai-1913"
+      },
+      {
+        "id": "urman.fullgame:interaction/act4-tukay-to-1552",
+        "labelTextId": "urman.chapter1:text/continue",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/act4-1552"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/act4-1552",
+    "sceneType": "presentation",
+    "title": {
+      "default": "The year the border moved",
+      "translations": {
+        "ru": "Год, когда граница сдвинулась"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/scene-act4-1552"
+    ],
+    "entryConditions": [],
+    "onEnter": [
+      {
+        "op": "vocabulary.set-status",
+        "vocabularyId": "urman.fullgame:vocabulary/tt_amanat",
+        "status": "guessed"
+      },
+      {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.fullgame:knowledge/act4_kazan_1552",
+        "status": "confirmed"
+      }
+    ],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/act4-1552-document",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDocumentId": "urman.fullgame:document/kazan-1552"
+      },
+      {
+        "id": "urman.fullgame:interaction/act4-1552-to-pact",
+        "labelTextId": "urman.chapter1:text/continue",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/act4-pact"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/act4-pact",
+    "sceneType": "capability",
+    "title": {
+      "default": "The pact ledger",
+      "translations": {
+        "ru": "Книга пакта"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/scene-act4-pact"
+    ],
+    "entryConditions": [],
+    "onEnter": [
+      {
+        "op": "vocabulary.set-status",
+        "vocabularyId": "urman.fullgame:vocabulary/tt_amanat",
+        "status": "confirmed"
+      },
+      {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.fullgame:knowledge/act4_inherited_roles",
+        "status": "confirmed"
+      },
+      {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.fullgame:knowledge/act4_pact_origin",
+        "status": "confirmed"
+      }
+    ],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/act4-keeper",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pact-keeper"
+      },
+      {
+        "id": "urman.fullgame:interaction/act4-pact-document",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDocumentId": "urman.fullgame:document/pact-ledger"
+      },
+      {
+        "id": "urman.fullgame:interaction/act4-pact-to-boundary",
+        "labelTextId": "urman.chapter1:text/continue",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/act5-boundary"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/act5-boundary",
+    "sceneType": "scripted",
+    "title": {
+      "default": "The last boundary",
+      "translations": {
+        "ru": "Последняя граница"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/scene-act5-boundary"
+    ],
+    "entryConditions": [],
+    "onEnter": [
+      {
+        "op": "knowledge.set-status",
+        "knowledgeId": "urman.fullgame:knowledge/act5_pact_unjust",
+        "status": "confirmed"
+      }
+    ],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/act5-aidar-choice",
+        "labelTextId": "urman.chapter1:text/inspect",
+        "conditions": [],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/aidar-final"
+      },
+      {
+        "id": "urman.fullgame:interaction/act5-boundary-to-epilogue",
+        "labelTextId": "urman.chapter1:text/continue",
+        "conditions": [
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.fullgame:knowledge/act5_protection_lost",
+            "status": "confirmed"
+          }
+        ],
+        "effects": [
+          {
+            "op": "knowledge.set-status",
+            "knowledgeId": "urman.fullgame:knowledge/act5_truth_price",
+            "status": "confirmed"
+          }
+        ],
+        "targetSceneId": "urman.fullgame:scene/act5-epilogue"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/act5-epilogue",
+    "sceneType": "presentation",
+    "title": {
+      "default": "After the protection",
+      "translations": {
+        "ru": "После защиты"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/scene-act5-epilogue"
+    ],
+    "entryConditions": [],
+    "onEnter": [
+      {
+        "op": "beat.set-state",
+        "beatId": "urman.fullgame:beat/canonical-tragic-ending",
+        "state": "completed"
+      }
+    ],
+    "onExit": [],
+    "interactions": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/alsu-confession",
+    "participantRoles": [
+      "aidar",
+      "alsu"
+    ],
+    "startNodeId": "confession",
+    "nodes": [
+      {
+        "id": "confession",
+        "speakerRole": "alsu",
+        "textId": "urman.fullgame:text/dialogue-alsu-confession",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "knowledge.set-status",
+            "knowledgeId": "urman.fullgame:knowledge/act2_village_double_system",
+            "status": "confirmed"
+          },
+          {
+            "op": "knowledge.set-status",
+            "knowledgeId": "urman.fullgame:knowledge/act2_alsu_knows_pact",
+            "status": "confirmed"
+          }
+        ],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/timur-counsel",
+    "participantRoles": [
+      "aidar",
+      "timur-hazrat"
+    ],
+    "startNodeId": "counsel",
+    "nodes": [
+      {
+        "id": "counsel",
+        "speakerRole": "timur-hazrat",
+        "textId": "urman.fullgame:text/dialogue-timur-counsel",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "npc.set-state",
+            "characterId": "urman.chapter1:character/timur_hazrat",
+            "stateKey": "supports_truth_without_pride",
+            "value": true
+          }
+        ],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/naila-record",
+    "participantRoles": [
+      "aidar",
+      "naila"
+    ],
+    "startNodeId": "record",
+    "nodes": [
+      {
+        "id": "record",
+        "speakerRole": "naila",
+        "textId": "urman.fullgame:text/dialogue-naila-record",
+        "conditions": [
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.fullgame:knowledge/act2_practical_pact_proof",
+            "status": "confirmed"
+          }
+        ],
+        "effects": [
+          {
+            "op": "knowledge.set-status",
+            "knowledgeId": "urman.fullgame:knowledge/act3_baranov_1967",
+            "status": "hypothesis"
+          }
+        ],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/council-voice",
+    "participantRoles": [
+      "aidar",
+      "mansur"
+    ],
+    "startNodeId": "council",
+    "nodes": [
+      {
+        "id": "council",
+        "speakerRole": "mansur",
+        "textId": "urman.fullgame:text/dialogue-council-voice",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "knowledge.set-status",
+            "knowledgeId": "urman.fullgame:knowledge/act2_practical_pact_proof",
+            "status": "confirmed"
+          }
+        ],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/suanasy",
+    "participantRoles": [
+      "aidar",
+      "naila"
+    ],
+    "startNodeId": "water",
+    "nodes": [
+      {
+        "id": "water",
+        "speakerRole": "naila",
+        "textId": "urman.fullgame:text/dialogue-suanasy",
+        "conditions": [
+          {
+            "op": "vocabulary.status",
+            "vocabularyId": "urman.fullgame:vocabulary/tt_su_anasy",
+            "status": "confirmed"
+          }
+        ],
+        "effects": [
+          {
+            "op": "knowledge.set-status",
+            "knowledgeId": "urman.fullgame:knowledge/act3_su_anasy_debt",
+            "status": "confirmed"
+          }
+        ],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/tukay",
+    "participantRoles": [
+      "aidar",
+      "timur-hazrat"
+    ],
+    "startNodeId": "notebook",
+    "nodes": [
+      {
+        "id": "notebook",
+        "speakerRole": "timur-hazrat",
+        "textId": "urman.fullgame:text/dialogue-tukay",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "vocabulary.set-status",
+            "vocabularyId": "urman.fullgame:vocabulary/tt_vasiyat",
+            "status": "confirmed"
+          }
+        ],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pact-keeper",
+    "participantRoles": [
+      "aidar",
+      "mansur"
+    ],
+    "startNodeId": "keeper",
+    "nodes": [
+      {
+        "id": "keeper",
+        "speakerRole": "mansur",
+        "textId": "urman.fullgame:text/dialogue-pact-keeper",
+        "conditions": [
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.fullgame:knowledge/act4_pact_origin",
+            "status": "confirmed"
+          }
+        ],
+        "effects": [
+          {
+            "op": "knowledge.set-status",
+            "knowledgeId": "urman.fullgame:knowledge/act5_pact_unjust",
+            "status": "confirmed"
+          }
+        ],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/aidar-final",
+    "participantRoles": [
+      "aidar"
+    ],
+    "startNodeId": "decision",
+    "nodes": [
+      {
+        "id": "decision",
+        "speakerRole": "aidar",
+        "textId": "urman.fullgame:text/dialogue-aidar-final",
+        "conditions": [
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.fullgame:knowledge/act5_pact_unjust",
+            "status": "confirmed"
+          }
+        ],
+        "effects": [
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pact-broken",
+            "state": "completed"
+          },
+          {
+            "op": "knowledge.set-status",
+            "knowledgeId": "urman.fullgame:knowledge/act5_protection_lost",
+            "status": "confirmed"
+          }
+        ],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:quest/act2-double-ledger",
+    "titleTextId": "urman.fullgame:text/quest-act2-title",
+    "stages": [
+      {
+        "id": "compare-ledgers",
+        "objectives": [
+          {
+            "id": "find-practical-proof",
+            "titleTextId": "urman.fullgame:text/objective-act2",
+            "optional": false,
+            "startConditions": [
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.fullgame:knowledge/act2_village_double_system",
+                "status": "confirmed"
+              }
+            ],
+            "completionConditions": [
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.fullgame:knowledge/act2_practical_pact_proof",
+                "status": "confirmed"
+              }
+            ],
+            "completionEffects": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/act2-complete",
+                "state": "completed"
+              }
+            ],
+            "failureEffects": []
+          }
+        ],
+        "composition": {
+          "mode": "all",
+          "objectiveIds": [
+            "find-practical-proof"
+          ]
+        }
+      }
+    ],
+    "outcomes": {
+      "success": [],
+      "optional": [],
+      "failure": []
+    },
+    "retryPolicy": {
+      "mode": "none",
+      "maximumAttempts": 1
+    },
+    "checkpointPolicy": {
+      "mode": "objective"
+    },
+    "cancelPolicy": {
+      "allowed": false,
+      "effects": []
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:quest/act3-water-debt",
+    "titleTextId": "urman.fullgame:text/quest-act3-title",
+    "stages": [
+      {
+        "id": "name-water-debt",
+        "objectives": [
+          {
+            "id": "recover-baranov",
+            "titleTextId": "urman.fullgame:text/objective-act3",
+            "optional": false,
+            "startConditions": [
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.fullgame:knowledge/act2_practical_pact_proof",
+                "status": "confirmed"
+              }
+            ],
+            "completionConditions": [
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.fullgame:knowledge/act3_su_anasy_debt",
+                "status": "confirmed"
+              }
+            ],
+            "completionEffects": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/act3-complete",
+                "state": "completed"
+              }
+            ],
+            "failureEffects": []
+          }
+        ],
+        "composition": {
+          "mode": "all",
+          "objectiveIds": [
+            "recover-baranov"
+          ]
+        }
+      }
+    ],
+    "outcomes": {
+      "success": [],
+      "optional": [],
+      "failure": []
+    },
+    "retryPolicy": {
+      "mode": "stage",
+      "maximumAttempts": 2
+    },
+    "checkpointPolicy": {
+      "mode": "stage"
+    },
+    "cancelPolicy": {
+      "allowed": true,
+      "effects": []
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:quest/act4-inherited-roles",
+    "titleTextId": "urman.fullgame:text/quest-act4-title",
+    "stages": [
+      {
+        "id": "read-roles",
+        "objectives": [
+          {
+            "id": "read-history",
+            "titleTextId": "urman.fullgame:text/objective-act4",
+            "optional": false,
+            "startConditions": [
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.fullgame:knowledge/act4_tukay_1913",
+                "status": "confirmed"
+              }
+            ],
+            "completionConditions": [
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.fullgame:knowledge/act4_pact_origin",
+                "status": "confirmed"
+              }
+            ],
+            "completionEffects": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/act4-complete",
+                "state": "completed"
+              }
+            ],
+            "failureEffects": []
+          }
+        ],
+        "composition": {
+          "mode": "all",
+          "objectiveIds": [
+            "read-history"
+          ]
+        }
+      }
+    ],
+    "outcomes": {
+      "success": [],
+      "optional": [],
+      "failure": []
+    },
+    "retryPolicy": {
+      "mode": "none",
+      "maximumAttempts": 1
+    },
+    "checkpointPolicy": {
+      "mode": "objective"
+    },
+    "cancelPolicy": {
+      "allowed": false,
+      "effects": []
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:quest/act5-break-pact",
+    "titleTextId": "urman.fullgame:text/quest-act5-title",
+    "stages": [
+      {
+        "id": "break-protection",
+        "objectives": [
+          {
+            "id": "stay-for-cost",
+            "titleTextId": "urman.fullgame:text/objective-act5",
+            "optional": false,
+            "startConditions": [
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.fullgame:knowledge/act5_pact_unjust",
+                "status": "confirmed"
+              }
+            ],
+            "completionConditions": [
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.fullgame:knowledge/act5_truth_price",
+                "status": "confirmed"
+              }
+            ],
+            "completionEffects": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/canonical-tragic-ending",
+                "state": "completed"
+              }
+            ],
+            "failureEffects": []
+          }
+        ],
+        "composition": {
+          "mode": "all",
+          "objectiveIds": [
+            "stay-for-cost"
+          ]
+        }
+      }
+    ],
+    "outcomes": {
+      "success": [],
+      "optional": [],
+      "failure": []
+    },
+    "retryPolicy": {
+      "mode": "none",
+      "maximumAttempts": 1
+    },
+    "checkpointPolicy": {
+      "mode": "objective"
+    },
+    "cancelPolicy": {
+      "allowed": false,
+      "effects": []
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-scene-prologue-title",
+    "value": {
+      "default": "Пролог · лесной кадр",
+      "translations": {
+        "ru": "Пролог · лесной кадр"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/pw-prologue",
+    "sceneType": "scripted",
+    "entryAnchorId": "PW_PROLOGUE_ROAD",
+    "title": {
+      "default": "Пролог · лесной кадр",
+      "translations": {
+        "ru": "Пролог · лесной кадр"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/pw-scene-prologue-title"
+    ],
+    "entryConditions": [],
+    "onEnter": [
+      {
+        "op": "photoworlds.prologue.enter"
+      },
+      {
+        "op": "beat.set-state",
+        "beatId": "urman.fullgame:beat/pw-b00-prologue",
+        "state": "available"
+      }
+    ],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/pw-prologue-photo-source",
+        "labelTextId": "urman.fullgame:text/pw-label-prologue-photo-source",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "prologue_photo_recognized",
+            "sourceId": "urman.fullgame:interaction/pw-prologue-photo-source"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-prologue-branch-move",
+        "labelTextId": "urman.fullgame:text/pw-label-prologue-branch-move",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "prologue_branch_moved",
+            "sourceId": "urman.fullgame:interaction/pw-prologue-branch-move"
+          },
+          {
+            "op": "photoworlds.prologue.complete"
+          },
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b00-prologue",
+            "state": "completed"
+          }
+        ],
+        "targetSceneId": "urman.fullgame:scene/pw-niva-arrival"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-prologue-skip",
+        "labelTextId": "urman.fullgame:text/pw-label-prologue-skip",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "photoworlds.prologue.complete"
+          },
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b00-prologue",
+            "state": "completed"
+          }
+        ],
+        "targetSceneId": "urman.fullgame:scene/pw-niva-arrival"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-scene-home-title",
+    "value": {
+      "default": "Дом Гөлсинә и Мансура",
+      "translations": {
+        "ru": "Дом Гөлсинә и Мансура"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/pw-home",
+    "sceneType": "static",
+    "title": {
+      "default": "Дом Гөлсинә и Мансура",
+      "translations": {
+        "ru": "Дом Гөлсинә и Мансура"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/pw-scene-home-title"
+    ],
+    "entryConditions": [],
+    "onEnter": [],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/pw-home-enter-house",
+        "labelTextId": "urman.fullgame:text/pw-label-home-enter-house",
+        "conditions": [
+          {
+            "op": "beat.state",
+            "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
+            "state": "completed"
+          }
+        ],
+        "effects": [],
+        "worldLocations": [
+          "village_day"
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-home-exit-house",
+        "labelTextId": "urman.fullgame:text/pw-label-home-exit-house",
+        "conditions": [],
+        "effects": [],
+        "worldLocations": [
+          "house_old_pc"
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-arrival-tea-talk",
+        "labelTextId": "urman.fullgame:text/pw-label-arrival-tea-talk",
+        "conditions": [
+          {
+            "op": "beat.state",
+            "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
+            "state": "completed"
+          }
+        ],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-arrival-tea"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-book-handoff",
+        "labelTextId": "urman.fullgame:text/pw-label-book-handoff",
+        "conditions": [
+          {
+            "op": "beat.state",
+            "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
+            "state": "completed"
+          },
+          {
+            "op": "beat.state",
+            "beatId": "urman.fullgame:beat/pw-b01-warm-arrival",
+            "state": "completed"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "photoworlds.book.received"
+            }
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.book.receive",
+            "sourceId": "urman.fullgame:interaction/pw-book-handoff",
+            "giverId": "urman.chapter1:character/gulsina"
+          },
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b02-family-book",
+            "state": "completed"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-school-copy-source",
+        "labelTextId": "urman.fullgame:text/pw-label-school-copy-source",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "school_copy_identified",
+            "sourceId": "urman.fullgame:interaction/pw-school-copy-source"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-school-copy-permission",
+        "labelTextId": "urman.fullgame:text/pw-label-school-copy-permission",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "school_copy_identified"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.acquire",
+            "photoId": "S-SCHOOL",
+            "sourceId": "urman.fullgame:interaction/pw-school-copy-source",
+            "permissionId": "urman.fullgame:interaction/pw-school-copy-permission"
+          },
+          {
+            "op": "photoworlds.photo.back-read",
+            "photoId": "S-SCHOOL"
+          },
+          {
+            "op": "photoworlds.photo.back-read",
+            "photoId": "P-FOREST"
+          },
+          {
+            "op": "photoworlds.photo.context-known",
+            "photoId": "P-FOREST",
+            "sourceId": "urman.fullgame:interaction/pw-school-copy-source"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-water-place-talk",
+        "labelTextId": "urman.fullgame:text/pw-label-water-place-talk",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          }
+        ],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-water-place"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-water-photo-source",
+        "labelTextId": "urman.fullgame:text/pw-label-water-photo-source",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "water_photo_found",
+            "sourceId": "urman.fullgame:interaction/pw-water-photo-source"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-water-photo-permission",
+        "labelTextId": "urman.fullgame:text/pw-label-water-photo-permission",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "home_water_place_told"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "water_photo_found"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.acquire",
+            "photoId": "P-WATER",
+            "sourceId": "urman.fullgame:interaction/pw-water-photo-source",
+            "permissionId": "urman.fullgame:interaction/pw-water-photo-permission"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-mount-water-photo",
+        "labelTextId": "urman.fullgame:text/pw-label-mount-water-photo",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-WATER",
+            "state": "acquired"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "home_water_place_told"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.mount",
+            "photoId": "P-WATER",
+            "pageId": "PAGE-WATER"
+          },
+          {
+            "op": "photoworlds.photo.back-read",
+            "photoId": "P-WATER"
+          },
+          {
+            "op": "photoworlds.photo.context-known",
+            "photoId": "P-WATER",
+            "sourceId": "urman.fullgame:interaction/pw-water-place-talk"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-first-world-home-talk",
+        "labelTextId": "urman.fullgame:text/pw-label-first-world-home-talk",
+        "conditions": [
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w01",
+                "status": "completed"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w02",
+                "status": "completed"
+              }
+            ]
+          }
+        ],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-first-world-home"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-house-photo-source",
+        "labelTextId": "urman.fullgame:text/pw-label-house-photo-source",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "first_world_home_talk"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "house_print_found",
+            "sourceId": "urman.fullgame:interaction/pw-house-photo-source"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-house-photo-permission",
+        "labelTextId": "urman.fullgame:text/pw-label-house-photo-permission",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "first_world_home_talk"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "house_print_found"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.acquire",
+            "photoId": "P-HOUSE",
+            "sourceId": "urman.fullgame:interaction/pw-house-photo-source",
+            "permissionId": "urman.fullgame:interaction/pw-house-photo-permission"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-mount-house-photo",
+        "labelTextId": "urman.fullgame:text/pw-label-mount-house-photo",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-HOUSE",
+            "state": "acquired"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.mount",
+            "photoId": "P-HOUSE",
+            "pageId": "PAGE-HOUSE"
+          },
+          {
+            "op": "photoworlds.photo.back-read",
+            "photoId": "P-HOUSE"
+          },
+          {
+            "op": "photoworlds.photo.context-known",
+            "photoId": "P-HOUSE",
+            "sourceId": "urman.fullgame:interaction/pw-first-world-home-talk"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-contact-sheet-source",
+        "labelTextId": "urman.fullgame:text/pw-label-contact-sheet-source",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "contact_sheet_found",
+            "sourceId": "urman.fullgame:interaction/pw-contact-sheet-source"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-contact-sheet-permission",
+        "labelTextId": "urman.fullgame:text/pw-label-contact-sheet-permission",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "contact_sheet_found"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.acquire",
+            "photoId": "S-PRINT",
+            "sourceId": "urman.fullgame:interaction/pw-contact-sheet-source",
+            "permissionId": "urman.fullgame:interaction/pw-contact-sheet-permission"
+          },
+          {
+            "op": "photoworlds.photo.back-read",
+            "photoId": "S-PRINT"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-marat-photo-source",
+        "labelTextId": "urman.fullgame:text/pw-label-marat-photo-source",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "marat_photo_found",
+            "sourceId": "urman.fullgame:interaction/pw-marat-photo-source"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-marat-photo-permission",
+        "labelTextId": "urman.fullgame:text/pw-label-marat-photo-permission",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "marat_photo_found"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.acquire",
+            "photoId": "S-MARAT",
+            "sourceId": "urman.fullgame:interaction/pw-marat-photo-source",
+            "permissionId": "urman.fullgame:interaction/pw-marat-photo-permission"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-garden-photo-source",
+        "labelTextId": "urman.fullgame:text/pw-label-garden-photo-source",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "garden_photo_offered",
+            "sourceId": "urman.fullgame:interaction/pw-garden-photo-source"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-garden-photo-permission",
+        "labelTextId": "urman.fullgame:text/pw-label-garden-photo-permission",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "garden_photo_offered"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.acquire",
+            "photoId": "S-GARDEN",
+            "sourceId": "urman.fullgame:interaction/pw-garden-photo-source",
+            "permissionId": "urman.fullgame:interaction/pw-garden-photo-permission"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-photographer-photo-source",
+        "labelTextId": "urman.fullgame:text/pw-label-photographer-photo-source",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w03",
+            "status": "completed"
+          },
+          {
+            "op": "photoworlds.book.received"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "photographer_copy_found",
+            "sourceId": "urman.fullgame:interaction/pw-photographer-photo-source"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-photographer-photo-permission",
+        "labelTextId": "urman.fullgame:text/pw-label-photographer-photo-permission",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w03",
+            "status": "completed"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "photographer_copy_found"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.acquire",
+            "photoId": "S-PHOTOGRAPHER",
+            "sourceId": "urman.fullgame:interaction/pw-photographer-photo-source",
+            "permissionId": "urman.fullgame:interaction/pw-photographer-photo-permission"
+          },
+          {
+            "op": "photoworlds.photo.back-read",
+            "photoId": "S-PHOTOGRAPHER"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-gulsina-author-talk",
+        "labelTextId": "urman.fullgame:text/pw-label-gulsina-author-talk",
+        "conditions": [
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "S-PHOTOGRAPHER",
+            "state": "back-read"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "house_camera_position_seen"
+          }
+        ],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-gulsina-author"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-enter-forest",
+        "labelTextId": "urman.fullgame:text/pw-label-enter-forest",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-FOREST",
+            "state": "mounted"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "S-SCHOOL",
+            "state": "acquired"
+          },
+          {
+            "op": "photoworlds.prologue.completed"
+          }
+        ],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-forest"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-enter-river",
+        "labelTextId": "urman.fullgame:text/pw-label-enter-river",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-WATER",
+            "state": "mounted"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-WATER",
+            "state": "back-read"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "home_water_place_told"
+          },
+          {
+            "op": "photoworlds.prologue.completed"
+          }
+        ],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-river"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-enter-house",
+        "labelTextId": "urman.fullgame:text/pw-label-enter-house",
+        "conditions": [
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w01",
+                "status": "completed"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w02",
+                "status": "completed"
+              }
+            ]
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "first_world_home_talk"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-HOUSE",
+            "state": "mounted"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-HOUSE",
+            "state": "back-read"
+          }
+        ],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-house"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-enter-bank-approach",
+        "labelTextId": "urman.fullgame:text/pw-label-enter-bank-approach",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w02",
+            "status": "completed"
+          }
+        ],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-bank-approach"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-enter-cellar",
+        "labelTextId": "urman.fullgame:text/pw-label-enter-cellar",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-CELLAR",
+            "state": "mounted"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "S-HAND",
+            "state": "acquired"
+          }
+        ],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-cellar"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-verify-photographer-evidence",
+        "labelTextId": "urman.fullgame:text/pw-label-verify-photographer-evidence",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "house_camera_position_seen"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "S-PHOTOGRAPHER",
+            "state": "back-read"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "golsina_author_conversation"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.evidence.verify",
+            "evidenceId": "E-PHOTOGRAPHER-OUTSIDE"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-connect-outside-notes",
+        "labelTextId": "urman.fullgame:text/pw-label-connect-outside-notes",
+        "conditions": [
+          {
+            "op": "photoworlds.evidence.confirmed",
+            "evidenceId": "E-BANK-OUTSIDE"
+          },
+          {
+            "op": "photoworlds.evidence.confirmed",
+            "evidenceId": "E-PHOTOGRAPHER-OUTSIDE"
+          }
+        ],
+        "effects": [
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b04-outside-confirmation",
+            "state": "completed"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-common-file-source",
+        "labelTextId": "urman.fullgame:text/pw-label-common-file-source",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "S-PRINT",
+            "state": "acquired"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w01",
+            "status": "completed"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w02",
+            "status": "completed"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w03",
+            "status": "completed"
+          },
+          {
+            "op": "photoworlds.evidence.confirmed",
+            "evidenceId": "E-BANK-OUTSIDE"
+          },
+          {
+            "op": "photoworlds.evidence.confirmed",
+            "evidenceId": "E-PHOTOGRAPHER-OUTSIDE"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "common_marat_file_found",
+            "sourceId": "urman.fullgame:interaction/pw-common-file-source"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-common-file-permission",
+        "labelTextId": "urman.fullgame:text/pw-label-common-file-permission",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "common_marat_file_found"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w01",
+            "status": "completed"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w02",
+            "status": "completed"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w03",
+            "status": "completed"
+          },
+          {
+            "op": "photoworlds.evidence.confirmed",
+            "evidenceId": "E-BANK-OUTSIDE"
+          },
+          {
+            "op": "photoworlds.evidence.confirmed",
+            "evidenceId": "E-PHOTOGRAPHER-OUTSIDE"
+          }
+        ],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-common-file-permission"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-print-common-photo",
+        "labelTextId": "urman.fullgame:text/pw-label-print-common-photo",
+        "conditions": [
+          {
+            "op": "photoworlds.caption.prepared",
+            "photoId": "P-COMMON",
+            "sourceAuthorId": "urman.chapter1:character/marat"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-COMMON",
+            "state": "acquired"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.mount",
+            "photoId": "P-COMMON",
+            "pageId": "PAGE-COMMON"
+          },
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b06-authored-caption-and-print",
+            "state": "completed"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-enter-common",
+        "labelTextId": "urman.fullgame:text/pw-label-enter-common",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w01",
+            "status": "completed"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w02",
+            "status": "completed"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w03",
+            "status": "completed"
+          },
+          {
+            "op": "photoworlds.evidence.confirmed",
+            "evidenceId": "E-BANK-OUTSIDE"
+          },
+          {
+            "op": "photoworlds.evidence.confirmed",
+            "evidenceId": "E-PHOTOGRAPHER-OUTSIDE"
+          },
+          {
+            "op": "photoworlds.caption.prepared",
+            "photoId": "P-COMMON",
+            "sourceAuthorId": "urman.chapter1:character/marat"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-COMMON",
+            "state": "mounted"
+          }
+        ],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-common"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-family-box-source",
+        "labelTextId": "urman.fullgame:text/pw-label-family-box-source",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "family_box_opened",
+            "sourceId": "urman.fullgame:interaction/pw-family-box-source"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-family-box-permission",
+        "labelTextId": "urman.fullgame:text/pw-label-family-box-permission",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "family_box_opened"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.acquire",
+            "photoId": "S-HAND",
+            "sourceId": "urman.fullgame:interaction/pw-family-box-source",
+            "permissionId": "urman.fullgame:interaction/pw-family-box-permission"
+          },
+          {
+            "op": "photoworlds.photo.back-read",
+            "photoId": "S-HAND"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-cellar-photo-source",
+        "labelTextId": "urman.fullgame:text/pw-label-cellar-photo-source",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "S-HAND",
+            "state": "acquired"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "cellar_photo_found",
+            "sourceId": "urman.fullgame:interaction/pw-cellar-photo-source"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-cellar-photo-permission",
+        "labelTextId": "urman.fullgame:text/pw-label-cellar-photo-permission",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "cellar_photo_found"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.acquire",
+            "photoId": "P-CELLAR",
+            "sourceId": "urman.fullgame:interaction/pw-cellar-photo-source",
+            "permissionId": "urman.fullgame:interaction/pw-cellar-photo-permission"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-mount-cellar-photo",
+        "labelTextId": "urman.fullgame:text/pw-label-mount-cellar-photo",
+        "conditions": [
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-CELLAR",
+            "state": "acquired"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.mount",
+            "photoId": "P-CELLAR",
+            "pageId": "PAGE-CELLAR"
+          },
+          {
+            "op": "photoworlds.photo.back-read",
+            "photoId": "P-CELLAR"
+          },
+          {
+            "op": "photoworlds.photo.context-known",
+            "photoId": "P-CELLAR",
+            "sourceId": "urman.fullgame:interaction/pw-family-box-source"
+          }
+        ]
+      }
+    ],
+    "entryAnchorId": "PW_HOME_TABLE"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-scene-forest-title",
+    "value": {
+      "default": "W01 · Лес за спиной",
+      "translations": {
+        "ru": "W01 · Лес за спиной"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/pw-forest",
+    "sceneType": "scripted",
+    "title": {
+      "default": "W01 · Лес за спиной",
+      "translations": {
+        "ru": "W01 · Лес за спиной"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/pw-scene-forest-title"
+    ],
+    "entryConditions": [
+      {
+        "op": "photoworlds.book.received"
+      },
+      {
+        "op": "photoworlds.photo.state",
+        "photoId": "P-FOREST",
+        "state": "mounted"
+      },
+      {
+        "op": "photoworlds.photo.state",
+        "photoId": "S-SCHOOL",
+        "state": "acquired"
+      },
+      {
+        "op": "photoworlds.prologue.completed"
+      }
+    ],
+    "onEnter": [],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/pw-forest-group",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-group",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "forest_group_seen",
+            "sourceId": "urman.fullgame:interaction/pw-forest-group"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-forest-photographer",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-photographer",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "forest_group_seen"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "forest_photographer_found",
+            "sourceId": "urman.fullgame:interaction/pw-forest-photographer"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-forest-shurale",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-shurale",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "forest_photographer_found"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "forest_shurale_listened",
+            "sourceId": "urman.fullgame:interaction/pw-forest-shurale"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-forest-return",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-return",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w01",
+            "status": "completed"
+          }
+        ],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-home"
+      }
+    ],
+    "entryAnchorId": "PW_FOREST_ENTRY"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-scene-river-title",
+    "value": {
+      "default": "W02 · Мостки",
+      "translations": {
+        "ru": "W02 · Мостки"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/pw-river",
+    "sceneType": "scripted",
+    "title": {
+      "default": "W02 · Мостки",
+      "translations": {
+        "ru": "W02 · Мостки"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/pw-scene-river-title"
+    ],
+    "entryConditions": [
+      {
+        "op": "photoworlds.book.received"
+      },
+      {
+        "op": "photoworlds.photo.state",
+        "photoId": "P-WATER",
+        "state": "mounted"
+      },
+      {
+        "op": "photoworlds.photo.state",
+        "photoId": "P-WATER",
+        "state": "back-read"
+      },
+      {
+        "op": "photoworlds.fact.observed",
+        "factId": "home_water_place_told"
+      },
+      {
+        "op": "photoworlds.prologue.completed"
+      }
+    ],
+    "onEnter": [],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/pw-water-old-approach",
+        "labelTextId": "urman.fullgame:text/pw-label-water-old-approach",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "water_old_approach_seen",
+            "sourceId": "urman.fullgame:interaction/pw-water-old-approach"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-water-bypass",
+        "labelTextId": "urman.fullgame:text/pw-label-water-bypass",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "water_old_approach_seen"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "water_safe_bypass_opened",
+            "sourceId": "urman.fullgame:interaction/pw-water-bypass"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-water-damp-print",
+        "labelTextId": "urman.fullgame:text/pw-label-water-damp-print",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "water_safe_bypass_opened"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "water_damp_print",
+            "sourceId": "urman.fullgame:interaction/pw-water-damp-print"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-water-return",
+        "labelTextId": "urman.fullgame:text/pw-label-water-return",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w02",
+            "status": "completed"
+          }
+        ],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-home"
+      }
+    ],
+    "entryAnchorId": "PW_RIVER_ENTRY"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-scene-house-title",
+    "value": {
+      "default": "W03 · Дом на просвет",
+      "translations": {
+        "ru": "W03 · Дом на просвет"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/pw-house",
+    "sceneType": "scripted",
+    "title": {
+      "default": "W03 · Дом на просвет",
+      "translations": {
+        "ru": "W03 · Дом на просвет"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/pw-scene-house-title"
+    ],
+    "entryConditions": [
+      {
+        "op": "any",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w01",
+            "status": "completed"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w02",
+            "status": "completed"
+          }
+        ]
+      },
+      {
+        "op": "photoworlds.fact.observed",
+        "factId": "first_world_home_talk"
+      },
+      {
+        "op": "photoworlds.photo.state",
+        "photoId": "P-HOUSE",
+        "state": "mounted"
+      },
+      {
+        "op": "photoworlds.photo.state",
+        "photoId": "P-HOUSE",
+        "state": "back-read"
+      }
+    ],
+    "onEnter": [],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/pw-house-shutter",
+        "labelTextId": "urman.fullgame:text/pw-label-house-shutter",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "house_shutter_adjusted",
+            "sourceId": "urman.fullgame:interaction/pw-house-shutter"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-house-two-views",
+        "labelTextId": "urman.fullgame:text/pw-label-house-two-views",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "house_shutter_adjusted"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "house_two_views_compared",
+            "sourceId": "urman.fullgame:interaction/pw-house-two-views"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-house-camera-position",
+        "labelTextId": "urman.fullgame:text/pw-label-house-camera-position",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "house_two_views_compared"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "house_camera_position_seen",
+            "sourceId": "urman.fullgame:interaction/pw-house-camera-position"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-house-return",
+        "labelTextId": "urman.fullgame:text/pw-label-house-return",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w03",
+            "status": "completed"
+          }
+        ],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-home"
+      }
+    ],
+    "entryAnchorId": "PW_HOME_PHOTO_ENTRY"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-scene-common-title",
+    "value": {
+      "default": "W04 · Общий кадр",
+      "translations": {
+        "ru": "W04 · Общий кадр"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/pw-common",
+    "sceneType": "scripted",
+    "title": {
+      "default": "W04 · Общий кадр",
+      "translations": {
+        "ru": "W04 · Общий кадр"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/pw-scene-common-title"
+    ],
+    "entryConditions": [
+      {
+        "op": "quest.status",
+        "questId": "urman.fullgame:quest/pw-w01",
+        "status": "completed"
+      },
+      {
+        "op": "quest.status",
+        "questId": "urman.fullgame:quest/pw-w02",
+        "status": "completed"
+      },
+      {
+        "op": "quest.status",
+        "questId": "urman.fullgame:quest/pw-w03",
+        "status": "completed"
+      },
+      {
+        "op": "photoworlds.evidence.confirmed",
+        "evidenceId": "E-BANK-OUTSIDE"
+      },
+      {
+        "op": "photoworlds.evidence.confirmed",
+        "evidenceId": "E-PHOTOGRAPHER-OUTSIDE"
+      },
+      {
+        "op": "photoworlds.caption.prepared",
+        "photoId": "P-COMMON",
+        "sourceAuthorId": "urman.chapter1:character/marat"
+      },
+      {
+        "op": "photoworlds.photo.state",
+        "photoId": "P-COMMON",
+        "state": "mounted"
+      }
+    ],
+    "onEnter": [],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/pw-common-three-places",
+        "labelTextId": "urman.fullgame:text/pw-label-common-three-places",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "common_relationships_connected",
+            "sourceId": "urman.fullgame:interaction/pw-common-three-places"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-common-horizon",
+        "labelTextId": "urman.fullgame:text/pw-label-common-horizon",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "common_relationships_connected"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "common_horizon_uncovered",
+            "sourceId": "urman.fullgame:interaction/pw-common-horizon"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-common-return",
+        "labelTextId": "urman.fullgame:text/pw-label-common-return",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w04",
+            "status": "completed"
+          }
+        ],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-bank-approach"
+      }
+    ],
+    "entryAnchorId": "PW_COMMON_ENTRY"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-scene-cellar-title",
+    "value": {
+      "default": "W05 · Тёплое подполье",
+      "translations": {
+        "ru": "W05 · Тёплое подполье"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/pw-cellar",
+    "sceneType": "scripted",
+    "title": {
+      "default": "W05 · Тёплое подполье",
+      "translations": {
+        "ru": "W05 · Тёплое подполье"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/pw-scene-cellar-title"
+    ],
+    "entryConditions": [
+      {
+        "op": "photoworlds.book.received"
+      },
+      {
+        "op": "photoworlds.photo.state",
+        "photoId": "P-CELLAR",
+        "state": "mounted"
+      },
+      {
+        "op": "photoworlds.photo.state",
+        "photoId": "S-HAND",
+        "state": "acquired"
+      }
+    ],
+    "onEnter": [],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/pw-cellar-order",
+        "labelTextId": "urman.fullgame:text/pw-label-cellar-order",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "cellar_household_order_seen",
+            "sourceId": "urman.fullgame:interaction/pw-cellar-order"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-cellar-object",
+        "labelTextId": "urman.fullgame:text/pw-label-cellar-object",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "cellar_household_order_seen"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "cellar_shared_object_found",
+            "sourceId": "urman.fullgame:interaction/pw-cellar-object"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-cellar-response",
+        "labelTextId": "urman.fullgame:text/pw-label-cellar-response",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "cellar_shared_object_found"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "cellar_bichura_answered",
+            "sourceId": "urman.fullgame:interaction/pw-cellar-response"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-cellar-return",
+        "labelTextId": "urman.fullgame:text/pw-label-cellar-return",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w05",
+            "status": "completed"
+          }
+        ],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-home"
+      }
+    ],
+    "entryAnchorId": "PW_CELLAR_ENTRY"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-scene-bank-approach-title",
+    "value": {
+      "default": "Берег и старый подход",
+      "translations": {
+        "ru": "Берег и старый подход"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/pw-bank-approach",
+    "sceneType": "route",
+    "title": {
+      "default": "Берег и старый подход",
+      "translations": {
+        "ru": "Берег и старый подход"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/pw-scene-bank-approach-title"
+    ],
+    "entryConditions": [
+      {
+        "op": "photoworlds.book.received"
+      }
+    ],
+    "onEnter": [],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/pw-bank-copy-source",
+        "labelTextId": "urman.fullgame:text/pw-label-bank-copy-source",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "bank_copy_found",
+            "sourceId": "urman.fullgame:interaction/pw-bank-copy-source"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-bank-copy-permission",
+        "labelTextId": "urman.fullgame:text/pw-label-bank-copy-permission",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "bank_copy_found"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.acquire",
+            "photoId": "S-BANK",
+            "sourceId": "urman.fullgame:interaction/pw-bank-copy-source",
+            "permissionId": "urman.fullgame:interaction/pw-bank-copy-permission"
+          },
+          {
+            "op": "photoworlds.photo.back-read",
+            "photoId": "S-BANK"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-winter-piles-inspected",
+        "labelTextId": "urman.fullgame:text/pw-label-winter-piles-inspected",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "winter_piles_inspected",
+            "sourceId": "urman.fullgame:interaction/pw-winter-piles-inspected"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-verify-bank-evidence",
+        "labelTextId": "urman.fullgame:text/pw-label-verify-bank-evidence",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "water_old_approach_seen"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "S-BANK",
+            "state": "acquired"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "winter_piles_inspected"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.evidence.verify",
+            "evidenceId": "E-BANK-OUTSIDE"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-bank-return",
+        "labelTextId": "urman.fullgame:text/pw-label-bank-return",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-home"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-witness-summer-leaf",
+        "labelTextId": "urman.fullgame:text/pw-label-witness-summer-leaf",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w04",
+            "status": "completed"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "outside_leaf_witnessed",
+            "sourceId": "urman.fullgame:interaction/pw-witness-summer-leaf"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-alsu-leaf-talk",
+        "labelTextId": "urman.fullgame:text/pw-label-alsu-leaf-talk",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w04",
+            "status": "completed"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "outside_leaf_witnessed"
+          }
+        ],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-alsu-leaf"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-bank-to-epilogue",
+        "labelTextId": "urman.fullgame:text/pw-label-bank-to-epilogue",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w04",
+            "status": "completed"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "outside_leaf_witnessed"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "alsu_meeting_agreed"
+          }
+        ],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-epilogue"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-scene-epilogue-title",
+    "value": {
+      "default": "Дом после возвращения",
+      "translations": {
+        "ru": "Дом после возвращения"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/pw-epilogue",
+    "sceneType": "static",
+    "title": {
+      "default": "Дом после возвращения",
+      "translations": {
+        "ru": "Дом после возвращения"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/pw-scene-epilogue-title"
+    ],
+    "entryConditions": [
+      {
+        "op": "quest.status",
+        "questId": "urman.fullgame:quest/pw-w04",
+        "status": "completed"
+      },
+      {
+        "op": "photoworlds.fact.observed",
+        "factId": "outside_leaf_witnessed"
+      },
+      {
+        "op": "photoworlds.fact.observed",
+        "factId": "alsu_meeting_agreed"
+      }
+    ],
+    "onEnter": [],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/pw-take-now-photo",
+        "labelTextId": "urman.fullgame:text/pw-label-take-now-photo",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w04",
+            "status": "completed"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "outside_leaf_witnessed"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "alsu_meeting_agreed"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.acquire",
+            "photoId": "S-NOW",
+            "sourceId": "urman.fullgame:interaction/pw-take-now-photo",
+            "permissionId": "urman.fullgame:interaction/pw-take-now-photo"
+          },
+          {
+            "op": "photoworlds.photo.mount",
+            "photoId": "S-NOW",
+            "pageId": "PAGE-NOW"
+          },
+          {
+            "op": "photoworlds.epilogue.finish"
+          },
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b08-home-epilogue",
+            "state": "completed"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-home-epilogue-talk",
+        "labelTextId": "urman.fullgame:text/pw-label-home-epilogue-talk",
+        "conditions": [
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "S-NOW",
+            "state": "acquired"
+          }
+        ],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-home-epilogue"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-epilogue-return-home",
+        "labelTextId": "urman.fullgame:text/pw-label-epilogue-return-home",
+        "conditions": [
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "S-NOW",
+            "state": "acquired"
+          }
+        ],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-home"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-prologue-photo-source",
+    "value": {
+      "default": "Рассмотреть старую фотографию",
+      "translations": {
+        "ru": "Рассмотреть старую фотографию"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-prologue-branch-move",
+    "value": {
+      "default": "Отвести ветку и продолжить путь",
+      "translations": {
+        "ru": "Отвести ветку и продолжить путь"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-prologue-skip",
+    "value": {
+      "default": "Пропустить лесной пролог и выйти из Нивы у дома",
+      "translations": {
+        "ru": "Пропустить лесной пролог и выйти из Нивы у дома"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-book-handoff",
+    "value": {
+      "default": "Принять семейную книгу от Гөлсинә",
+      "translations": {
+        "ru": "Принять семейную книгу от Гөлсинә"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-school-copy-source",
+    "value": {
+      "default": "Найти разрешённую копию школьного альбома",
+      "translations": {
+        "ru": "Найти разрешённую копию школьного альбома"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-school-copy-permission",
+    "value": {
+      "default": "Попросить копию школьного снимка",
+      "translations": {
+        "ru": "Попросить копию школьного снимка"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-water-place-talk",
+    "value": {
+      "default": "Спросить әби, как она называет старые мостки",
+      "translations": {
+        "ru": "Спросить әби, как она называет старые мостки"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-water-place-place",
+    "value": {
+      "default": "«Там были старые мостки. Мы ходили туда не за тайной — просто проверить доски после зимы. У места есть своё имя, оно не на карте».",
+      "translations": {
+        "ru": "«Там были старые мостки. Мы ходили туда не за тайной — просто проверить доски после зимы. У места есть своё имя, оно не на карте»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-water-place-ask-name",
+    "value": {
+      "default": "Спросить местное название",
+      "translations": {
+        "ru": "Спросить местное название"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-water-place",
+    "participantRoles": [
+      "aidar",
+      "gulsina"
+    ],
+    "startNodeId": "place",
+    "nodes": [
+      {
+        "id": "place",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-water-place-place",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "ask-name",
+            "textId": "urman.fullgame:text/pw-choice-water-place-ask-name",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "home_water_place_told",
+                "sourceId": "urman.fullgame:interaction/pw-water-place-talk"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-water-photo-source",
+    "value": {
+      "default": "Найти в конверте снимок у мостков",
+      "translations": {
+        "ru": "Найти в конверте снимок у мостков"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-water-photo-permission",
+    "value": {
+      "default": "Получить разрешение на копию снимка",
+      "translations": {
+        "ru": "Получить разрешение на копию снимка"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-mount-water-photo",
+    "value": {
+      "default": "Вклеить снимок мостков и прочитать оборот",
+      "translations": {
+        "ru": "Вклеить снимок мостков и прочитать оборот"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-first-world-home-talk",
+    "value": {
+      "default": "Поговорить о первом возвращении из снимка",
+      "translations": {
+        "ru": "Поговорить о первом возвращении из снимка"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-first-world-home-home",
+    "value": {
+      "default": "«Ты так давно не был дома. В саду уже другой стол, а калитка всё та же. Садись, чай ещё горячий. Какое место на снимке ты узнал первым?»",
+      "translations": {
+        "ru": "«Ты так давно не был дома. В саду уже другой стол, а калитка всё та же. Садись, чай ещё горячий. Какое место на снимке ты узнал первым?»"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-first-world-home-answer-place",
+    "value": {
+      "default": "Рассказать, что узнал и что осталось незнакомым",
+      "translations": {
+        "ru": "Рассказать, что узнал и что осталось незнакомым"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-first-world-home",
+    "participantRoles": [
+      "aidar",
+      "gulsina"
+    ],
+    "startNodeId": "home",
+    "nodes": [
+      {
+        "id": "home",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-first-world-home-home",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "answer-place",
+            "textId": "urman.fullgame:text/pw-choice-first-world-home-answer-place",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "first_world_home_talk",
+                "sourceId": "urman.fullgame:interaction/pw-first-world-home-talk"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-house-photo-source",
+    "value": {
+      "default": "Узнать старый снимок собственного двора",
+      "translations": {
+        "ru": "Узнать старый снимок собственного двора"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-house-photo-permission",
+    "value": {
+      "default": "Попросить семейную копию снимка двора",
+      "translations": {
+        "ru": "Попросить семейную копию снимка двора"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-mount-house-photo",
+    "value": {
+      "default": "Вклеить снимок двора и прочитать оборот",
+      "translations": {
+        "ru": "Вклеить снимок двора и прочитать оборот"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-contact-sheet-source",
+    "value": {
+      "default": "Найти сохранённый контактный лист на семейном ПК",
+      "translations": {
+        "ru": "Найти сохранённый контактный лист на семейном ПК"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-contact-sheet-permission",
+    "value": {
+      "default": "Сохранить разрешённую копию контактного листа",
+      "translations": {
+        "ru": "Сохранить разрешённую копию контактного листа"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-marat-photo-source",
+    "value": {
+      "default": "Найти семейную копию обычного снимка Марата",
+      "translations": {
+        "ru": "Найти семейную копию обычного снимка Марата"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-marat-photo-permission",
+    "value": {
+      "default": "Сохранить копию с разрешения семьи",
+      "translations": {
+        "ru": "Сохранить копию с разрешения семьи"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-garden-photo-source",
+    "value": {
+      "default": "Сосед предлагает дубликат снимка сада",
+      "translations": {
+        "ru": "Сосед предлагает дубликат снимка сада"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-garden-photo-permission",
+    "value": {
+      "default": "Принять добровольный дубликат сада",
+      "translations": {
+        "ru": "Принять добровольный дубликат сада"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-photographer-photo-source",
+    "value": {
+      "default": "Найти контактный отпечаток с подписью на обороте",
+      "translations": {
+        "ru": "Найти контактный отпечаток с подписью на обороте"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-photographer-photo-permission",
+    "value": {
+      "default": "Получить разрешённую копию семейного альбома",
+      "translations": {
+        "ru": "Получить разрешённую копию семейного альбома"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-gulsina-author-talk",
+    "value": {
+      "default": "Уточнить у Гөлсинә, кто стоял за камерой",
+      "translations": {
+        "ru": "Уточнить у Гөлсинә, кто стоял за камерой"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-gulsina-author-author",
+    "value": {
+      "default": "«Это снимала я. Марат стоял рядом и всё смотрел не туда, куда остальные. Ему хотелось проверить, что остаётся за нашим кадром. В остальном это был самый обычный день во дворе».",
+      "translations": {
+        "ru": "«Это снимала я. Марат стоял рядом и всё смотрел не туда, куда остальные. Ему хотелось проверить, что остаётся за нашим кадром. В остальном это был самый обычный день во дворе»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-gulsina-author-record-authorship",
+    "value": {
+      "default": "Записать имя автора рядом с источниками",
+      "translations": {
+        "ru": "Записать имя автора рядом с источниками"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-gulsina-author",
+    "participantRoles": [
+      "aidar",
+      "gulsina"
+    ],
+    "startNodeId": "author",
+    "nodes": [
+      {
+        "id": "author",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-gulsina-author-author",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "record-authorship",
+            "textId": "urman.fullgame:text/pw-choice-gulsina-author-record-authorship",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "golsina_author_conversation",
+                "sourceId": "urman.fullgame:interaction/pw-gulsina-author-talk"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-enter-forest",
+    "value": {
+      "default": "Вернуться к лесному снимку",
+      "translations": {
+        "ru": "Вернуться к лесному снимку"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-enter-river",
+    "value": {
+      "default": "Открыть снимок у мостков",
+      "translations": {
+        "ru": "Открыть снимок у мостков"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-enter-house",
+    "value": {
+      "default": "Войти в знакомый двор со снимка",
+      "translations": {
+        "ru": "Войти в знакомый двор со снимка"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-enter-bank-approach",
+    "value": {
+      "default": "Проверить старый подход к берегу",
+      "translations": {
+        "ru": "Проверить старый подход к берегу"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-enter-cellar",
+    "value": {
+      "default": "Посмотреть домашнюю коробку и тёплое подполье",
+      "translations": {
+        "ru": "Посмотреть домашнюю коробку и тёплое подполье"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-forest-group",
+    "value": {
+      "default": "Сопоставить три ствола и школьную подпись",
+      "translations": {
+        "ru": "Сопоставить три ствола и школьную подпись"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-forest-photographer",
+    "value": {
+      "default": "Обойти композицию и найти место фотографа",
+      "translations": {
+        "ru": "Обойти композицию и найти место фотографа"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-forest-shurale",
+    "value": {
+      "default": "Выслушать несогласие Шурале о том, куда смотрели люди",
+      "translations": {
+        "ru": "Выслушать несогласие Шурале о том, куда смотрели люди"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-forest-return",
+    "value": {
+      "default": "Вернуться к домашней книге",
+      "translations": {
+        "ru": "Вернуться к домашней книге"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-water-old-approach",
+    "value": {
+      "default": "Осмотреть старый подход за мостками",
+      "translations": {
+        "ru": "Осмотреть старый подход за мостками"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-water-bypass",
+    "value": {
+      "default": "Отвести камышовую заслонку и открыть безопасный обход",
+      "translations": {
+        "ru": "Отвести камышовую заслонку и открыть безопасный обход"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-water-damp-print",
+    "value": {
+      "default": "После возвращения заметить один влажный уголок отпечатка",
+      "translations": {
+        "ru": "После возвращения заметить один влажный уголок отпечатка"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-water-return",
+    "value": {
+      "default": "Вернуться к зимнему берегу",
+      "translations": {
+        "ru": "Вернуться к зимнему берегу"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-house-shutter",
+    "value": {
+      "default": "Поправить заедающую ставню",
+      "translations": {
+        "ru": "Поправить заедающую ставню"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-house-two-views",
+    "value": {
+      "default": "Сравнить два вида из дверных рам",
+      "translations": {
+        "ru": "Сравнить два вида из дверных рам"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-house-camera-position",
+    "value": {
+      "default": "Найти место, откуда Гөлсинә снимала двор",
+      "translations": {
+        "ru": "Найти место, откуда Гөлсинә снимала двор"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-house-return",
+    "value": {
+      "default": "Вернуться к семье и рассказать об увиденном",
+      "translations": {
+        "ru": "Вернуться к семье и рассказать об увиденном"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-bank-copy-source",
+    "value": {
+      "default": "Сверить копию архивной схемы свай",
+      "translations": {
+        "ru": "Сверить копию архивной схемы свай"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-bank-copy-permission",
+    "value": {
+      "default": "Получить разрешённую копию старой схемы",
+      "translations": {
+        "ru": "Получить разрешённую копию старой схемы"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-winter-piles-inspected",
+    "value": {
+      "default": "Осмотреть зимние сваи с доступного берега",
+      "translations": {
+        "ru": "Осмотреть зимние сваи с доступного берега"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-verify-bank-evidence",
+    "value": {
+      "default": "Сопоставить старый подход, копию схемы и зимние сваи",
+      "translations": {
+        "ru": "Сопоставить старый подход, копию схемы и зимние сваи"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-bank-return",
+    "value": {
+      "default": "Вернуться к дому",
+      "translations": {
+        "ru": "Вернуться к дому"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-verify-photographer-evidence",
+    "value": {
+      "default": "Сопоставить положение камеры, оборот и рассказ автора",
+      "translations": {
+        "ru": "Сопоставить положение камеры, оборот и рассказ автора"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-connect-outside-notes",
+    "value": {
+      "default": "Связать независимые записи о воде и фотографе",
+      "translations": {
+        "ru": "Связать независимые записи о воде и фотографе"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-common-file-source",
+    "value": {
+      "default": "Найти файл Марата по контактному листу",
+      "translations": {
+        "ru": "Найти файл Марата по контактному листу"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-common-file-permission",
+    "value": {
+      "default": "Попросить разрешённую копию файла Марата",
+      "translations": {
+        "ru": "Попросить разрешённую копию файла Марата"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-common-file-permission-permission",
+    "value": {
+      "default": "«Семья разрешает сохранить копию. Файл Марат оставил на этом компьютере; подпись в нём была черновой. Напиши свою отдельно, не подменяя его имя».",
+      "translations": {
+        "ru": "«Семья разрешает сохранить копию. Файл Марат оставил на этом компьютере; подпись в нём была черновой. Напиши свою отдельно, не подменяя его имя»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-common-file-permission-accept-copy",
+    "value": {
+      "default": "Сохранить разрешённый файл отдельно",
+      "translations": {
+        "ru": "Сохранить разрешённый файл отдельно"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-common-file-permission",
+    "participantRoles": [
+      "aidar",
+      "gulsina"
+    ],
+    "startNodeId": "permission",
+    "nodes": [
+      {
+        "id": "permission",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-common-file-permission-permission",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "accept-copy",
+            "textId": "urman.fullgame:text/pw-choice-common-file-permission-accept-copy",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "photoworlds.photo.acquire",
+                "photoId": "P-COMMON",
+                "sourceId": "urman.fullgame:interaction/pw-common-file-source",
+                "permissionId": "urman.fullgame:interaction/pw-common-file-permission"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-print-common-photo",
+    "value": {
+      "default": "Напечатать подписанный снимок для книги",
+      "translations": {
+        "ru": "Напечатать подписанный снимок для книги"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-enter-common",
+    "value": {
+      "default": "Вернуться в общий кадр",
+      "translations": {
+        "ru": "Вернуться в общий кадр"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-common-three-places",
+    "value": {
+      "default": "Узнать в одной композиции воду, лес и дальний дом",
+      "translations": {
+        "ru": "Узнать в одной композиции воду, лес и дальний дом"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-common-horizon",
+    "value": {
+      "default": "Отвести ткань и открыть общий горизонт",
+      "translations": {
+        "ru": "Отвести ткань и открыть общий горизонт"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-common-return",
+    "value": {
+      "default": "Вернуться к берегу, где ждёт Алсу",
+      "translations": {
+        "ru": "Вернуться к берегу, где ждёт Алсу"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-witness-summer-leaf",
+    "value": {
+      "default": "Увидеть один летний лист на зимней ветке",
+      "translations": {
+        "ru": "Увидеть один летний лист на зимней ветке"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-alsu-leaf-talk",
+    "value": {
+      "default": "Позвать Алсу и поделиться тем, что увидел",
+      "translations": {
+        "ru": "Позвать Алсу и поделиться тем, что увидел"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-alsu-leaf-leaf",
+    "value": {
+      "default": "Алсу смотрит на ветку, потом на Айдара: «Там лист». Айдар отвечает: «Вижу». Они не пытаются немедленно объяснить увиденное и идут домой вместе.",
+      "translations": {
+        "ru": "Алсу смотрит на ветку, потом на Айдара: «Там лист». Айдар отвечает: «Вижу». Они не пытаются немедленно объяснить увиденное и идут домой вместе."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-alsu-leaf-agree-to-return",
+    "value": {
+      "default": "Пойти домой вместе",
+      "translations": {
+        "ru": "Пойти домой вместе"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-alsu-leaf",
+    "participantRoles": [
+      "aidar",
+      "alsu"
+    ],
+    "startNodeId": "leaf",
+    "nodes": [
+      {
+        "id": "leaf",
+        "speakerRole": "alsu",
+        "textId": "urman.fullgame:text/pw-dialogue-alsu-leaf-leaf",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "agree-to-return",
+            "textId": "urman.fullgame:text/pw-choice-alsu-leaf-agree-to-return",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "alsu_meeting_agreed",
+                "sourceId": "urman.fullgame:interaction/pw-alsu-leaf-talk"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-bank-to-epilogue",
+    "value": {
+      "default": "Вернуться домой вместе",
+      "translations": {
+        "ru": "Вернуться домой вместе"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-take-now-photo",
+    "value": {
+      "default": "Сделать новый снимок за домашним столом",
+      "translations": {
+        "ru": "Сделать новый снимок за домашним столом"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-home-epilogue-talk",
+    "value": {
+      "default": "Поговорить о том, что книга ответила не на всё",
+      "translations": {
+        "ru": "Поговорить о том, что книга ответила не на всё"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-home-epilogue-reflection",
+    "value": {
+      "default": "«Снимки помогли закончить это дело, но они не объясняют обстоятельства смерти Марата. Не будем выдавать неизвестное за ответ. Сейчас можно просто пить чай и оставить место для новых снимков».",
+      "translations": {
+        "ru": "«Снимки помогли закончить это дело, но они не объясняют обстоятельства смерти Марата. Не будем выдавать неизвестное за ответ. Сейчас можно просто пить чай и оставить место для новых снимков»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-home-epilogue-leave-open",
+    "value": {
+      "default": "Записать, что этот вопрос остаётся открытым",
+      "translations": {
+        "ru": "Записать, что этот вопрос остаётся открытым"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-home-epilogue",
+    "participantRoles": [
+      "aidar",
+      "gulsina"
+    ],
+    "startNodeId": "reflection",
+    "nodes": [
+      {
+        "id": "reflection",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-home-epilogue-reflection",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "leave-open",
+            "textId": "urman.fullgame:text/pw-choice-home-epilogue-leave-open",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "knowledge.set-status",
+                "knowledgeId": "urman.fullgame:knowledge/pw-marat-death-question-remains-open",
+                "status": "confirmed"
+              },
+              {
+                "op": "journal.record",
+                "entryId": "urman.fullgame:knowledge/pw-marat-death-question-remains-open",
+                "sourceId": "urman.fullgame:knowledge/pw-marat-death-question-remains-open"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/pw-marat-death-question-remains-open",
+    "kind": "fact",
+    "title": {
+      "default": "Книга завершена; вопрос о смерти Марата остаётся открытым",
+      "translations": {
+        "ru": "Книга завершена; вопрос о смерти Марата остаётся открытым"
+      }
+    },
+    "summary": {
+      "default": "Эта арка заканчивает работу с семейными снимками, но не устанавливает причину смерти Марата.",
+      "translations": {
+        "ru": "Эта арка заканчивает работу с семейными снимками, но не устанавливает причину смерти Марата."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:dialogue/pw-home-epilogue"
+    ],
+    "reveals": [],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-epilogue-return-home",
+    "value": {
+      "default": "Остаться дома и продолжить свободное исследование",
+      "translations": {
+        "ru": "Остаться дома и продолжить свободное исследование"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-family-box-source",
+    "value": {
+      "default": "Открыть разрешённую семейную коробку снимков",
+      "translations": {
+        "ru": "Открыть разрешённую семейную коробку снимков"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-family-box-permission",
+    "value": {
+      "default": "Сохранить копию снимка рук за столом",
+      "translations": {
+        "ru": "Сохранить копию снимка рук за столом"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-cellar-photo-source",
+    "value": {
+      "default": "Найти снимок домашних полок в коробке",
+      "translations": {
+        "ru": "Найти снимок домашних полок в коробке"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-cellar-photo-permission",
+    "value": {
+      "default": "Получить разрешение на копию снимка",
+      "translations": {
+        "ru": "Получить разрешение на копию снимка"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-mount-cellar-photo",
+    "value": {
+      "default": "Вклеить снимок полок и прочитать оборот",
+      "translations": {
+        "ru": "Вклеить снимок полок и прочитать оборот"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-cellar-order",
+    "value": {
+      "default": "Заметить, как кто-то переставил домашние вещи",
+      "translations": {
+        "ru": "Заметить, как кто-то переставил домашние вещи"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-cellar-object",
+    "value": {
+      "default": "Найти оставленную людьми вещь за полкой",
+      "translations": {
+        "ru": "Найти оставленную людьми вещь за полкой"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-cellar-response",
+    "value": {
+      "default": "Ответить на присутствие Бичуры спокойным бытовым жестом",
+      "translations": {
+        "ru": "Ответить на присутствие Бичуры спокойным бытовым жестом"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-cellar-return",
+    "value": {
+      "default": "Вернуться к семье",
+      "translations": {
+        "ru": "Вернуться к семье"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-quest-w01-title",
+    "value": {
+      "default": "W01 · Лес за спиной",
+      "translations": {
+        "ru": "W01 · Лес за спиной"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-quest-w01-objective",
+    "value": {
+      "default": "Найти точку съёмки и выслушать взгляд из-за кадра",
+      "translations": {
+        "ru": "Найти точку съёмки и выслушать взгляд из-за кадра"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-quest-w02-title",
+    "value": {
+      "default": "W02 · Мостки",
+      "translations": {
+        "ru": "W02 · Мостки"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-quest-w02-objective",
+    "value": {
+      "default": "Открыть безопасный обход и проверить старый подход",
+      "translations": {
+        "ru": "Открыть безопасный обход и проверить старый подход"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-quest-w03-title",
+    "value": {
+      "default": "W03 · Дом на просвет",
+      "translations": {
+        "ru": "W03 · Дом на просвет"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-quest-w03-objective",
+    "value": {
+      "default": "Сопоставить два вида и найти человека за камерой",
+      "translations": {
+        "ru": "Сопоставить два вида и найти человека за камерой"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-quest-w04-title",
+    "value": {
+      "default": "W04 · Общий кадр",
+      "translations": {
+        "ru": "W04 · Общий кадр"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-quest-w04-objective",
+    "value": {
+      "default": "Связать места и открыть общий горизонт",
+      "translations": {
+        "ru": "Связать места и открыть общий горизонт"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-quest-w05-title",
+    "value": {
+      "default": "W05 · Тёплое подполье",
+      "translations": {
+        "ru": "W05 · Тёплое подполье"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-quest-w05-objective",
+    "value": {
+      "default": "Понять домашний порядок и ответить на чужое присутствие",
+      "translations": {
+        "ru": "Понять домашний порядок и ответить на чужое присутствие"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:quest/pw-w01",
+    "titleTextId": "urman.fullgame:text/pw-quest-w01-title",
+    "stages": [
+      {
+        "id": "main",
+        "objectives": [
+          {
+            "id": "complete-world",
+            "titleTextId": "urman.fullgame:text/pw-quest-w01-objective",
+            "optional": false,
+            "startConditions": [
+              {
+                "op": "photoworlds.book.received"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-FOREST",
+                "state": "mounted"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "S-SCHOOL",
+                "state": "acquired"
+              },
+              {
+                "op": "photoworlds.prologue.completed"
+              },
+              {
+                "op": "location.is",
+                "locationId": "urman.fullgame:scene/pw-forest"
+              }
+            ],
+            "completionConditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "forest_camera_back_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "forest_beyond_frame_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "forest_encounter_resolved"
+              }
+            ],
+            "completionEffects": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b03b-forest",
+                "state": "completed"
+              }
+            ],
+            "failureEffects": []
+          }
+        ],
+        "composition": {
+          "mode": "all",
+          "objectiveIds": [
+            "complete-world"
+          ]
+        }
+      }
+    ],
+    "outcomes": {
+      "success": [],
+      "optional": [],
+      "failure": []
+    },
+    "retryPolicy": {
+      "mode": "none",
+      "maximumAttempts": 1
+    },
+    "checkpointPolicy": {
+      "mode": "objective"
+    },
+    "cancelPolicy": {
+      "allowed": false,
+      "effects": []
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:quest/pw-w02",
+    "titleTextId": "urman.fullgame:text/pw-quest-w02-title",
+    "stages": [
+      {
+        "id": "main",
+        "objectives": [
+          {
+            "id": "complete-world",
+            "titleTextId": "urman.fullgame:text/pw-quest-w02-objective",
+            "optional": false,
+            "startConditions": [
+              {
+                "op": "photoworlds.book.received"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-WATER",
+                "state": "mounted"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-WATER",
+                "state": "back-read"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "home_water_place_told"
+              },
+              {
+                "op": "location.is",
+                "locationId": "urman.fullgame:scene/pw-river"
+              }
+            ],
+            "completionConditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "water_reflection_relation_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "water_reed_opened"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "water_old_approach_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "water_encounter_resolved"
+              }
+            ],
+            "completionEffects": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b03a-water",
+                "state": "completed"
+              }
+            ],
+            "failureEffects": []
+          }
+        ],
+        "composition": {
+          "mode": "all",
+          "objectiveIds": [
+            "complete-world"
+          ]
+        }
+      }
+    ],
+    "outcomes": {
+      "success": [],
+      "optional": [],
+      "failure": []
+    },
+    "retryPolicy": {
+      "mode": "none",
+      "maximumAttempts": 1
+    },
+    "checkpointPolicy": {
+      "mode": "objective"
+    },
+    "cancelPolicy": {
+      "allowed": false,
+      "effects": []
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:quest/pw-w03",
+    "titleTextId": "urman.fullgame:text/pw-quest-w03-title",
+    "stages": [
+      {
+        "id": "main",
+        "objectives": [
+          {
+            "id": "complete-world",
+            "titleTextId": "urman.fullgame:text/pw-quest-w03-objective",
+            "optional": false,
+            "startConditions": [
+              {
+                "op": "any",
+                "conditions": [
+                  {
+                    "op": "quest.status",
+                    "questId": "urman.fullgame:quest/pw-w01",
+                    "status": "completed"
+                  },
+                  {
+                    "op": "quest.status",
+                    "questId": "urman.fullgame:quest/pw-w02",
+                    "status": "completed"
+                  }
+                ]
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "first_world_home_talk"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-HOUSE",
+                "state": "mounted"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-HOUSE",
+                "state": "back-read"
+              },
+              {
+                "op": "location.is",
+                "locationId": "urman.fullgame:scene/pw-house"
+              }
+            ],
+            "completionConditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "house_shutter_opened"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "house_two_views_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "house_camera_position_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "house_frame_seen"
+              }
+            ],
+            "completionEffects": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b05-house-photo",
+                "state": "completed"
+              }
+            ],
+            "failureEffects": []
+          }
+        ],
+        "composition": {
+          "mode": "all",
+          "objectiveIds": [
+            "complete-world"
+          ]
+        }
+      }
+    ],
+    "outcomes": {
+      "success": [],
+      "optional": [],
+      "failure": []
+    },
+    "retryPolicy": {
+      "mode": "none",
+      "maximumAttempts": 1
+    },
+    "checkpointPolicy": {
+      "mode": "objective"
+    },
+    "cancelPolicy": {
+      "allowed": false,
+      "effects": []
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:quest/pw-w04",
+    "titleTextId": "urman.fullgame:text/pw-quest-w04-title",
+    "stages": [
+      {
+        "id": "main",
+        "objectives": [
+          {
+            "id": "complete-world",
+            "titleTextId": "urman.fullgame:text/pw-quest-w04-objective",
+            "optional": false,
+            "startConditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w01",
+                "status": "completed"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w02",
+                "status": "completed"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w03",
+                "status": "completed"
+              },
+              {
+                "op": "photoworlds.evidence.confirmed",
+                "evidenceId": "E-BANK-OUTSIDE"
+              },
+              {
+                "op": "photoworlds.evidence.confirmed",
+                "evidenceId": "E-PHOTOGRAPHER-OUTSIDE"
+              },
+              {
+                "op": "photoworlds.caption.prepared",
+                "photoId": "P-COMMON",
+                "sourceAuthorId": "urman.chapter1:character/marat"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-COMMON",
+                "state": "mounted"
+              },
+              {
+                "op": "location.is",
+                "locationId": "urman.fullgame:scene/pw-common"
+              }
+            ],
+            "completionConditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "common_three_relations_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "common_view_uncovered"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "common_horizon_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "common_note_finished"
+              },
+              {
+                "op": "photoworlds.evidence.confirmed",
+                "evidenceId": "E-BANK-OUTSIDE"
+              },
+              {
+                "op": "photoworlds.evidence.confirmed",
+                "evidenceId": "E-PHOTOGRAPHER-OUTSIDE"
+              },
+              {
+                "op": "photoworlds.caption.prepared",
+                "photoId": "P-COMMON",
+                "sourceAuthorId": "urman.chapter1:character/marat"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-COMMON",
+                "state": "mounted"
+              }
+            ],
+            "completionEffects": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b07-common-frame",
+                "state": "completed"
+              }
+            ],
+            "failureEffects": []
+          }
+        ],
+        "composition": {
+          "mode": "all",
+          "objectiveIds": [
+            "complete-world"
+          ]
+        }
+      }
+    ],
+    "outcomes": {
+      "success": [],
+      "optional": [],
+      "failure": []
+    },
+    "retryPolicy": {
+      "mode": "none",
+      "maximumAttempts": 1
+    },
+    "checkpointPolicy": {
+      "mode": "objective"
+    },
+    "cancelPolicy": {
+      "allowed": false,
+      "effects": []
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:quest/pw-w05",
+    "titleTextId": "urman.fullgame:text/pw-quest-w05-title",
+    "stages": [
+      {
+        "id": "main",
+        "objectives": [
+          {
+            "id": "complete-world",
+            "titleTextId": "urman.fullgame:text/pw-quest-w05-objective",
+            "optional": false,
+            "startConditions": [
+              {
+                "op": "photoworlds.book.received"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-CELLAR",
+                "state": "mounted"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "S-HAND",
+                "state": "acquired"
+              },
+              {
+                "op": "location.is",
+                "locationId": "urman.fullgame:scene/pw-cellar"
+              }
+            ],
+            "completionConditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "cellar_household_pattern_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "cellar_box_returned"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "cellar_response_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "cellar_niche_seen"
+              }
+            ],
+            "completionEffects": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-bo1-cellar",
+                "state": "completed"
+              }
+            ],
+            "failureEffects": []
+          }
+        ],
+        "composition": {
+          "mode": "all",
+          "objectiveIds": [
+            "complete-world"
+          ]
+        }
+      }
+    ],
+    "outcomes": {
+      "success": [],
+      "optional": [],
+      "failure": []
+    },
+    "retryPolicy": {
+      "mode": "none",
+      "maximumAttempts": 1
+    },
+    "checkpointPolicy": {
+      "mode": "objective"
+    },
+    "cancelPolicy": {
+      "allowed": false,
+      "effects": []
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-scene-niva-arrival-title",
+    "value": {
+      "default": "Нива · остановка у дома",
+      "translations": {
+        "ru": "Нива · остановка у дома"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-niva-stop",
+    "value": {
+      "default": "Остановить Ниву у дома и выйти после дороги",
+      "translations": {
+        "ru": "Остановить Ниву у дома и выйти после дороги"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:scene/pw-niva-arrival",
+    "sceneType": "scripted",
+    "title": {
+      "default": "Нива · остановка у дома",
+      "translations": {
+        "ru": "Нива · остановка у дома"
+      }
+    },
+    "assetRefs": [],
+    "textRefs": [
+      "urman.fullgame:text/pw-scene-niva-arrival-title"
+    ],
+    "entryConditions": [],
+    "onEnter": [
+      {
+        "op": "beat.set-state",
+        "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
+        "state": "available"
+      }
+    ],
+    "onExit": [],
+    "interactions": [
+      {
+        "id": "urman.fullgame:interaction/pw-niva-stop",
+        "labelTextId": "urman.fullgame:text/pw-label-niva-stop",
+        "conditions": [
+          {
+            "op": "beat.state",
+            "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
+            "state": "available"
+          }
+        ],
+        "effects": [
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
+            "state": "completed"
+          }
+        ],
+        "targetSceneId": "urman.fullgame:scene/pw-home"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-home-enter-house",
+    "value": {
+      "default": "Войти в дом Гөлсинә и Мансура",
+      "translations": {
+        "ru": "Войти в дом Гөлсинә и Мансура"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-home-exit-house",
+    "value": {
+      "default": "Выйти во двор",
+      "translations": {
+        "ru": "Выйти во двор"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-arrival-tea-talk",
+    "value": {
+      "default": "Поприветствовать әби и остаться на чай",
+      "translations": {
+        "ru": "Поприветствовать әби и остаться на чай"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-arrival-tea-greeting",
+    "value": {
+      "default": "«Ну вот ты и дома, Айдар. Проходи, чай ещё горячий. Я рада, что ты приехал; расскажи, как дорога».",
+      "translations": {
+        "ru": "«Ну вот ты и дома, Айдар. Проходи, чай ещё горячий. Я рада, что ты приехал; расскажи, как дорога»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-arrival-tea-stay",
+    "value": {
+      "default": "Поблагодарить әби и посидеть за чаем",
+      "translations": {
+        "ru": "Поблагодарить әби и посидеть за чаем"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-arrival-tea",
+    "participantRoles": [
+      "aidar",
+      "gulsina"
+    ],
+    "startNodeId": "greeting",
+    "nodes": [
+      {
+        "id": "greeting",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-arrival-tea-greeting",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "stay-for-tea",
+            "textId": "urman.fullgame:text/pw-choice-arrival-tea-stay",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b01-warm-arrival",
+                "state": "completed"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      }
+    ]
+  }
+]

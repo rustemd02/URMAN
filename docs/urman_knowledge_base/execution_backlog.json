@@ -27207,7 +27207,7 @@
       "title": "Перестроить сюжетный граф кампании «За краем снимка»",
       "milestone": "PW-M0",
       "status": "in_progress",
-      "active_owner": "/root/address_mount",
+      "active_owner": null,
       "owner": "narrative",
       "priority": "P0",
       "complexity": "complex",
@@ -27283,7 +27283,9 @@
           "path": "evidence/PW-003/canonical-world-completion-source-correction-2026-10-09.json",
           "result": "ContentCLI/dependencies rebuilt with 0 warnings/errors; only urman.fullgame compiled after station terminal ACK. Pack SHA256 91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad; campaignFingerprint aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6; exactVersion 1.0.0. Compiled pack audit confirmed photoworlds-v1, 13 photos, W01–W05, seven logical required anchors, and exactly 19 canonical quest completion facts.",
           "verified": "Content compile and compiled-contract audit PASS. No game build, test, Windows/native run or full route verification performed after this source correction. Full route remains blocked by 17 absent producers."
-        }
+        },
+        "evidence/PW-003/native_f377c44ea4bf447cae3c6ca6a51c422f/root-review.json",
+        "evidence/PW-003/native_caa74d6981ac42edb4d9c51be51272f3/root-review.json"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-003",
       "source_requirements": [
@@ -27460,6 +27462,16 @@
         "compiledPackSha256": "91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad",
         "compiledCampaignFingerprint": "aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6",
         "contentCompile": "ContentCLI project/dependencies built with 0 warnings/errors; only urman.fullgame compiled after station terminal ACK. Compiled pack has namespace photoworlds-v1, 13 photos, 5 worlds, 7 logical anchors, and exact 19 required quest facts."
+      },
+      "progress_2026_10_09_windows_negative_completion_gate": {
+        "result": "W01 old semantic observations do not complete the canonical world.",
+        "runtime": "f377 reached the expected W01 assertion then timed out124; caa reached the identical assertion and exited1 cleanly in129.779s after six-line cleanup exit-order correction. Neither run is PASS; later worlds were not reached.",
+        "evidence": [
+          "evidence/PW-003/native_f377c44ea4bf447cae3c6ca6a51c422f/root-review.json",
+          "evidence/PW-003/native_caa74d6981ac42edb4d9c51be51272f3/root-review.json"
+        ],
+        "remaining": "17 canonical fact producers absent, two observations lack physical validation; ordinary full-game route, all-world completion and final acceptance remain open.",
+        "next_step": "Implement actual canonical world interactions and their authority/physical validation before reusing the complete semantic route."
       }
     },
     {

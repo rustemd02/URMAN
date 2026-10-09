@@ -1,0 +1,74 @@
+{
+  "capture_mode": "protected native Windows smoke",
+  "job_id": "caa74d6981ac42edb4d9c51be51272f3",
+  "snapshot_id": "a88bb7b23b7cfadb1f3cc12b2232ef26e29c307dedd97ff79c97240e6a8eed0e",
+  "base_commit": "620394f0572742d1a08a3d220a8d74f5d890c2ba",
+  "candidate_file_count": 1825,
+  "full_source_manifest_sha256": "93f70e53ca182d28635490fb4a660d086314ee3382552425726143a9ecfc40dc",
+  "full_source_manifest_matches_receipt": true,
+  "station_status": "FAIL",
+  "exit_code": 1,
+  "runner_exit_code": 1,
+  "game_exit_code": 1,
+  "elapsed_seconds": 129.7791426,
+  "scene": "res://tests/full_game_flow_smoke_test.tscn",
+  "headless": false,
+  "timeout_seconds": 300,
+  "engine": "4.7.1.stable.mono.official.a13da4feb",
+  "dotnet_sdk": "10.0.302",
+  "renderer": null,
+  "build_content_import_step_exit_codes": {
+    "build": {
+      "exitCode": 0
+    },
+    "content-build": {
+      "exitCode": 0
+    },
+    "content-urman.chapter1": {
+      "exitCode": 0
+    },
+    "content-urman.fullgame": {
+      "exitCode": 0
+    },
+    "document-images": {
+      "exitCode": 0
+    },
+    "game": {
+      "exitCode": 1
+    },
+    "import": {
+      "exitCode": 0
+    }
+  },
+  "snapshot_hashes_verified": true,
+  "compiled_pack_sha256": "91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad",
+  "campaign_fingerprint": "aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6",
+  "smoke_scene_sha256": "afb29d28aa4ccb56a9a993e8d02ca65b45404c62c628e1bcc32b84ac324f8d7f",
+  "smoke_script_sha256": "115a5b651c9ae22e66a63049ff0679e40ed7c41e24e5d7f6910fc8770030d7dd",
+  "test_delta": "Verified diff contains only 6 line edits in _Ready(): initialize exitCode=0, set exitCode=1 in catch without early Quit/return, and call Quit(exitCode) only after awaited finally cleanup. No route/assertion/content changes.",
+  "actual_failure": "W01 did not complete after its authored observation and conversation sequence.",
+  "last_semantic_events": [
+    "[59] photoworlds.photo.back-read: urman.fullgame:interaction/pw-school-copy-permission",
+    "[60] photoworlds.photo.back-read: urman.fullgame:interaction/pw-school-copy-permission",
+    "[61] photoworlds.photo.context-known: urman.fullgame:interaction/pw-school-copy-permission",
+    "[73] photoworlds.fact.observed: urman.fullgame:interaction/pw-forest-group",
+    "[79] photoworlds.fact.observed: urman.fullgame:interaction/pw-forest-photographer",
+    "[85] photoworlds.fact.observed: urman.fullgame:interaction/pw-forest-shurale"
+  ],
+  "clean_failure_exit_observed": true,
+  "game_timeout": false,
+  "receipt_userdata_restored": null,
+  "userdata_guard_restore_log": "original files restored by rename and verified (Windows ACLs not compared)",
+  "project_restored_sha256": "D63B2F54388E8B0D06C6EFB350DD7E0B9F43264AC967696749535BEB57D757C4",
+  "project_restored_hash_matches_snapshot": true,
+  "post_run_station_doctor_ready": true,
+  "post_run_userdata_recovery_pending": false,
+  "engine_error_log_bytes": 306,
+  "stderr_log_bytes": 0,
+  "human_playtest": "not run",
+  "canonical_route": "failed at first W01 completion assertion; W02 not reached",
+  "visual_art_acceptance": "not established",
+  "retries": "none",
+  "relevant_source_count": 16,
+  "result_zip_sha256": "5d54b7194a8c7b14cf5c25a9c4aaf5802b1a419132b31333177ee3a1d97c81ff"
+}

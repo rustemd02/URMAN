@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PW-003",
+  "reviewer": "/root",
+  "reviewedAtUtc": "2026-10-09T05:14:16.819223+00:00",
+  "scope": "One negative W01 completion boundary; unchanged old forest semantic actions must not complete the corrected canonical world.",
+  "jobId": "f377c44ea4bf447cae3c6ca6a51c422f",
+  "snapshotId": "b4e60d36de35fd2249c51fffaab09ebbbf6e372f766886a1db60443c2a174438",
+  "sourceSnapshotHashesVerified": true,
+  "nativeStatus": "FAIL",
+  "gameExitCode": 124,
+  "expectedW01AssertionObserved": true,
+  "lastSemanticEvent": "[85] photoworlds.fact.observed: urman.fullgame:interaction/pw-forest-shurale",
+  "negativeBoundary": "ACCEPTED_W01_ONLY",
+  "cleanFailureExit": false,
+  "routePass": false,
+  "laterWorlds": "NOT_REACHED",
+  "ordinaryPhysicalValidation": "NOT_RUN",
+  "userDataEvidence": {
+    "receiptField": null,
+    "logRestoreAndVerification": true,
+    "limitation": "The failure receipt does not affirm userdataRestored; guard log and doctor remain separate evidence. Windows ACLs were not compared."
+  },
+  "limitations": [
+    "17 required fact producers remain absent; the two registered observations still lack physical validation.",
+    "This semantic smoke is not an ordinary player route, style review or full-campaign PASS."
+  ],
+  "cleanup": "Expected assertion reached, then 300-second guard timeout. Preserve degraded exit as history."
+}

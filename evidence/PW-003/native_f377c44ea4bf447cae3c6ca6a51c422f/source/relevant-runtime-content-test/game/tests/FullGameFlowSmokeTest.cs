@@ -34,7 +34,6 @@ public partial class FullGameFlowSmokeTest : Node
     public override async void _Ready()
     {
         Main? main = null;
-        var exitCode = 0;
         var ownedSaveFiles = new Dictionary<string, byte[]>(StringComparer.OrdinalIgnoreCase);
         try
         {
@@ -72,7 +71,8 @@ public partial class FullGameFlowSmokeTest : Node
         catch (Exception error)
         {
             GD.PushError("Full-game semantic flow failed: " + error);
-            exitCode = 1;
+            GetTree().Quit(1);
+            return;
         }
         finally
         {
@@ -87,7 +87,7 @@ public partial class FullGameFlowSmokeTest : Node
             }
         }
 
-        GetTree().Quit(exitCode);
+        GetTree().Quit(0);
     }
 
     private async Task RunRouteAsync(RuntimeBridge bridge, bool skipPrologue, bool riverFirst, bool captureCaptionUiFrame)

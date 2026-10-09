@@ -138,9 +138,16 @@
   },
   "fullGameFlowSmoke": {
     "path": "game/tests/FullGameFlowSmokeTest.cs",
-    "changed": false,
+    "changed": true,
     "expectedCurrentBoundary": "The existing A/B semantic routes only produce the prior generic story observations; W01 or W02 remains incomplete at its existing completion assertion. No later-route PASS can be claimed until physical producers exist.",
-    "testRun": "NOT_RUN; parent will coordinate a targeted Windows negative check after the current station job."
+    "testRun": "Targeted Windows negative W01 boundary observed in both attempts; final native FAIL/1 exits cleanly. Full route FAIL; W02 onward not reached.",
+    "historicalPreNativeDeclaration": {
+      "path": "game/tests/FullGameFlowSmokeTest.cs",
+      "changed": false,
+      "expectedCurrentBoundary": "The existing A/B semantic routes only produce the prior generic story observations; W01 or W02 remains incomplete at its existing completion assertion. No later-route PASS can be claimed until physical producers exist.",
+      "testRun": "NOT_RUN; parent will coordinate a targeted Windows negative check after the current station job."
+    },
+    "changeScope": "Six-line failure-exit cleanup ordering only; no assertion, route or authored-condition changes."
   },
   "saveCompatibility": {
     "campaignExactVersionChanged": false,
@@ -187,5 +194,15 @@
   "historicalEvidenceRetained": [
     "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/receipt.json",
     "evidence/PW-003/source_scope_receipt.json"
-  ]
+  ],
+  "windowsNegativeGateReview": {
+    "reviewedAtUtc": "2026-10-09T05:14:16.819223+00:00",
+    "reviews": [
+      "evidence/PW-003/native_f377c44ea4bf447cae3c6ca6a51c422f/root-review.json",
+      "evidence/PW-003/native_caa74d6981ac42edb4d9c51be51272f3/root-review.json"
+    ],
+    "result": "W01_OLD_SEMANTIC_SHORTCUT_REJECTED",
+    "fullCampaignPass": false,
+    "compile": "Narrow game compile PASS, 0 warnings/errors, 13.63 s."
+  }
 }
