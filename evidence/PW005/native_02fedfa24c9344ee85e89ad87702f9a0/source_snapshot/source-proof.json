@@ -1,0 +1,116 @@
+{
+  "head": "2effc8c51e6f2ec840795369097f9bbb7de7da64",
+  "snapshot_id": "a6f01ca42f2d0ea2bd00da4633e514c0fc6e75d00667bda0884f608aaf145dd1",
+  "files": [
+    {
+      "path": "game/tests/FullGameFlowSmokeTest.cs",
+      "bytes": 40884,
+      "sha256": "18b3c034a45a85d726ed5eb2ed2fc6f29ddf924ba3e94a9f7064eb5b462c18b5"
+    },
+    {
+      "path": "game/tests/FullGameFlowSmokeTest.cs.uid",
+      "bytes": 19,
+      "sha256": "cfd6d1a74f6a022e975389b21568c0b7c7ae9426591e99146827a166ae4b54f9"
+    },
+    {
+      "path": "game/tests/full_game_flow_smoke_test.tscn",
+      "bytes": 199,
+      "sha256": "afb29d28aa4ccb56a9a993e8d02ca65b45404c62c628e1bcc32b84ac324f8d7f"
+    },
+    {
+      "path": "game/scripts/RuntimeBridge.cs",
+      "bytes": 90766,
+      "sha256": "e604fc222ea19e2a966efb1df1067a1697a68d5f03c838a19f623bb5ca88d221"
+    },
+    {
+      "path": "game/scripts/RuntimeBridge.cs.uid",
+      "bytes": 19,
+      "sha256": "9ab6d2cbf1fa4b5c8dcee6252042bdbc4d68eb0bfe7b73ffd04d3a37f8ce71d1"
+    },
+    {
+      "path": "game/scripts/RuntimeBridge.AlsuWalk.cs",
+      "bytes": 4153,
+      "sha256": "a7603d44dc56b2659b3e7388a5f089607de8c177e1e41f0c049f135259fb6bcf"
+    },
+    {
+      "path": "game/scripts/RuntimeBridge.AlsuWalk.cs.uid",
+      "bytes": 20,
+      "sha256": "56cd0cbb106a1028793a22e0cb24d1325cb348c7716c6c57bd298a5e5194a7e5"
+    },
+    {
+      "path": "game/scripts/AlsuStreetWalkPresentation.cs",
+      "bytes": 51959,
+      "sha256": "f82ff6d410089bc93455a66b7e7b880afd28b2242d190a310826405167df42e6"
+    },
+    {
+      "path": "game/scripts/AlsuStreetWalkPresentation.cs.uid",
+      "bytes": 20,
+      "sha256": "2be5ba3ae9d0a6e2f36fc658c515f005ee1790eb0b463eb20f60ab91efa92bdf"
+    },
+    {
+      "path": "game/scripts/CompiledCampaignRepository.cs",
+      "bytes": 35883,
+      "sha256": "6ec0506329571aabbb4d6554bd6706a03a6c91997a877287566f5302ac444564"
+    },
+    {
+      "path": "game/scripts/CompiledCampaignRepository.cs.uid",
+      "bytes": 19,
+      "sha256": "e0f0ac64c5ca387d0a7520a88dd9d04a561119504040fe9d8acede785d2fb5b7"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.cs",
+      "bytes": 96068,
+      "sha256": "3403c196273291ef4d4825687a134a08451154eb1db5f5fa88660c44a13d3349"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.cs.uid",
+      "bytes": 20,
+      "sha256": "c47423a560a1c93647b575411c01283979e9ab44778ec1859eead959e11c18ef"
+    },
+    {
+      "path": "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
+      "bytes": 63251,
+      "sha256": "a21e94a8178a528b6e237712b8ff27f1548c83412829932f039ef3b5ea8d308d"
+    },
+    {
+      "path": "src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs",
+      "bytes": 14360,
+      "sha256": "db255cda9626f7b0b7f1c344c0df592b0609bfe34348d35ef0e2723379f8f6fc"
+    },
+    {
+      "path": "src-dotnet/Urman.Core/Persistence/AtomicSaveGameStore.cs",
+      "bytes": 3746,
+      "sha256": "59b821c751bb5f6c1c7b314518c49cf231bc690ea6210cec7102990df1c9e3ac"
+    },
+    {
+      "path": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
+      "bytes": 9774,
+      "sha256": "1edcbe4b0ab6a2f914fc7f02b089cf13d9f1627083116a3b0e399f0cbc013a4f"
+    },
+    {
+      "path": "game/content/urman.fullgame.compiled.v1.json",
+      "bytes": 2115931,
+      "sha256": "c1afa18be60a451d7a2a5295d8be72cba7211579c415f51e75ca2f56ae209052"
+    },
+    {
+      "path": "game/project.godot",
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4"
+    },
+    {
+      "path": "eng/protected_run.py",
+      "bytes": 10394,
+      "sha256": "9ce2a1a6440fa5153abb5080d647a5a556a94f7e07faa2e4fd298f5af577a042"
+    },
+    {
+      "path": "eng/remote_common.py",
+      "bytes": 8589,
+      "sha256": "b13fe11d836a95fb32a06c9cf7654927d1eb508973326aae5b38621feba1406a"
+    },
+    {
+      "path": "eng/run-windows-check.ps1",
+      "bytes": 12477,
+      "sha256": "1853e63f9207a0994f078e863b1be97002971c4c641d8e3264679c2a0af9b7ca"
+    }
+  ]
+}

@@ -179,11 +179,48 @@ public partial class Act1ConnectedWorld
         GroundMosqueCourtyard(complex);
         ExcludeMosqueHallTerrain();
         var mosqueAccess = mosqueApproach[^1];
-        // The complete plate belongs to EastLeft. EastRight was physically
-        // mounted, but the existing minaret obscured its outward reading view.
-        var mosqueSign = _mosqueRoom.ToGlobal(new(5.789f, 1.55f, -1.50f));
+        // Keep the chosen clear wall explicit after the qibla yaw; the shared
+        // mount solver checks its full plate contour, fasteners and sightline.
+        var mosqueSign=Vector3.Zero;var mosqueSignOutward=Vector3.Zero;var mountOwner="";var mountFailure="No exterior entrance door";
+        var mounted=false;
+        // The original shell door is hidden when the accessible vestibule replaces it.
+        // Mount from the visible FacilityManualDoor leaf so the plate follows the real entrance.
+        // Its facing is known from the explicitly selected east wall. The generic door-to-building-
+        // center heuristic points inward here because the entrance sits west of the complex origin.
+        var doorFound=TryAddressDoor(complex,"MosqueEntranceLeaf",out var mosqueDoor,out _);
+        complex.SetMeta(AddressFacadeMount.ReadingFloorMeta,_mosqueRoom.Position);
+        var mosqueExteriorOutward=complex.GlobalBasis*Vector3.Right;
+        mosqueExteriorOutward.Y=0;
+        mosqueExteriorOutward=mosqueExteriorOutward.Normalized();
+        if(doorFound)
+            mounted=AddressFacadeMount.TryFind(complex,mosqueDoor,mosqueExteriorOutward,this,out mosqueSign,out mosqueSignOutward,
+                out mountOwner,out mountFailure,"MosqueHallEastLeft");
+        var resolvedPoint=mosqueSign;
+        var resolvedOutward=mosqueSignOutward;
+        if(mounted&&!IsMosqueAddressMountOnExteriorFace(complex,mosqueSign,mosqueSignOutward,out mountFailure))
+        {
+            mounted=false;
+            // Do not register an inward fallback that deferred qibla alignment
+            // would rotate through the wall without moving.
+            mosqueSign=Vector3.Zero;
+            mosqueSignOutward=Vector3.Zero;
+        }
+        GD.Print($"mosque-address-mount available={mounted} doorFound={doorFound} door={mosqueDoor} preferredOutward={mosqueExteriorOutward} point={resolvedPoint} readingFloorY={_mosqueRoom.GlobalPosition.Y} readingHeight={resolvedPoint.Y-_mosqueRoom.GlobalPosition.Y} outward={resolvedOutward} owner={mountOwner} failure={mountFailure}");
+        complex.SetMeta("addressSignMountAvailable",mounted);
+        if(mounted)
+        {
+            complex.SetMeta("addressSignMountOwner",mountOwner);
+            complex.SetMeta("addressSignDoor",mosqueDoor);
+            complex.SetMeta("addressSignPreferredOutward",mosqueExteriorOutward);
+        }
+        else
+        {
+            complex.SetMeta("addressSignMountFailure",mountFailure);
+            _addressImportIssues.Add(new("SIGN_MOUNT_NOT_FOUND","ADR-MOSQUE",complex.GetPath()+": "+mountFailure));
+        }
         RegisterAddressedBuilding(new AddressBuildingRegistration(complex, "act1/mosque", "BLD-MOSQUE", "PAR-MOSQUE", "ADR-MOSQUE",
-            "tukay", "23А", "URM-Q01-P0023", mosqueAccess, mosqueSign, Vector3.Right, ApproachPath: mosqueApproach));
+            "tukay", "23А", "URM-Q01-P0023", mosqueAccess, mosqueSign, mosqueExteriorOutward, ApproachPath: mosqueApproach,
+            SignOutward: mosqueSignOutward,SignSurfaceName:"MosqueHallEastLeft"));
 
         // Move the existing actor and his existing interaction together; no duplicate imam.
         var timur = GetNode<Node3D>("Act1CoreWorldGreybox/Act1People/Npc_timur_hazrat");
@@ -200,6 +237,60 @@ public partial class Act1ConnectedWorld
         conversation.SetMeta("facility", "mosque");
         FacilityTarget("MosqueVisit", MosqueVisitInteraction, "Осмотреть прихожую мечети", _mosqueRoom, new(3.65f, .68f, 2.90f), new(1.7f, .34f, .50f));
         EnsureFacilityTick();
+    }
+
+    private static bool IsMosqueAddressMountOnExteriorFace(Node3D complex,Vector3 point,Vector3 outward,out string failure)
+    {
+        failure="";
+        var expectedOutward=complex.GlobalBasis*Vector3.Right;
+        expectedOutward.Y=0;
+        if(expectedOutward.LengthSquared()<.00000001f)
+        {
+            failure="Mosque complex has no horizontal east-wall normal";
+            return false;
+        }
+        expectedOutward=expectedOutward.Normalized();
+
+        var wall=complex.GetNodeOrNull<MeshInstance3D>("MosqueHallEastLeft");
+        if(wall?.Mesh is not { } mesh)
+        {
+            failure="Selected exterior wall has no visible mesh";
+            return false;
+        }
+        var wallOutward=wall.GlobalBasis*Vector3.Right;
+        wallOutward.Y=0;
+        if(wallOutward.LengthSquared()<.00000001f)
+        {
+            failure="Selected exterior wall has no horizontal outward axis";
+            return false;
+        }
+        wallOutward=wallOutward.Normalized();
+        var wallFacingDot=wallOutward.Dot(expectedOutward);
+        var candidateOutward=outward;
+        candidateOutward.Y=0;
+        if(candidateOutward.LengthSquared()<.00000001f)
+        {
+            failure="Shared solver returned no horizontal outward normal";
+            return false;
+        }
+        candidateOutward=candidateOutward.Normalized();
+        var facingDot=candidateOutward.Dot(expectedOutward);
+        if(wallFacingDot<.999f||facingDot<.999f)
+        {
+            failure=$"Mosque east-wall normal mismatch: wallDot={wallFacingDot:0.000}, candidateDot={facingDot:0.000}";
+            return false;
+        }
+
+        var bounds=mesh.GetAabb();
+        var outerFace=wall.GlobalTransform*new Vector3(bounds.End.X,
+            bounds.Position.Y+bounds.Size.Y*.5f,bounds.Position.Z+bounds.Size.Z*.5f);
+        var signedExteriorDistance=(point-outerFace).Dot(expectedOutward);
+        if(signedExteriorDistance<=.005f)
+        {
+            failure=$"Shared solver returned a non-exterior wall candidate: distance={signedExteriorDistance:0.000} m";
+            return false;
+        }
+        return true;
     }
 
     private Vector3[] BuildMosqueEntrySteps(Node3D complex)

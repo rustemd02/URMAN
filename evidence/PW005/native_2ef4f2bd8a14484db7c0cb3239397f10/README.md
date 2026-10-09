@@ -1,0 +1,8 @@
+# PW005 save-readiness native smoke
+
+- Job `2ef4f2bd8a14484db7c0cb3239397f10`, snapshot `1ac2ef9ffcb7a7472d8f707811701c338bb8b5e9e2cc995bf452513569d12516`, commit `2effc8c51e6f2ec840795369097f9bbb7de7da64`; stock guarded Windows native smoke of `res://tests/full_game_flow_smoke_test.tscn` with timeout 300. Receipt status is **PASS**, game exit code 0, worker elapsed 134.703 seconds, `engine-errors.log` is empty.
+- The existing test passed the owner-readiness pose contract: the save waits for physical projection; the saved position/yaw match the ready post-save actor, while a pose already ready before save must also match its pre-save sample. Current schema, nested PhotoWorlds v2 identity, schema-1 in-memory migration, exact disk roundtrip, and legacy quick-slot canaries all passed.
+- `game.log` records SaveGameV3 write/restore, `fullgame-save-isolation: PASS`, and the full existing semantic route marker. The smoke explicitly ends `PHYSICAL NOT_RUN`; this is not ordinary play or physical acceptance.
+- `fullgame-caption-ui.png` is the byte-exact native PNG decoded from the tagged UI JSON in `game.log`; the sidecar omits the embedded base64.
+- The passing assertions do not emit the numeric saved pose. The prior 02fedfa failure retains the numeric pre-fix differential; exact post-fix numeric pose will require a later structured success diagnostic if needed.
+- The seven relevant source files under `source_snapshot/` match the sealed pre-submit proof and full station receipt manifest. `archive-sha256.json` hashes this archive's files (excluding itself). `.gitattributes` disables text normalization.

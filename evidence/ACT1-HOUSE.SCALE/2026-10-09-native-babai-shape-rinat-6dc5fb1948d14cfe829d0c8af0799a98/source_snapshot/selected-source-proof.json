@@ -1,0 +1,123 @@
+{
+  "job_id": "6dc5fb1948d14cfe829d0c8af0799a98",
+  "snapshot_id": "eeb53479d0b81d445552cd40d4f43353406de01587f20203656233e868ad0539",
+  "base_commit": "29bc4764cffc7d8640ca99cbae6a444edaecb684",
+  "sealed_source_path": ".codex-captures/sealed-source/babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98",
+  "sealed_at_utc": "2026-10-09T00:41:08.172629+00:00",
+  "source_snapshot_file_count": 1821,
+  "files": [
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "bytes": 12563222,
+      "sha256": "26ce5758b4f14e91b990dc879f3d93e0a9935958e0e71489765c3d7e6bf4c237",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": false,
+      "rootHashMatch": true
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
+      "bytes": 188669,
+      "sha256": "9724e3ed28d10ad3e2d07179f8a307d741a7f883e557ed9ea156563148881028",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": false,
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "bytes": 3071496,
+      "sha256": "ce2ee7567720501521be357bb797bebab3582a1bac98d651f617f96bc6398e2a",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true,
+      "rootHashMatch": true
+    },
+    {
+      "path": "assets/asset_registry.json",
+      "bytes": 236918,
+      "sha256": "2338e1f2a8010009f07df2c0d1d0fff85da19807280b541a8f9a7932e3ebd7d0",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": false,
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/scripts/GeneratedCharacterKitDressing.cs",
+      "bytes": 36888,
+      "sha256": "9a0a44e468f52224d64f8490adea56fd6ef0886c586d46ac95e429dd71180842",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true,
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 49756,
+      "sha256": "8724061a1f3972d8459c59946e5e2bc2375ad772840550c26fbb8f5898f80cce",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true,
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.NpcStaging.cs",
+      "bytes": 15055,
+      "sha256": "c8219933e0394b7947a7c13dfbf00800fb0863fe2f01d09edd80aa4aca328696",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true,
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.cs",
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true,
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/scripts/RinatPresencePresentation.cs",
+      "bytes": 42254,
+      "sha256": "394f8df592e14ec37651720086afc63daee58790b1b5d1f07d87d0d781eac170",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true,
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/content/world/act1_village_kit.world.v1.json",
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true,
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/content/world/visual_checkpoints.v1.json",
+      "bytes": 12671,
+      "sha256": "ee5d723807842e47110a21ddda6857f84c360efad5b14fe1bc62a7cb44b1ae7e",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true,
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/project.godot",
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true,
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/scenes/act1_demo.tscn",
+      "bytes": 189,
+      "sha256": "0c00cb3d6a7078ea75b9a003e7efd8d2bb8a0528fd28f737ecc66cb59ae81fa6",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": true,
+      "rootHashMatch": true
+    },
+    {
+      "path": "registry-rows-exterior.json",
+      "bytes": 2988,
+      "sha256": "97c9a182d39d31d116c719fc2e8bcd2a2049f08589e2d097d76cfc91c8cc0e57",
+      "preSubmitProofMatch": true,
+      "receiptManifestMatch": false,
+      "rootHashMatch": null
+    }
+  ],
+  "note": "Source copies come from the immutable pre-submit seal, not the mutable live checkout. The authoring Blender .blend and generator are recorded locally; station runtime manifest correctly excludes authoring sources."
+}

@@ -17,7 +17,13 @@
         { "$ref": "#/$defs/InventoryCondition" },
         { "$ref": "#/$defs/PressureCondition" },
         { "$ref": "#/$defs/TimeCondition" },
-        { "$ref": "#/$defs/LocationCondition" }
+        { "$ref": "#/$defs/LocationCondition" },
+        { "$ref": "#/$defs/PhotoWorldBookCondition" },
+        { "$ref": "#/$defs/PhotoWorldPhotoCondition" },
+        { "$ref": "#/$defs/PhotoWorldFactCondition" },
+        { "$ref": "#/$defs/PhotoWorldEvidenceCondition" },
+        { "$ref": "#/$defs/PhotoWorldCaptionCondition" },
+        { "$ref": "#/$defs/PhotoWorldPrologueCondition" }
       ]
     },
     "Effect": {
@@ -34,7 +40,16 @@
         { "$ref": "#/$defs/SceneRequestEffect" },
         { "$ref": "#/$defs/AudioRequestEffect" },
         { "$ref": "#/$defs/DocumentOpenEffect" },
-        { "$ref": "#/$defs/JournalRecordEffect" }
+        { "$ref": "#/$defs/JournalRecordEffect" },
+        { "$ref": "#/$defs/PhotoWorldBookReceiveEffect" },
+        { "$ref": "#/$defs/PhotoWorldPhotoAcquireEffect" },
+        { "$ref": "#/$defs/PhotoWorldPhotoMountEffect" },
+        { "$ref": "#/$defs/PhotoWorldPhotoBackReadEffect" },
+        { "$ref": "#/$defs/PhotoWorldPhotoContextEffect" },
+        { "$ref": "#/$defs/PhotoWorldFactObserveEffect" },
+        { "$ref": "#/$defs/PhotoWorldEvidenceVerifyEffect" },
+        { "$ref": "#/$defs/PhotoWorldPrologueEffect" },
+        { "$ref": "#/$defs/PhotoWorldEpilogueEffect" }
       ]
     },
     "AllCondition": {
@@ -150,6 +165,50 @@
         "op": { "const": "location.is" },
         "locationId": { "$ref": "common.schema.json#/$defs/ContentId" }
       },
+      "additionalProperties": false
+    },
+    "PhotoWorldBookCondition": {
+      "type": "object",
+      "required": ["op"],
+      "properties": { "op": { "const": "photoworlds.book.received" } },
+      "additionalProperties": false
+    },
+    "PhotoWorldPhotoCondition": {
+      "type": "object",
+      "required": ["op", "photoId", "state"],
+      "properties": {
+        "op": { "const": "photoworlds.photo.state" },
+        "photoId": { "type": "string", "pattern": "^(P|S)-[A-Z0-9-]+$" },
+        "state": { "enum": ["acquired", "mounted", "back-read", "context-known"] }
+      },
+      "additionalProperties": false
+    },
+    "PhotoWorldFactCondition": {
+      "type": "object",
+      "required": ["op", "factId"],
+      "properties": { "op": { "const": "photoworlds.fact.observed" }, "factId": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" } },
+      "additionalProperties": false
+    },
+    "PhotoWorldEvidenceCondition": {
+      "type": "object",
+      "required": ["op", "evidenceId"],
+      "properties": { "op": { "const": "photoworlds.evidence.confirmed" }, "evidenceId": { "type": "string", "pattern": "^E-[A-Z0-9-]+$" } },
+      "additionalProperties": false
+    },
+    "PhotoWorldCaptionCondition": {
+      "type": "object",
+      "required": ["op", "photoId"],
+      "properties": {
+        "op": { "const": "photoworlds.caption.prepared" },
+        "photoId": { "type": "string", "pattern": "^(P|S)-[A-Z0-9-]+$" },
+        "sourceAuthorId": { "$ref": "common.schema.json#/$defs/ContentId" }
+      },
+      "additionalProperties": false
+    },
+    "PhotoWorldPrologueCondition": {
+      "type": "object",
+      "required": ["op"],
+      "properties": { "op": { "const": "photoworlds.prologue.completed" } },
       "additionalProperties": false
     },
     "KnowledgeEffect": {
@@ -270,6 +329,60 @@
         "entryId": { "$ref": "common.schema.json#/$defs/ContentId" },
         "sourceId": { "$ref": "common.schema.json#/$defs/ContentId" }
       },
+      "additionalProperties": false
+    },
+    "PhotoWorldBookReceiveEffect": {
+      "type": "object",
+      "required": ["op", "sourceId", "giverId"],
+      "properties": { "op": { "const": "photoworlds.book.receive" }, "sourceId": { "$ref": "common.schema.json#/$defs/ContentId" }, "giverId": { "$ref": "common.schema.json#/$defs/ContentId" } },
+      "additionalProperties": false
+    },
+    "PhotoWorldPhotoAcquireEffect": {
+      "type": "object",
+      "required": ["op", "photoId", "sourceId", "permissionId"],
+      "properties": { "op": { "const": "photoworlds.photo.acquire" }, "photoId": { "type": "string", "pattern": "^(P|S)-[A-Z0-9-]+$" }, "sourceId": { "$ref": "common.schema.json#/$defs/ContentId" }, "permissionId": { "$ref": "common.schema.json#/$defs/ContentId" } },
+      "additionalProperties": false
+    },
+    "PhotoWorldPhotoMountEffect": {
+      "type": "object",
+      "required": ["op", "photoId", "pageId"],
+      "properties": { "op": { "const": "photoworlds.photo.mount" }, "photoId": { "type": "string", "pattern": "^(P|S)-[A-Z0-9-]+$" }, "pageId": { "type": "string", "pattern": "^PAGE-[A-Z0-9-]+$" } },
+      "additionalProperties": false
+    },
+    "PhotoWorldPhotoBackReadEffect": {
+      "type": "object",
+      "required": ["op", "photoId"],
+      "properties": { "op": { "const": "photoworlds.photo.back-read" }, "photoId": { "type": "string", "pattern": "^(P|S)-[A-Z0-9-]+$" } },
+      "additionalProperties": false
+    },
+    "PhotoWorldPhotoContextEffect": {
+      "type": "object",
+      "required": ["op", "photoId", "sourceId"],
+      "properties": { "op": { "const": "photoworlds.photo.context-known" }, "photoId": { "type": "string", "pattern": "^(P|S)-[A-Z0-9-]+$" }, "sourceId": { "$ref": "common.schema.json#/$defs/ContentId" } },
+      "additionalProperties": false
+    },
+    "PhotoWorldFactObserveEffect": {
+      "type": "object",
+      "required": ["op", "factId", "sourceId"],
+      "properties": { "op": { "const": "photoworlds.fact.observe" }, "factId": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" }, "sourceId": { "$ref": "common.schema.json#/$defs/ContentId" } },
+      "additionalProperties": false
+    },
+    "PhotoWorldEvidenceVerifyEffect": {
+      "type": "object",
+      "required": ["op", "evidenceId"],
+      "properties": { "op": { "const": "photoworlds.evidence.verify" }, "evidenceId": { "type": "string", "pattern": "^E-[A-Z0-9-]+$" } },
+      "additionalProperties": false
+    },
+    "PhotoWorldPrologueEffect": {
+      "type": "object",
+      "required": ["op"],
+      "properties": { "op": { "enum": ["photoworlds.prologue.enter", "photoworlds.prologue.complete"] } },
+      "additionalProperties": false
+    },
+    "PhotoWorldEpilogueEffect": {
+      "type": "object",
+      "required": ["op"],
+      "properties": { "op": { "const": "photoworlds.epilogue.finish" } },
       "additionalProperties": false
     }
   }

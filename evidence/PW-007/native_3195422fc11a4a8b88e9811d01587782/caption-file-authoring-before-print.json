@@ -1,0 +1,13 @@
+{
+  "frameTag": "caption-file-authoring-before-print",
+  "activeSceneId": "urman.fullgame:scene/pw-home",
+  "engineFramesDrawn": 4,
+  "width": 1886,
+  "height": 1061,
+  "editorTextLength": 59,
+  "captionButtonVisible": true,
+  "pngBytes": 137356,
+  "pngSha256": "13b67c3d5d2bd6fc826f1457749e874db9a346239a62becd79f6215e63f4ff43",
+  "logCarrier": "game.log",
+  "logCarrierPrefix": "fullgame-caption-ui-png:"
+}

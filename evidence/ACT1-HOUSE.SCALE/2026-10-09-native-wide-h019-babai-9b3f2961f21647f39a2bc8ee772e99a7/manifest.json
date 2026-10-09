@@ -1,0 +1,98 @@
+{
+  "job_id": "9b3f2961f21647f39a2bc8ee772e99a7",
+  "snapshot_id": "67f554453879c49cb1ccd9bf684bc6f976239a083907492f866806f2ad09b1dd",
+  "source_commit": "c01128ba543d2cf830cc25ffea1d580ca644cfd6",
+  "raw_result_zip_sha256": "f59be3708106ba7baa25dc4304aab264299169944a9fab4a2f9f47f51f7e6a27",
+  "source_manifest_sha256": "5bb9d229a20f3cf11396021392778f2f5d66d120e9e866e4ab6ff1a02663039a",
+  "status": "PASS",
+  "mode": "capture",
+  "scene": "res://scenes/act1_demo.tscn",
+  "headless": false,
+  "game_exit_code": 0,
+  "worker_elapsed_seconds": 392.485,
+  "snapshot_hashes_verified": true,
+  "userdata_restored": true,
+  "engine_error_line_count": 0,
+  "visual_review": "PENDING",
+  "human_playtest": "not-run",
+  "frames": {
+    "h019_silhouette": {
+      "png_sha256": "e7402f3ed931b2f7c9e73f81bfa6ce5a38fdd99bfa3609ed1e711db78570fb09",
+      "png_bytes": 1038389,
+      "sidecar_sha256": "e6022c3e6ee0be7edbf2d899961ee3603e1bab3406863a02630976f7cc78f337",
+      "sidecar_bytes": 14381,
+      "point": "h019_silhouette",
+      "spec": "h019_silhouette:MainStreetEastNeighborFacade@-7.0,1.7,11.0>MainStreetEastNeighborFacade@0.0,2.8,-1.7",
+      "camera_owner_path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade",
+      "target_owner_path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade",
+      "fov": 70,
+      "viewport": [
+        1920,
+        1080
+      ]
+    },
+    "h019_roof_overview": {
+      "png_sha256": "0f0671830644734cd15d7ee561ed0d86bf55e3d21b1df96c4808149d725b8386",
+      "png_bytes": 1062267,
+      "sidecar_sha256": "ae5228aa2450612ccd6190c421644505685372a0347499c0f7c1d7e490420bb9",
+      "sidecar_bytes": 14382,
+      "point": "h019_roof_overview",
+      "spec": "h019_roof_overview:MainStreetEastNeighborFacade@0.0,1.7,12.0>MainStreetEastNeighborFacade@0.0,3.4,-1.7",
+      "camera_owner_path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade",
+      "target_owner_path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/MainStreet/EastParcel/MainStreetEastNeighborFacade",
+      "fov": 70,
+      "viewport": [
+        1920,
+        1080
+      ]
+    },
+    "babai_shape_front": {
+      "png_sha256": "c87a209b0dedafce9a648027585257ba0d404f484001957c721794abce8e81ea",
+      "png_bytes": 1393845,
+      "sidecar_sha256": "976b070e934b5aca5fc775a3203df49ee8a09e2bc3b3884d10f7a94d5dd496d6",
+      "sidecar_bytes": 2018,
+      "point": "babai_shape_front",
+      "spec": "babai_shape_front:BabaiApproachDwellingFacade@0.0,1.7,14.0>BabaiApproachDwellingFacade@0.0,3.0,-0.5",
+      "camera_owner_path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "target_owner_path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "fov": 70,
+      "viewport": [
+        1920,
+        1080
+      ]
+    },
+    "babai_shape_oblique": {
+      "png_sha256": "dd27b535bec202e676bdba84eb678fb54036e45becddb80fb8f3bcd331ae766a",
+      "png_bytes": 1269964,
+      "sidecar_sha256": "75f5bb883d314c07518cdc3204b5eebee93f34af3f5d206cdd168eadd98a11ce",
+      "sidecar_bytes": 2020,
+      "point": "babai_shape_oblique",
+      "spec": "babai_shape_oblique:BabaiApproachDwellingFacade@-9.0,1.7,13.0>BabaiApproachDwellingFacade@0.0,2.7,0.0",
+      "camera_owner_path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "target_owner_path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "fov": 70,
+      "viewport": [
+        1920,
+        1080
+      ]
+    }
+  },
+  "source_sha256": {
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs": {
+      "sha256": "d3a2e6252196c56033b0fc87823ee2088596519ca8eac2fcc2267c1ea9f34996",
+      "bytes": 38006
+    },
+    "game/scripts/Act1ConnectedWorld.cs": {
+      "sha256": "b35a5e71a8aabe129bff7fe9d833303ff2496f68faf6f82b08e3ed44fcd5509a",
+      "bytes": 627645
+    },
+    "game/content/world/act1_village_kit.world.v1.json": {
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d",
+      "bytes": 133658
+    },
+    "game/assets/models/act1/urman_village_exterior_kit.glb": {
+      "sha256": "f3570f9d0ebfc37e3066bc4d39c6b3e90755ba2cbf75c38a57232aedb08c7b9e",
+      "bytes": 3007140
+    }
+  }
+}

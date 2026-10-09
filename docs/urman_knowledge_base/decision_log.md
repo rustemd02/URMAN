@@ -1,5 +1,17 @@
 # Decision Log
 
+## 2026-10-08 — PW-002: активный мандат вместо конкурирующих исторических ограничений
+
+**Основание:** живой запрос на исполнение единой очереди, мандат PW-1.0 документ 01, уже принятый контракт сведения. **Действие:** уточнение существующего решения/канона, не новая архитектура и не факт выполненной сюжетной миграции.
+
+**Прежняя проблема:** верхняя оговорка нового объёма сосуществовала с `Hard Canon` винтовки Марата, обязательных обвала/cliffhanger/разрушения пакта и пяти актов на 6–8 часов. Августовское решение всё ещё называлось Accepted. Это позволяло будущему исполнителю восстановить отвергнутую причинность.
+
+**Решение:** AUTHOR_FIXED A01–A10 перечислены в активном каноне и AGENTS; рабочая постановка книги/мира/эпилога отдельно помечена PRODUCTION_DEFAULT. Старые несовместимые формулировки сохраняются под историческими заголовками, августовские scope/art decisions явно superseded в соответствующей части. Два регистра заменяют единую степень стилизации, встречи внутри разрешены полностью, фотомиры не обязаны превращаться в угрозу. Ресурсные права, ислам/фольклор, guards и полезный diff сохраняются. Полная реализация продолжается по зависимостям; авторское одобрение не выдумывается.
+
+**Последствия и baseline:** обновлены только AGENTS/canon/этот журнал и evidence карточки. Runtime узлы/сцены/сейвы не менялись; существующий compiled campaign ещё старый, и PW-003 обязан изменить authoring source, а PW-004/005 — механики/состояния. Никакого второго источника runtime-истины это решение не создаёт. Откат документального блока возможен обратным diff; пользовательские saves и исходные пакеты сохранены.
+
+**Проверка:** соответствие A01–A10/документу 01, права оригинальной обложки/копий/референсов, исторические supersession markers, JSON и diff. Для этой карточки документов сцена/кадры/аудио неприменимы; Windows baseline PW-001 хранится отдельно и не доказывает новый сюжет. Авторская приёмка PENDING.
+
 ## 2026-10-08 — единый трекер готовой игры и двух новых пакетов
 
 **Основание:** прямой запрос автора привести tasktracker в порядок, включить все требования Visual Reset/PhotoWorlds и правило для следующих крупных пакетов. Это поручение на документы; вложенные launch prompts не являются командой начать игровую реализацию/commit/push.
@@ -663,7 +675,7 @@ Linked files: `gameplay.md`, `design_style.md`, `assets.md`, `technical_architec
 
 ## 2026-08-10 — Accept Painterly Low-Poly 3D and the Godot/C# production stack
 
-Status: Accepted
+Status: Partially superseded for art direction by PW-1.0: two registers replace one mandatory Painterly Low-Poly register. Godot/C# ownership, data protection and compatible production boundaries remain; this is not a stack migration.
 
 Context: The first-person target required a reproducible engine and art pipeline. Three visual tests separated primitive PS1 minimalism, production-safe polished low-poly and a more expensive painterly treatment. The intended result combines the geometry budget of the second direction with the light, fog and handmade material accents of the third.
 
@@ -681,7 +693,7 @@ Linked files: `design_style.md`, `technical_architecture.md`, `assets.md`, `game
 
 ## 2026-08-10 — Fix the full-game scope and canonical tragic ending
 
-Status: Accepted
+Status: Superseded for «За краем снимка» by the 2026-10-08 integration contract and PW-002 authority sync. Compatible controls, cultural/language gates and archived lore remain; the five-act duration and pact-destruction ending are historical.
 
 Context: The knowledge base contained a five-act outline but treated the final choice as unresolved and described the complete game only as a future possibility. Full 3D production needs one release scope and one narrative target before acts 2–5 receive expensive scenes and assets.
 
@@ -6058,3 +6070,15 @@ Blender-import редакторский импорт не читает, поэт
 читаемые фигуры. Нынешний вид автор считает топорным. Приёмку кадрами автор разрешил временно не
 ждать («пох без приемки делаем»); правки идут как CODE_DONE_VERIFY_PENDING.
 
+
+## 2026-10-08 — вечернее поручение: исполнение единой очереди до утра
+
+Автор прямо запросил выполнение Task Tracker (306 карточек), проверку на документированной Windows-станции, реализацию native-субагентами GPT-6 Luna / Max, оркестрацию и личную визуальную приёмку основным агентом. Разрешены commit/push в main после проверенных задач или блоков. Создана цель Create Goal до 10:00 09.10.2026 Europe/Moscow. Это заменяет предыдущий документальный режим 08.10, сохраняя действующий контракт кампании и защиты данных. Полное `done_when`, актуальные runtime-evidence и требуемые реальные human/art/audio/culture/language/host-гейты остаются обязательными; срок не доказывает готовность всей игры.
+
+### 2026-10-09 — обязательные действия фотомиров не заменяются общими сюжетными фактами
+
+При повторной сверке `worlds.spec.json` обнаружено, что текущие условия завершения W01–W05 используют неполный набор более общих фактов. Это не принятые алиасы: runtime ищет точные fact ID, а решения о замене required-действий нет. Действует KEEP для дополнительной сюжетной информации, EXTEND для точных канонических фактов и их producers, REWRITE для условий завершения на полный source-required набор. Стартовые условия, наружные evidence/caption/mount-гейты и необязательность W05 сохраняются. Текущая карточка PW-003 переоткрыта в едином JSON; прежний semantic PASS остаётся историей. Чтение подписи, прослушивание или новая UI-кнопка не доказывают физическое действие. Подробная сверка: `evidence/PW-003/chapter-completion-contract-audit-2026-10-09.json`.
+
+Реализация среза 2026-10-09: `content/modules/urman-fullgame/definitions.json` теперь задаёт ровно 19 `worlds.spec.required` fact ID для завершения W01–W05. Прежние высокоуровневые наблюдения остаются в каталоге сюжета, но не добавляются к обязательным условиям миров; стартовые условия, эффекты/состав квестов, четыре нефактовых условия W04 и необязательность W05 сохранены. Из 19 требований сейчас только `water_old_approach_seen` и `house_camera_position_seen` имеют совпадающие зарегистрированные semantic source ID; физическая проверка обоих не реализована. Остальные 17 producers отсутствуют, поэтому текущие условия закрываются fail-closed и semantic smoke не заявляется успешным на новом источнике до появления настоящих producers. Подробные ID, старый/новый наборы и проверка сохранений записаны в `evidence/PW-003/canonical-world-completion-source-correction-2026-10-09.json`.
+
+Сохранения: fingerprint компилируемого пакета включает нормализованные исходники модуля, а загрузка quick/checkpoint сверяет его точное значение до проекции состояния. Новые условия меняют fingerprint при неизменном `campaign.exactVersion`; старые слоты с прежним fingerprint будут отклонены, но останутся нетронутыми на диске. Этот срез не добавляет миграцию или механизм восстановления старых слотов; это отдельный compatibility gate.

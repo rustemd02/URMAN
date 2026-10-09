@@ -1,0 +1,128 @@
+{
+  "job_id": "496c35f835de43eaa39a25440cfb54de",
+  "base_commit": "954d8ee35bc4d53e159f264fb857f2ab4582af0c",
+  "snapshot_id": "c9c2c9e87be19e64095760e8da5c579a9c7c629e1c9796b6d5bb6c523ce6883e",
+  "snapshot_file_count": 1825,
+  "dirty_paths": [
+    " M assets/asset_registry.json",
+    " M assets/source/blender/urman_modular_kit.blend",
+    " M docs/production/act1_fence_kit_2026-10-04.md",
+    " M docs/urman_knowledge_base/execution_backlog.json",
+    " M game/assets/generated/urman_modular_kit.glb",
+    " M game/content/world/act1_village_kit.world.v1.json",
+    " M game/content/world/visual_checkpoints.v1.json",
+    " M game/scripts/Act1ConnectedWorld.YardFences.cs",
+    " M game/scripts/Act1ConnectedWorld.cs",
+    " M game/scripts/GeneratedModularKitDressing.cs",
+    " M game/scripts/PainterlyMaterialLibrary.cs",
+    " M tools/blender/generate_modular_environment.py",
+    "?? evidence/ACT1-DEPTH.9/rug-uv-export-2026-10-09.json"
+  ],
+  "station_selected_sources": {
+    "game/project.godot": {
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4",
+      "archive_path": "station-selected/game/project.godot"
+    },
+    "game/content/urman.fullgame.compiled.v1.json": {
+      "bytes": 2122792,
+      "sha256": "89f8a53f0315a10c475b0165677d8475473c3a336dda7d004bc550af145c5b1e",
+      "archive_path": "station-selected/game/content/urman.fullgame.compiled.v1.json"
+    },
+    "game/content/world/visual_checkpoints.v1.json": {
+      "bytes": 14721,
+      "sha256": "9d71b1b3ba8ad880e854cbe5e4501f297c8d59d9b69ad6a022b467098006e786",
+      "archive_path": "station-selected/game/content/world/visual_checkpoints.v1.json"
+    },
+    "game/content/world/act1_village_kit.world.v1.json": {
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d",
+      "archive_path": "station-selected/game/content/world/act1_village_kit.world.v1.json"
+    },
+    "game/assets/generated/urman_modular_kit.glb": {
+      "bytes": 1393776,
+      "sha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+      "archive_path": "station-selected/game/assets/generated/urman_modular_kit.glb"
+    },
+    "game/scripts/Act1ConnectedWorld.cs": {
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f",
+      "archive_path": "station-selected/game/scripts/Act1ConnectedWorld.cs"
+    },
+    "game/scripts/Act1ConnectedWorld.YardFences.cs": {
+      "bytes": 47416,
+      "sha256": "641337026a86b4d65c4c377b04ef42a9eeb2a2dc59f20278f64950fb1af77a8a",
+      "archive_path": "station-selected/game/scripts/Act1ConnectedWorld.YardFences.cs"
+    },
+    "game/scripts/Act1DemoRoot.cs": {
+      "bytes": 96068,
+      "sha256": "3403c196273291ef4d4825687a134a08451154eb1db5f5fa88660c44a13d3349",
+      "archive_path": "station-selected/game/scripts/Act1DemoRoot.cs"
+    },
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs": {
+      "bytes": 53558,
+      "sha256": "dcb94cca33c592b2107962341a16bf7d81c307515fb31e9180700375bb8b64da",
+      "archive_path": "station-selected/game/scripts/Act1DemoRoot.DevViewCapture.cs"
+    },
+    "game/scripts/GeneratedModularKitDressing.cs": {
+      "bytes": 28239,
+      "sha256": "43732b16753f5ebf3ad0f3224d34098a3595f6e8334ed3026cc92c888e6d47c4",
+      "archive_path": "station-selected/game/scripts/GeneratedModularKitDressing.cs"
+    },
+    "game/scripts/PainterlyMaterialLibrary.cs": {
+      "bytes": 122389,
+      "sha256": "a355f1ed9b6c2317febf1efbbdb9f6fcf387c83190cf143dd5e550487c6379a0",
+      "archive_path": "station-selected/game/scripts/PainterlyMaterialLibrary.cs"
+    },
+    "game/scripts/StyleBenchmarkInteriorFactory.cs": {
+      "bytes": 25969,
+      "sha256": "e3ec8a1ed9913e2b1a2213e0765e5c300c8b3a56dcd7a9bb5ef0b5229ff46f60",
+      "archive_path": "station-selected/game/scripts/StyleBenchmarkInteriorFactory.cs"
+    }
+  },
+  "local_authoring_excluded_sources": {
+    "assets/asset_registry.json": {
+      "bytes": 236918,
+      "sha256": "9305734cb339ec365eda1490bd2099986cf1463b562a762ddc055197cc6fb79c",
+      "archive_path": "local-authoring-excluded/assets/asset_registry.json"
+    },
+    "assets/source/blender/urman_modular_kit.blend": {
+      "bytes": 3361756,
+      "sha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+      "archive_path": "local-authoring-excluded/assets/source/blender/urman_modular_kit.blend"
+    },
+    "tools/blender/generate_modular_environment.py": {
+      "bytes": 59301,
+      "sha256": "0f40402361cee2ab855fdc3400e5c51257c0c568508c5dc58a78969ae73c6913",
+      "archive_path": "local-authoring-excluded/tools/blender/generate_modular_environment.py"
+    },
+    "evidence/ACT1-DEPTH.9/rug-uv-export-2026-10-09.json": {
+      "bytes": 6518,
+      "sha256": "bb05db931aca7ec10a6448dbe63f0180eb7b93e48797d099b32637136e7aa741",
+      "archive_path": "local-authoring-excluded/evidence/ACT1-DEPTH.9/rug-uv-export-2026-10-09.json"
+    },
+    "evidence/ACT1-DEPTH.9/rug-band-selection-source-2026-10-09.json": {
+      "bytes": 9973,
+      "sha256": "5223c85bfa460ffed955dbfe4e751c09fd7ed6018e4deadfbdd62d3d15c1d60a",
+      "archive_path": "local-authoring-excluded/evidence/ACT1-DEPTH.9/rug-band-selection-source-2026-10-09.json"
+    },
+    "registry_rows_for_generated_glb": {
+      "count": 9,
+      "row_ids": [
+        "env.house.a",
+        "env.fence.a",
+        "env.road.dirt.straight",
+        "env.vegetation.pine.a",
+        "prop.furniture.table.a",
+        "prop.oldpc.crt",
+        "env.well.a",
+        "env.woodpile.a",
+        "env.gate.a"
+      ],
+      "bytes": 9413,
+      "sha256": "7913a479aa75108158886215ccc5049c48e97acda1670dda237c77b4d43f5d53",
+      "archive_path": "local-authoring-excluded/asset_registry_selected_rows.json"
+    }
+  },
+  "note": "Pre-seal byte copies. Local authoring/evidence sources are excluded from station snapshot. No visual acceptance implied."
+}

@@ -1,0 +1,53 @@
+{
+  "reviewer": "root",
+  "reviewed_utc": "2026-10-09T04:36:55Z",
+  "review_scope": "Bounded visual acceptance of the Low-only cut-end ring correction from the three original PNGs; not whole-house/style acceptance.",
+  "decision": "ACCEPT_BOUNDED",
+  "finding": "At the close porch-side view, annual rings are visible on both cut ends under actual Low graphics settings; the prior e982 capture showed uniform cut faces. The two oblique corner views show weaker detail that fades at subpixel scale, so equal readability across views is not claimed.",
+  "before": {
+    "archive": "evidence/ACT1-DEPTH.12/native_low_e982732a68f14c84ab3b27bc232fb349",
+    "frame": "frames/babai_porch_side_clear_low.png",
+    "sha256": "025039ac3cd3e9af267a819f273cc466904d7ec9aa827ea7db9e4ae42f8ca7df"
+  },
+  "after": [
+    {
+      "archive": "evidence/ACT1-DEPTH.12/native_corner_low_3f6ae8a75130498a84b1b7f7ad2757d8",
+      "frame": "frames/babai_porch_side_clear_low.png",
+      "sha256": "50719d9afc94b0bb0bdb77b7fd71e7b65c39fe0f6f2333c749dea558ae9230a5",
+      "role": "close view: ring visibility on both cut ends"
+    },
+    {
+      "archive": "evidence/ACT1-DEPTH.12/native_corner_low_3f6ae8a75130498a84b1b7f7ad2757d8",
+      "frame": "frames/babai_corner_left_low.png",
+      "sha256": "1474bdca6f3b27a5723237d9769a0afe6135fd35a8e5acc3d2c10638a9c1ae97",
+      "role": "oblique corner view; weaker/subpixel-fading pattern"
+    },
+    {
+      "archive": "evidence/ACT1-DEPTH.12/native_corner_low_3f6ae8a75130498a84b1b7f7ad2757d8",
+      "frame": "frames/babai_corner_right_low.png",
+      "sha256": "d66315a3a95c754f33ba10d44f0e0b940ffe81204b1d2558b522bc976dc562a1",
+      "role": "oblique corner view; weaker/subpixel-fading pattern"
+    }
+  ],
+  "not_accepted_or_not_run": [
+    "The porch deck remains nearly uniform and is not accepted by this review.",
+    "Whole-house/art-style acceptance remains open.",
+    "Motion, performance, and ordinary-playthrough acceptance remain open; human playtest not run."
+  ],
+  "run_integrity": {
+    "station_receipt_status": "PASS",
+    "game_exit_code": 0,
+    "userdata_restored": true,
+    "project_restored_hash_matches_snapshot": true,
+    "post_run_station_doctor_ready": true,
+    "engine_errors_log_bytes": 0,
+    "stderr_log_bytes": 0,
+    "game_log_shader_or_error_markers": 0,
+    "game_log_warning_blocks": 12,
+    "game_log_warnings_outside_visual_acceptance": [
+      "VIS-022 qibla-axis author/cultural confirmation warning",
+      "vehicle hoof/support rejection recovered to checked parking",
+      "painterly missing-mode warnings"
+    ]
+  }
+}

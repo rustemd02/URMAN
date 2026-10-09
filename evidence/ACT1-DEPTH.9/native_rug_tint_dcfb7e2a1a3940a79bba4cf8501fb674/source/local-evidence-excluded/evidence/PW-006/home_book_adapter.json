@@ -1,0 +1,195 @@
+{
+  "taskId": "PW-006",
+  "recordedAt": "2026-10-09",
+  "owner": "/root/address_mount",
+  "status": "source_implemented_verification_pending",
+  "scope": "One bounded producer in the existing shared village/house zones: PhotoWorlds-specific entry/exit targets, Gulsina tea dialogue binding, and a neutral closed family-book presentation plus authored handoff target. No new world, scene, router, save owner, or safe-node registry.",
+  "route": {
+    "entrypoint": "res://scenes/full_game.tscn remains the ordinary one-zone Main; EnableAct1ConnectedWorld is not enabled.",
+    "entry": {
+      "physicalOwner": "StyleBenchmarkZone.BuildDayStreet / existing HouseDoor InteractionTarget",
+      "interactionId": "urman.fullgame:interaction/pw-home-enter-house",
+      "compiledWorldLocation": "village_day",
+      "target": "house_old_pc@entry",
+      "prerequisite": "urman.fullgame:beat/pw-b01-niva-arrival completed"
+    },
+    "tea": {
+      "physicalOwner": "StyleBenchmarkZone.BuildHouseOldPc / existing Gulsina InteractionTarget",
+      "interactionId": "urman.fullgame:interaction/pw-arrival-tea-talk",
+      "dialogueId": "urman.fullgame:dialogue/pw-arrival-tea",
+      "prerequisite": "urman.fullgame:beat/pw-b01-niva-arrival completed"
+    },
+    "book": {
+      "presentationOwner": "ArrivalPersonalProps.AddFamilyBook",
+      "interactionId": "urman.fullgame:interaction/pw-book-handoff",
+      "targetOwner": "existing InteractionTarget ray-only hitbox at the presented book",
+      "prerequisites": [
+        "urman.fullgame:beat/pw-b01-niva-arrival completed",
+        "urman.fullgame:beat/pw-b01-warm-arrival completed",
+        "photoworlds.book.received is false"
+      ],
+      "stateEffects": [
+        "existing photoworlds.book.receive reducer operation, giver urman.chapter1:character/gulsina",
+        "urman.fullgame:beat/pw-b02-family-book completed"
+      ],
+      "legacyBehavior": "The closed volume is presentation-only in the legacy home; the new target is instantiated only for PhotoWorlds. Existing legacy house interactions and zone routing retain their prior IDs."
+    },
+    "exit": {
+      "physicalOwner": "StyleBenchmarkZone.BuildHouseOldPc / existing HouseExit InteractionTarget",
+      "interactionId": "urman.fullgame:interaction/pw-home-exit-house",
+      "compiledWorldLocation": "house_old_pc",
+      "target": "village_day@from_house",
+      "narrativeEffect": "none"
+    }
+  },
+  "geometry": {
+    "source": "Existing HouseInterior_TableTop_LOD0 triangles, transformed into house-local coordinates",
+    "tableLocalAabbMeters": {
+      "min": [
+        -1.6,
+        0.75,
+        -3.275
+      ],
+      "max": [
+        1.6,
+        0.89,
+        -1.925
+      ]
+    },
+    "bookDimensionsMeters": [
+      0.22,
+      0.038,
+      0.285
+    ],
+    "bookFootprintXZ": {
+      "min": [
+        -0.46,
+        -2.2625
+      ],
+      "max": [
+        -0.24,
+        -1.9775
+      ],
+      "frontEdgeClearanceMeters": 0.0525
+    },
+    "bookAabbMeters": {
+      "min": [
+        -0.46,
+        0.895,
+        -2.2625
+      ],
+      "max": [
+        -0.24,
+        0.933,
+        -1.9775
+      ],
+      "interactionTargetCenter": [
+        -0.35,
+        0.914,
+        -2.12
+      ]
+    },
+    "candidateTableLocalCenterXZ": [
+      -0.35,
+      -2.12
+    ],
+    "sourceFaceAudit": {
+      "tableTopYAtFourFootprintCornersAndCenterMeters": [
+        0.89,
+        0.89,
+        0.89,
+        0.89,
+        0.89
+      ],
+      "method": "Decoded the current generated GLB POSITION/index buffers for HouseInterior_TableTop_LOD0, applied its authored node transform plus the existing rigid table placement (source Z=-3.60 to destination Z=-2.60), and intersected the five corrected portrait footprint points with the actual source triangles.",
+      "result": "All five samples lie on the same authored horizontal tabletop face; runtime repeats this check against Godot-imported triangles and rejects any discrepancy."
+    },
+    "clearanceBasis": "The corrected portrait footprint is separated from the tray/kettle/bowl, old-PC folio, script papers, arrival photograph/phone, and table front edge. The narrower X interval [-0.46,-0.24] leaves 0.311m planar clearance from the folio AABB; the front book edge at Z=-1.9775 leaves 0.0525m to the tabletop AABB edge Z=-1.925. The tabletop is at Y=0.89m in current room-local geometry; existing tablecloth offset is 0.004m and book clearance is 0.001m. Runtime checks visible prop AABBs and aborts on a mismatch.",
+    "preChangeReferenceFrame": {
+      "job": "1f7651002b4d4b05abb4a62dbad53339",
+      "snapshot": "9ed4c749dd9fc316275ef70e72161cad0e64e6794b7735f8d16fecf54c45cac2",
+      "path": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-rug-1f7651002b4d4b05abb4a62dbad53339/frames/babai_room_overview.png",
+      "sha256": "dbea37a48b8cb5f36fe106aa83f3fe16a6dc30c05457207aa6dcdd2cb760d0e1",
+      "limitation": "This is the original room/table area before book insertion; it establishes available surface only and is not visual acceptance of the new object or interaction."
+    },
+    "visualContract": "Neutral closed cloth-covered family literary volume with visible page block; no title or invented lettering. This is a simple presentation proxy, not the finished book asset, full contents, or pickup animation."
+  },
+  "assetConsumersAndOpenGates": {
+    "A-BOOK": {
+      "title": "Семейный том Тукая с вклейками",
+      "productionStatus": "REQUESTED",
+      "runtimeStatus": "NOT_RUN",
+      "rightsStatus": "REQUIRES_PROVENANCE",
+      "plannedRuntimeRoot": "res://assets/photoworlds/book/",
+      "currentConsumer": "None. ArrivalPersonalProps.AddFamilyBook builds a temporary static procedural presentation proxy and does not load the A-BOOK asset.",
+      "requirements": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json#A-BOOK: authored Blender source, GLB, albedo/roughness/page atlas, eight open/close/turn/mount/inspect/flip/rest/return poses, shared 3D/UI photo-page state, scale and language-checked typesetting."
+    },
+    "relatedOpenRequirements": [
+      "A-BOOK-HANDS: no near-camera hand/seasonal sleeve rig or book grip is provided by this slice.",
+      "A-BOOK-UI: no six authored spread layouts, transcription, accessibility-size, or 720p/controller review is provided by this slice.",
+      "A-BOOK-ICONS: no authored book navigation icon family is provided by this slice.",
+      "PW-041/language review: no title or literary/photo-page lettering is authored; cover text remains intentionally absent pending review."
+    ],
+    "existingProceduralBookCode": "Act1ConnectedWorld.MosqueBooks builds closed blank shelf-book geometry but owns Mosque content presentation; this home helper does not reuse it or assign a religious label to the family book."
+  },
+  "interactionFeedbackBoundary": {
+    "availability": "The compiled handoff requires Niva arrival, warm arrival and book-not-yet-received. The negated not-received condition removes the ray target after the existing reducer commits, so it is not repeatable.",
+    "currentResultFeedback": "Authored prerequisite availability plus removal of the one-shot interaction after book.received and the B02 state form the bounded feedback in this slice. No new story prose is invented. Actual first-person interaction and its visible success presentation remain NOT_RUN/open."
+  },
+  "nativeCapturePlan": {
+    "scene": "res://scenes/full_game.tscn",
+    "zone": "house_old_pc",
+    "physicalRoute": "Use the actual full-game HouseDoor interaction after the authored Niva beat exists; Main currently spawns the player at house_old_pc@entry at local (0, 0.05, 3.8), yaw 0, facing -Z.",
+    "cameraOwner": "/root/FullGameMain/Player/Head/Camera3D",
+    "cameraContract": "Actual FirstPersonController camera, FOV 75, existing InteractionRay reach 2.7m; walk to the table with ordinary controls and aim at the real book target centered at house-local (-0.35, 0.914, -2.12). Capture a prompt-visible approach and the post-handoff state from this same player camera.",
+    "limit": "The required physical Niva/prologue producer is not implemented, so the current ordinary story route cannot yet reach the gated house entry. Do not seed B01, teleport the player, or label a direct zone jump as route acceptance. A geometry-only image from the Act I demo is not a substitute for this full-game player-camera check."
+  },
+  "verification": {
+    "sourceReview": "PASS: shared zone owner, compiled interaction conditions/effects, existing dialogue, actual table geometry and available area inspected.",
+    "jsonParse": "PASS: python3 -m json.tool parsed definitions.json and this evidence file.",
+    "diffCheck": "PASS: git diff --check on the four owned source/content files, technical_architecture.md, and this evidence file.",
+    "narrowGameCompile": {
+      "command": ". eng/dotnet-env.sh; .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers -nodeReuse:false -m:1 --verbosity minimal",
+      "result": "PASS",
+      "warnings": 0,
+      "errors": 0,
+      "elapsedSeconds": 11.35,
+      "followupReason": "Recompiled after fixing the book-support lookup to resolve the single tabletop under GeneratedHouseInteriorAct1; AddFamilyBook runs after GeneratedOldPcAct1 imports a duplicate modular kit."
+    },
+    "fullGameContentCompile": {
+      "command": ". eng/dotnet-env.sh; tools-dotnet/Urman.ContentCli/bin/Debug/net10.0/Urman.ContentCli compile --root $PWD --campaign urman.fullgame --out game/content/urman.fullgame.compiled.v1.json",
+      "exitCode": 0,
+      "compiledPackSha256": "34901b60910bf6c8703547be3a883a424fb278331fa56d314852c212d5b1c31b",
+      "campaignFingerprint": "08a59e82c672d3f14b308bf8b45932a15637f945bcb89d9bd67518e0969d61f3",
+      "campaignId": "urman.fullgame",
+      "exactVersion": "1.0.0",
+      "photoWorldNamespace": "photoworlds-v1",
+      "compiledInteractions": [
+        "urman.fullgame:interaction/pw-home-enter-house",
+        "urman.fullgame:interaction/pw-home-exit-house",
+        "urman.fullgame:interaction/pw-arrival-tea-talk",
+        "urman.fullgame:interaction/pw-book-handoff"
+      ]
+    },
+    "postChangeNativeCapture": "NOT_RUN: root/baseline owns the Windows station.",
+    "humanInteractionAndArtAcceptance": "NOT_RUN",
+    "tableOwnerResolution": "PASS: BuildHouseOldPc calls ArrivalPersonalProps.Build before GeneratedOldPcAct1 is attached, while AddFamilyBook runs after it. The latter now resolves exactly one HouseInterior_TableTop_LOD0 under GeneratedHouseInteriorAct1; the existing triangle-support and visible-prop AABB checks remain enabled."
+  },
+  "remainingBoundaries": [
+    "The authored B01 Niva/prologue beat is not physically produced by this slice; until its upstream producer exists, the full-game home entry target stays correctly unavailable.",
+    "No PW-009 logical anchor/safe-node binding or visit.prepare/return transaction is claimed.",
+    "The presentation does not claim the completed 48-asset literary book, text/rights review, or final art acceptance.",
+    "PW-006 remains open for its remaining task clauses; this producer does not close PW-007, PW-009, the physical campaign, or ordinary play acceptance."
+  ],
+  "sourceSha256": {
+    "game/scripts/StyleBenchmarkZone.cs": "85831ef5c97d2e0ee68cb1f33a2cd07f2bea763186ca9e457b4b7d605df9d245",
+    "game/scripts/InteractionTarget.cs": "36191b49bb8b730089f19f82de4b5cd6587177f07bd70861457fe931199b6aae",
+    "game/scripts/ArrivalPersonalProps.cs": "7d61228b9419d38d0013fa89e81ac7f26417bfde7fc04bce86d396d698f1341c",
+    "content/modules/urman-fullgame/definitions.json": "57df0b1964c08ad20d8057c88dd9b9748d69c1e4abeafa37f8d1c356ab4e3da5",
+    "docs/urman_knowledge_base/technical_architecture.md": "dada656231bc44ebed8f4c257f70126b27a6f6b7aad2c8313c5ee1868fb3678e"
+  },
+  "compiledArtifacts": {
+    "game/content/urman.fullgame.compiled.v1.json": "34901b60910bf6c8703547be3a883a424fb278331fa56d314852c212d5b1c31b",
+    "campaignFingerprint": "08a59e82c672d3f14b308bf8b45932a15637f945bcb89d9bd67518e0969d61f3"
+  }
+}

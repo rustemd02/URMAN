@@ -1,0 +1,6 @@
+ERROR: Node not found: "Screen/App_notepad/Content/Text" (relative to "/root/FullGameFlowSmokeTest/FullGameMain/OldPcUi").
+ERROR: Node not found: "Screen/App_notepad/Content/PreparePhotoCaption" (relative to "/root/FullGameFlowSmokeTest/FullGameMain/OldPcUi").
+ERROR: Full-game semantic flow failed: System.NullReferenceException: Object reference not set to an instance of an object.
+ERROR: Node not found: "Screen/App_notepad/Content/Text" (relative to "/root/FullGameFlowSmokeTest/FullGameMain/OldPcUi").
+ERROR: Node not found: "Screen/App_notepad/Content/PreparePhotoCaption" (relative to "/root/FullGameFlowSmokeTest/FullGameMain/OldPcUi").
+ERROR: Full-game semantic flow failed: System.NullReferenceException: Object reference not set to an instance of an object.

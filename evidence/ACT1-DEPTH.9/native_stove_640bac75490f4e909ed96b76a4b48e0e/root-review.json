@@ -1,0 +1,20 @@
+{
+  "reviewer": "/root",
+  "date": "2026-10-09",
+  "jobId": "640bac75490f4e909ed96b76a4b48e0e",
+  "snapshotId": "be175b30587823fcba7228bb717626b391b88d694d2f7f578e889aac2a3f3e6f",
+  "decision": "ACCEPT compact stove geometry only; full DEPTH9 interior/style remains open",
+  "originalFramesReviewed": [
+    "frames/babai_room_overview.png",
+    "frames/babai_stove_detail.png",
+    "frames/babai_rug_detail.png"
+  ],
+  "comparison": "Previous native1f765 overview/detail had an oversized broad heater. Current same overview reduces its width and exposes adjacent floor/wall; new detail shows full compact body/door/handle, stone support and continuous collar/flue/ceiling connection. No obvious detached part or geometry overlap visible in these views. Existing iron heater identity/material routing retained.",
+  "remaining": [
+    "Ordinary clearance/contact traversal and collision sweep NOT_RUN; static PNG is no walk proof.",
+    "Whole room not accepted: hero rug remains world-phase-cropped and dark, hutch/trim/character shape and material quality require further work.",
+    "No wind-normal visible-motion/art acceptance from an interior capture; this snapshot contains a separate pending PML change.",
+    "Original PNG1886x1061 differs from sidecar viewport1920x1080; exact bytes and metadata discrepancy preserved, no image resizing."
+  ],
+  "archiveSelectedHashesVerified": 14
+}

@@ -1,0 +1,80 @@
+{
+  "kind": "bounded-character-cloth-source-export-proof",
+  "taskId": "PW-032",
+  "clauses": [
+    "VIS-104",
+    "AS-16"
+  ],
+  "date": "2026-10-09",
+  "cause": "Canonical Rinat cloth lacked metric metadata; CoatSkirt/Hat/Sash LOD0/1 lacked UV entirely, so runtime retained world-space cloth. Existing generator metric_cloth_uv was not reflected in the shipped source blend/GLB.",
+  "implementation": "Existing generator safe refresh-cloth-uv mode opens canonical blend, maps only one allowlisted character cloth LOD0/1 via existing metric_cloth_uv, excludes numeric skin/hair suffix, rejects mixed skin/cloth meshes and generation/preview flags, exports full preserved kit via unchanged export options. No new material response or actor rig.",
+  "export_command": ".tools/blender/Blender.app/Contents/MacOS/Blender --background --python tools/blender/generate_character_kit_v2.py -- --root /Users/unterlantas/Documents/GitHub/URMAN --refresh-cloth-uv Rinat --export",
+  "blender": "4.5.12 LTS",
+  "export_exit": 0,
+  "refreshed_mesh_count": 14,
+  "source_audit": {
+    "before_sha256": "91e1d50991def548d9993e63ce77205715512a67b64f2c75077b7ce070bb1e9b",
+    "after_sha256": "b8cf7a5893ca2f2a0511eeab51c38e0cce29d3f42f6c858f9896c275522dd078",
+    "mesh_count_before": 196,
+    "mesh_count_after": 196,
+    "changed_meshes": [
+      "Rinat_BootLeft_LOD0",
+      "Rinat_BootLeft_LOD1",
+      "Rinat_BootRight_LOD0",
+      "Rinat_BootRight_LOD1",
+      "Rinat_Coat_LOD0",
+      "Rinat_Coat_LOD1",
+      "Rinat_CoatSkirt_LOD0",
+      "Rinat_CoatSkirt_LOD1",
+      "Rinat_Hat_LOD0",
+      "Rinat_Hat_LOD1",
+      "Rinat_Sash_LOD0",
+      "Rinat_Sash_LOD1",
+      "Rinat_Trousers_LOD0",
+      "Rinat_Trousers_LOD1"
+    ],
+    "non_rinat_meshes_identical": true,
+    "animations_equal": true,
+    "animation_count": 36,
+    "images_equal": true,
+    "image_count": 14,
+    "materials_equal": true,
+    "changed_cloth_geometry_normals_joints_weights_triangle_multisets_identical": {
+      "Rinat_BootLeft_LOD0": true,
+      "Rinat_BootLeft_LOD1": true,
+      "Rinat_BootRight_LOD0": true,
+      "Rinat_BootRight_LOD1": true,
+      "Rinat_Coat_LOD0": true,
+      "Rinat_Coat_LOD1": true,
+      "Rinat_CoatSkirt_LOD0": true,
+      "Rinat_CoatSkirt_LOD1": true,
+      "Rinat_Hat_LOD0": true,
+      "Rinat_Hat_LOD1": true,
+      "Rinat_Sash_LOD0": true,
+      "Rinat_Sash_LOD1": true,
+      "Rinat_Trousers_LOD0": true,
+      "Rinat_Trousers_LOD1": true
+    },
+    "all_skeletons_inverse_bind_matrices_identical": true,
+    "all_node_names_hierarchy_transforms_identical": true,
+    "triangles_before": 291531,
+    "triangles_after": 291531
+  },
+  "source_sha256": {
+    "tools/blender/generate_character_kit_v2.py": "64bff0721d12fa8ea139be0f6704d8924d0e4817c8d4f2d0ece433560c4037f0",
+    "assets/source/blender/urman_character_kit_v2.blend": "e7cc2e10831f2bd7b7ee5a9ef55bc362ad8ede8600a4114fd9a6065403fd3d23",
+    "game/assets/generated/urman_character_kit_v2.glb": "b8cf7a5893ca2f2a0511eeab51c38e0cce29d3f42f6c858f9896c275522dd078",
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs": "078b62fce5382474a87d543a01d19047a0716c71c9b75a7946bbed96df056038"
+  },
+  "registry_validation": "PASS exact character.act1.human.v2 row; hashes updated, budget/rights unchanged",
+  "independent_review": "/root/pw001_baseline read-only; guard suggestions applied (reject unused UBC/UAL and mixed-material mesh)",
+  "narrow_compile": {
+    "result": "PASS",
+    "warnings": 0,
+    "errors": 0,
+    "seconds": 14.76
+  },
+  "native": "PENDING",
+  "motion_acceptance": "PENDING",
+  "whole_card": "OPEN"
+}

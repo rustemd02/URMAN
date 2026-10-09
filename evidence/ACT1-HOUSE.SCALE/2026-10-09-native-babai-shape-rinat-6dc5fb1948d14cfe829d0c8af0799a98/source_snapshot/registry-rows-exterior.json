@@ -1,0 +1,45 @@
+{
+  "source": "assets/asset_registry.json",
+  "rows": [
+    {
+      "id": "urman.act1.village_exterior_kit",
+      "source": "assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "derived": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "sourceSha256": "26ce5758b4f14e91b990dc879f3d93e0a9935958e0e71489765c3d7e6bf4c237",
+      "derivedSha256": "ce2ee7567720501521be357bb797bebab3582a1bac98d651f617f96bc6398e2a",
+      "generator": "assets/source/blender/act1/urman_village_exterior_kit.py; Blender 4.5.12 LTS",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 36761,
+      "textureBudget": 0,
+      "materials": [
+        "URMAN_Stone_Mossy",
+        "URMAN_Roof_WetSlate",
+        "URMAN_Stone_LightFace",
+        "URMAN_Wood_Weathered",
+        "URMAN_Plaster_Shadow",
+        "URMAN_Wood_WetShadow",
+        "URMAN_Plaster_Ochre",
+        "URMAN_Window_DimGlass",
+        "URMAN_Wood_Dark",
+        "URMAN_Metal_Dulled",
+        "URMAN_Stone_MossFace",
+        "URMAN_Roof_MossTone",
+        "URMAN_Bark_Muted",
+        "URMAN_Window_WarmInset",
+        "URMAN_Well_DarkWater",
+        "URMAN_Wood_CutEnd",
+        "URMAN_Hero_Log",
+        "URMAN_Hero_LogEnd",
+        "URMAN_Hero_Trim_Teal",
+        "URMAN_Hero_Trim_Ivory",
+        "URMAN_Hero_RoofSnow"
+      ],
+      "collision": "none; presentation-only geometry; Godot floor/collision and interaction targets remain authoritative",
+      "lod": "1497 exported mesh nodes / 45077 indexed triangles / 21 materials; HeroHouse_TimberPlaster: 665 LOD0 mesh nodes / 19772 indexed triangles; no LOD1/LOD2 representations in the current GLB; runtime placement/LOD policy unchanged",
+      "status": "production-canonical winter dependency; textured bark and local end-grain presentation verified in native close/route frames; full art/cultural acceptance open; 2026-09-14 the hero dwelling's plinth became stone masonry and gained a street-door step (H2 first step); 2026-09-15 the dwellings gained rafter tails, eaves troughs and one street-corner downpipe with a splash stone (H2 eaves/water step); 2026-09-22 Babai's house gained stacked hewn log courses, alternating corner log ends, stepped gable courses, teal/ivory casings and a settled roof-snow sheet (ACT1-DEPTH.9 first sample), +5,408 triangles and +5 materials; wall thickness, clear room, openings, floor, eave, ridge and the door portal contract unchanged; 2026-09-22 (DEPTH.12 p1) the hero roof gained a 62cm overhang, a 16cm slab and a solid settled snow slab wrapping the eave; parcels unchanged",
+      "releaseDisposition": "include-in-act1-release; current runtime dependency; visual/cultural gates open",
+      "components": "URMAN_VillageExteriorKit: DwellingFacade_TimberPlaster|OutbuildingShed_Low|FenceSegment_RoughPicket|Gate_CrookedTimber|Woodpile_StackedLogs|Well_YardLandmark|VillageParcel_VariantA_TimberGable|VillageParcel_VariantB_PlasterAnnex|VillageParcel_VariantC_BanyaYard"
+    }
+  ]
+}

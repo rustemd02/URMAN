@@ -4,7 +4,75 @@ Target stack, accepted 2026-08-10: **Godot 4.7.1 .NET, C# и .NET 10 LTS**. Prod
 
 Engine-neutral остаются narrative kernel, portable content, compiler contracts и save data. Они не зависят от Godot nodes, scene paths, physics implementation или rendering API. Godot — единственный production owner представления, input, audio и world scenes.
 
-## Current delivery boundary — Act 1 demo
+## Действующий delivery contract — PhotoWorlds, 08.10.2026
+
+Релизная цель — полная кампания «За краем снимка» по
+`../tasktracker/07_full_game_integration_2026-10-08.md`, а не только прежний demo.
+Наличие `act1_demo.tscn` в текущем project entrypoint описывает фактический старый запуск,
+не ограничивает новый объём и не доказывает, что переключение уже выполнено.
+
+Исходные владельцы нового графа — `content/campaigns/urman.fullgame/campaign.json` и
+`content/modules/urman-fullgame/`; результат компиляции потребляет существующий
+`CompiledCampaignRepository`. `narrativeOrder` служит индексом для инструмента симуляции;
+исполняемый переход принадлежит interaction/dialogue, его conditions/effects и target scene.
+Манифест выбирает активные quests новой арки: прежние определения могут сохраняться для
+истории и совместимых потребителей, но не должны выдавать отменённые обязательные цели.
+
+Версионируемое состояние PhotoWorlds остаётся внутри существующего kernel snapshot
+под `namespaceId=photoworlds-v1`; namespace кампании и schema каталога — разные версии.
+Snapshot schema 2 хранит campaign ID/exactVersion, каталог, передачу книги, отдельные
+PhotoId/PageId acquisition и mount, чтение оборота, контекст, provenance facts/external
+evidence, фактический текст подписи, пролог и эпилог. `visits.active` остаётся null до
+реального перехода; visit record хранит семантический WorldId/safe-node и value-only
+ReturnTicket. Пока runtime PhotoWorldCatalog не поставлен (PW-007), валидатор принимает
+для текущего fullgame только авторские WorldId W01–W05; неизвестные ключи отклоняются.
+Per-world state резервирует nullable UInt32 seed, safe-node, action, observation и delta maps;
+активный/возвращающийся visit обязан ссылаться на свой сохранённый seed и safe-node.
+ReturnTicket сверяет campaign ID/exactVersion со snapshot и хранит logical clock в форме
+`{tick: nonnegative Int64}` по `LogicalClockSnapshot`. Persisted transition ограничен
+сочетаниями `enter: preparing/loading/destination-ready/photo-active`, `return:
+returning/village-ready`, либо соответствующей фазой `failed` с failureCode; lifecycle
+visit должен совпадать с фазой, target обязателен и совпадает с visit или origin билета;
+visit ID не может одновременно находиться в active и history. Составляющие
+внешнего подтверждения проверяются точно по одному разу, source IDs не повторяются.
+Узлы Godot и придуманные координаты в save не попадают. Завершение глав, словарь и
+one-shot command occurrences остаются у действующих owners `quests`, `vocabulary` и
+RuntimeSnapshot occurrence ledger; PhotoWorlds не дублирует их.
+
+Единственная текущая миграция — schema 1 → 2. Она сохраняет каталог и все реальные
+book/photo/fact/evidence/caption/prologue/epilogue значения, добавляет campaign identity,
+пустую историю visits, null active visit/transition и пустой world map. Она не выводит
+из отсутствующих данных посещение, действие, наблюдение, завершение, seed или safe spawn.
+Неизвестная nested schema отклоняется до flush/project live owners; kernel restore повторно
+проверяет schema 2. Мигрированный snapshot остаётся в памяти до обычного следующего save.
+
+Новая кампания использует `photoworlds-v1`-подкаталог через прежний `AtomicSaveGameStore`
+и `RuntimeBridge`; legacy quick/checkpoint primary/backup остаются в исходном каталоге.
+Это явная граница несовместимости, не автоматическая миграция старых pact-флагов.
+SaveGameV3 schema, RuntimeSnapshot schema, PhotoWorlds schema и campaign fingerprint
+не взаимозаменяемы. Graph safe-node remaps и unknown-version recovery принадлежат PW-025;
+prepare/ReturnTicket и физическое восстановление внутри мира — PW-020/PW-024 и остаются
+отдельными гейтами. Текущий контракт сам по себе не доказывает готовность этих потоков.
+
+Снимок SaveGameV3 берётся после штатного flush владельцев физического состояния: `RuntimeBridge`
+сначала сохраняет транспорт, двери/объекты мира и фактическую позу сопровождающего NPC, затем
+вызывает `RuntimeKernel.CaptureSnapshot()`. В частности, `AlsuStreetWalkPresentation` пишет
+реальную позицию, yaw, checkpoint, pendingCheckpoint и пройденный участок в существующий
+`world.props` через команду ядра. Поэтому runtime state, прочитанный до `SaveSlotAsync`, может
+отличаться от сохранённого вследствие обычных owner flush; проверка дискового снимка сравнивает
+его с live state после flush. В текущем prologue smoke единственное различие с начальным state —
+новая запись фактической позы сопровождающего в `world.props`. Вложенный `photoworlds` сохраняет
+исходный нарративный срез, а load восстанавливает именно декодированный снимок и затем проецирует сохранённую позу.
+Существующий guarded `FullGameFlowSmokeTest` проверил эту границу на Windows: job
+`2ef4f2bd8a14484db7c0cb3239397f10` завершён с PASS; receipt и точный source snapshot
+сохранены в `evidence/PW005/native_2ef4f2bd8a14484db7c0cb3239397f10/`. Это не подтверждает физическое восстановление посещения PhotoWorld или работу
+его safe-node.
+
+Семантический сценарий проверяет переходы и источники состояния; физические якоря,
+проходимость, пять произведённых миров и художественная приёмка требуют соответствующих
+PW-карточек и свежего REL-003. Декларация `entryAnchorId` не является сохранённым `in_range`.
+
+## Историческая граница поставки — Act 1 demo
 
 Текущий delivery target — не полный five-act migration, а отдельная
 проверяемая Godot-сборка первого акта. `res://scenes/act1_demo.tscn` оборачивает
@@ -960,3 +1028,112 @@ Development stays in the current checkout. Automatic game checks use eng/remote-
 Capture checks/disposes the saved Image and uses the existing GodotSmokeCleanup before quit. VehicleImmersionDetails builds sibling presentation nodes on its existing first physics tick instead of the parent-blocked _Ready; Windows guard retries transient PermissionError renames for at most five seconds. Both changes address failures observed during station acceptance; normal local play remains unchanged.
 
 Тестовая очистка освобождает также detached library scene AnimationCatalog (ual1_standard.glb): диагностика orphan nodes обнаружила её сохранение после capture. Освобождение выполняет существующий GodotSmokeCleanup после закрытия сцены; обычная игра сохраняет кэш.
+
+
+## Windows baseline: восстановление исполнения материалов — 2026-10-08
+
+Защищённый native capture PW-001 (`ae59d933fe394be597135bf7998c94a3`, snapshot
+`c1e132b9152848cf495eb5a4084028ceac804d9e95aea1b0b72f2f763bb3c2f2`)
+дошёл до кадров, но завершился FAIL: ошибки компиляции шейдеров оставили мир
+серым. Это диагностический срез, а не подтверждение художественной готовности.
+
+В существующем `PainterlyMaterialLibrary` исправлены sampler hint
+`hint_default_white` и передача authored UV из `fragment()` в helper явным
+аргументом. Все производные варианты используют тот же источник шейдера.
+`VillageWindowMaterials` передаёт frost normal через `NORMAL_MAP` в tangent
+space и `NORMAL_MAP_DEPTH=ice`; смешение tangent normal с view-space `NORMAL`
+и несуществующий `NORMAL_ROUGHNESS` удалены. Авторский диапазон roughness
+0.42–0.83 сохранён. Контракт пространств сверён с
+[Godot 4.7 spatial shader reference](https://docs.godotengine.org/en/4.7/tutorials/shaders/shader_reference/spatial_shader.html).
+До нового native receipt и просмотра кадров эти правки не считаются проверенным
+восстановлением материалов; C# compilation не компилирует shader source.
+
+
+Следующий native срез `d624619b297f48d0bd2f06bb59b96d8f`
+(`a39d980ced05b3ab859122249a8b84ff99589c3d8a6d834330732dd466796a95`)
+не содержит прежних shader parse/metadata/curve ошибок, но не дал ни одного
+кадра: буфер instance uniforms исчерпан, журнал переполнен повторными ошибками.
+Зират измерен 1.03 м, mosque mount найден; визуальная приёмка ещё не выполнена.
+На Windows подтверждён Vulkan Forward+, GTX 970.
+
+Godot 4.7 резервирует 16 uniform slots на instance, даже если shader объявляет
+только три instance-параметра. Default 65 536 slots допускает около 4 096
+таких мешей. Для текущего плотного мира установлен явный project budget
+1 048 576 slots (65 536 instances до расхода глобальных параметров, 16 MiB
+GPU storage buffer). Это сохраняет общие материалы и существующие
+индивидуальные pigment/shelter/support параметры, а не клонирует материал
+на каждую доску и не отключает проверки. Число actual mesh candidates
+фиксируется диагностикой следующего capture; отсутствие overflow и кадры
+нужны для подтверждения бюджета, будущие фотомиры этим ещё не проверены.
+Источники: [ProjectSettings 4.7](https://docs.godotengine.org/en/4.7/classes/class_projectsettings.html#class-projectsettings-property-rendering-limits-global-shader-variables-buffer-size),
+[renderer RD allocation](https://github.com/godotengine/godot/blob/4.7-stable/servers/rendering/renderer_rd/storage_rd/material_storage.cpp#L1887).
+
+Чистый native baseline `441d83b0a1714e7d815e8c96673e6fd8`
+(`64ed22b96b7e4ad87d361edbe6a7931c674f078e5efcb5e4ff5cdef6dc8964e3`)
+подтвердил восстановление shader compilation и отсутствие overflow: native exit 0,
+пустой engine-errors.log, три кадра с материалами, userdata restored/verified.
+Census: 63 109 мешей, 54 781 shader-instance candidates, budget 1 048 576 slots;
+запас текущего среза — примерно 10.7 тысяч candidate meshes, не гарантия будущих
+фотомиров. Root принял воспроизводимую базу PW-001, не общий арт/performance PASS.
+Табличка мечети на этом снимке не видна; её subsequent ADDR fix проверяется отдельно.
+Точный base-plus-runtime patch и ограничения — `../../evidence/PW-001/`.
+
+## PW-032: привязка слоёв pigment к поверхности — 09.10.2026
+
+В существующем `PainterlyMaterialLibrary` один `pigment_position` теперь выбирается
+в общем fragment scope: авторский UV при `bound_uv_pigment`, иначе уже вычисленные
+локальные координаты при `local_wood_texture`, иначе world. Static `local_floor_texture` сохраняет
+мировой pigment/cell grid: локальная привязка albedo не означает перенос 6-метрового
+распределения оттенка на каждый отдельный столб/доску.
+Мазок, macro stain, cell tint и finish grain используют этот выбор. Albedo binding,
+материальный cache, UV/offset/scale владельцы и world-bound поверхности сохраняют
+свои существующие пути. Для движущейся ткани сохраняется `ForMovingCloth`, для
+доски — `ForLocalWoodPiece`; новых флагов или параллельного material owner нет.
+
+Причина: albedo уже следовал UV/local, но pigment локальной доски и общий finish
+noise следовали world position. Это могло менять рисунок при переносе/повороте.
+Координаты назначаются до vertex wind deformation, UV сохраняется на mesh. Свет,
+направление normal и контакт с землёй имеют отдельную физическую семантику и не
+переводятся искусственно в UV. Это лишь ограниченный source slice PW-032:
+GPU compile/rendering подтверждены native job `6fc0fe2b4aac4c4f847bad25eea78bd3`.
+Фактическое движение всех потребителей, AS-12/16, wind/normals/shadows и
+художественная приёмка остаются открытыми.
+
+### PW-005: flush физического владельца перед сериализацией
+
+Native diagnostic `02fedfa24c9344ee85e89ad87702f9a0` выявил раннюю запись Алсу:
+SaveSlot сохранял Y=0 до проверки опоры, затем physics подтвердил Y=.09397566.
+При загрузке actual-pose это нарушало существующий допуск опоры .04 м. Теперь
+`FlushActualPoseAsync` после ReadRuntimeState ждёт существующий
+`CompleteLoadedPhysicalProjectionAsync`, перепроверяет session/живого владельца
+и только затем сериализует позу. Внутренние зоны сохраняют прежний exact-pose
+путь самого projection method. Поддержка/коллизия и ошибки не ослаблены.
+Существующий smoke допускает нормализацию только предварительно неготовой позы,
+требует готового post-save владельца и точного saved↔after совпадения; для уже
+готовой позы также сохраняет before↔saved равенство. Causal archive и ограничение
+временного окна — `../../evidence/PW005/save-readiness-cause-02fedfa.json`.
+
+### PhotoWorld typed command slice — 2026-10-09
+
+`PhotoWorldCommandHandler` maps authored PhotoWorld narrative effects to typed `pw1.*` commands through one canonical operation table. Mixed effects remain one `pw1.interaction.apply` transaction. The existing ContentApply planner, PhotoWorldState reducer and RuntimeKernel occurrence ledger own mutation; Bridge captures and validates session identity across asynchronous dispatch/reconciliation. Windows semantic fullflow and duplicate-occurrence rejection passed (`evidence/PW-006/receipt.json`). Visit/world physical command producers remain unfinished: compiled logical anchor IDs and last spawn pose do not prove a physical safe origin, range or readiness. The runtime catalog/anchor owners must supply real bindings before successful prepare/commit; no synthetic ticket is accepted as physical proof.
+
+### Shared home book handoff producer — 2026-10-09
+
+The current full-game entrypoint remains the existing one-zone `Main`; it does not opt into the Act I connected-world loader. The shared `StyleBenchmarkZone` adapter selects the PhotoWorld interaction IDs only when the loaded campaign owns the compiled PhotoWorld catalog, preserving the existing Act I house and street IDs in the legacy campaign. Its physical door targets still use `Main.SwitchZoneAsync`: `pw-home-enter-house` requires the authored B01 Niva-arrival beat before targeting `house_old_pc@entry`, and `pw-home-exit-house` returns from `house_old_pc` to `village_day@from_house` without altering narrative state. This does not implement the missing physical Niva/prologue path or bind a PW-009 safe-node.
+
+In the shared existing `house_old_pc` geometry, Gulsina's full-game target opens the authored `pw-arrival-tea` dialogue. The neutral closed family literary volume is presentation-only until the player uses its full-game-only ray interaction; the existing authored `pw-book-handoff` then checks Niva arrival and warm-arrival completion, records `photoworlds.book.receive`, and completes B02. The same visible closed book is also present in the legacy home, while that legacy home retains its original interaction IDs. Placement measures the existing imported `HouseInterior_TableTop_LOD0` triangles in house-local space at five points, verifies a level support surface and checks the book bounds against visible room meshes. The portrait footprint is 220 × 285 × 38 mm in a verified clear center-front area of the table; the representation has no invented cover lettering. A narrow `Urman.Game.csproj` compile passed with zero warnings/errors and the existing ContentCLI compiled only `urman.fullgame`; these establish C#/authoring validity, not runtime reachability. Protected Windows snapshot `9ad24050…` / job `44a8bd796c764c7ca31548554b55c2ac` subsequently passed shared-home construction and captured the overview, rug and closed book. Root accepted only static book shape/placement and bounded rug pigment readability at actual Low/.7. The 90° yaw gives a room footprint 285 × 220 mm centered at (.712, -2.1025), with five .89 m table hits and ≥63.439 mm measured visible-prop clearance; fullgame-only photo/book ray boxes are separated by 48 mm. The legacy `act1_demo` book frame does not exercise fullgame receive or persistence. The full A-BOOK asset/consumer, hands, spreads/pages, typography/language, authored safe-node, physical prologue, ordinary interaction and whole-style/human approval remain open (`evidence/ACT1-DEPTH.9/native_house_44a8bd796c764c7ca31548554b55c2ac/root-review.json`).
+
+### Rinat cloth UV source refresh — 2026-10-09
+
+The canonical v2 character Blender source lacked metric UV metadata for Rinat clothing; skirt/hat/sash also lacked UV maps. `generate_character_kit_v2.py --refresh-cloth-uv Rinat --export` opens the complete existing source, refreshes only the allowlisted character cloth LOD pairs through the existing metric rest-surface helper, and preserves the full kit. Numeric skin/hair material suffixes stay outside the cloth route; mixed cloth/skin meshes and generation flags are rejected. Source audit preserves all other meshes, rigs, images/materials and 36 clips. Protected native fb2a4303 confirms all 14 staging Rinat cloth surfaces use metric `uv-local` and UV-bound pigment. Root accepted the bounded source/material result in Idle front/profile stills; full walk/talk, quantitative motion threshold, other cast and whole art acceptance remain open (`evidence/PW-032/rinat-cloth-uv-refresh-2026-10-09.json`).
+
+### Strict logical PhotoWorld catalog — 2026-10-09
+
+The fullgame campaign authors 13 stable photo/page pairs, five world descriptors and seven logical anchors. `PhotoWorldCatalog.Parse` exposes read-only lists and rejects malformed counts, duplicate IDs, broken primary-photo/node-role links and incomplete anchor sets. The compiler cross-checks explicit photos/worlds/assets requirement inputs; exact provenance-preserving copies under `content/` make these inputs available to the protected Windows snapshot, which excludes `docs/`. Their authoring paths are stripped from the runtime pack. The fullgame catalog is mandatory; legacy campaigns keep their existing optional path. Each logical anchor has exactly one compiled scene owner. Windows job `3195422fc11a4a8b88e9811d01587782` loaded the final pack through the actual fullgame scene and passed the existing semantic route. This is logical catalog evidence; physical safe nodes, produced resources and art remain their own gates. PW-007 retains its unfinished PW-006 dependency (`evidence/PW-007/receipt.json`).
+
+
+### PW-008: saved impression and confirmed evidence projection — 2026-10-09
+
+The existing «Наблюдения» page now projects PhotoWorld facts from the kernel snapshot and separately renders only evidence records whose persisted status is `confirmed`. Each source keeps its compiled authored label and provenance wording. Its origin is resolved from the owning compiled interaction/scene: the five authored PhotoWorld anchors are inside a photographed world; `PW_HOME_TABLE`, `PW_PROLOGUE_ROAD`, and the unanchored `pw-bank-approach` are outside those worlds. Unknown scene origin stays neutral. In the compiled catalog, all 33 fact/source references resolve to authored interactions and labels: 14 originate inside a PhotoWorld and 19 outside. This is a read-only presentation layer, not another knowledge owner, and it does not promote observations into evidence.
+
+The affected game project compiles with zero warnings and errors (`Urman.Game.dll` SHA-256 `e56822d9d061df2a9e2d7b584c3c0dd0631eff1b34762fbcbc56714394773e9a`). Source hashes, the complete 33-source origin map, and the bounded review are recorded in `../../evidence/PW-008/receipt.json`. Native Windows UI/layout and the live W02-versus-outside-evidence interaction have not yet been run; PW-008 remains open.

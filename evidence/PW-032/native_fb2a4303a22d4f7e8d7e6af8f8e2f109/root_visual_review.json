@@ -1,0 +1,22 @@
+{
+  "reviewer": "/root",
+  "date": "2026-10-09",
+  "job": "fb2a4303a22d4f7e8d7e6af8f8e2f109",
+  "snapshot": "01513da39a414b7da100d4f47c193356a9fc895407ba392c9a00c6fe8135c4bd",
+  "originals_viewed": [
+    "frames/rinat_material_uv_a.png",
+    "frames/rinat_material_uv_b.png",
+    "frames/rinat_material_uv_side.png"
+  ],
+  "result": "BOUNDED_RINAT_METRIC_UV_ROUTE_ACCEPTED_WHOLE_STYLE_OPEN",
+  "accepted": "Cloth texture follows garment panel orientation in front/profile and remains legible in two natural Idle phases; no obvious surface crawl observed in these bounded stills. Existing skin texture and rig preserved. Native staging actor readback confirms14cloth surfaces metricRestUv=true, clothAnchor=uv-local, boundUvPigment=true.",
+  "motion_samples": {
+    "animation": "Rinat_Idle",
+    "phase_A_seconds": 0.527684,
+    "phase_B_seconds": 0.62718,
+    "side_seconds": 0.264773
+  },
+  "limits": "About99.5ms Idle A/B is not a full walk/talk motion sequence or a measured <=1px equivalent threshold. Frames crop lower hands/body; no full-character/head-style acceptance. Other cast consumers/book/door/creatures/branches and AS12/16/human gates remain open.",
+  "profile": "Reported medium preset, village_day, village-winter-frost, FOV70; acceptance limited to actualcaptured shader/readback.",
+  "warnings": "Engine-error log empty. Existing nonfatal material-mode/cultural/cart-support warnings archived; not treated as fixed by this unit."
+}

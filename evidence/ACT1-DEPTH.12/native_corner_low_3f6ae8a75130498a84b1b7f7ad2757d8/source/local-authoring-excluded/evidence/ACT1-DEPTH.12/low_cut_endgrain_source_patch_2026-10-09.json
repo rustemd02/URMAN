@@ -1,0 +1,24 @@
+{
+  "taskId": "ACT1-DEPTH.12",
+  "status": "source-patch-awaiting-narrow-compile-and-native-review",
+  "source": {
+    "path": "game/scripts/PainterlyMaterialLibrary.cs",
+    "sha256": "bfc6ca444d1833e12714a85a66f7246b78141aef361d5eaaedd50a9c21fe3b07"
+  },
+  "change": "The Low-quality shader branch now applies the existing cut_wood_end UV ring pattern and subpixel fwidth fade to ALBEDO before snow coverage. High-quality shader code is unchanged; no texture samples or normal/wear responses were added.",
+  "verification": {
+    "gitDiffCheck": "pass",
+    "compile": {
+      "command": "source eng/dotnet-env.sh && .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+      "result": "pass",
+      "warnings": 0,
+      "errors": 0,
+      "elapsedSeconds": 14.41
+    },
+    "lowQualityNativeCapture": "pending"
+  },
+  "referenceFrames": [
+    "evidence/ACT1-DEPTH.12/native_low_e982732a68f14c84ab3b27bc232fb349/frames/babai_porch_side_clear_low.png",
+    "evidence/ACT1-DEPTH.12/native_high_6cb5fd71c02140e3932c2c59d30d1113/frames/babai_porch_side_clear_high.png"
+  ]
+}

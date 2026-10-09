@@ -3383,6 +3383,8 @@ public partial class Act1ConnectedWorld : Node3D
         // open gate is now the road-facing east side of the garden-edge plot.
         // The kit fence axis is rotated 90 degrees, so it spans roughly
         // z -74..-88 at x -9.06 with the gate centred on the approach path.
+        // VIS-022: preserve the authored footprint and anchor while fitting the
+        // boundary fence to its measured ~1 m contract; the gate keeps its form.
         var boundaryAnchor = ZiratPlotLayout.GateFenceAnchor;
         boundaryAnchor.Y = (float)AgentBAct1HeightField.CollisionGround(boundaryAnchor.X, boundaryAnchor.Z) - .02f;
         AttachAct1ExteriorKitComponent(
@@ -3391,7 +3393,7 @@ public partial class Act1ConnectedWorld : Node3D
             "ZiratAuthoredBoundaryFence",
             boundaryAnchor,
             90f,
-            Vector3.One * 0.96f,
+            new Vector3(0.96f, 0.88f, 0.96f),
             "zirat_road@lateral-boundary-fence",
             ZiratRoadsideKitScenePath);
         AttachAct1ExteriorKitComponent(
@@ -8869,12 +8871,28 @@ public partial class Act1ConnectedWorld : Node3D
             var run = runs[side];
             if (run.Count >= 4)
             {
+                var routeStartZ = run[0].Z;
+                var curvePoints = new List<Vector3>(run.Count);
+                foreach (var point in side > 0 ? Enumerable.Reverse(run) : run)
+                {
+                    // Each route leg includes both endpoints. A straight shared
+                    // endpoint can therefore be sampled twice into one run, but
+                    // Curve3D cannot bake adjacent duplicate control points.
+                    if (curvePoints.Count == 0 || curvePoints[^1].DistanceSquaredTo(point) > .000001f)
+                        curvePoints.Add(point);
+                }
+                run.Clear();
+                if (curvePoints.Count < 2)
+                    return;
+
                 var curve = new Curve3D { BakeInterval = .2f };
                 // Point the run so its steeper cut face (the bank's -X side) is toward the road.
-                foreach (var point in side > 0 ? Enumerable.Reverse(run) : run) curve.AddPoint(point);
+                foreach (var point in curvePoints) curve.AddPoint(point);
                 var length = curve.GetBakedLength();
+                if (!float.IsFinite(length) || length <= .0001f)
+                    return;
                 var mesh = AddVisualLandformSurface(root,
-                    $"StreetBank{routeName}{faces[side]}_{Mathf.RoundToInt(run[0].Z)}",
+                    $"StreetBank{routeName}{faces[side]}_{Mathf.RoundToInt(routeStartZ)}",
                     1.9f, height, length, Vector3.Zero, "e8edf0", "snow_ground", 0f, true, curve,
                     distance => SnowDriftAccumulation(catchments,
                         curve.SampleBaked(Mathf.Min(length, distance))));
@@ -9378,8 +9396,11 @@ public partial class Act1ConnectedWorld : Node3D
                 planted++;
             }
         }
-        parent.SetMeta(name.Replace("-", "_") + "StemGroups", groups); // meta keys are identifiers
-        parent.SetMeta(name.Replace("-", "_") + "StemClumps", planted);
+        // Node names can contain '-' but Godot metadata identifiers cannot.
+        // Keep the readable node name intact and normalize only diagnostic keys.
+        var metadataName = name.Replace('-', '_');
+        parent.SetMeta(metadataName + "StemGroups", groups);
+        parent.SetMeta(metadataName + "StemClumps", planted);
         return planted;
     }
 

@@ -1,0 +1,100 @@
+{
+  "reviewer": "/root",
+  "reviewedAtApproxUtc": "~2026-10-09T04:08Z",
+  "reviewedAtQualifier": "approximate time supplied by reviewer",
+  "tasks": [
+    "ACT1-DEPTH.9",
+    "ACT1-DEPTH.12"
+  ],
+  "jobId": "6cb5fd71c02140e3932c2c59d30d1113",
+  "snapshotId": "110630c7c71ecd00282e14295e2d139a49b7b080dbbe077f6bbf16d94b800c0d",
+  "nativeCapture": {
+    "status": "PASS",
+    "baseCommit": "e1d8c991fdc84b9103c73ce832fab41912f0fd26",
+    "candidateFileCount": 1825,
+    "snapshotManifestSha256": "b28e85cde571b05984a15f2fa7fb1273819074441c93a0f8346b6e463b8e96b9",
+    "fullManifestMatchesPresealAndReceipt": true,
+    "exitCode": 0,
+    "runnerExitCode": 0,
+    "gameExitCode": 0,
+    "userdataRestored": true,
+    "snapshotHashesVerified": true,
+    "host": "UNTERPC",
+    "renderer": [
+      "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+    ],
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnetSdk": "10.0.302",
+    "postSequenceDoctorReady": true
+  },
+  "captureContract": {
+    "requestedPreset": "high",
+    "effectivePreset": "high",
+    "applyStatus": "applied-through-player-settings",
+    "sessionGraphicsOverride": null,
+    "graphicsComparable": true,
+    "fov": 70,
+    "activeZoneId": "village_day",
+    "atmosphereProfile": "village-winter-frost",
+    "scaling3DScale": 1,
+    "sidecarViewport": [
+      1920,
+      1080
+    ],
+    "originalPngDimensionsPx": [
+      1886,
+      1061
+    ],
+    "viewportPngDimensionDiscrepancy": "Sidecars record 1920x1080 viewport; original PNG IHDR is 1886x1061. Originals remain byte-identical and unedited.",
+    "graphicsBudget": "preset=high,lod_threshold=1.00,scale=1.00,msaa=Msaa4X,shadow_filter=SoftMedium,directional_shadow_distance=120,directional_shadow_atlas=4096,positional_shadow_atlas=4096,ssao_gate=authored,probe=none"
+  },
+  "originalsViewed": [
+    {
+      "checkpointId": "babai_shape_front_high",
+      "path": "frames/babai_shape_front_high.png",
+      "sha256": "171e51b94bf2e0966800da509ee3df2c2cc96d8389e3b506b5aa63e7cc4c4576",
+      "dimensionsPx": [
+        1886,
+        1061
+      ],
+      "bytes": 1363504
+    },
+    {
+      "checkpointId": "babai_shape_oblique_high",
+      "path": "frames/babai_shape_oblique_high.png",
+      "sha256": "28d53fd825657e7f6edb988ac1f4ec264d6fdfcd1a46bed98d0e017bcf58c852",
+      "dimensionsPx": [
+        1886,
+        1061
+      ],
+      "bytes": 1350631
+    },
+    {
+      "checkpointId": "babai_porch_side_clear_high",
+      "path": "frames/babai_porch_side_clear_high.png",
+      "sha256": "a0f7becd3ce4fd5b91793d3ec628a0e71dfe1f202adc49c7edb144968fdff6c4",
+      "dimensionsPx": [
+        1886,
+        1061
+      ],
+      "bytes": 1504803
+    }
+  ],
+  "result": "ACCEPT_PROTECTED_MATCHED_QUALITY_CAPTURE_NOT_WHOLESTYLE",
+  "accepted": [
+    "The protected quality-capture mechanism and High/Low comparability are accepted for this exact common source snapshot and the three matched cameras.",
+    "The requested preset is the effective preset; it was applied through player settings with no session graphics override.",
+    "The static house outline, door, window and porch remain readable in both qualities."
+  ],
+  "wholeStyleNotAccepted": [
+    "Low visibly loses cut-cap rings and deck grain: the porch reads flat gray and the cut caps plain. Snow/pixel aliasing and overall detail balance remain concerns.",
+    "High still has coarse facade, trim and character forms."
+  ],
+  "limitations": [
+    "These are static native frames and do not demonstrate ordinary movement or a full playthrough.",
+    "Reference-author confirmation has not been performed.",
+    "The whole visual style is not accepted.",
+    "Neither ACT1-DEPTH.9 nor ACT1-DEPTH.12 is closed; ACT1-DEPTH.10 has not started."
+  ],
+  "decision": "high capture quality accepted; whole-house visual style not accepted"
+}

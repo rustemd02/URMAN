@@ -474,6 +474,16 @@ public static class GeneratedCharacterKitDressing
             var name = authored?.ResourceName ?? string.Empty;
             var uvCloth = prefix == "Alsu" || HasMetricClothUv(mesh);
             var parts = name.Split("__", 2);
+            // Blender keeps copied skin/hair resources distinct with a numeric
+            // suffix. That suffix is resource identity, not a new cloth family.
+            if (parts.Length == 2)
+            {
+                var dot = parts[1].LastIndexOf('.');
+                if (dot > 0 && dot < parts[1].Length - 1
+                    && parts[1][..dot] is "skin_textured" or "hair"
+                    && parts[1][(dot + 1)..].All(char.IsDigit))
+                    parts[1] = parts[1][..dot];
+            }
             var namedFamily = parts.Length == 2 && parts[0].Length == 6;
             var isCloth = namedFamily && parts[1] is not ("skin_textured" or "hair");
             // Exactly the pieces the second branch below turns into the soft response:

@@ -1,0 +1,12 @@
+[
+  {
+    "name": "niva1",
+    "scene": "res://scenes/act1_demo.tscn",
+    "zone": "village_day",
+    "points": "niva_handbrake_passenger_detail:NivaBody@-0.2799999881,0.3800000572,1.3499999523>NivaBody@-0.6999999881,-0.2599999428,1.3699999523",
+    "fov": 70,
+    "timeout": 300,
+    "phase": null,
+    "environment_override": null
+  }
+]

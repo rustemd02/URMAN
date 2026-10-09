@@ -1,0 +1,442 @@
+{
+  "job_id": "2ca41e1aee8443389f93d27ebdc853bb",
+  "snapshot_id": "9e01b30125bf60aa4e15ddb79165ad64e364d19c2f2e8f1d2e60866bd237dfd8",
+  "frames": [
+    {
+      "point": "wind_material_a",
+      "pngSha256": "8a2086fa99e9973337b0569ade5e0b778902603baa90f3d48f07c2324be04929",
+      "pngBytes": 1491274,
+      "requestedZoneId": null,
+      "activeZoneId": "village_day",
+      "requestedProfile": null,
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "cameraPosition": {
+        "x": -40,
+        "y": 3.277375,
+        "z": -12
+      },
+      "cameraTarget": {
+        "x": -52,
+        "y": 6.617993,
+        "z": -12
+      },
+      "capturedTicksMsec": 207507,
+      "windMaterialReadbackCount": 8,
+      "windEnabledAll": true,
+      "lightingNormalBendsAll": true,
+      "windSwayValues": [
+        0.05
+      ],
+      "lowQualityValues": [
+        "false"
+      ],
+      "meshPaths": [
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant254/WinterPine_LOD0",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant254/WinterPine_LOD1",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant254/WinterPine_LOD2",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant290/WinterPine_LOD0",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant290/WinterPine_LOD1",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant290/WinterPine_LOD2",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant216/WinterPine_LOD0",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant216/WinterPine_LOD1"
+      ],
+      "globalTransforms": {
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant254/WinterPine_LOD0": {
+          "origin": {
+            "x": -45.568638,
+            "y": 2.046163,
+            "z": -14.952154
+          },
+          "basisX": {
+            "x": 3.130913,
+            "y": 0.831787,
+            "z": 13.085281
+          },
+          "basisY": {
+            "x": 0.581874,
+            "y": 14.935266,
+            "z": -1.088609
+          },
+          "basisZ": {
+            "x": -13.10124,
+            "y": 0.735499,
+            "z": 3.087979
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant254/WinterPine_LOD1": {
+          "origin": {
+            "x": -45.568638,
+            "y": 2.046163,
+            "z": -14.952154
+          },
+          "basisX": {
+            "x": 3.130913,
+            "y": 0.831787,
+            "z": 13.085281
+          },
+          "basisY": {
+            "x": 0.581874,
+            "y": 14.935266,
+            "z": -1.088609
+          },
+          "basisZ": {
+            "x": -13.10124,
+            "y": 0.735499,
+            "z": 3.087979
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant254/WinterPine_LOD2": {
+          "origin": {
+            "x": -45.568638,
+            "y": 2.046163,
+            "z": -14.952154
+          },
+          "basisX": {
+            "x": 3.130913,
+            "y": 0.831787,
+            "z": 13.085281
+          },
+          "basisY": {
+            "x": 0.581874,
+            "y": 14.935266,
+            "z": -1.088609
+          },
+          "basisZ": {
+            "x": -13.10124,
+            "y": 0.735499,
+            "z": 3.087979
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant290/WinterPine_LOD0": {
+          "origin": {
+            "x": -42.499313,
+            "y": 0.861321,
+            "z": -19.041328
+          },
+          "basisX": {
+            "x": -8.093293,
+            "y": 0,
+            "z": -8.71228
+          },
+          "basisY": {
+            "x": 0,
+            "y": 14.266792,
+            "z": 0
+          },
+          "basisZ": {
+            "x": 8.71228,
+            "y": 0,
+            "z": -8.093293
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant290/WinterPine_LOD1": {
+          "origin": {
+            "x": -42.499313,
+            "y": 0.861321,
+            "z": -19.041328
+          },
+          "basisX": {
+            "x": -8.093293,
+            "y": 0,
+            "z": -8.71228
+          },
+          "basisY": {
+            "x": 0,
+            "y": 14.266792,
+            "z": 0
+          },
+          "basisZ": {
+            "x": 8.71228,
+            "y": 0,
+            "z": -8.093293
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant290/WinterPine_LOD2": {
+          "origin": {
+            "x": -42.499313,
+            "y": 0.861321,
+            "z": -19.041328
+          },
+          "basisX": {
+            "x": -8.093293,
+            "y": 0,
+            "z": -8.71228
+          },
+          "basisY": {
+            "x": 0,
+            "y": 14.266792,
+            "z": 0
+          },
+          "basisZ": {
+            "x": 8.71228,
+            "y": 0,
+            "z": -8.093293
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant216/WinterPine_LOD0": {
+          "origin": {
+            "x": -49.308014,
+            "y": 3.013069,
+            "z": -8.689455
+          },
+          "basisX": {
+            "x": -11.862304,
+            "y": 0.749023,
+            "z": 5.747763
+          },
+          "basisY": {
+            "x": 0.111381,
+            "y": 15.675875,
+            "z": -1.812942
+          },
+          "basisZ": {
+            "x": -5.795614,
+            "y": -1.32221,
+            "z": -11.788753
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant216/WinterPine_LOD1": {
+          "origin": {
+            "x": -49.308014,
+            "y": 3.013069,
+            "z": -8.689455
+          },
+          "basisX": {
+            "x": -11.862304,
+            "y": 0.749023,
+            "z": 5.747763
+          },
+          "basisY": {
+            "x": 0.111381,
+            "y": 15.675875,
+            "z": -1.812942
+          },
+          "basisZ": {
+            "x": -5.795614,
+            "y": -1.32221,
+            "z": -11.788753
+          }
+        }
+      }
+    },
+    {
+      "point": "wind_material_b",
+      "pngSha256": "e3f1d81787a22f6766e07b3cb754f644e582a98a5e804fe638b902e58e59b54e",
+      "pngBytes": 1479698,
+      "requestedZoneId": null,
+      "activeZoneId": "village_day",
+      "requestedProfile": null,
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "cameraPosition": {
+        "x": -40,
+        "y": 3.277375,
+        "z": -12
+      },
+      "cameraTarget": {
+        "x": -52,
+        "y": 6.617993,
+        "z": -12
+      },
+      "capturedTicksMsec": 212364,
+      "windMaterialReadbackCount": 8,
+      "windEnabledAll": true,
+      "lightingNormalBendsAll": true,
+      "windSwayValues": [
+        0.05
+      ],
+      "lowQualityValues": [
+        "false"
+      ],
+      "meshPaths": [
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant254/WinterPine_LOD0",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant254/WinterPine_LOD1",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant254/WinterPine_LOD2",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant290/WinterPine_LOD0",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant290/WinterPine_LOD1",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant290/WinterPine_LOD2",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant216/WinterPine_LOD0",
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant216/WinterPine_LOD1"
+      ],
+      "globalTransforms": {
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant254/WinterPine_LOD0": {
+          "origin": {
+            "x": -45.568638,
+            "y": 2.046163,
+            "z": -14.952154
+          },
+          "basisX": {
+            "x": 3.130913,
+            "y": 0.831787,
+            "z": 13.085281
+          },
+          "basisY": {
+            "x": 0.581874,
+            "y": 14.935266,
+            "z": -1.088609
+          },
+          "basisZ": {
+            "x": -13.10124,
+            "y": 0.735499,
+            "z": 3.087979
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant254/WinterPine_LOD1": {
+          "origin": {
+            "x": -45.568638,
+            "y": 2.046163,
+            "z": -14.952154
+          },
+          "basisX": {
+            "x": 3.130913,
+            "y": 0.831787,
+            "z": 13.085281
+          },
+          "basisY": {
+            "x": 0.581874,
+            "y": 14.935266,
+            "z": -1.088609
+          },
+          "basisZ": {
+            "x": -13.10124,
+            "y": 0.735499,
+            "z": 3.087979
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant254/WinterPine_LOD2": {
+          "origin": {
+            "x": -45.568638,
+            "y": 2.046163,
+            "z": -14.952154
+          },
+          "basisX": {
+            "x": 3.130913,
+            "y": 0.831787,
+            "z": 13.085281
+          },
+          "basisY": {
+            "x": 0.581874,
+            "y": 14.935266,
+            "z": -1.088609
+          },
+          "basisZ": {
+            "x": -13.10124,
+            "y": 0.735499,
+            "z": 3.087979
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant290/WinterPine_LOD0": {
+          "origin": {
+            "x": -42.499313,
+            "y": 0.861321,
+            "z": -19.041328
+          },
+          "basisX": {
+            "x": -8.093293,
+            "y": 0,
+            "z": -8.71228
+          },
+          "basisY": {
+            "x": 0,
+            "y": 14.266792,
+            "z": 0
+          },
+          "basisZ": {
+            "x": 8.71228,
+            "y": 0,
+            "z": -8.093293
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant290/WinterPine_LOD1": {
+          "origin": {
+            "x": -42.499313,
+            "y": 0.861321,
+            "z": -19.041328
+          },
+          "basisX": {
+            "x": -8.093293,
+            "y": 0,
+            "z": -8.71228
+          },
+          "basisY": {
+            "x": 0,
+            "y": 14.266792,
+            "z": 0
+          },
+          "basisZ": {
+            "x": 8.71228,
+            "y": 0,
+            "z": -8.093293
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant290/WinterPine_LOD2": {
+          "origin": {
+            "x": -42.499313,
+            "y": 0.861321,
+            "z": -19.041328
+          },
+          "basisX": {
+            "x": -8.093293,
+            "y": 0,
+            "z": -8.71228
+          },
+          "basisY": {
+            "x": 0,
+            "y": 14.266792,
+            "z": 0
+          },
+          "basisZ": {
+            "x": 8.71228,
+            "y": 0,
+            "z": -8.093293
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant216/WinterPine_LOD0": {
+          "origin": {
+            "x": -49.308014,
+            "y": 3.013069,
+            "z": -8.689455
+          },
+          "basisX": {
+            "x": -11.862304,
+            "y": 0.749023,
+            "z": 5.747763
+          },
+          "basisY": {
+            "x": 0.111381,
+            "y": 15.675875,
+            "z": -1.812942
+          },
+          "basisZ": {
+            "x": -5.795614,
+            "y": -1.32221,
+            "z": -11.788753
+          }
+        },
+        "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant216/WinterPine_LOD1": {
+          "origin": {
+            "x": -49.308014,
+            "y": 3.013069,
+            "z": -8.689455
+          },
+          "basisX": {
+            "x": -11.862304,
+            "y": 0.749023,
+            "z": 5.747763
+          },
+          "basisY": {
+            "x": 0.111381,
+            "y": 15.675875,
+            "z": -1.812942
+          },
+          "basisZ": {
+            "x": -5.795614,
+            "y": -1.32221,
+            "z": -11.788753
+          }
+        }
+      }
+    }
+  ]
+}

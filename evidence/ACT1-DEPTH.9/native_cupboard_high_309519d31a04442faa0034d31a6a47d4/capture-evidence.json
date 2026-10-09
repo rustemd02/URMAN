@@ -1,0 +1,124 @@
+{
+  "capture_mode": "protected native Windows capture",
+  "job_id": "309519d31a04442faa0034d31a6a47d4",
+  "snapshot_id": "87c7d2aec0b98099d60d636000406ae4a2c5d6a65a0efb39aae95610fb32a0e4",
+  "base_commit": "8962bf8ecc6214f6476df64946b08bf666937449",
+  "head": "8962bf8ecc6214f6476df64946b08bf666937449",
+  "candidate_file_count": 1825,
+  "full_source_manifest_sha256": "817153ccc37dd24c557b9aae8d206e1c9d9e97fe233787c0ac29b20a21a904bb",
+  "full_source_manifest_matches_receipt": true,
+  "station_status": "PASS",
+  "exit_code": 0,
+  "runner_exit_code": 0,
+  "game_exit_code": 0,
+  "userdata_restored": true,
+  "snapshot_hashes_verified": true,
+  "engine": "4.7.1.stable.mono.official.a13da4feb",
+  "dotnet_sdk": "10.0.302",
+  "renderer": [
+    "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+  ],
+  "host": "UNTERPC",
+  "scene": "res://scenes/act1_demo.tscn",
+  "elapsed_seconds": 347.6859253,
+  "dll_sha256": "CB6D9FC33AB6CC89BA6366DC7F8076369B768B19404A02BB268262570E9C5806",
+  "compiled_content": {
+    "urman.chapter1": "34C1A1C233AB00B8F25361652DD53C4D6835CA54861B85D7707D4C49A456C73A",
+    "urman.fullgame": "28E19B07DD9C4E62968BD1433FB2CE1A8DEB2916C2970ECB5592024177CF5E03"
+  },
+  "station_doctor_ready": true,
+  "busy_job_after": null,
+  "orphan_game_process_after": false,
+  "userdata_recovery_pending_after": false,
+  "human_playtest": "not run",
+  "requested_quality": "high",
+  "actual_quality": "low",
+  "quality_note": "The startup performance rescue applied Low after the High request. Both original sidecars report graphicsSessionOverride=performance-rescue and graphicsComparable=false. This is not a valid High-quality comparison.",
+  "rescue_log_excerpt": "act1-demo-performance-rescue: preset=low avg=991.2ms median=109.4ms reason=slow-startup",
+  "engine_errors_log_bytes": 0,
+  "stderr_bytes": 0,
+  "game_log_error_lines": 0,
+  "png_viewport_discrepancy": "Both original PNGs are 1886x1061 while their sidecars report 1920x1080.",
+  "visual_acceptance": "pending root review; no visual verdict recorded",
+  "scope": "Two static cupboard/room views only; the requested High appearance was not obtained, no ordinary-route/interior acceptance is inferred.",
+  "station_selected_source_count": 33,
+  "local_authoring_excluded_copy_count": 10,
+  "unchanged_cupboard_assets_vs_d4d": {
+    "assets/source/blender/urman_modular_kit.blend": "67841e661586f216940230d403d8b053d3a396f91751fd79f2867dd7476f90a5",
+    "tools/blender/generate_modular_environment.py": "b82e6a808afa0d06c42fdad387c225593454e72952c9241e30cdf1dc95f3e6d3",
+    "game/assets/generated/urman_modular_kit.glb": "402f9d7dc6b9c0ad8b4fdf39b2ef550b625cedb56bd9f179ee24d9ca1a07fea4"
+  },
+  "result_zip_sha256": "e90e66a7e37676a4823dc587ce1a07b2000fe5ccde37ff5089fe7197eea46c13",
+  "frames": [
+    {
+      "id": "babai_room_overview_high",
+      "png": "frames/babai_room_overview_high.png",
+      "png_bytes": 1935445,
+      "png_sha256": "ae65e9c7556a6fe78b98aed013e07523f126c5e5699d92645be6440454b9495e",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar": "frames/babai_room_overview_high.json",
+      "sidecar_sha256": "129bd7f99e19d106010095656547b9846700748ef715ac311c01b550368a4995",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "zone": "house_old_pc",
+      "requested_zone": "house_old_pc",
+      "profile": "village-winter-frost",
+      "fov": 70,
+      "requested_preset": "high",
+      "effective_preset": "low",
+      "session_override": "performance-rescue",
+      "graphics_comparable": false,
+      "scale": 0.7,
+      "cameraPosition": {
+        "x": -11.070504,
+        "y": 1.594152,
+        "z": -1.885554
+      },
+      "cameraTarget": {
+        "x": -15.52049,
+        "y": 1.294152,
+        "z": -4.705575
+      }
+    },
+    {
+      "id": "babai_cupboard_detail_high",
+      "png": "frames/babai_cupboard_detail_high.png",
+      "png_bytes": 1932773,
+      "png_sha256": "c4da2f20bcc32bd7fb3ea5b3e64b0c69a79f4ef4e5adf075ac70008b0b4b0365",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar": "frames/babai_cupboard_detail_high.json",
+      "sidecar_sha256": "5498964496a8245d8f167679b29442e180d8e1630fed21fd767eb13045716a7e",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "zone": "house_old_pc",
+      "requested_zone": "house_old_pc",
+      "profile": "village-winter-frost",
+      "fov": 70,
+      "requested_preset": "high",
+      "effective_preset": "low",
+      "session_override": "performance-rescue",
+      "graphics_comparable": false,
+      "scale": 0.7,
+      "cameraPosition": {
+        "x": -16.020481,
+        "y": 1.574152,
+        "z": -6.505578
+      },
+      "cameraTarget": {
+        "x": -15.620474,
+        "y": 1.244152,
+        "z": -7.835576
+      }
+    }
+  ]
+}

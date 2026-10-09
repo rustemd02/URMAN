@@ -1,0 +1,40 @@
+{
+  "reviewer": "/root",
+  "reviewed_utc": "2026-10-08T23:46:00Z",
+  "method": "Original native PNGs inspected with view_image; matching sidecars read. No image editing.",
+  "source_job": "7f64b86109eb4a1ab848469fc105e9d2",
+  "snapshot_id": "85dc8e29e0fcd359ba56ba4fe7f3b97f5a5a0bd523e589dd20a60adc6d216bdc",
+  "file_sha256": {
+    "h019_geometry_shoulder.png": "827c759e12c4a32fafb5f746856fa9abd8af0fbdfdb2bf541b3e324e82d86cb7",
+    "_capture-summary.json": "5d43569d5489b3a7365e0b5b53e443285f1c126228c9cb72da0890c448c157de",
+    "babai_porch_side_clear.json": "baabe147e204cba4157080b0398c8a0e7df21fb6e13d78677a78a3d93e327719",
+    "h019_geometry_approach.png": "454660f559d8a1b62c0fb797e21f91f6e3e2ad3957061c96f38f6abcb72a6207",
+    "h019_geometry_approach.json": "2bb67e21d944677138eee4934ddaa36e49fc172dc83ffacd1527c5d606a22502",
+    "babai_porch_side_clear.png": "5755cbc90cd33a1aeca01dd501ff26196a821b467ba4253b9388c4fbaf08c354",
+    "h019_geometry_shoulder.json": "dae8817005d13928e0a5c7504f2902d8658f49f2f1983060f5efeb0a571ad048"
+  },
+  "judgments": {
+    "babai_porch_side_clear": {
+      "verdict": "ACCEPTED_BOUNDED_CONSTRUCTION_STAGE",
+      "accepted": "Widened deck now includes the two upright posts and visible bearers; gate no longer hides the contact area.",
+      "not_accepted": [
+        "Whole-house visual style",
+        "Physical threshold/capsule crossing",
+        "Triangle budget/performance",
+        "Interior requirements"
+      ],
+      "observations": "Close wood has broad streaks and little fine relief; full material/style acceptance remains open."
+    },
+    "h019_geometry_approach": {
+      "verdict": "REJECTED",
+      "observations": "Roof and front gable silhouette still absent; neighboring large green/gray surfaces interfere with the framing."
+    },
+    "h019_geometry_shoulder": {
+      "verdict": "REJECTED",
+      "observations": "Roof and front gable remain absent from the second camera too."
+    }
+  },
+  "new_diagnostic_fact": "All six protected source-face rays across the two H019 cameras hit h014-house/.../TatarCarpentry/CarvedTimber_dfdcc5_wood_painted_trim first, at world Y 2.282723 and 2.913–4.502m from the camera, ahead of the H019 gable/roof. This is scene geometry evidence, not GPU-depth proof; inspect this actual owner before another rendering hypothesis.",
+  "task_closures": [],
+  "provenance_limit": "Captured tracked GLB and runtime source verified; local Blender source/project and asset registry are explicitly local-only context, not transmitted snapshot files."
+}

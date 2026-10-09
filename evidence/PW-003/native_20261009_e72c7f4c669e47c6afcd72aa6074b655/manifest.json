@@ -1,0 +1,111 @@
+{
+  "job_id": "e72c7f4c669e47c6afcd72aa6074b655",
+  "snapshot_id": "d786f7f08d80c2ceb791b9bf253085cd98d666f5ec6a6e7850c63415d50e5770",
+  "source_commit": "e0095b0d7d197760521c8113278795a57e8377a8",
+  "result_zip_sha256": "eb7a813b1b96578748d20baf9d425611f8083148ec105a4e028802ba6d7a21a9",
+  "status": "FAIL",
+  "mode": "smoke",
+  "scene": "res://tests/full_game_flow_smoke_test.tscn",
+  "headless": false,
+  "game_exit_code": 1,
+  "worker_elapsed_seconds": 158.781,
+  "snapshot_hashes_verified": true,
+  "caption_ui_frame_emitted": false,
+  "engine_error_line_count": 6,
+  "missing_node_paths": [
+    "Screen/App_notepad/Content/Text",
+    "Screen/App_notepad/Content/PreparePhotoCaption"
+  ],
+  "source_sha256": {
+    "game/tests/FullGameFlowSmokeTest.cs": {
+      "sha256": "358b369c4903d590d4cb85a9d5561982f88f0d40390e5a594f04c9dec07730d2",
+      "bytes": 24013
+    },
+    "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs": {
+      "sha256": "d14e9d8eb00f0a48fae460c71481a71213a4c77c5092a203c3e7e1854f9c978f",
+      "bytes": 34192
+    },
+    "game/content/urman.fullgame.compiled.v1.json": {
+      "sha256": "c1afa18be60a451d7a2a5295d8be72cba7211579c415f51e75ca2f56ae209052",
+      "bytes": 2115931
+    }
+  },
+  "files": {
+    ".gitattributes": {
+      "bytes": 104,
+      "sha256": "fa8238e66523faebce6371da8740d6958db8f135c1d8364d21a362fe2916964a"
+    },
+    ".gitignore": {
+      "bytes": 40,
+      "sha256": "8963d3278036afa593a45874035b13d3c6d848cfdc2f5c149b40dbaebb4566d8"
+    },
+    "FullGameFlowSmokeTest.cs": {
+      "bytes": 24013,
+      "sha256": "358b369c4903d590d4cb85a9d5561982f88f0d40390e5a594f04c9dec07730d2"
+    },
+    "PhotoWorldState.cs": {
+      "bytes": 34192,
+      "sha256": "d14e9d8eb00f0a48fae460c71481a71213a4c77c5092a203c3e7e1854f9c978f"
+    },
+    "README.md": {
+      "bytes": 1428,
+      "sha256": "bb61300efdc89834d816a2f9c720cd8b76f7c277568c91e763acb89e79bee6b7"
+    },
+    "build.log": {
+      "bytes": 152,
+      "sha256": "f08973e0779beb369a0768306f7c9c8cd7dd57d8873ea51ba6ed7d36f27da0f4"
+    },
+    "caption_ui_capture_status.json": {
+      "bytes": 546,
+      "sha256": "323407fd2e8bf4836dba8d468e50217e95d8748957223c0b721563d383d9995a"
+    },
+    "content-build.log": {
+      "bytes": 152,
+      "sha256": "4866ea8c4c4a59427762519778d972a18f5de63f2b1bcc2a3949f7b67b606c76"
+    },
+    "content-urman.chapter1.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "content-urman.fullgame.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "document-images.log": {
+      "bytes": 746,
+      "sha256": "289eef9ee894eafa4670c358f750e2698dbe96884546cb6f0c2425af09987b52"
+    },
+    "engine-errors.log": {
+      "bytes": 776,
+      "sha256": "5e35698842cbd89ed73afff289ddef1bc882c3f2441c3b4ffdc93851ffb7955e"
+    },
+    "game.log": {
+      "bytes": 44206,
+      "sha256": "9bc782145a7636a3a3c5b9c7ef4b5f6229b8298e9881dbdb4fd105a4035c7095"
+    },
+    "import.log": {
+      "bytes": 140540,
+      "sha256": "5571c3d82278734683a9cc3159c3dcccf3e6d120d9ad9110158ea4a958484347"
+    },
+    "receipt.json": {
+      "bytes": 551221,
+      "sha256": "f89a5f2b79584181a7a8aedbceec1d506a631f84c6d517e0a092ffb313e1d40a"
+    },
+    "request.json": {
+      "bytes": 237,
+      "sha256": "1bda10636e2d9d0e39fc9a48fdf98f1c553c17bb112631d0728f9126d74486db"
+    },
+    "stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.log": {
+      "bytes": 186007,
+      "sha256": "824a01964f30b1668a70584e18757150a40cf34e1183852455d387431917f7da"
+    },
+    "urman.fullgame.compiled.v1.json": {
+      "bytes": 2115931,
+      "sha256": "c1afa18be60a451d7a2a5295d8be72cba7211579c415f51e75ca2f56ae209052"
+    }
+  }
+}

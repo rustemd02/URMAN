@@ -1,0 +1,94 @@
+{
+  "scope": "local authoring/provenance only; these files were excluded from the station payload and are not evidence that Blender or the registry ran on Windows. Their content is hash-indexed separately from the station snapshot.",
+  "files": [
+    {
+      "path": "assets/asset_registry.json",
+      "archive_path": "local-authoring-excluded/assets/asset_registry.json",
+      "bytes": 236918,
+      "sha256": "14a43990b759c980459d0c5820e36b41298b6d156e2b442a0822be3b19634f7f",
+      "mtime_utc": "2026-10-09T02:31:23.631910+00:00",
+      "mtime_precedes_capture": true,
+      "station_snapshot_included": false
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "archive_path": "local-authoring-excluded/assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "bytes": 12572542,
+      "sha256": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3",
+      "mtime_utc": "2026-10-09T02:30:16.527441+00:00",
+      "mtime_precedes_capture": true,
+      "station_snapshot_included": false
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
+      "archive_path": "local-authoring-excluded/assets/source/blender/act1/urman_village_exterior_kit.py",
+      "bytes": 188665,
+      "sha256": "eb0f0768beb60cad19eda1a1c25e85f03e2e8f85cff2a83bace4875bec2e3077",
+      "mtime_utc": "2026-10-09T02:30:06.874282+00:00",
+      "mtime_precedes_capture": true,
+      "station_snapshot_included": false
+    },
+    {
+      "path": "assets/source/blender/urman_modular_kit.blend",
+      "archive_path": "local-authoring-excluded/assets/source/blender/urman_modular_kit.blend",
+      "bytes": 3361756,
+      "sha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+      "mtime_utc": "2026-10-09T02:06:32.407471+00:00",
+      "mtime_precedes_capture": true,
+      "station_snapshot_included": false
+    },
+    {
+      "path": "tools/blender/generate_modular_environment.py",
+      "archive_path": "local-authoring-excluded/tools/blender/generate_modular_environment.py",
+      "bytes": 59301,
+      "sha256": "0f40402361cee2ab855fdc3400e5c51257c0c568508c5dc58a78969ae73c6913",
+      "mtime_utc": "2026-10-09T02:05:15.636982+00:00",
+      "mtime_precedes_capture": true,
+      "station_snapshot_included": false
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.9/corner-log-material-export-2026-10-09.json",
+      "archive_path": "local-authoring-excluded/evidence/ACT1-DEPTH.9/corner-log-material-export-2026-10-09.json",
+      "bytes": 5298,
+      "sha256": "06b2cd3973b0c17c01da4949f80144a219832784936bb2d7760c88f6acc47b8f",
+      "mtime_utc": "2026-10-09T02:32:11.424799+00:00",
+      "mtime_precedes_capture": true,
+      "station_snapshot_included": false
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.9/rug-neutral-tint-2026-10-09.json",
+      "archive_path": "local-authoring-excluded/evidence/ACT1-DEPTH.9/rug-neutral-tint-2026-10-09.json",
+      "bytes": 1945,
+      "sha256": "b0af9c2afc909971083c9917641b989e0ba706c5b94d946e1204086c4e56ff05",
+      "mtime_utc": "2026-10-09T02:57:28.040722+00:00",
+      "mtime_precedes_capture": true,
+      "station_snapshot_included": false
+    },
+    {
+      "path": "evidence/PW-006/home_book_adapter.json",
+      "archive_path": "local-authoring-excluded/evidence/PW-006/home_book_adapter.json",
+      "bytes": 18668,
+      "sha256": "a87a825d60be35cbdcbf1bd3aa6d5b34de1aa88596ee1ee944c8ecaeed442333",
+      "mtime_utc": "2026-10-09T03:12:14.928010+00:00",
+      "mtime_precedes_capture": true,
+      "station_snapshot_included": false
+    },
+    {
+      "path": "evidence/PW-006/receipt.json",
+      "archive_path": "local-authoring-excluded/evidence/PW-006/receipt.json",
+      "bytes": 5075,
+      "sha256": "b31de4234fa191ffca5ea5862f078ca1009a7f3befb95fe6564353086afc45f0",
+      "mtime_utc": "2026-10-09T01:02:25.937193+00:00",
+      "mtime_precedes_capture": true,
+      "station_snapshot_included": false
+    },
+    {
+      "path": "asset_registry_selected_rows.json",
+      "archive_path": "local-authoring-excluded/asset_registry_selected_rows.json",
+      "bytes": 12873,
+      "sha256": "819c46f6ea80d2cf0c3cdcefa073a3dcb8a9a15f84eb232180143bb3602c14af",
+      "source": "prior local-only rows from dcfb archive; registry SHA matches current archived registry",
+      "station_snapshot_included": false
+    }
+  ]
+}

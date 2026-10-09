@@ -1,0 +1,22 @@
+ERROR: AnimationPlayer has no current animation.
+ERROR: AnimationPlayer has no current animation.
+ERROR: View capture refused: 'ZiratAuthoredOpenGate' binds to 2 nodes (/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/zirat-return-road/ZiratRoadsideAuthoredKit/ZiratAuthoredOpenGate, /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratAuthoredOpenGate); the owner must be unique. Point 'zirat_entry_verify:ZiratAuthoredOpenGate@-1.146,1.63,6.833>ZiratAuthoredOpenGate@0,0.95,0' wrote no frame.
+ERROR: 1 RID allocations of type 'N10RendererRD11MeshStorage4MeshE' were leaked at exit.
+ERROR: 2 RID allocations of type 'N10RendererRD15MaterialStorage8MaterialE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N10RendererRD15MaterialStorage6ShaderE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceSurfaceDataCacheE
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceForwardClusteredE
+ERROR: 1 shaders of type SceneForwardClusteredShaderRD were never freed
+ERROR: 48 resources still in use at exit (run with --verbose for details).
+ERROR: AnimationPlayer has no current animation.
+ERROR: AnimationPlayer has no current animation.
+ERROR: View capture refused: 'ZiratAuthoredOpenGate' binds to 2 nodes (/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/zirat-return-road/ZiratRoadsideAuthoredKit/ZiratAuthoredOpenGate, /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratAuthoredOpenGate); the owner must be unique. Point 'zirat_entry_verify:ZiratAuthoredOpenGate@-1.146,1.63,6.833>ZiratAuthoredOpenGate@0,0.95,0' wrote no frame.
+ERROR: 1 RID allocations of type 'N10RendererRD11MeshStorage4MeshE' were leaked at exit.
+ERROR: 2 RID allocations of type 'N10RendererRD15MaterialStorage8MaterialE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N10RendererRD15MaterialStorage6ShaderE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceSurfaceDataCacheE
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceForwardClusteredE
+ERROR: 1 shaders of type SceneForwardClusteredShaderRD were never freed
+ERROR: 48 resources still in use at exit (run with --verbose for details).

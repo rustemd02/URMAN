@@ -8,8 +8,8 @@ namespace Urman.Godot;
 // URMAN_VIEW_POINTS="name:x,y,z>tx,ty,tz;..." saves one still per viewpoint from
 // a free camera in the village and quits. Unset, it does nothing.
 // Optional authored manifest res://content/world/visual_checkpoints.v1.json binds a frame
-// name to an atmosphere profile, so one capture job can photograph the same street under
-// every VIS-069…074 state without a second transport (see VisualCheckpointManifestPath).
+// name to atmosphere state and, for protected comparison jobs, one requested graphics
+// preset. It reuses URMAN_VIEW_POINTS rather than extending station transport.
 public partial class Act1DemoRoot
 {
     // Development only: URMAN_WALK_PROBE="Building;x,y,z;yawDegrees;seconds;action" puts the real
@@ -64,12 +64,21 @@ public partial class Act1DemoRoot
     // profile per frame so the existing station transport (capture -> URMAN_VIEW_POINTS) can
     // photograph states that no zone owns. Absent, every frame keeps today's zone default.
     private const string VisualCheckpointManifestPath = "res://content/world/visual_checkpoints.v1.json";
+    private string? _devViewCaptureRequestedGraphicsPreset;
+    private bool _devViewCaptureGraphicsPresetApplied;
+    private string _devViewCaptureGraphicsPresetApplyStatus = "not-requested";
 
     private sealed record ViewSideResult(string Space, Node3D? Owner, Vector3 World);
 
-    // "profile" is optional: a row without it documents the subject but leaves the light to
-    // the zone, which is how the canonical C1…C8 comparison set keeps its before baseline.
-    private sealed record VisualCheckpoint(string Id, string Spec, string? Profile, string? Subject);
+    // Atmosphere and graphics requests are optional: absent fields preserve the existing
+    // zone/default capture path and unrequested graphics comparisons.
+    private sealed record VisualCheckpoint(
+        string Id,
+        string Spec,
+        string? Profile,
+        string? Subject,
+        string? ZoneId,
+        string? GraphicsPreset);
 
     private sealed record ViewPoint(
         string Name,
@@ -89,18 +98,66 @@ public partial class Act1DemoRoot
         var points = System.Environment.GetEnvironmentVariable("URMAN_VIEW_POINTS");
         if (string.IsNullOrEmpty(dir) || string.IsNullOrEmpty(points)) return;
         var zone = System.Environment.GetEnvironmentVariable("URMAN_VIEW_ZONE");
+        // Resolve a requested graphics profile before InitializeDemo arms its startup
+        // performance guard. This path is inert unless the existing protected view-capture
+        // transport supplied both its output and point list.
+        var checkpoints = LoadVisualCheckpoints(out var manifestFailure);
+        if (checkpoints is null)
+        {
+            GD.PushError($"View capture refused: {manifestFailure} No frame was written.");
+            GetTree().Quit(1);
+            return;
+        }
+        _devViewCaptureRequestedGraphicsPreset = ResolveRequestedGraphicsPreset(points, checkpoints, out var graphicsFailure);
+        if (graphicsFailure is not null)
+        {
+            GD.PushError($"View capture refused: {graphicsFailure} No frame was written.");
+            GetTree().Quit(1);
+            return;
+        }
+        if (_devViewCaptureRequestedGraphicsPreset is not null
+            && System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") != "1")
+        {
+            GD.PushError("View capture refused: checkpoint graphicsPreset requires a protected native capture.");
+            GetTree().Quit(1);
+            return;
+        }
         for (var frame = 0; frame < 900 && !(MainMenuVisible && _main is not null && _player is not null); frame++)
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var selectedZones = points.Split(';', StringSplitOptions.RemoveEmptyEntries)
+            .Select(entry => checkpoints.GetValueOrDefault(entry.Split(':', 2)[0])?.ZoneId ?? zone)
+            .Concat(string.IsNullOrEmpty(zone) ? Array.Empty<string?>() : new[] { zone })
+            .Distinct(StringComparer.Ordinal).ToArray();
+        if (selectedZones.Length > 1)
+        {
+            GD.PushError("View capture refused: one job cannot mix zone-bound and unbound checkpoints or conflicting requested zones. No frame was written.");
+            GetTree().Quit(1);
+            return;
+        }
+        zone = selectedZones.SingleOrDefault();
         if (!string.IsNullOrEmpty(zone))
         {
             if (System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") != "1"
-                || !await StartDebugZoneAsync(zone, "entry"))
+                || !await StartDebugZoneAsync(zone, "default"))
             {
                 GD.PushError($"View capture refused: protected debug zone '{zone}' unavailable.");
                 GetTree().Quit(1);
                 return;
             }
         }
+        var meshInstances = GetTree().Root.FindChildren("*", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().Where(mesh => mesh.Mesh is not null).ToArray();
+        var shaderInstanceCandidates = meshInstances.Count(mesh =>
+        {
+            for (var surface = 0; surface < mesh.Mesh!.GetSurfaceCount(); surface++)
+                if (mesh.GetActiveMaterial(surface) is ShaderMaterial { Shader: { } shader }
+                    && shader.Code.Contains("instance uniform", StringComparison.Ordinal))
+                    return true;
+            return false;
+        });
+        var shaderInstanceBufferSize = ProjectSettings
+            .GetSetting("rendering/limits/global_shader_variables/buffer_size").AsInt64();
+        GD.Print($"shader-instance-budget: meshes={meshInstances.Length} candidates={shaderInstanceCandidates} bufferSize={shaderInstanceBufferSize}");
         // VIS-111: control views keep FOV 70 for before/after comparability, but a
         // capture can also take the player's own camera FOV (gameplay baseline 75 or
         // the player's setting) or an explicit value; the source is written per frame.
@@ -140,13 +197,6 @@ public partial class Act1DemoRoot
         // A frame is evidence only when its subject is known, so every point is bound
         // before the first PNG; an unknown or doubled owner stops the run instead of
         // silently becoming world space.
-        var checkpoints = LoadVisualCheckpoints(out var manifestFailure);
-        if (checkpoints is null)
-        {
-            GD.PushError($"View capture refused: {manifestFailure} No frame was written.");
-            GetTree().Quit(1);
-            return;
-        }
         var plan = new List<ViewPoint>();
         foreach (var entry in points.Split(';', StringSplitOptions.RemoveEmptyEntries))
         {
@@ -213,6 +263,34 @@ public partial class Act1DemoRoot
                 }
                 phaseApplied = point.Profile is not null;
             }
+            // This capture-only comparison changes two H019 roof overrides in
+            // memory; ordinary gameplay and the imported GLB remain untouched.
+            var sourceRoofOverrides = new List<(MeshInstance3D Mesh, int Surface, Material? Painted)>();
+            if (point.Name.StartsWith("h019_source_", StringComparison.Ordinal))
+            {
+                if (System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") != "1"
+                    || point.CameraOwner?.Name != "MainStreetEastNeighborFacade")
+                {
+                    GD.PushError("H019 source-material comparison requires a protected run and its exact facade camera owner.");
+                    GetTree().Quit(1);
+                    return;
+                }
+                var roofs = point.CameraOwner.FindChildren("*", nameof(MeshInstance3D), true, false)
+                    .OfType<MeshInstance3D>().Where(mesh => mesh.Name == "DwellingFacade_Roof_LOD0" || mesh.Name == "DwellingFacade_RoofSnow_LOD0").ToArray();
+                if (roofs.Length != 2 || roofs.Any(mesh => mesh.Mesh is null || mesh.MaterialOverride is not null
+                    || Enumerable.Range(0, mesh.Mesh.GetSurfaceCount()).Any(surface => mesh.GetSurfaceOverrideMaterial(surface) is null)))
+                {
+                    GD.PushError("H019 source-material comparison requires exactly two roof meshes with surface overrides only.");
+                    GetTree().Quit(1);
+                    return;
+                }
+                foreach (var roof in roofs)
+                    for (var surface = 0; surface < roof.Mesh!.GetSurfaceCount(); surface++)
+                    {
+                        sourceRoofOverrides.Add((roof, surface, roof.GetSurfaceOverrideMaterial(surface)));
+                        roof.SetSurfaceOverrideMaterial(surface, null);
+                    }
+            }
             // Zone switches re-apply the profile, so fog is cleared per point.
             if (diagnostic.Contains("no-fog", StringComparison.Ordinal) && GetViewport().World3D?.Environment is { } diagnosticEnvironment)
             {
@@ -237,6 +315,10 @@ public partial class Act1DemoRoot
                 }
             }
             var metadata = ViewFrameMetadata(point, camera, zone);
+            foreach (var saved in sourceRoofOverrides)
+                saved.Mesh.SetSurfaceOverrideMaterial(saved.Surface, saved.Painted);
+            if (point.Name.StartsWith("h019_", StringComparison.Ordinal))
+                metadata["h019MaterialMode"] = ViewText(sourceRoofOverrides.Count == 0 ? "graded-runtime" : "imported-source-roof-only");
             var payload = metadata.ToJsonString(ViewJsonOptions);
             frames.Add(JsonNode.Parse(payload)!);
             if (WriteViewJson($"{dir}/{point.Name}.json", payload) is { } sidecarError)
@@ -245,7 +327,7 @@ public partial class Act1DemoRoot
                 GetTree().Quit(1);
                 return;
             }
-            GD.Print($"view-capture: {point.Name} camera={GetViewport().GetCamera3D()?.Name} at={camera.GlobalPosition} zone={_main.ConnectedWorld?.ActiveZoneId} profile={ViewMeta(_main.ConnectedWorld?.GetNodeOrNull<Node3D>("Act1CoreWorldGreybox"), "unifiedAtmosphereProfile")} preset={GraphicsQuality.Preset} scale={GetViewport().Scaling3DScale} fov={camera.Fov} focus={DisplayServer.WindowIsFocused()} pause={_pauseMenu?.IsOpen} drawCalls={Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)} frameMs={GetProcessDeltaTime()*1000:0.0}");
+            GD.Print($"view-capture: {point.Name} camera={GetViewport().GetCamera3D()?.Name} at={camera.GlobalPosition} zone={_main.ConnectedWorld?.ActiveZoneId} profile={ViewMeta(_main.ConnectedWorld?.GetNodeOrNull<Node3D>("Act1CoreWorldGreybox"), "unifiedAtmosphereProfile")} preset={GraphicsQuality.Preset} requestedPreset={_devViewCaptureRequestedGraphicsPreset ?? "none"} comparable={metadata["graphicsComparable"]?.ToString() ?? "null"} budget={GraphicsQuality.BudgetSnapshot()} scale={GetViewport().Scaling3DScale} fov={camera.Fov} focus={DisplayServer.WindowIsFocused()} pause={_pauseMenu?.IsOpen} drawCalls={Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)} frameMs={GetProcessDeltaTime()*1000:0.0}");
         }
         var summary = new JsonObject
         {
@@ -267,6 +349,87 @@ public partial class Act1DemoRoot
         var tree = GetTree();
         await Tests.GodotSmokeCleanup.ReleaseAsync(this);
         QuitAfterViewCaptureAsync(tree);
+    }
+
+    // A graphics comparison is one explicit quality per complete capture job. Keep the
+    // legacy/unbound camera workflow untouched when none of its selected rows asks for one.
+    private static string? ResolveRequestedGraphicsPreset(
+        string points,
+        Dictionary<string, VisualCheckpoint> checkpoints,
+        out string? failure)
+    {
+        failure = null;
+        var entries = points.Split(';', StringSplitOptions.RemoveEmptyEntries);
+        var requestedRows = entries
+            .Select(entry =>
+            {
+                var separator = entry.IndexOf(':');
+                return separator < 0 ? null : checkpoints.GetValueOrDefault(entry[..separator]);
+            })
+            .Where(checkpoint => checkpoint?.GraphicsPreset is not null)
+            .ToArray();
+        if (requestedRows.Length == 0) return null;
+
+        string? requested = null;
+        foreach (var entry in entries)
+        {
+            var separator = entry.IndexOf(':');
+            if (separator <= 0)
+            {
+                failure = "a graphicsPreset comparison point must use the existing 'id:camera>target' syntax.";
+                return null;
+            }
+            var id = entry[..separator];
+            if (!checkpoints.TryGetValue(id, out var checkpoint) || checkpoint.GraphicsPreset is null)
+            {
+                failure = $"graphicsPreset comparison point '{id}' is unbound or has no graphicsPreset; a job cannot mix comparison rows with default/unbound points.";
+                return null;
+            }
+            var coordinates = entry[(separator + 1)..];
+            if (!System.String.Equals(checkpoint.Spec, coordinates, StringComparison.Ordinal))
+            {
+                failure = $"graphicsPreset checkpoint '{id}' is authored for '{checkpoint.Spec}', not '{coordinates}'.";
+                return null;
+            }
+            if (requested is not null && !System.String.Equals(requested, checkpoint.GraphicsPreset, StringComparison.Ordinal))
+            {
+                failure = "one graphicsPreset comparison job cannot mix high and low checkpoints.";
+                return null;
+            }
+            requested = checkpoint.GraphicsPreset;
+        }
+        return requested;
+    }
+
+    private void ApplyDevViewCaptureGraphicsPresetBeforeStartupGuard()
+    {
+        if (_devViewCaptureRequestedGraphicsPreset is not { } requested) return;
+        if (System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") != "1")
+        {
+            _devViewCaptureGraphicsPresetApplyStatus = "skipped-unprotected-run";
+            return;
+        }
+
+        if (_player is null)
+            throw new InvalidOperationException("A checkpoint graphicsPreset was selected before the first-person controller loaded.");
+
+        // Keep existing session-only safety modes intact. A capture request is never a reason
+        // to undo safe mode or a rescue that another startup owner has already activated.
+        if (!string.IsNullOrEmpty(_player.SessionGraphicsOverride))
+        {
+            _devViewCaptureGraphicsPresetApplyStatus = "skipped-session-override";
+            GD.Print($"view-capture-graphics: requested={requested} applied=false effective={_player.GraphicsPreset} preferred={_player.GetMeta("graphicsPreferredPreset", "").AsString()} sessionOverride={_player.SessionGraphicsOverride} budget={GraphicsQuality.BudgetSnapshot()}");
+            return;
+        }
+
+        var settings = _player.CaptureSettings();
+        _player.ApplySettings(settings with { GraphicsPreset = requested });
+        _devViewCaptureGraphicsPresetApplied = _player.GraphicsPreset == requested
+            && string.IsNullOrEmpty(_player.SessionGraphicsOverride);
+        _devViewCaptureGraphicsPresetApplyStatus = _devViewCaptureGraphicsPresetApplied
+            ? "applied-through-player-settings"
+            : "player-settings-readback-mismatch";
+        GD.Print($"view-capture-graphics: requested={requested} applied={_devViewCaptureGraphicsPresetApplied.ToString().ToLowerInvariant()} effective={_player.GraphicsPreset} preferred={_player.GetMeta("graphicsPreferredPreset", "").AsString()} sessionOverride={_player.SessionGraphicsOverride ?? "none"} budget={GraphicsQuality.BudgetSnapshot()}");
     }
 
     /// <summary>
@@ -327,7 +490,24 @@ public partial class Act1DemoRoot
                     failure = $"checkpoint '{id}' is authored twice in '{VisualCheckpointManifestPath}'.";
                     return null;
                 }
-                rows.Add(id!, new VisualCheckpoint(id!, spec, ViewJsonText(row, "profile"), ViewJsonText(row, "subject")));
+                var zoneId = ViewJsonText(row, "zoneId");
+                if (zoneId is not null && !Main.IsKnownZone(zoneId))
+                {
+                    failure = $"checkpoint '{id}' names unknown zone '{zoneId}'.";
+                    return null;
+                }
+                string? graphicsPreset = null;
+                if (row.TryGetProperty("graphicsPreset", out var graphicsPresetElement))
+                {
+                    if (graphicsPresetElement.ValueKind != JsonValueKind.String
+                        || graphicsPresetElement.GetString() is not ("high" or "low"))
+                    {
+                        failure = $"checkpoint '{id}' has invalid graphicsPreset; only exact 'high' or 'low' values are supported.";
+                        return null;
+                    }
+                    graphicsPreset = graphicsPresetElement.GetString();
+                }
+                rows.Add(id!, new VisualCheckpoint(id!, spec, ViewJsonText(row, "profile"), ViewJsonText(row, "subject"), zoneId, graphicsPreset));
             }
         }
         catch (System.Exception error)
@@ -364,8 +544,7 @@ public partial class Act1DemoRoot
         if (!System.String.Equals(checkpoint.Spec, coordinates, System.StringComparison.Ordinal))
             return $"checkpoint '{checkpoint.Id}' is authored for spec '{checkpoint.Spec}' but the job asked "
                 + $"'{coordinates}'; the frame would not show the agreed subject.";
-        if (checkpoint.Profile is not null)
-            bound = point with { Profile = checkpoint.Profile, Subject = checkpoint.Subject };
+        bound = point with { Profile = checkpoint.Profile, Subject = checkpoint.Subject };
         return null;
     }
 
@@ -435,10 +614,18 @@ public partial class Act1DemoRoot
         var world = _main!.ConnectedWorld;
         var environmentNode = ViewFrameEnvironmentNode();
         var environment = environmentNode?.Environment;
+        var playerPreset = _player?.GraphicsPreset;
+        var preferredPreset = _player?.GetMeta("graphicsPreferredPreset", "").AsString();
+        var sessionOverride = _player?.SessionGraphicsOverride;
+        var comparable = _devViewCaptureRequestedGraphicsPreset is not null
+            && _devViewCaptureGraphicsPresetApplied
+            && string.IsNullOrEmpty(sessionOverride)
+            && System.String.Equals(_devViewCaptureRequestedGraphicsPreset, GraphicsQuality.Preset, StringComparison.Ordinal)
+            && System.String.Equals(_devViewCaptureRequestedGraphicsPreset, playerPreset, StringComparison.Ordinal);
         // The storm toggle has one caller (the first-night cutscene), so the running flag
         // is the only runtime authority for blizzard state; snow is read off its emitter.
         var snow = world?.GetNodeOrNull<CpuParticles3D>("Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBSnow");
-        return new JsonObject
+        var metadata = new JsonObject
         {
             ["metadataVersion"] = ViewNumber(2),
             ["engineVersion"] = ViewProbe(() => Engine.GetVersionInfo()["string"].AsString()),
@@ -467,6 +654,14 @@ public partial class Act1DemoRoot
             ["scaling3DScale"] = ViewNumber(viewport.Scaling3DScale),
             ["scaling3DMode"] = ViewText(viewport.Scaling3DMode.ToString()),
             ["graphicsPreset"] = ViewText(GraphicsQuality.Preset),
+            ["graphicsRequestedPreset"] = ViewText(_devViewCaptureRequestedGraphicsPreset),
+            ["graphicsEffectivePreset"] = ViewText(GraphicsQuality.Preset),
+            ["playerGraphicsPreset"] = ViewText(playerPreset),
+            ["graphicsPreferredPreset"] = ViewText(preferredPreset),
+            ["graphicsSessionOverride"] = ViewText(sessionOverride),
+            ["graphicsPresetApplyStatus"] = ViewText(_devViewCaptureGraphicsPresetApplyStatus),
+            ["graphicsComparable"] = _devViewCaptureRequestedGraphicsPreset is null ? null : ViewFlag(comparable),
+            ["graphicsBudget"] = ViewText(GraphicsQuality.BudgetSnapshot()),
             ["activeZoneId"] = ViewText(world?.ActiveZoneId),
             ["requestedZoneId"] = ViewText(requestedZone),
             // The manifest asks, the world answers: 'requestedProfile' is what the authored
@@ -489,7 +684,435 @@ public partial class Act1DemoRoot
             ["drawCalls"] = ViewNumber(Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)),
             ["capturedUnixSeconds"] = ViewNumber(System.DateTimeOffset.UtcNow.ToUnixTimeSeconds())
         };
+        if (point.Name.StartsWith("h019_", StringComparison.Ordinal))
+            metadata["h019RoofCensus"] = BuildH019RoofCensus(camera);
+        if (point.Name is "babai_entry_door" or "babai_room_overview" or "babai_rug_detail"
+            && System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") == "1")
+            metadata["babaiRugMaterials"] = BabaiRugMaterialReadback();
+        if (point.Name == "babai_porch_side_clear"
+            && System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") == "1")
+        {
+            var deckRows = new JsonArray();
+            foreach (var mesh in _main!.FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>().Where(mesh => mesh.Name == "HeroHouse_PorchDeck_LOD0" && mesh.Mesh is not null))
+            {
+                // Reuse the existing mesh/material census; this reads actual surfaces.
+                var row = H019RoofMeshMetadata(mesh);
+                var top = mesh.GetActiveMaterial(0) as ShaderMaterial;
+                var textureValue = top?.GetShaderParameter("albedo_texture") ?? default;
+                var texture = textureValue.VariantType == Variant.Type.Object ? textureValue.AsGodotObject() as Texture2D : null;
+                row["topAuthoredUv"] = top is null ? null : ViewText(top.GetShaderParameter("authored_uv_texture").ToString());
+                row["topTextureScale"] = top is null ? null : ViewText(top.GetShaderParameter("texture_scale").ToString());
+                row["topAlbedoTexture"] = ViewText(texture?.ResourcePath);
+                deckRows.Add(row);
+            }
+            metadata["babaiPorchDeckMaterials"] = deckRows;
+        }
+        if (point.Name.StartsWith("rinat_material_", StringComparison.Ordinal)
+            && System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") == "1")
+        {
+            metadata["rinatSkinMaterials"] = RinatSkinMaterialReadback();
+            metadata["rinatClothMaterials"] = RinatClothMaterialReadback();
+        }
+        if (point.Name.StartsWith("wind_material_", StringComparison.Ordinal)
+            && System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") == "1")
+        {
+            var rows = new JsonArray();
+            foreach (var mesh in _main!.FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree() && mesh.Mesh is not null)
+                .OrderBy(mesh => mesh.GlobalPosition.DistanceSquaredTo(camera.GlobalPosition)))
+            {
+                for (var surface = 0; surface < mesh.Mesh!.GetSurfaceCount(); surface++)
+                {
+                    if (mesh.GetActiveMaterial(surface) is not ShaderMaterial shader
+                        || shader.GetShaderParameter("wind_sway").AsSingle() <= 0f) continue;
+                    rows.Add(new JsonObject
+                    {
+                        ["nodePath"] = ViewText(mesh.GetPath().ToString()),
+                        ["surface"] = ViewNumber(surface),
+                        ["windEnabled"] = ViewText(shader.GetShaderParameter("wind_enabled").ToString()),
+                        ["windSway"] = ViewNumber(shader.GetShaderParameter("wind_sway").AsSingle()),
+                        ["lowQuality"] = ViewText(shader.GetShaderParameter("low_quality").ToString()),
+                        ["lightingNormalBends"] = shader.Shader?.Code.Contains("NORMAL = normalize(bent_normal)", StringComparison.Ordinal),
+                        ["castShadow"] = ViewText(mesh.CastShadow.ToString()),
+                        ["globalTransform"] = ViewTransform(mesh.GlobalTransform)
+                    });
+                    if (rows.Count >= 8) break;
+                }
+                if (rows.Count >= 8) break;
+            }
+            metadata["windMaterialReadback"] = rows;
+            metadata["capturedTicksMsec"] = ViewNumber(Time.GetTicksMsec());
+        }
+        if (point.Name.StartsWith("babai_corner_", StringComparison.Ordinal)
+            && System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") == "1")
+        {
+            var rows = new JsonArray();
+            foreach (var mesh in _main!.FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree() && mesh.Mesh is not null
+                    && mesh.Name.ToString().StartsWith("HeroHouse_CornerEnd", StringComparison.Ordinal))
+                .OrderBy(mesh => mesh.GlobalPosition.DistanceSquaredTo(camera.GlobalPosition)).Take(4))
+            {
+                for (var surface = 0; surface < mesh.Mesh!.GetSurfaceCount(); surface++)
+                {
+                    if (mesh.GetActiveMaterial(surface) is not ShaderMaterial shader) continue;
+                    var textureValue = shader.GetShaderParameter("albedo_texture");
+                    var texture = textureValue.VariantType == Variant.Type.Object
+                        ? textureValue.AsGodotObject() as Texture2D : null;
+                    rows.Add(new JsonObject
+                    {
+                        ["nodePath"] = ViewText(mesh.GetPath().ToString()),
+                        ["surface"] = ViewNumber(surface),
+                        ["sourceMaterial"] = ViewText(mesh.Mesh.SurfaceGetMaterial(surface)?.ResourceName),
+                        ["cutEnd"] = ViewText(shader.GetShaderParameter("cut_wood_end").ToString()),
+                        ["authoredUv"] = ViewText(shader.GetShaderParameter("authored_uv_texture").ToString()),
+                        ["lowQuality"] = ViewText(shader.GetShaderParameter("low_quality").ToString()),
+                        ["albedoTexture"] = ViewText(texture?.ResourcePath)
+                    });
+                }
+            }
+            metadata["cornerLogMaterials"] = rows;
+        }
+        if (point.Name.StartsWith("babai_cupboard_", StringComparison.Ordinal)
+            && System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") == "1")
+        {
+            var rows = new JsonArray();
+            foreach (var mesh in _main!.FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree() && mesh.Mesh is not null
+                    && mesh.Name.ToString().StartsWith("HouseInterior_Cupboard", StringComparison.Ordinal)))
+            {
+                var row = H019RoofMeshMetadata(mesh);
+                if (mesh.GetActiveMaterial(0) is ShaderMaterial shader)
+                {
+                    row["authoredUvTexture"] = shader.GetShaderParameter("authored_uv_texture").AsBool();
+                    row["boundUvPigment"] = shader.GetShaderParameter("bound_uv_pigment").AsBool();
+                    row["lowQuality"] = shader.GetShaderParameter("low_quality").AsBool();
+                }
+                rows.Add(row);
+            }
+            metadata["cupboardMaterialCensus"] = rows;
+        }
+        if (point.Name.StartsWith("niva_handbrake_", StringComparison.Ordinal)
+            && System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") == "1")
+        {
+            if (point.CameraOwner is MeshInstance3D anchor
+                && anchor.GetParent()?.GetParent() is VehicleController vehicle
+                && vehicle.FindChild("ParkingBrakeLever", true, false) is Node3D lever)
+                metadata["nivaHandbrakeState"] = new JsonObject
+                {
+                    ["parkingBrake"] = vehicle.ParkingBrake,
+                    ["vehicleGlobalTransform"] = ViewTransform(vehicle.GlobalTransform),
+                    ["cameraAnchorGlobalTransform"] = ViewTransform(anchor.GlobalTransform),
+                    ["leverRotationDegrees"] = ViewVector(lever.RotationDegrees),
+                    ["leverGlobalPosition"] = ViewVector(lever.GlobalPosition),
+                    ["expectedRaisedXDegrees"] = VehicleVisualFactory.NivaParkingBrakeRaisedXDegrees,
+                    ["proofScope"] = "Captured parked state and static lever pose; toggle motion is not measured."
+                };
+        }
+        if (point.Name.StartsWith("zirat_", StringComparison.Ordinal)
+            && System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") == "1")
+        {
+            var rows = new JsonArray();
+            foreach (var mesh in _main!.FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree() && mesh.Mesh is not null
+                    && mesh.HasMeta("roadsideGroundingResidualMinClearance")))
+            {
+                var row = H019RoofMeshMetadata(mesh);
+                foreach (var key in new[] { "roadsideGroundingResidualMinClearance",
+                    "roadsideGroundingResidualMaxClearance", "roadsideGroundingSupportPointCount",
+                    "roadsideGroundingAppliedShift" })
+                    row[key] = ViewNumber(mesh.GetMeta(key).AsDouble());
+                rows.Add(row);
+            }
+            metadata["roadsideGroundingResidualCensus"] = rows;
+        }
+        return metadata;
     }
+
+    private JsonArray RinatClothMaterialReadback()
+    {
+        var rows = new JsonArray();
+        var actor = _main!.FindChild("Act1People", true, false)?.GetNodeOrNull<Node3D>("Npc_rinat");
+        if (actor is null) return rows;
+        var animation = actor.FindChildren("*", nameof(AnimationPlayer), true, false)
+            .OfType<AnimationPlayer>().FirstOrDefault();
+        foreach (var mesh in actor.FindChildren("*", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().Where(mesh => mesh.HasMeta("clothAnchor") && mesh.Mesh is not null))
+        {
+            for (var surface = 0; surface < mesh.Mesh!.GetSurfaceCount(); surface++)
+            {
+                var material = mesh.GetActiveMaterial(surface) as ShaderMaterial;
+                rows.Add(new JsonObject
+                {
+                    ["nodePath"] = ViewText(mesh.GetPath().ToString()),
+                    ["surface"] = ViewNumber(surface),
+                    ["visibleInTree"] = ViewFlag(mesh.IsVisibleInTree()),
+                    ["clothAnchor"] = ViewText(mesh.GetMeta("clothAnchor").AsString()),
+                    ["metricRestUv"] = ViewFlag(GeneratedCharacterKitDressing.HasMetricClothUv(mesh)),
+                    ["boundUvPigment"] = ViewText(material?.GetShaderParameter("bound_uv_pigment").ToString()),
+                    ["localFloorTexture"] = ViewText(material?.GetShaderParameter("local_floor_texture").ToString()),
+                    ["textureScale"] = ViewText(material?.GetShaderParameter("texture_scale").ToString()),
+                    ["animation"] = ViewText(animation?.CurrentAnimation),
+                    ["animationPosition"] = ViewNumber(animation?.CurrentAnimationPosition)
+                });
+            }
+        }
+        return rows;
+    }
+
+    private JsonArray RinatSkinMaterialReadback()
+    {
+        var rows = new JsonArray();
+        foreach (var mesh in _main!.FindChildren("*", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().Where(mesh => mesh.Name.ToString() is "Rinat_Body_LOD0" or "Rinat_Body_LOD1"))
+        {
+            if (mesh.Mesh is null) continue;
+            for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
+            {
+                var source = mesh.Mesh.SurfaceGetMaterial(surface);
+                var active = mesh.GetActiveMaterial(surface);
+                var skin = active as StandardMaterial3D;
+                rows.Add(new JsonObject
+                {
+                    ["nodePath"] = ViewText(mesh.GetPath().ToString()),
+                    ["surface"] = ViewNumber(surface),
+                    ["visibleInTree"] = ViewFlag(mesh.IsVisibleInTree()),
+                    ["sourceName"] = ViewText(source?.ResourceName),
+                    ["activeType"] = ViewText(active?.GetClass()),
+                    ["activeAlbedoTexture"] = ViewText(skin?.AlbedoTexture?.ResourcePath),
+                    ["roughness"] = ViewNumber(skin?.Roughness),
+                    ["normalScale"] = ViewNumber(skin?.NormalScale),
+                    ["softSkinResponse"] = ViewText(active is not null && active.HasMeta("softSkinResponse")
+                        ? active.GetMeta("softSkinResponse").AsString() : null)
+                });
+            }
+        }
+        return rows;
+    }
+
+    private JsonArray BabaiRugMaterialReadback()
+    {
+        var rows = new JsonArray();
+        foreach (var mesh in _main!.FindChildren("*", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().Where(mesh => mesh.Name.ToString().StartsWith("HouseInterior_Rug", StringComparison.Ordinal)
+                && ViewOwnerZone(mesh) == "house_old_pc" && mesh.Mesh is not null))
+        {
+            var material = mesh.Mesh!.GetSurfaceCount() > 0 ? mesh.GetActiveMaterial(0) : null;
+            var parameters = new JsonObject();
+            if (material is ShaderMaterial shader)
+            {
+                foreach (var name in new[] { "base_color", "shadow_color", "has_albedo_texture", "texture_scale", "texture_strength", "authored_uv_texture",
+                    "bound_uv_pigment", "local_wood_texture", "local_floor_texture", "low_quality" })
+                {
+                    var value = shader.GetShaderParameter(name);
+                    parameters[name] = value.VariantType == Variant.Type.Nil ? null : ViewText(value.ToString());
+                }
+                var textureValue = shader.GetShaderParameter("albedo_texture");
+                var texture = textureValue.VariantType == Variant.Type.Object ? textureValue.AsGodotObject() as Texture2D : null;
+                parameters["albedoTexturePath"] = ViewText(texture?.ResourcePath);
+                parameters["albedoTextureWidth"] = ViewNumber(texture?.GetWidth());
+                parameters["albedoTextureHeight"] = ViewNumber(texture?.GetHeight());
+            }
+            rows.Add(new JsonObject
+            {
+                ["nodePath"] = ViewText(mesh.GetPath().ToString()),
+                ["visible"] = ViewFlag(mesh.Visible), ["visibleInTree"] = ViewFlag(mesh.IsVisibleInTree()),
+                ["worldAabb"] = ViewAabb(mesh.GlobalTransform * mesh.GetAabb()),
+                ["activeMaterialType"] = ViewText(material?.GetClass()),
+                ["materialOverride"] = ViewText(mesh.MaterialOverride?.GetClass()),
+                ["shaderParameters"] = parameters
+            });
+        }
+        return rows;
+    }
+
+    private JsonObject BuildH019RoofCensus(Camera3D camera)
+    {
+        const string H019RootName = "MainStreetEastNeighborFacade";
+        var roots = _main?.FindChildren("*", nameof(Node3D), true, false)
+            .OfType<Node3D>().Where(node => node.Name == H019RootName).ToArray() ?? Array.Empty<Node3D>();
+        var root = roots.Length == 1 ? roots[0] : null;
+        var targetRows = new JsonArray();
+        foreach (var targetName in new[] { "DwellingFacade_Roof_LOD0", "DwellingFacade_RoofSnow_LOD0", "DwellingFacade_Front_BoardedGable_LOD0", "DwellingFacade_Street_Wall_LOD0" })
+        {
+            var matches = root?.FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>().Where(mesh => mesh.Name == targetName).ToArray()
+                ?? Array.Empty<MeshInstance3D>();
+            var instances = new JsonArray();
+            foreach (var mesh in matches)
+                instances.Add(H019RoofMeshMetadata(mesh));
+            targetRows.Add(new JsonObject
+            {
+                ["expectedName"] = ViewText(targetName),
+                ["matchCount"] = ViewNumber(matches.Length),
+                ["instances"] = instances
+            });
+        }
+
+        var rootPaths = new JsonArray();
+        foreach (var node in roots) rootPaths.Add(ViewText(node.GetPath().ToString()));
+        return new JsonObject
+        {
+            ["subject"] = ViewText("ADR-H019"),
+            ["rootNodeName"] = ViewText(H019RootName),
+            ["rootMatchCount"] = ViewNumber(roots.Length),
+            ["rootPaths"] = rootPaths,
+            ["rootVisible"] = ViewFlag(root?.Visible),
+            ["rootVisibleInTree"] = ViewFlag(root?.IsVisibleInTree()),
+            ["rootLocalTransform"] = root is null ? null : ViewTransform(root.Transform),
+            ["rootGlobalTransform"] = root is null ? null : ViewTransform(root.GlobalTransform),
+            ["cameraCullMask"] = ViewNumber(camera.CullMask),
+            ["targetMeshes"] = targetRows,
+            ["liveGeometryRays"] = root is not null && System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") == "1"
+                ? H019LiveGeometryRays(camera, root) : null
+        };
+    }
+
+    // Read-only source-face candidates: alpha, shader deformation and GPU culling can differ.
+    private JsonArray H019LiveGeometryRays(Camera3D camera, Node3D root)
+    {
+        var meshes = _main!.FindChildren("*", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().Where(mesh => mesh.IsVisibleInTree() && mesh.Mesh is not null
+                && (mesh.Layers & camera.CullMask) != 0).ToArray();
+        var result = new JsonArray();
+        foreach (var localTarget in new[] { new Vector3(0f, 4.1f, -1.7f), new Vector3(-2f, 3.6f, -1.7f), new Vector3(2f, 3.6f, -1.7f) })
+        {
+            var from = camera.GlobalPosition;
+            var target = root.ToGlobal(localTarget);
+            var direction = (target - from).Normalized();
+            var length = from.DistanceTo(target);
+            var hits = new List<(MeshInstance3D Mesh, Vector3 Point, float Distance)>();
+            var candidates = 0;
+            var triangles = 0;
+            foreach (var mesh in meshes)
+            {
+                var transform = mesh.GlobalTransform;
+                if (!(transform * mesh.Mesh!.GetAabb()).IntersectsSegment(from, target)) continue;
+                candidates++;
+                var faces = mesh.Mesh.GetFaces();
+                var nearest = float.PositiveInfinity;
+                var point = Vector3.Zero;
+                for (var index = 0; index + 2 < faces.Length; index += 3)
+                {
+                    triangles++;
+                    var hit = Geometry3D.RayIntersectsTriangle(from, direction,
+                        transform * faces[index], transform * faces[index + 1], transform * faces[index + 2]);
+                    if (hit.VariantType == Variant.Type.Nil) continue;
+                    var at = hit.AsVector3();
+                    var distance = from.DistanceTo(at);
+                    if (distance > length + .01f || distance >= nearest) continue;
+                    nearest = distance;
+                    point = at;
+                }
+                if (float.IsFinite(nearest)) hits.Add((mesh, point, nearest));
+            }
+            var rows = new JsonArray();
+            foreach (var hit in hits.OrderBy(hit => hit.Distance).Take(8))
+                rows.Add(new JsonObject
+                {
+                    ["nodePath"] = ViewText(hit.Mesh.GetPath().ToString()),
+                    ["distance"] = ViewNumber(hit.Distance),
+                    ["point"] = ViewVector(hit.Point),
+                    ["sourceMesh"] = ViewText(hit.Mesh.Mesh!.ResourcePath)
+                });
+            result.Add(new JsonObject
+            {
+                ["from"] = ViewVector(from), ["target"] = ViewVector(target),
+                ["broadPhaseCandidates"] = ViewNumber(candidates), ["trianglesChecked"] = ViewNumber(triangles),
+                ["nearestSourceFaceCandidates"] = rows
+            });
+        }
+        return result;
+    }
+
+    private static JsonObject H019RoofMeshMetadata(MeshInstance3D mesh)
+    {
+        var sourceMesh = mesh.Mesh!;
+        var sourceAabb = sourceMesh.GetAabb();
+        var globalAabb = mesh.GlobalTransform * sourceAabb;
+        using var importedLods = sourceMesh is ArrayMesh array ? ImporterMesh.FromMesh(array) : null;
+        var surfaces = new JsonArray();
+        for (var surface = 0; surface < sourceMesh.GetSurfaceCount(); surface++)
+        {
+            var baseMaterial = sourceMesh.SurfaceGetMaterial(surface);
+            var overrideMaterial = mesh.GetSurfaceOverrideMaterial(surface);
+            var activeMaterial = mesh.GetActiveMaterial(surface);
+            var activeShaderCode = (activeMaterial as ShaderMaterial)?.Shader?.Code;
+            var lodDistances = new JsonArray();
+            if (importedLods is not null)
+                for (var lod = 0; lod < importedLods.GetSurfaceLodCount(surface); lod++)
+                    lodDistances.Add(ViewNumber(importedLods.GetSurfaceLodSize(surface, lod)));
+            surfaces.Add(new JsonObject
+            {
+                ["index"] = ViewNumber(surface),
+                ["generatedLodDistances"] = lodDistances,
+                ["meshMaterialType"] = ViewText(baseMaterial?.GetClass().ToString()),
+                ["meshMaterialCullMode"] = baseMaterial is BaseMaterial3D sourceMaterial
+                    ? ViewText(sourceMaterial.CullMode.ToString()) : null,
+                ["meshMaterialName"] = ViewText(baseMaterial?.ResourceName),
+                ["meshMaterialPath"] = ViewText(baseMaterial?.ResourcePath),
+                ["surfaceOverrideName"] = ViewText(overrideMaterial?.ResourceName),
+                ["surfaceOverridePath"] = ViewText(overrideMaterial?.ResourcePath),
+                ["activeMaterialType"] = ViewText(activeMaterial?.GetClass().ToString()),
+                ["activeMaterialName"] = ViewText(activeMaterial?.ResourceName),
+                ["activeMaterialPath"] = ViewText(activeMaterial?.ResourcePath),
+                ["activeSourceCullingPreserved"] = activeMaterial is not null
+                    && activeMaterial.HasMeta("sourceCullingPreserved"),
+                ["activeShaderCullDisabled"] = activeShaderCode?.Contains("cull_disabled", StringComparison.Ordinal),
+                ["activeShaderHasWindVertexWrites"] = activeShaderCode is not null
+                    && (activeShaderCode.Contains("VERTEX.x +=", StringComparison.Ordinal)
+                        || activeShaderCode.Contains("VERTEX.z +=", StringComparison.Ordinal)),
+                ["activeShaderPath"] = activeMaterial is ShaderMaterial shaderMaterial
+                    ? ViewText(shaderMaterial.Shader?.ResourcePath)
+                    : null
+            });
+        }
+
+        var sceneOwner = mesh.Owner as Node3D;
+        var parent = mesh.GetParent() as Node3D;
+        return new JsonObject
+        {
+            ["nodePath"] = ViewText(mesh.GetPath().ToString()),
+            ["instanceVisible"] = ViewFlag(mesh.Visible),
+            ["visibleInTree"] = ViewFlag(mesh.IsVisibleInTree()),
+            ["renderLayers"] = ViewNumber(mesh.Layers),
+            ["castShadow"] = ViewText(mesh.CastShadow.ToString()),
+            ["lodBias"] = ViewNumber(mesh.LodBias),
+            ["windSwayInstanceOverride"] = ViewText(mesh.GetInstanceShaderParameter("wind_sway").ToString()),
+            ["visibilityRangeBegin"] = ViewNumber(mesh.VisibilityRangeBegin),
+            ["visibilityRangeEnd"] = ViewNumber(mesh.VisibilityRangeEnd),
+            ["meshResourceName"] = ViewText(sourceMesh.ResourceName),
+            ["meshResourcePath"] = ViewText(sourceMesh.ResourcePath),
+            ["meshLocalAabb"] = ViewAabb(sourceAabb),
+            ["meshGlobalAabb"] = ViewAabb(globalAabb),
+            ["nodeLocalTransform"] = ViewTransform(mesh.Transform),
+            ["nodeGlobalTransform"] = ViewTransform(mesh.GlobalTransform),
+            ["materialAssignmentOwnerPath"] = ViewText(mesh.GetPath().ToString()),
+            ["sceneOwnerPath"] = ViewText(mesh.Owner?.GetPath().ToString()),
+            ["sceneOwnerLocalTransform"] = sceneOwner is null ? null : ViewTransform(sceneOwner.Transform),
+            ["sceneOwnerGlobalTransform"] = sceneOwner is null ? null : ViewTransform(sceneOwner.GlobalTransform),
+            ["parentPath"] = ViewText(parent?.GetPath().ToString()),
+            ["parentGlobalTransform"] = parent is null ? null : ViewTransform(parent.GlobalTransform),
+            ["materialOverrideName"] = ViewText(mesh.MaterialOverride?.ResourceName),
+            ["materialOverridePath"] = ViewText(mesh.MaterialOverride?.ResourcePath),
+            ["surfaces"] = surfaces
+        };
+    }
+
+    private static JsonObject ViewAabb(Aabb bounds) => new()
+    {
+        ["position"] = ViewVector(bounds.Position),
+        ["size"] = ViewVector(bounds.Size),
+        ["end"] = ViewVector(bounds.End)
+    };
+
+    private static JsonObject ViewTransform(Transform3D transform) => new()
+    {
+        ["origin"] = ViewVector(transform.Origin),
+        ["basisX"] = ViewVector(transform.Basis.X),
+        ["basisY"] = ViewVector(transform.Basis.Y),
+        ["basisZ"] = ViewVector(transform.Basis.Z)
+    };
 
     // Main.SwitchZone leaves exactly one WorldEnvironment resource in place, so the zone
     // placement decides which one rather than a guess from tree order.

@@ -346,3 +346,41 @@ Windows-client подтверждает протокол и Windows-путь; о
 Сетевые команды сверены с [Tailscale Serve](https://tailscale.com/docs/reference/tailscale-cli/serve).
 
 Тестовая очистка освобождает также detached library scene AnimationCatalog (ual1_standard.glb): диагностика orphan nodes обнаружила её сохранение после capture. Освобождение выполняет существующий GodotSmokeCleanup после закрытия сцены; обычная игра сохраняет кэш.
+
+## Интерьерные точки через действующий реестр кадров — 09.10.2026
+
+Удалённый transport по-прежнему передаёт только `points`, `phase` и `fov`; он не
+передаёт `URMAN_VIEW_ZONE` или `URMAN_BOUNDARY_ARCHITECTURE_SCOPE`. Для именованных
+интерьерных кадров `game/content/world/visual_checkpoints.v1.json` теперь содержит
+необязательный `zoneId`. Capture проверяет его по действующему каталогу зон Main
+и до разрешения camera owners вызывает существующий protected debug-zone переход.
+Обычная игра реестр не читает. Старые строки без `zoneId` сохраняют прежний путь.
+
+Одно задание снимает одну привязку зоны. Несовместимые zoneId, смешение привязанных
+и непривязанных точек без явного общего выбора, неизвестная зона и несовпадение
+координат именованной строки приводят к отказу до первого PNG. Не заменять такой
+отказ произвольными переменными окружения. `requestedZoneId` и `activeZoneId` в
+sidecar должны совпасть; это не подтверждает художественное качество.
+
+Две текущие точки `babai_entry_door` и `babai_room_overview` принадлежат `house_old_pc`.
+В connected runtime `StyleBenchmarkHousePc` переименовывается в `babay-abi-house`,
+поэтому transport-safe координаты привязаны к фактическому
+`BabaiApproachDwellingFacade`: transform комнаты равен facade transform ×
+`StyleBenchmarkInteriorFactory.RoomOffset` (`1.658, 0.246, -2.634`). Это тот же
+владелец размещения комнаты, без дополнительного alias или presentation owner.
+Имена и spec брать точно из реестра; FOV контрольного сравнения — 70. Отдельные
+уличные кадры снимать другим заданием.
+
+Это расширение самого режима захвата игры, не новый remote API и не поддержка
+`--scope=house`: выбор scope у существующего boundary smoke остаётся недоступен
+через текущий удалённый transport. Комнатная коллизия, движение и человеческая
+приёмка требуют самостоятельного фактического evidence.
+
+Фактическая проверка: Windows job `7316540fb0114b12a7d39c40c5909211`, snapshot
+`cce551b187b11d4e9b5cb372cfae956cd256777fd61df252e1ead97728beba67`, PASS с
+восстановлением пользовательских данных. Обе точки сняты без env override;
+sidecars подтверждают `requestedZoneId=activeZoneId=house_old_pc`, профиль
+`village-winter-frost`, owner `logical-zone/house_old_pc`, FOV 70. Исходные PNG,
+27 source copies, guard/doctor и оценка root лежат в
+`evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-interior-7316540fb0114b12a7d39c40c5909211/`.
+Транспорт/привязка приняты; художественная оценка полного интерьера — REJECTED.

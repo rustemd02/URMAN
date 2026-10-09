@@ -124,7 +124,11 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         _bridge = bridge;
         _bridge.RuntimeStateChanged += OnRuntimeStateChanged;
         _screen.Visible = true;
+        _photoCaptionRequestVersion++;
+        _photoCaptionPending = false;
+        _photoCaptionRequestSession = null;
         RestoreDesktop(bridge);
+        RefreshPhotoCaptionAction();
         _activeDocumentId = null;
         _images.SetImages(null);
         _documentTitle.Text = "АРХИВ КАРА-УРМАНА";
@@ -157,6 +161,7 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         if (!IsInsideTree() || !_screen.Visible || _bridge?.SessionIdentity is null) return;
         RefreshVocabulary();
+        RefreshPhotoCaptionAction();
     }
 
     private async void Search()
@@ -327,6 +332,10 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         _images.SetImages(null);
         if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
         _bridge = null;
+        _photoCaptionRequestVersion++;
+        _photoCaptionPending = false;
+        _photoCaptionRequestSession = null;
+        RefreshPhotoCaptionAction();
         _activeDocumentId = null;
         SetPlayerModal(false);
     }

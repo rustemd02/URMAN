@@ -338,7 +338,8 @@ public static partial class StyleBenchmarkInteriorFactory
         var kit = GeneratedModularKitDressing.AttachPresentationOnly(room, "style-house-interior-eight-by-seven",
             ["HouseInterior_Table", "HouseInterior_Chair", "HouseInterior_Cupboard", "HouseInterior_Daybed",
              "HouseInterior_StorageChest", "HouseInterior_Hearth", "HouseInterior_LeftWallCupboard",
-             "HouseInterior_StorageBasket", "HouseInterior_RugField", "HouseInterior_OldPc"],
+             "HouseInterior_StorageBasket", "HouseInterior_RugField", "HouseInterior_RugBandA",
+             "HouseInterior_RugBandB", "HouseInterior_OldPc"],
             Vector3.Zero, 1, 0);
         kit.Name = "GeneratedHouseInteriorAct1";
         kit.Position = Vector3.Zero;
@@ -382,7 +383,9 @@ public static partial class StyleBenchmarkInteriorFactory
             { source = new(-5.62f, 2.10f, 2.65f); destination = new(-3.63f, 1.86f, 2.15f); }
             else if (name.StartsWith("HouseInterior_StorageBasket", StringComparison.Ordinal))
             { source = new(-4.45f, 0, -.70f); destination = new(-3.55f, 0, -1.65f); }
-            else if (name.StartsWith("HouseInterior_RugField", StringComparison.Ordinal))
+            else if (name.StartsWith("HouseInterior_RugField", StringComparison.Ordinal)
+                     || name.StartsWith("HouseInterior_RugBandA", StringComparison.Ordinal)
+                     || name.StartsWith("HouseInterior_RugBandB", StringComparison.Ordinal))
             { source = new(-1.35f, .07f, .45f); destination = new(-.4f, .017f, .50f); }
             else if (name.StartsWith("HouseInterior_OldPc", StringComparison.Ordinal))
             { source = new(0, 0, -4.68f); destination = new(0, -.25f, -3.40f); }

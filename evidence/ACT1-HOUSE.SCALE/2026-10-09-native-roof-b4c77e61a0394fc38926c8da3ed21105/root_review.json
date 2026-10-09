@@ -1,0 +1,15 @@
+{
+  "kind": "visual_review",
+  "reviewed_utc": "2026-10-08T22:08:44Z",
+  "reviewer": "root",
+  "job_id": "b4c77e61a0394fc38926c8da3ed21105",
+  "snapshot_id": "76a7aa1051096130604ac6bf74555b9aa021477272aad0fe53df79d88c24a181",
+  "scope": [
+    "h019_approach.png",
+    "h019_front.png"
+  ],
+  "station_protocol": "PASS",
+  "visual_acceptance": "REJECTED",
+  "finding": "Roof silhouette remains rejected and unchanged; the source-culling fix is not accepted as effective.",
+  "next": "Root will add narrow cull-mode, active shader cull, and mesh LOD diagnostics to the existing DevViewCapture before the next geometry capture."
+}

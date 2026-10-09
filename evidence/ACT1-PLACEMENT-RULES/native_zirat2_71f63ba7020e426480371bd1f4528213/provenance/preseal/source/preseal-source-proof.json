@@ -1,0 +1,419 @@
+{
+  "base_commit": "b4f0faf88e9318f3ea6963ab8e62eb8152bc0960",
+  "head": "b4f0faf88e9318f3ea6963ab8e62eb8152bc0960",
+  "snapshot_id": "f7d908c576a6fa22f834d1e8d861b5ec1ce44d9a26cb9b37486b814e9810a4d3",
+  "manifest_file_count": 1825,
+  "snapshot_manifest_sha256": "19b01c28065d19a330dc7e727d3058fd2d5414f03e4e75c72d4c9e657a96da08",
+  "dirty_paths": [
+    " M assets/asset_registry.json",
+    " M assets/source/blender/urman_niva.blend",
+    " M docs/URMAN_VISUAL_RESET_2026-10-07/ASSET_PASSPORTS_RU.md",
+    " M docs/production/act1_fence_kit_2026-10-04.md",
+    " M docs/urman_knowledge_base/execution_backlog.json",
+    " M evidence/ACT1-DEPTH.9/cupboard-recessed-door-export-2026-10-09.json",
+    " M game/assets/generated/urman_niva.glb",
+    " M game/content/world/act1_village_kit.world.v1.json",
+    " M game/content/world/visual_checkpoints.v1.json",
+    " M game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs",
+    " M game/scripts/Act1ConnectedWorld.YardFences.cs",
+    " M game/scripts/Act1ConnectedWorld.cs",
+    " M game/scripts/Act1DemoRoot.DevViewCapture.cs",
+    " M game/scripts/VehicleController.cs",
+    " M game/scripts/VehicleVisualFactory.cs",
+    " M tools/blender/generate_niva.py",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/.gitattributes",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/archive-hashes.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/attempt-summary.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/preseal-source-proof.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/snapshot-manifest.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/assets/asset_registry.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/assets/source/blender/act1/urman_village_exterior_kit.blend",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/assets/source/blender/act1/urman_village_exterior_kit.py",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/assets/source/blender/urman_modular_kit.blend",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/assets/source/blender/urman_niva.blend",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/derived/niva-asset-registry-row.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/docs/URMAN_VISUAL_RESET_2026-10-07/ASSET_PASSPORTS_RU.md",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/docs/urman_knowledge_base/art/visual_reset_asset_passports_2026-10-07.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/evidence/ACT1-DEPTH.12/low_cut_endgrain_source_patch_2026-10-09.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/evidence/ACT1-DEPTH.12/matched-quality-capture-implementation-2026-10-09.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/evidence/ACT1-DEPTH.9/corner-log-material-export-2026-10-09.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/evidence/ACT1-DEPTH.9/cupboard-recessed-door-export-2026-10-09.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/evidence/ACT1-TRANSPORT.CABIN/handbrake-export-2026-10-09.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/tools/blender/generate_modular_environment.py",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/tools/blender/generate_niva.py",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/local-authoring-excluded/tools/blender/verify_modular_environment.py",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/content/modules/urman-fullgame/definitions.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/assets/generated/urman_modular_kit.glb",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/assets/generated/urman_niva.glb",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/assets/images/arrival_marat_childhood_existing_v1.png",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/assets/models/act1/urman_village_exterior_kit.glb",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/assets/textures/painterly/carpet_palas_v1_albedo.png",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/assets/textures/painterly/urman_w01_v01_basecolor.png",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/content/urman.fullgame.compiled.v1.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/content/world/act1_village_kit.world.v1.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/content/world/atmosphere.v1.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/content/world/visual_checkpoints.v1.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/project.godot",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scenes/act1_demo.tscn",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scenes/main.tscn",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/Act1ConnectedWorld.YardFences.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/Act1ConnectedWorld.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/Act1DemoRoot.DevViewCapture.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/Act1DemoRoot.RenderDiagnostics.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/Act1DemoRoot.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/ArrivalPersonalProps.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/FirstPersonController.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/GeneratedModularKitDressing.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/GraphicsQuality.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/InteractionTarget.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/JournalUi.Notebook.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/Main.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/PainterlyMaterialLibrary.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/RuntimeBridge.Notebook.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/RuntimeBridge.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/SettingsUi.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/StyleBenchmarkInteriorFactory.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/StyleBenchmarkZone.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/VehicleController.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/provenance/source/station-selected/game/scripts/VehicleVisualFactory.cs",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/root-review.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/station-doctor.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/station-result/receipt.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/station-result/request.json",
+    "?? evidence/ACT1-PLACEMENT-RULES/native_zirat_348405bbfb954e34a4f5e8767296a541/station-result/result.zip",
+    "?? evidence/ACT1-PLACEMENT-RULES/zirat-roadside-grounding-residuals-2026-10-09.json",
+    "?? evidence/ACT1-TRANSPORT.CABIN/handbrake-export-2026-10-09.json"
+  ],
+  "requested_points": {
+    "zirat2": {
+      "name": "zirat2",
+      "scene": "res://scenes/act1_demo.tscn",
+      "zone": "zirat_road",
+      "points": "zirat_entry_verify:ZiratAuthoredOpenGate@-1.146,1.63,6.833>ZiratAuthoredOpenGate@0,0.95,0;zirat_row_verify:ZiratPathEdge_PathRibbon_00_LOD0@-0.37,1.55,-1.67>ReadZiratFamilyInscriptions@0,0,0",
+      "fov": 70,
+      "timeout": 300,
+      "phase": null,
+      "environment_override": null
+    },
+    "niva1": {
+      "name": "niva1",
+      "scene": "res://scenes/act1_demo.tscn",
+      "zone": "village_day",
+      "points": "niva_handbrake_passenger_detail:NivaBody@-0.2799999881,0.3800000572,1.3499999523>NivaBody@-0.6999999881,-0.2599999428,1.3699999523",
+      "fov": 70,
+      "timeout": 300,
+      "phase": null,
+      "environment_override": null
+    }
+  },
+  "point_ids": {
+    "zirat2": [
+      "zirat_entry_verify",
+      "zirat_row_verify"
+    ],
+    "niva1": [
+      "niva_handbrake_passenger_detail"
+    ]
+  },
+  "station_selected_source_count": 36,
+  "station_selected_sources": [
+    {
+      "path": "content/modules/urman-fullgame/definitions.json",
+      "bytes": 162746,
+      "sha256": "bac710d50f391c06281fa08b4f13d170e561980f257862974873c641975d1c19"
+    },
+    {
+      "path": "game/assets/generated/urman_modular_kit.glb",
+      "bytes": 1426988,
+      "sha256": "402f9d7dc6b9c0ad8b4fdf39b2ef550b625cedb56bd9f179ee24d9ca1a07fea4"
+    },
+    {
+      "path": "game/assets/images/arrival_marat_childhood_existing_v1.png",
+      "bytes": 1411356,
+      "sha256": "c4647904f1aad0ea492858547e3f3493c9356c6ef87270d34d244f4fb882ac20"
+    },
+    {
+      "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "bytes": 3096172,
+      "sha256": "67d78ca38372f01a93dab795bb5410d4bf79db153387a2b7bbd848f5000346fc"
+    },
+    {
+      "path": "game/assets/textures/painterly/carpet_palas_v1_albedo.png",
+      "bytes": 1665618,
+      "sha256": "d9d48b174b6c8e02bf618cae40ae7248b9562bbb42d7ce7ef471c06b0a55721a"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_w01_v01_basecolor.png",
+      "bytes": 2441767,
+      "sha256": "0a205444a6413b9a4a420ecd5660c2a6ee3016285e58f14c1a5aaa1569a8ba75"
+    },
+    {
+      "path": "game/content/urman.fullgame.compiled.v1.json",
+      "bytes": 2125405,
+      "sha256": "91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad"
+    },
+    {
+      "path": "game/content/world/act1_village_kit.world.v1.json",
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d"
+    },
+    {
+      "path": "game/content/world/atmosphere.v1.json",
+      "bytes": 13795,
+      "sha256": "026ed905882dd738f45c40082bd69f73dab2939fb9b16168953befc7c19a154d"
+    },
+    {
+      "path": "game/content/world/visual_checkpoints.v1.json",
+      "bytes": 24030,
+      "sha256": "45e30517e60ae569209823885aa3c8123e39876b3cb30d1839c4ee805de5fc40"
+    },
+    {
+      "path": "game/project.godot",
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4"
+    },
+    {
+      "path": "game/scenes/act1_demo.tscn",
+      "bytes": 189,
+      "sha256": "0c00cb3d6a7078ea75b9a003e7efd8d2bb8a0528fd28f737ecc66cb59ae81fa6"
+    },
+    {
+      "path": "game/scenes/main.tscn",
+      "bytes": 1914,
+      "sha256": "1efadb8d7db53dd99735b6780e846654e59c3f330d10d1bc328b8ddbefcbbc5b"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.YardFences.cs",
+      "bytes": 47416,
+      "sha256": "641337026a86b4d65c4c377b04ef42a9eeb2a2dc59f20278f64950fb1af77a8a"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.cs",
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 66237,
+      "sha256": "72c690ede45510cad9020ad8f085dd083566eaeae7e411529f46b1e888cf17e3"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.RenderDiagnostics.cs",
+      "bytes": 28351,
+      "sha256": "4318d066cf862c9ee35169971378fa2d95a6961578f61a524ac5d89b33ef2feb"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.cs",
+      "bytes": 96305,
+      "sha256": "ddd7ab1a867a25c00aba183bbf2ed6ca81d309ba248ecb7663b1e456b8e795f1"
+    },
+    {
+      "path": "game/scripts/ArrivalPersonalProps.cs",
+      "bytes": 11224,
+      "sha256": "46f56dd93184999f0ed24b3cbdc729cb53353a69607ab5cd4b75fecfd6de89f6"
+    },
+    {
+      "path": "game/scripts/FirstPersonController.cs",
+      "bytes": 33272,
+      "sha256": "aa3baedad11de3aa4961163352c831e91249513b8b418b189a96c82c2a7fce02"
+    },
+    {
+      "path": "game/scripts/GeneratedModularKitDressing.cs",
+      "bytes": 28519,
+      "sha256": "f462c691020f067ddb9bab2d7a6ef86b9bbf2eda068240411ce9b835a738541c"
+    },
+    {
+      "path": "game/scripts/GraphicsQuality.cs",
+      "bytes": 10289,
+      "sha256": "0be19d48cd49dd1ec1af140dee9176c3a3e236cff5309fb855e4bcfb6eb7d6f0"
+    },
+    {
+      "path": "game/scripts/InteractionTarget.cs",
+      "bytes": 10025,
+      "sha256": "36191b49bb8b730089f19f82de4b5cd6587177f07bd70861457fe931199b6aae"
+    },
+    {
+      "path": "game/scripts/JournalUi.Notebook.cs",
+      "bytes": 14300,
+      "sha256": "d7f468361281ac6ace54a3ce4d36d16b62dcfe99fb0933e4f18d1f23547ffedb"
+    },
+    {
+      "path": "game/scripts/Main.cs",
+      "bytes": 13569,
+      "sha256": "4a086ebdfbb8655dd606a40076e6fe938d8f620c5a32c25908ad4977b1d36985"
+    },
+    {
+      "path": "game/scripts/PainterlyMaterialLibrary.cs",
+      "bytes": 123105,
+      "sha256": "bfc6ca444d1833e12714a85a66f7246b78141aef361d5eaaedd50a9c21fe3b07"
+    },
+    {
+      "path": "game/scripts/RuntimeBridge.Notebook.cs",
+      "bytes": 24167,
+      "sha256": "cb1e52a76d3199f6538e637933e691d9203e4576584ba038b0d96b03b65f57d2"
+    },
+    {
+      "path": "game/scripts/RuntimeBridge.cs",
+      "bytes": 93070,
+      "sha256": "dfcc8bc046ee9de25b2c4b8adbc92df0c30020154b300bb2f177f5e7f3636c90"
+    },
+    {
+      "path": "game/scripts/SettingsUi.cs",
+      "bytes": 19236,
+      "sha256": "79a794eeb7c6f17e393a9903ed0a0beca17bddd7ce736bba38e99b18966cc1d6"
+    },
+    {
+      "path": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+      "bytes": 37854,
+      "sha256": "ffbfdabb9a97e7045fdb8033de485f4ebdfa2d6f3ddf70f67653457e8da544bd"
+    },
+    {
+      "path": "game/scripts/StyleBenchmarkInteriorFactory.cs",
+      "bytes": 25969,
+      "sha256": "e3ec8a1ed9913e2b1a2213e0765e5c300c8b3a56dcd7a9bb5ef0b5229ff46f60"
+    },
+    {
+      "path": "game/scripts/StyleBenchmarkZone.cs",
+      "bytes": 109203,
+      "sha256": "6e8afeff88775757325dbfc4dd45dfbde57294643c3621e750cb413089b275f7"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs",
+      "bytes": 9097,
+      "sha256": "8c32c189b4a4d5583334dde204285520176414c5f42369c397e5c4951933bf1e"
+    },
+    {
+      "path": "game/scripts/VehicleController.cs",
+      "bytes": 50065,
+      "sha256": "bc92e318d72f9dc51ad6cf23e98f0db44b421fe9f0b66aaedcebd4d57a184456"
+    },
+    {
+      "path": "game/scripts/VehicleVisualFactory.cs",
+      "bytes": 27504,
+      "sha256": "54163d9a4a1e5256ee4c87fbc9497810277b272b9c48a88d52ad7f7dcc314d6c"
+    },
+    {
+      "path": "game/assets/generated/urman_niva.glb",
+      "bytes": 4476380,
+      "sha256": "45ca2e86df6515ebd507f61be2ce1294e0b9183c7d469981d2343bf338b1e29f"
+    }
+  ],
+  "local_authoring_excluded_copy_count": 16,
+  "local_authoring_excluded_copies": [
+    {
+      "path": "assets/asset_registry.json",
+      "bytes": 236918,
+      "sha256": "ac562600fa39e50a8382fcf4f115a7b92943ec7ce31b4513c3e9f665ce464904",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "bytes": 12572542,
+      "sha256": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
+      "bytes": 188665,
+      "sha256": "eb0f0768beb60cad19eda1a1c25e85f03e2e8f85cff2a83bace4875bec2e3077",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "assets/source/blender/urman_modular_kit.blend",
+      "bytes": 3394731,
+      "sha256": "67841e661586f216940230d403d8b053d3a396f91751fd79f2867dd7476f90a5",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.12/low_cut_endgrain_source_patch_2026-10-09.json",
+      "bytes": 3044,
+      "sha256": "225929fd433a60160bd0e1849d534184e2e2fd5c20220d63cad752d36b2dc367",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.12/matched-quality-capture-implementation-2026-10-09.json",
+      "bytes": 4571,
+      "sha256": "22f782cd465dd77eddee3450d191c3939cb3b8bb0921994a7ca32eb945e168ec",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.9/corner-log-material-export-2026-10-09.json",
+      "bytes": 7265,
+      "sha256": "8b0e1a34f48ae5494634f3c14ee8111f7892f689931c832a70285d5dd0e5f992",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.9/cupboard-recessed-door-export-2026-10-09.json",
+      "bytes": 15761,
+      "sha256": "40d9e295d25ecfc6f4888dda06ada90454168a810ddd98a7f5e44375ee17541c",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "tools/blender/generate_modular_environment.py",
+      "bytes": 62072,
+      "sha256": "b82e6a808afa0d06c42fdad387c225593454e72952c9241e30cdf1dc95f3e6d3",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "tools/blender/verify_modular_environment.py",
+      "bytes": 18884,
+      "sha256": "1ca251912e375c6f478f8dbc0bf73a03863b569cff87930e74d40c53a4cb91e8",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "assets/source/blender/urman_niva.blend",
+      "bytes": 6589100,
+      "sha256": "a0efae9decd49fe01dddd387c26a385c45a5aea9b7ee8bec76b379601b64f647",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "tools/blender/generate_niva.py",
+      "bytes": 55692,
+      "sha256": "31230068d66839582bc780f7c26cd0813c78b7fd8eca156e45c3bccd103318c5",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "evidence/ACT1-TRANSPORT.CABIN/handbrake-export-2026-10-09.json",
+      "bytes": 8443,
+      "sha256": "4c737d3c4831c8549ed2c2fb484e94932635fc9bec33d2fd87daf1d045e0f010",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "docs/URMAN_VISUAL_RESET_2026-10-07/ASSET_PASSPORTS_RU.md",
+      "bytes": 5202,
+      "sha256": "86633cddf8771fe36a0215a1fc192d5d99dc580adc28baca6019cf08915d3323",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "docs/urman_knowledge_base/art/visual_reset_asset_passports_2026-10-07.json",
+      "bytes": 20536,
+      "sha256": "590871fb1da79d55c6d5ac45f05ce8991c375bfc5613e40350bb916bad78b679",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    },
+    {
+      "path": "derived/niva-asset-registry-row.json",
+      "bytes": 953,
+      "sha256": "35cc74de848396fe422f843097147b36483f8208660bd7b2bf45c46a2dd2f2a3",
+      "scope": "fresh local provenance copy; excluded from station payload"
+    }
+  ],
+  "old_fence_sources": [
+    "game/scripts/Act1ConnectedWorld.YardFences.cs",
+    "game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs",
+    "game/scripts/Act1ConnectedWorld.cs"
+  ],
+  "niva_native_followup_sources": [
+    "game/scripts/VehicleController.cs",
+    "game/scripts/VehicleVisualFactory.cs",
+    "game/assets/generated/urman_niva.glb"
+  ],
+  "niva_registry_row": {
+    "path": "derived/niva-asset-registry-row.json",
+    "bytes": 953,
+    "sha256": "35cc74de848396fe422f843097147b36483f8208660bd7b2bf45c46a2dd2f2a3",
+    "registryId": "vehicle.niva.body"
+  },
+  "checkout_unchanged_after_copy": true
+}

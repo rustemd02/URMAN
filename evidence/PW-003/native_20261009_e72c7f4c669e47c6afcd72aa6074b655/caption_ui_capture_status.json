@@ -1,0 +1,13 @@
+{
+  "kind": "native-ui-frame-capture-status",
+  "job_id": "e72c7f4c669e47c6afcd72aa6074b655",
+  "snapshot_id": "d786f7f08d80c2ceb791b9bf253085cd98d666f5ec6a6e7850c63415d50e5770",
+  "status": "not_emitted",
+  "prefix": "fullgame-caption-ui-png:",
+  "reason": "Smoke exited before caption UI capture; engine log reports missing OldPcUi child nodes and semantic-flow NullReferenceException.",
+  "missing_node_paths": [
+    "Screen/App_notepad/Content/Text",
+    "Screen/App_notepad/Content/PreparePhotoCaption"
+  ],
+  "engine_error_line_count": 6
+}

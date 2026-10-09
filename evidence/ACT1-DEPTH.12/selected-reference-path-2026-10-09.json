@@ -1,0 +1,14 @@
+{
+  "taskId": "ACT1-DEPTH.12",
+  "slice": "Resolve the exact selected P1 image locally",
+  "completedUtc": "2026-10-09T03:03:20Z",
+  "files": [
+    "docs/URMAN_VISUAL_RESET_2026-10-07/REFERENCES_RU.md",
+    "docs/URMAN_VISUAL_RESET_2026-10-07/TASKS_AND_REQUIREMENTS.json"
+  ],
+  "pathBefore": "references/approved/P1_user_selected_painterly.png",
+  "pathAfter": "references/P1_user_selected_painterly.png",
+  "selectedImageSha256": "1d38dae75672be057a0c999ec6049f7f679b5e09f29bfa31670f8cdce2da6171",
+  "verification": "PASS both exact local paths resolve to the original selected image; requirements JSON parses; no reference-property or asset-byte change.",
+  "limits": "This corrects navigation only. House form/surface comparison, current matched High/Low captures and author verdict remain open; .10 is not unlocked."
+}

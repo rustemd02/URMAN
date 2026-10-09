@@ -179,4 +179,6 @@ quick_load={
 
 global_illumination/gi/use_half_resolution=true
 textures/default_filters/anisotropic_filtering_level=3
+; Shared painterly instance uniforms need 16 slots per mesh; the village exceeds the 4096-mesh default.
+limits/global_shader_variables/buffer_size=1048576
 textures/vram_compression/import_etc2_astc=true

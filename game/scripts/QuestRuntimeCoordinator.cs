@@ -91,7 +91,7 @@ public sealed class QuestRuntimeCoordinator
     {
         ArgumentNullException.ThrowIfNull(kernel);
         ArgumentNullException.ThrowIfNull(nextOccurrenceId);
-        foreach (var quest in _content.Quests)
+        foreach (var quest in _content.RuntimeQuests)
         {
             var maximumPasses = quest.Definition.GetProperty("stages")
                 .EnumerateArray()

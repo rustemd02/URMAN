@@ -1,0 +1,36 @@
+{
+  "taskId": "ACT1-DEPTH.9",
+  "reviewer": "/root",
+  "result": "bounded_rug_uv_and_pattern_continuity_accepted_whole_interior_open",
+  "reviewedOriginalFrames": [
+    "frames/babai_room_overview.png",
+    "frames/babai_rug_detail.png"
+  ],
+  "comparisonOriginal": "evidence/ACT1-DEPTH.9/native_stove_640bac75490f4e909ed96b76a4b48e0e/frames/babai_rug_detail.png",
+  "findings": [
+    "The full palas swatch now appears consistently over the field and both thin bands; repeated flower/stripe motifs are readable and are no longer arbitrarily cropped by world position.",
+    "Geometry and band height/contact remain visually unchanged in the matching detail view.",
+    "Final textile color/response is not accepted: the dark brown multiply still suppresses the lighter woven pattern and makes the textile too similar to wood."
+  ],
+  "native": {
+    "jobId": "496c35f835de43eaa39a25440cfb54de",
+    "snapshotId": "c9c2c9e87be19e64095760e8da5c579a9c7c629e1c9796b6d5bb6c523ce6883e",
+    "result": "PASS",
+    "stationSourceCopiesMatched": 12,
+    "engineErrors": 0,
+    "userdataRestored": true,
+    "visibleRugRows": 6,
+    "authoredUvTexture": true,
+    "boundUvPigment": true,
+    "textureScale": [
+      1,
+      1
+    ],
+    "lowQuality": true
+  },
+  "limits": [
+    "Actual PNG 1886x1061; recorded viewport 1920x1080; originals preserved.",
+    "Static DevView captures do not prove ordinary movement/clearance, human/style acceptance or all-house/family/AS1/2/13 criteria.",
+    "Whole interior still has chunky furniture/trim, unfinished NPC forms/materials and other open art conditions."
+  ]
+}

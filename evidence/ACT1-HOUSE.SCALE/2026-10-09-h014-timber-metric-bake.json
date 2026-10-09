@@ -1,0 +1,151 @@
+{
+  "schema": 1,
+  "id": "ACT1-HOUSE-SCALE-H014-TIMBER-METRIC-BAKE-20261009",
+  "status": "bounded-source-and-native-geometry-fix-accepted",
+  "scope": {
+    "owner": "game/scripts/TimberHomeStyle.cs",
+    "doc": "docs/production/act1_house_scale_2026-10-04.md",
+    "changed-runtime-paths": [
+      "DressParcel local Box size contract",
+      "Surround.Part orientation handoff",
+      "AppendChamferedBox metric extents, orientation, normals, and reflected winding"
+    ],
+    "excluded": [
+      "house placement and source GLB",
+      "materials and shaders",
+      "collision policy",
+      "tests"
+    ]
+  },
+  "cause": {
+    "confirmed-by-source": true,
+    "unique-AppendChamferedBox-caller": "DressParcel batch loop",
+    "old-size-owners": [
+      "Surround.Part multiplied the orientation basis by size",
+      "Box multiplied the received transform by size",
+      "AppendChamferedBox used the scaled basis lengths as extents and multiplied vertices by that basis again"
+    ],
+    "old-output-laws": {
+      "direct-Box-parts": "size^2",
+      "Surround-parts": "orientation-dependent because Basis.Scaled(size) is a global row scale; for the H014 -90-degree unrolled jamb, root-local basis lengths were [sx*sz, sy^2, sx*sz], and the baker squared those extents"
+    },
+    "new-size-owner": "Box applies size once; AppendChamferedBox treats basis lengths as metric extents and normalized signed axes as orientation"
+  },
+  "instance": {
+    "worldId": "urman.world:act1/open-part/h014-house",
+    "displayId": "h014-house",
+    "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+    "authoredScale": 0.817,
+    "restoredDwellingScale": 0.9,
+    "yawDegrees": -90,
+    "stableHashFNV1a": 3612892445,
+    "seedModulo17": 0,
+    "twoStoreyBranch": true,
+    "sourceWallNodeUnionAabbMeters": {
+      "position": [
+        38.25,
+        0.3,
+        -5.1
+      ],
+      "end": [
+        43.75,
+        2.8,
+        1.3
+      ],
+      "size": [
+        5.5,
+        2.5,
+        6.4
+      ],
+      "sourceAsset": "game/assets/models/act1/urman_village_exterior_kit.glb"
+    },
+    "wallUnionMeters": [
+      4.95,
+      2.25,
+      5.76
+    ],
+    "wallUnionSource": "The VariantB wall-node union from GLB nodes Left_Wall, Rear_Wall, Right_Wall, and Street_Wall is 5.50 x 2.50 x 6.40 m; BuildCollision restores narrow parcel dwellings from .817 to .9, and DressParcel measures the transformed visible wall-node AABBs"
+  },
+  "aabbProofMeters": [
+    {
+      "part": "added-storey facade",
+      "declared": [
+        4.95,
+        2.4,
+        5.76
+      ],
+      "previousBaked": [
+        24.5025,
+        5.76,
+        33.1776
+      ],
+      "correctedExpected": [
+        4.95,
+        2.4,
+        5.76
+      ],
+      "law": "direct Box size squared"
+    },
+    {
+      "part": "added-storey trim band",
+      "declared": [
+        5.0,
+        0.12,
+        5.81
+      ],
+      "previousBaked": [
+        25.0,
+        0.0144,
+        33.7561
+      ],
+      "correctedExpected": [
+        5.0,
+        0.12,
+        5.81
+      ],
+      "law": "direct Box size squared"
+    },
+    {
+      "part": "unrolled added-storey side-window jamb; pane height 1.15 m, surround height adds 0.28 m",
+      "declared": [
+        0.105,
+        1.43,
+        0.06
+      ],
+      "previousBaked": [
+        3.969e-05,
+        4.18161601,
+        3.969e-05
+      ],
+      "correctedExpected": [
+        0.105,
+        1.43,
+        0.06
+      ],
+      "law": "Godot Basis.Scaled applies global row scaling; for H014 yaw -90 the root-local lengths entering the old baker were [sx*sz, sy^2, sx*sz], then the baker reapplied that basis",
+      "coordinates": "TatarCarpentry-root local AABB; derivation is specific to this unrolled cardinal frame"
+    }
+  ],
+  "nativeGeometryEvidence": {
+    "capture": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-geometry-babai-h019-7f64b86109eb4a1ab848469fc105e9d2/frames/h019_geometry_approach.json",
+    "sha256": "2bb67e21d944677138eee4934ddaa36e49fc172dc83ffacd1527c5d606a22502",
+    "observation": "The live ray readback identifies H014 CarvedTimber_dfdcc5_wood_painted_trim as the first hit before the H019 source facade. This establishes that the generated surface is on the tested view path; it does not measure its AABB or prove GPU occlusion."
+  },
+  "apiReference": "https://docs.godotengine.org/en/4.5/classes/class_basis.html",
+  "verification": {
+    "sourceInspection": "PASS: Box and Surround are the only size handoff; AppendChamferedBox has one caller",
+    "numericCalculation": "PASS: old and corrected declared-size AABBs calculated from the current source expressions",
+    "diffCheck": "PASS: git diff --check on TimberHomeStyle.cs and act1_house_scale doc",
+    "gameCompile": "PASS 0 warnings/errors, 12.94s affected game build",
+    "nativeH019Capture": "PASS job6fc0fe2b4aac4c4f847bad25eea78bd3; root viewed both original PNGs and accepted restored roof/gable visibility; parent whole-card open"
+  },
+  "sourceHashes": {
+    "TimberHomeStyle.cs-before": "867f37a6ee471cdc7f5e5a40532d7ec59d1f868541d44543df8f9340302f6f5d",
+    "TimberHomeStyle.cs-current": "c17c26af64262f61773b11e3b970d1a33eef6ef9cbdfdadb25284c727ace7391",
+    "act1_house_scale_doc-current": "77f98630b54bb6c7ba1247786a525f73c27dbd32d0b982b34d6ea7091143d806",
+    "AuthoredWorldDirector.cs": "f77b7c8fb1767d91e2f76298cb8d04f729c087234a45ff3ff8f0688c5d4faedb",
+    "act1_open_part.world.v1.json": "21ad0abf1e1c2e10b7724912b8a28428bb19bcfd79258332bfdd01b93850ca06",
+    "urman_village_exterior_kit.glb": "3d61163f9b592df5ec3895811b20c59874a94c9b0628b538ab43898823c8deb2"
+  },
+  "postFixNativeEvidence": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-h019-exterior-6fc0fe2b4aac4c4f847bad25eea78bd3"
+}

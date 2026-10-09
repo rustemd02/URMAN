@@ -1,0 +1,35 @@
+{
+  "kind": "root-native-visual-review",
+  "reviewed_at": "2026-10-08T20:33:54.411007+00:00",
+  "job_id": "bb8e50e9a38648ff9a9a63096b4d6573",
+  "source_snapshot": "678a79109b9f26d30fee353b24f202fe611fde5d4b2132503cfeeec73ffba7f9",
+  "receipt_status": "PASS",
+  "reviewed_original_frames": [
+    "h019_approach.png",
+    "h019_door.png",
+    "h019_front.png",
+    "mosque_wall_approach.png",
+    "mosque_wall_front.png",
+    "zirat_entry.png",
+    "zirat_fence.png"
+  ],
+  "observations": {
+    "mosque": [
+      "Exterior plate is present beside visible entrance in both front and approach frames. Number 23А and Russian/Tatar street text are readable. Plate contour and fasteners visually sit on the selected wall.",
+      "This accepts the inner-face visibility repair only. Full facade/access/reconciliation harness, back-side evidence and actual reading height at raised landing remain unproven."
+    ],
+    "h019": [
+      "Three correctly named approach/front/door views show a larger door and address number 6.",
+      "The upper facade/roof and nearby building tops appear horizontally cut. HOUSE-SCALE visual acceptance rejected for now; source visibility/shader/placement cause is under read-only investigation.",
+      "K15 identity, capsule clearance, ground/collision and full affected-family passport remain unresolved."
+    ],
+    "zirat": [
+      "Two views show grave stones, snow and a distant rail boundary, but do not clearly expose the intended kit gate and boundary-fence detail.",
+      "Measured fence height from earlier runtime is separate evidence; these camera views alone do not accept fence style or gate placement."
+    ]
+  },
+  "limits": [
+    "Static views use DevViewCamera, not ordinary player navigation.",
+    "No whole-game art, culture, language, audio or author review claimed."
+  ]
+}

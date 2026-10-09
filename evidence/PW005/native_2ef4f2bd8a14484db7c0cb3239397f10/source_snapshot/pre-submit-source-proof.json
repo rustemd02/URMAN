@@ -1,0 +1,42 @@
+{
+  "job_id": "2ef4f2bd8a14484db7c0cb3239397f10",
+  "captured_at_utc": "2026-10-09T00:05:16.933221+00:00",
+  "head": "2effc8c51e6f2ec840795369097f9bbb7de7da64",
+  "files": [
+    {
+      "path": "game/scripts/RuntimeBridge.cs",
+      "bytes": 90766,
+      "sha256": "e604fc222ea19e2a966efb1df1067a1697a68d5f03c838a19f623bb5ca88d221"
+    },
+    {
+      "path": "src-dotnet/Urman.Core/Persistence/AtomicSaveGameStore.cs",
+      "bytes": 3746,
+      "sha256": "59b821c751bb5f6c1c7b314518c49cf231bc690ea6210cec7102990df1c9e3ac"
+    },
+    {
+      "path": "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
+      "bytes": 9774,
+      "sha256": "1edcbe4b0ab6a2f914fc7f02b089cf13d9f1627083116a3b0e399f0cbc013a4f"
+    },
+    {
+      "path": "src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs",
+      "bytes": 14360,
+      "sha256": "db255cda9626f7b0b7f1c344c0df592b0609bfe34348d35ef0e2723379f8f6fc"
+    },
+    {
+      "path": "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
+      "bytes": 63251,
+      "sha256": "a21e94a8178a528b6e237712b8ff27f1548c83412829932f039ef3b5ea8d308d"
+    },
+    {
+      "path": "game/scripts/AlsuStreetWalkPresentation.cs",
+      "bytes": 52430,
+      "sha256": "37d120c852c28ba7bc0b4067e30e49832e5e7b3420e8d98ca4624e01f0c41800"
+    },
+    {
+      "path": "game/tests/FullGameFlowSmokeTest.cs",
+      "bytes": 41511,
+      "sha256": "1bbd96d3c30ccf11a5b837ee020332c9ab779443c424d9c3c7d65609573d8df2"
+    }
+  ]
+}

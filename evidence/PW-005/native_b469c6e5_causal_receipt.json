@@ -1,0 +1,71 @@
+{
+  "taskId": "PW-005",
+  "kind": "native_save_first_diff_causal_receipt",
+  "recordedAt": "2026-10-09",
+  "owner": "/root/address_mount",
+  "nativeAttempt": {
+    "jobId": "b469c6e5",
+    "outcome": "FAIL_EXPECTATION_BEFORE_FIX",
+    "guardedUserdataRestored": true,
+    "operatorArchive": "baseline operator archive for job b469c6e5; full game.log preserved there"
+  },
+  "observedDifference": {
+    "path": "$.world.props",
+    "initialPropIds": [
+      "act1/opening"
+    ],
+    "decodedAndPostSaveLivePropIds": [
+      "act1/opening",
+      "npc/alsu-street-walk"
+    ],
+    "newCompanionRecord": {
+      "schemaVersion": 1,
+      "checkpoint": 0,
+      "pendingCheckpoint": 0,
+      "position": {
+        "x": 0.85,
+        "y": 0.0,
+        "z": 2.05
+      },
+      "yaw": -0.2617994,
+      "segmentTravel": 0.0
+    },
+    "postSaveLiveCanonicalHashEqualsDecodedSave": true
+  },
+  "sourceCause": [
+    {
+      "path": "game/scripts/RuntimeBridge.cs",
+      "lines": "181-213",
+      "fact": "SaveSlotAsync flushes vehicle, facilities and Alsu physical owners before CaptureSessionSave."
+    },
+    {
+      "path": "game/scripts/AlsuStreetWalkPresentation.cs",
+      "lines": "317-339",
+      "fact": "FlushActualPoseAsync reads the actual actor position/yaw and owner checkpoint/travel state and dispatches a world.props update."
+    },
+    {
+      "path": "game/scripts/RuntimeBridge.cs",
+      "lines": "1642-1649, 1772-1788",
+      "fact": "The existing world.props command merges the physical record into the RuntimeKernel state before the save snapshot."
+    }
+  ],
+  "disposition": "The pre-save whole-state equality was an invalid test baseline. The production SaveGameV3 flush/snapshot path behaved consistently: post-flush live state exactly matched decoded disk state. No production code change was warranted.",
+  "correctedExistingTest": {
+    "path": "game/tests/FullGameFlowSmokeTest.cs",
+    "assertions": [
+      "Initial PhotoWorld subtree equals the decoded saved PhotoWorld subtree.",
+      "The real stationary prologue Alsu owner pose, yaw, checkpoint, pending checkpoint, schema and travel are present and accurate in world.props.",
+      "Existing world.props are preserved; no state outside the expected owner flush changes.",
+      "Decoded Runtime.State exactly equals the post-flush live kernel state.",
+      "After a real story-state mutation, load restores the exact decoded Runtime.State and prologue scene, then projects the saved Alsu pose/checkpoint.",
+      "Legacy canary bytes and namespaced SaveGameV3 bytes remain unchanged by loading."
+    ],
+    "sourceSha256": "089f27ba329912b11011f0537c5d4bfd31349063254d5163ebd94cfc5d1c785e",
+    "nativeRetry": "PENDING"
+  },
+  "verification": {
+    "command": "source eng/dotnet-env.sh && dotnet build game/Urman.Game.csproj --no-restore --verbosity minimal --disable-build-servers -nodeReuse:false -m:1",
+    "result": "PASS; 0 warnings; 0 errors; 14.43 seconds",
+    "gitDiffCheck": "PASS"
+  }
+}

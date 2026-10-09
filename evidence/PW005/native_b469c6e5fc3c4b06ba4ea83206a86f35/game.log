@@ -1,0 +1,50 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970
+
+act1-kit-lod-parity-notice: /root/FullGameFlowSmokeTest/FullGameMain/ZoneHost/StyleBenchmarkDayStreet/GeneratedModularKit variant=style-day-house pairs=12 overTolerance=1 worstCrown=100.00% worstHeight=0.15% worstBase=1.70% rootOffset=0.0000m
+act1-kit-lod-parity-notice: /root/FullGameFlowSmokeTest/FullGameMain/ZoneHost/StyleBenchmarkDayStreet/@Node3D@304 variant=style-day-well pairs=7 overTolerance=7 worstCrown=100.00% worstHeight=0.42% worstBase=100.00% rootOffset=0.0000m
+act1-kit-lod-parity-notice: /root/FullGameFlowSmokeTest/FullGameMain/ZoneHost/StyleBenchmarkDayStreet/@Node3D@307 variant=style-day-woodpile pairs=4 overTolerance=4 worstCrown=2.20% worstHeight=0.00% worstBase=0.40% rootOffset=0.0000m
+zone-loaded: village_day@arrival
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+SaveGameV3 written to C:\Users\ruste\AppData\Roaming\Godot\app_userdata\URMAN\savegames\photoworlds-v1\quick.savegame-v3.json
+pw005-save-state-diagnostic: comparison=initial-vs-decoded leftSha=f55b2b27c89df747daccbda63398f4141eef3e25c15f828902ebe11d84ada097 rightSha=2ed5c83d1c349e1caecc2499f50ff41f81c5cee2aa5ab63d41201335c4df0e38 differingTopLevelKeys=world.props
+pw005-save-state-diagnostic: firstDiff=$.world.props left={"act1/opening":{"firstNightPassed":false,"languageLevel":"none"}} right={"act1/opening":{"firstNightPassed":false,"languageLevel":"none"},"npc/alsu-street-walk":{"checkpoint":0,"pendingCheckpoint":0,"position":{"x":0.85,"y":0,"z":2.05},"schemaVersion":1,"segmentTravel":0,"yaw":-0.2617994}}
+pw005-save-state-diagnostic: comparison=initial-vs-postsave-live leftSha=f55b2b27c89df747daccbda63398f4141eef3e25c15f828902ebe11d84ada097 rightSha=2ed5c83d1c349e1caecc2499f50ff41f81c5cee2aa5ab63d41201335c4df0e38 differingTopLevelKeys=world.props
+pw005-save-state-diagnostic: firstDiff=$.world.props left={"act1/opening":{"firstNightPassed":false,"languageLevel":"none"}} right={"act1/opening":{"firstNightPassed":false,"languageLevel":"none"},"npc/alsu-street-walk":{"checkpoint":0,"pendingCheckpoint":0,"position":{"x":0.85,"y":0,"z":2.05},"schemaVersion":1,"segmentTravel":0,"yaw":-0.2617994}}
+pw005-save-state-diagnostic: comparison=postsave-live-vs-decoded leftSha=2ed5c83d1c349e1caecc2499f50ff41f81c5cee2aa5ab63d41201335c4df0e38 rightSha=2ed5c83d1c349e1caecc2499f50ff41f81c5cee2aa5ab63d41201335c4df0e38 differingTopLevelKeys=
+ERROR: Full-game semantic flow failed: System.InvalidOperationException: The disk SaveGameV3 state differs from the state captured before saving.
+   at Urman.Godot.Tests.FullGameFlowSmokeTest.Require(Boolean condition, String message) in D:\URMAN-STATION\data\runs\b469c6e5fc3c4b06ba4ea83206a86f35\source\game\tests\FullGameFlowSmokeTest.cs:line 669
+   at Urman.Godot.Tests.FullGameFlowSmokeTest.AssertPhotoWorldDiskRoundTripAsync(RuntimeBridge bridge, JsonElement initialState, SaveIsolationCanaries canaries, Dictionary`2 ownedFiles) in D:\URMAN-STATION\data\runs\b469c6e5fc3c4b06ba4ea83206a86f35\source\game\tests\FullGameFlowSmokeTest.cs:line 508
+   at Urman.Godot.Tests.FullGameFlowSmokeTest._Ready() in D:\URMAN-STATION\data\runs\b469c6e5fc3c4b06ba4ea83206a86f35\source\game\tests\FullGameFlowSmokeTest.cs:line 60
+   at: void Urman.Godot.Tests.FullGameFlowSmokeTest+<_Ready>d__7.MoveNext() (res://tests/FullGameFlowSmokeTest.cs:60)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Urman.Godot.Tests.FullGameFlowSmokeTest+<_Ready>d__7.MoveNext() (D:\URMAN-STATION\data\runs\b469c6e5fc3c4b06ba4ea83206a86f35\source\game\tests\FullGameFlowSmokeTest.cs:60)
+       [2] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [4] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [5] void System.Threading.Tasks.Task.RunContinuations(object)
+       [6] void System.Threading.Tasks.Task.FinishSlow(bool)
+       [7] bool System.Threading.Tasks.Task.TrySetException(object)
+       [8] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetException(System.Exception, System.Threading.Tasks.Task`1[TResult]&)
+       [9] void Urman.Godot.Tests.FullGameFlowSmokeTest+<AssertPhotoWorldDiskRoundTripAsync>d__27.MoveNext() (D:\URMAN-STATION\data\runs\b469c6e5fc3c4b06ba4ea83206a86f35\source\game\tests\FullGameFlowSmokeTest.cs:508)
+       [10] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [11] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [12] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [13] void System.Threading.Tasks.Task.RunContinuations(object)
+       [14] bool System.Threading.Tasks.Task`1.TrySetResult(TResult)
+       [15] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(System.Threading.Tasks.Task`1[TResult], TResult)
+       [16] void Urman.Godot.RuntimeBridge+<SaveSlotAsync>d__72.MoveNext() (D:\URMAN-STATION\data\runs\b469c6e5fc3c4b06ba4ea83206a86f35\source\game\scripts\RuntimeBridge.cs:224)
+       [17] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [18] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [19] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [20] void System.Threading.Tasks.Task.RunContinuations(object)
+       [21] bool System.Threading.Tasks.Task`1.TrySetResult(TResult)
+       [22] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetExistingTaskResult(System.Threading.Tasks.Task`1[TResult], TResult)
+       [23] void Urman.Core.Persistence.AtomicSaveGameStore+<SaveAsync>d__3.MoveNext() (D:\URMAN-STATION\data\runs\b469c6e5fc3c4b06ba4ea83206a86f35\source\src-dotnet\Urman.Core\Persistence\AtomicSaveGameStore.cs:57)
+       [24] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [25] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [26] void Godot.GodotSynchronizationContext.ExecutePendingContinuations() (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GodotSynchronizationContext.cs:51)
+       [27] void Godot.GodotTaskScheduler.Activate() (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GodotTaskScheduler.cs:76)
+       [28] void Godot.Bridge.ScriptManagerBridge.FrameCallback() (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/ScriptManagerBridge.cs:84)
+userdata guard: original files restored by rename and verified (Windows ACLs not compared)

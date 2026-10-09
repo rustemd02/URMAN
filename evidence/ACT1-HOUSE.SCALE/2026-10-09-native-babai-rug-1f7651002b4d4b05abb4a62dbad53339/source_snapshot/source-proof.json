@@ -1,0 +1,118 @@
+{
+  "job_id": "1f7651002b4d4b05abb4a62dbad53339",
+  "captured_at_utc": "2026-10-09T00:22:59.147398+00:00",
+  "head": "2effc8c51e6f2ec840795369097f9bbb7de7da64",
+  "selected_files": [
+    {
+      "path": "assets/source/blender/urman_modular_kit.blend",
+      "bytes": 3361727,
+      "sha256": "ecf32cbd25645cd1f628eee91de22a2ee9e729484a649caefae33fdb08f07596"
+    },
+    {
+      "path": "game/assets/generated/urman_modular_kit.glb",
+      "bytes": 1393704,
+      "sha256": "71a5323757ddddff4eff08aafa0ad8da39ebc3b05cd1ba8e2a10cdc694de78f4"
+    },
+    {
+      "path": "tools/blender/generate_modular_environment.py",
+      "bytes": 58283,
+      "sha256": "5dfef6388206ecb15afd5ecdeae757387994da748657a466c49b153fef4dd56a"
+    },
+    {
+      "path": "assets/asset_registry.json",
+      "bytes": 236918,
+      "sha256": "230ed21df443c54ea423e3f2cbd9d3c1c99aebe66115ac5cdb1d9285e1a93664"
+    },
+    {
+      "path": "game/scripts/StyleBenchmarkInteriorFactory.cs",
+      "bytes": 25969,
+      "sha256": "e3ec8a1ed9913e2b1a2213e0765e5c300c8b3a56dcd7a9bb5ef0b5229ff46f60"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 46691,
+      "sha256": "3d99892376614f06bc1b5fa9e090871fd53b18839c673c3c52447b66fdd826c0"
+    },
+    {
+      "path": "game/scripts/PainterlyMaterialLibrary.cs",
+      "bytes": 120744,
+      "sha256": "bd2230fb6c2c45cc5db92e0f9a47ff4f669425edcce68b7bbcd34085543afe0f"
+    },
+    {
+      "path": "game/assets/textures/painterly/carpet_palas_v1_albedo.png",
+      "bytes": 1665618,
+      "sha256": "d9d48b174b6c8e02bf618cae40ae7248b9562bbb42d7ce7ef471c06b0a55721a"
+    },
+    {
+      "path": "game/content/world/visual_checkpoints.v1.json",
+      "bytes": 12671,
+      "sha256": "ee5d723807842e47110a21ddda6857f84c360efad5b14fe1bc62a7cb44b1ae7e"
+    },
+    {
+      "path": "game/project.godot",
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.cs",
+      "bytes": 96068,
+      "sha256": "3403c196273291ef4d4825687a134a08451154eb1db5f5fa88660c44a13d3349"
+    },
+    {
+      "path": "registry-rows-9.json",
+      "bytes": 9883,
+      "sha256": "4723af8532cecdbf95dbbea1803e16e97d655a2a7818f3ca67615d6cb9ac0e67"
+    }
+  ],
+  "registry_row_ids": [
+    "env.house.a",
+    "env.fence.a",
+    "env.road.dirt.straight",
+    "env.vegetation.pine.a",
+    "prop.furniture.table.a",
+    "prop.oldpc.crt",
+    "env.well.a",
+    "env.woodpile.a",
+    "env.gate.a"
+  ],
+  "runtime_points": {
+    "scene": "res://scenes/act1_demo.tscn",
+    "mode": "capture",
+    "fov": 70,
+    "timeout": 300,
+    "points": [
+      "babai_room_overview:BabaiApproachDwellingFacade@-1.162,1.846,-0.484>BabaiApproachDwellingFacade@1.658,1.546,-4.934",
+      "babai_rug_detail:BabaiApproachDwellingFacade@1.258,1.896,-0.034>BabaiApproachDwellingFacade@1.258,0.276,-2.134"
+    ]
+  },
+  "dirty_paths_at_seal": [
+    " M assets/asset_registry.json",
+    " M assets/source/blender/urman_modular_kit.blend",
+    " M docs/production/act1_fence_kit_2026-10-04.md",
+    " M docs/production/act1_house_scale_2026-10-04.md",
+    " M docs/urman_knowledge_base/execution_backlog.json",
+    " M docs/urman_knowledge_base/technical_architecture.md",
+    " M game/assets/generated/urman_modular_kit.glb",
+    " M game/content/world/act1_village_kit.world.v1.json",
+    " M game/content/world/visual_checkpoints.v1.json",
+    " M game/scripts/Act1ConnectedWorld.YardFences.cs",
+    " M game/scripts/Act1ConnectedWorld.cs",
+    " M game/scripts/Act1DemoRoot.DevViewCapture.cs",
+    " M game/scripts/AlsuStreetWalkPresentation.cs",
+    " M game/scripts/CompiledCampaignRepository.cs",
+    " M game/scripts/PainterlyMaterialLibrary.cs",
+    " M game/scripts/RuntimeBridge.cs",
+    " M game/scripts/StyleBenchmarkInteriorFactory.cs",
+    " M game/scripts/TimberHomeStyle.cs",
+    " M game/tests/FullGameFlowSmokeTest.cs",
+    " M src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
+    " M src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs",
+    " M tools/blender/generate_modular_environment.py",
+    "?? evidence/ACT1-DEPTH.9/rug-band-selection-source-2026-10-09.json",
+    "?? evidence/ACT1-HOUSE.SCALE/2026-10-09-h014-timber-metric-bake.json",
+    "?? evidence/ACT1-HOUSE.SCALE/2026-10-09-native-h019-exterior-6fc0fe2b4aac4c4f847bad25eea78bd3/",
+    "?? evidence/PW-005/",
+    "?? evidence/PW-032/",
+    "?? evidence/PW005/"
+  ]
+}

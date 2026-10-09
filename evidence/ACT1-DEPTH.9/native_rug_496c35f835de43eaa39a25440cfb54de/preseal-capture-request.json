@@ -1,0 +1,9 @@
+{
+  "job_id": "496c35f835de43eaa39a25440cfb54de",
+  "mode": "capture",
+  "scene": "res://scenes/act1_demo.tscn",
+  "timeout": 300,
+  "headless": false,
+  "fov": "70",
+  "points": "babai_room_overview:BabaiApproachDwellingFacade@-1.162,1.846,-0.484>BabaiApproachDwellingFacade@1.658,1.546,-4.934;babai_rug_detail:BabaiApproachDwellingFacade@1.258,1.896,-0.034>BabaiApproachDwellingFacade@1.258,0.276,-2.134"
+}

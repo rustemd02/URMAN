@@ -1,0 +1,25 @@
+{
+  "kind": "root-visual-review",
+  "reviewed_utc": "2026-10-08T21:43:22+00:00",
+  "reviewer": "/root",
+  "job_id": "9344bdc73876454ba61c639b6cf22f8b",
+  "snapshot_id": "dbc5bbf5d8b6e2b11d26e777678ae1f1e59c0dcb541885154450bfb0c47add4e",
+  "scope": "Four original native static views; no ordinary-player walk or full card closure.",
+  "images": {
+    "h019_approach.png": "a940e33d36039549e790ac472801b82a14c425d43168195a3561e68d9b98a6d0",
+    "h019_front.png": "202253478e1cb13ae038c7cd90eb60ce31709d8918ca0f84ff4bcb1f13835d6a",
+    "mosque_wall_front.png": "2cb21442646e357766fa9bd91dfd44841c412feb5979e894a25b4e4f385f1b0d",
+    "mosque_wall_approach.png": "41a1b1b49676614d4222eaad851a02aa80f84911d7d38f93293b44c4a608d91c"
+  },
+  "mosque": {
+    "result": "ACCEPTED_BOUNDED_SLICE",
+    "readingFloorY": 0.71720755,
+    "readingHeight": 1.8000001,
+    "finding": "23А exterior plaque clearly readable from front and approach, mounted on visible wall beside entrance; actual raised landing reference now used. Full R063/R107/sign-family/human gates are not inferred from these two views; no normative height claim."
+  },
+  "house": {
+    "result": "REJECTED_VISUAL",
+    "finding": "H019 front/approach still show missing upper facade/roof; neighboring houses show related silhouette failure. Runtime census reports both roof meshes visible in tree, matching cull mask/layers and plausible world AABBs. Visibility flags, metric scale and simple camera crop do not explain this view. Actual rendering cause unconfirmed; do not accept whole HOUSE task."
+  },
+  "next": "Inspect shared roof/material rendering owner; preserve original meshes and diagnose before speculative restyling."
+}

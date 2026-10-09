@@ -1,0 +1,43 @@
+{
+  "taskId": "ACT1-DEPTH.12",
+  "status": "bounded-close-view-accepted-deck-and-whole-house-open",
+  "source": {
+    "path": "game/scripts/PainterlyMaterialLibrary.cs",
+    "sha256": "bfc6ca444d1833e12714a85a66f7246b78141aef361d5eaaedd50a9c21fe3b07"
+  },
+  "change": "The Low-quality shader branch now applies the existing cut_wood_end UV ring pattern and subpixel fwidth fade to ALBEDO before snow coverage. High-quality shader code is unchanged; no texture samples or normal/wear responses were added.",
+  "verification": {
+    "gitDiffCheck": "pass",
+    "compile": {
+      "command": "source eng/dotnet-env.sh && .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+      "result": "pass",
+      "warnings": 0,
+      "errors": 0,
+      "elapsedSeconds": 14.41
+    },
+    "lowQualityNativeCapture": {
+      "jobId": "3f6ae8a75130498a84b1b7f7ad2757d8",
+      "snapshotId": "36fdc90d3325f8aec1647f0df8e5a9dda7b65c3117e2d9f23b27f90f9b5ccb7d",
+      "archive": "evidence/ACT1-DEPTH.12/native_corner_low_3f6ae8a75130498a84b1b7f7ad2757d8",
+      "indexedFileCount": 70,
+      "resultZipSha256": "5bfb2cc084b550ee07baf49be08b5417b77a9afa8878b807bb42e35988481c8a",
+      "rootReviewSha256": "ea09b498702434bcba44f17b0654bdc602fb2a93e910060042aea410338cc38d",
+      "rootDecision": "ACCEPT_BOUNDED",
+      "finding": "In the close porch-side Low frame both cut-log ends show readable annual rings compared with the previously plain cut faces. In both oblique corner frames the rings are weaker and fade at subpixel scale; equivalent readability is not claimed.",
+      "integrity": "Baseline verified 32 selected and 10 local copies against pre-seal/receipt; the 1825-file source manifest matches. Project restored hash matches; userdata restored; station doctor ready; engine-errors and stderr are empty and shader/error marker count is zero.",
+      "limitations": [
+        "Porch deck grain remains nearly uniform and was not accepted or changed.",
+        "Whole-house/art-style acceptance remains open.",
+        "Motion, performance, ordinary-playthrough, and human-playtest acceptance remain unmeasured/not run.",
+        "The capture reported 12 warning blocks, including VIS-022 qibla-axis author/cultural confirmation, a vehicle support recovery warning, and painterly missing-mode warnings; these remain outside this bounded acceptance."
+      ]
+    }
+  },
+  "referenceFrames": [
+    "evidence/ACT1-DEPTH.12/native_low_e982732a68f14c84ab3b27bc232fb349/frames/babai_porch_side_clear_low.png",
+    "evidence/ACT1-DEPTH.12/native_high_6cb5fd71c02140e3932c2c59d30d1113/frames/babai_porch_side_clear_high.png",
+    "evidence/ACT1-DEPTH.12/native_corner_low_3f6ae8a75130498a84b1b7f7ad2757d8/frames/babai_porch_side_clear_low.png",
+    "evidence/ACT1-DEPTH.12/native_corner_low_3f6ae8a75130498a84b1b7f7ad2757d8/frames/babai_corner_left_low.png",
+    "evidence/ACT1-DEPTH.12/native_corner_low_3f6ae8a75130498a84b1b7f7ad2757d8/frames/babai_corner_right_low.png"
+  ]
+}

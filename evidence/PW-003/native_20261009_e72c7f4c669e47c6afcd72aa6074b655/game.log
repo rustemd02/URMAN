@@ -1,0 +1,308 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970
+
+act1-kit-lod-parity-notice: /root/FullGameFlowSmokeTest/FullGameMain/ZoneHost/StyleBenchmarkDayStreet/GeneratedModularKit variant=style-day-house pairs=12 overTolerance=1 worstCrown=100.00% worstHeight=0.15% worstBase=1.70% rootOffset=0.0000m
+act1-kit-lod-parity-notice: /root/FullGameFlowSmokeTest/FullGameMain/ZoneHost/StyleBenchmarkDayStreet/@Node3D@304 variant=style-day-well pairs=7 overTolerance=7 worstCrown=100.00% worstHeight=0.42% worstBase=100.00% rootOffset=0.0000m
+act1-kit-lod-parity-notice: /root/FullGameFlowSmokeTest/FullGameMain/ZoneHost/StyleBenchmarkDayStreet/@Node3D@307 variant=style-day-woodpile pairs=4 overTolerance=4 worstCrown=2.20% worstHeight=0.00% worstBase=0.40% rootOffset=0.0000m
+zone-loaded: village_day@arrival
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+[8] photoworlds.fact.observed: urman.fullgame:interaction/pw-prologue-photo-source
+[14] photoworlds.fact.observed: urman.fullgame:interaction/pw-prologue-branch-move
+[15] photoworlds.prologue.completed: urman.fullgame:interaction/pw-prologue-branch-move
+[16] scene.entered: urman.fullgame:interaction/pw-prologue-branch-move
+[22] scene.entered: urman.fullgame:interaction/pw-niva-stop
+WARNING: Interaction urman.fullgame:interaction/pw-book-handoff rejected: ContentConditionRejected Content conditions rejected this action.
+   at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (res://scripts/RuntimeBridge.cs:1413)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1413)
+       [2] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [4] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+       [5] void Urman.Godot.RuntimeBridge+<DispatchSemanticInteractionForSmokeAsync>d__155.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1433)
+       [6] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [8] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchSemanticInteractionForSmokeAsync(string)
+       [9] void Urman.Godot.Tests.FullGameFlowSmokeTest+<ExpectBlockedAsync>d__20.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:365)
+       [10] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [11] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.ExpectBlockedAsync(Urman.Godot.RuntimeBridge, string)
+       [12] void Urman.Godot.Tests.FullGameFlowSmokeTest+<RunRouteAsync>d__7.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:103)
+       [13] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [14] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.RunRouteAsync(Urman.Godot.RuntimeBridge, bool, bool, bool)
+       [15] void Urman.Godot.Tests.FullGameFlowSmokeTest+<_Ready>d__6.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:48)
+       [16] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [17] void Urman.Godot.Tests.FullGameFlowSmokeTest._Ready()
+       [18] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [19] bool Urman.Godot.Tests.FullGameFlowSmokeTest.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Tests.FullGameFlowSmokeTest_ScriptMethods.generated.cs:80)
+       [20] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+WARNING: Interaction urman.fullgame:interaction/pw-enter-forest rejected: ContentConditionRejected Content conditions rejected this action.
+   at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (res://scripts/RuntimeBridge.cs:1413)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1413)
+       [2] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [4] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+       [5] void Urman.Godot.RuntimeBridge+<DispatchSemanticInteractionForSmokeAsync>d__155.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1433)
+       [6] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [8] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchSemanticInteractionForSmokeAsync(string)
+       [9] void Urman.Godot.Tests.FullGameFlowSmokeTest+<ExpectBlockedAsync>d__20.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:365)
+       [10] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [11] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.ExpectBlockedAsync(Urman.Godot.RuntimeBridge, string)
+       [12] void Urman.Godot.Tests.FullGameFlowSmokeTest+<RunRouteAsync>d__7.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:108)
+       [13] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [14] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.RunRouteAsync(Urman.Godot.RuntimeBridge, bool, bool, bool)
+       [15] void Urman.Godot.Tests.FullGameFlowSmokeTest+<_Ready>d__6.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:48)
+       [16] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [17] void Urman.Godot.Tests.FullGameFlowSmokeTest._Ready()
+       [18] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [19] bool Urman.Godot.Tests.FullGameFlowSmokeTest.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Tests.FullGameFlowSmokeTest_ScriptMethods.generated.cs:80)
+       [20] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+WARNING: Interaction urman.fullgame:interaction/pw-enter-river rejected: ContentConditionRejected Content conditions rejected this action.
+   at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (res://scripts/RuntimeBridge.cs:1413)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1413)
+       [2] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [4] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+       [5] void Urman.Godot.RuntimeBridge+<DispatchSemanticInteractionForSmokeAsync>d__155.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1433)
+       [6] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [8] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchSemanticInteractionForSmokeAsync(string)
+       [9] void Urman.Godot.Tests.FullGameFlowSmokeTest+<ExpectBlockedAsync>d__20.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:365)
+       [10] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [11] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.ExpectBlockedAsync(Urman.Godot.RuntimeBridge, string)
+       [12] void Urman.Godot.Tests.FullGameFlowSmokeTest+<RunRouteAsync>d__7.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:109)
+       [13] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [14] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.RunRouteAsync(Urman.Godot.RuntimeBridge, bool, bool, bool)
+       [15] void Urman.Godot.Tests.FullGameFlowSmokeTest+<_Ready>d__6.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:48)
+       [16] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [17] void Urman.Godot.Tests.FullGameFlowSmokeTest._Ready()
+       [18] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [19] bool Urman.Godot.Tests.FullGameFlowSmokeTest.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Tests.FullGameFlowSmokeTest_ScriptMethods.generated.cs:80)
+       [20] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+[45] photoworlds.book.received: urman.fullgame:interaction/pw-book-handoff
+[51] photoworlds.fact.observed: urman.fullgame:interaction/pw-school-copy-source
+[57] photoworlds.photo.acquired: urman.fullgame:interaction/pw-school-copy-permission
+[58] photoworlds.photo.back-read: urman.fullgame:interaction/pw-school-copy-permission
+[59] photoworlds.photo.back-read: urman.fullgame:interaction/pw-school-copy-permission
+[60] photoworlds.photo.context-known: urman.fullgame:interaction/pw-school-copy-permission
+[66] scene.entered: urman.fullgame:interaction/pw-enter-forest
+[72] photoworlds.fact.observed: urman.fullgame:interaction/pw-forest-group
+[78] photoworlds.fact.observed: urman.fullgame:interaction/pw-forest-photographer
+[84] photoworlds.fact.observed: urman.fullgame:interaction/pw-forest-shurale
+[92] scene.entered: urman.fullgame:interaction/pw-forest-return
+[111] photoworlds.fact.observed: urman.fullgame:interaction/pw-water-photo-source
+[116] photoworlds.photo.acquired: urman.fullgame:interaction/pw-water-photo-permission
+[121] photoworlds.photo.mounted: urman.fullgame:interaction/pw-mount-water-photo
+[122] photoworlds.photo.back-read: urman.fullgame:interaction/pw-mount-water-photo
+[123] photoworlds.photo.context-known: urman.fullgame:interaction/pw-mount-water-photo
+[128] scene.entered: urman.fullgame:interaction/pw-enter-river
+[133] photoworlds.fact.observed: urman.fullgame:interaction/pw-water-old-approach
+[138] photoworlds.fact.observed: urman.fullgame:interaction/pw-water-bypass
+[143] photoworlds.fact.observed: urman.fullgame:interaction/pw-water-damp-print
+[150] scene.entered: urman.fullgame:interaction/pw-water-return
+[165] photoworlds.fact.observed: urman.fullgame:interaction/pw-house-photo-source
+[169] photoworlds.photo.acquired: urman.fullgame:interaction/pw-house-photo-permission
+[173] photoworlds.photo.mounted: urman.fullgame:interaction/pw-mount-house-photo
+[174] photoworlds.photo.back-read: urman.fullgame:interaction/pw-mount-house-photo
+[175] photoworlds.photo.context-known: urman.fullgame:interaction/pw-mount-house-photo
+[179] scene.entered: urman.fullgame:interaction/pw-enter-house
+[183] photoworlds.fact.observed: urman.fullgame:interaction/pw-house-shutter
+[187] photoworlds.fact.observed: urman.fullgame:interaction/pw-house-two-views
+[191] photoworlds.fact.observed: urman.fullgame:interaction/pw-house-camera-position
+[197] scene.entered: urman.fullgame:interaction/pw-house-return
+[200] scene.entered: urman.fullgame:interaction/pw-enter-bank-approach
+WARNING: Interaction urman.fullgame:interaction/pw-verify-bank-evidence rejected: ContentConditionRejected Content conditions rejected this action.
+   at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (res://scripts/RuntimeBridge.cs:1413)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1413)
+       [2] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [4] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+       [5] void Urman.Godot.RuntimeBridge+<DispatchSemanticInteractionForSmokeAsync>d__155.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1433)
+       [6] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [8] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchSemanticInteractionForSmokeAsync(string)
+       [9] void Urman.Godot.Tests.FullGameFlowSmokeTest+<ExpectBlockedAsync>d__20.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:365)
+       [10] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [11] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.ExpectBlockedAsync(Urman.Godot.RuntimeBridge, string)
+       [12] void Urman.Godot.Tests.FullGameFlowSmokeTest+<CompleteBankOutsideEvidenceAsync>d__14.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:266)
+       [13] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [14] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.CompleteBankOutsideEvidenceAsync(Urman.Godot.RuntimeBridge)
+       [15] void Urman.Godot.Tests.FullGameFlowSmokeTest+<RunRouteAsync>d__7.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:140)
+       [16] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [17] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.RunRouteAsync(Urman.Godot.RuntimeBridge, bool, bool, bool)
+       [18] void Urman.Godot.Tests.FullGameFlowSmokeTest+<_Ready>d__6.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:48)
+       [19] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [20] void Urman.Godot.Tests.FullGameFlowSmokeTest._Ready()
+       [21] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [22] bool Urman.Godot.Tests.FullGameFlowSmokeTest.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Tests.FullGameFlowSmokeTest_ScriptMethods.generated.cs:80)
+       [23] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+[203] photoworlds.fact.observed: urman.fullgame:interaction/pw-bank-copy-source
+[206] photoworlds.photo.acquired: urman.fullgame:interaction/pw-bank-copy-permission
+[207] photoworlds.photo.back-read: urman.fullgame:interaction/pw-bank-copy-permission
+WARNING: Interaction urman.fullgame:interaction/pw-verify-bank-evidence rejected: ContentConditionRejected Content conditions rejected this action.
+   at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (res://scripts/RuntimeBridge.cs:1413)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1413)
+       [2] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [4] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+       [5] void Urman.Godot.RuntimeBridge+<DispatchSemanticInteractionForSmokeAsync>d__155.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1433)
+       [6] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [8] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchSemanticInteractionForSmokeAsync(string)
+       [9] void Urman.Godot.Tests.FullGameFlowSmokeTest+<ExpectBlockedAsync>d__20.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:365)
+       [10] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [11] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.ExpectBlockedAsync(Urman.Godot.RuntimeBridge, string)
+       [12] void Urman.Godot.Tests.FullGameFlowSmokeTest+<CompleteBankOutsideEvidenceAsync>d__14.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:269)
+       [13] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [14] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.CompleteBankOutsideEvidenceAsync(Urman.Godot.RuntimeBridge)
+       [15] void Urman.Godot.Tests.FullGameFlowSmokeTest+<RunRouteAsync>d__7.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:140)
+       [16] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [17] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.RunRouteAsync(Urman.Godot.RuntimeBridge, bool, bool, bool)
+       [18] void Urman.Godot.Tests.FullGameFlowSmokeTest+<_Ready>d__6.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:48)
+       [19] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [20] void Urman.Godot.Tests.FullGameFlowSmokeTest._Ready()
+       [21] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [22] bool Urman.Godot.Tests.FullGameFlowSmokeTest.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Tests.FullGameFlowSmokeTest_ScriptMethods.generated.cs:80)
+       [23] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+[210] photoworlds.fact.observed: urman.fullgame:interaction/pw-winter-piles-inspected
+[213] photoworlds.evidence.confirmed: urman.fullgame:interaction/pw-verify-bank-evidence
+[216] scene.entered: urman.fullgame:interaction/pw-bank-return
+[219] photoworlds.fact.observed: urman.fullgame:interaction/pw-photographer-photo-source
+[222] photoworlds.photo.acquired: urman.fullgame:interaction/pw-photographer-photo-permission
+[223] photoworlds.photo.back-read: urman.fullgame:interaction/pw-photographer-photo-permission
+WARNING: Interaction urman.fullgame:interaction/pw-verify-photographer-evidence rejected: ContentConditionRejected Content conditions rejected this action.
+   at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (res://scripts/RuntimeBridge.cs:1413)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1413)
+       [2] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [4] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+       [5] void Urman.Godot.RuntimeBridge+<DispatchSemanticInteractionForSmokeAsync>d__155.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1433)
+       [6] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [8] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchSemanticInteractionForSmokeAsync(string)
+       [9] void Urman.Godot.Tests.FullGameFlowSmokeTest+<ExpectBlockedAsync>d__20.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:365)
+       [10] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [11] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.ExpectBlockedAsync(Urman.Godot.RuntimeBridge, string)
+       [12] void Urman.Godot.Tests.FullGameFlowSmokeTest+<CompletePhotographerOutsideEvidenceAsync>d__15.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:281)
+       [13] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [14] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.CompletePhotographerOutsideEvidenceAsync(Urman.Godot.RuntimeBridge)
+       [15] void Urman.Godot.Tests.FullGameFlowSmokeTest+<RunRouteAsync>d__7.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:141)
+       [16] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [17] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.RunRouteAsync(Urman.Godot.RuntimeBridge, bool, bool, bool)
+       [18] void Urman.Godot.Tests.FullGameFlowSmokeTest+<_Ready>d__6.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:48)
+       [19] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [20] void Urman.Godot.Tests.FullGameFlowSmokeTest._Ready()
+       [21] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [22] bool Urman.Godot.Tests.FullGameFlowSmokeTest.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Tests.FullGameFlowSmokeTest_ScriptMethods.generated.cs:80)
+       [23] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+[234] photoworlds.evidence.confirmed: urman.fullgame:interaction/pw-verify-photographer-evidence
+[239] photoworlds.fact.observed: urman.fullgame:interaction/pw-contact-sheet-source
+[242] photoworlds.photo.acquired: urman.fullgame:interaction/pw-contact-sheet-permission
+[243] photoworlds.photo.back-read: urman.fullgame:interaction/pw-contact-sheet-permission
+[246] photoworlds.fact.observed: urman.fullgame:interaction/pw-common-file-source
+WARNING: Interaction urman.fullgame:interaction/pw-print-common-photo rejected: ContentConditionRejected Content conditions rejected this action.
+   at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (res://scripts/RuntimeBridge.cs:1413)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1413)
+       [2] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [4] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+       [5] void Urman.Godot.RuntimeBridge+<DispatchSemanticInteractionForSmokeAsync>d__155.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1433)
+       [6] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [8] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchSemanticInteractionForSmokeAsync(string)
+       [9] void Urman.Godot.Tests.FullGameFlowSmokeTest+<ExpectBlockedAsync>d__20.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:365)
+       [10] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [11] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.ExpectBlockedAsync(Urman.Godot.RuntimeBridge, string)
+       [12] void Urman.Godot.Tests.FullGameFlowSmokeTest+<RunRouteAsync>d__7.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:157)
+       [13] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [14] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.RunRouteAsync(Urman.Godot.RuntimeBridge, bool, bool, bool)
+       [15] void Urman.Godot.Tests.FullGameFlowSmokeTest+<_Ready>d__6.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:48)
+       [16] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [17] void Urman.Godot.Tests.FullGameFlowSmokeTest._Ready()
+       [18] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [19] bool Urman.Godot.Tests.FullGameFlowSmokeTest.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Tests.FullGameFlowSmokeTest_ScriptMethods.generated.cs:80)
+       [20] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+WARNING: Interaction urman.fullgame:interaction/pw-enter-common rejected: ContentConditionRejected Content conditions rejected this action.
+   at: void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (res://scripts/RuntimeBridge.cs:1413)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] void Urman.Godot.RuntimeBridge+<DispatchCompiledInteractionAsync>d__154.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1413)
+       [2] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [4] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchCompiledInteractionAsync(Urman.Godot.CompiledInteractionContent)
+       [5] void Urman.Godot.RuntimeBridge+<DispatchSemanticInteractionForSmokeAsync>d__155.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\scripts\RuntimeBridge.cs:1433)
+       [6] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start<TStateMachine>(TStateMachine&)
+       [8] System.Threading.Tasks.Task`1[System.Boolean] Urman.Godot.RuntimeBridge.DispatchSemanticInteractionForSmokeAsync(string)
+       [9] void Urman.Godot.Tests.FullGameFlowSmokeTest+<ExpectBlockedAsync>d__20.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:365)
+       [10] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [11] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.ExpectBlockedAsync(Urman.Godot.RuntimeBridge, string)
+       [12] void Urman.Godot.Tests.FullGameFlowSmokeTest+<RunRouteAsync>d__7.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:158)
+       [13] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [14] System.Threading.Tasks.Task Urman.Godot.Tests.FullGameFlowSmokeTest.RunRouteAsync(Urman.Godot.RuntimeBridge, bool, bool, bool)
+       [15] void Urman.Godot.Tests.FullGameFlowSmokeTest+<_Ready>d__6.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:48)
+       [16] void System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start<TStateMachine>(TStateMachine&)
+       [17] void Urman.Godot.Tests.FullGameFlowSmokeTest._Ready()
+       [18] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [19] bool Urman.Godot.Tests.FullGameFlowSmokeTest.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Tests.FullGameFlowSmokeTest_ScriptMethods.generated.cs:80)
+       [20] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+ERROR: Node not found: "Screen/App_notepad/Content/Text" (relative to "/root/FullGameFlowSmokeTest/FullGameMain/OldPcUi").
+   at: get_node (scene/main/node.cpp:1975)
+   C# backtrace (most recent call first):
+       [0] Godot.GodotObject Godot.NativeCalls.godot_icall_1_914(nint, nint, Godot.NativeInterop.godot_node_path) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8079)
+       [1] Godot.Node Godot.Node.GetNode(Godot.NodePath) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:962)
+       [2] T Godot.Node.GetNode<T>(Godot.NodePath) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Extensions/NodeExtensions.cs:47)
+       [3] void Urman.Godot.Tests.FullGameFlowSmokeTest+<PrepareCaptionThroughOldPcAsync>d__16.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:295)
+       [4] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [5] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [6] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+ERROR: Node not found: "Screen/App_notepad/Content/PreparePhotoCaption" (relative to "/root/FullGameFlowSmokeTest/FullGameMain/OldPcUi").
+   at: get_node (scene/main/node.cpp:1975)
+   C# backtrace (most recent call first):
+       [0] Godot.GodotObject Godot.NativeCalls.godot_icall_1_914(nint, nint, Godot.NativeInterop.godot_node_path) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8079)
+       [1] Godot.Node Godot.Node.GetNode(Godot.NodePath) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:962)
+       [2] T Godot.Node.GetNode<T>(Godot.NodePath) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Extensions/NodeExtensions.cs:47)
+       [3] void Urman.Godot.Tests.FullGameFlowSmokeTest+<PrepareCaptionThroughOldPcAsync>d__16.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:296)
+       [4] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [5] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [6] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+ERROR: Full-game semantic flow failed: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Urman.Godot.Tests.FullGameFlowSmokeTest.PrepareCaptionThroughOldPcAsync(RuntimeBridge bridge, String text, Boolean captureUiFrame) in D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:line 297
+   at Urman.Godot.Tests.FullGameFlowSmokeTest.RunRouteAsync(RuntimeBridge bridge, Boolean skipPrologue, Boolean riverFirst, Boolean captureCaptionUiFrame) in D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:line 159
+   at Urman.Godot.Tests.FullGameFlowSmokeTest._Ready() in D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:line 48
+   at: void Urman.Godot.Tests.FullGameFlowSmokeTest+<_Ready>d__6.MoveNext() (res://tests/FullGameFlowSmokeTest.cs:48)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Urman.Godot.Tests.FullGameFlowSmokeTest+<_Ready>d__6.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:48)
+       [2] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [3] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [4] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [5] void System.Threading.Tasks.Task.RunContinuations(object)
+       [6] void System.Threading.Tasks.Task.FinishSlow(bool)
+       [7] bool System.Threading.Tasks.Task.TrySetException(object)
+       [8] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetException(System.Exception, System.Threading.Tasks.Task`1[TResult]&)
+       [9] void Urman.Godot.Tests.FullGameFlowSmokeTest+<RunRouteAsync>d__7.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:159)
+       [10] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [11] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [12] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [13] void System.Threading.Tasks.Task.RunContinuations(object)
+       [14] void System.Threading.Tasks.Task.FinishSlow(bool)
+       [15] bool System.Threading.Tasks.Task.TrySetException(object)
+       [16] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetException(System.Exception, System.Threading.Tasks.Task`1[TResult]&)
+       [17] void Urman.Godot.Tests.FullGameFlowSmokeTest+<PrepareCaptionThroughOldPcAsync>d__16.MoveNext() (D:\URMAN-STATION\data\runs\e72c7f4c669e47c6afcd72aa6074b655\source\game\tests\FullGameFlowSmokeTest.cs:297)
+       [18] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [19] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [20] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+userdata guard: original files restored by rename and verified (Windows ACLs not compared)

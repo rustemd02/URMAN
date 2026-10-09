@@ -1,0 +1,42 @@
+{
+  "job_id": "02fedfa24c9344ee85e89ad87702f9a0",
+  "snapshot_id": "a6f01ca42f2d0ea2bd00da4633e514c0fc6e75d00667bda0884f608aaf145dd1",
+  "status": "FAIL",
+  "result_sha256": "465385e53dfab784f543e2670f2a0011e40efb4ffd9259af552fdfd10f6fd792",
+  "test_sha256": "18b3c034a45a85d726ed5eb2ed2fc6f29ddf924ba3e94a9f7064eb5b462c18b5",
+  "diagnostic": "saved(schema=1, checkpoint=0, pending=0, travel=0, yaw=-0,2617994, position=(0.85, 0, 2.05)); before(checkpoint=0, pending=0, travel=0, yaw=2,9321532, position=(0.85, 0, 2.05)); after(checkpoint=0, pending=0, travel=0, yaw=-0,26179942, position=(0.85, 0.09397566, 2.05)); positionDistances(saved-before=0, saved-after=0,09397566, before-after=0,09397566).",
+  "doctor": {
+    "host": "UNTERPC",
+    "ready": true,
+    "busy_job": null,
+    "orphan_game_process": false,
+    "userdata_recovery_pending": false,
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "sdk": "10.0.302"
+  },
+  "steps": {
+    "build": {
+      "exitCode": 0
+    },
+    "content-build": {
+      "exitCode": 0
+    },
+    "content-urman.chapter1": {
+      "exitCode": 0
+    },
+    "content-urman.fullgame": {
+      "exitCode": 0
+    },
+    "document-images": {
+      "exitCode": 0
+    },
+    "game": {
+      "exitCode": 1
+    },
+    "import": {
+      "exitCode": 0
+    }
+  },
+  "userdata_recovery_pending": false,
+  "userdata_restored_by_log": "original files restored by rename and verified; ACLs not compared"
+}

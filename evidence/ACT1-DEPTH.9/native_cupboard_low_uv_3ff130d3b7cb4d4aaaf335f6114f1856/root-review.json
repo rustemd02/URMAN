@@ -1,0 +1,16 @@
+{
+  "reviewer": "/root",
+  "originals_reviewed_utc": "2026-10-09T05:52:49Z",
+  "baseline_original_rechecked_utc": "2026-10-09T05:53:13Z",
+  "integrity": "Independent SHA256/size/exact file set PASS",
+  "native_job_id": "3ff130d3b7cb4d4aaaf335f6114f1856",
+  "candidate": "Existing authored cupboard door UV instead of world dominant-axis texture projection",
+  "actual_quality": "Low, no session override, comparable true; live door UV flags true",
+  "visual_result": "REJECTED_NO_SEAM_IMPROVEMENT",
+  "observation": "Two pale dotted vertical inner-frame lines persist at the same positions. Texture presentation changed, but the targeted defect was not eliminated. Overview does not prove ordinary route or whole-house quality.",
+  "source_action": "Removed only candidate ForHeroWood helper and cupboard-door UV selector; retained authored geometry, iron pull selector, committed Low cut rings, and protected census.",
+  "dotted_line_cause": "UNKNOWN",
+  "full_task_completed": false,
+  "high_quality": "NOT_PROVEN; earlier High request rescued to Low",
+  "ordinary_player_interaction": "NOT_RUN"
+}

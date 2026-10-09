@@ -1,0 +1,11 @@
+# ACT1-DEPTH.9 rug tint / family book native capture — FAILED startup
+
+This is preserved failure evidence from the protected native Windows capture. It is not a style review, task acceptance, or a retry.
+
+- Job `dcfb7e2a1a3940a79bba4cf8501fb674`: FAIL, game/runner exit 1 after 332.47s. Snapshot `c70ccdb27e73db1dd0f9bf2ca4500339fde57a4f719e6ab7f8d8e38c595d6ba8` from base `e9a0f71fa508f4fc6bb28df4ecf34b92aa5a4fb2`, 1,825 station files with source hashes verified. Windows, Godot 4.7.1.stable.mono.official.a13da4feb, SDK 10.0.302, Vulkan Forward+ / GTX 970. The 300 s game timeout was not the failure cause.
+- Build, both content compiles, document-image check, and import exited 0; the native game failed while constructing the `house_old_pc` zone. `ArrivalPersonalProps.AddFamilyBook` throws at line 109: its measured book footprint overlaps `/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedOldPcAct1/OldPc_Keyboard_LOD0`. Caller is `StyleBenchmarkZone.BuildHouseOldPc` line 625.
+- Because the book node was never created, the strict `babai_book_detail` DevView point refused capture rather than substitute another subject. No frame PNGs or sidecars were written; this job gives no visible rug-tint/book verdict. Later renderer RID/resource leak errors are retained as shutdown telemetry after the initiating startup exception.
+- `userdata_recovery_pending=false`; `userdataRestored` is not emitted by this failed receipt. The post-run doctor is READY with no active/orphan process or recovery marker; `projectRestoredSha256` is retained in the receipt.
+- `source-proof.json` links exact preseal station source copies to the receipt and carries the PW-006 book adapter/receipt evidence. Blender generators, both relevant `.blend` sources, asset registry and selected GLB rows, and three receipts are archived under `source/local-evidence-excluded/` and were not uploaded.
+- The legacy `act1_demo` capture does not establish full-game PhotoWorlds handoff, ordinary player route, or Niva route. Root review and any retry require separate coordination.
+- Raw `result.zip` is retained at ignored `.codex-captures/remote/dcfb7e2a1a3940a79bba4cf8501fb674/result.zip`; its SHA-256 is `c3d662a312cd1485de2cf98ce93c5d2d08af8d925b292f75f0435323b55bb817`.

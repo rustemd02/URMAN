@@ -1,0 +1,458 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.world-plot",
+  "id": "urman.world:atmosphere",
+  "name": "Свет, небо и туман Акта I",
+  "executor": "atmosphere",
+  "note": "Профили освещения улицы. Раньше задавались в Act1ConnectedWorld.TuneConnectedAct1Atmosphere; теперь код выбирает профиль по зоне и применяет эти значения. Цвета — HTML без #. VIS-067: авторский color-script Акта I — минимум шесть состояний (морозное утро, пасмурный день, золотой зимний час, сумерки, зелёная ночь деревни, нечеловеческая лесная ночь). Цвет делается только солнцем/небом/fog/ambient/ответом снега и локального света в существующем Environment: без LUT, full-screen tint, adjustments, glow и объёмного тумана. Необязательные блоки: 'snow' { color, coverage, sparkle, tintStrength } (VIS-068/070, отклик снега по W1/W3 — снег читается голубым/розоватым/персиковым/сиреневым, но остаётся снегом); 'identity' — короткое имя авторского состояния; 'zones' — единственный селектор состояния (VIS-040/042): 'zoneId' либо 'zoneId@night'/'zoneId@day', суффикс важнее голой записи, пустой список = состояние только для съёмки через URMAN_ATMOSPHERE_PHASE (поэтому золотой час не может стать постоянным фильтром); 'weather' { direction[x,z], speed, blizzardSpeed, flakes, blizzardFlakes, streak } — авторская перепись констант существующего weather owner (он остаётся единственным писателем частиц), из которой читают направление дыма и тонировка падающего снега (VIS-043); 'plume' { color, opacity } — отклик дыма из труб по состоянию (VIS-043/072). Профиль без 'snow'/'weather'/'plume' сохраняет прежний вид; поля опциональны, обратная совместимость сохранена. Числа дневного профиля сведены по VIS-040 (key 0.82 / fill 0.62, exposure фиксирован 1.0), ночного лесного — по VIS-042 (три плана: ambient 0.28, sun 0.22, fog 0.026 с нижним слоем height 2.6 / heightDensity 0.05, exposure 0.92 = baseline K01). Зиратская дорога (VIS-022) сознательно мягче ночных состояний: сумерки, без красного, без плотного тумана, мечеть и зират не хорроризируются.",
+  "entities": [
+    {
+      "id": "urman.world:atmosphere/village-winter-frost",
+      "kind": "atmosphere-profile",
+      "name": "Деревня · морозное утро",
+      "params": {
+        "profile": "village-winter-frost",
+        "identity": "Морозное утро",
+        "zones": [
+          "village_day",
+          "house_old_pc",
+          "fap_clinic"
+        ],
+        "ambient": {
+          "energy": 0.62,
+          "color": "8ea8cf",
+          "skyContribution": 0
+        },
+        "fog": {
+          "color": "c2d0e0",
+          "density": 0.012,
+          "height": 1.2,
+          "heightDensity": 0.005,
+          "aerialPerspective": 0.62,
+          "skyAffect": 0.72,
+          "sunScatter": 0.04
+        },
+        "exposure": 1.0,
+        "ssao": {
+          "intensity": 0.72,
+          "radius": 0.4
+        },
+        "sky": {
+          "top": "35689f",
+          "horizon": "dbe9f4",
+          "groundHorizon": "bfd0e2",
+          "groundBottom": "31517a",
+          "sunAngleMax": 1.4,
+          "sunCurve": 0.12,
+          "cover": [
+            0.14,
+            0.2,
+            0.3,
+            0.5
+          ]
+        },
+        "sun": {
+          "color": "fff0d6",
+          "energy": 0.82,
+          "shadowOpacity": 0.46,
+          "rotation": [
+            -16,
+            28
+          ]
+        },
+        "snow": {
+          "color": "c4d2ff",
+          "coverage": 1.0,
+          "sparkle": 1.15,
+          "tintStrength": 0.42
+        },
+        "weather": {
+          "direction": [
+            -1.0,
+            0.22
+          ],
+          "speed": 8.0,
+          "blizzardSpeed": 13.5,
+          "flakes": 4000,
+          "blizzardFlakes": 5200,
+          "streak": 0.012
+        },
+        "plume": {
+          "color": "cdd6de",
+          "opacity": 0.34
+        }
+      }
+    },
+    {
+      "id": "urman.world:atmosphere/overcast-day",
+      "kind": "atmosphere-profile",
+      "name": "Деревня · пасмурный день",
+      "params": {
+        "profile": "overcast-day",
+        "identity": "Пасмурный день",
+        "zones": [],
+        "ambient": {
+          "energy": 1.05,
+          "color": "7f93b3",
+          "skyContribution": 0
+        },
+        "fog": {
+          "color": "8796a8",
+          "density": 0.028,
+          "height": 1.0,
+          "heightDensity": 0.006,
+          "aerialPerspective": 0.6,
+          "skyAffect": 0.85,
+          "sunScatter": 0.02
+        },
+        "exposure": 1.0,
+        "ssao": {
+          "intensity": 0.9,
+          "radius": 0.4
+        },
+        "sky": {
+          "top": "48596f",
+          "horizon": "a4b4c6",
+          "groundHorizon": "7b8ca0",
+          "groundBottom": "3a4a5e",
+          "sunAngleMax": 0,
+          "sunCurve": 0.08,
+          "cover": [
+            0.5,
+            0.6,
+            0.7,
+            0.85
+          ]
+        },
+        "sun": {
+          "color": "cbd8e8",
+          "energy": 0.72,
+          "shadowOpacity": 0.12,
+          "rotation": [
+            -34,
+            16
+          ]
+        },
+        "snow": {
+          "color": "cfd9e8",
+          "coverage": 1.0,
+          "sparkle": 0.45,
+          "tintStrength": 0.32
+        },
+        "weather": {
+          "direction": [
+            -1.0,
+            0.22
+          ],
+          "speed": 8.0,
+          "blizzardSpeed": 13.5,
+          "flakes": 4000,
+          "blizzardFlakes": 5200,
+          "streak": 0.012
+        },
+        "plume": {
+          "color": "c2c9d0",
+          "opacity": 0.3
+        }
+      }
+    },
+    {
+      "id": "urman.world:atmosphere/golden-hour",
+      "kind": "atmosphere-profile",
+      "name": "Деревня · золотой зимний час",
+      "params": {
+        "profile": "golden-hour",
+        "identity": "Золотой зимний час",
+        "zones": [],
+        "ambient": {
+          "energy": 0.8,
+          "color": "6f83b4",
+          "skyContribution": 0
+        },
+        "fog": {
+          "color": "d99a63",
+          "density": 0.02,
+          "height": 1.0,
+          "heightDensity": 0.004,
+          "aerialPerspective": 0.9,
+          "skyAffect": 0.5,
+          "sunScatter": 0.08
+        },
+        "exposure": 1.02,
+        "ssao": {
+          "intensity": 0.8,
+          "radius": 0.4
+        },
+        "sky": {
+          "top": "2f4c86",
+          "horizon": "ff9a4a",
+          "groundHorizon": "e08a52",
+          "groundBottom": "3a3f6a",
+          "sunAngleMax": 4.0,
+          "sunCurve": 0.2,
+          "cover": [
+            0.2,
+            0.28,
+            0.4,
+            0.6
+          ]
+        },
+        "sun": {
+          "color": "ffb066",
+          "energy": 1.6,
+          "shadowOpacity": 0.5,
+          "rotation": [
+            -12,
+            40
+          ]
+        },
+        "snow": {
+          "color": "ffcaa0",
+          "coverage": 1.0,
+          "sparkle": 0.9,
+          "tintStrength": 0.6
+        },
+        "weather": {
+          "direction": [
+            -1.0,
+            0.22
+          ],
+          "speed": 8.0,
+          "blizzardSpeed": 13.5,
+          "flakes": 4000,
+          "blizzardFlakes": 5200,
+          "streak": 0.012
+        },
+        "plume": {
+          "color": "e8c9a8",
+          "opacity": 0.34
+        }
+      }
+    },
+    {
+      "id": "urman.world:atmosphere/zirat-winter-muted",
+      "kind": "atmosphere-profile",
+      "name": "Зиратская дорога · сумерки",
+      "params": {
+        "profile": "zirat-winter-muted",
+        "identity": "Сумерки",
+        "zones": [
+          "zirat_road"
+        ],
+        "ambient": {
+          "energy": 0.62,
+          "color": "6d7fae",
+          "skyContribution": 0
+        },
+        "fog": {
+          "color": "5a6480",
+          "density": 0.018,
+          "height": 1.4,
+          "heightDensity": 0.006,
+          "aerialPerspective": 0.55,
+          "skyAffect": 0.7,
+          "sunScatter": 0.02
+        },
+        "exposure": 1.0,
+        "ssao": {
+          "intensity": 0.72,
+          "radius": 0.4
+        },
+        "sky": {
+          "top": "242f56",
+          "horizon": "9d7a90",
+          "groundHorizon": "645572",
+          "groundBottom": "1c2338",
+          "sunAngleMax": 0,
+          "sunCurve": 0.12,
+          "cover": [
+            0.2,
+            0.26,
+            0.34,
+            0.55
+          ]
+        },
+        "sun": {
+          "color": "c9a3b4",
+          "energy": 0.62,
+          "shadowOpacity": 0.34,
+          "rotation": [
+            -20,
+            -45
+          ]
+        },
+        "snow": {
+          "color": "aeb8e2",
+          "coverage": 1.0,
+          "sparkle": 0.5,
+          "tintStrength": 0.4
+        },
+        "weather": {
+          "direction": [
+            -1.0,
+            0.22
+          ],
+          "speed": 8.0,
+          "blizzardSpeed": 13.5,
+          "flakes": 4000,
+          "blizzardFlakes": 5200,
+          "streak": 0.012
+        },
+        "plume": {
+          "color": "aeb4c4",
+          "opacity": 0.3
+        }
+      }
+    },
+    {
+      "id": "urman.world:atmosphere/village-green-night",
+      "kind": "atmosphere-profile",
+      "name": "Деревня · зелёная ночь",
+      "params": {
+        "profile": "village-green-night",
+        "identity": "Зелёная ночь деревни",
+        "zones": [
+          "village_day@night"
+        ],
+        "ambient": {
+          "energy": 0.42,
+          "color": "2f7d5c",
+          "skyContribution": 0
+        },
+        "fog": {
+          "color": "1f6b4f",
+          "density": 0.016,
+          "height": 2.2,
+          "heightDensity": 0.03,
+          "aerialPerspective": 0.55,
+          "skyAffect": 0.7,
+          "sunScatter": 0.01
+        },
+        "exposure": 0.95,
+        "ssao": {
+          "intensity": 0.74,
+          "radius": 0.4
+        },
+        "sky": {
+          "top": "0a2a24",
+          "horizon": "2c8a62",
+          "groundHorizon": "165a42",
+          "groundBottom": "061812",
+          "sunAngleMax": 0,
+          "sunCurve": 0.12,
+          "cover": [
+            0.2,
+            0.26,
+            0.34,
+            0.6
+          ]
+        },
+        "sun": {
+          "color": "ffb877",
+          "energy": 0.34,
+          "shadowOpacity": 0.5,
+          "rotation": [
+            -40,
+            18
+          ]
+        },
+        "snow": {
+          "color": "b8f0d6",
+          "coverage": 1.0,
+          "sparkle": 0.7,
+          "tintStrength": 0.55
+        },
+        "weather": {
+          "direction": [
+            -1.0,
+            0.22
+          ],
+          "speed": 8.0,
+          "blizzardSpeed": 13.5,
+          "flakes": 4000,
+          "blizzardFlakes": 5200,
+          "streak": 0.012
+        },
+        "plume": {
+          "color": "9db3a8",
+          "opacity": 0.4
+        }
+      }
+    },
+    {
+      "id": "urman.world:atmosphere/kara-winter-night-edge",
+      "kind": "atmosphere-profile",
+      "name": "Кромка Кара-Урмана · нечеловеческая лесная ночь",
+      "params": {
+        "profile": "kara-winter-night-edge",
+        "identity": "Нечеловеческая лесная ночь",
+        "zones": [
+          "kara_urman_night"
+        ],
+        "ambient": {
+          "energy": 0.28,
+          "color": "43706b",
+          "skyContribution": 0
+        },
+        "fog": {
+          "color": "2f5b55",
+          "density": 0.026,
+          "height": 2.6,
+          "heightDensity": 0.05,
+          "aerialPerspective": 0.45,
+          "skyAffect": 0.62,
+          "sunScatter": 0.0
+        },
+        "exposure": 0.92,
+        "ssao": {
+          "intensity": 0.8,
+          "radius": 0.4
+        },
+        "sky": {
+          "top": "0c2226",
+          "horizon": "2a5450",
+          "groundHorizon": "1c3b39",
+          "groundBottom": "0a1a1e",
+          "sunAngleMax": 0,
+          "sunCurve": 0.12,
+          "cover": [
+            0.1,
+            0.14,
+            0.2,
+            0.34
+          ]
+        },
+        "sun": {
+          "color": "9fd0cc",
+          "energy": 0.22,
+          "shadowOpacity": 0.5,
+          "rotation": [
+            -52,
+            -28
+          ]
+        },
+        "snow": {
+          "color": "93b6b0",
+          "coverage": 0.85,
+          "sparkle": 0.35,
+          "tintStrength": 0.5
+        },
+        "weather": {
+          "direction": [
+            -1.0,
+            0.22
+          ],
+          "speed": 8.0,
+          "blizzardSpeed": 13.5,
+          "flakes": 4000,
+          "blizzardFlakes": 5200,
+          "streak": 0.02
+        },
+        "plume": {
+          "color": "6f8a86",
+          "opacity": 0.26
+        }
+      }
+    }
+  ]
+}

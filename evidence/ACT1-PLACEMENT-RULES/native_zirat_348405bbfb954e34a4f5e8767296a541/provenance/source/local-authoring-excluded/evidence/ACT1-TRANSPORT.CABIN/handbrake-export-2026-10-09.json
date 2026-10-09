@@ -1,0 +1,120 @@
+{
+  "task_id": "ACT1-TRANSPORT.CABIN",
+  "unit": "Split the existing Niva handbrake into a pivot-bearing presentation mesh and bind it to VehicleController.ParkingBrake.",
+  "date": "2026-10-09",
+  "baseline": {
+    "source": "assets/source/blender/urman_niva.blend",
+    "source_sha256": "d9e45fb8a1fed36ee29da17f21127a3cf2199ddd7d701aa93e5c80047c4ea3c4",
+    "derived": "game/assets/generated/urman_niva.glb",
+    "derived_sha256": "63d262259c061103728a30fc698f66c17e3a32a95333528ca17086988a8a0ecb",
+    "protected_copy": ".codex-captures/diagnostics/act1-transport-cabin-prechange-20261009/urman_niva.blend and urman_niva.glb"
+  },
+  "baseline_registry_row": {
+    "source_sha256": "d519b541671bd57791f5fc92626ed4dee4be7de466ffd01bbac761e923d9bd9c",
+    "derived_sha256": "0385f483a314acee33b54ce34033d3fdad6c6818db2a2d09308c987d29ef01e4",
+    "matched_actual_baseline_files": false,
+    "note": "These registry values were already stale before this slice; actual pre-change BLEND/GLB hashes are recorded in baseline above. Final row now matches the generated files."
+  },
+  "generator": {
+    "path": "tools/blender/generate_niva.py",
+    "sha256": "31230068d66839582bc780f7c26cd0813c78b7fd8eca156e45c3bccd103318c5",
+    "runtime": "Pinned Blender 4.5.12 LTS",
+    "command": ".tools/blender/Blender.app/Contents/MacOS/Blender --background --python tools/blender/generate_niva.py -- --root /Users/unterlantas/Documents/GitHub/URMAN",
+    "exit_code": 0
+  },
+  "final_export": {
+    "source": "assets/source/blender/urman_niva.blend",
+    "source_sha256": "a0efae9decd49fe01dddd387c26a385c45a5aea9b7ee8bec76b379601b64f647",
+    "derived": "game/assets/generated/urman_niva.glb",
+    "derived_sha256": "45ca2e86df6515ebd507f61be2ce1294e0b9183c7d469981d2343bf338b1e29f",
+    "registry_entry": "vehicle.niva.body",
+    "registry_hashes_updated": true,
+    "history": [
+      {
+        "result": "rejected",
+        "reason": "Separated handbrake primitives exported without TEXCOORD_0.",
+        "blend_sha256": "e1628d67b7b99184ad1f705dfb6e1216e556f3f464fcc4a92a20135f361bb391",
+        "glb_sha256": "9a857cd6eca8f76b1dfdb419b091f8317969ae4d3a4f4e7cd69ec80df83d3e84",
+        "preserved_copy": "ignored diagnostics: urman_niva-first-export.blend and urman_niva-first-export.glb"
+      },
+      {
+        "result": "rejected",
+        "reason": "Blender UV (0,1) was V-flipped by glTF export to (0,0), unlike the previous glTF UV (0,1).",
+        "blend_sha256": "122923d548cc2f2a8546cf9a4f19ca4529217b523e0ae6badbc0b824e11d9f22",
+        "glb_sha256": "1176c153a11a02c0830f9e54a09869b741a11bc02ef8246c2ea0fd010c4fdd9b",
+        "preserved_copy": "ignored diagnostics: urman_niva-zero-uv-export.blend and urman_niva-zero-uv-export.glb"
+      }
+    ]
+  },
+  "part_inventory": {
+    "before_mesh_nodes": 6,
+    "after_mesh_nodes": 7,
+    "materials_before_after": 44,
+    "total_triangles_before_after": 66140,
+    "parts_after": {
+      "NivaBody": {"triangles": 26668, "urman_triangle_corners": 80004},
+      "NivaWheel": {"triangles": 4624, "urman_triangle_corners": 13872},
+      "NivaRadio": {"triangles": 2064, "urman_triangle_corners": 6192},
+      "NivaInterior": {"triangles": 22656, "urman_triangle_corners": 67968},
+      "NivaHandbrake": {"triangles": 144, "urman_triangle_corners": 432},
+      "NivaSteering": {"triangles": 4860, "urman_triangle_corners": 14580},
+      "NivaCharm": {"triangles": 5124, "urman_triangle_corners": 15372}
+    },
+    "handbrake_surface_triangles": {
+      "1b1d1b__plastic": 108,
+      "a0a39b__chrome": 36
+    },
+    "registry_triangle_budget_unchanged": 18000,
+    "budget_note": "The prior and current generated asset both contain 66140 triangles. This slice adds no triangles and does not change the existing registry budget; no performance-budget acceptance is claimed."
+  },
+  "neutral_geometry_comparison": {
+    "method": "One-off GLB accessor comparison; positions/normals transformed to world space, UVs and material names compared per triangle. Non-target unchanged nodes were compared at 1e-6 attribute precision. The old combined interior was compared after subtracting the 144 matched brake triangles. A 1e-3 position/normal bucket was used only to pair target faces; it is not the acceptance tolerance. Unrounded pairwise deltas are reported below.",
+    "non_target_meshes_semantically_identical": ["NivaBody", "NivaWheel", "NivaRadio", "NivaSteering", "NivaCharm"],
+    "remaining_interior_semantically_identical_after_split": true,
+    "target_triangles_matched": 144,
+    "target_materials_unchanged": true,
+    "target_glTF_uvs_unchanged": true,
+    "target_glTF_uv_value_counts": {"0,1": 432},
+    "target_compare_limits_and_result": {
+      "position_drift_m": "<= 1e-6",
+      "normal_vector_drift": "<= 1e-4",
+      "uv_and_material": "exact",
+      "result": "PASS for all 144 paired triangles"
+    },
+    "max_world_position_drift_m": 0.0000000665618792,
+    "max_normal_vector_drift": 0.0000902276069,
+    "max_normal_angular_drift_degrees": 0.00517,
+    "position_and_normal_note": "World positions are effectively unchanged at the measured 6.7e-8 m maximum. Normals are not bit-identical; the measured maximum unit-vector delta is 9.02e-5 (0.00517 degrees). This small residual is recorded, not represented as exact equality."
+  },
+  "pivot": {
+    "glTF_node": "NivaHandbrake",
+    "node_translation_m": [0.0, 0.6299999356, 0.1999999583],
+    "node_rotation_quaternion": [0.0, 0.0, 0.0, 1.0],
+    "node_scale": [1.0, 1.0, 1.0],
+    "neutral_world_bounds_m": {
+      "x": [-0.015, 0.015],
+      "y": [0.613041, 0.756959],
+      "z": [0.19412, 0.456]
+    },
+    "authored_neutral_pivot": [0.0, 0.63, 0.2],
+    "parking_brake_local_x_rotation_degrees": -45.0,
+    "released_local_rotation_degrees": [0.0, 0.0, 0.0]
+  },
+  "verification": {
+    "python_compile_generator": "PASS",
+    "git_diff_check_owned_files": "PASS",
+    "asset_registry_json_parse_and_unique_niva_id": "PASS",
+    "registry_hashes_match_current_files": "PASS",
+    "glb_part_extras_and_index_counts": "PASS by GLB node extras and accessor inspection; Godot runtime import/readback remains pending native capture",
+    "godot_compile": "PASS root narrow compile, exit 0, 0 warnings/errors, 14.71 s",
+    "native_static_capture": {
+      "status": "NOT_RUN",
+      "checkpoint_id": "niva_handbrake_passenger_detail",
+      "spec": "babay-niva@0.42,1.44,0.30>babay-niva@0,0.80,0.32",
+      "sidecar": "root-managed readback of controller.ParkingBrake, ParkingBrakeLever local rotation and global position is compiled; no PNG/readback archive is present yet"
+    },
+    "parking_brake_toggle_motion": "NOT_RUN; existing VehicleSmokeTest toggles ParkingBrake through UpdateVisuals, but Windows station request cannot pass its required URMAN_VEHICLE_OUTPUT or select URMAN_VEHICLE_WHEELS_ONLY. No broad smoke was run.",
+    "ordinary_camera_turns_and_style_acceptance": "PENDING",
+    "card_state": "in_progress; full task done_when remains open"
+  }
+}

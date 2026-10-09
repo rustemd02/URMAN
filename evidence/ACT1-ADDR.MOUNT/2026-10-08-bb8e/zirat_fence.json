@@ -1,0 +1,52 @@
+{
+  "point": "zirat_fence",
+  "spec": "zirat_fence:Ground@-6,1.65,-76\u003EGround@-9.06,0.75,-77",
+  "cameraName": "DevViewCamera",
+  "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+  "cameraPosition": {
+    "x": -6,
+    "y": 1.221675,
+    "z": -76
+  },
+  "cameraTarget": {
+    "x": -9.06,
+    "y": 0.332583,
+    "z": -77
+  },
+  "cameraForward": {
+    "x": -0.91623,
+    "y": -0.266213,
+    "z": -0.299421
+  },
+  "cameraSpace": "ground",
+  "targetSpace": "ground",
+  "cameraOwnerPath": null,
+  "targetOwnerPath": null,
+  "cameraOwnerZone": null,
+  "targetOwnerZone": null,
+  "fov": 70,
+  "fovSource": "control-view-default",
+  "near": 0.05,
+  "far": 160,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "scaling3DScale": 0.9,
+  "scaling3DMode": "Bilinear",
+  "graphicsPreset": "medium",
+  "activeZoneId": "village_day",
+  "requestedZoneId": null,
+  "checkpointSubject": null,
+  "requestedProfile": null,
+  "atmosphereProfile": "village-winter-frost",
+  "atmosphereOwner": "AgentBExteriorWorld",
+  "studioPreviewProfile": null,
+  "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBEnvironment",
+  "tonemapMode": "Agx",
+  "fogColor": "c2d0e0ff",
+  "fogDensity": 0.012,
+  "snowActive": true,
+  "snowAmount": 4000,
+  "blizzardActive": false,
+  "drawCalls": 20007,
+  "capturedUnixSeconds": 1791491161
+}

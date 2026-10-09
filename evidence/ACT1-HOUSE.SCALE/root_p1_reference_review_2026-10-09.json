@@ -1,0 +1,22 @@
+{
+  "reviewer": "/root",
+  "reviewed_at_utc": "2026-10-08T22:25:48.487108+00:00",
+  "reference_id": "P1",
+  "exact_source_path": "docs/URMAN_VISUAL_RESET_2026-10-07/references/P1_user_selected_painterly.png",
+  "source_sha256": "1d38dae75672be057a0c999ec6049f7f679b5e09f29bfa31670f8cdce2da6171",
+  "source_bytes": 3116695,
+  "reference_observed": [
+    "Complete rooflines/eaves and architectural depth give buildings an intact readable silhouette.",
+    "Door/window openings have depth, surrounds and distinct materials rather than only colored rectangles.",
+    "Large painterly surface/color masses coexist with physical building form and coherent cast shadows."
+  ],
+  "application_to_h019": [
+    "An absent or horizontally cut roof cannot pass the house silhouette criterion regardless of native protocol PASS.",
+    "Preserve village-specific Tatar/rural construction; the Italian street/building layout in P1 is not a literal model target.",
+    "H019 native b4c silhouette remains REJECTED; this source review is not a production-art PASS."
+  ],
+  "limits": [
+    "Only exact local P1 was inspected in this review; this does not claim other author-selected reference frames were opened.",
+    "Color/palette, lighting, complete house-family quality and author confirmation remain existing Visual Reset/PhotoWorld task gates."
+  ]
+}

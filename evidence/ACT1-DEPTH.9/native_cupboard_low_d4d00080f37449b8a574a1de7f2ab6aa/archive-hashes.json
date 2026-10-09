@@ -1,0 +1,344 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 63,
+      "sha256": "1800ef1f2717d4df6ab31aada7260edc2ab96511d0f1c23c5cb45b1a35cec8f4"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1790,
+      "sha256": "a9bf1b91c07fec1ea65714ad63ada2c1ae8268028ed9431f32e4913e1df46faa"
+    },
+    {
+      "path": "build.log",
+      "bytes": 152,
+      "sha256": "24b4bb5175c5aaaee0fa6d2972f2320ea9d6e95cc77332ed0a3b7c3ddedc77ab"
+    },
+    {
+      "path": "capture-evidence.json",
+      "bytes": 5781,
+      "sha256": "4138543fe50a41c71367e31212adf25f41bf8b965509af39350d9d2c93b409c7"
+    },
+    {
+      "path": "content-build.log",
+      "bytes": 152,
+      "sha256": "43ea48711bd17c0a7266c6f2862a1c75205216ef520a82780236ec99d51b15a5"
+    },
+    {
+      "path": "content-urman.chapter1.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "content-urman.fullgame.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "document-images.log",
+      "bytes": 746,
+      "sha256": "289eef9ee894eafa4670c358f750e2698dbe96884546cb6f0c2425af09987b52"
+    },
+    {
+      "path": "engine-errors.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "frames/_capture-summary.json",
+      "bytes": 7265,
+      "sha256": "bf1cf9b7cc37f72784995c46e33b4c9ced7cf18fe07c3010c8cda5e56e704906"
+    },
+    {
+      "path": "frames/babai_cupboard_detail_low.json",
+      "bytes": 3327,
+      "sha256": "40315713521b2eccfd5d17e5f254bc329ed4dd4fe45df376a695ccd6d77812b8"
+    },
+    {
+      "path": "frames/babai_cupboard_detail_low.png",
+      "bytes": 1927912,
+      "sha256": "f803fd82f8cf476eb96b1a6afd73fc861e3652a7ea13716e59a57286fc1f257d"
+    },
+    {
+      "path": "frames/babai_room_overview_low.json",
+      "bytes": 3151,
+      "sha256": "b52daa88d4645dcc3cba75efd9ef49169bf01ce389e5a1bf4324f9ea85153478"
+    },
+    {
+      "path": "frames/babai_room_overview_low.png",
+      "bytes": 1938489,
+      "sha256": "ef341607f43c212973d64a12cbd0bd3ec01190967ba186617cfaf4c96c3a945b"
+    },
+    {
+      "path": "game.log",
+      "bytes": 95795,
+      "sha256": "a2c27706dbb7e37bf73cfeff0b62f483df423073a77d811f7df691d5f193d066"
+    },
+    {
+      "path": "import.log",
+      "bytes": 140540,
+      "sha256": "5571c3d82278734683a9cc3159c3dcccf3e6d120d9ad9110158ea4a958484347"
+    },
+    {
+      "path": "receipt.json",
+      "bytes": 520222,
+      "sha256": "18daf4746f79df0c730e37a456693a24238044cd887e1a45ce1213dc3d9b7601"
+    },
+    {
+      "path": "request.json",
+      "bytes": 473,
+      "sha256": "39cf2c2e0f6f63a0454105d2c8ae463e1a6230f032f5aa47755d060fc38c788b"
+    },
+    {
+      "path": "result-zip.sha256",
+      "bytes": 133,
+      "sha256": "5b65b417be863974ccb9f60bdd75780898df38607a5ae4c64cda802550927496"
+    },
+    {
+      "path": "root-review.json",
+      "bytes": 580,
+      "sha256": "5fa70eb0691a2c4da635edc856e4490f60a2556e5cfa788a5a5628b6b28f0f24"
+    },
+    {
+      "path": "source/local-authoring-excluded/assets/asset_registry.json",
+      "bytes": 236918,
+      "sha256": "8787f0f337ba2f163b7d173940330204166333cda042829b60b63ac3781ac096"
+    },
+    {
+      "path": "source/local-authoring-excluded/assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "bytes": 12572542,
+      "sha256": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3"
+    },
+    {
+      "path": "source/local-authoring-excluded/assets/source/blender/act1/urman_village_exterior_kit.py",
+      "bytes": 188665,
+      "sha256": "eb0f0768beb60cad19eda1a1c25e85f03e2e8f85cff2a83bace4875bec2e3077"
+    },
+    {
+      "path": "source/local-authoring-excluded/assets/source/blender/urman_modular_kit.blend",
+      "bytes": 3394731,
+      "sha256": "67841e661586f216940230d403d8b053d3a396f91751fd79f2867dd7476f90a5"
+    },
+    {
+      "path": "source/local-authoring-excluded/evidence/ACT1-DEPTH.12/low_cut_endgrain_source_patch_2026-10-09.json",
+      "bytes": 3044,
+      "sha256": "225929fd433a60160bd0e1849d534184e2e2fd5c20220d63cad752d36b2dc367"
+    },
+    {
+      "path": "source/local-authoring-excluded/evidence/ACT1-DEPTH.12/matched-quality-capture-implementation-2026-10-09.json",
+      "bytes": 4571,
+      "sha256": "22f782cd465dd77eddee3450d191c3939cb3b8bb0921994a7ca32eb945e168ec"
+    },
+    {
+      "path": "source/local-authoring-excluded/evidence/ACT1-DEPTH.9/corner-log-material-export-2026-10-09.json",
+      "bytes": 7265,
+      "sha256": "8b0e1a34f48ae5494634f3c14ee8111f7892f689931c832a70285d5dd0e5f992"
+    },
+    {
+      "path": "source/local-authoring-excluded/evidence/ACT1-DEPTH.9/cupboard-recessed-door-export-2026-10-09.json",
+      "bytes": 9506,
+      "sha256": "17977732c0a538d47dd7b486407c23fdbd95a6bf4a1c555458b7f91b8f936945"
+    },
+    {
+      "path": "source/local-authoring-excluded/tools/blender/generate_modular_environment.py",
+      "bytes": 62072,
+      "sha256": "b82e6a808afa0d06c42fdad387c225593454e72952c9241e30cdf1dc95f3e6d3"
+    },
+    {
+      "path": "source/local-authoring-excluded/tools/blender/verify_modular_environment.py",
+      "bytes": 18884,
+      "sha256": "1ca251912e375c6f478f8dbc0bf73a03863b569cff87930e74d40c53a4cb91e8"
+    },
+    {
+      "path": "source/preseal-source-proof.json",
+      "bytes": 10350,
+      "sha256": "01ae2a16ba972bc76d495abf827e57bf6de6774bd8671f88cab0527a21aed9b8"
+    },
+    {
+      "path": "source/snapshot-manifest.json",
+      "bytes": 258312,
+      "sha256": "e077d4ff9b9380ac31d03f10dad34b659652ec6f07b1b4b9c833df32e3a34b3e"
+    },
+    {
+      "path": "source/station-selected/content/modules/urman-fullgame/definitions.json",
+      "bytes": 162746,
+      "sha256": "bac710d50f391c06281fa08b4f13d170e561980f257862974873c641975d1c19"
+    },
+    {
+      "path": "source/station-selected/game/assets/generated/urman_modular_kit.glb",
+      "bytes": 1426988,
+      "sha256": "402f9d7dc6b9c0ad8b4fdf39b2ef550b625cedb56bd9f179ee24d9ca1a07fea4"
+    },
+    {
+      "path": "source/station-selected/game/assets/images/arrival_marat_childhood_existing_v1.png",
+      "bytes": 1411356,
+      "sha256": "c4647904f1aad0ea492858547e3f3493c9356c6ef87270d34d244f4fb882ac20"
+    },
+    {
+      "path": "source/station-selected/game/assets/models/act1/urman_village_exterior_kit.glb",
+      "bytes": 3096172,
+      "sha256": "67d78ca38372f01a93dab795bb5410d4bf79db153387a2b7bbd848f5000346fc"
+    },
+    {
+      "path": "source/station-selected/game/assets/textures/painterly/carpet_palas_v1_albedo.png",
+      "bytes": 1665618,
+      "sha256": "d9d48b174b6c8e02bf618cae40ae7248b9562bbb42d7ce7ef471c06b0a55721a"
+    },
+    {
+      "path": "source/station-selected/game/assets/textures/painterly/urman_w01_v01_basecolor.png",
+      "bytes": 2441767,
+      "sha256": "0a205444a6413b9a4a420ecd5660c2a6ee3016285e58f14c1a5aaa1569a8ba75"
+    },
+    {
+      "path": "source/station-selected/game/content/urman.fullgame.compiled.v1.json",
+      "bytes": 2125405,
+      "sha256": "91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad"
+    },
+    {
+      "path": "source/station-selected/game/content/world/act1_village_kit.world.v1.json",
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d"
+    },
+    {
+      "path": "source/station-selected/game/content/world/atmosphere.v1.json",
+      "bytes": 13795,
+      "sha256": "026ed905882dd738f45c40082bd69f73dab2939fb9b16168953befc7c19a154d"
+    },
+    {
+      "path": "source/station-selected/game/content/world/visual_checkpoints.v1.json",
+      "bytes": 22433,
+      "sha256": "723685864da4a5afadb41955fad842602ca958325ae3b3d4f4a424dcaa26ab95"
+    },
+    {
+      "path": "source/station-selected/game/project.godot",
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4"
+    },
+    {
+      "path": "source/station-selected/game/scenes/act1_demo.tscn",
+      "bytes": 189,
+      "sha256": "0c00cb3d6a7078ea75b9a003e7efd8d2bb8a0528fd28f737ecc66cb59ae81fa6"
+    },
+    {
+      "path": "source/station-selected/game/scenes/main.tscn",
+      "bytes": 1914,
+      "sha256": "1efadb8d7db53dd99735b6780e846654e59c3f330d10d1bc328b8ddbefcbbc5b"
+    },
+    {
+      "path": "source/station-selected/game/scripts/Act1ConnectedWorld.YardFences.cs",
+      "bytes": 47416,
+      "sha256": "641337026a86b4d65c4c377b04ef42a9eeb2a2dc59f20278f64950fb1af77a8a"
+    },
+    {
+      "path": "source/station-selected/game/scripts/Act1ConnectedWorld.cs",
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f"
+    },
+    {
+      "path": "source/station-selected/game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 63005,
+      "sha256": "4fff298b185dc4674b6938f81d0c0e647f2b37919da0415309d8fbc1088537f6"
+    },
+    {
+      "path": "source/station-selected/game/scripts/Act1DemoRoot.RenderDiagnostics.cs",
+      "bytes": 28351,
+      "sha256": "4318d066cf862c9ee35169971378fa2d95a6961578f61a524ac5d89b33ef2feb"
+    },
+    {
+      "path": "source/station-selected/game/scripts/Act1DemoRoot.cs",
+      "bytes": 96305,
+      "sha256": "ddd7ab1a867a25c00aba183bbf2ed6ca81d309ba248ecb7663b1e456b8e795f1"
+    },
+    {
+      "path": "source/station-selected/game/scripts/ArrivalPersonalProps.cs",
+      "bytes": 11224,
+      "sha256": "46f56dd93184999f0ed24b3cbdc729cb53353a69607ab5cd4b75fecfd6de89f6"
+    },
+    {
+      "path": "source/station-selected/game/scripts/FirstPersonController.cs",
+      "bytes": 33272,
+      "sha256": "aa3baedad11de3aa4961163352c831e91249513b8b418b189a96c82c2a7fce02"
+    },
+    {
+      "path": "source/station-selected/game/scripts/GeneratedModularKitDressing.cs",
+      "bytes": 28519,
+      "sha256": "f462c691020f067ddb9bab2d7a6ef86b9bbf2eda068240411ce9b835a738541c"
+    },
+    {
+      "path": "source/station-selected/game/scripts/GraphicsQuality.cs",
+      "bytes": 10289,
+      "sha256": "0be19d48cd49dd1ec1af140dee9176c3a3e236cff5309fb855e4bcfb6eb7d6f0"
+    },
+    {
+      "path": "source/station-selected/game/scripts/InteractionTarget.cs",
+      "bytes": 10025,
+      "sha256": "36191b49bb8b730089f19f82de4b5cd6587177f07bd70861457fe931199b6aae"
+    },
+    {
+      "path": "source/station-selected/game/scripts/JournalUi.Notebook.cs",
+      "bytes": 14300,
+      "sha256": "d7f468361281ac6ace54a3ce4d36d16b62dcfe99fb0933e4f18d1f23547ffedb"
+    },
+    {
+      "path": "source/station-selected/game/scripts/Main.cs",
+      "bytes": 13569,
+      "sha256": "4a086ebdfbb8655dd606a40076e6fe938d8f620c5a32c25908ad4977b1d36985"
+    },
+    {
+      "path": "source/station-selected/game/scripts/PainterlyMaterialLibrary.cs",
+      "bytes": 123105,
+      "sha256": "bfc6ca444d1833e12714a85a66f7246b78141aef361d5eaaedd50a9c21fe3b07"
+    },
+    {
+      "path": "source/station-selected/game/scripts/RuntimeBridge.Notebook.cs",
+      "bytes": 24167,
+      "sha256": "cb1e52a76d3199f6538e637933e691d9203e4576584ba038b0d96b03b65f57d2"
+    },
+    {
+      "path": "source/station-selected/game/scripts/RuntimeBridge.cs",
+      "bytes": 93070,
+      "sha256": "dfcc8bc046ee9de25b2c4b8adbc92df0c30020154b300bb2f177f5e7f3636c90"
+    },
+    {
+      "path": "source/station-selected/game/scripts/SettingsUi.cs",
+      "bytes": 19236,
+      "sha256": "79a794eeb7c6f17e393a9903ed0a0beca17bddd7ce736bba38e99b18966cc1d6"
+    },
+    {
+      "path": "source/station-selected/game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+      "bytes": 37854,
+      "sha256": "ffbfdabb9a97e7045fdb8033de485f4ebdfa2d6f3ddf70f67653457e8da544bd"
+    },
+    {
+      "path": "source/station-selected/game/scripts/StyleBenchmarkInteriorFactory.cs",
+      "bytes": 25969,
+      "sha256": "e3ec8a1ed9913e2b1a2213e0765e5c300c8b3a56dcd7a9bb5ef0b5229ff46f60"
+    },
+    {
+      "path": "source/station-selected/game/scripts/StyleBenchmarkZone.cs",
+      "bytes": 109203,
+      "sha256": "6e8afeff88775757325dbfc4dd45dfbde57294643c3621e750cb413089b275f7"
+    },
+    {
+      "path": "station-doctor-after-sequence.json",
+      "bytes": 510,
+      "sha256": "7a86b9ff8242f376c214870a8808bb02e4946a352f31206c4daed49cc842c56f"
+    },
+    {
+      "path": "station-status-after.json",
+      "bytes": 363,
+      "sha256": "3f03b45b6c379918b8e245206345cbdb848f7ed1d99440cf76db1760a666d961"
+    },
+    {
+      "path": "stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout.log",
+      "bytes": 237498,
+      "sha256": "1e20dd751aeb41d135f87f127f357a7ab1a52e07267605d74ab4afdcbd137545"
+    }
+  ]
+}

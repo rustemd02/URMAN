@@ -1,0 +1,180 @@
+{
+  "taskId": "PW-007",
+  "receiptVersion": 1,
+  "recordedAt": "2026-10-09",
+  "owner": "/root/address_mount",
+  "status": "logical_catalog_native_verified_dependency_open",
+  "implementation": {
+    "sourceOfTruth": "The fullgame campaign manifest authors the runtime catalog. Its explicit authoringSpecSources point to exact imported copies under content/campaigns/urman.fullgame/photoworlds-sources; the ContentCompiler validates these compile-time inputs then strips their paths. No station-time docs lookup or runtime docs dependency exists.",
+    "typedCatalog": "Urman.Core.Narrative.PhotoWorldCatalog parses the compiled catalog into read-only collections (top-level photo/world/anchor lists and each world node/resource list). It enforces 13 unique PhotoIds/PageIds, five worlds, unique primary photos, node/resource uniqueness, spawn_main/exit role references, and the exact seven required PhotoWorlds v1 anchor IDs.",
+    "compilerValidation": "ContentCompiler cross-checks campaign IDs, world-photo mappings, anchors, spawn/exit node IDs and roles, all node IDs/roles, and each required resource ID against explicit v1 spec sources. It rejects a missing urman.fullgame catalog, missing/unknown records, and required anchors without exactly one authored scene entryAnchorId; no default catalog/resource fallback is used.",
+    "assetBoundary": "assets.spec.json is treated as a requirement register only. Its current 48 records are REQUESTED / NOT_RUN / REQUIRES_PROVENANCE; no runtime asset availability or production readiness is claimed.",
+    "physicalBoundary": "Spawn and exit fields are authored logical node references. No physical safe-node, collision, scene materialization, transition, teleport, or runtime-world readiness is certified. PhotoWorldState schema and world-ID owner were not changed.",
+    "logicalAnchorBindings": "The seven required anchors each have one authored scene owner; PW_PROLOGUE_ROAD binds to the existing urman.fullgame:scene/pw-prologue. These are logical content bindings, not physical placement or spawn-safety proof."
+  },
+  "catalog": {
+    "campaignId": "urman.fullgame",
+    "campaignExactVersion": "1.0.0",
+    "namespaceId": "photoworlds-v1",
+    "schemaVersion": 1,
+    "photoCount": 13,
+    "worldCount": 5,
+    "requiredAnchorCount": 7,
+    "pageIdMapping": "All 13 existing stable PageId values were preserved; the photos spec does not define a separate PageId field.",
+    "worlds": [
+      {
+        "id": "W01",
+        "photoId": "P-FOREST",
+        "anchorId": "PW_FOREST_ENTRY",
+        "mainSpawnNodeId": "F10",
+        "exitNodeId": "F16",
+        "nodeCount": 11,
+        "requiredResourceCount": 10
+      },
+      {
+        "id": "W02",
+        "photoId": "P-WATER",
+        "anchorId": "PW_RIVER_ENTRY",
+        "mainSpawnNodeId": "R00",
+        "exitNodeId": "R08",
+        "nodeCount": 9,
+        "requiredResourceCount": 10
+      },
+      {
+        "id": "W03",
+        "photoId": "P-HOUSE",
+        "anchorId": "PW_HOME_PHOTO_ENTRY",
+        "mainSpawnNodeId": "H00",
+        "exitNodeId": "H08",
+        "nodeCount": 9,
+        "requiredResourceCount": 11
+      },
+      {
+        "id": "W04",
+        "photoId": "P-COMMON",
+        "anchorId": "PW_COMMON_ENTRY",
+        "mainSpawnNodeId": "C00",
+        "exitNodeId": "C08",
+        "nodeCount": 9,
+        "requiredResourceCount": 10
+      },
+      {
+        "id": "W05",
+        "photoId": "P-CELLAR",
+        "anchorId": "PW_CELLAR_ENTRY",
+        "mainSpawnNodeId": "B00",
+        "exitNodeId": "B07",
+        "nodeCount": 8,
+        "requiredResourceCount": 8
+      }
+    ],
+    "supportPhotos": [
+      "S-SCHOOL",
+      "S-BANK",
+      "S-PHOTOGRAPHER",
+      "S-GARDEN",
+      "S-PRINT",
+      "S-MARAT",
+      "S-HAND",
+      "S-NOW"
+    ],
+    "requiredAnchors": [
+      "PW_HOME_TABLE",
+      "PW_FOREST_ENTRY",
+      "PW_RIVER_ENTRY",
+      "PW_HOME_PHOTO_ENTRY",
+      "PW_COMMON_ENTRY",
+      "PW_CELLAR_ENTRY",
+      "PW_PROLOGUE_ROAD"
+    ]
+  },
+  "verification": {
+    "diffCheck": "PASS",
+    "jsonSyntax": "PASS for campaign schema, fullgame manifest, fullgame module definitions, and generated pack.",
+    "gameBuild": {
+      "command": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+      "result": "PASS",
+      "warnings": 0,
+      "errors": 0,
+      "elapsedSeconds": 13.53
+    },
+    "contentCliBuild": {
+      "command": ".tools/dotnet/dotnet build tools-dotnet/Urman.ContentCli/Urman.ContentCli.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+      "result": "PASS",
+      "warnings": 0,
+      "errors": 0,
+      "elapsedSeconds": 0.96
+    },
+    "fullgameContentCompile": {
+      "command": ".tools/dotnet/dotnet tools-dotnet/Urman.ContentCli/bin/Debug/net10.0/Urman.ContentCli.dll compile --root /Users/unterlantas/Documents/GitHub/URMAN --campaign urman.fullgame --out game/content/urman.fullgame.compiled.v1.json",
+      "result": "PASS",
+      "exitCode": 0,
+      "packSha256": "89f8a53f0315a10c475b0165677d8475473c3a336dda7d004bc550af145c5b1e",
+      "compiledCatalogSummary": "photoworlds-v1 schema 1; 13 photos; 5 worlds; 7 required anchors; authoringSpecSources omitted from the compiled payload; all seven anchor IDs bind to exactly one scene."
+    },
+    "native": {
+      "result": "PASS",
+      "jobId": "3195422fc11a4a8b88e9811d01587782",
+      "snapshotId": "04824ea5ac58cbfc6976bf0b9987fc963b71835e01572ff302e3880f51a7459e",
+      "archive": "evidence/PW-007/native_3195422fc11a4a8b88e9811d01587782",
+      "elapsedSeconds": 130.12,
+      "engineErrors": 0,
+      "userdataRestored": true,
+      "selectedExactSourcesVerified": 15,
+      "scene": "res://tests/full_game_flow_smoke_test.tscn",
+      "physicalAcceptance": "NOT_RUN"
+    },
+    "stationCandidateCheck": {
+      "result": "PASS",
+      "details": "eng.remote_common.candidates(root) includes the 10 production source/pack paths used in this slice; all three imported spec copies byte-match their docs originals."
+    }
+  },
+  "sourceHashesSha256": {
+    "content/schemas/campaign-manifest.schema.json": "e4851b09d642fddc1e8ade80b4c5a791c101482fb81427db89c0cf2e645a2062",
+    "content/campaigns/urman.fullgame/campaign.json": "2e0b902a24f9deb828397732f182426facc0154b5a71c9510967a82a6f0d8b39",
+    "content/modules/urman-fullgame/definitions.json": "a73e8fd3a5f8bdb03fd9bd636b29257a71e93d803a80089a2a011334d68ac647",
+    "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs": "ff77988ac60e00d8ca90eddc8710f5b7b5585b997e89b2f4503741d4c8d11fac",
+    "src-dotnet/Urman.Content/Compilation/ContentCompiler.cs": "a4e6129e680238cc31ca97eb48bc0d9f63e7d3d210534d7024433cea110e491c",
+    "game/scripts/CompiledCampaignRepository.cs": "68c7f5a871b725f42c398d351a1297b49fc761f4b4e5684c504a98338c23ee8a",
+    "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json": "6127fe5180785ac303d4372b4537c38d253c255e88dc04a5d8c821e4a01bc2cc",
+    "content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json": "d1e870648629b901a0b962e8798671e634a21b7787a94b89325151fafa306353",
+    "content/campaigns/urman.fullgame/photoworlds-sources/assets.spec.json": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
+    "game/content/urman.fullgame.compiled.v1.json": "89f8a53f0315a10c475b0165677d8475473c3a336dda7d004bc550af145c5b1e"
+  },
+  "acceptanceBoundary": {
+    "cardStatus": "in_progress",
+    "runtimeEvidence": "PASS bounded native logical catalog load",
+    "remaining": "PW-006 required dependency remains in_progress. Logical bindings do not certify physical safe nodes, actual resource production, ordinary route, or art acceptance. Author acceptance stays PENDING.",
+    "humanArtAcceptance": "NOT_RUN"
+  },
+  "importedSourceProvenance": {
+    "purpose": "Portable authoring inputs required because the protected station snapshot excludes docs/. These are exact copies of the three v1 requirement specs, not a new backlog or runtime-availability register.",
+    "sources": [
+      {
+        "original": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/photos.spec.json",
+        "copy": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json",
+        "sha256": "6127fe5180785ac303d4372b4537c38d253c255e88dc04a5d8c821e4a01bc2cc"
+      },
+      {
+        "original": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/worlds.spec.json",
+        "copy": "content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json",
+        "sha256": "d1e870648629b901a0b962e8798671e634a21b7787a94b89325151fafa306353"
+      },
+      {
+        "original": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json",
+        "copy": "content/campaigns/urman.fullgame/photoworlds-sources/assets.spec.json",
+        "sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1"
+      }
+    ],
+    "protectedStationCandidateCheck": "PASS; eng.remote_common.candidates(root) includes all three content copies."
+  },
+  "clauseAudit": {
+    "docs03": "Current PhotoBook retains the 13 stable PhotoIds and their existing PageIds; five primary photos map one-to-one to the five worlds and the other eight remain support photos. Imported photo source retains the specified source/permission/representation requirements. This catalog does not claim book UI, physical printing, visual assets, or acquired/mounted interactions complete.",
+    "docs06": "The typed definitions are immutable after Parse; compiled content carries the seven logical anchors, including PW_PROLOGUE_ROAD bound to the existing prologue scene. Anchor uniqueness is checked at compilation and repository load. Authored spawn/exit nodes and required resource IDs are logical requirements only; no ReturnTicket lifecycle, physical transform, collision-safe spawn, resource availability, or runtime world readiness is asserted.",
+    "docs11": "S1 adapts the exact imported photos/worlds/assets v1 source specs into the fullgame manifest; S2 validates IDs, links, node roles, resource references, and one scene owner for each required anchor; S3 is the existing ContentCLI path. The specs are explicit content-subtree copies solely for protected-station portability, byte-matched to the requirement sources; they are not runtime docs lookups or a second backlog."
+  },
+  "independentAcceptanceAudit": {
+    "reviewer": "/root/legs_motion",
+    "result": "Task-local positive load satisfied; keep unchanged PW-006 dependency and PENDING author acceptance."
+  }
+}

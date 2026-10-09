@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "task_id": "ACT1-DEPTH.9",
+  "stage": "partial_source_slice_exported_native_visual_pending",
+  "date": "2026-10-09",
+  "references": {
+    "menu_house": {
+      "path": "game/assets/textures/ui/act1_menu_winter_v1.png",
+      "sha256": "2afdd76a4356ddfa42a92a8ebe002c4cd8a9303a3482e0ad76f1d8aeebbfc420"
+    },
+    "selected_P1": {
+      "path": "docs/URMAN_VISUAL_RESET_2026-10-07/references/P1_user_selected_painterly.png",
+      "sha256": "1d38dae75672be057a0c999ec6049f7f679b5e09f29bfa31670f8cdce2da6171",
+      "use": "painterly materiality and believable depth; not literal Tatar architecture or palette"
+    }
+  },
+  "baseline_capture": {
+    "job_id": "9b3f2961f21647f39a2bc8ee772e99a7",
+    "snapshot_id": "67f554453879c49cb1ccd9bf684bc6f976239a083907492f866806f2ad09b1dd",
+    "readme": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-wide-h019-babai-9b3f2961f21647f39a2bc8ee772e99a7/README.md",
+    "frames": [
+      {
+        "path": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-wide-h019-babai-9b3f2961f21647f39a2bc8ee772e99a7/frames/babai_shape_front.png",
+        "sha256": "c87a209b0dedafce9a648027585257ba0d404f484001957c721794abce8e81ea"
+      },
+      {
+        "path": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-wide-h019-babai-9b3f2961f21647f39a2bc8ee772e99a7/frames/babai_shape_oblique.png",
+        "sha256": "dd27b535bec202e676bdba84eb678fb54036e45becddb80fb8f3bcd331ae766a"
+      }
+    ],
+    "limits": "Protected Windows PASS proves capture/cleanup only. These static DevView controls bind to BabaiApproachDwellingFacade and do not prove normal player traversal or art acceptance."
+  },
+  "observed_source_mismatch": "The original 1.36 x 0.70 m porch deck stopped 0.11 m inside each 18 cm post base laterally and 0.10 m short of the base footprint in depth, leaving the visible deck detached from the canopy supports.",
+  "source_change": {
+    "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
+    "sha256": "51791739c01e317b3ad795ae0e2814d234c59217e467ded4b77769b991b1bfd4",
+    "summary": "Derive the presentation deck footprint from existing post/base coordinates (1.94 x 0.98 m); distribute seven deck seams across it; add two 8 cm bearers below the deck from wall edge to post bases; widen the plinth split only enough to preserve 5 cm clearance from the deck. Roof, posts, door opening, threshold, wall and interior coordinates remain unchanged."
+  },
+  "export": {
+    "command": ".tools/blender/Blender.app/Contents/MacOS/Blender --background --python assets/source/blender/act1/urman_village_exterior_kit.py -- --root /Users/unterlantas/Documents/GitHub/URMAN --component-only hero-house",
+    "blender": "4.5.12 LTS",
+    "exit_code": 0,
+    "generator_validation": "hero-house-pass: meshes=665, shell=8.4x7.4, clear room=8x7, ceiling=2.6, threshold=.246, door=1.3x2.25; fingerprint=e120e31c46989ba2484328a60203ec41416ba901bc5929e64b9a3e796d34ff63",
+    "outputs": [
+      {
+        "path": "assets/source/blender/act1/urman_village_exterior_kit.blend",
+        "previous_sha256": "f3fa9137183c486692f6e542909ba34278b7dd1826e976e08328e15a406e0521",
+        "sha256": "c08019b60194c346e6428df7abf8e3f404d4c73ce0fe030283a7ec989fe90338"
+      },
+      {
+        "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+        "previous_sha256": "f3570f9d0ebfc37e3066bc4d39c6b3e90755ba2cbf75c38a57232aedb08c7b9e",
+        "sha256": "3d61163f9b592df5ec3895811b20c59874a94c9b0628b538ab43898823c8deb2"
+      }
+    ]
+  },
+  "verification": {
+    "geometry_bounds": "One-off arithmetic assertions passed: deck edges coincide with post-base footprint; bearer top equals deck underside; rails remain 0.19 m outside the 1.30 m door aperture; plinth clearance is 0.05 m; deck width/depth are 1.94/0.98 m.",
+    "component_only_integrity": "Compared prior HEAD GLB with exported GLB: 854 non-HeroHouse nodes kept the same names, mesh names, primitive/accessor counts, material names and transforms. Vertex payloads were not separately byte-compared.",
+    "asset_registry": "Updated only sourceSha256/derivedSha256 for urman.act1.village_exterior_kit; existing eng/verify-asset-registry.sh run against a temporary one-entry manifest passed; full registry JSON parsed successfully.",
+    "diff_check": "git diff --check passed for the source and registry changes."
+  },
+  "remaining": [
+    "Import the exported GLB and capture the same front/oblique views in a new protected Windows snapshot; root must review the original PNGs for visible support/deck continuity and style.",
+    "Inspect an ordinary player approach/walk at the entrance and around the corner; static control views are not traversal evidence.",
+    "Finish all ACT1-DEPTH.9 done_when requirements, including interior use/clearance and the AS-01/AS-02/AS-13 asset passport evidence."
+  ],
+  "card_status": "in_progress; no visual acceptance or task completion claimed"
+}

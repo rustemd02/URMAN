@@ -1,0 +1,475 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970
+
+act1-kit-lod-parity-notice: /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/GeneratedModularKit variant=style-day-house pairs=12 overTolerance=1 worstCrown=100.00% worstHeight=0.15% worstBase=1.70% rootOffset=0.0000m
+act1-kit-lod-parity-notice: /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/@Node3D@314 variant=style-day-well pairs=7 overTolerance=7 worstCrown=100.00% worstHeight=0.42% worstBase=100.00% rootOffset=0.0000m
+act1-kit-lod-parity-notice: /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/@Node3D@317 variant=style-day-woodpile pairs=4 overTolerance=4 worstCrown=2.20% worstHeight=0.00% worstBase=0.40% rootOffset=0.0000m
+act1-kit-lod-parity-notice: /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedModularKit variant=style-house-interior-eight-by-seven pairs=48 overTolerance=25 worstCrown=9.89% worstHeight=13.92% worstBase=15.96% rootOffset=0.0000m
+act1-kit-lod-parity-notice: /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/GeneratedModularKit variant=style-house-old-pc pairs=8 overTolerance=3 worstCrown=2.55% worstHeight=7.22% worstBase=0.11% rootOffset=0.0000m
+act1-kit-lod-parity-notice: /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/kara-urman-edge/GeneratedModularKit variant=style-forest-pine pairs=2 overTolerance=2 worstCrown=4.26% worstHeight=0.45% worstBase=3.77% rootOffset=0.0000m
+act1-kit-lod-parity-notice: /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/kara-urman-edge/@Node3D@1238 variant=style-forest-pine pairs=2 overTolerance=2 worstCrown=4.26% worstHeight=0.45% worstBase=3.77% rootOffset=0.0000m
+act1-kit-lod-parity-notice: /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/kara-urman-edge/@Node3D@1239 variant=style-forest-pine pairs=2 overTolerance=2 worstCrown=4.26% worstHeight=0.45% worstBase=3.77% rootOffset=0.0000m
+WARNING: PainterlyMaterialLibrary: surface 'snow_ground' has no declared mode; it gets the flat world-space default.
+   at: Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (res://scripts/PainterlyMaterialLibrary.cs:1408)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\PainterlyMaterialLibrary.cs:1408)
+       [2] void Urman.Godot.Act1ConnectedWorld.BuildArrivalKitchenGardens(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:6239)
+       [3] void Urman.Godot.Act1ConnectedWorld.BuildCoreArrival(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:5960)
+       [4] void Urman.Godot.Act1ConnectedWorld.BuildAct1CoreWorldGreybox() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:1145)
+       [5] void Urman.Godot.Act1ConnectedWorld.ProfileWorldBuildStep(string, System.Action) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:6348)
+       [6] void Urman.Godot.Act1ConnectedWorld.Build() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:407)
+       [7] void Urman.Godot.Act1ConnectedWorld._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:309)
+       [8] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [9] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [10] bool Urman.Godot.Act1ConnectedWorld.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Act1ConnectedWorld_ScriptMethods.generated.cs:5726)
+       [11] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [12] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [13] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [14] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [15] void Urman.Godot.Main._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Main.cs:83)
+       [16] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [17] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [18] bool Urman.Godot.Main.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Main_ScriptMethods.generated.cs:80)
+       [19] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [20] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [21] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [22] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [23] void Urman.Godot.Act1DemoRoot.InitializeDemo() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:264)
+       [24] void Urman.Godot.Act1DemoRoot+<InitializeDemoWithLoadingScreenAsync>d__149.MoveNext() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:209)
+       [25] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [26] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [27] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+WARNING: PainterlyMaterialLibrary: surface 'ice' has no declared mode; it gets the flat world-space default.
+   at: Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (res://scripts/PainterlyMaterialLibrary.cs:1408)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\PainterlyMaterialLibrary.cs:1408)
+       [2] Godot.MeshInstance3D Urman.Godot.Act1ConnectedWorld.AddVisualBox(Godot.Node3D, string, Godot.Vector3, Godot.Vector3, string, string, float, float) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:10965)
+       [3] void Urman.Godot.Act1ConnectedWorld.AddVisualSweepWell(Godot.Node3D, string, Godot.Vector3, float, float) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:8238)
+       [4] void Urman.Godot.Act1ConnectedWorld.BuildCoreArrival(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:5964)
+       [5] void Urman.Godot.Act1ConnectedWorld.BuildAct1CoreWorldGreybox() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:1145)
+       [6] void Urman.Godot.Act1ConnectedWorld.ProfileWorldBuildStep(string, System.Action) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:6348)
+       [7] void Urman.Godot.Act1ConnectedWorld.Build() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:407)
+       [8] void Urman.Godot.Act1ConnectedWorld._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:309)
+       [9] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [10] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [11] bool Urman.Godot.Act1ConnectedWorld.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Act1ConnectedWorld_ScriptMethods.generated.cs:5726)
+       [12] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [13] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [14] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [15] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [16] void Urman.Godot.Main._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Main.cs:83)
+       [17] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [18] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [19] bool Urman.Godot.Main.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Main_ScriptMethods.generated.cs:80)
+       [20] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [21] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [22] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [23] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [24] void Urman.Godot.Act1DemoRoot.InitializeDemo() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:264)
+       [25] void Urman.Godot.Act1DemoRoot+<InitializeDemoWithLoadingScreenAsync>d__149.MoveNext() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:209)
+       [26] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [27] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [28] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+WARNING: PainterlyMaterialLibrary: surface 'snow_trampled' has no declared mode; it gets the flat world-space default.
+   at: Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (res://scripts/PainterlyMaterialLibrary.cs:1408)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\PainterlyMaterialLibrary.cs:1408)
+       [2] Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForPath(string) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\PainterlyMaterialLibrary.cs:1349)
+       [3] Godot.MeshInstance3D Urman.Godot.Act1ConnectedWorld.AddVisualLandformSurface(Godot.Node3D, string, float, float, float, Godot.Vector3, string, string, float, bool, Godot.Curve3D, System.Func`2[System.Single,System.Single]) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:7872)
+       [4] void Urman.Godot.Act1ConnectedWorld.BuildCoreZirat(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:6638)
+       [5] void Urman.Godot.Act1ConnectedWorld.BuildAct1CoreWorldGreybox() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:1151)
+       [6] void Urman.Godot.Act1ConnectedWorld.ProfileWorldBuildStep(string, System.Action) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:6348)
+       [7] void Urman.Godot.Act1ConnectedWorld.Build() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:407)
+       [8] void Urman.Godot.Act1ConnectedWorld._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:309)
+       [9] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [10] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [11] bool Urman.Godot.Act1ConnectedWorld.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Act1ConnectedWorld_ScriptMethods.generated.cs:5726)
+       [12] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [13] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [14] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [15] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [16] void Urman.Godot.Main._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Main.cs:83)
+       [17] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [18] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [19] bool Urman.Godot.Main.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Main_ScriptMethods.generated.cs:80)
+       [20] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [21] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [22] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [23] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [24] void Urman.Godot.Act1DemoRoot.InitializeDemo() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:264)
+       [25] void Urman.Godot.Act1DemoRoot+<InitializeDemoWithLoadingScreenAsync>d__149.MoveNext() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:209)
+       [26] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [27] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [28] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+act1-bridge-joint: name=SuspensionRimBearing_near slotBefore=0.09 crestMax=0.11 gapAfter=0 target=0.01 cap=0.12
+act1-bridge-joint: name=SuspensionRimBearing_far slotBefore=0.09 crestMax=0.08 gapAfter=0.01 target=0.01 cap=0.12
+act1-gorge-joint: deckCollisionTopError=0.0832 planks=49 sections=14 apronBoards=10
+suspension-bridge-dynamics: nodes=183 sections=14 span=17.4m maxAmpY=0.3 voices=3
+act1-gorge: halfWidth=8 depth=9 bridge=suspension@(0,-97.0)
+act1-gorge-bridge: planks=49 patchBoards=4 apronBoards=10 sections=14 deckHoles=0
+act1-bridge-joint: name=BridgeNearLandBearing slotBefore=0.3 crestMax=0.12 gapAfter=0.0947 target=0.01 cap=0.12
+act1-bridge-joint: name=BridgeFarLandBearing slotBefore=0.3 crestMax=0.12 gapAfter=0.0349 target=0.01 cap=0.12
+WARNING: PainterlyMaterialLibrary: surface 'frost_window' has no declared mode; it gets the flat world-space default.
+   at: Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (res://scripts/PainterlyMaterialLibrary.cs:1408)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\PainterlyMaterialLibrary.cs:1408)
+       [2] Godot.MeshInstance3D Urman.Godot.Act1ConnectedWorld.AddVisualBox(Godot.Node3D, string, Godot.Vector3, Godot.Vector3, string, string, float, float) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:10965)
+       [3] void Urman.Godot.Act1ConnectedWorld.AddFarBankPublicBuilding(Godot.Node3D, Urman.Godot.Act1ConnectedWorld+FarBankPublic) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.FarBank.cs:98)
+       [4] void Urman.Godot.Act1ConnectedWorld.AddFarBankQuarter(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.FarBank.cs:58)
+       [5] void Urman.Godot.Act1ConnectedWorld.AddRavineFarBank(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.Ravine.cs:314)
+       [6] void Urman.Godot.Act1ConnectedWorld.AddVillageRavine(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.Ravine.cs:55)
+       [7] void Urman.Godot.Act1ConnectedWorld.BuildAct1CoreWorldGreybox() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:1169)
+       [8] void Urman.Godot.Act1ConnectedWorld.ProfileWorldBuildStep(string, System.Action) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:6348)
+       [9] void Urman.Godot.Act1ConnectedWorld.Build() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:407)
+       [10] void Urman.Godot.Act1ConnectedWorld._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:309)
+       [11] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [12] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [13] bool Urman.Godot.Act1ConnectedWorld.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Act1ConnectedWorld_ScriptMethods.generated.cs:5726)
+       [14] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [15] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [16] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [17] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [18] void Urman.Godot.Main._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Main.cs:83)
+       [19] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [20] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [21] bool Urman.Godot.Main.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Main_ScriptMethods.generated.cs:80)
+       [22] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [23] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [24] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [25] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [26] void Urman.Godot.Act1DemoRoot.InitializeDemo() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:264)
+       [27] void Urman.Godot.Act1DemoRoot+<InitializeDemoWithLoadingScreenAsync>d__149.MoveNext() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:209)
+       [28] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [29] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [30] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+WARNING: PainterlyMaterialLibrary: surface 'snow_roof' has no declared mode; it gets the flat world-space default.
+   at: Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (res://scripts/PainterlyMaterialLibrary.cs:1408)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\PainterlyMaterialLibrary.cs:1408)
+       [2] Godot.MeshInstance3D Urman.Godot.Act1ConnectedWorld.AddVisualBox(Godot.Node3D, string, Godot.Vector3, Godot.Vector3, string, string, float, float) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:10965)
+       [3] void Urman.Godot.Act1ConnectedWorld.AddFarBankPublicBuilding(Godot.Node3D, Urman.Godot.Act1ConnectedWorld+FarBankPublic) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.FarBank.cs:120)
+       [4] void Urman.Godot.Act1ConnectedWorld.AddFarBankQuarter(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.FarBank.cs:58)
+       [5] void Urman.Godot.Act1ConnectedWorld.AddRavineFarBank(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.Ravine.cs:314)
+       [6] void Urman.Godot.Act1ConnectedWorld.AddVillageRavine(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.Ravine.cs:55)
+       [7] void Urman.Godot.Act1ConnectedWorld.BuildAct1CoreWorldGreybox() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:1169)
+       [8] void Urman.Godot.Act1ConnectedWorld.ProfileWorldBuildStep(string, System.Action) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:6348)
+       [9] void Urman.Godot.Act1ConnectedWorld.Build() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:407)
+       [10] void Urman.Godot.Act1ConnectedWorld._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:309)
+       [11] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [12] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [13] bool Urman.Godot.Act1ConnectedWorld.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Act1ConnectedWorld_ScriptMethods.generated.cs:5726)
+       [14] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [15] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [16] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [17] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [18] void Urman.Godot.Main._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Main.cs:83)
+       [19] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [20] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [21] bool Urman.Godot.Main.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Main_ScriptMethods.generated.cs:80)
+       [22] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [23] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [24] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [25] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [26] void Urman.Godot.Act1DemoRoot.InitializeDemo() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:264)
+       [27] void Urman.Godot.Act1DemoRoot+<InitializeDemoWithLoadingScreenAsync>d__149.MoveNext() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:209)
+       [28] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [29] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [30] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+zirat-relocation: family stones=2 quiet stones=7 rows=2
+WARNING: VIS-022 zirat grave axis: measured 87.5°, the project qibla parameter 195.1725° puts the row axis at 105.2° => 17.7° to be confirmed by the author and a cultural consultant (measured only: nothing was rotated).
+   at: void Urman.Godot.Act1ConnectedWorld.AuditZiratCulturalContract(Godot.Node3D, Godot.Node3D, Godot.Node3D) (res://scripts/Act1ConnectedWorld.cs:3633)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] void Urman.Godot.Act1ConnectedWorld.AuditZiratCulturalContract(Godot.Node3D, Godot.Node3D, Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:3633)
+       [2] void Urman.Godot.Act1ConnectedWorld.BuildAct1ZiratRoadsideKit(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:3501)
+       [3] void Urman.Godot.Act1ConnectedWorld.BuildAct1CoreWorldGreybox() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:1214)
+       [4] void Urman.Godot.Act1ConnectedWorld.ProfileWorldBuildStep(string, System.Action) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:6348)
+       [5] void Urman.Godot.Act1ConnectedWorld.Build() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:407)
+       [6] void Urman.Godot.Act1ConnectedWorld._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:309)
+       [7] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [8] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [9] bool Urman.Godot.Act1ConnectedWorld.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Act1ConnectedWorld_ScriptMethods.generated.cs:5726)
+       [10] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [11] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [12] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [13] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [14] void Urman.Godot.Main._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Main.cs:83)
+       [15] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [16] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [17] bool Urman.Godot.Main.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Main_ScriptMethods.generated.cs:80)
+       [18] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [19] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [20] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [21] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [22] void Urman.Godot.Act1DemoRoot.InitializeDemo() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:264)
+       [23] void Urman.Godot.Act1DemoRoot+<InitializeDemoWithLoadingScreenAsync>d__149.MoveNext() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:209)
+       [24] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [25] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [26] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+zirat-cultural-audit: forbidden=0 fenceTop=1.03m gateTop=1.48m paths=1 stones=13/13 axis=87.5° expected=105.2° delta=17.7°
+WARNING: PainterlyMaterialLibrary: surface 'snow_grass' has no declared mode; it gets the flat world-space default.
+   at: Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (res://scripts/PainterlyMaterialLibrary.cs:1408)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\PainterlyMaterialLibrary.cs:1408)
+       [2] void Urman.Godot.Act1ConnectedWorld.RegradeKaraEdgeMaterials(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:3949)
+       [3] void Urman.Godot.Act1ConnectedWorld.BuildAct1KaraForestEdgeKit(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:3895)
+       [4] void Urman.Godot.Act1ConnectedWorld.BuildAct1CoreWorldGreybox() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:1215)
+       [5] void Urman.Godot.Act1ConnectedWorld.ProfileWorldBuildStep(string, System.Action) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:6348)
+       [6] void Urman.Godot.Act1ConnectedWorld.Build() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:407)
+       [7] void Urman.Godot.Act1ConnectedWorld._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:309)
+       [8] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [9] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [10] bool Urman.Godot.Act1ConnectedWorld.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Act1ConnectedWorld_ScriptMethods.generated.cs:5726)
+       [11] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [12] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [13] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [14] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [15] void Urman.Godot.Main._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Main.cs:83)
+       [16] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [17] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [18] bool Urman.Godot.Main.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Main_ScriptMethods.generated.cs:80)
+       [19] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [20] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [21] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [22] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [23] void Urman.Godot.Act1DemoRoot.InitializeDemo() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:264)
+       [24] void Urman.Godot.Act1DemoRoot+<InitializeDemoWithLoadingScreenAsync>d__149.MoveNext() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:209)
+       [25] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [26] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [27] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+WARNING: PainterlyMaterialLibrary: surface 'rowan_berries' has no declared mode; it gets the flat world-space default.
+   at: Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (res://scripts/PainterlyMaterialLibrary.cs:1408)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\PainterlyMaterialLibrary.cs:1408)
+       [2] Godot.Material Urman.Experiments.AgentBAct1.AgentBKitMaterials.MaterialFor(string) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\experiments\agent_b_act1\AgentBKitMaterials.cs:109)
+       [3] void Urman.Experiments.AgentBAct1.AgentBKitMaterials.RebindMaterials(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\experiments\agent_b_act1\AgentBKitMaterials.cs:153)
+       [4] Godot.Node3D Urman.Experiments.AgentBAct1.AgentBKitMaterials.InstantiateKit(Godot.Node, string, string) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\experiments\agent_b_act1\AgentBKitMaterials.cs:124)
+       [5] void Urman.Godot.AgentBAct1ExteriorLayer.Build() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\experiments\agent_b_act1\AgentBAct1ExteriorLayer.cs:145)
+       [6] void Urman.Godot.Act1ConnectedWorld.BuildAgentBExteriorWorld(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:1681)
+       [7] void Urman.Godot.Act1ConnectedWorld.BuildAct1CoreWorldGreybox() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:1218)
+       [8] void Urman.Godot.Act1ConnectedWorld.ProfileWorldBuildStep(string, System.Action) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:6348)
+       [9] void Urman.Godot.Act1ConnectedWorld.Build() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:407)
+       [10] void Urman.Godot.Act1ConnectedWorld._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:309)
+       [11] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [12] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [13] bool Urman.Godot.Act1ConnectedWorld.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Act1ConnectedWorld_ScriptMethods.generated.cs:5726)
+       [14] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [15] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [16] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [17] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [18] void Urman.Godot.Main._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Main.cs:83)
+       [19] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [20] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [21] bool Urman.Godot.Main.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Main_ScriptMethods.generated.cs:80)
+       [22] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [23] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [24] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [25] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [26] void Urman.Godot.Act1DemoRoot.InitializeDemo() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:264)
+       [27] void Urman.Godot.Act1DemoRoot+<InitializeDemoWithLoadingScreenAsync>d__149.MoveNext() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:209)
+       [28] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [29] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [30] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+WARNING: PainterlyMaterialLibrary: surface 'bark_birch_winter' has no declared mode; it gets the flat world-space default.
+   at: Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (res://scripts/PainterlyMaterialLibrary.cs:1408)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\PainterlyMaterialLibrary.cs:1408)
+       [2] Godot.Material Urman.Godot.AgentBAct1ExteriorLayer.RegionalFoliageMaterial(string, string, string) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\experiments\agent_b_act1\AgentBAct1ExteriorLayer.cs:1762)
+       [3] Godot.ArrayMesh Urman.Godot.AgentBAct1ExteriorLayer+<>c__DisplayClass50_0.<PlantFoliage>g__RegionalMesh|5(string, string) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\experiments\agent_b_act1\AgentBAct1ExteriorLayer.cs:1391)
+       [4] void Urman.Godot.AgentBAct1ExteriorLayer.PlantFoliage() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\experiments\agent_b_act1\AgentBAct1ExteriorLayer.cs:1565)
+       [5] void Urman.Godot.AgentBAct1ExteriorLayer.Build() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\experiments\agent_b_act1\AgentBAct1ExteriorLayer.cs:242)
+       [6] void Urman.Godot.Act1ConnectedWorld.BuildAgentBExteriorWorld(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:1681)
+       [7] void Urman.Godot.Act1ConnectedWorld.BuildAct1CoreWorldGreybox() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:1218)
+       [8] void Urman.Godot.Act1ConnectedWorld.ProfileWorldBuildStep(string, System.Action) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:6348)
+       [9] void Urman.Godot.Act1ConnectedWorld.Build() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:407)
+       [10] void Urman.Godot.Act1ConnectedWorld._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:309)
+       [11] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [12] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [13] bool Urman.Godot.Act1ConnectedWorld.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Act1ConnectedWorld_ScriptMethods.generated.cs:5726)
+       [14] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [15] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [16] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [17] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [18] void Urman.Godot.Main._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Main.cs:83)
+       [19] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [20] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [21] bool Urman.Godot.Main.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Main_ScriptMethods.generated.cs:80)
+       [22] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [23] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [24] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [25] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [26] void Urman.Godot.Act1DemoRoot.InitializeDemo() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:264)
+       [27] void Urman.Godot.Act1DemoRoot+<InitializeDemoWithLoadingScreenAsync>d__149.MoveNext() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:209)
+       [28] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [29] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [30] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+act1-foliage-lod: families=36 tolerance=2.0% worstCrown=14.03% worstHeight=0.55% worstBase=14.05% overTolerance=35 farAlphaSurfaces=1 cells=2444 cellInstances=7849 maxCellDiagonal=21.3m maxCellVolume=1467m3 overFootprint=0 swayReserve=0.427m treeSwayReserve=1.582m uncovered=0 bounds=measured budget=budget lodRangeScaleCeiling=1.60 tieredTrees=6037 sharedRootInstances=18236 rangeGaps=0 doubleFullBands=0 tiers=[6162,6037,6037] meshes=135 materials=13 surfaces=297 alphaSurfaces=3 shadowCasters=14643 skippedOuterUnderstory=1360 occlusion=False graphics=preset=medium,lod_threshold=1.50,scale=0.90,msaa=Msaa2X,shadow_filter=SoftLow,directional_shadow_distance=80,directional_shadow_atlas=4096,positional_shadow_atlas=2048,ssao_gate=authored,probe=none
+act1-forest-rhythm: mode=broken trunks=3137 intervalShare=[39.8%->25.2%] modal=[3.80m->3.40m] gapSpreadAfter=[0.01,7.99]m nearBandTrunks=1587 nearestMin=0.01m nearestMedian=2.49m speciesRuns=238 longestRun=6 rows=[5,7,9]@15/25/40m
+WARNING: PainterlyMaterialLibrary: surface 'snow_road' has no declared mode; it gets the flat world-space default.
+   at: Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (res://scripts/PainterlyMaterialLibrary.cs:1408)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\PainterlyMaterialLibrary.cs:1408)
+       [2] int Urman.Godot.Act1ConnectedWorld.RegradeAct1DaylightKitMaterials(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:2140)
+       [3] void Urman.Godot.Act1ConnectedWorld.ApplyAct1DaylightPresentationPass(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:2042)
+       [4] void Urman.Godot.Act1ConnectedWorld.BuildAct1CoreWorldGreybox() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:1228)
+       [5] void Urman.Godot.Act1ConnectedWorld.ProfileWorldBuildStep(string, System.Action) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:6348)
+       [6] void Urman.Godot.Act1ConnectedWorld.Build() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:407)
+       [7] void Urman.Godot.Act1ConnectedWorld._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:309)
+       [8] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [9] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [10] bool Urman.Godot.Act1ConnectedWorld.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Act1ConnectedWorld_ScriptMethods.generated.cs:5726)
+       [11] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [12] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [13] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [14] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [15] void Urman.Godot.Main._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Main.cs:83)
+       [16] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [17] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [18] bool Urman.Godot.Main.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Main_ScriptMethods.generated.cs:80)
+       [19] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [20] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [21] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [22] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [23] void Urman.Godot.Act1DemoRoot.InitializeDemo() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:264)
+       [24] void Urman.Godot.Act1DemoRoot+<InitializeDemoWithLoadingScreenAsync>d__149.MoveNext() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:209)
+       [25] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [26] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [27] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+village-chimney: /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_ChimneyFlashing_LOD0 top=(-30.427853, 4.90042, -4.427193)
+village-chimney: /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/WestReturnMidParcel/WestReturnMidFacade/VillageParcel_VariantB_PlasterAnnex_Dwelling/VariantB_PlasterAnnex_Dwelling_ChimneyCap_LOD0 top=(13.285, 4.224752, 39.610004)
+act1-terrain-room-cut: room=/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=48 clippedVertices=123318 publishedVertices=123318 physicsVertices=123318 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=11 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-south-fence-house-junction: wallX=-33.5880 retainedMembers=13 retiredPostsAndCaps=10 supportedWestWing=2.4920m
+WARNING: PainterlyMaterialLibrary: surface 'snow' has no declared mode; it gets the flat world-space default.
+   at: Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (res://scripts/PainterlyMaterialLibrary.cs:1408)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] Godot.Material Urman.Godot.PainterlyMaterialLibrary.ForColor(string, string, bool) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\PainterlyMaterialLibrary.cs:1408)
+       [2] Godot.MeshInstance3D Urman.Godot.Act1ConnectedWorld.MechanismVisual(Godot.Node3D, string, Godot.Vector3, Godot.Vector3, string, string) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.YardMechanisms.cs:309)
+       [3] void Urman.Godot.Act1ConnectedWorld.BuildYardMechanisms(Godot.Node3D, Urman.Godot.CarryCoordinator) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.YardMechanisms.cs:22)
+       [4] void Urman.Godot.Act1ConnectedWorld.BuildCarryables(Godot.Node3D) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:1366)
+       [5] void Urman.Godot.Act1ConnectedWorld.Build() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:431)
+       [6] void Urman.Godot.Act1ConnectedWorld._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1ConnectedWorld.cs:309)
+       [7] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [8] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [9] bool Urman.Godot.Act1ConnectedWorld.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Act1ConnectedWorld_ScriptMethods.generated.cs:5726)
+       [10] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [11] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [12] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [13] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [14] void Urman.Godot.Main._Ready() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Main.cs:83)
+       [15] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2660)
+       [16] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [17] bool Urman.Godot.Main.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.Main_ScriptMethods.generated.cs:80)
+       [18] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+       [19] void Godot.NativeInterop.NativeFuncs.godotsharp_method_bind_ptrcall(nint, nint, System.Void**, System.Void*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Godot.SourceGenerators.Internal/Godot.SourceGenerators.Internal.UnmanagedCallbacksGenerator/Godot.NativeInterop.NativeFuncs.generated.cs:380)
+       [20] void Godot.NativeCalls.godot_icall_3_912(nint, nint, nint, Godot.NativeInterop.godot_bool, int) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:8061)
+       [21] void Godot.Node.AddChild(Godot.Node, bool, Godot.Node+InternalMode) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:848)
+       [22] void Urman.Godot.Act1DemoRoot.InitializeDemo() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:264)
+       [23] void Urman.Godot.Act1DemoRoot+<InitializeDemoWithLoadingScreenAsync>d__149.MoveNext() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\Act1DemoRoot.cs:209)
+       [24] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [25] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext(System.Threading.Thread)
+       [26] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
+act1-drain-bank-conform: mesh=/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/BabaiYard_EastFenceSwale originalTriangles=78 affectedTriangles=35 outputTriangles=3543 groundOwner=unchanged
+act1-rear-gate: retired_meshes=15 disabled_shapes=15 bypass=/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/Act1BypassCollision
+act1-mosque-terrain-cut: affectedTriangles=86 publishedVertices=123324 physicsVertices=123324 sameOwner=true
+mosque-address-mount available=True doorFound=True door=(-30.916079, 1.8232076, 24.329773) preferredOutward=(0.96514225, 0, -0.261726) point=(-30.976536, 2.5172076, 23.128733) readingFloorY=0.71720755 readingHeight=1.8000001 outward=(0.96514225, 0, -0.261726) owner=/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueHallEastLeft failure=
+act1-mosque-entrance: firstRise=-0.022 approachFeet=-0.448 lowerTop=-0.471 upperTop=0.000 innerRise=0.157 treadDepth=2.150 thresholdSlotBefore=0.025 firstStepAdded=False sillAdded=True
+banya-atmosphere: emitters=3 particles=19 hazeQuads=2 voices=3 ready=True
+act1-shop-storefront: reskinned=75 gableSign=(8.815001, 2.7757518, 38.800003) entry=(12.295, 0.06675188, 41.950005)
+act1-school-bank-cut: the field bank does not meet the school footprint (relayout v3); no cut
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_040 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-format: source=urman_village_exterior_kit_FenceSegment_RailMiddle_Crooked_LOD0Mesh vertices=48 normals=48 uv=0 tangents=192 colors=0 uv2=0 lods=0 sourceFormat=536875015 publishedFormat=4103
+act1-council-fence-format: source=urman_village_exterior_kit_Cube_039 vertices=96 normals=96 uv=96 tangents=384 colors=0 uv2=0 lods=0 sourceFormat=536875031 publishedFormat=4119
+act1-council-fence-junction: fence=/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFence wall=/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastStreetHorizonParcel/EastStreetHorizonFacade/VillageParcel_VariantA_TimberGable_Dwelling/VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0 localCutZ=-4.4 hiddenMembers=4 trimmedRails=3 retainedMembers=8 sourceAsset=unchanged
+act1-terrain-room-cut: room=/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageRavine/RavineFarBank/FarBankPublic_police half=(5.79, 4.29) affectedTriangles=72 clippedVertices=123330 publishedVertices=123330 physicsVertices=123330 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=0 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+police-seat: sourcePelvis=(-3.097206, 0.6009963, 1.0985031) mounted=(-3.1, 0.56, 1.43)
+act1-fap-plate: at=(25.390001, 1.9432073, -28.118002) outward=(0, 0, 1)
+act1-overlap-cleanup: hidden=4
+act1-overlap-cleanup: legacyRelocated=0 authoredOwners=12
+act1-yard-composition: hidden=27
+authored-world: 127 objects from res://content/world
+open-part-kept-near-interaction|/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/@Node3D@914/@MeshInstance3D@911@6.1,7.2
+open-part-kept-near-interaction|/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ConnectiveReturnCareBench/BenchLegLeft@-5.1,-39.1
+open-part-kept-near-interaction|/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ConnectiveReturnCareBench/BenchBackPostLeft@-5.0,-39.3
+open-part-kept-near-interaction|/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ConnectiveStreetReturn/ConnectiveReturnCareBench/BenchBackRest@-4.3,-39.0
+open-part-kept-near-interaction|/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/RestBenchCollision/Seat@-5.0,-52.0
+open-part-kept-near-interaction|/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/RestBenchCollision/Back@-5.0,-52.3
+open-part-kept-near-interaction|/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/village-main-road/ConnectiveReturnCareBenchCollision/Back@-4.3,-39.0
+act1-open-part-clear: hiddenMeshes=778 disabledShapes=4 sunkInstances=106 keptNearInteraction=7
+act1-babai-foliage: owners=0 contacts=0
+act1-terrain-room-cut: room=/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house half=(4, 3.5) affectedTriangles=50 clippedVertices=123294 publishedVertices=123294 physicsVertices=123294 visualAndPhysics=shared-published-faces
+act1-apron-room-cut: mesh=/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainRoadKit/URMAN_AgentB_TerrainRoadKit/Apron_BabaiYard affectedTriangles=0 clippedVertices=123 surfaces=1 collision=existing-terrain-owner
+act1-babai-relocation: moved=601 cleared=932 door=(-9.5,-1.88315) yaw+=25.28
+act1-gorge-clear: large mesh spans the gorge: /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/BackdropGround box=(-420, -5.3091583, -420)..(420, 12.931662, 360)
+act1-gorge-clear: hidden=595 shapesDisabled=16 foliageInstances=182
+act1-street-frontage: rejected axis=39, footprint=2
+act1-street-frontage: houses=1 runs=3 gates=0 wickets=0 wood_tris=1996 iron_tris=0 hidden_old_fence_pieces=0
+act1-deck-seat: deck=/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/BabaiStorageBarn/Floor topY=0.318 seats=8 trimmed=3 letDown=5 worst=88.9mm sawhorseFeet=4 undersidePiercing=0
+act1-yard-biography: lot=ADR-H047 groups=2 moves=0 instances=23->23 corridor=0.00m (min 0.90m)
+act1-yard-fences: lots=85 runs=350 gates=84 wickets=0 openings=82 holes=0 retired=477 designs=5
+act1-clean-yards: removed=1817 owners=79; real fences, storage and interactions retained
+vehicle-snow-tracks: segments=0 budget=512
+act1-roadside-grounding: independent contact meshes=34; source meshes and usable footbridge preserved
+act1-kit-blockers: placements=12 shapes=227 carved_door_slabs=31 flat_slab_skipped=318 exact_architecture_surfaces=123 hidden_skipped=108 road_clearance_skipped=0
+act1-dwelling-threshold: placements=78 worst_analytic_vs_collision_delta=0.166m worst_placement=ZiratEastNearMidHouse
+act1-building-supports: supported foundations=16; maximum ground drop=1.888m; level entrances preserved
+act1-council-fence-contacts: retainedSourceContacts=0 hiddenMemberContacts=0 newBodyOwners=0
+zone-loaded: village_day@arrival connected-world=133160769202
+УРМАН Godot vertical slice ready: Painterly Low-Poly / first person
+act1-window-surrounds: painted=952
+act1-legacy-sign: suppressed=1
+village-households: 86 homes, 777 warm panes, 47 events; budgets lights=6, voices=4, clips=8, PCM=2000000
+village-sound-mood: layers village=True dread=True adhan=True defaultMood=0,90
+forest-edge-presence: anchor=True pos=0,0,-115 voices=3 radius=60m
+club-gramophone: anchor=True songs=5 crackle=True
+village-pa: speakers=4 songs=5 bus=Loudspeaker
+village-window-silhouettes: windows=777 pool=10 variants=5
+mosque-sanctuary: room=True soundMood=True lamps=3 forest=True bathSpirit=True
+village-chimney-smoke: chimneys=86 emitters=14 particles=140
+WARNING: Vehicle forest-horse-cart placement rejected: the actual articulated hoof pose is blocked or unsupported: {"foot":1,"reason":"IK reached its unstretched joint limit","kind":"support-or-reach","vehicleShape":"HoofContactQuery1","colliderPath":"/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision"}; recovered to physically checked parking.
+   at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:211)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\VehicleFleet.cs:211)
+       [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\VehicleFleet.cs:124)
+       [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+       [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:180)
+       [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+act1-snow-exclusions: corridors=92 solids=3692 footprints=96 totalCorridors=92
+act1-snow-mass: drifts=13 vertices=2304 band=0,12 heightMin=0,18 heightMax=0,4
+act1-street-banks: reworked=50 apertures=2 corridorCrossings=0 unparsed=0 corridors=92 solids=3692 footprints=96
+act1-snow-relief: clipped meshes=14 triangles=662 solids=672 addedVertices=1743
+act1-snow-elevation: meshes=110 levels=35 band=0,12 riseMin=-1,519 riseMax=4,777
+zone-loaded: village_day@arrival connected-world=133160769202
+WARNING: Vehicle forest-horse-cart placement rejected: the actual articulated hoof pose is blocked or unsupported: {"foot":1,"reason":"IK reached its unstretched joint limit","kind":"support-or-reach","vehicleShape":"HoofContactQuery1","colliderPath":"/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision"}; recovered to physically checked parking.
+   at: void Urman.Godot.VehicleFleet.FinishSessionProjection() (res://scripts/VehicleFleet.cs:211)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] void Urman.Godot.VehicleFleet.FinishSessionProjection() (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\VehicleFleet.cs:211)
+       [2] void Urman.Godot.VehicleFleet._PhysicsProcess(double) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\scripts\VehicleFleet.cs:124)
+       [3] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2648)
+       [4] bool Godot.Node3D.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node3D.cs:1127)
+       [5] bool Urman.Godot.VehicleFleet.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (D:\URMAN-STATION\data\runs\1f7651002b4d4b05abb4a62dbad53339\source\game\.godot\mono\temp\obj\Debug\Godot.SourceGenerators\Godot.SourceGenerators.ScriptMethodsGenerator\Urman.Godot.VehicleFleet_ScriptMethods.generated.cs:180)
+       [6] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+SaveGameV3 debug session started; saves use debug-savegames.
+zone-loaded: house_old_pc@entry connected-world=133160769202
+act1-debug-zone: house_old_pc@entry
+act1-demo-performance-rescue: preset=low avg=159.6ms median=107.2ms reason=slow-startup
+act1-debug-zone-standing: house_old_pc@entry at (-10.920504, -0.006097816, -1.8831527) yaw=90 on-floor=True speed=0,00
+shader-instance-budget: meshes=63177 candidates=54840 bufferSize=1048576
+view-capture: babai_room_overview camera=DevViewCamera at=(-11.070504, 1.5941521, -1.8855537) zone=house_old_pc profile=village-winter-frost preset=low scale=0,7 fov=70 focus=True pause=False drawCalls=5075 frameMs=16,7
+view-capture: babai_rug_detail camera=DevViewCamera at=(-10.620492, 1.6441522, -4.305551) zone=house_old_pc profile=village-winter-frost preset=low scale=0,7 fov=70 focus=True pause=False drawCalls=2875 frameMs=16,7
+view-capture: scene/resource cleanup completed
+userdata guard: original files restored by rename and verified (Windows ACLs not compared)

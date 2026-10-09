@@ -1,0 +1,10 @@
+# PW005 native save-isolation field diagnostic
+
+- Job `02fedfa24c9344ee85e89ad87702f9a0`, snapshot `a6f01ca42f2d0ea2bd00da4633e514c0fc6e75d00667bda0884f608aaf145dd1`; native `res://tests/full_game_flow_smoke_test.tscn` on UNTERPC, Godot 4.7.1.stable.mono.official.a13da4feb, .NET 10.0.302; **FAIL**, game exit 1. Result ZIP SHA-256 `465385e53dfab784f543e2670f2a0011e40efb4ffd9259af552fdfd10f6fd792`.
+- Test caller SHA-256 `18b3c034a45a85d726ed5eb2ed2fc6f29ddf924ba3e94a9f7064eb5b462c18b5`. The exact failed predicate diagnostic is retained in `game.log` and `failure-summary.json`: saved(schema=1, checkpoint=0, pending=0, travel=0, yaw=-0,2617994, position=(0.85, 0, 2.05)); before(checkpoint=0, pending=0, travel=0, yaw=2,9321532, position=(0.85, 0, 2.05)); after(checkpoint=0, pending=0, travel=0, yaw=-0,26179942, position=(0.85, 0.09397566, 2.05)); positionDistances(saved-before=0, saved-after=0,09397566, before-after=0,09397566).
+
+The diagnostic shows saved and pre-save positions coincide, but the actor moved vertically by 0.09397566 m before the after-save sample; the yaw changed from 2.9321532 rad before save to -0.2617994 rad in the saved pose. Checkpoint, pending checkpoint, and travelled metres are 0 in all three samples. This identifies the observed mismatch only; it does not establish why actor transform changed during the async save.
+
+Receipt reports `userdata_recovery_pending=false`; `game.log` says original files were restored by rename and verified (Windows ACLs not compared). Post-run doctor reports ready with no active job, no orphan process, and no pending recovery. No human playtest ran. Keep PW005 open; do not weaken the assertion based on this evidence.
+
+`source_snapshot/` contains 22 exact relevant source copies, the full captured source manifest, and a hash proof. All selected files match the station manifest. Fetched artifacts and `result.zip` are byte-preserved. `.gitattributes` disables text normalization; `archive-sha256.json` lists all archive files except itself.

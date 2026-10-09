@@ -1,0 +1,8 @@
+{
+  "reviewer": "/root",
+  "verdict": "FAIL_CAPTURE_OWNER_AMBIGUOUS",
+  "observed": "Default authored spawn loaded successfully; first capture selector matched two ZiratAuthoredOpenGate instances. Zero native capture PNGs and no grounding residual census.",
+  "fix_scope": "Preserve both instances/resolver guard; derive the same camera ray relative to unique existing ZiratMemoryField. JSON checkpoint-only correction queued.",
+  "full_task_complete": false,
+  "archive_independent_verification": "PASS all listed file hashes/sizes and exact file set before adding root-review; preseal selected/local files retained."
+}

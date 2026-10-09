@@ -1,0 +1,68 @@
+{
+  "taskId": "PW-006",
+  "receiptVersion": 1,
+  "recordedAt": "2026-10-09",
+  "owner": "/root/address_mount",
+  "status": "source_slice_build_verified_native_pending",
+  "implementation": {
+    "stateOwner": "Existing RuntimeKernel and PhotoWorldState reducer remain the only state and occurrence-ledger owners.",
+    "commandAdapter": "PhotoWorldCommandHandler validates campaign identity and authored conditions/effects, maps reducer-backed PhotoWorld operations to typed pw1.* command names, and delegates the authored transaction to the existing ContentApply planner/reducer. Mixed operations use pw1.interaction.apply as one kernel transaction.",
+    "runtimeBridge": "Existing authored interaction, dialogue, and caption dispatch paths select the typed command where applicable and validate captured RuntimeKernel session identity across dispatch/reconciliation.",
+    "existingSmokeContract": "FullGameFlowSmokeTest repeats the same occurrence ID for the authored prologue photo-source interaction and asserts duplicate rejection plus unchanged runtime state."
+  },
+  "verification": {
+    "diffCheck": "PASS",
+    "affectedModuleBuild": {
+      "project": "game/Urman.Game.csproj",
+      "result": "PASS",
+      "warnings": 0,
+      "errors": 0,
+      "elapsedSeconds": 14.79,
+      "operator": "/root",
+      "scope": "Narrow game compile of the sealed current source; no broad tests/content rebuild."
+    },
+    "native": {
+      "status": "PENDING",
+      "plannedScene": "res://tests/full_game_flow_smoke_test.tscn",
+      "queue": "After the current five-point visual snapshot is sealed; Windows station owned by baseline operator.",
+      "notRunByThisReceipt": true
+    }
+  },
+  "sourceHashesSha256": {
+    "src-dotnet/Urman.Core/Narrative/PhotoWorldCommandHandler.cs": "41cb0950577548145bfb50e061fa54c7028f530bafd0109d0c0af718abf4252b",
+    "src-dotnet/Urman.Core/Narrative/NarrativeCommandHandlers.cs": "08a7414d825ec606425b9c83f9980115deb0e8509c889686fc46ad753da4f2b2",
+    "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs": "a21e94a8178a528b6e237712b8ff27f1548c83412829932f039ef3b5ea8d308d",
+    "src-dotnet/Urman.Core/Narrative/ContentRuleEngine.cs": "8711108e0911d96e244c6640a08d300500b9f27224f300f81375c8bc52f20fbf",
+    "src-dotnet/Urman.Core/Runtime/RuntimeKernel.cs": "db255cda9626f7b0b7f1c344c0df592b0609bfe34348d35ef0e2723379f8f6fc",
+    "game/scripts/RuntimeBridge.cs": "dfcc8bc046ee9de25b2c4b8adbc92df0c30020154b300bb2f177f5e7f3636c90",
+    "game/tests/FullGameFlowSmokeTest.cs": "9450536fc9b0edda60a1c2762f1933dd0520ece0589ec120b33b075f68f107cc"
+  },
+  "semanticResults": {
+    "typedCommandsWithCurrentReducerOwners": [
+      "pw1.book.receive",
+      "pw1.photo.acquire",
+      "pw1.photo.mount",
+      "pw1.photo.back-read",
+      "pw1.context.observe",
+      "pw1.outside.verify",
+      "pw1.prologue.enter",
+      "pw1.prologue.complete",
+      "pw1.epilogue.finish",
+      "pw1.interaction.apply"
+    ],
+    "occurrenceProtection": "Source path and existing smoke contract cover duplicate rejection with no second state mutation. RuntimeKernel returns DuplicateOccurrence rejection rather than replaying the earlier successful result; this is not return/recovery replay semantics and remains an explicit gap against docs/07 §4.",
+    "authoredPrerequisites": "Named commands require their authored condition/effect arrays and pass through existing ContentRuleEngine evaluation; no empty-condition default or debug bypass is added.",
+    "unimplementedCommandOwners": [
+      "pw1.visit.prepare/commit/return/abort: no lifecycle/physical transaction producer; future PW-020/PW-024 ownership.",
+      "pw1.world.observe/action: no validated spatial target/range/observation owner; future physical integration ownership.",
+      "General pw1.chapter.complete: existing quest coordinator owns current quest reconciliation, but no general chapter command contract exists here.",
+      "No separate debug-command UI/surface is implemented."
+    ]
+  },
+  "acceptanceBoundary": {
+    "cardStatus": "in_progress",
+    "nativeSemanticFlow": "NOT_RUN",
+    "ordinaryPhysicalVisitAndWorldAcceptance": "NOT_RUN",
+    "remaining": "Run the existing guarded Windows full-game flow after station seal; review its authored prerequisite and duplicate-occurrence assertions. Keep PW-006 open until all task-local clauses are accepted, including disposition of duplicate-result/recovery semantics. Physical visit/world consumers remain separate owned work and are not implied by this receipt."
+  }
+}

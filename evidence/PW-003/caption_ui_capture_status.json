@@ -1,0 +1,49 @@
+{
+  "kind": "urman.photoworlds.fullgame-caption-ui-capture-attempt",
+  "result": "NOT_CAPTURED",
+  "reason": "The native semantic flow exited before the Old PC caption step: authored interaction pw-prologue-photo-source was rejected.",
+  "capture_marker": "fullgame-caption-ui-png:",
+  "capture_marker_found": false,
+  "job_id": "458f620f2e1d44f2b8e0e66a9e2929c2",
+  "snapshot_id": "2d6f2d32d0dc03a11c9f7dd847c3a33d8bb09a050b15e82c9aa288962208ce8a",
+  "source_commit": "795ca1f9fa4b13c15b9727cd6bd03da3e8bc7e18",
+  "scene": "res://tests/full_game_flow_smoke_test.tscn",
+  "mode": "smoke",
+  "native": true,
+  "game_exit_code": 1,
+  "status": "FAIL",
+  "steps": {
+    "build": {
+      "exitCode": 0
+    },
+    "content-build": {
+      "exitCode": 0
+    },
+    "content-urman.chapter1": {
+      "exitCode": 0
+    },
+    "content-urman.fullgame": {
+      "exitCode": 0
+    },
+    "document-images": {
+      "exitCode": 0
+    },
+    "game": {
+      "exitCode": 1
+    },
+    "import": {
+      "exitCode": 0
+    }
+  },
+  "userdata_recovery_pending": false,
+  "userdata_restore_confirmed_by_log": true,
+  "campaign_content_sha256": "c1afa18be60a451d7a2a5295d8be72cba7211579c415f51e75ca2f56ae209052",
+  "human_playtest": "not-run",
+  "physical_scope": "NOT_RUN",
+  "attempt_artifacts": "evidence/PW-003/native_20261009_458f620f2e1d44f2b8e0e66a9e2929c2",
+  "game_log_sha256": "f122c007fdf303fce370148a248b0230f6196958335af2afdd89a73620054741",
+  "receipt_sha256": "1b6d7e57c326122e8648798b28c044b86c28da0c88e63ed15ed8d29caa277b74",
+  "result_zip_sha256": "0d69bc1cba367979623b930735001f8c917a38109d1e44ebbdc204dc10f02717",
+  "png_path": null,
+  "png_sha256": null
+}

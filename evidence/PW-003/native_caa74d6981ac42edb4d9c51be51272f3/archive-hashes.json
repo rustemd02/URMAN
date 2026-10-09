@@ -1,0 +1,189 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 63,
+      "sha256": "1800ef1f2717d4df6ab31aada7260edc2ab96511d0f1c23c5cb45b1a35cec8f4"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1741,
+      "sha256": "108bce2bf835987d3cb15f40423a6124390d18c16b55a21e287a6378ddee1298"
+    },
+    {
+      "path": "build.log",
+      "bytes": 152,
+      "sha256": "b2da6914bf4ec393f44dd24747c7afea4bfd953267ba8cea5538e5973c9a798c"
+    },
+    {
+      "path": "capture-evidence.json",
+      "bytes": 3289,
+      "sha256": "d30b0a16b622c2bf58c6a81fce568640f44b80a77edb0b287d5757ef29ec7655"
+    },
+    {
+      "path": "content-build.log",
+      "bytes": 152,
+      "sha256": "1d2b4aa4a3bad9e269f4db43b510d09bd6183a7b591cad111c3856e4e5b14230"
+    },
+    {
+      "path": "content-urman.chapter1.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "content-urman.fullgame.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "document-images.log",
+      "bytes": 746,
+      "sha256": "289eef9ee894eafa4670c358f750e2698dbe96884546cb6f0c2425af09987b52"
+    },
+    {
+      "path": "engine-errors.log",
+      "bytes": 306,
+      "sha256": "4640c0e81829f7c43fd46404e0b1fb7a84aa7f9c6d1766763068c1549341a68b"
+    },
+    {
+      "path": "game.log",
+      "bytes": 40821,
+      "sha256": "33a9fe7de9c3ac50db7056316871bfe457a92bfdc71eb56dc08fae21ff9724bb"
+    },
+    {
+      "path": "import.log",
+      "bytes": 140540,
+      "sha256": "5571c3d82278734683a9cc3159c3dcccf3e6d120d9ad9110158ea4a958484347"
+    },
+    {
+      "path": "receipt.json",
+      "bytes": 552113,
+      "sha256": "23f48296f10eb041b5ea71c9c998f4101371dafeee328b1132c6e20a21738e19"
+    },
+    {
+      "path": "request.json",
+      "bytes": 237,
+      "sha256": "7f088a441877494fd9da60eed631e1a70f6358e89f4ffacf5eee827ec8b96d6e"
+    },
+    {
+      "path": "result-zip.sha256",
+      "bytes": 133,
+      "sha256": "e87b0520781f631d1aacbe0b0fa5e3c92f1147aa63ef071ac15c256d470a773d"
+    },
+    {
+      "path": "root-review.json",
+      "bytes": 1434,
+      "sha256": "a3e1df7918ecf84f90bfab60b7d757e8a6e5ce83308427b69c7f48e6e7d1938d"
+    },
+    {
+      "path": "source/preseal-source-proof.json",
+      "bytes": 16755,
+      "sha256": "44012969459d6f6f0c688a513270185ad167591ab40fc10047d82afa0e7dae58"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/content/campaigns/urman.fullgame/campaign.json",
+      "bytes": 22717,
+      "sha256": "2e0b902a24f9deb828397732f182426facc0154b5a71c9510967a82a6f0d8b39"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/content/modules/urman-fullgame/definitions.json",
+      "bytes": 162746,
+      "sha256": "bac710d50f391c06281fa08b4f13d170e561980f257862974873c641975d1c19"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/game/content/urman.fullgame.compiled.v1.json",
+      "bytes": 2125405,
+      "sha256": "91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/game/content/world/visual_checkpoints.v1.json",
+      "bytes": 23488,
+      "sha256": "97c9d05550491f97efca44027d04ee2197ce9a8169f8ece609d86686f30dde09"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/game/project.godot",
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/game/scenes/full_game.tscn",
+      "bytes": 1925,
+      "sha256": "9302f6690cd511b0f063262eeaacf0f1e0c39db9f819b3c59f4c77c423ebfd0f"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 63649,
+      "sha256": "b5c69ac1e29d300848b70e29abb494864c631c566ae3f1c8dd97be9d8beab1e1"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/game/scripts/CompiledCampaignRepository.cs",
+      "bytes": 36453,
+      "sha256": "68c7f5a871b725f42c398d351a1297b49fc761f4b4e5684c504a98338c23ee8a"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/game/scripts/Main.cs",
+      "bytes": 13569,
+      "sha256": "4a086ebdfbb8655dd606a40076e6fe938d8f620c5a32c25908ad4977b1d36985"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/game/scripts/RuntimeBridge.cs",
+      "bytes": 93070,
+      "sha256": "dfcc8bc046ee9de25b2c4b8adbc92df0c30020154b300bb2f177f5e7f3636c90"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/game/tests/FullGameFlowSmokeTest.cs",
+      "bytes": 42551,
+      "sha256": "115a5b651c9ae22e66a63049ff0679e40ed7c41e24e5d7f6910fc8770030d7dd"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/game/tests/GodotSmokeCleanup.cs",
+      "bytes": 1790,
+      "sha256": "29806d8d59d21ad9bf30d98856133061a9640b7e45fa86dbf0aa2e200bb38f3c"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/game/tests/full_game_flow_smoke_test.tscn",
+      "bytes": 199,
+      "sha256": "afb29d28aa4ccb56a9a993e8d02ca65b45404c62c628e1bcc32b84ac324f8d7f"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/src-dotnet/Urman.Content/Compilation/ContentCompiler.cs",
+      "bytes": 57634,
+      "sha256": "a4e6129e680238cc31ca97eb48bc0d9f63e7d3d210534d7024433cea110e491c"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
+      "bytes": 9683,
+      "sha256": "ff77988ac60e00d8ca90eddc8710f5b7b5585b997e89b2f4503741d4c8d11fac"
+    },
+    {
+      "path": "source/relevant-runtime-content-test/src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
+      "bytes": 63251,
+      "sha256": "a21e94a8178a528b6e237712b8ff27f1548c83412829932f039ef3b5ea8d308d"
+    },
+    {
+      "path": "source/snapshot-manifest.json",
+      "bytes": 269080,
+      "sha256": "93f70e53ca182d28635490fb4a660d086314ee3382552425726143a9ecfc40dc"
+    },
+    {
+      "path": "station-doctor-after-sequence.json",
+      "bytes": 510,
+      "sha256": "b023bb45e1ebe92f0d39b0b0dae9ec1aff5234493b32be1e82a3ebd9b43b0e99"
+    },
+    {
+      "path": "station-status-after.json",
+      "bytes": 481,
+      "sha256": "949c970a16ad5485827cdae74932ed5c8da35b9db876945ba35107759dca671f"
+    },
+    {
+      "path": "stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout.log",
+      "bytes": 182622,
+      "sha256": "fcf90c5301c8c90c93c3374b86225f03ea699a9be60b0cdfc21dd2ec1d01b91f"
+    }
+  ]
+}

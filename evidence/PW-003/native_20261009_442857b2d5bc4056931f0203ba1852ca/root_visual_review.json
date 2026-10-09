@@ -1,0 +1,21 @@
+{
+  "reviewer": "/root",
+  "reviewed_at_utc": "2026-10-08T22:16:28.862066+00:00",
+  "job_id": "442857b2d5bc4056931f0203ba1852ca",
+  "snapshot_id": "544949b1c3623ac71630158f8de68f0823d6c4dda8c7592257f8ad8c409b3bad",
+  "frame": "caption-file-authoring-before-print.png",
+  "frame_sha256": "13b67c3d5d2bd6fc826f1457749e874db9a346239a62becd79f6215e63f4ff43",
+  "decision": "ACCEPTED_BOUNDED_CAPTION_AUTHORING_SCREEN",
+  "observed": [
+    "Original 1886x1061 native PNG inspected.",
+    "Foreground Notepad text, prerequisite explanation and caption action are readable and within the window bounds.",
+    "The editor and button follow the existing XP-style desktop language. Background windows overlap as ordinary desktop windows."
+  ],
+  "limits": [
+    "The fixture enters text programmatically and triggers the existing button; this is not ordinary human Windows input.",
+    "This frame does not accept every desktop application, all resolutions, the physical campaign, any PhotoWorld environment, or author/human/cultural/language gates."
+  ],
+  "native_semantic_flow": "PASS",
+  "physical_acceptance": "NOT_RUN",
+  "archive_hashes_verified": 20
+}

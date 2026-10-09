@@ -1,0 +1,255 @@
+{
+  "taskId": "PW-003",
+  "reviewedUtc": "2026-10-09T03:35:02Z",
+  "status": "CONFIRMED_AUTHORED_CONTRACT_GAP",
+  "source": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/worlds.spec.json",
+  "sourceSha256": "d1e870648629b901a0b962e8798671e634a21b7787a94b89325151fafa306353",
+  "scope": "Logical completion conditions and canonical fact/producer mapping only; physical world producers remain successor tasks.",
+  "worlds": [
+    {
+      "worldId": "W01",
+      "sourceRequiredFacts": [
+        "forest_camera_back_seen",
+        "forest_beyond_frame_seen",
+        "forest_encounter_resolved"
+      ],
+      "currentCompletionFacts": [
+        "forest_group_seen",
+        "forest_photographer_found",
+        "forest_shurale_listened"
+      ],
+      "missingRequiredFacts": [
+        "forest_beyond_frame_seen",
+        "forest_camera_back_seen",
+        "forest_encounter_resolved"
+      ],
+      "sourceActions": [
+        {
+          "id": "forest_back_of_frame",
+          "at": "F11",
+          "trigger": "Осмотреть положение фотографа снаружи группы; присутствовать в зоне 3×3 м и увидеть три опорных объекта.",
+          "effect": "forest_camera_back_seen",
+          "feedback": "Айдар отмечает, что взгляд людей направлен не на объектив; композиция больше не замыкается рамкой."
+        },
+        {
+          "id": "forest_back_path",
+          "at": "F13",
+          "trigger": "Пройти корневой поворот пешком, пересечь exit-plane и осмотреть обратную сторону группы.",
+          "effect": "forest_beyond_frame_seen",
+          "feedback": "Открывается путь к корню Шурале; вернуться можно тем же путём."
+        },
+        {
+          "id": "forest_meet",
+          "at": "F14",
+          "trigger": "Подойти до 5 м, не перебивая текущую фразу; после конкретной реплики Шурале снять со своего пути зацепившийся ремень старой сумки и положить сумку рядом с настилом.",
+          "effect": "forest_encounter_resolved",
+          "feedback": "Шурале перестаёт придерживать ветку, продолжает собственное занятие; путь остаётся открытым."
+        }
+      ]
+    },
+    {
+      "worldId": "W02",
+      "sourceRequiredFacts": [
+        "water_reflection_relation_seen",
+        "water_reed_opened",
+        "water_old_approach_seen",
+        "water_encounter_resolved"
+      ],
+      "currentCompletionFacts": [
+        "water_old_approach_seen",
+        "water_safe_bypass_opened",
+        "water_damp_print"
+      ],
+      "missingRequiredFacts": [
+        "water_encounter_resolved",
+        "water_reed_opened",
+        "water_reflection_relation_seen"
+      ],
+      "sourceActions": [
+        {
+          "id": "water_reflection",
+          "at": "R03",
+          "trigger": "Осмотреть отражённые три стойки и край настила с открытого участка берега; не требовать точного угла ниже 20° допуска.",
+          "effect": "water_reflection_relation_seen",
+          "feedback": "В журнале появляется набросок отношения стоек; не готовая карта пути."
+        },
+        {
+          "id": "water_reed",
+          "at": "R04",
+          "trigger": "Отвести зацепившуюся связку сухого камыша с прохода одной удерживаемой или toggle-командой.",
+          "effect": "water_reed_opened",
+          "feedback": "Показаны настоящие доски и опоры за камышом, коллизия соответствует видимому настилу."
+        },
+        {
+          "id": "water_approach",
+          "at": "R05",
+          "trigger": "Осмотреть сторону старых опор и пройти безопасный конец подхода.",
+          "effect": "water_old_approach_seen",
+          "feedback": "Айдар замечает направление, которое можно будет проверить зимой."
+        },
+        {
+          "id": "water_encounter",
+          "at": "R06",
+          "trigger": "Вернуть свою временно сдвинутую при осмотре дощечку настила на два видимых упора; остановиться, дать существу место, наблюдать ответ без таймера.",
+          "effect": "water_encounter_resolved",
+          "feedback": "Су анасы продолжает движение у воды; расходящиеся полосы отражения снова спокойны."
+        }
+      ]
+    },
+    {
+      "worldId": "W03",
+      "sourceRequiredFacts": [
+        "house_shutter_opened",
+        "house_two_views_seen",
+        "house_camera_position_seen",
+        "house_frame_seen"
+      ],
+      "currentCompletionFacts": [
+        "house_shutter_adjusted",
+        "house_two_views_compared",
+        "house_camera_position_seen"
+      ],
+      "missingRequiredFacts": [
+        "house_frame_seen",
+        "house_shutter_opened",
+        "house_two_views_seen"
+      ],
+      "sourceActions": [
+        {
+          "id": "house_shutter",
+          "at": "H01",
+          "trigger": "Открыть одну ставню на видимом креплении; это не открывает замок магией.",
+          "effect": "house_shutter_opened",
+          "feedback": "Пятно света связывает стол, проём и вид двора."
+        },
+        {
+          "id": "house_two_views",
+          "at": "H02",
+          "trigger": "Посетить и осмотреть оба проёма H02 и H03 в любом порядке.",
+          "effect": "house_two_views_seen",
+          "feedback": "Один стул и яблоня узнаются с двух сторон; Айдар замечает несоответствие."
+        },
+        {
+          "id": "house_camera",
+          "at": "H05",
+          "trigger": "Встать в найденную позицию и осмотреть тень ремешка камеры на заборе и композицию через окно.",
+          "effect": "house_camera_position_seen",
+          "feedback": "Запись: фотограф стоял здесь, а не среди людей. Имя не выдаётся сверхъестественным голосом."
+        },
+        {
+          "id": "house_cloth",
+          "at": "H06",
+          "trigger": "Снять свою мешающую просмотру лёгкую ткань с зацепа, уложить на столик; осмотреть внутреннюю сторону рамки.",
+          "effect": "house_frame_seen",
+          "feedback": "Внутри рамки узнаваемый почерк/бытовая помета, авторство предстоит проверить снаружи."
+        }
+      ]
+    },
+    {
+      "worldId": "W04",
+      "sourceRequiredFacts": [
+        "common_three_relations_seen",
+        "common_view_uncovered",
+        "common_horizon_seen",
+        "common_note_finished"
+      ],
+      "currentCompletionFacts": [
+        "common_relationships_connected",
+        "common_horizon_uncovered"
+      ],
+      "missingRequiredFacts": [
+        "common_horizon_seen",
+        "common_note_finished",
+        "common_three_relations_seen",
+        "common_view_uncovered"
+      ],
+      "sourceActions": [
+        {
+          "id": "common_relations",
+          "at": "C03",
+          "trigger": "Осмотреть три проёма, в каждом увидеть опору из W01/W02/W03; порядок свободный.",
+          "effect": "common_three_relations_seen",
+          "feedback": "Книга показывает три маленьких наброска, не светофор выполненных алтарей."
+        },
+        {
+          "id": "common_cloth",
+          "at": "C04",
+          "trigger": "Снять свою закреплённую для сушки ткань с мешающей линии взгляда и аккуратно сложить на доступной опоре.",
+          "effect": "common_view_uncovered",
+          "feedback": "Вид открывается физически; дальние массы уже существовали, не возникают как награда."
+        },
+        {
+          "id": "common_position",
+          "at": "C05",
+          "trigger": "Достичь широкой обзорной площадки и увидеть общий горизонт в секторе допуска ≥35°.",
+          "effect": "common_horizon_seen",
+          "feedback": "Лес, берег и дом читаются одной местностью. Ни UI-вспышки, ни автоматического поворота головы."
+        },
+        {
+          "id": "common_note",
+          "at": "C07",
+          "trigger": "Открыть собственную подпись из ПК и подтвердить помету «Это не весь вид»; доступен краткий самостоятельный текст с безопасным лимитом.",
+          "effect": "common_note_finished",
+          "feedback": "На развороте остаётся авторская помета Айдара. Это не магическая формула и не печать мира."
+        }
+      ]
+    },
+    {
+      "worldId": "W05",
+      "sourceRequiredFacts": [
+        "cellar_household_pattern_seen",
+        "cellar_box_returned",
+        "cellar_response_seen",
+        "cellar_niche_seen"
+      ],
+      "currentCompletionFacts": [
+        "cellar_household_order_seen",
+        "cellar_shared_object_found",
+        "cellar_bichura_answered"
+      ],
+      "missingRequiredFacts": [
+        "cellar_box_returned",
+        "cellar_household_pattern_seen",
+        "cellar_niche_seen",
+        "cellar_response_seen"
+      ],
+      "sourceActions": [
+        {
+          "id": "cellar_trace",
+          "at": "B01",
+          "trigger": "Осмотреть три следа пользования предметами: сухой круг, затёртый край, сложенная ткань.",
+          "effect": "cellar_household_pattern_seen",
+          "feedback": "Айдар понимает, что порядок здесь не случаен, но не объявляет найденный след ритуалом."
+        },
+        {
+          "id": "cellar_place",
+          "at": "B02",
+          "trigger": "Вернуть принадлежащую семье небольшую деревянную коробку на пустую видимую опору после осмотра; обе команды pick/place доступны без физического меткого броска.",
+          "effect": "cellar_box_returned",
+          "feedback": "Бичура выходит и сам сдвигает соседнюю вещь; его путь и руки анимированы."
+        },
+        {
+          "id": "cellar_reply",
+          "at": "B04",
+          "trigger": "Наблюдать ответное перемещение или осмотреть его явный результат; глухой игрок получает тот же смысл.",
+          "effect": "cellar_response_seen",
+          "feedback": "Присутствие доброжелательное, но не полностью объяснённое."
+        },
+        {
+          "id": "cellar_niche",
+          "at": "B06",
+          "trigger": "Осмотреть нишу, не забирать чужие предметы и не кормить духа обязательным подношением.",
+          "effect": "cellar_niche_seen",
+          "feedback": "Запоминается обычное место под реальной полкой, где можно поискать потерянную семейную мелочь."
+        }
+      ]
+    }
+  ],
+  "disposition": {
+    "keep": "Current high-level story facts remain supplementary information; preserve useful existing graph, quest owner, start gates, outside evidence/caption/mount guards and optional W05.",
+    "extend": "Exact source-backed canonical fact/producer map; physical triggers must not be substituted by generic reading/listening or invented UI completion buttons.",
+    "rewrite": "W01–W05 completionConditions must require full source required sets; no alias exists in exact fact lookup.",
+    "reopen": "PW-003 completed label is re-opened; prior semantic runtime PASS/evidence retained historically and does not prove canonical actions or physical route."
+  },
+  "nextStep": "Author minimal fact/condition correction and exact producer dispositions; review before writes. Expose chapter.complete only after authoritative conditions are correct, using existing quest reducer without a second chapter flag."
+}

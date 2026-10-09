@@ -1,0 +1,28 @@
+{
+  "reviewer": "/root",
+  "date": "2026-10-09",
+  "native_job": "6dc5fb1948d14cfe829d0c8af0799a98",
+  "originals_viewed": [
+    "frames/babai_shape_front.png",
+    "frames/babai_shape_oblique.png",
+    "frames/babai_porch_side_clear.png",
+    "frames/rinat_material_front.png",
+    "frames/rinat_material_side.png"
+  ],
+  "result": "BOUNDED_PORCH_UV_AND_SKIN_ROUTING_ACCEPTED_WHOLE_STYLE_OPEN",
+  "accepted": [
+    "Porch deck top has longitudinal plank grain; cross-section/end material remains on end faces. Dimensions and post footprint remain coherent in native close-up.",
+    "Rinat staging body retains authored skin texture through existing soft-skin response rather than cloth shader. Front/side skin is legible and does not show cloth grain."
+  ],
+  "actual_skin": "Staging Npc_rinat body LOD0/1: StandardMaterial3D, authored d8b199__skin_textured.001, urman_character_kit_v2_T_Superhero_Male_Ligh.png, roughness1, normalScale.35, softSkinResponse=cast. Other similarly named scene nodes are not staging actor proof.",
+  "remaining": "Full DEPTH9/PW032 style unaccepted: house interior stove/trim/material balance, cast clothing UV/motion, surface consumers, normal gameplay clearance, whole visual family and human/reference gates. Skin routing acceptance does not accept head geometry, facial expression or entire character style. Capture sidecars and runtime view-capture logs report medium / 0.90. This does not establish High-profile performance or human acceptance.",
+  "correction_2026_10_09": {
+    "reason": "Prior root note conflated this job with a later rug capture that actually entered performance-rescue Low. Original PNGs, sidecars and logs are unchanged.",
+    "verifiedAgainst": [
+      "frames/babai_shape_front.json",
+      "frames/babai_shape_oblique.json",
+      "game.log lines 458–459"
+    ],
+    "scope": "Quality-profile note only; bounded acceptance and whole-style limits unchanged."
+  }
+}

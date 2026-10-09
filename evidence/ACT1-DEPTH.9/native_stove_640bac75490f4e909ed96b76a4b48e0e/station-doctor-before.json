@@ -1,0 +1,25 @@
+{
+  "blob_store": {
+    "files": 3589,
+    "megabytes": 556.4
+  },
+  "busy_job": null,
+  "desktop": {
+    "input_desktop": true,
+    "interactive": true,
+    "session_id": 1
+  },
+  "disk": {
+    "free_gb": 370.6,
+    "path": "D:\\URMAN-STATION\\data",
+    "total_gb": 2794.4
+  },
+  "godot": "4.7.1.stable.mono.official.a13da4feb",
+  "gpu_acceptance": "verified",
+  "host": "UNTERPC",
+  "orphan_game_process": false,
+  "ready": true,
+  "sdk": "10.0.302",
+  "tools": true,
+  "userdata_recovery_pending": false
+}

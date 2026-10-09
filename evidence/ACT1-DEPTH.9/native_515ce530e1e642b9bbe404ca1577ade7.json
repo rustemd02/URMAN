@@ -1,0 +1,10 @@
+{
+  "job_id": "515ce530e1e642b9bbe404ca1577ade7",
+  "snapshot_id": "5ecf819639a6fc03306f2f51b8ff2247dad5ca445a242490899fb99e14a1cfc3",
+  "status": "station_capture_pass_visual_review_pending",
+  "purpose": "Hero porch geometry candidate view for ACT1-DEPTH.9; not accepted by this capture.",
+  "evidence_directory": "../ACT1-HOUSE.SCALE/2026-10-09-native-house-h019-ab-515ce530e1e642b9bbe404ca1577ade7",
+  "frame": "frames/babai_porch_detail.png",
+  "sidecar": "frames/babai_porch_detail.json",
+  "frame_sha256": "8b64061ed2495983f88efe4f3eaad7407eb355854e0d59b0f8ed0cab2d044067"
+}

@@ -1,0 +1,861 @@
+diff --git a/game/content/world/act1_village_kit.world.v1.json b/game/content/world/act1_village_kit.world.v1.json
+index 2512f2315f0bcc73c5f7f824be65dd0ff806a975..4263c38d33ddb6e4470d555a744ac7d415e88203 100644
+--- a/game/content/world/act1_village_kit.world.v1.json
++++ b/game/content/world/act1_village_kit.world.v1.json
+@@ -1462,7 +1462,7 @@
+         "yawDegrees": 90,
+         "scale": [
+           0.96,
+-          0.96,
++          0.88,
+           0.96
+         ],
+         "hidden": false
+@@ -2495,9 +2495,9 @@
+         ],
+         "yawDegrees": 0.0,
+         "scale": [
+-          0.7,
+-          0.74,
+-          0.7
++          1.0,
++          1.0,
++          1.0
+         ],
+         "hidden": false,
+         "groundingReferenceXZ": [
+@@ -2511,7 +2511,7 @@
+         ],
+         "originalYawDegrees": -83
+       },
+-      "note": "Перепланировка v3, этап 4: перенесён на участок схемы вместе с двором"
++      "note": "Перепланировка v3, этап 4: перенесён на участок схемы вместе с двором. 2026-10-08: H019 restored to the source metric scale after the imported street opening measured 1.665 m under the former Y scale 0.74; the 2.25 m source opening clears the 1.80 m standing capsule at metric scale."
+     },
+     {
+       "id": "urman.world:act1/kit/village-day-main-street-east-partial-fence",
+diff --git a/game/project.godot b/game/project.godot
+index bb6f23fe00fad21d608bb7c0c40a91624486affe..a230388f0ca534334b9d4557e32be8ad73fddbba 100644
+--- a/game/project.godot
++++ b/game/project.godot
+@@ -177,4 +177,6 @@ quick_load={
+ 
+ [rendering]
+ 
++; Shared painterly instance uniforms need 16 slots per mesh; the village exceeds the 4096-mesh default.
++limits/global_shader_variables/buffer_size=1048576
+ textures/vram_compression/import_etc2_astc=true
+diff --git a/game/scripts/Act1ConnectedWorld.MosqueInterior.cs b/game/scripts/Act1ConnectedWorld.MosqueInterior.cs
+index a8707f26a3f4709fe6e37ec5ba8317142e01334f..9619a17e954f962394c8653cfcde51f2ebdc5fa3 100644
+--- a/game/scripts/Act1ConnectedWorld.MosqueInterior.cs
++++ b/game/scripts/Act1ConnectedWorld.MosqueInterior.cs
+@@ -176,11 +176,32 @@ public partial class Act1ConnectedWorld
+         GroundMosqueCourtyard(complex);
+         ExcludeMosqueHallTerrain();
+         var mosqueAccess = mosqueApproach[^1];
+-        // The complete plate belongs to EastLeft. EastRight was physically
+-        // mounted, but the existing minaret obscured its outward reading view.
+-        var mosqueSign = _mosqueRoom.ToGlobal(new(5.789f, 1.55f, -1.50f));
++        // Keep the chosen clear wall explicit after the qibla yaw; the shared
++        // mount solver checks its full plate contour, fasteners and sightline.
++        var mosqueSign=Vector3.Zero;var mosqueSignOutward=Vector3.Zero;var mountOwner="";var mountFailure="No exterior entrance door";
++        var mounted=false;
++        // The original shell door is hidden when the accessible vestibule replaces it.
++        // Mount from the visible FacilityManualDoor leaf so the plate follows the real entrance.
++        var doorFound=TryAddressDoor(complex,"MosqueEntranceLeaf",out var mosqueDoor,out var mosqueOutward);
++        if(doorFound)
++            mounted=AddressFacadeMount.TryFind(complex,mosqueDoor,mosqueOutward,this,out mosqueSign,out mosqueSignOutward,
++                out mountOwner,out mountFailure,"MosqueHallEastLeft");
++        GD.Print($"mosque-address-mount available={mounted} point={mosqueSign} owner={mountOwner} failure={mountFailure}");
++        complex.SetMeta("addressSignMountAvailable",mounted);
++        if(mounted)
++        {
++            complex.SetMeta("addressSignMountOwner",mountOwner);
++            complex.SetMeta("addressSignDoor",mosqueDoor);
++            complex.SetMeta("addressSignPreferredOutward",mosqueOutward);
++        }
++        else
++        {
++            complex.SetMeta("addressSignMountFailure",mountFailure);
++            _addressImportIssues.Add(new("SIGN_MOUNT_NOT_FOUND","ADR-MOSQUE",complex.GetPath()+": "+mountFailure));
++        }
+         RegisterAddressedBuilding(new AddressBuildingRegistration(complex, "act1/mosque", "BLD-MOSQUE", "PAR-MOSQUE", "ADR-MOSQUE",
+-            "tukay", "23А", "URM-Q01-P0023", mosqueAccess, mosqueSign, Vector3.Right, ApproachPath: mosqueApproach));
++            "tukay", "23А", "URM-Q01-P0023", mosqueAccess, mosqueSign, Vector3.Right, ApproachPath: mosqueApproach,
++            SignOutward: mosqueSignOutward,SignSurfaceName:"MosqueHallEastLeft"));
+ 
+         // Move the existing actor and his existing interaction together; no duplicate imam.
+         var timur = GetNode<Node3D>("Act1CoreWorldGreybox/Act1People/Npc_timur_hazrat");
+diff --git a/game/scripts/Act1ConnectedWorld.YardFences.cs b/game/scripts/Act1ConnectedWorld.YardFences.cs
+index d7b78fedda4cfd1e902e542a81ea85df9c5910c3..2623c3fe2099926556cff58fc79fa7022b155040 100644
+--- a/game/scripts/Act1ConnectedWorld.YardFences.cs
++++ b/game/scripts/Act1ConnectedWorld.YardFences.cs
+@@ -101,7 +101,7 @@ public partial class Act1ConnectedWorld
+     private static readonly FenceDesign YardBoundaryDesign = new()
+     {
+         Id = "yard-boundary-board", Style = 5, Height = 1.38f, BoardThickness = .034f, BoardWidth = .11f,
+-        BoardSpacing = .13f, BayLength = 2.35f, PostSection = .12f, RailThickness = .045f, RailDepth = .075f,
++        BoardSpacing = .16f, BayLength = 2.35f, PostSection = .12f, RailThickness = .045f, RailDepth = .075f,
+         LowerRailHeight = .27f, UpperRailDrop = .23f, LeanDegrees = 1f, SettledLeanDegrees = 6f,
+         RepairBay = true, Surface = "wood_fence"
+     };
+diff --git a/game/scripts/Act1ConnectedWorld.cs b/game/scripts/Act1ConnectedWorld.cs
+index e73f2939de4a40001292d31d4d0e8014b577cff8..dcd2af92bdd6e8dfa2a049833c56af8750294883 100644
+--- a/game/scripts/Act1ConnectedWorld.cs
++++ b/game/scripts/Act1ConnectedWorld.cs
+@@ -3361,6 +3361,8 @@ public partial class Act1ConnectedWorld : Node3D
+         // open gate is now the road-facing east side of the garden-edge plot.
+         // The kit fence axis is rotated 90 degrees, so it spans roughly
+         // z -74..-88 at x -9.06 with the gate centred on the approach path.
++        // VIS-022: preserve the authored footprint and anchor while fitting the
++        // boundary fence to its measured ~1 m contract; the gate keeps its form.
+         var boundaryAnchor = ZiratPlotLayout.GateFenceAnchor;
+         boundaryAnchor.Y = (float)AgentBAct1HeightField.CollisionGround(boundaryAnchor.X, boundaryAnchor.Z) - .02f;
+         AttachAct1ExteriorKitComponent(
+@@ -3369,7 +3371,7 @@ public partial class Act1ConnectedWorld : Node3D
+             "ZiratAuthoredBoundaryFence",
+             boundaryAnchor,
+             90f,
+-            Vector3.One * 0.96f,
++            new Vector3(0.96f, 0.88f, 0.96f),
+             "zirat_road@lateral-boundary-fence",
+             ZiratRoadsideKitScenePath);
+         AttachAct1ExteriorKitComponent(
+@@ -8831,12 +8833,28 @@ public partial class Act1ConnectedWorld : Node3D
+             var run = runs[side];
+             if (run.Count >= 4)
+             {
++                var routeStartZ = run[0].Z;
++                var curvePoints = new List<Vector3>(run.Count);
++                foreach (var point in side > 0 ? Enumerable.Reverse(run) : run)
++                {
++                    // Each route leg includes both endpoints. A straight shared
++                    // endpoint can therefore be sampled twice into one run, but
++                    // Curve3D cannot bake adjacent duplicate control points.
++                    if (curvePoints.Count == 0 || curvePoints[^1].DistanceSquaredTo(point) > .000001f)
++                        curvePoints.Add(point);
++                }
++                run.Clear();
++                if (curvePoints.Count < 2)
++                    return;
++
+                 var curve = new Curve3D { BakeInterval = .2f };
+                 // Point the run so its steeper cut face (the bank's -X side) is toward the road.
+-                foreach (var point in side > 0 ? Enumerable.Reverse(run) : run) curve.AddPoint(point);
++                foreach (var point in curvePoints) curve.AddPoint(point);
+                 var length = curve.GetBakedLength();
++                if (!float.IsFinite(length) || length <= .0001f)
++                    return;
+                 var mesh = AddVisualLandformSurface(root,
+-                    $"StreetBank{routeName}{faces[side]}_{Mathf.RoundToInt(run[0].Z)}",
++                    $"StreetBank{routeName}{faces[side]}_{Mathf.RoundToInt(routeStartZ)}",
+                     1.9f, height, length, Vector3.Zero, "e8edf0", "snow_ground", 0f, true, curve,
+                     distance => SnowDriftAccumulation(catchments,
+                         curve.SampleBaked(Mathf.Min(length, distance))));
+@@ -9338,8 +9356,11 @@ public partial class Act1ConnectedWorld : Node3D
+                 planted++;
+             }
+         }
+-        parent.SetMeta(name + "StemGroups", groups);
+-        parent.SetMeta(name + "StemClumps", planted);
++        // Node names can contain '-' but Godot metadata identifiers cannot.
++        // Keep the readable node name intact and normalize only diagnostic keys.
++        var metadataName = name.Replace('-', '_');
++        parent.SetMeta(metadataName + "StemGroups", groups);
++        parent.SetMeta(metadataName + "StemClumps", planted);
+         return planted;
+     }
+ 
+diff --git a/game/scripts/Act1DemoRoot.DevViewCapture.cs b/game/scripts/Act1DemoRoot.DevViewCapture.cs
+index 178fce9c9c76286cfa4a408171de72c0f08ef9c1..e58d5fcd8907dc9fbf3e7531e6b456579c7c050f 100644
+--- a/game/scripts/Act1DemoRoot.DevViewCapture.cs
++++ b/game/scripts/Act1DemoRoot.DevViewCapture.cs
+@@ -101,6 +101,19 @@ public partial class Act1DemoRoot
+                 return;
+             }
+         }
++        var meshInstances = GetTree().Root.FindChildren("*", nameof(MeshInstance3D), true, false)
++            .OfType<MeshInstance3D>().Where(mesh => mesh.Mesh is not null).ToArray();
++        var shaderInstanceCandidates = meshInstances.Count(mesh =>
++        {
++            for (var surface = 0; surface < mesh.Mesh!.GetSurfaceCount(); surface++)
++                if (mesh.GetActiveMaterial(surface) is ShaderMaterial { Shader: { } shader }
++                    && shader.Code.Contains("instance uniform", StringComparison.Ordinal))
++                    return true;
++            return false;
++        });
++        var shaderInstanceBufferSize = ProjectSettings
++            .GetSetting("rendering/limits/global_shader_variables/buffer_size").AsInt64();
++        GD.Print($"shader-instance-budget: meshes={meshInstances.Length} candidates={shaderInstanceCandidates} bufferSize={shaderInstanceBufferSize}");
+         // VIS-111: control views keep FOV 70 for before/after comparability, but a
+         // capture can also take the player's own camera FOV (gameplay baseline 75 or
+         // the player's setting) or an explicit value; the source is written per frame.
+diff --git a/game/scripts/AddressFacadeMount.cs b/game/scripts/AddressFacadeMount.cs
+index 1721f43a8d71b518d2b4724d4186aac378f58e71..51c79e83f506029519d1d0d7808a24d70572e660 100644
+--- a/game/scripts/AddressFacadeMount.cs
++++ b/game/scripts/AddressFacadeMount.cs
+@@ -356,13 +356,11 @@ internal static class AddressFacadeMount
+         }
+         return planes.GroupBy(p=>p.Owner,StringComparer.Ordinal).Select(g=>g.OrderByDescending(p=>p.Depth).First()).ToList();
+     }
+-    // Explicit surface policy. The list is citation-explicit; the civic square
+-    // generates its exterior wall skins as "Pier<n>Skin" (SWall indexes every
+-    // pier), so the House of Culture's Pier4Skin is the same class of surface
+-    // as the school's Pier1Skin and must not throw on import.
++    // Explicit surface policy. The civic square generates exterior "Pier<n>Skin"
++    // walls; MosqueHallEastLeft is the authored, sightline-cleared qibla-yawed wall.
+     private static bool VerifiedExplicitWall(string name)
+     {
+-        if(name is "DwellingFacade_Right_Wall_LOD0" or "DwellingFacade_SeniOuter_Wall_LOD0" or "Pier1Skin" or "Walls")return true;
++        if(name is "DwellingFacade_Right_Wall_LOD0" or "DwellingFacade_SeniOuter_Wall_LOD0" or "MosqueHallEastLeft" or "Pier1Skin" or "Walls")return true;
+         if(!name.StartsWith("Pier",StringComparison.Ordinal)||!name.EndsWith("Skin",StringComparison.Ordinal))return false;
+         var digits=name.AsSpan(4,name.Length-8);
+         if(digits.Length==0)return false;
+diff --git a/game/scripts/PainterlyMaterialLibrary.cs b/game/scripts/PainterlyMaterialLibrary.cs
+index cbc71c3d9b01db4777aecbce23ae7162352519d7..447545324575a3c1693e0bdcc26017acc19f6def 100644
+--- a/game/scripts/PainterlyMaterialLibrary.cs
++++ b/game/scripts/PainterlyMaterialLibrary.cs
+@@ -120,7 +120,7 @@ public static class PainterlyMaterialLibrary
+         uniform sampler2D detail_normal_map : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
+         uniform float detail_normal_scale = 0.0;
+         uniform bool has_detail_roughness = false;
+-        uniform sampler2D detail_roughness_map : hint_white, filter_linear, repeat_enable;
++        uniform sampler2D detail_roughness_map : hint_default_white, filter_linear, repeat_enable;
+         uniform float detail_roughness_delta = 0.0;
+         uniform bool has_wear_mask = false;
+         uniform sampler2D wear_mask_map : hint_default_black, filter_linear, repeat_enable;
+@@ -210,8 +210,8 @@ public static class PainterlyMaterialLibrary
+         // drift out of register with the painted grain. Blending three planes for
+         // sub-centimetre detail would triple the sampler cost at the exact axis
+         // where the family's own construction says which face the eye reads.
+-        vec2 response_uv(vec3 position, vec3 normal) {
+-            if (authored_uv_texture) return UV * detail_scale;
++        vec2 response_uv(vec3 position, vec3 normal, vec2 authored_uv) {
++            if (authored_uv_texture) return authored_uv * detail_scale;
+             vec3 axis = abs(normal);
+             if (axis.y >= max(axis.x, axis.z)) return position.xz * detail_scale;
+             if (axis.x >= axis.z) return (upright_texture ? position.zy : position.yz) * detail_scale;
+@@ -393,7 +393,7 @@ public static class PainterlyMaterialLibrary
+                     ? local_wood_position : world_position;
+                 vec3 response_normal = normalize((local_wood_texture || local_floor_texture)
+                     ? local_wood_normal : world_normal);
+-                vec2 detail_sample_uv = response_uv(response_position, response_normal);
++                vec2 detail_sample_uv = response_uv(response_position, response_normal, UV);
+                 float response_detail = response_detail_fade(detail_sample_uv);
+                 // 1. Micro relief. Anisotropic by construction: the frequency pair is
+                 // authored per family, so boards stretch along the grain and plaster
+diff --git a/game/scripts/VillageWindowMaterials.cs b/game/scripts/VillageWindowMaterials.cs
+index db28370a380c27d159d3d2bfc25f1b9c964c56ce..d6921ba851221f8326a7423c7d4d32bc579c2b37 100644
+--- a/game/scripts/VillageWindowMaterials.cs
++++ b/game/scripts/VillageWindowMaterials.cs
+@@ -55,8 +55,8 @@ public static class VillageWindowMaterials
+                 // perturbation applies only where frost actually sits, so the clear
+                 // part of the glass keeps the flat specular of the authored pane.
+                 vec3 fn = texture(frost_normal, fuv).xyz * 2.0 - 1.0;
+-                NORMAL = blend_mix(NORMAL, normalize(vec3(fn.xy * 0.55, max(fn.z, 0.25))), ice);
+-                NORMAL_ROUGHNESS = 1.0 - ice * 0.45;
++                NORMAL_MAP = normalize(vec3(fn.xy * 0.55, max(fn.z, 0.25))) * 0.5 + 0.5;
++                NORMAL_MAP_DEPTH = ice;
+             }
+         }
+         """;
+diff --git a/game/scripts/experiments/agent_b_act1/AgentBWindStreaks.cs b/game/scripts/experiments/agent_b_act1/AgentBWindStreaks.cs
+index 4cffb46aed36a3c34e40542b41654a894a483d1f..c4fd15c9d5723a7ad83a95dd4034d187ea5cc6a8 100644
+--- a/game/scripts/experiments/agent_b_act1/AgentBWindStreaks.cs
++++ b/game/scripts/experiments/agent_b_act1/AgentBWindStreaks.cs
+@@ -254,6 +254,7 @@ public partial class AgentBWindStreaks : Node3D
+                 // budget VIS-029 is trying to lower.
+                 CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+             };
++            _lines[index] = line;
+             line.SetMeta("presentationOnly", true);
+             line.SetMeta("visualOnly", true);
+             line.SetMeta("featureId", "VIS-076");
+diff --git a/game/tests/Act1FootstepLagProbe.cs b/game/tests/Act1FootstepLagProbe.cs
+index d8dee72a80367b55383f04a9cce2bca4f6578ba8..fdda852cd9e92d7e68e09ecce16e82f5bb6d85fe 100644
+--- a/game/tests/Act1FootstepLagProbe.cs
++++ b/game/tests/Act1FootstepLagProbe.cs
+@@ -5,161 +5,475 @@ using Urman.Experiments.AgentBAct1;
+ namespace Urman.Godot.Tests;
+ 
+ /// <summary>
+-/// ACT1-FOOTSTEP.1 diagnostic: walks the arrival street and then off-road,
+-/// recording per-physics-tick footstep triggers, real cadence intervals and
+-/// the SnowTrampleField CPU metas. Produces one JSON receipt so the off-road
+-/// step lag is diagnosed from data before the fix, then re-measured after.
++/// ACT1-FOOTSTEP.1 data-only profile: walks from the arrival road into the
++/// exterior snow and back using ordinary movement input. Emits compact,
++/// contiguous road/off-road timing, playback, GC and snow-stamp observations.
+ /// </summary>
+ public partial class Act1FootstepLagProbe : Node
+ {
+-    private sealed record Sample(int Tick, bool StepStarted, bool OnRoad, float RoadDistance,
+-        float Speed, double UpdateMs, double RedrawMs, double MeshMs, int RebuiltTriangles, int Stamps);
++    private const double OffroadOutboundMeters = 4.0;
++    private const double RoadReturnMeters = 2.2;
++    private const double MaximumCaptureSeconds = 75.0;
++    private const double HitchThresholdMs = 33.3;
++    private const int FrameCapacity = 24_000;
++
++    private enum RoutePhase { RoadOutbound, OffroadOutbound, TurningForReturn, OffroadReturn, RoadReturn, Complete }
++
++    private readonly record struct FrameSample(
++        int Frame, int DrawnFrame, int DrawDelta, double ElapsedMs, double FrameMs,
++        double ProcessMonitorMs, double PhysicsMonitorMs,
++        int Gen0Delta, int Gen1Delta, int Gen2Delta, long AllocatedBytesDelta,
++        RoutePhase Phase, int SegmentId, bool PackedBand, float X, float Z, string Surface,
++        int TriggerDelta, int StampDelta, double? SnowUpdateMs, double? SnowRedrawMs, double? SnowMeshMs);
++
++    private readonly record struct StepEvent(
++        int TriggerCount, int TriggerDelta, double ElapsedMs, RoutePhase Phase, int SegmentId,
++        bool PackedBand, string Surface, float X, float Z, float Speed,
++        double? GapFromPreviousMs, bool SameSegmentAsPrevious,
++        bool PlaybackPlaying, bool HasStreamPlayback, double PlaybackPosition);
++
++    private readonly record struct SurfaceChange(
++        double ElapsedMs, RoutePhase Phase, int SegmentId, string From, string To, float X, float Z);
++
++    private readonly record struct RouteTransition(
++        double ElapsedMs, string Phase, float X, float Z, double RoadDistance, double RoadHalfWidth);
++
++    private readonly List<FrameSample> _frames = new(FrameCapacity);
++    private readonly List<StepEvent> _stepEvents = new(256);
++    private readonly List<SurfaceChange> _surfaceChanges = new(16);
++    private readonly List<RouteTransition> _routeTransitions = new(8);
++
++    private Main? _main;
++    private FirstPersonController? _player;
++    private FootstepAudioController? _controller;
++    private SnowTrampleField? _field;
++    private AudioStreamPlayer? _stepPlayer;
++    private RoutePhase _routePhase = RoutePhase.RoadOutbound;
++    private Vector2 _offroadStart;
++    private Vector2 _roadReturnStart;
++    private ulong _captureStartUsec;
++    private ulong _lastFrameUsec;
++    private ulong _nextYawTurnUsec;
++    private ulong _roadSteerUntilUsec;
++    private ulong _offroadTurnUntilUsec;
++    private int _lastDrawnFrame;
++    private int _lastTriggerCount;
++    private int _lastStampCount;
++    private int _lastGen0;
++    private int _lastGen1;
++    private int _lastGen2;
++    private long _lastAllocatedBytes;
++    private string _lastSurface = string.Empty;
++    private RoutePhase _lastSegmentPhase;
++    private bool _lastSegmentPackedBand;
++    private bool _hasSegment;
++    private bool _roadSteering;
++    private bool _recording;
++    private bool _completionStarted;
++    private int _segmentId;
+ 
+     public override async void _Ready()
+     {
+-        var main = ResourceLoader.Load<PackedScene>("res://scenes/main.tscn")?.Instantiate<Main>();
+-        if (main is null)
++        // Main and its player/audio nodes use the default priority. Sampling at
++        // a later priority observes their completed callbacks in the same frame.
++        ProcessPriority = 100;
++
++        _main = ResourceLoader.Load<PackedScene>("res://scenes/main.tscn")?.Instantiate<Main>();
++        if (_main is null)
+         {
+-            Fail("Footstep lag probe could not load main.");
++            Fail("Footstep lag profile could not load main.");
+             return;
+         }
+ 
+-        main.InitialZoneId = "village_day";
+-        main.InitialSpawnPointId = "arrival";
+-        main.EnableAct1ConnectedWorld = true;
+-        AddChild(main);
+-        for (var index = 0; index < 10; index++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
++        _main.InitialZoneId = "village_day";
++        _main.InitialSpawnPointId = "arrival";
++        _main.EnableAct1ConnectedWorld = true;
++        AddChild(_main);
++        for (var index = 0; index < 10; index++)
++            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+ 
+-        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+-        var controller = GetTree().GetFirstNodeInGroup("footstep_audio") as FootstepAudioController;
+-        var field = Descendants(main).OfType<SnowTrampleField>().FirstOrDefault();
+-        if (player is null || controller is null || field is null)
++        _player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
++        _controller = GetTree().GetFirstNodeInGroup("footstep_audio") as FootstepAudioController;
++        _field = Descendants(_main).OfType<SnowTrampleField>().FirstOrDefault();
++        _stepPlayer = _controller?.GetNodeOrNull<AudioStreamPlayer>("FootstepPlayer");
++        if (_player is null || _controller is null || _field is null || _stepPlayer is null)
+         {
+-            Fail("Footstep lag probe could not find player, controller or snow trample field.");
++            Fail("Footstep profile could not find player, footstep player or SnowTrampleField.");
+             return;
+         }
+ 
+-        player.SetPhysicsProcess(true);
++        _player.SetPhysicsProcess(true);
++        BeginCapture();
+         Input.ActionPress("move_forward");
+-        var samples = new List<Sample>();
+-        var lastTriggers = 0;
+-        var windowSpeeds = new List<float>();
+-        var windowRoad = new List<float>();
+-        var reachedOffRoad = false;
+-        var ticks = 0;
+-        while (ticks < 1500)
++    }
++
++    public override void _Process(double delta)
++    {
++        if (!_recording || _player is null || _controller is null || _field is null || _stepPlayer is null)
++            return;
++
++        var now = Time.GetTicksUsec();
++        var elapsedUsec = now - _captureStartUsec;
++        var elapsedMs = elapsedUsec / 1000.0;
++        var frameMs = now >= _lastFrameUsec ? (now - _lastFrameUsec) / 1000.0 : delta * 1000.0;
++        _lastFrameUsec = now;
++
++        var position = new Vector2(_player.GlobalPosition.X, _player.GlobalPosition.Z);
++        var road = AgentBAct1HeightField.RoadInfo(position.X, position.Y);
++        var packedBand = road.Distance < road.HalfWidth + .6f;
++        EnsureSegment(_routePhase, packedBand);
++
++        var drawnFrame = Engine.GetFramesDrawn();
++        var drawDelta = drawnFrame >= _lastDrawnFrame ? drawnFrame - _lastDrawnFrame : 0;
++        _lastDrawnFrame = drawnFrame;
++
++        var gen0 = GC.CollectionCount(0);
++        var gen1 = GC.CollectionCount(1);
++        var gen2 = GC.CollectionCount(2);
++        var allocatedBytes = GC.GetTotalAllocatedBytes(false);
++        var gen0Delta = Math.Max(0, gen0 - _lastGen0);
++        var gen1Delta = Math.Max(0, gen1 - _lastGen1);
++        var gen2Delta = Math.Max(0, gen2 - _lastGen2);
++        var allocatedBytesDelta = Math.Max(0, allocatedBytes - _lastAllocatedBytes);
++        _lastGen0 = gen0; _lastGen1 = gen1; _lastGen2 = gen2; _lastAllocatedBytes = allocatedBytes;
++
++        var surface = _controller.LastSurface;
++        var speed = new Vector2(_player.Velocity.X, _player.Velocity.Z).Length();
++        var stampCount = _field.GetMeta("snowTrampleStampCount", 0).AsInt32();
++        var stampDelta = stampCount >= _lastStampCount ? stampCount - _lastStampCount : 0;
++        _lastStampCount = stampCount;
++        // Snow timings are refreshed only when a stamp is accepted. Null means
++        // no new timing sample this frame, rather than a repeated stale value.
++        double? snowUpdateMs = stampDelta > 0 ? _field.GetMeta("snowTrampleUpdateMs", 0f).AsDouble() : null;
++        double? snowRedrawMs = stampDelta > 0 ? _field.GetMeta("snowTrampleRedrawMs", 0f).AsDouble() : null;
++        double? snowMeshMs = stampDelta > 0 ? _field.GetMeta("snowTrampleMeshMs", 0f).AsDouble() : null;
++
++        var triggerCount = _controller.StepTriggerCount;
++        var triggerDelta = triggerCount >= _lastTriggerCount ? triggerCount - _lastTriggerCount : 0;
++        _lastTriggerCount = triggerCount;
++        var hasStreamPlayback = _stepPlayer.HasStreamPlayback();
++        var playbackPosition = hasStreamPlayback ? _stepPlayer.GetPlaybackPosition() : 0.0;
++        var frame = new FrameSample(_frames.Count, drawnFrame, drawDelta, elapsedMs, frameMs,
++            Performance.GetMonitor(Performance.Monitor.TimeProcess) * 1000.0,
++            Performance.GetMonitor(Performance.Monitor.TimePhysicsProcess) * 1000.0,
++            gen0Delta, gen1Delta, gen2Delta, allocatedBytesDelta,
++            _routePhase, _segmentId, packedBand, position.X, position.Y, surface,
++            triggerDelta, stampDelta, snowUpdateMs, snowRedrawMs, snowMeshMs);
++        _frames.Add(frame);
++
++        if (!string.Equals(surface, _lastSurface, StringComparison.Ordinal))
+         {
+-            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+-            ticks++;
+-            var position = new Vector2(player.GlobalPosition.X, player.GlobalPosition.Z);
+-            var road = AgentBAct1HeightField.RoadInfo(position.X, position.Y);
+-            var speed = new Vector2(player.Velocity.X, player.Velocity.Z).Length();
+-            var triggers = controller.StepTriggerCount;
+-            var sample = new Sample(ticks, triggers > lastTriggers, road.Distance < road.HalfWidth + .6f,
+-                (float)road.Distance, speed,
+-                field.GetMeta("snowTrampleUpdateMs", 0f).AsDouble(),
+-                field.GetMeta("snowTrampleRedrawMs", 0f).AsDouble(),
+-                field.GetMeta("snowTrampleMeshMs", 0f).AsDouble(),
+-                field.GetMeta("snowTrampleRebuiltTriangles", 0).AsInt32(),
+-                field.GetMeta("snowTrampleStampCount", 0).AsInt32());
+-            samples.Add(sample);
+-            if (!sample.OnRoad) reachedOffRoad = true;
+-            lastTriggers = triggers;
+-            windowSpeeds.Add(speed);
+-            windowRoad.Add((float)road.Distance);
+-
+-            if (ticks % 45 != 0) continue;
+-            var meanSpeed = windowSpeeds.Average();
+-            var meanRoad = windowRoad.Average();
+-            windowSpeeds.Clear();
+-            windowRoad.Clear();
+-            var yaw = player.RotationDegrees.Y;
+-            // Before leaving the street: sweep the heading until the feet
+-            // actually leave the travelled surface, then keep straight.
+-            if (!reachedOffRoad && ticks > 150
+-                && meanRoad < AgentBAct1HeightField.RoadInfo(position.X, position.Y).HalfWidth + .6f)
+-                player.RotationDegrees = new Vector3(0, yaw + 30f, 0);
+-            else if (meanSpeed < .8f) player.RotationDegrees = new Vector3(0, yaw + 97f, 0);
++            _surfaceChanges.Add(new SurfaceChange(elapsedMs, _routePhase, _segmentId,
++                _lastSurface, surface, position.X, position.Y));
++            _lastSurface = surface;
+         }
+ 
+-        Input.ActionRelease("move_forward");
+-        var onRoad = samples.Where(sample => sample.OnRoad).ToList();
+-        var offRoad = samples.Where(sample => !sample.OnRoad).ToList();
+-        var onSteps = StepSummary(onRoad);
+-        var offSteps = StepSummary(offRoad);
+-        if (onSteps.steps < 6 || offSteps.steps < 6)
++        if (triggerDelta > 0)
+         {
+-            Fail($"Footstep lag probe walked too few steps: onRoad={onSteps.steps}, offRoad={offSteps.steps}, "
+-                 + $"triggers={controller.StepTriggerCount}, stamps={field.GetMeta("snowTrampleStampCount", 0).AsInt32()}, "
+-                 + $"end={player.GlobalPosition}.");
+-            return;
++            var gapMs = _stepEvents.Count > 0
++                ? elapsedMs - _stepEvents[^1].ElapsedMs
++                : (double?)null;
++            var sameSegment = _stepEvents.Count > 0 && _stepEvents[^1].SegmentId == _segmentId;
++            _stepEvents.Add(new StepEvent(triggerCount, triggerDelta, elapsedMs, _routePhase,
++                _segmentId, packedBand, surface, position.X, position.Y, speed, gapMs, sameSegment,
++                _stepPlayer.Playing, hasStreamPlayback, playbackPosition));
++        }
++
++        AdvanceRoute(now, elapsedMs, position, road, packedBand);
++        if (_routePhase == RoutePhase.Complete)
++        {
++            _ = FinishCapture();
++        }
++        else if (elapsedUsec >= (ulong)(MaximumCaptureSeconds * 1_000_000.0))
++        {
++            _ = FinishCapture();
++        }
++    }
++
++    private void BeginCapture()
++    {
++        _captureStartUsec = Time.GetTicksUsec();
++        _lastFrameUsec = _captureStartUsec;
++        _lastDrawnFrame = Engine.GetFramesDrawn();
++        _lastTriggerCount = _controller!.StepTriggerCount;
++        _lastStampCount = _field!.GetMeta("snowTrampleStampCount", 0).AsInt32();
++        _lastGen0 = GC.CollectionCount(0);
++        _lastGen1 = GC.CollectionCount(1);
++        _lastGen2 = GC.CollectionCount(2);
++        _lastAllocatedBytes = GC.GetTotalAllocatedBytes(false);
++        _lastSurface = _controller.LastSurface;
++        _nextYawTurnUsec = _captureStartUsec + 2_500_000;
++        _routePhase = RoutePhase.RoadOutbound;
++        var startRoad = AgentBAct1HeightField.RoadInfo(_player!.GlobalPosition.X, _player.GlobalPosition.Z);
++        _routeTransitions.Add(new RouteTransition(0, PhaseName(_routePhase),
++            _player.GlobalPosition.X, _player.GlobalPosition.Z, startRoad.Distance, startRoad.HalfWidth));
++        _recording = true;
++    }
++
++    private void AdvanceRoute(ulong now, double elapsedMs, Vector2 position,
++        (double Distance, double HalfWidth) road, bool packedBand)
++    {
++        switch (_routePhase)
++        {
++            case RoutePhase.RoadOutbound:
++                if (!packedBand)
++                {
++                    if (_roadSteering)
++                    {
++                        Input.ActionRelease("look_left");
++                        _roadSteering = false;
++                    }
++                    _offroadStart = position;
++                    SetRoutePhase(RoutePhase.OffroadOutbound, elapsedMs, position, road);
++                }
++                else if (_roadSteering && now >= _roadSteerUntilUsec)
++                {
++                    Input.ActionRelease("look_left");
++                    _roadSteering = false;
++                    _nextYawTurnUsec = now + 750_000;
++                }
++                else if (!_roadSteering && now >= _nextYawTurnUsec)
++                {
++                    Input.ActionPress("look_left");
++                    _roadSteering = true;
++                    _roadSteerUntilUsec = now + (ulong)Math.Ceiling(
++                        30.0 / Math.Max(1.0, _player!.GamepadLookSpeed) * 1_000_000.0);
++                }
++                break;
++
++            case RoutePhase.OffroadOutbound:
++                if (position.DistanceTo(_offroadStart) >= OffroadOutboundMeters)
++                {
++                    Input.ActionRelease("move_forward");
++                    Input.ActionPress("look_left");
++                    _offroadTurnUntilUsec = now + (ulong)Math.Ceiling(
++                        180.0 / Math.Max(1.0, _player!.GamepadLookSpeed) * 1_000_000.0);
++                    SetRoutePhase(RoutePhase.TurningForReturn, elapsedMs, position, road);
++                }
++                break;
++
++            case RoutePhase.TurningForReturn:
++                if (now >= _offroadTurnUntilUsec)
++                {
++                    Input.ActionRelease("look_left");
++                    Input.ActionPress("move_forward");
++                    SetRoutePhase(RoutePhase.OffroadReturn, elapsedMs, position, road);
++                }
++                break;
++
++            case RoutePhase.OffroadReturn:
++                if (packedBand)
++                {
++                    _roadReturnStart = position;
++                    SetRoutePhase(RoutePhase.RoadReturn, elapsedMs, position, road);
++                }
++                break;
++
++            case RoutePhase.RoadReturn:
++                if (position.DistanceTo(_roadReturnStart) >= RoadReturnMeters)
++                    SetRoutePhase(RoutePhase.Complete, elapsedMs, position, road);
++                break;
+         }
++    }
+ 
++    private void SetRoutePhase(RoutePhase phase, double elapsedMs, Vector2 position,
++        (double Distance, double HalfWidth) road)
++    {
++        _routePhase = phase;
++        _routeTransitions.Add(new RouteTransition(elapsedMs, PhaseName(phase),
++            position.X, position.Y, road.Distance, road.HalfWidth));
++    }
++
++    private void EnsureSegment(RoutePhase phase, bool packedBand)
++    {
++        if (_hasSegment && _lastSegmentPhase == phase && _lastSegmentPackedBand == packedBand)
++            return;
++        _segmentId++;
++        _lastSegmentPhase = phase;
++        _lastSegmentPackedBand = packedBand;
++        _hasSegment = true;
++    }
++
++    private async Task FinishCapture()
++    {
++        if (_completionStarted) return;
++        _completionStarted = true;
++        _recording = false;
++        Input.ActionRelease("move_forward");
++        Input.ActionRelease("look_left");
++
++        var packedEvents = _stepEvents.Where(e => e.PackedBand).Sum(e => e.TriggerDelta);
++        var offroadEvents = _stepEvents.Where(e => !e.PackedBand).Sum(e => e.TriggerDelta);
++        var routeComplete = _routePhase == RoutePhase.Complete;
+         var receipt = new
+         {
+-            probe = "act1-footstep-lag-probe",
+-            ticks,
+-            player_end = new { player.GlobalPosition.X, player.GlobalPosition.Z },
+-            on_road = Segment(onRoad, onSteps),
+-            off_road = Segment(offRoad, offSteps),
+-            note = "update/redraw/mesh are SnowTrampleField main-thread CPU ms metas; step gap = step interval above 2x median"
++            probe = "act1-footstep-lag-profile",
++            result = routeComplete && packedEvents >= 6 && offroadEvents >= 6 ? "data_complete" : "data_partial",
++            route_complete = routeComplete,
++            route_steps = new { road_band = packedEvents, offroad = offroadEvents },
++            elapsed_ms = _frames.Count > 0 ? _frames[^1].ElapsedMs : 0,
++            frame_count = _frames.Count,
++            preset = _player?.GraphicsPreset ?? "unknown",
++            display_driver = DisplayServer.GetName(),
++            adapter = RenderingServer.GetVideoAdapterName(),
++            route = new
++            {
++                outbound_offroad_m = OffroadOutboundMeters,
++                road_return_m = RoadReturnMeters,
++                transitions = _routeTransitions,
++                end = _player is null ? null : new { x = _player.GlobalPosition.X, z = _player.GlobalPosition.Z }
++            },
++            segment_definition = "continuous phase + packed-band/offroad; packed band uses road.Distance < road.HalfWidth + 0.6m, actual audio surface is recorded separately",
++            segments = _frames.GroupBy(frame => frame.SegmentId).Select(SummarizeSegment).ToArray(),
++            step_events = _stepEvents,
++            transition_gaps_ms = _stepEvents.Where(e => e.GapFromPreviousMs.HasValue && !e.SameSegmentAsPrevious)
++                .Select(e => new { e.ElapsedMs, e.GapFromPreviousMs, e.Phase, e.SegmentId, e.Surface }).ToArray(),
++            last_step_surface_changes = _surfaceChanges,
++            timing_notes = new
++            {
++                frame_ms = "monotonic Time.GetTicksUsec delta between ProcessPriority=100 samples; drawn frame counters accompany it",
++                process_physics_ms = "Godot Performance monitors sampled after default-priority game/audio callbacks",
++                snow = "update/redraw/mesh timings are included only on frames where snowTrampleStampCount advanced; a multi-stamp frame reports the stamp delta and latest timing once",
++                playback = "Playing/HasStreamPlayback/GetPlaybackPosition describe the single AudioStreamPlayer; internal polyphonic voice count is unavailable",
++                surface = "LastSurface is the last surface resolved by an actual step; trigger events carry its fresh value, while per-frame fields can carry it forward between steps",
++                data_only = "capture status is not a diagnosis or task acceptance"
++            },
++            hitches = BuildHitches()
+         };
+-        GD.Print("act1-footstep-lag-probe: " + JsonSerializer.Serialize(receipt));
+-        GD.Print("act1-footstep-lag-probe: PASS on/off-road cadence and snow CPU data collected");
+-        await GodotSmokeCleanup.ReleaseAsync(main);
++        GD.Print("act1-footstep-lag-profile: " + JsonSerializer.Serialize(receipt));
++        GD.Print($"act1-footstep-lag-profile: data {(routeComplete ? "route-complete" : "route-incomplete")}; no diagnosis asserted");
++
++        if (_main is not null && GodotObject.IsInstanceValid(_main))
++            await GodotSmokeCleanup.ReleaseAsync(_main);
+         GetTree().Quit(0);
+     }
+ 
+-    private static IEnumerable<Node> Descendants(Node root)
++    private object SummarizeSegment(IGrouping<int, FrameSample> group)
+     {
+-        foreach (var child in root.GetChildren())
++        var frames = group.ToArray();
++        var first = frames[0];
++        var last = frames[^1];
++        var events = _stepEvents.Where(e => e.SegmentId == group.Key).ToArray();
++        var intervals = events.Where(e => e.SameSegmentAsPrevious && e.GapFromPreviousMs.HasValue)
++            .Select(e => e.GapFromPreviousMs!.Value).ToArray();
++        var snowUpdates = frames.Where(frame => frame.StampDelta > 0 && frame.SnowUpdateMs.HasValue).ToArray();
++
++        return new
+         {
+-            yield return child;
+-            foreach (var nested in Descendants(child))
+-                yield return nested;
+-        }
++            id = group.Key,
++            phase = PhaseName(first.Phase),
++            location = first.PackedBand ? "packed_band" : "offroad",
++            frames = frames.Length,
++            elapsed_ms = new { start = first.ElapsedMs, end = last.ElapsedMs },
++            position = new { start_x = first.X, start_z = first.Z, end_x = last.X, end_z = last.Z },
++            step_trigger_count = events.Sum(e => e.TriggerDelta),
++            step_intervals_ms = Distribution(intervals),
++            frame_wall_ms = Distribution(frames.Select(frame => frame.FrameMs)),
++            process_monitor_ms = Distribution(frames.Select(frame => frame.ProcessMonitorMs)),
++            physics_monitor_ms = Distribution(frames.Select(frame => frame.PhysicsMonitorMs)),
++            gc = new
++            {
++                gen0 = frames.Sum(frame => frame.Gen0Delta),
++                gen1 = frames.Sum(frame => frame.Gen1Delta),
++                gen2 = frames.Sum(frame => frame.Gen2Delta),
++                allocated_bytes = frames.Sum(frame => frame.AllocatedBytesDelta)
++            },
++            snow = new
++            {
++                stamp_delta = frames.Sum(frame => frame.StampDelta),
++                timed_update_frames = snowUpdates.Length,
++                update_ms = Distribution(snowUpdates.Where(frame => frame.SnowUpdateMs.HasValue)
++                    .Select(frame => frame.SnowUpdateMs!.Value)),
++                redraw_ms = Distribution(snowUpdates.Where(frame => frame.SnowRedrawMs.HasValue)
++                    .Select(frame => frame.SnowRedrawMs!.Value)),
++                mesh_ms = Distribution(snowUpdates.Where(frame => frame.SnowMeshMs.HasValue)
++                    .Select(frame => frame.SnowMeshMs!.Value))
++            },
++            last_step_surfaces = frames.Select(frame => frame.Surface).Where(surface => !string.IsNullOrEmpty(surface))
++                .Distinct(StringComparer.Ordinal).ToArray()
++        };
+     }
+ 
+-    private static (int steps, List<int> intervals) StepSummary(List<Sample> segment)
++    private object BuildHitches()
+     {
+-        var stepTicks = segment.Where(sample => sample.StepStarted).Select(sample => sample.Tick).ToList();
+-        var intervals = new List<int>();
+-        for (var index = 1; index < stepTicks.Count; index++)
+-            intervals.Add(stepTicks[index] - stepTicks[index - 1]);
+-        return (stepTicks.Count, intervals);
++        var longFrames = _frames.Where(frame => frame.FrameMs >= HitchThresholdMs
++            || frame.ProcessMonitorMs >= HitchThresholdMs || frame.PhysicsMonitorMs >= HitchThresholdMs)
++            .OrderByDescending(frame => frame.FrameMs).Take(12);
++        var gcFrames = _frames.Where(frame => frame.Gen0Delta > 0 || frame.Gen1Delta > 0 || frame.Gen2Delta > 0)
++            .OrderByDescending(frame => frame.FrameMs).Take(12);
++        var samples = longFrames.Concat(gcFrames).GroupBy(frame => frame.Frame)
++            .Select(group => group.First()).OrderBy(frame => frame.ElapsedMs).Take(24)
++            .Select(frame => new
++            {
++                frame = frame.Frame,
++                frame.ElapsedMs,
++                frame.FrameMs,
++                frame.ProcessMonitorMs,
++                frame.PhysicsMonitorMs,
++                frame.Gen0Delta,
++                frame.Gen1Delta,
++                frame.Gen2Delta,
++                frame.AllocatedBytesDelta,
++                phase = PhaseName(frame.Phase),
++                location = frame.PackedBand ? "packed_band" : "offroad",
++                frame.Surface,
++                frame.TriggerDelta,
++                frame.DrawnFrame,
++                frame.DrawDelta
++            }).ToArray();
++
++        return new
++        {
++            threshold_ms = HitchThresholdMs,
++            threshold_is_diagnostic_only = true,
++            long_frame_count = _frames.Count(frame => frame.FrameMs >= HitchThresholdMs),
++            process_over_threshold_count = _frames.Count(frame => frame.ProcessMonitorMs >= HitchThresholdMs),
++            physics_over_threshold_count = _frames.Count(frame => frame.PhysicsMonitorMs >= HitchThresholdMs),
++            gc_frame_count = _frames.Count(frame => frame.Gen0Delta > 0 || frame.Gen1Delta > 0 || frame.Gen2Delta > 0),
++            samples
++        };
+     }
+ 
+-    private static object Segment(List<Sample> segment, (int steps, List<int> intervals) steps)
++    private static object Distribution(IEnumerable<double> source)
+     {
+-        var median = steps.intervals.Count > 0 ? Median(steps.intervals) : 0;
++        var values = source.Where(double.IsFinite).OrderBy(value => value).ToArray();
++        if (values.Length == 0)
++            return new { samples = 0, median = (double?)null, p95 = (double?)null, max = (double?)null };
++        var median = values[values.Length / 2];
++        var p95Index = Math.Clamp((int)Math.Ceiling(values.Length * .95) - 1, 0, values.Length - 1);
+         return new
+         {
+-            samples = segment.Count,
+-            steps = steps.steps,
+-            step_interval_ticks = steps.intervals.Count > 0
+-                ? new { median, min = steps.intervals.Min(), max = steps.intervals.Max() }
+-                : null,
+-            missed_step_gaps = steps.intervals.Count(gap => gap > median * 2),
+-            mean_speed = segment.Count > 0 ? segment.Average(sample => sample.Speed) : 0,
+-            snow_cpu_ms = new
+-            {
+-                update_mean = segment.Count > 0 ? segment.Average(sample => sample.UpdateMs) : 0,
+-                update_max = segment.Count > 0 ? segment.Max(sample => sample.UpdateMs) : 0,
+-                redraw_mean = segment.Count > 0 ? segment.Average(sample => sample.RedrawMs) : 0,
+-                mesh_mean = segment.Count > 0 ? segment.Average(sample => sample.MeshMs) : 0,
+-                rebuilt_triangles_max = segment.Count > 0 ? segment.Max(sample => sample.RebuiltTriangles) : 0
+-            }
++            samples = values.Length,
++            median = (double?)median,
++            p95 = (double?)values[p95Index],
++            max = (double?)values[^1]
+         };
+     }
+ 
+-    private static int Median(List<int> values)
++    private static IEnumerable<Node> Descendants(Node root)
+     {
+-        var sorted = values.OrderBy(value => value).ToList();
+-        return sorted[sorted.Count / 2];
++        foreach (var child in root.GetChildren())
++        {
++            yield return child;
++            foreach (var nested in Descendants(child))
++                yield return nested;
++        }
+     }
+ 
++    private static string PhaseName(RoutePhase phase) => phase switch
++    {
++        RoutePhase.RoadOutbound => "road_outbound",
++        RoutePhase.OffroadOutbound => "offroad_outbound",
++        RoutePhase.TurningForReturn => "turn_for_return",
++        RoutePhase.OffroadReturn => "offroad_return",
++        RoutePhase.RoadReturn => "road_return",
++        _ => "complete"
++    };
++
+     private void Fail(string message)
+     {
++        Input.ActionRelease("move_forward");
++        Input.ActionRelease("look_left");
+         GD.PushError(message);
+         GetTree().Quit(1);
+     }

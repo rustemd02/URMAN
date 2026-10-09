@@ -1,0 +1,137 @@
+{
+  "capture_mode": "protected native Windows capture",
+  "job_id": "d4d00080f37449b8a574a1de7f2ab6aa",
+  "snapshot_id": "f5501cd114cce146aeaffaa933b122a930d8cd424935e075720bc7fa79ef844e",
+  "base_commit": "32264f34b933eda2cf015b4ff188e32cb126a31e",
+  "candidate_file_count": 1825,
+  "full_source_manifest_sha256": "e077d4ff9b9380ac31d03f10dad34b659652ec6f07b1b4b9c833df32e3a34b3e",
+  "full_source_manifest_matches_receipt": true,
+  "station_status": "PASS",
+  "exit_code": 0,
+  "runner_exit_code": 0,
+  "game_exit_code": 0,
+  "userdata_restored": true,
+  "snapshot_hashes_verified": true,
+  "engine": "4.7.1.stable.mono.official.a13da4feb",
+  "dotnet_sdk": "10.0.302",
+  "renderer": [
+    "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+  ],
+  "host": "UNTERPC",
+  "scene": "res://scenes/act1_demo.tscn",
+  "elapsed_seconds": 338.03357819999997,
+  "dll_sha256": "190335682607AB95ED8B760FE6FB2E1498653B3A7606DE9255505FDA24D74038",
+  "compiled_content": {
+    "urman.chapter1": "34C1A1C233AB00B8F25361652DD53C4D6835CA54861B85D7707D4C49A456C73A",
+    "urman.fullgame": "28E19B07DD9C4E62968BD1433FB2CE1A8DEB2916C2970ECB5592024177CF5E03"
+  },
+  "station_doctor_ready": true,
+  "human_playtest": "not run",
+  "visual_acceptance": "pending root review",
+  "scope": "Static Low views of the existing old-PC room and cupboard door/pull. No ordinary route, interaction, collision, or full interior acceptance is inferred.",
+  "frames": [
+    {
+      "id": "babai_room_overview_low",
+      "sidecar": "babai_room_overview_low.json",
+      "png": "babai_room_overview_low.png",
+      "png_bytes": 1938489,
+      "png_sha256": "ef341607f43c212973d64a12cbd0bd3ec01190967ba186617cfaf4c96c3a945b",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar_viewport": [
+        1920,
+        1080
+      ],
+      "cameraPosition": {
+        "x": -11.070504,
+        "y": 1.594152,
+        "z": -1.885554
+      },
+      "cameraTarget": {
+        "x": -15.52049,
+        "y": 1.294152,
+        "z": -4.705575
+      },
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "activeZoneId": "house_old_pc",
+      "requestedZoneId": "house_old_pc",
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "graphicsPreset": "low",
+      "graphicsRequestedPreset": "low",
+      "graphicsEffectivePreset": "low",
+      "graphicsSessionOverride": null,
+      "graphicsPresetApplyStatus": "applied-through-player-settings",
+      "graphicsComparable": true,
+      "scaling3DScale": 0.7,
+      "graphicsBudget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none",
+      "drawCalls": 5120
+    },
+    {
+      "id": "babai_cupboard_detail_low",
+      "sidecar": "babai_cupboard_detail_low.json",
+      "png": "babai_cupboard_detail_low.png",
+      "png_bytes": 1927912,
+      "png_sha256": "f803fd82f8cf476eb96b1a6afd73fc861e3652a7ea13716e59a57286fc1f257d",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar_viewport": [
+        1920,
+        1080
+      ],
+      "cameraPosition": {
+        "x": -16.020481,
+        "y": 1.574152,
+        "z": -6.505578
+      },
+      "cameraTarget": {
+        "x": -15.620474,
+        "y": 1.244152,
+        "z": -7.835576
+      },
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "activeZoneId": "house_old_pc",
+      "requestedZoneId": "house_old_pc",
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "graphicsPreset": "low",
+      "graphicsRequestedPreset": "low",
+      "graphicsEffectivePreset": "low",
+      "graphicsSessionOverride": null,
+      "graphicsPresetApplyStatus": "applied-through-player-settings",
+      "graphicsComparable": true,
+      "scaling3DScale": 0.7,
+      "graphicsBudget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none",
+      "drawCalls": 5906
+    }
+  ],
+  "result_zip_sha256": "f1564981d26fa97bb9c660053ee1fc2379101ffb2eae4157fbe4dfe37f6f478f",
+  "station_selected_source_count": 32,
+  "local_authoring_excluded_copy_count": 10,
+  "receipt_dirty_paths": [
+    " M assets/asset_registry.json",
+    " M assets/source/blender/urman_modular_kit.blend",
+    " M docs/production/act1_fence_kit_2026-10-04.md",
+    " M docs/urman_knowledge_base/art/act1_h2_hero_house_passport_2026-09-14.md",
+    " M docs/urman_knowledge_base/execution_backlog.json",
+    " M game/assets/generated/urman_modular_kit.glb",
+    " M game/content/world/act1_village_kit.world.v1.json",
+    " M game/content/world/visual_checkpoints.v1.json",
+    " M game/scripts/Act1ConnectedWorld.YardFences.cs",
+    " M game/scripts/Act1ConnectedWorld.cs",
+    " M game/scripts/GeneratedModularKitDressing.cs",
+    " M tools/blender/generate_modular_environment.py",
+    " M tools/blender/verify_modular_environment.py",
+    "?? evidence/ACT1-DEPTH.9/cupboard-recessed-door-export-2026-10-09.json"
+  ],
+  "game_log_warning_blocks": 13,
+  "game_log_error_or_shader_error_markers": 0,
+  "engine_errors_log_bytes": 0,
+  "stderr_log_bytes": 0
+}

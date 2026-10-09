@@ -23,6 +23,21 @@ public static class PainterlyMaterialLibrary
                 float phase = TIME * 1.6 + world_position.x * 0.55 + world_position.z * 0.4;
                 float gust = sin(phase) * 0.65 + sin(phase * 2.3 + 1.7) * 0.35;
                 float reach = max(VERTEX.y, 0.0);
+                // The bend is local-space, but its phase is world-space. Apply
+                // its inverse-transpose to lighting only: the rest varyings
+                // keep pigment projection and attached snow from swimming.
+                vec3 phase_gradient = transpose(mat3(MODEL_MATRIX)) * vec3(0.55, 0.0, 0.4);
+                float gust_derivative = cos(phase) * 0.65 + cos(phase * 2.3 + 1.7) * 0.805;
+                vec3 bend_gradient = wind_sway * (reach * gust_derivative * phase_gradient
+                    + vec3(0.0, VERTEX.y > 0.0 ? gust : 0.0, 0.0));
+                vec3 bend_direction = vec3(1.0, 0.0, 0.6);
+                float bend_determinant = 1.0 + dot(bend_gradient, bend_direction);
+                vec3 bent_normal = bend_determinant * NORMAL
+                    - bend_gradient * dot(bend_direction, NORMAL);
+                if (bend_determinant > 0.0001 && dot(bent_normal, bent_normal) > 0.00000001
+                    && !any(isnan(bent_normal)) && !any(isinf(bent_normal))) {
+                    NORMAL = normalize(bent_normal);
+                }
                 VERTEX.x += gust * wind_sway * reach;
                 VERTEX.z += gust * wind_sway * 0.6 * reach;
             }
@@ -218,8 +233,8 @@ public static class PainterlyMaterialLibrary
         // drift out of register with the painted grain. Blending three planes for
         // sub-centimetre detail would triple the sampler cost at the exact axis
         // where the family's own construction says which face the eye reads.
-        vec2 response_uv(vec3 position, vec3 normal, vec2 surface_uv) {
-            if (authored_uv_texture) return surface_uv * detail_scale;
+        vec2 response_uv(vec3 position, vec3 normal, vec2 authored_uv) {
+            if (authored_uv_texture) return authored_uv * detail_scale;
             vec3 axis = abs(normal);
             if (axis.y >= max(axis.x, axis.z)) return position.xz * detail_scale;
             if (axis.x >= axis.z) return (upright_texture ? position.zy : position.yz) * detail_scale;
@@ -265,6 +280,9 @@ public static class PainterlyMaterialLibrary
         }
 
         void fragment() {
+            // PW-032: all pigment layers follow the same authored UV/local surface.
+            vec3 pigment_position = bound_uv_pigment ? vec3(UV, 0.0)
+                : (local_wood_texture ? local_wood_position : world_position);
             float wet_factor = clamp(wet_grade, 0.0, 1.0);
             if (edge_frost && has_albedo_texture) {
                 // RGBA edge pigment overlays intact glass, including on Low.
@@ -289,6 +307,17 @@ public static class PainterlyMaterialLibrary
                 }
                 ALBEDO = mix(shadow_color.rgb * instance_pigment_mul, low_color, 0.82)
                     * mix(vec3(1.0), vec3(0.90, 0.95, 0.98), wet_factor);
+                // Keep cut-log end grain legible in Low without adding a texture
+                // read. Match the existing UV rings used by the full-quality path.
+                if (cut_wood_end) {
+                    vec2 grain = UV * 2.0 - vec2(1.0);
+                    grain += vec2(sin(grain.y * 7.0), cos(grain.x * 6.0)) * 0.035;
+                    float ring = smoothstep(0.72, 0.98,
+                        sin(length(grain) * 33.0 + sin(grain.x * 9.0) * 0.35));
+                    // Fade rings below pixel size instead of shimmering at distance.
+                    ring *= 1.0 - smoothstep(0.65, 1.5, fwidth(length(grain) * 33.0));
+                    ALBEDO *= 1.0 - ring * 0.22;
+                }
                 if (snow_coverage > 0.0) {
                     float snow_up = clamp(normalize(world_normal).y, 0.0, 1.0);
                     float snow_cover = smoothstep(0.35, 0.75, snow_up) * snow_coverage
@@ -299,7 +328,6 @@ public static class PainterlyMaterialLibrary
                 SPECULAR = clamp(specular_value + wet_factor * 0.22, 0.0, 1.0);
                 METALLIC = metallic_value;
             } else {
-            vec3 pigment_position = bound_uv_pigment ? vec3(UV, 0.0) : world_position;
             // VIS-038: a family shares one cached material and each instance carries
             // its own pigment ratio, so a fence of six tints is six instances of one
             // material state instead of six material states. Identity is vec3(1).
@@ -418,7 +446,7 @@ public static class PainterlyMaterialLibrary
             // response, not the masonry albedo formerly bound to both props.
             // This grain affects roughness only and fades below a pixel.
             if (finish_grain > 0.0 && !low_quality) {
-                vec2 finish_uv = (world_position.xz + world_position.y * vec2(0.73, 0.41)) * 24.0;
+                vec2 finish_uv = (pigment_position.xz + pigment_position.y * vec2(0.73, 0.41)) * 24.0;
                 float finish_detail = 1.0 - smoothstep(0.35, 1.0,
                     max(length(dFdx(finish_uv)), length(dFdy(finish_uv))));
                 ROUGHNESS = clamp(ROUGHNESS
@@ -1220,6 +1248,18 @@ public static class PainterlyMaterialLibrary
         // VIS-007 §5.8: cell_tint is quantised on a 6 m world grid; on a walking
         // body it would step through tints. Deforming cloth never takes it.
         material.SetShaderParameter("cell_jitter", 0f);
+        Materials[key] = material;
+        return material;
+    }
+
+    public static ShaderMaterial ForHeroCarpet(string htmlColor)
+    {
+        var key = $"hero-carpet-uv:{htmlColor}";
+        if (Materials.TryGetValue(key, out var existing)) return existing;
+        var material = (ShaderMaterial)ForColor(htmlColor, "carpet", sheltered: true).Duplicate();
+        material.SetShaderParameter("authored_uv_texture", true);
+        material.SetShaderParameter("bound_uv_pigment", true);
+        material.SetShaderParameter("texture_scale", Vector2.One);
         Materials[key] = material;
         return material;
     }

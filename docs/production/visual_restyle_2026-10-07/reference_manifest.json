@@ -15,8 +15,10 @@
    "source": null,
    "local_file": "docs/URMAN_VISUAL_RESET_2026-10-07/references/approved/P2_author_gallery_quality_target.webp",
    "sha256": "2c8b05ee02de8339be3bae989e3ad5225da6a48a10788c70d7f0cca9ae83b111",
-   "local_availability": "missing_locally_in_repo",
-   "availability_note": "The exact author frame is kept in docs/URMAN_VISUAL_RESET_2026-10-07/references/approved/ on the author's machine; references/ is gitignored, so it is not committed. Ask the author for the frame."
+   "local_availability": "local_checkout_only",
+   "availability_note": "Exact author-provided frame kept in this checkout under the gitignored references/ folder; hash-checked here, not versioned in git.",
+   "versioned": false,
+   "production_asset_rights": "NOT_ESTABLISHED; study reference only"
   },
   {
    "id": "P1",
@@ -24,13 +26,15 @@
    "status": "author_selected",
    "role": "target_property",
    "author_selected_code": true,
-   "use": "Художественность поверхности, крупные живописные пятна, ощущение нарисованного кадра при физически убедительных зданиях.",
+   "use": "Художественность поверхности, крупные живописные пятна, ощущение нарисованного кадра при физически убедительных зданиях. Уточнение автора 09.10: сравнивать конструкцию и пропорции дома, крышу/свесы/фронтоны, глубину окон и дверей, цоколь, крыльцо, масштаб и фактуру, а не только палитру.",
    "do_not_use": "Не копировать сеттинг, персонажа, архитектуру или точную палитру.",
    "source": null,
-   "local_file": "references/approved/P1_user_selected_painterly.png",
+   "local_file": "docs/URMAN_VISUAL_RESET_2026-10-07/references/P1_user_selected_painterly.png",
    "sha256": "1d38dae75672be057a0c999ec6049f7f679b5e09f29bfa31670f8cdce2da6171",
-   "local_availability": "missing_locally_in_repo",
-   "availability_note": "Exact frame is inside the package ZIP (see DRIVE_LINKS_RU.md); sha256 recorded, file not committed."
+   "local_availability": "local_checkout_only",
+   "availability_note": "Exact user-selected frame is available in this checkout and hash-checked. It is ignored/untracked reference material, not a shipped production asset; another checkout must retrieve the exact package image, never substitute a similar frame.",
+   "versioned": false,
+   "production_asset_rights": "NOT_ESTABLISHED; study reference only"
   },
   {
    "id": "LIS2-PAINT",
@@ -354,5 +358,11 @@
    "local_availability": "no_image",
    "availability_note": "Aggregate or rejected idea; no single image exists."
   }
- ]
+ ],
+ "applicability_2026_10_09": {
+  "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
+  "two_registers": "Ordinary material painterly village / expressive PhotoWorlds; author-selected properties remain scoped, negative images remain anti-examples.",
+  "forest_boundary": "F-REJECT rejects cozy generic outer forest; it does not prohibit attractive W01 PhotoWorlds.",
+  "board": "docs/production/visual_restyle_2026-10-07/REFERENCE_BOARD_RU.md"
+ }
 }

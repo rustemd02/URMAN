@@ -1,0 +1,97 @@
+{
+  "reviewer": "/root",
+  "reviewedAtApproxUtc": "~2026-10-09T04:08Z and ~2026-10-09T04:16Z",
+  "reviewedAtQualifier": "approximate times supplied by reviewer",
+  "tasks": [
+    "ACT1-DEPTH.9",
+    "ACT1-DEPTH.12"
+  ],
+  "highJob": "6cb5fd71c02140e3932c2c59d30d1113",
+  "lowJob": "e982732a68f14c84ab3b27bc232fb349",
+  "snapshotId": "110630c7c71ecd00282e14295e2d139a49b7b080dbbe077f6bbf16d94b800c0d",
+  "baseCommit": "e1d8c991fdc84b9103c73ce832fab41912f0fd26",
+  "candidateFileCount": 1825,
+  "fullManifestEqualAcrossRuns": true,
+  "fullManifestPathOrHashDiffCount": 0,
+  "selectedStationSourceCount": 30,
+  "selectedStationSourceHashesEqual": true,
+  "reviewedOriginals": [
+    {
+      "checkpointId": "babai_shape_front_high",
+      "archivePath": "evidence/ACT1-DEPTH.12/native_high_6cb5fd71c02140e3932c2c59d30d1113/frames/babai_shape_front_high.png",
+      "sha256": "171e51b94bf2e0966800da509ee3df2c2cc96d8389e3b506b5aa63e7cc4c4576",
+      "dimensionsPx": [
+        1886,
+        1061
+      ]
+    },
+    {
+      "checkpointId": "babai_shape_oblique_high",
+      "archivePath": "evidence/ACT1-DEPTH.12/native_high_6cb5fd71c02140e3932c2c59d30d1113/frames/babai_shape_oblique_high.png",
+      "sha256": "28d53fd825657e7f6edb988ac1f4ec264d6fdfcd1a46bed98d0e017bcf58c852",
+      "dimensionsPx": [
+        1886,
+        1061
+      ]
+    },
+    {
+      "checkpointId": "babai_porch_side_clear_high",
+      "archivePath": "evidence/ACT1-DEPTH.12/native_high_6cb5fd71c02140e3932c2c59d30d1113/frames/babai_porch_side_clear_high.png",
+      "sha256": "a0f7becd3ce4fd5b91793d3ec628a0e71dfe1f202adc49c7edb144968fdff6c4",
+      "dimensionsPx": [
+        1886,
+        1061
+      ]
+    },
+    {
+      "checkpointId": "babai_shape_front_low",
+      "archivePath": "evidence/ACT1-DEPTH.12/native_low_e982732a68f14c84ab3b27bc232fb349/frames/babai_shape_front_low.png",
+      "sha256": "35a5ee05e54eed94330a0a886ab4aeeba9d99ab9ef0b3120689a9028707b953e",
+      "dimensionsPx": [
+        1886,
+        1061
+      ]
+    },
+    {
+      "checkpointId": "babai_shape_oblique_low",
+      "archivePath": "evidence/ACT1-DEPTH.12/native_low_e982732a68f14c84ab3b27bc232fb349/frames/babai_shape_oblique_low.png",
+      "sha256": "213584d9d48c3db56ffc5c0cf86bde066d4b6dc521595c2a0bde60e650d33efd",
+      "dimensionsPx": [
+        1886,
+        1061
+      ]
+    },
+    {
+      "checkpointId": "babai_porch_side_clear_low",
+      "archivePath": "evidence/ACT1-DEPTH.12/native_low_e982732a68f14c84ab3b27bc232fb349/frames/babai_porch_side_clear_low.png",
+      "sha256": "025039ac3cd3e9af267a819f273cc466904d7ec9aa827ea7db9e4ae42f8ca7df",
+      "dimensionsPx": [
+        1886,
+        1061
+      ]
+    }
+  ],
+  "result": "ACCEPT_PROTECTED_QUALITY_CAPTURE_AND_PAIR_COMPARABILITY_WHOLESTYLE_NOT_ACCEPTED",
+  "accepted": [
+    "Protected capture mechanism produced requested and effective High/Low presets with no session override; both report graphicsComparable=true.",
+    "The full source manifest is exactly the same 1825-file snapshot for both runs, and the camera transforms, owners, FOV70, active zone `village_day`, atmosphere `village-winter-frost`, and sidecar viewport match in all three pairs.",
+    "High uses scaling3D 1.0; Low uses 0.7, with the corresponding recorded graphics budgets.",
+    "Static house outline, door, window and porch are readable in both captures."
+  ],
+  "wholeStyleNotAccepted": [
+    "Low loses cut-cap rings and deck grain; the porch reads flat gray and the cut caps plain. Snow/pixel aliasing and overall detail balance remain concerns.",
+    "High still has coarse facade, trim and character forms."
+  ],
+  "limitations": [
+    "Static native frames do not prove ordinary movement or full playthrough.",
+    "Reference-author confirmation has not been performed.",
+    "The whole visual style is not accepted.",
+    "Neither ACT1-DEPTH.9 nor ACT1-DEPTH.12 is closed; ACT1-DEPTH.10 has not started.",
+    "Sidecars report a 1920x1080 viewport while original PNGs are 1886x1061; no image was resized or edited."
+  ],
+  "cardDisposition": {
+    "ACT1-DEPTH.9": "not closed",
+    "ACT1-DEPTH.12": "not closed",
+    "ACT1-DEPTH.10": "not started"
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "task_id": "ACT1-DEPTH.9",
+  "artifact_kind": "hero_rug_authored_uv_source_export",
+  "date": "2026-10-09",
+  "status": "native_uv_verified_and_bounded_root_accepted; textile_response_and_whole_interior_open",
+  "source_change": {
+    "scope": "RugField, RugBandA and RugBandB UV assignment only in the canonical modular kit; hero-only cached runtime material variant for these three mesh prefixes.",
+    "uv_mapping": "Projects all three generated mesh UVs onto one normalized full-field swatch using the source-space rug bounds. U follows rug depth/across-width; V follows rug length. This preserves continuous UV placement at both stripe positions.",
+    "runtime_material": {
+      "selector": "GeneratedModularKitDressing only selects ForHeroCarpet for HouseInterior_RugField*, HouseInterior_RugBandA* and HouseInterior_RugBandB*.",
+      "variant": "duplicates the existing cached carpet material and sets authored_uv_texture=true, bound_uv_pigment=true, texture_scale=(1,1), then registers in PainterlyMaterialLibrary.Materials so existing preset, snow and motion broadcasts include it.",
+      "texture": "existing carpet_palas_v1_albedo.png; no image, shader family or tint changes."
+    },
+    "preserved": "Rug bounds, bevel, geometry/topology, collision and presentation-only ownership, mesh/object counts, existing source image, material definitions and all non-rug payloads."
+  },
+  "export": {
+    "command": ".tools/blender/Blender.app/Contents/MacOS/Blender --background --python tools/blender/generate_modular_environment.py -- --root /Users/unterlantas/Documents/GitHub/URMAN",
+    "blender": "4.5.12 LTS",
+    "exit_code": 0,
+    "lod1_variants": 151,
+    "before": {
+      "blend_sha256": "b5c2115c51a98ca5b51e0249a6dfebb36881145b00586b9f02bd82b5f475b640",
+      "glb_sha256": "ce6cca7084ba9a08bc8fb090467bfe1a361f6cc3743860376a3ce5417252f314"
+    },
+    "after": {
+      "blend_sha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+      "glb_sha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0"
+    },
+    "byte_exact_pre_export_copies": ".codex-captures/legs-motion-rug-uv-2026-10-09/pre-export/"
+  },
+  "glb_readback": {
+    "mesh_nodes_before_after": [
+      304,
+      304
+    ],
+    "mesh_definitions_before_after": [
+      304,
+      304
+    ],
+    "materials_before_after": [
+      17,
+      17
+    ],
+    "embedded_images_before_after": [
+      0,
+      0
+    ],
+    "bin_bytes_before_after": [
+      1149496,
+      1149496
+    ],
+    "indexed_triangles_before_after": [
+      16250,
+      16250
+    ],
+    "changed_attributes": [
+      {
+        "node": "HouseInterior_RugField_LOD0",
+        "gltf_mesh": "Cube.067",
+        "attribute": "TEXCOORD_0"
+      },
+      {
+        "node": "HouseInterior_RugBandA_LOD0",
+        "gltf_mesh": "Cube.068",
+        "attribute": "TEXCOORD_0"
+      },
+      {
+        "node": "HouseInterior_RugBandB_LOD0",
+        "gltf_mesh": "Cube.069",
+        "attribute": "TEXCOORD_0"
+      },
+      {
+        "node": "HouseInterior_RugField_LOD1",
+        "gltf_mesh": "Cube.191",
+        "attribute": "TEXCOORD_0"
+      },
+      {
+        "node": "HouseInterior_RugBandA_LOD1",
+        "gltf_mesh": "Cube.192",
+        "attribute": "TEXCOORD_0"
+      },
+      {
+        "node": "HouseInterior_RugBandB_LOD1",
+        "gltf_mesh": "Cube.193",
+        "attribute": "TEXCOORD_0"
+      }
+    ],
+    "top_face_uv_ranges_after": {
+      "HouseInterior_RugField_LOD0": {
+        "u": [
+          0.005,
+          0.995
+        ],
+        "v": [
+          0.003,
+          0.997
+        ]
+      },
+      "HouseInterior_RugField_LOD1": {
+        "u": [
+          0.005,
+          0.995
+        ],
+        "v": [
+          0.003,
+          0.997
+        ]
+      },
+      "HouseInterior_RugBandA_LOD0": {
+        "u": [
+          0.613,
+          0.679
+        ],
+        "v": [
+          0.0,
+          1.0
+        ]
+      },
+      "HouseInterior_RugBandA_LOD1": {
+        "u": [
+          0.613,
+          0.679
+        ],
+        "v": [
+          0.0,
+          1.0
+        ]
+      },
+      "HouseInterior_RugBandB_LOD0": {
+        "u": [
+          0.334,
+          0.4
+        ],
+        "v": [
+          0.0,
+          1.0
+        ]
+      },
+      "HouseInterior_RugBandB_LOD1": {
+        "u": [
+          0.334,
+          0.4
+        ],
+        "v": [
+          0.0,
+          1.0
+        ]
+      }
+    },
+    "semantic_diff": "Node transforms, mesh names, all positions/normals/other attributes, index buffers and material assignments compared equal; the only differing attribute payloads are TEXCOORD_0 on six rug nodes (the GLTF mesh-definition names are listed separately). All non-rug mesh payloads are unchanged."
+  },
+  "asset_registry": {
+    "updated_row_ids": [
+      "env.house.a",
+      "env.fence.a",
+      "env.road.dirt.straight",
+      "env.vegetation.pine.a",
+      "prop.furniture.table.a",
+      "prop.oldpc.crt",
+      "env.well.a",
+      "env.woodpile.a",
+      "env.gate.a"
+    ],
+    "fields_changed": [
+      "sourceSha256",
+      "derivedSha256"
+    ],
+    "sourceSha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+    "derivedSha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+    "all_other_registry_fields_and_budgets_unchanged": true
+  },
+  "verification": {
+    "python_syntax": "PASS: python3 -m py_compile tools/blender/generate_modular_environment.py",
+    "filtered_asset_registry_validator": "PASS: eng/verify-asset-registry.sh on temporary registry containing exactly these nine rows (assets=9, derived=9, explicit_sources=9).",
+    "glb_semantic_compare": "PASS: baseline/current parsed and compared; topology/materials/transforms and non-UV attributes unchanged; only six intended UV payloads differ.",
+    "git_diff_check": "PASS before Blender export; rerun after final evidence writes.",
+    "narrow_csharp_compile": {
+      "status": "PASS",
+      "command": "./.tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+      "exit_code": 0,
+      "elapsed_seconds": 13.08,
+      "warnings": 0,
+      "errors": 0,
+      "output_dll_sha256": "91f22df192ea6331eb202da5fe212a1b0392682a542b8886ed20b6d642e06b12"
+    },
+    "native_graphics_import_capture": {
+      "jobId": "496c35f835de43eaa39a25440cfb54de",
+      "snapshotId": "c9c2c9e87be19e64095760e8da5c579a9c7c629e1c9796b6d5bb6c523ce6883e",
+      "result": "PASS",
+      "stationSourceCopiesMatched": 12,
+      "engineErrors": 0,
+      "userdataRestored": true,
+      "visibleRugRows": 6,
+      "authoredUvTexture": true,
+      "boundUvPigment": true,
+      "textureScale": [
+        1,
+        1
+      ],
+      "lowQuality": true
+    },
+    "visual_acceptance": "evidence/ACT1-DEPTH.9/native_rug_496c35f835de43eaa39a25440cfb54de/root-review.json"
+  },
+  "remaining": [
+    "Dark brown material multiplier still suppresses woven palette; next separate root-rejected color/response slice.",
+    "Whole interior/reference, player movement and full ACT1-DEPTH.9 criteria remain open."
+  ]
+}

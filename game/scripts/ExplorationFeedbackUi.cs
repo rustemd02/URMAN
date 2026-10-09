@@ -141,7 +141,7 @@ public partial class ExplorationFeedbackUi : CanvasLayer, IAccessibilitySettings
         if (!_reducedMotion) _titleTween.TweenProperty(_title, "modulate:a", 1f, .75).SetTrans(Tween.TransitionType.Sine);
         _titleTween.TweenInterval(3.2);
         if (!_reducedMotion) _titleTween.TweenProperty(_title, "modulate:a", 0f, 1.0);
-        _titleTween.TweenCallback(Callable.From(() => _title.Visible = false));
+        _titleTween.TweenCallback(Callable.From(() => { _title.Visible = false; _titleTween = null; }));
     }
 
     private void OnSaveFeedback(bool? result)

@@ -1,0 +1,460 @@
+{
+ "kind": "urman.visual_reset_asset_passports.v1",
+ "date": "2026-10-07",
+ "source": "docs/URMAN_VISUAL_RESET_2026-10-07/ASSET_PASSPORTS_RU.md",
+ "rule": "Перед генерацией/скачиванием: reuse audit по reuse_candidates и material_consumers_RU.md §5.4; новый файл получает дочернюю запись consumer/dimensions/UV/origin/license/verification frame. Retired variants не удалять до migration receipt.",
+ "passports": [
+  {
+   "id": "AS-01",
+   "title": "Village hero-house construction kit",
+   "purpose": "Нормализованный mid-poly деревянный дом: фундамент, толщина стен/кровли, оконные ниши, карнизы, bevel.",
+   "format": "GLB + Blender source",
+   "target_path": "assets/source/blender/act1/ + game/assets/models/act1/",
+   "consumers": [
+    "VIS-086",
+    "VIS-087",
+    "VIS-091"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/scripts/TimberHomeStyle.cs",
+    "assets/source/blender/agent_b_act1/agent_b_buildings.py",
+    "assets/source/blender/act1/urman_village_exterior_kit.py",
+    "tools/world/generate_north_street.py"
+   ],
+   "reuse_candidates": [
+    "urman_w01_v01_basecolor.png (wood_facade, wood_log_uv)",
+    "log_wall_v1_albedo.png (log_wall)",
+    "log_wall_v2_albedo.png (не подключена)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-02",
+   "title": "Window surround / trim kit",
+   "purpose": "Наличники, подоконники, откосы, тёплые окна без плоской наклейки.",
+   "format": "GLB modules",
+   "target_path": "assets/source/blender/act1/",
+   "consumers": [
+    "VIS-087",
+    "VIS-096"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/scripts/VillageWindowMaterials.cs",
+    "game/scripts/WindowSilhouettes.cs",
+    "game/scripts/TimberHomeStyle.cs"
+   ],
+   "reuse_candidates": [
+    "urman_w05_v02_basecolor.png (wood_painted_trim)",
+    "ornament_trim_v1_albedo.png (не подключена)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-03",
+   "title": "Fence board generator kit",
+   "purpose": "Набор досок и процедурный генератор вариативных деревенских заборов.",
+   "format": "Blend/Python + GLB",
+   "target_path": "assets/source/blender/act1/",
+   "consumers": [
+    "VIS-088"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/scripts/Act1ConnectedWorld.YardFences.cs",
+    "game/scripts/Act1ConnectedWorld.StreetFrontage.cs"
+   ],
+   "reuse_candidates": [
+    "urman_w02_v02_basecolor.png (wood_fence_*)",
+    "weathered_wood_boards_v2_albedo.png (wood_fence)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-04",
+   "title": "Gate and wicket kit",
+   "purpose": "Правдоподобные калитки/ворота с петлями, толщиной и посадкой.",
+   "format": "GLB modules",
+   "target_path": "assets/source/blender/act1/",
+   "consumers": [
+    "VIS-089"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/scripts/Act1ConnectedWorld.RearYardGate.cs",
+    "game/scripts/Act1ConnectedWorld.BabaiYardSideGate.cs",
+    "game/scripts/Act1ConnectedWorld.YardFences.cs"
+   ],
+   "reuse_candidates": [
+    "wood_carved_gate_v1_albedo.png (не подключена)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-05",
+   "title": "Winter deciduous tree family",
+   "purpose": "Берёза/липа/рябина/ива: силуэт, кора, ветвление, снег.",
+   "format": "GLB + LOD",
+   "target_path": "assets/source/blender/",
+   "consumers": [
+    "VIS-082",
+    "VIS-083"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+    "game/scripts/PrologueApproachRoad.cs",
+    "tools/blender/prepare_winter_dead_tree.py"
+   ],
+   "reuse_candidates": [
+    "urman_f01_v03_basecolor.png (bark_birch_winter)",
+    "bark_birch_v1/v2, leaf_birch_v1/v2 (не подключены)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-06",
+   "title": "Rare disturbing branch variants",
+   "purpose": "Редкие старые деревья с длинными тревожными сучьями по H3-1, без леса-организма.",
+   "format": "GLB + LOD",
+   "target_path": "assets/source/blender/act1/",
+   "consumers": [
+    "VIS-075",
+    "VIS-083"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/scripts/PrologueDeepForest.cs",
+    "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs"
+   ],
+   "reuse_candidates": [
+    "winter.dead_tree.v1 (CC0 Quaternius derivative, asset_registry)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-07",
+   "title": "Selective conifer winter family",
+   "purpose": "Хвойные только там, где уместны; не «пальмы» вдоль улицы.",
+   "format": "GLB + LOD",
+   "target_path": "assets/source/blender/",
+   "consumers": [
+    "VIS-084"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "tools/blender/prepare_winter_pine.py",
+    "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+    "game/scripts/PrologueApproachRoad.cs"
+   ],
+   "reuse_candidates": [
+    "winter.pine.v1 + texture.winter.pine-alpha.v1 (asset_registry)",
+    "urman_f02_v02_basecolor.png (bark_pine)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-08",
+   "title": "Snow bank / drift shape kit",
+   "purpose": "Геометрические формы валов, надувов, кромок и roof caps; текстура не заменяет форму.",
+   "format": "runtime geometry helpers / GLB where needed",
+   "target_path": "game/scripts/Act1ConnectedWorld*.cs",
+   "consumers": [
+    "VIS-077",
+    "VIS-079",
+    "VIS-080"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/scripts/Act1ConnectedWorld.SnowRelief.cs",
+    "game/scripts/Act1ConnectedWorld.WinterRoads.cs",
+    "game/scripts/SnowTrampleField.cs"
+   ],
+   "reuse_candidates": [
+    "процедурная геометрия; карт не требуется до формы (VIS-077)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-09",
+   "title": "Painterly snow material family",
+   "purpose": "Albedo/normal/roughness/detail/macro masks для снега, без baked lighting.",
+   "format": "PNG 1024–2048 + shader params",
+   "target_path": "game/assets/textures/painterly/",
+   "consumers": [
+    "VIS-081"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/scripts/PainterlyMaterialLibrary.cs"
+   ],
+   "reuse_candidates": [
+    "urman_s01_v01 (snow_ground)",
+    "urman_s02_v02 (snow_road)",
+    "snow_trampled_v1",
+    "snow_roof_v1",
+    "snow_micro_response/normal",
+    "snow_fresh_v1/v2, snow_road_v1 (не подключены)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-10",
+   "title": "Painterly aged wood family",
+   "purpose": "Фасад/доска/торец/крашеное дерево; локальный масштаб и физический roughness.",
+   "format": "PNG 1024–2048 + trim where useful",
+   "target_path": "game/assets/textures/painterly/",
+   "consumers": [
+    "VIS-093"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/scripts/PainterlyMaterialLibrary.cs",
+    "game/scripts/TimberHomeStyle.cs"
+   ],
+   "reuse_candidates": [
+    "urman_w01..w09",
+    "weathered_wood_boards_v2/v3/v4",
+    "weathered_wood_boards_v5/v6 (не подключены)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-11",
+   "title": "Plaster / civic wall family",
+   "purpose": "Штукатурка без asset-pack стерильности, крупные пятна и локальный износ.",
+   "format": "PNG 1024–2048",
+   "target_path": "game/assets/textures/",
+   "consumers": [
+    "VIS-094"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/scripts/StyleBenchmarkInteriorFactory.cs",
+    "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+    "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs"
+   ],
+   "reuse_candidates": [
+    "urman_b01_v01 (plaster_domestic)",
+    "urman_b03_v01 (wall_institution)",
+    "aged_plaster_v3 (plaster)",
+    "wall_institution_v1_albedo.png (не подключена)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-12",
+   "title": "Aged painted metal family",
+   "purpose": "Эмалированная сталь, кровля, трубы/желоба; корректный metallic=0/1 по материалу.",
+   "format": "PNG 1024–2048",
+   "target_path": "game/assets/textures/",
+   "consumers": [
+    "VIS-095"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/scripts/Act1ConnectedWorld.PolicePost.Roof.cs",
+    "game/scripts/Act1ConnectedWorld.CozyBabaiYard.cs",
+    "game/scripts/Act1ConnectedWorld.ShopStorefront.cs"
+   ],
+   "reuse_candidates": [
+    "roof_metal_v2_albedo.png (не подключена)",
+    "семейства enamel/metal без карты — material_consumers_RU.md §3"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-13",
+   "title": "Frosted village window family",
+   "purpose": "Мороз, стекло, room color, night spill; без фейковой прозрачности.",
+   "format": "PNG + shader params",
+   "target_path": "game/assets/textures/painterly/",
+   "consumers": [
+    "VIS-096"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/scripts/VillageWindowMaterials.cs",
+    "game/scripts/VillageHouseholdDirector.cs"
+   ],
+   "reuse_candidates": [
+    "frost_window_v1_albedo.png (mipmaps=false — решать в VIS-096)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-14",
+   "title": "Wind-line VFX family",
+   "purpose": "Редкие графические линии потока воздуха по V4, world-space atmospheric motif.",
+   "format": "mesh/particle/shader effect",
+   "target_path": "game/scripts/ + assets VFX",
+   "consumers": [
+    "VIS-076"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [],
+   "reuse_candidates": [
+    "нет: потребителя в коде ещё нет (VIS-076)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-15",
+   "title": "Forest fog state assets",
+   "purpose": "Профиль тумана/sky/lighting для непроглядной лесной глубины; без второго WorldEnvironment.",
+   "format": "JSON/profile + existing Environment owner",
+   "target_path": "game/content/world/atmosphere.v1.json",
+   "consumers": [
+    "VIS-073",
+    "VIS-074"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/content/world/atmosphere.v1.json",
+    "game/scripts/Act1ConnectedWorld.cs"
+   ],
+   "reuse_candidates": [
+    "профиль kara-winter-night-edge (VIS-067)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-16",
+   "title": "Character cloth/head material normalization",
+   "purpose": "UV-local cloth, painterly faces, воротники/плечи, единый материал каста.",
+   "format": "material/GLB corrections",
+   "target_path": "game/scripts/GeneratedCharacterKitDressing.cs + Blender sources",
+   "consumers": [
+    "VIS-102",
+    "VIS-103",
+    "VIS-104"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "game/scripts/GeneratedCharacterKitDressing.cs",
+    "tools/blender/generate_character_kit.py",
+    "tools/blender/generate_character_kit_v2.py"
+   ],
+   "reuse_candidates": [
+    "old_fabric_v3_albedo.png через ForMovingCloth (только Алсу и тело Айдара имеют метрические UV)"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-17",
+   "title": "Vehicle/prop normalization kit",
+   "purpose": "Нива, ВАЗ, мотоцикл и скачанные props: unified materials, LOD, UV, scale, snow contact.",
+   "format": "GLB/material conversion",
+   "target_path": "game/assets/models + generated",
+   "consumers": [
+    "VIS-105",
+    "VIS-106",
+    "VIS-107"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "tools/blender/generate_niva.py",
+    "game/scripts/Act1ConnectedWorld.Vehicles.cs"
+   ],
+   "reuse_candidates": [
+    "character/vehicle CC0 sources в asset_registry"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  },
+  {
+   "id": "AS-18",
+   "title": "Reference and capture gate assets",
+   "purpose": "Контакт-листы, fixed cameras, histogram/tiling/grounding checks; не production art.",
+   "format": "scripts + docs",
+   "target_path": "eng/ + game/tests/",
+   "consumers": [
+    "VIS-066",
+    "VIS-117",
+    "VIS-118"
+   ],
+   "rule": "Сначала проверить библиотеку и лицензию; новая генерация только при доказанном blocker. ImageGen-концепт не является runtime-доказательством.",
+   "code_consumers": [
+    "eng/remote-check.py",
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+    "eng/verify-visual-reference-manifest.py"
+   ],
+   "reuse_candidates": [
+    "docs/production/URMAN_VISUAL_RESET_EXECUTION_2026-10-07_checkpoints.json"
+   ],
+   "reuse_audit": "pending",
+   "new_files": [],
+   "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
+   "runtime_status": "not-run",
+   "art_acceptance": "pending"
+  }
+ ]
+}

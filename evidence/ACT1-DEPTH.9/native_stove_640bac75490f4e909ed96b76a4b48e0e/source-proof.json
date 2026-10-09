@@ -1,0 +1,97 @@
+{
+  "job_id": "640bac75490f4e909ed96b76a4b48e0e",
+  "snapshot_id": "be175b30587823fcba7228bb717626b391b88d694d2f7f578e889aac2a3f3e6f",
+  "base_commit": "ada38bffa9ce17ad130cb478942a2ae8bd1ce953",
+  "snapshot_manifest_file_count": 1825,
+  "source_snapshot_hashes_verified": true,
+  "station_snapshot_sources": {
+    "game/assets/generated/urman_modular_kit.glb": {
+      "bytes": 1393776,
+      "sha256": "ce6cca7084ba9a08bc8fb090467bfe1a361f6cc3743860376a3ce5417252f314",
+      "archive_path": "source/station-selected/game/assets/generated/urman_modular_kit.glb"
+    },
+    "game/content/urman.fullgame.compiled.v1.json": {
+      "bytes": 2122792,
+      "sha256": "89f8a53f0315a10c475b0165677d8475473c3a336dda7d004bc550af145c5b1e",
+      "archive_path": "source/station-selected/game/content/urman.fullgame.compiled.v1.json"
+    },
+    "game/content/world/act1_village_kit.world.v1.json": {
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d",
+      "archive_path": "source/station-selected/game/content/world/act1_village_kit.world.v1.json"
+    },
+    "game/content/world/visual_checkpoints.v1.json": {
+      "bytes": 14130,
+      "sha256": "8b874fca622203639786e6e231ea005e12cbd84d20bc27c3cbfe05842e200448",
+      "archive_path": "source/station-selected/game/content/world/visual_checkpoints.v1.json"
+    },
+    "game/project.godot": {
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4",
+      "archive_path": "source/station-selected/game/project.godot"
+    },
+    "game/scripts/Act1ConnectedWorld.cs": {
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f",
+      "archive_path": "source/station-selected/game/scripts/Act1ConnectedWorld.cs"
+    },
+    "game/scripts/Act1DemoRoot.cs": {
+      "bytes": 96068,
+      "sha256": "3403c196273291ef4d4825687a134a08451154eb1db5f5fa88660c44a13d3349",
+      "archive_path": "source/station-selected/game/scripts/Act1DemoRoot.cs"
+    },
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs": {
+      "bytes": 53510,
+      "sha256": "8080a0f6b01e6dbfcb16d44d978970d54054ebbf738b3660b7e12d68ca89168b",
+      "archive_path": "source/station-selected/game/scripts/Act1DemoRoot.DevViewCapture.cs"
+    },
+    "game/scripts/PainterlyMaterialLibrary.cs": {
+      "bytes": 121832,
+      "sha256": "cd074ba5f24f725b67fb275a7b2411277da820814a5d003764f00c664e60d7bc",
+      "archive_path": "source/station-selected/game/scripts/PainterlyMaterialLibrary.cs"
+    },
+    "game/scripts/StyleBenchmarkInteriorFactory.cs": {
+      "bytes": 25969,
+      "sha256": "e3ec8a1ed9913e2b1a2213e0765e5c300c8b3a56dcd7a9bb5ef0b5229ff46f60",
+      "archive_path": "source/station-selected/game/scripts/StyleBenchmarkInteriorFactory.cs"
+    }
+  },
+  "locally_archived_authoring_sources_excluded_from_station": {
+    "assets/asset_registry.json": {
+      "bytes": 236918,
+      "sha256": "b0605b9a9e24f050d23d52820f31158ea00cfa6e82a811e804fae0b86f7a6564",
+      "archive_path": "source/local-authoring-excluded/assets/asset_registry.json"
+    },
+    "assets/source/blender/urman_modular_kit.blend": {
+      "bytes": 3361756,
+      "sha256": "b5c2115c51a98ca5b51e0249a6dfebb36881145b00586b9f02bd82b5f475b640",
+      "archive_path": "source/local-authoring-excluded/assets/source/blender/urman_modular_kit.blend"
+    },
+    "tools/blender/generate_modular_environment.py": {
+      "bytes": 58283,
+      "sha256": "604eba05386e61f918c3f80afb72c861c601179792a4269039407047188fb6da",
+      "archive_path": "source/local-authoring-excluded/tools/blender/generate_modular_environment.py"
+    },
+    "evidence/ACT1-DEPTH.9/stove-footprint-export-2026-10-09.json": {
+      "bytes": 10196,
+      "sha256": "df7007612c809841a5b0b0424c9976376e8f4cfa0cf6a26cd1bfe1853e0a79f9",
+      "archive_path": "source/local-authoring-excluded/evidence/ACT1-DEPTH.9/stove-footprint-export-2026-10-09.json"
+    }
+  },
+  "registry_rows_for_generated_glb": {
+    "count": 9,
+    "archive_path": "source/local-authoring-excluded/asset_registry_selected_rows.json",
+    "row_subset_sha256": "42422b7cfb4c7cfbffbb1ef820bcf70bbb738d6b641c5737cdb3c7d4353ab736",
+    "row_ids": [
+      "env.house.a",
+      "env.fence.a",
+      "env.road.dirt.straight",
+      "env.vegetation.pine.a",
+      "prop.furniture.table.a",
+      "prop.oldpc.crt",
+      "env.well.a",
+      "env.woodpile.a",
+      "env.gate.a"
+    ]
+  }
+}

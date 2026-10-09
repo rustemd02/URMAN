@@ -1,0 +1,260 @@
+{
+  "schema_version": 1,
+  "artifact_kind": "source_linked_interior_clause_consumer_map",
+  "date": "2026-10-09",
+  "task_context": {
+    "task_id": "ACT1-DEPTH.9",
+    "contract_locations": [
+      "docs/urman_knowledge_base/execution_backlog.json:ACT1-DEPTH.9/execution.steps[ACT1-DEPTH.9/S3]",
+      "docs/urman_knowledge_base/execution_backlog.json:ACT1-DEPTH.9/done_when"
+    ],
+    "purpose": "Bounded source locator for the retained household clauses and their current candidate consumers. This file is evidence, not a status ledger.",
+    "visual_acceptance": "NOT_ASSESSED: no current snapshot-matched interior originals or human visual review were available for this source-only mapping.",
+    "runtime_movement": "NOT_RUN: consumer locations do not prove two-way clearance, ordinary-player access, or visual readability."
+  },
+  "formal_requirement_ownership": {
+    "direct_review_requirement_ids_for_depth_9": [
+      {
+        "id": "R122",
+        "source": "docs/tasktracker/review_2026-09-28/requirements.json:1256",
+        "scope": "Preserve the grandfather-house carved trim/log character while improving material and silhouette.",
+        "task_owners": ["ACT1-DEPTH.9", "ACT1-DEPTH.10"]
+      }
+    ],
+    "related_retained_requirements_owned_elsewhere": [
+      {
+        "id": "R121",
+        "source": "docs/tasktracker/review_2026-09-28/requirements.json:1246",
+        "task_owners": ["ACT1-DEPTH.2"],
+        "relation_to_depth_9": "DEPTH.9/S3 and its done_when retain household photos, towels, service and food; the formal R121 owner remains DEPTH.2."
+      },
+      {
+        "id": "R141",
+        "source": "docs/tasktracker/review_2026-09-28/requirements.json:1452",
+        "task_owners": ["ACT1-DEPTH.2", "ACT1-TEXTURE.03"],
+        "relation_to_depth_9": "DEPTH.9/S3 retains the positive sofa/wallpaper/curtain examples; it does not transfer the formal texture-task ownership."
+      },
+      {
+        "id": "R142",
+        "source": "docs/tasktracker/review_2026-09-28/requirements.json:1463",
+        "task_owners": ["ACT1-DEPTH.2"],
+        "relation_to_depth_9": "DEPTH.9/S3 repeats the D14 table/box/towel readability clause; the old coordinate-to-current-object binding is unresolved."
+      },
+      {
+        "id": "R143",
+        "source": "docs/tasktracker/review_2026-09-28/requirements.json:1473",
+        "task_owners": ["ACT1-DEPTH.2", "ACT1-TEXTURE.04"],
+        "relation_to_depth_9": "DEPTH.9/S3 retains the meaningful note/thread-box clause; the current tin/word-card candidate is not proof of a handwritten note."
+      }
+    ],
+    "separate_coordinate_and_collision_requirement": {
+      "id": "R144",
+      "task_owner": "ACT1-TECH.2",
+      "source": "docs/tasktracker/review_2026-09-28/requirements.json:1484",
+      "limit": "The sign conflict in the old D14 wall-fall coordinate is not resolved by identifying an interior table or by this map."
+    }
+  },
+  "reference_identity": {
+    "actual_author_selected_visual_reference": {
+      "id": "P1",
+      "status": "author_selected",
+      "declared_manifest_path": "docs/URMAN_VISUAL_RESET_2026-10-07/references/approved/P1_user_selected_painterly.png",
+      "present_checkout_path": "docs/URMAN_VISUAL_RESET_2026-10-07/references/P1_user_selected_painterly.png",
+      "present_file_sha256": "1d38dae75672be057a0c999ec6049f7f679b5e09f29bfa31670f8cdce2da6171",
+      "path_note": "The declared references/approved path is absent in this checkout; the exact P1 bytes exist at present_checkout_path and match the manifest SHA-256.",
+      "approved_property_only": "Painterly materiality, large painted value/color shapes, and a drawn-frame feeling with physically convincing buildings; not literal Tatar architecture, setting, character, or palette."
+    },
+    "house_form_source_image": {
+      "path": "game/assets/textures/ui/act1_menu_winter_v1.png",
+      "sha256": "2afdd76a4356ddfa42a92a8ebe002c4cd8a9303a3482e0ad76f1d8aeebbfc420",
+      "role": "Existing ACT1-DEPTH.9 house-form comparison source; not an image ID called R5."
+    },
+    "spec_row_ids_not_visual_reference_ids": {
+      "R3": {
+        "source": "docs/tasktracker/02_village_rework_plan.md:109",
+        "meaning": "Architecture requirement row: full, structurally plausible building volumes and construction cues."
+      },
+      "R5": {
+        "source": "docs/tasktracker/02_village_rework_plan.md:111",
+        "meaning": "Interior requirement row: household-use system and object placement. No separate R5 screenshot/image is identified by this row."
+      },
+      "clarification": "R3/R5 are requirement-row labels in the plan; the actual exact user-provided selected visual-reference ID is P1. Do not invent an R5 image."
+    },
+    "other_reference_limit": "REFERENCES_RU.md lists I-CURRENT as a positive current-game baseline family, but this map does not identify a new exact selected interior screenshot from that family."
+  },
+  "existing_passport_preservation": {
+    "passport_path": "evidence/ACT1-DEPTH.9/as01-as02-as13-passport-2026-10-09.json",
+    "handling": "Referenced without editing or duplicating its current AS-01/02/13 metrics and dimensions.",
+    "triangle_budget": "No budget change is proposed. Keep the registered 36,761 acceptance limit and the passport's explicit NOT_ACCEPTED/unmeasured reconciliation."
+  },
+  "consumers": [
+    {
+      "clause": "sofa / daybed candidate",
+      "formal_requirement_ids": ["R141"],
+      "current_consumer": {
+        "logical_zone": "house_old_pc",
+        "scene_root": "StyleBenchmarkHousePc",
+        "node_group": "GeneratedHouseInteriorAct1/HouseInterior_Daybed*",
+        "source_locations": [
+          "game/scripts/StyleBenchmarkInteriorFactory.cs:272-285",
+          "game/scripts/StyleBenchmarkInteriorFactory.cs:309-310",
+          "game/scripts/GeneratedModularKitDressing.cs:12-15",
+          "game/scripts/GeneratedModularKitDressing.cs:396-399",
+          "assets/asset_registry.json:325"
+        ],
+        "placement": "Room-local destination (3.05, 0, 0.45); frame/cushion/back are retained as one imported group; collision contacts are generated from the visible mesh group."
+      },
+      "source_observation": "present_candidate",
+      "known_limit": "The current mesh is named daybed, not the legacy sofa. Source proves a daybed consumer/material binding, not visual identity with the earlier praised sofa or style acceptance."
+    },
+    {
+      "clause": "floral wallpaper",
+      "formal_requirement_ids": ["R141"],
+      "current_consumer": {
+        "logical_zone": "house_old_pc",
+        "source_locations": [
+          "game/scripts/StyleBenchmarkInteriorFactory.cs:99-132",
+          "game/scripts/PainterlyMaterialLibrary.cs:678",
+          "assets/asset_registry.json:2037-2050"
+        ],
+        "material_binding": "Main room wall panels use the wallpaper semantic and wallpaper_old_v1_albedo.png; LeftWall/Pier0 beside the stove is deliberately plaster_domestic."
+      },
+      "source_observation": "present_candidate",
+      "known_limit": "Code establishes a current wallpaper texture consumer, but the motif, its floral legibility, condition, and current-frame match to the praised reference require image review."
+    },
+    {
+      "clause": "curtains",
+      "formal_requirement_ids": ["R141"],
+      "current_consumer": {
+        "logical_zone": "house_old_pc",
+        "source_locations": [
+          "game/scripts/StyleBenchmarkInteriorFactory.cs:164-190",
+          "game/scripts/StyleBenchmarkInteriorFactory.cs:238-257"
+        ],
+        "implementation": "Each of seven generated room-window roots has a rod, two folded fabric panels, and a sheer. Rear-window panels are wider privacy curtains; five other windows keep their open village view. Fabric uses the cloth_curtain semantic."
+      },
+      "source_observation": "present_candidate",
+      "known_limit": "Source geometry/material roles are present; visual reading, folds at gameplay distance, and relation to the earlier praised curtains are not assessed."
+    },
+    {
+      "clause": "hewn logs / carved exterior trim",
+      "formal_requirement_ids": ["R122"],
+      "current_consumer": {
+        "logical_zone": "house_old_pc",
+        "runtime_component": "Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster",
+        "source_locations": [
+          "assets/source/blender/act1/urman_village_exterior_kit.py:29-40",
+          "assets/source/blender/act1/urman_village_exterior_kit.py:116-139",
+          "assets/source/blender/act1/urman_village_exterior_kit.py:2167-2235",
+          "assets/source/blender/act1/urman_village_exterior_kit.py:2298-2345",
+          "assets/source/blender/act1/urman_village_exterior_kit.py:2623",
+          "assets/source/blender/act1/urman_village_exterior_kit.py:2949-3018",
+          "game/scripts/Act1ConnectedWorld.cs:2174-2178",
+          "game/scripts/Act1ConnectedWorld.cs:4124-4133"
+        ],
+        "material_binding": "Project-authored hewn-log courses/end-grain and carved nalichnik/podzor/prichelina meshes are in the exterior component; Hero_Log maps to wood_log_uv and Hero_Trim slots map to wood_painted_trim."
+      },
+      "source_observation": "present_candidate",
+      "known_limit": "This locates the exterior positive-form candidate. The paired procedural room walls are separately built by StyleBenchmarkInteriorFactory.Wall and use wallpaper/plaster; this map does not claim that the interior directly reuses the exterior log mesh. Current close-view visual acceptance remains pending."
+    },
+    {
+      "clause": "family photograph",
+      "formal_requirement_ids": ["R121"],
+      "current_consumer": {
+        "logical_zone": "house_old_pc",
+        "support": "StyleBenchmarkInteriorFactory.FamilyPhotoShelf at room-local (-3.63, 1.07, -2.50)",
+        "effective_runtime_prop": "Act1ConnectedWorld.Exploration/DiscoveryFamilyPhoto at PhotoAnchor (-3.60, 1.47, -2.50); it hides the old static FamilyPhoto/FamilyPhotoInner boxes, uses first_snow_existing_v1.png, and exposes the house-interior-photo-back discovery target.",
+        "source_locations": [
+          "game/scripts/StyleBenchmarkInteriorFactory.cs:89-96",
+          "game/scripts/StyleBenchmarkZone.cs:447-450",
+          "game/scripts/Act1ConnectedWorld.Exploration.cs:19-43"
+        ]
+      },
+      "source_observation": "present_candidate",
+      "known_limit": "The replacement displays a first-snow photograph and an inscription; the depicted relatives/family provenance are not established by these source lines. Household placement is present, not proof that it satisfies a family-photo brief."
+    },
+    {
+      "clause": "food / tea service",
+      "formal_requirement_ids": ["R121"],
+      "current_consumer": {
+        "main_room": {
+          "logical_zone": "house_old_pc",
+          "source_locations": [
+            "game/scripts/StyleBenchmarkInteriorFactory.cs:272-298",
+            "game/scripts/StyleBenchmarkInteriorFactory.cs:362-375",
+            "game/scripts/StyleBenchmarkZone.cs:390-394",
+            "game/scripts/StyleBenchmarkZone.cs:1799-1816"
+          ],
+          "implementation": "Imported HouseInterior_Table group is moved to room-local z=-2.60 and receives a support-fitted draped TeaTablecloth; a TeaCup is authored nearby. The imported table group includes its kettle/bowl mesh consumers."
+        },
+        "kitchen_wing": {
+          "source_locations": [
+            "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs:105-155",
+            "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs:141-147"
+          ],
+          "implementation": "Separate reachable wing (WingOrigin y=-30) has a kitchen table, cloth, four stools, samovar, teapot, three cups, plates/jars, bread tin, sideboard, and a node named KitchenBowlOfSweets."
+        }
+      },
+      "source_observation": "partial_candidate",
+      "known_limit": "Source places tea/dish/storage candidates by household function. The named sweets node builds a bowl mesh but no distinct sweets are authored in that block; the main imported TableBowl is listed in texture inventory with a plaster material concern. No current image proves readable food, a coherent service set, or the family-biography link required by R121."
+    },
+    {
+      "clause": "household towels",
+      "formal_requirement_ids": ["R121", "R142"],
+      "current_consumer": {
+        "main_room": {
+          "source_location": "game/scripts/StyleBenchmarkZone.cs:380-384",
+          "implementation": "HouseWashTowel (room-local -3.97, 1.52, 1.40) sits by HouseWashBucket; both use existing material families, but the towel is a rotated box without a named rail/support."
+        },
+        "kitchen_and_washroom_wing": {
+          "source_locations": [
+            "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs:150-155",
+            "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs:236-240"
+          ],
+          "implementation": "KitchenTowel is a box-sized cloth_towel near the zal door; ToiletTowel is beside the wing washstand."
+        }
+      },
+      "source_observation": "present_candidate_with_readability_gap",
+      "known_limit": "There are household towel consumers, but source alone does not demonstrate folds, a clear fastening, or that any is the towel shown in the old D14 frame."
+    },
+    {
+      "clause": "D14 table / box / note / thread",
+      "formal_requirement_ids": ["R142", "R143"],
+      "current_candidates": {
+        "table": {
+          "consumer": "GeneratedHouseInteriorAct1/HouseInterior_Table* in house_old_pc; room-local destination is (0, 0, -2.60), with a support-fitted TeaTablecloth.",
+          "source_locations": ["game/scripts/StyleBenchmarkInteriorFactory.cs:272-298", "game/scripts/StyleBenchmarkInteriorFactory.cs:362-375"]
+        },
+        "box_and_threads": {
+          "consumer": "HouseInterior_StorageChest at ChestAnchor; DiscoverySewingTin at TinAnchor is explicitly seated on the chest lid and contains three colored thread spools.",
+          "source_locations": ["game/scripts/StyleBenchmarkInteriorFactory.cs:311-312", "game/scripts/StyleBenchmarkInteriorFactory.cs:32-35", "game/scripts/Act1ConnectedWorld.Exploration.cs:45-71"]
+        },
+        "note_or_card": {
+          "consumer": "The tin has a small WordCard labeled 'өй — дом' and an interaction that records the house-interior-language-tin discovery.",
+          "source_location": "game/scripts/Act1ConnectedWorld.Exploration.cs:63-71"
+        },
+        "separate_paper_candidate": {
+          "consumer": "HouseInterior_OldPcDocumentFolio* is moved with the living-room table group and uses the paper material family; the texture inventory separately notes that no cover-sheet is identified.",
+          "source_locations": [
+            "game/scripts/StyleBenchmarkInteriorFactory.cs:296-298",
+            "docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md:190"
+          ],
+          "relation_to_R143": "No source proves this generic document folio is the D14 handwritten note."
+        }
+      },
+      "source_observation": "partial_candidate; legacy coordinate binding unresolved",
+      "known_limit": "R142's cited D14 X=-28.4/Z=-4.1 and R143's note/thread history do not identify these current room-local nodes. No source binding from the old D14 coordinate to this table/chest/tin was found. The spools exist, but the WordCard is a language card, not a demonstrated meaningful handwritten note; the separate generic OldPcDocumentFolio is not linked to the old D14 note. Keep the D14 identity and note meaning open for the owner/frame review; do not infer by proximity or rename the current items as D14."
+    }
+  ],
+  "verification": {
+    "method": "Read-only inspection of the exact task card, formal requirement rows, reference manifest/local file, current caller and builder blocks, runtime material bindings, and prior AS passport pointer.",
+    "build_or_runtime_run": false,
+    "new_tests": false,
+    "current_original_interior_frame_review": "pending root-provided snapshot-matched originals",
+    "limits": [
+      "Source consumer existence is not artwork acceptance.",
+      "The D14 sign/coordinate ambiguity remains with its existing owner and is not resolved here.",
+      "No AS passport, source dimensions, registry budget, tracker status, or production/runtime source was edited."
+    ]
+  }
+}

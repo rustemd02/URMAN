@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PW-003",
+  "date": "2026-10-09",
+  "kind": "canonical-world-completion-source-correction",
+  "status": "source-corrected-content-compiled-native-pending",
+  "scope": {
+    "changedFiles": [
+      "content/modules/urman-fullgame/definitions.json"
+    ],
+    "unchangedFiles": [
+      "content/campaigns/urman.fullgame/campaign.json",
+      "game/tests/FullGameFlowSmokeTest.cs",
+      "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs"
+    ],
+    "baseCommit": "e05a1c69ade3dba4e86d92f400994e85656e7d85",
+    "definitionsSha256": "bac710d50f391c06281fa08b4f13d170e561980f257862974873c641975d1c19",
+    "campaignSha256": "2e0b902a24f9deb828397732f182426facc0154b5a71c9510967a82a6f0d8b39",
+    "worldsSpecSha256": "d1e870648629b901a0b962e8798671e634a21b7787a94b89325151fafa306353"
+  },
+  "requiredFactsByWorld": {
+    "W01": [
+      "forest_camera_back_seen",
+      "forest_beyond_frame_seen",
+      "forest_encounter_resolved"
+    ],
+    "W02": [
+      "water_reflection_relation_seen",
+      "water_reed_opened",
+      "water_old_approach_seen",
+      "water_encounter_resolved"
+    ],
+    "W03": [
+      "house_shutter_opened",
+      "house_two_views_seen",
+      "house_camera_position_seen",
+      "house_frame_seen"
+    ],
+    "W04": [
+      "common_three_relations_seen",
+      "common_view_uncovered",
+      "common_horizon_seen",
+      "common_note_finished"
+    ],
+    "W05": [
+      "cellar_household_pattern_seen",
+      "cellar_box_returned",
+      "cellar_response_seen",
+      "cellar_niche_seen"
+    ]
+  },
+  "replacedCompletionFactsByWorld": {
+    "W01": [
+      "forest_group_seen",
+      "forest_photographer_found",
+      "forest_shurale_listened"
+    ],
+    "W02": [
+      "water_old_approach_seen",
+      "water_safe_bypass_opened",
+      "water_damp_print"
+    ],
+    "W03": [
+      "house_shutter_adjusted",
+      "house_two_views_compared",
+      "house_camera_position_seen"
+    ],
+    "W04": [
+      "common_relationships_connected",
+      "common_horizon_uncovered"
+    ],
+    "W05": [
+      "cellar_household_order_seen",
+      "cellar_shared_object_found",
+      "cellar_bichura_answered"
+    ]
+  },
+  "catalog": {
+    "photoBookFactCount": 33,
+    "campaignFactsAndInteractionsPreserved": true,
+    "campaignManifestChanged": false,
+    "existingSemanticProducerFacts": {
+      "water_old_approach_seen": {
+        "catalogued": true,
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-water-old-approach"
+        ],
+        "registeredInteractions": [
+          "urman.fullgame:interaction/pw-water-old-approach"
+        ],
+        "physicalValidation": "NOT_IMPLEMENTED"
+      },
+      "house_camera_position_seen": {
+        "catalogued": true,
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-house-camera-position"
+        ],
+        "registeredInteractions": [
+          "urman.fullgame:interaction/pw-house-camera-position"
+        ],
+        "physicalValidation": "NOT_IMPLEMENTED"
+      }
+    },
+    "missingProducerFactIds": [
+      "forest_camera_back_seen",
+      "forest_beyond_frame_seen",
+      "forest_encounter_resolved",
+      "water_reflection_relation_seen",
+      "water_reed_opened",
+      "water_encounter_resolved",
+      "house_shutter_opened",
+      "house_two_views_seen",
+      "house_frame_seen",
+      "common_three_relations_seen",
+      "common_view_uncovered",
+      "common_horizon_seen",
+      "common_note_finished",
+      "cellar_household_pattern_seen",
+      "cellar_box_returned",
+      "cellar_response_seen",
+      "cellar_niche_seen"
+    ],
+    "physicalProducerStatus": "NOT_IMPLEMENTED for all 19 required actions; no generic interaction or label/listen alias was added."
+  },
+  "questContract": {
+    "w01ThroughW05CompletionFactSetsExactlyMatchWorldsSpecRequired": true,
+    "w04NonFactCompletionConditionsIdenticalToPreviousSource": true,
+    "startConditionsUnchanged": true,
+    "completionEffectsAndQuestCompositionUnchanged": true,
+    "w05OptionalityAndFinaleIndependenceUnchanged": true,
+    "currentNarrativeFactsRemainInCatalogButAreNotExtraCompletionRequirements": true
+  },
+  "sourceTrustBoundary": {
+    "contentCompilerQuestFactCrossReference": "No fact-catalog reference check for completionConditions was found; condition schema accepts an authored factId string.",
+    "missingStateCondition": "PhotoWorldState.EvaluateCondition delegates fact.observed to HasFact; an unobserved or missing state key returns false.",
+    "observationGuard": "ObserveFact requires the fact to be catalogued and its exact sourceId to be in that fact sourceIds list.",
+    "decision": "Do not add empty-source facts, invented source IDs, generic interactions, or weaken catalog/reducer validation. Register each missing fact only with its real producer."
+  },
+  "fullGameFlowSmoke": {
+    "path": "game/tests/FullGameFlowSmokeTest.cs",
+    "changed": true,
+    "expectedCurrentBoundary": "The existing A/B semantic routes only produce the prior generic story observations; W01 or W02 remains incomplete at its existing completion assertion. No later-route PASS can be claimed until physical producers exist.",
+    "testRun": "Targeted Windows negative W01 boundary observed in both attempts; final native FAIL/1 exits cleanly. Full route FAIL; W02 onward not reached.",
+    "historicalPreNativeDeclaration": {
+      "path": "game/tests/FullGameFlowSmokeTest.cs",
+      "changed": false,
+      "expectedCurrentBoundary": "The existing A/B semantic routes only produce the prior generic story observations; W01 or W02 remains incomplete at its existing completion assertion. No later-route PASS can be claimed until physical producers exist.",
+      "testRun": "NOT_RUN; parent will coordinate a targeted Windows negative check after the current station job."
+    },
+    "changeScope": "Six-line failure-exit cleanup ordering only; no assertion, route or authored-condition changes."
+  },
+  "saveCompatibility": {
+    "campaignExactVersionChanged": false,
+    "campaignContentFingerprintWillChangeOnRegeneratedPack": true,
+    "oldFingerprintLoad": "SaveGameV3 rejects a fingerprint mismatch for both primary and backup before load projection. Files remain untouched; this correction adds no migration, reset, or overwrite.",
+    "fingerprintImplementation": "ContentCompiler hashes each module input including normalized sourceFiles (ContentCompiler.cs:99-143, 164-180), then hashes the campaign node plus module fingerprints (192-212). The changed definitions source therefore changes campaignFingerprint after recompilation even though campaign.exactVersion remains 1.0.0.",
+    "loadValidation": "RuntimeBridge passes the currently loaded campaign fingerprint into AtomicSaveGameStore.LoadAsync for continue and restore (RuntimeBridge.cs:290, 422); both primary and backup decode paths pass it to SaveGameV3.Decode (AtomicSaveGameStore.cs:59-83), whose exact string comparison rejects mismatch before return/projection (SaveGameV3.cs:104-109).",
+    "compatibilityDisposition": "Existing old-fingerprint saves are not loaded through the current pack and are not rewritten, reset, or deleted. No migration/recovery path is introduced by this source correction; legacy-save recovery remains a separate owner/gate. The unchanged campaign exactVersion alone cannot bypass the fingerprint check.",
+    "preCorrectionPackSha256": "34901b60910bf6c8703547be3a883a424fb278331fa56d314852c212d5b1c31b",
+    "preCorrectionCampaignFingerprint": "08a59e82c672d3f14b308bf8b45932a15637f945bcb89d9bd67518e0969d61f3",
+    "postCorrectionCampaignFingerprint": "aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6",
+    "fingerprintComparison": "EXPECTED_MISMATCH: the old pack fingerprint differs from the regenerated fullgame fingerprint despite unchanged exactVersion=1.0.0.",
+    "oldFingerprintLoadDisposition": "Both primary and backup with the prior fingerprint are rejected by the existing exact fingerprint guard before save projection; their files are not rewritten or deleted."
+  },
+  "compiledContent": {
+    "path": "game/content/urman.fullgame.compiled.v1.json",
+    "preCorrectionLocalSha256": "34901b60910bf6c8703547be3a883a424fb278331fa56d314852c212d5b1c31b",
+    "preCorrectionFingerprint": "08a59e82c672d3f14b308bf8b45932a15637f945bcb89d9bd67518e0969d61f3",
+    "status": "COMPILED after terminal station ACK; corrected-source native flow remains NOT_RUN.",
+    "postCorrectionSha256": "91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad",
+    "postCorrectionFingerprint": "aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6",
+    "exactVersionUnchanged": true,
+    "photoBookNamespace": "photoworlds-v1",
+    "compiledPhotoCount": 13,
+    "compiledWorldIds": [
+      "W01",
+      "W02",
+      "W03",
+      "W04",
+      "W05"
+    ],
+    "compiledRequiredAnchorCount": 7,
+    "compiledQuestFactSetAudit": "PASS: compiled W01–W05 quest conditions contain exactly the 19 source-required IDs.",
+    "compileCommand": "./.tools/dotnet/dotnet tools-dotnet/Urman.ContentCli/bin/Debug/net10.0/Urman.ContentCli.dll compile --root /Users/unterlantas/Documents/GitHub/URMAN --campaign urman.fullgame --out game/content/urman.fullgame.compiled.v1.json",
+    "contentCliBuild": "PASS: tools-dotnet/Urman.ContentCli/Urman.ContentCli.csproj built against updated Urman.Content with 0 warnings and 0 errors; 2.48 s. No game build run."
+  },
+  "verification": {
+    "sourceConditionSetAudit": "PASS: 19 unique exact required IDs; W04 retains exactly four byte-identical non-fact completion clauses; starts/effects/composition unchanged.",
+    "diffCheck": "PASS for definitions.json.",
+    "contentCompile": "PASS: compiled only urman.fullgame after station terminal ACK; output SHA256 91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad, fingerprint aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6; compiled namespace photoworlds-v1, 13 photos, 5 worlds, 7 logical required anchors, and 19 exact required completion facts.",
+    "runtimeOrNative": "NOT_RUN for corrected source; prior native PASS remains historical on the old source/pack. No Windows run performed in this slice.",
+    "contentCliBuild": "PASS: updated ContentCLI/dependencies, 0 warnings/errors."
+  },
+  "historicalEvidenceRetained": [
+    "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/receipt.json",
+    "evidence/PW-003/source_scope_receipt.json"
+  ],
+  "windowsNegativeGateReview": {
+    "reviewedAtUtc": "2026-10-09T05:14:16.819223+00:00",
+    "reviews": [
+      "evidence/PW-003/native_f377c44ea4bf447cae3c6ca6a51c422f/root-review.json",
+      "evidence/PW-003/native_caa74d6981ac42edb4d9c51be51272f3/root-review.json"
+    ],
+    "result": "W01_OLD_SEMANTIC_SHORTCUT_REJECTED",
+    "fullCampaignPass": false,
+    "compile": "Narrow game compile PASS, 0 warnings/errors, 13.63 s."
+  }
+}

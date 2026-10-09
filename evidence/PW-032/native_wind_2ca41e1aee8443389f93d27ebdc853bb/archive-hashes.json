@@ -1,0 +1,146 @@
+{
+  ".gitattributes": {
+    "bytes": 63,
+    "sha256": "1800ef1f2717d4df6ab31aada7260edc2ab96511d0f1c23c5cb45b1a35cec8f4"
+  },
+  "README.md": {
+    "bytes": 2645,
+    "sha256": "ff67fea8bc3d77c1cc0a2275ded8befd4a06443e2b630151c0bf74ddcfe7ec2d"
+  },
+  "build.log": {
+    "bytes": 152,
+    "sha256": "068cd0280e949fb595449964a44635f334250b2d8ff1c90aaa00ef6928cbfe72"
+  },
+  "content-build.log": {
+    "bytes": 152,
+    "sha256": "6d216083cdcd5b640fcbddbc076e59c20cea47ed68fb8e474b99776334ee2607"
+  },
+  "content-urman.chapter1.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "content-urman.fullgame.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "document-images.log": {
+    "bytes": 746,
+    "sha256": "289eef9ee894eafa4670c358f750e2698dbe96884546cb6f0c2425af09987b52"
+  },
+  "engine-errors.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "frame-summary.json": {
+    "bytes": 14356,
+    "sha256": "36fcb4da609ed4ec5dc423927bb99bf1c469a0069bd974699bba6f66d7f7d254"
+  },
+  "frames/_capture-summary.json": {
+    "bytes": 19872,
+    "sha256": "967273ba22642e80bc94fbaa5901a83e6d298464b7d13df6a5ac6851f3a4f00e"
+  },
+  "frames/wind_material_a.json": {
+    "bytes": 8566,
+    "sha256": "c223f3a23cc3f9d149d34388440e27ad23bd0d116d9c3049ff3e4a24d146d58a"
+  },
+  "frames/wind_material_a.png": {
+    "bytes": 1491274,
+    "sha256": "8a2086fa99e9973337b0569ade5e0b778902603baa90f3d48f07c2324be04929"
+  },
+  "frames/wind_material_b.json": {
+    "bytes": 8585,
+    "sha256": "fc45f8453b48e99f8b59adfffc539148b73f749116b58e51032b9129e723266f"
+  },
+  "frames/wind_material_b.png": {
+    "bytes": 1479698,
+    "sha256": "e3f1d81787a22f6766e07b3cb754f644e582a98a5e804fe638b902e58e59b54e"
+  },
+  "game.log": {
+    "bytes": 92595,
+    "sha256": "9e6310d985d23b8456bb3cd962daf11c5ad7eac950981a3b97bccf07fc9262f5"
+  },
+  "import.log": {
+    "bytes": 140540,
+    "sha256": "5571c3d82278734683a9cc3159c3dcccf3e6d120d9ad9110158ea4a958484347"
+  },
+  "receipt.json": {
+    "bytes": 519361,
+    "sha256": "d1f6276ef49043258c2729bc72b23efcf9c61a09aa2037f368411781228479d5"
+  },
+  "request.json": {
+    "bytes": 334,
+    "sha256": "7e460252fb34ebb3d48a0acc6a127181f76c8f4076669fa1ef478c06e680620e"
+  },
+  "result-zip.sha256": {
+    "bytes": 133,
+    "sha256": "eb73bdb32373717165adcf7a4a9da8c1658537fe639ba3e33303081f6614c353"
+  },
+  "root-review.json": {
+    "bytes": 1316,
+    "sha256": "e8b73475218d093ad6c095330387d031a5a374eb7b8e782cb3f7a91e9401d824"
+  },
+  "source/local-evidence-excluded/evidence/PW-032/wind-lighting-normal-2026-10-09.json": {
+    "bytes": 2723,
+    "sha256": "871b73d80c24e80f015617a656a0912c68687cb40100916bb6e42888658de325"
+  },
+  "source/station/game/assets/generated/urman_modular_kit.glb": {
+    "bytes": 1393776,
+    "sha256": "ce6cca7084ba9a08bc8fb090467bfe1a361f6cc3743860376a3ce5417252f314"
+  },
+  "source/station/game/content/urman.fullgame.compiled.v1.json": {
+    "bytes": 2122792,
+    "sha256": "89f8a53f0315a10c475b0165677d8475473c3a336dda7d004bc550af145c5b1e"
+  },
+  "source/station/game/content/world/act1_village_kit.world.v1.json": {
+    "bytes": 133658,
+    "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d"
+  },
+  "source/station/game/content/world/atmosphere.v1.json": {
+    "bytes": 13795,
+    "sha256": "026ed905882dd738f45c40082bd69f73dab2939fb9b16168953befc7c19a154d"
+  },
+  "source/station/game/content/world/visual_checkpoints.v1.json": {
+    "bytes": 14721,
+    "sha256": "9d71b1b3ba8ad880e854cbe5e4501f297c8d59d9b69ad6a022b467098006e786"
+  },
+  "source/station/game/project.godot": {
+    "bytes": 11531,
+    "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4"
+  },
+  "source/station/game/scripts/Act1ConnectedWorld.cs": {
+    "bytes": 627814,
+    "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f"
+  },
+  "source/station/game/scripts/Act1DemoRoot.DevViewCapture.cs": {
+    "bytes": 53558,
+    "sha256": "dcb94cca33c592b2107962341a16bf7d81c307515fb31e9180700375bb8b64da"
+  },
+  "source/station/game/scripts/Act1DemoRoot.cs": {
+    "bytes": 96068,
+    "sha256": "3403c196273291ef4d4825687a134a08451154eb1db5f5fa88660c44a13d3349"
+  },
+  "source/station/game/scripts/PainterlyMaterialLibrary.cs": {
+    "bytes": 121832,
+    "sha256": "cd074ba5f24f725b67fb275a7b2411277da820814a5d003764f00c664e60d7bc"
+  },
+  "source-proof.json": {
+    "bytes": 3067,
+    "sha256": "75b5ebc1889e47c17bbb93686b35e1408b43acd6726cc23967cfcd38560dc907"
+  },
+  "station-doctor-after.json": {
+    "bytes": 510,
+    "sha256": "d3c682940ee53a917ac92e4423b231c1977a9026a4373303c8d5489df1c1e734"
+  },
+  "station-doctor-before.json": {
+    "bytes": 510,
+    "sha256": "1635c110882f6ac3041589214b8d9778ac0bf3d0d216680c5dc8cc4d053a2940"
+  },
+  "stderr.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout.log": {
+    "bytes": 234298,
+    "sha256": "5c781165731c78ce4672b6c55f2f6c53cedaa7cc95ae80f5dd347546d0ca44d5"
+  }
+}

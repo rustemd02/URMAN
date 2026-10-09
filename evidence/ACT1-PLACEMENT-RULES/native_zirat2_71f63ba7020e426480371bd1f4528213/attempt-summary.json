@@ -1,0 +1,44 @@
+{
+  "job_id": "71f63ba7020e426480371bd1f4528213",
+  "snapshot_id": "f7d908c576a6fa22f834d1e8d861b5ec1ce44d9a26cb9b37486b814e9810a4d3",
+  "base_commit": "b4f0faf88e9318f3ea6963ab8e62eb8152bc0960",
+  "status": "FAIL",
+  "mode": "capture",
+  "scene": "res://scenes/act1_demo.tscn",
+  "requested_points": "zirat_entry_verify:ZiratAuthoredOpenGate@-1.146,1.63,6.833>ZiratAuthoredOpenGate@0,0.95,0;zirat_row_verify:ZiratPathEdge_PathRibbon_00_LOD0@-0.37,1.55,-1.67>ReadZiratFamilyInscriptions@0,0,0",
+  "zone": "zirat_road",
+  "fov_requested": 70,
+  "timeout_seconds": 300,
+  "elapsed_seconds": 328.9822637,
+  "worker_elapsed_seconds": 360.093,
+  "game_exit_code": 1,
+  "result_zip_sha256": "05c32201b1bbb066c8439bfcf79e35524dc633e619172b170e49901008b096bc",
+  "snapshot_hashes_verified": true,
+  "build_exit_code": 0,
+  "content_build_exit_code": 0,
+  "import_exit_code": 0,
+  "game_exit_code_from_steps": 1,
+  "zone_resolution": "zone-loaded: zirat_road@default; act1-debug-zone standing position logged",
+  "capture_failure": "First requested selector ZiratAuthoredOpenGate matched 2 nodes, so the owner was ambiguous and no frame was written.",
+  "actual_candidates": "ZiratAuthoredOpenGate under zirat-return-road/ZiratRoadsideAuthoredKit and under Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation.",
+  "runtime_diagnostics": [
+    "shader-instance-budget: meshes=63179 candidates=54813 bufferSize=1048576",
+    "act1-roadside-grounding: independent contact meshes=34"
+  ],
+  "other_engine_errors": [
+    "AnimationPlayer has no current animation (2 occurrences) in GeneratedCharacterKitDressing.DistantWorkState.Tick.",
+    "Renderer RID/ObjectDB resource leak diagnostics appeared at exit."
+  ],
+  "actual_quality_rescue": "preset=low, avg=244.3ms, median=113.0ms, reason=slow-startup; no PNG produced, so no visual claim.",
+  "frames_present": false,
+  "niva_followup": "not submitted because Zirat2 failed; root requested stop-on-failure.",
+  "userdata_recovery_pending": false,
+  "project_restored_sha256": "D63B2F54388E8B0D06C6EFB350DD7E0B9F43264AC967696749535BEB57D757C4",
+  "doctor_after_run": {
+    "ready": true,
+    "busy_job": null,
+    "orphan_game_process": false,
+    "userdata_recovery_pending": false
+  },
+  "root_visual_review": "pending; no frame was produced"
+}

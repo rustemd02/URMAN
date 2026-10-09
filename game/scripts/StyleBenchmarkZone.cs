@@ -69,6 +69,10 @@ public partial class StyleBenchmarkZone : Node3D
     [Export]
     public BenchmarkKind ZoneKind { get; set; }
 
+    private bool IsPhotoWorldsCampaign =>
+        GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge
+        && bridge.IsPhotoWorldsCampaign;
+
     public override void _Ready()
     {
         BuildEnvironment();
@@ -183,6 +187,7 @@ public partial class StyleBenchmarkZone : Node3D
 
     private void BuildDayStreet()
     {
+        var photoWorlds = IsPhotoWorldsCampaign;
         MakeBox("Ground", new(42, 0.25f, 42), new(0, -0.125f, 0), "59604b");
         PainterlyEnvironmentDetails.AddRoadRelief(this, "Road", 5.2f, 42f, Vector3.Zero, "685b49");
         // Per-patch relief contact seating measured against Road (not a
@@ -339,24 +344,29 @@ public partial class StyleBenchmarkZone : Node3D
             // facade; the interior entry transform remains a separate spawn.
             AgentBAct1Layout.HouseDoorPortalCenter,
             "6d5844",
-            "urman.chapter1:interaction/arrival-enter-house",
-            "Войти в дом бабая и әби",
+            photoWorlds
+                ? "urman.fullgame:interaction/pw-home-enter-house"
+                : "urman.chapter1:interaction/arrival-enter-house",
+            photoWorlds ? "Войти в дом Гөлсинә и Мансура" : "Войти в дом бабая и әби",
             "house_old_pc",
             "entry");
         houseDoor.RotationDegrees = new(0f, AgentBAct1Layout.HouseDoorYawDegrees, 0f);
         houseDoor.WorldFoleySample = "door_creak";
-        var returnToHouseRegister = MakeInteractionBox(
-            "ReturnToHouseRegister",
-            AgentBAct1Layout.HouseDoorProxySize,
-            AgentBAct1Layout.HouseDoorPortalCenter,
-            "6d5844",
-            "urman.chapter1:interaction/official-to-internal-register",
-            "Войти и сверить справку с реестром на старом ПК",
-            "house_old_pc",
-            "entry");
-        returnToHouseRegister.RotationDegrees =
-            new(0f, AgentBAct1Layout.HouseDoorYawDegrees, 0f);
-        returnToHouseRegister.WorldFoleySample = "door_creak";
+        if (!photoWorlds)
+        {
+            var returnToHouseRegister = MakeInteractionBox(
+                "ReturnToHouseRegister",
+                AgentBAct1Layout.HouseDoorProxySize,
+                AgentBAct1Layout.HouseDoorPortalCenter,
+                "6d5844",
+                "urman.chapter1:interaction/official-to-internal-register",
+                "Войти и сверить справку с реестром на старом ПК",
+                "house_old_pc",
+                "entry");
+            returnToHouseRegister.RotationDegrees =
+                new(0f, AgentBAct1Layout.HouseDoorYawDegrees, 0f);
+            returnToHouseRegister.WorldFoleySample = "door_creak";
+        }
         MakeInteractionBox(
             "RoadToFap",
             new(2.1f, 1.5f, 0.3f),
@@ -370,8 +380,9 @@ public partial class StyleBenchmarkZone : Node3D
 
     private void BuildHouseOldPc()
     {
+        var photoWorlds = IsPhotoWorldsCampaign;
         StyleBenchmarkInteriorFactory.Build(this);
-        ArrivalPersonalProps.Build(this);
+        ArrivalPersonalProps.Build(this, photoWorlds);
         // Small domestic items follow their actual support, independently of
         // the resized room shell and the unchanged furniture/character scale.
         MakeBox("HouseThresholdCoatRail", new(.62f, .08f, .10f), new(-1.78f, 2.18f, 3.43f), "5d4a38", collision: false, surface: "wood");
@@ -483,15 +494,21 @@ public partial class StyleBenchmarkZone : Node3D
             new(0.62f, 1.68f, 0.46f),
             StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .84f,
             "6f6257",
-            "urman.chapter1:interaction/talk-gulsina",
-            "Поговорить с әби",
-            dialogueId: "urman.chapter1:dialogue/gulsina_yaramyy");
+            photoWorlds
+                ? "urman.fullgame:interaction/pw-arrival-tea-talk"
+                : "urman.chapter1:interaction/talk-gulsina",
+            photoWorlds ? "Поприветствовать әби и остаться на чай" : "Поговорить с әби",
+            dialogueId: photoWorlds
+                ? "urman.fullgame:dialogue/pw-arrival-tea"
+                : "urman.chapter1:dialogue/gulsina_yaramyy");
         var houseExit = MakeInteractionBox(
             "HouseExit",
             new(1.3f, 2.1f, 0.22f),
             StyleBenchmarkInteriorFactory.ExitTarget,
             "685848",
-            "urman.chapter1:interaction/house-to-route",
+            photoWorlds
+                ? "urman.fullgame:interaction/pw-home-exit-house"
+                : "urman.chapter1:interaction/house-to-route",
             "Выйти на улицу",
             "village_day",
             "from_house");
@@ -607,6 +624,8 @@ public partial class StyleBenchmarkZone : Node3D
             ShadowEnabled = true,
             LightSize = .08f
         });
+
+        ArrivalPersonalProps.AddFamilyBook(this, photoWorlds);
     }
 
     private void BuildKaraUrmanNight()

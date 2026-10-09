@@ -1,0 +1,369 @@
+{
+  "schema_version": 1,
+  "task_id": "ACT1-DEPTH.9",
+  "artifact_kind": "cupboard_recessed_door_source_export",
+  "date": "2026-10-09",
+  "status": "source_export_verified_native_seam_cause_pending",
+  "scope": "One existing Babai main-room cupboard door/pull presentation slice. This does not complete or visually accept the house/interior.",
+  "baseline": {
+    "protected_capture_job_id": "e982732a68f14c84ab3b27bc232fb349",
+    "protected_capture_snapshot_id": "110630c7c71ecd00282e14295e2d139a49b7b080dbbe077f6bbf16d94b800c0d",
+    "source_blend_sha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+    "derived_glb_sha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+    "glb_counts": {
+      "mesh_nodes": 304,
+      "non_cupboard_mesh_nodes": 300,
+      "triangles": 16250,
+      "accessors": 962,
+      "materials": 17
+    }
+  },
+  "source_change": {
+    "generator": {
+      "path": "tools/blender/generate_modular_environment.py",
+      "before_sha256": "a78b749e3791f57e6880faa9d606220c5876ddb424e50f81ebe8bf028efbe2bd",
+      "final_sha256": "b82e6a808afa0d06c42fdad387c225593454e72952c9241e30cdf1dc95f3e6d3"
+    },
+    "source_blend": {
+      "path": "assets/source/blender/urman_modular_kit.blend",
+      "before_sha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+      "final_sha256": "67841e661586f216940230d403d8b053d3a396f91751fd79f2867dd7476f90a5"
+    },
+    "derived_glb": {
+      "path": "game/assets/generated/urman_modular_kit.glb",
+      "before_sha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+      "final_sha256": "402f9d7dc6b9c0ad8b4fdf39b2ef550b625cedb56bd9f179ee24d9ca1a07fea4"
+    },
+    "cupboard_door": {
+      "existing_runtime_node": "HouseInterior_CupboardDoor_LOD0/LOD1",
+      "composition": "Joined backing board, recessed center panel, two vertical stiles and top/bottom rails; uses the existing household_mesh UV path and remains one existing door node per LOD.",
+      "source_nominal_envelope_m": [
+        1.16,
+        2.12,
+        0.07
+      ],
+      "source_pivot_m": [
+        -4.82,
+        1.22,
+        -3.49
+      ],
+      "outer_envelope_and_runtime_placement_preserved": true,
+      "material": "Existing DarkWood"
+    },
+    "cupboard_pull": {
+      "new_prefix_owned_node": "HouseInterior_CupboardPull_LOD0/LOD1",
+      "source_nominal_dimensions_m": [
+        0.03,
+        0.11,
+        0.016
+      ],
+      "source_center_m": [
+        -4.44,
+        1.22,
+        -3.463
+      ],
+      "runtime_dressing": {
+        "path": "game/scripts/GeneratedModularKitDressing.cs",
+        "sha256": "f462c691020f067ddb9bab2d7a6ef86b9bbf2eda068240411ce9b835a738541c",
+        "rule": "HouseInterior_CupboardPull prefix selects the existing iron material family.",
+        "historical_before_uv_candidate_sha256": "f462c691020f067ddb9bab2d7a6ef86b9bbf2eda068240411ce9b835a738541c"
+      },
+      "presentation_only_no_new_collision_owner": true
+    },
+    "unchanged_scope": [
+      "cupboard body size/placement",
+      "door pivot and outer envelope",
+      "other modular family source geometry and material definitions",
+      "no new raster/texture or external asset"
+    ]
+  },
+  "export_history": [
+    {
+      "sequence": 1,
+      "result": "superseded by one bounded repeat; not a native visual result",
+      "command": ".tools/blender/Blender.app/Contents/MacOS/Blender --background --python tools/blender/generate_modular_environment.py -- --root /Users/unterlantas/Documents/GitHub/URMAN",
+      "exit_code": 0,
+      "elapsed_seconds": 3.89,
+      "output_glb_sha256": "8f7cdcb59f4f23f456878010d80da02c04a0871fe0ad92f81c36fbd0abeb8e7e",
+      "output_glb_bytes_retained": false,
+      "source_bytes_sha256": "NOT_RECORDED; do not infer",
+      "diagnostic": "One-off semantic report recorded 180 non-cupboard internal mesh datablock-name changes. The exact run output is not retained as a standalone GLB; its hash and report remain in local ignored scratch."
+    },
+    {
+      "sequence": 2,
+      "result": "final source/export verification",
+      "command": ".tools/blender/Blender.app/Contents/MacOS/Blender --background --python tools/blender/generate_modular_environment.py -- --root /Users/unterlantas/Documents/GitHub/URMAN",
+      "blender": "4.5.12 LTS",
+      "exit_code": 0,
+      "elapsed_seconds": 2.09,
+      "source_blend_sha256": "67841e661586f216940230d403d8b053d3a396f91751fd79f2867dd7476f90a5",
+      "generator_sha256": "b82e6a808afa0d06c42fdad387c225593454e72952c9241e30cdf1dc95f3e6d3",
+      "output_glb_sha256": "402f9d7dc6b9c0ad8b4fdf39b2ef550b625cedb56bd9f179ee24d9ca1a07fea4",
+      "lod1_mesh_count": 152
+    }
+  ],
+  "glb_semantic_comparison": {
+    "baseline_glb_sha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+    "final_glb_sha256": "402f9d7dc6b9c0ad8b4fdf39b2ef550b625cedb56bd9f179ee24d9ca1a07fea4",
+    "whole_glb_byte_identical": false,
+    "final_counts": {
+      "mesh_nodes": 306,
+      "non_cupboard_mesh_nodes": 300,
+      "triangles": 16646,
+      "accessors": 972,
+      "materials": 17
+    },
+    "non_cupboard": {
+      "matched_nodes": 300,
+      "baseline_normalized_sha256": "bcdf4945e88eae0ab838c3ed64bca03a24b5897592cc1793c3296f25c1e8c8ea",
+      "final_normalized_sha256": "bcdf4945e88eae0ab838c3ed64bca03a24b5897592cc1793c3296f25c1e8c8ea",
+      "normalization": "Omit only glTF mesh.name (Blender internal mesh datablock name); compare node/parent names, transforms/extras, primitive material names, index/position/normal/UV accessor payloads.",
+      "internal_mesh_datablock_name_changes": 180,
+      "other_geometry_uv_material_transform_hierarchy_or_accessor_changes": 0,
+      "materials_textures_samplers_and_embedded_images_identical": true
+    },
+    "cupboard": {
+      "baseline_nodes": [
+        "HouseInterior_CupboardBody_LOD0",
+        "HouseInterior_CupboardBody_LOD1",
+        "HouseInterior_CupboardDoor_LOD0",
+        "HouseInterior_CupboardDoor_LOD1"
+      ],
+      "final_nodes": [
+        "HouseInterior_CupboardBody_LOD0",
+        "HouseInterior_CupboardBody_LOD1",
+        "HouseInterior_CupboardDoor_LOD0",
+        "HouseInterior_CupboardDoor_LOD1",
+        "HouseInterior_CupboardPull_LOD0",
+        "HouseInterior_CupboardPull_LOD1"
+      ],
+      "door_geometry_changed_lods": [
+        "LOD0",
+        "LOD1"
+      ],
+      "pull_added_lods": [
+        "LOD0",
+        "LOD1"
+      ],
+      "triangle_counts": {
+        "baseline_total": 16250,
+        "final_total": 16646,
+        "delta": 396,
+        "door_lod0": 264,
+        "door_lod1": 132,
+        "pull_lod0": 44,
+        "pull_lod1": 22
+      },
+      "existing_budgets_unchanged_and_within_limit": {
+        "door_lod0_budget": 360,
+        "door_lod1_budget": 180,
+        "pull_lod0_budget": 64,
+        "pull_lod1_budget": 32
+      }
+    }
+  },
+  "asset_registry": {
+    "path": "assets/asset_registry.json",
+    "sha256": "8787f0f337ba2f163b7d173940330204166333cda042829b60b63ac3781ac096",
+    "exactly_nine_existing_rows_changed_only_hash_fields": true,
+    "updated_ids": [
+      "env.house.a",
+      "env.fence.a",
+      "env.road.dirt.straight",
+      "env.vegetation.pine.a",
+      "prop.furniture.table.a",
+      "prop.oldpc.crt",
+      "env.well.a",
+      "env.woodpile.a",
+      "env.gate.a"
+    ],
+    "changed_fields": [
+      "sourceSha256",
+      "derivedSha256"
+    ],
+    "other_rows_or_fields_changed": false
+  },
+  "verification": [
+    {
+      "check": "Shared narrow game C# compile including the pull-rule selector",
+      "result": "PASS; exit 0; 0 warnings/errors; elapsed 13.68 s (root-coordinated)."
+    },
+    {
+      "check": "Pinned Blender export",
+      "result": "PASS; exit 0; LOD1=152."
+    },
+    {
+      "check": "Existing modular Blender validator",
+      "result": "PASS; household/LOD smoke; 152 LOD1 meshes."
+    },
+    {
+      "check": "Existing target-only 9-row asset registry validator",
+      "result": "PASS; assets=9, derived=9, explicit_sources=9, external=0."
+    },
+    {
+      "check": "One-off GLB semantic fingerprint",
+      "result": "PASS for stated normalized comparison; confirms internal-name-only deltas outside the cupboard."
+    },
+    {
+      "check": "Python AST and git diff --check",
+      "result": "PASS."
+    },
+    {
+      "check": "Shared narrow game compile after UV rejection and final Niva pivot source",
+      "result": "PASS exit0; 0 warnings/errors; 14.71 seconds. Does not prove native motion or cupboard art acceptance."
+    }
+  ],
+  "local_diagnostics": {
+    "ignored_pre_export_archive": ".codex-captures/cupboard-preexport-2026-10-09-e982/manifest.json",
+    "ignored_stage1_comparison": ".codex-captures/cupboard-preexport-2026-10-09-e982/semantic-compare.json",
+    "ignored_final_comparison": ".codex-captures/cupboard-preexport-2026-10-09-e982/semantic-compare-final.json",
+    "first_export_log": ".codex-captures/cupboard-preexport-2026-10-09-e982/export.log",
+    "final_export_log": ".codex-captures/cupboard-preexport-2026-10-09-e982/export-final.log",
+    "note": "The first output bytes were not retained in the repository evidence; the first GLB SHA-256 and its summary are retained here and in the ignored local comparison report."
+  },
+  "native_visual_review": {
+    "status": "PROTECTED_CAPTURE_PASS; original PNG reviewed; seam diagnosis pending",
+    "capture": {
+      "receipt": "evidence/ACT1-DEPTH.9/native_cupboard_low_d4d00080f37449b8a574a1de7f2ab6aa/receipt.json",
+      "job_id": "d4d00080f37449b8a574a1de7f2ab6aa",
+      "snapshot_id": "f5501cd114cce146aeaffaa933b122a930d8cd424935e075720bc7fa79ef844e",
+      "scene": "res://scenes/act1_demo.tscn",
+      "frames": [
+        "babai_cupboard_detail_low.png",
+        "babai_room_overview_low.png"
+      ],
+      "graphics_preset": "low",
+      "scaling_3d": "FSR 0.7",
+      "fov": "70",
+      "userdata_restored": true,
+      "finished_utc": "2026-10-09T04:52:36.9963948Z"
+    },
+    "root_original_review_time_reported": "2026-10-09 04:53:19 (timezone not recorded)",
+    "visual_acceptance": "PENDING_SEAM_CAUSE; no style/art PASS claimed",
+    "diagnostic_findings": {
+      "visible_symptom": "Two pale dotted vertical lines at the inner door-frame seams in the detail original.",
+      "body_backer_intersection": "Proven from exported LOD0 planes: the tapered CupboardBody front crosses the backer plane z=-3.485 at approximately y=0.604 m.",
+      "front_face_relation": "The panel front z=-3.471 and rail/stile front z=-3.455 are not coplanar with the body front; the panel front is about 6.9 mm in front of the body at its lower edge, with greater separation higher up.",
+      "coincident_hidden_planes": "The joined door assembly has coincident hidden backer-front/panel-rear/rail-rear planes at z=-3.485; this is a possible seam factor, not a proven source of the dotted lines.",
+      "source_culling": "The imported GLTF source materials are double-sided, but the cupboard runtime dressing assigns ForColor materials directly. PreserveSourceCulling is not called for cupboard meshes. The ordinary painterly shader omits cull_disabled; this is a source-call-path inference only, because this capture has no live cupboard material census.",
+      "dotted_line_cause": "UNKNOWN",
+      "verdict": "PENDING_SEAM_CAUSE"
+    },
+    "next_check": "Two source hypotheses rejected/ruled out: active materials already backface-cull; actual UV switch did not remove the seam. Replan from seam geometry/rasterization evidence, no further blind material/geometry edits.",
+    "ordinary_player_interaction": "NOT_RUN",
+    "root_original_review_time_utc": "2026-10-09T04:53:19Z"
+  },
+  "remaining": [
+    "Dotted vertical inner-frame seam cause remains unknown; authored-UV experiment rejected and reverted after actual Low comparison.",
+    "High proof absent because requested High capture rescued to Low.",
+    "ACT1-DEPTH.9 full house/interior/reference, ordinary movement, performance/budget and author/human gates remain open."
+  ],
+  "material_uv_candidate": {
+    "status": "REJECTED_NATIVE_NO_SEAM_IMPROVEMENT_REVERTED",
+    "hypothesis": "Low dominant-axis texture projection may cause vertical frame artifacts; cause not proven.",
+    "scope": "Existing cupboard door LOD0/LOD1 only; existing authored UV and wood texture, no geometry or palette changes.",
+    "sources": {
+      "game/scripts/PainterlyMaterialLibrary.cs": "92e35c4c7ceb0a5b37467f3c422ad7cc20fff019976d10011a3d7534939460aa",
+      "game/scripts/GeneratedModularKitDressing.cs": "3e484ba22a89e02a475a4747385cbf6e029bdbea0685ab2a3145ec24b34d6a40",
+      "game/scripts/Act1DemoRoot.DevViewCapture.cs": "41fcb90e53d77b62ac69634f374934819594df639e47439d982b6ae3251b4fe6"
+    },
+    "compile": "PASS exit 0, 0 warnings/errors, 11.81 seconds",
+    "native_visual_acceptance": "REJECTED",
+    "root_review": "evidence/ACT1-DEPTH.9/native_cupboard_low_uv_3ff130d3b7cb4d4aaaf335f6114f1856/root-review.json",
+    "reverted_only_candidate": true,
+    "current_dressing_sha256": "f462c691020f067ddb9bab2d7a6ef86b9bbf2eda068240411ce9b835a738541c"
+  },
+  "read_only_topology_audit": {
+    "agent": "/root/address_mount (Luna6Max)",
+    "scope": "Exact current GLB cupboard Door LOD0 one primitive, 576 vertices /792 indices /264 triangles",
+    "duplicate_triangles": 0,
+    "degenerate_triangles": 0,
+    "front_facing_planar_z_local_m": {
+      "backer": 0.005,
+      "panel": 0.019,
+      "stiles_and_rails": 0.035
+    },
+    "opposing_coplanar_rear_triangles": 10,
+    "visible_front_z_fighting": "UNSUPPORTED: only opposing-winding rear planes overlap backer; actual native shader culls these faces",
+    "panel_stile_reveal_m": 0.05,
+    "panel_recession_behind_front_frame_m": 0.016,
+    "cause": "UNKNOWN; bevel shading/rasterization candidate is not proven",
+    "next_discriminator": "A genuinely effective High/scale1 capture or existing renderer antialiasing evidence is needed to separate subpixel edge behavior from source shading; no rescue bypass, no further blind geometry edit.",
+    "projection_assumptions": {
+      "png": [
+        1886,
+        1061
+      ],
+      "viewport": [
+        1920,
+        1080
+      ],
+      "fov_degrees": 70,
+      "camera_keep_aspect": "Source new Camera3D default KeepHeight; vertical FOV",
+      "projection_limit": "Assumes unletterboxed PNG resize"
+    },
+    "pixel_readback": {
+      "method": "Read original candidate PNG RGB; no crop/overlay/edit",
+      "source": "native_cupboard_low_uv_3ff130d3b7cb4d4aaaf335f6114f1856/frames/babai_cupboard_detail_low.png",
+      "left_stile_reveal": [
+        [
+          633,
+          250
+        ],
+        [
+          660,
+          550
+        ],
+        [
+          673,
+          700
+        ]
+      ],
+      "right_panel_front": [
+        [
+          1173,
+          250
+        ],
+        [
+          1163,
+          400
+        ],
+        [
+          1153,
+          550
+        ],
+        [
+          1143,
+          700
+        ],
+        [
+          1133,
+          850
+        ]
+      ],
+      "predicted_tracks": {
+        "left_stile_reveal_endpoints": [
+          [
+            595.0,
+            -176.1
+          ],
+          [
+            707.1,
+            1078.4
+          ]
+        ],
+        "right_panel_front_endpoints": [
+          [
+            1187.4,
+            33.1
+          ],
+          [
+            1129.1,
+            912.6
+          ]
+        ]
+      },
+      "interpretation": "Bright dotted pixels correspond to left inner-stile reveal and right panel front bevel tracks within about one image pixel. This supports edge shading/rasterization rather than displaced seam coordinates; does not prove the renderer cause or an acceptable full door."
+    }
+  }
+}

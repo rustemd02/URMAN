@@ -54,10 +54,9 @@ public static class VillageWindowMaterials
                 // Frost is a relief on the pane, not a picture of relief: the
                 // perturbation applies only where frost actually sits, so the clear
                 // part of the glass keeps the flat specular of the authored pane.
-                // Tangent-space frost relief through NORMAL_MAP (Godot converts it);
-                // flat (0.5, 0.5, 1) where there is no frost.
-                NORMAL_MAP = mix(vec3(0.5, 0.5, 1.0), texture(frost_normal, fuv).xyz, ice);
-                NORMAL_MAP_DEPTH = 0.55;
+                vec3 fn = texture(frost_normal, fuv).xyz * 2.0 - 1.0;
+                NORMAL_MAP = normalize(vec3(fn.xy * 0.55, max(fn.z, 0.25))) * 0.5 + 0.5;
+                NORMAL_MAP_DEPTH = ice;
             }
         }
         """;

@@ -1,0 +1,140 @@
+{
+  "snapshot_id": "cce551b187b11d4e9b5cb372cfae956cd256777fd61df252e1ead97728beba67",
+  "files": [
+    {
+      "path": "game/scripts/Main.cs",
+      "bytes": 13569,
+      "sha256": "4a086ebdfbb8655dd606a40076e6fe938d8f620c5a32c25908ad4977b1d36985"
+    },
+    {
+      "path": "game/scripts/Main.cs.uid",
+      "bytes": 20,
+      "sha256": "36b3d0bf7241a619f447cd6c3c1f419124ba04cf13e1c30a229016952931a5df"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.cs",
+      "bytes": 96068,
+      "sha256": "3403c196273291ef4d4825687a134a08451154eb1db5f5fa88660c44a13d3349"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.cs.uid",
+      "bytes": 20,
+      "sha256": "c47423a560a1c93647b575411c01283979e9ab44778ec1859eead959e11c18ef"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 44335,
+      "sha256": "ec8ab1e1551d737d603e10ba7647cd43dacc418b045ff0abf5eb24e0d31b3d0f"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs.uid",
+      "bytes": 20,
+      "sha256": "595556a93b01ff9f42967d230e53fc7457778d72d6aa10b8182a7407cdcc44cd"
+    },
+    {
+      "path": "game/content/world/visual_checkpoints.v1.json",
+      "bytes": 12355,
+      "sha256": "38679443e698a484502124e8397128ee8e28c1bd9e01a5b18366635e0fcfd12a"
+    },
+    {
+      "path": "game/scenes/act1_demo.tscn",
+      "bytes": 189,
+      "sha256": "0c00cb3d6a7078ea75b9a003e7efd8d2bb8a0528fd28f737ecc66cb59ae81fa6"
+    },
+    {
+      "path": "game/scenes/zones/style_benchmark_house_pc.tscn",
+      "bytes": 213,
+      "sha256": "8c997961355659e78e86dbce00289b6a3c19511bea270610047f6c392ea6f7f5"
+    },
+    {
+      "path": "game/scripts/StyleBenchmarkZone.cs",
+      "bytes": 108229,
+      "sha256": "1d018442db8098c541200b6fc79c9ea614d510ccb81121e4fa34c9d94c8e1562"
+    },
+    {
+      "path": "game/scripts/StyleBenchmarkZone.cs.uid",
+      "bytes": 20,
+      "sha256": "b839aaee46dc76cbbf1ea4d7fe8c4146ea74ec4085b572040ca973250d382831"
+    },
+    {
+      "path": "game/scripts/StyleBenchmarkInteriorFactory.cs",
+      "bytes": 25720,
+      "sha256": "b095080b1f09b7c8882ad140e02dd6a080348798c5a576a3c37f771921b0209e"
+    },
+    {
+      "path": "game/scripts/StyleBenchmarkInteriorFactory.cs.uid",
+      "bytes": 20,
+      "sha256": "78b42fa71d5446e72264a2e37d75521a1b8fc1842f1e20c0d3b807878fea25fb"
+    },
+    {
+      "path": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+      "bytes": 37854,
+      "sha256": "ffbfdabb9a97e7045fdb8033de485f4ebdfa2d6f3ddf70f67653457e8da544bd"
+    },
+    {
+      "path": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs.uid",
+      "bytes": 20,
+      "sha256": "1bb395ae50e5418772df9c7f6ddd1fb7b9f0eeed45583921354e01b09db59db7"
+    },
+    {
+      "path": "game/scripts/ArrivalPersonalProps.cs",
+      "bytes": 4196,
+      "sha256": "f433462a30c813b81993f7077002f81d37672a6d9077c63f28f751ab3a4a3487"
+    },
+    {
+      "path": "game/scripts/ArrivalPersonalProps.cs.uid",
+      "bytes": 20,
+      "sha256": "28f7c1047145fe382dd1943d12ce4cd5880965bace677fab93e8f05696eae218"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.cs",
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.cs.uid",
+      "bytes": 19,
+      "sha256": "9aad9fb3e214e4e07443d6d3c08c6d6a7477e50772f735405e7f729fb0f35f28"
+    },
+    {
+      "path": "game/content/world/act1_village_kit.world.v1.json",
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d"
+    },
+    {
+      "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "bytes": 3069900,
+      "sha256": "3d61163f9b592df5ec3895811b20c59874a94c9b0628b538ab43898823c8deb2"
+    },
+    {
+      "path": "game/assets/models/act1/urman_village_exterior_kit_manifest.md",
+      "bytes": 10720,
+      "sha256": "56b331cb122201bdab68c0987d9cc3f9f0869d8a9b515561f7c18046503b6f6d"
+    },
+    {
+      "path": "game/project.godot",
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4"
+    },
+    {
+      "path": "game/tests/FullGameFlowSmokeTest.cs",
+      "bytes": 40884,
+      "sha256": "18b3c034a45a85d726ed5eb2ed2fc6f29ddf924ba3e94a9f7064eb5b462c18b5"
+    },
+    {
+      "path": "eng/protected_run.py",
+      "bytes": 10394,
+      "sha256": "9ce2a1a6440fa5153abb5080d647a5a556a94f7e07faa2e4fd298f5af577a042"
+    },
+    {
+      "path": "eng/remote_common.py",
+      "bytes": 8589,
+      "sha256": "b13fe11d836a95fb32a06c9cf7654927d1eb508973326aae5b38621feba1406a"
+    },
+    {
+      "path": "eng/run-windows-check.ps1",
+      "bytes": 12477,
+      "sha256": "1853e63f9207a0994f078e863b1be97002971c4c641d8e3264679c2a0af9b7ca"
+    }
+  ]
+}

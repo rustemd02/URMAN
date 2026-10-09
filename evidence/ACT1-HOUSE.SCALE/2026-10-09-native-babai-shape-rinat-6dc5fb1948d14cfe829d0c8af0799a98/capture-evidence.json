@@ -1,0 +1,552 @@
+{
+  "job_id": "6dc5fb1948d14cfe829d0c8af0799a98",
+  "snapshot_id": "eeb53479d0b81d445552cd40d4f43353406de01587f20203656233e868ad0539",
+  "base_commit": "29bc4764cffc7d8640ca99cbae6a444edaecb684",
+  "status": "PASS",
+  "scene": "res://scenes/act1_demo.tscn",
+  "mode": "capture",
+  "host": "UNTERPC",
+  "godot": "4.7.1.stable.mono.official.a13da4feb",
+  "sdk": "10.0.302",
+  "renderer": [
+    "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+  ],
+  "started": "2026-10-09T00:41:54.7144158Z",
+  "finished": "2026-10-09T00:48:02.6995786Z",
+  "elapsedSeconds": 367.974153,
+  "worker_elapsed_seconds": 397.625,
+  "request": {
+    "fov": "70",
+    "headless": false,
+    "job_id": "6dc5fb1948d14cfe829d0c8af0799a98",
+    "mode": "capture",
+    "points": "babai_shape_front:BabaiApproachDwellingFacade@0.0,1.7,14.0>BabaiApproachDwellingFacade@0.0,3.0,-0.5;babai_shape_oblique:BabaiApproachDwellingFacade@-9.0,1.7,13.0>BabaiApproachDwellingFacade@0.0,2.7,0.0;babai_porch_side_clear:BabaiApproachDwellingFacade@-2.4226,1.7,3.3005>BabaiApproachDwellingFacade@-1.1644,0.215,2.036;rinat_material_front:Npc_rinat@0.15,1.55,1.05>Npc_rinat@0.0,1.5,0.0;rinat_material_side:Npc_rinat@1.1,1.55,0.15>Npc_rinat@0.0,1.5,0.0",
+    "scene": "res://scenes/act1_demo.tscn",
+    "snapshot_id": "eeb53479d0b81d445552cd40d4f43353406de01587f20203656233e868ad0539",
+    "timeout": 300
+  },
+  "steps": {
+    "build": {
+      "exitCode": 0
+    },
+    "content-build": {
+      "exitCode": 0
+    },
+    "content-urman.chapter1": {
+      "exitCode": 0
+    },
+    "content-urman.fullgame": {
+      "exitCode": 0
+    },
+    "document-images": {
+      "exitCode": 0
+    },
+    "game": {
+      "exitCode": 0
+    },
+    "import": {
+      "exitCode": 0
+    }
+  },
+  "exitCode": 0,
+  "gameExitCode": 0,
+  "engineErrorsBytes": 0,
+  "guard": {
+    "userdataRestored": true,
+    "snapshotHashesVerified": true,
+    "projectRestoredSha256": "D63B2F54388E8B0D06C6EFB350DD7E0B9F43264AC967696749535BEB57D757C4",
+    "stationOverrideSha256": "8E3CE7B7850D04A0473AAA18EA8014EDF3F9971AE040C76A1BECC5DB0221F78C"
+  },
+  "postRunDoctor": {
+    "blob_store": {
+      "files": 3568,
+      "megabytes": 517.2
+    },
+    "busy_job": null,
+    "desktop": {
+      "input_desktop": true,
+      "interactive": true,
+      "session_id": 1
+    },
+    "disk": {
+      "free_gb": 370.6,
+      "path": "D:\\URMAN-STATION\\data",
+      "total_gb": 2794.4
+    },
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "gpu_acceptance": "verified",
+    "host": "UNTERPC",
+    "orphan_game_process": false,
+    "ready": true,
+    "sdk": "10.0.302",
+    "tools": true,
+    "userdata_recovery_pending": false
+  },
+  "resultZip": {
+    "bytes": 6976511,
+    "sha256": "53baf6c0fdbda033e895d68f57c5fd4dcc30de8ebd1d86853f3a7b708485927c"
+  },
+  "frames": [
+    {
+      "point": "babai_shape_front",
+      "spec": "babai_shape_front:BabaiApproachDwellingFacade@0.0,1.7,14.0>BabaiApproachDwellingFacade@0.0,3.0,-0.5",
+      "cameraName": "DevViewCamera",
+      "cameraPosition": {
+        "x": 3.413501,
+        "y": 1.448152,
+        "z": -3.047482
+      },
+      "cameraTarget": {
+        "x": -11.086498,
+        "y": 2.748152,
+        "z": -3.047554
+      },
+      "cameraForward": {
+        "x": -0.996005,
+        "y": 0.089297,
+        "z": -5e-06
+      },
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "fov": 70,
+      "fovSource": "explicit",
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "atmosphereOwner": "AgentBExteriorWorld",
+      "checkpointSubject": null
+    },
+    {
+      "point": "babai_shape_oblique",
+      "spec": "babai_shape_oblique:BabaiApproachDwellingFacade@-9.0,1.7,13.0>BabaiApproachDwellingFacade@0.0,2.7,0.0",
+      "cameraName": "DevViewCamera",
+      "cameraPosition": {
+        "x": 2.413456,
+        "y": 1.448152,
+        "z": 5.952512
+      },
+      "cameraTarget": {
+        "x": -10.586498,
+        "y": 2.448152,
+        "z": -3.047551
+      },
+      "cameraForward": {
+        "x": -0.82055,
+        "y": 0.063119,
+        "z": -0.568079
+      },
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "fov": 70,
+      "fovSource": "explicit",
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "atmosphereOwner": "AgentBExteriorWorld",
+      "checkpointSubject": null
+    },
+    {
+      "point": "babai_porch_side_clear",
+      "spec": "babai_porch_side_clear:BabaiApproachDwellingFacade@-2.4226,1.7,3.3005>BabaiApproachDwellingFacade@-1.1644,0.215,2.036",
+      "cameraName": "DevViewCamera",
+      "cameraPosition": {
+        "x": -7.286011,
+        "y": 1.448152,
+        "z": -0.624935
+      },
+      "cameraTarget": {
+        "x": -8.550505,
+        "y": -0.036848,
+        "z": -1.883141
+      },
+      "cameraForward": {
+        "x": -0.544795,
+        "y": -0.639798,
+        "z": -0.542086
+      },
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "fov": 70,
+      "fovSource": "explicit",
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "atmosphereOwner": "AgentBExteriorWorld",
+      "checkpointSubject": null
+    },
+    {
+      "point": "rinat_material_front",
+      "spec": "rinat_material_front:Npc_rinat@0.15,1.55,1.05>Npc_rinat@0.0,1.5,0.0",
+      "cameraName": "DevViewCamera",
+      "cameraPosition": {
+        "x": -1.134971,
+        "y": 1.128026,
+        "z": -2.804132
+      },
+      "cameraTarget": {
+        "x": -1.5,
+        "y": 1.078027,
+        "z": -3.8
+      },
+      "cameraForward": {
+        "x": -0.343771,
+        "y": -0.047088,
+        "z": -0.937872
+      },
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat",
+      "fov": 70,
+      "fovSource": "explicit",
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "atmosphereOwner": "AgentBExteriorWorld",
+      "checkpointSubject": null,
+      "rinatSkinMaterials": [
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/Rinat_Rig/Skeleton3D/Rinat_Body_LOD0",
+          "surface": 0,
+          "visibleInTree": true,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/Rinat_Rig/Skeleton3D/Rinat_Body_LOD1",
+          "surface": 0,
+          "visibleInTree": true,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/m-e3-a/GeneratedCharacterKit_resident-m-e3-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD0",
+          "surface": 0,
+          "visibleInTree": true,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/m-e3-a/GeneratedCharacterKit_resident-m-e3-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD1",
+          "surface": 0,
+          "visibleInTree": true,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/m-e4b-a/GeneratedCharacterKit_resident-m-e4b-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD0",
+          "surface": 0,
+          "visibleInTree": false,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/m-e4b-a/GeneratedCharacterKit_resident-m-e4b-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD1",
+          "surface": 0,
+          "visibleInTree": false,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/m-w4b-a/GeneratedCharacterKit_resident-m-w4b-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD0",
+          "surface": 0,
+          "visibleInTree": false,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/m-w4b-a/GeneratedCharacterKit_resident-m-w4b-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD1",
+          "surface": 0,
+          "visibleInTree": false,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/n-e1b-a/GeneratedCharacterKit_resident-n-e1b-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD0",
+          "surface": 0,
+          "visibleInTree": false,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/n-e1b-a/GeneratedCharacterKit_resident-n-e1b-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD1",
+          "surface": 0,
+          "visibleInTree": false,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/n-e3-a/GeneratedCharacterKit_resident-n-e3-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD0",
+          "surface": 0,
+          "visibleInTree": true,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/n-e3-a/GeneratedCharacterKit_resident-n-e3-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD1",
+          "surface": 0,
+          "visibleInTree": true,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        }
+      ]
+    },
+    {
+      "point": "rinat_material_side",
+      "spec": "rinat_material_side:Npc_rinat@1.1,1.55,0.15>Npc_rinat@0.0,1.5,0.0",
+      "cameraName": "DevViewCamera",
+      "cameraPosition": {
+        "x": -0.392851,
+        "y": 1.128026,
+        "z": -3.881981
+      },
+      "cameraTarget": {
+        "x": -1.5,
+        "y": 1.078027,
+        "z": -3.8
+      },
+      "cameraForward": {
+        "x": -0.99626,
+        "y": -0.044992,
+        "z": 0.07377
+      },
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat",
+      "fov": 70,
+      "fovSource": "explicit",
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "atmosphereOwner": "AgentBExteriorWorld",
+      "checkpointSubject": null,
+      "rinatSkinMaterials": [
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/Rinat_Rig/Skeleton3D/Rinat_Body_LOD0",
+          "surface": 0,
+          "visibleInTree": true,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1People/Npc_rinat/Rinat_Rig/Skeleton3D/Rinat_Body_LOD1",
+          "surface": 0,
+          "visibleInTree": true,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/m-e3-a/GeneratedCharacterKit_resident-m-e3-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD0",
+          "surface": 0,
+          "visibleInTree": true,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/m-e3-a/GeneratedCharacterKit_resident-m-e3-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD1",
+          "surface": 0,
+          "visibleInTree": true,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/m-e4b-a/GeneratedCharacterKit_resident-m-e4b-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD0",
+          "surface": 0,
+          "visibleInTree": false,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/m-e4b-a/GeneratedCharacterKit_resident-m-e4b-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD1",
+          "surface": 0,
+          "visibleInTree": false,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/m-w4b-a/GeneratedCharacterKit_resident-m-w4b-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD0",
+          "surface": 0,
+          "visibleInTree": false,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/m-w4b-a/GeneratedCharacterKit_resident-m-w4b-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD1",
+          "surface": 0,
+          "visibleInTree": false,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/n-e1b-a/GeneratedCharacterKit_resident-n-e1b-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD0",
+          "surface": 0,
+          "visibleInTree": false,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/n-e1b-a/GeneratedCharacterKit_resident-n-e1b-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD1",
+          "surface": 0,
+          "visibleInTree": false,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/n-e3-a/GeneratedCharacterKit_resident-n-e3-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD0",
+          "surface": 0,
+          "visibleInTree": true,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/n-e3-a/GeneratedCharacterKit_resident-n-e3-a/Rinat_Rig/Skeleton3D/Rinat_Body_LOD1",
+          "surface": 0,
+          "visibleInTree": true,
+          "sourceName": "d8b199__skin_textured.001",
+          "activeType": "StandardMaterial3D",
+          "activeAlbedoTexture": "res://assets/generated/urman_character_kit_v2_T_Superhero_Male_Ligh.png",
+          "roughness": 1,
+          "normalScale": 0.35,
+          "softSkinResponse": "cast"
+        }
+      ]
+    }
+  ],
+  "frameHashes": {
+    "babai_shape_front.png": {
+      "bytes": 1290140,
+      "sha256": "04443475980df59e8a374ba7a04994a065b60471baad7cc17011f7a5e0f368cb"
+    },
+    "babai_shape_front.json": {
+      "bytes": 2006,
+      "sha256": "4a50e1751dfd91a708abaecce7fdcbe9cae0adff6b002d45cd5ee064b07727ca"
+    },
+    "babai_shape_oblique.png": {
+      "bytes": 1272423,
+      "sha256": "4c184ff69084dc232c1c0b2ca731b264a8046e38f03faa04089e06cbeda1c4d8"
+    },
+    "babai_shape_oblique.json": {
+      "bytes": 2008,
+      "sha256": "7a0afeb1a3f8cc00da2c4f3fafc9072a8d78d64543b2cb64636c4b3e33e4e8ab"
+    },
+    "babai_porch_side_clear.png": {
+      "bytes": 1388802,
+      "sha256": "fce7756f57a335017a5d14ff6c243c731378fd8258e9e9a54431981e00677acc"
+    },
+    "babai_porch_side_clear.json": {
+      "bytes": 6976,
+      "sha256": "d9ac7f5aa8fcdc4ce9dc75a57d04609f7739c85e97b8db038232c38b0571b732"
+    },
+    "rinat_material_front.png": {
+      "bytes": 1398463,
+      "sha256": "1aaa79f227eb56ad36d90a7b40d31fb755d883a5b29ccaa093cc56fd33e862fd"
+    },
+    "rinat_material_front.json": {
+      "bytes": 8282,
+      "sha256": "30deac90dd3908ad560a6346226c4f7b8b66007e2dec0ffec309c5cf641e4bd2"
+    },
+    "rinat_material_side.png": {
+      "bytes": 1381901,
+      "sha256": "a4066ed3d2f98548edba534ec89ece76b9c6cb733bb683410f09ad533711de46"
+    },
+    "rinat_material_side.json": {
+      "bytes": 8276,
+      "sha256": "e8fa5e6abad0f81c17c482eb8cb418442813414a62a5937af4d80a87c884bdac"
+    }
+  },
+  "sourceCopyCount": 14,
+  "registryRows": [
+    "urman.act1.village_exterior_kit"
+  ],
+  "humanPlaytest": "not-run",
+  "visualAcceptance": "pending root review; diagnostic capture only"
+}

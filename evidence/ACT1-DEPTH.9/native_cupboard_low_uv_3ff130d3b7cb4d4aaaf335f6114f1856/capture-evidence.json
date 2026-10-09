@@ -1,0 +1,123 @@
+{
+  "capture_mode": "protected native Windows capture",
+  "job_id": "3ff130d3b7cb4d4aaaf335f6114f1856",
+  "snapshot_id": "fcf629e5726943405df72aeee41ab8e3f1417e65de40330dc893179fed37d5c5",
+  "base_commit": "8962bf8ecc6214f6476df64946b08bf666937449",
+  "head": "8962bf8ecc6214f6476df64946b08bf666937449",
+  "candidate_file_count": 1825,
+  "full_source_manifest_sha256": "a006e4a06ff894e4685d91b321d2f5d08db3d51059c34b0fa62706884f3d0359",
+  "full_source_manifest_matches_receipt": true,
+  "station_status": "PASS",
+  "exit_code": 0,
+  "runner_exit_code": 0,
+  "game_exit_code": 0,
+  "userdata_restored": true,
+  "snapshot_hashes_verified": true,
+  "engine": "4.7.1.stable.mono.official.a13da4feb",
+  "dotnet_sdk": "10.0.302",
+  "renderer": [
+    "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+  ],
+  "host": "UNTERPC",
+  "scene": "res://scenes/act1_demo.tscn",
+  "elapsed_seconds": 337.3755731,
+  "dll_sha256": "5B703D3ED9B85EB3C893D8F0A13FFAF97983F2D497B04A4A0D03A329B6FC986D",
+  "compiled_content": {
+    "urman.chapter1": "34C1A1C233AB00B8F25361652DD53C4D6835CA54861B85D7707D4C49A456C73A",
+    "urman.fullgame": "28E19B07DD9C4E62968BD1433FB2CE1A8DEB2916C2970ECB5592024177CF5E03"
+  },
+  "station_doctor_ready": true,
+  "busy_job_after": null,
+  "orphan_game_process_after": false,
+  "userdata_recovery_pending_after": false,
+  "human_playtest": "not run",
+  "quality": "low",
+  "session_override": null,
+  "graphics_comparable": true,
+  "scale": 0.7,
+  "material_candidate": "CupboardDoor LOD0/LOD1 only: authoredUvTexture=true, boundUvPigment=true, lowQuality=true; Body/Pull UV flags false.",
+  "census_lod_caveat": "visibleInTree=true is not a draw-call proof; LOD0 range 0–24 and LOD1 range 18–72 overlap.",
+  "engine_errors_log_bytes": 0,
+  "stderr_bytes": 0,
+  "game_log_error_lines": 0,
+  "png_viewport_discrepancy": "Both original PNGs are 1886x1061 while sidecars report 1920x1080.",
+  "visual_acceptance": "pending root review; no visual verdict recorded",
+  "scope": "Static Low views of the existing room and cupboard only. No ordinary route, interaction, whole-interior style, or whole-card acceptance is inferred.",
+  "selected_source_count": 33,
+  "local_excluded_copy_count": 10,
+  "prior_high_request_job": "309519d31a04442faa0034d31a6a47d4",
+  "prior_high_request_effective_quality": "low due performance rescue; not a matched High pair",
+  "result_zip_sha256": "985609064bc178ae5e9d9d46afd5c91c31d0ae815fec153b90fd323f2bbf833f",
+  "frames": [
+    {
+      "id": "babai_room_overview_low",
+      "png": "frames/babai_room_overview_low.png",
+      "png_bytes": 1939403,
+      "png_sha256": "e35575c2e7fed7fad127a6ae385b09f35932c4143246ef4af14045c9dc1cb4f1",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar": "frames/babai_room_overview_low.json",
+      "sidecar_sha256": "3cf29c64465a168d2ebabe12e854147b72f097754fe9955c69c501db7a1f6a4d",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "zone": "house_old_pc",
+      "requested_zone": "house_old_pc",
+      "profile": "village-winter-frost",
+      "fov": 70,
+      "requested_preset": "low",
+      "effective_preset": "low",
+      "session_override": null,
+      "graphics_comparable": true,
+      "scale": 0.7,
+      "cameraPosition": {
+        "x": -11.070504,
+        "y": 1.594152,
+        "z": -1.885554
+      },
+      "cameraTarget": {
+        "x": -15.52049,
+        "y": 1.294152,
+        "z": -4.705575
+      }
+    },
+    {
+      "id": "babai_cupboard_detail_low",
+      "png": "frames/babai_cupboard_detail_low.png",
+      "png_bytes": 1937388,
+      "png_sha256": "8a0073927e69cd69a3eae1c9fda73539836a6231eaeaf023784c4f177a7850d7",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar": "frames/babai_cupboard_detail_low.json",
+      "sidecar_sha256": "709b185edf78478fcce0a805e0c4d2ef493d6da50c8571b2a605193856541b13",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "zone": "house_old_pc",
+      "requested_zone": "house_old_pc",
+      "profile": "village-winter-frost",
+      "fov": 70,
+      "requested_preset": "low",
+      "effective_preset": "low",
+      "session_override": null,
+      "graphics_comparable": true,
+      "scale": 0.7,
+      "cameraPosition": {
+        "x": -16.020481,
+        "y": 1.574152,
+        "z": -6.505578
+      },
+      "cameraTarget": {
+        "x": -15.620474,
+        "y": 1.244152,
+        "z": -7.835576
+      }
+    }
+  ]
+}

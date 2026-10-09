@@ -1,0 +1,203 @@
+{
+  "job_id": "496c35f835de43eaa39a25440cfb54de",
+  "snapshot_id": "c9c2c9e87be19e64095760e8da5c579a9c7c629e1c9796b6d5bb6c523ce6883e",
+  "base_commit": "954d8ee35bc4d53e159f264fb857f2ab4582af0c",
+  "manifest_file_count": 1825,
+  "manifest_sha256": "0fbadb45de946cd64831e0a0c56b67c133aaeec39e2d8094b67322ac77a983f4",
+  "source_hashes_verified": true,
+  "engine": "4.7.1.stable.mono.official.a13da4feb",
+  "sdk": "10.0.302",
+  "renderer": [
+    "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+  ],
+  "native": true,
+  "status": "PASS",
+  "exit_code": 0,
+  "game_exit_code": 0,
+  "elapsed_seconds": 335.5626542,
+  "userdata_restored": true,
+  "project_restored_sha256": "D63B2F54388E8B0D06C6EFB350DD7E0B9F43264AC967696749535BEB57D757C4",
+  "station_override_sha256": "8E3CE7B7850D04A0473AAA18EA8014EDF3F9971AE040C76A1BECC5DB0221F78C",
+  "worker_code_sha256": "c2e2ab8f8208a377277e92a67191c52698928d67b43e81457554786a19f103e3",
+  "selected_source_count": 12,
+  "local_excluded_source_count": 5,
+  "registry_glb_row_count": 9,
+  "frames": [
+    {
+      "point": "babai_room_overview",
+      "png": "frames/babai_room_overview.png",
+      "png_sha256": "0c59b06a7fd17c66c980f4d4fc304603e38fc3767a9d13aba27b78b6a0f2322c",
+      "png_bytes": 1879274,
+      "png_dimensions": [
+        1886,
+        1061
+      ],
+      "sidecar": "frames/babai_room_overview.json",
+      "sidecar_sha256": "4c2d9d2f5a13b8a6f86641a5212f2007bdda6b4229d297668bdb5f4da05b94ff",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "zone": {
+        "requested": "house_old_pc",
+        "active": "house_old_pc"
+      },
+      "fov": 70,
+      "profile": "village-winter-frost",
+      "camera_position": {
+        "x": -11.070504,
+        "y": 1.594152,
+        "z": -1.885554
+      },
+      "camera_target": {
+        "x": -15.52049,
+        "y": 1.294152,
+        "z": -4.705575
+      },
+      "rug_readback_count": 6,
+      "visible_rug_readback_count": 6,
+      "rug_readbacks": [
+        {
+          "node": "HouseInterior_RugField_LOD0",
+          "visible": true,
+          "authored_uv_texture": "true",
+          "bound_uv_pigment": "true",
+          "texture_scale": "(1.0, 1.0)",
+          "albedo_texture": "res://assets/textures/painterly/carpet_palas_v1_albedo.png"
+        },
+        {
+          "node": "HouseInterior_RugBandA_LOD0",
+          "visible": true,
+          "authored_uv_texture": "true",
+          "bound_uv_pigment": "true",
+          "texture_scale": "(1.0, 1.0)",
+          "albedo_texture": "res://assets/textures/painterly/carpet_palas_v1_albedo.png"
+        },
+        {
+          "node": "HouseInterior_RugBandB_LOD0",
+          "visible": true,
+          "authored_uv_texture": "true",
+          "bound_uv_pigment": "true",
+          "texture_scale": "(1.0, 1.0)",
+          "albedo_texture": "res://assets/textures/painterly/carpet_palas_v1_albedo.png"
+        },
+        {
+          "node": "HouseInterior_RugField_LOD1",
+          "visible": true,
+          "authored_uv_texture": "true",
+          "bound_uv_pigment": "true",
+          "texture_scale": "(1.0, 1.0)",
+          "albedo_texture": "res://assets/textures/painterly/carpet_palas_v1_albedo.png"
+        },
+        {
+          "node": "HouseInterior_RugBandA_LOD1",
+          "visible": true,
+          "authored_uv_texture": "true",
+          "bound_uv_pigment": "true",
+          "texture_scale": "(1.0, 1.0)",
+          "albedo_texture": "res://assets/textures/painterly/carpet_palas_v1_albedo.png"
+        },
+        {
+          "node": "HouseInterior_RugBandB_LOD1",
+          "visible": true,
+          "authored_uv_texture": "true",
+          "bound_uv_pigment": "true",
+          "texture_scale": "(1.0, 1.0)",
+          "albedo_texture": "res://assets/textures/painterly/carpet_palas_v1_albedo.png"
+        }
+      ]
+    },
+    {
+      "point": "babai_rug_detail",
+      "png": "frames/babai_rug_detail.png",
+      "png_sha256": "8beb92fe5bff6bab3cc9e52301d6ca6913488c244ce1773b5f9c66b0e44349b3",
+      "png_bytes": 2178429,
+      "png_dimensions": [
+        1886,
+        1061
+      ],
+      "sidecar": "frames/babai_rug_detail.json",
+      "sidecar_sha256": "5e4fe1c918b1f8f917f10770154d6b1e9f0c0c8a0e4eeca4e1ba0491918fa533",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "zone": {
+        "requested": "house_old_pc",
+        "active": "house_old_pc"
+      },
+      "fov": 70,
+      "profile": "village-winter-frost",
+      "camera_position": {
+        "x": -10.620492,
+        "y": 1.644152,
+        "z": -4.305551
+      },
+      "camera_target": {
+        "x": -12.720491,
+        "y": 0.024152,
+        "z": -4.305562
+      },
+      "rug_readback_count": 6,
+      "visible_rug_readback_count": 6,
+      "rug_readbacks": [
+        {
+          "node": "HouseInterior_RugField_LOD0",
+          "visible": true,
+          "authored_uv_texture": "true",
+          "bound_uv_pigment": "true",
+          "texture_scale": "(1.0, 1.0)",
+          "albedo_texture": "res://assets/textures/painterly/carpet_palas_v1_albedo.png"
+        },
+        {
+          "node": "HouseInterior_RugBandA_LOD0",
+          "visible": true,
+          "authored_uv_texture": "true",
+          "bound_uv_pigment": "true",
+          "texture_scale": "(1.0, 1.0)",
+          "albedo_texture": "res://assets/textures/painterly/carpet_palas_v1_albedo.png"
+        },
+        {
+          "node": "HouseInterior_RugBandB_LOD0",
+          "visible": true,
+          "authored_uv_texture": "true",
+          "bound_uv_pigment": "true",
+          "texture_scale": "(1.0, 1.0)",
+          "albedo_texture": "res://assets/textures/painterly/carpet_palas_v1_albedo.png"
+        },
+        {
+          "node": "HouseInterior_RugField_LOD1",
+          "visible": true,
+          "authored_uv_texture": "true",
+          "bound_uv_pigment": "true",
+          "texture_scale": "(1.0, 1.0)",
+          "albedo_texture": "res://assets/textures/painterly/carpet_palas_v1_albedo.png"
+        },
+        {
+          "node": "HouseInterior_RugBandA_LOD1",
+          "visible": true,
+          "authored_uv_texture": "true",
+          "bound_uv_pigment": "true",
+          "texture_scale": "(1.0, 1.0)",
+          "albedo_texture": "res://assets/textures/painterly/carpet_palas_v1_albedo.png"
+        },
+        {
+          "node": "HouseInterior_RugBandB_LOD1",
+          "visible": true,
+          "authored_uv_texture": "true",
+          "bound_uv_pigment": "true",
+          "texture_scale": "(1.0, 1.0)",
+          "albedo_texture": "res://assets/textures/painterly/carpet_palas_v1_albedo.png"
+        }
+      ]
+    }
+  ],
+  "engine_errors_bytes": 0,
+  "stderr_bytes": 0,
+  "human_playtest": "not-run",
+  "limitations": [
+    "Static DevView captures only; no player-walk, collision, full-room style, or art acceptance is implied.",
+    "PNG IHDR is 1886x1061; sidecars report viewport 1920x1080.",
+    "Local generator, Blender source, registry, and export-evidence copies are provenance only and were excluded from the Windows station snapshot."
+  ]
+}

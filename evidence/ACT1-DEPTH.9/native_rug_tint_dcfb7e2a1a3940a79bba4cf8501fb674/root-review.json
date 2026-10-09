@@ -1,0 +1,17 @@
+{
+  "reviewer": "root",
+  "reviewedUtc": "2026-10-09T02:58:40Z",
+  "jobId": "dcfb7e2a1a3940a79bba4cf8501fb674",
+  "result": "REJECTED_FOR_RUNTIME_FAILURE_NO_VISUAL_VERDICT",
+  "evidenceIntegrity": "All 51 pre-existing archive entries verified byte size and SHA-256 before this review was added.",
+  "confirmedFailure": "Book footprint overlaps OldPc_Keyboard_LOD0; home construction aborts, strict book point cannot resolve, zero PNG/sidecars.",
+  "notAccepted": [
+    "rug tint",
+    "book presentation",
+    "whole home style",
+    "PW-006 physical ordinary route",
+    "ACT1-DEPTH.9 completion"
+  ],
+  "restorationLimits": "Post-run doctor READY, no active/recovery marker. Failure receipt omits userdataRestored; no assertion that it is true.",
+  "nextStep": "Fix source placement using complete visible tabletop prop AABBs, retain support/overlap guard, narrow compile, then a new immutable Windows snapshot; do not reuse failed PASS gates."
+}

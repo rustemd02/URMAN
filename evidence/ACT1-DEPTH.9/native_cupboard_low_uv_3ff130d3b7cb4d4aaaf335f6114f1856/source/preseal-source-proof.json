@@ -1,0 +1,266 @@
+{
+  "base_commit": "8962bf8ecc6214f6476df64946b08bf666937449",
+  "head": "8962bf8ecc6214f6476df64946b08bf666937449",
+  "snapshot_id": "fcf629e5726943405df72aeee41ab8e3f1417e65de40330dc893179fed37d5c5",
+  "manifest_file_count": 1825,
+  "original_manifest_sha256": "a006e4a06ff894e4685d91b321d2f5d08db3d51059c34b0fa62706884f3d0359",
+  "requested_points": "babai_room_overview_low:BabaiApproachDwellingFacade@-1.162,1.846,-0.484>BabaiApproachDwellingFacade@1.658,1.546,-4.934;babai_cupboard_detail_low:BabaiApproachDwellingFacade@3.458,1.826,-5.434>BabaiApproachDwellingFacade@4.788,1.496,-5.034",
+  "point_ids": [
+    "babai_room_overview_low",
+    "babai_cupboard_detail_low"
+  ],
+  "points": [
+    {
+      "id": "babai_room_overview_low",
+      "zoneId": "house_old_pc",
+      "spec": "BabaiApproachDwellingFacade@-1.162,1.846,-0.484>BabaiApproachDwellingFacade@1.658,1.546,-4.934",
+      "graphicsPreset": "low"
+    },
+    {
+      "id": "babai_cupboard_detail_low",
+      "zoneId": "house_old_pc",
+      "spec": "BabaiApproachDwellingFacade@3.458,1.826,-5.434>BabaiApproachDwellingFacade@4.788,1.496,-5.034",
+      "graphicsPreset": "low"
+    }
+  ],
+  "zone": "house_old_pc",
+  "graphics": "low",
+  "fov": 70,
+  "timeout": 300,
+  "phase_override": null,
+  "environment_override": null,
+  "station_selected_source_count": 33,
+  "station_selected_sources": [
+    {
+      "path": "content/modules/urman-fullgame/definitions.json",
+      "bytes": 162746,
+      "sha256": "bac710d50f391c06281fa08b4f13d170e561980f257862974873c641975d1c19"
+    },
+    {
+      "path": "game/assets/generated/urman_modular_kit.glb",
+      "bytes": 1426988,
+      "sha256": "402f9d7dc6b9c0ad8b4fdf39b2ef550b625cedb56bd9f179ee24d9ca1a07fea4"
+    },
+    {
+      "path": "game/assets/images/arrival_marat_childhood_existing_v1.png",
+      "bytes": 1411356,
+      "sha256": "c4647904f1aad0ea492858547e3f3493c9356c6ef87270d34d244f4fb882ac20"
+    },
+    {
+      "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "bytes": 3096172,
+      "sha256": "67d78ca38372f01a93dab795bb5410d4bf79db153387a2b7bbd848f5000346fc"
+    },
+    {
+      "path": "game/assets/textures/painterly/carpet_palas_v1_albedo.png",
+      "bytes": 1665618,
+      "sha256": "d9d48b174b6c8e02bf618cae40ae7248b9562bbb42d7ce7ef471c06b0a55721a"
+    },
+    {
+      "path": "game/assets/textures/painterly/urman_w01_v01_basecolor.png",
+      "bytes": 2441767,
+      "sha256": "0a205444a6413b9a4a420ecd5660c2a6ee3016285e58f14c1a5aaa1569a8ba75"
+    },
+    {
+      "path": "game/content/urman.fullgame.compiled.v1.json",
+      "bytes": 2125405,
+      "sha256": "91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad"
+    },
+    {
+      "path": "game/content/world/act1_village_kit.world.v1.json",
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d"
+    },
+    {
+      "path": "game/content/world/atmosphere.v1.json",
+      "bytes": 13795,
+      "sha256": "026ed905882dd738f45c40082bd69f73dab2939fb9b16168953befc7c19a154d"
+    },
+    {
+      "path": "game/content/world/visual_checkpoints.v1.json",
+      "bytes": 23488,
+      "sha256": "97c9d05550491f97efca44027d04ee2197ce9a8169f8ece609d86686f30dde09"
+    },
+    {
+      "path": "game/project.godot",
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4"
+    },
+    {
+      "path": "game/scenes/act1_demo.tscn",
+      "bytes": 189,
+      "sha256": "0c00cb3d6a7078ea75b9a003e7efd8d2bb8a0528fd28f737ecc66cb59ae81fa6"
+    },
+    {
+      "path": "game/scenes/main.tscn",
+      "bytes": 1914,
+      "sha256": "1efadb8d7db53dd99735b6780e846654e59c3f330d10d1bc328b8ddbefcbbc5b"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.YardFences.cs",
+      "bytes": 47416,
+      "sha256": "641337026a86b4d65c4c377b04ef42a9eeb2a2dc59f20278f64950fb1af77a8a"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.cs",
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 65098,
+      "sha256": "41fcb90e53d77b62ac69634f374934819594df639e47439d982b6ae3251b4fe6"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.RenderDiagnostics.cs",
+      "bytes": 28351,
+      "sha256": "4318d066cf862c9ee35169971378fa2d95a6961578f61a524ac5d89b33ef2feb"
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.cs",
+      "bytes": 96305,
+      "sha256": "ddd7ab1a867a25c00aba183bbf2ed6ca81d309ba248ecb7663b1e456b8e795f1"
+    },
+    {
+      "path": "game/scripts/ArrivalPersonalProps.cs",
+      "bytes": 11224,
+      "sha256": "46f56dd93184999f0ed24b3cbdc729cb53353a69607ab5cd4b75fecfd6de89f6"
+    },
+    {
+      "path": "game/scripts/FirstPersonController.cs",
+      "bytes": 33272,
+      "sha256": "aa3baedad11de3aa4961163352c831e91249513b8b418b189a96c82c2a7fce02"
+    },
+    {
+      "path": "game/scripts/GeneratedModularKitDressing.cs",
+      "bytes": 28668,
+      "sha256": "3e484ba22a89e02a475a4747385cbf6e029bdbea0685ab2a3145ec24b34d6a40"
+    },
+    {
+      "path": "game/scripts/GraphicsQuality.cs",
+      "bytes": 10289,
+      "sha256": "0be19d48cd49dd1ec1af140dee9176c3a3e236cff5309fb855e4bcfb6eb7d6f0"
+    },
+    {
+      "path": "game/scripts/InteractionTarget.cs",
+      "bytes": 10025,
+      "sha256": "36191b49bb8b730089f19f82de4b5cd6587177f07bd70861457fe931199b6aae"
+    },
+    {
+      "path": "game/scripts/JournalUi.Notebook.cs",
+      "bytes": 14300,
+      "sha256": "d7f468361281ac6ace54a3ce4d36d16b62dcfe99fb0933e4f18d1f23547ffedb"
+    },
+    {
+      "path": "game/scripts/Main.cs",
+      "bytes": 13569,
+      "sha256": "4a086ebdfbb8655dd606a40076e6fe938d8f620c5a32c25908ad4977b1d36985"
+    },
+    {
+      "path": "game/scripts/PainterlyMaterialLibrary.cs",
+      "bytes": 123589,
+      "sha256": "92e35c4c7ceb0a5b37467f3c422ad7cc20fff019976d10011a3d7534939460aa"
+    },
+    {
+      "path": "game/scripts/RuntimeBridge.Notebook.cs",
+      "bytes": 24167,
+      "sha256": "cb1e52a76d3199f6538e637933e691d9203e4576584ba038b0d96b03b65f57d2"
+    },
+    {
+      "path": "game/scripts/RuntimeBridge.cs",
+      "bytes": 93070,
+      "sha256": "dfcc8bc046ee9de25b2c4b8adbc92df0c30020154b300bb2f177f5e7f3636c90"
+    },
+    {
+      "path": "game/scripts/SettingsUi.cs",
+      "bytes": 19236,
+      "sha256": "79a794eeb7c6f17e393a9903ed0a0beca17bddd7ce736bba38e99b18966cc1d6"
+    },
+    {
+      "path": "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+      "bytes": 37854,
+      "sha256": "ffbfdabb9a97e7045fdb8033de485f4ebdfa2d6f3ddf70f67653457e8da544bd"
+    },
+    {
+      "path": "game/scripts/StyleBenchmarkInteriorFactory.cs",
+      "bytes": 25969,
+      "sha256": "e3ec8a1ed9913e2b1a2213e0765e5c300c8b3a56dcd7a9bb5ef0b5229ff46f60"
+    },
+    {
+      "path": "game/scripts/StyleBenchmarkZone.cs",
+      "bytes": 109203,
+      "sha256": "6e8afeff88775757325dbfc4dd45dfbde57294643c3621e750cb413089b275f7"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs",
+      "bytes": 9097,
+      "sha256": "8c32c189b4a4d5583334dde204285520176414c5f42369c397e5c4951933bf1e"
+    }
+  ],
+  "local_authoring_excluded_copy_count": 10,
+  "local_authoring_excluded_copies": [
+    {
+      "path": "assets/asset_registry.json",
+      "bytes": 236918,
+      "sha256": "8787f0f337ba2f163b7d173940330204166333cda042829b60b63ac3781ac096",
+      "scope": "fresh local authoring/evidence copy; excluded from station payload"
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "bytes": 12572542,
+      "sha256": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3",
+      "scope": "fresh local authoring/evidence copy; excluded from station payload"
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
+      "bytes": 188665,
+      "sha256": "eb0f0768beb60cad19eda1a1c25e85f03e2e8f85cff2a83bace4875bec2e3077",
+      "scope": "fresh local authoring/evidence copy; excluded from station payload"
+    },
+    {
+      "path": "assets/source/blender/urman_modular_kit.blend",
+      "bytes": 3394731,
+      "sha256": "67841e661586f216940230d403d8b053d3a396f91751fd79f2867dd7476f90a5",
+      "scope": "fresh local authoring/evidence copy; excluded from station payload"
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.12/low_cut_endgrain_source_patch_2026-10-09.json",
+      "bytes": 3044,
+      "sha256": "225929fd433a60160bd0e1849d534184e2e2fd5c20220d63cad752d36b2dc367",
+      "scope": "fresh local authoring/evidence copy; excluded from station payload"
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.12/matched-quality-capture-implementation-2026-10-09.json",
+      "bytes": 4571,
+      "sha256": "22f782cd465dd77eddee3450d191c3939cb3b8bb0921994a7ca32eb945e168ec",
+      "scope": "fresh local authoring/evidence copy; excluded from station payload"
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.9/corner-log-material-export-2026-10-09.json",
+      "bytes": 7265,
+      "sha256": "8b0e1a34f48ae5494634f3c14ee8111f7892f689931c832a70285d5dd0e5f992",
+      "scope": "fresh local authoring/evidence copy; excluded from station payload"
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.9/cupboard-recessed-door-export-2026-10-09.json",
+      "bytes": 12671,
+      "sha256": "853805b71cf74dbb43d2b18a94aa38a3084a57bbf8a0b5046757d226fdb00b2e",
+      "scope": "fresh local authoring/evidence copy; excluded from station payload"
+    },
+    {
+      "path": "tools/blender/generate_modular_environment.py",
+      "bytes": 62072,
+      "sha256": "b82e6a808afa0d06c42fdad387c225593454e72952c9241e30cdf1dc95f3e6d3",
+      "scope": "fresh local authoring/evidence copy; excluded from station payload"
+    },
+    {
+      "path": "tools/blender/verify_modular_environment.py",
+      "bytes": 18884,
+      "sha256": "1ca251912e375c6f478f8dbc0bf73a03863b569cff87930e74d40c53a4cb91e8",
+      "scope": "fresh local authoring/evidence copy; excluded from station payload"
+    }
+  ],
+  "checkout_unchanged_after_copy": true,
+  "prior_high_job": "309519d31a04442faa0034d31a6a47d4",
+  "candidate": "fresh Low capture of exact prior cupboard cameras with current CupboardDoor material UV candidate; no acceptance claim"
+}

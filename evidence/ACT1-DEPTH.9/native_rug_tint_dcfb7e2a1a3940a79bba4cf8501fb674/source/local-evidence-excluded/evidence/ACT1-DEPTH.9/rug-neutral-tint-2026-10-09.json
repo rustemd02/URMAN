@@ -1,0 +1,35 @@
+{
+  "taskId": "ACT1-DEPTH.9",
+  "slice": "hero RugField pigment multiplier only",
+  "status": "source_inspected_native_pending",
+  "rootRejectedCause": "Native496c full authored UV/pattern accepted, but brown714939 multiplied woven burgundy/cream down and made the field resemble wood. Existing image itself carries the intended textile colors.",
+  "change": {
+    "fieldTintBefore": "714939",
+    "fieldTintCandidate": "a49b8c",
+    "unchanged": [
+      "existing palas image",
+      "band A/B tints",
+      "all other carpet consumers",
+      "geometry/UV/contacts",
+      "lighting/atmosphere",
+      "PML and shader formula"
+    ]
+  },
+  "verification": {
+    "inspection": "PASS existing single palette entry route",
+    "diffCheck": "PASS",
+    "native": "NOT_RUN"
+  },
+  "plannedNativePoints": [
+    "babai_room_overview",
+    "babai_rug_detail"
+  ],
+  "sourceHashes": {
+    "game/scripts/GeneratedModularKitDressing.cs": "cc47f7711a4fe6c95d38d19f8ae6d5a14f238e16645f13a21c8f36d01e0b067a",
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs": "50514992d047fc8b3525dcccf107a8c1b911e82c38f0648f28cde74680d0be80"
+  },
+  "limits": [
+    "Candidate color is not accepted until originals are reviewed.",
+    "Whole textile/interior/card criteria and human/reference/ordinary movement gates remain open."
+  ]
+}

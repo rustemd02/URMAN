@@ -1,0 +1,252 @@
+{
+  "game/assets/generated/urman_modular_kit.glb": [
+    {
+      "id": "env.house.a",
+      "source": "assets/source/blender/urman_modular_kit.blend",
+      "derived": "game/assets/generated/urman_modular_kit.glb",
+      "sourceSha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+      "derivedSha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+      "generator": "tools/blender/generate_modular_environment.py",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 5000,
+      "textureBudget": 1024,
+      "materials": [
+        "PaintedPlaster",
+        "OldRoof",
+        "WeatheredWood",
+        "WarmWindow"
+      ],
+      "collision": "provisional layer-2 house proxy collider; Blender -col source retained, GLB render collision hidden",
+      "lod": "LOD0 + deterministic Decimate LOD1 generated; Godot range 0–24m / 18–72m integrated for house variant",
+      "status": "greybox-verified; authored edge-break + bounded facade pass",
+      "latestGeometryRevision": {
+        "date": "2026-09-17",
+        "members": [
+          "HouseInterior_TableKettle_LOD0",
+          "HouseInterior_TableKettleLid_LOD0",
+          "HouseInterior_TableKettle_LOD1",
+          "HouseInterior_TableKettleLid_LOD1"
+        ],
+        "exportEvidence": "docs/production/act1_takeover_evidence_2026-09-16/modular-export-38.json",
+        "preservationEvidence": "docs/production/act1_takeover_evidence_2026-09-16/modular-export-38-comparison.json",
+        "validation": "Blender verifier passed both LODs, original support and envelope, open spout and handle; native visual acceptance pending"
+      },
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
+    },
+    {
+      "id": "env.fence.a",
+      "source": "assets/source/blender/urman_modular_kit.blend",
+      "derived": "game/assets/generated/urman_modular_kit.glb",
+      "sourceSha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+      "derivedSha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+      "generator": "tools/blender/generate_modular_environment.py",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 500,
+      "textureBudget": 512,
+      "materials": [
+        "WeatheredWood"
+      ],
+      "collision": "none; presentation-only fence family; zone floor/path and the host kit proxy own walkability",
+      "lod": "not required for one segment",
+      "status": "greybox-verified",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
+    },
+    {
+      "id": "env.road.dirt.straight",
+      "source": "assets/source/blender/urman_modular_kit.blend",
+      "derived": "game/assets/generated/urman_modular_kit.glb",
+      "sourceSha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+      "derivedSha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+      "generator": "tools/blender/generate_modular_environment.py",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 5000,
+      "textureBudget": 1024,
+      "materials": [
+        "DampEarth"
+      ],
+      "collision": "zone ground collider",
+      "lod": "not required",
+      "status": "greybox-verified",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
+    },
+    {
+      "id": "env.vegetation.pine.a",
+      "source": "assets/source/blender/urman_modular_kit.blend",
+      "derived": "game/assets/generated/urman_modular_kit.glb",
+      "sourceSha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+      "derivedSha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+      "generator": "tools/blender/generate_modular_environment.py",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 1200,
+      "textureBudget": 512,
+      "materials": [
+        "PineBark",
+        "PineFoliage"
+      ],
+      "collision": "capsule trunk",
+      "lod": "LOD0 + deterministic Decimate LOD1 generated; Godot range policy is integrated by zone variant; billboard remains open",
+      "status": "greybox-verified; layered-crown pass",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
+    },
+    {
+      "id": "prop.furniture.table.a",
+      "source": "assets/source/blender/urman_modular_kit.blend",
+      "derived": "game/assets/generated/urman_modular_kit.glb",
+      "sourceSha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+      "derivedSha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+      "generator": "tools/blender/generate_modular_environment.py",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 5000,
+      "textureBudget": 1024,
+      "materials": [
+        "WeatheredWood",
+        "DarkWood"
+      ],
+      "collision": "simple-box",
+      "lod": "LOD0 + deterministic Decimate LOD1 generated",
+      "status": "greybox-verified",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
+    },
+    {
+      "id": "prop.oldpc.crt",
+      "source": "assets/source/blender/urman_modular_kit.blend",
+      "derived": "game/assets/generated/urman_modular_kit.glb",
+      "sourceSha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+      "derivedSha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+      "generator": "tools/blender/generate_modular_environment.py",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 20000,
+      "textureBudget": 2048,
+      "materials": [
+        "OldPcPlastic",
+        "OldPcVent",
+        "OldPcKeys",
+        "CrtGlass"
+      ],
+      "collision": "provisional layer-2 old-PC/table proxy collider; Blender -col source retained, GLB render collision hidden",
+      "lod": "LOD0 hero + deterministic LOD1 fallback generated",
+      "status": "greybox-verified; bounded tower/panel/button/drive-slot/label-plate hero-detail pass",
+      "latestGeometryRevision": {
+        "date": "2026-09-17",
+        "members": [
+          "OldPc_Keyboard_LOD0",
+          "OldPc_Keyboard_LOD1"
+        ],
+        "exportEvidence": "docs/production/act1_takeover_evidence_2026-09-16/modular-export-38.json",
+        "preservationEvidence": "docs/production/act1_takeover_evidence_2026-09-16/modular-export-38-comparison.json",
+        "validation": "Blender verifier passed both LODs, 104 separate keycaps and original support/envelope; native visual acceptance pending"
+      },
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
+    },
+    {
+      "id": "env.well.a",
+      "source": "assets/source/blender/urman_modular_kit.blend",
+      "derived": "game/assets/generated/urman_modular_kit.glb",
+      "sourceSha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+      "derivedSha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+      "generator": "tools/blender/generate_modular_environment.py",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 1500,
+      "textureBudget": 1024,
+      "materials": [
+        "MossyStone",
+        "WellWater",
+        "WeatheredWood",
+        "OldRoof",
+        "DarkWood"
+      ],
+      "collision": "none; decorative yard anchor; walkable layer remains Godot zone floor",
+      "lod": "LOD0 + deterministic Decimate LOD1 generated; Godot range 0–24m / 18–72m via house variant",
+      "status": "authored low-poly yard anchor; proxy collision not added; art-lock-pending",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
+    },
+    {
+      "id": "env.woodpile.a",
+      "source": "assets/source/blender/urman_modular_kit.blend",
+      "derived": "game/assets/generated/urman_modular_kit.glb",
+      "sourceSha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+      "derivedSha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+      "generator": "tools/blender/generate_modular_environment.py",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 700,
+      "textureBudget": 512,
+      "materials": [
+        "PineBark"
+      ],
+      "collision": "none; decorative yard anchor; walkable layer remains Godot zone floor",
+      "lod": "LOD0 + deterministic Decimate LOD1 generated; Godot range 0–24m / 18–72m via house variant",
+      "status": "authored low-poly yard anchor; proxy collision not added; art-lock-pending",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
+    },
+    {
+      "id": "env.gate.a",
+      "source": "assets/source/blender/urman_modular_kit.blend",
+      "derived": "game/assets/generated/urman_modular_kit.glb",
+      "sourceSha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e",
+      "derivedSha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+      "generator": "tools/blender/generate_modular_environment.py",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 700,
+      "textureBudget": 512,
+      "materials": [
+        "WeatheredWood",
+        "OldFabric"
+      ],
+      "collision": "none; decorative threshold dressing; authored GateA does not own gameplay collision",
+      "lod": "LOD0 + deterministic Decimate LOD1 generated; Godot range 0–24m / 18–72m via forest variant",
+      "status": "authored low-poly threshold dressing; procedural posts removed from Act 5 boundary; art-lock-pending",
+      "releaseDisposition": "include-in-act1-release; runtime-referenced on 2026-09-03 HEAD"
+    }
+  ],
+  "game/assets/models/act1/urman_village_exterior_kit.glb": [
+    {
+      "id": "urman.act1.village_exterior_kit",
+      "source": "assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "derived": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "sourceSha256": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3",
+      "derivedSha256": "67d78ca38372f01a93dab795bb5410d4bf79db153387a2b7bbd848f5000346fc",
+      "generator": "assets/source/blender/act1/urman_village_exterior_kit.py; Blender 4.5.12 LTS",
+      "license": "Project-original",
+      "scale": 1.0,
+      "triangleBudget": 36761,
+      "textureBudget": 0,
+      "materials": [
+        "URMAN_Stone_Mossy",
+        "URMAN_Roof_WetSlate",
+        "URMAN_Stone_LightFace",
+        "URMAN_Wood_Weathered",
+        "URMAN_Plaster_Shadow",
+        "URMAN_Wood_WetShadow",
+        "URMAN_Plaster_Ochre",
+        "URMAN_Window_DimGlass",
+        "URMAN_Wood_Dark",
+        "URMAN_Metal_Dulled",
+        "URMAN_Stone_MossFace",
+        "URMAN_Roof_MossTone",
+        "URMAN_Bark_Muted",
+        "URMAN_Window_WarmInset",
+        "URMAN_Well_DarkWater",
+        "URMAN_Wood_CutEnd",
+        "URMAN_Hero_Log",
+        "URMAN_Hero_LogEnd",
+        "URMAN_Hero_Trim_Teal",
+        "URMAN_Hero_Trim_Ivory",
+        "URMAN_Hero_RoofSnow"
+      ],
+      "collision": "none; presentation-only geometry; Godot floor/collision and interaction targets remain authoritative",
+      "lod": "1497 exported mesh nodes / 45077 indexed triangles / 21 materials; HeroHouse_TimberPlaster: 665 LOD0 mesh nodes / 19772 indexed triangles; no LOD1/LOD2 representations in the current GLB; runtime placement/LOD policy unchanged",
+      "status": "production-canonical winter dependency; textured bark and local end-grain presentation verified in native close/route frames; full art/cultural acceptance open; 2026-09-14 the hero dwelling's plinth became stone masonry and gained a street-door step (H2 first step); 2026-09-15 the dwellings gained rafter tails, eaves troughs and one street-corner downpipe with a splash stone (H2 eaves/water step); 2026-09-22 Babai's house gained stacked hewn log courses, alternating corner log ends, stepped gable courses, teal/ivory casings and a settled roof-snow sheet (ACT1-DEPTH.9 first sample), +5,408 triangles and +5 materials; wall thickness, clear room, openings, floor, eave, ridge and the door portal contract unchanged; 2026-09-22 (DEPTH.12 p1) the hero roof gained a 62cm overhang, a 16cm slab and a solid settled snow slab wrapping the eave; parcels unchanged",
+      "releaseDisposition": "include-in-act1-release; current runtime dependency; visual/cultural gates open",
+      "components": "URMAN_VillageExteriorKit: DwellingFacade_TimberPlaster|OutbuildingShed_Low|FenceSegment_RoughPicket|Gate_CrookedTimber|Woodpile_StackedLogs|Well_YardLandmark|VillageParcel_VariantA_TimberGable|VillageParcel_VariantB_PlasterAnnex|VillageParcel_VariantC_BanyaYard"
+    }
+  ]
+}

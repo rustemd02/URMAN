@@ -1,0 +1,150 @@
+{
+  "job_id": "1436363f4cf6401bb6fe2d0415ea2a21",
+  "snapshot_id": "4cf4449a075839c696c56432a590f2f1337f14215103c7ec6be00b04f92dcd89",
+  "base_commit": "b4f0faf88e9318f3ea6963ab8e62eb8152bc0960",
+  "status": "PASS",
+  "mode": "capture",
+  "scene": "res://scenes/act1_demo.tscn",
+  "point_id": "niva_handbrake_passenger_detail",
+  "point_spec": "niva_handbrake_passenger_detail:NivaBody@-0.2799999881,0.3800000572,1.3499999523>NivaBody@-0.6999999881,-0.2599999428,1.3699999523",
+  "zone_requested": "village_day",
+  "zone_active": "village_day",
+  "fov_requested": 70,
+  "fov_actual": 70,
+  "phase_override": null,
+  "requested_profile": "village-winter-frost",
+  "actual_atmosphere_profile": "village-winter-frost",
+  "graphics": {
+    "requested_preset": null,
+    "effective_preset": "low",
+    "preferred_preset": "medium",
+    "session_override": "performance-rescue",
+    "comparable": null,
+    "scaling3DScale": 0.7,
+    "scaling3DMode": "Fsr",
+    "budget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none"
+  },
+  "camera": {
+    "position": {
+      "x": -1.72,
+      "y": 0.859803,
+      "z": 16.699999
+    },
+    "target": {
+      "x": -1.3,
+      "y": 0.219803,
+      "z": 16.679998
+    },
+    "owner_path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+    "target_owner_path": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+    "camera_space": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+    "target_space": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody"
+  },
+  "native_handbrake_readback": {
+    "parkingBrake": true,
+    "vehicleGlobalTransform": {
+      "origin": {
+        "x": -1.3,
+        "y": -0.580197,
+        "z": 17
+      },
+      "basisX": {
+        "x": -1,
+        "y": 0,
+        "z": 0
+      },
+      "basisY": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "basisZ": {
+        "x": 0,
+        "y": 0,
+        "z": -1
+      }
+    },
+    "cameraAnchorGlobalTransform": {
+      "origin": {
+        "x": -2,
+        "y": 0.479803,
+        "z": 18.049999
+      },
+      "basisX": {
+        "x": -1,
+        "y": 0,
+        "z": 0
+      },
+      "basisY": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "basisZ": {
+        "x": 0,
+        "y": 0,
+        "z": -1
+      }
+    },
+    "leverRotationDegrees": {
+      "x": -45,
+      "y": 0,
+      "z": 0
+    },
+    "leverGlobalPosition": {
+      "x": -1.3,
+      "y": 0.049803,
+      "z": 16.799999
+    },
+    "expectedRaisedXDegrees": -45,
+    "proofScope": "Captured parked state and static lever pose; toggle motion is not measured."
+  },
+  "png": {
+    "path": "station-result/frames/niva_handbrake_passenger_detail.png",
+    "bytes": 1265108,
+    "sha256": "a24e6eea524cd1dbb351b276594d6f29291a38d75900372d38c36d03a3e99f3e",
+    "ihdr_width": 1886,
+    "ihdr_height": 1061,
+    "sidecar_viewport_width": 1920,
+    "sidecar_viewport_height": 1080
+  },
+  "elapsed_seconds": 333.0984818,
+  "worker_elapsed_seconds": 364.25,
+  "game_exit_code": 0,
+  "result_zip_sha256": "451175f47e3f19d9ecb4d91e9b55300def54634b9b74ea2be129ecf75de3cfd6",
+  "snapshot_hashes_verified": true,
+  "steps": {
+    "build": {
+      "exitCode": 0
+    },
+    "content-build": {
+      "exitCode": 0
+    },
+    "content-urman.chapter1": {
+      "exitCode": 0
+    },
+    "content-urman.fullgame": {
+      "exitCode": 0
+    },
+    "document-images": {
+      "exitCode": 0
+    },
+    "game": {
+      "exitCode": 0
+    },
+    "import": {
+      "exitCode": 0
+    }
+  },
+  "project_restored_sha256": "D63B2F54388E8B0D06C6EFB350DD7E0B9F43264AC967696749535BEB57D757C4",
+  "userdata_recovery_pending_receipt": null,
+  "doctor_after_run": {
+    "ready": true,
+    "busy_job": null,
+    "orphan_game_process": false,
+    "userdata_recovery_pending": false
+  },
+  "proof_scope": "Static parked-state NivaBody frame and protected ParkingBrake/lever transform readback only; no toggle motion, ordinary camera turn, playthrough, or author visual acceptance.",
+  "visual_acceptance": "root review pending; frame is not resized or edited",
+  "niva_followup_source": "local authoring copies are excluded from station payload; source copy hashes stored in preseal proof."
+}

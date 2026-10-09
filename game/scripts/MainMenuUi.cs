@@ -37,6 +37,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
     private bool _continueAvailable;
     private bool _existingSavePresent;
+    private bool _incompatiblePhotoWorldSavePresent;
     private bool _newGameArmed;
     private string? _continueDescription;
 
@@ -137,10 +138,12 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     public void SetContinueAvailable(
         bool available,
         string? description = null,
-        bool existingSavePresent = false)
+        bool existingSavePresent = false,
+        bool incompatiblePhotoWorldSavePresent = false)
     {
         _continueAvailable = available;
         _existingSavePresent = existingSavePresent || available;
+        _incompatiblePhotoWorldSavePresent = incompatiblePhotoWorldSavePresent;
         _continueDescription = description;
         if (_continueButton is not null)
         {
@@ -154,11 +157,14 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         if (_continueHint is not null)
         {
             _continueHint.Visible = true;
-            _continueHint.Text = available
+            var hint = available
                 ? description ?? "Последнее сохранение"
                 : existingSavePresent
                     ? "Продолжить · не удалось загрузить подходящее сохранение\nФайлы сохранений оставлены без изменений."
                     : "Продолжить · подходящее сохранение не найдено";
+            if (incompatiblePhotoWorldSavePresent)
+                hint += "\nСохранения прежней кампании сохранены отдельно и несовместимы с этой историей.";
+            _continueHint.Text = hint;
         }
     }
 
@@ -336,7 +342,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         layout.AddChild(_quitButton);
 
         _newGameButton.GrabFocus();
-        SetContinueAvailable(_continueAvailable);
+        SetContinueAvailable(_continueAvailable, _continueDescription, _existingSavePresent, _incompatiblePhotoWorldSavePresent);
         UrmanUiTheme.PlayOpen(_panel, _accessibility.ReducedMotion);
     }
 
@@ -354,7 +360,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         _newGameArmed = false;
         if (_newGameButton is not null) _newGameButton.Text = "Новая игра";
-        SetContinueAvailable(_continueAvailable, _continueDescription, _existingSavePresent);
+        SetContinueAvailable(_continueAvailable, _continueDescription, _existingSavePresent, _incompatiblePhotoWorldSavePresent);
     }
 
     private void OpenAbout()

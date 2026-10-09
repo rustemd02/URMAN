@@ -1,0 +1,24 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 63,
+      "sha256": "1800ef1f2717d4df6ab31aada7260edc2ab96511d0f1c23c5cb45b1a35cec8f4"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1337,
+      "sha256": "fa99d92411fc871e1256295d33f1c3aa1fd66ab268dfd5c263df07dcd172eeeb"
+    },
+    {
+      "path": "pair-comparison.json",
+      "bytes": 6380,
+      "sha256": "0b4085b6b1f1f5ff17e248f9d3272512a512a3aea51ca0c643950cb2371b4e98"
+    },
+    {
+      "path": "root-review.json",
+      "bytes": 4157,
+      "sha256": "4400696a664cfb1599127bc99b665261f13709596b8f1e9caa2b0bfe726db620"
+    }
+  ]
+}

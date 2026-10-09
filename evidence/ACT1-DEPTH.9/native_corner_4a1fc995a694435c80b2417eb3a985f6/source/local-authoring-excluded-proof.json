@@ -1,0 +1,48 @@
+{
+  "scope": "local-only registry, Blender authoring and receipts; explicitly excluded from station payload and not evidence that Blender ran on Windows. Exact pre-ACK copies and hashes are archived separately.",
+  "files": [
+    {
+      "path": "assets/asset_registry.json",
+      "bytes": 236918,
+      "sha256": "14a43990b759c980459d0c5820e36b41298b6d156e2b442a0822be3b19634f7f",
+      "archive_path": "local-authoring-excluded/assets/asset_registry.json",
+      "station_snapshot_included": false
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "bytes": 12572542,
+      "sha256": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3",
+      "archive_path": "local-authoring-excluded/assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "station_snapshot_included": false
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
+      "bytes": 188665,
+      "sha256": "eb0f0768beb60cad19eda1a1c25e85f03e2e8f85cff2a83bace4875bec2e3077",
+      "archive_path": "local-authoring-excluded/assets/source/blender/act1/urman_village_exterior_kit.py",
+      "station_snapshot_included": false
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.9/corner-log-material-export-2026-10-09.json",
+      "bytes": 5298,
+      "sha256": "06b2cd3973b0c17c01da4949f80144a219832784936bb2d7760c88f6acc47b8f",
+      "archive_path": "local-authoring-excluded/evidence/ACT1-DEPTH.9/corner-log-material-export-2026-10-09.json",
+      "station_snapshot_included": false
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.12/matched-quality-capture-implementation-2026-10-09.json",
+      "bytes": 4005,
+      "sha256": "10f9dc4d65defa7c36662806fdd3e615f6c23f847e78d7269ffb3b53724c0950",
+      "archive_path": "local-authoring-excluded/evidence/ACT1-DEPTH.12/matched-quality-capture-implementation-2026-10-09.json",
+      "station_snapshot_included": false
+    },
+    {
+      "path": "asset_registry_selected_rows.json",
+      "bytes": 12873,
+      "sha256": "819c46f6ea80d2cf0c3cdcefa073a3dcb8a9a15f84eb232180143bb3602c14af",
+      "archive_path": "local-authoring-excluded/asset_registry_selected_rows.json",
+      "station_snapshot_included": false,
+      "source_note": "reused prior selected-row evidence; full registry hash matches sealed local copy"
+    }
+  ]
+}

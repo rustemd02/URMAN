@@ -1,0 +1,12 @@
+{
+  "mode": "capture",
+  "scene": "res://scenes/act1_demo.tscn",
+  "timeout": 300,
+  "headless": false,
+  "points": "babai_entry_door:BabaiApproachDwellingFacade@-1.162,1.796,-0.984>BabaiApproachDwellingFacade@-1.162,1.496,0.916;babai_room_overview:BabaiApproachDwellingFacade@-1.162,1.846,-0.484>BabaiApproachDwellingFacade@1.658,1.546,-4.934",
+  "fov": "70",
+  "phase": null,
+  "environment_overrides": [],
+  "checkpoint_rows": 20,
+  "requested_zone_from_checkpoint": "house_old_pc"
+}

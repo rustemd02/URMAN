@@ -1,0 +1,88 @@
+{
+  "job_id": "3195422fc11a4a8b88e9811d01587782",
+  "snapshot_id": "04824ea5ac58cbfc6976bf0b9987fc963b71835e01572ff302e3880f51a7459e",
+  "base_commit": "da700b798540b02b681f8416fa9c9c7d98a06bae",
+  "status": "PASS",
+  "source_manifest_files": 1825,
+  "selected_exact_snapshot_sources": {
+    "content/campaigns/urman.fullgame/campaign.json": {
+      "bytes": 22717,
+      "sha256": "2e0b902a24f9deb828397732f182426facc0154b5a71c9510967a82a6f0d8b39",
+      "archive_path": "source/content/campaigns/urman.fullgame/campaign.json"
+    },
+    "content/modules/urman-fullgame/module.json": {
+      "bytes": 10608,
+      "sha256": "7640d6cb24c435b4c7cd2e946fdad8da1aff59eb1f814038799fd4f7fb1b140e",
+      "archive_path": "source/content/modules/urman-fullgame/module.json"
+    },
+    "content/modules/urman-fullgame/definitions.json": {
+      "bytes": 160701,
+      "sha256": "a73e8fd3a5f8bdb03fd9bd636b29257a71e93d803a80089a2a011334d68ac647",
+      "archive_path": "source/content/modules/urman-fullgame/definitions.json"
+    },
+    "content/schemas/campaign-manifest.schema.json": {
+      "bytes": 9085,
+      "sha256": "e4851b09d642fddc1e8ade80b4c5a791c101482fb81427db89c0cf2e645a2062",
+      "archive_path": "source/content/schemas/campaign-manifest.schema.json"
+    },
+    "content/schemas/compiled-content-pack.schema.json": {
+      "bytes": 7855,
+      "sha256": "b944a4cfa9e8f3b529e61d61c4c3f7316c05675c0478ac3c7066e3001458906e",
+      "archive_path": "source/content/schemas/compiled-content-pack.schema.json"
+    },
+    "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json": {
+      "bytes": 12703,
+      "sha256": "6127fe5180785ac303d4372b4537c38d253c255e88dc04a5d8c821e4a01bc2cc",
+      "archive_path": "source/content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json"
+    },
+    "content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json": {
+      "bytes": 48909,
+      "sha256": "d1e870648629b901a0b962e8798671e634a21b7787a94b89325151fafa306353",
+      "archive_path": "source/content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json"
+    },
+    "content/campaigns/urman.fullgame/photoworlds-sources/assets.spec.json": {
+      "bytes": 46592,
+      "sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
+      "archive_path": "source/content/campaigns/urman.fullgame/photoworlds-sources/assets.spec.json"
+    },
+    "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs": {
+      "bytes": 9683,
+      "sha256": "ff77988ac60e00d8ca90eddc8710f5b7b5585b997e89b2f4503741d4c8d11fac",
+      "archive_path": "source/src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs"
+    },
+    "src-dotnet/Urman.Content/Compilation/ContentCompiler.cs": {
+      "bytes": 57634,
+      "sha256": "a4e6129e680238cc31ca97eb48bc0d9f63e7d3d210534d7024433cea110e491c",
+      "archive_path": "source/src-dotnet/Urman.Content/Compilation/ContentCompiler.cs"
+    },
+    "game/scripts/CompiledCampaignRepository.cs": {
+      "bytes": 36453,
+      "sha256": "68c7f5a871b725f42c398d351a1297b49fc761f4b4e5684c504a98338c23ee8a",
+      "archive_path": "source/game/scripts/CompiledCampaignRepository.cs"
+    },
+    "game/content/urman.fullgame.compiled.v1.json": {
+      "bytes": 2122792,
+      "sha256": "89f8a53f0315a10c475b0165677d8475473c3a336dda7d004bc550af145c5b1e",
+      "archive_path": "source/game/content/urman.fullgame.compiled.v1.json"
+    },
+    "game/tests/FullGameFlowSmokeTest.cs": {
+      "bytes": 42543,
+      "sha256": "9450536fc9b0edda60a1c2762f1933dd0520ece0589ec120b33b075f68f107cc",
+      "archive_path": "source/game/tests/FullGameFlowSmokeTest.cs"
+    },
+    "game/tests/full_game_flow_smoke_test.tscn": {
+      "bytes": 199,
+      "sha256": "afb29d28aa4ccb56a9a993e8d02ca65b45404c62c628e1bcc32b84ac324f8d7f",
+      "archive_path": "source/game/tests/full_game_flow_smoke_test.tscn"
+    },
+    "game/scenes/full_game.tscn": {
+      "bytes": 1925,
+      "sha256": "9302f6690cd511b0f063262eeaacf0f1e0c39db9f819b3c59f4c77c423ebfd0f",
+      "archive_path": "source/game/scenes/full_game.tscn"
+    }
+  },
+  "compiled_content": {
+    "urman.chapter1": "34C1A1C233AB00B8F25361652DD53C4D6835CA54861B85D7707D4C49A456C73A",
+    "urman.fullgame": "5D33D7F4D02FDD3C9C4AFE54131074EDA7AC10A656F99B999E9407C085214C84"
+  }
+}

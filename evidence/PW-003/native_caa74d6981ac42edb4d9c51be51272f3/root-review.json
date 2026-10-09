@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PW-003",
+  "reviewer": "/root",
+  "reviewedAtUtc": "2026-10-09T05:14:16.819223+00:00",
+  "scope": "One negative W01 completion boundary; unchanged old forest semantic actions must not complete the corrected canonical world.",
+  "jobId": "caa74d6981ac42edb4d9c51be51272f3",
+  "snapshotId": "a88bb7b23b7cfadb1f3cc12b2232ef26e29c307dedd97ff79c97240e6a8eed0e",
+  "sourceSnapshotHashesVerified": true,
+  "nativeStatus": "FAIL",
+  "gameExitCode": 1,
+  "expectedW01AssertionObserved": true,
+  "lastSemanticEvent": "[85] photoworlds.fact.observed: urman.fullgame:interaction/pw-forest-shurale",
+  "negativeBoundary": "ACCEPTED_W01_ONLY",
+  "cleanFailureExit": true,
+  "routePass": false,
+  "laterWorlds": "NOT_REACHED",
+  "ordinaryPhysicalValidation": "NOT_RUN",
+  "userDataEvidence": {
+    "receiptField": null,
+    "logRestoreAndVerification": true,
+    "limitation": "The failure receipt does not affirm userdataRestored; guard log and doctor remain separate evidence. Windows ACLs were not compared."
+  },
+  "limitations": [
+    "17 required fact producers remain absent; the two registered observations still lack physical validation.",
+    "This semantic smoke is not an ordinary player route, style review or full-campaign PASS."
+  ],
+  "cleanup": "After the six-line exit-order correction, the same assertion exits 1 in 129.7791426 seconds without timeout. No assertions or route were changed."
+}

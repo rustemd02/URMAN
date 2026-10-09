@@ -1,0 +1,30 @@
+{
+  "reviewer": "/root",
+  "reviewed_utc": "2026-10-08T23:53:00Z",
+  "method": "Both original native PNGs inspected with view_image; no pixel editing.",
+  "job_id": "7316540fb0114b12a7d39c40c5909211",
+  "snapshot_id": "cce551b187b11d4e9b5cb372cfae956cd256777fd61df252e1ead97728beba67",
+  "file_sha256": {
+    "_capture-summary.json": "6ec059ccaa773abe2664b2bd0da596762bfbd992f2c6b69b97374b336a871666",
+    "babai_room_overview.json": "29a2cb8534d0f61cf7bf3864117578929ae6e07276029090ec76208a26abfbed",
+    "babai_room_overview.png": "08d5d443ca5b891e41f8304a2287d38f1dee73d1f1927aac2cf8307f6e23b9fa",
+    "babai_entry_door.json": "e0030f6ebd54385420d7c14bed11a909a0978839da15b8544818ba1949e950d6",
+    "babai_entry_door.png": "15a293ead0a095b8358eaffd7633b35fee1fbc6af00223068cfed618fdfb8e81"
+  },
+  "zone_binding": "Both sidecars requestedZoneId=activeZoneId=house_old_pc, actual atmosphere village-winter-frost, owner logical-zone/house_old_pc; FOV70 explicit. Native authored checkpoint-zone binding is verified.",
+  "verdict": "WHOLE_INTERIOR_STYLE_REJECTED",
+  "observations": [
+    "Room overview makes floral wallpaper, curtains, sofa, stove and table/computer readable; these objects alone do not satisfy full art requirements.",
+    "Floor/rug presents as repeated orange timber stripes; fabric/carpet material identity is weak.",
+    "Large dark stove and chunky trim dominate the near composition; character placement dominates table view.",
+    "Entry close image has a large blue cloth-like cylindrical form directly before the door. Owner and physical obstruction are not yet identified; image alone does not prove blocked capsule."
+  ],
+  "next_step": "ACT1-DEPTH.9 worker identifies actual blue object/material owners and chooses one bounded existing-owner interior improvement; no global grading or character redesign.",
+  "not_verified": [
+    "Ordinary player entry/exit/capsule clearance",
+    "Motion and fabric stability",
+    "All D14 content/coordinates",
+    "Author/human art acceptance"
+  ],
+  "task_closures": []
+}
