@@ -1,0 +1,431 @@
+{
+  "taskId": "PW-006",
+  "recordedAt": "2026-10-09",
+  "owner": "/root/address_mount",
+  "status": "native_verified_static_shared_geometry_photoworlds_handoff_pending",
+  "scope": "One bounded producer in the existing shared village/house zones: PhotoWorlds-specific entry/exit targets, Gulsina tea dialogue binding, and a neutral closed family-book presentation plus authored handoff target. No new world, scene, router, save owner, or safe-node registry.",
+  "route": {
+    "entrypoint": "res://scenes/full_game.tscn remains the ordinary one-zone Main; EnableAct1ConnectedWorld is not enabled.",
+    "entry": {
+      "physicalOwner": "StyleBenchmarkZone.BuildDayStreet / existing HouseDoor InteractionTarget",
+      "interactionId": "urman.fullgame:interaction/pw-home-enter-house",
+      "compiledWorldLocation": "village_day",
+      "target": "house_old_pc@entry",
+      "prerequisite": "urman.fullgame:beat/pw-b01-niva-arrival completed"
+    },
+    "tea": {
+      "physicalOwner": "StyleBenchmarkZone.BuildHouseOldPc / existing Gulsina InteractionTarget",
+      "interactionId": "urman.fullgame:interaction/pw-arrival-tea-talk",
+      "dialogueId": "urman.fullgame:dialogue/pw-arrival-tea",
+      "prerequisite": "urman.fullgame:beat/pw-b01-niva-arrival completed"
+    },
+    "book": {
+      "presentationOwner": "ArrivalPersonalProps.AddFamilyBook",
+      "interactionId": "urman.fullgame:interaction/pw-book-handoff",
+      "targetOwner": "existing InteractionTarget ray-only hitbox at the presented book",
+      "prerequisites": [
+        "urman.fullgame:beat/pw-b01-niva-arrival completed",
+        "urman.fullgame:beat/pw-b01-warm-arrival completed",
+        "photoworlds.book.received is false"
+      ],
+      "stateEffects": [
+        "existing photoworlds.book.receive reducer operation, giver urman.chapter1:character/gulsina",
+        "urman.fullgame:beat/pw-b02-family-book completed"
+      ],
+      "legacyBehavior": "The closed volume is presentation-only in the legacy home; the new target is instantiated only for PhotoWorlds. Existing legacy house interactions and zone routing retain their prior IDs."
+    },
+    "exit": {
+      "physicalOwner": "StyleBenchmarkZone.BuildHouseOldPc / existing HouseExit InteractionTarget",
+      "interactionId": "urman.fullgame:interaction/pw-home-exit-house",
+      "compiledWorldLocation": "house_old_pc",
+      "target": "village_day@from_house",
+      "narrativeEffect": "none"
+    }
+  },
+  "geometry": {
+    "source": "Existing HouseInterior_TableTop_LOD0 triangles, transformed into house-local coordinates",
+    "tableLocalAabbMeters": {
+      "min": [
+        -1.6,
+        0.75,
+        -3.275
+      ],
+      "max": [
+        1.6,
+        0.89,
+        -1.925
+      ]
+    },
+    "bookDimensionsMeters": [
+      0.22,
+      0.038,
+      0.285
+    ],
+    "bookFootprintXZ": {
+      "min": [
+        0.5695,
+        -2.2125
+      ],
+      "max": [
+        0.8545,
+        -1.9925
+      ],
+      "frontEdgeClearanceMeters": 0.0675
+    },
+    "bookAabbMeters": {
+      "min": [
+        0.5695,
+        0.895,
+        -2.2125
+      ],
+      "max": [
+        0.8545,
+        0.933,
+        -1.9925
+      ],
+      "interactionTargetCenter": [
+        0.712,
+        0.914,
+        -2.1025
+      ]
+    },
+    "candidateTableLocalCenterXZ": [
+      0.712,
+      -2.1025
+    ],
+    "sourceFaceAudit": {
+      "tableTopYAtFourYawedFootprintCornersAndCenterMeters": [
+        0.89,
+        0.89,
+        0.89,
+        0.89,
+        0.89
+      ],
+      "footprintSamplePointsXZ": [
+        [
+          0.5695,
+          -2.2125
+        ],
+        [
+          0.8545,
+          -2.2125
+        ],
+        [
+          0.5695,
+          -1.9925
+        ],
+        [
+          0.8545,
+          -1.9925
+        ],
+        [
+          0.712,
+          -2.1025
+        ]
+      ],
+      "method": "Decoded current generated GLB POSITION/index buffers for HouseInterior_TableTop_LOD0; applied authored node transform and existing rigid placement, yawed the portrait footprint by 90 degrees in house-local space, then intersected its four actual corners and center with tabletop triangles. Runtime repeats the checks against imported Godot triangles.",
+      "result": "All five samples lie on the same authored horizontal tabletop face at Y=0.89m. The book remains 0.220×0.285m portrait locally; its room-space footprint is 0.285×0.220m."
+    },
+    "clearanceBasis": "Book source AABB is X[0.5695,0.8545], Y[0.895,0.933], Z[-2.2125,-1.9925]. It sits 1mm above the existing tablecloth top (table Y=.89m, cloth offset=.004m) and leaves 67.5mm to the tabletop front boundary. Source-mesh AABB inventory checked both LODs and all visible modeled/procedural tabletop families; closest measured AABB clearances are PhotoPaper 63.439mm, Mouse 64.5mm, TableTray LOD1 66.868mm, then tabletop front edge 67.5mm. Runtime still rejects any visible-prop overlap; no exclusions were added.",
+    "preChangeReferenceFrame": {
+      "job": "1f7651002b4d4b05abb4a62dbad53339",
+      "snapshot": "9ed4c749dd9fc316275ef70e72161cad0e64e6794b7735f8d16fecf54c45cac2",
+      "path": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-rug-1f7651002b4d4b05abb4a62dbad53339/frames/babai_room_overview.png",
+      "sha256": "dbea37a48b8cb5f36fe106aa83f3fe16a6dc30c05457207aa6dcdd2cb760d0e1",
+      "limitation": "This is the original room/table area before book insertion; it establishes available surface only and is not visual acceptance of the new object or interaction."
+    },
+    "visualContract": "Neutral closed cloth-covered family literary volume with visible page block; no title or invented lettering. This is a simple presentation proxy, not the finished book asset, full contents, or pickup animation.",
+    "bookPlacementYawDegrees": 90,
+    "visiblePropInventory": {
+      "sourceAssetFamiliesBothLods": [
+        "HouseInterior_TableTop",
+        "HouseInterior_TableLegLeft",
+        "HouseInterior_TableLegRight",
+        "HouseInterior_TableBackLeft",
+        "HouseInterior_TableBackRight",
+        "HouseInterior_TableApron",
+        "HouseInterior_TableFootRail",
+        "HouseInterior_OldPcDocumentFolio",
+        "HouseInterior_OldPcCRT",
+        "HouseInterior_OldPcGlass",
+        "HouseInterior_OldPcKeyboard",
+        "HouseInterior_OldPcTower",
+        "HouseInterior_OldPcTowerPanel",
+        "HouseInterior_OldPcPowerButton",
+        "HouseInterior_OldPcDriveSlot",
+        "HouseInterior_OldPcLabelPlate",
+        "HouseInterior_TableTray",
+        "HouseInterior_TableKettle",
+        "HouseInterior_TableKettleLid",
+        "HouseInterior_TableBowl",
+        "HouseInterior_HutchBackboard",
+        "HouseInterior_HutchCleatLeft",
+        "HouseInterior_HutchCleatRight",
+        "HouseInterior_HutchShelf",
+        "HouseInterior_HutchTop",
+        "HouseInterior_HutchFolder"
+      ],
+      "proceduralFamilies": [
+        "TeaTablecloth",
+        "ArrivalPhotoAtHome/PhotoPaper+MaratChildhoodPhotograph",
+        "ArrivalPhone/Case+Screen+Speaker+Message+MessageLine",
+        "Mouse",
+        "DocumentStack+DocumentShadow+DocumentTopPage+DocumentRedMark",
+        "TeaCup+TeaSurface",
+        "UtilityCable",
+        "LampBase+LampStem+LampShade"
+      ],
+      "additionalPossibleVisibleActorBounds": [
+        "Rinat; conservative GLB bind/LOD bound X[1.647,3.553], Y[0.015,2.005], Z[-1.971,-1.401], giving at least 792.5mm X separation from the book. Mansur and Gulsina bounds are farther from this patch."
+      ],
+      "scanContract": "Current runtime guard scans every visible MeshInstance3D in the house and rejects AABB overlap; it continues to exclude only the supporting HouseInterior_TableTop_LOD0 and TeaTablecloth by design. Source-space inventory includes hidden LOD alternatives conservatively."
+    },
+    "measuredAabbClearancesMeters": [
+      {
+        "candidate": "ArrivalPhotoAtHome/PhotoPaper",
+        "minimum3dAabbDistance": 0.063439
+      },
+      {
+        "candidate": "Mouse",
+        "minimum3dAabbDistance": 0.0645
+      },
+      {
+        "candidate": "TableTray LOD1",
+        "minimum3dAabbDistance": 0.066868
+      },
+      {
+        "candidate": "HouseInterior_TableTop front edge",
+        "minimumPlanarEdgeDistance": 0.0675
+      },
+      {
+        "candidate": "OldPc_Keyboard_LOD0",
+        "minimumPlanarDistance": 0.3139,
+        "axisGaps": [
+          0.31075,
+          0.0445
+        ]
+      },
+      {
+        "candidate": "HouseInterior_OldPcDocumentFolio",
+        "minimumXGap": 1.3405
+      },
+      {
+        "candidate": "TableKettle",
+        "minimumPlanarDistance": 0.2633
+      },
+      {
+        "candidate": "TableKettleLid",
+        "minimumPlanarDistance": 0.3755
+      },
+      {
+        "candidate": "TableBowl",
+        "minimumPlanarDistance": 0.4603
+      },
+      {
+        "candidate": "ArrivalPhone/Case",
+        "minimumXGap": 0.4455
+      },
+      {
+        "candidate": "DocumentStack",
+        "minimumXGap": 1.4395
+      },
+      {
+        "candidate": "DocumentShadow",
+        "minimumXGap": 1.4095
+      },
+      {
+        "candidate": "DocumentTopPage",
+        "minimumXGap": 1.3855
+      },
+      {
+        "candidate": "DocumentRedMark",
+        "minimumXGap": 1.4595
+      }
+    ],
+    "interactionTargetVolumes": {
+      "book": {
+        "center": [
+          0.712,
+          0.914,
+          -2.1025
+        ],
+        "size": [
+          0.3,
+          0.08,
+          0.24
+        ],
+        "aabbMin": [
+          0.562,
+          0.874,
+          -2.2225
+        ],
+        "aabbMax": [
+          0.862,
+          0.954,
+          -1.9825
+        ],
+        "coverageMarginsMeters": {
+          "X_eachSide": 0.0075,
+          "Z_eachSide": 0.01,
+          "Y_eachSide": 0.021
+        }
+      },
+      "photoWorldsArrivalPhoto": {
+        "center": [
+          1.03,
+          0.956,
+          -2.165
+        ],
+        "size": [
+          0.24,
+          0.14,
+          0.28
+        ],
+        "aabbMin": [
+          0.91,
+          0.886,
+          -2.305
+        ],
+        "aabbMax": [
+          1.15,
+          1.026,
+          -2.025
+        ],
+        "separationFromBookTargetX": 0.048,
+        "coversPhotoPaperAabb": [
+          0.224,
+          0.255
+        ]
+      },
+      "legacyArrivalPhoto": {
+        "size": [
+          0.38,
+          0.24,
+          0.32
+        ],
+        "behavior": "unchanged outside PhotoWorlds campaign"
+      },
+      "otherInteractions": "Existing phone and reply target IDs, conditions, rayOnly values and centers are unchanged. PhotoWorlds book remains a separate ray-only handoff target; no target IDs or availability contracts changed."
+    },
+    "placementHistory": [
+      {
+        "centerXZ": [
+          -0.35,
+          -2.12
+        ],
+        "yawDegrees": 0,
+        "status": "NATIVE_FAIL",
+        "job": "dcfb7e2a1a3940a79bba4cf8501fb674",
+        "failure": "Strict runtime AABB guard detected intersection with OldPc_Keyboard_LOD0 before frame capture; zero PNGs; failure receipt omitted userdata_restored, so no restoration claim."
+      },
+      {
+        "centerXZ": [
+          1.1,
+          -2.78
+        ],
+        "yawDegrees": 0,
+        "status": "REJECTED_SOURCE_AUDIT",
+        "failure": "Incomplete trial patch intersected the visible TableTray; not a valid or captured placement."
+      },
+      {
+        "centerXZ": [
+          0.712,
+          -2.1025
+        ],
+        "yawDegrees": 90,
+        "status": "CURRENT_SOURCE_CANDIDATE",
+        "failure": "Not yet run natively. Source triangle support, full visible-prop scan, and exact interaction-volume geometry remain enabled."
+      }
+    ]
+  },
+  "assetConsumersAndOpenGates": {
+    "A-BOOK": {
+      "title": "Семейный том Тукая с вклейками",
+      "productionStatus": "REQUESTED",
+      "runtimeStatus": "NOT_RUN",
+      "rightsStatus": "REQUIRES_PROVENANCE",
+      "plannedRuntimeRoot": "res://assets/photoworlds/book/",
+      "currentConsumer": "None. ArrivalPersonalProps.AddFamilyBook builds a temporary static procedural presentation proxy and does not load the A-BOOK asset.",
+      "requirements": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json#A-BOOK: authored Blender source, GLB, albedo/roughness/page atlas, eight open/close/turn/mount/inspect/flip/rest/return poses, shared 3D/UI photo-page state, scale and language-checked typesetting."
+    },
+    "relatedOpenRequirements": [
+      "A-BOOK-HANDS: no near-camera hand/seasonal sleeve rig or book grip is provided by this slice.",
+      "A-BOOK-UI: no six authored spread layouts, transcription, accessibility-size, or 720p/controller review is provided by this slice.",
+      "A-BOOK-ICONS: no authored book navigation icon family is provided by this slice.",
+      "PW-041/language review: no title or literary/photo-page lettering is authored; cover text remains intentionally absent pending review."
+    ],
+    "existingProceduralBookCode": "Act1ConnectedWorld.MosqueBooks builds closed blank shelf-book geometry but owns Mosque content presentation; this home helper does not reuse it or assign a religious label to the family book."
+  },
+  "interactionFeedbackBoundary": {
+    "availability": "The compiled handoff requires Niva arrival, warm arrival and book-not-yet-received. The negated not-received condition removes the ray target after the existing reducer commits, so it is not repeatable.",
+    "currentResultFeedback": "Authored prerequisite availability plus removal of the one-shot interaction after book.received and the B02 state form the bounded feedback in this slice. No new story prose is invented. Actual first-person interaction and its visible success presentation remain NOT_RUN/open."
+  },
+  "nativeCapturePlan": {
+    "scene": "res://scenes/full_game.tscn",
+    "zone": "house_old_pc",
+    "physicalRoute": "Use the actual full-game HouseDoor interaction after the authored Niva beat exists; Main currently spawns the player at house_old_pc@entry at local (0, 0.05, 3.8), yaw 0, facing -Z.",
+    "cameraOwner": "/root/FullGameMain/Player/Head/Camera3D",
+    "cameraContract": "Actual FirstPersonController camera, FOV 75, existing InteractionRay reach 2.7m; walk to the table with ordinary controls and aim first at the book handoff volume center (0.712,0.914,-2.1025), then inspect the nearby photo target center (1.03,0.956,-2.165). The PhotoWorlds ray boxes are separated by 48mm in X. Capture prompt-visible approach and post-handoff state from this same player camera.",
+    "limit": "The required physical Niva/prologue producer is not implemented, so the current ordinary story route cannot yet reach the gated house entry. Do not seed B01, teleport the player, or label a direct zone jump as route acceptance. A geometry-only image from the Act I demo is not a substitute for this full-game player-camera check."
+  },
+  "verification": {
+    "sourceReview": "PASS: shared zone owner, compiled interaction conditions/effects, existing dialogue, actual table geometry and available area inspected.",
+    "jsonParse": "PASS: python3 -m json.tool parsed definitions.json and this evidence file.",
+    "diffCheck": "PASS: git diff --check after the yaw-aware placement/target edit.",
+    "narrowGameCompile": {
+      "command": ". eng/dotnet-env.sh && .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers -nodeReuse:false -m:1 --verbosity minimal",
+      "result": "PASS",
+      "warnings": 0,
+      "errors": 0,
+      "elapsedSeconds": 13.19,
+      "followupReason": "Recompiled after moving the book into the fully inventoried free patch, accounting for the 90° yaw in table support sampling and runtime overlap bounds, and separating the PhotoWorlds photo/book ray-only target boxes."
+    },
+    "fullGameContentCompile": {
+      "command": ". eng/dotnet-env.sh; tools-dotnet/Urman.ContentCli/bin/Debug/net10.0/Urman.ContentCli compile --root $PWD --campaign urman.fullgame --out game/content/urman.fullgame.compiled.v1.json",
+      "exitCode": 0,
+      "compiledPackSha256": "34901b60910bf6c8703547be3a883a424fb278331fa56d314852c212d5b1c31b",
+      "campaignFingerprint": "08a59e82c672d3f14b308bf8b45932a15637f945bcb89d9bd67518e0969d61f3",
+      "campaignId": "urman.fullgame",
+      "exactVersion": "1.0.0",
+      "photoWorldNamespace": "photoworlds-v1",
+      "compiledInteractions": [
+        "urman.fullgame:interaction/pw-home-enter-house",
+        "urman.fullgame:interaction/pw-home-exit-house",
+        "urman.fullgame:interaction/pw-arrival-tea-talk",
+        "urman.fullgame:interaction/pw-book-handoff"
+      ]
+    },
+    "postChangeNativeCapture": "PENDING: current yawed placement and revised PhotoWorlds interaction target sizes are not in a protected native snapshot. Prior job dcfb7e2a1a3940a79bba4cf8501fb674 is retained as a failure for the earlier keyboard-overlapping placement.",
+    "humanInteractionAndArtAcceptance": "NOT_RUN",
+    "tableOwnerResolution": "PASS: BuildHouseOldPc calls ArrivalPersonalProps.Build before GeneratedOldPcAct1 is attached; AddFamilyBook runs after it and resolves exactly one HouseInterior_TableTop_LOD0 under GeneratedHouseInteriorAct1. The strict five-point triangle-support and full visible-prop AABB guards remain enabled.",
+    "nativeSharedGeometry": {
+      "jobId": "44a8bd796c764c7ca31548554b55c2ac",
+      "snapshotId": "9ad24050a5b51a5f56ba9a729ea6a5bfef5b018454bb25183e6bd72fca2d06a4",
+      "result": "PASS",
+      "rootViewedOriginalBookFrame": true,
+      "staticPlacementAccepted": true,
+      "actualProfile": "low / .7 / village-winter-frost / FOV70",
+      "userdataRestored": true,
+      "doctor": "READY",
+      "rootReview": "evidence/ACT1-DEPTH.9/native_house_44a8bd796c764c7ca31548554b55c2ac/root-review.json",
+      "limits": "Legacy act1_demo static geometry only; no fullgame ray interaction/handoff/persistence or A-BOOK readiness."
+    }
+  },
+  "remainingBoundaries": [
+    "The authored B01 Niva/prologue beat is not physically produced by this slice; until its upstream producer exists, the full-game home entry target stays correctly unavailable.",
+    "No PW-009 logical anchor/safe-node binding or visit.prepare/return transaction is claimed.",
+    "The presentation does not claim the completed 48-asset literary book, text/rights review, or final art acceptance.",
+    "PW-006 remains open for its remaining task clauses; this producer does not close PW-007, PW-009, the physical campaign, or ordinary play acceptance."
+  ],
+  "sourceSha256": {
+    "game/scripts/StyleBenchmarkZone.cs": "6e8afeff88775757325dbfc4dd45dfbde57294643c3621e750cb413089b275f7",
+    "game/scripts/InteractionTarget.cs": "36191b49bb8b730089f19f82de4b5cd6587177f07bd70861457fe931199b6aae",
+    "game/scripts/ArrivalPersonalProps.cs": "46f56dd93184999f0ed24b3cbdc729cb53353a69607ab5cd4b75fecfd6de89f6",
+    "content/modules/urman-fullgame/definitions.json": "57df0b1964c08ad20d8057c88dd9b9748d69c1e4abeafa37f8d1c356ab4e3da5",
+    "docs/urman_knowledge_base/technical_architecture.md": "dada656231bc44ebed8f4c257f70126b27a6f6b7aad2c8313c5ee1868fb3678e"
+  },
+  "compiledArtifacts": {
+    "game/content/urman.fullgame.compiled.v1.json": "34901b60910bf6c8703547be3a883a424fb278331fa56d314852c212d5b1c31b",
+    "campaignFingerprint": "08a59e82c672d3f14b308bf8b45932a15637f945bcb89d9bd67518e0969d61f3"
+  }
+}

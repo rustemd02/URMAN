@@ -1,0 +1,9 @@
+{
+  "job_id": "dcfb7e2a1a3940a79bba4cf8501fb674",
+  "mode": "capture",
+  "scene": "res://scenes/act1_demo.tscn",
+  "timeout": 300,
+  "headless": false,
+  "fov": "70",
+  "points": "babai_room_overview:BabaiApproachDwellingFacade@-1.162,1.846,-0.484>BabaiApproachDwellingFacade@1.658,1.546,-4.934;babai_rug_detail:BabaiApproachDwellingFacade@1.258,1.896,-0.034>BabaiApproachDwellingFacade@1.258,0.276,-2.134;babai_book_detail:FamilyTukayBookPresentation@0,0.55,0.7>FamilyTukayBookPresentation@0,0,0"
+}

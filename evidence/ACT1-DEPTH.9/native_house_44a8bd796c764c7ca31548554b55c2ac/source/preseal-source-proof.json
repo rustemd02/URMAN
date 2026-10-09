@@ -1,0 +1,203 @@
+{
+  "job_id": "44a8bd796c764c7ca31548554b55c2ac",
+  "snapshot_id": "9ad24050a5b51a5f56ba9a729ea6a5bfef5b018454bb25183e6bd72fca2d06a4",
+  "base_commit": "1b9d56a14f10febfa25aca44b42d2025e2e0215b",
+  "manifest_file_count": 1825,
+  "dirty_path_count": 64,
+  "dirty_paths": [
+    " M assets/asset_registry.json",
+    " M assets/source/blender/act1/urman_village_exterior_kit.blend",
+    " M assets/source/blender/act1/urman_village_exterior_kit.py",
+    " M content/modules/urman-fullgame/definitions.json",
+    " M docs/production/act1_fence_kit_2026-10-04.md",
+    " M docs/urman_knowledge_base/execution_backlog.json",
+    " M docs/urman_knowledge_base/technical_architecture.md",
+    " M game/assets/models/act1/urman_village_exterior_kit.glb",
+    " M game/content/urman.fullgame.compiled.v1.json",
+    " M game/content/world/act1_village_kit.world.v1.json",
+    " M game/content/world/visual_checkpoints.v1.json",
+    " M game/scripts/Act1ConnectedWorld.YardFences.cs",
+    " M game/scripts/Act1ConnectedWorld.cs",
+    " M game/scripts/Act1DemoRoot.DevViewCapture.cs",
+    " M game/scripts/ArrivalPersonalProps.cs",
+    " M game/scripts/GeneratedModularKitDressing.cs",
+    " M game/scripts/InteractionTarget.cs",
+    " M game/scripts/StyleBenchmarkZone.cs",
+    "?? evidence/ACT1-DEPTH.9/corner-log-material-export-2026-10-09.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/.gitattributes",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/README.md",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/archive-hashes.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/frame-summary.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/preseal-capture-request.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/receipt.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/request.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/result-zip.sha256",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/root-review.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source-proof.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/local-evidence-excluded/asset_registry_selected_rows.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/local-evidence-excluded/assets/asset_registry.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/local-evidence-excluded/assets/source/blender/act1/urman_village_exterior_kit.blend",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/local-evidence-excluded/assets/source/blender/act1/urman_village_exterior_kit.py",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/local-evidence-excluded/assets/source/blender/urman_modular_kit.blend",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/local-evidence-excluded/evidence/ACT1-DEPTH.9/corner-log-material-export-2026-10-09.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/local-evidence-excluded/evidence/ACT1-DEPTH.9/rug-neutral-tint-2026-10-09.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/local-evidence-excluded/evidence/PW-006/home_book_adapter.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/local-evidence-excluded/evidence/PW-006/receipt.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/local-evidence-excluded/tools/blender/generate_modular_environment.py",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/preseal-source-proof.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/snapshot-manifest.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/content/modules/urman-fullgame/definitions.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/assets/generated/urman_modular_kit.glb",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/assets/models/act1/urman_village_exterior_kit.glb",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/assets/textures/painterly/carpet_palas_v1_albedo.png",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/content/urman.fullgame.compiled.v1.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/content/world/act1_village_kit.world.v1.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/content/world/visual_checkpoints.v1.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/project.godot",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/scripts/Act1ConnectedWorld.YardFences.cs",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/scripts/Act1ConnectedWorld.cs",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/scripts/Act1DemoRoot.DevViewCapture.cs",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/scripts/Act1DemoRoot.cs",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/scripts/ArrivalPersonalProps.cs",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/scripts/GeneratedModularKitDressing.cs",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/scripts/InteractionTarget.cs",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/scripts/PainterlyMaterialLibrary.cs",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/scripts/StyleBenchmarkInteriorFactory.cs",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/source/station-selected/game/scripts/StyleBenchmarkZone.cs",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/station-doctor-after.json",
+    "?? evidence/ACT1-DEPTH.9/native_rug_tint_dcfb7e2a1a3940a79bba4cf8501fb674/station-doctor-before.json",
+    "?? evidence/ACT1-DEPTH.9/rug-neutral-tint-2026-10-09.json",
+    "?? evidence/PW-006/home_book_adapter.json"
+  ],
+  "snapshot_manifest_sha256": "938ad90942ff0f70cbbba4f5f96caaed973c866491fc1a7243a8d6cfffe9e51e",
+  "receipt_source_manifest_matches_preseal": true,
+  "station_selected_sources": {
+    "game/project.godot": {
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4",
+      "archive_path": "station-selected/game/project.godot"
+    },
+    "game/scenes/act1_demo.tscn": {
+      "bytes": 189,
+      "sha256": "0c00cb3d6a7078ea75b9a003e7efd8d2bb8a0528fd28f737ecc66cb59ae81fa6",
+      "archive_path": "station-selected/game/scenes/act1_demo.tscn"
+    },
+    "game/scenes/main.tscn": {
+      "bytes": 1914,
+      "sha256": "1efadb8d7db53dd99735b6780e846654e59c3f330d10d1bc328b8ddbefcbbc5b",
+      "archive_path": "station-selected/game/scenes/main.tscn"
+    },
+    "game/content/world/visual_checkpoints.v1.json": {
+      "bytes": 16298,
+      "sha256": "5dcb7f09996d2ceaa835c761246adff6182a608f65100b49058f6f0a88d18fb8",
+      "archive_path": "station-selected/game/content/world/visual_checkpoints.v1.json"
+    },
+    "game/content/world/act1_village_kit.world.v1.json": {
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d",
+      "archive_path": "station-selected/game/content/world/act1_village_kit.world.v1.json"
+    },
+    "game/content/world/atmosphere.v1.json": {
+      "bytes": 13795,
+      "sha256": "026ed905882dd738f45c40082bd69f73dab2939fb9b16168953befc7c19a154d",
+      "archive_path": "station-selected/game/content/world/atmosphere.v1.json"
+    },
+    "game/content/urman.fullgame.compiled.v1.json": {
+      "bytes": 2124670,
+      "sha256": "34901b60910bf6c8703547be3a883a424fb278331fa56d314852c212d5b1c31b",
+      "archive_path": "station-selected/game/content/urman.fullgame.compiled.v1.json"
+    },
+    "content/modules/urman-fullgame/definitions.json": {
+      "bytes": 162091,
+      "sha256": "57df0b1964c08ad20d8057c88dd9b9748d69c1e4abeafa37f8d1c356ab4e3da5",
+      "archive_path": "station-selected/content/modules/urman-fullgame/definitions.json"
+    },
+    "game/scripts/Act1DemoRoot.cs": {
+      "bytes": 96068,
+      "sha256": "3403c196273291ef4d4825687a134a08451154eb1db5f5fa88660c44a13d3349",
+      "archive_path": "station-selected/game/scripts/Act1DemoRoot.cs"
+    },
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs": {
+      "bytes": 55489,
+      "sha256": "8404d682adfa12bdd554778dc81e0fafea40997ae8300ad5cc66f29badfb12f0",
+      "archive_path": "station-selected/game/scripts/Act1DemoRoot.DevViewCapture.cs"
+    },
+    "game/scripts/Main.cs": {
+      "bytes": 13569,
+      "sha256": "4a086ebdfbb8655dd606a40076e6fe938d8f620c5a32c25908ad4977b1d36985",
+      "archive_path": "station-selected/game/scripts/Main.cs"
+    },
+    "game/scripts/RuntimeBridge.cs": {
+      "bytes": 93070,
+      "sha256": "dfcc8bc046ee9de25b2c4b8adbc92df0c30020154b300bb2f177f5e7f3636c90",
+      "archive_path": "station-selected/game/scripts/RuntimeBridge.cs"
+    },
+    "game/scripts/Act1ConnectedWorld.cs": {
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f",
+      "archive_path": "station-selected/game/scripts/Act1ConnectedWorld.cs"
+    },
+    "game/scripts/Act1ConnectedWorld.YardFences.cs": {
+      "bytes": 47416,
+      "sha256": "641337026a86b4d65c4c377b04ef42a9eeb2a2dc59f20278f64950fb1af77a8a",
+      "archive_path": "station-selected/game/scripts/Act1ConnectedWorld.YardFences.cs"
+    },
+    "game/scripts/ArrivalPersonalProps.cs": {
+      "bytes": 11224,
+      "sha256": "46f56dd93184999f0ed24b3cbdc729cb53353a69607ab5cd4b75fecfd6de89f6",
+      "archive_path": "station-selected/game/scripts/ArrivalPersonalProps.cs"
+    },
+    "game/scripts/StyleBenchmarkZone.cs": {
+      "bytes": 109203,
+      "sha256": "6e8afeff88775757325dbfc4dd45dfbde57294643c3621e750cb413089b275f7",
+      "archive_path": "station-selected/game/scripts/StyleBenchmarkZone.cs"
+    },
+    "game/scripts/StyleBenchmarkInteriorFactory.cs": {
+      "bytes": 25969,
+      "sha256": "e3ec8a1ed9913e2b1a2213e0765e5c300c8b3a56dcd7a9bb5ef0b5229ff46f60",
+      "archive_path": "station-selected/game/scripts/StyleBenchmarkInteriorFactory.cs"
+    },
+    "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs": {
+      "bytes": 37854,
+      "sha256": "ffbfdabb9a97e7045fdb8033de485f4ebdfa2d6f3ddf70f67653457e8da544bd",
+      "archive_path": "station-selected/game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs"
+    },
+    "game/scripts/GeneratedModularKitDressing.cs": {
+      "bytes": 28405,
+      "sha256": "cc47f7711a4fe6c95d38d19f8ae6d5a14f238e16645f13a21c8f36d01e0b067a",
+      "archive_path": "station-selected/game/scripts/GeneratedModularKitDressing.cs"
+    },
+    "game/scripts/InteractionTarget.cs": {
+      "bytes": 10025,
+      "sha256": "36191b49bb8b730089f19f82de4b5cd6587177f07bd70861457fe931199b6aae",
+      "archive_path": "station-selected/game/scripts/InteractionTarget.cs"
+    },
+    "game/scripts/PainterlyMaterialLibrary.cs": {
+      "bytes": 122389,
+      "sha256": "a355f1ed9b6c2317febf1efbbdb9f6fcf387c83190cf143dd5e550487c6379a0",
+      "archive_path": "station-selected/game/scripts/PainterlyMaterialLibrary.cs"
+    },
+    "game/assets/models/act1/urman_village_exterior_kit.glb": {
+      "bytes": 3096172,
+      "sha256": "67d78ca38372f01a93dab795bb5410d4bf79db153387a2b7bbd848f5000346fc",
+      "archive_path": "station-selected/game/assets/models/act1/urman_village_exterior_kit.glb"
+    },
+    "game/assets/generated/urman_modular_kit.glb": {
+      "bytes": 1393776,
+      "sha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0",
+      "archive_path": "station-selected/game/assets/generated/urman_modular_kit.glb"
+    },
+    "game/assets/textures/painterly/carpet_palas_v1_albedo.png": {
+      "bytes": 1665618,
+      "sha256": "d9d48b174b6c8e02bf618cae40ae7248b9562bbb42d7ce7ef471c06b0a55721a",
+      "archive_path": "station-selected/game/assets/textures/painterly/carpet_palas_v1_albedo.png"
+    },
+    "game/assets/images/arrival_marat_childhood_existing_v1.png": {
+      "bytes": 1411356,
+      "sha256": "c4647904f1aad0ea492858547e3f3493c9356c6ef87270d34d244f4fb882ac20",
+      "archive_path": "station-selected/game/assets/images/arrival_marat_childhood_existing_v1.png"
+    }
+  },
+  "scope": "runtime source/asset files covered by the station snapshot; local authoring material is separately marked excluded"
+}

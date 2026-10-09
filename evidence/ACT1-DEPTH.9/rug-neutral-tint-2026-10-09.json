@@ -1,0 +1,61 @@
+{
+  "taskId": "ACT1-DEPTH.9",
+  "slice": "hero RugField pigment multiplier only",
+  "status": "native_verified_bounded_palette_readability_whole_textile_open",
+  "rootRejectedCause": "Native496c full authored UV/pattern accepted, but brown714939 multiplied woven burgundy/cream down and made the field resemble wood. Existing image itself carries the intended textile colors.",
+  "change": {
+    "fieldTintBefore": "714939",
+    "fieldTintCandidate": "a49b8c",
+    "unchanged": [
+      "existing palas image",
+      "band A/B tints",
+      "all other carpet consumers",
+      "geometry/UV/contacts",
+      "lighting/atmosphere",
+      "PML and shader formula"
+    ]
+  },
+  "verification": {
+    "inspection": "PASS existing single palette entry route",
+    "diffCheck": "PASS",
+    "native": {
+      "job": "44a8bd796c764c7ca31548554b55c2ac",
+      "snapshotId": "9ad24050a5b51a5f56ba9a729ea6a5bfef5b018454bb25183e6bd72fca2d06a4",
+      "result": "PASS",
+      "originalsViewedByRoot": true,
+      "boundedResult": "BOUNDED_RUG_PIGMENT_READABILITY_AND_BOOK_STATIC_PLACEMENT_ACCEPTED_WHOLE_STYLE_OPEN",
+      "actualGraphicsPreset": "low",
+      "scale": 0.7,
+      "userdataRestored": true,
+      "doctor": "READY",
+      "rootReview": "evidence/ACT1-DEPTH.9/native_house_44a8bd796c764c7ca31548554b55c2ac/root-review.json"
+    },
+    "affectedModuleCompile": "PASS 0 warnings/0 errors; 11.95s, 2026-10-09; includes new corner readback not present in failed native snapshot",
+    "failedPriorNative": {
+      "job": "dcfb7e2a1a3940a79bba4cf8501fb674",
+      "status": "FAIL",
+      "build": "PASS",
+      "content": "PASS",
+      "import": "PASS",
+      "gameExitCode": 1,
+      "pngCount": 0,
+      "sidecarCount": 0,
+      "cause": "Family book AABB overlaps OldPc_Keyboard_LOD0; strict home construction aborted before capture. No visual verdict for the tint.",
+      "postRunDoctor": "READY",
+      "userdataRestored": "not present in failure receipt; no restoration claim"
+    }
+  },
+  "plannedNativePoints": [
+    "babai_room_overview",
+    "babai_rug_detail"
+  ],
+  "sourceHashes": {
+    "game/scripts/GeneratedModularKitDressing.cs": "cc47f7711a4fe6c95d38d19f8ae6d5a14f238e16645f13a21c8f36d01e0b067a",
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs": "8404d682adfa12bdd554778dc81e0fafea40997ae8300ad5cc66f29badfb12f0"
+  },
+  "limits": [
+    "Candidate color is not accepted until originals are reviewed.",
+    "Whole textile/interior/card criteria and human/reference/ordinary movement gates remain open."
+  ],
+  "sourceHashBoundary": "These are exact tested sealed sources; later High/Low capture feature is not part of this native snapshot."
+}

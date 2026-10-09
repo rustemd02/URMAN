@@ -1,0 +1,4466 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.world-plot",
+  "id": "urman.world:act1/kit",
+  "name": "Деревня Акта I: дома, участки, заборы, дороги, опушка",
+  "executor": "kit-takeover",
+  "note": "Постановки компонентов наборов, которые раньше задавал код сборки деревни. Теперь их положение, поворот, масштаб и видимость принадлежат этому файлу (URMAN Studio, WORLD15); код остаётся генератором-предложением. Сверено со сборкой 2026-09-27: 205 постановок.",
+  "entities": [
+    {
+      "id": "urman.world:act1/kit/village-house-arrivalreverseedgehousewest",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант A бревенчатый фронтон жилой дом · ArrivalReverseEdgeHouseWest",
+      "params": {
+        "logicalAnchor": "village-house@ArrivalReverseEdgeHouseWest",
+        "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -7.8,
+          0,
+          58.5
+        ],
+        "yawDegrees": 180,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "groundingReferenceXZ": [
+          -7.8,
+          52
+        ],
+        "retired": true
+      },
+      "note": "29.09: authored overlap remediation; H001 inside ArrivalFarWestFacade; next plot north"
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-arrivalreverseedgehouseeast",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант B оштукатуренный пристройка жилой дом · ArrivalReverseEdgeHouseEast",
+      "params": {
+        "logicalAnchor": "village-house@ArrivalReverseEdgeHouseEast",
+        "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          7.9,
+          0,
+          52.8
+        ],
+        "yawDegrees": 184,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-arrivalreversefarcenterhouse",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант A бревенчатый фронтон жилой дом · ArrivalReverseFarCenterHouse",
+      "params": {
+        "logicalAnchor": "village-house@ArrivalReverseFarCenterHouse",
+        "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -21,
+          0,
+          61
+        ],
+        "yawDegrees": 110,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-arrivalreversefareasthouse",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант B оштукатуренный пристройка жилой дом · ArrivalReverseFarEastHouse",
+      "params": {
+        "logicalAnchor": "village-house@ArrivalReverseFarEastHouse",
+        "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          18.5,
+          0,
+          54.0
+        ],
+        "yawDegrees": 176,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "groundingReferenceXZ": [
+          14,
+          54
+        ],
+        "retired": true
+      },
+      "note": "29.09: authored overlap remediation; H005 inside ArrivalReverseEdgeHouseEast; next plot east"
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-mainstreeteastlateralhouse",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант B оштукатуренный пристройка жилой дом · MainStreetEastLateralHouse",
+      "params": {
+        "logicalAnchor": "village-house@MainStreetEastLateralHouse",
+        "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          36,
+          0,
+          -4
+        ],
+        "yawDegrees": -92,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-eaststreetfarholding",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант C баня двор жилой дом · EastStreetFarHolding",
+      "params": {
+        "logicalAnchor": "village-house@EastStreetFarHolding",
+        "component": "VillageParcel_VariantC_BanyaYard_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          35.4,
+          1,
+          -16.9
+        ],
+        "yawDegrees": 2,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-street-far-holding-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · EastStreetFarHoldingShed",
+      "params": {
+        "logicalAnchor": "village_day@east-street-far-holding-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          43.8,
+          0,
+          -20.5
+        ],
+        "yawDegrees": 12,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-street-far-holding-firewood",
+      "kind": "kit-placement",
+      "name": "Дровница сложенные брёвна · EastStreetFarHoldingWoodpile",
+      "params": {
+        "logicalAnchor": "village_day@east-street-far-holding-firewood",
+        "component": "Woodpile_StackedLogs",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          34.9,
+          0,
+          -14.4
+        ],
+        "yawDegrees": 8,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-mainstreeteastnearmidhouse",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант B оштукатуренный пристройка жилой дом · MainStreetEastNearMidHouse",
+      "params": {
+        "logicalAnchor": "village-house@MainStreetEastNearMidHouse",
+        "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          26,
+          1,
+          -8.5
+        ],
+        "yawDegrees": -94,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-babaiwestfieldneighborhouse",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант A бревенчатый фронтон жилой дом · BabaiWestFieldNeighborHouse",
+      "params": {
+        "logicalAnchor": "village-house@BabaiWestFieldNeighborHouse",
+        "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -40,
+          0,
+          5.5
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-babaireversefieldneighborhouse",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант A бревенчатый фронтон жилой дом · BabaiReverseFieldNeighborHouse",
+      "params": {
+        "logicalAnchor": "village-house@BabaiReverseFieldNeighborHouse",
+        "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          12,
+          0,
+          41
+        ],
+        "yawDegrees": 270,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-fapwestfieldneighborhouse",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант A бревенчатый фронтон жилой дом · FapWestFieldNeighborHouse",
+      "params": {
+        "logicalAnchor": "village-house@FapWestFieldNeighborHouse",
+        "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          42,
+          0,
+          -40
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-fapoppositefieldneighborhouse",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант A бревенчатый фронтон жилой дом · FapOppositeFieldNeighborHouse",
+      "params": {
+        "logicalAnchor": "village-house@FapOppositeFieldNeighborHouse",
+        "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          12,
+          0,
+          -38
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-ziratwestlateralhouse",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант A бревенчатый фронтон жилой дом · ZiratWestLateralHouse",
+      "params": {
+        "logicalAnchor": "village-house@ZiratWestLateralHouse",
+        "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -28,
+          0,
+          -64
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-zirateastlateralhouse",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант B оштукатуренный пристройка жилой дом · ZiratEastLateralHouse",
+      "params": {
+        "logicalAnchor": "village-house@ZiratEastLateralHouse",
+        "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          28,
+          0,
+          -68
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-last-western-holding-storage",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · ZiratWestHoldingShed",
+      "params": {
+        "logicalAnchor": "zirat_road@last-western-holding-storage",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -33,
+          0,
+          -57
+        ],
+        "yawDegrees": 180,
+        "scale": [
+          0.95,
+          0.95,
+          0.95
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-last-western-holding-firewood",
+      "kind": "kit-placement",
+      "name": "Дровница сложенные брёвна · ZiratWestHoldingWoodpile",
+      "params": {
+        "logicalAnchor": "zirat_road@last-western-holding-firewood",
+        "component": "Woodpile_StackedLogs",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -29,
+          0,
+          -56.5
+        ],
+        "yawDegrees": 180,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-zirateastnearmidhouse",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант B оштукатуренный пристройка жилой дом · ZiratEastNearMidHouse",
+      "params": {
+        "logicalAnchor": "village-house@ZiratEastNearMidHouse",
+        "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          23,
+          1,
+          -59
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-road-crown",
+      "kind": "kit-placement",
+      "name": "Дорога полотно просевшее мокрое · WetVillageRoadArrivalCrown",
+      "params": {
+        "logicalAnchor": "village_day@arrival-road-crown",
+        "component": "RoadCrown_SunkenWet",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          0,
+          0.035,
+          14
+        ],
+        "yawDegrees": 180,
+        "scale": [
+          0.84,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-ruts-near",
+      "kind": "kit-placement",
+      "name": "Дорога колея лужа ближняя · WetVillageRoadArrivalRutsNear",
+      "params": {
+        "logicalAnchor": "village_day@arrival-ruts-near",
+        "component": "RoadRuts_PuddleNear",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -0.45,
+          0.035,
+          17.6
+        ],
+        "yawDegrees": 178,
+        "scale": [
+          0.9,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-ruts-far",
+      "kind": "kit-placement",
+      "name": "Дорога колея лужа дальняя · WetVillageRoadArrivalRutsFar",
+      "params": {
+        "logicalAnchor": "village_day@arrival-ruts-far",
+        "component": "RoadRuts_PuddleFar",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          0.35,
+          0.035,
+          10
+        ],
+        "yawDegrees": 182,
+        "scale": [
+          0.9,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-shoulder-left",
+      "kind": "kit-placement",
+      "name": "Грязная обочина слева · WetVillageRoadArrivalShoulderLeft",
+      "params": {
+        "logicalAnchor": "village_day@arrival-shoulder-left",
+        "component": "MuddyShoulder_Left",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -2.62,
+          0.035,
+          14
+        ],
+        "yawDegrees": 180,
+        "scale": [
+          0.86,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-shoulder-right",
+      "kind": "kit-placement",
+      "name": "Грязная обочина справа · WetVillageRoadArrivalShoulderRight",
+      "params": {
+        "logicalAnchor": "village_day@arrival-shoulder-right",
+        "component": "MuddyShoulder_Right",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          2.62,
+          0.035,
+          14
+        ],
+        "yawDegrees": 180,
+        "scale": [
+          0.86,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-ditch-left",
+      "kind": "kit-placement",
+      "name": "Придорожная канава слева · WetVillageRoadArrivalDitchLeft",
+      "params": {
+        "logicalAnchor": "village_day@arrival-ditch-left",
+        "component": "RoadsideDitch_Left",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -4.12,
+          0.035,
+          14
+        ],
+        "yawDegrees": 180,
+        "scale": [
+          0.78,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-ditch-right",
+      "kind": "kit-placement",
+      "name": "Придорожная канава справа · WetVillageRoadArrivalDitchRight",
+      "params": {
+        "logicalAnchor": "village_day@arrival-ditch-right",
+        "component": "RoadsideDitch_Right",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          4.12,
+          0.035,
+          14
+        ],
+        "yawDegrees": 180,
+        "scale": [
+          0.78,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-sparse-sedge-left",
+      "kind": "kit-placement",
+      "name": "Трава осока массив слева · WetVillageRoadArrivalSedgeLeft",
+      "params": {
+        "logicalAnchor": "village_day@arrival-sparse-sedge-left",
+        "component": "GrassSedgeMass_Left",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -6.15,
+          0.035,
+          15.8
+        ],
+        "yawDegrees": 180,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-sparse-sedge-right",
+      "kind": "kit-placement",
+      "name": "Трава осока массив справа · WetVillageRoadArrivalSedgeRight",
+      "params": {
+        "logicalAnchor": "village_day@arrival-sparse-sedge-right",
+        "component": "GrassSedgeMass_Right",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          6.15,
+          0.035,
+          11.8
+        ],
+        "yawDegrees": 180,
+        "scale": [
+          0.88,
+          0.88,
+          0.88
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-crown-variation",
+      "kind": "kit-placement",
+      "name": "Дорога полотно просевшее мокрое основной Street Source · WetVillageRoadMainStreetCrown",
+      "params": {
+        "logicalAnchor": "village_day@main-street-crown-variation",
+        "component": "RoadCrown_SunkenWet_MainStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          0,
+          0.025,
+          -6.5
+        ],
+        "yawDegrees": 182,
+        "scale": [
+          0.84,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-ruts-near",
+      "kind": "kit-placement",
+      "name": "Дорога колея лужа ближняя основной Street Source · WetVillageRoadMainStreetRutsNear",
+      "params": {
+        "logicalAnchor": "village_day@main-street-ruts-near",
+        "component": "RoadRuts_PuddleNear_MainStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          0.55,
+          0.025,
+          -0.6
+        ],
+        "yawDegrees": 177,
+        "scale": [
+          0.9,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-ruts-far",
+      "kind": "kit-placement",
+      "name": "Дорога колея лужа дальняя основной Street Source · WetVillageRoadMainStreetRutsFar",
+      "params": {
+        "logicalAnchor": "village_day@main-street-ruts-far",
+        "component": "RoadRuts_PuddleFar_MainStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -0.5,
+          0.025,
+          -9.7
+        ],
+        "yawDegrees": 183,
+        "scale": [
+          0.9,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-shoulder-left",
+      "kind": "kit-placement",
+      "name": "Грязная обочина слева основной Street Source · WetVillageRoadMainStreetShoulderLeft",
+      "params": {
+        "logicalAnchor": "village_day@main-street-shoulder-left",
+        "component": "MuddyShoulder_Left_MainStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -2.66,
+          0.025,
+          -5
+        ],
+        "yawDegrees": 182,
+        "scale": [
+          0.86,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-shoulder-right",
+      "kind": "kit-placement",
+      "name": "Грязная обочина справа основной Street Source · WetVillageRoadMainStreetShoulderRight",
+      "params": {
+        "logicalAnchor": "village_day@main-street-shoulder-right",
+        "component": "MuddyShoulder_Right_MainStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          2.66,
+          0.025,
+          -5
+        ],
+        "yawDegrees": 182,
+        "scale": [
+          0.86,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-ditch-left",
+      "kind": "kit-placement",
+      "name": "Придорожная канава слева основной Street Source · WetVillageRoadMainStreetDitchLeft",
+      "params": {
+        "logicalAnchor": "village_day@main-street-ditch-left",
+        "component": "RoadsideDitch_Left_MainStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -4.14,
+          0.025,
+          -5
+        ],
+        "yawDegrees": 182,
+        "scale": [
+          0.78,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-ditch-right",
+      "kind": "kit-placement",
+      "name": "Придорожная канава справа основной Street Source · WetVillageRoadMainStreetDitchRight",
+      "params": {
+        "logicalAnchor": "village_day@main-street-ditch-right",
+        "component": "RoadsideDitch_Right_MainStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          4.14,
+          0.025,
+          -5
+        ],
+        "yawDegrees": 182,
+        "scale": [
+          0.78,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-partial-fern-left",
+      "kind": "kit-placement",
+      "name": "Папоротник кусты разрыв слева · WetVillageRoadMainStreetFernLeft",
+      "params": {
+        "logicalAnchor": "village_day@main-street-partial-fern-left",
+        "component": "FernShrubBreak_Left",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -7,
+          0.025,
+          -8
+        ],
+        "yawDegrees": 182,
+        "scale": [
+          0.84,
+          0.84,
+          0.84
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-partial-fern-right",
+      "kind": "kit-placement",
+      "name": "Папоротник кусты разрыв справа · WetVillageRoadMainStreetFernRight",
+      "params": {
+        "logicalAnchor": "village_day@main-street-partial-fern-right",
+        "component": "FernShrubBreak_Right",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          7,
+          0.025,
+          -2.4
+        ],
+        "yawDegrees": 182,
+        "scale": [
+          0.82,
+          0.82,
+          0.82
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-to-zirat-return-street-crown-variation",
+      "kind": "kit-placement",
+      "name": "Дорога полотно просевшее мокрое Return Street Source · WetVillageRoadReturnStreetCrown",
+      "params": {
+        "logicalAnchor": "house_to_zirat@return-street-crown-variation",
+        "component": "RoadCrown_SunkenWet_ReturnStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -0.3246,
+          0.025,
+          -46.9981
+        ],
+        "yawDegrees": -179.336,
+        "scale": [
+          0.98,
+          0.98,
+          0.98
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-to-zirat-return-street-ruts-near",
+      "kind": "kit-placement",
+      "name": "Дорога колея лужа ближняя Return Street Source · WetVillageRoadReturnStreetRutsNear",
+      "params": {
+        "logicalAnchor": "house_to_zirat@return-street-ruts-near",
+        "component": "RoadRuts_PuddleNear_ReturnStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -0.7582,
+          0.025,
+          -42.9928
+        ],
+        "yawDegrees": -183.336,
+        "scale": [
+          0.94,
+          0.94,
+          0.94
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-to-zirat-return-street-ruts-far",
+      "kind": "kit-placement",
+      "name": "Дорога колея лужа дальняя Return Street Source · WetVillageRoadReturnStreetRutsFar",
+      "params": {
+        "logicalAnchor": "house_to_zirat@return-street-ruts-far",
+        "component": "RoadRuts_PuddleFar_ReturnStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          0.082,
+          0.025,
+          -51.6031
+        ],
+        "yawDegrees": -175.336,
+        "scale": [
+          0.92,
+          0.92,
+          0.92
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-to-zirat-return-street-shoulder-left",
+      "kind": "kit-placement",
+      "name": "Грязная обочина слева Return Street Source · WetVillageRoadReturnStreetShoulderLeft",
+      "params": {
+        "logicalAnchor": "house_to_zirat@return-street-shoulder-left",
+        "component": "MuddyShoulder_Left_ReturnStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -3.5244,
+          0.025,
+          -46.961
+        ],
+        "yawDegrees": -179.336,
+        "scale": [
+          0.96,
+          0.96,
+          0.96
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-to-zirat-return-street-shoulder-right",
+      "kind": "kit-placement",
+      "name": "Грязная обочина справа Return Street Source · WetVillageRoadReturnStreetShoulderRight",
+      "params": {
+        "logicalAnchor": "house_to_zirat@return-street-shoulder-right",
+        "component": "MuddyShoulder_Right_ReturnStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          2.8752,
+          0.025,
+          -47.0352
+        ],
+        "yawDegrees": -179.336,
+        "scale": [
+          0.96,
+          0.96,
+          0.96
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-to-zirat-return-street-ditch-left",
+      "kind": "kit-placement",
+      "name": "Придорожная канава слева Return Street Source · WetVillageRoadReturnStreetDitchLeft",
+      "params": {
+        "logicalAnchor": "house_to_zirat@return-street-ditch-left",
+        "component": "RoadsideDitch_Left_ReturnStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -5.1243,
+          0.025,
+          -46.9425
+        ],
+        "yawDegrees": -179.336,
+        "scale": [
+          0.94,
+          0.94,
+          0.94
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-to-zirat-return-street-ditch-right",
+      "kind": "kit-placement",
+      "name": "Придорожная канава справа Return Street Source · WetVillageRoadReturnStreetDitchRight",
+      "params": {
+        "logicalAnchor": "house_to_zirat@return-street-ditch-right",
+        "component": "RoadsideDitch_Right_ReturnStreetSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          4.4751,
+          0.025,
+          -47.0538
+        ],
+        "yawDegrees": -179.336,
+        "scale": [
+          0.94,
+          0.94,
+          0.94
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-to-zirat-return-street-culvert-landmark",
+      "kind": "kit-placement",
+      "name": "Труба камни переезд · WetVillageRoadReturnCulvert",
+      "params": {
+        "logicalAnchor": "house_to_zirat@return-street-culvert-landmark",
+        "component": "CulvertStoneCrossing",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -5.2,
+          -0.357,
+          -48.5
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          0.92,
+          0.92,
+          0.92
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-to-zirat-return-street-low-broken-fence",
+      "kind": "kit-placement",
+      "name": "Дорога забор разрыв низкая · WetVillageRoadReturnBrokenFence",
+      "params": {
+        "logicalAnchor": "house_to_zirat@return-street-low-broken-fence",
+        "component": "RoadFenceBreak_Low",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          5.8389,
+          0.025,
+          -45.8695
+        ],
+        "yawDegrees": -89.336,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-return-street-transition-crown-variant",
+      "kind": "kit-placement",
+      "name": "Дорога полотно подъезд разбитое · WetVillageRoadReturnTransitionCrownWorn",
+      "params": {
+        "logicalAnchor": "zirat_road@return-street-transition-crown-variant",
+        "component": "RoadCrown_ApproachWorn",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          0,
+          0.035,
+          -77
+        ],
+        "yawDegrees": 178,
+        "scale": [
+          0.94,
+          0.94,
+          0.94
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-return-street-transition-ruts-near",
+      "kind": "kit-placement",
+      "name": "Дорога колея лужа ближняя Return Transition Source · WetVillageRoadReturnTransitionRutsNear",
+      "params": {
+        "logicalAnchor": "zirat_road@return-street-transition-ruts-near",
+        "component": "RoadRuts_PuddleNear_ReturnTransitionSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          -0.42,
+          0.035,
+          -73.6
+        ],
+        "yawDegrees": 179,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-return-street-transition-ruts-far",
+      "kind": "kit-placement",
+      "name": "Дорога колея лужа дальняя Return Transition Source · WetVillageRoadReturnTransitionRutsFar",
+      "params": {
+        "logicalAnchor": "zirat_road@return-street-transition-ruts-far",
+        "component": "RoadRuts_PuddleFar_ReturnTransitionSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          0.38,
+          0.035,
+          -80.8
+        ],
+        "yawDegrees": 181,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-return-street-transition-sedge-right",
+      "kind": "kit-placement",
+      "name": "Трава осока массив справа Return Transition Source · WetVillageRoadReturnTransitionSedgeRight",
+      "params": {
+        "logicalAnchor": "zirat_road@return-street-transition-sedge-right",
+        "component": "GrassSedgeMass_Right_ReturnTransitionSource",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          6,
+          0.035,
+          -79
+        ],
+        "yawDegrees": 180,
+        "scale": [
+          0.82,
+          0.82,
+          0.82
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-fap-branch-crown-variant",
+      "kind": "kit-placement",
+      "name": "Дорога полотно ветка мокрое · WetVillageRoadFapBranchCrown",
+      "params": {
+        "logicalAnchor": "village_day@fap-branch-crown-variant",
+        "component": "RoadCrown_BranchWet",
+        "assetSource": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "position": [
+          14,
+          0.025,
+          -18.1
+        ],
+        "yawDegrees": 120.052,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-authored-facade",
+      "kind": "kit-placement",
+      "name": "ФАП фасад основной · FapAuthoredFacade",
+      "params": {
+        "logicalAnchor": "fap_clinic@authored-facade",
+        "component": "FapFacade_Main",
+        "assetSource": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "position": [
+          26.7,
+          0,
+          -34.13
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-open-entry-porch",
+      "kind": "kit-placement",
+      "name": "ФАП вход крыльцо · FapAuthoredEntryPorch",
+      "params": {
+        "logicalAnchor": "fap_clinic@open-entry-porch",
+        "component": "FapEntryPorch",
+        "assetSource": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "position": [
+          26.82,
+          0,
+          -28.4
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-blank-wayfinding-board",
+      "kind": "kit-placement",
+      "name": "ФАП указатель доска · FapAuthoredWayfindingBoard",
+      "params": {
+        "logicalAnchor": "fap_clinic@blank-wayfinding-board",
+        "component": "FapWayfindingBoard",
+        "assetSource": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "position": [
+          23.3,
+          0,
+          -26.8
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-lateral-service-shed",
+      "kind": "kit-placement",
+      "name": "ФАП служебный сарай · FapAuthoredServiceShed",
+      "params": {
+        "logicalAnchor": "fap_clinic@lateral-service-shed",
+        "component": "FapServiceShed",
+        "assetSource": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "position": [
+          37.8,
+          0,
+          -31.5
+        ],
+        "yawDegrees": -12,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-lateral-service-fence",
+      "kind": "kit-placement",
+      "name": "ФАП забор линия · FapAuthoredServiceFence",
+      "params": {
+        "logicalAnchor": "fap_clinic@lateral-service-fence",
+        "component": "FapFenceRun",
+        "assetSource": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "position": [
+          37.8,
+          0,
+          -29.6
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-open-service-gate",
+      "kind": "kit-placement",
+      "name": "ФАП калитка · FapAuthoredServiceGate",
+      "params": {
+        "logicalAnchor": "fap_clinic@open-service-gate",
+        "component": "FapGate",
+        "assetSource": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "position": [
+          34.5,
+          0,
+          -25.2
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-near-entry-bench",
+      "kind": "kit-placement",
+      "name": "ФАП скамья · FapAuthoredBench",
+      "params": {
+        "logicalAnchor": "fap_clinic@near-entry-bench",
+        "component": "FapBench",
+        "assetSource": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "position": [
+          30.3,
+          0,
+          -26.9
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-blank-notice-board",
+      "kind": "kit-placement",
+      "name": "ФАП доска объявлений доска · FapAuthoredNoticeBoard",
+      "params": {
+        "logicalAnchor": "fap_clinic@blank-notice-board",
+        "component": "FapNoticeBoard",
+        "assetSource": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "position": [
+          20.1,
+          0,
+          -26.8
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-service-rain-awning",
+      "kind": "kit-placement",
+      "name": "ФАП дождевой навес · FapAuthoredRainAwning",
+      "params": {
+        "logicalAnchor": "fap_clinic@service-rain-awning",
+        "component": "FapRainAwning",
+        "assetSource": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "position": [
+          37.8,
+          0,
+          -31.5
+        ],
+        "yawDegrees": -12,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-near-mid-path-puddle-dressing",
+      "kind": "kit-placement",
+      "name": "ФАП тропа лужа группа · FapAuthoredPathPuddles",
+      "params": {
+        "logicalAnchor": "fap_clinic@near-mid-path-puddle-dressing",
+        "component": "FapPathPuddleCluster",
+        "assetSource": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "position": [
+          29.2,
+          0,
+          -26.7
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          0.86,
+          0.86,
+          0.86
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-lateral-birch-shrub-frame",
+      "kind": "kit-placement",
+      "name": "ФАП берёза кусты массив · FapAuthoredBirchShrubMass",
+      "params": {
+        "logicalAnchor": "fap_clinic@lateral-birch-shrub-frame",
+        "component": "FapBirchShrubMass",
+        "assetSource": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "position": [
+          14,
+          0,
+          -31
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          0.92,
+          0.92,
+          0.92
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-wet-shoulder-left",
+      "kind": "kit-placement",
+      "name": "Мокрое дорога обочина слева · ZiratWetRoadShoulderLeft",
+      "params": {
+        "logicalAnchor": "zirat_road@wet-shoulder-left",
+        "component": "WetRoadShoulder_Left",
+        "assetSource": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "position": [
+          0,
+          0,
+          -71.5
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1.05,
+          1.05,
+          1.05
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-wet-shoulder-right",
+      "kind": "kit-placement",
+      "name": "Мокрое дорога обочина справа · ZiratWetRoadShoulderRight",
+      "params": {
+        "logicalAnchor": "zirat_road@wet-shoulder-right",
+        "component": "WetRoadShoulder_Right",
+        "assetSource": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "position": [
+          0,
+          0,
+          -71.5
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1.05,
+          1.05,
+          1.05
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-roadside-drainage",
+      "kind": "kit-placement",
+      "name": "Придорожная канава · ZiratRoadsideDitch",
+      "params": {
+        "logicalAnchor": "zirat_road@roadside-drainage",
+        "component": "RoadsideDitch",
+        "assetSource": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "position": [
+          0,
+          0,
+          -71.1
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-culvert-edge",
+      "kind": "kit-placement",
+      "name": "Труба камни группа · ZiratCulvertStoneCluster",
+      "params": {
+        "logicalAnchor": "zirat_road@culvert-edge",
+        "component": "CulvertStoneCluster",
+        "assetSource": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "position": [
+          3.55,
+          -0.0369,
+          -72
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-lateral-boundary-fence",
+      "kind": "kit-placement",
+      "name": "Зират граница забор · ZiratAuthoredBoundaryFence",
+      "params": {
+        "logicalAnchor": "zirat_road@lateral-boundary-fence",
+        "component": "ZiratBoundaryFence",
+        "assetSource": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "position": [
+          6.7,
+          0,
+          -78
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          0.96,
+          0.88,
+          0.96
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-lateral-open-gate",
+      "kind": "kit-placement",
+      "name": "Зират открытая калитка · ZiratAuthoredOpenGate",
+      "params": {
+        "logicalAnchor": "zirat_road@lateral-open-gate",
+        "component": "ZiratOpenGate",
+        "assetSource": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "position": [
+          6.7,
+          0,
+          -78
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          0.96,
+          0.96,
+          0.96
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-quiet-marker-group-near",
+      "kind": "kit-placement",
+      "name": "Зират знак группа низкая · ZiratAuthoredMarkerGroupLow",
+      "params": {
+        "logicalAnchor": "zirat_road@quiet-marker-group-near",
+        "component": "ZiratMarkerGroup_Low",
+        "assetSource": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "position": [
+          6.2,
+          0,
+          -75.2
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          0.92,
+          0.92,
+          0.92
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-quiet-marker-group-far",
+      "kind": "kit-placement",
+      "name": "Зират знак группа дальняя · ZiratAuthoredMarkerGroupFar",
+      "params": {
+        "logicalAnchor": "zirat_road@quiet-marker-group-far",
+        "component": "ZiratMarkerGroup_Far",
+        "assetSource": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "position": [
+          6.8,
+          0,
+          -79.2
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          0.92,
+          0.92,
+          0.92
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-side-path-edge",
+      "kind": "kit-placement",
+      "name": "Зират тропа край · ZiratAuthoredPathEdge",
+      "params": {
+        "logicalAnchor": "zirat_road@side-path-edge",
+        "component": "ZiratPathEdge",
+        "assetSource": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "position": [
+          4.2,
+          0,
+          -74.2
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          0.96,
+          0.96,
+          0.96
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-birch-forest-transition",
+      "kind": "kit-placement",
+      "name": "Зират берёза кусты массив · ZiratAuthoredBirchShrubTransition",
+      "params": {
+        "logicalAnchor": "zirat_road@birch-forest-transition",
+        "component": "ZiratBirchShrubMass",
+        "assetSource": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "position": [
+          7.8,
+          0,
+          -92
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          0.94,
+          0.94,
+          0.94
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-distant-village-transition",
+      "kind": "kit-placement",
+      "name": "Зират дальний деревня массив · ZiratAuthoredDistantVillageTransition",
+      "params": {
+        "logicalAnchor": "zirat_road@distant-village-transition",
+        "component": "ZiratDistantVillageMass",
+        "assetSource": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "position": [
+          -22,
+          0,
+          -60
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-distant-village-transition-east",
+      "kind": "kit-placement",
+      "name": "Зират дальний деревня массив East Source · ZiratAuthoredDistantVillageTransitionEast",
+      "params": {
+        "logicalAnchor": "zirat_road@distant-village-transition-east",
+        "component": "ZiratDistantVillageMassEastSource",
+        "assetSource": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "position": [
+          22,
+          0,
+          -60
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-west-road-bank",
+      "kind": "kit-placement",
+      "name": "Лес берег слева · KaraForestBankLeft",
+      "params": {
+        "logicalAnchor": "kara_urman_night@west-road-bank",
+        "component": "ForestBank_Left",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          -6.2,
+          0,
+          -112
+        ],
+        "yawDegrees": -12,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-east-road-bank",
+      "kind": "kit-placement",
+      "name": "Лес берег справа · KaraForestBankRight",
+      "params": {
+        "logicalAnchor": "kara_urman_night@east-road-bank",
+        "component": "ForestBank_Right",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          6.6,
+          0,
+          -117
+        ],
+        "yawDegrees": 18,
+        "scale": [
+          0.98,
+          0.98,
+          0.98
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-west-side-tree-mass",
+      "kind": "kit-placement",
+      "name": "Смешанные деревья группа слева · KaraMixedTreeClusterLeft",
+      "params": {
+        "logicalAnchor": "kara_urman_night@west-side-tree-mass",
+        "component": "MixedTreeCluster_Left",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          -10,
+          0,
+          -118.5
+        ],
+        "yawDegrees": -18,
+        "scale": [
+          0.96,
+          0.96,
+          0.96
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-east-side-tree-mass",
+      "kind": "kit-placement",
+      "name": "Смешанные деревья группа справа · KaraMixedTreeClusterRight",
+      "params": {
+        "logicalAnchor": "kara_urman_night@east-side-tree-mass",
+        "component": "MixedTreeCluster_Right",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          10,
+          0,
+          -123.5
+        ],
+        "yawDegrees": 22,
+        "scale": [
+          0.94,
+          0.94,
+          0.94
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-west-side-crooked-pine",
+      "kind": "kit-placement",
+      "name": "Кривая сосна массив · KaraCrookedPineMass",
+      "params": {
+        "logicalAnchor": "kara_urman_night@west-side-crooked-pine",
+        "component": "CrookedPineMass",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          -11,
+          0,
+          -125
+        ],
+        "yawDegrees": -14,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-east-side-birch-edge",
+      "kind": "kit-placement",
+      "name": "Берёза край массив · KaraBirchEdgeMass",
+      "params": {
+        "logicalAnchor": "kara_urman_night@east-side-birch-edge",
+        "component": "BirchEdgeMass",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          11,
+          0,
+          -129
+        ],
+        "yawDegrees": 17,
+        "scale": [
+          0.96,
+          0.96,
+          0.96
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-west-root-wall",
+      "kind": "kit-placement",
+      "name": "Корни стена слева · KaraRootWallLeft",
+      "params": {
+        "logicalAnchor": "kara_urman_night@west-root-wall",
+        "component": "RootWall_Left",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          -5.5,
+          0,
+          -116.5
+        ],
+        "yawDegrees": -12,
+        "scale": [
+          0.96,
+          0.96,
+          0.96
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-east-root-wall",
+      "kind": "kit-placement",
+      "name": "Корни стена справа · KaraRootWallRight",
+      "params": {
+        "logicalAnchor": "kara_urman_night@east-root-wall",
+        "component": "RootWall_Right",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          5.5,
+          0,
+          -121.2
+        ],
+        "yawDegrees": 20,
+        "scale": [
+          0.92,
+          0.92,
+          0.92
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-west-ground-breakup-outside-route",
+      "kind": "kit-placement",
+      "name": "Поваленные бревно группа · KaraFallenLogCluster",
+      "params": {
+        "logicalAnchor": "kara_urman_night@west-ground-breakup-outside-route",
+        "component": "FallenLogCluster",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          -5.9,
+          0,
+          -120.8
+        ],
+        "yawDegrees": 28,
+        "scale": [
+          0.82,
+          0.82,
+          0.82
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-east-ground-breakup-outside-route",
+      "kind": "kit-placement",
+      "name": "Мшистые валуны группа · KaraMossyBoulderCluster",
+      "params": {
+        "logicalAnchor": "kara_urman_night@east-ground-breakup-outside-route",
+        "component": "MossyBoulderCluster",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          9.5,
+          0,
+          -123.5
+        ],
+        "yawDegrees": -35,
+        "scale": [
+          0.95,
+          0.95,
+          0.95
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-west-ground-landmark-outside-route",
+      "kind": "kit-placement",
+      "name": "Кривая пень · KaraCrookedStump",
+      "params": {
+        "logicalAnchor": "kara_urman_night@west-ground-landmark-outside-route",
+        "component": "CrookedStump",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          -5.4,
+          0,
+          -122.2
+        ],
+        "yawDegrees": 10,
+        "scale": [
+          0.88,
+          0.88,
+          0.88
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-far-west-window-mass",
+      "kind": "kit-placement",
+      "name": "Дальний лес массив низкая · KaraDistantForestMassLow",
+      "params": {
+        "logicalAnchor": "kara_urman_night@far-west-window-mass",
+        "component": "DistantForestMass_Low",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          -13.5,
+          0,
+          -145
+        ],
+        "yawDegrees": -8,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-far-east-window-mass",
+      "kind": "kit-placement",
+      "name": "Дальний лес массив высокий · KaraDistantForestMassTall",
+      "params": {
+        "logicalAnchor": "kara_urman_night@far-east-window-mass",
+        "component": "DistantForestMass_Tall",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          13.5,
+          0,
+          -147
+        ],
+        "yawDegrees": 11,
+        "scale": [
+          0.72,
+          0.72,
+          0.72
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-babai-approach",
+      "kind": "kit-placement",
+      "name": "Главный дом бревенчатый оштукатуренный · BabaiApproachDwellingFacade",
+      "params": {
+        "logicalAnchor": "house_old_pc@babai-approach",
+        "component": "HeroHouse_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -28,
+          0,
+          -3.4
+        ],
+        "yawDegrees": 64.722,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-yard-return-parcel",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · BabaiYardAuthoredShed",
+      "params": {
+        "logicalAnchor": "house_old_pc@yard-return-parcel",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -21.5748,
+          0,
+          -4.7071
+        ],
+        "yawDegrees": 46.722,
+        "scale": [
+          0.86,
+          0.86,
+          0.86
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-west-yard-boundary",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · BabaiYardAuthoredFence",
+      "params": {
+        "logicalAnchor": "house_old_pc@west-yard-boundary",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -32.4584,
+          0,
+          10.6124
+        ],
+        "yawDegrees": -25.278,
+        "scale": [
+          1.85,
+          0.82,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-yard-entry",
+      "kind": "kit-placement",
+      "name": "Калитка кривая бревенчатый · BabaiYardAuthoredGate",
+      "params": {
+        "logicalAnchor": "house_old_pc@yard-entry",
+        "component": "Gate_CrookedTimber",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -22.5745,
+          0,
+          2.562
+        ],
+        "yawDegrees": 64.722,
+        "scale": [
+          0.92,
+          0.92,
+          0.92
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-yard-firewood",
+      "kind": "kit-placement",
+      "name": "Дровница сложенные брёвна · BabaiYardAuthoredWoodpile",
+      "params": {
+        "logicalAnchor": "house_old_pc@yard-firewood",
+        "component": "Woodpile_StackedLogs",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -33.1467,
+          0,
+          3.8732
+        ],
+        "yawDegrees": 154.722,
+        "scale": [
+          1.05,
+          1.05,
+          1.05
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-main-street-landmark",
+      "kind": "kit-placement",
+      "name": "Колодец двор ориентир · MainStreetArrivalAuthoredWell",
+      "params": {
+        "logicalAnchor": "village_day@arrival-main-street-landmark",
+        "component": "Well_YardLandmark",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -4.9,
+          0,
+          4.6
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-west-near-timber-gable-parcel",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант A бревенчатый фронтон · ArrivalWestNearAuthoredTimberGableParcel",
+      "params": {
+        "logicalAnchor": "village_day@arrival-west-near-timber-gable-parcel",
+        "component": "VillageParcel_VariantA_TimberGable",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -10,
+          0,
+          25.8
+        ],
+        "yawDegrees": 176,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-east-near-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · ArrivalEastNearAuthoredFacade",
+      "params": {
+        "logicalAnchor": "village_day@arrival-east-near-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          10,
+          0,
+          26.2
+        ],
+        "yawDegrees": 184,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-east-near-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · ArrivalEastNearAuthoredShed",
+      "params": {
+        "logicalAnchor": "village_day@arrival-east-near-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          9.2,
+          0,
+          25
+        ],
+        "yawDegrees": 184,
+        "scale": [
+          0.62,
+          0.62,
+          0.62
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-east-near-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · ArrivalEastNearAuthoredFence",
+      "params": {
+        "logicalAnchor": "village_day@arrival-east-near-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          7.8,
+          0,
+          23.1
+        ],
+        "yawDegrees": 172,
+        "scale": [
+          1.22,
+          0.68,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-forward-west-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · ArrivalForwardWestFacade",
+      "params": {
+        "logicalAnchor": "village_day@arrival-forward-west-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -7.2,
+          0,
+          3.2
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          0.95,
+          0.95,
+          0.95
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-forward-west-gate",
+      "kind": "kit-placement",
+      "name": "Калитка кривая бревенчатый · ArrivalForwardWestGate",
+      "params": {
+        "logicalAnchor": "village_day@arrival-forward-west-gate",
+        "component": "Gate_CrookedTimber",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -6.4,
+          0,
+          -3.2
+        ],
+        "yawDegrees": 4,
+        "scale": [
+          0.72,
+          0.72,
+          0.72
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-forward-west-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · ArrivalForwardWestFence",
+      "params": {
+        "logicalAnchor": "village_day@arrival-forward-west-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -7.6,
+          0,
+          -2.1
+        ],
+        "yawDegrees": 8,
+        "scale": [
+          1.18,
+          0.64,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-forward-west-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · ArrivalForwardWestShed",
+      "params": {
+        "logicalAnchor": "village_day@arrival-forward-west-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -11.4,
+          0,
+          -10.8
+        ],
+        "yawDegrees": 8,
+        "scale": [
+          0.46,
+          0.46,
+          0.46
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-forward-east-facade",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант B оштукатуренный пристройка жилой дом · ArrivalForwardEastFacade",
+      "params": {
+        "logicalAnchor": "village_day@arrival-forward-east-facade",
+        "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          7.8,
+          0,
+          -3.6
+        ],
+        "yawDegrees": -4,
+        "scale": [
+          0.98,
+          0.98,
+          0.98
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-forward-east-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · ArrivalForwardEastShed",
+      "params": {
+        "logicalAnchor": "village_day@arrival-forward-east-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          11.2,
+          0,
+          -13.4
+        ],
+        "yawDegrees": -8,
+        "scale": [
+          0.44,
+          0.44,
+          0.44
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-forward-east-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · ArrivalForwardEastFence",
+      "params": {
+        "logicalAnchor": "village_day@arrival-forward-east-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          8.4,
+          0,
+          -6
+        ],
+        "yawDegrees": -8,
+        "scale": [
+          1.12,
+          0.62,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-far-west-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · ArrivalFarWestFacade",
+      "params": {
+        "logicalAnchor": "village_day@arrival-far-west-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -12,
+          0,
+          49
+        ],
+        "yawDegrees": 168,
+        "scale": [
+          0.95,
+          0.95,
+          0.95
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-far-west-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · ArrivalFarWestShed",
+      "params": {
+        "logicalAnchor": "village_day@arrival-far-west-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -8.5,
+          0,
+          52
+        ],
+        "yawDegrees": 160,
+        "scale": [
+          0.32,
+          0.32,
+          0.32
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-far-west-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · ArrivalFarWestFence",
+      "params": {
+        "logicalAnchor": "village_day@arrival-far-west-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -15,
+          0,
+          50
+        ],
+        "yawDegrees": 10,
+        "scale": [
+          1.08,
+          0.46,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-west-yard-depth-banya-yard-parcel",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант C баня двор · BabaiYardWestDepthBanyaYardParcel",
+      "params": {
+        "logicalAnchor": "house_old_pc@west-yard-depth-banya-yard-parcel",
+        "component": "VillageParcel_VariantC_BanyaYard",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -35.7062,
+          0,
+          7.4199
+        ],
+        "yawDegrees": 76.722,
+        "scale": [
+          0.6,
+          0.6,
+          0.6
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-depth-yard-well-landmark",
+      "kind": "kit-placement",
+      "name": "Колодец двор ориентир · BabaiYardAuthoredWell",
+      "params": {
+        "logicalAnchor": "house_old_pc@depth-yard-well-landmark",
+        "component": "Well_YardLandmark",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -20,
+          0,
+          17
+        ],
+        "yawDegrees": 64.722,
+        "scale": [
+          0.82,
+          0.82,
+          0.82
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-forward-right-yard-boundary",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · BabaiYardEastDepthFence",
+      "params": {
+        "logicalAnchor": "house_old_pc@forward-right-yard-boundary",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -10,
+          0,
+          12
+        ],
+        "yawDegrees": -25.278,
+        "scale": [
+          1.08,
+          0.54,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-village-edge-west-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · ZiratVillageEdgeWestFence",
+      "params": {
+        "logicalAnchor": "zirat_road@village-edge-west-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -10.5,
+          0,
+          -49.8
+        ],
+        "yawDegrees": 4,
+        "scale": [
+          1.35,
+          0.58,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-village-edge-east-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · ZiratVillageEdgeEastShed",
+      "params": {
+        "logicalAnchor": "zirat_road@village-edge-east-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          15.8,
+          0,
+          -48.6
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          1.15,
+          1.15,
+          1.15
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-village-edge-east-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · ZiratVillageEdgeEastFence",
+      "params": {
+        "logicalAnchor": "zirat_road@village-edge-east-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          10.2,
+          0,
+          -50.7
+        ],
+        "yawDegrees": -6,
+        "scale": [
+          1.18,
+          0.52,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-east-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · MainStreetEastNeighborFacade",
+      "params": {
+        "logicalAnchor": "village_day@main-street-east-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          27.75,
+          0,
+          74.0
+        ],
+        "yawDegrees": 0.0,
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "hidden": false,
+        "groundingReferenceXZ": [
+          9.8,
+          -10.5
+        ],
+        "originalPosition": [
+          9.8,
+          0,
+          4.0
+        ],
+        "originalYawDegrees": -83
+      },
+      "note": "Перепланировка v3, этап 4: перенесён на участок схемы вместе с двором. 2026-10-08: H019 restored to the source metric scale after the imported street opening measured 1.665 m under the former Y scale 0.74; the 2.25 m source opening clears the 1.80 m standing capsule at metric scale."
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-east-partial-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · MainStreetEastNeighborFence",
+      "params": {
+        "logicalAnchor": "village_day@main-street-east-partial-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          3.2,
+          0,
+          -8.5
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          0.55,
+          0.7,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-east-gate",
+      "kind": "kit-placement",
+      "name": "Калитка кривая бревенчатый · MainStreetEastNeighborGate",
+      "params": {
+        "logicalAnchor": "village_day@main-street-east-gate",
+        "component": "Gate_CrookedTimber",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          3.2,
+          0,
+          -5.3
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          0.72,
+          1.15,
+          0.74
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-east-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · MainStreetEastNeighborShed",
+      "params": {
+        "logicalAnchor": "village_day@main-street-east-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          11.0,
+          0,
+          10.5
+        ],
+        "yawDegrees": 191,
+        "scale": [
+          0.95,
+          0.95,
+          0.95
+        ],
+        "groundingReferenceXZ": [
+          5.3,
+          -2
+        ],
+        "retired": true
+      },
+      "note": "29.09: authored overlap remediation; H019's shed behind its house; clear of the arrival timetable and bench"
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-east-woodpile",
+      "kind": "kit-placement",
+      "name": "Дровница сложенные брёвна · MainStreetEastNeighborWoodpile",
+      "params": {
+        "logicalAnchor": "village_day@main-street-east-woodpile",
+        "component": "Woodpile_StackedLogs",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          13.2,
+          0,
+          -6.5
+        ],
+        "yawDegrees": 94,
+        "scale": [
+          0.64,
+          0.64,
+          0.64
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-forward-west-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · MainStreetForwardWestFacade",
+      "params": {
+        "logicalAnchor": "village_day@main-street-forward-west-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -8.8,
+          0,
+          -12.8
+        ],
+        "yawDegrees": 88,
+        "scale": [
+          0.95,
+          0.95,
+          0.95
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-forward-west-gate",
+      "kind": "kit-placement",
+      "name": "Калитка кривая бревенчатый · MainStreetForwardWestGate",
+      "params": {
+        "logicalAnchor": "village_day@main-street-forward-west-gate",
+        "component": "Gate_CrookedTimber",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -6.5,
+          0,
+          -8.8
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          0.68,
+          0.68,
+          0.68
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-forward-west-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · MainStreetForwardWestFence",
+      "params": {
+        "logicalAnchor": "village_day@main-street-forward-west-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -10.5,
+          0,
+          -8.8
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1.15,
+          0.62,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-main-street-forward-west-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · MainStreetForwardWestShed",
+      "params": {
+        "logicalAnchor": "village_day@main-street-forward-west-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -17,
+          0,
+          -14.8
+        ],
+        "yawDegrees": 172,
+        "scale": [
+          0.62,
+          0.62,
+          0.62
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-connective-street-deep-banya-yard-parcel",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант C баня двор · ConnectiveStreetDeepBanyaYardParcel",
+      "params": {
+        "logicalAnchor": "village_day@connective-street-deep-banya-yard-parcel",
+        "component": "VillageParcel_VariantC_BanyaYard",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -48.58,
+          0,
+          -25.5
+        ],
+        "yawDegrees": -180.0,
+        "scale": [
+          0.6,
+          0.64,
+          0.6
+        ],
+        "hidden": false,
+        "originalPosition": [
+          -11.5,
+          0,
+          -29.5
+        ],
+        "originalYawDegrees": 78.664,
+        "groundingReferenceXZ": [
+          -11.5,
+          -29.5
+        ]
+      },
+      "note": "Перепланировка v3, этап 4: перенесён на участок схемы вместе с двором"
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-return-street-low-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · ReturnStreetDistantLowFacade",
+      "params": {
+        "logicalAnchor": "zirat_road@return-street-low-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -24.0,
+          0,
+          -47.0
+        ],
+        "yawDegrees": 109.664,
+        "scale": [
+          0.52,
+          0.42,
+          0.52
+        ],
+        "groundingReferenceXZ": [
+          -11,
+          -48.5
+        ],
+        "retired": true
+      },
+      "note": "29.09: authored overlap remediation; H024 inside ReturnWestFarHouse1Silhouette; proposal west plot"
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-return-street-distant-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · ReturnStreetDistantFence",
+      "params": {
+        "logicalAnchor": "zirat_road@return-street-distant-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -6.9,
+          0,
+          -44.5
+        ],
+        "yawDegrees": -193.336,
+        "scale": [
+          1.34,
+          0.5,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-return-street-distant-woodpile",
+      "kind": "kit-placement",
+      "name": "Дровница сложенные брёвна · ReturnStreetDistantWoodpile",
+      "params": {
+        "logicalAnchor": "zirat_road@return-street-distant-woodpile",
+        "component": "Woodpile_StackedLogs",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -7.3,
+          0,
+          -47
+        ],
+        "yawDegrees": -275.336,
+        "scale": [
+          0.46,
+          0.46,
+          0.46
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-returnwestfarhouse1silhouette",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант A бревенчатый фронтон жилой дом · ReturnWestFarHouse1Silhouette",
+      "params": {
+        "logicalAnchor": "village-house@ReturnWestFarHouse1Silhouette",
+        "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -12,
+          1,
+          -52.7
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-returnwestbanyasilhouette",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант A бревенчатый фронтон жилой дом · ReturnWestBanyaSilhouette",
+      "params": {
+        "logicalAnchor": "village-house@ReturnWestBanyaSilhouette",
+        "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -9,
+          0.78,
+          -45.5
+        ],
+        "yawDegrees": 84,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-returneastfarhouse2silhouette",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант B оштукатуренный пристройка жилой дом · ReturnEastFarHouse2Silhouette",
+      "params": {
+        "logicalAnchor": "village-house@ReturnEastFarHouse2Silhouette",
+        "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          11.5,
+          0.92,
+          -53
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-connectiveeasthousea6silhouette",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант B оштукатуренный пристройка жилой дом · ConnectiveEastHouseA6Silhouette",
+      "params": {
+        "logicalAnchor": "village-house@ConnectiveEastHouseA6Silhouette",
+        "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          8.5,
+          0.86,
+          -30.0
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "groundingReferenceXZ": [
+          8.5,
+          -32
+        ],
+        "retired": true
+      },
+      "note": "29.09: authored overlap remediation; H022 overlapping FapOppositeFieldNeighborHouse; 2 m north"
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-returneasthousea8silhouette",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант B оштукатуренный пристройка жилой дом · ReturnEastHouseA8Silhouette",
+      "params": {
+        "logicalAnchor": "village-house@ReturnEastHouseA8Silhouette",
+        "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          9.5,
+          0.84,
+          -45.3
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "hidden": false,
+        "groundingReferenceXZ": [
+          8.5,
+          -42.5
+        ]
+      },
+      "note": "29.09: authored overlap remediation; H023 overlapping FapOppositeFieldNeighborHouse; into the plot H046 left"
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-west-side-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · HouseExteriorWestNeighborFacade",
+      "params": {
+        "logicalAnchor": "house_old_pc@west-side-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -38,
+          0,
+          -6
+        ],
+        "yawDegrees": 88,
+        "scale": [
+          0.56,
+          0.56,
+          0.56
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-west-side-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · HouseExteriorWestNeighborFence",
+      "params": {
+        "logicalAnchor": "house_old_pc@west-side-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -36.6,
+          0,
+          -3.2
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          0.6,
+          0.58,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-west-side-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · HouseExteriorWestNeighborShed",
+      "params": {
+        "logicalAnchor": "house_old_pc@west-side-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -40.6,
+          0,
+          -10.2
+        ],
+        "yawDegrees": 82,
+        "scale": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-perimeter-west-arrival-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · PerimeterWestArrivalFacade",
+      "params": {
+        "logicalAnchor": "village_day@perimeter-west-arrival-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -22,
+          0,
+          38
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          0.52,
+          0.52,
+          0.52
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-perimeter-west-arrival-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · PerimeterWestArrivalShed",
+      "params": {
+        "logicalAnchor": "village_day@perimeter-west-arrival-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -19,
+          0,
+          33.5
+        ],
+        "yawDegrees": 82,
+        "scale": [
+          0.44,
+          0.44,
+          0.44
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-perimeter-west-arrival-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · PerimeterWestArrivalFence",
+      "params": {
+        "logicalAnchor": "village_day@perimeter-west-arrival-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -24,
+          0,
+          34
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1.25,
+          0.58,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-perimeter-east-arrival-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · PerimeterEastArrivalFacade",
+      "params": {
+        "logicalAnchor": "village_day@perimeter-east-arrival-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          22,
+          0,
+          40
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-perimeter-east-arrival-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · PerimeterEastArrivalShed",
+      "params": {
+        "logicalAnchor": "village_day@perimeter-east-arrival-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          19,
+          0,
+          35.5
+        ],
+        "yawDegrees": -82,
+        "scale": [
+          0.42,
+          0.42,
+          0.42
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-perimeter-east-arrival-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · PerimeterEastArrivalFence",
+      "params": {
+        "logicalAnchor": "village_day@perimeter-east-arrival-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          24,
+          0,
+          35
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1.2,
+          0.56,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-perimeter-west-street-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · PerimeterWestStreetShed",
+      "params": {
+        "logicalAnchor": "village_day@perimeter-west-street-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -21.6,
+          0,
+          -13.4
+        ],
+        "yawDegrees": 84,
+        "scale": [
+          1.15,
+          1.15,
+          1.15
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-perimeter-east-street-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · PerimeterEastStreetShed",
+      "params": {
+        "logicalAnchor": "village_day@perimeter-east-street-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          18.4,
+          0,
+          -11
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          0.95,
+          0.95,
+          0.95
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-street-plot-front-west",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · EastStreetPlotFrontWest",
+      "params": {
+        "logicalAnchor": "village_day@east-street-plot-front-west",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          18.2,
+          0,
+          -17
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1.15,
+          0.82,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-street-plot-front-east",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · EastStreetPlotFrontEast",
+      "params": {
+        "logicalAnchor": "village_day@east-street-plot-front-east",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          28,
+          0,
+          -17
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1.15,
+          0.82,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-perimeter-east-return-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · PerimeterEastReturnFacade",
+      "params": {
+        "logicalAnchor": "zirat_road@perimeter-east-return-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          20,
+          0,
+          -43
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          0.42,
+          0.42,
+          0.42
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-perimeter-east-return-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · PerimeterEastReturnFence",
+      "params": {
+        "logicalAnchor": "zirat_road@perimeter-east-return-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          23,
+          0,
+          -47
+        ],
+        "yawDegrees": 4,
+        "scale": [
+          1.05,
+          0.5,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-west-arrival-mid-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · WestArrivalMidFacade",
+      "params": {
+        "logicalAnchor": "village_day@west-arrival-mid-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -24,
+          0,
+          24
+        ],
+        "yawDegrees": 82,
+        "scale": [
+          0.64,
+          0.64,
+          0.64
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-west-arrival-mid-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · WestArrivalMidShed",
+      "params": {
+        "logicalAnchor": "village_day@west-arrival-mid-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -28,
+          0,
+          20.2
+        ],
+        "yawDegrees": 78,
+        "scale": [
+          0.48,
+          0.48,
+          0.48
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-west-arrival-mid-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · WestArrivalMidFence",
+      "params": {
+        "logicalAnchor": "village_day@west-arrival-mid-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -20.6,
+          0,
+          28.1
+        ],
+        "yawDegrees": 12,
+        "scale": [
+          1.35,
+          0.64,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-arrival-mid-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · EastArrivalMidFacade",
+      "params": {
+        "logicalAnchor": "village_day@east-arrival-mid-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          27,
+          0,
+          27
+        ],
+        "yawDegrees": -101,
+        "scale": [
+          0.56,
+          0.56,
+          0.56
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-arrival-mid-woodpile",
+      "kind": "kit-placement",
+      "name": "Дровница сложенные брёвна · EastArrivalMidWoodpile",
+      "params": {
+        "logicalAnchor": "village_day@east-arrival-mid-woodpile",
+        "component": "Woodpile_StackedLogs",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          23.4,
+          0,
+          24.2
+        ],
+        "yawDegrees": -4,
+        "scale": [
+          0.68,
+          0.68,
+          0.68
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-arrival-mid-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · EastArrivalMidFence",
+      "params": {
+        "logicalAnchor": "village_day@east-arrival-mid-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          23.8,
+          0,
+          31.4
+        ],
+        "yawDegrees": 178,
+        "scale": [
+          1.28,
+          0.62,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-street-mid-facade",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант A бревенчатый фронтон жилой дом · EastStreetMidFacade",
+      "params": {
+        "logicalAnchor": "village_day@east-street-mid-facade",
+        "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          25.3,
+          0,
+          -19.2
+        ],
+        "yawDegrees": -82,
+        "scale": [
+          0.88,
+          0.88,
+          0.88
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-street-mid-firewood",
+      "kind": "kit-placement",
+      "name": "Дровница сложенные брёвна · EastStreetMidWoodpile",
+      "params": {
+        "logicalAnchor": "village_day@east-street-mid-firewood",
+        "component": "Woodpile_StackedLogs",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          26.5,
+          0,
+          -21.6
+        ],
+        "yawDegrees": 14,
+        "scale": [
+          0.82,
+          0.82,
+          0.82
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-street-mid-yard",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант A бревенчатый фронтон двор · EastStreetMidYard",
+      "params": {
+        "logicalAnchor": "village_day@east-street-mid-yard",
+        "component": "VillageParcel_VariantA_TimberGable_Yard",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          31.5,
+          0,
+          -19.4
+        ],
+        "yawDegrees": -82,
+        "scale": [
+          0.88,
+          0.88,
+          0.88
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-west-return-mid-facade",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант B оштукатуренный пристройка жилой дом · WestReturnMidFacade",
+      "params": {
+        "logicalAnchor": "zirat_road@west-return-mid-facade",
+        "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          10.0,
+          0,
+          38.8
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "hidden": false,
+        "originalPosition": [
+          -30,
+          0,
+          -36.5
+        ],
+        "originalYawDegrees": 88,
+        "groundingReferenceXZ": [
+          -30,
+          -36.5
+        ]
+      },
+      "note": "Перепланировка v3, этап 4: перенесён на участок схемы вместе с двором"
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-west-return-mid-yard",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант B оштукатуренный пристройка двор · WestReturnMidYard",
+      "params": {
+        "logicalAnchor": "zirat_road@west-return-mid-yard",
+        "component": "VillageParcel_VariantB_PlasterAnnex_Yard",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          5.948,
+          0,
+          38.801
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "hidden": false,
+        "originalPosition": [
+          -25.95,
+          0,
+          -36.36
+        ],
+        "originalYawDegrees": 88,
+        "groundingReferenceXZ": [
+          -25.95,
+          -36.36
+        ]
+      },
+      "note": "Перепланировка v3, этап 4: перенесён на участок схемы вместе с двором"
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-east-return-mid-facade",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант C баня двор жилой дом · EastReturnMidFacade",
+      "params": {
+        "logicalAnchor": "zirat_road@east-return-mid-facade",
+        "component": "VillageParcel_VariantC_BanyaYard_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          38.12,
+          0,
+          -14.0
+        ],
+        "yawDegrees": -180.0,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "hidden": false,
+        "originalPosition": [
+          36,
+          0,
+          -54
+        ],
+        "originalYawDegrees": -88,
+        "groundingReferenceXZ": [
+          36,
+          -54
+        ]
+      },
+      "note": "Перепланировка v3, этап 4: перенесён на участок схемы вместе с двором"
+    },
+    {
+      "id": "urman.world:act1/kit/zirat-road-east-return-mid-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · EastReturnMidShed",
+      "params": {
+        "logicalAnchor": "zirat_road@east-return-mid-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          35.261,
+          0,
+          -18.102
+        ],
+        "yawDegrees": -172.0,
+        "scale": [
+          0.36,
+          0.36,
+          0.36
+        ],
+        "hidden": false,
+        "originalPosition": [
+          32,
+          0,
+          -51
+        ],
+        "originalYawDegrees": -80,
+        "groundingReferenceXZ": [
+          32,
+          -51
+        ]
+      },
+      "note": "Перепланировка v3, этап 4: перенесён на участок схемы вместе с двором"
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-west-arrival-near-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · WestArrivalNearFacade",
+      "params": {
+        "logicalAnchor": "village_day@west-arrival-near-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -17.5,
+          0,
+          16.5
+        ],
+        "yawDegrees": 92,
+        "scale": [
+          0.68,
+          0.68,
+          0.68
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-west-arrival-near-gate",
+      "kind": "kit-placement",
+      "name": "Калитка кривая бревенчатый · WestArrivalNearGate",
+      "params": {
+        "logicalAnchor": "village_day@west-arrival-near-gate",
+        "component": "Gate_CrookedTimber",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -13.7,
+          0,
+          20.3
+        ],
+        "yawDegrees": 6,
+        "scale": [
+          0.78,
+          0.78,
+          0.78
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-west-arrival-near-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · WestArrivalNearFence",
+      "params": {
+        "logicalAnchor": "village_day@west-arrival-near-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -13.5,
+          0,
+          21.5
+        ],
+        "yawDegrees": 8,
+        "scale": [
+          1.15,
+          0.66,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-arrival-near-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · EastArrivalNearFacade",
+      "params": {
+        "logicalAnchor": "village_day@east-arrival-near-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          18,
+          0,
+          17
+        ],
+        "yawDegrees": -92,
+        "scale": [
+          0.66,
+          0.66,
+          0.66
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-arrival-near-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · EastArrivalNearShed",
+      "params": {
+        "logicalAnchor": "village_day@east-arrival-near-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          13.9,
+          0,
+          20
+        ],
+        "yawDegrees": -84,
+        "scale": [
+          0.48,
+          0.48,
+          0.48
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-arrival-near-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · EastArrivalNearFence",
+      "params": {
+        "logicalAnchor": "village_day@east-arrival-near-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          14,
+          0,
+          22.1
+        ],
+        "yawDegrees": 176,
+        "scale": [
+          1.1,
+          0.64,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-west-street-near-woodpile",
+      "kind": "kit-placement",
+      "name": "Дровница сложенные брёвна · WestStreetNearWoodpile",
+      "params": {
+        "logicalAnchor": "village_day@west-street-near-woodpile",
+        "component": "Woodpile_StackedLogs",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -14.4,
+          0,
+          -4.2
+        ],
+        "yawDegrees": 10,
+        "scale": [
+          0.66,
+          0.66,
+          0.66
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-house-zirateastboundaryhouse",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант B оштукатуренный пристройка жилой дом · ZiratEastBoundaryHouse",
+      "params": {
+        "logicalAnchor": "village-house@ZiratEastBoundaryHouse",
+        "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          22,
+          1,
+          -73
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-street-horizon-facade",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант A бревенчатый фронтон жилой дом · EastStreetHorizonFacade",
+      "params": {
+        "logicalAnchor": "village_day@east-street-horizon-facade",
+        "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          37.75,
+          0,
+          97.0
+        ],
+        "yawDegrees": -180.0,
+        "scale": [
+          0.88,
+          0.88,
+          0.88
+        ],
+        "hidden": false,
+        "originalPosition": [
+          33.5,
+          0,
+          18
+        ],
+        "originalYawDegrees": -106,
+        "groundingReferenceXZ": [
+          33.5,
+          18
+        ]
+      },
+      "note": "Перепланировка v3, этап 4: перенесён на участок схемы вместе с двором"
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-street-horizon-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · EastStreetHorizonFence",
+      "params": {
+        "logicalAnchor": "village_day@east-street-horizon-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          35.365,
+          0,
+          102.469
+        ],
+        "yawDegrees": -66.0,
+        "scale": [
+          1.3,
+          0.52,
+          1
+        ],
+        "hidden": false,
+        "originalPosition": [
+          38.1,
+          0,
+          21.8
+        ],
+        "originalYawDegrees": 8,
+        "groundingReferenceXZ": [
+          38.1,
+          21.8
+        ]
+      },
+      "note": "Перепланировка v3, этап 4: перенесён на участок схемы вместе с двором"
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-east-depth-service-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · BabaiEastDepthServiceShed",
+      "params": {
+        "logicalAnchor": "house_old_pc@east-depth-service-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -4.9,
+          0,
+          13.5
+        ],
+        "yawDegrees": -80,
+        "scale": [
+          0.85,
+          0.85,
+          0.85
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-east-depth-service-firewood",
+      "kind": "kit-placement",
+      "name": "Дровница сложенные брёвна · BabaiEastDepthServiceWoodpile",
+      "params": {
+        "logicalAnchor": "house_old_pc@east-depth-service-firewood",
+        "component": "Woodpile_StackedLogs",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -4.3,
+          0,
+          14.5
+        ],
+        "yawDegrees": 8,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-street-side-closure-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · EastStreetSideClosureShed",
+      "params": {
+        "logicalAnchor": "village_day@east-street-side-closure-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          23.25,
+          0,
+          3
+        ],
+        "yawDegrees": -88,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-east-street-side-closure-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · EastStreetSideClosureFence",
+      "params": {
+        "logicalAnchor": "village_day@east-street-side-closure-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          22.4,
+          0,
+          -1.3
+        ],
+        "yawDegrees": 8,
+        "scale": [
+          1.3,
+          0.54,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-west-lateral-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · ArrivalWestLateralFacade",
+      "params": {
+        "logicalAnchor": "village_day@arrival-west-lateral-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -31.5,
+          0,
+          17.0
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          0.78,
+          0.78,
+          0.78
+        ],
+        "groundingReferenceXZ": [
+          -11,
+          16
+        ],
+        "retired": true
+      },
+      "note": "29.09: authored overlap remediation; H014 inside ArrivalWestNearAuthoredTimberGableParcel; proposal plot"
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-west-lateral-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · ArrivalWestLateralShed",
+      "params": {
+        "logicalAnchor": "village_day@arrival-west-lateral-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -15.2,
+          0,
+          19.6
+        ],
+        "yawDegrees": 82,
+        "scale": [
+          0.48,
+          0.48,
+          0.48
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-west-lateral-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · ArrivalWestLateralFence",
+      "params": {
+        "logicalAnchor": "village_day@arrival-west-lateral-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -7.4,
+          0,
+          20.2
+        ],
+        "yawDegrees": 8,
+        "scale": [
+          1.24,
+          0.62,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-east-lateral-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · ArrivalEastLateralFacade",
+      "params": {
+        "logicalAnchor": "village_day@arrival-east-lateral-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          11,
+          0,
+          17
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          0.76,
+          0.76,
+          0.76
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-east-lateral-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · ArrivalEastLateralShed",
+      "params": {
+        "logicalAnchor": "village_day@arrival-east-lateral-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          15.5,
+          0,
+          20.8
+        ],
+        "yawDegrees": -84,
+        "scale": [
+          0.46,
+          0.46,
+          0.46
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-east-lateral-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · ArrivalEastLateralFence",
+      "params": {
+        "logicalAnchor": "village_day@arrival-east-lateral-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          7.2,
+          0,
+          21.3
+        ],
+        "yawDegrees": 174,
+        "scale": [
+          1.2,
+          0.6,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-reverse-west-domestic-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · ArrivalReverseWestDomesticFacade",
+      "params": {
+        "logicalAnchor": "village_day@arrival-reverse-west-domestic-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -11.5,
+          0,
+          35.5
+        ],
+        "yawDegrees": 176,
+        "scale": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "groundingReferenceXZ": [
+          -11.5,
+          26
+        ],
+        "retired": true
+      },
+      "note": "29.09: authored overlap remediation; H044 inside ArrivalWestNearAuthoredTimberGableParcel; proposal plot"
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-reverse-west-domestic-yard",
+      "kind": "kit-placement",
+      "name": "Деревня участок вариант C баня двор двор · ArrivalReverseWestDomesticYard",
+      "params": {
+        "logicalAnchor": "village_day@arrival-reverse-west-domestic-yard",
+        "component": "VillageParcel_VariantC_BanyaYard_Yard",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -11.34,
+          0,
+          23.76
+        ],
+        "yawDegrees": 176,
+        "scale": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-reverse-east-domestic-shed",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · ArrivalReverseEastDomesticShed",
+      "params": {
+        "logicalAnchor": "village_day@arrival-reverse-east-domestic-shed",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          18,
+          0,
+          30
+        ],
+        "yawDegrees": -90,
+        "scale": [
+          1.15,
+          1.15,
+          1.15
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-left-horizon-domestic-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · ArrivalLeftHorizonDomesticFacade",
+      "params": {
+        "logicalAnchor": "village_day@arrival-left-horizon-domestic-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -31.5,
+          0,
+          36.5
+        ],
+        "yawDegrees": 88,
+        "scale": [
+          0.34,
+          0.34,
+          0.34
+        ],
+        "groundingReferenceXZ": [
+          -24,
+          27.5
+        ],
+        "retired": true
+      },
+      "note": "29.09: authored overlap remediation; H045 human-scale house; north of the old plot's tree, west of H006"
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-arrival-right-horizon-domestic-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · ArrivalRightHorizonDomesticFence",
+      "params": {
+        "logicalAnchor": "village_day@arrival-right-horizon-domestic-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          24,
+          0,
+          29
+        ],
+        "yawDegrees": -8,
+        "scale": [
+          1.18,
+          0.52,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-reverse-west-domestic-facade",
+      "kind": "kit-placement",
+      "name": "Жилой дом фасад бревенчатый оштукатуренный · FapReverseWestDomesticFacade",
+      "params": {
+        "logicalAnchor": "fap_clinic@reverse-west-domestic-facade",
+        "component": "DwellingFacade_TimberPlaster",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          6.2,
+          0,
+          -49.6
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          0.44,
+          0.44,
+          0.44
+        ],
+        "groundingReferenceXZ": [
+          9,
+          -42
+        ],
+        "retired": true
+      },
+      "note": "29.09: authored overlap remediation; H046 inside ReturnEastHouseA8Silhouette; proposal plot"
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-reverse-west-domestic-outbuilding",
+      "kind": "kit-placement",
+      "name": "Хозпостройка сарай низкая · FapReverseWestDomesticShed",
+      "params": {
+        "logicalAnchor": "fap_clinic@reverse-west-domestic-outbuilding",
+        "component": "OutbuildingShed_Low",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          6.0,
+          0,
+          -54.5
+        ],
+        "yawDegrees": 84,
+        "scale": [
+          0.55,
+          0.55,
+          0.55
+        ],
+        "groundingReferenceXZ": [
+          11.6,
+          -43.4
+        ],
+        "retired": true
+      },
+      "note": "29.09: authored overlap remediation; H046's shed, behind its house on the new plot"
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-reverse-west-domestic-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · FapReverseWestDomesticFence",
+      "params": {
+        "logicalAnchor": "fap_clinic@reverse-west-domestic-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -21,
+          0,
+          7
+        ],
+        "yawDegrees": 6,
+        "scale": [
+          1.16,
+          0.5,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/fap-clinic-reverse-east-domestic-fence",
+      "kind": "kit-placement",
+      "name": "Забор секция грубый штакетник · FapReverseEastDomesticFence",
+      "params": {
+        "logicalAnchor": "fap_clinic@reverse-east-domestic-fence",
+        "component": "FenceSegment_RoughPicket",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          17,
+          0,
+          7
+        ],
+        "yawDegrees": -6,
+        "scale": [
+          1.12,
+          0.48,
+          1
+        ],
+        "retired": true
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-west-lateral-bank",
+      "kind": "kit-placement",
+      "name": "Лес берег слева · KaraClosureWestBank",
+      "params": {
+        "logicalAnchor": "kara_urman_night@west-lateral-bank",
+        "component": "ForestBank_Left",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          -13,
+          0,
+          -114
+        ],
+        "yawDegrees": -16,
+        "scale": [
+          0.76,
+          0.76,
+          0.76
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-west-lateral-mixed-trees",
+      "kind": "kit-placement",
+      "name": "Смешанные деревья группа слева · KaraClosureWestMixedTrees",
+      "params": {
+        "logicalAnchor": "kara_urman_night@west-lateral-mixed-trees",
+        "component": "MixedTreeCluster_Left",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          -15,
+          0,
+          -121
+        ],
+        "yawDegrees": -20,
+        "scale": [
+          0.76,
+          0.76,
+          0.76
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-west-lateral-root-wall",
+      "kind": "kit-placement",
+      "name": "Корни стена слева · KaraClosureWestRootWall",
+      "params": {
+        "logicalAnchor": "kara_urman_night@west-lateral-root-wall",
+        "component": "RootWall_Left",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          -12,
+          0,
+          -118
+        ],
+        "yawDegrees": -12,
+        "scale": [
+          0.7,
+          0.7,
+          0.7
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-east-lateral-bank",
+      "kind": "kit-placement",
+      "name": "Лес берег справа · KaraClosureEastBank",
+      "params": {
+        "logicalAnchor": "kara_urman_night@east-lateral-bank",
+        "component": "ForestBank_Right",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          13,
+          0,
+          -115
+        ],
+        "yawDegrees": 18,
+        "scale": [
+          0.76,
+          0.76,
+          0.76
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-east-lateral-mixed-trees",
+      "kind": "kit-placement",
+      "name": "Смешанные деревья группа справа · KaraClosureEastMixedTrees",
+      "params": {
+        "logicalAnchor": "kara_urman_night@east-lateral-mixed-trees",
+        "component": "MixedTreeCluster_Right",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          15,
+          0,
+          -122
+        ],
+        "yawDegrees": 22,
+        "scale": [
+          0.76,
+          0.76,
+          0.76
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/kara-urman-night-east-lateral-root-wall",
+      "kind": "kit-placement",
+      "name": "Корни стена справа · KaraClosureEastRootWall",
+      "params": {
+        "logicalAnchor": "kara_urman_night@east-lateral-root-wall",
+        "component": "RootWall_Right",
+        "assetSource": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "position": [
+          12,
+          0,
+          -119
+        ],
+        "yawDegrees": 20,
+        "scale": [
+          0.7,
+          0.7,
+          0.7
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-babai-cleared-approach",
+      "kind": "kit-placement",
+      "name": "Кошка · YardCat",
+      "params": {
+        "logicalAnchor": "village_day@babai-cleared-approach",
+        "component": "AmbientCat",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yawDegrees": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": true
+      },
+      "note": "Скрыта 2026-10-01: серая модель без фактуры (замечание автора)."
+    },
+    {
+      "id": "urman.world:act1/kit/village-day-above-street",
+      "kind": "kit-placement",
+      "name": "Ворона · Crow0",
+      "params": {
+        "logicalAnchor": "village_day@above-street",
+        "component": "AmbientCrow",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yawDegrees": 90,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    },
+    {
+      "id": "urman.world:act1/kit/house-old-pc-two-level-yard-shed",
+      "kind": "kit-placement",
+      "name": "Главный двор сарай с сеновалом · BabaiYardAuthoredShed",
+      "params": {
+        "logicalAnchor": "house_old_pc@two-level-yard-shed",
+        "component": "HeroYardShed_Loft",
+        "assetSource": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "position": [
+          -21.5748,
+          0.3604,
+          -4.7071
+        ],
+        "yawDegrees": 46.722,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "hidden": false
+      }
+    }
+  ]
+}

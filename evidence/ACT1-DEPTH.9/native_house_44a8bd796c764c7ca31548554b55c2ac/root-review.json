@@ -1,0 +1,39 @@
+{
+  "reviewer": "/root",
+  "reviewedUtc": "2026-10-09T03:27:08Z",
+  "jobId": "44a8bd796c764c7ca31548554b55c2ac",
+  "snapshotId": "9ad24050a5b51a5f56ba9a729ea6a5bfef5b018454bb25183e6bd72fca2d06a4",
+  "originalsViewed": [
+    "frames/babai_room_overview.png",
+    "frames/babai_rug_detail.png",
+    "frames/babai_book_detail.png"
+  ],
+  "result": "BOUNDED_RUG_PIGMENT_READABILITY_AND_BOOK_STATIC_PLACEMENT_ACCEPTED_WHOLE_STYLE_OPEN",
+  "accepted": [
+    "Rug field is lighter with legible muted woven ornament and intact full-swatch continuity; existing band colors and thin footprint preserved. This accepts the one field pigment adjustment only.",
+    "Closed portrait book is a recognizable cloth-covered volume with page block, resting on the actual table and visually separate from keyboard, mouse, tray and photograph; strict support/visible-prop guard completed without exception. This accepts static shared geometry/placement only."
+  ],
+  "actualProfile": {
+    "graphicsPreset": "low",
+    "scaling3DScale": 0.7,
+    "atmosphere": "village-winter-frost",
+    "Fov": 70,
+    "sidecarViewport": [
+      1920,
+      1080
+    ],
+    "originalPng": [
+      1886,
+      1061
+    ]
+  },
+  "runtime": "All build/content/import/game steps exit0, engine-errors/stderr empty, userdataRestored true, postdoctor READY no active/orphan/recovery marker.",
+  "provenance": "All 65 original archive entries verified SHA-256/bytes. 25 station-selected sources were secured before seal ACK and match full receipt manifest. Local authoring/receipt copies are explicitly excluded; post-ACK copy+pre-job mtime is not a cryptographic snapshot binding.",
+  "remaining": [
+    "Whole interior style: coarse hutch/trim/furniture and character forms/material balance remain unaccepted.",
+    "Full textile finish, matched High/Low/reference/human/ordinary movement gates remain open.",
+    "Book is provisional static closed presentation: no final A-BOOK Blender/GLB/page atlas/animations/hands/UI or language acceptance.",
+    "act1_demo book frame is not fullgame receiving interaction, persistence, ordinary Niva→tea→book route or anchor/capsule validation.",
+    "PW-006 visit/world/chapter command clauses and actual providers remain open; ACT1-DEPTH.9 stays in_progress."
+  ]
+}

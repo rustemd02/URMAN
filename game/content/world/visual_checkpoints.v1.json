@@ -18,59 +18,235 @@
     "priority": "Приоритет профиля в рантайме: манифест кадра (через StudioPreviewProfile) → URMAN_ATMOSPHERE_PHASE → профиль зоны."
   },
   "states": [
-    { "profile": "village-winter-frost", "identity": "Морозное утро", "tasks": ["VIS-068"] },
-    { "profile": "overcast-day", "identity": "Пасмурный день", "tasks": ["VIS-070"] },
-    { "profile": "golden-hour", "identity": "Золотой зимний час", "tasks": ["VIS-069"] },
-    { "profile": "zirat-winter-muted", "identity": "Сумерки", "tasks": ["VIS-067", "VIS-072"] },
-    { "profile": "village-green-night", "identity": "Зелёная ночь деревни", "tasks": ["VIS-071", "VIS-072"] },
-    { "profile": "kara-winter-night-edge", "identity": "Нечеловеческая лесная ночь", "tasks": ["VIS-073", "VIS-074"] }
+    {
+      "profile": "village-winter-frost",
+      "identity": "Морозное утро",
+      "tasks": [
+        "VIS-068"
+      ]
+    },
+    {
+      "profile": "overcast-day",
+      "identity": "Пасмурный день",
+      "tasks": [
+        "VIS-070"
+      ]
+    },
+    {
+      "profile": "golden-hour",
+      "identity": "Золотой зимний час",
+      "tasks": [
+        "VIS-069"
+      ]
+    },
+    {
+      "profile": "zirat-winter-muted",
+      "identity": "Сумерки",
+      "tasks": [
+        "VIS-067",
+        "VIS-072"
+      ]
+    },
+    {
+      "profile": "village-green-night",
+      "identity": "Зелёная ночь деревни",
+      "tasks": [
+        "VIS-071",
+        "VIS-072"
+      ]
+    },
+    {
+      "profile": "kara-winter-night-edge",
+      "identity": "Нечеловеческая лесная ночь",
+      "tasks": [
+        "VIS-073",
+        "VIS-074"
+      ]
+    }
   ],
   "points": [
-    { "id": "babai_entry_door", "zoneId": "house_old_pc", "spec": "BabaiApproachDwellingFacade@-1.162,1.796,-0.984>BabaiApproachDwellingFacade@-1.162,1.496,0.916", "subject": "ACT1-DEPTH.9: фактическая дверь, рама и входная зона дома бабая; дополнительная интерьерная точка, без художественного PASS." },
-    { "id": "babai_room_overview", "zoneId": "house_old_pc", "spec": "BabaiApproachDwellingFacade@-1.162,1.846,-0.484>BabaiApproachDwellingFacade@1.658,1.546,-4.934", "subject": "ACT1-DEPTH.9: диагональный обзор действующей комнаты от входа: мебель, бытовые предметы и проходы; дополнительная точка, профиль зоны." },
-    { "id": "babai_stove_detail", "zoneId": "house_old_pc", "spec": "BabaiApproachDwellingFacade@1.058,1.946,-1.884>BabaiApproachDwellingFacade@-1.492,1.646,-3.084", "subject": "ACT1-DEPTH.9: дополнительный статичный крупный план действующей железной печи, каменного основания, дверцы и связи с дымоходом; кадр для root review, без визуального PASS." },
-    {"id": "babai_rug_detail", "zoneId": "house_old_pc", "spec": "BabaiApproachDwellingFacade@1.258,1.896,-0.034>BabaiApproachDwellingFacade@1.258,0.276,-2.134", "subject": "ACT1-DEPTH.9: фактический палас и тонкие каймы; material readback, без художественного PASS."},
-    { "id": "wind_material_a", "spec": "Ground@-40,2,-12>Ground@-52,3,-12", "subject": "PW-032: западная зимняя хвойная посадка, первая фаза ветра; статичный protected capture, без обычного прохода или motion PASS." },
-    { "id": "wind_material_b", "spec": "Ground@-40,2,-12>Ground@-52,3,-12", "subject": "PW-032: та же камера западной зимней хвойной посадки, следующая фаза ветра; material readback и оригинальный кадр для root review." },
-    { "id": "C1_arrival_street", "spec": "Ground@0,1.7,12>Ground@0,1.6,-30", "subject": "ось улицы от приезда: дома, заборы, дорога, остановка, NPC. Каноническая точка сравнения before/after, профиль зоны (морозное утро)." },
-    { "id": "C2_hero_house", "spec": "Ground@-14,1.7,4>Ground@-30,1.8,-6", "subject": "фасад hero-дома: оконные ниши, наличники, карниз. Профиль зоны." },
-    { "id": "C3_fence_close", "spec": "Ground@-8,1.4,-6>Ground@-14,1.0,-10", "subject": "ближний пролёт ограды: опора, толщина доски, контакт со снегом. Профиль зоны." },
-    { "id": "C4_fap_branch", "spec": "Ground@10,1.7,-10>Ground@30,1.8,-28", "subject": "фасад ФАП и ветка дороги: общественное здание, край снега на ветке. Профиль зоны." },
-    { "id": "C5_forest_edge", "spec": "Ground@0,1.7,-40>Ground@0,2.0,-80", "subject": "лес с улицы: глубина, туман, материал дерева. Профиль зоны." },
-    { "id": "C6_dk_square", "spec": "Ground@6,1.7,-55>Ground@-10,2.0,-70", "subject": "дальняя площадь/ДК: дальние планы. Профиль зоны." },
-    { "id": "C7_trail_junction", "spec": "Ground@2,1.5,-20>Ground@18,1.4,-34", "subject": "узел протоптанных троп: глубина следов, непрерывность дороги. Профиль зоны." },
-    { "id": "C8_sky_silhouette", "spec": "Ground@0,1.7,-8>Ground@-40,6.0,-40", "subject": "небо и верхние силуэты: колористика неба, читаемость крон. Профиль зоны." },
-    { "id": "C1_frost_morning", "spec": "Ground@0,1.7,12>Ground@0,1.6,-30", "profile": "village-winter-frost", "subject": "та же ось улицы, морозное утро (VIS-068): синева снега, искра, value-иерархия дома/дороги/неба." },
-    { "id": "C1_overcast", "spec": "Ground@0,1.7,12>Ground@0,1.6,-30", "profile": "overcast-day", "subject": "та же ось улицы, пасмурный день (VIS-070): цветные холодные тени, три раздельных value mass в миниатюре, читаемость дальнего леса." },
-    { "id": "C1_golden_hour", "spec": "Ground@0,1.7,12>Ground@0,1.6,-30", "profile": "golden-hour", "subject": "та же ось улицы, золотой зимний час (VIS-069): тёплый key против холодных теней, различимость материалов, отсутствие оранжевого фильтра." },
-    { "id": "C1_green_night", "spec": "Ground@0,1.7,12>Ground@0,1.6,-30", "profile": "village-green-night", "subject": "та же ось улицы, зелёная ночь деревни (VIS-071): самостоятельный зелёный регистр, дома и путь видимы, без болотного overlay." },
-    { "id": "C1_forest_night", "spec": "Ground@0,1.7,12>Ground@0,1.6,-30", "profile": "kara-winter-night-edge", "subject": "та же ось улицы под лесной ночью (VIS-073/074): непроглядный туман и чужой цвет как граница между деревней и лесом." },
-    { "id": "C1_dusk", "spec": "Ground@0,1.7,12>Ground@0,1.6,-30", "profile": "zirat-winter-muted", "subject": "та же ось улицы в сумерках (VIS-067/072): индиго/сирень, переходный регистр между днём и ночью." },
-    { "id": "C2_green_night", "spec": "Ground@-14,1.7,4>Ground@-30,1.8,-6", "profile": "village-green-night", "subject": "hero-дом в зелёную ночь (VIS-071/072): янтарно-кремовые окна как редкий тёплый контрапункт, без оранжевого flood двора." },
-    { "id": "C5_overcast", "spec": "Ground@0,1.7,-40>Ground@0,2.0,-80", "profile": "overcast-day", "subject": "лес в пасмурный день (VIS-070): дальний лес читается без заката, value разделены снегом/стеной/небом." },
-    { "id": "C5_forest_night", "spec": "Ground@0,1.7,-40>Ground@0,2.0,-80", "profile": "kara-winter-night-edge", "subject": "лес в нечеловеческую ночь (VIS-073/074): первые 2–3 слоя стволов читаемы, дальше глубина растворяется; near-план не молоко." },
-    { "id": "C5_dusk", "spec": "Ground@0,1.7,-40>Ground@0,2.0,-80", "profile": "zirat-winter-muted", "subject": "лес в сумерках (VIS-073): контрольный уровень тумана между деревенским днём и лесной ночью." }
+    {
+      "id": "babai_entry_door",
+      "zoneId": "house_old_pc",
+      "spec": "BabaiApproachDwellingFacade@-1.162,1.796,-0.984>BabaiApproachDwellingFacade@-1.162,1.496,0.916",
+      "subject": "ACT1-DEPTH.9: фактическая дверь, рама и входная зона дома бабая; дополнительная интерьерная точка, без художественного PASS."
+    },
+    {
+      "id": "babai_room_overview",
+      "zoneId": "house_old_pc",
+      "spec": "BabaiApproachDwellingFacade@-1.162,1.846,-0.484>BabaiApproachDwellingFacade@1.658,1.546,-4.934",
+      "subject": "ACT1-DEPTH.9: диагональный обзор действующей комнаты от входа: мебель, бытовые предметы и проходы; дополнительная точка, профиль зоны."
+    },
+    {
+      "id": "babai_stove_detail",
+      "zoneId": "house_old_pc",
+      "spec": "BabaiApproachDwellingFacade@1.058,1.946,-1.884>BabaiApproachDwellingFacade@-1.492,1.646,-3.084",
+      "subject": "ACT1-DEPTH.9: дополнительный статичный крупный план действующей железной печи, каменного основания, дверцы и связи с дымоходом; кадр для root review, без визуального PASS."
+    },
+    {
+      "id": "babai_rug_detail",
+      "zoneId": "house_old_pc",
+      "spec": "BabaiApproachDwellingFacade@1.258,1.896,-0.034>BabaiApproachDwellingFacade@1.258,0.276,-2.134",
+      "subject": "ACT1-DEPTH.9: фактический палас и тонкие каймы; material readback, без художественного PASS."
+    },
+    {
+      "id": "wind_material_a",
+      "spec": "Ground@-40,2,-12>Ground@-52,3,-12",
+      "subject": "PW-032: западная зимняя хвойная посадка, первая фаза ветра; статичный protected capture, без обычного прохода или motion PASS."
+    },
+    {
+      "id": "wind_material_b",
+      "spec": "Ground@-40,2,-12>Ground@-52,3,-12",
+      "subject": "PW-032: та же камера западной зимней хвойной посадки, следующая фаза ветра; material readback и оригинальный кадр для root review."
+    },
+    {
+      "id": "C1_arrival_street",
+      "spec": "Ground@0,1.7,12>Ground@0,1.6,-30",
+      "subject": "ось улицы от приезда: дома, заборы, дорога, остановка, NPC. Каноническая точка сравнения before/after, профиль зоны (морозное утро)."
+    },
+    {
+      "id": "C2_hero_house",
+      "spec": "Ground@-14,1.7,4>Ground@-30,1.8,-6",
+      "subject": "фасад hero-дома: оконные ниши, наличники, карниз. Профиль зоны."
+    },
+    {
+      "id": "C3_fence_close",
+      "spec": "Ground@-8,1.4,-6>Ground@-14,1.0,-10",
+      "subject": "ближний пролёт ограды: опора, толщина доски, контакт со снегом. Профиль зоны."
+    },
+    {
+      "id": "C4_fap_branch",
+      "spec": "Ground@10,1.7,-10>Ground@30,1.8,-28",
+      "subject": "фасад ФАП и ветка дороги: общественное здание, край снега на ветке. Профиль зоны."
+    },
+    {
+      "id": "C5_forest_edge",
+      "spec": "Ground@0,1.7,-40>Ground@0,2.0,-80",
+      "subject": "лес с улицы: глубина, туман, материал дерева. Профиль зоны."
+    },
+    {
+      "id": "C6_dk_square",
+      "spec": "Ground@6,1.7,-55>Ground@-10,2.0,-70",
+      "subject": "дальняя площадь/ДК: дальние планы. Профиль зоны."
+    },
+    {
+      "id": "C7_trail_junction",
+      "spec": "Ground@2,1.5,-20>Ground@18,1.4,-34",
+      "subject": "узел протоптанных троп: глубина следов, непрерывность дороги. Профиль зоны."
+    },
+    {
+      "id": "C8_sky_silhouette",
+      "spec": "Ground@0,1.7,-8>Ground@-40,6.0,-40",
+      "subject": "небо и верхние силуэты: колористика неба, читаемость крон. Профиль зоны."
+    },
+    {
+      "id": "C1_frost_morning",
+      "spec": "Ground@0,1.7,12>Ground@0,1.6,-30",
+      "profile": "village-winter-frost",
+      "subject": "та же ось улицы, морозное утро (VIS-068): синева снега, искра, value-иерархия дома/дороги/неба."
+    },
+    {
+      "id": "C1_overcast",
+      "spec": "Ground@0,1.7,12>Ground@0,1.6,-30",
+      "profile": "overcast-day",
+      "subject": "та же ось улицы, пасмурный день (VIS-070): цветные холодные тени, три раздельных value mass в миниатюре, читаемость дальнего леса."
+    },
+    {
+      "id": "C1_golden_hour",
+      "spec": "Ground@0,1.7,12>Ground@0,1.6,-30",
+      "profile": "golden-hour",
+      "subject": "та же ось улицы, золотой зимний час (VIS-069): тёплый key против холодных теней, различимость материалов, отсутствие оранжевого фильтра."
+    },
+    {
+      "id": "C1_green_night",
+      "spec": "Ground@0,1.7,12>Ground@0,1.6,-30",
+      "profile": "village-green-night",
+      "subject": "та же ось улицы, зелёная ночь деревни (VIS-071): самостоятельный зелёный регистр, дома и путь видимы, без болотного overlay."
+    },
+    {
+      "id": "C1_forest_night",
+      "spec": "Ground@0,1.7,12>Ground@0,1.6,-30",
+      "profile": "kara-winter-night-edge",
+      "subject": "та же ось улицы под лесной ночью (VIS-073/074): непроглядный туман и чужой цвет как граница между деревней и лесом."
+    },
+    {
+      "id": "C1_dusk",
+      "spec": "Ground@0,1.7,12>Ground@0,1.6,-30",
+      "profile": "zirat-winter-muted",
+      "subject": "та же ось улицы в сумерках (VIS-067/072): индиго/сирень, переходный регистр между днём и ночью."
+    },
+    {
+      "id": "C2_green_night",
+      "spec": "Ground@-14,1.7,4>Ground@-30,1.8,-6",
+      "profile": "village-green-night",
+      "subject": "hero-дом в зелёную ночь (VIS-071/072): янтарно-кремовые окна как редкий тёплый контрапункт, без оранжевого flood двора."
+    },
+    {
+      "id": "C5_overcast",
+      "spec": "Ground@0,1.7,-40>Ground@0,2.0,-80",
+      "profile": "overcast-day",
+      "subject": "лес в пасмурный день (VIS-070): дальний лес читается без заката, value разделены снегом/стеной/небом."
+    },
+    {
+      "id": "C5_forest_night",
+      "spec": "Ground@0,1.7,-40>Ground@0,2.0,-80",
+      "profile": "kara-winter-night-edge",
+      "subject": "лес в нечеловеческую ночь (VIS-073/074): первые 2–3 слоя стволов читаемы, дальше глубина растворяется; near-план не молоко."
+    },
+    {
+      "id": "C5_dusk",
+      "spec": "Ground@0,1.7,-40>Ground@0,2.0,-80",
+      "profile": "zirat-winter-muted",
+      "subject": "лес в сумерках (VIS-073): контрольный уровень тумана между деревенским днём и лесной ночью."
+    },
+    {
+      "id": "babai_book_detail",
+      "zoneId": "house_old_pc",
+      "spec": "FamilyTukayBookPresentation@0,0.55,0.7>FamilyTukayBookPresentation@0,0,0",
+      "subject": "PW-006: общий видимый семейный том на измеренной поверхности стола; крупный статичный вид, без доказательства PW выдачи или готовности A001."
+    }
   ],
   "batches": [
     {
       "id": "A_street_six_states",
       "purpose": "Шесть авторских состояний на одной уличной камере: единственная пара, закрывающая VIS-069…074 по оси улицы.",
       "entries": 6,
-      "checkpoints": ["C1_frost_morning", "C1_overcast", "C1_golden_hour", "C1_green_night", "C1_forest_night", "C1_dusk"],
+      "checkpoints": [
+        "C1_frost_morning",
+        "C1_overcast",
+        "C1_golden_hour",
+        "C1_green_night",
+        "C1_forest_night",
+        "C1_dusk"
+      ],
       "points": "C1_frost_morning:Ground@0,1.7,12>Ground@0,1.6,-30;C1_overcast:Ground@0,1.7,12>Ground@0,1.6,-30;C1_golden_hour:Ground@0,1.7,12>Ground@0,1.6,-30;C1_green_night:Ground@0,1.7,12>Ground@0,1.6,-30;C1_forest_night:Ground@0,1.7,12>Ground@0,1.6,-30;C1_dusk:Ground@0,1.7,12>Ground@0,1.6,-30"
     },
     {
       "id": "B_forest_and_window_states",
       "purpose": "Состояния на второй и третьей камере: окна в зелёную ночь и туман/цвет леса (критерии VIS-071/072 и VIS-073/074 читаются только на этих сюжетах).",
       "entries": 4,
-      "checkpoints": ["C2_green_night", "C5_overcast", "C5_forest_night", "C5_dusk"],
+      "checkpoints": [
+        "C2_green_night",
+        "C5_overcast",
+        "C5_forest_night",
+        "C5_dusk"
+      ],
       "points": "C2_green_night:Ground@-14,1.7,4>Ground@-30,1.8,-6;C5_overcast:Ground@0,1.7,-40>Ground@0,2.0,-80;C5_forest_night:Ground@0,1.7,-40>Ground@0,2.0,-80;C5_dusk:Ground@0,1.7,-40>Ground@0,2.0,-80"
     },
     {
       "id": "C_canonical_default_profile",
       "purpose": "Канонический набор C1…C8 без строк профиля: тот же свет, что и в обычном игровом пути, служит anchor для пар before/after остальных batch.",
       "entries": 8,
-      "checkpoints": ["C1_arrival_street", "C2_hero_house", "C3_fence_close", "C4_fap_branch", "C5_forest_edge", "C6_dk_square", "C7_trail_junction", "C8_sky_silhouette"],
+      "checkpoints": [
+        "C1_arrival_street",
+        "C2_hero_house",
+        "C3_fence_close",
+        "C4_fap_branch",
+        "C5_forest_edge",
+        "C6_dk_square",
+        "C7_trail_junction",
+        "C8_sky_silhouette"
+      ],
       "points": "C1_arrival_street:Ground@0,1.7,12>Ground@0,1.6,-30;C2_hero_house:Ground@-14,1.7,4>Ground@-30,1.8,-6;C3_fence_close:Ground@-8,1.4,-6>Ground@-14,1.0,-10;C4_fap_branch:Ground@10,1.7,-10>Ground@30,1.8,-28;C5_forest_edge:Ground@0,1.7,-40>Ground@0,2.0,-80;C6_dk_square:Ground@6,1.7,-55>Ground@-10,2.0,-70;C7_trail_junction:Ground@2,1.5,-20>Ground@18,1.4,-34;C8_sky_silhouette:Ground@0,1.7,-8>Ground@-40,6.0,-40"
     }
   ],
