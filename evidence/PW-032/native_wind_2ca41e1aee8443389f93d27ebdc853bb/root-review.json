@@ -1,0 +1,30 @@
+{
+  "taskId": "PW-032",
+  "reviewer": "/root",
+  "reviewedOriginalFrames": [
+    "frames/wind_material_a.png",
+    "frames/wind_material_b.png"
+  ],
+  "result": "bounded_shader_lighting_normal_accepted_whole_card_open",
+  "visualFindings": [
+    "Both original woodland views show intact rooted trunks and needle silhouettes without obvious detached material patches or broken snow attachment.",
+    "No obvious lighting seam or pigment discontinuity is visible in these static views. The soft snowy woodland palette remains coherent in this limited view."
+  ],
+  "nativeEvidence": {
+    "jobId": "2ca41e1aee8443389f93d27ebdc853bb",
+    "snapshotId": "9e01b30125bf60aa4e15ddb79165ad64e364d19c2f2e8f1d2e60866bd237dfd8",
+    "result": "PASS",
+    "engineErrors": 0,
+    "userdataRestored": true,
+    "sourceCopiesMatched": 10,
+    "windEnabled": true,
+    "windSway": 0.05,
+    "lightingNormalBends": true,
+    "capturedTicksDeltaMsec": 4857
+  },
+  "limits": [
+    "Static same-camera frames do not measure vertex displacement, shadow synchronization, pixel drift, reduced-motion behavior, ordinary traversal or whole-world artistic readiness.",
+    "PNG 1886x1061 differs from sidecar viewport 1920x1080; originals preserved.",
+    "Other cast/book/creature surfaces and AS12/16/full VIS criteria remain open."
+  ]
+}

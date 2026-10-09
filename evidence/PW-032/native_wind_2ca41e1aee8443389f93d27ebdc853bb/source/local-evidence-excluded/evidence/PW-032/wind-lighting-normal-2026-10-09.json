@@ -1,0 +1,45 @@
+{
+  "taskId": "PW-032",
+  "slice": "lighting normal follows existing foliage wind deformation; rest pigment/snow coordinates preserved",
+  "status": "source_compiled_native_pending",
+  "cause": "Existing wind branch moved VERTEX without changing built-in NORMAL. Foliage .05 and birch leaves .07 share this shader, including winter pine cutout needles; rigid inert materials remove the deformation block. No shadow-geometry defect is asserted.",
+  "implementation": "Analytic cofactor of J=I+direction outer bend_gradient updates built-in NORMAL for finite, nondegenerate, positive-determinant bends. Gradient includes world phase transformed to local model basis, .805 second-sine derivative, and rooted-height derivative. Existing VERTEX displacement and world/local pigment varyings are unchanged.",
+  "boundaries": [
+    "Rest world_normal continues to define pigment projection and attached snow coverage; no time-dependent recoloring/texture-axis switch introduced.",
+    "Current wind material families have no tangent-space normal maps/relief. Future such materials would need corresponding tangent handling.",
+    "Degenerate/folded/nonfinite normal retains prior NORMAL; normal seam at max(localY,0) root follows existing deformation seam.",
+    "No full foliage/cast/motion/art card acceptance, measured pixel threshold, ordinary route or reduced-motion runtime proof."
+  ],
+  "independentReview": {
+    "reviewer": "/root/address_mount",
+    "model": "GPT-6 Luna Max Fast",
+    "result": "Confirmed lighting-normal mismatch, formula and coordinate ownership; keep rest projection normal separate."
+  },
+  "verification": {
+    "gameBuild": {
+      "result": "PASS",
+      "warnings": 0,
+      "errors": 0,
+      "elapsedSeconds": 14.39,
+      "scope": "Shader correction plus readback compiled; subsequent one-line readback count bound inspected/diffchecked, exact next source awaits native station build."
+    },
+    "diffCheck": "PASS",
+    "native": "NOT_RUN"
+  },
+  "nativeCapturePlanned": {
+    "scene": "res://scenes/act1_demo.tscn",
+    "points": [
+      "wind_material_a",
+      "wind_material_b"
+    ],
+    "zone": "village_day",
+    "fov": 70,
+    "spec": "Ground@-40,2,-12>Ground@-52,3,-12"
+  },
+  "sourceHashesSha256": {
+    "game/scripts/PainterlyMaterialLibrary.cs": "cd074ba5f24f725b67fb275a7b2411277da820814a5d003764f00c664e60d7bc",
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs": "dcb94cca33c592b2107962341a16bf7d81c307515fb31e9180700375bb8b64da"
+  },
+  "technicalSource": "https://docs.godotengine.org/en/4.4/tutorials/shaders/shader_reference/spatial_shader.html",
+  "numericBuiltinsSource": "https://docs.godotengine.org/en/4.0/tutorials/shaders/shader_reference/shading_language.html"
+}

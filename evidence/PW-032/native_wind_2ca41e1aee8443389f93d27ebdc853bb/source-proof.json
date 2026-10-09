@@ -1,0 +1,67 @@
+{
+  "job_id": "2ca41e1aee8443389f93d27ebdc853bb",
+  "snapshot_id": "9e01b30125bf60aa4e15ddb79165ad64e364d19c2f2e8f1d2e60866bd237dfd8",
+  "base_commit": "d184a40e7913f08babac3bd1093b84d62e4f783d",
+  "snapshot_manifest_file_count": 1825,
+  "snapshot_hashes_verified": true,
+  "sealed_station_sources": {
+    "game/assets/generated/urman_modular_kit.glb": {
+      "bytes": 1393776,
+      "sha256": "ce6cca7084ba9a08bc8fb090467bfe1a361f6cc3743860376a3ce5417252f314",
+      "archive_path": "source/station/game/assets/generated/urman_modular_kit.glb"
+    },
+    "game/content/urman.fullgame.compiled.v1.json": {
+      "bytes": 2122792,
+      "sha256": "89f8a53f0315a10c475b0165677d8475473c3a336dda7d004bc550af145c5b1e",
+      "archive_path": "source/station/game/content/urman.fullgame.compiled.v1.json"
+    },
+    "game/content/world/act1_village_kit.world.v1.json": {
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d",
+      "archive_path": "source/station/game/content/world/act1_village_kit.world.v1.json"
+    },
+    "game/content/world/atmosphere.v1.json": {
+      "bytes": 13795,
+      "sha256": "026ed905882dd738f45c40082bd69f73dab2939fb9b16168953befc7c19a154d",
+      "archive_path": "source/station/game/content/world/atmosphere.v1.json"
+    },
+    "game/content/world/visual_checkpoints.v1.json": {
+      "bytes": 14721,
+      "sha256": "9d71b1b3ba8ad880e854cbe5e4501f297c8d59d9b69ad6a022b467098006e786",
+      "archive_path": "source/station/game/content/world/visual_checkpoints.v1.json"
+    },
+    "game/project.godot": {
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4",
+      "archive_path": "source/station/game/project.godot"
+    },
+    "game/scripts/Act1ConnectedWorld.cs": {
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f",
+      "archive_path": "source/station/game/scripts/Act1ConnectedWorld.cs"
+    },
+    "game/scripts/Act1DemoRoot.cs": {
+      "bytes": 96068,
+      "sha256": "3403c196273291ef4d4825687a134a08451154eb1db5f5fa88660c44a13d3349",
+      "archive_path": "source/station/game/scripts/Act1DemoRoot.cs"
+    },
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs": {
+      "bytes": 53558,
+      "sha256": "dcb94cca33c592b2107962341a16bf7d81c307515fb31e9180700375bb8b64da",
+      "archive_path": "source/station/game/scripts/Act1DemoRoot.DevViewCapture.cs"
+    },
+    "game/scripts/PainterlyMaterialLibrary.cs": {
+      "bytes": 121832,
+      "sha256": "cd074ba5f24f725b67fb275a7b2411277da820814a5d003764f00c664e60d7bc",
+      "archive_path": "source/station/game/scripts/PainterlyMaterialLibrary.cs"
+    }
+  },
+  "local_nonstation_evidence": {
+    "evidence/PW-032/wind-lighting-normal-2026-10-09.json": {
+      "bytes": 2723,
+      "sha256": "871b73d80c24e80f015617a656a0912c68687cb40100916bb6e42888658de325",
+      "archive_path": "source/local-evidence-excluded/evidence/PW-032/wind-lighting-normal-2026-10-09.json",
+      "station_snapshot_included": false
+    }
+  }
+}

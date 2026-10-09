@@ -1,0 +1,13 @@
+# PW-032 protected western woodland wind capture
+
+This is a two-frame, same-view native capture with the stock Windows station protocol. The job passed; art, motion, and ordinary-player acceptance remain pending root review.
+
+- Job `2ca41e1aee8443389f93d27ebdc853bb`; snapshot `9e01b30125bf60aa4e15ddb79165ad64e364d19c2f2e8f1d2e60866bd237dfd8`; base HEAD `d184a40e7913f08babac3bd1093b84d62e4f783d`.
+- Points are the literal manifest rows `wind_material_a/b`, both `Ground@-40,2,-12>Ground@-52,3,-12`; the manifest's default zone is `village_day`. No `--phase` override was sent. Both sidecars report active zone `village_day`, no requested profile, and the actual atmosphere profile `village-winter-frost`.
+- Native Windows PASS, game exit 0; elapsed 337.25 seconds, Godot `4.7.1.stable.mono.official.a13da4feb`, .NET SDK `10.0.302`, Vulkan Forward+, GeForce GTX 970. Build/content-build logs report zero warnings and errors; `engine-errors.log` is empty. Receipt reports snapshot hashes verified and userdata restored. Pre/post-run doctors are archived and ready.
+- The DevView readback returns the nearest eight visible surfaces whose active shader has `wind_sway > 0`. Both frames report `windEnabled=true`, `windSway=0.05`, `lowQuality=false`, and `lightingNormalBends=true` for eight WinterPine LOD surfaces on Plant254, Plant290, and Plant216. LOD2 shadow is off; captured LOD0/1 rows report shadow on. Same-view captures were recorded at ticks 207507 and 212364 (4,857 ms apart). Their recorded mesh global transforms are identical; this is transform/material evidence and does not directly measure vertex displacement or constitute a motion pass.
+- The original PNGs are `frames/wind_material_a.png` and `frames/wind_material_b.png`; `frame-summary.json` records SHA-256 and readback details. PNG IHDR is 1886×1061 while the sidecars report a 1920×1080 viewport; both values are retained. Root should judge the original frames visually.
+- `source-proof.json` records ten pre-submit source copies whose SHA-256 values match the receipt's exact 1,825-file manifest. The lighting-normal evidence JSON is stored separately as local provenance and is explicitly marked absent from the station snapshot. No post-submit working-tree bytes were used to recreate sealed source copies.
+- This capture uses a static DevView camera. It does not establish ordinary keyboard movement, walkability, plant collision, whole-world styling, human acceptance, or final PW-032 completion.
+
+Raw `result.zip` is retained as an ignored duplicate at `.codex-captures/remote/2ca41e1aee8443389f93d27ebdc853bb/result.zip`; `result-zip.sha256` records its digest.
