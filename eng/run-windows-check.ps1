@@ -6,7 +6,6 @@ param(
     [string]$ViewPoints,
     [ValidatePattern('^$|^[a-z0-9-]{1,48}$')][string]$AtmospherePhase,
     [ValidatePattern('^$|^player$|^\d{2,3}(\.\d+)?$')][string]$ViewFov,
-    [ValidateSet('', 'neutral', 'no-fog', 'neutral-no-fog')][string]$DiagnosticView = '',
     [string]$Root = (Split-Path $PSScriptRoot -Parent),
     [string]$ToolsRoot,
     [string]$Provenance,
@@ -29,7 +28,6 @@ if ($Scene -notmatch '^res://[\w/.-]+\.tscn$' -or $Scene.Contains('..') -or
 if ($Mode -eq 'capture' -and (-not $ViewPoints -or $Headless)) { throw 'Capture requires -ViewPoints and a native window.' }
 if ($AtmospherePhase -and $Mode -ne 'capture') { throw 'An atmosphere phase only applies to a capture.' }
 if ($ViewFov -and $Mode -ne 'capture') { throw 'A view FOV only applies to a capture.' }
-if ($DiagnosticView -and $Mode -ne 'capture') { throw 'A diagnostic view only applies to a capture.' }
 if ($Mode -eq 'play' -and $Headless) { throw 'Play requires a native window.' }
 $manifest = Get-Content "$Root/eng/toolchain.json" -Raw | ConvertFrom-Json
 $version = $manifest.godot.version -replace '\.stable.*$', ''
@@ -73,9 +71,8 @@ $savedCapture = $env:URMAN_VIEW_CAPTURE
 $savedPoints = $env:URMAN_VIEW_POINTS
 $savedPhase = $env:URMAN_ATMOSPHERE_PHASE
 $savedFov = $env:URMAN_VIEW_FOV
-$savedDiagnostic = $env:URMAN_DIAGNOSTIC_VIEW
 try {
-    Remove-Item Env:URMAN_VIEW_CAPTURE, Env:URMAN_VIEW_POINTS, Env:URMAN_ATMOSPHERE_PHASE, Env:URMAN_VIEW_FOV, Env:URMAN_DIAGNOSTIC_VIEW -ErrorAction SilentlyContinue
+    Remove-Item Env:URMAN_VIEW_CAPTURE, Env:URMAN_VIEW_POINTS, Env:URMAN_ATMOSPHERE_PHASE, Env:URMAN_VIEW_FOV -ErrorAction SilentlyContinue
     if ($Provenance) {
         & $Python -c "import sys,json; from pathlib import Path; sys.path.insert(0,sys.argv[1]); from remote_common import verify_source; verify_source(Path(sys.argv[2]),json.loads(Path(sys.argv[3]).read_text(encoding='utf-8-sig')))" "$ToolsRoot/eng" $Root $Provenance
         if ($LASTEXITCODE -ne 0) { throw 'Snapshot provenance/hash verification failed.' }
@@ -135,8 +132,6 @@ try {
             if ($AtmospherePhase) { $env:URMAN_ATMOSPHERE_PHASE = $AtmospherePhase; $receipt.atmospherePhase = $AtmospherePhase }
             # VIS-111: 'player' = the player's camera FOV; default control views stay at 70.
             if ($ViewFov) { $env:URMAN_VIEW_FOV = $ViewFov; $receipt.viewFov = $ViewFov }
-            # VIS-039: diagnostic decomposition; never a shipping frame.
-            if ($DiagnosticView) { $env:URMAN_DIAGNOSTIC_VIEW = $DiagnosticView; $receipt.diagnosticView = $DiagnosticView }
         }
         $arguments += $Scene
         if ($Mode -eq 'smoke') { $arguments += '--urman-smoke-background-input' }
@@ -177,7 +172,6 @@ try {
     $env:URMAN_VIEW_POINTS = $savedPoints
     $env:URMAN_ATMOSPHERE_PHASE = $savedPhase
     $env:URMAN_VIEW_FOV = $savedFov
-    $env:URMAN_DIAGNOSTIC_VIEW = $savedDiagnostic
     Pop-Location
     $runLock.Dispose()
 }

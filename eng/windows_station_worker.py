@@ -224,7 +224,7 @@ class Station:
                 'gpu_acceptance': self.config.get('gpu_acceptance', 'not-run')}
 
     def submit(self, spec):
-        if set(spec) - {'job_id','snapshot_id','mode','scene','timeout','headless','points','phase','fov','diagnostic'}:
+        if set(spec) - {'job_id','snapshot_id','mode','scene','timeout','headless','points','phase','fov'}:
             raise ValueError('unknown job field')
         jid = spec.get('job_id', '')
         if not re.fullmatch('[a-zA-Z0-9_-]{8,64}', jid):
@@ -268,9 +268,6 @@ class Station:
         fov = spec.get('fov', '')
         if not isinstance(fov, str) or (fov and (spec['mode'] != 'capture' or not re.fullmatch(r'player|\d{2,3}(?:\.\d+)?', fov))):
             raise ValueError('invalid view fov')
-        diagnostic = spec.get('diagnostic', '')
-        if diagnostic not in ('', 'neutral', 'no-fog', 'neutral-no-fog') or (diagnostic and spec['mode'] != 'capture'):
-            raise ValueError('invalid diagnostic view')
         with self.lock:
             path = self.jobs / jid
             if path.exists():
@@ -326,8 +323,6 @@ class Station:
                 command += ['-AtmospherePhase', spec['phase']]
             if spec.get('fov'):
                 command += ['-ViewFov', spec['fov']]
-            if spec.get('diagnostic'):
-                command += ['-DiagnosticView', spec['diagnostic']]
             with (output/'stdout.log').open('wb') as out, (output/'stderr.log').open('wb') as err:
                 p = subprocess.Popen(command,stdout=out,stderr=err,creationflags=subprocess.CREATE_NO_WINDOW)
                 # Runner bounds build/content/import/game separately. This outer emergency

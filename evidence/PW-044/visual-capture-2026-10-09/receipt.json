@@ -1,0 +1,76 @@
+{
+ "status": "PASS",
+ "commit": "06db37745a685e83f2e8ed53db172b67d9272977",
+ "snapshotId": "5497abd3d387b06614604469a8c7c95a51c236c5967694f4e4eed3502f2fb57d",
+ "job_id": "bd5bdf10231f4d8abf265b56fd7835d1",
+ "mode": "capture",
+ "scene": "res://scenes/act1_demo.tscn",
+ "headless": false,
+ "host": "UNTERPC",
+ "station": "UNTERPC",
+ "renderer": [
+  "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+ ],
+ "godot": "4.7.1.stable.mono.official.a13da4feb",
+ "sdk": "10.0.302",
+ "elapsedSeconds": 399.1416149,
+ "gameExitCode": 0,
+ "userdataRestored": true,
+ "humanPlaytest": "not-run",
+ "frames": [
+  "C1_arrival_street.png",
+  "C2_hero_house.png"
+ ],
+ "execution_files": {
+  "eng/protected_run.py": {
+   "snapshot_sha256": "9ce2a1a6440fa5153abb5080d647a5a556a94f7e07faa2e4fd298f5af577a042",
+   "source_text_equal": true,
+   "station_sha256": "6109b8d3a8188e02c6e85742b07469587de880283a457d185cd08e516bc01f5c"
+  },
+  "eng/remote_common.py": {
+   "snapshot_sha256": "b13fe11d836a95fb32a06c9cf7654927d1eb508973326aae5b38621feba1406a",
+   "source_text_equal": true,
+   "station_sha256": "568dbd2ee440f54bf17d5a5e5c27aa90d1b15c103cfd0eafd7ecdd49ecbae460"
+  },
+  "eng/run-windows-check.ps1": {
+   "snapshot_sha256": "1853e63f9207a0994f078e863b1be97002971c4c641d8e3264679c2a0af9b7ca",
+   "source_text_equal": true,
+   "station_sha256": "18d013ac79cc1628fd50144da10da4a43c18bc6ada538d3efd604954740e8b43"
+  }
+ },
+ "dirtyPaths": [
+  " M docs/urman_knowledge_base/weak_points.md",
+  " M eng/run-windows-check.ps1",
+  "?? eng/compare-visual-captures.py",
+  "?? outputs/CONNECT_COMMANDCODE_MAC.md",
+  "?? outputs/SECOND_DEVELOPER_REQUEST.md",
+  "?? outputs/client.json",
+  "?? outputs/urman_pitch/URMAN_pitch.pptx",
+  "?? outputs/urman_pitch/assets/g_br.jpg",
+  "?? outputs/urman_pitch/assets/g_left.jpg",
+  "?? outputs/urman_pitch/assets/g_tr.jpg",
+  "?? outputs/urman_pitch/assets/s1_cover.jpg",
+  "?? outputs/urman_pitch/assets/s2_story.jpg",
+  "?? outputs/urman_pitch/assets/s4_shurale.jpg",
+  "?? outputs/urman_pitch/assets/s5_name.jpg",
+  "?? outputs/urman_pitch/assets/s6_options.jpg",
+  "?? outputs/urman_pitch/assets/s7_next.jpg",
+  "?? outputs/urman_pitch/assets/sizes.json",
+  "?? outputs/urman_pitch/assets/w_igra.png",
+  "?? outputs/urman_pitch/assets/w_imya.png",
+  "?? outputs/urman_pitch/assets/w_shurale.png",
+  "?? outputs/urman_pitch/assets/w_urman.png",
+  "?? outputs/urman_pitch/build_deck.cjs",
+  "?? outputs/urman_pitch/font/UrmanDisplay-Regular.ttf",
+  "?? outputs/urman_pitch/font/build_font.py",
+  "?? outputs/urman_pitch/make_assets.py",
+  "?? outputs/urman_pitch_deck/index.html",
+  "?? outputs/urman_pitch_deck/project/ds/urman/bridge.jpg",
+  "?? outputs/urman_pitch_deck/project/ds/urman/field.jpg",
+  "?? outputs/urman_pitch_deck/project/ds/urman/forest.jpg",
+  "?? outputs/urman_pitch_deck/project/ds/urman/porch.jpg",
+  "?? outputs/urman_pitch_deck/project/ds/urman/street.jpg",
+  "?? outputs/urman_pitch_deck/project/ds/urman/yard.jpg"
+ ],
+ "note": "Сокращённая квитанция: полный манифест снимка не сохранён. Снимок сделан из рабочего дерева 06db3774 с подменой eng/run-windows-check.ps1 на версию bd22574c (хеш 1853e63f…), которую держит станция."
+}

@@ -143,7 +143,7 @@ client = (ROOT / "eng/remote-check.py").read_text(encoding="utf-8")
 worker = (ROOT / "eng/windows_station_worker.py").read_text(encoding="utf-8")
 runner = (ROOT / "eng/run-windows-check.ps1").read_text(encoding="utf-8")
 bad = []
-for flag, field, param in [("--phase", "phase", "AtmospherePhase"), ("--fov", "fov", "ViewFov"), ("--diagnostic", "diagnostic", "DiagnosticView")]:
+for flag, field, param in [("--phase", "phase", "AtmospherePhase"), ("--fov", "fov", "ViewFov")]:  # diagnostic stays game-side only: the station runner must not change
     if flag not in client: bad.append(f"client lacks {flag}")
     if f"'{field}'" not in worker: bad.append(f"worker lacks field {field}")
     if f"-{param}" not in worker: bad.append(f"worker does not pass -{param}")
