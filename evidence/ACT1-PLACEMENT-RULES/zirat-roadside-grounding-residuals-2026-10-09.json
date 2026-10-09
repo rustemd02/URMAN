@@ -1,0 +1,56 @@
+{
+  "task_id": "ACT1-PLACEMENT-RULES",
+  "slice": "protected Zirat roadside-grounding residual readback",
+  "source": {
+    "path": "game/scripts/Act1ConnectedWorld.RoadsideGrounding.cs",
+    "sha256": "8c32c189b4a4d5583334dde204285520176414c5f42369c397e5c4951933bf1e"
+  },
+  "call_path": [
+    "game/scripts/Act1ConnectedWorld.AuthoredKitCollision.cs:18",
+    "Act1ConnectedWorld.GroundZiratRoadsideContacts"
+  ],
+  "measurement": {
+    "enabled_only_when": "URMAN_PROTECTED_RUN=1",
+    "support_set": "Existing footing points (lower mesh ring at baseY + 0.006 m) and every pairwise ring midpoint, materialized once and reused by the existing shift calculation.",
+    "terrain": "AgentBAct1HeightField.CollisionGround at each support point X/Z.",
+    "residual": "(support point Y + exact existing applied shift) - terrain Y; positive means above terrain, negative means penetration.",
+    "metadata": [
+      "roadsideGroundingResidualMinClearance",
+      "roadsideGroundingResidualMaxClearance",
+      "roadsideGroundingSupportPointCount",
+      "roadsideGroundingAppliedShift"
+    ],
+    "threshold_or_behavior_change": false,
+    "interpretation": "For the exact unchanged Min shift, maximum sampled signed clearance is -0.015 m up to floating-point rounding; deeper negative minimum is penetration spread, not a placement defect threshold. Two camera views carry the same scene census; visible LOD meshes are separate rows."
+  },
+  "verification": {
+    "git_diff_check": "PASS",
+    "source_review": "The existing Min(groundY - pointY) - 0.015 m shift, selected meshes, terrain function, geometry, colliders, and ordinary-run behavior are unchanged; only the same support enumerable is materialized once.",
+    "local_compile": "PASS exit0,0 warnings/errors,12.73s after authored default-spawn correction; earlier grounding/census compile14.71s PASS.",
+    "protected_native_measurement": "Job348405bbfb954e34a4f5e8767296a541 FAIL/124: capture hardcoded entry, but zirat_road only authors village_side/default and named place jumps; no PNG/residual census. Build/import passed. Restore log and doctor ready retained; no placement PASS.",
+    "protected_native_measurement_final": {
+      "job_id": "8ed2b192ab694f63aa4b97ea0b26aef8",
+      "snapshot_id": "d2df0799be8f918d60a54ee2ddcdcf90cbf93224c8a10ddf363745a851110f01",
+      "runner_result": "FAIL:52 pre-existing-path DistantWorkState AnimationPlayer errors; game exit0, both original frames captured",
+      "meshes": 34,
+      "support_points_per_mesh": 21,
+      "samples_per_frame": 714,
+      "min_clearance_m": -0.18355,
+      "max_clearance_m": -0.015,
+      "same_scene_census_on_both_frames": true,
+      "visual_acceptance": "REJECTED; full card OPEN",
+      "root_review": "evidence/ACT1-PLACEMENT-RULES/native_zirat3_8ed2b192ab694f63aa4b97ea0b26aef8/root-review.json"
+    }
+  },
+  "next_step": "Inspect existing render terrain/path and grounding tolerances using these original frames; separately diagnose DistantWorkState animation-state error, then targeted native repeat. Preserve qibla/culture/human gates.",
+  "capture_spawn_correction": {
+    "root_cause": "DevView hardcoded entry although exterior Act I placements author default; village_day likewise lacks entry.",
+    "change": "Use existing authored default spawn in protected zone capture; house entry/default are identical. No new manifest field, spawn alias, scene, runner or test.",
+    "source_owner": "Act1WorldLayout placements; Act1ConnectedWorld.TryGetWorldSpawn validates before session",
+    "next_check": "Recompile corrected existing capture path, then Windows Zirat2 and Niva1 with native originals/readback."
+  },
+  "capture_owner_correction": {
+    "previous_run": "71f63ba7020e426480371bd1f4528213 FAIL ambiguous gate owner, zero native frames",
+    "current": "Existing unique ZiratMemoryField camera-local coordinates derived from current authored transforms; both native selectors now resolve. No instance removal or resolver relaxation."
+  }
+}

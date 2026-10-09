@@ -1,0 +1,212 @@
+{
+  "job_id": "8ed2b192ab694f63aa4b97ea0b26aef8",
+  "snapshot_id": "d2df0799be8f918d60a54ee2ddcdcf90cbf93224c8a10ddf363745a851110f01",
+  "base_commit": "b4f0faf88e9318f3ea6963ab8e62eb8152bc0960",
+  "status": "FAIL",
+  "mode": "capture",
+  "scene": "res://scenes/act1_demo.tscn",
+  "requested_points": "zirat_entry_verify:ZiratMemoryField@13.25968,1.163604,-76.89984>ZiratMemoryField@6.7,0.510804,-78;zirat_row_verify:ZiratMemoryField@3.8448,1.488,-75.8032>ReadZiratFamilyInscriptions@0,0,0",
+  "zone": "zirat_road",
+  "requested_fov": 70,
+  "phase_override": null,
+  "environment_override": null,
+  "elapsed_seconds": 336.4831276,
+  "worker_elapsed_seconds": 366.766,
+  "game_exit_code": 0,
+  "result_zip_sha256": "ce3ad8ab53761074f3b5672c9471b9a2d5979e155db2651d7b5246c7536a2c6b",
+  "snapshot_hashes_verified": true,
+  "steps": {
+    "build": {
+      "exitCode": 0
+    },
+    "content-build": {
+      "exitCode": 0
+    },
+    "content-urman.chapter1": {
+      "exitCode": 0
+    },
+    "content-urman.fullgame": {
+      "exitCode": 0
+    },
+    "document-images": {
+      "exitCode": 0
+    },
+    "game": {
+      "exitCode": 0
+    },
+    "import": {
+      "exitCode": 0
+    }
+  },
+  "userdata_recovery_pending": false,
+  "project_restored_sha256": "D63B2F54388E8B0D06C6EFB350DD7E0B9F43264AC967696749535BEB57D757C4",
+  "frames": [
+    {
+      "point": "zirat_entry_verify",
+      "png_path": "station-result/frames/zirat_entry_verify.png",
+      "png_bytes": 1563400,
+      "png_sha256": "97ec07c602f5de8f69eafa9a875e8f3c93837910ba2edebcb9a36f8abe2639ef",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar_viewport": [
+        1920,
+        1080
+      ],
+      "cameraPosition": {
+        "x": 13.25968,
+        "y": 1.163604,
+        "z": -76.899841
+      },
+      "cameraTarget": {
+        "x": 6.7,
+        "y": 0.510804,
+        "z": -78
+      },
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField",
+      "actual_zone": "zirat_road",
+      "actual_profile": "zirat-winter-muted",
+      "effective_preset": "low",
+      "rescue": "performance-rescue",
+      "graphicsComparable": null,
+      "residual_census_count": 34,
+      "census_fields": [
+        "nodePath",
+        "instanceVisible",
+        "visibleInTree",
+        "renderLayers",
+        "castShadow",
+        "lodBias",
+        "windSwayInstanceOverride",
+        "visibilityRangeBegin",
+        "visibilityRangeEnd",
+        "meshResourceName",
+        "meshResourcePath",
+        "meshLocalAabb",
+        "meshGlobalAabb",
+        "nodeLocalTransform",
+        "nodeGlobalTransform",
+        "materialAssignmentOwnerPath",
+        "sceneOwnerPath",
+        "sceneOwnerLocalTransform",
+        "sceneOwnerGlobalTransform",
+        "parentPath",
+        "parentGlobalTransform",
+        "materialOverrideName",
+        "materialOverridePath",
+        "surfaces",
+        "roadsideGroundingResidualMinClearance",
+        "roadsideGroundingResidualMaxClearance",
+        "roadsideGroundingSupportPointCount",
+        "roadsideGroundingAppliedShift"
+      ]
+    },
+    {
+      "point": "zirat_row_verify",
+      "png_path": "station-result/frames/zirat_row_verify.png",
+      "png_bytes": 1159535,
+      "png_sha256": "9aa01588d2c9aeedd153b8a4d97ea54c36774e80b648ad90d18f528044e1f368",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar_viewport": [
+        1920,
+        1080
+      ],
+      "cameraPosition": {
+        "x": 3.8448,
+        "y": 1.488,
+        "z": -75.8032
+      },
+      "cameraTarget": {
+        "x": 3.614999,
+        "y": 0.048829,
+        "z": -76.491676
+      },
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/zirat-return-road/ReadZiratFamilyInscriptions",
+      "actual_zone": "zirat_road",
+      "actual_profile": "zirat-winter-muted",
+      "effective_preset": "low",
+      "rescue": "performance-rescue",
+      "graphicsComparable": null,
+      "residual_census_count": 34,
+      "census_fields": [
+        "nodePath",
+        "instanceVisible",
+        "visibleInTree",
+        "renderLayers",
+        "castShadow",
+        "lodBias",
+        "windSwayInstanceOverride",
+        "visibilityRangeBegin",
+        "visibilityRangeEnd",
+        "meshResourceName",
+        "meshResourcePath",
+        "meshLocalAabb",
+        "meshGlobalAabb",
+        "nodeLocalTransform",
+        "nodeGlobalTransform",
+        "materialAssignmentOwnerPath",
+        "sceneOwnerPath",
+        "sceneOwnerLocalTransform",
+        "sceneOwnerGlobalTransform",
+        "parentPath",
+        "parentGlobalTransform",
+        "materialOverrideName",
+        "materialOverridePath",
+        "surfaces",
+        "roadsideGroundingResidualMinClearance",
+        "roadsideGroundingResidualMaxClearance",
+        "roadsideGroundingSupportPointCount",
+        "roadsideGroundingAppliedShift"
+      ]
+    }
+  ],
+  "engine_error_summary": {
+    "file": "station-result/engine-errors.log",
+    "bytes": 2600,
+    "sha256": "c308b6bc995fbfd03caa014dcc49c342002be5ed67af44d10d4b136049b8233a",
+    "animation_player_no_current_animation_count": 52,
+    "runner_fail_reason": "game reported engine errors; inspect the log before accepting it."
+  },
+  "actual_startup_census": {
+    "roadsideGroundingContactMeshes": 34,
+    "shader_instance_budget": "see game.log"
+  },
+  "root_visual_review": "pending; originals are untouched",
+  "acceptance_limits": "Native static debug-camera frames only; performance rescue Low was active. No ordinary route, motion, human acceptance or whole-scene art pass implied.",
+  "roadside_grounding_residual_census_summary_per_frame": {
+    "zirat_entry_verify": {
+      "mesh_entries": 34,
+      "min_clearance_values": 34,
+      "max_clearance_values": 34,
+      "support_point_entries": 34,
+      "support_points_total": 714,
+      "min_of_min_clearance_m": -0.18355,
+      "max_of_max_clearance_m": -0.015,
+      "deepest_penetration_m": 0.18355,
+      "deepest_penetration_mesh": "WetRoadShoulder_Right_Contact_00_LOD0",
+      "negative_max_clearance_entries": 34,
+      "applied_shift_min_m": -0.636593,
+      "applied_shift_max_m": 0.025905
+    },
+    "zirat_row_verify": {
+      "mesh_entries": 34,
+      "min_clearance_values": 34,
+      "max_clearance_values": 34,
+      "support_point_entries": 34,
+      "support_points_total": 714,
+      "min_of_min_clearance_m": -0.18355,
+      "max_of_max_clearance_m": -0.015,
+      "deepest_penetration_m": 0.18355,
+      "deepest_penetration_mesh": "WetRoadShoulder_Right_Contact_00_LOD0",
+      "negative_max_clearance_entries": 34,
+      "applied_shift_min_m": -0.636593,
+      "applied_shift_max_m": 0.025905
+    }
+  }
+}

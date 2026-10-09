@@ -1,0 +1,77 @@
+{
+  "job_id": "348405bbfb954e34a4f5e8767296a541",
+  "snapshot_id": "9bba2f1a2d8fed0139f6b70adfe15dfc14577cb262b4f93dd98838b5a16956b5",
+  "base_commit": "b4f0faf88e9318f3ea6963ab8e62eb8152bc0960",
+  "status": "FAIL",
+  "mode": "capture",
+  "scene": "res://scenes/act1_demo.tscn",
+  "zone": "zirat_road",
+  "requested_points": "zirat_entry_verify:ZiratAuthoredOpenGate@-1.146,1.63,6.833>ZiratAuthoredOpenGate@0,0.95,0;zirat_row_verify:ZiratPathEdge_PathRibbon_00_LOD0@-0.37,1.55,-1.67>ReadZiratFamilyInscriptions@0,0,0",
+  "fov": 70,
+  "quality": "default/no override",
+  "timeout_seconds": 300,
+  "elapsed_seconds": 422.3962215,
+  "worker_elapsed_seconds": 452.937,
+  "game_exit_code": 124,
+  "result_zip_sha256": "3dc805d0e48dd1cd02a87accf29f471e4fb54ad87de1a269d44e9d6ce9345865",
+  "startup_findings": [
+    "Debug zone jump refused: the Act I world has no spawn zirat_road@entry.",
+    "View capture refused: protected debug zone zirat_road unavailable."
+  ],
+  "frames_present": false,
+  "reason": "The requested zone alias had no debug spawn; capture boot refused both points and the game remained until the protected 300 second timeout. This is a failed diagnostic run, not a visual PASS.",
+  "build_exit_code": 0,
+  "content_build_exit_code": 0,
+  "import_exit_code": 0,
+  "document_images_exit_code": 0,
+  "userdata_recovery_pending": false,
+  "project_restored_sha256": "D63B2F54388E8B0D06C6EFB350DD7E0B9F43264AC967696749535BEB57D757C4",
+  "doctor_after_run": {
+    "ready": true,
+    "busy_job": null,
+    "orphan_game_process": false,
+    "userdata_recovery_pending": false,
+    "host": "UNTERPC",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "sdk": "10.0.302"
+  },
+  "snapshot_manifest_file_count": 1825,
+  "snapshot_manifest_sha256": "59164e95e6a688402280c7930e1cff45e51c738e6a0c9a817ebf2e655546735f",
+  "source_copy_validation": {
+    "station_selected_sources": {
+      "expected": 36,
+      "verified_exact": 36,
+      "errors": []
+    },
+    "local_authoring_excluded_copies": {
+      "expected": 16,
+      "verified_exact": 16,
+      "errors": []
+    },
+    "source_bytes": "Copied from the immutable pre-ACK preseal directory and SHA/byte-verified; current checkout bytes were not used for changed paths.",
+    "post_ack_checkout_differences_observed": [
+      {
+        "path": "game/content/world/visual_checkpoints.v1.json",
+        "preseal_sha256": "fab40c0d6d31a029fe1783e64624ee0a572c547e1423e92d08be35e97b1f1963",
+        "post_ack_sha256": "1208141f842bdca7f4e591227185615026ff73afd38f66ec5d8a72518708c150"
+      },
+      {
+        "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+        "preseal_sha256": "46d617bb7c92b56e0852f61648d3d05869647823dad4318c6d06c624e4b64608",
+        "post_ack_sha256": "7e82f86e3f158d1b2bb8494f7f84fa5f9116225eaffa797ed713ed9f0cace6a9"
+      },
+      {
+        "path": "evidence/ACT1-TRANSPORT.CABIN/handbrake-export-2026-10-09.json",
+        "preseal_sha256": "aba5542a005fdca66f484ec6940abc5af6b75a56b77d9c2ebef174fd57109025",
+        "post_ack_sha256": "d783b87b418e9f8801c73d01f7e9dbeabcef3e84d22d6ed2667efb76b2fc512e"
+      },
+      {
+        "path": "derived/niva-asset-registry-row.json",
+        "preseal_sha256": "recorded in proof and copied from preseal",
+        "post_ack_state": "not present at the source path"
+      }
+    ]
+  },
+  "root_visual_review": "not performed; no frames were produced",
+  "follow_up": "Do not retry here. Root is correcting Niva owner/camera separately; any later Niva capture requires a new explicit GO and fresh snapshot."
+}

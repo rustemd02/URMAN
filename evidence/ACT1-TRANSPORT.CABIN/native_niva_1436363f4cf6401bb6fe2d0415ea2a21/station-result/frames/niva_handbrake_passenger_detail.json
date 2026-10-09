@@ -1,0 +1,119 @@
+{
+  "point": "niva_handbrake_passenger_detail",
+  "spec": "niva_handbrake_passenger_detail:NivaBody@-0.2799999881,0.3800000572,1.3499999523\u003ENivaBody@-0.6999999881,-0.2599999428,1.3699999523",
+  "cameraName": "DevViewCamera",
+  "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+  "cameraPosition": {
+    "x": -1.72,
+    "y": 0.859803,
+    "z": 16.699999
+  },
+  "cameraTarget": {
+    "x": -1.3,
+    "y": 0.219803,
+    "z": 16.679998
+  },
+  "cameraForward": {
+    "x": 0.548469,
+    "y": -0.835763,
+    "z": -0.026118
+  },
+  "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+  "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+  "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+  "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody",
+  "cameraOwnerZone": null,
+  "targetOwnerZone": null,
+  "fov": 70,
+  "fovSource": "explicit",
+  "near": 0.05,
+  "far": 160,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "scaling3DScale": 0.7,
+  "scaling3DMode": "Fsr",
+  "graphicsPreset": "low",
+  "graphicsRequestedPreset": null,
+  "graphicsEffectivePreset": "low",
+  "playerGraphicsPreset": "low",
+  "graphicsPreferredPreset": "medium",
+  "graphicsSessionOverride": "performance-rescue",
+  "graphicsPresetApplyStatus": "not-requested",
+  "graphicsComparable": null,
+  "graphicsBudget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none",
+  "activeZoneId": "village_day",
+  "requestedZoneId": "village_day",
+  "checkpointSubject": "ACT1-TRANSPORT.CABIN: authored front-passenger eye toward the actual parked controller handbrake; static state/pose only, no toggle or ordinary camera-turn proof.",
+  "requestedProfile": "village-winter-frost",
+  "atmosphereProfile": "village-winter-frost",
+  "atmosphereOwner": "AgentBExteriorWorld",
+  "studioPreviewProfile": "village-winter-frost",
+  "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBEnvironment",
+  "tonemapMode": "Agx",
+  "fogColor": "c2d0e0ff",
+  "fogDensity": 0.012,
+  "snowActive": true,
+  "snowAmount": 4000,
+  "blizzardActive": false,
+  "drawCalls": 2436,
+  "capturedUnixSeconds": 1791528136,
+  "nivaHandbrakeState": {
+    "parkingBrake": true,
+    "vehicleGlobalTransform": {
+      "origin": {
+        "x": -1.3,
+        "y": -0.580197,
+        "z": 17
+      },
+      "basisX": {
+        "x": -1,
+        "y": 0,
+        "z": 0
+      },
+      "basisY": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "basisZ": {
+        "x": -0,
+        "y": 0,
+        "z": -1
+      }
+    },
+    "cameraAnchorGlobalTransform": {
+      "origin": {
+        "x": -2,
+        "y": 0.479803,
+        "z": 18.049999
+      },
+      "basisX": {
+        "x": -1,
+        "y": 0,
+        "z": 0
+      },
+      "basisY": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "basisZ": {
+        "x": -0,
+        "y": 0,
+        "z": -1
+      }
+    },
+    "leverRotationDegrees": {
+      "x": -45,
+      "y": 0,
+      "z": 0
+    },
+    "leverGlobalPosition": {
+      "x": -1.3,
+      "y": 0.049803,
+      "z": 16.799999
+    },
+    "expectedRaisedXDegrees": -45,
+    "proofScope": "Captured parked state and static lever pose; toggle motion is not measured."
+  }
+}

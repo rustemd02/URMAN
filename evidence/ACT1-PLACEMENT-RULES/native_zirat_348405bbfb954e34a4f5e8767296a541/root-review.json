@@ -1,0 +1,11 @@
+{
+  "reviewer": "/root",
+  "integrity": "Independent SHA256/size/exact file set PASS,70 files",
+  "native_job_id": "348405bbfb954e34a4f5e8767296a541",
+  "capture_result": "FAIL/124; zero PNG and no protected residual census",
+  "root_cause": "Protected zone capture hardcoded zirat_road@entry, absent from connected Act I layout. Authored village_side/default exists.",
+  "bounded_fix": "Existing DevView caller uses default spawn; no new scene/spawn alias/runner/manifest field/test. Narrow compile after corrected Niva camera/default spawn PASS0/0 12.73s.",
+  "style_acceptance": "NOT_RUN",
+  "full_task_completed": false,
+  "restoration": "Log guard restore plus ready doctor/no orphan or pending recovery; do not infer an absent structured restore flag."
+}

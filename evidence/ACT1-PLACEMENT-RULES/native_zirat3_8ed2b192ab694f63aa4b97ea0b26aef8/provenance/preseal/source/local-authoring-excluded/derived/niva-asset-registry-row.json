@@ -1,0 +1,24 @@
+{
+  "id": "vehicle.niva.body",
+  "source": "assets/source/blender/urman_niva.blend",
+  "derived": "game/assets/generated/urman_niva.glb",
+  "sourceSha256": "a0efae9decd49fe01dddd387c26a385c45a5aea9b7ee8bec76b379601b64f647",
+  "derivedSha256": "45ca2e86df6515ebd507f61be2ce1294e0b9183c7d469981d2343bf338b1e29f",
+  "generator": "tools/blender/generate_niva.py",
+  "license": "Project-original",
+  "scale": 1.0,
+  "triangleBudget": 18000,
+  "textureBudget": 0,
+  "materials": [
+    "Paint",
+    "Chrome",
+    "Glass",
+    "Rubber",
+    "Lamp",
+    "LCD"
+  ],
+  "collision": "none; VehicleController hull and wheel shapes stay authoritative",
+  "lod": "single LOD; vehicle is a near-camera hero prop",
+  "status": "art candidate 2026-09-23: hollow body with window openings, flared arches, chrome bumpers, stamped steel wheels, 1-DIN cassette radio",
+  "releaseDisposition": "include-in-act1-release; runtime-loaded by VehicleVisualFactory.NivaModelPart"
+}

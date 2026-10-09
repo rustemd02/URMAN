@@ -1,0 +1,13 @@
+{
+  "reviewer": "/root",
+  "original_png_reviewed_utc": "2026-10-09 06:44 UTC",
+  "verdict": "BOUNDED_STATIC_BINDING_ACCEPTED; WHOLE_CABIN_STYLE_OPEN",
+  "observation": "Original passenger-detail frame shows the raised lever separately between seats. Sidecar reads ParkingBrake=true, local rotation (-45,0,0), matching authored raised angle. This proves the captured parked state, not lever toggle motion.",
+  "limits": [
+    "Emergency performance rescue Low/FSR0.7; no matched quality or ordinary-camera proof.",
+    "Original PNG IHDR1886x1061 differs from reported viewport1920x1080.",
+    "Cabin dark in this close diagnostic frame; pedals, mirrors, ordinary camera turns, whole cabin style and full task remain open."
+  ],
+  "full_task_complete": false,
+  "archive_independent_verification": "PASS all listed file hashes/sizes and exact file set before adding root-review; preseal selected/local files retained."
+}

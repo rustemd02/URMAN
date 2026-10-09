@@ -1,0 +1,15 @@
+{
+  "reviewer": "/root",
+  "reviewed_originals_utc": "2026-10-09 06:52 UTC",
+  "originals": [
+    "frames/zirat_entry_verify.png",
+    "frames/zirat_row_verify.png"
+  ],
+  "archive_verification": "PASS all76 hashes/sizes/exact file set before root review",
+  "verdict": "CAPTURE_OWNER_RESOLVED; STYLE_REJECTED; NATIVE_RUN_FAIL",
+  "visual_observation": "Row view has sharply angular/folded snow/path surfaces and apparent crossing edges; inscription weakly legible. Entry alone does not prove complete fence kit or grounding.",
+  "native": "Game exit0 but runner FAIL with52 AnimationPlayer has no current animation errors. Effective Low performance rescue, zirat-winter-muted; no comparable High/Low pair.",
+  "measurement": "Both same-scene censuses:34 meshes,21 support points each,714 samples/frame; signed clearance -0.183550..-0.015000m. Negative means terrain penetration; this is not full-surface/collider fit or an accepted tolerance.",
+  "full_task_complete": false,
+  "next_step": "Inspect existing render terrain/path and grounding tolerances using these original frames; separately diagnose DistantWorkState animation-state error, then targeted native repeat. Preserve qibla/culture/human gates."
+}
