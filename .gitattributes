@@ -1,0 +1,2 @@
+# Append-only чат агентов: параллельные дописки в конец склеиваются без конфликта.
+docs/tasktracker/AGENT_CHAT.md merge=union
