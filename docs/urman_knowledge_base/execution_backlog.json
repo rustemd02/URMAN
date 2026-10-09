@@ -30007,8 +30007,8 @@
       "id": "PW-032",
       "title": "Исправить привязку мазка к движущимся поверхностям",
       "milestone": "PW-M2",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "/root",
       "owner": "render",
       "priority": "P0",
       "complexity": "complex",
@@ -30034,7 +30034,9 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-032/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-032/surface_coordinate_slice_2026-10-09.json"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-032",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -30106,7 +30108,8 @@
         "AS-16"
       ],
       "phase": 2,
-      "effort": "L"
+      "effort": "L",
+      "progress_2026_10_09": "Bounded pigment/finish coordinate slice compiled0/0 12.94s and native6fc0GPU/rendering PASS. UV/local wood selected; static local-floor/fence world cell grid preserved following independent review. Full motion/AS12/16/remaining consumers/art gates open."
     },
     {
       "id": "PW-033",

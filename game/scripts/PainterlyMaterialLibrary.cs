@@ -257,6 +257,9 @@ public static class PainterlyMaterialLibrary
         }
 
         void fragment() {
+            // PW-032: all pigment layers follow the same authored UV/local surface.
+            vec3 pigment_position = bound_uv_pigment ? vec3(UV, 0.0)
+                : (local_wood_texture ? local_wood_position : world_position);
             float wet_factor = clamp(wet_grade, 0.0, 1.0);
             if (edge_frost && has_albedo_texture) {
                 // RGBA edge pigment overlays intact glass, including on Low.
@@ -291,7 +294,6 @@ public static class PainterlyMaterialLibrary
                 SPECULAR = clamp(specular_value + wet_factor * 0.22, 0.0, 1.0);
                 METALLIC = metallic_value;
             } else {
-            vec3 pigment_position = bound_uv_pigment ? vec3(UV, 0.0) : world_position;
             // VIS-038: a family shares one cached material and each instance carries
             // its own pigment ratio, so a fence of six tints is six instances of one
             // material state instead of six material states. Identity is vec3(1).
@@ -373,7 +375,7 @@ public static class PainterlyMaterialLibrary
             // response, not the masonry albedo formerly bound to both props.
             // This grain affects roughness only and fades below a pixel.
             if (finish_grain > 0.0 && !low_quality) {
-                vec2 finish_uv = (world_position.xz + world_position.y * vec2(0.73, 0.41)) * 24.0;
+                vec2 finish_uv = (pigment_position.xz + pigment_position.y * vec2(0.73, 0.41)) * 24.0;
                 float finish_detail = 1.0 - smoothstep(0.35, 1.0,
                     max(length(dFdx(finish_uv)), length(dFdy(finish_uv))));
                 ROUGHNESS = clamp(ROUGHNESS

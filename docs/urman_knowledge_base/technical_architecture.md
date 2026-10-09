@@ -1078,6 +1078,27 @@ Census: 63 109 мешей, 54 781 shader-instance candidates, budget 1 048 576 s
 Табличка мечети на этом снимке не видна; её subsequent ADDR fix проверяется отдельно.
 Точный base-plus-runtime patch и ограничения — `../../evidence/PW-001/`.
 
+## PW-032: привязка слоёв pigment к поверхности — 09.10.2026
+
+В существующем `PainterlyMaterialLibrary` один `pigment_position` теперь выбирается
+в общем fragment scope: авторский UV при `bound_uv_pigment`, иначе уже вычисленные
+локальные координаты при `local_wood_texture`, иначе world. Static `local_floor_texture` сохраняет
+мировой pigment/cell grid: локальная привязка albedo не означает перенос 6-метрового
+распределения оттенка на каждый отдельный столб/доску.
+Мазок, macro stain, cell tint и finish grain используют этот выбор. Albedo binding,
+материальный cache, UV/offset/scale владельцы и world-bound поверхности сохраняют
+свои существующие пути. Для движущейся ткани сохраняется `ForMovingCloth`, для
+доски — `ForLocalWoodPiece`; новых флагов или параллельного material owner нет.
+
+Причина: albedo уже следовал UV/local, но pigment локальной доски и общий finish
+noise следовали world position. Это могло менять рисунок при переносе/повороте.
+Координаты назначаются до vertex wind deformation, UV сохраняется на mesh. Свет,
+направление normal и контакт с землёй имеют отдельную физическую семантику и не
+переводятся искусственно в UV. Это лишь ограниченный source slice PW-032:
+GPU compile/rendering подтверждены native job `6fc0fe2b4aac4c4f847bad25eea78bd3`.
+Фактическое движение всех потребителей, AS-12/16, wind/normals/shadows и
+художественная приёмка остаются открытыми.
+
 ### PW-005: flush физического владельца перед сериализацией
 
 Native diagnostic `02fedfa24c9344ee85e89ad87702f9a0` выявил раннюю запись Алсу:

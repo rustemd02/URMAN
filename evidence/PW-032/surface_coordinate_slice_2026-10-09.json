@@ -1,0 +1,40 @@
+{
+  "task_id": "PW-032",
+  "scope": "Existing material coordinate selection for pigment layers and finish grain only",
+  "source": "game/scripts/PainterlyMaterialLibrary.cs",
+  "source_sha256": "bd2230fb6c2c45cc5db92e0f9a47ff4f669425edcce68b7bbcd34085543afe0f",
+  "existing_consumers": {
+    "uv": "ForMovingCloth -> authored_uv_texture + bound_uv_pigment; GeneratedCharacterKitDressing metric-cloth paths",
+    "local": "ForLocalWoodPiece -> local_wood_texture; CarryableProp.Geometry.cs",
+    "local_floor": "Existing static local_floor_texture markers keep WORLD pigment/cell grid; their local albedo unchanged",
+    "world": "All other existing world-bound materials"
+  },
+  "change": "Hoisted pigment_position to common fragment scope; select authored UV first, then existing local_wood_texture coordinates, then world. Finish grain uses same position. Static local_floor_texture retains its existing world pigment/cell grid; its albedo remains local. No new owner, flag, cache, texture or geometry.",
+  "inspection_findings": [
+    "UV remains attached to deforming mesh; local position is sampled before vertex deformation.",
+    "Translation/rotation of object matrix cannot alter selected UV/local coordinate input. World-bound input remains world_position.",
+    "World-space lighting/normal/ground contact remain separate physical inputs.",
+    "Hoisting is necessary because finish block is outside high-quality else scope; declaring pigment_position only inside else would fail GLSL compilation."
+  ],
+  "verification": {
+    "source_inspection": "PASS",
+    "diff_check": "PASS",
+    "affected_module_compile": "PASS final narrow coordinates, 0 warnings/errors, 12.94s",
+    "native_shader_compile": "PASS current final PML SHA bd2230fb…afe0f in protected native6fc0fe2b4aac4c4f847bad25eea78bd3; engine-errors empty and both original frames rendered",
+    "actual_motion_art": "NOT_RUN"
+  },
+  "remaining": [
+    "All applicable VIS clause motion/wind/normals/shadow requirements",
+    "Unmarked cloth/hair/book/door/creature consumers",
+    "AS-12/AS-16 passports",
+    "Actual GPU rendering and motion/human style acceptance"
+  ],
+  "whole_task_closed": false,
+  "independent_review": {
+    "reviewer": "/root/address_mount (luna_fast)",
+    "finding": "Initial broader local_floor branch would move nonzero wood_fence cell_jitter=.28 onto zero-centered separate primitive origins, producing repeated quadrant seams.",
+    "resolution": "Narrowed pigment branch to existing local_wood_texture only. Cloth/carried wood already use cell_jitter=0; static floor/fence pigment remains original world path.",
+    "status": "Corrected and native GPU compiled; actual carried/cloth motion and full task remain open"
+  },
+  "native_evidence": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-h019-exterior-6fc0fe2b4aac4c4f847bad25eea78bd3"
+}
