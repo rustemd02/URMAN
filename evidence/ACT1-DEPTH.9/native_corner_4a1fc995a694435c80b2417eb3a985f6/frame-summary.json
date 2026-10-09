@@ -1,0 +1,573 @@
+{
+  "capture_summary": {
+    "engineVersion": "4.7.1-stable (official)",
+    "os": "Windows",
+    "osVersion": "Microsoft Windows NT 10.0.22621.0",
+    "requestedZoneId": null,
+    "checkpointManifest": "res://content/world/visual_checkpoints.v1.json",
+    "checkpointRows": 36,
+    "pointCount": 3,
+    "frames": [
+      {
+        "point": "babai_corner_left",
+        "spec": "babai_corner_left:BabaiApproachDwellingFacade@-3.25,1.8,3>BabaiApproachDwellingFacade@-2.592,1.42,1.3",
+        "cameraName": "DevViewCamera",
+        "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+        "cameraPosition": {
+          "x": -7.586514,
+          "y": 1.548152,
+          "z": 0.202463
+        },
+        "cameraTarget": {
+          "x": -9.286511,
+          "y": 1.168152,
+          "z": -0.455545
+        },
+        "cameraForward": {
+          "x": -0.912953,
+          "y": -0.204072,
+          "z": -0.353372
+        },
+        "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+        "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+        "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+        "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+        "cameraOwnerZone": null,
+        "targetOwnerZone": null,
+        "fov": 70,
+        "fovSource": "explicit",
+        "near": 0.05,
+        "far": 160,
+        "viewportWidth": 1920,
+        "viewportHeight": 1080,
+        "scaling3DScale": 0.9,
+        "scaling3DMode": "Bilinear",
+        "graphicsPreset": "medium",
+        "graphicsRequestedPreset": null,
+        "graphicsEffectivePreset": "medium",
+        "playerGraphicsPreset": "medium",
+        "graphicsPreferredPreset": "medium",
+        "graphicsSessionOverride": null,
+        "graphicsPresetApplyStatus": "not-requested",
+        "graphicsComparable": null,
+        "graphicsBudget": "preset=medium,lod_threshold=1.50,scale=0.90,msaa=Msaa2X,shadow_filter=SoftLow,directional_shadow_distance=80,directional_shadow_atlas=4096,positional_shadow_atlas=2048,ssao_gate=authored,probe=none",
+        "activeZoneId": "village_day",
+        "requestedZoneId": null,
+        "checkpointSubject": "ACT1-DEPTH.9: ближайший левый угловой выпуск сруба; распределение продольного материала и торцевого среза, возможное перекрытие оградой проверяется кадром.",
+        "requestedProfile": null,
+        "atmosphereProfile": "village-winter-frost",
+        "atmosphereOwner": "AgentBExteriorWorld",
+        "studioPreviewProfile": null,
+        "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBEnvironment",
+        "tonemapMode": "Agx",
+        "fogColor": "c2d0e0ff",
+        "fogDensity": 0.012,
+        "snowActive": true,
+        "snowAmount": 4000,
+        "blizzardActive": false,
+        "drawCalls": 23856,
+        "capturedUnixSeconds": 1791517479,
+        "cornerLogMaterials": [
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log05_LOD0",
+            "surface": 0,
+            "sourceMaterial": "URMAN_Hero_Log",
+            "cutEnd": "false",
+            "authoredUv": "true",
+            "lowQuality": "false",
+            "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log05_LOD0",
+            "surface": 1,
+            "sourceMaterial": "URMAN_Hero_LogEnd",
+            "cutEnd": "true",
+            "authoredUv": "false",
+            "lowQuality": "false",
+            "albedoTexture": null
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log06_LOD0",
+            "surface": 0,
+            "sourceMaterial": "URMAN_Hero_Log",
+            "cutEnd": "false",
+            "authoredUv": "true",
+            "lowQuality": "false",
+            "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log06_LOD0",
+            "surface": 1,
+            "sourceMaterial": "URMAN_Hero_LogEnd",
+            "cutEnd": "true",
+            "authoredUv": "false",
+            "lowQuality": "false",
+            "albedoTexture": null
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log04_LOD0",
+            "surface": 0,
+            "sourceMaterial": "URMAN_Hero_Log",
+            "cutEnd": "false",
+            "authoredUv": "true",
+            "lowQuality": "false",
+            "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log04_LOD0",
+            "surface": 1,
+            "sourceMaterial": "URMAN_Hero_LogEnd",
+            "cutEnd": "true",
+            "authoredUv": "false",
+            "lowQuality": "false",
+            "albedoTexture": null
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log07_LOD0",
+            "surface": 0,
+            "sourceMaterial": "URMAN_Hero_Log",
+            "cutEnd": "false",
+            "authoredUv": "true",
+            "lowQuality": "false",
+            "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log07_LOD0",
+            "surface": 1,
+            "sourceMaterial": "URMAN_Hero_LogEnd",
+            "cutEnd": "true",
+            "authoredUv": "false",
+            "lowQuality": "false",
+            "albedoTexture": null
+          }
+        ]
+      },
+      {
+        "point": "babai_corner_right",
+        "spec": "babai_corner_right:BabaiApproachDwellingFacade@6.55,1.8,3>BabaiApproachDwellingFacade@5.908,1.42,1.3",
+        "cameraName": "DevViewCamera",
+        "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+        "cameraPosition": {
+          "x": -7.586466,
+          "y": 1.548152,
+          "z": -9.597536
+        },
+        "cameraTarget": {
+          "x": -9.286469,
+          "y": 1.168152,
+          "z": -8.955544
+        },
+        "cameraForward": {
+          "x": -0.915707,
+          "y": -0.204687,
+          "z": 0.345809
+        },
+        "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+        "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+        "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+        "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+        "cameraOwnerZone": null,
+        "targetOwnerZone": null,
+        "fov": 70,
+        "fovSource": "explicit",
+        "near": 0.05,
+        "far": 160,
+        "viewportWidth": 1920,
+        "viewportHeight": 1080,
+        "scaling3DScale": 0.9,
+        "scaling3DMode": "Bilinear",
+        "graphicsPreset": "medium",
+        "graphicsRequestedPreset": null,
+        "graphicsEffectivePreset": "medium",
+        "playerGraphicsPreset": "medium",
+        "graphicsPreferredPreset": "medium",
+        "graphicsSessionOverride": null,
+        "graphicsPresetApplyStatus": "not-requested",
+        "graphicsComparable": null,
+        "graphicsBudget": "preset=medium,lod_threshold=1.50,scale=0.90,msaa=Msaa2X,shadow_filter=SoftLow,directional_shadow_distance=80,directional_shadow_atlas=4096,positional_shadow_atlas=2048,ssao_gate=authored,probe=none",
+        "activeZoneId": "village_day",
+        "requestedZoneId": null,
+        "checkpointSubject": "ACT1-DEPTH.9: ближайший правый угловой выпуск сруба; форма, продольная поверхность и торцы, статичный вид без обычного прохода.",
+        "requestedProfile": null,
+        "atmosphereProfile": "village-winter-frost",
+        "atmosphereOwner": "AgentBExteriorWorld",
+        "studioPreviewProfile": null,
+        "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBEnvironment",
+        "tonemapMode": "Agx",
+        "fogColor": "c2d0e0ff",
+        "fogDensity": 0.012,
+        "snowActive": true,
+        "snowAmount": 4000,
+        "blizzardActive": false,
+        "drawCalls": 18855,
+        "capturedUnixSeconds": 1791517487,
+        "cornerLogMaterials": [
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log05_LOD0",
+            "surface": 0,
+            "sourceMaterial": "URMAN_Hero_Log",
+            "cutEnd": "false",
+            "authoredUv": "true",
+            "lowQuality": "false",
+            "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log05_LOD0",
+            "surface": 1,
+            "sourceMaterial": "URMAN_Hero_LogEnd",
+            "cutEnd": "true",
+            "authoredUv": "false",
+            "lowQuality": "false",
+            "albedoTexture": null
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log06_LOD0",
+            "surface": 0,
+            "sourceMaterial": "URMAN_Hero_Log",
+            "cutEnd": "false",
+            "authoredUv": "true",
+            "lowQuality": "false",
+            "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log06_LOD0",
+            "surface": 1,
+            "sourceMaterial": "URMAN_Hero_LogEnd",
+            "cutEnd": "true",
+            "authoredUv": "false",
+            "lowQuality": "false",
+            "albedoTexture": null
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log04_LOD0",
+            "surface": 0,
+            "sourceMaterial": "URMAN_Hero_Log",
+            "cutEnd": "false",
+            "authoredUv": "true",
+            "lowQuality": "false",
+            "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log04_LOD0",
+            "surface": 1,
+            "sourceMaterial": "URMAN_Hero_LogEnd",
+            "cutEnd": "true",
+            "authoredUv": "false",
+            "lowQuality": "false",
+            "albedoTexture": null
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log07_LOD0",
+            "surface": 0,
+            "sourceMaterial": "URMAN_Hero_Log",
+            "cutEnd": "false",
+            "authoredUv": "true",
+            "lowQuality": "false",
+            "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+          },
+          {
+            "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log07_LOD0",
+            "surface": 1,
+            "sourceMaterial": "URMAN_Hero_LogEnd",
+            "cutEnd": "true",
+            "authoredUv": "false",
+            "lowQuality": "false",
+            "albedoTexture": null
+          }
+        ]
+      },
+      {
+        "point": "babai_shape_front",
+        "spec": "babai_shape_front:BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
+        "cameraName": "DevViewCamera",
+        "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+        "cameraPosition": {
+          "x": 3.413501,
+          "y": 1.448152,
+          "z": -3.047482
+        },
+        "cameraTarget": {
+          "x": -11.086498,
+          "y": 2.748152,
+          "z": -3.047554
+        },
+        "cameraForward": {
+          "x": -0.996005,
+          "y": 0.089297,
+          "z": -5e-06
+        },
+        "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+        "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+        "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+        "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+        "cameraOwnerZone": null,
+        "targetOwnerZone": null,
+        "fov": 70,
+        "fovSource": "explicit",
+        "near": 0.05,
+        "far": 160,
+        "viewportWidth": 1920,
+        "viewportHeight": 1080,
+        "scaling3DScale": 0.9,
+        "scaling3DMode": "Bilinear",
+        "graphicsPreset": "medium",
+        "graphicsRequestedPreset": null,
+        "graphicsEffectivePreset": "medium",
+        "playerGraphicsPreset": "medium",
+        "graphicsPreferredPreset": "medium",
+        "graphicsSessionOverride": null,
+        "graphicsPresetApplyStatus": "not-requested",
+        "graphicsComparable": null,
+        "graphicsBudget": "preset=medium,lod_threshold=1.50,scale=0.90,msaa=Msaa2X,shadow_filter=SoftLow,directional_shadow_distance=80,directional_shadow_atlas=4096,positional_shadow_atlas=2048,ssao_gate=authored,probe=none",
+        "activeZoneId": "village_day",
+        "requestedZoneId": null,
+        "checkpointSubject": "ACT1-DEPTH.9: точная общая камера предыдущего native6dc5; фасад после исправления material ownership угловых выпусков, без полной художественной приёмки.",
+        "requestedProfile": null,
+        "atmosphereProfile": "village-winter-frost",
+        "atmosphereOwner": "AgentBExteriorWorld",
+        "studioPreviewProfile": null,
+        "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBEnvironment",
+        "tonemapMode": "Agx",
+        "fogColor": "c2d0e0ff",
+        "fogDensity": 0.012,
+        "snowActive": true,
+        "snowAmount": 4000,
+        "blizzardActive": false,
+        "drawCalls": 19893,
+        "capturedUnixSeconds": 1791517494
+      }
+    ]
+  },
+  "frames": [
+    {
+      "name": "babai_corner_left",
+      "png": "frames/babai_corner_left.png",
+      "png_sha256": "726a065435bb102e8b92f4df0aefefef6c051055d86fa817194043ad018ed1a7",
+      "png_bytes": 1477968,
+      "png_ihdr": {
+        "width": 1886,
+        "height": 1061
+      },
+      "sidecar": "frames/babai_corner_left.json",
+      "sidecar_sha256": "fefb1886653820d6ec74e62909ec016dae5db3bf4b7f0d8d152e7a158d191ff4",
+      "sidecar_bytes": 6803,
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "requestedZoneId": null,
+      "activeZoneId": "village_day",
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "fovSource": "explicit",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "graphicsPreset": "medium",
+      "graphicsRequestedPreset": null,
+      "graphicsComparable": null,
+      "cornerLogMaterials": [
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log05_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "false",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log05_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "false",
+          "albedoTexture": null
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log06_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "false",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log06_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "false",
+          "albedoTexture": null
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log04_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "false",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log04_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "false",
+          "albedoTexture": null
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log07_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "false",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log07_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "false",
+          "albedoTexture": null
+        }
+      ]
+    },
+    {
+      "name": "babai_corner_right",
+      "png": "frames/babai_corner_right.png",
+      "png_sha256": "07eae568ce6c8b34aa87ccc2949e80016b9d86983576f8eda0472a3485ec83c3",
+      "png_bytes": 1643370,
+      "png_ihdr": {
+        "width": 1886,
+        "height": 1061
+      },
+      "sidecar": "frames/babai_corner_right.json",
+      "sidecar_sha256": "2b69f7231a2a17d6ec9f90b9220c958f1fc603e7ff803450ec0624de6d9773d6",
+      "sidecar_bytes": 6627,
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "requestedZoneId": null,
+      "activeZoneId": "village_day",
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "fovSource": "explicit",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "graphicsPreset": "medium",
+      "graphicsRequestedPreset": null,
+      "graphicsComparable": null,
+      "cornerLogMaterials": [
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log05_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "false",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log05_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "false",
+          "albedoTexture": null
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log06_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "false",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log06_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "false",
+          "albedoTexture": null
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log04_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "false",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log04_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "false",
+          "albedoTexture": null
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log07_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "false",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log07_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "false",
+          "albedoTexture": null
+        }
+      ]
+    },
+    {
+      "name": "babai_shape_front",
+      "png": "frames/babai_shape_front.png",
+      "png_sha256": "7d8dddc010c52f7e086f77a65fe7949a3a6cf020c839dc30104d21a014f33816",
+      "png_bytes": 1290261,
+      "png_ihdr": {
+        "width": 1886,
+        "height": 1061
+      },
+      "sidecar": "frames/babai_shape_front.json",
+      "sidecar_sha256": "7be5381083dd19b8cb2a842d994e47a90dee3918ec86ee38f1b7eab1453072a0",
+      "sidecar_bytes": 3110,
+      "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "requestedZoneId": null,
+      "activeZoneId": "village_day",
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "fovSource": "explicit",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "graphicsPreset": "medium",
+      "graphicsRequestedPreset": null,
+      "graphicsComparable": null,
+      "cornerLogMaterials": []
+    }
+  ]
+}

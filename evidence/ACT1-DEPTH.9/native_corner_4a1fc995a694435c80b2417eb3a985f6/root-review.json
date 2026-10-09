@@ -1,0 +1,82 @@
+{
+  "reviewer": "/root",
+  "reviewedUtc": "2026-10-09T03:50:00Z",
+  "taskId": "ACT1-DEPTH.9",
+  "unit": "HeroHouse corner long-grain/end-grain material assignment",
+  "nativeCapture": {
+    "jobId": "4a1fc995a694435c80b2417eb3a985f6",
+    "status": "PASS",
+    "snapshotId": "feb3365e043d066521af496f4acffe1d823519c69fde32eef3cd1da707b4f581",
+    "baseCommit": "e05a1c69ade3dba4e86d92f400994e85656e7d85",
+    "snapshotManifestSha256": "7fae0a0b21503dd21f3b4b5022ce8af537fa09360210f484fb9f98f6d3ffb3d3",
+    "scene": "res://scenes/act1_demo.tscn",
+    "host": "UNTERPC",
+    "headless": false,
+    "renderer": [
+      "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+    ],
+    "userdataRestored": true,
+    "viewFov": 70,
+    "activeZoneId": "village_day",
+    "atmosphereProfile": "village-winter-frost",
+    "graphicsPreset": "medium",
+    "graphicsRequestedPreset": null,
+    "graphicsComparable": null,
+    "qualityCaptureMeaning": "Default protected capture path only. The source snapshot contains the matched High/Low implementation, but this run did not request a preset and does not verify that feature.",
+    "frames": [
+      {
+        "id": "babai_corner_left",
+        "png": "frames/babai_corner_left.png",
+        "sidecar": "frames/babai_corner_left.json",
+        "dimensions_px": [
+          1886,
+          1061
+        ],
+        "bytes": 1477968,
+        "sha256": "726a065435bb102e8b92f4df0aefefef6c051055d86fa817194043ad018ed1a7"
+      },
+      {
+        "id": "babai_corner_right",
+        "png": "frames/babai_corner_right.png",
+        "sidecar": "frames/babai_corner_right.json",
+        "dimensions_px": [
+          1886,
+          1061
+        ],
+        "bytes": 1643370,
+        "sha256": "07eae568ce6c8b34aa87ccc2949e80016b9d86983576f8eda0472a3485ec83c3"
+      },
+      {
+        "id": "babai_shape_front",
+        "png": "frames/babai_shape_front.png",
+        "sidecar": "frames/babai_shape_front.json",
+        "dimensions_px": [
+          1886,
+          1061
+        ],
+        "bytes": 1290261,
+        "sha256": "7d8dddc010c52f7e086f77a65fe7949a3a6cf020c839dc30104d21a014f33816"
+      }
+    ],
+    "engineErrorsBytes": 0,
+    "stderrBytes": 0
+  },
+  "sourceBinding": {
+    "proof": "source-proof.json",
+    "stationSelectedGlbSha256": "67d78ca38372f01a93dab795bb5410d4bf79db153387a2b7bbd848f5000346fc",
+    "cornerExportReceipt": "evidence/ACT1-DEPTH.9/corner-log-material-export-2026-10-09.json",
+    "cornerExportGlbSha256": "67d78ca38372f01a93dab795bb5410d4bf79db153387a2b7bbd848f5000346fc",
+    "sealedGlbMatchesExport": true
+  },
+  "result": "BOUNDED_CORNER_MATERIAL_ACCEPTED_WHOLE_HOUSE_NOT_ACCEPTED",
+  "accepted": [
+    "Both original corner close-up PNGs show long-grain side faces separated from ring-cut caps, consistently on left and right; no end-grain material spills across the long surfaces.",
+    "The existing front-view house silhouette remains preserved."
+  ],
+  "openOrNotAccepted": [
+    "Whole-house style is not accepted: windows, trim, furniture and character style remain too coarse.",
+    "Matched High/Low and selected-reference comparison remain pending; this Medium run is not an A/B quality comparison.",
+    "Ordinary player movement around the corners, interior AS-01/02/13, D14, budget/performance, and author/human gates remain open."
+  ],
+  "scopeLimit": "Acceptance covers only the corner material assignment shown in these three originals; it does not close ACT1-DEPTH.9 or authorize starting ACT1-DEPTH.10."
+}

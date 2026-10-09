@@ -9,7 +9,7 @@
     "AS-13"
   ],
   "identifier_disambiguation": "W01/W05 in this passport are painterly texture-catalog codes (texture.painterly.w01.v01 and texture.painterly.w05.v02), not PhotoWorld/world IDs; this evidence makes no claim that a W05 PhotoWorld exists or is runtime-complete.",
-  "status": "technical passport evidence plus bounded native porch-deck visual acceptance; ACT1-DEPTH.9 remains in_progress",
+  "status": "technical passport evidence plus bounded native porch-deck and corner-log material acceptance; ACT1-DEPTH.9 remains in_progress; whole-house style open",
   "references": {
     "selected_author_reference": {
       "path": "docs/URMAN_VISUAL_RESET_2026-10-07/references/P1_user_selected_painterly.png",
@@ -27,17 +27,17 @@
     "root_component": "HeroHouse_TimberPlaster",
     "generator": {
       "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
-      "sha256": "9724e3ed28d10ad3e2d07179f8a307d741a7f883e557ed9ea156563148881028",
+      "sha256": "eb0f0768beb60cad19eda1a1c25e85f03e2e8f85cff2a83bace4875bec2e3077",
       "origin": "project-authored Blender Python generator; Blender 4.5.12 LTS"
     },
     "source_project": {
       "path": "assets/source/blender/act1/urman_village_exterior_kit.blend",
-      "sha256": "26ce5758b4f14e91b990dc879f3d93e0a9935958e0e71489765c3d7e6bf4c237",
+      "sha256": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3",
       "rights": "Project-original (asset_registry.json)"
     },
     "derived_glb": {
       "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
-      "sha256": "ce2ee7567720501521be357bb797bebab3582a1bac98d651f617f96bc6398e2a",
+      "sha256": "67d78ca38372f01a93dab795bb5410d4bf79db153387a2b7bbd848f5000346fc",
       "gltf_version": 2,
       "images_embedded": 0,
       "textures_embedded": 0,
@@ -263,6 +263,40 @@
   ],
   "current_native_and_human_gates": {
     "latest_relevant_capture": {
+      "job_id": "4a1fc995a694435c80b2417eb3a985f6",
+      "snapshot_id": "feb3365e043d066521af496f4acffe1d823519c69fde32eef3cd1da707b4f581",
+      "scene": "res://scenes/act1_demo.tscn",
+      "native_capture": true,
+      "headless": false,
+      "graphics_preset": "medium",
+      "graphics_requested_preset": null,
+      "graphics_comparable": null,
+      "zone": "village_day",
+      "atmosphere_profile": "village-winter-frost",
+      "fov_degrees": 70,
+      "userdata_restored": true,
+      "source_glb_sha256": "67d78ca38372f01a93dab795bb5410d4bf79db153387a2b7bbd848f5000346fc",
+      "frames": [
+        "evidence/ACT1-DEPTH.9/native_corner_4a1fc995a694435c80b2417eb3a985f6/frames/babai_corner_left.png",
+        "evidence/ACT1-DEPTH.9/native_corner_4a1fc995a694435c80b2417eb3a985f6/frames/babai_corner_right.png",
+        "evidence/ACT1-DEPTH.9/native_corner_4a1fc995a694435c80b2417eb3a985f6/frames/babai_shape_front.png"
+      ],
+      "reviewed_by_root": "Three original PNGs; bounded corner material assignment and existing front silhouette only.",
+      "bounded_visual_result": "Long-grain side faces and ring-cut caps read distinctly on both corners; no cap material spill across long faces.",
+      "limit": "Default Medium capture only; matched High/Low behavior is unverified. No whole-house style/reference, ordinary movement, interior, D14, performance, author or human acceptance."
+    },
+    "still_open_done_when": [
+      "The current sealed export has a protected native Windows import/capture, and root accepted only the porch-deck UV/material assignment from the original PNGs. Whole-house style/reference and broader exterior acceptance remain open.",
+      "Ordinary player approach and corner traversal, with clear entrance access and no invented player height assumption.",
+      "Interior two-way clearance and lived-in domestic layout: sofa, floral wallpaper, curtains, logs/carving, photo/food/service/towels, note/thread meaning, and D14 table/box/towel. D14 coordinate ambiguity remains a separate owner's open decision.",
+      "Compare the assembled house against the exact author-selected P1 and menu references, including roof/eaves/gable/window/door/plinth/porch proportions and material detail; root's visual acceptance remains required."
+    ],
+    "not_claimed": [
+      "No whole-house style, cultural, author or general human visual acceptance.",
+      "No human first-person movement/traversal acceptance.",
+      "No claim that the interior directly reuses the exterior GLB windows or AS-13 map."
+    ],
+    "previous_relevant_capture_before_corner": {
       "job_id": "6dc5fb1948d14cfe829d0c8af0799a98",
       "snapshot_id": "eeb53479d0b81d445552cd40d4f43353406de01587f20203656233e868ad0539",
       "scene": "res://scenes/act1_demo.tscn",
@@ -281,18 +315,7 @@
       "reviewed_by_root": "All five original PNGs; bounded porch-deck UV/material acceptance only.",
       "bounded_visual_result": "Deck top grain follows planks, cut-end grain remains cross-section, no enlarged-footprint regression.",
       "limit": "Static developer camera; not ordinary player approach/exit, around-corner movement, full-house style, interior or author/human acceptance."
-    },
-    "still_open_done_when": [
-      "The current sealed export has a protected native Windows import/capture, and root accepted only the porch-deck UV/material assignment from the original PNGs. Whole-house style/reference and broader exterior acceptance remain open.",
-      "Ordinary player approach and corner traversal, with clear entrance access and no invented player height assumption.",
-      "Interior two-way clearance and lived-in domestic layout: sofa, floral wallpaper, curtains, logs/carving, photo/food/service/towels, note/thread meaning, and D14 table/box/towel. D14 coordinate ambiguity remains a separate owner's open decision.",
-      "Compare the assembled house against the exact author-selected P1 and menu references, including roof/eaves/gable/window/door/plinth/porch proportions and material detail; root's visual acceptance remains required."
-    ],
-    "not_claimed": [
-      "No whole-house style, cultural, author or general human visual acceptance.",
-      "No human first-person movement/traversal acceptance.",
-      "No claim that the interior directly reuses the exterior GLB windows or AS-13 map."
-    ]
+    }
   },
   "metadata_discrepancies_to_reconcile": [
     {
@@ -321,7 +344,7 @@
     }
   ],
   "verification": {
-    "method": "Read-only one-off GLB JSON/accessor enumeration, Pillow image dimensions/channels, source/caller inspection, exact source/derived SHA-256 checks, and a bounded pinned-Blender hero-house component-only export with pre/post accessor payload comparison. The exact-row asset-registry validator passed. No protected Windows import/capture or ordinary player traversal is evidenced here. The current sealed export was also imported and captured in a protected native Windows run; root reviewed the original five-point PNG set and accepted only the bounded porch-deck UV/material assignment. That static-camera review is not ordinary traversal or whole-house style acceptance.",
+    "method": "Read-only one-off GLB JSON/accessor enumeration, Pillow image dimensions/channels, source/caller inspection, exact source/derived SHA-256 checks, and a bounded pinned-Blender hero-house component-only export with pre/post accessor payload comparison. The exact-row asset-registry validator passed. No protected Windows import/capture or ordinary player traversal is evidenced here. The current sealed export was also imported and captured in a protected native Windows run; root reviewed the original five-point PNG set and accepted only the bounded porch-deck UV/material assignment. That static-camera review is not ordinary traversal or whole-house style acceptance. The later protected Windows corner capture 4a1 imported the exact corner export (GLB SHA matched); root reviewed all three original PNGs and accepted only long-grain/end-grain corner response and preserved front silhouette. The job used the default actual Medium path with no requested preset and does not verify matched High/Low.",
     "source_and_texture_hashes_checked": true,
     "generated_texture_sources_match_repository_bytes": [
       "W01",
@@ -346,5 +369,15 @@
     "review_scope": "porch-deck UV/material assignment only",
     "result": "accepted within the bounded scope; parent task remains open"
   },
-  "profile_caveat_6dc5": "Sidecar reports graphicsPreset medium; active material readback low_quality=true. Bounded original-frame acceptance applies to this actual rendering; medium shader/higher-quality acceptance is not inferred."
+  "profile_caveat_6dc5": "Sidecar reports graphicsPreset medium; active material readback low_quality=true. Bounded original-frame acceptance applies to this actual rendering; medium shader/higher-quality acceptance is not inferred.",
+  "latest_corner_log_material_review": {
+    "export_evidence": "evidence/ACT1-DEPTH.9/corner-log-material-export-2026-10-09.json",
+    "native_review_evidence": "evidence/ACT1-DEPTH.9/native_corner_4a1fc995a694435c80b2417eb3a985f6/root-review.json",
+    "job_id": "4a1fc995a694435c80b2417eb3a985f6",
+    "snapshot_id": "feb3365e043d066521af496f4acffe1d823519c69fde32eef3cd1da707b4f581",
+    "source_glb_sha256": "67d78ca38372f01a93dab795bb5410d4bf79db153387a2b7bbd848f5000346fc",
+    "review_scope": "40 HeroHouse corner log nodes: existing variant material split only; unchanged geometry/UV/normal/transform payloads.",
+    "result": "Root bounded-accepted the corner material response and preserved front silhouette from original PNGs. Whole-house style remains open.",
+    "quality_capture_limit": "Actual Medium; no requested preset; graphicsComparable=null. The source snapshot includes the High/Low capture implementation, but this job does not validate it."
+  }
 }

@@ -8,8 +8,8 @@ namespace Urman.Godot;
 // URMAN_VIEW_POINTS="name:x,y,z>tx,ty,tz;..." saves one still per viewpoint from
 // a free camera in the village and quits. Unset, it does nothing.
 // Optional authored manifest res://content/world/visual_checkpoints.v1.json binds a frame
-// name to an atmosphere profile, so one capture job can photograph the same street under
-// every VIS-069…074 state without a second transport (see VisualCheckpointManifestPath).
+// name to atmosphere state and, for protected comparison jobs, one requested graphics
+// preset. It reuses URMAN_VIEW_POINTS rather than extending station transport.
 public partial class Act1DemoRoot
 {
     // Development only: URMAN_WALK_PROBE="Building;x,y,z;yawDegrees;seconds;action" puts the real
@@ -64,12 +64,21 @@ public partial class Act1DemoRoot
     // profile per frame so the existing station transport (capture -> URMAN_VIEW_POINTS) can
     // photograph states that no zone owns. Absent, every frame keeps today's zone default.
     private const string VisualCheckpointManifestPath = "res://content/world/visual_checkpoints.v1.json";
+    private string? _devViewCaptureRequestedGraphicsPreset;
+    private bool _devViewCaptureGraphicsPresetApplied;
+    private string _devViewCaptureGraphicsPresetApplyStatus = "not-requested";
 
     private sealed record ViewSideResult(string Space, Node3D? Owner, Vector3 World);
 
-    // "profile" is optional: a row without it documents the subject but leaves the light to
-    // the zone, which is how the canonical C1…C8 comparison set keeps its before baseline.
-    private sealed record VisualCheckpoint(string Id, string Spec, string? Profile, string? Subject, string? ZoneId);
+    // Atmosphere and graphics requests are optional: absent fields preserve the existing
+    // zone/default capture path and unrequested graphics comparisons.
+    private sealed record VisualCheckpoint(
+        string Id,
+        string Spec,
+        string? Profile,
+        string? Subject,
+        string? ZoneId,
+        string? GraphicsPreset);
 
     private sealed record ViewPoint(
         string Name,
@@ -89,8 +98,9 @@ public partial class Act1DemoRoot
         var points = System.Environment.GetEnvironmentVariable("URMAN_VIEW_POINTS");
         if (string.IsNullOrEmpty(dir) || string.IsNullOrEmpty(points)) return;
         var zone = System.Environment.GetEnvironmentVariable("URMAN_VIEW_ZONE");
-        for (var frame = 0; frame < 900 && !(MainMenuVisible && _main is not null && _player is not null); frame++)
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        // Resolve a requested graphics profile before InitializeDemo arms its startup
+        // performance guard. This path is inert unless the existing protected view-capture
+        // transport supplied both its output and point list.
         var checkpoints = LoadVisualCheckpoints(out var manifestFailure);
         if (checkpoints is null)
         {
@@ -98,6 +108,22 @@ public partial class Act1DemoRoot
             GetTree().Quit(1);
             return;
         }
+        _devViewCaptureRequestedGraphicsPreset = ResolveRequestedGraphicsPreset(points, checkpoints, out var graphicsFailure);
+        if (graphicsFailure is not null)
+        {
+            GD.PushError($"View capture refused: {graphicsFailure} No frame was written.");
+            GetTree().Quit(1);
+            return;
+        }
+        if (_devViewCaptureRequestedGraphicsPreset is not null
+            && System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") != "1")
+        {
+            GD.PushError("View capture refused: checkpoint graphicsPreset requires a protected native capture.");
+            GetTree().Quit(1);
+            return;
+        }
+        for (var frame = 0; frame < 900 && !(MainMenuVisible && _main is not null && _player is not null); frame++)
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         var selectedZones = points.Split(';', StringSplitOptions.RemoveEmptyEntries)
             .Select(entry => checkpoints.GetValueOrDefault(entry.Split(':', 2)[0])?.ZoneId ?? zone)
             .Concat(string.IsNullOrEmpty(zone) ? Array.Empty<string?>() : new[] { zone })
@@ -284,7 +310,7 @@ public partial class Act1DemoRoot
                 GetTree().Quit(1);
                 return;
             }
-            GD.Print($"view-capture: {point.Name} camera={GetViewport().GetCamera3D()?.Name} at={camera.GlobalPosition} zone={_main.ConnectedWorld?.ActiveZoneId} profile={ViewMeta(_main.ConnectedWorld?.GetNodeOrNull<Node3D>("Act1CoreWorldGreybox"), "unifiedAtmosphereProfile")} preset={GraphicsQuality.Preset} scale={GetViewport().Scaling3DScale} fov={camera.Fov} focus={DisplayServer.WindowIsFocused()} pause={_pauseMenu?.IsOpen} drawCalls={Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)} frameMs={GetProcessDeltaTime()*1000:0.0}");
+            GD.Print($"view-capture: {point.Name} camera={GetViewport().GetCamera3D()?.Name} at={camera.GlobalPosition} zone={_main.ConnectedWorld?.ActiveZoneId} profile={ViewMeta(_main.ConnectedWorld?.GetNodeOrNull<Node3D>("Act1CoreWorldGreybox"), "unifiedAtmosphereProfile")} preset={GraphicsQuality.Preset} requestedPreset={_devViewCaptureRequestedGraphicsPreset ?? "none"} comparable={metadata["graphicsComparable"]?.ToString() ?? "null"} budget={GraphicsQuality.BudgetSnapshot()} scale={GetViewport().Scaling3DScale} fov={camera.Fov} focus={DisplayServer.WindowIsFocused()} pause={_pauseMenu?.IsOpen} drawCalls={Performance.GetMonitor(Performance.Monitor.RenderTotalDrawCallsInFrame)} frameMs={GetProcessDeltaTime()*1000:0.0}");
         }
         var summary = new JsonObject
         {
@@ -306,6 +332,87 @@ public partial class Act1DemoRoot
         var tree = GetTree();
         await Tests.GodotSmokeCleanup.ReleaseAsync(this);
         QuitAfterViewCaptureAsync(tree);
+    }
+
+    // A graphics comparison is one explicit quality per complete capture job. Keep the
+    // legacy/unbound camera workflow untouched when none of its selected rows asks for one.
+    private static string? ResolveRequestedGraphicsPreset(
+        string points,
+        Dictionary<string, VisualCheckpoint> checkpoints,
+        out string? failure)
+    {
+        failure = null;
+        var entries = points.Split(';', StringSplitOptions.RemoveEmptyEntries);
+        var requestedRows = entries
+            .Select(entry =>
+            {
+                var separator = entry.IndexOf(':');
+                return separator < 0 ? null : checkpoints.GetValueOrDefault(entry[..separator]);
+            })
+            .Where(checkpoint => checkpoint?.GraphicsPreset is not null)
+            .ToArray();
+        if (requestedRows.Length == 0) return null;
+
+        string? requested = null;
+        foreach (var entry in entries)
+        {
+            var separator = entry.IndexOf(':');
+            if (separator <= 0)
+            {
+                failure = "a graphicsPreset comparison point must use the existing 'id:camera>target' syntax.";
+                return null;
+            }
+            var id = entry[..separator];
+            if (!checkpoints.TryGetValue(id, out var checkpoint) || checkpoint.GraphicsPreset is null)
+            {
+                failure = $"graphicsPreset comparison point '{id}' is unbound or has no graphicsPreset; a job cannot mix comparison rows with default/unbound points.";
+                return null;
+            }
+            var coordinates = entry[(separator + 1)..];
+            if (!System.String.Equals(checkpoint.Spec, coordinates, StringComparison.Ordinal))
+            {
+                failure = $"graphicsPreset checkpoint '{id}' is authored for '{checkpoint.Spec}', not '{coordinates}'.";
+                return null;
+            }
+            if (requested is not null && !System.String.Equals(requested, checkpoint.GraphicsPreset, StringComparison.Ordinal))
+            {
+                failure = "one graphicsPreset comparison job cannot mix high and low checkpoints.";
+                return null;
+            }
+            requested = checkpoint.GraphicsPreset;
+        }
+        return requested;
+    }
+
+    private void ApplyDevViewCaptureGraphicsPresetBeforeStartupGuard()
+    {
+        if (_devViewCaptureRequestedGraphicsPreset is not { } requested) return;
+        if (System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") != "1")
+        {
+            _devViewCaptureGraphicsPresetApplyStatus = "skipped-unprotected-run";
+            return;
+        }
+
+        if (_player is null)
+            throw new InvalidOperationException("A checkpoint graphicsPreset was selected before the first-person controller loaded.");
+
+        // Keep existing session-only safety modes intact. A capture request is never a reason
+        // to undo safe mode or a rescue that another startup owner has already activated.
+        if (!string.IsNullOrEmpty(_player.SessionGraphicsOverride))
+        {
+            _devViewCaptureGraphicsPresetApplyStatus = "skipped-session-override";
+            GD.Print($"view-capture-graphics: requested={requested} applied=false effective={_player.GraphicsPreset} preferred={_player.GetMeta("graphicsPreferredPreset", "").AsString()} sessionOverride={_player.SessionGraphicsOverride} budget={GraphicsQuality.BudgetSnapshot()}");
+            return;
+        }
+
+        var settings = _player.CaptureSettings();
+        _player.ApplySettings(settings with { GraphicsPreset = requested });
+        _devViewCaptureGraphicsPresetApplied = _player.GraphicsPreset == requested
+            && string.IsNullOrEmpty(_player.SessionGraphicsOverride);
+        _devViewCaptureGraphicsPresetApplyStatus = _devViewCaptureGraphicsPresetApplied
+            ? "applied-through-player-settings"
+            : "player-settings-readback-mismatch";
+        GD.Print($"view-capture-graphics: requested={requested} applied={_devViewCaptureGraphicsPresetApplied.ToString().ToLowerInvariant()} effective={_player.GraphicsPreset} preferred={_player.GetMeta("graphicsPreferredPreset", "").AsString()} sessionOverride={_player.SessionGraphicsOverride ?? "none"} budget={GraphicsQuality.BudgetSnapshot()}");
     }
 
     /// <summary>
@@ -372,7 +479,18 @@ public partial class Act1DemoRoot
                     failure = $"checkpoint '{id}' names unknown zone '{zoneId}'.";
                     return null;
                 }
-                rows.Add(id!, new VisualCheckpoint(id!, spec, ViewJsonText(row, "profile"), ViewJsonText(row, "subject"), zoneId));
+                string? graphicsPreset = null;
+                if (row.TryGetProperty("graphicsPreset", out var graphicsPresetElement))
+                {
+                    if (graphicsPresetElement.ValueKind != JsonValueKind.String
+                        || graphicsPresetElement.GetString() is not ("high" or "low"))
+                    {
+                        failure = $"checkpoint '{id}' has invalid graphicsPreset; only exact 'high' or 'low' values are supported.";
+                        return null;
+                    }
+                    graphicsPreset = graphicsPresetElement.GetString();
+                }
+                rows.Add(id!, new VisualCheckpoint(id!, spec, ViewJsonText(row, "profile"), ViewJsonText(row, "subject"), zoneId, graphicsPreset));
             }
         }
         catch (System.Exception error)
@@ -479,6 +597,14 @@ public partial class Act1DemoRoot
         var world = _main!.ConnectedWorld;
         var environmentNode = ViewFrameEnvironmentNode();
         var environment = environmentNode?.Environment;
+        var playerPreset = _player?.GraphicsPreset;
+        var preferredPreset = _player?.GetMeta("graphicsPreferredPreset", "").AsString();
+        var sessionOverride = _player?.SessionGraphicsOverride;
+        var comparable = _devViewCaptureRequestedGraphicsPreset is not null
+            && _devViewCaptureGraphicsPresetApplied
+            && string.IsNullOrEmpty(sessionOverride)
+            && System.String.Equals(_devViewCaptureRequestedGraphicsPreset, GraphicsQuality.Preset, StringComparison.Ordinal)
+            && System.String.Equals(_devViewCaptureRequestedGraphicsPreset, playerPreset, StringComparison.Ordinal);
         // The storm toggle has one caller (the first-night cutscene), so the running flag
         // is the only runtime authority for blizzard state; snow is read off its emitter.
         var snow = world?.GetNodeOrNull<CpuParticles3D>("Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBSnow");
@@ -506,6 +632,14 @@ public partial class Act1DemoRoot
             ["scaling3DScale"] = ViewNumber(viewport.Scaling3DScale),
             ["scaling3DMode"] = ViewText(viewport.Scaling3DMode.ToString()),
             ["graphicsPreset"] = ViewText(GraphicsQuality.Preset),
+            ["graphicsRequestedPreset"] = ViewText(_devViewCaptureRequestedGraphicsPreset),
+            ["graphicsEffectivePreset"] = ViewText(GraphicsQuality.Preset),
+            ["playerGraphicsPreset"] = ViewText(playerPreset),
+            ["graphicsPreferredPreset"] = ViewText(preferredPreset),
+            ["graphicsSessionOverride"] = ViewText(sessionOverride),
+            ["graphicsPresetApplyStatus"] = ViewText(_devViewCaptureGraphicsPresetApplyStatus),
+            ["graphicsComparable"] = _devViewCaptureRequestedGraphicsPreset is null ? null : ViewFlag(comparable),
+            ["graphicsBudget"] = ViewText(GraphicsQuality.BudgetSnapshot()),
             ["activeZoneId"] = ViewText(world?.ActiveZoneId),
             ["requestedZoneId"] = ViewText(requestedZone),
             // The manifest asks, the world answers: 'requestedProfile' is what the authored

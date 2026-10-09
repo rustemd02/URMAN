@@ -204,6 +204,21 @@
       "zoneId": "house_old_pc",
       "spec": "FamilyTukayBookPresentation@0,0.55,0.7>FamilyTukayBookPresentation@0,0,0",
       "subject": "PW-006: общий видимый семейный том на измеренной поверхности стола; крупный статичный вид, без доказательства PW выдачи или готовности A001."
+    },
+    {
+      "id": "babai_corner_left",
+      "spec": "BabaiApproachDwellingFacade@-3.25,1.8,3>BabaiApproachDwellingFacade@-2.592,1.42,1.3",
+      "subject": "ACT1-DEPTH.9: ближайший левый угловой выпуск сруба; распределение продольного материала и торцевого среза, возможное перекрытие оградой проверяется кадром."
+    },
+    {
+      "id": "babai_corner_right",
+      "spec": "BabaiApproachDwellingFacade@6.55,1.8,3>BabaiApproachDwellingFacade@5.908,1.42,1.3",
+      "subject": "ACT1-DEPTH.9: ближайший правый угловой выпуск сруба; форма, продольная поверхность и торцы, статичный вид без обычного прохода."
+    },
+    {
+      "id": "babai_shape_front",
+      "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
+      "subject": "ACT1-DEPTH.9: точная общая камера предыдущего native6dc5; фасад после исправления material ownership угловых выпусков, без полной художественной приёмки."
     }
   ],
   "batches": [
