@@ -101,7 +101,7 @@ public partial class Act1ConnectedWorld
             AddVisualBox(
                 leafPivot,
                 $"LooseBoardPlank{board}",
-                new(.03f, top - .04f, .255f),
+                new(.03f, top - .04f, .235f),
                 new(0f, .04f + (top - .04f) * .5f, .1275f + board * .2813f),
                 boardTones[board],
                 "wood");

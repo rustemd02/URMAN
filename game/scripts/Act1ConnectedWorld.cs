@@ -2159,6 +2159,11 @@ public partial class Act1ConnectedWorld : Node3D
 
     private static int RegradeAct1DaylightKitMaterials(Node3D core)
     {
+        // Before the materials are rebound: the rounded courses keep the kit's
+        // own URMAN_Hero_Log slot, so the grade below still finds them.
+        RoundHeroLogCourses(core);
+        ReboardKitGateLeaves(core);
+        BuildAgentBLogCrowns(core);
         var grade = new Dictionary<string, Material>(StringComparer.Ordinal)
         {
             // 09.10 author photo references T1-T3 (Tatarstan village facades):

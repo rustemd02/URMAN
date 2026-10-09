@@ -377,7 +377,8 @@ public static class StudioSelfCheck
             var fogBefore = Env()?.FogDensity ?? -1f;
             world.OpenAtmosphere();
             await Frames(4);
-            const string village = "urman.world:atmosphere/village-winter-frost";
+            // The day village zone reads village-winter-crisp since 09.10.2026 (P2/T1-T4).
+            const string village = "urman.world:atmosphere/village-winter-crisp";
             var parameters = studio.Workspace.Get(village)!["params"]!.DeepClone().AsObject();
             parameters["fog"]!["density"] = 0.02;
             studio.Session.SetField(village, ["params"], parameters, "плотность тумана");

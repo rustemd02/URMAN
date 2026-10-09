@@ -14,7 +14,6 @@
         "profile": "village-winter-frost",
         "identity": "Морозное утро",
         "zones": [
-          "village_day",
           "house_old_pc",
           "fap_clinic"
         ],
@@ -86,11 +85,13 @@
     {
       "id": "urman.world:atmosphere/village-winter-crisp",
       "kind": "atmosphere-profile",
-      "name": "Деревня · ясный мороз (кандидат P2)",
+      "name": "Деревня · ясный мороз",
       "params": {
         "profile": "village-winter-crisp",
-        "identity": "Ясный мороз — кандидат замены морозного утра",
-        "zones": [],
+        "identity": "Ясный мороз — дневная деревня (P2/T1–T4, 09.10.2026)",
+        "zones": [
+          "village_day"
+        ],
         "ambient": {
           "energy": 0.44,
           "color": "9fb6da",
@@ -105,7 +106,7 @@
           "skyAffect": 0.55,
           "sunScatter": 0.06
         },
-        "exposure": 0.92,
+        "exposure": 0.85,
         "ssao": {
           "intensity": 1.0,
           "radius": 0.6
