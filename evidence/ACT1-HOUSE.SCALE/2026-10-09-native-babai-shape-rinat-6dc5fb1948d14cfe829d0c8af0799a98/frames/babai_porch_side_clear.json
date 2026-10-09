@@ -1,0 +1,213 @@
+{
+  "point": "babai_porch_side_clear",
+  "spec": "babai_porch_side_clear:BabaiApproachDwellingFacade@-2.4226,1.7,3.3005\u003EBabaiApproachDwellingFacade@-1.1644,0.215,2.036",
+  "cameraName": "DevViewCamera",
+  "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+  "cameraPosition": {
+    "x": -7.286011,
+    "y": 1.448152,
+    "z": -0.624935
+  },
+  "cameraTarget": {
+    "x": -8.550505,
+    "y": -0.036848,
+    "z": -1.883141
+  },
+  "cameraForward": {
+    "x": -0.544795,
+    "y": -0.639798,
+    "z": -0.542086
+  },
+  "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "cameraOwnerZone": null,
+  "targetOwnerZone": null,
+  "fov": 70,
+  "fovSource": "explicit",
+  "near": 0.05,
+  "far": 160,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "scaling3DScale": 0.9,
+  "scaling3DMode": "Bilinear",
+  "graphicsPreset": "medium",
+  "activeZoneId": "village_day",
+  "requestedZoneId": null,
+  "checkpointSubject": null,
+  "requestedProfile": null,
+  "atmosphereProfile": "village-winter-frost",
+  "atmosphereOwner": "AgentBExteriorWorld",
+  "studioPreviewProfile": null,
+  "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBEnvironment",
+  "tonemapMode": "Agx",
+  "fogColor": "c2d0e0ff",
+  "fogDensity": 0.012,
+  "snowActive": true,
+  "snowAmount": 4000,
+  "blizzardActive": false,
+  "drawCalls": 25180,
+  "capturedUnixSeconds": 1791506862,
+  "babaiPorchDeckMaterials": [
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_PorchDeck_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_village_exterior_kit_HeroHouse_PorchDeck_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_village_exterior_kit.glb::ArrayMesh_tubqb",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.97,
+          "y": -0.015,
+          "z": -0.49
+        },
+        "size": {
+          "x": 1.94,
+          "y": 0.03,
+          "z": 0.98
+        },
+        "end": {
+          "x": 0.97,
+          "y": 0.015,
+          "z": 0.49
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -9.530509,
+          "y": -0.051848,
+          "z": -2.853148
+        },
+        "size": {
+          "x": 0.980009,
+          "y": 0.03,
+          "z": 1.940005
+        },
+        "end": {
+          "x": -8.5505,
+          "y": -0.021848,
+          "z": -0.913143
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": -1.164398,
+          "y": 0.215,
+          "z": 1.546
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -9.040504,
+          "y": -0.036848,
+          "z": -1.883145
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_PorchDeck_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": -10.586498,
+          "y": -0.251848,
+          "z": -3.047551
+        },
+        "basisX": {
+          "x": 0.000005,
+          "y": 0,
+          "z": -1
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 1,
+          "y": 0,
+          "z": 0.000005
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "URMAN_Hero_Log",
+          "meshMaterialPath": "res://assets/models/act1/urman_village_exterior_kit.glb::StandardMaterial3D_ixao0",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": false,
+          "activeShaderPath": null
+        },
+        {
+          "index": 1,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "URMAN_Hero_LogEnd",
+          "meshMaterialPath": "res://assets/models/act1/urman_village_exterior_kit.glb::StandardMaterial3D_3i61q",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": false,
+          "activeShaderPath": null
+        }
+      ],
+      "topAuthoredUv": "true",
+      "topTextureScale": "(1.0, 1.0)",
+      "topAlbedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+    }
+  ]
+}

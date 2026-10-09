@@ -3,9 +3,13 @@
   "task_id": "ACT1-DEPTH.9",
   "artifact_kind": "asset_passport_reuse_audit",
   "date": "2026-10-09",
-  "scope": ["AS-01", "AS-02", "AS-13"],
+  "scope": [
+    "AS-01",
+    "AS-02",
+    "AS-13"
+  ],
   "identifier_disambiguation": "W01/W05 in this passport are painterly texture-catalog codes (texture.painterly.w01.v01 and texture.painterly.w05.v02), not PhotoWorld/world IDs; this evidence makes no claim that a W05 PhotoWorld exists or is runtime-complete.",
-  "status": "technical passport evidence only; ACT1-DEPTH.9 remains in_progress",
+  "status": "technical passport evidence plus bounded native porch-deck visual acceptance; ACT1-DEPTH.9 remains in_progress",
   "references": {
     "selected_author_reference": {
       "path": "docs/URMAN_VISUAL_RESET_2026-10-07/references/P1_user_selected_painterly.png",
@@ -23,36 +27,36 @@
     "root_component": "HeroHouse_TimberPlaster",
     "generator": {
       "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
-      "sha256": "51791739c01e317b3ad795ae0e2814d234c59217e467ded4b77769b991b1bfd4",
+      "sha256": "9724e3ed28d10ad3e2d07179f8a307d741a7f883e557ed9ea156563148881028",
       "origin": "project-authored Blender Python generator; Blender 4.5.12 LTS"
     },
     "source_project": {
       "path": "assets/source/blender/act1/urman_village_exterior_kit.blend",
-      "sha256": "c08019b60194c346e6428df7abf8e3f404d4c73ce0fe030283a7ec989fe90338",
+      "sha256": "26ce5758b4f14e91b990dc879f3d93e0a9935958e0e71489765c3d7e6bf4c237",
       "rights": "Project-original (asset_registry.json)"
     },
     "derived_glb": {
       "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
-      "sha256": "3d61163f9b592df5ec3895811b20c59874a94c9b0628b538ab43898823c8deb2",
+      "sha256": "ce2ee7567720501521be357bb797bebab3582a1bac98d651f617f96bc6398e2a",
       "gltf_version": 2,
       "images_embedded": 0,
       "textures_embedded": 0,
       "materials": 21,
       "hero_subtree": {
         "mesh_nodes": 665,
-        "primitive_rows": 762,
+        "primitive_rows": 763,
         "triangles_from_index_counts": 19772,
-        "primitive_rows_with_TEXCOORD_0": 230,
-        "primitive_rows_without_TEXCOORD_0": 532,
-        "TEXCOORD_0_accessor_count_sum_per_primitive_row": 9030,
-        "lod": "all 762 primitive rows are on node names ending LOD0; no LOD1/LOD2 rows found"
+        "primitive_rows_with_TEXCOORD_0": 232,
+        "primitive_rows_without_TEXCOORD_0": 531,
+        "TEXCOORD_0_accessor_count_sum_per_primitive_row": 9078,
+        "lod": "all 763 primitive rows are on node names ending LOD0; no LOD1/LOD2 rows found"
       },
       "full_glb_enumeration": {
         "mesh_nodes": 1497,
-        "primitive_rows": 1713,
+        "primitive_rows": 1714,
         "triangles_from_index_counts": 45077,
-        "primitive_rows_with_TEXCOORD_0": 294,
-        "primitive_rows_without_TEXCOORD_0": 1419
+        "primitive_rows_with_TEXCOORD_0": 296,
+        "primitive_rows_without_TEXCOORD_0": 1418
       },
       "comparison_to_HEAD_glb": {
         "previous_mesh_nodes": 1476,
@@ -60,8 +64,8 @@
         "previous_primitive_rows": 1692,
         "current_mesh_nodes": 1497,
         "current_indexed_triangles": 45077,
-        "current_primitive_rows": 1713,
-        "delta": "+21 mesh nodes, +988 indexed triangles, +21 primitive rows"
+        "current_primitive_rows": 1714,
+        "delta": "+21 mesh nodes, +988 indexed triangles, +22 primitive rows"
       },
       "triangle_budget_reconciliation": {
         "registry_triangleBudget": 36761,
@@ -77,16 +81,28 @@
     "metric_contract": {
       "source_path": "assets/source/blender/act1/urman_village_exterior_kit.py:HERO_HOUSE_CONTRACT",
       "component_scale": 1.0,
-      "shell_x_by_z_m": [8.4, 7.4],
-      "clear_room_x_by_z_m": [8.0, 7.0],
+      "shell_x_by_z_m": [
+        8.4,
+        7.4
+      ],
+      "clear_room_x_by_z_m": [
+        8.0,
+        7.0
+      ],
       "wall_thickness_m": 0.2,
       "floor_above_component_ground_m": 0.246,
       "clear_ceiling_height_m": 2.6,
       "eave_height_m": 3.05,
       "ridge_height_m": 4.8,
-      "portal_clear_width_by_height_m": [1.3, 2.25],
+      "portal_clear_width_by_height_m": [
+        1.3,
+        2.25
+      ],
       "window_clear_width_m": 1.06,
-      "window_sill_and_head_above_room_floor_m": [0.74, 2.14],
+      "window_sill_and_head_above_room_floor_m": [
+        0.74,
+        2.14
+      ],
       "window_niche_depth_m": 0.12,
       "window_glass_thickness_m": 0.035
     },
@@ -95,7 +111,11 @@
       "node": "Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
       "component": "HeroHouse_TimberPlaster",
       "logical_zone": "house_old_pc",
-      "runtime_scale": [1.0, 1.0, 1.0],
+      "runtime_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
       "role": "full exterior shell; geometry is presentation-only and does not own collision/interactions"
     },
     "interior_consumer": {
@@ -117,23 +137,57 @@
       "materials": [
         "URMAN_Hero_Log -> PainterlyMaterialLibrary.ForColor(..., wood_log_uv) -> W01 at 1x1 m on authored UVs",
         "URMAN_Wood_Weathered and URMAN_Wood_WetShadow -> wood_facade -> W01 at 1x1 m using upright projection",
-        "URMAN_Hero_LogEnd -> wood_cut; it does not sample W01"
+        "URMAN_Hero_LogEnd -> wood_cut on the porch deck cut edges; its walking face and long sides use URMAN_Hero_Log -> wood_log_uv / W01 with authored metre UVs"
       ],
       "w01_texture": {
         "asset_registry_id": "texture.painterly.w01.v01",
         "path": "game/assets/textures/painterly/urman_w01_v01_basecolor.png",
         "sha256": "0a205444a6413b9a4a420ecd5660c2a6ee3016285e58f14c1a5aaa1569a8ba75",
-        "dimensions": [1254, 1254],
+        "dimensions": [
+          1254,
+          1254
+        ],
         "channels": "RGB",
-        "texture_scale": [1.0, 1.0],
-        "tile_m": [1.0, 1.0],
+        "texture_scale": [
+          1.0,
+          1.0
+        ],
+        "tile_m": [
+          1.0,
+          1.0
+        ],
         "import": "mipmaps enabled; process/size_limit=1024",
         "origin": "OpenAI ImageGen built-in, selected 2026-09-22; exact selected source /Users/unterlantas/.codex/generated_images/01a0c88d-b64a-7480-af15-f04cea7db2a3/exec-2f0a7250-736a-486f-8f82-c646e50b8573.png; source and repository PNG SHA-256 match byte-for-byte",
         "rights": "Project-generated; no external texture or reference pixels were incorporated"
       },
       "lod_and_collision": "Hero subtree currently has LOD0 only. Exported mesh is presentation-only; Godot floor/collision and interaction targets remain their existing owners.",
       "rights_and_origin": "Project-original source/geometry; no embedded image textures or external model license dependency. W01 provenance is recorded separately below.",
-      "acceptance": "No visual/style or normal-player traversal acceptance claimed. Porch source/export has a separate partial evidence artifact; current post-porch native comparison remains pending."
+      "acceptance": "The porch deck source/export mapping is bounded-accepted by root after review of the current protected Windows original PNGs: plank-face grain follows the boards, true cut edges retain cross-section end grain, with no enlarged-footprint regression. No full-house style or ordinary player traversal acceptance.",
+      "porch_deck_surface_mapping": {
+        "node": "HeroHouse_PorchDeck_LOD0",
+        "source_dimensions_m": [
+          1.94,
+          0.98,
+          0.03
+        ],
+        "walking_face": "URMAN_Hero_Log -> wood_log_uv / W01; authored U follows house width and V follows wall-to-yard plank length at one repeat per metre",
+        "long_sides": "URMAN_Hero_Log / W01; V follows the same wall-to-yard plank axis",
+        "true_cut_edges": "URMAN_Hero_LogEnd -> wood_cut; centered normalized cross-section UVs [0,1]",
+        "exported_glb_primitives": {
+          "wood_log_uv_triangles": 16,
+          "wood_cut_triangles": 12,
+          "total_triangles": 28
+        },
+        "evidence": "evidence/ACT1-DEPTH.9/porch-deck-uv-export-2026-10-09.json",
+        "visual_review": {
+          "result": "bounded accepted by root",
+          "job_id": "6dc5fb1948d14cfe829d0c8af0799a98",
+          "snapshot_id": "eeb53479d0b81d445552cd40d4f43353406de01587f20203656233e868ad0539",
+          "frame": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/babai_porch_side_clear.png",
+          "observation": "Walking-face grain follows plank layout; true cut surfaces retain cross-section end-grain response; no enlarged-footprint regression.",
+          "scope_limit": "Static DevViewCamera review of deck mapping only; no overall house style, ordinary movement, author or human-play acceptance."
+        }
+      }
     },
     {
       "id": "AS-02",
@@ -152,10 +206,19 @@
         "asset_registry_id": "texture.painterly.w05.v02",
         "path": "game/assets/textures/painterly/urman_w05_v02_basecolor.png",
         "sha256": "c2170588472b77aab0f560818d34349cc4397d1793f0e5d06a7cbd73ee2ac317",
-        "dimensions": [1254, 1254],
+        "dimensions": [
+          1254,
+          1254
+        ],
         "channels": "RGB",
-        "texture_scale": [2.0, 2.0],
-        "tile_m": [0.5, 0.5],
+        "texture_scale": [
+          2.0,
+          2.0
+        ],
+        "tile_m": [
+          0.5,
+          0.5
+        ],
         "import": "mipmaps enabled; process/size_limit=1024",
         "origin": "OpenAI ImageGen built-in; exact selected file /Users/unterlantas/.codex/generated_images/01a0c88d-b64a-7480-af15-f04cea7db2a3/exec-8fcdfc7d-ba63-421a-a480-1eb6355ceea5.png; source and repository PNG SHA-256 match byte-for-byte",
         "rights": "Project-generated; no external texture or reference pixels were incorporated"
@@ -173,7 +236,10 @@
         "sha256": "9b9362881cb5913f10117118524132f95d7d5cff5cc830fe832afee17194cdda",
         "source_sha256": "9b9362881cb5913f10117118524132f95d7d5cff5cc830fe832afee17194cdda",
         "source_bytes": 1665242,
-        "dimensions": [1024, 1536],
+        "dimensions": [
+          1024,
+          1536
+        ],
         "channels": "RGBA",
         "alpha": "historical Pillow passport reports 71.8427% fully transparent pixels; central transparent RGB does not darken the pane because current window shader reads frost alpha",
         "import": "mipmaps disabled; process/size_limit=0; compress/mode=0; alpha channel remap=3",
@@ -197,22 +263,33 @@
   ],
   "current_native_and_human_gates": {
     "latest_relevant_capture": {
-      "job_id": "9b3f2961f21647f39a2bc8ee772e99a7",
-      "snapshot_id": "67f554453879c49cb1ccd9bf684bc6f976239a083907492f866806f2ad09b1dd",
-      "frames_pre_porch_export": [
-        "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-wide-h019-babai-9b3f2961f21647f39a2bc8ee772e99a7/frames/babai_shape_front.png",
-        "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-wide-h019-babai-9b3f2961f21647f39a2bc8ee772e99a7/frames/babai_shape_oblique.png"
+      "job_id": "6dc5fb1948d14cfe829d0c8af0799a98",
+      "snapshot_id": "eeb53479d0b81d445552cd40d4f43353406de01587f20203656233e868ad0539",
+      "scene": "res://scenes/act1_demo.tscn",
+      "native_capture": true,
+      "headless": false,
+      "graphics_preset": "medium",
+      "zone": "village_day",
+      "fov_degrees": 70,
+      "frames": [
+        "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/babai_porch_side_clear.png",
+        "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/babai_shape_front.png",
+        "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/babai_shape_oblique.png",
+        "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/rinat_material_front.png",
+        "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/rinat_material_side.png"
       ],
-      "limit": "These are static developer camera controls against the prior porch source; not current-after-export proof, normal-player approach, or visual acceptance."
+      "reviewed_by_root": "All five original PNGs; bounded porch-deck UV/material acceptance only.",
+      "bounded_visual_result": "Deck top grain follows planks, cut-end grain remains cross-section, no enlarged-footprint regression.",
+      "limit": "Static developer camera; not ordinary player approach/exit, around-corner movement, full-house style, interior or author/human acceptance."
     },
     "still_open_done_when": [
-      "Protected Windows import/capture of the current porch export and root review of the original front/oblique images for support/deck continuity and style.",
+      "The current sealed export has a protected native Windows import/capture, and root accepted only the porch-deck UV/material assignment from the original PNGs. Whole-house style/reference and broader exterior acceptance remain open.",
       "Ordinary player approach and corner traversal, with clear entrance access and no invented player height assumption.",
       "Interior two-way clearance and lived-in domestic layout: sofa, floral wallpaper, curtains, logs/carving, photo/food/service/towels, note/thread meaning, and D14 table/box/towel. D14 coordinate ambiguity remains a separate owner's open decision.",
       "Compare the assembled house against the exact author-selected P1 and menu references, including roof/eaves/gable/window/door/plinth/porch proportions and material detail; root's visual acceptance remains required."
     ],
     "not_claimed": [
-      "No style, cultural, author, or human visual acceptance.",
+      "No whole-house style, cultural, author or general human visual acceptance.",
       "No human first-person movement/traversal acceptance.",
       "No claim that the interior directly reuses the exterior GLB windows or AS-13 map."
     ]
@@ -244,16 +321,30 @@
     }
   ],
   "verification": {
-    "method": "Read-only one-off GLB JSON/accessor enumeration, Pillow image dimensions/channels, SHA-256 checks of source and derived files, and source/caller inspection. No repository test, build, import, or station capture was run for this passport.",
+    "method": "Read-only one-off GLB JSON/accessor enumeration, Pillow image dimensions/channels, source/caller inspection, exact source/derived SHA-256 checks, and a bounded pinned-Blender hero-house component-only export with pre/post accessor payload comparison. The exact-row asset-registry validator passed. No protected Windows import/capture or ordinary player traversal is evidenced here. The current sealed export was also imported and captured in a protected native Windows run; root reviewed the original five-point PNG set and accepted only the bounded porch-deck UV/material assignment. That static-camera review is not ordinary traversal or whole-house style acceptance.",
     "source_and_texture_hashes_checked": true,
-    "generated_texture_sources_match_repository_bytes": ["W01", "W05", "AS-13 frost"],
+    "generated_texture_sources_match_repository_bytes": [
+      "W01",
+      "W05",
+      "AS-13 frost"
+    ],
     "glb_scope": "Primitive counts are per mesh-node primitive row; all enumerated glTF primitive modes are 4 (triangles), so triangle counts are index-count/3; UV counts classify rows containing TEXCOORD_0. Hero scope is the HeroHouse_TimberPlaster node subtree. Comparison baseline was read directly from the committed HEAD GLB.",
     "registry_metadata_updated": [
-      "assets/asset_registry.json: urman.act1.village_exterior_kit lod counts only; triangleBudget remains unchanged at 36761",
+      "assets/asset_registry.json: urman.act1.village_exterior_kit sourceSha256/derivedSha256 synced to the porch deck UV export; triangleBudget remains unchanged at 36761 (performance acceptance still open)",
       "assets/asset_registry.json: texture.painterly.w01.v01 materialOwner",
       "assets/asset_registry.json: texture.painterly.w05.v02 materialOwner",
       "assets/asset_registry.json: texture.painterly.d07.v01 registers the existing frost raster and source/provenance; AS-13 visual gates remain open"
     ],
     "task_completion": false
-  }
+  },
+  "latest_porch_deck_uv_export": "evidence/ACT1-DEPTH.9/porch-deck-uv-export-2026-10-09.json",
+  "latest_native_porch_deck_review": {
+    "job_id": "6dc5fb1948d14cfe829d0c8af0799a98",
+    "snapshot_id": "eeb53479d0b81d445552cd40d4f43353406de01587f20203656233e868ad0539",
+    "evidence": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/babai_porch_side_clear.png",
+    "export_evidence": "evidence/ACT1-DEPTH.9/porch-deck-uv-export-2026-10-09.json",
+    "review_scope": "porch-deck UV/material assignment only",
+    "result": "accepted within the bounded scope; parent task remains open"
+  },
+  "profile_caveat_6dc5": "Sidecar reports graphicsPreset medium; active material readback low_quality=true. Bounded original-frame acceptance applies to this actual rendering; medium shader/higher-quality acceptance is not inferred."
 }

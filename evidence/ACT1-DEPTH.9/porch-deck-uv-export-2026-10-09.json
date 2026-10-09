@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "task_id": "ACT1-DEPTH.9",
+  "artifact_kind": "porch_deck_uv_material_source_export",
+  "date": "2026-10-09",
+  "status": "source_export_verified; bounded_native_deck_uv_visual_accepted; whole_house_style_open",
+  "causal_source_finding": {
+    "source": "assets/source/blender/act1/urman_village_exterior_kit.py:author_hero_porch",
+    "node": "HeroHouse_PorchDeck_LOD0",
+    "before_glb": {
+      "materials": [
+        "URMAN_Hero_LogEnd"
+      ],
+      "primitive_rows": 1,
+      "attributes": [
+        "POSITION",
+        "NORMAL"
+      ],
+      "texcoord_0": false,
+      "runtime_mapping": "URMAN_Hero_LogEnd maps to wood_cut; existing W01 authored-UV sampling had no deck UV input"
+    },
+    "runtime_contract": "URMAN_Hero_Log maps to wood_log_uv / W01 with authored UV; URMAN_Hero_LogEnd maps to the existing wood_cut end-grain response that expects normalized cross-section UV."
+  },
+  "source_change": {
+    "scope": "PorchDeck mesh only; existing chamfered-box geometry and object count preserved.",
+    "dimensions_m": [
+      1.94,
+      0.98,
+      0.03
+    ],
+    "uv_map": "UVMap; one repeat per source metre. Walking face U spans house width; V spans wall-to-yard plank length. Long sides continue V along that same depth axis. Front/rear true cut surfaces use centered normalized UV 0..1 with wood_cut.",
+    "materials": {
+      "walking_face_and_long_sides": "URMAN_Hero_Log -> wood_log_uv / W01",
+      "true_cut_edges": "URMAN_Hero_LogEnd -> wood_cut"
+    },
+    "preserved": "Deck footprint, chamfer, transforms, seam strips, bearers, posts, portal, collision/presentation-only contract, vertices, and triangle geometry."
+  },
+  "export": {
+    "command": ".tools/blender/Blender.app/Contents/MacOS/Blender --background --python assets/source/blender/act1/urman_village_exterior_kit.py -- --root /Users/unterlantas/Documents/GitHub/URMAN --component-only hero-house",
+    "blender": "4.5.12 LTS",
+    "exit_code": 0,
+    "elapsed_wall_seconds_approx": 4.3,
+    "generator_validation": "hero-house-pass: meshes=665, shell=8.4x7.4, clear room=8x7, ceiling=2.6, threshold=.246, door=1.3x2.25; fingerprint=e120e31c46989ba2484328a60203ec41416ba901bc5929e64b9a3e796d34ff63",
+    "before": {
+      "source_py_sha256": "51791739c01e317b3ad795ae0e2814d234c59217e467ded4b77769b991b1bfd4",
+      "source_blend_sha256": "c08019b60194c346e6428df7abf8e3f404d4c73ce0fe030283a7ec989fe90338",
+      "derived_glb_sha256": "3d61163f9b592df5ec3895811b20c59874a94c9b0628b538ab43898823c8deb2"
+    },
+    "after": {
+      "source_py_sha256": "9724e3ed28d10ad3e2d07179f8a307d741a7f883e557ed9ea156563148881028",
+      "source_blend_sha256": "26ce5758b4f14e91b990dc879f3d93e0a9935958e0e71489765c3d7e6bf4c237",
+      "derived_glb_sha256": "ce2ee7567720501521be357bb797bebab3582a1bac98d651f617f96bc6398e2a"
+    }
+  },
+  "glb_readback": {
+    "deck_primitives": [
+      {
+        "material": "URMAN_Hero_Log",
+        "triangles": 16,
+        "up_facing_uv_min": [
+          0.0,
+          0.02
+        ],
+        "up_facing_uv_max": [
+          1.94,
+          1.0
+        ]
+      },
+      {
+        "material": "URMAN_Hero_LogEnd",
+        "triangles": 12,
+        "normalized_cut_uv_range": [
+          0.0,
+          1.0
+        ]
+      }
+    ],
+    "deck_total_triangles_before_after": [
+      28,
+      28
+    ],
+    "deck_triangle_coordinate_multiset_identical": true,
+    "deck_source_bounds_m": "1.94 x 0.98 x 0.03; unchanged",
+    "current_export_counts": {
+      "mesh_nodes": 1497,
+      "primitive_rows": 1714,
+      "indexed_triangles": 45077,
+      "hero_mesh_nodes": 665,
+      "hero_primitive_rows": 763,
+      "hero_rows_with_TEXCOORD_0": 232,
+      "hero_rows_without_TEXCOORD_0": 531,
+      "hero_texcoord_accessor_count_sum": 9078,
+      "all_primitive_rows_with_TEXCOORD_0": 296,
+      "all_primitive_rows_without_TEXCOORD_0": 1418
+    },
+    "semantic_comparison_to_pre_export_glb": {
+      "non_hero_mesh_nodes": 832,
+      "non_hero_payloads_transforms_materials_identical": true,
+      "non_hero_signature_sha256_before_after": "3cbfad95f2569998b11c61eaf6dceb6368bfaf81c094d3c42d7b0cf9100c6bf0",
+      "other_hero_mesh_nodes": 664,
+      "other_hero_payloads_transforms_materials_identical": true,
+      "other_hero_signature_sha256_before_after": "cd2f836827db8e9f2002dcdc28d760294ce44e466a4f4d3e5ab77075662783b2",
+      "global_material_definitions_identical": true,
+      "global_material_definitions_sha256": "60f7b0a2c4b2c1b21fd885de5768024080c0cceccbd7f42e39f7da14ea59200e",
+      "mesh_node_count_delta": 0,
+      "triangle_count_delta": 0,
+      "glb_primitive_row_delta": 1,
+      "interpretation": "The only new GLB primitive is the deck material split; there are no added vertices/faces/triangles."
+    }
+  },
+  "asset_registry": {
+    "updated_only_id": "urman.act1.village_exterior_kit",
+    "fields": [
+      "sourceSha256",
+      "derivedSha256"
+    ],
+    "triangleBudget_preserved": 36761,
+    "existing_budget_status": "NOT_ACCEPTED / performance not measured; 45,077 current exported triangles remain 8,316 over the registered limit."
+  },
+  "verification": {
+    "asset_registry_filtered_validator": "PASS; exact single-row temporary registry checked 1 asset, 1 derived file and 1 explicit source hash.",
+    "json_parse": "PASS for registry, AS-01/02/13 passport, and execution backlog.",
+    "git_diff_check": "PASS for the edited source and text metadata/evidence files.",
+    "native_graphics_import_capture": "PASS: protected native Windows capture imported the sealed source/export and root reviewed all five original PNGs. Only porch-deck UV/material alignment was accepted; static DevViewCamera evidence does not prove ordinary traversal.",
+    "visual_acceptance": "Root accepted the bounded porch-deck surface assignment from the current original PNG review: walking-face grain follows plank length/board layout, true cut ends retain cross-section grain, and the already accepted footprint shows no enlargement regression. Whole-house style/reference and author acceptance remain open."
+  },
+  "evidence_links": {
+    "previous_bounded_footprint_export": "evidence/ACT1-DEPTH.9/porch-footprint-export-2026-10-09.json",
+    "previous_accepted_geometry_capture": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-geometry-babai-h019-7f64b86109eb4a1ab848469fc105e9d2/frames/babai_porch_side_clear.png",
+    "current_asset_passport": "evidence/ACT1-DEPTH.9/as01-as02-as13-passport-2026-10-09.json",
+    "current_bounded_native_review": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/babai_porch_side_clear.png"
+  },
+  "remaining": [
+    "Ordinary player approach/exit and around-corner traversal; the accepted view is a static developer-camera point.",
+    "ACT1-DEPTH.9 interior, full-house style/reference, D14 and human gates.",
+    "Performance budget reconciliation; the registered triangle limit was not raised."
+  ],
+  "current_native_review": {
+    "reviewer": "root visual acceptance",
+    "job_id": "6dc5fb1948d14cfe829d0c8af0799a98",
+    "snapshot_id": "eeb53479d0b81d445552cd40d4f43353406de01587f20203656233e868ad0539",
+    "scene": "res://scenes/act1_demo.tscn",
+    "native_capture": true,
+    "headless": false,
+    "protected_run": "PASS; all build/content/import/game steps exit 0, engine-errors empty, userdataRestored=true",
+    "renderer": "Vulkan Forward+; NVIDIA GeForce GTX 970",
+    "graphics_preset": "medium",
+    "zone": "village_day (default; no override)",
+    "reviewed_original_frames": [
+      "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/babai_porch_side_clear.png",
+      "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/babai_shape_front.png",
+      "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/babai_shape_oblique.png",
+      "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/rinat_material_front.png",
+      "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/rinat_material_side.png"
+    ],
+    "accepted_point": {
+      "name": "babai_porch_side_clear",
+      "spec": "BabaiApproachDwellingFacade@-2.4226,1.7,3.3005>BabaiApproachDwellingFacade@-1.1644,0.215,2.036",
+      "fov_degrees": 70,
+      "camera_world": [
+        -7.286011,
+        1.448152,
+        -0.624935
+      ],
+      "target_world": [
+        -8.550505,
+        -0.036848,
+        -1.883141
+      ],
+      "sidecar": "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/frames/babai_porch_side_clear.json"
+    },
+    "bounded_result": "ACCEPTED: board-face grain follows the planks; the cut-end response remains cross-section end grain; no enlarged-footprint regression.",
+    "limits": [
+      "This accepts the porch-deck UV/material assignment only, not overall house or interior style.",
+      "Static developer-camera capture; normal-player approach/exit and around-corner traversal remain unverified.",
+      "No author, cultural, performance-budget or general human-play acceptance is claimed."
+    ]
+  },
+  "profile_caveat_6dc5": "Sidecar reports graphicsPreset medium; active material readback low_quality=true. Bounded original-frame acceptance applies to this actual rendering; medium shader/higher-quality acceptance is not inferred."
+}

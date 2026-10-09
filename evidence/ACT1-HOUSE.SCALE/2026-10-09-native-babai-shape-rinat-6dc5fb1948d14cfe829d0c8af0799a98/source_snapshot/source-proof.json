@@ -1,0 +1,129 @@
+{
+  "job_id": "6dc5fb1948d14cfe829d0c8af0799a98",
+  "captured_at_utc": "2026-10-09T00:41:08.172629+00:00",
+  "head": "29bc4764cffc7d8640ca99cbae6a444edaecb684",
+  "selected_files": [
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "bytes": 12563222,
+      "sha256": "26ce5758b4f14e91b990dc879f3d93e0a9935958e0e71489765c3d7e6bf4c237",
+      "rootHashMatch": true
+    },
+    {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
+      "bytes": 188669,
+      "sha256": "9724e3ed28d10ad3e2d07179f8a307d741a7f883e557ed9ea156563148881028",
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "bytes": 3071496,
+      "sha256": "ce2ee7567720501521be357bb797bebab3582a1bac98d651f617f96bc6398e2a",
+      "rootHashMatch": true
+    },
+    {
+      "path": "assets/asset_registry.json",
+      "bytes": 236918,
+      "sha256": "2338e1f2a8010009f07df2c0d1d0fff85da19807280b541a8f9a7932e3ebd7d0",
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/scripts/GeneratedCharacterKitDressing.cs",
+      "bytes": 36888,
+      "sha256": "9a0a44e468f52224d64f8490adea56fd6ef0886c586d46ac95e429dd71180842",
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 49756,
+      "sha256": "8724061a1f3972d8459c59946e5e2bc2375ad772840550c26fbb8f5898f80cce",
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.NpcStaging.cs",
+      "bytes": 15055,
+      "sha256": "c8219933e0394b7947a7c13dfbf00800fb0863fe2f01d09edd80aa4aca328696",
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.cs",
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f",
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/scripts/RinatPresencePresentation.cs",
+      "bytes": 42254,
+      "sha256": "394f8df592e14ec37651720086afc63daee58790b1b5d1f07d87d0d781eac170",
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/content/world/act1_village_kit.world.v1.json",
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d",
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/content/world/visual_checkpoints.v1.json",
+      "bytes": 12671,
+      "sha256": "ee5d723807842e47110a21ddda6857f84c360efad5b14fe1bc62a7cb44b1ae7e",
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/project.godot",
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4",
+      "rootHashMatch": true
+    },
+    {
+      "path": "game/scenes/act1_demo.tscn",
+      "bytes": 189,
+      "sha256": "0c00cb3d6a7078ea75b9a003e7efd8d2bb8a0528fd28f737ecc66cb59ae81fa6",
+      "rootHashMatch": true
+    },
+    {
+      "path": "registry-rows-exterior.json",
+      "bytes": 2988,
+      "sha256": "97c9a182d39d31d116c719fc2e8bcd2a2049f08589e2d097d76cfc91c8cc0e57",
+      "rootHashMatch": null
+    }
+  ],
+  "registry_row_ids": [
+    "urman.act1.village_exterior_kit"
+  ],
+  "runtime_points": {
+    "scene": "res://scenes/act1_demo.tscn",
+    "mode": "capture",
+    "fov": 70,
+    "timeout": 300,
+    "points": [
+      "babai_shape_front:BabaiApproachDwellingFacade@0.0,1.7,14.0>BabaiApproachDwellingFacade@0.0,3.0,-0.5",
+      "babai_shape_oblique:BabaiApproachDwellingFacade@-9.0,1.7,13.0>BabaiApproachDwellingFacade@0.0,2.7,0.0",
+      "babai_porch_side_clear:BabaiApproachDwellingFacade@-2.4226,1.7,3.3005>BabaiApproachDwellingFacade@-1.1644,0.215,2.036",
+      "rinat_material_front:Npc_rinat@0.15,1.55,1.05>Npc_rinat@0.0,1.5,0.0",
+      "rinat_material_side:Npc_rinat@1.1,1.55,0.15>Npc_rinat@0.0,1.5,0.0"
+    ]
+  },
+  "dirty_paths_at_seal": [
+    " M assets/asset_registry.json",
+    " M assets/source/blender/act1/urman_village_exterior_kit.blend",
+    " M assets/source/blender/act1/urman_village_exterior_kit.py",
+    " M docs/production/act1_fence_kit_2026-10-04.md",
+    " M docs/urman_knowledge_base/execution_backlog.json",
+    " M evidence/ACT1-DEPTH.9/as01-as02-as13-passport-2026-10-09.json",
+    " M game/assets/models/act1/urman_village_exterior_kit.glb",
+    " M game/content/world/act1_village_kit.world.v1.json",
+    " M game/scripts/Act1ConnectedWorld.YardFences.cs",
+    " M game/scripts/Act1ConnectedWorld.cs",
+    " M game/scripts/Act1DemoRoot.DevViewCapture.cs",
+    " M game/scripts/GeneratedCharacterKitDressing.cs",
+    " M game/scripts/RuntimeBridge.cs",
+    " M game/tests/FullGameFlowSmokeTest.cs",
+    " M src-dotnet/Urman.Core/Narrative/NarrativeCommandHandlers.cs",
+    "?? evidence/ACT1-DEPTH.9/porch-deck-uv-export-2026-10-09.json",
+    "?? evidence/PW-006/",
+    "?? evidence/PW-032/character-material-inventory-2026-10-09.json",
+    "?? src-dotnet/Urman.Core/Narrative/PhotoWorldCommandHandler.cs"
+  ],
+  "root_compile_report": "Root reports narrow compile PASS, 0 warnings/errors, 14.79 s, covering PW006 + skin suffix + Rinat/porch DevView readback."
+}
