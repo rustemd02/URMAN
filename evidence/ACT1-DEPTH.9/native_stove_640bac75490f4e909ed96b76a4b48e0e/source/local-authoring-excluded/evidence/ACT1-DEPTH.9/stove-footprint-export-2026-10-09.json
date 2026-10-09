@@ -1,0 +1,329 @@
+{
+  "artifact_type": "bounded_stove_source_export_evidence",
+  "task_id": "ACT1-DEPTH.9",
+  "date": "2026-10-09",
+  "status": "source_export_verified_native_visual_pending",
+  "slice": "geometry-only footprint reduction of the existing Babai zal compact iron heater",
+  "source_change": {
+    "generator": "tools/blender/generate_modular_environment.py",
+    "baseline_sha256": "5dfef6388206ecb15afd5ecdeae757387994da748657a466c49b153fef4dd56a",
+    "current_sha256": "604eba05386e61f918c3f80afb72c861c601179792a4269039407047188fb6da",
+    "affected_source_members": [
+      "HouseInterior_HearthBase_LOD0",
+      "HouseInterior_HearthBody_LOD0",
+      "HouseInterior_HearthTop_LOD0",
+      "HouseInterior_HearthDoor_LOD0",
+      "HouseInterior_HearthHandle_LOD0"
+    ],
+    "nominal_dimensions_m": {
+      "base": {
+        "before": [
+          1.5,
+          0.14,
+          1.1
+        ],
+        "after": [
+          0.9,
+          0.14,
+          0.75
+        ]
+      },
+      "body": {
+        "height_before_after": 1.04,
+        "bottom_before": [
+          1.22,
+          0.96
+        ],
+        "bottom_after": [
+          0.75,
+          0.6
+        ],
+        "top_before": [
+          1.04,
+          0.82
+        ],
+        "top_after": [
+          0.64,
+          0.51
+        ]
+      },
+      "cap": {
+        "before": [
+          1.28,
+          0.12,
+          1.02
+        ],
+        "after": [
+          0.8,
+          0.12,
+          0.64
+        ]
+      },
+      "door": {
+        "before": {
+          "dimensions": [
+            0.05,
+            0.6,
+            0.66
+          ],
+          "center": [
+            -4.4,
+            0.65,
+            0.55
+          ]
+        },
+        "after": {
+          "dimensions": [
+            0.05,
+            0.6,
+            0.41
+          ],
+          "center": [
+            -4.65,
+            0.65,
+            0.55
+          ]
+        }
+      },
+      "handle": {
+        "dimensions_before_after": [
+          0.12,
+          0.08,
+          0.08
+        ],
+        "center_before": [
+          -4.32,
+          0.65,
+          0.55
+        ],
+        "center_after": [
+          -4.57,
+          0.65,
+          0.55
+        ]
+      }
+    },
+    "preserved": [
+      "Original mesh names and family membership; no new objects or texture assets.",
+      "Body/cap/base vertical dimensions, centers and group source anchor; only door/handle X offsets follow the narrower positive-X face.",
+      "Existing runtime material selectors: stone base; iron body, cap, door, handle and flue. No material identity or palette change.",
+      "Factory StoveAnchor=(-3.15,0,-0.45), rigid group placement, Y heights, flue/collar and ceiling firestop geometry.",
+      "Factory collision owner and existing Base/Body/Top mesh-derived LOD0 contacts; Factory source unchanged.",
+      "All modular budgets, asset IDs, and unrelated source/mesh/material payloads."
+    ],
+    "source_anchor": {
+      "before": [
+        -5.0,
+        0.0,
+        0.55
+      ],
+      "factory_destination": [
+        -3.15,
+        0.0,
+        -0.45
+      ]
+    },
+    "flue_runtime_connection": {
+      "factory_source": "game/scripts/StyleBenchmarkInteriorFactory.cs:361-362",
+      "unchanged": true,
+      "source_flue_policy": "Imported HearthFlue mesh remains hidden by the existing Factory rule; the existing noncolliding metal ceiling connector/firestop remain unchanged."
+    }
+  },
+  "export": {
+    "command": ".tools/blender/Blender.app/Contents/MacOS/Blender --background --python tools/blender/generate_modular_environment.py -- --root /Users/unterlantas/Documents/GitHub/URMAN",
+    "blender_version": "4.5.12 LTS",
+    "exit_code": 0,
+    "tool_reported_wall_seconds": 2.4,
+    "source_blend": {
+      "path": "assets/source/blender/urman_modular_kit.blend",
+      "before_sha256": "ecf32cbd25645cd1f628eee91de22a2ee9e729484a649caefae33fdb08f07596",
+      "after_sha256": "b5c2115c51a98ca5b51e0249a6dfebb36881145b00586b9f02bd82b5f475b640"
+    },
+    "derived_glb": {
+      "path": "game/assets/generated/urman_modular_kit.glb",
+      "before_sha256": "71a5323757ddddff4eff08aafa0ad8da39ebc3b05cd1ba8e2a10cdc694de78f4",
+      "after_sha256": "ce6cca7084ba9a08bc8fb090467bfe1a361f6cc3743860376a3ce5417252f314"
+    },
+    "preserved_pre_export_bytes": ".codex-captures/legs-motion-stove-2026-10-09/pre-export/",
+    "one_off_glb_comparison": ".codex-captures/legs-motion-stove-2026-10-09/non-stove-comparison.json"
+  },
+  "glb_semantic_comparison_to_accepted_71a532_baseline": {
+    "baseline": {
+      "mesh_nodes": 304,
+      "mesh_definitions": 304,
+      "primitives": 304,
+      "indexed_triangles": 16250,
+      "accessors": 962,
+      "materials": 17
+    },
+    "after": {
+      "mesh_nodes": 304,
+      "mesh_definitions": 304,
+      "primitives": 304,
+      "indexed_triangles": 16250,
+      "accessors": 962,
+      "materials": 17
+    },
+    "changed_hearth_nodes": [
+      "HouseInterior_HearthBase_LOD0",
+      "HouseInterior_HearthBase_LOD1",
+      "HouseInterior_HearthBody_LOD0",
+      "HouseInterior_HearthBody_LOD1",
+      "HouseInterior_HearthDoor_LOD0",
+      "HouseInterior_HearthDoor_LOD1",
+      "HouseInterior_HearthHandle_LOD0",
+      "HouseInterior_HearthHandle_LOD1",
+      "HouseInterior_HearthTop_LOD0",
+      "HouseInterior_HearthTop_LOD1"
+    ],
+    "unchanged_hearth_nodes": [
+      "HouseInterior_HearthFlue_LOD0",
+      "HouseInterior_HearthFlue_LOD1",
+      "HouseInterior_HearthFlueCollar_LOD0",
+      "HouseInterior_HearthFlueCollar_LOD1"
+    ],
+    "non_hearth_mesh_nodes": 290,
+    "non_hearth_changed_or_added_or_removed": [],
+    "non_hearth_vertex_index_accessor_payloads_and_node_hierarchy_transforms_identical": true,
+    "material_definitions_identical": true,
+    "textures_and_samplers_identical": true,
+    "embedded_image_payloads_identical": true,
+    "source_of_comparison": "One-off raw GLB accessor-byte fingerprint (attributes and indices), per-node hierarchy/transform/name/material records, and material/texture/image hash comparison; helper and full report are preserved under .codex-captures.",
+    "stove_index_counts": {
+      "HouseInterior_HearthBase_LOD0": {
+        "indices_before_after": [
+          132,
+          132
+        ],
+        "triangles_before_after": [
+          44,
+          44
+        ]
+      },
+      "HouseInterior_HearthBody_LOD0": {
+        "indices_before_after": [
+          132,
+          132
+        ],
+        "triangles_before_after": [
+          44,
+          44
+        ]
+      },
+      "HouseInterior_HearthTop_LOD0": {
+        "indices_before_after": [
+          132,
+          132
+        ],
+        "triangles_before_after": [
+          44,
+          44
+        ]
+      },
+      "HouseInterior_HearthDoor_LOD0": {
+        "indices_before_after": [
+          132,
+          132
+        ],
+        "triangles_before_after": [
+          44,
+          44
+        ]
+      },
+      "HouseInterior_HearthHandle_LOD0": {
+        "indices_before_after": [
+          132,
+          132
+        ],
+        "triangles_before_after": [
+          44,
+          44
+        ]
+      },
+      "HouseInterior_HearthBody_LOD1": {
+        "indices_before_after": [
+          66,
+          66
+        ],
+        "triangles_before_after": [
+          22,
+          22
+        ],
+        "index_payload_changed": true
+      },
+      "note": "Only HearthBody_LOD1 changed its deterministic decimated index selection; it remains 66 indices / 22 triangles. The other listed parts preserve index buffers; their positions/normals/UVs update with the intended resized surfaces."
+    }
+  },
+  "registry_sync": {
+    "updated_row_ids": [
+      "env.house.a",
+      "env.fence.a",
+      "env.road.dirt.straight",
+      "env.vegetation.pine.a",
+      "prop.furniture.table.a",
+      "prop.oldpc.crt",
+      "env.well.a",
+      "env.woodpile.a",
+      "env.gate.a"
+    ],
+    "fields_changed": [
+      "sourceSha256",
+      "derivedSha256"
+    ],
+    "sourceSha256": "b5c2115c51a98ca5b51e0249a6dfebb36881145b00586b9f02bd82b5f475b640",
+    "derivedSha256": "ce6cca7084ba9a08bc8fb090467bfe1a361f6cc3743860376a3ce5417252f314",
+    "triangle_budgets_and_all_other_row_fields_unchanged": true,
+    "exact_row_validator": "eng/verify-asset-registry.sh on a temporary registry containing only these nine modular rows: PASS assets=9 derived=9 explicit_sources=9 external=0"
+  },
+  "native_review": {
+    "status": "manifest_ready_protected_native_capture_pending",
+    "requested_next_views": [
+      "existing babai_room_overview",
+      "proposed babai_stove_detail"
+    ],
+    "stove_detail_proposal_only": {
+      "zone_id": "house_old_pc",
+      "owner": "BabaiApproachDwellingFacade",
+      "room_offset": [
+        1.658,
+        0.246,
+        -2.634
+      ],
+      "room_local_camera": [
+        -0.6,
+        1.7,
+        0.75
+      ],
+      "room_local_target": [
+        -3.15,
+        1.4,
+        -0.45
+      ],
+      "facade_local_camera": [
+        1.058,
+        1.946,
+        -1.884
+      ],
+      "facade_local_target": [
+        -1.492,
+        1.646,
+        -3.084
+      ],
+      "note": "Added to the existing manifest as a static view under the real house_old_pc facade owner, paired with babai_room_overview. Derived from current TransformFromFacade binding; protected capture and review are still pending. This is not an ordinary player or clearance proof.",
+      "checkpoint_id": "babai_stove_detail",
+      "manifest_path": "game/content/world/visual_checkpoints.v1.json"
+    },
+    "limits": [
+      "No protected native Windows import/capture or root visual acceptance of this new stove export yet.",
+      "No ordinary keyboard movement, collider walkability, gameplay or human/stylistic stove acceptance is claimed.",
+      "DEPTH.9 full done_when, interior, house reference/style, D14 and author/human gates remain open."
+    ],
+    "same_existing_room_overview": {
+      "checkpoint_id": "babai_room_overview",
+      "zone_id": "house_old_pc",
+      "owner": "BabaiApproachDwellingFacade",
+      "spec": "BabaiApproachDwellingFacade@-1.162,1.846,-0.484>BabaiApproachDwellingFacade@1.658,1.546,-4.934",
+      "profile": "zone default"
+    }
+  }
+}

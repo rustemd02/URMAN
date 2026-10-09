@@ -1,0 +1,111 @@
+{
+  "job_id": "640bac75490f4e909ed96b76a4b48e0e",
+  "snapshot_id": "be175b30587823fcba7228bb717626b391b88d694d2f7f578e889aac2a3f3e6f",
+  "frames": [
+    {
+      "frame": "babai_room_overview",
+      "png": "frames/babai_room_overview.png",
+      "sidecar": "frames/babai_room_overview.json",
+      "pngBytes": 1891767,
+      "pngSha256": "9c734a2f4357c68b4aeeac0caf0b753e0b6d2da42b336ce90ace67667ba33c4d",
+      "pngDimensions": [
+        1886,
+        1061
+      ],
+      "sidecarViewportDimensions": [
+        1920,
+        1080
+      ],
+      "activeZoneId": "house_old_pc",
+      "requestedZoneId": "house_old_pc",
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "cameraName": "DevViewCamera",
+      "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "cameraPosition": {
+        "x": -11.070504,
+        "y": 1.594152,
+        "z": -1.885554
+      },
+      "cameraTarget": {
+        "x": -15.52049,
+        "y": 1.294152,
+        "z": -4.705575
+      },
+      "rugMaterialReadbackCount": 12,
+      "rugMaterialVisibleInTreeCount": 6,
+      "stoveMaterialReadbackPresent": false
+    },
+    {
+      "frame": "babai_stove_detail",
+      "png": "frames/babai_stove_detail.png",
+      "sidecar": "frames/babai_stove_detail.json",
+      "pngBytes": 2039178,
+      "pngSha256": "d26edcfeb7efbc7ee91bbb0308f89a7a4709eca4f5dadda9890ae2a1a070890e",
+      "pngDimensions": [
+        1886,
+        1061
+      ],
+      "sidecarViewportDimensions": [
+        1920,
+        1080
+      ],
+      "activeZoneId": "house_old_pc",
+      "requestedZoneId": "house_old_pc",
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "cameraName": "DevViewCamera",
+      "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "cameraPosition": {
+        "x": -12.470493,
+        "y": 1.694152,
+        "z": -4.10556
+      },
+      "cameraTarget": {
+        "x": -13.670506,
+        "y": 1.394152,
+        "z": -1.555567
+      },
+      "rugMaterialReadbackCount": 0,
+      "rugMaterialVisibleInTreeCount": 0,
+      "stoveMaterialReadbackPresent": false
+    },
+    {
+      "frame": "babai_rug_detail",
+      "png": "frames/babai_rug_detail.png",
+      "sidecar": "frames/babai_rug_detail.json",
+      "pngBytes": 2219078,
+      "pngSha256": "7137442a44bae541cdbb0dae8d34de473127a9b2a7b5396d3c5806d30c3f8915",
+      "pngDimensions": [
+        1886,
+        1061
+      ],
+      "sidecarViewportDimensions": [
+        1920,
+        1080
+      ],
+      "activeZoneId": "house_old_pc",
+      "requestedZoneId": "house_old_pc",
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "cameraName": "DevViewCamera",
+      "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+      "cameraPosition": {
+        "x": -10.620492,
+        "y": 1.644152,
+        "z": -4.305551
+      },
+      "cameraTarget": {
+        "x": -12.720491,
+        "y": 0.024152,
+        "z": -4.305562
+      },
+      "rugMaterialReadbackCount": 12,
+      "rugMaterialVisibleInTreeCount": 6,
+      "stoveMaterialReadbackPresent": false
+    }
+  ]
+}
