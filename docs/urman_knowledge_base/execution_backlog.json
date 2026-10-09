@@ -18990,7 +18990,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": "claude/visual-reset-2026-10-09",
+      "active_owner": null,
       "owner": "art/architecture",
       "depends_on": [],
       "scope": [
@@ -19219,11 +19219,11 @@
         "AS-13"
       ],
       "progress_2026_10_09": {
-        "claimed": "2026-10-09",
-        "owner": "claude/visual-reset-2026-10-09",
-        "unit": "Код-сторона эталонного дома и его света/материалов; кадры High/Low — только после ремонта runner станции.",
-        "files": "game/scripts/PainterlyMaterialLibrary.cs; game/scripts/GeneratedCharacterKitDressing.cs; game/scripts/Act1ConnectedWorld*.cs; game/scripts/StyleBenchmark*.cs",
-        "parallel_note": "Файлы B02 заняты одним writer (этот владелец); B03-файлы — по тем же карточкам. Другим исполнителям: B01/B04/B12 и независимые ready-карточки."
+        "claim_released": "2026-10-09",
+        "reason": "Заявка claude/visual-reset-2026-10-09 снята: в карточке сегодня работает линия rustemd02 (нативные кадры станции за 09.10 04:53, правки шкафа и шва, коммиты b4f0faf8/0e4eccf5), перехватывать живое назначение нельзя.",
+        "what_this_owner_contributed": "общий слой, который видит дом: свет и окружение (SSIL/SDFGI на high, мягкие тени, комнатный режим), материалы стен/пола/ткани/лиц, плинтус и карниз главной комнаты, наличники окон изнутри, отражающая проба комнаты — всё CODE_DONE_VERIFY_PENDING, без кадров.",
+        "reference_note": "Вступительное фото (inde_media, деревня Урман: тёмный бревенчатый дом, белые резные наличники, крутой фронтон с чердачным окном, богатый интерьер) и пять кадров текущей игры с 07.10 показывают разрыв: резьба и венцы в коде есть (TimberHomeStyle), но в кадре почти не читаются — плоский сине-серый снег и ровная заливка стен.",
+        "next": "Продолжать линии Рустема; общий слой света и материалов — по моей карточке PW-032 и блоку B02."
       },
       "next_step": "evidence-based seam diagnosis; no further blind material edits.",
       "progress_2026_10_09_rug_uv_native": "ProtectedWindows496c35f8 PASS snapshotc9c2c9e8 exact1825 sourceentries/12selected copies confirmed. Bothoriginals viewed root against640bac: normalizedfullswatch/continuousbandUV accepted bounded, sixvisibleLOD0/1rows authoredUV/UVpigment=true/scale1. Geometry/palette unchanged. Final textile rejected as too darkbrown/wood-like; entireinterior/house/reference/ordinaryroutes/AS01/02/13/human gatesOPEN.",
