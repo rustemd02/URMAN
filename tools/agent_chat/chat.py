@@ -141,7 +141,7 @@ class Handler(BaseHTTPRequestHandler):
     server_version = "UrmanAgentChat/1"
 
     def log_message(self, fmt, *args):  # тише: только ошибки
-        if args and str(args[1]).startswith(("4", "5")):
+        if args and str(args[1]).startswith(("4", "5")) and str(args[1]) != "401":
             sys.stderr.write("%s %s\n" % (self.address_string(), fmt % args))
 
     def _send(self, status: int, body: bytes, ctype: str):

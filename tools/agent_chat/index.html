@@ -164,7 +164,7 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, v); } catch { /* приватный режим */ } },
 };
 let token = "", me = store.get("name"), conv = "all", messages = [], participants = [], online = new Set(), pinned = [];
-let lastId = -1, replyTo = null, query = "", unreadTitle = 0, firstLoad = true, failing = false;
+let lastId = -1, replyTo = null, query = "", unreadTitle = 0, firstLoad = true, failing = false, authFailed = false;
 
 // токен из ссылки: хранится в браузере, из адресной строки убирается
 const hashToken = new URLSearchParams(location.hash.slice(1)).get("token");
@@ -224,6 +224,7 @@ async function api(path, body) {
   return data;
 }
 async function poll() {
+  if (authFailed) return;
   try {
     const s = await api("/api/state?since=" + lastId);
     failing = false;
@@ -236,11 +237,11 @@ async function poll() {
     renderAll(fresh.length > 0 && !firstLoad);
     firstLoad = false;
   } catch (e) {
-    if (e.auth) { openLogin("Токен не подошёл — вставьте актуальный."); return; }
+    if (e.auth) { authFailed = true; store.set("token", ""); openLogin("Токен не подошёл — вставьте актуальный (ссылку с #token=… печатает сервер при запуске)."); return; }
     failing = true; $("sub").textContent = "нет связи с сервером…";
   }
 }
-async function heartbeat() { if (me && token) { try { await api("/api/presence", { name: me }); } catch { /* ничего */ } } }
+async function heartbeat() { if (me && token && !authFailed) { try { await api("/api/presence", { name: me }); } catch { /* ничего */ } } }
 
 // ---------- интерфейс ----------
 function inConv(m) {
@@ -400,12 +401,12 @@ $("dlgForm").addEventListener("submit", () => {
   const n = $("inName").value.trim(), t = $("inToken").value.trim();
   if (n) { me = n; store.set("name", n); }
   if (t) { token = t; store.set("token", t); }
-  lastId = -1; messages = []; firstLoad = true; poll();
+  authFailed = false; lastId = -1; messages = []; firstLoad = true; poll();
 });
 
 if (!me || !token) openLogin();
 poll(); setInterval(poll, 2000); heartbeat(); setInterval(heartbeat, 15000);
-setInterval(async () => { try { const s = await api("/api/state?since=999999999"); $("sub").dataset.now = s.now; } catch { /* ничего */ } }, 60000);
+setInterval(async () => { if (authFailed) return; try { const s = await api("/api/state?since=999999999"); $("sub").dataset.now = s.now; } catch { /* ничего */ } }, 60000);
 api("/api/state?since=999999999").then((s) => { $("sub").dataset.now = s.now; }).catch(() => {});
 </script>
 </body>
