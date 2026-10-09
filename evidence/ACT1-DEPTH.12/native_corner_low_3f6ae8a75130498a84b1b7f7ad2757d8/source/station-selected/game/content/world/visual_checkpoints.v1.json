@@ -90,6 +90,63 @@
       "subject": "ACT1-DEPTH.9: фактический палас и тонкие каймы; material readback, без художественного PASS."
     },
     {
+      "id": "babai_book_detail",
+      "zoneId": "house_old_pc",
+      "spec": "FamilyTukayBookPresentation@0,0.55,0.7>FamilyTukayBookPresentation@0,0,0",
+      "subject": "PW-006: общий видимый семейный том на измеренной поверхности стола; крупный статичный вид, без доказательства PW выдачи или готовности A001."
+    },
+    {
+      "id": "babai_corner_left",
+      "spec": "BabaiApproachDwellingFacade@-3.25,1.8,3>BabaiApproachDwellingFacade@-2.592,1.42,1.3",
+      "subject": "ACT1-DEPTH.9: ближайший левый угловой выпуск сруба; распределение продольного материала и торцевого среза, возможное перекрытие оградой проверяется кадром."
+    },
+    {
+      "id": "babai_corner_right",
+      "spec": "BabaiApproachDwellingFacade@6.55,1.8,3>BabaiApproachDwellingFacade@5.908,1.42,1.3",
+      "subject": "ACT1-DEPTH.9: ближайший правый угловой выпуск сруба; форма, продольная поверхность и торцы, статичный вид без обычного прохода."
+    },
+    {
+      "id": "babai_shape_front",
+      "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
+      "subject": "ACT1-DEPTH.9: точная общая камера предыдущего native6dc5; фасад после исправления material ownership угловых выпусков, без полной художественной приёмки."
+    },
+    {
+      "id": "babai_shape_front_high",
+      "graphicsPreset": "high",
+      "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
+      "subject": "ACT1-DEPTH.12: matched High frame of the existing 6dc5 Babai facade camera; compare only with babai_shape_front_low when both sidecars confirm effective high/low."
+    },
+    {
+      "id": "babai_shape_front_low",
+      "graphicsPreset": "low",
+      "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
+      "subject": "ACT1-DEPTH.12: matched Low frame of the existing 6dc5 Babai facade camera; compare only with babai_shape_front_high when both sidecars confirm effective high/low."
+    },
+    {
+      "id": "babai_shape_oblique_high",
+      "graphicsPreset": "high",
+      "spec": "BabaiApproachDwellingFacade@-9,1.7,13>BabaiApproachDwellingFacade@0,2.7,0",
+      "subject": "ACT1-DEPTH.12: matched High frame of the existing Babai oblique facade camera; compare only with babai_shape_oblique_low when both sidecars confirm effective high/low."
+    },
+    {
+      "id": "babai_shape_oblique_low",
+      "graphicsPreset": "low",
+      "spec": "BabaiApproachDwellingFacade@-9,1.7,13>BabaiApproachDwellingFacade@0,2.7,0",
+      "subject": "ACT1-DEPTH.12: matched Low frame of the existing Babai oblique facade camera; compare only with babai_shape_oblique_high when both sidecars confirm effective high/low."
+    },
+    {
+      "id": "babai_porch_side_clear_high",
+      "graphicsPreset": "high",
+      "spec": "BabaiApproachDwellingFacade@-2.4226,1.7,3.3005>BabaiApproachDwellingFacade@-1.1644,0.215,2.036",
+      "subject": "ACT1-DEPTH.12: matched High frame of the existing clear porch-side camera; compare only with babai_porch_side_clear_low when both sidecars confirm effective high/low."
+    },
+    {
+      "id": "babai_porch_side_clear_low",
+      "graphicsPreset": "low",
+      "spec": "BabaiApproachDwellingFacade@-2.4226,1.7,3.3005>BabaiApproachDwellingFacade@-1.1644,0.215,2.036",
+      "subject": "ACT1-DEPTH.12: matched Low frame of the existing clear porch-side camera; compare only with babai_porch_side_clear_high when both sidecars confirm effective high/low."
+    },
+    {
       "id": "wind_material_a",
       "spec": "Ground@-40,2,-12>Ground@-52,3,-12",
       "subject": "PW-032: западная зимняя хвойная посадка, первая фаза ветра; статичный protected capture, без обычного прохода или motion PASS."
@@ -98,6 +155,18 @@
       "id": "wind_material_b",
       "spec": "Ground@-40,2,-12>Ground@-52,3,-12",
       "subject": "PW-032: та же камера западной зимней хвойной посадки, следующая фаза ветра; material readback и оригинальный кадр для root review."
+    },
+    {
+      "id": "zirat_entry_verify",
+      "zoneId": "zirat_road",
+      "spec": "ZiratAuthoredOpenGate@-1.146,1.63,6.833>ZiratAuthoredOpenGate@0,0.95,0",
+      "subject": "VIS-022 P15: вход зирата со стороны подхода и граница/ворота. Owner-local камера вычислена от ApproachAxis[0], высота приблизительная для статичного вида; это не обычный spawn и не доказательство прохода."
+    },
+    {
+      "id": "zirat_row_verify",
+      "zoneId": "zirat_road",
+      "spec": "ZiratPathEdge_PathRibbon_00_LOD0@-0.37,1.55,-1.67>ReadZiratFamilyInscriptions@0,0,0",
+      "subject": "VIS-022 P15b: ряд с очищенной дорожки, существующая точка чтения и живая цель надписи. Высота камеры приблизительная для статичного вида; это не обычный spawn и не доказательство прохода."
     },
     {
       "id": "C1_arrival_street",
@@ -198,63 +267,6 @@
       "spec": "Ground@0,1.7,-40>Ground@0,2.0,-80",
       "profile": "zirat-winter-muted",
       "subject": "лес в сумерках (VIS-073): контрольный уровень тумана между деревенским днём и лесной ночью."
-    },
-    {
-      "id": "babai_book_detail",
-      "zoneId": "house_old_pc",
-      "spec": "FamilyTukayBookPresentation@0,0.55,0.7>FamilyTukayBookPresentation@0,0,0",
-      "subject": "PW-006: общий видимый семейный том на измеренной поверхности стола; крупный статичный вид, без доказательства PW выдачи или готовности A001."
-    },
-    {
-      "id": "babai_corner_left",
-      "spec": "BabaiApproachDwellingFacade@-3.25,1.8,3>BabaiApproachDwellingFacade@-2.592,1.42,1.3",
-      "subject": "ACT1-DEPTH.9: ближайший левый угловой выпуск сруба; распределение продольного материала и торцевого среза, возможное перекрытие оградой проверяется кадром."
-    },
-    {
-      "id": "babai_corner_right",
-      "spec": "BabaiApproachDwellingFacade@6.55,1.8,3>BabaiApproachDwellingFacade@5.908,1.42,1.3",
-      "subject": "ACT1-DEPTH.9: ближайший правый угловой выпуск сруба; форма, продольная поверхность и торцы, статичный вид без обычного прохода."
-    },
-    {
-      "id": "babai_shape_front",
-      "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
-      "subject": "ACT1-DEPTH.9: точная общая камера предыдущего native6dc5; фасад после исправления material ownership угловых выпусков, без полной художественной приёмки."
-    },
-    {
-      "id": "babai_shape_front_high",
-      "graphicsPreset": "high",
-      "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
-      "subject": "ACT1-DEPTH.12: matched High frame of the existing 6dc5 Babai facade camera; compare only with babai_shape_front_low when both sidecars confirm effective high/low."
-    },
-    {
-      "id": "babai_shape_front_low",
-      "graphicsPreset": "low",
-      "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
-      "subject": "ACT1-DEPTH.12: matched Low frame of the existing 6dc5 Babai facade camera; compare only with babai_shape_front_high when both sidecars confirm effective high/low."
-    },
-    {
-      "id": "babai_shape_oblique_high",
-      "graphicsPreset": "high",
-      "spec": "BabaiApproachDwellingFacade@-9,1.7,13>BabaiApproachDwellingFacade@0,2.7,0",
-      "subject": "ACT1-DEPTH.12: matched High frame of the existing Babai oblique facade camera; compare only with babai_shape_oblique_low when both sidecars confirm effective high/low."
-    },
-    {
-      "id": "babai_shape_oblique_low",
-      "graphicsPreset": "low",
-      "spec": "BabaiApproachDwellingFacade@-9,1.7,13>BabaiApproachDwellingFacade@0,2.7,0",
-      "subject": "ACT1-DEPTH.12: matched Low frame of the existing Babai oblique facade camera; compare only with babai_shape_oblique_high when both sidecars confirm effective high/low."
-    },
-    {
-      "id": "babai_porch_side_clear_high",
-      "graphicsPreset": "high",
-      "spec": "BabaiApproachDwellingFacade@-2.4226,1.7,3.3005>BabaiApproachDwellingFacade@-1.1644,0.215,2.036",
-      "subject": "ACT1-DEPTH.12: matched High frame of the existing clear porch-side camera; compare only with babai_porch_side_clear_low when both sidecars confirm effective high/low."
-    },
-    {
-      "id": "babai_porch_side_clear_low",
-      "graphicsPreset": "low",
-      "spec": "BabaiApproachDwellingFacade@-2.4226,1.7,3.3005>BabaiApproachDwellingFacade@-1.1644,0.215,2.036",
-      "subject": "ACT1-DEPTH.12: matched Low frame of the existing clear porch-side camera; compare only with babai_porch_side_clear_high when both sidecars confirm effective high/low."
     },
     {
       "id": "babai_corner_left_low",

@@ -1,0 +1,328 @@
+{
+  "capture_mode": "protected native Windows capture",
+  "job_id": "3f6ae8a75130498a84b1b7f7ad2757d8",
+  "snapshot_id": "36fdc90d3325f8aec1647f0df8e5a9dda7b65c3117e2d9f23b27f90f9b5ccb7d",
+  "base_commit": "05d51b955cc66ee9adca35ea9e0661f32040d43d",
+  "candidate_file_count": 1825,
+  "full_source_manifest_sha256": "874d1ebd2fc95f1076cb6ee760ab67bc395becf0f64080fbf164bee769700ae8",
+  "full_source_manifest_matches_receipt": true,
+  "station_status": "PASS",
+  "exit_code": 0,
+  "runner_exit_code": 0,
+  "game_exit_code": 0,
+  "userdata_restored": true,
+  "snapshot_hashes_verified": true,
+  "engine": "4.7.1.stable.mono.official.a13da4feb",
+  "dotnet_sdk": "10.0.302",
+  "renderer": [
+    "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+  ],
+  "host": "UNTERPC",
+  "scene": "res://scenes/act1_demo.tscn",
+  "elapsed_seconds": 347.9169665,
+  "dll_sha256": "16E92D300586E6A57374BE35B273D2B469BCB9518FFA33426C5D491FEC81E141",
+  "compiled_content": {
+    "urman.chapter1": "34C1A1C233AB00B8F25361652DD53C4D6835CA54861B85D7707D4C49A456C73A",
+    "urman.fullgame": "28E19B07DD9C4E62968BD1433FB2CE1A8DEB2916C2970ECB5592024177CF5E03"
+  },
+  "station_doctor_ready": true,
+  "human_playtest": "not run",
+  "visual_acceptance": "bounded root acceptance: Low ring visibility on both cut ends in close porch-side frame; whole-house/art style remains open",
+  "graphics_intent": "Low-only corner-ring visual capture; porch-side point is supporting comparison, not cupboard acceptance.",
+  "frames": [
+    {
+      "id": "babai_corner_left_low",
+      "sidecar": "babai_corner_left_low.json",
+      "png": "babai_corner_left_low.png",
+      "png_bytes": 2043857,
+      "png_sha256": "1474bdca6f3b27a5723237d9769a0afe6135fd35a8e5acc3d2c10638a9c1ae97",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar_viewport": [
+        1920,
+        1080
+      ],
+      "cameraPosition": {
+        "x": -7.586514,
+        "y": 1.548152,
+        "z": 0.202463
+      },
+      "cameraTarget": {
+        "x": -9.286511,
+        "y": 1.168152,
+        "z": -0.455545
+      },
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "graphicsPreset": "low",
+      "graphicsRequestedPreset": "low",
+      "graphicsEffectivePreset": "low",
+      "graphicsSessionOverride": null,
+      "graphicsPresetApplyStatus": "applied-through-player-settings",
+      "graphicsComparable": true,
+      "scaling3DScale": 0.7,
+      "graphicsBudget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none",
+      "drawCalls": 12678,
+      "cornerLogMaterials": [
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log05_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "true",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log05_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "true",
+          "albedoTexture": null
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log06_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "true",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log06_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "true",
+          "albedoTexture": null
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log04_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "true",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log04_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "true",
+          "albedoTexture": null
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log07_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "true",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log07_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "true",
+          "albedoTexture": null
+        }
+      ]
+    },
+    {
+      "id": "babai_corner_right_low",
+      "sidecar": "babai_corner_right_low.json",
+      "png": "babai_corner_right_low.png",
+      "png_bytes": 2262353,
+      "png_sha256": "d66315a3a95c754f33ba10d44f0e0b940ffe81204b1d2558b522bc976dc562a1",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar_viewport": [
+        1920,
+        1080
+      ],
+      "cameraPosition": {
+        "x": -7.586466,
+        "y": 1.548152,
+        "z": -9.597536
+      },
+      "cameraTarget": {
+        "x": -9.286469,
+        "y": 1.168152,
+        "z": -8.955544
+      },
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "graphicsPreset": "low",
+      "graphicsRequestedPreset": "low",
+      "graphicsEffectivePreset": "low",
+      "graphicsSessionOverride": null,
+      "graphicsPresetApplyStatus": "applied-through-player-settings",
+      "graphicsComparable": true,
+      "scaling3DScale": 0.7,
+      "graphicsBudget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none",
+      "drawCalls": 15158,
+      "cornerLogMaterials": [
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log05_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "true",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log05_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "true",
+          "albedoTexture": null
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log06_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "true",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log06_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "true",
+          "albedoTexture": null
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log04_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "true",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log04_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "true",
+          "albedoTexture": null
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log07_LOD0",
+          "surface": 0,
+          "sourceMaterial": "URMAN_Hero_Log",
+          "cutEnd": "false",
+          "authoredUv": "true",
+          "lowQuality": "true",
+          "albedoTexture": "res://assets/textures/painterly/urman_w01_v01_basecolor.png"
+        },
+        {
+          "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log07_LOD0",
+          "surface": 1,
+          "sourceMaterial": "URMAN_Hero_LogEnd",
+          "cutEnd": "true",
+          "authoredUv": "false",
+          "lowQuality": "true",
+          "albedoTexture": null
+        }
+      ]
+    },
+    {
+      "id": "babai_porch_side_clear_low",
+      "sidecar": "babai_porch_side_clear_low.json",
+      "png": "babai_porch_side_clear_low.png",
+      "png_bytes": 1789689,
+      "png_sha256": "50719d9afc94b0bb0bdb77b7fd71e7b65c39fe0f6f2333c749dea558ae9230a5",
+      "png_ihdr": [
+        1886,
+        1061
+      ],
+      "sidecar_viewport": [
+        1920,
+        1080
+      ],
+      "cameraPosition": {
+        "x": -7.286011,
+        "y": 1.448152,
+        "z": -0.624935
+      },
+      "cameraTarget": {
+        "x": -8.550505,
+        "y": -0.036848,
+        "z": -1.883141
+      },
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "fov": 70,
+      "graphicsPreset": "low",
+      "graphicsRequestedPreset": "low",
+      "graphicsEffectivePreset": "low",
+      "graphicsSessionOverride": null,
+      "graphicsPresetApplyStatus": "applied-through-player-settings",
+      "graphicsComparable": true,
+      "scaling3DScale": 0.7,
+      "graphicsBudget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none",
+      "drawCalls": 10374,
+      "cornerLogMaterials": []
+    }
+  ],
+  "result_zip_sha256": "5bfb2cc084b550ee07baf49be08b5417b77a9afa8878b807bb42e35988481c8a",
+  "station_selected_source_count": 32,
+  "local_authoring_excluded_copy_count": 10,
+  "receipt_dirty_paths": [
+    " M assets/asset_registry.json",
+    " M assets/source/blender/urman_modular_kit.blend",
+    " M docs/production/act1_fence_kit_2026-10-04.md",
+    " M docs/urman_knowledge_base/art/act1_h2_hero_house_passport_2026-09-14.md",
+    " M docs/urman_knowledge_base/execution_backlog.json",
+    " M game/assets/generated/urman_modular_kit.glb",
+    " M game/content/world/act1_village_kit.world.v1.json",
+    " M game/content/world/visual_checkpoints.v1.json",
+    " M game/scripts/Act1ConnectedWorld.YardFences.cs",
+    " M game/scripts/Act1ConnectedWorld.cs",
+    " M game/scripts/GeneratedModularKitDressing.cs",
+    " M game/scripts/PainterlyMaterialLibrary.cs",
+    " M tools/blender/generate_modular_environment.py",
+    " M tools/blender/verify_modular_environment.py",
+    "?? evidence/ACT1-DEPTH.12/low_cut_endgrain_source_patch_2026-10-09.json",
+    "?? evidence/ACT1-DEPTH.9/cupboard-recessed-door-export-2026-10-09.json"
+  ],
+  "root_review": "root-review.json",
+  "run_integrity": {
+    "game_log_warning_blocks": 12,
+    "game_log_error_or_shader_error_markers": 0,
+    "engine_errors_log_bytes": 0,
+    "stderr_log_bytes": 0,
+    "userdata_restored": true,
+    "project_restored_hash_matches_snapshot": true,
+    "station_doctor_ready": true
+  }
+}

@@ -19577,6 +19577,28 @@
         "remaining": "Quality capture mechanism and pair comparability accepted after root viewed all six original PNGs. Whole house style remains open: Low loses cut-end rings and porch deck grain; High still has coarse facade/trim/character forms. Ordinary motion/playthrough, current reference comparison and author acceptance remain open; ACT1-DEPTH.10 does not start. PNG1886x1061 vs sidecar viewport1920x1080 discrepancy retained.",
         "next_step": "Correct bounded Low wood material identity and remaining facade/interior style gaps; retain exact matched capture workflow and obtain author acceptance before DEPTH.10.",
         "native_review": "evidence/ACT1-DEPTH.12/native_matched_pair_110630c7c71ecd00282e14295e2d139a49b7b080dbbe077f6bbf16d94b800c0d/root-review.json"
+      },
+      "progress_2026_10_09_low_cut_endgrain": {
+        "unit": "Low-quality cut-log end-grain ring visibility",
+        "executor": "/root/address_mount",
+        "status": "bounded_close_view_native_accepted",
+        "result": "Added 11 lines in the Low shader branch only, reusing the existing cut_wood_end UV ring calculation and fwidth fade before snow coverage. The High branch is unchanged; no extra texture samples, normal/wear response, palette changes, or performance rescue were introduced.",
+        "source_sha256": "bfc6ca444d1833e12714a85a66f7246b78141aef361d5eaaedd50a9c21fe3b07",
+        "verification": "PASS: source diff is Low-only; git diff --check; source receipt JSON valid; narrow game/Urman.Game.csproj build PASS, 0 warnings and 0 errors in 14.41s.",
+        "evidence": "evidence/ACT1-DEPTH.12/low_cut_endgrain_source_patch_2026-10-09.json",
+        "native": {
+          "jobId": "3f6ae8a75130498a84b1b7f7ad2757d8",
+          "snapshotId": "36fdc90d3325f8aec1647f0df8e5a9dda7b65c3117e2d9f23b27f90f9b5ccb7d",
+          "archive": "evidence/ACT1-DEPTH.12/native_corner_low_3f6ae8a75130498a84b1b7f7ad2757d8",
+          "indexedFileCount": 70,
+          "resultZipSha256": "5bfb2cc084b550ee07baf49be08b5417b77a9afa8878b807bb42e35988481c8a",
+          "rootReviewSha256": "ea09b498702434bcba44f17b0654bdc602fb2a93e910060042aea410338cc38d",
+          "decision": "ACCEPT_BOUNDED",
+          "finding": "Close porch-side Low view shows readable annual rings on both cut ends versus the previously plain cut faces. Rings are weaker and fade at subpixel scale in both oblique corner views; equal readability is not claimed.",
+          "integrity": "32 selected and 10 local copies verified against pre-seal/receipt; 1825-file source manifest matches; project restored hash matches; userdata restored; station doctor ready; engine-errors/stderr empty and shader/error marker count zero.",
+          "warnings": "12 warning blocks retained: VIS-022 qibla-axis author/cultural confirmation, vehicle support recovery, and painterly missing-mode warnings. These are outside this bounded visual acceptance."
+        },
+        "remaining": "The accepted matched High/Low pair 110630 and its restrictions remain unchanged. Porch-deck grain remains nearly uniform and was not accepted or changed; whole-house/style acceptance, motion, performance, ordinary playthrough, and human playtest remain open/not measured."
       }
     },
     {
