@@ -17,6 +17,7 @@ public partial class Act1ConnectedWorld
     private OmniLight3D? _bathSmoulderLight;
     private CpuParticles3D? _bathSmoulderSmoke;
     private float _bathFlicker;
+    private StandardMaterial3D? _bathStoveSpill;
 
     private void BuildBathAtmosphere()
     {
@@ -140,11 +141,16 @@ public partial class Act1ConnectedWorld
         // Wet room: a two-tier полок of slats against the back wall, a tub, a whisk soaking.
         foreach (var (y, zMid, depth, tier) in new[] { (.95f, -2.13f, .5f, "Upper"), (.52f, -1.70f, .36f, "Lower") })
         {
+            // Scrubbed pale linden benches, a step lighter than the wall lining; the
+            // slats carry a small chamfer so every board edge catches the lamp.
             for (var slat = 0; slat < 5; slat++)
-                AddVisualBox(bath, $"BathPolok{tier}Slat{slat}", new(1.7f, .04f, depth / 5f - .012f),
-                    new(.12f, y, zMid - depth * .5f + (slat + .5f) * depth / 5f), "4e3d2d", "wood_furniture");
+            {
+                var board = AddVisualBox(bath, $"BathPolok{tier}Slat{slat}", new(1.7f, .04f, depth / 5f - .012f),
+                    new(.12f, y, zMid - depth * .5f + (slat + .5f) * depth / 5f), tier == "Upper" ? "caa06a" : "c19863", "wood_furniture");
+                board.Mesh = RuralPropGeometry.InteriorBox(new(1.7f, .04f, depth / 5f - .012f), "wood_furniture");
+            }
             foreach (var x in new[] { -.68f, .9f })
-                AddVisualBox(bath, $"BathPolok{tier}Leg{x}", new(.06f, y, .06f), new(x, y * .5f, zMid), "33281f", "wood");
+                AddVisualBox(bath, $"BathPolok{tier}Leg{x}", new(.06f, y, .06f), new(x, y * .5f, zMid), "6e4a2c", "wood");
         }
         FacilityVessel(bath, "BathOakTub", new(1.62f, .23f, -.08f), .24f, .45f, "5b4633", true);
         for (var hoop = 0; hoop < 2; hoop++)
@@ -163,6 +169,8 @@ public partial class Act1ConnectedWorld
         FacilityVessel(bath, "BathOfferingCup", new(-1.40f, .03f, -1.80f), .04f, .055f, "b9b3a3", true);
 
         BuildBathVibeProps();
+        BuildBathSteamLining();
+        BuildBathSteamLampAndProps();
 
         // Мунча иясе, redrawn (BathSpirit.cs): a tall, still silhouette in the
         // washing-room corner behind the stove. The node builds here; the
@@ -264,10 +272,10 @@ public partial class Act1ConnectedWorld
         FacilityRod(bath, "BathBirchBarkBoxHandle", new(-1.45f, .636f, 1.62f), new(-1.33f, .636f, 1.62f), .012f, "8a6b45");
         // Damp lower boards: darker and glossier than the dry upper courses
         // (the wood family already carries the higher wet grade and gloss).
-        AddVisualBox(bath, "BathDampBoardsRear", new(3.78f, .80f, .02f), new(0f, .42f, -2.389f), "2a211a", "wood");
-        AddVisualBox(bath, "BathDampBoardsEast", new(.02f, .80f, 2.46f), new(1.884f, .42f, -1.18f), "2a211a", "wood");
-        AddVisualBox(bath, "BathDampBoardsWetPartition", new(1.84f, .78f, .02f), new(-.98f, .40f, .272f), "2a211a", "wood");
-        AddVisualBox(bath, "BathDampBoardsWetPartitionRight", new(.70f, .78f, .02f), new(1.52f, .40f, .272f), "2a211a", "wood");
+        AddVisualBox(bath, "BathDampBoardsRear", new(3.78f, .80f, .02f), new(0f, .42f, -2.389f), "6e4a2c", "wood");
+        AddVisualBox(bath, "BathDampBoardsEast", new(.02f, .80f, 2.46f), new(1.884f, .42f, -1.18f), "6e4a2c", "wood");
+        AddVisualBox(bath, "BathDampBoardsWetPartition", new(1.84f, .78f, .02f), new(-.98f, .40f, .272f), "6e4a2c", "wood");
+        AddVisualBox(bath, "BathDampBoardsWetPartitionRight", new(.70f, .78f, .02f), new(1.52f, .40f, .272f), "6e4a2c", "wood");
         // Thin wet sheen on the wet-room walking floor; two triangles.
         var sheen = new MeshInstance3D
         {
@@ -287,6 +295,202 @@ public partial class Act1ConnectedWorld
         bath.AddChild(sheen);
     }
 
+    /// <summary>
+    /// P2 steam-room lining (visual only, no collision). The old walls are single
+    /// dark slabs; this lays warm aged linden/aspen boards (honey b88a55..a5773f,
+    /// smoked 7d5732 near the stove and on the ceiling) over the wet-room faces
+    /// above the damp lower boards, in ONE four-surface mesh. Boards are 14-18 cm
+    /// with a 6 mm gap through which the dark wall shows, so the plank rhythm is
+    /// real depth; a darker batten caps the damp boards and runs under the
+    /// ceiling. Openings (vent, window, wet door, chimney, soot patch, stove wall
+    /// with its heat shield) are cut out so no existing piece is covered.
+    /// </summary>
+    private void BuildBathSteamLining()
+    {
+        var bath = _bathhouse!;
+        string[] tones = ["b88a55", "a5773f", "7d5732", "5c3f25"];
+        var tools = new SurfaceTool[tones.Length];
+        var counts = new int[tones.Length];
+        for (var i = 0; i < tools.Length; i++) { tools[i] = new SurfaceTool(); tools[i].Begin(Mesh.PrimitiveType.Triangles); }
+        var rng = new RandomNumberGenerator { Seed = 5521 };
+
+        void Box(int surface, Vector3 min, Vector3 max)
+        {
+            var st = tools[surface];
+            var c = (min + max) * .5f;
+            var h = (max - min) * .5f;
+            Vector3 Scale(Vector3 a) => new(a.X * h.X, a.Y * h.Y, a.Z * h.Z);
+            void Face(Vector3 n, Vector3 u, Vector3 v)
+            {
+                var fc = c + Scale(n);
+                var uu = Scale(u);
+                var vv = Scale(v);
+                Vector3[] p = [fc - uu - vv, fc + uu - vv, fc + uu + vv, fc - uu + vv];
+                st.SetNormal(n);
+                foreach (var k in new[] { 0, 2, 1, 0, 3, 2 })
+                {
+                    st.SetUV(new Vector2(p[k].X + p[k].Z, -p[k].Y));
+                    st.AddVertex(p[k]);
+                }
+                counts[surface] += 6;
+            }
+            Face(Vector3.Right, Vector3.Up, Vector3.Back);
+            Face(Vector3.Left, Vector3.Back, Vector3.Up);
+            Face(Vector3.Up, Vector3.Back, Vector3.Right);
+            Face(Vector3.Down, Vector3.Right, Vector3.Back);
+            Face(Vector3.Back, Vector3.Right, Vector3.Up);
+            Face(Vector3.Forward, Vector3.Up, Vector3.Right);
+        }
+
+        static List<(float, float)> Cut(float a, float b, IEnumerable<(float lo, float hi)> cuts)
+        {
+            var parts = new List<(float, float)> { (a, b) };
+            foreach (var (lo, hi) in cuts)
+            {
+                var next = new List<(float, float)>();
+                foreach (var (p, q) in parts)
+                {
+                    if (hi <= p || lo >= q) { next.Add((p, q)); continue; }
+                    if (lo > p) next.Add((p, lo));
+                    if (hi < q) next.Add((hi, q));
+                }
+                parts = next;
+            }
+            return parts.Where(part => part.Item2 - part.Item1 > .02f).ToList();
+        }
+
+        // box(u0,u1,v0,v1,extra): u runs across the boards, v along them; extra = additional proud depth.
+        void Wall(Func<float, float, float, float, float, (Vector3, Vector3)> box, float uMin, float uMax, float vMin, float vMax,
+            (float u0, float u1, float v0, float v1)[] holes, Func<float, int> tone, float[] railV)
+        {
+            for (var u = uMin; u < uMax - .03f;)
+            {
+                var width = Mathf.Min(rng.RandfRange(.14f, .18f), uMax - u);
+                var ub = u + width;
+                var cuts = holes.Where(hole => hole.u1 > u && hole.u0 < ub).Select(hole => (hole.v0, hole.v1)).OrderBy(c => c.v0);
+                foreach (var (va, vb) in Cut(vMin, vMax, cuts))
+                {
+                    var (min, max) = box(u, ub, va, vb, 0);
+                    Box(tone((u + ub) * .5f), min, max);
+                }
+                u = ub + .006f;
+            }
+            // Darker battens: cap over the damp boards and a rail under the ceiling.
+            foreach (var rail in railV)
+            {
+                var cuts = holes.Where(hole => hole.v1 > rail - .02f && hole.v0 < rail + .02f).Select(hole => (hole.u0, hole.u1)).OrderBy(c => c.u0);
+                foreach (var (ua, ub) in Cut(uMin, uMax, cuts))
+                {
+                    var (min, max) = box(ua, ub, rail - .02f, rail + .02f, .012f);
+                    Box(3, min, max);
+                }
+            }
+        }
+
+        const float top = 2.538f;
+        // Rear wall (face z -2.4): boards run up from the damp boards; the vent and window stay open.
+        Wall((u0, u1, v0, v1, e) => (new(u0, v0, -2.4f), new(u1, v1, -2.378f + e)),
+            -1.9f, 1.9f, .82f, top,
+            [(-1.52f, -1.08f, 1.86f, 2.24f), (.30f, 1.0f, 1.43f, 2.02f)],
+            x => x < -.95f ? 2 : rng.Randf() < .5f ? 0 : 1, [.82f, 2.48f]);
+        // East wall (face x 1.9): across z, the lamp side of the room, so the lightest boards.
+        Wall((u0, u1, v0, v1, e) => (new(1.878f - e, v0, u0), new(1.9f, v1, u1)),
+            -2.4f, .264f, .82f, top, [], z => z < -1.6f ? 1 : rng.Randf() < .6f ? 0 : 1, [.82f, 2.48f]);
+        // Wet face of the partition (face z .28): thin, so the soaked whisks hang clear of it. The door leaf is left bare.
+        Wall((u0, u1, v0, v1, e) => (new(u0, v0, .264f - e), new(u1, v1, .28f)),
+            -1.9f, 1.9f, .82f, top, [(-.06f, 1.16f, 0f, 2.08f)],
+            x => rng.Randf() < .5f ? 0 : 1, [.82f, 2.48f]);
+        // Ceiling boards along z, smoked; the chimney collar and the soot patch over the stove stay untouched.
+        Wall((u0, u1, v0, v1, e) => (new(u0, 2.55f - .018f, v0), new(u1, 2.55f, v1)),
+            -1.9f, 1.9f, -2.4f, .264f, [(-1.72f, -1.44f, -1.45f, -1.17f), (-1.92f, -.79f, -1.77f, -.53f)],
+            x => rng.Randf() < .35f ? 1 : 2, []);
+
+        var mesh = new ArrayMesh();
+        for (var i = 0; i < tools.Length; i++)
+        {
+            if (counts[i] == 0) continue;
+            tools[i].Commit(mesh);
+            mesh.SurfaceSetMaterial(mesh.GetSurfaceCount() - 1, PainterlyMaterialLibrary.ForColor(tones[i], "wood", sheltered: true));
+        }
+        var lining = new MeshInstance3D { Name = "BathSteamRoomLining", Mesh = mesh, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off };
+        lining.SetMeta("visualOnly", true);
+        bath.AddChild(lining);
+    }
+
+    /// <summary>
+    /// The steam room's single warm lamp (the existing BathShieldedWetLamp, now
+    /// amber, caged, and on the interior soft-shadow convention), a faint warm
+    /// spill from the iron stove door on the hearth, and one pair of dry oak
+    /// whisks on a peg rail. Visual only: the lamp keeps its name so the steam
+    /// atmosphere owner still flickers it.
+    /// </summary>
+    private void BuildBathSteamLampAndProps()
+    {
+        var bath = _bathhouse!;
+        if (bath.GetNodeOrNull<OmniLight3D>("BathShieldedWetLamp") is { } lamp)
+        {
+            lamp.LightColor = new Color("ffb978");
+            lamp.LightEnergy = .34f;
+            lamp.OmniRange = 3.5f;
+            lamp.ShadowEnabled = GraphicsQuality.Preset == "high";
+            lamp.AddToGroup(GraphicsQuality.SoftShadowLampGroup);
+            var globe = new MeshInstance3D
+            {
+                Name = "BathWetLampGlobe", Mesh = new SphereMesh { Radius = .06f, Height = .12f, RadialSegments = 12, Rings = 6 },
+                Position = lamp.Position + new Vector3(0, -.05f, 0), CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+                MaterialOverride = new StandardMaterial3D
+                {
+                    AlbedoColor = new Color("ffd7a0"), EmissionEnabled = true, Emission = new Color("ffb978"),
+                    EmissionEnergyMultiplier = 1.5f, Roughness = .4f
+                }
+            };
+            bath.AddChild(globe);
+            // Iron cage: two thin rings round the globe.
+            foreach (var (name, y) in new[] { ("Upper", -.012f), ("Lower", -.095f) })
+                bath.AddChild(new MeshInstance3D
+                {
+                    Name = "BathWetLampCage" + name, Mesh = new TorusMesh { InnerRadius = .072f, OuterRadius = .082f, Rings = 16, RingSegments = 6 },
+                    Position = lamp.Position + new Vector3(0, y, 0), CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+                    MaterialOverride = PainterlyMaterialLibrary.ForColor("2b2a27", "metal", sheltered: true)
+                });
+        }
+
+        // Faint warm spill from the stove door across the hearth: additive, no light.
+        var radial = new GradientTexture2D
+        {
+            Width = 64, Height = 64, Fill = GradientTexture2D.FillEnum.Radial, FillFrom = new Vector2(.5f, .5f), FillTo = new Vector2(.5f, 1f),
+            Gradient = new Gradient { Colors = [Colors.White, new Color(1, 1, 1, 0)], Offsets = [0, 1] }
+        };
+        _bathStoveSpill = new StandardMaterial3D
+        {
+            AlbedoColor = new Color(1f, .56f, .24f, .28f), AlbedoTexture = radial, ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
+            Transparency = BaseMaterial3D.TransparencyEnum.Alpha, BlendMode = BaseMaterial3D.BlendModeEnum.Add,
+            CullMode = BaseMaterial3D.CullModeEnum.Disabled, DisableReceiveShadows = true
+        };
+        var spill = new MeshInstance3D
+        {
+            Name = "BathStoveDoorGlowSpill", Mesh = new PlaneMesh { Size = new Vector2(.74f, .34f) },
+            Position = new(-1.33f, .031f, -.54f), MaterialOverride = _bathStoveSpill,
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        };
+        spill.SetMeta("visualOnly", true);
+        bath.AddChild(spill);
+
+        // Two dry oak whisks on a peg rail, rear wall between the vent and the window.
+        AddVisualBox(bath, "BathSteamPegRail", new(.62f, .07f, .03f), new(-.38f, 2.12f, -2.363f), "6e4a2c", "wood");
+        foreach (var (i, x) in new[] { (0, -.55f), (1, -.21f) })
+        {
+            FacilityRod(bath, "BathSteamPeg" + i, new(x, 2.12f, -2.35f), new(x, 2.12f, -2.27f), .014f, "4a3a2b");
+            bath.AddChild(new MeshInstance3D
+            {
+                Name = "BathSteamOakWhisk" + i,
+                Mesh = new CylinderMesh { TopRadius = .03f, BottomRadius = .1f, Height = .42f, RadialSegments = 9, Rings = 2 },
+                Position = new(x, 1.88f, -2.27f), RotationDegrees = new(i == 0 ? 4f : -5f, i * 53f, 0), Scale = new(1, 1, .55f),
+                MaterialOverride = PainterlyMaterialLibrary.ForColor(i == 0 ? "5f5b30" : "6b6538", "foliage", sheltered: true)
+            });
+        }
+    }
+
     /// <summary>Stove glow: embers always smoulder; a lit fire flickers bright and smokes hard.</summary>
     private void TickBathAtmosphere(bool burning, double delta)
     {
@@ -296,6 +500,8 @@ public partial class Act1ConnectedWorld
             ? 2.2f + .9f * Mathf.Sin(_bathFlicker * 13f) + .5f * Mathf.Sin(_bathFlicker * 31f)
             : 1.3f + .35f * Mathf.Sin(_bathFlicker * 1.3f) + .15f * Mathf.Sin(_bathFlicker * 4.1f);
         if (_bathStoveEyes[0].MaterialOverride is StandardMaterial3D glow) glow.EmissionEnergyMultiplier = flicker;
+        if (_bathStoveSpill is not null)
+            _bathStoveSpill.AlbedoColor = new Color(1f, .56f, .24f, Mathf.Clamp(.10f + flicker * .09f, 0f, .62f));
         if (_bathSmoulderLight is not null)
         {
             _bathSmoulderLight.Visible = FacilityExteriorActive;

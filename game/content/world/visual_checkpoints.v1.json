@@ -425,6 +425,16 @@
       "graphicsPreset": "low",
       "spec": "Ground@-14,1.7,4>Ground@-30,1.8,-6",
       "subject": "FINISH-07: тот же ракурс C2_hero_house на Low — пара к *_high для сравнения нагрузки и вида."
+    },
+    {
+      "id": "bath_steam_room",
+      "spec": "BabaiBathhouse@0.95,1.45,-0.5>BabaiBathhouse@-0.7,0.9,-1.5",
+      "subject": "ACT1-BATHHOUSE: парилка изнутри — печь и полок."
+    },
+    {
+      "id": "bath_rear_wall",
+      "spec": "BabaiBathhouse@-0.45,1.45,-0.05>BabaiBathhouse@0.65,1.6,-2.4",
+      "subject": "ACT1-BATHHOUSE: задняя стена парилки — окно, верхний полок, обшивка, веники, лампа."
     }
   ],
   "batches": [

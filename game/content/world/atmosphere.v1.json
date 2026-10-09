@@ -422,9 +422,9 @@
           ]
         },
         "sun": {
-          "color": "ffb877",
-          "energy": 0.34,
-          "shadowOpacity": 0.5,
+          "color": "d2ecff",
+          "energy": 0.32,
+          "shadowOpacity": 0.6,
           "rotation": [
             -40,
             18
