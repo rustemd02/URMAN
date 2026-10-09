@@ -146,15 +146,16 @@ public partial class StyleBenchmarkZone : Node3D
                 // P2 (09.10): warm bounce off painted boards, wallpaper and the stove,
                 // not the cold sky; the windows keep the daylight contrast.
                 : houseInterior ? Color.FromHtml("d2b08a")
-                : fapInterior ? Color.FromHtml("879397")
+                // A clean, daylit rural clinic: cool but not dim (P2 interiors, 10.10).
+                : fapInterior ? Color.FromHtml("c2cbc6")
                 : zirat ? Color.FromHtml("99a6a2")
                 : Color.FromHtml("a5b0ab"),
             // Keep the clinic's cold institutional base restrained so the
             // window and document pools can establish the room's depth.
-            AmbientLightEnergy = night ? 0.82f : houseInterior ? 0.46f : fapInterior ? 0.48f : zirat ? 0.72f : 0.78f,
+            AmbientLightEnergy = night ? 0.82f : houseInterior ? 0.46f : fapInterior ? 0.55f : zirat ? 0.72f : 0.78f,
             SsaoEnabled = interior,
-            SsaoIntensity = houseInterior ? 1.2f : 0.55f,
-            SsaoRadius = houseInterior ? 0.7f : 0.30f,
+            SsaoIntensity = houseInterior ? 1.2f : fapInterior ? 0.95f : 0.55f,
+            SsaoRadius = houseInterior ? 0.7f : fapInterior ? 0.6f : 0.30f,
             FogEnabled = !interior,
             FogLightColor = night
                 ? Color.FromHtml("4d626a")
@@ -166,7 +167,7 @@ public partial class StyleBenchmarkZone : Node3D
             FogSkyAffect = night ? 0.28f : 0.25f,
             FogSunScatter = night ? 0.08f : 0.06f,
             TonemapMode = houseInterior ? global::Godot.Environment.ToneMapper.Agx : global::Godot.Environment.ToneMapper.Filmic,
-            TonemapExposure = night ? 1.02f : houseInterior ? 1.06f : fapInterior ? 1.04f : zirat ? 0.96f : 0.98f
+            TonemapExposure = night ? 1.02f : houseInterior ? 1.06f : fapInterior ? 1.00f : zirat ? 0.96f : 0.98f
         };
         GraphicsQuality.ConfigureEnvironment(environment, authoredSsao: interior, interiorGi: interior);
         AddChild(new WorldEnvironment { Environment = environment, Name = "WorldEnvironment" });
@@ -948,8 +949,8 @@ public partial class StyleBenchmarkZone : Node3D
             Position = new(-0.2f, 2.8f, -0.7f),
             // Neutral blue-grey practical: it should describe the ceiling,
             // not flatten the whole clinic into a green wash.
-            LightColor = Color.FromHtml("a4b1b1"),
-            LightEnergy = 0.42f,
+            LightColor = Color.FromHtml("c9d4d6"),
+            LightEnergy = 0.7f,
             OmniRange = 8.0f,
             ShadowEnabled = true
         });
@@ -994,6 +995,7 @@ public partial class StyleBenchmarkZone : Node3D
         BuildFapFurnitureContacts();
         BuildFapShellContacts();
         ClinicSurfacePresentation.Attach(this, GetNode<Node3D>(FapInteriorSetComponentName));
+        DressFapInterior();
     }
 
     private void BuildFapShellContacts()
@@ -1489,14 +1491,33 @@ public partial class StyleBenchmarkZone : Node3D
                 if (fapFloor) fapFloors.Add(mesh);
                 // Walls: whitewash above, the clinic's grey-green as oil paint to 1.5 m.
                 var wall = dadoWall
-                    ? PainterlyMaterialLibrary.ForDadoWall("c8cabd", "6f8a84", 1.5f)
+                    ? PainterlyMaterialLibrary.ForDadoWall("eef0ea", "9fbcb3", 1.5f)
                     : PainterlyMaterialLibrary.ForColor(
-                        fapFloor ? "797d77" : fapCeiling ? "b5b4a4" : "7b8d86",
+                        fapFloor ? "d4c39b" : fapCeiling ? "e6e8e1" : "7b8d86",
                         fapFloor ? "floor_institution" : fapCeiling ? string.Empty : "wall_institution", sheltered: true);
                 if (dadoWall) fapDadoWalls.Add(mesh);
                 for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
                 {
                     mesh.SetSurfaceOverrideMaterial(surface, wall);
+                    rebound++;
+                }
+                continue;
+            }
+
+            // Clinic trim: pale cornice, mint panel band, deeper-mint dado rail.
+            if (isFap && meshName.StartsWith("FapInteriorShell_", StringComparison.Ordinal)
+                && (meshName.Contains("CeilingCornice", StringComparison.Ordinal)
+                    || meshName.Contains("LowerBand", StringComparison.Ordinal)
+                    || meshName.Contains("BaseCap", StringComparison.Ordinal)))
+            {
+                var trim = meshName.Contains("CeilingCornice", StringComparison.Ordinal)
+                    ? PainterlyMaterialLibrary.ForColor("dde0d8", "plaster", sheltered: true)
+                    : meshName.Contains("LowerBand", StringComparison.Ordinal)
+                        ? PainterlyMaterialLibrary.ForColor("a9c7bd", "plaster", sheltered: true)
+                        : PainterlyMaterialLibrary.ForColor("7fa498", "plaster", sheltered: true);
+                for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
+                {
+                    mesh.SetSurfaceOverrideMaterial(surface, trim);
                     rebound++;
                 }
                 continue;

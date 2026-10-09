@@ -207,6 +207,11 @@ public static class TimberHomeStyle
                     root.SetMeta("addedStoreyMetres",added);
                 }
             }
+            // Pierced carving after the 09.10 photo T1: barge boards, gable frieze,
+            // eave valance and apex finials in the casing paint, measured from this
+            // dwelling's own verge and eave members (after any added-storey lift).
+            var carved=CarveEdgeLace(root,source,envelope,paint+"|wood_painted_trim",Box,out var laceSkipped);
+            root.SetMeta("edgeLacePieces",carved);root.SetMeta("edgeLaceSkipped",laceSkipped);
             foreach(var (material,pieces) in batches)
             {
                 using var s=new SurfaceTool();s.Begin(Mesh.PrimitiveType.Triangles);
@@ -224,6 +229,170 @@ public static class TimberHomeStyle
             root.SetMeta("surroundMeasuredPanes",measured);
             root.SetMeta("surroundAuthoredCasingPanes",duplicated);
         }
+    }
+
+    /// <summary>One raking verge measured in the dwelling root frame: gable
+    /// normal axis, span axis, centreline end points (span, height) and the
+    /// section half-width. Axis convention comes from the mesh, never assumed.</summary>
+    private sealed class VergeLine
+    {
+        public string Stem = ""; public int Normal; public int Span;
+        public float N, Thick, MeanS, Hw;
+        public Vector2 EndA, EndB; // centreline ends as (span, height), EndA has the lower span
+    }
+
+    private static VergeLine? MeasureVerge(MeshInstance3D m, Transform3D inv)
+    {
+        var faces=m.Mesh!.GetFaces();
+        if(faces.Length<6)return null;
+        var to=inv*m.GlobalTransform;
+        var min=new Vector3(float.MaxValue,float.MaxValue,float.MaxValue);
+        var max=new Vector3(float.MinValue,float.MinValue,float.MinValue);
+        var unique=new HashSet<(int,int,int)>();var pts=new List<Vector3>();
+        foreach(var f in faces)
+        {
+            var p=to*f;
+            if(!unique.Add(((int)MathF.Round(p.X*1000f),(int)MathF.Round(p.Y*1000f),(int)MathF.Round(p.Z*1000f))))continue;
+            pts.Add(p);
+            min=new(MathF.Min(min.X,p.X),MathF.Min(min.Y,p.Y),MathF.Min(min.Z,p.Z));
+            max=new(MathF.Max(max.X,p.X),MathF.Max(max.Y,p.Y),MathF.Max(max.Z,p.Z));
+        }
+        var ext=max-min;
+        var normal=ext.X<ext.Z?0:2;var span=2-normal;
+        if(ext[span]<1f||ext.Y<.2f)return null;
+        float sc=0,zc=0;foreach(var p in pts){sc+=p[span];zc+=p.Y;}
+        sc/=pts.Count;zc/=pts.Count;
+        float vs=0,vz=0,cv=0;
+        foreach(var p in pts){var a=p[span]-sc;var b=p.Y-zc;vs+=a*a;vz+=b*b;cv+=a*b;}
+        // Principal axis of the section outline in the gable plane = the beam axis.
+        var theta=.5f*MathF.Atan2(2f*cv,vs-vz);
+        var d=new Vector2(MathF.Cos(theta),MathF.Sin(theta));
+        if(d.X<0)d=-d;
+        var perp=new Vector2(-d.Y,d.X);
+        float half=0,hw=0;
+        foreach(var p in pts)
+        {
+            var r=new Vector2(p[span]-sc,p.Y-zc);
+            half=MathF.Max(half,MathF.Abs(r.Dot(d)));hw=MathF.Max(hw,MathF.Abs(r.Dot(perp)));
+        }
+        if(!float.IsFinite(half)||half<.5f||MathF.Abs(d.Y)<.05f||MathF.Abs(d.Y)>.95f)return null;
+        var c=new Vector2(sc,zc);
+        var name=m.Name.ToString();
+        var cut=name.IndexOf("_Verge",StringComparison.Ordinal);
+        return new VergeLine {Stem=cut>0?name[..cut]:name,Normal=normal,Span=span,
+            N=(min[normal]+max[normal])*.5f,Thick=ext[normal],MeanS=sc,Hw=hw,EndA=c-d*half,EndB=c+d*half};
+    }
+
+    /// <summary>Photo T1 carving: причелины with a tooth row on both slopes of each
+    /// gable, a toothed frieze across the gable at eave height, a подзор under both
+    /// long eaves and a finial at every apex. Everything is painted in the casing
+    /// material key so it joins the existing batch (no new mesh when windows exist).</summary>
+    private static int CarveEdgeLace(Node3D root,MeshInstance3D[] source,Vector3 envelopeWorld,string mat,
+        Action<string,Vector3,Transform3D> box,out int skipped)
+    {
+        var pieces=0;skipped=0;
+        var inv=root.GlobalTransform.AffineInverse();
+        var env=inv*envelopeWorld;
+        void Put(Vector3 size,Basis basis,Vector3 at){box(mat,size,root.GlobalTransform*new Transform3D(basis,at));pieces++;}
+        const float boardW=.18f,boardT=.03f,toothT=.034f,toothW=.05f,pitch=.12f;
+        // Gables: group the two raking verges of one gable by their stem.
+        var verges=new List<VergeLine>();
+        foreach(var m in source)
+        {
+            var n=m.Name.ToString();
+            if(!n.Contains("_VergeLeft",StringComparison.Ordinal)&&!n.Contains("_VergeRight",StringComparison.Ordinal))continue;
+            var line=MeasureVerge(m,inv);
+            if(line is null)skipped++;else verges.Add(line);
+        }
+        foreach(var gable in verges.GroupBy(v=>v.Stem+"|"+v.Normal))
+        {
+            var pair=gable.OrderBy(v=>v.MeanS).ToArray();
+            if(pair.Length!=2){skipped+=pair.Length;continue;}
+            var lo=pair[0];var hi=pair[1];
+            var sign=lo.N-env[lo.Normal];
+            if(MathF.Abs(sign)<.05f||lo.Span!=hi.Span){skipped+=2;continue;}
+            var outward=sign>0?1f:-1f;
+            var spanAxis=lo.Span==0?Vector3.Right:Vector3.Back;
+            var normAxis=lo.Normal==0?Vector3.Right:Vector3.Back;
+            var plane=(lo.N+hi.N)*.5f+outward*(MathF.Max(lo.Thick,hi.Thick)*.5f+.012f);
+            Vector3 At(float s,float z,float nOff=0f)=>spanAxis*s+Vector3.Up*z+normAxis*(plane+outward*nOff);
+            // The lower-span verge rises toward larger span, the other toward smaller.
+            var lowA=lo.EndA;var lowB=hi.EndB;
+            var apex=(lo.EndB+hi.EndA)*.5f;
+            var plumb=new Basis(spanAxis,Vector3.Up,spanAxis.Cross(Vector3.Up));
+            var diamond=new Basis(spanAxis.Cross(Vector3.Up),Mathf.Pi/4f)*plumb;
+            foreach(var (verge,low) in new[]{(lo,lowA),(hi,lowB)})
+            {
+                var dir=apex-low;var len=dir.Length();
+                if(len<.5f){skipped++;continue;}
+                dir/=len;
+                var below=new Vector2(dir.Y,-dir.X);
+                if(below.Y>0)below=-below;
+                var off=verge.Hw+boardW*.5f-.01f;
+                var xAxis=spanAxis*dir.X+Vector3.Up*dir.Y;
+                var yAxis=spanAxis*below.X+Vector3.Up*below.Y;
+                var board=new Basis(xAxis,yAxis,xAxis.Cross(yAxis));
+                Vector2 Line(float u,float perp)=>low+dir*u+below*perp;
+                var mid=Line(len*.5f,off);
+                Put(new(len,boardW,boardT),board,At(mid.X,mid.Y));
+                for(var i=0;;i++)
+                {
+                    var u=.12f+i*pitch;
+                    if(u>len-.35f)break;
+                    var h=i%2==0?.09f:.05f;
+                    var c=Line(u,off+boardW*.5f-.01f+h*.5f);
+                    Put(new(toothW,h,toothT),board,At(c.X,c.Y));
+                }
+                // Short pendant at the eave end: plumb post with a diamond tip.
+                var foot=Line(.05f,off+boardW*.5f);
+                Put(new(.07f,.22f,toothT),plumb,At(foot.X,foot.Y+.07f-.11f));
+                Put(new(.065f,.065f,toothT),diamond,At(foot.X,foot.Y+.07f-.22f));
+            }
+            // Horizontal frieze under the roof edge between the two eave ends, set
+            // 2 cm behind the barge plane so the two never share a face.
+            var zLow=MathF.Min(lowA.Y,lowB.Y);
+            var friezeLen=lowB.X-lowA.X;
+            if(friezeLen>1f)
+            {
+                var top=zLow-.03f;const float friezeH=.14f;
+                Put(new(friezeLen,friezeH,boardT),plumb,At((lowA.X+lowB.X)*.5f,top-friezeH*.5f,-.02f));
+                for(var i=0;;i++)
+                {
+                    var x=lowA.X+.12f+i*pitch;
+                    if(x>lowB.X-.12f)break;
+                    var h=i%2==0?.09f:.05f;
+                    Put(new(toothW,h,toothT),plumb,At(x,top-friezeH+.01f-h*.5f,-.02f));
+                }
+            }
+            // Finial: 0.08 m post with a diamond on top, on the barge plane.
+            Put(new(.08f,.24f,.06f),plumb,At(apex.X,apex.Y+.12f));
+            Put(new(.10f,.10f,.05f),diamond,At(apex.X,apex.Y+.28f));
+        }
+        // Подзор: board on the underside of each long eave, corner to corner.
+        foreach(var m in source)
+        {
+            if(!m.Name.ToString().Contains("_Eave_",StringComparison.Ordinal))continue;
+            var to=inv*m.GlobalTransform;var bb=to*m.Mesh!.GetAabb();
+            var ridgeAxisIndex=bb.Size.X>bb.Size.Z?0:2;
+            var across=2-ridgeAxisIndex;
+            var length=bb.Size[ridgeAxisIndex];
+            if(length<2f||bb.Size[across]>.5f||!bb.Position.IsFinite()){skipped++;continue;}
+            var ridge=ridgeAxisIndex==0?Vector3.Right:Vector3.Back;
+            var basis=new Basis(ridge,Vector3.Up,ridge.Cross(Vector3.Up));
+            var centre=bb.GetCenter();
+            const float valH=.12f;
+            var bottom=bb.Position.Y-valH+.01f;
+            Vector3 P(float along,float y){var p=centre;p[ridgeAxisIndex]=centre[ridgeAxisIndex]+along;p.Y=y;return p;}
+            Put(new(length,valH,boardT),basis,P(0f,bottom+valH*.5f));
+            for(var i=0;;i++)
+            {
+                var a=-length*.5f+.10f+i*pitch;
+                if(a>length*.5f-.10f)break;
+                var h=i%2==0?.09f:.05f;
+                Put(new(toothW,h,toothT),basis,P(a,bottom+.01f-h*.5f));
+            }
+        }
+        return pieces;
     }
 
     /// <summary>World centre of the dwelling's own visible envelope. Used only to

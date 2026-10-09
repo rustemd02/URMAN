@@ -7721,9 +7721,9 @@
       },
       "title": "Сведение прежнего требования: Пресеты реально меняют нагрузку",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "claude/visual-reset-2026-10-09",
       "depends_on": [
         "PW-090"
       ],
@@ -7903,6 +7903,14 @@
         "reason": "Одна реализация через PW-преемников; применимые прежние функции проверяются PW-004/PW-079/PW-096. Сценарные/художественные замены перечислены в контракте сведения.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
         "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+      },
+      "progress_2026_10_10": {
+        "preset_pairs": {
+          "done": "Парные native-кадры High/Low на станции (graphicsComparable=true): draw calls C1 21714/10879, C2 18746/8503, фасад бабая 22538/13014, крыльцо 19753/6740 — пресеты реально меняют нагрузку примерно вдвое; вид на Low сохраняет свет и формы.",
+          "evidence": "evidence/PW-044/preset-pairs-2026-10-10",
+          "remaining": "FPS/frame-time профиль (benchmark) и Medium в той же серии",
+          "next": "URMAN_CAPTURE_BENCHMARK на станции"
+        }
       }
     },
     {

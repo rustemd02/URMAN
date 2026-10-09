@@ -1,0 +1,505 @@
+{
+  "metadataVersion": 2,
+  "engineVersion": "4.7.1-stable (official)",
+  "os": "Windows",
+  "point": "babai_porch_side_clear_low",
+  "spec": "babai_porch_side_clear_low:BabaiApproachDwellingFacade@-2.4226,1.7,3.3005\u003EBabaiApproachDwellingFacade@-1.1644,0.215,2.036",
+  "cameraName": "DevViewCamera",
+  "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+  "cameraPosition": {
+    "x": -7.286011,
+    "y": 1.448152,
+    "z": -0.624935
+  },
+  "cameraTarget": {
+    "x": -8.550505,
+    "y": -0.036848,
+    "z": -1.883141
+  },
+  "cameraForward": {
+    "x": -0.544795,
+    "y": -0.639798,
+    "z": -0.542086
+  },
+  "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "cameraOwnerZone": null,
+  "targetOwnerZone": null,
+  "fov": 70,
+  "fovSource": "control-view-default",
+  "diagnosticView": null,
+  "playerBodyHidden": true,
+  "diagnosticNeutralScope": null,
+  "near": 0.05,
+  "far": 160,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "scaling3DScale": 0.7,
+  "scaling3DMode": "Fsr",
+  "graphicsPreset": "low",
+  "graphicsRequestedPreset": "low",
+  "graphicsEffectivePreset": "low",
+  "playerGraphicsPreset": "low",
+  "graphicsPreferredPreset": "low",
+  "graphicsSessionOverride": null,
+  "graphicsPresetApplyStatus": "applied-through-player-settings",
+  "graphicsComparable": true,
+  "graphicsBudget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none",
+  "activeZoneId": "village_day",
+  "requestedZoneId": null,
+  "checkpointSubject": "ACT1-DEPTH.12: matched Low frame of the existing clear porch-side camera; compare only with babai_porch_side_clear_high when both sidecars confirm effective high/low.",
+  "requestedProfile": null,
+  "atmosphereProfile": "village-winter-crisp",
+  "atmosphereOwner": "AgentBExteriorWorld",
+  "studioPreviewProfile": null,
+  "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBEnvironment",
+  "tonemapMode": "Agx",
+  "fogEnabled": true,
+  "volumetricFogEnabled": false,
+  "fogColor": "c2d0e0ff",
+  "fogDensity": 0.0055,
+  "snowActive": true,
+  "snowAmount": 4000,
+  "blizzardActive": false,
+  "drawCalls": 6740,
+  "renderHistogram": {
+    "groups": 124,
+    "top": [
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_VillageBuildingsKit/URMAN_AgentB_VillageBuildingsKit/WoodpileBabai_Log0_",
+        "instances": 10,
+        "cost": 10,
+        "shadowCost": 10
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_VillageBuildingsKit/URMAN_AgentB_VillageBuildingsKit/WoodpileBabai_Log1_",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 9
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterLightBirdCherry_1_Cell-1_-",
+        "instances": 3,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_VillageBuildingsKit/URMAN_AgentB_VillageBuildingsKit/WoodpileBabai_Log2_",
+        "instances": 8,
+        "cost": 8,
+        "shadowCost": 8
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterLightBirdCherry_1_Cell-2_-",
+        "instances": 2,
+        "cost": 6,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_VillageBuildingsKit/URMAN_AgentB_VillageBuildingsKit/FenceBabaiW_S_Post0_",
+        "instances": 4,
+        "cost": 4,
+        "shadowCost": 4
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_VillageBuildingsKit/URMAN_AgentB_VillageBuildingsKit/FenceBabaiW_S_PostCap0_",
+        "instances": 4,
+        "cost": 4,
+        "shadowCost": 4
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/Sedge_1_Cell-1_-",
+        "instances": 3,
+        "cost": 3,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/Sedge_0_Cell-1_-",
+        "instances": 3,
+        "cost": 3,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log00_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_-1_Log01_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_1_Log00_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd-1_1_Log01_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log00_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_-1_Log01_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_CornerEnd1_1_Log00_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Left_Log00_0_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Left_Log01_0_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Left_Log02_1_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_PorchDeck_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Rear_Log00_0_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Right_Log00_0_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Street_Log00_0_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Street_Log00_1_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Street_Log01_0_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Street_Log01_1_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Street_Log02_0_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Street_Log02_1_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Street_Log02_2_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade/HeroHouse_TimberPlaster/HeroHouse_Street_Log02_3_LOD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      }
+    ],
+    "topByName": [
+      {
+        "owner": "WoodpileBabai_Log_",
+        "instances": 27,
+        "cost": 27,
+        "shadowCost": 27
+      },
+      {
+        "owner": "HeroHouse_Street_Log_",
+        "instances": 10,
+        "cost": 20,
+        "shadowCost": 20
+      },
+      {
+        "owner": "WinterLightBirdCherry__Cell-_-",
+        "instances": 5,
+        "cost": 15,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Sedge__Cell-_-",
+        "instances": 12,
+        "cost": 12,
+        "shadowCost": 0
+      },
+      {
+        "owner": "HeroHouse_PorchDeckSeam",
+        "instances": 7,
+        "cost": 7,
+        "shadowCost": 7
+      },
+      {
+        "owner": "HeroHouse_Left_Log_",
+        "instances": 3,
+        "cost": 6,
+        "shadowCost": 6
+      },
+      {
+        "owner": "GrassTuft__Cell-_-",
+        "instances": 6,
+        "cost": 6,
+        "shadowCost": 0
+      },
+      {
+        "owner": "HeroHouse_CornerEnd-_-_Log",
+        "instances": 2,
+        "cost": 4,
+        "shadowCost": 4
+      },
+      {
+        "owner": "HeroHouse_CornerEnd-__Log",
+        "instances": 2,
+        "cost": 4,
+        "shadowCost": 4
+      },
+      {
+        "owner": "HeroHouse_CornerEnd_-_Log",
+        "instances": 2,
+        "cost": 4,
+        "shadowCost": 4
+      },
+      {
+        "owner": "FenceBabaiW_S_Post_",
+        "instances": 4,
+        "cost": 4,
+        "shadowCost": 4
+      },
+      {
+        "owner": "FenceBabaiW_S_PostCap_",
+        "instances": 4,
+        "cost": 4,
+        "shadowCost": 4
+      },
+      {
+        "owner": "GorgeRock_-_near",
+        "instances": 3,
+        "cost": 3,
+        "shadowCost": 3
+      },
+      {
+        "owner": "GorgeRock_-_far",
+        "instances": 3,
+        "cost": 3,
+        "shadowCost": 3
+      },
+      {
+        "owner": "HeroHouse_Street_Window_Rail-",
+        "instances": 3,
+        "cost": 3,
+        "shadowCost": 0
+      },
+      {
+        "owner": "HeroHouse_Street_Window_Sill",
+        "instances": 3,
+        "cost": 3,
+        "shadowCost": 0
+      },
+      {
+        "owner": "HeroHouse_Street_Window_SillDrip",
+        "instances": 3,
+        "cost": 3,
+        "shadowCost": 0
+      },
+      {
+        "owner": "HeroHouse_Street_Window_Towel",
+        "instances": 3,
+        "cost": 3,
+        "shadowCost": 3
+      },
+      {
+        "owner": "HeroHouse_Street_Window_TowelDiamond",
+        "instances": 3,
+        "cost": 3,
+        "shadowCost": 3
+      },
+      {
+        "owner": "Fern__Cell_-",
+        "instances": 3,
+        "cost": 3,
+        "shadowCost": 0
+      },
+      {
+        "owner": "HeroHouse_CornerEnd__Log",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "HeroHouse_PorchDeck",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "HeroHouse_PorchPostRing-__",
+        "instances": 2,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "HeroHouse_PorchPostRing__",
+        "instances": 2,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "HeroHouse_Rear_Log_",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "HeroHouse_Right_Log_",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "WinterFarBirdCherry__Cell_-",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 0
+      },
+      {
+        "owner": "@MultiMeshInstanceD",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 0
+      },
+      {
+        "owner": "WinterFarBirdCherry__Cell-_-",
+        "instances": 1,
+        "cost": 2,
+        "shadowCost": 0
+      },
+      {
+        "owner": "LooseBoardPlank",
+        "instances": 2,
+        "cost": 2,
+        "shadowCost": 2
+      },
+      {
+        "owner": "HeroHouse_FootingCap",
+        "instances": 1,
+        "cost": 1,
+        "shadowCost": 1
+      },
+      {
+        "owner": "HeroHouse_Foundation",
+        "instances": 1,
+        "cost": 1,
+        "shadowCost": 1
+      },
+      {
+        "owner": "HeroHouse_GutterDownpipeSplash",
+        "instances": 1,
+        "cost": 1,
+        "shadowCost": 0
+      },
+      {
+        "owner": "HeroHouse_Left_Window_Rail-",
+        "instances": 1,
+        "cost": 1,
+        "shadowCost": 0
+      },
+      {
+        "owner": "HeroHouse_Left_Window_SillDrip",
+        "instances": 1,
+        "cost": 1,
+        "shadowCost": 0
+      },
+      {
+        "owner": "HeroHouse_Left_Window_Towel",
+        "instances": 1,
+        "cost": 1,
+        "shadowCost": 1
+      },
+      {
+        "owner": "HeroHouse_Left_Window_TowelDiamond",
+        "instances": 1,
+        "cost": 1,
+        "shadowCost": 1
+      },
+      {
+        "owner": "HeroHouse_PlinthFacing",
+        "instances": 1,
+        "cost": 1,
+        "shadowCost": 1
+      },
+      {
+        "owner": "HeroHouse_PorchDeckBearer-",
+        "instances": 1,
+        "cost": 1,
+        "shadowCost": 1
+      },
+      {
+        "owner": "HeroHouse_PorchDeckBearer",
+        "instances": 1,
+        "cost": 1,
+        "shadowCost": 1
+      }
+    ],
+    "totals": {
+      "instances": 166,
+      "cost": 202,
+      "shadowCost": 142,
+      "castsShadowSmall": {
+        "instances": 31,
+        "cost": 38,
+        "shadowCost": 38
+      }
+    }
+  },
+  "capturedUnixSeconds": 1791586925
+}

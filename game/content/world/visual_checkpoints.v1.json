@@ -413,6 +413,18 @@
       "spec": "FapInteriorSet@4.0,1.6,4.6>FapInteriorSet@-3.94,1.0,-1.7",
       "subject": "P2 интерьер: процедурная ФАП.",
       "zoneId": "fap_clinic"
+    },
+    {
+      "id": "C1_street_low",
+      "graphicsPreset": "low",
+      "spec": "Ground@0,1.7,12>Ground@0,1.6,-30",
+      "subject": "FINISH-07: тот же ракурс C1_arrival_street на Low — пара к *_high для сравнения нагрузки и вида."
+    },
+    {
+      "id": "C2_house_low",
+      "graphicsPreset": "low",
+      "spec": "Ground@-14,1.7,4>Ground@-30,1.8,-6",
+      "subject": "FINISH-07: тот же ракурс C2_hero_house на Low — пара к *_high для сравнения нагрузки и вида."
     }
   ],
   "batches": [
