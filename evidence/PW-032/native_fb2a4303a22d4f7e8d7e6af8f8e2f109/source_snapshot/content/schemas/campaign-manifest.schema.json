@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/content/v1/campaign-manifest.schema.json",
+  "schemaVersion": 1,
+  "type": "object",
+  "required": ["schemaVersion", "id", "exactVersion", "entrypoint", "modules", "roleBindings", "capabilityRequirements", "narrativeOrder", "invariants"],
+  "properties": {
+    "schemaVersion": { "$ref": "common.schema.json#/$defs/SchemaVersion" },
+    "id": { "$ref": "common.schema.json#/$defs/CampaignId" },
+    "exactVersion": { "$ref": "common.schema.json#/$defs/ExactVersion" },
+    "entrypoint": { "$ref": "common.schema.json#/$defs/ContentId" },
+    "modules": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/Dependency" } },
+    "roleBindings": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z][a-z0-9._-]*$" },
+      "additionalProperties": { "$ref": "common.schema.json#/$defs/ContentId" }
+    },
+    "capabilityRequirements": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/CapabilityRequirement" } },
+    "activeQuestIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "narrativeOrder": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+    "invariants": { "type": "array", "items": { "$ref": "common.schema.json#/$defs/NarrativeInvariant" } },
+    "transitionOverrides": { "type": "array", "items": { "$ref": "#/$defs/TransitionOverride" } },
+    "photoBook": { "$ref": "#/$defs/PhotoBook" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "PhotoBook": {
+      "type": "object",
+      "required": ["schemaVersion", "namespaceId", "playerId", "book", "photos", "worlds", "facts", "evidence", "requiredAnchors"],
+      "properties": {
+        "schemaVersion": { "type": "integer", "const": 1 },
+        "namespaceId": { "type": "string", "const": "photoworlds-v1" },
+        "playerId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "authoringSpecSources": {
+          "type": "object",
+          "required": ["photos", "worlds", "assets"],
+          "properties": {
+            "photos": { "type": "string", "minLength": 1 },
+            "worlds": { "type": "string", "minLength": 1 },
+            "assets": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        },
+        "book": {
+          "type": "object",
+          "required": ["id", "handoffSourceId", "giverId"],
+          "properties": {
+            "id": { "type": "string", "pattern": "^BOOK-[A-Z0-9-]+$" },
+            "handoffSourceId": { "$ref": "common.schema.json#/$defs/ContentId" },
+            "giverId": { "$ref": "common.schema.json#/$defs/ContentId" }
+          },
+          "additionalProperties": false
+        },
+        "photos": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "pageId", "sourceId", "permissionId", "provenanceKind", "contextSourceIds", "captionable", "requiresBookHandoff"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^(P|S)-[A-Z0-9-]+$" },
+              "pageId": { "type": "string", "pattern": "^PAGE-[A-Z0-9-]+$" },
+              "sourceId": { "$ref": "common.schema.json#/$defs/ContentId" },
+              "permissionId": { "$ref": "common.schema.json#/$defs/ContentId" },
+              "sourceAuthorId": { "$ref": "common.schema.json#/$defs/ContentId" },
+              "provenanceKind": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+              "contextSourceIds": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } },
+              "captionable": { "type": "boolean" },
+              "requiresBookHandoff": { "type": "boolean" },
+              "initial": {
+                "type": "object",
+                "properties": { "acquired": { "type": "boolean" }, "mounted": { "type": "boolean" } },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "worlds": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "required": ["id", "photoId", "anchorId", "mainSpawnNodeId", "exitNodeId", "nodes", "requiredResourceIds"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^W[0-9]{2}$" },
+              "photoId": { "type": "string", "pattern": "^P-[A-Z0-9-]+$" },
+              "anchorId": { "type": "string", "pattern": "^PW_[A-Z0-9_]+$" },
+              "mainSpawnNodeId": { "type": "string", "minLength": 1 },
+              "exitNodeId": { "type": "string", "minLength": 1 },
+              "nodes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["id", "role"],
+                  "properties": {
+                    "id": { "type": "string", "minLength": 1 },
+                    "role": { "type": "string", "minLength": 1 }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "requiredResourceIds": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "type": "string", "pattern": "^A-[A-Z0-9-]+$" }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "facts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "provenanceKind", "sourceIds"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+              "provenanceKind": { "type": "string", "pattern": "^[a-z][a-z0-9._-]*$" },
+              "sourceIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/ContentId" } }
+            },
+            "additionalProperties": false
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "minimumDistinctSources", "constituents"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^E-[A-Z0-9-]+$" },
+              "minimumDistinctSources": { "type": "integer", "minimum": 2 },
+              "constituents": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "object",
+                  "required": ["kind", "id"],
+                  "properties": {
+                    "kind": { "enum": ["fact", "photo-acquired", "photo-back-read"] },
+                    "id": { "type": "string", "minLength": 1 }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "requiredAnchors": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^PW_[A-Z0-9_]+$" } }
+      },
+      "additionalProperties": false
+    },
+    "TransitionOverride": {
+      "type": "object",
+      "required": ["sourceSceneId", "id", "labelTextId", "conditions", "effects"],
+      "properties": {
+        "sourceSceneId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "id": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "labelTextId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "conditions": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Condition" } },
+        "effects": { "type": "array", "items": { "$ref": "condition-effect.schema.json#/$defs/Effect" } },
+        "targetSceneId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "targetDialogueId": { "$ref": "common.schema.json#/$defs/ContentId" },
+        "targetDocumentId": { "$ref": "common.schema.json#/$defs/ContentId" }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "not": {
+            "anyOf": [
+              { "required": ["targetSceneId", "targetDialogueId"] },
+              { "required": ["targetSceneId", "targetDocumentId"] },
+              { "required": ["targetDialogueId", "targetDocumentId"] }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

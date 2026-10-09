@@ -30045,7 +30045,7 @@
       "title": "Исправить привязку мазка к движущимся поверхностям",
       "milestone": "PW-M2",
       "status": "in_progress",
-      "active_owner": "/root",
+      "active_owner": null,
       "owner": "render",
       "priority": "P0",
       "complexity": "complex",
@@ -30074,7 +30074,9 @@
       "evidence": [
         "evidence/PW-032/surface_coordinate_slice_2026-10-09.json",
         "evidence/PW-032/character-material-inventory-2026-10-09.json",
-        "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/root_visual_review.json"
+        "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-babai-shape-rinat-6dc5fb1948d14cfe829d0c8af0799a98/root_visual_review.json",
+        "evidence/PW-032/rinat-cloth-uv-refresh-2026-10-09.json",
+        "evidence/PW-032/native_fb2a4303a22d4f7e8d7e6af8f8e2f109/root_visual_review.json"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-032",
       "source_requirements": [
@@ -30148,7 +30150,7 @@
       ],
       "phase": 2,
       "effort": "L",
-      "progress_2026_10_09": "Bounded pigment/finish coordinate slice compiled0/0 12.94s and native6fc0GPU/rendering PASS. UV/local wood selected; static local-floor/fence world cell grid preserved following independent review. Full motion/AS12/16/remaining consumers/art gates open.\nRecognized numeric skin/hair exporter suffix restored Rinat authored skin texture via existing soft-skin route. Narrow compile 0/0 14.79s; Windows protected6dc5 PASS, staging body readback StandardMaterial3D expected texture/response. Root viewed original front/side and accepts bounded routing. Whole cast geometry/style and cloth UV/motion remain open."
+      "progress_2026_10_09": "Bounded pigment/finish coordinate slice compiled0/0 12.94s and native6fc0GPU/rendering PASS. UV/local wood selected; static local-floor/fence world cell grid preserved following independent review. Full motion/AS12/16/remaining consumers/art gates open.\nRecognized numeric skin/hair exporter suffix restored Rinat authored skin texture via existing soft-skin route. Narrow compile 0/0 14.79s; Windows protected6dc5 PASS, staging body readback StandardMaterial3D expected texture/response. Root viewed original front/side and accepts bounded routing. Whole cast geometry/style and cloth UV/motion remain open.\nRinat14cloth LOD0/1 refreshed via existing metric_cloth_uv and safe canonicalblend component mode. All182nonRinat meshes, Rinat skin/eyes/hair, skeletons/hierarchy/transforms,36animations,14images and materials preserved;14cloth triangle geometry/normals/skinning unchanged,291531 total triangles unchanged. ExactregistryrowPASS. Narrowreadbackcompile0/0 14.76s. Protected nativeUV/motion capture pending; remainingcast/worldcloth and fullart gatesOPEN.\nProtected nativefb2a4303 PASS snapshot01513da3 source1825entries confirmed. All14stagingRinat clothrows UVlocal/metric/UVpigment; originalfrontIdleA(.527684s),B(.627180s),profileviewed byroot. Boundedsource/UVroute accepted; no fullwalk/talk, <=1px threshold, fullhead/caststyle orwholecardacceptance. Engineerrors0 doctorREADY userdatarestored; unrelatedexistingwarnings archived."
     },
     {
       "id": "PW-033",

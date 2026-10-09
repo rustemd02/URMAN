@@ -552,8 +552,42 @@ public partial class Act1DemoRoot
         }
         if (point.Name.StartsWith("rinat_material_", StringComparison.Ordinal)
             && System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") == "1")
+        {
             metadata["rinatSkinMaterials"] = RinatSkinMaterialReadback();
+            metadata["rinatClothMaterials"] = RinatClothMaterialReadback();
+        }
         return metadata;
+    }
+
+    private JsonArray RinatClothMaterialReadback()
+    {
+        var rows = new JsonArray();
+        var actor = _main!.FindChild("Act1People", true, false)?.GetNodeOrNull<Node3D>("Npc_rinat");
+        if (actor is null) return rows;
+        var animation = actor.FindChildren("*", nameof(AnimationPlayer), true, false)
+            .OfType<AnimationPlayer>().FirstOrDefault();
+        foreach (var mesh in actor.FindChildren("*", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().Where(mesh => mesh.HasMeta("clothAnchor") && mesh.Mesh is not null))
+        {
+            for (var surface = 0; surface < mesh.Mesh!.GetSurfaceCount(); surface++)
+            {
+                var material = mesh.GetActiveMaterial(surface) as ShaderMaterial;
+                rows.Add(new JsonObject
+                {
+                    ["nodePath"] = ViewText(mesh.GetPath().ToString()),
+                    ["surface"] = ViewNumber(surface),
+                    ["visibleInTree"] = ViewFlag(mesh.IsVisibleInTree()),
+                    ["clothAnchor"] = ViewText(mesh.GetMeta("clothAnchor").AsString()),
+                    ["metricRestUv"] = ViewFlag(GeneratedCharacterKitDressing.HasMetricClothUv(mesh)),
+                    ["boundUvPigment"] = ViewText(material?.GetShaderParameter("bound_uv_pigment").ToString()),
+                    ["localFloorTexture"] = ViewText(material?.GetShaderParameter("local_floor_texture").ToString()),
+                    ["textureScale"] = ViewText(material?.GetShaderParameter("texture_scale").ToString()),
+                    ["animation"] = ViewText(animation?.CurrentAnimation),
+                    ["animationPosition"] = ViewNumber(animation?.CurrentAnimationPosition)
+                });
+            }
+        }
+        return rows;
     }
 
     private JsonArray RinatSkinMaterialReadback()

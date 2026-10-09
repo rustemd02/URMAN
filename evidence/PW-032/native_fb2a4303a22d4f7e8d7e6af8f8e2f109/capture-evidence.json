@@ -1,0 +1,200 @@
+{
+  "task_id": "PW-032",
+  "unit": "Rinat cloth metric-UV protected visual/readback slice; whole card remains open.",
+  "job_id": "fb2a4303a22d4f7e8d7e6af8f8e2f109",
+  "snapshot_id": "01513da39a414b7da100d4f47c193356a9fc895407ba392c9a00c6fe8135c4bd",
+  "base_commit": "739ab6355ed0023f26ee4823e4bb3df8c9e35c37",
+  "snapshot_manifest_file_count": 1825,
+  "snapshot_hashes_verified": true,
+  "station_candidate_selected_sources": 17,
+  "station_candidate_selected_source_hashes_match": true,
+  "native_status": "PASS",
+  "mode": "capture",
+  "scene": "res://scenes/act1_demo.tscn",
+  "host": "UNTERPC",
+  "godot": "4.7.1.stable.mono.official.a13da4feb",
+  "sdk": "10.0.302",
+  "renderer": [
+    "Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970"
+  ],
+  "elapsed_seconds": 356.71116309999996,
+  "steps": {
+    "build": 0,
+    "content-build": 0,
+    "content-urman.chapter1": 0,
+    "content-urman.fullgame": 0,
+    "document-images": 0,
+    "game": 0,
+    "import": 0
+  },
+  "game_exit_code": 0,
+  "engine_errors_bytes": 0,
+  "userdata_restored": true,
+  "project_restored_sha256": "D63B2F54388E8B0D06C6EFB350DD7E0B9F43264AC967696749535BEB57D757C4",
+  "post_run_doctor_ready": true,
+  "post_run_busy_job": null,
+  "orphan_game_process": false,
+  "userdata_recovery_pending": false,
+  "compiled_fullgame_catalog_provenance": {
+    "result": "PASS",
+    "pack_sha256": "474b509a6a3ea01a679a6400ad60113d67820edcc47a8ab14704699047669c45",
+    "summary": "photoworlds-v1 schema 1; 13 photos; 5 worlds; 6 existing anchors; authoringSpecSources omitted from the compiled payload."
+  },
+  "source_snapshot_path": "source_snapshot/",
+  "source_proof_path": "source_snapshot/source-proof.json",
+  "locally_preserved_non_candidate_sources": [
+    "tools/blender/generate_character_kit_v2.py",
+    "assets/source/blender/urman_character_kit_v2.blend",
+    "assets/asset_registry.json",
+    "evidence/PW-007/receipt.json",
+    "evidence/PW-032/rinat-cloth-uv-refresh-2026-10-09.json"
+  ],
+  "frame_count": 3,
+  "frames": [
+    {
+      "point": "rinat_material_uv_a",
+      "spec": "rinat_material_uv_a:Npc_rinat@0.15,1.55,1.05>Npc_rinat@0.0,1.5,0.0",
+      "cameraName": "DevViewCamera",
+      "cameraPosition": {
+        "x": -1.134971,
+        "y": 1.128026,
+        "z": -2.804132
+      },
+      "cameraTarget": {
+        "x": -1.5,
+        "y": 1.078027,
+        "z": -3.8
+      },
+      "fov": 70,
+      "fovSource": "explicit",
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "png_dimensions": [
+        1886,
+        1061
+      ],
+      "png_bytes": 1403613,
+      "png_sha256": "63a11c00ed464a124faad6b8904b85802b093816f5b29ad4973bf87c76ffae0c",
+      "cloth_meshes": 14,
+      "cloth_surfaces": 14,
+      "cloth_anchor_values": [
+        "uv-local"
+      ],
+      "metric_rest_uv_all_true": true,
+      "bound_uv_pigment_values": [
+        "true"
+      ],
+      "animation": [
+        "Rinat_Idle"
+      ],
+      "animation_position_seconds": [
+        0.527684
+      ]
+    },
+    {
+      "point": "rinat_material_uv_b",
+      "spec": "rinat_material_uv_b:Npc_rinat@0.15,1.55,1.05>Npc_rinat@0.0,1.5,0.0",
+      "cameraName": "DevViewCamera",
+      "cameraPosition": {
+        "x": -1.134971,
+        "y": 1.128026,
+        "z": -2.804132
+      },
+      "cameraTarget": {
+        "x": -1.5,
+        "y": 1.078027,
+        "z": -3.8
+      },
+      "fov": 70,
+      "fovSource": "explicit",
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "png_dimensions": [
+        1886,
+        1061
+      ],
+      "png_bytes": 1405225,
+      "png_sha256": "9c7ab7e1b33cd4e0f82c5dd2e56e7da3f0f63a2734779c2563344f4244e1cc21",
+      "cloth_meshes": 14,
+      "cloth_surfaces": 14,
+      "cloth_anchor_values": [
+        "uv-local"
+      ],
+      "metric_rest_uv_all_true": true,
+      "bound_uv_pigment_values": [
+        "true"
+      ],
+      "animation": [
+        "Rinat_Idle"
+      ],
+      "animation_position_seconds": [
+        0.62718
+      ]
+    },
+    {
+      "point": "rinat_material_uv_side",
+      "spec": "rinat_material_uv_side:Npc_rinat@1.1,1.55,0.15>Npc_rinat@0.0,1.5,0.0",
+      "cameraName": "DevViewCamera",
+      "cameraPosition": {
+        "x": -0.392851,
+        "y": 1.128026,
+        "z": -3.881981
+      },
+      "cameraTarget": {
+        "x": -1.5,
+        "y": 1.078027,
+        "z": -3.8
+      },
+      "fov": 70,
+      "fovSource": "explicit",
+      "activeZoneId": "village_day",
+      "requestedZoneId": null,
+      "atmosphereProfile": "village-winter-frost",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "png_dimensions": [
+        1886,
+        1061
+      ],
+      "png_bytes": 1391254,
+      "png_sha256": "88292ec16049b8881a373974712c6e4bc84ea724fdc61b5e53eb3ec0187d00ee",
+      "cloth_meshes": 14,
+      "cloth_surfaces": 14,
+      "cloth_anchor_values": [
+        "uv-local"
+      ],
+      "metric_rest_uv_all_true": true,
+      "bound_uv_pigment_values": [
+        "true"
+      ],
+      "animation": [
+        "Rinat_Idle"
+      ],
+      "animation_position_seconds": [
+        0.264773
+      ]
+    }
+  ],
+  "natural_idle_a_b_delta_seconds": 0.099496,
+  "human_playtest": "not-run",
+  "visual_acceptance": "pending independent root review; these are real native frames and runtime metadata, no global pixel-difference/art-pass claim.",
+  "motion_scope": "Natural Rinat_Idle playback position varies between two identical front view specs; this does not establish full motion acceptance.",
+  "result_sha256": "9aeea97a41047686efada4f42b5cabfbaf0b92c31a8350b01ac9eabb433e91ec",
+  "runtime_notices": [
+    "Nonfatal PainterlyMaterialLibrary warnings say several surfaces have no declared mode and use the flat world-space default.",
+    "A VIS-022 grave-axis cultural measurement warning remains in game.log; no rotation was applied.",
+    "The horse-cart hoof support/reach placement was rejected and recovered to physically checked parking."
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "job_id": "fb2a4303a22d4f7e8d7e6af8f8e2f109",
+  "snapshot_id": "01513da39a414b7da100d4f47c193356a9fc895407ba392c9a00c6fe8135c4bd",
+  "base_commit": "739ab6355ed0023f26ee4823e4bb3df8c9e35c37",
+  "source_proof_path": "source-proof.json",
+  "station_manifest_path": "snapshot-manifest.json",
+  "manifest_file_count": 1825,
+  "station_candidate_proof_paths": [
+    "game/assets/generated/urman_character_kit_v2.glb",
+    "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+    "game/scripts/GeneratedCharacterKitDressing.cs",
+    "game/scripts/PainterlyMaterialLibrary.cs",
+    "game/scripts/Act1ConnectedWorld.NpcStaging.cs",
+    "game/scripts/Act1ConnectedWorld.cs",
+    "game/content/world/act1_village_kit.world.v1.json",
+    "game/content/world/visual_checkpoints.v1.json",
+    "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
+    "src-dotnet/Urman.Content/Compilation/ContentCompiler.cs",
+    "game/scripts/CompiledCampaignRepository.cs",
+    "content/campaigns/urman.fullgame/campaign.json",
+    "content/schemas/campaign-manifest.schema.json",
+    "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json",
+    "content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json",
+    "content/campaigns/urman.fullgame/photoworlds-sources/assets.spec.json",
+    "game/content/urman.fullgame.compiled.v1.json"
+  ],
+  "station_candidate_hashes_all_match": true,
+  "locally_preserved_but_not_station_candidates": [
+    "tools/blender/generate_character_kit_v2.py",
+    "assets/source/blender/urman_character_kit_v2.blend",
+    "assets/asset_registry.json",
+    "evidence/PW-007/receipt.json",
+    "evidence/PW-032/rinat-cloth-uv-refresh-2026-10-09.json"
+  ]
+}

@@ -1289,15 +1289,22 @@ def idle_sole_height(arm: bpy.types.Object, boots: list[bpy.types.Object]) -> fl
     return lowest
 
 
+def is_cloth_material(mat: bpy.types.Material) -> bool:
+    parts = mat.name.split("__", 1)
+    if len(parts) != 2 or len(parts[0]) != 6:
+        return False
+    family, dot, suffix = parts[1].rpartition(".")
+    kind = family if dot and suffix.isdigit() else parts[1]
+    return kind not in {"skin_textured", "hair"}
+
+
 def finish_character(prefix: str, arm: bpy.types.Object, parts: list[bpy.types.Object]) -> int:
     """LOD1 copies, the ground anchor and export-time cleanup for one character."""
     lod1 = 0
     # VIS-104: every person, not only Alsu (see generate_character_kit.py).
     if prefix in PEOPLE:
         for part in parts:
-            if any(len(mat.name.split("__", 1)[0]) == 6 and "__" in mat.name
-                   and mat.name.split("__", 1)[1] not in {"skin_textured", "hair"}
-                   for mat in part.data.materials if mat):
+            if any(is_cloth_material(mat) for mat in part.data.materials if mat):
                 metric_cloth_uv(part)
     for part in list(parts):
         copy = part.copy()
@@ -1343,12 +1350,34 @@ def finish_character(prefix: str, arm: bpy.types.Object, parts: list[bpy.types.O
     return lod1
 
 
+def export_kit(root: Path) -> None:
+    blend = root / "assets/source/blender/urman_character_kit_v2.blend"
+    glb = root / "game/assets/generated/urman_character_kit_v2.glb"
+    for image in bpy.data.images:
+        if image.size[0] > 0:
+            image.pack()
+    bpy.context.scene.frame_set(1)
+    # Keep only the clips the characters use; the library's other 39 stay out.
+    for action in list(bpy.data.actions):
+        if not any(action.name.startswith(prefix + "_") for prefix in PEOPLE):
+            bpy.data.actions.remove(action)
+    bpy.ops.outliner.orphans_purge(do_recursive=True)
+    bpy.ops.wm.save_as_mainfile(filepath=str(blend), compress=True)
+    bpy.ops.export_scene.gltf(filepath=str(glb), export_format="GLB", export_apply=False,
+                            export_materials="EXPORT", export_yup=True, export_animations=True,
+                            export_animation_mode="ACTIONS", export_nla_strips=False,
+                            export_force_sampling=True, export_extras=True)
+    print(f"character-kit-v2: wrote {blend} and {glb}")
+
+
 def main() -> None:
     argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", required=True)
-    parser.add_argument("--ubc", required=True)
-    parser.add_argument("--ual", required=True)
+    parser.add_argument("--ubc")
+    parser.add_argument("--ual")
+    parser.add_argument("--refresh-cloth-uv", choices=tuple(PEOPLE),
+                        help="refresh one existing character's cloth without regenerating the kit")
     parser.add_argument("--only", default="")
     parser.add_argument("--preview", default="")
     parser.add_argument("--debug-colors", action="store_true")
@@ -1356,6 +1385,25 @@ def main() -> None:
     parser.add_argument("--rest", action="store_true", help="preview in the bind pose, without clips")
     parser.add_argument("--clip", default="", help="preview one clip (Idle, Tension, Talk, Walk) alone")
     args = parser.parse_args(argv)
+    if args.refresh_cloth_uv:
+        if not args.export or args.ubc or args.ual or args.only or args.preview or args.debug_colors or args.rest or args.clip:
+            parser.error("--refresh-cloth-uv requires --export and cannot combine with generation/preview options")
+        root = Path(args.root)
+        bpy.ops.wm.open_mainfile(filepath=str(root / "assets/source/blender/urman_character_kit_v2.blend"))
+        parts = [obj for obj in bpy.context.scene.objects
+                 if obj.type == "MESH" and obj.name.startswith(args.refresh_cloth_uv + "_")
+                 and obj.name.endswith(("_LOD0", "_LOD1"))
+                 and any(is_cloth_material(mat) for mat in obj.data.materials if mat)]
+        assert parts, f"{args.refresh_cloth_uv}: no authored cloth meshes"
+        assert all(all(is_cloth_material(mat) for mat in part.data.materials if mat) for part in parts), \
+            "Cloth refresh cannot remap a mesh shared with skin/hair materials"
+        for part in parts:
+            metric_cloth_uv(part)
+        export_kit(root)
+        print(f"character-cloth-refresh: {args.refresh_cloth_uv} meshes={len(parts)}")
+        return
+    if not args.ubc or not args.ual:
+        parser.error("generation requires --ubc and --ual")
     ubc = Path(args.ubc)
     bodies = ubc / "Base Characters" / "Godot - UE"
     textures = ubc / "Base Characters" / "Textures"
@@ -1459,24 +1507,7 @@ def main() -> None:
         if image.size[0] > 1024 and image.name != "old_lightskinned_female_diffuse.png":
             image.scale(1024, 1024)
     if args.export:
-        root = Path(args.root)
-        blend = root / "assets/source/blender/urman_character_kit_v2.blend"
-        glb = root / "game/assets/generated/urman_character_kit_v2.glb"
-        for image in bpy.data.images:
-            if image.size[0] > 0:
-                image.pack()
-        bpy.context.scene.frame_set(1)
-        # Keep only the clips the characters use; the library's other 39 stay out.
-        for action in list(bpy.data.actions):
-            if not any(action.name.startswith(prefix + "_") for prefix in PEOPLE):
-                bpy.data.actions.remove(action)
-        bpy.ops.outliner.orphans_purge(do_recursive=True)
-        bpy.ops.wm.save_as_mainfile(filepath=str(blend), compress=True)
-        bpy.ops.export_scene.gltf(filepath=str(glb), export_format="GLB", export_apply=False,
-                                  export_materials="EXPORT", export_yup=True, export_animations=True,
-                                  export_animation_mode="ACTIONS", export_nla_strips=False,
-                                  export_force_sampling=True, export_extras=True)
-        print(f"character-kit-v2: wrote {blend} and {glb}")
+        export_kit(Path(args.root))
     if args.preview:
         if args.rest:
             for obj in bpy.data.objects:

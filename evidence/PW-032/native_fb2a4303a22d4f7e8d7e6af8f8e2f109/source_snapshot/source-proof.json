@@ -1,0 +1,140 @@
+{
+  "job_id": "fb2a4303a22d4f7e8d7e6af8f8e2f109",
+  "head": "739ab6355ed0023f26ee4823e4bb3df8c9e35c37",
+  "captured_paths": [
+    {
+      "path": "tools/blender/generate_character_kit_v2.py",
+      "bytes": 79722,
+      "sha256": "64bff0721d12fa8ea139be0f6704d8924d0e4817c8d4f2d0ece433560c4037f0",
+      "station_candidate": false
+    },
+    {
+      "path": "assets/source/blender/urman_character_kit_v2.blend",
+      "bytes": 43515735,
+      "sha256": "e7cc2e10831f2bd7b7ee5a9ef55bc362ad8ede8600a4114fd9a6065403fd3d23",
+      "station_candidate": false
+    },
+    {
+      "path": "game/assets/generated/urman_character_kit_v2.glb",
+      "bytes": 34914040,
+      "sha256": "b8cf7a5893ca2f2a0511eeab51c38e0cce29d3f42f6c858f9896c275522dd078",
+      "station_candidate": true
+    },
+    {
+      "path": "assets/asset_registry.json",
+      "bytes": 236918,
+      "sha256": "98a99c48e2d7a7764a150658af3c4e579fbdca05759f213021d711740760d8f8",
+      "station_candidate": false
+    },
+    {
+      "path": "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 51643,
+      "sha256": "078b62fce5382474a87d543a01d19047a0716c71c9b75a7946bbed96df056038",
+      "station_candidate": true
+    },
+    {
+      "path": "game/scripts/GeneratedCharacterKitDressing.cs",
+      "bytes": 36888,
+      "sha256": "9a0a44e468f52224d64f8490adea56fd6ef0886c586d46ac95e429dd71180842",
+      "station_candidate": true
+    },
+    {
+      "path": "game/scripts/PainterlyMaterialLibrary.cs",
+      "bytes": 120744,
+      "sha256": "bd2230fb6c2c45cc5db92e0f9a47ff4f669425edcce68b7bbcd34085543afe0f",
+      "station_candidate": true
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.NpcStaging.cs",
+      "bytes": 15055,
+      "sha256": "c8219933e0394b7947a7c13dfbf00800fb0863fe2f01d09edd80aa4aca328696",
+      "station_candidate": true
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.cs",
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f",
+      "station_candidate": true
+    },
+    {
+      "path": "game/content/world/act1_village_kit.world.v1.json",
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d",
+      "station_candidate": true
+    },
+    {
+      "path": "game/content/world/visual_checkpoints.v1.json",
+      "bytes": 13658,
+      "sha256": "355b667c87ac1c37a0adb116bc25fb8fb43d20b1c5a4b9de788f6ed7d1d0c5b4",
+      "station_candidate": true
+    },
+    {
+      "path": "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
+      "bytes": 9022,
+      "sha256": "d39f11209b2d53657344db345a2f4a373be90aa89cb5000d88180450f705d1d0",
+      "station_candidate": true
+    },
+    {
+      "path": "src-dotnet/Urman.Content/Compilation/ContentCompiler.cs",
+      "bytes": 56125,
+      "sha256": "ea88fad61c1fa40cc83a299d0cd1970c574aae2ce294605ea968539c1f0e3853",
+      "station_candidate": true
+    },
+    {
+      "path": "game/scripts/CompiledCampaignRepository.cs",
+      "bytes": 36218,
+      "sha256": "9aa3d45a1f44c4906710253b87df25f4dc4742e3fe06fa570986dab91d25f8e4",
+      "station_candidate": true
+    },
+    {
+      "path": "content/campaigns/urman.fullgame/campaign.json",
+      "bytes": 22691,
+      "sha256": "8a84381931fdcdaf493edeac6d308aae66c5c8ea6aaf532a1620ecbbd8f436a5",
+      "station_candidate": true
+    },
+    {
+      "path": "content/schemas/campaign-manifest.schema.json",
+      "bytes": 8564,
+      "sha256": "c014783921b622b9ce39cca51103cf1b774a82ea58262bbed2fe0f88f3cb52dd",
+      "station_candidate": true
+    },
+    {
+      "path": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json",
+      "bytes": 12703,
+      "sha256": "6127fe5180785ac303d4372b4537c38d253c255e88dc04a5d8c821e4a01bc2cc",
+      "station_candidate": true
+    },
+    {
+      "path": "content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json",
+      "bytes": 48909,
+      "sha256": "d1e870648629b901a0b962e8798671e634a21b7787a94b89325151fafa306353",
+      "station_candidate": true
+    },
+    {
+      "path": "content/campaigns/urman.fullgame/photoworlds-sources/assets.spec.json",
+      "bytes": 46592,
+      "sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
+      "station_candidate": true
+    },
+    {
+      "path": "game/content/urman.fullgame.compiled.v1.json",
+      "bytes": 2122719,
+      "sha256": "474b509a6a3ea01a679a6400ad60113d67820edcc47a8ab14704699047669c45",
+      "station_candidate": true
+    },
+    {
+      "path": "evidence/PW-007/receipt.json",
+      "bytes": 7777,
+      "sha256": "67effb02ff6036489b8d0b59c3789278688ce4df3ad92fb8425b241ed69075aa",
+      "station_candidate": false
+    },
+    {
+      "path": "evidence/PW-032/rinat-cloth-uv-refresh-2026-10-09.json",
+      "bytes": 3577,
+      "sha256": "7d46423b628feeee3e92c30f4267e1349a84a56e4915e450d7ded336395338a6",
+      "station_candidate": false
+    }
+  ],
+  "task_card": "PW-032",
+  "source_boundary": "Rinat cloth UV runtime/readback plus current compiled PhotoWorlds catalog packaging; no visual acceptance or complete PW-007 claim."
+}

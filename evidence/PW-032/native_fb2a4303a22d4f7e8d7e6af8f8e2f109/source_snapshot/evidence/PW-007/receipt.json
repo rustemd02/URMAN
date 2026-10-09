@@ -1,0 +1,147 @@
+{
+  "taskId": "PW-007",
+  "receiptVersion": 1,
+  "recordedAt": "2026-10-09",
+  "owner": "/root/address_mount",
+  "status": "source_catalog_slice_compiled_native_pending",
+  "implementation": {
+    "sourceOfTruth": "The fullgame campaign manifest authors the runtime catalog. Its explicit authoringSpecSources point to exact imported copies under content/campaigns/urman.fullgame/photoworlds-sources; the ContentCompiler validates these compile-time inputs then strips their paths. No station-time docs lookup or runtime docs dependency exists.",
+    "typedCatalog": "Urman.Core.Narrative.PhotoWorldCatalog parses the compiled catalog and enforces 13 unique PhotoIds/PageIds, five worlds, one primary photo per world, unique authored nodes/resources, main-spawn and exit role references, and inclusion of all five world anchors in the existing required-anchor list.",
+    "compilerValidation": "ContentCompiler cross-checks campaign IDs, world-photo mappings, anchors, spawn/exit node IDs and roles, all node IDs/roles, and each required resource ID against explicit v1 spec sources. It rejects missing and unknown records instead of creating defaults.",
+    "assetBoundary": "assets.spec.json is treated as a requirement register only. Its current 48 records are REQUESTED / NOT_RUN / REQUIRES_PROVENANCE; no runtime asset availability or production readiness is claimed.",
+    "physicalBoundary": "Spawn and exit fields are authored logical node references. No physical safe-node, collision, scene materialization, transition, teleport, or runtime-world readiness is certified. PhotoWorldState schema and world-ID owner were not changed."
+  },
+  "catalog": {
+    "campaignId": "urman.fullgame",
+    "campaignExactVersion": "1.0.0",
+    "namespaceId": "photoworlds-v1",
+    "schemaVersion": 1,
+    "photoCount": 13,
+    "worldCount": 5,
+    "requiredAnchorCount": 6,
+    "pageIdMapping": "All 13 existing stable PageId values were preserved; the photos spec does not define a separate PageId field.",
+    "worlds": [
+      {
+        "id": "W01",
+        "photoId": "P-FOREST",
+        "anchorId": "PW_FOREST_ENTRY",
+        "mainSpawnNodeId": "F10",
+        "exitNodeId": "F16",
+        "nodeCount": 11,
+        "requiredResourceCount": 10
+      },
+      {
+        "id": "W02",
+        "photoId": "P-WATER",
+        "anchorId": "PW_RIVER_ENTRY",
+        "mainSpawnNodeId": "R00",
+        "exitNodeId": "R08",
+        "nodeCount": 9,
+        "requiredResourceCount": 10
+      },
+      {
+        "id": "W03",
+        "photoId": "P-HOUSE",
+        "anchorId": "PW_HOME_PHOTO_ENTRY",
+        "mainSpawnNodeId": "H00",
+        "exitNodeId": "H08",
+        "nodeCount": 9,
+        "requiredResourceCount": 11
+      },
+      {
+        "id": "W04",
+        "photoId": "P-COMMON",
+        "anchorId": "PW_COMMON_ENTRY",
+        "mainSpawnNodeId": "C00",
+        "exitNodeId": "C08",
+        "nodeCount": 9,
+        "requiredResourceCount": 10
+      },
+      {
+        "id": "W05",
+        "photoId": "P-CELLAR",
+        "anchorId": "PW_CELLAR_ENTRY",
+        "mainSpawnNodeId": "B00",
+        "exitNodeId": "B07",
+        "nodeCount": 8,
+        "requiredResourceCount": 8
+      }
+    ],
+    "supportPhotos": [
+      "S-SCHOOL",
+      "S-BANK",
+      "S-PHOTOGRAPHER",
+      "S-GARDEN",
+      "S-PRINT",
+      "S-MARAT",
+      "S-HAND",
+      "S-NOW"
+    ]
+  },
+  "verification": {
+    "diffCheck": "PASS",
+    "jsonSyntax": "PASS for campaign manifest and authoring schema.",
+    "gameBuild": {
+      "command": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+      "result": "PASS",
+      "warnings": 0,
+      "errors": 0,
+      "elapsedSeconds": 13.55
+    },
+    "contentCliBuild": {
+      "command": ".tools/dotnet/dotnet build tools-dotnet/Urman.ContentCli/Urman.ContentCli.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+      "result": "PASS",
+      "warnings": 0,
+      "errors": 0,
+      "elapsedSeconds": 1.09
+    },
+    "fullgameContentCompile": {
+      "command": ".tools/dotnet/dotnet tools-dotnet/Urman.ContentCli/bin/Debug/net10.0/Urman.ContentCli.dll compile --root /Users/unterlantas/Documents/GitHub/URMAN --campaign urman.fullgame --out game/content/urman.fullgame.compiled.v1.json",
+      "result": "PASS",
+      "exitCode": 0,
+      "packSha256": "474b509a6a3ea01a679a6400ad60113d67820edcc47a8ab14704699047669c45",
+      "compiledCatalogSummary": "photoworlds-v1 schema 1; 13 photos; 5 worlds; 6 existing anchors; authoringSpecSources omitted from the compiled payload."
+    },
+    "native": "NOT_RUN"
+  },
+  "sourceHashesSha256": {
+    "content/campaigns/urman.fullgame/campaign.json": "8a84381931fdcdaf493edeac6d308aae66c5c8ea6aaf532a1620ecbbd8f436a5",
+    "content/schemas/campaign-manifest.schema.json": "c014783921b622b9ce39cca51103cf1b774a82ea58262bbed2fe0f88f3cb52dd",
+    "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs": "d39f11209b2d53657344db345a2f4a373be90aa89cb5000d88180450f705d1d0",
+    "src-dotnet/Urman.Content/Compilation/ContentCompiler.cs": "ea88fad61c1fa40cc83a299d0cd1970c574aae2ce294605ea968539c1f0e3853",
+    "game/scripts/CompiledCampaignRepository.cs": "9aa3d45a1f44c4906710253b87df25f4dc4742e3fe06fa570986dab91d25f8e4",
+    "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/photos.spec.json": "6127fe5180785ac303d4372b4537c38d253c255e88dc04a5d8c821e4a01bc2cc",
+    "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/worlds.spec.json": "d1e870648629b901a0b962e8798671e634a21b7787a94b89325151fafa306353",
+    "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
+    "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json": "6127fe5180785ac303d4372b4537c38d253c255e88dc04a5d8c821e4a01bc2cc",
+    "content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json": "d1e870648629b901a0b962e8798671e634a21b7787a94b89325151fafa306353",
+    "content/campaigns/urman.fullgame/photoworlds-sources/assets.spec.json": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1"
+  },
+  "acceptanceBoundary": {
+    "cardStatus": "in_progress",
+    "runtimeEvidence": "NOT_RUN",
+    "remaining": "Await root source review and a sealed native existing-flow validation against this exact compiled fullgame pack. Complete only the PW-007 logical catalog slice; physical safe-node/scene readiness and asset/art production remain with their explicit downstream owners.",
+    "humanArtAcceptance": "NOT_RUN"
+  },
+  "importedSourceProvenance": {
+    "purpose": "Portable authoring inputs required because the protected station snapshot excludes docs/. These are exact copies of the three v1 requirement specs, not a new backlog or runtime-availability register.",
+    "sources": [
+      {
+        "original": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/photos.spec.json",
+        "copy": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json",
+        "sha256": "6127fe5180785ac303d4372b4537c38d253c255e88dc04a5d8c821e4a01bc2cc"
+      },
+      {
+        "original": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/worlds.spec.json",
+        "copy": "content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json",
+        "sha256": "d1e870648629b901a0b962e8798671e634a21b7787a94b89325151fafa306353"
+      },
+      {
+        "original": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json",
+        "copy": "content/campaigns/urman.fullgame/photoworlds-sources/assets.spec.json",
+        "sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1"
+      }
+    ],
+    "protectedStationCandidateCheck": "PASS; eng.remote_common.candidates(root) includes all three content copies."
+  }
+}
