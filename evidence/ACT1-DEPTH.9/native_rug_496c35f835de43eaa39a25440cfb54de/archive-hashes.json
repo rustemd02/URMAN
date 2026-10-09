@@ -1,0 +1,234 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 63,
+      "sha256": "1800ef1f2717d4df6ab31aada7260edc2ab96511d0f1c23c5cb45b1a35cec8f4"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1999,
+      "sha256": "6afcd5db37be2159adec31462c2aed98e8df259e9358ea6187a7de0819c88ee9"
+    },
+    {
+      "path": "build.log",
+      "bytes": 152,
+      "sha256": "dba1759efa598c73f9298329e38eadd61ca93e2fb97dd329291e82220c683528"
+    },
+    {
+      "path": "content-build.log",
+      "bytes": 152,
+      "sha256": "653f6d7dbe032721ddfb382edb7bd2d4af84c626404d47251af21de70a30d3dd"
+    },
+    {
+      "path": "content-urman.chapter1.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "content-urman.fullgame.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "document-images.log",
+      "bytes": 746,
+      "sha256": "289eef9ee894eafa4670c358f750e2698dbe96884546cb6f0c2425af09987b52"
+    },
+    {
+      "path": "engine-errors.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "frame-summary.json",
+      "bytes": 7050,
+      "sha256": "1748eba7c53123ee49af4e7d1e66bb0fee03881b3ebd5f789d64c74d2568f634"
+    },
+    {
+      "path": "frames/_capture-summary.json",
+      "bytes": 31098,
+      "sha256": "4865704721239f535dab58d9f26d79c8637033438fe8ed63395afa52fe57ea6c"
+    },
+    {
+      "path": "frames/babai_room_overview.json",
+      "bytes": 13853,
+      "sha256": "4c2d9d2f5a13b8a6f86641a5212f2007bdda6b4229d297668bdb5f4da05b94ff"
+    },
+    {
+      "path": "frames/babai_room_overview.png",
+      "bytes": 1879274,
+      "sha256": "0c59b06a7fd17c66c980f4d4fc304603e38fc3767a9d13aba27b78b6a0f2322c"
+    },
+    {
+      "path": "frames/babai_rug_detail.json",
+      "bytes": 13530,
+      "sha256": "5e4fe1c918b1f8f917f10770154d6b1e9f0c0c8a0e4eeca4e1ba0491918fa533"
+    },
+    {
+      "path": "frames/babai_rug_detail.png",
+      "bytes": 2178429,
+      "sha256": "8beb92fe5bff6bab3cc9e52301d6ca6913488c244ce1773b5f9c66b0e44349b3"
+    },
+    {
+      "path": "game.log",
+      "bytes": 95111,
+      "sha256": "4e873684831ff7c70477693469f7691b2abf3e622745c25fdd7088f9734432ae"
+    },
+    {
+      "path": "import.log",
+      "bytes": 140540,
+      "sha256": "5571c3d82278734683a9cc3159c3dcccf3e6d120d9ad9110158ea4a958484347"
+    },
+    {
+      "path": "preseal-capture-request.json",
+      "bytes": 409,
+      "sha256": "0e708d0d15a2f5c2688f663f6ccbe5c1c2400673ee3d9a495de25604b0725616"
+    },
+    {
+      "path": "receipt.json",
+      "bytes": 519912,
+      "sha256": "b38b12a310386bb12639ec99af42c62513e4ff86436928bfc803d24e862db7dc"
+    },
+    {
+      "path": "request.json",
+      "bytes": 460,
+      "sha256": "a5c6f6722f51473e3a438de18dc4b3660cd3af786072f218929293dcd0e57139"
+    },
+    {
+      "path": "result-zip.sha256",
+      "bytes": 77,
+      "sha256": "dc688acc2af25fa092ccb2c4bc375317ea4034001552f040014dfd98beb21219"
+    },
+    {
+      "path": "source/local-authoring-excluded/asset_registry_selected_rows.json",
+      "bytes": 9413,
+      "sha256": "7913a479aa75108158886215ccc5049c48e97acda1670dda237c77b4d43f5d53"
+    },
+    {
+      "path": "source/local-authoring-excluded/assets/asset_registry.json",
+      "bytes": 236918,
+      "sha256": "9305734cb339ec365eda1490bd2099986cf1463b562a762ddc055197cc6fb79c"
+    },
+    {
+      "path": "source/local-authoring-excluded/assets/source/blender/urman_modular_kit.blend",
+      "bytes": 3361756,
+      "sha256": "db509a1097715dee82dab7fd57e488c48d6943c84ab112f806acf3b1c059701e"
+    },
+    {
+      "path": "source/local-authoring-excluded/evidence/ACT1-DEPTH.9/rug-band-selection-source-2026-10-09.json",
+      "bytes": 9973,
+      "sha256": "5223c85bfa460ffed955dbfe4e751c09fd7ed6018e4deadfbdd62d3d15c1d60a"
+    },
+    {
+      "path": "source/local-authoring-excluded/evidence/ACT1-DEPTH.9/rug-uv-export-2026-10-09.json",
+      "bytes": 6518,
+      "sha256": "bb05db931aca7ec10a6448dbe63f0180eb7b93e48797d099b32637136e7aa741"
+    },
+    {
+      "path": "source/local-authoring-excluded/tools/blender/generate_modular_environment.py",
+      "bytes": 59301,
+      "sha256": "0f40402361cee2ab855fdc3400e5c51257c0c568508c5dc58a78969ae73c6913"
+    },
+    {
+      "path": "source/preseal-source-proof.json",
+      "bytes": 5957,
+      "sha256": "0e804babb1975e6384d595fb5da499e2cd0cd39837fcfa434fd0924a6c8b81ec"
+    },
+    {
+      "path": "source/snapshot-manifest.json",
+      "bytes": 258214,
+      "sha256": "0fbadb45de946cd64831e0a0c56b67c133aaeec39e2d8094b67322ac77a983f4"
+    },
+    {
+      "path": "source/station-selected/game/assets/generated/urman_modular_kit.glb",
+      "bytes": 1393776,
+      "sha256": "2a30975d1a4e715d418c2cdba092a48acc3b3fa13a737636d5502de1df2f57d0"
+    },
+    {
+      "path": "source/station-selected/game/content/urman.fullgame.compiled.v1.json",
+      "bytes": 2122792,
+      "sha256": "89f8a53f0315a10c475b0165677d8475473c3a336dda7d004bc550af145c5b1e"
+    },
+    {
+      "path": "source/station-selected/game/content/world/act1_village_kit.world.v1.json",
+      "bytes": 133658,
+      "sha256": "2937cef150188817c8de05d619668831e2bfd33ab8b2d4fb82aa543e9e54f20d"
+    },
+    {
+      "path": "source/station-selected/game/content/world/visual_checkpoints.v1.json",
+      "bytes": 14721,
+      "sha256": "9d71b1b3ba8ad880e854cbe5e4501f297c8d59d9b69ad6a022b467098006e786"
+    },
+    {
+      "path": "source/station-selected/game/project.godot",
+      "bytes": 11531,
+      "sha256": "d63b2f54388e8b0d06c6efb350dd7e0b9f43264ac967696749535beb57d757c4"
+    },
+    {
+      "path": "source/station-selected/game/scripts/Act1ConnectedWorld.YardFences.cs",
+      "bytes": 47416,
+      "sha256": "641337026a86b4d65c4c377b04ef42a9eeb2a2dc59f20278f64950fb1af77a8a"
+    },
+    {
+      "path": "source/station-selected/game/scripts/Act1ConnectedWorld.cs",
+      "bytes": 627814,
+      "sha256": "42e5e340c0be9bf4e0cd21be18dd64e89caf69454fb5de5c934149d44e5aa76f"
+    },
+    {
+      "path": "source/station-selected/game/scripts/Act1DemoRoot.DevViewCapture.cs",
+      "bytes": 53558,
+      "sha256": "dcb94cca33c592b2107962341a16bf7d81c307515fb31e9180700375bb8b64da"
+    },
+    {
+      "path": "source/station-selected/game/scripts/Act1DemoRoot.cs",
+      "bytes": 96068,
+      "sha256": "3403c196273291ef4d4825687a134a08451154eb1db5f5fa88660c44a13d3349"
+    },
+    {
+      "path": "source/station-selected/game/scripts/GeneratedModularKitDressing.cs",
+      "bytes": 28239,
+      "sha256": "43732b16753f5ebf3ad0f3224d34098a3595f6e8334ed3026cc92c888e6d47c4"
+    },
+    {
+      "path": "source/station-selected/game/scripts/PainterlyMaterialLibrary.cs",
+      "bytes": 122389,
+      "sha256": "a355f1ed9b6c2317febf1efbbdb9f6fcf387c83190cf143dd5e550487c6379a0"
+    },
+    {
+      "path": "source/station-selected/game/scripts/StyleBenchmarkInteriorFactory.cs",
+      "bytes": 25969,
+      "sha256": "e3ec8a1ed9913e2b1a2213e0765e5c300c8b3a56dcd7a9bb5ef0b5229ff46f60"
+    },
+    {
+      "path": "source-proof.json",
+      "bytes": 5441,
+      "sha256": "1bf209435b470b8ee621305baecdfc35f36e83ccc724a6d12c0a6735b3bb2d70"
+    },
+    {
+      "path": "station-doctor-after.json",
+      "bytes": 510,
+      "sha256": "d76336d0ae1b033574010af44fb4411cae59033401da338729a8027234a4ed93"
+    },
+    {
+      "path": "station-doctor-before.json",
+      "bytes": 510,
+      "sha256": "d3c682940ee53a917ac92e4423b231c1977a9026a4373303c8d5489df1c1e734"
+    },
+    {
+      "path": "stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout.log",
+      "bytes": 236814,
+      "sha256": "43da5b51b40f77a929eec69f7e632c04c3c5b69dca135c5f2fdb4fd280397e63"
+    },
+    {
+      "path": "root-review.json",
+      "bytes": 1603,
+      "sha256": "b47bc8cc609b93d0543dc888e823cf3d73b6881b2e4bd4c56912f2320d12ac6e"
+    }
+  ]
+}
