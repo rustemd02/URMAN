@@ -1,0 +1,7 @@
+{
+  "mode": "smoke",
+  "scene": "res://tests/full_game_flow_smoke_test.tscn",
+  "timeout": 300,
+  "headless": false,
+  "environment_overrides": []
+}

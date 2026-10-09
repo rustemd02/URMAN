@@ -1,0 +1,11 @@
+{
+  "error": "game exited 1; see D:\\URMAN-STATION\\data\\runs\\02fedfa24c9344ee85e89ad87702f9a0\\artifacts/game.log",
+  "exit_code": 1,
+  "finished": 1791503790.629573,
+  "job_id": "02fedfa24c9344ee85e89ad87702f9a0",
+  "result_sha256": "465385e53dfab784f543e2670f2a0011e40efb4ffd9259af552fdfd10f6fd792",
+  "snapshot_id": "a6f01ca42f2d0ea2bd00da4633e514c0fc6e75d00667bda0884f608aaf145dd1",
+  "started": 1791503632.820477,
+  "station_freed_bytes": 837325067,
+  "status": "FAIL"
+}

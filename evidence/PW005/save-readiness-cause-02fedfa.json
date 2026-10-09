@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "task_id": "PW005",
+  "kind": "save_readiness_causal_evidence",
+  "prior_attempt": {
+    "job_id": "02fedfa24c9344ee85e89ad87702f9a0",
+    "snapshot_id": "a6f01ca42f2d0ea2bd00da4633e514c0fc6e75d00667bda0884f608aaf145dd1",
+    "commit": "2effc8c51e6f2ec840795369097f9bbb7de7da64",
+    "status": "FAIL",
+    "scene": "res://tests/full_game_flow_smoke_test.tscn",
+    "test_sha256": "18b3c034a45a85d726ed5eb2ed2fc6f29ddf924ba3e94a9f7064eb5b462c18b5",
+    "result_zip": {
+      "path": "evidence/PW005/native_02fedfa24c9344ee85e89ad87702f9a0/result.zip",
+      "sha256": "465385e53dfab784f543e2670f2a0011e40efb4ffd9259af552fdfd10f6fd792"
+    },
+    "game_log": {
+      "path": "evidence/PW005/native_02fedfa24c9344ee85e89ad87702f9a0/game.log",
+      "sha256": "23093dcbb3f79e482473b73c485a0f427c3e85b4f541d74d8871615c8b7b6657"
+    },
+    "receipt": {
+      "path": "evidence/PW005/native_02fedfa24c9344ee85e89ad87702f9a0/receipt.json",
+      "sha256": "c728fd3f9487d6b2f024a615602985707d97014ece62b1001fc5d5a36c984c96"
+    },
+    "failure_summary": {
+      "path": "evidence/PW005/native_02fedfa24c9344ee85e89ad87702f9a0/failure-summary.json",
+      "sha256": "5ea9902a3faf492c99813c45cd0a25c4b83f5f487b82a7aabdd04eb8f005ec85"
+    },
+    "source_proof": {
+      "path": "evidence/PW005/native_02fedfa24c9344ee85e89ad87702f9a0/source_snapshot/source-proof.json",
+      "sha256": "b6efc6ee466a7a04f99c6f4ffff134daffeef3dc105eea37115f3a8bc031735f",
+      "snapshot_manifest": {
+        "path": "evidence/PW005/native_02fedfa24c9344ee85e89ad87702f9a0/source_snapshot/snapshot-manifest.json",
+        "sha256": "a0e1e09e17dcf24ded94efd3947c17c613068ec3e26849542ae3cd2e0acbb1d1"
+      },
+      "copies_root": "evidence/PW005/native_02fedfa24c9344ee85e89ad87702f9a0/source_snapshot/",
+      "files": {
+        "game/scripts/AlsuStreetWalkPresentation.cs": "f82ff6d410089bc93455a66b7e7b880afd28b2242d190a310826405167df42e6",
+        "game/tests/FullGameFlowSmokeTest.cs": "18b3c034a45a85d726ed5eb2ed2fc6f29ddf924ba3e94a9f7064eb5b462c18b5",
+        "game/scripts/RuntimeBridge.cs": "e604fc222ea19e2a966efb1df1067a1697a68d5f03c838a19f623bb5ca88d221",
+        "src-dotnet/Urman.Core/Persistence/AtomicSaveGameStore.cs": "59b821c751bb5f6c1c7b314518c49cf231bc690ea6210cec7102990df1c9e3ac"
+      }
+    }
+  },
+  "observation": {
+    "saved_pose": { "position": [0.85, 0.0, 2.05], "yaw": -0.2617994 },
+    "before_save_pose": { "position": [0.85, 0.0, 2.05], "yaw": 2.9321532 },
+    "after_save_pose": { "position": [0.85, 0.09397566, 2.05], "yaw": -0.26179942 },
+    "saved_to_after_position_delta_m": 0.09397566,
+    "current_pose_support_tolerance_m": 0.04,
+    "checkpoint_pending_travel": [0, 0, 0]
+  },
+  "causal_trace": [
+    {
+      "path": "game/scripts/AlsuStreetWalkPresentation.cs",
+      "lines": "317-343",
+      "finding": "FlushActualPoseAsync called ReadRuntimeState and captured GlobalPosition immediately, without waiting for projected physical validation."
+    },
+    {
+      "path": "game/scripts/AlsuStreetWalkPresentation.cs",
+      "lines": "205-230, 359-447",
+      "finding": "A fresh session projects the snapshot/authored pose with deferred validation and schedules a two-physics-frame support barrier."
+    },
+    {
+      "path": "game/scripts/AlsuStreetWalkPresentation.cs",
+      "lines": "459-482, 512-524",
+      "finding": "The existing completion method waits for the barrier. An authored pose is moved to measured support; an actual saved pose must already match support within 0.04 m."
+    },
+    {
+      "path": "game/scripts/RuntimeBridge.cs",
+      "lines": "181-220, 543-555",
+      "finding": "Normal SaveSlotAsync flushes the companion before kernel capture. Load projects and validates the saved pose and rejects a mismatched actual support."
+    }
+  ],
+  "conclusion": "The failure combines an uninitialized pre-save smoke sample with a production save-readiness gap. The flush could write the authored y=0 pose before ordinary exterior support validation moved the actor to y=0.09397566. That record is marked as an actual pose on load and exceeds the strict 0.04 m support tolerance. The gap is reachable during a pending exterior startup/return window because SaveSlotAsync does not require companion readiness; steady-state saves after validation are not implicated.",
+  "bounded_fix": "Applied in AlsuStreetWalkPresentation.FlushActualPoseAsync: after ReadRuntimeState, await the existing CompleteLoadedPhysicalProjectionAsync before capture, then recheck session and live owner. The existing method preserves pose while exterior physics is disabled indoors and retains the current support/body rejection gates. The existing smoke now allows pose normalization only when its pre-save eligibility is not ready, while requiring the saved pose to equal the ready post-save actor; already-ready saves still require before/saved/after pose equality. Narrow compile and native smoke passed; numeric success-pose telemetry remains absent.",
+  "follow_up_attempt": {
+    "job_id": "2ef4f2bd8a14484db7c0cb3239397f10",
+    "snapshot_id": "1ac2ef9ffcb7a7472d8f707811701c338bb8b5e9e2cc995bf452513569d12516",
+    "commit": "2effc8c51e6f2ec840795369097f9bbb7de7da64",
+    "status": "PASS",
+    "scene": "res://tests/full_game_flow_smoke_test.tscn",
+    "timeout_seconds": 300,
+    "worker_elapsed_seconds": 134.703,
+    "result_zip": {
+      "path": "evidence/PW005/native_2ef4f2bd8a14484db7c0cb3239397f10/result.zip",
+      "sha256": "29ae70182dce0b716f1ae60572603fad1f9df0de8aa0c6089a96baa15b105c21"
+    },
+    "receipt": {
+      "path": "evidence/PW005/native_2ef4f2bd8a14484db7c0cb3239397f10/receipt.json",
+      "sha256": "ce3d13e34fd69c9619e42e06d1b5e7a5e86568992ce96a335987963a951754cc"
+    },
+    "game_log": {
+      "path": "evidence/PW005/native_2ef4f2bd8a14484db7c0cb3239397f10/game.log",
+      "sha256": "d0155af56dfb64e281795b51caa0bdb1c29f98ce95b241087508b61497d3a000"
+    },
+    "source_proof": "evidence/PW005/native_2ef4f2bd8a14484db7c0cb3239397f10/source_snapshot/selected-source-proof.json",
+    "asserted_outcomes": [
+      "saved companion pose equals the ready post-save actor position and yaw",
+      "a pre-save-ready companion pose also equals the saved pose",
+      "SaveGameV3 and PhotoWorlds current schema/campaign identity checks",
+      "schema-1 PhotoWorlds migration assertions",
+      "exact disk snapshot/load equality and legacy quick-slot canary preservation",
+      "existing full semantic route marker"
+    ],
+    "native_png": {
+      "path": "evidence/PW005/native_2ef4f2bd8a14484db7c0cb3239397f10/fullgame-caption-ui.png",
+      "sha256": "13b67c3d5d2bd6fc826f1457749e874db9a346239a62becd79f6215e63f4ff43",
+      "bytes": 137356,
+      "dimensions": [1886, 1061]
+    },
+    "saved_pose_numeric_emitted_on_pass": false,
+    "physical_play": "NOT_RUN"
+  },
+  "verification_limits": {
+    "prior_native_result_remains_fail": true,
+    "userdata_recovery_pending": false,
+    "userdata_restore_log": "Original files restored by rename and verified; ACLs were not compared.",
+    "ordinary_human_playtest": "NOT_RUN",
+    "current_fix_compile": "PASS; root-coordinated narrow game compile, 0 warnings/0 errors, 15.48 seconds",
+    "current_native_retry": "PASS; see follow_up_attempt"
+  }
+}

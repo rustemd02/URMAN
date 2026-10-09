@@ -18,18 +18,55 @@ Engine-neutral остаются narrative kernel, portable content, compiler con
 Манифест выбирает активные quests новой арки: прежние определения могут сохраняться для
 истории и совместимых потребителей, но не должны выдавать отменённые обязательные цели.
 
-Контракт реализации PW-003 помещает `photoworlds` в существующий kernel snapshot с
-`namespaceId=photoworlds-v1` и `schemaVersion=1`. Каталог задаёт отдельные PhotoId/PageId,
-источник и разрешение; получение, монтаж, чтение оборота и контекст не сводятся к одному bool.
-Внешнее подтверждение требует предметных составляющих и независимых источников; посещение
-фотомира само его не выдаёт. Подпись хранит фактический текст игрока и авторство исходного
-снимка. UI лишь отправляет команду; отдельного UI-хранилища сюжетного прогресса нет.
+Версионируемое состояние PhotoWorlds остаётся внутри существующего kernel snapshot
+под `namespaceId=photoworlds-v1`; namespace кампании и schema каталога — разные версии.
+Snapshot schema 2 хранит campaign ID/exactVersion, каталог, передачу книги, отдельные
+PhotoId/PageId acquisition и mount, чтение оборота, контекст, provenance facts/external
+evidence, фактический текст подписи, пролог и эпилог. `visits.active` остаётся null до
+реального перехода; visit record хранит семантический WorldId/safe-node и value-only
+ReturnTicket. Пока runtime PhotoWorldCatalog не поставлен (PW-007), валидатор принимает
+для текущего fullgame только авторские WorldId W01–W05; неизвестные ключи отклоняются.
+Per-world state резервирует nullable UInt32 seed, safe-node, action, observation и delta maps;
+активный/возвращающийся visit обязан ссылаться на свой сохранённый seed и safe-node.
+ReturnTicket сверяет campaign ID/exactVersion со snapshot и хранит logical clock в форме
+`{tick: nonnegative Int64}` по `LogicalClockSnapshot`. Persisted transition ограничен
+сочетаниями `enter: preparing/loading/destination-ready/photo-active`, `return:
+returning/village-ready`, либо соответствующей фазой `failed` с failureCode; lifecycle
+visit должен совпадать с фазой, target обязателен и совпадает с visit или origin билета;
+visit ID не может одновременно находиться в active и history. Составляющие
+внешнего подтверждения проверяются точно по одному разу, source IDs не повторяются.
+Узлы Godot и придуманные координаты в save не попадают. Завершение глав, словарь и
+one-shot command occurrences остаются у действующих owners `quests`, `vocabulary` и
+RuntimeSnapshot occurrence ledger; PhotoWorlds не дублирует их.
+
+Единственная текущая миграция — schema 1 → 2. Она сохраняет каталог и все реальные
+book/photo/fact/evidence/caption/prologue/epilogue значения, добавляет campaign identity,
+пустую историю visits, null active visit/transition и пустой world map. Она не выводит
+из отсутствующих данных посещение, действие, наблюдение, завершение, seed или safe spawn.
+Неизвестная nested schema отклоняется до flush/project live owners; kernel restore повторно
+проверяет schema 2. Мигрированный snapshot остаётся в памяти до обычного следующего save.
 
 Новая кампания использует `photoworlds-v1`-подкаталог через прежний `AtomicSaveGameStore`
 и `RuntimeBridge`; legacy quick/checkpoint primary/backup остаются в исходном каталоге.
 Это явная граница несовместимости, не автоматическая миграция старых pact-флагов.
-Сам по себе этот контракт не доказывает сохранность при runtime: фактические результаты,
-compiled namespace, scene/profile и hashes записывает карточка PW-003.
+SaveGameV3 schema, RuntimeSnapshot schema, PhotoWorlds schema и campaign fingerprint
+не взаимозаменяемы. Graph safe-node remaps и unknown-version recovery принадлежат PW-025;
+prepare/ReturnTicket и физическое восстановление внутри мира — PW-020/PW-024 и остаются
+отдельными гейтами. Текущий контракт сам по себе не доказывает готовность этих потоков.
+
+Снимок SaveGameV3 берётся после штатного flush владельцев физического состояния: `RuntimeBridge`
+сначала сохраняет транспорт, двери/объекты мира и фактическую позу сопровождающего NPC, затем
+вызывает `RuntimeKernel.CaptureSnapshot()`. В частности, `AlsuStreetWalkPresentation` пишет
+реальную позицию, yaw, checkpoint, pendingCheckpoint и пройденный участок в существующий
+`world.props` через команду ядра. Поэтому runtime state, прочитанный до `SaveSlotAsync`, может
+отличаться от сохранённого вследствие обычных owner flush; проверка дискового снимка сравнивает
+его с live state после flush. В текущем prologue smoke единственное различие с начальным state —
+новая запись фактической позы сопровождающего в `world.props`. Вложенный `photoworlds` сохраняет
+исходный нарративный срез, а load восстанавливает именно декодированный снимок и затем проецирует сохранённую позу.
+Существующий guarded `FullGameFlowSmokeTest` проверил эту границу на Windows: job
+`2ef4f2bd8a14484db7c0cb3239397f10` завершён с PASS; receipt и точный source snapshot
+сохранены в `evidence/PW005/native_2ef4f2bd8a14484db7c0cb3239397f10/`. Это не подтверждает физическое восстановление посещения PhotoWorld или работу
+его safe-node.
 
 Семантический сценарий проверяет переходы и источники состояния; физические якоря,
 проходимость, пять произведённых миров и художественная приёмка требуют соответствующих
@@ -1040,3 +1077,17 @@ Census: 63 109 мешей, 54 781 shader-instance candidates, budget 1 048 576 s
 фотомиров. Root принял воспроизводимую базу PW-001, не общий арт/performance PASS.
 Табличка мечети на этом снимке не видна; её subsequent ADDR fix проверяется отдельно.
 Точный base-plus-runtime patch и ограничения — `../../evidence/PW-001/`.
+
+### PW-005: flush физического владельца перед сериализацией
+
+Native diagnostic `02fedfa24c9344ee85e89ad87702f9a0` выявил раннюю запись Алсу:
+SaveSlot сохранял Y=0 до проверки опоры, затем physics подтвердил Y=.09397566.
+При загрузке actual-pose это нарушало существующий допуск опоры .04 м. Теперь
+`FlushActualPoseAsync` после ReadRuntimeState ждёт существующий
+`CompleteLoadedPhysicalProjectionAsync`, перепроверяет session/живого владельца
+и только затем сериализует позу. Внутренние зоны сохраняют прежний exact-pose
+путь самого projection method. Поддержка/коллизия и ошибки не ослаблены.
+Существующий smoke допускает нормализацию только предварительно неготовой позы,
+требует готового post-save владельца и точного saved↔after совпадения; для уже
+готовой позы также сохраняет before↔saved равенство. Causal archive и ограничение
+временного окна — `../../evidence/PW005/save-readiness-cause-02fedfa.json`.

@@ -1,0 +1,2 @@
+ERROR: Full-game semantic flow failed: System.InvalidOperationException: The disk snapshot did not preserve the real stationary Alsu pose, checkpoint, pending checkpoint, and travel state.
+ERROR: Full-game semantic flow failed: System.InvalidOperationException: The disk snapshot did not preserve the real stationary Alsu pose, checkpoint, pending checkpoint, and travel state.
