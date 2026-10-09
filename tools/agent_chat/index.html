@@ -73,6 +73,7 @@ main { display: flex; flex-direction: column; min-width: 0; min-height: 0; backg
 .bubble:hover .reply-btn, .bubble:focus-within .reply-btn { opacity: 1; }
 @media (hover: none) { .bubble .reply-btn { opacity: 1; } }
 .quote { border-left: 3px solid var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); padding: 3px 8px; border-radius: 4px; margin: 3px 0 4px; font-size: 13px; color: var(--muted); cursor: pointer; }
+.bubble.task { border-left: 4px solid #e08a2f; }
 .mention { background: var(--mention); border-radius: 4px; padding: 0 3px; font-weight: 600; }
 .chip { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); border-radius: 6px; padding: 0 5px; font-size: 13px; font-weight: 600; white-space: nowrap; }
 .hash { font-family: ui-monospace, Menlo, Consolas, monospace; background: var(--code); border-radius: 4px; padding: 0 4px; font-size: 13px; }
@@ -134,6 +135,7 @@ dialog button.ghost { background: var(--panel-2); color: var(--text); }
     <div id="scroll" tabindex="0"></div>
     <button id="more">↓ Новые сообщения</button>
     <div id="suggest"></div>
+    <div id="readonlyNote" style="display:none;padding:10px 14px;background:var(--panel);border-top:1px solid var(--line);font-size:13px;color:var(--muted)">👀 Публичный просмотр: история читается из <a id="srcLink" target="_blank" rel="noopener noreferrer">AGENT_CHAT.md на GitHub</a> и обновляется сама раз в 30 секунд. Писать — агентам через <code>chat.py post</code> или коммитом в этот файл.</div>
     <footer>
       <div id="replying"><span id="replyText"></span><button class="icon-btn" id="replyCancel" aria-label="Отменить ответ">✕</button></div>
       <div id="error"></div>
@@ -163,10 +165,12 @@ const store = {
   get(k, d = "") { try { return localStorage.getItem(k) ?? d; } catch { return d; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch { /* приватный режим */ } },
 };
-let token = "", me = store.get("name"), conv = "all", messages = [], participants = [], online = new Set(), pinned = [];
+const STATIC_SRC = window.CHAT_STATIC_SOURCE || "";   // публичная версия: только чтение, файл берётся с GitHub
+const POLL_MS = STATIC_SRC ? 30000 : 2000;
+let token = "", me = STATIC_SRC ? "" : store.get("name"), conv = "all", messages = [], participants = [], online = new Set(), pinned = [];
 let lastId = -1, replyTo = null, query = "", unreadTitle = 0, firstLoad = true, failing = false, authFailed = false;
 
-// токен из ссылки: хранится в браузере, из адресной строки убирается
+// токен из ссылки (только для серверной версии): хранится в браузере, из адресной строки убирается
 const hashToken = new URLSearchParams(location.hash.slice(1)).get("token");
 token = hashToken || store.get("token");
 if (hashToken) { store.set("token", hashToken); history.replaceState(null, "", location.pathname + location.search); }
@@ -181,9 +185,9 @@ function h(tag, attrs = {}, ...kids) {
 }
 const colorOf = (name) => { let x = 0; for (const c of name) x = (x * 31 + c.codePointAt(0)) >>> 0; return `hsl(${x % 360} 55% 45%)`; };
 function avatar(name, cls = "", isOnline = false) {
-  const initial = name === "all" ? "#" : [...name][0].toUpperCase();
+  const initial = name === "all" ? "#" : name === "tasks" ? "📋" : [...name][0].toUpperCase();
   const el = h("div", { class: "avatar " + cls }, initial);
-  el.style.background = name === "all" ? "var(--accent)" : colorOf(name);
+  el.style.background = name === "all" ? "var(--accent)" : name === "tasks" ? "#e08a2f" : colorOf(name);
   if (isOnline) el.append(h("span", { class: "dot" }));
   return el;
 }
@@ -216,7 +220,46 @@ function renderText(text) {
 }
 
 // ---------- данные ----------
+const HEADER_RE = /^\*\*([^·*\n]+?) · ([^·*\n]+?) · (\d{2}\.\d{2} \d{2}:\d{2})\*\*(?: → (.+?))?\s*$/;
+const REPLY_RE = /^↩ ответ на «(.*?)»\s*(.*)$/;
+function parseMd(text) {
+  const MARK = "## Переписка", at = text.indexOf(MARK);
+  const head = at < 0 ? text : text.slice(0, at), body = at < 0 ? "" : text.slice(at + MARK.length);
+  const pins = []; let inPins = false;
+  for (const line of head.split("\n")) {
+    if (line.startsWith("## ")) inPins = line.trim() === "## 📌 Закреплено";
+    else if (inPins && line.startsWith("- ")) pins.push(line.slice(2).trim());
+  }
+  const out = []; let cur = null;
+  for (const line of body.split("\n")) {
+    const m = HEADER_RE.exec(line);
+    if (m) { cur = { id: out.length, name: m[1].trim(), where: m[2].trim(), stamp: m[3], to: (m[4] || "всем").trim(), lines: [] }; out.push(cur); }
+    else if (cur) cur.lines.push(line);
+  }
+  for (const m of out) {
+    let lines = m.lines; delete m.lines;
+    while (lines.length && !lines[lines.length - 1].trim()) lines.pop();
+    while (lines.length && !lines[0].trim()) lines.shift();
+    m.reply = null;
+    const r = lines.length ? REPLY_RE.exec(lines[0]) : null;
+    if (r) { m.reply = r[1]; lines = (r[2].trim() ? [r[2]] : []).concat(lines.slice(1)); }
+    m.text = lines.map((l) => (l.startsWith("\u200b") ? l.slice(1) : l)).join("\n").trim();
+  }
+  return { messages: out, pinned: pins };
+}
+function moscowNow() {
+  const p = Object.fromEntries(new Intl.DateTimeFormat("ru-RU", { timeZone: "Europe/Moscow", day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date()).map((x) => [x.type, x.value]));
+  return `${p.day}.${p.month} ${p.hour}:${p.minute}`;
+}
+async function staticState(since) {
+  const res = await fetch(STATIC_SRC + "?t=" + Math.floor(Date.now() / 20000), { cache: "no-store" });
+  if (!res.ok) throw new Error("GitHub ответил " + res.status);
+  const d = parseMd(await res.text());
+  return { total: d.messages.length, messages: d.messages.filter((m) => m.id > since), pinned: d.pinned,
+    participants: [...new Set(d.messages.map((m) => m.name))], online: [], now: moscowNow() };
+}
 async function api(path, body) {
+  if (STATIC_SRC) { if (path.startsWith("/api/state")) return staticState(Number(new URLSearchParams(path.split("?")[1]).get("since"))); return { ok: true }; }
   const res = await fetch(path + (path.includes("?") ? "&" : "?") + "token=" + encodeURIComponent(token), body ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) } : {});
   if (res.status === 401) { const e = new Error("401"); e.auth = true; throw e; }
   const data = await res.json();
@@ -244,8 +287,10 @@ async function poll() {
 async function heartbeat() { if (me && token && !authFailed) { try { await api("/api/presence", { name: me }); } catch { /* ничего */ } } }
 
 // ---------- интерфейс ----------
+const isTask = (m) => m.text.trimStart().startsWith("📋");
 function inConv(m) {
   if (conv === "all") return true;
+  if (conv === "tasks") return isTask(m);
   return m.name === conv || m.to.split(/[,\s]+/).includes(conv) || m.text.includes("@" + conv);
 }
 function matches(m) { return !query || (m.text + " " + m.name + " " + m.to).toLowerCase().includes(query); }
@@ -254,13 +299,13 @@ const unread = (c) => messages.filter((m) => m.id > Number(store.get(seenKey(c),
 
 function renderChats() {
   const list = $("chats"); list.replaceChildren();
-  const entries = [{ id: "all", title: "Общий чат" }];
+  const entries = [{ id: "all", title: "Общий чат" }, { id: "tasks", title: "Задачи (передачи)" }];
   const names = [...new Set([...participants, me].filter(Boolean))].filter((n) => n !== me);
   names.sort((a, b) => lastOf(b) - lastOf(a));
   names.forEach((n) => entries.push({ id: n, title: n }));
   for (const c of entries) {
-    const last = [...messages].reverse().find((m) => (c.id === "all" || m.name === c.id || m.to.includes(c.id)) && matches(m));
-    const count = c.id === conv ? 0 : unread(c.id);
+    const last = [...messages].reverse().find((m) => (c.id === "all" || (c.id === "tasks" ? isTask(m) : (m.name === c.id || m.to.includes(c.id)))) && matches(m));
+    const count = c.id === conv || c.id === "tasks" ? 0 : unread(c.id);
     list.append(h("div", { class: "chat" + (c.id === conv ? " active" : ""), onclick: () => select(c.id), role: "button", tabindex: 0 },
       avatar(c.id, "", c.id !== "all" && isOnline(c.id)),
       h("div", { class: "body" },
@@ -272,13 +317,13 @@ const lastOf = (n) => { for (let i = messages.length - 1; i >= 0; i--) if (messa
 const oneLine = (t) => t.replace(/\s+/g, " ").slice(0, 70);
 
 function renderTop() {
-  const title = conv === "all" ? "Общий чат" : conv;
+  const title = conv === "all" ? "Общий чат" : conv === "tasks" ? "Задачи и передачи" : conv;
   $("title").textContent = title;
   const onl = [...online];
-  $("sub").textContent = failing ? "нет связи с сервером…" : conv === "all"
+  $("sub").textContent = failing ? "нет связи с сервером…" : conv === "tasks" ? `${messages.filter(isTask).length} задач — сообщения, начатые с 📋` : conv === "all"
     ? `${messages.length} сообщ. · участники: ${participants.length || 0}${onl.length ? " · в сети: " + onl.join(", ") : ""}`
     : isOnline(conv) ? "в сети" : (() => { const i = lastOf(conv); return i < 0 ? "ещё не писал(а)" : "писал(а) " + messages[i].stamp; })();
-  const a = avatar(conv, "small", conv !== "all" && isOnline(conv)); a.id = "topAvatar"; $("topAvatar").replaceWith(a);
+  const a = avatar(conv, "small", conv !== "all" && conv !== "tasks" && isOnline(conv)); a.id = "topAvatar"; $("topAvatar").replaceWith(a);
 }
 
 function renderPins() {
@@ -301,7 +346,7 @@ function renderMessages(stick) {
     const d = m.stamp.split(" ")[0];
     if (d !== day) { day = d; prev = null; box.append(h("div", { class: "day" }, h("span", {}, dayLabel(d)))); }
     const mine = m.name === me, cont = prev && prev.name === m.name && prev.to === m.to;
-    const bubble = h("div", { class: "bubble", id: "m" + m.id });
+    const bubble = h("div", { class: "bubble" + (isTask(m) ? " task" : ""), id: "m" + m.id });
     if (!cont && !mine) bubble.append(h("div", { class: "who" }, h("span", { style: "color:" + colorOf(m.name) }, m.name), h("small", {}, m.where)));
     if (m.to !== "всем" && (!cont)) bubble.append(h("div", { class: "to" }, "→ " + m.to));
     if (m.reply) bubble.append(h("div", { class: "quote", onclick: () => jumpTo(m.reply) }, m.reply));
@@ -327,7 +372,7 @@ function renderTo() {
   const sel = $("to"), keep = sel.value;
   const options = ["всем", ...participants.filter((n) => n !== me)];
   sel.replaceChildren(...options.map((o) => h("option", { value: o }, o === "всем" ? "Кому: всем" : "Кому: " + o)));
-  sel.value = conv !== "all" && options.includes(conv) ? conv : (options.includes(keep) ? keep : "всем");
+  sel.value = conv !== "all" && conv !== "tasks" && options.includes(conv) ? conv : (options.includes(keep) ? keep : "всем");
 }
 function renderAll(stick) {
   renderChats(); renderTop(); renderPins(); renderMessages(stick);
@@ -404,8 +449,12 @@ $("dlgForm").addEventListener("submit", () => {
   authFailed = false; lastId = -1; messages = []; firstLoad = true; poll();
 });
 
-if (!me || !token) openLogin();
-poll(); setInterval(poll, 2000); heartbeat(); setInterval(heartbeat, 15000);
+if (STATIC_SRC) {
+  document.body.classList.add("readonly"); $("settings").style.display = "none";
+  $("readonlyNote").style.display = "block"; document.querySelector("footer").style.display = "none";
+  $("srcLink").href = STATIC_SRC.replace("raw.githubusercontent.com", "github.com").replace(/\/main\//, "/blob/main/");
+} else if (!me || !token) openLogin();
+poll(); setInterval(poll, POLL_MS); heartbeat(); setInterval(heartbeat, 15000);
 setInterval(async () => { if (authFailed) return; try { const s = await api("/api/state?since=999999999"); $("sub").dataset.now = s.now; } catch { /* ничего */ } }, 60000);
 api("/api/state?since=999999999").then((s) => { $("sub").dataset.now = s.now; }).catch(() => {});
 </script>

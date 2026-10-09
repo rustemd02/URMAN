@@ -8,6 +8,9 @@
   python3 tools/agent_chat/chat.py serve [--port 8765] [--host 127.0.0.1] [--git-sync 60]
   python3 tools/agent_chat/chat.py post --as Claude --where "Mac Кадыра" --to всем "Текст"
   python3 tools/agent_chat/chat.py tail -n 10
+  python3 tools/agent_chat/chat.py inbox --as Claude          # что адресовано мне и я ещё не видел
+  python3 tools/agent_chat/chat.py post --as Claude --where "Mac" --to Codex --task "Проверь X"
+  python3 tools/agent_chat/chat.py export-static ПАПКА        # публичная версия для GitHub Pages
 """
 from __future__ import annotations
 
@@ -268,6 +271,46 @@ def serve(args):
         pass
 
 
+def addressed_to(message: dict, name: str) -> bool:
+    low = name.lower()
+    targets = [t.strip().lower().lstrip("@") for t in re.split(r"[,/]| и ", message["to"])]
+    return low in targets or "всем" in targets or f"@{low}" in message["text"].lower()
+
+
+def inbox(name: str, peek: bool) -> int:
+    """Непрочитанное, адресованное имени (лично, @упоминанием или «всем»). Позиция хранится по имени."""
+    state = Path("~/.config/urman-agent-chat").expanduser() / f"inbox-{re.sub(r'[^0-9A-Za-zА-Яа-я_-]', '_', name)}.txt"
+    last = int(state.read_text().strip() or -1) if state.exists() else -1
+    messages = load()["messages"]
+    fresh = [m for m in messages if m["id"] > last and m["name"].lower() != name.lower() and addressed_to(m, name)]
+    for message in fresh:
+        mark = "📋 " if message["text"].lstrip().startswith("📋") else ""
+        print(f"{mark}[{message['stamp']}] {message['name']} ({message['where']}) → {message['to']}")
+        print("   " + message["text"].replace("\n", "\n   "))
+    if not fresh:
+        print("Новых сообщений для вас нет.")
+    if messages and not peek:
+        state.parent.mkdir(parents=True, exist_ok=True)
+        state.write_text(str(messages[-1]["id"]), encoding="utf-8")
+    return len(fresh)
+
+
+RAW_SOURCE = "https://raw.githubusercontent.com/rustemd02/URMAN/main/docs/tasktracker/AGENT_CHAT.md"
+
+
+def export_static(out: Path, source: str):
+    """Страница только для чтения: сама тянет AGENT_CHAT.md с GitHub, сервер не нужен."""
+    html = UI.read_text(encoding="utf-8")
+    inject = f"<script>window.CHAT_STATIC_SOURCE = {json.dumps(source)};</script>\n<script>\n\"use strict\";"
+    marker = '<script>\n"use strict";'
+    if marker not in html:
+        sys.exit("в index.html не найден основной <script>")
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "index.html").write_text(html.replace(marker, inject, 1), encoding="utf-8")
+    (out / ".nojekyll").write_text("", encoding="utf-8")
+    print(f"готово: {out}/index.html (источник: {source})")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -282,15 +325,24 @@ def main():
     p.add_argument("--where", default=os.environ.get("AGENT_CHAT_WHERE"), required=not os.environ.get("AGENT_CHAT_WHERE"))
     p.add_argument("--to", default="всем")
     p.add_argument("--reply", help="цитата сообщения, на которое отвечаете")
+    p.add_argument("--task", action="store_true", help="оформить как передачу задачи (📋): попадёт во вкладку «Задачи»")
     p.add_argument("text", help="текст или - чтобы читать из stdin")
     t = sub.add_parser("tail", help="показать последние сообщения")
     t.add_argument("-n", type=int, default=10)
+    i = sub.add_parser("inbox", help="непрочитанное, адресованное вам")
+    i.add_argument("--as", dest="name", default=os.environ.get("AGENT_CHAT_NAME"), required=not os.environ.get("AGENT_CHAT_NAME"))
+    i.add_argument("--peek", action="store_true", help="не отмечать прочитанным")
+    e = sub.add_parser("export-static", help="собрать публичную read-only страницу")
+    e.add_argument("out", help="папка для index.html")
+    e.add_argument("--source", default=RAW_SOURCE)
     sub.add_parser("sync", help="один раунд git-синхронизации файла чата")
     args = parser.parse_args()
     if args.cmd == "serve":
         serve(args)
     elif args.cmd == "post":
         text = sys.stdin.read() if args.text == "-" else args.text
+        if args.task and not text.lstrip().startswith("📋"):
+            text = "📋 Задача" + (f" для @{args.to}" if args.to != "всем" else "") + ": " + text.lstrip()
         try:
             message = append(args.name, args.where, args.to, text, args.reply)
         except ValueError as error:
@@ -300,6 +352,10 @@ def main():
         for message in load()["messages"][-args.n:]:
             print(f"[{message['stamp']}] {message['name']} ({message['where']}) → {message['to']}")
             print("   " + message["text"].replace("\n", "\n   "))
+    elif args.cmd == "inbox":
+        inbox(args.name, args.peek)
+    elif args.cmd == "export-static":
+        export_static(Path(args.out), args.source)
     elif args.cmd == "sync":
         print(sync_once())
 
