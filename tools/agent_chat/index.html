@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Чат агентов УРМАН</title>
+<style>
+:root {
+  --bg: #eef1f4; --panel: #ffffff; --panel-2: #f6f8fa; --line: #e1e6eb; --text: #17212b; --muted: #6b7a89;
+  --accent: #2f7de1; --accent-text: #ffffff; --mine: #d9ecff; --theirs: #ffffff; --mention: #fff1b8;
+  --code: #eef2f6; --ok: #2fb86b; --danger: #d64545; --shadow: 0 1px 2px rgba(20,30,40,.12);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0e1621; --panel: #17212b; --panel-2: #1c2733; --line: #243140; --text: #e8eef5; --muted: #8a9bad;
+    --accent: #4a9df5; --accent-text: #08121d; --mine: #2b5278; --theirs: #182533; --mention: #5a4a10; --code: #0f1923; --shadow: none; }
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--bg); color: var(--text); font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+button, input, select, textarea { font: inherit; color: inherit; }
+#app { display: grid; grid-template-columns: 330px 1fr; grid-template-rows: minmax(0, 1fr); height: 100dvh; max-width: 1400px; margin: 0 auto; background: var(--panel); box-shadow: var(--shadow); }
+aside { display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--line); min-width: 0; background: var(--panel); }
+.side-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; }
+.side-head h1 { font-size: 17px; margin: 0; flex: 1; }
+.icon-btn { background: none; border: 0; padding: 8px; border-radius: 50%; cursor: pointer; color: var(--muted); font-size: 18px; line-height: 1; }
+.icon-btn:hover { background: var(--panel-2); color: var(--text); }
+.search { margin: 0 12px 8px; padding: 9px 14px; border: 1px solid var(--line); border-radius: 20px; background: var(--panel-2); outline: none; }
+.search:focus { border-color: var(--accent); }
+#chats { overflow-y: auto; flex: 1; }
+.chat { display: flex; gap: 10px; padding: 9px 14px; cursor: pointer; align-items: center; }
+.chat:hover { background: var(--panel-2); }
+.chat.active { background: var(--accent); color: var(--accent-text); }
+.chat.active .muted, .chat.active .time { color: inherit; opacity: .85; }
+.chat .body { flex: 1; min-width: 0; }
+.chat .row { display: flex; gap: 8px; align-items: baseline; }
+.chat .name { font-weight: 600; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chat .time { font-size: 12px; color: var(--muted); }
+.chat .preview { display: flex; gap: 8px; }
+.chat .preview span:first-child { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); font-size: 13.5px; }
+.chat.active .preview span:first-child { color: inherit; }
+.badge { background: var(--accent); color: var(--accent-text); border-radius: 10px; min-width: 20px; padding: 0 6px; text-align: center; font-size: 12px; line-height: 20px; font-weight: 600; }
+.chat.active .badge { background: var(--accent-text); color: var(--accent); }
+.avatar { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; flex: none; position: relative; user-select: none; }
+.avatar.small { width: 34px; height: 34px; font-size: 13px; }
+.dot { position: absolute; right: -1px; bottom: -1px; width: 12px; height: 12px; border-radius: 50%; background: var(--ok); border: 2px solid var(--panel); }
+main { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--bg); position: relative; }
+.top { display: flex; gap: 12px; align-items: center; padding: 8px 16px; background: var(--panel); border-bottom: 1px solid var(--line); }
+.top .titles { flex: 1; min-width: 0; }
+.top .title { font-weight: 700; }
+.top .sub { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#back { display: none; }
+#pin { background: var(--panel); border-bottom: 1px solid var(--line); padding: 6px 16px; font-size: 13px; cursor: pointer; display: none; }
+#pin .pin-line { display: flex; gap: 8px; align-items: baseline; }
+#pin .pin-line b { color: var(--accent); }
+#pin .pin-text { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#pin.open .pin-text { white-space: normal; }
+#pin ul { margin: 6px 0 2px; padding-left: 20px; display: none; }
+#pin.open ul { display: block; }
+#scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 10px 16px 18px; scroll-behavior: smooth; }
+.day { text-align: center; margin: 12px 0 8px; }
+.day span { background: color-mix(in srgb, var(--panel) 80%, transparent); color: var(--muted); border-radius: 12px; padding: 3px 12px; font-size: 12.5px; box-shadow: var(--shadow); }
+.msg { display: flex; gap: 8px; margin: 2px 0; max-width: 100%; align-items: flex-end; }
+.msg.mine { flex-direction: row-reverse; }
+.msg.cont .avatar { visibility: hidden; }
+.bubble { background: var(--theirs); border-radius: 14px 14px 14px 4px; padding: 6px 10px 5px; max-width: min(640px, 82%); box-shadow: var(--shadow); position: relative; overflow-wrap: anywhere; }
+.mine .bubble { background: var(--mine); border-radius: 14px 14px 4px 14px; }
+.bubble .who { font-weight: 700; font-size: 13.5px; display: flex; gap: 8px; align-items: baseline; }
+.bubble .who small { font-weight: 400; color: var(--muted); font-size: 12px; }
+.bubble .to { color: var(--muted); font-size: 12.5px; }
+.bubble .text { white-space: pre-wrap; }
+.bubble .meta { text-align: right; font-size: 11.5px; color: var(--muted); margin-top: 1px; display: flex; justify-content: flex-end; gap: 8px; }
+.bubble .reply-btn { opacity: 0; cursor: pointer; border: 0; background: none; color: var(--accent); padding: 0; font-size: 12px; }
+.bubble:hover .reply-btn, .bubble:focus-within .reply-btn { opacity: 1; }
+@media (hover: none) { .bubble .reply-btn { opacity: 1; } }
+.quote { border-left: 3px solid var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); padding: 3px 8px; border-radius: 4px; margin: 3px 0 4px; font-size: 13px; color: var(--muted); cursor: pointer; }
+.mention { background: var(--mention); border-radius: 4px; padding: 0 3px; font-weight: 600; }
+.chip { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); border-radius: 6px; padding: 0 5px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.hash { font-family: ui-monospace, Menlo, Consolas, monospace; background: var(--code); border-radius: 4px; padding: 0 4px; font-size: 13px; }
+code { font-family: ui-monospace, Menlo, Consolas, monospace; background: var(--code); border-radius: 4px; padding: 0 4px; font-size: 13px; }
+pre { background: var(--code); border-radius: 8px; padding: 8px 10px; overflow-x: auto; margin: 4px 0; white-space: pre; }
+pre code { background: none; padding: 0; }
+a { color: var(--accent); }
+#more { position: absolute; right: 18px; bottom: 96px; display: none; background: var(--accent); color: var(--accent-text); border: 0; border-radius: 18px; padding: 8px 14px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.25); font-weight: 600; }
+.empty { text-align: center; color: var(--muted); margin-top: 60px; }
+footer { background: var(--panel); border-top: 1px solid var(--line); padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); }
+#replying { display: none; align-items: center; gap: 8px; border-left: 3px solid var(--accent); padding: 2px 8px; margin-bottom: 6px; font-size: 13px; color: var(--muted); }
+#replying span { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.compose { display: flex; gap: 8px; align-items: flex-end; }
+.compose select { border: 1px solid var(--line); background: var(--panel-2); border-radius: 18px; padding: 8px 10px; max-width: 150px; }
+#text { flex: 1; resize: none; border: 1px solid var(--line); border-radius: 18px; padding: 9px 14px; background: var(--panel-2); outline: none; max-height: 160px; min-height: 40px; line-height: 1.35; }
+#text:focus { border-color: var(--accent); }
+#send { border: 0; background: var(--accent); color: var(--accent-text); width: 42px; height: 42px; border-radius: 50%; cursor: pointer; font-size: 18px; flex: none; }
+#send:disabled { opacity: .45; cursor: default; }
+#suggest { position: absolute; left: 12px; bottom: 76px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.2); display: none; min-width: 200px; overflow: hidden; z-index: 5; }
+#suggest div { padding: 7px 12px; cursor: pointer; }
+#suggest div.sel, #suggest div:hover { background: var(--accent); color: var(--accent-text); }
+#error { color: var(--danger); font-size: 13px; padding: 0 6px 4px; display: none; }
+dialog { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); color: var(--text); width: min(420px, 92vw); padding: 20px; }
+dialog::backdrop { background: rgba(0,0,0,.5); }
+dialog h2 { margin: 0 0 6px; font-size: 18px; }
+dialog p { margin: 0 0 12px; color: var(--muted); font-size: 13.5px; }
+dialog label { display: block; font-size: 13px; color: var(--muted); margin: 10px 0 4px; }
+dialog input { width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel-2); }
+dialog .actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+dialog button { border: 0; border-radius: 10px; padding: 9px 16px; cursor: pointer; background: var(--accent); color: var(--accent-text); font-weight: 600; }
+dialog button.ghost { background: var(--panel-2); color: var(--text); }
+@media (max-width: 760px) {
+  #app { grid-template-columns: 1fr; }
+  main { display: none; }
+  #app.in-chat aside { display: none; }
+  #app.in-chat main { display: flex; }
+  #back { display: inline-block; }
+  .bubble { max-width: 88%; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <aside>
+    <div class="side-head">
+      <h1>Агенты УРМАН</h1>
+      <button class="icon-btn" id="settings" title="Настройки" aria-label="Настройки">⚙</button>
+    </div>
+    <input class="search" id="search" type="search" placeholder="Поиск по сообщениям" autocomplete="off">
+    <div id="chats"></div>
+  </aside>
+  <main>
+    <div class="top">
+      <button class="icon-btn" id="back" aria-label="Назад">←</button>
+      <div class="avatar small" id="topAvatar"></div>
+      <div class="titles"><div class="title" id="title"></div><div class="sub" id="sub"></div></div>
+    </div>
+    <div id="pin"><div class="pin-line"><b>📌 Закреплено</b><span class="pin-text" id="pinText"></span></div><ul id="pinList"></ul></div>
+    <div id="scroll" tabindex="0"></div>
+    <button id="more">↓ Новые сообщения</button>
+    <div id="suggest"></div>
+    <footer>
+      <div id="replying"><span id="replyText"></span><button class="icon-btn" id="replyCancel" aria-label="Отменить ответ">✕</button></div>
+      <div id="error"></div>
+      <div class="compose">
+        <select id="to" aria-label="Кому"></select>
+        <textarea id="text" rows="1" placeholder="Сообщение… (@ — упомянуть)"></textarea>
+        <button id="send" aria-label="Отправить" disabled>➤</button>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<dialog id="dlg">
+  <form method="dialog" id="dlgForm">
+    <h2>Вход в чат</h2>
+    <p>Имя подписывает ваши сообщения. Токен печатает сервер при запуске (ссылка с <code>#token=…</code>).</p>
+    <label for="inName">Ваше имя</label><input id="inName" autocomplete="off" maxlength="40">
+    <label for="inToken">Токен</label><input id="inToken" type="password" autocomplete="off">
+    <div class="actions"><button type="button" class="ghost" id="dlgCancel">Отмена</button><button value="ok">Войти</button></div>
+  </form>
+</dialog>
+
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const store = {
+  get(k, d = "") { try { return localStorage.getItem(k) ?? d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch { /* приватный режим */ } },
+};
+let token = "", me = store.get("name"), conv = "all", messages = [], participants = [], online = new Set(), pinned = [];
+let lastId = -1, replyTo = null, query = "", unreadTitle = 0, firstLoad = true, failing = false;
+
+// токен из ссылки: хранится в браузере, из адресной строки убирается
+const hashToken = new URLSearchParams(location.hash.slice(1)).get("token");
+token = hashToken || store.get("token");
+if (hashToken) { store.set("token", hashToken); history.replaceState(null, "", location.pathname + location.search); }
+
+function h(tag, attrs = {}, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") el.className = v; else if (k.startsWith("on")) el.addEventListener(k.slice(2), v); else if (v !== false && v != null) el.setAttribute(k, v === true ? "" : v);
+  }
+  for (const kid of kids.flat()) if (kid != null) el.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+  return el;
+}
+const colorOf = (name) => { let x = 0; for (const c of name) x = (x * 31 + c.codePointAt(0)) >>> 0; return `hsl(${x % 360} 55% 45%)`; };
+function avatar(name, cls = "", isOnline = false) {
+  const initial = name === "all" ? "#" : [...name][0].toUpperCase();
+  const el = h("div", { class: "avatar " + cls }, initial);
+  el.style.background = name === "all" ? "var(--accent)" : colorOf(name);
+  if (isOnline) el.append(h("span", { class: "dot" }));
+  return el;
+}
+const isOnline = (name) => online.has(name);
+
+// ---------- разметка текста сообщения (DOM, без innerHTML) ----------
+const INLINE = /(`[^`\n]+`)|(\*\*[^*\n]+\*\*)|(@[\p{L}\p{N}_-]+)|((?:PW|ACT1|REL|VIS)-[A-Z0-9.]*[A-Z0-9]|\bB\d{2}\b|\bEX\d{2}\b)|(https?:\/\/[^\s)]+)|(\b(?=[0-9a-f]*\d)(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}\b)/gu;
+function renderInline(text, into) {
+  let last = 0;
+  for (const m of text.matchAll(INLINE)) {
+    if (m.index > last) into.append(text.slice(last, m.index));
+    const [full] = m;
+    if (m[1]) into.append(h("code", {}, full.slice(1, -1)));
+    else if (m[2]) into.append(h("b", {}, full.slice(2, -2)));
+    else if (m[3]) into.append(h("span", { class: "mention" }, full));
+    else if (m[4]) into.append(h("span", { class: "chip" }, full));
+    else if (m[5]) into.append(h("a", { href: full, target: "_blank", rel: "noopener noreferrer" }, full));
+    else into.append(h("span", { class: "hash" }, full));
+    last = m.index + full.length;
+  }
+  if (last < text.length) into.append(text.slice(last));
+}
+function renderText(text) {
+  const box = h("div", { class: "text" });
+  text.split(/```/).forEach((part, i) => {
+    if (i % 2) box.append(h("pre", {}, h("code", {}, part.replace(/^\w*\n/, "").replace(/\n$/, ""))));
+    else renderInline(part.replace(/^\n|\n$/g, ""), box);
+  });
+  return box;
+}
+
+// ---------- данные ----------
+async function api(path, body) {
+  const res = await fetch(path + (path.includes("?") ? "&" : "?") + "token=" + encodeURIComponent(token), body ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) } : {});
+  if (res.status === 401) { const e = new Error("401"); e.auth = true; throw e; }
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || res.status);
+  return data;
+}
+async function poll() {
+  try {
+    const s = await api("/api/state?since=" + lastId);
+    failing = false;
+    participants = s.participants; online = new Set(s.online); pinned = s.pinned;
+    const fresh = s.messages;
+    if (fresh.length) {
+      messages.push(...fresh); lastId = fresh[fresh.length - 1].id;
+      if (!firstLoad && document.hidden) { unreadTitle += fresh.filter((m) => m.name !== me).length; document.title = `(${unreadTitle}) Чат агентов УРМАН`; }
+    }
+    renderAll(fresh.length > 0 && !firstLoad);
+    firstLoad = false;
+  } catch (e) {
+    if (e.auth) { openLogin("Токен не подошёл — вставьте актуальный."); return; }
+    failing = true; $("sub").textContent = "нет связи с сервером…";
+  }
+}
+async function heartbeat() { if (me && token) { try { await api("/api/presence", { name: me }); } catch { /* ничего */ } } }
+
+// ---------- интерфейс ----------
+function inConv(m) {
+  if (conv === "all") return true;
+  return m.name === conv || m.to.split(/[,\s]+/).includes(conv) || m.text.includes("@" + conv);
+}
+function matches(m) { return !query || (m.text + " " + m.name + " " + m.to).toLowerCase().includes(query); }
+const seenKey = (c) => "seen:" + c;
+const unread = (c) => messages.filter((m) => m.id > Number(store.get(seenKey(c), "-1")) && m.name !== me && (c === "all" || m.name === c || m.to.includes(c))).length;
+
+function renderChats() {
+  const list = $("chats"); list.replaceChildren();
+  const entries = [{ id: "all", title: "Общий чат" }];
+  const names = [...new Set([...participants, me].filter(Boolean))].filter((n) => n !== me);
+  names.sort((a, b) => lastOf(b) - lastOf(a));
+  names.forEach((n) => entries.push({ id: n, title: n }));
+  for (const c of entries) {
+    const last = [...messages].reverse().find((m) => (c.id === "all" || m.name === c.id || m.to.includes(c.id)) && matches(m));
+    const count = c.id === conv ? 0 : unread(c.id);
+    list.append(h("div", { class: "chat" + (c.id === conv ? " active" : ""), onclick: () => select(c.id), role: "button", tabindex: 0 },
+      avatar(c.id, "", c.id !== "all" && isOnline(c.id)),
+      h("div", { class: "body" },
+        h("div", { class: "row" }, h("span", { class: "name" }, c.title), h("span", { class: "time" }, last ? last.stamp.split(" ")[1] : "")),
+        h("div", { class: "preview" }, h("span", {}, last ? (c.id === "all" ? last.name + ": " : "") + oneLine(last.text) : "пока пусто"), count ? h("span", { class: "badge" }, count) : null))));
+  }
+}
+const lastOf = (n) => { for (let i = messages.length - 1; i >= 0; i--) if (messages[i].name === n) return i; return -1; };
+const oneLine = (t) => t.replace(/\s+/g, " ").slice(0, 70);
+
+function renderTop() {
+  const title = conv === "all" ? "Общий чат" : conv;
+  $("title").textContent = title;
+  const onl = [...online];
+  $("sub").textContent = failing ? "нет связи с сервером…" : conv === "all"
+    ? `${messages.length} сообщ. · участники: ${participants.length || 0}${onl.length ? " · в сети: " + onl.join(", ") : ""}`
+    : isOnline(conv) ? "в сети" : (() => { const i = lastOf(conv); return i < 0 ? "ещё не писал(а)" : "писал(а) " + messages[i].stamp; })();
+  const a = avatar(conv, "small", conv !== "all" && isOnline(conv)); a.id = "topAvatar"; $("topAvatar").replaceWith(a);
+}
+
+function renderPins() {
+  const box = $("pin");
+  if (!pinned.length) { box.style.display = "none"; return; }
+  box.style.display = "block";
+  $("pinText").textContent = pinned[0].replace(/\*\*|`/g, "");
+  const ul = $("pinList"); ul.replaceChildren(...pinned.map((p) => h("li", {}, renderText(p))));
+}
+
+function renderMessages(stick) {
+  const box = $("scroll");
+  const nearBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 140;
+  const prevTop = box.scrollTop;
+  box.replaceChildren();
+  const shown = messages.filter((m) => inConv(m) && matches(m));
+  if (!shown.length) box.append(h("div", { class: "empty" }, query ? "Ничего не найдено" : "Здесь пока нет сообщений"));
+  let day = "", prev = null;
+  for (const m of shown) {
+    const d = m.stamp.split(" ")[0];
+    if (d !== day) { day = d; prev = null; box.append(h("div", { class: "day" }, h("span", {}, dayLabel(d)))); }
+    const mine = m.name === me, cont = prev && prev.name === m.name && prev.to === m.to;
+    const bubble = h("div", { class: "bubble", id: "m" + m.id });
+    if (!cont && !mine) bubble.append(h("div", { class: "who" }, h("span", { style: "color:" + colorOf(m.name) }, m.name), h("small", {}, m.where)));
+    if (m.to !== "всем" && (!cont)) bubble.append(h("div", { class: "to" }, "→ " + m.to));
+    if (m.reply) bubble.append(h("div", { class: "quote", onclick: () => jumpTo(m.reply) }, m.reply));
+    bubble.append(renderText(m.text));
+    bubble.append(h("div", { class: "meta" }, h("button", { class: "reply-btn", onclick: () => setReply(m) }, "ответить"), m.stamp.split(" ")[1]));
+    box.append(h("div", { class: "msg" + (mine ? " mine" : "") + (cont ? " cont" : "") }, avatar(m.name, "small"), bubble));
+    prev = m;
+  }
+  if (stick === "force" || nearBottom) { box.style.scrollBehavior = "auto"; box.scrollTop = box.scrollHeight; box.style.scrollBehavior = ""; $("more").style.display = "none"; }
+  else { box.scrollTop = prevTop; $("more").style.display = stick ? "block" : $("more").style.display; }
+}
+function dayLabel(d) {
+  const now = $("sub").dataset.now || ""; const today = now.split(" ")[0];
+  return d === today ? "Сегодня, " + d : d;
+}
+function jumpTo(quote) {
+  const q = quote.replace(/…$/, "").toLowerCase();
+  const target = [...messages].reverse().find((m) => m.text.toLowerCase().includes(q));
+  const el = target && $("m" + target.id);
+  if (el) { el.scrollIntoView({ block: "center", behavior: "smooth" }); el.animate([{ outline: "2px solid var(--accent)" }, { outline: "2px solid transparent" }], 1400); }
+}
+function renderTo() {
+  const sel = $("to"), keep = sel.value;
+  const options = ["всем", ...participants.filter((n) => n !== me)];
+  sel.replaceChildren(...options.map((o) => h("option", { value: o }, o === "всем" ? "Кому: всем" : "Кому: " + o)));
+  sel.value = conv !== "all" && options.includes(conv) ? conv : (options.includes(keep) ? keep : "всем");
+}
+function renderAll(stick) {
+  renderChats(); renderTop(); renderPins(); renderMessages(stick);
+  if (document.activeElement !== $("to")) renderTo();
+  if (!document.hidden && conv && messages.length) store.set(seenKey(conv), String(messages[messages.length - 1].id));
+}
+function select(id) {
+  conv = id; $("app").classList.add("in-chat"); store.set("seen:" + id, String(lastId));
+  renderAll("force"); $("text").focus();
+}
+function setReply(m) {
+  replyTo = m.text.replace(/\s+/g, " ").slice(0, 60);
+  $("replyText").textContent = "Ответ " + m.name + ": " + replyTo; $("replying").style.display = "flex"; $("text").focus();
+}
+function clearReply() { replyTo = null; $("replying").style.display = "none"; }
+
+// ---------- отправка ----------
+const box = $("text");
+function autosize() { box.style.height = "auto"; box.style.height = Math.min(box.scrollHeight, 160) + "px"; $("send").disabled = !box.value.trim(); }
+async function send() {
+  const text = box.value.trim(); if (!text || !me) return;
+  $("send").disabled = true; $("error").style.display = "none";
+  try {
+    const m = await api("/api/send", { name: me, where: "веб", to: $("to").value, text, reply: replyTo });
+    box.value = ""; clearReply(); autosize();
+    if (m.id > lastId) { messages.push(m); lastId = m.id; }
+    renderAll("force");
+  } catch (e) { $("error").textContent = "Не отправлено: " + e.message; $("error").style.display = "block"; $("send").disabled = false; }
+}
+box.addEventListener("input", () => { autosize(); suggest(); });
+box.addEventListener("keydown", (e) => {
+  const open = $("suggest").style.display === "block";
+  if (open && (e.key === "ArrowDown" || e.key === "ArrowUp")) { e.preventDefault(); moveSel(e.key === "ArrowDown" ? 1 : -1); return; }
+  if (open && (e.key === "Tab" || e.key === "Enter")) { e.preventDefault(); pick(); return; }
+  if (e.key === "Escape") { $("suggest").style.display = "none"; clearReply(); }
+  if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(); }
+});
+$("send").addEventListener("click", send);
+$("replyCancel").addEventListener("click", clearReply);
+let sel = 0, cands = [];
+function suggest() {
+  const m = /(?:^|\s)@([\p{L}\p{N}_-]*)$/u.exec(box.value.slice(0, box.selectionStart));
+  const pop = $("suggest");
+  if (!m) { pop.style.display = "none"; return; }
+  cands = participants.filter((n) => n !== me && n.toLowerCase().startsWith(m[1].toLowerCase()));
+  if (!cands.length) { pop.style.display = "none"; return; }
+  sel = 0; pop.replaceChildren(...cands.map((n, i) => h("div", { class: i === 0 ? "sel" : "", onmousedown: (e) => { e.preventDefault(); sel = i; pick(); } }, "@" + n))); pop.style.display = "block";
+}
+function moveSel(d) { sel = (sel + d + cands.length) % cands.length; [...$("suggest").children].forEach((el, i) => el.classList.toggle("sel", i === sel)); }
+function pick() {
+  const pos = box.selectionStart, before = box.value.slice(0, pos).replace(/@[\p{L}\p{N}_-]*$/u, "@" + cands[sel] + " ");
+  box.value = before + box.value.slice(pos); box.setSelectionRange(before.length, before.length); $("suggest").style.display = "none"; autosize(); box.focus();
+}
+
+// ---------- прочее ----------
+$("search").addEventListener("input", (e) => { query = e.target.value.trim().toLowerCase(); renderAll("force"); });
+$("more").addEventListener("click", () => { $("scroll").scrollTop = $("scroll").scrollHeight; $("more").style.display = "none"; });
+$("scroll").addEventListener("scroll", () => { const b = $("scroll"); if (b.scrollHeight - b.scrollTop - b.clientHeight < 60) $("more").style.display = "none"; });
+$("pin").addEventListener("click", () => $("pin").classList.toggle("open"));
+$("back").addEventListener("click", () => $("app").classList.remove("in-chat"));
+document.addEventListener("visibilitychange", () => { if (!document.hidden) { unreadTitle = 0; document.title = "Чат агентов УРМАН"; renderAll(); } });
+
+const dlg = $("dlg");
+function openLogin(note) {
+  $("inName").value = me; $("inToken").value = ""; if (note) dlg.querySelector("p").textContent = note;
+  if (!dlg.open) dlg.showModal();
+}
+$("settings").addEventListener("click", () => openLogin());
+$("dlgCancel").addEventListener("click", () => dlg.close());
+$("dlgForm").addEventListener("submit", () => {
+  const n = $("inName").value.trim(), t = $("inToken").value.trim();
+  if (n) { me = n; store.set("name", n); }
+  if (t) { token = t; store.set("token", t); }
+  lastId = -1; messages = []; firstLoad = true; poll();
+});
+
+if (!me || !token) openLogin();
+poll(); setInterval(poll, 2000); heartbeat(); setInterval(heartbeat, 15000);
+setInterval(async () => { try { const s = await api("/api/state?since=999999999"); $("sub").dataset.now = s.now; } catch { /* ничего */ } }, 60000);
+api("/api/state?since=999999999").then((s) => { $("sub").dataset.now = s.now; }).catch(() => {});
+</script>
+</body>
+</html>
