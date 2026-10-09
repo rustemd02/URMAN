@@ -362,6 +362,16 @@
       "profile": "village-winter-crisp",
       "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
       "subject": "P2 кандидат света: ракурс babai_shape_front под профилем village-winter-crisp (сильнее солнце, плотнее тени, меньше дымки) — сравнение с профилем зоны."
+    },
+    {
+      "id": "street_right_close",
+      "spec": "Ground@4,1.7,2>Ground@12,1.6,-4",
+      "subject": "ACT1-DEPTH.10: правая сторона улицы вблизи — срубные стены вариантов кита, окна, наличники, заборы."
+    },
+    {
+      "id": "street_left_close",
+      "spec": "Ground@-4,1.7,-14>Ground@-12,1.6,-20",
+      "subject": "ACT1-DEPTH.10: левая сторона улицы вблизи — срубные стены вариантов кита и дворы."
     }
   ],
   "batches": [

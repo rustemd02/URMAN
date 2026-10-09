@@ -171,8 +171,8 @@ public partial class Act1ConnectedWorld
         var hinge = new Node3D { Name = "HingeLeaf", Position = new(-1.25f, 0f, 0f) };
         gate.AddChild(hinge);
         _fapServiceGatePivot = hinge;
-        AddVisualBox(hinge, "GateLeaf", new(2.50f, .86f, .11f), new(1.25f, .67f, 0f), "6d5943", "wood");
-        AddVisualBox(hinge, "GateBrace", new(2.10f, .075f, .08f), new(1.25f, .68f, 0f), "8a6b50", "wood");
+        // Boarded leaf (drying gaps, battens, Z-brace) instead of a single slab.
+        AddBoardedLeaf(hinge, "GateLeaf", new(2.50f, .86f, .11f), new(1.25f, .67f, 0f), "6d5943");
         AddVisualBox(gate, "Latch", new(.14f, .16f, .12f), new(1.25f, .90f, -.08f), "49382d", "metal");
 
         // The target volume is immediately inside the east latch post.

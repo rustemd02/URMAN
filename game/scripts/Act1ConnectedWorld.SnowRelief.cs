@@ -249,6 +249,7 @@ public partial class Act1ConnectedWorld
     private void ReworkStreetSnowBanks()
     {
         var reworked = 0; var apertures = 0; var residualCrossings = 0; var unparsed = 0;
+        var bankVerticesBefore = 0; var bankVerticesAfter = 0;
         foreach (var mesh in FindDescendants<MeshInstance3D>(this).ToArray())
         {
             if (!mesh.Name.ToString().StartsWith("StreetBank", StringComparison.Ordinal)) continue;
@@ -332,19 +333,39 @@ public partial class Act1ConnectedWorld
                 }
             }
 
-            arrays[(int)Mesh.ArrayType.Vertex] = vertices;
-            // Normals are re-derived on the known grid (face normals accumulated per vertex)
-            // instead of asking SurfaceTool for them: the authored relief arrives indexed and
-            // with a normal array already set, where generate_normals() refuses to run. This
-            // way the new slump and the thrown heaps are actually shaded, the index buffer
-            // stays as it was and no vertex is duplicated.
-            var normals = GridNormals(vertices, stations, columns);
-            arrays[(int)Mesh.ArrayType.Normal] = normals;
+            // Soft wind-packed look: round the shoulders (smooth the rise grid) and double the
+            // columns across, so the 23 cm quads of the authored section no longer read as a
+            // folded sheet. Aperture / taper stations may only lose snow, never gain it.
+            var noRaise = new bool[stations];
+            for (var s = 0; s < stations; s++) noRaise[s] = aperture[s] || weight[s] < .999f;
+            global::Godot.Collections.Array? softArrays = null;
+            if (CanRefineSnowGrid(arrays) && RefineSnowGrid(mesh, vertices,
+                    arrays[(int)Mesh.ArrayType.TexUV].VariantType == Variant.Type.Nil
+                        ? null : arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array(),
+                    stations, columns, noRaise, out var softVertices, out var softUvs, out var softColumns, out var softRise))
+            {
+                softArrays = BuildSnowGridArrays(softVertices, softUvs, stations, softColumns);
+                bankVerticesBefore += vertices.Length;
+                bankVerticesAfter += softVertices.Length;
+                maxRise = softRise;
+            }
+            else
+            {
+                bankVerticesBefore += vertices.Length;
+                bankVerticesAfter += vertices.Length;
+                arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+                // Normals are re-derived on the known grid (face normals accumulated per vertex)
+                // instead of asking SurfaceTool for them: the authored relief arrives indexed and
+                // with a normal array already set, where generate_normals() refuses to run. This
+                // way the new slump and the thrown heaps are actually shaded, the index buffer
+                // stays as it was and no vertex is duplicated.
+                arrays[(int)Mesh.ArrayType.Normal] = GridNormals(vertices, stations, columns);
+            }
             // The material is taken before the swap: the old ArrayMesh goes out of use here,
             // and the new one must be owned by the node, not by a disposed local.
             var reliefMaterial = source.SurfaceGetMaterial(0);
             var reprofiled = new ArrayMesh();
-            reprofiled.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+            reprofiled.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, softArrays ?? arrays);
             // A surface belongs to the mesh resource, not to the instance: the material is put
             // on the reprofiled ArrayMesh before that mesh is published to the node, exactly
             // as the clipped relief above does.
@@ -364,7 +385,142 @@ public partial class Act1ConnectedWorld
         GD.Print($"act1-street-banks: reworked={reworked} apertures={apertures} " +
                  $"corridorCrossings={residualCrossings} unparsed={unparsed} " +
                  $"corridors={SnowReliefStandard.CorridorCount} solids={SnowReliefStandard.SolidCount} " +
-                 $"footprints={SnowReliefStandard.FootprintCount}");
+                 $"footprints={SnowReliefStandard.FootprintCount} " +
+                 $"vertices={bankVerticesBefore}->{bankVerticesAfter}");
+    }
+
+    /// <summary>A grid the refiner may rebuild: it carries only vertex, normal, uv and index
+    /// data, so nothing it cannot interpolate is dropped.</summary>
+    private static bool CanRefineSnowGrid(global::Godot.Collections.Array arrays)
+    {
+        foreach (var type in new[] { Mesh.ArrayType.Tangent, Mesh.ArrayType.Color, Mesh.ArrayType.TexUV2,
+                     Mesh.ArrayType.Bones, Mesh.ArrayType.Weights, Mesh.ArrayType.Custom0, Mesh.ArrayType.Custom1,
+                     Mesh.ArrayType.Custom2, Mesh.ArrayType.Custom3 })
+            if (arrays[(int)type].VariantType != Variant.Type.Nil) return false;
+        return true;
+    }
+
+    /// <summary>Cross-section passes of the [1 2 1] rise filter (edge columns pinned).</summary>
+    private const int SnowGridCrossPasses = 3;
+    /// <summary>Along-run passes of the same filter (end stations pinned): removes the
+    /// station-to-station noise that reads as facets on the crest.</summary>
+    private const int SnowGridAlongPasses = 2;
+
+    /// <summary>
+    /// Softens a row-major snow relief grid (stations x columns, mesh-local vertices): the rise
+    /// above the collision ground is filtered a few passes so the plateau-to-slope creases become
+    /// rounded shoulders, then every column gap gets a mid column (clamped cubic through the
+    /// neighbours, never above the higher neighbour), giving 2*columns-1 columns. Edge columns and
+    /// end stations keep their rise, a vertex that already lay flat on the ground (inside the road
+    /// clearance) stays flat, and <paramref name="noRaise"/> stations can only lose snow, so a
+    /// refined bank never reaches further into a corridor than the grid it came from.
+    /// </summary>
+    private static bool RefineSnowGrid(MeshInstance3D mesh, Vector3[] vertices, Vector2[]? uvs, int stations, int columns,
+        bool[]? noRaise, out Vector3[] refined, out Vector2[]? refinedUvs, out int refinedColumns, out float maxRise)
+    {
+        refined = vertices; refinedUvs = uvs; refinedColumns = columns; maxRise = 0f;
+        if (stations < 3 || columns < 3 || vertices.Length != stations * columns) return false;
+        if (uvs is not null && uvs.Length != vertices.Length) return false;
+        var count = vertices.Length;
+        var world = new Vector3[count];
+        var ground = new float[count];
+        var original = new float[count];
+        for (var i = 0; i < count; i++)
+        {
+            world[i] = mesh.ToGlobal(vertices[i]);
+            ground[i] = AgentBAct1HeightField.CollisionGround(world[i].X, world[i].Z);
+            original[i] = world[i].Y - ground[i];
+        }
+        var rise = (float[])original.Clone();
+        var scratch = new float[count];
+
+        bool Locked(int s, int c, int i) =>
+            s == 0 || s == stations - 1 || c == 0 || c == columns - 1 || original[i] <= .005f;
+        float Limit(float value, int s, int i) => noRaise is not null && noRaise[s] ? Mathf.Min(value, original[i]) : value;
+
+        for (var pass = 0; pass < SnowGridCrossPasses; pass++)
+        {
+            for (var s = 0; s < stations; s++)
+            for (var c = 0; c < columns; c++)
+            {
+                var i = s * columns + c;
+                scratch[i] = Locked(s, c, i) ? rise[i] : Limit(.5f * rise[i] + .25f * (rise[i - 1] + rise[i + 1]), s, i);
+            }
+            (rise, scratch) = (scratch, rise);
+        }
+        for (var pass = 0; pass < SnowGridAlongPasses; pass++)
+        {
+            for (var s = 0; s < stations; s++)
+            for (var c = 0; c < columns; c++)
+            {
+                var i = s * columns + c;
+                scratch[i] = Locked(s, c, i) ? rise[i]
+                    : Limit(.5f * rise[i] + .25f * (rise[i - columns] + rise[i + columns]), s, i);
+            }
+            (rise, scratch) = (scratch, rise);
+        }
+
+        var newColumns = columns * 2 - 1;
+        var result = new Vector3[stations * newColumns];
+        var newUvs = uvs is null ? null : new Vector2[result.Length];
+        var inverse = mesh.GlobalTransform.AffineInverse();
+        for (var s = 0; s < stations; s++)
+        for (var c = 0; c < newColumns; c++)
+        {
+            var o = s * newColumns + c;
+            Vector3 placed;
+            float placedRise;
+            if ((c & 1) == 0)
+            {
+                var i = s * columns + c / 2;
+                placedRise = rise[i];
+                placed = new Vector3(world[i].X, ground[i] + rise[i], world[i].Z);
+                if (newUvs is not null) newUvs[o] = uvs![i];
+            }
+            else
+            {
+                var a = s * columns + c / 2;
+                var b = a + 1;
+                var x = (world[a].X + world[b].X) * .5f;
+                var z = (world[a].Z + world[b].Z) * .5f;
+                var p0 = c / 2 - 1 >= 0 ? rise[a - 1] : rise[a];
+                var p3 = c / 2 + 2 < columns ? rise[b + 1] : rise[b];
+                var r = (-p0 + 9f * rise[a] + 9f * rise[b] - p3) / 16f;
+                r = Mathf.Clamp(r, Mathf.Min(rise[a], rise[b]), Mathf.Max(rise[a], rise[b]));
+                placedRise = r;
+                placed = new Vector3(x, AgentBAct1HeightField.CollisionGround(x, z) + r, z);
+                if (newUvs is not null) newUvs[o] = (uvs![a] + uvs[b]) * .5f;
+            }
+            maxRise = Mathf.Max(maxRise, placedRise);
+            result[o] = inverse * placed;
+        }
+        refined = result; refinedUvs = newUvs; refinedColumns = newColumns;
+        return true;
+    }
+
+    /// <summary>Indexed triangle arrays for a row-major relief grid, wound like the authored
+    /// landform surface, with grid normals.</summary>
+    private static global::Godot.Collections.Array BuildSnowGridArrays(Vector3[] vertices, Vector2[]? uvs, int stations, int columns)
+    {
+        var indices = new int[(columns - 1) * (stations - 1) * 6];
+        var k = 0;
+        for (var s = 0; s + 1 < stations; s++)
+        for (var c = 0; c + 1 < columns; c++)
+        {
+            var topLeft = s * columns + c;
+            var topRight = topLeft + 1;
+            var bottomLeft = (s + 1) * columns + c;
+            var bottomRight = bottomLeft + 1;
+            indices[k++] = topLeft; indices[k++] = topRight; indices[k++] = bottomLeft;
+            indices[k++] = topRight; indices[k++] = bottomRight; indices[k++] = bottomLeft;
+        }
+        var arrays = new global::Godot.Collections.Array();
+        arrays.Resize((int)Mesh.ArrayType.Max);
+        arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+        arrays[(int)Mesh.ArrayType.Normal] = GridNormals(vertices, stations, columns);
+        if (uvs is not null) arrays[(int)Mesh.ArrayType.TexUV] = uvs;
+        arrays[(int)Mesh.ArrayType.Index] = indices;
+        return arrays;
     }
 }
 

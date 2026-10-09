@@ -2163,7 +2163,7 @@ public partial class Act1ConnectedWorld : Node3D
         // own URMAN_Hero_Log slot, so the grade below still finds them.
         RoundHeroLogCourses(core);
         ReboardKitGateLeaves(core);
-        BuildAgentBLogCrowns(core);
+        BuildDwellingLogWalls(core);
         var grade = new Dictionary<string, Material>(StringComparer.Ordinal)
         {
             // 09.10 author photo references T1-T3 (Tatarstan village facades):
@@ -2208,8 +2208,8 @@ public partial class Act1ConnectedWorld : Node3D
             ["URMAN_Hero_Trim_Ivory"] = PainterlyMaterialLibrary.ForColor("e6e2d6", "wood_painted_trim"),
             ["URMAN_Hero_RoofSnow"] = PainterlyMaterialLibrary.ForColor("e8edf0", "snow_roof"),
             ["URMAN_Wood_WetShadow"] = PainterlyMaterialLibrary.ForColor("554e40", "wood_facade"),
-            ["URMAN_Roof_WetSlate"] = PainterlyMaterialLibrary.ForColor("626b66", "roof"),
-            ["URMAN_Roof_MossTone"] = PainterlyMaterialLibrary.ForColor("656d5e", "roof"),
+            ["URMAN_Roof_WetSlate"] = PainterlyMaterialLibrary.ForColor("7a4c40", "roof_metal"),
+            ["URMAN_Roof_MossTone"] = PainterlyMaterialLibrary.ForColor("5e463b", "roof_metal"),
             ["URMAN_Stone_Mossy"] = PainterlyMaterialLibrary.ForColor("75756a", "stone"),
             ["URMAN_Stone_MossFace"] = PainterlyMaterialLibrary.ForColor("636d59", "stone"),
             ["URMAN_Stone_LightFace"] = PainterlyMaterialLibrary.ForColor("858377", "stone"),
@@ -2278,7 +2278,7 @@ public partial class Act1ConnectedWorld : Node3D
             ["ShrubGreen"] = PainterlyMaterialLibrary.ForColor("48553f", "foliage"),
             ["QuietStone"] = PainterlyMaterialLibrary.ForColor("7e7f73", "stone"),
             ["DistantWall"] = PainterlyMaterialLibrary.ForColor("6f716a", "plaster"),
-            ["DistantRoof"] = PainterlyMaterialLibrary.ForColor("5f6761", "roof"),
+            ["DistantRoof"] = PainterlyMaterialLibrary.ForColor("6a4a40", "roof_metal"),
             // Village kit leftovers that still rendered raw GLB albedo: the
             // well water read as a bright blue disc and cut/bark/metal parts
             // washed out. Same muted wet-village palette as above.
@@ -7658,8 +7658,8 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualBox(ziratApproachGate, "GatePostWest", new(0.24f, 2.02f, 0.24f), new(-4.25f, 1.01f, 0f), "5e503d", "wood");
         AddVisualBox(ziratApproachGate, "GatePostEast", new(0.24f, 1.86f, 0.24f), new(4.25f, 0.93f, 0f), "5e503d", "wood");
         AddVisualBox(ziratApproachGate, "GateHeader", new(8.70f, 0.18f, 0.18f), new(0f, 2.12f, 0f), "5e503d", "wood");
-        AddVisualBox(ziratApproachGate, "GateLeafWest", new(2.55f, 1.02f, 0.10f), new(-5.05f, 0.51f, 0f), "685546", "wood", rollDegrees: -4f);
-        AddVisualBox(ziratApproachGate, "GateLeafEast", new(2.55f, 0.94f, 0.10f), new(5.05f, 0.47f, 0f), "685546", "wood", rollDegrees: 4f);
+        AddBoardedLeaf(ziratApproachGate, "GateLeafWest", new(2.55f, 1.02f, 0.10f), new(-5.05f, 0.51f, 0f), "685546").RotationDegrees = new(0f, 0f, -4f);
+        AddBoardedLeaf(ziratApproachGate, "GateLeafEast", new(2.55f, 0.94f, 0.10f), new(5.05f, 0.47f, 0f), "685546").RotationDegrees = new(0f, 0f, 4f);
 
         AddVisualTree(parent, "ZiratNearBirchWest", origin + new Vector3(-13.4f, 0f, 18.6f), 6.6f, VegetationStyle.Birch, "68705a");
         AddVisualTree(parent, "ZiratNearBroadleafEast", origin + new Vector3(13.0f, 0f, 16.8f), 5.8f, VegetationStyle.Broadleaf, "53634e");
@@ -9730,8 +9730,8 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualBox(enclosure, "ZiratGatePostWest", new(0.24f, 1.8f, 0.24f), origin + new Vector3(-3.6f, 0.9f, 16f), "5e503d", "wood");
         AddVisualBox(enclosure, "ZiratGatePostEast", new(0.24f, 1.8f, 0.24f), origin + new Vector3(3.6f, 0.9f, 16f), "5e503d", "wood");
         AddVisualBox(enclosure, "ZiratGateHeader", new(7.2f, 0.18f, 0.18f), origin + new Vector3(0f, 2.08f, 16f), "5e503d", "wood");
-        AddVisualBox(enclosure, "ZiratGateLeafWest", new(2.9f, 1.12f, 0.10f), origin + new Vector3(-5.0f, 0.56f, 15.92f), "685546", "wood", rollDegrees: -3f);
-        AddVisualBox(enclosure, "ZiratGateLeafEast", new(2.9f, 1.12f, 0.10f), origin + new Vector3(5.0f, 0.56f, 15.92f), "685546", "wood", rollDegrees: 3f);
+        AddBoardedLeaf(enclosure, "ZiratGateLeafWest", new(2.9f, 1.12f, 0.10f), origin + new Vector3(-5.0f, 0.56f, 15.92f), "685546").RotationDegrees = new(0f, 0f, -3f);
+        AddBoardedLeaf(enclosure, "ZiratGateLeafEast", new(2.9f, 1.12f, 0.10f), origin + new Vector3(5.0f, 0.56f, 15.92f), "685546").RotationDegrees = new(0f, 0f, 3f);
         AddVisualBox(enclosure, "ZiratRoadEdgeWest", new(0.18f, 0.08f, 34f), origin + new Vector3(-3.05f, 0.05f, 0f), "3d4237", "earth");
         AddVisualBox(enclosure, "ZiratRoadEdgeEast", new(0.18f, 0.08f, 34f), origin + new Vector3(3.05f, 0.05f, 0f), "3d4237", "earth");
 

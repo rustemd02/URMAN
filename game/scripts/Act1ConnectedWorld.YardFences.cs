@@ -242,6 +242,8 @@ public partial class Act1ConnectedWorld
         }
         var registry = AddressRegistry;
         string[] streetColours = ["5f7d5a", "4f6f8c", "a8854a", "8a8f86", "6b8a7a", "7d5a4a"];
+        // author photo reference T1 (09.10.2026): painted picket fences — ochre, faded green, faded sky blue, old white.
+        string[] paintedStreetColours = ["c9874a", "7f9a74", "8fb0c4", "dcd6c8"];
         // VIS-088: the construction of a street fence is handed out in street order
         // on each frontage, so two neighbouring lots never read as the same build.
         // The phase comes from the frontage itself, which keeps the sequence stable
@@ -282,6 +284,11 @@ public partial class Act1ConnectedWorld
             // VIS-019: colour came from the same hash as the design, so the design
             // predicted the paint; draw it from independent bits.
             var colour = streetColours[(int)((TimberHomeStyle.StableHash(lot.Id) >> 8) % (uint)streetColours.Length)];
+            // About 45% of the closed picket/board street fences are painted; woven and
+            // rail-with-upright families keep the weathered wash. Separate hash strings
+            // keep the paint decision per lot and independent of the design and weathered colour.
+            if (!design.Woven && !design.RailWithUprights && TimberHomeStyle.StableHash(lot.Id + ":painted") % 100 < 45)
+                colour = paintedStreetColours[(int)((TimberHomeStyle.StableHash(lot.Id + ":painted-colour") >> 8) % (uint)paintedStreetColours.Length)];
             foreach (var (a, b, kind) in edges)
             {
                 var length = a.DistanceTo(b);

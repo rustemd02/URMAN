@@ -43,17 +43,29 @@ public partial class Act1ConnectedWorld
             using var surface = new SurfaceTool(); surface.Begin(Mesh.PrimitiveType.Triangles);
             var walked = 0f; var triangles = 0;
             // VIS-078: the path is a trodden channel, not a decal on the snow. Its floor
-            // stays 1 cm over the ground; the snow kicked out of it forms a soft berm
-            // either side (crest 4–7 cm, by route, so no two door paths are stamped
-            // alike) that feathers back into the untouched snow 0.6–0.95 m out.
-            var crest = .04f + .03f * (TimberHomeStyle.StableHash(id) % 100) / 100f;
-            float Rise(float lateral) => Mathf.Abs(lateral) switch
+            // stays ~1 cm over the ground and dishes only slightly; the snow kicked out of
+            // it forms a soft rounded lip either side (crest 3.5–5.5 cm, by route) that
+            // falls by smoothstep to the untouched snow 0.3–0.45 m beyond the floor edge,
+            // with no vertical face anywhere. The shoulder width wanders a little along the
+            // route (stable per id) so the edge is never a ruled line.
+            var hash = TimberHomeStyle.StableHash(id);
+            var crest = .035f + .02f * (hash % 100) / 100f;
+            var shoulder = .30f + .15f * (hash / 100 % 100) / 100f;
+            var phase = (hash % 628) / 100f;
+            const float floorY = .010f, outerY = -.004f;
+            // Column |k|: 0 centre, 1 floor edge, 2..4 shoulder at 35/70/100 % of its width.
+            float Edge(float along, float side) => 1f + .26f * (.6f * Mathf.Sin(along * 1.7f + phase + side * 2.1f)
+                + .4f * Mathf.Sin(along * 4.3f + phase * 1.7f - side * 1.3f));
+            float Height(float lateralMetres, float half, float width)
             {
-                < .75f => .010f + .004f * Mathf.Abs(lateral),
-                < 1.2f => .035f,
-                < 1.7f => crest,
-                _ => -.004f
-            };
+                var m = Mathf.Abs(lateralMetres);
+                var rim = floorY + (crest - floorY) * .3f;
+                if (m <= half) return floorY + (rim - floorY) * Mathf.SmoothStep(0f, 1f, m / half);
+                var q = Mathf.Clamp((m - half) / width, 0f, 1f);
+                return q < .35f
+                    ? Mathf.Lerp(rim, crest, Mathf.SmoothStep(0f, .35f, q))
+                    : Mathf.Lerp(crest, outerY, Mathf.SmoothStep(.35f, 1f, q));
+            }
             var routeLength = 0f;
             for (var segment = 0; segment < path.Length - 1; segment++)
                 routeLength += new Vector2(path[segment + 1].X - path[segment].X, path[segment + 1].Z - path[segment].Z).Length();
@@ -66,20 +78,26 @@ public partial class Act1ConnectedWorld
                 var count = Mathf.Max(1, Mathf.CeilToInt(flat.Length() / .45f));
                 var segmentStart = walked;
                 var segmentLength = flat.Length();
-                Vector3 Point(float t, float lateral)
+                (Vector3 Position, float Across) Point(float t, int column)
                 {
                     // VIS-012: the last metres before the door are shovelled to a
                     // 1 m working width; the street end stays a 0.64 m trodden line.
                     var along = segmentStart + segmentLength * t;
-                    var halfWidth = Mathf.Lerp(.32f, .50f, Mathf.SmoothStep(routeLength - 3f, routeLength - 1f, along));
-                    var p = a.Lerp(b, t) + across * halfWidth * lateral;
-                    return new(p.X, AgentBAct1HeightField.CollisionGround(p.X, p.Z) + Rise(lateral), p.Z);
+                    var half = Mathf.Lerp(.32f, .50f, Mathf.SmoothStep(routeLength - 3f, routeLength - 1f, along));
+                    var side = Mathf.Sign(column);
+                    var width = shoulder * Edge(along, side);
+                    var k = Mathf.Abs(column);
+                    var metres = k == 0 ? 0f : k == 1 ? half : half + width * (k - 1) / 3f;
+                    var lateral = side * metres;
+                    var p = a.Lerp(b, t) + across * lateral;
+                    return (new(p.X, AgentBAct1HeightField.CollisionGround(p.X, p.Z) + Height(lateral, half, width), p.Z), lateral / half);
                 }
-                void Vertex(float t, float lateral)
+                void Vertex(float t, int column)
                 {
                     // UV.x beyond 0..1 is the material's fresh-snow side (soft_path_edges).
+                    var (position, lateral) = Point(t, column);
                     surface.SetUV(new((lateral + 1) * .5f, walked + flat.Length() * t));
-                    surface.SetColor(Colors.White); surface.AddVertex(ToLocal(Point(t, lateral)));
+                    surface.SetColor(Colors.White); surface.AddVertex(ToLocal(position));
                 }
                 for (var i = 0; i < count; i++)
                 {
@@ -89,9 +107,9 @@ public partial class Act1ConnectedWorld
                     // Do not paint a terrain strip over a raised porch, tread,
                     // interior floor or bridge which owns its own surface.
                     if (Mathf.Abs(centre.Y - .035f - ground) > .12f) continue;
-                    for (var band = 0; band < Laterals.Length - 1; band++)
+                    for (var band = -4; band < 4; band++)
                     {
-                        var l0 = Laterals[band]; var l1 = Laterals[band + 1];
+                        var l0 = band; var l1 = band + 1;
                         Vertex(t0, l0); Vertex(t1, l1); Vertex(t1, l0);
                         Vertex(t0, l0); Vertex(t0, l1); Vertex(t1, l1); triangles += 2;
                     }
@@ -105,10 +123,10 @@ public partial class Act1ConnectedWorld
                 MaterialOverride = PainterlyMaterialLibrary.ForPath("c9cdcd"),
                 CastShadow = GeometryInstance3D.ShadowCastingSetting.Off };
             mesh.SetMeta("accessId", id); mesh.SetMeta("routeRevision", revision);
-            mesh.SetMeta("snowScale", "medium"); // VIS-077 tier: trodden channel with berms
+            mesh.SetMeta("snowScale", "medium"); // VIS-077 tier: trodden channel with soft lips
             mesh.SetMeta("routeOwner", "AddressAccessVerifier + SettlementGraph");
             // VIS-077: this ribbon is the medium-edge tier of the snow standard — a trodden
-            // floor 1 cm over the ground with a 4–7 cm berm, never a flat decal.
+            // floor 1 cm over the ground with a 3.5–5.5 cm soft lip, never a flat decal.
             mesh.SetMeta("snowTier", SnowReliefStandard.TierEdge);
             // VIS-079/016: the route is now also a required corridor, so the street banks and
             // the new drifts keep this exact line clear, and SnowTrampleField reads a print
@@ -126,9 +144,6 @@ public partial class Act1ConnectedWorld
     /// path, 1.6 m short of the door, on whichever side is open ground (not a
     /// building footprint, not a porch or deck). Visual only; it never blocks.
     /// </summary>
-    // Cross-section samples in half-widths: floor, channel wall, berm crest, feathered edge.
-    private static readonly float[] Laterals = [-1.9f, -1.45f, -1f, -.5f, 0f, .5f, 1f, 1.45f, 1.9f];
-
     private void AddShovelHeap(Node3D pathMesh, string accessId, Vector3[] path, float routeLength)
     {
         if (routeLength < 3.5f) return;

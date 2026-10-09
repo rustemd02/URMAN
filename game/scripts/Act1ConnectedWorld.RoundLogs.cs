@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 namespace Urman.Godot;
@@ -18,6 +19,7 @@ namespace Urman.Godot;
 public partial class Act1ConnectedWorld
 {
     private const string HeroLogMaterial = "URMAN_Hero_Log";
+    private const string HeroLogEndMaterial = "URMAN_Hero_LogEnd";
     private const int RoundLogSegments = 20;
     private static readonly Dictionary<ulong, ArrayMesh?> RoundedLogCache = new();
 
@@ -26,12 +28,21 @@ public partial class Act1ConnectedWorld
         var rounded = 0;
         foreach (var mesh in FindDescendants<MeshInstance3D>(root))
         {
-            if (mesh.Mesh is not ArrayMesh source || source.GetSurfaceCount() != 1) continue;
-            var material = source.SurfaceGetMaterial(0);
-            if (material?.ResourceName != HeroLogMaterial) continue;
+            if (mesh.Mesh is not ArrayMesh source || source.GetSurfaceCount() is < 1 or > 2) continue;
+            // A course is either one URMAN_Hero_Log surface or a log body plus its
+            // own URMAN_Hero_LogEnd end-grain caps on the same mesh.
+            Material? material = null, endGrain = null;
+            for (var surface = 0; surface < source.GetSurfaceCount(); surface++)
+            {
+                var slot = source.SurfaceGetMaterial(surface);
+                if (slot?.ResourceName == HeroLogMaterial) material = slot;
+                else if (slot?.ResourceName == HeroLogEndMaterial) endGrain = slot;
+                else { material = null; break; }
+            }
+            if (material is null || (source.GetSurfaceCount() == 2 && endGrain is null)) continue;
             var id = source.GetInstanceId();
             if (!RoundedLogCache.TryGetValue(id, out var replacement))
-                RoundedLogCache[id] = replacement = BuildRoundLog(source, material);
+                RoundedLogCache[id] = replacement = BuildRoundLog(source, material, endGrain);
             if (replacement is null) continue;
             mesh.Mesh = replacement;
             mesh.SetMeta("roundedLogCourse", "ACT1-DEPTH.9/T2: chamfered kit course rebuilt as an elliptical log in the same bounds");
@@ -41,10 +52,10 @@ public partial class Act1ConnectedWorld
         return rounded;
     }
 
-    private static ArrayMesh? BuildRoundLog(ArrayMesh source, Material material)
+    private static ArrayMesh? BuildRoundLog(ArrayMesh source, Material material, Material? endGrain)
     {
-        var arrays = source.SurfaceGetArrays(0);
-        var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+        var vertices = Enumerable.Range(0, source.GetSurfaceCount())
+            .SelectMany(surface => source.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array()).ToArray();
         if (vertices.Length == 0) return null;
         var min = vertices[0];
         var max = vertices[0];
@@ -59,7 +70,9 @@ public partial class Act1ConnectedWorld
         var height = size.Y;
         if (height is < .15f or > .45f || depth is < .06f or > .40f || length < height * 2.5f) return null;
 
-        var ry = height * .5f;
+        // Courses sit 0.28 m apart with 0.26 m bodies; a slightly taller ellipse
+        // lets neighbours meet in a narrow chinked seam instead of a dark slot.
+        var ry = height * .5f * 1.12f;
         var rd = depth * .5f;
         var half = length * .5f;
         Vector3 Point(float along, float d, float y) => alongX
@@ -108,20 +121,37 @@ public partial class Act1ConnectedWorld
             Tri(a, b, c);
             Tri(a, c, d);
         }
+        surface.SetMaterial(material);
+        var result = surface.Commit();
+        // End caps: on the course's own end-grain material when it has one, so
+        // the rings stay where the kit put them; otherwise on the log material.
+        if (endGrain is not null)
+        {
+            surface = new SurfaceTool();
+            surface.Begin(Mesh.PrimitiveType.Triangles);
+        }
         foreach (var sign in new[] { -1f, 1f })
         {
             var normal = Dir(sign, 0f, 0f);
-            var hub = (Point(sign * half, 0f, 0f), normal, Vector2.Zero);
+            var hub = (Point(sign * half, 0f, 0f), normal, new Vector2(.5f, .5f));
             for (var i = 0; i < RoundLogSegments; i++)
             {
                 var r0 = ring[i];
                 var r1 = ring[i + 1];
-                Tri(hub, (Point(sign * half, r0.D, r0.Y), normal, new Vector2(r0.D, r0.Y)),
-                    (Point(sign * half, r1.D, r1.Y), normal, new Vector2(r1.D, r1.Y)));
+                Tri(hub, (Point(sign * half, r0.D, r0.Y), normal, new Vector2(.5f + .5f * r0.D / rd, .5f + .5f * r0.Y / ry)),
+                    (Point(sign * half, r1.D, r1.Y), normal, new Vector2(.5f + .5f * r1.D / rd, .5f + .5f * r1.Y / ry)));
             }
         }
-        surface.SetMaterial(material);
-        var result = surface.Commit();
+        if (endGrain is not null)
+        {
+            surface.SetMaterial(endGrain);
+            surface.Commit(result);
+        }
+        else
+        {
+            surface.SetMaterial(material);
+            result = surface.Commit();
+        }
         result.ResourceName = source.ResourceName + "_Round";
         return result;
     }

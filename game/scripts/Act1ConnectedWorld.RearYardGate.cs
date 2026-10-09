@@ -49,8 +49,9 @@ public partial class Act1ConnectedWorld
         presentation.AddChild(hinge);
         var leaf = new Node3D { Name = "RearGateLeaf", RotationDegrees = new(0, -78, 0) };
         hinge.AddChild(leaf);
-        AddVisualBox(leaf, "RearGateLeafBoard", new(.09f, 1.02f, 1.06f), new(0f, .51f, .55f), "6f5a49", "wood");
-        AddVisualBox(leaf, "RearGateLeafBrace", new(.06f, .07f, .92f), new(-.05f, .62f, .55f), "846c52", "wood");
+        // Sawn vertical boards with drying gaps, battens and a Z-brace
+        // (replaces the former single-box slab and its flat brace).
+        AddBoardedLeaf(leaf, "RearGateLeafBoard", new(.09f, 1.02f, 1.06f), new(0f, .51f, .55f), "6f5a49");
         DiscoveryCylinder(leaf, "RearGateLeafHingePin", .028f, .028f, .96f, new(-.05f, .51f, .04f), "42352b");
     }
 

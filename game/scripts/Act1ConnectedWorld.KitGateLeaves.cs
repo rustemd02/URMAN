@@ -26,7 +26,8 @@ public partial class Act1ConnectedWorld
         {
             var name = leaf.Name.ToString();
             if (!name.Contains("Gate", StringComparison.Ordinal) || !name.EndsWith("_Leaf", StringComparison.Ordinal)) continue;
-            if (leaf.HasMeta("leafReboarded") || leaf.Mesh is not ArrayMesh mesh || mesh.GetSurfaceCount() == 0) continue;
+            // Suppressed duplicates (e.g. Agent B's hidden Babai family) stay hidden.
+            if (!leaf.Visible || leaf.HasMeta("leafReboarded") || leaf.Mesh is not ArrayMesh mesh || mesh.GetSurfaceCount() == 0) continue;
             if (leaf.GetParent() is not Node3D parent) continue;
 
             var points = mesh.SurfaceGetArrays(0)[(int)Mesh.ArrayType.Vertex].AsVector3Array();

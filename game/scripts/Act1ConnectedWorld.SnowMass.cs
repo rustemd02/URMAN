@@ -191,10 +191,36 @@ public partial class Act1ConnectedWorld
         mesh.SetMeta("collisionOwner", "none");
         mesh.SetMeta("presentationRole", "VIS-077 large snow mass drift; visual only, no traversal ownership");
         _snowMassDrifts++;
+        SoftenSnowDrift(mesh);
         if (mesh.Mesh is ArrayMesh array)
         {
             using var arrays = array.SurfaceGetArrays(0);
             _snowMassVertices += arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array().Length;
         }
+    }
+
+    /// <summary>The authored drift section has nine columns and a plateau with creased
+    /// shoulders. The same softening as the street banks (rounded rise grid, doubled columns
+    /// across) makes it read as wind-packed snow; footprint, height range, metas and material
+    /// are untouched, and nothing rises above what the authored drift already did.</summary>
+    private static void SoftenSnowDrift(MeshInstance3D mesh)
+    {
+        const int authoredColumns = 9;
+        if (mesh.Mesh is not ArrayMesh source || source.GetSurfaceCount() == 0) return;
+        using var arrays = source.SurfaceGetArrays(0);
+        var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+        if (arrays[(int)Mesh.ArrayType.Index].VariantType == Variant.Type.Nil || !CanRefineSnowGrid(arrays)) return;
+        if (vertices.Length == 0 || vertices.Length % authoredColumns != 0) return;
+        var stations = vertices.Length / authoredColumns;
+        var uvs = arrays[(int)Mesh.ArrayType.TexUV].VariantType == Variant.Type.Nil
+            ? null : arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array();
+        if (!RefineSnowGrid(mesh, vertices, uvs, stations, authoredColumns, null,
+                out var softVertices, out var softUvs, out var softColumns, out _)) return;
+        var material = source.SurfaceGetMaterial(0);
+        var soft = new ArrayMesh();
+        soft.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles,
+            BuildSnowGridArrays(softVertices, softUvs, stations, softColumns));
+        if (material is not null) soft.SurfaceSetMaterial(0, material);
+        mesh.Mesh = soft;
     }
 }
