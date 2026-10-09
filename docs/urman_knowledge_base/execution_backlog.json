@@ -27225,7 +27225,21 @@
           "result": "PASS native non-headless full-game semantic smoke. Job 442857b2d5bc4056931f0203ba1852ca; snapshot 544949b1c3623ac71630158f8de68f0823d6c4dda8c7592257f8ad8c409b3bad; source commit a58f1080978697a6041afb75a678d4dd99710de8; game/build/content/import/document-image steps exit 0; no engine error lines; userdata restored. Source SHA256: FullGameFlowSmokeTest e8467d283bc65121a4ad7c322f65205d48d3710d90b2732d46fd6a37957306e7; PhotoWorldState d14e9d8eb00f0a48fae460c71481a71213a4c77c5092a203c3e7e1854f9c978f; compiled pack c1afa18be60a451d7a2a5295d8be72cba7211579c415f51e75ca2f56ae209052. Caption PNG 13b67c3d5d2bd6fc826f1457749e874db9a346239a62becd79f6215e63f4ff43 (1886x1061); root accepted only the bounded caption-authoring frame.",
           "verified": "Native log explicitly reports PHYSICAL NOT_RUN. It covers semantic A/B routes, blockers, B01, typed evidence, caption-before-print, W04, optional W05, unresolved death and return/revisit. It does not prove ordinary input, full desktop/app usability, physical world/anchors/printer or runtime profile/style acceptance."
         },
-        "evidence/PW-003/chapter-completion-contract-audit-2026-10-09.json"
+        "evidence/PW-003/chapter-completion-contract-audit-2026-10-09.json",
+        {
+          "date": "2026-10-09",
+          "kind": "canonical-world-completion-source-correction",
+          "path": "evidence/PW-003/canonical-world-completion-source-correction-2026-10-09.json",
+          "result": "Changed only the five W01–W05 completion fact sets to the exact 19 worlds.spec required IDs. Preserved the campaign manifest, all 33 catalogued facts/interactions, starts, quest composition/effects, W04 non-fact clauses and W05 optionality. Static source audit and diff check pass. The compiled pack remains stale; corrected-source native check is pending. 17 required producers are missing; two existing semantic sources are not physical proof.",
+          "verified": "Source/JSON condition-set audit only. No build, content compile, test, Windows station, visual or full-route acceptance performed for this correction."
+        },
+        {
+          "date": "2026-10-09",
+          "kind": "corrected-world-completion-content-compile",
+          "path": "evidence/PW-003/canonical-world-completion-source-correction-2026-10-09.json",
+          "result": "ContentCLI/dependencies rebuilt with 0 warnings/errors; only urman.fullgame compiled after station terminal ACK. Pack SHA256 91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad; campaignFingerprint aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6; exactVersion 1.0.0. Compiled pack audit confirmed photoworlds-v1, 13 photos, W01–W05, seven logical required anchors, and exactly 19 canonical quest completion facts.",
+          "verified": "Content compile and compiled-contract audit PASS. No game build, test, Windows/native run or full route verification performed after this source correction. Full route remains blocked by 17 absent producers."
+        }
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-003",
       "source_requirements": [
@@ -27239,7 +27253,7 @@
       "reference_ids": [
         "REQ"
       ],
-      "runtime_evidence": "PASS native semantic flow 442857b2d5bc4056931f0203ba1852ca; root accepted the bounded caption-authoring frame. Ordinary route, physical worlds, runtime profile application and human/author acceptance remain separate gates.",
+      "runtime_evidence": "Corrected source and compiled urman.fullgame pack verified; compiled pack SHA 91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad, campaign fingerprint aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6. Corrected-source Windows/native flow NOT_RUN. The 17 absent producers still block full route; two existing semantic sources lack physical validation. Native PASS 442857 is historical on the previous graph/source only; ordinary route, profile/style and author acceptance remain separate gates.",
       "author_acceptance": "PENDING",
       "mvp_priority": 10,
       "mvp_packet": "PW0",
@@ -27389,12 +27403,19 @@
         "root_visual_review": "evidence/PW-003/native_20261009_442857b2d5bc4056931f0203ba1852ca/root_visual_review.json"
       },
       "progress_2026_10_09_reopened_world_contract": {
-        "reason": "Confirmed canonical worlds.spec.required actions missing from current W01–W05 completion conditions; current fact IDs are exact, not aliases.",
+        "reason": "Source correction applied after the full source check: W01–W05 gates now use exactly the 19 canonical worlds.spec required fact IDs; prior accepted semantic/native receipts describe the previous graph and remain historical.",
         "previousStatus": "completed",
-        "historicalEvidence": "All existing PW003 receipts/PASS links retained. They cover the previous logical graph; no new physical/full source-contract PASS is claimed.",
-        "disposition": "KEEP supplementary high-level narrative facts; EXTEND exact canonical facts/producers; REWRITE world completion conditions preserving start/caption/mount/outside-evidence gates and optionalW05.",
+        "historicalEvidence": "All previous PW003 receipts/PASS links retained unchanged. Native PASS 442857 used the prior compiled pack/source and is not evidence for the corrected world-completion contract.",
+        "disposition": "KEEP high-level narrative fact catalog and interactions unchanged; REWRITE only the five world completion fact sets to exact canonical required IDs. Preserve all starts, quest composition/effects, W04 four non-fact prerequisites, and optional W05.",
         "evidence": "evidence/PW-003/chapter-completion-contract-audit-2026-10-09.json",
-        "next_step": "Review minimal authored correction and required producer boundaries before implementing; do not hide missing actions behind chapter command."
+        "next_step": "Parent may run the planned targeted Windows negative check against this regenerated source. Keep PW-003 open for real producers/physical validation; retain prior 442857 native PASS as historical only.",
+        "implementationReceipt": "evidence/PW-003/canonical-world-completion-source-correction-2026-10-09.json",
+        "sourceStatus": "definitions.json source correction and regenerated urman.fullgame compiled pack PASS; corrected-source native/Windows check remains NOT_RUN.",
+        "requiredFactStatus": "17 required producers remain absent. water_old_approach_seen and house_camera_position_seen have exact existing semantic source IDs but no physical validation. Full route remains blocked at the first missing required world fact; no current semantic PASS is claimed.",
+        "saveCompatibility": "Old pack fingerprint 08a59e82c672d3f14b308bf8b45932a15637f945bcb89d9bd67518e0969d61f3 differs from regenerated aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6 while exactVersion remains 1.0.0. Existing load guard refuses old primary/backup before projection and leaves files untouched; no recovery/migration added.",
+        "compiledPackSha256": "91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad",
+        "compiledCampaignFingerprint": "aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6",
+        "contentCompile": "ContentCLI project/dependencies built with 0 warnings/errors; only urman.fullgame compiled after station terminal ACK. Compiled pack has namespace photoworlds-v1, 13 photos, 5 worlds, 7 logical anchors, and exact 19 required quest facts."
       }
     },
     {

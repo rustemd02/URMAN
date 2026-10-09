@@ -4915,15 +4915,15 @@
             "completionConditions": [
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "forest_group_seen"
+                "factId": "forest_camera_back_seen"
               },
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "forest_photographer_found"
+                "factId": "forest_beyond_frame_seen"
               },
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "forest_shurale_listened"
+                "factId": "forest_encounter_resolved"
               }
             ],
             "completionEffects": [
@@ -4999,15 +4999,19 @@
             "completionConditions": [
               {
                 "op": "photoworlds.fact.observed",
+                "factId": "water_reflection_relation_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "water_reed_opened"
+              },
+              {
+                "op": "photoworlds.fact.observed",
                 "factId": "water_old_approach_seen"
               },
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "water_safe_bypass_opened"
-              },
-              {
-                "op": "photoworlds.fact.observed",
-                "factId": "water_damp_print"
+                "factId": "water_encounter_resolved"
               }
             ],
             "completionEffects": [
@@ -5095,15 +5099,19 @@
             "completionConditions": [
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "house_shutter_adjusted"
+                "factId": "house_shutter_opened"
               },
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "house_two_views_compared"
+                "factId": "house_two_views_seen"
               },
               {
                 "op": "photoworlds.fact.observed",
                 "factId": "house_camera_position_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "house_frame_seen"
               }
             ],
             "completionEffects": [
@@ -5195,11 +5203,19 @@
             "completionConditions": [
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "common_relationships_connected"
+                "factId": "common_three_relations_seen"
               },
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "common_horizon_uncovered"
+                "factId": "common_view_uncovered"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "common_horizon_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "common_note_finished"
               },
               {
                 "op": "photoworlds.evidence.confirmed",
@@ -5289,15 +5305,19 @@
             "completionConditions": [
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "cellar_household_order_seen"
+                "factId": "cellar_household_pattern_seen"
               },
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "cellar_shared_object_found"
+                "factId": "cellar_box_returned"
               },
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "cellar_bichura_answered"
+                "factId": "cellar_response_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "cellar_niche_seen"
               }
             ],
             "completionEffects": [
