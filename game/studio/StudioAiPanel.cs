@@ -46,6 +46,7 @@ public partial class StudioAiPanel : AcceptDialog
         Title = "Изменить выбранный дом с Codex";
         OkButtonText = "Закрыть";
         MinSize = new(600, 560);
+        WrapControls = true;
         var body = new VBoxContainer();
         AddChild(body);
         body.AddChild(_status);
@@ -130,7 +131,7 @@ public partial class StudioAiPanel : AcceptDialog
 
     public void Open(string? selected)
     {
-        if (_busy) { PopupCentered(); return; }
+        if (_busy) { PopupCenteredClamped(new(600, 560), 0.9f); return; }
         ClearProposal();
         _request = null;
         _ask.Disabled = selected != HeroHouseRecipe.EntityId;
@@ -138,7 +139,8 @@ public partial class StudioAiPanel : AcceptDialog
             ? "Эталонный дом · все 7 окон. Codex предложит ширину, вы увидите новую модель перед применением. ⌘/Ctrl+Z полностью отменяет применение."
             : "Выберите эталонный дом Бабая в мире. Другие объекты будут подключены следующими этапами B20.";
         if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
-        PopupCentered();
+        ResetSize();
+        PopupCenteredClamped(new(600, 560), 0.9f);
         _prompt.GrabFocus();
     }
 

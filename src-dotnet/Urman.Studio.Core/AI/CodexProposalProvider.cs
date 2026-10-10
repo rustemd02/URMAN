@@ -57,7 +57,10 @@ public sealed class CodexProposalProvider
         "goals",
         "fast_mode",
         "ultrafast_mode",
-        "realtime_conversation"
+        "realtime_conversation",
+        "collaboration_modes",
+        "sqlite",
+        "steer"
     ];
 
     // Keep these explicit and fail closed if a newer app-server stops honoring them.
@@ -98,7 +101,12 @@ public sealed class CodexProposalProvider
         "browser_annotation_api",
         "incremental_tools",
         "standalone_web_search",
-        .. RequiredDisabledFeatures
+        .. RequiredDisabledFeatures,
+        // The registry reports these as removed; keep explicit switches, but do not
+        // require feature/list to report them disabled because they are not active capabilities.
+        "item_ids",
+        "terminal_resize_reflow",
+        "tui_app_server"
     ];
 
     // The installed CLI currently reports these enabled features. The names below
@@ -304,7 +312,7 @@ public sealed class CodexProposalProvider
                 await TryInterruptAsync(client, threadId, turnId).ConfigureAwait(false);
             }
 
-            throw new CodexProposalException("Codex attempted an unavailable tool or unexpected action; the proposal was discarded.");
+            throw new CodexProposalException("Codex app-server response did not match the expected proposal protocol; the proposal was discarded.");
         }
         catch (CodexProposalException)
         {
