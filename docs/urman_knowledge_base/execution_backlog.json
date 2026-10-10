@@ -23855,7 +23855,14 @@
             "verification": "A06 с условным ответом и отсутствующим переводом; пройти обе доступности.",
             "risks_recovery_external_gates": "Культурные/языковые правки требуют авторской проверки; agent не переписывает всю кампанию ради одной реплики.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 AI-20 dependency-independent slice: localized text cannot be lost (partial)",
+                "result": "partial implementation by deepseek v4.1 flash: one shared operation now edits an authored Russian text through the existing Localized rule and returns the entity for the common EditSession plus the warnings an author must see; both Studio panels are patched to use it instead of building a fresh value",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/LocalizedTextChange.cs; owner patch evidence/STUDIO/b20-deepseek-ai-20/2026-10-10-localized-text-edit/ai20-localized-text-edit.patch (game/studio/StudioQuestSection.cs, StudioDialogueSection.cs); evidence .../check.log and receipt.json",
+                "verification": "probe PASS 123/123: on the real campaign text urman.chapter1:text/continue (default \"Continue\", ru \"Продолжить\", tt \"Дәвам итү\") the shared operation keeps the older default and the Tatar translation, updates Russian and reports the preserved default; the probe also reproduces both current panel paths in memory and shows that the quest path dropped tt and the default while the dialogue path overwrote the English default. Urman.Studio.Core 0 warnings/0 errors, game/Urman.Game.csproj 0 warnings/0 errors with both panels patched, and the patch passes git apply --check on a pristine origin/main f83d6998 worktree. Editing an unknown text id is a clear error instead of a new entity, and a missing Tatar translation is reported rather than invented. Neither panel was exercised in a live Studio, so the edit, the warning banner and the undo step are NOT_RUN at runtime. Remaining: live verification, the open language gate, and the rest of AI-20 (entry conditions in game, response conditions shown) which depends on AI-19/AI-21"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P3"
             ],

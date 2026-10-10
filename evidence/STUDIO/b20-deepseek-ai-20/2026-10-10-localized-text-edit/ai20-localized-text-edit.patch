@@ -1,0 +1,68 @@
+diff --git a/game/studio/StudioDialogueSection.cs b/game/studio/StudioDialogueSection.cs
+index c3f83960..99c556f2 100644
+--- a/game/studio/StudioDialogueSection.cs
++++ b/game/studio/StudioDialogueSection.cs
+@@ -145,12 +145,24 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
+         var original = edit.Text;
+         void Commit(string text)
+         {
+-            if (text == original || studio.Workspace.Locate(textId) is not { } address) return;
+-            var entity = studio.Workspace.Get(textId)!.AsObject();
+-            var translations = entity["value"]?["translations"] as JsonObject ?? [];
+-            translations["ru"] = text;
+-            entity["value"] = new JsonObject { ["default"] = text, ["translations"] = translations.DeepClone() };
+-            studio.Session.Set(address.RelativePath, address.Key, entity, label);
++            if (text == original || studio.Workspace.Locate(textId) is null) return;
++            LocalizedTextChange change;
++            try
++            {
++                change = LocalizedTextEditor.Apply(studio.Workspace, textId, text);
++            }
++            catch (InvalidOperationException error)
++            {
++                studio.ShowBanner(error.Message, error: true);
++                return;
++            }
++
++            if (change.Warnings.Count > 0)
++            {
++                studio.ShowBanner(string.Join(" ", change.Warnings), error: false);
++            }
++
++            studio.Session.Set(change.RelativePath, change.Key, change.Entity, label);
+             original = text;
+         }
+ 
+diff --git a/game/studio/StudioQuestSection.cs b/game/studio/StudioQuestSection.cs
+index 85faf7fe..151ed154 100644
+--- a/game/studio/StudioQuestSection.cs
++++ b/game/studio/StudioQuestSection.cs
+@@ -417,10 +417,24 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
+ 
+     private void SetText(string? textId, string text)
+     {
+-        if (textId is null || studio.Workspace.Locate(textId) is not { } address) return;
+-        var entity = studio.Workspace.Get(textId)!.AsObject();
+-        entity["value"] = new JsonObject { ["default"] = text, ["translations"] = new JsonObject { ["ru"] = text } };
+-        studio.Session.Set(address.RelativePath, address.Key, entity, "текст цели");
++        if (textId is null) return;
++        LocalizedTextChange change;
++        try
++        {
++            change = LocalizedTextEditor.Apply(studio.Workspace, textId, text);
++        }
++        catch (InvalidOperationException error)
++        {
++            studio.ShowBanner(error.Message, error: true);
++            return;
++        }
++
++        if (change.Warnings.Count > 0)
++        {
++            studio.ShowBanner(string.Join(" ", change.Warnings), error: false);
++        }
++
++        studio.Session.Set(change.RelativePath, change.Key, change.Entity, "текст цели");
+     }
+ 
+     private void MutateObjective(string objectiveId, string field, JsonArray rules, string label) =>

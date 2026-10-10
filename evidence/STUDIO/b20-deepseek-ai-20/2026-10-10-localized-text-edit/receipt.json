@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-20",
+  "stage": "dependency-independent first slice: one localized text operation used by both panels, so localisation cannot be lost",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 21:42 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "f83d69985c26d8559a2add98e72a6559ca3632fa (origin/main when the patch was made)",
+  "artifacts": {
+    "new file src-dotnet/Urman.Studio.Core/Editing/LocalizedTextChange.cs": "LocalizedTextEditor.Apply(workspace, textId, russian) locates the real text entity, applies the domain rule through the existing Localized.WithRussian, returns the entity for Session.Set plus the warnings an author must see (missing Russian, missing Tatar, a preserved older default); an unknown text id is a clear error instead of a new entity; ApplyToValue gives content builders the same rule",
+    "evidence/STUDIO/b20-deepseek-ai-20/2026-10-10-localized-text-edit/ai20-localized-text-edit.patch": "owner applies: both panels use the shared operation instead of building a fresh value (12 insertions, 34 deletions in game/studio/StudioQuestSection.cs and StudioDialogueSection.cs)"
+  },
+  "defects_found": {
+    "StudioQuestSection.SetText": "replaced the whole value object with {default, translations:{ru}}, so the tt translation and an older non-Russian default were destroyed",
+    "StudioDialogueSection.TextEdit": "kept other translations but always overwrote default with the Russian text, so an older English default (for example \"Continue\") was lost"
+  },
+  "verified": {
+    "probe": "PASS 123/123; on the real campaign text urman.chapter1:text/continue (default \"Continue\", ru \"Продолжить\", tt \"Дәвам итү\") the shared operation keeps the default and the Tatar text, updates Russian and reports the preserved default; the probe also reproduces both current panel paths in memory and shows exactly what each one loses",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors with the new file; game/Urman.Game.csproj 0 warnings/0 errors with both panels patched",
+    "apply": "git apply --check of the patch on a pristine worktree of origin/main f83d6998: OK",
+    "not_run": "neither panel was exercised in a live Studio: the edit itself, the warnings banner and the undo step are source- and probe-verified only"
+  },
+  "open": [
+    "runtime/UI verification of the two panels is NOT_RUN",
+    "the language gate stays open: a missing Tatar translation is reported, not invented",
+    "AI-19 (one quest model for manual and AI changes) and AI-21 (world links) are untouched by this slice"
+  ]
+}
