@@ -1,0 +1,157 @@
+diff --git a/game/studio/StudioRoot.cs b/game/studio/StudioRoot.cs
+index f3b70ba1..14c8402d 100644
+--- a/game/studio/StudioRoot.cs
++++ b/game/studio/StudioRoot.cs
+@@ -43,6 +43,10 @@ public partial class StudioRoot : Control
+     private Button _undo = null!;
+     private Button _redo = null!;
+     private Button _play = null!;
++    private StudioCampaignSelector? _selector;
++
++    /// <summary>The campaign and world the author picked in the top bar; null means the Act I default.</summary>
++    public CampaignWorldContext? CampaignContext => _selector?.Context;
+     private LineEdit _search = null!;
+     private PopupPanel _results = null!;
+     private ItemList _resultList = null!;
+@@ -545,6 +549,16 @@ public partial class StudioRoot : Control
+         }
+     }
+ 
++    private void OnCampaignWorldChanged(CampaignWorldContext context)
++    {
++        if (_sections.TryGetValue("world", out var section) && section is StudioWorldSection world)
++        {
++            world.ApplyCampaignWorld(context);
++        }
++
++        RefreshStatus($"Кампания {context.Campaign.Id} · {context.World.Title}");
++    }
++
+     private void OfferRecoveredDrafts()
+     {
+         var drafts = Drafts.Recover();
+@@ -598,7 +612,7 @@ public partial class StudioRoot : Control
+         }
+ 
+         RefreshStatus("Подготовка запуска…");
+-        var build = await PlayPreparation.CompileAsync(Workspace.Root);
++        var build = await PlayPreparation.CompileAsync(Workspace.Root, CampaignContext?.Campaign.Selection ?? PlayPreparation.Campaign);
+         if (!build.Ready)
+         {
+             ShowBanner("Черновик не готов к запуску: " + string.Join("; ", build.Problems.Take(3)) + (build.Problems.Count > 3 ? $" и ещё {build.Problems.Count - 3}" : ""), error: true);
+@@ -608,7 +622,8 @@ public partial class StudioRoot : Control
+ 
+         var start = _current is not null && _sections[_current] is StudioWorldSection world ? world.PlayStart() : null;
+         var godot = OS.GetExecutablePath();
+-        var arguments = new List<string> { "--path", ProjectSettings.GlobalizePath("res://"), "res://scenes/act1_demo.tscn", "--" };
++        var scenePath = CampaignContext?.World.ScenePath ?? "res://scenes/act1_demo.tscn";
++        var arguments = new List<string> { "--path", ProjectSettings.GlobalizePath("res://"), scenePath, "--" };
+         arguments.Add($"--urman-studio-play={start?.Zone ?? "village_day"}@{start?.Spawn ?? "arrival"}");
+         if (start?.Position is { } at)
+         {
+@@ -690,7 +705,9 @@ public partial class StudioRoot : Control
+ 
+         var top = Bar(root);
+         top.AddChild(new Label { Text = "URMAN Studio", ThemeTypeVariation = "HeaderLabel" });
+-        top.AddChild(new Label { Text = "· проект «Урман», глава 1", ThemeTypeVariation = "MutedLabel" });
++        _selector = new StudioCampaignSelector(this);
++        _selector.Changed += OnCampaignWorldChanged;
++        top.AddChild(_selector.View);
+         _undo = Button(top, "↶ Отменить", Undo);
+         _undo.Name = "UndoButton";
+         _redo = Button(top, "↷", Redo);
+@@ -855,7 +872,7 @@ public partial class StudioRoot : Control
+     private async void CheckContent()
+     {
+         RefreshStatus("Проверка…");
+-        var result = await new Urman.Content.Compilation.ContentCompiler().CompileAsync(Workspace.Root, PlayPreparation.Campaign, []);
++        var result = await new Urman.Content.Compilation.ContentCompiler().CompileAsync(Workspace.Root, CampaignContext?.Campaign.Selection ?? PlayPreparation.Campaign, []);
+         var dirty = Workspace.Files.Count(file => file.Dirty);
+         var unsupported = Urman.Studio.Core.Editing.ConditionPhrases.FindNotExecuted(Workspace);
+         var dialog = new AcceptDialog
+diff --git a/game/studio/StudioWorldSection.cs b/game/studio/StudioWorldSection.cs
+index aa140368..0d7b7313 100644
+--- a/game/studio/StudioWorldSection.cs
++++ b/game/studio/StudioWorldSection.cs
+@@ -72,6 +72,31 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+         "urman.catalog:agentb_foliage_kit/winterbirch-1", "urman.catalog:agentb_foliage_kit/winterbirch-2", "urman.catalog:agentb_foliage_kit/winterrowan-1"
+     ];
+ 
++    private CampaignWorldContext? _context;
++    private string _contextZone = "village_day";
++    private string _contextSpawn = "arrival";
++
++    /// <summary>The campaign and world chosen in the top bar; the preview and "Play from here" follow it.</summary>
++    public CampaignWorldContext? Context => _context;
++
++    /// <summary>
++    /// Applies the author's campaign/world choice. The embedded preview can only
++    /// hold the Act I scene, whose authored world the game really loads, so a
++    /// presentation-only world is named instead of being shown as editable; the
++    /// run path still follows the chosen scene.
++    /// </summary>
++    public void ApplyCampaignWorld(CampaignWorldContext context)
++    {
++        _context = context;
++        _contextZone = context.World.ZoneDeclaredByScene ? context.World.ZoneId : "village_day";
++        _contextSpawn = context.World.SpawnPointId.Length > 0 ? context.World.SpawnPointId : "arrival";
++        if (_view is not null && context.World.Capability != WorldAuthoringCapability.AuthoredWorldPlots)
++        {
++            _hint.Text = $"«{context.World.Title}» открыт только для просмотра: игра не загружает авторских данных этого мира. Предпросмотр остаётся на авторском мире, а «Играть отсюда» запустит выбранную сцену.";
++            _hint.Visible = true;
++        }
++    }
++
+     public string Key => "world";
+     public string Title => "Мир · деревня";
+     public Control View => _view ??= Build();
+@@ -243,7 +268,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+             await studio.ToSignal(studio.GetTree(), SceneTree.SignalName.ProcessFrame);
+         }
+ 
+-        if (!await _demo.StartDebugZoneAsync("village_day", "arrival"))
++        if (!await _demo.StartDebugZoneAsync(_contextZone, _contextSpawn))
+         {
+             _hint.Text = "Не удалось поднять мир игры. Подробности — в журнале Studio.";
+             return;
+@@ -1131,7 +1156,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+         var spawn = at + toward * 2.2f;
+         spawn.Y = AgentBAct1HeightField.CollisionGround(spawn.X, spawn.Z) + .1f;
+         var yaw = Mathf.RadToDeg(Mathf.Atan2(-toward.X, -toward.Z));
+-        return new("village_day", "arrival", spawn, yaw);
++        return new(_contextZone, _contextSpawn, spawn, yaw);
+     }
+ 
+     public void FillProperties(StudioProperties panel)
+diff --git a/src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs b/src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs
+index 8fd4e58b..3c3ac9ef 100644
+--- a/src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs
++++ b/src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs
+@@ -18,9 +18,16 @@ public static class PlayPreparation
+     public const string Campaign = "urman.chapter1";
+     public const string PackPath = "game/content/urman.chapter1.compiled.v1.json";
+ 
+-    public static async Task<PlayBuild> CompileAsync(string root, CancellationToken cancellationToken = default)
++    /// <summary>The compiled pack of one campaign selection, so a run follows the chosen campaign.</summary>
++    public static string PackPathFor(string campaignSelection) => $"game/content/{campaignSelection}.compiled.v1.json";
++
++    public static Task<PlayBuild> CompileAsync(string root, CancellationToken cancellationToken = default) =>
++        CompileAsync(root, Campaign, cancellationToken);
++
++    public static async Task<PlayBuild> CompileAsync(string root, string campaignSelection, CancellationToken cancellationToken = default)
+     {
+-        var result = await new ContentCompiler().CompileAsync(root, Campaign, [], cancellationToken);
++        var selection = string.IsNullOrWhiteSpace(campaignSelection) ? Campaign : campaignSelection;
++        var result = await new ContentCompiler().CompileAsync(root, selection, [], cancellationToken);
+         if (!result.IsSuccess)
+         {
+             return new(false, "", "", result.Diagnostics
+@@ -29,7 +36,7 @@ public static class PlayPreparation
+         }
+ 
+         var text = CompiledPackText.Serialize(result.Pack!);
+-        var path = Path.Combine(root, PackPath);
++        var path = Path.Combine(root, PackPathFor(selection));
+         if (!File.Exists(path) || File.ReadAllText(path) != text)
+         {
+             AtomicFile.WriteAllBytes(path, new UTF8Encoding(false).GetBytes(text));

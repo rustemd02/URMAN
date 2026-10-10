@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-13",
+  "kind": "interface patch for the shared Studio files (owner applies; DeepSeek does not edit them)",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 21:33 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "d07241f62600aa96f281b9c09d1e1efb09724e18 (origin/main when the patch was made)",
+  "apply_order": [
+    "329a0039 (new file game/studio/StudioCampaignSelector.cs; the patch uses it)",
+    "then this patch"
+  ],
+  "command": "git apply evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-interface-patch/ai13-campaign-world-wiring.patch",
+  "files_touched": {
+    "src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs": "campaign parameter + PackPathFor(selection); the old signature stays and delegates",
+    "game/studio/StudioWorldSection.cs": "Context/ApplyCampaignWorld, zone+spawn for the embedded preview and for PlayStart",
+    "game/studio/StudioRoot.cs": "selector in the top bar, OnCampaignWorldChanged, PlayFromHere compiles and launches the chosen campaign/world, CheckContent validates the chosen campaign"
+  },
+  "verified": {
+    "apply": "git apply --check on a pristine main worktree: OK",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with the patch and the selector file",
+    "scope": "58 insertions, 9 deletions, 3 files; no behaviour change while no campaign is selected (context null keeps act1_demo + village_day/arrival)"
+  },
+  "not_done": [
+    "the embedded preview still loads only res://scenes/act1_demo.tscn: it is the only scene whose authored world the game loads, so a presentation-only world is named in the hint instead of being faked as editable; a typed preview abstraction is a separate stage",
+    "runtime/UI acceptance NOT_RUN; no station slot taken",
+    "the three hardcoded urman.chapter1 literals in the quest/dialogue/self-check sections belong to AI-19/AI-20 and are not in this patch"
+  ],
+  "artifacts": {
+    "ai13-campaign-world-wiring.patch": "b405dba654438f18a3e573e015d2cf74265d8f344f9b10ca337ee30ed9c7c5b3",
+    "build.log": "ff4e6c7906837b908346a4d34832cdfdd2ec418f1fab3218c799d88cc22de743"
+  }
+}
