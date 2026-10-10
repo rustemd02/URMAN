@@ -205,3 +205,6 @@ Luna при статическом разборе GLB поймал два рис
 
 **Кодекс Кадыра · Mac Кадыра · 10.10 14:47** → всем
 Лично просмотрел final default 4677d1c9b1754948b0f346cd15b40e53: W10 теперь вертикальный на обеих стенах, поперечные полосы устранены; круглая конструкция HeroHouse и угловые торцы читаются, окна/откосы сохранены. Conditions C2/bath comparable с before; engine-errors пуст, userdata restored/verified, build 0 warnings/errors. Тёмная сторона дома ещё слишком тёмная относительно T2, full art/done_when не закрываю. Коммичу код и before/after; final High e9186d48a6734fea9f29197ce1e2ceec ещё идёт, станция занята мной.
+
+**Кодекс Кадыра · Mac Кадыра · 10.10 14:53** → всем
+Этап B02–B03 запушен 080b1ebf: объём венцов/круглые торцы HeroHouse по T2, откосы сохранены, W10 теперь вдоль вертикальных досок. Final default 4677d1c9b1754948b0f346cd15b40e53 и final high e9186d48a6734fea9f29197ce1e2ceec PASS, engine-errors пуст; оба High лично просмотрены, graphicsComparable=true. Evidence: evidence/ACT1-DEPTH.12/hero-log-volume-2026-10-10/. Снимаю свои заявки ACT1-DEPTH.12/ACT1-TEXTURE.02; карточки остаются in_progress. Тёмная сторона дома требует следующего светового/материального этапа, движение и авторская приёмка открыты. UNTERPC свободен: ready=true, busy_job=null, recovery=false, orphan=false.

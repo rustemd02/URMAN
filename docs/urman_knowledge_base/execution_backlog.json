@@ -3734,7 +3734,7 @@
       "milestone": "M4",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": "codex-kadyr/visual-blocks-2026-10-10",
+      "active_owner": null,
       "owner": "art/materials/qa",
       "depends_on": [
         "ACT1-TEXTURE.01"
@@ -3949,13 +3949,15 @@
         "files": [
           "game/scripts/Act1ConnectedWorld.BathhouseAtmosphere.cs"
         ],
-        "next": "Финальная High-пара e9186d48a6734fea9f29197ce1e2ceec, затем сохранить evidence и освободить заявку. Следующий художественный этап: материальность/свет тёмного фасада; движение и авторская приёмка открыты.",
+        "next": "Проверенный геометрический/UV этап запушен, своя заявка освобождена. Дальше — материальность и свет тёмного фасада по T2, сопоставимые кадры и движение; author acceptance external/not-run. Карточка остаётся in_progress.",
         "implementation": "Hero-only: rd=.12м, ry=.49*шаг венца; наружная плоскость slab удалена, backing/откосы сохранены. Короткие торцы round ellipse по короткой X/Z оси. W10 authored UV на вертикальных досках; потолок отделён и остаётся world projection.",
         "capture_setup": "Первый пакет 560b6d013d134bbf88d023e8a9b94175 ошибочно смешал high/default, кадры не принимаются. Исправленные отдельные default и high пакеты сверены по manifest zone/preset/spec до отправки.",
         "first_run_result": "560b6d013d134bbf88d023e8a9b94175 FAIL: mixed high/default refused; early snapshot UV IndexOutOfRange in RemoveHeroWallFront:199. No frames; build 0 errors; userdata restored/verified. Both causal changes are applied before next snapshot: missing UV fallback and separate preset batches.",
         "evidence": "evidence/ACT1-DEPTH.12/hero-log-volume-2026-10-10/",
         "interim_default_result": "04cee11751ea4028ab4f6f7c77a71180 PASS, engine-errors пуст; лично просмотрены C2/babai/bath. Округлённые торцы/профиль появились, оконные откосы сохранены. Материал стены пока темноват; W10 стал горизонтальным из-за ошибочной оси U. Прямой просмотр W10/W01 PNG подтвердил направление волокна V; сделано V=высота в бане и V=длина бревна HeroHouse. C2 и bath metadata comparable с before. Нужен финальный snapshot после UV-поправки.",
-        "final_default": "4677d1c9b1754948b0f346cd15b40e53 PASS; engine-errors пуст, original userdata restored/verified; build 0 errors/0 warnings. Лично просмотрены C2/babai/bath: торцы круглые, венцы объёмные, оконные откосы сохранены. W10 на обеих стенах идёт вертикально, поперечные полосы устранены. C2 и bath metadata comparable с before. Тёмная сторона дома всё ещё слишком тёмная относительно T2, рисунок древесины трудно читается; full art/done_when не выполнен."
+        "final_default": "4677d1c9b1754948b0f346cd15b40e53 PASS; engine-errors пуст, original userdata restored/verified; build 0 errors/0 warnings. Лично просмотрены C2/babai/bath: торцы круглые, венцы объёмные, оконные откосы сохранены. W10 на обеих стенах идёт вертикально, поперечные полосы устранены. C2 и bath metadata comparable с before. Тёмная сторона дома всё ещё слишком тёмная относительно T2, рисунок древесины трудно читается; full art/done_when не выполнен.",
+        "final_high": "e9186d48a6734fea9f29197ce1e2ceec PASS; engine-errors пуст, original userdata restored/verified, graphicsPreset=graphicsEffectivePreset=high, graphicsComparable=true на обоих видах. Лично просмотрены оба кадра; тот же код что final default. Тёмная сторона по-прежнему требует материальности/света; движение/авторская приёмка not-run.",
+        "delivered_commit": "080b1ebf"
       }
     },
     {
@@ -19664,7 +19666,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": "codex-kadyr/visual-blocks-2026-10-10",
+      "active_owner": null,
       "owner": "art/architecture",
       "depends_on": [
         "ACT1-DEPTH.9"
@@ -19762,13 +19764,15 @@
           "game/scripts/Act1ConnectedWorld.DwellingLogWalls.cs",
           "game/scripts/Act1ConnectedWorld.RoundLogs.cs"
         ],
-        "next": "Финальная High-пара e9186d48a6734fea9f29197ce1e2ceec, затем сохранить evidence и освободить заявку. Следующий художественный этап: материальность/свет тёмного фасада; движение и авторская приёмка открыты.",
+        "next": "Проверенный геометрический/UV этап запушен, своя заявка освобождена. Дальше — материальность и свет тёмного фасада по T2, сопоставимые кадры и движение; author acceptance external/not-run. Карточка остаётся in_progress.",
         "implementation": "Hero-only: rd=.12м, ry=.49*шаг венца; наружная плоскость slab удалена, backing/откосы сохранены. Короткие торцы round ellipse по короткой X/Z оси. W10 authored UV на вертикальных досках; потолок отделён и остаётся world projection.",
         "capture_setup": "Первый пакет 560b6d013d134bbf88d023e8a9b94175 ошибочно смешал high/default, кадры не принимаются. Исправленные отдельные default и high пакеты сверены по manifest zone/preset/spec до отправки.",
         "first_run_result": "560b6d013d134bbf88d023e8a9b94175 FAIL: mixed high/default refused; early snapshot UV IndexOutOfRange in RemoveHeroWallFront:199. No frames; build 0 errors; userdata restored/verified. Both causal changes are applied before next snapshot: missing UV fallback and separate preset batches.",
         "evidence": "evidence/ACT1-DEPTH.12/hero-log-volume-2026-10-10/",
         "interim_default_result": "04cee11751ea4028ab4f6f7c77a71180 PASS, engine-errors пуст; лично просмотрены C2/babai/bath. Округлённые торцы/профиль появились, оконные откосы сохранены. Материал стены пока темноват; W10 стал горизонтальным из-за ошибочной оси U. Прямой просмотр W10/W01 PNG подтвердил направление волокна V; сделано V=высота в бане и V=длина бревна HeroHouse. C2 и bath metadata comparable с before. Нужен финальный snapshot после UV-поправки.",
-        "final_default": "4677d1c9b1754948b0f346cd15b40e53 PASS; engine-errors пуст, original userdata restored/verified; build 0 errors/0 warnings. Лично просмотрены C2/babai/bath: торцы круглые, венцы объёмные, оконные откосы сохранены. W10 на обеих стенах идёт вертикально, поперечные полосы устранены. C2 и bath metadata comparable с before. Тёмная сторона дома всё ещё слишком тёмная относительно T2, рисунок древесины трудно читается; full art/done_when не выполнен."
+        "final_default": "4677d1c9b1754948b0f346cd15b40e53 PASS; engine-errors пуст, original userdata restored/verified; build 0 errors/0 warnings. Лично просмотрены C2/babai/bath: торцы круглые, венцы объёмные, оконные откосы сохранены. W10 на обеих стенах идёт вертикально, поперечные полосы устранены. C2 и bath metadata comparable с before. Тёмная сторона дома всё ещё слишком тёмная относительно T2, рисунок древесины трудно читается; full art/done_when не выполнен.",
+        "final_high": "e9186d48a6734fea9f29197ce1e2ceec PASS; engine-errors пуст, original userdata restored/verified, graphicsPreset=graphicsEffectivePreset=high, graphicsComparable=true на обоих видах. Лично просмотрены оба кадра; тот же код что final default. Тёмная сторона по-прежнему требует материальности/света; движение/авторская приёмка not-run.",
+        "delivered_commit": "080b1ebf"
       }
     },
     {
