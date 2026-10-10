@@ -23578,6 +23578,12 @@
                 "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/transaction-receipt.json; codex-current-runtime-attempt10/{request,proposal,runtime-binding,generator-manifest}.json; before/frames; after/{receipt.json,frames}; undo/{receipt.json,frames}",
                 "verification": "Journal 556ccfcf99994127acc014c7ac4a9f8c committed/before; acceptedAfterApply=true, acceptedAfterUndo=true. Рецепт, baseline GLB и baseline Blend восстановлены побайтно; три request-scoped выхода отсутствуют (проверены file/directory/link). Windows jobs 7f0d176102074613826d59adca27d7ea и 700119400c504f27aeea027927e6cab7 PASS, exit0, userdataRestored=true; камеры/FOV/LOW FSR0.70 совпадают. PNG не byte-identical и художественная HIGH-приёмка не заявляется.",
                 "remaining": "Native Studio UI/importer и restart/Claude ещё NOT_RUN. Найден восьмой проём сеней 0.80×1.06 м вне исходного параметра: полный all-windows scope ещё открыт; source fix подготовлен, новая генерация и игровой просмотр обязательны."
+              },
+              {
+                "stage": "2026-10-10 protected native Studio launch; computer-use host blocked",
+                "result": "eng/run-studio.sh запущен штатно после source correction. Owned guard44788 и Studio child44879 подтверждены; CUA getApp(path), getApp(bundle), screenshot завершились server -10005 timeoutReached. Native model/Apply/Undo через UI NOT_RUN; не считать GUI рабочим по этой попытке.",
+                "verification": "Owned Studio child завершён SIGTERM, guarded parent exit143; userdata guard: original files and permissions restored and verified. Authored house recipe остаётся исходным SHA2bcbc3ad…4b4/currentWidth1.06/modelPathnull; source changes только разрешённого нового этапа.",
+                "next": "Продолжить actual Codex + production transaction + Windows для восьми окон, native UI host blocker отдельно остаётся открыт."
               }
             ],
             "stage_tasks": [
