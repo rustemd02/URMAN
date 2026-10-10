@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-40",
+  "stage": "dependency-independent first slice: one ordered explanation of why an object may not fire",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:17 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs": "92619d2ba20a78323d29844bd0b8a76d103ee3aa5a45f8c60e854ca9a6f76103",
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-10-diagnostics/probe/Program.cs": "5b146c4cca7de3bafcc84fc7d2c13696d5de5f89f02dad9d180de1c08fd9cff0",
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-10-diagnostics/probe/dsprobe.csproj": "f936e3337fa3017a94194ac84691b4ea7bcd622ca959934cc96ef2126272c089",
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-10-diagnostics/check.log": "17611a1778323806abb3c31ecaec9c97246c425542e642cea4f2b365185af5fa"
+  },
+  "design": "it adds no new truth: every step comes from a checker that already exists (RoutineCheck, the closed rule catalogue, TriggerScopeFacts, PcChat, CutsceneActions, AssetUsageIndex, ReferenceIndex), so the explanation cannot disagree with the panels",
+  "verified": {
+    "probe": "PASS 220/220 (whole probe; the AI-40 section included). A real NPC is explained, a real cutscene action is explained without a false cutscene problem, a trigger without interactionId is explained with the runtime's own reason, and an unknown blocked-route policy is explained as silently taking the default branch.",
+    "real_facts": "the real campaign has 0 rules the runtime does not execute and 0 workspace-wide problems; 33 NPCs exist and their routine blocks are clean, so the explanation reports a clean bill of health rather than inventing work",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "not_run": "the explanation is not wired into the Studio window yet and no trial run was made: the panel block and the run gate are NOT_RUN"
+  },
+  "own_correction": "the first version flagged a missing reference as a problem, which would have marked all 33 ambient residents (brought in by the director, not by a reference) as faults; it is now information with the two cases named in words",
+  "open": [
+    "the explanation needs a caller in the Studio window (a panel block for the selected entity), which is the owner's shared file",
+    "the trial run itself, its gate and its receipt are AI-10/AI-19/AI-21 territory and are not implemented here",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}

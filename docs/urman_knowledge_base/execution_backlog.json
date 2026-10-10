@@ -24653,7 +24653,14 @@
               "STUDIO.P6"
             ],
             "acceptance_refs": [
-              "STUDIO-AI/A25"
+              "STUDIO-AI/A25",
+              {
+                "stage": "2026-10-10 AI-40 dependency-independent slice: one ordered explanation of why an object may not fire (partial)",
+                "result": "partial implementation by deepseek v4.1 flash: an explanation builder gathers the existing checkers into ordered steps with a next action, so the author reads why an object may never fire, what the game silently skips and what to do next; a first version that flagged every unreferenced object was corrected before commit",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-10-diagnostics/ (check.log, probe/, receipt.json)",
+                "verification": "probe PASS with the whole suite (213 checks after this stage). A real NPC and a real cutscene action are explained, a trigger without interactionId is explained with the runtime's own reason, and an unknown blocked-route policy is explained as silently taking the default branch. On the real campaign there are 0 rules the runtime does not execute and 0 workspace problems, so the explanation reports a clean bill of health instead of inventing work. It adds no new truth: every step comes from an existing checker (RoutineCheck, the closed rule catalogue, TriggerScopeFacts, PcChat, CutsceneActions, AssetUsageIndex, ReferenceIndex). Urman.Studio.Core and game/Urman.Game.csproj build with 0 warnings/0 errors. The explanation is not wired into the Studio window and no trial run was made, so the panel block, the run gate and the visible result are NOT_RUN"
+              }
+
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
           },
