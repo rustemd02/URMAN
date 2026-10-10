@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13",
+    "STUDIO/AI-17",
+    "STUDIO/AI-18",
+    "STUDIO/AI-21",
+    "STUDIO/AI-24",
+    "STUDIO/AI-36"
+  ],
+  "stage": "owner-applied shared-file wiring as ONE consolidated patch after the per-stage patches proved unable to compose",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:38 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "49f54934 (origin/main) plus my branch 45a6e433; the patch itself only touches shared files I never edit",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-consolidated-wiring/ai-deepseek-studio-wiring-consolidated.patch": "06e4c7b8e7904ee6346e560580ef0b9ebed7736c8d76d4c65e117606c11c6272",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-consolidated-wiring/check.log": "cc2378d3d3816272f3aa3905bd2f7aa04f6b98674ff3be3946cc04d9811897f2"
+  },
+  "why": {
+    "all ten per-stage patches still apply individually": "git apply --check against 49f54934 passes for every patch, so no single stage rotted",
+    "but they do not compose": "three of them (AI-21 review fixes, AI-17 scatter guard, AI-36 asset facts) were generated against a PRISTINE game/studio/StudioWorldSection.cs, so applying them after the AI-13/AI-21 stages fails; the file now has several writers (Codex and the LunaFAST geometry stage own it too)",
+    "so this patch is the union": "one patch for the six shared files, generated from the composed and compiled state, verified to apply to the base above and to build"
+  },
+  "composition_defect_found_and_fixed_here": "the AI-13 write gate and the AI-17 scatter guard both declared a local named `blocked` in PaintStroke; composing them produced CS0128. The scatter guard's local is renamed, which is exactly the kind of defect that only appears when the stages are applied together",
+  "apply": "git apply evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-consolidated-wiring/ai-deepseek-studio-wiring-consolidated.patch",
+  "covers": {
+    "StudioRoot.cs + PlayPreparation.cs": "the campaign/world context, the write gate (WriteBlockReason/SetWriteBlock), the AI fail-closed guard, the context captured before the compile await, the chosen scene and the campaign-parameterised pack path",
+    "StudioWorldSection.cs": "context, capability gate, zone/spawn, refusals in input/Place/SculptStroke/PaintStroke/ShowImport, the honest trigger panel with the safe size guard, the scatter guard, the audio entry button and the asset usage facts",
+    "StudioContentSection.cs": "the PC thread list and the hint path: no schema-forbidden title, level/textId/pointsTo editors, and a preview of the real hint line and start node",
+    "StudioDialogueSection.cs + StudioQuestSection.cs": "the localized reply/condition editing from AI-20"
+  },
+  "verified": {
+    "apply": "git apply --check on a fresh worktree of 49f54934 with my branch merged: OK, then applied",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with every shared file change composed",
+    "probe": "PASS 262/262",
+    "not_run": "no Studio window and no game run: the wiring is compile- and probe-verified, the interface is NOT_RUN, and the file now has an additional owner (LunaFAST geometry) whose changes must be composed by the owner"
+  },
+  "open": [
+    "the per-stage patches stay in evidence as review material; they should NOT be applied on top of this one",
+    "StudioWorldSection.cs has another active writer now, so the owner should apply this patch or ask for a re-base after that work lands",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}
