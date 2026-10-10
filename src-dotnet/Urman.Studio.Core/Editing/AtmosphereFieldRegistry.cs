@@ -327,8 +327,16 @@ public static class AtmosphereFieldRegistry
         }
 
         var declarations = new List<(string Id, List<string> Zones)>();
-        foreach (var entity in entities.OfType<JsonObject>())
+        for (var index = 0; index < entities.Count; index++)
         {
+            if (entities[index] is not JsonObject entity)
+            {
+                // A malformed profile must not disappear: its fields would never be
+                // reported as missing, which is the whole point of this check.
+                notes.Add($"{FilePath}: профиль #{index + 1} не объект — его поля не проверены.");
+                continue;
+            }
+
             var entityId = Text(entity["id"]);
             if (entity["params"] is not JsonObject parameters)
             {

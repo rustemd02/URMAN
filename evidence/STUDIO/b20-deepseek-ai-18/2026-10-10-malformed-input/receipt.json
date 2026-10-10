@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-18",
+    "STUDIO/AI-36"
+  ],
+  "stage": "self-review correction after Codex's directive: malformed input must not become valid (OfType/default)",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:32 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "1ca54571 via merge 9e704779",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/AssetUsageIndex.cs": "ec18aa85de47ced200a09dd5d2ea72eab07c6e001a8a594481549bf00c8490f8",
+    "src-dotnet/Urman.Studio.Core/Editing/AudioSourceRegistry.cs": "dc23efdfae94948f06883e6f51017c34a5a9c4358c96a172d625753d5ddc8a6e",
+    "src-dotnet/Urman.Studio.Core/Editing/AtmosphereFieldRegistry.cs": "3a376dac3049d397d04d2095b96bd9c514a03e3d6e05f4954ac1c78c6e6746f0",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-malformed-input/check.log": "d53b4229c1d3b256ac13ebabc1f45496f7fda2ef343acf31cbda549415d0d27f"
+  },
+  "addressed": {
+    "a malformed catalogue entry disappeared": "a non-object entry, an entry without id, an entry without a source object and an entry without source.scene are all reported by Validate instead of being skipped, so a resource with no describable provenance cannot stay invisible",
+    "a malformed registry record disappeared": "a non-object record, a record without id and a wrongly typed materials field are reported",
+    "a malformed placement was skipped": "a non-object entity, a world file without an entities array and a wrongly typed catalogIds are reported, so an unchecked reference cannot pass as checked",
+    "a malformed atmosphere profile was skipped": "a non-object profile is reported instead of losing its missing-field findings",
+    "a malformed audio event was skipped": "a non-object event is reported even when the event count still matches, and a wrongly typed zones field is reported"
+  },
+  "verified": {
+    "probe": "PASS 256/256 (whole probe). New checks: a malformed catalogue or registry entry is reported instead of disappearing, and a wrongly typed materials field is reported. Real data is unchanged and clean: 177 catalogue entries, 173 registry records, 25 shared material names, 0 problems; the atmosphere and audio registries still report their real findings with no new false positives.",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "not_run": "no Studio window and no game run: the reporting is verified through the probe and the compile, not through the interface"
+  },
+  "open": [
+    "the same pattern may remain in files outside this correction (WorldSurfaceCommands and AuthoringDiagnostics read catalogIds with a default), which is noted rather than silently claimed as complete",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}

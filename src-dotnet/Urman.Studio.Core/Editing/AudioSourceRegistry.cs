@@ -328,8 +328,16 @@ public static class AudioSourceRegistry
         }
 
         var seen = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var item in events.OfType<JsonObject>())
+        for (var index = 0; index < events.Count; index++)
         {
+            if (events[index] is not JsonObject item)
+            {
+                // The count can still match while one entry is malformed, so a
+                // non-object event must be named instead of quietly skipping checks.
+                outOfRange.Add($"{EmitterPath}: событие #{index + 1} не объект — его поля не проверены.");
+                continue;
+            }
+
             var id = Text(item["id"]);
             if (!seen.Add(id))
             {
@@ -478,6 +486,11 @@ public static class AudioSourceRegistry
                 {
                     missing.Add($"{id}: {field.Path}");
                 }
+            }
+
+            if (item["zones"] is { } declaredZones && declaredZones is not JsonArray)
+            {
+                outOfRange.Add($"{ManifestPath}: у подложки «{id}» поле zones не массив — её зоны не проверены.");
             }
 
             foreach (var zone in (item["zones"] as JsonArray ?? []).Select(Text).Where(zone => zone.Length > 0))

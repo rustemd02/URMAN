@@ -64,8 +64,16 @@ public sealed class AssetUsageIndex
     private readonly Dictionary<string, List<AssetRecord>> _recordsByDerived = new(StringComparer.Ordinal);
     private readonly Dictionary<string, List<AssetRecord>> _recordsByMaterial = new(StringComparer.Ordinal);
 
-    private AssetUsageIndex(string root, List<CatalogueEntry> entries, List<AssetRecord> records, Dictionary<string, List<string>> placements)
+    /// <summary>
+    /// Entries the readers could not use. They are reported by Validate instead of
+    /// disappearing: a malformed catalogue or registry entry must not become a
+    /// resource with no provenance that nobody ever asks about.
+    /// </summary>
+    private readonly List<string> _malformed = [];
+
+    private AssetUsageIndex(string root, List<CatalogueEntry> entries, List<AssetRecord> records, Dictionary<string, List<string>> placements, List<string> malformed)
     {
+        _malformed = malformed;
         _root = root;
         _entries = entries;
         _records = records;
@@ -119,10 +127,11 @@ public sealed class AssetUsageIndex
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(root);
         var full = Path.GetFullPath(root);
-        var entries = ReadCatalogue(full);
-        var records = ReadRegistry(full);
-        var placements = ReadPlacements(full);
-        return new AssetUsageIndex(full, entries, records, placements);
+        var malformed = new List<string>();
+        var entries = ReadCatalogue(full, malformed);
+        var records = ReadRegistry(full, malformed);
+        var placements = ReadPlacements(full, malformed);
+        return new AssetUsageIndex(full, entries, records, placements, malformed);
     }
 
     /// <summary>What one catalogue entry touches.</summary>
@@ -182,7 +191,7 @@ public sealed class AssetUsageIndex
     /// <summary>Findings an author must fix or accept before publishing a resource.</summary>
     public IReadOnlyList<string> Validate()
     {
-        var problems = new List<string>();
+        var problems = new List<string>(_malformed);
         foreach (var (catalogueId, placements) in _placementsByCatalogueId.Where(pair => !_entries.Any(entry => string.Equals(entry.Id, pair.Key, StringComparison.Ordinal))))
         {
             problems.Add($"Размещения {string.Join(", ", placements)} ссылаются на каталожную запись «{catalogueId}», которой нет.");
@@ -273,17 +282,44 @@ public sealed class AssetUsageIndex
     private static AssetUsage Problem(string key, string kind, IReadOnlyList<string> problems) =>
         new(key, kind, [], [], [], [], [], problems);
 
-    private static List<CatalogueEntry> ReadCatalogue(string root)
+    private static List<CatalogueEntry> ReadCatalogue(string root, List<string> malformed)
     {
         var entries = new List<CatalogueEntry>();
         var path = Path.Combine(root, CataloguePath.Replace('/', Path.DirectorySeparatorChar));
-        if (JsonNode.Parse(File.ReadAllText(path)) is not JsonObject document || document["entities"] is not JsonArray entities)
+        if (!File.Exists(path))
         {
+            malformed.Add($"Нет файла {CataloguePath}: каталог не прочитан, и ни одна ссылка на ресурс не проверена.");
             return entries;
         }
 
-        foreach (var entry in entities.OfType<JsonObject>())
+        if (JsonNode.Parse(File.ReadAllText(path)) is not JsonObject document || document["entities"] is not JsonArray entities)
         {
+            malformed.Add($"{CataloguePath}: нет массива entities — каталог не прочитан.");
+            return entries;
+        }
+
+        for (var index = 0; index < entities.Count; index++)
+        {
+            if (entities[index] is not JsonObject entry)
+            {
+                malformed.Add($"Каталожная запись #{index + 1} в {CataloguePath} не объект: она не попадёт ни в список, ни в проверку.");
+                continue;
+            }
+
+            if (Text(entry["id"]).Length == 0)
+            {
+                malformed.Add($"Каталожная запись #{index + 1} в {CataloguePath} без id: сослаться на неё нельзя.");
+            }
+
+            if (entry["source"] is not JsonObject)
+            {
+                malformed.Add($"Каталожная запись #{index + 1} («{Text(entry["id"])}») без объекта source: игру не из чего строить.");
+            }
+            else if (Text(entry["source"]?["scene"]).Length == 0)
+            {
+                malformed.Add($"Каталожная запись #{index + 1} («{Text(entry["id"])}») без source.scene: ресурс не найден.");
+            }
+
             entries.Add(new CatalogueEntry(
                 Text(entry["id"]),
                 Text(entry["name"]),
@@ -298,17 +334,40 @@ public sealed class AssetUsageIndex
         return entries;
     }
 
-    private static List<AssetRecord> ReadRegistry(string root)
+    private static List<AssetRecord> ReadRegistry(string root, List<string> malformed)
     {
         var records = new List<AssetRecord>();
         var path = Path.Combine(root, RegistryPath.Replace('/', Path.DirectorySeparatorChar));
-        if (!File.Exists(path) || JsonNode.Parse(File.ReadAllText(path)) is not JsonObject document || document["assets"] is not JsonArray assets)
+        if (!File.Exists(path))
         {
+            malformed.Add($"Нет файла {RegistryPath}: происхождение и лицензии ресурсов не проверены.");
             return records;
         }
 
-        foreach (var asset in assets.OfType<JsonObject>())
+        if (JsonNode.Parse(File.ReadAllText(path)) is not JsonObject document || document["assets"] is not JsonArray assets)
         {
+            malformed.Add($"{RegistryPath}: нет массива assets — реестр не прочитан.");
+            return records;
+        }
+
+        for (var index = 0; index < assets.Count; index++)
+        {
+            if (assets[index] is not JsonObject asset)
+            {
+                malformed.Add($"Запись реестра #{index + 1} в {RegistryPath} не объект: её ресурс останется без описания.");
+                continue;
+            }
+
+            if (Text(asset["id"]).Length == 0)
+            {
+                malformed.Add($"Запись реестра #{index + 1} в {RegistryPath} без id.");
+            }
+
+            if (asset["materials"] is { } materials && materials is not JsonArray)
+            {
+                malformed.Add($"Запись реестра «{Text(asset["id"])}»: поле materials не массив — материалы ресурса не проверены.");
+            }
+
             records.Add(new AssetRecord(
                 Text(asset["id"]),
                 Text(asset["source"]) is { Length: > 0 } source ? source : null,
@@ -325,7 +384,7 @@ public sealed class AssetUsageIndex
         return records;
     }
 
-    private static Dictionary<string, List<string>> ReadPlacements(string root)
+    private static Dictionary<string, List<string>> ReadPlacements(string root, List<string> malformed)
     {
         var placements = new Dictionary<string, List<string>>(StringComparer.Ordinal);
         var folder = Path.Combine(root, "game", "content", "world");
@@ -338,11 +397,18 @@ public sealed class AssetUsageIndex
         {
             if (JsonNode.Parse(File.ReadAllText(file)) is not JsonObject plot || plot["entities"] is not JsonArray entities)
             {
+                malformed.Add($"{Path.GetFileName(file)}: нет массива entities — размещения этого мира не проверены на ссылки.");
                 continue;
             }
 
-            foreach (var entity in entities.OfType<JsonObject>())
+            for (var index = 0; index < entities.Count; index++)
             {
+                if (entities[index] is not JsonObject entity)
+                {
+                    malformed.Add($"{Path.GetFileName(file)}: сущность #{index + 1} не объект — её ссылки не проверены.");
+                    continue;
+                }
+
                 var id = Text(entity["id"]);
                 var parameters = entity["params"] as JsonObject;
                 var single = Text(parameters?["catalogId"]);
@@ -352,9 +418,16 @@ public sealed class AssetUsageIndex
                     referenced.Add(single);
                 }
 
-                foreach (var many in (parameters?["catalogIds"] as JsonArray ?? []).Select(Text).Where(value => value.Length > 0))
+                if (parameters?["catalogIds"] is { } manyIds && manyIds is not JsonArray)
                 {
-                    referenced.Add(many);
+                    malformed.Add($"Размещение «{id}»: catalogIds не массив — его ссылки не проверены.");
+                }
+                else
+                {
+                    foreach (var many in (parameters?["catalogIds"] as JsonArray ?? []).Select(Text).Where(value => value.Length > 0))
+                    {
+                        referenced.Add(many);
+                    }
                 }
 
                 foreach (var catalogueId in referenced.Distinct(StringComparer.Ordinal))
