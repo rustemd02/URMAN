@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-13",
+  "kind": "revised interface patch for the shared Studio files (owner applies; DeepSeek does not edit them)",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:05 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "5277e57cd56016c86fd7cecc99d734a8b1103099 (origin/main when the patch was made)",
+  "supersedes": "the first interface patch in evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-interface-patch (e05eb32c), which Codex reviewed as CHANGES_REQUESTED",
+  "apply_order": [
+    "3ff0dbc5 and e2a14a81 (selector and its correction)",
+    "then this patch",
+    "the other owner patches are independent"
+  ],
+  "command": "git apply evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-interface-patch-v2/ai13-campaign-world-wiring-v2.patch",
+  "files_touched": {
+    "src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs": "campaign parameter + PackPathFor(selection); the old signature stays and delegates",
+    "game/studio/StudioWorldSection.cs": "Context/ApplyCampaignWorld with the write gate, zone and spawn for the preview and PlayStart, and refusals inside OnViewportInput, Place, SculptStroke, PaintStroke and ShowImport",
+    "game/studio/StudioRoot.cs": "selector in the top bar, the write gate (SetWriteBlock/WriteBlockReason), the AI guard, the first context applied after Register, the context captured before the compile await, the chosen scene, Act I-only spawn arguments, and CheckContent on the chosen campaign"
+  },
+  "addressed": {
+    "P1 read-only was only a hint": "a real gate: StudioRoot.WriteBlockReason freezes authoring, SetWriteBlock clears the selection and disables the AI button, OpenAiPanel refuses even if the button is re-enabled, and the world section refuses input, placement, sculpt, brush and import while the gate is set; the state is editor state and does not depend on the hint label",
+    "P2 full_game ignored the spawn arguments": "the zone, spawn and point arguments are passed only for res://scenes/act1_demo.tscn, the scene whose root reads them",
+    "P2 the context could change during the compile await": "the context is captured before await CompileAsync, so one campaign's pack cannot be paired with another world's scene",
+    "P2 the first Changed was lost before the world section existed": "the selector's initial context is applied right after the sections are registered",
+    "P2 the read-only hint was hidden by LoadWorldAsync": "the gate lives in the root, so a preview reload, Apply or Undo cannot clear it"
+  },
+  "verified": {
+    "apply": "git apply --check on a pristine origin/main 5277e57c worktree: OK",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with the patch and the selector file present",
+    "scope": "147 insertions, 13 deletions in 3 files; with no campaign selected the gate stays clear and the preview keeps act1_demo with village_day/arrival",
+    "probe": "175/175 (the Core-side checks are unchanged by this patch)",
+    "not_run": "runtime and UI acceptance are NOT_RUN: the gate, the AI refusal and the run arguments were not exercised in a live Studio or a game run"
+  },
+  "uncertainties": [
+    "the gate blocks the write entry points I could see in the world section; if another section writes an entity without going through them, the owner should extend the same check",
+    "the AI guard is fail-closed in OpenAiPanel, but the button state is the owner's control",
+    "a presentation-only world still loads the Act I preview by design; a typed preview abstraction for other scene roots remains a separate stage"
+  ]
+}
