@@ -74,6 +74,9 @@ public sealed record AtmosphereRegistryReport(
 /// Spec AI-18: the author must see actual fields with their real effect, and the
 /// UI must not contain unknown fields. Fields the game does not read are listed
 /// with <see cref="AtmosphereFieldReadStatus"/> instead of being hidden.
+/// This is the single metadata owner for atmosphere fields: AI-10 operations and
+/// any later atmosphere UI are meant to reference it rather than keep their own
+/// list or ranges.
 /// </summary>
 public static class AtmosphereFieldRegistry
 {
@@ -169,12 +172,12 @@ public static class AtmosphereFieldRegistry
             AtmosphereFieldReadStatus.ReadByGame, "PainterlyMaterialLibrary.SetSnowMood", 0d, 2d),
         new("snow.tintStrength", "number", "доля 0..1", "0", AtmosphereFieldPresence.RequiredIfBlockPresent, "snow",
             AtmosphereFieldReadStatus.ReadByGame, "PainterlyMaterialLibrary.EffectiveSnowColor", 0d, 1d),
-        new("weather.direction[0]", "number", "X единичного вектора XZ", "(-1, 0.22)", AtmosphereFieldPresence.Optional, "weather",
+        new("weather.direction[0]", "number", "X единичного вектора XZ", "-1", AtmosphereFieldPresence.Optional, "weather",
             AtmosphereFieldReadStatus.ReadByGame, "VillageChimneySmoke (только дым из труб)",
-            Note: "Снегопад и полосы ветра читают собственный вектор эмиттера, а не это поле."),
-        new("weather.direction[1]", "number", "Z единичного вектора XZ", "(-1, 0.22)", AtmosphereFieldPresence.Optional, "weather",
+            Note: "Значение покомпонентное. Если блока weather нет, рантайм берёт нормализованный вектор (-1, 0.22) целиком, а не это число. Снегопад и полосы ветра читают собственный вектор эмиттера."),
+        new("weather.direction[1]", "number", "Z единичного вектора XZ", "0.22", AtmosphereFieldPresence.Optional, "weather",
             AtmosphereFieldReadStatus.ReadByGame, "VillageChimneySmoke (только дым из труб)",
-            Note: "Нулевой вектор подменяется авторской константой."),
+            Note: "Значение покомпонентное. Нулевой вектор подменяется авторской константой (-1, 0.22)."),
         new("weather.speed", "number", "м/с", "8", AtmosphereFieldPresence.Optional, "weather",
             AtmosphereFieldReadStatus.ReadByGame, "VillageChimneySmoke (изгиб дыма)",
             Note: "Влияет на дым, а не на скорость снегопада."),
@@ -250,6 +253,12 @@ public static class AtmosphereFieldRegistry
                     break;
                 }
 
+                if (!double.IsFinite(number) || Math.Abs(number) > float.MaxValue)
+                {
+                    problems.Add($"Поле «{path}» = {number.ToString(CultureInfo.InvariantCulture)} игра не прочитает как число с плавающей точкой: GetSingle бросит исключение.");
+                    break;
+                }
+
                 if (field.HardMin is { } min && number < min)
                 {
                     problems.Add($"Поле «{path}» = {number.ToString(CultureInfo.InvariantCulture)} меньше допустимого {min.ToString(CultureInfo.InvariantCulture)}: игра ограничит значение.");
@@ -262,7 +271,27 @@ public static class AtmosphereFieldRegistry
 
                 break;
             case "string":
+                if (value is not JsonValue stringValue || !stringValue.TryGetValue<string>(out _))
+                {
+                    problems.Add($"Поле «{path}» должно быть строкой: игра читает его через GetString.");
+                }
+
+                break;
             case "string[]":
+                if (value is not JsonArray items)
+                {
+                    problems.Add($"Поле «{path}» должно быть массивом строк: игра читает элементы через GetString.");
+                    break;
+                }
+
+                for (var index = 0; index < items.Count; index++)
+                {
+                    if (items[index] is not JsonValue item || !item.TryGetValue<string>(out _))
+                    {
+                        problems.Add($"Элемент «{path}[{index}]» должен быть строкой: игра читает его через GetString.");
+                    }
+                }
+
                 break;
         }
 
@@ -416,9 +445,18 @@ public static class AtmosphereFieldRegistry
             var path = prefix.Length == 0 ? pair.Key : $"{prefix}.{pair.Key}";
             if (pair.Value is JsonObject nested)
             {
+                var registeredBlock = Find(path) is not null;
                 foreach (var leaf in Leaves(nested, path))
                 {
                     yield return leaf;
+                }
+
+                // A registered block (plume) is reported as its own leaf, so a
+                // block whose flag nothing reads stays visible; an unregistered
+                // object is only a container and must not become a field.
+                if (registeredBlock)
+                {
+                    yield return (path, null);
                 }
 
                 continue;

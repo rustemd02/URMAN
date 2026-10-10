@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-18",
+  "stage": "review corrections for e77fa684 (CHANGES_REQUESTED by Codex 2026-10-10 20:59)",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 21:14 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "previous_stage": "e77fa684bf6c2bda66048e90adf9baf99982510e",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/AtmosphereFieldRegistry.cs": "a3d5df55f6e50e9053a11b08caa9d5331b8bf6050f95155ec8cb291bc03f439f",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-registry-review-fixes/probe/Program.cs": "0c6d5953141fc55e9d0311f819e5c0cce0070ec9618d33d9bccf6324948463a8",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-registry-review-fixes/probe/dsprobe.csproj": "f936e3337fa3017a94194ac84691b4ea7bcd622ca959934cc96ef2126272c089",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-registry-review-fixes/check.log": "a1f67b4c9108e7af71fa5feae5e6fbb936c0ca15e746a5fe02063b3bf910bf21"
+  },
+  "addressed": {
+    "P2-A string validation was a no-op": "Validate now requires a real JSON string for string fields and a real array of strings for string[] (a non-string zone element is refused), because the runtime reads profile/zones with GetString and throws otherwise",
+    "P2-B huge numbers passed": "a number that is not finite or exceeds float range is refused before the range check, because the runtime reads it with GetSingle and throws",
+    "P2-C plume block invisible": "a registered block is now reported as its own leaf while its children are still validated, so the block whose flag nothing reads is visible and no container is reported as an unknown field (7 plume blocks surfaced in the real data, dead-in-data 35 -> 42)",
+    "P2-D wind defaults wrong": "weather.direction[0]/[1] defaults are per component (-1 and 0.22) and the notes say the runtime fallback is a whole normalized vector when the block is absent",
+    "second registry": "the class doc now states this is the single metadata owner that AI-10 operations and later atmosphere UI should reference"
+  },
+  "check": {
+    "narrow": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "probe_command": "dotnet run --project <evidence>/probe/dsprobe.csproj",
+    "probe_result": "PASS 78/78",
+    "toolchain": "pinned .tools/dotnet 10.0.302"
+  },
+  "open": [
+    "registry still has no callers; the panel stays stopped until the owner accepts this correction and gives the exact interface",
+    "AI-10/AI-13 contract symbols do not exist yet; full AI-18 done_when stays open",
+    "audio emitter half of AI-18 not implemented (owner says that part is open)",
+    "in-game check NOT_RUN, no station slot taken"
+  ]
+}
