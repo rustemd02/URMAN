@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-18",
+  "stage": "dependency-independent preparation: registered atmosphere fields, honest read status and a drift check (no UI wiring yet)",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 20:50 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base_sha": "83b9dc4291f91bbc2d0a248eca344a63bde64b1b",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/AtmosphereFieldRegistry.cs": "d992eb92daed5cd29028f2ecf49e6e61e15ea7638ab1973c18b3f69a6baed6bb",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-atmosphere-registry/probe/Program.cs": "98d6fc056de86132d5402c2f0c231ab3ad0e2f7556cbb2950a69a4cc24515072",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-atmosphere-registry/probe/dsprobe.csproj": "f936e3337fa3017a94194ac84691b4ea7bcd622ca959934cc96ef2126272c089",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-atmosphere-registry/probe.log": "8420bae09888390499ee8dc18de73a04f5b81475fcf8c5a6f2fb06ac5114bb15"
+  },
+  "check": {
+    "narrow": "dotnet build src-dotnet/Urman.Studio.Core/Urman.Studio.Core.csproj (0 warnings, 0 errors)",
+    "probe_command": "dotnet run --project <evidence>/probe/dsprobe.csproj",
+    "probe_result": "PASS 61/61 (whole probe incl. AI-13 checks)",
+    "probe_reads": "the real checkout: game/content/world/atmosphere.v1.json and game/scripts/AtmosphereProfiles.cs semantics",
+    "toolchain": "pinned .tools/dotnet 10.0.302"
+  },
+  "found": {
+    "registered_fields": 46,
+    "profiles": 7,
+    "reachable_by_zone": [
+      "village-winter-crisp (village_day)",
+      "zirat-winter-muted (zirat_road)",
+      "kara-winter-night-edge (kara_urman_night)"
+    ],
+    "phase_only": [
+      "overcast-day",
+      "golden-hour"
+    ],
+    "unreachable_claims": [
+      "village-green-night claims village_day@night but the runtime never passes night for village_day",
+      "village-winter-frost claims interior zones that the tuner skips"
+    ],
+    "fields_without_frame_effect": [
+      "identity",
+      "weather.blizzardSpeed",
+      "weather.flakes",
+      "weather.blizzardFlakes",
+      "weather.streak",
+      "sun.rotation[2]",
+      "plume (block presence)"
+    ],
+    "unknown_fields_in_real_data": 0,
+    "missing_required_fields": 0,
+    "out_of_range_values": 0
+  },
+  "open": [
+    "STUDIO/AI-10 and STUDIO/AI-13 (Codex/deepseek) are still open: the contract symbols atmosphere.setRegisteredFields / audio.emitter.setRegisteredFields do not exist yet and full AI-18 done_when is not claimed",
+    "Studio panel wiring comes next and stays in game/studio/StudioAtmospherePanel.cs; no audio emitter work yet",
+    "ambient.skyContribution is assigned to a live property but the ambient source is forced to Color, so its real effect needs a frame to confirm",
+    "audio half of AI-18 (one real emitter, manual listening with limited volume, stop) is traced but not implemented",
+    "in-game check: NOT_RUN, no station slot taken"
+  ]
+}

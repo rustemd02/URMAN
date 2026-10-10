@@ -23754,7 +23754,14 @@
             "verification": "A18: один свет/профиль и один источник, до/после на той же позиции; stop audio и Undo.",
             "risks_recovery_external_gates": "Художественная световая/слуховая приёмка отдельно; лицензии/генерация нового аудио не подразумеваются.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 AI-18 dependency-independent preparation (partial; AI-10 and AI-13 still open)",
+                "result": "partial implementation by deepseek v4.1 flash: the authored atmosphere fields are now a checked projection with an honest read status per field, so the editor can refuse unknown fields and label the ones the game does not read; the Studio panel is not wired to it yet and full done_when remains open",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/AtmosphereFieldRegistry.cs (46 registered leaves, each with unit, presence rule, runtime consumer and read status); evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-atmosphere-registry/ (probe.log, probe/, receipt.json with file hashes); traced sources game/content/world/atmosphere.v1.json and game/scripts/AtmosphereProfiles.cs, consumers Act1ConnectedWorld/VillageChimneySmoke/PainterlyMaterialLibrary/WinterParticleSurfaces/VehicleVisualFactory",
+                "verification": "narrow compile of src-dotnet/Urman.Studio.Core PASS 0 warnings/0 errors; out-of-repo probe PASS (61 checks in total, atmosphere section included): 7 real profiles, 0 unknown fields in the authored file, 0 missing required fields, 0 out-of-range values, exactly 3 profiles selectable by zone (village-winter-crisp/zirat-winter-muted/kara-winter-night-edge), overcast-day and golden-hour reported phase-only, and the two unreachable claims (village-green-night village_day@night, village-winter-frost interior zones) named instead of shown as working scope. The fields the game does not read are reported as such: identity, weather.blizzardSpeed/flakes/blizzardFlakes/streak, sun.rotation[2] and the plume block flag. Validation refuses an unknown path, a malformed colour and a value the runtime clamps; a synthetic file proves the drift check catches both an unknown field and a missing required one. Studio UI wiring, the audio half of AI-18 and the in-game check are NOT_RUN; no station slot was taken. Remaining: the panel must use this registry, the AI-10/AI-13 contract symbols atmosphere.setRegisteredFields and audio.emitter.setRegisteredFields do not exist yet, and one real emitter with manual listening plus stop is still to do"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P4"
             ],
