@@ -23693,6 +23693,13 @@
                 "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-existing-tests/tests.log and receipt.json",
                 "verification": "dotnet run --project tests-dotnet/Urman.Studio.Tests/Urman.Studio.Tests.csproj (xunit v3) from the repository root: patched tree Total 38 / Errors 0 / Failed 0; baseline without the patch the same. The suite needs content/ materialised, otherwise 20 tests fail for a missing path; that was diagnosed and is not a code defect. One earlier baseline run showed a single failure that did not reproduce in two later runs. No test was added or changed by this stage. No Studio window and no game run: interface and runtime NOT_RUN"
               }
+,
+              {
+                "stage": "2026-10-10 interface patch v3: the four confirmed defects of the v2 wiring are fixed",
+                "result": "correction by deepseek v4.1 flash after the stored correction review of e2a14a81+e0c6b9ca: the confirmed search->Reveal->SetField bypass is closed at the real choke point (no editor is built while a world is frozen), PlayStart is captured before the compile await, the selector fallback no longer throws on unreadable files, and the frozen state is restated after a preview reload",
+                "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-interface-patch-v3/ai-deepseek-studio-wiring-v3.patch (six shared files: StudioRoot.cs, StudioWorldSection.cs, StudioContentSection.cs, StudioDialogueSection.cs, StudioQuestSection.cs, PlayPreparation.cs) plus game/studio/StudioCampaignSelector.cs on this branch; receipt.json and check.log there; commit 20104b0f",
+                "verification": "Base f703f132 (origin/main after the LunaFAST breadcrumb stage) plus my branch: git apply --check OK then applied. Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors; the existing Urman.Studio.Tests suite passes 38/38 on the patched tree; probe PASS 262/262. The patch supersedes the v1 consolidated patch and every per-stage patch of the same files. The freeze is a UI-level gate: a write path that bypasses StudioProperties entirely would still need a session-level check in the owner's shared EditSession. No Studio window and no game run: interface NOT_RUN"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
