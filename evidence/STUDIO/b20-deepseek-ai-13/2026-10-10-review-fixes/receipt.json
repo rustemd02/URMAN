@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-13",
+  "stage": "review corrections for 9b8b8b4a (CHANGES_REQUESTED by Codex 2026-10-10 20:31)",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 20:43 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base_sha_for_this_fix": "9b8b8b4af728fa466d9acaf7af162b73b566fe00",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/CampaignWorldContext.cs": "9303e89898e873b74458662e833021421f201b5b8ffb2ae82598f1767180ff17",
+    "src-dotnet/Urman.Studio.Core/Editing/CampaignWorldCatalog.cs": "809656d8feba2bf0189c60024a5492be074e10f55935fdbba0782b901b0d5380",
+    "src-dotnet/Urman.Studio.Core/Editing/WorldAuthoringState.cs": "cf09793d8dddda8a8de7a36ca5c255f4d4e185d85f0a26ba8da002a5228a2a2b",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-review-fixes/probe/Program.cs": "0fdfa951a6feea4f6de51325d503806477658391fb719dc23ecac4de6e87c28d",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-review-fixes/probe/dsprobe.csproj": "f936e3337fa3017a94194ac84691b4ea7bcd622ca959934cc96ef2126272c089",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-review-fixes/probe.log": "f0e82427b75c2697ad2307e3d886457d65d0e3f2010e980d37913929919112dd"
+  },
+  "addressed": {
+    "P1-1 declared campaign mismatch accepted": "Resolve now refuses a scene whose CampaignResourcePath names another campaign; explicit pairing is allowed only for a scene that declares none",
+    "P1-2 full_game wrongly AuthoredWorldPlots": "capability now comes from a positive loader signal (EnableAct1ConnectedWorld = true in the scene body or in a script of one of its nodes); act1_demo -> AuthoredWorldPlots with evidence game/scripts/Act1DemoRoot.cs:263, full_game -> PresentationOnly",
+    "P2-1 sourceRevision omits authored world files": "renamed to ContentFingerprint over explicit AuthoredDependencies (campaign manifest, entry scene, compiled pack, and all world plots when the loader reads the plot directory); BaseRevision is a separate caller-supplied value",
+    "P2-2 UI-state symlink path escape": "the store refuses rooted/'..' paths and any symbolic link or reparse point on the way to .urman-studio/world-authoring-state.v1.json, before reading and before writing",
+    "P2-3 stale-store lost update": "minimal compare-and-swap: a file changed on disk after it was read is refused with a clear error instead of being overwritten; ReloadFromDisk is the explicit way forward",
+    "P2-4 mutable shared Empty.Pivot": "WorldAuthoringState.Empty() is a factory and the pivot is an immutable WorldPoint record struct",
+    "Q1 ambiguous scene declarations": "properties are read from the node that declares them; conflicting CampaignResourcePath or InitialZoneId/InitialSpawnPointId make the scene ambiguous: it is skipped with a note instead of guessed"
+  },
+  "check": {
+    "narrow": "dotnet build src-dotnet/Urman.Studio.Core/Urman.Studio.Core.csproj (0 warnings, 0 errors)",
+    "probe_command": "dotnet run --project <evidence>/probe/dsprobe.csproj",
+    "probe_result": "PASS 42/42",
+    "probe_scope": "real checkout plus temporary synthetic mini checkouts in %TEMP% for loader signal, ambiguity, fingerprint change, symlink refusal and lost-update refusal",
+    "toolchain": "pinned .tools/dotnet 10.0.302"
+  },
+  "open": [
+    "STUDIO/AI-12 (Codex) is still open; full done_when of AI-13 is not claimed",
+    "two independently authored worlds with runtime consumers do not exist yet; AI-13 done_when stays open",
+    "Studio UI wiring stays with the owner; no UI edits in this commit, interface patch comes separately",
+    "in-game check: NOT_RUN, no station slot taken",
+    "the no-links rule is kept local to this store; the shared guard in StudioFileTransaction.EnsureNoLinks is private, so if the owner prefers one implementation he should expose it"
+  ]
+}
