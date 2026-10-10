@@ -273,6 +273,14 @@ public partial class Act1ConnectedWorld
             groundAnchor with { Y = 0 }, colour, "snow_ground", 0, conformToTerrain: true);
         using var arrays = ((ArrayMesh)detail.Mesh).SurfaceGetArrays(0);
         var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+        var sourceUvs = SnowArrayLength(arrays[(int)Mesh.ArrayType.TexUV]) == vertices.Length
+            ? arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array() : null;
+        var verticesBefore = vertices.Length;
+        // SurfaceTool re-indexes the committed mesh, so vertex order is no longer the
+        // authored row-major grid. The authored UV (profile + .5, along-run t) still
+        // names each vertex's cell exactly: put them back in grid order, or fall back.
+        var gridStations = TryYardSnowGridOrder(vertices, sourceUvs, out var gridUvs);
+        if (gridStations > 0) { vertices = GridOrdered(vertices, sourceUvs!, gridStations); }
         for (var index = 0; index < vertices.Length; index++)
         {
             var before = detail.ToGlobal(vertices[index]);
@@ -290,19 +298,142 @@ public partial class Act1ConnectedWorld
             world.Y = AgentBAct1HeightField.CollisionGround(world.X, world.Z) + rise;
             vertices[index] = detail.ToLocal(world);
         }
-        arrays[(int)Mesh.ArrayType.Vertex] = vertices;
-        using var resized = new ArrayMesh();
-        resized.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
-        using var normals = new SurfaceTool();
-        normals.CreateFrom(resized, 0);
-        normals.GenerateNormals();
-        detail.Mesh = normals.Commit();
+        var verticesAfter = vertices.Length;
+        if (gridStations > 0)
+        {
+            // Same softening as the street banks: rounded rise (edges and end stations
+            // pinned to the terrain), doubled columns, then extra stations along the run
+            // so a household mound has a rounded crown instead of folded facets.
+            var columns = YardSnowColumns;
+            var stations = gridStations;
+            if (!swept && RefineSnowGrid(detail, vertices, gridUvs, stations, columns, null,
+                    out var softVertices, out var softUvs, out var softColumns, out _))
+            {
+                vertices = softVertices; gridUvs = softUvs; columns = softColumns;
+                for (var pass = 0; pass < 2 && stations < 33 && YardSnowStationSpacing(detail, vertices, stations, columns) > .05f; pass++)
+                    stations = SubdivideYardSnowStations(detail, ref vertices, ref gridUvs, stations, columns);
+            }
+            else if (!swept) NoteSnowRefineSkip("yard-refine");
+            verticesAfter = vertices.Length;
+            var material = ((ArrayMesh)detail.Mesh).SurfaceGetMaterial(0);
+            var soft = new ArrayMesh();
+            soft.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, BuildSnowGridArrays(vertices, gridUvs, stations, columns));
+            if (material is not null) soft.SurfaceSetMaterial(0, material);
+            detail.Mesh = soft;
+        }
+        else
+        {
+            NoteSnowRefineSkip("yard-grid");
+            arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+            using var resized = new ArrayMesh();
+            resized.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+            using var normals = new SurfaceTool();
+            normals.CreateFrom(resized, 0);
+            normals.GenerateNormals();
+            detail.Mesh = normals.Commit();
+        }
+        _yardSnowPiles++; _yardSnowVerticesBefore += verticesBefore; _yardSnowVerticesAfter += verticesAfter;
+        GD.Print($"act1-yard-snow: piles={_yardSnowPiles} vertices={_yardSnowVerticesBefore}->{_yardSnowVerticesAfter} " +
+                 $"last={name}{(swept ? "(swept,unrefined)" : "")} refineSkipped={SnowRefineSkipSummary()}");
         detail.SetMeta("snowScale", "medium"); // VIS-077 tier: edge of a household use
         detail.SetMeta("terrainRole", swept ? "ground-conformed shallow shovel trace; visual only"
             : "ground-conformed household snow mound; visual only");
         // ToolSnowPileWood still owns only its existing interaction ray target.
         // Neither this cosmetic mound nor the cleared trace blocks traversal.
         return detail;
+    }
+
+    private const int YardSnowColumns = 9;
+    private static readonly float[] YardSnowProfile = [-.5f, -.38f, -.26f, -.12f, 0f, .12f, .26f, .38f, .5f];
+    private static int _yardSnowPiles, _yardSnowVerticesBefore, _yardSnowVerticesAfter;
+
+    /// <summary>Station count when every vertex maps to exactly one cell of the authored
+    /// 9-column grid by its UV, otherwise 0.</summary>
+    private static int TryYardSnowGridOrder(Vector3[] vertices, Vector2[]? uvs, out Vector2[]? gridUvs)
+    {
+        gridUvs = null;
+        if (uvs is null || vertices.Length == 0 || vertices.Length % YardSnowColumns != 0) return 0;
+        var stations = vertices.Length / YardSnowColumns;
+        if (stations < 3) return 0;
+        var seen = new bool[vertices.Length];
+        var ordered = new Vector2[vertices.Length];
+        for (var i = 0; i < vertices.Length; i++)
+        {
+            var s = Mathf.RoundToInt(uvs[i].Y * (stations - 1));
+            var c = -1;
+            for (var k = 0; k < YardSnowColumns; k++)
+                if (Mathf.Abs(uvs[i].X - (YardSnowProfile[k] + .5f)) < .01f) { c = k; break; }
+            if (s < 0 || s >= stations || c < 0 || seen[s * YardSnowColumns + c]) return 0;
+            seen[s * YardSnowColumns + c] = true;
+            ordered[s * YardSnowColumns + c] = uvs[i];
+        }
+        gridUvs = ordered;
+        return stations;
+    }
+
+    private static Vector3[] GridOrdered(Vector3[] vertices, Vector2[] uvs, int stations)
+    {
+        var ordered = new Vector3[vertices.Length];
+        for (var i = 0; i < vertices.Length; i++)
+        {
+            var s = Mathf.RoundToInt(uvs[i].Y * (stations - 1));
+            var c = 0;
+            for (var k = 0; k < YardSnowColumns; k++)
+                if (Mathf.Abs(uvs[i].X - (YardSnowProfile[k] + .5f)) < .01f) { c = k; break; }
+            ordered[s * YardSnowColumns + c] = vertices[i];
+        }
+        return ordered;
+    }
+
+    private static float YardSnowStationSpacing(MeshInstance3D mesh, Vector3[] vertices, int stations, int columns)
+    {
+        var widest = 0f;
+        for (var s = 0; s + 1 < stations; s++)
+            widest = Mathf.Max(widest, mesh.ToGlobal(vertices[s * columns + columns / 2])
+                .DistanceTo(mesh.ToGlobal(vertices[(s + 1) * columns + columns / 2])));
+        return widest;
+    }
+
+    /// <summary>Inserts a mid station between every pair (clamped cubic of the rise above the
+    /// collision ground, never above the higher neighbour), so end stations stay pinned.</summary>
+    private static int SubdivideYardSnowStations(MeshInstance3D mesh, ref Vector3[] vertices, ref Vector2[]? uvs, int stations, int columns)
+    {
+        var world = new Vector3[vertices.Length];
+        var ground = new float[vertices.Length];
+        var rise = new float[vertices.Length];
+        for (var i = 0; i < vertices.Length; i++)
+        {
+            world[i] = mesh.ToGlobal(vertices[i]);
+            ground[i] = AgentBAct1HeightField.CollisionGround(world[i].X, world[i].Z);
+            rise[i] = world[i].Y - ground[i];
+        }
+        var newStations = stations * 2 - 1;
+        var result = new Vector3[newStations * columns];
+        var newUvs = uvs is null ? null : new Vector2[result.Length];
+        var inverse = mesh.GlobalTransform.AffineInverse();
+        for (var s = 0; s < newStations; s++)
+        for (var c = 0; c < columns; c++)
+        {
+            var o = s * columns + c;
+            if ((s & 1) == 0)
+            {
+                result[o] = vertices[s / 2 * columns + c];
+                if (newUvs is not null) newUvs[o] = uvs![s / 2 * columns + c];
+                continue;
+            }
+            var a = s / 2 * columns + c;
+            var b = a + columns;
+            var p0 = s / 2 - 1 >= 0 ? rise[a - columns] : rise[a];
+            var p3 = s / 2 + 2 < stations ? rise[b + columns] : rise[b];
+            var r = Mathf.Clamp((-p0 + 9f * rise[a] + 9f * rise[b] - p3) / 16f,
+                Mathf.Min(rise[a], rise[b]), Mathf.Max(rise[a], rise[b]));
+            var x = (world[a].X + world[b].X) * .5f;
+            var z = (world[a].Z + world[b].Z) * .5f;
+            result[o] = inverse * new Vector3(x, AgentBAct1HeightField.CollisionGround(x, z) + r, z);
+            if (newUvs is not null) newUvs[o] = (uvs![a] + uvs[b]) * .5f;
+        }
+        vertices = result; uvs = newUvs;
+        return newStations;
     }
 
     private static MeshInstance3D MechanismVisual(Node3D parent, string name, Vector3 size, Vector3 position, string colour, string surface = "wood")

@@ -20,6 +20,8 @@ public partial class Act1ConnectedWorld
 {
     private const string HeroLogMaterial = "URMAN_Hero_Log";
     private const string HeroLogEndMaterial = "URMAN_Hero_LogEnd";
+    private const string WoodpileBarkMaterial = "URMAN_Bark_Muted";
+    private const string WoodpileCutMaterial = "URMAN_Wood_CutEnd";
     private const int RoundLogSegments = 20;
     private static readonly Dictionary<ulong, ArrayMesh?> RoundedLogCache = new();
 
@@ -31,18 +33,22 @@ public partial class Act1ConnectedWorld
             if (mesh.Mesh is not ArrayMesh source || source.GetSurfaceCount() is < 1 or > 2) continue;
             // A course is either one URMAN_Hero_Log surface or a log body plus its
             // own URMAN_Hero_LogEnd end-grain caps on the same mesh.
+            // Woodpile billets (bark + sawn end) are octagonal prisms in the same kit
+            // and read as pencils in a frame (C2, 09.10); they round the same way.
             Material? material = null, endGrain = null;
+            var woodpile = false;
             for (var surface = 0; surface < source.GetSurfaceCount(); surface++)
             {
                 var slot = source.SurfaceGetMaterial(surface);
-                if (slot?.ResourceName == HeroLogMaterial) material = slot;
-                else if (slot?.ResourceName == HeroLogEndMaterial) endGrain = slot;
+                var slotName = slot?.ResourceName;
+                if (slotName == HeroLogMaterial || slotName == WoodpileBarkMaterial) { material = slot; woodpile = slotName == WoodpileBarkMaterial; }
+                else if (slotName == HeroLogEndMaterial || slotName == WoodpileCutMaterial) endGrain = slot;
                 else { material = null; break; }
             }
             if (material is null || (source.GetSurfaceCount() == 2 && endGrain is null)) continue;
             var id = source.GetInstanceId();
             if (!RoundedLogCache.TryGetValue(id, out var replacement))
-                RoundedLogCache[id] = replacement = BuildRoundLog(source, material, endGrain);
+                RoundedLogCache[id] = replacement = BuildRoundLog(source, material, endGrain, woodpile);
             if (replacement is null) continue;
             mesh.Mesh = replacement;
             mesh.SetMeta("roundedLogCourse", "ACT1-DEPTH.9/T2: chamfered kit course rebuilt as an elliptical log in the same bounds");
@@ -52,7 +58,7 @@ public partial class Act1ConnectedWorld
         return rounded;
     }
 
-    private static ArrayMesh? BuildRoundLog(ArrayMesh source, Material material, Material? endGrain)
+    private static ArrayMesh? BuildRoundLog(ArrayMesh source, Material material, Material? endGrain, bool woodpile = false)
     {
         var vertices = Enumerable.Range(0, source.GetSurfaceCount())
             .SelectMany(surface => source.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array()).ToArray();
@@ -68,11 +74,16 @@ public partial class Act1ConnectedWorld
         var length = alongX ? size.X : size.Z;
         var depth = alongX ? size.Z : size.X;
         var height = size.Y;
-        if (height is < .15f or > .45f || depth is < .06f or > .40f || length < height * 2.5f) return null;
+        if (woodpile)
+        {
+            // A billet is round, not a wall course: near-equal section, shorter body.
+            if (height is < .06f or > .45f || depth < height * .7f || depth > height * 1.4f || length < height * 1.6f) return null;
+        }
+        else if (height is < .15f or > .45f || depth is < .06f or > .40f || length < height * 2.5f) return null;
 
         // Courses sit 0.28 m apart with 0.26 m bodies; a slightly taller ellipse
         // lets neighbours meet in a narrow chinked seam instead of a dark slot.
-        var ry = height * .5f * 1.12f;
+        var ry = height * .5f * (woodpile ? 1f : 1.12f);
         var rd = depth * .5f;
         var half = length * .5f;
         Vector3 Point(float along, float d, float y) => alongX
