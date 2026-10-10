@@ -1,0 +1,7 @@
+{
+  "result": "not-applied",
+  "reason": "Required consumer-name collision correction changed source HEAD after proposal; fresh request required",
+  "requestedWidth": 1.3,
+  "actualProposalWidth": 1.3,
+  "generatorStagedOnly": true
+}

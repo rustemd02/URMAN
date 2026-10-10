@@ -23599,6 +23599,11 @@
                 "result": "После двух раундов ревью приняты и перенесены 9b8b8b4a, 6cf1b9d0, b983c6cb как a9bf10d8, 6170dbbe, ad423f16. Каталог остаётся read-only проекцией runtime-источников, состояние — только authoring UI. Назначение DeepSeek сохранено.",
                 "verification": "Urman.Studio.Core affected compile: 0 warnings, 0 errors; git diff --check PASS. Независимое Luna FAST ревью исправлений и ревью основного агента без оставшихся блокеров данного source slice.",
                 "remaining": "Полный done_when открыт: второй независимо authorable runtime world отсутствует; две стартовые сцены не считаются двумя авторскими мирами. Подключение Studio UI и проверка изолированных правок в игре ещё не выполнены."
+              },
+              {
+                "stage": "2026-10-10 AI-13 consumer compile correction",
+                "result": "9fe0cbc4 перенесён как 6d3c16f7: AuthoredWorldPlotFile вместо конфликтующего с runtime AuthoredWorldPlot.",
+                "verification": "Affected game/Urman.Game.csproj compile: 0 warnings, 0 errors; git diff --check PASS. UI wiring и второй authorable world остаются открыты."
               }
             ],
             "stage_tasks": [
