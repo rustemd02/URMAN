@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 
 namespace Urman.Godot;
@@ -6,6 +7,8 @@ namespace Urman.Godot;
 public partial class Act1ConnectedWorld
 {
     internal const float MinaretGalleryHeight = 9.60f;
+    // Muted green sheet iron for the hall roof, lantern skirt and tent (rural Tatar timber mosque typology).
+    private const string MosqueIronColour = "466f62";
     private static readonly Vector3 MinaretCentre = new(3.83f, 0, -2.00f);
 
     private void BuildMosqueAccessibleMinaret()
@@ -80,19 +83,21 @@ public partial class Act1ConnectedWorld
             var bottom = side is 1 or 2 ? 2.25f : 0f;
             var height = MinaretGalleryHeight - bottom;
             FacilitySolid(stair, "TimberShaftFacet" + side, new(1.08f, height, .10f),
-                new(Mathf.Cos(mid) * 1.30f, bottom + height * .5f, Mathf.Sin(mid) * 1.30f), "729080", "wood_painted_green",
+                new(Mathf.Cos(mid) * 1.30f, bottom + height * .5f, Mathf.Sin(mid) * 1.30f), MosqueTimberColour, "wood_facade",
                 new(0, Mathf.Pi * .5f - mid, 0));
+            // Battens stop .22 m short of the gallery so the balcony deck and its frieze board sit clear of them.
+            var battenHeight = height - .22f;
             for (var batten = 0; batten < 2; batten++)
             {
                 var offset = (batten * 2 - 1) * .26f;
                 var tangent = new Vector3(Mathf.Sin(mid), 0, -Mathf.Cos(mid)) * offset;
-                AddVisualBox(stair, "ShaftFaceBatten" + side + "_" + batten, new(.05f, height, .06f),
-                    new Vector3(Mathf.Cos(mid) * 1.35f, bottom + height * .5f, Mathf.Sin(mid) * 1.35f) + tangent,
+                AddVisualBox(stair, "ShaftFaceBatten" + side + "_" + batten, new(.05f, battenHeight, .06f),
+                    new Vector3(Mathf.Cos(mid) * 1.35f, bottom + battenHeight * .5f, Mathf.Sin(mid) * 1.35f) + tangent,
                     "80674c", "wood_furniture", Mathf.RadToDeg(Mathf.Pi * .5f - mid));
             }
             var corner = side * Mathf.Tau / 8;
-            AddVisualBox(stair, "ShaftCornerBatten" + side, new(.09f, height, .09f),
-                new(Mathf.Cos(corner) * 1.44f, bottom + height * .5f, Mathf.Sin(corner) * 1.44f),
+            AddVisualBox(stair, "ShaftCornerBatten" + side, new(.09f, battenHeight, .09f),
+                new(Mathf.Cos(corner) * 1.44f, bottom + battenHeight * .5f, Mathf.Sin(corner) * 1.44f),
                 "80674c", "wood_furniture", Mathf.RadToDeg(Mathf.Pi * .5f - corner));
         }
         // Two horizontal hoops frame the shaft stages of the reference type.
@@ -135,7 +140,7 @@ public partial class Act1ConnectedWorld
             var yaw = Mathf.Pi * .5f - mid;
             var yawDegrees = Mathf.RadToDeg(yaw);
             FacilitySolid(gallery, "LanternTimberApron" + side, new(1.08f, .92f, .10f), face + Vector3.Up * .46f,
-                "729080", "wood_painted_green", new(0, yaw, 0));
+                MosqueTimberColour, "wood_facade", new(0, yaw, 0));
             AddVisualBox(gallery, "LanternCapRail" + side, new(1.12f, .07f, .13f), face + Vector3.Up * .955f,
                 "d5d0b7", "wood_furniture", yawDegrees);
             AddVisualBox(gallery, "LanternHeaderRing" + side, new(1.14f, .13f, .12f), face + Vector3.Up * 2.28f,
@@ -159,18 +164,32 @@ public partial class Act1ConnectedWorld
         }
         // The lantern's own small skirt roof, then an inset drum and the long
         // straight tent — the published Bolshaya Elga / Moksha silhouette.
-        MinaretOctagonalPiece(gallery, "LanternSkirtRoof", 1.04f, 1.58f, .30f, new(0, 2.49f, 0), "496e5b", "roof_metal");
-        MinaretOctagonalPiece(gallery, "LanternDrum", .96f, .96f, .34f, new(0, 2.81f, 0), "729080", "wood_painted_green");
-        MinaretOctagonalPiece(gallery, "TentedRoof", .035f, 1.00f, 3.20f, new(0, 4.58f, 0), "496e5b", "roof_metal");
+        MinaretOctagonalPiece(gallery, "LanternSkirtRoof", 1.04f, 1.58f, .30f, new(0, 2.49f, 0), MosqueIronColour, "roof_metal");
+        MinaretOctagonalPiece(gallery, "LanternDrum", .96f, .96f, .34f, new(0, 2.81f, 0), MosqueTimberColour, "wood_facade");
+        MinaretOctagonalPiece(gallery, "TentedRoof", .035f, 1.00f, 3.20f, new(0, 4.58f, 0), MosqueIronColour, "roof_metal");
         FacilityRod(gallery, "FinialRod", new(0, 6.13f, 0), new(0, 6.69f, 0), .017f, "c9b26a");
         DiscoveryCylinder(gallery, "FinialBead0", .052f, .052f, .055f, new(0, 6.21f, 0), "c9b26a");
         DiscoveryCylinder(gallery, "FinialBead1", .036f, .036f, .05f, new(0, 6.30f, 0), "c9b26a");
-        for (var i = 0; i < 16; i++)
+        // Crescent (ай) opening upward, centre y 6.93, radius .32: a 200-degree arc through the bottom,
+        // thickest at the base and tapering to fine tips. It stands in the YZ plane so it faces the
+        // entrance/approach side. Muted gold; the finial rod rises into its lower belly.
+        var crescentMetal = PainterlyMaterialLibrary.ForColor("b99c52", "metal");
+        const int crescentSegments = 16;
+        float CrescentThickness(int k)
         {
-            var a0 = Mathf.DegToRad(-100f + i * 200f / 16); var a1 = Mathf.DegToRad(-100f + (i + 1) * 200f / 16);
-            FacilityRod(gallery, "Crescent" + i, new(Mathf.Cos(a0) * .32f, 6.93f + Mathf.Sin(a0) * .32f, 0),
-                new(Mathf.Cos(a1) * .32f, 6.93f + Mathf.Sin(a1) * .32f, 0), .023f, "c9b26a");
+            var t = Mathf.Abs((-190f + k * 200f / crescentSegments) + 90f) / 100f;
+            return .008f + .034f * (1f - t * t);
         }
+        for (var i = 0; i < crescentSegments; i++)
+        {
+            var a0 = Mathf.DegToRad(-190f + i * 200f / crescentSegments); var a1 = Mathf.DegToRad(-190f + (i + 1) * 200f / crescentSegments);
+            var from = new Vector3(0, 6.93f + Mathf.Sin(a0) * .32f, Mathf.Cos(a0) * .32f);
+            var to = new Vector3(0, 6.93f + Mathf.Sin(a1) * .32f, Mathf.Cos(a1) * .32f);
+            var segment = DiscoveryCylinder(gallery, "Crescent" + i, CrescentThickness(i + 1), CrescentThickness(i), (to - from).Length(), (from + to) * .5f, "b99c52");
+            segment.Quaternion = new Quaternion(Vector3.Up, (to - from).Normalized());
+            segment.MaterialOverride = crescentMetal;
+        }
+        BuildMinaretBalcony(gallery);
         _mosqueAdhanAnchor = new Node3D { Name = "MosqueAdhanAnchor", Position = new(.53f, 0, .53f),
             Rotation = new(0, Mathf.Atan2(MosqueLocalQibla.X, MosqueLocalQibla.Z), 0) };
         gallery.AddChild(_mosqueAdhanAnchor);
@@ -188,6 +207,38 @@ public partial class Act1ConnectedWorld
         stair.SetMeta("walkAnchors", anchors);
         stair.SetMeta("adhanPoint", _mosqueAdhanAnchor.GlobalPosition);
         for (var i = 0; i < 3; i++) FacilityLamp(stair, "MinaretStairLamp" + i, new(0, 1.85f + i * 3.20f, 0), "ffe5bd", .22f, 2.20f);
+    }
+
+    /// <summary>
+    /// Projecting railed balcony (шэрэфэ) around the azanchi lantern, after the rural Tatar timber minaret
+    /// typology: an octagonal deck on small brackets with a frieze board, and an outer rail with balusters.
+    /// Visual only, two batched draws; the walkable gallery, lantern and collision are unchanged.
+    /// </summary>
+    private static void BuildMinaretBalcony(Node3D gallery)
+    {
+        var deck = new List<Transform3D>();
+        var rail = new List<Transform3D>();
+        const float deckCentre = 1.575f, railApothem = 1.70f;
+        for (var side = 0; side < 8; side++)
+        {
+            var mid = side * Mathf.Tau / 8 + Mathf.Pi / 8;
+            var yaw = Mathf.Pi * .5f - mid;
+            var radial = new Vector3(Mathf.Cos(mid), 0, Mathf.Sin(mid));
+            var tangent = new Vector3(Mathf.Sin(mid), 0, -Mathf.Cos(mid));
+            deck.Add(MosqueBoxTransform(radial * deckCentre + Vector3.Up * (-.06f + (side % 2) * .004f), new(1.50f, .08f, .36f), yaw));
+            deck.Add(MosqueBoxTransform(radial * 1.40f + Vector3.Down * .16f, new(1.00f, .12f, .05f), yaw));
+            foreach (var offset in new[] { -.34f, 0f, .34f })
+                deck.Add(MosqueBoxTransform(radial * 1.55f + tangent * offset + Vector3.Down * .19f, new(.07f, .18f, .20f), yaw));
+            rail.Add(MosqueBoxTransform(radial * railApothem + Vector3.Up * .86f, new(1.40f, .05f, .07f), yaw));
+            rail.Add(MosqueBoxTransform(radial * railApothem + Vector3.Up * .48f, new(1.40f, .035f, .04f), yaw));
+            foreach (var offset in new[] { -.45f, -.15f, .15f, .45f })
+                rail.Add(MosqueBoxTransform(radial * railApothem + tangent * offset + Vector3.Up * .42f, new(.03f, .84f, .03f), yaw));
+            var cornerAngle = side * Mathf.Tau / 8;
+            var corner = new Vector3(Mathf.Cos(cornerAngle), 0, Mathf.Sin(cornerAngle)) * (railApothem / Mathf.Cos(Mathf.Pi / 8));
+            rail.Add(MosqueBoxTransform(corner + Vector3.Up * .45f, new(.07f, .90f, .07f), Mathf.Pi * .5f - cornerAngle));
+        }
+        MosqueBatch(gallery, "MosqueMinaretCrownBalconyDeck", deck, PainterlyMaterialLibrary.ForColor("6e5a40", "wood_facade"));
+        MosqueBatch(gallery, "MosqueMinaretCrownBalconyRail", rail, PainterlyMaterialLibrary.ForColor("e4dcc8", "wood_painted_trim"));
     }
 
     private void MinaretSectorSolid(Node3D parent, string name, float inner, float outer,
@@ -238,7 +289,7 @@ public partial class Act1ConnectedWorld
     private void BuildMosqueRoofWithStairOpening()
     {
         var room = _mosqueRoom!;
-        const float eave = 4.67f, rise = 2.15f, half = 5.32f;
+        const float eave = 4.67f, rise = 2.15f, half = 5.32f, snowReach = 3.30f;
         using var roof = new SurfaceTool(); roof.Begin(Mesh.PrimitiveType.Triangles);
         void Patch(float x0, float x1, float z0, float z1)
         {
@@ -251,17 +302,37 @@ public partial class Act1ConnectedWorld
         Patch(-7.4f, 2.43f, -half, 0); Patch(-7.4f,2.43f,0,half);
         Patch(2.43f,5.23f,-half,-3.40f); Patch(2.43f,5.23f,-.60f,0); Patch(2.43f,5.23f,0,half);
         Patch(5.23f,6,-half,0); Patch(5.23f,6,0,half);
-        var mesh = new MeshInstance3D { Name = "MosqueGableRoofV4", Mesh = roof.Commit(), MaterialOverride = PainterlyMaterialLibrary.ForColor("e6ebef","snow_roof") };
+        // Green sheet-iron roof; settled snow lies only on the upper slopes (iron sheds it at the eaves).
+        var mesh = new MeshInstance3D { Name = "MosqueGableRoofV4", Mesh = roof.Commit(), MaterialOverride = PainterlyMaterialLibrary.ForColor(MosqueIronColour,"roof_metal") };
         room.AddChild(mesh);
+        using var snow = new SurfaceTool(); snow.Begin(Mesh.PrimitiveType.Triangles);
+        void SnowPatch(float x0, float x1, float z0, float z1)
+        {
+            z0 = Math.Max(z0, -snowReach); z1 = Math.Min(z1, snowReach);
+            if (z1 - z0 < .05f) return;
+            float Y(float z) => eave + rise * (1 - Math.Abs(z) / half) + .05f;
+            var a = new Vector3(x0,Y(z0),z0); var b = new Vector3(x1,Y(z0),z0);
+            var c = new Vector3(x1,Y(z1),z1); var d = new Vector3(x0,Y(z1),z1);
+            var normal = (c-a).Cross(b-a).Normalized();
+            foreach (var p in new[] {a,b,c,a,c,d}) { snow.SetNormal(normal); snow.SetUV(new(p.X*.3f,p.Z*.3f)); snow.AddVertex(p); }
+        }
+        // Same panel layout as the roof, so the stairwell opening stays clear.
+        SnowPatch(-7.3f, 2.43f, -half, 0); SnowPatch(-7.3f, 2.43f, 0, half);
+        SnowPatch(2.43f, 5.23f, -half, -3.40f); SnowPatch(2.43f, 5.23f, -.60f, 0); SnowPatch(2.43f, 5.23f, 0, half);
+        SnowPatch(5.23f, 5.9f, -half, 0); SnowPatch(5.23f, 5.9f, 0, half);
+        var snowMesh = new MeshInstance3D { Name = "MosqueRoofSnowCover", Mesh = snow.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("e6ebef", "snow_roof"), CastShadow = GeometryInstance3D.ShadowCastingSetting.Off };
+        snowMesh.SetMeta("visualOnly", true);
+        room.AddChild(snowMesh);
         mesh.SetMeta("stairOpeningMin",new Vector2(2.43f,-3.40f)); mesh.SetMeta("stairOpeningMax",new Vector2(5.23f,-.60f));
         foreach (var z in new[] {-half,half}) AddVisualBox(room,"MosqueRoofFascia"+z,new(13.45f,.20f,.15f),new(-.7f,eave-.03f,z),"ece9df","wood_painted_trim");
-        AddVisualBox(room,"MosqueRidgeCap",new(13.4f,.13f,.16f),new(-.7f,eave+rise+.015f,0),"496e5b","roof_metal");
+        AddVisualBox(room,"MosqueRidgeCap",new(13.4f,.13f,.16f),new(-.7f,eave+rise+.015f,0),"3a5d52","roof_metal");
         foreach (var x in new[] {-7.22f,5.82f})
         {
             using var gable = new SurfaceTool(); gable.Begin(Mesh.PrimitiveType.Triangles);
             var a = new Vector3(x,eave,-half+.1f); var b = new Vector3(x,eave+rise,0); var c = new Vector3(x,eave,half-.1f);
             foreach (var p in x < 0 ? new[] {a,b,c} : new[] {a,c,b}) { gable.SetNormal(x<0?Vector3.Left:Vector3.Right); gable.SetUV(new(p.Z*.25f,p.Y*.25f)); gable.AddVertex(p); }
-            room.AddChild(new MeshInstance3D { Name = "MosqueTriangleGable"+x, Mesh = gable.Commit(), MaterialOverride = PainterlyMaterialLibrary.ForColor("729080","wood_painted_green") });
+            room.AddChild(new MeshInstance3D { Name = "MosqueTriangleGable"+x, Mesh = gable.Commit(), MaterialOverride = PainterlyMaterialLibrary.ForColor(MosqueHallPaint,"wood_painted_trim") });
         }
     }
 }
