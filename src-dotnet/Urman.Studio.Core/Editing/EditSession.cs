@@ -67,6 +67,34 @@ public sealed class EditSession(StudioWorkspace workspace)
         });
     }
 
+    /// <summary>
+    /// Pilot-only shortcut: restore at most one standalone, file-only HeroHouse command.
+    /// Entity edits and mixed command order remain session-only and are not inferred here.
+    /// </summary>
+    public string? RestoreSingleCommittedFileCommand(
+        string label,
+        string owner,
+        Func<string, bool> allowedPath,
+        Func<IReadOnlyList<string>, bool> allowedFileSet)
+    {
+        EnsureAvailable();
+        if (_open is not null || _undo.Count != 0 || _redo.Count != 0)
+            throw new InvalidOperationException("Persistent pilot history can only be restored into a new, empty edit session.");
+
+        var result = StudioFileTransaction.LoadSingleCommittedFileCommand(
+            Workspace.Root, owner, allowedPath, allowedFileSet);
+        if (result.Transaction is not { } transaction) return result.Warning;
+
+        var command = new EditCommand(label, [], transaction);
+        if (transaction.IsAtAfterSide)
+            _undo.Push(command);
+        else
+            _redo.Push(command);
+
+        Changed?.Invoke();
+        return result.Warning;
+    }
+
     /// <summary>Attach source/model file writes to this command. Call inside the same Begin scope as the entity edits.</summary>
     public void ApplyFiles(string label, string owner, IReadOnlyList<StudioFileWrite> writes, IReadOnlySet<string> allowedPaths, Action? afterPromotion = null)
     {
@@ -155,7 +183,21 @@ public sealed class EditSession(StudioWorkspace workspace)
         if (JsonNode.DeepEquals(before, after)) return;
         file.Reorder(keys);
         var change = new EntityChange(relativePath, OrderKey, before, after);
-        if (_open is not null) _open.Add(change); else Push(new(label, [change]));
+        if (_open is not null)
+        {
+            _open.Add(change);
+        }
+        else
+        {
+            var command = new EditCommand(label, [change]);
+            try { Push(command); }
+            catch
+            {
+                if (IsInUndoStack(command)) throw;
+                RevertChanges(command.Changes);
+                throw;
+            }
+        }
     }
 
     /// <summary>Change one field of an entity addressed by its ID; the path is a list of property names.</summary>
@@ -332,13 +374,46 @@ public sealed class EditSession(StudioWorkspace workspace)
         }
         else
         {
-            Push(new(label, [change]));
+            var command = new EditCommand(label, [change]);
+            try { Push(command); }
+            catch
+            {
+                if (IsInUndoStack(command)) throw;
+                RevertChanges(command.Changes);
+                throw;
+            }
         }
     }
 
     private void Push(EditCommand command)
     {
-        command.Files?.Accept();
+        var retired = new List<StudioFileTransaction>();
+        try
+        {
+            // shortcut: redo journals retire one by one; use shared history metadata if full-stack recovery becomes supported.
+            foreach (var redo in _redo)
+            {
+                if (redo.Files is not { } files) continue;
+                files.SetRedoDiscarded(discarded: true);
+                retired.Add(files);
+            }
+
+            command.Files?.Accept();
+        }
+        catch (Exception error)
+        {
+            var failures = new List<Exception> { error };
+            for (var index = retired.Count - 1; index >= 0; index--)
+            {
+                try { retired[index].SetRedoDiscarded(discarded: false); }
+                catch (Exception restoreError) { failures.Add(restoreError); }
+            }
+
+            if (failures.Count > 1)
+                throw new AggregateException("The edit was not accepted, and persistent redo history could not be fully restored.", failures);
+            throw;
+        }
+
         _undo.Push(command);
         _redo.Clear();
         Changed?.Invoke();

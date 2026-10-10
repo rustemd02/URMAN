@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using Godot;
 using Urman.Studio.Core.Editing;
 using Urman.Studio.Core.Play;
@@ -100,6 +101,20 @@ public partial class StudioRoot : Control
         }
         Workspace = StudioWorkspace.Open(RepositoryRoot);
         Session = new EditSession(Workspace);
+        string? pilotHistoryWarning;
+        try
+        {
+            pilotHistoryWarning = Session.RestoreSingleCommittedFileCommand(
+                "изменить окна дома через Codex",
+                "urman.world:act1/kit/house-old-pc-babai-approach",
+                StudioAiPanel.OwnsFile,
+                IsExactHeroHousePilotFileSet);
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidDataException or InvalidOperationException or ArgumentException)
+        {
+            pilotHistoryWarning = "История изменения эталонного дома не восстановлена: " + error.Message;
+        }
+
         Catalog = new EntityCatalog(Workspace);
         Drafts = new DraftStore(Workspace.Root);
         Session.Changed += OnEdited;
@@ -143,6 +158,8 @@ public partial class StudioRoot : Control
 
         OpenSection("world");
         RefreshStatus();
+        if (pilotHistoryWarning is not null)
+            ShowBanner(pilotHistoryWarning + " Редактор доступен; неоднозначную историю нужно проверить вручную.", error: true);
         if (StudioSelfCheck.OutputDirectory is { } selfCheck)
         {
             StudioSelfCheck.Run(this, selfCheck);
@@ -383,6 +400,28 @@ public partial class StudioRoot : Control
 
         ShowProperties();
         RefreshStatus();
+    }
+
+    private static bool IsExactHeroHousePilotFileSet(IReadOnlyList<string> paths)
+    {
+        const string recipe = "game/content/studio/hero_house.recipe.json";
+        if (paths.Count != 4 || paths.Distinct(StringComparer.Ordinal).Count() != 4 || !paths.Contains(recipe, StringComparer.Ordinal))
+            return false;
+
+        var models = paths.Where(path => path.EndsWith(".glb", StringComparison.Ordinal)).ToArray();
+        var blends = paths.Where(path => path.EndsWith(".blend", StringComparison.Ordinal)).ToArray();
+        var manifests = paths.Where(path => path.EndsWith(".glb.manifest.json", StringComparison.Ordinal)).ToArray();
+        if (models.Length != 1 || blends.Length != 1 || manifests.Length != 1) return false;
+
+        var model = Regex.Match(models[0],
+            @"\Agame/assets/models/studio/hero-house-(?<id>[a-f0-9]{32})\.glb\z", RegexOptions.CultureInvariant);
+        var blend = Regex.Match(blends[0],
+            @"\Aassets/source/blender/studio/hero-house-(?<id>[a-f0-9]{32})\.blend\z", RegexOptions.CultureInvariant);
+        var manifest = Regex.Match(manifests[0],
+            @"\Agame/assets/models/studio/hero-house-(?<id>[a-f0-9]{32})\.glb\.manifest\.json\z", RegexOptions.CultureInvariant);
+        return model.Success && blend.Success && manifest.Success
+            && string.Equals(model.Groups["id"].Value, blend.Groups["id"].Value, StringComparison.Ordinal)
+            && string.Equals(model.Groups["id"].Value, manifest.Groups["id"].Value, StringComparison.Ordinal);
     }
 
     public bool SaveAll(bool autosave)

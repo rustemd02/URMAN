@@ -14,7 +14,7 @@ public partial class StudioAiPanel : AcceptDialog
     private const string RecipePath = "game/content/studio/hero_house.recipe.json";
     private const string GeneratorPath = "assets/source/blender/act1/urman_village_exterior_kit.py";
     private readonly StudioRoot _studio;
-    private readonly TextEdit _prompt = new() { CustomMinimumSize = new(560, 100), WrapMode = TextEdit.LineWrappingMode.Boundary, PlaceholderText = "Например: сделай окна этого дома шире" };
+    private readonly TextEdit _prompt = new() { CustomMinimumSize = new(560, 100), WrapMode = TextEdit.LineWrappingMode.Boundary, TabInputMode = false, PlaceholderText = "Например: сделай окна этого дома шире" };
     private readonly Label _status = new() { AutowrapMode = TextServer.AutowrapMode.WordSmart };
     private readonly CheckButton _globalInstructions = new() { Text = "Использовать мои глобальные инструкции Codex" };
     private readonly Button _ask;

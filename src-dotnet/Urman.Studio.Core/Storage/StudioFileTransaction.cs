@@ -12,6 +12,9 @@ public sealed record PendingStudioFileTransaction(
     IReadOnlyList<string> Paths,
     IReadOnlyList<string> Conflicts);
 
+/// <summary>A read-only attempt to restore one committed file command into a fresh session.</summary>
+public sealed record StudioFileHistoryLoadResult(StudioFileTransaction? Transaction, string? Warning);
+
 /// <summary>
 /// Durable before/after images for a bounded set of project files. Promotion is
 /// journaled and each target uses <see cref="AtomicFile"/>; recovery only
@@ -58,6 +61,7 @@ public sealed class StudioFileTransaction
     public string Id { get; }
     public string Owner { get; }
     public IReadOnlyList<string> RelativePaths => _changes.Select(change => change.RelativePath).ToArray();
+    internal bool IsAtAfterSide => _currentSide == "after";
 
     /// <summary>
     /// Save pre/post images, write an applying journal, then promote every file.
@@ -221,8 +225,36 @@ public sealed class StudioFileTransaction
     {
         if (_accepted) return;
         EnsureCurrentSide(_currentSide);
-        WriteJournal("committed", rollbackSide: _currentSide, targetSide: _currentSide, side: _currentSide);
+        // Persist acceptance before EditSession exposes the command as undoable.
+        // A crash during later Undo/Redo can then recover the last accepted side.
+        WriteJournal("committed", rollbackSide: _currentSide, targetSide: _currentSide, side: _currentSide, accepted: true);
         _accepted = true;
+    }
+
+    /// <summary>Retire or restore only this command's journal; project files may belong to a newer command.</summary>
+    internal void SetRedoDiscarded(bool discarded)
+    {
+        if (!_accepted) throw new InvalidOperationException("An unaccepted file transaction cannot enter persistent redo history.");
+
+        EnsureNoLinks(_root, Path.GetRelativePath(_root, _directory).Replace('\\', '/'), allowStudioMetadata: true);
+        var manifest = ReadManifest(_root, _directory);
+        if (manifest.Id != Id || manifest.Owner != Owner || !manifest.Accepted
+            || manifest.Side != _currentSide || manifest.RollbackSide != _currentSide || manifest.TargetSide != _currentSide
+            || !manifest.Changes.SequenceEqual(_changes))
+        {
+            throw new InvalidDataException($"Transaction {Id} no longer matches its in-memory accepted command.");
+        }
+
+        var imageConflicts = ValidateManifestImages(_root, _directory, manifest);
+        if (imageConflicts.Count > 0)
+            throw new InvalidDataException($"Transaction {Id} images need inspection: {string.Join(", ", imageConflicts)}.");
+
+        var currentStatus = discarded ? "committed" : "retired";
+        var targetStatus = discarded ? "retired" : "committed";
+        if (manifest.Status != currentStatus)
+            throw new InvalidDataException($"Transaction {Id} has status '{manifest.Status}' while changing redo history.");
+
+        WriteJournal(targetStatus, _currentSide, _currentSide, _currentSide, accepted: true);
     }
 
     /// <summary>Undo a promotion that could not be attached to its edit command.</summary>
@@ -276,7 +308,7 @@ public sealed class StudioFileTransaction
             {
                 RestoreTo(sourceSide, acceptEitherSide: true);
                 _afterPromotion?.Invoke();
-                WriteJournal("committed", rollbackSide: sourceSide, targetSide: targetSide, side: sourceSide);
+                WriteJournal("committed", rollbackSide: sourceSide, targetSide: sourceSide, side: sourceSide);
                 _currentSide = sourceSide;
             }
             catch (Exception rollbackError)
@@ -312,7 +344,7 @@ public sealed class StudioFileTransaction
             {
                 RestoreTo(sourceSide, acceptEitherSide: true);
                 await RunBarriersAsync(viewBarrier);
-                WriteJournal("committed", rollbackSide: sourceSide, targetSide: targetSide, side: sourceSide);
+                WriteJournal("committed", rollbackSide: sourceSide, targetSide: sourceSide, side: sourceSide);
                 _currentSide = sourceSide;
             }
             catch (Exception rollbackError)
@@ -393,6 +425,103 @@ public sealed class StudioFileTransaction
         return pending;
     }
 
+    /// <summary>
+    /// Read one accepted file-only pilot command for a new session. This deliberately
+    /// refuses to order multiple journals and never changes a journal or target file.
+    /// </summary>
+    public static StudioFileHistoryLoadResult LoadSingleCommittedFileCommand(
+        string root,
+        string owner,
+        Func<string, bool> allowedPath,
+        Func<IReadOnlyList<string>, bool> allowedFileSet)
+    {
+        ArgumentNullException.ThrowIfNull(allowedPath);
+        ArgumentNullException.ThrowIfNull(allowedFileSet);
+        if (string.IsNullOrWhiteSpace(owner)) throw new ArgumentException("A stable transaction owner is required.", nameof(owner));
+
+        var rootPath = NormalizeRoot(root);
+        var transactionRoot = ResolveInternal(rootPath, TransactionDirectory);
+        if (!Directory.Exists(transactionRoot)) return new(null, null);
+        EnsureNoLinks(rootPath, TransactionDirectory, allowStudioMetadata: true);
+
+        var matching = new List<(string Directory, Manifest Manifest)>();
+        var unreadable = new List<string>();
+        foreach (var directory in Directory.EnumerateDirectories(transactionRoot))
+        {
+            var id = Path.GetFileName(directory);
+            try
+            {
+                EnsureNoLinks(rootPath, $"{TransactionDirectory}/{id}", allowStudioMetadata: true);
+                var journalPath = Path.Combine(directory, JournalName);
+                if (!File.Exists(journalPath))
+                {
+                    if (Directory.EnumerateFileSystemEntries(directory).Any())
+                        unreadable.Add($"{id}: journal.json is missing");
+                    continue;
+                }
+
+                var manifest = ReadManifest(rootPath, directory);
+                if (manifest.Status == "committed" && manifest.Accepted && string.Equals(manifest.Owner, owner, StringComparison.Ordinal))
+                    matching.Add((directory, manifest));
+            }
+            catch (Exception error)
+            {
+                // An unreadable journal cannot safely be ruled out as a newer pilot command.
+                unreadable.Add($"{id}: {error.Message}");
+            }
+        }
+
+        if (unreadable.Count > 0)
+        {
+            return new(null, "Persistent HeroHouse Undo was not restored because transaction metadata needs inspection: "
+                + string.Join("; ", unreadable.Take(4)));
+        }
+
+        if (matching.Count == 0) return new(null, null);
+        if (matching.Count > 1)
+        {
+            return new(null, "Persistent HeroHouse Undo was not restored: multiple committed file commands exist, and their order is ambiguous. "
+                + "The editor is available; the pilot history needs a manual decision.");
+        }
+
+        var (manifestDirectory, candidate) = matching[0];
+        if (candidate.Side != candidate.RollbackSide || candidate.Side != candidate.TargetSide)
+        {
+            return new(null, $"Persistent HeroHouse Undo was not restored: transaction {candidate.Id} has inconsistent committed-side metadata.");
+        }
+
+        var normalizedPaths = new List<string>(candidate.Changes.Count);
+        foreach (var change in candidate.Changes)
+        {
+            if (!TryNormalizeForRecovery(rootPath, change.RelativePath, allowedPath, out var normalized))
+            {
+                return new(null, $"Persistent HeroHouse Undo was not restored: {change.RelativePath} is outside its path policy.");
+            }
+            normalizedPaths.Add(normalized);
+        }
+
+        if (normalizedPaths.Distinct(StringComparer.Ordinal).Count() != normalizedPaths.Count
+            || !allowedFileSet(normalizedPaths))
+        {
+            return new(null, $"Persistent HeroHouse Undo was not restored: transaction {candidate.Id} does not contain the exact pilot file set.");
+        }
+
+        var imageConflicts = ValidateManifestImages(rootPath, manifestDirectory, candidate);
+        if (imageConflicts.Count > 0)
+        {
+            return new(null, $"Persistent HeroHouse Undo was not restored: saved transaction images need inspection ({string.Join(", ", imageConflicts)}).");
+        }
+
+        var currentConflicts = ConflictsForManifest(rootPath, manifestDirectory, candidate, allowedPath, candidate.Side, acceptEitherSide: false);
+        if (currentConflicts.Count > 0)
+        {
+            return new(null, $"Persistent HeroHouse Undo was not restored because files changed since the transaction: {string.Join(", ", currentConflicts)}.");
+        }
+
+        var allowlist = normalizedPaths.ToHashSet(StringComparer.Ordinal);
+        return new(FromManifest(rootPath, manifestDirectory, candidate, allowlist, afterPromotion: null), null);
+    }
+
     /// <summary>Roll back interrupted promotions only when every current file is still one of the saved images.</summary>
     public static IReadOnlyList<PendingStudioFileTransaction> Recover(
         string root,
@@ -446,7 +575,10 @@ public sealed class StudioFileTransaction
                 var transaction = FromManifest(rootPath, directory, manifest, allowlist, afterRecovery);
                 transaction.RestoreTo(manifest.RollbackSide, acceptEitherSide: true);
                 afterRecovery?.Invoke();
-                transaction.WriteJournal("recovered", manifest.RollbackSide, manifest.TargetSide, manifest.RollbackSide);
+                // Preserve history only for a command that had already been accepted.
+                // An unaccepted first Apply is retired as recovered and is never hydrated.
+                transaction.WriteJournal(manifest.Accepted ? "committed" : "recovered",
+                    manifest.RollbackSide, manifest.RollbackSide, manifest.RollbackSide, manifest.Accepted);
                 transaction._currentSide = manifest.RollbackSide;
             }
             catch
@@ -666,7 +798,7 @@ public sealed class StudioFileTransaction
         }
     }
 
-    private void WriteJournal(string status, string rollbackSide, string targetSide, string side)
+    private void WriteJournal(string status, string rollbackSide, string targetSide, string side, bool? accepted = null)
     {
         var files = new JsonArray();
         foreach (var change in _changes)
@@ -691,6 +823,7 @@ public sealed class StudioFileTransaction
             ["rollbackSide"] = rollbackSide,
             ["targetSide"] = targetSide,
             ["side"] = side,
+            ["accepted"] = accepted ?? _accepted,
             ["files"] = files
         };
         var journalPath = Path.Combine(_directory, JournalName);
@@ -873,11 +1006,19 @@ public sealed class StudioFileTransaction
         var node = JsonNode.Parse(File.ReadAllText(journal))?.AsObject() ?? throw new InvalidDataException("Transaction journal is not an object.");
         if ((int?)node["version"] != JournalVersion) throw new InvalidDataException("Unsupported transaction journal version.");
         var status = (string?)node["status"] ?? throw new InvalidDataException("Transaction status is missing.");
-        if (status is not ("staging" or "applying" or "committed" or "recovered")) throw new InvalidDataException("Transaction status is invalid.");
+        if (status is not ("staging" or "applying" or "committed" or "recovered" or "retired")) throw new InvalidDataException("Transaction status is invalid.");
         var rollbackSide = (string?)node["rollbackSide"] ?? throw new InvalidDataException("Transaction rollback side is missing.");
         var targetSide = (string?)node["targetSide"] ?? throw new InvalidDataException("Transaction target side is missing.");
         var side = (string?)node["side"] ?? throw new InvalidDataException("Transaction side is missing.");
         if (!IsSide(rollbackSide) || !IsSide(targetSide) || !IsSide(side)) throw new InvalidDataException("Transaction journal has an invalid side.");
+        // Older committed journals predate this field and are accepted by definition.
+        // Older applying journals are ambiguous (they could be Apply or Undo/Redo), so
+        // they remain unaccepted and will never be restored into persistent history.
+        var accepted = node["accepted"] is JsonValue acceptedNode
+            ? acceptedNode.GetValue<bool>()
+            : status == "committed";
+        if ((status is "committed" or "retired") && !accepted)
+            throw new InvalidDataException("A committed or retired transaction is marked unaccepted.");
         var files = node["files"]?.AsArray() ?? throw new InvalidDataException("Transaction files are missing.");
         var changes = files.Select((entry, index) =>
         {
@@ -916,18 +1057,18 @@ public sealed class StudioFileTransaction
             throw new InvalidDataException("Transaction directory and ID do not match.");
         }
 
-        return new(id, (string?)node["owner"] ?? "", status, rollbackSide, targetSide, side, changes);
+        return new(id, (string?)node["owner"] ?? "", status, rollbackSide, targetSide, side, accepted, changes);
     }
 
     private static StudioFileTransaction FromManifest(string root, string directory, Manifest manifest, HashSet<string> allowlist, Action? afterPromotion) =>
         new(root, directory, manifest.Id, manifest.Owner, allowlist, manifest.Changes, afterPromotion, null,
-            manifest.Side, accepted: manifest.Status == "committed");
+            manifest.Side, accepted: manifest.Accepted);
 
     private static bool IsSide(string side) => side is "before" or "after";
 
     private sealed record PreparedChange(string RelativePath, string? ExpectedSha256, byte[]? BeforeBytes, byte[]? AfterBytes, string? BeforeSha256, string? AfterSha256);
     private sealed record FileChange(string RelativePath, string? ExpectedSha256, string? BeforeSha256, string? AfterSha256, string? BeforeImage, string? AfterImage);
-    private sealed record Manifest(string Id, string Owner, string Status, string RollbackSide, string TargetSide, string Side, IReadOnlyList<FileChange> Changes);
+    private sealed record Manifest(string Id, string Owner, string Status, string RollbackSide, string TargetSide, string Side, bool Accepted, IReadOnlyList<FileChange> Changes);
 }
 
 public sealed class StudioFileTransactionConflictException(string transactionId, IReadOnlyList<string> relativePaths)

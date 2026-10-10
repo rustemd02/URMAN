@@ -23442,6 +23442,13 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-10 single accepted HeroHouse persistent history",
+                "result": "partial; full done_when remains open; model/game after/Undo not yet delivered",
+                "source": "Storage/StudioFileTransaction.cs; Editing/EditSession.cs; game/studio/StudioRoot.cs",
+                "verification": "Core/game compilation0/0; existing temporary assertion probe PASS for restart/accepted recovery/failure/CAS/retirement; independent Sol6.1medium review; no new repo tests",
+                "limits": "Only one accepted exact four-file HeroHouse command restored; multiple committed commands refuse ambiguous order. Retire/compensation preserves authored files and ordinary failure handling; crash between independent retirement journals can lose pilot history, full mixed persistent stack remains AI-11 open."
               }
             ],
             "stage_tasks": [
@@ -23484,6 +23491,13 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-10 single accepted HeroHouse persistent history",
+                "result": "partial; full done_when remains open; model/game after/Undo not yet delivered",
+                "source": "Storage/StudioFileTransaction.cs; Editing/EditSession.cs; game/studio/StudioRoot.cs",
+                "verification": "Core/game compilation0/0; existing temporary assertion probe PASS for restart/accepted recovery/failure/CAS/retirement; independent Sol6.1medium review; no new repo tests",
+                "limits": "Only one accepted exact four-file HeroHouse command restored; multiple committed commands refuse ambiguous order. Retire/compensation preserves authored files and ordinary failure handling; crash between independent retirement journals can lose pilot history, full mixed persistent stack remains AI-11 open."
               }
             ],
             "stage_tasks": [
@@ -25074,7 +25088,8 @@
             "Current Core/harness SHA match 2c7c90a0…584b4df2; effective feature and thread/start gates pass without inference. Affected game compile 0 warnings/errors after provider compatibility and panel sizing changes.",
             "Actual UI prompt wrap and Cmd+Enter dispatch observed. Baseline recipe/shared GLB/source blend/generator SHA retained in ignored .urman-studio/b20-baseline-hashes.json; no recipe/asset mutation. File transaction review confirmed four-file CAS and awaited native parser/world barrier for null-model baseline; normal Windows Studio generation remains separate platform gate.",
             "Live layout-only protected Studio observed complete AI panel including Close; actual Size682x583 after deferred reset versus prior682x3343. Exact RunAsync diagnostic request64870b81528d47578f4f4db40bb8fd88 stopped before turn/start on MCP startup notification, no proposal. Baseline recipe/shared source hashes unchanged.",
-            "2026-10-10 continuation: affected game compile PASS0warnings/0errors, DebugCore and game copy SHA8e618487b5dd2ae0653ca8090ae99a086e8c5df02f7ebf804126c7a7029f961c. Source fixes since this compile pending rebuild. Sol independent review found failed Undo/Redo rollback metadata and stale redo persistence; first source-fixed, second under bounded review."
+            "2026-10-10 continuation: affected game compile PASS0warnings/0errors, DebugCore and game copy SHA8e618487b5dd2ae0653ca8090ae99a086e8c5df02f7ebf804126c7a7029f961c. Source fixes since this compile pending rebuild. Sol independent review found failed Undo/Redo rollback metadata and stale redo persistence; first source-fixed, second under bounded review.",
+            "Current single-pilot persistent history compiled: affected game0/0, then Core0/0 after strict retirement CAS correction; Core SHA7611f4d508be9de20270f6a295501292866f793809f0b90f2ac2990b1349f308. Existing OS-temp assertion probe PASS: Apply/restart/Undo/restart/Redo; accepted interrupted Undo/Redo recovery; failed Undo/Redo proper side and direction; discarded redo remains retired after entity edit/restart; foreign/CAS/ambiguous/corrupt images/mismatched GUID/failed initial Apply refuse while preserving targets. Independent Sol6.1medium final source review no remaining blocker within single-command pilot. No new repo tests."
           ],
           "remaining": [
             "Actual Codex typed proposal through logged-in ChatGPT",
@@ -25273,7 +25288,9 @@
             "commit_channel": "docs/tasktracker/AGENT_CHAT.md, адресат @Codex: 📋 Передача DeepSeek: unit, source branch/remote, base SHA, ordered commit SHA, exact changed files, проверка/evidence, остаток и общие интерфейсы. Коммиты опубликованы в своей доступной ветке; если fetch недоступен — git format-patch bundle и SHA256 по согласованному пути. Секреты не пересылать.",
             "integration_order": "DeepSeek не пушит в main. Codex fetch доступной ветки, review diff/dependencies/contract/evidence, возвращает замечания или принимает, cherry-pick принятых SHA в порядке зависимостей, разрешает конфликты с сохранением полезных правок, выполняет узкую проверку, обновляет единую карточку и публикует main SHA в чате. Непринятый branch commit не является completed в main.",
             "first_next": "Codex продолжает первый Codex house/windows → game → full Undo пилот; DeepSeek до выполненных dependency gates может исследовать/готовить конкретные участки в своём clone, но не выдавать подготовку за принятый AI-13 либо удалять зависимости."
-          }
+          },
+          "persistent_history_limit": "Only one accepted exact four-file HeroHouse command restored; multiple committed commands refuse ambiguous order. Retire/compensation preserves authored files and ordinary failure handling; crash between independent retirement journals can lose pilot history, full mixed persistent stack remains AI-11 open.",
+          "ui_keyboard": "TextEdit.TabInputMode=false uses bundled Godot4.7.1 standard focus traversal; game compile0/0, actual Tab/Apply/Before/After still to observe in live pilot."
         }
       },
       "done_when": "Все дочерние задачи закрыты доказательствами; человеческие пункты оценены автором, а не walkthrough. Дополнительно выполнены все обязательные AI-единицы и новые A01–A25 из ТЗ 10.10, включая обоих провайдеров и внешние гейты; AI-35 только после отдельного расширения Windows. Историческая матрица и дочерние задачи сохраняются.",
