@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-37",
+  "stage": "dependency-independent first slice: every contract requirement matched to a real type, and the catalogue gap measured",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:21 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs": "1a7b91c32a1b8e01e4c06addc4aafc5e04a89e983641611592e8a6845cace3ad",
+    "evidence/STUDIO/b20-deepseek-ai-37/2026-10-10-rule-coverage/probe/Program.cs": "556806dcc00570cf76a514a82295522a62b051a00f1402e2784a691e7c5af402",
+    "evidence/STUDIO/b20-deepseek-ai-37/2026-10-10-rule-coverage/probe/dsprobe.csproj": "f936e3337fa3017a94194ac84691b4ea7bcd622ca959934cc96ef2126272c089",
+    "evidence/STUDIO/b20-deepseek-ai-37/2026-10-10-rule-coverage/check.log": "3caaad41b87220ccf74ec29045a88f0617209d321dd4597fb3820af3fbbdacdd"
+  },
+  "real_facts": {
+    "engine": "ContentRuleEngine executes 15 conditions and 20 effects (plus the photoworlds sets in PhotoWorldState); the executed sets are read out of those two files, not hardcoded",
+    "studio_catalogue": "ConditionPhrases offers 6 conditions and 7 effects",
+    "authored": "the campaign writes 34 distinct rule operations and every one of them has an executor: 0 dead rules",
+    "gap": "22 authored operations are executed by the game but cannot be created or fixed in Studio, with real counts: photoworlds.fact.observed 61, vocabulary.set-status 47, photoworlds.photo.state 39, photoworlds.fact.observe 33, photoworlds.book.received 29 and more",
+    "contract": "AND/OR/NOT are executed in ContentRuleEngine; all/any/threshold stages in QuestLifecycleReducer; reward dedup via ObjectiveOccurrenceId; an explicit timer source does not exist, time.phase is schema-allowed and marked not executed",
+    "unused": "document.open is executed but the campaign never writes it"
+  },
+  "verified": {
+    "probe": "PASS 231/231 (whole probe; the AI-37 section included): the executed sets are read where they live, no authored rule lacks an executor, the not-offered set is non-empty and every row in it is a rule the campaign really writes, and the timer and dedup claims are asserted from the sources",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "source_presence": "VerifyAgainstSources checks that the condition side still uses expression arms and the effect side still uses case labels where this map reads them; it is a source-presence check, not runtime proof",
+    "not_run": "no rule was executed in the game and no quest was played, so the semantics themselves are NOT_RUN; the missing timer unit and the Studio catalogue entries are the owner's runtime work"
+  },
+  "own_corrections": [
+    "the first version read only case-label arms and missed the engine's condition switch expression, which produced six false 'no executor' problems; it now reads each side with its own shape",
+    "the first version guessed condition-versus-effect from the enclosing property name, which misclassified effects authored under other keys; the engine's own sets decide now"
+  ],
+  "open": [
+    "adding the 22 executed operations to the Studio catalogue is shared UI (StudioProperties/rule editor) and is not done",
+    "an explicit timer source has no runtime consumer: the contract requires it and it stays open",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}
