@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-18",
+  "stage": "diagnostic wording correction after the AI-18 review (Codex 2026-10-10 21:17)",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 21:37 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "change": "the out-of-float-range message no longer promises an exception: on .NET 10 GetSingle returns Infinity for such a value, so the text now says the conversion yields an infinite value. The guard itself is unchanged and still refuses the value.",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/AtmosphereFieldRegistry.cs": "f953d191601d5432403f95f780ff1377e23679c30fe5442239470711bd400cfa",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-getsingle-wording/check.log": "baaee64cdb69d1f8728da1f360b95f71c4a04f31ad13cb8d05a90af08f1455f4"
+  },
+  "check": {
+    "narrow": "inspection of the new text and of the unchanged guard; probe PASS",
+    "toolchain": "pinned .tools/dotnet 10.0.302"
+  }
+}

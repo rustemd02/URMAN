@@ -255,7 +255,7 @@ public static class AtmosphereFieldRegistry
 
                 if (!double.IsFinite(number) || Math.Abs(number) > float.MaxValue)
                 {
-                    problems.Add($"Поле «{path}» = {number.ToString(CultureInfo.InvariantCulture)} игра не прочитает как число с плавающей точкой: GetSingle бросит исключение.");
+                    problems.Add($"Поле «{path}» = {number.ToString(CultureInfo.InvariantCulture)} игра не прочитает как число с плавающей точкой: после преобразования получится бесконечное значение.");
                     break;
                 }
 
