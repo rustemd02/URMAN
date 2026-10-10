@@ -19,13 +19,20 @@ public partial class StudioAiPanel : AcceptDialog
     private readonly CheckButton _globalInstructions = new() { Text = "Использовать мои глобальные инструкции Codex" };
     private readonly Button _ask;
     private readonly Button _apply;
+    private readonly Button _beforeView;
+    private readonly Button _afterView;
     private readonly SubViewport _preview = new() { Size = new(560, 260), OwnWorld3D = true, RenderTargetUpdateMode = SubViewport.UpdateMode.Always };
+    private readonly Node3D _previewModels = new() { Name = "HouseCompareModels" };
+    private readonly Camera3D _previewCamera = new() { Position = new(11, 7, 13), Current = true };
+    private Node3D? _beforeModel;
+    private Node3D? _afterModel;
     private CancellationTokenSource? _cancel;
     private HouseWindowRequest? _request;
     private HouseWindowProposal? _proposal;
     private string? _stage;
     private string? _recipeText;
     private string? _snapshot;
+    private string? _consentIoWarning;
     private bool _busy;
 
     public static bool OwnsFile(string path) => path == RecipePath ||
@@ -45,14 +52,9 @@ public partial class StudioAiPanel : AcceptDialog
         body.AddChild(_prompt);
         body.AddChild(_globalInstructions);
         var permissionFile = Path.Combine(studio.Workspace.Root, ".urman-studio/codex-pilot.json");
-        if (File.Exists(permissionFile))
-        {
-            try { _globalInstructions.ButtonPressed = (bool?)JsonNode.Parse(File.ReadAllText(permissionFile))?["allowGlobalInstructions"] == true; }
-            catch (JsonException) { }
-        }
+        LoadGlobalInstructionConsent(permissionFile);
         _globalInstructions.TooltipText = "Только ваши инструкции из ~/.codex/AGENTS.md. Команды, инструменты и запись модели остаются запрещены.";
-        _globalInstructions.Toggled += allowed => AtomicFile.WriteAllText(permissionFile,
-            new JsonObject { ["allowGlobalInstructions"] = allowed }.ToJsonString());
+        _globalInstructions.Toggled += allowed => SaveGlobalInstructionConsent(permissionFile, allowed);
         var row = new HBoxContainer();
         body.AddChild(row);
         _ask = StudioRoot.Button(row, "Предложить изменение", () => _ = AskAsync());
@@ -61,10 +63,69 @@ public partial class StudioAiPanel : AcceptDialog
         StudioRoot.Button(row, "Скопировать запрос", CopyRequest);
         _apply = StudioRoot.Button(row, "Применить", () => _ = ApplyAsync());
         _apply.Disabled = true;
+        var compare = new HBoxContainer();
+        body.AddChild(compare);
+        _beforeView = StudioRoot.Button(compare, "До", () => ShowPreview(after: false));
+        _afterView = StudioRoot.Button(compare, "После", () => ShowPreview(after: true));
+        _beforeView.Disabled = true;
+        _afterView.Disabled = true;
         var viewport = new SubViewportContainer { Stretch = true, CustomMinimumSize = new(560, 260) };
         viewport.AddChild(_preview);
         body.AddChild(viewport);
+        _preview.AddChild(_previewModels);
+        _preview.AddChild(new DirectionalLight3D { RotationDegrees = new(-40, -25, 0), LightEnergy = 1.5f });
+        _previewCamera.Ready += () => _previewCamera.LookAt(new(0, 1.5f, 0));
+        _preview.AddChild(_previewCamera);
         VisibilityChanged += () => { if (!Visible) _cancel?.Cancel(); };
+    }
+
+    private void LoadGlobalInstructionConsent(string path)
+    {
+        try
+        {
+            if (File.Exists(path))
+            {
+                using var document = JsonDocument.Parse(File.ReadAllText(path));
+                var root = document.RootElement;
+                if (root.ValueKind == JsonValueKind.Object
+                    && root.TryGetProperty("allowGlobalInstructions", out var allowed)
+                    && allowed.ValueKind is JsonValueKind.True or JsonValueKind.False)
+                    _globalInstructions.ButtonPressed = allowed.GetBoolean();
+            }
+        }
+        catch (IOException)
+        {
+            _consentIoWarning = "Не удалось прочитать локальный выбор инструкций Codex; он выключен.";
+        }
+        catch (UnauthorizedAccessException)
+        {
+            _consentIoWarning = "Нет доступа к локальному выбору инструкций Codex; он выключен.";
+        }
+        catch (JsonException)
+        {
+            // A malformed consent file remains opt-out by default.
+        }
+    }
+
+    private void SaveGlobalInstructionConsent(string path, bool allowed)
+    {
+        try
+        {
+            AtomicFile.WriteAllText(path, new JsonObject { ["allowGlobalInstructions"] = allowed }.ToJsonString());
+            _consentIoWarning = null;
+        }
+        catch (IOException)
+        {
+            _globalInstructions.SetPressedNoSignal(!allowed);
+            _consentIoWarning = "Не удалось сохранить выбор инструкций Codex; переключатель возвращён.";
+            _status.Text = _consentIoWarning;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            _globalInstructions.SetPressedNoSignal(!allowed);
+            _consentIoWarning = "Нет доступа для сохранения выбора инструкций Codex; переключатель возвращён.";
+            _status.Text = _consentIoWarning;
+        }
     }
 
     public void Open(string? selected)
@@ -76,6 +137,7 @@ public partial class StudioAiPanel : AcceptDialog
         _status.Text = selected == HeroHouseRecipe.EntityId
             ? "Эталонный дом · все 7 окон. Codex предложит ширину, вы увидите новую модель перед применением. ⌘/Ctrl+Z полностью отменяет применение."
             : "Выберите эталонный дом Бабая в мире. Другие объекты будут подключены следующими этапами B20.";
+        if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
         PopupCentered();
         _prompt.GrabFocus();
     }
@@ -141,19 +203,16 @@ public partial class StudioAiPanel : AcceptDialog
             _status.Text = "Создаю настоящий проём и согласованный интерьер…";
             await GenerateAsync(_stage, _cancel.Token);
             ValidateStage();
-            var document = new GltfDocument();
-            var state = new GltfState();
-            if (document.AppendFromFile(Path.Combine(_stage, "hero_house.glb"), state) != Error.Ok)
-                throw new InvalidOperationException("Новая модель не прошла импорт предпросмотра.");
-            foreach (var old in _preview.GetChildren()) { _preview.RemoveChild(old); old.QueueFree(); }
-            var model = document.GenerateScene(state);
-            _preview.AddChild(model);
-            var light = new DirectionalLight3D { RotationDegrees = new(-40, -25, 0), LightEnergy = 1.5f };
-            _preview.AddChild(light);
-            var camera = new Camera3D { Position = new(11, 7, 13), Current = true };
-            _preview.AddChild(camera);
-            camera.LookAt(new(0, 1.5f, 0));
+            ClearPreviewModels();
+            _beforeModel = LoadCurrentHousePreview();
+            _previewModels.AddChild(_beforeModel);
+            _afterModel = LoadHousePreview(Path.Combine(_stage, "hero_house.glb"));
+            _previewModels.AddChild(_afterModel);
+            _beforeView.Disabled = false;
+            _afterView.Disabled = false;
+            ShowPreview(after: true);
             _status.Text = $"{_proposal.Summary}\nШирина: {_proposal.ExpectedWidth:0.00} → {_proposal.WindowWidth:0.00} м. Только выбранный дом; 7 реальных проёмов. Ещё не применено.";
+            if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
             _apply.Disabled = false;
         }
         catch (OperationCanceledException) { ClearProposal(); _status.Text = "Остановлено. Проект не изменён."; }
@@ -183,9 +242,14 @@ public partial class StudioAiPanel : AcceptDialog
         try
         {
             var doctor = await new CodexProposalProvider().CheckAsync();
+            var version = doctor.Version is { Length: > 0 } value ? $"Codex {value}" : "Codex";
             _status.Text = !doctor.ExecutableFound ? "Codex не найден. Установите приложение или CLI и войдите через ChatGPT."
-                : doctor.LoginStatus == CodexLoginStatus.LoggedIn ? $"Codex {doctor.Version}: выполнен вход. Доступ к модели проверяется запросом; API-платежи не подключаются."
-                : $"Codex {doctor.Version}: сначала войдите через ChatGPT в Codex.";
+                : doctor.LoginStatus switch
+                {
+                    CodexLoginStatus.LoggedIn => $"{version}: выполнен вход. Доступ к модели проверяется запросом; API-платежи не подключаются.",
+                    CodexLoginStatus.NotLoggedIn => $"{version}: вход не выполнен. Войдите через ChatGPT в Codex.",
+                    _ => $"{version}: статус входа неизвестен. Запрос проверит доступ к аккаунту и модели; API-платежи не подключаются."
+                };
         }
         catch (Exception error) { _status.Text = "Codex не готов: " + error.Message; }
         finally { SetBusy(false); }
@@ -232,6 +296,111 @@ public partial class StudioAiPanel : AcceptDialog
             throw new IOException("Импорт модели не прошёл; возвращаю предыдущую версию.");
     }
 
+    private Node3D LoadCurrentHousePreview()
+    {
+        var recipe = JsonNode.Parse(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath)))?.AsObject()
+            ?? throw new InvalidDataException("Рецепт эталонного дома не является JSON-объектом.");
+        var modelPath = (string?)recipe["modelPath"];
+        string fullPath;
+        if (modelPath is null)
+        {
+            fullPath = Path.Combine(_studio.Workspace.Root, "game/assets/models/act1/urman_village_exterior_kit.glb");
+        }
+        else
+        {
+            const string prefix = "res://assets/models/studio/hero-house-";
+            if (!modelPath.StartsWith(prefix, StringComparison.Ordinal)
+                || !modelPath.EndsWith(".glb", StringComparison.Ordinal)
+                || modelPath.AsSpan(prefix.Length).Contains('/')
+                || modelPath.Contains("..", StringComparison.Ordinal)
+                || modelPath.Contains('\\'))
+                throw new InvalidDataException("В рецепте указан недопустимый путь текущей модели.");
+            fullPath = Path.Combine(_studio.Workspace.Root, "game", modelPath["res://".Length..]);
+        }
+
+        return LoadHousePreview(fullPath);
+    }
+
+    private static Node3D LoadHousePreview(string path)
+    {
+        if (!File.Exists(path)) throw new IOException("Текущая или новая модель дома не найдена для предпросмотра.");
+        var document = new GltfDocument();
+        var state = new GltfState();
+        if (document.AppendFromFile(path, state) != Error.Ok)
+            throw new InvalidOperationException("Модель дома не прошла импорт предпросмотра.");
+        if (document.GenerateScene(state) is not Node3D scene)
+            throw new InvalidDataException("Модель дома не имеет 3D-корня.");
+
+        var components = scene.Name == HeroHouseRecipe.Component
+            ? new[] { scene }
+            : scene.FindChildren(HeroHouseRecipe.Component, nameof(Node3D), true, false).OfType<Node3D>().ToArray();
+        if (components.Length != 1)
+        {
+            scene.Free();
+            throw new InvalidDataException("В модели не найден единственный компонент HeroHouse_TimberPlaster.");
+        }
+
+        var component = components[0];
+        var importedBasis = ComposeImportedBasis(component);
+        if (component != scene)
+        {
+            var parent = component.GetParent();
+            if (parent is null)
+            {
+                scene.Free();
+                throw new InvalidDataException("У компонента дома отсутствует импортированный родитель.");
+            }
+            parent.RemoveChild(component);
+            scene.Free();
+        }
+
+        ClearSceneOwnership(component);
+        component.Transform = new Transform3D(importedBasis, Vector3.Zero);
+        component.Visible = false;
+        return component;
+    }
+
+    private static Basis ComposeImportedBasis(Node3D component)
+    {
+        var basis = component.Transform.Basis;
+        for (var ancestor = component.GetParent(); ancestor is not null; ancestor = ancestor.GetParent())
+        {
+            if (ancestor is Node3D node) basis = node.Transform.Basis * basis;
+        }
+        return basis;
+    }
+
+    private static void ClearSceneOwnership(Node node)
+    {
+        node.Owner = null;
+        foreach (var child in node.GetChildren()) ClearSceneOwnership(child);
+    }
+
+    private void ShowPreview(bool after)
+    {
+        if (_beforeModel is null || _afterModel is null) return;
+        _beforeModel.Visible = !after;
+        _afterModel.Visible = after;
+        _beforeView.Text = after ? "До" : "● До";
+        _afterView.Text = after ? "● После" : "После";
+        _previewCamera.Current = true;
+    }
+
+    private void ClearPreviewModels()
+    {
+        foreach (var child in _previewModels.GetChildren())
+        {
+            _previewModels.RemoveChild(child);
+            child.QueueFree();
+        }
+        _beforeModel = null;
+        _afterModel = null;
+        _beforeView.Disabled = true;
+        _afterView.Disabled = true;
+        _beforeView.Text = "До";
+        _afterView.Text = "После";
+    }
+
     private void ValidateStage()
     {
         var manifest = JsonNode.Parse(File.ReadAllText(Path.Combine(_stage!, "manifest.json")))!;
@@ -257,7 +426,7 @@ public partial class StudioAiPanel : AcceptDialog
     {
         _proposal = null;
         _apply.Disabled = true;
-        foreach (var old in _preview.GetChildren()) { _preview.RemoveChild(old); old.QueueFree(); }
+        ClearPreviewModels();
         if (_stage is not null)
         {
             try { Directory.Delete(_stage, recursive: true); } catch (IOException) { }

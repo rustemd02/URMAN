@@ -1,0 +1,505 @@
+{
+  "metadataVersion": 2,
+  "engineVersion": "4.7.1-stable (official)",
+  "os": "Windows",
+  "point": "B20_windows_interior",
+  "spec": "B20_windows_interior:BabaiApproachDwellingFacade@1.658,1.946,-2.634\u003EBabaiApproachDwellingFacade@2.658,1.686,0.966",
+  "cameraName": "DevViewCamera",
+  "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+  "cameraPosition": {
+    "x": -13.22049,
+    "y": 1.694152,
+    "z": -4.705564
+  },
+  "cameraTarget": {
+    "x": -9.620485,
+    "y": 1.434152,
+    "z": -5.705546
+  },
+  "cameraForward": {
+    "x": 0.961195,
+    "y": -0.06942,
+    "z": -0.266994
+  },
+  "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade",
+  "cameraOwnerZone": null,
+  "targetOwnerZone": null,
+  "fov": 70,
+  "fovSource": "control-view-default",
+  "diagnosticView": null,
+  "playerBodyHidden": true,
+  "diagnosticNeutralScope": null,
+  "near": 0.05,
+  "far": 160,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "scaling3DScale": 0.7,
+  "scaling3DMode": "Fsr",
+  "graphicsPreset": "low",
+  "graphicsRequestedPreset": "high",
+  "graphicsEffectivePreset": "low",
+  "playerGraphicsPreset": "low",
+  "graphicsPreferredPreset": "high",
+  "graphicsSessionOverride": "performance-rescue",
+  "graphicsPresetApplyStatus": "applied-through-player-settings",
+  "graphicsComparable": false,
+  "graphicsBudget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none",
+  "activeZoneId": "house_old_pc",
+  "requestedZoneId": "house_old_pc",
+  "checkpointSubject": "B20 Codex pilot: actual room front-window aperture/glazing; same recipe as facade; compare before/after/Undo.",
+  "requestedProfile": null,
+  "atmosphereProfile": "village-winter-crisp",
+  "atmosphereOwner": "logical-zone/house_old_pc",
+  "studioPreviewProfile": null,
+  "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/babay-abi-house/WorldEnvironment",
+  "tonemapMode": "Agx",
+  "fogEnabled": true,
+  "volumetricFogEnabled": false,
+  "fogColor": "c2d0e0ff",
+  "fogDensity": 0.93,
+  "snowActive": true,
+  "snowAmount": 4000,
+  "blizzardActive": false,
+  "drawCalls": 8716,
+  "renderHistogram": {
+    "groups": 1106,
+    "top": [
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/DistantPerimeterParcels/EastReturnMidParcel/EastReturnMidFacade",
+        "instances": 361,
+        "cost": 367,
+        "shadowCost": 279
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_1_Plant/WinterSpruce_1_LOD",
+        "instances": 122,
+        "cost": 366,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_2_Plant/WinterSpruce_2_LOD",
+        "instances": 74,
+        "cost": 222,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-H/@MeshInstance3D",
+        "instances": 174,
+        "cost": 174,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h082-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 153,
+        "cost": 164,
+        "shadowCost": 72
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h033-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 153,
+        "cost": 163,
+        "shadowCost": 69
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h032-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 153,
+        "cost": 163,
+        "shadowCost": 69
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h034-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h048-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h072-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h075-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h077-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/ns-m-e4-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/ns-m-w4b-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/ns-n-e3-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h022-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h028-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h030-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h038-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h050-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h071-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h074-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h078-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h083-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/ns-m-e5-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/ns-m-w4-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/ns-n-e2-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h036-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h047-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h049-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      }
+    ],
+    "topByName": [
+      {
+        "owner": "WinterSpruce_",
+        "instances": 254,
+        "cost": 762,
+        "shadowCost": 0
+      },
+      {
+        "owner": "@MeshInstanceD",
+        "instances": 456,
+        "cost": 456,
+        "shadowCost": 191
+      },
+      {
+        "owner": "FapServicePathPlankPart",
+        "instances": 115,
+        "cost": 115,
+        "shadowCost": 115
+      },
+      {
+        "owner": "BranchSkeletonLOD",
+        "instances": 49,
+        "cost": 103,
+        "shadowCost": 103
+      },
+      {
+        "owner": "RavineRimFence_Post",
+        "instances": 88,
+        "cost": 88,
+        "shadowCost": 88
+      },
+      {
+        "owner": "WinterBirdCherry_",
+        "instances": 38,
+        "cost": 77,
+        "shadowCost": 3
+      },
+      {
+        "owner": "GorgeRimFence_near_Post",
+        "instances": 75,
+        "cost": 75,
+        "shadowCost": 75
+      },
+      {
+        "owner": "Visible",
+        "instances": 61,
+        "cost": 61,
+        "shadowCost": 58
+      },
+      {
+        "owner": "GorgeRimFence_far_Post",
+        "instances": 60,
+        "cost": 60,
+        "shadowCost": 60
+      },
+      {
+        "owner": "HeroHouse_Street_Log_",
+        "instances": 27,
+        "cost": 54,
+        "shadowCost": 54
+      },
+      {
+        "owner": "VariantB_PlasterAnnex_Dwelling_Street_Window_Glass",
+        "instances": 48,
+        "cost": 48,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantB_PlasterAnnex_Dwelling_Street_Window_Jamb",
+        "instances": 48,
+        "cost": 48,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantB_PlasterAnnex_Dwelling_Street_Window_Jamb-",
+        "instances": 48,
+        "cost": 48,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantB_PlasterAnnex_Dwelling_Street_Window_Mullion",
+        "instances": 48,
+        "cost": 48,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantB_PlasterAnnex_Dwelling_Street_Window_Rail",
+        "instances": 48,
+        "cost": 48,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantB_PlasterAnnex_Dwelling_Street_Window_Rail-",
+        "instances": 48,
+        "cost": 48,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantB_PlasterAnnex_Dwelling_Street_Window_Recess",
+        "instances": 48,
+        "cost": 48,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantB_PlasterAnnex_Dwelling_Street_Window_Sill",
+        "instances": 48,
+        "cost": 48,
+        "shadowCost": 0
+      },
+      {
+        "owner": "FoldedMetalRim",
+        "instances": 43,
+        "cost": 43,
+        "shadowCost": 0
+      },
+      {
+        "owner": "EnamelFace",
+        "instances": 43,
+        "cost": 43,
+        "shadowCost": 0
+      },
+      {
+        "owner": "FoldedMetalBack",
+        "instances": 43,
+        "cost": 43,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Rivet",
+        "instances": 43,
+        "cost": 43,
+        "shadowCost": 0
+      },
+      {
+        "owner": "BoltNut",
+        "instances": 43,
+        "cost": 43,
+        "shadowCost": 0
+      },
+      {
+        "owner": "WinterBirch_",
+        "instances": 21,
+        "cost": 42,
+        "shadowCost": 6
+      },
+      {
+        "owner": "VariantA_Shed_Door_Plank_",
+        "instances": 42,
+        "cost": 42,
+        "shadowCost": 42
+      },
+      {
+        "owner": "VariantB_Banya_Roof",
+        "instances": 14,
+        "cost": 42,
+        "shadowCost": 42
+      },
+      {
+        "owner": "RavineIce_",
+        "instances": 41,
+        "cost": 41,
+        "shadowCost": 41
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Glass",
+        "instances": 39,
+        "cost": 39,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Jamb",
+        "instances": 39,
+        "cost": 39,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Jamb-",
+        "instances": 39,
+        "cost": 39,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Mullion",
+        "instances": 39,
+        "cost": 39,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Rail",
+        "instances": 39,
+        "cost": 39,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Rail-",
+        "instances": 39,
+        "cost": 39,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Recess",
+        "instances": 39,
+        "cost": 39,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Sill",
+        "instances": 39,
+        "cost": 39,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_Shed_Roof",
+        "instances": 13,
+        "cost": 39,
+        "shadowCost": 39
+      },
+      {
+        "owner": "CarvedTimber_dfdcc_wood_painted_trim",
+        "instances": 36,
+        "cost": 36,
+        "shadowCost": 36
+      },
+      {
+        "owner": "VariantC_BanyaYard_Dwelling_Street_Window_Jamb",
+        "instances": 34,
+        "cost": 34,
+        "shadowCost": 0
+      },
+      {
+        "owner": "MotorcycleFrame",
+        "instances": 1,
+        "cost": 34,
+        "shadowCost": 34
+      },
+      {
+        "owner": "VariantC_BanyaYard_Dwelling_Street_Window_Glass",
+        "instances": 33,
+        "cost": 33,
+        "shadowCost": 0
+      }
+    ],
+    "totals": {
+      "instances": 8732,
+      "cost": 9918,
+      "shadowCost": 4758,
+      "castsShadowSmall": {
+        "instances": 672,
+        "cost": 686,
+        "shadowCost": 686
+      }
+    }
+  },
+  "capturedUnixSeconds": 1791645673
+}
