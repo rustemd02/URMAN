@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-18",
+  "stage": "audio production slice: Studio panel with real consumer links, audition on the shared bus, mandatory stop and limited preview level",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 21:39 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "79586ccf6fb44a20b79b80bcac4f3bd96985ca0e (origin/main when the patch was made)",
+  "artifacts": {
+    "new file game/studio/StudioAudioPanel.cs": "panel: lists the 47 household emitters and 9 shared stems from AudioSourceRegistry, shows the real runtime consumer and the fields the game does not read, auditions one source once on AudioSettingsService.AmbienceBus with LoopMode.Disabled and VolumeDb = min(authored, -12), stops and clears the stream on demand and on close, never writes authored data and never touches user://audio-settings.json",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-audio-panel/ai18-audio-entry.patch": "owner applies: adds the '♪ Звук' toolbar button and OpenAudio in game/studio/StudioWorldSection.cs (17 added lines)"
+  },
+  "apply_order": [
+    "81227f22 (AudioSourceRegistry)",
+    "then this commit's new panel file",
+    "then git apply the entry patch"
+  ],
+  "verified": {
+    "compile": "game/Urman.Game.csproj 0 warnings/0 errors with the panel and the entry patch; Urman.Studio.Core 0 warnings/0 errors",
+    "apply": "git apply --check of the entry patch on a pristine worktree of origin/main 79586ccf: OK",
+    "not_run": "the panel was never opened in a live Studio and no sound was heard: the audition, the stop and the layout are compile-verified only; a listening gate stays open and belongs to the author"
+  },
+  "open": [
+    "audible verification and the author's listening judgement are external and NOT_RUN",
+    "the 47 events are still not addressable for editing (file root is not an entities array), so the panel is read-only plus audition: typed edits and Undo for audio stay blocked on the owner's decision about the list key",
+    "the ambience manifest stays outside SourceGlobs, so the panel reads it through the registry projection",
+    "the new .cs files have no .uid yet; Godot generates them on the next import"
+  ]
+}

@@ -1,0 +1,4 @@
+# Keep the patch receipt bytes unchanged: a unified diff legitimately contains
+# blank context lines that are encoded as a single space.
+* -text
+*.patch -whitespace

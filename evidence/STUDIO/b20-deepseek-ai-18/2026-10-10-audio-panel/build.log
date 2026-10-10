@@ -1,0 +1,7 @@
+== base 79586ccf6fb44a20b79b80bcac4f3bd96985ca0e
+== patch applies to pristine base: OK (git apply --check before re-applying)
+== dotnet build game/Urman.Game.csproj (panel + entry point, with AudioSourceRegistry from 81227f22 present)
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:13.36

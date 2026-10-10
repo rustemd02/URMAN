@@ -1,0 +1,42 @@
+diff --git a/game/studio/StudioWorldSection.cs b/game/studio/StudioWorldSection.cs
+index aa140368..147caa80 100644
+--- a/game/studio/StudioWorldSection.cs
++++ b/game/studio/StudioWorldSection.cs
+@@ -113,6 +113,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+         toolbar.AddChild(layers);
+         StudioRoot.Button(toolbar, "📏 Линейка", () => { _measuring = !_measuring; _measureStart = null; studio.RefreshStatus(_measuring ? "Линейка: щёлкните две точки на земле" : "Линейка выключена"); });
+         StudioRoot.Button(toolbar, "☀ Свет и погода", OpenAtmosphere).TooltipText = "Небо, солнце, туман; предпросмотр на деревне";
++        StudioRoot.Button(toolbar, "♪ Звук", OpenAudio).TooltipText = "События домов и подложки шины; прослушивание со стопом";
+         _terrainButton = StudioRoot.Button(toolbar, "⛰ Рельеф", () =>
+         {
+             _sculpting = !_sculpting;
+@@ -282,6 +283,9 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+ 
+     public StudioAtmospherePanel? Atmosphere { get; private set; }
+ 
++    /// <summary>Audio sources of the real village, opened from the toolbar.</summary>
++    public StudioAudioPanel? Audio { get; private set; }
++
+     private bool _reloading;
+     private Task? _reloadTask;
+     public Task ReloadGeometryAsync() => _reloadTask is { IsCompleted: false } ? _reloadTask
+@@ -335,6 +339,19 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+         Atmosphere.Popup(new Rect2I(new Vector2I(760, 90), new Vector2I(470, 660)));
+     }
+ 
++    /// <summary>Opens the audio sources of the real village: emitters, shared bed, audition with stop.</summary>
++    public void OpenAudio()
++    {
++        if (Audio is null)
++        {
++            Audio = new StudioAudioPanel(studio);
++            studio.AddChild(Audio);
++        }
++
++        Audio.Reload();
++        Audio.Popup(new Rect2I(new Vector2I(700, 90), new Vector2I(580, 640)));
++    }
++
+     private string? _atmosphereShown;
+     private string? _houseRecipeShown;
+ 
