@@ -34,6 +34,7 @@ public partial class Act1ConnectedWorld
         var walls = 0;
         var pieces = 0;
         var ownerless = 0;
+        var footed = 0;
         foreach (var wall in FindDescendants<MeshInstance3D>(root).ToArray())
         {
             var name = wall.Name.ToString();
@@ -68,7 +69,15 @@ public partial class Act1ConnectedWorld
             var dwelling = houseParts
                 .Where(m => m.Name.ToString().Contains("_Wall_LOD0", StringComparison.Ordinal))
                 .Select(m => m.GlobalTransform * m.GetAabb().GetCenter()).ToArray();
-            var houseCentre = dwelling.Length > 0 ? dwelling.Aggregate(Vector3.Zero, (a, b) => a + b) / dwelling.Length : parent.GlobalPosition;
+            // The house's own foundation sits exactly under it; averaging every wall
+            // of an owner that also holds entry halls or a neighbour drifted outside
+            // some houses and put their courses on the inner face (round 11 frames).
+            var footing = houseParts.Where(m => m.Name.ToString().Contains("_Foundation_LOD0", StringComparison.Ordinal)
+                    || m.Name.ToString().Contains("_FootingCap_LOD0", StringComparison.Ordinal))
+                .OrderByDescending(m => m.GetAabb().Size.X * m.GetAabb().Size.Z).FirstOrDefault();
+            var houseCentre = footing is not null ? footing.GlobalTransform * footing.GetAabb().GetCenter()
+                : dwelling.Length > 0 ? dwelling.Aggregate(Vector3.Zero, (a, b) => a + b) / dwelling.Length : parent.GlobalPosition;
+            if (footing is not null) footed++;
             var toWall = wall.GlobalTransform.AffineInverse();
             var centreLocal = toWall * houseCentre;
             var mid = (min + max) * .5f;
@@ -152,7 +161,7 @@ public partial class Act1ConnectedWorld
                 post.SetMeta("suppressionReason", "crossing log ends replace the plain corner post (ACT1-DEPTH.10/T2)");
             }
         }
-        if (walls > 0) GD.Print($"act1-dwelling-log-walls: walls={walls} logs={pieces} ownerless={ownerless}");
+        if (walls > 0) GD.Print($"act1-dwelling-log-walls: walls={walls} logs={pieces} ownerless={ownerless} footed={footed}");
         return walls;
     }
 

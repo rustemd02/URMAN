@@ -30580,7 +30580,7 @@
       "title": "Настроить воспроизводимый Blender→GLB цикл",
       "milestone": "PW-M2",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "claude/visual-reset-2026-10-09",
       "owner": "tools",
       "priority": "P0",
       "complexity": "medium",
@@ -30686,6 +30686,22 @@
         "blocker": "Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08–09.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING.",
         "next": "Следующий шаг: ремонт runner на станции (git pull --ff-only на UNTERPC и перезапуск worker), затем capture C1…C8 до/после и подбор силы эффектов по кадрам.",
         "not_done": "Закрытие по done_when требует кадров текущей сборки и человеческой/художественной приёмки; код сам задачу не закрывает."
+      },
+      "progress_2026_10_10": {
+        "reproducible_kits": {
+          "done": [
+            "Blender 5.2.2 LTS установлен на Mac (разрешение автора 10.10).",
+            "Все пять act1-китов с генератором и .blend (village exterior, FAP clinic, wet road, Kara forest edge, zirat roadside) детерминированы (два прогона — одинаковый GLB) и идемпотентны (прогон на собственном выходе не меняет GLB).",
+            "Закоммиченные GLB расходились с генераторами: village — 9 новых узлов и 74 меша с иными габаритами (правки генератора не экспортировали), остальные — только версия экспортёра glTF (4.5.51 → 5.2.40) и порядок 10 узлов в FAP. Все пять перевыпущены из закоммиченных .blend.",
+            "eng/verify-kit-reproducible.sh: прогоняет каждый генератор во временной копии и сверяет SHA-256 с закоммиченным GLB — 5/5 PASS.",
+            "Станция: перевыпущенный village kit импортирован без ошибок, кадры в порядке (job be6b2eed PASS)."
+          ],
+          "remaining": [
+            "остальные GLB без генератора в act1 (pine, dead tree, agent_b китов) — исходники/скрипты prepare_* не проверены",
+            "VIS-005/038/066/106/109 и паспорта AS-17/AS-18 по отдельным пунктам"
+          ],
+          "next": "проверить tools/blender/prepare_* и agent_b экспорт тем же скриптом"
+        }
       }
     },
     {
