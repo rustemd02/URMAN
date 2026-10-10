@@ -23290,6 +23290,11 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-10 account transition trust gate source slice",
+                "result": "f4a76142: account/updated имеет exact envelope/params, допускает только chatgpt; null/unknown/API/PAT/external auth modes fail closed. Сохраняет ChatGPT routed-workspace startup; planType только проверяется null/string и отбрасывается.",
+                "verification": "Luna FAST implementation + independent Luna MCP and Sol review; affected Game compile0/0, source diff-check PASS. Actual model request after this gate still pending; общий Claude/no-hooks контракт не закрыт."
               }
             ],
             "stage_tasks": [
@@ -23518,6 +23523,11 @@
                 "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/transaction-receipt.json; codex-current-runtime-attempt10/{request,proposal,runtime-binding,generator-manifest}.json; before/frames; after/{receipt.json,frames}; undo/{receipt.json,frames}",
                 "verification": "Journal 556ccfcf99994127acc014c7ac4a9f8c committed/before; acceptedAfterApply=true, acceptedAfterUndo=true. Рецепт, baseline GLB и baseline Blend восстановлены побайтно; три request-scoped выхода отсутствуют (проверены file/directory/link). Windows jobs 7f0d176102074613826d59adca27d7ea и 700119400c504f27aeea027927e6cab7 PASS, exit0, userdataRestored=true; камеры/FOV/LOW FSR0.70 совпадают. PNG не byte-identical и художественная HIGH-приёмка не заявляется.",
                 "remaining": "Native Studio UI/importer и restart/Claude ещё NOT_RUN. Найден восьмой проём сеней 0.80×1.06 м вне исходного параметра: полный all-windows scope ещё открыт; source fix подготовлен, новая генерация и игровой просмотр обязательны."
+              },
+              {
+                "stage": "2026-10-10 all-eight-window source correction",
+                "result": "f4a76142 включает SeniOuter в component-only house recipe ширину; legacy full-kit сохраняет .80×1.06. UI подпись сообщает все8окон, включая сени. Высоты, центры, двери не изменены.",
+                "verification": "Sol independent source review, affected Game compile0/0, Python syntax PASS. Новая генерация восьми и native Studio/game/Undo ещё NOT_RUN; прежнее runtime evidence относится только к семи основным окнам."
               }
             ],
             "stage_tasks": [
