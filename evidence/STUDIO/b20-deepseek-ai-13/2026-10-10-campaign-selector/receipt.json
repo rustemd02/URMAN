@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-13",
+  "stage": "campaign/world selector control (new file) plus the game-build collision fix",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 21:07 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "files": {
+    "game/studio/StudioCampaignSelector.cs": "06672e962752081701acdb1fd7a4b9b4aa37606cf04feb0ac6b5743a708d07e8",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-campaign-selector/build.log": "c04e82a4c50a31435eaf2959c8dde57c54c7a678b4e4e6daa55d2425ff280601"
+  },
+  "check": {
+    "narrow": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with the new control; public type names scanned for collisions with game/**/*.cs (none)",
+    "not_run": "the selector is not added to the Studio top bar yet (shared file, owner) and was never instantiated in a live Studio: its list building, restore and error text are compile-verified only",
+    "toolchain": "pinned .tools/dotnet 10.0.302"
+  },
+  "wiring_for_owner": [
+    "_selector = new StudioCampaignSelector(this);",
+    "_selector.Changed += context => { /* reload WorldSection with context */ };",
+    "topBar.AddChild(_selector.View);"
+  ],
+  "open": [
+    "full AI-13 done_when stays open: runtime/UI acceptance not run, no station slot taken, only one authored world exists"
+  ]
+}

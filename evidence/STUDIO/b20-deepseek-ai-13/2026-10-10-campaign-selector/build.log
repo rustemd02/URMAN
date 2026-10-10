@@ -1,0 +1,12 @@
+== dotnet build src-dotnet/Urman.Studio.Core/Urman.Studio.Core.csproj
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:00.50
+== dotnet build game/Urman.Game.csproj (with StudioCampaignSelector.cs)
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:00.54
+== collision scan of new public type names against game/**/*.cs
+collision scan done
