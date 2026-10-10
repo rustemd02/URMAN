@@ -1098,7 +1098,31 @@ public sealed class CodexProposalProvider
             return false;
         }
 
-        return methodValue.GetString() is "account/updated" or "remoteControl/status/changed";
+        var method = methodValue.GetString();
+        if (method == "account/updated")
+        {
+            EnsureOnlyProperties(message, "method", "params", "emittedAtMs", true, "accountUpdatedSchema");
+            if (message.TryGetProperty("emittedAtMs", out var emittedAtMs) && emittedAtMs.ValueKind != JsonValueKind.Number)
+            {
+                throw new ProtocolBoundaryException("accountUpdatedSchema");
+            }
+
+            EnsureOnlyProperties(parameters, "authMode", null, "planType", false, "accountUpdatedSchema");
+            if (parameters.TryGetProperty("planType", out var planType) && planType.ValueKind is not (JsonValueKind.Null or JsonValueKind.String))
+            {
+                throw new ProtocolBoundaryException("accountUpdatedSchema");
+            }
+
+            if (!parameters.TryGetProperty("authMode", out var authModeValue) || authModeValue.ValueKind != JsonValueKind.String)
+            {
+                throw new ProtocolBoundaryException("accountUpdatedSchema");
+            }
+
+            var authMode = GetRequiredString(parameters, "authMode");
+            return authMode == "chatgpt";
+        }
+
+        return method == "remoteControl/status/changed";
     }
 
     private static string? GetSafeUnexpectedNotificationToken(

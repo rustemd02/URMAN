@@ -153,7 +153,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _request = null;
         _ask.Disabled = selected != HeroHouseRecipe.EntityId;
         _status.Text = selected == HeroHouseRecipe.EntityId
-            ? "Эталонный дом · все 7 окон. Codex предложит ширину, вы увидите новую модель перед применением. ⌘/Ctrl+Z полностью отменяет применение."
+            ? "Эталонный дом · все 8 окон, включая окно в сенях. Codex предложит ширину, вы увидите новую модель перед применением. ⌘/Ctrl+Z полностью отменяет применение."
             : "Выберите эталонный дом Бабая в мире. Другие объекты будут подключены следующими этапами B20.";
         if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
         ResetSize();

@@ -2164,7 +2164,7 @@ def author_variant_parcels(root: bpy.types.Object) -> None:
 
 def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                           wall_material="URMAN_Plaster_Ochre", hero_layout=False,
-                          window_clear_width=1.06):
+                          window_clear_width=1.06, seni_window_clear_width=0.80):
     """One inhabited house: pierced wall shell, boarded gables and enclosed side seni.
 
     Parcel street elevations have windows only; the hero retains its portal.
@@ -2764,7 +2764,11 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
     entry_y=back-2.55
     sx=(half+outer)/2
     wall("SeniEntry",(sx,entry_y),(1,0),1.50,[(-.47,.47,.30,2.32,"Door")],2.48,trim,face=0.0)
-    wall("SeniOuter",(outer,(entry_y+back)/2),(0,1),2.55,[(-.45,.35,1.04,2.10,"Window")],2.48,trim,face=0.0)
+    seni_window_center = -0.05  # Preserve the original [-.45, .35] centre when width is 0.80 m.
+    seni_window_half_width = seni_window_clear_width / 2.0
+    wall("SeniOuter",(outer,(entry_y+back)/2),(0,1),2.55,
+         [(seni_window_center-seni_window_half_width, seni_window_center+seni_window_half_width,
+           1.04, 2.10, "Window")],2.48,trim,face=0.0)
     wall("SeniRear",(sx,back),(-1,0),1.50,[],2.48,trim,face=0.0)
     for label,y in (("Front",entry_y),("Rear",back)):
         mesh_object(f"{prefix}_Seni{label}RoofInfill_LOD0",parent,
@@ -3092,14 +3096,16 @@ def author_hero_carving(parent, prefix, root_name, half, front, back, eave, ridg
             y += .16 + .1 * abs(math.sin(y * 11.0))
 
 
-def author_hero_house(root: bpy.types.Object, window_clear_width: float = 1.06) -> bpy.types.Object:
+def author_hero_house(root: bpy.types.Object, window_clear_width: float = 1.06,
+                      seni_window_clear_width: float = 0.80) -> bpy.types.Object:
     """A metric hero variation in this kit, not a scale change to the village."""
     HERO_HOUSE_CONTRACT["window_clear_width"] = window_clear_width
     ensure_hero_materials()
     hero = variant_empty(HERO_DWELLING_ROOT, root, (34.0, 0.8, 0.0),
                          "hero house shell paired with an 8 by 7 metre clear room", "hero house")
     author_rural_dwelling(hero, width=8.4, depth=7.4, eave=3.05, ridge=4.8, hero_layout=True,
-                          window_clear_width=window_clear_width)
+                          window_clear_width=window_clear_width,
+                          seni_window_clear_width=seni_window_clear_width)
     for child in hero.children:
         child.location.x += HERO_HOUSE_CONTRACT["room_center_xz"][0]
         child["urman_asset_id"] = "urman.act1.village.hero_house_timberplaster"
@@ -3824,7 +3830,8 @@ def main() -> None:
         recipe_arg = Path(args.recipe) if args.recipe else Path("game/content/studio/hero_house.recipe.json")
         recipe_path = (recipe_arg if recipe_arg.is_absolute() else root_path / recipe_arg).resolve()
         recipe = load_hero_house_recipe(recipe_path)
-        author_hero_house(root, float(recipe["windowClearWidth"]))
+        recipe_window_width = float(recipe["windowClearWidth"])
+        author_hero_house(root, recipe_window_width, seni_window_clear_width=recipe_window_width)
         bpy.context.view_layer.update()
         validate_hero_house(root)
         save_hero_house_stage(bpy.data.objects[HERO_DWELLING_ROOT], blend_path,
