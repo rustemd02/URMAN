@@ -1,0 +1,740 @@
+diff --git a/game/studio/StudioContentSection.cs b/game/studio/StudioContentSection.cs
+index 8d8d0334..3677cf94 100644
+--- a/game/studio/StudioContentSection.cs
++++ b/game/studio/StudioContentSection.cs
+@@ -153,11 +153,36 @@ public sealed class StudioContentSection(StudioRoot studio) : IStudioSection
+         var kind = EntityCatalog.KindOf(id!, null);
+         switch (kind)
+         {
+-            case "document" or "chat" or "hint":
++            case "document":
+                 _pageTitle.Text = Localized.Russian(entity["title"]);
+                 _pageBody.Text = MarkWords(SourceExcerptSelection.FormatSourceText((string?)entity[MarkdownSource.BodyKey] ?? ""));
+                 _pageNote.Text = "Форматирование и бумага — те же, что в игре. Подчёркнуты татарские слова, которые игра подхватывает при чтении.";
+                 break;
++            case "chat" or "hint":
++            {
++                // The player never reads this Markdown body: a thread opens on its start
++                // node and a hint resolves a single line and offers its search target, so
++                // the preview shows exactly that instead of an author comment.
++                var chat = PcChat.Parse(id!, entity);
++                string Line(string textId) => studio.Workspace.Get(textId) is JsonObject text ? Localized.Russian(text["value"]) : "";
++                if (chat.IsHint)
++                {
++                    var line = Line(chat.TextId);
++                    _pageTitle.Text = "Подсказка";
++                    _pageBody.Text = line.Length > 0 ? MarkWords(line) : $"Строка «{chat.TextId}» не разрешилась — см. замечания ниже.";
++                    _pageNote.Text = chat.PointsTo.Length > 0
++                        ? $"Показывается один раз за сеанс; поиск на ПК предложит: {chat.PointsTo}."
++                        : "Показывается один раз за сеанс; цель поиска не задана, и поиск ничего не предложит.";
++                    break;
++                }
++
++                var start = chat.Nodes.FirstOrDefault(node => node.Id == chat.StartNodeId);
++                var opening = start is null ? "" : Line(start.TextId);
++                _pageTitle.Text = $"{Localized.Russian(entity["title"])} · тред";
++                _pageBody.Text = opening.Length > 0 ? MarkWords(opening) : $"Стартовый узел «{chat.StartNodeId}» не разрешился — см. замечания ниже.";
++                _pageNote.Text = string.Join(" ", PcChat.Outline(chat));
++                break;
++            }
+             case "knowledge":
+                 _pageTitle.Text = Localized.Russian(entity["title"]);
+                 _pageBody.Text = MarkWords(Localized.Russian(entity["summary"]));
+@@ -209,6 +234,13 @@ public sealed class StudioContentSection(StudioRoot studio) : IStudioSection
+ 
+     private static string KnowledgeKindText(string? kind) => KnowledgeKinds.FirstOrDefault(item => item.Value == kind).Text ?? kind ?? "сведение";
+ 
++    /// <summary>The last segment of a text id, short enough for a link label.</summary>
++    private static string ShortTextId(string textId)
++    {
++        var slash = textId.LastIndexOf('/');
++        return slash >= 0 && slash + 1 < textId.Length ? textId[(slash + 1)..] : textId;
++    }
++
+     // ---- properties ----------------------------------------------------------------
+ 
+     public void FillProperties(StudioProperties panel)
+@@ -262,7 +294,31 @@ public sealed class StudioContentSection(StudioRoot studio) : IStudioSection
+                 panel.Links("Где перечитывается и применяется", (entity["rereadTargets"] as JsonArray ?? []).Concat(entity["applicationTargets"] as JsonArray ?? [])
+                     .Select(target => (string?)target).OfType<string>().Select(target => ($"{studio.Catalog.Describe(target).KindLabel} «{studio.Catalog.NameOf(target)}»", target)));
+                 break;
+-            case "document" or "chat" or "hint":
++            case "hint":
++            {
++                // hint.schema.json allows only schemaVersion, id, level, requires, pointsTo,
++                // textId, bodyMarkdown, items and properties, and forbids anything else, so
++                // a title written here would fail content validation.
++                var hint = PcChat.Parse(id!, entity);
++                panel.NumberField("Уровень (порядок подсказок)", (float)hint.Level, value => SetField(["level"], Math.Round(value), "уровень подсказки"));
++                panel.TextField("Строка подсказки (id текста)", hint.TextId, text => SetField(["textId"], text, "строка подсказки"));
++                panel.TextField("Что предложит поиск на ПК", hint.PointsTo, text => SetField(["pointsTo"], text, "цель поиска"));
++                if (hint.TextId.Length > 0 && studio.Workspace.Get(hint.TextId) is JsonObject line)
++                {
++                    panel.Text("Сейчас игрок увидит: " + Localized.Russian(line["value"]), muted: true);
++                }
++
++                foreach (var field in entity.Select(pair => pair.Key).Where(field => field is not ("schemaVersion" or "id" or "level" or "requires" or "pointsTo" or "textId" or "bodyMarkdown" or "items" or "properties")))
++                {
++                    panel.Text($"⚠ Поле «{field}» схема подсказки не разрешает: запись в него не пройдёт проверку контента.", muted: true);
++                }
++
++                MultiLine(panel, "Авторский текст (Markdown, в игре показывается строка выше)", (string?)entity[MarkdownSource.BodyKey] ?? "", text =>
++                    SetField([MarkdownSource.BodyKey], text.EndsWith('\n') ? text : text + "\n", "авторский текст подсказки"), minHeight: 200);
++                foreach (var problem in PcChat.Validate(studio.Workspace, hint)) panel.Text("⚠ " + problem);
++                break;
++            }
++            case "document" or "chat":
+                 LocalizedField("Заголовок", "title", multiline: false);
+                 MultiLine(panel, "Текст (Markdown: # заголовок, **жирный**, > цитата)", (string?)entity[MarkdownSource.BodyKey] ?? "", text =>
+                     SetField([MarkdownSource.BodyKey], text.EndsWith('\n') ? text : text + "\n", "текст документа"), minHeight: 320);
+@@ -284,6 +340,32 @@ public sealed class StudioContentSection(StudioRoot studio) : IStudioSection
+                         SetField(["oldPc", "searchTerms"], new JsonArray(text.Split(',').Select(part => part.Trim()).Where(part => part.Length > 0).Select(part => (JsonNode?)part).ToArray()), "слова поиска"));
+                 }
+ 
++                // The old PC's threads and hints: the section used to edit only the
++                // body, so a broken link or a line nobody resolves stayed invisible.
++                if (id.Contains(":hint/", StringComparison.Ordinal))
++                {
++                    var hint = PcChat.Parse(id, entity);
++                    foreach (var line in PcChat.Outline(hint)) panel.Text(line, muted: true);
++                    foreach (var problem in PcChat.Validate(studio.Workspace, hint)) panel.Text("⚠ " + problem);
++                }
++                else if (entity["nodes"] is JsonArray)
++                {
++                    var chat = PcChat.Parse(id, entity);
++                    foreach (var line in PcChat.Outline(chat)) panel.Text(line, muted: true);
++                    var lines = new List<(string Text, string Id)>();
++                    foreach (var node in chat.Nodes)
++                    {
++                        if (node.TextId.Length > 0) lines.Add(($"Реплика {ShortTextId(node.TextId)}", node.TextId));
++                        foreach (var choice in node.Choices)
++                        {
++                            if (choice.TextId.Length > 0) lines.Add(($"Ответ {ShortTextId(choice.TextId)}", choice.TextId));
++                        }
++                    }
++
++                    if (lines.Count > 0) panel.Links("Строки треда — нажмите, чтобы править", lines);
++                    foreach (var problem in PcChat.Validate(studio.Workspace, chat)) panel.Text("⚠ " + problem);
++                }
++
+                 break;
+             default:
+                 LocalizedField("Текст", "value", multiline: true);
+diff --git a/game/studio/StudioDialogueSection.cs b/game/studio/StudioDialogueSection.cs
+index c3f83960..99c556f2 100644
+--- a/game/studio/StudioDialogueSection.cs
++++ b/game/studio/StudioDialogueSection.cs
+@@ -145,12 +145,24 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
+         var original = edit.Text;
+         void Commit(string text)
+         {
+-            if (text == original || studio.Workspace.Locate(textId) is not { } address) return;
+-            var entity = studio.Workspace.Get(textId)!.AsObject();
+-            var translations = entity["value"]?["translations"] as JsonObject ?? [];
+-            translations["ru"] = text;
+-            entity["value"] = new JsonObject { ["default"] = text, ["translations"] = translations.DeepClone() };
+-            studio.Session.Set(address.RelativePath, address.Key, entity, label);
++            if (text == original || studio.Workspace.Locate(textId) is null) return;
++            LocalizedTextChange change;
++            try
++            {
++                change = LocalizedTextEditor.Apply(studio.Workspace, textId, text);
++            }
++            catch (InvalidOperationException error)
++            {
++                studio.ShowBanner(error.Message, error: true);
++                return;
++            }
++
++            if (change.Warnings.Count > 0)
++            {
++                studio.ShowBanner(string.Join(" ", change.Warnings), error: false);
++            }
++
++            studio.Session.Set(change.RelativePath, change.Key, change.Entity, label);
+             original = text;
+         }
+ 
+diff --git a/game/studio/StudioQuestSection.cs b/game/studio/StudioQuestSection.cs
+index 85faf7fe..151ed154 100644
+--- a/game/studio/StudioQuestSection.cs
++++ b/game/studio/StudioQuestSection.cs
+@@ -417,10 +417,24 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
+ 
+     private void SetText(string? textId, string text)
+     {
+-        if (textId is null || studio.Workspace.Locate(textId) is not { } address) return;
+-        var entity = studio.Workspace.Get(textId)!.AsObject();
+-        entity["value"] = new JsonObject { ["default"] = text, ["translations"] = new JsonObject { ["ru"] = text } };
+-        studio.Session.Set(address.RelativePath, address.Key, entity, "текст цели");
++        if (textId is null) return;
++        LocalizedTextChange change;
++        try
++        {
++            change = LocalizedTextEditor.Apply(studio.Workspace, textId, text);
++        }
++        catch (InvalidOperationException error)
++        {
++            studio.ShowBanner(error.Message, error: true);
++            return;
++        }
++
++        if (change.Warnings.Count > 0)
++        {
++            studio.ShowBanner(string.Join(" ", change.Warnings), error: false);
++        }
++
++        studio.Session.Set(change.RelativePath, change.Key, change.Entity, "текст цели");
+     }
+ 
+     private void MutateObjective(string objectiveId, string field, JsonArray rules, string label) =>
+diff --git a/game/studio/StudioRoot.cs b/game/studio/StudioRoot.cs
+index f3b70ba1..e6f991e2 100644
+--- a/game/studio/StudioRoot.cs
++++ b/game/studio/StudioRoot.cs
+@@ -43,6 +43,36 @@ public partial class StudioRoot : Control
+     private Button _undo = null!;
+     private Button _redo = null!;
+     private Button _play = null!;
++    private Button _ai = null!;
++    private StudioCampaignSelector? _selector;
++
++    /// <summary>The campaign and world the author picked in the top bar; null means the Act I default.</summary>
++    public CampaignWorldContext? CampaignContext => _selector?.Context;
++
++    /// <summary>
++    /// Why authoring is frozen right now, or null when writing is allowed. It is
++    /// editor state, not a label: it survives preview reloads, Apply and Undo.
++    /// </summary>
++    public string? WriteBlockReason { get; private set; }
++
++    /// <summary>
++    /// Freezes authoring for a world whose data the game does not load: the selection
++    /// is cleared, the AI entry is disabled and every write entry point refuses.
++    /// </summary>
++    public void SetWriteBlock(string? reason)
++    {
++        WriteBlockReason = reason;
++        if (_ai is not null)
++        {
++            _ai.Disabled = reason is not null;
++        }
++
++        if (reason is not null)
++        {
++            Select(null);
++            ShowBanner(reason, error: false);
++        }
++    }
+     private LineEdit _search = null!;
+     private PopupPanel _results = null!;
+     private ItemList _resultList = null!;
+@@ -130,6 +160,13 @@ public partial class StudioRoot : Control
+             Register(new StudioPendingSection(key, title));
+         }
+ 
++        // The selector resolved its default before the sections existed, so the first
++        // context is applied here instead of being lost before the world section exists.
++        if (_selector?.Context is { } initial)
++        {
++            ((StudioWorldSection)Section("world")).ApplyCampaignWorld(initial);
++        }
++
+         if (OS.GetCmdlineUserArgs().Contains(StudioCatalogBuilder.Flag))
+         {
+             StudioCatalogBuilder.Run(this);
+@@ -301,6 +338,13 @@ public partial class StudioRoot : Control
+     private StudioAiPanel? _aiPanel;
+     public void OpenAiPanel()
+     {
++        if (WriteBlockReason is { } blocked)
++        {
++            // Fail closed even if a caller re-enables or bypasses the disabled button.
++            ShowBanner("ИИ выключен: " + blocked, error: true);
++            return;
++        }
++
+         _aiPanel ??= new StudioAiPanel(this);
+         if (_aiPanel.GetParent() is null) AddChild(_aiPanel);
+         _aiPanel.Open(Selection);
+@@ -382,9 +426,36 @@ public partial class StudioRoot : Control
+             return;
+         }
+ 
++        // A world whose data the game does not load is frozen for authoring: no editor
++        // is built at all here, so the search -> Reveal -> SetField path of any section
++        // cannot write around the gate. The object stays inspectable and says why.
++        if (WriteBlockReason is { } frozen)
++        {
++            _properties.Header(Selection is null ? "Только просмотр" : Catalog.NameOf(Selection), "запись выключена");
++            if (Selection is { } frozenId)
++            {
++                _properties.IdLine(frozenId);
++            }
++
++            _properties.Text(frozen, muted: false);
++            return;
++        }
++
+         _sections[_current].FillProperties(_properties);
+     }
+ 
++    /// <summary>
++    /// Re-states the frozen authoring state. It is editor state, so a preview reload,
++    /// Apply or Undo must not be able to clear the reason the author sees.
++    /// </summary>
++    public void RestateWriteBlock()
++    {
++        if (WriteBlockReason is { } reason)
++        {
++            ShowBanner(reason, error: false);
++        }
++    }
++
+     private void GoBack()
+     {
+         if (!_back.TryPop(out var previous))
+@@ -545,6 +616,16 @@ public partial class StudioRoot : Control
+         }
+     }
+ 
++    private void OnCampaignWorldChanged(CampaignWorldContext context)
++    {
++        if (_sections.TryGetValue("world", out var section) && section is StudioWorldSection world)
++        {
++            world.ApplyCampaignWorld(context);
++        }
++
++        RefreshStatus($"Кампания {context.Campaign.Id} · {context.World.Title}");
++    }
++
+     private void OfferRecoveredDrafts()
+     {
+         var drafts = Drafts.Recover();
+@@ -597,8 +678,15 @@ public partial class StudioRoot : Control
+             return;
+         }
+ 
++        // The choice is captured before the await: switching worlds while the compiler
++        // runs must not pair one campaign's pack with another world's scene.
++        var context = CampaignContext;
++        // The spawn point belongs to the world that was chosen, so it is captured with
++        // the context: reading it after the await could pair another world's spawn with
++        // this world's scene.
++        var start = _current is not null && _sections[_current] is StudioWorldSection selectedWorld ? selectedWorld.PlayStart() : null;
+         RefreshStatus("Подготовка запуска…");
+-        var build = await PlayPreparation.CompileAsync(Workspace.Root);
++        var build = await PlayPreparation.CompileAsync(Workspace.Root, context?.Campaign.Selection ?? PlayPreparation.Campaign);
+         if (!build.Ready)
+         {
+             ShowBanner("Черновик не готов к запуску: " + string.Join("; ", build.Problems.Take(3)) + (build.Problems.Count > 3 ? $" и ещё {build.Problems.Count - 3}" : ""), error: true);
+@@ -606,13 +694,20 @@ public partial class StudioRoot : Control
+             return;
+         }
+ 
+-        var start = _current is not null && _sections[_current] is StudioWorldSection world ? world.PlayStart() : null;
+         var godot = OS.GetExecutablePath();
+-        var arguments = new List<string> { "--path", ProjectSettings.GlobalizePath("res://"), "res://scenes/act1_demo.tscn", "--" };
+-        arguments.Add($"--urman-studio-play={start?.Zone ?? "village_day"}@{start?.Spawn ?? "arrival"}");
+-        if (start?.Position is { } at)
++        var scenePath = context?.World.ScenePath ?? "res://scenes/act1_demo.tscn";
++        var arguments = new List<string> { "--path", ProjectSettings.GlobalizePath("res://"), scenePath, "--" };
++
++        // The zone, spawn and point arguments are read by the Act I demo root only, so
++        // they are passed for that scene alone instead of pretending they move the
++        // player in a scene that never reads them.
++        if (string.Equals(scenePath, "res://scenes/act1_demo.tscn", StringComparison.Ordinal))
+         {
+-            arguments.Add(FormattableString.Invariant($"--urman-studio-at={at.X:0.###},{at.Y:0.###},{at.Z:0.###},{start.Yaw:0.#}"));
++            arguments.Add($"--urman-studio-play={start?.Zone ?? "village_day"}@{start?.Spawn ?? "arrival"}");
++            if (start?.Position is { } at)
++            {
++                arguments.Add(FormattableString.Invariant($"--urman-studio-at={at.X:0.###},{at.Y:0.###},{at.Z:0.###},{start.Yaw:0.#}"));
++            }
+         }
+ 
+         arguments.Add($"--urman-studio-label={build.RevisionLabel}");
+@@ -690,11 +785,14 @@ public partial class StudioRoot : Control
+ 
+         var top = Bar(root);
+         top.AddChild(new Label { Text = "URMAN Studio", ThemeTypeVariation = "HeaderLabel" });
+-        top.AddChild(new Label { Text = "· проект «Урман», глава 1", ThemeTypeVariation = "MutedLabel" });
++        _selector = new StudioCampaignSelector(this);
++        _selector.Changed += OnCampaignWorldChanged;
++        top.AddChild(_selector.View);
+         _undo = Button(top, "↶ Отменить", Undo);
+         _undo.Name = "UndoButton";
+         _redo = Button(top, "↷", Redo);
+-        Button(top, "Изменить с ИИ", OpenAiPanel).TooltipText = "Выберите объект и опишите изменение (⌘/Ctrl+K)";
++        _ai = Button(top, "Изменить с ИИ", OpenAiPanel);
++        _ai.TooltipText = "Выберите объект и опишите изменение (⌘/Ctrl+K)";
+         Button(top, "Сохранить", () => SaveAll(autosave: false)).TooltipText = "Сохранить все изменения (⌘S)";
+         _search = new LineEdit { PlaceholderText = "Поиск: имя, ID, тип, текст реплики — или вставьте ID от разработчика", CustomMinimumSize = new(420, 0), SizeFlagsHorizontal = SizeFlags.ExpandFill };
+         _search.TextChanged += OnSearch;
+@@ -855,7 +953,7 @@ public partial class StudioRoot : Control
+     private async void CheckContent()
+     {
+         RefreshStatus("Проверка…");
+-        var result = await new Urman.Content.Compilation.ContentCompiler().CompileAsync(Workspace.Root, PlayPreparation.Campaign, []);
++        var result = await new Urman.Content.Compilation.ContentCompiler().CompileAsync(Workspace.Root, CampaignContext?.Campaign.Selection ?? PlayPreparation.Campaign, []);
+         var dirty = Workspace.Files.Count(file => file.Dirty);
+         var unsupported = Urman.Studio.Core.Editing.ConditionPhrases.FindNotExecuted(Workspace);
+         var dialog = new AcceptDialog
+diff --git a/game/studio/StudioWorldSection.cs b/game/studio/StudioWorldSection.cs
+index 205bac80..2af8a08c 100644
+--- a/game/studio/StudioWorldSection.cs
++++ b/game/studio/StudioWorldSection.cs
+@@ -74,6 +74,34 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+         "urman.catalog:agentb_foliage_kit/winterbirch-1", "urman.catalog:agentb_foliage_kit/winterbirch-2", "urman.catalog:agentb_foliage_kit/winterrowan-1"
+     ];
+ 
++    private CampaignWorldContext? _context;
++    private string _contextZone = "village_day";
++    private string _contextSpawn = "arrival";
++
++    /// <summary>The campaign and world chosen in the top bar; the preview and "Play from here" follow it.</summary>
++    public CampaignWorldContext? Context => _context;
++
++    /// <summary>
++    /// Applies the author's campaign/world choice. The embedded preview can only hold
++    /// the Act I scene, whose authored world the game really loads, so a
++    /// presentation-only world freezes authoring through the root gate instead of
++    /// being shown as editable; the run path still follows the chosen scene.
++    /// </summary>
++    public void ApplyCampaignWorld(CampaignWorldContext context)
++    {
++        _context = context;
++        _contextZone = context.World.ZoneDeclaredByScene ? context.World.ZoneId : "village_day";
++        _contextSpawn = context.World.SpawnPointId.Length > 0 ? context.World.SpawnPointId : "arrival";
++        var readOnly = context.World.Capability != WorldAuthoringCapability.AuthoredWorldPlots;
++        studio.SetWriteBlock(readOnly
++            ? $"«{context.World.Title}» открыт только для просмотра: игра не загружает авторских данных этого мира, поэтому правки, инструменты и ИИ для него выключены. Запуск этой сцены доступен."
++            : null);
++        if (!readOnly && _view is not null)
++        {
++            _hint.Visible = false;
++        }
++    }
++
+     public string Key => "world";
+     public string Title => "Мир · деревня";
+     public Control View => _view ??= Build();
+@@ -115,6 +143,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+         toolbar.AddChild(layers);
+         StudioRoot.Button(toolbar, "📏 Линейка", () => { _measuring = !_measuring; _measureStart = null; studio.RefreshStatus(_measuring ? "Линейка: щёлкните две точки на земле" : "Линейка выключена"); });
+         StudioRoot.Button(toolbar, "☀ Свет и погода", OpenAtmosphere).TooltipText = "Небо, солнце, туман; предпросмотр на деревне";
++        StudioRoot.Button(toolbar, "♪ Звук", OpenAudio).TooltipText = "События домов и подложки шины; прослушивание со стопом";
+         _terrainButton = StudioRoot.Button(toolbar, "⛰ Рельеф", () =>
+         {
+             _sculpting = !_sculpting;
+@@ -245,7 +274,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+             await studio.ToSignal(studio.GetTree(), SceneTree.SignalName.ProcessFrame);
+         }
+ 
+-        if (!await _demo.StartDebugZoneAsync("village_day", "arrival"))
++        if (!await _demo.StartDebugZoneAsync(_contextZone, _contextSpawn))
+         {
+             _hint.Text = "Не удалось поднять мир игры. Подробности — в журнале Studio.";
+             return;
+@@ -279,11 +308,19 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+             _previewed[id] = entity.ToJsonString();
+         }
+ 
++        // The frozen authoring state lives in the root and must survive this reload:
++        // the reason is stated again instead of disappearing with the old banner.
++        studio.RestateWriteBlock();
+         Refresh();
+     }
+ 
+     public StudioAtmospherePanel? Atmosphere { get; private set; }
+ 
++    /// <summary>Audio sources of the real village, opened from the toolbar.</summary>
++    public StudioAudioPanel? Audio { get; private set; }
++    /// <summary>Asset usage of the catalogue, read once per selection change: what a material edit would touch.</summary>
++    private AssetUsageIndex? _assets;
++
+     private bool _reloading;
+     private Task? _reloadTask;
+     public Task ReloadGeometryAsync() => _reloadTask is { IsCompleted: false } ? _reloadTask
+@@ -339,6 +376,19 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+         Atmosphere.Popup(new Rect2I(new Vector2I(760, 90), new Vector2I(470, 660)));
+     }
+ 
++    /// <summary>Opens the audio sources of the real village: emitters, shared bed, audition with stop.</summary>
++    public void OpenAudio()
++    {
++        if (Audio is null)
++        {
++            Audio = new StudioAudioPanel(studio);
++            studio.AddChild(Audio);
++        }
++
++        Audio.Reload();
++        Audio.Popup(new Rect2I(new Vector2I(700, 90), new Vector2I(580, 640)));
++    }
++
+     private string? _atmosphereShown;
+     private string? _houseRecipeShown;
+ 
+@@ -587,6 +637,13 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+ 
+     private void OnViewportInput(InputEvent @event)
+     {
++        // A world whose data the game does not load is read-only: no placement, brush,
++        // ruler point or sculpt may start from the viewport.
++        if (studio.WriteBlockReason is not null)
++        {
++            return;
++        }
++
+         switch (@event)
+         {
+             case InputEventMouseButton { ButtonIndex: MouseButton.WheelUp, Pressed: true }:
+@@ -985,6 +1042,12 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+ 
+     public string Place(string catalogId, Vector3 at)
+     {
++        if (studio.WriteBlockReason is { } blocked)
++        {
++            studio.RefreshStatus("Размещение выключено: " + blocked);
++            return "";
++        }
++
+         var entry = _catalog.OfType<JsonObject>().First(item => (string)item["id"]! == catalogId);
+         var id = $"urman.world:studio/street/prop-{Convert.ToHexStringLower(System.Security.Cryptography.RandomNumberGenerator.GetBytes(4))}";
+         using (studio.Session.Begin($"поставить «{entry["name"]}»"))
+@@ -1034,6 +1097,12 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+ 
+     public void ShowImport(string file)
+     {
++        if (studio.WriteBlockReason is { } blocked)
++        {
++            studio.ShowBanner("Импорт выключен: " + blocked, error: true);
++            return;
++        }
++
+         var report = StudioImporter.Check(studio, file);
+         var dialog = new ConfirmationDialog { Title = "Импорт: " + Path.GetFileName(file), OkButtonText = report.CanImport ? "Добавить" : "Закрыть", CancelButtonText = "Отмена", MinSize = new Vector2I(560, 0) };
+         var box = new VBoxContainer();
+@@ -1093,8 +1162,28 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+     /// <summary>One terrain stroke as one entity (one undo step): raise, lower, smooth, or flatten to the clicked height.</summary>
+     public string SculptStroke(Vector3 at, string mode, float radius, float strength)
+     {
++        if (studio.WriteBlockReason is { } blocked)
++        {
++            studio.RefreshStatus("Рельеф выключен: " + blocked);
++            return "";
++        }
++
+         var id = $"urman.world:terrain/stroke-{Convert.ToHexStringLower(System.Security.Cryptography.RandomNumberGenerator.GetBytes(4))}";
+         var label = mode switch { "raise" => "поднять", "lower" => "опустить", "smooth" => "сгладить", _ => "выровнять" };
++        var strokeParams = new JsonObject
++        {
++            ["mode"] = mode,
++            ["position"] = new JsonArray(Math.Round(at.X, 2), 0.0, Math.Round(at.Z, 2)),
++            ["radius"] = Math.Round(radius, 2),
++            ["strength"] = Math.Round(strength, 3),
++            ["target"] = Math.Round(at.Y, 3)
++        };
++        if (TerrainStrokeCommand.Validate(TerrainStrokeCommand.Parse(id, new JsonObject { ["params"] = strokeParams })) is { Count: > 0 } strokeProblems)
++        {
++            studio.RefreshStatus("Штрих рельефа не применён: " + string.Join(" ", strokeProblems));
++            return "";
++        }
++
+         using (studio.Session.Begin($"рельеф: {label}"))
+         {
+             if (!studio.Workspace.HasFile(TerrainPath))
+@@ -1107,14 +1196,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+                 ["id"] = id,
+                 ["kind"] = "terrain-stroke",
+                 ["name"] = $"Рельеф: {label} (радиус {radius:0.#} м)",
+-                ["params"] = new JsonObject
+-                {
+-                    ["mode"] = mode,
+-                    ["position"] = new JsonArray(Math.Round(at.X, 2), 0.0, Math.Round(at.Z, 2)),
+-                    ["radius"] = Math.Round(radius, 2),
+-                    ["strength"] = Math.Round(strength, 3),
+-                    ["target"] = Math.Round(at.Y, 3)
+-                }
++                ["params"] = strokeParams
+             }, "штрих рельефа");
+         }
+ 
+@@ -1153,7 +1235,33 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+     /// <summary>One brush stroke as one entity: centre, radius, density, models and a seed (one undo step, reproducible).</summary>
+     public string PaintStroke(Vector3 at, string[] models, float radius, float density)
+     {
++        if (studio.WriteBlockReason is { } blocked)
++        {
++            studio.RefreshStatus("Кисть выключена: " + blocked);
++            return "";
++        }
++
+         var id = $"urman.world:studio/street/plants-{Convert.ToHexStringLower(System.Security.Cryptography.RandomNumberGenerator.GetBytes(4))}";
++        var draft = new JsonObject
++        {
++            ["position"] = new JsonArray(Math.Round(at.X, 2), 0.0, Math.Round(at.Z, 2)),
++            ["radius"] = Math.Round(radius, 2),
++            ["density"] = Math.Round(density, 4),
++            ["seed"] = System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue),
++            ["catalogIds"] = new JsonArray(models.Select(model => (JsonNode?)model).ToArray()),
++            ["scaleMin"] = 0.8,
++            ["scaleMax"] = 1.2
++        };
++        // The runtime builds round(pi r^2 density) plants from this command, so an
++        // impossible or oversized scatter is refused before anything is written.
++        // The write gate above also uses a local named for its reason, so this one
++        // keeps its own name: both checks must coexist in the same method.
++        if (ScatterCommand.BlockReason(ScatterCommand.Parse(id, new JsonObject { ["params"] = draft })) is { } scatterProblem)
++        {
++            studio.RefreshStatus("Кисть не применена: " + scatterProblem);
++            return "";
++        }
++
+         using (studio.Session.Begin("штрих кисти растительности"))
+         {
+             EnsureStreetPlot();
+@@ -1162,16 +1270,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+                 ["id"] = id,
+                 ["kind"] = "scatter",
+                 ["name"] = $"Посадки ({models.Length} пород, радиус {radius:0.#} м)",
+-                ["params"] = new JsonObject
+-                {
+-                    ["position"] = new JsonArray(Math.Round(at.X, 2), 0.0, Math.Round(at.Z, 2)),
+-                    ["radius"] = Math.Round(radius, 2),
+-                    ["density"] = Math.Round(density, 4),
+-                    ["seed"] = System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue),
+-                    ["catalogIds"] = new JsonArray(models.Select(model => (JsonNode?)model).ToArray()),
+-                    ["scaleMin"] = 0.8,
+-                    ["scaleMax"] = 1.2
+-                }
++                ["params"] = draft
+             }, "штрих");
+         }
+ 
+@@ -1216,7 +1315,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+         var spawn = at + toward * 2.2f;
+         spawn.Y = AgentBAct1HeightField.CollisionGround(spawn.X, spawn.Z) + .1f;
+         var yaw = Mathf.RadToDeg(Mathf.Atan2(-toward.X, -toward.Z));
+-        return new("village_day", "arrival", spawn, yaw);
++        return new(_contextZone, _contextSpawn, spawn, yaw);
+     }
+ 
+     public void FillProperties(StudioProperties panel)
+@@ -1272,6 +1371,9 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+             panel.NumberField("Размер до", (float)(double)parameters["scaleMax"]!, value => studio.Session.SetField(id, ["params", "scaleMax"], Math.Round(value, 2), "размер посадок"));
+             panel.Text("Породы: " + string.Join(", ", parameters["catalogIds"]!.AsArray().Select(model => _catalog.OfType<JsonObject>().FirstOrDefault(entry => (string)entry["id"]! == (string)model!)?["name"]?.ToString() ?? (string)model!)), muted: true);
+             panel.Buttons(("Перемешать", () => studio.Session.SetField(id, ["params", "seed"], System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue), "перемешать посадки")));
++            var scatter = ScatterCommand.Parse(id, entity);
++            foreach (var scatterNote in ScatterCommand.Notes(scatter)) panel.Text(scatterNote, muted: true);
++            foreach (var problem in ScatterCommand.Validate(scatter)) panel.Text("⚠ " + problem);
+             if (PreviewNode(id) is { } planted && planted.HasMeta("scatterKept"))
+             {
+                 panel.Text($"Посажено: {(int)planted.GetMeta("scatterKept")}. На дорогах и проходах не посажено: {(int)planted.GetMeta("scatterSkippedOnPassages")}.", muted: true);
+@@ -1303,25 +1405,63 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+             panel.AddChild(solid);
+         }
+ 
+-        if ((string?)entity["kind"] == "trigger" && parameters["size"] is JsonArray size)
++        if ((string?)entity["kind"] == "trigger")
+         {
+-            panel.Text("Область срабатывает только на игрока.", muted: true);
+-            for (var axis = 0; axis < 3; axis++)
++            // The runtime reads actor, repeat and interactionId too, so the panel
++            // states what will really happen instead of one fixed claim.
++            var facts = TriggerScopeFacts.Describe(id, entity);
++            foreach (var line in facts.Lines) panel.Text(line, muted: true);
++            foreach (var problem in facts.Problems) panel.Text("⚠ " + problem, muted: true);
++
++            // A malformed size must not reach a cast: the values are read through the
++            // same helper the projection uses, and a bad one is only reported.
++            if (parameters["size"] is JsonArray size && size.Count == 3 && size.All(axis => TriggerScopeFacts.TryNumber(axis, out _)))
+             {
+-                var index = axis;
+-                panel.NumberField(new[] { "Ширина, м", "Высота, м", "Глубина, м" }[axis], (float)(double)size[axis]!, value =>
++                for (var axis = 0; axis < 3; axis++)
+                 {
+-                    var next = (JsonArray)size.DeepClone();
+-                    next[index] = Math.Round(Math.Max(.2, value), 2);
+-                    studio.Session.SetField(id, ["params", "size"], next, "размер области");
+-                });
++                    var index = axis;
++                    TriggerScopeFacts.TryNumber(size[axis], out var current);
++                    panel.NumberField(new[] { "Ширина, м", "Высота, м", "Глубина, м" }[axis], (float)Math.Round(current, 2), value =>
++                    {
++                        var next = (JsonArray)size.DeepClone();
++                        next[index] = Math.Round(Math.Max(TriggerScopeFacts.EditorMinimumSize, value), 2);
++                        studio.Session.SetField(id, ["params", "size"], next, "размер области");
++                    });
++                }
+             }
+ 
+-            var inside = new CheckBox { Text = "Если игрок уже внутри, когда это стало важно, — считать сразу", ButtonPressed = (bool?)parameters["countIfInside"] ?? false };
++            var actor = new OptionButton();
++            actor.AddItem("Только игрок");
++            actor.AddItem("Любое тело: фильтр снят");
++            actor.Selected = TriggerScopeFacts.ReadText(parameters, "actor", "player") == "player" ? 0 : 1;
++            actor.ItemSelected += index => studio.Session.SetField(id, ["params", "actor"], index == 0 ? "player" : "any", "фильтр триггера");
++            panel.Field("На кого срабатывает", actor);
++
++            var repeat = new OptionButton();
++            repeat.AddItem("Один раз за прогон");
++            repeat.AddItem("Повторно, каждый вход");
++            repeat.Selected = TriggerScopeFacts.ReadText(parameters, "repeat", "once-per-run") == "once-per-run" ? 0 : 1;
++            repeat.ItemSelected += index => studio.Session.SetField(id, ["params", "repeat"], index == 0 ? "once-per-run" : "every-entry", "повтор триггера");
++            panel.Field("Как часто срабатывает", repeat);
++
++            var inside = new CheckBox { Text = "Если игрок уже внутри, когда это стало важно, — считать сразу", ButtonPressed = TriggerScopeFacts.ReadFlag(parameters, "countIfInside", false) };
+             inside.Toggled += on => studio.Session.SetField(id, ["params", "countIfInside"], on, "учёт уже вошедшего");
+             panel.AddChild(inside);
+         }
+ 
++        // What the placed resource really is: its provenance, its release decision and
++        // the material names other assets share, so a local edit is never assumed local.
++        _assets ??= AssetUsageIndex.Open(studio.Workspace.Root);
++        var catalogueIds = new List<string>();
++        if (parameters["catalogId"] is JsonValue placedId && placedId.TryGetValue<string>(out var single) && single.Length > 0) catalogueIds.Add(single);
++        catalogueIds.AddRange((parameters["catalogIds"] as JsonArray ?? []).Select(item => (string?)item).OfType<string>().Where(item => item.Length > 0));
++        foreach (var catalogueId in catalogueIds.Distinct(StringComparer.Ordinal))
++        {
++            var usage = _assets.ByCatalogueId(catalogueId);
++            foreach (var line in usage.Notes) panel.Text(line, muted: true);
++            foreach (var problem in usage.Problems) panel.Text("⚠ " + problem);
++        }
++
+         if ((string?)entity["note"] is { Length: > 0 } note)
+         {
+             panel.Text(note, muted: true);
+diff --git a/src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs b/src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs
+index 8fd4e58b..3c3ac9ef 100644
+--- a/src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs
++++ b/src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs
+@@ -18,9 +18,16 @@ public static class PlayPreparation
+     public const string Campaign = "urman.chapter1";
+     public const string PackPath = "game/content/urman.chapter1.compiled.v1.json";
+ 
+-    public static async Task<PlayBuild> CompileAsync(string root, CancellationToken cancellationToken = default)
++    /// <summary>The compiled pack of one campaign selection, so a run follows the chosen campaign.</summary>
++    public static string PackPathFor(string campaignSelection) => $"game/content/{campaignSelection}.compiled.v1.json";
++
++    public static Task<PlayBuild> CompileAsync(string root, CancellationToken cancellationToken = default) =>
++        CompileAsync(root, Campaign, cancellationToken);
++
++    public static async Task<PlayBuild> CompileAsync(string root, string campaignSelection, CancellationToken cancellationToken = default)
+     {
+-        var result = await new ContentCompiler().CompileAsync(root, Campaign, [], cancellationToken);
++        var selection = string.IsNullOrWhiteSpace(campaignSelection) ? Campaign : campaignSelection;
++        var result = await new ContentCompiler().CompileAsync(root, selection, [], cancellationToken);
+         if (!result.IsSuccess)
+         {
+             return new(false, "", "", result.Diagnostics
+@@ -29,7 +36,7 @@ public static class PlayPreparation
+         }
+ 
+         var text = CompiledPackText.Serialize(result.Pack!);
+-        var path = Path.Combine(root, PackPath);
++        var path = Path.Combine(root, PackPathFor(selection));
+         if (!File.Exists(path) || File.ReadAllText(path) != text)
+         {
+             AtomicFile.WriteAllBytes(path, new UTF8Encoding(false).GetBytes(text));

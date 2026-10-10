@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-21"
+  ],
+  "stage": "correction for the stored review of b94d2ccf: float range, safe inspector reads, editor policy separated from runtime defaults",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:53 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "f703f132 (origin/main) via merge a86e71d4",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs": "94243e48d3db6b4a20739a0fc39734b31e4dd90bf65d17d6b7d60d89def331ca",
+    "evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-numeric-policy/ai-deepseek-studio-wiring-v4.patch": "87ebbb9fb17c7b550950a8cbbade6712ef75b3195b1b2a571e3a6280cac16348",
+    "evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-numeric-policy/check.log": "f3bc26e90cbc3f9a94b617442c9de2f8ea87b41187f03e6fb58ff56b81b9a8c7"
+  },
+  "addressed": {
+    "a finite double can overflow float": "the runtime reads the field through GetSingle, so a value beyond the float range is now refused, and the reason is named precisely: not a number, not finite, or does not fit a float. The size check reports that reason instead of one vague sentence",
+    "direct inspector casts can throw": "the panel reads the trigger fields through public type-safe readers (ReadText/ReadFlag), so a wrong type falls back instead of throwing inside the inspector, while the facts still report the type problem",
+    "editor policy versus runtime defaults": "TriggerParam carries a Policy value (runtime / editor / runtime+editor), the editor minimum of 0.2 m is a named constant and is described as editor policy that the game does not check, and a smaller area is a note rather than a runtime failure"
+  },
+  "verified": {
+    "probe": "PASS 277/277: a double beyond the float range is refused while a normal number and an integer are still read; a string explains why it is not a number; an area below the editor minimum is not a runtime failure and is named as editor policy; the panel readers fall back on a wrongly typed string and bool",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with the v4 patch",
+    "apply": "the v4 patch passes git apply --check on a pristine f703f132 worktree and was applied there",
+    "existing_tests": "Urman.Studio.Tests 38/38 on the patched tree",
+    "not_run": "no Studio window: the inspector behaviour is compile- and probe-verified, the interface is NOT_RUN"
+  },
+  "open": [
+    "the v4 patch supersedes v3 of the consolidated wiring patch",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}

@@ -24047,6 +24047,13 @@
                 "source": "src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs and the regenerated owner patch evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-trigger-review-fixes/ai21-trigger-facts.patch; evidence .../build.log, check.log and receipt.json",
                 "verification": "Urman.Studio.Core 0/0, game/Urman.Game.csproj 0/0 with the regenerated patch, probe 175/175 including new checks for an empty actor (filter removed, not the default), a non-string actor (crash at entry), a short size and a non-boolean countIfInside; the patch passes git apply --check on a pristine origin/main 5277e57c worktree and reads size through the new public TriggerScopeFacts.TryNumber so a malformed array cannot reach a cast. The real campaign still has no trigger entity, so the description paths remain synthetic plus the real runtime source"
               }
+,
+              {
+                "stage": "2026-10-10 AI-21 correction for the stored review of b94d2ccf: float range, safe inspector reads, policy separated from runtime",
+                "result": "correction by deepseek v4.1 flash: a value beyond the float range is refused with the precise reason, the inspector reads the trigger fields through type-safe readers instead of casting a JsonValue, and the editor minimum is named as editor policy rather than a game rule",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs and the owner patch evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-numeric-policy/ai-deepseek-studio-wiring-v4.patch (v4 of the consolidated wiring patch); evidence .../check.log, probe/ and receipt.json; commit follows",
+                "verification": "probe PASS 277/277: a double beyond the float range is refused while a normal number and an integer are still read, a string explains why it is not a number, an area below the editor minimum is a note and not a runtime failure, and the panel readers fall back on a wrongly typed string and bool. The v4 patch passes git apply --check on a pristine f703f132 worktree; Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors; the existing Urman.Studio.Tests suite passes 38/38 on the patched tree. No Studio window: the inspector behaviour is compile- and probe-verified, interface NOT_RUN"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"

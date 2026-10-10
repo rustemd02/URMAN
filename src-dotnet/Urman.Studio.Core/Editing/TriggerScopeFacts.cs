@@ -10,7 +10,16 @@ public sealed record TriggerParam(
     string DefaultText,
     bool Required,
     string Consumer,
-    string? Note = null);
+    string? Note = null)
+{
+    /// <summary>
+    /// Who owns the rule about this field: "runtime" for what the game itself reads and
+    /// enforces, "editor" for a Studio policy the game does not check, "runtime+editor"
+    /// for both. The two must not be confused: a value the editor refuses can still be
+    /// perfectly playable, and a value the runtime rejects always is not.
+    /// </summary>
+    public string Policy { get; init; } = "runtime";
+}
 
 /// <summary>What a trigger really does, in the words an author needs.</summary>
 public sealed record TriggerFacts(
@@ -36,7 +45,10 @@ public static class TriggerScopeFacts
     [
         new("size", "number[3]", "нет — рантайм возьмёт нулевой размер", true,
             "AuthoredWorldDirector.BuildTrigger: BoxShape3D, смещение по половине высоты",
-            "Без поля ReadVector вернёт ноль и область получится нулевой: срабатывание практически невозможно. Не число или не три элемента — исключение при чтении."),
+            "Без поля ReadVector вернёт ноль и область получится нулевой: срабатывание практически невозможно. Не число, не три элемента или значение вне float — исключение или переполнение при чтении. Минимум 0,2 м, который держит редактор, игрой не проверяется.")
+        {
+            Policy = "runtime+editor"
+        },
         new("interactionId", "string", "нет — обязательное для срабатывания", true,
             "AuthoredWorldDirector.OnTriggerEntered: DispatchInteractionAsync",
             "Это цель попытки запуска, а не гарантия: сработает ли она, решают физические и скомпилированные условия взаимодействия. Поле читается через GetProperty, поэтому без него рантайм падает на первом подходящем входе, а не при построении мира."),
@@ -132,9 +144,28 @@ public static class TriggerScopeFacts
         {
             problems.Add("Нет size: ReadVector вернёт ноль, область получится нулевого размера и срабатывание станет практически невозможным.");
         }
-        else if (parameters["size"] is not JsonArray size || size.Count != 3 || !size.All(Finite))
+        else if (parameters["size"] is not JsonArray size || size.Count != 3)
         {
-            problems.Add("size не из трёх конечных чисел: чтение области упадёт или даст вырожденный размер.");
+            problems.Add("size не из трёх чисел: чтение области упадёт или даст вырожденный размер.");
+        }
+        else
+        {
+            // The precise reason matters: "not three numbers", "not a number" and "does
+            // not fit a float" send the author to three different fixes.
+            string? unreadable = null;
+            foreach (var axis in size)
+            {
+                unreadable ??= NumberProblem(axis, out _);
+            }
+
+            if (unreadable is not null)
+            {
+                problems.Add($"size: {unreadable} — область не прочитается.");
+            }
+            else if (size.Any(axis => TryNumber(axis, out var side) && side < EditorMinimumSize))
+            {
+                lines.Add($"Область меньше {EditorMinimumSize:0.#} м — это политика редактора, а не запрет игры: рантайм примет и меньший размер.");
+            }
         }
 
         var inside = ReadBool(parameters, "countIfInside", out var insideIsBool);
@@ -200,6 +231,9 @@ public static class TriggerScopeFacts
         return problems;
     }
 
+    /// <summary>The smallest area the editor offers; the game itself accepts less.</summary>
+    public const double EditorMinimumSize = .2d;
+
     /// <summary>The authored string, null when the key is absent, and false when it is not a string.</summary>
     private static string? ReadString(JsonObject parameters, string name, out bool isText)
     {
@@ -236,49 +270,73 @@ public static class TriggerScopeFacts
     }
 
     /// <summary>
+    /// A string field read without a cast: a wrong type returns the fallback instead of
+    /// throwing inside the inspector, and the facts report the type separately.
+    /// </summary>
+    public static string ReadText(JsonObject? parameters, string name, string fallback) =>
+        parameters is not null ? ReadString(parameters, name, out _) ?? fallback : fallback;
+
+    /// <summary>A bool field read without a cast; a wrong type returns the fallback.</summary>
+    public static bool ReadFlag(JsonObject? parameters, string name, bool fallback) =>
+        parameters is not null && ReadBool(parameters, name, out _) is { } flag ? flag : fallback;
+
+    /// <summary>
     /// Reads any JSON number as a finite double. Public because a panel that shows
     /// a size or a level must not cast a JsonValue blindly: an integer value is not
     /// a double, and a string value would throw inside the inspector.
     /// </summary>
-    public static bool TryNumber(JsonNode? node, out double value)
+    public static bool TryNumber(JsonNode? node, out double value) =>
+        NumberProblem(node, out value) is null;
+
+    /// <summary>
+    /// Why a value cannot be used as a number, or null when it can. The runtime reads
+    /// the field through GetSingle, so a finite double beyond the float range is an
+    /// overflow there, not a large number: it must be refused, not silently kept.
+    /// </summary>
+    public static string? NumberProblem(JsonNode? node, out double value)
     {
         value = 0d;
         if (node is not JsonValue json)
         {
-            return false;
+            return node is null ? "значение пустое" : "значение не число";
         }
 
         if (json.TryGetValue<double>(out var number))
         {
             value = number;
-            return double.IsFinite(value);
+            if (!double.IsFinite(value))
+            {
+                return "значение не конечное число";
+            }
+
+            return Math.Abs(value) > float.MaxValue ? "значение не влезает в float, а рантайм читает его как float" : null;
         }
 
         if (json.TryGetValue<float>(out var single))
         {
             value = single;
-            return float.IsFinite(single);
+            return float.IsFinite(single) ? null : "значение не конечное число";
         }
 
         if (json.TryGetValue<int>(out var small))
         {
             value = small;
-            return true;
+            return null;
         }
 
         if (json.TryGetValue<long>(out var integer))
         {
             value = integer;
-            return true;
+            return Math.Abs(value) > float.MaxValue ? "значение не влезает в float, а рантайм читает его как float" : null;
         }
 
         if (json.TryGetValue<decimal>(out var precise))
         {
             value = (double)precise;
-            return true;
+            return Math.Abs(value) > float.MaxValue ? "значение не влезает в float, а рантайм читает его как float" : null;
         }
 
-        return false;
+        return "значение не число";
     }
 
     private static bool Finite(JsonNode? node) => TryNumber(node, out _);
