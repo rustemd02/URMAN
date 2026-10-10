@@ -234,6 +234,9 @@ public sealed class CodexProposalProvider
             protocolPhase = "features";
             await VerifyEffectiveFeaturesAsync(client, token).ConfigureAwait(false);
 
+            protocolPhase = "config/read";
+            var configuredMcpServerIds = await ReadConfiguredMcpServerIdsAsync(client, workingDirectory, token).ConfigureAwait(false);
+
             protocolPhase = "thread/start";
             var threadResponse = await client.RequestAsync("thread/start", new Dictionary<string, object?>
             {
@@ -243,7 +246,8 @@ public sealed class CodexProposalProvider
                 ["approvalPolicy"] = "never",
                 ["modelProvider"] = "openai",
                 ["environments"] = Array.Empty<object>(),
-                ["runtimeWorkspaceRoots"] = Array.Empty<string>()
+                ["runtimeWorkspaceRoots"] = Array.Empty<string>(),
+                ["config"] = BuildThreadConfigOverrides(configuredMcpServerIds)
             }, 100, HandleStartupNotificationAsync, token).ConfigureAwait(false);
 
             var thread = GetRequiredObject(threadResponse, "thread");
@@ -254,6 +258,9 @@ public sealed class CodexProposalProvider
             }
 
             VerifyThreadBoundary(threadResponse, thread, workingDirectory);
+
+            protocolPhase = "mcpServerStatus/list";
+            await VerifyThreadMcpServersDisabledAsync(client, threadId, configuredMcpServerIds, token).ConfigureAwait(false);
 
             Report(progress, CodexProposalStage.Generating, "Generating one structured resize proposal.");
             var terminalTurn = (JsonElement?)null;
@@ -376,8 +383,6 @@ public sealed class CodexProposalProvider
         }
 
         startInfo.ArgumentList.Add("-c");
-        startInfo.ArgumentList.Add("mcp_servers={}");
-        startInfo.ArgumentList.Add("-c");
         startInfo.ArgumentList.Add("web_search=\"disabled\"");
         startInfo.ArgumentList.Add("-c");
         startInfo.ArgumentList.Add("project_doc_max_bytes=0");
@@ -396,6 +401,154 @@ public sealed class CodexProposalProvider
             !string.Equals(type.GetString(), "chatgpt", StringComparison.Ordinal))
         {
             throw new CodexProposalException("Codex must be signed in with a ChatGPT account before proposal mode is available.");
+        }
+    }
+
+    private static async Task<string[]> ReadConfiguredMcpServerIdsAsync(
+        AppServerClient client,
+        string workingDirectory,
+        CancellationToken cancellationToken)
+    {
+        var response = await client.RequestAsync("config/read", new Dictionary<string, object?>
+        {
+            ["cwd"] = workingDirectory,
+            ["includeLayers"] = false
+        }, 30, null, cancellationToken).ConfigureAwait(false);
+
+        var config = GetRequiredObject(response, "config");
+        if (!config.TryGetProperty("mcp_servers", out var servers) || servers.ValueKind != JsonValueKind.Object || servers.EnumerateObject().Count() > 64)
+        {
+            throw new CodexProposalException("Codex MCP configuration could not be safely disabled.");
+        }
+
+        var ids = new List<string>();
+        var uniqueIds = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var server in servers.EnumerateObject())
+        {
+            if (!IsSafeMcpServerId(server.Name) || !uniqueIds.Add(server.Name))
+            {
+                throw new CodexProposalException("Codex MCP configuration could not be safely disabled.");
+            }
+
+            ids.Add(server.Name);
+        }
+
+        return ids.ToArray();
+    }
+
+    private static bool IsSafeMcpServerId(string value)
+    {
+        if (value.Length is < 1 or > 64) return false;
+        foreach (var character in value)
+        {
+            if (!char.IsAsciiLetterOrDigit(character) && character is not ('_' or '-')) return false;
+        }
+
+        return true;
+    }
+
+    private static Dictionary<string, object?> BuildThreadConfigOverrides(IReadOnlyList<string> serverIds)
+    {
+        var serverOverrides = new Dictionary<string, object?>(StringComparer.Ordinal);
+        foreach (var serverId in serverIds)
+        {
+            if (!IsSafeMcpServerId(serverId)) throw new CodexProposalException("Codex MCP configuration could not be safely disabled.");
+            serverOverrides[serverId] = new Dictionary<string, object?>(StringComparer.Ordinal)
+            {
+                ["enabled"] = false
+            };
+        }
+
+        return new Dictionary<string, object?>(StringComparer.Ordinal)
+        {
+            ["mcp_servers"] = serverOverrides,
+            ["features"] = new Dictionary<string, object?>(StringComparer.Ordinal)
+            {
+                ["apps"] = false,
+                ["plugins"] = false
+            }
+        };
+    }
+
+    private static async Task VerifyThreadMcpServersDisabledAsync(
+        AppServerClient client,
+        string threadId,
+        IReadOnlyList<string> configuredServerIds,
+        CancellationToken cancellationToken)
+    {
+        var cursors = new HashSet<string>(StringComparer.Ordinal);
+        var expectedServerIds = new HashSet<string>(configuredServerIds, StringComparer.Ordinal);
+        if (expectedServerIds.Count != configuredServerIds.Count || configuredServerIds.Any(id => !IsSafeMcpServerId(id)))
+        {
+            throw new CodexProposalException("Codex MCP configuration could not be safely verified.");
+        }
+
+        var observedServerIds = new HashSet<string>(StringComparer.Ordinal);
+        string? cursor = null;
+        var pages = 0;
+        var serverCount = 0;
+        do
+        {
+            if (++pages > 8) throw new CodexProposalException("Codex MCP status could not be verified.");
+            var parameters = new Dictionary<string, object?>
+            {
+                ["threadId"] = threadId,
+                ["detail"] = "full",
+                ["limit"] = 200
+            };
+            if (cursor is not null) parameters["cursor"] = cursor;
+
+            var response = await client.RequestAsync("mcpServerStatus/list", parameters, 40 + pages, null, cancellationToken).ConfigureAwait(false);
+            if (!response.TryGetProperty("data", out var rows) || rows.ValueKind != JsonValueKind.Array)
+            {
+                throw new ProtocolBoundaryException("data");
+            }
+
+            foreach (var server in rows.EnumerateArray())
+            {
+                if (++serverCount > 512 || server.ValueKind != JsonValueKind.Object)
+                {
+                    throw new ProtocolBoundaryException("data");
+                }
+
+                var serverId = GetRequiredString(server, "name");
+                if (!expectedServerIds.Contains(serverId) || !observedServerIds.Add(serverId))
+                {
+                    throw new CodexProposalException("Codex MCP server status did not match the configured proposal servers.");
+                }
+
+                if (!server.TryGetProperty("runtimeStatus", out var runtimeStatus) || runtimeStatus.ValueKind != JsonValueKind.String ||
+                    !string.Equals(runtimeStatus.GetString(), "disabled", StringComparison.Ordinal))
+                {
+                    throw new CodexProposalException("Codex MCP servers are not all disabled for this proposal thread.");
+                }
+
+                if (!server.TryGetProperty("tools", out var tools) || tools.ValueKind != JsonValueKind.Object)
+                {
+                    throw new ProtocolBoundaryException("tools");
+                }
+
+                if (tools.EnumerateObject().Any())
+                {
+                    throw new CodexProposalException("Codex MCP tools remain available to this proposal thread.");
+                }
+            }
+
+            if (!response.TryGetProperty("nextCursor", out var nextValue) || nextValue.ValueKind is not (JsonValueKind.Null or JsonValueKind.String))
+            {
+                throw new ProtocolBoundaryException("nextCursor");
+            }
+
+            cursor = nextValue.ValueKind == JsonValueKind.String ? nextValue.GetString() : null;
+            if (cursor is not null && (string.IsNullOrWhiteSpace(cursor) || !cursors.Add(cursor)))
+            {
+                throw new ProtocolBoundaryException("nextCursor");
+            }
+        } while (cursor is not null);
+
+        if (!expectedServerIds.SetEquals(observedServerIds))
+        {
+            throw new CodexProposalException("Codex MCP server status did not match the configured proposal servers.");
         }
     }
 
@@ -490,7 +643,7 @@ public sealed class CodexProposalProvider
         }
 
         if (IsAllowedPassiveNotification(message)) return Task.CompletedTask;
-        throw new ProtocolBoundaryException(method);
+        throw new ProtocolBoundaryException(GetSafeUnexpectedNotificationToken(message, method));
     }
 
     private static async Task<JsonElement> WaitForTerminalTurnAsync(
@@ -629,7 +782,7 @@ public sealed class CodexProposalProvider
             return Task.CompletedTask;
         }
 
-        throw new ProtocolBoundaryException(method);
+        throw new ProtocolBoundaryException(GetSafeUnexpectedNotificationToken(message, method));
     }
 
     private void VerifyThreadBoundary(JsonElement response, JsonElement thread, string workingDirectory)
@@ -909,6 +1062,19 @@ public sealed class CodexProposalProvider
         }
 
         return methodValue.GetString() is "account/updated" or "remoteControl/status/changed";
+    }
+
+    private static string? GetSafeUnexpectedNotificationToken(JsonElement message, string method)
+    {
+        if (method == "mcpServer/startupStatus/updated" &&
+            message.TryGetProperty("params", out var parameters) && parameters.ValueKind == JsonValueKind.Object &&
+            parameters.TryGetProperty("status", out var status) && status.ValueKind == JsonValueKind.String &&
+            status.GetString() is "starting" or "ready" or "failed" or "cancelled")
+        {
+            return $"{method}/{status.GetString()}";
+        }
+
+        return method;
     }
 
     private async Task TryInterruptAsync(AppServerClient client, string threadId, string turnId)
@@ -1202,7 +1368,11 @@ public sealed class CodexProposalProvider
                 {
                     if (message.TryGetProperty("id", out _)) throw new ProtocolBoundaryException("id");
                     if (notificationHandler is not null) await notificationHandler(message).ConfigureAwait(false);
-                    else if (GetMethod(message) != "thread/started" && !IsAllowedPassiveNotification(message)) throw new ProtocolBoundaryException(GetMethod(message));
+                    else if (GetMethod(message) != "thread/started" && !IsAllowedPassiveNotification(message))
+                    {
+                        var unexpectedMethod = GetMethod(message);
+                        throw new ProtocolBoundaryException(GetSafeUnexpectedNotificationToken(message, unexpectedMethod));
+                    }
                     continue;
                 }
 

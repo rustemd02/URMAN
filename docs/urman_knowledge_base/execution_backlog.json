@@ -25049,13 +25049,16 @@
         "unit_dependency_rule": "AI-xx — единственные канонические шаги STUDIO.execution.steps, без отдельного backlog/статусного списка. Готовность AI-шага определять по depends_on_units и фактическому evidence завершённых шагов в этой карточке; исторический completed X1–X4 не выполняет AI-зависимость. STUDIO.depends_on пуст; P0–P6 — связанные приёмочные стадии, их старый граф сохраняется. Выполнение AI-шага не выдавать за закрытие стадии. Нельзя требовать полного завершения P6 для раннего транспорта/Undo или полного P0 для позднего AI-31; назначение writer и реализация требуют отдельного живого поручения и сохранения владельцев.",
         "next_unit": "Живое поручение 10.10: Codex-пилот изменения семи реальных окон выбранного HeroHouse, game verification и полная asset/source Undo, затем остальные dependency-ready единицы B20. Общий STUDIO остаётся открыт до всех done_when.",
         "b20_checkpoint": {
-          "authorized": "user 2026-10-10: implementation, regular commit/push, Luna 6 Max",
+          "authorized": "user 2026-10-10: implement Codex-assigned B20; regular commit/push; create_goal; five Luna FAST/Max plus Sol6.1medium (explicit override). DeepSeek split unchanged.",
           "scope": "First Codex → HeroHouse uniform seven-window resize → exterior/interior game check → full Undo",
           "owners": {
-            "coordinator": "Codex",
-            "recipe_geometry": "luna_fast b20_house_trace",
-            "provider": "luna_fast b20_codex_adapter",
-            "transaction": "luna_fast b20_transaction_trace"
+            "coordinator": "Codex /root; active create_goal 2026-10-10",
+            "provider": "Luna FAST/Max /root/capacity_check_1",
+            "transaction": "Luna FAST/Max /root/capacity_check_2",
+            "ui_path_review": "Luna FAST/Max /root/capacity_check_3 read-only",
+            "portable_handoff_review": "Luna FAST/Max /root/capacity_check_4 read-only",
+            "recipe_geometry": "Luna FAST/Max /root/capacity_check_5 read-only",
+            "review": "Sol6.1 medium /root/b20_sol61_gate_review read-only"
           },
           "verified": [
             "B19/B20 import structural checks",
@@ -25070,7 +25073,8 @@
             "Protected live Studio: village world rendered; exact hero ID/placement inspector observed; embedded panel opened, global instruction opt-in true and requested prompt entered. Failure state observed, Apply remains disabled. No game authoring files changed by failed request.",
             "Current Core/harness SHA match 2c7c90a0…584b4df2; effective feature and thread/start gates pass without inference. Affected game compile 0 warnings/errors after provider compatibility and panel sizing changes.",
             "Actual UI prompt wrap and Cmd+Enter dispatch observed. Baseline recipe/shared GLB/source blend/generator SHA retained in ignored .urman-studio/b20-baseline-hashes.json; no recipe/asset mutation. File transaction review confirmed four-file CAS and awaited native parser/world barrier for null-model baseline; normal Windows Studio generation remains separate platform gate.",
-            "Live layout-only protected Studio observed complete AI panel including Close; actual Size682x583 after deferred reset versus prior682x3343. Exact RunAsync diagnostic request64870b81528d47578f4f4db40bb8fd88 stopped before turn/start on MCP startup notification, no proposal. Baseline recipe/shared source hashes unchanged."
+            "Live layout-only protected Studio observed complete AI panel including Close; actual Size682x583 after deferred reset versus prior682x3343. Exact RunAsync diagnostic request64870b81528d47578f4f4db40bb8fd88 stopped before turn/start on MCP startup notification, no proposal. Baseline recipe/shared source hashes unchanged.",
+            "2026-10-10 continuation: affected game compile PASS0warnings/0errors, DebugCore and game copy SHA8e618487b5dd2ae0653ca8090ae99a086e8c5df02f7ebf804126c7a7029f961c. Source fixes since this compile pending rebuild. Sol independent review found failed Undo/Redo rollback metadata and stale redo persistence; first source-fixed, second under bounded review."
           ],
           "remaining": [
             "Actual Codex typed proposal through logged-in ChatGPT",
@@ -25083,8 +25087,8 @@
           "provider_authorization": "Author live reply 2026-10-10: own global Codex instructions allowed for first pilot; tools/write disabled; personal ChatGPT login, no API/pay-as-you-go fallback. Provider default rejects global instruction sources; explicit local opt-in.",
           "verification_question": "Do typed Codex width, seven real paired apertures and source/artifact transaction change only selected HeroHouse, and does Undo restore byte-identical recipe plus asset absence and matching game frame?",
           "success_condition": "AppServer typed proposal exact captured identities; game exterior+interior before/after/Undo at matched Windows cameras; original recipe/shared assets hashes restored, new artifact/ref removed; failed promotion/view and foreign edits refuse whole operation; all unmet B20 criteria stay open.",
-          "provider_compatibility": "Feature/thread prefix passed but exact full RunAsync failed before turn on mcpServer/startupStatus/updated. Safe phase/method diagnostic compiled0/0; current Core and harness hashes matched. No model inference/proposal yet. Unknown active features, methods, tool items and writes still rejected; MCP configuration isolation under official-source investigation, notification not whitelisted.",
-          "ui_blocker": "Panel layout fixed and observed fully inside Studio, including Close: Size682x583, contentminimum666x524, parent1920x1080; deferred reset after wrapped-label layout. Cmd+Enter dispatch observed. Current provider production RunAsync stops thread/start on mcpServer/startupStatus/updated before turn; all tools/unknown methods remain rejected. Need supported complete MCP disable with current personal login/global instruction consent, then actual proposal, preview, Windows after and Undo. Current protected layout-only Studio running; no model request on this session.",
+          "provider_compatibility": "Latest no-turn prefix with DebugCore SHA8e618487…9f961c passed ChatGPT account, active feature gate, config3server disable override, thread/start and thread boundary. Stopped mcpServerStatus/list on notification warning before disabled/no-tools proof; turnStartSent=false. Official source research pending; do not whitelist unknown warnings.",
+          "ui_blocker": "Panel layout and CmdEnter observed previously; no current protected Studio process. Need mcpStatus/noTools gate, then actual model proposal, Before/After, Apply, Windows after/Undo. No proposal or mutation yet.",
           "provider_source_evidence": "https://github.com/openai/codex/blob/rust-v0.162.0-alpha.17/codex-rs/features/src/lib.rs:2282 StageRemoved backward compatibility; item_ids2811,terminal_resize_reflow2464,tui_app_server3053; ignored toggles3312–3414/3453–3459. Luna read-only review; installed schemas unchanged with/without3 switches.",
           "work_split_2026_10_10": {
             "authorization": "Прямое поручение автора 10.10.2026: разделить B20 между Codex и DeepSeek; отдельный clone/branch DeepSeek, Codex review/cherry-pick accepted commits into main.",
