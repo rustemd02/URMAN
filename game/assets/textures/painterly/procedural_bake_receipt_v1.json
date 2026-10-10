@@ -1,0 +1,94 @@
+{
+  "generator": "tools/blender/bake_procedural_textures.py",
+  "licence": "project-original procedural (no third-party source)",
+  "textures": {
+    "F03": {
+      "card": "F03",
+      "consumer": "new spruce bark slot (suggest bark_spruce): AgentBAct1ExteriorLayer WinterSpruce_* trunks, non-pine bark path",
+      "file": "game/assets/textures/painterly/bark_spruce_v1_albedo.png",
+      "generator": "tools/blender/bake_procedural_textures.py",
+      "licence": "project-original procedural (no third-party source)",
+      "metres_per_repeat": 1.0,
+      "seed": 20260303,
+      "sha256": "3a526b203d11df79eb7c99bb2317f84fd60f58978cf0ce54e6f94be7efc66acf",
+      "size": "1024x1024 RGB8 sRGB"
+    },
+    "S03": {
+      "card": "S03",
+      "consumer": "PML snow_trampled (replace snow_trampled_v1_albedo.png; CW approach to FAP, road crest)",
+      "file": "game/assets/textures/painterly/snow_trampled_v2_albedo.png",
+      "generator": "tools/blender/bake_procedural_textures.py",
+      "licence": "project-original procedural (no third-party source)",
+      "metres_per_repeat": 1.0,
+      "seed": 20261010,
+      "sha256": "2a53d2b727ab0264138a75fedbafa77cee1ec24994b3e70734a28052ece540c4",
+      "size": "1024x1024 RGB8 sRGB"
+    },
+    "S05": {
+      "card": "S05",
+      "consumer": "new local road/wheel snow surface (suggest snow_dirty) for CW road sections near wheels",
+      "file": "game/assets/textures/painterly/snow_frozen_dirty_v1_albedo.png",
+      "generator": "tools/blender/bake_procedural_textures.py",
+      "licence": "project-original procedural (no third-party source)",
+      "metres_per_repeat": 1.0,
+      "seed": 20261015,
+      "sha256": "425025efdb0be78e0fc97c6ad59a36cb029f1a613b869b93515d6fa606884ea3",
+      "size": "1024x1024 RGB8 sRGB"
+    },
+    "S08": {
+      "card": "S08",
+      "consumer": "PML ice (BoardCrossing DrainIceMaterial, CW FapPuddleWater ice patches)",
+      "file": "game/assets/textures/painterly/ice_small_v1_albedo.png",
+      "generator": "tools/blender/bake_procedural_textures.py",
+      "licence": "project-original procedural (no third-party source)",
+      "metres_per_repeat": 1.0,
+      "seed": 20261018,
+      "sha256": "98827b3b79c5e9bb760e8e1d6d049836427c9079677ef34cde9923b314140595",
+      "size": "1024x1024 RGB8 sRGB"
+    },
+    "S09": {
+      "card": "S09",
+      "consumer": "PML snow_grass (CW grass-edge snow, yard borders)",
+      "file": "game/assets/textures/painterly/snow_grass_v2_albedo.png",
+      "generator": "tools/blender/bake_procedural_textures.py",
+      "licence": "project-original procedural (no third-party source)",
+      "metres_per_repeat": 2.0,
+      "seed": 20261019,
+      "sha256": "0d98222017a84c991b1b6e32df43e320ceb4e00a19ffd3d8444754acace13683",
+      "size": "1024x1024 RGB8 sRGB"
+    },
+    "W07": {
+      "card": "W07",
+      "consumer": "new shed timber slot (suggest wood_shed_dark): CW HeroYardShed_LoftBoard_* and AddVisualShed",
+      "file": "game/assets/textures/painterly/wood_shed_dark_v1_albedo.png",
+      "generator": "tools/blender/bake_procedural_textures.py",
+      "licence": "project-original procedural (no third-party source)",
+      "metres_per_repeat": 1.0,
+      "seed": 20261107,
+      "sha256": "78dec8eb6d003df7ee844002c34e8b8f8d7408a8a45e35668b9503dc751957cb",
+      "size": "1024x1024 RGB8 sRGB"
+    },
+    "W10": {
+      "card": "W10",
+      "consumer": "new bathhouse timber slot (suggest wood_bath_light): Bathhouse.cs floor, partitions, benches (wood_furniture/wood today)",
+      "file": "game/assets/textures/painterly/wood_bath_light_v1_albedo.png",
+      "generator": "tools/blender/bake_procedural_textures.py",
+      "licence": "project-original procedural (no third-party source)",
+      "metres_per_repeat": 0.75,
+      "seed": 20261110,
+      "sha256": "4ea2e018d65cc4645f24158bba3173949312c668fd8ecdc4eccc3ce26f398eb3",
+      "size": "1024x1024 RGB8 sRGB"
+    },
+    "W11": {
+      "card": "W11",
+      "consumer": "new split-wood slot (suggest wood_split): CW CutWood, Bathhouse BathDryFirewood* side faces only",
+      "file": "game/assets/textures/painterly/wood_split_firewood_v1_albedo.png",
+      "generator": "tools/blender/bake_procedural_textures.py",
+      "licence": "project-original procedural (no third-party source)",
+      "metres_per_repeat": 0.5,
+      "seed": 20261111,
+      "sha256": "320dcd9f93ce7d3edaf567ae9c74b781bbdb0dff562e2982b2e192c1f892d118",
+      "size": "1024x1024 RGB8 sRGB"
+    }
+  }
+}

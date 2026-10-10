@@ -3734,7 +3734,7 @@
       "milestone": "M4",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "claude/visual-reset-2026-10-09",
       "owner": "art/materials/qa",
       "depends_on": [
         "ACT1-TEXTURE.01"
@@ -3922,7 +3922,14 @@
       "visual_asset_passport_ids": [
         "AS-09",
         "AS-10"
-      ]
+      ],
+      "progress_2026_10_10": {
+        "procedural_bakes": {
+          "done": "8 безусловных карточек группы запечены процедурно (Blender 5.2.2 + numpy, детерминированно, бесшовно, 1024 px, лицензия — собственная процедурная): S03, S05, S08, S09, W07, W10, W11, F03; реестр и receipt обновлены. Подключены S03 (snow_trampled), S08 (ice), S09 (snow_grass).",
+          "remaining": "подключить W07/W10/W11/S05 к реальным потребителям; F03 читается как панцирь — переделать перед подключением; 11 условных карточек ждут решения/потребителя; 3 частично; кадр станции после подключения",
+          "evidence": "game/assets/textures/painterly/procedural_bake_receipt_v1.json"
+        }
+      }
     },
     {
       "id": "ACT1-TEXTURE.03",

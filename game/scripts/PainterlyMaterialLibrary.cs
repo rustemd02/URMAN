@@ -770,11 +770,13 @@ public static class PainterlyMaterialLibrary
     private static readonly Dictionary<string, (string Path, Vector2 Scale)> WinterTextures = new(StringComparer.Ordinal)
     {
         ["snow_ground"] = ("res://assets/textures/painterly/urman_s01_v01_basecolor.png", new Vector2(.5f, .5f)),
-        ["snow_grass"] = ("res://assets/textures/painterly/snow_grass_peek_v1_albedo.png", new Vector2(1.0f, 1.0f)),
+        // S09/S03/S08: project-original procedural bakes (tools/blender/bake_procedural_textures.py,
+        // receipt procedural_bake_receipt_v1.json), scaled to their cards' metres per repeat.
+        ["snow_grass"] = ("res://assets/textures/painterly/snow_grass_v2_albedo.png", new Vector2(.5f, .5f)),
         ["snow_road"] = ("res://assets/textures/painterly/urman_s02_v02_basecolor.png", new Vector2(.5f, .5f)),
-        ["snow_trampled"] = ("res://assets/textures/painterly/snow_trampled_v1_albedo.png", new Vector2(1.6f, 1.6f)),
+        ["snow_trampled"] = ("res://assets/textures/painterly/snow_trampled_v2_albedo.png", new Vector2(1.0f, 1.0f)),
         ["snow_roof"] = ("res://assets/textures/painterly/snow_roof_v1_albedo.png", new Vector2(1.0f, 1.0f)),
-        ["ice"] = ("res://assets/textures/painterly/ice_patch_v1_albedo.png", new Vector2(1.4f, 1.4f)),
+        ["ice"] = ("res://assets/textures/painterly/ice_small_v1_albedo.png", new Vector2(1.0f, 1.0f)),
         ["bark_birch_winter"] = ("res://assets/textures/painterly/urman_f01_v03_basecolor.png", new Vector2(1f / .75f, 1f / 1.5f)),
         ["rowan_berries"] = ("res://assets/textures/painterly/rowan_berries_v1_albedo.png", new Vector2(1.0f, 1.0f)),
         ["wattle"] = ("res://assets/textures/painterly/wattle_weave_v1_albedo.png", new Vector2(0.9f, 0.9f)),
