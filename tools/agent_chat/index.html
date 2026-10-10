@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Чат агентов УРМАН</title>
+<title>Агенты УРМАН</title>
 <style>
 :root {
   --bg: #eef1f4; --panel: #ffffff; --panel-2: #f6f8fa; --line: #e1e6eb; --text: #17212b; --muted: #6b7a89;
@@ -113,10 +113,56 @@ dialog button.ghost { background: var(--panel-2); color: var(--text); }
   #back { display: inline-block; }
   .bubble { max-width: 88%; }
 }
+
+/* Единая групповая переписка */
+:root { --bg:#dbe7df; --accent:#3390ec; --mine:#e3ffc9; }
+#app { max-width:none; grid-template-columns:290px minmax(0,1fr); }
+.side-head { padding:22px 18px 16px; }
+.side-head h1 { font-size:19px; letter-spacing:-.5px; }
+#chats { flex:none; padding:8px; overflow:visible; }
+.chat { width:100%; border:0; text-align:left; border-radius:12px; padding:14px 10px; }
+.side-label { color:var(--muted); font-size:12px; font-weight:600; padding:24px 20px 8px; }
+#members { overflow:auto; flex:1; padding:0 8px; }
+.member { width:100%; display:flex; align-items:center; gap:12px; padding:12px; background:none; border:0; text-align:left; border-radius:10px; cursor:pointer; }
+.member:hover { background:var(--panel-2); }
+.member b { display:block; font-size:14px; font-weight:600; }
+.member small { display:block; color:var(--muted); font-size:12px; margin-top:3px; }
+.side-note { padding:18px 20px; color:var(--muted); font-size:12px; }
+main { background-image:radial-gradient(circle at 20% 30%,#fff2 1px,transparent 1px),radial-gradient(circle at 80% 70%,#fff3 2px,transparent 2px); background-size:36px 36px,80px 80px; }
+.top { min-height:72px; padding:12px 24px; gap:14px; }
+.top .title { font-size:17px; letter-spacing:-.3px; }
+.filter { border:0; border-radius:18px; background:var(--panel-2); color:var(--muted); padding:7px 12px; cursor:pointer; font-size:13px; }
+.filter.active { color:var(--accent); background:color-mix(in srgb,var(--accent) 12%,var(--panel)); }
+#pin { padding:9px 24px; }
+#scroll { padding:12px max(20px,calc((100% - 880px)/2)) 28px; }
+.bubble { max-width:min(670px,85%); padding:10px 14px 7px; border-radius:16px 16px 16px 5px; line-height:1.5; }
+.mine .bubble { border-radius:16px 16px 5px 16px; }
+.bubble .who { margin-bottom:4px; flex-wrap:wrap; gap:3px 8px; }
+.msg { margin-top:10px; }
+.msg.cont { margin-top:3px; }
+footer { padding:12px max(18px,calc((100% - 920px)/2)) calc(12px + env(safe-area-inset-bottom)); background:var(--panel); }
+.compose { align-items:center; }
+.compose select { max-width:180px; font-size:12px; border:0; background:none; }
+#text { border:0; border-radius:12px; background:var(--panel); min-height:42px; }
+#send { width:44px; height:44px; }
+button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+@media(prefers-color-scheme:dark) { :root { --bg:#0e1621; --mine:#2b5278; --accent:#58aaf6; } main { background-image:radial-gradient(circle,#fff03 1px,transparent 1px); } }
+@media(max-width:760px) {
+  #app { grid-template-columns:1fr; }
+  .top { padding:10px 12px; gap:8px; flex-wrap:wrap; }
+  .top .titles { min-width:120px; }
+  .filter { padding:6px 9px; font-size:12px; }
+  #scroll { padding:8px 10px 20px; }
+  .bubble { max-width:calc(100% - 42px); }
+  footer { padding:8px 10px calc(8px + env(safe-area-inset-bottom)); }
+  .compose select { max-width:95px; padding:8px 2px; }
+  #text { padding:9px 6px; font-size:14px; }
+}
+
 </style>
 </head>
 <body>
-<div id="app">
+<div id="app" class="in-chat">
   <aside>
     <div class="side-head">
       <h1>Агенты УРМАН</h1>
@@ -124,25 +170,30 @@ dialog button.ghost { background: var(--panel-2); color: var(--text); }
     </div>
     <input class="search" id="search" type="search" placeholder="Поиск по сообщениям" autocomplete="off">
     <div id="chats"></div>
+    <div class="side-label">Участники</div>
+    <div id="members"></div>
+    <div class="side-note">Одна переписка для всей команды.</div>
   </aside>
   <main>
     <div class="top">
       <button class="icon-btn" id="back" aria-label="Назад">←</button>
       <div class="avatar small" id="topAvatar"></div>
       <div class="titles"><div class="title" id="title"></div><div class="sub" id="sub"></div></div>
+      <button class="filter active" id="showAll">Сообщения</button>
+      <button class="filter" id="showTasks">Поручения</button>
     </div>
     <div id="pin"><div class="pin-line"><b>📌 Закреплено</b><span class="pin-text" id="pinText"></span></div><ul id="pinList"></ul></div>
     <div id="scroll" tabindex="0"></div>
     <button id="more">↓ Новые сообщения</button>
     <div id="suggest"></div>
-    <div id="readonlyNote" style="display:none;padding:10px 14px;background:var(--panel);border-top:1px solid var(--line);font-size:13px;color:var(--muted)">👀 Публичный просмотр: история читается из <a id="srcLink" target="_blank" rel="noopener noreferrer">AGENT_CHAT.md на GitHub</a> и обновляется сама раз в 30 секунд. Писать — агентам через <code>chat.py post</code> или коммитом в этот файл.</div>
+
     <footer>
       <div id="replying"><span id="replyText"></span><button class="icon-btn" id="replyCancel" aria-label="Отменить ответ">✕</button></div>
       <div id="error"></div>
       <div class="compose">
         <select id="to" aria-label="Кому"></select>
-        <textarea id="text" rows="1" placeholder="Сообщение… (@ — упомянуть)"></textarea>
-        <button id="send" aria-label="Отправить" disabled>➤</button>
+        <textarea id="text" rows="1" aria-label="Сообщение" placeholder="Написать сообщение…"></textarea>
+        <button id="send" aria-label="Отправить" title="Отправить" disabled>➤</button>
       </div>
     </footer>
   </main>
@@ -153,6 +204,7 @@ dialog button.ghost { background: var(--panel-2); color: var(--text); }
     <h2>Вход в чат</h2>
     <p>Имя подписывает ваши сообщения. Токен печатает сервер при запуске (ссылка с <code>#token=…</code>).</p>
     <label for="inName">Ваше имя</label><input id="inName" autocomplete="off" maxlength="40">
+    <label for="inWhere">Где работаете</label><input id="inWhere" autocomplete="off" maxlength="60" placeholder="Например, Mac Кадыра">
     <label for="inToken">Токен</label><input id="inToken" type="password" autocomplete="off">
     <div class="actions"><button type="button" class="ghost" id="dlgCancel">Отмена</button><button value="ok">Войти</button></div>
   </form>
@@ -167,11 +219,15 @@ const store = {
 };
 const STATIC_SRC = window.CHAT_STATIC_SOURCE || "";   // публичная версия: только чтение, файл берётся с GitHub
 const POLL_MS = STATIC_SRC ? 30000 : 2000;
-let token = "", me = STATIC_SRC ? "" : store.get("name"), conv = "all", messages = [], participants = [], online = new Set(), pinned = [];
+let where = store.get("where", "веб");
+let token = "", me = store.get("name"), conv = "all", messages = [], participants = [], online = new Set(), pinned = [];
 let lastId = -1, replyTo = null, query = "", unreadTitle = 0, firstLoad = true, failing = false, authFailed = false;
 
 // токен из ссылки (только для серверной версии): хранится в браузере, из адресной строки убирается
-const hashToken = new URLSearchParams(location.hash.slice(1)).get("token");
+const incoming = new URLSearchParams(location.hash.slice(1));
+const hashToken = incoming.get("token");
+const incomingDraft = incoming.get("draft");
+if (incomingDraft !== null) { store.set("draft", incomingDraft); history.replaceState(null, "", location.pathname + location.search); }
 token = hashToken || store.get("token");
 if (hashToken) { store.set("token", hashToken); history.replaceState(null, "", location.pathname + location.search); }
 
@@ -272,7 +328,7 @@ async function staticState(since) {
     participants: [...new Set(d.messages.map((m) => m.name))], online: [], now: moscowNow() };
 }
 async function api(path, body) {
-  if (STATIC_SRC) { if (path.startsWith("/api/state")) return staticState(Number(new URLSearchParams(path.split("?")[1]).get("since"))); return { ok: true }; }
+  if (STATIC_SRC) { if (path.startsWith("/api/state")) return staticState(Number(new URLSearchParams(path.split("?")[1]).get("since"))); throw new Error("Для отправки откройте подключённый чат"); }
   const res = await fetch(path + (path.includes("?") ? "&" : "?") + "token=" + encodeURIComponent(token), body ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) } : {});
   if (res.status === 401) { const e = new Error("401"); e.auth = true; throw e; }
   const data = await res.json();
@@ -288,9 +344,10 @@ async function poll() {
     const fresh = s.messages;
     if (fresh.length) {
       messages.push(...fresh); lastId = fresh[fresh.length - 1].id;
-      if (!firstLoad && document.hidden) { unreadTitle += fresh.filter((m) => m.name !== me).length; document.title = `(${unreadTitle}) Чат агентов УРМАН`; }
+      if (!firstLoad && document.hidden) { unreadTitle += fresh.filter((m) => m.name !== me).length; document.title = `(${unreadTitle}) Агенты УРМАН`; }
     }
-    renderAll(fresh.length > 0 && !firstLoad);
+    $("sub").dataset.now = s.now;
+    renderAll(firstLoad ? "force" : fresh.length > 0);
     firstLoad = false;
   } catch (e) {
     if (e.auth) { authFailed = true; store.set("token", ""); openLogin("Токен не подошёл — вставьте актуальный (ссылку с #token=… печатает сервер при запуске)."); return; }
@@ -301,50 +358,43 @@ async function heartbeat() { if (me && token && !authFailed) { try { await api("
 
 // ---------- интерфейс ----------
 const isTask = (m) => m.text.trimStart().startsWith("📋");
-function inConv(m) {
-  if (conv === "all") return true;
-  if (conv === "tasks") return isTask(m);
-  return m.name === conv || m.to.split(/[,\s]+/).includes(conv) || m.text.includes("@" + conv);
-}
+function inConv(m) { return conv !== "tasks" || isTask(m); }
 function matches(m) { return !query || (m.text + " " + m.name + " " + m.to).toLowerCase().includes(query); }
 const seenKey = (c) => "seen:" + c;
 const unread = (c) => messages.filter((m) => m.id > Number(store.get(seenKey(c), "-1")) && m.name !== me && (c === "all" || m.name === c || m.to.includes(c))).length;
 
 function renderChats() {
-  const list = $("chats"); list.replaceChildren();
-  const entries = [{ id: "all", title: "Общий чат" }, { id: "tasks", title: "Задачи (передачи)" }];
-  const names = [...new Set([...participants, me].filter(Boolean))].filter((n) => n !== me);
-  names.sort((a, b) => lastOf(b) - lastOf(a));
-  names.forEach((n) => entries.push({ id: n, title: n }));
-  for (const c of entries) {
-    const last = [...messages].reverse().find((m) => (c.id === "all" || (c.id === "tasks" ? isTask(m) : (m.name === c.id || m.to.includes(c.id)))) && matches(m));
-    const count = c.id === conv || c.id === "tasks" ? 0 : unread(c.id);
-    list.append(h("div", { class: "chat" + (c.id === conv ? " active" : ""), onclick: () => select(c.id), role: "button", tabindex: 0 },
-      avatar(c.id, "", c.id !== "all" && isOnline(c.id)),
-      h("div", { class: "body" },
-        h("div", { class: "row" }, h("span", { class: "name" }, c.title), h("span", { class: "time" }, last ? last.stamp.split(" ")[1] : "")),
-        h("div", { class: "preview" }, h("span", {}, last ? (c.id === "all" ? last.name + ": " : "") + oneLine(last.text) : "пока пусто"), count ? h("span", { class: "badge" }, count) : null))));
-  }
+  const last = messages.at(-1);
+  $("chats").replaceChildren(h("button", { class: "chat active", onclick: () => select("all") },
+    avatar("all"), h("div", { class: "body" },
+      h("div", { class: "row" }, h("span", { class: "name" }, "Общий чат"), h("span", { class: "time" }, last ? last.stamp.split(" ")[1] : "")),
+      h("div", { class: "preview" }, h("span", {}, last ? last.name + ": " + oneLine(last.text) : "Вся команда здесь")))));
+  $("members").replaceChildren(...participants.map((n) => {
+    const latest = [...messages].reverse().find((m) => m.name === n);
+    return h("button", { class: "member", title: "Упомянуть в общем чате", onclick: () => {
+      select("all"); box.value += (box.value && !/\s$/.test(box.value) ? " " : "") + "@" + n + " "; autosize(); box.focus();
+    } }, avatar(n, "small", isOnline(n)), h("div", {}, h("b", {}, n), h("small", {}, latest?.where || "участник")));
+  }));
 }
+
 const lastOf = (n) => { for (let i = messages.length - 1; i >= 0; i--) if (messages[i].name === n) return i; return -1; };
 const oneLine = (t) => t.replace(/\s+/g, " ").slice(0, 70);
 
 function renderTop() {
-  const title = conv === "all" ? "Общий чат" : conv === "tasks" ? "Задачи и передачи" : conv;
-  $("title").textContent = title;
-  const onl = [...online];
-  $("sub").textContent = failing ? "нет связи с сервером…" : conv === "tasks" ? `${messages.filter(isTask).length} задач — сообщения, начатые с 📋` : conv === "all"
-    ? `${messages.length} сообщ. · участники: ${participants.length || 0}${onl.length ? " · в сети: " + onl.join(", ") : ""}`
-    : isOnline(conv) ? "в сети" : (() => { const i = lastOf(conv); return i < 0 ? "ещё не писал(а)" : "писал(а) " + messages[i].stamp; })();
-  const a = avatar(conv, "small", conv !== "all" && conv !== "tasks" && isOnline(conv)); a.id = "topAvatar"; $("topAvatar").replaceWith(a);
+  $("title").textContent = "Агенты УРМАН";
+  $("sub").textContent = failing ? "Не удалось обновить сообщения" : `${participants.length} участников · общий чат` + (online.size ? ` · ${online.size} в сети` : "");
+  $("showAll").classList.toggle("active", conv === "all");
+  $("showTasks").classList.toggle("active", conv === "tasks");
+  const a = avatar("all", "small"); a.id = "topAvatar"; $("topAvatar").replaceWith(a);
 }
 
 function renderPins() {
   const box = $("pin");
-  if (!pinned.length) { box.style.display = "none"; return; }
+  const visible = pinned.filter((p) => !/Публичная ссылка на чат/.test(p));
+  if (!visible.length) { box.style.display = "none"; return; }
   box.style.display = "block";
-  $("pinText").textContent = pinned[0].replace(/\*\*|`/g, "");
-  const ul = $("pinList"); ul.replaceChildren(...pinned.map((p) => h("li", {}, renderText(p))));
+  $("pinText").textContent = visible[0].replace(/\*\*|`/g, "");
+  const ul = $("pinList"); ul.replaceChildren(...visible.map((p) => h("li", {}, renderText(p))));
 }
 
 function renderMessages(stick) {
@@ -385,7 +435,7 @@ function renderTo() {
   const sel = $("to"), keep = sel.value;
   const options = ["всем", ...participants.filter((n) => n !== me)];
   sel.replaceChildren(...options.map((o) => h("option", { value: o }, o === "всем" ? "Кому: всем" : "Кому: " + o)));
-  sel.value = conv !== "all" && conv !== "tasks" && options.includes(conv) ? conv : (options.includes(keep) ? keep : "всем");
+  sel.value = options.includes(keep || incoming.get("to")) ? (keep || incoming.get("to")) : "всем";
 }
 function renderAll(stick) {
   renderChats(); renderTop(); renderPins(); renderMessages(stick);
@@ -404,18 +454,26 @@ function clearReply() { replyTo = null; $("replying").style.display = "none"; }
 
 // ---------- отправка ----------
 const box = $("text");
+box.value = store.get("draft");
+function connectChat() {
+  store.set("draft", box.value);
+  const params = new URLSearchParams({ draft: box.value, to: $("to").value, reply: replyTo || "" });
+  location.href = "http://127.0.0.1:8765/#" + params;
+}
 function autosize() { box.style.height = "auto"; box.style.height = Math.min(box.scrollHeight, 160) + "px"; $("send").disabled = !box.value.trim(); }
 async function send() {
-  const text = box.value.trim(); if (!text || !me) return;
+  const text = box.value.trim(); if (!text) return;
+  if (STATIC_SRC) { connectChat(); return; }
+  if (!me || !token || authFailed) { openLogin(); return; }
   $("send").disabled = true; $("error").style.display = "none";
   try {
-    const m = await api("/api/send", { name: me, where: "веб", to: $("to").value, text, reply: replyTo });
-    box.value = ""; clearReply(); autosize();
-    if (m.id > lastId) { messages.push(m); lastId = m.id; }
+    await api("/api/send", { name: me, where, to: $("to").value, text, reply: replyTo });
+    box.value = ""; store.set("draft", ""); clearReply(); autosize();
+    await poll();
     renderAll("force");
   } catch (e) { $("error").textContent = "Не отправлено: " + e.message; $("error").style.display = "block"; $("send").disabled = false; }
 }
-box.addEventListener("input", () => { autosize(); suggest(); });
+box.addEventListener("input", () => { store.set("draft", box.value); autosize(); suggest(); });
 box.addEventListener("keydown", (e) => {
   const open = $("suggest").style.display === "block";
   if (open && (e.key === "ArrowDown" || e.key === "ArrowUp")) { e.preventDefault(); moveSel(e.key === "ArrowDown" ? 1 : -1); return; }
@@ -446,27 +504,34 @@ $("more").addEventListener("click", () => { $("scroll").scrollTop = $("scroll").
 $("scroll").addEventListener("scroll", () => { const b = $("scroll"); if (b.scrollHeight - b.scrollTop - b.clientHeight < 60) $("more").style.display = "none"; });
 $("pin").addEventListener("click", () => $("pin").classList.toggle("open"));
 $("back").addEventListener("click", () => $("app").classList.remove("in-chat"));
-document.addEventListener("visibilitychange", () => { if (!document.hidden) { unreadTitle = 0; document.title = "Чат агентов УРМАН"; renderAll(); } });
+document.addEventListener("visibilitychange", () => { if (!document.hidden) { unreadTitle = 0; document.title = "Агенты УРМАН"; renderAll(); } });
 
 const dlg = $("dlg");
 function openLogin(note) {
-  $("inName").value = me; $("inToken").value = ""; if (note) dlg.querySelector("p").textContent = note;
+  $("inName").value = me; $("inWhere").value = where; $("inToken").value = ""; if (note) dlg.querySelector("p").textContent = note;
   if (!dlg.open) dlg.showModal();
 }
-$("settings").addEventListener("click", () => openLogin());
+$("settings").addEventListener("click", () => STATIC_SRC ? connectChat() : openLogin());
 $("dlgCancel").addEventListener("click", () => dlg.close());
 $("dlgForm").addEventListener("submit", () => {
   const n = $("inName").value.trim(), t = $("inToken").value.trim();
   if (n) { me = n; store.set("name", n); }
+  where = $("inWhere").value.trim() || "веб"; store.set("where", where);
   if (t) { token = t; store.set("token", t); }
   authFailed = false; lastId = -1; messages = []; firstLoad = true; poll();
 });
 
+$("showAll").addEventListener("click", () => select("all"));
+$("showTasks").addEventListener("click", () => select("tasks"));
 if (STATIC_SRC) {
-  document.body.classList.add("readonly"); $("settings").style.display = "none";
-  $("readonlyNote").style.display = "block"; document.querySelector("footer").style.display = "none";
-  $("srcLink").href = STATIC_SRC.replace("raw.githubusercontent.com", "github.com").replace(/\/main\//, "/blob/main/");
+  $("send").title = "Продолжить отправку в подключённом чате";
+  $("send").setAttribute("aria-label", "Продолжить отправку в подключённом чате");
+  $("text").placeholder = "Написать сообщение · отправка через подключённый чат";
+  $("settings").title = "Открыть подключённый чат";
 } else if (!me || !token) openLogin();
+autosize();
+if (!STATIC_SRC && incoming.get("reply")) { replyTo = incoming.get("reply"); $("replyText").textContent = "Ответ: " + replyTo; $("replying").style.display = "flex"; }
+
 poll(); setInterval(poll, POLL_MS); heartbeat(); setInterval(heartbeat, 15000);
 setInterval(async () => { if (authFailed) return; try { const s = await api("/api/state?since=999999999"); $("sub").dataset.now = s.now; } catch { /* ничего */ } }, 60000);
 api("/api/state?since=999999999").then((s) => { $("sub").dataset.now = s.now; }).catch(() => {});
