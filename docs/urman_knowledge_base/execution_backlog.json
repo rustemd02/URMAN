@@ -23878,6 +23878,13 @@
                 "source": "game/studio/StudioAudioPanel.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-audio-panel-review-fixes/ (build.log, receipt.json)",
                 "verification": "Urman.Studio.Core 0 warnings/0 errors and game/Urman.Game.csproj 0 warnings/0 errors with the corrected panel; probe 175/175. The preview loads its own copy (CacheMode.Ignore plus Duplicate) and changes the loop flag only there, so AmbientAudioDirector's cached stream is untouched; targets are keyed emitter:<id>/stem:<id>; playback stops before every new audition, refusal and error; WAV, Ogg and MP3 all lose looping on the copy; AuditionBlocked refuses a missing file, a non-finite level or an emitter whose registered fields fail validation. The panel was still not opened in a live Studio and no sound was heard, so this is source-verified only"
               }
+,
+              {
+                "stage": "2026-10-10 self-review correction: malformed input must not become valid (AI-18 and AI-36 readers)",
+                "result": "correction by deepseek v4.1 flash after Codex's directive: a malformed catalogue entry, registry record, placement, atmosphere profile or audio event is reported instead of silently disappearing from the checks",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AssetUsageIndex.cs, AudioSourceRegistry.cs, AtmosphereFieldRegistry.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-malformed-input/ (check.log, probe/, receipt.json); commit 03293966",
+                "verification": "probe PASS 256/256 with new checks for a malformed catalogue/registry entry and a wrongly typed materials field; real data unchanged and clean (177 catalogue entries, 173 registry records, 25 shared material names, 0 problems, no new false positives in the atmosphere and audio registries). Urman.Studio.Core and game/Urman.Game.csproj 0 warnings/0 errors. The same read in WorldSurfaceCommands and AuthoringDiagnostics is named as remaining in the receipt; no Studio window and no game run, so the interface is NOT_RUN"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
@@ -24580,6 +24587,13 @@
                 "result": "partial implementation by deepseek v4.1 flash: an asset usage index names what a material or model edit would touch, using the real catalogue, the asset registry and the world placements, and the world properties panel shows it; a prose materials field and the missing material owners are surfaced instead of being assumed",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/AssetUsageIndex.cs; owner patch evidence/STUDIO/b20-deepseek-ai-36/2026-10-10-asset-usage/ai36-asset-panel.patch (game/studio/StudioWorldSection.cs); evidence .../build.log, check.log and receipt.json",
                 "verification": "probe PASS 196/196. Real facts asserted: 177 catalogue entries over 11 source scenes, 173 registry records with 154 outside the catalogue, the foliage kit serves 73 entries and 8 placements, 25 material names belong to more than one record (WeatheredWood 13, DampEarth 9, one prose field 15), and 118 records declare no material owner. Validate() reports a placement pointing at a missing catalogue entry and a catalogue source with no registry record, proven on a synthetic root; unknown catalogue ids and material names are clear errors. Urman.Studio.Core and game/Urman.Game.csproj build with 0 warnings/0 errors and the panel patch passes git apply --check on a pristine origin/main 5277e57c worktree. The panel was not opened in a live Studio and no material was changed, so the runtime and artistic verification is NOT_RUN; the local-versus-shared material edit itself depends on AI-11/AI-14 and stays open"
+              }
+,
+              {
+                "stage": "2026-10-10 self-review correction: malformed input must not become valid (AI-18 and AI-36 readers)",
+                "result": "correction by deepseek v4.1 flash after Codex's directive: a malformed catalogue entry, registry record, placement, atmosphere profile or audio event is reported instead of silently disappearing from the checks",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AssetUsageIndex.cs, AudioSourceRegistry.cs, AtmosphereFieldRegistry.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-malformed-input/ (check.log, probe/, receipt.json); commit 03293966",
+                "verification": "probe PASS 256/256 with new checks for a malformed catalogue/registry entry and a wrongly typed materials field; real data unchanged and clean (177 catalogue entries, 173 registry records, 25 shared material names, 0 problems, no new false positives in the atmosphere and audio registries). Urman.Studio.Core and game/Urman.Game.csproj 0 warnings/0 errors. The same read in WorldSurfaceCommands and AuthoringDiagnostics is named as remaining in the receipt; no Studio window and no game run, so the interface is NOT_RUN"
               }
 
             ],
