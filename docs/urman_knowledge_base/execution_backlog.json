@@ -23290,6 +23290,11 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-10 account transition trust gate source slice",
+                "result": "f4a76142: account/updated имеет exact envelope/params, допускает только chatgpt; null/unknown/API/PAT/external auth modes fail closed. Сохраняет ChatGPT routed-workspace startup; planType только проверяется null/string и отбрасывается.",
+                "verification": "Luna FAST implementation + independent Luna MCP and Sol review; affected Game compile0/0, source diff-check PASS. Actual model request after this gate still pending; общий Claude/no-hooks контракт не закрыт."
               }
             ],
             "stage_tasks": [
@@ -23511,6 +23516,24 @@
                 "source": "Storage/StudioFileTransaction.cs; Editing/EditSession.cs; game/studio/StudioRoot.cs",
                 "verification": "Core/game compilation0/0; existing temporary assertion probe PASS for restart/accepted recovery/failure/CAS/retirement; independent Sol6.1medium review; no new repo tests",
                 "limits": "Only one accepted exact four-file HeroHouse command restored; multiple committed commands refuse ambiguous order. Retire/compensation preserves authored files and ordinary failure handling; crash between independent retirement journals can lose pilot history, full mixed persistent stack remains AI-11 open."
+              },
+              {
+                "stage": "2026-10-10 actual Codex seven-primary-window Apply and complete Undo accepted",
+                "result": "Реальный Codex request 5b6d8c5d2d254b47851e5359ee664ae4: 1.06 → 1.30 м, неизменная высота 1.40 м у семи основных окон. Windows after и Undo PASS; исходный вид лично подтверждён по наружному и внутреннему кадрам.",
+                "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/transaction-receipt.json; codex-current-runtime-attempt10/{request,proposal,runtime-binding,generator-manifest}.json; before/frames; after/{receipt.json,frames}; undo/{receipt.json,frames}",
+                "verification": "Journal 556ccfcf99994127acc014c7ac4a9f8c committed/before; acceptedAfterApply=true, acceptedAfterUndo=true. Рецепт, baseline GLB и baseline Blend восстановлены побайтно; три request-scoped выхода отсутствуют (проверены file/directory/link). Windows jobs 7f0d176102074613826d59adca27d7ea и 700119400c504f27aeea027927e6cab7 PASS, exit0, userdataRestored=true; камеры/FOV/LOW FSR0.70 совпадают. PNG не byte-identical и художественная HIGH-приёмка не заявляется.",
+                "remaining": "Native Studio UI/importer и restart/Claude ещё NOT_RUN. Найден восьмой проём сеней 0.80×1.06 м вне исходного параметра: полный all-windows scope ещё открыт; source fix подготовлен, новая генерация и игровой просмотр обязательны."
+              },
+              {
+                "stage": "2026-10-10 all-eight-window source correction",
+                "result": "f4a76142 включает SeniOuter в component-only house recipe ширину; legacy full-kit сохраняет .80×1.06. UI подпись сообщает все8окон, включая сени. Высоты, центры, двери не изменены.",
+                "verification": "Sol independent source review, affected Game compile0/0, Python syntax PASS. Новая генерация восьми и native Studio/game/Undo ещё NOT_RUN; прежнее runtime evidence относится только к семи основным окнам."
+              },
+              {
+                "stage": "2026-10-10 actual Codex all-eight-window Apply and complete Undo accepted",
+                "result": "All eight clear openings width1.30; primary height1.40/Seniheight1.06 and doors preserved; Windows matched three-view before/after/Undo PASS, root inspected; accepted Apply/Undo journal committed/before, exact original files restored and three variants absent.",
+                "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/eight-window-transaction-receipt.json; codex-eight-window-attempt2; eight-before; eight-after; eight-undo",
+                "remaining": "Native Studio UI path not proven by CLI harness; Claude/restart/Redo and full done_when remain open. Actual LOW/FSR.7 is functional proof, not HIGH art acceptance."
               }
             ],
             "stage_tasks": [
@@ -23554,7 +23577,27 @@
             "verification": "Один защищённый сквозной сценарий снаружи/изнутри; станция только по текущему gate.",
             "risks_recovery_external_gates": "Авторская художественная оценка не подменяется успешным build; недоступный аккаунт — незакрытый provider gate.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 actual Codex seven-primary-window Apply and complete Undo accepted",
+                "result": "Реальный Codex request 5b6d8c5d2d254b47851e5359ee664ae4: 1.06 → 1.30 м, неизменная высота 1.40 м у семи основных окон. Windows after и Undo PASS; исходный вид лично подтверждён по наружному и внутреннему кадрам.",
+                "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/transaction-receipt.json; codex-current-runtime-attempt10/{request,proposal,runtime-binding,generator-manifest}.json; before/frames; after/{receipt.json,frames}; undo/{receipt.json,frames}",
+                "verification": "Journal 556ccfcf99994127acc014c7ac4a9f8c committed/before; acceptedAfterApply=true, acceptedAfterUndo=true. Рецепт, baseline GLB и baseline Blend восстановлены побайтно; три request-scoped выхода отсутствуют (проверены file/directory/link). Windows jobs 7f0d176102074613826d59adca27d7ea и 700119400c504f27aeea027927e6cab7 PASS, exit0, userdataRestored=true; камеры/FOV/LOW FSR0.70 совпадают. PNG не byte-identical и художественная HIGH-приёмка не заявляется.",
+                "remaining": "Native Studio UI/importer и restart/Claude ещё NOT_RUN. Найден восьмой проём сеней 0.80×1.06 м вне исходного параметра: полный all-windows scope ещё открыт; source fix подготовлен, новая генерация и игровой просмотр обязательны."
+              },
+              {
+                "stage": "2026-10-10 protected native Studio launch; computer-use host blocked",
+                "result": "eng/run-studio.sh запущен штатно после source correction. Owned guard44788 и Studio child44879 подтверждены; CUA getApp(path), getApp(bundle), screenshot завершились server -10005 timeoutReached. Native model/Apply/Undo через UI NOT_RUN; не считать GUI рабочим по этой попытке.",
+                "verification": "Owned Studio child завершён SIGTERM, guarded parent exit143; userdata guard: original files and permissions restored and verified. Authored house recipe остаётся исходным SHA2bcbc3ad…4b4/currentWidth1.06/modelPathnull; source changes только разрешённого нового этапа.",
+                "next": "Продолжить actual Codex + production transaction + Windows для восьми окон, native UI host blocker отдельно остаётся открыт."
+              },
+              {
+                "stage": "2026-10-10 actual Codex all-eight-window Apply and complete Undo accepted",
+                "result": "All eight clear openings width1.30; primary height1.40/Seniheight1.06 and doors preserved; Windows matched three-view before/after/Undo PASS, root inspected; accepted Apply/Undo journal committed/before, exact original files restored and three variants absent.",
+                "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/eight-window-transaction-receipt.json; codex-eight-window-attempt2; eight-before; eight-after; eight-undo",
+                "remaining": "Native Studio UI path not proven by CLI harness; Claude/restart/Redo and full done_when remain open. Actual LOW/FSR.7 is functional proof, not HIGH art acceptance."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P1"
             ],
@@ -23605,6 +23648,17 @@
                 "result": "prepared by deepseek v4.1 flash: a verified patch that wires the accepted campaign/world catalog and selector into the shared Studio files, so the author's choice reaches the world preview and the run path; DeepSeek did not edit shared files",
                 "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-interface-patch/ (ai13-campaign-world-wiring.patch, build.log, receipt.json); touches src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs, game/studio/StudioWorldSection.cs, game/studio/StudioRoot.cs; requires 329a0039 first",
                 "verification": "git apply --check on a pristine worktree of origin/main d07241f6: OK; Urman.Studio.Core 0 warnings/0 errors and game/Urman.Game.csproj 0 warnings/0 errors with the patch and the selector file applied (58 insertions, 9 deletions in 3 files). No behaviour change while no campaign is selected: the context stays null and the preview keeps act1_demo with village_day/arrival. The embedded preview deliberately still loads only the Act I scene, because it is the only scene whose authored world the game loads; a presentation-only world is named in the hint instead of being shown as editable. Runtime and UI acceptance are NOT_RUN, no station slot was taken, and the three hardcoded urman.chapter1 literals in the quest/dialogue/self-check sections are left to AI-19/AI-20"
+              },
+              {
+                "stage": "2026-10-10 Codex integration review: source accepted, partial",
+                "result": "После двух раундов ревью приняты и перенесены 9b8b8b4a, 6cf1b9d0, b983c6cb как a9bf10d8, 6170dbbe, ad423f16. Каталог остаётся read-only проекцией runtime-источников, состояние — только authoring UI. Назначение DeepSeek сохранено.",
+                "verification": "Urman.Studio.Core affected compile: 0 warnings, 0 errors; git diff --check PASS. Независимое Luna FAST ревью исправлений и ревью основного агента без оставшихся блокеров данного source slice.",
+                "remaining": "Полный done_when открыт: второй независимо authorable runtime world отсутствует; две стартовые сцены не считаются двумя авторскими мирами. Подключение Studio UI и проверка изолированных правок в игре ещё не выполнены."
+              },
+              {
+                "stage": "2026-10-10 AI-13 consumer compile correction",
+                "result": "9fe0cbc4 перенесён как 6d3c16f7: AuthoredWorldPlotFile вместо конфликтующего с runtime AuthoredWorldPlot.",
+                "verification": "Affected game/Urman.Game.csproj compile: 0 warnings, 0 errors; git diff --check PASS. UI wiring и второй authorable world остаются открыты."
               }
             ],
             "stage_tasks": [
@@ -25202,7 +25256,7 @@
           }
         ],
         "unit_dependency_rule": "AI-xx — единственные канонические шаги STUDIO.execution.steps, без отдельного backlog/статусного списка. Готовность AI-шага определять по depends_on_units и фактическому evidence завершённых шагов в этой карточке; исторический completed X1–X4 не выполняет AI-зависимость. STUDIO.depends_on пуст; P0–P6 — связанные приёмочные стадии, их старый граф сохраняется. Выполнение AI-шага не выдавать за закрытие стадии. Нельзя требовать полного завершения P6 для раннего транспорта/Undo или полного P0 для позднего AI-31; назначение writer и реализация требуют отдельного живого поручения и сохранения владельцев.",
-        "next_unit": "Живое поручение 10.10: Codex-пилот изменения семи реальных окон выбранного HeroHouse, game verification и полная asset/source Undo, затем остальные dependency-ready единицы B20. Общий STUDIO остаётся открыт до всех done_when.",
+        "next_unit": "Native Codex Studio panel walkthrough; CUA fresh session before one guarded attempt. Then bounded AI03 part picking via existing authoredSourceMesh, no new registry. Full AI12/Claude/restart/Redo remains open.",
         "b20_checkpoint": {
           "authorized": "user 2026-10-10: implement Codex-assigned B20; regular commit/push; create_goal; five Luna FAST/Max plus Sol6.1medium (explicit override). DeepSeek split unchanged.",
           "scope": "First Codex → HeroHouse uniform seven-window resize → exterior/interior game check → full Undo",
@@ -25484,6 +25538,175 @@
             "project_files_changed": false,
             "game_after_undo": "NOT_RUN",
             "next": "Official notification producer/schema review; preserve strict no-tools boundary. No blanket method allowlist."
+          },
+          "production_harness_correction": {
+            "result": "STALE_RUNTIME_DLL_ATTEMPTS_2_3",
+            "historical_evidence_preserved": true,
+            "stale_core_sha256": "3759510c8dd12ffe1909dd081ad1c0b9cd43e89fcd1b1c9ade749bf88372f417",
+            "current_core_sha256": "875e473b1dd6a6f857797e01a13d79f4683f8ff1d21dec29499a18584024c589",
+            "cause": "Temporary diagnostic retained stale DLL despite successful rebuild. Explicit source-to-runtime DLL copy with SHA equality now required before model calls.",
+            "scope": "Prior attempts do not verify current production provider; private preflight proof remains separately valid. No proposal/apply/gameafter/undo yet."
+          },
+          "current_runtime_attempt4": {
+            "result": "failed_closed_warning",
+            "request_id": "ce23bdaec7a94f8daa01c5ab9bb70dbe",
+            "base_commit": "c6618924",
+            "core_sha256": "875e473b1dd6a6f857797e01a13d79f4683f8ff1d21dec29499a18584024c589",
+            "runtime_hash_verified": true,
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-current-runtime-attempt4/provider-diagnostic.json",
+            "next": "Bound warning tracker extended to same thread during turn; pinned EventMsg::Warning producer only carries data; independent Sol review and narrow Core compile0/0. Tools/MCP lifecycle/serverrequests still reject. New request needed after commit."
+          },
+          "deepseek_review_second": {
+            "commit": "6cf1b9d050ba40db1875e18d03355973ced82b2c",
+            "result": "CHANGES_REQUESTED",
+            "original_six_source_findings_addressed": true,
+            "remaining": [
+              "Instanced node headers without type are skipped and properties merge into previous node",
+              "Capability consumed scripts omitted from ContentFingerprint dependencies",
+              "ChangedOnDisk must recheck link guard; loaded flag must follow successful load"
+            ],
+            "reviewers": [
+              "Codex source/runtime",
+              "LunaFAST state/dependencies"
+            ],
+            "integration": "No implementation cherry-pick yet; preserve original SHA pair; awaiting additive correction."
+          },
+          "current_runtime_attempt5": {
+            "result": "failed_closed_quota_notification",
+            "request_id": "b1934bf327144fd48c0917d0adf5cdc9",
+            "base_commit": "ab7282e0",
+            "core_runtime_sha256": "9db83a6f1fea471ea194444e4a180a55f8d061b3ca299024060316089915e4ac",
+            "turn_start_observed": true,
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-current-runtime-attempt5/provider-diagnostic.json",
+            "next": "Pinned account/rateLimits/updated token-count producer; strict turn-only envelope with bounded opaque discarded metadata. No billing/rate facts inferred. Core compile0/0. No model proposal/apply/gameafter/undo yet."
+          },
+          "current_runtime_attempt6": {
+            "result": "MODEL_PROPOSAL_RECEIVED_PARENT_REJECTED_WRONG_WIDTH",
+            "request_id": "7d84f9cf61bf4f758106e350c0c24e05",
+            "core_runtime_sha256": "ce5e6ac4d5936a1978b45e83ecb0ee547567832dc05e9f9c83702e2dbdfab511",
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-current-runtime-attempt6/provider-diagnostic.json",
+            "requested_width": 1.3,
+            "returned_width": 1.3113,
+            "project_files_changed": false,
+            "next": "Prompt demands exact specified decimal and summary consistency. No automatic correction; next fresh proposal requires parent review then exact4fileApply/Windowsafter/Undo."
+          },
+          "current_runtime_attempt7": {
+            "result": "MODEL_PROPOSAL_RECEIVED_PARENT_REJECTED_WRONG_WIDTH",
+            "request_id": "d392bd2ea6114af48ba8b1616342a87b",
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-current-runtime-attempt7/provider-diagnostic.json",
+            "requested_width": 1.3,
+            "returned_width": 1.34,
+            "project_files_changed": false,
+            "next": "After two numeric mismatches reevaluate wire numeric constraints: type:number only; keep shared decimal/range identity validation unchanged. Decoder hypothesis unproven. Next request must exactly match1.30 without normalization."
+          },
+          "house_actual_apply_pending": {
+            "request_id": "d017908c00704aa1b8bdc35ed88d0b38",
+            "base_commit": "fc67ec39",
+            "width": 1.3,
+            "model_evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-current-runtime-attempt8/proposal.json",
+            "stage": "/var/folders/j_/jbw_g7qj2g9gg4l_142f7pm00000gn/T/urman-house-d017908c00704aa1b8bdc35ed88d0b38",
+            "result": "FAILED_WINDOWS_STARTUP_ROLLED_BACK_BYTE_EXACT",
+            "temp_transaction_session": 18296,
+            "undo": "NOT_RUN_ACCEPTED_APPLY_NEVER_COMMITTED",
+            "native_studio_ui_importer_invoked": false,
+            "next": "Fix live component reference after takeover, narrow Game compile, fresh request on committed revision then repeat exact4fileApply/Windowsafter/Undo.",
+            "windows_after_job": "09c0a9e6f5ef4153bb3a17e76ea293cf",
+            "windows_after_snapshot": "dcd432d1bb96c03f7105c4dd57c80eb962161783aea5312d0fe06aaf4db3f00f"
+          },
+          "deepseek_review_third": {
+            "fix_commit": "b983c6cba2b422b8fdfd4c8a773b317f8a45e227",
+            "result": "SOURCE_ACCEPTED_INTEGRATED_WITH_CONSUMER_COLLISION_FIX",
+            "reviewers": [
+              "Codex node/runtime binding",
+              "LunaFAST state/fingerprint"
+            ],
+            "integration_order": [
+              "9b8b8b4a",
+              "6cf1b9d0",
+              "b983c6cb"
+            ],
+            "remaining": "AI13 full done_when открыт: нет второго независимо authorable runtime world; селектор329a0039 needs three fixes; общая UI проводка и runtime acceptance не выполнены.",
+            "main_commits": [
+              "a9bf10d8",
+              "6170dbbe",
+              "ad423f16",
+              "6d3c16f7"
+            ]
+          },
+          "house_failed_apply_rollback": {
+            "journal_id": "47b36731f9f94510a8a74069ad0fd5cd",
+            "accepted": false,
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/after-attempt1/rollback-file-restoration.json",
+            "fresh_windows_rollback_capture": "NOT_RUN",
+            "result": "Files restored exact; no accepted Apply/Undo claimed; pending harness ended with expected rejection exception."
+          },
+          "house_runtime_disposed_node_fix": {
+            "file": "game/scripts/Act1ConnectedWorld.cs",
+            "result": "VERIFIED_BY_ACCEPTED_SEVEN_AND_EIGHT_WINDOW_WINDOWS_AFTER_RUNS",
+            "reviewers": [
+              "Codex",
+              "LunaFAST implementation",
+              "Sol6.1medium independent review"
+            ],
+            "verification": "Affected Game compile0warnings0errors; diffcheck; source/staged GLB ancestor transforms identity except neutral board translation removed. No replacement metadata or runtime claim.",
+            "failed_transaction": "47b36731f9f94510a8a74069ad0fd5cd recovered/before/acceptedfalse",
+            "next": "No further fix/check needed on disposed node path without new evidence."
+          },
+          "house_seven_primary_runtime_accepted": {
+            "result": "ACCEPTED_PARTIAL_SEVEN_PRIMARY_WINDOWS_NOT_ALL_EIGHT",
+            "request_id": "5b6d8c5d2d254b47851e5359ee664ae4",
+            "journal_id": "556ccfcf99994127acc014c7ac4a9f8c",
+            "base_commit": "d07241f6",
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/transaction-receipt.json; codex-current-runtime-attempt10/{request,proposal,runtime-binding,generator-manifest}.json; before/frames; after/{receipt.json,frames}; undo/{receipt.json,frames}",
+            "after_job": "7f0d176102074613826d59adca27d7ea",
+            "undo_job": "700119400c504f27aeea027927e6cab7",
+            "native_studio_ui": "NOT_RUN",
+            "next": "Проверить источник/генерацию для восьмого окна сеней, свежий Codex request, native Studio Apply/Undo и игровой просмотр."
+          },
+          "house_eight_window_verification_question": "Изменяет ли один recipe request ширину всех восьми окон, включая сени, сохраняя высоты/центры/двери, и восстанавливает ли native Undo источники/ассеты/вид? Успех: реальные восемь generated modules, игровой кадр сеней плюс matched main before/after/Undo; исходные хеши восстановлены и новые файлы отсутствуют.",
+          "house_eight_window_actual_pending": {
+            "request_id": "86183a4f21744e528cdbcb9b5a78cd3b",
+            "base_commit": "5277e57c",
+            "result": "ACCEPTED_ACTUAL_CODEX_EIGHT_WINDOWS_APPLY_AND_COMPLETE_UNDO",
+            "before_job": "79bb98ea853943efb990a4639e641762",
+            "before_snapshot": "b4cd97efd738f7af0a2bef62341c8fa909538d64b79e622b2da6be7b58a6e63f",
+            "after_job": "f35096a3922743d881d8c3ffedbe02f6",
+            "after_snapshot": "e5d240f335cd090cbeeeff2ca8af9de1130de1bbc4b49b72af61711cd46d288f",
+            "native_studio_ui": false,
+            "question": "Восемь проёмов, включая сени, получают ширину1.30 с сохранением высот/дверей? Успех: matched three Windows before/after/Undo + exact original hashes/new variants absent.",
+            "next": "Native Studio Codex walkthrough after guarded relaunch and CUA reset; Claude/restart/Redo and full AI12 gates remain open.",
+            "after_review": "Root personally reviewed three frames; exact matched camera/graphics metadata; eightwindow width1.30 visible and actualGLB checked; afterPASSuserdataRestoredtrue",
+            "undo_job": "96650c6c1d574c8faa9552895d9c5eb6",
+            "undo_snapshot": "7ac98ea685043549d522d991cc448e472508342744ea46ca7567eb878719b500",
+            "journal_id": "8b0bc0d3449b4959822fae269d8bb25d",
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/eight-window-transaction-receipt.json; codex-eight-window-attempt2/{request,proposal,runtime-binding,generator-manifest}.json; eight-before/eight-after/eight-undo/{receipt.json,frames}",
+            "undo_review": "Root personally reviewed all three Undo frames; original narrower windows restored, exact camera/graphics metadata; Windows PASS exit0 userdataRestoredtrue"
+          },
+          "house_eight_window_capture_guard": {
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/eight-before-attempt1/{request,receipt}.json",
+            "cause": "B20_windows_seni not registered; job mixed graphics comparison rows with unbound point",
+            "verification": "JSON syntax and source diff-check PASS; new registered row uses house_old_pc/high matching existing two, UI summary corrected eight. Live capture pending.",
+            "authored_files_changed": false
+          },
+          "deepseek_pending_stage_reviews": {
+            "result": "CHANGES_REQUESTED_SOURCE_ONLY_NOT_INTEGRATED",
+            "reviewers": [
+              "Codex",
+              "five LunaFAST bounded reviews",
+              "Sol6.1medium trust and surface validation"
+            ],
+            "chat": "docs/tasktracker/AGENT_CHAT.md messages130–143",
+            "commits": {
+              "329a0039+3ff0dbc5": "Original three findings fixed; rejected dropdown/context mismatch remains; interface initial Changed lost before Register.",
+              "e05eb32c": "P1 PresentationOnly leaves ACT1 write/AI enabled; async pack/scene context split; unsupported fullgame selected-start flags.",
+              "81227f22": "Runtime audibility/strict typed fields/path containment/finite levels and wait range corrections required.",
+              "39bffa3f": "P1 mutates cached runtime WAV loop; stable source identity/stop on failed listen/format loops and invalid source gate.",
+              "91528342": "Russian setter fields still display default; missing ru/default preservation and missingtt warnings.",
+              "8f56e88f": "Empty-string/dispatch semantics false; malformed size inspector guards; regex not runtime proof.",
+              "7a8ee1c7": "Silent malformed input defaults/filtering, missing finite float limits, inspector bypass of command validation.",
+              "20be5ed7": "Hints omit TextId/PointsTo; malformed required chat lines/conditions missed; Markdown not real preview; hint title editor violates schema."
+            },
+            "remaining": "Only previously accepted AI13 source commits are integrated; peer owns correction work. No full unit completion or UI/runtime acceptance inferred."
           }
         }
       },

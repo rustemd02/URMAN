@@ -1,0 +1,34 @@
+{
+  "component": "HeroHouse_TimberPlaster",
+  "entityId": "urman.world:act1/kit/house-old-pc-babai-approach",
+  "geometryFingerprint": "c0ebd20a26dd74ab47fa71c5e5f522f56b58c75a2e144745e7312bbf1635884f",
+  "modelPath": "res://assets/models/studio/hero-house-5b6d8c5d2d254b47851e5359ee664ae4.glb",
+  "outputs": {
+    "blend": {
+      "path": "hero_house.blend",
+      "sha256": "932efdbc5a12cd1b407a039f20daf23d865e632f7686b78b8427a836164ee375"
+    },
+    "glb": {
+      "path": "hero_house.glb",
+      "sha256": "af5037cd7eae123317a975342efbf908800e1ef3db295d2d938db441a7b4a8d0"
+    }
+  },
+  "previewOriginRemoved": true,
+  "schema": "hero-house-build-manifest/v1",
+  "source": {
+    "baselineBlend": {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.blend",
+      "sha256": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3"
+    },
+    "generator": {
+      "path": "assets/source/blender/act1/urman_village_exterior_kit.py",
+      "sha256": "c75b14e211367927a99db6f2062503ba480a379051fbf6945b5ab9416d169a59"
+    },
+    "recipe": {
+      "path": "/private/var/folders/j_/jbw_g7qj2g9gg4l_142f7pm00000gn/T/urman-house-5b6d8c5d2d254b47851e5359ee664ae4/recipe.json",
+      "sha256": "0e02efa5bffd7374131fb9dd5b98355391fa0fa71e3038c59d063377c05be5bc"
+    }
+  },
+  "windowClearHeight": 1.4,
+  "windowClearWidth": 1.3
+}

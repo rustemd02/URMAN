@@ -5807,8 +5807,12 @@ public partial class Act1ConnectedWorld : Node3D
         placement.SetMeta("assetSource", assetSource);
         placement.SetMeta("logicalAnchor", logicalAnchor);
         parent.AddChild(placement);
+        var componentName = component.Name.ToString();
         placement.AddChild(component);
-        KitPlacementTakeover.Apply(placement, component.Name.ToString(), assetSource, logicalAnchor);
+        KitPlacementTakeover.Apply(placement, componentName, assetSource, logicalAnchor);
+        component = placement.GetNodeOrNull<Node3D>(componentName)
+            ?? throw new InvalidOperationException(
+                $"Act I kit takeover for '{logicalAnchor}' removed required component '{componentName}' without replacing it.");
         if (assetSource == WetVillageRoadKitScenePath
             && (component.Name.ToString().StartsWith("RoadCrown_", StringComparison.Ordinal)
                 || component.Name.ToString().StartsWith("RoadRuts_", StringComparison.Ordinal)

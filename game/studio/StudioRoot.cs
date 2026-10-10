@@ -234,11 +234,59 @@ public partial class StudioRoot : Control
 
     public override void _Input(InputEvent @event)
     {
+        if (_results is not null && _results.Visible)
+        {
+            if (@event is InputEventMouseButton { Pressed: true } click
+                && !new Rect2((Vector2)_results.Position, (Vector2)_results.Size).HasPoint(click.Position))
+            {
+                _results.Hide();
+            }
+
+            if (_search is not null && _resultList is not null
+                && (_search.HasFocus() || _resultList.HasFocus())
+                && @event is InputEventKey { Pressed: true } searchKey)
+            {
+                var handled = true;
+                switch (searchKey.Keycode)
+                {
+                    case Key.Up:
+                        MoveSearchSelection(-1);
+                        break;
+                    case Key.Down:
+                        MoveSearchSelection(1);
+                        break;
+                    case Key.Enter:
+                    case Key.KpEnter:
+                        PickSelectedResult();
+                        break;
+                    case Key.Escape:
+                        _results.Hide();
+                        break;
+                    default:
+                        handled = false;
+                        break;
+                }
+
+                if (handled)
+                {
+                    GetViewport().SetInputAsHandled();
+                }
+            }
+        }
+
         // Cmd+S saves even while typing: it never alters the text itself.
-        if (@event is InputEventKey { Pressed: true, Keycode: Key.S } key && (key.MetaPressed || key.CtrlPressed) && Workspace is not null)
+        if (@event is InputEventKey { Pressed: true, Keycode: Key.S } saveKey && (saveKey.MetaPressed || saveKey.CtrlPressed) && Workspace is not null)
         {
             SaveAll(autosave: false);
             GetViewport().SetInputAsHandled();
+        }
+    }
+
+    public override void _Notification(int what)
+    {
+        if (what == (int)NotificationApplicationFocusOut && _results is not null)
+        {
+            _results.Hide();
         }
     }
 
@@ -650,7 +698,7 @@ public partial class StudioRoot : Control
         Button(top, "Сохранить", () => SaveAll(autosave: false)).TooltipText = "Сохранить все изменения (⌘S)";
         _search = new LineEdit { PlaceholderText = "Поиск: имя, ID, тип, текст реплики — или вставьте ID от разработчика", CustomMinimumSize = new(420, 0), SizeFlagsHorizontal = SizeFlags.ExpandFill };
         _search.TextChanged += OnSearch;
-        _search.TextSubmitted += _ => PickResult(0);
+        _search.TextSubmitted += _ => PickSelectedResult();
         top.AddChild(_search);
         _status = new Label { CustomMinimumSize = new(220, 0), HorizontalAlignment = HorizontalAlignment.Right };
         top.AddChild(_status);
@@ -701,7 +749,7 @@ public partial class StudioRoot : Control
         Tour = new StudioTour(this) { Visible = false };
         AddChild(Tour);
 
-        _results = new PopupPanel();
+        _results = new PopupPanel { PopupWindow = false };
         _resultList = new ItemList { CustomMinimumSize = new(560, 320) };
         _resultList.ItemActivated += index => PickResult((int)index);
         _resultList.ItemClicked += (index, _, _) => PickResult((int)index);
@@ -736,6 +784,11 @@ public partial class StudioRoot : Control
             _resultList.SetItemTooltip(_resultList.ItemCount - 1, hit.Id);
         }
 
+        if (hits.Count > 0)
+        {
+            _resultList.Select(0, true);
+        }
+
         if (hits.Count == 0 && text.Trim().Length > 0)
         {
             _resultList.AddItem(text.Contains(':')
@@ -754,6 +807,36 @@ public partial class StudioRoot : Control
         _results.Popup(new Rect2I((Vector2I)position, new Vector2I(560, 320)));
         _search.GrabFocus();
         _search.CaretColumn = _search.Text.Length;
+    }
+
+    private void MoveSearchSelection(int direction)
+    {
+        var count = _resultList.ItemCount;
+        if (count == 0)
+        {
+            return;
+        }
+
+        var selected = _resultList.GetSelectedItems();
+        var index = selected.Length > 0 ? selected[0] : direction > 0 ? -1 : 0;
+        for (var step = 0; step < count; step++)
+        {
+            index = (index + direction + count) % count;
+            if (_resultList.IsItemDisabled(index))
+            {
+                continue;
+            }
+
+            _resultList.Select(index, true);
+            _resultList.EnsureCurrentIsVisible();
+            return;
+        }
+    }
+
+    private void PickSelectedResult()
+    {
+        var selected = _resultList.GetSelectedItems();
+        PickResult(selected.Length > 0 ? selected[0] : 0);
     }
 
     private void PickResult(int index)

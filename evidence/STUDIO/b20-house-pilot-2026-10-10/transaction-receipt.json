@@ -1,0 +1,72 @@
+{
+  "schema": "urman.studio.b20-house-transaction-receipt/v1",
+  "request": {
+    "id": "5b6d8c5d2d254b47851e5359ee664ae4",
+    "snapshotHash": "7171c96d4b1aaa63fbd3d04fafb2213caf6d5da45287fe9cc34a89070aa8cd42",
+    "entityId": "urman.world:act1/kit/house-old-pc-babai-approach",
+    "currentWidth": 1.06
+  },
+  "proposal": {
+    "sha256": "5dae083089a26b655edad682348d4d7853122493b1a2ac859c7a932e394ce330",
+    "width": 1.3,
+    "summary": "\u0412\u0441\u0435 \u043E\u043A\u043D\u0430 \u0434\u043E\u043C\u0430 \u0441\u0434\u0435\u043B\u0430\u0442\u044C \u0448\u0438\u0440\u0438\u043D\u043E\u0439 1.3 \u043C, \u043D\u0435 \u043C\u0435\u043D\u044F\u044F \u0432\u044B\u0441\u043E\u0442\u0443."
+  },
+  "transaction": {
+    "id": "556ccfcf99994127acc014c7ac4a9f8c",
+    "owner": "urman.world:act1/kit/house-old-pc-babai-approach",
+    "status": "committed",
+    "acceptedAfterApply": true,
+    "acceptedAfterUndo": true,
+    "finalSide": "before",
+    "paths": [
+      "assets/source/blender/studio/hero-house-5b6d8c5d2d254b47851e5359ee664ae4.blend",
+      "game/assets/models/studio/hero-house-5b6d8c5d2d254b47851e5359ee664ae4.glb",
+      "game/assets/models/studio/hero-house-5b6d8c5d2d254b47851e5359ee664ae4.glb.manifest.json",
+      "game/content/studio/hero_house.recipe.json"
+    ]
+  },
+  "captures": {
+    "before": "evidence/STUDIO/b20-house-pilot-2026-10-10/before/receipt.json",
+    "applied": "evidence/STUDIO/b20-house-pilot-2026-10-10/after/receipt.json",
+    "undone": "evidence/STUDIO/b20-house-pilot-2026-10-10/undo/receipt.json"
+  },
+  "runtime": {
+    "studioCoreAssemblySha256": "719f8b5d6f7bf1afbaa233d00376d7fe23001b91a0a07143b41c1ae39f625e55"
+  },
+  "files": {
+    "before": {
+      "game/content/studio/hero_house.recipe.json": "2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4",
+      "game/assets/models/act1/urman_village_exterior_kit.glb": "8ea56c65c134e2fc0d95ec2194b3c0e7541db95bba0ecc45cb58a0e346ae82bc",
+      "assets/source/blender/act1/urman_village_exterior_kit.blend": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3"
+    },
+    "applied": {
+      "game/content/studio/hero_house.recipe.json": "0e02efa5bffd7374131fb9dd5b98355391fa0fa71e3038c59d063377c05be5bc",
+      "game/assets/models/studio/hero-house-5b6d8c5d2d254b47851e5359ee664ae4.glb": "af5037cd7eae123317a975342efbf908800e1ef3db295d2d938db441a7b4a8d0",
+      "assets/source/blender/studio/hero-house-5b6d8c5d2d254b47851e5359ee664ae4.blend": "932efdbc5a12cd1b407a039f20daf23d865e632f7686b78b8427a836164ee375",
+      "game/assets/models/studio/hero-house-5b6d8c5d2d254b47851e5359ee664ae4.glb.manifest.json": "71c4dafb0ca45d82c9c2a8a33d83f637181c18742c6b51c1ad4c63bea1a4e0ad"
+    },
+    "afterUndo": {
+      "game/content/studio/hero_house.recipe.json": "2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4",
+      "game/assets/models/act1/urman_village_exterior_kit.glb": "8ea56c65c134e2fc0d95ec2194b3c0e7541db95bba0ecc45cb58a0e346ae82bc",
+      "assets/source/blender/act1/urman_village_exterior_kit.blend": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3"
+    },
+    "requestScopedOutputsAbsentAfterUndo": [
+      "game/assets/models/studio/hero-house-5b6d8c5d2d254b47851e5359ee664ae4.glb",
+      "game/assets/models/studio/hero-house-5b6d8c5d2d254b47851e5359ee664ae4.glb.manifest.json",
+      "assets/source/blender/studio/hero-house-5b6d8c5d2d254b47851e5359ee664ae4.blend"
+    ]
+  },
+  "stage": {
+    "recipeSha256": "0e02efa5bffd7374131fb9dd5b98355391fa0fa71e3038c59d063377c05be5bc",
+    "glbSha256": "af5037cd7eae123317a975342efbf908800e1ef3db295d2d938db441a7b4a8d0",
+    "blendSha256": "932efdbc5a12cd1b407a039f20daf23d865e632f7686b78b8427a836164ee375",
+    "manifestSha256": "71c4dafb0ca45d82c9c2a8a33d83f637181c18742c6b51c1ad4c63bea1a4e0ad",
+    "generatorSha256": "c75b14e211367927a99db6f2062503ba480a379051fbf6945b5ab9416d169a59"
+  },
+  "verification": {
+    "exactRecipeCas": true,
+    "exactFourPathAllowlist": true,
+    "runtimeGameCaptureReferencesAcceptedByParent": true,
+    "nativeStudioUiOrImporterInvokedByHarness": false
+  }
+}

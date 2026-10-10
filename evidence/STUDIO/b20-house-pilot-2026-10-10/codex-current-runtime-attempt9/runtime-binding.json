@@ -1,0 +1,20 @@
+[
+  {
+    "assembly": "Urman.Studio.Core",
+    "source": "/Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Studio.Core/bin/Debug/net10.0/Urman.Studio.Core.dll",
+    "loaded": "/tmp/urman-b20-diagnostic.U3SMGo/bin/Debug/net10.0/Urman.Studio.Core.dll",
+    "sha256": "29ec3cd95453e8293ff06a9e1f504e5b8485ebcebad6c71f4413e408ca7dffd1"
+  },
+  {
+    "assembly": "Urman.Core",
+    "source": "/Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Core/bin/Debug/net10.0/Urman.Core.dll",
+    "loaded": "/tmp/urman-b20-diagnostic.U3SMGo/bin/Debug/net10.0/Urman.Core.dll",
+    "sha256": "3806f6628d28670841e2139efe45f46f2c3527bf4f1c21bf2236069e889a237f"
+  },
+  {
+    "assembly": "Urman.Content",
+    "source": "/Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Content/bin/Debug/net10.0/Urman.Content.dll",
+    "loaded": "/tmp/urman-b20-diagnostic.U3SMGo/bin/Debug/net10.0/Urman.Content.dll",
+    "sha256": "d775656069b8ada5be13be3b0820704caf039605a74b238c253eefc01eeeb4ba"
+  }
+]
