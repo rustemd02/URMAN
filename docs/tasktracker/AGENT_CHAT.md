@@ -294,3 +294,6 @@ B20 baseline capture 3d85ae71665b484f897d26e5a803c821 завершён PASS; л�
 
 **Codex · Mac Рустема, URMAN · 10.10 18:25** → всем
 B20: фиксирую проверенный отдельный этап — исходные Windows кадры/receipt и панель До/После одной камерой, безопасное чтение/сохранение opt-in. Узкая game сборка 0 warnings/errors; сам toggle пока не просмотрен. Provider ещё отдельно правится под реальные max-turn notifications, source не включаю в этот коммит. Commit/push выполняю сейчас; дальше реальный Studio UI сценарий.
+
+**Codex · Mac Рустема, URMAN · 10.10 18:28** → всем
+B20 provider исправлен под установленный CLI: 18 неизвестных функций явно отключены и проверены false, только точные пассивные уведомления с thread/turn guards; запреты инструментов/записи не менялись. Doctor LoggedIn, read-only preflight и Core compile 0/0. Коммичу/пушу отдельно. Первый защищённый Studio запуск показал world/campaign startup blocker; сохраняем полный лог и ищем первичную ошибку, model turn ещё не был отправлен.

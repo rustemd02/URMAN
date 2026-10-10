@@ -37,6 +37,29 @@ public sealed class CodexProposalProvider
     private static readonly TimeSpan ProposalTimeout = TimeSpan.FromSeconds(90);
     private static readonly TimeSpan InterruptTimeout = TimeSpan.FromSeconds(3);
 
+    // These previously enabled features are not reviewed for proposal-only operation.
+    private static readonly string[] RequiredDisabledFeatures =
+    [
+        "daemon_auto_start",
+        "content_item_kinds",
+        "local_thread_store_compression",
+        "write_stdin_approval",
+        "api_key_model_discovery",
+        "enable_request_compression",
+        "unbounded_connection_retries",
+        "system_proxy_fallback",
+        "in_app_dictation",
+        "in_app_voice",
+        "in_app_updates",
+        "mentions_v2",
+        "guardian_approval",
+        "guardian_reuse_parent_compaction",
+        "goals",
+        "fast_mode",
+        "ultrafast_mode",
+        "realtime_conversation"
+    ];
+
     // Keep these explicit and fail closed if a newer app-server stops honoring them.
     private static readonly string[] DisabledFeatures =
     [
@@ -74,7 +97,8 @@ public sealed class CodexProposalProvider
         "code_mode_tool_search",
         "browser_annotation_api",
         "incremental_tools",
-        "standalone_web_search"
+        "standalone_web_search",
+        .. RequiredDisabledFeatures
     ];
 
     // The installed CLI currently reports these enabled features. The names below
@@ -132,7 +156,7 @@ public sealed class CodexProposalProvider
 
         var login = CodexLoginStatus.Unknown;
         var loginResult = await RunShortCommandAsync(["login", "status"], cancellationToken).ConfigureAwait(false);
-        if (loginResult is { ExitCode: 0 }) login = ParseLoginStatus(loginResult.Output);
+        if (loginResult is { ExitCode: 0 }) login = ParseLoginStatus(loginResult.Output, loginResult.ErrorOutput);
 
         return new CodexDoctorSummary(true, version, login);
     }
@@ -365,6 +389,7 @@ public sealed class CodexProposalProvider
         var enabledFeatures = new HashSet<string>(StringComparer.Ordinal);
         var cursors = new HashSet<string>(StringComparer.Ordinal);
         var featureNames = new HashSet<string>(StringComparer.Ordinal);
+        var requiredDisabledFeatureStates = new Dictionary<string, bool>(StringComparer.Ordinal);
         string? cursor = null;
         var pages = 0;
         do
@@ -393,6 +418,11 @@ public sealed class CodexProposalProvider
 
                 var name = nameValue.GetString()!;
                 if (!featureNames.Add(name)) throw new CodexProposalException("Codex feature configuration could not be verified.");
+                if (RequiredDisabledFeatures.Contains(name, StringComparer.Ordinal))
+                {
+                    requiredDisabledFeatureStates.Add(name, enabledValue.ValueKind == JsonValueKind.True);
+                }
+
                 var stage = stageValue.GetString();
                 if (stage is not ("beta" or "underDevelopment" or "stable" or "deprecated" or "removed"))
                 {
@@ -417,6 +447,12 @@ public sealed class CodexProposalProvider
             }
         } while (cursor is not null);
 
+        if (RequiredDisabledFeatures.Any(feature =>
+                !requiredDisabledFeatureStates.TryGetValue(feature, out var enabled) || enabled))
+        {
+            throw new CodexProposalException("Codex could not disable all unreviewed features; proposal mode is unavailable.");
+        }
+
         // unified_exec is the only exception: this CLI reports it enabled even when
         // --disable is set. Empty per-turn environments and rejection of all command
         // items are required before the provider will accept that state.
@@ -430,14 +466,16 @@ public sealed class CodexProposalProvider
 
     private static Task HandleStartupNotificationAsync(JsonElement message)
     {
+        EnsureNotificationWithoutId(message);
         var method = GetMethod(message);
-        if (method == "thread/started") return Task.CompletedTask;
-        if (method.StartsWith("item/", StringComparison.Ordinal) || method.Contains("diff", StringComparison.OrdinalIgnoreCase))
+        if (method == "thread/started")
         {
-            throw new ProtocolBoundaryException();
+            _ = GetRequiredString(GetRequiredObject(GetRequiredObject(message, "params"), "thread"), "id");
+            return Task.CompletedTask;
         }
 
-        return Task.CompletedTask;
+        if (IsAllowedPassiveNotification(message)) return Task.CompletedTask;
+        throw new ProtocolBoundaryException();
     }
 
     private static async Task<JsonElement> WaitForTerminalTurnAsync(
@@ -474,12 +512,66 @@ public sealed class CodexProposalProvider
         Action<string> setTurnId,
         Action<JsonElement> setTerminalTurn)
     {
+        EnsureNotificationWithoutId(message);
         var method = GetMethod(message);
+        if (IsAllowedPassiveNotification(message)) return Task.CompletedTask;
         var parameters = message.TryGetProperty("params", out var parameterValue) && parameterValue.ValueKind == JsonValueKind.Object
             ? parameterValue
             : throw new ProtocolBoundaryException();
 
-        if (method == "thread/started") return Task.CompletedTask;
+        if (method == "thread/started")
+        {
+            var startedThread = GetRequiredObject(parameters, "thread");
+            if (!string.Equals(GetRequiredString(startedThread, "id"), threadId, StringComparison.Ordinal)) throw new ProtocolBoundaryException();
+            return Task.CompletedTask;
+        }
+
+        if (method == "thread/status/changed")
+        {
+            VerifyThreadId(parameters, threadId);
+            VerifyPassiveThreadStatus(GetRequiredObject(parameters, "status"));
+            return Task.CompletedTask;
+        }
+
+        if (method == "thread/tokenUsage/updated")
+        {
+            VerifyCurrentTurnNotification(parameters, threadId, getTurnId, setTurnId);
+            VerifyTokenUsage(GetRequiredObject(parameters, "tokenUsage"));
+            return Task.CompletedTask;
+        }
+
+        if (method is "item/reasoning/summaryTextDelta" or "item/reasoning/textDelta")
+        {
+            VerifyCurrentTurnNotification(parameters, threadId, getTurnId, setTurnId);
+            _ = GetRequiredString(parameters, "itemId");
+            if (GetRequiredString(parameters, "delta").Length > 16_384) throw new ProtocolBoundaryException();
+            VerifyNonNegativeInt64(parameters, method == "item/reasoning/textDelta" ? "contentIndex" : "summaryIndex");
+            return Task.CompletedTask;
+        }
+
+        if (method == "item/reasoning/summaryPartAdded")
+        {
+            VerifyCurrentTurnNotification(parameters, threadId, getTurnId, setTurnId);
+            _ = GetRequiredString(parameters, "itemId");
+            VerifyNonNegativeInt64(parameters, "summaryIndex");
+            return Task.CompletedTask;
+        }
+
+        if (method == "item/plan/delta")
+        {
+            VerifyCurrentTurnNotification(parameters, threadId, getTurnId, setTurnId);
+            _ = GetRequiredString(parameters, "itemId");
+            if (GetRequiredString(parameters, "delta").Length > 16_384) throw new ProtocolBoundaryException();
+            return Task.CompletedTask;
+        }
+
+        if (method == "turn/plan/updated")
+        {
+            VerifyCurrentTurnNotification(parameters, threadId, getTurnId, setTurnId);
+            VerifyPassiveTurnPlan(parameters);
+            return Task.CompletedTask;
+        }
+
         if (method == "turn/started")
         {
             VerifyThreadId(parameters, threadId);
@@ -522,12 +614,7 @@ public sealed class CodexProposalProvider
             return Task.CompletedTask;
         }
 
-        if (method.StartsWith("item/", StringComparison.Ordinal) || method.Contains("diff", StringComparison.OrdinalIgnoreCase) || method.Contains("tool", StringComparison.OrdinalIgnoreCase))
-        {
-            throw new ProtocolBoundaryException();
-        }
-
-        return Task.CompletedTask;
+        throw new ProtocolBoundaryException();
     }
 
     private void VerifyThreadBoundary(JsonElement response, JsonElement thread, string workingDirectory)
@@ -581,6 +668,89 @@ public sealed class CodexProposalProvider
     private static void VerifyThreadId(JsonElement parameters, string expectedThreadId)
     {
         if (!string.Equals(GetRequiredString(parameters, "threadId"), expectedThreadId, StringComparison.Ordinal)) throw new ProtocolBoundaryException();
+    }
+
+    private static void VerifyCurrentTurnNotification(
+        JsonElement parameters,
+        string threadId,
+        Func<string?> getTurnId,
+        Action<string> setTurnId)
+    {
+        VerifyThreadId(parameters, threadId);
+        var notificationTurnId = GetRequiredString(parameters, "turnId");
+        if (getTurnId() is { } currentTurnId && !string.Equals(notificationTurnId, currentTurnId, StringComparison.Ordinal))
+        {
+            throw new ProtocolBoundaryException();
+        }
+
+        setTurnId(notificationTurnId);
+    }
+
+    private static void VerifyPassiveThreadStatus(JsonElement status)
+    {
+        var type = GetRequiredString(status, "type");
+        if (type == "idle") return;
+        if (type != "active" || !status.TryGetProperty("activeFlags", out var flags) || flags.ValueKind != JsonValueKind.Array || flags.GetArrayLength() != 0)
+        {
+            throw new ProtocolBoundaryException();
+        }
+    }
+
+    private static void VerifyTokenUsage(JsonElement tokenUsage)
+    {
+        VerifyTokenUsageBreakdown(GetRequiredObject(tokenUsage, "last"));
+        VerifyTokenUsageBreakdown(GetRequiredObject(tokenUsage, "total"));
+        if (tokenUsage.TryGetProperty("modelContextWindow", out var contextWindow))
+        {
+            if (contextWindow.ValueKind == JsonValueKind.Number)
+            {
+                if (!contextWindow.TryGetInt64(out var window) || window < 0) throw new ProtocolBoundaryException();
+            }
+            else if (contextWindow.ValueKind != JsonValueKind.Null)
+            {
+                throw new ProtocolBoundaryException();
+            }
+        }
+    }
+
+    private static void VerifyTokenUsageBreakdown(JsonElement breakdown)
+    {
+        foreach (var name in new[] { "cachedInputTokens", "inputTokens", "outputTokens", "reasoningOutputTokens", "totalTokens" })
+        {
+            VerifyNonNegativeInt64(breakdown, name);
+        }
+
+        if (breakdown.TryGetProperty("cacheWriteInputTokens", out _)) VerifyNonNegativeInt64(breakdown, "cacheWriteInputTokens");
+    }
+
+    private static void VerifyPassiveTurnPlan(JsonElement parameters)
+    {
+        if (!parameters.TryGetProperty("plan", out var plan) || plan.ValueKind != JsonValueKind.Array) throw new ProtocolBoundaryException();
+        if (plan.GetArrayLength() > 128) throw new ProtocolBoundaryException();
+        foreach (var step in plan.EnumerateArray())
+        {
+            if (step.ValueKind != JsonValueKind.Object ||
+                GetRequiredString(step, "status") is not ("pending" or "inProgress" or "completed") ||
+                GetRequiredString(step, "step").Length > 4_096)
+            {
+                throw new ProtocolBoundaryException();
+            }
+        }
+
+        if (parameters.TryGetProperty("explanation", out var explanation) && explanation.ValueKind != JsonValueKind.Null &&
+            (explanation.ValueKind != JsonValueKind.String || explanation.GetString()!.Length > 16_384))
+        {
+            throw new ProtocolBoundaryException();
+        }
+    }
+
+    private static void VerifyNonNegativeInt64(JsonElement parent, string propertyName)
+    {
+        if (!parent.TryGetProperty(propertyName, out var value) || value.ValueKind != JsonValueKind.Number ||
+            !value.TryGetInt64(out var number) || number < 0)
+        {
+            throw new ProtocolBoundaryException();
+        }
     }
 
     private static string BuildPrompt(HouseWindowRequest request)
@@ -709,6 +879,23 @@ public sealed class CodexProposalProvider
         return method.GetString()!;
     }
 
+    private static void EnsureNotificationWithoutId(JsonElement message)
+    {
+        if (message.ValueKind != JsonValueKind.Object || message.TryGetProperty("id", out _)) throw new ProtocolBoundaryException();
+    }
+
+    private static bool IsAllowedPassiveNotification(JsonElement message)
+    {
+        if (message.TryGetProperty("id", out _) ||
+            !message.TryGetProperty("method", out var methodValue) || methodValue.ValueKind != JsonValueKind.String ||
+            !message.TryGetProperty("params", out var parameters) || parameters.ValueKind != JsonValueKind.Object)
+        {
+            return false;
+        }
+
+        return methodValue.GetString() is "account/updated" or "remoteControl/status/changed";
+    }
+
     private async Task TryInterruptAsync(AppServerClient client, string threadId, string turnId)
     {
         try { await client.InterruptAndDrainAsync(threadId, turnId, InterruptTimeout).ConfigureAwait(false); }
@@ -785,13 +972,13 @@ public sealed class CodexProposalProvider
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeout.CancelAfter(DoctorTimeout);
         var stdout = ReadBoundedTextAsync(process.StandardOutput, MaximumDoctorOutputCharacters, timeout.Token);
-        var stderr = DrainAsync(process.StandardError);
+        var stderr = ReadBoundedTextAsync(process.StandardError, MaximumDoctorOutputCharacters, timeout.Token);
         try
         {
             await process.WaitForExitAsync(timeout.Token).ConfigureAwait(false);
             var output = await stdout.ConfigureAwait(false);
-            await stderr.ConfigureAwait(false);
-            return new ShortCommandResult(process.ExitCode, output);
+            var errorOutput = await stderr.ConfigureAwait(false);
+            return new ShortCommandResult(process.ExitCode, output, errorOutput);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -861,7 +1048,20 @@ public sealed class CodexProposalProvider
             : null;
     }
 
-    private static CodexLoginStatus ParseLoginStatus(string output)
+    private static CodexLoginStatus ParseLoginStatus(string output, string errorOutput)
+    {
+        var standardOutputStatus = ParseLoginStatusOutput(output);
+        var standardErrorStatus = ParseLoginStatusOutput(errorOutput);
+        if (standardOutputStatus != CodexLoginStatus.Unknown && standardErrorStatus != CodexLoginStatus.Unknown &&
+            standardOutputStatus != standardErrorStatus)
+        {
+            return CodexLoginStatus.Unknown;
+        }
+
+        return standardOutputStatus != CodexLoginStatus.Unknown ? standardOutputStatus : standardErrorStatus;
+    }
+
+    private static CodexLoginStatus ParseLoginStatusOutput(string output)
     {
         var normalized = output.Trim().ToLowerInvariant();
         if (normalized.Contains("not logged in", StringComparison.Ordinal) || normalized.Contains("not signed in", StringComparison.Ordinal)) return CodexLoginStatus.NotLoggedIn;
@@ -935,7 +1135,7 @@ public sealed class CodexProposalProvider
 
     private static StringComparison PathComparison => OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 
-    private sealed record ShortCommandResult(int ExitCode, string Output);
+    private sealed record ShortCommandResult(int ExitCode, string Output, string ErrorOutput);
 
     private sealed class ProtocolBoundaryException : Exception;
 
@@ -965,7 +1165,7 @@ public sealed class CodexProposalProvider
                 {
                     if (message.TryGetProperty("id", out _)) throw new ProtocolBoundaryException();
                     if (notificationHandler is not null) await notificationHandler(message).ConfigureAwait(false);
-                    else if (GetMethod(message) != "thread/started") throw new ProtocolBoundaryException();
+                    else if (GetMethod(message) != "thread/started" && !IsAllowedPassiveNotification(message)) throw new ProtocolBoundaryException();
                     continue;
                 }
 

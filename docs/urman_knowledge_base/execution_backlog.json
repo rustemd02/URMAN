@@ -25020,7 +25020,8 @@
             "Affected game compile 0 warnings/errors",
             "Temporary Core assertion probe: byte-exact Apply/Undo/Redo; foreign conflict refuses all files; injected atomic failure rollback; async journal remains applying through view barrier and prevents concurrent editing; view failure rollback; empty/corrupt recovery classified",
             "Windows baseline 3d85ae71665b484f897d26e5a803c821 PASS; coordinator viewed exterior/interior PNG, matched node-bound cameras; userdataRestored true; evidence/STUDIO/b20-house-pilot-2026-10-10/before/receipt.json",
-            "Studio panel shared-camera Before/After model toggle implemented; affected game compile 0 warnings/errors; live preview not yet observed"
+            "Studio panel shared-camera Before/After model toggle implemented; affected game compile 0 warnings/errors; live preview not yet observed",
+            "Installed Codex no-inference preflight: 167 feature rows, 18 required-disabled false, ChatGPT account, Doctor LoggedIn; Core compile 0/0. Tools/write/runtime roots still forbidden."
           ],
           "remaining": [
             "Actual Codex typed proposal through logged-in ChatGPT",
@@ -25033,7 +25034,8 @@
           "provider_authorization": "Author live reply 2026-10-10: own global Codex instructions allowed for first pilot; tools/write disabled; personal ChatGPT login, no API/pay-as-you-go fallback. Provider default rejects global instruction sources; explicit local opt-in.",
           "verification_question": "Do typed Codex width, seven real paired apertures and source/artifact transaction change only selected HeroHouse, and does Undo restore byte-identical recipe plus asset absence and matching game frame?",
           "success_condition": "AppServer typed proposal exact captured identities; game exterior+interior before/after/Undo at matched Windows cameras; original recipe/shared assets hashes restored, new artifact/ref removed; failed promotion/view and foreign edits refuse whole operation; all unmet B20 criteria stay open.",
-          "provider_compatibility": "Installed app-server emits passive account/updated and remoteControl/status/changed before turn, plus 18 unknown enabled features. First attempt failed before turn/start; zero model turns. Strict disabling/notification compatibility under correction, tools/writes remain forbidden."
+          "provider_compatibility": "Corrected installed 0.162.0-alpha.17.2 passive notification compatibility with strict method/thread/turn checks; all 18 unreviewed features explicitly disabled and verified false. Read-only preflight confirmed ChatGPT login; Doctor now parses bounded stderr status. Zero model turns so far.",
+          "ui_blocker": "First protected Studio launch could not finish embedded Act I world/campaign; root capturing complete local Studio log to identify exact initial exception, no proposal sent."
         }
       },
       "done_when": "Все дочерние задачи закрыты доказательствами; человеческие пункты оценены автором, а не walkthrough. Дополнительно выполнены все обязательные AI-единицы и новые A01–A25 из ТЗ 10.10, включая обоих провайдеров и внешние гейты; AI-35 только после отдельного расширения Windows. Историческая матрица и дочерние задачи сохраняются.",
