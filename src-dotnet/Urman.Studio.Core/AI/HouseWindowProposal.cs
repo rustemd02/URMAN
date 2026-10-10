@@ -34,7 +34,12 @@ public static class HouseWindowProposalValidator
     public static void ValidateRequest(HouseWindowRequest request)
     {
         ArgumentNullException.ThrowIfNull(request);
-        ValidateIdentifier(request.RequestId, nameof(request.RequestId), maximumLength: 128);
+        if (!Guid.TryParseExact(request.RequestId, "N", out var requestId)
+            || !string.Equals(requestId.ToString("N"), request.RequestId, StringComparison.Ordinal))
+        {
+            throw new ArgumentException("RequestId must be a canonical 32-character lowercase hexadecimal GUID.", nameof(request.RequestId));
+        }
+
         ValidateSnapshotHash(request.SnapshotHash);
         ValidateIdentifier(request.EntityId, nameof(request.EntityId), maximumLength: 256);
         ValidateWidth(request.CurrentWidth, nameof(request.CurrentWidth));
