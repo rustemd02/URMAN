@@ -24101,7 +24101,14 @@
               "STUDIO.P4"
             ],
             "acceptance_refs": [
-              "STUDIO-AI/A21"
+              "STUDIO-AI/A21",
+              {
+                "stage": "2026-10-10 AI-24 dedicated correction for the 20be5ed7 review: strict runtime-conformant parsing (partial)",
+                "result": "correction by deepseek v4.1 flash after Codex CHANGES_REQUESTED: a missing field, an explicit null, a wrong type and an empty string are four different findings; malformed nodes and answers are named instead of dropped; node and answer conditions are projected and diagnosed; hints carry the text the runtime resolves and the search target it offers; a field the hint schema forbids is reported",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs; owner patch evidence/STUDIO/b20-deepseek-ai-24/2026-10-10-strict-parsing/ai24-content-panel.patch (game/studio/StudioContentSection.cs, 51 insertions/2 deletions: no hint title, level/textId/pointsTo editors, real preview); evidence .../build.log, check.log, probe/, receipt.json",
+                "verification": "probe PASS 254/254. Real data: 4 threads and 3 hints, 0 problems, every hint carries its text and search target. Synthetic cases prove each distinct finding: missing/null/wrong-type/empty; a malformed node and a malformed answer; a wrongly typed choices block; a node and an answer condition the runtime rejects; a hint without a search target; a hint field the schema forbids (the title the editor used to write); a reveal label and an id outside the schema pattern; more than three answers. The projection reads content/schemas/hint.schema.json for the allowed fields and chat.schema.json's required list, id pattern and answer limit, and VerifyAgainstRuntime now also checks Requires, From, Choices and the hint PointsTo. Own mistake found and fixed: the first reveal check treated reveals as content ids and produced eight false problems on the real chats, while the schema defines them as short labels without a colon. Urman.Studio.Core and game/Urman.Game.csproj build with 0 warnings/0 errors and the patch passes git apply --check on a pristine origin/main 1ca54571 worktree. The panel was not opened in a live Studio and no hint was read in the game: panel and runtime UI NOT_RUN, AI-24 full gate stays open"
+              }
+
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
           },
