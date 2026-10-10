@@ -145,6 +145,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         _container.AddChild(_measureLabel);
 
         _camera = new Camera3D { Far = 900f, Fov = 60f };
+        _camera.Ready += UpdateCamera;
         _viewport.AddChild(_camera);
         _markerRoot = new Node3D { Name = "StudioMarkers" };
         _viewport.AddChild(_markerRoot);
@@ -152,7 +153,6 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         _viewport.AddChild(_ghost);
         root.AddChild(BuildCatalogDrawer());
         _ = LoadWorldAsync();
-        UpdateCamera();
         return root;
     }
 
@@ -561,7 +561,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private void UpdateCamera()
     {
-        if (_camera is null)
+        if (_camera is null || !_camera.IsInsideTree())
         {
             return;
         }

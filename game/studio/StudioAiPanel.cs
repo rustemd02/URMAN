@@ -196,6 +196,7 @@ public partial class StudioAiPanel : AcceptDialog
             _proposal = await new CodexProposalProvider(allowGlobalInstructions: _globalInstructions.ButtonPressed)
                 .RunAsync(_request, _stage, _cancel.Token);
             if (!Visible) throw new OperationCanceledException();
+            File.WriteAllText(Path.Combine(_stage, "proposal.json"), JsonSerializer.Serialize(_proposal));
             var recipe = JsonNode.Parse(_recipeText!)!.AsObject();
             recipe["windowClearWidth"] = _proposal.WindowWidth;
             recipe["modelPath"] = "res://assets/models/studio/hero-house-" + _request.RequestId + ".glb";

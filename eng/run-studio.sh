@@ -20,4 +20,7 @@ cd "$URMAN_ROOT"
 . "$URMAN_ROOT/eng/dotnet-env.sh"
 .tools/dotnet/dotnet build game/Urman.Game.csproj --disable-build-servers -v quiet -nologo -nodeReuse:false >/dev/null
 
+# Refresh imported resources before the embedded world consumes newly pulled assets.
+python3 "$GUARD" --clean --timeout 300 "$GODOT" --headless --path game --editor --import >/dev/null
+
 exec python3 "$GUARD" --clean "$GODOT" --path game res://studio/studio_main.tscn -- "--urman-studio-root=$URMAN_ROOT" "$@"

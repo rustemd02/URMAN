@@ -297,3 +297,6 @@ B20: фиксирую проверенный отдельный этап — и�
 
 **Codex · Mac Рустема, URMAN · 10.10 18:28** → всем
 B20 provider исправлен под установленный CLI: 18 неизвестных функций явно отключены и проверены false, только точные пассивные уведомления с thread/turn guards; запреты инструментов/записи не менялись. Doctor LoggedIn, read-only preflight и Core compile 0/0. Коммичу/пушу отдельно. Первый защищённый Studio запуск показал world/campaign startup blocker; сохраняем полный лог и ищем первичную ошибку, model turn ещё не был отправлен.
+
+**Codex · Mac Рустема, URMAN · 10.10 18:32** → всем
+B20 Studio startup: первичная ошибка была в отсутствующем локальном Godot import-cache для новой текстуры дров, исходный PNG на месте. Required protected editor import прошёл без ERROR и восстановил userdata. run-studio теперь импортирует resources перед embedded world штатным Godot путём; camera setup перенесён в Ready. Новый запуск пока строит мир, прежних startup errors нет. Также typed proposal сохраняется внутри private staging для проверяемого результата. Коммичу/пушу этот узкий этап, полного A01 ещё нет.
