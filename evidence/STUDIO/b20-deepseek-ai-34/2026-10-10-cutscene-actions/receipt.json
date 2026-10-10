@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-34",
+  "stage": "dependency-independent first slice: cutscene actions checked against the one runtime executor",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:14 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/CutsceneActions.cs": "dbfe96f98b8d44a8a37bb460d1e4d015baebdaddf4ebb54e75d3dfb7750074ae",
+    "evidence/STUDIO/b20-deepseek-ai-34/2026-10-10-cutscene-actions/probe/Program.cs": "9b4e61cc175cbf74be7af239ce3329a754820882c7e483ba76efa4f46c1a7f6c",
+    "evidence/STUDIO/b20-deepseek-ai-34/2026-10-10-cutscene-actions/probe/dsprobe.csproj": "f936e3337fa3017a94194ac84691b4ea7bcd622ca959934cc96ef2126272c089",
+    "evidence/STUDIO/b20-deepseek-ai-34/2026-10-10-cutscene-actions/check.log": "afe7a85ebfff8e986f1f1818b3c1fc30633a654a7b37e500f8801d59c2ae2f09"
+  },
+  "real_facts": {
+    "cutscene": "urman.cutscene:tamara-fence, 2 actors (guy, tamara), 75 actions",
+    "action_mix": "say=19, face=14, wait=13, cut=9, laugh=5, show=4, clip=4, move=4, place=2, filming=1",
+    "text_ids": "all 19 spoken lines resolve as urman.chapter1:text/<suffix>, the prefix the runtime builds itself",
+    "clips": "Walk and Idle match the animation catalogue (urman.anim:walk, urman.anim:idle) case-insensitively",
+    "addressability": "the cutscene root is NOT an addressable entity (Locate fails and EntityIds carries no cutscene id) while its actions are addressable; the panel and this projection therefore read the same file directly"
+  },
+  "verified": {
+    "probe": "PASS 212/212 (whole probe; the AI-34 section included). Every real action passes the executor's own rules; synthetic cases prove each refusal: an action with no executor (the runtime logs 'needs a new mechanic'), a missing required parameter (GetProperty throws), an undeclared actor (the actors dictionary throws), a line that does not resolve (the player sees an empty string) and a clip the character cannot have (the runtime silently plays nothing).",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "source_presence": "VerifyAgainstRuntime checks that the executor still names the ten actions and still builds the text prefix; it is a source-presence check, not runtime proof",
+    "not_run": "the cutscene was not played and no frame was captured, so the visible result of any action is NOT_RUN; the panel is not wired to this projection yet"
+  },
+  "open": [
+    "selecting another cutscene and removing the fixed tamara file and namespace is the unit's own boundary and is NOT done: it needs the scene selection contract and the owner's shared panel",
+    "a clip the character kit does not actually contain cannot be checked from Studio.Core: the animation names live in the GLB and its AnimationPlayer, so this projection verifies the animation catalogue and states the silent-failure rule",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}

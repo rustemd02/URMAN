@@ -24440,7 +24440,14 @@
               "STUDIO.P3"
             ],
             "acceptance_refs": [
-              "STUDIO-AI/A17"
+              "STUDIO-AI/A17",
+              {
+                "stage": "2026-10-10 AI-34 dependency-independent slice: cutscene actions checked against the executor (partial)",
+                "result": "partial implementation by deepseek v4.1 flash: the ten cutscene actions are projected exactly as the one executor reads them, so an action with no executor, a missing parameter, an undeclared actor, an unresolved line and a clip the character cannot have are named instead of failing or silently doing nothing; a real addressability gap was found",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/CutsceneActions.cs; evidence evidence/STUDIO/b20-deepseek-ai-34/2026-10-10-cutscene-actions/ (check.log, probe/, receipt.json)",
+                "verification": "probe PASS 212/212. The real cutscene urman.cutscene:tamara-fence has 2 actors and 75 actions in exactly the ten types the executor knows (say=19, face=14, wait=13, cut=9, laugh=5, show=4, clip=4, move=4, place=2, filming=1), every action passes the executor's own rules, all 19 spoken lines resolve through the runtime's own urman.chapter1:text/<suffix> prefix, and Walk/Idle match the animation catalogue. Synthetic cases prove each refusal, including the runtime's 'needs a new mechanic' case and the silent clip rule. Urman.Studio.Core and game/Urman.Game.csproj build with 0 warnings/0 errors. A real gap was found: the cutscene root is not an addressable entity in the workspace (Locate fails, EntityIds has no cutscene id) while its actions are, so the panel and this projection read the file directly. Selecting another cutscene and removing the fixed tamara namespace is the unit's boundary and is NOT done; the cutscene was not played, so the visible result is NOT_RUN"
+              }
+
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
           },
