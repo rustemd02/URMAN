@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-17",
+  "stage": "dependency-independent first slice: the scatter brush and terrain stroke are checked against the runtime rules before Apply",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 21:52 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "f83d69985c26d8559a2add98e72a6559ca3632fa (origin/main when the patch was made)",
+  "artifacts": {
+    "new file src-dotnet/Urman.Studio.Core/Editing/WorldSurfaceCommands.cs": "ScatterCommand reads a scatter the way AuthoredWorldDirector.BuildScatter does (radius, density, seed, catalogIds, scaleMin/scaleMax, roadClearance, exclude), computes the exact plant count round(pi r^2 density), refuses what would crash or stall the game before Apply, and states honestly what protects the passages; TerrainStrokeCommand does the same for a terrain stroke (mode, position, radius, strength, target) against AgentBAct1HeightField. Both expose VerifyAgainstRuntime so the claims cannot drift from the reader",
+    "evidence/STUDIO/b20-deepseek-ai-17/2026-10-10-scatter-guard/ai17-scatter-guard.patch": "owner applies: StudioWorldSection builds the scatter command once, refuses it before Apply when it would fail or exceed the budget, validates the terrain stroke the same way, and shows the scatter facts and problems in the properties panel (37 insertions, 18 deletions)"
+  },
+  "runtime_rules_grounded_in_source": [
+    "AuthoredWorldDirector.BuildScatter: count = round(pi r^2 density), one RandomNumberGenerator with the authored seed, plants skipped when road.Distance < road.HalfWidth + roadClearance or inside an exclude circle, models[rng.RandiRange(0, models.Length - 1)]",
+    "AgentBAct1HeightField.LoadStrokes: terrain-stroke entities with mode/position/radius/strength/target"
+  ],
+  "verified": {
+    "probe": "PASS 154/154. The real campaign has 8 scatter entities: all pass the same rules, every one declares a seed, each carries its 45 exclusion circles, and the projected plant count is 45, which matches round(pi r^2 density) exactly. Synthetic cases prove each refusal: no species (the runtime would call RandiRange(0, -1)), no seed (Redo would not reproduce the layout), an oversized brush (blocked with the budget numbers before Apply), an inverted size range, malformed exclusions and an unknown stroke mode. Both runtime link checks are clean on the real sources.",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with the patch",
+    "apply": "git apply --check of the patch on a pristine worktree of origin/main f83d6998: OK",
+    "not_run": "the brush was not used in a live Studio and no terrain stroke exists in the campaign (terrain.v1.json is absent), so the interactive refusal and the panel text are source- and probe-verified only; the visual result of a real stroke is NOT_RUN"
+  },
+  "own_bug_found_and_fixed": "the first version of ScatterCommand read JSON numbers only as double, so an integer authored value (for example \"radius\": 8) was read as 0 and would have produced false refusals; the probe caught it and both commands now accept double/float/int/long/decimal",
+  "open": [
+    "runtime/visual verification of a stroke and of a refused brush is NOT_RUN",
+    "the rest of AI-17 (region-freeze semantics and the passage protection of the whole valley) depends on AI-14 and stays open"
+  ]
+}

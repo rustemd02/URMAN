@@ -1,0 +1,94 @@
+diff --git a/game/studio/StudioWorldSection.cs b/game/studio/StudioWorldSection.cs
+index aa140368..6d8ffdf9 100644
+--- a/game/studio/StudioWorldSection.cs
++++ b/game/studio/StudioWorldSection.cs
+@@ -1010,6 +1010,20 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+     {
+         var id = $"urman.world:terrain/stroke-{Convert.ToHexStringLower(System.Security.Cryptography.RandomNumberGenerator.GetBytes(4))}";
+         var label = mode switch { "raise" => "поднять", "lower" => "опустить", "smooth" => "сгладить", _ => "выровнять" };
++        var strokeParams = new JsonObject
++        {
++            ["mode"] = mode,
++            ["position"] = new JsonArray(Math.Round(at.X, 2), 0.0, Math.Round(at.Z, 2)),
++            ["radius"] = Math.Round(radius, 2),
++            ["strength"] = Math.Round(strength, 3),
++            ["target"] = Math.Round(at.Y, 3)
++        };
++        if (TerrainStrokeCommand.Validate(TerrainStrokeCommand.Parse(id, new JsonObject { ["params"] = strokeParams })) is { Count: > 0 } strokeProblems)
++        {
++            studio.RefreshStatus("Штрих рельефа не применён: " + string.Join(" ", strokeProblems));
++            return "";
++        }
++
+         using (studio.Session.Begin($"рельеф: {label}"))
+         {
+             if (!studio.Workspace.HasFile(TerrainPath))
+@@ -1022,14 +1036,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+                 ["id"] = id,
+                 ["kind"] = "terrain-stroke",
+                 ["name"] = $"Рельеф: {label} (радиус {radius:0.#} м)",
+-                ["params"] = new JsonObject
+-                {
+-                    ["mode"] = mode,
+-                    ["position"] = new JsonArray(Math.Round(at.X, 2), 0.0, Math.Round(at.Z, 2)),
+-                    ["radius"] = Math.Round(radius, 2),
+-                    ["strength"] = Math.Round(strength, 3),
+-                    ["target"] = Math.Round(at.Y, 3)
+-                }
++                ["params"] = strokeParams
+             }, "штрих рельефа");
+         }
+ 
+@@ -1069,6 +1076,24 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+     public string PaintStroke(Vector3 at, string[] models, float radius, float density)
+     {
+         var id = $"urman.world:studio/street/plants-{Convert.ToHexStringLower(System.Security.Cryptography.RandomNumberGenerator.GetBytes(4))}";
++        var draft = new JsonObject
++        {
++            ["position"] = new JsonArray(Math.Round(at.X, 2), 0.0, Math.Round(at.Z, 2)),
++            ["radius"] = Math.Round(radius, 2),
++            ["density"] = Math.Round(density, 4),
++            ["seed"] = System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue),
++            ["catalogIds"] = new JsonArray(models.Select(model => (JsonNode?)model).ToArray()),
++            ["scaleMin"] = 0.8,
++            ["scaleMax"] = 1.2
++        };
++        // The runtime builds round(pi r^2 density) plants from this command, so an
++        // impossible or oversized scatter is refused before anything is written.
++        if (ScatterCommand.BlockReason(ScatterCommand.Parse(id, new JsonObject { ["params"] = draft })) is { } blocked)
++        {
++            studio.RefreshStatus("Кисть не применена: " + blocked);
++            return "";
++        }
++
+         using (studio.Session.Begin("штрих кисти растительности"))
+         {
+             EnsureStreetPlot();
+@@ -1077,16 +1102,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+                 ["id"] = id,
+                 ["kind"] = "scatter",
+                 ["name"] = $"Посадки ({models.Length} пород, радиус {radius:0.#} м)",
+-                ["params"] = new JsonObject
+-                {
+-                    ["position"] = new JsonArray(Math.Round(at.X, 2), 0.0, Math.Round(at.Z, 2)),
+-                    ["radius"] = Math.Round(radius, 2),
+-                    ["density"] = Math.Round(density, 4),
+-                    ["seed"] = System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue),
+-                    ["catalogIds"] = new JsonArray(models.Select(model => (JsonNode?)model).ToArray()),
+-                    ["scaleMin"] = 0.8,
+-                    ["scaleMax"] = 1.2
+-                }
++                ["params"] = draft
+             }, "штрих");
+         }
+ 
+@@ -1184,6 +1200,9 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+             panel.NumberField("Размер до", (float)(double)parameters["scaleMax"]!, value => studio.Session.SetField(id, ["params", "scaleMax"], Math.Round(value, 2), "размер посадок"));
+             panel.Text("Породы: " + string.Join(", ", parameters["catalogIds"]!.AsArray().Select(model => _catalog.OfType<JsonObject>().FirstOrDefault(entry => (string)entry["id"]! == (string)model!)?["name"]?.ToString() ?? (string)model!)), muted: true);
+             panel.Buttons(("Перемешать", () => studio.Session.SetField(id, ["params", "seed"], System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue), "перемешать посадки")));
++            var scatter = ScatterCommand.Parse(id, entity);
++            foreach (var scatterNote in ScatterCommand.Notes(scatter)) panel.Text(scatterNote, muted: true);
++            foreach (var problem in ScatterCommand.Validate(scatter)) panel.Text("⚠ " + problem);
+             if (PreviewNode(id) is { } planted && planted.HasMeta("scatterKept"))
+             {
+                 panel.Text($"Посажено: {(int)planted.GetMeta("scatterKept")}. На дорогах и проходах не посажено: {(int)planted.GetMeta("scatterSkippedOnPassages")}.", muted: true);

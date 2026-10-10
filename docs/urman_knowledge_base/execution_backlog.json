@@ -23734,7 +23734,14 @@
             "verification": "A05 с пустой землёй, домом, дорожкой и несколькими props; визуально сверить fixed seed.",
             "risks_recovery_external_gates": "Не сохранять только runtime random output; чрезмерная плотность/память блокируется до Apply.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 AI-17 dependency-independent slice: scatter and terrain commands checked against the runtime rules (partial)",
+                "result": "partial implementation by deepseek v4.1 flash: the brush and the terrain stroke are projected exactly as the runtime reads them, so an impossible or oversized command is refused before Apply and the author sees what protects the passages; a real bug in the projection's number reading was found by the probe and fixed",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/WorldSurfaceCommands.cs (ScatterCommand, TerrainStrokeCommand, both with VerifyAgainstRuntime); owner patch evidence/STUDIO/b20-deepseek-ai-17/2026-10-10-scatter-guard/ai17-scatter-guard.patch (game/studio/StudioWorldSection.cs); evidence .../build.log, check.log and receipt.json",
+                "verification": "probe PASS 154/154. The 8 real scatter entities all pass the runtime rules, each declares a seed and carries 45 exclusion circles, and the projected plant count is 45, matching round(pi r^2 density) exactly; the runtime link checks are clean on AuthoredWorldDirector.cs and AgentBAct1HeightField.cs. Synthetic cases prove each refusal: no species (RandiRange(0,-1)), no seed (Redo would not reproduce), an oversized brush blocked with the budget numbers before Apply, an inverted size range, malformed exclusions and an unknown stroke mode. Urman.Studio.Core and game/Urman.Game.csproj build with 0 warnings/0 errors and the patch passes git apply --check on a pristine origin/main f83d6998 worktree. The brush was not used in a live Studio and the campaign has no terrain stroke (terrain.v1.json is absent), so the interactive refusal is NOT_RUN at runtime. Remaining: the visual/runtime check and the rest of AI-17 (region freeze and valley-wide passage protection), which needs AI-14"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P2"
             ],
