@@ -964,7 +964,7 @@ public sealed class CodexProposalProvider
     {
         var input = JsonSerializer.Serialize(request, WireJsonOptions);
         return "Propose exactly one operation of type house.windows.resize using only the immutable request JSON below. " +
-               "Window widths are metres. Keep expectedWidth exactly equal to currentWidth. Choose a different windowWidth in the inclusive range 0.65–1.35 metres. " +
+               "Window widths are metres. Keep expectedWidth exactly equal to currentWidth. Choose a different windowWidth in the inclusive range 0.65–1.35 metres. If the prompt specifies a target width, use that exact decimal value, without approximation or extra digits. The summary must describe the actual windowWidth returned. " +
                "Do not use tools, read files, execute commands, change files, or perform any other action. Return only the structured result required by the schema.\n\n" +
                "Immutable request JSON:\n" + input;
     }

@@ -1,0 +1,17 @@
+{
+  "result": "completed_proposal_rejected_by_parent",
+  "request_id": "7d84f9cf61bf4f758106e350c0c24e05",
+  "base_commit": "999d5b5c",
+  "stages": [
+    "Preparing",
+    "ConfigurationWarning",
+    "Generating",
+    "ConfigurationWarning",
+    "Validating"
+  ],
+  "requested_width": 1.3,
+  "returned_width": 1.3113,
+  "reason": "Summary says1.30 while numeric proposal1.3113 does not meet exact requested width. No normalization or Apply.",
+  "project_files_changed": false,
+  "game_after_undo": "NOT_RUN"
+}

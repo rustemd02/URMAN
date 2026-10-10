@@ -25397,6 +25397,16 @@
             "turn_start_observed": true,
             "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-current-runtime-attempt5/provider-diagnostic.json",
             "next": "Pinned account/rateLimits/updated token-count producer; strict turn-only envelope with bounded opaque discarded metadata. No billing/rate facts inferred. Core compile0/0. No model proposal/apply/gameafter/undo yet."
+          },
+          "current_runtime_attempt6": {
+            "result": "MODEL_PROPOSAL_RECEIVED_PARENT_REJECTED_WRONG_WIDTH",
+            "request_id": "7d84f9cf61bf4f758106e350c0c24e05",
+            "core_runtime_sha256": "ce5e6ac4d5936a1978b45e83ecb0ee547567832dc05e9f9c83702e2dbdfab511",
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-current-runtime-attempt6/provider-diagnostic.json",
+            "requested_width": 1.3,
+            "returned_width": 1.3113,
+            "project_files_changed": false,
+            "next": "Prompt demands exact specified decimal and summary consistency. No automatic correction; next fresh proposal requires parent review then exact4fileApply/Windowsafter/Undo."
           }
         }
       },
