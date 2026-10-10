@@ -23112,7 +23112,8 @@
             ],
             "integration_override": "B20 вместо предлагаемого B17 по прямому живому запросу; фактический путь исходника сохранён без копии/переноса.",
             "stage_tasks": [],
-            "acceptance_refs": []
+            "acceptance_refs": [],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-02",
@@ -23147,7 +23148,8 @@
             "stage_tasks": [
               "STUDIO.P0"
             ],
-            "acceptance_refs": []
+            "acceptance_refs": [],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-03",
@@ -23182,7 +23184,8 @@
             "stage_tasks": [
               "STUDIO.P2"
             ],
-            "acceptance_refs": []
+            "acceptance_refs": [],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-04",
@@ -23217,7 +23220,8 @@
             "stage_tasks": [
               "STUDIO.P5"
             ],
-            "acceptance_refs": []
+            "acceptance_refs": [],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-05",
@@ -23254,7 +23258,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A07"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-06",
@@ -23293,7 +23298,8 @@
             "acceptance_refs": [
               "STUDIO-AI/A09",
               "STUDIO-AI/A12"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-07",
@@ -23332,7 +23338,8 @@
             "acceptance_refs": [
               "STUDIO-AI/A09",
               "STUDIO-AI/A12"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-08",
@@ -23365,7 +23372,8 @@
             "acceptance_refs": [
               "STUDIO-AI/A09",
               "STUDIO-AI/A12"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-09",
@@ -23403,7 +23411,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A01"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-10",
@@ -23442,7 +23451,8 @@
               "STUDIO-AI/A08",
               "STUDIO-AI/A11",
               "STUDIO-AI/A16"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-11",
@@ -23483,7 +23493,8 @@
               "STUDIO-AI/A01",
               "STUDIO-AI/A10",
               "STUDIO-AI/A11"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-12",
@@ -23524,7 +23535,8 @@
               "STUDIO-AI/A01",
               "STUDIO-AI/A12",
               "STUDIO-AI/A13"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-13",
@@ -23554,7 +23566,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A13"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-14",
@@ -23588,7 +23601,8 @@
             "acceptance_refs": [
               "STUDIO-AI/A02",
               "STUDIO-AI/A05"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-15",
@@ -23618,7 +23632,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A03"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-16",
@@ -23648,7 +23663,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A04"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-17",
@@ -23678,7 +23694,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A05"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-18",
@@ -23709,7 +23726,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A18"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-19",
@@ -23741,7 +23759,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A06"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-20",
@@ -23771,7 +23790,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A06"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-21",
@@ -23804,7 +23824,8 @@
             "acceptance_refs": [
               "STUDIO-AI/A06",
               "STUDIO-AI/A17"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-22",
@@ -23836,7 +23857,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A19"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-23",
@@ -23867,7 +23889,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A21"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-24",
@@ -23898,7 +23921,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A21"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-25",
@@ -23930,7 +23954,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A21"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-26",
@@ -23961,7 +23986,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A21"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-27",
@@ -23994,7 +24020,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A20"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-28",
@@ -24028,7 +24055,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A20"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-29",
@@ -24062,7 +24090,8 @@
               "STUDIO-AI/A08",
               "STUDIO-AI/A11",
               "STUDIO-AI/A16"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-30",
@@ -24095,7 +24124,8 @@
             "acceptance_refs": [
               "STUDIO-AI/A07",
               "STUDIO-AI/A16"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-31",
@@ -24132,7 +24162,8 @@
               "STUDIO-AI/A14",
               "STUDIO-AI/A15",
               "STUDIO-AI/A21"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-32",
@@ -24169,7 +24200,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A16"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-33",
@@ -24248,7 +24280,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A14"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-34",
@@ -24281,7 +24314,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A17"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-35",
@@ -24312,7 +24346,8 @@
             "stage_tasks": [
               "STUDIO.P6"
             ],
-            "acceptance_refs": []
+            "acceptance_refs": [],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-36",
@@ -24345,7 +24380,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A10"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-37",
@@ -24377,7 +24413,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A22"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-38",
@@ -24409,7 +24446,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A23"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-39",
@@ -24440,7 +24478,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A24"
-            ]
+            ],
+            "assigned_owner": "codex/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-40",
@@ -24474,7 +24513,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A25"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-41",
@@ -24505,7 +24545,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A20"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-42",
@@ -24536,7 +24577,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A20"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-43",
@@ -24567,7 +24609,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A20"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-44",
@@ -24600,7 +24643,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A05"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           },
           {
             "id": "STUDIO/AI-45",
@@ -24632,7 +24676,8 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A13"
-            ]
+            ],
+            "assigned_owner": "deepseek/b20-2026-10-10"
           }
         ],
         "acceptance": "Матрица A01–A25 §23 пройдена; человеческая приёмка A01/A15/A23/A25 проведена автором; ни один модуль не заглушка. Дополнение 10.10: полный контракт docs/URMAN_STUDIO_AI_AUTHORING_SPEC_2026-10-10.md, обязательные AI-единицы и отдельные A01–A25 нового ТЗ; финальный шаг STUDIO/AI-33. Блокеры не закрывают продукт.",
@@ -25040,7 +25085,191 @@
           "success_condition": "AppServer typed proposal exact captured identities; game exterior+interior before/after/Undo at matched Windows cameras; original recipe/shared assets hashes restored, new artifact/ref removed; failed promotion/view and foreign edits refuse whole operation; all unmet B20 criteria stay open.",
           "provider_compatibility": "Feature/thread prefix passed but exact full RunAsync failed before turn on mcpServer/startupStatus/updated. Safe phase/method diagnostic compiled0/0; current Core and harness hashes matched. No model inference/proposal yet. Unknown active features, methods, tool items and writes still rejected; MCP configuration isolation under official-source investigation, notification not whitelisted.",
           "ui_blocker": "Panel layout fixed and observed fully inside Studio, including Close: Size682x583, contentminimum666x524, parent1920x1080; deferred reset after wrapped-label layout. Cmd+Enter dispatch observed. Current provider production RunAsync stops thread/start on mcpServer/startupStatus/updated before turn; all tools/unknown methods remain rejected. Need supported complete MCP disable with current personal login/global instruction consent, then actual proposal, preview, Windows after and Undo. Current protected layout-only Studio running; no model request on this session.",
-          "provider_source_evidence": "https://github.com/openai/codex/blob/rust-v0.162.0-alpha.17/codex-rs/features/src/lib.rs:2282 StageRemoved backward compatibility; item_ids2811,terminal_resize_reflow2464,tui_app_server3053; ignored toggles3312–3414/3453–3459. Luna read-only review; installed schemas unchanged with/without3 switches."
+          "provider_source_evidence": "https://github.com/openai/codex/blob/rust-v0.162.0-alpha.17/codex-rs/features/src/lib.rs:2282 StageRemoved backward compatibility; item_ids2811,terminal_resize_reflow2464,tui_app_server3053; ignored toggles3312–3414/3453–3459. Luna read-only review; installed schemas unchanged with/without3 switches.",
+          "work_split_2026_10_10": {
+            "authorization": "Прямое поручение автора 10.10.2026: разделить B20 между Codex и DeepSeek; отдельный clone/branch DeepSeek, Codex review/cherry-pick accepted commits into main.",
+            "codex_units": [
+              "STUDIO/AI-01",
+              "STUDIO/AI-02",
+              "STUDIO/AI-03",
+              "STUDIO/AI-04",
+              "STUDIO/AI-05",
+              "STUDIO/AI-06",
+              "STUDIO/AI-07",
+              "STUDIO/AI-08",
+              "STUDIO/AI-09",
+              "STUDIO/AI-10",
+              "STUDIO/AI-11",
+              "STUDIO/AI-12",
+              "STUDIO/AI-14",
+              "STUDIO/AI-15",
+              "STUDIO/AI-16",
+              "STUDIO/AI-29",
+              "STUDIO/AI-30",
+              "STUDIO/AI-31",
+              "STUDIO/AI-32",
+              "STUDIO/AI-33",
+              "STUDIO/AI-35",
+              "STUDIO/AI-38",
+              "STUDIO/AI-39"
+            ],
+            "deepseek_units": [
+              "STUDIO/AI-13",
+              "STUDIO/AI-17",
+              "STUDIO/AI-18",
+              "STUDIO/AI-19",
+              "STUDIO/AI-20",
+              "STUDIO/AI-21",
+              "STUDIO/AI-22",
+              "STUDIO/AI-23",
+              "STUDIO/AI-24",
+              "STUDIO/AI-25",
+              "STUDIO/AI-26",
+              "STUDIO/AI-27",
+              "STUDIO/AI-28",
+              "STUDIO/AI-34",
+              "STUDIO/AI-36",
+              "STUDIO/AI-37",
+              "STUDIO/AI-40",
+              "STUDIO/AI-41",
+              "STUDIO/AI-42",
+              "STUDIO/AI-43",
+              "STUDIO/AI-44",
+              "STUDIO/AI-45"
+            ],
+            "coordination_owner": "Codex; общий AI/транзакционный фундамент и интеграция main",
+            "assignment_semantics": "assigned_owner — закреплённая ответственность, не признак запущенной работы или completed. active_owner STUDIO и текущие Luna-назначения сохранены. DeepSeek должен ответить «беру» с clone path/branch/remote и первой dependency-ready единицей в AGENT_CHAT; ACK пока не получен.",
+            "handoff_check": "У всех 22 выделенных AI-единиц evidence пуст; текущие незакоммиченные правки CodexProposalProvider, StudioFileTransaction, EditSession, StudioRoot относятся к Codex AI-06/07/10/11/12. Живых DeepSeek-единиц для передачи не обнаружено; пересекающиеся файлы не означают передачу фундамента.",
+            "cross_owner_dependencies": [
+              {
+                "unit": "STUDIO/AI-13",
+                "requires_other_owner": [
+                  "STUDIO/AI-12"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-14",
+                "requires_other_owner": [
+                  "STUDIO/AI-13"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-17",
+                "requires_other_owner": [
+                  "STUDIO/AI-14"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-18",
+                "requires_other_owner": [
+                  "STUDIO/AI-10"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-19",
+                "requires_other_owner": [
+                  "STUDIO/AI-10"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-21",
+                "requires_other_owner": [
+                  "STUDIO/AI-14"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-22",
+                "requires_other_owner": [
+                  "STUDIO/AI-10"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-25",
+                "requires_other_owner": [
+                  "STUDIO/AI-10"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-26",
+                "requires_other_owner": [
+                  "STUDIO/AI-10"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-27",
+                "requires_other_owner": [
+                  "STUDIO/AI-09",
+                  "STUDIO/AI-11"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-31",
+                "requires_other_owner": [
+                  "STUDIO/AI-13",
+                  "STUDIO/AI-19",
+                  "STUDIO/AI-23"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-33",
+                "requires_other_owner": [
+                  "STUDIO/AI-13",
+                  "STUDIO/AI-17",
+                  "STUDIO/AI-18",
+                  "STUDIO/AI-19",
+                  "STUDIO/AI-20",
+                  "STUDIO/AI-21",
+                  "STUDIO/AI-22",
+                  "STUDIO/AI-23",
+                  "STUDIO/AI-24",
+                  "STUDIO/AI-25",
+                  "STUDIO/AI-26",
+                  "STUDIO/AI-27",
+                  "STUDIO/AI-28",
+                  "STUDIO/AI-34",
+                  "STUDIO/AI-36",
+                  "STUDIO/AI-37",
+                  "STUDIO/AI-40",
+                  "STUDIO/AI-41",
+                  "STUDIO/AI-42",
+                  "STUDIO/AI-43",
+                  "STUDIO/AI-44",
+                  "STUDIO/AI-45"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-36",
+                "requires_other_owner": [
+                  "STUDIO/AI-11",
+                  "STUDIO/AI-14"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-44",
+                "requires_other_owner": [
+                  "STUDIO/AI-03",
+                  "STUDIO/AI-10",
+                  "STUDIO/AI-14"
+                ]
+              },
+              {
+                "unit": "STUDIO/AI-45",
+                "requires_other_owner": [
+                  "STUDIO/AI-09",
+                  "STUDIO/AI-14"
+                ]
+              }
+            ],
+            "shared_file_order": [
+              "Codex остаётся writer execution_backlog.json в main. DeepSeek меняет только свои AI steps/evidence в своём clone, отдельным commit; Codex сверяет с актуальным JSON и сохраняет чужие назначения при интеграции.",
+              "Codex держит текущие CodexProposalProvider.cs, Editing/EditSession.cs, Storage/StudioFileTransaction.cs, StudioAiPanel.cs и незаконченный StudioRoot.cs recovery/pilot участок. DeepSeek не меняет их контракт до согласования в AGENT_CHAT.",
+              "StudioRoot/WorldSection, Workspace/ReferenceIndex, StudioImporter, schemas, model/house/interior generators и runtime consumers — пересекающиеся файлы. Перед изменением DeepSeek сообщает exact paths/symbols/unit/base SHA; Codex подтверждает свободный участок или принимает отдельный interface patch. Один активный writer участка; не вести две параллельные реализации общего foundation.",
+              "Станция/build/import/protected-run сериализуются через общий чат; отдельный clone не позволяет одновременно занимать станцию. Сохраняются guards/userdata, dependency и human/art/culture/language gates."
+            ],
+            "commit_channel": "docs/tasktracker/AGENT_CHAT.md, адресат @Codex: 📋 Передача DeepSeek: unit, source branch/remote, base SHA, ordered commit SHA, exact changed files, проверка/evidence, остаток и общие интерфейсы. Коммиты опубликованы в своей доступной ветке; если fetch недоступен — git format-patch bundle и SHA256 по согласованному пути. Секреты не пересылать.",
+            "integration_order": "DeepSeek не пушит в main. Codex fetch доступной ветки, review diff/dependencies/contract/evidence, возвращает замечания или принимает, cherry-pick принятых SHA в порядке зависимостей, разрешает конфликты с сохранением полезных правок, выполняет узкую проверку, обновляет единую карточку и публикует main SHA в чате. Непринятый branch commit не является completed в main.",
+            "first_next": "Codex продолжает первый Codex house/windows → game → full Undo пилот; DeepSeek до выполненных dependency gates может исследовать/готовить конкретные участки в своём clone, но не выдавать подготовку за принятый AI-13 либо удалять зависимости."
+          }
         }
       },
       "done_when": "Все дочерние задачи закрыты доказательствами; человеческие пункты оценены автором, а не walkthrough. Дополнительно выполнены все обязательные AI-единицы и новые A01–A25 из ТЗ 10.10, включая обоих провайдеров и внешние гейты; AI-35 только после отдельного расширения Windows. Историческая матрица и дочерние задачи сохраняются.",
