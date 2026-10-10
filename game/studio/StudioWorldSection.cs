@@ -20,6 +20,7 @@ public sealed record StudioPlayStart(string Zone, string Spawn, Vector3? Positio
 public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSection
 {
     private const float PickRadiusPixels = 22f;
+    private readonly record struct WorldPick(string EntityId, string? PartLabel, string? SourceMeshPath);
     public const string StreetPlotPath = "game/content/world/studio-street.world.v1.json";
     private readonly Dictionary<string, Node3D> _markers = new(StringComparer.Ordinal);
     private readonly Dictionary<string, string> _previewed = new(StringComparer.Ordinal);
@@ -47,6 +48,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     private JsonArray _catalog = [];
     private string? _catalogState;
     private readonly HashSet<string> _group = new(StringComparer.Ordinal);
+    private WorldPick? _pickedPart;
     private readonly Dictionary<string, bool> _layers = new(StringComparer.Ordinal)
     {
         ["kit-placement"] = true, ["prop"] = true, ["scatter"] = true, ["npc"] = true, ["pickup"] = true, ["item-spawn"] = true,
@@ -291,6 +293,8 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     {
         if (_view is null) return;
         _reloading = true;
+        _pickedPart = null;
+        studio.ShowProperties();
         var previous = _demo;
         try
         {
@@ -638,8 +642,11 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 break;
             case InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true } press:
                 _container.GrabFocus();
-                var keepGroup = studio.Selection is { } before && (_group.Contains(Pick(press.Position) ?? "") || before == Pick(press.Position)) && _group.Count > 0;
-                if (!keepGroup) { _group.Clear(); PickAt(press.Position); }
+                var pick = Pick(press.Position);
+                var keepGroup = studio.Selection is { } before && pick is { } selectedHit
+                    && (_group.Contains(selectedHit.EntityId) || before == selectedHit.EntityId) && _group.Count > 0;
+                if (!keepGroup) { _group.Clear(); PickAt(pick); }
+                else SetPickedPart(pick);
                 if (studio.Selection is { } id && _markers.ContainsKey(id) && Movable(id) && !Locked(id))
                 {
                     _dragId = id;
@@ -716,7 +723,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         return null;
     }
 
-    private string? Pick(Vector2 screen)
+    private WorldPick? Pick(Vector2 screen)
     {
         // The collision mesh belongs to the same authored placement as its visible facade.
         var origin = _camera.ProjectRayOrigin(screen);
@@ -724,11 +731,24 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         var hit = _camera.GetWorld3D().DirectSpaceState.IntersectRay(ray);
         if (hit.TryGetValue("collider", out var collider))
         {
-            for (var node = collider.AsGodotObject() as Node; node is not null; node = node.GetParent())
+            var colliderNode = collider.AsGodotObject() as Node;
+            string? sourceMeshPath = null;
+            if (colliderNode is CollisionObject3D collision && hit.TryGetValue("shape", out var shapeIndex)
+                && collision.ShapeOwnerGetOwner(collision.ShapeFindOwner(shapeIndex.AsInt32())) is Node shapeOwner
+                && shapeOwner.HasMeta("authoredSourceMesh"))
+            {
+                sourceMeshPath = shapeOwner.GetMeta("authoredSourceMesh").AsString();
+            }
+
+            for (var node = colliderNode; node is not null; node = node.GetParent())
             {
                 if (!node.HasMeta(AuthoredWorldPlot.AuthoredIdMeta)) continue;
                 var hitId = node.GetMeta(AuthoredWorldPlot.AuthoredIdMeta).AsString();
-                if (studio.Workspace.Locate(hitId) is not null && !Locked(hitId)) return hitId;
+                if (studio.Workspace.Locate(hitId) is not null && !Locked(hitId))
+                {
+                    var partLabel = hitId == HeroHouseRecipe.EntityId ? HeroHousePartLabel(sourceMeshPath) : null;
+                    return new WorldPick(hitId, partLabel, partLabel is null ? null : sourceMeshPath);
+                }
             }
         }
         string? best = null;
@@ -741,14 +761,76 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             if (distance < bestDistance) { bestDistance = distance; best = id; }
         }
 
-        return best;
+        return best is null ? null : new WorldPick(best, null, null);
+    }
+
+    private static string? HeroHousePartLabel(string? sourceMeshPath)
+    {
+        if (string.IsNullOrEmpty(sourceMeshPath)) return null;
+        var separator = sourceMeshPath.LastIndexOf('/');
+        var meshName = separator >= 0 ? sourceMeshPath[(separator + 1)..] : sourceMeshPath;
+        const string prefix = "HeroHouse_";
+        if (!meshName.StartsWith(prefix, StringComparison.Ordinal)) return null;
+
+        const string wallSuffix = "_Wall_LOD0";
+        if (meshName.EndsWith(wallSuffix, StringComparison.Ordinal))
+        {
+            var section = meshName[prefix.Length..^wallSuffix.Length];
+            return section switch
+            {
+                "Street" => "Уличная стена",
+                "Rear" => "Задняя стена",
+                "Left" => "Левая боковая стена",
+                "Right" => "Правая боковая стена",
+                "SeniOuter" => "Наружная стена сеней",
+                "SeniEntry" => "Стена входа в сени",
+                "SeniRear" => "Задняя стенка сеней",
+                _ => null
+            };
+        }
+
+        var windowStart = meshName.IndexOf("_Window", prefix.Length, StringComparison.Ordinal);
+        if (windowStart < 0) return null;
+        var tokenEnd = meshName.IndexOf('_', windowStart + 1);
+        if (tokenEnd < 0) return null;
+        var windowToken = meshName[(windowStart + 1)..tokenEnd];
+        if (windowToken.Length == "Window".Length || !windowToken.StartsWith("Window", StringComparison.Ordinal)) return null;
+        var windowNumber = windowToken["Window".Length..];
+        if (windowNumber.Any(character => character is < '0' or > '9')) return null;
+        var sectionName = meshName[prefix.Length..windowStart];
+        var sectionLabel = sectionName switch
+        {
+            "Street" => "улица",
+            "Rear" => "задняя стена",
+            "Left" => "левая стена",
+            "Right" => "правая стена",
+            "SeniOuter" => "наружная стена сеней",
+            _ => null
+        };
+        return sectionLabel is null ? null : $"Окно · {sectionLabel} {windowNumber}";
+    }
+
+    private void SetPickedPart(WorldPick? pick)
+    {
+        var next = pick is { } candidate && candidate.EntityId == studio.Selection && candidate.PartLabel is not null
+            ? candidate : (WorldPick?)null;
+        if (_pickedPart == next) return;
+        _pickedPart = next;
+        studio.ShowProperties();
     }
 
     private void AddToGroup(Vector2 screen)
     {
-        if (Pick(screen) is not { } id) return;
+        if (Pick(screen) is not { } picked)
+        {
+            SetPickedPart(null);
+            return;
+        }
+
+        var id = picked.EntityId;
         if (studio.Selection is { } current) _group.Add(current);
         if (!_group.Add(id)) _group.Remove(id);
+        _pickedPart = picked.PartLabel is null ? null : picked;
         studio.Select(id);
         BuildMarkers();
         studio.RefreshStatus($"Выбрано объектов: {_group.Count}. Перетаскивание двигает их вместе");
@@ -760,6 +842,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     {
         _group.Clear();
         foreach (var id in ids) _group.Add(id);
+        _pickedPart = null;
         studio.Select(_group.LastOrDefault());
         BuildMarkers();
     }
@@ -812,9 +895,10 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         UpdateCamera();
     }
 
-    private void PickAt(Vector2 screen)
+    private void PickAt(WorldPick? pick)
     {
-        studio.Select(Pick(screen));
+        _pickedPart = pick is { PartLabel: not null } ? pick : null;
+        studio.Select(pick?.EntityId);
         BuildMarkers();
     }
 
@@ -842,6 +926,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     public void MoveEntity(string id, float x, float z, string label)
     {
+        if (_pickedPart?.EntityId == id) SetPickedPart(null);
         var entity = (JsonObject)studio.Workspace.Get(id)!;
         var position = entity["params"]!["position"]!.AsArray();
         var y = (double)position[1]!;
@@ -1136,6 +1221,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     public void FillProperties(StudioProperties panel)
     {
+        if (_pickedPart is { } stalePart && stalePart.EntityId != studio.Selection) _pickedPart = null;
         if (studio.Selection is not { } id || studio.Workspace.Get(id) is not JsonObject entity)
         {
             panel.Header("Ничего не выбрано", "Мир");
@@ -1146,6 +1232,8 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         var summary = studio.Catalog.Describe(id);
         panel.Header(summary.Name, summary.KindLabel + " · экземпляр в мире");
         panel.IdLine(id);
+        if (_pickedPart is { } selectedPart && selectedPart.EntityId == id && selectedPart.PartLabel is { } partLabel)
+            panel.Text(partLabel, muted: true);
         var parameters = entity["params"] as JsonObject ?? [];
         panel.TextField("Название", (string?)entity["name"] ?? "", text => studio.Session.SetField(id, ["name"], text, "переименование"));
         var lockBox = new CheckBox { Text = "Заблокировать от случайного выбора", ButtonPressed = (bool?)entity["locked"] ?? false };
@@ -1250,6 +1338,8 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
         var advanced = panel.Advanced();
         advanced.AddChild(new Label { Text = $"Файл: {summary.RelativePath}", ThemeTypeVariation = "MutedLabel", AutowrapMode = TextServer.AutowrapMode.Arbitrary });
+        if (_pickedPart is { } sourcePart && sourcePart.EntityId == id && sourcePart.SourceMeshPath is { } sourceMeshPath)
+            advanced.AddChild(new Label { Text = $"Источник части: {sourceMeshPath}", ThemeTypeVariation = "MutedLabel", AutowrapMode = TextServer.AutowrapMode.Arbitrary });
         foreach (var interaction in InteractionIds(parameters))
         {
             advanced.AddChild(new Label { Text = $"Взаимодействие: {interaction}", ThemeTypeVariation = "MutedLabel", AutowrapMode = TextServer.AutowrapMode.Arbitrary });
