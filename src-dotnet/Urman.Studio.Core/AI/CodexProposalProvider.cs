@@ -297,7 +297,7 @@ public sealed class CodexProposalProvider
             protocolPhase = "turn/start";
             turnWasStarted = true;
             var turnResponse = await client.RequestAsync("turn/start", turnStart, 101,
-                message => HandleTurnNotificationAsync(message, threadId, () => turnId, value => turnId = value, value => terminalTurn = value), token).ConfigureAwait(false);
+                message => HandleTurnNotificationAsync(message, threadId, configuredMcpServerIds, () => turnId, value => turnId = value, value => terminalTurn = value), token).ConfigureAwait(false);
             var startedTurn = GetRequiredObject(turnResponse, "turn");
             var responseTurnId = GetRequiredString(startedTurn, "id");
             if (turnId is not null && !string.Equals(turnId, responseTurnId, StringComparison.Ordinal))
@@ -309,7 +309,7 @@ public sealed class CodexProposalProvider
             if (terminalTurn is null)
             {
                 protocolPhase = "turn/events";
-                terminalTurn = await WaitForTerminalTurnAsync(client, threadId, turnId, HandleTurnNotificationAsync, () => turnId, value => turnId = value, token).ConfigureAwait(false);
+                terminalTurn = await WaitForTerminalTurnAsync(client, threadId, turnId, configuredMcpServerIds, HandleTurnNotificationAsync, () => turnId, value => turnId = value, token).ConfigureAwait(false);
             }
 
             Report(progress, CodexProposalStage.Validating, "Validating proposal identity and window width.");
@@ -660,7 +660,8 @@ public sealed class CodexProposalProvider
         AppServerClient client,
         string threadId,
         string expectedTurnId,
-        Func<JsonElement, string, Func<string?>, Action<string>, Action<JsonElement>, Task> notificationHandler,
+        IReadOnlyList<string> configuredMcpServerIds,
+        Func<JsonElement, string, IReadOnlyList<string>, Func<string?>, Action<string>, Action<JsonElement>, Task> notificationHandler,
         Func<string?> getTurnId,
         Action<string> setTurnId,
         CancellationToken cancellationToken)
@@ -671,7 +672,7 @@ public sealed class CodexProposalProvider
             var message = await client.ReadMessageAsync(cancellationToken).ConfigureAwait(false);
             if (message.TryGetProperty("method", out _))
             {
-                await notificationHandler(message, threadId, getTurnId, setTurnId, value => terminal = value).ConfigureAwait(false);
+                await notificationHandler(message, threadId, configuredMcpServerIds, getTurnId, setTurnId, value => terminal = value).ConfigureAwait(false);
                 continue;
             }
 
@@ -686,6 +687,7 @@ public sealed class CodexProposalProvider
     private static Task HandleTurnNotificationAsync(
         JsonElement message,
         string threadId,
+        IReadOnlyList<string> configuredMcpServerIds,
         Func<string?> getTurnId,
         Action<string> setTurnId,
         Action<JsonElement> setTerminalTurn)
@@ -792,7 +794,7 @@ public sealed class CodexProposalProvider
             return Task.CompletedTask;
         }
 
-        throw new ProtocolBoundaryException(GetSafeUnexpectedNotificationToken(message, method));
+        throw new ProtocolBoundaryException(GetSafeUnexpectedNotificationToken(message, method, threadId, configuredMcpServerIds));
     }
 
     private void VerifyThreadBoundary(JsonElement response, JsonElement thread, string workingDirectory)
@@ -1074,8 +1076,30 @@ public sealed class CodexProposalProvider
         return methodValue.GetString() is "account/updated" or "remoteControl/status/changed";
     }
 
-    private static string? GetSafeUnexpectedNotificationToken(JsonElement message, string method)
+    private static string? GetSafeUnexpectedNotificationToken(
+        JsonElement message,
+        string method,
+        string? expectedThreadId = null,
+        IReadOnlyList<string>? configuredMcpServerIds = null)
     {
+        if (method == "mcpServer/startupStatus/updated" && expectedThreadId is not null && configuredMcpServerIds is not null)
+        {
+            var diagnosticParameters = message.TryGetProperty("params", out var parameterValue) && parameterValue.ValueKind == JsonValueKind.Object
+                ? parameterValue
+                : default;
+            var diagnosticStatus = diagnosticParameters.ValueKind == JsonValueKind.Object && diagnosticParameters.TryGetProperty("status", out var statusValue) &&
+                statusValue.ValueKind == JsonValueKind.String && statusValue.GetString() is { } statusText &&
+                statusText is "starting" or "ready" or "failed" or "cancelled"
+                    ? statusText
+                    : "unknown";
+            var threadMatches = diagnosticParameters.ValueKind == JsonValueKind.Object && diagnosticParameters.TryGetProperty("threadId", out var threadValue) &&
+                threadValue.ValueKind == JsonValueKind.String && string.Equals(threadValue.GetString(), expectedThreadId, StringComparison.Ordinal);
+            var configuredServer = diagnosticParameters.ValueKind == JsonValueKind.Object && diagnosticParameters.TryGetProperty("name", out var nameValue) &&
+                nameValue.ValueKind == JsonValueKind.String && configuredMcpServerIds.Any(id => string.Equals(id, nameValue.GetString(), StringComparison.Ordinal));
+
+            return $"{method}/{diagnosticStatus}/t{(threadMatches ? "1" : "0")}/c{(configuredServer ? "1" : "0")}";
+        }
+
         if (method == "mcpServer/startupStatus/updated" &&
             message.TryGetProperty("params", out var parameters) && parameters.ValueKind == JsonValueKind.Object &&
             parameters.TryGetProperty("status", out var status) && status.ValueKind == JsonValueKind.String &&
