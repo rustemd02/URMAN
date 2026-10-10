@@ -227,13 +227,18 @@ public partial class Act1ConnectedWorld
             placement.GlobalPosition = new Vector3(p.X, (float)AgentBAct1HeightField.CollisionGround(p.X, p.Z) - .02f, p.Z);
         }
 
-        var lowStones = lowMarkerPlacement.FindChildren("*Marker_*", nameof(MeshInstance3D), true, false)
+        MeshInstance3D[] Stones(Node3D placement, string pattern) => placement
+            .FindChildren(pattern, nameof(MeshInstance3D), true, false)
             .OfType<MeshInstance3D>().OrderBy(stone => stone.Name.ToString(), StringComparer.Ordinal).ToArray();
-        var farStones = farMarkerPlacement.FindChildren("*Marker_*", nameof(MeshInstance3D), true, false)
-            .OfType<MeshInstance3D>().OrderBy(stone => stone.Name.ToString(), StringComparer.Ordinal).ToArray();
+        var lowStones = Stones(lowMarkerPlacement, "*_Marker_*");
+        var farStones = Stones(farMarkerPlacement, "*_Marker_*");
+        // The four kit companions were not matched by the marker pattern and
+        // stayed at the old roadside offsets, one of them outside the fence on
+        // the approach (zirat_entry_verify, 10.10.2026). They close the rows.
+        var companions = Stones(lowMarkerPlacement, "*_Companion_*").Concat(Stones(farMarkerPlacement, "*_Companion_*"));
 
         var family = lowStones.Take(2).ToArray();
-        var quiet = lowStones.Skip(2).Concat(farStones).ToArray();
+        var quiet = lowStones.Skip(2).Concat(farStones).Concat(companions).ToArray();
         var columns = Mathf.Max(1, (int)Mathf.Ceil(quiet.Length / 2f));
         for (var index = 0; index < quiet.Length; index++)
         {

@@ -2428,8 +2428,8 @@ public partial class Act1ConnectedWorld : Node3D
                 }
                 else if (memberName.StartsWith("HeroYardShed_LoftBoard_", StringComparison.Ordinal))
                 {
-                    material = PainterlyMaterialLibrary.ForColor("6f6353", "wood", sheltered: true);
-                    mesh.SetMeta("painterlyMaterial", "sheltered_loft_wood");
+                    material = PainterlyMaterialLibrary.ForColor("6f6353", "wood_shed_dark", sheltered: true);
+                    mesh.SetMeta("painterlyMaterial", "wood_shed_dark/W07");
                 }
                 else if (memberName.StartsWith("HeroYardShed_HayBinding_", StringComparison.Ordinal))
                 {
@@ -3444,6 +3444,7 @@ public partial class Act1ConnectedWorld : Node3D
             "zirat_road@quiet-marker-group-far",
             ZiratRoadsideKitScenePath);
         ComposeRelocatedZiratStones(lowMarkerPlacement, farMarkerPlacement);
+        ReshapeZiratMarkers(lowMarkerPlacement, farMarkerPlacement);
         var pathPlacement = AttachAct1ExteriorKitComponent(
             presentation,
             components[8].Root!,
@@ -3989,7 +3990,7 @@ public partial class Act1ConnectedWorld : Node3D
             ["LeafLitter"] = PainterlyMaterialLibrary.ForColor("f0f4f8", "snow_ground"),
             ["PineBark"] = PainterlyMaterialLibrary.ForColor("40352d", "bark_pine"),
             ["WeatheredWood"] = PainterlyMaterialLibrary.ForColor("55493c", "wood"),
-            ["CutWood"] = PainterlyMaterialLibrary.ForColor("8b7155", "wood"),
+            ["CutWood"] = PainterlyMaterialLibrary.ForColor("8b7155", "wood_split"),
             ["PineFoliage"] = PainterlyMaterialLibrary.ForColor("30483f", "foliage"),
             ["FoliageBlueGreen"] = PainterlyMaterialLibrary.ForColor("48553f", "foliage"),
             ["BirchBark"] = PainterlyMaterialLibrary.ForColor("68705a", "bark_birch"),

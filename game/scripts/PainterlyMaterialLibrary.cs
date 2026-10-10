@@ -713,6 +713,10 @@ public static class PainterlyMaterialLibrary
         // W08: opt-in finished furniture; the legacy owner also serves floors
         // and exterior benches, which must not be varnished by a global swap.
         ["wood_furniture_interior"] = ("res://assets/textures/painterly/urman_w08_v01_basecolor.png", new Vector2(1f / 1.2f, 1f / 1.2f)),
+        // W07/W10/W11: project-original procedural bakes (procedural_bake_receipt_v1.json).
+        ["wood_shed_dark"] = ("res://assets/textures/painterly/wood_shed_dark_v1_albedo.png", Vector2.One),
+        ["wood_bath_light"] = ("res://assets/textures/painterly/wood_bath_light_v1_albedo.png", new Vector2(1f / .75f, 1f / .75f)),
+        ["wood_split"] = ("res://assets/textures/painterly/wood_split_firewood_v1_albedo.png", new Vector2(2f, 2f)),
         ["wood_prop"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.9f, 0.9f)),
         ["wood_bark"] = ("res://assets/textures/painterly/bark_pine_v1_albedo.png", new Vector2(1.05f, 1.05f)),
         ["bark_pine"] = ("res://assets/textures/painterly/urman_f02_v02_basecolor.png", Vector2.One),
@@ -1554,6 +1558,9 @@ public static class PainterlyMaterialLibrary
         {
             "wood_painted_blue" or "wood_painted_green" or "wood_painted_trim" or "wood_log_uv" => "wood_facade",
             "wood_floor_painted" => "wood_furniture_interior",
+            "wood_bath_light" => "wood_furniture",
+            "wood_shed_dark" => "wood",
+            "wood_split" => "wood_prop",
             "wood_fence_vertical" or "wood_fence_rail" or "wood_fence_uv" => "wood_fence",
             "plaster_domestic" => "wall_institution",
             "stone_foundation" => "stone",

@@ -410,7 +410,7 @@ public partial class Act1ConnectedWorld
         {
             if (counts[i] == 0) continue;
             tools[i].Commit(mesh);
-            mesh.SurfaceSetMaterial(mesh.GetSurfaceCount() - 1, PainterlyMaterialLibrary.ForColor(tones[i], "wood", sheltered: true));
+            mesh.SurfaceSetMaterial(mesh.GetSurfaceCount() - 1, PainterlyMaterialLibrary.ForColor(tones[i], "wood_bath_light", sheltered: true));
         }
         var lining = new MeshInstance3D { Name = "BathSteamRoomLining", Mesh = mesh, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off };
         lining.SetMeta("visualOnly", true);

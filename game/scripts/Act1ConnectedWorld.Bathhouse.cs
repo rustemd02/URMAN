@@ -59,7 +59,7 @@ public partial class Act1ConnectedWorld
 
         var footingDepth = high - low + .24f;
         FacilitySolid(_bathhouse, "BathStoneFoundation", new(4.18f, footingDepth, 5.18f), new(0, -footingDepth * .5f - .015f, 0), "67665b", "stone");
-        FacilitySolid(_bathhouse, "BathFloor", new(4, .06f, 5), new(0, -.03f, 0), "5a4634", "wood_furniture");
+        FacilitySolid(_bathhouse, "BathFloor", new(4, .06f, 5), new(0, -.03f, 0), "5a4634", "wood_bath_light");
         FacilitySolid(_bathhouse, "BathCeiling", new(4, .10f, 5), new(0, 2.60f, 0), "2c231b", "wood");
         FacilitySolid(_bathhouse, "BathWestWall", new(.20f, 2.60f, 5), new(-2, 1.30f, 0), "3a2e24", "wood");
         FacilitySolid(_bathhouse, "BathFrontWall", new(4, 2.60f, .20f), new(0, 1.30f, 2.5f), "3a2e24", "wood");
@@ -106,9 +106,9 @@ public partial class Act1ConnectedWorld
         foreach (var x in new[] { -1.90f, 1.90f })
             AddVisualBox(_bathhouse, $"BathCornerPost{x}_{z}", new(.16f, 2.55f, .17f), new(x, 1.275f, z), "33281f", "wood");
 
-        FacilitySolid(_bathhouse, "BathPartitionLeft", new(2, 2.55f, .14f), new(-1, 1.275f, .35f), "4b3b2c", "wood_furniture");
-        FacilitySolid(_bathhouse, "BathPartitionRight", new(.90f, 2.55f, .14f), new(1.55f, 1.275f, .35f), "4b3b2c", "wood_furniture");
-        FacilitySolid(_bathhouse, "BathPartitionLintel", new(1.10f, .50f, .14f), new(.55f, 2.30f, .35f), "4b3b2c", "wood_furniture");
+        FacilitySolid(_bathhouse, "BathPartitionLeft", new(2, 2.55f, .14f), new(-1, 1.275f, .35f), "4b3b2c", "wood_bath_light");
+        FacilitySolid(_bathhouse, "BathPartitionRight", new(.90f, 2.55f, .14f), new(1.55f, 1.275f, .35f), "4b3b2c", "wood_bath_light");
+        FacilitySolid(_bathhouse, "BathPartitionLintel", new(1.10f, .50f, .14f), new(.55f, 2.30f, .35f), "4b3b2c", "wood_bath_light");
         var entrance = FacilityManualDoor(_bathhouse, "BathEntrance", "bathhouse/entrance", new(2.015f, 0, 2.13f), 1.10f, 2.10f, 180, -98);
         entrance.GeometryVersion = 2;
         entrance.LegacyAngleProjection = angle => Mathf.Pi - angle;

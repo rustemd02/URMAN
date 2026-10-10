@@ -3734,7 +3734,7 @@
       "milestone": "M4",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": "claude/visual-reset-2026-10-09",
+      "active_owner": "codex-kadyr/claude-takeover-2026-10-10",
       "owner": "art/materials/qa",
       "depends_on": [
         "ACT1-TEXTURE.01"
@@ -3929,6 +3929,16 @@
           "remaining": "подключить W07/W10/W11/S05 к реальным потребителям; F03 читается как панцирь — переделать перед подключением; 11 условных карточек ждут решения/потребителя; 3 частично; кадр станции после подключения",
           "evidence": "game/assets/textures/painterly/procedural_bake_receipt_v1.json"
         }
+      },
+      "progress_2026_10_10_takeover": {
+        "result": "Продолжено адресное подключение процедурных фактур Claude: W07 — доски сеновала; W10 — обшивка, пол и перегородки бани; W11 — существующая незавершённая привязка CutWood кромки леса. Хеши W07/W10/W11 совпадают с procedural_bake_receipt_v1.json.",
+        "verification_question": "Матовые деревянные материалы загружаются и читаются в целевых Windows-видах парной/двора без ошибок?",
+        "station_job": "eb4b7187310f468eb1c46f0bab29eac6",
+        "remaining": "Авторская приёмка, лавки W10, прочие сараи W07, отдельное назначение боков/торцов и BathDryFirewood W11; это частичный этап карточки.",
+        "capture_configuration_correction": "Смешанный job eb4b7187310f468eb1c46f0bab29eac6: Windows build PASS; capture отказал до кадра при смешении zirat_road и unbound. Данные восстановлены и проверены штатным guard. Исправление — раздельные пакеты точек, guards неизменны; zirat job 92476af2275947f28ae772972b4ec9ff.",
+        "zirat_verification": "Windows job 92476af2275947f28ae772972b4ec9ff PASS на текущем snapshot aecf30be0385f5d0bbb34cf5d3894c4174148640f0019a3e739081cca2d5993a; engine-errors.log пуст, данные восстановлены и проверены. Оба кадра лично просмотрены: одиночный камень на переднем плане устранён, надписи семейной пары сохранились; камень слишком тёмный и фактура грубая, художественная/культурная приёмка открыта. Условия входного кадра сопоставимы с before по comparator.",
+        "evidence": "evidence/ACT1-PUBLIC/claude-takeover-2026-10-10/",
+        "next": "Проверить текущие фактуры бани/двора: job 70a9791fb55c4f81b0e913c987905fdf. Затем авторская/культурная приёмка зирата и оставшиеся consumers W07/W10/W11."
       }
     },
     {
@@ -7350,7 +7360,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "complex",
-      "active_owner": null,
+      "active_owner": "codex-kadyr/claude-takeover-2026-10-10",
       "owner": "finished-act1",
       "depends_on": [
         "ACT1-EX00",
@@ -7402,6 +7412,23 @@
         "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
         "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+      },
+      "progress_2026_10_10_takeover": {
+        "result": "Принимаю незавершённый этап Claude по прямому поручению автора; файлы надгробий и их расстановки совпали по SHA256 с PASS station job 3b7e76857a3941da9eedb11361b26bb2. Позднее подключение W07/W10/W11 ещё не проверено в runtime.",
+        "verification_question": "На текущем снимке все камни стоят внутри зирата, надписи семейной пары сохранены, новые фактуры дерева загружаются в бане и поленнице без ошибок?",
+        "success_condition": "Узкая Windows-съёмка зирата/бани/двора с пустым engine-errors.log, userdataRestored=true и личным просмотром кадров; культурная и авторская приёмка остаются открытыми.",
+        "files": [
+          "game/scripts/Act1ConnectedWorld.ZiratMarkers.cs",
+          "game/scripts/Act1ConnectedWorld.ZiratFamily.cs",
+          "game/scripts/Act1ConnectedWorld.cs",
+          "game/scripts/Act1ConnectedWorld.BathhouseAtmosphere.cs",
+          "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
+          "game/scripts/PainterlyMaterialLibrary.cs"
+        ],
+        "next": "Проверить текущие фактуры бани/двора: job 70a9791fb55c4f81b0e913c987905fdf. Затем авторская/культурная приёмка зирата и оставшиеся consumers W07/W10/W11.",
+        "capture_configuration_correction": "Смешанный job eb4b7187310f468eb1c46f0bab29eac6: Windows build PASS; capture отказал до кадра при смешении zirat_road и unbound. Данные восстановлены и проверены штатным guard. Исправление — раздельные пакеты точек, guards неизменны; zirat job 92476af2275947f28ae772972b4ec9ff.",
+        "zirat_verification": "Windows job 92476af2275947f28ae772972b4ec9ff PASS на текущем snapshot aecf30be0385f5d0bbb34cf5d3894c4174148640f0019a3e739081cca2d5993a; engine-errors.log пуст, данные восстановлены и проверены. Оба кадра лично просмотрены: одиночный камень на переднем плане устранён, надписи семейной пары сохранились; камень слишком тёмный и фактура грубая, художественная/культурная приёмка открыта. Условия входного кадра сопоставимы с before по comparator.",
+        "evidence": "evidence/ACT1-PUBLIC/claude-takeover-2026-10-10/"
       }
     },
     {
@@ -31687,7 +31714,7 @@
       "title": "Удержать красоту наружной деревни после разделения",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "claude/visual-reset-2026-10-09",
+      "active_owner": "codex-kadyr/claude-takeover-2026-10-10",
       "owner": "art",
       "priority": "P1",
       "complexity": "complex",
@@ -31902,6 +31929,23 @@
           ],
           "next": "кадры задания crisp vs zone (тот же ракурс), затем решение по профилю"
         }
+      },
+      "progress_2026_10_10_takeover": {
+        "result": "Принимаю незавершённый этап Claude по прямому поручению автора; файлы надгробий и их расстановки совпали по SHA256 с PASS station job 3b7e76857a3941da9eedb11361b26bb2. Позднее подключение W07/W10/W11 ещё не проверено в runtime.",
+        "verification_question": "На текущем снимке все камни стоят внутри зирата, надписи семейной пары сохранены, новые фактуры дерева загружаются в бане и поленнице без ошибок?",
+        "success_condition": "Узкая Windows-съёмка зирата/бани/двора с пустым engine-errors.log, userdataRestored=true и личным просмотром кадров; культурная и авторская приёмка остаются открытыми.",
+        "files": [
+          "game/scripts/Act1ConnectedWorld.ZiratMarkers.cs",
+          "game/scripts/Act1ConnectedWorld.ZiratFamily.cs",
+          "game/scripts/Act1ConnectedWorld.cs",
+          "game/scripts/Act1ConnectedWorld.BathhouseAtmosphere.cs",
+          "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
+          "game/scripts/PainterlyMaterialLibrary.cs"
+        ],
+        "next": "Проверить текущие фактуры бани/двора: job 70a9791fb55c4f81b0e913c987905fdf. Затем авторская/культурная приёмка зирата и оставшиеся consumers W07/W10/W11.",
+        "capture_configuration_correction": "Смешанный job eb4b7187310f468eb1c46f0bab29eac6: Windows build PASS; capture отказал до кадра при смешении zirat_road и unbound. Данные восстановлены и проверены штатным guard. Исправление — раздельные пакеты точек, guards неизменны; zirat job 92476af2275947f28ae772972b4ec9ff.",
+        "zirat_verification": "Windows job 92476af2275947f28ae772972b4ec9ff PASS на текущем snapshot aecf30be0385f5d0bbb34cf5d3894c4174148640f0019a3e739081cca2d5993a; engine-errors.log пуст, данные восстановлены и проверены. Оба кадра лично просмотрены: одиночный камень на переднем плане устранён, надписи семейной пары сохранились; камень слишком тёмный и фактура грубая, художественная/культурная приёмка открыта. Условия входного кадра сопоставимы с before по comparator.",
+        "evidence": "evidence/ACT1-PUBLIC/claude-takeover-2026-10-10/"
       }
     },
     {

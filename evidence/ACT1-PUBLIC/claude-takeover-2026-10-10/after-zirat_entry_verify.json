@@ -1,0 +1,5369 @@
+{
+  "metadataVersion": 2,
+  "engineVersion": "4.7.1-stable (official)",
+  "os": "Windows",
+  "point": "zirat_entry_verify",
+  "spec": "zirat_entry_verify:ZiratMemoryField@13.25968,1.163604,-76.89984\u003EZiratMemoryField@6.7,0.510804,-78",
+  "cameraName": "DevViewCamera",
+  "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+  "cameraPosition": {
+    "x": 13.25968,
+    "y": 1.163604,
+    "z": -76.899841
+  },
+  "cameraTarget": {
+    "x": 6.7,
+    "y": 0.510804,
+    "z": -78
+  },
+  "cameraForward": {
+    "x": -0.98151,
+    "y": -0.097677,
+    "z": -0.164614
+  },
+  "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField",
+  "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField",
+  "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField",
+  "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField",
+  "cameraOwnerZone": null,
+  "targetOwnerZone": null,
+  "fov": 70,
+  "fovSource": "control-view-default",
+  "diagnosticView": null,
+  "playerBodyHidden": true,
+  "diagnosticNeutralScope": null,
+  "near": 0.05,
+  "far": 160,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "scaling3DScale": 0.7,
+  "scaling3DMode": "Fsr",
+  "graphicsPreset": "low",
+  "graphicsRequestedPreset": null,
+  "graphicsEffectivePreset": "low",
+  "playerGraphicsPreset": "low",
+  "graphicsPreferredPreset": "medium",
+  "graphicsSessionOverride": "performance-rescue",
+  "graphicsPresetApplyStatus": "not-requested",
+  "graphicsComparable": null,
+  "graphicsBudget": "preset=low,lod_threshold=4.00,scale=0.70,msaa=Disabled,shadow_filter=Hard,directional_shadow_distance=45,directional_shadow_atlas=2048,positional_shadow_atlas=1024,ssao_gate=off,probe=none",
+  "activeZoneId": "zirat_road",
+  "requestedZoneId": "zirat_road",
+  "checkpointSubject": "VIS-022 P15: \u0432\u0445\u043E\u0434 \u0437\u0438\u0440\u0430\u0442\u0430 \u0441\u043E \u0441\u0442\u043E\u0440\u043E\u043D\u044B \u043F\u043E\u0434\u0445\u043E\u0434\u0430 \u0438 \u0433\u0440\u0430\u043D\u0438\u0446\u0430/\u0432\u043E\u0440\u043E\u0442\u0430. Owner-local \u043A\u0430\u043C\u0435\u0440\u0430 \u0432\u044B\u0447\u0438\u0441\u043B\u0435\u043D\u0430 \u043E\u0442 ApproachAxis[0], \u0432\u044B\u0441\u043E\u0442\u0430 \u043F\u0440\u0438\u0431\u043B\u0438\u0437\u0438\u0442\u0435\u043B\u044C\u043D\u0430\u044F \u0434\u043B\u044F \u0441\u0442\u0430\u0442\u0438\u0447\u043D\u043E\u0433\u043E \u0432\u0438\u0434\u0430; \u044D\u0442\u043E \u043D\u0435 \u043E\u0431\u044B\u0447\u043D\u044B\u0439 spawn \u0438 \u043D\u0435 \u0434\u043E\u043A\u0430\u0437\u0430\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u043E \u043F\u0440\u043E\u0445\u043E\u0434\u0430. \u041A\u0430\u043C\u0435\u0440\u0430 \u0441\u0432\u0435\u0434\u0435\u043D\u0430 \u043A \u0443\u043D\u0438\u043A\u0430\u043B\u044C\u043D\u043E\u043C\u0443 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u044E\u0449\u0435\u043C\u0443 ZiratMemoryField \u0438\u0437 \u0442\u0435\u043A\u0443\u0449\u0438\u0445 transforms; \u0432\u044B\u0441\u043E\u0442\u0430 \u0432\u0445\u043E\u0434\u0430 \u0432\u044B\u0432\u0435\u0434\u0435\u043D\u0430 \u0438\u0437 terrain collider, \u043D\u0435 \u0438\u0437\u043C\u0435\u0440\u0435\u043D\u0430 \u043D\u043E\u0432\u044B\u043C \u043A\u0430\u0434\u0440\u043E\u043C.",
+  "requestedProfile": null,
+  "atmosphereProfile": "zirat-winter-muted",
+  "atmosphereOwner": "AgentBExteriorWorld",
+  "studioPreviewProfile": null,
+  "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBEnvironment",
+  "tonemapMode": "Agx",
+  "fogEnabled": true,
+  "volumetricFogEnabled": false,
+  "fogColor": "5a6480ff",
+  "fogDensity": 0.012,
+  "snowActive": true,
+  "snowAmount": 4000,
+  "blizzardActive": false,
+  "drawCalls": 3923,
+  "renderHistogram": {
+    "groups": 321,
+    "top": [
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_1_Plant/WinterSpruce_1_LOD",
+        "instances": 183,
+        "cost": 549,
+        "shadowCost": 21
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_2_Plant/WinterSpruce_2_LOD",
+        "instances": 129,
+        "cost": 387,
+        "shadowCost": 9
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_5_Plant/WinterSpruce_5_LOD",
+        "instances": 92,
+        "cost": 276,
+        "shadowCost": 105
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_4_Plant/WinterSpruce_4_LOD",
+        "instances": 86,
+        "cost": 258,
+        "shadowCost": 126
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_3_Plant/WinterSpruce_3_LOD",
+        "instances": 82,
+        "cost": 246,
+        "shadowCost": 135
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h041-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h025-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h027-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/ns-m-e1-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ConnectiveStreet/DeepParcel",
+        "instances": 140,
+        "cost": 152,
+        "shadowCost": 77
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_6_Plant/WinterSpruce_6_LOD",
+        "instances": 41,
+        "cost": 123,
+        "shadowCost": 45
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterBirdCherry_1_Plant/WinterBirdCherry_1_LOD",
+        "instances": 44,
+        "cost": 89,
+        "shadowCost": 3
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterFarBirdCherry_1_Cell-6_-",
+        "instances": 39,
+        "cost": 78,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h029-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 72,
+        "cost": 74,
+        "shadowCost": 30
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterLinden_1_Plant/WinterLinden_1_LOD",
+        "instances": 33,
+        "cost": 66,
+        "shadowCost": 38
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterBirch_1_Plant/WinterBirch_1_LOD",
+        "instances": 32,
+        "cost": 64,
+        "shadowCost": 2
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterBirch_2_Plant/WinterBirch_2_LOD",
+        "instances": 21,
+        "cost": 42,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterPine_Plant/WinterPine_LOD",
+        "instances": 19,
+        "cost": 38,
+        "shadowCost": 38
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageForestGorge/SuspensionBridge/SuspensionBridgeIntact/SuspensionPlank_",
+        "instances": 28,
+        "cost": 28,
+        "shadowCost": 28
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterRowan_2_Plant/WinterRowan_2_LOD",
+        "instances": 14,
+        "cost": 28,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterMaple_1_Plant/WinterMaple_1_LOD",
+        "instances": 13,
+        "cost": 26,
+        "shadowCost": 6
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-H/@MeshInstance3D",
+        "instances": 24,
+        "cost": 24,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratAuthoredBoundaryFence/ZiratBoundaryFence",
+        "instances": 23,
+        "cost": 23,
+        "shadowCost": 23
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/Fern_0_Cell-6_-",
+        "instances": 22,
+        "cost": 22,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratAuthoredMarkerGroupLow/ZiratMarkerGroup_Low",
+        "instances": 15,
+        "cost": 21,
+        "shadowCost": 14
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/BackdropMidForestNorth/Tree/BandTree",
+        "instances": 7,
+        "cost": 21,
+        "shadowCost": 21
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/FallenBranch_2_Plant/FallenBranch_2_LOD",
+        "instances": 10,
+        "cost": 20,
+        "shadowCost": 20
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterFarBirdCherry_1_Cell-4_-",
+        "instances": 10,
+        "cost": 20,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/KaraForestEdge/KaraWatershedStand/BranchSkeletonLOD",
+        "instances": 7,
+        "cost": 19,
+        "shadowCost": 19
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratAuthoredMarkerGroupFar/ZiratMarkerGroup_Far",
+        "instances": 13,
+        "cost": 18,
+        "shadowCost": 12
+      }
+    ],
+    "topByName": [
+      {
+        "owner": "WinterSpruce_",
+        "instances": 613,
+        "cost": 1839,
+        "shadowCost": 441
+      },
+      {
+        "owner": "WinterFarBirdCherry__Cell-_-",
+        "instances": 67,
+        "cost": 134,
+        "shadowCost": 0
+      },
+      {
+        "owner": "WinterBirch_",
+        "instances": 53,
+        "cost": 106,
+        "shadowCost": 2
+      },
+      {
+        "owner": "WinterBirdCherry_",
+        "instances": 44,
+        "cost": 89,
+        "shadowCost": 3
+      },
+      {
+        "owner": "WinterLinden_",
+        "instances": 36,
+        "cost": 72,
+        "shadowCost": 42
+      },
+      {
+        "owner": "Fern__Cell-_-",
+        "instances": 59,
+        "cost": 59,
+        "shadowCost": 0
+      },
+      {
+        "owner": "BranchSkeletonLOD",
+        "instances": 19,
+        "cost": 50,
+        "shadowCost": 50
+      },
+      {
+        "owner": "GorgeRimFence_near_-Post",
+        "instances": 45,
+        "cost": 45,
+        "shadowCost": 45
+      },
+      {
+        "owner": "GorgeRimFence_far_-Post",
+        "instances": 44,
+        "cost": 44,
+        "shadowCost": 44
+      },
+      {
+        "owner": "Sedge__Cell-_-",
+        "instances": 40,
+        "cost": 40,
+        "shadowCost": 0
+      },
+      {
+        "owner": "WinterPine",
+        "instances": 19,
+        "cost": 38,
+        "shadowCost": 38
+      },
+      {
+        "owner": "@MeshInstanceD",
+        "instances": 33,
+        "cost": 33,
+        "shadowCost": 3
+      },
+      {
+        "owner": "BandTree",
+        "instances": 11,
+        "cost": 29,
+        "shadowCost": 29
+      },
+      {
+        "owner": "SuspensionPlank_",
+        "instances": 28,
+        "cost": 28,
+        "shadowCost": 28
+      },
+      {
+        "owner": "WinterRowan_",
+        "instances": 14,
+        "cost": 28,
+        "shadowCost": 0
+      },
+      {
+        "owner": "WinterMaple_",
+        "instances": 13,
+        "cost": 26,
+        "shadowCost": 6
+      },
+      {
+        "owner": "GrassTuft__Cell-_-",
+        "instances": 21,
+        "cost": 21,
+        "shadowCost": 0
+      },
+      {
+        "owner": "FallenBranch_",
+        "instances": 10,
+        "cost": 20,
+        "shadowCost": 20
+      },
+      {
+        "owner": "GorgeRimFence_near_-Rail",
+        "instances": 15,
+        "cost": 15,
+        "shadowCost": 15
+      },
+      {
+        "owner": "GorgeRimFence_near_-LowerRail",
+        "instances": 15,
+        "cost": 15,
+        "shadowCost": 15
+      },
+      {
+        "owner": "GorgeRimFence_far_-Rail",
+        "instances": 14,
+        "cost": 14,
+        "shadowCost": 14
+      },
+      {
+        "owner": "GorgeRimFence_far_-LowerRail",
+        "instances": 14,
+        "cost": 14,
+        "shadowCost": 14
+      },
+      {
+        "owner": "ZiratMarkerSnowCollar",
+        "instances": 13,
+        "cost": 13,
+        "shadowCost": 0
+      },
+      {
+        "owner": "GrassSedgeMass_Right_Blade_",
+        "instances": 12,
+        "cost": 12,
+        "shadowCost": 12
+      },
+      {
+        "owner": "VillageParcel_VariantC_BanyaYard_Sedge__Blade_",
+        "instances": 12,
+        "cost": 12,
+        "shadowCost": 12
+      },
+      {
+        "owner": "VillageParcel_VariantC_BanyaYard_Shrub__Clump_",
+        "instances": 6,
+        "cost": 12,
+        "shadowCost": 12
+      },
+      {
+        "owner": "SuspensionStringer__w",
+        "instances": 10,
+        "cost": 10,
+        "shadowCost": 10
+      },
+      {
+        "owner": "SuspensionHandRope_w_",
+        "instances": 10,
+        "cost": 10,
+        "shadowCost": 10
+      },
+      {
+        "owner": "ZiratMarkerGroup_Low_Marker_",
+        "instances": 5,
+        "cost": 9,
+        "shadowCost": 9
+      },
+      {
+        "owner": "SuspensionStringer__c",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 9
+      },
+      {
+        "owner": "SuspensionStringer__e",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 9
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Glass",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Jamb",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Jamb-",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Mullion",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Rail",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Rail-",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Recess",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Sill",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_Shed_Door_Plank_",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 9
+      }
+    ],
+    "totals": {
+      "instances": 2367,
+      "cost": 3971,
+      "shadowCost": 1479,
+      "castsShadowSmall": {
+        "instances": 66,
+        "cost": 76,
+        "shadowCost": 76
+      }
+    }
+  },
+  "capturedUnixSeconds": 1791626437,
+  "roadsideGroundingResidualCensus": [
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Contact_00_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Left_Contact_00_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_02dos",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.31,
+          "y": 0,
+          "z": -0.36
+        },
+        "size": {
+          "x": 0.62,
+          "y": 0.12,
+          "z": 0.72
+        },
+        "end": {
+          "x": 0.31,
+          "y": 0.12,
+          "z": 0.36
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -4.0215,
+          "y": -0.456044,
+          "z": -65.263
+        },
+        "size": {
+          "x": 0.651,
+          "y": 0.126,
+          "z": 0.755997
+        },
+        "end": {
+          "x": -3.3705,
+          "y": -0.330044,
+          "z": -64.507004
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": -3.52,
+          "y": -0.434328,
+          "z": 6.299999
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -3.696,
+          "y": -0.456044,
+          "z": -64.885002
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Contact_00_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DampEarthDark",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_txrnc",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.059489,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.498044
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Contact_01_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Left_Contact_01_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_f468x",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.24,
+          "y": 0,
+          "z": -0.33
+        },
+        "size": {
+          "x": 0.48,
+          "y": 0.09,
+          "z": 0.66
+        },
+        "end": {
+          "x": 0.24,
+          "y": 0.09,
+          "z": 0.33
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -4.094999,
+          "y": -0.362906,
+          "z": -69.641495
+        },
+        "size": {
+          "x": 0.504,
+          "y": 0.0945,
+          "z": 0.692993
+        },
+        "end": {
+          "x": -3.591,
+          "y": -0.268406,
+          "z": -68.948502
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": -3.66,
+          "y": -0.345625,
+          "z": 2.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -3.842999,
+          "y": -0.362906,
+          "z": -69.294998
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Contact_01_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DampEarthDark",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_txrnc",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.022312,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.404906
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Contact_02_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Left_Contact_02_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_n0my8",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.28,
+          "y": 0,
+          "z": -0.4
+        },
+        "size": {
+          "x": 0.56,
+          "y": 0.13,
+          "z": 0.8
+        },
+        "end": {
+          "x": 0.28,
+          "y": 0.13,
+          "z": 0.4
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -3.947999,
+          "y": -0.370202,
+          "z": -74.019997
+        },
+        "size": {
+          "x": 0.588,
+          "y": 0.1365,
+          "z": 0.839996
+        },
+        "end": {
+          "x": -3.36,
+          "y": -0.233703,
+          "z": -73.18
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": -3.48,
+          "y": -0.352574,
+          "z": -2
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -3.654,
+          "y": -0.370202,
+          "z": -73.599998
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Contact_02_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DampEarthDark",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_txrnc",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.054008,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.412203
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Contact_03_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Left_Contact_03_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_gsp0d",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.2304,
+          "y": 0,
+          "z": -0.31
+        },
+        "size": {
+          "x": 0.4504,
+          "y": 0.1,
+          "z": 0.62
+        },
+        "end": {
+          "x": 0.22,
+          "y": 0.1,
+          "z": 0.31
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -4.14792,
+          "y": -0.462039,
+          "z": -78.230499
+        },
+        "size": {
+          "x": 0.47292,
+          "y": 0.105,
+          "z": 0.651001
+        },
+        "end": {
+          "x": -3.675,
+          "y": -0.357039,
+          "z": -77.579498
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": -3.72,
+          "y": -0.440037,
+          "z": -6.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -3.906,
+          "y": -0.462039,
+          "z": -77.904999
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Contact_03_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DampEarthDark",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_txrnc",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.056543,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.504039
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Grass_00_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Left_Grass_00_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_8ft7n",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.27112,
+          "y": 0,
+          "z": -0.0096
+        },
+        "size": {
+          "x": 0.58112,
+          "y": 0.24,
+          "z": 0.0192
+        },
+        "end": {
+          "x": 0.31,
+          "y": 0.24,
+          "z": 0.0096
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -4.337675,
+          "y": -0.438701,
+          "z": -65.189079
+        },
+        "size": {
+          "x": 0.610176,
+          "y": 0.252,
+          "z": 0.020157
+        },
+        "end": {
+          "x": -3.727499,
+          "y": -0.186701,
+          "z": -65.168922
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": -3.859999,
+          "y": -0.41781,
+          "z": 6.02
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -4.052999,
+          "y": -0.438701,
+          "z": -65.179001
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Grass_00_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "RoadGrass",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_kii0p",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.022828,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.459701
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Grass_01_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Left_Grass_01_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_qioep",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.285936,
+          "y": 0,
+          "z": -0.01088
+        },
+        "size": {
+          "x": 0.607936,
+          "y": 0.28,
+          "z": 0.02176
+        },
+        "end": {
+          "x": 0.322,
+          "y": 0.28,
+          "z": 0.01088
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -4.437233,
+          "y": -0.36911,
+          "z": -69.600418
+        },
+        "size": {
+          "x": 0.638333,
+          "y": 0.294,
+          "z": 0.022842
+        },
+        "end": {
+          "x": -3.7989,
+          "y": -0.07511,
+          "z": -69.577576
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": -3.94,
+          "y": -0.351533,
+          "z": 1.82
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -4.137,
+          "y": -0.36911,
+          "z": -69.588997
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Grass_01_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "RoadGrass",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_kii0p",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.025337,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.39011
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Grass_02_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Left_Grass_02_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_84lbg",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.27112,
+          "y": 0,
+          "z": -0.0096
+        },
+        "size": {
+          "x": 0.58112,
+          "y": 0.32,
+          "z": 0.0192
+        },
+        "end": {
+          "x": 0.31,
+          "y": 0.32,
+          "z": 0.0096
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -4.337675,
+          "y": -0.338306,
+          "z": -73.904076
+        },
+        "size": {
+          "x": 0.610176,
+          "y": 0.336,
+          "z": 0.020157
+        },
+        "end": {
+          "x": -3.727499,
+          "y": -0.002306,
+          "z": -73.883919
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": -3.859999,
+          "y": -0.322197,
+          "z": -2.279999
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -4.052999,
+          "y": -0.338306,
+          "z": -73.893997
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Grass_02_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "RoadGrass",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_kii0p",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.022946,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.359306
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Grass_03_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Left_Grass_03_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_unbc5",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.285936,
+          "y": 0,
+          "z": -0.01088
+        },
+        "size": {
+          "x": 0.607936,
+          "y": 0.24,
+          "z": 0.02176
+        },
+        "end": {
+          "x": 0.322,
+          "y": 0.24,
+          "z": 0.01088
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": -4.437233,
+          "y": -0.425764,
+          "z": -78.210419
+        },
+        "size": {
+          "x": 0.638333,
+          "y": 0.252,
+          "z": 0.022842
+        },
+        "end": {
+          "x": -3.7989,
+          "y": -0.173764,
+          "z": -78.187576
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": -3.94,
+          "y": -0.40549,
+          "z": -6.379997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": -4.137,
+          "y": -0.425764,
+          "z": -78.198997
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left/WetRoadShoulder_Left_Grass_03_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderLeft/WetRoadShoulder_Left",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "RoadGrass",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_kii0p",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.025049,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.446764
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Contact_00_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Right_Contact_00_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_w1tbm",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.31,
+          "y": 0,
+          "z": -0.36
+        },
+        "size": {
+          "x": 0.62,
+          "y": 0.12,
+          "z": 0.72
+        },
+        "end": {
+          "x": 0.31,
+          "y": 0.12,
+          "z": 0.36
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 3.3705,
+          "y": -0.319291,
+          "z": -65.263
+        },
+        "size": {
+          "x": 0.651,
+          "y": 0.126,
+          "z": 0.755997
+        },
+        "end": {
+          "x": 4.0215,
+          "y": -0.193291,
+          "z": -64.507004
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.52,
+          "y": -0.304087,
+          "z": 6.299999
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 3.696,
+          "y": -0.319291,
+          "z": -64.885002
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Contact_00_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DampEarthDark",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_txrnc",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.18355,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.361291
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Contact_01_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Right_Contact_01_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_dftoa",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.24,
+          "y": 0,
+          "z": -0.33
+        },
+        "size": {
+          "x": 0.48,
+          "y": 0.09,
+          "z": 0.66
+        },
+        "end": {
+          "x": 0.24,
+          "y": 0.09,
+          "z": 0.33
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 3.591,
+          "y": -0.003267,
+          "z": -69.641495
+        },
+        "size": {
+          "x": 0.504,
+          "y": 0.0945,
+          "z": 0.692993
+        },
+        "end": {
+          "x": 4.094999,
+          "y": 0.091233,
+          "z": -68.948502
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.66,
+          "y": -0.003111,
+          "z": 2.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 3.842999,
+          "y": -0.003267,
+          "z": -69.294998
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Contact_01_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DampEarthDark",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_txrnc",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.080565,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.045267
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Contact_02_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Right_Contact_02_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_hrb4a",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.28,
+          "y": 0,
+          "z": -0.4
+        },
+        "size": {
+          "x": 0.56,
+          "y": 0.13,
+          "z": 0.8
+        },
+        "end": {
+          "x": 0.28,
+          "y": 0.13,
+          "z": 0.4
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 3.36,
+          "y": -0.073131,
+          "z": -74.019997
+        },
+        "size": {
+          "x": 0.588,
+          "y": 0.1365,
+          "z": 0.839996
+        },
+        "end": {
+          "x": 3.947999,
+          "y": 0.063369,
+          "z": -73.18
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.48,
+          "y": -0.069648,
+          "z": -2
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 3.654,
+          "y": -0.073131,
+          "z": -73.599998
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Contact_02_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DampEarthDark",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_txrnc",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.098976,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.115131
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Contact_03_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Right_Contact_03_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_dhaji",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.22,
+          "y": 0,
+          "z": -0.31
+        },
+        "size": {
+          "x": 0.4504,
+          "y": 0.1,
+          "z": 0.62
+        },
+        "end": {
+          "x": 0.2304,
+          "y": 0.1,
+          "z": 0.31
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 3.675,
+          "y": -0.39034,
+          "z": -78.230499
+        },
+        "size": {
+          "x": 0.47292,
+          "y": 0.105,
+          "z": 0.651001
+        },
+        "end": {
+          "x": 4.14792,
+          "y": -0.28534,
+          "z": -77.579498
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.72,
+          "y": -0.371752,
+          "z": -6.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 3.906,
+          "y": -0.39034,
+          "z": -77.904999
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Contact_03_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DampEarthDark",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_txrnc",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.080779,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.43234
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Grass_00_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Right_Grass_00_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_d06vd",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.27112,
+          "y": 0,
+          "z": -0.0096
+        },
+        "size": {
+          "x": 0.58112,
+          "y": 0.24,
+          "z": 0.0192
+        },
+        "end": {
+          "x": 0.31,
+          "y": 0.24,
+          "z": 0.0096
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 3.768323,
+          "y": -0.163436,
+          "z": -65.189079
+        },
+        "size": {
+          "x": 0.610176,
+          "y": 0.252,
+          "z": 0.020157
+        },
+        "end": {
+          "x": 4.378499,
+          "y": 0.088564,
+          "z": -65.168922
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.859999,
+          "y": -0.155653,
+          "z": 6.02
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 4.052999,
+          "y": -0.163436,
+          "z": -65.179001
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Grass_00_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "RoadGrass",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_kii0p",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.038684,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.184436
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Grass_01_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Right_Grass_01_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_dbnd2",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.285936,
+          "y": 0,
+          "z": -0.01088
+        },
+        "size": {
+          "x": 0.607936,
+          "y": 0.28,
+          "z": 0.02176
+        },
+        "end": {
+          "x": 0.322,
+          "y": 0.28,
+          "z": 0.01088
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 3.836767,
+          "y": 0.046905,
+          "z": -69.600418
+        },
+        "size": {
+          "x": 0.638333,
+          "y": 0.294,
+          "z": 0.022842
+        },
+        "end": {
+          "x": 4.4751,
+          "y": 0.340904,
+          "z": -69.577576
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.94,
+          "y": 0.044671,
+          "z": 1.82
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 4.137,
+          "y": 0.046905,
+          "z": -69.588997
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Grass_01_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "RoadGrass",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_kii0p",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.027162,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": 0.025905
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Grass_02_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Right_Grass_02_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_al5j5",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.27112,
+          "y": 0,
+          "z": -0.0096
+        },
+        "size": {
+          "x": 0.58112,
+          "y": 0.32,
+          "z": 0.0192
+        },
+        "end": {
+          "x": 0.31,
+          "y": 0.32,
+          "z": 0.0096
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 3.768323,
+          "y": -0.005081,
+          "z": -73.904076
+        },
+        "size": {
+          "x": 0.610176,
+          "y": 0.336,
+          "z": 0.020157
+        },
+        "end": {
+          "x": 4.378499,
+          "y": 0.330919,
+          "z": -73.883919
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.859999,
+          "y": -0.004839,
+          "z": -2.279999
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 4.052999,
+          "y": -0.005081,
+          "z": -73.893997
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Grass_02_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "RoadGrass",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_kii0p",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.022954,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.026081
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Grass_03_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_WetRoadShoulder_Right_Grass_03_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_2475m",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.285936,
+          "y": 0,
+          "z": -0.01088
+        },
+        "size": {
+          "x": 0.607936,
+          "y": 0.24,
+          "z": 0.02176
+        },
+        "end": {
+          "x": 0.322,
+          "y": 0.24,
+          "z": 0.01088
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 3.836767,
+          "y": -0.349898,
+          "z": -78.210419
+        },
+        "size": {
+          "x": 0.638333,
+          "y": 0.252,
+          "z": 0.022842
+        },
+        "end": {
+          "x": 4.4751,
+          "y": -0.097898,
+          "z": -78.187576
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 3.94,
+          "y": -0.333236,
+          "z": -6.379997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 4.137,
+          "y": -0.349898,
+          "z": -78.198997
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right/WetRoadShoulder_Right_Grass_03_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratWetRoadShoulderRight/WetRoadShoulder_Right",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.5
+        },
+        "basisX": {
+          "x": 1.05,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1.05
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "RoadGrass",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_kii0p",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.017842,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.370898
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Bank_00_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_RoadsideDitch_Bank_00_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_tmcho",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.27,
+          "y": 0,
+          "z": -0.41
+        },
+        "size": {
+          "x": 0.54,
+          "y": 0.11,
+          "z": 0.82
+        },
+        "end": {
+          "x": 0.27,
+          "y": 0.11,
+          "z": 0.41
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 1.11,
+          "y": -0.44418,
+          "z": -65.310005
+        },
+        "size": {
+          "x": 0.54,
+          "y": 0.11,
+          "z": 0.820007
+        },
+        "end": {
+          "x": 1.65,
+          "y": -0.33418,
+          "z": -64.489998
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 1.38,
+          "y": -0.44418,
+          "z": 6.199997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 1.38,
+          "y": -0.44418,
+          "z": -64.900002
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Bank_00_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DampEarth",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_qlqxn",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.107365,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.49418
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Bank_01_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_RoadsideDitch_Bank_01_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_hi7km",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.23,
+          "y": 0,
+          "z": -0.35
+        },
+        "size": {
+          "x": 0.46,
+          "y": 0.09,
+          "z": 0.7
+        },
+        "end": {
+          "x": 0.23,
+          "y": 0.09,
+          "z": 0.35
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 1.29,
+          "y": -0.307811,
+          "z": -68.049995
+        },
+        "size": {
+          "x": 0.46,
+          "y": 0.09,
+          "z": 0.699997
+        },
+        "end": {
+          "x": 1.75,
+          "y": -0.217811,
+          "z": -67.349998
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 1.52,
+          "y": -0.307811,
+          "z": 3.400002
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 1.52,
+          "y": -0.307811,
+          "z": -67.699997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Bank_01_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DampEarth",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_qlqxn",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.045724,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.357811
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Bank_02_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_RoadsideDitch_Bank_02_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_5exo0",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.3,
+          "y": 0,
+          "z": -0.44
+        },
+        "size": {
+          "x": 0.6,
+          "y": 0.13,
+          "z": 0.88
+        },
+        "end": {
+          "x": 0.3,
+          "y": 0.13,
+          "z": 0.44
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 1.06,
+          "y": -0.325122,
+          "z": -71.739998
+        },
+        "size": {
+          "x": 0.6,
+          "y": 0.13,
+          "z": 0.880005
+        },
+        "end": {
+          "x": 1.66,
+          "y": -0.195122,
+          "z": -70.859993
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 1.36,
+          "y": -0.325122,
+          "z": -0.199997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 1.36,
+          "y": -0.325122,
+          "z": -71.299995
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Bank_02_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DampEarth",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_qlqxn",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.056179,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.375122
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Bank_03_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_RoadsideDitch_Bank_03_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_7v1fr",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.24,
+          "y": 0,
+          "z": -0.37
+        },
+        "size": {
+          "x": 0.48,
+          "y": 0.1,
+          "z": 0.74
+        },
+        "end": {
+          "x": 0.24,
+          "y": 0.1,
+          "z": 0.37
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 1.42,
+          "y": -0.398823,
+          "z": -75.169998
+        },
+        "size": {
+          "x": 0.48,
+          "y": 0.1,
+          "z": 0.740005
+        },
+        "end": {
+          "x": 1.9,
+          "y": -0.298823,
+          "z": -74.429993
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 1.66,
+          "y": -0.398823,
+          "z": -3.699997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 1.66,
+          "y": -0.398823,
+          "z": -74.799995
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Bank_03_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DampEarth",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_qlqxn",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.09617,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.448823
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Bank_04_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_RoadsideDitch_Bank_04_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_r2n1p",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.2852,
+          "y": 0,
+          "z": -0.39
+        },
+        "size": {
+          "x": 0.5652,
+          "y": 0.12,
+          "z": 0.78
+        },
+        "end": {
+          "x": 0.28,
+          "y": 0.12,
+          "z": 0.39
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 1.2148,
+          "y": -0.586593,
+          "z": -78.089996
+        },
+        "size": {
+          "x": 0.5652,
+          "y": 0.12,
+          "z": 0.779999
+        },
+        "end": {
+          "x": 1.78,
+          "y": -0.466593,
+          "z": -77.309998
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 1.5,
+          "y": -0.586593,
+          "z": -6.599998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 1.5,
+          "y": -0.586593,
+          "z": -77.699997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Bank_04_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DampEarth",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_qlqxn",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.069733,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.636593
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Sedge_00_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_RoadsideDitch_Sedge_00_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_esj24",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.278528,
+          "y": 0,
+          "z": -0.01024
+        },
+        "size": {
+          "x": 0.594528,
+          "y": 0.38,
+          "z": 0.02048
+        },
+        "end": {
+          "x": 0.316,
+          "y": 0.38,
+          "z": 0.01024
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 1.321472,
+          "y": -0.376939,
+          "z": -65.09024
+        },
+        "size": {
+          "x": 0.594528,
+          "y": 0.38,
+          "z": 0.020477
+        },
+        "end": {
+          "x": 1.916,
+          "y": 0.003061,
+          "z": -65.069763
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 1.6,
+          "y": -0.376939,
+          "z": 6.019997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 1.6,
+          "y": -0.376939,
+          "z": -65.080002
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Sedge_00_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DitchGrass",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_lact8",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.036749,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.406939
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Sedge_01_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_RoadsideDitch_Sedge_01_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_4p1m3",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.297048,
+          "y": 0,
+          "z": -0.01184
+        },
+        "size": {
+          "x": 0.628048,
+          "y": 0.45,
+          "z": 0.02368
+        },
+        "end": {
+          "x": 0.331,
+          "y": 0.45,
+          "z": 0.01184
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 1.442952,
+          "y": -0.28687,
+          "z": -67.891838
+        },
+        "size": {
+          "x": 0.628048,
+          "y": 0.45,
+          "z": 0.023682
+        },
+        "end": {
+          "x": 2.071,
+          "y": 0.16313,
+          "z": -67.868156
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 1.74,
+          "y": -0.28687,
+          "z": 3.220001
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 1.74,
+          "y": -0.28687,
+          "z": -67.879997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Sedge_01_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DitchGrass",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_lact8",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.035258,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.31687
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Sedge_02_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_RoadsideDitch_Sedge_02_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_5fiu1",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.278528,
+          "y": 0,
+          "z": -0.01024
+        },
+        "size": {
+          "x": 0.594528,
+          "y": 0.52,
+          "z": 0.02048
+        },
+        "end": {
+          "x": 0.316,
+          "y": 0.52,
+          "z": 0.01024
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 1.301472,
+          "y": -0.30084,
+          "z": -71.490234
+        },
+        "size": {
+          "x": 0.594528,
+          "y": 0.52,
+          "z": 0.020477
+        },
+        "end": {
+          "x": 1.896,
+          "y": 0.21916,
+          "z": -71.469757
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 1.58,
+          "y": -0.30084,
+          "z": -0.379997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 1.58,
+          "y": -0.30084,
+          "z": -71.479996
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Sedge_02_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DitchGrass",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_lact8",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.033654,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.33084
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Sedge_03_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_RoadsideDitch_Sedge_03_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_qbbcl",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.297048,
+          "y": 0,
+          "z": -0.01184
+        },
+        "size": {
+          "x": 0.628048,
+          "y": 0.38,
+          "z": 0.02368
+        },
+        "end": {
+          "x": 0.331,
+          "y": 0.38,
+          "z": 0.01184
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 1.582952,
+          "y": -0.369922,
+          "z": -74.991837
+        },
+        "size": {
+          "x": 0.628048,
+          "y": 0.38,
+          "z": 0.023682
+        },
+        "end": {
+          "x": 2.211,
+          "y": 0.010078,
+          "z": -74.968155
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 1.88,
+          "y": -0.369922,
+          "z": -3.879997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 1.88,
+          "y": -0.369922,
+          "z": -74.979996
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Sedge_03_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DitchGrass",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_lact8",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.031858,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.399922
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Sedge_04_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_RoadsideDitch_Sedge_04_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_npim4",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.278528,
+          "y": 0,
+          "z": -0.01024
+        },
+        "size": {
+          "x": 0.594528,
+          "y": 0.45,
+          "z": 0.02048
+        },
+        "end": {
+          "x": 0.316,
+          "y": 0.45,
+          "z": 0.01024
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 1.441472,
+          "y": -0.564531,
+          "z": -77.890236
+        },
+        "size": {
+          "x": 0.594528,
+          "y": 0.45,
+          "z": 0.020477
+        },
+        "end": {
+          "x": 2.036,
+          "y": -0.114531,
+          "z": -77.869759
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 1.72,
+          "y": -0.564531,
+          "z": -6.779999
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 1.72,
+          "y": -0.564531,
+          "z": -77.879997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Sedge_04_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratRoadsideDitch/RoadsideDitch",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 0,
+          "y": 0,
+          "z": -71.099998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DitchGrass",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_lact8",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.026429,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.594531
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_Mouth_00_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_CulvertStoneCluster_Mouth_00_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_800q2",
+      "meshLocalAabb": {
+        "position": {
+          "x": 0.27,
+          "y": 0,
+          "z": -0.28
+        },
+        "size": {
+          "x": 1.99,
+          "y": 0.34,
+          "z": 0.76
+        },
+        "end": {
+          "x": 2.26,
+          "y": 0.34,
+          "z": 0.48
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 3.82,
+          "y": -0.014756,
+          "z": -72.279999
+        },
+        "size": {
+          "x": 1.99,
+          "y": 0.34,
+          "z": 0.760002
+        },
+        "end": {
+          "x": 5.81,
+          "y": 0.325244,
+          "z": -71.519997
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 0,
+          "y": -0.122025,
+          "z": 0
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 3.55,
+          "y": -0.014756,
+          "z": -72
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_Mouth_00_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 3.55,
+          "y": 0.107269,
+          "z": -72
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "DitchWater",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_gg48v",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.076952,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.122025
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_Stone_00_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_CulvertStoneCluster_Stone_00_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_aoyhb",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.34,
+          "y": 0,
+          "z": -0.41
+        },
+        "size": {
+          "x": 0.68,
+          "y": 0.3,
+          "z": 0.82
+        },
+        "end": {
+          "x": 0.34,
+          "y": 0.3,
+          "z": 0.41
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 3.39,
+          "y": -0.043649,
+          "z": -71.75
+        },
+        "size": {
+          "x": 0.68,
+          "y": 0.3,
+          "z": 0.820007
+        },
+        "end": {
+          "x": 4.07,
+          "y": 0.256351,
+          "z": -70.929993
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 0.18,
+          "y": -0.150918,
+          "z": 0.660004
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 3.73,
+          "y": -0.043649,
+          "z": -71.339996
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_Stone_00_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 3.55,
+          "y": 0.107269,
+          "z": -72
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "MossyStone",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_qwodo",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": false,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.109086,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.230918
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_Stone_01_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_CulvertStoneCluster_Stone_01_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_gr1ff",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.29,
+          "y": 0,
+          "z": -0.35
+        },
+        "size": {
+          "x": 0.58,
+          "y": 0.24,
+          "z": 0.7
+        },
+        "end": {
+          "x": 0.29,
+          "y": 0.24,
+          "z": 0.35
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 4.08,
+          "y": 0.028427,
+          "z": -71.57
+        },
+        "size": {
+          "x": 0.58,
+          "y": 0.24,
+          "z": 0.699997
+        },
+        "end": {
+          "x": 4.66,
+          "y": 0.268427,
+          "z": -70.870003
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 0.82,
+          "y": -0.078842,
+          "z": 0.779999
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 4.37,
+          "y": 0.028427,
+          "z": -71.220001
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_Stone_01_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 3.55,
+          "y": 0.107269,
+          "z": -72
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "MossyStone",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_qwodo",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": false,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.036457,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.158842
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_Stone_02_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_CulvertStoneCluster_Stone_02_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_qadpe",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.36,
+          "y": 0,
+          "z": -0.38
+        },
+        "size": {
+          "x": 0.72,
+          "y": 0.34,
+          "z": 0.76
+        },
+        "end": {
+          "x": 0.36,
+          "y": 0.34,
+          "z": 0.38
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 4.65,
+          "y": 0.005785,
+          "z": -71.759995
+        },
+        "size": {
+          "x": 0.72,
+          "y": 0.34,
+          "z": 0.759995
+        },
+        "end": {
+          "x": 5.37,
+          "y": 0.345785,
+          "z": -71
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 1.46,
+          "y": -0.101484,
+          "z": 0.620003
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 5.01,
+          "y": 0.005785,
+          "z": -71.379997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_Stone_02_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 3.55,
+          "y": 0.107269,
+          "z": -72
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "MossGreen",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_v8410",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.037067,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.181484
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_Stone_03_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_CulvertStoneCluster_Stone_03_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_0hjyh",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.31,
+          "y": 0,
+          "z": -0.37
+        },
+        "size": {
+          "x": 0.62,
+          "y": 0.28,
+          "z": 0.74
+        },
+        "end": {
+          "x": 0.31,
+          "y": 0.28,
+          "z": 0.37
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 5.36,
+          "y": -0.013355,
+          "z": -72.07
+        },
+        "size": {
+          "x": 0.62,
+          "y": 0.28,
+          "z": 0.740005
+        },
+        "end": {
+          "x": 5.98,
+          "y": 0.266645,
+          "z": -71.329994
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 2.12,
+          "y": -0.120625,
+          "z": 0.300003
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 5.67,
+          "y": -0.013355,
+          "z": -71.699997
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_Stone_03_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 3.55,
+          "y": 0.107269,
+          "z": -72
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "MossyStone",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_qwodo",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": false,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.03372,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.200625
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_Stone_04_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_CulvertStoneCluster_Stone_04_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_qe07b",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.27,
+          "y": 0,
+          "z": -0.33
+        },
+        "size": {
+          "x": 0.54,
+          "y": 0.23,
+          "z": 0.66
+        },
+        "end": {
+          "x": 0.27,
+          "y": 0.23,
+          "z": 0.33
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 5.7,
+          "y": -0.025775,
+          "z": -72.57
+        },
+        "size": {
+          "x": 0.54,
+          "y": 0.23,
+          "z": 0.660004
+        },
+        "end": {
+          "x": 6.24,
+          "y": 0.204225,
+          "z": -71.909996
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 2.42,
+          "y": -0.133045,
+          "z": -0.239998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 5.97,
+          "y": -0.025775,
+          "z": -72.239998
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_Stone_04_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 3.55,
+          "y": 0.107269,
+          "z": -72
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "MossGreen",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_v8410",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.034004,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.213045
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_WingLeft_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_CulvertStoneCluster_WingLeft_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_su7md",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.48,
+          "y": 0,
+          "z": -0.69
+        },
+        "size": {
+          "x": 0.96,
+          "y": 0.28,
+          "z": 1.38
+        },
+        "end": {
+          "x": 0.48,
+          "y": 0.28,
+          "z": 0.69
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 2.97,
+          "y": -0.102121,
+          "z": -72.770004
+        },
+        "size": {
+          "x": 0.96,
+          "y": 0.28,
+          "z": 1.380005
+        },
+        "end": {
+          "x": 3.93,
+          "y": 0.177879,
+          "z": -71.389999
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": -0.1,
+          "y": -0.209391,
+          "z": -0.080002
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 3.45,
+          "y": -0.102121,
+          "z": -72.080002
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_WingLeft_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 3.55,
+          "y": 0.107269,
+          "z": -72
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "MossyStone",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_qwodo",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": false,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.15934,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.279391
+    },
+    {
+      "nodePath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_WingRight_LOD0",
+      "instanceVisible": true,
+      "visibleInTree": true,
+      "renderLayers": 1,
+      "castShadow": "On",
+      "lodBias": 1,
+      "windSwayInstanceOverride": null,
+      "visibilityRangeBegin": 0,
+      "visibilityRangeEnd": 0,
+      "meshResourceName": "urman_zirat_roadside_kit_CulvertStoneCluster_WingRight_LOD0Mesh",
+      "meshResourcePath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::ArrayMesh_mw5sn",
+      "meshLocalAabb": {
+        "position": {
+          "x": -0.41,
+          "y": 0,
+          "z": -0.55
+        },
+        "size": {
+          "x": 0.82,
+          "y": 0.25,
+          "z": 1.1
+        },
+        "end": {
+          "x": 0.41,
+          "y": 0.25,
+          "z": 0.55
+        }
+      },
+      "meshGlobalAabb": {
+        "position": {
+          "x": 5.68,
+          "y": -0.030326,
+          "z": -72.810005
+        },
+        "size": {
+          "x": 0.82,
+          "y": 0.25,
+          "z": 1.100006
+        },
+        "end": {
+          "x": 6.5,
+          "y": 0.219674,
+          "z": -71.709999
+        }
+      },
+      "nodeLocalTransform": {
+        "origin": {
+          "x": 2.54,
+          "y": -0.137595,
+          "z": -0.260002
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "nodeGlobalTransform": {
+        "origin": {
+          "x": 6.09,
+          "y": -0.030326,
+          "z": -72.260002
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialAssignmentOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster/CulvertStoneCluster_WingRight_LOD0",
+      "sceneOwnerPath": null,
+      "sceneOwnerLocalTransform": null,
+      "sceneOwnerGlobalTransform": null,
+      "parentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation/ZiratCulvertStoneCluster/CulvertStoneCluster",
+      "parentGlobalTransform": {
+        "origin": {
+          "x": 3.55,
+          "y": 0.107269,
+          "z": -72
+        },
+        "basisX": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "basisY": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "basisZ": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      },
+      "materialOverrideName": null,
+      "materialOverridePath": null,
+      "surfaces": [
+        {
+          "index": 0,
+          "generatedLodDistances": [],
+          "meshMaterialType": "StandardMaterial3D",
+          "meshMaterialCullMode": "Disabled",
+          "meshMaterialName": "MossGreen",
+          "meshMaterialPath": "res://assets/models/act1/urman_zirat_roadside_kit.glb::StandardMaterial3D_v8410",
+          "surfaceOverrideName": null,
+          "surfaceOverridePath": null,
+          "activeMaterialType": "ShaderMaterial",
+          "activeMaterialName": null,
+          "activeMaterialPath": null,
+          "activeSourceCullingPreserved": false,
+          "activeShaderCullDisabled": false,
+          "activeShaderHasWindVertexWrites": true,
+          "activeShaderPath": null
+        }
+      ],
+      "roadsideGroundingResidualMinClearance": -0.039331,
+      "roadsideGroundingResidualMaxClearance": -0.015,
+      "roadsideGroundingSupportPointCount": 21,
+      "roadsideGroundingAppliedShift": -0.197595
+    }
+  ]
+}
