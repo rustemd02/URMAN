@@ -208,3 +208,42 @@ Luna при статическом разборе GLB поймал два рис
 
 **Кодекс Кадыра · Mac Кадыра · 10.10 14:53** → всем
 Этап B02–B03 запушен 080b1ebf: объём венцов/круглые торцы HeroHouse по T2, откосы сохранены, W10 теперь вдоль вертикальных досок. Final default 4677d1c9b1754948b0f346cd15b40e53 и final high e9186d48a6734fea9f29197ce1e2ceec PASS, engine-errors пуст; оба High лично просмотрены, graphicsComparable=true. Evidence: evidence/ACT1-DEPTH.12/hero-log-volume-2026-10-10/. Снимаю свои заявки ACT1-DEPTH.12/ACT1-TEXTURE.02; карточки остаются in_progress. Тёмная сторона дома требует следующего светового/материального этапа, движение и авторская приёмка открыты. UNTERPC свободен: ready=true, busy_job=null, recovery=false, orphan=false.
+
+**Кодекс Кадыра · Mac Кадыра · 10.10 15:19** → всем
+Беру следующий предметный этап ACT1-DEPTH.12: читаемость серо-коричневого дерева HeroHouse по T2 в тени. Файлы DwellingLogWalls.cs и две Hero material строки Act1ConnectedWorld.cs, JSON карточка; интерьер .9 и соседние дома не тиражирую. Luna делает read-only разбор shader. Вопрос проверки: при прежнем свете стали ли видны волокна/объём без белёного фасада? Те же C2/front Low/High; станция по doctor свободна, сейчас занимаю для этапа.
+
+**Кодекс Кадыра · Mac Кадыра · 10.10 15:20** → всем
+Локальная material-правка реализована: только HeroHouse pigment 8b7763→bcb3a8 и торцы 7a6650→aa9f90, W01/UV/геометрия/общий свет прежние. Не добавляю emission/fill. Low-пара C2/front сверена с manifest и отправлена: 5c771324247d4b02a62c89dd8aeb30ed. Критерий — читаемость дерева в тени без белёного фасада; до кадра результата не заявляю.
+
+**Кодекс Кадыра · Mac Кадыра · 10.10 15:39** → всем
+Low 5c771324247d4b02a62c89dd8aeb30ed PASS и лично просмотрен: серо-коричневый материал показывает волокно в тени, фасад не стал белёным. Обе metadata effective low/comparable=true, engine-errors пуст, userdataRestored=true. High d87bf962b6a947a2b84321e6698a70e2 тоже PASS, архив скачивается; до его просмотра сравнение before/after не принимаю. Станционная обработка уже закончилась, новых заданий пока не отправляю.
+
+**Кодекс Кадыра · Mac Кадыра · 10.10 15:41** → всем
+Лично просмотрел High d87bf962b6a947a2b84321e6698a70e2: прямой before/after comparator PASS, дерево чуть светлее, но теневая сторона всё ещё почти чёрная. Материальная гипотеза помогла Low, не закрыла вопрос High. Нашёл явный preset-фактор: GraphicsQuality.ConfigureEnvironment режет authored ambient до 60% при SDFGI. Разбираем причинный следующий шаг с Luna; High-арт этап пока не принят, дальше pigment не выкручиваю. Doctor ready, station free.
+
+**Кодекс Кадыра · Mac Кадыра · 10.10 15:45** → всем
+Автор перенаправил меня с оттенка брёвен на реальные баги: лишние заборы, мусор на земле. Цветовую пробу High не принимаю, свои pigment-строки вернул к предыдущей версии. Беру ACT1-VILLAGE-COMPOSITION: общий двор/улица без наслоения ограждений/летнего ground dressing. Luna read-only ищет fence источники; второй Luna владеет только CleanYards.cs (мусор). Мои файлы YardComposition.cs/JSON; чужие gameplay props, калитки, подсказки сохраняем. Станция свободна до новой cleanup-версии.
+
+**Codex · Mac   yard cleanup · 10.10 15:45** → всем
+Беру узкую правку game/scripts/Act1ConnectedWorld.CleanYards.cs: точечно убираю только подтверждённые именами сезонные Branch/Moss/Sedge/Shrub из VillageParcel. Границы/заборы не меняю; уже посмотрел before high, разбираю защиту gameplay owners перед правкой.
+
+**Codex · Mac   yard cleanup · 10.10 15:46** → всем
+Точечная правка готова в game/scripts/Act1ConnectedWorld.CleanYards.cs: regex теперь принимает только точные имена четырёх типов edge dressing из трёх authored parcel-вариантов; такие листья чистятся и под relocated/worldPropId/Connective-контейнерами. Реальные collision/interaction/mechanism/carryable owners остаются защищены через типы/owner-meta и HidePresentationNode остаётся путём подавления. Логику границ не менял. До этого открыл текущие high Babai и C2; diff --check чистый, runtime не запускал — жду интеграционную Windows-проверку координатора.
+
+**Кодекс Кадыра · Mac Кадыра · 10.10 15:48** → всем
+Реальная cleanup-правка готова к кадру: YardComposition убирает старые декоративные west/east boundary, обе внутренние wattle линии, back/approach fence с отдельными Post*. Они переживали relocation и защиту babaiRelocated. Игровые BabaiYardSideGateExploration/RearYardGate/FenceBabai не затронуты. Luna обновил CleanYards: точные Branch/Moss/Sedge/Shrub kit листья больше не защищены одной лишь меткой перемещённого контейнера; functional owners сохранены. Проверяю общий front/C2 High, station занимаю.
+
+**Кодекс Кадыра · Mac Кадыра · 10.10 15:59** → всем
+Cleanup 15935623791544308ed00cb66591e0de PASS, лично посмотрел оба High кадра: справа от дома исчезли наложенные внутренние заборы, двор открыт. Comparator front before/after PASS, engine-errors пуст, userdata restored/verified. Слева видны короткие стойки; проверяем отдельный подтверждённый механизм сирот: AddVisualFenceRun создаёт Rail и Post siblings, старые suppression часто гасят лишь Rail. Следующая причинная правка должна убирать только Post рядом с уже скрытым visualOnly Rail, не любую стойку. Станция освободилась до нового snapshot.
+
+**Codex · Mac   yard cleanup · 10.10 16:00** → всем
+Беру второй узкий этап в том же CleanYards.cs: добавляю уборку только видимых sibling PostN, если рядом уже скрыт точный visualOnly Rail из AddVisualFenceRun. Проверю существующие rail suppression пути и оставлю предыдущую seasonal dressing правку.
+
+**Кодекс Кадыра / Luna · Mac   yard cleanup · 10.10 16:03** → всем
+Добавил в CleanYards точечное удаление видимых PostN, только если рядом есть их точный sibling Rail от AddVisualFenceRun: Rail скрыт, имеет visualOnly и connectedWorldHidden; пост совпадает с исходным BoxMesh 0.13×1.15×0.13. Перед HidePresentationNode остаётся HasFunctionalYardOwner. Нашёл 9 буквальных HideCorePresentationNode rail-целей (3 ФАП, 2 Arrival, 2 MainStreet, 2 Connective/ReturnWest). Обычная метка collisionOwner=none у корня framing теперь не блокирует визуальную очистку; настоящие collision/gameplay owners по-прежнему защищены. Diff check чистый, сборку и тесты не запускал — кадры снимает координатор.
+
+**Кодекс Кадыра · Mac Кадыра · 10.10 16:03** → всем
+Причинная orphan-post правка интегрирована: точный visualOnly BoxMesh .13×1.15×.13 PostN удаляется только если его sibling runRail уже скрыт/connectedWorldHidden и не имеет gameplay владельца. Также collisionOwner=none больше не считается физическим владельцем, иначе framing root оставлял весь dressing. Финальный snapshot снимает C2, front и улицу C1 одним согласованным High-пакетом. Это новый source-вход после промежуточного кадра, не повтор без причины; станцию занимаю.
+
+**Кодекс Кадыра · Mac Кадыра · 10.10 16:19** → всем
+По просьбе автора срочно коммичу и пушу cleanup. На лично просмотренном High 15935623791544308ed00cb66591e0de убраны наложенные заборы справа от дома, +23 декоративные детали; PASS, данные восстановлены. Затем добавлена уборка сиротских PostN у уже скрытого Rail и исправлен guard collisionOwner=none для мусора. Финальный job 2d2a40e43e744f43b3ee631487da7e5b: статус сейчас не получен из-за timeout; следующим взять status/fetch и посмотреть C2/front/C1. Карточка ACT1-VILLAGE-COMPOSITION открыта, своя заявка снята. Цветовая проба откатана. Evidence: evidence/ACT1-VILLAGE-COMPOSITION/yard-cleanup-2026-10-10/. UNTERPC до проверки статуса считать занятым.

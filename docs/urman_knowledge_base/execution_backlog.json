@@ -19773,6 +19773,19 @@
         "final_default": "4677d1c9b1754948b0f346cd15b40e53 PASS; engine-errors пуст, original userdata restored/verified; build 0 errors/0 warnings. Лично просмотрены C2/babai/bath: торцы круглые, венцы объёмные, оконные откосы сохранены. W10 на обеих стенах идёт вертикально, поперечные полосы устранены. C2 и bath metadata comparable с before. Тёмная сторона дома всё ещё слишком тёмная относительно T2, рисунок древесины трудно читается; full art/done_when не выполнен.",
         "final_high": "e9186d48a6734fea9f29197ce1e2ceec PASS; engine-errors пуст, original userdata restored/verified, graphicsPreset=graphicsEffectivePreset=high, graphicsComparable=true на обоих видах. Лично просмотрены оба кадра; тот же код что final default. Тёмная сторона по-прежнему требует материальности/света; движение/авторская приёмка not-run.",
         "delivered_commit": "080b1ebf"
+      },
+      "visual_shadow_stage_2026_10_10": {
+        "unit": "HeroHouse: читаемое состаренное дерево в тени по T2",
+        "reference": "T2_dark_log_house_blue_casings.webp, @beridapomni 20.09.2022; лично просмотрен повторно",
+        "question": "Видны ли волокна и округлость брёвен в тени при неизменном окружении, без выбеливания дерева?",
+        "success_condition": "Те же C2/front Windows Low/High с graphicsComparable=true; отсутствие engine-errors; лично просмотренные кадры, userdata restored/verified. Полный арт/done_when и движение открыты.",
+        "files": [
+          "game/scripts/Act1ConnectedWorld.DwellingLogWalls.cs",
+          "game/scripts/Act1ConnectedWorld.cs"
+        ],
+        "next": "Автор перенаправил приоритет на лишние заборы и мусор; работу цвета остановил, новая High-проверка не запускается.",
+        "result": "Цветовая проба Low/High технически PASS; High теневая сторона всё ещё не читается, stage rejected. Только свои pigment-правки возвращены к предыдущей версии. Сохраняются машинные evidence обеих проб.",
+        "evidence": "evidence/ACT1-DEPTH.12/hero-shadow-material-2026-10-10/"
       }
     },
     {
@@ -19981,6 +19994,22 @@
         "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
         "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+      },
+      "cleanup_stage_2026_10_10": {
+        "unit": "Убрать наслаивающиеся заборы/одиночные стойки и бесхозный летний ground dressing двора/улицы",
+        "question": "Исчезли ли на общем Windows-кадре дубли ограждений и случайный мусор без потери игровых калиток, хранения, контактов?",
+        "success_condition": "Общий front и C2 кадры после реальных source removals, личный просмотр; gameplay owners сохранены; engine-errors пуст, userdata восстановлены. Вся деревня/движение/author acceptance открыты.",
+        "files": [
+          "game/scripts/Act1ConnectedWorld.CleanYards.cs",
+          "game/scripts/Act1ConnectedWorld.YardComposition.cs"
+        ],
+        "next": "Автор попросил срочный commit/push из-за лимитов. Получить status/fetch финального job (последний status запрос timeout), лично посмотреть C2/front/C1; проверить orphan posts и счётчик ground dressing. Не закрывать всю карточку; движение и авторская приёмка открыты.",
+        "implementation": "Точные visual-only prefix группы BabaiYardWestBoundary/EastBoundary/WattleRun (оба)/BabaiEbiHouseBackFence/ApproachFenceWest. CleanYards убирает только подтверждённые Branch/Moss/Sedge/Shrub kit листья независимо от generic relocation/worldPropId/container, с функциональными guards.",
+        "capture_job": "15935623791544308ed00cb66591e0de",
+        "evidence": "evidence/ACT1-VILLAGE-COMPOSITION/yard-cleanup-2026-10-10",
+        "result": "Промежуточный Windows job 15935623791544308ed00cb66591e0de PASS, оба High кадра лично просмотрены: наложенные внутренние заборы справа исчезли. Счётчик yard composition 27→50. Engine-errors пуст, userdata restored/verified. После кадра добавлены точечная уборка orphan PostN рядом с уже скрытым visualOnly Rail и guard collisionOwner=none; финальная версия ещё не принята кадром.",
+        "final_capture_job": "2d2a40e43e744f43b3ee631487da7e5b",
+        "final_snapshot": "dddde1c2491c2e1b2cb215c976d96834546432fb3d8fb1887f61f2e92132a0b8"
       }
     },
     {
