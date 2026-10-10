@@ -23355,8 +23355,7 @@
             "boundary": "Headless adapter; default proposal-only; без SDK-сервиса.",
             "depends_on_units": [
               "STUDIO/AI-05",
-              "STUDIO/AI-06",
-              "STUDIO/AI-07"
+              "STUDIO/AI-06"
             ],
             "source_dependencies": "AI-05, AI-06; может идти параллельно AI-07.",
             "files_symbols_sources": "Новый ClaudeCliProvider; IAgentProvider; E03–E06.",
@@ -23365,7 +23364,20 @@
             "verification": "Один успешный job, malformed output, auth/limit handling и cancel; A12.",
             "risks_recovery_external_gates": "Установленная версия/личные лимиты — gate. Не разрешать shell ради удобства, не использовать global --continue.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 official Claude headless boundary research only",
+                "result": "no CLI/account/config/env execution or implementation; readiness not claimed",
+                "sources": [
+                  "https://code.claude.com/docs/en/cli-reference",
+                  "https://code.claude.com/docs/en/headless",
+                  "https://code.claude.com/docs/en/hooks",
+                  "https://code.claude.com/docs/en/settings",
+                  "https://code.claude.com/docs/en/env-vars"
+                ],
+                "next": "Reuse HouseWindow DTO/validator; check installed CLI, personal subscription auth and effective managed policy without exposing secrets before any model call. --bare requires API auth and is unsuitable; tool/MCP deny flags do not prove managed hooks inactive."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P1"
             ],
@@ -23373,7 +23385,8 @@
               "STUDIO-AI/A09",
               "STUDIO-AI/A12"
             ],
-            "assigned_owner": "codex/b20-2026-10-10"
+            "assigned_owner": "codex/b20-2026-10-10",
+            "dependency_correction_2026_10_10": "Removed imported blocking AI-07 edge: original spec §11 AI-08 field4 line897 permits parallel AI-07; source_dependencies already preserved that wording. Independent Luna read-only exact-source comparison. Author priority remains first Codex pilot; no readiness/completion inferred."
           },
           {
             "id": "STUDIO/AI-09",
@@ -25290,7 +25303,7 @@
             "first_next": "Codex продолжает первый Codex house/windows → game → full Undo пилот; DeepSeek до выполненных dependency gates может исследовать/готовить конкретные участки в своём clone, но не выдавать подготовку за принятый AI-13 либо удалять зависимости."
           },
           "persistent_history_limit": "Only one accepted exact four-file HeroHouse command restored; multiple committed commands refuse ambiguous order. Retire/compensation preserves authored files and ordinary failure handling; crash between independent retirement journals can lose pilot history, full mixed persistent stack remains AI-11 open.",
-          "ui_keyboard": "TextEdit.TabInputMode=false uses bundled Godot4.7.1 standard focus traversal; game compile0/0, actual Tab/Apply/Before/After still to observe in live pilot."
+          "ui_keyboard": "Built-in TabInputMode=false compiled0/0; tree-derived expected button focus sequence available; live traversal/Apply/Undo still pending."
         }
       },
       "done_when": "Все дочерние задачи закрыты доказательствами; человеческие пункты оценены автором, а не walkthrough. Дополнительно выполнены все обязательные AI-единицы и новые A01–A25 из ТЗ 10.10, включая обоих провайдеров и внешние гейты; AI-35 только после отдельного расширения Windows. Историческая матрица и дочерние задачи сохраняются.",
