@@ -371,7 +371,13 @@ public static class AudioSourceRegistry
             var clipPath = Resolve(root, clipRelative);
             var clipsExists = clipPath.Length > 0 && File.Exists(clipPath);
             var bytes = clipsExists ? new FileInfo(clipPath).Length : 0L;
-            if (!clipsExists)
+            if (clipRelative.Length > 0 && !Contained(root, clipPath))
+            {
+                // A res:// path with .. would be read outside the checkout; the runtime
+                // never does that, and neither does the preview.
+                outOfRange.Add($"{id}: путь «{file64}» выходит за пределы проекта — такой клип не читается ни игрой, ни превью.");
+            }
+            else if (!clipsExists)
             {
                 outOfRange.Add($"{id}: клип {file64} не найден — деревня не поднимется.");
             }
@@ -503,6 +509,12 @@ public static class AudioSourceRegistry
 
             var stemFile = Text(item["file"]);
             var resolved = stemFile.StartsWith("res://", StringComparison.Ordinal) ? Resolve(root, "game/" + stemFile["res://".Length..]) : "";
+            if (resolved.Length > 0 && !Contained(root, resolved))
+            {
+                outOfRange.Add($"{ManifestPath}: у подложки «{id}» путь «{stemFile}» выходит за пределы проекта — файл вне проекта не читается.");
+                resolved = "";
+            }
+
             var shared = sameFile.TryGetValue(stemFile, out var users) ? users.Where(user => !string.Equals(user, id, StringComparison.Ordinal)).ToArray() : [];
             stems.Add(new AudioStemView(
                 id,
@@ -558,6 +570,30 @@ public static class AudioSourceRegistry
 
     private static string Resolve(string root, string relativePath) =>
         Path.Combine(root, relativePath.Replace('/', Path.DirectorySeparatorChar));
+
+    /// <summary>
+    /// Whether a resolved path really stays inside the project. A res:// path that
+    /// climbs out with .. must be reported, not silently read from the machine.
+    /// </summary>
+    private static bool Contained(string root, string path)
+    {
+        if (path.Length == 0)
+        {
+            return false;
+        }
+
+        try
+        {
+            var full = Path.GetFullPath(path);
+            var project = Path.GetFullPath(root).TrimEnd(Path.DirectorySeparatorChar);
+            return full.Equals(project, StringComparison.Ordinal)
+                || full.StartsWith(project + Path.DirectorySeparatorChar, StringComparison.Ordinal);
+        }
+        catch (Exception failure) when (failure is ArgumentException or NotSupportedException or PathTooLongException)
+        {
+            return false;
+        }
+    }
 
     private static string Text(JsonNode? node) =>
         node is JsonValue value && value.TryGetValue<string>(out var text) ? text : "";

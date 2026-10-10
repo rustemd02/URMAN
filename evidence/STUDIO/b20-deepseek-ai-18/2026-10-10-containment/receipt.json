@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-18"
+  ],
+  "stage": "correction for the stored review of 1dc9ce15: path containment, level range in the audition gate, and the selected source's own findings",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:48 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "f703f132 via merge a86e71d4",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/AudioSourceRegistry.cs": "437f6ca7429172388bfaa043f5c5e1cacddc92668ea45cf84c129bd5b547f63c",
+    "game/studio/StudioAudioPanel.cs": "d25a149b6fd8e45e37056968057517a0a25d7eca1c1652fdd9c936f185776b20",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-containment/check.log": "348d4a8c50a27c0c8597e26c5f8287ced70ccb8eaece98200f9c5869196cc90d"
+  },
+  "addressed": {
+    "path containment": "a resolved clip or stem path must stay inside the project: res://../../etc/passwd is reported for the emitter and for the shared-bus stem, and an escaping stem path is no longer treated as an existing file. A containment failure or a path the platform rejects is handled as not contained",
+    "stem level range": "the audition gate now asks the registry's own Validate for file and volumeDb, so a declared level outside the documented range is refused with the registry's reason",
+    "malformed raw values are visible where they matter": "the panel lists the findings that belong to the selected source (unknown field, missing required, out of range) instead of only the totals in the header; a raw value of the wrong type is reported by Validate on the same path"
+  },
+  "own_bug_found_and_fixed_here": "the first version of the audition gate validated the level only AFTER the emitter lookup, so a shared-bus stem returned early and its level and path were never checked. The registry-based checks now run for both scopes before the emitter-specific ones",
+  "verified": {
+    "probe": "PASS 266/266: a synthetic root whose emitter clip and stem file both escape the project reports both; the escaping stem is not treated as existing; no real audio path is falsely reported as escaping",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "not_run": "no Studio window and no listening: the panel text and the auditory result are NOT_RUN, and no sound was heard"
+  },
+  "open": [
+    "the audio unit's listening and auditory acceptance remain an external gate",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}

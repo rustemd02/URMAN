@@ -151,6 +151,21 @@ public partial class StudioAudioPanel : AcceptDialog
             lines.Add("Внимание: у события одновременно dayOnly и nightOnly — игра не проиграет его никогда.");
         }
 
+        // The totals in the header say how many findings exist; the author needs the
+        // ones that belong to the source in front of them, including a raw value of the
+        // wrong type that the projection had to read as a default.
+        var id = target.SourceId[(target.SourceId.IndexOf(':') + 1)..];
+        var own = _report.OutOfRangeValues
+            .Concat(_report.MissingRequiredFields)
+            .Concat(_report.UnknownFields)
+            .Where(line => line.StartsWith(id + ":", StringComparison.Ordinal) || line.Contains(": " + id + ": ", StringComparison.Ordinal))
+            .Distinct(StringComparer.Ordinal)
+            .ToArray();
+        foreach (var problem in own)
+        {
+            lines.Add("⚠ " + problem);
+        }
+
         var plan = AudioSourceRegistry.PlanAudition(target.Scope, target.File, target.VolumeDb, "ручное прослушивание в Studio");
         lines.Add($"Прослушивание: громкость {plan.VolumeDb:0.#} дБ (не выше авторской и не выше {AudioSourceRegistry.PreviewCeilingDb:0.#} дБ), без петли, со обязательным стопом.");
         var withoutFrameEffect = AudioSourceRegistry.FieldsWithoutFrameEffect
@@ -234,12 +249,17 @@ public partial class StudioAudioPanel : AcceptDialog
             return $"файл {target.File} не найден.";
         }
 
+        // The registry's own rules decide the level and the path for BOTH scopes, so the
+        // shared-bus stem is checked too: returning early for a non-emitter would leave
+        // its declared level and its path unvalidated.
+        var problems = new List<string>();
+        problems.AddRange(AudioSourceRegistry.Validate(target.Scope, "file", JsonValue.Create(target.File)));
+        problems.AddRange(AudioSourceRegistry.Validate(target.Scope, "volumeDb", JsonValue.Create(target.VolumeDb)));
         if (_report?.Emitters.FirstOrDefault(emitter => $"emitter:{emitter.Id}" == target.SourceId) is not { } emitter)
         {
-            return null;
+            return problems.Count == 0 ? null : string.Join(" ", problems);
         }
 
-        var problems = new List<string>();
         problems.AddRange(AudioSourceRegistry.Validate(AudioSourceScope.LocalEmitter, "file", JsonValue.Create(emitter.File)));
         problems.AddRange(AudioSourceRegistry.Validate(AudioSourceScope.LocalEmitter, "radius", JsonValue.Create(emitter.Radius)));
         problems.AddRange(AudioSourceRegistry.Validate(AudioSourceScope.LocalEmitter, "volumeDb", JsonValue.Create(emitter.VolumeDb)));
