@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-13",
+  "stage": "second review corrections (c5a99932): instanced node headers, loader scripts in the fingerprint, link guard on read and retry-safe load",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 20:52 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "previous_correction": "6cf1b9d050ba40db1875e18d03355973ced82b2c",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/CampaignWorldContext.cs": "597f1aa842734a515e8c2396e2abc5dd25da9edf75bb4799619c7d6b3e8e3881",
+    "src-dotnet/Urman.Studio.Core/Editing/CampaignWorldCatalog.cs": "8e30610c6acb430e721ff17ad49a872ff36da5f0a5faaac96d811c06a108051d",
+    "src-dotnet/Urman.Studio.Core/Editing/WorldAuthoringState.cs": "24642780e42bc172f51bf463482f852c164577414e356445f9650a10988effdc",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-review-fixes2/probe/Program.cs": "13a65709004da20bdbfa3f540cc936e5c9d45fc88a80a1023369f76eb093c45d",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-review-fixes2/probe/dsprobe.csproj": "f936e3337fa3017a94194ac84691b4ea7bcd622ca959934cc96ef2126272c089",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-review-fixes2/probe.log": "8fc6a6b0fd8008e63c0f89736978ae574dbc0a208ebd6900ea3cc209cfd80f56"
+  },
+  "addressed": {
+    "P2-A instanced node headers skipped": "NodeLine now matches every node header, including instanced ones without a type attribute, and node attributes (type/parent) are parsed from the header; properties stay strictly node-scoped, so a conflicting zone on an instanced node is detected instead of being merged into the previous node",
+    "P2-B loader scripts missing from the fingerprint": "WorldRef carries the scripts read while resolving the loader signal and AuthoredDependencies includes them, so disarming EnableAct1ConnectedWorld moves the fingerprint as well as the capability",
+    "ChangedOnDisk did not guard links before hashing": "RefuseLinks runs before the hash read",
+    "LoadOnce could leave the store half-initialised": "the store is marked loaded only after a successful link check, read and parse, so a repeated read reports the same clear error instead of a null dereference",
+    "CAS scope": "documented as a sequential-writer guard, not a concurrency mechanism; no new framework"
+  },
+  "check": {
+    "narrow": "dotnet build src-dotnet/Urman.Studio.Core/Urman.Studio.Core.csproj (0 warnings, 0 errors)",
+    "probe_command": "dotnet run --project <evidence>/probe/dsprobe.csproj",
+    "probe_result": "PASS 68/68",
+    "probe_scope": "real checkout plus temporary mini checkouts for the loader signal, instanced-node conflict, ambiguity, fingerprint change, symlink refusal and lost-update refusal",
+    "toolchain": "pinned .tools/dotnet 10.0.302"
+  },
+  "open": [
+    "STUDIO/AI-12 (Codex) still open; full AI-13 done_when not claimed",
+    "two independently authored worlds with runtime consumers do not exist; AI-13 status stays open",
+    "Studio UI wiring stays with the owner; no UI edits here",
+    "in-game check NOT_RUN, no station slot taken",
+    "deeper loader chains (a signal set outside the scene and its node scripts) are not followed; the classification stays conservative"
+  ]
+}

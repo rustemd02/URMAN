@@ -78,6 +78,7 @@ public sealed class WorldAuthoringStateStore
     {
         get
         {
+            RefuseLinks(RelativePath);
             _ = Data;
             var current = File.Exists(_path) ? AtomicFile.Sha256(File.ReadAllBytes(_path)) : null;
             return !string.Equals(current, LoadedSha256, StringComparison.Ordinal);
@@ -110,6 +111,9 @@ public sealed class WorldAuthoringStateStore
     /// change. A file that changed on disk after it was read is refused with a
     /// clear error instead of being overwritten (minimal compare-and-swap, the
     /// same rule <see cref="AuthoredFile"/> applies).
+    /// This is a sequential-writer guard, not a concurrency mechanism: two
+    /// writers that read and write in the same instant can still interleave, and
+    /// the second one is then refused on its next save rather than merged.
     /// </summary>
     public bool Save()
     {
@@ -157,24 +161,31 @@ public sealed class WorldAuthoringStateStore
             return;
         }
 
-        _loaded = true;
+        // Read and parse first: a refused link or a failed read must leave the
+        // store unloaded, so a retry reports the same error instead of returning
+        // a half-initialised object.
         RefuseLinks(RelativePath);
         if (!File.Exists(_path))
         {
             _data = new JsonObject();
+            _loaded = true;
             return;
         }
 
         var bytes = File.ReadAllBytes(_path);
-        LoadedSha256 = AtomicFile.Sha256(bytes);
+        JsonObject parsed;
         try
         {
-            _data = JsonNode.Parse(bytes) as JsonObject ?? new JsonObject();
+            parsed = JsonNode.Parse(bytes) as JsonObject ?? new JsonObject();
         }
         catch (JsonException)
         {
-            _data = new JsonObject();
+            parsed = new JsonObject();
         }
+
+        LoadedSha256 = AtomicFile.Sha256(bytes);
+        _data = parsed;
+        _loaded = true;
     }
 
     /// <summary>
