@@ -150,6 +150,18 @@ public sealed class StudioCampaignSelector
         FillWorlds(previousWorld: null);
     }
 
+    /// <summary>Fills the world list for one campaign without selecting or notifying.</summary>
+    private void FillWorldList(string campaignSelection)
+    {
+        _world.Clear();
+        foreach (var world in _catalog!.WorldsFor(campaignSelection))
+        {
+            _world.AddItem($"{world.Title} · {Capability(world.Capability)}");
+            _world.SetItemMetadata(_world.ItemCount - 1, world.ScenePath);
+            _world.SetItemTooltip(_world.ItemCount - 1, $"{world.ScenePath}\n{string.Join("\n", world.CapabilityEvidence)}");
+        }
+    }
+
     private void OnWorldSelected()
     {
         if (_filling || _catalog is null)
@@ -180,12 +192,64 @@ public sealed class StudioCampaignSelector
         }
     }
 
-    /// <summary>Shows why a world could not be opened and keeps the previous good selection.</summary>
+    /// <summary>
+    /// Shows why a world could not be opened and puts the lists back on the choice
+    /// that will really run, so the visible selection never diverges from the run.
+    /// </summary>
     private void Reject(string reason)
     {
-        _details.Text = reason + (Context is { } previous
-            ? $" Прежний выбор сохранён: {previous.Campaign.Id}, {previous.World.ScenePath}."
-            : "");
+        var previous = Context;
+        var consistent = previous ?? Default();
+        if (consistent is null)
+        {
+            _details.Text = reason + " Подтверждённого выбора нет и мир по умолчанию не разрешился: запуск не подтверждён.";
+            return;
+        }
+
+        ShowSilently(consistent);
+        _details.Text = reason + (previous is null
+            ? $" Показан мир по умолчанию: {consistent.Campaign.Id}, {consistent.World.ScenePath}."
+            : $" Показан прежний подтверждённый выбор: {consistent.Campaign.Id}, {consistent.World.ScenePath}.");
+        if (previous is null)
+        {
+            // The default is now what both the lists and the run path use, so it is
+            // published like a normal choice instead of staying unconfirmed.
+            Context = consistent;
+            Changed?.Invoke(consistent);
+        }
+    }
+
+    private CampaignWorldContext? Default()
+    {
+        try
+        {
+            return _catalog?.Default();
+        }
+        catch (InvalidOperationException)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>Shows one context in both lists without raising selection events.</summary>
+    private void ShowSilently(CampaignWorldContext context)
+    {
+        _filling = true;
+        var campaignIndex = IndexOf(_campaign, context.Campaign.Selection);
+        if (campaignIndex >= 0)
+        {
+            _campaign.Selected = campaignIndex;
+        }
+
+        FillWorldList(context.Campaign.Selection);
+        var worldIndex = IndexOf(_world, context.World.ScenePath);
+        if (worldIndex >= 0)
+        {
+            _world.Selected = worldIndex;
+        }
+
+        _filling = false;
+        _blockers.Text = Blockers();
     }
 
     private void FillWorlds(string? previousWorld)
@@ -197,14 +261,7 @@ public sealed class StudioCampaignSelector
 
         var selection = _campaign.GetItemMetadata(_campaign.Selected).AsString();
         _filling = true;
-        _world.Clear();
-        foreach (var world in _catalog.WorldsFor(selection))
-        {
-            _world.AddItem($"{world.Title} · {Capability(world.Capability)}");
-            _world.SetItemMetadata(_world.ItemCount - 1, world.ScenePath);
-            _world.SetItemTooltip(_world.ItemCount - 1, $"{world.ScenePath}\n{string.Join("\n", world.CapabilityEvidence)}");
-        }
-
+        FillWorldList(selection);
         if (_world.ItemCount == 0)
         {
             _filling = false;

@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-13",
+  "stage": "selector review correction for 3ff0dbc5 (P2 from Codex 2026-10-10 21:51)",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:02 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "previous_stage": "3ff0dbc5",
+  "files": {
+    "game/studio/StudioCampaignSelector.cs": "a2a5a74ba27246c48bf82b933af6496311a2eec44c03064c407bccca2a8a3a10",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-selector-reject-fix/build.log": "03ee5fe01dce72e6d1a0aec4c739b6df5336ebd5ad2fc52e2c574da7cf0031f8"
+  },
+  "addressed": {
+    "the visible choice diverged from the run": "a rejected world no longer leaves the lists on the rejected entry: the previous confirmed selection is put back silently (no second Changed), and when there is no confirmed choice yet the catalog default is shown and published, so the lists always name the world that PlayFromHere will really run",
+    "shared filling": "the world list filling moved into FillWorldList, used by both the normal path and the silent restore, so the two cannot drift apart"
+  },
+  "note": "the separate wiring remark about the startup initial Changed being lost before StudioRoot registers the world section is an owner-side wiring item in the interface patch and is not changed here",
+  "check": {
+    "narrow": "game/Urman.Game.csproj 0 warnings/0 errors with the corrected selector; Urman.Studio.Core 0 warnings/0 errors; probe 175/175",
+    "not_run": "the control is still not added to the top bar by me and was never instantiated in a live Studio, so the restore path is source-verified only",
+    "toolchain": "pinned .tools/dotnet 10.0.302"
+  }
+}
