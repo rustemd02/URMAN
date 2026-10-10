@@ -309,12 +309,14 @@ public partial class Act1ConnectedWorld
     {
         var bath = _bathhouse!;
         string[] tones = ["b88a55", "a5773f", "7d5732", "5c3f25"];
-        var tools = new SurfaceTool[tones.Length];
-        var counts = new int[tones.Length];
+        // Keep the four wall tones separate from the four ceiling tones: only
+        // wall surfaces use the authored board UV orientation below.
+        var tools = new SurfaceTool[tones.Length * 2];
+        var counts = new int[tools.Length];
         for (var i = 0; i < tools.Length; i++) { tools[i] = new SurfaceTool(); tools[i].Begin(Mesh.PrimitiveType.Triangles); }
         var rng = new RandomNumberGenerator { Seed = 5521 };
 
-        void Box(int surface, Vector3 min, Vector3 max)
+        void Box(int surface, Vector3 min, Vector3 max, bool verticalWall)
         {
             var st = tools[surface];
             var c = (min + max) * .5f;
@@ -329,7 +331,15 @@ public partial class Act1ConnectedWorld
                 st.SetNormal(n);
                 foreach (var k in new[] { 0, 2, 1, 0, 3, 2 })
                 {
-                    st.SetUV(new Vector2(p[k].X + p[k].Z, -p[k].Y));
+                    // W10's painted grain runs along texture V. World projection
+                    // can swap its axes between the rotated bath's wall faces.
+                    // Give the lining its own local metre-space UVs:
+                    // V follows wall height on both wall orientations, while the
+                    // small top/bottom faces retain the original cap mapping.
+                    var uv = verticalWall && Mathf.Abs(n.Y) < .5f
+                        ? new Vector2(Mathf.Abs(n.X) > .5f ? p[k].Z : p[k].X, p[k].Y)
+                        : new Vector2(p[k].X + p[k].Z, -p[k].Y);
+                    st.SetUV(uv);
                     st.AddVertex(p[k]);
                 }
                 counts[surface] += 6;
@@ -361,7 +371,7 @@ public partial class Act1ConnectedWorld
 
         // box(u0,u1,v0,v1,extra): u runs across the boards, v along them; extra = additional proud depth.
         void Wall(Func<float, float, float, float, float, (Vector3, Vector3)> box, float uMin, float uMax, float vMin, float vMax,
-            (float u0, float u1, float v0, float v1)[] holes, Func<float, int> tone, float[] railV)
+            (float u0, float u1, float v0, float v1)[] holes, Func<float, int> tone, float[] railV, bool verticalSurface)
         {
             for (var u = uMin; u < uMax - .03f;)
             {
@@ -371,7 +381,7 @@ public partial class Act1ConnectedWorld
                 foreach (var (va, vb) in Cut(vMin, vMax, cuts))
                 {
                     var (min, max) = box(u, ub, va, vb, 0);
-                    Box(tone((u + ub) * .5f), min, max);
+                    Box(tone((u + ub) * .5f) + (verticalSurface ? 0 : tones.Length), min, max, verticalSurface);
                 }
                 u = ub + .006f;
             }
@@ -382,7 +392,7 @@ public partial class Act1ConnectedWorld
                 foreach (var (ua, ub) in Cut(uMin, uMax, cuts))
                 {
                     var (min, max) = box(ua, ub, rail - .02f, rail + .02f, .012f);
-                    Box(3, min, max);
+                    Box(3 + (verticalSurface ? 0 : tones.Length), min, max, verticalSurface);
                 }
             }
         }
@@ -392,25 +402,36 @@ public partial class Act1ConnectedWorld
         Wall((u0, u1, v0, v1, e) => (new(u0, v0, -2.4f), new(u1, v1, -2.378f + e)),
             -1.9f, 1.9f, .82f, top,
             [(-1.52f, -1.08f, 1.86f, 2.24f), (.30f, 1.0f, 1.43f, 2.02f)],
-            x => x < -.95f ? 2 : rng.Randf() < .5f ? 0 : 1, [.82f, 2.48f]);
+            x => x < -.95f ? 2 : rng.Randf() < .5f ? 0 : 1, [.82f, 2.48f], true);
         // East wall (face x 1.9): across z, the lamp side of the room, so the lightest boards.
         Wall((u0, u1, v0, v1, e) => (new(1.878f - e, v0, u0), new(1.9f, v1, u1)),
-            -2.4f, .264f, .82f, top, [], z => z < -1.6f ? 1 : rng.Randf() < .6f ? 0 : 1, [.82f, 2.48f]);
+            -2.4f, .264f, .82f, top, [], z => z < -1.6f ? 1 : rng.Randf() < .6f ? 0 : 1, [.82f, 2.48f], true);
         // Wet face of the partition (face z .28): thin, so the soaked whisks hang clear of it. The door leaf is left bare.
         Wall((u0, u1, v0, v1, e) => (new(u0, v0, .264f - e), new(u1, v1, .28f)),
             -1.9f, 1.9f, .82f, top, [(-.06f, 1.16f, 0f, 2.08f)],
-            x => rng.Randf() < .5f ? 0 : 1, [.82f, 2.48f]);
+            x => rng.Randf() < .5f ? 0 : 1, [.82f, 2.48f], true);
         // Ceiling boards along z, smoked; the chimney collar and the soot patch over the stove stay untouched.
         Wall((u0, u1, v0, v1, e) => (new(u0, 2.55f - .018f, v0), new(u1, 2.55f, v1)),
             -1.9f, 1.9f, -2.4f, .264f, [(-1.72f, -1.44f, -1.45f, -1.17f), (-1.92f, -.79f, -1.77f, -.53f)],
-            x => rng.Randf() < .35f ? 1 : 2, []);
+            x => rng.Randf() < .35f ? 1 : 2, [], false);
 
         var mesh = new ArrayMesh();
         for (var i = 0; i < tools.Length; i++)
         {
             if (counts[i] == 0) continue;
             tools[i].Commit(mesh);
-            mesh.SurfaceSetMaterial(mesh.GetSurfaceCount() - 1, PainterlyMaterialLibrary.ForColor(tones[i], "wood_bath_light", sheltered: true));
+            var isVerticalWall = i < tones.Length;
+            var surfaceMaterial = PainterlyMaterialLibrary.ForColor(tones[i % tones.Length], "wood_bath_light", sheltered: true);
+            if (isVerticalWall && surfaceMaterial is ShaderMaterial sharedShader)
+            {
+                // The library's cached W10 keeps its world projection for every
+                // other consumer. Only these explicitly UV-mapped lining surfaces
+                // switch to the board-oriented UVs above.
+                var liningShader = (ShaderMaterial)sharedShader.Duplicate();
+                liningShader.SetShaderParameter("authored_uv_texture", true);
+                surfaceMaterial = liningShader;
+            }
+            mesh.SurfaceSetMaterial(mesh.GetSurfaceCount() - 1, surfaceMaterial);
         }
         var lining = new MeshInstance3D { Name = "BathSteamRoomLining", Mesh = mesh, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off };
         lining.SetMeta("visualOnly", true);

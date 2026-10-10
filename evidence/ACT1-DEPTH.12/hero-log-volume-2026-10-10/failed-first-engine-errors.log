@@ -1,0 +1,6 @@
+ERROR: View capture refused: graphicsPreset comparison point 'C2_hero_house' is unbound or has no graphicsPreset; a job cannot mix comparison rows with default/unbound points. No frame was written.
+ERROR: System.IndexOutOfRangeException: Index was outside the bounds of the array.
+ERROR: Act I startup failed: System.InvalidOperationException: Act I world or campaign did not finish loading.
+ERROR: View capture refused: graphicsPreset comparison point 'C2_hero_house' is unbound or has no graphicsPreset; a job cannot mix comparison rows with default/unbound points. No frame was written.
+ERROR: System.IndexOutOfRangeException: Index was outside the bounds of the array.
+ERROR: Act I startup failed: System.InvalidOperationException: Act I world or campaign did not finish loading.
