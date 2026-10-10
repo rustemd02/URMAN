@@ -25356,6 +25356,14 @@
             "project_files_changed": false,
             "game_after_undo": "NOT_RUN",
             "next": "Official notification producer/schema review; preserve strict no-tools boundary. No blanket method allowlist."
+          },
+          "production_harness_correction": {
+            "result": "STALE_RUNTIME_DLL_ATTEMPTS_2_3",
+            "historical_evidence_preserved": true,
+            "stale_core_sha256": "3759510c8dd12ffe1909dd081ad1c0b9cd43e89fcd1b1c9ade749bf88372f417",
+            "current_core_sha256": "875e473b1dd6a6f857797e01a13d79f4683f8ff1d21dec29499a18584024c589",
+            "cause": "Temporary diagnostic retained stale DLL despite successful rebuild. Explicit source-to-runtime DLL copy with SHA equality now required before model calls.",
+            "scope": "Prior attempts do not verify current production provider; private preflight proof remains separately valid. No proposal/apply/gameafter/undo yet."
           }
         }
       },
