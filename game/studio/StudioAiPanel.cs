@@ -9,7 +9,7 @@ using Urman.Studio.Core.Storage;
 namespace Urman.Studio.App;
 
 /// <summary>Frozen house request → typed proposal → staged geometry → one reversible apply.</summary>
-public partial class StudioAiPanel : AcceptDialog
+public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgress>
 {
     private const string RecipePath = "game/content/studio/hero_house.recipe.json";
     private const string GeneratorPath = "assets/source/blender/act1/urman_village_exterior_kit.py";
@@ -34,6 +34,13 @@ public partial class StudioAiPanel : AcceptDialog
     private string? _snapshot;
     private string? _consentIoWarning;
     private bool _busy;
+    private int _providerWarningSeen;
+
+    void IProgress<CodexProposalProgress>.Report(CodexProposalProgress progress)
+    {
+        if (progress.Stage == CodexProposalStage.ConfigurationWarning)
+            Interlocked.Exchange(ref _providerWarningSeen, 1);
+    }
 
     public static bool OwnsFile(string path) => path == RecipePath ||
         System.Text.RegularExpressions.Regex.IsMatch(path,
@@ -205,6 +212,7 @@ public partial class StudioAiPanel : AcceptDialog
         if (_busy) return;
         SetBusy(true);
         ClearProposal();
+        Interlocked.Exchange(ref _providerWarningSeen, 0);
         _cancel = new();
         try
         {
@@ -215,7 +223,7 @@ public partial class StudioAiPanel : AcceptDialog
             AtomicFile.WriteAllText(Path.Combine(_studio.Workspace.Root, ".urman-studio/ai-jobs", _request.RequestId, "request.json"), JsonSerializer.Serialize(_request));
             _status.Text = "Codex готовит предложение…";
             _proposal = await new CodexProposalProvider(allowGlobalInstructions: _globalInstructions.ButtonPressed)
-                .RunAsync(_request, _stage, _cancel.Token);
+                .RunAsync(_request, _stage, _cancel.Token, this);
             if (!Visible) throw new OperationCanceledException();
             File.WriteAllText(Path.Combine(_stage, "proposal.json"), JsonSerializer.Serialize(_proposal));
             AtomicFile.WriteAllText(Path.Combine(_studio.Workspace.Root, ".urman-studio/ai-jobs", _request.RequestId, "proposal.json"), JsonSerializer.Serialize(_proposal));
@@ -235,6 +243,8 @@ public partial class StudioAiPanel : AcceptDialog
             _afterView.Disabled = false;
             ShowPreview(after: true);
             _status.Text = $"{_proposal.Summary}\nШирина: {_proposal.ExpectedWidth:0.00} → {_proposal.WindowWidth:0.00} м. Только выбранный дом; 7 реальных проёмов. Ещё не применено.";
+            if (Volatile.Read(ref _providerWarningSeen) != 0)
+                _status.Text += "\nCodex сообщил предупреждение при запуске. Перед запросом проверено: MCP отключены, доступных MCP-инструментов нет.";
             if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
             _apply.Disabled = false;
         }

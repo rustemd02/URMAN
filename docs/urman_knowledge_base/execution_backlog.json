@@ -25115,8 +25115,8 @@
           "provider_authorization": "Author live reply 2026-10-10: own global Codex instructions allowed for first pilot; tools/write disabled; personal ChatGPT login, no API/pay-as-you-go fallback. Provider default rejects global instruction sources; explicit local opt-in.",
           "verification_question": "Do typed Codex width, seven real paired apertures and source/artifact transaction change only selected HeroHouse, and does Undo restore byte-identical recipe plus asset absence and matching game frame?",
           "success_condition": "AppServer typed proposal exact captured identities; game exterior+interior before/after/Undo at matched Windows cameras; original recipe/shared assets hashes restored, new artifact/ref removed; failed promotion/view and foreign edits refuse whole operation; all unmet B20 criteria stay open.",
-          "provider_compatibility": "Latest no-turn prefix with DebugCore SHA8e618487…9f961c passed ChatGPT account, active feature gate, config3server disable override, thread/start and thread boundary. Stopped mcpServerStatus/list on notification warning before disabled/no-tools proof; turnStartSent=false. Official source research pending; do not whitelist unknown warnings.",
-          "ui_blocker": "Panel layout and CmdEnter observed previously; no current protected Studio process. Need mcpStatus/noTools gate, then actual model proposal, Before/After, Apply, Windows after/Undo. No proposal or mutation yet.",
+          "provider_compatibility": "One temp no-turn prefix with strict scoped warning handler PASS: account ChatGPT/features/thread boundary; config3servers all per-thread overrides disabled; status3rows/1page exactly configured IDs, runtimeStatus disabled, tools empty; warningCount1, byteLength255, thread correlation valid; turnStartSent=false. CoreSHA7611f4d5…f308. Sol independently reviewed warning handler: notification processing does not weaken independent MCP gate. Minimal production preflight tracker patch pending; no actual inference/proposal yet.",
+          "ui_blocker": "Panel layout and CmdEnter verified previously; TabInputMode=false compiled. No current protected Studio process. Next: reviewed production preflight warning patch/compile, actual fresh Codex request from Studio, preview/Apply, Windows after and full Undo. Baseline recipe/shared assets unchanged.",
           "provider_source_evidence": "https://github.com/openai/codex/blob/rust-v0.162.0-alpha.17/codex-rs/features/src/lib.rs:2282 StageRemoved backward compatibility; item_ids2811,terminal_resize_reflow2464,tui_app_server3053; ignored toggles3312–3414/3453–3459. Luna read-only review; installed schemas unchanged with/without3 switches.",
           "work_split_2026_10_10": {
             "authorization": "Прямое поручение автора 10.10.2026: разделить B20 между Codex и DeepSeek; отдельный clone/branch DeepSeek, Codex review/cherry-pick accepted commits into main.",
@@ -25303,7 +25303,18 @@
             "first_next": "Codex продолжает первый Codex house/windows → game → full Undo пилот; DeepSeek до выполненных dependency gates может исследовать/готовить конкретные участки в своём clone, но не выдавать подготовку за принятый AI-13 либо удалять зависимости."
           },
           "persistent_history_limit": "Only one accepted exact four-file HeroHouse command restored; multiple committed commands refuse ambiguous order. Retire/compensation preserves authored files and ordinary failure handling; crash between independent retirement journals can lose pilot history, full mixed persistent stack remains AI-11 open.",
-          "ui_keyboard": "Built-in TabInputMode=false compiled0/0; tree-derived expected button focus sequence available; live traversal/Apply/Undo still pending."
+          "ui_keyboard": "Built-in TabInputMode=false compiled0/0; tree-derived expected button focus sequence available; live traversal/Apply/Undo still pending.",
+          "game_comparison_limit": "Before Windows matched camera frames use effective low, FSR0.70 rescue despite requested high; after/Undo must compare effective settings. Two frames show exterior/front+interior, not all7 sides. Seven aperture contract derived from generator and stage manifest; current capture does not export arbitrary Node Meta. No generated1.30 artifact yet.",
+          "production_private_prefix_2026_10_10": {
+            "result": "PASS",
+            "core_sha256": "76577e502f4b88ea8cf6ffa4abef3f02c4c1e3cef319d85cc2de386f4a06d523",
+            "configured_servers": 3,
+            "disabled_servers": 3,
+            "available_mcp_tools": 0,
+            "warning_count": 1,
+            "turn_start_sent": false,
+            "verification": "Actual production PreflightWarningTracker and VerifyThreadMcpServersDisabledAsync invoked by existing temporary no-turn prefix; Sol reviewed source; affected game/Core compile 0 warnings/0 errors. Model and game after/Undo remain NOT_RUN."
+          }
         }
       },
       "done_when": "Все дочерние задачи закрыты доказательствами; человеческие пункты оценены автором, а не walkthrough. Дополнительно выполнены все обязательные AI-единицы и новые A01–A25 из ТЗ 10.10, включая обоих провайдеров и внешние гейты; AI-35 только после отдельного расширения Windows. Историческая матрица и дочерние задачи сохраняются.",
