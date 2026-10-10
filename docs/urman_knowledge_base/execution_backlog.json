@@ -23814,7 +23814,14 @@
               "STUDIO.P2"
             ],
             "acceptance_refs": [
-              "STUDIO-AI/A05"
+              "STUDIO-AI/A05",
+              {
+                "stage": "2026-10-10 self-review correction, second pass: the remaining malformed-input reads (AI-17 scatter, AI-34 cutscene, AI-40 diagnostics)",
+                "result": "correction by deepseek v4.1 flash: an absent, a wrongly typed and an empty species list are three findings instead of one; a malformed cutscene action and a malformed animation-catalogue entry are reported instead of being skipped or turned into a false claim",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/WorldSurfaceCommands.cs, CutsceneActions.cs, AuthoringDiagnostics.cs; evidence evidence/STUDIO/b20-deepseek-ai-17/2026-10-10-malformed-remainders/ (check.log, probe/, receipt.json); commit 46ad8306",
+                "verification": "probe PASS 262/262. New checks: every real scatter declares its species as a real array; absent, wrongly typed and empty catalogIds are three different findings; a malformed cutscene action is reported instead of being skipped. Real data unchanged: 8 scatters, 45 expected plants, 0 problems. Urman.Studio.Core and game/Urman.Game.csproj 0 warnings/0 errors. No Studio window and no game run: interface NOT_RUN"
+              }
+
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
           },
@@ -24515,6 +24522,13 @@
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/CutsceneActions.cs; evidence evidence/STUDIO/b20-deepseek-ai-34/2026-10-10-cutscene-actions/ (check.log, probe/, receipt.json)",
                 "verification": "probe PASS 212/212. The real cutscene urman.cutscene:tamara-fence has 2 actors and 75 actions in exactly the ten types the executor knows (say=19, face=14, wait=13, cut=9, laugh=5, show=4, clip=4, move=4, place=2, filming=1), every action passes the executor's own rules, all 19 spoken lines resolve through the runtime's own urman.chapter1:text/<suffix> prefix, and Walk/Idle match the animation catalogue. Synthetic cases prove each refusal, including the runtime's 'needs a new mechanic' case and the silent clip rule. Urman.Studio.Core and game/Urman.Game.csproj build with 0 warnings/0 errors. A real gap was found: the cutscene root is not an addressable entity in the workspace (Locate fails, EntityIds has no cutscene id) while its actions are, so the panel and this projection read the file directly. Selecting another cutscene and removing the fixed tamara namespace is the unit's boundary and is NOT done; the cutscene was not played, so the visible result is NOT_RUN"
               }
+,
+              {
+                "stage": "2026-10-10 self-review correction, second pass: the remaining malformed-input reads (AI-17 scatter, AI-34 cutscene, AI-40 diagnostics)",
+                "result": "correction by deepseek v4.1 flash: an absent, a wrongly typed and an empty species list are three findings instead of one; a malformed cutscene action and a malformed animation-catalogue entry are reported instead of being skipped or turned into a false claim",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/WorldSurfaceCommands.cs, CutsceneActions.cs, AuthoringDiagnostics.cs; evidence evidence/STUDIO/b20-deepseek-ai-17/2026-10-10-malformed-remainders/ (check.log, probe/, receipt.json); commit 46ad8306",
+                "verification": "probe PASS 262/262. New checks: every real scatter declares its species as a real array; absent, wrongly typed and empty catalogIds are three different findings; a malformed cutscene action is reported instead of being skipped. Real data unchanged: 8 scatters, 45 expected plants, 0 problems. Urman.Studio.Core and game/Urman.Game.csproj 0 warnings/0 errors. No Studio window and no game run: interface NOT_RUN"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
@@ -24741,6 +24755,13 @@
                 "result": "partial implementation by deepseek v4.1 flash: an explanation builder gathers the existing checkers into ordered steps with a next action, so the author reads why an object may never fire, what the game silently skips and what to do next; a first version that flagged every unreferenced object was corrected before commit",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-10-diagnostics/ (check.log, probe/, receipt.json)",
                 "verification": "probe PASS with the whole suite (213 checks after this stage). A real NPC and a real cutscene action are explained, a trigger without interactionId is explained with the runtime's own reason, and an unknown blocked-route policy is explained as silently taking the default branch. On the real campaign there are 0 rules the runtime does not execute and 0 workspace problems, so the explanation reports a clean bill of health instead of inventing work. It adds no new truth: every step comes from an existing checker (RoutineCheck, the closed rule catalogue, TriggerScopeFacts, PcChat, CutsceneActions, AssetUsageIndex, ReferenceIndex). Urman.Studio.Core and game/Urman.Game.csproj build with 0 warnings/0 errors. The explanation is not wired into the Studio window and no trial run was made, so the panel block, the run gate and the visible result are NOT_RUN"
+              }
+,
+              {
+                "stage": "2026-10-10 self-review correction, second pass: the remaining malformed-input reads (AI-17 scatter, AI-34 cutscene, AI-40 diagnostics)",
+                "result": "correction by deepseek v4.1 flash: an absent, a wrongly typed and an empty species list are three findings instead of one; a malformed cutscene action and a malformed animation-catalogue entry are reported instead of being skipped or turned into a false claim",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/WorldSurfaceCommands.cs, CutsceneActions.cs, AuthoringDiagnostics.cs; evidence evidence/STUDIO/b20-deepseek-ai-17/2026-10-10-malformed-remainders/ (check.log, probe/, receipt.json); commit 46ad8306",
+                "verification": "probe PASS 262/262. New checks: every real scatter declares its species as a real array; absent, wrongly typed and empty catalogIds are three different findings; a malformed cutscene action is reported instead of being skipped. Real data unchanged: 8 scatters, 45 expected plants, 0 problems. Urman.Studio.Core and game/Urman.Game.csproj 0 warnings/0 errors. No Studio window and no game run: interface NOT_RUN"
               }
 
             ],
