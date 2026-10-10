@@ -435,6 +435,21 @@
       "id": "bath_rear_wall",
       "spec": "BabaiBathhouse@-0.45,1.45,-0.05>BabaiBathhouse@0.65,1.6,-2.4",
       "subject": "ACT1-BATHHOUSE: задняя стена парилки — окно, верхний полок, обшивка, веники, лампа."
+    },
+    {
+      "id": "gorge_bridge_along",
+      "spec": "Ground@0.6,1.7,-85>Ground@0,1.2,-102",
+      "subject": "ACT1-RIVER-BRIDGE: подвесной мост вдоль, с ближнего края ущелья."
+    },
+    {
+      "id": "gorge_bridge_side",
+      "spec": "Ground@14,1.7,-88>Ground@0,-2,-97",
+      "subject": "ACT1-RIVER-BRIDGE: мост и берег сбоку — глубина ущелья, канаты, доски."
+    },
+    {
+      "id": "mosque_exterior",
+      "spec": "MosqueInterior@15,1.7,4>MosqueInterior@0,4,-1",
+      "subject": "ACT1-MOSQUE: мечеть снаружи со стороны входа — минарет, вход, двор; уважительный кадр, без художественного PASS."
     }
   ],
   "batches": [
