@@ -25728,6 +25728,22 @@
               "20be5ed7": "Hints omit TextId/PointsTo; malformed required chat lines/conditions missed; Markdown not real preview; hint title editor violates schema."
             },
             "remaining": "Only previously accepted AI13 source commits are integrated; peer owns correction work. No full unit completion or UI/runtime acceptance inferred."
+          },
+          "native_ui_after_cua_reset": {
+            "result": "PARTIAL_SELECTION_VERIFIED_MODEL_NOT_SENT_INPUT_ROUTING_BLOCKED",
+            "source_commit": "1ca54571",
+            "observed": "Fresh CUA inventory/getApp(bundle)+Raise recovered screenshot; typed HeroID search returned correct result; clicked selection and screenshot showed HeroHouse ID/properties. Enter selection not demonstrated. AI-panel click twice noWindowsAvailable even after fresh AX+Raise; no model request/Apply.",
+            "guard": "Owned child56767 TERM; protected parent38328 exit143, userdata original files/permissions restored and verified.",
+            "remaining": "Native Codex UI provider/preview/Apply/Undo still open. Persistent history banner ambiguous committed file commands; restart/Redo not accepted, journals not deleted."
+          },
+          "ai03_part_pick_delegation": {
+            "active_owner": "Codex / LunaFAST b20_fast_geometry_gate",
+            "files": [
+              "game/studio/StudioWorldSection.cs"
+            ],
+            "question": "Does clicking real HeroHouse wall/glass report stable part breadcrumb via existing collision shape metadata while parentID/sourceLocate/drag/marker/locked behavior stays correct?",
+            "success": "Minimal source-part pickup uses existing shapeOwner/authoredSourceMesh, single hit per click, no new registry/IDs, narrow Game compile and independent review; native UI verification remains separate.",
+            "boundary": "Only transient picking/inspector detail; no AI operation/schema or recipe expansion."
           }
         }
       },
