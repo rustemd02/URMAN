@@ -1,0 +1,29 @@
+== dotnet build src-dotnet/Urman.Studio.Core/Urman.Studio.Core.csproj
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:00.49
+== dotnet build game/Urman.Game.csproj (with the corrected selector)
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:00.59
+== probe
+
+PROBE RESULT: PASS
+== selector defects addressed
+47:            // The field must exist before the first Refresh: Refresh() returns
+48-            // early while there is no view, which left both lists empty.
+49-            _view = root;
+223:        // An empty list is the only "no world" case; a non-empty one always opens
+224-        // its first entry instead of claiming there is no scene.
+225-        if (index < 0)
+226-        {
+227-            index = 0;
+228-        }
+229-
+184:    private void Reject(string reason)
+185-    {
+186-        _details.Text = reason + (Context is { } previous
+187-            ? $" Прежний выбор сохранён: {previous.Campaign.Id}, {previous.World.ScenePath}."
+188-            : "");

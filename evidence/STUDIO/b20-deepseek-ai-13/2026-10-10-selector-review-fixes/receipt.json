@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-13",
+  "stage": "selector review corrections for 329a0039 (CHANGES_REQUESTED by Codex 2026-10-10 21:17)",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 21:37 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "previous_stage": "329a00394813ae28efcb94af9d3271354d2df6d0",
+  "files": {
+    "game/studio/StudioCampaignSelector.cs": "a3145c110c228717a2c25d4002582ab44787af5be943718ef7d0ae5339780849",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-selector-review-fixes/check.log": "916025f0962593ff75a46aa5e619769cc36a2e25c154a52e1ee682512b7847ed"
+  },
+  "addressed": {
+    "P2 first show was empty": "View assigns _view before the first Refresh; Refresh no longer returns early on the initial build, so both lists fill on first open",
+    "P2 first available world not selected": "an empty world list is the only 'no scene' case; a non-empty list always opens entry 0, so switching to a campaign with a different first world works without a manual Refresh",
+    "P2 read failures escaped the Godot callback": "OnWorldSelected catches IOException/UnauthorizedAccessException as well as InvalidOperationException; Describe returns its text so the context is published only after Resolve and the state load both succeeded, and a failed switch keeps the previous good selection with the standard error text"
+  },
+  "check": {
+    "narrow": "game/Urman.Game.csproj 0 warnings/0 errors with the corrected selector; Urman.Studio.Core 0 warnings/0 errors; probe PASS",
+    "not_run": "the control still is not added to the Studio top bar by me and was never instantiated in a live Studio; the three defects are source-level fixes, first-show and switching are NOT_RUN in a live window",
+    "toolchain": "pinned .tools/dotnet 10.0.302"
+  }
+}

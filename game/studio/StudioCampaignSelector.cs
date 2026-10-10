@@ -33,8 +33,24 @@ public sealed class StudioCampaignSelector
 
     public StudioCampaignSelector(StudioRoot studio) => _studio = studio;
 
-    /// <summary>The control to add to the Studio top bar; built on first use.</summary>
-    public Control View => _view ??= Build();
+    /// <summary>The control to add to the Studio top bar; built and filled on first use.</summary>
+    public Control View
+    {
+        get
+        {
+            if (_view is not null)
+            {
+                return _view;
+            }
+
+            var root = Build();
+            // The field must exist before the first Refresh: Refresh() returns
+            // early while there is no view, which left both lists empty.
+            _view = root;
+            Refresh();
+            return root;
+        }
+    }
 
     /// <summary>The campaign and world the author has selected, or null when none could be resolved.</summary>
     public CampaignWorldContext? Context { get; private set; }
@@ -69,7 +85,6 @@ public sealed class StudioCampaignSelector
         _blockers.AutowrapMode = TextServer.AutowrapMode.WordSmart;
         root.AddChild(_blockers);
 
-        Refresh();
         return root;
     }
 
@@ -147,15 +162,30 @@ public sealed class StudioCampaignSelector
         try
         {
             var context = _catalog.Resolve(selection, scene);
+            var details = Describe(context);
             Context = context;
-            Describe(context);
+            _details.Text = details;
+            _blockers.Text = Blockers();
             Changed?.Invoke(context);
         }
         catch (InvalidOperationException error)
         {
-            Context = null;
-            _details.Text = "Этот мир нельзя открыть: " + error.Message;
+            Reject("Этот мир нельзя открыть: " + error.Message);
         }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+        {
+            // Resolve, Describe and the state store read and hash real files, so a
+            // read failure must not escape a Godot callback or replace a good choice.
+            Reject("Не удалось прочитать файлы этого мира: " + error.Message);
+        }
+    }
+
+    /// <summary>Shows why a world could not be opened and keeps the previous good selection.</summary>
+    private void Reject(string reason)
+    {
+        _details.Text = reason + (Context is { } previous
+            ? $" Прежний выбор сохранён: {previous.Campaign.Id}, {previous.World.ScenePath}."
+            : "");
     }
 
     private void FillWorlds(string? previousWorld)
@@ -175,26 +205,34 @@ public sealed class StudioCampaignSelector
             _world.SetItemTooltip(_world.ItemCount - 1, $"{world.ScenePath}\n{string.Join("\n", world.CapabilityEvidence)}");
         }
 
-        var index = IndexOf(_world, previousWorld);
-        if (index < 0)
+        if (_world.ItemCount == 0)
         {
-            index = IndexOf(_world, Context?.World.ScenePath);
-        }
-
-        _filling = false;
-        if (index < 0)
-        {
+            _filling = false;
             Context = null;
             _details.Text = "Для этой кампании нет ни одной стартовой сцены мира.";
             _blockers.Text = Blockers();
             return;
         }
 
+        var index = IndexOf(_world, previousWorld);
+        if (index < 0)
+        {
+            index = IndexOf(_world, Context?.World.ScenePath);
+        }
+
+        // An empty list is the only "no world" case; a non-empty one always opens
+        // its first entry instead of claiming there is no scene.
+        if (index < 0)
+        {
+            index = 0;
+        }
+
+        _filling = false;
         _world.Selected = index;
         OnWorldSelected();
     }
 
-    private void Describe(CampaignWorldContext context)
+    private string Describe(CampaignWorldContext context)
     {
         var campaign = context.Campaign;
         var world = context.World;
@@ -209,13 +247,11 @@ public sealed class StudioCampaignSelector
             ? "кампанию объявляет сама сцена"
             : "пару «кампания + сцена» выбрал автор, сцена кампанию не объявляет";
 
-        _details.Text =
-            $"Кампания {campaign.Id} v{campaign.ExactVersion} · вход {campaign.Entrypoint} · пак {campaign.CompiledPackPath} ({(campaign.CompiledPackExists ? "есть" : "нет")}).\n"
+        return $"Кампания {campaign.Id} v{campaign.ExactVersion} · вход {campaign.Entrypoint} · пак {campaign.CompiledPackPath} ({(campaign.CompiledPackExists ? "есть" : "нет")}).\n"
             + $"Мир {world.ScenePath} · {zone} · {Capability(world.Capability)} ({binding}).\n"
             + $"Отпечаток содержимого {context.ContentFingerprint[..12]}… по {context.AuthoredDependencies.Count} авторским файлам.\n"
             + state
             + "\nЭтот список выбирает контекст и не переключает предпросмотр мира сам: переключение делает окно Studio.";
-        _blockers.Text = Blockers();
     }
 
     private string Blockers()
