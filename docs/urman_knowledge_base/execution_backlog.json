@@ -25530,7 +25530,23 @@
             "native_studio_ui": "NOT_RUN",
             "next": "Проверить источник/генерацию для восьмого окна сеней, свежий Codex request, native Studio Apply/Undo и игровой просмотр."
           },
-          "house_eight_window_verification_question": "Изменяет ли один recipe request ширину всех восьми окон, включая сени, сохраняя высоты/центры/двери, и восстанавливает ли native Undo источники/ассеты/вид? Успех: реальные восемь generated modules, игровой кадр сеней плюс matched main before/after/Undo; исходные хеши восстановлены и новые файлы отсутствуют."
+          "house_eight_window_verification_question": "Изменяет ли один recipe request ширину всех восьми окон, включая сени, сохраняя высоты/центры/двери, и восстанавливает ли native Undo источники/ассеты/вид? Успех: реальные восемь generated modules, игровой кадр сеней плюс matched main before/after/Undo; исходные хеши восстановлены и новые файлы отсутствуют.",
+          "house_eight_window_actual_pending": {
+            "request_id": "247bcad6772042fc9c236d6680833100",
+            "base_commit": "f83d6998",
+            "result": "DISCARDED_BEFORE_APPLY_CAPTURE_GUARD_REFUSED_UNBOUND_SENI_POINT",
+            "before_job": "2293ea5895b7422aac4e58349a2a8137",
+            "before_snapshot": "b8d6438ad670bd65d8815102b867c4212f76075a91c4c1a81fc501cb8dde1c75",
+            "question": "Восемь реальных проёмов, включая сени, получают ширину1.30 с сохранением высот/дверей? Три matched Windows before/after/Undo и exact file restoration. Native UI отдельно не проверен.",
+            "next": "Register seni checkpoint with same zone/preset, commit, capture fresh immutable request and regenerate; repeat three matched views without weakening guard.",
+            "before_result": "FAIL_EXIT1_NO_FRAMES"
+          },
+          "house_eight_window_capture_guard": {
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/eight-before-attempt1/{request,receipt}.json",
+            "cause": "B20_windows_seni not registered; job mixed graphics comparison rows with unbound point",
+            "verification": "JSON syntax and source diff-check PASS; new registered row uses house_old_pc/high matching existing two, UI summary corrected eight. Live capture pending.",
+            "authored_files_changed": false
+          }
         }
       },
       "done_when": "Все дочерние задачи закрыты доказательствами; человеческие пункты оценены автором, а не walkthrough. Дополнительно выполнены все обязательные AI-единицы и новые A01–A25 из ТЗ 10.10, включая обоих провайдеров и внешние гейты; AI-35 только после отдельного расширения Windows. Историческая матрица и дочерние задачи сохраняются.",

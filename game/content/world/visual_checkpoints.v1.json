@@ -464,6 +464,13 @@
       "graphicsPreset": "high",
       "spec": "BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@2.658,1.686,0.966",
       "subject": "B20 Codex pilot: actual room front-window aperture/glazing; same recipe as facade; compare before/after/Undo."
+    },
+    {
+      "id": "B20_windows_seni",
+      "zoneId": "house_old_pc",
+      "graphicsPreset": "high",
+      "spec": "BabaiApproachDwellingFacade@11.5,1.7,-5.01>BabaiApproachDwellingFacade@7.358,1.57,-5.01",
+      "subject": "B20 Codex pilot: eighth opening in the seni; compare clear width, fixed height and surrounding wall before/after/Undo."
     }
   ],
   "batches": [
