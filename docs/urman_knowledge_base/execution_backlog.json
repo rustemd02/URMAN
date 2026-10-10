@@ -23528,6 +23528,12 @@
                 "stage": "2026-10-10 all-eight-window source correction",
                 "result": "f4a76142 включает SeniOuter в component-only house recipe ширину; legacy full-kit сохраняет .80×1.06. UI подпись сообщает все8окон, включая сени. Высоты, центры, двери не изменены.",
                 "verification": "Sol independent source review, affected Game compile0/0, Python syntax PASS. Новая генерация восьми и native Studio/game/Undo ещё NOT_RUN; прежнее runtime evidence относится только к семи основным окнам."
+              },
+              {
+                "stage": "2026-10-10 actual Codex all-eight-window Apply and complete Undo accepted",
+                "result": "All eight clear openings width1.30; primary height1.40/Seniheight1.06 and doors preserved; Windows matched three-view before/after/Undo PASS, root inspected; accepted Apply/Undo journal committed/before, exact original files restored and three variants absent.",
+                "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/eight-window-transaction-receipt.json; codex-eight-window-attempt2; eight-before; eight-after; eight-undo",
+                "remaining": "Native Studio UI path not proven by CLI harness; Claude/restart/Redo and full done_when remain open. Actual LOW/FSR.7 is functional proof, not HIGH art acceptance."
               }
             ],
             "stage_tasks": [
@@ -23584,6 +23590,12 @@
                 "result": "eng/run-studio.sh запущен штатно после source correction. Owned guard44788 и Studio child44879 подтверждены; CUA getApp(path), getApp(bundle), screenshot завершились server -10005 timeoutReached. Native model/Apply/Undo через UI NOT_RUN; не считать GUI рабочим по этой попытке.",
                 "verification": "Owned Studio child завершён SIGTERM, guarded parent exit143; userdata guard: original files and permissions restored and verified. Authored house recipe остаётся исходным SHA2bcbc3ad…4b4/currentWidth1.06/modelPathnull; source changes только разрешённого нового этапа.",
                 "next": "Продолжить actual Codex + production transaction + Windows для восьми окон, native UI host blocker отдельно остаётся открыт."
+              },
+              {
+                "stage": "2026-10-10 actual Codex all-eight-window Apply and complete Undo accepted",
+                "result": "All eight clear openings width1.30; primary height1.40/Seniheight1.06 and doors preserved; Windows matched three-view before/after/Undo PASS, root inspected; accepted Apply/Undo journal committed/before, exact original files restored and three variants absent.",
+                "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/eight-window-transaction-receipt.json; codex-eight-window-attempt2; eight-before; eight-after; eight-undo",
+                "remaining": "Native Studio UI path not proven by CLI harness; Claude/restart/Redo and full done_when remain open. Actual LOW/FSR.7 is functional proof, not HIGH art acceptance."
               }
             ],
             "stage_tasks": [
@@ -25123,7 +25135,7 @@
           }
         ],
         "unit_dependency_rule": "AI-xx — единственные канонические шаги STUDIO.execution.steps, без отдельного backlog/статусного списка. Готовность AI-шага определять по depends_on_units и фактическому evidence завершённых шагов в этой карточке; исторический completed X1–X4 не выполняет AI-зависимость. STUDIO.depends_on пуст; P0–P6 — связанные приёмочные стадии, их старый граф сохраняется. Выполнение AI-шага не выдавать за закрытие стадии. Нельзя требовать полного завершения P6 для раннего транспорта/Undo или полного P0 для позднего AI-31; назначение writer и реализация требуют отдельного живого поручения и сохранения владельцев.",
-        "next_unit": "Завершить Codex-пилот всех восьми окон выбранного HeroHouse (включая сени), native Studio Apply/Undo и сопоставимый игровой просмотр; затем остальные dependency-ready единицы своей части B20. Семь основных окон уже прошли actual Codex/Windows/byte-exact Undo, полный STUDIO остаётся открыт.",
+        "next_unit": "Native Codex Studio panel walkthrough; CUA fresh session before one guarded attempt. Then bounded AI03 part picking via existing authoredSourceMesh, no new registry. Full AI12/Claude/restart/Redo remains open.",
         "b20_checkpoint": {
           "authorized": "user 2026-10-10: implement Codex-assigned B20; regular commit/push; create_goal; five Luna FAST/Max plus Sol6.1medium (explicit override). DeepSeek split unchanged.",
           "scope": "First Codex → HeroHouse uniform seven-window resize → exterior/interior game check → full Undo",
@@ -25509,7 +25521,7 @@
           },
           "house_runtime_disposed_node_fix": {
             "file": "game/scripts/Act1ConnectedWorld.cs",
-            "result": "SOURCE_REVIEW_COMPILE_PASS_RUNTIME_RECHECK_PENDING",
+            "result": "VERIFIED_BY_ACCEPTED_SEVEN_AND_EIGHT_WINDOW_WINDOWS_AFTER_RUNS",
             "reviewers": [
               "Codex",
               "LunaFAST implementation",
@@ -25517,7 +25529,7 @@
             ],
             "verification": "Affected Game compile0warnings0errors; diffcheck; source/staged GLB ancestor transforms identity except neutral board translation removed. No replacement metadata or runtime claim.",
             "failed_transaction": "47b36731f9f94510a8a74069ad0fd5cd recovered/before/acceptedfalse",
-            "next": "Fresh immutable Codex request on committed fixed revision, regenerate variant, matchedWindowsafter then acceptedUndo matchedWindows."
+            "next": "No further fix/check needed on disposed node path without new evidence."
           },
           "house_seven_primary_runtime_accepted": {
             "result": "ACCEPTED_PARTIAL_SEVEN_PRIMARY_WINDOWS_NOT_ALL_EIGHT",
@@ -25532,20 +25544,48 @@
           },
           "house_eight_window_verification_question": "Изменяет ли один recipe request ширину всех восьми окон, включая сени, сохраняя высоты/центры/двери, и восстанавливает ли native Undo источники/ассеты/вид? Успех: реальные восемь generated modules, игровой кадр сеней плюс matched main before/after/Undo; исходные хеши восстановлены и новые файлы отсутствуют.",
           "house_eight_window_actual_pending": {
-            "request_id": "247bcad6772042fc9c236d6680833100",
-            "base_commit": "f83d6998",
-            "result": "DISCARDED_BEFORE_APPLY_CAPTURE_GUARD_REFUSED_UNBOUND_SENI_POINT",
-            "before_job": "2293ea5895b7422aac4e58349a2a8137",
-            "before_snapshot": "b8d6438ad670bd65d8815102b867c4212f76075a91c4c1a81fc501cb8dde1c75",
-            "question": "Восемь реальных проёмов, включая сени, получают ширину1.30 с сохранением высот/дверей? Три matched Windows before/after/Undo и exact file restoration. Native UI отдельно не проверен.",
-            "next": "Register seni checkpoint with same zone/preset, commit, capture fresh immutable request and regenerate; repeat three matched views without weakening guard.",
-            "before_result": "FAIL_EXIT1_NO_FRAMES"
+            "request_id": "86183a4f21744e528cdbcb9b5a78cd3b",
+            "base_commit": "5277e57c",
+            "result": "ACCEPTED_ACTUAL_CODEX_EIGHT_WINDOWS_APPLY_AND_COMPLETE_UNDO",
+            "before_job": "79bb98ea853943efb990a4639e641762",
+            "before_snapshot": "b4cd97efd738f7af0a2bef62341c8fa909538d64b79e622b2da6be7b58a6e63f",
+            "after_job": "f35096a3922743d881d8c3ffedbe02f6",
+            "after_snapshot": "e5d240f335cd090cbeeeff2ca8af9de1130de1bbc4b49b72af61711cd46d288f",
+            "native_studio_ui": false,
+            "question": "Восемь проёмов, включая сени, получают ширину1.30 с сохранением высот/дверей? Успех: matched three Windows before/after/Undo + exact original hashes/new variants absent.",
+            "next": "Native Studio Codex walkthrough after guarded relaunch and CUA reset; Claude/restart/Redo and full AI12 gates remain open.",
+            "after_review": "Root personally reviewed three frames; exact matched camera/graphics metadata; eightwindow width1.30 visible and actualGLB checked; afterPASSuserdataRestoredtrue",
+            "undo_job": "96650c6c1d574c8faa9552895d9c5eb6",
+            "undo_snapshot": "7ac98ea685043549d522d991cc448e472508342744ea46ca7567eb878719b500",
+            "journal_id": "8b0bc0d3449b4959822fae269d8bb25d",
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/eight-window-transaction-receipt.json; codex-eight-window-attempt2/{request,proposal,runtime-binding,generator-manifest}.json; eight-before/eight-after/eight-undo/{receipt.json,frames}",
+            "undo_review": "Root personally reviewed all three Undo frames; original narrower windows restored, exact camera/graphics metadata; Windows PASS exit0 userdataRestoredtrue"
           },
           "house_eight_window_capture_guard": {
             "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/eight-before-attempt1/{request,receipt}.json",
             "cause": "B20_windows_seni not registered; job mixed graphics comparison rows with unbound point",
             "verification": "JSON syntax and source diff-check PASS; new registered row uses house_old_pc/high matching existing two, UI summary corrected eight. Live capture pending.",
             "authored_files_changed": false
+          },
+          "deepseek_pending_stage_reviews": {
+            "result": "CHANGES_REQUESTED_SOURCE_ONLY_NOT_INTEGRATED",
+            "reviewers": [
+              "Codex",
+              "five LunaFAST bounded reviews",
+              "Sol6.1medium trust and surface validation"
+            ],
+            "chat": "docs/tasktracker/AGENT_CHAT.md messages130–143",
+            "commits": {
+              "329a0039+3ff0dbc5": "Original three findings fixed; rejected dropdown/context mismatch remains; interface initial Changed lost before Register.",
+              "e05eb32c": "P1 PresentationOnly leaves ACT1 write/AI enabled; async pack/scene context split; unsupported fullgame selected-start flags.",
+              "81227f22": "Runtime audibility/strict typed fields/path containment/finite levels and wait range corrections required.",
+              "39bffa3f": "P1 mutates cached runtime WAV loop; stable source identity/stop on failed listen/format loops and invalid source gate.",
+              "91528342": "Russian setter fields still display default; missing ru/default preservation and missingtt warnings.",
+              "8f56e88f": "Empty-string/dispatch semantics false; malformed size inspector guards; regex not runtime proof.",
+              "7a8ee1c7": "Silent malformed input defaults/filtering, missing finite float limits, inspector bypass of command validation.",
+              "20be5ed7": "Hints omit TextId/PointsTo; malformed required chat lines/conditions missed; Markdown not real preview; hint title editor violates schema."
+            },
+            "remaining": "Only previously accepted AI13 source commits are integrated; peer owns correction work. No full unit completion or UI/runtime acceptance inferred."
           }
         }
       },
