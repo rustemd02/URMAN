@@ -23179,6 +23179,14 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-10 HeroHouse transient part picking",
+                "result": "SOURCE_ACCEPTED_AFFECTED_GAME_COMPILE_PASS_FULL_UNIT_OPEN",
+                "source": "game/studio/StudioWorldSection.cs",
+                "implementation": "One ray pick resolves authored parent ID and collision shape authoredSourceMesh; recognized HeroHouse wall/window labels appear in inspector with source path under Advanced. Existing Locate/EditSession and parent selection preserved; breadcrumbs clear on selection change, move and geometry reload. No second registry or persistent part identity introduced.",
+                "verification": "Independent Sol6.1medium source review accepted. Initial compile caught switch-scope local name conflict; corrected selectedHit. Affected Game build: 0 warnings, 0 errors; git diff --check PASS.",
+                "remaining": "Native wall/window selection, overlapping objects, DPI/viewport offset and rebuild identity walkthrough not verified; stable part ID/source locator contract and full done_when remain open."
               }
             ],
             "stage_tasks": [
@@ -25758,7 +25766,7 @@
               "five LunaFAST bounded reviews",
               "Sol6.1medium trust and surface validation"
             ],
-            "chat": "docs/tasktracker/AGENT_CHAT.md messages130–143",
+            "chat": "docs/tasktracker/AGENT_CHAT.md messages130–150",
             "commits": {
               "329a0039+3ff0dbc5": "Original three findings fixed; rejected dropdown/context mismatch remains; interface initial Changed lost before Register.",
               "e05eb32c": "P1 PresentationOnly leaves ACT1 write/AI enabled; async pack/scene context split; unsupported fullgame selected-start flags.",
@@ -25769,7 +25777,14 @@
               "7a8ee1c7": "Silent malformed input defaults/filtering, missing finite float limits, inspector bypass of command validation.",
               "20be5ed7": "Hints omit TextId/PointsTo; malformed required chat lines/conditions missed; Markdown not real preview; hint title editor violates schema."
             },
-            "remaining": "Only previously accepted AI13 source commits are integrated; peer owns correction work. No full unit completion or UI/runtime acceptance inferred."
+            "remaining": "Only previously accepted AI13 source commits are integrated; peer owns correction work. No full unit completion or UI/runtime acceptance inferred.",
+            "correction_reviews": {
+              "e2a14a81+e0c6b9ca": "Dropdown/initial context/act1 flags corrected; PresentationOnly search->Reveal->SetField bypass confirmed by source, async PlayStart captured too late, fallback I/O uncaught, read-only hint lost on reload. Patch not applied; AI03 shared writer preserved.",
+              "1dc9ce15": "Cached-stream mutation, stable source selection, stop-before-listen, loop flags fixed; stem volume range, malformed raw values and path containment still require correction. UI patch not applied; auditory gate open.",
+              "b94d2ccf": "Empty actor/repeat and successful-dispatch semantics corrected; finite double can overflow float, direct inspector casts can throw. Distinguish editor policy from runtime defaults.",
+              "19925af7": "Hint fields/title/opening preview and malformed node/choice diagnostics corrected; hint integer/range/target constraints, text entity kind, required-field diagnostics and save-persistent HintsSeen label remain.",
+              "06058d6d": "Current source mappings match runtime switches; source-only projection does not prove operation semantics/persistence. Verifier checks any arms, not every key; counts workspace rather than selected campaign. No current missing handler claimed."
+            }
           },
           "native_ui_after_cua_reset": {
             "result": "PARTIAL_SELECTION_VERIFIED_MODEL_NOT_SENT_INPUT_ROUTING_BLOCKED",
@@ -25785,7 +25800,10 @@
             ],
             "question": "Does clicking real HeroHouse wall/glass report stable part breadcrumb via existing collision shape metadata while parentID/sourceLocate/drag/marker/locked behavior stays correct?",
             "success": "Minimal source-part pickup uses existing shapeOwner/authoredSourceMesh, single hit per click, no new registry/IDs, narrow Game compile and independent review; native UI verification remains separate.",
-            "boundary": "Only transient picking/inspector detail; no AI operation/schema or recipe expansion."
+            "boundary": "Only transient picking/inspector detail; no AI operation/schema or recipe expansion.",
+            "result": "BOUNDED_SOURCE_STAGE_ACCEPTED",
+            "verification": "LunaFAST implementation; Sol6.1medium independent source acceptance; root affected Game compile0/0 after local-name fix; diff-check PASS",
+            "remaining": "Native picking/rebuild/overlap/DPI checks and full persistent part contract open; no full unit completion claimed."
           }
         }
       },
