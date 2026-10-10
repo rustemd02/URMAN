@@ -23,7 +23,17 @@ public partial class Act1ConnectedWorld
         ("BabaiYardFrontPalisade", "second front line 2 m inside the real yard boundary"),
         ("BabaiEbiHouseApproachFenceEast", "2 m fence stub standing alone inside the entry"),
         ("BabaiYardStreetWestBoundary", "pale rail run duplicating the yard's street boundary"),
-        ("BabaiYardStreetEastBoundary", "pale rail run duplicating the yard's street boundary")
+        ("BabaiYardStreetEastBoundary", "pale rail run duplicating the yard's street boundary"),
+        // These decorative runs belong to the old yard layout. Relocation
+        // marks them as household members, which otherwise exempts them from
+        // RebuildYardFences and leaves extra internal lines and orphan posts.
+        // The playable side gate/RearYardGate and their real fence spans have
+        // separate owners and are not part of these presentation prefixes.
+        ("BabaiYardWestBoundary", "old decorative west line and its detached posts"),
+        ("BabaiYardEastBoundary", "old decorative east line inside the working yard"),
+        ("BabaiYardWattleRun", "two decorative internal fence runs bounding no current household plot"),
+        ("BabaiEbiHouseBackFence", "old approach enclosure behind the relocated household"),
+        ("BabaiEbiHouseApproachFenceWest", "old approach fence fragment beside the working yard")
     ];
 
     private void ComposeBabaiYard()

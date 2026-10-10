@@ -15,9 +15,10 @@ namespace Urman.Godot;
 /// four main walls run their logs past the corners, side walls are offset half a
 /// course as a notched frame is laid, and every window/door recess on the same
 /// side is cut out. The plain corner posts give way to the crossing log ends.
-/// Plaster walls, the hero house (real courses already), sheds and bathhouses keep
-/// their authored walls. One mesh per wall keeps the cost at one draw call; the
-/// slab stays behind as the core, its collision and LOD untouched.
+/// Plaster walls, sheds and bathhouses keep their authored walls. On the hero
+/// house the outer slab plane gives way to full round crowns; the backing and
+/// opening reveals remain. One crown mesh per wall keeps the cost bounded;
+/// collision and LOD are untouched.
 /// </summary>
 public partial class Act1ConnectedWorld
 {
@@ -109,7 +110,11 @@ public partial class Act1ConnectedWorld
             var course = size.Y / courses;
             var start = (alongX ? min.X : min.Z) - (main ? WallLogOverhang : 0f);
             var end = (alongX ? max.X : max.Z) + (main ? WallLogOverhang : 0f);
-            var depthCentre = face + outward * (WallLogProud - WallLogDepth * .5f);
+            // On the reference house, reveal the complete round crown rather
+            // than a shallow cap in front of the flat wall slab. Keep its outer
+            // limit in place so the authored casings and reveals stay clear.
+            var logRadiusDepth = hero ? .12f : WallLogDepth * .5f;
+            var depthCentre = face + outward * (WallLogProud - logRadiusDepth);
             var logs = 0;
             for (var k = 0; k < courses; k++)
             {
@@ -122,7 +127,8 @@ public partial class Act1ConnectedWorld
                 foreach (var (from, to) in SubtractSpans(start, end, cuts))
                 {
                     if (to - from < .2f) continue;
-                    AppendWallLog(surface, alongX, from, to, centreY, depthCentre, course * .64f, WallLogDepth * .5f);
+                    AppendWallLog(surface, alongX, from, to, centreY, depthCentre,
+                        course * (hero ? .49f : .64f), logRadiusDepth, hero);
                     logs++;
                 }
             }
@@ -150,6 +156,14 @@ public partial class Act1ConnectedWorld
             crown.SetMeta("presentationOnly", true);
             crown.SetMeta("reference", "author photo T2 09.10.2026: round log courses with crossing corner ends");
             parent.AddChild(crown);
+            if (hero)
+            {
+                // Remove only the exterior plane that masks the crown profile.
+                // Keep the wall's inner face and window/door reveal surfaces,
+                // as well as the separately authored collision proxy.
+                wall.Mesh = RemoveHeroWallFront(mesh, alongX, face);
+                wall.SetMeta("logCrownBacking", "T2: exterior plane replaced; inner backing and opening reveals preserved");
+            }
             walls++;
             pieces += logs;
 
@@ -163,6 +177,38 @@ public partial class Act1ConnectedWorld
         }
         if (walls > 0) GD.Print($"act1-dwelling-log-walls: walls={walls} logs={pieces} ownerless={ownerless} footed={footed}");
         return walls;
+    }
+
+    private static ArrayMesh RemoveHeroWallFront(ArrayMesh source, bool alongX, float face)
+    {
+        var arrays = source.SurfaceGetArrays(0);
+        var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+        var normals = arrays[(int)Mesh.ArrayType.Normal].AsVector3Array();
+        var uv = arrays[(int)Mesh.ArrayType.TexUV].VariantType == Variant.Type.Nil
+            ? Array.Empty<Vector2>() : arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array();
+        var indices = arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
+        if (indices.Length == 0) indices = Enumerable.Range(0, vertices.Length).ToArray();
+        var tool = new SurfaceTool();
+        tool.Begin(Mesh.PrimitiveType.Triangles);
+        bool OnFront(int i) => Mathf.Abs((alongX ? vertices[i].Z : vertices[i].X) - face) < .001f;
+        for (var i = 0; i + 2 < indices.Length; i += 3)
+        {
+            if (OnFront(indices[i]) && OnFront(indices[i + 1]) && OnFront(indices[i + 2])) continue;
+            for (var j = 0; j < 3; j++)
+            {
+                var index = indices[i + j];
+                tool.SetNormal(normals[index]);
+                // The source wall slab has no UV channel. Give retained backing
+                // and reveals metric coordinates; keep authored UVs when present.
+                tool.SetUV(index < uv.Length ? uv[index]
+                    : new Vector2(alongX ? vertices[index].X : vertices[index].Z, vertices[index].Y));
+                tool.AddVertex(vertices[index]);
+            }
+        }
+        tool.SetMaterial(source.SurfaceGetMaterial(0));
+        var result = tool.Commit();
+        result.ResourceName = source.ResourceName + "_CrownBacking";
+        return result;
     }
 
     private static Node3D? DwellingOwner(Node wall)
@@ -203,7 +249,7 @@ public partial class Act1ConnectedWorld
         return spans;
     }
 
-    private static void AppendWallLog(SurfaceTool surface, bool alongX, float from, float to, float y, float d, float ry, float rd)
+    private static void AppendWallLog(SurfaceTool surface, bool alongX, float from, float to, float y, float d, float ry, float rd, bool referenceHero)
     {
         Vector3 P(float along, float depth, float height) => alongX ? new(along, height, depth) : new(depth, height, along);
         void Tri((Vector3 P, Vector3 N, Vector2 U) a, (Vector3 P, Vector3 N, Vector2 U) b, (Vector3 P, Vector3 N, Vector2 U) c)
@@ -226,10 +272,13 @@ public partial class Act1ConnectedWorld
         {
             var r0 = ring[i];
             var r1 = ring[i + 1];
-            var a = (P(from, d + r0.D, y + r0.Y), r0.N, new Vector2(from, r0.Arc));
-            var b = (P(to, d + r0.D, y + r0.Y), r0.N, new Vector2(to, r0.Arc));
-            var c = (P(to, d + r1.D, y + r1.Y), r1.N, new Vector2(to, r1.Arc));
-            var e = (P(from, d + r1.D, y + r1.Y), r1.N, new Vector2(from, r1.Arc));
+            // W01's photographed fibre is vertical in the texture (V).
+            // On the reference house that axis follows the log length.
+            Vector2 Uv(float length, float girth) => referenceHero ? new(girth, length) : new(length, girth);
+            var a = (P(from, d + r0.D, y + r0.Y), r0.N, Uv(from, r0.Arc));
+            var b = (P(to, d + r0.D, y + r0.Y), r0.N, Uv(to, r0.Arc));
+            var c = (P(to, d + r1.D, y + r1.Y), r1.N, Uv(to, r1.Arc));
+            var e = (P(from, d + r1.D, y + r1.Y), r1.N, Uv(from, r1.Arc));
             Tri(a, b, c);
             Tri(a, c, e);
         }

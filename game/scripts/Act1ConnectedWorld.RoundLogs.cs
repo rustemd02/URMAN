@@ -31,6 +31,7 @@ public partial class Act1ConnectedWorld
         foreach (var mesh in FindDescendants<MeshInstance3D>(root))
         {
             if (mesh.Mesh is not ArrayMesh source || source.GetSurfaceCount() is < 1 or > 2) continue;
+            var cornerEnd = mesh.Name.ToString().StartsWith("HeroHouse_CornerEnd", StringComparison.Ordinal);
             // A course is either one URMAN_Hero_Log surface or a log body plus its
             // own URMAN_Hero_LogEnd end-grain caps on the same mesh.
             // Woodpile billets (bark + sawn end) are octagonal prisms in the same kit
@@ -48,7 +49,7 @@ public partial class Act1ConnectedWorld
             if (material is null || (source.GetSurfaceCount() == 2 && endGrain is null)) continue;
             var id = source.GetInstanceId();
             if (!RoundedLogCache.TryGetValue(id, out var replacement))
-                RoundedLogCache[id] = replacement = BuildRoundLog(source, material, endGrain, woodpile);
+                RoundedLogCache[id] = replacement = BuildRoundLog(source, material, endGrain, woodpile, cornerEnd);
             if (replacement is null) continue;
             mesh.Mesh = replacement;
             mesh.SetMeta("roundedLogCourse", "ACT1-DEPTH.9/T2: chamfered kit course rebuilt as an elliptical log in the same bounds");
@@ -58,7 +59,7 @@ public partial class Act1ConnectedWorld
         return rounded;
     }
 
-    private static ArrayMesh? BuildRoundLog(ArrayMesh source, Material material, Material? endGrain, bool woodpile = false)
+    private static ArrayMesh? BuildRoundLog(ArrayMesh source, Material material, Material? endGrain, bool woodpile = false, bool cornerEnd = false)
     {
         var vertices = Enumerable.Range(0, source.GetSurfaceCount())
             .SelectMany(surface => source.SurfaceGetArrays(surface)[(int)Mesh.ArrayType.Vertex].AsVector3Array()).ToArray();
@@ -70,11 +71,17 @@ public partial class Act1ConnectedWorld
         var centre = (min + max) * .5f;
         // A wall course runs along X or Z and stands on Y; only clear log
         // proportions qualify, so boards, gable cladding and blocks are skipped.
-        var alongX = size.X >= size.Z;
+        // Corner caps alternate between X and Z with the crossing courses.
+        // Their short horizontal dimension is depth, not the face diameter.
+        var alongX = cornerEnd ? size.X < size.Z : size.X >= size.Z;
         var length = alongX ? size.X : size.Z;
         var depth = alongX ? size.Z : size.X;
         var height = size.Y;
-        if (woodpile)
+        if (cornerEnd)
+        {
+            if (height is < .15f or > .45f || depth is < .15f or > .45f || length is < .04f or > .3f) return null;
+        }
+        else if (woodpile)
         {
             // A billet is round, not a wall course: near-equal section, shorter body.
             if (height is < .06f or > .45f || depth < height * .7f || depth > height * 1.4f || length < height * 1.6f) return null;
@@ -83,7 +90,7 @@ public partial class Act1ConnectedWorld
 
         // Courses sit 0.28 m apart with 0.26 m bodies; a slightly taller ellipse
         // lets neighbours meet in a narrow chinked seam instead of a dark slot.
-        var ry = height * .5f * (woodpile ? 1f : 1.12f);
+        var ry = height * .5f * (woodpile || cornerEnd ? 1f : 1.12f);
         var rd = depth * .5f;
         var half = length * .5f;
         Vector3 Point(float along, float d, float y) => alongX
@@ -123,12 +130,13 @@ public partial class Act1ConnectedWorld
         {
             var r0 = ring[i];
             var r1 = ring[i + 1];
-            // Grain runs along the course: UV x is the length in metres, UV y the
-            // girth in metres, the metric convention of the kit's timber.
-            var a = (Point(-half, r0.D, r0.Y), r0.N, new Vector2(-half, r0.Arc));
-            var b = (Point(half, r0.D, r0.Y), r0.N, new Vector2(half, r0.Arc));
-            var c = (Point(half, r1.D, r1.Y), r1.N, new Vector2(half, r1.Arc));
-            var d = (Point(-half, r1.D, r1.Y), r1.N, new Vector2(-half, r1.Arc));
+            // W01 fibres run along texture V, which follows the hero log length.
+            // Woodpile bark retains its own existing UV contract.
+            Vector2 Uv(float length, float girth) => woodpile ? new(length, girth) : new(girth, length);
+            var a = (Point(-half, r0.D, r0.Y), r0.N, Uv(-half, r0.Arc));
+            var b = (Point(half, r0.D, r0.Y), r0.N, Uv(half, r0.Arc));
+            var c = (Point(half, r1.D, r1.Y), r1.N, Uv(half, r1.Arc));
+            var d = (Point(-half, r1.D, r1.Y), r1.N, Uv(-half, r1.Arc));
             Tri(a, b, c);
             Tri(a, c, d);
         }
