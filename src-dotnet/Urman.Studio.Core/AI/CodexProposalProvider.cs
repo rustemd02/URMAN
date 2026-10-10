@@ -268,11 +268,12 @@ public sealed class CodexProposalProvider
             if (preflightWarnings.Count > 0)
             {
                 Report(progress, CodexProposalStage.ConfigurationWarning,
-                    "Codex reported a non-fatal startup warning; details are hidden. MCP tools were verified disabled before generation.");
+                    "Codex reported a session warning; details are hidden. MCP tools were verified disabled before generation.");
             }
 
             Report(progress, CodexProposalStage.Generating, "Generating one structured resize proposal.");
             var terminalTurn = (JsonElement?)null;
+            var warningsReported = preflightWarnings.Count;
             var turnStart = new Dictionary<string, object?>
             {
                 ["threadId"] = threadId,
@@ -297,7 +298,7 @@ public sealed class CodexProposalProvider
             protocolPhase = "turn/start";
             turnWasStarted = true;
             var turnResponse = await client.RequestAsync("turn/start", turnStart, 101,
-                message => HandleTurnNotificationAsync(message, threadId, configuredMcpServerIds, () => turnId, value => turnId = value, value => terminalTurn = value), token).ConfigureAwait(false);
+                message => HandleTurnNotificationAsync(message, threadId, configuredMcpServerIds, preflightWarnings, () => turnId, value => turnId = value, value => terminalTurn = value), token).ConfigureAwait(false);
             var startedTurn = GetRequiredObject(turnResponse, "turn");
             var responseTurnId = GetRequiredString(startedTurn, "id");
             if (turnId is not null && !string.Equals(turnId, responseTurnId, StringComparison.Ordinal))
@@ -309,7 +310,13 @@ public sealed class CodexProposalProvider
             if (terminalTurn is null)
             {
                 protocolPhase = "turn/events";
-                terminalTurn = await WaitForTerminalTurnAsync(client, threadId, turnId, configuredMcpServerIds, HandleTurnNotificationAsync, () => turnId, value => turnId = value, token).ConfigureAwait(false);
+                terminalTurn = await WaitForTerminalTurnAsync(client, threadId, turnId, configuredMcpServerIds, preflightWarnings, HandleTurnNotificationAsync, () => turnId, value => turnId = value, token).ConfigureAwait(false);
+            }
+
+            if (preflightWarnings.Count > warningsReported)
+            {
+                Report(progress, CodexProposalStage.ConfigurationWarning,
+                    "Codex reported a session warning; details are hidden. MCP tools were verified disabled before generation.");
             }
 
             Report(progress, CodexProposalStage.Validating, "Validating proposal identity and window width.");
@@ -661,7 +668,8 @@ public sealed class CodexProposalProvider
         string threadId,
         string expectedTurnId,
         IReadOnlyList<string> configuredMcpServerIds,
-        Func<JsonElement, string, IReadOnlyList<string>, Func<string?>, Action<string>, Action<JsonElement>, Task> notificationHandler,
+        PreflightWarningTracker warnings,
+        Func<JsonElement, string, IReadOnlyList<string>, PreflightWarningTracker, Func<string?>, Action<string>, Action<JsonElement>, Task> notificationHandler,
         Func<string?> getTurnId,
         Action<string> setTurnId,
         CancellationToken cancellationToken)
@@ -672,7 +680,7 @@ public sealed class CodexProposalProvider
             var message = await client.ReadMessageAsync(cancellationToken).ConfigureAwait(false);
             if (message.TryGetProperty("method", out _))
             {
-                await notificationHandler(message, threadId, configuredMcpServerIds, getTurnId, setTurnId, value => terminal = value).ConfigureAwait(false);
+                await notificationHandler(message, threadId, configuredMcpServerIds, warnings, getTurnId, setTurnId, value => terminal = value).ConfigureAwait(false);
                 continue;
             }
 
@@ -688,12 +696,18 @@ public sealed class CodexProposalProvider
         JsonElement message,
         string threadId,
         IReadOnlyList<string> configuredMcpServerIds,
+        PreflightWarningTracker warnings,
         Func<string?> getTurnId,
         Action<string> setTurnId,
         Action<JsonElement> setTerminalTurn)
     {
         EnsureNotificationWithoutId(message);
         var method = GetMethod(message);
+        if (method == "warning")
+        {
+            warnings.RecordWarning(message);
+            return Task.CompletedTask;
+        }
         if (IsAllowedPassiveNotification(message)) return Task.CompletedTask;
         var parameters = message.TryGetProperty("params", out var parameterValue) && parameterValue.ValueKind == JsonValueKind.Object
             ? parameterValue
@@ -1423,7 +1437,7 @@ public sealed class CodexProposalProvider
             ObserveThreadId(GetRequiredString(thread, "id"), "threadId");
         }
 
-        private void RecordWarning(JsonElement message)
+        public void RecordWarning(JsonElement message)
         {
             EnsureNotificationWithoutId(message);
             if (GetMethod(message) != "warning") throw new ProtocolBoundaryException("warningMethod");

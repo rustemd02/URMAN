@@ -1,0 +1,15 @@
+{
+  "result": "failed_closed",
+  "request_id": "ce23bdaec7a94f8daa01c5ab9bb70dbe",
+  "base_commit": "c6618924",
+  "core_runtime_sha256": "875e473b1dd6a6f857797e01a13d79f4683f8ff1d21dec29499a18584024c589",
+  "source_runtime_hash_equal": true,
+  "stages": [
+    "Preparing",
+    "ConfigurationWarning",
+    "Generating"
+  ],
+  "failure": "Codex app-server protocol mismatch during turn/start (warning); turn-start-request-sent=True; turn-start-observed=False; the proposal was discarded.",
+  "project_files_changed": false,
+  "game_after_undo": "NOT_RUN"
+}

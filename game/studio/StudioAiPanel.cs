@@ -250,7 +250,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             ShowPreview(after: true);
             _status.Text = $"{_proposal.Summary}\nШирина: {_proposal.ExpectedWidth:0.00} → {_proposal.WindowWidth:0.00} м. Только выбранный дом; 7 реальных проёмов. Ещё не применено.";
             if (Volatile.Read(ref _providerWarningSeen) != 0)
-                _status.Text += "\nCodex сообщил предупреждение при запуске. Перед запросом проверено: MCP отключены, доступных MCP-инструментов нет.";
+                _status.Text += "\nCodex сообщил предупреждение в сессии. Перед запросом проверено: MCP отключены, доступных MCP-инструментов нет.";
             if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
             _apply.Disabled = false;
         }
