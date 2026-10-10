@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-18",
+  "stage": "audio panel review corrections for 39bffa3f (CHANGES_REQUESTED by Codex 2026-10-10 21:52)",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:02 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "previous_stage": "39bffa3f",
+  "files": {
+    "game/studio/StudioAudioPanel.cs": "e2d02aecfe4147be61be39249832dacc5845e270ce61620d5b80f8e048b49e00",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-audio-panel-review-fixes/build.log": "1133ffc7df2aeaf6ebb490221d32b1f7f59351d55649f713f8be09642d6ea42a"
+  },
+  "addressed": {
+    "P1 audition changed the runtime's cached stream": "the preview now loads its own copy (CacheMode.Ignore plus Duplicate) and disables looping only on that copy, so the cached stream AmbientAudioDirector uses for the running game is never mutated",
+    "P2 shared sources lost their identity": "targets carry a stable identity (emitter:<id> / stem:<id>); the shared metal_rattle clip serving three events and the file shared by five kara stems can no longer be confused by picking the first file match",
+    "P2 a failed load did not stop the previous audition": "playback is stopped before every new audition, before a refusal and before reporting a missing file",
+    "WAV-only loop guard": "looping is disabled for WAV, Ogg Vorbis and MP3, which the runtime also plays",
+    "audition bypassed validation": "AuditionBlocked refuses a source with no file, a non-finite level, a missing file on disk or an emitter whose registered fields fail the same validation the registry applies"
+  },
+  "check": {
+    "narrow": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with the corrected panel; probe 175/175",
+    "not_run": "the panel was still never opened in a live Studio and no sound was heard: the copy semantics, the identity and the stop behaviour are source-verified only",
+    "toolchain": "pinned .tools/dotnet 10.0.302"
+  }
+}

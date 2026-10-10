@@ -1,0 +1,13 @@
+== dotnet build src-dotnet/Urman.Studio.Core/Urman.Studio.Core.csproj
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:00.48
+== dotnet build game/Urman.Game.csproj (with the corrected panel)
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:13.32
+== probe
+
+PROBE RESULT: PASS

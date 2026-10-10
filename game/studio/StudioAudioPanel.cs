@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using Godot;
 using Urman.Godot;
 using Urman.Studio.Core.Editing;
@@ -25,7 +26,9 @@ public partial class StudioAudioPanel : AcceptDialog
     private readonly Label _details = new();
     private readonly Label _action = new();
     private readonly Label _coverage = new();
-    private readonly List<(AudioSourceScope Scope, string File, double VolumeDb, bool AlwaysSilent)> _targets = [];
+    private readonly List<PreviewTarget> _targets = [];
+    /// <summary>One auditionable source with a stable identity: a shared clip serves several sources.</summary>
+    public sealed record PreviewTarget(AudioSourceScope Scope, string SourceId, string File, double VolumeDb, bool AlwaysSilent);
     private AudioStreamPlayer? _audition;
     private AudioRegistryReport? _report;
 
@@ -78,23 +81,23 @@ public partial class StudioAudioPanel : AcceptDialog
     /// <summary>Re-reads both authored sources and rebuilds the list, keeping the current item when it still exists.</summary>
     public void Reload()
     {
-        var previous = Selected()?.File;
+        var previous = Selected()?.SourceId;
         _report = AudioSourceRegistry.Inspect(_studio.Workspace.Root);
         _targets.Clear();
         _source.Clear();
         foreach (var emitter in _report.Emitters)
         {
-            _targets.Add((AudioSourceScope.LocalEmitter, emitter.File, emitter.VolumeDb, emitter.DayOnly && emitter.NightOnly));
+            _targets.Add(new PreviewTarget(AudioSourceScope.LocalEmitter, $"emitter:{emitter.Id}", emitter.File, emitter.VolumeDb, emitter.DayOnly && emitter.NightOnly));
             _source.AddItem($"Дом: {emitter.Label} ({emitter.Id})");
         }
 
         foreach (var stem in _report.Stems)
         {
-            _targets.Add((AudioSourceScope.SharedBusStem, stem.File, stem.VolumeDb, false));
+            _targets.Add(new PreviewTarget(AudioSourceScope.SharedBusStem, $"stem:{stem.Id}", stem.File, stem.VolumeDb, false));
             _source.AddItem($"Шина: {stem.Id} · {stem.Zones.Count} зон");
         }
 
-        var index = previous is null ? 0 : _targets.FindIndex(target => string.Equals(target.File, previous, StringComparison.Ordinal));
+        var index = previous is null ? 0 : _targets.FindIndex(target => string.Equals(target.SourceId, previous, StringComparison.Ordinal));
         if (_targets.Count > 0)
         {
             _source.Selected = Math.Clamp(index < 0 ? 0 : index, 0, _targets.Count - 1);
@@ -108,7 +111,7 @@ public partial class StudioAudioPanel : AcceptDialog
     }
 
     /// <summary>The one source auditioned by the game-feel check; null when nothing is listed.</summary>
-    public (AudioSourceScope Scope, string File, double VolumeDb, bool AlwaysSilent)? Selected() =>
+    public PreviewTarget? Selected() =>
         _source.Selected >= 0 && _source.Selected < _targets.Count ? _targets[_source.Selected] : null;
 
     private void Fill()
@@ -129,12 +132,12 @@ public partial class StudioAudioPanel : AcceptDialog
             $"Шина прослушивания: {AudioSettingsService.AmbienceBus} — та же, что у реальных голосов домов и подложки."
         };
 
-        if (target.Scope == AudioSourceScope.LocalEmitter && _report.Emitters.FirstOrDefault(emitter => emitter.File == target.File) is { } emitter)
+        if (target.Scope == AudioSourceScope.LocalEmitter && _report.Emitters.FirstOrDefault(emitter => $"emitter:{emitter.Id}" == target.SourceId) is { } emitter)
         {
             lines.Add($"Данные: radius {emitter.Radius:0.#} м, volumeDb {emitter.VolumeDb:0.#}, пауза {emitter.MinWait:0.#}–{emitter.MaxWait:0.#} с, {(emitter.Outdoor ? "улица" : "в доме")}{(emitter.DayOnly ? ", только днём" : "")}{(emitter.NightOnly ? ", только ночью" : "")}.");
             lines.Add($"Слышимость по зонам: {string.Join(", ", emitter.AudibleZones)}.");
         }
-        else if (target.Scope == AudioSourceScope.SharedBusStem && _report.Stems.FirstOrDefault(stem => stem.File == target.File) is { } stem)
+        else if (target.Scope == AudioSourceScope.SharedBusStem && _report.Stems.FirstOrDefault(stem => $"stem:{stem.Id}" == target.SourceId) is { } stem)
         {
             lines.Add($"Данные: зоны {string.Join(", ", stem.Zones)}, volumeDb {(stem.VolumeDeclared ? stem.VolumeDb.ToString("0.#") : $"{stem.VolumeDb:0.#} (по умолчанию, поля нет)")}, loop {stem.Loop}.");
             if (stem.SharedWith.Count > 0)
@@ -165,9 +168,19 @@ public partial class StudioAudioPanel : AcceptDialog
     /// <summary>Plays the selected source once on the shared bus; the preview never loops.</summary>
     public void Audition()
     {
+        // Never leave the previous preview sounding while loading, refusing or failing.
+        StopPlayback();
         if (Selected() is not { } target)
         {
             _action.Text = "Нечего прослушивать: список пуст.";
+            return;
+        }
+
+        // A source the registry would refuse is not auditioned either, so listening
+        // can never bypass the checks that protect the game.
+        if (AuditionBlocked(target) is { } blocked)
+        {
+            _action.Text = "Прослушивание отклонено: " + blocked;
             return;
         }
 
@@ -185,35 +198,88 @@ public partial class StudioAudioPanel : AcceptDialog
             AddChild(_audition);
         }
 
-        if (ResourceLoader.Load<AudioStream>(target.File) is not { } stream)
+        // The runtime bed loads the same file without CacheMode.Ignore, so its stream is
+        // cached and shared. The preview loads its own copy and changes the loop flag only
+        // on that copy: auditioning must never disable looping for the running game.
+        if (ResourceLoader.Load<AudioStream>(target.File, cacheMode: ResourceLoader.CacheMode.Ignore) is not { } loaded)
         {
             _action.Text = $"Запись недоступна: {target.File}";
             return;
         }
 
-        if (stream is AudioStreamWav wav)
-        {
-            wav.LoopMode = AudioStreamWav.LoopModeEnum.Disabled;
-        }
-
+        var stream = loaded.Duplicate() as AudioStream ?? loaded;
+        DisableLoop(stream);
         var plan = AudioSourceRegistry.PlanAudition(target.Scope, target.File, target.VolumeDb, "audition");
         _audition.Stream = stream;
         _audition.VolumeDb = (float)plan.VolumeDb;
         _audition.Play();
-        _action.Text = $"Прослушивание: {target.File} на шине {plan.Bus}, {plan.VolumeDb:0.#} дБ, без петли. Настройки игрока не меняются.";
+        _action.Text = $"Прослушивание: {target.File} на шине {plan.Bus}, {plan.VolumeDb:0.#} дБ, без петли, своя копия потока. Настройки игрока и игровой микс не меняются.";
+    }
+
+    /// <summary>The reason a source must not be auditioned, or null when it may be.</summary>
+    private string? AuditionBlocked(PreviewTarget target)
+    {
+        if (target.File.Length == 0)
+        {
+            return "у источника не задан файл.";
+        }
+
+        if (!double.IsFinite(target.VolumeDb))
+        {
+            return "уровень источника не конечное число.";
+        }
+
+        if (!ResourceLoader.Exists(target.File))
+        {
+            return $"файл {target.File} не найден.";
+        }
+
+        if (_report?.Emitters.FirstOrDefault(emitter => $"emitter:{emitter.Id}" == target.SourceId) is not { } emitter)
+        {
+            return null;
+        }
+
+        var problems = new List<string>();
+        problems.AddRange(AudioSourceRegistry.Validate(AudioSourceScope.LocalEmitter, "file", JsonValue.Create(emitter.File)));
+        problems.AddRange(AudioSourceRegistry.Validate(AudioSourceScope.LocalEmitter, "radius", JsonValue.Create(emitter.Radius)));
+        problems.AddRange(AudioSourceRegistry.Validate(AudioSourceScope.LocalEmitter, "volumeDb", JsonValue.Create(emitter.VolumeDb)));
+        problems.AddRange(AudioSourceRegistry.Validate(AudioSourceScope.LocalEmitter, "minWait", JsonValue.Create(emitter.MinWait)));
+        problems.AddRange(AudioSourceRegistry.Validate(AudioSourceScope.LocalEmitter, "maxWait", JsonValue.Create(emitter.MaxWait)));
+        return problems.Count == 0 ? null : string.Join(" ", problems);
+    }
+
+    /// <summary>Loop off on the preview copy only; the runtime plays WAV, Ogg and MP3.</summary>
+    private static void DisableLoop(AudioStream stream)
+    {
+        switch (stream)
+        {
+            case AudioStreamWav wav:
+                wav.LoopMode = AudioStreamWav.LoopModeEnum.Disabled;
+                break;
+            case AudioStreamOggVorbis ogg:
+                ogg.Loop = false;
+                break;
+            case AudioStreamMP3 mp3:
+                mp3.Loop = false;
+                break;
+        }
     }
 
     /// <summary>Always stops the preview and releases the stream, so nothing keeps sounding.</summary>
     public void StopAudition()
     {
+        StopPlayback();
+        _action.Text = "Прослушивание остановлено.";
+    }
+
+    private void StopPlayback()
+    {
         if (_audition is null || !IsInstanceValid(_audition))
         {
-            _action.Text = "Прослушивание остановлено.";
             return;
         }
 
         _audition.Stop();
         _audition.Stream = null;
-        _action.Text = "Прослушивание остановлено.";
     }
 }
