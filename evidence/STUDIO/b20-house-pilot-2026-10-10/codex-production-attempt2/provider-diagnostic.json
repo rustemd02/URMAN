@@ -1,0 +1,8 @@
+{
+  "terminalResult": "failed",
+  "stages": [
+    "Preparing",
+    "Generating"
+  ],
+  "failure": "Codex app-server protocol mismatch during turn/start (mcpServer/startupStatus/updated); turn-start-request-sent=True; turn-start-observed=False; the proposal was discarded."
+}

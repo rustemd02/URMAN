@@ -25344,6 +25344,18 @@
               "Mutable shared Empty.Pivot"
             ],
             "scope": "Static code/runtime source review only; peer compile/probe not rerun. Two entry scenes do not meet two authored worlds criterion; full AI-13 remains open."
+          },
+          "production_turn_attempt2": {
+            "request_id": "439e4196693341a58f26e1220306c5ca",
+            "base_commit": "dd0aadbb",
+            "result": "failed_closed",
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-production-attempt2/provider-diagnostic.json",
+            "turn_start_requested": true,
+            "turn_start_observed": false,
+            "reason": "Unexpected mcpServer/startupStatus/updated during turn/start; proposal discarded",
+            "project_files_changed": false,
+            "game_after_undo": "NOT_RUN",
+            "next": "Official notification producer/schema review; preserve strict no-tools boundary. No blanket method allowlist."
           }
         }
       },
