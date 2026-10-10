@@ -1,0 +1,51 @@
+diff --git a/game/studio/StudioContentSection.cs b/game/studio/StudioContentSection.cs
+index 8d8d0334..edebbce7 100644
+--- a/game/studio/StudioContentSection.cs
++++ b/game/studio/StudioContentSection.cs
+@@ -209,6 +209,13 @@ public sealed class StudioContentSection(StudioRoot studio) : IStudioSection
+ 
+     private static string KnowledgeKindText(string? kind) => KnowledgeKinds.FirstOrDefault(item => item.Value == kind).Text ?? kind ?? "сведение";
+ 
++    /// <summary>The last segment of a text id, short enough for a link label.</summary>
++    private static string ShortTextId(string textId)
++    {
++        var slash = textId.LastIndexOf('/');
++        return slash >= 0 && slash + 1 < textId.Length ? textId[(slash + 1)..] : textId;
++    }
++
+     // ---- properties ----------------------------------------------------------------
+ 
+     public void FillProperties(StudioProperties panel)
+@@ -284,6 +291,32 @@ public sealed class StudioContentSection(StudioRoot studio) : IStudioSection
+                         SetField(["oldPc", "searchTerms"], new JsonArray(text.Split(',').Select(part => part.Trim()).Where(part => part.Length > 0).Select(part => (JsonNode?)part).ToArray()), "слова поиска"));
+                 }
+ 
++                // The old PC's threads and hints: the section used to edit only the
++                // body, so a broken link or a line nobody resolves stayed invisible.
++                if (id.Contains(":hint/", StringComparison.Ordinal))
++                {
++                    var hint = PcChat.Parse(id, entity);
++                    foreach (var line in PcChat.Outline(hint)) panel.Text(line, muted: true);
++                    foreach (var problem in PcChat.Validate(studio.Workspace, hint)) panel.Text("⚠ " + problem);
++                }
++                else if (entity["nodes"] is JsonArray)
++                {
++                    var chat = PcChat.Parse(id, entity);
++                    foreach (var line in PcChat.Outline(chat)) panel.Text(line, muted: true);
++                    var lines = new List<(string Text, string Id)>();
++                    foreach (var node in chat.Nodes)
++                    {
++                        if (node.TextId.Length > 0) lines.Add(($"Реплика {ShortTextId(node.TextId)}", node.TextId));
++                        foreach (var choice in node.Choices)
++                        {
++                            if (choice.TextId.Length > 0) lines.Add(($"Ответ {ShortTextId(choice.TextId)}", choice.TextId));
++                        }
++                    }
++
++                    if (lines.Count > 0) panel.Links("Строки треда — нажмите, чтобы править", lines);
++                    foreach (var problem in PcChat.Validate(studio.Workspace, chat)) panel.Text("⚠ " + problem);
++                }
++
+                 break;
+             default:
+                 LocalizedField("Текст", "value", multiline: true);

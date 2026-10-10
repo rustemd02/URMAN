@@ -24007,7 +24007,14 @@
             "verification": "По одному существующему объекту каждого затронутого renderer типа; без полного прохождения кампании.",
             "risks_recovery_external_gates": "Новый текст — авторская приёмка; старые поля исторической кампании не считать обязательным runtime новой.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 AI-24 dependency-independent slice: PC threads and hints are visible and checked (partial)",
+                "result": "partial implementation by deepseek v4.1 flash: the old-PC thread structure is projected the way the runtime walks it, the content section shows its outline and links every line for editing, and structural problems are reported instead of staying invisible; a crash in the projection itself was found by the probe and fixed",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs (PcChat with Outline, Validate, Unreachable and VerifyAgainstRuntime); owner patch evidence/STUDIO/b20-deepseek-ai-24/2026-10-10-pc-threads/ai24-pc-threads.patch (game/studio/StudioContentSection.cs); evidence .../build.log, check.log and receipt.json",
+                "verification": "probe PASS 169/169. The real campaign carries 4 threads (5/7/3/2 nodes) and 3 hints, all pass the structural checks, and the outline uses the runtime's own presence words; the runtime link check is clean on OldPcUi.Chat.cs. Synthetic cases prove each report: a missing start node, a link to a node that does not exist, a duplicated id, an unresolved line, an unreachable node and a requirement the rule engine does not execute, while a choice that simply ends a thread is not treated as an error. Urman.Studio.Core and game/Urman.Game.csproj build with 0 warnings/0 errors and the patch passes git apply --check on a pristine origin/main f83d6998 worktree. The own bug found by the probe: the reachability walk built a dictionary from node ids and crashed on a duplicated id, which is exactly the case the validator must report. The panel was not opened in a live Studio, so the outline, links and warnings are NOT_RUN at runtime; editing the node graph itself stays with AI-19/AI-20, and the state-dependent part of AI-24 stays open"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P4"
             ],
