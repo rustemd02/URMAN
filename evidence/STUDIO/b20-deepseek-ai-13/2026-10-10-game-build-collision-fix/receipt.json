@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-13",
+  "stage": "defect fix: the new AuthoredWorldPlotFile record no longer collides with Urman.Godot.AuthoredWorldPlot, so game/Urman.Game.csproj builds again",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 21:06 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "defect": "CS0104 in game/studio/StudioWorldSection.cs:42/419/729-730 - new type Urman.Studio.Core.Editing.AuthoredWorldPlot was ambiguous with the existing Urman.Godot.AuthoredWorldPlot. Studio.Core built fine; only the game project failed, and the earlier stage checked only Studio.Core.",
+  "fix": "renamed the new record to AuthoredWorldPlotFile; no behaviour change",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/CampaignWorldCatalog.cs": "a5ec6a44fc2a343ec68607ddf886a3b87d5bba5b64b066195f1d2f3836b59d4e",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-game-build-collision-fix/probe/Program.cs": "13a65709004da20bdbfa3f540cc936e5c9d45fc88a80a1023369f76eb093c45d",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-game-build-collision-fix/probe/dsprobe.csproj": "f936e3337fa3017a94194ac84691b4ea7bcd622ca959934cc96ef2126272c089",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-game-build-collision-fix/check.log": "4906f9f7a62e55695689884fcdd165066bad8d9c36f92ffe6fb2b067c2930ff0"
+  },
+  "check": {
+    "narrow": "dotnet build src-dotnet/Urman.Studio.Core/Urman.Studio.Core.csproj -> 0 warnings, 0 errors; dotnet build game/Urman.Game.csproj -> 0 warnings, 0 errors",
+    "probe_command": "dotnet run --project <evidence>/probe/dsprobe.csproj",
+    "probe_result": "PASS 68/68",
+    "toolchain": "pinned .tools/dotnet 10.0.302"
+  },
+  "lesson": "the game project must be compiled for every stage that touches Studio.Core types visible to the game; a collision scan of new public type names against game/**/*.cs is now part of the stage",
+  "open": [
+    "full AI-13 done_when stays open; runtime/UI acceptance not run; no station slot taken"
+  ]
+}

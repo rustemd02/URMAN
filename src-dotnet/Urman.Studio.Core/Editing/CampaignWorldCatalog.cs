@@ -7,7 +7,7 @@ using Urman.Studio.Core.Storage;
 namespace Urman.Studio.Core.Editing;
 
 /// <summary>An authored world plot file and the entity namespaces it carries.</summary>
-public sealed record AuthoredWorldPlot(
+public sealed record AuthoredWorldPlotFile(
     string RelativePath,
     int EntityCount,
     IReadOnlyList<string> Namespaces,
@@ -78,7 +78,7 @@ public sealed class CampaignWorldCatalog
         string root,
         IReadOnlyList<CampaignRef> campaigns,
         IReadOnlyList<WorldRef> worlds,
-        IReadOnlyList<AuthoredWorldPlot> authoredWorldPlots,
+        IReadOnlyList<AuthoredWorldPlotFile> authoredWorldPlots,
         IReadOnlyList<WorldSpecification> specifications,
         IReadOnlyList<CatalogBlocker> blockers,
         IReadOnlyList<string> notes)
@@ -104,7 +104,7 @@ public sealed class CampaignWorldCatalog
     public string Root { get; }
     public IReadOnlyList<CampaignRef> Campaigns { get; }
     public IReadOnlyList<WorldRef> Worlds { get; }
-    public IReadOnlyList<AuthoredWorldPlot> AuthoredWorldPlots { get; }
+    public IReadOnlyList<AuthoredWorldPlotFile> AuthoredWorldPlots { get; }
     public IReadOnlyList<WorldSpecification> Specifications { get; }
     public IReadOnlyList<CatalogBlocker> Blockers { get; }
     public IReadOnlyList<string> Notes { get; }
@@ -306,9 +306,9 @@ public sealed class CampaignWorldCatalog
         return campaigns;
     }
 
-    private static List<AuthoredWorldPlot> ReadAuthoredWorldPlots(string root, List<string> notes)
+    private static List<AuthoredWorldPlotFile> ReadAuthoredWorldPlots(string root, List<string> notes)
     {
-        var plots = new List<AuthoredWorldPlot>();
+        var plots = new List<AuthoredWorldPlotFile>();
         var folder = Path.Combine(root, "game", "content", "world");
         if (!Directory.Exists(folder))
         {
@@ -330,7 +330,7 @@ public sealed class CampaignWorldCatalog
                 .ToArray();
             var namespaces = ids.Select(NamespaceOf).Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
             var worldKeys = ids.Select(WorldKeyOf).Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
-            plots.Add(new AuthoredWorldPlot(relative, entities.Count, namespaces, worldKeys));
+            plots.Add(new AuthoredWorldPlotFile(relative, entities.Count, namespaces, worldKeys));
         }
 
         return plots;
@@ -377,7 +377,7 @@ public sealed class CampaignWorldCatalog
         return specifications;
     }
 
-    private static List<WorldRef> ReadEntryWorlds(string root, IReadOnlyList<AuthoredWorldPlot> plots, List<string> notes)
+    private static List<WorldRef> ReadEntryWorlds(string root, IReadOnlyList<AuthoredWorldPlotFile> plots, List<string> notes)
     {
         var worlds = new List<WorldRef>();
         var scenesRoot = Path.Combine(root, "game");
@@ -665,7 +665,7 @@ public sealed class CampaignWorldCatalog
     private static List<CatalogBlocker> BuildBlockers(
         IReadOnlyList<CampaignRef> campaigns,
         IReadOnlyList<WorldRef> worlds,
-        IReadOnlyList<AuthoredWorldPlot> plots,
+        IReadOnlyList<AuthoredWorldPlotFile> plots,
         IReadOnlyList<WorldSpecification> specifications)
     {
         var blockers = new List<CatalogBlocker>();
