@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-18",
+  "stage": "dependency-independent audio half: registered fields of the household emitters and the shared ambience stems, with scope facts and a drift check",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 21:18 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/AudioSourceRegistry.cs": "c79a7d5a99733f46ac549f3d2455bf36e7f705687f04f5a93025e30d1719dd06",
+    "src-dotnet/Urman.Studio.Core/Editing/AtmosphereFieldRegistry.cs": "3e5f8c94401d92e58af7679a7cf1c82554c0986a3e759abcc1858bb5e3751186",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-audio-source-registry/probe/Program.cs": "f2de3cd709033a806532017aa8509ccddf35e5e7b4315b22f95eabbd8f33e2a2",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-audio-source-registry/probe/dsprobe.csproj": "f936e3337fa3017a94194ac84691b4ea7bcd622ca959934cc96ef2126272c089",
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-audio-source-registry/check.log": "aecdf3114e7b3759259f2c8ace85e2aa438d49811a4eb998497d58fe0d00b7c2"
+  },
+  "check": {
+    "narrow": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "probe_command": "dotnet run --project <evidence>/probe/dsprobe.csproj",
+    "probe_result": "PASS 110/110",
+    "toolchain": "pinned .tools/dotnet 10.0.302"
+  },
+  "found": {
+    "emitters": 47,
+    "distinct_clips": 45,
+    "night_only": 1,
+    "clip_byte_budget": 600000,
+    "largest_clip_bytes": 576044,
+    "stems": 9,
+    "distinct_zones": 20,
+    "stems_without_declared_volume": 3,
+    "stem_default_volume_db": -12,
+    "one_file_shared_by_stems": 5,
+    "unknown_fields_in_real_data": 0,
+    "missing_required_fields": 0,
+    "out_of_range_values": 0,
+    "fields_without_frame_effect": [
+      "label (AuthoredOnly)"
+    ],
+    "audition_drift": {
+      "catalog_clips_not_in_debug_panel": 21,
+      "debug_panel_clips_outside_catalog": 16,
+      "method": "literal ClipRoot + \"...\" strings in game/scripts/DebugSoundPanel.cs compared with the 47 event clips and 9 stem files; symbolic references such as AdhanPath are not resolved"
+    }
+  },
+  "also_fixed": "a latent bug shared with the atmosphere registry: JsonValue.TryGetValue<double> rejects JSON numbers created as int/float, so Validate refused valid values coming from the editor; both registries now accept double/float/int/long/decimal. Verified by probe checks with integer values.",
+  "open": [
+    "no panel and no audition yet: the owner holds that part open (Stop, manual volume, runtime gates)",
+    "the 47 events live in a file whose root is not an entities array, so StudioWorkspace does not index them: typed edits and Undo are impossible until the owner decides how the list key is handled",
+    "the ambience manifest path is outside SourceGlobs, so Studio sees it only through this read-only projection",
+    "AI-10 contract symbols do not exist; full AI-18 done_when stays open; in-game check NOT_RUN, no station slot taken"
+  ]
+}

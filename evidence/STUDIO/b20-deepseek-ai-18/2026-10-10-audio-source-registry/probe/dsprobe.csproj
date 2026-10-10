@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>dsprobe</AssemblyName>
+    <RootNamespace>DsProbe</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Urman.Studio.Core">
+      <HintPath>/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/bin/Debug/net10.0/Urman.Studio.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Urman.Core">
+      <HintPath>/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Core/bin/Debug/net10.0/Urman.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Urman.Content">
+      <HintPath>/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Content/bin/Debug/net10.0/Urman.Content.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

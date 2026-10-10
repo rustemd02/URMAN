@@ -547,9 +547,44 @@ public static class AtmosphereFieldRegistry
     private static string Text(JsonNode? node) =>
         node is JsonValue value && value.TryGetValue<string>(out var text) ? text : "";
 
+    /// <summary>Reads any JSON number, not only one that was created as a double.</summary>
     private static bool TryNumber(JsonNode value, out double number)
     {
         number = 0d;
-        return value is JsonValue jsonValue && jsonValue.TryGetValue<double>(out number);
+        if (value is not JsonValue jsonValue)
+        {
+            return false;
+        }
+
+        if (jsonValue.TryGetValue<double>(out number))
+        {
+            return true;
+        }
+
+        if (jsonValue.TryGetValue<float>(out var single))
+        {
+            number = single;
+            return true;
+        }
+
+        if (jsonValue.TryGetValue<int>(out var small))
+        {
+            number = small;
+            return true;
+        }
+
+        if (jsonValue.TryGetValue<long>(out var integer))
+        {
+            number = integer;
+            return true;
+        }
+
+        if (jsonValue.TryGetValue<decimal>(out var precise))
+        {
+            number = (double)precise;
+            return true;
+        }
+
+        return false;
     }
 }
