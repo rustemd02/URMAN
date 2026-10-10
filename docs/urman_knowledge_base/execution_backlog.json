@@ -23618,6 +23618,13 @@
                 "source": "game/studio/StudioCampaignSelector.cs; evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-selector-reject-fix/ (build.log, receipt.json)",
                 "verification": "game/Urman.Game.csproj 0 warnings/0 errors with the corrected selector, Urman.Studio.Core 0/0, probe 175/175. The previous confirmed selection is restored silently without a second Changed, or the catalog default is shown and published when no choice was confirmed yet; the world list filling is shared through FillWorldList so the normal path and the restore cannot drift apart. The control is still not wired into the top bar by me and was never instantiated in a live Studio, so the restore path is source-verified only; the separate startup-Changed wiring remark stays an owner-side item in the interface patch"
               }
+,
+              {
+                "stage": "2026-10-10 AI-13 revised interface patch (v2) after the review of e05eb32c",
+                "result": "revision by deepseek v4.1 flash: the read-only state for a world the game does not load is now a real gate instead of a hint, the run path cannot mix a campaign with another world's scene, and the first context is no longer lost",
+                "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-interface-patch-v2/ (ai13-campaign-world-wiring-v2.patch, build.log, check.log, receipt.json); touches src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs, game/studio/StudioWorldSection.cs and game/studio/StudioRoot.cs; apply after the selector and its correction",
+                "verification": "git apply --check on a pristine origin/main 5277e57c worktree: OK; Urman.Studio.Core 0 warnings/0 errors and game/Urman.Game.csproj 0 warnings/0 errors with the patch and the selector file applied (147 insertions, 13 deletions in 3 files); the Core probe still passes 175/175. The gate is editor state in StudioRoot (WriteBlockReason, SetWriteBlock clears the selection and disables the AI button, OpenAiPanel refuses fail-closed) and the world section refuses viewport input, placement, sculpt, brush and import while it is set, so it survives a preview reload, Apply or Undo. The zone, spawn and point arguments are passed only for the Act I demo scene, the only root that reads them. The context is captured before the compile await and applied once after Register. Runtime and UI acceptance are NOT_RUN"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
