@@ -23511,6 +23511,13 @@
                 "source": "Storage/StudioFileTransaction.cs; Editing/EditSession.cs; game/studio/StudioRoot.cs",
                 "verification": "Core/game compilation0/0; existing temporary assertion probe PASS for restart/accepted recovery/failure/CAS/retirement; independent Sol6.1medium review; no new repo tests",
                 "limits": "Only one accepted exact four-file HeroHouse command restored; multiple committed commands refuse ambiguous order. Retire/compensation preserves authored files and ordinary failure handling; crash between independent retirement journals can lose pilot history, full mixed persistent stack remains AI-11 open."
+              },
+              {
+                "stage": "2026-10-10 actual Codex seven-primary-window Apply and complete Undo accepted",
+                "result": "Реальный Codex request 5b6d8c5d2d254b47851e5359ee664ae4: 1.06 → 1.30 м, неизменная высота 1.40 м у семи основных окон. Windows after и Undo PASS; исходный вид лично подтверждён по наружному и внутреннему кадрам.",
+                "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/transaction-receipt.json; codex-current-runtime-attempt10/{request,proposal,runtime-binding,generator-manifest}.json; before/frames; after/{receipt.json,frames}; undo/{receipt.json,frames}",
+                "verification": "Journal 556ccfcf99994127acc014c7ac4a9f8c committed/before; acceptedAfterApply=true, acceptedAfterUndo=true. Рецепт, baseline GLB и baseline Blend восстановлены побайтно; три request-scoped выхода отсутствуют (проверены file/directory/link). Windows jobs 7f0d176102074613826d59adca27d7ea и 700119400c504f27aeea027927e6cab7 PASS, exit0, userdataRestored=true; камеры/FOV/LOW FSR0.70 совпадают. PNG не byte-identical и художественная HIGH-приёмка не заявляется.",
+                "remaining": "Native Studio UI/importer и restart/Claude ещё NOT_RUN. Найден восьмой проём сеней 0.80×1.06 м вне исходного параметра: полный all-windows scope ещё открыт; source fix подготовлен, новая генерация и игровой просмотр обязательны."
               }
             ],
             "stage_tasks": [
@@ -23554,7 +23561,15 @@
             "verification": "Один защищённый сквозной сценарий снаружи/изнутри; станция только по текущему gate.",
             "risks_recovery_external_gates": "Авторская художественная оценка не подменяется успешным build; недоступный аккаунт — незакрытый provider gate.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 actual Codex seven-primary-window Apply and complete Undo accepted",
+                "result": "Реальный Codex request 5b6d8c5d2d254b47851e5359ee664ae4: 1.06 → 1.30 м, неизменная высота 1.40 м у семи основных окон. Windows after и Undo PASS; исходный вид лично подтверждён по наружному и внутреннему кадрам.",
+                "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/transaction-receipt.json; codex-current-runtime-attempt10/{request,proposal,runtime-binding,generator-manifest}.json; before/frames; after/{receipt.json,frames}; undo/{receipt.json,frames}",
+                "verification": "Journal 556ccfcf99994127acc014c7ac4a9f8c committed/before; acceptedAfterApply=true, acceptedAfterUndo=true. Рецепт, baseline GLB и baseline Blend восстановлены побайтно; три request-scoped выхода отсутствуют (проверены file/directory/link). Windows jobs 7f0d176102074613826d59adca27d7ea и 700119400c504f27aeea027927e6cab7 PASS, exit0, userdataRestored=true; камеры/FOV/LOW FSR0.70 совпадают. PNG не byte-identical и художественная HIGH-приёмка не заявляется.",
+                "remaining": "Native Studio UI/importer и restart/Claude ещё NOT_RUN. Найден восьмой проём сеней 0.80×1.06 м вне исходного параметра: полный all-windows scope ещё открыт; source fix подготовлен, новая генерация и игровой просмотр обязательны."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P1"
             ],
@@ -25092,7 +25107,7 @@
           }
         ],
         "unit_dependency_rule": "AI-xx — единственные канонические шаги STUDIO.execution.steps, без отдельного backlog/статусного списка. Готовность AI-шага определять по depends_on_units и фактическому evidence завершённых шагов в этой карточке; исторический completed X1–X4 не выполняет AI-зависимость. STUDIO.depends_on пуст; P0–P6 — связанные приёмочные стадии, их старый граф сохраняется. Выполнение AI-шага не выдавать за закрытие стадии. Нельзя требовать полного завершения P6 для раннего транспорта/Undo или полного P0 для позднего AI-31; назначение writer и реализация требуют отдельного живого поручения и сохранения владельцев.",
-        "next_unit": "Живое поручение 10.10: Codex-пилот изменения семи реальных окон выбранного HeroHouse, game verification и полная asset/source Undo, затем остальные dependency-ready единицы B20. Общий STUDIO остаётся открыт до всех done_when.",
+        "next_unit": "Завершить Codex-пилот всех восьми окон выбранного HeroHouse (включая сени), native Studio Apply/Undo и сопоставимый игровой просмотр; затем остальные dependency-ready единицы своей части B20. Семь основных окон уже прошли actual Codex/Windows/byte-exact Undo, полный STUDIO остаётся открыт.",
         "b20_checkpoint": {
           "authorized": "user 2026-10-10: implement Codex-assigned B20; regular commit/push; create_goal; five Luna FAST/Max plus Sol6.1medium (explicit override). DeepSeek split unchanged.",
           "scope": "First Codex → HeroHouse uniform seven-window resize → exterior/interior game check → full Undo",
@@ -25451,7 +25466,7 @@
           },
           "deepseek_review_third": {
             "fix_commit": "b983c6cba2b422b8fdfd4c8a773b317f8a45e227",
-            "result": "SOURCE_REVIEW_ACCEPTED_PENDING_INTEGRATION_COMPILE",
+            "result": "SOURCE_ACCEPTED_INTEGRATED_WITH_CONSUMER_COLLISION_FIX",
             "reviewers": [
               "Codex node/runtime binding",
               "LunaFAST state/fingerprint"
@@ -25461,7 +25476,13 @@
               "6cf1b9d0",
               "b983c6cb"
             ],
-            "remaining": "No second independently authored runtime world; UI not connected; no runtime acceptance. AI13 remains open. Wait until active house snapshot transaction ends before cherry-pick."
+            "remaining": "AI13 full done_when открыт: нет второго независимо authorable runtime world; селектор329a0039 needs three fixes; общая UI проводка и runtime acceptance не выполнены.",
+            "main_commits": [
+              "a9bf10d8",
+              "6170dbbe",
+              "ad423f16",
+              "6d3c16f7"
+            ]
           },
           "house_failed_apply_rollback": {
             "journal_id": "47b36731f9f94510a8a74069ad0fd5cd",
@@ -25481,7 +25502,19 @@
             "verification": "Affected Game compile0warnings0errors; diffcheck; source/staged GLB ancestor transforms identity except neutral board translation removed. No replacement metadata or runtime claim.",
             "failed_transaction": "47b36731f9f94510a8a74069ad0fd5cd recovered/before/acceptedfalse",
             "next": "Fresh immutable Codex request on committed fixed revision, regenerate variant, matchedWindowsafter then acceptedUndo matchedWindows."
-          }
+          },
+          "house_seven_primary_runtime_accepted": {
+            "result": "ACCEPTED_PARTIAL_SEVEN_PRIMARY_WINDOWS_NOT_ALL_EIGHT",
+            "request_id": "5b6d8c5d2d254b47851e5359ee664ae4",
+            "journal_id": "556ccfcf99994127acc014c7ac4a9f8c",
+            "base_commit": "d07241f6",
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/transaction-receipt.json; codex-current-runtime-attempt10/{request,proposal,runtime-binding,generator-manifest}.json; before/frames; after/{receipt.json,frames}; undo/{receipt.json,frames}",
+            "after_job": "7f0d176102074613826d59adca27d7ea",
+            "undo_job": "700119400c504f27aeea027927e6cab7",
+            "native_studio_ui": "NOT_RUN",
+            "next": "Проверить источник/генерацию для восьмого окна сеней, свежий Codex request, native Studio Apply/Undo и игровой просмотр."
+          },
+          "house_eight_window_verification_question": "Изменяет ли один recipe request ширину всех восьми окон, включая сени, сохраняя высоты/центры/двери, и восстанавливает ли native Undo источники/ассеты/вид? Успех: реальные восемь generated modules, игровой кадр сеней плюс matched main before/after/Undo; исходные хеши восстановлены и новые файлы отсутствуют."
         }
       },
       "done_when": "Все дочерние задачи закрыты доказательствами; человеческие пункты оценены автором, а не walkthrough. Дополнительно выполнены все обязательные AI-единицы и новые A01–A25 из ТЗ 10.10, включая обоих провайдеров и внешние гейты; AI-35 только после отдельного расширения Windows. Историческая матрица и дочерние задачи сохраняются.",
