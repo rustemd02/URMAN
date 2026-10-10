@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13",
+    "STUDIO/AI-17",
+    "STUDIO/AI-18",
+    "STUDIO/AI-21",
+    "STUDIO/AI-24",
+    "STUDIO/AI-36"
+  ],
+  "stage": "interface patch v3: the four confirmed defects of the v2 wiring are fixed",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:45 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "f703f132 (origin/main, after the LunaFAST breadcrumb stage) + my branch; the patch touches only shared files",
+  "supersedes": "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-consolidated-wiring (v1 of the consolidated patch) and every per-stage patch of the same files",
+  "addressed": {
+    "PresentationOnly search -> Reveal -> SetField bypass (confirmed by Codex source review)": "the gate now sits in StudioRoot.ShowProperties: while a world is frozen NO editor is built at all, only the identity, the id and the reason are shown. Search and Reveal stay usable for inspection, and no section can build a field that writes through SetField",
+    "async PlayStart captured too late": "PlayStart is captured with the campaign/world context BEFORE await CompileAsync, so the spawn cannot come from a world other than the one whose scene is launched",
+    "fallback I/O uncaught": "the selector fallback catches InvalidOperationException, IOException, UnauthorizedAccessException and JsonException, so an unreadable campaign or scene file degrades to 'no confirmed choice' instead of throwing out of the selector",
+    "read-only hint lost on reload": "StudioRoot.RestateWriteBlock re-states the frozen reason, and StudioWorldSection.LoadWorldAsync calls it at the end, so a preview reload, Apply or Undo cannot clear what the author sees"
+  },
+  "covers": "the campaign/world context, the write gate and the frozen properties panel, the Act I-only spawn arguments and the context captured before the compile await (StudioRoot.cs, PlayPreparation.cs); the capability gate, refusals in input/Place/SculptStroke/PaintStroke/ShowImport, the honest trigger panel with the safe size guard, the scatter guard, the audio entry and the asset usage facts (StudioWorldSection.cs); the PC thread list and the schema-conformant hint path with a real preview (StudioContentSection.cs); the localized reply and condition editing (StudioDialogueSection.cs, StudioQuestSection.cs)",
+  "verified": {
+    "apply": "git apply --check on a fresh worktree of f703f132 with my branch merged: OK, then applied",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests (xunit v3) Total 38, Errors 0, Failed 0 on the patched tree",
+    "probe": "PASS 262/262",
+    "not_run": "no Studio window and no game run: the freeze, the reload restatement and the run arguments are compile-, test- and probe-verified, the interface is NOT_RUN"
+  },
+  "open": [
+    "the gate is a UI-level freeze; a write path that bypasses StudioProperties entirely would still need a session-level check, which is the owner's shared EditSession",
+    "the remaining review items of the other units (audio stems/range/path, trigger float range, chat hint constraints, rule-coverage verifier) are not part of this patch and are tracked separately",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}

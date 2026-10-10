@@ -221,11 +221,14 @@ public sealed class StudioCampaignSelector
 
     private CampaignWorldContext? Default()
     {
+        // Resolving the default reads the campaign and scene files, so an unreadable or
+        // broken file must degrade to "no confirmed choice" instead of throwing out of
+        // the selector right after a rejected world.
         try
         {
             return _catalog?.Default();
         }
-        catch (InvalidOperationException)
+        catch (Exception failure) when (failure is InvalidOperationException or IOException or UnauthorizedAccessException or System.Text.Json.JsonException)
         {
             return null;
         }

@@ -1,0 +1,18 @@
+== base: ae9c06091a9961ede73cda2c20ec0f8b0d758124 (origin/main f703f132 + my branch + the v3 patch)
+== git apply --check on a pristine f703f132 worktree: OK, then applied
+== dotnet build src-dotnet/Urman.Studio.Core/Urman.Studio.Core.csproj
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:00.51
+== dotnet build game/Urman.Game.csproj
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:00.59
+== existing Urman.Studio.Tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,365s
+== probe
+
+PROBE RESULT: PASS
