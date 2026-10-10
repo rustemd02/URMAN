@@ -282,6 +282,47 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     public StudioAtmospherePanel? Atmosphere { get; private set; }
 
+    private bool _reloading;
+    private Task? _reloadTask;
+    public Task ReloadGeometryAsync() => _reloadTask is { IsCompleted: false } ? _reloadTask
+        : _reloadTask = ReloadGeometryCoreAsync();
+
+    private async Task ReloadGeometryCoreAsync()
+    {
+        if (_view is null) return;
+        _reloading = true;
+        var previous = _demo;
+        try
+        {
+            _hint.Text = "Обновляю модель дома…";
+            _hint.Visible = true;
+            if (previous is not null) _viewport.RemoveChild(previous);
+            _demo = null;
+            _previewed.Clear();
+            KitPlacementTakeover.Reset();
+            await LoadWorldAsync();
+            if (_hint.Visible) throw new InvalidOperationException("Новая сцена дома не загрузилась.");
+            previous?.Free();
+            UpdateCamera();
+        }
+        catch
+        {
+            if (_demo is not null) { _viewport.RemoveChild(_demo); _demo.Free(); }
+            _demo = previous;
+            if (previous is not null) _viewport.AddChild(previous);
+            _hint.Visible = previous is null;
+            _camera.MakeCurrent();
+            throw;
+        }
+        finally { _reloading = false; }
+    }
+
+    private async void RefreshGeometryObserved()
+    {
+        try { await ReloadGeometryAsync(); }
+        catch (Exception error) { studio.ShowBanner("Модель не обновилась: " + error.Message, error: true); }
+    }
+
     public void OpenAtmosphere()
     {
         if (Atmosphere is null)
@@ -295,12 +336,21 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     }
 
     private string? _atmosphereShown;
+    private string? _houseRecipeShown;
 
     public void Refresh()
     {
         if (_view is null || _demo is null)
         {
             return;
+        }
+        var recipeFile = Path.Combine(studio.Workspace.Root, "game/content/studio/hero_house.recipe.json");
+        if (File.Exists(recipeFile))
+        {
+            var recipe = File.ReadAllText(recipeFile);
+            if (_houseRecipeShown is not null && _houseRecipeShown != recipe && !_reloading)
+                RefreshGeometryObserved();
+            _houseRecipeShown = recipe;
         }
 
         // Atmosphere edits, undo and redo show on the village at once.
@@ -668,6 +718,19 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private string? Pick(Vector2 screen)
     {
+        // The collision mesh belongs to the same authored placement as its visible facade.
+        var origin = _camera.ProjectRayOrigin(screen);
+        var ray = PhysicsRayQueryParameters3D.Create(origin, origin + _camera.ProjectRayNormal(screen) * 600f);
+        var hit = _camera.GetWorld3D().DirectSpaceState.IntersectRay(ray);
+        if (hit.TryGetValue("collider", out var collider))
+        {
+            for (var node = collider.AsGodotObject() as Node; node is not null; node = node.GetParent())
+            {
+                if (!node.HasMeta(AuthoredWorldPlot.AuthoredIdMeta)) continue;
+                var hitId = node.GetMeta(AuthoredWorldPlot.AuthoredIdMeta).AsString();
+                if (studio.Workspace.Locate(hitId) is not null && !Locked(hitId)) return hitId;
+            }
+        }
         string? best = null;
         var bestDistance = PickRadiusPixels;
         foreach (var (id, marker) in _markers)

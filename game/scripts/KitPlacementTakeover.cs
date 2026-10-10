@@ -86,6 +86,24 @@ public static class KitPlacementTakeover
         }
 
         var parameters = entity.GetProperty("params");
+        if (entity.GetProperty("id").GetString() == HeroHouseRecipe.EntityId
+            && HeroHouseRecipe.Load().ModelPath is { } modelPath)
+        {
+            var document = new GltfDocument();
+            var state = new GltfState();
+            if (document.AppendFromFile(ProjectSettings.GlobalizePath(modelPath), state) != Error.Ok)
+                throw new InvalidOperationException($"Не импортирован вариант дома: {modelPath}");
+            var root = document.GenerateScene(state) as Node3D
+                ?? throw new InvalidDataException("Вариант дома не имеет 3D-корня.");
+            var component = root.Name == StyleBenchmarkInteriorFactory.ExteriorComponent ? root
+                : root.FindChildren(StyleBenchmarkInteriorFactory.ExteriorComponent, nameof(Node3D), true, false).OfType<Node3D>().Single();
+            if (component != root) { component.GetParent().RemoveChild(component); root.Free(); }
+            foreach (var old in placement.GetChildren()) { placement.RemoveChild(old); old.Free(); }
+            component.Owner = null;
+            component.Position = Vector3.Zero;
+            placement.AddChild(component);
+            placement.SetMeta("assetSource", modelPath);
+        }
         var position = AuthoredWorldPlot.ToVector3(parameters.GetProperty("position"));
         var height = placement.GlobalPosition.Y;
         if (parameters.TryGetProperty("groundingReferenceXZ", out var reference))

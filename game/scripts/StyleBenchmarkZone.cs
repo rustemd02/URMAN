@@ -384,7 +384,7 @@ public partial class StyleBenchmarkZone : Node3D
     private void BuildHouseOldPc()
     {
         var photoWorlds = IsPhotoWorldsCampaign;
-        StyleBenchmarkInteriorFactory.Build(this);
+        StyleBenchmarkInteriorFactory.Build(this, HeroHouseRecipe.Load());
         ArrivalPersonalProps.Build(this, photoWorlds);
         // Small domestic items follow their actual support, independently of
         // the resized room shell and the unchanged furniture/character scale.

@@ -51,9 +51,11 @@ public static partial class StyleBenchmarkInteriorFactory
     public static Transform3D TransformFromFacade(Node3D facade) =>
         facade.GlobalTransform * new Transform3D(Basis.Identity, RoomOffset);
 
-    internal static void Build(Node3D room)
+    internal static void Build(Node3D room, HeroHouseRecipe recipe)
     {
+        var windowClearWidth = recipe.WindowClearWidth;
         room.SetMeta("heroHouseContract", ContractVersion);
+        room.SetMeta("heroHouseWindowClearWidth", windowClearWidth);
         room.SetMeta("heroHouseClearDimensions", new Vector3(ClearWidth, CeilingHeight, ClearDepth));
         Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "7a4634", "wood_floor_planked");
         // P2 / VIS-098: whitewashed plaster ceiling, warm off-white so the lamp light bounces.
@@ -61,19 +63,19 @@ public static partial class StyleBenchmarkInteriorFactory
 
         Wall(room, "FrontWall", 4.2f, 3.6f, false,
             [new(DoorX, DoorWidth, 0, DoorHeight),
-             new(-.85f, WindowWidth, WindowSill, WindowHead),
-             new(1f, WindowWidth, WindowSill, WindowHead),
-             new(2.85f, WindowWidth, WindowSill, WindowHead)]);
+             new(-.85f, windowClearWidth, WindowSill, WindowHead),
+             new(1f, windowClearWidth, WindowSill, WindowHead),
+             new(2.85f, windowClearWidth, WindowSill, WindowHead)]);
         Wall(room, "BackWall", 4.2f, -3.6f, false,
-            [new(-2.55f, WindowWidth, WindowSill, WindowHead), new(2.55f, WindowWidth, WindowSill, WindowHead)]);
-        Wall(room, "LeftWall", 3.5f, -4.1f, true, [new(.60f, WindowWidth, WindowSill, WindowHead)]);
-        Wall(room, "RightWall", 3.5f, 4.1f, true, [new(.90f, WindowWidth, WindowSill, WindowHead)]);
+            [new(-2.55f, windowClearWidth, WindowSill, WindowHead), new(2.55f, windowClearWidth, WindowSill, WindowHead)]);
+        Wall(room, "LeftWall", 3.5f, -4.1f, true, [new(.60f, windowClearWidth, WindowSill, WindowHead)]);
+        Wall(room, "RightWall", 3.5f, 4.1f, true, [new(.90f, windowClearWidth, WindowSill, WindowHead)]);
 
         // Exposed beams sit above the clear ceiling datum, never through heads.
         foreach (var x in new[] { -2.25f, 2.25f })
             Block(room, "CeilingBeam" + (x < 0 ? "Left" : "Right"), new(.20f, .18f, 7f),
                 new(x, 2.693f, 0), "493629", "wood", collision: false);
-        foreach (var window in Windows) BuildWindow(room, window);
+        foreach (var window in Windows) BuildWindow(room, window, windowClearWidth);
         AddRoomTrim(room);
         InteriorReflectionProbes.Add(room, "HeroRoomReflectionProbe", new(0, CeilingHeight * .5f, 0),
             new(ClearWidth, CeilingHeight, ClearDepth));
@@ -217,34 +219,34 @@ public static partial class StyleBenchmarkInteriorFactory
         }
     }
 
-    private static void BuildWindow(Node3D room, Window window)
+    private static void BuildWindow(Node3D room, Window window, float windowClearWidth)
     {
         var root = new Node3D { Name = "HeroRoomWindow" + window.Name, Position = window.Center,
             RotationDegrees = new(0, window.YawDegrees, 0) };
         root.SetMeta("openingCenter", window.Center);
-        root.SetMeta("clearOpening", new Vector2(WindowWidth, WindowHead - WindowSill));
+        root.SetMeta("clearOpening", new Vector2(windowClearWidth, WindowHead - WindowSill));
         room.AddChild(root);
         var height = WindowHead - WindowSill;
         // Closed winter glazing has its own thin contact plane, rather than a
         // solid wall painted with a window or an opening the player can crawl through.
-        var glazing = Block(root, "Glazing", new(WindowWidth - .10f, height - .10f, .035f),
+        var glazing = Block(root, "Glazing", new(windowClearWidth - .10f, height - .10f, .035f),
             new(0, 0, .07f), "8d9f9f", "glass");
         var glass = glazing.GetNode<MeshInstance3D>("Visible");
         // A single sheet avoids rendering six translucent cube faces. The
         // winter pane stays closed physically, but now shows the real village.
-        glass.Mesh = new QuadMesh { Size = new(WindowWidth - .10f, height - .10f) };
+        glass.Mesh = new QuadMesh { Size = new(windowClearWidth - .10f, height - .10f) };
         glass.MaterialOverride = WindowGlassMaterial();
         glass.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
         glass.SetMeta("windowSurface", "transparent winter glazing; edge frost; actual exterior view");
         foreach (var sign in new[] { -1f, 1f })
         {
             Block(root, sign < 0 ? "JambLeft" : "JambRight", new(.075f, height + .14f, .14f),
-                new(sign * (WindowWidth * .5f + .0375f), 0, .13f), "718078", "wood", false);
-            Block(root, sign < 0 ? "BottomRail" : "TopRail", new(WindowWidth, .07f, .14f),
+                new(sign * (windowClearWidth * .5f + .0375f), 0, .13f), "718078", "wood", false);
+            Block(root, sign < 0 ? "BottomRail" : "TopRail", new(windowClearWidth, .07f, .14f),
                 new(0, sign * height * .5f, .13f), "718078", "wood", false);
         }
         Block(root, "Mullion", new(.045f, height, .055f), new(0, 0, .16f), "5d4a38", "wood", false);
-        Block(root, "SillBoard", new(1.24f, .065f, .30f), new(0, -height * .5f - .035f, .16f), "765842", "wood", false);
+        Block(root, "SillBoard", new(windowClearWidth + .18f, .065f, .30f), new(0, -height * .5f - .035f, .16f), "765842", "wood", false);
         // P2 / VIS-087/098: the opening is framed on the wall, not cut into it. Flat
         // casing boards sit on the plaster beside the projecting jambs, a slightly
         // proud head board with a small cap carries the line across, and an apron
@@ -252,7 +254,7 @@ public static partial class StyleBenchmarkInteriorFactory
         const float casingWidth = .08f, casingThickness = .022f;
         var wallFace = WallThickness * .5f + InteriorFinishThickness;
         var casingZ = wallFace + casingThickness * .5f;
-        var jambOuter = WindowWidth * .5f + .075f;
+        var jambOuter = windowClearWidth * .5f + .075f;
         var casingTop = height * .5f + .07f;
         foreach (var sign in new[] { -1f, 1f })
             Block(root, sign < 0 ? "CasingLeft" : "CasingRight", new(casingWidth, height + .14f + .02f, casingThickness),
@@ -261,12 +263,12 @@ public static partial class StyleBenchmarkInteriorFactory
         Block(root, "CasingHead", new(headWidth, .10f, casingThickness), new(0, casingTop + .05f, casingZ), "718078", "wood", false);
         Block(root, "CasingHeadCap", new(headWidth + .04f, .022f, .045f), new(0, casingTop + .111f, wallFace + .0225f), "6a776f", "wood", false);
         var sillBottom = -height * .5f - .035f - .0325f;
-        Block(root, "SillApron", new(1.12f, .085f, casingThickness), new(0, sillBottom - .0425f, casingZ), "718078", "wood", false);
+        Block(root, "SillApron", new(windowClearWidth + .06f, .085f, casingThickness), new(0, sillBottom - .0425f, casingZ), "718078", "wood", false);
         // Two fabrics have different optical roles and real folds. Both hang
         // from the rod; neither is a painted rectangle against the window.
         var rod = new MeshInstance3D { Name = "CurtainRod", Position = new(0, .82f, .28f),
             RotationDegrees = new(0, 0, 90),
-            Mesh = new CylinderMesh { Height = 1.40f, TopRadius = .014f, BottomRadius = .014f, RadialSegments = 8 },
+            Mesh = new CylinderMesh { Height = windowClearWidth + .34f, TopRadius = .014f, BottomRadius = .014f, RadialSegments = 8 },
             MaterialOverride = PainterlyMaterialLibrary.ForColor("5d4a38", "wood", sheltered: true) };
         root.AddChild(rod);
         // Rear privacy curtains shelter the table zone; the other five windows
@@ -275,11 +277,13 @@ public static partial class StyleBenchmarkInteriorFactory
         foreach (var sign in new[] { -1f, 1f })
         {
             Block(root, sign < 0 ? "RodBracketLeft" : "RodBracketRight", new(.05f, .06f, .25f),
-                new(sign * .61f, .82f, .155f), "5d4a38", "wood", false);
-            DrapedFabric(root, sign < 0 ? "CurtainLeft" : "CurtainRight", sign * (rear ? .27f : .53f),
-                rear ? .52f : .25f, .81f, -.68f, .28f, .025f, 3, false, rear ? "c3b28f" : "94aaa4");
+                new(sign * (windowClearWidth * .5f + .08f), .82f, .155f), "5d4a38", "wood", false);
+            DrapedFabric(root, sign < 0 ? "CurtainLeft" : "CurtainRight",
+                sign * (rear ? windowClearWidth * (.27f / 1.06f) : windowClearWidth * .5f),
+                windowClearWidth * (rear ? .52f / 1.06f : .25f / 1.06f),
+                .81f, -.68f, .28f, .025f, 3, false, rear ? "c3b28f" : "94aaa4");
         }
-        DrapedFabric(root, "SheerCurtain", 0, 1.04f, .81f, -.67f, .22f, .010f, 7, true);
+        DrapedFabric(root, "SheerCurtain", 0, windowClearWidth - .02f, .81f, -.67f, .22f, .010f, 7, true);
     }
 
     private static ShaderMaterial WindowGlassMaterial() => new()

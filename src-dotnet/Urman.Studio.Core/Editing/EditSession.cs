@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using Urman.Studio.Core.Storage;
 
 namespace Urman.Studio.Core.Editing;
 
@@ -6,16 +7,24 @@ namespace Urman.Studio.Core.Editing;
 public sealed record EntityChange(string RelativePath, string Key, JsonNode? Before, JsonNode? After);
 
 /// <summary>A user-visible undo step: a drag, a brush stroke or a composite action is one command (SAVE01).</summary>
-public sealed record EditCommand(string Label, IReadOnlyList<EntityChange> Changes);
+public sealed record EditCommand(string Label, IReadOnlyList<EntityChange> Changes, StudioFileTransaction? Files = null);
 
 /// <summary>
 /// Undo/redo would overwrite something that changed since this command — most
 /// often another author's merged work (SAVE05). Nothing was applied.
 /// </summary>
-public sealed class UndoConflictException(string label, IReadOnlyList<EntityChange> blocked)
-    : InvalidOperationException($"«{label}» нельзя отменить автоматически: эти объекты уже изменены после неё.")
+public sealed class UndoConflictException : InvalidOperationException
 {
-    public IReadOnlyList<EntityChange> Blocked { get; } = blocked;
+    public UndoConflictException(string label, IReadOnlyList<EntityChange> blocked, IReadOnlyList<string>? blockedFiles = null)
+        : base($"«{label}» нельзя отменить автоматически: эти объекты уже изменены после неё."
+            + ((blockedFiles?.Count ?? 0) == 0 ? "" : $" Изменены файлы: {string.Join(", ", blockedFiles!)}."))
+    {
+        Blocked = blocked;
+        BlockedFiles = blockedFiles ?? [];
+    }
+
+    public IReadOnlyList<EntityChange> Blocked { get; }
+    public IReadOnlyList<string> BlockedFiles { get; }
 }
 
 /// <summary>
@@ -30,10 +39,13 @@ public sealed class EditSession(StudioWorkspace workspace)
     private readonly Stack<EditCommand> _redo = new();
     private List<EntityChange>? _open;
     private string? _openLabel;
+    private PendingFiles? _openFiles;
+    private bool _asyncOperationBusy;
 
     public StudioWorkspace Workspace { get; } = workspace;
-    public bool CanUndo => _undo.Count > 0;
-    public bool CanRedo => _redo.Count > 0;
+    public bool CanUndo => !_asyncOperationBusy && _undo.Count > 0;
+    public bool CanRedo => !_asyncOperationBusy && _redo.Count > 0;
+    public bool IsBusy => _asyncOperationBusy;
     public string? UndoLabel => _undo.TryPeek(out var command) ? command.Label : null;
     public string? RedoLabel => _redo.TryPeek(out var command) ? command.Label : null;
     public event Action? Changed;
@@ -41,6 +53,7 @@ public sealed class EditSession(StudioWorkspace workspace)
     /// <summary>Group several edits (a drag, a template) into one undo step.</summary>
     public IDisposable Begin(string label)
     {
+        EnsureAvailable();
         if (_open is not null)
         {
             return new Scope(() => { });
@@ -50,13 +63,79 @@ public sealed class EditSession(StudioWorkspace workspace)
         _openLabel = label;
         return new Scope(() =>
         {
-            var changes = Coalesce(_open!);
-            _open = null;
-            if (changes.Count > 0)
-            {
-                Push(new(_openLabel!, changes));
-            }
+            CompleteOpen();
         });
+    }
+
+    /// <summary>Attach source/model file writes to this command. Call inside the same Begin scope as the entity edits.</summary>
+    public void ApplyFiles(string label, string owner, IReadOnlyList<StudioFileWrite> writes, IReadOnlySet<string> allowedPaths, Action? afterPromotion = null)
+    {
+        EnsureAvailable();
+        if (writes.Count == 0 && afterPromotion is null) return;
+        var pending = new PendingFiles(label, owner, writes.Select(write => write with { Bytes = write.Bytes?.ToArray() }).ToArray(),
+            allowedPaths.ToHashSet(StringComparer.Ordinal), afterPromotion);
+        if (_open is not null)
+        {
+            if (_openFiles is not null)
+            {
+                throw new InvalidOperationException("В одной команде можно присоединить только один пакет файлов; передайте все файлы одним вызовом.");
+            }
+
+            _openFiles = pending;
+            return;
+        }
+
+        var transaction = StudioFileTransaction.Apply(Workspace.Root, pending.Owner, pending.Writes, pending.AllowedPaths, pending.AfterPromotion);
+        if (transaction is not null)
+        {
+            var command = new EditCommand(label, [], transaction);
+            try
+            {
+                Push(command);
+            }
+            catch
+            {
+                if (!IsInUndoStack(command)) transaction.Cancel();
+                throw;
+            }
+        }
+    }
+
+    /// <summary>Apply a file-only command and keep its journal open through the live-view barrier.</summary>
+    public async Task ApplyFilesAsync(string label, string owner, IReadOnlyList<StudioFileWrite> writes,
+        IReadOnlySet<string> allowedPaths, Action nativeBarrier, Func<Task> afterPromotionAsync)
+    {
+        EnsureAvailable();
+        if (_open is not null) throw new InvalidOperationException("Async file transactions must be a standalone file-only command.");
+        if (writes.Count == 0) return;
+        ArgumentNullException.ThrowIfNull(nativeBarrier);
+        ArgumentNullException.ThrowIfNull(afterPromotionAsync);
+
+        _asyncOperationBusy = true;
+        try
+        {
+            Changed?.Invoke();
+            var transaction = await StudioFileTransaction.ApplyAsync(Workspace.Root, owner,
+                writes.Select(write => write with { Bytes = write.Bytes?.ToArray() }).ToArray(),
+                allowedPaths.ToHashSet(StringComparer.Ordinal), nativeBarrier, afterPromotionAsync);
+            if (transaction is null) return;
+
+            var command = new EditCommand(label, [], transaction);
+            try
+            {
+                Push(command);
+            }
+            catch
+            {
+                if (!IsInUndoStack(command)) await transaction.CancelAsync(afterPromotionAsync);
+                throw;
+            }
+        }
+        finally
+        {
+            _asyncOperationBusy = false;
+            Changed?.Invoke();
+        }
     }
 
     /// <summary>Replace (or create) an entity by ID in its file.</summary>
@@ -69,6 +148,7 @@ public sealed class EditSession(StudioWorkspace workspace)
     /// <summary>Change the order of a file's entities (a list order is behaviour: cutscene actions, stages). One undo step.</summary>
     public void SetOrder(string relativePath, IReadOnlyList<string> keys, string label)
     {
+        EnsureAvailable();
         var file = Workspace.File(relativePath);
         var before = new JsonArray(file.Keys().Select(key => (JsonNode?)key).ToArray());
         var after = new JsonArray(keys.Select(key => (JsonNode?)key).ToArray());
@@ -81,6 +161,7 @@ public sealed class EditSession(StudioWorkspace workspace)
     /// <summary>Change one field of an entity addressed by its ID; the path is a list of property names.</summary>
     public void SetField(string id, IReadOnlyList<string> path, JsonNode? value, string label)
     {
+        EnsureAvailable();
         var address = Workspace.Locate(id) ?? throw new KeyNotFoundException($"Нет объекта с ID {id}.");
         var entity = Workspace.File(address.RelativePath).Get(address.Key)!.AsObject();
         JsonObject parent = entity;
@@ -95,6 +176,7 @@ public sealed class EditSession(StudioWorkspace workspace)
 
     public void Undo()
     {
+        EnsureAvailable();
         if (!_undo.TryPop(out var command))
         {
             return;
@@ -102,7 +184,17 @@ public sealed class EditSession(StudioWorkspace workspace)
 
         try
         {
-            Revert(command, forward: false);
+            EnsureCanRevert(command, forward: false);
+            command.Files?.Restore(forward: false);
+            try
+            {
+                Revert(command, forward: false);
+            }
+            catch
+            {
+                command.Files?.Restore(forward: true);
+                throw;
+            }
             _redo.Push(command);
         }
         catch
@@ -116,6 +208,7 @@ public sealed class EditSession(StudioWorkspace workspace)
 
     public void Redo()
     {
+        EnsureAvailable();
         if (!_redo.TryPop(out var command))
         {
             return;
@@ -123,7 +216,17 @@ public sealed class EditSession(StudioWorkspace workspace)
 
         try
         {
-            Revert(command, forward: true);
+            EnsureCanRevert(command, forward: true);
+            command.Files?.Restore(forward: true);
+            try
+            {
+                Revert(command, forward: true);
+            }
+            catch
+            {
+                command.Files?.Restore(forward: false);
+                throw;
+            }
             _undo.Push(command);
         }
         catch
@@ -135,8 +238,83 @@ public sealed class EditSession(StudioWorkspace workspace)
         Changed?.Invoke();
     }
 
+    /// <summary>Undo a file command only after its source and live view are restored.</summary>
+    public async Task UndoAsync(Func<Task> fileViewBarrier)
+    {
+        EnsureAvailable();
+        ArgumentNullException.ThrowIfNull(fileViewBarrier);
+        if (!_undo.TryPeek(out var top) || top.Files is null)
+        {
+            Undo();
+            return;
+        }
+
+        _asyncOperationBusy = true;
+        try
+        {
+            Changed?.Invoke();
+            var command = _undo.Peek();
+            EnsureCanRevert(command, forward: false);
+            await command.Files!.RestoreAsync(forward: false, fileViewBarrier);
+            try
+            {
+                Revert(command, forward: false);
+            }
+            catch
+            {
+                await command.Files.RestoreAsync(forward: true, fileViewBarrier);
+                throw;
+            }
+            _undo.Pop();
+            _redo.Push(command);
+        }
+        finally
+        {
+            _asyncOperationBusy = false;
+            Changed?.Invoke();
+        }
+    }
+
+    /// <summary>Redo saved file images only after the live view can load them.</summary>
+    public async Task RedoAsync(Func<Task> fileViewBarrier)
+    {
+        EnsureAvailable();
+        ArgumentNullException.ThrowIfNull(fileViewBarrier);
+        if (!_redo.TryPeek(out var top) || top.Files is null)
+        {
+            Redo();
+            return;
+        }
+
+        _asyncOperationBusy = true;
+        try
+        {
+            Changed?.Invoke();
+            var command = _redo.Peek();
+            EnsureCanRevert(command, forward: true);
+            await command.Files!.RestoreAsync(forward: true, fileViewBarrier);
+            try
+            {
+                Revert(command, forward: true);
+            }
+            catch
+            {
+                await command.Files.RestoreAsync(forward: false, fileViewBarrier);
+                throw;
+            }
+            _redo.Pop();
+            _undo.Push(command);
+        }
+        finally
+        {
+            _asyncOperationBusy = false;
+            Changed?.Invoke();
+        }
+    }
+
     private void Apply(string relativePath, string key, JsonNode? value, bool remove, string label)
     {
+        EnsureAvailable();
         var file = Workspace.File(relativePath);
         var before = file.Get(key);
         var after = remove ? null : value?.DeepClone();
@@ -160,19 +338,106 @@ public sealed class EditSession(StudioWorkspace workspace)
 
     private void Push(EditCommand command)
     {
+        command.Files?.Accept();
         _undo.Push(command);
         _redo.Clear();
         Changed?.Invoke();
     }
 
-    private void Revert(EditCommand command, bool forward)
+    private void CompleteOpen()
+    {
+        var changes = Coalesce(_open!);
+        var label = _openLabel!;
+        var pendingFiles = _openFiles;
+        StudioFileTransaction? transaction = null;
+        try
+        {
+            if (pendingFiles is not null)
+            {
+                transaction = StudioFileTransaction.Apply(Workspace.Root, pendingFiles.Owner, pendingFiles.Writes,
+                    pendingFiles.AllowedPaths, pendingFiles.AfterPromotion);
+            }
+        }
+        catch
+        {
+            ClearOpen();
+            RevertChanges(changes);
+            throw;
+        }
+
+        ClearOpen();
+        if (changes.Count == 0 && transaction is null) return;
+
+        var command = new EditCommand(label, changes, transaction);
+        try
+        {
+            Push(command);
+        }
+        catch
+        {
+            // Changed observers run after the command is already accepted. Do not
+            // turn an observer failure into a file/entity rollback behind its back.
+            if (IsInUndoStack(command)) throw;
+            transaction?.Cancel();
+            RevertChanges(changes);
+            throw;
+        }
+    }
+
+    private void ClearOpen()
+    {
+        _open = null;
+        _openLabel = null;
+        _openFiles = null;
+    }
+
+    private bool IsInUndoStack(EditCommand command) => _undo.Any(item => ReferenceEquals(item, command));
+
+    private void EnsureAvailable()
+    {
+        if (_asyncOperationBusy) throw new InvalidOperationException("Дождитесь завершения файловой транзакции и обновления вида.");
+    }
+
+    private void EnsureCanRevert(EditCommand command, bool forward)
+    {
+        var blocked = EntityConflicts(command, forward);
+        var blockedFiles = command.Files?.Conflicts(forward) ?? [];
+        if (blocked.Length > 0 || blockedFiles.Count > 0)
+        {
+            throw new UndoConflictException(command.Label, blocked, blockedFiles);
+        }
+    }
+
+    private EntityChange[] EntityConflicts(EditCommand command, bool forward)
     {
         JsonNode? Current(EntityChange change) => change.Key == OrderKey
             ? new JsonArray(Workspace.File(change.RelativePath).Keys().Select(key => (JsonNode?)key).ToArray())
             : Workspace.File(change.RelativePath).Get(change.Key);
-        var blocked = command.Changes
+        return command.Changes
             .Where(change => !JsonNode.DeepEquals(Current(change), forward ? change.Before : change.After))
             .ToArray();
+    }
+
+    private void RevertChanges(IReadOnlyList<EntityChange> changes)
+    {
+        foreach (var change in changes.Reverse())
+        {
+            if (change.Key == OrderKey)
+            {
+                Workspace.File(change.RelativePath).Reorder(change.Before!.AsArray().Select(key => (string)key!).ToArray());
+            }
+            else
+            {
+                Workspace.File(change.RelativePath).Put(change.Key, change.Before, remove: change.Before is null);
+            }
+        }
+
+        Workspace.Reindex();
+    }
+
+    private void Revert(EditCommand command, bool forward)
+    {
+        var blocked = EntityConflicts(command, forward);
         if (blocked.Length > 0)
         {
             throw new UndoConflictException(command.Label, blocked);
@@ -212,4 +477,7 @@ public sealed class EditSession(StudioWorkspace workspace)
             _dispose = null;
         }
     }
+
+    private sealed record PendingFiles(string Label, string Owner, IReadOnlyList<StudioFileWrite> Writes,
+        IReadOnlySet<string> AllowedPaths, Action? AfterPromotion);
 }

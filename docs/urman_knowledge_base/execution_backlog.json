@@ -23038,7 +23038,7 @@
       "milestone": "M7",
       "status": "in_progress",
       "complexity": "umbrella",
-      "active_owner": "claude/studio-2026-09-27",
+      "active_owner": "codex/b20-2026-10-10",
       "owner": "studio",
       "depends_on": [],
       "scope": [
@@ -23136,7 +23136,14 @@
             "verification": "В существующем UI проверить открытие из cursor/crosshair и возврат; пока нет транспорта, показывать честный disabled state.",
             "risks_recovery_external_gates": "Не ломать Cmd+Z текстового поля; малое окно; зависимость от реального viewport routing.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 first-pilot foundation",
+                "result": "partial implementation; full done_when remains open",
+                "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
+                "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P0"
             ],
@@ -23164,7 +23171,14 @@
             "verification": "Тот же дом до/после rebuild, два перекрывающихся объекта, DPI/viewport offset; A01 prerequisite.",
             "risks_recovery_external_gates": "Не подтверждённый source — read-only. Не переименовывать дубликаты автоматически; не трогать чужой generator.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 first-pilot foundation",
+                "result": "partial implementation; full done_when remains open",
+                "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
+                "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P2"
             ],
@@ -23192,7 +23206,14 @@
             "verification": "Контрольные размеры/идентичность источников без широкой сборки; затем один безопасный baseline кадр при доступном gate.",
             "risks_recovery_external_gates": "Source не равен preview mesh; согласовать общий Blender writer; неизвестный LOD не объявлять пройденным.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 first-pilot foundation",
+                "result": "partial implementation; full done_when remains open",
+                "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
+                "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P5"
             ],
@@ -23220,7 +23241,14 @@
             "verification": "Существующая узкая handoff-проверка либо ручное открытие пакета и сравнение payload/hashes; A07.",
             "risks_recovery_external_gates": "Worktree .git-file; long dependencies; path escape; full repo upload запрещён.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 first-pilot foundation",
+                "result": "partial implementation; full done_when remains open",
+                "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
+                "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P6"
             ],
@@ -23251,7 +23279,14 @@
             "verification": "Безвредные outside-root test files и один структурированный ответ на аккаунте каждого автора.",
             "risks_recovery_external_gates": "Реальные логины/доступ — внешний gate. Не читать настоящие секреты ради проверки, не обновлять CLI автоматически.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 first-pilot foundation",
+                "result": "partial implementation; full done_when remains open",
+                "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
+                "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P0"
             ],
@@ -23283,7 +23318,14 @@
             "verification": "Один harmless typed edit до Apply, одна отмена; читать только журнал этого job.",
             "risks_recovery_external_gates": "Не переиспользовать случайный чужой thread; cwd=snapshot; несовместимость не обходить experimental transport.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 first-pilot foundation",
+                "result": "partial implementation; full done_when remains open",
+                "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
+                "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P1"
             ],
@@ -23348,7 +23390,14 @@
             "verification": "Два размера одного окна + comparison unchanged uses; A01 geometry checks, без всех домов.",
             "risks_recovery_external_gates": "Ручной .blend/source hash conflict блокирует; отсутствие Blender — явная установка/gate; художественный результат отдельно.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 first-pilot foundation",
+                "result": "partial implementation; full done_when remains open",
+                "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
+                "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P5"
             ],
@@ -23378,7 +23427,14 @@
             "verification": "Ближайшая существующая merge/undo проверка плюс A08/A11 на двух сущностях разных файлов.",
             "risks_recovery_external_gates": "Scope Begin не равен rollback; отказ диска/порядок arrays; общий Core writer сериализован.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 first-pilot foundation",
+                "result": "partial implementation; full done_when remains open",
+                "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
+                "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P6"
             ],
@@ -23412,7 +23468,14 @@
             "verification": "Один valid/invalid GLB или поддерживаемый output, проверка прежних hashes и камеры; A10/A11.",
             "risks_recovery_external_gates": "Cache/UID handling; нехватка диска; при внешней правке во время rollback — RecoveryRequired, не overwrite.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 first-pilot foundation",
+                "result": "partial implementation; full done_when remains open",
+                "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
+                "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P6"
             ],
@@ -24939,7 +25002,36 @@
           }
         ],
         "unit_dependency_rule": "AI-xx — единственные канонические шаги STUDIO.execution.steps, без отдельного backlog/статусного списка. Готовность AI-шага определять по depends_on_units и фактическому evidence завершённых шагов в этой карточке; исторический completed X1–X4 не выполняет AI-зависимость. STUDIO.depends_on пуст; P0–P6 — связанные приёмочные стадии, их старый граф сохраняется. Выполнение AI-шага не выдавать за закрытие стадии. Нельзя требовать полного завершения P6 для раннего транспорта/Undo или полного P0 для позднего AI-31; назначение writer и реализация требуют отдельного живого поручения и сохранения владельцев.",
-        "next_unit": "Текущий документальный этап: STUDIO/AI-01 — импорт полного ТЗ в B20 и узкая проверка целостности. После отдельного поручения на реализацию и сверки живого владельца — готовые STUDIO/AI-02 и STUDIO/AI-03; далее deps AI-04/05/06 и пилот AI-12. В этом запросе игровые/AI-работы не запускать."
+        "next_unit": "Живое поручение 10.10: Codex-пилот изменения семи реальных окон выбранного HeroHouse, game verification и полная asset/source Undo, затем остальные dependency-ready единицы B20. Общий STUDIO остаётся открыт до всех done_when.",
+        "b20_checkpoint": {
+          "authorized": "user 2026-10-10: implementation, regular commit/push, Luna 6 Max",
+          "scope": "First Codex → HeroHouse uniform seven-window resize → exterior/interior game check → full Undo",
+          "owners": {
+            "coordinator": "Codex",
+            "recipe_geometry": "luna_fast b20_house_trace",
+            "provider": "luna_fast b20_codex_adapter",
+            "transaction": "luna_fast b20_transaction_trace"
+          },
+          "verified": [
+            "B19/B20 import structural checks",
+            "upstream main merged preserving house improvements",
+            "station doctor ready with verified TLS via certifi",
+            "Blender staged 1.06/1.35 variants: seven real cut openings, canonical source/shared kit unchanged, stable hero root at origin",
+            "Affected game compile 0 warnings/errors",
+            "Temporary Core assertion probe: byte-exact Apply/Undo/Redo; foreign conflict refuses all files; injected atomic failure rollback; async journal remains applying through view barrier and prevents concurrent editing; view failure rollback; empty/corrupt recovery classified"
+          ],
+          "remaining": [
+            "Actual Codex typed proposal through logged-in ChatGPT",
+            "Windows matched before/after/Undo game frames and source/artifact proof",
+            "Studio live UI interaction and movement proof",
+            "Persistent Undo across restart and full recipe/part policies",
+            "Claude and remaining B20 execution units"
+          ],
+          "station": "UNTERPC claimed for B20 matched before pair; source writers frozen",
+          "provider_authorization": "Author live reply 2026-10-10: own global Codex instructions allowed for first pilot; tools/write disabled; personal ChatGPT login, no API/pay-as-you-go fallback. Provider default rejects global instruction sources; explicit local opt-in.",
+          "verification_question": "Do typed Codex width, seven real paired apertures and source/artifact transaction change only selected HeroHouse, and does Undo restore byte-identical recipe plus asset absence and matching game frame?",
+          "success_condition": "AppServer typed proposal exact captured identities; game exterior+interior before/after/Undo at matched Windows cameras; original recipe/shared assets hashes restored, new artifact/ref removed; failed promotion/view and foreign edits refuse whole operation; all unmet B20 criteria stay open."
+        }
       },
       "done_when": "Все дочерние задачи закрыты доказательствами; человеческие пункты оценены автором, а не walkthrough. Дополнительно выполнены все обязательные AI-единицы и новые A01–A25 из ТЗ 10.10, включая обоих провайдеров и внешние гейты; AI-35 только после отдельного расширения Windows. Историческая матрица и дочерние задачи сохраняются.",
       "child_tasks": [

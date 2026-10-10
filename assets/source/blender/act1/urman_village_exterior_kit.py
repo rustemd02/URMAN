@@ -188,10 +188,41 @@ def arguments() -> argparse.Namespace:
     parser.add_argument("--root", required=True)
     parser.add_argument("--component-only", choices=("hero-yard-shed", "hero-house"),
                         help="Update only one hero component; preserve every existing kit component")
+    parser.add_argument("--recipe", help="Hero-house recipe JSON (defaults to the canonical Studio recipe)")
+    parser.add_argument("--output-dir", help="Write a hero-only staged blend, GLB, and manifest here")
     tokens: list[str] = []
     if "--" in sys.argv:
         tokens = sys.argv[sys.argv.index("--") + 1 :]
     return parser.parse_args(tokens)
+
+
+def load_hero_house_recipe(path: Path) -> dict:
+    recipe = json.loads(path.read_text(encoding="utf-8"))
+    if recipe.get("schema") != "house-recipe/v1":
+        raise ValueError("Hero-house recipe schema must be house-recipe/v1")
+    if recipe.get("entityId") != "urman.world:act1/kit/house-old-pc-babai-approach":
+        raise ValueError("Hero-house recipe entityId does not identify Babai's approach house")
+    if recipe.get("component") != HERO_DWELLING_ROOT:
+        raise ValueError(f"Hero-house recipe component must be {HERO_DWELLING_ROOT}")
+    width = recipe.get("windowClearWidth")
+    height = recipe.get("windowClearHeight")
+    limits = recipe.get("limits", {}).get("windowClearWidth", {})
+    minimum, maximum = limits.get("min"), limits.get("max")
+    values = (width, height, minimum, maximum)
+    if any(isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
+           for value in values):
+        raise ValueError("Hero-house window dimensions and limits must be finite numbers")
+    if minimum != 0.65 or maximum != 1.35 or not minimum <= width <= maximum:
+        raise ValueError("windowClearWidth must be within the fixed 0.65..1.35 metre clearance envelope")
+    if abs(height - 1.40) > 1e-6:
+        raise ValueError("windowClearHeight is fixed at 1.40 metres by the sill/head contract")
+    model_path = recipe.get("modelPath")
+    prefix = "res://assets/models/studio/hero-house-"
+    if model_path is not None and (not isinstance(model_path, str) or not model_path.startswith(prefix)
+                                   or not model_path.endswith(".glb") or "/" in model_path[len(prefix):]
+                                   or ".." in model_path or "\\" in model_path):
+        raise ValueError("modelPath must be null or a staged hero-house GLB under res://assets/models/studio")
+    return recipe
 
 
 def material(name: str) -> bpy.types.Material:
@@ -2132,7 +2163,8 @@ def author_variant_parcels(root: bpy.types.Object) -> None:
 
 
 def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
-                          wall_material="URMAN_Plaster_Ochre", hero_layout=False):
+                          wall_material="URMAN_Plaster_Ochre", hero_layout=False,
+                          window_clear_width=1.06):
     """One inhabited house: pierced wall shell, boarded gables and enclosed side seni.
 
     Parcel street elevations have windows only; the hero retains its portal.
@@ -2346,7 +2378,7 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         door_x = HERO_HOUSE_CONTRACT["room_door_x"]
         sill, top = [wall_base + z for z in HERO_HOUSE_CONTRACT["window_sill_top_above_floor"]]
         street_windows = [(door_x-.65, door_x+.65, wall_base, wall_base+2.25, "Portal")]
-        street_windows += [(x-.53, x+.53, sill, top, "Window")
+        street_windows += [(x-window_clear_width/2, x+window_clear_width/2, sill, top, "Window")
                            for x in HERO_HOUSE_CONTRACT["front_window_room_x"]]
     wall("Street", (0,front), (1,0), width, street_windows)
     if parent.name == DWELLING_ROOT or hero_layout:
@@ -2371,11 +2403,11 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                     ("URMAN_Wood_WetShadow","URMAN_Wood_Weathered","URMAN_Metal_Dulled"),indices,
                     component_root=root_name,role="removable closed street door; hidden only at Babai gameplay portal")
     if hero_layout:
-        rear_holes = [(-x-.53,-x+.53,sill,top,"Window")
+        rear_holes = [(-x-window_clear_width/2,-x+window_clear_width/2,sill,top,"Window")
                       for x in HERO_HOUSE_CONTRACT["rear_window_room_x"]]
-        left_holes = [(z-.53,z+.53,sill,top,"Window")
+        left_holes = [(z-window_clear_width/2,z+window_clear_width/2,sill,top,"Window")
                       for z in HERO_HOUSE_CONTRACT["left_window_room_z"]]
-        right_holes = [(-z-.53,-z+.53,sill,top,"Window")
+        right_holes = [(-z-window_clear_width/2,-z+window_clear_width/2,sill,top,"Window")
                        for z in HERO_HOUSE_CONTRACT["right_window_room_z"]]
         wall("Rear", (0,back), (-1,0), width, rear_holes)
         wall("Left", (-half,(front+back)/2), (0,-1), depth, left_holes)
@@ -3060,12 +3092,14 @@ def author_hero_carving(parent, prefix, root_name, half, front, back, eave, ridg
             y += .16 + .1 * abs(math.sin(y * 11.0))
 
 
-def author_hero_house(root: bpy.types.Object) -> bpy.types.Object:
+def author_hero_house(root: bpy.types.Object, window_clear_width: float = 1.06) -> bpy.types.Object:
     """A metric hero variation in this kit, not a scale change to the village."""
+    HERO_HOUSE_CONTRACT["window_clear_width"] = window_clear_width
     ensure_hero_materials()
     hero = variant_empty(HERO_DWELLING_ROOT, root, (34.0, 0.8, 0.0),
                          "hero house shell paired with an 8 by 7 metre clear room", "hero house")
-    author_rural_dwelling(hero, width=8.4, depth=7.4, eave=3.05, ridge=4.8, hero_layout=True)
+    author_rural_dwelling(hero, width=8.4, depth=7.4, eave=3.05, ridge=4.8, hero_layout=True,
+                          window_clear_width=window_clear_width)
     for child in hero.children:
         child.location.x += HERO_HOUSE_CONTRACT["room_center_xz"][0]
         child["urman_asset_id"] = "urman.act1.village.hero_house_timberplaster"
@@ -3681,11 +3715,90 @@ def save_kit(blend_path: Path, glb_path: Path) -> None:
     print(f"village-exterior-pass: exported {glb_path}")
 
 
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def path_label(path: Path, root: Path) -> str:
+    try:
+        return path.relative_to(root).as_posix()
+    except ValueError:
+        return str(path)
+
+
+def save_hero_house_stage(hero: bpy.types.Object,
+                          source_blend: Path, generator_path: Path,
+                          recipe_path: Path, recipe: dict,
+                          output_dir: Path, project_root: Path) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    blend_path = output_dir / "hero_house.blend"
+    glb_path = output_dir / "hero_house.glb"
+    manifest_path = output_dir / "manifest.json"
+    if any(path.exists() for path in (blend_path, glb_path, manifest_path)):
+        raise FileExistsError(f"Refusing to overwrite an existing hero-house stage: {output_dir}")
+    resolved_output = output_dir.resolve()
+    protected_dirs = (source_blend.parent.resolve(), (project_root / "game/assets/models").resolve())
+    if any(resolved_output == protected or protected in resolved_output.parents for protected in protected_dirs):
+        raise ValueError("Hero-house staging output must be separate from canonical source/output folders")
+
+    # Keep the source blend's preview-board placement. Only the exported
+    # component root is moved to zero; child-local geometry remains unchanged.
+    save_versions = bpy.context.preferences.filepaths.save_version
+    bpy.context.preferences.filepaths.save_version = 0
+    try:
+        bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
+    finally:
+        bpy.context.preferences.filepaths.save_version = save_versions
+
+    bpy.ops.object.select_all(action="DESELECT")
+    hero.select_set(True)
+    for child in hero.children_recursive:
+        child.select_set(True)
+    bpy.context.view_layer.objects.active = hero
+    preview_location = hero.location.copy()
+    hero.location = (0.0, 0.0, 0.0)
+    try:
+        bpy.ops.export_scene.gltf(filepath=str(glb_path), export_format="GLB",
+                                  use_selection=True, export_apply=True)
+    finally:
+        hero.location = preview_location
+
+    manifest = {
+        "schema": "hero-house-build-manifest/v1",
+        "entityId": recipe["entityId"],
+        "component": HERO_DWELLING_ROOT,
+        "geometryFingerprint": hero.get("component_geometry_sha256"),
+        "previewOriginRemoved": True,
+        "modelPath": recipe.get("modelPath"),
+        "windowClearWidth": recipe["windowClearWidth"],
+        "windowClearHeight": recipe["windowClearHeight"],
+        "source": {
+            "generator": {"path": path_label(generator_path, project_root), "sha256": sha256_file(generator_path)},
+            "baselineBlend": {"path": path_label(source_blend, project_root), "sha256": sha256_file(source_blend)},
+            "recipe": {"path": path_label(recipe_path, project_root), "sha256": sha256_file(recipe_path)},
+        },
+        "outputs": {
+            "blend": {"path": blend_path.name, "sha256": sha256_file(blend_path)},
+            "glb": {"path": glb_path.name, "sha256": sha256_file(glb_path)},
+        },
+    }
+    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(f"hero-house-stage: blend={blend_path} glb={glb_path} manifest={manifest_path}")
+
+
 def main() -> None:
     args = arguments()
     root_path = Path(args.root).resolve()
     blend_path = root_path / "assets/source/blender/act1/urman_village_exterior_kit.blend"
     glb_path = root_path / "game/assets/models/act1" / GLB_NAME
+    if args.output_dir and args.component_only != "hero-house":
+        raise ValueError("--output-dir is supported only with --component-only hero-house")
+    if args.recipe and args.component_only != "hero-house":
+        raise ValueError("--recipe is supported only with --component-only hero-house")
     bpy.ops.wm.open_mainfile(filepath=str(blend_path))
     root = bpy.data.objects.get(KIT_ROOT)
     dwelling = bpy.data.objects.get(DWELLING_ROOT)
@@ -3704,12 +3817,20 @@ def main() -> None:
         return
 
     if args.component_only == "hero-house":
-        # Same bounded integration entry point for the hero dwelling: only
-        # Babai's house is reauthored, so no other kit component can move.
-        author_hero_house(root)
+        # A recipe-driven instance is staged separately so the shared kit
+        # export cannot silently acquire this one-house variation.
+        if not args.output_dir:
+            raise ValueError("Hero-house recipe generation requires --output-dir staging")
+        recipe_arg = Path(args.recipe) if args.recipe else Path("game/content/studio/hero_house.recipe.json")
+        recipe_path = (recipe_arg if recipe_arg.is_absolute() else root_path / recipe_arg).resolve()
+        recipe = load_hero_house_recipe(recipe_path)
+        author_hero_house(root, float(recipe["windowClearWidth"]))
         bpy.context.view_layer.update()
         validate_hero_house(root)
-        save_kit(blend_path, glb_path)
+        save_hero_house_stage(bpy.data.objects[HERO_DWELLING_ROOT], blend_path,
+                              Path(__file__).resolve(), recipe_path, recipe,
+                              (Path(args.output_dir) if Path(args.output_dir).is_absolute()
+                               else root_path / args.output_dir).resolve(), root_path)
         return
 
     clear_variant_roots(root)

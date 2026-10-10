@@ -450,6 +450,20 @@
       "id": "mosque_exterior",
       "spec": "MosqueInterior@15,1.7,4>MosqueInterior@0,4,-1",
       "subject": "ACT1-MOSQUE: мечеть снаружи со стороны входа — минарет, вход, двор; уважительный кадр, без художественного PASS."
+    },
+    {
+      "id": "B20_windows_exterior",
+      "zoneId": "house_old_pc",
+      "graphicsPreset": "high",
+      "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
+      "subject": "B20 Codex pilot: compare real exterior openings before resize, accepted variant and full Undo."
+    },
+    {
+      "id": "B20_windows_interior",
+      "zoneId": "house_old_pc",
+      "graphicsPreset": "high",
+      "spec": "BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@2.658,1.686,0.966",
+      "subject": "B20 Codex pilot: actual room front-window aperture/glazing; same recipe as facade; compare before/after/Undo."
     }
   ],
   "batches": [

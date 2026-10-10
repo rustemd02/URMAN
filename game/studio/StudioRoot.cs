@@ -82,6 +82,21 @@ public partial class StudioRoot : Control
             return;
         }
 
+        try
+        {
+            var pending = StudioFileTransaction.Recover(RepositoryRoot, StudioAiPanel.OwnsFile);
+            if (pending.Count > 0)
+            {
+                ShowBlocked("Нужно восстановить незавершённое изменение модели.",
+                    string.Join("\n", pending.Select(item => item.Id + ": " + string.Join(", ", item.Conflicts))));
+                return;
+            }
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidDataException)
+        {
+            ShowBlocked("Не удалось проверить восстановление моделей.", error.Message);
+            return;
+        }
         Workspace = StudioWorkspace.Open(RepositoryRoot);
         Session = new EditSession(Workspace);
         Catalog = new EntityCatalog(Workspace);
@@ -192,6 +207,11 @@ public partial class StudioRoot : Control
             _search.GrabFocus();
             GetViewport().SetInputAsHandled();
         }
+        else if (command && key.Keycode == Key.K)
+        {
+            OpenAiPanel();
+            GetViewport().SetInputAsHandled();
+        }
     }
 
     public override void _Input(InputEvent @event)
@@ -211,6 +231,14 @@ public partial class StudioRoot : Control
     public IStudioSection Section(string key) => _sections[key];
 
     public void Refresh() => OnEdited();
+
+    private StudioAiPanel? _aiPanel;
+    public void OpenAiPanel()
+    {
+        _aiPanel ??= new StudioAiPanel(this);
+        if (_aiPanel.GetParent() is null) AddChild(_aiPanel);
+        _aiPanel.Open(Selection);
+    }
 
     private void StartTour() => Tour.Start();
 
@@ -305,25 +333,41 @@ public partial class StudioRoot : Control
 
     // ---- editing -------------------------------------------------------------------
 
-    public void Undo()
+    public async void Undo()
     {
         try
         {
-            Session.Undo();
+            await Session.UndoAsync(() => ((StudioWorldSection)Section("world")).ReloadGeometryAsync());
         }
         catch (UndoConflictException error)
         {
             ShowBanner(error.Message + " Откройте сравнение, чтобы решить вручную.", error: true);
         }
+        catch (IOException error)
+        {
+            ShowBanner("Отмена не завершена: " + error.Message, error: true);
+        }
+        catch (InvalidOperationException error)
+        {
+            ShowBanner(error.Message, error: true);
+        }
     }
 
-    public void Redo()
+    public async void Redo()
     {
         try
         {
-            Session.Redo();
+            await Session.RedoAsync(() => ((StudioWorldSection)Section("world")).ReloadGeometryAsync());
         }
         catch (UndoConflictException error)
+        {
+            ShowBanner(error.Message, error: true);
+        }
+        catch (IOException error)
+        {
+            ShowBanner("Повтор не завершён: " + error.Message, error: true);
+        }
+        catch (InvalidOperationException error)
         {
             ShowBanner(error.Message, error: true);
         }
@@ -342,6 +386,11 @@ public partial class StudioRoot : Control
 
     public bool SaveAll(bool autosave)
     {
+        if (Session.IsBusy)
+        {
+            if (!autosave) ShowBanner("Дождитесь изменения модели и обновления вида.", error: false);
+            return false;
+        }
         if (Workspace.Files.All(file => !file.Dirty))
         {
             if (!autosave) RefreshStatus("Сохранено");
@@ -557,6 +606,7 @@ public partial class StudioRoot : Control
         _undo = Button(top, "↶ Отменить", Undo);
         _undo.Name = "UndoButton";
         _redo = Button(top, "↷", Redo);
+        Button(top, "Изменить с ИИ", OpenAiPanel).TooltipText = "Выберите объект и опишите изменение (⌘/Ctrl+K)";
         Button(top, "Сохранить", () => SaveAll(autosave: false)).TooltipText = "Сохранить все изменения (⌘S)";
         _search = new LineEdit { PlaceholderText = "Поиск: имя, ID, тип, текст реплики — или вставьте ID от разработчика", CustomMinimumSize = new(420, 0), SizeFlagsHorizontal = SizeFlags.ExpandFill };
         _search.TextChanged += OnSearch;
