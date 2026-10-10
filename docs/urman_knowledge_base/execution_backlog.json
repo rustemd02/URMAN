@@ -23921,6 +23921,13 @@
                 "source": "src-dotnet/Urman.Studio.Core/Editing/AssetUsageIndex.cs, AudioSourceRegistry.cs, AtmosphereFieldRegistry.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-malformed-input/ (check.log, probe/, receipt.json); commit 03293966",
                 "verification": "probe PASS 256/256 with new checks for a malformed catalogue/registry entry and a wrongly typed materials field; real data unchanged and clean (177 catalogue entries, 173 registry records, 25 shared material names, 0 problems, no new false positives in the atmosphere and audio registries). Urman.Studio.Core and game/Urman.Game.csproj 0 warnings/0 errors. The same read in WorldSurfaceCommands and AuthoringDiagnostics is named as remaining in the receipt; no Studio window and no game run, so the interface is NOT_RUN"
               }
+,
+              {
+                "stage": "2026-10-10 AI-18 correction for the stored review of 1dc9ce15: containment, level range, per-source findings",
+                "result": "correction by deepseek v4.1 flash: a clip or stem path that leaves the project is reported instead of being read; the audition gate refuses a declared level outside the documented range; the selected source shows its own registry findings instead of only the header totals",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AudioSourceRegistry.cs and game/studio/StudioAudioPanel.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-containment/ (check.log, probe/, receipt.json); commit ea4b74c6",
+                "verification": "probe PASS 266/266: a synthetic root whose emitter clip and stem file both escape the project reports both, the escaping stem is not treated as existing, and no real audio path is falsely reported. Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors. Own bug found and fixed in the same commit: the first audition gate validated the level only after the emitter lookup, so a shared-bus stem returned early unvalidated. No Studio window and no listening: the panel text and the auditory result are NOT_RUN, and the listening gate stays open"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
