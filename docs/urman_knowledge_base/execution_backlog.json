@@ -23895,7 +23895,14 @@
             "verification": "A06/A17: вход игрока, повторный вход, состояние уже выполненного условия.",
             "risks_recovery_external_gates": "Новый event type — отдельная ограниченная разработка по P3; не insert arbitrary C#; сохранения защищены.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 AI-21 dependency-independent slice: honest trigger scope facts (partial)",
+                "result": "partial implementation by deepseek v4.1 flash: the trigger parameters the runtime really reads are projected with their consumer, the panel's false player-only claim is replaced by facts and problems, and a runtime link check fails loudly if the reader drops a parameter",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs; owner patch evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-trigger-scope-facts/ai21-trigger-facts.patch (game/studio/StudioWorldSection.cs); evidence .../build.log, check.log and receipt.json",
+                "verification": "probe PASS 135/135: the runtime link check is clean on the real AuthoredWorldDirector.cs and reports 5 of 5 parameters missing against a stub, so it has teeth; Describe() is verified for player-only, any-body, repeat, countIfInside, a missing interactionId (the runtime reads it with GetProperty and throws), a missing size and an unknown parameter that no consumer reads. Urman.Studio.Core and game/Urman.Game.csproj build with 0 warnings/0 errors, and the patch passes git apply --check on a pristine origin/main f83d6998 worktree. Three real defects were found: the panel claimed the area reacts only to the player while the runtime drops the filter for any other actor value; the required interactionId was neither shown nor required; and the whole block was hidden when params.size was absent, so warnings never appeared. The panel was not exercised in a live Studio and the real campaign has no trigger entities, so the runtime check on a real trigger is NOT_RUN. Remaining: creating a trigger and linking it to a quest step (needs AI-19/AI-14) and the runtime acceptance"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P3"
             ],

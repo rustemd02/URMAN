@@ -1,0 +1,56 @@
+diff --git a/game/studio/StudioWorldSection.cs b/game/studio/StudioWorldSection.cs
+index aa140368..9961d48a 100644
+--- a/game/studio/StudioWorldSection.cs
++++ b/game/studio/StudioWorldSection.cs
+@@ -1215,20 +1215,42 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+             panel.AddChild(solid);
+         }
+ 
+-        if ((string?)entity["kind"] == "trigger" && parameters["size"] is JsonArray size)
++        if ((string?)entity["kind"] == "trigger")
+         {
+-            panel.Text("Область срабатывает только на игрока.", muted: true);
+-            for (var axis = 0; axis < 3; axis++)
++            // The runtime reads actor, repeat and interactionId too, so the panel
++            // states what will really happen instead of one fixed claim.
++            var facts = TriggerScopeFacts.Describe(id, entity);
++            foreach (var line in facts.Lines) panel.Text(line, muted: true);
++            foreach (var problem in facts.Problems) panel.Text("⚠ " + problem, muted: true);
++
++            if (parameters["size"] is JsonArray size)
+             {
+-                var index = axis;
+-                panel.NumberField(new[] { "Ширина, м", "Высота, м", "Глубина, м" }[axis], (float)(double)size[axis]!, value =>
++                for (var axis = 0; axis < 3; axis++)
+                 {
+-                    var next = (JsonArray)size.DeepClone();
+-                    next[index] = Math.Round(Math.Max(.2, value), 2);
+-                    studio.Session.SetField(id, ["params", "size"], next, "размер области");
+-                });
++                    var index = axis;
++                    panel.NumberField(new[] { "Ширина, м", "Высота, м", "Глубина, м" }[axis], (float)(double)size[axis]!, value =>
++                    {
++                        var next = (JsonArray)size.DeepClone();
++                        next[index] = Math.Round(Math.Max(.2, value), 2);
++                        studio.Session.SetField(id, ["params", "size"], next, "размер области");
++                    });
++                }
+             }
+ 
++            var actor = new OptionButton();
++            actor.AddItem("Только игрок");
++            actor.AddItem("Любое тело: фильтр снят");
++            actor.Selected = ((string?)parameters["actor"] ?? "player") == "player" ? 0 : 1;
++            actor.ItemSelected += index => studio.Session.SetField(id, ["params", "actor"], index == 0 ? "player" : "any", "фильтр триггера");
++            panel.Field("На кого срабатывает", actor);
++
++            var repeat = new OptionButton();
++            repeat.AddItem("Один раз за прогон");
++            repeat.AddItem("Повторно, каждый вход");
++            repeat.Selected = ((string?)parameters["repeat"] ?? "once-per-run") == "once-per-run" ? 0 : 1;
++            repeat.ItemSelected += index => studio.Session.SetField(id, ["params", "repeat"], index == 0 ? "once-per-run" : "every-entry", "повтор триггера");
++            panel.Field("Как часто срабатывает", repeat);
++
+             var inside = new CheckBox { Text = "Если игрок уже внутри, когда это стало важно, — считать сразу", ButtonPressed = (bool?)parameters["countIfInside"] ?? false };
+             inside.Toggled += on => studio.Session.SetField(id, ["params", "countIfInside"], on, "учёт уже вошедшего");
+             panel.AddChild(inside);

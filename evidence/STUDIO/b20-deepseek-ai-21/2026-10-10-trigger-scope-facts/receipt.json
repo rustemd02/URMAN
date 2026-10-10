@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-21",
+  "stage": "dependency-independent first slice: honest trigger scope facts and a runtime link check",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 21:45 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "f83d69985c26d8559a2add98e72a6559ca3632fa (origin/main when the patch was made)",
+  "artifacts": {
+    "new file src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs": "six registered trigger parameters (size, interactionId, actor, repeat, countIfInside, states) with the runtime consumer of each; Describe() states what will really happen and names what is missing; VerifyAgainstRuntime() reads AuthoredWorldDirector.cs and fails loudly if the runtime stops reading a registered parameter",
+    "evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-trigger-scope-facts/ai21-trigger-facts.patch": "owner applies: the trigger panel in game/studio/StudioWorldSection.cs stops claiming 'область срабатывает только на игрока', shows the honest facts and problems, and gains actor and repeat controls plus the size fields behind a null check (31 insertions, 9 deletions)"
+  },
+  "defects_found": {
+    "false claim": "the panel stated the area reacts only to the player; the runtime reads params.actor and, for any value other than 'player', drops the player filter entirely, so the area also reacts to NPCs",
+    "hidden crash": "the runtime reads interactionId with GetProperty, so a trigger without it throws in the director; the panel neither required nor showed the field",
+    "silent blank": "the whole panel block was guarded by the presence of params.size, so a trigger without a size showed no fields, no facts and no warning at all"
+  },
+  "verified": {
+    "probe": "PASS 135/135. The runtime link check returns no problems on the real source and reports 5 of 5 parameters missing when the runtime file is replaced by a stub, so the check has teeth. Describe() is checked for player-only, any-body, repeat, countIfInside, missing interactionId, missing size and an unknown parameter, and the probe prints that the panel really still carries the player-only text.",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors with the new file; game/Urman.Game.csproj 0 warnings/0 errors with the trigger panel patched",
+    "apply": "git apply --check of the patch on a pristine worktree of origin/main f83d6998: OK",
+    "not_run": "the panel was not exercised in a live Studio and the real campaign has no trigger entities, so the description paths are verified on synthetic triggers plus the real runtime source; a runtime trigger check stays open"
+  },
+  "open": [
+    "runtime verification with a real trigger entity is NOT_RUN",
+    "creating a trigger and linking it to a quest/dialogue step is the rest of AI-21 and depends on AI-19/AI-14",
+    "the actor value the panel writes for the second option is 'any'; the runtime only requires something other than 'player', and the projection says so"
+  ]
+}
