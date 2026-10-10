@@ -94,7 +94,21 @@ public static class AuthoringDiagnostics
         // 3. Catalogue resources: what a change would touch and whether it is publishable.
         var catalogueIds = new List<string>();
         if ((string?)entity["params"]?["catalogId"] is { Length: > 0 } single) catalogueIds.Add(single);
-        catalogueIds.AddRange((entity["params"]?["catalogIds"] as JsonArray ?? []).Select(item => (string?)item).Where(item => item is { Length: > 0 })!);
+        if (entity["params"]?["catalogIds"] is { } many)
+        {
+            if (many is not JsonArray)
+            {
+                // A wrongly typed list must be said out loud, not read as "no resources".
+                steps.Add(new DiagnosticStep("ресурс", name,
+                    "Поле catalogIds не массив: ссылки на ресурсы не прочитаны, поэтому и общие использования не проверены.",
+                    true,
+                    "Запишите catalogIds массивом идентификаторов."));
+            }
+            else
+            {
+                catalogueIds.AddRange(many.AsArray().Select(item => (string?)item).Where(item => item is { Length: > 0 })!);
+            }
+        }
         if (catalogueIds.Count > 0)
         {
             var assets = AssetUsageIndex.Open(workspace.Root);

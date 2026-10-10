@@ -14,6 +14,8 @@ public sealed record ScatterSpec(
     ulong Seed,
     bool SeedDeclared,
     IReadOnlyList<string> CatalogIds,
+    bool CatalogIdsDeclared,
+    bool CatalogIdsWasArray,
     double ScaleMin,
     double ScaleMax,
     double RoadClearance,
@@ -84,6 +86,8 @@ public static class ScatterCommand
             (ulong)Math.Max(0d, Number(parameters["seed"])),
             parameters.ContainsKey("seed"),
             (parameters["catalogIds"] as JsonArray ?? []).Select(Text).Where(id => id.Length > 0).ToArray(),
+            parameters.ContainsKey("catalogIds"),
+            parameters["catalogIds"] is JsonArray,
             parameters.ContainsKey("scaleMin") ? Number(parameters["scaleMin"]) : 0.8d,
             parameters.ContainsKey("scaleMax") ? Number(parameters["scaleMax"]) : 1.2d,
             parameters.ContainsKey("roadClearance") ? Number(parameters["roadClearance"]) : 0.6d,
@@ -105,9 +109,20 @@ public static class ScatterCommand
     {
         ArgumentNullException.ThrowIfNull(spec);
         var problems = new List<string>();
-        if (spec.CatalogIds.Count == 0)
+        // The four cases are told apart: an absent field, a wrongly typed field, an
+        // empty list and a list with no usable string are different mistakes, and the
+        // runtime fails the same way in all of them.
+        if (!spec.CatalogIdsDeclared)
         {
-            problems.Add("Не выбрано ни одной породы: рантайм возьмёт models[RandiRange(0, -1)] и упадёт.");
+            problems.Add("Нет поля catalogIds: рантайм возьмёт models[RandiRange(0, -1)] и упадёт.");
+        }
+        else if (!spec.CatalogIdsWasArray)
+        {
+            problems.Add("Поле catalogIds есть, но это не массив: породы не прочитаются, и рантайм упадёт на пустом списке.");
+        }
+        else if (spec.CatalogIds.Count == 0)
+        {
+            problems.Add("catalogIds пуст: рантайм возьмёт models[RandiRange(0, -1)] и упадёт.");
         }
 
         if (!spec.SeedDeclared)

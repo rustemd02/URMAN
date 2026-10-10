@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-17",
+    "STUDIO/AI-34",
+    "STUDIO/AI-40"
+  ],
+  "stage": "self-review correction, second pass: the remaining malformed-input reads named in the previous receipt",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:34 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "49f54934 via merge 81eb72c7",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/WorldSurfaceCommands.cs": "839e7271597f35ac97abbda5f386b6d469fb5a7b22e3bbff8d07930c2a1c297b",
+    "src-dotnet/Urman.Studio.Core/Editing/CutsceneActions.cs": "a77daf0025286e92bcafe4b0134c8202374820cf0390887cc703d65f431d78b1",
+    "src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs": "542648152eb343631fe684f04b082a92c41589814eaa85897d7459d1656efd74",
+    "evidence/STUDIO/b20-deepseek-ai-17/2026-10-10-malformed-remainders/check.log": "4efb2e0f0dfb28abbc94f5f81c23d85b8b9b9c516fbca3bb3c6f2ba9df20949c"
+  },
+  "addressed": {
+    "scatter species list": "the four cases are told apart now: no catalogIds field, a field that is not an array, an empty array, and a list with no usable entry; before, all four read as 'no species chosen'",
+    "cutscene action": "a malformed action entity is reported instead of being skipped, so the cutscene cannot look complete while the executor never sees an action",
+    "animation catalogue": "a malformed catalogue entry no longer turns into the claim that a clip is missing: the check reports that it could not verify the clip instead",
+    "diagnostics": "a wrongly typed catalogIds produces a diagnostic step instead of being read as 'no resources', which also means the shared-use check is named as not performed"
+  },
+  "verified": {
+    "probe": "PASS 262/262 (whole probe). New checks: every real scatter declares its species as a real array; an absent, a wrongly typed and an empty catalogIds are three different findings; a malformed cutscene action is reported instead of being skipped. Real data unchanged: 8 real scatters, 45 expected plants, 0 problems.",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "not_run": "no Studio window and no game run: the reporting is probe- and compile-verified only"
+  },
+  "open": [
+    "the earlier receipt named WorldSurfaceCommands and AuthoringDiagnostics; closing them also surfaced the cutscene and animation-catalogue reads, which are done here",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}

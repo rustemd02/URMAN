@@ -122,13 +122,21 @@ public static class CutsceneActions
             {
                 problems.Add("У клипа нет имени: персонаж не будет анимирован.");
             }
-            else if (!KnownAnimation(workspace, clip))
-            {
-                problems.Add($"Клипа «{clip}» нет в каталоге анимаций: имя собирается как префикс персонажа плюс суффикс, и чужого клипа у него нет — персонаж молча останется без анимации.");
-            }
             else
             {
-                summary.Add($"Клип «{clip}» есть в каталоге анимаций.");
+                var (known, complete) = KnownAnimation(workspace, clip);
+                if (!known && complete)
+                {
+                    problems.Add($"Клипа «{clip}» нет в каталоге анимаций: имя собирается как префикс персонажа плюс суффикс, и чужого клипа у него нет — персонаж молча останется без анимации.");
+                }
+                else if (!known)
+                {
+                    summary.Add($"Проверить клип «{clip}» по каталогу анимаций не удалось: в каталоге есть записи не объектами.");
+                }
+                else
+                {
+                    summary.Add($"Клип «{clip}» есть в каталоге анимаций.");
+                }
             }
         }
 
@@ -181,8 +189,16 @@ public static class CutsceneActions
             return (actions, ["У катсцены нет массива entities."], notes);
         }
 
-        foreach (var entity in entities.OfType<JsonObject>())
+        for (var index = 0; index < entities.Count; index++)
         {
+            if (entities[index] is not JsonObject entity)
+            {
+                // A malformed action must be named: the executor would never see it, and
+                // silently skipping it would make the cutscene look complete.
+                problems.Add($"Действие #{index + 1}: не объект — исполнитель его не увидит.");
+                continue;
+            }
+
             var facts = Describe(workspace, entity, actors);
             actions.Add(facts);
             problems.AddRange(facts.Problems.Select(problem => $"{facts.EntityId}: {problem}"));
@@ -235,26 +251,37 @@ public static class CutsceneActions
         return problems;
     }
 
-    private static bool KnownAnimation(StudioWorkspace workspace, string clip)
+    /// <summary>
+    /// Whether the catalog holds the clip, and whether the catalog could be read at
+    /// all. A malformed entry must not turn into a claim that the clip is missing.
+    /// </summary>
+    private static (bool Known, bool Complete) KnownAnimation(StudioWorkspace workspace, string clip)
     {
         var catalogue = Path.Combine(workspace.Root, AnimationCataloguePath.Replace('/', Path.DirectorySeparatorChar));
         if (!File.Exists(catalogue) || JsonNode.Parse(File.ReadAllText(catalogue)) is not JsonObject document || document["entities"] is not JsonArray entities)
         {
-            return true; // no catalogue to check against: do not claim a problem
+            return (true, false); // no catalogue to check against: do not claim a problem
         }
 
-        foreach (var entity in entities.OfType<JsonObject>())
+        var complete = true;
+        foreach (var item in entities)
         {
+            if (item is not JsonObject entity)
+            {
+                complete = false;
+                continue;
+            }
+
             var id = Text(entity["id"]);
             var colon = id.IndexOf(':');
             var name = colon >= 0 ? id[(colon + 1)..] : id;
             if (string.Equals(name, clip, StringComparison.OrdinalIgnoreCase))
             {
-                return true;
+                return (true, complete);
             }
         }
 
-        return false;
+        return (false, complete);
     }
 
     private static string Text(JsonNode? node) =>
