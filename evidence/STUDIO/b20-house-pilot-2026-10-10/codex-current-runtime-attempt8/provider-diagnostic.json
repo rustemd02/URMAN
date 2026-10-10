@@ -1,0 +1,25 @@
+{
+  "result": "VALIDATED_MODEL_PROPOSAL_PARENT_ACCEPTED",
+  "request_id": "d017908c00704aa1b8bdc35ed88d0b38",
+  "base_commit": "fc67ec39",
+  "request_sha256": "e6e22ddb8bcee585f14d67e0f54f2b32c3e0709fb7a8f3560203e31a5fa6f65c",
+  "proposal_sha256": "bbbfbf9dfbe120b4a705e01d7d486ae52a90181469dd92bcdc3e8eefc023fb82",
+  "window_width": 1.3,
+  "window_height_unchanged": 1.4,
+  "runtime_binding": "runtime-binding.json",
+  "global_instructions_allowed_by_user": true,
+  "boundary_checks_passed_by_current_RunAsync": [
+    "ChatGPT account",
+    "effective disabled tool features",
+    "read-only isolated ephemeral thread",
+    "thread-scoped exact configured MCP set disabled/no-tools",
+    "no server requests/tool items",
+    "typed request identity/expectedWidth/range"
+  ],
+  "staged_generator_manifest_sha256": "f42acb76983ccacd23d542f8c3c7ff63ecab65a939ddd55627636eaff9e2f3eb",
+  "parent_numeric_review": "Exactly1.30; summary consistent; no normalization",
+  "apply": "Awaiting Windows after acceptance",
+  "native_studio_ui_importer_invoked": false,
+  "windows_after_job": "09c0a9e6f5ef4153bb3a17e76ea293cf",
+  "undo": "NOT_RUN"
+}

@@ -25416,6 +25416,53 @@
             "returned_width": 1.34,
             "project_files_changed": false,
             "next": "After two numeric mismatches reevaluate wire numeric constraints: type:number only; keep shared decimal/range identity validation unchanged. Decoder hypothesis unproven. Next request must exactly match1.30 without normalization."
+          },
+          "house_actual_apply_pending": {
+            "request_id": "d017908c00704aa1b8bdc35ed88d0b38",
+            "base_commit": "fc67ec39",
+            "width": 1.3,
+            "model_evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-current-runtime-attempt8/proposal.json",
+            "stage": "/var/folders/j_/jbw_g7qj2g9gg4l_142f7pm00000gn/T/urman-house-d017908c00704aa1b8bdc35ed88d0b38",
+            "result": "FAILED_WINDOWS_STARTUP_ROLLED_BACK_BYTE_EXACT",
+            "temp_transaction_session": 18296,
+            "undo": "NOT_RUN_ACCEPTED_APPLY_NEVER_COMMITTED",
+            "native_studio_ui_importer_invoked": false,
+            "next": "Fix live component reference after takeover, narrow Game compile, fresh request on committed revision then repeat exact4fileApply/Windowsafter/Undo.",
+            "windows_after_job": "09c0a9e6f5ef4153bb3a17e76ea293cf",
+            "windows_after_snapshot": "dcd432d1bb96c03f7105c4dd57c80eb962161783aea5312d0fe06aaf4db3f00f"
+          },
+          "deepseek_review_third": {
+            "fix_commit": "b983c6cba2b422b8fdfd4c8a773b317f8a45e227",
+            "result": "SOURCE_REVIEW_ACCEPTED_PENDING_INTEGRATION_COMPILE",
+            "reviewers": [
+              "Codex node/runtime binding",
+              "LunaFAST state/fingerprint"
+            ],
+            "integration_order": [
+              "9b8b8b4a",
+              "6cf1b9d0",
+              "b983c6cb"
+            ],
+            "remaining": "No second independently authored runtime world; UI not connected; no runtime acceptance. AI13 remains open. Wait until active house snapshot transaction ends before cherry-pick."
+          },
+          "house_failed_apply_rollback": {
+            "journal_id": "47b36731f9f94510a8a74069ad0fd5cd",
+            "accepted": false,
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/after-attempt1/rollback-file-restoration.json",
+            "fresh_windows_rollback_capture": "NOT_RUN",
+            "result": "Files restored exact; no accepted Apply/Undo claimed; pending harness ended with expected rejection exception."
+          },
+          "house_runtime_disposed_node_fix": {
+            "file": "game/scripts/Act1ConnectedWorld.cs",
+            "result": "SOURCE_REVIEW_COMPILE_PASS_RUNTIME_RECHECK_PENDING",
+            "reviewers": [
+              "Codex",
+              "LunaFAST implementation",
+              "Sol6.1medium independent review"
+            ],
+            "verification": "Affected Game compile0warnings0errors; diffcheck; source/staged GLB ancestor transforms identity except neutral board translation removed. No replacement metadata or runtime claim.",
+            "failed_transaction": "47b36731f9f94510a8a74069ad0fd5cd recovered/before/acceptedfalse",
+            "next": "Fresh immutable Codex request on committed fixed revision, regenerate variant, matchedWindowsafter then acceptedUndo matchedWindows."
           }
         }
       },

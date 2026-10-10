@@ -1,0 +1,18 @@
+{
+  "result": "BYTE_EXACT_FAILED_APPLY_ROLLBACK",
+  "journal_id": "47b36731f9f94510a8a74069ad0fd5cd",
+  "sha256": {
+    "game/content/studio/hero_house.recipe.json": "2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4",
+    "game/assets/models/act1/urman_village_exterior_kit.glb": "8ea56c65c134e2fc0d95ec2194b3c0e7541db95bba0ecc45cb58a0e346ae82bc",
+    "assets/source/blender/act1/urman_village_exterior_kit.blend": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3"
+  },
+  "new_outputs_absent": [
+    "game/assets/models/studio/hero-house-d017908c00704aa1b8bdc35ed88d0b38.glb",
+    "assets/source/blender/studio/hero-house-d017908c00704aa1b8bdc35ed88d0b38.blend",
+    "game/assets/models/studio/hero-house-d017908c00704aa1b8bdc35ed88d0b38.glb.manifest.json"
+  ],
+  "windows_after": "FAILED_STARTUP_DISPOSED_NODE",
+  "fresh_windows_rollback_capture": "NOT_RUN",
+  "baseline_geometry_reference": "../before/receipt.json",
+  "scope": "File restoration only; not accepted Apply, not successful Undo, not native Studio/UI or fresh game proof."
+}
