@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-13",
+  "stage": "dependency-independent preparation: real campaign/world catalog and per-world authoring state",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 20:24 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "remote": "https://github.com/rustemd02/URMAN.git",
+  "base_sha": "e97755dfd8b69182b794ce10c68f72ab9fa30bc4",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/CampaignWorldContext.cs": "400614ab1c1c34bf423cca2ac6793c4d59226041ef804cfe79f9037e37465850",
+    "src-dotnet/Urman.Studio.Core/Editing/CampaignWorldCatalog.cs": "18c372bebd05affe2fbb2bd6bcd8ee82f4489db2a3c445553ea5500529188ca8",
+    "src-dotnet/Urman.Studio.Core/Editing/WorldAuthoringState.cs": "1e8e7b4e56b762982e8cf6a0b14044dad410a683bacd2feabb1956fde671f1d5",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-campaign-world-catalog/probe/Program.cs": "d2c79d66ef955088ead31d22e5e7d025956d2601700cd00ff9bca9ad5f6ff62b",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-campaign-world-catalog/probe/dsprobe.csproj": "f936e3337fa3017a94194ac84691b4ea7bcd622ca959934cc96ef2126272c089",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-campaign-world-catalog/probe.log": "8d5c1ae437edec7b594b44f08d0e56eef48ed9db5041c5b5ff403bcd25b5cf62"
+  },
+  "check": {
+    "narrow": "dotnet build src-dotnet/Urman.Studio.Core/Urman.Studio.Core.csproj (0 warnings, 0 errors) then the out-of-repo probe committed under probe/",
+    "probe_command": "dotnet run --project <evidence>/probe/dsprobe.csproj",
+    "probe_result": "PASS 27/27",
+    "probe_reads": "the real checkout: content/campaigns/*/campaign.json, game/scenes/*.tscn, game/project.godot, game/content/world/*.world.v1.json, content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json",
+    "toolchain": "pinned .tools/dotnet 10.0.302"
+  },
+  "found": {
+    "campaigns": 4,
+    "selectable_campaigns": 2,
+    "archive_examples": [
+      "dev-legacy-mainmap (urman.legacy.mainmap)",
+      "dev-oldpc (urman.dev-oldpc)"
+    ],
+    "startable_worlds": [
+      "res://scenes/act1_demo.tscn",
+      "res://scenes/full_game.tscn"
+    ],
+    "authored_world_plots": 6,
+    "authored_worlds": [
+      "urman.world:act1"
+    ],
+    "photo_world_specifications": 5
+  },
+  "open": [
+    "STUDIO/AI-12 (Codex) is still open, so the full done_when of AI-13 is not claimed",
+    "Studio UI wiring (StudioRoot/StudioWorldSection/StudioQuestSection/StudioDialogueSection/PlayPreparation) stays with the owner and is prepared as an interface patch",
+    "in-game check of a changed object in two worlds: NOT_RUN, no station slot taken",
+    "the 'two active worlds' requirement needs a second world with authored data; only urman.world:act1 exists today"
+  ]
+}
