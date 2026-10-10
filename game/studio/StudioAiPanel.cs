@@ -59,6 +59,16 @@ public partial class StudioAiPanel : AcceptDialog
         var row = new HBoxContainer();
         body.AddChild(row);
         _ask = StudioRoot.Button(row, "Предложить изменение", () => _ = AskAsync());
+        _ask.TooltipText = "Отправить запрос: ⌘/Ctrl+Enter";
+        _prompt.GuiInput += input =>
+        {
+            if (input is InputEventKey { Pressed: true, Echo: false, Keycode: Key.Enter } key
+                && (key.MetaPressed || key.CtrlPressed))
+            {
+                _prompt.AcceptEvent();
+                if (!_ask.Disabled) _ = AskAsync();
+            }
+        };
         StudioRoot.Button(row, "Проверить Codex", () => _ = DoctorAsync());
         StudioRoot.Button(row, "Остановить", () => _cancel?.Cancel());
         StudioRoot.Button(row, "Скопировать запрос", CopyRequest);
@@ -142,6 +152,14 @@ public partial class StudioAiPanel : AcceptDialog
         ResetSize();
         PopupCenteredClamped(new(600, 560), 0.9f);
         _prompt.GrabFocus();
+        // Wrapped labels have their final minimum height only after container layout.
+        Callable.From(() =>
+        {
+            if (!Visible) return;
+            ResetSize();
+            PopupCenteredClamped(new(600, 560), 0.9f);
+            _prompt.GrabFocus();
+        }).CallDeferred();
     }
 
     private HouseWindowRequest Capture()

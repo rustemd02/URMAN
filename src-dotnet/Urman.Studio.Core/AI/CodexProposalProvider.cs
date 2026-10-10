@@ -209,6 +209,7 @@ public sealed class CodexProposalProvider
         var threadId = (string?)null;
         var turnId = (string?)null;
         var turnWasStarted = false;
+        var protocolPhase = "initialize";
         try
         {
             var token = timeout.Token;
@@ -224,13 +225,16 @@ public sealed class CodexProposalProvider
             }, 1, null, token).ConfigureAwait(false);
             await client.NotifyAsync("initialized", new Dictionary<string, object?>(), token).ConfigureAwait(false);
 
+            protocolPhase = "account/read";
             var accountResponse = await client.RequestAsync("account/read", new Dictionary<string, object?>
             {
                 ["refreshToken"] = false
             }, 2, null, token).ConfigureAwait(false);
             VerifyChatGptAccount(accountResponse);
+            protocolPhase = "features";
             await VerifyEffectiveFeaturesAsync(client, token).ConfigureAwait(false);
 
+            protocolPhase = "thread/start";
             var threadResponse = await client.RequestAsync("thread/start", new Dictionary<string, object?>
             {
                 ["ephemeral"] = true,
@@ -274,6 +278,7 @@ public sealed class CodexProposalProvider
                 ["outputSchema"] = BuildOutputSchema(request)
             };
 
+            protocolPhase = "turn/start";
             turnWasStarted = true;
             var turnResponse = await client.RequestAsync("turn/start", turnStart, 101,
                 message => HandleTurnNotificationAsync(message, threadId, () => turnId, value => turnId = value, value => terminalTurn = value), token).ConfigureAwait(false);
@@ -281,12 +286,13 @@ public sealed class CodexProposalProvider
             var responseTurnId = GetRequiredString(startedTurn, "id");
             if (turnId is not null && !string.Equals(turnId, responseTurnId, StringComparison.Ordinal))
             {
-                throw new ProtocolBoundaryException();
+                throw new ProtocolBoundaryException("id");
             }
 
             turnId = responseTurnId;
             if (terminalTurn is null)
             {
+                protocolPhase = "turn/events";
                 terminalTurn = await WaitForTerminalTurnAsync(client, threadId, turnId, HandleTurnNotificationAsync, () => turnId, value => turnId = value, token).ConfigureAwait(false);
             }
 
@@ -305,14 +311,15 @@ public sealed class CodexProposalProvider
             if (cancellationToken.IsCancellationRequested) throw new OperationCanceledException(cancellationToken);
             throw new CodexProposalException("Codex proposal timed out.");
         }
-        catch (ProtocolBoundaryException)
+        catch (ProtocolBoundaryException exception)
         {
             if (turnWasStarted && threadId is not null && turnId is not null)
             {
                 await TryInterruptAsync(client, threadId, turnId).ConfigureAwait(false);
             }
 
-            throw new CodexProposalException("Codex app-server response did not match the expected proposal protocol; the proposal was discarded.");
+            var detail = exception.DiagnosticToken is null ? string.Empty : $" ({exception.DiagnosticToken})";
+            throw new CodexProposalException($"Codex app-server protocol mismatch during {protocolPhase}{detail}; turn-start-request-sent={turnWasStarted}; turn-start-observed={turnId is not null}; the proposal was discarded.");
         }
         catch (CodexProposalException)
         {
@@ -483,7 +490,7 @@ public sealed class CodexProposalProvider
         }
 
         if (IsAllowedPassiveNotification(message)) return Task.CompletedTask;
-        throw new ProtocolBoundaryException();
+        throw new ProtocolBoundaryException(method);
     }
 
     private static async Task<JsonElement> WaitForTerminalTurnAsync(
@@ -505,11 +512,11 @@ public sealed class CodexProposalProvider
                 continue;
             }
 
-            throw new ProtocolBoundaryException();
+            throw new ProtocolBoundaryException("method");
         }
 
         var turn = GetRequiredObject(terminal.Value, "turn");
-        if (!string.Equals(GetRequiredString(turn, "id"), expectedTurnId, StringComparison.Ordinal)) throw new ProtocolBoundaryException();
+        if (!string.Equals(GetRequiredString(turn, "id"), expectedTurnId, StringComparison.Ordinal)) throw new ProtocolBoundaryException("id");
         return terminal.Value;
     }
 
@@ -525,12 +532,12 @@ public sealed class CodexProposalProvider
         if (IsAllowedPassiveNotification(message)) return Task.CompletedTask;
         var parameters = message.TryGetProperty("params", out var parameterValue) && parameterValue.ValueKind == JsonValueKind.Object
             ? parameterValue
-            : throw new ProtocolBoundaryException();
+            : throw new ProtocolBoundaryException("params");
 
         if (method == "thread/started")
         {
             var startedThread = GetRequiredObject(parameters, "thread");
-            if (!string.Equals(GetRequiredString(startedThread, "id"), threadId, StringComparison.Ordinal)) throw new ProtocolBoundaryException();
+            if (!string.Equals(GetRequiredString(startedThread, "id"), threadId, StringComparison.Ordinal)) throw new ProtocolBoundaryException("id");
             return Task.CompletedTask;
         }
 
@@ -552,7 +559,7 @@ public sealed class CodexProposalProvider
         {
             VerifyCurrentTurnNotification(parameters, threadId, getTurnId, setTurnId);
             _ = GetRequiredString(parameters, "itemId");
-            if (GetRequiredString(parameters, "delta").Length > 16_384) throw new ProtocolBoundaryException();
+            if (GetRequiredString(parameters, "delta").Length > 16_384) throw new ProtocolBoundaryException("delta");
             VerifyNonNegativeInt64(parameters, method == "item/reasoning/textDelta" ? "contentIndex" : "summaryIndex");
             return Task.CompletedTask;
         }
@@ -569,7 +576,7 @@ public sealed class CodexProposalProvider
         {
             VerifyCurrentTurnNotification(parameters, threadId, getTurnId, setTurnId);
             _ = GetRequiredString(parameters, "itemId");
-            if (GetRequiredString(parameters, "delta").Length > 16_384) throw new ProtocolBoundaryException();
+            if (GetRequiredString(parameters, "delta").Length > 16_384) throw new ProtocolBoundaryException("delta");
             return Task.CompletedTask;
         }
 
@@ -593,7 +600,7 @@ public sealed class CodexProposalProvider
         {
             VerifyThreadId(parameters, threadId);
             var itemTurnId = GetRequiredString(parameters, "turnId");
-            if (getTurnId() is { } currentTurnId && !string.Equals(itemTurnId, currentTurnId, StringComparison.Ordinal)) throw new ProtocolBoundaryException();
+            if (getTurnId() is { } currentTurnId && !string.Equals(itemTurnId, currentTurnId, StringComparison.Ordinal)) throw new ProtocolBoundaryException("turnId");
             setTurnId(itemTurnId);
             EnsureNonToolItem(GetRequiredObject(parameters, "item"));
             return Task.CompletedTask;
@@ -603,9 +610,9 @@ public sealed class CodexProposalProvider
         {
             VerifyThreadId(parameters, threadId);
             var delta = GetRequiredString(parameters, "delta");
-            if (delta.Length > 16_384) throw new ProtocolBoundaryException();
+            if (delta.Length > 16_384) throw new ProtocolBoundaryException("delta");
             var deltaTurnId = GetRequiredString(parameters, "turnId");
-            if (getTurnId() is { } currentTurnId && !string.Equals(deltaTurnId, currentTurnId, StringComparison.Ordinal)) throw new ProtocolBoundaryException();
+            if (getTurnId() is { } currentTurnId && !string.Equals(deltaTurnId, currentTurnId, StringComparison.Ordinal)) throw new ProtocolBoundaryException("turnId");
             setTurnId(deltaTurnId);
             return Task.CompletedTask;
         }
@@ -615,28 +622,28 @@ public sealed class CodexProposalProvider
             VerifyThreadId(parameters, threadId);
             var turn = GetRequiredObject(parameters, "turn");
             var finishedTurnId = GetRequiredString(turn, "id");
-            if (getTurnId() is { } currentTurnId && !string.Equals(finishedTurnId, currentTurnId, StringComparison.Ordinal)) throw new ProtocolBoundaryException();
+            if (getTurnId() is { } currentTurnId && !string.Equals(finishedTurnId, currentTurnId, StringComparison.Ordinal)) throw new ProtocolBoundaryException("turnId");
             setTurnId(finishedTurnId);
             VerifySupportedTurnItems(turn);
             setTerminalTurn(parameters.Clone());
             return Task.CompletedTask;
         }
 
-        throw new ProtocolBoundaryException();
+        throw new ProtocolBoundaryException(method);
     }
 
     private void VerifyThreadBoundary(JsonElement response, JsonElement thread, string workingDirectory)
     {
-        if (!string.Equals(GetRequiredString(thread, "cwd"), workingDirectory, PathComparison)) throw new ProtocolBoundaryException();
-        if (!thread.TryGetProperty("ephemeral", out var ephemeral) || ephemeral.ValueKind != JsonValueKind.True) throw new ProtocolBoundaryException();
+        if (!string.Equals(GetRequiredString(thread, "cwd"), workingDirectory, PathComparison)) throw new ProtocolBoundaryException("cwd");
+        if (!thread.TryGetProperty("ephemeral", out var ephemeral) || ephemeral.ValueKind != JsonValueKind.True) throw new ProtocolBoundaryException("ephemeral");
         if (!thread.TryGetProperty("environments", out var environments) || environments.ValueKind != JsonValueKind.Array || environments.GetArrayLength() != 0)
         {
-            throw new ProtocolBoundaryException();
+            throw new ProtocolBoundaryException("environments");
         }
 
         if (!response.TryGetProperty("instructionSources", out var instructionSources) || instructionSources.ValueKind != JsonValueKind.Array)
         {
-            throw new ProtocolBoundaryException();
+            throw new ProtocolBoundaryException("instructionSources");
         }
 
         var sources = instructionSources.EnumerateArray().ToArray();
@@ -663,19 +670,19 @@ public sealed class CodexProposalProvider
 
     private static void VerifySupportedTurnItems(JsonElement turn)
     {
-        if (!turn.TryGetProperty("items", out var items) || items.ValueKind != JsonValueKind.Array) throw new ProtocolBoundaryException();
+        if (!turn.TryGetProperty("items", out var items) || items.ValueKind != JsonValueKind.Array) throw new ProtocolBoundaryException("items");
         foreach (var item in items.EnumerateArray()) EnsureNonToolItem(item);
     }
 
     private static void EnsureNonToolItem(JsonElement item)
     {
         var type = GetRequiredString(item, "type");
-        if (type is not ("userMessage" or "agentMessage" or "reasoning")) throw new ProtocolBoundaryException();
+        if (type is not ("userMessage" or "agentMessage" or "reasoning")) throw new ProtocolBoundaryException("type");
     }
 
     private static void VerifyThreadId(JsonElement parameters, string expectedThreadId)
     {
-        if (!string.Equals(GetRequiredString(parameters, "threadId"), expectedThreadId, StringComparison.Ordinal)) throw new ProtocolBoundaryException();
+        if (!string.Equals(GetRequiredString(parameters, "threadId"), expectedThreadId, StringComparison.Ordinal)) throw new ProtocolBoundaryException("threadId");
     }
 
     private static void VerifyCurrentTurnNotification(
@@ -688,7 +695,7 @@ public sealed class CodexProposalProvider
         var notificationTurnId = GetRequiredString(parameters, "turnId");
         if (getTurnId() is { } currentTurnId && !string.Equals(notificationTurnId, currentTurnId, StringComparison.Ordinal))
         {
-            throw new ProtocolBoundaryException();
+            throw new ProtocolBoundaryException("turnId");
         }
 
         setTurnId(notificationTurnId);
@@ -700,7 +707,7 @@ public sealed class CodexProposalProvider
         if (type == "idle") return;
         if (type != "active" || !status.TryGetProperty("activeFlags", out var flags) || flags.ValueKind != JsonValueKind.Array || flags.GetArrayLength() != 0)
         {
-            throw new ProtocolBoundaryException();
+            throw new ProtocolBoundaryException(type == "active" ? "activeFlags" : "type");
         }
     }
 
@@ -712,11 +719,11 @@ public sealed class CodexProposalProvider
         {
             if (contextWindow.ValueKind == JsonValueKind.Number)
             {
-                if (!contextWindow.TryGetInt64(out var window) || window < 0) throw new ProtocolBoundaryException();
+                if (!contextWindow.TryGetInt64(out var window) || window < 0) throw new ProtocolBoundaryException("modelContextWindow");
             }
             else if (contextWindow.ValueKind != JsonValueKind.Null)
             {
-                throw new ProtocolBoundaryException();
+                throw new ProtocolBoundaryException("modelContextWindow");
             }
         }
     }
@@ -733,22 +740,22 @@ public sealed class CodexProposalProvider
 
     private static void VerifyPassiveTurnPlan(JsonElement parameters)
     {
-        if (!parameters.TryGetProperty("plan", out var plan) || plan.ValueKind != JsonValueKind.Array) throw new ProtocolBoundaryException();
-        if (plan.GetArrayLength() > 128) throw new ProtocolBoundaryException();
+        if (!parameters.TryGetProperty("plan", out var plan) || plan.ValueKind != JsonValueKind.Array) throw new ProtocolBoundaryException("plan");
+        if (plan.GetArrayLength() > 128) throw new ProtocolBoundaryException("plan");
         foreach (var step in plan.EnumerateArray())
         {
             if (step.ValueKind != JsonValueKind.Object ||
                 GetRequiredString(step, "status") is not ("pending" or "inProgress" or "completed") ||
                 GetRequiredString(step, "step").Length > 4_096)
             {
-                throw new ProtocolBoundaryException();
+                throw new ProtocolBoundaryException("plan");
             }
         }
 
         if (parameters.TryGetProperty("explanation", out var explanation) && explanation.ValueKind != JsonValueKind.Null &&
             (explanation.ValueKind != JsonValueKind.String || explanation.GetString()!.Length > 16_384))
         {
-            throw new ProtocolBoundaryException();
+            throw new ProtocolBoundaryException("explanation");
         }
     }
 
@@ -757,7 +764,7 @@ public sealed class CodexProposalProvider
         if (!parent.TryGetProperty(propertyName, out var value) || value.ValueKind != JsonValueKind.Number ||
             !value.TryGetInt64(out var number) || number < 0)
         {
-            throw new ProtocolBoundaryException();
+            throw new ProtocolBoundaryException(propertyName);
         }
     }
 
@@ -859,14 +866,14 @@ public sealed class CodexProposalProvider
 
     private static JsonElement GetRequiredObject(JsonElement parent, string propertyName)
     {
-        if (!parent.TryGetProperty(propertyName, out var value) || value.ValueKind != JsonValueKind.Object) throw new ProtocolBoundaryException();
+        if (!parent.TryGetProperty(propertyName, out var value) || value.ValueKind != JsonValueKind.Object) throw new ProtocolBoundaryException(propertyName);
         return value;
     }
 
     private static string GetRequiredString(JsonElement parent, string propertyName)
     {
-        if (!parent.TryGetProperty(propertyName, out var value) || value.ValueKind != JsonValueKind.String) throw new ProtocolBoundaryException();
-        return value.GetString() ?? throw new ProtocolBoundaryException();
+        if (!parent.TryGetProperty(propertyName, out var value) || value.ValueKind != JsonValueKind.String) throw new ProtocolBoundaryException(propertyName);
+        return value.GetString() ?? throw new ProtocolBoundaryException(propertyName);
     }
 
     private static string ReadString(JsonElement value)
@@ -883,13 +890,13 @@ public sealed class CodexProposalProvider
 
     private static string GetMethod(JsonElement message)
     {
-        if (!message.TryGetProperty("method", out var method) || method.ValueKind != JsonValueKind.String) throw new ProtocolBoundaryException();
+        if (!message.TryGetProperty("method", out var method) || method.ValueKind != JsonValueKind.String) throw new ProtocolBoundaryException("method");
         return method.GetString()!;
     }
 
     private static void EnsureNotificationWithoutId(JsonElement message)
     {
-        if (message.ValueKind != JsonValueKind.Object || message.TryGetProperty("id", out _)) throw new ProtocolBoundaryException();
+        if (message.ValueKind != JsonValueKind.Object || message.TryGetProperty("id", out _)) throw new ProtocolBoundaryException("id");
     }
 
     private static bool IsAllowedPassiveNotification(JsonElement message)
@@ -1145,7 +1152,29 @@ public sealed class CodexProposalProvider
 
     private sealed record ShortCommandResult(int ExitCode, string Output, string ErrorOutput);
 
-    private sealed class ProtocolBoundaryException : Exception;
+    private sealed class ProtocolBoundaryException : Exception
+    {
+        public string? DiagnosticToken { get; }
+
+        public ProtocolBoundaryException(string? diagnosticToken = null)
+        {
+            DiagnosticToken = IsSafeDiagnosticToken(diagnosticToken) ? diagnosticToken : null;
+        }
+
+        private static bool IsSafeDiagnosticToken(string? value)
+        {
+            if (string.IsNullOrEmpty(value) || value.Length > 64) return false;
+            foreach (var character in value)
+            {
+                if (!char.IsAsciiLetterOrDigit(character) && character != '/')
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
 
     private sealed class AppServerClient(Process process, int maximumLineBytes)
     {
@@ -1171,19 +1200,19 @@ public sealed class CodexProposalProvider
                 var message = await ReadMessageAsync(cancellationToken).ConfigureAwait(false);
                 if (message.TryGetProperty("method", out _))
                 {
-                    if (message.TryGetProperty("id", out _)) throw new ProtocolBoundaryException();
+                    if (message.TryGetProperty("id", out _)) throw new ProtocolBoundaryException("id");
                     if (notificationHandler is not null) await notificationHandler(message).ConfigureAwait(false);
-                    else if (GetMethod(message) != "thread/started" && !IsAllowedPassiveNotification(message)) throw new ProtocolBoundaryException();
+                    else if (GetMethod(message) != "thread/started" && !IsAllowedPassiveNotification(message)) throw new ProtocolBoundaryException(GetMethod(message));
                     continue;
                 }
 
                 if (!message.TryGetProperty("id", out var id) || id.ValueKind != JsonValueKind.Number || !id.TryGetInt32(out var responseId) || responseId != requestId)
                 {
-                    throw new ProtocolBoundaryException();
+                    throw new ProtocolBoundaryException("id");
                 }
 
                 if (message.TryGetProperty("error", out _)) throw new CodexProposalException("Codex app-server rejected a restricted proposal request.");
-                if (!message.TryGetProperty("result", out var result) || result.ValueKind != JsonValueKind.Object) throw new ProtocolBoundaryException();
+                if (!message.TryGetProperty("result", out var result) || result.ValueKind != JsonValueKind.Object) throw new ProtocolBoundaryException("result");
                 return result.Clone();
             }
         }
@@ -1198,12 +1227,12 @@ public sealed class CodexProposalProvider
             try
             {
                 using var document = JsonDocument.Parse(line, new JsonDocumentOptions { MaxDepth = 64, CommentHandling = JsonCommentHandling.Disallow, AllowTrailingCommas = false });
-                if (document.RootElement.ValueKind != JsonValueKind.Object) throw new ProtocolBoundaryException();
+                if (document.RootElement.ValueKind != JsonValueKind.Object) throw new ProtocolBoundaryException("message");
                 return document.RootElement.Clone();
             }
             catch (JsonException)
             {
-                throw new ProtocolBoundaryException();
+                throw new ProtocolBoundaryException("json");
             }
         }
 
@@ -1244,7 +1273,7 @@ public sealed class CodexProposalProvider
         {
             cancellationToken.ThrowIfCancellationRequested();
             var json = JsonSerializer.Serialize(message, WireJsonOptions);
-            if (Encoding.UTF8.GetByteCount(json) > maximumLineBytes) throw new ProtocolBoundaryException();
+            if (Encoding.UTF8.GetByteCount(json) > maximumLineBytes) throw new ProtocolBoundaryException("messageSize");
             await process.StandardInput.WriteLineAsync(json).ConfigureAwait(false);
             await process.StandardInput.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
@@ -1296,7 +1325,7 @@ public sealed class CodexProposalProvider
             _lineBytes += Encoding.UTF8.GetByteCount(buffer, offset, count);
             if (_lineBytes > maximumBytes)
             {
-                throw new ProtocolBoundaryException();
+                throw new ProtocolBoundaryException("messageSize");
             }
 
             _line.Append(buffer, offset, count);
