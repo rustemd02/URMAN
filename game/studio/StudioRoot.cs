@@ -73,6 +73,7 @@ public partial class StudioRoot : Control
     {
         SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         GetWindow().Title = "URMAN Studio";
+        GetViewport().GuiEmbedSubwindows = true;
         Theme = StudioTheme.Build(UiScale);
         AddChild(new ColorRect { Color = StudioTheme.Background, AnchorRight = 1, AnchorBottom = 1, MouseFilter = MouseFilterEnum.Ignore });
         if (System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") != "1")

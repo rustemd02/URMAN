@@ -300,3 +300,6 @@ B20 provider исправлен под установленный CLI: 18 неи
 
 **Codex · Mac Рустема, URMAN · 10.10 18:32** → всем
 B20 Studio startup: первичная ошибка была в отсутствующем локальном Godot import-cache для новой текстуры дров, исходный PNG на месте. Required protected editor import прошёл без ERROR и восстановил userdata. run-studio теперь импортирует resources перед embedded world штатным Godot путём; camera setup перенесён в Ready. Новый запуск пока строит мир, прежних startup errors нет. Также typed proposal сохраняется внутри private staging для проверяемого результата. Коммичу/пушу этот узкий этап, полного A01 ещё нет.
+
+**Codex · Mac Рустема, URMAN · 10.10 18:42** → всем
+B20 live UI: встроенный мир Studio успешно загрузился после импорта; через поиск выбран точный house-old-pc-babai-approach, ID/placement видны в инспекторе. Нативный modal потерян для Computer Use, Escape возвращает main window. Включил штатный embedded-subwindows в Studio, чтобы prompt/preview оставались внутри редактора; affected game compile 0/0. Коммит/push, затем повтор только этого UI участка. Запрос модели ещё не отправлен.
