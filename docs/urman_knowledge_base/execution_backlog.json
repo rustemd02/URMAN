@@ -23611,7 +23611,14 @@
               "STUDIO.P2"
             ],
             "acceptance_refs": [
-              "STUDIO-AI/A13"
+              "STUDIO-AI/A13",
+              {
+                "stage": "2026-10-10 AI-13 selector rejection correction (additive; P2 from the Codex review of 3ff0dbc5)",
+                "result": "correction by deepseek v4.1 flash: a rejected world no longer leaves the dropdowns on the rejected entry, so the visible choice always names the world that will really run",
+                "source": "game/studio/StudioCampaignSelector.cs; evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-selector-reject-fix/ (build.log, receipt.json)",
+                "verification": "game/Urman.Game.csproj 0 warnings/0 errors with the corrected selector, Urman.Studio.Core 0/0, probe 175/175. The previous confirmed selection is restored silently without a second Changed, or the catalog default is shown and published when no choice was confirmed yet; the world list filling is shared through FillWorldList so the normal path and the restore cannot drift apart. The control is still not wired into the top bar by me and was never instantiated in a live Studio, so the restore path is source-verified only; the separate startup-Changed wiring remark stays an owner-side item in the interface patch"
+              }
+
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
           },
@@ -23803,7 +23810,14 @@
               "STUDIO.P4"
             ],
             "acceptance_refs": [
-              "STUDIO-AI/A18"
+              "STUDIO-AI/A18",
+              {
+                "stage": "2026-10-10 AI-18 audio panel review corrections (additive; P1 and P2 from the Codex review)",
+                "result": "corrections by deepseek v4.1 flash: auditioning no longer touches the runtime's cached stream, sources keep a stable identity, a failed load stops the previous preview, all three stream types lose looping on the copy, and a source the registry would refuse cannot be auditioned",
+                "source": "game/studio/StudioAudioPanel.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-audio-panel-review-fixes/ (build.log, receipt.json)",
+                "verification": "Urman.Studio.Core 0 warnings/0 errors and game/Urman.Game.csproj 0 warnings/0 errors with the corrected panel; probe 175/175. The preview loads its own copy (CacheMode.Ignore plus Duplicate) and changes the loop flag only there, so AmbientAudioDirector's cached stream is untouched; targets are keyed emitter:<id>/stem:<id>; playback stops before every new audition, refusal and error; WAV, Ogg and MP3 all lose looping on the copy; AuditionBlocked refuses a missing file, a non-finite level or an emitter whose registered fields fail validation. The panel was still not opened in a live Studio and no sound was heard, so this is source-verified only"
+              }
+
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
           },
@@ -23915,7 +23929,14 @@
             ],
             "acceptance_refs": [
               "STUDIO-AI/A06",
-              "STUDIO-AI/A17"
+              "STUDIO-AI/A17",
+              {
+                "stage": "2026-10-10 AI-21 trigger review corrections (additive; CHANGES_REQUESTED on 8f56e88f)",
+                "result": "corrections by deepseek v4.1 flash: the facts now follow the runtime helper exactly, the missing-size and missing-interactionId wording is true, the size check covers type and finiteness, and the runtime check is labelled as a source-presence check",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs and the regenerated owner patch evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-trigger-review-fixes/ai21-trigger-facts.patch; evidence .../build.log, check.log and receipt.json",
+                "verification": "Urman.Studio.Core 0/0, game/Urman.Game.csproj 0/0 with the regenerated patch, probe 175/175 including new checks for an empty actor (filter removed, not the default), a non-string actor (crash at entry), a short size and a non-boolean countIfInside; the patch passes git apply --check on a pristine origin/main 5277e57c worktree and reads size through the new public TriggerScopeFacts.TryNumber so a malformed array cannot reach a cast. The real campaign still has no trigger entity, so the description paths remain synthetic plus the real runtime source"
+              }
+
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
           },
