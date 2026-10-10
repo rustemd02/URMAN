@@ -58,7 +58,8 @@ public sealed record WorldRef(
     string SpawnPointId,
     string? DeclaredCampaignResource,
     WorldAuthoringCapability Capability,
-    IReadOnlyList<string> CapabilityEvidence)
+    IReadOnlyList<string> CapabilityEvidence,
+    IReadOnlyList<string> LoaderScripts)
 {
     /// <summary>Taken from the scene declaration, so it is empty for code-bound entry zones.</summary>
     public bool ZoneDeclaredByScene => !string.IsNullOrEmpty(ZoneId);

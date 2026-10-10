@@ -44,7 +44,9 @@ public sealed class CampaignWorldCatalog
     private static readonly Regex ExtResourceLine = new(
         "^\\[ext_resource\\s+path=\"([^\"]+)\"[^\\]]*\\bid=\"([^\"]+)\"", RegexOptions.Multiline | RegexOptions.CultureInvariant);
     private static readonly Regex NodeLine = new(
-        "^\\[node\\s+name=\"([^\"]+)\"\\s+type=\"([^\"]+)\"(?:\\s+parent=\"([^\"]*)\")?", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+        "^\\[node\\s+name=\"([^\"]+)\"([^\\]]*)\\]", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+    private static readonly Regex NodeAttribute = new(
+        "([A-Za-z_][A-Za-z0-9_]*)=\"([^\"]*)\"", RegexOptions.CultureInvariant);
     private static readonly Regex PropertyLine = new(
         "^([A-Za-z_][A-Za-z0-9_]*)\\s*=\\s*(.+)$", RegexOptions.CultureInvariant);
     private static readonly Regex ExtResourceReference = new(
@@ -66,6 +68,7 @@ public sealed class CampaignWorldCatalog
         string ZoneId,
         string SpawnPointId,
         IReadOnlyList<string> LoaderSignals,
+        IReadOnlyList<string> LoaderScripts,
         string? Ambiguity);
 
     private readonly Dictionary<string, CampaignRef> _campaignsBySelection = new(StringComparer.Ordinal);
@@ -211,9 +214,10 @@ public sealed class CampaignWorldCatalog
 
     /// <summary>
     /// The authored files a saved change in this world depends on: the campaign
-    /// manifest, the entry scene and its compiled pack, plus every world plot when
-    /// the loader reads the plot directory. Changing any of them changes the
-    /// content fingerprint.
+    /// manifest, the entry scene and its compiled pack, the scripts that are read
+    /// while resolving the loader signal, plus every world plot when the loader
+    /// reads the plot directory. Changing any of them changes the content
+    /// fingerprint.
     /// </summary>
     public IReadOnlyList<string> AuthoredDependencies(CampaignRef campaign, WorldRef world)
     {
@@ -231,6 +235,11 @@ public sealed class CampaignWorldCatalog
         {
             dependencies.AddRange(AuthoredWorldPlots.Select(plot => plot.RelativePath));
         }
+
+        // Scripts are read while resolving the loader signal, so a change there
+        // (for example turning EnableAct1ConnectedWorld off without committing)
+        // must move the fingerprint as well.
+        dependencies.AddRange(world.LoaderScripts.Select(script => "game/" + script["res://".Length..]));
 
         return dependencies.Order(StringComparer.Ordinal).ToArray();
     }
@@ -464,7 +473,7 @@ public sealed class CampaignWorldCatalog
 
             var worldId = Path.GetFileNameWithoutExtension(scenePath);
             var title = zoneTitles.TryGetValue(document.ZoneId, out var zoneTitle) && zoneTitle.Length > 0 ? zoneTitle : worldId;
-            worlds.Add(new WorldRef(selection, worldId, title, scenePath, document.ZoneId, document.SpawnPointId, declaredResource, capability, evidence));
+            worlds.Add(new WorldRef(selection, worldId, title, scenePath, document.ZoneId, document.SpawnPointId, declaredResource, capability, evidence, document.LoaderScripts));
         }
 
         return worlds;
@@ -519,8 +528,22 @@ public sealed class CampaignWorldCatalog
                 properties[name] = value;
             }
 
-            var parent = match.Groups[3].Success ? match.Groups[3].Value : null;
-            nodes.Add((new SceneNode(match.Groups[1].Value, match.Groups[2].Value, parent, script), properties));
+            string type = "";
+            string? parent = null;
+            foreach (Match attribute in NodeAttribute.Matches(match.Groups[2].Value))
+            {
+                switch (attribute.Groups[1].Value)
+                {
+                    case "type":
+                        type = attribute.Groups[2].Value;
+                        break;
+                    case "parent":
+                        parent = attribute.Groups[2].Value;
+                        break;
+                }
+            }
+
+            nodes.Add((new SceneNode(match.Groups[1].Value, type, parent, script), properties));
         }
 
         if (nodes.Count == 0)
@@ -555,6 +578,7 @@ public sealed class CampaignWorldCatalog
         }
 
         var signals = new List<string>();
+        var loaderScripts = new List<string>();
         if (LoaderSignal.IsMatch(text))
         {
             signals.Add($"{sceneRelative}: EnableAct1ConnectedWorld = true");
@@ -562,6 +586,7 @@ public sealed class CampaignWorldCatalog
 
         foreach (var script in nodes.Select(node => node.Node.ScriptPath).Where(path => path is not null).Distinct(StringComparer.Ordinal))
         {
+            loaderScripts.Add(script!);
             var scriptRelative = script!["res://".Length..];
             var scriptFile = Path.Combine(scenesRoot, scriptRelative.Replace('/', Path.DirectorySeparatorChar));
             if (!File.Exists(scriptFile))
@@ -578,7 +603,7 @@ public sealed class CampaignWorldCatalog
             }
         }
 
-        return new SceneDocument(rootScript, campaignResources, zone.Value, spawn.Value, signals, ambiguity);
+        return new SceneDocument(rootScript, campaignResources, zone.Value, spawn.Value, signals, loaderScripts, ambiguity);
     }
 
     /// <summary>Reads a zone/spawn declaration, preferring the Initial form and reporting conflicts.</summary>

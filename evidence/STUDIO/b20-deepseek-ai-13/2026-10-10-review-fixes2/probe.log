@@ -1,0 +1,94 @@
+root: /Users/unterlantas/Documents/GitHub/URMAN-deepseek
+campaigns: 4  worlds: 2  plots: 6  specs: 5
+  world res://scenes/act1_demo.tscn        campaign=<undeclared>     zone=<code>       cap=AuthoredWorldPlots
+  world res://scenes/full_game.tscn        campaign=urman.fullgame   zone=village_day  cap=PresentationOnly
+  BLOCKER single-authored-world: Авторских миров в checkout: 1 (urman.world:act1). Полный done_when AI-13 требует двух независимо авторируемых миров с runtime consumers и изолированными правками; две стартовые сцены за два мира не считаются.
+  BLOCKER campaign-world-link-undeclared: Связь «кампания → мир» для сцены без CampaignResourcePath нигде не объявлена: campaign.json не ссылается на сцену или зону. До явного контракта такая пара выбирается автором и помечается как explicit-selection.
+  BLOCKER photo-worlds-specified-only: PhotoWorlds без сцены и runtime consumer: W01 «Лес за спиной» (SPECIFIED_NOT_IMPLEMENTED), W02 «Мостки» (SPECIFIED_NOT_IMPLEMENTED), W03 «Дом на просвет» (SPECIFIED_NOT_IMPLEMENTED), W04 «Общий кадр» (SPECIFIED_NOT_IMPLEMENTED), W05 «Тёплое подполье» (SPECIFIED_NOT_IMPLEMENTED). Их нельзя показывать редактируемыми.
+PASS  P1-2: main scene claims authored world only from a positive loader signal
+PASS  P1-2: loader signal carries the exact file:line
+PASS  P1-2/Q5: full_game is PresentationOnly (no loader signal)
+PASS  full_game keeps its declared campaign
+PASS  no world is claimed editable without a loader signal
+PASS  default campaign is not an archive example
+PASS  undeclared scene is an explicit selection
+PASS  Q4: base revision is carried separately from the content fingerprint
+PASS  Q4: authored dependencies include campaign, scene, pack, the six world plots and the loader script
+PASS  P2-B: the real main-scene loader script is part of the fingerprint
+PASS  Q4: plot files are actual dependencies
+  fingerprint=5e4daf08e50d64a6 deps=10 state=urman.chapter1@1.0.0/act1_demo
+PASS  P1-1: mismatched declared campaign is refused
+PASS  P1-1: the declared pair resolves
+PASS  declared spawn point is read from the node that owns it
+PASS  unknown campaign is a clear error
+PASS  still exactly one authored world (AI-13 gap)
+PASS  blockers report the real AI-13 gap
+PASS  mini checkout: one campaign and one world discovered
+PASS  mini checkout: loader signal in the root script grants authored capability
+PASS  mini checkout: dependencies are campaign, scene, plot and loader script
+PASS  P2-B: the loader script read for the signal is a dependency
+PASS  P2-1: editing a world plot changes the content fingerprint
+PASS  P2-B: turning the loader signal off flips the capability
+PASS  P2-B: and the content fingerprint moves with the capability
+PASS  P2-A: a conflicting zone on an instanced node without a type attribute is detected, not merged away
+PASS  P2-A: the instanced-node conflict is explained in the notes
+PASS  mini checkout: a scene without the loader signal is only PresentationOnly
+PASS  mini checkout: an unresolved root script stays conservative
+PASS  Q1: a scene with conflicting campaign declarations is refused, not guessed
+PASS  Q1: the refusal is explained in the notes
+PASS  Q1: a scene declaring another campaign cannot be opened as a different one
+PASS  state file lives under .urman-studio/
+PASS  P2-4: a missing world reads as a fresh empty state
+PASS  P2-4: two missing worlds get separate empty values
+PASS  first save writes the file
+PASS  second save with unchanged state writes nothing
+PASS  own save does not look like a foreign change
+PASS  world A state round-trips after reopen
+PASS  world B state round-trips after reopen
+PASS  the two worlds do not mix
+PASS  exactly the two touched worlds are stored
+PASS  an untouched world reads as empty, never as another world's state
+PASS  P2-3: a foreign write is detected
+PASS  P2-3: stale store refuses to overwrite instead of erasing another world's keys
+PASS  P2-3: the foreign value survived the refusal
+PASS  P2-3: after an explicit reload the store can write again
+PASS  P2-3: reload keeps the foreign value
+PASS  P2-2: a symlinked .urman-studio outside the checkout is refused
+PASS  P2-2: the refusal repeats as a clear error instead of a null dereference
+--- atmosphere registry (AI-18)
+PASS  registry lists 46 fields
+PASS  no duplicate field paths in the registry
+PASS  every registered field names its consumer or explicitly says none
+profiles: 7  unknown: 0  missing: 0  out-of-range: 0  dead-in-data: 35
+  village-winter-frost     zones=[house_old_pc,fap_clinic] reachable=False :: Ни одно рабочее состояние зоны не даёт эту запись: house_old_pc, fap_clinic.
+  village-winter-crisp     zones=[village_day] reachable=True :: Выбирается в обычной игре: зона village_day.
+  overcast-day             zones=[] reachable=False :: Нет ни одной зоны: профиль выбирается только явно, а не по зоне.
+  golden-hour              zones=[] reachable=False :: Нет ни одной зоны: профиль выбирается только явно, а не по зоне.
+  zirat-winter-muted       zones=[zirat_road] reachable=True :: Выбирается в обычной игре: зона zirat_road.
+  village-green-night      zones=[village_day@night] reachable=False :: Ни одно рабочее состояние зоны не даёт эту запись: village_day@night.
+  kara-winter-night-edge   zones=[kara_urman_night] reachable=True :: Выбирается в обычной игре: зона kara_urman_night (ночь).
+  dead: village-winter-frost: identity — Читателей меты не найдено: на кадр не влияет.
+  dead: village-winter-frost: weather.blizzardSpeed — Игра значение не читает: эмиттер держит 11–16 м/с сам.
+  dead: village-winter-frost: weather.flakes — Игра значение не читает: Amount задан константой 4000/5200.
+  note: village-winter-frost: не выбирается в обычной игре по зоне — Ни одно рабочее состояние зоны не даёт эту запись: house_old_pc, fap_clinic.
+  note: overcast-day: не выбирается в обычной игре по зоне — Нет ни одной зоны: профиль выбирается только явно, а не по зоне.
+  note: golden-hour: не выбирается в обычной игре по зоне — Нет ни одной зоны: профиль выбирается только явно, а не по зоне.
+  note: village-green-night: не выбирается в обычной игре по зоне — Ни одно рабочее состояние зоны не даёт эту запись: village_day@night.
+PASS  7 real atmosphere profiles were read
+PASS  AI-18: the authored file has no field the registry does not know
+PASS  AI-18: no required field is missing in the real data
+PASS  AI-18: no authored value breaks a hard runtime rule
+PASS  exactly three profiles are selectable by zone in normal play
+PASS  village_day@night is honestly reported as unreachable
+PASS  a profile without zones is reported as phase-only
+PASS  an interior-only claim is not sold as normal-play scope
+PASS  AI-18: fields the game does not read are reported, not hidden
+PASS  a field without frame effect carries an author-facing explanation
+PASS  an unknown field is refused
+PASS  a malformed colour is refused
+PASS  a value the runtime clamps is refused with an explanation
+PASS  a valid value passes
+PASS  the drift check catches a field the registry does not know
+PASS  the drift check catches required fields the parser would throw on
+
+PROBE RESULT: PASS
