@@ -23686,6 +23686,13 @@
                 "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-consolidated-wiring/ai-deepseek-studio-wiring-consolidated.patch (six shared files: StudioRoot.cs, StudioWorldSection.cs, StudioContentSection.cs, StudioDialogueSection.cs, StudioQuestSection.cs, PlayPreparation.cs); receipt.json and check.log there; commit cce968c4",
                 "verification": "Base 49f54934 plus my branch merged: git apply --check OK then applied. Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with every shared change composed; probe PASS 262/262. The composition defect was CS0128: the AI-13 write gate and the AI-17 scatter guard both declared `blocked` in PaintStroke, fixed by renaming the scatter guard's local. The per-stage patches stay in evidence as review material and must not be applied on top of the consolidated one. StudioWorldSection.cs now has another active writer (the LunaFAST geometry stage), so the owner applies this patch or asks for a re-base after that work. No Studio window and no game run: interface NOT_RUN"
               }
+,
+              {
+                "stage": "2026-10-10 existing Studio test suite on the consolidated-patch tree",
+                "result": "verification by deepseek v4.1 flash: the repository's existing Urman.Studio.Tests suite passes on the tree with the consolidated shared-file patch applied, and on the same tree without it, so the patch adds no regression to the existing checks",
+                "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-existing-tests/tests.log and receipt.json",
+                "verification": "dotnet run --project tests-dotnet/Urman.Studio.Tests/Urman.Studio.Tests.csproj (xunit v3) from the repository root: patched tree Total 38 / Errors 0 / Failed 0; baseline without the patch the same. The suite needs content/ materialised, otherwise 20 tests fail for a missing path; that was diagnosed and is not a code defect. One earlier baseline run showed a single failure that did not reproduce in two later runs. No test was added or changed by this stage. No Studio window and no game run: interface and runtime NOT_RUN"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"

@@ -1,0 +1,11 @@
+== tree: origin/main 49f54934 + my branch 121b52e9 + the consolidated patch (       6 shared files changed)
+== command: dotnet run --project tests-dotnet/Urman.Studio.Tests/Urman.Studio.Tests.csproj
+== requirement: the suite needs content/ in the working tree (a sparse worktree without it fails 20 tests for a missing path, which is not a code defect)
+== patched tree:
+  Finished:    Urman.Studio.Tests (ID = '3c903ace2e787ef8c08e305f8108bcc64ed5e8b5d7cef4d8ef1be718200f88db')
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,223s
+== baseline (same tree without the consolidated patch):
+  Finished:    Urman.Studio.Tests (ID = 'cc388be4b23c0e9fc36451a817a4fa86715b330c7ae7668eafae6ca6f844cff3')
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,350s

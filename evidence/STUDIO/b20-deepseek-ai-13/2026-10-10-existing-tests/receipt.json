@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13",
+    "STUDIO/AI-17",
+    "STUDIO/AI-18",
+    "STUDIO/AI-21",
+    "STUDIO/AI-24",
+    "STUDIO/AI-36"
+  ],
+  "stage": "existing Studio test suite run on the tree with the consolidated patch applied, against the same tree without it",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:41 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "tree": "origin/main 49f54934 + my branch 121b52e9 + evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-consolidated-wiring/ai-deepseek-studio-wiring-consolidated.patch (6 shared files)",
+  "command": "dotnet run --project tests-dotnet/Urman.Studio.Tests/Urman.Studio.Tests.csproj (xunit v3, run from the repository root; the suite needs content/ present, otherwise 20 tests fail for a missing path and that is not a code defect)",
+  "result": {
+    "patched": "Total 38, Errors 0, Failed 0",
+    "baseline_without_the_patch": "Total 38, Errors 0, Failed 0"
+  },
+  "note": "one earlier baseline run reported a single failure that did not reproduce in the following two runs; both trees therefore pass the same suite, and no new test failure is attributable to the patch. The suite is the repository's existing one; no test was added or changed",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-existing-tests/tests.log": "213cffad112c7f3e367c85043ea3b47bbddf9e0cf0c34419c645815ce87bf0a1"
+  },
+  "not_run": "no Studio window and no game run: the interface and the runtime behaviour are NOT_RUN"
+}
