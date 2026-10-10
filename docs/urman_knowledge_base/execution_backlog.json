@@ -23574,7 +23574,14 @@
             "verification": "Открыть два реальных мира и вернуться к камере первого; сверить один изменённый объект в защищённой игре.",
             "risks_recovery_external_gates": "Не переписывать PhotoWorlds loader; сцену с отсутствующей authoring capability пометить, а не показать фиктивно редактируемой.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 AI-13 dependency-independent preparation (stage start)",
+                "result": "stage opened by deepseek v4.1 flash; the production slice is written only in new files, and the shared wiring is handed to the owner as an interface patch",
+                "source": "planned new files: src-dotnet/Urman.Studio.Core/Editing/CampaignWorldContext.cs, CampaignWorldCatalog.cs, WorldAuthoringState.cs; real sources checked: content/campaigns/*/campaign.json, game/content/world/*.world.v1.json, game/scenes/act1_demo.tscn, game/scenes/full_game.tscn; hardcoded call sites: game/studio/StudioWorldSection.cs:36,239, StudioRoot.cs:563, StudioQuestSection.cs:519, StudioDialogueSection.cs:179, StudioSelfCheck.cs:523",
+                "verification": "no production code written yet; dependency STUDIO/AI-12 is still open and owned by Codex, so full done_when stays open. Narrow check planned: compile of src-dotnet/Urman.Studio.Core plus a temporary out-of-repo probe over the real tree; Studio UI wiring and the in-game check are NOT_RUN and owned by Codex"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P2"
             ],
