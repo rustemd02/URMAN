@@ -708,6 +708,19 @@ public sealed class CodexProposalProvider
             warnings.RecordWarning(message);
             return Task.CompletedTask;
         }
+        if (method == "account/rateLimits/updated")
+        {
+            // Quota metadata is discarded; it cannot change the proposal or execution policy.
+            EnsureOnlyProperties(message, "method", "params", "emittedAtMs", true, "rateLimitsSchema");
+            if (message.TryGetProperty("emittedAtMs", out var emittedAtMs) && emittedAtMs.ValueKind != JsonValueKind.Number)
+                throw new ProtocolBoundaryException("rateLimitsSchema");
+            var quota = GetRequiredObject(message, "params");
+            EnsureOnlyProperties(quota, "rateLimits", null, null, false, "rateLimitsSchema");
+            _ = GetRequiredObject(quota, "rateLimits");
+            if (Encoding.UTF8.GetByteCount(quota.GetRawText()) > 8 * 1024)
+                throw new ProtocolBoundaryException("rateLimitsLength");
+            return Task.CompletedTask;
+        }
         if (IsAllowedPassiveNotification(message)) return Task.CompletedTask;
         var parameters = message.TryGetProperty("params", out var parameterValue) && parameterValue.ValueKind == JsonValueKind.Object
             ? parameterValue
@@ -1499,22 +1512,24 @@ public sealed class CodexProposalProvider
             }
         }
 
-        private static void EnsureOnlyProperties(JsonElement value, string requiredProperty, string secondRequiredProperty, string? optionalProperty, bool secondRequired, string diagnosticToken)
-        {
-            if (value.ValueKind != JsonValueKind.Object) throw new ProtocolBoundaryException(diagnosticToken);
-            var properties = new HashSet<string>(StringComparer.Ordinal);
-            foreach (var property in value.EnumerateObject())
-            {
-                if ((property.Name != requiredProperty && property.Name != secondRequiredProperty && property.Name != optionalProperty) || !properties.Add(property.Name))
-                {
-                    throw new ProtocolBoundaryException(diagnosticToken);
-                }
-            }
 
-            if (!properties.Contains(requiredProperty) || (secondRequired && !properties.Contains(secondRequiredProperty)))
+    }
+
+    private static void EnsureOnlyProperties(JsonElement value, string requiredProperty, string? secondRequiredProperty, string? optionalProperty, bool secondRequired, string diagnosticToken)
+    {
+        if (value.ValueKind != JsonValueKind.Object) throw new ProtocolBoundaryException(diagnosticToken);
+        var properties = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var property in value.EnumerateObject())
+        {
+            if ((property.Name != requiredProperty && property.Name != secondRequiredProperty && property.Name != optionalProperty) || !properties.Add(property.Name))
             {
                 throw new ProtocolBoundaryException(diagnosticToken);
             }
+        }
+
+        if (!properties.Contains(requiredProperty) || (secondRequired && (secondRequiredProperty is null || !properties.Contains(secondRequiredProperty))))
+        {
+            throw new ProtocolBoundaryException(diagnosticToken);
         }
     }
 

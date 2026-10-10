@@ -25388,6 +25388,15 @@
               "LunaFAST state/dependencies"
             ],
             "integration": "No implementation cherry-pick yet; preserve original SHA pair; awaiting additive correction."
+          },
+          "current_runtime_attempt5": {
+            "result": "failed_closed_quota_notification",
+            "request_id": "b1934bf327144fd48c0917d0adf5cdc9",
+            "base_commit": "ab7282e0",
+            "core_runtime_sha256": "9db83a6f1fea471ea194444e4a180a55f8d061b3ca299024060316089915e4ac",
+            "turn_start_observed": true,
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-current-runtime-attempt5/provider-diagnostic.json",
+            "next": "Pinned account/rateLimits/updated token-count producer; strict turn-only envelope with bounded opaque discarded metadata. No billing/rate facts inferred. Core compile0/0. No model proposal/apply/gameafter/undo yet."
           }
         }
       },

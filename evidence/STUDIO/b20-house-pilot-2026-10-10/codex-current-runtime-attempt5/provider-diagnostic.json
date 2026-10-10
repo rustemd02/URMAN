@@ -1,0 +1,11 @@
+{
+  "result": "failed_closed",
+  "request_id": "b1934bf327144fd48c0917d0adf5cdc9",
+  "base_commit": "ab7282e0",
+  "core_runtime_sha256": "9db83a6f1fea471ea194444e4a180a55f8d061b3ca299024060316089915e4ac",
+  "source_runtime_hash_equal": true,
+  "turn_start_observed": true,
+  "failure": "Codex app-server protocol mismatch during turn/events (account/rateLimits/updated); proposal discarded",
+  "project_files_changed": false,
+  "game_after_undo": "NOT_RUN"
+}
