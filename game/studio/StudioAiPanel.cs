@@ -203,7 +203,13 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private void CopyRequest()
     {
-        try { _request = Capture(); DisplayServer.ClipboardSet(JsonSerializer.Serialize(_request)); _status.Text = "Запрос скопирован. Применение остаётся только в Studio."; }
+        try
+        {
+            if (!_busy && _proposal is null) _request = Capture();
+            if (_request is null) throw new InvalidOperationException("Запрос ещё не подготовлен.");
+            DisplayServer.ClipboardSet(JsonSerializer.Serialize(_request));
+            if (!_busy && _proposal is null) _status.Text = "Запрос скопирован. Применение остаётся только в Studio.";
+        }
         catch (Exception error) { _status.Text = error.Message; }
     }
 
@@ -454,7 +460,12 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                 throw new InvalidDataException("Исходник изменился после сборки: " + path);
     }
 
-    private void SetBusy(bool busy) { _busy = busy; _ask.Disabled = busy || _studio.Selection != HeroHouseRecipe.EntityId; if (busy) _apply.Disabled = true; }
+    private void SetBusy(bool busy)
+    {
+        _busy = busy;
+        _ask.Disabled = busy || _studio.Selection != HeroHouseRecipe.EntityId;
+        _apply.Disabled = busy || _proposal is null || _request is null || _stage is null;
+    }
     private void ClearProposal()
     {
         _proposal = null;
