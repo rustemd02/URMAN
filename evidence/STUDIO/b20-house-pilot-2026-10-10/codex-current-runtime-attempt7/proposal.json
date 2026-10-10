@@ -1,0 +1,8 @@
+{
+  "requestId": "d392bd2ea6114af48ba8b1616342a87b",
+  "snapshotHash": "741512c27da79b738e8ce16691920d47f2d4105fb680e2ce5893f073e9f5f6c8",
+  "entityId": "urman.world:act1/kit/house-old-pc-babai-approach",
+  "expectedWidth": 1.06,
+  "windowWidth": 1.34,
+  "summary": "Set all windows to 1.30 m wide without changing their height."
+}

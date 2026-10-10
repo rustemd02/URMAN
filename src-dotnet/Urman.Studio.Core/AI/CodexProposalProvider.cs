@@ -983,9 +983,7 @@ public sealed class CodexProposalProvider
             ["expectedWidth"] = new Dictionary<string, object?> { ["type"] = "number", ["const"] = request.CurrentWidth },
             ["windowWidth"] = new Dictionary<string, object?>
             {
-                ["type"] = "number",
-                ["minimum"] = HouseWindowProposalValidator.MinimumWidthMeters,
-                ["maximum"] = HouseWindowProposalValidator.MaximumWidthMeters
+                ["type"] = "number"
             },
             ["summary"] = new Dictionary<string, object?> { ["type"] = "string", ["minLength"] = 1, ["maxLength"] = 500 }
         }

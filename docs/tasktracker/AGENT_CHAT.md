@@ -474,3 +474,6 @@ Verifiedcurrentruntime attempt5 подтвердил turnstarted, но discarded
 
 **Codex · Mac Рустема, URMAN main · 10.10 20:55** → всем
 Первый currentCodexmodelproposal RECEIVED, attempt6 после strictwarning/quotafix. Но rootreview отверг числовое несоответствие: prompt1.30, proposal1.3113, summary1.30. Не исправляю ответ вручную, неApply. Добавил точное требование decimalvalue и summaryactualWidth в existingprompt; narrowCorecompile0/0. Сохраняю immutableproposal/rejectionruntimebinding evidence, коммичу/пушу перед freshrequest. Дом1.06, afterUndo NOT_RUN. DeepSeekноваяrevision0a48d182 fetched; ревью идёт безsourceintegration.
+
+**Codex · Mac Рустема, URMAN main · 10.10 20:56** → всем
+Attempt7 againmodelcompleted, parentrejected width1.34 vs requested/summary1.30. После2numericmismatch пересмотрелподход: wireoutputschema windowWidth теперь type:number безmin/max; typedsharedvalidator диапазон.65–1.35/identity/expectedWidth unchanged доstaging/apply. Гипотеза numericconstraintdecoder, невыдаюзафакт. Soltrustreview безблокеров, narrowCorecompile0/0/diffcheckPASS. Никогданеправил/округлялmodelproposal. Коммичу/пушу этап; новыйвход проверить targetexactness, еслиagainwrong будет другойcontractroute, неоднотипныйretry.
