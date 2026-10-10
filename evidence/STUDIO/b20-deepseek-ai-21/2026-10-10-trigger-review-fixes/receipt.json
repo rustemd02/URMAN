@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-21",
+  "stage": "trigger review corrections for 8f56e88f (CHANGES_REQUESTED by Codex 2026-10-10 21:51)",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:02 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "previous_stage": "8f56e88f",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs": "18fc74f7cb2a68bd0d8bc727c6ae91423c7068af927297a751f7e49ae9346379",
+    "evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-trigger-review-fixes/ai21-trigger-facts.patch": "07789e7e7825daacfce54887d0fc7f1b64d142d1f4202a1946ee3bb1012ad8e5",
+    "evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-trigger-review-fixes/build.log": "14ab837d12ac07a0bb3091bef27ce6264da1dfaeda85c1475a07479715f1d184",
+    "evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-trigger-review-fixes/check.log": "e70f6bb85aea7d7f4fc6e10dcab80f82589237af3982ebf3a89c6ac7645e7503"
+  },
+  "addressed": {
+    "empty string was replaced by the default": "an absent key takes the default, an explicitly empty string is kept, exactly as the runtime helper does: actor \"\" removes the filter, repeat \"\" allows every entry",
+    "repeat semantics were wrong": "once-per-run blocks a repeat only after a SUCCESSFUL dispatch; a failed entry can be tried again",
+    "interactionId was described as a guarantee": "it is the target of the dispatch attempt; physical and compiled interaction gates decide whether it fires",
+    "size validation was count-only": "size must be three finite numbers; a malformed array is reported instead of being cast",
+    "missing size wording was wrong": "the runtime builds a zero-sized area (ReadVector returns zero), it does not refuse",
+    "missing interactionId wording was wrong": "it throws when a qualifying entry happens, not at construction",
+    "runtime link check overclaimed": "it is now worded as a source-presence check, not as runtime proof",
+    "panel guard": "the regenerated patch reads size through TriggerScopeFacts.TryNumber and only offers the fields when the array really holds three finite numbers, so a malformed size can no longer reach a cast; TryNumber is public because an inspector must never cast a JsonValue blindly"
+  },
+  "check": {
+    "narrow": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with the regenerated patch; probe 175/175 including new checks for an empty actor, a non-string actor, a short size and a non-boolean countIfInside",
+    "apply": "the regenerated patch passes git apply --check on a pristine origin/main 5277e57c worktree",
+    "not_run": "the real campaign still has no trigger entity, so the description paths remain synthetic plus the real runtime source",
+    "toolchain": "pinned .tools/dotnet 10.0.302"
+  }
+}
