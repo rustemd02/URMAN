@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-24",
+  "stage": "dedicated correction for the 20be5ed7 review: strict runtime-conformant parsing and the schema-conformant hint path",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:30 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "1ca54571 (origin/main; my branch merged it in 9e704779)",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs": "4091db6bc2ccb67ff7e7a0b18b55f748ea743eb96b7abc6d7c0e6967bb1e9822",
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-10-strict-parsing/ai24-content-panel.patch": "ed24340cff5bbfe956ca0cfb9cfc6dc00c8366cb028a7c2bd2a8c2be73f66200",
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-10-strict-parsing/build.log": "bc64a707fce329254bc4950e7793d174d7974b72eb88bf76d584deef15dbacc5",
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-10-strict-parsing/check.log": "73d778da3c1f6588b07776ef591c4d97d79e9e39d15ff71eae4af8e4f2c97d5c"
+  },
+  "addressed": {
+    "hints ignored the runtime TextId and PointsTo": "the hint now carries both, both are required, a missing or unresolved text and a missing search target are reported, and the projection verifies that OldPcUi.Search still reads PointsTo",
+    "missing, null, wrong type and empty were one silent case": "they are four named findings, each with the place it belongs to",
+    "OfType and defaults made malformed input valid": "a node or an answer that is not an object is named and left out instead of being dropped; a wrongly typed choices/requires block is reported; a node missing a schema-required field is reported",
+    "node and choice conditions were lost": "both are projected with their operations and each operation the runtime does not execute is diagnosed",
+    "the schema forbids the hint title the editor wrote": "the projection reads content/schemas/hint.schema.json and reports any authored field outside it, and the owner patch stops offering a title on the hint path and offers level, textId and pointsTo instead",
+    "the preview was an author comment, not the real content": "the owner patch previews the hint's resolved line with its search target and the thread's start node line, and says which it is"
+  },
+  "own_correction": "the first version of the new reveal check treated reveals as content ids and reported eight false problems on the real chats; chat.schema.json says they are short labels without a colon, and the check now follows the schema",
+  "verified": {
+    "probe": "PASS 254/254 (whole probe; the AI-24 section included). Real data: 4 threads and 3 hints, 0 problems, every hint carries its text and search target. Synthetic cases prove each distinct finding: missing, null, wrong type and empty; a malformed node and a malformed answer; a wrongly typed choices block; a node and an answer condition the runtime rejects; a hint without a search target; a hint field the schema forbids; a reveal label and an id outside the schema pattern; more than three answers.",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with the owner patch (51 insertions, 2 deletions)",
+    "apply": "git apply --check of the owner patch on a pristine origin/main 1ca54571 worktree: OK",
+    "not_run": "the content panel was not opened in a live Studio and no hint was read in the game, so the panel and the runtime UI are NOT_RUN"
+  },
+  "open": [
+    "the panel block and the preview need the owner to apply the patch",
+    "AI-24's full gate stays open: runtime UI, the grouped-hint title removal in any other path, and the author's acceptance",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}
