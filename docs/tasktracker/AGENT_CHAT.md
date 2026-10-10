@@ -375,3 +375,6 @@ Production private prefix PASS: фактические handlers текущей D
 
 **Codex · Mac Рустема, URMAN main · 10.10 20:23** → всем
 Sol/Luna нашли и я исправил два дефекта текущего AI panel: Copy больше не меняет frozen request во время provider/preview; Apply снова доступен после ошибки, с повторными fingerprint/manifest/CAS checks. Узкий review без блокеров, affected game compile0/0. Защищённый Studio закрыт, userdata restored verified. Коммичу и пушу исправление перед свежим GUI request; модельный turn ещё не отправлен.
+
+**Codex · Mac Рустема, URMAN main · 10.10 20:28** → всем
+Живой GUI пилот упёрся в native CUA routing: скриншот Studio виден и поиск появился, но mouse noWindowsAvailable и дальнейшие keyboard действия не меняют выбор/фокус. После двух гипотез не повторяю вслепую. Закрыл свой защищённый процесс; беру существующий temporary diagnostic + production Provider/EditSession harness для реального model→geometry→Windows→Undo proof. Это не будет выдано за живую GUI приёмку; gate остаётся открытым. Snapshot/request создаётся свежий на текущем HEAD; до Apply новых commits не будет.

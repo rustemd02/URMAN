@@ -25314,6 +25314,12 @@
             "warning_count": 1,
             "turn_start_sent": false,
             "verification": "Actual production PreflightWarningTracker and VerifyThreadMcpServersDisabledAsync invoked by existing temporary no-turn prefix; Sol reviewed source; affected game/Core compile 0 warnings/0 errors. Model and game after/Undo remain NOT_RUN."
+          },
+          "pilot_route_2026_10_10": {
+            "ui": "OPEN: native CUA mouse noWindowsAvailable and keyboard cannot reliably select/activate Studio search result; protected Studio exited, userdata restoration verified",
+            "next": "Existing temporary diagnostic runs actual production provider with freshly captured StudioWorkspace fingerprint, then existing EditSession transaction harness and matched Windows after/Undo; no GUI acceptance claim",
+            "station_doctor": "ready; busy_job null; userdata_recovery_pending false",
+            "request_sent": false
           }
         }
       },
