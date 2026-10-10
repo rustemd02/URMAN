@@ -1,0 +1,34 @@
+diff --git a/game/studio/StudioWorldSection.cs b/game/studio/StudioWorldSection.cs
+index aa140368..7c597786 100644
+--- a/game/studio/StudioWorldSection.cs
++++ b/game/studio/StudioWorldSection.cs
+@@ -282,6 +282,9 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+ 
+     public StudioAtmospherePanel? Atmosphere { get; private set; }
+ 
++    /// <summary>Asset usage of the catalogue, read once per selection change: what a material edit would touch.</summary>
++    private AssetUsageIndex? _assets;
++
+     private bool _reloading;
+     private Task? _reloadTask;
+     public Task ReloadGeometryAsync() => _reloadTask is { IsCompleted: false } ? _reloadTask
+@@ -1234,6 +1237,19 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+             panel.AddChild(inside);
+         }
+ 
++        // What the placed resource really is: its provenance, its release decision and
++        // the material names other assets share, so a local edit is never assumed local.
++        _assets ??= AssetUsageIndex.Open(studio.Workspace.Root);
++        var catalogueIds = new List<string>();
++        if (parameters["catalogId"] is JsonValue placedId && placedId.TryGetValue<string>(out var single) && single.Length > 0) catalogueIds.Add(single);
++        catalogueIds.AddRange((parameters["catalogIds"] as JsonArray ?? []).Select(item => (string?)item).OfType<string>().Where(item => item.Length > 0));
++        foreach (var catalogueId in catalogueIds.Distinct(StringComparer.Ordinal))
++        {
++            var usage = _assets.ByCatalogueId(catalogueId);
++            foreach (var line in usage.Notes) panel.Text(line, muted: true);
++            foreach (var problem in usage.Problems) panel.Text("⚠ " + problem);
++        }
++
+         if ((string?)entity["note"] is { Length: > 0 } note)
+         {
+             panel.Text(note, muted: true);

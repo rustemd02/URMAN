@@ -24506,7 +24506,14 @@
               "STUDIO.P5"
             ],
             "acceptance_refs": [
-              "STUDIO-AI/A10"
+              "STUDIO-AI/A10",
+              {
+                "stage": "2026-10-10 AI-36 dependency-independent slice: shared uses of a model or material resource (partial)",
+                "result": "partial implementation by deepseek v4.1 flash: an asset usage index names what a material or model edit would touch, using the real catalogue, the asset registry and the world placements, and the world properties panel shows it; a prose materials field and the missing material owners are surfaced instead of being assumed",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/AssetUsageIndex.cs; owner patch evidence/STUDIO/b20-deepseek-ai-36/2026-10-10-asset-usage/ai36-asset-panel.patch (game/studio/StudioWorldSection.cs); evidence .../build.log, check.log and receipt.json",
+                "verification": "probe PASS 196/196. Real facts asserted: 177 catalogue entries over 11 source scenes, 173 registry records with 154 outside the catalogue, the foliage kit serves 73 entries and 8 placements, 25 material names belong to more than one record (WeatheredWood 13, DampEarth 9, one prose field 15), and 118 records declare no material owner. Validate() reports a placement pointing at a missing catalogue entry and a catalogue source with no registry record, proven on a synthetic root; unknown catalogue ids and material names are clear errors. Urman.Studio.Core and game/Urman.Game.csproj build with 0 warnings/0 errors and the panel patch passes git apply --check on a pristine origin/main 5277e57c worktree. The panel was not opened in a live Studio and no material was changed, so the runtime and artistic verification is NOT_RUN; the local-versus-shared material edit itself depends on AI-11/AI-14 and stays open"
+              }
+
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
           },

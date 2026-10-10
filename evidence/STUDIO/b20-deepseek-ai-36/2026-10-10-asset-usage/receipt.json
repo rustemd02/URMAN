@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "unit": "STUDIO/AI-36",
+  "stage": "dependency-independent first slice: the shared uses of a model or material resource are named before an edit",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-10 22:10 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "5277e57cd56016c86fd7cecc99d734a8b1103099 (origin/main when the patch was made)",
+  "artifacts": {
+    "new file src-dotnet/Urman.Studio.Core/Editing/AssetUsageIndex.cs": "reads the real catalogue, the asset registry and the world placements; answers by catalogue id, by source scene or by material name with the entries, the placements, the registry provenance (licence, source .blend, generator, budgets, release decision) and the material names other assets share; Validate() reports dangling placements, a catalogue source with no registry record, a missing derived file and a resource marked exclude-from-act1-release",
+    "evidence/STUDIO/b20-deepseek-ai-36/2026-10-10-asset-usage/ai36-asset-panel.patch": "owner applies: the world properties panel shows the shared uses, the provenance notes and the problems for the selected entity's catalogue reference, with the index cached per section (16 insertions)"
+  },
+  "real_facts": {
+    "catalogue_entries": 177,
+    "source_scenes": 11,
+    "registry_records": 173,
+    "records_outside_the_catalogue": 154,
+    "largest_family": "agentb_foliage_kit.glb serves 73 catalogue entries and 8 world placements",
+    "shared_material_names": 25,
+    "widest_shared_material": "one materials field carries a prose description and is declared by 15 records",
+    "notable": "WeatheredWood is declared by 13 records, DampEarth by 9: a local material edit there reaches several kits",
+    "missing_material_owner": "118 registry records declare no material owner, which ByMaterial reports instead of assuming"
+  },
+  "verified": {
+    "probe": "PASS 196/196 (whole probe; the AI-36 section included). The real numbers above are asserted, a placement pointing at a missing catalogue entry is reported, a catalogue source with no registry record is reported, and an unknown catalogue id or material name is a clear error.",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with the panel patch",
+    "apply": "git apply --check of the panel patch on a pristine origin/main 5277e57c worktree: OK",
+    "not_run": "the panel was not opened in a live Studio, so the provenance block is source- and probe-verified only; no material was changed and no game frame was compared"
+  },
+  "open": [
+    "runtime/visual verification of a material change and of the panel block is NOT_RUN",
+    "the unit's local-versus-shared material edit itself depends on AI-11 and AI-14 (Codex) and is not implemented here",
+    "the registry's materials field is not uniform: one entry carries prose, which the index now surfaces instead of treating it as a name"
+  ]
+}
