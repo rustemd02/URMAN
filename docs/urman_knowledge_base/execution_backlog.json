@@ -23355,8 +23355,7 @@
             "boundary": "Headless adapter; default proposal-only; без SDK-сервиса.",
             "depends_on_units": [
               "STUDIO/AI-05",
-              "STUDIO/AI-06",
-              "STUDIO/AI-07"
+              "STUDIO/AI-06"
             ],
             "source_dependencies": "AI-05, AI-06; может идти параллельно AI-07.",
             "files_symbols_sources": "Новый ClaudeCliProvider; IAgentProvider; E03–E06.",
@@ -23365,7 +23364,20 @@
             "verification": "Один успешный job, malformed output, auth/limit handling и cancel; A12.",
             "risks_recovery_external_gates": "Установленная версия/личные лимиты — gate. Не разрешать shell ради удобства, не использовать global --continue.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 official Claude headless boundary research only",
+                "result": "no CLI/account/config/env execution or implementation; readiness not claimed",
+                "sources": [
+                  "https://code.claude.com/docs/en/cli-reference",
+                  "https://code.claude.com/docs/en/headless",
+                  "https://code.claude.com/docs/en/hooks",
+                  "https://code.claude.com/docs/en/settings",
+                  "https://code.claude.com/docs/en/env-vars"
+                ],
+                "next": "Reuse HouseWindow DTO/validator; check installed CLI, personal subscription auth and effective managed policy without exposing secrets before any model call. --bare requires API auth and is unsuitable; tool/MCP deny flags do not prove managed hooks inactive."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P1"
             ],
@@ -23373,7 +23385,8 @@
               "STUDIO-AI/A09",
               "STUDIO-AI/A12"
             ],
-            "assigned_owner": "codex/b20-2026-10-10"
+            "assigned_owner": "codex/b20-2026-10-10",
+            "dependency_correction_2026_10_10": "Removed imported blocking AI-07 edge: original spec §11 AI-08 field4 line897 permits parallel AI-07; source_dependencies already preserved that wording. Independent Luna read-only exact-source comparison. Author priority remains first Codex pilot; no readiness/completion inferred."
           },
           {
             "id": "STUDIO/AI-09",
@@ -25109,8 +25122,8 @@
           "provider_authorization": "Author live reply 2026-10-10: own global Codex instructions allowed for first pilot; tools/write disabled; personal ChatGPT login, no API/pay-as-you-go fallback. Provider default rejects global instruction sources; explicit local opt-in.",
           "verification_question": "Do typed Codex width, seven real paired apertures and source/artifact transaction change only selected HeroHouse, and does Undo restore byte-identical recipe plus asset absence and matching game frame?",
           "success_condition": "AppServer typed proposal exact captured identities; game exterior+interior before/after/Undo at matched Windows cameras; original recipe/shared assets hashes restored, new artifact/ref removed; failed promotion/view and foreign edits refuse whole operation; all unmet B20 criteria stay open.",
-          "provider_compatibility": "Latest no-turn prefix with DebugCore SHA8e618487…9f961c passed ChatGPT account, active feature gate, config3server disable override, thread/start and thread boundary. Stopped mcpServerStatus/list on notification warning before disabled/no-tools proof; turnStartSent=false. Official source research pending; do not whitelist unknown warnings.",
-          "ui_blocker": "Panel layout and CmdEnter observed previously; no current protected Studio process. Need mcpStatus/noTools gate, then actual model proposal, Before/After, Apply, Windows after/Undo. No proposal or mutation yet.",
+          "provider_compatibility": "One temp no-turn prefix with strict scoped warning handler PASS: account ChatGPT/features/thread boundary; config3servers all per-thread overrides disabled; status3rows/1page exactly configured IDs, runtimeStatus disabled, tools empty; warningCount1, byteLength255, thread correlation valid; turnStartSent=false. CoreSHA7611f4d5…f308. Sol independently reviewed warning handler: notification processing does not weaken independent MCP gate. Minimal production preflight tracker patch pending; no actual inference/proposal yet.",
+          "ui_blocker": "Panel layout and CmdEnter verified previously; TabInputMode=false compiled. No current protected Studio process. Next: reviewed production preflight warning patch/compile, actual fresh Codex request from Studio, preview/Apply, Windows after and full Undo. Baseline recipe/shared assets unchanged.",
           "provider_source_evidence": "https://github.com/openai/codex/blob/rust-v0.162.0-alpha.17/codex-rs/features/src/lib.rs:2282 StageRemoved backward compatibility; item_ids2811,terminal_resize_reflow2464,tui_app_server3053; ignored toggles3312–3414/3453–3459. Luna read-only review; installed schemas unchanged with/without3 switches.",
           "work_split_2026_10_10": {
             "authorization": "Прямое поручение автора 10.10.2026: разделить B20 между Codex и DeepSeek; отдельный clone/branch DeepSeek, Codex review/cherry-pick accepted commits into main.",
@@ -25297,7 +25310,60 @@
             "first_next": "Codex продолжает первый Codex house/windows → game → full Undo пилот; DeepSeek до выполненных dependency gates может исследовать/готовить конкретные участки в своём clone, но не выдавать подготовку за принятый AI-13 либо удалять зависимости."
           },
           "persistent_history_limit": "Only one accepted exact four-file HeroHouse command restored; multiple committed commands refuse ambiguous order. Retire/compensation preserves authored files and ordinary failure handling; crash between independent retirement journals can lose pilot history, full mixed persistent stack remains AI-11 open.",
-          "ui_keyboard": "TextEdit.TabInputMode=false uses bundled Godot4.7.1 standard focus traversal; game compile0/0, actual Tab/Apply/Before/After still to observe in live pilot."
+          "ui_keyboard": "Built-in TabInputMode=false compiled0/0; tree-derived expected button focus sequence available; live traversal/Apply/Undo still pending.",
+          "game_comparison_limit": "Before Windows matched camera frames use effective low, FSR0.70 rescue despite requested high; after/Undo must compare effective settings. Two frames show exterior/front+interior, not all7 sides. Seven aperture contract derived from generator and stage manifest; current capture does not export arbitrary Node Meta. No generated1.30 artifact yet.",
+          "production_private_prefix_2026_10_10": {
+            "result": "PASS",
+            "core_sha256": "76577e502f4b88ea8cf6ffa4abef3f02c4c1e3cef319d85cc2de386f4a06d523",
+            "configured_servers": 3,
+            "disabled_servers": 3,
+            "available_mcp_tools": 0,
+            "warning_count": 1,
+            "turn_start_sent": false,
+            "verification": "Actual production PreflightWarningTracker and VerifyThreadMcpServersDisabledAsync invoked by existing temporary no-turn prefix; Sol reviewed source; affected game/Core compile 0 warnings/0 errors. Model and game after/Undo remain NOT_RUN."
+          },
+          "pilot_route_2026_10_10": {
+            "ui": "OPEN: native CUA mouse noWindowsAvailable and keyboard cannot reliably select/activate Studio search result; protected Studio exited, userdata restoration verified",
+            "next": "Existing temporary diagnostic runs actual production provider with freshly captured StudioWorkspace fingerprint, then existing EditSession transaction harness and matched Windows after/Undo; no GUI acceptance claim",
+            "station_doctor": "ready; busy_job null; userdata_recovery_pending false",
+            "request_sent": false
+          },
+          "deepseek_ai13_review_2026_10_10": {
+            "branch": "deepseek/b20-editor-content",
+            "received_commits": [
+              "e97755df",
+              "9b8b8b4a",
+              "20066313"
+            ],
+            "base": "c5b746af",
+            "reviewers": [
+              "codex/root",
+              "gpt-6.1-sol medium",
+              "gpt-6-luna max"
+            ],
+            "disposition": "CHANGES_REQUESTED; implementation commit not cherry-picked",
+            "findings": [
+              "Declared campaign/scene mismatch accepted",
+              "full_game wrongly labelled AuthoredWorldPlots without runtime consumer",
+              "sourceRevision omits authored world files",
+              "UI-state symlink path escape",
+              "Stale-store lost update",
+              "Mutable shared Empty.Pivot"
+            ],
+            "scope": "Static code/runtime source review only; peer compile/probe not rerun. Two entry scenes do not meet two authored worlds criterion; full AI-13 remains open."
+          },
+          "production_turn_attempt2": {
+            "request_id": "439e4196693341a58f26e1220306c5ca",
+            "base_commit": "dd0aadbb",
+            "result": "failed_closed",
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-production-attempt2/provider-diagnostic.json",
+            "turn_start_requested": true,
+            "turn_start_observed": false,
+            "reason": "Unexpected mcpServer/startupStatus/updated during turn/start; proposal discarded",
+            "project_files_changed": false,
+            "game_after_undo": "NOT_RUN",
+            "next": "Official notification producer/schema review; preserve strict no-tools boundary. No blanket method allowlist."
+          }
         }
       },
       "done_when": "Все дочерние задачи закрыты доказательствами; человеческие пункты оценены автором, а не walkthrough. Дополнительно выполнены все обязательные AI-единицы и новые A01–A25 из ТЗ 10.10, включая обоих провайдеров и внешние гейты; AI-35 только после отдельного расширения Windows. Историческая матрица и дочерние задачи сохраняются.",

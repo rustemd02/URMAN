@@ -17,6 +17,7 @@ public sealed record CodexDoctorSummary(bool ExecutableFound, string? Version, C
 public enum CodexProposalStage
 {
     Preparing,
+    ConfigurationWarning,
     Generating,
     Validating
 }
@@ -206,6 +207,7 @@ public sealed class CodexProposalProvider
 
         var errorDrain = DrainAsync(process.StandardError);
         var client = new AppServerClient(process, MaximumLineBytes);
+        var preflightWarnings = new PreflightWarningTracker();
         var threadId = (string?)null;
         var turnId = (string?)null;
         var turnWasStarted = false;
@@ -248,10 +250,11 @@ public sealed class CodexProposalProvider
                 ["environments"] = Array.Empty<object>(),
                 ["runtimeWorkspaceRoots"] = Array.Empty<string>(),
                 ["config"] = BuildThreadConfigOverrides(configuredMcpServerIds)
-            }, 100, HandleStartupNotificationAsync, token).ConfigureAwait(false);
+            }, 100, preflightWarnings.HandleStartupNotification, token).ConfigureAwait(false);
 
             var thread = GetRequiredObject(threadResponse, "thread");
             threadId = GetRequiredString(thread, "id");
+            preflightWarnings.BindThreadId(threadId);
             if (!string.Equals(GetRequiredString(threadResponse, "modelProvider"), "openai", StringComparison.Ordinal))
             {
                 throw new CodexProposalException("Codex did not select the approved ChatGPT provider.");
@@ -260,7 +263,13 @@ public sealed class CodexProposalProvider
             VerifyThreadBoundary(threadResponse, thread, workingDirectory);
 
             protocolPhase = "mcpServerStatus/list";
-            await VerifyThreadMcpServersDisabledAsync(client, threadId, configuredMcpServerIds, token).ConfigureAwait(false);
+            await VerifyThreadMcpServersDisabledAsync(client, threadId, configuredMcpServerIds, preflightWarnings, token).ConfigureAwait(false);
+
+            if (preflightWarnings.Count > 0)
+            {
+                Report(progress, CodexProposalStage.ConfigurationWarning,
+                    "Codex reported a non-fatal startup warning; details are hidden. MCP tools were verified disabled before generation.");
+            }
 
             Report(progress, CodexProposalStage.Generating, "Generating one structured resize proposal.");
             var terminalTurn = (JsonElement?)null;
@@ -474,6 +483,7 @@ public sealed class CodexProposalProvider
         AppServerClient client,
         string threadId,
         IReadOnlyList<string> configuredServerIds,
+        PreflightWarningTracker preflightWarnings,
         CancellationToken cancellationToken)
     {
         var cursors = new HashSet<string>(StringComparer.Ordinal);
@@ -498,7 +508,7 @@ public sealed class CodexProposalProvider
             };
             if (cursor is not null) parameters["cursor"] = cursor;
 
-            var response = await client.RequestAsync("mcpServerStatus/list", parameters, 40 + pages, null, cancellationToken).ConfigureAwait(false);
+            var response = await client.RequestAsync("mcpServerStatus/list", parameters, 40 + pages, preflightWarnings.HandleMcpStatusNotification, cancellationToken).ConfigureAwait(false);
             if (!response.TryGetProperty("data", out var rows) || rows.ValueKind != JsonValueKind.Array)
             {
                 throw new ProtocolBoundaryException("data");
@@ -1317,6 +1327,158 @@ public sealed class CodexProposalProvider
     private static StringComparison PathComparison => OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 
     private sealed record ShortCommandResult(int ExitCode, string Output, string ErrorOutput);
+
+    private sealed class PreflightWarningTracker
+    {
+        private const int MaximumWarnings = 8;
+        private const int MaximumWarningMessageBytes = 8 * 1024;
+        private const int MaximumCorrelatedNotifications = 16;
+        private const int MaximumThreadIdCharacters = 256;
+        private readonly List<string> _pendingThreadIds = [];
+        private string? _threadId;
+
+        public int Count { get; private set; }
+
+        public void BindThreadId(string threadId)
+        {
+            ValidateThreadId(threadId, "threadId");
+            _threadId = threadId;
+            foreach (var pendingThreadId in _pendingThreadIds)
+            {
+                if (!string.Equals(pendingThreadId, threadId, StringComparison.Ordinal))
+                {
+                    throw new ProtocolBoundaryException("warningThreadId");
+                }
+            }
+
+            _pendingThreadIds.Clear();
+        }
+
+        public Task HandleStartupNotification(JsonElement message)
+        {
+            var method = GetMethod(message);
+            if (method == "warning")
+            {
+                RecordWarning(message);
+                return Task.CompletedTask;
+            }
+
+            if (method == "thread/started")
+            {
+                RecordStartedThreadId(message);
+                return Task.CompletedTask;
+            }
+
+            return HandleStartupNotificationAsync(message);
+        }
+
+        public Task HandleMcpStatusNotification(JsonElement message)
+        {
+            EnsureNotificationWithoutId(message);
+            var method = GetMethod(message);
+            if (method == "warning")
+            {
+                RecordWarning(message);
+                return Task.CompletedTask;
+            }
+
+            if (method == "thread/started")
+            {
+                RecordStartedThreadId(message);
+                return Task.CompletedTask;
+            }
+
+            if (IsAllowedPassiveNotification(message)) return Task.CompletedTask;
+            throw new ProtocolBoundaryException(GetSafeUnexpectedNotificationToken(message, method));
+        }
+
+        private void RecordStartedThreadId(JsonElement message)
+        {
+            EnsureNotificationWithoutId(message);
+            var thread = GetRequiredObject(GetRequiredObject(message, "params"), "thread");
+            ObserveThreadId(GetRequiredString(thread, "id"), "threadId");
+        }
+
+        private void RecordWarning(JsonElement message)
+        {
+            EnsureNotificationWithoutId(message);
+            if (GetMethod(message) != "warning") throw new ProtocolBoundaryException("warningMethod");
+            EnsureOnlyProperties(message, "method", "params", "emittedAtMs", true, "warningSchema");
+            if (message.TryGetProperty("emittedAtMs", out var emittedAtMs) && emittedAtMs.ValueKind != JsonValueKind.Number)
+            {
+                throw new ProtocolBoundaryException("warningSchema");
+            }
+
+            var parameters = GetRequiredObject(message, "params");
+            EnsureOnlyProperties(parameters, "message", "threadId", null, false, "warningSchema");
+            var warningMessage = GetRequiredString(parameters, "message");
+            if (Encoding.UTF8.GetByteCount(warningMessage) > MaximumWarningMessageBytes)
+            {
+                throw new ProtocolBoundaryException("warningLength");
+            }
+
+            if (Count >= MaximumWarnings) throw new ProtocolBoundaryException("warningCount");
+
+            if (parameters.TryGetProperty("threadId", out var notificationThreadId))
+            {
+                if (notificationThreadId.ValueKind == JsonValueKind.String)
+                {
+                    var value = notificationThreadId.GetString() ?? string.Empty;
+                    ObserveThreadId(value, "warningThreadId");
+                }
+                else if (notificationThreadId.ValueKind != JsonValueKind.Null)
+                {
+                    throw new ProtocolBoundaryException("warningSchema");
+                }
+            }
+
+            Count++;
+        }
+
+        private void ObserveThreadId(string threadId, string diagnosticToken)
+        {
+            ValidateThreadId(threadId, diagnosticToken);
+            if (_threadId is null)
+            {
+                if (_pendingThreadIds.Count >= MaximumCorrelatedNotifications)
+                {
+                    throw new ProtocolBoundaryException("notificationCount");
+                }
+
+                _pendingThreadIds.Add(threadId);
+            }
+            else if (!string.Equals(threadId, _threadId, StringComparison.Ordinal))
+            {
+                throw new ProtocolBoundaryException(diagnosticToken);
+            }
+        }
+
+        private static void ValidateThreadId(string threadId, string diagnosticToken)
+        {
+            if (string.IsNullOrWhiteSpace(threadId) || threadId.Length > MaximumThreadIdCharacters || threadId.Any(char.IsControl))
+            {
+                throw new ProtocolBoundaryException(diagnosticToken);
+            }
+        }
+
+        private static void EnsureOnlyProperties(JsonElement value, string requiredProperty, string secondRequiredProperty, string? optionalProperty, bool secondRequired, string diagnosticToken)
+        {
+            if (value.ValueKind != JsonValueKind.Object) throw new ProtocolBoundaryException(diagnosticToken);
+            var properties = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var property in value.EnumerateObject())
+            {
+                if ((property.Name != requiredProperty && property.Name != secondRequiredProperty && property.Name != optionalProperty) || !properties.Add(property.Name))
+                {
+                    throw new ProtocolBoundaryException(diagnosticToken);
+                }
+            }
+
+            if (!properties.Contains(requiredProperty) || (secondRequired && !properties.Contains(secondRequiredProperty)))
+            {
+                throw new ProtocolBoundaryException(diagnosticToken);
+            }
+        }
+    }
 
     private sealed class ProtocolBoundaryException : Exception
     {
