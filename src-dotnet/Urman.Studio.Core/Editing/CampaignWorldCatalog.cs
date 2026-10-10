@@ -29,24 +29,44 @@ public sealed record CatalogBlocker(string Code, string Detail);
 
 /// <summary>
 /// Reads the campaigns and startable worlds that really exist in a checkout
-/// (spec AI-13, contract <c>CampaignWorldContext</c>). It is a read-only view
-/// over existing sources - the campaign manifests, the Godot entry scenes, the
-/// compiled packs, the authored world plots and the photo-world specifications -
-/// and keeps no registry of its own: a campaign or world that is not in those
-/// files cannot be resolved at all.
+/// (spec AI-13, contract <c>CampaignWorldContext</c>). It is a read-only
+/// projection over existing sources - the campaign manifests, the Godot entry
+/// scenes, the compiled packs, the authored world plots and the photo-world
+/// specifications - and keeps no registry of its own: nothing here becomes a
+/// second source of truth for the compiler or the runtime, and no campaign or
+/// world that is absent from those files can be resolved.
 /// </summary>
 public sealed class CampaignWorldCatalog
 {
+    /// <summary>The scene the project starts is always a startable world.</summary>
     private static readonly Regex MainSceneLine = new(
         "^run/main_scene\\s*=\\s*\"res://([^\"]+)\"", RegexOptions.Multiline | RegexOptions.CultureInvariant);
-    private static readonly Regex CampaignResourceLine = new(
-        "^\\s*CampaignResourcePath\\s*=\\s*\"([^\"]+)\"", RegexOptions.Multiline | RegexOptions.CultureInvariant);
-    private static readonly Regex EntryZoneLine = new(
-        "^\\s*(?:Initial|Current)ZoneId\\s*=\\s*\"([^\"]+)\"", RegexOptions.Multiline | RegexOptions.CultureInvariant);
-    private static readonly Regex EntrySpawnLine = new(
-        "^\\s*(?:Initial|Current)SpawnPointId\\s*=\\s*\"([^\"]+)\"", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+    private static readonly Regex ExtResourceLine = new(
+        "^\\[ext_resource\\s+path=\"([^\"]+)\"[^\\]]*\\bid=\"([^\"]+)\"", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+    private static readonly Regex NodeLine = new(
+        "^\\[node\\s+name=\"([^\"]+)\"\\s+type=\"([^\"]+)\"(?:\\s+parent=\"([^\"]*)\")?", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+    private static readonly Regex PropertyLine = new(
+        "^([A-Za-z_][A-Za-z0-9_]*)\\s*=\\s*(.+)$", RegexOptions.CultureInvariant);
+    private static readonly Regex ExtResourceReference = new(
+        "^ExtResource\\(\"([^\"]+)\"\\)$", RegexOptions.CultureInvariant);
+    private static readonly Regex QuotedValue = new(
+        "^\"([^\"]*)\"$", RegexOptions.CultureInvariant);
+    private static readonly Regex LoaderSignal = new(
+        "EnableAct1ConnectedWorld\\s*=\\s*true", RegexOptions.CultureInvariant);
     private static readonly Regex CompiledPackName = new(
         "^res://content/([^/\"]+)\\.compiled\\.v1\\.json$", RegexOptions.CultureInvariant);
+
+    /// <summary>One node of an entry scene with its own properties and script.</summary>
+    private sealed record SceneNode(string Name, string Type, string? Parent, string? ScriptPath);
+
+    /// <summary>A parsed entry scene: which node declares what, plus the loader signal if any.</summary>
+    private sealed record SceneDocument(
+        string? RootScriptPath,
+        IReadOnlyList<string> CampaignResources,
+        string ZoneId,
+        string SpawnPointId,
+        IReadOnlyList<string> LoaderSignals,
+        string? Ambiguity);
 
     private readonly Dictionary<string, CampaignRef> _campaignsBySelection = new(StringComparer.Ordinal);
     private readonly Dictionary<string, WorldRef> _worldsByScene = new(StringComparer.Ordinal);
@@ -93,10 +113,14 @@ public sealed class CampaignWorldCatalog
     /// <summary>Campaigns an author may start by default; archive examples are excluded.</summary>
     public IEnumerable<CampaignRef> SelectableCampaigns => Campaigns.Where(campaign => campaign.SelectableByDefault);
 
-    /// <summary>Worlds that declare this campaign, plus worlds that declare none and can host any campaign.</summary>
+    /// <summary>
+    /// Worlds that declare this campaign, plus worlds that declare none and can
+    /// therefore host any campaign. A world that declares a different campaign is
+    /// never offered for this one.
+    /// </summary>
     public IEnumerable<WorldRef> WorldsFor(string campaignSelection) =>
         Worlds.Where(world => string.Equals(world.CampaignSelection, campaignSelection, StringComparison.Ordinal)
-            || string.IsNullOrEmpty(world.CampaignSelection));
+            || !world.CampaignDeclaredByScene);
 
     /// <summary>Reads the catalog from a Studio workspace (same checkout the editor has open).</summary>
     public static CampaignWorldCatalog Discover(StudioWorkspace workspace) => Discover(workspace.Root);
@@ -120,21 +144,27 @@ public sealed class CampaignWorldCatalog
     /// selectable campaign and the first world that can host it. Archive examples
     /// are never returned (spec AI-13 done_when).
     /// </summary>
-    public CampaignWorldContext Default()
+    public CampaignWorldContext Default(string baseRevision = "")
     {
         var campaign = SelectableCampaigns.FirstOrDefault()
             ?? throw new InvalidOperationException("В этом checkout нет ни одной действующей кампании: content/campaigns содержит только архивные примеры.");
         var world = WorldsFor(campaign.Selection).FirstOrDefault()
             ?? throw new InvalidOperationException($"Для кампании «{campaign.Selection}» нет ни одной стартовой сцены мира.");
-        return Resolve(campaign.Selection, world.ScenePath);
+        return Resolve(campaign.Selection, world.ScenePath, baseRevision: baseRevision);
     }
 
     /// <summary>
-    /// Pairs one real campaign with one real world scene. Unsupported input is a
-    /// clear error, never a silently invented default; a scene that does not
-    /// declare its campaign is marked as an explicit selection.
+    /// Pairs one real campaign with one real world scene. A scene that declares a
+    /// different campaign is refused (its binding is real, not a choice); a scene
+    /// that declares none is marked as an explicit selection. Unknown input is a
+    /// clear error, never a silently invented default.
     /// </summary>
-    public CampaignWorldContext Resolve(string campaignSelection, string scenePath, string? zoneId = null, string? spawnPointId = null)
+    public CampaignWorldContext Resolve(
+        string campaignSelection,
+        string scenePath,
+        string? zoneId = null,
+        string? spawnPointId = null,
+        string baseRevision = "")
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(campaignSelection);
         ArgumentException.ThrowIfNullOrWhiteSpace(scenePath);
@@ -150,28 +180,59 @@ public sealed class CampaignWorldCatalog
                 $"Сцена «{scenePath}» не найдена среди стартовых миров. Есть: {string.Join(", ", Worlds.Select(item => item.ScenePath))}.");
         }
 
-        var declared = world.DeclaredCampaignResource is not null
-            && string.Equals(SelectionOf(world.DeclaredCampaignResource), campaignSelection, StringComparison.Ordinal);
+        var declared = world.DeclaredCampaignResource;
+        if (declared is not null)
+        {
+            var declaredSelection = SelectionOf(declared);
+            if (!string.Equals(declaredSelection, campaignSelection, StringComparison.Ordinal))
+            {
+                throw new InvalidOperationException(
+                    $"Сцена «{scenePath}» сама объявляет кампанию «{declaredSelection}» (CampaignResourcePath), поэтому её нельзя открыть как «{campaignSelection}». " +
+                    "Выберите объявленную кампанию либо сцену без объявленной кампании.");
+            }
+        }
+
         var resolved = world with
         {
             CampaignSelection = campaignSelection,
             ZoneId = string.IsNullOrWhiteSpace(zoneId) ? world.ZoneId : zoneId,
             SpawnPointId = string.IsNullOrWhiteSpace(spawnPointId) ? world.SpawnPointId : spawnPointId
         };
-        var revision = SourceRevision(campaign, resolved);
+        var dependencies = AuthoredDependencies(campaign, resolved);
         return new CampaignWorldContext(
             campaign,
             resolved,
-            revision,
+            HashFiles(dependencies),
+            baseRevision,
+            dependencies,
             campaign.CompiledPackPath,
-            declared ? CampaignWorldContext.CampaignBindingDeclared : CampaignWorldContext.CampaignBindingExplicit);
+            declared is null ? CampaignWorldContext.CampaignBindingExplicit : CampaignWorldContext.CampaignBindingDeclared);
     }
 
-    /// <summary>SHA-256 over the campaign manifest, the entry scene and the compiled pack this context depends on.</summary>
-    public string SourceRevision(CampaignRef campaign, WorldRef world)
+    /// <summary>
+    /// The authored files a saved change in this world depends on: the campaign
+    /// manifest, the entry scene and its compiled pack, plus every world plot when
+    /// the loader reads the plot directory. Changing any of them changes the
+    /// content fingerprint.
+    /// </summary>
+    public IReadOnlyList<string> AuthoredDependencies(CampaignRef campaign, WorldRef world)
     {
-        var sceneRelative = "game/" + world.ScenePath["res://".Length..];
-        return HashFiles([campaign.RelativePath, sceneRelative, campaign.CompiledPackPath]);
+        var dependencies = new List<string>
+        {
+            campaign.RelativePath,
+            "game/" + world.ScenePath["res://".Length..]
+        };
+        if (File.Exists(Path.Combine(Root, campaign.CompiledPackPath.Replace('/', Path.DirectorySeparatorChar))))
+        {
+            dependencies.Add(campaign.CompiledPackPath);
+        }
+
+        if (world.Capability == WorldAuthoringCapability.AuthoredWorldPlots)
+        {
+            dependencies.AddRange(AuthoredWorldPlots.Select(plot => plot.RelativePath));
+        }
+
+        return dependencies.Order(StringComparer.Ordinal).ToArray();
     }
 
     private string HashFiles(IEnumerable<string> relativePaths)
@@ -335,27 +396,40 @@ public sealed class CampaignWorldCatalog
                 continue;
             }
 
-            var file = Path.Combine(scenesRoot, scenePath["res://".Length..].Replace('/', Path.DirectorySeparatorChar));
+            var relative = scenePath["res://".Length..];
+            var file = Path.Combine(scenesRoot, relative.Replace('/', Path.DirectorySeparatorChar));
             if (!File.Exists(file))
             {
                 notes.Add($"{scenePath}: файла сцены нет, пропущена.");
                 continue;
             }
 
-            var text = File.ReadAllText(file);
-            var declaredResource = CampaignResourceLine.Match(text) is { Success: true } resource ? resource.Groups[1].Value : null;
-            var zone = EntryZoneLine.Match(text) is { Success: true } zoneMatch ? zoneMatch.Groups[1].Value : "";
-            var spawn = EntrySpawnLine.Match(text) is { Success: true } spawnMatch ? spawnMatch.Groups[1].Value : "";
+            var document = ParseScene(scenesRoot, relative, File.ReadAllText(file), notes);
             var isMain = string.Equals(mainScene, scenePath, StringComparison.Ordinal);
-            if (!isMain && declaredResource is null && zone.Length == 0)
+            if (document is null)
             {
                 continue;
             }
 
+            if (document.Ambiguity is { } ambiguity)
+            {
+                notes.Add($"{scenePath}: {ambiguity} Сцена пропущена, пока объявление не станет однозначным.");
+                continue;
+            }
+
+            if (!isMain && document.CampaignResources.Count == 0 && document.ZoneId.Length == 0)
+            {
+                continue;
+            }
+
+            var declaredResource = document.CampaignResources.Count == 1 ? document.CampaignResources[0] : null;
             var selection = declaredResource is not null ? SelectionOf(declaredResource) : "";
-            var worldId = Path.GetFileNameWithoutExtension(scenePath);
-            var evidence = new List<string>();
-            var capability = WorldAuthoringCapability.AuthoredWorldPlots;
+            var evidence = new List<string>
+            {
+                document.LoaderSignals.Count > 0
+                    ? $"Сигнал загрузчика авторского мира: {string.Join(", ", document.LoaderSignals)}."
+                    : "Сигнала загрузчика авторского мира в сцене и её скриптах нет."
+            };
             if (isMain)
             {
                 evidence.Add("Стартовая сцена проекта: game/project.godot run/main_scene.");
@@ -364,39 +438,170 @@ public sealed class CampaignWorldCatalog
             if (declaredResource is not null)
             {
                 evidence.Add($"Сцена сама объявляет кампанию: CampaignResourcePath = {declaredResource}.");
-                if (plots.Count == 0)
-                {
-                    capability = WorldAuthoringCapability.PresentationOnly;
-                    evidence.Add("В checkout нет авторских world plot файлов.");
-                }
-                else
-                {
-                    evidence.Add($"Авторские world plot файлы checkout: {plots.Count}; принадлежат namespace {string.Join(", ", plots.SelectMany(plot => plot.Namespaces).Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal))}.");
-                    evidence.Add("Связь этой сцены с конкретным world plot нигде не объявлена — требуется подтверждение владельца.");
-                }
             }
             else
             {
-                evidence.Add("Сцена не объявляет кампанию: связь задаётся кодом (RuntimeBridge/CompiledCampaignRepository), поэтому это явный выбор автора.");
-                evidence.Add(plots.Count > 0
-                    ? $"Авторских world plot: {plots.Count} ({string.Join(", ", plots.SelectMany(plot => plot.Namespaces).Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal))})."
-                    : "Авторских world plot нет.");
-                if (plots.Count == 0)
-                {
-                    capability = WorldAuthoringCapability.PresentationOnly;
-                }
+                evidence.Add("Сцена не объявляет кампанию: связь задаётся кодом, поэтому это явный выбор автора.");
             }
 
-            if (zone.Length == 0)
+            if (document.ZoneId.Length == 0)
             {
-                evidence.Add("Сцена не объявляет зону/спавн: их задаёт код, поэтому в контексте они остаются пустыми до явного выбора.");
+                evidence.Add("Сцена не объявляет зону и спавн: их задаёт код, поэтому в контексте они остаются пустыми до явного выбора.");
             }
 
-            var title = zoneTitles.TryGetValue(zone, out var zoneTitle) && zoneTitle.Length > 0 ? zoneTitle : worldId;
-            worlds.Add(new WorldRef(selection, worldId, title, scenePath, zone, spawn, declaredResource, capability, evidence));
+            var capability = document.LoaderSignals.Count > 0
+                ? WorldAuthoringCapability.AuthoredWorldPlots
+                : WorldAuthoringCapability.PresentationOnly;
+            if (capability == WorldAuthoringCapability.PresentationOnly && plots.Count > 0)
+            {
+                evidence.Add($"Авторских world plot в checkout: {plots.Count}, но эта сцена их не загружает.");
+            }
+
+            if (document.RootScriptPath is null)
+            {
+                evidence.Add("Корневой скрипт сцены не разрешён, поэтому capability определена консервативно.");
+            }
+
+            var worldId = Path.GetFileNameWithoutExtension(scenePath);
+            var title = zoneTitles.TryGetValue(document.ZoneId, out var zoneTitle) && zoneTitle.Length > 0 ? zoneTitle : worldId;
+            worlds.Add(new WorldRef(selection, worldId, title, scenePath, document.ZoneId, document.SpawnPointId, declaredResource, capability, evidence));
         }
 
         return worlds;
+    }
+
+    /// <summary>
+    /// Parses one scene into node-scoped facts. Properties are read from the node
+    /// that declares them, and the loader signal is looked up in the scene body and
+    /// in the scripts those nodes reference. Conflicting declarations are reported
+    /// as ambiguity instead of being guessed.
+    /// </summary>
+    private static SceneDocument? ParseScene(string scenesRoot, string sceneRelative, string text, List<string> notes)
+    {
+        var resources = new Dictionary<string, string>(StringComparer.Ordinal);
+        foreach (Match match in ExtResourceLine.Matches(text))
+        {
+            resources[match.Groups[2].Value] = match.Groups[1].Value;
+        }
+
+        var nodes = new List<(SceneNode Node, Dictionary<string, string> Properties)>();
+        var nodeMatches = NodeLine.Matches(text);
+        for (var index = 0; index < nodeMatches.Count; index++)
+        {
+            var match = nodeMatches[index];
+            var bodyStart = match.Index + match.Length;
+            var bodyEnd = index + 1 < nodeMatches.Count ? nodeMatches[index + 1].Index : text.Length;
+            var body = text[bodyStart..bodyEnd];
+
+            string? script = null;
+            var properties = new Dictionary<string, string>(StringComparer.Ordinal);
+            foreach (var line in body.Split('\n'))
+            {
+                var property = PropertyLine.Match(line.Trim());
+                if (!property.Success)
+                {
+                    continue;
+                }
+
+                var name = property.Groups[1].Value;
+                var value = property.Groups[2].Value.Trim();
+                if (name == "script")
+                {
+                    if (ExtResourceReference.Match(value) is { Success: true } reference
+                        && resources.TryGetValue(reference.Groups[1].Value, out var scriptPath))
+                    {
+                        script = scriptPath;
+                    }
+
+                    continue;
+                }
+
+                properties[name] = value;
+            }
+
+            var parent = match.Groups[3].Success ? match.Groups[3].Value : null;
+            nodes.Add((new SceneNode(match.Groups[1].Value, match.Groups[2].Value, parent, script), properties));
+        }
+
+        if (nodes.Count == 0)
+        {
+            notes.Add($"{sceneRelative}: узлов не найдено, сцена не разобрана.");
+            return null;
+        }
+
+        var roots = nodes.Where(node => node.Node.Parent is null).ToArray();
+        var rootScript = roots.Length == 1 ? roots[0].Node.ScriptPath : null;
+
+        var campaignResources = nodes
+            .Select(node => node.Properties.TryGetValue("CampaignResourcePath", out var value) ? Unquote(value) : null)
+            .Where(value => !string.IsNullOrEmpty(value))
+            .Select(value => value!)
+            .Distinct(StringComparer.Ordinal)
+            .ToArray();
+        var ambiguity = campaignResources.Length > 1
+            ? $"сцена объявляет несколько разных CampaignResourcePath: {string.Join(", ", campaignResources)}."
+            : null;
+
+        var zone = ReadDeclared(nodes, "InitialZoneId", "CurrentZoneId");
+        var spawn = ReadDeclared(nodes, "InitialSpawnPointId", "CurrentSpawnPointId");
+        if (ambiguity is null && zone.Conflicting)
+        {
+            ambiguity = $"сцена объявляет разные InitialZoneId: {string.Join(", ", zone.Values)}.";
+        }
+
+        if (ambiguity is null && spawn.Conflicting)
+        {
+            ambiguity = $"сцена объявляет разные InitialSpawnPointId: {string.Join(", ", spawn.Values)}.";
+        }
+
+        var signals = new List<string>();
+        if (LoaderSignal.IsMatch(text))
+        {
+            signals.Add($"{sceneRelative}: EnableAct1ConnectedWorld = true");
+        }
+
+        foreach (var script in nodes.Select(node => node.Node.ScriptPath).Where(path => path is not null).Distinct(StringComparer.Ordinal))
+        {
+            var scriptRelative = script!["res://".Length..];
+            var scriptFile = Path.Combine(scenesRoot, scriptRelative.Replace('/', Path.DirectorySeparatorChar));
+            if (!File.Exists(scriptFile))
+            {
+                continue;
+            }
+
+            var scriptText = File.ReadAllText(scriptFile);
+            var match = LoaderSignal.Match(scriptText);
+            if (match.Success)
+            {
+                var line = scriptText[..match.Index].Count(character => character == '\n') + 1;
+                signals.Add($"game/{scriptRelative}:{line}");
+            }
+        }
+
+        return new SceneDocument(rootScript, campaignResources, zone.Value, spawn.Value, signals, ambiguity);
+    }
+
+    /// <summary>Reads a zone/spawn declaration, preferring the Initial form and reporting conflicts.</summary>
+    private static (string Value, bool Conflicting, IReadOnlyList<string> Values) ReadDeclared(
+        IReadOnlyList<(SceneNode Node, Dictionary<string, string> Properties)> nodes,
+        string initialKey,
+        string currentKey)
+    {
+        foreach (var key in new[] { initialKey, currentKey })
+        {
+            var values = nodes
+                .Select(node => node.Properties.TryGetValue(key, out var value) ? Unquote(value) : null)
+                .Where(value => !string.IsNullOrEmpty(value))
+                .Select(value => value!)
+                .Distinct(StringComparer.Ordinal)
+                .ToArray();
+            if (values.Length > 0)
+            {
+                return (values[0], values.Length > 1, values);
+            }
+        }
+
+        return ("", false, []);
     }
 
     private static string? ReadMainScene(string root)
@@ -444,14 +649,14 @@ public sealed class CampaignWorldCatalog
         {
             blockers.Add(new CatalogBlocker(
                 "single-authored-world",
-                $"Авторских миров в checkout: {worldKeys.Length} ({string.Join(", ", worldKeys)}). Полный done_when AI-13 «два разных действующих мира» требует второго мира с реальными авторскими данными."));
+                $"Авторских миров в checkout: {worldKeys.Length} ({string.Join(", ", worldKeys)}). Полный done_when AI-13 требует двух независимо авторируемых миров с runtime consumers и изолированными правками; две стартовые сцены за два мира не считаются."));
         }
 
-        if (worlds.Any(world => string.IsNullOrEmpty(world.CampaignSelection) && world.Capability == WorldAuthoringCapability.AuthoredWorldPlots))
+        if (worlds.Any(world => !world.CampaignDeclaredByScene))
         {
             blockers.Add(new CatalogBlocker(
                 "campaign-world-link-undeclared",
-                "Связь «кампания → мир» нигде не объявлена: content/campaigns/*/campaign.json не ссылается на сцену или зону, а стартовая сцена не объявляет кампанию. До явного контракта пара выбирается автором и помечается как explicit-selection."));
+                "Связь «кампания → мир» для сцены без CampaignResourcePath нигде не объявлена: campaign.json не ссылается на сцену или зону. До явного контракта такая пара выбирается автором и помечается как explicit-selection."));
         }
 
         var specified = specifications.Where(spec => spec.Capability == WorldAuthoringCapability.SpecifiedNotImplemented).ToArray();
@@ -459,18 +664,14 @@ public sealed class CampaignWorldCatalog
         {
             blockers.Add(new CatalogBlocker(
                 "photo-worlds-specified-only",
-                $"PhotoWorlds без сцены: {string.Join(", ", specified.Select(spec => $"{spec.WorldId} «{spec.Title}» ({spec.Status})"))}. Их нельзя показывать редактируемыми."));
+                $"PhotoWorlds без сцены и runtime consumer: {string.Join(", ", specified.Select(spec => $"{spec.WorldId} «{spec.Title}» ({spec.Status})"))}. Их нельзя показывать редактируемыми."));
         }
 
-        var unverified = worlds
-            .Where(world => world.CapabilityEvidence.Any(line => line.Contains("подтверждение владельца", StringComparison.Ordinal)))
-            .Select(world => world.ScenePath)
-            .ToArray();
-        if (unverified.Length > 0)
+        if (!worlds.Any(world => world.Capability == WorldAuthoringCapability.AuthoredWorldPlots))
         {
             blockers.Add(new CatalogBlocker(
-                "world-capability-unverified",
-                $"Capability выведена из файлов, но связь «сцена → авторский мир» нигде не объявлена, поэтому её нужно подтвердить у владельца: {string.Join(", ", unverified)}. До подтверждения такие сцены нельзя показывать как полностью редактируемые."));
+                "no-authored-world-loader",
+                "Ни одна стартовая сцена не даёт положительного сигнала загрузчика авторского мира, поэтому ни один мир нельзя открыть как редактируемый."));
         }
 
         if (campaigns.All(campaign => campaign.IsArchive))
@@ -496,6 +697,9 @@ public sealed class CampaignWorldCatalog
 
     private static string Text(JsonNode? node) =>
         node is JsonValue value && value.TryGetValue<string>(out var text) ? text : "";
+
+    private static string Unquote(string value) =>
+        QuotedValue.Match(value) is { Success: true } match ? match.Groups[1].Value : value;
 
     private static string NamespaceOf(string entityId)
     {

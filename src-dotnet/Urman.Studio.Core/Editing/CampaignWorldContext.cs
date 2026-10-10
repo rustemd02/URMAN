@@ -7,7 +7,12 @@ namespace Urman.Studio.Core.Editing;
 /// </summary>
 public enum WorldAuthoringCapability
 {
-    /// <summary>Authored world plots for this world exist in the checkout and Studio can edit them.</summary>
+    /// <summary>
+    /// The scene really loads the authored Act I connected world, so its world
+    /// plots are editable. This is claimed only from a positive loader signal
+    /// (see <see cref="WorldRef.CapabilityEvidence"/>), never from the mere
+    /// presence of plot files in the checkout.
+    /// </summary>
     AuthoredWorldPlots,
 
     /// <summary>The runtime scene exists, but its world data is produced by code rather than authored plots.</summary>
@@ -57,6 +62,9 @@ public sealed record WorldRef(
 {
     /// <summary>Taken from the scene declaration, so it is empty for code-bound entry zones.</summary>
     public bool ZoneDeclaredByScene => !string.IsNullOrEmpty(ZoneId);
+
+    /// <summary>True when the scene itself names the campaign it runs, so the pair is not a choice.</summary>
+    public bool CampaignDeclaredByScene => !string.IsNullOrEmpty(DeclaredCampaignResource);
 }
 
 /// <summary>
@@ -65,17 +73,33 @@ public sealed record WorldRef(
 /// sources and the same value can travel into a request and its receipt, so one
 /// saved authoring change stays tied to one campaign and one world.
 /// </summary>
+/// <param name="Campaign">The real campaign manifest this context works in.</param>
+/// <param name="World">The real startable scene, with its binding and capability.</param>
+/// <param name="ContentFingerprint">
+/// SHA-256 over <paramref name="AuthoredDependencies"/>. It is a content
+/// fingerprint, not a Git revision: it changes when one of those authored files
+/// changes and says nothing about the repository state.
+/// </param>
+/// <param name="BaseRevision">
+/// The repository revision the editor reported when the context was built, or an
+/// empty string. Studio.Core does not read Git itself.
+/// </param>
+/// <param name="AuthoredDependencies">The authored files this context depends on, ordered.</param>
+/// <param name="PackPath">The compiled pack the runtime loads for this campaign.</param>
+/// <param name="CampaignBinding">Whether the scene declared the campaign or the author paired it explicitly.</param>
 public sealed record CampaignWorldContext(
     CampaignRef Campaign,
     WorldRef World,
-    string SourceRevision,
+    string ContentFingerprint,
+    string BaseRevision,
+    IReadOnlyList<string> AuthoredDependencies,
     string PackPath,
     string CampaignBinding = CampaignWorldContext.CampaignBindingExplicit)
 {
     /// <summary>The entry scene itself declared this campaign (real link in the files).</summary>
     public const string CampaignBindingDeclared = "declared-by-scene";
 
-    /// <summary>The author paired this campaign with a scene that does not declare one; the pair must be recorded.</summary>
+    /// <summary>The author paired this campaign with a scene that declares none; the pair must be recorded.</summary>
     public const string CampaignBindingExplicit = "explicit-selection";
 
     /// <summary>
@@ -86,4 +110,11 @@ public sealed record CampaignWorldContext(
 
     /// <summary>Short author-facing label for banners and run logs.</summary>
     public string Describe() => $"{Campaign.Id} · {World.Title}";
+
+    /// <summary>
+    /// The repository revision the editor reported when the context was built
+    /// (an empty string when the caller does not provide one). Studio.Core does
+    /// not read Git itself.
+    /// </summary>
+    public bool HasBaseRevision => !string.IsNullOrEmpty(BaseRevision);
 }
