@@ -3734,7 +3734,7 @@
       "milestone": "M4",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": "codex-kadyr/claude-takeover-2026-10-10",
+      "active_owner": null,
       "owner": "art/materials/qa",
       "depends_on": [
         "ACT1-TEXTURE.01"
@@ -3933,12 +3933,13 @@
       "progress_2026_10_10_takeover": {
         "result": "Продолжено адресное подключение процедурных фактур Claude: W07 — доски сеновала; W10 — обшивка, пол и перегородки бани; W11 — существующая незавершённая привязка CutWood кромки леса. Хеши W07/W10/W11 совпадают с procedural_bake_receipt_v1.json.",
         "verification_question": "Матовые деревянные материалы загружаются и читаются в целевых Windows-видах парной/двора без ошибок?",
-        "station_job": "eb4b7187310f468eb1c46f0bab29eac6",
+        "station_job": "70a9791fb55c4f81b0e913c987905fdf",
         "remaining": "Авторская приёмка, лавки W10, прочие сараи W07, отдельное назначение боков/торцов и BathDryFirewood W11; это частичный этап карточки.",
         "capture_configuration_correction": "Смешанный job eb4b7187310f468eb1c46f0bab29eac6: Windows build PASS; capture отказал до кадра при смешении zirat_road и unbound. Данные восстановлены и проверены штатным guard. Исправление — раздельные пакеты точек, guards неизменны; zirat job 92476af2275947f28ae772972b4ec9ff.",
         "zirat_verification": "Windows job 92476af2275947f28ae772972b4ec9ff PASS на текущем snapshot aecf30be0385f5d0bbb34cf5d3894c4174148640f0019a3e739081cca2d5993a; engine-errors.log пуст, данные восстановлены и проверены. Оба кадра лично просмотрены: одиночный камень на переднем плане устранён, надписи семейной пары сохранились; камень слишком тёмный и фактура грубая, художественная/культурная приёмка открыта. Условия входного кадра сопоставимы с before по comparator.",
         "evidence": "evidence/ACT1-PUBLIC/claude-takeover-2026-10-10/",
-        "next": "Проверить текущие фактуры бани/двора: job 70a9791fb55c4f81b0e913c987905fdf. Затем авторская/культурная приёмка зирата и оставшиеся consumers W07/W10/W11."
+        "next": "Текущий этап сохранён и запушен, заявка освобождена. Далее: исправить ориентацию/масштаб обшивки W10; адресно проверить W07 сеновал и W11 кромку леса, разделить бок/торец поленьев; авторская/культурная приёмка зирата открыта.",
+        "wood_verification": "Windows job 70a9791fb55c4f81b0e913c987905fdf PASS, build 0 errors/0 warnings, engine-errors.log пуст, original userdata restored by rename and verified. Лично просмотрены bath_steam_room, bath_rear_wall и C2_hero_house: W10 читается; заметны поперечные полосы на вертикальной обшивке, требует UV/scale/orientation review. Общий двор не даёт крупного вида HeroYardShed_LoftBoard; W07 consumer и W11 кромка леса не приняты визуально."
       }
     },
     {
@@ -7360,7 +7361,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "complex",
-      "active_owner": "codex-kadyr/claude-takeover-2026-10-10",
+      "active_owner": null,
       "owner": "finished-act1",
       "depends_on": [
         "ACT1-EX00",
@@ -7425,10 +7426,12 @@
           "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
           "game/scripts/PainterlyMaterialLibrary.cs"
         ],
-        "next": "Проверить текущие фактуры бани/двора: job 70a9791fb55c4f81b0e913c987905fdf. Затем авторская/культурная приёмка зирата и оставшиеся consumers W07/W10/W11.",
+        "next": "Текущий этап сохранён и запушен, заявка освобождена. Далее: исправить ориентацию/масштаб обшивки W10; адресно проверить W07 сеновал и W11 кромку леса, разделить бок/торец поленьев; авторская/культурная приёмка зирата открыта.",
         "capture_configuration_correction": "Смешанный job eb4b7187310f468eb1c46f0bab29eac6: Windows build PASS; capture отказал до кадра при смешении zirat_road и unbound. Данные восстановлены и проверены штатным guard. Исправление — раздельные пакеты точек, guards неизменны; zirat job 92476af2275947f28ae772972b4ec9ff.",
         "zirat_verification": "Windows job 92476af2275947f28ae772972b4ec9ff PASS на текущем snapshot aecf30be0385f5d0bbb34cf5d3894c4174148640f0019a3e739081cca2d5993a; engine-errors.log пуст, данные восстановлены и проверены. Оба кадра лично просмотрены: одиночный камень на переднем плане устранён, надписи семейной пары сохранились; камень слишком тёмный и фактура грубая, художественная/культурная приёмка открыта. Условия входного кадра сопоставимы с before по comparator.",
-        "evidence": "evidence/ACT1-PUBLIC/claude-takeover-2026-10-10/"
+        "evidence": "evidence/ACT1-PUBLIC/claude-takeover-2026-10-10/",
+        "wood_verification": "Windows job 70a9791fb55c4f81b0e913c987905fdf PASS, build 0 errors/0 warnings, engine-errors.log пуст, original userdata restored by rename and verified. Лично просмотрены bath_steam_room, bath_rear_wall и C2_hero_house: W10 читается; заметны поперечные полосы на вертикальной обшивке, требует UV/scale/orientation review. Общий двор не даёт крупного вида HeroYardShed_LoftBoard; W07 consumer и W11 кромка леса не приняты визуально.",
+        "station_job": "70a9791fb55c4f81b0e913c987905fdf"
       }
     },
     {
@@ -31714,7 +31717,7 @@
       "title": "Удержать красоту наружной деревни после разделения",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "codex-kadyr/claude-takeover-2026-10-10",
+      "active_owner": null,
       "owner": "art",
       "priority": "P1",
       "complexity": "complex",
@@ -31942,10 +31945,12 @@
           "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
           "game/scripts/PainterlyMaterialLibrary.cs"
         ],
-        "next": "Проверить текущие фактуры бани/двора: job 70a9791fb55c4f81b0e913c987905fdf. Затем авторская/культурная приёмка зирата и оставшиеся consumers W07/W10/W11.",
+        "next": "Текущий этап сохранён и запушен, заявка освобождена. Далее: исправить ориентацию/масштаб обшивки W10; адресно проверить W07 сеновал и W11 кромку леса, разделить бок/торец поленьев; авторская/культурная приёмка зирата открыта.",
         "capture_configuration_correction": "Смешанный job eb4b7187310f468eb1c46f0bab29eac6: Windows build PASS; capture отказал до кадра при смешении zirat_road и unbound. Данные восстановлены и проверены штатным guard. Исправление — раздельные пакеты точек, guards неизменны; zirat job 92476af2275947f28ae772972b4ec9ff.",
         "zirat_verification": "Windows job 92476af2275947f28ae772972b4ec9ff PASS на текущем snapshot aecf30be0385f5d0bbb34cf5d3894c4174148640f0019a3e739081cca2d5993a; engine-errors.log пуст, данные восстановлены и проверены. Оба кадра лично просмотрены: одиночный камень на переднем плане устранён, надписи семейной пары сохранились; камень слишком тёмный и фактура грубая, художественная/культурная приёмка открыта. Условия входного кадра сопоставимы с before по comparator.",
-        "evidence": "evidence/ACT1-PUBLIC/claude-takeover-2026-10-10/"
+        "evidence": "evidence/ACT1-PUBLIC/claude-takeover-2026-10-10/",
+        "wood_verification": "Windows job 70a9791fb55c4f81b0e913c987905fdf PASS, build 0 errors/0 warnings, engine-errors.log пуст, original userdata restored by rename and verified. Лично просмотрены bath_steam_room, bath_rear_wall и C2_hero_house: W10 читается; заметны поперечные полосы на вертикальной обшивке, требует UV/scale/orientation review. Общий двор не даёт крупного вида HeroYardShed_LoftBoard; W07 consumer и W11 кромка леса не приняты визуально.",
+        "station_job": "70a9791fb55c4f81b0e913c987905fdf"
       }
     },
     {
