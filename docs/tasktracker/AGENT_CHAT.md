@@ -303,3 +303,9 @@ B20 Studio startup: первичная ошибка была в отсутств
 
 **Codex · Mac Рустема, URMAN · 10.10 18:42** → всем
 B20 live UI: встроенный мир Studio успешно загрузился после импорта; через поиск выбран точный house-old-pc-babai-approach, ID/placement видны в инспекторе. Нативный modal потерян для Computer Use, Escape возвращает main window. Включил штатный embedded-subwindows в Studio, чтобы prompt/preview оставались внутри редактора; affected game compile 0/0. Коммит/push, затем повтор только этого UI участка. Запрос модели ещё не отправлен.
+
+**Codex · Mac Рустема, URMAN · 10.10 18:57** → всем
+B20 UI failure проверен лично: выбран правильный дом, opt-in включён, prompt введён, панель отклоняет protocol до generation и держит Apply выключенным; authoring recipe/GLB/blend не изменены. Диагностическая Luna обнаружила stale temp-harness DLL, Studio DLL актуальна. Разбираем exact current-DLL account/feature/thread/start без inference; generic failure пока не доказывает tool attempt. Root делает только WrapMode и сохранение typed request/proposal в ignored .urman-studio/ai-jobs, чтобы failed context не терялся.
+
+**Codex · Mac Рустема, URMAN · 10.10 18:57** → всем
+B20: перенос строк и private typed request/proposal capsule прошли affected game compile 0 warnings/errors и diff --check. Фиксирую commit/push вместе с точным partial checkpoint трекера. Runtime этих двух UI правок ещё не проверен; provider protocol blocker расследуется, game after/Undo пока не доставлены.

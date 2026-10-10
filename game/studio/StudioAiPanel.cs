@@ -14,7 +14,7 @@ public partial class StudioAiPanel : AcceptDialog
     private const string RecipePath = "game/content/studio/hero_house.recipe.json";
     private const string GeneratorPath = "assets/source/blender/act1/urman_village_exterior_kit.py";
     private readonly StudioRoot _studio;
-    private readonly TextEdit _prompt = new() { CustomMinimumSize = new(560, 100), PlaceholderText = "Например: сделай окна этого дома шире" };
+    private readonly TextEdit _prompt = new() { CustomMinimumSize = new(560, 100), WrapMode = TextEdit.LineWrappingMode.Boundary, PlaceholderText = "Например: сделай окна этого дома шире" };
     private readonly Label _status = new() { AutowrapMode = TextServer.AutowrapMode.WordSmart };
     private readonly CheckButton _globalInstructions = new() { Text = "Использовать мои глобальные инструкции Codex" };
     private readonly Button _ask;
@@ -192,11 +192,13 @@ public partial class StudioAiPanel : AcceptDialog
             _stage = Path.Combine(Path.GetTempPath(), "urman-house-" + _request.RequestId);
             Directory.CreateDirectory(_stage);
             File.WriteAllText(Path.Combine(_stage, "request.json"), JsonSerializer.Serialize(_request));
+            AtomicFile.WriteAllText(Path.Combine(_studio.Workspace.Root, ".urman-studio/ai-jobs", _request.RequestId, "request.json"), JsonSerializer.Serialize(_request));
             _status.Text = "Codex готовит предложение…";
             _proposal = await new CodexProposalProvider(allowGlobalInstructions: _globalInstructions.ButtonPressed)
                 .RunAsync(_request, _stage, _cancel.Token);
             if (!Visible) throw new OperationCanceledException();
             File.WriteAllText(Path.Combine(_stage, "proposal.json"), JsonSerializer.Serialize(_proposal));
+            AtomicFile.WriteAllText(Path.Combine(_studio.Workspace.Root, ".urman-studio/ai-jobs", _request.RequestId, "proposal.json"), JsonSerializer.Serialize(_proposal));
             var recipe = JsonNode.Parse(_recipeText!)!.AsObject();
             recipe["windowClearWidth"] = _proposal.WindowWidth;
             recipe["modelPath"] = "res://assets/models/studio/hero-house-" + _request.RequestId + ".glb";
