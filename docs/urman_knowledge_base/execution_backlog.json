@@ -25373,6 +25373,21 @@
             "runtime_hash_verified": true,
             "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-current-runtime-attempt4/provider-diagnostic.json",
             "next": "Bound warning tracker extended to same thread during turn; pinned EventMsg::Warning producer only carries data; independent Sol review and narrow Core compile0/0. Tools/MCP lifecycle/serverrequests still reject. New request needed after commit."
+          },
+          "deepseek_review_second": {
+            "commit": "6cf1b9d050ba40db1875e18d03355973ced82b2c",
+            "result": "CHANGES_REQUESTED",
+            "original_six_source_findings_addressed": true,
+            "remaining": [
+              "Instanced node headers without type are skipped and properties merge into previous node",
+              "Capability consumed scripts omitted from ContentFingerprint dependencies",
+              "ChangedOnDisk must recheck link guard; loaded flag must follow successful load"
+            ],
+            "reviewers": [
+              "Codex source/runtime",
+              "LunaFAST state/dependencies"
+            ],
+            "integration": "No implementation cherry-pick yet; preserve original SHA pair; awaiting additive correction."
           }
         }
       },
