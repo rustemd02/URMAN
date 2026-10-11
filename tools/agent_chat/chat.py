@@ -9,6 +9,7 @@
   python3 tools/agent_chat/chat.py post --as Claude --where "Mac Кадыра" --to всем "Текст"
   python3 tools/agent_chat/chat.py tail -n 10
   python3 tools/agent_chat/chat.py inbox --as Claude          # что адресовано мне и я ещё не видел
+  python3 tools/agent_chat/chat.py notify "Вопрос автору"
   python3 tools/agent_chat/chat.py post --as Claude --where "Mac" --to Codex --task "Проверь X"
   python3 tools/agent_chat/chat.py export-static ПАПКА        # публичная версия для GitHub Pages
 """
@@ -19,6 +20,7 @@ import json
 import os
 import re
 import secrets
+import socket
 import subprocess
 import sys
 import threading
@@ -27,6 +29,8 @@ from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
+from urllib.error import HTTPError, URLError
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 ROOT = Path(__file__).resolve().parents[2]
 CHAT = ROOT / "docs" / "tasktracker" / "AGENT_CHAT.md"
@@ -295,6 +299,106 @@ def inbox(name: str, peek: bool) -> int:
     return len(fresh)
 
 
+TELEGRAM_CONFIG = Path("~/.config/urman-agent-chat/telegram.json").expanduser()
+TELEGRAM_API = "https://api.telegram.org"
+TELEGRAM_TIMEOUT = 10
+TELEGRAM_RESPONSE_LIMIT = 65_536
+TELEGRAM_TOKEN_RE = re.compile(r"^[0-9]+:[A-Za-z0-9_-]+$")
+
+
+class TelegramNotifyError(Exception):
+    """Sanitized error safe to show in the CLI; never includes request details."""
+
+
+def telegram_credentials() -> tuple[str, str | int]:
+    env_token = os.environ.get("URMAN_TELEGRAM_BOT_TOKEN", "").strip()
+    env_chat_id = os.environ.get("URMAN_TELEGRAM_CHAT_ID", "").strip()
+    config: dict = {}
+    if not env_token or not env_chat_id:
+        try:
+            config_stat = TELEGRAM_CONFIG.stat()
+            if config_stat.st_size > 16_384:
+                raise TelegramNotifyError("Файл telegram.json слишком большой.")
+            if os.name == "posix" and config_stat.st_mode & 0o077:
+                raise TelegramNotifyError("Права telegram.json должны быть закрыты для группы и остальных (chmod 600).")
+            with TELEGRAM_CONFIG.open("rb") as handle:
+                config_data = handle.read(16_385)
+            if len(config_data) > 16_384:
+                raise TelegramNotifyError("Файл telegram.json слишком большой.")
+            config = json.loads(config_data.decode("utf-8"))
+        except FileNotFoundError:
+            config = {}
+        except TelegramNotifyError:
+            raise
+        except json.JSONDecodeError:
+            raise TelegramNotifyError("Файл telegram.json содержит некорректный JSON.") from None
+        except RecursionError:
+            raise TelegramNotifyError("Файл telegram.json содержит некорректный JSON.") from None
+        except (OSError, UnicodeError):
+            raise TelegramNotifyError("Не удалось прочитать telegram.json.") from None
+        if not isinstance(config, dict):
+            raise TelegramNotifyError("telegram.json должен содержать объект с bot_token и chat_id.")
+
+    token = env_token or config.get("bot_token")
+    chat_id = env_chat_id or config.get("chat_id")
+    if not isinstance(token, str) or not TELEGRAM_TOKEN_RE.fullmatch(token.strip()):
+        raise TelegramNotifyError("Telegram не настроен: задайте bot_token и chat_id в telegram.json или обе переменные URMAN_TELEGRAM_*.")
+    token = token.strip()
+    if isinstance(chat_id, bool) or not isinstance(chat_id, (str, int)):
+        raise TelegramNotifyError("Telegram не настроен: chat_id должен быть числом или непустой строкой.")
+    if isinstance(chat_id, str):
+        chat_id = chat_id.strip()
+        if not chat_id or len(chat_id) > 128 or any(ord(char) < 32 or ord(char) == 127 for char in chat_id):
+            raise TelegramNotifyError("Telegram не настроен: chat_id должен быть числом или непустой строкой.")
+    return token, chat_id
+
+
+class NoTelegramRedirects(HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+def send_telegram(text: str) -> None:
+    if not text.strip():
+        raise TelegramNotifyError("Текст уведомления пуст.")
+    if len(text) > 4096:
+        raise TelegramNotifyError("Текст уведомления длиннее 4096 символов.")
+    token, chat_id = telegram_credentials()
+    url = f"{TELEGRAM_API}/bot{token}/sendMessage"
+    payload = {"chat_id": chat_id, "text": text, "link_preview_options": {"is_disabled": True}}
+    try:
+        body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    except (UnicodeEncodeError, TypeError, ValueError):
+        raise TelegramNotifyError("Текст уведомления содержит неподдерживаемые символы.") from None
+    request = Request(url, data=body,
+                      headers={"Content-Type": "application/json"}, method="POST")
+    opener = build_opener(NoTelegramRedirects)
+    try:
+        with opener.open(request, timeout=TELEGRAM_TIMEOUT) as response:
+            status = response.getcode()
+            response_data = response.read(TELEGRAM_RESPONSE_LIMIT + 1)
+    except HTTPError as error:
+        status = error.code
+        error.close()
+        response_data = b""
+    except (URLError, TimeoutError, socket.timeout, OSError):
+        raise TelegramNotifyError("Не удалось подключиться к Telegram.") from None
+    except Exception:
+        raise TelegramNotifyError("Не удалось подключиться к Telegram.") from None
+    if 300 <= status < 400:
+        raise TelegramNotifyError("Telegram вернул перенаправление; запрос остановлен.")
+    if status != 200:
+        raise TelegramNotifyError(f"Telegram ответил HTTP {status}.")
+    if len(response_data) > TELEGRAM_RESPONSE_LIMIT:
+        raise TelegramNotifyError("Ответ Telegram превысил допустимый размер.")
+    try:
+        result = json.loads(response_data)
+    except (json.JSONDecodeError, UnicodeDecodeError, RecursionError):
+        raise TelegramNotifyError("Telegram вернул некорректный ответ.") from None
+    if not isinstance(result, dict) or result.get("ok") is not True:
+        raise TelegramNotifyError("Telegram отклонил отправку.")
+
+
 RAW_SOURCE = "https://raw.githubusercontent.com/rustemd02/URMAN/main/docs/tasktracker/AGENT_CHAT.md"
 
 
@@ -332,6 +436,8 @@ def main():
     i = sub.add_parser("inbox", help="непрочитанное, адресованное вам")
     i.add_argument("--as", dest="name", default=os.environ.get("AGENT_CHAT_NAME"), required=not os.environ.get("AGENT_CHAT_NAME"))
     i.add_argument("--peek", action="store_true", help="не отмечать прочитанным")
+    n = sub.add_parser("notify", help="отправить явно указанный текст в настроенный Telegram-чат")
+    n.add_argument("text", nargs="+", help="вопрос или сообщение для Telegram")
     e = sub.add_parser("export-static", help="собрать публичную read-only страницу")
     e.add_argument("out", help="папка для index.html")
     e.add_argument("--source", default=RAW_SOURCE)
@@ -354,6 +460,12 @@ def main():
             print("   " + message["text"].replace("\n", "\n   "))
     elif args.cmd == "inbox":
         inbox(args.name, args.peek)
+    elif args.cmd == "notify":
+        try:
+            send_telegram(" ".join(args.text))
+        except TelegramNotifyError as error:
+            sys.exit(f"notify: {error}")
+        print("Уведомление отправлено в Telegram.")
     elif args.cmd == "export-static":
         export_static(Path(args.out), args.source)
     elif args.cmd == "sync":
