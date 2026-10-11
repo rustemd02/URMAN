@@ -23143,6 +23143,14 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-11 selected-window identity and explicit scope",
+                "result": "SOURCE_ACCEPTED_GAME_COMPILE_0_0_FULL_UNIT_OPEN",
+                "source": "game/studio/StudioWorldSection.cs; game/studio/StudioAiPanel.cs",
+                "implementation": "Immutable selected-part context uses semantic Front0–2/Rear0–1/Left0/Right0/SeniOuter0 identities mapped to current generator, recipe relative source and existing global /windowClearWidth pointer; mesh path remains diagnostic hint. Panel captures opened entity/part; selected window blocks Ask and request copy until author explicitly opts into all eight windows. Scope toggle locked during request/prepared proposal.",
+                "verification": "Sol6.1medium independent source acceptance; root affected Game compile 0 warnings/0 errors; git diff --check PASS.",
+                "remaining": "Native UI/picking/rebuild/DPI/focus walkthrough not verified. Recipe/request/provider still house-wide; real per-window overrides/target validation/exterior+interior consumers and runtime proof required, not replaced by scope opt-in."
               }
             ],
             "stage_tasks": [
@@ -23187,6 +23195,14 @@
                 "implementation": "One ray pick resolves authored parent ID and collision shape authoredSourceMesh; recognized HeroHouse wall/window labels appear in inspector with source path under Advanced. Existing Locate/EditSession and parent selection preserved; breadcrumbs clear on selection change, move and geometry reload. No second registry or persistent part identity introduced.",
                 "verification": "Independent Sol6.1medium source review accepted. Initial compile caught switch-scope local name conflict; corrected selectedHit. Affected Game build: 0 warnings, 0 errors; git diff --check PASS.",
                 "remaining": "Native wall/window selection, overlapping objects, DPI/viewport offset and rebuild identity walkthrough not verified; stable part ID/source locator contract and full done_when remain open."
+              },
+              {
+                "stage": "2026-10-11 selected-window identity and explicit scope",
+                "result": "SOURCE_ACCEPTED_GAME_COMPILE_0_0_FULL_UNIT_OPEN",
+                "source": "game/studio/StudioWorldSection.cs; game/studio/StudioAiPanel.cs",
+                "implementation": "Immutable selected-part context uses semantic Front0–2/Rear0–1/Left0/Right0/SeniOuter0 identities mapped to current generator, recipe relative source and existing global /windowClearWidth pointer; mesh path remains diagnostic hint. Panel captures opened entity/part; selected window blocks Ask and request copy until author explicitly opts into all eight windows. Scope toggle locked during request/prepared proposal.",
+                "verification": "Sol6.1medium independent source acceptance; root affected Game compile 0 warnings/0 errors; git diff --check PASS.",
+                "remaining": "Native UI/picking/rebuild/DPI/focus walkthrough not verified. Recipe/request/provider still house-wide; real per-window overrides/target validation/exterior+interior consumers and runtime proof required, not replaced by scope opt-in."
               }
             ],
             "stage_tasks": [
@@ -23430,6 +23446,14 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-11 selected-window identity and explicit scope",
+                "result": "SOURCE_ACCEPTED_GAME_COMPILE_0_0_FULL_UNIT_OPEN",
+                "source": "game/studio/StudioWorldSection.cs; game/studio/StudioAiPanel.cs",
+                "implementation": "Immutable selected-part context uses semantic Front0–2/Rear0–1/Left0/Right0/SeniOuter0 identities mapped to current generator, recipe relative source and existing global /windowClearWidth pointer; mesh path remains diagnostic hint. Panel captures opened entity/part; selected window blocks Ask and request copy until author explicitly opts into all eight windows. Scope toggle locked during request/prepared proposal.",
+                "verification": "Sol6.1medium independent source acceptance; root affected Game compile 0 warnings/0 errors; git diff --check PASS.",
+                "remaining": "Native UI/picking/rebuild/DPI/focus walkthrough not verified. Recipe/request/provider still house-wide; real per-window overrides/target validation/exterior+interior consumers and runtime proof required, not replaced by scope opt-in."
               }
             ],
             "stage_tasks": [
@@ -25620,6 +25644,18 @@
             "result": "BOUNDED_SOURCE_STAGE_ACCEPTED",
             "verification": "LunaFAST implementation; Sol6.1medium independent source acceptance; root affected Game compile0/0 after local-name fix; diff-check PASS",
             "remaining": "Native picking/rebuild/overlap/DPI checks and full persistent part contract open; no full unit completion claimed."
+          },
+          "selected_window_scope": {
+            "result": "EXPLICIT_ALL_EIGHT_OPT_IN_IMPLEMENTED_PER_WINDOW_NOT_YET_SUPPORTED",
+            "verification_question": "Does selecting one window avoid silently changing all eight? Source success: semantic part capture and no request until explicit whole-house scope; UI gate remains open.",
+            "next": "Implement per-part recipe widths with identical semantic IDs in generator/interior, frozen typed target set and exact expected widths in proposal/stage validation; prove unchanged other windows and full Undo.",
+            "owner": "Codex",
+            "files": "game/studio/StudioWorldSection.cs; game/studio/StudioAiPanel.cs",
+            "verification": "Affected Game compile0/0; Sol6.1medium source review accepted; no native UI run."
+          },
+          "subagent_availability": {
+            "observed": "Five LunaFAST turns returned account usage-limit error; no partial source edits left. Sol6.1medium completed scope audit and independent source review.",
+            "action": "Root continues implementation; no repeated Luna invocation or claim of active work until availability changes."
           }
         }
       },

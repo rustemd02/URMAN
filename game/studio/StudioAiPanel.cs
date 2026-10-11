@@ -16,6 +16,9 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private readonly StudioRoot _studio;
     private readonly TextEdit _prompt = new() { CustomMinimumSize = new(560, 100), WrapMode = TextEdit.LineWrappingMode.Boundary, TabInputMode = false, PlaceholderText = "Например: сделай окна этого дома шире" };
     private readonly Label _status = new() { AutowrapMode = TextServer.AutowrapMode.WordSmart };
+    private string? _openedSelection;
+    private StudioWorldSection.SelectedPart? _openedPart;
+    private readonly CheckButton _wholeHouseScope = new() { Text = "Изменить все 8 окон этого дома" };
     private readonly CheckButton _globalInstructions = new() { Text = "Использовать мои глобальные инструкции Codex" };
     private readonly Button _ask;
     private readonly Button _apply;
@@ -58,6 +61,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         AddChild(body);
         body.AddChild(_status);
         body.AddChild(_prompt);
+        body.AddChild(_wholeHouseScope);
+        _wholeHouseScope.Toggled += _ => SetBusy(_busy);
         body.AddChild(_globalInstructions);
         var permissionFile = Path.Combine(studio.Workspace.Root, ".urman-studio/codex-pilot.json");
         LoadGlobalInstructionConsent(permissionFile);
@@ -151,10 +156,17 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         if (_busy) { PopupCenteredClamped(new(600, 560), 0.9f); return; }
         ClearProposal();
         _request = null;
-        _ask.Disabled = selected != HeroHouseRecipe.EntityId;
+        _openedSelection = selected;
+        _openedPart = ((StudioWorldSection)_studio.Section("world")).SelectionPart;
+        var windowSelected = _openedPart is { PartId: var partId } && !partId.StartsWith("wall/", StringComparison.Ordinal);
+        _wholeHouseScope.Visible = windowSelected;
+        _wholeHouseScope.SetPressedNoSignal(!windowSelected);
+        SetBusy(false);
         _status.Text = selected == HeroHouseRecipe.EntityId
             ? "Эталонный дом · все 8 окон, включая окно в сенях. Codex предложит ширину, вы увидите новую модель перед применением. ⌘/Ctrl+Z полностью отменяет применение."
             : "Выберите эталонный дом Бабая в мире. Другие объекты будут подключены следующими этапами B20.";
+        if (windowSelected)
+            _status.Text = $"{_openedPart!.Label} · выбрано одно окно. Изменение только этого окна пока не подключено. Чтобы изменить все 8 окон дома, явно включите охват ниже.";
         if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
         ResetSize();
         PopupCenteredClamped(new(600, 560), 0.9f);
@@ -171,7 +183,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private HouseWindowRequest Capture()
     {
-        if (_studio.Selection != HeroHouseRecipe.EntityId) throw new InvalidOperationException("Выбор изменился: снова выберите эталонный дом.");
+        if (_openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection) throw new InvalidOperationException("Выбор изменился: снова выберите эталонный дом.");
+        if (!_wholeHouseScope.ButtonPressed) throw new InvalidOperationException("Выбрано одно окно. Подтвердите охват всех 8 окон или закройте панель.");
         if (string.IsNullOrWhiteSpace(_prompt.Text)) throw new InvalidOperationException("Опишите изменение окон.");
         _recipeText = File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath));
         var recipe = JsonNode.Parse(_recipeText)!.AsObject();
@@ -463,7 +476,9 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private void SetBusy(bool busy)
     {
         _busy = busy;
-        _ask.Disabled = busy || _studio.Selection != HeroHouseRecipe.EntityId;
+        _wholeHouseScope.Disabled = busy || _proposal is not null;
+        _ask.Disabled = busy || _openedSelection != HeroHouseRecipe.EntityId
+            || _studio.Selection != _openedSelection || !_wholeHouseScope.ButtonPressed;
         _apply.Disabled = busy || _proposal is null || _request is null || _stage is null;
     }
     private void ClearProposal()

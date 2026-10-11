@@ -20,7 +20,11 @@ public sealed record StudioPlayStart(string Zone, string Spawn, Vector3? Positio
 public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSection
 {
     private const float PickRadiusPixels = 22f;
-    private readonly record struct WorldPick(string EntityId, string? PartLabel, string? SourceMeshPath);
+    public sealed record SelectedPart(string EntityId, string PartId, string Label, string SourcePath, string SourcePointer, string MeshPath);
+    private readonly record struct WorldPick(string EntityId, string? PartLabel, string? SourceMeshPath, string? PartId = null);
+    public SelectedPart? SelectionPart => _pickedPart is { PartId: { } partId, PartLabel: { } label, SourceMeshPath: { } meshPath } picked
+        && picked.EntityId == studio.Selection
+        ? new(picked.EntityId, partId, label, "game/content/studio/hero_house.recipe.json", "/windowClearWidth", meshPath) : null;
     public const string StreetPlotPath = "game/content/world/studio-street.world.v1.json";
     private readonly Dictionary<string, Node3D> _markers = new(StringComparer.Ordinal);
     private readonly Dictionary<string, string> _previewed = new(StringComparer.Ordinal);
@@ -747,7 +751,8 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 if (studio.Workspace.Locate(hitId) is not null && !Locked(hitId))
                 {
                     var partLabel = hitId == HeroHouseRecipe.EntityId ? HeroHousePartLabel(sourceMeshPath) : null;
-                    return new WorldPick(hitId, partLabel, partLabel is null ? null : sourceMeshPath);
+                    return new WorldPick(hitId, partLabel, partLabel is null ? null : sourceMeshPath,
+                        partLabel is null ? null : HeroHousePartId(sourceMeshPath!));
                 }
             }
         }
@@ -762,6 +767,27 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         }
 
         return best is null ? null : new WorldPick(best, null, null);
+    }
+
+    private static string? HeroHousePartId(string sourceMeshPath)
+    {
+        var meshName = sourceMeshPath[(sourceMeshPath.LastIndexOf('/') + 1)..];
+        const string prefix = "HeroHouse_";
+        const string wallSuffix = "_Wall_LOD0";
+        if (meshName.EndsWith(wallSuffix, StringComparison.Ordinal))
+            return "wall/" + meshName[prefix.Length..^wallSuffix.Length];
+        var start = meshName.IndexOf("_Window", prefix.Length, StringComparison.Ordinal);
+        var end = meshName.IndexOf('_', start + 1);
+        var section = meshName[prefix.Length..start];
+        var ordinal = meshName[(start + "_Window".Length)..end];
+        // Street aperture zero is the door; window ordinals start at one.
+        return (section, ordinal) switch
+        {
+            ("Street", "1") => "Front0", ("Street", "2") => "Front1", ("Street", "3") => "Front2",
+            ("Rear", "0") => "Rear0", ("Rear", "1") => "Rear1",
+            ("Left", "0") => "Left0", ("Right", "0") => "Right0", ("SeniOuter", "0") => "SeniOuter0",
+            _ => null
+        };
     }
 
     private static string? HeroHousePartLabel(string? sourceMeshPath)
