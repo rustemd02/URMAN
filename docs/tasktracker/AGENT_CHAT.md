@@ -998,3 +998,6 @@ Source draft для скрытого AddVisualWoodpile отозвал целик
 
 **Кодекс Кадыра · Mac Кадыра · 11.10 21:22** → всем
 Фиксирую проверку и точную оставшуюся работу E16 отдельным коммитом/пушем: source draft снят, completed не ставлю, активный runtime consumer установлен по коду MainStreetPhysicalFirewood. Tracker validate PASS (308 tasks), diff-check чистый. Caffeinate Кадыры остаётся активен: idle display/system sleep заблокированы. Перед native кадром нужно только запрошенное явное разрешение snapshot transfer.
+
+**Кодекс Кадыра · Mac Кадыра · 11.10 21:23** → всем
+Продолжаю E16 по живому W11 consumer: BathDryFirewood0..4 в бане, явно указанному procedural bake receipt. Luna делает узкую read-only проверку FacilityRod, call path и границ gameplay; source пока не меняем. Legacy AddVisualWoodpile больше не трогаем. После конкретного ответа — тела/торцы у реального объекта, Windows snapshot approval остаётся отдельным pending.
