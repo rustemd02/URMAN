@@ -97729,10 +97729,11 @@
         "Во вступлении бабай ведёт Ниву с передним пассажиром через целый мост, показывая места без длинной неподвижной экспозиции.",
         "После ночи машина не пересекает разрыв/границу; понятны доступные дороги, нет случайных препятствий или сквозного проезда через объекты."
       ],
-      "next_action": "На UNTERPC обновить checkout до main и restart штатного worker без ослабления pins/provenance; возобновить полный B13 native proof. Source writers освобождены, полного DoD нет.",
+      "next_action": "Peer station owner deploys writable archive fsync correction/recovery; after release, run protected B13 vehicle/route/cabin checks on integrated source. Existing transfer permission persists.",
       "blocker": {
-        "reason": "Windows checkout/toolchain/worker not updated. Job d262ac27 stopped before game on eng/toolchain.json mismatch; 12.10 current worker readiness endpoint HTTP404. Native B13 acceptance cannot run until station sync. Transfer permission already granted.",
-        "release_when": "Windows operator updates UNTERPC checkout to current main preserving local diff, restarts existing worker while idle, confirms current pins/runner and ready doctor; then resume protected B13 vehicle/route/cabin checks."
+        "reason": "Old worker readiness blocker superseded by deployed API/Blender and ready idle doctor. Current result publication failed (peer52c007 BadFD); writable-fsync source correction prepared, host deployment/recovery pending. Native B13 still unverified.",
+        "release_when": "Deploy corrected worker while idle preserving local state, recover archived result via guarded existing path and confirm native publication; coordinate station with peer, then protected B13 candidate tests. No guard bypass.",
+        "historical_reason_before_archive_2026_10_12": "Windows checkout/toolchain/worker not updated. Job d262ac27 stopped before game on eng/toolchain.json mismatch; 12.10 current worker readiness endpoint HTTP404. Native B13 acceptance cannot run until station sync. Transfer permission already granted."
       },
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -97859,6 +97860,16 @@
           "receipt": "evidence/ACT1-TRANSPORT/native_d262ac27fc294e6981b6624b94280801/receipt.json"
         },
         "station_revalidation_2026_10_12": "doctor ready/free, orphan/recovery false; current /health/studio HTTP404. No new game job: station sync/restart required."
+      },
+      "progress_2026_10_12_archive_prerequisite": {
+        "station_change": "Worker/API updated; pinned Blender installed by peer. readonly doctor after52c007 terminal: readytrue,busy_jobnull,orphanfalse,recoveryfalse.",
+        "peer_job": "52c007d97c9e4c0e8597fbbe0405e9d5 terminalFAIL result_unavailable=true, archive BadFD; no claim game failed.",
+        "source_fix": "eng/windows_station_worker.py _archive_result: verified completed temp archive open rb→r+b before fsync, no truncate; CRC/path/size/publish guards preserved. Python compile/source review PASS.",
+        "source_basis": [
+          "https://docs.python.org/3.11/library/os.html#os.fsync",
+          "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers"
+        ],
+        "native_fix_verification": "NOT_RUN: worker deployment + existing result recovery needed; no new game job submitted."
       }
     },
     {
@@ -98012,10 +98023,11 @@
         "С переднего места видны дорога/деревня, бабай и правдоподобная геометрия салона; спинки, окна, зеркало, педали/ручник и материалы не клиппуют.",
         "Обычные повороты камеры и катсценные кадры проверены в движке, не только статичным рендером."
       ],
-      "next_action": "На UNTERPC обновить checkout до main и restart штатного worker без ослабления pins/provenance; возобновить полный B13 native proof. Source writers освобождены, полного DoD нет.",
+      "next_action": "Peer station owner deploys writable archive fsync correction/recovery; after release, run protected B13 vehicle/route/cabin checks on integrated source. Existing transfer permission persists.",
       "blocker": {
-        "reason": "Windows checkout/toolchain/worker not updated. Job d262ac27 stopped before game on eng/toolchain.json mismatch; 12.10 current worker readiness endpoint HTTP404. Native B13 acceptance cannot run until station sync. Transfer permission already granted.",
-        "release_when": "Windows operator updates UNTERPC checkout to current main preserving local diff, restarts existing worker while idle, confirms current pins/runner and ready doctor; then resume protected B13 vehicle/route/cabin checks."
+        "reason": "Old worker readiness blocker superseded by deployed API/Blender and ready idle doctor. Current result publication failed (peer52c007 BadFD); writable-fsync source correction prepared, host deployment/recovery pending. Native B13 still unverified.",
+        "release_when": "Deploy corrected worker while idle preserving local state, recover archived result via guarded existing path and confirm native publication; coordinate station with peer, then protected B13 candidate tests. No guard bypass.",
+        "historical_reason_before_archive_2026_10_12": "Windows checkout/toolchain/worker not updated. Job d262ac27 stopped before game on eng/toolchain.json mismatch; 12.10 current worker readiness endpoint HTTP404. Native B13 acceptance cannot run until station sync. Transfer permission already granted."
       },
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -98166,6 +98178,16 @@
           "receipt": "evidence/ACT1-TRANSPORT/native_d262ac27fc294e6981b6624b94280801/receipt.json"
         },
         "station_revalidation_2026_10_12": "doctor ready/free, orphan/recovery false; current /health/studio HTTP404. No new game job: station sync/restart required."
+      },
+      "progress_2026_10_12_archive_prerequisite": {
+        "station_change": "Worker/API updated; pinned Blender installed by peer. readonly doctor after52c007 terminal: readytrue,busy_jobnull,orphanfalse,recoveryfalse.",
+        "peer_job": "52c007d97c9e4c0e8597fbbe0405e9d5 terminalFAIL result_unavailable=true, archive BadFD; no claim game failed.",
+        "source_fix": "eng/windows_station_worker.py _archive_result: verified completed temp archive open rb→r+b before fsync, no truncate; CRC/path/size/publish guards preserved. Python compile/source review PASS.",
+        "source_basis": [
+          "https://docs.python.org/3.11/library/os.html#os.fsync",
+          "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers"
+        ],
+        "native_fix_verification": "NOT_RUN: worker deployment + existing result recovery needed; no new game job submitted."
       }
     },
     {
