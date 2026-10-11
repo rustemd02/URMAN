@@ -259,4 +259,89 @@ public static class GameSettingsSurface
             "TatarLanguageLevel сохраняет историческое поведение: отсутствие поля в старых файлах означает «none»."
         ];
     }
+    /// <summary>
+    /// Whether each control the screen DECLARES is both loaded and saved. The screen's widget
+    /// fields are not named like the settings they carry - _fov is a slider while the setting is
+    /// FieldOfView - so a name comparison proves nothing; what can be read from the source is that
+    /// every widget appears in the method that fills the UI from the settings and in the method
+    /// that builds the settings back from the UI. A widget in only one of them is the defect:
+    /// declared and loaded but never written back loses the player's change, and written back but
+    /// never loaded shows a value the player did not choose.
+    ///
+    /// My first version of this check compared widget names with setting names and reported all ten
+    /// controls as unbacked, which was simply wrong; this is the check the source supports.
+    /// </summary>
+    public static IReadOnlyList<string> WidgetCoverage(string root)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var path = Path.Combine(Path.GetFullPath(root), ScreenPath.Replace('/', Path.DirectorySeparatorChar));
+        if (!File.Exists(path))
+        {
+            return [$"Экрана настроек нет по пути {ScreenPath}: сверять нечего."];
+        }
+
+        var source = File.ReadAllText(path);
+        var load = MethodBody(source, "Open");
+        var save = MethodBody(source, "Apply");
+        if (load.Length == 0 || save.Length == 0)
+        {
+            return ["Не найден метод загрузки (Open) или применения (Apply): связь управления с настройкой не проверена."];
+        }
+
+        var problems = new List<string>();
+        foreach (var control in Controls(root))
+        {
+            var field = "_" + control.Field;
+            var inLoad = load.Contains(field, StringComparison.Ordinal);
+            var inSave = save.Contains(field, StringComparison.Ordinal);
+            if (!inLoad)
+            {
+                problems.Add($"{ScreenPath}:{control.Line}: управление «{control.Field}» не читается из настроек в Open — игрок увидит значение, которого не выбирал.");
+            }
+
+            if (!inSave)
+            {
+                problems.Add($"{ScreenPath}:{control.Line}: управление «{control.Field}» не пишется в настройки в Apply — изменение игрока потеряется при следующем запуске.");
+            }
+        }
+
+        return problems;
+    }
+
+    /// <summary>The body of one method, from its closing brace, so a reference check has a scope.</summary>
+    private static string MethodBody(string source, string name)
+    {
+        var match = Regex.Match(source, $@"\b{Regex.Escape(name)}\s*\([^)]*\)\s*(?:=>[^;]+;|\{{)");
+        if (!match.Success)
+        {
+            return "";
+        }
+
+        if (source[match.Index..(match.Index + match.Length)].TrimEnd().EndsWith(';'))
+        {
+            // An expression-bodied method carries its whole body in the matched text.
+            var end = source.IndexOf(';', match.Index) + 1;
+            return source[match.Index..end];
+        }
+
+        var depth = 0;
+        for (var index = match.Index; index < source.Length; index++)
+        {
+            if (source[index] == '{')
+            {
+                depth++;
+            }
+            else if (source[index] == '}')
+            {
+                depth--;
+                if (depth == 0)
+                {
+                    return source[match.Index..(index + 1)];
+                }
+            }
+        }
+
+        return "";
+    }
+
 }

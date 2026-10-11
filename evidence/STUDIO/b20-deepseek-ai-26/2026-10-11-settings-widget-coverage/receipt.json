@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-26"
+  ],
+  "stage": "every declared settings control is loaded and saved",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:01 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "1aa2bad3",
+  "result": {
+    "what_can_be_read": "the screen's widget fields are NOT named like the settings they carry (_fov is a slider while the setting is FieldOfView), so a name comparison proves nothing. What the source does support is that every declared widget appears in the method that fills the UI from the settings (Open) and in the method that builds the settings back from the UI (Apply)",
+    "measured": "ten declared controls, ZERO missing from either path - every control the screen shows is both loaded and saved",
+    "why_it_matters": "a widget in only one of the two paths is the defect: loaded but never written back loses the player's change, and written back but never loaded shows a value the player did not choose",
+    "boundary": "these are PLAYER settings in user://settings.json, never authored campaign data, so a Studio preview may render this surface but must not write it"
+  },
+  "verified": {
+    "probe": "PASS 666/666 including the ten declared controls and the zero-gap result",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: the screen itself is UI acceptance"
+  },
+  "own_mistakes": "my FIRST version of this check compared widget names with setting names and reported ALL TEN controls as unbacked - a false positive caused by comparing two different layers. It is deleted, not weakened, and the replacement is the check the source actually supports. A range expression also needed parentheses in two places; the compiler caught both",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-26/2026-10-11-settings-widget-coverage/check.log": "e3385043c80be8257d3064ca0d160380bb3c9c4784b88c890d0115305c9f51b3"
+  },
+  "open": [
+    "the screen's look and feel remain UI acceptance"
+  ]
+}

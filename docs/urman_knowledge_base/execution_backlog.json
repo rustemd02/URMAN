@@ -77086,6 +77086,12 @@
                 "result": "correction by deepseek v4.1 flash: the inventory read only controls declared as private fields, so everything the screen builds in a loop was invisible. DynamicControls now reads the volume loop's bus list from the screen and the remappable actions from InputBindingService and reports each group with its source and count: 40 controls in two groups (4 volume sliders, 36 binding controls from 18 actions) against 10 declared ones. The notes state that the surface is larger than the declared list and name finding 220",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/GameSettingsSurface.cs; evidence evidence/STUDIO/b20-deepseek-ai-26/2026-10-11-dynamic-controls",
                 "verification": "probe PASS 509/509 including the bus list, the remappable actions, the dynamic counts and the finding note; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. The settings preview itself is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 every declared settings control is loaded and saved",
+                "result": "deepening by deepseek v4.1 flash: the screen's widget fields are NOT named like the settings they carry (_fov is a slider while the setting is FieldOfView), so a name comparison proves nothing. What the source supports is that every declared widget appears in Open (fills the UI from the settings) and in Apply (builds the settings back from the UI): ten declared controls, ZERO missing from either path. A widget in only one path is the defect - loaded but never written back loses the player's change, written back but never loaded shows a value the player did not choose. These are PLAYER settings in user://settings.json, never authored campaign data, so a Studio preview may render but must not write them. Own mistake recorded: my FIRST version compared widget names with setting names and reported ALL TEN as unbacked - a false positive from comparing two layers; it is deleted, not weakened. Verified: probe PASS 666/666; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/GameSettingsSurface.cs (WidgetCoverage, MethodBody); evidence evidence/STUDIO/b20-deepseek-ai-26/2026-10-11-settings-widget-coverage",
+                "verification": "probe PASS 666/666 including the ten controls and the zero-gap result; Core 0/0. The screen itself is UI acceptance and is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -77117,7 +77123,9 @@
             "remaining": [
               "Настройки интерфейса игры имеют ручной/AI preview и не меняют тему Studio.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 the game settings surface taken from the code that owns it) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 finding 220: the dynamic controls of the settings screen) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 finding 220: the dynamic controls of the settings screen) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Экран настроек — это настройки ИГРОКА (user://settings.json), Studio может показывать, но не писать; вид экрана — UI-приёмка.",
+              "Ранее переданный частичный этап (2026-10-11 every declared settings control is loaded and saved) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Зарегистрировать edit-safe поля; выбрать экран/state/viewport; preview controls; typed change; preserve input/focus/localization.",
             "blocker": null,
