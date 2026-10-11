@@ -74323,6 +74323,22 @@
                       ],
                       "verification": "Five Luna bounded source implementation/research assignments; independent Sol6.1medium final source review without confirmed blockers. Root affected game --no-restore compile zero warnings/errors, worker Python syntax, tracker validation and diff-check. No launches, probes, tests or Windows deployment.",
                       "remaining": "Prelaunch source map covers recipe/placement/house model inputs, not all visible NPC/textures/C# or imported/rendered bytes. External edits after final snapshot are not prevented. Actual Codex proposal, matched native game frames and byte-exact Undo are still unaccepted under author runtime pause."
+                    },
+                    {
+                      "date": "2026-10-12",
+                      "kind": "source-progress",
+                      "result": "Selected-house UI can request fixed real-game window snapshots and open their folder. Capture-only child reuses existing protected Play preparation and DevViewCapture startup/cleanup, omitting StudioPlay boot to avoid double zone initialization. Fixed six-point manifest batch includes existing exterior/interior/seni plus source-derived rear/left/right for remaining main openings. Child validates run-bound existing output path, records run/PID/PNG SHA in existing sidecars; Core owns six pairs and summary; exporter validates exact owned files, PNG signature/hash, bounded JSON and same PID/summary correspondence while preserving incomplete failure evidence.",
+                      "source": [
+                        "game/studio/StudioRoot.cs",
+                        "game/studio/StudioWorldSection.cs",
+                        "game/scripts/Act1DemoRoot.DevViewCapture.cs",
+                        "game/scripts/Act1DemoRoot.cs",
+                        "game/content/world/visual_checkpoints.v1.json",
+                        "src-dotnet/Urman.Studio.Core/Play/RunFolders.cs",
+                        "eng/windows_station_worker.py"
+                      ],
+                      "verification": "Five Luna bounded source/research assignments plus Sol6.1medium independent review; three review fixes applied (exact IDs/specs/zone/high ownership, diagnostic/player env isolation, strict frame point identity), JSON file-limit regex corrected by root. Final affected game --no-restore compile zero warnings/errors, Python syntax, tracker and diff checks. Later UI-only row separation inspected against existing Buttons helper. No runtime/tests/probes.",
+                      "remaining": "New rear/left/right are source-derived and require native visibility/occlusion review. Prior saved captures were graphicsComparable=false/performance-rescue and do not accept main-seven. Successful child exit, frame export and prelaunch source hashes do not prove loaded/imported bytes, image quality, seven-window change or exact Undo."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74330,7 +74346,7 @@
                   "activity": {
                     "state": "runtime_deferred_by_author",
                     "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
-                    "verification_question": "Source Play provenance: does existing run manifest record full campaign fingerprint and bounded current house source path/hash map; does pre/post compile comparison refuse changed house inputs; does child log echo validated run identity and PID without claiming rendered-byte or native acceptance? Narrow compile and independent source review only."
+                    "verification_question": "Source matched-game capture route: does selected-house UI reuse guarded Play preparation with a capture-only real-game child, six fixed existing/source-derived views without concurrent StudioPlay startup, validated run-bound PNG metadata and bounded manifest-owned frame export? Narrow compile/source review only; native camera framing and full main-seven/Undo acceptance remain open."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
@@ -74342,7 +74358,7 @@
                     "Overall Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result.",
                     "Windows direct .exe-only discovery исправлен и source-reviewed; actual Windows installed/login readiness остаётся непроверенным."
                   ],
-                  "next_action": "Continue source matched-game evidence/camera workflow, keeping game-rendered frames distinct from Studio frames and prelaunch hashes. Windows worker update/restart needed for readiness/export deployment. After explicit runtime resume: actual Studio selected main-seven Codex request→preview→Apply→matched game frames→byte-exact Undo preserving absence, and inspect raw run/action/transaction evidence before closing AI-12.",
+                  "next_action": "When runtime is explicitly resumed and Windows worker updated/restarted, use selected-house fixed six-game-view action before Apply, after actual main-seven Codex Apply and after byte-exact Undo; inspect all frames/graphicsComparable/camera/phase/run/source/transaction receipts and restored hashes/absences. During pause continue source B20 independently and integrate DeepSeek AI13 only after requested missing-empty framing fix arrives.",
                   "blocker": {
                     "reason": "Native UI/game verification deferred by author; Front0 could not be selected during Mac attempt.",
                     "release_when": "Автор возобновил runtime; доступен native выбор окна и защищённый Studio/game сценарий."

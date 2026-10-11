@@ -1,6 +1,8 @@
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Godot;
+using Urman.Studio.Core.Storage;
 
 namespace Urman.Godot;
 
@@ -64,9 +66,12 @@ public partial class Act1DemoRoot
     // profile per frame so the existing station transport (capture -> URMAN_VIEW_POINTS) can
     // photograph states that no zone owns. Absent, every frame keeps today's zone default.
     private const string VisualCheckpointManifestPath = "res://content/world/visual_checkpoints.v1.json";
+    private const int StudioCapturePngLimit = 16 * 1024 * 1024;
     private string? _devViewCaptureRequestedGraphicsPreset;
     private bool _devViewCaptureGraphicsPresetApplied;
     private string _devViewCaptureGraphicsPresetApplyStatus = "not-requested";
+    private string? _studioCaptureRunId;
+    private int? _studioCaptureProcessId;
 
     private sealed record ViewSideResult(string Space, Node3D? Owner, Vector3 World);
 
@@ -94,9 +99,23 @@ public partial class Act1DemoRoot
 
     private async void DevViewCaptureBoot()
     {
-        var dir = System.Environment.GetEnvironmentVariable("URMAN_VIEW_CAPTURE");
-        var points = System.Environment.GetEnvironmentVariable("URMAN_VIEW_POINTS");
-        if (string.IsNullOrEmpty(dir) || string.IsNullOrEmpty(points)) return;
+        var studioRunId = System.Environment.GetEnvironmentVariable("URMAN_STUDIO_CAPTURE_RUN");
+        var dir = System.Environment.GetEnvironmentVariable("URMAN_VIEW_CAPTURE") ?? "";
+        var points = System.Environment.GetEnvironmentVariable("URMAN_VIEW_POINTS") ?? "";
+        if (studioRunId is not null)
+        {
+            var validationFailure = ValidateStudioCaptureRequest(studioRunId, dir, points);
+            if (validationFailure is not null)
+            {
+                GD.PushError($"Studio view capture refused: {validationFailure} No frame was written.");
+                GetTree().Quit(1);
+                return;
+            }
+            _studioCaptureRunId = studioRunId;
+            _studioCaptureProcessId = OS.GetProcessId();
+            GD.Print($"studio-view-capture: runId={_studioCaptureRunId} pid={_studioCaptureProcessId}");
+        }
+        else if (string.IsNullOrEmpty(dir) || string.IsNullOrEmpty(points)) return;
         var zone = System.Environment.GetEnvironmentVariable("URMAN_VIEW_ZONE");
         // Resolve a requested graphics profile before InitializeDemo arms its startup
         // performance guard. This path is inert unless the existing protected view-capture
@@ -308,16 +327,50 @@ public partial class Act1DemoRoot
             if (_pauseMenu?.IsOpen == true) _pauseMenu.Resume();
             for (var frame = 0; frame < 150; frame++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+            string? pngSha256 = null;
             using (var image = GetViewport().GetTexture().GetImage())
             {
-                if (image.SavePng($"{dir}/{point.Name}.png") != Error.Ok)
+                var path = $"{dir}/{point.Name}.png";
+                if (_studioCaptureRunId is null)
                 {
-                    GD.PushError($"View capture could not save '{point.Name}'.");
-                    GetTree().Quit(1);
-                    return;
+                    if (image.SavePng(path) != Error.Ok)
+                    {
+                        GD.PushError($"View capture could not save '{point.Name}'.");
+                        GetTree().Quit(1);
+                        return;
+                    }
+                }
+                else
+                {
+                    var png = image.SavePngToBuffer();
+                    if (png.Length == 0 || png.Length > StudioCapturePngLimit)
+                    {
+                        GD.PushError($"Studio view capture refused: '{point.Name}' PNG is empty or exceeds 16 MiB.");
+                        GetTree().Quit(1);
+                        return;
+                    }
+                    try
+                    {
+                        using var file = new System.IO.FileStream(path, System.IO.FileMode.CreateNew,
+                            System.IO.FileAccess.Write, System.IO.FileShare.Read);
+                        file.Write(png);
+                    }
+                    catch (System.Exception error)
+                    {
+                        GD.PushError($"Studio view capture could not save '{point.Name}': {error.GetType().Name}.");
+                        GetTree().Quit(1);
+                        return;
+                    }
+                    pngSha256 = Convert.ToHexStringLower(SHA256.HashData(png));
                 }
             }
             var metadata = ViewFrameMetadata(point, camera, zone);
+            if (_studioCaptureRunId is { } captureRunId)
+            {
+                metadata["studioRunId"] = ViewText(captureRunId);
+                metadata["studioProcessId"] = ViewNumber(_studioCaptureProcessId);
+                metadata["pngSha256"] = ViewText(pngSha256);
+            }
             foreach (var saved in sourceRoofOverrides)
                 saved.Mesh.SetSurfaceOverrideMaterial(saved.Surface, saved.Painted);
             if (point.Name.StartsWith("h019_", StringComparison.Ordinal))
@@ -548,6 +601,43 @@ public partial class Act1DemoRoot
             return $"checkpoint '{checkpoint.Id}' is authored for spec '{checkpoint.Spec}' but the job asked "
                 + $"'{coordinates}'; the frame would not show the agreed subject.";
         bound = point with { Profile = checkpoint.Profile, Subject = checkpoint.Subject };
+        return null;
+    }
+
+    private static string? ValidateStudioCaptureRequest(string runId, string? directory, string? points)
+    {
+        if (System.Environment.GetEnvironmentVariable("URMAN_PROTECTED_RUN") != "1")
+            return "the process is not running under eng/protected_run.py.";
+        if (!StudioPlayRequest.IsValidRunId(runId))
+            return "the Studio run ID is invalid.";
+        if (string.IsNullOrWhiteSpace(points))
+            return "URMAN_VIEW_POINTS is empty.";
+        if (string.IsNullOrWhiteSpace(directory) || !System.IO.Path.IsPathFullyQualified(directory))
+            return "URMAN_VIEW_CAPTURE must be an absolute run folder.";
+
+        try
+        {
+            var gameProject = System.IO.Path.TrimEndingDirectorySeparator(
+                System.IO.Path.GetFullPath(ProjectSettings.GlobalizePath("res://")));
+            var repositoryRoot = System.IO.Directory.GetParent(gameProject)?.FullName;
+            if (repositoryRoot is null) return "the game project has no repository parent.";
+
+            var relativeRunFolder = $".urman-studio/runs/{runId}";
+            StudioFileTransaction.EnsureNoLinks(repositoryRoot, relativeRunFolder, allowStudioMetadata: true);
+            var expected = System.IO.Path.GetFullPath(System.IO.Path.Combine(repositoryRoot,
+                ".urman-studio", "runs", runId));
+            var actual = System.IO.Path.TrimEndingDirectorySeparator(System.IO.Path.GetFullPath(directory));
+            var comparison = OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+            if (!string.Equals(actual, expected, comparison))
+                return "URMAN_VIEW_CAPTURE must equal this run's .urman-studio/runs directory.";
+            if (!System.IO.Directory.Exists(expected))
+                return "the Studio run folder does not already exist.";
+        }
+        catch (System.Exception error)
+        {
+            return $"the Studio run folder failed path validation ({error.GetType().Name}).";
+        }
+
         return null;
     }
 

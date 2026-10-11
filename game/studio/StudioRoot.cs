@@ -55,6 +55,7 @@ public partial class StudioRoot : Control
     private double _sinceAutosave;
     private double _sinceWatch;
     private Process? _run;
+    private bool _lastRunWasHouseCapture;
     private bool _closing;
     private bool _playPreparing;
     private bool _historyActionBusy;
@@ -221,10 +222,14 @@ public partial class StudioRoot : Control
             WatchDisk();
         }
 
-        if (_run is { HasExited: true })
+        if (_run is { HasExited: true } finishedRun)
         {
             _run = null;
             RefreshStatus();
+            if (_lastRunWasHouseCapture)
+                ShowBanner(finishedRun.ExitCode == 0
+                    ? "Запуск для снимков завершён. Откройте папку результатов; качество и сопоставимость кадров требуют проверки."
+                    : "Съёмка прервана. Откройте папку результатов и журнал игры.", error: finishedRun.ExitCode != 0);
         }
     }
 
@@ -754,7 +759,36 @@ public partial class StudioRoot : Control
 
     // ---- play ----------------------------------------------------------------------
 
-    public async void PlayFromHere()
+    public void PlayFromHere() => _ = StartPlayAsync(captureHouseWindows: false);
+
+    public void CaptureHouseWindows()
+    {
+        if (Selection != Urman.Godot.HeroHouseRecipe.EntityId)
+        {
+            ShowBanner("Выберите дом, чтобы снять его окна в игре.", error: false);
+            return;
+        }
+        _ = StartPlayAsync(captureHouseWindows: true);
+    }
+
+    public void OpenHouseWindowCaptures()
+    {
+        if (!_lastRunWasHouseCapture || LastRun is not { } run)
+        {
+            ShowBanner("Сначала снимите окна в игре.", error: false);
+            return;
+        }
+        try
+        {
+            var relative = Path.GetRelativePath(Workspace.Root, run.Directory).Replace('\\', '/');
+            StudioFileTransaction.EnsureNoLinks(Workspace.Root, relative, allowStudioMetadata: true);
+            if (OS.ShellOpen(run.Directory) != Error.Ok)
+                throw new IOException("Не удалось открыть папку снимков.");
+        }
+        catch (Exception error) { ShowBanner(error.Message, error: true); }
+    }
+
+    private async Task StartPlayAsync(bool captureHouseWindows)
     {
         if (_closing) return;
         if (_playPreparing)
@@ -780,6 +814,7 @@ public partial class StudioRoot : Control
             RefreshStatus("Подготовка запуска…");
             if (!SaveAll(autosave: false)) return;
 
+            var capturePoints = captureHouseWindows ? HouseWindowCapturePoints() : null;
             var houseSources = CapturePlayHouseSources(Workspace.Root);
             var build = await PlayPreparation.CompileAsync(Workspace.Root);
             if (_closing) return;
@@ -798,20 +833,36 @@ public partial class StudioRoot : Control
             var start = _current is not null && _sections[_current] is StudioWorldSection world ? world.PlayStart() : null;
             var godot = OS.GetExecutablePath();
             var arguments = new List<string> { "--path", ProjectSettings.GlobalizePath("res://"), "res://scenes/act1_demo.tscn", "--" };
-            arguments.Add($"--urman-studio-play={start?.Zone ?? "village_day"}@{start?.Spawn ?? "arrival"}");
-            if (start?.Position is { } at)
+            if (!captureHouseWindows)
             {
-                arguments.Add(FormattableString.Invariant($"--urman-studio-at={at.X:0.###},{at.Y:0.###},{at.Z:0.###},{start.Yaw:0.#}"));
-            }
+                arguments.Add($"--urman-studio-play={start?.Zone ?? "village_day"}@{start?.Spawn ?? "arrival"}");
+                if (start?.Position is { } at)
+                {
+                    arguments.Add(FormattableString.Invariant($"--urman-studio-at={at.X:0.###},{at.Y:0.###},{at.Z:0.###},{start.Yaw:0.#}"));
+                }
 
-            arguments.Add($"--urman-studio-label={build.RevisionLabel}");
+                arguments.Add($"--urman-studio-label={build.RevisionLabel}");
+            }
             var folder = new RunFolders(Workspace.Root).Create(build.RevisionLabel, DateTimeOffset.Now,
-                build.CampaignFingerprint, houseSources);
+                build.CampaignFingerprint, houseSources, captureHouseWindows);
             arguments.Add($"--urman-studio-run={folder.RunId}");
             var info = new ProcessStartInfo(godot) { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true };
             foreach (var argument in arguments)
             {
                 info.ArgumentList.Add(argument);
+            }
+
+            foreach (var name in new[] { "URMAN_VIEW_CAPTURE", "URMAN_VIEW_POINTS", "URMAN_VIEW_ZONE", "URMAN_STUDIO_CAPTURE_RUN" })
+                info.Environment.Remove(name);
+            if (captureHouseWindows)
+            {
+                foreach (var name in new[] { "URMAN_DIAGNOSTIC_VIEW", "URMAN_VIEW_SHOW_PLAYER", "URMAN_WALK_PROBE" })
+                    info.Environment.Remove(name);
+                info.Environment["URMAN_VIEW_CAPTURE"] = folder.Directory;
+                info.Environment["URMAN_VIEW_POINTS"] = capturePoints!;
+                info.Environment["URMAN_VIEW_ZONE"] = "house_old_pc";
+                info.Environment["URMAN_VIEW_FOV"] = "70";
+                info.Environment["URMAN_STUDIO_CAPTURE_RUN"] = folder.RunId;
             }
 
             var log = new StreamWriter(folder.LogPath) { AutoFlush = true };
@@ -848,12 +899,13 @@ public partial class StudioRoot : Control
             }
             _run = run;
             LastRun = folder;
+            _lastRunWasHouseCapture = captureHouseWindows;
             run.OutputDataReceived += (_, data) => Write(data.Data);
             run.ErrorDataReceived += (_, data) => Write(data.Data);
             run.EnableRaisingEvents = true;
             run.BeginOutputReadLine();
             run.BeginErrorReadLine();
-            RefreshStatus($"▶ Запущена проверка · {build.RevisionLabel}");
+            RefreshStatus($"▶ {(captureHouseWindows ? "Снимаем окна в игре" : "Запущена проверка")} · {build.RevisionLabel}");
         }
         catch (Exception error)
         {
@@ -869,6 +921,34 @@ public partial class StudioRoot : Control
                 RefreshStatus();
             }
         }
+    }
+
+    private string HouseWindowCapturePoints()
+    {
+        var raw = ReadBoundedAuthoringFile(Workspace.Root, "game/content/world/visual_checkpoints.v1.json", 1024 * 1024);
+        using var document = System.Text.Json.JsonDocument.Parse(StrictUtf8.GetString(raw));
+        var batch = document.RootElement.GetProperty("batches").EnumerateArray()
+            .Single(row => row.GetProperty("id").GetString() == "B20_windows_six_fixed");
+        var points = batch.GetProperty("points").GetString();
+        if (string.IsNullOrWhiteSpace(points) || points.Length > 8 * 1024)
+            throw new InvalidDataException("Набор игровых ракурсов окон неполон.");
+        var entries = points.Split(';', StringSplitOptions.RemoveEmptyEntries);
+        var expectedIds = RunFolders.HouseWindowCaptureFiles.Where(path => path.EndsWith(".png", StringComparison.Ordinal))
+            .Select(Path.GetFileNameWithoutExtension).ToHashSet(StringComparer.Ordinal);
+        if (entries.Length != expectedIds.Count
+            || !expectedIds.SetEquals(entries.Select(entry => entry.Split(':', 2)[0])))
+            throw new InvalidDataException("Набор игровых ракурсов окон не совпадает с файлами запуска.");
+        foreach (var entry in entries)
+        {
+            var parts = entry.Split(':', 2);
+            var checkpoint = document.RootElement.GetProperty("points").EnumerateArray()
+                .Single(row => row.GetProperty("id").GetString() == parts[0]);
+            if (parts.Length != 2 || checkpoint.GetProperty("spec").GetString() != parts[1]
+                || checkpoint.GetProperty("zoneId").GetString() != "house_old_pc"
+                || checkpoint.GetProperty("graphicsPreset").GetString() != "high")
+                throw new InvalidDataException("Ракурс окон изменился или относится к другой сцене.");
+        }
+        return points;
     }
 
     private void OnWindowCloseRequested()

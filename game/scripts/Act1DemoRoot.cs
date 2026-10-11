@@ -1437,9 +1437,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             }
 
             var runId = runArguments.Length == 0 ? null : runArguments[0][RunPrefix.Length..];
-            if (runId is not null
-                && (!Regex.IsMatch(runId, @"\Arun-[0-9]{8}-[0-9]{6}-[0-9a-f]{6}\z", RegexOptions.CultureInvariant)
-                    || !DateTime.TryParseExact(runId[4..19], "yyyyMMdd-HHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out _)))
+            if (runId is not null && !IsValidRunId(runId))
             {
                 GD.PushError("URMAN Studio play request refused: invalid run ID.");
                 return null;
@@ -1458,6 +1456,12 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             var label = arguments.FirstOrDefault(argument => argument.StartsWith(LabelPrefix, StringComparison.Ordinal))?[LabelPrefix.Length..] ?? "";
             return new(target[0], target.Length > 1 ? target[1] : "arrival", position, yaw, label, runId);
         }
+
+        public static bool IsValidRunId(string? runId) =>
+            runId is not null
+            && Regex.IsMatch(runId, @"\Arun-[0-9]{8}-[0-9]{6}-[0-9a-f]{6}\z", RegexOptions.CultureInvariant)
+            && DateTime.TryParseExact(runId[4..19], "yyyyMMdd-HHmmss", CultureInfo.InvariantCulture,
+                DateTimeStyles.None, out _);
     }
 
     private async Task StartStudioPlayAsync(StudioPlayRequest request)

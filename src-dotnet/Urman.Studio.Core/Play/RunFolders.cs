@@ -16,23 +16,49 @@ public sealed record RunFolder(string RunId, string Directory, string LogPath);
 public sealed class RunFolders(string root)
 {
     public const int Keep = 10;
+    public static IReadOnlyList<string> HouseWindowCaptureFiles { get; } = Array.AsReadOnly(new[]
+    {
+        "B20_windows_exterior.png", "B20_windows_exterior.json",
+        "B20_windows_interior.png", "B20_windows_interior.json",
+        "B20_windows_seni.png", "B20_windows_seni.json",
+        "B20_windows_rear.png", "B20_windows_rear.json",
+        "B20_windows_left.png", "B20_windows_left.json",
+        "B20_windows_right.png", "B20_windows_right.json",
+        "_capture-summary.json"
+    });
+
     public string Directory { get; } = Path.Combine(root, ".urman-studio", "runs");
 
     public RunFolder Create(
         string revisionLabel,
         DateTimeOffset now,
         string? campaignFingerprint = null,
-        IReadOnlyDictionary<string, string>? houseSources = null)
+        IReadOnlyDictionary<string, string>? houseSources = null,
+        bool captureHouseWindows = false)
     {
         var runId = FormattableString.Invariant($"run-{now:yyyyMMdd-HHmmss}-{Convert.ToHexStringLower(RandomNumberGenerator.GetBytes(3))}");
+        var ownedFiles = new JsonArray("game.log", "manifest.json");
+        if (captureHouseWindows)
+        {
+            foreach (var file in HouseWindowCaptureFiles)
+            {
+                ownedFiles.Add(file);
+            }
+        }
+
         var manifest = new JsonObject
         {
             ["runId"] = runId,
             ["revision"] = revisionLabel,
             ["started"] = now.ToString("O"),
             ["pinned"] = false,
-            ["files"] = new JsonArray("game.log", "manifest.json")
+            ["files"] = ownedFiles
         };
+        if (captureHouseWindows)
+        {
+            manifest["captureKind"] = "house-windows";
+        }
+
         if (campaignFingerprint is not null || houseSources is not null)
         {
             if (campaignFingerprint is not null && !IsCanonicalSha256(campaignFingerprint))

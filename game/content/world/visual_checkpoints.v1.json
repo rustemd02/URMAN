@@ -471,6 +471,27 @@
       "graphicsPreset": "high",
       "spec": "BabaiApproachDwellingFacade@11.5,1.7,-5.01>BabaiApproachDwellingFacade@7.358,1.57,-5.01",
       "subject": "B20 Codex pilot: eighth opening in the seni; compare clear width, fixed height and surrounding wall before/after/Undo."
+    },
+    {
+      "id": "B20_windows_rear",
+      "zoneId": "house_old_pc",
+      "graphicsPreset": "high",
+      "spec": "BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@1.658,1.686,-6.234",
+      "subject": "B20 Codex pilot: source-derived view of Rear0/Rear1 primary openings; requires native occlusion/framing review."
+    },
+    {
+      "id": "B20_windows_left",
+      "zoneId": "house_old_pc",
+      "graphicsPreset": "high",
+      "spec": "BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@-2.442,1.686,-2.034",
+      "subject": "B20 Codex pilot: source-derived view of the Left0 primary opening; requires native occlusion/framing review."
+    },
+    {
+      "id": "B20_windows_right",
+      "zoneId": "house_old_pc",
+      "graphicsPreset": "high",
+      "spec": "BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@5.758,1.686,-1.734",
+      "subject": "B20 Codex pilot: source-derived view of the Right0 primary opening; requires native occlusion/framing review."
     }
   ],
   "batches": [
@@ -515,6 +536,20 @@
         "C8_sky_silhouette"
       ],
       "points": "C1_arrival_street:Ground@0,1.7,12>Ground@0,1.6,-30;C2_hero_house:Ground@-14,1.7,4>Ground@-30,1.8,-6;C3_fence_close:Ground@-8,1.4,-6>Ground@-14,1.0,-10;C4_fap_branch:Ground@10,1.7,-10>Ground@30,1.8,-28;C5_forest_edge:Ground@0,1.7,-40>Ground@0,2.0,-80;C6_dk_square:Ground@6,1.7,-55>Ground@-10,2.0,-70;C7_trail_junction:Ground@2,1.5,-20>Ground@18,1.4,-34;C8_sky_silhouette:Ground@0,1.7,-8>Ground@-40,6.0,-40"
+    },
+    {
+      "id": "B20_windows_six_fixed",
+      "purpose": "Шесть фиксированных B20-ракурсов для сопоставления до/после/Undo; задний и боковые ракурсы выведены из источника и требуют native occlusion/framing review.",
+      "entries": 6,
+      "checkpoints": [
+        "B20_windows_exterior",
+        "B20_windows_interior",
+        "B20_windows_rear",
+        "B20_windows_left",
+        "B20_windows_right",
+        "B20_windows_seni"
+      ],
+      "points": "B20_windows_exterior:BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5;B20_windows_interior:BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@2.658,1.686,0.966;B20_windows_rear:BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@1.658,1.686,-6.234;B20_windows_left:BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@-2.442,1.686,-2.034;B20_windows_right:BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@5.758,1.686,-1.734;B20_windows_seni:BabaiApproachDwellingFacade@11.5,1.7,-5.01>BabaiApproachDwellingFacade@7.358,1.57,-5.01"
     }
   ],
   "note": "Манифест читается только в съёмочном harness (URMAN_VIEW_CAPTURE + URMAN_VIEW_POINTS); обычный игровой путь его не трогает. Профиль кадра подтверждается сайдкаром: requestedProfile — что просит манифест, atmosphereProfile — что реально применено и записано миром."

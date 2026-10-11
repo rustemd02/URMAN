@@ -42,6 +42,19 @@ STUDIO_MAX_ACTION_FRAME = 16 * 1024**2
 STUDIO_MAX_JOURNAL = 64 * 1024
 STUDIO_MAX_RUN_MANIFEST = 16 * 1024
 STUDIO_MAX_RUN_LOG = 8 * 1024**2
+STUDIO_MAX_RUN_FRAME = STUDIO_MAX_ACTION_FRAME
+STUDIO_MAX_RUN_FRAME_JSON = 256 * 1024
+STUDIO_HOUSE_WINDOW_IDS = (
+    'B20_windows_exterior', 'B20_windows_interior', 'B20_windows_seni',
+    'B20_windows_rear', 'B20_windows_left', 'B20_windows_right',
+)
+STUDIO_RUN_BASE_FILES = ('game.log', 'manifest.json')
+STUDIO_RUN_HOUSE_WINDOW_FILES = (
+    *STUDIO_RUN_BASE_FILES,
+    *(f'{checkpoint}.{extension}' for checkpoint in STUDIO_HOUSE_WINDOW_IDS
+      for extension in ('png', 'json')),
+    '_capture-summary.json',
+)
 STUDIO_MAX_BINARY = 128 * 1024**2
 STUDIO_MAX_EXPORT = 512 * 1024**2
 
@@ -358,8 +371,22 @@ def _studio_hash(path, limit, expected_prefix=None):
             or total != size or final_info.st_size != size):
         raise ValueError('Studio evidence file changed while being read')
     if expected_prefix is not None and bytes(prefix) != expected_prefix:
-        raise ValueError('Studio action frame is not a PNG')
+        raise ValueError('Studio evidence PNG signature is invalid')
     return size, h.hexdigest()
+
+
+def _studio_export_file_limit(relative):
+    run_prefix = r'\.urman-studio/runs/run-[0-9]{8}-[0-9]{6}-[a-f0-9]{6}/'
+    window_ids = '|'.join(re.escape(checkpoint) for checkpoint in STUDIO_HOUSE_WINDOW_IDS)
+    if re.fullmatch(run_prefix + r'game\.log', relative):
+        return STUDIO_MAX_RUN_LOG
+    if re.fullmatch(run_prefix + rf'(?:{window_ids})\.png', relative):
+        return STUDIO_MAX_RUN_FRAME
+    if re.fullmatch(run_prefix + rf'(?:(?:{window_ids})\.json|_capture-summary\.json)', relative):
+        return STUDIO_MAX_RUN_FRAME_JSON
+    if re.fullmatch(r'\.urman-studio/ai-jobs/[a-f0-9]{32}/actions/[a-f0-9]{32}\.png', relative):
+        return STUDIO_MAX_ACTION_FRAME
+    return STUDIO_MAX_BINARY
 
 
 def _studio_write_marker(job):
@@ -664,6 +691,7 @@ def export_studio_session(source, output):
     if runs_root is not None:
         required_run_fields = {'runId', 'revision', 'started', 'pinned', 'files'}
         provenance_fields = {'evidenceKind', 'campaignFingerprint', 'houseSources'}
+        optional_run_fields = {'captureKind'}
         base_house_sources = {
             'game/content/studio/hero_house.recipe.json',
             'game/content/world/act1_village_kit.world.v1.json',
@@ -685,10 +713,8 @@ def export_studio_session(source, output):
             run_id = directory.name
             manifest_relative = f'.urman-studio/runs/{run_id}/manifest.json'
             log_relative = f'.urman-studio/runs/{run_id}/game.log'
-            contents = _studio_children(directory, 2, 'Studio run directory')
+            contents = _studio_children(directory, len(STUDIO_RUN_HOUSE_WINDOW_FILES), 'Studio run directory')
             names = {item.name for item in contents}
-            if names not in ({'manifest.json'}, {'manifest.json', 'game.log'}):
-                raise ValueError('Studio run directory has missing or unexpected files: ' + run_id)
             if any(_studio_reparse(item.lstat()) or not stat.S_ISREG(item.lstat().st_mode) for item in contents):
                 raise ValueError('Studio run evidence contains a link or non-file: ' + run_id)
 
@@ -696,13 +722,20 @@ def export_studio_session(source, output):
                                              'Studio run manifest')
             manifest = _studio_json(manifest_bytes, STUDIO_MAX_RUN_MANIFEST, 'Studio run manifest')
             if (not isinstance(manifest, dict) or not required_run_fields.issubset(manifest)
-                    or set(manifest) - required_run_fields - provenance_fields):
+                    or set(manifest) - required_run_fields - provenance_fields - optional_run_fields):
                 raise ValueError('Studio run manifest has missing or unexpected fields: ' + run_id)
+            capture_files = manifest['files'] == list(STUDIO_RUN_HOUSE_WINDOW_FILES)
+            legacy_files = manifest['files'] == list(STUDIO_RUN_BASE_FILES)
+            if not capture_files and not legacy_files:
+                raise ValueError('Studio run file ownership or capture kind is invalid: ' + run_id)
+            if ((capture_files and manifest.get('captureKind') != 'house-windows')
+                    or (legacy_files and 'captureKind' in manifest)
+                    or 'manifest.json' not in names or not names.issubset(set(manifest['files']))):
+                raise ValueError('Studio run file ownership or capture kind is invalid: ' + run_id)
             if (manifest['runId'] != run_id or not isinstance(manifest['revision'], str)
                     or not manifest['revision'].strip() or not isinstance(manifest['started'], str)
-                    or not manifest['started'].strip() or type(manifest['pinned']) is not bool
-                    or manifest['files'] != ['game.log', 'manifest.json']):
-                raise ValueError('Studio run manifest identity or owned files are invalid: ' + run_id)
+                    or not manifest['started'].strip() or type(manifest['pinned']) is not bool):
+                raise ValueError('Studio run manifest identity is invalid: ' + run_id)
 
             present_provenance = provenance_fields & set(manifest)
             if present_provenance and present_provenance != provenance_fields:
@@ -729,6 +762,70 @@ def export_studio_session(source, output):
                 log_path = _studio_path(source, log_relative)
                 _, log_hash = _studio_hash(log_path, STUDIO_MAX_RUN_LOG)
                 payloads.append((log_relative, log_path, log_hash))
+
+            if capture_files:
+                frame_metadata = {}
+                capture_process_id = None
+                for checkpoint in STUDIO_HOUSE_WINDOW_IDS:
+                    png_name = f'{checkpoint}.png'
+                    json_name = f'{checkpoint}.json'
+                    has_png = png_name in names
+                    has_json = json_name in names
+                    if has_png != has_json:
+                        raise ValueError('Studio house-window frame and sidecar are incomplete: ' + checkpoint)
+                    if not has_png:
+                        continue
+
+                    png_relative = f'.urman-studio/runs/{run_id}/{png_name}'
+                    json_relative = f'.urman-studio/runs/{run_id}/{json_name}'
+                    png_path = _studio_path(source, png_relative)
+                    _, png_hash = _studio_hash(png_path, STUDIO_MAX_RUN_FRAME, b'\x89PNG\r\n\x1a\n')
+                    _, frame_bytes = _studio_read(source, json_relative, STUDIO_MAX_RUN_FRAME_JSON,
+                                                   'Studio house-window frame metadata')
+                    frame = _studio_json(frame_bytes, STUDIO_MAX_RUN_FRAME_JSON,
+                                         'Studio house-window frame metadata')
+                    if (not isinstance(frame, dict) or frame.get('studioRunId') != run_id
+                            or type(frame.get('studioProcessId')) is not int or frame['studioProcessId'] <= 0
+                            or not isinstance(frame.get('pngSha256'), str)
+                            or not re.fullmatch('[a-f0-9]{64}', frame['pngSha256'])
+                            or frame['pngSha256'] != png_hash
+                            or frame.get('point') != checkpoint):
+                        raise ValueError('Studio house-window frame metadata is invalid: ' + checkpoint)
+                    if capture_process_id is not None and frame['studioProcessId'] != capture_process_id:
+                        raise ValueError('Studio house-window frames came from different child processes: ' + run_id)
+                    capture_process_id = frame['studioProcessId']
+                    frame_metadata[checkpoint] = frame
+                    payloads.append((png_relative, png_path, png_hash))
+                    payloads.append((json_relative, frame_bytes, hashlib.sha256(frame_bytes).hexdigest()))
+
+                summary_name = '_capture-summary.json'
+                if summary_name in names:
+                    summary_relative = f'.urman-studio/runs/{run_id}/{summary_name}'
+                    _, summary_bytes = _studio_read(source, summary_relative, STUDIO_MAX_RUN_FRAME_JSON,
+                                                     'Studio house-window capture summary')
+                    summary = _studio_json(summary_bytes, STUDIO_MAX_RUN_FRAME_JSON,
+                                           'Studio house-window capture summary')
+                    summary_frames = summary.get('frames') if isinstance(summary, dict) else None
+                    if (not isinstance(summary_frames, list) or len(summary_frames) > len(STUDIO_HOUSE_WINDOW_IDS)
+                            or type(summary.get('pointCount')) is not int
+                            or summary['pointCount'] != len(summary_frames)):
+                        raise ValueError('Studio house-window capture summary is invalid: ' + run_id)
+                    summary_ids = []
+                    for frame in summary_frames:
+                        checkpoint = frame.get('point') if isinstance(frame, dict) else None
+                        if (checkpoint not in STUDIO_HOUSE_WINDOW_IDS or checkpoint not in frame_metadata
+                                or checkpoint in summary_ids):
+                            raise ValueError('Studio house-window capture summary frame is invalid: ' + run_id)
+                        metadata = frame_metadata[checkpoint]
+                        if (frame.get('studioRunId') != run_id
+                                or frame.get('studioProcessId') != metadata['studioProcessId']
+                                or frame.get('pngSha256') != metadata['pngSha256']):
+                            raise ValueError('Studio house-window capture summary does not match its frame: ' + checkpoint)
+                        summary_ids.append(checkpoint)
+                    if set(summary_ids) != set(frame_metadata):
+                        raise ValueError('Studio house-window capture summary does not match saved frames: ' + run_id)
+                    payloads.append((summary_relative, summary_bytes,
+                                     hashlib.sha256(summary_bytes).hexdigest()))
 
     for request_id, action_id, transaction_id in action_transaction_refs:
         if transaction_id not in transactions_by_request.get(request_id, set()):
@@ -775,17 +872,11 @@ def export_studio_session(source, output):
         if relative in seen_payload_paths:
             raise ValueError('Studio evidence contains a duplicate exported path')
         seen_payload_paths.add(relative)
+        file_limit = _studio_export_file_limit(relative)
         if isinstance(source_or_bytes, bytes):
             size = len(source_or_bytes)
-            file_limit = STUDIO_MAX_BINARY
         else:
             size = _studio_path(source, relative).lstat().st_size
-            if re.fullmatch(r'\.urman-studio/runs/run-[0-9]{8}-[0-9]{6}-[a-f0-9]{6}/game\.log', relative):
-                file_limit = STUDIO_MAX_RUN_LOG
-            elif re.fullmatch(r'\.urman-studio/ai-jobs/[a-f0-9]{32}/actions/[a-f0-9]{32}\.png', relative):
-                file_limit = STUDIO_MAX_ACTION_FRAME
-            else:
-                file_limit = STUDIO_MAX_BINARY
         if size > file_limit:
             raise ValueError('Studio evidence file exceeds its size limit')
         total_bytes += size
@@ -814,8 +905,11 @@ def export_studio_session(source, output):
         hasher = hashlib.sha256()
         written = 0
         source_size = len(source_or_bytes) if isinstance(source_or_bytes, bytes) else None
+        file_limit = _studio_export_file_limit(relative)
         with destination.open('xb') as stream:
             if isinstance(source_or_bytes, bytes):
+                if len(source_or_bytes) > file_limit:
+                    raise ValueError('Studio evidence file grew beyond its size limit')
                 if copied_bytes + len(source_or_bytes) > STUDIO_MAX_EXPORT:
                     raise ValueError('Studio evidence grew beyond the 512 MiB export budget')
                 stream.write(source_or_bytes)
@@ -825,12 +919,6 @@ def export_studio_session(source, output):
                 source_path = _studio_path(source, relative)
                 source_info = source_path.lstat()
                 source_size = source_info.st_size
-                if re.fullmatch(r'\.urman-studio/runs/run-[0-9]{8}-[0-9]{6}-[a-f0-9]{6}/game\.log', relative):
-                    file_limit = STUDIO_MAX_RUN_LOG
-                elif re.fullmatch(r'\.urman-studio/ai-jobs/[a-f0-9]{32}/actions/[a-f0-9]{32}\.png', relative):
-                    file_limit = STUDIO_MAX_ACTION_FRAME
-                else:
-                    file_limit = STUDIO_MAX_BINARY
                 if source_size > file_limit:
                     raise ValueError('Studio evidence file exceeds its size limit')
                 with source_path.open('rb') as incoming:

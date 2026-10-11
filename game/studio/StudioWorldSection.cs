@@ -1434,6 +1434,13 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         }
 
         panel.Buttons(("◎ На карте", FocusSelection), ("▶ Играть отсюда", studio.PlayFromHere));
+        if (id == HeroHouseRecipe.EntityId)
+        {
+            var actionButtons = panel.Buttons();
+            StudioRoot.Button(actionButtons, "Снять окна в игре", studio.CaptureHouseWindows).TooltipText =
+                "Снимает текущую версию дома в игре: фасад, интерьер, заднюю сторону, слева, справа и из сени; затем закрывает игру. Повторите до применения, после применения и после отмены для сравнения.";
+            StudioRoot.Button(actionButtons, "Открыть снимки", studio.OpenHouseWindowCaptures);
+        }
         StoryLinks(panel, id, parameters);
         if (IsGeneric(id))
         {
