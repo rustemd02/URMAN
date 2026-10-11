@@ -1,0 +1,14 @@
+== AI-25 first slice: the authored vehicles checked against VehicleDefinition.Load
+
+    Ошибок: 0
+
+Прошло времени 00:00:00.51
+    Ошибок: 0
+
+Прошло времени 00:00:14.47
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,521s
+== probe
+
+PROBE RESULT: PASS

@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-25"
+  ],
+  "stage": "first slice: the transport parameters of the existing campaign checked against the reader",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 12:42 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9e7bdaff",
+  "result": {
+    "vehicles": "the campaign authors three vehicles (the grandfather's Niva, the old village motorcycle, the forest horse cart) and every one satisfies the contract VehicleDefinition.Load enforces",
+    "contract": "blank or duplicate id, an unknown kind, a vector that is not exactly three finite numbers, a non-finite number and any non-positive dimension or dynamic value make the reader throw before the game starts, so those are the cases reported",
+    "optional": "the mechanics drivetrain block is optional and only the Niva carries it; its absence is not an error",
+    "scope": "the vehicles file is not one of the Studio workspace source globs, so it is read from the project root the same way the audio registry reads its manifest"
+  },
+  "verified": {
+    "probe": "PASS 355/355 with new checks: three vehicles, none with problems, the Niva carries mechanics while the others omit it, the notes say it is optional, and the synthetic cases (no id, unknown kind, a two-number vector, a zero speed, a value beyond float, a wrongly typed bool, a duplicate id, a mechanics block that is not an object) are each reported",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: the vehicles are checked against the reader, not driven, so handling is NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-25/2026-10-11-vehicles/check.log": "51aafedf7fe0995e41cbdb6b535f2366123be5931d7d87ccbcf1045e7394ac29"
+  },
+  "open": [
+    "the shop and puzzle halves of AI-25 are not covered yet",
+    "driving/handling acceptance is NOT_RUN"
+  ]
+}
