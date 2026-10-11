@@ -1,0 +1,45 @@
+{
+  "task": "STUDIO/AI-12/CODEX-UI",
+  "nativeStudio": true,
+  "status": "PARTIAL_UI_ACCESS_ONLY",
+  "before": {
+    "game/content/studio/hero_house.recipe.json": {
+      "sha256": "2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4",
+      "bytes": 307
+    },
+    "game/assets/models/act1/urman_village_exterior_kit.glb": {
+      "sha256": "8ea56c65c134e2fc0d95ec2194b3c0e7541db95bba0ecc45cb58a0e346ae82bc",
+      "bytes": 3111936
+    },
+    "assets/source/blender/act1/urman_village_exterior_kit.blend": {
+      "sha256": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3",
+      "bytes": 12572542
+    },
+    "assets/source/blender/act1/urman_village_exterior_kit.py": {
+      "sha256": "be5402e82b755e3f32b895afab263d067aa9ff1e79141facf8add5c2cc0f2a0a",
+      "bytes": 198161
+    }
+  },
+  "recipe": {
+    "schema": "house-recipe/v1",
+    "entityId": "urman.world:act1/kit/house-old-pc-babai-approach",
+    "component": "HeroHouse_TimberPlaster",
+    "modelPath": null,
+    "windowClearWidth": 1.06,
+    "windowClearHeight": 1.4,
+    "limits": {
+      "windowClearWidth": {
+        "min": 0.65,
+        "max": 1.35
+      }
+    }
+  },
+  "userdataFingerprintSha256": "d0b9ae757ad009118a54e2d680ba350cab4ecd97af12a1a3241a2fc96e28c4c4",
+  "events": [
+    "Native guarded Studio world loaded; accessibility tree and map screenshot observed after always accessibility and startup completion.",
+    "Front0 selection/request not reached: ScreenCaptureKit -3811 during AX/input observation.",
+    "User requested Windows station only; guarded Mac session stopped; original userdata verified restored."
+  ],
+  "userdataRestored": true,
+  "sourceUnchanged": true
+}

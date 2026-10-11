@@ -1404,18 +1404,22 @@ public sealed class CodexProposalProvider
     private static string? ResolveExecutable(string? candidate)
     {
         if (string.IsNullOrWhiteSpace(candidate)) return null;
-        if (Path.IsPathRooted(candidate)) return Path.GetFullPath(candidate);
+        var isWindows = OperatingSystem.IsWindows();
+        var extension = Path.GetExtension(candidate);
+        if (isWindows && extension.Length > 0 && !string.Equals(extension, ".exe", StringComparison.OrdinalIgnoreCase)) return null;
+        if (Path.IsPathRooted(candidate)) return isWindows && extension.Length == 0 ? null : Path.GetFullPath(candidate);
 
         if (candidate.Contains(Path.DirectorySeparatorChar) || candidate.Contains(Path.AltDirectorySeparatorChar))
         {
+            if (isWindows && extension.Length == 0) return null;
             var relative = Path.GetFullPath(candidate);
             if (File.Exists(relative)) return relative;
         }
 
         var pathValue = Environment.GetEnvironmentVariable("PATH");
         if (string.IsNullOrEmpty(pathValue)) return null;
-        var fileNames = OperatingSystem.IsWindows() && Path.GetExtension(candidate).Length == 0
-            ? new[] { candidate + ".exe", candidate + ".cmd", candidate + ".bat", candidate }
+        var fileNames = isWindows && extension.Length == 0
+            ? new[] { candidate + ".exe" }
             : new[] { candidate };
         foreach (var directory in pathValue.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries))
         {
