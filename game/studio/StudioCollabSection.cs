@@ -37,6 +37,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
 
     public void Report(ExternalChange change)
     {
+        foreach (var key in _choices.Keys.Where(key => key.File == change.RelativePath).ToArray()) _choices.Remove(key);
         if (change.Conflicts.Count > 0)
         {
             _pending[change.RelativePath] = change;
@@ -103,6 +104,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             var apply = StudioRoot.Button(_list, decided ? "Применить решения" : "Решены не все вопросы", () => Apply(file, change));
             apply.Disabled = !decided;
             apply.ThemeTypeVariation = decided ? "PrimaryButton" : "";
+            StudioRoot.Button(_list, "Обновить сравнение", () => RefreshDiskComparison(file));
         }
 
         if (_log.Count > 0)
@@ -421,14 +423,40 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
 
     private void Apply(string file, ExternalChange change)
     {
-        var choices = change.Conflicts.ToDictionary(conflict => conflict, conflict => _choices[(file, conflict.Path)]);
-        var resolved = ConflictResolution.Apply(change.Merge!, choices);
-        studio.Workspace.File(file).ApplyResolution(resolved, change.TheirBytes!);
+        try
+        {
+            var choices = change.Conflicts.ToDictionary(conflict => conflict, conflict => _choices[(file, conflict.Path)]);
+            var resolved = ConflictResolution.Apply(change.Merge!, choices);
+            studio.Workspace.File(file).ApplyResolution(resolved, change.TheirBytes!, change.MineText);
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidOperationException or ArgumentException)
+        {
+            studio.ShowBanner($"Объединение не применено: {error.Message} Текущий черновик, ожидающее изменение и решения сохранены.", error: true);
+            return;
+        }
+
         studio.Workspace.Reindex();
         foreach (var conflict in change.Conflicts) _choices.Remove((file, conflict.Path));
         _pending.Remove(file);
         _log.Add($"{DateTime.Now:HH:mm} {file}: решено {change.Conflicts.Count} конфликт(а)");
         studio.ConflictsResolved();
+    }
+
+    private void RefreshDiskComparison(string file)
+    {
+        try
+        {
+            StudioFileTransaction.EnsureNoLinks(studio.Workspace.Root, file);
+            var change = studio.Workspace.File(file).PullFromDisk();
+            studio.Workspace.Reindex();
+            Report(change);
+            studio.ConflictsResolved();
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidOperationException
+            or ArgumentException or System.Text.Json.JsonException)
+        {
+            studio.ShowBanner("Не удалось обновить сравнение; черновик и прежние решения сохранены. " + error.Message, error: true);
+        }
     }
 
     private (string Entity, string Field) Describe(string path)

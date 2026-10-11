@@ -74323,6 +74323,13 @@
                 "stage": "2026-10-10 AI-13 consumer compile correction",
                 "result": "9fe0cbc4 перенесён как 6d3c16f7: AuthoredWorldPlotFile вместо конфликтующего с runtime AuthoredWorldPlot.",
                 "verification": "Affected game/Urman.Game.csproj compile: 0 warnings, 0 errors; git diff --check PASS. UI wiring и второй authorable world остаются открыты."
+              },
+              {
+                "stage": "2026-10-11 v11 integration review held",
+                "source_commit": "1472d55d0819bf9ff05e410ff892bbd6ef4c86c2",
+                "result": "SOURCE_REVIEW_BLOCKERS_NO_PATCH_APPLIED",
+                "verification": "LunaFAST independent read-only review; no compile/probe/runtime replay.",
+                "remaining": "Startup Changed before rootcontrols; readonly gate cleared; Reject no-default unresolved not emitted; incomplete write boundary with current ReplaceDraft; Play/Check stale postawait identity and guardafterSaveAll. Unrelated domains in v11 patch require separate acceptance. Feedback#244 sent DeepSeek; assignments preserved."
               }
             ],
             "stage_tasks": [
@@ -80173,6 +80180,17 @@
                 ],
                 "verification": "LunaFAST authored UI+storage draft support; Sol6.1medium independent source review Core/UI. Root Game affected compile0warnings/0errors, diffcheck; tracker schema validate passed after AI12 blocker correction. No tests/runtime/network receive.",
                 "remaining": "Creation/deletion, Send, actual native Apply/Undo/Redo/restart/A23 not verified; full AI38 open."
+              },
+              {
+                "stage": "2026-10-11 external disk conflict stale snapshot fix",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_NOT_RUN",
+                "source": [
+                  "src-dotnet/Urman.Studio.Core/Storage/AuthoredFile.cs",
+                  "game/studio/StudioCollabSection.cs"
+                ],
+                "verification": "LunaFAST UI caller update; Sol6.1medium independent source review; root affected Game compile0 warnings/0errors, diff check, tracker validate PASS. No tests/runtime/network.",
+                "implementation": "Conflict captures mineText; Apply verifies current draft and actualincomingdisk SHA before adopting. Stale refusal preserves pending/choices. Refresh reuses PullFromDisk, and Report resets decisions for updated input.",
+                "remaining": "Native stale-input/refusal/refresh walkthrough not run; full AI38 remains open."
               }
             ],
             "stage_tasks": [

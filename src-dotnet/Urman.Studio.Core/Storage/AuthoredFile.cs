@@ -11,7 +11,10 @@ public sealed class ExternalChangeException(string path) : IOException($"Фай�
 }
 
 /// <summary>What happened when a file changed on disk while it was open.</summary>
-public sealed record ExternalChange(string RelativePath, bool Reloaded, int AutoMerged, IReadOnlyList<MergeConflict> Conflicts, MergeResult? Merge = null, byte[]? TheirBytes = null);
+public sealed record ExternalChange(string RelativePath, bool Reloaded, int AutoMerged, IReadOnlyList<MergeConflict> Conflicts, MergeResult? Merge = null, byte[]? TheirBytes = null)
+{
+    public string? MineText { get; init; }
+}
 
 /// <summary>
 /// One authored JSON file inside the project. Entities are addressed by their
@@ -268,7 +271,7 @@ public sealed class AuthoredFile
         var merge = SemanticMerge.Merge(_base, SourceSnapshot(), ReadSource(Encoding.UTF8.GetString(bytes)));
         if (merge.Conflicts.Count > 0)
         {
-            return new(RelativePath, false, merge.AutoMerged, merge.Conflicts, merge, bytes);
+            return new(RelativePath, false, merge.AutoMerged, merge.Conflicts, merge, bytes) { MineText = Text };
         }
 
         AdoptMerged(merge.Merged!, incomingOuter, incoming, bytes);
@@ -276,8 +279,15 @@ public sealed class AuthoredFile
     }
 
     /// <summary>After the author resolved every conflict: their file becomes the base, the decided result the local state.</summary>
-    public void ApplyResolution(JsonNode resolved, byte[] theirBytes)
+    public void ApplyResolution(JsonNode resolved, byte[] theirBytes, string? expectedText = null)
     {
+        if (expectedText is not null)
+        {
+            StudioFileTransaction.EnsureNoLinks(Root, RelativePath);
+            if (Text != expectedText || !File.Exists(FullPath)
+                || AtomicFile.Sha256OfFile(FullPath) != AtomicFile.Sha256(theirBytes))
+                throw new InvalidOperationException("Сравнение устарело: локальный черновик или входящий файл изменился. Обновите сравнение.");
+        }
         var (incomingOuter, incoming) = Open(Encoding.UTF8.GetString(theirBytes));
         AdoptMerged(resolved, incomingOuter, incoming, theirBytes);
     }
