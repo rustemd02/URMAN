@@ -1008,6 +1008,23 @@ public sealed class CodexProposalProvider
             + JsonSerializer.Serialize(BuildOutputSchema(request));
     }
 
+    /// <summary>A bounded, read-only file transport into the same structured proposal validator.</summary>
+    public static HouseWindowProposal ParseProposalFile(string path, HouseWindowRequest request)
+    {
+        HouseWindowProposalValidator.ValidateRequest(request);
+        using var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        if (input.Length > 32_768) throw new CodexProposalException("The proposal file exceeds 32768 bytes.");
+        using var bytes = new MemoryStream();
+        var buffer = new byte[4096];
+        int count;
+        while ((count = input.Read(buffer)) > 0)
+        {
+            if (bytes.Length + count > 32_768) throw new CodexProposalException("The proposal file exceeds 32768 bytes.");
+            bytes.Write(buffer, 0, count);
+        }
+        return ParseProposal(new UTF8Encoding(false, true).GetString(bytes.ToArray()), request);
+    }
+
     public static HouseWindowProposal ParseProposal(string json, HouseWindowRequest request)
     {
         HouseWindowProposalValidator.ValidateRequest(request);

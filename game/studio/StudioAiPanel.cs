@@ -26,6 +26,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private readonly Button _apply;
     private readonly Button _copy;
     private readonly Button _paste;
+    private readonly Button _saveRequest;
+    private readonly Button _importFile;
     private readonly Button _beforeView;
     private readonly Button _afterView;
     private readonly SubViewport _preview = new() { Size = new(560, 260), OwnWorld3D = true, RenderTargetUpdateMode = SubViewport.UpdateMode.Always };
@@ -94,9 +96,16 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         body.AddChild(handoff);
         _copy = StudioRoot.Button(handoff, "Скопировать запрос для агента", CopyRequest);
         _copy.TooltipText = "Вставьте запрос в свой Codex или Claude. Это ручной перенос: Studio не управляет внешней сессией.";
-        _paste = StudioRoot.Button(handoff, "Вставить JSON-ответ", () => _ = RunProposalAsync(fromClipboard: true));
+        _paste = StudioRoot.Button(handoff, "Вставить JSON-ответ", () => _ = RunProposalAsync(fromManual: true));
         _paste.TooltipText = "Скопируйте чистый JSON ответа. Studio проверит его и покажет модель до применения.";
         _paste.Disabled = true;
+        var files = new HBoxContainer();
+        body.AddChild(files);
+        _saveRequest = StudioRoot.Button(files, "Сохранить запрос в файл", SaveRequest);
+        _saveRequest.TooltipText = "Передайте текст своему агенту. Его внешней сессией Studio не управляет.";
+        _importFile = StudioRoot.Button(files, "Открыть JSON-ответ…", OpenProposalFile);
+        _importFile.TooltipText = "Проверить ответ по сохранённому запросу и показать модель до применения";
+        _importFile.Disabled = true;
         var compare = new HBoxContainer();
         body.AddChild(compare);
         _beforeView = StudioRoot.Button(compare, "До", () => ShowPreview(after: false));
@@ -259,27 +268,75 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         return revision;
     }
 
+    private HouseWindowRequest PrepareManualRequest()
+    {
+        if (_proposal is null) _request = Capture();
+        var request = _request ?? throw new InvalidOperationException("Запрос ещё не подготовлен.");
+        HouseWindowProposalValidator.ValidateRequest(request);
+        SetBusy(false);
+        return request;
+    }
+
     private void CopyRequest()
     {
         if (_busy) return;
         try
         {
-            if (!_busy && _proposal is null) _request = Capture();
-            if (_request is null) throw new InvalidOperationException("Запрос ещё не подготовлен.");
-            DisplayServer.ClipboardSet(CodexProposalProvider.CreateClipboardPrompt(_request));
-            SetBusy(false);
+            DisplayServer.ClipboardSet(CodexProposalProvider.CreateClipboardPrompt(PrepareManualRequest()));
             if (_proposal is null) _status.Text = "Вставьте запрос в свой агент, затем скопируйте JSON ответа и нажмите «Вставить JSON-ответ». Studio покажет модель до применения. Внешняя сессия работает отдельно.";
         }
         catch (Exception error) { _status.Text = error.Message; }
     }
 
-    private Task AskAsync() => RunProposalAsync(fromClipboard: false);
-
-    private async Task RunProposalAsync(bool fromClipboard)
+    private void SaveRequest()
     {
         if (_busy) return;
+        try
+        {
+            var request = PrepareManualRequest();
+            var path = Urman.Studio.Core.Handoff.DeveloperContext.WriteHouseWindowRequest(_studio.Workspace.Root, request);
+            var message = "Запрос сохранён. Передайте файл своему агенту, затем откройте его чистый JSON-ответ. Проект ещё не изменён.";
+            _status.Text = _proposal is null ? message : _status.Text + "\n" + message;
+            OS.ShellShowInFileManager(path);
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException)
+        {
+            var message = "Запрос не сохранён: проверьте выбранный дом, описание и доступ к папке. Существующий файл не перезаписывается.";
+            _status.Text = _proposal is null ? message : _status.Text + "\n" + message;
+        }
+    }
+
+    private void OpenProposalFile()
+    {
+        if (_busy || _request is null || _proposal is not null || !Visible) return;
+        var requestId = _request.RequestId;
+        var picker = new FileDialog
+        {
+            FileMode = FileDialog.FileModeEnum.OpenFile, Access = FileDialog.AccessEnum.Filesystem,
+            Title = "Открыть JSON-ответ агента", UseNativeDialog = true, Filters = ["*.json ; Ответ агента"]
+        };
+        picker.FileSelected += path =>
+        {
+            picker.QueueFree();
+            if (_busy || !Visible || _request?.RequestId != requestId)
+            {
+                _status.Text = "Ответ не открыт: запрос изменился или панель недоступна. Выберите файл для актуального запроса.";
+                return;
+            }
+            _ = RunProposalAsync(fromManual: true, proposalFile: path);
+        };
+        picker.Canceled += picker.QueueFree;
+        _studio.AddChild(picker);
+        picker.PopupCentered(new Vector2I(900, 600));
+    }
+
+    private Task AskAsync() => RunProposalAsync(fromManual: false);
+
+    private async Task RunProposalAsync(bool fromManual, string? proposalFile = null)
+    {
+        if (_busy || !Visible) return;
         HouseWindowProposal? imported = null;
-        if (fromClipboard)
+        if (fromManual)
         {
             try
             {
@@ -291,11 +348,13 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                 if (_openedSelection != _studio.Selection
                     || _snapshot != Fingerprint(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath))))
                     throw new InvalidOperationException("Выбор или исходник изменился. Скопируйте новый запрос.");
-                imported = CodexProposalProvider.ParseProposal(DisplayServer.ClipboardGet(), _request);
+                imported = proposalFile is null
+                    ? CodexProposalProvider.ParseProposal(DisplayServer.ClipboardGet(), _request)
+                    : CodexProposalProvider.ParseProposalFile(proposalFile, _request);
             }
             catch (Exception error)
             {
-                _status.Text = error is JsonException or CodexProposalProvider.CodexProposalException
+                _status.Text = error is JsonException or CodexProposalProvider.CodexProposalException or IOException or UnauthorizedAccessException or System.Text.DecoderFallbackException or NotSupportedException
                     ? "Ответ не принят. Нужен чистый JSON по схеме именно скопированного запроса. Проект не изменён."
                     : "Ответ не принят: " + error.Message;
                 return;
@@ -307,13 +366,13 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _cancel = new();
         try
         {
-            if (!fromClipboard) _request = Capture();
+            if (!fromManual) _request = Capture();
             var request = _request ?? throw new InvalidOperationException("Запрос ещё не подготовлен.");
             _stage = Path.Combine(Path.GetTempPath(), "urman-house-" + request.RequestId);
             Directory.CreateDirectory(_stage);
             File.WriteAllText(Path.Combine(_stage, "request.json"), JsonSerializer.Serialize(_request));
             AtomicFile.WriteAllText(Path.Combine(_studio.Workspace.Root, ".urman-studio/ai-jobs", _request.RequestId, "request.json"), JsonSerializer.Serialize(_request));
-            _status.Text = fromClipboard ? "Проверяю перенесённое предложение…" : "Codex готовит предложение…";
+            _status.Text = fromManual ? "Проверяю перенесённое предложение…" : "Codex готовит предложение…";
             _proposal = imported ?? await new CodexProposalProvider(allowGlobalInstructions: _globalInstructions.ButtonPressed)
                 .RunAsync(_request!, _stage, _cancel.Token, this);
             if (!Visible) throw new OperationCanceledException();
@@ -348,7 +407,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             if (Volatile.Read(ref _providerWarningSeen) != 0)
                 _status.Text += "\nCodex сообщил предупреждение в сессии. Перед запросом проверено: MCP отключены, доступных MCP-инструментов нет.";
             if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
-            if (fromClipboard) _status.Text += "\nОтвет перенесён вручную. Studio не управляет внешней сессией агента.";
+            if (fromManual) _status.Text += "\nОтвет перенесён вручную. Studio не управляет внешней сессией агента.";
             _apply.Disabled = false;
         }
         catch (OperationCanceledException) { ClearProposal(); _status.Text = "Остановлено. Проект не изменён."; }
@@ -573,7 +632,9 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _ask.Disabled = busy || _openedSelection != HeroHouseRecipe.EntityId
             || _studio.Selection != _openedSelection;
         _copy.Disabled = _ask.Disabled;
+        _saveRequest.Disabled = _ask.Disabled;
         _paste.Disabled = _ask.Disabled || _request is null || _proposal is not null;
+        _importFile.Disabled = _paste.Disabled;
         _apply.Disabled = busy || _proposal is null || _request is null || _stage is null;
     }
     private void ClearProposal()

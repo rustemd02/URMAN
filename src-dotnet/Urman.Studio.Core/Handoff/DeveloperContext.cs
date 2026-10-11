@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json;
 using Urman.Studio.Core.Editing;
+using Urman.Studio.Core.AI;
 using Urman.Studio.Core.Storage;
 
 namespace Urman.Studio.Core.Handoff;
@@ -219,6 +220,17 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
     {
         using var stream = zip.CreateEntry(name).Open();
         stream.Write(bytes);
+    }
+
+    /// <summary>Export the trusted manual house prompt without overwriting an existing request.</summary>
+    public static string WriteHouseWindowRequest(string root, HouseWindowRequest request)
+    {
+        var text = CodexProposalProvider.CreateClipboardPrompt(request);
+        var relative = ".urman-studio/handoff/request-" + request.RequestId + ".txt";
+        StudioFileTransaction.EnsureNoLinks(root, relative, allowStudioMetadata: true);
+        var path = Path.Combine(root, relative);
+        AtomicFile.WriteAllBytes(path, new UTF8Encoding(false).GetBytes(text), overwrite: false);
+        return path;
     }
 
     public sealed record ContextPackage(JsonObject Manifest, JsonArray Entities, string Text, bool HasIntegrityReceipts);
