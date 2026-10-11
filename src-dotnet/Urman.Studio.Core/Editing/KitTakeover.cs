@@ -179,10 +179,15 @@ public static class KitTakeover
     public static IReadOnlyList<string> StateNotes(StudioWorkspace workspace)
     {
         ArgumentNullException.ThrowIfNull(workspace);
+        // The buckets are disjoint, so a placement that is both retired and hidden is
+        // counted once (as retired, which is the stronger state) and the total is the number
+        // of placements rather than a sum that could count one twice.
         var retired = 0;
-        var hidden = 0;
+        var hiddenOnly = 0;
         var visible = 0;
+        var total = 0;
         var hiddenNotRetired = new List<string>();
+        var both = 0;
         foreach (var id in workspace.EntityIds)
         {
             if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "kit-placement")
@@ -198,15 +203,20 @@ public static class KitTakeover
                 retired++;
             }
 
-            if (isHidden)
+            total++;
+            if (isRetired)
             {
-                hidden++;
-                if (!isRetired)
+                if (isHidden)
                 {
-                    hiddenNotRetired.Add(((string?)parameters?["logicalAnchor"] ?? id).ToString());
+                    both++;
                 }
             }
-            else if (!isRetired)
+            else if (isHidden)
+            {
+                hiddenOnly++;
+                hiddenNotRetired.Add(((string?)parameters?["logicalAnchor"] ?? id).ToString());
+            }
+            else
             {
                 visible++;
             }
@@ -214,7 +224,7 @@ public static class KitTakeover
 
         return
         [
-            $"Размещений: {retired + hidden + visible}; retired: {retired}; hidden: {hidden}; видимых: {visible}.",
+            $"Размещений: {total}; из них retired: {retired} (в том числе скрытых одновременно: {both}); скрытых без retired: {hiddenOnly}; видимых: {visible}. Группы не пересекаются, поэтому сумма равна числу размещений.",
             "Рантайм: «hidden» только снимает видимость, а «retired» вызывает Retire и помечает узел retiredByPlot — такая часть не рисуется и не сталкивается. Разница существенная: скрытая, но не retired часть остаётся в столкновениях.",
             hiddenNotRetired.Count == 0
                 ? "Нет частей, которые скрыты, но не retired."

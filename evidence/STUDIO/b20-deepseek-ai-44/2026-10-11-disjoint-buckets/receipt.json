@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-44"
+  ],
+  "stage": "the state buckets are disjoint, so the total is the placement count",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 20:09 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "0dc81856",
+  "defect": "StateNotes counted the total as retired + hidden + visible, so a placement that is both retired and hidden was counted twice",
+  "fix": "the buckets are disjoint now - retired (with the count of those also hidden), hidden without retired, and visible without retired - and the total is the number of placements. A placement that is both is counted once, as retired, which is the stronger state",
+  "measured": "one hundred and ninety-six placements: one hundred retired (none of them also hidden), one hidden without retired and ninety-five visible, and the three buckets sum exactly to the total",
+  "semantics": "the runtime behaviour is untouched: the fix is in the projection that describes it",
+  "verified": {
+    "probe": "PASS 580/580 including the new assertion that the buckets are disjoint and sum to the placement count",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game run: nothing about the runtime behaviour changed"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-44/2026-10-11-disjoint-buckets/check.log": "c6af2032a70d1634dda70b02d89b91ad6c7b10ef96d416f03800c371a002b4f1"
+  },
+  "open": [
+    "Codex notes that main still lacks the prerequisite KitTakeover 9992bd15, so the AI-44 commit is not accepted as a whole yet"
+  ]
+}

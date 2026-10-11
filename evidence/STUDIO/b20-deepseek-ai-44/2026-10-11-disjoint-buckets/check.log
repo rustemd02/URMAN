@@ -1,0 +1,8 @@
+== AI-44 fix: the state buckets are disjoint, so the total is the placement count
+
+
+Прошло времени 00:00:00.66
+== probe
+    note: Размещений: 196; из них retired: 100 (в том числе скрытых одновременно: 0); скрытых без retired: 1; видимых: 95. Группы не пересекаются, поэтому сумма равна числу размещений.
+  state gaps: 0
+PROBE RESULT: PASS
