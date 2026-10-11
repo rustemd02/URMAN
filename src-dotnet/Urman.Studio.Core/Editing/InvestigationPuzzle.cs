@@ -116,4 +116,121 @@ public static class InvestigationPuzzle
             .Select(value => value.GetValue<string>())
             .Where(reference => reference.Length > 0)
             .ToArray();
+    /// <summary>
+    /// The narrative-pressure counter, mirrored from ContentRuleEngine's "pressure.change" arm. The
+    /// engine reads the delta with GetValue&lt;int&gt; and throws when it is not an integer, then clamps
+    /// the result into 0..3, so a delta whose magnitude exceeds the whole range can never be applied
+    /// as written: the author asks for more change than the counter can hold, and the clamp hides it.
+    ///
+    /// The authored knowledge record with kind "pressure" is NOT this counter: it is a knowledge
+    /// entry the player can read, while the counter is a number the effects move. Reporting them as
+    /// one thing would be wrong, so the notes say which is which.
+    /// </summary>
+    public static IReadOnlyList<string> PressureGaps(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var gaps = new List<string>();
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is not { } entity)
+            {
+                continue;
+            }
+
+            var pending = new Stack<JsonNode?>();
+            pending.Push(entity);
+            while (pending.Count > 0)
+            {
+                switch (pending.Pop())
+                {
+                    case JsonObject obj:
+                        if ((string?)obj["op"] == "pressure.change")
+                        {
+                            var where = (string?)obj["$where"] ?? id;
+                            if (obj["delta"] is not JsonValue delta || !delta.TryGetValue<int>(out var value))
+                            {
+                                gaps.Add($"{where}: pressure.change без целого delta — движок бросает ArgumentException «pressure.change delta must be an integer».");
+                            }
+                            else if (value > 3 || value < -3)
+                            {
+                                gaps.Add($"{where}: pressure.change delta = {value}, а счётчик ограничен 0..3 и молча зажимается: такое изменение НИКОГДА не применится целиком, и автор увидит меньше, чем просил.");
+                            }
+                        }
+
+                        foreach (var pair in obj)
+                        {
+                            pending.Push(pair.Value);
+                        }
+
+                        break;
+                    case JsonArray array:
+                        foreach (var item in array)
+                        {
+                            pending.Push(item);
+                        }
+
+                        break;
+                }
+            }
+        }
+
+        return gaps;
+    }
+
+    /// <summary>What the pressure counter is, and what it is not.</summary>
+    public static IReadOnlyList<string> PressureNotes(StudioWorkspace workspace, string root)
+    {
+        var gaps = PressureGaps(workspace);
+        var changes = 0;
+        var entries = 0;
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is JsonObject entity)
+            {
+                if ((string?)entity["kind"] == "pressure")
+                {
+                    entries++;
+                }
+
+                var pending = new Stack<JsonNode?>();
+                pending.Push(entity);
+                while (pending.Count > 0)
+                {
+                    switch (pending.Pop())
+                    {
+                        case JsonObject obj:
+                            if ((string?)obj["op"] == "pressure.change")
+                            {
+                                changes++;
+                            }
+
+                            foreach (var pair in obj)
+                            {
+                                pending.Push(pair.Value);
+                            }
+
+                            break;
+                        case JsonArray array:
+                            foreach (var item in array)
+                            {
+                                pending.Push(item);
+                            }
+
+                            break;
+                    }
+                }
+            }
+        }
+
+        return
+        [
+            $"Изменений счётчика давления в контенте: {changes}; записей знания с видом «pressure»: {entries}.",
+            gaps.Count == 0
+                ? "Каждое изменение давления — целое и укладывается в диапазон счётчика 0..3."
+                : $"Проблем с давлением: {gaps.Count} — {string.Join(" | ", gaps.Take(2))}",
+            "Счётчик давления и запись знания с видом «pressure» — РАЗНЫЕ вещи: счётчик двигают эффекты (pressure.change, диапазон 0..3), а запись знания игрок читает. Смешивать их нельзя, и проекция их не смешивает.",
+            "Как давление ощущается игроком — слуховая и визуальная приёмка, не эта проверка."
+        ];
+    }
+
 }

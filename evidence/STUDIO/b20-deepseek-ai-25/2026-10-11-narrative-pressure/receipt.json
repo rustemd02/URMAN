@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-25"
+  ],
+  "stage": "the narrative pressure counter against the engine",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:18 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "11aacbdd",
+  "result": {
+    "contract": "ContentRuleEngine's pressure.change arm reads the delta with GetValue<int> and THROWS when it is not an integer (line 152: 'pressure.change delta must be an integer'), then clamps the counter into 0..3 through checked arithmetic (lines 155-157), so an overflowing delta throws while an out-of-range one is SILENTLY clamped",
+    "measured": "the content carries ONE pressure.change with delta 2, inside the range, and one knowledge record of kind pressure - so there are zero gaps today",
+    "the_two_things_the_notes_separate": "the counter (a number the effects move, range 0..3) and the knowledge record with kind 'pressure' (an entry the player reads) are NOT the same thing. I nearly reported them as one; the notes state which is which, so the projection does not mix them either",
+    "what_is_checked": "a pressure.change whose delta is not an integer is reported with the engine's own exception text, and a delta whose magnitude exceeds the whole 0..3 range is reported because it can never be applied as written - the clamp hides it and the author sees less change than requested",
+    "boundary": "how the pressure feels to a player is audio and visual acceptance, not this check"
+  },
+  "verified": {
+    "probe": "PASS 690/690 including the zero gaps on the real content, the two notes and the two synthetic findings (a non-integer delta, a delta of 5 against a 0..3 counter)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: the feel of the pressure is external"
+  },
+  "own_mistakes": "for the SECOND time I generated a tree walk with a dead '&& false' branch and one that did not push array children; both were removed before the commit. It is the same mistake as in the vocabulary file, so it is worth naming as a pattern rather than an accident",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-25/2026-10-11-narrative-pressure/check.log": "20883ed68689ca63866e7be666d379a89cc0b4c66a41d6dd74960b6278236761"
+  },
+  "open": [
+    "the pressure's feel and the knowledge entry's text remain external acceptance"
+  ]
+}
