@@ -1,0 +1,15 @@
+== AI-37 fix: the manifest module id uses dots, the module FOLDER uses hyphens
+== before: content/modules/urman.chapter1/ (does not exist, so the campaign scope matched nothing)
+== after:  content/modules/urman-chapter1/ (exists)
+
+urman.core: dotted exists=False | hyphen exists=True
+urman.chapter1: dotted exists=False | hyphen exists=True
+urman.oldpc: dotted exists=False | hyphen exists=True
+
+== builds and checks
+
+Прошло времени 00:00:00.53
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,434s
+
+PROBE RESULT: PASS

@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-37",
+    "STUDIO/AI-40"
+  ],
+  "stage": "the campaign module folder mapping was wrong, so the campaign scope counted nothing",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 17:36 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "56611418",
+  "defect": "CampaignModulePrefixes built 'content/modules/{moduleId}/' from the manifest id, but the manifest uses DOTS (urman.chapter1) while the directory uses HYPHENS (urman-chapter1). The prefix therefore never existed, and the campaign-scoped coverage report silently counted zero rules - the very scope the earlier review asked me to make honest",
+  "found_by": "the new trial-run plan asked whether the module directories exist, which is the check the coverage projection never made",
+  "fix": "one shared helper RuleCatalogCoverage.ModuleFolder(id) = id.Replace('.', '-'), used by both the coverage prefixes and the trial-run plan, so the convention is written once",
+  "verified": {
+    "before_after": "the check log records that the dotted path does not exist and the hyphenated one does, for all three modules",
+    "probe": "PASS 483/483; the campaign scope now really counts the rules its own modules author instead of reporting zero, and the stale invariant that asserted zero was replaced",
+    "compile_and_tests": "Core 0/0; Urman.Studio.Tests 38/38",
+    "not_run": "no game run: nothing here is a runtime claim"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-37/2026-10-11-module-folder-mapping/check.log": "7d54dd269271532ec9ae5a463772b6b519743f9b56a826e8d04c38431384407e"
+  },
+  "open": [
+    "the shared-area note stays, because the rules also live in game/content"
+  ]
+}

@@ -64,11 +64,19 @@ public static class RuleCatalogCoverage
             .Select(module => (string?)module["moduleId"])
             .OfType<string>()
             .Where(id => id.Length > 0)
-            .Select(id => $"content/modules/{id}/")
+            .Select(id => $"content/modules/{ModuleFolder(id)}/")
             .Distinct(StringComparer.Ordinal)
             .Order(StringComparer.Ordinal)
             .ToArray();
     }
+
+    /// <summary>
+    /// The folder a manifest module id lives in: the id uses dots (urman.chapter1) while
+    /// the directory uses hyphens (urman-chapter1), which is the convention the project
+    /// already uses for every generated slug. Without this mapping the campaign scope
+    /// silently matched nothing.
+    /// </summary>
+    public static string ModuleFolder(string moduleId) => moduleId.Replace('.', '-');
 
     /// <summary>
     /// The operations this projection relies on when it says what the engine executes.

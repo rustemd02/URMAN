@@ -79973,6 +79973,12 @@
                 "result": "partial implementation by deepseek v4.1 flash: every operation the projection relies on is anchored by name against the engine sources, the authored usage is counted inside the selected campaign and named shared areas, the sixteen PhotoWorld routing operations are anchored too, and the notes state that source presence does not prove execution",
                 "source": "evidence/STUDIO/b20-deepseek-ai-37/ (2026-10-10-rule-coverage, 2026-10-10-campaign-scope)",
                 "verification": "probe PASS with all 35 anchored operations found by name; Core 0/0; game 0/0; existing suites at that stage. Branch/parallel/repeat/timer persistence stays open and NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the campaign module folder mapping was wrong, so the campaign scope counted nothing",
+                "result": "own bug found and fixed by deepseek v4.1 flash: CampaignModulePrefixes built content/modules/{moduleId}/ from the manifest id, but the manifest uses dots (urman.chapter1) while the directory uses hyphens (urman-chapter1), so the prefix never existed and the campaign-scoped coverage silently reported zero rules - exactly the scope an earlier review asked me to make honest. One shared helper RuleCatalogCoverage.ModuleFolder now does the mapping for both the coverage and the trial-run plan",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs; evidence evidence/STUDIO/b20-deepseek-ai-37/2026-10-11-module-folder-mapping",
+                "verification": "the check log records that the dotted path does not exist and the hyphenated one does for all three modules; probe PASS 483/483 with the campaign scope now counting its own rules and the stale zero-count invariant replaced; Core 0/0; Urman.Studio.Tests 38/38. No runtime claim"
               }
             ],
             "stage_tasks": [
@@ -80004,7 +80010,8 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Перечень требований имеет реальный consumer; одна ветвящаяся/параллельная цепочка, один repeat/failure и один timer/delayed effect сохраняют состояние корректно.; принятые child этапы повторно не разрабатывать.",
-              "Ранее переданный частичный этап (2026-10-10 rule catalogue coverage, campaign scope and PhotoWorld anchors) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-10 rule catalogue coverage, campaign scope and PhotoWorld anchors) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Ранее переданный частичный этап (2026-10-11 the campaign module folder mapping was wrong, so the campaign scope counted nothing) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Остаток — полная семантика сложных квестов (ветвление, параллельность, повтор, таймеры) и 22 операции без формы в Studio.",
             "blocker": null,
