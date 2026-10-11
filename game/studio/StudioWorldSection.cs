@@ -898,7 +898,10 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             "SeniOuter" => "наружная стена сеней",
             _ => null
         };
-        return sectionLabel is null ? null : $"Окно · {sectionLabel} {windowNumber}";
+        var displayNumber = sectionName == "Rear"
+            ? windowNumber switch { "0" => "1", "1" => "2", _ => windowNumber }
+            : windowNumber;
+        return sectionLabel is null ? null : $"Окно · {sectionLabel} {displayNumber}";
     }
 
     private void SetPickedPart(WorldPick? pick)

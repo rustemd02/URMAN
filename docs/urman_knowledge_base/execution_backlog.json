@@ -75135,6 +75135,17 @@
                 "result": "Existing human disclosure Describe now reports exact serialized resolved/excluded entity IDs, window-part exclusions and counts, instance-variant policy and frozen target-set hash. Wire/Parse/schema/snapshot unchanged, so old canonical request artifacts retain compatibility.",
                 "verification": "Core affected compile 0 warnings/0 errors; five Luna contract/consumer research + independent Sol6.1 medium diff review; tracker/diff validation. No native/tests/probes.",
                 "limits": "Describe appears in optional OpenDisclosure only, not mandatory automatic/copy/export flow. Current operation supports one HeroHouse with 1/7/8 windows; no multi-house/region/family/scene/campaign support delivered."
+              },
+              {
+                "date": "2026-10-12",
+                "kind": "source-progress",
+                "result": "Automatic Ask, clipboard Copy and request Save now gate outward effects with compact readable 1/7/8-window target/exclusion confirmation. Approval binds exact prepared snapshot plus direct-provider policy; same request reused without recapture, freshness checked before dispatch. Pending modal joins existing busy gate; cancel/close/hide/exit dismiss without dispatch. Direct/manual policy approvals remain distinct. Rear picked-window display aligned to human 1/2 numbering, stable part IDs unchanged.",
+                "source": [
+                  "game/studio/StudioAiPanel.cs",
+                  "game/studio/StudioWorldSection.cs"
+                ],
+                "verification": "Five Luna consumer/lifecycle/pattern/freshness implementation/review tasks plus independent Sol6.1 medium revised diff review. Affected Game compile zero warnings/errors, tracker/diff checks. No native launches/tests/probes.",
+                "remaining": "Native confirm/cancel/hide/exit signal ordering and layout unverified; current outward operation only single-house 1/7/8 windows. Generic mass scope/capability/Apply and A02/A05 remain open."
               }
             ],
             "stage_tasks": [
@@ -75160,8 +75171,8 @@
             "active_owner": null,
             "activity": {
               "state": "runtime_deferred_by_author",
-              "reason": "Accepted source disclosure slice; multi-entity request/Apply and mandatory scope confirmation remain open.",
-              "verification_question": "Does current request disclosure display exact frozen targets/exclusions and instance-variant policy from serialized scope before dispatch without changing wire/hash/parser or claiming mass scopes? Core compile/source review only."
+              "reason": "Mandatory current single-house scope confirmation implemented in source; native interaction and mass scope remain open.",
+              "verification_question": "Do Ask/Copy/Save all require compact exact-snapshot scope approval with fresh sources beforeaction and no recapture, while cancel/hide/exit releases pending and sends/writes nothing? Game compile/source review only."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -75169,11 +75180,11 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Required generic multi-entity frozen scope/query/capability/source contract and actual compatible proposal/Apply consumer; preserve current canonical v2 artifacts.",
-              "Visible predispatch scope confirmation for automatic/copy/export flows; current readable summary is optional disclosure.",
               "Typed shared-use/family/region resolution; ReferenceIndex is raw entity reference lookup, not asset-use registry.",
-              "Native A02/A05 with multiple houses, exclusion and new object after submit remains unverified."
+              "Native A02/A05 with multiple houses, exclusion and new object after submit remains unverified.",
+              "Native single-house mandatory confirmation walkthrough including cancel/hide/exit/changed sources and direct/manual policy; source compile is not rendered UX proof."
             ],
-            "next_action": "Extend versioned request/proposal plus concrete multi-entity operation consumer before ScopeResolver/UI; reuse WorldSection.Group and Workspace ID/source location. Preserve exact v2 saved artifacts. Mandatory frozen scope preview next, runtime only after author pause lifted.",
+            "next_action": "Implement versioned multi-entity request/proposal and concrete operation consumer, reuse WorldSection.Group/Workspace identity; preserve exact v2 artifacts. Native scope confirmation and full A02/A05 once runtime pause lifted.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -75183,7 +75194,9 @@
               "targets": [
                 "game/studio/StudioRoot.cs",
                 "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs",
-                "src-dotnet/Urman.Studio.Core/AI/AuthoringRequestV2.cs"
+                "src-dotnet/Urman.Studio.Core/AI/AuthoringRequestV2.cs",
+                "game/studio/StudioAiPanel.cs",
+                "game/studio/StudioWorldSection.cs"
               ],
               "required_inputs": [
                 {
